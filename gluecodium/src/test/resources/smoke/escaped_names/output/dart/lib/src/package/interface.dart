@@ -6,13 +6,15 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class Interface {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release() {}
 }
 // Interface "private" section, not exported.
+final _package_Interface_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_package_Interface_register_finalizer'));
 final _package_Interface_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -33,12 +35,7 @@ class Interface$Impl implements Interface {
   Pointer<Void> handle;
   Interface$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _package_Interface_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
 }
 Pointer<Void> package_Interface_toFfi(Interface value) {
   if (value is Interface$Impl) return _package_Interface_copy_handle(value.handle);
@@ -59,7 +56,7 @@ Interface package_Interface_fromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : Interface$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _package_Interface_register_finalizer);
   return result;
 }
 void package_Interface_releaseFfiHandle(Pointer<Void> handle) =>

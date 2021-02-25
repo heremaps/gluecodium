@@ -5,10 +5,8 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class ClassWithInternalLambda {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   static bool invokeInternalLambda(ClassWithInternalLambda_InternalLambda lambda, String value) => ClassWithInternalLambda$Impl.invokeInternalLambda(lambda, value);
 }
@@ -105,6 +103,10 @@ void smoke_ClassWithInternalLambda_InternalLambda_releaseFfiHandle_nullable(Poin
   _smoke_ClassWithInternalLambda_InternalLambda_release_handle_nullable(handle);
 // End of ClassWithInternalLambda_InternalLambda "private" section.
 // ClassWithInternalLambda "private" section, not exported.
+final _smoke_ClassWithInternalLambda_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_ClassWithInternalLambda_register_finalizer'));
 final _smoke_ClassWithInternalLambda_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -118,12 +120,7 @@ class ClassWithInternalLambda$Impl implements ClassWithInternalLambda {
   Pointer<Void> handle;
   ClassWithInternalLambda$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_ClassWithInternalLambda_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   static bool invokeInternalLambda(ClassWithInternalLambda_InternalLambda lambda, String value) {
     final _invokeInternalLambda_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Pointer<Void>, Pointer<Void>), int Function(int, Pointer<Void>, Pointer<Void>)>('library_smoke_ClassWithInternalLambda_invokeInternalLambda__InternalLambda_String'));
     final _lambda_handle = smoke_ClassWithInternalLambda_InternalLambda_toFfi(lambda);
@@ -145,7 +142,7 @@ ClassWithInternalLambda smoke_ClassWithInternalLambda_fromFfi(Pointer<Void> hand
   if (instance != null && instance is ClassWithInternalLambda) return instance as ClassWithInternalLambda;
   final _copied_handle = _smoke_ClassWithInternalLambda_copy_handle(handle);
   final result = ClassWithInternalLambda$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_ClassWithInternalLambda_register_finalizer);
   return result;
 }
 void smoke_ClassWithInternalLambda_releaseFfiHandle(Pointer<Void> handle) =>

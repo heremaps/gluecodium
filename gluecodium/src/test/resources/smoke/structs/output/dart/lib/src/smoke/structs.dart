@@ -8,10 +8,8 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class Structs {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   static Structs_Point swapPointCoordinates(Structs_Point input) => Structs$Impl.swapPointCoordinates(input);
   static Structs_AllTypesStruct returnAllTypesStruct(Structs_AllTypesStruct input) => Structs$Impl.returnAllTypesStruct(input);
@@ -742,6 +740,10 @@ void smoke_Structs_MutableStructWithCppAccessors_releaseFfiHandle_nullable(Point
   _smoke_Structs_MutableStructWithCppAccessors_release_handle_nullable(handle);
 // End of Structs_MutableStructWithCppAccessors "private" section.
 // Structs "private" section, not exported.
+final _smoke_Structs_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_Structs_register_finalizer'));
 final _smoke_Structs_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -755,12 +757,7 @@ class Structs$Impl implements Structs {
   Pointer<Void> handle;
   Structs$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_Structs_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   static Structs_Point swapPointCoordinates(Structs_Point input) {
     final _swapPointCoordinates_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_swapPointCoordinates__Point'));
     final _input_handle = smoke_Structs_Point_toFfi(input);
@@ -815,7 +812,7 @@ Structs smoke_Structs_fromFfi(Pointer<Void> handle) {
   if (instance != null && instance is Structs) return instance as Structs;
   final _copied_handle = _smoke_Structs_copy_handle(handle);
   final result = Structs$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_Structs_register_finalizer);
   return result;
 }
 void smoke_Structs_releaseFfiHandle(Pointer<Void> handle) =>

@@ -6,15 +6,17 @@ import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 /// @nodoc
 abstract class InternalClass {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   /// @nodoc
   internal_fooBar();
 }
 // InternalClass "private" section, not exported.
+final _smoke_InternalClass_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_InternalClass_register_finalizer'));
 final _smoke_InternalClass_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -28,12 +30,7 @@ class InternalClass$Impl implements InternalClass {
   Pointer<Void> handle;
   InternalClass$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_InternalClass_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   @override
   internal_fooBar() {
     final _fooBar_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalClass_fooBar'));
@@ -53,7 +50,7 @@ InternalClass smoke_InternalClass_fromFfi(Pointer<Void> handle) {
   if (instance != null && instance is InternalClass) return instance as InternalClass;
   final _copied_handle = _smoke_InternalClass_copy_handle(handle);
   final result = InternalClass$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_InternalClass_register_finalizer);
   return result;
 }
 void smoke_InternalClass_releaseFfiHandle(Pointer<Void> handle) =>

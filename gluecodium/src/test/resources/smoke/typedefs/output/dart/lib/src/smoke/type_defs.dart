@@ -7,10 +7,8 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class TypeDefs {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   static double methodWithPrimitiveTypeDef(double input) => TypeDefs$Impl.methodWithPrimitiveTypeDef(input);
   static List<TypeDefs_TestStruct> methodWithComplexTypeDef(List<TypeDefs_TestStruct> input) => TypeDefs$Impl.methodWithComplexTypeDef(input);
@@ -150,6 +148,10 @@ void smoke_TypeDefs_TestStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =
   _smoke_TypeDefs_TestStruct_release_handle_nullable(handle);
 // End of TypeDefs_TestStruct "private" section.
 // TypeDefs "private" section, not exported.
+final _smoke_TypeDefs_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_TypeDefs_register_finalizer'));
 final _smoke_TypeDefs_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -163,12 +165,7 @@ class TypeDefs$Impl implements TypeDefs {
   Pointer<Void> handle;
   TypeDefs$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_TypeDefs_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   static double methodWithPrimitiveTypeDef(double input) {
     final _methodWithPrimitiveTypeDef_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Double Function(Int32, Double), double Function(int, double)>('library_smoke_TypeDefs_methodWithPrimitiveTypeDef__Double'));
     final _input_handle = (input);
@@ -267,7 +264,7 @@ TypeDefs smoke_TypeDefs_fromFfi(Pointer<Void> handle) {
   if (instance != null && instance is TypeDefs) return instance as TypeDefs;
   final _copied_handle = _smoke_TypeDefs_copy_handle(handle);
   final result = TypeDefs$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_TypeDefs_register_finalizer);
   return result;
 }
 void smoke_TypeDefs_releaseFfiHandle(Pointer<Void> handle) =>

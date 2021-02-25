@@ -12,22 +12,22 @@ abstract class OuterInterface {
   }) => OuterInterface$Lambdas(
     lambda_foo
   );
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release() {}
   String foo(String input);
 }
 abstract class OuterInterface_InnerClass {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   String foo(String input);
 }
 // OuterInterface_InnerClass "private" section, not exported.
+final _smoke_OuterInterface_InnerClass_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_OuterInterface_InnerClass_register_finalizer'));
 final _smoke_OuterInterface_InnerClass_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -41,12 +41,7 @@ class OuterInterface_InnerClass$Impl implements OuterInterface_InnerClass {
   Pointer<Void> handle;
   OuterInterface_InnerClass$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_OuterInterface_InnerClass_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   @override
   String foo(String input) {
     final _foo_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterInterface_InnerClass_foo__String'));
@@ -68,7 +63,7 @@ OuterInterface_InnerClass smoke_OuterInterface_InnerClass_fromFfi(Pointer<Void> 
   if (instance != null && instance is OuterInterface_InnerClass) return instance as OuterInterface_InnerClass;
   final _copied_handle = _smoke_OuterInterface_InnerClass_copy_handle(handle);
   final result = OuterInterface_InnerClass$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_OuterInterface_InnerClass_register_finalizer);
   return result;
 }
 void smoke_OuterInterface_InnerClass_releaseFfiHandle(Pointer<Void> handle) =>
@@ -87,14 +82,16 @@ abstract class OuterInterface_InnerInterface {
   }) => OuterInterface_InnerInterface$Lambdas(
     lambda_foo
   );
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release() {}
   String foo(String input);
 }
 // OuterInterface_InnerInterface "private" section, not exported.
+final _smoke_OuterInterface_InnerInterface_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_OuterInterface_InnerInterface_register_finalizer'));
 final _smoke_OuterInterface_InnerInterface_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -126,12 +123,7 @@ class OuterInterface_InnerInterface$Impl implements OuterInterface_InnerInterfac
   Pointer<Void> handle;
   OuterInterface_InnerInterface$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_OuterInterface_InnerInterface_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   @override
   String foo(String input) {
     final _foo_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterInterface_InnerInterface_foo__String'));
@@ -176,7 +168,7 @@ OuterInterface_InnerInterface smoke_OuterInterface_InnerInterface_fromFfi(Pointe
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : OuterInterface_InnerInterface$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_OuterInterface_InnerInterface_register_finalizer);
   return result;
 }
 void smoke_OuterInterface_InnerInterface_releaseFfiHandle(Pointer<Void> handle) =>
@@ -189,6 +181,10 @@ void smoke_OuterInterface_InnerInterface_releaseFfiHandle_nullable(Pointer<Void>
   _smoke_OuterInterface_InnerInterface_release_handle(handle);
 // End of OuterInterface_InnerInterface "private" section.
 // OuterInterface "private" section, not exported.
+final _smoke_OuterInterface_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_OuterInterface_register_finalizer'));
 final _smoke_OuterInterface_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -220,12 +216,7 @@ class OuterInterface$Impl implements OuterInterface {
   Pointer<Void> handle;
   OuterInterface$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_OuterInterface_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   @override
   String foo(String input) {
     final _foo_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterInterface_foo__String'));
@@ -270,7 +261,7 @@ OuterInterface smoke_OuterInterface_fromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : OuterInterface$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_OuterInterface_register_finalizer);
   return result;
 }
 void smoke_OuterInterface_releaseFfiHandle(Pointer<Void> handle) =>

@@ -41,10 +41,8 @@ abstract class ListenerWithProperties {
     lambda_bufferedMessage_get,
     lambda_bufferedMessage_set
   );
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release() {}
   String get message;
   set message(String value);
@@ -185,6 +183,10 @@ void smoke_ListenerWithProperties_ResultStruct_releaseFfiHandle_nullable(Pointer
   _smoke_ListenerWithProperties_ResultStruct_release_handle_nullable(handle);
 // End of ListenerWithProperties_ResultStruct "private" section.
 // ListenerWithProperties "private" section, not exported.
+final _smoke_ListenerWithProperties_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_ListenerWithProperties_register_finalizer'));
 final _smoke_ListenerWithProperties_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -267,12 +269,7 @@ class ListenerWithProperties$Impl implements ListenerWithProperties {
   Pointer<Void> handle;
   ListenerWithProperties$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_ListenerWithProperties_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   String get message {
     final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ListenerWithProperties_message_get'));
     final _handle = this.handle;
@@ -552,7 +549,7 @@ ListenerWithProperties smoke_ListenerWithProperties_fromFfi(Pointer<Void> handle
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : ListenerWithProperties$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_ListenerWithProperties_register_finalizer);
   return result;
 }
 void smoke_ListenerWithProperties_releaseFfiHandle(Pointer<Void> handle) =>

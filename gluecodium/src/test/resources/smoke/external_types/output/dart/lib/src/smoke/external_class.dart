@@ -5,10 +5,8 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class ExternalClass {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   someMethod(int someParameter);
   String get someProperty;
@@ -130,6 +128,10 @@ void smoke_ExternalClass_SomeStruct_releaseFfiHandle_nullable(Pointer<Void> hand
   _smoke_ExternalClass_SomeStruct_release_handle_nullable(handle);
 // End of ExternalClass_SomeStruct "private" section.
 // ExternalClass "private" section, not exported.
+final _smoke_ExternalClass_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_ExternalClass_register_finalizer'));
 final _smoke_ExternalClass_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -143,12 +145,7 @@ class ExternalClass$Impl implements ExternalClass {
   Pointer<Void> handle;
   ExternalClass$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_ExternalClass_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   @override
   someMethod(int someParameter) {
     final _someMethod_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Int8), void Function(Pointer<Void>, int, int)>('library_smoke_ExternalClass_someMethod__Byte'));
@@ -181,7 +178,7 @@ ExternalClass smoke_ExternalClass_fromFfi(Pointer<Void> handle) {
   if (instance != null && instance is ExternalClass) return instance as ExternalClass;
   final _copied_handle = _smoke_ExternalClass_copy_handle(handle);
   final result = ExternalClass$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_ExternalClass_register_finalizer);
   return result;
 }
 void smoke_ExternalClass_releaseFfiHandle(Pointer<Void> handle) =>

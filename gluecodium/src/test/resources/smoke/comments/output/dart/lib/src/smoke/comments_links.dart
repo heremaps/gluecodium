@@ -13,10 +13,8 @@ import 'package:library/src/_library_context.dart' as __lib;
 ///
 /// [example1]: http://example.com/1
 abstract class CommentsLinks {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   /// Link types:
   /// * constant: [Comments.veryUseful]
@@ -128,6 +126,10 @@ void smoke_CommentsLinks_RandomStruct_releaseFfiHandle_nullable(Pointer<Void> ha
   _smoke_CommentsLinks_RandomStruct_release_handle_nullable(handle);
 // End of CommentsLinks_RandomStruct "private" section.
 // CommentsLinks "private" section, not exported.
+final _smoke_CommentsLinks_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_CommentsLinks_register_finalizer'));
 final _smoke_CommentsLinks_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -157,12 +159,7 @@ class CommentsLinks$Impl implements CommentsLinks {
   Pointer<Void> handle;
   CommentsLinks$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_CommentsLinks_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   @override
   Comments_SomeEnum randomMethod(Comments_SomeEnum inputParameter) {
     final _randomMethod_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Uint32), Pointer<Void> Function(Pointer<Void>, int, int)>('library_smoke_CommentsLinks_randomMethod__SomeEnum'));
@@ -210,7 +207,7 @@ CommentsLinks smoke_CommentsLinks_fromFfi(Pointer<Void> handle) {
   if (instance != null && instance is CommentsLinks) return instance as CommentsLinks;
   final _copied_handle = _smoke_CommentsLinks_copy_handle(handle);
   final result = CommentsLinks$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_CommentsLinks_register_finalizer);
   return result;
 }
 void smoke_CommentsLinks_releaseFfiHandle(Pointer<Void> handle) =>

@@ -7,16 +7,18 @@ import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class weeInterface {
   factory weeInterface(String makeParameter) => weeInterface$Impl.make(makeParameter);
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   weeStruct WeeMethod(String WeeParameter);
   int get WEE_PROPERTY;
   set WEE_PROPERTY(int value);
 }
 // weeInterface "private" section, not exported.
+final _smoke_PlatformNamesInterface_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_PlatformNamesInterface_register_finalizer'));
 final _smoke_PlatformNamesInterface_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -30,14 +32,9 @@ class weeInterface$Impl implements weeInterface {
   Pointer<Void> handle;
   weeInterface$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_PlatformNamesInterface_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   weeInterface$Impl.make(String makeParameter) : handle = _make(makeParameter) {
-    __lib.cacheInstance(handle, this);
+    __lib.cacheInstance(handle, this, _smoke_PlatformNamesInterface_register_finalizer);
   }
   @override
   weeStruct WeeMethod(String WeeParameter) {
@@ -91,7 +88,7 @@ weeInterface smoke_PlatformNamesInterface_fromFfi(Pointer<Void> handle) {
   if (instance != null && instance is weeInterface) return instance as weeInterface;
   final _copied_handle = _smoke_PlatformNamesInterface_copy_handle(handle);
   final result = weeInterface$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_PlatformNamesInterface_register_finalizer);
   return result;
 }
 void smoke_PlatformNamesInterface_releaseFfiHandle(Pointer<Void> handle) =>

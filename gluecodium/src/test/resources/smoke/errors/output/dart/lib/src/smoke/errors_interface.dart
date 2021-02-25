@@ -22,10 +22,8 @@ abstract class ErrorsInterface {
     lambda_methodWithPayloadError,
     lambda_methodWithPayloadErrorAndReturnValue
   );
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release() {}
   methodWithErrors();
   methodWithExternalErrors();
@@ -167,6 +165,10 @@ class ErrorsInterface_ExternalException implements Exception {
   ErrorsInterface_ExternalException(this.error);
 }
 // ErrorsInterface "private" section, not exported.
+final _smoke_ErrorsInterface_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_ErrorsInterface_register_finalizer'));
 final _smoke_ErrorsInterface_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -289,12 +291,7 @@ class ErrorsInterface$Impl implements ErrorsInterface {
   Pointer<Void> handle;
   ErrorsInterface$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_ErrorsInterface_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   @override
   methodWithErrors() {
     final _methodWithErrors_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ErrorsInterface_methodWithErrors'));
@@ -492,7 +489,7 @@ ErrorsInterface smoke_ErrorsInterface_fromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : ErrorsInterface$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_ErrorsInterface_register_finalizer);
   return result;
 }
 void smoke_ErrorsInterface_releaseFfiHandle(Pointer<Void> handle) =>

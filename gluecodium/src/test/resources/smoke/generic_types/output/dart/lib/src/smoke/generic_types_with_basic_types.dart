@@ -6,10 +6,8 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class GenericTypesWithBasicTypes {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   List<int> methodWithList(List<int> input);
   Map<int, bool> methodWithMap(Map<int, bool> input);
@@ -109,6 +107,10 @@ void smoke_GenericTypesWithBasicTypes_StructWithGenerics_releaseFfiHandle_nullab
   _smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_handle_nullable(handle);
 // End of GenericTypesWithBasicTypes_StructWithGenerics "private" section.
 // GenericTypesWithBasicTypes "private" section, not exported.
+final _smoke_GenericTypesWithBasicTypes_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_GenericTypesWithBasicTypes_register_finalizer'));
 final _smoke_GenericTypesWithBasicTypes_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -122,12 +124,7 @@ class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
   Pointer<Void> handle;
   GenericTypesWithBasicTypes$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_GenericTypesWithBasicTypes_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   @override
   List<int> methodWithList(List<int> input) {
     final _methodWithList_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithBasicTypes_methodWithList__ListOf_1Int'));
@@ -286,7 +283,7 @@ GenericTypesWithBasicTypes smoke_GenericTypesWithBasicTypes_fromFfi(Pointer<Void
   if (instance != null && instance is GenericTypesWithBasicTypes) return instance as GenericTypesWithBasicTypes;
   final _copied_handle = _smoke_GenericTypesWithBasicTypes_copy_handle(handle);
   final result = GenericTypesWithBasicTypes$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_GenericTypesWithBasicTypes_register_finalizer);
   return result;
 }
 void smoke_GenericTypesWithBasicTypes_releaseFfiHandle(Pointer<Void> handle) =>

@@ -5,15 +5,17 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class SimpleClass {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   String getStringValue();
   SimpleClass useSimpleClass(SimpleClass input);
 }
 // SimpleClass "private" section, not exported.
+final _smoke_SimpleClass_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_SimpleClass_register_finalizer'));
 final _smoke_SimpleClass_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -27,12 +29,7 @@ class SimpleClass$Impl implements SimpleClass {
   Pointer<Void> handle;
   SimpleClass$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_SimpleClass_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   @override
   String getStringValue() {
     final _getStringValue_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_SimpleClass_getStringValue'));
@@ -65,7 +62,7 @@ SimpleClass smoke_SimpleClass_fromFfi(Pointer<Void> handle) {
   if (instance != null && instance is SimpleClass) return instance as SimpleClass;
   final _copied_handle = _smoke_SimpleClass_copy_handle(handle);
   final result = SimpleClass$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_SimpleClass_register_finalizer);
   return result;
 }
 void smoke_SimpleClass_releaseFfiHandle(Pointer<Void> handle) =>

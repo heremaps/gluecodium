@@ -7,10 +7,8 @@ import 'package:library/src/_library_context.dart' as __lib;
 /// This is some very useful class.
 /// @nodoc
 abstract class ExcludedComments {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   /// This is some very useful constant.
   /// @nodoc
@@ -262,6 +260,10 @@ void smoke_ExcludedComments_SomeLambda_releaseFfiHandle_nullable(Pointer<Void> h
   _smoke_ExcludedComments_SomeLambda_release_handle_nullable(handle);
 // End of ExcludedComments_SomeLambda "private" section.
 // ExcludedComments "private" section, not exported.
+final _smoke_ExcludedComments_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_ExcludedComments_register_finalizer'));
 final _smoke_ExcludedComments_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -291,12 +293,7 @@ class ExcludedComments$Impl implements ExcludedComments {
   Pointer<Void> handle;
   ExcludedComments$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_ExcludedComments_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   @override
   bool someMethodWithAllComments(String inputParameter) {
     final _someMethodWithAllComments_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ExcludedComments_someMethodWithAllComments__String'));
@@ -364,7 +361,7 @@ ExcludedComments smoke_ExcludedComments_fromFfi(Pointer<Void> handle) {
   if (instance != null && instance is ExcludedComments) return instance as ExcludedComments;
   final _copied_handle = _smoke_ExcludedComments_copy_handle(handle);
   final result = ExcludedComments$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_ExcludedComments_register_finalizer);
   return result;
 }
 void smoke_ExcludedComments_releaseFfiHandle(Pointer<Void> handle) =>

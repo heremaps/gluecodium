@@ -6,10 +6,8 @@ import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 /// @nodoc
 abstract class ExcludedCommentsOnly {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   /// @nodoc
   static final bool veryUseful = true;
@@ -243,6 +241,10 @@ void smoke_ExcludedCommentsOnly_SomeLambda_releaseFfiHandle_nullable(Pointer<Voi
   _smoke_ExcludedCommentsOnly_SomeLambda_release_handle_nullable(handle);
 // End of ExcludedCommentsOnly_SomeLambda "private" section.
 // ExcludedCommentsOnly "private" section, not exported.
+final _smoke_ExcludedCommentsOnly_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_ExcludedCommentsOnly_register_finalizer'));
 final _smoke_ExcludedCommentsOnly_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -272,12 +274,7 @@ class ExcludedCommentsOnly$Impl implements ExcludedCommentsOnly {
   Pointer<Void> handle;
   ExcludedCommentsOnly$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_ExcludedCommentsOnly_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   @override
   bool someMethodWithAllComments(String inputParameter) {
     final _someMethodWithAllComments_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ExcludedCommentsOnly_someMethodWithAllComments__String'));
@@ -345,7 +342,7 @@ ExcludedCommentsOnly smoke_ExcludedCommentsOnly_fromFfi(Pointer<Void> handle) {
   if (instance != null && instance is ExcludedCommentsOnly) return instance as ExcludedCommentsOnly;
   final _copied_handle = _smoke_ExcludedCommentsOnly_copy_handle(handle);
   final result = ExcludedCommentsOnly$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_ExcludedCommentsOnly_register_finalizer);
   return result;
 }
 void smoke_ExcludedCommentsOnly_releaseFfiHandle(Pointer<Void> handle) =>

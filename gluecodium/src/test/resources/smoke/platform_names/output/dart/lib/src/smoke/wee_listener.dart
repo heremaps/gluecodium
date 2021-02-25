@@ -12,14 +12,16 @@ abstract class weeListener {
   }) => weeListener$Lambdas(
     lambda_WeeMethod
   );
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release() {}
   WeeMethod(String WeeParameter);
 }
 // weeListener "private" section, not exported.
+final _smoke_PlatformNamesListener_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_PlatformNamesListener_register_finalizer'));
 final _smoke_PlatformNamesListener_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -51,12 +53,7 @@ class weeListener$Impl implements weeListener {
   Pointer<Void> handle;
   weeListener$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_PlatformNamesListener_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   @override
   WeeMethod(String WeeParameter) {
     final _WeeMethod_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PlatformNamesListener_basicMethod__String'));
@@ -99,7 +96,7 @@ weeListener smoke_PlatformNamesListener_fromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : weeListener$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_PlatformNamesListener_register_finalizer);
   return result;
 }
 void smoke_PlatformNamesListener_releaseFfiHandle(Pointer<Void> handle) =>

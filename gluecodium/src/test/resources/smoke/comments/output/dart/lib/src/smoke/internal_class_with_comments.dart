@@ -7,16 +7,18 @@ import 'package:library/src/_library_context.dart' as __lib;
 /// This looks internal
 /// @nodoc
 abstract class InternalClassWithComments {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   /// This is definitely internal
   /// @nodoc
   internal_doNothing();
 }
 // InternalClassWithComments "private" section, not exported.
+final _smoke_InternalClassWithComments_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_InternalClassWithComments_register_finalizer'));
 final _smoke_InternalClassWithComments_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -30,12 +32,7 @@ class InternalClassWithComments$Impl implements InternalClassWithComments {
   Pointer<Void> handle;
   InternalClassWithComments$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_InternalClassWithComments_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   @override
   internal_doNothing() {
     final _doNothing_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalClassWithComments_doNothing'));
@@ -55,7 +52,7 @@ InternalClassWithComments smoke_InternalClassWithComments_fromFfi(Pointer<Void> 
   if (instance != null && instance is InternalClassWithComments) return instance as InternalClassWithComments;
   final _copied_handle = _smoke_InternalClassWithComments_copy_handle(handle);
   final result = InternalClassWithComments$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_InternalClassWithComments_register_finalizer);
   return result;
 }
 void smoke_InternalClassWithComments_releaseFfiHandle(Pointer<Void> handle) =>

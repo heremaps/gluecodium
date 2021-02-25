@@ -1,5 +1,7 @@
 #include "ffi_smoke_ExternalClass.h"
 #include "ConversionBase.h"
+#include "InstanceCache.h"
+#include "FinalizerData.h"
 #include "IsolateContext.h"
 #include "foo/Bar.h"
 #include <cstdint>
@@ -23,6 +25,18 @@ library_smoke_ExternalClass_someProperty_get(FfiOpaqueHandle _self, int32_t _iso
     return gluecodium::ffi::Conversion<std::string>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::fire::Baz>>::toCpp(_self)).get_Me()
     );
+}
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_ExternalClass_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::fire::Baz>*>(handle);
+    library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
+    library_smoke_ExternalClass_release_handle(handle);
+}
+void
+library_smoke_ExternalClass_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_ExternalClass_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
 }
 FfiOpaqueHandle
 library_smoke_ExternalClass_copy_handle(FfiOpaqueHandle handle) {

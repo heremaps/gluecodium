@@ -1,5 +1,7 @@
 #include "ffi_smoke_LevelOne.h"
 #include "ConversionBase.h"
+#include "InstanceCache.h"
+#include "FinalizerData.h"
 #include "IsolateContext.h"
 #include "smoke/LevelOne.h"
 #include "smoke/OuterClass.h"
@@ -27,6 +29,18 @@ library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fooFactory(int32_t _isolate
         ::smoke::LevelOne::LevelTwo::LevelThree::LevelFour::foo_factory()
     );
 }
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_LevelOne_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::LevelOne>*>(handle);
+    library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
+    library_smoke_LevelOne_release_handle(handle);
+}
+void
+library_smoke_LevelOne_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_LevelOne_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
+}
 FfiOpaqueHandle
 library_smoke_LevelOne_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
@@ -39,6 +53,18 @@ void
 library_smoke_LevelOne_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::LevelOne>*>(handle);
 }
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_LevelOne_LevelTwo_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::LevelOne::LevelTwo>*>(handle);
+    library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
+    library_smoke_LevelOne_LevelTwo_release_handle(handle);
+}
+void
+library_smoke_LevelOne_LevelTwo_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_LevelOne_LevelTwo_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
+}
 FfiOpaqueHandle
 library_smoke_LevelOne_LevelTwo_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
@@ -50,6 +76,18 @@ library_smoke_LevelOne_LevelTwo_copy_handle(FfiOpaqueHandle handle) {
 void
 library_smoke_LevelOne_LevelTwo_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::LevelOne::LevelTwo>*>(handle);
+}
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_LevelOne_LevelTwo_LevelThree_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::LevelOne::LevelTwo::LevelThree>*>(handle);
+    library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
+    library_smoke_LevelOne_LevelTwo_LevelThree_release_handle(handle);
+}
+void
+library_smoke_LevelOne_LevelTwo_LevelThree_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_LevelOne_LevelTwo_LevelThree_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
 }
 FfiOpaqueHandle
 library_smoke_LevelOne_LevelTwo_LevelThree_copy_handle(FfiOpaqueHandle handle) {

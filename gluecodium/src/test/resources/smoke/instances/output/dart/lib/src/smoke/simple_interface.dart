@@ -14,15 +14,17 @@ abstract class SimpleInterface {
     lambda_getStringValue,
     lambda_useSimpleInterface
   );
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release() {}
   String getStringValue();
   SimpleInterface useSimpleInterface(SimpleInterface input);
 }
 // SimpleInterface "private" section, not exported.
+final _smoke_SimpleInterface_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_SimpleInterface_register_finalizer'));
 final _smoke_SimpleInterface_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -59,12 +61,7 @@ class SimpleInterface$Impl implements SimpleInterface {
   Pointer<Void> handle;
   SimpleInterface$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_SimpleInterface_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   @override
   String getStringValue() {
     final _getStringValue_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_SimpleInterface_getStringValue'));
@@ -131,7 +128,7 @@ SimpleInterface smoke_SimpleInterface_fromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : SimpleInterface$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_SimpleInterface_register_finalizer);
   return result;
 }
 void smoke_SimpleInterface_releaseFfiHandle(Pointer<Void> handle) =>

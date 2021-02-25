@@ -1,5 +1,7 @@
 #include "ffi_smoke_Enums.h"
 #include "ConversionBase.h"
+#include "InstanceCache.h"
+#include "FinalizerData.h"
 #include "IsolateContext.h"
 #include "foo/Bar.h"
 #include "smoke/Enums.h"
@@ -15,6 +17,18 @@ library_smoke_Enums_methodWithExternalEnum__External_1Enum(int32_t _isolate_id, 
             ::smoke::Enums::method_with_external_enum(
             gluecodium::ffi::Conversion<::smoke::Enums::External_Enum>::toCpp(input)
         );
+}
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_Enums_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::Enums>*>(handle);
+    library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
+    library_smoke_Enums_release_handle(handle);
+}
+void
+library_smoke_Enums_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_Enums_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
 }
 FfiOpaqueHandle
 library_smoke_Enums_copy_handle(FfiOpaqueHandle handle) {

@@ -1,6 +1,7 @@
 #include "ffi_smoke_ListenerWithProperties.h"
 #include "ConversionBase.h"
 #include "InstanceCache.h"
+#include "FinalizerData.h"
 #include "CallbacksQueue.h"
 #include "IsolateContext.h"
 #include "ProxyCache.h"
@@ -267,6 +268,18 @@ library_smoke_ListenerWithProperties_bufferedMessage_set__Blob(FfiOpaqueHandle _
             (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::ListenerWithProperties>>::toCpp(_self)).set_buffered_message(
             gluecodium::ffi::Conversion<std::shared_ptr<std::vector<uint8_t>>>::toCpp(value)
         );
+}
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_ListenerWithProperties_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::ListenerWithProperties>*>(handle);
+    library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
+    library_smoke_ListenerWithProperties_release_handle(handle);
+}
+void
+library_smoke_ListenerWithProperties_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_ListenerWithProperties_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
 }
 FfiOpaqueHandle
 library_smoke_ListenerWithProperties_copy_handle(FfiOpaqueHandle handle) {

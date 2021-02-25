@@ -24,10 +24,8 @@ abstract class CalculatorListener {
     lambda_onCalculationResultMap,
     lambda_onCalculationResultInstance
   );
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release() {}
   onCalculationResult(double calculationResult);
   onCalculationResultConst(double calculationResult);
@@ -101,6 +99,10 @@ void smoke_CalculatorListener_ResultStruct_releaseFfiHandle_nullable(Pointer<Voi
   _smoke_CalculatorListener_ResultStruct_release_handle_nullable(handle);
 // End of CalculatorListener_ResultStruct "private" section.
 // CalculatorListener "private" section, not exported.
+final _smoke_CalculatorListener_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_CalculatorListener_register_finalizer'));
 final _smoke_CalculatorListener_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -157,12 +159,7 @@ class CalculatorListener$Impl implements CalculatorListener {
   Pointer<Void> handle;
   CalculatorListener$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_CalculatorListener_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   @override
   onCalculationResult(double calculationResult) {
     final _onCalculationResult_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Double), void Function(Pointer<Void>, int, double)>('library_smoke_CalculatorListener_onCalculationResult__Double'));
@@ -315,7 +312,7 @@ CalculatorListener smoke_CalculatorListener_fromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : CalculatorListener$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_CalculatorListener_register_finalizer);
   return result;
 }
 void smoke_CalculatorListener_releaseFfiHandle(Pointer<Void> handle) =>

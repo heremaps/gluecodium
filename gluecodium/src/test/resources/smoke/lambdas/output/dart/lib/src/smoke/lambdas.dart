@@ -6,10 +6,8 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class Lambdas {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   Lambdas_Producer deconfuse(String value, Lambdas_Confuser confuser);
   static Map<int, String> fuse(List<String> items, Lambdas_Indexer callback) => Lambdas$Impl.fuse(items, callback);
@@ -469,6 +467,10 @@ void smoke_Lambdas_NullableConfuser_releaseFfiHandle_nullable(Pointer<Void> hand
   _smoke_Lambdas_NullableConfuser_release_handle_nullable(handle);
 // End of Lambdas_NullableConfuser "private" section.
 // Lambdas "private" section, not exported.
+final _smoke_Lambdas_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_Lambdas_register_finalizer'));
 final _smoke_Lambdas_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -482,12 +484,7 @@ class Lambdas$Impl implements Lambdas {
   Pointer<Void> handle;
   Lambdas$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_Lambdas_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   @override
   Lambdas_Producer deconfuse(String value, Lambdas_Confuser confuser) {
     final _deconfuse_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>, Pointer<Void>)>('library_smoke_Lambdas_deconfuse__String_Confuser'));
@@ -524,7 +521,7 @@ Lambdas smoke_Lambdas_fromFfi(Pointer<Void> handle) {
   if (instance != null && instance is Lambdas) return instance as Lambdas;
   final _copied_handle = _smoke_Lambdas_copy_handle(handle);
   final result = Lambdas$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_Lambdas_register_finalizer);
   return result;
 }
 void smoke_Lambdas_releaseFfiHandle(Pointer<Void> handle) =>

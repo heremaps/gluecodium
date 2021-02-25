@@ -9,10 +9,6 @@ final _ffi_cache_dart_handle = __lib.catchArgumentError(() => __lib.nativeLibrar
       Void Function(Pointer<Void>, Int32, Handle),
       void Function(Pointer<Void>, int, Object)
     >('library_cache_dart_handle'));
-final _ffi_uncache_dart_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Void Function(Pointer<Void>, Int32),
-      void Function(Pointer<Void>, int)
-    >('library_uncache_dart_handle'));
 const unknownError = -1;
 int _instanceCounter = 1024;
 final Expando<int> tokenCache = Expando<int>();
@@ -29,7 +25,8 @@ int getObjectToken(Object obj) {
 }
 Object getCachedInstance(Pointer<Void> handle) =>
   _ffi_get_cached_dart_handle(handle, __lib.LibraryContext.isolateId, null);
-void cacheInstance(Pointer<Void> handle, Object obj) =>
-  _ffi_cache_dart_handle(handle, __lib.LibraryContext.isolateId, obj);
-void uncacheInstance(Pointer<Void> handle) =>
-  _ffi_uncache_dart_handle(handle, __lib.LibraryContext.isolateId);
+void cacheInstance(Pointer<Void> handle, Object obj, void Function(Pointer<Void>, int, Object) registerFinalizer) {
+  final isolateId = __lib.LibraryContext.isolateId;
+  _ffi_cache_dart_handle(handle, isolateId, obj);
+  registerFinalizer(handle, isolateId, obj);
+}

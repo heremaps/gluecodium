@@ -10,16 +10,18 @@ import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class Class implements Interface {
   factory Class() => Class$Impl.constructor();
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   Struct fun(List<Struct> double);
   Enum get property;
   set property(Enum value);
 }
 // Class "private" section, not exported.
+final _package_Class_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_package_Class_register_finalizer'));
 final _package_Class_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -53,14 +55,9 @@ class Class$Impl implements Class {
   Pointer<Void> handle;
   Class$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _package_Class_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   Class$Impl.constructor() : handle = _constructor() {
-    __lib.cacheInstance(handle, this);
+    __lib.cacheInstance(handle, this, _package_Class_register_finalizer);
   }
   static Pointer<Void> _constructor() {
     final _constructor_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_package_Class_constructor'));
@@ -128,7 +125,7 @@ Class package_Class_fromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : Class$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _package_Class_register_finalizer);
   return result;
 }
 void package_Class_releaseFfiHandle(Pointer<Void> handle) =>

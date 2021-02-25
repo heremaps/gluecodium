@@ -6,10 +6,8 @@ import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 class SomeClass {
   factory SomeClass() => $class.fooBar();
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   voidFunction();
   bool boolFunction();
@@ -20,6 +18,10 @@ class SomeClass {
   static var $class = SomeClass$Impl();
 }
 // SomeClass "private" section, not exported.
+final _smoke_SomeClass_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_SomeClass_register_finalizer'));
 final _smoke_SomeClass_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -33,15 +35,10 @@ class SomeClass$Impl implements SomeClass {
   Pointer<Void> handle;
   SomeClass$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_SomeClass_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   SomeClass fooBar() {
     final result = SomeClass$Impl(_fooBar());
-    __lib.cacheInstance(handle, result);
+    __lib.cacheInstance(handle, result, _smoke_SomeClass_register_finalizer);
     return result;
   }
   Pointer<Void> _fooBar() {
@@ -121,7 +118,7 @@ SomeClass smoke_SomeClass_fromFfi(Pointer<Void> handle) {
   if (instance != null && instance is SomeClass) return instance as SomeClass;
   final _copied_handle = _smoke_SomeClass_copy_handle(handle);
   final result = SomeClass$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_SomeClass_register_finalizer);
   return result;
 }
 void smoke_SomeClass_releaseFfiHandle(Pointer<Void> handle) =>

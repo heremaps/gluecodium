@@ -5,15 +5,17 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class SkipFunctions {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   static String notInJava(String input) => SkipFunctions$Impl.notInJava(input);
   static bool notInSwift(bool input) => SkipFunctions$Impl.notInSwift(input);
 }
 // SkipFunctions "private" section, not exported.
+final _smoke_SkipFunctions_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_SkipFunctions_register_finalizer'));
 final _smoke_SkipFunctions_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -27,12 +29,7 @@ class SkipFunctions$Impl implements SkipFunctions {
   Pointer<Void> handle;
   SkipFunctions$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_SkipFunctions_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   static String notInJava(String input) {
     final _notInJava_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_SkipFunctions_notInJava__String'));
     final _input_handle = String_toFfi(input);
@@ -63,7 +60,7 @@ SkipFunctions smoke_SkipFunctions_fromFfi(Pointer<Void> handle) {
   if (instance != null && instance is SkipFunctions) return instance as SkipFunctions;
   final _copied_handle = _smoke_SkipFunctions_copy_handle(handle);
   final result = SkipFunctions$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_SkipFunctions_register_finalizer);
   return result;
 }
 void smoke_SkipFunctions_releaseFfiHandle(Pointer<Void> handle) =>

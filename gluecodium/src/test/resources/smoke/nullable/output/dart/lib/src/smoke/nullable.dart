@@ -7,10 +7,8 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class Nullable {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   String methodWithString(String input);
   bool methodWithBoolean(bool input);
@@ -445,6 +443,10 @@ void smoke_Nullable_NullableIntsStruct_releaseFfiHandle_nullable(Pointer<Void> h
   _smoke_Nullable_NullableIntsStruct_release_handle_nullable(handle);
 // End of Nullable_NullableIntsStruct "private" section.
 // Nullable "private" section, not exported.
+final _smoke_Nullable_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_Nullable_register_finalizer'));
 final _smoke_Nullable_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -458,12 +460,7 @@ class Nullable$Impl implements Nullable {
   Pointer<Void> handle;
   Nullable$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_Nullable_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   @override
   String methodWithString(String input) {
     final _methodWithString_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithString__String'));
@@ -842,7 +839,7 @@ Nullable smoke_Nullable_fromFfi(Pointer<Void> handle) {
   if (instance != null && instance is Nullable) return instance as Nullable;
   final _copied_handle = _smoke_Nullable_copy_handle(handle);
   final result = Nullable$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_Nullable_register_finalizer);
   return result;
 }
 void smoke_Nullable_releaseFfiHandle(Pointer<Void> handle) =>

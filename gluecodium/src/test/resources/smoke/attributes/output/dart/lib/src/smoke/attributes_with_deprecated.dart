@@ -7,10 +7,8 @@ import 'package:library/src/_library_context.dart' as __lib;
 @Deprecated("")
 @OnClass
 abstract class AttributesWithDeprecated {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   @Deprecated("")
   @OnConstInClass
@@ -92,6 +90,10 @@ void smoke_AttributesWithDeprecated_SomeStruct_releaseFfiHandle_nullable(Pointer
   _smoke_AttributesWithDeprecated_SomeStruct_release_handle_nullable(handle);
 // End of AttributesWithDeprecated_SomeStruct "private" section.
 // AttributesWithDeprecated "private" section, not exported.
+final _smoke_AttributesWithDeprecated_register_finalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_AttributesWithDeprecated_register_finalizer'));
 final _smoke_AttributesWithDeprecated_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -105,12 +107,7 @@ class AttributesWithDeprecated$Impl implements AttributesWithDeprecated {
   Pointer<Void> handle;
   AttributesWithDeprecated$Impl(this.handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheInstance(handle);
-    _smoke_AttributesWithDeprecated_release_handle(handle);
-    handle = null;
-  }
+  void release() {}
   @override
   veryFun() {
     final _veryFun_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_AttributesWithDeprecated_veryFun'));
@@ -156,7 +153,7 @@ AttributesWithDeprecated smoke_AttributesWithDeprecated_fromFfi(Pointer<Void> ha
   if (instance != null && instance is AttributesWithDeprecated) return instance as AttributesWithDeprecated;
   final _copied_handle = _smoke_AttributesWithDeprecated_copy_handle(handle);
   final result = AttributesWithDeprecated$Impl(_copied_handle);
-  __lib.cacheInstance(_copied_handle, result);
+  __lib.cacheInstance(_copied_handle, result, _smoke_AttributesWithDeprecated_register_finalizer);
   return result;
 }
 void smoke_AttributesWithDeprecated_releaseFfiHandle(Pointer<Void> handle) =>

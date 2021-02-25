@@ -1,6 +1,7 @@
 #include "ffi_smoke_OuterStruct.h"
 #include "ConversionBase.h"
 #include "InstanceCache.h"
+#include "FinalizerData.h"
 #include "CallbacksQueue.h"
 #include "IsolateContext.h"
 #include "ProxyCache.h"
@@ -92,6 +93,18 @@ library_smoke_OuterStruct_InnerInterface_barBaz(FfiOpaqueHandle _self, int32_t _
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::OuterStruct::InnerInterface>>::toCpp(_self)).bar_baz()
     );
 }
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_OuterStruct_InnerClass_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::OuterStruct::InnerClass>*>(handle);
+    library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
+    library_smoke_OuterStruct_InnerClass_release_handle(handle);
+}
+void
+library_smoke_OuterStruct_InnerClass_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_OuterStruct_InnerClass_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
+}
 FfiOpaqueHandle
 library_smoke_OuterStruct_InnerClass_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
@@ -103,6 +116,18 @@ library_smoke_OuterStruct_InnerClass_copy_handle(FfiOpaqueHandle handle) {
 void
 library_smoke_OuterStruct_InnerClass_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::OuterStruct::InnerClass>*>(handle);
+}
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_OuterStruct_InnerInterface_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::OuterStruct::InnerInterface>*>(handle);
+    library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
+    library_smoke_OuterStruct_InnerInterface_release_handle(handle);
+}
+void
+library_smoke_OuterStruct_InnerInterface_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_OuterStruct_InnerInterface_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
 }
 FfiOpaqueHandle
 library_smoke_OuterStruct_InnerInterface_copy_handle(FfiOpaqueHandle handle) {
