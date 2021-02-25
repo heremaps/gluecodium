@@ -27,7 +27,7 @@ import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
-import com.here.gluecodium.model.lime.LimeTypeHelper
+import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 /**
@@ -63,7 +63,7 @@ internal object CppGeneratorPredicates {
                 limeStruct !is LimeStruct -> false
                 limeStruct.uninitializedFields.isEmpty() -> true
                 limeStruct.uninitializedFields
-                    .flatMap { LimeTypeHelper.getAllFieldTypes(it.typeRef.type) }
+                    .flatMap { getAllFieldTypes(it.typeRef.type) }
                     .any { it.attributes.have(LimeAttributeType.IMMUTABLE) } -> false
                 !limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) -> true
                 else -> false
@@ -111,4 +111,14 @@ internal object CppGeneratorPredicates {
 
     private fun needsNotNullComment(limeTypeRef: LimeTypeRef) =
         !limeTypeRef.isNullable && limeTypeRef.type.actualType is LimeContainerWithInheritance
+
+    private fun getAllFieldTypes(limeType: LimeType) = getAllFieldTypesRec(limeType.actualType, mutableSetOf())
+
+    private fun getAllFieldTypesRec(leafType: LimeType, visitedTypes: MutableSet<LimeType>): List<LimeType> {
+        if (leafType !is LimeStruct) return listOf(leafType)
+
+        visitedTypes += leafType
+        val typesToVisit = leafType.fields.map { it.typeRef.type.actualType }.distinct() - visitedTypes
+        return typesToVisit.flatMap { getAllFieldTypesRec(it, visitedTypes) } + leafType
+    }
 }

@@ -224,3 +224,22 @@
    fun:_ZN11lorem_ipsum4test12OptionalBase*
    fun:*
 }
+{
+   leak in getAllTests()
+
+   Memcheck:Leak
+   match-leak-kinds: definite
+   ...
+   fun:$s14testfunctional11getAllTests*
+   fun:*
+}
+{
+   leak in instantiateConcreteTypeFromMangledName
+
+   Memcheck:Leak
+   match-leak-kinds: possible
+   ...
+   fun:__swift_instantiateConcreteTypeFromMangledName
+   fun:*
+}
+

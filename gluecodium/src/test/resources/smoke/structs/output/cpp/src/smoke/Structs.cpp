@@ -37,6 +37,10 @@ Structs::DoubleNestingImmutableStruct::DoubleNestingImmutableStruct( ::smoke::St
     : nesting_struct_field( std::move( nesting_struct_field ) )
 {
 }
+Structs::StructWithArrayOfImmutable::StructWithArrayOfImmutable( )
+    : array_field{ }
+{
+}
 Structs::StructWithArrayOfImmutable::StructWithArrayOfImmutable( ::smoke::Structs::ArrayOfImmutable array_field )
     : array_field( std::move( array_field ) )
 {
