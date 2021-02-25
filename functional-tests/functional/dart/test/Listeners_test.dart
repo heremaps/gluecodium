@@ -53,7 +53,6 @@ class RouteProviderImpl implements RouteProvider {
   void setRoute(Route route) {
     setRouteWasRun = true;
     setRouteCouldCast = route is RouteImpl;
-    route.release();
   }
 
   @override
@@ -85,8 +84,6 @@ void main() {
     final listener = SomeIndicator();
 
     expect(RealBase.compareListenerToInitial(listener), isTrue);
-
-    listener.release();
   });
   _testSuite.test("Convoluted round trip", () {
     final listener = SomeIndicator();
@@ -95,9 +92,6 @@ void main() {
     base.addLifecycleListener(listener);
 
     expect(listener.isWeakPtrAlive(), isTrue);
-
-    base.release();
-    listener.release();
   });
   _testSuite.test("Proxy keeps Dart object alive", () {
     PersistingLogger.addListener(MessageListener());

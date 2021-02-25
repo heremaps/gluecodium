@@ -36,12 +36,6 @@ void main() {
     interface1 = NonEquatableFactory.createNonEquatableInterface();
     interface2 = NonEquatableFactory.createNonEquatableInterface();
   });
-  tearDown(() {
-    class1.release();
-    class2.release();
-    interface1.release();
-    interface2.release();
-  });
 
   _testSuite.test("Simple equality for structs", () {
     final struct1 = SimpleEquatableStruct(class1, interface1, class2, interface2);

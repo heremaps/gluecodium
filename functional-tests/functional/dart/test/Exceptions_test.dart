@@ -171,7 +171,5 @@ void main() {
 
     expect(result, isNotNull);
     expect(exception, isNull);
-
-    result?.release();
   });
 }

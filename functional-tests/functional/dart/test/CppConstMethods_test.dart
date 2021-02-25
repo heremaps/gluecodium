@@ -38,16 +38,12 @@ void main() {
     final result = instance.getFoo();
 
     expect(result, "foo");
-
-    instance.release();
   });
   _testSuite.test("Cpp const method on interface", () {
     final instance = CppConstInterfaceFactory.createCppConstInterface();
     final result = instance.getFoo();
 
     expect(result, "foo");
-
-    instance.release();
   });
   _testSuite.test("Cpp const method on interface in Cpp", () {
     final result = CppConstInterfaceFactory.callGetFoo(CppConstCallback());

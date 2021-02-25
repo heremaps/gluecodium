@@ -72,10 +72,6 @@ void main() {
     envelope = TestListener();
     delivery = MessageDelivery();
   });
-  tearDown(() {
-    envelope.release();
-    delivery.release();
-  });
 
   _testSuite.test("String return works", () {
     final result = delivery.getMessage(envelope);
