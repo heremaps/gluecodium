@@ -1,7 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
-### Bug fixes:
+## 8.9.4
+Release date: 2021-02-26
   * Struct default constructor in C++ is no longer erroneously omitted if one of the fields is a
     collection of immutable elements.
 
