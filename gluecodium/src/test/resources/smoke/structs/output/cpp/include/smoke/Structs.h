@@ -60,6 +60,7 @@ public:
     };
     struct _GLUECODIUM_CPP_EXPORT StructWithArrayOfImmutable {
         ::smoke::Structs::ArrayOfImmutable array_field;
+        StructWithArrayOfImmutable( );
         StructWithArrayOfImmutable( ::smoke::Structs::ArrayOfImmutable array_field );
     };
     struct _GLUECODIUM_CPP_EXPORT ImmutableStructWithCppAccessors {

@@ -23,9 +23,13 @@ import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeList
+import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
-import com.here.gluecodium.model.lime.LimeTypeHelper
+import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeAlias
 
 /**
  * Predicates used by `ifPredicate`/`unlessPredicate` template helpers in several generators.
@@ -52,7 +56,7 @@ internal object CommonGeneratorPredicates {
             limeStruct !is LimeStruct -> false
             limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) -> true
             else -> limeStruct.fields
-                .flatMap { LimeTypeHelper.getAllFieldTypes(it.typeRef.type) }
+                .flatMap { getAllFieldTypes(it.typeRef.type) }
                 .any { it.attributes.have(LimeAttributeType.IMMUTABLE) }
         }
 
@@ -62,5 +66,24 @@ internal object CommonGeneratorPredicates {
             limeContainer is LimeInterface -> true
             limeContainer.visibility.isOpen -> true
             else -> limeContainer.parent != null
+        }
+
+    private fun getAllFieldTypes(limeType: LimeType) = getAllFieldTypesRec(getLeafType(limeType), mutableSetOf())
+
+    private fun getAllFieldTypesRec(leafType: LimeType, visitedTypes: MutableSet<LimeType>): List<LimeType> {
+        if (leafType !is LimeStruct) return listOf(leafType)
+
+        visitedTypes += leafType
+        val typesToVisit = leafType.fields.map { getLeafType(it.typeRef.type.actualType) }.distinct() - visitedTypes
+        return typesToVisit.flatMap { getAllFieldTypesRec(it, visitedTypes) } + leafType
+    }
+
+    private fun getLeafType(limeType: LimeType): LimeType =
+        when (limeType) {
+            is LimeTypeAlias -> getLeafType(limeType.typeRef.type)
+            is LimeList -> getLeafType(limeType.elementType.type)
+            is LimeSet -> getLeafType(limeType.elementType.type)
+            is LimeMap -> getLeafType(limeType.valueType.type)
+            else -> limeType
         }
 }
