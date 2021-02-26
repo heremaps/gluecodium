@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Added `@Java(PositionalDefaults)` attribute for structs. This attribute marks a struct to have an imitation of a
+    constructor with optional positional parameters in Java (only if the struct has any fields with default values).
+
 ## 8.9.4
 ### Bug fixes:
 Release date: 2021-02-26
@@ -51,7 +56,7 @@ Release date: 2021-01-18
 ## 8.7.0
 Release date: 2021-01-11
 ### Features:
-  * Added `@Dart(PositionalDefaults)` attribute for stucts. This attribute marks a struct to have a constructor with
+  * Added `@Dart(PositionalDefaults)` attribute for structs. This attribute marks a struct to have a constructor with
     optional positional parameters in Dart (only if the struct has at least one field with a default value).
 ### Bug fixes:
   * `@Deprecated` attribute specified on a property in IDL is now propagated to that property's accessors (but only if
