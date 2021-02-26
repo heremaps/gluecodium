@@ -61,6 +61,7 @@ object TemplateEngine {
                     .addIsNotEqual()
                     .addInclude()
                     .addJoin()
+                    .addNumExpr()
                     .addSet()
                     .build()
             )

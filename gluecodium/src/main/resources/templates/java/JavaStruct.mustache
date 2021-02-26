@@ -53,8 +53,10 @@
 {{#fields}}        this.{{resolveName}} = {{#if defaultValue}}{{resolveName defaultValue}}{{/if}}{{!!
                    }}{{#unless defaultValue}}{{resolveName}}{{/unless}};
 {{/fields}}
-    }{{#if initializedFields}}
+    }
 
+{{#if initializedFields}}
+{{#unless attributes.java.positionalDefaults}}
 {{#unless constructorComment.isEmpty}}
     /**
 {{#resolveName constructorComment}}{{prefix this "     * "}}{{/resolveName}}
@@ -67,8 +69,37 @@
     }}({{joinPartial fields "java/JavaParameter" ", "}}) {
 {{#fields}}        this.{{resolveName}} = {{resolveName}};
 {{/fields}}
-    }{{/if}}
-{{/unless}}{{/if}}
+    }
+{{/unless}}{{!!
+
+}}{{#if attributes.java.positionalDefaults}}{{#set noAttributes=true struct=this}}
+{{#initializedFields}}{{#set fieldIndex=iter.index}}
+
+{{#unless constructorComment.isEmpty}}
+    /**
+{{#resolveName constructorComment}}{{prefix this "     * "}}{{/resolveName}}
+{{#uninitializedFields}}
+     * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
+{{/uninitializedFields}}
+{{#initializedFields}}{{#numExpr iter.index fieldIndex op="le"}}
+     * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
+{{/numExpr}}{{/initializedFields}}
+     */
+{{/unless}}
+    {{#struct}}{{>structVisibility}}{{resolveName}}{{/struct}}{{!!
+    }}({{#uninitializedFields}}{{>java/JavaParameter}}, {{/uninitializedFields}}{{!!
+    }}{{#initializedFields}}{{#numExpr iter.index fieldIndex op="le"}}{{>java/JavaParameter}}{{/numExpr}}{{!!
+    }}{{#numExpr iter.index fieldIndex op="lt"}}, {{/numExpr}}{{/initializedFields}}) {
+{{#uninitializedFields}}        this.{{resolveName}} = {{resolveName}};
+{{/uninitializedFields}}
+{{#initializedFields}}        {{#numExpr iter.index fieldIndex op="le"}}this.{{resolveName}} = {{resolveName}};
+{{/numExpr}}{{!!
+}}{{#numExpr iter.index fieldIndex op="gt"}}this.{{resolveName}} = {{resolveName defaultValue}};
+{{/numExpr}}{{/initializedFields}}
+    }
+{{/set}}{{/initializedFields}}
+{{/set}}{{/if}}{{!!
+}}{{/if}}{{/unless}}{{/if}}
 {{#unless external.java.name}}{{#if attributes.serializable}}{{prefixPartial "java/ParcelableImpl" "    "}}
 
 {{/if}}

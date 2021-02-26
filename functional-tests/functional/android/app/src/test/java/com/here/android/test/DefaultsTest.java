@@ -196,4 +196,51 @@ public final class DefaultsTest {
     assertEquals(SomethingEnum.LAST, result.lastField);
     assertEquals(SomethingEnum.REALLY_FIRST, StructWithEnums.FIRST_CONSTANT);
   }
+
+  @Test
+  public void testPositionalDefaultsFreeArgsCtor() {
+    StructWithJavaPositionalDefaults result = new StructWithJavaPositionalDefaults("Foo", true);
+
+    assertEquals(42, result.firstInitField);
+    assertEquals("Foo", result.firstFreeField);
+    assertEquals(7.2f, result.secondInitField);
+    assertEquals(true, result.secondFreeField);
+    assertEquals("\\Jonny \"Magic\" Smith\n", result.thirdInitField);
+  }
+
+  @Test
+  public void testPositionalDefaultsOneInitArgCtor() {
+    StructWithJavaPositionalDefaults result =
+        new StructWithJavaPositionalDefaults("Foo", true, -17);
+
+    assertEquals(-17, result.firstInitField);
+    assertEquals("Foo", result.firstFreeField);
+    assertEquals(7.2f, result.secondInitField);
+    assertEquals(true, result.secondFreeField);
+    assertEquals("\\Jonny \"Magic\" Smith\n", result.thirdInitField);
+  }
+
+  @Test
+  public void testPositionalDefaultsTwoInitArgsCtor() {
+    StructWithJavaPositionalDefaults result =
+        new StructWithJavaPositionalDefaults("Foo", true, -17, 3.14f);
+
+    assertEquals(-17, result.firstInitField);
+    assertEquals("Foo", result.firstFreeField);
+    assertEquals(3.14f, result.secondInitField);
+    assertEquals(true, result.secondFreeField);
+    assertEquals("\\Jonny \"Magic\" Smith\n", result.thirdInitField);
+  }
+
+  @Test
+  public void testPositionalDefaultsThreeInitArgsCtor() {
+    StructWithJavaPositionalDefaults result =
+        new StructWithJavaPositionalDefaults("Foo", true, -17, 3.14f, "bar");
+
+    assertEquals(-17, result.firstInitField);
+    assertEquals("Foo", result.firstFreeField);
+    assertEquals(3.14f, result.secondInitField);
+    assertEquals(true, result.secondFreeField);
+    assertEquals("bar", result.thirdInitField);
+  }
 }

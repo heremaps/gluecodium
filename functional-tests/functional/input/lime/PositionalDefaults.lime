@@ -30,3 +30,13 @@ struct StructWithAllDefaults {
     intField: Int = 42
     stringField: String = "\\Jonny \"Magic\" Smith\n"
 }
+
+@Java(PositionalDefaults)
+@Swift(Skip) @Dart(Skip)
+struct StructWithJavaPositionalDefaults {
+    firstInitField: Int = 42
+    firstFreeField: String
+    secondInitField: Float = 7.2
+    secondFreeField: Boolean
+    thirdInitField: String = "\\Jonny \"Magic\" Smith\n"
+}

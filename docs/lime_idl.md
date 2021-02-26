@@ -504,6 +504,9 @@ for C++.
   generated code. _Annotation_ does not need to be prepended with `@`. _Annotation_ can contain parameters, e.g.
   `@Java(Attribute="Deprecated(\"It's deprecated.\")")`. If some of the parameters are string literals, their enclosing
   quotes need to be backslash-escaped, as in the example.
+  * **PositionalDefaults**: marks a struct to have additional constructors simulating optional positional parameters in
+  Java. Can only be applied to a struct that has at least one field with a default value. Please note that combining
+  this attribute with internal (see `Visibility` above) fields is not supported.
   * ~~**Builder**~~: **deprecated**. Marks a struct type to have a "builder" pattern generated in
   Java.
 * **@Swift**: marks an element with Swift-specific behaviors:
