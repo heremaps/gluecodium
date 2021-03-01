@@ -119,6 +119,6 @@ class PredicateHelperTest(equality: Boolean) {
     companion object {
         @JvmStatic
         @Parameterized.Parameters
-        fun testData(): Collection<Array<Any>> = listOf(arrayOf<Any>(false), arrayOf<Any>(true))
+        fun testData(): Collection<Array<Any>> = listOf(arrayOf(false), arrayOf(true))
     }
 }

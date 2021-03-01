@@ -19,6 +19,7 @@
 
 package com.here.gluecodium.output
 
+import com.here.gluecodium.generator.common.GeneratedFile
 import java.io.IOException
 import java.nio.charset.Charset
 import java.nio.file.Files
@@ -42,13 +43,13 @@ class FileOutputTest {
     @Throws(IOException::class)
     fun testFileOutput() {
         // Arrange
-        assertFalse(TestFiles.FILES.isEmpty())
+        assertFalse(FILES.isEmpty())
 
         // Act
-        FileOutput(testFolder.root).output(TestFiles.FILES)
+        FileOutput(testFolder.root).output(FILES)
 
         // Assert
-        TestFiles.FILES.forEach {
+        FILES.forEach {
             val path = Paths.get(testFolder.root.path, it.targetFile.path)
             val lines = Files.readAllLines(path, Charset.defaultCharset())
             if (it.content.isNotEmpty()) {
@@ -58,5 +59,13 @@ class FileOutputTest {
                 assertTrue(lines.isEmpty())
             }
         }
+    }
+
+    companion object {
+        private val FILES = listOf(
+            GeneratedFile("CONTENT1", "PATH1_1/PATH1_2/FILE1"),
+            GeneratedFile("", "PATH2/FILE2"),
+            GeneratedFile("CONTENT3", "FILE3")
+        )
     }
 }

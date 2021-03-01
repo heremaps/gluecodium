@@ -11,7 +11,6 @@ and platform specific helpers. To generate code for a target the functions
 should be called for that target.
 Depending on the target platform, there are helpers for creating `.aar` archives for
 Android and Swift `.framework` for iOS or macOS.
-For more details check out the [Examples](../examples/README.md).
 
 ## Source sets
 

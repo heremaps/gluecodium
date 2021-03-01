@@ -78,7 +78,7 @@ class SplitSourceSetCache(
     }
 
     fun write(executionSucceeded: Boolean): Boolean {
-        var success = mainCacheStrategy?.write(executionSucceeded) ?: true
+        val success = mainCacheStrategy?.write(executionSucceeded) ?: true
         return commonCacheStrategy?.write(executionSucceeded) ?: true && success
     }
 

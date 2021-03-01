@@ -20,8 +20,8 @@
 package com.here.gluecodium.model.lime
 
 /**
- * An ambiguous reference to an enumerator element, represented by [relativePath]. The ambiguity is
- * resolved through the [LimeAmbiguityResolver].
+ * An ambiguous reference to an enumerator element, represented by `relativePath` constructor parameter. The ambiguity
+ * is resolved through the [LimeAmbiguityResolver].
  *
  * The resolution logic is "lazy": if it succeed on the first call then the result is stored and the
  * stored result is used on subsequent calls instead.

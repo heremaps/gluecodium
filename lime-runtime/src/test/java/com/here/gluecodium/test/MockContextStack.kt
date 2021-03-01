@@ -33,20 +33,4 @@ class MockContextStack<E> : ModelBuilderContextStack<E>() {
     override fun closeContext() {
         // Do nothing
     }
-
-    fun injectResult(element: E) {
-        currentContext.previousResults.add(element)
-    }
-
-    fun injectParentResult(element: E) {
-        parentContext.previousResults.add(element)
-    }
-
-    fun injectCurrentResult(element: E) {
-        currentContext.currentResults.add(element)
-    }
-
-    fun injectParentCurrentResult(element: E) {
-        parentContext.currentResults.add(element)
-    }
 }

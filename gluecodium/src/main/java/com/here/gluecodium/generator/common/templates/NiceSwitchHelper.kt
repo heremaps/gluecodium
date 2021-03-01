@@ -43,8 +43,8 @@ internal class NiceSwitchHelper : SwitchHelper() {
 
         // SwitchHelper.validate()
         val validNames = hashSetOf<String>()
-        configuration.helpers.forEach { key, value ->
-            if (value is SwitchHelper.CaseHelper || value is SwitchHelper.DefaultHelper) {
+        configuration.helpers.forEach { (key, value) ->
+            if (value is CaseHelper || value is DefaultHelper) {
                 validNames.add(key)
             }
         }

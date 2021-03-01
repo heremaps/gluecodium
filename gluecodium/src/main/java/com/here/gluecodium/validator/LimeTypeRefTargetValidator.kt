@@ -40,7 +40,7 @@ internal class LimeTypeRefTargetValidator(private val logger: LimeLogger) :
     fun validate(limeModel: LimeModel) = !traverseModel(limeModel).contains(false)
 
     override fun visitTypeRef(parentElement: LimeNamedElement, limeTypeRef: LimeTypeRef?): Boolean {
-        val referredType = limeTypeRef?.type?.let { it.actualType }
+        val referredType = limeTypeRef?.type?.actualType
         return when {
             referredType is LimeTypesCollection -> {
                 logger.error(
