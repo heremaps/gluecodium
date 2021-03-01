@@ -29,7 +29,6 @@ import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.GeneratorSuite
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.lime.LimeGeneratorSuite
-import com.here.gluecodium.loader.getLoader
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeModel
@@ -61,7 +60,7 @@ import kotlin.system.exitProcess
 
 class Gluecodium(
     private val options: Options,
-    private val modelLoader: LimeModelLoader = LimeModelLoader.getLoader()
+    private val modelLoader: LimeModelLoader = LimeModelLoader.getLoaders().first()
 ) {
     internal val cache = SplitSourceSetCache(
         options.outputDir,

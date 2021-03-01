@@ -35,7 +35,7 @@ import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.misc.ParseCancellationException
 import org.antlr.v4.runtime.tree.ParseTreeWalker
 
-internal class LimeBasedLimeModelLoader : LimeModelLoader {
+class LimeBasedLimeModelLoader : LimeModelLoader {
     private val logger = Logger.getLogger(LimeBasedLimeModelLoader::class.java.name)
 
     override fun loadModel(idlSources: List<String>, auxiliaryIdlSources: List<String>): LimeModel {
@@ -126,5 +126,3 @@ internal class LimeBasedLimeModelLoader : LimeModelLoader {
         }
     }
 }
-
-fun LimeModelLoader.Companion.getLoader(): LimeModelLoader = LimeBasedLimeModelLoader()

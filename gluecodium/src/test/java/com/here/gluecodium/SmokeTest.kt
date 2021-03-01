@@ -27,7 +27,6 @@ import com.here.gluecodium.generator.dart.DartGeneratorSuite
 import com.here.gluecodium.generator.java.JavaGeneratorSuite
 import com.here.gluecodium.generator.lime.LimeGeneratorSuite
 import com.here.gluecodium.generator.swift.SwiftGeneratorSuite
-import com.here.gluecodium.loader.getLoader
 import com.here.gluecodium.model.lime.LimeModelLoader
 import com.here.gluecodium.test.NiceErrorCollector
 import io.mockk.every
@@ -148,7 +147,7 @@ class SmokeTest(
         )
         private val GENERATOR_DIRECTORIES = hashMapOf<String, List<String>>()
 
-        private val LOADER = LimeModelLoader.getLoader()
+        private val LOADER = LimeModelLoader.getLoaders().first()
 
         init {
             GENERATOR_DIRECTORIES[CppGeneratorSuite.GENERATOR_NAME] =
