@@ -34,41 +34,11 @@ abstract class ContextBasedModelBuilder<E>(private val contextStack: ModelBuilde
     private val previousResults: List<E>
         get() = currentContext.previousResults
 
-    protected val currentContext: ModelBuilderContext<E>
+    private val currentContext: ModelBuilderContext<E>
         get() = contextStack.currentContext
 
     protected val parentContext: ModelBuilderContext<E>?
         get() = contextStack.parentContext
-
-    /**
-     * Get the first item of the given type from the list of final results of the model builder
-     * execution. Intended to be called by clients of the model builder but not within the model
-     * builder itself.
-     *
-     * @param clazz Class object representing the type of the result to get
-     * @return A result item
-     */
-    fun <T : E> getFinalResult(clazz: Class<T>) = finalResults.filterIsInstance(clazz).first()
-
-    /**
-     * Get the first item of the given type from the list of results of the previous ("child") step
-     * of model builder execution.
-     *
-     * @param clazz Class object representing the type of the result to get
-     * @return A result item
-     */
-    protected fun <T : E> getPreviousResult(clazz: Class<T>) =
-        previousResults.filterIsInstance(clazz).first()
-
-    /**
-     * Get the first item of the given type from the list of results of the previous ("child") step
-     * of model builder execution.
-     *
-     * @param clazz Class object representing the type of the result to get
-     * @return A result item or `null` if there are none
-     */
-    protected fun <T : E> getPreviousResultOrNull(clazz: Class<T>) =
-        previousResults.filterIsInstance(clazz).firstOrNull()
 
     /**
      * Get the all items of the given type from the list of results of the previous ("child") step

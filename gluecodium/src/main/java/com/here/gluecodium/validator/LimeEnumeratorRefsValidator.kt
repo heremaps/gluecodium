@@ -39,12 +39,12 @@ internal class LimeEnumeratorRefsValidator(private val logger: LimeLogger) :
             return true
         }
 
-        try {
+        return try {
             limeValue.valueRef.enumerator
-            return true
+            true
         } catch (e: LimeModelLoaderException) {
             logger.error(parentElement, e.message ?: "")
-            return false
+            false
         }
     }
 }

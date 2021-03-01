@@ -37,8 +37,8 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class SplitSourceSetCacheTest {
 
-    val mainFile = GeneratedFile("I'm a main file", "main", GeneratedFile.SourceSet.MAIN)
-    val commonFile = GeneratedFile("I'm a common file", "common", GeneratedFile.SourceSet.COMMON)
+    private val mainFile = GeneratedFile("I'm a main file", "main", GeneratedFile.SourceSet.MAIN)
+    private val commonFile = GeneratedFile("I'm a common file", "common", GeneratedFile.SourceSet.COMMON)
 
     @MockK
     lateinit var mainCache: CachingStrategy
@@ -53,10 +53,10 @@ class SplitSourceSetCacheTest {
 
         every { CachingStrategyCreator.initializeCaching(any(), any(), any()) } returns mainCache
 
-        var updatedMainFiles = slot<List<GeneratedFile>>()
+        val updatedMainFiles = slot<List<GeneratedFile>>()
         every { mainCache.updateCache(any(), capture(updatedMainFiles)) }.answers { updatedMainFiles.captured }
 
-        var updatedCommonFiles = slot<List<GeneratedFile>>()
+        val updatedCommonFiles = slot<List<GeneratedFile>>()
         every { commonCache.updateCache(any(), capture(updatedCommonFiles)) }.answers { updatedCommonFiles.captured }
     }
 

@@ -26,7 +26,7 @@ import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
 import com.here.gluecodium.model.lime.LimeNamedElement
 import java.io.File
 
-class CppNameRules(
+internal class CppNameRules(
     private val rootNamespace: List<String>,
     nameRuleSet: NameRuleSet
 ) : NameRules(nameRuleSet) {
@@ -36,20 +36,5 @@ class CppNameRules(
             limeElement.attributes.get(CPP, NAME) ?: ruleSet.getTypeName(limeElement.path.container)
         return (rootNamespace + limeElement.path.head + fileName)
             .joinToString(separator = File.separator)
-    }
-
-    companion object {
-        fun joinFullyQualifiedName(nameList: List<String>) =
-            when {
-                nameList.isNotEmpty() -> "::" + nameList.joinToString("::")
-                else -> ""
-            }
-
-        fun joinFullyQualifiedName(namespace: String?, name: String) =
-            when {
-                namespace.isNullOrEmpty() -> "::$name"
-                namespace.startsWith("::") -> "$namespace::$name"
-                else -> "::$namespace::$name"
-            }
     }
 }
