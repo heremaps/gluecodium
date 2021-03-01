@@ -23,6 +23,8 @@
 
 namespace test
 {
+using namespace lorem_ipsum::test;
+
 std::shared_ptr< NullableInterface >
 NullableInterface::create( )
 {
@@ -41,147 +43,147 @@ NullableInterfaceImpl::method_with_nullable_ints_struct( const NullableIntsStruc
     return input;
 }
 
-Optional< ::std::string >
-NullableInterfaceImpl::method_with_string( const Optional< ::std::string >& input )
+optional< ::std::string >
+NullableInterfaceImpl::method_with_string( const optional< ::std::string >& input )
 {
     return input;
 }
 
-Optional< bool >
-NullableInterfaceImpl::method_with_boolean( const Optional< bool >& input )
+optional< bool >
+NullableInterfaceImpl::method_with_boolean( const optional< bool >& input )
 {
     return input;
 }
 
-Optional< double >
-NullableInterfaceImpl::method_with_double( const Optional< double >& input )
+optional< double >
+NullableInterfaceImpl::method_with_double( const optional< double >& input )
 {
     return input;
 }
 
-Optional< int64_t >
-NullableInterfaceImpl::method_with_int( const Optional< int64_t >& input )
+optional< int64_t >
+NullableInterfaceImpl::method_with_int( const optional< int64_t >& input )
 {
     return input;
 }
 
-Optional< NullableInterface::SomeStruct >
-NullableInterfaceImpl::method_with_some_struct( const Optional< NullableInterface::SomeStruct >& input )
+optional< NullableInterface::SomeStruct >
+NullableInterfaceImpl::method_with_some_struct( const optional< NullableInterface::SomeStruct >& input )
 {
     return input;
 }
 
-Optional< NullableInterface::SomeEnum >
-NullableInterfaceImpl::method_with_some_enum( const Optional< NullableInterface::SomeEnum >& input )
+optional< NullableInterface::SomeEnum >
+NullableInterfaceImpl::method_with_some_enum( const optional< NullableInterface::SomeEnum >& input )
 {
     return input;
 }
 
-Optional< NullableInterface::SomeArray >
+optional< NullableInterface::SomeArray >
 NullableInterfaceImpl::method_with_some_array(
-  const Optional< NullableInterface::SomeArray >& input )
+  const optional< NullableInterface::SomeArray >& input )
 {
     return input;
 }
 
-Optional< ::std::vector< ::std::string > >
+optional< ::std::vector< ::std::string > >
 NullableInterfaceImpl::method_with_inline_array(
-    const Optional< ::std::vector< ::std::string > >& input )
+    const optional< ::std::vector< ::std::string > >& input )
 {
     return input;
 }
 
-Optional< NullableInterface::SomeMap >
-NullableInterfaceImpl::method_with_some_map( const Optional< NullableInterface::SomeMap >& input )
+optional< NullableInterface::SomeMap >
+NullableInterfaceImpl::method_with_some_map( const optional< NullableInterface::SomeMap >& input )
 {
     return input;
 }
 
-Optional< ::std::string >
+optional< ::std::string >
 NullableInterfaceImpl::get_string_attribute(  ) const
 {
     return m_string_value;
 }
 
 void
-NullableInterfaceImpl::set_string_attribute( const Optional< ::std::string >& value )
+NullableInterfaceImpl::set_string_attribute( const optional< ::std::string >& value )
 {
     m_string_value = value;
 }
 
-Optional< bool >
+optional< bool >
 NullableInterfaceImpl::is_bool_attribute(  ) const
 {
     return m_bool_value;
 }
 
 void
-NullableInterfaceImpl::set_bool_attribute( const Optional< bool >& value )
+NullableInterfaceImpl::set_bool_attribute( const optional< bool >& value )
 {
     m_bool_value = value;
 }
 
-Optional< double >
+optional< double >
 NullableInterfaceImpl::get_double_attribute(  ) const
 {
     return m_double_value;
 }
 
 void
-NullableInterfaceImpl::set_double_attribute( const Optional< double >& value )
+NullableInterfaceImpl::set_double_attribute( const optional< double >& value )
 {
     m_double_value = value;
 }
 
-Optional< int64_t >
+optional< int64_t >
 NullableInterfaceImpl::get_int_attribute(  ) const
 {
     return m_int_value;
 }
 
 void
-NullableInterfaceImpl::set_int_attribute( const Optional< int64_t >& value )
+NullableInterfaceImpl::set_int_attribute( const optional< int64_t >& value )
 {
     m_int_value = value;
 }
 
-Optional< NullableInterface::SomeStruct >
+optional< NullableInterface::SomeStruct >
 NullableInterfaceImpl::get_struct_attribute(  ) const
 {
     return m_struct_value;
 }
 
 void
-NullableInterfaceImpl::set_struct_attribute( const Optional< NullableInterface::SomeStruct >& value )
+NullableInterfaceImpl::set_struct_attribute( const optional< NullableInterface::SomeStruct >& value )
 {
     m_struct_value = value;
 }
 
-Optional< NullableInterface::SomeEnum >
+optional< NullableInterface::SomeEnum >
 NullableInterfaceImpl::get_enum_attribute(  ) const
 {
     return m_enum_value;
 }
 
 void
-NullableInterfaceImpl::set_enum_attribute( const Optional< NullableInterface::SomeEnum >& value )
+NullableInterfaceImpl::set_enum_attribute( const optional< NullableInterface::SomeEnum >& value )
 {
     m_enum_value = value;
 }
 
-Optional< NullableInterface::SomeArray >
+optional< NullableInterface::SomeArray >
 NullableInterfaceImpl::get_array_attribute(  ) const
 {
     return m_array_value;
 }
 
 void
-NullableInterfaceImpl::set_array_attribute( const Optional< NullableInterface::SomeArray >& value )
+NullableInterfaceImpl::set_array_attribute( const optional< NullableInterface::SomeArray >& value )
 {
     m_array_value = value;
 }
 
-Optional< ::std::vector< ::std::string > >
+optional< ::std::vector< ::std::string > >
 NullableInterfaceImpl::get_inline_array_attribute(  ) const
 {
     return m_array_value;
@@ -189,35 +191,35 @@ NullableInterfaceImpl::get_inline_array_attribute(  ) const
 
 void
 NullableInterfaceImpl::set_inline_array_attribute(
-    const Optional< ::std::vector< ::std::string > >& value )
+    const optional< ::std::vector< ::std::string > >& value )
 {
     m_array_value = value;
 }
 
-Optional< NullableInterface::SomeMap >
+optional< NullableInterface::SomeMap >
 NullableInterfaceImpl::get_map_attribute(  ) const
 {
     return m_map_value;
 }
 
 void
-NullableInterfaceImpl::set_map_attribute( const Optional< NullableInterface::SomeMap >& value )
+NullableInterfaceImpl::set_map_attribute( const optional< NullableInterface::SomeMap >& value )
 {
     m_map_value = value;
 }
 
-Optional< double >
+optional< double >
 NullableInterface::nullable_listener_method_round_trip(
     const std::shared_ptr< ::test::NullableListener >& listener,
-    const Optional< double >& input )
+    const optional< double >& input )
 {
     return listener->method_with_double( input );
 }
 
-Optional< std::vector< ::std::string > >
+optional< std::vector< ::std::string > >
 NullableInterface::nullable_listener_attribute_round_trip(
     const std::shared_ptr< ::test::NullableListener >& listener,
-    const Optional< ::std::vector< ::std::string > >& input )
+    const optional< ::std::vector< ::std::string > >& input )
 {
     listener->set_array_attribute( input );
     return listener->get_array_attribute( );

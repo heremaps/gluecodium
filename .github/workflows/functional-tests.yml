@@ -47,7 +47,10 @@ jobs:
       - name: Install valgrind
         run: sudo apt install -y valgrind
       - name: Build and run functional tests
-        run: scripts/build-cpp-functional --valgrind --buildGluecodium
+        run: |
+          scripts/build-cpp-functional --valgrind --buildGluecodium
+          scripts/build-cpp-functional --cpp 14 --buildGluecodium
+          scripts/build-cpp-functional --cpp 17 --buildGluecodium
         working-directory: functional-tests
       - name: Print Valgrind results
         if: ${{ always() }}
