@@ -23,7 +23,7 @@
 
 namespace test
 {
-lorem_ipsum::test::Locale s_locale = lorem_ipsum::test::Locale("foo", "bar", "baz");
+lorem_ipsum::test::Locale s_locale = lorem_ipsum::test::Locale(std::string{"foo"}, "bar", "baz");
 std::string nonsense = "@#$%";
 
 lorem_ipsum::test::Locale
