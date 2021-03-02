@@ -19,14 +19,17 @@
 
 package com.here.gluecodium.model.lime
 
+import java.util.ServiceLoader
+
 /**
  * Abstraction for modules that load the LIME models from some source (usually files) into the
  * in-memory representation. The intent is to reduce the coupling between loader modules and the
- * rest of the binary to absolute minimum.
+ * rest of the binary to an absolute minimum.
  */
 interface LimeModelLoader {
     fun loadModel(idlSources: List<String>, auxiliaryIdlSources: List<String>): LimeModel
 
-    // Injection point for static "getLoader()" extensions.
-    companion object
+    companion object {
+        fun getLoaders() = ServiceLoader.load(LimeModelLoader::class.java).iterator().asSequence()
+    }
 }
