@@ -28,7 +28,6 @@ import com.here.gluecodium.common.LimeModelFilter
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.templates.TemplateEngine
-import com.here.gluecodium.generator.lime.LimeGenerator
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeModel
@@ -106,8 +105,12 @@ class Gluecodium(
         var executionSucceeded = false
         try {
             executionSucceeded = discoverGenerators().all {
-                val model = if (it == LimeGenerator.GENERATOR_NAME) limeModel else filteredModel
-                executeGenerator(it, model, fileNamesCache)
+                executeGenerator(
+                    generatorName = it,
+                    filteredModel = filteredModel,
+                    unfilteredModel = limeModel,
+                    fileNamesCache = fileNamesCache
+                )
             }
         } finally {
             // cache has to be updated in any case
@@ -118,19 +121,21 @@ class Gluecodium(
 
     internal fun executeGenerator(
         generatorName: String,
-        limeModel: LimeModel,
+        filteredModel: LimeModel,
+        unfilteredModel: LimeModel,
         fileNamesCache: MutableMap<String, String>
     ): Boolean {
         LOGGER.fine("Using generator '$generatorName'")
-        val generator = Generator.instantiateByShortName(generatorName, options)
+        val generator = Generator.initializeGenerator(generatorName, options)
         if (generator == null) {
-            LOGGER.severe("Failed instantiation of generator '$generatorName'")
+            LOGGER.severe("Failed initialization of generator '$generatorName'")
             return false
         }
-        LOGGER.fine("Instantiated generator '$generatorName'")
+        LOGGER.fine("Initialized generator '$generatorName'")
 
+        val inputModel = if (generator.needsUnfilteredModel) unfilteredModel else filteredModel
         val outputFiles = try {
-            generator.generate(limeModel)
+            generator.generate(inputModel)
         } catch (e: LimeModelLoaderException) {
             LOGGER.severe(e.message)
             return false
@@ -147,7 +152,7 @@ class Gluecodium(
         if (generators.isNotEmpty()) {
             LOGGER.fine("Following generators were specified on command line: $generators")
         } else {
-            generators = Generator.generatorShortNames()
+            generators = Generator.allGeneratorShortNames
             LOGGER.fine("No generators specified, using all available generators: $generators")
         }
         return generators

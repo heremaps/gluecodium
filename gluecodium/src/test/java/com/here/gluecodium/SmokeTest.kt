@@ -22,11 +22,7 @@ package com.here.gluecodium
 import com.here.gluecodium.Gluecodium.Options
 import com.here.gluecodium.cli.OptionReader
 import com.here.gluecodium.generator.common.GeneratedFile
-import com.here.gluecodium.generator.cpp.CppGenerator
-import com.here.gluecodium.generator.dart.DartGenerator
-import com.here.gluecodium.generator.java.JavaGenerator
-import com.here.gluecodium.generator.lime.LimeGenerator
-import com.here.gluecodium.generator.swift.SwiftGenerator
+import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.model.lime.LimeModelLoader
 import com.here.gluecodium.test.NiceErrorCollector
 import io.mockk.every
@@ -92,7 +88,8 @@ class SmokeTest(
         val auxDirectory = File(featureDirectory, FEATURE_AUX_FOLDER)
         val outputDirectory = File(featureDirectory, FEATURE_OUTPUT_FOLDER)
 
-        val referenceFiles = GENERATOR_DIRECTORIES[generatorName]!!
+        val generatorDirectories = listOf(generatorName) + (ADDITIONAL_GENERATOR_DIRS[generatorName] ?: emptyList())
+        val referenceFiles = generatorDirectories
             .map { generatorDirectoryName -> File(outputDirectory, generatorDirectoryName) }
             .flatMap { listFilesRecursively(it) }
             .filterNot { it.name.toLowerCase().startsWith(IGNORE_PREFIX) }
@@ -101,9 +98,12 @@ class SmokeTest(
 
         val limeModel = LOADER.loadModel(listOf(inputDirectory.toString()), listOf(auxDirectory.toString()))
         assertTrue(gluecodium.validateModel(limeModel))
-        val filteredModel =
-            if (generatorName == LimeGenerator.GENERATOR_NAME) limeModel else gluecodium.filterModel(limeModel)
-        assertTrue(gluecodium.executeGenerator(generatorName, filteredModel, HashMap()))
+        assertTrue(gluecodium.executeGenerator(
+            generatorName = generatorName,
+            filteredModel = gluecodium.filterModel(limeModel),
+            unfilteredModel = limeModel,
+            fileNamesCache = HashMap()
+        ))
 
         val generatedContents = results.associateBy({ it.targetFile.path }, { it.content })
 
@@ -138,29 +138,9 @@ class SmokeTest(
         private const val FEATURE_AUX_FOLDER = "auxiliary"
         private const val FEATURE_OUTPUT_FOLDER = "output"
         private const val IGNORE_PREFIX = "ignore"
-        private val GENERATOR_NAMES = listOf(
-            CppGenerator.GENERATOR_NAME,
-            JavaGenerator.GENERATOR_NAME,
-            SwiftGenerator.GENERATOR_NAME,
-            LimeGenerator.GENERATOR_NAME,
-            DartGenerator.GENERATOR_NAME
-        )
-        private val GENERATOR_DIRECTORIES = hashMapOf<String, List<String>>()
+        private val ADDITIONAL_GENERATOR_DIRS = mapOf("swift" to listOf("cbridge", "cbridge_internal"))
 
         private val LOADER = LimeModelLoader.getLoaders().first()
-
-        init {
-            GENERATOR_DIRECTORIES[CppGenerator.GENERATOR_NAME] =
-                listOf(CppGenerator.GENERATOR_NAME)
-            GENERATOR_DIRECTORIES[JavaGenerator.GENERATOR_NAME] =
-                listOf(JavaGenerator.GENERATOR_NAME)
-            GENERATOR_DIRECTORIES[SwiftGenerator.GENERATOR_NAME] =
-                listOf(SwiftGenerator.GENERATOR_NAME, "cbridge", "cbridge_internal")
-            GENERATOR_DIRECTORIES[LimeGenerator.GENERATOR_NAME] =
-                listOf(LimeGenerator.GENERATOR_NAME)
-            GENERATOR_DIRECTORIES[DartGenerator.GENERATOR_NAME] =
-                listOf(DartGenerator.GENERATOR_NAME)
-        }
 
         private const val RESOURCE_PREFIX = "smoke"
 
@@ -186,9 +166,10 @@ class SmokeTest(
                 fail("No test features were found")
                 return emptyList()
             }
+            val generatorNames = Generator.allGeneratorShortNames
             return featureDirectoryResources.filter { it.isDirectory }.sorted()
                 .flatMap { directory ->
-                    GENERATOR_NAMES.map { generatorName ->
+                    generatorNames.map { generatorName ->
                         arrayOf(
                             directory,
                             generatorName,

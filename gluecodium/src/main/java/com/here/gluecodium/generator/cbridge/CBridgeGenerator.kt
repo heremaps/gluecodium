@@ -223,7 +223,7 @@ internal class CBridgeGenerator(
         private val EXPORT_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "Export.h").toString()
         private val PROXY_CACHE_FILENAME = Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "CachedProxyBase.h").toString()
 
-        val STATIC_FILES = listOf(
+        val STATIC_FILES by lazy { listOf(
             Generator.copyCommonFile(BASE_HANDLE_FILE, ""),
             Generator.copyCommonFile(STRING_HANDLE_FILE, ""),
             Generator.copyCommonFile(DATE_HANDLE_FILE, ""),
@@ -232,7 +232,7 @@ internal class CBridgeGenerator(
             Generator.copyCommonFile(Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "ByteArrayHandle.h").toString(), ""),
             Generator.copyCommonFile(Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "LocaleHandle.h").toString(), ""),
             Generator.copyCommonFile(PROXY_CACHE_FILENAME, "")
-        )
+        ) }
 
         fun getAllParentTypes(allTypes: List<LimeType>): List<LimeType> {
             if (allTypes.isEmpty()) return emptyList()
