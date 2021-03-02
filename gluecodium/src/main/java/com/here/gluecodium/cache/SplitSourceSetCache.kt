@@ -65,7 +65,7 @@ class SplitSourceSetCache(
         mainCacheStrategy = CachingStrategyCreator.initializeCaching(
             isEnableCaching,
             outputDir,
-            Generator.generatorShortNames()
+            Generator.allGeneratorShortNames
         )
     }
 
@@ -73,7 +73,7 @@ class SplitSourceSetCache(
         commonCacheStrategy = CachingStrategyCreator.initializeCaching(
             isEnableCaching,
             commonOutputDir,
-            Generator.generatorShortNames()
+            Generator.allGeneratorShortNames
         )
     }
 

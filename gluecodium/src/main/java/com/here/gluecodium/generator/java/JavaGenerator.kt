@@ -23,6 +23,7 @@ import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.common.LimeModelFilter
+import com.here.gluecodium.generator.common.CommentsProcessor
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
@@ -54,18 +55,33 @@ import java.util.logging.Logger
 /**
  * Combines Java and JNI templates to generate Java code and bindings to C++ layer for Java.
  */
-internal class JavaGenerator(options: Gluecodium.Options) : Generator {
+internal class JavaGenerator : Generator {
 
-    private val internalPackage = options.javaInternalPackages
-    private val internalNamespace = options.cppInternalNamespace
-    private val rootNamespace = options.cppRootNamespace
-    private val commentsProcessor = JavaDocProcessor(options.werror.contains(Gluecodium.Options.WARNING_DOC_LINKS))
-    private val cppNameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))
-    private val javaNameRules = JavaNameRules(nameRuleSetFromConfig(options.javaNameRules))
-    private val nonNullAnnotation = annotationFromOption(options.javaNonNullAnnotation)
-    private val nullableAnnotation = annotationFromOption(options.javaNullableAnnotation)
-    private val basePackages = if (options.javaPackages.isNotEmpty()) options.javaPackages else listOf("com", "example")
-    private val internalPackageList = basePackages + internalPackage
+    private lateinit var internalPackage: List<String>
+    private lateinit var internalNamespace: List<String>
+    private lateinit var rootNamespace: List<String>
+    private lateinit var commentsProcessor: CommentsProcessor
+    private lateinit var cppNameRules: CppNameRules
+    private lateinit var javaNameRules: JavaNameRules
+    private lateinit var basePackages: List<String>
+    private lateinit var internalPackageList: List<String>
+    private var nonNullAnnotation: JavaImport? = null
+    private var nullableAnnotation: JavaImport? = null
+
+    override val shortName = GENERATOR_NAME
+
+    override fun initialize(options: Gluecodium.Options) {
+        internalPackage = options.javaInternalPackages
+        internalNamespace = options.cppInternalNamespace
+        rootNamespace = options.cppRootNamespace
+        commentsProcessor = JavaDocProcessor(options.werror.contains(Gluecodium.Options.WARNING_DOC_LINKS))
+        cppNameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))
+        javaNameRules = JavaNameRules(nameRuleSetFromConfig(options.javaNameRules))
+        nonNullAnnotation = annotationFromOption(options.javaNonNullAnnotation)
+        nullableAnnotation = annotationFromOption(options.javaNullableAnnotation)
+        basePackages = if (options.javaPackages.isNotEmpty()) options.javaPackages else listOf("com", "example")
+        internalPackageList = basePackages + internalPackage
+    }
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val cachingNameResolver = CppNameCache(rootNamespace, limeModel.referenceMap, cppNameRules)
@@ -228,7 +244,7 @@ internal class JavaGenerator(options: Gluecodium.Options) : Generator {
         }
 
     companion object {
-        const val GENERATOR_NAME = "android"
+        private const val GENERATOR_NAME = "android"
 
         private val logger = Logger.getLogger(JavaGenerator::class.java.name)
 

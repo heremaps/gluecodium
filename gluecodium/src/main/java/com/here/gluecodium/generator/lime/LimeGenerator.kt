@@ -47,6 +47,10 @@ import com.here.gluecodium.model.lime.LimeTypesCollection
 
 class LimeGenerator : Generator {
 
+    override val shortName = GENERATOR_NAME
+
+    override val needsUnfilteredModel = true
+
     override fun generate(limeModel: LimeModel) = limeModel.topElements.map { generate(it) }
 
     private fun generate(rootElement: LimeNamedElement): GeneratedFile {
@@ -126,6 +130,6 @@ class LimeGenerator : Generator {
         (import.head + import.tail).joinToString(".") { LimeTypeHelper.escapeIdentifier(it) }
 
     companion object {
-        const val GENERATOR_NAME = "lime"
+        private const val GENERATOR_NAME = "lime"
     }
 }

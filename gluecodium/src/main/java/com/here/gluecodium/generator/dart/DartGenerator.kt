@@ -24,6 +24,7 @@ import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.common.LimeModelFilter
 import com.here.gluecodium.common.LimeTypeRefsVisitor
+import com.here.gluecodium.generator.common.CommentsProcessor
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.GeneratedFile.SourceSet.COMMON
@@ -67,20 +68,33 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import java.util.logging.Logger
 
-class DartGenerator(options: Gluecodium.Options) : Generator {
+internal class DartGenerator : Generator {
 
-    private val libraryName = options.libraryName
-    private val lookupErrorMessage = options.dartLookupErrorMessage
-    private val nameRules = NameRules(nameRuleSetFromConfig(options.dartNameRules))
-    private val cppNameRules =
-        CppNameRules(options.cppRootNamespace, nameRuleSetFromConfig(options.cppNameRules))
-    private val rootNamespace = options.cppRootNamespace
-    private val internalNamespace = options.cppInternalNamespace
-    private val internalPrefix = options.internalPrefix ?: ""
-    private val commentsProcessor =
-        DartCommentsProcessor(options.werror.contains(Gluecodium.Options.WARNING_DOC_LINKS))
-    private val overloadsWerror = options.werror.contains(Gluecodium.Options.WARNING_DART_OVERLOADS)
-    private val testableMode = options.generateStubs
+    private lateinit var libraryName: String
+    private lateinit var lookupErrorMessage: String
+    private lateinit var nameRules: NameRules
+    private lateinit var cppNameRules: CppNameRules
+    private lateinit var rootNamespace: List<String>
+    private lateinit var internalNamespace: List<String>
+    private lateinit var internalPrefix: String
+    private lateinit var commentsProcessor: CommentsProcessor
+    private var overloadsWerror: Boolean = false
+    private var testableMode: Boolean = false
+
+    override val shortName = "dart"
+
+    override fun initialize(options: Gluecodium.Options) {
+        libraryName = options.libraryName
+        lookupErrorMessage = options.dartLookupErrorMessage
+        nameRules = NameRules(nameRuleSetFromConfig(options.dartNameRules))
+        cppNameRules = CppNameRules(options.cppRootNamespace, nameRuleSetFromConfig(options.cppNameRules))
+        rootNamespace = options.cppRootNamespace
+        internalNamespace = options.cppInternalNamespace
+        internalPrefix = options.internalPrefix ?: ""
+        commentsProcessor = DartCommentsProcessor(options.werror.contains(Gluecodium.Options.WARNING_DOC_LINKS))
+        overloadsWerror = options.werror.contains(Gluecodium.Options.WARNING_DART_OVERLOADS)
+        testableMode = options.generateStubs
+    }
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
@@ -498,10 +512,8 @@ class DartGenerator(options: Gluecodium.Options) : Generator {
         }
 
     companion object {
-        const val GENERATOR_NAME = "dart"
-
         private val logger = Logger.getLogger(DartGenerator::class.java.name)
-        private const val ROOT_DIR = GENERATOR_NAME
+        private const val ROOT_DIR = "dart"
         private const val LIB_DIR = "$ROOT_DIR/lib"
         private const val SRC_DIR_SUFFIX = "src"
         private const val FFI_DIR = "$ROOT_DIR/ffi"

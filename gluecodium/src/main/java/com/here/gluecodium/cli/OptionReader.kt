@@ -84,7 +84,7 @@ object OptionReader {
             "generators",
             true,
             "List of generators to use, separated by comma. If empty, all available generators are used. Available generators: " +
-                    Generator.generatorShortNames().joinToString(", ") + "\n"
+                    Generator.allGeneratorShortNames.joinToString(", ") + "\n"
         ).apply {
             valueSeparator = ','
             setOptionalArg(true)
@@ -180,7 +180,7 @@ object OptionReader {
         options.javaNonNullAnnotation = parseAnnotation(getStringValue("javanonnullannotation"))
         options.javaNullableAnnotation = parseAnnotation(getStringValue("javanullableannotation"))
         options.javaInternalPackages = getStringValue("intpackage")?.split(".") ?: emptyList()
-        options.generators = getStringListValue("generators")?.toSet() ?: Generator.generatorShortNames()
+        options.generators = getStringListValue("generators")?.toSet() ?: emptySet()
 
         options.isValidatingOnly = getFlagValue("validate")
         options.isEnableCaching = getFlagValue("output") && getFlagValue("cache")

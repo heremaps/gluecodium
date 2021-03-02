@@ -21,20 +21,26 @@ package com.here.gluecodium.generator.common
 
 import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.GluecodiumExecutionException
-import com.here.gluecodium.generator.cpp.CppGenerator
-import com.here.gluecodium.generator.dart.DartGenerator
-import com.here.gluecodium.generator.java.JavaGenerator
-import com.here.gluecodium.generator.lime.LimeGenerator
-import com.here.gluecodium.generator.swift.SwiftGenerator
 import com.here.gluecodium.model.lime.LimeModel
 import java.io.File
 import java.io.IOException
+import java.util.ServiceLoader
 
 /** The base interface for all the generators.  */
 interface Generator {
 
+    /** Short name of the generator. */
+    val shortName: String
+
+    /** Whether the generator expects an unfiltered model as an input. */
+    val needsUnfilteredModel: Boolean
+        get() = false
+
+    /** Initialize the generator with given options. */
+    fun initialize(options: Gluecodium.Options) {}
+
     /**
-     * Triggers the generation. The model is assumed to be valid.
+     * Generate files in the output language based on given model. The model is assumed to be valid.
      *
      * @param limeModel LIME model
      * @return a list of generated files with their relative destination paths
@@ -42,25 +48,14 @@ interface Generator {
     fun generate(limeModel: LimeModel): List<GeneratedFile>
 
     companion object {
-        /** Creates a new instance of a generator suite by its short identifier  */
-        fun instantiateByShortName(shortName: String, options: Gluecodium.Options) =
-            when (shortName) {
-                JavaGenerator.GENERATOR_NAME -> JavaGenerator(options)
-                CppGenerator.GENERATOR_NAME -> CppGenerator(options)
-                SwiftGenerator.GENERATOR_NAME -> SwiftGenerator(options)
-                LimeGenerator.GENERATOR_NAME -> LimeGenerator()
-                DartGenerator.GENERATOR_NAME -> DartGenerator(options)
-                else -> null
-            }
+        private val allGenerators = ServiceLoader.load(Generator::class.java).iterator().asSequence()
+            .sortedBy { it.shortName }.associateByTo(LinkedHashMap()) { it.shortName }
 
-        /** @return all available generators */
-        fun generatorShortNames() = setOf(
-                JavaGenerator.GENERATOR_NAME,
-                CppGenerator.GENERATOR_NAME,
-                SwiftGenerator.GENERATOR_NAME,
-                LimeGenerator.GENERATOR_NAME,
-                DartGenerator.GENERATOR_NAME
-        )
+        val allGeneratorShortNames
+            get() = allGenerators.keys
+
+        fun initializeGenerator(shortName: String, options: Gluecodium.Options) =
+            allGenerators[shortName]?.also { it.initialize(options) }
 
         fun copyCommonFile(fileName: String, targetDir: String): GeneratedFile {
             val stream = Generator::class.java.classLoader.getResourceAsStream(fileName)

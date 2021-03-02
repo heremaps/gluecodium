@@ -22,6 +22,7 @@ package com.here.gluecodium.generator.cpp
 import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
+import com.here.gluecodium.generator.common.CommentsProcessor
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.Include
@@ -60,20 +61,30 @@ import java.util.logging.Logger
  * Main class for the C++ generator. Collects the template data from the LIME model, applies the
  * templates to it and returns the list of generated files.
  */
-internal class CppGenerator(options: Gluecodium.Options) : Generator {
+internal class CppGenerator : Generator {
 
-    private val nameRules =
-        CppNameRules(options.cppRootNamespace, nameRuleSetFromConfig(options.cppNameRules))
-    private val rootNamespace = options.cppRootNamespace
-    private val internalNamespace = options.cppInternalNamespace
-    private val commentsProcessor =
-        DoxygenCommentsProcessor(options.werror.contains(Gluecodium.Options.WARNING_DOC_LINKS))
-    private val exportName = options.cppExport
-    private val exportCommonName = options.cppExportCommon ?: options.cppExport
-    private val exportInclude = Include.createInternalInclude(Paths.get(
-        internalNamespace.joinToString(File.separator),
-        getExportFileName(exportName) + ".h"
-    ).toString())
+    private lateinit var nameRules: CppNameRules
+    private lateinit var rootNamespace: List<String>
+    private lateinit var internalNamespace: List<String>
+    private lateinit var commentsProcessor: CommentsProcessor
+    private lateinit var exportName: String
+    private lateinit var exportCommonName: String
+    private lateinit var exportInclude: Include
+
+    override val shortName = GENERATOR_NAME
+
+    override fun initialize(options: Gluecodium.Options) {
+        nameRules = CppNameRules(options.cppRootNamespace, nameRuleSetFromConfig(options.cppNameRules))
+        rootNamespace = options.cppRootNamespace
+        internalNamespace = options.cppInternalNamespace
+        commentsProcessor = DoxygenCommentsProcessor(options.werror.contains(Gluecodium.Options.WARNING_DOC_LINKS))
+        exportName = options.cppExport
+        exportCommonName = options.cppExportCommon ?: options.cppExport
+        exportInclude = Include.createInternalInclude(Paths.get(
+            internalNamespace.joinToString(File.separator),
+            getExportFileName(exportName) + ".h"
+        ).toString())
+    }
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
@@ -374,7 +385,7 @@ internal class CppGenerator(options: Gluecodium.Options) : Generator {
         )
 
     companion object {
-        const val GENERATOR_NAME = "cpp"
+        private const val GENERATOR_NAME = "cpp"
 
         private val logger = Logger.getLogger(CppGenerator::class.java.name)
         private val COMMON_HEADERS = listOf(

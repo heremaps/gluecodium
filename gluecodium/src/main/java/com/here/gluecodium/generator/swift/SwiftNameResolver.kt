@@ -21,6 +21,7 @@ package com.here.gluecodium.generator.swift
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
+import com.here.gluecodium.generator.common.CommentsProcessor
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
@@ -55,7 +56,7 @@ internal class SwiftNameResolver(
     limeReferenceMap: Map<String, LimeElement>,
     private val nameRules: SwiftNameRules,
     private val limeLogger: LimeLogger,
-    private val commentsProcessor: SwiftCommentsProcessor
+    private val commentsProcessor: CommentsProcessor
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
 
     private val limeToSwiftNames = buildPathMap()

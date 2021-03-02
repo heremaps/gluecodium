@@ -27,6 +27,7 @@ import com.here.gluecodium.common.LimeTypeRefsVisitor
 import com.here.gluecodium.generator.cbridge.CBridgeGenerator
 import com.here.gluecodium.generator.cbridge.CBridgeGenerator.Companion.getAllParentTypes
 import com.here.gluecodium.generator.cbridge.CBridgeNameResolver
+import com.here.gluecodium.generator.common.CommentsProcessor
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.NameResolver
@@ -63,17 +64,28 @@ import java.util.logging.Logger
 /**
  * Generates Swift bindings on top of C++ API.
  */
-class SwiftGenerator(options: Gluecodium.Options) : Generator {
+internal class SwiftGenerator : Generator {
 
-    private val internalNamespace = options.cppInternalNamespace
-    private val rootNamespace = options.cppRootNamespace
-    private val commentsProcessor =
-        SwiftCommentsProcessor(options.werror.contains(Gluecodium.Options.WARNING_DOC_LINKS))
-    private val cppNameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))
-    private val nameRules = SwiftNameRules(nameRuleSetFromConfig(options.swiftNameRules))
-    private val internalPrefix = options.internalPrefix
-    private val conversionVisibility =
-        if (options.swiftExposeInternals) CONVERSION_VISIBILITY_PUBLIC else CONVERSION_VISIBILITY_INTERNAL
+    private lateinit var internalNamespace: List<String>
+    private lateinit var rootNamespace: List<String>
+    private lateinit var commentsProcessor: CommentsProcessor
+    private lateinit var cppNameRules: CppNameRules
+    private lateinit var nameRules: SwiftNameRules
+    private lateinit var conversionVisibility: String
+    private var internalPrefix: String? = null
+
+    override val shortName = "swift"
+
+    override fun initialize(options: Gluecodium.Options) {
+        internalNamespace = options.cppInternalNamespace
+        rootNamespace = options.cppRootNamespace
+        commentsProcessor = SwiftCommentsProcessor(options.werror.contains(Gluecodium.Options.WARNING_DOC_LINKS))
+        cppNameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))
+        nameRules = SwiftNameRules(nameRuleSetFromConfig(options.swiftNameRules))
+        internalPrefix = options.internalPrefix
+        conversionVisibility =
+            if (options.swiftExposeInternals) CONVERSION_VISIBILITY_PUBLIC else CONVERSION_VISIBILITY_INTERNAL
+    }
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val limeReferenceMap = limeModel.referenceMap
@@ -109,11 +121,16 @@ class SwiftGenerator(options: Gluecodium.Options) : Generator {
         }
 
         return swiftFiles + filteredElements.flatMap { cBridgeGenerator.generate(it) } +
-            CBridgeGenerator.STATIC_FILES + STATIC_FILES +
-            cBridgeGenerator.generateCollections(filteredElements) +
-            generateCollections(filteredElements, cBridgeGenerator.genericTypesCollector, swiftNameResolver, nameResolvers) +
-            generateBuiltinOptionals(nameResolvers + ("C++" to cBridgeGenerator.cppNameResolver)) +
-            cBridgeGenerator.generateHelpers() + generateRefHolder()
+                CBridgeGenerator.STATIC_FILES + STATIC_FILES +
+                cBridgeGenerator.generateCollections(filteredElements) +
+                generateCollections(
+                    filteredElements,
+                    cBridgeGenerator.genericTypesCollector,
+                    swiftNameResolver,
+                    nameResolvers
+                ) +
+                generateBuiltinOptionals(nameResolvers + ("C++" to cBridgeGenerator.cppNameResolver)) +
+                cBridgeGenerator.generateHelpers() + generateRefHolder()
     }
 
     private fun generateSwiftFile(
@@ -266,15 +283,16 @@ class SwiftGenerator(options: Gluecodium.Options) : Generator {
     }
 
     companion object {
-        const val GENERATOR_NAME = "swift"
         private const val FOUNDATION = "Foundation"
         private const val CONVERSION_VISIBILITY_INTERNAL = "internal"
         private const val CONVERSION_VISIBILITY_PUBLIC = "/// :nodoc:\npublic"
 
         private val logger = Logger.getLogger(SwiftGenerator::class.java.name)
-        private val STATIC_FILES = listOf(
-            Generator.copyCommonFile("swift/BuiltinConversions.swift", ""),
-            Generator.copyCommonFile("swift/NativeBase.swift", "")
-        )
+        private val STATIC_FILES by lazy {
+            listOf(
+                Generator.copyCommonFile("swift/BuiltinConversions.swift", ""),
+                Generator.copyCommonFile("swift/NativeBase.swift", "")
+            )
+        }
     }
 }
