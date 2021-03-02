@@ -22,16 +22,21 @@
 package com.here.gluecodium.gradle
 
 import com.here.gluecodium.Gluecodium
+import com.here.gluecodium.GluecodiumOptions
+import com.here.gluecodium.generator.common.GeneratorOptions
 import org.gradle.api.GradleException
 
 /**
  * Actual functionality of [GluecodiumTask], extracted into a standalone class for testability.
  */
 internal class GluecodiumRunner(
-    private val gluecodiumFactory: (Gluecodium.Options) -> Gluecodium = { Gluecodium(it) }
+    private val gluecodiumFactory: (GluecodiumOptions, GeneratorOptions) -> Gluecodium =
+        { gluecodiumOptions: GluecodiumOptions, generatorOptions: GeneratorOptions ->
+            Gluecodium(gluecodiumOptions, generatorOptions)
+        }
 ) {
-    fun run(options: Gluecodium.Options) {
-        val executionResult = gluecodiumFactory(options).execute()
+    fun run(gluecodiumOptions: GluecodiumOptions, generatorOptions: GeneratorOptions) {
+        val executionResult = gluecodiumFactory(gluecodiumOptions, generatorOptions).execute()
         if (!executionResult) {
             throw GradleException("Gluecodium code generation failed. See log for details.")
         }

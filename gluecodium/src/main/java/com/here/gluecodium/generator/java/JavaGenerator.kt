@@ -19,13 +19,13 @@
 
 package com.here.gluecodium.generator.java
 
-import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.common.LimeModelFilter
 import com.here.gluecodium.generator.common.CommentsProcessor
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Generator
+import com.here.gluecodium.generator.common.GeneratorOptions
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.CppNameCache
@@ -70,11 +70,11 @@ internal class JavaGenerator : Generator {
 
     override val shortName = GENERATOR_NAME
 
-    override fun initialize(options: Gluecodium.Options) {
+    override fun initialize(options: GeneratorOptions) {
         internalPackage = options.javaInternalPackages
         internalNamespace = options.cppInternalNamespace
         rootNamespace = options.cppRootNamespace
-        commentsProcessor = JavaDocProcessor(options.werror.contains(Gluecodium.Options.WARNING_DOC_LINKS))
+        commentsProcessor = JavaDocProcessor(options.werror.contains(GeneratorOptions.WARNING_DOC_LINKS))
         cppNameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))
         javaNameRules = JavaNameRules(nameRuleSetFromConfig(options.javaNameRules))
         nonNullAnnotation = annotationFromOption(options.javaNonNullAnnotation)

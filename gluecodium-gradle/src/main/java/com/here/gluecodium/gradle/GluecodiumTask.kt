@@ -21,8 +21,9 @@
 
 package com.here.gluecodium.gradle
 
-import com.here.gluecodium.Gluecodium
+import com.here.gluecodium.GluecodiumOptions
 import com.here.gluecodium.cli.OptionReader
+import com.here.gluecodium.generator.common.GeneratorOptions
 import java.io.File
 import org.gradle.api.NonNullApi
 import org.gradle.api.file.FileTree
@@ -107,19 +108,26 @@ open class GluecodiumTask : SourceTask() {
     @TaskAction
     fun generate() {
         logOptions()
-        GluecodiumRunner().run(createGluecodiumOptions())
+        GluecodiumRunner().run(createGluecodiumOptions(), createGeneratorOptions())
     }
 
-    private fun createGluecodiumOptions(): Gluecodium.Options {
-        val options = Gluecodium.Options()
+    private fun createGluecodiumOptions(): GluecodiumOptions {
+        val options = GluecodiumOptions()
+
         options.idlSources = source.files.map { it.absolutePath }
         options.outputDir = outputDirectory.get().absolutePath
         options.commonOutputDir = commonOutputDirectory.getOrElse(outputDirectory.get()).absolutePath
         options.generators = setOf(javaGenerator, "cpp")
-
         auxiliarySource.orNull?.let {
             options.auxiliaryIdlSources = it.files.map { file -> file.absolutePath }
         }
+
+        return options
+    }
+
+    private fun createGeneratorOptions(): GeneratorOptions {
+        val options = GeneratorOptions()
+
         copyrightHeaderFile.orNull?.let { options.copyrightHeaderContents = it.readText() }
         javaPackage.orNull?.let { options.javaPackages = it.split(".") }
         javaInternalPackage.orNull?.let { options.javaInternalPackages = it.split(".") }
@@ -131,8 +139,7 @@ open class GluecodiumTask : SourceTask() {
         cppInternalNamespace.orNull?.let { options.cppInternalNamespace = it.split(".") }
         cppExportMacroName.orNull?.let { options.cppExport = it }
         cppExportCommonMacroName.orNull?.let { options.cppExportCommon = it }
-        options.cppNameRules =
-            OptionReader.readConfigFile(cppNameRules.orNull?.absolutePath, options.cppNameRules)
+        options.cppNameRules = OptionReader.readConfigFile(cppNameRules.orNull?.absolutePath, options.cppNameRules)
 
         return options
     }
@@ -151,7 +158,7 @@ open class GluecodiumTask : SourceTask() {
         logProperty("cppNamespace", cppNamespace)
         logProperty("cppInternalNamespace", cppInternalNamespace)
         logProperty("cppExportMacroName", cppExportMacroName,
-            DEFAULT_VALUE_STRING + " " + Gluecodium.DEFAULT_CPP_EXPORT_MACRO_NAME
+            DEFAULT_VALUE_STRING + " " + GeneratorOptions.DEFAULT_CPP_EXPORT_MACRO_NAME
         )
         logProperty("cppNameRules", cppNameRules, DEFAULT_VALUE_STRING)
     }

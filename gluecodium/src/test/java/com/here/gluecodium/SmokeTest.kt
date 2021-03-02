@@ -19,10 +19,10 @@
 
 package com.here.gluecodium
 
-import com.here.gluecodium.Gluecodium.Options
 import com.here.gluecodium.cli.OptionReader
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Generator
+import com.here.gluecodium.generator.common.GeneratorOptions
 import com.here.gluecodium.model.lime.LimeModelLoader
 import com.here.gluecodium.test.NiceErrorCollector
 import io.mockk.every
@@ -54,7 +54,7 @@ class SmokeTest(
 
     private val results = mutableListOf<GeneratedFile>()
 
-    private fun getGluecodiumOptions(): Options {
+    private fun getOptions(): Pair<GluecodiumOptions, GeneratorOptions> {
         val inputDirectory = File(featureDirectory, FEATURE_INPUT_FOLDER)
         val auxDirectory = File(featureDirectory, FEATURE_AUX_FOLDER)
         val commandLineOptions = File(inputDirectory, "commandlineoptions.txt")
@@ -69,12 +69,13 @@ class SmokeTest(
             return options!!
         }
 
-        return TEST_OPTIONS
+        return Pair(GluecodiumOptions(), TEST_OPTIONS)
     }
 
     @Before
     fun setUp() {
-        gluecodium = spyk(Gluecodium(getGluecodiumOptions()))
+        val options = getOptions()
+        gluecodium = spyk(Gluecodium(options.first, options.second))
         every { gluecodium.output(any(), any()) }.answers {
             @Suppress("UNCHECKED_CAST")
             results.addAll(it.invocation.args[1] as List<GeneratedFile>)
@@ -127,7 +128,7 @@ class SmokeTest(
     }
 
     companion object {
-        private val TEST_OPTIONS = Options(
+        private val TEST_OPTIONS = GeneratorOptions(
             cppInternalNamespace = listOf("gluecodium"),
             internalPrefix = "foobar_",
             javaNonNullAnnotation = Pair("NonNull", listOf("android", "support", "annotation")),

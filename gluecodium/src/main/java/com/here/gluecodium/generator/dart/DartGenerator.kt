@@ -19,7 +19,6 @@
 
 package com.here.gluecodium.generator.dart
 
-import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.common.LimeModelFilter
@@ -29,6 +28,7 @@ import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.GeneratedFile.SourceSet.COMMON
 import com.here.gluecodium.generator.common.Generator
+import com.here.gluecodium.generator.common.GeneratorOptions
 import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
@@ -83,7 +83,7 @@ internal class DartGenerator : Generator {
 
     override val shortName = "dart"
 
-    override fun initialize(options: Gluecodium.Options) {
+    override fun initialize(options: GeneratorOptions) {
         libraryName = options.libraryName
         lookupErrorMessage = options.dartLookupErrorMessage
         nameRules = NameRules(nameRuleSetFromConfig(options.dartNameRules))
@@ -91,8 +91,8 @@ internal class DartGenerator : Generator {
         rootNamespace = options.cppRootNamespace
         internalNamespace = options.cppInternalNamespace
         internalPrefix = options.internalPrefix ?: ""
-        commentsProcessor = DartCommentsProcessor(options.werror.contains(Gluecodium.Options.WARNING_DOC_LINKS))
-        overloadsWerror = options.werror.contains(Gluecodium.Options.WARNING_DART_OVERLOADS)
+        commentsProcessor = DartCommentsProcessor(options.werror.contains(GeneratorOptions.WARNING_DOC_LINKS))
+        overloadsWerror = options.werror.contains(GeneratorOptions.WARNING_DART_OVERLOADS)
         testableMode = options.generateStubs
     }
 
