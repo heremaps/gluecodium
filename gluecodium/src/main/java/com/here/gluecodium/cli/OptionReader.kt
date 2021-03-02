@@ -21,7 +21,7 @@ package com.here.gluecodium.cli
 
 import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.common.CaseInsensitiveSet
-import com.here.gluecodium.generator.common.GeneratorSuite
+import com.here.gluecodium.generator.common.Generator
 import com.natpryce.konfig.Configuration
 import com.natpryce.konfig.ConfigurationProperties
 import com.natpryce.konfig.Key
@@ -84,7 +84,7 @@ object OptionReader {
             "generators",
             true,
             "List of generators to use, separated by comma. If empty, all available generators are used. Available generators: " +
-                    GeneratorSuite.generatorShortNames().joinToString(", ") + "\n"
+                    Generator.generatorShortNames().joinToString(", ") + "\n"
         ).apply {
             valueSeparator = ','
             setOptionalArg(true)
@@ -180,7 +180,7 @@ object OptionReader {
         options.javaNonNullAnnotation = parseAnnotation(getStringValue("javanonnullannotation"))
         options.javaNullableAnnotation = parseAnnotation(getStringValue("javanullableannotation"))
         options.javaInternalPackages = getStringValue("intpackage")?.split(".") ?: emptyList()
-        options.generators = getStringListValue("generators")?.toSet() ?: GeneratorSuite.generatorShortNames()
+        options.generators = getStringListValue("generators")?.toSet() ?: Generator.generatorShortNames()
 
         options.isValidatingOnly = getFlagValue("validate")
         options.isEnableCaching = getFlagValue("output") && getFlagValue("cache")

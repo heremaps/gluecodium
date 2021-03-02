@@ -23,7 +23,7 @@ import com.here.gluecodium.Gluecodium.Options
 import com.here.gluecodium.cache.CachingStrategy
 import com.here.gluecodium.cache.CachingStrategyCreator
 import com.here.gluecodium.generator.common.GeneratedFile
-import com.here.gluecodium.generator.common.GeneratorSuite
+import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeModelLoader
 import com.here.gluecodium.output.FileOutput
@@ -52,7 +52,7 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class GluecodiumTest {
     @MockK private lateinit var modelLoader: LimeModelLoader
-    @MockK private lateinit var generator: GeneratorSuite
+    @MockK private lateinit var generator: Generator
     @MockK private lateinit var cache: CachingStrategy
 
     @JvmField
@@ -65,7 +65,7 @@ class GluecodiumTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-        mockkObject(GeneratorSuite.Companion)
+        mockkObject(Generator.Companion)
         mockkStatic(CachingStrategyCreator::class)
         mockkConstructor(FileOutput::class)
 
@@ -74,7 +74,7 @@ class GluecodiumTest {
         every { cache.write(true) } returns true
         every { cache.write(false) } returns false
 
-        every { GeneratorSuite.instantiateByShortName(any(), any()) } returns generator
+        every { Generator.instantiateByShortName(any(), any()) } returns generator
 
         every { modelLoader.loadModel(any(), any()) } returns LimeModel(emptyMap(), emptyList())
     }
@@ -87,7 +87,7 @@ class GluecodiumTest {
     @Test
     fun failedInstantiationOfGenerator() {
         // Arrange
-        every { GeneratorSuite.instantiateByShortName(any(), any()) } returns null
+        every { Generator.instantiateByShortName(any(), any()) } returns null
         val options = Options(
             idlSources = listOf(""),
             generators = setOf("invalidGenerator")

@@ -22,11 +22,11 @@ package com.here.gluecodium
 import com.here.gluecodium.Gluecodium.Options
 import com.here.gluecodium.cli.OptionReader
 import com.here.gluecodium.generator.common.GeneratedFile
-import com.here.gluecodium.generator.cpp.CppGeneratorSuite
-import com.here.gluecodium.generator.dart.DartGeneratorSuite
-import com.here.gluecodium.generator.java.JavaGeneratorSuite
-import com.here.gluecodium.generator.lime.LimeGeneratorSuite
-import com.here.gluecodium.generator.swift.SwiftGeneratorSuite
+import com.here.gluecodium.generator.cpp.CppGenerator
+import com.here.gluecodium.generator.dart.DartGenerator
+import com.here.gluecodium.generator.java.JavaGenerator
+import com.here.gluecodium.generator.lime.LimeGenerator
+import com.here.gluecodium.generator.swift.SwiftGenerator
 import com.here.gluecodium.model.lime.LimeModelLoader
 import com.here.gluecodium.test.NiceErrorCollector
 import io.mockk.every
@@ -102,7 +102,7 @@ class SmokeTest(
         val limeModel = LOADER.loadModel(listOf(inputDirectory.toString()), listOf(auxDirectory.toString()))
         assertTrue(gluecodium.validateModel(limeModel))
         val filteredModel =
-            if (generatorName == LimeGeneratorSuite.GENERATOR_NAME) limeModel else gluecodium.filterModel(limeModel)
+            if (generatorName == LimeGenerator.GENERATOR_NAME) limeModel else gluecodium.filterModel(limeModel)
         assertTrue(gluecodium.executeGenerator(generatorName, filteredModel, HashMap()))
 
         val generatedContents = results.associateBy({ it.targetFile.path }, { it.content })
@@ -139,27 +139,27 @@ class SmokeTest(
         private const val FEATURE_OUTPUT_FOLDER = "output"
         private const val IGNORE_PREFIX = "ignore"
         private val GENERATOR_NAMES = listOf(
-            CppGeneratorSuite.GENERATOR_NAME,
-            JavaGeneratorSuite.GENERATOR_NAME,
-            SwiftGeneratorSuite.GENERATOR_NAME,
-            LimeGeneratorSuite.GENERATOR_NAME,
-            DartGeneratorSuite.GENERATOR_NAME
+            CppGenerator.GENERATOR_NAME,
+            JavaGenerator.GENERATOR_NAME,
+            SwiftGenerator.GENERATOR_NAME,
+            LimeGenerator.GENERATOR_NAME,
+            DartGenerator.GENERATOR_NAME
         )
         private val GENERATOR_DIRECTORIES = hashMapOf<String, List<String>>()
 
         private val LOADER = LimeModelLoader.getLoaders().first()
 
         init {
-            GENERATOR_DIRECTORIES[CppGeneratorSuite.GENERATOR_NAME] =
-                listOf(CppGeneratorSuite.GENERATOR_NAME)
-            GENERATOR_DIRECTORIES[JavaGeneratorSuite.GENERATOR_NAME] =
-                listOf(JavaGeneratorSuite.GENERATOR_NAME)
-            GENERATOR_DIRECTORIES[SwiftGeneratorSuite.GENERATOR_NAME] =
-                listOf(SwiftGeneratorSuite.GENERATOR_NAME, "cbridge", "cbridge_internal")
-            GENERATOR_DIRECTORIES[LimeGeneratorSuite.GENERATOR_NAME] =
-                listOf(LimeGeneratorSuite.GENERATOR_NAME)
-            GENERATOR_DIRECTORIES[DartGeneratorSuite.GENERATOR_NAME] =
-                listOf(DartGeneratorSuite.GENERATOR_NAME)
+            GENERATOR_DIRECTORIES[CppGenerator.GENERATOR_NAME] =
+                listOf(CppGenerator.GENERATOR_NAME)
+            GENERATOR_DIRECTORIES[JavaGenerator.GENERATOR_NAME] =
+                listOf(JavaGenerator.GENERATOR_NAME)
+            GENERATOR_DIRECTORIES[SwiftGenerator.GENERATOR_NAME] =
+                listOf(SwiftGenerator.GENERATOR_NAME, "cbridge", "cbridge_internal")
+            GENERATOR_DIRECTORIES[LimeGenerator.GENERATOR_NAME] =
+                listOf(LimeGenerator.GENERATOR_NAME)
+            GENERATOR_DIRECTORIES[DartGenerator.GENERATOR_NAME] =
+                listOf(DartGenerator.GENERATOR_NAME)
         }
 
         private const val RESOURCE_PREFIX = "smoke"

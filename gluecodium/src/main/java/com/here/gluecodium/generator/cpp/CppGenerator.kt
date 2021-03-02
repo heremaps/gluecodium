@@ -23,7 +23,7 @@ import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.common.GeneratedFile
-import com.here.gluecodium.generator.common.GeneratorSuite
+import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.common.NameHelper
 import com.here.gluecodium.generator.common.NameResolver
@@ -60,7 +60,7 @@ import java.util.logging.Logger
  * Main class for the C++ generator. Collects the template data from the LIME model, applies the
  * templates to it and returns the list of generated files.
  */
-internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
+internal class CppGenerator(options: Gluecodium.Options) : Generator {
 
     private val nameRules =
         CppNameRules(options.cppRootNamespace, nameRuleSetFromConfig(options.cppNameRules))
@@ -376,7 +376,7 @@ internal class CppGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
     companion object {
         const val GENERATOR_NAME = "cpp"
 
-        private val logger = Logger.getLogger(CppGeneratorSuite::class.java.name)
+        private val logger = Logger.getLogger(CppGenerator::class.java.name)
         private val COMMON_HEADERS = listOf(
             "Hash",
             "Locale",

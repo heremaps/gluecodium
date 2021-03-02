@@ -22,7 +22,7 @@ package com.here.gluecodium.cache
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.GeneratedFile.SourceSet.COMMON
 import com.here.gluecodium.generator.common.GeneratedFile.SourceSet.MAIN
-import com.here.gluecodium.generator.common.GeneratorSuite
+import com.here.gluecodium.generator.common.Generator
 import java.io.File
 
 /**
@@ -65,7 +65,7 @@ class SplitSourceSetCache(
         mainCacheStrategy = CachingStrategyCreator.initializeCaching(
             isEnableCaching,
             outputDir,
-            GeneratorSuite.generatorShortNames()
+            Generator.generatorShortNames()
         )
     }
 
@@ -73,7 +73,7 @@ class SplitSourceSetCache(
         commonCacheStrategy = CachingStrategyCreator.initializeCaching(
             isEnableCaching,
             commonOutputDir,
-            GeneratorSuite.generatorShortNames()
+            Generator.generatorShortNames()
         )
     }
 
