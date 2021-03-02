@@ -24,7 +24,7 @@ import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.common.LimeModelFilter
 import com.here.gluecodium.generator.common.GeneratedFile
-import com.here.gluecodium.generator.common.GeneratorSuite
+import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.CppNameCache
@@ -54,7 +54,7 @@ import java.util.logging.Logger
 /**
  * Combines Java and JNI templates to generate Java code and bindings to C++ layer for Java.
  */
-internal class JavaGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
+internal class JavaGenerator(options: Gluecodium.Options) : Generator {
 
     private val internalPackage = options.javaInternalPackages
     private val internalNamespace = options.cppInternalNamespace
@@ -230,7 +230,7 @@ internal class JavaGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite 
     companion object {
         const val GENERATOR_NAME = "android"
 
-        private val logger = Logger.getLogger(JavaGeneratorSuite::class.java.name)
+        private val logger = Logger.getLogger(JavaGenerator::class.java.name)
 
         private val UTILS_FILES = listOf(
             "CppProxyBase",

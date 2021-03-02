@@ -23,7 +23,7 @@ import com.here.gluecodium.common.LimeTypeRefsVisitor
 import com.here.gluecodium.generator.cbridge.CBridgeNameRules.CBRIDGE_INTERNAL
 import com.here.gluecodium.generator.cbridge.CBridgeNameRules.CBRIDGE_PUBLIC
 import com.here.gluecodium.generator.common.GeneratedFile
-import com.here.gluecodium.generator.common.GeneratorSuite
+import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.templates.TemplateEngine
@@ -224,14 +224,14 @@ internal class CBridgeGenerator(
         private val PROXY_CACHE_FILENAME = Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "CachedProxyBase.h").toString()
 
         val STATIC_FILES = listOf(
-            GeneratorSuite.copyCommonFile(BASE_HANDLE_FILE, ""),
-            GeneratorSuite.copyCommonFile(STRING_HANDLE_FILE, ""),
-            GeneratorSuite.copyCommonFile(DATE_HANDLE_FILE, ""),
-            GeneratorSuite.copyCommonFile(EXPORT_FILE, ""),
-            GeneratorSuite.copyCommonFile(Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "BuiltinHandle.h").toString(), ""),
-            GeneratorSuite.copyCommonFile(Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "ByteArrayHandle.h").toString(), ""),
-            GeneratorSuite.copyCommonFile(Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "LocaleHandle.h").toString(), ""),
-            GeneratorSuite.copyCommonFile(PROXY_CACHE_FILENAME, "")
+            Generator.copyCommonFile(BASE_HANDLE_FILE, ""),
+            Generator.copyCommonFile(STRING_HANDLE_FILE, ""),
+            Generator.copyCommonFile(DATE_HANDLE_FILE, ""),
+            Generator.copyCommonFile(EXPORT_FILE, ""),
+            Generator.copyCommonFile(Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "BuiltinHandle.h").toString(), ""),
+            Generator.copyCommonFile(Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "ByteArrayHandle.h").toString(), ""),
+            Generator.copyCommonFile(Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "LocaleHandle.h").toString(), ""),
+            Generator.copyCommonFile(PROXY_CACHE_FILENAME, "")
         )
 
         fun getAllParentTypes(allTypes: List<LimeType>): List<LimeType> {

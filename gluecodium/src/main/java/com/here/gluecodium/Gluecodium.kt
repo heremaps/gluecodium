@@ -26,9 +26,9 @@ import com.here.gluecodium.cli.OptionReaderException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.common.LimeModelFilter
 import com.here.gluecodium.generator.common.GeneratedFile
-import com.here.gluecodium.generator.common.GeneratorSuite
+import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.templates.TemplateEngine
-import com.here.gluecodium.generator.lime.LimeGeneratorSuite
+import com.here.gluecodium.generator.lime.LimeGenerator
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeModel
@@ -106,7 +106,7 @@ class Gluecodium(
         var executionSucceeded = false
         try {
             executionSucceeded = discoverGenerators().all {
-                val model = if (it == LimeGeneratorSuite.GENERATOR_NAME) limeModel else filteredModel
+                val model = if (it == LimeGenerator.GENERATOR_NAME) limeModel else filteredModel
                 executeGenerator(it, model, fileNamesCache)
             }
         } finally {
@@ -122,7 +122,7 @@ class Gluecodium(
         fileNamesCache: MutableMap<String, String>
     ): Boolean {
         LOGGER.fine("Using generator '$generatorName'")
-        val generator = GeneratorSuite.instantiateByShortName(generatorName, options)
+        val generator = Generator.instantiateByShortName(generatorName, options)
         if (generator == null) {
             LOGGER.severe("Failed instantiation of generator '$generatorName'")
             return false
@@ -147,7 +147,7 @@ class Gluecodium(
         if (generators.isNotEmpty()) {
             LOGGER.fine("Following generators were specified on command line: $generators")
         } else {
-            generators = GeneratorSuite.generatorShortNames()
+            generators = Generator.generatorShortNames()
             LOGGER.fine("No generators specified, using all available generators: $generators")
         }
         return generators

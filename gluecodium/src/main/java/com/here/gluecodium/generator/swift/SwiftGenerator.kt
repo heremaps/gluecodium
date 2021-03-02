@@ -28,7 +28,7 @@ import com.here.gluecodium.generator.cbridge.CBridgeGenerator
 import com.here.gluecodium.generator.cbridge.CBridgeGenerator.Companion.getAllParentTypes
 import com.here.gluecodium.generator.cbridge.CBridgeNameResolver
 import com.here.gluecodium.generator.common.GeneratedFile
-import com.here.gluecodium.generator.common.GeneratorSuite
+import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.common.templates.TemplateEngine
@@ -63,7 +63,7 @@ import java.util.logging.Logger
 /**
  * Generates Swift bindings on top of C++ API.
  */
-class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
+class SwiftGenerator(options: Gluecodium.Options) : Generator {
 
     private val internalNamespace = options.cppInternalNamespace
     private val rootNamespace = options.cppRootNamespace
@@ -271,10 +271,10 @@ class SwiftGeneratorSuite(options: Gluecodium.Options) : GeneratorSuite {
         private const val CONVERSION_VISIBILITY_INTERNAL = "internal"
         private const val CONVERSION_VISIBILITY_PUBLIC = "/// :nodoc:\npublic"
 
-        private val logger = Logger.getLogger(SwiftGeneratorSuite::class.java.name)
+        private val logger = Logger.getLogger(SwiftGenerator::class.java.name)
         private val STATIC_FILES = listOf(
-            GeneratorSuite.copyCommonFile("swift/BuiltinConversions.swift", ""),
-            GeneratorSuite.copyCommonFile("swift/NativeBase.swift", "")
+            Generator.copyCommonFile("swift/BuiltinConversions.swift", ""),
+            Generator.copyCommonFile("swift/NativeBase.swift", "")
         )
     }
 }

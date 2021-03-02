@@ -21,17 +21,17 @@ package com.here.gluecodium.generator.common
 
 import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.GluecodiumExecutionException
-import com.here.gluecodium.generator.cpp.CppGeneratorSuite
-import com.here.gluecodium.generator.dart.DartGeneratorSuite
-import com.here.gluecodium.generator.java.JavaGeneratorSuite
-import com.here.gluecodium.generator.lime.LimeGeneratorSuite
-import com.here.gluecodium.generator.swift.SwiftGeneratorSuite
+import com.here.gluecodium.generator.cpp.CppGenerator
+import com.here.gluecodium.generator.dart.DartGenerator
+import com.here.gluecodium.generator.java.JavaGenerator
+import com.here.gluecodium.generator.lime.LimeGenerator
+import com.here.gluecodium.generator.swift.SwiftGenerator
 import com.here.gluecodium.model.lime.LimeModel
 import java.io.File
 import java.io.IOException
 
 /** The base interface for all the generators.  */
-interface GeneratorSuite {
+interface Generator {
 
     /**
      * Triggers the generation. The model is assumed to be valid.
@@ -45,25 +45,25 @@ interface GeneratorSuite {
         /** Creates a new instance of a generator suite by its short identifier  */
         fun instantiateByShortName(shortName: String, options: Gluecodium.Options) =
             when (shortName) {
-                JavaGeneratorSuite.GENERATOR_NAME -> JavaGeneratorSuite(options)
-                CppGeneratorSuite.GENERATOR_NAME -> CppGeneratorSuite(options)
-                SwiftGeneratorSuite.GENERATOR_NAME -> SwiftGeneratorSuite(options)
-                LimeGeneratorSuite.GENERATOR_NAME -> LimeGeneratorSuite()
-                DartGeneratorSuite.GENERATOR_NAME -> DartGeneratorSuite(options)
+                JavaGenerator.GENERATOR_NAME -> JavaGenerator(options)
+                CppGenerator.GENERATOR_NAME -> CppGenerator(options)
+                SwiftGenerator.GENERATOR_NAME -> SwiftGenerator(options)
+                LimeGenerator.GENERATOR_NAME -> LimeGenerator()
+                DartGenerator.GENERATOR_NAME -> DartGenerator(options)
                 else -> null
             }
 
         /** @return all available generators */
         fun generatorShortNames() = setOf(
-                JavaGeneratorSuite.GENERATOR_NAME,
-                CppGeneratorSuite.GENERATOR_NAME,
-                SwiftGeneratorSuite.GENERATOR_NAME,
-                LimeGeneratorSuite.GENERATOR_NAME,
-                DartGeneratorSuite.GENERATOR_NAME
+                JavaGenerator.GENERATOR_NAME,
+                CppGenerator.GENERATOR_NAME,
+                SwiftGenerator.GENERATOR_NAME,
+                LimeGenerator.GENERATOR_NAME,
+                DartGenerator.GENERATOR_NAME
         )
 
         fun copyCommonFile(fileName: String, targetDir: String): GeneratedFile {
-            val stream = GeneratorSuite::class.java.classLoader.getResourceAsStream(fileName)
+            val stream = Generator::class.java.classLoader.getResourceAsStream(fileName)
                     ?: throw GluecodiumExecutionException(String.format("Failed loading resource %s.", fileName))
 
             return try {
