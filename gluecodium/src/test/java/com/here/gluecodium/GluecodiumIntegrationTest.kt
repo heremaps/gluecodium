@@ -19,8 +19,8 @@
 
 package com.here.gluecodium
 
-import com.here.gluecodium.Gluecodium.Options
 import com.here.gluecodium.generator.common.GeneratedFile
+import com.here.gluecodium.generator.common.GeneratorOptions
 import java.io.File
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -51,15 +51,17 @@ class GluecodiumIntegrationTest {
         val expectedMainFile = File("$mainDir/${mainFile.targetFile}")
         val expectedCommonFile = File("$commonDir/${commonFile.targetFile}")
 
-        val options = Options(
-            cppInternalNamespace = listOf("gluecodium"),
-            javaNonNullAnnotation = Pair("NonNull", listOf("android", "support", "annotation")),
-            javaNullableAnnotation = Pair("Nullable", listOf("android", "support", "annotation")),
+        val gluecodiumOptions = GluecodiumOptions(
             outputDir = mainDir,
             commonOutputDir = commonDir,
             isEnableCaching = true
         )
-        val gluecodium = Gluecodium(options)
+        val generatorOptions = GeneratorOptions(
+            cppInternalNamespace = listOf("gluecodium"),
+            javaNonNullAnnotation = Pair("NonNull", listOf("android", "support", "annotation")),
+            javaNullableAnnotation = Pair("Nullable", listOf("android", "support", "annotation"))
+        )
+        val gluecodium = Gluecodium(gluecodiumOptions, generatorOptions)
 
         gluecodium.output("cpp", listOf(mainFile, commonFile))
         gluecodium.cache.write(true)

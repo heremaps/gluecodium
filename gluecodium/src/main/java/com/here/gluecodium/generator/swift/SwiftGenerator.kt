@@ -19,7 +19,6 @@
 
 package com.here.gluecodium.generator.swift
 
-import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.common.LimeModelFilter
@@ -30,6 +29,7 @@ import com.here.gluecodium.generator.cbridge.CBridgeNameResolver
 import com.here.gluecodium.generator.common.CommentsProcessor
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Generator
+import com.here.gluecodium.generator.common.GeneratorOptions
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.common.templates.TemplateEngine
@@ -76,10 +76,10 @@ internal class SwiftGenerator : Generator {
 
     override val shortName = "swift"
 
-    override fun initialize(options: Gluecodium.Options) {
+    override fun initialize(options: GeneratorOptions) {
         internalNamespace = options.cppInternalNamespace
         rootNamespace = options.cppRootNamespace
-        commentsProcessor = SwiftCommentsProcessor(options.werror.contains(Gluecodium.Options.WARNING_DOC_LINKS))
+        commentsProcessor = SwiftCommentsProcessor(options.werror.contains(GeneratorOptions.WARNING_DOC_LINKS))
         cppNameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))
         nameRules = SwiftNameRules(nameRuleSetFromConfig(options.swiftNameRules))
         internalPrefix = options.internalPrefix

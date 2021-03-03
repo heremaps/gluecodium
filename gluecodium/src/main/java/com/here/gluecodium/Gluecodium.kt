@@ -28,6 +28,7 @@ import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.common.LimeModelFilter
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Generator
+import com.here.gluecodium.generator.common.GeneratorOptions
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
@@ -47,8 +48,6 @@ import com.here.gluecodium.validator.LimeSkipValidator
 import com.here.gluecodium.validator.LimeStructsValidator
 import com.here.gluecodium.validator.LimeTypeRefTargetValidator
 import com.here.gluecodium.validator.LimeTypeRefsValidator
-import com.natpryce.konfig.Configuration
-import com.natpryce.konfig.ConfigurationProperties
 import java.io.File
 import java.io.IOException
 import java.util.Properties
@@ -58,13 +57,14 @@ import java.util.logging.Logger
 import kotlin.system.exitProcess
 
 class Gluecodium(
-    private val options: Options,
+    private val gluecodiumOptions: GluecodiumOptions,
+    private val generatorOptions: GeneratorOptions,
     private val modelLoader: LimeModelLoader = LimeModelLoader.getLoaders().first()
 ) {
     internal val cache = SplitSourceSetCache(
-        options.outputDir,
-        options.commonOutputDir,
-        options.isEnableCaching
+        gluecodiumOptions.outputDir,
+        gluecodiumOptions.commonOutputDir,
+        gluecodiumOptions.isEnableCaching
     )
 
     init {
@@ -78,13 +78,13 @@ class Gluecodium(
     }
 
     fun execute(): Boolean {
-        if (options.idlSources.isEmpty()) {
+        if (gluecodiumOptions.idlSources.isEmpty()) {
             throw OptionReaderException("input option required")
         }
 
         val limeModel: LimeModel
         try {
-            limeModel = modelLoader.loadModel(options.idlSources, options.auxiliaryIdlSources)
+            limeModel = modelLoader.loadModel(gluecodiumOptions.idlSources, gluecodiumOptions.auxiliaryIdlSources)
         } catch (e: LimeModelLoaderException) {
             LOGGER.severe(e.message)
             return false
@@ -94,11 +94,11 @@ class Gluecodium(
             LOGGER.severe("Validation errors found, see log for details.")
             return false
         }
-        if (options.isValidatingOnly) {
+        if (gluecodiumOptions.isValidatingOnly) {
             return true
         }
 
-        TemplateEngine.initCopyrightHeaderContents(options.copyrightHeaderContents)
+        TemplateEngine.initCopyrightHeaderContents(generatorOptions.copyrightHeaderContents)
 
         val filteredModel = filterModel(limeModel)
         val fileNamesCache = hashMapOf<String, String>()
@@ -126,7 +126,7 @@ class Gluecodium(
         fileNamesCache: MutableMap<String, String>
     ): Boolean {
         LOGGER.fine("Using generator '$generatorName'")
-        val generator = Generator.initializeGenerator(generatorName, options)
+        val generator = Generator.initializeGenerator(generatorName, generatorOptions)
         if (generator == null) {
             LOGGER.severe("Failed initialization of generator '$generatorName'")
             return false
@@ -148,7 +148,7 @@ class Gluecodium(
     }
 
     private fun discoverGenerators(): Set<String> {
-        var generators = options.generators
+        var generators = gluecodiumOptions.generators
         if (generators.isNotEmpty()) {
             LOGGER.fine("Following generators were specified on command line: $generators")
         } else {
@@ -163,7 +163,7 @@ class Gluecodium(
         val mainFiles = filesToBeWritten.filter { it.sourceSet == GeneratedFile.SourceSet.MAIN }
         val commonFiles = filesToBeWritten.filter { it.sourceSet == GeneratedFile.SourceSet.COMMON }
 
-        return saveToDirectory(options.outputDir, mainFiles) && saveToDirectory(options.commonOutputDir, commonFiles)
+        return saveToDirectory(gluecodiumOptions.outputDir, mainFiles) && saveToDirectory(gluecodiumOptions.commonOutputDir, commonFiles)
     }
 
     internal fun validateModel(limeModel: LimeModel): Boolean {
@@ -176,7 +176,7 @@ class Gluecodium(
     }
 
     internal fun filterModel(limeModel: LimeModel) =
-        if (options.tags.isEmpty()) limeModel else LimeModelFilter.filter(limeModel) { !hasSkipTags(it, options.tags) }
+        if (gluecodiumOptions.tags.isEmpty()) limeModel else LimeModelFilter.filter(limeModel) { !hasSkipTags(it, gluecodiumOptions.tags) }
 
     private fun getTypeRefDependentValidators(limeLogger: LimeLogger) =
         listOf<(LimeModel) -> Boolean>(
@@ -195,64 +195,14 @@ class Gluecodium(
             { LimePropertiesValidator(limeLogger).validate(it) },
             { LimeDeprecationsValidator(
                 limeLogger,
-                options.werror.contains(Options.WARNING_DEPRECATED_ATTRIBUTES)
+                generatorOptions.werror.contains(GeneratorOptions.WARNING_DEPRECATED_ATTRIBUTES)
             ).validate(it.topElements) },
             { LimeFunctionsValidator(limeLogger).validate(it) },
             { LimeSkipValidator(limeLogger).validate(it) }
         )
 
-    data class Options(
-        var idlSources: List<String> = emptyList(),
-        var auxiliaryIdlSources: List<String> = emptyList(),
-        var outputDir: String = "",
-        var commonOutputDir: String = "",
-        var javaPackages: List<String> = listOf(),
-        var javaInternalPackages: List<String> = listOf(),
-        var javaNullableAnnotation: Pair<String, List<String>>? = null,
-        var javaNonNullAnnotation: Pair<String, List<String>>? = null,
-        var isValidatingOnly: Boolean = false,
-        var generators: Set<String> = setOf(),
-        var isEnableCaching: Boolean = false,
-        var copyrightHeaderContents: String? = null,
-        var cppInternalNamespace: List<String> = emptyList(),
-        var cppRootNamespace: List<String> = listOf(),
-        var cppExport: String = DEFAULT_CPP_EXPORT_MACRO_NAME,
-        var cppExportCommon: String? = null,
-        var internalPrefix: String? = null,
-        var libraryName: String = "library",
-        var dartLookupErrorMessage: String =
-            "Failed to resolve an FFI function. Perhaps `LibraryContext.init()` was not called.",
-        var werror: Set<String> = emptySet(),
-        var generateStubs: Boolean = false,
-        var tags: Set<String> = emptySet(),
-        var swiftExposeInternals: Boolean = false,
-        var cppNameRules: Configuration = ConfigurationProperties.fromResource(
-            Gluecodium::class.java,
-            "/namerules/cpp.properties"
-        ),
-        var javaNameRules: Configuration = ConfigurationProperties.fromResource(
-            Gluecodium::class.java,
-            "/namerules/java.properties"
-        ),
-        var swiftNameRules: Configuration = ConfigurationProperties.fromResource(
-            Gluecodium::class.java,
-            "/namerules/swift.properties"
-        ),
-        var dartNameRules: Configuration = ConfigurationProperties.fromResource(
-            Gluecodium::class.java,
-            "/namerules/dart.properties"
-        )
-    ) {
-        companion object {
-            const val WARNING_DOC_LINKS = "DocLinks"
-            const val WARNING_DEPRECATED_ATTRIBUTES = "DeprecatedAttributes"
-            const val WARNING_DART_OVERLOADS = "DartOverloads"
-        }
-    }
-
     companion object {
         private val LOGGER = Logger.getLogger(Gluecodium::class.java.name)
-        const val DEFAULT_CPP_EXPORT_MACRO_NAME = "_GLUECODIUM_CPP"
 
         private fun loadVersion(): String {
             val prop = Properties()
@@ -315,7 +265,7 @@ class Gluecodium(
             LOGGER.info("Version: ${loadVersion()}")
             try {
                 val options = OptionReader.read(args)
-                if (options == null || Gluecodium(options).execute()) {
+                if (options == null || Gluecodium(options.first, options.second).execute()) {
                     exitProcess(0)
                 }
             } catch (e: GluecodiumExecutionException) {

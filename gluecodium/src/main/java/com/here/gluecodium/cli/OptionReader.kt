@@ -19,9 +19,10 @@
 
 package com.here.gluecodium.cli
 
-import com.here.gluecodium.Gluecodium
+import com.here.gluecodium.GluecodiumOptions
 import com.here.gluecodium.common.CaseInsensitiveSet
 import com.here.gluecodium.generator.common.Generator
+import com.here.gluecodium.generator.common.GeneratorOptions
 import com.natpryce.konfig.Configuration
 import com.natpryce.konfig.ConfigurationProperties
 import com.natpryce.konfig.Key
@@ -114,9 +115,9 @@ object OptionReader {
             true,
             "Treat the specified validation warning type as an error. Possible values: " +
                 listOf(
-                    Gluecodium.Options.WARNING_DOC_LINKS,
-                    Gluecodium.Options.WARNING_DEPRECATED_ATTRIBUTES,
-                    Gluecodium.Options.WARNING_DART_OVERLOADS
+                    GeneratorOptions.WARNING_DOC_LINKS,
+                    GeneratorOptions.WARNING_DEPRECATED_ATTRIBUTES,
+                    GeneratorOptions.WARNING_DART_OVERLOADS
                 ).joinToString()
         )
         addOption(
@@ -139,7 +140,7 @@ object OptionReader {
     }
 
     @Throws(OptionReaderException::class)
-    fun read(args: Array<String>): Gluecodium.Options? {
+    fun read(args: Array<String>): Pair<GluecodiumOptions, GeneratorOptions>? {
         val cmd = try {
             DefaultParser().parse(this.options, args)
         } catch (e: ParseException) {
@@ -170,44 +171,47 @@ object OptionReader {
         fun getFlagValue(key: String) =
             cmd.hasOption(key) || optionsConfig?.getOrNull(Key(key, booleanType)) == true
 
-        val options = Gluecodium.Options()
+        val gluecodiumOptions = GluecodiumOptions()
 
-        options.idlSources = getStringListValue("input") ?: emptyList()
-        options.outputDir = getStringValue("output") ?: ""
-        options.commonOutputDir = getStringValue("commonoutput") ?: options.outputDir
-        options.auxiliaryIdlSources = getStringListValue("auxinput") ?: emptyList()
-        options.javaPackages = getStringValue("javapackage")?.split(".") ?: emptyList()
-        options.javaNonNullAnnotation = parseAnnotation(getStringValue("javanonnullannotation"))
-        options.javaNullableAnnotation = parseAnnotation(getStringValue("javanullableannotation"))
-        options.javaInternalPackages = getStringValue("intpackage")?.split(".") ?: emptyList()
-        options.generators = getStringListValue("generators")?.toSet() ?: emptySet()
+        gluecodiumOptions.idlSources = getStringListValue("input") ?: emptyList()
+        gluecodiumOptions.outputDir = getStringValue("output") ?: ""
+        gluecodiumOptions.commonOutputDir = getStringValue("commonoutput") ?: gluecodiumOptions.outputDir
+        gluecodiumOptions.auxiliaryIdlSources = getStringListValue("auxinput") ?: emptyList()
+        gluecodiumOptions.generators = getStringListValue("generators")?.toSet() ?: emptySet()
+        gluecodiumOptions.isValidatingOnly = getFlagValue("validate")
+        gluecodiumOptions.isEnableCaching = getFlagValue("output") && getFlagValue("cache")
+        getStringListValue("tag")?.let { gluecodiumOptions.tags = CaseInsensitiveSet(it) }
 
-        options.isValidatingOnly = getFlagValue("validate")
-        options.isEnableCaching = getFlagValue("output") && getFlagValue("cache")
+        val generatorOptions = GeneratorOptions()
 
-        options.cppRootNamespace = getStringValue("cppnamespace")?.split(".") ?: emptyList()
-        options.cppInternalNamespace = getStringValue("intnamespace")?.split(".") ?: emptyList()
-        getStringValue("cppexport")?.let { options.cppExport = it }
-        getStringValue("cppexportcommon")?.let { options.cppExportCommon = it }
-        getStringValue("internalprefix")?.let { options.internalPrefix = it }
-        getStringValue("libraryname")?.let { options.libraryName = it }
-        getStringValue("dartlookuperrormessage")?.let { options.dartLookupErrorMessage = it }
-        getStringListValue("werror")?.let { options.werror = it.toSet() }
-        getStringListValue("tag")?.let { options.tags = CaseInsensitiveSet(it) }
-        options.generateStubs = getFlagValue("stubs")
-        options.swiftExposeInternals = getFlagValue("swiftexpose")
+        generatorOptions.javaPackages = getStringValue("javapackage")?.split(".") ?: emptyList()
+        generatorOptions.javaNonNullAnnotation = parseAnnotation(getStringValue("javanonnullannotation"))
+        generatorOptions.javaNullableAnnotation = parseAnnotation(getStringValue("javanullableannotation"))
+        generatorOptions.javaInternalPackages = getStringValue("intpackage")?.split(".") ?: emptyList()
 
-        options.cppNameRules = readConfigFile(getStringValue("cppnamerules"), options.cppNameRules)
-        options.javaNameRules =
-            readConfigFile(getStringValue("javanamerules"), options.javaNameRules)
-        options.swiftNameRules =
-            readConfigFile(getStringValue("swiftnamerules"), options.swiftNameRules)
-        options.dartNameRules =
-            readConfigFile(getStringValue("dartnamerules"), options.dartNameRules)
+        generatorOptions.cppRootNamespace = getStringValue("cppnamespace")?.split(".") ?: emptyList()
+        generatorOptions.cppInternalNamespace = getStringValue("intnamespace")?.split(".") ?: emptyList()
+        getStringValue("cppexport")?.let { generatorOptions.cppExport = it }
+        getStringValue("cppexportcommon")?.let { generatorOptions.cppExportCommon = it }
+        getStringValue("internalprefix")?.let { generatorOptions.internalPrefix = it }
+        getStringValue("libraryname")?.let { generatorOptions.libraryName = it }
+        getStringValue("dartlookuperrormessage")?.let { generatorOptions.dartLookupErrorMessage = it }
+        getStringListValue("werror")?.let { generatorOptions.werror = it.toSet() }
 
-        options.copyrightHeaderContents = getStringValue("copyright")?.let { File(it).readText() }
+        generatorOptions.generateStubs = getFlagValue("stubs")
+        generatorOptions.swiftExposeInternals = getFlagValue("swiftexpose")
 
-        return options
+        generatorOptions.cppNameRules = readConfigFile(getStringValue("cppnamerules"), generatorOptions.cppNameRules)
+        generatorOptions.javaNameRules =
+            readConfigFile(getStringValue("javanamerules"), generatorOptions.javaNameRules)
+        generatorOptions.swiftNameRules =
+            readConfigFile(getStringValue("swiftnamerules"), generatorOptions.swiftNameRules)
+        generatorOptions.dartNameRules =
+            readConfigFile(getStringValue("dartnamerules"), generatorOptions.dartNameRules)
+
+        generatorOptions.copyrightHeaderContents = getStringValue("copyright")?.let { File(it).readText() }
+
+        return Pair(gluecodiumOptions, generatorOptions)
     }
 
     fun printUsage() {
