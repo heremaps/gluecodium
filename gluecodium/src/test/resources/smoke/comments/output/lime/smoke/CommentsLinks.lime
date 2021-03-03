@@ -1,6 +1,6 @@
 package smoke
-import smoke.comments.SomeStruct
 import smoke.comments.SomeEnum
+import smoke.comments.SomeStruct
 import smoke.comments.SomethingWrong
 // The nested types like [random_method] don't need full name prefix, but it's
 // possible to references other interfaces like [smoke.CommentsInterface] or other members

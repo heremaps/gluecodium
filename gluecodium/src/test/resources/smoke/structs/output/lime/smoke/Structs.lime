@@ -1,6 +1,6 @@
 package smoke
-import smoke.TypeCollection.Point
 import smoke.TypeCollection.AllTypesStruct
+import smoke.TypeCollection.Point
 class Structs {
     typealias ArrayOfImmutable = List<AllTypesStruct>
     enum FooBar {

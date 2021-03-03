@@ -1,8 +1,8 @@
 package smoke
 import smoke.DefaultValues.FloatArray
-import smoke.TypesWithDefaults.StructWithAnEnum
-import smoke.DefaultValues.StringSet
 import smoke.DefaultValues.IdToStringMap
+import smoke.DefaultValues.StringSet
+import smoke.TypesWithDefaults.StructWithAnEnum
 struct StructWithInitializerDefaults {
     intsField: List<Int> = [4, -2, 42]
     floatsField: FloatArray = [3.14, -Infinity]

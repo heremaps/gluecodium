@@ -1,13 +1,10 @@
 package fire
-
-import smoke.TypeCollection.Point
 import smoke.Structs.Point
 import smoke.StructsInstance
-
+import smoke.TypeCollection.Point
 class StructsQualifiedType {
     typealias TypeCollectionPointsArray = List<Point>
     typealias InterfacePointsArray = List<Point>
-
     struct QualifiedType {
         typeCollectionPoint: Point
         interfacePoint: Point
