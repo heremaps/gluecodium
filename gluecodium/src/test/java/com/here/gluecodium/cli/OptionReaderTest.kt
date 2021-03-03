@@ -76,9 +76,9 @@ class OptionReaderTest {
         val options = OptionReader.read(arrayOf("-input", TEST_INPUT_SINGLE_FOLDER[0]))
 
         // Assert
-        assertNotNull(options!!.idlSources)
-        assertEquals(1, options.idlSources.size)
-        assertEquals(TEST_INPUT_SINGLE_FOLDER[0], options.idlSources[0])
+        assertNotNull(options!!.first.idlSources)
+        assertEquals(1, options.first.idlSources.size)
+        assertEquals(TEST_INPUT_SINGLE_FOLDER[0], options.first.idlSources[0])
     }
 
     @Test
@@ -90,10 +90,10 @@ class OptionReaderTest {
         )
 
         // Assert
-        assertNotNull(options!!.idlSources)
-        assertEquals(2, options.idlSources.size)
-        assertEquals(TEST_INPUT_TWO_FOLDERS[0], options.idlSources[0])
-        assertEquals(TEST_INPUT_TWO_FOLDERS[1], options.idlSources[1])
+        assertNotNull(options!!.first.idlSources)
+        assertEquals(2, options.first.idlSources.size)
+        assertEquals(TEST_INPUT_TWO_FOLDERS[0], options.first.idlSources[0])
+        assertEquals(TEST_INPUT_TWO_FOLDERS[1], options.first.idlSources[1])
     }
 
     @Test
@@ -106,7 +106,7 @@ class OptionReaderTest {
         val options = OptionReader.read(toRead)
 
         // Assert
-        assertEquals(TEST_OUTPUT, options!!.outputDir)
+        assertEquals(TEST_OUTPUT, options!!.first.outputDir)
     }
 
     @Test
@@ -119,7 +119,7 @@ class OptionReaderTest {
         val options = OptionReader.read(toRead)
 
         // Assert
-        val generators = options?.generators
+        val generators = options?.first?.generators
         assertTrue(generators?.contains("cpp") ?: false)
         assertTrue(generators?.contains("java") ?: false)
     }
@@ -134,7 +134,7 @@ class OptionReaderTest {
         val options = OptionReader.read(toRead)
 
         // Assert
-        assertEquals(listOf(TEST_JAVA_PACKAGE_LIST), options!!.javaPackages)
+        assertEquals(listOf(TEST_JAVA_PACKAGE_LIST), options!!.second.javaPackages)
     }
 
     @Test
@@ -159,7 +159,7 @@ class OptionReaderTest {
         val options = OptionReader.read(toRead)
 
         // Assert
-        assertEquals("", options!!.copyrightHeaderContents)
+        assertEquals("", options!!.second.copyrightHeaderContents)
     }
 
     private fun prepareToRead(optionName: String, optionValue: String): Array<String> =

@@ -19,12 +19,12 @@
 
 package com.here.gluecodium.generator.cpp
 
-import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.common.CommentsProcessor
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Generator
+import com.here.gluecodium.generator.common.GeneratorOptions
 import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.common.NameHelper
 import com.here.gluecodium.generator.common.NameResolver
@@ -73,11 +73,11 @@ internal class CppGenerator : Generator {
 
     override val shortName = GENERATOR_NAME
 
-    override fun initialize(options: Gluecodium.Options) {
+    override fun initialize(options: GeneratorOptions) {
         nameRules = CppNameRules(options.cppRootNamespace, nameRuleSetFromConfig(options.cppNameRules))
         rootNamespace = options.cppRootNamespace
         internalNamespace = options.cppInternalNamespace
-        commentsProcessor = DoxygenCommentsProcessor(options.werror.contains(Gluecodium.Options.WARNING_DOC_LINKS))
+        commentsProcessor = DoxygenCommentsProcessor(options.werror.contains(GeneratorOptions.WARNING_DOC_LINKS))
         exportName = options.cppExport
         exportCommonName = options.cppExportCommon ?: options.cppExport
         exportInclude = Include.createInternalInclude(Paths.get(

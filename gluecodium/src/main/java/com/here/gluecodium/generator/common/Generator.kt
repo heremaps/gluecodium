@@ -19,7 +19,6 @@
 
 package com.here.gluecodium.generator.common
 
-import com.here.gluecodium.Gluecodium
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.model.lime.LimeModel
 import java.io.File
@@ -37,7 +36,7 @@ interface Generator {
         get() = false
 
     /** Initialize the generator with given options. */
-    fun initialize(options: Gluecodium.Options) {}
+    fun initialize(options: GeneratorOptions) {}
 
     /**
      * Generate files in the output language based on given model. The model is assumed to be valid.
@@ -54,7 +53,7 @@ interface Generator {
         val allGeneratorShortNames
             get() = allGenerators.keys
 
-        fun initializeGenerator(shortName: String, options: Gluecodium.Options) =
+        fun initializeGenerator(shortName: String, options: GeneratorOptions) =
             allGenerators[shortName]?.also { it.initialize(options) }
 
         fun copyCommonFile(fileName: String, targetDir: String): GeneratedFile {

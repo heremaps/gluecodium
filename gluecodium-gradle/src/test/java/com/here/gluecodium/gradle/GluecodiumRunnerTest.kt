@@ -20,6 +20,8 @@
 package com.here.gluecodium.gradle
 
 import com.here.gluecodium.Gluecodium
+import com.here.gluecodium.GluecodiumOptions
+import com.here.gluecodium.generator.common.GeneratorOptions
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -38,7 +40,8 @@ internal class GluecodiumRunnerTest {
     val expectedException: ExpectedException = ExpectedException.none()
 
     @MockK lateinit var gluecodium: Gluecodium
-    private val defaultOptions = Gluecodium.Options()
+    private val defaultGluecodiumOptions = GluecodiumOptions()
+    private val defaultGeneratorOptions = GeneratorOptions()
 
     private lateinit var runner: GluecodiumRunner
 
@@ -46,14 +49,14 @@ internal class GluecodiumRunnerTest {
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
 
-        runner = GluecodiumRunner { gluecodium }
+        runner = GluecodiumRunner { _, _ -> gluecodium }
     }
 
     @Test
     fun executeReturningTrueDoesNotThrow() {
         every { gluecodium.execute() } returns true
 
-        runner.run(defaultOptions)
+        runner.run(defaultGluecodiumOptions, defaultGeneratorOptions)
     }
 
     @Test
@@ -61,6 +64,6 @@ internal class GluecodiumRunnerTest {
         every { gluecodium.execute() } returns false
         expectedException.expect(GradleException::class.java)
 
-        runner.run(defaultOptions)
+        runner.run(defaultGluecodiumOptions, defaultGeneratorOptions)
     }
 }
