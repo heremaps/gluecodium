@@ -1,0 +1,210 @@
+/*
+ * Copyright (C) 2016-2019 HERE Europe B.V.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * License-Filename: LICENSE
+ */
+
+import org.gradle.internal.os.OperatingSystem
+
+apply plugin: 'com.android.library'
+
+project.buildDir = "${rootProject.buildDir}"
+
+def getCMakeCommonParameters() {
+    return ['-Wno-dev',
+        '-DGLUECODIUM_GENERATORS_DEFAULT=android;cpp',
+        "-DGLUECODIUM_BASE_OUTPUT_DIR_DEFAULT=${rootProject.generatedDir}",
+        "-DGLUECODIUM_VERSION_DEFAULT=${rootProject.useGluecodiumVersion()}"]
+}
+
+android {
+    ndkVersion rootProject.ndkVersion
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode 150001
+        versionName '0.0.1'
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
+        externalNativeBuild {
+            cmake {
+                arguments (*getCMakeCommonParameters())
+                targets 'functional'
+            }
+        }
+    }
+
+    if (!rootProject.isHostOnly()) {
+        externalNativeBuild {
+            cmake {
+                path "${rootProject.projectDir}/CMakeLists.txt"
+                buildStagingDirectory "${rootProject.buildNativeRoot}"
+                version '3.19.0+'
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "String", "NATIVE_LIB_HOST_DIR", "\"${rootProject.buildNativeHostDir}/debug/functional/\""
+        }
+        release {
+            buildConfigField "String", "NATIVE_LIB_HOST_DIR", "\"${rootProject.buildNativeHostDir}/release/functional/\""
+        }
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile "${project.projectDir}/input/src/android/AndroidManifest.xml"
+
+            java.srcDirs += [
+                "${project.projectDir}/input/src/android/java",
+                "${rootProject.generatedDir}/functional_bindings/android-cpp/common/android",
+                "${rootProject.generatedDir}/functional_bindings/android-cpp/main/android"]
+        }
+
+        test {
+            java.srcDirs += ["${project.projectDir}/android/src/test/java"]
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    testOptions {
+        unitTests.all {
+            environment 'MALLOC_CONF', 'prof_leak:true,lg_prof_sample:0,prof_final:true'
+        }
+    }
+
+    libraryVariants.all { variant ->
+        def buildType = variant.buildType.name
+        def typeName = variant.name
+        def typeCapitalised = typeName.capitalize()
+        def nativeBuildDir = "${rootProject.buildNativeHostDir}/${typeName}"
+
+        def configureNativeHost = task("configure${typeCapitalised}NativeHost", type: Exec) {
+            doFirst {
+                mkdir nativeBuildDir
+            }
+
+            workingDir nativeBuildDir
+
+            commandLine (['cmake', "${rootProject.projectDir}", '-G', 'Ninja'] +
+                getCMakeCommonParameters())
+
+        }
+
+        def buildNativeHost =  task("build${typeCapitalised}NativeHost", type: Exec,
+            dependsOn: configureNativeHost) {
+            commandLine 'cmake',
+                '--build', nativeBuildDir,
+                '--target', 'functional',
+                '--config', buildType
+        }
+
+        def srcArchivePath = variant.packageLibraryProvider.get().archivePath
+        def srcArchiveName = variant.packageLibraryProvider.get().archiveName
+
+        def addHostLibToAar = task("addHostLibrary${typeCapitalised}Aar",
+            dependsOn: ["bundle${typeCapitalised}Aar", buildNativeHost], type: Zip) {
+            from zipTree(srcArchivePath)
+            def libraryName = 'functional'
+            if (OperatingSystem.current().isWindows()) {
+                libraryName = libraryName + '.dll'
+            } else if (OperatingSystem.current().isMacOsX()) {
+                libraryName = 'lib' + libraryName + '.dylib'
+            } else {
+                libraryName = 'lib' + libraryName + '.so'
+            }
+            from ("${nativeBuildDir}/functional/${libraryName}") {
+                into("jni")
+            }
+            archiveName srcArchiveName
+        }
+
+        build.dependsOn addHostLibToAar
+    }
+}
+
+task generateJavadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += files(android.getBootClasspath().join(File.pathSeparator))
+    exclude '**/jni/**', '**.xml'
+    options.encoding='UTF-8'
+    
+    options.doclet = 'ExcludeDoclet'
+    List<File> docletList = new ArrayList<File>()
+    docletList.add( file("${project.projectDir}/android/ExcludeDoclet/ExcludeDoclet.jar") )
+    options.docletpath = docletList
+
+    doFirst {
+        generateJavadoc.classpath += files(android.libraryVariants.collect { variant ->
+            variant.getJavaCompileProvider().get().classpath.files
+        })
+    }
+}
+
+tasks.configureEach { task ->
+    // Java compilation depends on .java/.jar files created by CMake
+    if (task.name == 'javaPreCompileDebug') {
+        if (!rootProject.isHostOnly()) {
+            task.dependsOn 'externalNativeBuildDebug'
+        }
+        task.dependsOn 'buildDebugNativeHost'
+    }
+    if (task.name == 'javaPreCompileRelease') {
+        if (!rootProject.isHostOnly()) {
+            task.dependsOn 'externalNativeBuildRelease'
+        }
+        task.dependsOn 'buildReleaseNativeHost'
+    }
+
+    if (task.name == 'generateJavadoc') {
+        task.mustRunAfter 'buildDebugNativeHost', 'buildReleaseNativeHost', 'externalNativeBuildDebug', 'externalNativeBuildRelease'
+    }
+}
+
+dependencies {
+    implementation 'androidx.annotation:annotation:1.1.0'
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.powermock:powermock-reflect:2.0.9"
+    testImplementation 'org.robolectric:robolectric:4.5.1'
+    testImplementation 'org.hamcrest:hamcrest:2.2'
+    testImplementation 'org.hamcrest:hamcrest-library:2.2'
+}
+
+apply plugin: 'com.diffplug.spotless'
+
+spotless {
+    freshmark { target '*.md' }
+    java {
+        target project.fileTree(project.projectDir) {
+            include '**/*.java'
+        }
+
+        googleJavaFormat()
+        licenseHeaderFile rootProject.file('functional/android/config/here_java.license')
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+}
