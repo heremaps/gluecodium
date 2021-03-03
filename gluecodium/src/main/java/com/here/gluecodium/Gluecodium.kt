@@ -193,10 +193,12 @@ class Gluecodium(
             { LimeEnumeratorRefsValidator(limeLogger).validate(it) },
             { LimeExternalTypesValidator(limeLogger).validate(it) },
             { LimePropertiesValidator(limeLogger).validate(it) },
-            { LimeDeprecationsValidator(
-                limeLogger,
-                generatorOptions.werror.contains(GeneratorOptions.WARNING_DEPRECATED_ATTRIBUTES)
-            ).validate(it.topElements) },
+            {
+                LimeDeprecationsValidator(
+                    limeLogger,
+                    generatorOptions.werror.contains(GeneratorOptions.WARNING_DEPRECATED_ATTRIBUTES)
+                ).validate(it.topElements)
+            },
             { LimeFunctionsValidator(limeLogger).validate(it) },
             { LimeSkipValidator(limeLogger).validate(it) }
         )

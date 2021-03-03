@@ -35,10 +35,12 @@ internal abstract class ReferenceMapBasedResolver(protected val limeReferenceMap
             withSuffix -> limePath.parent.withSuffix(limePath.disambiguator)
             else -> limePath.parent
         }
-        return (limeReferenceMap[parentPath.toString()] as? LimeNamedElement
-            ?: throw GluecodiumExecutionException(
-                "Failed to resolve parent for element $limePath"
-            ))
+        return (
+            limeReferenceMap[parentPath.toString()] as? LimeNamedElement
+                ?: throw GluecodiumExecutionException(
+                    "Failed to resolve parent for element $limePath"
+                )
+            )
     }
 
     protected fun getTopElement(limeElement: LimeNamedElement) =

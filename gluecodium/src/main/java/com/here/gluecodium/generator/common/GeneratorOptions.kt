@@ -37,25 +37,25 @@ data class GeneratorOptions(
     var internalPrefix: String? = null,
     var libraryName: String = "library",
     var dartLookupErrorMessage: String =
-            "Failed to resolve an FFI function. Perhaps `LibraryContext.init()` was not called.",
+        "Failed to resolve an FFI function. Perhaps `LibraryContext.init()` was not called.",
     var generateStubs: Boolean = false,
     var swiftExposeInternals: Boolean = false,
     var cppNameRules: Configuration = ConfigurationProperties.fromResource(
-            Gluecodium::class.java,
-            "/namerules/cpp.properties"
-        ),
+        Gluecodium::class.java,
+        "/namerules/cpp.properties"
+    ),
     var javaNameRules: Configuration = ConfigurationProperties.fromResource(
-            Gluecodium::class.java,
-            "/namerules/java.properties"
-        ),
+        Gluecodium::class.java,
+        "/namerules/java.properties"
+    ),
     var swiftNameRules: Configuration = ConfigurationProperties.fromResource(
-            Gluecodium::class.java,
-            "/namerules/swift.properties"
-        ),
+        Gluecodium::class.java,
+        "/namerules/swift.properties"
+    ),
     var dartNameRules: Configuration = ConfigurationProperties.fromResource(
-            Gluecodium::class.java,
-            "/namerules/dart.properties"
-        )
+        Gluecodium::class.java,
+        "/namerules/dart.properties"
+    )
 ) {
     companion object {
         const val WARNING_DOC_LINKS = "DocLinks"

@@ -39,14 +39,14 @@ internal object CommonGeneratorPredicates {
         when (limeElement) {
             is LimeFunction -> limeElement.run {
                 comment.getFor(platformTag).isNotBlank() || comment.isExcluded ||
-                        returnType.comment.getFor(platformTag).isNotBlank() ||
-                        (thrownType?.comment?.getFor(platformTag)?.isEmpty() == false) ||
-                        attributes.have(LimeAttributeType.DEPRECATED) ||
-                        parameters.any { it.comment.getFor(platformTag).isNotBlank() }
+                    returnType.comment.getFor(platformTag).isNotBlank() ||
+                    (thrownType?.comment?.getFor(platformTag)?.isEmpty() == false) ||
+                    attributes.have(LimeAttributeType.DEPRECATED) ||
+                    parameters.any { it.comment.getFor(platformTag).isNotBlank() }
             }
             is LimeNamedElement -> limeElement.run {
                 comment.getFor(platformTag).isNotBlank() || comment.isExcluded ||
-                        attributes.have(LimeAttributeType.DEPRECATED)
+                    attributes.have(LimeAttributeType.DEPRECATED)
             }
             else -> false
         }
@@ -55,9 +55,10 @@ internal object CommonGeneratorPredicates {
         when {
             limeStruct !is LimeStruct -> false
             limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) -> true
-            else -> limeStruct.fields
-                .flatMap { getAllFieldTypes(it.typeRef.type) }
-                .any { it.attributes.have(LimeAttributeType.IMMUTABLE) }
+            else ->
+                limeStruct.fields
+                    .flatMap { getAllFieldTypes(it.typeRef.type) }
+                    .any { it.attributes.have(LimeAttributeType.IMMUTABLE) }
         }
 
     fun hasTypeRepository(limeContainer: Any) =

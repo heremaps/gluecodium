@@ -80,10 +80,12 @@ internal class CppGenerator : Generator {
         commentsProcessor = DoxygenCommentsProcessor(options.werror.contains(GeneratorOptions.WARNING_DOC_LINKS))
         exportName = options.cppExport
         exportCommonName = options.cppExportCommon ?: options.cppExport
-        exportInclude = Include.createInternalInclude(Paths.get(
-            internalNamespace.joinToString(File.separator),
-            getExportFileName(exportName) + ".h"
-        ).toString())
+        exportInclude = Include.createInternalInclude(
+            Paths.get(
+                internalNamespace.joinToString(File.separator),
+                getExportFileName(exportName) + ".h"
+            ).toString()
+        )
     }
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
@@ -126,7 +128,7 @@ internal class CppGenerator : Generator {
                 allErrorEnums
             )
         } + COMMON_HEADERS.map { generateHelperFile(it, "include", ".h") } +
-                COMMON_IMPLS.map { generateHelperFile(it, "src", ".cpp") } +
+            COMMON_IMPLS.map { generateHelperFile(it, "src", ".cpp") } +
             generateExportHelperFile(exportCommonName, "Common", GeneratedFile.SourceSet.COMMON) +
             generateExportHelperFile(exportName, "", GeneratedFile.SourceSet.MAIN)
 
@@ -147,8 +149,9 @@ internal class CppGenerator : Generator {
     ): List<GeneratedFile> {
 
         val limeElements = when (rootElement) {
-            is LimeTypesCollection -> rootElement.structs + rootElement.enumerations +
-                rootElement.constants + rootElement.typeAliases
+            is LimeTypesCollection ->
+                rootElement.structs + rootElement.enumerations +
+                    rootElement.constants + rootElement.typeAliases
             else -> listOf(rootElement)
         }
 
@@ -170,8 +173,10 @@ internal class CppGenerator : Generator {
 
         val typeRegisteredClasses =
             allTypes.filterIsInstance<LimeContainerWithInheritance>()
-                .filter { it.external?.cpp == null && it.parent == null &&
-                    (it is LimeInterface || it.visibility.isOpen) }
+                .filter {
+                    it.external?.cpp == null && it.parent == null &&
+                        (it is LimeInterface || it.visibility.isOpen)
+                }
         val allTypeRefs = collectTypeRefs(allTypes)
         val forwardDeclaredTypes = allTypeRefs.map { it.type }
             .filterIsInstance<LimeContainerWithInheritance>()
@@ -179,14 +184,15 @@ internal class CppGenerator : Generator {
             .toSet()
 
         val additionalIncludes = collectAdditionalIncludes(
-            rootElement, includeResolver, allTypes, equatableTypes, errorEnums, typeRegisteredClasses)
+            rootElement, includeResolver, allTypes, equatableTypes, errorEnums, typeRegisteredClasses
+        )
         val headerIncludes = allTypes.filterIsInstance<LimeContainer>()
             .flatMap { it.functions }
             .flatMap { includeResolver.resolveIncludes(it) } +
-                allTypeRefs.flatMap { includeResolver.resolveIncludes(it) } +
-                allValues.flatMap { includeResolver.resolveIncludes(it) } +
-                allTypes.flatMap { includeResolver.resolveIncludes(it) } +
-                additionalIncludes - forwardDeclaredTypes.flatMap { includeResolver.resolveIncludes(it) }
+            allTypeRefs.flatMap { includeResolver.resolveIncludes(it) } +
+            allValues.flatMap { includeResolver.resolveIncludes(it) } +
+            allTypes.flatMap { includeResolver.resolveIncludes(it) } +
+            additionalIncludes - forwardDeclaredTypes.flatMap { includeResolver.resolveIncludes(it) }
         val implementationIncludes = forwardDeclaredTypes
             .flatMap { includeResolver.resolveIncludes(it) }
             .toMutableList()
@@ -336,8 +342,10 @@ internal class CppGenerator : Generator {
             is LimeException -> null
             is LimeLambda -> "cpp/CppLambda"
             is LimeTypeAlias -> "cpp/CppTypeAlias"
-            else -> throw GluecodiumExecutionException("Unsupported top-level element: " +
-                    limeElement::class.java.name)
+            else -> throw GluecodiumExecutionException(
+                "Unsupported top-level element: " +
+                    limeElement::class.java.name
+            )
         }
 
     private fun collectTypeRefs(allTypes: List<LimeType>): List<LimeTypeRef> {

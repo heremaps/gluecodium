@@ -46,17 +46,19 @@ internal class LimeTypeRefTargetValidator(private val logger: LimeLogger) :
                 logger.error(
                     parentElement,
                     "refers to `types` container ${referredType.fullName} " +
-                            "which cannot be used as a type itself."
+                        "which cannot be used as a type itself."
                 )
                 false
             }
             referredType is LimeException &&
-                (parentElement !is LimeFunction ||
-                    parentElement.thrownType?.typeRef?.type !== referredType) -> {
+                (
+                    parentElement !is LimeFunction ||
+                        parentElement.thrownType?.typeRef?.type !== referredType
+                    ) -> {
                 logger.error(
                     parentElement,
                     "refers to an exception type ${referredType.fullName} " +
-                            "which cannot be used outside of a `throws` clause."
+                        "which cannot be used outside of a `throws` clause."
                 )
                 false
             }

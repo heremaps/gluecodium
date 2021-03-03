@@ -24,7 +24,6 @@ package com.here.gluecodium.gradle
 import com.here.gluecodium.GluecodiumOptions
 import com.here.gluecodium.cli.OptionReader
 import com.here.gluecodium.generator.common.GeneratorOptions
-import java.io.File
 import org.gradle.api.NonNullApi
 import org.gradle.api.file.FileTree
 import org.gradle.api.provider.Property
@@ -39,6 +38,7 @@ import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.SourceTask
 import org.gradle.api.tasks.TaskAction
+import java.io.File
 
 @NonNullApi
 @CacheableTask
@@ -157,7 +157,8 @@ open class GluecodiumTask : SourceTask() {
         logProperty("javaNullableAnnotation", javaNullableAnnotation)
         logProperty("cppNamespace", cppNamespace)
         logProperty("cppInternalNamespace", cppInternalNamespace)
-        logProperty("cppExportMacroName", cppExportMacroName,
+        logProperty(
+            "cppExportMacroName", cppExportMacroName,
             DEFAULT_VALUE_STRING + " " + GeneratorOptions.DEFAULT_CPP_EXPORT_MACRO_NAME
         )
         logProperty("cppNameRules", cppNameRules, DEFAULT_VALUE_STRING)

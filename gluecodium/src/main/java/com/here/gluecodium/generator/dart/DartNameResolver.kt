@@ -215,8 +215,10 @@ internal class DartNameResolver(
         val functions = limeReferenceMap.values.filterIsInstance<LimeFunction>()
         result += functions.associateBy({ it.path.withSuffix("").toString() }, { resolveFullName(it) })
         result += functions.associateBy(
-            { function -> function.path.withSuffix("").toString() + function.parameters
-                .joinToString(prefix = "(", postfix = ")", separator = ",") { it.typeRef.toString() } },
+            { function ->
+                function.path.withSuffix("").toString() + function.parameters
+                    .joinToString(prefix = "(", postfix = ")", separator = ",") { it.typeRef.toString() }
+            },
             { resolveFullName(it) }
         )
 

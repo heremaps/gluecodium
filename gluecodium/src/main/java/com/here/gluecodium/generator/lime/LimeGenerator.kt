@@ -74,19 +74,19 @@ class LimeGenerator : Generator {
     private fun collectImports(context: LimePath, limeElement: LimeElement): List<LimePath> =
         when (limeElement) {
             is LimeContainerWithInheritance -> (
-                    limeElement.structs + limeElement.constants + limeElement.typeAliases +
+                limeElement.structs + limeElement.constants + limeElement.typeAliases +
                     limeElement.functions + limeElement.properties + limeElement.exceptions +
                     limeElement.classes + limeElement.interfaces + listOfNotNull(limeElement.parent)
                 ).flatMap { collectImports(limeElement.path, it) }
             is LimeTypesCollection -> (
-                    limeElement.structs + limeElement.constants + limeElement.typeAliases +
+                limeElement.structs + limeElement.constants + limeElement.typeAliases +
                     limeElement.exceptions
                 ).flatMap { collectImports(limeElement.path, it) }
             is LimeStruct -> (
-                    limeElement.fields + limeElement.constants + limeElement.functions
+                limeElement.fields + limeElement.constants + limeElement.functions
                 ).flatMap { collectImports(limeElement.path, it) }
             is LimeFunction -> (
-                    limeElement.parameters + limeElement.returnType +
+                limeElement.parameters + limeElement.returnType +
                     listOfNotNull(limeElement.thrownType?.typeRef)
                 ).flatMap { collectImports(context, it) }
             is LimeTypedElement -> collectImports(context, limeElement.typeRef)
@@ -94,7 +94,7 @@ class LimeGenerator : Generator {
             is LimeReturnType -> collectImports(context, limeElement.typeRef)
             is LimeException -> collectImports(context, limeElement.errorType)
             is LimeLambda -> (
-                    limeElement.parameters + limeElement.returnType.typeRef
+                limeElement.parameters + limeElement.returnType.typeRef
                 ).flatMap { collectImports(limeElement.path, it) }
             is LimeTypeRef -> {
                 val limeType = limeElement.type
@@ -103,7 +103,7 @@ class LimeGenerator : Generator {
                     limeType is LimeList -> collectImports(context, limeType.elementType)
                     limeType is LimeSet -> collectImports(context, limeType.elementType)
                     limeType is LimeMap -> collectImports(context, limeType.keyType) +
-                            collectImports(context, limeType.valueType)
+                        collectImports(context, limeType.valueType)
                     elementPath == LimePath.EMPTY_PATH -> emptyList()
                     (context.allParents + context).contains(elementPath.parent) -> emptyList()
                     else -> listOf(elementPath)
@@ -122,8 +122,10 @@ class LimeGenerator : Generator {
             is LimeTypeAlias -> "lime/LimeTypeAlias"
             is LimeException -> "lime/LimeException"
             is LimeLambda -> "lime/LimeLambda"
-            else -> throw GluecodiumExecutionException("Unsupported top-level element: " +
-                    limeElement::class.java.name)
+            else -> throw GluecodiumExecutionException(
+                "Unsupported top-level element: " +
+                    limeElement::class.java.name
+            )
         }
 
     private fun escapeImport(import: LimePath) =

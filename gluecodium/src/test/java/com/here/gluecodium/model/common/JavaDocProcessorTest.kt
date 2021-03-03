@@ -21,11 +21,11 @@ package com.here.gluecodium.model.common
 
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.java.JavaDocProcessor
-import java.util.logging.Logger
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import java.util.logging.Logger
 
 @RunWith(JUnit4::class)
 class JavaDocProcessorTest {

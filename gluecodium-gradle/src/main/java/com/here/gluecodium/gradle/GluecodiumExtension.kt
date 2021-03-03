@@ -21,10 +21,10 @@
 
 package com.here.gluecodium.gradle
 
-import java.io.File
 import org.gradle.api.file.FileTree
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
+import java.io.File
 
 /**
  * DSL extension object, exposed to the Gradle script.

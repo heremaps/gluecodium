@@ -59,13 +59,19 @@ internal class LimeExternalTypesValidator(private val logger: LimeLogger) {
         propertyName: String
     ) = when {
         !isInExternalType(limeElement, referenceMap) -> {
-            logger.error(limeElement, "an element with '$propertyName' also" +
-                    " needs to have 'cpp: externalType' set for itself or one of its enclosing elements")
+            logger.error(
+                limeElement,
+                "an element with '$propertyName' also" +
+                    " needs to have 'cpp: externalType' set for itself or one of its enclosing elements"
+            )
             false
         }
         limeElement.attributes.have(CPP, LimeAttributeValueType.NAME) -> {
-            logger.error(limeElement, "an element with 'cpp: $propertyName' cannot" +
-                    " have '@Cpp(Name)' set at the same time")
+            logger.error(
+                limeElement,
+                "an element with 'cpp: $propertyName' cannot" +
+                    " have '@Cpp(Name)' set at the same time"
+            )
             false
         }
         else -> true

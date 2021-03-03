@@ -115,7 +115,7 @@ internal class CppNameResolver(
         val typeName = resolveTypeName(limeTypeRef.type, isFullName = true)
         return when {
             limeTypeRef.isNullable &&
-                    limeTypeRef.type.actualType !is LimeContainerWithInheritance ->
+                limeTypeRef.type.actualType !is LimeContainerWithInheritance ->
                 "$optionalTypeName< $typeName >"
             else -> typeName
         }
@@ -236,8 +236,10 @@ internal class CppNameResolver(
             { getFullyQualifiedReference(it) }
         )
         result += functions.associateBy(
-            { function -> function.path.withSuffix("").toString() + function.parameters
-                .joinToString(prefix = "(", postfix = ")", separator = ",") { it.typeRef.toString() } },
+            { function ->
+                function.path.withSuffix("").toString() + function.parameters
+                    .joinToString(prefix = "(", postfix = ")", separator = ",") { it.typeRef.toString() }
+            },
             { getFullyQualifiedReference(it) }
         )
 

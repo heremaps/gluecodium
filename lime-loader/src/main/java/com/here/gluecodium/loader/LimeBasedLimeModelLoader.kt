@@ -28,12 +28,12 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimeReferenceResolver
 import com.here.gluecodium.validator.LimeImportsValidator
-import java.io.File
-import java.util.logging.Logger
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.misc.ParseCancellationException
 import org.antlr.v4.runtime.tree.ParseTreeWalker
+import java.io.File
+import java.util.logging.Logger
 
 class LimeBasedLimeModelLoader : LimeModelLoader {
     private val logger = Logger.getLogger(LimeBasedLimeModelLoader::class.java.name)

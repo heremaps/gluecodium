@@ -54,7 +54,7 @@ internal class JniIncludeResolver(private val fileNameRules: JniFileNameRules) {
 
     private fun collectFunctionTypes(limeFunction: LimeFunction) =
         limeFunction.parameters.map { it.typeRef } + limeFunction.returnType.typeRef +
-                listOfNotNull(limeFunction.exception?.errorType)
+            listOfNotNull(limeFunction.exception?.errorType)
 
     fun collectImplementationIncludes(limeElement: LimeNamedElement): List<Include> {
         if (limeElement is LimeLambda) {

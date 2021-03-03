@@ -76,8 +76,10 @@ internal class TopologicalSort(private val elements: List<LimeNamedElement>) {
             is LimeStruct -> (limeElement.fields + limeElement.functions + limeElement.constants)
                 .flatMap { getElementDependencies(it) }
             is LimeTypeAlias -> getTypeRefDependencies(limeElement.typeRef)
-            is LimeFunction -> (limeElement.parameters.map { it.typeRef } +
-                    listOfNotNull(limeElement.returnType.typeRef, limeElement.exception?.errorType))
+            is LimeFunction -> (
+                limeElement.parameters.map { it.typeRef } +
+                    listOfNotNull(limeElement.returnType.typeRef, limeElement.exception?.errorType)
+                )
                 .flatMap { getTypeRefDependencies(it) }
             is LimeLambda -> (limeElement.parameters.map { it.typeRef } + limeElement.returnType.typeRef)
                 .flatMap { getTypeRefDependencies(it) }

@@ -40,7 +40,7 @@ internal class FileRemove(private val rootDir: File?) {
             try {
                 // only remove regular files located below root dir
                 if (Files.isRegularFile(it) && it.toFile().canonicalPath
-                        .startsWith(rootDir?.canonicalPath + File.separator)
+                    .startsWith(rootDir?.canonicalPath + File.separator)
                 ) {
                     Files.delete(it)
                 }

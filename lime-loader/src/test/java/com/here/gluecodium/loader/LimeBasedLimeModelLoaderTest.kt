@@ -41,11 +41,13 @@ class LimeBasedLimeModelLoaderTest {
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
 
-        every { modelLoader["loadFile"](
-            any<String>(),
-            any<LimeReferenceResolver>(),
-            any<MutableMap<String, List<LimePath>>>()
-        ) } answers {
+        every {
+            modelLoader["loadFile"](
+                any<String>(),
+                any<LimeReferenceResolver>(),
+                any<MutableMap<String, List<LimePath>>>()
+            )
+        } answers {
             listOf(object : LimeNamedElement(LimePath(listOf(firstArg()), emptyList())) {})
         }
     }
@@ -65,11 +67,13 @@ class LimeBasedLimeModelLoaderTest {
         assertEquals(1, result.topElements.size)
         assertTrue(result.topElements.first().fullName.endsWith("foo.lime"))
 
-        verify { modelLoader["loadFile"](
-            match<String> { it.endsWith("bar.lime") },
-            any<LimeReferenceResolver>(),
-            any<MutableMap<String, List<LimePath>>>()
-        ) }
+        verify {
+            modelLoader["loadFile"](
+                match<String> { it.endsWith("bar.lime") },
+                any<LimeReferenceResolver>(),
+                any<MutableMap<String, List<LimePath>>>()
+            )
+        }
     }
 
     @Test
@@ -78,11 +82,13 @@ class LimeBasedLimeModelLoaderTest {
 
         assertEquals(0, result.topElements.size)
 
-        verify { modelLoader["loadFile"](
-            match<String> { it.endsWith("bar.lime") },
-            any<LimeReferenceResolver>(),
-            any<MutableMap<String, List<LimePath>>>()
-        ) }
+        verify {
+            modelLoader["loadFile"](
+                match<String> { it.endsWith("bar.lime") },
+                any<LimeReferenceResolver>(),
+                any<MutableMap<String, List<LimePath>>>()
+            )
+        }
     }
 
     @Test
@@ -94,10 +100,12 @@ class LimeBasedLimeModelLoaderTest {
         assertTrue(result.topElements.first().fullName.endsWith("foo.lime"))
         assertTrue(result.topElements.last().fullName.endsWith("buzz.lime"))
 
-        verify { modelLoader["loadFile"](
-            match<String> { it.endsWith("bar.lime") },
-            any<LimeReferenceResolver>(),
-            any<MutableMap<String, List<LimePath>>>()
-        ) }
+        verify {
+            modelLoader["loadFile"](
+                match<String> { it.endsWith("bar.lime") },
+                any<LimeReferenceResolver>(),
+                any<MutableMap<String, List<LimePath>>>()
+            )
+        }
     }
 }

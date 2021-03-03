@@ -32,6 +32,6 @@ class LimeProperty(
 
     @Suppress("unused")
     val needsAccessorsSection = setter == null ||
-            getter.visibility != visibility || setter.visibility != visibility ||
-            !getter.attributes.isEmpty() || !setter.attributes.isEmpty()
+        getter.visibility != visibility || setter.visibility != visibility ||
+        !getter.attributes.isEmpty() || !setter.attributes.isEmpty()
 }

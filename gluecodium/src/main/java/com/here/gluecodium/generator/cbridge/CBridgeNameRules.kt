@@ -46,7 +46,9 @@ internal object CBridgeNameRules {
         val isSwiftExtension = limeElement.attributes.have(SWIFT, LimeAttributeValueType.EXTENSION)
         val infix = if (isSwiftExtension) "__extension" else ""
         val fileName = "cbridge_" + getName(limeElement) + infix + suffix
-        return (listOf(CBRIDGE_PUBLIC, subfolder) + rootNamespace +
-                limeElement.path.head + fileName).joinToString(File.separator)
+        return (
+            listOf(CBRIDGE_PUBLIC, subfolder) + rootNamespace +
+                limeElement.path.head + fileName
+            ).joinToString(File.separator)
     }
 }

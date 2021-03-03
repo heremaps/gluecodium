@@ -121,16 +121,16 @@ internal class SwiftGenerator : Generator {
         }
 
         return swiftFiles + filteredElements.flatMap { cBridgeGenerator.generate(it) } +
-                CBridgeGenerator.STATIC_FILES + STATIC_FILES +
-                cBridgeGenerator.generateCollections(filteredElements) +
-                generateCollections(
-                    filteredElements,
-                    cBridgeGenerator.genericTypesCollector,
-                    swiftNameResolver,
-                    nameResolvers
-                ) +
-                generateBuiltinOptionals(nameResolvers + ("C++" to cBridgeGenerator.cppNameResolver)) +
-                cBridgeGenerator.generateHelpers() + generateRefHolder()
+            CBridgeGenerator.STATIC_FILES + STATIC_FILES +
+            cBridgeGenerator.generateCollections(filteredElements) +
+            generateCollections(
+                filteredElements,
+                cBridgeGenerator.genericTypesCollector,
+                swiftNameResolver,
+                nameResolvers
+            ) +
+            generateBuiltinOptionals(nameResolvers + ("C++" to cBridgeGenerator.cppNameResolver)) +
+            cBridgeGenerator.generateHelpers() + generateRefHolder()
     }
 
     private fun generateSwiftFile(
@@ -274,7 +274,7 @@ internal class SwiftGenerator : Generator {
                 is LimeList -> listOf(limeType) + visitTypeRef(parentElement, limeType.elementType)
                 is LimeSet -> listOf(limeType) + visitTypeRef(parentElement, limeType.elementType)
                 is LimeMap -> listOf(limeType) + visitTypeRef(parentElement, limeType.keyType) +
-                        visitTypeRef(parentElement, limeType.valueType)
+                    visitTypeRef(parentElement, limeType.valueType)
                 else -> emptyList()
             }
 

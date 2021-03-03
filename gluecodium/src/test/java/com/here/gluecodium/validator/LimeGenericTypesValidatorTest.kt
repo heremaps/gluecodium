@@ -82,18 +82,24 @@ class LimeGenericTypesValidatorTest(
             arrayOf(LimeList(LimeBasicTypeRef.INT), true),
             arrayOf(LimeSet(LimeBasicTypeRef.INT), true),
             arrayOf(LimeMap(LimeBasicTypeRef.INT, LimeBasicTypeRef.INT), true),
-            arrayOf(LimeStruct(
-                EMPTY_PATH,
-                attributes =
+            arrayOf(
+                LimeStruct(
+                    EMPTY_PATH,
+                    attributes =
                     LimeAttributes.Builder().addAttribute(LimeAttributeType.EQUATABLE).build()
-            ), true),
+                ),
+                true
+            ),
             arrayOf(LimeClass(EMPTY_PATH), true),
             arrayOf(LimeInterface(EMPTY_PATH), true),
             arrayOf(LimeTypeAlias(EMPTY_PATH, typeRef = LimeBasicTypeRef.INT), true),
-            arrayOf(LimeTypeAlias(
-                EMPTY_PATH,
-                typeRef = LimeBasicTypeRef(LimeBasicType.TypeId.INT32, isNullable = true)
-            ), false)
+            arrayOf(
+                LimeTypeAlias(
+                    EMPTY_PATH,
+                    typeRef = LimeBasicTypeRef(LimeBasicType.TypeId.INT32, isNullable = true)
+                ),
+                false
+            )
         )
     }
 }

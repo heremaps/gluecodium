@@ -124,7 +124,8 @@ internal class CBridgeGenerator(
         listOf(
             generateHelperContent("BaseHandleImpl", BASE_HANDLE_IMPL_FILE),
             generateHelperContent(
-                "StringHandle", Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "StringHandle.cpp").toString()),
+                "StringHandle", Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "StringHandle.cpp").toString()
+            ),
             generateHelperContent(
                 "ByteArrayHandle",
                 Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "ByteArrayHandle.cpp").toString()
@@ -141,16 +142,19 @@ internal class CBridgeGenerator(
                 "BuiltinHandle",
                 Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "BuiltinHandle.cpp").toString()
             ),
-            generateHelperContent("TypeInitRepository",
+            generateHelperContent(
+                "TypeInitRepository",
                 Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "TypeInitRepository.h").toString()
             ),
             generateHelperContent(
                 "TypeInitRepositoryImpl",
                 Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "TypeInitRepository.cpp").toString()
             ),
-            generateHelperContent("WrapperCacheHeader", Paths.get(
-                CBRIDGE_INTERNAL, INCLUDE_DIR, "WrapperCache.h"
-            ).toString()
+            generateHelperContent(
+                "WrapperCacheHeader",
+                Paths.get(
+                    CBRIDGE_INTERNAL, INCLUDE_DIR, "WrapperCache.h"
+                ).toString()
             ),
             generateHelperContent(
                 "WrapperCacheImpl",
@@ -199,7 +203,7 @@ internal class CBridgeGenerator(
                 is LimeList -> visitTypeRef(parentElement, limeType.elementType)
                 is LimeSet -> visitTypeRef(parentElement, limeType.elementType)
                 is LimeMap -> visitTypeRef(parentElement, limeType.keyType) +
-                        visitTypeRef(parentElement, limeType.valueType)
+                    visitTypeRef(parentElement, limeType.valueType)
                 else -> emptyList()
             }
         }
@@ -223,16 +227,18 @@ internal class CBridgeGenerator(
         private val EXPORT_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "Export.h").toString()
         private val PROXY_CACHE_FILENAME = Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "CachedProxyBase.h").toString()
 
-        val STATIC_FILES by lazy { listOf(
-            Generator.copyCommonFile(BASE_HANDLE_FILE, ""),
-            Generator.copyCommonFile(STRING_HANDLE_FILE, ""),
-            Generator.copyCommonFile(DATE_HANDLE_FILE, ""),
-            Generator.copyCommonFile(EXPORT_FILE, ""),
-            Generator.copyCommonFile(Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "BuiltinHandle.h").toString(), ""),
-            Generator.copyCommonFile(Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "ByteArrayHandle.h").toString(), ""),
-            Generator.copyCommonFile(Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "LocaleHandle.h").toString(), ""),
-            Generator.copyCommonFile(PROXY_CACHE_FILENAME, "")
-        ) }
+        val STATIC_FILES by lazy {
+            listOf(
+                Generator.copyCommonFile(BASE_HANDLE_FILE, ""),
+                Generator.copyCommonFile(STRING_HANDLE_FILE, ""),
+                Generator.copyCommonFile(DATE_HANDLE_FILE, ""),
+                Generator.copyCommonFile(EXPORT_FILE, ""),
+                Generator.copyCommonFile(Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "BuiltinHandle.h").toString(), ""),
+                Generator.copyCommonFile(Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "ByteArrayHandle.h").toString(), ""),
+                Generator.copyCommonFile(Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "LocaleHandle.h").toString(), ""),
+                Generator.copyCommonFile(PROXY_CACHE_FILENAME, "")
+            )
+        }
 
         fun getAllParentTypes(allTypes: List<LimeType>): List<LimeType> {
             if (allTypes.isEmpty()) return emptyList()

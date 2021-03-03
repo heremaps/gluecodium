@@ -49,8 +49,11 @@ internal class SwiftWeakPropertiesValidator(private val logger: LimeLogger) {
                 false
             }
             isRestrictedType(limeProperty.typeRef.type.actualType) -> {
-                logger.error(limeProperty, "An interface type held by @Swift(Weak) property can only have methods " +
-                        "that return nullable values (or `void`).")
+                logger.error(
+                    limeProperty,
+                    "An interface type held by @Swift(Weak) property can only have methods " +
+                        "that return nullable values (or `void`)."
+                )
                 false
             }
             else -> true
@@ -58,5 +61,5 @@ internal class SwiftWeakPropertiesValidator(private val logger: LimeLogger) {
 
     private fun isRestrictedType(limeType: LimeType) =
         limeType is LimeInterface &&
-                limeType.functions.any { !it.returnType.isVoid && !it.returnType.typeRef.isNullable }
+            limeType.functions.any { !it.returnType.isVoid && !it.returnType.typeRef.isNullable }
 }

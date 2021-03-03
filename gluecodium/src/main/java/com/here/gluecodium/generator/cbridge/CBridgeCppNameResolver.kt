@@ -70,8 +70,10 @@ internal class CBridgeCppNameResolver(
         }
 
     private fun resolveTypeRefName(limeTypeRef: LimeTypeRef) =
-        cppShortNameResolver.resolveName(LimeDirectTypeRef(
-            limeTypeRef.type.actualType,
-            isNullable = limeTypeRef.isNullable
-        ))
+        cppShortNameResolver.resolveName(
+            LimeDirectTypeRef(
+                limeTypeRef.type.actualType,
+                isNullable = limeTypeRef.isNullable
+            )
+        )
 }

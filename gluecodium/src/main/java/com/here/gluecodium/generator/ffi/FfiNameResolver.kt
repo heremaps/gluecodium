@@ -119,9 +119,9 @@ internal class FfiNameResolver(
             limeElement.path.hasParent -> {
                 val parentElement =
                     limeReferenceMap[limeElement.path.parent.toString()] as? LimeNamedElement
-                    ?: throw GluecodiumExecutionException(
-                        "Failed to resolve parent for element ${limeElement.fullName}"
-                    )
+                        ?: throw GluecodiumExecutionException(
+                            "Failed to resolve parent for element ${limeElement.fullName}"
+                        )
                 getMangledFullName(parentElement)
             }
             limeElement.path.head.isEmpty() -> null
