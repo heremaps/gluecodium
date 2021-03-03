@@ -1,13 +1,13 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 8.9.5
+Release date: 2021-03-03
 ### Features:
   * Added `@Java(PositionalDefaults)` attribute for structs. This attribute marks a struct to have an imitation of a
     constructor with optional positional parameters in Java (only if the struct has any fields with default values).
 
 ## 8.9.4
 ### Bug fixes:
-Release date: 2021-02-26
   * Struct default constructor in C++ is no longer erroneously omitted if one of the fields is a
     collection of immutable elements.
 
