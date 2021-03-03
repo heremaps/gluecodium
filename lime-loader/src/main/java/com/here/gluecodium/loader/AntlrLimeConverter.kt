@@ -159,7 +159,7 @@ internal object AntlrLimeConverter {
             attributeType.defaultValueType ?: throw LimeLoadingException(
                 "Attribute type $attributeType does not support values"
             )
-        )
+            )
         return when (id) {
             "Name" -> LimeAttributeValueType.NAME
             "Accessors" -> LimeAttributeValueType.ACCESSORS

@@ -53,9 +53,9 @@ import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.lime.LimeValue.Special.ValueId
 import com.here.gluecodium.model.lime.LimeVisibility
-import java.util.LinkedList
 import org.antlr.v4.runtime.ParserRuleContext
 import org.antlr.v4.runtime.misc.ParseCancellationException
+import java.util.LinkedList
 
 internal class AntlrLimeModelBuilder(
     private val referenceResolver: LimeReferenceResolver,
@@ -305,11 +305,13 @@ internal class AntlrLimeModelBuilder(
                 comment = getComment("set", emptyList(), ctx).withExcluded(propertyComment.isExcluded),
                 attributes = AntlrLimeConverter.convertAnnotations(currentPath, emptyList(), propertyAttributes),
                 visibility = propertyVisibility,
-                parameters = listOf(LimeParameter(
-                    getterPath.child("value"),
-                    propertyComment,
-                    typeRef = propertyType
-                )),
+                parameters = listOf(
+                    LimeParameter(
+                        getterPath.child("value"),
+                        propertyComment,
+                        typeRef = propertyType
+                    )
+                ),
                 isStatic = propertyIsStatic
             )
         } else {
@@ -339,11 +341,13 @@ internal class AntlrLimeModelBuilder(
                     comment = setterComment.withExcluded(propertyComment.isExcluded),
                     attributes = setterAttributes,
                     external = setterExternalDescriptor,
-                    parameters = listOf(LimeParameter(
-                        getterPath.child("value"),
-                        propertyComment,
-                        typeRef = propertyType
-                    )),
+                    parameters = listOf(
+                        LimeParameter(
+                            getterPath.child("value"),
+                            propertyComment,
+                            typeRef = propertyType
+                        )
+                    ),
                     isStatic = propertyIsStatic
                 )
             }
@@ -678,7 +682,7 @@ internal class AntlrLimeModelBuilder(
                 val position = currentContext.getStart()
                 throw ParseCancellationException(
                     "line ${position.line}:${position.charPositionInLine}, " +
-                            "redundant documentation comment defined"
+                        "redundant documentation comment defined"
                 )
             }
         }

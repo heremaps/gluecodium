@@ -157,7 +157,7 @@ internal class JavaImportResolver(
             limeType is LimeList -> resolveTypeRefImports(limeType.elementType, ignoreNullability = true) + listImport
             limeType is LimeSet -> resolveTypeRefImports(limeType.elementType, ignoreNullability = true) + setImport
             limeType is LimeMap -> resolveTypeRefImports(limeType.keyType, ignoreNullability = true) +
-                    resolveTypeRefImports(limeType.valueType, ignoreNullability = true) + mapImport
+                resolveTypeRefImports(limeType.valueType, ignoreNullability = true) + mapImport
             else -> listOf(createTopElementImport(limeType))
         }
         val nullabilityImport = when {
@@ -178,8 +178,10 @@ internal class JavaImportResolver(
     }
 
     private fun resolveContainerImports(limeContainer: LimeContainer) =
-        (limeContainer.functions + limeContainer.properties + limeContainer.structs + limeContainer.classes +
-                limeContainer.interfaces + limeContainer.exceptions + limeContainer.lambdas + limeContainer.constants)
+        (
+            limeContainer.functions + limeContainer.properties + limeContainer.structs + limeContainer.classes +
+                limeContainer.interfaces + limeContainer.exceptions + limeContainer.lambdas + limeContainer.constants
+            )
             .flatMap { resolveImports(it) }
 
     private fun resolveFunctionImports(limeFunction: LimeFunction): List<JavaImport> {

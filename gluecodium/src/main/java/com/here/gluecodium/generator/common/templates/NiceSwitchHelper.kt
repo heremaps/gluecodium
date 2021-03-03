@@ -52,8 +52,8 @@ internal class NiceSwitchHelper : SwitchHelper() {
             if (!isValid(info, validNames)) {
                 LOGGER.warn(
                     "Invalid content detected {}. " +
-                            "This helper should only contain case, default and comment sections. " +
-                            "Other types of segments are always rendered.",
+                        "This helper should only contain case, default and comment sections. " +
+                        "Other types of segments are always rendered.",
                     info
                 )
             }

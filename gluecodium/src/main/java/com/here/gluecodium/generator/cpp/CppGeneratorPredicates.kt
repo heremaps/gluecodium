@@ -89,10 +89,10 @@ internal object CppGeneratorPredicates {
             val limeType = limeField.typeRef.type.actualType
             return when {
                 limeType is LimeContainerWithInheritance &&
-                        limeType.attributes.have(LimeAttributeType.EQUATABLE) -> true
+                    limeType.attributes.have(LimeAttributeType.EQUATABLE) -> true
                 !limeField.typeRef.isNullable -> false
                 limeType is LimeContainerWithInheritance &&
-                        limeType.attributes.have(LimeAttributeType.POINTER_EQUATABLE) -> false
+                    limeType.attributes.have(LimeAttributeType.POINTER_EQUATABLE) -> false
                 else -> true
             }
         },

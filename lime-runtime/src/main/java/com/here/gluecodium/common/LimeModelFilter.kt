@@ -83,74 +83,82 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
         }
 
     private fun filterClass(limeClass: LimeClass): LimeClass =
-        limeClass.run { LimeClass(
-            path = path,
-            visibility = visibility,
-            comment = comment,
-            attributes = attributes,
-            external = external,
-            structs = structs.filter(predicate).map { filterStruct(it) },
-            enumerations = enumerations.filter(predicate).map { filterEnum(it) },
-            constants = constants.filter(predicate).map { filterConstant(it) },
-            typeAliases = typeAliases.filter(predicate),
-            functions = functions.filter(predicate),
-            properties = properties.filter(predicate),
-            exceptions = exceptions.filter(predicate),
-            classes = classes.filter(predicate).map { filterClass(it) },
-            interfaces = interfaces.filter(predicate).map { filterInterface(it) },
-            lambdas = lambdas.filter(predicate),
-            parent = parent?.let { LimeDirectTypeRef(filterTopElement(it.type.actualType) as LimeType) }
-        ) }
+        limeClass.run {
+            LimeClass(
+                path = path,
+                visibility = visibility,
+                comment = comment,
+                attributes = attributes,
+                external = external,
+                structs = structs.filter(predicate).map { filterStruct(it) },
+                enumerations = enumerations.filter(predicate).map { filterEnum(it) },
+                constants = constants.filter(predicate).map { filterConstant(it) },
+                typeAliases = typeAliases.filter(predicate),
+                functions = functions.filter(predicate),
+                properties = properties.filter(predicate),
+                exceptions = exceptions.filter(predicate),
+                classes = classes.filter(predicate).map { filterClass(it) },
+                interfaces = interfaces.filter(predicate).map { filterInterface(it) },
+                lambdas = lambdas.filter(predicate),
+                parent = parent?.let { LimeDirectTypeRef(filterTopElement(it.type.actualType) as LimeType) }
+            )
+        }
 
     private fun filterInterface(limeInterface: LimeInterface): LimeInterface =
-        limeInterface.run { LimeInterface(
-            path = path,
-            visibility = visibility,
-            comment = comment,
-            attributes = attributes,
-            external = external,
-            structs = structs.filter(predicate).map { filterStruct(it) },
-            enumerations = enumerations.filter(predicate).map { filterEnum(it) },
-            constants = constants.filter(predicate).map { filterConstant(it) },
-            typeAliases = typeAliases.filter(predicate),
-            functions = functions.filter(predicate),
-            properties = properties.filter(predicate),
-            exceptions = exceptions.filter(predicate),
-            classes = classes.filter(predicate).map { filterClass(it) },
-            interfaces = interfaces.filter(predicate).map { filterInterface(it) },
-            lambdas = lambdas.filter(predicate),
-            parent = parent?.let { LimeDirectTypeRef(filterTopElement(it.type.actualType) as LimeType) }
-        ) }
+        limeInterface.run {
+            LimeInterface(
+                path = path,
+                visibility = visibility,
+                comment = comment,
+                attributes = attributes,
+                external = external,
+                structs = structs.filter(predicate).map { filterStruct(it) },
+                enumerations = enumerations.filter(predicate).map { filterEnum(it) },
+                constants = constants.filter(predicate).map { filterConstant(it) },
+                typeAliases = typeAliases.filter(predicate),
+                functions = functions.filter(predicate),
+                properties = properties.filter(predicate),
+                exceptions = exceptions.filter(predicate),
+                classes = classes.filter(predicate).map { filterClass(it) },
+                interfaces = interfaces.filter(predicate).map { filterInterface(it) },
+                lambdas = lambdas.filter(predicate),
+                parent = parent?.let { LimeDirectTypeRef(filterTopElement(it.type.actualType) as LimeType) }
+            )
+        }
 
     private fun filterTypesCollection(limeTypes: LimeTypesCollection) =
-        limeTypes.run { LimeTypesCollection(
-            path = path,
-            visibility = visibility,
-            comment = comment,
-            attributes = attributes,
-            structs = structs.filter(predicate).map { filterStruct(it) },
-            enumerations = enumerations.filter(predicate).map { filterEnum(it) },
-            constants = constants.filter(predicate).map { filterConstant(it) },
-            typeAliases = typeAliases.filter(predicate),
-            exceptions = exceptions.filter(predicate)
-        ) }
+        limeTypes.run {
+            LimeTypesCollection(
+                path = path,
+                visibility = visibility,
+                comment = comment,
+                attributes = attributes,
+                structs = structs.filter(predicate).map { filterStruct(it) },
+                enumerations = enumerations.filter(predicate).map { filterEnum(it) },
+                constants = constants.filter(predicate).map { filterConstant(it) },
+                typeAliases = typeAliases.filter(predicate),
+                exceptions = exceptions.filter(predicate)
+            )
+        }
 
     private fun filterStruct(limeStruct: LimeStruct) =
-        limeStruct.run { LimeStruct(
-            path = path,
-            visibility = visibility,
-            comment = comment,
-            attributes = attributes,
-            external = external,
-            functions = functions.filter(predicate),
-            constants = constants.filter(predicate).map { filterConstant(it) },
-            fields = fields.filter(predicate).map { filterField(it) },
-            constructorComment = constructorComment,
-            structs = structs.filter(predicate),
-            classes = classes.filter(predicate),
-            interfaces = interfaces.filter(predicate),
-            enumerations = enumerations.filter(predicate)
-        ) }
+        limeStruct.run {
+            LimeStruct(
+                path = path,
+                visibility = visibility,
+                comment = comment,
+                attributes = attributes,
+                external = external,
+                functions = functions.filter(predicate),
+                constants = constants.filter(predicate).map { filterConstant(it) },
+                fields = fields.filter(predicate).map { filterField(it) },
+                constructorComment = constructorComment,
+                structs = structs.filter(predicate),
+                classes = classes.filter(predicate),
+                interfaces = interfaces.filter(predicate),
+                enumerations = enumerations.filter(predicate)
+            )
+        }
 
     private fun filterEnum(limeEnum: LimeEnumeration) =
         limeEnum.run {

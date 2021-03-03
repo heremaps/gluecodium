@@ -79,7 +79,7 @@ internal class JniGeneratorPredicates(
         },
         "returnsOpaqueHandle" to { limeFunction: Any ->
             limeFunction is LimeFunction && limeFunction.isConstructor &&
-                    limeFunction.returnType.typeRef.type is LimeClass
+                limeFunction.returnType.typeRef.type is LimeClass
         }
     )
 }

@@ -35,8 +35,8 @@ internal class LimeStructsValidator(private val logger: LimeLogger) {
     fun validate(limeModel: LimeModel): Boolean {
         val allStructs = limeModel.referenceMap.values.filterIsInstance<LimeStruct>()
         val validationResults = allStructs
-                .filter { it.attributes.have(LimeAttributeType.EQUATABLE) }
-                .map { validateEquatable(it) } +
+            .filter { it.attributes.have(LimeAttributeType.EQUATABLE) }
+            .map { validateEquatable(it) } +
             allStructs.map { validateConstructability(it) }
 
         return !validationResults.contains(false)

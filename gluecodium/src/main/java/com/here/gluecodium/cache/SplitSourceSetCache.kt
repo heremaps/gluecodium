@@ -88,20 +88,26 @@ class SplitSourceSetCache(
                 commonCacheStrategy?.updateCache(
                     generatorName,
                     prefix(files, MAIN)
-                ), MAIN
+                ),
+                MAIN
             )
             commonCacheStrategy == null -> unprefix(
                 mainCacheStrategy?.updateCache(
                     generatorName,
                     prefix(files, COMMON)
-                ), COMMON
+                ),
+                COMMON
             )
             else -> {
                 val mainFiles = files.filter { it.sourceSet == MAIN }
                 val commonFiles = files.filter { it.sourceSet == COMMON }
-                (commonCacheStrategy?.updateCache(generatorName, commonFiles)
-                    ?: emptyList()) + (mainCacheStrategy?.updateCache(generatorName, mainFiles)
-                    ?: emptyList())
+                (
+                    commonCacheStrategy?.updateCache(generatorName, commonFiles)
+                        ?: emptyList()
+                    ) + (
+                    mainCacheStrategy?.updateCache(generatorName, mainFiles)
+                        ?: emptyList()
+                    )
             }
         } ?: emptyList()
 

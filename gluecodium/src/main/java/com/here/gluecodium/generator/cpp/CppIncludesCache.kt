@@ -46,8 +46,9 @@ internal class CppIncludesCache(
                     externalType.split(',').map { Include.createInternalInclude(it.trim()) }
                 !limeNamedElement.path.hasParent -> listOf(
                     Include.createInternalInclude(
-                    nameRules.getOutputFilePath(limeNamedElement) + ".h"
-                ))
+                        nameRules.getOutputFilePath(limeNamedElement) + ".h"
+                    )
+                )
                 else -> {
                     val parentElementKey = limeNamedElement.path.parent.toString()
                     resolveIncludes(limeReferenceMap[parentElementKey] as LimeNamedElement)

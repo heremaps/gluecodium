@@ -27,9 +27,6 @@ import com.here.gluecodium.model.lime.LimeModelLoader
 import com.here.gluecodium.test.NiceErrorCollector
 import io.mockk.every
 import io.mockk.spyk
-import java.io.File
-import java.net.URISyntaxException
-import java.util.HashMap
 import junit.framework.TestCase
 import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
@@ -39,6 +36,9 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import java.io.File
+import java.net.URISyntaxException
+import java.util.HashMap
 
 @RunWith(Parameterized::class)
 class SmokeTest(
@@ -99,12 +99,14 @@ class SmokeTest(
 
         val limeModel = LOADER.loadModel(listOf(inputDirectory.toString()), listOf(auxDirectory.toString()))
         assertTrue(gluecodium.validateModel(limeModel))
-        assertTrue(gluecodium.executeGenerator(
-            generatorName = generatorName,
-            filteredModel = gluecodium.filterModel(limeModel),
-            unfilteredModel = limeModel,
-            fileNamesCache = HashMap()
-        ))
+        assertTrue(
+            gluecodium.executeGenerator(
+                generatorName = generatorName,
+                filteredModel = gluecodium.filterModel(limeModel),
+                unfilteredModel = limeModel,
+                fileNamesCache = HashMap()
+            )
+        )
 
         val generatedContents = results.associateBy({ it.targetFile.path }, { it.content })
 
@@ -204,5 +206,6 @@ class SmokeTest(
                 .split('\n').joinToString("\n") { if (it.startsWith("#include")) it.replace('/', '\\') else it }
 
         private fun getFeatureName(parentDirectory: File, featureDirectory: File) =
-            getRelativePath(parentDirectory, featureDirectory).replace("/", "") }
+            getRelativePath(parentDirectory, featureDirectory).replace("/", "")
+    }
 }

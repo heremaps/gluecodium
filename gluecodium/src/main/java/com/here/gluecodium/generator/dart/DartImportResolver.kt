@@ -51,12 +51,12 @@ internal class DartImportResolver(
         when {
             limeElement is LimeLambda -> listOf(tokenCacheImport)
             limeElement is LimeStruct && limeElement.external?.dart == null &&
-                    limeElement.attributes.have(LimeAttributeType.EQUATABLE) ->
+                limeElement.attributes.have(LimeAttributeType.EQUATABLE) ->
                 listOf(collectionSystemImport, collectionPackageImport)
             limeElement is LimeInterface ->
                 listOf(builtInTypesConversionImport, typeRepositoryImport, tokenCacheImport)
             limeElement is LimeClass &&
-                    (limeElement.parent != null || limeElement.visibility.isOpen) ->
+                (limeElement.parent != null || limeElement.visibility.isOpen) ->
                 listOf(builtInTypesConversionImport, typeRepositoryImport, tokenCacheImport)
             limeElement is LimeClass -> listOf(tokenCacheImport)
             else -> emptyList()

@@ -69,14 +69,14 @@ internal class CBridgeImplIncludeResolver(
 
     private fun resolveClassInterfaceIncludes(limeContainer: LimeContainerWithInheritance): List<Include> =
         resolveContainerIncludes(limeContainer) +
-        listOfNotNull(
-            TYPE_INIT_REPOSITORY_INCLUDE,
-            WRAPPER_CACHE_INCLUDE,
-            CACHED_PROXY_BASE_INCLUDE.takeIf { limeContainer is LimeInterface },
-            cppIncludeResolver.typeRepositoryInclude.takeIf {
-                CommonGeneratorPredicates.hasTypeRepository(limeContainer)
-            }
-        ) + resolveParentIncludes(limeContainer)
+            listOfNotNull(
+                TYPE_INIT_REPOSITORY_INCLUDE,
+                WRAPPER_CACHE_INCLUDE,
+                CACHED_PROXY_BASE_INCLUDE.takeIf { limeContainer is LimeInterface },
+                cppIncludeResolver.typeRepositoryInclude.takeIf {
+                    CommonGeneratorPredicates.hasTypeRepository(limeContainer)
+                }
+            ) + resolveParentIncludes(limeContainer)
 
     private fun resolveParentIncludes(limeContainer: LimeContainerWithInheritance) =
         ((limeContainer as? LimeInterface)?.parent?.type?.actualType as? LimeInterface)?.let {
@@ -88,13 +88,15 @@ internal class CBridgeImplIncludeResolver(
 
     private fun resolveContainerIncludes(limeContainer: LimeContainer) =
         cppIncludeResolver.resolveIncludes(limeContainer) +
-        listOf(CppLibraryIncludes.MEMORY, CppLibraryIncludes.NEW, BASE_HANDLE_IMPL_INCLUDE) +
-        (limeContainer.functions + limeContainer.properties + limeContainer.classes +
-            limeContainer.interfaces + limeContainer.structs + limeContainer.lambdas).flatMap { resolveIncludes(it) }
+            listOf(CppLibraryIncludes.MEMORY, CppLibraryIncludes.NEW, BASE_HANDLE_IMPL_INCLUDE) +
+            (
+                limeContainer.functions + limeContainer.properties + limeContainer.classes +
+                    limeContainer.interfaces + limeContainer.structs + limeContainer.lambdas
+                ).flatMap { resolveIncludes(it) }
 
     private fun resolveTypeRefIncludes(limeTypeRef: LimeTypeRef): List<Include> =
         cppIncludeResolver.resolveIncludes(limeTypeRef) +
-        limeTypeRef.type.actualType.let { resolveGenericTypeIncludes(it) + resolveHandleIncludes(it) }
+            limeTypeRef.type.actualType.let { resolveGenericTypeIncludes(it) + resolveHandleIncludes(it) }
 
     private fun resolveHandleIncludes(limeType: LimeType): List<Include> {
         val typeId = (limeType as? LimeBasicType)?.typeId ?: return emptyList()
@@ -116,8 +118,10 @@ internal class CBridgeImplIncludeResolver(
         }
 
     private fun resolveFunctionIncludes(limeFunction: LimeFunction) =
-        (listOfNotNull(limeFunction.returnType.typeRef, limeFunction.exception?.errorType) +
-            limeFunction.parameters.map { it.typeRef }).flatMap { resolveTypeRefIncludes(it) }
+        (
+            listOfNotNull(limeFunction.returnType.typeRef, limeFunction.exception?.errorType) +
+                limeFunction.parameters.map { it.typeRef }
+            ).flatMap { resolveTypeRefIncludes(it) }
 
     private fun resolveLambdaIncludes(limeLambda: LimeLambda) = cppIncludeResolver.resolveIncludes(limeLambda) +
         (limeLambda.parameters.map { it.typeRef } + limeLambda.returnType.typeRef).flatMap { resolveTypeRefIncludes(it) } +

@@ -35,8 +35,10 @@ object LimeTypeHelper {
         when (limeElement) {
             is LimeConstant -> listOf(limeElement.value)
             is LimeField -> listOfNotNull(limeElement.defaultValue)
-            is LimeContainerWithInheritance -> (limeElement.constants + limeElement.structs +
-                limeElement.classes + limeElement.interfaces).flatMap { getAllValues(it) }
+            is LimeContainerWithInheritance -> (
+                limeElement.constants + limeElement.structs +
+                    limeElement.classes + limeElement.interfaces
+                ).flatMap { getAllValues(it) }
             is LimeTypesCollection ->
                 (limeElement.constants + limeElement.structs).flatMap { getAllValues(it) }
             is LimeStruct ->
@@ -57,9 +59,11 @@ object LimeTypeHelper {
             else -> identifier
         }
 
-    private val limeKeywords = setOf("class", "const", "constructor", "fun", "enum", "exception",
+    private val limeKeywords = setOf(
+        "class", "const", "constructor", "fun", "enum", "exception",
         "get", "import", "interface", "internal", "lambda", "open", "package", "property", "public",
         "set", "static", "struct", "throws", "typealias", "types", "Void", "Boolean", "Float",
         "Double", "Byte", "Short", "Int", "Long", "UByte", "UShort", "UInt", "ULong", "String",
-        "Blob", "Date", "List", "Map", "Set", "true", "false", "null", "NaN", "Infinity")
+        "Blob", "Date", "List", "Map", "Set", "true", "false", "null", "NaN", "Infinity"
+    )
 }

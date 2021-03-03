@@ -155,8 +155,9 @@ internal class JavaGenerator : Generator {
     private fun flattenTypeCollections(limeElements: List<LimeNamedElement>) =
         limeElements.flatMap {
             when (it) {
-                is LimeTypesCollection -> it.structs + it.enumerations + it.exceptions +
-                    if (it.constants.isNotEmpty()) listOf(it) else emptyList()
+                is LimeTypesCollection ->
+                    it.structs + it.enumerations + it.exceptions +
+                        if (it.constants.isNotEmpty()) listOf(it) else emptyList()
                 else -> listOf(it)
             }
         }
@@ -174,7 +175,8 @@ internal class JavaGenerator : Generator {
         importResolver: JavaImportResolver
     ): List<GeneratedFile> {
         if (limeElement.external?.java?.get(NAME_NAME) != null &&
-            limeElement.external?.java?.get(CONVERTER_NAME) == null) {
+            limeElement.external?.java?.get(CONVERTER_NAME) == null
+        ) {
             return emptyList()
         }
 

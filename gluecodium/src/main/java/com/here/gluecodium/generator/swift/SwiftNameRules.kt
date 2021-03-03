@@ -39,12 +39,14 @@ class SwiftNameRules(nameRuleSet: NameRuleSet) : NameRules(nameRuleSet) {
     fun getImplementationFileName(limeElement: LimeNamedElement): String {
         val isSwiftExtension = limeElement.attributes.have(SWIFT, LimeAttributeValueType.EXTENSION)
         val suffix = if (isSwiftExtension) "__extension" else ""
-        return (TARGET_DIRECTORY +
+        return (
+            TARGET_DIRECTORY +
                 limeElement.path.head.joinToString(File.separator) +
                 File.separator +
                 getName(limeElement) +
                 suffix +
-                ".swift")
+                ".swift"
+            )
     }
 
     private fun getPlatformName(limeElement: LimeNamedElement?) =

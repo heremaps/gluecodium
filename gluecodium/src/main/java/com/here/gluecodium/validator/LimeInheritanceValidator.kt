@@ -37,7 +37,7 @@ internal class LimeInheritanceValidator(private val logger: LimeLogger) {
         val allElements = limeModel.referenceMap.values
         val validationResults =
             allElements.filterIsInstance<LimeClass>().map { validateClass(it) } +
-            allElements.filterIsInstance<LimeInterface>().map { validateInterface(it) }
+                allElements.filterIsInstance<LimeInterface>().map { validateInterface(it) }
 
         return !validationResults.contains(false)
     }

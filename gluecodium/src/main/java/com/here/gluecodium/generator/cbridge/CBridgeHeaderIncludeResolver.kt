@@ -67,12 +67,16 @@ internal class CBridgeHeaderIncludeResolver(
         }
 
     private fun resolveContainerIncludes(limeContainer: LimeContainer) =
-        (limeContainer.functions + limeContainer.properties + limeContainer.classes + limeContainer.interfaces +
+        (
+            limeContainer.functions + limeContainer.properties + limeContainer.classes + limeContainer.interfaces +
                 limeContainer.structs + limeContainer.enumerations +
-                limeContainer.lambdas).flatMap { resolveIncludes(it) } +
-            listOfNotNull(BOOL_INCLUDE.takeIf {
-                limeContainer.attributes.have(EQUATABLE) || limeContainer.attributes.have(POINTER_EQUATABLE)
-            })
+                limeContainer.lambdas
+            ).flatMap { resolveIncludes(it) } +
+            listOfNotNull(
+                BOOL_INCLUDE.takeIf {
+                    limeContainer.attributes.have(EQUATABLE) || limeContainer.attributes.have(POINTER_EQUATABLE)
+                }
+            )
 
     private fun resolveTypeRefIncludes(limeTypeRef: LimeTypeRef): List<Include> {
         if (limeTypeRef.isNullable) return emptyList()
@@ -92,9 +96,11 @@ internal class CBridgeHeaderIncludeResolver(
 
     private fun resolveFunctionIncludes(limeFunction: LimeFunction) =
         (limeFunction.parameters.map { it.typeRef } + limeFunction.returnType.typeRef).flatMap { resolveTypeRefIncludes(it) } +
-            (limeFunction.exception?.let {
-                listOf(createHeaderInclude(it.errorType.type.actualType), BOOL_INCLUDE)
-            } ?: emptyList())
+            (
+                limeFunction.exception?.let {
+                    listOf(createHeaderInclude(it.errorType.type.actualType), BOOL_INCLUDE)
+                } ?: emptyList()
+                )
 
     private fun resolveLambdaIncludes(limeLambda: LimeLambda) =
         (limeLambda.parameters.map { it.typeRef } + limeLambda.returnType.typeRef).flatMap { resolveTypeRefIncludes(it) }

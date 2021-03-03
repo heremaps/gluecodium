@@ -58,13 +58,13 @@ interface Generator {
 
         fun copyCommonFile(fileName: String, targetDir: String): GeneratedFile {
             val stream = Generator::class.java.classLoader.getResourceAsStream(fileName)
-                    ?: throw GluecodiumExecutionException(String.format("Failed loading resource %s.", fileName))
+                ?: throw GluecodiumExecutionException(String.format("Failed loading resource %s.", fileName))
 
             return try {
                 GeneratedFile(
-                        stream.bufferedReader().use { it.readText() },
-                        if (targetDir.isNotEmpty()) targetDir + File.separator + fileName else fileName,
-                        GeneratedFile.SourceSet.COMMON
+                    stream.bufferedReader().use { it.readText() },
+                    if (targetDir.isNotEmpty()) targetDir + File.separator + fileName else fileName,
+                    GeneratedFile.SourceSet.COMMON
                 )
             } catch (e: IOException) {
                 throw GluecodiumExecutionException("Copying resource file failed with error:", e)

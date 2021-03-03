@@ -147,8 +147,12 @@ internal class DartGenerator : Generator {
             .sortedBy { ffiNameResolver.resolveName(it) }
 
         val generatedFiles = dartFilteredElements.flatMap {
-            listOfNotNull(generateDart(it, dartResolvers, dartNameResolver, importResolver,
-                exportsCollector, typeRepositoriesCollector))
+            listOfNotNull(
+                generateDart(
+                    it, dartResolvers, dartNameResolver, importResolver,
+                    exportsCollector, typeRepositoriesCollector
+                )
+            )
         } + ffiFilteredElements.flatMap { generateFfi(it, ffiResolvers, includeResolver) } +
             generateDartGenericTypesConversion(genericTypes, dartResolvers, importResolver) +
             generateFfiGenericTypesConversion(genericTypes, ffiResolvers, includeResolver) +
@@ -212,7 +216,7 @@ internal class DartGenerator : Generator {
 
     private fun getTypeRepositories(allTypes: List<LimeType>) =
         allTypes.filterIsInstance<LimeInterface>() +
-        allTypes.filterIsInstance<LimeClass>().filter { it.parent != null || it.visibility.isOpen }
+            allTypes.filterIsInstance<LimeClass>().filter { it.parent != null || it.visibility.isOpen }
 
     private fun collectReferenceImports(
         allTypes: List<LimeType>,
@@ -403,18 +407,20 @@ internal class DartGenerator : Generator {
                 "$FFI_DIR/$it.h",
                 COMMON
             )
-        } + headerAndImpl.flatMap { listOf(
-            GeneratedFile(
-                TemplateEngine.render("ffi/Ffi${it}Header", data, nameResolvers),
-                "$FFI_DIR/$it.h",
-                COMMON
-            ),
-            GeneratedFile(
-                TemplateEngine.render("ffi/Ffi${it}Impl", data, nameResolvers),
-                "$FFI_DIR/$it.cpp",
-                COMMON
+        } + headerAndImpl.flatMap {
+            listOf(
+                GeneratedFile(
+                    TemplateEngine.render("ffi/Ffi${it}Header", data, nameResolvers),
+                    "$FFI_DIR/$it.h",
+                    COMMON
+                ),
+                GeneratedFile(
+                    TemplateEngine.render("ffi/Ffi${it}Impl", data, nameResolvers),
+                    "$FFI_DIR/$it.cpp",
+                    COMMON
+                )
             )
-        ) }
+        }
     }
 
     private fun generateDartGenericTypesConversion(
@@ -473,8 +479,10 @@ internal class DartGenerator : Generator {
             is LimeException -> "dart/DartException"
             is LimeLambda -> "dart/DartLambda"
             is LimeTypeAlias -> null
-            else -> throw GluecodiumExecutionException("Unsupported top-level element: " +
-                    limeElement::class.java.name)
+            else -> throw GluecodiumExecutionException(
+                "Unsupported top-level element: " +
+                    limeElement::class.java.name
+            )
         }
 
     private fun collectTypeRefs(limeFunction: LimeFunction) =
@@ -491,7 +499,7 @@ internal class DartGenerator : Generator {
                 is LimeList -> visitTypeRef(parentElement, limeType.elementType)
                 is LimeSet -> visitTypeRef(parentElement, limeType.elementType)
                 is LimeMap -> visitTypeRef(parentElement, limeType.keyType) +
-                        visitTypeRef(parentElement, limeType.valueType)
+                    visitTypeRef(parentElement, limeType.valueType)
                 else -> emptyList()
             }
 
@@ -509,7 +517,7 @@ internal class DartGenerator : Generator {
                     else -> null
                 }
             }.any { it.attributes.have(DART, SKIP) }
-        }
+    }
 
     companion object {
         private val logger = Logger.getLogger(DartGenerator::class.java.name)

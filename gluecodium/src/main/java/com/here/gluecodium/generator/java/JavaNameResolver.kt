@@ -195,7 +195,8 @@ internal class JavaNameResolver(
             val ambiguousKey = it.path.withSuffix("").toString()
             val fullSignatureKey = ambiguousKey +
                 it.parameters.joinToString(prefix = "(", postfix = ")", separator = ",") {
-                        parameter -> parameter.typeRef.toString()
+                    parameter ->
+                    parameter.typeRef.toString()
                 }
             val fullName = resolveFullName(it) + getSignatureSuffix(it)
 

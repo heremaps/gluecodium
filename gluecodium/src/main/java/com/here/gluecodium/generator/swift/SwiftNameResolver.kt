@@ -125,9 +125,10 @@ internal class SwiftNameResolver(
                 val actualType = limeValue.typeRef.type.actualType
                 when {
                     actualType is LimeMap && limeValue.values.isEmpty() -> "[:]"
-                    actualType is LimeStruct -> limeValue.values
-                        .mapIndexed { index, it -> resolveName(actualType.fields[index]) + ": " + resolveValue(it) }
-                        .joinToString(prefix = "${resolveReferenceName(actualType)}(", postfix = ")", separator = ", ")
+                    actualType is LimeStruct ->
+                        limeValue.values
+                            .mapIndexed { index, it -> resolveName(actualType.fields[index]) + ": " + resolveValue(it) }
+                            .joinToString(prefix = "${resolveReferenceName(actualType)}(", postfix = ")", separator = ", ")
                     else -> limeValue.values.joinToString(
                         prefix = "[",
                         postfix = "]",
@@ -175,7 +176,7 @@ internal class SwiftNameResolver(
             parentElement is LimeInterface && (limeElement is LimeTypeAlias || limeElement is LimeLambda) ->
                 getNestedNames(parentElement) + name
             parentElement is LimeInterface &&
-                    limeElement is LimeException && name != resolveName(limeElement.errorType) ->
+                limeElement is LimeException && name != resolveName(limeElement.errorType) ->
                 getNestedNames(parentElement) + name
             else -> listOf(name)
         }

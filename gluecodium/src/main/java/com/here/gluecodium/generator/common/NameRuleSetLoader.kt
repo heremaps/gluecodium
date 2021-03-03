@@ -28,17 +28,17 @@ import com.natpryce.konfig.stringType
 
 private object NameRuleSetLoader {
     fun getNameRuleSet(config: Configuration) = NameRuleSet(
-            getFieldName = getNameRule(config, NameTypes.Field),
-            getParameterName = getNameRule(config, NameTypes.Parameter),
-            getConstantName = getNameRule(config, NameTypes.Constant),
-            getEnumeratorName = getNameRule(config, NameTypes.Enumerator),
-            getMethodName = getNameRule(config, NameTypes.Method),
-            getTypeName = getNameRule(config, NameTypes.Type),
-            getPropertyName = getNameRuleBooleanPrefix(config, NameTypes.Property),
-            getSetterName = getNameRule(config, NameTypes.Setter),
-            getGetterName = getNameRuleBooleanPrefix(config, NameTypes.Getter),
-            getErrorName = getNameRule(config, NameTypes.Error),
-            joinInfix = getInfix(config, NameTypes.Join)
+        getFieldName = getNameRule(config, NameTypes.Field),
+        getParameterName = getNameRule(config, NameTypes.Parameter),
+        getConstantName = getNameRule(config, NameTypes.Constant),
+        getEnumeratorName = getNameRule(config, NameTypes.Enumerator),
+        getMethodName = getNameRule(config, NameTypes.Method),
+        getTypeName = getNameRule(config, NameTypes.Type),
+        getPropertyName = getNameRuleBooleanPrefix(config, NameTypes.Property),
+        getSetterName = getNameRule(config, NameTypes.Setter),
+        getGetterName = getNameRuleBooleanPrefix(config, NameTypes.Getter),
+        getErrorName = getNameRule(config, NameTypes.Error),
+        joinInfix = getInfix(config, NameTypes.Join)
     )
 
     @Suppress("EnumEntryName", "unused")

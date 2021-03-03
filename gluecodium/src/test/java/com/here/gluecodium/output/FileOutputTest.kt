@@ -21,10 +21,6 @@ package com.here.gluecodium.output
 
 import com.here.gluecodium.cache.FileOutput
 import com.here.gluecodium.generator.common.GeneratedFile
-import java.io.IOException
-import java.nio.charset.Charset
-import java.nio.file.Files
-import java.nio.file.Paths
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -33,6 +29,10 @@ import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import java.io.IOException
+import java.nio.charset.Charset
+import java.nio.file.Files
+import java.nio.file.Paths
 
 @RunWith(JUnit4::class)
 class FileOutputTest {

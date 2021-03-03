@@ -32,7 +32,7 @@ object NameHelper {
             input.contains(UNDERSCORE) ->
                 CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_UNDERSCORE, input)
             CharMatcher.javaLowerCase().matchesAnyOf(input) &&
-                    CharMatcher.javaUpperCase().matchesAnyOf(input) ->
+                CharMatcher.javaUpperCase().matchesAnyOf(input) ->
                 CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, input)
             else -> input.toUpperCase()
         }
@@ -46,7 +46,7 @@ object NameHelper {
             input.contains(UNDERSCORE) ->
                 CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_UNDERSCORE, input)
             CharMatcher.javaLowerCase().matchesAnyOf(input) &&
-                    CharMatcher.javaUpperCase().matchesAnyOf(input) ->
+                CharMatcher.javaUpperCase().matchesAnyOf(input) ->
                 CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, input)
             else -> input.toLowerCase()
         }
@@ -60,7 +60,7 @@ object NameHelper {
             input.contains(UNDERSCORE) ->
                 CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, input)
             CharMatcher.javaLowerCase().matchesAnyOf(input) &&
-                    CharMatcher.javaUpperCase().matchesAnyOf(input) ->
+                CharMatcher.javaUpperCase().matchesAnyOf(input) ->
                 CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, input)
             else -> input.toLowerCase().capitalize()
         }
@@ -74,7 +74,7 @@ object NameHelper {
             input.contains(UNDERSCORE) ->
                 CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, input)
             CharMatcher.javaLowerCase().matchesAnyOf(input) &&
-                    CharMatcher.javaUpperCase().matchesAnyOf(input) ->
+                CharMatcher.javaUpperCase().matchesAnyOf(input) ->
                 CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, input)
             else -> input.toLowerCase()
         }

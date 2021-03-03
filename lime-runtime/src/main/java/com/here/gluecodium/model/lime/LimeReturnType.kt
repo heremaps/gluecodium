@@ -31,7 +31,7 @@ class LimeReturnType(
 ) : LimeElement(attributes) {
     val isVoid
         get() = !typeRef.isNullable &&
-                typeRef.type.actualType.let { it is LimeBasicType && it.typeId == TypeId.VOID }
+            typeRef.type.actualType.let { it is LimeBasicType && it.typeId == TypeId.VOID }
 
     companion object {
         val VOID = LimeReturnType(LimeBasicTypeRef(TypeId.VOID))
