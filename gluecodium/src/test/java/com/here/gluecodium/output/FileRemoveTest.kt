@@ -19,6 +19,7 @@
 
 package com.here.gluecodium.output
 
+import com.here.gluecodium.cache.FileRemove
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every

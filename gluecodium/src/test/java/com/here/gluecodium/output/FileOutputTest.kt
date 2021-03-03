@@ -19,6 +19,7 @@
 
 package com.here.gluecodium.output
 
+import com.here.gluecodium.cache.FileOutput
 import com.here.gluecodium.generator.common.GeneratedFile
 import java.io.IOException
 import java.nio.charset.Charset

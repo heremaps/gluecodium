@@ -19,6 +19,7 @@
 
 package com.here.gluecodium
 
+import com.here.gluecodium.cache.FileOutput
 import com.here.gluecodium.cache.SplitSourceSetCache
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.cli.OptionReader
@@ -34,7 +35,6 @@ import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeModelLoader
 import com.here.gluecodium.model.lime.LimeModelLoaderException
 import com.here.gluecodium.model.lime.LimeNamedElement
-import com.here.gluecodium.output.FileOutput
 import com.here.gluecodium.validator.LimeDeprecationsValidator
 import com.here.gluecodium.validator.LimeEnumeratorRefsValidator
 import com.here.gluecodium.validator.LimeExternalTypesValidator
