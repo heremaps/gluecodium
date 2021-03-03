@@ -20,7 +20,6 @@
 package com.here.gluecodium.cache;
 
 import com.here.gluecodium.generator.common.GeneratedFile;
-import com.here.gluecodium.output.FileRemove;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;

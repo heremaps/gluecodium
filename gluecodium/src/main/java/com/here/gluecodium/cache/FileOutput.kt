@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.gluecodium.output
+package com.here.gluecodium.cache
 
 import com.here.gluecodium.generator.common.GeneratedFile
 import java.io.BufferedWriter
@@ -30,8 +30,7 @@ import java.nio.file.Paths
 import java.util.logging.Logger
 
 /** Write the generated files to disk. */
-class FileOutput @Throws(IOException::class)
-constructor(private val rootPath: File) {
+internal class FileOutput @Throws(IOException::class) constructor(private val rootPath: File) {
     init {
         if (!rootPath.exists() && !rootPath.mkdir()) {
             throw FileNotFoundException(rootPath.path + " (Can't create output directory)")
@@ -43,11 +42,9 @@ constructor(private val rootPath: File) {
 
     @Throws(IOException::class)
     fun output(file: GeneratedFile) {
-        // Write file
         val targetFile = File(rootPath, file.targetFile.path)
         LOGGER.fine("Writing $targetFile")
 
-        // Create missing path(s)
         val path = Paths.get(targetFile.parent)
         if (Files.notExists(path)) {
             Files.createDirectories(path)

@@ -17,7 +17,7 @@
  * License-Filename: LICENSE
  */
 
-package com.here.gluecodium.output
+package com.here.gluecodium.cache
 
 import java.io.File
 import java.io.FileNotFoundException
@@ -26,9 +26,9 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.util.logging.Logger
 
-class FileRemove(private val rootDir: File?) {
-    @Throws(FileNotFoundException::class)
+internal class FileRemove(private val rootDir: File?) {
 
+    @Throws(FileNotFoundException::class)
     fun removeFiles(absolutePaths: List<Path>?): Boolean {
         if (rootDir?.exists() == false || rootDir?.isDirectory == false) {
             throw FileNotFoundException(
