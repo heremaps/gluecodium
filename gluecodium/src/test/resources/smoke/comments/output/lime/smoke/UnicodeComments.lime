@@ -1,6 +1,6 @@
 package smoke
-import smoke.comments.Usefulness
 import smoke.comments.SomethingWrong
+import smoke.comments.Usefulness
 class UnicodeComments {
     // Süßölgefäß
     // @param[input] שלום

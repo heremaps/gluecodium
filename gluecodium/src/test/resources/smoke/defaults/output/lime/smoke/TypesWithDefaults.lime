@@ -1,6 +1,6 @@
 package smoke
-import smoke.DefaultValues.ExternalEnum
 import smoke.AnEnum.AnEnum
+import smoke.DefaultValues.ExternalEnum
 types TypesWithDefaults {
     enum SomeEnum {
         FooValue,
