@@ -1,0 +1,2 @@
+include ':functional'
+project(':functional').projectDir=new File(rootProject.projectDir, 'functional')

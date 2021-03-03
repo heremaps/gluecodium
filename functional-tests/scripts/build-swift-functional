@@ -107,8 +107,8 @@ safe cmake \
     -DCMAKE_CXX_COMPILER="$(which clang++)" \
     -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}" \
     -DCMAKE_VERBOSE_MAKEFILE=ON \
-    -DFUNCTIONAL_GLUECODIUM_GENERATOR=swift \
-    -DFUNCTIONAL_GLUECODIUM_VERSION="${GLUECODIUM_VERSION}" \
+    -DGLUECODIUM_GENERATORS_DEFAULT="cpp;swift" \
+    -DGLUECODIUM_VERSION_DEFAULT="${GLUECODIUM_VERSION}" \
     -DFUNCTIONAL_SWIFT_TESTS="${CWD}/functional/swift" \
     ${CMAKE_EXTRA_PARAMETERS} \
     .. > "$tmppipe"
@@ -123,40 +123,24 @@ else
     echo "SwiftLint was not found, skip linting"
 fi
 
-safe cmake \
-    --build "${BUILD_DIR}" \
-    --target install
+safe cmake --build "${BUILD_DIR}" --config Release
 
-TEST_EXECUTABLE="./testfunctional"
+pushd "${BUILD_DIR}"
+    if [ "$USE_VALGRIND" = true ]; then
+        VALGRIND_ARGS="--leak-check=full \
+            --error-exitcode=1 \
+            --suppressions=${SCRIPT_DIR}/valgrind_suppressions \
+            --gen-suppressions=all"
+        if [ "$TEST_REPORTS" = true ] ; then
+            VALGRIND_ARGS="$VALGRIND_ARGS --xml=yes --xml-file=swift_valgrind_report.xml"
+        fi
 
-if [ "$USE_VALGRIND" = true ]; then
-    REPORT_ARGS=""
-    if [ "$TEST_REPORTS" = true ] ; then
-        REPORT_ARGS="--xml=yes --xml-file=swift_valgrind_report.xml"
-    fi
-    TEST_EXECUTABLE="valgrind \
-        --leak-check=full \
-        --error-exitcode=1 \
-        --suppressions=${SCRIPT_DIR}/valgrind_suppressions \
-        --gen-suppressions=all \
-        $REPORT_ARGS \
-        $TEST_EXECUTABLE"
-fi
-
-pushd "${INSTALL_DIR}"
-    if [ "$TEST_REPORTS" = true ] ; then
-        # Pipe functional tests output to 'ocunit2junit' to generate JUnit XML
-        # reports.
-        # Sed is required to fix different output format obtained by running
-        # tests on Linux machine instead of Mac.
-        set -o pipefail
-        $TEST_EXECUTABLE 2>&1 \
-            | sed "s/Test Case '\([^-].*\)\.\(.*\)'/Test Case '-[\1 \2]'/" \
-            | sed "s/: error: \([^-].*\)\.\(.*\) :/: error: -[\1 \2] :/" \
-            | ocunit2junit
-        EXIT_VALUE=$?
-        exit $EXIT_VALUE
+        ctest \
+            -C Release \
+            --overwrite MemoryCheckCommandOptions="$VALGRIND_ARGS" \
+            -T memcheck \
+            -V
     else
-        exec $TEST_EXECUTABLE
+        ctest -C Release -V
     fi
 popd

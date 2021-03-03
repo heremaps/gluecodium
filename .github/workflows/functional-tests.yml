@@ -148,10 +148,14 @@ jobs:
           sudo chmod -R o+r /usr/lib/swift/CoreFoundation
       - name: Build and run functional tests
         run: |
-          cd functional-tests
           ./scripts/build-swift-functional --valgrind --buildGluecodium
           ./scripts/clean
           ./scripts/build-swift-namerules --valgrind --publish
+        working-directory: functional-tests
+      - name: Print Valgrind results
+        if: ${{ failure() }}
+        run: cat build-swift/Testing/Temporary/MemoryChecker.1.log
+        working-directory: functional-tests
 
   swift-mac:
     name: Swift on MacOS

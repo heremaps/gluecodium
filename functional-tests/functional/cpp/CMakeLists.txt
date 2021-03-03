@@ -71,11 +71,8 @@ set(CMAKE_INSTALL_RPATH $ORIGIN/../lib)
 
 add_executable(test_cpp ${SOURCES})
 target_compile_definitions(test_cpp PRIVATE -DTEST_CPP_VERSION=Cxx${TEST_CPP_VERSION})
-target_link_libraries(test_cpp
-  functional
-  gmock_main
-  functional)
+target_link_libraries(test_cpp PRIVATE functional gmock_main)
 
-add_test(unit_tests test_cpp)
+add_test(NAME unit_tests_cpp COMMAND test_cpp)
 install(TARGETS test_cpp
         RUNTIME DESTINATION bin)
