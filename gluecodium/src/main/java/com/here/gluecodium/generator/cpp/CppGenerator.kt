@@ -38,19 +38,12 @@ import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
-import com.here.gluecodium.model.lime.LimeFunction
-import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
-import com.here.gluecodium.model.lime.LimeList
-import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
-import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
-import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeHelper
-import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.validator.LimeOverloadsValidator
 import java.io.File
@@ -98,6 +91,7 @@ internal class CppGenerator : Generator {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
 
+        val includeResolver = CppIncludeResolver(limeModel.referenceMap, nameRules, internalNamespace)
         val cachingNameResolver = CppNameCache(rootNamespace, limeModel.referenceMap, nameRules)
         val nameResolver = CppNameResolver(
             limeModel.referenceMap,
@@ -106,9 +100,9 @@ internal class CppGenerator : Generator {
             limeLogger,
             commentsProcessor
         )
+        val fullNameResolver = CppFullNameResolver(cachingNameResolver)
 
         val allErrorEnums = limeModel.topElements
-            .filterIsInstance<LimeType>()
             .flatMap { LimeTypeHelper.getAllTypes(it) }
             .asSequence()
             .filterIsInstance<LimeException>()
@@ -119,14 +113,8 @@ internal class CppGenerator : Generator {
             .toSet()
 
         val generatedFiles = limeModel.topElements.flatMap {
-            generateCode(
-                it,
-                nameRules.getOutputFilePath(it),
-                CppIncludeResolver(limeModel.referenceMap, nameRules, internalNamespace),
-                nameResolver,
-                CppFullNameResolver(cachingNameResolver),
-                allErrorEnums
-            )
+            val fileName = nameRules.getOutputFilePath(it)
+            generateCode(it, fileName, includeResolver, nameResolver, fullNameResolver, allErrorEnums)
         } + COMMON_HEADERS.map { generateHelperFile(it, "include", ".h") } +
             COMMON_IMPLS.map { generateHelperFile(it, "src", ".cpp") } +
             generateExportHelperFile(exportCommonName, "Common", GeneratedFile.SourceSet.COMMON) +
@@ -148,20 +136,15 @@ internal class CppGenerator : Generator {
         allErrorEnums: Set<String>
     ): List<GeneratedFile> {
 
+        val allTypes = LimeTypeHelper.getAllTypes(rootElement)
+        val errorEnums = allTypes.filter { allErrorEnums.contains(it.fullName) }.toSet()
+
         val limeElements = when (rootElement) {
             is LimeTypesCollection ->
                 rootElement.structs + rootElement.enumerations +
                     rootElement.constants + rootElement.typeAliases
             else -> listOf(rootElement)
         }
-
-        val allTypes = LimeTypeHelper.getAllTypes(rootElement)
-        val allValues = LimeTypeHelper.getAllValues(rootElement)
-        val equatableTypes = allTypes.filter {
-            it.external?.cpp == null && it.attributes.have(EQUATABLE)
-        }
-        val errorEnums = allTypes.filter { allErrorEnums.contains(it.fullName) }.toSet()
-
         val hasConstants = limeElements.any { it is LimeConstant }
         val needsHeader = hasConstants ||
             limeElements.any { it !is LimeException && it.external?.cpp == null }
@@ -171,35 +154,8 @@ internal class CppGenerator : Generator {
             return emptyList()
         }
 
-        val typeRegisteredClasses =
-            allTypes.filterIsInstance<LimeContainerWithInheritance>()
-                .filter {
-                    it.external?.cpp == null && it.parent == null &&
-                        (it is LimeInterface || it.visibility.isOpen)
-                }
-        val allTypeRefs = collectTypeRefs(allTypes)
-        val forwardDeclaredTypes = allTypeRefs.map { it.type }
-            .filterIsInstance<LimeContainerWithInheritance>()
-            .filter { !it.path.hasParent && it.external?.cpp == null }
-            .toSet()
-
-        val additionalIncludes = collectAdditionalIncludes(
-            rootElement, includeResolver, allTypes, equatableTypes, errorEnums, typeRegisteredClasses
-        )
-        val headerIncludes = allTypes.filterIsInstance<LimeContainer>()
-            .flatMap { it.functions }
-            .flatMap { includeResolver.resolveIncludes(it) } +
-            allTypeRefs.flatMap { includeResolver.resolveIncludes(it) } +
-            allValues.flatMap { includeResolver.resolveIncludes(it) } +
-            allTypes.flatMap { includeResolver.resolveIncludes(it) } +
-            additionalIncludes - forwardDeclaredTypes.flatMap { includeResolver.resolveIncludes(it) }
-        val implementationIncludes = forwardDeclaredTypes
-            .flatMap { includeResolver.resolveIncludes(it) }
-            .toMutableList()
-
-        val forwardDeclarations =
-            createForwardDeclarationGroup("", forwardDeclaredTypes.sortedBy { it.path }, 0, nameResolver).subGroups
-
+        val equatableTypes = allTypes.filter { it.external?.cpp == null && it.attributes.have(EQUATABLE) }
+        val forwardDeclarations = CppForwardDeclarationsCollector(nameResolver).collectImports(rootElement)
         val templateData = mutableMapOf(
             "internalNamespace" to internalNamespace,
             "namespace" to rootNamespace + rootElement.path.head,
@@ -213,69 +169,27 @@ internal class CppGenerator : Generator {
         val nameResolvers = mapOf("" to nameResolver, "FQN" to fullNameResolver, "C++" to nameResolver)
         val result = mutableListOf<GeneratedFile>()
         if (needsHeader) {
-            result +=
-                generateHeader(rootElement, nameResolvers, fileName, templateData, headerIncludes)
-            implementationIncludes += Include.createInternalInclude("$fileName.h")
+            val headerIncludesCollector = CppHeaderIncludesCollector(includeResolver, allErrorEnums)
+            val headerIncludes = headerIncludesCollector.collectImports(rootElement) + exportInclude
+            result += generateHeader(rootElement, nameResolvers, fileName, templateData, headerIncludes)
         }
         if (needsImplementation) {
-            result += generateImplementation(
-                rootElement, nameResolvers, allTypes, implementationIncludes, includeResolver,
-                errorEnums, templateData, fileName
-            )
+            val implIncludesCollector = CppImplIncludesCollector(includeResolver, allErrorEnums)
+            val implementationIncludes = implIncludesCollector.collectImports(rootElement) +
+                if (needsHeader) listOf(Include.createInternalInclude("$fileName.h")) else emptyList()
+            result += generateImplementation(rootElement, nameResolvers, implementationIncludes, templateData, fileName)
         }
 
         return result
     }
 
-    private fun collectAdditionalIncludes(
-        rootElement: LimeNamedElement,
-        includeResolver: CppIncludeResolver,
-        allTypes: List<LimeType>,
-        equatableTypes: List<LimeType>,
-        errorEnums: Set<LimeType>,
-        typeRegisteredClasses: List<LimeContainerWithInheritance>
-    ): List<Include> {
-        val parentIncludes = (rootElement as? LimeContainerWithInheritance)?.parent
-            ?.let { includeResolver.resolveIncludes(it.type) } ?: emptyList()
-        val additionalIncludes = (parentIncludes + exportInclude).toMutableList()
-        if (allTypes.any { it is LimeEnumeration }) {
-            additionalIncludes += CppLibraryIncludes.INT_TYPES
-        }
-        if (equatableTypes.isNotEmpty()) {
-            additionalIncludes += includeResolver.hashInclude
-        }
-        if (errorEnums.isNotEmpty()) {
-            additionalIncludes += CppLibraryIncludes.SYSTEM_ERROR
-        }
-        if (typeRegisteredClasses.isNotEmpty()) {
-            additionalIncludes += includeResolver.typeRepositoryInclude
-        }
-        return additionalIncludes
-    }
-
     private fun generateImplementation(
         rootElement: LimeNamedElement,
         nameResolvers: Map<String, NameResolver>,
-        allTypes: List<LimeType>,
-        implementationIncludes: MutableList<Include>,
-        includeResolver: CppIncludeResolver,
-        errorEnums: Set<LimeType>,
+        implementationIncludes: List<Include>,
         generalData: Map<String, Any>,
         fileName: String
     ): GeneratedFile {
-        val externalContainers = allTypes.filter { it is LimeContainer && it.external?.cpp != null }
-        if (externalContainers.isNotEmpty()) {
-            implementationIncludes += CppLibraryIncludes.TYPE_TRAITS
-            implementationIncludes +=
-                externalContainers.flatMap { includeResolver.resolveIncludes(it) }
-        }
-        if (allTypes.any { it is LimeStruct }) {
-            implementationIncludes += CppLibraryIncludes.UTILITY
-        }
-        if (errorEnums.isNotEmpty()) {
-            implementationIncludes += CppLibraryIncludes.STRING
-        }
-
         val templateData = generalData + mapOf(
             "includes" to implementationIncludes.distinct().sorted(),
             "contentTemplate" to selectTemplate(rootElement) + "Impl"
@@ -342,55 +256,8 @@ internal class CppGenerator : Generator {
             is LimeException -> null
             is LimeLambda -> "cpp/CppLambda"
             is LimeTypeAlias -> "cpp/CppTypeAlias"
-            else -> throw GluecodiumExecutionException(
-                "Unsupported top-level element: " +
-                    limeElement::class.java.name
-            )
+            else -> throw GluecodiumExecutionException("Unsupported top-level element: " + limeElement::class.java.name)
         }
-
-    private fun collectTypeRefs(allTypes: List<LimeType>): List<LimeTypeRef> {
-        val containers = allTypes.filterIsInstance<LimeContainer>()
-        val classes = containers.filterIsInstance<LimeContainerWithInheritance>()
-        val typeRefs = containers.flatMap { it.constants }.map { it.typeRef } +
-            containers.filterIsInstance<LimeStruct>().flatMap { it.fields }.map { it.typeRef } +
-            containers.flatMap { it.functions }.flatMap { collectTypeRefs(it) } +
-            classes.flatMap { it.properties }.map { it.typeRef } +
-            allTypes.filterIsInstance<LimeTypeAlias>().map { it.typeRef } +
-            allTypes.filterIsInstance<LimeLambda>().flatMap { collectTypeRefs(it.asFunction()) } +
-            allTypes.filterIsInstance<LimeException>().map { it.errorType }
-
-        return typeRefs + typeRefs.flatMap { collectTypeRefs(it) }
-    }
-
-    private fun collectTypeRefs(limeFunction: LimeFunction) =
-        limeFunction.parameters.map { it.typeRef } +
-            limeFunction.returnType.typeRef +
-            listOfNotNull(
-                limeFunction.exception?.errorType?.takeIf { it.type.actualType !is LimeEnumeration }
-            )
-
-    private fun collectTypeRefs(limeTypeRef: LimeTypeRef): List<LimeTypeRef> =
-        when (val limeType = limeTypeRef.type) {
-            is LimeList -> collectTypeRefs(limeType.elementType) + limeType.elementType
-            is LimeSet -> collectTypeRefs(limeType.elementType) + limeType.elementType
-            is LimeMap -> collectTypeRefs(limeType.keyType) + collectTypeRefs(limeType.valueType) +
-                limeType.keyType + limeType.valueType
-            else -> emptyList()
-        }
-
-    private fun createForwardDeclarationGroup(
-        name: String,
-        paths: List<LimeNamedElement>,
-        level: Int,
-        nameResolver: NameResolver
-    ): CppForwardDeclarationGroup =
-        CppForwardDeclarationGroup(
-            name,
-            paths.filter { level == it.path.head.size }.map { nameResolver.resolveName(it) },
-            paths.filter { level < it.path.head.size }
-                .groupBy { it.path.head[level] }
-                .map { createForwardDeclarationGroup(it.key, it.value, level + 1, nameResolver) }
-        )
 
     companion object {
         private const val GENERATOR_NAME = "cpp"

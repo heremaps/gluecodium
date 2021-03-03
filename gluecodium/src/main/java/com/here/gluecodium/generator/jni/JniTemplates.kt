@@ -132,7 +132,7 @@ internal class JniTemplates(
         val conversionIncludes =
             jniIncludeResolver.collectConversionIncludes(limeStruct).distinct().minus(selfInclude).sorted()
         // Conversion includes need to be be added to the header file instead of the impl file, for unity builds.
-        val headerIncludes = cppIncludeResolver.resolveIncludes(limeStruct).distinct().sorted() + conversionIncludes
+        val headerIncludes = cppIncludeResolver.resolveElementImports(limeStruct).distinct().sorted() + conversionIncludes
 
         val mustacheData = mutableMapOf(
             "struct" to limeStruct,
@@ -156,7 +156,7 @@ internal class JniTemplates(
     private fun generateEnumConversionFiles(limeEnumeration: LimeEnumeration): List<GeneratedFile> {
         val mustacheData = mutableMapOf(
             "enum" to limeEnumeration,
-            "includes" to cppIncludeResolver.resolveIncludes(limeEnumeration).distinct().sorted(),
+            "includes" to cppIncludeResolver.resolveElementImports(limeEnumeration).distinct().sorted(),
             "internalNamespace" to internalNamespace
         )
 
@@ -181,7 +181,7 @@ internal class JniTemplates(
         val conversionIncludes =
             jniIncludeResolver.collectImplementationIncludes(limeElement).distinct().minus(selfInclude).sorted()
         // Conversion includes need to be be added to the header file instead of the impl file, for unity builds.
-        val headerIncludes = cppIncludeResolver.resolveIncludes(limeElement).distinct().sorted() + conversionIncludes
+        val headerIncludes = cppIncludeResolver.resolveElementImports(limeElement).distinct().sorted() + conversionIncludes
 
         val mustacheData = mutableMapOf(
             "model" to limeElement,
@@ -211,7 +211,7 @@ internal class JniTemplates(
     private fun generateCppProxyFiles(limeElement: LimeNamedElement): List<GeneratedFile> {
         val mustacheData = mutableMapOf(
             "container" to limeElement,
-            "includes" to cppIncludeResolver.resolveIncludes(limeElement).distinct().sorted(),
+            "includes" to cppIncludeResolver.resolveElementImports(limeElement).distinct().sorted(),
             "internalNamespace" to internalNamespace
         )
 
