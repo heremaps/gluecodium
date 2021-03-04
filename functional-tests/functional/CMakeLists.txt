@@ -479,10 +479,9 @@ if(swift IN_LIST GLUECODIUM_GENERATORS_DEFAULT)
         "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/SkipMe.swift"
         "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/SkipMeToo.swift")
 
-    if (APPLE)
+    if (APPLE OR CMAKE_GENERATOR STREQUAL "Xcode")
         find_package(XCTest REQUIRED)
     else ()
-        unset(XCTest_LIBRARIES)
         target_sources(functional PRIVATE
             "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/ColorConverter.swift"
             "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/PseudoColor.swift"
@@ -494,8 +493,6 @@ if(swift IN_LIST GLUECODIUM_GENERATORS_DEFAULT)
            COPY_FROM_TARGETS functional_bindings)
 
     if (CMAKE_GENERATOR STREQUAL "Xcode")
-        find_package(XCTest REQUIRED)
-
         gluecodium_target_add_module_modulemap(functional RESULT_DIR_VARIABLE _underlying_dir REMOVE_AFTER_BUILD)
         target_include_directories(functional PRIVATE ${_underlying_dir})
 
@@ -521,14 +518,11 @@ if(swift IN_LIST GLUECODIUM_GENERATORS_DEFAULT)
         target_compile_options(functional PRIVATE -enable-testing)
 
         add_executable(testfunctional ${SWIFT_TEST_SOURCES})
+        # XCTest_LIBRARIES is unspecified in Linux
         target_link_libraries(testfunctional PRIVATE functional ${XCTest_LIBRARIES})
 
         add_test(NAME XCTest.functional COMMAND testfunctional)
-
-        install(TARGETS functional DESTINATION .)
     endif()
-
-    install(TARGETS testfunctional DESTINATION .)
 
 elseif(dart IN_LIST GLUECODIUM_GENERATORS_DEFAULT)
     if(BUILD_DART_WITH_ASAN)
