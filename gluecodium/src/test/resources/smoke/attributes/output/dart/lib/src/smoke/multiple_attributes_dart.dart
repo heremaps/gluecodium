@@ -42,15 +42,15 @@ final _smoke_MultipleAttributesDart_release_handle = __lib.catchArgumentError(()
   >('library_smoke_MultipleAttributesDart_release_handle'));
 class MultipleAttributesDart$Impl implements MultipleAttributesDart {
   @protected
-  Pointer<Void> handle;
+  Pointer<Void> handle = Pointer<Void>.fromAddress(0);
   MultipleAttributesDart$Impl(this.handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_MultipleAttributesDart_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   noLists2() {
@@ -113,8 +113,8 @@ Pointer<Void> smoke_MultipleAttributesDart_toFfi(MultipleAttributesDart value) =
 MultipleAttributesDart smoke_MultipleAttributesDart_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as MultipleAttributesDart;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is MultipleAttributesDart) return instance;
   final _copied_handle = _smoke_MultipleAttributesDart_copy_handle(handle);
   final result = MultipleAttributesDart$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -122,9 +122,9 @@ MultipleAttributesDart smoke_MultipleAttributesDart_fromFfi(Pointer<Void> handle
 }
 void smoke_MultipleAttributesDart_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_MultipleAttributesDart_release_handle(handle);
-Pointer<Void> smoke_MultipleAttributesDart_toFfi_nullable(MultipleAttributesDart value) =>
+Pointer<Void> smoke_MultipleAttributesDart_toFfi_nullable(MultipleAttributesDart? value) =>
   value != null ? smoke_MultipleAttributesDart_toFfi(value) : Pointer<Void>.fromAddress(0);
-MultipleAttributesDart smoke_MultipleAttributesDart_fromFfi_nullable(Pointer<Void> handle) =>
+MultipleAttributesDart? smoke_MultipleAttributesDart_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_MultipleAttributesDart_fromFfi(handle) : null;
 void smoke_MultipleAttributesDart_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_MultipleAttributesDart_release_handle(handle);

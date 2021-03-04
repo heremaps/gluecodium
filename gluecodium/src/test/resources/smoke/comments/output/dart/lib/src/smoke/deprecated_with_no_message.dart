@@ -51,14 +51,14 @@ final _smoke_DeprecatedWithNoMessage_get_value_nullable = __lib.catchArgumentErr
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_DeprecatedWithNoMessage_get_value_nullable'));
-Pointer<Void> smoke_DeprecatedWithNoMessage_toFfi_nullable(DeprecatedWithNoMessage value) {
+Pointer<Void> smoke_DeprecatedWithNoMessage_toFfi_nullable(DeprecatedWithNoMessage? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_DeprecatedWithNoMessage_toFfi(value);
   final result = _smoke_DeprecatedWithNoMessage_create_handle_nullable(_handle);
   smoke_DeprecatedWithNoMessage_releaseFfiHandle(_handle);
   return result;
 }
-DeprecatedWithNoMessage smoke_DeprecatedWithNoMessage_fromFfi_nullable(Pointer<Void> handle) {
+DeprecatedWithNoMessage? smoke_DeprecatedWithNoMessage_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_DeprecatedWithNoMessage_get_value_nullable(handle);
   final result = smoke_DeprecatedWithNoMessage_fromFfi(_handle);

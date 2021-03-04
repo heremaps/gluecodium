@@ -24,15 +24,15 @@ final _smoke_SimpleClass_release_handle = __lib.catchArgumentError(() => __lib.n
   >('library_smoke_SimpleClass_release_handle'));
 class SimpleClass$Impl implements SimpleClass {
   @protected
-  Pointer<Void> handle;
+  Pointer<Void> handle = Pointer<Void>.fromAddress(0);
   SimpleClass$Impl(this.handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_SimpleClass_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   String getStringValue() {
@@ -64,8 +64,8 @@ Pointer<Void> smoke_SimpleClass_toFfi(SimpleClass value) =>
 SimpleClass smoke_SimpleClass_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as SimpleClass;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is SimpleClass) return instance;
   final _copied_handle = _smoke_SimpleClass_copy_handle(handle);
   final result = SimpleClass$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -73,9 +73,9 @@ SimpleClass smoke_SimpleClass_fromFfi(Pointer<Void> handle) {
 }
 void smoke_SimpleClass_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_SimpleClass_release_handle(handle);
-Pointer<Void> smoke_SimpleClass_toFfi_nullable(SimpleClass value) =>
+Pointer<Void> smoke_SimpleClass_toFfi_nullable(SimpleClass? value) =>
   value != null ? smoke_SimpleClass_toFfi(value) : Pointer<Void>.fromAddress(0);
-SimpleClass smoke_SimpleClass_fromFfi_nullable(Pointer<Void> handle) =>
+SimpleClass? smoke_SimpleClass_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_SimpleClass_fromFfi(handle) : null;
 void smoke_SimpleClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_SimpleClass_release_handle(handle);

@@ -58,14 +58,14 @@ final _smoke_SkipTypes_NotInJava_get_value_nullable = __lib.catchArgumentError((
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_SkipTypes_NotInJava_get_value_nullable'));
-Pointer<Void> smoke_SkipTypes_NotInJava_toFfi_nullable(SkipTypes_NotInJava value) {
+Pointer<Void> smoke_SkipTypes_NotInJava_toFfi_nullable(SkipTypes_NotInJava? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_SkipTypes_NotInJava_toFfi(value);
   final result = _smoke_SkipTypes_NotInJava_create_handle_nullable(_handle);
   smoke_SkipTypes_NotInJava_releaseFfiHandle(_handle);
   return result;
 }
-SkipTypes_NotInJava smoke_SkipTypes_NotInJava_fromFfi_nullable(Pointer<Void> handle) {
+SkipTypes_NotInJava? smoke_SkipTypes_NotInJava_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_SkipTypes_NotInJava_get_value_nullable(handle);
   final result = smoke_SkipTypes_NotInJava_fromFfi(_handle);
@@ -122,14 +122,14 @@ final _smoke_SkipTypes_NotInSwift_get_value_nullable = __lib.catchArgumentError(
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_SkipTypes_NotInSwift_get_value_nullable'));
-Pointer<Void> smoke_SkipTypes_NotInSwift_toFfi_nullable(SkipTypes_NotInSwift value) {
+Pointer<Void> smoke_SkipTypes_NotInSwift_toFfi_nullable(SkipTypes_NotInSwift? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_SkipTypes_NotInSwift_toFfi(value);
   final result = _smoke_SkipTypes_NotInSwift_create_handle_nullable(_handle);
   smoke_SkipTypes_NotInSwift_releaseFfiHandle(_handle);
   return result;
 }
-SkipTypes_NotInSwift smoke_SkipTypes_NotInSwift_fromFfi_nullable(Pointer<Void> handle) {
+SkipTypes_NotInSwift? smoke_SkipTypes_NotInSwift_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_SkipTypes_NotInSwift_get_value_nullable(handle);
   final result = smoke_SkipTypes_NotInSwift_fromFfi(_handle);
@@ -150,15 +150,15 @@ final _smoke_SkipTypes_release_handle = __lib.catchArgumentError(() => __lib.nat
   >('library_smoke_SkipTypes_release_handle'));
 class SkipTypes$Impl implements SkipTypes {
   @protected
-  Pointer<Void> handle;
+  Pointer<Void> handle = Pointer<Void>.fromAddress(0);
   SkipTypes$Impl(this.handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_SkipTypes_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
 }
 Pointer<Void> smoke_SkipTypes_toFfi(SkipTypes value) =>
@@ -166,8 +166,8 @@ Pointer<Void> smoke_SkipTypes_toFfi(SkipTypes value) =>
 SkipTypes smoke_SkipTypes_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as SkipTypes;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is SkipTypes) return instance;
   final _copied_handle = _smoke_SkipTypes_copy_handle(handle);
   final result = SkipTypes$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -175,9 +175,9 @@ SkipTypes smoke_SkipTypes_fromFfi(Pointer<Void> handle) {
 }
 void smoke_SkipTypes_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_SkipTypes_release_handle(handle);
-Pointer<Void> smoke_SkipTypes_toFfi_nullable(SkipTypes value) =>
+Pointer<Void> smoke_SkipTypes_toFfi_nullable(SkipTypes? value) =>
   value != null ? smoke_SkipTypes_toFfi(value) : Pointer<Void>.fromAddress(0);
-SkipTypes smoke_SkipTypes_fromFfi_nullable(Pointer<Void> handle) =>
+SkipTypes? smoke_SkipTypes_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_SkipTypes_fromFfi(handle) : null;
 void smoke_SkipTypes_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_SkipTypes_release_handle(handle);

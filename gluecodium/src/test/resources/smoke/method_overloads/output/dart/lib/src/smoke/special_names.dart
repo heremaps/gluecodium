@@ -26,15 +26,15 @@ final _smoke_SpecialNames_release_handle = __lib.catchArgumentError(() => __lib.
   >('library_smoke_SpecialNames_release_handle'));
 class SpecialNames$Impl implements SpecialNames {
   @protected
-  Pointer<Void> handle;
+  Pointer<Void> handle = Pointer<Void>.fromAddress(0);
   SpecialNames$Impl(this.handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_SpecialNames_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   create() {
@@ -86,8 +86,8 @@ Pointer<Void> smoke_SpecialNames_toFfi(SpecialNames value) =>
 SpecialNames smoke_SpecialNames_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as SpecialNames;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is SpecialNames) return instance;
   final _copied_handle = _smoke_SpecialNames_copy_handle(handle);
   final result = SpecialNames$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -95,9 +95,9 @@ SpecialNames smoke_SpecialNames_fromFfi(Pointer<Void> handle) {
 }
 void smoke_SpecialNames_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_SpecialNames_release_handle(handle);
-Pointer<Void> smoke_SpecialNames_toFfi_nullable(SpecialNames value) =>
+Pointer<Void> smoke_SpecialNames_toFfi_nullable(SpecialNames? value) =>
   value != null ? smoke_SpecialNames_toFfi(value) : Pointer<Void>.fromAddress(0);
-SpecialNames smoke_SpecialNames_fromFfi_nullable(Pointer<Void> handle) =>
+SpecialNames? smoke_SpecialNames_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_SpecialNames_fromFfi(handle) : null;
 void smoke_SpecialNames_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_SpecialNames_release_handle(handle);

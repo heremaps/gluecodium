@@ -50,7 +50,7 @@ Pointer<Void> foobar_ListOf_Float_toFfi(List<double> value) {
   return _result;
 }
 List<double> foobar_ListOf_Float_fromFfi(Pointer<Void> handle) {
-  final result = List<double>();
+  final result = List<double>.empty(growable: true);
   final _iterator_handle = _foobar_ListOf_Float_iterator(handle);
   while (_foobar_ListOf_Float_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_Float_iterator_get(_iterator_handle);
@@ -77,14 +77,14 @@ final _foobar_ListOf_Float_get_value_nullable = __lib.catchArgumentError(() => _
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_Float_get_value_nullable'));
-Pointer<Void> foobar_ListOf_Float_toFfi_nullable(List<double> value) {
+Pointer<Void> foobar_ListOf_Float_toFfi_nullable(List<double>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_Float_toFfi(value);
   final result = _foobar_ListOf_Float_create_handle_nullable(_handle);
   foobar_ListOf_Float_releaseFfiHandle(_handle);
   return result;
 }
-List<double> foobar_ListOf_Float_fromFfi_nullable(Pointer<Void> handle) {
+List<double>? foobar_ListOf_Float_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_ListOf_Float_get_value_nullable(handle);
   final result = foobar_ListOf_Float_fromFfi(_handle);
@@ -135,7 +135,7 @@ Pointer<Void> foobar_ListOf_Int_toFfi(List<int> value) {
   return _result;
 }
 List<int> foobar_ListOf_Int_fromFfi(Pointer<Void> handle) {
-  final result = List<int>();
+  final result = List<int>.empty(growable: true);
   final _iterator_handle = _foobar_ListOf_Int_iterator(handle);
   while (_foobar_ListOf_Int_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_Int_iterator_get(_iterator_handle);
@@ -162,14 +162,14 @@ final _foobar_ListOf_Int_get_value_nullable = __lib.catchArgumentError(() => __l
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_Int_get_value_nullable'));
-Pointer<Void> foobar_ListOf_Int_toFfi_nullable(List<int> value) {
+Pointer<Void> foobar_ListOf_Int_toFfi_nullable(List<int>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_Int_toFfi(value);
   final result = _foobar_ListOf_Int_create_handle_nullable(_handle);
   foobar_ListOf_Int_releaseFfiHandle(_handle);
   return result;
 }
-List<int> foobar_ListOf_Int_fromFfi_nullable(Pointer<Void> handle) {
+List<int>? foobar_ListOf_Int_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_ListOf_Int_get_value_nullable(handle);
   final result = foobar_ListOf_Int_fromFfi(_handle);
@@ -220,7 +220,7 @@ Pointer<Void> foobar_ListOf_String_toFfi(List<String> value) {
   return _result;
 }
 List<String> foobar_ListOf_String_fromFfi(Pointer<Void> handle) {
-  final result = List<String>();
+  final result = List<String>.empty(growable: true);
   final _iterator_handle = _foobar_ListOf_String_iterator(handle);
   while (_foobar_ListOf_String_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_String_iterator_get(_iterator_handle);
@@ -247,14 +247,14 @@ final _foobar_ListOf_String_get_value_nullable = __lib.catchArgumentError(() => 
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_String_get_value_nullable'));
-Pointer<Void> foobar_ListOf_String_toFfi_nullable(List<String> value) {
+Pointer<Void> foobar_ListOf_String_toFfi_nullable(List<String>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_String_toFfi(value);
   final result = _foobar_ListOf_String_create_handle_nullable(_handle);
   foobar_ListOf_String_releaseFfiHandle(_handle);
   return result;
 }
-List<String> foobar_ListOf_String_fromFfi_nullable(Pointer<Void> handle) {
+List<String>? foobar_ListOf_String_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_ListOf_String_get_value_nullable(handle);
   final result = foobar_ListOf_String_fromFfi(_handle);
@@ -305,7 +305,7 @@ Pointer<Void> foobar_ListOf_UByte_toFfi(List<int> value) {
   return _result;
 }
 List<int> foobar_ListOf_UByte_fromFfi(Pointer<Void> handle) {
-  final result = List<int>();
+  final result = List<int>.empty(growable: true);
   final _iterator_handle = _foobar_ListOf_UByte_iterator(handle);
   while (_foobar_ListOf_UByte_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_UByte_iterator_get(_iterator_handle);
@@ -332,14 +332,14 @@ final _foobar_ListOf_UByte_get_value_nullable = __lib.catchArgumentError(() => _
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_UByte_get_value_nullable'));
-Pointer<Void> foobar_ListOf_UByte_toFfi_nullable(List<int> value) {
+Pointer<Void> foobar_ListOf_UByte_toFfi_nullable(List<int>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_UByte_toFfi(value);
   final result = _foobar_ListOf_UByte_create_handle_nullable(_handle);
   foobar_ListOf_UByte_releaseFfiHandle(_handle);
   return result;
 }
-List<int> foobar_ListOf_UByte_fromFfi_nullable(Pointer<Void> handle) {
+List<int>? foobar_ListOf_UByte_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_ListOf_UByte_get_value_nullable(handle);
   final result = foobar_ListOf_UByte_fromFfi(_handle);
@@ -390,7 +390,7 @@ Pointer<Void> foobar_ListOf_foobar_ListOf_Int_toFfi(List<List<int>> value) {
   return _result;
 }
 List<List<int>> foobar_ListOf_foobar_ListOf_Int_fromFfi(Pointer<Void> handle) {
-  final result = List<List<int>>();
+  final result = List<List<int>>.empty(growable: true);
   final _iterator_handle = _foobar_ListOf_foobar_ListOf_Int_iterator(handle);
   while (_foobar_ListOf_foobar_ListOf_Int_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_foobar_ListOf_Int_iterator_get(_iterator_handle);
@@ -417,14 +417,14 @@ final _foobar_ListOf_foobar_ListOf_Int_get_value_nullable = __lib.catchArgumentE
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_foobar_ListOf_Int_get_value_nullable'));
-Pointer<Void> foobar_ListOf_foobar_ListOf_Int_toFfi_nullable(List<List<int>> value) {
+Pointer<Void> foobar_ListOf_foobar_ListOf_Int_toFfi_nullable(List<List<int>>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_foobar_ListOf_Int_toFfi(value);
   final result = _foobar_ListOf_foobar_ListOf_Int_create_handle_nullable(_handle);
   foobar_ListOf_foobar_ListOf_Int_releaseFfiHandle(_handle);
   return result;
 }
-List<List<int>> foobar_ListOf_foobar_ListOf_Int_fromFfi_nullable(Pointer<Void> handle) {
+List<List<int>>? foobar_ListOf_foobar_ListOf_Int_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_ListOf_foobar_ListOf_Int_get_value_nullable(handle);
   final result = foobar_ListOf_foobar_ListOf_Int_fromFfi(_handle);
@@ -475,7 +475,7 @@ Pointer<Void> foobar_ListOf_foobar_MapOf_Int_to_Boolean_toFfi(List<Map<int, bool
   return _result;
 }
 List<Map<int, bool>> foobar_ListOf_foobar_MapOf_Int_to_Boolean_fromFfi(Pointer<Void> handle) {
-  final result = List<Map<int, bool>>();
+  final result = List<Map<int, bool>>.empty(growable: true);
   final _iterator_handle = _foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator(handle);
   while (_foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_get(_iterator_handle);
@@ -502,14 +502,14 @@ final _foobar_ListOf_foobar_MapOf_Int_to_Boolean_get_value_nullable = __lib.catc
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_get_value_nullable'));
-Pointer<Void> foobar_ListOf_foobar_MapOf_Int_to_Boolean_toFfi_nullable(List<Map<int, bool>> value) {
+Pointer<Void> foobar_ListOf_foobar_MapOf_Int_to_Boolean_toFfi_nullable(List<Map<int, bool>>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_foobar_MapOf_Int_to_Boolean_toFfi(value);
   final result = _foobar_ListOf_foobar_MapOf_Int_to_Boolean_create_handle_nullable(_handle);
   foobar_ListOf_foobar_MapOf_Int_to_Boolean_releaseFfiHandle(_handle);
   return result;
 }
-List<Map<int, bool>> foobar_ListOf_foobar_MapOf_Int_to_Boolean_fromFfi_nullable(Pointer<Void> handle) {
+List<Map<int, bool>>? foobar_ListOf_foobar_MapOf_Int_to_Boolean_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_ListOf_foobar_MapOf_Int_to_Boolean_get_value_nullable(handle);
   final result = foobar_ListOf_foobar_MapOf_Int_to_Boolean_fromFfi(_handle);
@@ -560,7 +560,7 @@ Pointer<Void> foobar_ListOf_foobar_SetOf_Int_toFfi(List<Set<int>> value) {
   return _result;
 }
 List<Set<int>> foobar_ListOf_foobar_SetOf_Int_fromFfi(Pointer<Void> handle) {
-  final result = List<Set<int>>();
+  final result = List<Set<int>>.empty(growable: true);
   final _iterator_handle = _foobar_ListOf_foobar_SetOf_Int_iterator(handle);
   while (_foobar_ListOf_foobar_SetOf_Int_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_foobar_SetOf_Int_iterator_get(_iterator_handle);
@@ -587,14 +587,14 @@ final _foobar_ListOf_foobar_SetOf_Int_get_value_nullable = __lib.catchArgumentEr
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_foobar_SetOf_Int_get_value_nullable'));
-Pointer<Void> foobar_ListOf_foobar_SetOf_Int_toFfi_nullable(List<Set<int>> value) {
+Pointer<Void> foobar_ListOf_foobar_SetOf_Int_toFfi_nullable(List<Set<int>>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_foobar_SetOf_Int_toFfi(value);
   final result = _foobar_ListOf_foobar_SetOf_Int_create_handle_nullable(_handle);
   foobar_ListOf_foobar_SetOf_Int_releaseFfiHandle(_handle);
   return result;
 }
-List<Set<int>> foobar_ListOf_foobar_SetOf_Int_fromFfi_nullable(Pointer<Void> handle) {
+List<Set<int>>? foobar_ListOf_foobar_SetOf_Int_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_ListOf_foobar_SetOf_Int_get_value_nullable(handle);
   final result = foobar_ListOf_foobar_SetOf_Int_fromFfi(_handle);
@@ -645,7 +645,7 @@ Pointer<Void> foobar_ListOf_smoke_AnotherDummyClass_toFfi(List<AnotherDummyClass
   return _result;
 }
 List<AnotherDummyClass> foobar_ListOf_smoke_AnotherDummyClass_fromFfi(Pointer<Void> handle) {
-  final result = List<AnotherDummyClass>();
+  final result = List<AnotherDummyClass>.empty(growable: true);
   final _iterator_handle = _foobar_ListOf_smoke_AnotherDummyClass_iterator(handle);
   while (_foobar_ListOf_smoke_AnotherDummyClass_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_smoke_AnotherDummyClass_iterator_get(_iterator_handle);
@@ -672,14 +672,14 @@ final _foobar_ListOf_smoke_AnotherDummyClass_get_value_nullable = __lib.catchArg
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_smoke_AnotherDummyClass_get_value_nullable'));
-Pointer<Void> foobar_ListOf_smoke_AnotherDummyClass_toFfi_nullable(List<AnotherDummyClass> value) {
+Pointer<Void> foobar_ListOf_smoke_AnotherDummyClass_toFfi_nullable(List<AnotherDummyClass>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_smoke_AnotherDummyClass_toFfi(value);
   final result = _foobar_ListOf_smoke_AnotherDummyClass_create_handle_nullable(_handle);
   foobar_ListOf_smoke_AnotherDummyClass_releaseFfiHandle(_handle);
   return result;
 }
-List<AnotherDummyClass> foobar_ListOf_smoke_AnotherDummyClass_fromFfi_nullable(Pointer<Void> handle) {
+List<AnotherDummyClass>? foobar_ListOf_smoke_AnotherDummyClass_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_ListOf_smoke_AnotherDummyClass_get_value_nullable(handle);
   final result = foobar_ListOf_smoke_AnotherDummyClass_fromFfi(_handle);
@@ -730,7 +730,7 @@ Pointer<Void> foobar_ListOf_smoke_DummyClass_toFfi(List<DummyClass> value) {
   return _result;
 }
 List<DummyClass> foobar_ListOf_smoke_DummyClass_fromFfi(Pointer<Void> handle) {
-  final result = List<DummyClass>();
+  final result = List<DummyClass>.empty(growable: true);
   final _iterator_handle = _foobar_ListOf_smoke_DummyClass_iterator(handle);
   while (_foobar_ListOf_smoke_DummyClass_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_smoke_DummyClass_iterator_get(_iterator_handle);
@@ -757,14 +757,14 @@ final _foobar_ListOf_smoke_DummyClass_get_value_nullable = __lib.catchArgumentEr
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_smoke_DummyClass_get_value_nullable'));
-Pointer<Void> foobar_ListOf_smoke_DummyClass_toFfi_nullable(List<DummyClass> value) {
+Pointer<Void> foobar_ListOf_smoke_DummyClass_toFfi_nullable(List<DummyClass>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_smoke_DummyClass_toFfi(value);
   final result = _foobar_ListOf_smoke_DummyClass_create_handle_nullable(_handle);
   foobar_ListOf_smoke_DummyClass_releaseFfiHandle(_handle);
   return result;
 }
-List<DummyClass> foobar_ListOf_smoke_DummyClass_fromFfi_nullable(Pointer<Void> handle) {
+List<DummyClass>? foobar_ListOf_smoke_DummyClass_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_ListOf_smoke_DummyClass_get_value_nullable(handle);
   final result = foobar_ListOf_smoke_DummyClass_fromFfi(_handle);
@@ -815,7 +815,7 @@ Pointer<Void> foobar_ListOf_smoke_DummyInterface_toFfi(List<DummyInterface> valu
   return _result;
 }
 List<DummyInterface> foobar_ListOf_smoke_DummyInterface_fromFfi(Pointer<Void> handle) {
-  final result = List<DummyInterface>();
+  final result = List<DummyInterface>.empty(growable: true);
   final _iterator_handle = _foobar_ListOf_smoke_DummyInterface_iterator(handle);
   while (_foobar_ListOf_smoke_DummyInterface_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_smoke_DummyInterface_iterator_get(_iterator_handle);
@@ -842,14 +842,14 @@ final _foobar_ListOf_smoke_DummyInterface_get_value_nullable = __lib.catchArgume
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_smoke_DummyInterface_get_value_nullable'));
-Pointer<Void> foobar_ListOf_smoke_DummyInterface_toFfi_nullable(List<DummyInterface> value) {
+Pointer<Void> foobar_ListOf_smoke_DummyInterface_toFfi_nullable(List<DummyInterface>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_smoke_DummyInterface_toFfi(value);
   final result = _foobar_ListOf_smoke_DummyInterface_create_handle_nullable(_handle);
   foobar_ListOf_smoke_DummyInterface_releaseFfiHandle(_handle);
   return result;
 }
-List<DummyInterface> foobar_ListOf_smoke_DummyInterface_fromFfi_nullable(Pointer<Void> handle) {
+List<DummyInterface>? foobar_ListOf_smoke_DummyInterface_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_ListOf_smoke_DummyInterface_get_value_nullable(handle);
   final result = foobar_ListOf_smoke_DummyInterface_fromFfi(_handle);
@@ -900,7 +900,7 @@ Pointer<Void> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_toFf
   return _result;
 }
 List<GenericTypesWithCompoundTypes_BasicStruct> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_fromFfi(Pointer<Void> handle) {
-  final result = List<GenericTypesWithCompoundTypes_BasicStruct>();
+  final result = List<GenericTypesWithCompoundTypes_BasicStruct>.empty(growable: true);
   final _iterator_handle = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator(handle);
   while (_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_get(_iterator_handle);
@@ -927,14 +927,14 @@ final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_get_value_n
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_get_value_nullable'));
-Pointer<Void> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_toFfi_nullable(List<GenericTypesWithCompoundTypes_BasicStruct> value) {
+Pointer<Void> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_toFfi_nullable(List<GenericTypesWithCompoundTypes_BasicStruct>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_toFfi(value);
   final result = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle_nullable(_handle);
   foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_releaseFfiHandle(_handle);
   return result;
 }
-List<GenericTypesWithCompoundTypes_BasicStruct> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_fromFfi_nullable(Pointer<Void> handle) {
+List<GenericTypesWithCompoundTypes_BasicStruct>? foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_get_value_nullable(handle);
   final result = foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_fromFfi(_handle);
@@ -985,7 +985,7 @@ Pointer<Void> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_toF
   return _result;
 }
 List<GenericTypesWithCompoundTypes_ExternalEnum> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(Pointer<Void> handle) {
-  final result = List<GenericTypesWithCompoundTypes_ExternalEnum>();
+  final result = List<GenericTypesWithCompoundTypes_ExternalEnum>.empty(growable: true);
   final _iterator_handle = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator(handle);
   while (_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get(_iterator_handle);
@@ -1012,14 +1012,14 @@ final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_nullable'));
-Pointer<Void> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_toFfi_nullable(List<GenericTypesWithCompoundTypes_ExternalEnum> value) {
+Pointer<Void> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_toFfi_nullable(List<GenericTypesWithCompoundTypes_ExternalEnum>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_toFfi(value);
   final result = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle_nullable(_handle);
   foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(_handle);
   return result;
 }
-List<GenericTypesWithCompoundTypes_ExternalEnum> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi_nullable(Pointer<Void> handle) {
+List<GenericTypesWithCompoundTypes_ExternalEnum>? foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_nullable(handle);
   final result = foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(_handle);
@@ -1070,7 +1070,7 @@ Pointer<Void> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_t
   return _result;
 }
 List<GenericTypesWithCompoundTypes_ExternalStruct> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_fromFfi(Pointer<Void> handle) {
-  final result = List<GenericTypesWithCompoundTypes_ExternalStruct>();
+  final result = List<GenericTypesWithCompoundTypes_ExternalStruct>.empty(growable: true);
   final _iterator_handle = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator(handle);
   while (_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_get(_iterator_handle);
@@ -1097,14 +1097,14 @@ final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_get_valu
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_get_value_nullable'));
-Pointer<Void> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_toFfi_nullable(List<GenericTypesWithCompoundTypes_ExternalStruct> value) {
+Pointer<Void> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_toFfi_nullable(List<GenericTypesWithCompoundTypes_ExternalStruct>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_toFfi(value);
   final result = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle_nullable(_handle);
   foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle(_handle);
   return result;
 }
-List<GenericTypesWithCompoundTypes_ExternalStruct> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_fromFfi_nullable(Pointer<Void> handle) {
+List<GenericTypesWithCompoundTypes_ExternalStruct>? foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_get_value_nullable(handle);
   final result = foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_fromFfi(_handle);
@@ -1155,7 +1155,7 @@ Pointer<Void> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi(L
   return _result;
 }
 List<GenericTypesWithCompoundTypes_SomeEnum> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_fromFfi(Pointer<Void> handle) {
-  final result = List<GenericTypesWithCompoundTypes_SomeEnum>();
+  final result = List<GenericTypesWithCompoundTypes_SomeEnum>.empty(growable: true);
   final _iterator_handle = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator(handle);
   while (_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get(_iterator_handle);
@@ -1182,14 +1182,14 @@ final _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_null
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nullable'));
-Pointer<Void> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi_nullable(List<GenericTypesWithCompoundTypes_SomeEnum> value) {
+Pointer<Void> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi_nullable(List<GenericTypesWithCompoundTypes_SomeEnum>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi(value);
   final result = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle_nullable(_handle);
   foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(_handle);
   return result;
 }
-List<GenericTypesWithCompoundTypes_SomeEnum> foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_fromFfi_nullable(Pointer<Void> handle) {
+List<GenericTypesWithCompoundTypes_SomeEnum>? foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nullable(handle);
   final result = foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_fromFfi(_handle);
@@ -1240,7 +1240,7 @@ Pointer<Void> foobar_ListOf_smoke_YetAnotherDummyClass_toFfi(List<YetAnotherDumm
   return _result;
 }
 List<YetAnotherDummyClass> foobar_ListOf_smoke_YetAnotherDummyClass_fromFfi(Pointer<Void> handle) {
-  final result = List<YetAnotherDummyClass>();
+  final result = List<YetAnotherDummyClass>.empty(growable: true);
   final _iterator_handle = _foobar_ListOf_smoke_YetAnotherDummyClass_iterator(handle);
   while (_foobar_ListOf_smoke_YetAnotherDummyClass_iterator_is_valid(handle, _iterator_handle) != 0) {
     final _element_handle = _foobar_ListOf_smoke_YetAnotherDummyClass_iterator_get(_iterator_handle);
@@ -1267,14 +1267,14 @@ final _foobar_ListOf_smoke_YetAnotherDummyClass_get_value_nullable = __lib.catch
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_smoke_YetAnotherDummyClass_get_value_nullable'));
-Pointer<Void> foobar_ListOf_smoke_YetAnotherDummyClass_toFfi_nullable(List<YetAnotherDummyClass> value) {
+Pointer<Void> foobar_ListOf_smoke_YetAnotherDummyClass_toFfi_nullable(List<YetAnotherDummyClass>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_ListOf_smoke_YetAnotherDummyClass_toFfi(value);
   final result = _foobar_ListOf_smoke_YetAnotherDummyClass_create_handle_nullable(_handle);
   foobar_ListOf_smoke_YetAnotherDummyClass_releaseFfiHandle(_handle);
   return result;
 }
-List<YetAnotherDummyClass> foobar_ListOf_smoke_YetAnotherDummyClass_fromFfi_nullable(Pointer<Void> handle) {
+List<YetAnotherDummyClass>? foobar_ListOf_smoke_YetAnotherDummyClass_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_ListOf_smoke_YetAnotherDummyClass_get_value_nullable(handle);
   final result = foobar_ListOf_smoke_YetAnotherDummyClass_fromFfi(_handle);
@@ -1361,14 +1361,14 @@ final _foobar_MapOf_Float_to_Double_get_value_nullable = __lib.catchArgumentErro
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_Float_to_Double_get_value_nullable'));
-Pointer<Void> foobar_MapOf_Float_to_Double_toFfi_nullable(Map<double, double> value) {
+Pointer<Void> foobar_MapOf_Float_to_Double_toFfi_nullable(Map<double, double>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_Float_to_Double_toFfi(value);
   final result = _foobar_MapOf_Float_to_Double_create_handle_nullable(_handle);
   foobar_MapOf_Float_to_Double_releaseFfiHandle(_handle);
   return result;
 }
-Map<double, double> foobar_MapOf_Float_to_Double_fromFfi_nullable(Pointer<Void> handle) {
+Map<double, double>? foobar_MapOf_Float_to_Double_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_MapOf_Float_to_Double_get_value_nullable(handle);
   final result = foobar_MapOf_Float_to_Double_fromFfi(_handle);
@@ -1455,14 +1455,14 @@ final _foobar_MapOf_Int_to_Boolean_get_value_nullable = __lib.catchArgumentError
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_Int_to_Boolean_get_value_nullable'));
-Pointer<Void> foobar_MapOf_Int_to_Boolean_toFfi_nullable(Map<int, bool> value) {
+Pointer<Void> foobar_MapOf_Int_to_Boolean_toFfi_nullable(Map<int, bool>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_Int_to_Boolean_toFfi(value);
   final result = _foobar_MapOf_Int_to_Boolean_create_handle_nullable(_handle);
   foobar_MapOf_Int_to_Boolean_releaseFfiHandle(_handle);
   return result;
 }
-Map<int, bool> foobar_MapOf_Int_to_Boolean_fromFfi_nullable(Pointer<Void> handle) {
+Map<int, bool>? foobar_MapOf_Int_to_Boolean_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_MapOf_Int_to_Boolean_get_value_nullable(handle);
   final result = foobar_MapOf_Int_to_Boolean_fromFfi(_handle);
@@ -1549,14 +1549,14 @@ final _foobar_MapOf_Int_to_foobar_ListOf_Int_get_value_nullable = __lib.catchArg
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_Int_to_foobar_ListOf_Int_get_value_nullable'));
-Pointer<Void> foobar_MapOf_Int_to_foobar_ListOf_Int_toFfi_nullable(Map<int, List<int>> value) {
+Pointer<Void> foobar_MapOf_Int_to_foobar_ListOf_Int_toFfi_nullable(Map<int, List<int>>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_Int_to_foobar_ListOf_Int_toFfi(value);
   final result = _foobar_MapOf_Int_to_foobar_ListOf_Int_create_handle_nullable(_handle);
   foobar_MapOf_Int_to_foobar_ListOf_Int_releaseFfiHandle(_handle);
   return result;
 }
-Map<int, List<int>> foobar_MapOf_Int_to_foobar_ListOf_Int_fromFfi_nullable(Pointer<Void> handle) {
+Map<int, List<int>>? foobar_MapOf_Int_to_foobar_ListOf_Int_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_MapOf_Int_to_foobar_ListOf_Int_get_value_nullable(handle);
   final result = foobar_MapOf_Int_to_foobar_ListOf_Int_fromFfi(_handle);
@@ -1643,14 +1643,14 @@ final _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_get_value_nullable = __li
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_get_value_nullable'));
-Pointer<Void> foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_toFfi_nullable(Map<int, Map<int, bool>> value) {
+Pointer<Void> foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_toFfi_nullable(Map<int, Map<int, bool>>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_toFfi(value);
   final result = _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_create_handle_nullable(_handle);
   foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_releaseFfiHandle(_handle);
   return result;
 }
-Map<int, Map<int, bool>> foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_fromFfi_nullable(Pointer<Void> handle) {
+Map<int, Map<int, bool>>? foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_get_value_nullable(handle);
   final result = foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_fromFfi(_handle);
@@ -1737,14 +1737,14 @@ final _foobar_MapOf_Int_to_foobar_SetOf_Int_get_value_nullable = __lib.catchArgu
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_Int_to_foobar_SetOf_Int_get_value_nullable'));
-Pointer<Void> foobar_MapOf_Int_to_foobar_SetOf_Int_toFfi_nullable(Map<int, Set<int>> value) {
+Pointer<Void> foobar_MapOf_Int_to_foobar_SetOf_Int_toFfi_nullable(Map<int, Set<int>>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_Int_to_foobar_SetOf_Int_toFfi(value);
   final result = _foobar_MapOf_Int_to_foobar_SetOf_Int_create_handle_nullable(_handle);
   foobar_MapOf_Int_to_foobar_SetOf_Int_releaseFfiHandle(_handle);
   return result;
 }
-Map<int, Set<int>> foobar_MapOf_Int_to_foobar_SetOf_Int_fromFfi_nullable(Pointer<Void> handle) {
+Map<int, Set<int>>? foobar_MapOf_Int_to_foobar_SetOf_Int_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_MapOf_Int_to_foobar_SetOf_Int_get_value_nullable(handle);
   final result = foobar_MapOf_Int_to_foobar_SetOf_Int_fromFfi(_handle);
@@ -1831,14 +1831,14 @@ final _foobar_MapOf_Int_to_smoke_DummyClass_get_value_nullable = __lib.catchArgu
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_Int_to_smoke_DummyClass_get_value_nullable'));
-Pointer<Void> foobar_MapOf_Int_to_smoke_DummyClass_toFfi_nullable(Map<int, DummyClass> value) {
+Pointer<Void> foobar_MapOf_Int_to_smoke_DummyClass_toFfi_nullable(Map<int, DummyClass>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_Int_to_smoke_DummyClass_toFfi(value);
   final result = _foobar_MapOf_Int_to_smoke_DummyClass_create_handle_nullable(_handle);
   foobar_MapOf_Int_to_smoke_DummyClass_releaseFfiHandle(_handle);
   return result;
 }
-Map<int, DummyClass> foobar_MapOf_Int_to_smoke_DummyClass_fromFfi_nullable(Pointer<Void> handle) {
+Map<int, DummyClass>? foobar_MapOf_Int_to_smoke_DummyClass_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_MapOf_Int_to_smoke_DummyClass_get_value_nullable(handle);
   final result = foobar_MapOf_Int_to_smoke_DummyClass_fromFfi(_handle);
@@ -1925,14 +1925,14 @@ final _foobar_MapOf_Int_to_smoke_DummyInterface_get_value_nullable = __lib.catch
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_Int_to_smoke_DummyInterface_get_value_nullable'));
-Pointer<Void> foobar_MapOf_Int_to_smoke_DummyInterface_toFfi_nullable(Map<int, DummyInterface> value) {
+Pointer<Void> foobar_MapOf_Int_to_smoke_DummyInterface_toFfi_nullable(Map<int, DummyInterface>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_Int_to_smoke_DummyInterface_toFfi(value);
   final result = _foobar_MapOf_Int_to_smoke_DummyInterface_create_handle_nullable(_handle);
   foobar_MapOf_Int_to_smoke_DummyInterface_releaseFfiHandle(_handle);
   return result;
 }
-Map<int, DummyInterface> foobar_MapOf_Int_to_smoke_DummyInterface_fromFfi_nullable(Pointer<Void> handle) {
+Map<int, DummyInterface>? foobar_MapOf_Int_to_smoke_DummyInterface_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_MapOf_Int_to_smoke_DummyInterface_get_value_nullable(handle);
   final result = foobar_MapOf_Int_to_smoke_DummyInterface_fromFfi(_handle);
@@ -2019,14 +2019,14 @@ final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_nullable'));
-Pointer<Void> foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_toFfi_nullable(Map<int, GenericTypesWithCompoundTypes_ExternalEnum> value) {
+Pointer<Void> foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_toFfi_nullable(Map<int, GenericTypesWithCompoundTypes_ExternalEnum>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_toFfi(value);
   final result = _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle_nullable(_handle);
   foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(_handle);
   return result;
 }
-Map<int, GenericTypesWithCompoundTypes_ExternalEnum> foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi_nullable(Pointer<Void> handle) {
+Map<int, GenericTypesWithCompoundTypes_ExternalEnum>? foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_nullable(handle);
   final result = foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(_handle);
@@ -2113,14 +2113,14 @@ final _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_valu
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nullable'));
-Pointer<Void> foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi_nullable(Map<int, GenericTypesWithCompoundTypes_SomeEnum> value) {
+Pointer<Void> foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi_nullable(Map<int, GenericTypesWithCompoundTypes_SomeEnum>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi(value);
   final result = _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle_nullable(_handle);
   foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(_handle);
   return result;
 }
-Map<int, GenericTypesWithCompoundTypes_SomeEnum> foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_fromFfi_nullable(Pointer<Void> handle) {
+Map<int, GenericTypesWithCompoundTypes_SomeEnum>? foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nullable(handle);
   final result = foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_fromFfi(_handle);
@@ -2207,14 +2207,14 @@ final _foobar_MapOf_String_to_String_get_value_nullable = __lib.catchArgumentErr
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_String_to_String_get_value_nullable'));
-Pointer<Void> foobar_MapOf_String_to_String_toFfi_nullable(Map<String, String> value) {
+Pointer<Void> foobar_MapOf_String_to_String_toFfi_nullable(Map<String, String>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_String_to_String_toFfi(value);
   final result = _foobar_MapOf_String_to_String_create_handle_nullable(_handle);
   foobar_MapOf_String_to_String_releaseFfiHandle(_handle);
   return result;
 }
-Map<String, String> foobar_MapOf_String_to_String_fromFfi_nullable(Pointer<Void> handle) {
+Map<String, String>? foobar_MapOf_String_to_String_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_MapOf_String_to_String_get_value_nullable(handle);
   final result = foobar_MapOf_String_to_String_fromFfi(_handle);
@@ -2301,14 +2301,14 @@ final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_ge
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_get_value_nullable'));
-Pointer<Void> foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_toFfi_nullable(Map<String, GenericTypesWithCompoundTypes_BasicStruct> value) {
+Pointer<Void> foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_toFfi_nullable(Map<String, GenericTypesWithCompoundTypes_BasicStruct>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_toFfi(value);
   final result = _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle_nullable(_handle);
   foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_releaseFfiHandle(_handle);
   return result;
 }
-Map<String, GenericTypesWithCompoundTypes_BasicStruct> foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_fromFfi_nullable(Pointer<Void> handle) {
+Map<String, GenericTypesWithCompoundTypes_BasicStruct>? foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_get_value_nullable(handle);
   final result = foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_fromFfi(_handle);
@@ -2395,14 +2395,14 @@ final _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_get_value_nullable'));
-Pointer<Void> foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_toFfi_nullable(Map<String, GenericTypesWithCompoundTypes_ExternalStruct> value) {
+Pointer<Void> foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_toFfi_nullable(Map<String, GenericTypesWithCompoundTypes_ExternalStruct>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_toFfi(value);
   final result = _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle_nullable(_handle);
   foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_releaseFfiHandle(_handle);
   return result;
 }
-Map<String, GenericTypesWithCompoundTypes_ExternalStruct> foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_fromFfi_nullable(Pointer<Void> handle) {
+Map<String, GenericTypesWithCompoundTypes_ExternalStruct>? foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_get_value_nullable(handle);
   final result = foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_fromFfi(_handle);
@@ -2489,14 +2489,14 @@ final _foobar_MapOf_UByte_to_String_get_value_nullable = __lib.catchArgumentErro
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_UByte_to_String_get_value_nullable'));
-Pointer<Void> foobar_MapOf_UByte_to_String_toFfi_nullable(Map<int, String> value) {
+Pointer<Void> foobar_MapOf_UByte_to_String_toFfi_nullable(Map<int, String>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_UByte_to_String_toFfi(value);
   final result = _foobar_MapOf_UByte_to_String_create_handle_nullable(_handle);
   foobar_MapOf_UByte_to_String_releaseFfiHandle(_handle);
   return result;
 }
-Map<int, String> foobar_MapOf_UByte_to_String_fromFfi_nullable(Pointer<Void> handle) {
+Map<int, String>? foobar_MapOf_UByte_to_String_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_MapOf_UByte_to_String_get_value_nullable(handle);
   final result = foobar_MapOf_UByte_to_String_fromFfi(_handle);
@@ -2583,14 +2583,14 @@ final _foobar_MapOf_foobar_ListOf_Int_to_Boolean_get_value_nullable = __lib.catc
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_get_value_nullable'));
-Pointer<Void> foobar_MapOf_foobar_ListOf_Int_to_Boolean_toFfi_nullable(Map<List<int>, bool> value) {
+Pointer<Void> foobar_MapOf_foobar_ListOf_Int_to_Boolean_toFfi_nullable(Map<List<int>, bool>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_foobar_ListOf_Int_to_Boolean_toFfi(value);
   final result = _foobar_MapOf_foobar_ListOf_Int_to_Boolean_create_handle_nullable(_handle);
   foobar_MapOf_foobar_ListOf_Int_to_Boolean_releaseFfiHandle(_handle);
   return result;
 }
-Map<List<int>, bool> foobar_MapOf_foobar_ListOf_Int_to_Boolean_fromFfi_nullable(Pointer<Void> handle) {
+Map<List<int>, bool>? foobar_MapOf_foobar_ListOf_Int_to_Boolean_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_MapOf_foobar_ListOf_Int_to_Boolean_get_value_nullable(handle);
   final result = foobar_MapOf_foobar_ListOf_Int_to_Boolean_fromFfi(_handle);
@@ -2677,14 +2677,14 @@ final _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_get_value_nullable = 
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_get_value_nullable'));
-Pointer<Void> foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_toFfi_nullable(Map<Map<int, bool>, bool> value) {
+Pointer<Void> foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_toFfi_nullable(Map<Map<int, bool>, bool>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_toFfi(value);
   final result = _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_create_handle_nullable(_handle);
   foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_releaseFfiHandle(_handle);
   return result;
 }
-Map<Map<int, bool>, bool> foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_fromFfi_nullable(Pointer<Void> handle) {
+Map<Map<int, bool>, bool>? foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_get_value_nullable(handle);
   final result = foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_fromFfi(_handle);
@@ -2771,14 +2771,14 @@ final _foobar_MapOf_foobar_SetOf_Int_to_Boolean_get_value_nullable = __lib.catch
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_get_value_nullable'));
-Pointer<Void> foobar_MapOf_foobar_SetOf_Int_to_Boolean_toFfi_nullable(Map<Set<int>, bool> value) {
+Pointer<Void> foobar_MapOf_foobar_SetOf_Int_to_Boolean_toFfi_nullable(Map<Set<int>, bool>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_foobar_SetOf_Int_to_Boolean_toFfi(value);
   final result = _foobar_MapOf_foobar_SetOf_Int_to_Boolean_create_handle_nullable(_handle);
   foobar_MapOf_foobar_SetOf_Int_to_Boolean_releaseFfiHandle(_handle);
   return result;
 }
-Map<Set<int>, bool> foobar_MapOf_foobar_SetOf_Int_to_Boolean_fromFfi_nullable(Pointer<Void> handle) {
+Map<Set<int>, bool>? foobar_MapOf_foobar_SetOf_Int_to_Boolean_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_MapOf_foobar_SetOf_Int_to_Boolean_get_value_nullable(handle);
   final result = foobar_MapOf_foobar_SetOf_Int_to_Boolean_fromFfi(_handle);
@@ -2865,14 +2865,14 @@ final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_get_value_nullable'));
-Pointer<Void> foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_toFfi_nullable(Map<GenericTypesWithCompoundTypes_ExternalEnum, bool> value) {
+Pointer<Void> foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_toFfi_nullable(Map<GenericTypesWithCompoundTypes_ExternalEnum, bool>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_toFfi(value);
   final result = _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_create_handle_nullable(_handle);
   foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_releaseFfiHandle(_handle);
   return result;
 }
-Map<GenericTypesWithCompoundTypes_ExternalEnum, bool> foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_fromFfi_nullable(Pointer<Void> handle) {
+Map<GenericTypesWithCompoundTypes_ExternalEnum, bool>? foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_get_value_nullable(handle);
   final result = foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_fromFfi(_handle);
@@ -2959,14 +2959,14 @@ final _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_get_
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_get_value_nullable'));
-Pointer<Void> foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_toFfi_nullable(Map<GenericTypesWithCompoundTypes_SomeEnum, bool> value) {
+Pointer<Void> foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_toFfi_nullable(Map<GenericTypesWithCompoundTypes_SomeEnum, bool>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_toFfi(value);
   final result = _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_create_handle_nullable(_handle);
   foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_releaseFfiHandle(_handle);
   return result;
 }
-Map<GenericTypesWithCompoundTypes_SomeEnum, bool> foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_fromFfi_nullable(Pointer<Void> handle) {
+Map<GenericTypesWithCompoundTypes_SomeEnum, bool>? foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_get_value_nullable(handle);
   final result = foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_fromFfi(_handle);
@@ -3044,14 +3044,14 @@ final _foobar_SetOf_Float_get_value_nullable = __lib.catchArgumentError(() => __
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_SetOf_Float_get_value_nullable'));
-Pointer<Void> foobar_SetOf_Float_toFfi_nullable(Set<double> value) {
+Pointer<Void> foobar_SetOf_Float_toFfi_nullable(Set<double>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_SetOf_Float_toFfi(value);
   final result = _foobar_SetOf_Float_create_handle_nullable(_handle);
   foobar_SetOf_Float_releaseFfiHandle(_handle);
   return result;
 }
-Set<double> foobar_SetOf_Float_fromFfi_nullable(Pointer<Void> handle) {
+Set<double>? foobar_SetOf_Float_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_SetOf_Float_get_value_nullable(handle);
   final result = foobar_SetOf_Float_fromFfi(_handle);
@@ -3129,14 +3129,14 @@ final _foobar_SetOf_Int_get_value_nullable = __lib.catchArgumentError(() => __li
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_SetOf_Int_get_value_nullable'));
-Pointer<Void> foobar_SetOf_Int_toFfi_nullable(Set<int> value) {
+Pointer<Void> foobar_SetOf_Int_toFfi_nullable(Set<int>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_SetOf_Int_toFfi(value);
   final result = _foobar_SetOf_Int_create_handle_nullable(_handle);
   foobar_SetOf_Int_releaseFfiHandle(_handle);
   return result;
 }
-Set<int> foobar_SetOf_Int_fromFfi_nullable(Pointer<Void> handle) {
+Set<int>? foobar_SetOf_Int_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_SetOf_Int_get_value_nullable(handle);
   final result = foobar_SetOf_Int_fromFfi(_handle);
@@ -3214,14 +3214,14 @@ final _foobar_SetOf_String_get_value_nullable = __lib.catchArgumentError(() => _
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_SetOf_String_get_value_nullable'));
-Pointer<Void> foobar_SetOf_String_toFfi_nullable(Set<String> value) {
+Pointer<Void> foobar_SetOf_String_toFfi_nullable(Set<String>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_SetOf_String_toFfi(value);
   final result = _foobar_SetOf_String_create_handle_nullable(_handle);
   foobar_SetOf_String_releaseFfiHandle(_handle);
   return result;
 }
-Set<String> foobar_SetOf_String_fromFfi_nullable(Pointer<Void> handle) {
+Set<String>? foobar_SetOf_String_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_SetOf_String_get_value_nullable(handle);
   final result = foobar_SetOf_String_fromFfi(_handle);
@@ -3299,14 +3299,14 @@ final _foobar_SetOf_UByte_get_value_nullable = __lib.catchArgumentError(() => __
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_SetOf_UByte_get_value_nullable'));
-Pointer<Void> foobar_SetOf_UByte_toFfi_nullable(Set<int> value) {
+Pointer<Void> foobar_SetOf_UByte_toFfi_nullable(Set<int>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_SetOf_UByte_toFfi(value);
   final result = _foobar_SetOf_UByte_create_handle_nullable(_handle);
   foobar_SetOf_UByte_releaseFfiHandle(_handle);
   return result;
 }
-Set<int> foobar_SetOf_UByte_fromFfi_nullable(Pointer<Void> handle) {
+Set<int>? foobar_SetOf_UByte_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_SetOf_UByte_get_value_nullable(handle);
   final result = foobar_SetOf_UByte_fromFfi(_handle);
@@ -3384,14 +3384,14 @@ final _foobar_SetOf_foobar_ListOf_Int_get_value_nullable = __lib.catchArgumentEr
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_SetOf_foobar_ListOf_Int_get_value_nullable'));
-Pointer<Void> foobar_SetOf_foobar_ListOf_Int_toFfi_nullable(Set<List<int>> value) {
+Pointer<Void> foobar_SetOf_foobar_ListOf_Int_toFfi_nullable(Set<List<int>>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_SetOf_foobar_ListOf_Int_toFfi(value);
   final result = _foobar_SetOf_foobar_ListOf_Int_create_handle_nullable(_handle);
   foobar_SetOf_foobar_ListOf_Int_releaseFfiHandle(_handle);
   return result;
 }
-Set<List<int>> foobar_SetOf_foobar_ListOf_Int_fromFfi_nullable(Pointer<Void> handle) {
+Set<List<int>>? foobar_SetOf_foobar_ListOf_Int_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_SetOf_foobar_ListOf_Int_get_value_nullable(handle);
   final result = foobar_SetOf_foobar_ListOf_Int_fromFfi(_handle);
@@ -3469,14 +3469,14 @@ final _foobar_SetOf_foobar_MapOf_Int_to_Boolean_get_value_nullable = __lib.catch
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_get_value_nullable'));
-Pointer<Void> foobar_SetOf_foobar_MapOf_Int_to_Boolean_toFfi_nullable(Set<Map<int, bool>> value) {
+Pointer<Void> foobar_SetOf_foobar_MapOf_Int_to_Boolean_toFfi_nullable(Set<Map<int, bool>>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_SetOf_foobar_MapOf_Int_to_Boolean_toFfi(value);
   final result = _foobar_SetOf_foobar_MapOf_Int_to_Boolean_create_handle_nullable(_handle);
   foobar_SetOf_foobar_MapOf_Int_to_Boolean_releaseFfiHandle(_handle);
   return result;
 }
-Set<Map<int, bool>> foobar_SetOf_foobar_MapOf_Int_to_Boolean_fromFfi_nullable(Pointer<Void> handle) {
+Set<Map<int, bool>>? foobar_SetOf_foobar_MapOf_Int_to_Boolean_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_SetOf_foobar_MapOf_Int_to_Boolean_get_value_nullable(handle);
   final result = foobar_SetOf_foobar_MapOf_Int_to_Boolean_fromFfi(_handle);
@@ -3554,14 +3554,14 @@ final _foobar_SetOf_foobar_SetOf_Int_get_value_nullable = __lib.catchArgumentErr
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_SetOf_foobar_SetOf_Int_get_value_nullable'));
-Pointer<Void> foobar_SetOf_foobar_SetOf_Int_toFfi_nullable(Set<Set<int>> value) {
+Pointer<Void> foobar_SetOf_foobar_SetOf_Int_toFfi_nullable(Set<Set<int>>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_SetOf_foobar_SetOf_Int_toFfi(value);
   final result = _foobar_SetOf_foobar_SetOf_Int_create_handle_nullable(_handle);
   foobar_SetOf_foobar_SetOf_Int_releaseFfiHandle(_handle);
   return result;
 }
-Set<Set<int>> foobar_SetOf_foobar_SetOf_Int_fromFfi_nullable(Pointer<Void> handle) {
+Set<Set<int>>? foobar_SetOf_foobar_SetOf_Int_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_SetOf_foobar_SetOf_Int_get_value_nullable(handle);
   final result = foobar_SetOf_foobar_SetOf_Int_fromFfi(_handle);
@@ -3639,14 +3639,14 @@ final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_n
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_nullable'));
-Pointer<Void> foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_toFfi_nullable(Set<GenericTypesWithCompoundTypes_ExternalEnum> value) {
+Pointer<Void> foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_toFfi_nullable(Set<GenericTypesWithCompoundTypes_ExternalEnum>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_toFfi(value);
   final result = _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle_nullable(_handle);
   foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_releaseFfiHandle(_handle);
   return result;
 }
-Set<GenericTypesWithCompoundTypes_ExternalEnum> foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi_nullable(Pointer<Void> handle) {
+Set<GenericTypesWithCompoundTypes_ExternalEnum>? foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_nullable(handle);
   final result = foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_fromFfi(_handle);
@@ -3724,14 +3724,14 @@ final _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nulla
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nullable'));
-Pointer<Void> foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi_nullable(Set<GenericTypesWithCompoundTypes_SomeEnum> value) {
+Pointer<Void> foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi_nullable(Set<GenericTypesWithCompoundTypes_SomeEnum>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_toFfi(value);
   final result = _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle_nullable(_handle);
   foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle(_handle);
   return result;
 }
-Set<GenericTypesWithCompoundTypes_SomeEnum> foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_fromFfi_nullable(Pointer<Void> handle) {
+Set<GenericTypesWithCompoundTypes_SomeEnum>? foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nullable(handle);
   final result = foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_fromFfi(_handle);

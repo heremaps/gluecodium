@@ -42,15 +42,15 @@ final _doStuff_return_has_error = __lib.catchArgumentError(() => __lib.nativeLib
   >('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum_return_has_error'));
 class UseFreeTypes$Impl implements UseFreeTypes {
   @protected
-  Pointer<Void> handle;
+  Pointer<Void> handle = Pointer<Void>.fromAddress(0);
   UseFreeTypes$Impl(this.handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_UseFreeTypes_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   DateTime doStuff(FreePoint point, FreeEnum mode) {
@@ -84,8 +84,8 @@ Pointer<Void> smoke_UseFreeTypes_toFfi(UseFreeTypes value) =>
 UseFreeTypes smoke_UseFreeTypes_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as UseFreeTypes;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is UseFreeTypes) return instance;
   final _copied_handle = _smoke_UseFreeTypes_copy_handle(handle);
   final result = UseFreeTypes$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -93,9 +93,9 @@ UseFreeTypes smoke_UseFreeTypes_fromFfi(Pointer<Void> handle) {
 }
 void smoke_UseFreeTypes_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_UseFreeTypes_release_handle(handle);
-Pointer<Void> smoke_UseFreeTypes_toFfi_nullable(UseFreeTypes value) =>
+Pointer<Void> smoke_UseFreeTypes_toFfi_nullable(UseFreeTypes? value) =>
   value != null ? smoke_UseFreeTypes_toFfi(value) : Pointer<Void>.fromAddress(0);
-UseFreeTypes smoke_UseFreeTypes_fromFfi_nullable(Pointer<Void> handle) =>
+UseFreeTypes? smoke_UseFreeTypes_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_UseFreeTypes_fromFfi(handle) : null;
 void smoke_UseFreeTypes_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_UseFreeTypes_release_handle(handle);

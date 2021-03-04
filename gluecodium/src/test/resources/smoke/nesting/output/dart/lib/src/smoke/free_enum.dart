@@ -2,7 +2,6 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 enum FreeEnum {
     foo,
     bar
@@ -45,14 +44,14 @@ final _smoke_FreeEnum_get_value_nullable = __lib.catchArgumentError(() => __lib.
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_FreeEnum_get_value_nullable'));
-Pointer<Void> smoke_FreeEnum_toFfi_nullable(FreeEnum value) {
+Pointer<Void> smoke_FreeEnum_toFfi_nullable(FreeEnum? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_FreeEnum_toFfi(value);
   final result = _smoke_FreeEnum_create_handle_nullable(_handle);
   smoke_FreeEnum_releaseFfiHandle(_handle);
   return result;
 }
-FreeEnum smoke_FreeEnum_fromFfi_nullable(Pointer<Void> handle) {
+FreeEnum? smoke_FreeEnum_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_FreeEnum_get_value_nullable(handle);
   final result = smoke_FreeEnum_fromFfi(_handle);

@@ -50,15 +50,15 @@ final _fun_return_has_error = __lib.catchArgumentError(() => __lib.nativeLibrary
   >('library_package_Class_fun__ListOf_1package_1Types_1Struct_return_has_error'));
 class Class$Impl implements Class {
   @protected
-  Pointer<Void> handle;
+  Pointer<Void> handle = Pointer<Void>.fromAddress(0);
   Class$Impl(this.handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _package_Class_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   Class$Impl.constructor() : handle = _constructor() {
     __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
@@ -122,8 +122,8 @@ Pointer<Void> package_Class_toFfi(Class value) =>
 Class package_Class_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as Class;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is Class) return instance;
   final _type_id_handle = _package_Class_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -136,9 +136,9 @@ Class package_Class_fromFfi(Pointer<Void> handle) {
 }
 void package_Class_releaseFfiHandle(Pointer<Void> handle) =>
   _package_Class_release_handle(handle);
-Pointer<Void> package_Class_toFfi_nullable(Class value) =>
+Pointer<Void> package_Class_toFfi_nullable(Class? value) =>
   value != null ? package_Class_toFfi(value) : Pointer<Void>.fromAddress(0);
-Class package_Class_fromFfi_nullable(Pointer<Void> handle) =>
+Class? package_Class_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? package_Class_fromFfi(handle) : null;
 void package_Class_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _package_Class_release_handle(handle);

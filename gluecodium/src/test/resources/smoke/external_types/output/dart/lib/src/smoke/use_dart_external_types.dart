@@ -31,15 +31,15 @@ final _smoke_UseDartExternalTypes_release_handle = __lib.catchArgumentError(() =
   >('library_smoke_UseDartExternalTypes_release_handle'));
 class UseDartExternalTypes$Impl implements UseDartExternalTypes {
   @protected
-  Pointer<Void> handle;
+  Pointer<Void> handle = Pointer<Void>.fromAddress(0);
   UseDartExternalTypes$Impl(this.handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_UseDartExternalTypes_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   static math.Rectangle<int> rectangleRoundTrip(math.Rectangle<int> input) {
     final _rectangleRoundTrip_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_UseDartExternalTypes_rectangleRoundTrip__Rectangle'));
@@ -91,8 +91,8 @@ Pointer<Void> smoke_UseDartExternalTypes_toFfi(UseDartExternalTypes value) =>
 UseDartExternalTypes smoke_UseDartExternalTypes_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as UseDartExternalTypes;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is UseDartExternalTypes) return instance;
   final _copied_handle = _smoke_UseDartExternalTypes_copy_handle(handle);
   final result = UseDartExternalTypes$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -100,9 +100,9 @@ UseDartExternalTypes smoke_UseDartExternalTypes_fromFfi(Pointer<Void> handle) {
 }
 void smoke_UseDartExternalTypes_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_UseDartExternalTypes_release_handle(handle);
-Pointer<Void> smoke_UseDartExternalTypes_toFfi_nullable(UseDartExternalTypes value) =>
+Pointer<Void> smoke_UseDartExternalTypes_toFfi_nullable(UseDartExternalTypes? value) =>
   value != null ? smoke_UseDartExternalTypes_toFfi(value) : Pointer<Void>.fromAddress(0);
-UseDartExternalTypes smoke_UseDartExternalTypes_fromFfi_nullable(Pointer<Void> handle) =>
+UseDartExternalTypes? smoke_UseDartExternalTypes_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_UseDartExternalTypes_fromFfi(handle) : null;
 void smoke_UseDartExternalTypes_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_UseDartExternalTypes_release_handle(handle);

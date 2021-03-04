@@ -61,14 +61,14 @@ final _smoke_Constructors_ErrorEnum_get_value_nullable = __lib.catchArgumentErro
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Constructors_ErrorEnum_get_value_nullable'));
-Pointer<Void> smoke_Constructors_ErrorEnum_toFfi_nullable(Constructors_ErrorEnum value) {
+Pointer<Void> smoke_Constructors_ErrorEnum_toFfi_nullable(Constructors_ErrorEnum? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Constructors_ErrorEnum_toFfi(value);
   final result = _smoke_Constructors_ErrorEnum_create_handle_nullable(_handle);
   smoke_Constructors_ErrorEnum_releaseFfiHandle(_handle);
   return result;
 }
-Constructors_ErrorEnum smoke_Constructors_ErrorEnum_fromFfi_nullable(Pointer<Void> handle) {
+Constructors_ErrorEnum? smoke_Constructors_ErrorEnum_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_Constructors_ErrorEnum_get_value_nullable(handle);
   final result = smoke_Constructors_ErrorEnum_fromFfi(_handle);
@@ -113,15 +113,15 @@ final _fromString_return_has_error = __lib.catchArgumentError(() => __lib.native
   >('library_smoke_Constructors_create__String_return_has_error'));
 class Constructors$Impl implements Constructors {
   @protected
-  Pointer<Void> handle;
+  Pointer<Void> handle = Pointer<Void>.fromAddress(0);
   Constructors$Impl(this.handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_Constructors_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   Constructors$Impl.$init() : handle = _$init() {
     __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
@@ -200,8 +200,8 @@ Pointer<Void> smoke_Constructors_toFfi(Constructors value) =>
 Constructors smoke_Constructors_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as Constructors;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is Constructors) return instance;
   final _type_id_handle = _smoke_Constructors_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -214,9 +214,9 @@ Constructors smoke_Constructors_fromFfi(Pointer<Void> handle) {
 }
 void smoke_Constructors_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_Constructors_release_handle(handle);
-Pointer<Void> smoke_Constructors_toFfi_nullable(Constructors value) =>
+Pointer<Void> smoke_Constructors_toFfi_nullable(Constructors? value) =>
   value != null ? smoke_Constructors_toFfi(value) : Pointer<Void>.fromAddress(0);
-Constructors smoke_Constructors_fromFfi_nullable(Pointer<Void> handle) =>
+Constructors? smoke_Constructors_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_Constructors_fromFfi(handle) : null;
 void smoke_Constructors_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_Constructors_release_handle(handle);

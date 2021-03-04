@@ -93,14 +93,14 @@ final _smoke_Comments_SomeEnum_get_value_nullable = __lib.catchArgumentError(() 
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Comments_SomeEnum_get_value_nullable'));
-Pointer<Void> smoke_Comments_SomeEnum_toFfi_nullable(Comments_SomeEnum value) {
+Pointer<Void> smoke_Comments_SomeEnum_toFfi_nullable(Comments_SomeEnum? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Comments_SomeEnum_toFfi(value);
   final result = _smoke_Comments_SomeEnum_create_handle_nullable(_handle);
   smoke_Comments_SomeEnum_releaseFfiHandle(_handle);
   return result;
 }
-Comments_SomeEnum smoke_Comments_SomeEnum_fromFfi_nullable(Pointer<Void> handle) {
+Comments_SomeEnum? smoke_Comments_SomeEnum_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_Comments_SomeEnum_get_value_nullable(handle);
   final result = smoke_Comments_SomeEnum_fromFfi(_handle);
@@ -121,7 +121,7 @@ class Comments_SomeStruct {
   /// remains to be seen
   bool someField;
   /// Can be `null`
-  String nullableField;
+  String? nullableField;
   /// This is how easy it is to construct.
   /// [someField] How useful this struct is
   /// remains to be seen
@@ -180,14 +180,14 @@ final _smoke_Comments_SomeStruct_get_value_nullable = __lib.catchArgumentError((
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Comments_SomeStruct_get_value_nullable'));
-Pointer<Void> smoke_Comments_SomeStruct_toFfi_nullable(Comments_SomeStruct value) {
+Pointer<Void> smoke_Comments_SomeStruct_toFfi_nullable(Comments_SomeStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Comments_SomeStruct_toFfi(value);
   final result = _smoke_Comments_SomeStruct_create_handle_nullable(_handle);
   smoke_Comments_SomeStruct_releaseFfiHandle(_handle);
   return result;
 }
-Comments_SomeStruct smoke_Comments_SomeStruct_fromFfi_nullable(Pointer<Void> handle) {
+Comments_SomeStruct? smoke_Comments_SomeStruct_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_Comments_SomeStruct_get_value_nullable(handle);
   final result = smoke_Comments_SomeStruct_fromFfi(_handle);
@@ -233,7 +233,7 @@ class Comments_SomeLambda$Impl {
   }
 }
 int _Comments_SomeLambda_call_static(int _token, Pointer<Void> p0, int p1, Pointer<Double> _result) {
-  double _result_object;
+  double? _result_object = null;
   try {
     _result_object = (__lib.instanceCache[_token] as Comments_SomeLambda)(String_fromFfi(p0), (p1));
     _result.value = (_result_object);
@@ -275,14 +275,14 @@ final _smoke_Comments_SomeLambda_get_value_nullable = __lib.catchArgumentError((
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Comments_SomeLambda_get_value_nullable'));
-Pointer<Void> smoke_Comments_SomeLambda_toFfi_nullable(Comments_SomeLambda value) {
+Pointer<Void> smoke_Comments_SomeLambda_toFfi_nullable(Comments_SomeLambda? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Comments_SomeLambda_toFfi(value);
   final result = _smoke_Comments_SomeLambda_create_handle_nullable(_handle);
   smoke_Comments_SomeLambda_releaseFfiHandle(_handle);
   return result;
 }
-Comments_SomeLambda smoke_Comments_SomeLambda_fromFfi_nullable(Pointer<Void> handle) {
+Comments_SomeLambda? smoke_Comments_SomeLambda_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_Comments_SomeLambda_get_value_nullable(handle);
   final result = smoke_Comments_SomeLambda_fromFfi(_handle);
@@ -319,15 +319,15 @@ final _someMethodWithAllComments_return_has_error = __lib.catchArgumentError(() 
   >('library_smoke_Comments_someMethodWithAllComments__String_return_has_error'));
 class Comments$Impl implements Comments {
   @protected
-  Pointer<Void> handle;
+  Pointer<Void> handle = Pointer<Void>.fromAddress(0);
   Comments$Impl(this.handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_Comments_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   bool someMethodWithAllComments(String inputParameter) {
@@ -520,8 +520,8 @@ Pointer<Void> smoke_Comments_toFfi(Comments value) =>
 Comments smoke_Comments_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as Comments;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is Comments) return instance;
   final _copied_handle = _smoke_Comments_copy_handle(handle);
   final result = Comments$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -529,9 +529,9 @@ Comments smoke_Comments_fromFfi(Pointer<Void> handle) {
 }
 void smoke_Comments_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_Comments_release_handle(handle);
-Pointer<Void> smoke_Comments_toFfi_nullable(Comments value) =>
+Pointer<Void> smoke_Comments_toFfi_nullable(Comments? value) =>
   value != null ? smoke_Comments_toFfi(value) : Pointer<Void>.fromAddress(0);
-Comments smoke_Comments_fromFfi_nullable(Pointer<Void> handle) =>
+Comments? smoke_Comments_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_Comments_fromFfi(handle) : null;
 void smoke_Comments_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_Comments_release_handle(handle);

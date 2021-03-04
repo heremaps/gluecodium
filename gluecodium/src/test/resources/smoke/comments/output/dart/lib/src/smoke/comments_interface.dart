@@ -9,18 +9,18 @@ import 'package:library/src/_library_context.dart' as __lib;
 abstract class CommentsInterface {
   CommentsInterface() {}
   factory CommentsInterface.fromLambdas({
-    @required bool Function(String) lambda_someMethodWithAllComments,
-    @required bool Function(String) lambda_someMethodWithInputComments,
-    @required bool Function(String) lambda_someMethodWithOutputComments,
-    @required bool Function(String) lambda_someMethodWithNoComments,
-    @required void Function(String) lambda_someMethodWithoutReturnTypeWithAllComments,
-    @required void Function(String) lambda_someMethodWithoutReturnTypeWithNoComments,
-    @required bool Function() lambda_someMethodWithoutInputParametersWithAllComments,
-    @required bool Function() lambda_someMethodWithoutInputParametersWithNoComments,
-    @required void Function() lambda_someMethodWithNothing,
-    @required void Function() lambda_someMethodWithoutReturnTypeOrInputParameters,
-    @required bool Function() lambda_isSomeProperty_get,
-    @required void Function(bool) lambda_isSomeProperty_set
+    required bool Function(String) lambda_someMethodWithAllComments,
+    required bool Function(String) lambda_someMethodWithInputComments,
+    required bool Function(String) lambda_someMethodWithOutputComments,
+    required bool Function(String) lambda_someMethodWithNoComments,
+    required void Function(String) lambda_someMethodWithoutReturnTypeWithAllComments,
+    required void Function(String) lambda_someMethodWithoutReturnTypeWithNoComments,
+    required bool Function() lambda_someMethodWithoutInputParametersWithAllComments,
+    required bool Function() lambda_someMethodWithoutInputParametersWithNoComments,
+    required void Function() lambda_someMethodWithNothing,
+    required void Function() lambda_someMethodWithoutReturnTypeOrInputParameters,
+    required bool Function() lambda_isSomeProperty_get,
+    required void Function(bool) lambda_isSomeProperty_set
   }) => CommentsInterface$Lambdas(
     lambda_someMethodWithAllComments,
     lambda_someMethodWithInputComments,
@@ -117,14 +117,14 @@ final _smoke_CommentsInterface_SomeEnum_get_value_nullable = __lib.catchArgument
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_CommentsInterface_SomeEnum_get_value_nullable'));
-Pointer<Void> smoke_CommentsInterface_SomeEnum_toFfi_nullable(CommentsInterface_SomeEnum value) {
+Pointer<Void> smoke_CommentsInterface_SomeEnum_toFfi_nullable(CommentsInterface_SomeEnum? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_CommentsInterface_SomeEnum_toFfi(value);
   final result = _smoke_CommentsInterface_SomeEnum_create_handle_nullable(_handle);
   smoke_CommentsInterface_SomeEnum_releaseFfiHandle(_handle);
   return result;
 }
-CommentsInterface_SomeEnum smoke_CommentsInterface_SomeEnum_fromFfi_nullable(Pointer<Void> handle) {
+CommentsInterface_SomeEnum? smoke_CommentsInterface_SomeEnum_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_CommentsInterface_SomeEnum_get_value_nullable(handle);
   final result = smoke_CommentsInterface_SomeEnum_fromFfi(_handle);
@@ -183,14 +183,14 @@ final _smoke_CommentsInterface_SomeStruct_get_value_nullable = __lib.catchArgume
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_CommentsInterface_SomeStruct_get_value_nullable'));
-Pointer<Void> smoke_CommentsInterface_SomeStruct_toFfi_nullable(CommentsInterface_SomeStruct value) {
+Pointer<Void> smoke_CommentsInterface_SomeStruct_toFfi_nullable(CommentsInterface_SomeStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_CommentsInterface_SomeStruct_toFfi(value);
   final result = _smoke_CommentsInterface_SomeStruct_create_handle_nullable(_handle);
   smoke_CommentsInterface_SomeStruct_releaseFfiHandle(_handle);
   return result;
 }
-CommentsInterface_SomeStruct smoke_CommentsInterface_SomeStruct_fromFfi_nullable(Pointer<Void> handle) {
+CommentsInterface_SomeStruct? smoke_CommentsInterface_SomeStruct_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_CommentsInterface_SomeStruct_get_value_nullable(handle);
   final result = smoke_CommentsInterface_SomeStruct_fromFfi(_handle);
@@ -282,15 +282,15 @@ class CommentsInterface$Lambdas implements CommentsInterface {
   set isSomeProperty(bool value) => lambda_isSomeProperty_set(value);
 }
 class CommentsInterface$Impl implements CommentsInterface {
-  Pointer<Void> handle;
+  Pointer<Void> handle = Pointer<Void>.fromAddress(0);
   CommentsInterface$Impl(this.handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_CommentsInterface_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   bool someMethodWithAllComments(String input) {
@@ -440,7 +440,7 @@ class CommentsInterface$Impl implements CommentsInterface {
   }
 }
 int _CommentsInterface_someMethodWithAllComments_static(int _token, Pointer<Void> input, Pointer<Uint8> _result) {
-  bool _result_object = null;
+  bool? _result_object = null;
   try {
     _result_object = (__lib.instanceCache[_token] as CommentsInterface).someMethodWithAllComments(String_fromFfi(input));
     _result.value = Boolean_toFfi(_result_object);
@@ -450,7 +450,7 @@ int _CommentsInterface_someMethodWithAllComments_static(int _token, Pointer<Void
   return 0;
 }
 int _CommentsInterface_someMethodWithInputComments_static(int _token, Pointer<Void> input, Pointer<Uint8> _result) {
-  bool _result_object = null;
+  bool? _result_object = null;
   try {
     _result_object = (__lib.instanceCache[_token] as CommentsInterface).someMethodWithInputComments(String_fromFfi(input));
     _result.value = Boolean_toFfi(_result_object);
@@ -460,7 +460,7 @@ int _CommentsInterface_someMethodWithInputComments_static(int _token, Pointer<Vo
   return 0;
 }
 int _CommentsInterface_someMethodWithOutputComments_static(int _token, Pointer<Void> input, Pointer<Uint8> _result) {
-  bool _result_object = null;
+  bool? _result_object = null;
   try {
     _result_object = (__lib.instanceCache[_token] as CommentsInterface).someMethodWithOutputComments(String_fromFfi(input));
     _result.value = Boolean_toFfi(_result_object);
@@ -470,7 +470,7 @@ int _CommentsInterface_someMethodWithOutputComments_static(int _token, Pointer<V
   return 0;
 }
 int _CommentsInterface_someMethodWithNoComments_static(int _token, Pointer<Void> input, Pointer<Uint8> _result) {
-  bool _result_object = null;
+  bool? _result_object = null;
   try {
     _result_object = (__lib.instanceCache[_token] as CommentsInterface).someMethodWithNoComments(String_fromFfi(input));
     _result.value = Boolean_toFfi(_result_object);
@@ -496,7 +496,7 @@ int _CommentsInterface_someMethodWithoutReturnTypeWithNoComments_static(int _tok
   return 0;
 }
 int _CommentsInterface_someMethodWithoutInputParametersWithAllComments_static(int _token, Pointer<Uint8> _result) {
-  bool _result_object = null;
+  bool? _result_object = null;
   try {
     _result_object = (__lib.instanceCache[_token] as CommentsInterface).someMethodWithoutInputParametersWithAllComments();
     _result.value = Boolean_toFfi(_result_object);
@@ -505,7 +505,7 @@ int _CommentsInterface_someMethodWithoutInputParametersWithAllComments_static(in
   return 0;
 }
 int _CommentsInterface_someMethodWithoutInputParametersWithNoComments_static(int _token, Pointer<Uint8> _result) {
-  bool _result_object = null;
+  bool? _result_object = null;
   try {
     _result_object = (__lib.instanceCache[_token] as CommentsInterface).someMethodWithoutInputParametersWithNoComments();
     _result.value = Boolean_toFfi(_result_object);
@@ -564,8 +564,8 @@ Pointer<Void> smoke_CommentsInterface_toFfi(CommentsInterface value) {
 CommentsInterface smoke_CommentsInterface_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as CommentsInterface;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is CommentsInterface) return instance;
   final _type_id_handle = _smoke_CommentsInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -578,9 +578,9 @@ CommentsInterface smoke_CommentsInterface_fromFfi(Pointer<Void> handle) {
 }
 void smoke_CommentsInterface_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_CommentsInterface_release_handle(handle);
-Pointer<Void> smoke_CommentsInterface_toFfi_nullable(CommentsInterface value) =>
+Pointer<Void> smoke_CommentsInterface_toFfi_nullable(CommentsInterface? value) =>
   value != null ? smoke_CommentsInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
-CommentsInterface smoke_CommentsInterface_fromFfi_nullable(Pointer<Void> handle) =>
+CommentsInterface? smoke_CommentsInterface_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_CommentsInterface_fromFfi(handle) : null;
 void smoke_CommentsInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_CommentsInterface_release_handle(handle);

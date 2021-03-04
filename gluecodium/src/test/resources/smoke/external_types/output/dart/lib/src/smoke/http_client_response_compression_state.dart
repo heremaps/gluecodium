@@ -47,14 +47,14 @@ final _smoke_CompressionState_get_value_nullable = __lib.catchArgumentError(() =
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_CompressionState_get_value_nullable'));
-Pointer<Void> smoke_CompressionState_toFfi_nullable(bar.HttpClientResponseCompressionState value) {
+Pointer<Void> smoke_CompressionState_toFfi_nullable(bar.HttpClientResponseCompressionState? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_CompressionState_toFfi(value);
   final result = _smoke_CompressionState_create_handle_nullable(_handle);
   smoke_CompressionState_releaseFfiHandle(_handle);
   return result;
 }
-bar.HttpClientResponseCompressionState smoke_CompressionState_fromFfi_nullable(Pointer<Void> handle) {
+bar.HttpClientResponseCompressionState? smoke_CompressionState_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_CompressionState_get_value_nullable(handle);
   final result = smoke_CompressionState_fromFfi(_handle);

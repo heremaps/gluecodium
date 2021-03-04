@@ -68,14 +68,14 @@ final _smoke_StructWithConstructor_get_value_nullable = __lib.catchArgumentError
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithConstructor_get_value_nullable'));
-Pointer<Void> smoke_StructWithConstructor_toFfi_nullable(StructWithConstructor value) {
+Pointer<Void> smoke_StructWithConstructor_toFfi_nullable(StructWithConstructor? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_StructWithConstructor_toFfi(value);
   final result = _smoke_StructWithConstructor_create_handle_nullable(_handle);
   smoke_StructWithConstructor_releaseFfiHandle(_handle);
   return result;
 }
-StructWithConstructor smoke_StructWithConstructor_fromFfi_nullable(Pointer<Void> handle) {
+StructWithConstructor? smoke_StructWithConstructor_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_StructWithConstructor_get_value_nullable(handle);
   final result = smoke_StructWithConstructor_fromFfi(_handle);
