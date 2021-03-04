@@ -121,5 +121,5 @@ void main(List<String> arguments) {
   _allTests.forEach((testCase) => testCase());
   __lib.LibraryContext.release();
 
-  CallbacksMultithreadedTests.main(libraryName);
+  CallbacksMultithreadedTests.main([libraryName]);
 }
