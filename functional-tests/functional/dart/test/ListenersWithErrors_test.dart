@@ -70,7 +70,7 @@ class ThrowingListener extends ErrorsInInterface {
 }
 
 void main() {
-  ErrorMessenger messenger;
+  late ErrorMessenger messenger;
   setUp(() {
     messenger = ErrorMessenger();
   });
@@ -87,7 +87,7 @@ void main() {
     expect(result, "Works");
   });
   _testSuite.test("getMessage() error rethrown", () {
-    AdditionalErrorsExternalException exception = null;
+    AdditionalErrorsExternalException? exception = null;
     final ErrorsInInterface listener = ThrowingListener();
 
     try {
@@ -96,13 +96,12 @@ void main() {
       exception = e;
     }
 
-    expect(exception, isNotNull);
-    expect(exception.error, AdditionalErrorsExternalErrorCode.failed);
+    expect(exception?.error, AdditionalErrorsExternalErrorCode.failed);
 
     listener.release();
   });
   _testSuite.test("setMessage() error rethrown", () {
-    AdditionalErrorsExternalException exception = null;
+    AdditionalErrorsExternalException? exception = null;
     final ErrorsInInterface listener = ThrowingListener();
 
     try {
@@ -111,13 +110,12 @@ void main() {
       exception = e;
     }
 
-    expect(exception, isNotNull);
-    expect(exception.error, AdditionalErrorsExternalErrorCode.failed);
+    expect(exception?.error, AdditionalErrorsExternalErrorCode.failed);
 
     listener.release();
   });
   _testSuite.test("getMessageWithPayload() error rethrown", () {
-    WithPayloadException exception = null;
+    WithPayloadException? exception = null;
     final ErrorsInInterface listener = ThrowingListener();
 
     try {
@@ -126,13 +124,12 @@ void main() {
       exception = e;
     }
 
-    expect(exception, isNotNull);
-    expect(exception.error, Payload(42, "foo"));
+    expect(exception?.error, Payload(42, "foo"));
 
     listener.release();
   });
   _testSuite.test("setMessageWithPayload() error rethrown", () {
-    WithPayloadException exception = null;
+    WithPayloadException? exception = null;
     final ErrorsInInterface listener = ThrowingListener();
 
     try {
@@ -141,8 +138,7 @@ void main() {
       exception = e;
     }
 
-    expect(exception, isNotNull);
-    expect(exception.error, Payload(42, "foo"));
+    expect(exception?.error, Payload(42, "foo"));
 
     listener.release();
   });
