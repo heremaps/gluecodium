@@ -196,7 +196,6 @@ dependencies {
 apply plugin: 'com.diffplug.spotless'
 
 spotless {
-    freshmark { target '*.md' }
     java {
         target project.fileTree(project.projectDir) {
             include '**/*.java'
