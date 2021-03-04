@@ -50,8 +50,9 @@ class NameRulesTests: XCTestCase {
     ]
 }
 
-let allTests = [
-    testCase(NameRulesTests.allTests)
-]
+func getAllTests() -> [XCTestCaseEntry] {
+    let allTests = [testCase(NameRulesTests.allTests)]
+    return allTests;
+}
 
-XCTMain(allTests)
+XCTMain(getAllTests())

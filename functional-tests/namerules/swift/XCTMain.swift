@@ -29,15 +29,15 @@ import XCTest
 
 #if !os(Linux)
 
-    typealias TestCaseEntry = (String, allTests: [String])
+    typealias XCTestCaseEntry = (String, allTests: [String])
 
-    func testCase<T: XCTestCase>(_ allTests: [(String, (T) -> () throws -> Void)]) -> TestCaseEntry {
+    func testCase<T: XCTestCase>(_ allTests: [(String, (T) -> () throws -> Void)]) -> XCTestCaseEntry {
         let tests: [String] = allTests.map { $0.0 }
         let name = String(describing: T.self)
         return (name, tests)
     }
 
-    func testCase<T: XCTestCase>(_ allTests: [(String, (T) -> () -> Void)]) -> TestCaseEntry {
+    func testCase<T: XCTestCase>(_ allTests: [(String, (T) -> () -> Void)]) -> XCTestCaseEntry {
         let tests: [String] = allTests.map { $0.0 }
         let name = String(describing: T.self)
         return (name, tests)
@@ -49,7 +49,7 @@ import XCTest
 
             // Check the difference between automatically discovered and statically added tests
             var staticTestCases: [String: Set<String>] = [:]
-            allTests.forEach { staticTestCases[$0] = Set($1) }
+            getAllTests().forEach { staticTestCases[$0] = Set($1) }
 
             var dynamicTestCases: [String: Set<String>] = [:]
             defaultSuite.tests.forEach { bundle in
@@ -93,7 +93,7 @@ import XCTest
     }
 
     // TODO: accept command line parameters to run individual tests with .perform
-    func XCTMain(_: [TestCaseEntry]) -> Never {
+    func XCTMain(_: [XCTestCaseEntry]) -> Never {
         let defaultSuite = XCTestSuite.default
         defaultSuite.run()
         exit(Int32(defaultSuite.testRun!.failureCount))
