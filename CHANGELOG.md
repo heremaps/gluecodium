@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 8.9.6
+Release date: 2021-03-05
 ### Bug fixes:
   * Fixed Swift compilation issue for overriding initializers in child classes.
 
