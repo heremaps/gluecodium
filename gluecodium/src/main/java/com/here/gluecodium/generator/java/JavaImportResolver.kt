@@ -19,14 +19,12 @@
 
 package com.here.gluecodium.generator.java
 
-import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
+import com.here.gluecodium.generator.common.ImportsResolver
 import com.here.gluecodium.model.lime.LimeAttributeType.SERIALIZABLE
-import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeConstant
-import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
@@ -38,7 +36,6 @@ import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
-import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeSet
@@ -54,44 +51,31 @@ internal class JavaImportResolver(
     internalPackages: List<String>,
     private val nonNullAnnotation: JavaImport?,
     private val nullableAnnotation: JavaImport?
-) {
+) : ImportsResolver<JavaImport> {
     val nativeBaseImport = JavaImport(internalPackages, "NativeBase")
 
-    fun resolveImports(limeElement: LimeNamedElement): List<JavaImport> =
+    override fun resolveElementImports(limeElement: LimeElement): List<JavaImport> =
         when (limeElement) {
-            is LimeClass -> resolveClassImports(limeElement)
-            is LimeInterface -> resolveInterfaceImports(limeElement)
+            is LimeContainerWithInheritance -> resolveClassInterfaceImports(limeElement)
             is LimeStruct -> resolveStructImports(limeElement)
-            is LimeTypesCollection -> resolveContainerImports(limeElement)
             is LimeFunction -> resolveFunctionImports(limeElement)
             is LimeLambda -> resolveLambdaImports(limeElement)
-            is LimeConstant -> resolveConstantImports(limeElement)
-            is LimeField -> resolveTypeRefImports(limeElement.typeRef) + resolveValueImports(limeElement.defaultValue)
+            is LimeConstant -> resolveTypeRefImports(limeElement.typeRef, ignoreNullability = true)
+            is LimeField -> resolveTypeRefImports(limeElement.typeRef)
             is LimeParameter -> resolveTypeRefImports(limeElement.typeRef)
-            is LimeProperty -> resolvePropertyImports(limeElement)
+            is LimeProperty -> resolveTypeRefImports(limeElement.typeRef)
             is LimeException -> resolveTypeRefImports(limeElement.errorType, ignoreNullability = true)
             is LimeValue -> resolveValueImports(limeElement)
             else -> emptyList()
         }
 
-    private fun resolveInterfaceImports(limeInterface: LimeInterface): List<JavaImport> {
-        val containerImports = resolveContainerImports(limeInterface)
-        val parentImports = resolveTypeRefImports(limeInterface.parent, ignoreNullability = true)
-        val implImports = if (limeInterface.path.hasParent) resolveInheritedImports(limeInterface) else emptyList()
-
-        return containerImports + parentImports + implImports
-    }
-
-    private fun resolveClassImports(limeClass: LimeClass): List<JavaImport> {
-        val containerImports = resolveContainerImports(limeClass)
-        val parentImports = resolveTypeRefImports(limeClass.parent, ignoreNullability = true) +
-            when (limeClass.parent?.type?.actualType) {
-                is LimeClass -> emptyList()
-                else -> resolveInheritedImports(limeClass)
+    private fun resolveClassInterfaceImports(limeContainer: LimeContainerWithInheritance) =
+        resolveTypeRefImports(limeContainer.parent, ignoreNullability = true) +
+            when {
+                (limeContainer is LimeClass && limeContainer.parent?.type?.actualType !is LimeClass) ||
+                    (limeContainer is LimeInterface && limeContainer.path.hasParent) -> listOf(nativeBaseImport)
+                else -> emptyList()
             }
-
-        return containerImports + parentImports
-    }
 
     private fun resolveLambdaImports(limeLambda: LimeLambda): List<JavaImport> {
         val isNestedDeclaration =
@@ -100,23 +84,12 @@ internal class JavaImportResolver(
             listOfNotNull(nativeBaseImport.takeIf { isNestedDeclaration })
     }
 
-    private fun resolveInheritedImports(limeContainer: LimeContainerWithInheritance) =
-        (limeContainer.inheritedFunctions + limeContainer.inheritedProperties).flatMap { resolveImports(it) } +
-            nativeBaseImport
-
-    private fun resolvePropertyImports(limeProperty: LimeProperty) =
-        if (limeProperty.attributes.have(JAVA, SKIP)) emptyList() else resolveTypeRefImports(limeProperty.typeRef)
-
-    private fun resolveConstantImports(limeConstant: LimeConstant) =
-        resolveTypeRefImports(limeConstant.typeRef, ignoreNullability = true) + resolveValueImports(limeConstant.value)
-
     private fun resolveStructImports(limeStruct: LimeStruct) =
-        resolveContainerImports(limeStruct) + limeStruct.fields.flatMap { resolveImports(it) } +
-            when {
-                limeStruct.attributes.have(SERIALIZABLE) -> listOf(parcelImport, parcelableImport) +
-                    limeStruct.fields.mapNotNull { resolveSerializationImport(it.typeRef.type.actualType) }
-                else -> emptyList()
-            }
+        when {
+            limeStruct.attributes.have(SERIALIZABLE) -> listOf(parcelImport, parcelableImport) +
+                limeStruct.fields.mapNotNull { resolveSerializationImport(it.typeRef.type.actualType) }
+            else -> emptyList()
+        }
 
     private fun resolveSerializationImport(limeType: LimeType) =
         when (limeType) {
@@ -130,23 +103,23 @@ internal class JavaImportResolver(
         when (limeValue) {
             is LimeValue.KeyValuePair ->
                 resolveValueImports(limeValue.key) + resolveValueImports(limeValue.value) + abstractMapImport
-            is LimeValue.InitializerList -> limeValue.values.flatMap { resolveValueImports(it) } +
-                when (val limeType = limeValue.typeRef.type.actualType) {
-                    is LimeList -> listOfNotNull(arrayListImport, arraysImport.takeIf { limeValue.values.isNotEmpty() })
-                    is LimeSet -> listOfNotNull(arraysImport.takeIf { limeValue.values.isNotEmpty() }) +
-                        when (limeType.elementType.type.actualType) {
-                            is LimeEnumeration -> enumSetImport
-                            else -> hashSetImport
-                        }
-                    is LimeMap -> listOfNotNull(
-                        hashMapImport,
-                        streamImport.takeIf { limeValue.values.isNotEmpty() },
-                        collectorsImport.takeIf { limeValue.values.isNotEmpty() }
-                    )
-                    else -> emptyList()
-                }
+            is LimeValue.InitializerList ->
+                limeValue.values.flatMap { resolveValueImports(it) } + resolveCollectionImplImports(limeValue)
             else -> emptyList()
         }
+
+    private fun resolveCollectionImplImports(limeInitializerList: LimeValue.InitializerList): List<JavaImport> {
+        val limeType = limeInitializerList.typeRef.type.actualType
+        val hasValues = limeInitializerList.values.isNotEmpty()
+        return when (limeType) {
+            is LimeList -> listOfNotNull(arrayListImport, arraysImport.takeIf { hasValues })
+            is LimeSet -> listOfNotNull(arraysImport.takeIf { hasValues }) +
+                if (limeType.elementType.type.actualType is LimeEnumeration) enumSetImport else hashSetImport
+            is LimeMap ->
+                listOfNotNull(hashMapImport, streamImport.takeIf { hasValues }, collectorsImport.takeIf { hasValues })
+            else -> emptyList()
+        }
+    }
 
     private fun resolveTypeRefImports(limeTypeRef: LimeTypeRef?, ignoreNullability: Boolean = false): List<JavaImport> {
         val limeType = limeTypeRef?.type?.actualType ?: return emptyList()
@@ -177,21 +150,11 @@ internal class JavaImportResolver(
         return JavaImport(nameResolver.resolvePackageNames(topElement), nameResolver.resolveName(topElement))
     }
 
-    private fun resolveContainerImports(limeContainer: LimeContainer) =
-        (
-            limeContainer.functions + limeContainer.properties + limeContainer.structs + limeContainer.classes +
-                limeContainer.interfaces + limeContainer.exceptions + limeContainer.lambdas + limeContainer.constants
-            )
-            .flatMap { resolveImports(it) }
-
     private fun resolveFunctionImports(limeFunction: LimeFunction): List<JavaImport> {
-        if (limeFunction.attributes.have(JAVA, SKIP)) return emptyList()
-
-        val parameterImports = limeFunction.parameters.map { it.typeRef }.flatMap { resolveTypeRefImports(it) }
         val returnTypeImports = resolveTypeRefImports(limeFunction.returnType.typeRef)
         val exceptionImports =
             limeFunction.exception?.let { resolveTypeRefImports(LimeDirectTypeRef(it), ignoreNullability = true) }
-        return parameterImports + returnTypeImports + (exceptionImports ?: emptyList())
+        return returnTypeImports + (exceptionImports ?: emptyList())
     }
 
     private fun resolveBasicTypeImport(typeId: TypeId) =

@@ -182,7 +182,8 @@ internal class JavaGenerator : Generator {
 
         val contentTemplateName = selectTemplate(limeElement) ?: return emptyList()
         val packages = (basePackages + limeElement.path.head).map { JavaNameResolver.normalizePackageName(it) }
-        val imports = importResolver.resolveImports(limeElement).filterNot { it.packageNames == packages }
+        val importCollector = JavaImportCollector(importResolver)
+        val imports = importCollector.collectImports(limeElement).filterNot { it.packageNames == packages }
 
         val templateData = mutableMapOf(
             "model" to limeElement,
@@ -207,16 +208,10 @@ internal class JavaGenerator : Generator {
             return listOf(mainFile)
         }
 
-        val implImports = (imports + importResolver.nativeBaseImport).toMutableList()
-        if (limeElement is LimeInterface) {
-            val parentTypeRef = limeElement.parent
-            if (parentTypeRef != null) {
-                val parentImport = importResolver.createTopElementImport(parentTypeRef.type.actualType)
-                implImports -= parentImport
-                implImports += (limeElement.inheritedFunctions + limeElement.inheritedProperties)
-                    .flatMap { importResolver.resolveImports(it) }
-            }
-        }
+        val implImports = when (limeElement) {
+            is LimeInterface -> importCollector.collectImplImports(limeElement, imports)
+            else -> imports
+        } + importResolver.nativeBaseImport
         templateData["imports"] = implImports.distinct().sorted()
         templateData["contentTemplate"] = "java/JavaImplClass"
 
