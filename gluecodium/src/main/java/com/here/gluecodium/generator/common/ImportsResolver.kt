@@ -19,9 +19,9 @@
 
 package com.here.gluecodium.generator.common
 
-import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeElement
 
 /** Interface for resolving imports for the given element, but not any nested declarations. */
 fun interface ImportsResolver<T> {
-    fun resolveElementImports(limeElement: LimeNamedElement): List<T>
+    fun resolveElementImports(limeElement: LimeElement): List<T>
 }

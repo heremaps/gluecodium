@@ -19,6 +19,7 @@
 
 package com.here.gluecodium.generator.cpp
 
+import com.here.gluecodium.generator.common.ImportsResolver
 import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
@@ -43,7 +44,7 @@ internal class CppIncludeResolver(
     limeReferenceMap: Map<String, LimeElement>,
     nameRules: CppNameRules,
     internalNamespace: List<String>
-) {
+) : ImportsResolver<Include> {
     private val cppIncludesCache = CppIncludesCache(limeReferenceMap, nameRules, internalNamespace)
 
     val hashInclude = cppIncludesCache.createInternalNamespaceInclude("Hash.h")
@@ -57,7 +58,7 @@ internal class CppIncludeResolver(
     private val unorderedSetHashInclude = cppIncludesCache.createInternalNamespaceInclude("UnorderedSetHash.h")
     private val localeInclude = cppIncludesCache.createInternalNamespaceInclude("Locale.h")
 
-    fun resolveIncludes(limeElement: LimeElement): List<Include> =
+    override fun resolveElementImports(limeElement: LimeElement): List<Include> =
         when (limeElement) {
             is LimeValue -> resolveValueIncludes(limeElement)
             is LimeTypeRef -> resolveTypeRefIncludes(limeElement)
@@ -90,7 +91,7 @@ internal class CppIncludeResolver(
         }
 
     private fun resolveTypeRefIncludes(limeTypeRef: LimeTypeRef) =
-        resolveIncludes(limeTypeRef.type) +
+        resolveElementImports(limeTypeRef.type) +
             when {
                 limeTypeRef.type.actualType is LimeContainerWithInheritance ->
                     listOf(CppLibraryIncludes.MEMORY)
@@ -115,13 +116,13 @@ internal class CppIncludeResolver(
 
     private fun resolveGenericTypeIncludes(limeType: LimeGenericType) =
         when (limeType) {
-            is LimeList -> resolveIncludes(limeType.elementType) + CppLibraryIncludes.VECTOR +
+            is LimeList -> resolveElementImports(limeType.elementType) + CppLibraryIncludes.VECTOR +
                 vectorHashInclude
             is LimeSet ->
-                limeType.elementType.let { resolveIncludes(it) + resolveHashIncludes(it) } +
+                limeType.elementType.let { resolveElementImports(it) + resolveHashIncludes(it) } +
                     CppLibraryIncludes.SET + unorderedSetHashInclude
-            is LimeMap -> resolveIncludes(limeType.valueType) +
-                limeType.keyType.let { resolveIncludes(it) + resolveHashIncludes(it) } +
+            is LimeMap -> resolveElementImports(limeType.valueType) +
+                limeType.keyType.let { resolveElementImports(it) + resolveHashIncludes(it) } +
                 CppLibraryIncludes.MAP + unorderedMapHashInclude
             else -> emptyList()
         }

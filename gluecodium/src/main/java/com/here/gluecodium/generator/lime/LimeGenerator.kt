@@ -35,7 +35,7 @@ import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypesCollection
 
 internal class LimeGenerator : Generator {
-    private val importsCollector = LimeImportsCollector { listOf(it.path) }
+    private val importsCollector = LimeImportsCollector { listOfNotNull((it as? LimeNamedElement)?.path) }
 
     override val shortName = "lime"
 
