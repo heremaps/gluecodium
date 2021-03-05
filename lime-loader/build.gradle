@@ -3,10 +3,10 @@ plugins {
 }
 
 dependencies {
-    antlr "org.antlr:antlr4:4.7.2"
+    antlr "org.antlr:antlr4:4.9.1"
     compile project(":lime-runtime")
     compile 'org.jetbrains.kotlin:kotlin-stdlib:1.4.20'
-    compile "org.antlr:antlr4-runtime:4.7.2"
+    compile "org.antlr:antlr4-runtime:4.9.1"
 
     testCompile files({ project(":lime-runtime").sourceSets.test.output })
     testCompile 'io.mockk:mockk-dsl-jvm:1.10.0'
