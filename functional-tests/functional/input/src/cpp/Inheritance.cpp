@@ -21,11 +21,13 @@
 #include "test/AnotherChildInterface.h"
 #include "test/AnotherConcreteChild.h"
 #include "test/AnotherConcreteGrandChild.h"
+#include "test/ChildWithCustomConstructor.h"
 #include "test/ChildConstructorOverloads.h"
 #include "test/ChildInterface.h"
 #include "test/ConcreteChild.h"
 #include "test/ConcreteGrandChild.h"
 #include "test/InheritanceTestHelper.h"
+#include "test/ParentWithCustomConstructor.h"
 #include "test/RootInterface.h"
 #include "test/ThrowingConstructor.h"
 #include "ChildClassImpl.h"
@@ -322,4 +324,20 @@ ChildConstructorOverloads::create( double input )
                       : std::error_code( ThrowingConstructor::ErrorEnum::CRASHED );
 }
 
-}  // namespace test
+class ParentWithCustomConstructorImpl: public ParentWithCustomConstructor {
+public:
+    virtual ~ParentWithCustomConstructorImpl( ) = default;
+};
+
+std::shared_ptr<ParentWithCustomConstructor>
+ParentWithCustomConstructor::create() { return std::make_shared<ParentWithCustomConstructorImpl>(); }
+
+class ChildWithCustomConstructorImpl: public ChildWithCustomConstructor {
+public:
+    virtual ~ChildWithCustomConstructorImpl( ) = default;
+};
+
+std::shared_ptr<ChildWithCustomConstructor>
+ChildWithCustomConstructor::make() { return std::make_shared<ChildWithCustomConstructorImpl>(); }
+
+}

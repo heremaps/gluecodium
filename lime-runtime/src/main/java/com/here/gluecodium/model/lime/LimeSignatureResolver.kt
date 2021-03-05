@@ -51,17 +51,14 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
         return getAllFunctions(parentElement).filter { getFunctionName(it) == functionName }
     }
 
-    private fun getAllConstructorOverloads(limeFunction: LimeFunction): List<LimeFunction> {
-        val parentElement = referenceMap[limeFunction.path.parent.toString()]
-        return when (parentElement) {
-            is LimeContainer -> getAllContainerFunctions(parentElement).filter { it.isConstructor }
-            else -> emptyList()
+    private fun getAllConstructorOverloads(limeFunction: LimeFunction) =
+        when (val parentElement = referenceMap[limeFunction.path.parent.toString()]) {
+            is LimeContainer -> getAllFunctions(parentElement).filter { it.isConstructor }
+            else -> listOf(limeFunction)
         }
-    }
 
     private fun getAllFunctions(limeContainer: LimeContainer): List<LimeFunction> {
-        val parentContainer =
-            (limeContainer as? LimeContainerWithInheritance)?.parent?.type as? LimeContainer
+        val parentContainer = (limeContainer as? LimeContainerWithInheritance)?.parent?.type as? LimeContainer
         val parentFunctions = parentContainer?.let { getAllFunctions(it) } ?: emptyList()
         return parentFunctions + getAllContainerFunctions(limeContainer)
     }

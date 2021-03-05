@@ -262,6 +262,7 @@ feature(Inheritance cpp android swift dart SOURCES
     input/lime/ListenerInheritanceArrays.lime
     input/lime/CrossPackageInheritance.lime
     input/lime/InterfaceWithLambda.lime
+    input/lime/ConstructorOverride.lime
 )
 
 feature(Serialization android swift SOURCES
