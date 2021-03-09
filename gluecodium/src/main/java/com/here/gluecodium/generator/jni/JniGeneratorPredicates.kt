@@ -28,11 +28,13 @@ import com.here.gluecodium.model.lime.LimeBasicType.TypeId.BOOLEAN
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId.VOID
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainer
+import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CONVERTER_NAME
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 /**
@@ -82,4 +84,13 @@ internal class JniGeneratorPredicates(
                 limeFunction.returnType.typeRef.type is LimeClass
         }
     )
+
+    companion object {
+        fun hasThrowingFunctions(limeElement: LimeNamedElement) =
+            when (limeElement) {
+                is LimeContainerWithInheritance -> limeElement.functions + limeElement.inheritedFunctions
+                is LimeContainer -> limeElement.functions
+                else -> emptyList()
+            }.any { it.thrownType != null }
+    }
 }
