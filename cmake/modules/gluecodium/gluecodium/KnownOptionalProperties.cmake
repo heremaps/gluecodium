@@ -29,6 +29,11 @@ function(_gluecodium_define_target_property property_name)
 
   gluecodium_check_no_unparsed_arguments(_args _gluecodium_define_target_property)
 
+  get_property(_known_optional_properties GLOBAL PROPERTY GLUECODIUM_KNOWN_OPTIONAL_PROPERTIES)
+  if (${property_name} IN_LIST _known_optional_properties)
+    return()
+  endif()
+
   define_property(
     TARGET
     PROPERTY ${property_name}
