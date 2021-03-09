@@ -54,18 +54,9 @@ android {
         externalNativeBuild {
             cmake {
                 path "${rootProject.projectDir}/CMakeLists.txt"
-                buildStagingDirectory "${rootProject.buildNativeRoot}"
+                buildStagingDirectory "${rootProject.buildNativeRoot}/functional"
                 version '3.19.0+'
             }
-        }
-    }
-
-    buildTypes {
-        debug {
-            buildConfigField "String", "NATIVE_LIB_HOST_DIR", "\"${rootProject.buildNativeHostDir}/debug/functional/\""
-        }
-        release {
-            buildConfigField "String", "NATIVE_LIB_HOST_DIR", "\"${rootProject.buildNativeHostDir}/release/functional/\""
         }
     }
 
@@ -96,52 +87,18 @@ android {
     }
 
     libraryVariants.all { variant ->
-        def buildType = variant.buildType.name
         def typeName = variant.name
         def typeCapitalised = typeName.capitalize()
-        def nativeBuildDir = "${rootProject.buildNativeHostDir}/${typeName}"
 
-        def configureNativeHost = task("configure${typeCapitalised}NativeHost", type: Exec) {
-            doFirst {
-                mkdir nativeBuildDir
-            }
-
-            workingDir nativeBuildDir
-
-            commandLine (['cmake', "${rootProject.projectDir}", '-G', 'Ninja'] +
-                getCMakeCommonParameters())
-
+        def buildNativeProject = task("build${typeCapitalised}NativeHost", type: BuildCMakeNativeHost) {
+            projectDir = rootProject.projectDir
+            buildDir = file(buildNativeHostDir('functional', typeName))
+            cmakeParameters = getCMakeCommonParameters()
+            target = 'functional'
+            buildType = variant.buildType.name
         }
 
-        def buildNativeHost =  task("build${typeCapitalised}NativeHost", type: Exec,
-            dependsOn: configureNativeHost) {
-            commandLine 'cmake',
-                '--build', nativeBuildDir,
-                '--target', 'functional',
-                '--config', buildType
-        }
-
-        def srcArchivePath = variant.packageLibraryProvider.get().archivePath
-        def srcArchiveName = variant.packageLibraryProvider.get().archiveName
-
-        def addHostLibToAar = task("addHostLibrary${typeCapitalised}Aar",
-            dependsOn: ["bundle${typeCapitalised}Aar", buildNativeHost], type: Zip) {
-            from zipTree(srcArchivePath)
-            def libraryName = 'functional'
-            if (OperatingSystem.current().isWindows()) {
-                libraryName = libraryName + '.dll'
-            } else if (OperatingSystem.current().isMacOsX()) {
-                libraryName = 'lib' + libraryName + '.dylib'
-            } else {
-                libraryName = 'lib' + libraryName + '.so'
-            }
-            from ("${nativeBuildDir}/functional/${libraryName}") {
-                into("jni")
-            }
-            archiveName srcArchiveName
-        }
-
-        build.dependsOn addHostLibToAar
+        buildConfigField "String", "NATIVE_LIB_HOST_DIR", "\"${buildNativeHostDir('functional', typeName)}/functional\""
     }
 }
 
@@ -165,13 +122,13 @@ task generateJavadoc(type: Javadoc) {
 
 tasks.configureEach { task ->
     // Java compilation depends on .java/.jar files created by CMake
-    if (task.name == 'javaPreCompileDebug') {
+    if (task.name == 'javaPreCompileDebug' || task.name == 'compileDebugUnitTestJavaWithJavac') {
         if (!rootProject.isHostOnly()) {
             task.dependsOn 'externalNativeBuildDebug'
         }
         task.dependsOn 'buildDebugNativeHost'
     }
-    if (task.name == 'javaPreCompileRelease') {
+    if (task.name == 'javaPreCompileRelease' || task.name == 'compileReleaseUnitTestJavaWithJavac') {
         if (!rootProject.isHostOnly()) {
             task.dependsOn 'externalNativeBuildRelease'
         }
