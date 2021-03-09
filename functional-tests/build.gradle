@@ -8,7 +8,6 @@ ext {
 
     buildRoot = "${rootProject.projectDir}/build-android"
     buildNativeRoot = "${buildRoot}/cpp"
-    buildNativeHostDir = "${buildNativeRoot}/host"
     generatedDir = "${buildRoot}/generated"
 
     rootProject.buildDir = "${buildRoot}/gradle"
@@ -23,7 +22,51 @@ ext {
         }
         return '+'
     }
+
+    buildNativeHostDir = { projectName, variantName ->
+        return "${buildNativeRoot}/${projectName}/cmake/${variantName}/host/"
+    }
 }
+
+public class BuildCMakeNativeHost extends DefaultTask {
+    @Input
+    File buildDir
+
+    @Input
+    File projectDir
+
+    @Input
+    List<String> cmakeParameters
+
+    @Input
+    String target
+
+    @Input
+    String buildType
+
+    BuildCMakeNativeHost() {
+        doFirst {
+            project.mkdir buildDir
+        }
+
+        doLast {
+            project.exec {
+                List<String> cmakeCommandLine = ['cmake', projectDir.toString(), '-G', 'Ninja'] + cmakeParameters
+                commandLine(*cmakeCommandLine)
+                workingDir buildDir
+            }
+
+            project.exec {
+                commandLine 'cmake',
+                    '--build', buildDir.toString(),
+                    '--target', target,
+                    '--config', buildType
+            }
+        }
+    }
+}
+
+ext.BuildCMakeNativeHost = BuildCMakeNativeHost
 
 buildscript {
     repositories {
