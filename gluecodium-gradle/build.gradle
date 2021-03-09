@@ -10,7 +10,7 @@ dependencies {
     compile project(":gluecodium")
 
     compile 'org.jetbrains.kotlin:kotlin-stdlib:1.4.20'
-    compile('com.android.tools.build:gradle:3.5.1') {
+    compile('com.android.tools.build:gradle:4.1.2') {
         exclude group: 'net.sf.proguard', module: 'proguard-gradle'
     }
 

@@ -234,6 +234,15 @@
    fun:*
 }
 {
+   leak in getAllTests()
+
+   Memcheck:Leak
+   match-leak-kinds: definite
+   ...
+   fun:$s13testnamerules11getAllTests*
+   fun:*
+}
+{
    leak in instantiateConcreteTypeFromMangledName
 
    Memcheck:Leak

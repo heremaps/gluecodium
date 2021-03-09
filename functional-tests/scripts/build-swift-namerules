@@ -19,11 +19,12 @@
 
 USAGE=$(cat <<EOF
 $0 [options]
-    --publish    Build and publish Gluecodium locally and use it for code generation
-    --debug      Build with debug symbols
-    --valgrind   Run with valgrind
-    --junit      Generate junit xml test report (requires ocunit2junit)
-    --help       Print this message
+    --publish                 Build and publish Gluecodium locally and use it for code generation
+    --debug                   Build with debug symbols
+    --cmakeGenerator [NAME]   Overrides default cmake generator. Default are Xcode on Darwin and Ninja on Linux
+    --valgrind                Run with valgrind
+    --junit                   Generate junit xml test report (requires ocunit2junit)
+    --help                    Print this message
 EOF
 )
 
@@ -32,6 +33,7 @@ SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 . "${SCRIPT_DIR}/inc.functions"
 
 CMAKE_EXTRA_PARAMETERS=
+CMAKE_GENERATOR=
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -42,6 +44,10 @@ while [[ $# -gt 0 ]]; do
         --debug)
             CMAKE_EXTRA_PARAMETERS="-DCMAKE_BUILD_TYPE=RelWithDebInfo"
             shift
+            ;;
+        --cmakeGenerator)
+            CMAKE_GENERATOR="$2"
+            shift 2
             ;;
         --valgrind)
             USE_VALGRIND=true
@@ -65,10 +71,13 @@ INSTALL_DIR=${PWD}/dist/swift
 [ -d "${BUILD_DIR}" ] || mkdir -p "${BUILD_DIR}"
 [ -d "${INSTALL_DIR}" ] || mkdir -p "${INSTALL_DIR}"
 
-# Chose platform-native CMake generator
-if [ "$(cmake_generator)" ] ; then
-CMAKE_EXTRA_PARAMETERS="${CMAKE_EXTRA_PARAMETERS} \
-    -G $(cmake_generator)"
+# Choose platform-native CMake generator
+if [ -z "$CMAKE_GENERATOR" ] ; then
+    CMAKE_GENERATOR="$(cmake_generator)"
+fi
+
+if [[ ! -z "$CMAKE_GENERATOR" ]] ; then
+    CMAKE_EXTRA_PARAMETERS="${CMAKE_EXTRA_PARAMETERS} -G ${CMAKE_GENERATOR}"
 fi
 
 CWD=${PWD}
@@ -83,46 +92,30 @@ safe cmake \
     -DCMAKE_CXX_COMPILER="$(which clang++)" \
     -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}" \
     -DCMAKE_VERBOSE_MAKEFILE=ON \
-    -DGLUECODIUM_GENERATOR=swift \
-    -DGLUECODIUM_VERSION="${GLUECODIUM_VERSION}" \
+    -DGLUECODIUM_GENERATORS_DEFAULT="cpp;swift" \
+    -DGLUECODIUM_VERSION_DEFAULT="${GLUECODIUM_VERSION}" \
     ${CMAKE_EXTRA_PARAMETERS} \
     ../namerules > "$tmppipe"
 popd
 
-safe cmake \
-    --build "${BUILD_DIR}" \
-    --target install
+safe cmake --build "${BUILD_DIR}" --config Release
 
-TEST_EXECUTABLE="./testnamerules"
+pushd "${BUILD_DIR}"
+    if [ "$USE_VALGRIND" = true ]; then
+        VALGRIND_ARGS="--leak-check=full \
+            --error-exitcode=1 \
+            --suppressions=${SCRIPT_DIR}/valgrind_suppressions \
+            --gen-suppressions=all"
+        if [ "$TEST_REPORTS" = true ] ; then
+            VALGRIND_ARGS="$VALGRIND_ARGS --xml=yes --xml-file=swift_valgrind_report.xml"
+        fi
 
-if [ "$USE_VALGRIND" = true ]; then
-    REPORT_ARGS=""
-    if [ "$TEST_REPORTS" = true ] ; then
-        REPORT_ARGS="--xml=yes --xml-file=swift_valgrind_report.xml"
-    fi
-    TEST_EXECUTABLE="valgrind \
-        --leak-check=full \
-        --error-exitcode=1 \
-        --suppressions=${SCRIPT_DIR}/valgrind_suppressions \
-        --gen-suppressions=all \
-        $REPORT_ARGS \
-        $TEST_EXECUTABLE"
-fi
-
-pushd "${INSTALL_DIR}"
-    if [ "$TEST_REPORTS" = true ] ; then
-        # Pipe functional tests output to 'ocunit2junit' to generate JUnit XML
-        # reports.
-        # Sed is required to fix different output format obtained by running
-        # tests on Linux machine instead of Mac.
-        set -o pipefail
-        $TEST_EXECUTABLE 2>&1 \
-            | sed "s/Test Case '\([^-].*\)\.\(.*\)'/Test Case '-[\1 \2]'/" \
-            | sed "s/: error: \([^-].*\)\.\(.*\) :/: error: -[\1 \2] :/" \
-            | ocunit2junit
-        EXIT_VALUE=$?
-        exit $EXIT_VALUE
+        ctest \
+            -C Release \
+            --overwrite MemoryCheckCommandOptions="$VALGRIND_ARGS" \
+            -T memcheck \
+            -V
     else
-        exec $TEST_EXECUTABLE
+        ctest -C Release -V
     fi
 popd

@@ -98,9 +98,9 @@ INSTALL_AAR_DIR="${ANDROID_DIR}/app/libs/"
 TMP_DIR=$(mktemp -d)
 
 if $HOST_ONLY; then
-    ./gradlew test -PhostOnly -PgluecodiumVersion=${GLUECODIUM_VERSION}
+    ./gradlew functional:test -PhostOnly -PgluecodiumVersion=${GLUECODIUM_VERSION}
 else
-    ./gradlew test -PgluecodiumVersion=${GLUECODIUM_VERSION}
+    ./gradlew functional:test -PgluecodiumVersion=${GLUECODIUM_VERSION}
 fi
 
 if [ "$GENERATE_DOCS" = true ]; then

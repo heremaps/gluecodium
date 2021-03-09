@@ -138,8 +138,8 @@ jobs:
         run: sudo apt install -y libcurl4
       - name: Install Swift SDK
         run: |
-          SWIFT_BRANCH=swift-5.2.5-release
-          SWIFT_VERSION=swift-5.2.5-RELEASE
+          SWIFT_BRANCH=swift-5.3.3-release
+          SWIFT_VERSION=swift-5.3.3-RELEASE
           SWIFT_PLATFORM=ubuntu18.04
           SWIFT_ARCHIVE_NAME=${SWIFT_VERSION}-${SWIFT_PLATFORM}
           SWIFT_URL=https://swift.org/builds/${SWIFT_BRANCH}/$(echo "${SWIFT_PLATFORM}" | tr -d .)/${SWIFT_VERSION}/${SWIFT_ARCHIVE_NAME}.tar.gz
@@ -149,7 +149,15 @@ jobs:
       - name: Build and run functional tests
         run: |
           ./scripts/build-swift-functional --valgrind --buildGluecodium
+        working-directory: functional-tests
+      - name: Removing build folder
+        run: |
           ./scripts/clean
+          echo Listing
+          ls -a
+        working-directory: functional-tests
+      - name: Build and run namerules tests
+        run: |
           ./scripts/build-swift-namerules --valgrind --publish
         working-directory: functional-tests
       - name: Print Valgrind results
@@ -176,10 +184,16 @@ jobs:
         run: brew install ninja
       - name: Build and run functional tests
         run: |
-          cd functional-tests
           ./scripts/build-swift-functional --buildGluecodium
+        working-directory: functional-tests
+      - name: Removing build folder
+        run: |
           ./scripts/clean
+        working-directory: functional-tests
+      - name: Build and run namerules tests
+        run: |
           ./scripts/build-swift-namerules --publish
+        working-directory: functional-tests
 
 
   dart:
