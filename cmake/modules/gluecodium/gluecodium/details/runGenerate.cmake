@@ -169,10 +169,6 @@ function(_prepare_gluecodium_config_file file_path)
   file(WRITE "${file_path}" "${_gluecodium_options}")
 endfunction()
 
-function(_remove_generated_files)
-
-endfunction()
-
 function(_generate)
   if(DEFINED ENV{GLUECODIUM_PATH})
     _print_status("Using local Gluecodium from $ENV{GLUECODIUM_PATH}")
@@ -196,11 +192,15 @@ function(_generate)
   # All options are listed in file, gluecodium needs only path to this file
   set(_gluecodium_options "-options \"${GLUECODIUM_OPTIONS_FILE}\"")
 
+  if(WIN32)
+    set(_no_daemon --no-daemon)
+  endif()
+
   set(_gluecodium_command
       ${_gluecodium_time}
       ${GLUECODIUM_GRADLE_WRAPPER}
       ${_build_local_gluecodium}
-      ${GLUECODIUM_GRADLE_NO_DAEMON}
+      ${_no_daemon}
       -Pversion=${GLUECODIUM_VERSION}
       run
       --args=${_gluecodium_options})
@@ -209,8 +209,12 @@ function(_generate)
     set(_redirect_output OUTPUT_VARIABLE _generate_output ERROR_VARIABLE _generate_output)
   endif()
 
+  file(REMOVE_RECURSE ${GLUECODIUM_OUTPUT_MAIN})
+  file(REMOVE_RECURSE ${GLUECODIUM_OUTPUT_COMMON})
+
   # Create output directories first, otherwise java.io.File won't have permissions to create files
-  # at configure time
+  # at configure time. Those directories are not created with file(MAKE_DIRECTORY ...) because
+  # gradle hangs by some reason at exit when it is ran from Xcode. TODO: Find the reason of hanging.
   execute_process(
     COMMAND ${CMAKE_COMMAND} -E make_directory ${GLUECODIUM_OUTPUT_MAIN}
     COMMAND ${CMAKE_COMMAND} -E make_directory ${GLUECODIUM_OUTPUT_COMMON}
