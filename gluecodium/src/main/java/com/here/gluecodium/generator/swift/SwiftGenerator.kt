@@ -22,7 +22,6 @@ package com.here.gluecodium.generator.swift
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.common.LimeModelFilter
-import com.here.gluecodium.common.LimeTypeRefsVisitor
 import com.here.gluecodium.generator.cbridge.CBridgeGenerator
 import com.here.gluecodium.generator.cbridge.CBridgeGenerator.Companion.getAllParentTypes
 import com.here.gluecodium.generator.cbridge.CBridgeNameResolver
@@ -41,7 +40,6 @@ import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
-import com.here.gluecodium.model.lime.LimeExternalDescriptor
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeInterface
@@ -53,10 +51,8 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
-import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeHelper
-import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.validator.LimeOverloadsValidator
 import java.util.logging.Logger
@@ -73,6 +69,7 @@ internal class SwiftGenerator : Generator {
     private lateinit var nameRules: SwiftNameRules
     private lateinit var conversionVisibility: String
     private var internalPrefix: String? = null
+    private val importsCollector = SwiftImportsCollector(SwiftImportsResolver())
 
     override val shortName = "swift"
 
@@ -115,7 +112,7 @@ internal class SwiftGenerator : Generator {
         val nameResolvers =
             mapOf("" to swiftNameResolver, "CBridge" to cbridgeNameResolver, "mangled" to mangledNameResolver)
         val predicates = SwiftGeneratorPredicates(limeReferenceMap, nameRules)
-        val swiftFiles = filteredElements.map { generateSwiftFile(it, swiftNameResolver, nameResolvers, predicates) }
+        val swiftFiles = filteredElements.map { generateSwiftFile(it, nameResolvers, predicates) }
         if (commentsProcessor.hasError) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
@@ -135,12 +132,11 @@ internal class SwiftGenerator : Generator {
 
     private fun generateSwiftFile(
         limeElement: LimeNamedElement,
-        swiftNameResolver: SwiftNameResolver,
         nameResolvers: Map<String, NameResolver>,
         predicates: SwiftGeneratorPredicates
     ): GeneratedFile {
 
-        val imports = resolveImports(limeElement, swiftNameResolver)
+        val imports = importsCollector.collectImports(limeElement)
         val allExceptions = LimeTypeHelper.getAllTypes(limeElement).filterIsInstance<LimeException>()
         val templateData = mapOf(
             "model" to limeElement,
@@ -155,14 +151,6 @@ internal class SwiftGenerator : Generator {
             TemplateEngine.render("swift/SwiftFile", templateData, nameResolvers, predicates.predicates),
             nameRules.getImplementationFileName(limeElement)
         )
-    }
-
-    private fun resolveImports(limeElement: LimeNamedElement, swiftNameResolver: SwiftNameResolver): List<String> {
-        val allTypes = LimeTypeHelper.getAllTypes(limeElement)
-        val referredTypes = ReferredTypesCollector(swiftNameResolver).getAllReferredTypes(allTypes)
-        return (allTypes + referredTypes)
-            .mapNotNull { it.external?.swift?.get(LimeExternalDescriptor.FRAMEWORK_NAME) }
-            .filterNot { it.isBlank() }
     }
 
     private fun generateCollections(
@@ -208,7 +196,7 @@ internal class SwiftGenerator : Generator {
         swiftNameResolver: SwiftNameResolver,
         nameResolvers: Map<String, NameResolver>
     ): GeneratedFile {
-        val imports = collections.flatMap { resolveImports(it, swiftNameResolver) }
+        val imports = collections.flatMap { importsCollector.collectImports(it) }
         val templateData = mapOf(
             "imports" to imports.sorted().distinct() - FOUNDATION,
             "internalPrefix" to internalPrefix,
@@ -263,24 +251,6 @@ internal class SwiftGenerator : Generator {
             limeElement.attributes.have(SWIFT, SKIP) -> false
             else -> true
         }
-
-    private class ReferredTypesCollector(private val nameResolver: SwiftNameResolver) :
-        LimeTypeRefsVisitor<List<LimeType>>() {
-
-        override fun visitTypeRef(parentElement: LimeNamedElement, limeTypeRef: LimeTypeRef?): List<LimeType> =
-            when (val limeType = limeTypeRef?.type?.actualType) {
-                null -> emptyList()
-                !is LimeGenericType -> listOf(limeType)
-                is LimeList -> listOf(limeType) + visitTypeRef(parentElement, limeType.elementType)
-                is LimeSet -> listOf(limeType) + visitTypeRef(parentElement, limeType.elementType)
-                is LimeMap -> listOf(limeType) + visitTypeRef(parentElement, limeType.keyType) +
-                    visitTypeRef(parentElement, limeType.valueType)
-                else -> emptyList()
-            }
-
-        fun getAllReferredTypes(allTypes: List<LimeType>) =
-            traverseTypes(allTypes).flatten().associateBy { nameResolver.resolveName(it) }.toSortedMap().values
-    }
 
     companion object {
         private const val FOUNDATION = "Foundation"
