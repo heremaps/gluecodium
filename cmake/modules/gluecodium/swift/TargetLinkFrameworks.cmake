@@ -43,8 +43,8 @@ The general form of the command is::
                                     # files are added to the target.
     [FRAMEWORKS <framework> ...]    # The list of frameworks which the target depends on (in
                                     # terms of generated code). This list is added to generated
-                                    # Swift code as sequence of imports. Frmeworks and paths to
-                                    # frameworks locations are added as compilation opotions to
+                                    # Swift code as sequence of imports. Frameworks and paths to
+                                    # frameworks locations are added as compilation options to
                                     # target via `XCODE_ATTRIBUTE_OTHER_SWIFT_FLAGS` property.
   )
 
