@@ -59,9 +59,11 @@ internal class CBridgeGenerator(
     val cppNameResolver = CppNameResolver(limeReferenceMap, internalNamespace, nameCache)
     private val cppRefNameResolver =
         CBridgeCppNameResolver(limeReferenceMap, CppFullNameResolver(nameCache), cppNameResolver)
-    private val headerIncludeResolver = CBridgeHeaderIncludeResolver(limeReferenceMap, rootNamespace)
     private val cppIncludeResolver = CppIncludeResolver(limeReferenceMap, cppNameRules, internalNamespace)
-    private val implIncludeResolver = CBridgeImplIncludeResolver(rootNamespace, cppIncludeResolver)
+    private val fileNames = CBridgeFileNames(rootNamespace)
+    private val headerIncludeCollector =
+        CBridgeIncludeCollector(CBridgeHeaderIncludeResolver(limeReferenceMap, fileNames))
+    private val implIncludeCollector = CBridgeImplIncludeCollector(CBridgeImplIncludeResolver(cppIncludeResolver))
     private val predicates = CBridgeGeneratorPredicates(cppNameResolver).predicates
     val genericTypesCollector = GenericTypesCollector(nameResolver)
 
@@ -69,19 +71,19 @@ internal class CBridgeGenerator(
         val templateData = mutableMapOf("model" to rootElement, "internalNamespace" to internalNamespace)
         val nameResolvers = mapOf<String, NameResolver>("" to nameResolver, "C++" to cppRefNameResolver)
 
-        val headerFilePath = headerIncludeResolver.getHeaderFilePath(rootElement)
+        val headerFilePath = fileNames.getHeaderFilePath(rootElement)
         val selfInclude = Include.createInternalInclude(headerFilePath)
-        templateData["includes"] = headerIncludeResolver.resolveIncludes(rootElement).distinct().sorted() - selfInclude
+        templateData["includes"] = headerIncludeCollector.collectImports(rootElement).distinct().sorted() - selfInclude
         templateData["contentTemplate"] = (selectHeaderTemplate(rootElement) ?: return emptyList())
         val headerFileContent = TemplateEngine.render("cbridge/CBridgeHeader", templateData, nameResolvers, predicates)
         val headerFile = GeneratedFile(headerFileContent, headerFilePath)
 
+        templateData["contentTemplate"] = selectImplTemplate(rootElement) ?: return listOf(headerFile)
         templateData["includes"] =
-            listOf(selfInclude) + implIncludeResolver.resolveIncludes(rootElement).distinct().sorted()
-        templateData["contentTemplate"] = (selectImplTemplate(rootElement) ?: return listOf(headerFile))
+            listOf(selfInclude) + implIncludeCollector.collectImports(rootElement).distinct().sorted()
         val implFileContent =
             TemplateEngine.render("cbridge/CBridgeImplementation", templateData, nameResolvers, predicates)
-        val implFile = GeneratedFile(implFileContent, implIncludeResolver.getImplFilePath(rootElement))
+        val implFile = GeneratedFile(implFileContent, fileNames.getImplFilePath(rootElement))
 
         return listOf(headerFile, implFile)
     }
@@ -98,7 +100,7 @@ internal class CBridgeGenerator(
         )
         val nameResolvers = mapOf<String, NameResolver>("" to nameResolver, "C++" to cppRefNameResolver)
 
-        val headerIncludes = genericTypes.flatMap { headerIncludeResolver.resolveIncludes(it) } +
+        val headerIncludes = genericTypes.flatMap { headerIncludeCollector.collectImports(it) } +
             listOfNotNull(
                 CBridgeHeaderIncludeResolver.INT_INCLUDE.takeIf { genericTypes.any { it is LimeList } },
                 CBridgeHeaderIncludeResolver.BOOL_INCLUDE.takeIf { genericTypes.any { it !is LimeList } }
@@ -108,7 +110,7 @@ internal class CBridgeGenerator(
             TemplateEngine.render("cbridge/CBridgeCollectionsHeader", templateData, nameResolvers, predicates)
         val headerFile = GeneratedFile(headerFileContent, CBRIDGE_COLLECTIONS_HEADER)
 
-        val implIncludes = genericTypes.flatMap { implIncludeResolver.resolveIncludes(it) } +
+        val implIncludes = genericTypes.flatMap { implIncludeCollector.collectImports(it) } +
             CBridgeImplIncludeResolver.BASE_HANDLE_IMPL_INCLUDE +
             cppIncludeResolver.optionalInclude
         templateData["includes"] =

@@ -20,79 +20,76 @@
 package com.here.gluecodium.generator.cbridge
 
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
+import com.here.gluecodium.generator.common.ImportsResolver
 import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.cpp.CppIncludeResolver
 import com.here.gluecodium.generator.cpp.CppLibraryIncludes
-import com.here.gluecodium.model.lime.LimeAttributeType
-import com.here.gluecodium.model.lime.LimeAttributeValueType
+import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
+import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
+import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
+import com.here.gluecodium.model.lime.LimeLambdaParameter
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
-import com.here.gluecodium.model.lime.LimeNamedElement
-import com.here.gluecodium.model.lime.LimeProperty
+import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
+import com.here.gluecodium.model.lime.LimeTypedElement
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import java.io.File
 
-internal class CBridgeImplIncludeResolver(
-    private val rootNamespace: List<String>,
-    private val cppIncludeResolver: CppIncludeResolver
-) {
+internal class CBridgeImplIncludeResolver(private val cppIncludeResolver: CppIncludeResolver) :
+    ImportsResolver<Include> {
 
-    fun getImplFilePath(limeElement: LimeNamedElement) =
-        CBridgeNameRules.createPath(limeElement, rootNamespace, "src", ".cpp")
-
-    fun resolveIncludes(limeElement: LimeNamedElement): List<Include> =
-        when {
-            limeElement.attributes.have(LimeAttributeType.SWIFT, LimeAttributeValueType.SKIP) -> emptyList()
-            limeElement is LimeTypeRef -> resolveTypeRefIncludes(limeElement)
-            limeElement is LimeFunction -> resolveFunctionIncludes(limeElement)
-            limeElement is LimeLambda -> resolveLambdaIncludes(limeElement)
-            limeElement is LimeProperty -> resolveTypeRefIncludes(limeElement.typeRef)
-            limeElement is LimeStruct -> resolveStructIncludes(limeElement)
-            limeElement is LimeTypesCollection ->
-                (limeElement.structs + limeElement.lambdas).flatMap { resolveIncludes(it) }
-            limeElement is LimeContainerWithInheritance -> resolveClassInterfaceIncludes(limeElement)
-            limeElement is LimeGenericType -> resolveGenericTypeIncludes(limeElement)
-            limeElement is LimeType -> cppIncludeResolver.resolveElementImports(limeElement)
+    override fun resolveElementImports(limeElement: LimeElement): List<Include> {
+        if (limeElement.attributes.have(SWIFT, SKIP)) return emptyList()
+        return when (limeElement) {
+            is LimeTypeRef -> resolveTypeRefIncludes(limeElement)
+            is LimeReturnType -> resolveTypeRefIncludes(limeElement.typeRef)
+            is LimeLambdaParameter -> resolveTypeRefIncludes(limeElement.typeRef)
+            is LimeTypedElement -> resolveTypeRefIncludes(limeElement.typeRef)
+            is LimeFunction -> resolveFunctionIncludes(limeElement)
+            is LimeLambda -> resolveLambdaIncludes(limeElement)
+            is LimeStruct -> resolveStructIncludes(limeElement)
+            is LimeContainerWithInheritance -> resolveClassInterfaceIncludes(limeElement)
+            is LimeGenericType -> resolveGenericTypeIncludes(limeElement)
+            is LimeTypesCollection -> emptyList()
+            is LimeType -> cppIncludeResolver.resolveElementImports(limeElement)
             else -> emptyList()
         }
+    }
 
-    private fun resolveClassInterfaceIncludes(limeContainer: LimeContainerWithInheritance): List<Include> =
-        resolveContainerIncludes(limeContainer) +
-            listOfNotNull(
-                TYPE_INIT_REPOSITORY_INCLUDE,
-                WRAPPER_CACHE_INCLUDE,
-                CACHED_PROXY_BASE_INCLUDE.takeIf { limeContainer is LimeInterface },
-                cppIncludeResolver.typeRepositoryInclude.takeIf {
-                    CommonGeneratorPredicates.hasTypeRepository(limeContainer)
-                }
-            ) + resolveParentIncludes(limeContainer)
+    private fun resolveClassInterfaceIncludes(limeContainer: LimeContainerWithInheritance): List<Include> {
+        val containerIncludes = resolveContainerIncludes(limeContainer)
+        val ownIncludes = listOfNotNull(
+            TYPE_INIT_REPOSITORY_INCLUDE,
+            WRAPPER_CACHE_INCLUDE,
+            CACHED_PROXY_BASE_INCLUDE.takeIf { limeContainer is LimeInterface },
+            cppIncludeResolver.typeRepositoryInclude.takeIf { CommonGeneratorPredicates.hasTypeRepository(limeContainer) }
+        )
+        val parentIncludes = resolveParentIncludes(limeContainer)
+        return containerIncludes + ownIncludes + parentIncludes
+    }
 
     private fun resolveParentIncludes(limeContainer: LimeContainerWithInheritance) =
-        ((limeContainer as? LimeInterface)?.parent?.type?.actualType as? LimeInterface)?.let {
-            resolveClassInterfaceIncludes(it)
+        ((limeContainer as? LimeInterface)?.parent?.type?.actualType)?.let {
+            cppIncludeResolver.resolveElementImports(it)
         } ?: emptyList()
 
-    private fun resolveStructIncludes(limeStruct: LimeStruct) = resolveContainerIncludes(limeStruct) +
-        limeStruct.fields.flatMap { resolveTypeRefIncludes(it.typeRef) } + cppIncludeResolver.optionalInclude
+    private fun resolveStructIncludes(limeStruct: LimeStruct) =
+        resolveContainerIncludes(limeStruct) + listOf(cppIncludeResolver.optionalInclude)
 
     private fun resolveContainerIncludes(limeContainer: LimeContainer) =
         cppIncludeResolver.resolveElementImports(limeContainer) +
-            listOf(CppLibraryIncludes.MEMORY, CppLibraryIncludes.NEW, BASE_HANDLE_IMPL_INCLUDE) +
-            (
-                limeContainer.functions + limeContainer.properties + limeContainer.classes +
-                    limeContainer.interfaces + limeContainer.structs + limeContainer.lambdas
-                ).flatMap { resolveIncludes(it) }
+            listOf(CppLibraryIncludes.MEMORY, CppLibraryIncludes.NEW, BASE_HANDLE_IMPL_INCLUDE)
 
     private fun resolveTypeRefIncludes(limeTypeRef: LimeTypeRef): List<Include> =
         cppIncludeResolver.resolveElementImports(limeTypeRef) +
@@ -118,14 +115,15 @@ internal class CBridgeImplIncludeResolver(
         }
 
     private fun resolveFunctionIncludes(limeFunction: LimeFunction) =
-        (
-            listOfNotNull(limeFunction.returnType.typeRef, limeFunction.exception?.errorType) +
-                limeFunction.parameters.map { it.typeRef }
-            ).flatMap { resolveTypeRefIncludes(it) }
+        limeFunction.exception?.errorType?.let { resolveTypeRefIncludes(it) } ?: emptyList()
 
     private fun resolveLambdaIncludes(limeLambda: LimeLambda) = cppIncludeResolver.resolveElementImports(limeLambda) +
-        (limeLambda.parameters.map { it.typeRef } + limeLambda.returnType.typeRef).flatMap { resolveTypeRefIncludes(it) } +
-        listOf(CppLibraryIncludes.NEW, BASE_HANDLE_IMPL_INCLUDE, CACHED_PROXY_BASE_INCLUDE, cppIncludeResolver.optionalInclude)
+        listOf(
+            CppLibraryIncludes.NEW,
+            BASE_HANDLE_IMPL_INCLUDE,
+            CACHED_PROXY_BASE_INCLUDE,
+            cppIncludeResolver.optionalInclude
+        )
 
     companion object {
         val BASE_HANDLE_IMPL_INCLUDE = Include.createInternalInclude(createInternalHeaderPath("BaseHandleImpl.h"))
