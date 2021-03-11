@@ -30,7 +30,6 @@ list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
 set(GLUECODIUM_GENERATORS_DEFAULT cpp)
 
 include(gluecodium/Gluecodium)
-include(gluecodium/Packaging)
 
 if(NOT TEST_COMMON_MODULE_TYPE)
   set(TEST_COMMON_MODULE_TYPE OBJECT)

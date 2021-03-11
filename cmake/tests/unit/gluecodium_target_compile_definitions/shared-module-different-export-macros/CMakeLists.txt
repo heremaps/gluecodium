@@ -28,7 +28,6 @@ endif()
 list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
 
 include(gluecodium/Gluecodium)
-include(gluecodium/Packaging)
 
 # Module 1, includes MAIN and COMMON source set
 add_library(shared.module SHARED)

@@ -28,11 +28,6 @@ The main Gluecodium module
 
 Includes Gluecodium modules.
 #]===========================================================================================]
-if(GLUECODIUM_USE_OBSOLETE_API)
-  include(${CMAKE_CURRENT_LIST_DIR}/obsolete/gluecodium/TargetIncludeDirectories.cmake)
-  include(${CMAKE_CURRENT_LIST_DIR}/obsolete/gluecodium/TargetSources.cmake)
-  include(${CMAKE_CURRENT_LIST_DIR}/obsolete/gluecodium/Generate.cmake)
-endif()
 
 include(${CMAKE_CURRENT_LIST_DIR}/gluecodium/TargetCompileDefinitions.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/gluecodium/Generate.cmake)

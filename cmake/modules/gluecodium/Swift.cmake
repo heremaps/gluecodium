@@ -29,8 +29,6 @@ The Swift Gluecodium module
 Includes modules needed for Swift builds (on Linux or macOS).
 #]===========================================================================================]
 # Swift modules
-include(${CMAKE_CURRENT_LIST_DIR}/obsolete/swift/Build.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/obsolete/swift/FrameworkBundle.cmake)
 
 include(${CMAKE_CURRENT_LIST_DIR}/swift/TargetLinkFrameworks.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/swift/TargetSwiftSources.cmake)

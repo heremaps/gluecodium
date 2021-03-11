@@ -28,7 +28,6 @@ endif()
 list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
 
 include(gluecodium/Gluecodium)
-include(gluecodium/Packaging)
 
 include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/check_symbols_after_build.cmake)
 
