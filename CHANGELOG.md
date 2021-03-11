@@ -1,5 +1,12 @@
 # Gluecodium project Release Notes
 
+## 8.9.7
+Release date: 2021-03-11
+### Features:
+  * CMake toolchain now removes `COMMON` source set files when they are not needed.
+### Removed:
+  * Obsolete CMake toolchain APIs were removed.
+
 ## 8.9.6
 Release date: 2021-03-05
 ### Bug fixes:
