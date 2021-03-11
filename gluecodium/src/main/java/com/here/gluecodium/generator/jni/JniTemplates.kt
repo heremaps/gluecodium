@@ -28,6 +28,7 @@ import com.here.gluecodium.generator.cpp.CppNameCache
 import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.java.JavaNameRules
+import com.here.gluecodium.generator.jni.JniGeneratorPredicates.Companion.hasThrowingFunctions
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
@@ -59,8 +60,9 @@ internal class JniTemplates(
     )
     private val predicates = JniGeneratorPredicates(limeReferenceMap, javaNameRules, cppNameResolver).predicates
 
-    private val jniIncludeResolver = JniIncludeResolver(fileNameRules)
     private val cppIncludeResolver = CppIncludeResolver(limeReferenceMap, cppNameRules, internalNamespace)
+    private val jniIncludeResolver = JniIncludeResolver(fileNameRules)
+    private val jniIncludeCollector = JniIncludeCollector(jniIncludeResolver)
 
     fun generateFiles(limeElement: LimeNamedElement) =
         when (limeElement) {
@@ -79,12 +81,10 @@ internal class JniTemplates(
             fileNameRules.getHeaderFilePath(fileName)
         )
 
-        val implIncludes = when (limeElement) {
-            is LimeStruct -> jniIncludeResolver.collectFunctionImplementationIncludes(limeElement)
-            else -> jniIncludeResolver.collectImplementationIncludes(limeElement)
-        } + Include.createInternalInclude("$fileName.h")
-        containerData["includes"] =
-            implIncludes.distinct().sorted() + jniIncludeResolver.collectExceptionIncludes(limeElement)
+        val implIncludes =
+            jniIncludeCollector.collectImports(limeElement) + Include.createInternalInclude("$fileName.h")
+        containerData["includes"] = implIncludes.distinct().sorted() +
+            listOfNotNull(JniIncludeResolver.exceptionThrowerInclude.takeIf { hasThrowingFunctions(limeElement) })
 
         val implFile = GeneratedFile(
             TemplateEngine.render("jni/Implementation", containerData, nameResolvers, predicates),
@@ -129,10 +129,10 @@ internal class JniTemplates(
     private fun generateStructConversionFiles(limeStruct: LimeStruct): List<GeneratedFile> {
         val fileName = fileNameRules.getConversionFileName(limeStruct)
         val selfInclude = Include.createInternalInclude("$fileName.h")
-        val conversionIncludes =
-            jniIncludeResolver.collectConversionIncludes(limeStruct).distinct().minus(selfInclude).sorted()
+        val fieldConversionIncludes = limeStruct.fields.flatMap { jniIncludeResolver.resolveElementImports(it) }
         // Conversion includes need to be be added to the header file instead of the impl file, for unity builds.
-        val headerIncludes = cppIncludeResolver.resolveElementImports(limeStruct).distinct().sorted() + conversionIncludes
+        val headerIncludes = cppIncludeResolver.resolveElementImports(limeStruct).distinct().sorted() +
+            fieldConversionIncludes.distinct().minus(selfInclude).sorted()
 
         val mustacheData = mutableMapOf(
             "struct" to limeStruct,
@@ -178,10 +178,9 @@ internal class JniTemplates(
     private fun generateInstanceConversionFiles(limeElement: LimeNamedElement): List<GeneratedFile> {
         val fileName = fileNameRules.getConversionFileName(limeElement)
         val selfInclude = Include.createInternalInclude("$fileName.h")
-        val conversionIncludes =
-            jniIncludeResolver.collectImplementationIncludes(limeElement).distinct().minus(selfInclude).sorted()
         // Conversion includes need to be be added to the header file instead of the impl file, for unity builds.
-        val headerIncludes = cppIncludeResolver.resolveElementImports(limeElement).distinct().sorted() + conversionIncludes
+        val headerIncludes = cppIncludeResolver.resolveElementImports(limeElement).distinct().sorted() +
+            jniIncludeCollector.collectImports(limeElement).distinct().minus(selfInclude).sorted()
 
         val mustacheData = mutableMapOf(
             "model" to limeElement,
@@ -222,8 +221,7 @@ internal class JniTemplates(
         )
 
         val selfInclude = Include.createInternalInclude("$fileName.h")
-        val includes =
-            jniIncludeResolver.collectImplementationIncludes(limeElement).distinct().minus(selfInclude).sorted()
+        val includes = jniIncludeCollector.collectImports(limeElement).distinct().minus(selfInclude).sorted()
         mustacheData["includes"] = listOf(selfInclude) + includes
         val implFile = GeneratedFile(
             TemplateEngine.render("jni/CppProxyImplementation", mustacheData, nameResolvers, predicates),
