@@ -21,12 +21,4 @@
 # Wipe all places clean of build artifacts
 #
 
-rm -rf \
-    dist \
-    build-* \
-    functional/android/app/build \
-    functional/android/app/libs/* \
-    functional/android/build \
-    namerules/android/app/build \
-    namerules/android/app/libs/* \
-    namerules/android/build
+rm -rf dist build-*

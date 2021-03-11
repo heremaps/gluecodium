@@ -18,6 +18,7 @@
 */
 
 import com.here.namerules.namerules.CUSTOM_NAME_RULES_DROID
+import com.here.gluecodium.test.namerules.BuildConfig;
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import org.junit.Test
@@ -29,8 +30,7 @@ import java.io.File
 class NameRulesTest {
 
     init {
-        val currentWorkingDirAbsolute = File("").absoluteFile
-        val appLibraryPath = File(currentWorkingDirAbsolute, "libs")
+        val appLibraryPath = File(BuildConfig.NATIVE_LIB_HOST_DIR)
 
         appLibraryPath.listFiles{ _, name -> name.contains(".so") || name.endsWith(".dylib") }
             .forEach { System.load(it.getAbsolutePath()) }

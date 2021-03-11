@@ -1,3 +1,0 @@
-rootProject.name = "gluecodium-functional-namerules-test"
-include ':lib'
-include ':app'
