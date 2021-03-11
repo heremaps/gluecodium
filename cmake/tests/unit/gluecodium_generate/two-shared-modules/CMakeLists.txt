@@ -35,7 +35,6 @@ elseif(APPLE AND CMAKE_GENERATOR STREQUAL "Xcode")
 endif()
 
 include(gluecodium/Gluecodium)
-include(gluecodium/Packaging)
 
 # Module 1, includes MAIN and COMMON source set
 add_library(shared.module.with.common SHARED)

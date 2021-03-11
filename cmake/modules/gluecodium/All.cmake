@@ -31,9 +31,6 @@ Includes all other Gluecodium modules for convenience.
 # Generic modules
 include(${CMAKE_CURRENT_LIST_DIR}/Gluecodium.cmake)
 
-# Android modules
-include(${CMAKE_CURRENT_LIST_DIR}/Android.cmake)
-
 # iOS modules
 include(${CMAKE_CURRENT_LIST_DIR}/Swift.cmake)
 
