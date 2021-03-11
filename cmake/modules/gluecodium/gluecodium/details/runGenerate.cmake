@@ -154,8 +154,6 @@ function(_prepare_gluecodium_config_file file_path)
   _append_path_option(swiftnamerules GLUECODIUM_SWIFT_NAMERULES)
   _append_path_option(dartnamerules GLUECODIUM_DART_NAMERULES)
 
-  # TODO: Delete main or common depending on GLUECODIUM_SOURCE_SETS No need to check if paths are
-  # absolute, gluecodium_make_output_dirs should return absolute paths
   _append_option(output GLUECODIUM_OUTPUT_MAIN)
   _append_option(commonoutput GLUECODIUM_OUTPUT_COMMON)
 
@@ -224,6 +222,11 @@ function(_generate)
 
   if(_generate_result)
     message(FATAL_ERROR "${_generate_output}\nFailed to generate from given LimeIDL files")
+  endif()
+
+  # Remove directory with common generated code if it's not in source sets to avoid confusing
+  if(NOT "COMMON" IN_LIST GLUECODIUM_SOURCE_SETS)
+    file(REMOVE_RECURSE ${GLUECODIUM_OUTPUT_COMMON})
   endif()
 endfunction()
 
