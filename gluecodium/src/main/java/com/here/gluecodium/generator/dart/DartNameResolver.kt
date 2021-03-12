@@ -22,6 +22,7 @@ package com.here.gluecodium.generator.dart
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.common.CommentsProcessor
+import com.here.gluecodium.generator.common.NameHelper
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
@@ -80,6 +81,9 @@ internal class DartNameResolver(
             is LimeType -> resolveTypeRefName(LimeDirectTypeRef(element))
             else -> null
         }
+
+    fun resolveFileName(limeElement: LimeNamedElement) =
+        NameHelper.toLowerSnakeCase(resolveName(limeElement)).replace('<', '_').replace('>', '_')
 
     private fun resolveVisibility(limeVisibility: LimeVisibility) =
         when (limeVisibility) {
@@ -200,9 +204,7 @@ internal class DartNameResolver(
 
     private fun resolveTypeRefName(limeTypeRef: LimeTypeRef): String {
         val typeName = resolveName(limeTypeRef.type)
-        val alias = limeTypeRef.type.actualType.external?.dart?.get(IMPORT_PATH_NAME)?.let {
-            DartImportResolver.computeAlias(it)
-        }
+        val alias = limeTypeRef.type.actualType.external?.dart?.get(IMPORT_PATH_NAME)?.let { computeAlias(it) }
         return listOfNotNull(alias, typeName).joinToString(".")
     }
 
@@ -231,5 +233,7 @@ internal class DartNameResolver(
 
     companion object {
         private val END_OF_SENTENCE = "\\.\\s+".toRegex()
+
+        fun computeAlias(importPath: String) = importPath.split(':').last().split('/').last().split('.').first()
     }
 }

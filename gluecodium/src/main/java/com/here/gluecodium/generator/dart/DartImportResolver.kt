@@ -19,22 +19,16 @@
 
 package com.here.gluecodium.generator.dart
 
-import com.here.gluecodium.generator.common.NameHelper
 import com.here.gluecodium.generator.dart.DartImport.ImportType
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeBasicType
-import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeElement
-import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CONVERTER_IMPORT_NAME
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.IMPORT_PATH_NAME
 import com.here.gluecodium.model.lime.LimeGenericType
-import com.here.gluecodium.model.lime.LimeInterface
-import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeSet
-import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 
@@ -42,32 +36,11 @@ internal class DartImportResolver(
     private val limeReferenceMap: Map<String, LimeElement>,
     private val nameResolver: DartNameResolver,
     private val srcPath: String
-) {
+) : DartImportResolverBase() {
     private val builtInTypesConversionImport = createConversionImport("builtin_types")
-    private val typeRepositoryImport = DartImport("$srcPath/_type_repository", "__lib")
-    private val tokenCacheImport = DartImport("$srcPath/_token_cache", "__lib")
     private val lazyListImport = DartImport("$srcPath/_lazy_list", "__lib")
-    private val nativeBaseImport = DartImport("$srcPath/_native_base", "__lib")
 
-    fun resolveDeclarationImports(limeElement: LimeElement): List<DartImport> =
-        when {
-            limeElement is LimeLambda -> listOf(tokenCacheImport)
-            limeElement is LimeStruct && limeElement.external?.dart == null &&
-                limeElement.attributes.have(LimeAttributeType.EQUATABLE) ->
-                listOf(collectionSystemImport, collectionPackageImport)
-            limeElement is LimeInterface ->
-                listOf(builtInTypesConversionImport, typeRepositoryImport, tokenCacheImport, nativeBaseImport)
-            limeElement is LimeClass &&
-                (limeElement.parent != null || limeElement.visibility.isOpen) ->
-                listOf(builtInTypesConversionImport, typeRepositoryImport, tokenCacheImport, nativeBaseImport)
-            limeElement is LimeClass -> listOf(tokenCacheImport, nativeBaseImport)
-            else -> emptyList()
-        } + listOfNotNull(
-            resolveExternalImport(limeElement, IMPORT_PATH_NAME, useAlias = true),
-            resolveExternalImport(limeElement, CONVERTER_IMPORT_NAME, useAlias = false)
-        )
-
-    fun resolveImports(limeElement: LimeElement): List<DartImport> =
+    override fun resolveElementImports(limeElement: LimeElement): List<DartImport> =
         when (limeElement) {
             is LimeTypeRef -> resolveTypeImports(limeElement.type) +
                 listOfNotNull(lazyListImport.takeIf { limeElement.attributes.have(LimeAttributeType.OPTIMIZED) })
@@ -75,10 +48,6 @@ internal class DartImportResolver(
             is LimeNamedElement -> listOf(createImport(limeElement))
             else -> emptyList()
         }
-
-    fun resolveFileName(limeElement: LimeNamedElement) =
-        NameHelper.toLowerSnakeCase(nameResolver.resolveName(limeElement))
-            .replace('<', '_').replace('>', '_')
 
     private fun resolveTypeImports(limeType: LimeType) =
         when (val actualType = limeType.actualType) {
@@ -92,7 +61,7 @@ internal class DartImportResolver(
 
     private fun createImport(limeElement: LimeNamedElement): DartImport {
         val filePath = limeElement.path.head.joinToString("/")
-        val fileName = resolveFileName(getTopElement(limeElement))
+        val fileName = nameResolver.resolveFileName(getTopElement(limeElement))
         return DartImport("$srcPath/$filePath/$fileName")
     }
 
@@ -107,9 +76,9 @@ internal class DartImportResolver(
 
     private fun resolveGenericTypeImports(limeType: LimeGenericType) =
         when (limeType) {
-            is LimeList -> resolveImports(limeType.elementType)
-            is LimeSet -> resolveImports(limeType.elementType)
-            is LimeMap -> resolveImports(limeType.keyType) + resolveImports(limeType.valueType)
+            is LimeList -> resolveElementImports(limeType.elementType)
+            is LimeSet -> resolveElementImports(limeType.elementType)
+            is LimeMap -> resolveElementImports(limeType.keyType) + resolveElementImports(limeType.valueType)
             else -> emptyList()
         } + createConversionImport("generic_types")
 
@@ -120,31 +89,4 @@ internal class DartImportResolver(
 
     private fun createConversionImport(filePath: String) =
         DartImport("$srcPath/${filePath}__conversion")
-
-    private fun resolveExternalImport(
-        limeElement: LimeElement,
-        key: String,
-        useAlias: Boolean
-    ): DartImport? {
-        val importPath = (limeElement as? LimeNamedElement)?.external?.dart?.get(key) ?: return null
-        val components = importPath.split(':')
-        val alias = if (useAlias) computeAlias(importPath) else null
-        return when (components.first()) {
-            "dart" -> DartImport(components.last(), importType = ImportType.SYSTEM, asAlias = alias)
-            "package" -> DartImport(components.last().removeSuffix(".dart"), asAlias = alias)
-            else -> DartImport(
-                components.last().removeSuffix(".dart"),
-                importType = ImportType.RELATIVE,
-                asAlias = alias
-            )
-        }
-    }
-
-    companion object {
-        private val collectionSystemImport = DartImport("collection", importType = ImportType.SYSTEM)
-        private val collectionPackageImport = DartImport("collection/collection")
-
-        fun computeAlias(importPath: String) =
-            importPath.split(':').last().split('/').last().split('.').first()
-    }
 }
