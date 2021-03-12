@@ -19,70 +19,63 @@
 
 package com.here.gluecodium.generator.cbridge
 
+import com.here.gluecodium.generator.common.ImportsResolver
 import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
-import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeType.EQUATABLE
 import com.here.gluecodium.model.lime.LimeAttributeType.POINTER_EQUATABLE
-import com.here.gluecodium.model.lime.LimeAttributeValueType
+import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
+import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeFunction
-import com.here.gluecodium.model.lime.LimeLambda
+import com.here.gluecodium.model.lime.LimeGenericType
+import com.here.gluecodium.model.lime.LimeLambdaParameter
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
-import com.here.gluecodium.model.lime.LimeNamedElement
-import com.here.gluecodium.model.lime.LimeProperty
+import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
-import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
+import com.here.gluecodium.model.lime.LimeTypedElement
 
 internal class CBridgeHeaderIncludeResolver(
     limeReferenceMap: Map<String, LimeElement>,
-    private val rootNamespace: List<String>
-) : ReferenceMapBasedResolver(limeReferenceMap) {
+    private val fileNames: CBridgeFileNames
+) : ReferenceMapBasedResolver(limeReferenceMap), ImportsResolver<Include> {
 
-    fun getHeaderFilePath(limeElement: LimeNamedElement) =
-        CBridgeNameRules.createPath(limeElement, rootNamespace, "include", ".h")
-
-    fun resolveIncludes(limeElement: LimeNamedElement): List<Include> =
-        when {
-            limeElement.attributes.have(LimeAttributeType.SWIFT, LimeAttributeValueType.SKIP) -> emptyList()
-            limeElement is LimeTypeRef -> resolveTypeRefIncludes(limeElement)
-            limeElement is LimeFunction -> resolveFunctionIncludes(limeElement)
-            limeElement is LimeLambda -> resolveLambdaIncludes(limeElement)
-            limeElement is LimeProperty -> resolveTypeRefIncludes(limeElement.typeRef)
-            limeElement is LimeStruct -> resolveContainerIncludes(limeElement) +
-                limeElement.fields.flatMap { resolveTypeRefIncludes(it.typeRef) }
-            limeElement is LimeContainer -> resolveContainerIncludes(limeElement)
-            limeElement is LimeEnumeration -> listOf(createHeaderInclude(limeElement), INT_INCLUDE)
-            limeElement is LimeList -> resolveTypeRefIncludes(limeElement.elementType)
-            limeElement is LimeSet -> resolveTypeRefIncludes(limeElement.elementType)
-            limeElement is LimeMap ->
-                resolveTypeRefIncludes(limeElement.keyType) + resolveTypeRefIncludes(limeElement.valueType)
+    override fun resolveElementImports(limeElement: LimeElement): List<Include> {
+        if (limeElement.attributes.have(SWIFT, SKIP)) return emptyList()
+        return when (limeElement) {
+            is LimeTypeRef -> resolveTypeRefIncludes(limeElement)
+            is LimeReturnType -> resolveTypeRefIncludes(limeElement.typeRef)
+            is LimeLambdaParameter -> resolveTypeRefIncludes(limeElement.typeRef)
+            is LimeTypedElement -> resolveTypeRefIncludes(limeElement.typeRef)
+            is LimeFunction -> resolveFunctionIncludes(limeElement)
+            is LimeContainer -> resolveContainerIncludes(limeElement)
+            is LimeEnumeration -> listOf(createHeaderInclude(limeElement), INT_INCLUDE)
+            is LimeList -> resolveTypeRefIncludes(limeElement.elementType)
+            is LimeSet -> resolveTypeRefIncludes(limeElement.elementType)
+            is LimeMap -> resolveTypeRefIncludes(limeElement.keyType) + resolveTypeRefIncludes(limeElement.valueType)
             else -> emptyList()
         }
+    }
 
     private fun resolveContainerIncludes(limeContainer: LimeContainer) =
-        (
-            limeContainer.functions + limeContainer.properties + limeContainer.classes + limeContainer.interfaces +
-                limeContainer.structs + limeContainer.enumerations +
-                limeContainer.lambdas
-            ).flatMap { resolveIncludes(it) } +
-            listOfNotNull(
-                BOOL_INCLUDE.takeIf {
-                    limeContainer.attributes.have(EQUATABLE) || limeContainer.attributes.have(POINTER_EQUATABLE)
-                }
-            )
+        when {
+            limeContainer.attributes.have(EQUATABLE) -> listOf(BOOL_INCLUDE)
+            limeContainer.attributes.have(POINTER_EQUATABLE) -> listOf(BOOL_INCLUDE)
+            else -> emptyList()
+        }
 
     private fun resolveTypeRefIncludes(limeTypeRef: LimeTypeRef): List<Include> {
         if (limeTypeRef.isNullable) return emptyList()
         return when (val limeType = limeTypeRef.type.actualType) {
             is LimeBasicType -> resolveBasicTypeInclude(limeType.typeId)
             is LimeEnumeration -> listOf(createHeaderInclude(limeType))
+            is LimeGenericType -> resolveElementImports(limeType)
             else -> emptyList()
         }
     }
@@ -95,18 +88,11 @@ internal class CBridgeHeaderIncludeResolver(
         }
 
     private fun resolveFunctionIncludes(limeFunction: LimeFunction) =
-        (limeFunction.parameters.map { it.typeRef } + limeFunction.returnType.typeRef).flatMap { resolveTypeRefIncludes(it) } +
-            (
-                limeFunction.exception?.let {
-                    listOf(createHeaderInclude(it.errorType.type.actualType), BOOL_INCLUDE)
-                } ?: emptyList()
-                )
-
-    private fun resolveLambdaIncludes(limeLambda: LimeLambda) =
-        (limeLambda.parameters.map { it.typeRef } + limeLambda.returnType.typeRef).flatMap { resolveTypeRefIncludes(it) }
+        limeFunction.exception?.let { listOf(createHeaderInclude(it.errorType.type.actualType), BOOL_INCLUDE) }
+            ?: emptyList()
 
     private fun createHeaderInclude(limeType: LimeType) =
-        Include.createInternalInclude(getHeaderFilePath(getTopElement(limeType)))
+        Include.createInternalInclude(fileNames.getHeaderFilePath(getTopElement(limeType)))
 
     companion object {
         val BOOL_INCLUDE = Include.createSystemInclude("stdbool.h")
