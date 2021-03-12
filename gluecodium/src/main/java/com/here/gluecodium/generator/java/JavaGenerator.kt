@@ -118,10 +118,6 @@ internal class JavaGenerator : Generator {
             nativeBasePath.joinToString("/"),
             GeneratedFile.SourceSet.COMMON
         )
-        resultFiles += GeneratedFile(
-            TemplateEngine.render("android/AndroidManifest", basePackages.joinToString(".")),
-            GENERATOR_NAME + File.separator + "AndroidManifest.xml"
-        )
 
         val jniTemplates = JniTemplates(
             limeReferenceMap = limeModel.referenceMap,
