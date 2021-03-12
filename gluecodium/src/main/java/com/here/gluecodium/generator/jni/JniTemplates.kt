@@ -21,6 +21,7 @@ package com.here.gluecodium.generator.jni
 
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Include
+import com.here.gluecodium.generator.common.OptimizedListsCollector
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.CppFullNameResolver
 import com.here.gluecodium.generator.cpp.CppIncludeResolver
@@ -29,17 +30,22 @@ import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.java.JavaNameRules
 import com.here.gluecodium.generator.jni.JniGeneratorPredicates.Companion.hasThrowingFunctions
+import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributes
+import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
+import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
+import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 
 internal class JniTemplates(
-    limeReferenceMap: Map<String, LimeElement>,
+    private val limeReferenceMap: Map<String, LimeElement>,
     javaNameRules: JavaNameRules,
     private val basePackages: List<String>,
     private val internalPackages: List<String>,
@@ -64,18 +70,27 @@ internal class JniTemplates(
     private val jniIncludeResolver = JniIncludeResolver(fileNameRules)
     private val jniIncludeCollector = JniIncludeCollector(jniIncludeResolver)
 
-    fun generateFiles(limeElement: LimeNamedElement) =
-        when (limeElement) {
-            is LimeStruct ->
-                if (limeElement.functions.isNotEmpty()) generateFilesForElement(limeElement) else emptyList()
-            is LimeContainerWithInheritance, is LimeLambda -> generateFilesForElement(limeElement)
+    fun generateFiles(limeElement: LimeNamedElement): List<GeneratedFile> {
+        val optimizedLists = when (limeElement) {
+            is LimeContainer -> OptimizedListsCollector().getAllOptimizedLists(limeElement)
+            else -> emptyMap()
+        }
+        return when {
+            limeElement is LimeStruct && (limeElement.functions.isNotEmpty() || optimizedLists.isNotEmpty()) ->
+                generateFilesForElement(limeElement, optimizedLists)
+            limeElement is LimeContainerWithInheritance || limeElement is LimeLambda ->
+                generateFilesForElement(limeElement, optimizedLists)
             else -> emptyList()
         }
+    }
 
-    private fun generateFilesForElement(limeElement: LimeNamedElement): List<GeneratedFile> {
+    private fun generateFilesForElement(
+        limeElement: LimeNamedElement,
+        optimizedLists: Map<String, List<LimeList>>
+    ): List<GeneratedFile> {
         val containerData = mutableMapOf("container" to limeElement, "internalNamespace" to internalNamespace)
-        val fileName = fileNameRules.getElementFileName(limeElement)
 
+        val fileName = fileNameRules.getElementFileName(limeElement)
         val headerFile = GeneratedFile(
             TemplateEngine.render("jni/Header", containerData, nameResolvers, predicates),
             fileNameRules.getHeaderFilePath(fileName)
@@ -88,6 +103,43 @@ internal class JniTemplates(
 
         val implFile = GeneratedFile(
             TemplateEngine.render("jni/Implementation", containerData, nameResolvers, predicates),
+            fileNameRules.getImplementationFilePath(fileName)
+        )
+
+        return listOf(headerFile, implFile) +
+            optimizedLists.keys.flatMap { generateOptimizedListFiles(limeReferenceMap[it], optimizedLists[it]) }
+    }
+
+    private fun generateOptimizedListFiles(limeElement: LimeElement?, lists: List<LimeList>?): List<GeneratedFile> {
+        if (limeElement !is LimeNamedElement || lists.isNullOrEmpty()) return emptyList()
+
+        val containerFileName = fileNameRules.getElementFileName(limeElement)
+        val containerData = mutableMapOf("container" to limeElement, "internalNamespace" to internalNamespace)
+
+        return lists.flatMap { generateOptimizedListFile(it, containerFileName, containerData) }
+    }
+
+    private fun generateOptimizedListFile(
+        limeList: LimeList,
+        containerFileName: String,
+        containerData: MutableMap<String, Any>
+    ): List<GeneratedFile> {
+        val elementFileNamePrefix = limeList.elementType.type.actualType.name
+        val fileName = "${containerFileName}_${elementFileNamePrefix}LazyNativeList"
+
+        containerData["listType"] = LimeDirectTypeRef(limeList, attributes = optimizedAttributes)
+        containerData["elementType"] = limeList.elementType
+        val headerFile = GeneratedFile(
+            TemplateEngine.render("jni/LazyNativeListHeader", containerData, nameResolvers, predicates),
+            fileNameRules.getHeaderFilePath(fileName)
+        )
+
+        val implIncludes = jniIncludeResolver.resolveElementImports(limeList.elementType) +
+            Include.createInternalInclude("$fileName.h")
+        containerData["includes"] = implIncludes.distinct().sorted()
+
+        val implFile = GeneratedFile(
+            TemplateEngine.render("jni/LazyNativeListImpl", containerData, nameResolvers, predicates),
             fileNameRules.getImplementationFilePath(fileName)
         )
 
@@ -229,5 +281,9 @@ internal class JniTemplates(
         )
 
         return listOf(headerFile, implFile)
+    }
+
+    companion object {
+        private val optimizedAttributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.OPTIMIZED).build()
     }
 }

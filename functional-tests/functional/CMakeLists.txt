@@ -222,11 +222,13 @@ feature(GenericTypes cpp android swift dart SOURCES
     input/src/cpp/SetType.cpp
     input/src/cpp/Maps.cpp
     input/src/cpp/NestedGenericTypes.cpp
+    input/src/cpp/OptimizedList.cpp
 
     input/lime/Arrays.lime
     input/lime/SetType.lime
     input/lime/Maps.lime
     input/lime/NestedGenericTypes.lime
+    input/lime/OptimizedList.lime
 )
 
 feature(Errors cpp android swift dart SOURCES

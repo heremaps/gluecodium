@@ -26,6 +26,7 @@ import com.here.gluecodium.generator.common.CommentsProcessor
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.GeneratorOptions
+import com.here.gluecodium.generator.common.OptimizedListsCollector
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.CppNameCache
@@ -112,10 +113,15 @@ internal class JavaGenerator : Generator {
             .flatMap { generateJavaFiles(it, nameResolver, importResolver) }
             .toMutableList()
 
-        val nativeBasePath = listOf(GENERATOR_NAME) + internalPackageList + "NativeBase.java"
+        val nativeBasePath = (listOf(GENERATOR_NAME) + internalPackageList).joinToString("/")
         resultFiles += GeneratedFile(
             TemplateEngine.render("java/NativeBase", internalPackageList),
-            nativeBasePath.joinToString("/"),
+            "$nativeBasePath/NativeBase.java",
+            GeneratedFile.SourceSet.COMMON
+        )
+        resultFiles += GeneratedFile(
+            TemplateEngine.render("java/AbstractNativeList", internalPackageList),
+            "$nativeBasePath/AbstractNativeList.java",
             GeneratedFile.SourceSet.COMMON
         )
 
@@ -180,6 +186,7 @@ internal class JavaGenerator : Generator {
         val packages = (basePackages + limeElement.path.head).map { JavaNameResolver.normalizePackageName(it) }
         val importCollector = JavaImportCollector(importResolver)
         val imports = importCollector.collectImports(limeElement).filterNot { it.packageNames == packages }
+        val optimizedLists = OptimizedListsCollector().getAllOptimizedLists(limeElement)
 
         val templateData = mutableMapOf(
             "model" to limeElement,
@@ -187,7 +194,8 @@ internal class JavaGenerator : Generator {
             "package" to packages,
             "imports" to imports.distinct().sorted(),
             "nonNullAnnotation" to nonNullAnnotation,
-            "nullableAnnotation" to nullableAnnotation
+            "nullableAnnotation" to nullableAnnotation,
+            "optimizedLists" to optimizedLists
         )
 
         val mainContent = TemplateEngine.render(

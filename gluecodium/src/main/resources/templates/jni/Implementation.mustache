@@ -186,7 +186,11 @@ jint
     }
     return reinterpret_cast<jlong>(nSharedPtr);{{/ifPredicate}}{{!!
 }}{{#unlessPredicate "returnsOpaqueHandle"}}return {{#unlessPredicate returnType.typeRef "isJniPrimitive"}}{{!!
-}}{{>common/InternalNamespace}}jni::convert_to_jni(_jenv, result).release(){{/unlessPredicate}}{{!!
+}}{{#if returnType.typeRef.attributes.optimized}}{{!!
+}}{{>common/InternalNamespace}}jni::convert_to_jni_optimized(_jenv, result, {{!!
+}}"{{resolveName container "" "ref"}}${{resolveName returnType.typeRef "" "ref"}}"{{!!
+}}).release(){{/if}}{{!!
+}}{{#unless returnType.typeRef.attributes.optimized}}{{>common/InternalNamespace}}jni::convert_to_jni(_jenv, result).release(){{/unless}}{{/unlessPredicate}}{{!!
 }}{{#ifPredicate returnType.typeRef "isJniPrimitive"}}result{{/ifPredicate}};{{/unlessPredicate}}{{/unless}}
 }
 {{/jniMethodBody}}{{!!
