@@ -162,6 +162,8 @@ void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) => _{{resolveN
 // End of {{resolveName}} "private" section.{{!!
 
 }}{{+dartConstructor}}{{#if attributes.immutable}}const {{/if}}{{resolveName parent}}{{#unless attributes.dart.default}}{{!!
+}}{{#isEq constructors.size 1}}{{#if attributes.dart.name}}.{{resolveName visibility}}{{resolveName}}{{/if}}{{!!
+}}{{#unless attributes.dart.name}}{{#if visibility.isInternal}}.{{resolveName visibility}}{{/if}}{{/unless}}{{/isEq}}{{!!
 }}{{#isNotEq constructors.size 1}}.{{resolveName visibility}}{{resolveName}}{{/isNotEq}}{{!!
 }}{{/unless}}({{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) : {{!!

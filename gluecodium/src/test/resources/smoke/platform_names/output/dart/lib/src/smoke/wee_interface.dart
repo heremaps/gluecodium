@@ -6,7 +6,7 @@ import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class weeInterface {
-  factory weeInterface(String makeParameter) => weeInterface$Impl.make(makeParameter);
+  factory weeInterface.make(String makeParameter) => weeInterface$Impl.make(makeParameter);
   /// Destroys the underlying native object.
   ///
   /// Call this to free memory when you no longer need this instance.

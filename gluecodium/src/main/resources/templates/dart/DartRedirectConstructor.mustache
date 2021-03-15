@@ -20,6 +20,7 @@
   !}}
 {{prefixPartial "dart/DartFunctionDocs" "  "}}
   factory {{resolveName parent}}{{#unless attributes.dart.default}}{{!!
+  }}{{#isEq constructors.size 1}}{{#if attributes.dart.name}}.{{resolveName}}{{/if}}{{/isEq}}{{!!
   }}{{#isNotEq constructors.size 1}}.{{resolveName}}{{/isNotEq}}{{/unless}}({{!!
   }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
   }}){{>dart/DartRedirectImpl}};
