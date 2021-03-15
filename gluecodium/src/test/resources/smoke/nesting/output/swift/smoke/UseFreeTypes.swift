@@ -34,6 +34,7 @@ internal func getRef(_ ref: UseFreeTypes?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 extension UseFreeTypes: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension UseFreeTypes: Hashable {

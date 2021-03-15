@@ -56,6 +56,7 @@ internal func getRef(_ ref: MultiLineComments?, owning: Bool = true) -> RefHolde
         : RefHolder(handle_copy)
 }
 extension MultiLineComments: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension MultiLineComments: Hashable {

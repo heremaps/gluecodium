@@ -36,6 +36,7 @@ internal func getRef(_ ref: Enums?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 extension Enums: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension Enums: Hashable {

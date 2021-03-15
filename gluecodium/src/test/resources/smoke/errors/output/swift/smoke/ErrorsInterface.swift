@@ -148,6 +148,7 @@ internal func getRef(_ ref: ErrorsInterface?, owning: Bool = true) -> RefHolder 
     return owning ? RefHolder(ref: proxy, release: smoke_ErrorsInterface_release_handle) : RefHolder(proxy)
 }
 extension _ErrorsInterface: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 internal func ErrorsInterface_copyFromCType(_ handle: _baseRef) -> ErrorsInterface {

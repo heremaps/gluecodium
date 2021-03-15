@@ -32,6 +32,7 @@ internal func getRef(_ ref: SwiftMethodOverloads?, owning: Bool = true) -> RefHo
         : RefHolder(handle_copy)
 }
 extension SwiftMethodOverloads: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension SwiftMethodOverloads: Hashable {

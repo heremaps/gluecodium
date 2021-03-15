@@ -44,6 +44,7 @@ internal func getRef(_ ref: ExcludedCommentsInterface?, owning: Bool = true) -> 
     return owning ? RefHolder(ref: proxy, release: smoke_ExcludedCommentsInterface_release_handle) : RefHolder(proxy)
 }
 extension _ExcludedCommentsInterface: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 internal func ExcludedCommentsInterface_copyFromCType(_ handle: _baseRef) -> ExcludedCommentsInterface {

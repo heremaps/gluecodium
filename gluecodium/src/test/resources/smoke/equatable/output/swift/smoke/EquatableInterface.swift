@@ -42,6 +42,7 @@ internal func getRef(_ ref: EquatableInterface?, owning: Bool = true) -> RefHold
     return owning ? RefHolder(ref: proxy, release: smoke_EquatableInterface_release_handle) : RefHolder(proxy)
 }
 extension _EquatableInterface: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 /// :nodoc:

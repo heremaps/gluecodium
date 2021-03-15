@@ -87,6 +87,7 @@ internal func getRef(_ ref: PublicClass?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 extension PublicClass: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension PublicClass: Hashable {

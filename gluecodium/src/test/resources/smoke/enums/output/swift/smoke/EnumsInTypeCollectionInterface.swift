@@ -28,6 +28,7 @@ internal func getRef(_ ref: EnumsInTypeCollectionInterface?, owning: Bool = true
         : RefHolder(handle_copy)
 }
 extension EnumsInTypeCollectionInterface: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension EnumsInTypeCollectionInterface: Hashable {

@@ -60,6 +60,7 @@ internal func getRef(_ ref: Weakling?, owning: Bool = true) -> RefHolder {
     return owning ? RefHolder(ref: proxy, release: smoke_Weakling_release_handle) : RefHolder(proxy)
 }
 extension _Weakling: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 internal func Weakling_copyFromCType(_ handle: _baseRef) -> Weakling {

@@ -20,5 +20,6 @@
 
 /// :nodoc:
 protocol NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { get }
 }

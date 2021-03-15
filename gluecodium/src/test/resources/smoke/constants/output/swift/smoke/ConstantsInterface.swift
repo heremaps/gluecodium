@@ -35,6 +35,7 @@ internal func getRef(_ ref: ConstantsInterface?, owning: Bool = true) -> RefHold
         : RefHolder(handle_copy)
 }
 extension ConstantsInterface: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension ConstantsInterface: Hashable {

@@ -106,6 +106,7 @@ internal func getRef(_ ref: CalculatorListener?, owning: Bool = true) -> RefHold
     return owning ? RefHolder(ref: proxy, release: smoke_CalculatorListener_release_handle) : RefHolder(proxy)
 }
 extension _CalculatorListener: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 internal func CalculatorListener_copyFromCType(_ handle: _baseRef) -> CalculatorListener {

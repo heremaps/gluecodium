@@ -70,6 +70,7 @@ internal func getRef(_ ref: LevelOne?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 extension LevelOne: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension LevelOne: Hashable {
@@ -135,6 +136,7 @@ internal func getRef(_ ref: LevelOne.LevelTwo?, owning: Bool = true) -> RefHolde
         : RefHolder(handle_copy)
 }
 extension LevelOne.LevelTwo: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension LevelOne.LevelTwo: Hashable {
@@ -200,6 +202,7 @@ internal func getRef(_ ref: LevelOne.LevelTwo.LevelThree?, owning: Bool = true) 
         : RefHolder(handle_copy)
 }
 extension LevelOne.LevelTwo.LevelThree: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension LevelOne.LevelTwo.LevelThree: Hashable {

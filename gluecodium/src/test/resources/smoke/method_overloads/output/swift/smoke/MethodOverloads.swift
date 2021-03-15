@@ -80,6 +80,7 @@ internal func getRef(_ ref: MethodOverloads?, owning: Bool = true) -> RefHolder 
         : RefHolder(handle_copy)
 }
 extension MethodOverloads: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension MethodOverloads: Hashable {

@@ -37,6 +37,7 @@ internal func getRef(_ ref: UnicodeComments?, owning: Bool = true) -> RefHolder 
         : RefHolder(handle_copy)
 }
 extension UnicodeComments: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension UnicodeComments: Hashable {

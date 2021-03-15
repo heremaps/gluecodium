@@ -70,6 +70,7 @@ internal func weakToCType(_ swiftClass: ListenerInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true, isWeak: true)
 }
 extension _ListenerInterface: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 internal func ListenerInterface_copyFromCType(_ handle: _baseRef) -> ListenerInterface {

@@ -72,6 +72,7 @@ internal func getRef(_ ref: BasicTypes?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 extension BasicTypes: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension BasicTypes: Hashable {

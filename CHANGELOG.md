@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Suppressed documentation for C handle in Swift.
+
 ## 8.9.7
 Release date: 2021-03-11
 ### Features:

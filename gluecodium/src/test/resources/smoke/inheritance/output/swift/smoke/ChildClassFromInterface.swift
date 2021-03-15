@@ -44,6 +44,7 @@ internal func getRef(_ ref: ChildClassFromInterface?, owning: Bool = true) -> Re
         : RefHolder(handle_copy)
 }
 extension ChildClassFromInterface: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension ChildClassFromInterface: Hashable {

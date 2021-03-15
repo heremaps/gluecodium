@@ -43,6 +43,7 @@ public func getRef(_ ref: ExposeInterface?, owning: Bool = true) -> RefHolder {
     return owning ? RefHolder(ref: proxy, release: smoke_ExposeInterface_release_handle) : RefHolder(proxy)
 }
 extension _ExposeInterface: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 /// :nodoc:

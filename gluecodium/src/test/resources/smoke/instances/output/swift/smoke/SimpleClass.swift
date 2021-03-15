@@ -31,6 +31,7 @@ internal func getRef(_ ref: SimpleClass?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 extension SimpleClass: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension SimpleClass: Hashable {

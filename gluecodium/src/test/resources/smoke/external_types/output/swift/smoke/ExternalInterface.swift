@@ -73,6 +73,7 @@ internal func getRef(_ ref: ExternalInterface?, owning: Bool = true) -> RefHolde
     return owning ? RefHolder(ref: proxy, release: smoke_ExternalInterface_release_handle) : RefHolder(proxy)
 }
 extension _ExternalInterface: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 internal func ExternalInterface_copyFromCType(_ handle: _baseRef) -> ExternalInterface {

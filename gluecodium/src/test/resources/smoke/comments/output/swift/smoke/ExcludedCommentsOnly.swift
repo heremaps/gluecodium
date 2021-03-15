@@ -78,6 +78,7 @@ internal func getRef(_ ref: ExcludedCommentsOnly?, owning: Bool = true) -> RefHo
         : RefHolder(handle_copy)
 }
 extension ExcludedCommentsOnly: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension ExcludedCommentsOnly: Hashable {

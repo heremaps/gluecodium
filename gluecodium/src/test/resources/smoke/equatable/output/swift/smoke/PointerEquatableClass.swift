@@ -24,6 +24,7 @@ internal func getRef(_ ref: PointerEquatableClass?, owning: Bool = true) -> RefH
         : RefHolder(handle_copy)
 }
 extension PointerEquatableClass: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension PointerEquatableClass: Hashable {

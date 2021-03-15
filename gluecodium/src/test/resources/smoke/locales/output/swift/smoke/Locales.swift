@@ -49,6 +49,7 @@ internal func getRef(_ ref: Locales?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 extension Locales: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension Locales: Hashable {

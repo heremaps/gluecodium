@@ -88,6 +88,7 @@ internal func getRef(_ ref: OuterInterface?, owning: Bool = true) -> RefHolder {
     return owning ? RefHolder(ref: proxy, release: smoke_OuterInterface_release_handle) : RefHolder(proxy)
 }
 extension _OuterInterface: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 internal func OuterInterface_copyFromCType(_ handle: _baseRef) -> OuterInterface {
@@ -158,6 +159,7 @@ internal func getRef(_ ref: InnerClass?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 extension InnerClass: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension InnerClass: Hashable {
@@ -243,6 +245,7 @@ internal func getRef(_ ref: InnerInterface?, owning: Bool = true) -> RefHolder {
     return owning ? RefHolder(ref: proxy, release: smoke_OuterInterface_InnerInterface_release_handle) : RefHolder(proxy)
 }
 extension _InnerInterface: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 internal func InnerInterface_copyFromCType(_ handle: _baseRef) -> InnerInterface {

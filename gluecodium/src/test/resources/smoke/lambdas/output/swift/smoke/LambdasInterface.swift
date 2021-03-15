@@ -52,6 +52,7 @@ internal func getRef(_ ref: LambdasInterface?, owning: Bool = true) -> RefHolder
     return owning ? RefHolder(ref: proxy, release: smoke_LambdasInterface_release_handle) : RefHolder(proxy)
 }
 extension _LambdasInterface: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 internal func LambdasInterface_copyFromCType(_ handle: _baseRef) -> LambdasInterface {

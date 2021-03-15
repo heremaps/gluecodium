@@ -82,6 +82,7 @@ internal func getRef(_ ref: GenericTypesWithCompoundTypes?, owning: Bool = true)
         : RefHolder(handle_copy)
 }
 extension GenericTypesWithCompoundTypes: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension GenericTypesWithCompoundTypes: Hashable {

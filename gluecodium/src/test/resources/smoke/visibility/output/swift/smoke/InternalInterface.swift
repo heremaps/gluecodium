@@ -50,6 +50,7 @@ internal func getRef(_ ref: InternalInterface?, owning: Bool = true) -> RefHolde
     return owning ? RefHolder(ref: proxy, release: smoke_InternalInterface_release_handle) : RefHolder(proxy)
 }
 extension _InternalInterface: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 internal func InternalInterface_copyFromCType(_ handle: _baseRef) -> InternalInterface {

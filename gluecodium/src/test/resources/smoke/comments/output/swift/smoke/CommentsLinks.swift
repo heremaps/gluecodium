@@ -100,6 +100,7 @@ internal func getRef(_ ref: CommentsLinks?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 extension CommentsLinks: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension CommentsLinks: Hashable {

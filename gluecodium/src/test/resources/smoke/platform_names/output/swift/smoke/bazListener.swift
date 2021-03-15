@@ -51,6 +51,7 @@ internal func getRef(_ ref: bazListener?, owning: Bool = true) -> RefHolder {
     return owning ? RefHolder(ref: proxy, release: smoke_bazListener_release_handle) : RefHolder(proxy)
 }
 extension _bazListener: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 internal func bazListener_copyFromCType(_ handle: _baseRef) -> bazListener {

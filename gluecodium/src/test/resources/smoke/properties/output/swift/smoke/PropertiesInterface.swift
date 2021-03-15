@@ -69,6 +69,7 @@ internal func getRef(_ ref: PropertiesInterface?, owning: Bool = true) -> RefHol
     return owning ? RefHolder(ref: proxy, release: smoke_PropertiesInterface_release_handle) : RefHolder(proxy)
 }
 extension _PropertiesInterface: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 internal func PropertiesInterface_copyFromCType(_ handle: _baseRef) -> PropertiesInterface {

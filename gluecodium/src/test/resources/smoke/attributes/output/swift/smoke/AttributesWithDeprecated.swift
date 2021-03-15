@@ -57,6 +57,7 @@ internal func getRef(_ ref: AttributesWithDeprecated?, owning: Bool = true) -> R
         : RefHolder(handle_copy)
 }
 extension AttributesWithDeprecated: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension AttributesWithDeprecated: Hashable {
