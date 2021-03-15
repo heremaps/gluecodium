@@ -25,6 +25,7 @@ public func getRef(_ ref: ExposeClass?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 extension ExposeClass: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension ExposeClass: Hashable {

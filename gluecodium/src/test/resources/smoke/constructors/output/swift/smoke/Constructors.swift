@@ -99,6 +99,7 @@ internal func getRef(_ ref: Constructors?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 extension Constructors: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension Constructors: Hashable {

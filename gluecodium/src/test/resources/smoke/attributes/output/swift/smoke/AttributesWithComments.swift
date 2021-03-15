@@ -56,6 +56,7 @@ internal func getRef(_ ref: AttributesWithComments?, owning: Bool = true) -> Ref
         : RefHolder(handle_copy)
 }
 extension AttributesWithComments: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension AttributesWithComments: Hashable {

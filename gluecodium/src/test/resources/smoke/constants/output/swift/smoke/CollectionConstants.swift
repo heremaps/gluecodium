@@ -28,6 +28,7 @@ internal func getRef(_ ref: CollectionConstants?, owning: Bool = true) -> RefHol
         : RefHolder(handle_copy)
 }
 extension CollectionConstants: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension CollectionConstants: Hashable {

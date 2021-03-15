@@ -66,6 +66,7 @@ internal func getRef(_ ref: PlatformComments?, owning: Bool = true) -> RefHolder
         : RefHolder(handle_copy)
 }
 extension PlatformComments: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension PlatformComments: Hashable {

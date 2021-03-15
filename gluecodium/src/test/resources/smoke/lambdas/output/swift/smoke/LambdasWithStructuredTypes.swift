@@ -34,6 +34,7 @@ internal func getRef(_ ref: LambdasWithStructuredTypes?, owning: Bool = true) ->
         : RefHolder(handle_copy)
 }
 extension LambdasWithStructuredTypes: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension LambdasWithStructuredTypes: Hashable {

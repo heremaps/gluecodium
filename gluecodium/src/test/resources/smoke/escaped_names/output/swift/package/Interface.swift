@@ -42,6 +42,7 @@ internal func getRef(_ ref: Interface?, owning: Bool = true) -> RefHolder {
     return owning ? RefHolder(ref: proxy, release: package_Interface_release_handle) : RefHolder(proxy)
 }
 extension _Interface: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 internal func Interface_copyFromCType(_ handle: _baseRef) -> Interface {

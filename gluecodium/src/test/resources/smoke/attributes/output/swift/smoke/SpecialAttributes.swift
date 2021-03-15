@@ -32,6 +32,7 @@ internal func getRef(_ ref: SpecialAttributes?, owning: Bool = true) -> RefHolde
         : RefHolder(handle_copy)
 }
 extension SpecialAttributes: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension SpecialAttributes: Hashable {

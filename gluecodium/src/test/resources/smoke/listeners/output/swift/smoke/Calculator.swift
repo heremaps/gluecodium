@@ -32,6 +32,7 @@ internal func getRef(_ ref: Calculator?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 extension Calculator: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension Calculator: Hashable {

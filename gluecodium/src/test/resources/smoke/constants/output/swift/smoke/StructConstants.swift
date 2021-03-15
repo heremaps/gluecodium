@@ -47,6 +47,7 @@ internal func getRef(_ ref: StructConstants?, owning: Bool = true) -> RefHolder 
         : RefHolder(handle_copy)
 }
 extension StructConstants: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension StructConstants: Hashable {

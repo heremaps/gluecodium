@@ -40,6 +40,7 @@ internal func getRef(_ ref: Lambdas?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 extension Lambdas: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension Lambdas: Hashable {

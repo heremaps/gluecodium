@@ -49,6 +49,7 @@ internal func getRef(_ ref: bazInterface?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 extension bazInterface: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension bazInterface: Hashable {

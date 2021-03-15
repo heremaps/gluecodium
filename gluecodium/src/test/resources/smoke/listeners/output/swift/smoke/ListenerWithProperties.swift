@@ -182,6 +182,7 @@ internal func getRef(_ ref: ListenerWithProperties?, owning: Bool = true) -> Ref
     return owning ? RefHolder(ref: proxy, release: smoke_ListenerWithProperties_release_handle) : RefHolder(proxy)
 }
 extension _ListenerWithProperties: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 internal func ListenerWithProperties_copyFromCType(_ handle: _baseRef) -> ListenerWithProperties {

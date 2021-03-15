@@ -81,6 +81,7 @@ internal func getRef(_ ref: TypeDefs?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 extension TypeDefs: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension TypeDefs: Hashable {

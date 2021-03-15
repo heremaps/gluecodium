@@ -93,6 +93,7 @@ internal func getRef(_ ref: GenericTypesWithBasicTypes?, owning: Bool = true) ->
         : RefHolder(handle_copy)
 }
 extension GenericTypesWithBasicTypes: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension GenericTypesWithBasicTypes: Hashable {

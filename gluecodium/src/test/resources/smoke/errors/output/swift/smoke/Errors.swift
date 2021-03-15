@@ -69,6 +69,7 @@ internal func getRef(_ ref: Errors?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 extension Errors: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension Errors: Hashable {

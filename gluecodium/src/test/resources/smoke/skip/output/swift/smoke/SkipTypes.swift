@@ -42,6 +42,7 @@ internal func getRef(_ ref: SkipTypes?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 extension SkipTypes: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension SkipTypes: Hashable {

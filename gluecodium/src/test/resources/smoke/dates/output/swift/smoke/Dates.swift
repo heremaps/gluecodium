@@ -49,6 +49,7 @@ internal func getRef(_ ref: Dates?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 extension Dates: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension Dates: Hashable {

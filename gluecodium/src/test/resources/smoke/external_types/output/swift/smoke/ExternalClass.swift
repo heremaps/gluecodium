@@ -45,6 +45,7 @@ internal func getRef(_ ref: ExternalClass?, owning: Bool = true) -> RefHolder {
         : RefHolder(handle_copy)
 }
 extension ExternalClass: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 extension ExternalClass: Hashable {

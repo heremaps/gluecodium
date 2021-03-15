@@ -76,6 +76,7 @@ internal func getRef(_ ref: AttributesInterface?, owning: Bool = true) -> RefHol
     return owning ? RefHolder(ref: proxy, release: smoke_AttributesInterface_release_handle) : RefHolder(proxy)
 }
 extension _AttributesInterface: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 internal func AttributesInterface_copyFromCType(_ handle: _baseRef) -> AttributesInterface {

@@ -59,6 +59,7 @@ internal func getRef(_ ref: SimpleInterface?, owning: Bool = true) -> RefHolder 
     return owning ? RefHolder(ref: proxy, release: smoke_SimpleInterface_release_handle) : RefHolder(proxy)
 }
 extension _SimpleInterface: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 internal func SimpleInterface_copyFromCType(_ handle: _baseRef) -> SimpleInterface {

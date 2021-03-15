@@ -165,6 +165,7 @@ internal func getRef(_ ref: DeprecationComments?, owning: Bool = true) -> RefHol
     return owning ? RefHolder(ref: proxy, release: smoke_DeprecationComments_release_handle) : RefHolder(proxy)
 }
 extension _DeprecationComments: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 internal func DeprecationComments_copyFromCType(_ handle: _baseRef) -> DeprecationComments {

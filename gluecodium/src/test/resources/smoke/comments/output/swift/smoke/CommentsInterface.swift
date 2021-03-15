@@ -213,6 +213,7 @@ internal func getRef(_ ref: CommentsInterface?, owning: Bool = true) -> RefHolde
     return owning ? RefHolder(ref: proxy, release: smoke_CommentsInterface_release_handle) : RefHolder(proxy)
 }
 extension _CommentsInterface: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 internal func CommentsInterface_copyFromCType(_ handle: _baseRef) -> CommentsInterface {

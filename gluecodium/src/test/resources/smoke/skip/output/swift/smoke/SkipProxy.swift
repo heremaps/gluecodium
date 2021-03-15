@@ -96,6 +96,7 @@ internal func getRef(_ ref: SkipProxy?, owning: Bool = true) -> RefHolder {
     return owning ? RefHolder(ref: proxy, release: smoke_SkipProxy_release_handle) : RefHolder(proxy)
 }
 extension _SkipProxy: NativeBase {
+    /// :nodoc:
     var c_handle: _baseRef { return c_instance }
 }
 internal func SkipProxy_copyFromCType(_ handle: _baseRef) -> SkipProxy {
