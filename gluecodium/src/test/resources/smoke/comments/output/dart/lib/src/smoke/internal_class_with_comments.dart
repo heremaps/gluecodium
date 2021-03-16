@@ -13,6 +13,7 @@ abstract class InternalClassWithComments {
   /// Note that setting the instance to null will not destroy the underlying native object.
   void release();
   /// This is definitely internal
+  ///
   /// @nodoc
   internal_doNothing();
 }

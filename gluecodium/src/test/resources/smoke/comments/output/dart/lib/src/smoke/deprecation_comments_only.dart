@@ -25,7 +25,9 @@ abstract class DeprecationCommentsOnly {
   @Deprecated("Unfortunately, this constant is deprecated.")
   static final bool veryUseful = true;
   /// [input] Very useful input parameter
+  ///
   /// Returns [bool]. Usefulness of the input
+  ///
   @Deprecated("Unfortunately, this method is deprecated.")
   bool someMethodWithAllComments(String input);
   @Deprecated("Unfortunately, this property's getter is deprecated.")

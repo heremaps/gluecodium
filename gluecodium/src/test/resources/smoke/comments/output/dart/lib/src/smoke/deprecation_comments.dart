@@ -31,8 +31,11 @@ abstract class DeprecationComments {
   @Deprecated("Unfortunately, this constant is deprecated. Use [Comments.veryUseful] instead.")
   static final bool veryUseful = true;
   /// This is some very useful method that measures the usefulness of its input.
+  ///
   /// [input] Very useful input parameter
+  ///
   /// Returns [bool]. Usefulness of the input
+  ///
   @Deprecated("Unfortunately, this method is deprecated.\nUse [Comments.someMethodWithAllComments] instead.")
   bool someMethodWithAllComments(String input);
   /// Gets some very useful property.

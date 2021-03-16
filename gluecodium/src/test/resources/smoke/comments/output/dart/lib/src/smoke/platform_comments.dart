@@ -11,13 +11,19 @@ abstract class PlatformComments {
   /// Note that setting the instance to null will not destroy the underlying native object.
   void release();
   /// This is some very useless method that cannot have overloads.
+  ///
   doNothing();
   /// Colors everything in fuchsia.
+  ///
   doMagic();
   /// This is some very useful method that measures the usefulness of its input or \esc@pe{s}.
+  ///
   /// [input] Very useful parameter that \[\esc@pe{s}\]
+  ///
   /// Returns [bool]. Uselessness [PlatformComments_SomeEnum] of the input
+  ///
   /// Throws [PlatformComments_SomethingWrongException]. Sometimes it happens.
+  ///
   bool someMethodWithAllComments(String input);
   @Deprecated("A very useless method that is deprecated.")
   someDeprecatedMethod();

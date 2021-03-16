@@ -49,14 +49,19 @@ abstract class CommentsLinks {
   ///
   /// Not working for Swift:
   /// * named comment: [][Comments.veryUseful]
+  ///
   /// [inputParameter] Sometimes takes [Comments_SomeEnum.useful]
+  ///
   /// Returns [Comments_SomeEnum]. Sometimes returns [Comments_SomeEnum.useful]
+  ///
   /// Throws [Comments_SomethingWrongException]. May or may not throw [Comments_SomethingWrongException]
+  ///
   Comments_SomeEnum randomMethod(Comments_SomeEnum inputParameter);
   /// Links to method overloads:
   /// * other one: [CommentsLinks.randomMethod]
   /// * this one: [CommentsLinks.randomMethod2]
   /// * ambiguous one: [CommentsLinks.randomMethod2]
+  ///
   randomMethod2(String text, bool flag);
 }
 /// Links also work in:
