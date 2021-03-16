@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * For documentation comments of functions in Dart added forced line breaks between subsections to improve readability.
+
 ## 8.9.9
 Release date: 2021-03-16
 ### Bug fixes:

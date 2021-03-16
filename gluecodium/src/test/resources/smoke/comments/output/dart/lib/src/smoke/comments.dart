@@ -14,34 +14,52 @@ abstract class Comments {
   /// This is some very useful constant.
   static final bool veryUseful = true;
   /// This is some very useful method that measures the usefulness of its input.
+  ///
   /// [inputParameter] Very useful input parameter
+  ///
   /// Returns [bool]. Usefulness of the input
+  ///
   /// Throws [Comments_SomethingWrongException]. Sometimes it happens.
+  ///
   bool someMethodWithAllComments(String inputParameter);
   /// This is some very useful method that measures the usefulness of its input.
+  ///
   /// [input] Very useful input parameter
+  ///
   bool someMethodWithInputComments(String input);
   /// This is some very useful method that measures the usefulness of its input.
+  ///
   /// Returns [bool]. Usefulness of the input
+  ///
   bool someMethodWithOutputComments(String input);
   /// This is some very useful method that measures the usefulness of its input.
+  ///
   bool someMethodWithNoComments(String input);
   /// This is some very useful method that does not measure the usefulness of its input.
+  ///
   /// [input] Very useful input parameter
+  ///
   someMethodWithoutReturnTypeWithAllComments(String input);
   /// This is some very useful method that does not measure the usefulness of its input.
+  ///
   someMethodWithoutReturnTypeWithNoComments(String input);
   /// This is some very useful method that measures the usefulness of something.
+  ///
   /// Returns [bool]. Usefulness of the input
+  ///
   bool someMethodWithoutInputParametersWithAllComments();
   /// This is some very useful method that measures the usefulness of something.
+  ///
   bool someMethodWithoutInputParametersWithNoComments();
   someMethodWithNothing();
   /// This is some very useful method that does nothing.
+  ///
   someMethodWithoutReturnTypeOrInputParameters();
   /// [documented] nicely documented
+  ///
   String oneParameterCommentOnly(String undocumented, String documented);
   /// Returns [String]. nicely documented
+  ///
   String returnCommentOnly(String undocumented);
   /// Gets some very useful property.
   bool get isSomeProperty;

@@ -28,16 +28,20 @@ abstract class MultiLineComments {
   ///
   /// It has very important parameters.
   /// It has side effects.
+  ///
   /// [input] Very useful input parameter.
   /// You must not confuse it with the second parameter.
   /// But they are similar.
+  ///
   /// [ratio] Not as useful as the first parameter.
   /// But still useful.
   /// use a positive value for more happiness.
+  ///
   /// Returns [double]. If you provide a useful input,
   /// and a useful ratio you can expect a useful output.
   /// Just kidding do not expect anything from a method until
   /// you see its body.
+  ///
   double someMethodWithLongComment(String input, double ratio);
 }
 // MultiLineComments "private" section, not exported.

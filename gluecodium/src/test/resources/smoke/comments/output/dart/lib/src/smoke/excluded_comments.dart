@@ -16,12 +16,17 @@ abstract class ExcludedComments {
   /// @nodoc
   static final bool veryUseful = true;
   /// This is some very useful method that measures the usefulness of its input.
+  ///
   /// [inputParameter] Very useful input parameter
+  ///
   /// Returns [bool]. Usefulness of the input
+  ///
   /// Throws [ExcludedComments_SomethingWrongException]. Sometimes it happens.
+  ///
   /// @nodoc
   bool someMethodWithAllComments(String inputParameter);
   /// This is some very useful method that does nothing.
+  ///
   /// @nodoc
   someMethodWithoutReturnTypeOrInputParameters();
   /// Gets some very useful property.

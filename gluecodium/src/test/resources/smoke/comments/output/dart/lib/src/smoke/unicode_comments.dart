@@ -12,9 +12,13 @@ abstract class UnicodeComments {
   /// Note that setting the instance to null will not destroy the underlying native object.
   void release();
   /// Süßölgefäß
+  ///
   /// [input] שלום
+  ///
   /// Returns [bool]. товарищ
+  ///
   /// Throws [Comments_SomethingWrongException]. ネコ
+  ///
   bool someMethodWithAllComments(String input);
 }
 // UnicodeComments "private" section, not exported.

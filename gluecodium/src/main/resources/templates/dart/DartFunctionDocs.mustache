@@ -18,13 +18,17 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#resolveName comment}}{{#unless this.isEmpty}}{{prefix this "/// "}}{{/unless}}{{/resolveName}}{{!!
+{{#resolveName comment}}{{#unless this.isEmpty}}{{prefix this "/// "}}
+///{{/unless}}{{/resolveName}}{{!!
 }}{{#parameters}}{{#set self=this}}{{#resolveName comment}}{{#unless this.isEmpty}}
-/// [{{resolveName self}}] {{prefix this "/// " skipFirstLine=true}}{{/unless}}{{/resolveName}}{{/set}}{{/parameters}}{{!!
+/// [{{resolveName self}}] {{prefix this "/// " skipFirstLine=true}}
+///{{/unless}}{{/resolveName}}{{/set}}{{/parameters}}{{!!
 }}{{#resolveName returnType.comment}}{{#unless this.isEmpty}}
-/// Returns [{{resolveName returnType.typeRef}}]. {{prefix this "/// " skipFirstLine=true}}{{/unless}}{{/resolveName}}{{!!
+/// Returns [{{resolveName returnType.typeRef}}]. {{prefix this "/// " skipFirstLine=true}}
+///{{/unless}}{{/resolveName}}{{!!
 }}{{#if thrownType}}{{#resolveName thrownType.comment}}{{#unless this.isEmpty}}
-/// Throws [{{resolveName exception}}]. {{prefix this "/// " skipFirstLine=true}}{{/unless}}{{/resolveName}}{{/if}}{{!!
+/// Throws [{{resolveName exception}}]. {{prefix this "/// " skipFirstLine=true}}
+///{{/unless}}{{/resolveName}}{{/if}}{{!!
 }}{{#if visibility.isInternal comment.isExcluded logic="or"}}
 /// @nodoc{{/if}}{{!!
 }}{{#if attributes.deprecated}}

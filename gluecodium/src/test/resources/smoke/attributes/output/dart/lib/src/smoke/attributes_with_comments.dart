@@ -16,6 +16,7 @@ abstract class AttributesWithComments {
   @OnConstInClass
   static final bool pi = false;
   /// Function comment
+  ///
   @OnFunctionInClass
   veryFun();
   /// Getter comment
