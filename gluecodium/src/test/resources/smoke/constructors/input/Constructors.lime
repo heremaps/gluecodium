@@ -48,3 +48,14 @@ class ChildConstructors : Constructors {
     @Java(Name = "createCopyFromParent")
     constructor create(other: Constructors)
 }
+
+@Java(Skip) @Swift(Skip)
+class SingleNamelessConstructor {
+    constructor create()
+}
+
+@Java(Skip) @Swift(Skip)
+class SingleNamedConstructor {
+    @Dart("fooBar")
+    constructor create()
+}

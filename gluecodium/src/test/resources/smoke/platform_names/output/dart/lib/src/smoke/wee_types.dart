@@ -59,7 +59,7 @@ class weeStruct {
   String WEE_FIELD;
   weeStruct._(this.WEE_FIELD);
   weeStruct._copy(weeStruct _other) : this._(_other.WEE_FIELD);
-  weeStruct(String WeeParameter) : this._copy(_WeeCreate(WeeParameter));
+  weeStruct.WeeCreate(String WeeParameter) : this._copy(_WeeCreate(WeeParameter));
   static weeStruct _WeeCreate(String WeeParameter) {
     final _WeeCreate_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_PlatformNames_BasicStruct_make__String'));
     final _WeeParameter_handle = String_toFfi(WeeParameter);
