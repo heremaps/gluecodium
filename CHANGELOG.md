@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 8.9.9
+Release date: 2021-03-16
+### Bug fixes:
+  * Fixed name resolution for single constructors in Dart.
+
 ## 8.9.8
 Release date: 2021-03-15
 ### Bug fixes:
