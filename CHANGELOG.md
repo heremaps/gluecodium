@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 8.10.0
+Release date: 2021-03-22
 ### Features:
   * Added support for nesting exception type declarations inside a struct declaration in IDL.
 
