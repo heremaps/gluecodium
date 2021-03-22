@@ -54,7 +54,8 @@ internal class LimeImportsCollector(private val importsResolver: ImportsResolver
                 limeElement.structs + limeElement.constants + limeElement.typeAliases + limeElement.exceptions
                 ).flatMap { collectImports(limeElement.path, it) }
             is LimeStruct -> (
-                limeElement.fields + limeElement.constants + limeElement.functions
+                limeElement.fields + limeElement.constants + limeElement.functions + limeElement.exceptions +
+                    limeElement.classes + limeElement.interfaces
                 ).flatMap { collectImports(limeElement.path, it) }
             is LimeFunction -> (
                 limeElement.parameters + limeElement.returnType + listOfNotNull(limeElement.thrownType?.typeRef)

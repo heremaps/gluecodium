@@ -383,6 +383,7 @@ internal class AntlrLimeModelBuilder(
             external = externalDescriptor,
             fields = getPreviousResults(LimeField::class.java),
             functions = getPreviousResults(LimeFunction::class.java),
+            exceptions = getPreviousResults(LimeException::class.java),
             constants = getPreviousResults(LimeConstant::class.java),
             constructorComment = structuredCommentsStack.peek().getTagBlock("constructor"),
             structs = getPreviousResults(LimeStruct::class.java),

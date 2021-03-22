@@ -20,6 +20,13 @@ public final class OuterStruct {
             this.value = value;
         }
     }
+    public static final class InstantiationException extends Exception {
+        public InstantiationException(final OuterStruct.InnerEnum error) {
+            super(error.toString());
+            this.error = error;
+        }
+        public final OuterStruct.InnerEnum error;
+    }
     public static final class InnerStruct {
         @NonNull
         public List<Date> otherField;
@@ -93,5 +100,5 @@ public final class OuterStruct {
     public OuterStruct(@NonNull final String field) {
         this.field = field;
     }
-    public native void doNothing();
+    public native void doNothing() throws OuterStruct.InstantiationException;
 }

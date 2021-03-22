@@ -29,7 +29,12 @@ class NestingTests: XCTestCase {
         XCTAssertEqual(result.first, 42)
     }
 
+    func testNestedException() {
+        XCTAssertThrowsError(try OuterStruct.doNothing())
+    }
+
     static var allTests = [
-        ("testNestedClassMethod", testNestedClassMethod)
+        ("testNestedClassMethod", testNestedClassMethod),
+        ("testNestedException", testNestedException)
     ]
 }

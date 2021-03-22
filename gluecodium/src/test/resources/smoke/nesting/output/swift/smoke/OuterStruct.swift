@@ -13,6 +13,7 @@ public struct OuterStruct {
         case foo
         case bar
     }
+    public typealias InstantiationError = OuterStruct.InnerEnum
     public struct InnerStruct {
         public var otherField: [Date]
         public init(otherField: [Date]) {
@@ -42,9 +43,12 @@ public struct OuterStruct {
             return foobar_moveFromCType(smoke_OuterStruct_InnerClass_fooBar(self.c_instance))
         }
     }
-    public func doNothing() -> Void {
+    public func doNothing() throws -> Void {
         let c_self_handle = moveToCType(self)
-        return moveFromCType(smoke_OuterStruct_doNothing(c_self_handle.ref))
+        let RESULT = smoke_OuterStruct_doNothing(c_self_handle.ref)
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as OuterStruct.InstantiationError
+        }
     }
 }
 public protocol InnerInterface : AnyObject {
@@ -330,4 +334,6 @@ internal func moveFromCType(_ handle: _baseRef) -> OuterStruct.InnerEnum? {
         uint32_t_release_handle(handle)
     }
     return copyFromCType(handle)
+}
+extension OuterStruct.InnerEnum : Error {
 }

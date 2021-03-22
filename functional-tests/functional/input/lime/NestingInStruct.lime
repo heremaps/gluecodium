@@ -19,7 +19,7 @@ package test
 
 struct OuterStruct {
     field: String
-    static fun doNothing()
+    static fun doNothing() throws Instantiation
 
     struct InnerStruct {
         otherField: List<Date>
@@ -38,6 +38,9 @@ struct OuterStruct {
         FOO,
         BAR
     }
+
+    @Java("InstantiationException")
+    exception Instantiation(InnerEnum)
 
     @Swift(Skip) @Dart(Skip)
     class Builder {

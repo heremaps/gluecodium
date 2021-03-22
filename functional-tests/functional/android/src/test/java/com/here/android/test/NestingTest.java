@@ -22,7 +22,9 @@ import static junit.framework.Assert.assertEquals;
 
 import android.os.Build;
 import com.here.android.RobolectricApplication;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
@@ -30,6 +32,8 @@ import org.robolectric.annotation.Config;
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class)
 public class NestingTest {
+
+  @Rule public final ExpectedException expectedException = ExpectedException.none();
 
   @Test
   public void nestedClassMethod() {
@@ -44,5 +48,12 @@ public class NestingTest {
     OuterStruct result = builder.field("nonsense").build();
 
     assertEquals("nonsense", result.field);
+  }
+
+  @Test
+  public void nestedException() throws OuterStruct.InstantiationException {
+    expectedException.expect(OuterStruct.InstantiationException.class);
+
+    OuterStruct.doNothing();
   }
 }

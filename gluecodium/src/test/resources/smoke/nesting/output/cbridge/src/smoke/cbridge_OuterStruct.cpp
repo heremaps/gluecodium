@@ -177,6 +177,7 @@ _baseRef smoke_OuterStruct_InnerInterface_create_proxy(smoke_OuterStruct_InnerIn
 const void* smoke_OuterStruct_InnerInterface_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_OuterStruct_InnerInterfaceProxy::get_swift_object(get_pointer<::std::shared_ptr< ::smoke::OuterStruct::InnerInterface >>(handle)->get()) : nullptr;
 }
-void smoke_OuterStruct_doNothing(_baseRef _instance) {
-    return get_pointer<::smoke::OuterStruct>(_instance)->do_nothing();
+smoke_OuterStruct_doNothing_result smoke_OuterStruct_doNothing(_baseRef _instance) {
+    auto&& ERROR_VALUE = get_pointer<::smoke::OuterStruct>(_instance)->do_nothing().value();
+    return {ERROR_VALUE == 0, static_cast< smoke_OuterStruct_InnerEnum >(ERROR_VALUE)};
 }
