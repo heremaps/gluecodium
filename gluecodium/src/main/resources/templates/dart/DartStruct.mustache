@@ -79,6 +79,9 @@ class {{resolveName}}{{#if external.dart.converter}}_internal{{/if}}{{#if testab
 {{#enumerations}}
 {{>dart/DartEnumeration}}
 {{/enumerations}}
+{{#exceptions}}
+{{>dart/DartException}}
+{{/exceptions}}
 {{#structs}}
 {{>dart/DartStruct}}
 {{/structs}}

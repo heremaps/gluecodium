@@ -5,7 +5,10 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-_GLUECODIUM_FFI_EXPORT void library_smoke_OuterStruct_doNothing(FfiOpaqueHandle _self, int32_t _isolate_id);
+_GLUECODIUM_FFI_EXPORT void library_smoke_OuterStruct_doNothing_return_release_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT uint32_t library_smoke_OuterStruct_doNothing_return_get_error(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT bool library_smoke_OuterStruct_doNothing_return_has_error(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_doNothing(FfiOpaqueHandle _self, int32_t _isolate_id);
 _GLUECODIUM_FFI_EXPORT void library_smoke_OuterStruct_InnerStruct_doSomething(FfiOpaqueHandle _self, int32_t _isolate_id);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerClass_fooBar(FfiOpaqueHandle _self, int32_t _isolate_id);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerInterface_barBaz(FfiOpaqueHandle _self, int32_t _isolate_id);

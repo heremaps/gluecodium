@@ -5,6 +5,8 @@ struct OuterStruct {
         FOO,
         BAR
     }
+    @Java("InstantiationException")
+    exception Instantiation(InnerEnum)
     class InnerClass {
         fun fooBar(): Set<Locale>
     }
@@ -24,5 +26,5 @@ struct OuterStruct {
         otherField: List<Date>
         fun doSomething()
     }
-    fun doNothing()
+    fun doNothing() throws Instantiation
 }

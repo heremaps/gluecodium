@@ -44,8 +44,8 @@ private:
 };
 }
 
-void
-OuterStruct::do_nothing() { }
+std::error_code
+OuterStruct::do_nothing() { return std::error_code(OuterStruct::InnerEnum::BAR); }
 
 void
 OuterStruct::InnerStruct::do_something() { }

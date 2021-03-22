@@ -6,6 +6,7 @@ extern "C" {
 #endif
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/Export.h"
+#include <stdbool.h>
 #include <stdint.h>
 typedef uint32_t smoke_OuterStruct_InnerEnum;
 _GLUECODIUM_C_EXPORT _baseRef smoke_OuterStruct_create_handle(_baseRef field);
@@ -41,7 +42,11 @@ typedef struct {
 _GLUECODIUM_C_EXPORT _baseRef smoke_OuterStruct_InnerInterface_create_proxy(smoke_OuterStruct_InnerInterface_FunctionTable functionTable);
 _GLUECODIUM_C_EXPORT const void* smoke_OuterStruct_InnerInterface_get_swift_object_from_cache(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef smoke_OuterStruct_InnerInterface_barBaz(_baseRef _instance);
-_GLUECODIUM_C_EXPORT void smoke_OuterStruct_doNothing(_baseRef _instance);
+typedef struct {
+    bool has_value;
+    smoke_OuterStruct_InnerEnum error_value;
+} smoke_OuterStruct_doNothing_result;
+_GLUECODIUM_C_EXPORT smoke_OuterStruct_doNothing_result smoke_OuterStruct_doNothing(_baseRef _instance);
 #ifdef __cplusplus
 }
 #endif

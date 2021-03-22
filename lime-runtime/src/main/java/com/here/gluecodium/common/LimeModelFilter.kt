@@ -150,6 +150,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
                 attributes = attributes,
                 external = external,
                 functions = functions.filter(predicate),
+                exceptions = exceptions.filter(predicate),
                 constants = constants.filter(predicate).map { filterConstant(it) },
                 fields = fields.filter(predicate).map { filterField(it) },
                 constructorComment = constructorComment,

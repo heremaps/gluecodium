@@ -61,9 +61,30 @@ private:
 extern "C" {
 #endif
 void
+library_smoke_OuterStruct_doNothing_return_release_handle(FfiOpaqueHandle handle) {
+    delete reinterpret_cast<gluecodium::Return<void, ::smoke::OuterStruct::InnerEnum>*>(handle);
+}
+uint32_t
+library_smoke_OuterStruct_doNothing_return_get_error(FfiOpaqueHandle handle) {
+    return gluecodium::ffi::Conversion<::smoke::OuterStruct::InnerEnum>::toFfi(
+        reinterpret_cast<gluecodium::Return<void, ::smoke::OuterStruct::InnerEnum>*>(handle)->error()
+    );
+}
+bool
+library_smoke_OuterStruct_doNothing_return_has_error(FfiOpaqueHandle handle) {
+    return !reinterpret_cast<gluecodium::Return<void, ::smoke::OuterStruct::InnerEnum>*>(handle)->has_value();
+}
+FfiOpaqueHandle
 library_smoke_OuterStruct_doNothing(FfiOpaqueHandle _self, int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            gluecodium::ffi::Conversion<::smoke::OuterStruct>::toCpp(_self).do_nothing();
+    auto&& _cpp_call_result =         gluecodium::ffi::Conversion<::smoke::OuterStruct>::toCpp(_self).do_nothing();
+    if (_cpp_call_result.value() == 0) {
+        return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) gluecodium::Return<void, ::smoke::OuterStruct::InnerEnum>(true));
+    }
+    auto _error_code = _cpp_call_result;
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) gluecodium::Return<void, ::smoke::OuterStruct::InnerEnum>(
+        static_cast<::smoke::OuterStruct::InnerEnum>(_error_code.value())
+    ));
 }
 void
 library_smoke_OuterStruct_InnerStruct_doSomething(FfiOpaqueHandle _self, int32_t _isolate_id) {

@@ -74,7 +74,7 @@ types ProcessorHelperTypes {
 The sections below use the following notation to describe the LimeIDL syntax:
 * text in **bold** is verbatim, i.e. these are keywords and special characters exactly as they
 appear in the language.
-* text in *italic* is a placeholder, usually for a user-defined name or some other user-defined
+* text in *italic* is a placeholder, usually for a user-defined name, or some other user-defined
 sequence (in which case it will be explained specifically each time).
 * `(` and `)` enclose a set of alternatives, with each alternative separated with `|` symbol.
 * `[` and `]` enclose a sequence that is optional, i.e. can be omitted.
@@ -94,14 +94,14 @@ Unicode characters. The only characters that are not allowed are line breaks and
 package names or names of classes, interfaces, structs, etc.) might lead to unexpected compilation
 issues in the generated code, depending on the file system and/or operating system.
 
-**Note:** Unicode characters in C++ identifiers are supported by C++ standard but the actual support
+**Note:** Unicode characters in C++ identifiers are supported by C++ standard, but the actual support
 might vary per compiler implementation.
 
 #### Visibility
 
 Most elements can be prefixed with a visibility prefix. Possible visibility prefixes are currently
 `public`, `internal`, `open` and `open internal`. Visibility prefix is optional, an element without
-such prefix is considered `public`. The visibility prefix, if present, should precede the rest of
+such a prefix is considered `public`. The visibility prefix, if present, should precede the rest of
 the declaration.
 
 * Example: `internal static property secretDelegate: ProcessorDelegate? { get set }`
@@ -117,7 +117,7 @@ inherited from (see `Inheritance` below).
 
 Most declarations are allowed to have an arbitrary (zero or more) number of line breaks between any
 parts of the declaration. Two notable exceptions are:
-* Each file-level declaration must have at least one line break at the end of the declaraion. This
+* Each file-level declaration must have at least one line break at the end of the declaration. This
 also means there must always be a trailing line break at the end of the file.
 * Attributes (see `Attributes` below) are not allowed to have any line breaks between `@` and the
 attribute name that follows.
@@ -165,7 +165,7 @@ Classes and interfaces support inheritance (optionally, see *ParentName* in the 
 There are some restrictions on inheritance:
 * multiple inheritance is not supported.
 * an interface cannot inherit from a class.
-* an class can only inherit from another ("parent") class if the parent class has "open" visibility
+* a class can only inherit from another ("parent") class if the parent class has "open" visibility
 (see `Visibility` above).
 * a class or an interface with "public" visibility cannot inherit from a class or an interface with
 "internal" visibility (see `Visibility` above).
@@ -193,7 +193,7 @@ some top-level element).
   * a function can have any number of parameters (zero or more).
   * a function can have a return type (optionally).
   * a function can be declared as throwing an exception (optionally, also see `Exception` below).
-  * a function can be declared as `static` (optionally), meaning it's not a member function but a
+  * a function can be declared as `static` (optionally), meaning it's not a member function, but a
   class function (type function).
 
 #### Constructor
@@ -217,9 +217,9 @@ some top-level element).
 * Example: `static property secretDelegate: ProcessorDelegate? { get set }`
 * Can be placed in: class, interface
 * Description: declares a property in the parent type:
-  * a property can be declared as `static` (optionally), meaning it's not a member property but a
+  * a property can be declared as `static` (optionally), meaning it's not a member property, but a
   class property (type property).
-  * a property declaration corresponds to a property in the output language if it does have such
+  * a property declaration corresponds to a property in the output language if it does have such a
   concept (Swift, Dart) or to a pair of accessor methods (or just one getter method for a readonly
   property) if there is no "property" concept (C++, Java).
 
@@ -252,7 +252,7 @@ struct Options {
 * Example: `enum Mode { SLOW, FAST, CHEAP }`
 * Can be a free-standing element at file level or can be placed in: class, interface, types, struct.
 * Description: declares an enumeration type in the parent type:
-  * an enumeration can have any number of enumerators, but at least one enumerators is required.
+  * an enumeration can have any number of enumerators, but at least one enumerator is required.
   * an enumerator can have a default value associated with it (optionally). Only integer values are
   currently supported. For more details on values and literals see `Values and Literals` below.
 
@@ -260,7 +260,7 @@ struct Options {
 
 * Syntax: **exception** *ExceptionName*\[__(__*ErrorTypeName*__)__\]
 * Example: `exception SomethingWrong(ErrorType)`
-* Can be a free-standing element at file level or can be placed in: class, interface, types
+* Can be a free-standing element at file level or can be placed in: class, interface, types, struct.
 * Description: declares an exception (error) type in the parent type:
   * an exception has an error-value type associated with it.
   * an exception type cannot be used as a regular type, it can only be used in a `throws` clause of

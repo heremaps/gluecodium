@@ -8,14 +8,38 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
+final _doNothing_return_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_smoke_OuterStruct_doNothing_return_release_handle'));
+final _doNothing_return_get_result = (Pointer) {};
+final _doNothing_return_get_error = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Uint32 Function(Pointer<Void>),
+    int Function(Pointer<Void>)
+  >('library_smoke_OuterStruct_doNothing_return_get_error'));
+final _doNothing_return_has_error = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Uint8 Function(Pointer<Void>),
+    int Function(Pointer<Void>)
+  >('library_smoke_OuterStruct_doNothing_return_has_error'));
 class OuterStruct {
   String field;
   OuterStruct(this.field);
   doNothing() {
-    final _doNothing_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_OuterStruct_doNothing'));
+    final _doNothing_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_OuterStruct_doNothing'));
     final _handle = smoke_OuterStruct_toFfi(this);
-    final __result_handle = _doNothing_ffi(_handle, __lib.LibraryContext.isolateId);
+    final __call_result_handle = _doNothing_ffi(_handle, __lib.LibraryContext.isolateId);
     smoke_OuterStruct_releaseFfiHandle(_handle);
+    if (_doNothing_return_has_error(__call_result_handle) != 0) {
+        final __error_handle = _doNothing_return_get_error(__call_result_handle);
+        _doNothing_return_release_handle(__call_result_handle);
+        try {
+          throw OuterStruct_InstantiationException(smoke_OuterStruct_InnerEnum_fromFfi(__error_handle));
+        } finally {
+          smoke_OuterStruct_InnerEnum_releaseFfiHandle(__error_handle);
+        }
+    }
+    final __result_handle = _doNothing_return_get_result(__call_result_handle);
+    _doNothing_return_release_handle(__call_result_handle);
     try {
       return (__result_handle);
     } finally {
@@ -82,6 +106,10 @@ OuterStruct_InnerEnum smoke_OuterStruct_InnerEnum_fromFfi_nullable(Pointer<Void>
 void smoke_OuterStruct_InnerEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_OuterStruct_InnerEnum_release_handle_nullable(handle);
 // End of OuterStruct_InnerEnum "private" section.
+class OuterStruct_InstantiationException implements Exception {
+  final OuterStruct_InnerEnum error;
+  OuterStruct_InstantiationException(this.error);
+}
 class OuterStruct_InnerStruct {
   List<DateTime> otherField;
   OuterStruct_InnerStruct(this.otherField);

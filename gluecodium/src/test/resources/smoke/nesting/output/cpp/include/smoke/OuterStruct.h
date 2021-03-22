@@ -14,6 +14,7 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <system_error>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -64,6 +65,12 @@ struct _GLUECODIUM_CPP_EXPORT OuterStruct {
     ::std::string field;
     OuterStruct( );
     OuterStruct( ::std::string field );
-    void do_nothing(  ) const;
+    ::std::error_code do_nothing(  ) const;
 };
+_GLUECODIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::OuterStruct::InnerEnum value ) noexcept;
+}
+namespace std
+{
+template <>
+struct is_error_code_enum< ::smoke::OuterStruct::InnerEnum > : public std::true_type { };
 }
