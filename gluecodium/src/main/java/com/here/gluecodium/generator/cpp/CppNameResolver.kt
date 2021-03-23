@@ -26,6 +26,7 @@ import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.PlatformSignatureResolver
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
+import com.here.gluecodium.model.lime.LimeAttributeType.OPTIMIZED
 import com.here.gluecodium.model.lime.LimeAttributeValueType.ACCESSORS
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
@@ -79,8 +80,7 @@ internal class CppNameResolver(
             is LimeTypeRef -> resolveTypeRef(element)
             is LimeReturnType -> resolveTypeRef(element.typeRef)
             is LimeNamedElement -> nameCache.getName(element)
-            else ->
-                throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
+            else -> throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }
 
     override fun resolveGetterName(element: Any) =
@@ -112,7 +112,8 @@ internal class CppNameResolver(
         }
 
     private fun resolveTypeRef(limeTypeRef: LimeTypeRef): String {
-        val typeName = resolveTypeName(limeTypeRef.type, isFullName = true)
+        val typeName =
+            resolveTypeName(limeTypeRef.type, isFullName = true, isOptimized = limeTypeRef.attributes.have(OPTIMIZED))
         return when {
             limeTypeRef.isNullable &&
                 limeTypeRef.type.actualType !is LimeContainerWithInheritance ->
@@ -121,10 +122,10 @@ internal class CppNameResolver(
         }
     }
 
-    private fun resolveTypeName(limeType: LimeType, isFullName: Boolean) =
+    private fun resolveTypeName(limeType: LimeType, isFullName: Boolean, isOptimized: Boolean = false) =
         when {
             limeType is LimeBasicType -> resolveBasicType(limeType.typeId)
-            limeType is LimeGenericType -> resolveGenericType(limeType)
+            limeType is LimeGenericType -> resolveGenericType(limeType, isOptimized)
             limeType is LimeException -> "::std::error_code"
             isFullName -> when (limeType.actualType) {
                 is LimeContainerWithInheritance ->
@@ -178,9 +179,17 @@ internal class CppNameResolver(
                 "{${resolveValue(limeValue.key)}, ${resolveValue(limeValue.value)}}"
         }
 
-    private fun resolveGenericType(limeType: LimeGenericType) =
+    private fun resolveGenericType(limeType: LimeGenericType, isOptimized: Boolean) =
         when (limeType) {
-            is LimeList -> "::std::vector< ${resolveName(limeType.elementType)} >"
+            is LimeList -> {
+                val elementType = limeType.elementType
+                val elementName = when {
+                    isOptimized && elementType.type.actualType !is LimeContainerWithInheritance ->
+                        "::std::shared_ptr< ${resolveName(elementType)} >"
+                    else -> resolveName(elementType)
+                }
+                "::std::vector< $elementName >"
+            }
             is LimeMap -> {
                 val keyName = resolveName(limeType.keyType)
                 val valueName = resolveName(limeType.valueType)
