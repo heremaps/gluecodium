@@ -71,9 +71,13 @@
 {{/unless}}
 
     internal init(cHandle: _baseRef) {
-{{#set struct=this}}{{#fields}}
-        {{resolveName}} = {{>swift/ConversionPrefixFrom}}moveFromCType({{!!
-        }}{{resolveName struct "CBridge"}}_{{resolveName}}_get(cHandle))
+{{#set container=this}}{{#fields}}{{#if typeRef.attributes.optimized}}
+        let {{resolveName}}_c_handle = {{resolveName container "CBridge"}}_{{resolveName}}_get(cHandle)
+        {{resolveName}} = {{#resolveName}}{{#setJoin "varName" this "_c_handle" delimiter=""}}{{!!
+        }}{{prefixPartial "swift/InitCollectionOf" "        " skipFirstLine=true}}{{/setJoin}}{{/resolveName}}
+{{/if}}{{#unless typeRef.attributes.optimized}}
+        {{resolveName}} = {{>swift/ConversionPrefixFrom}}moveFromCType({{resolveName container "CBridge"}}_{{resolveName}}_get(cHandle))
+{{/unless}}
 {{/fields}}{{/set}}
     }
 {{/if}}{{!!

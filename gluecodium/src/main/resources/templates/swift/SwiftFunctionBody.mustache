@@ -35,9 +35,12 @@
     let c_result_handle = RESULT.returned_value
 {{/unless}}{{/if}}{{#unless thrownType}}
     {{#unless returnType.isVoid}}let c_result_handle = {{/unless}}{{>delegateCall}}
-{{/unless}}{{#unless returnType.isVoid}}
+{{/unless}}{{#unless returnType.isVoid}}{{#if returnType.typeRef.attributes.optimized}}{{!!
+}}{{#set typeRef=returnType.typeRef varName="c_result_handle"}}
+    return {{prefixPartial "swift/InitCollectionOf" "    " skipFirstLine=true}}
+{{/set}}{{/if}}{{#unless returnType.typeRef.attributes.optimized}}
     return {{#unless isConstructor}}{{#returnType}}{{>swift/ConversionPrefixFrom}}{{/returnType}}{{/unless}}moveFromCType(c_result_handle)
-{{/unless}}
+{{/unless}}{{/unless}}
 }{{!!
 
 }}{{+delegateCall}}{{!!

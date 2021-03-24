@@ -24,6 +24,7 @@ import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.common.CommentsProcessor
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
+import com.here.gluecodium.model.lime.LimeAttributeType.OPTIMIZED
 import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTENSION
 import com.here.gluecodium.model.lime.LimeBasicType
@@ -156,8 +157,13 @@ internal class SwiftNameResolver(
         return commentsProcessor.process(commentedElement.fullName, commentText, limeToSwiftNames, limeLogger)
     }
 
-    private fun resolveTypeRefName(limeTypeRef: LimeTypeRef) =
-        resolveFullName(limeTypeRef.type) + if (limeTypeRef.isNullable) "?" else ""
+    private fun resolveTypeRefName(limeTypeRef: LimeTypeRef): String {
+        if (limeTypeRef.attributes.have(OPTIMIZED)) {
+            val elementName = resolveName((limeTypeRef.type.actualType as LimeList).elementType)
+            return "CollectionOf<$elementName>"
+        }
+        return resolveFullName(limeTypeRef.type) + if (limeTypeRef.isNullable) "?" else ""
+    }
 
     private fun resolveFullName(limeElement: LimeNamedElement) = getNestedNames(limeElement).joinToString(".")
 

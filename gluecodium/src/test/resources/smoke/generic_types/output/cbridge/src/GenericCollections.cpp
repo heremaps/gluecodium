@@ -15,6 +15,8 @@
 #include "smoke/DummyClass.h"
 #include "smoke/DummyInterface.h"
 #include "smoke/GenericTypesWithCompoundTypes.h"
+#include "smoke/UnreasonablyLazyClass.h"
+#include "smoke/VeryBigStruct.h"
 #include "smoke/YetAnotherDummyClass.h"
 #include <cstdint>
 #include <memory>
@@ -442,6 +444,62 @@ void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_optiona
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_unwrap_optional_handle(_baseRef handle) {
     return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>*>( handle ) );
+}
+_baseRef foobar_ArrayOf_smoke_UnreasonablyLazyClass_create_handle() {
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::std::shared_ptr< ::smoke::UnreasonablyLazyClass > >( ) );
+}
+_baseRef foobar_ArrayOf_smoke_UnreasonablyLazyClass_copy_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::std::shared_ptr< ::smoke::UnreasonablyLazyClass > >( *reinterpret_cast<::std::vector< ::std::shared_ptr< ::smoke::UnreasonablyLazyClass > >*>( handle ) ) );
+}
+void foobar_ArrayOf_smoke_UnreasonablyLazyClass_release_handle(_baseRef handle) {
+    delete reinterpret_cast<::std::vector< ::std::shared_ptr< ::smoke::UnreasonablyLazyClass > >*>( handle );
+}
+uint64_t foobar_ArrayOf_smoke_UnreasonablyLazyClass_count(_baseRef handle) {
+    return Conversion<::std::vector< ::std::shared_ptr< ::smoke::UnreasonablyLazyClass > >>::toCpp( handle ).size( );
+}
+_baseRef foobar_ArrayOf_smoke_UnreasonablyLazyClass_get( _baseRef handle, uint64_t index ) {
+    return Conversion<::std::shared_ptr< ::smoke::UnreasonablyLazyClass >>::referenceBaseRef(Conversion<::std::vector< ::std::shared_ptr< ::smoke::UnreasonablyLazyClass > >>::toCpp( handle )[index]);
+}
+void foobar_ArrayOf_smoke_UnreasonablyLazyClass_append( _baseRef handle, _baseRef item )
+{
+    Conversion<::std::vector< ::std::shared_ptr< ::smoke::UnreasonablyLazyClass > >>::toCpp(handle).push_back(Conversion<::std::shared_ptr< ::smoke::UnreasonablyLazyClass >>::toCpp(item));
+}
+_baseRef foobar_ArrayOf_smoke_UnreasonablyLazyClass_create_optional_handle() {
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::UnreasonablyLazyClass > >>( ::std::vector< ::std::shared_ptr< ::smoke::UnreasonablyLazyClass > >( ) ) );
+}
+void foobar_ArrayOf_smoke_UnreasonablyLazyClass_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::UnreasonablyLazyClass > >>*>( handle );
+}
+_baseRef foobar_ArrayOf_smoke_UnreasonablyLazyClass_unwrap_optional_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::UnreasonablyLazyClass > >>*>( handle ) );
+}
+_baseRef foobar_ArrayOf_smoke_VeryBigStruct_create_handle() {
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::smoke::VeryBigStruct >( ) );
+}
+_baseRef foobar_ArrayOf_smoke_VeryBigStruct_copy_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( new ::std::vector< ::smoke::VeryBigStruct >( *reinterpret_cast<::std::vector< ::smoke::VeryBigStruct >*>( handle ) ) );
+}
+void foobar_ArrayOf_smoke_VeryBigStruct_release_handle(_baseRef handle) {
+    delete reinterpret_cast<::std::vector< ::smoke::VeryBigStruct >*>( handle );
+}
+uint64_t foobar_ArrayOf_smoke_VeryBigStruct_count(_baseRef handle) {
+    return Conversion<::std::vector< ::smoke::VeryBigStruct >>::toCpp( handle ).size( );
+}
+_baseRef foobar_ArrayOf_smoke_VeryBigStruct_get( _baseRef handle, uint64_t index ) {
+    return Conversion<::smoke::VeryBigStruct>::referenceBaseRef(Conversion<::std::vector< ::smoke::VeryBigStruct >>::toCpp( handle )[index]);
+}
+void foobar_ArrayOf_smoke_VeryBigStruct_append( _baseRef handle, _baseRef item )
+{
+    Conversion<::std::vector< ::smoke::VeryBigStruct >>::toCpp(handle).push_back(Conversion<::smoke::VeryBigStruct>::toCpp(item));
+}
+_baseRef foobar_ArrayOf_smoke_VeryBigStruct_create_optional_handle() {
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::smoke::VeryBigStruct >>( ::std::vector< ::smoke::VeryBigStruct >( ) ) );
+}
+void foobar_ArrayOf_smoke_VeryBigStruct_release_optional_handle(_baseRef handle) {
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::smoke::VeryBigStruct >>*>( handle );
+}
+_baseRef foobar_ArrayOf_smoke_VeryBigStruct_unwrap_optional_handle(_baseRef handle) {
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::smoke::VeryBigStruct >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_smoke_YetAnotherDummyClass_create_handle() {
     return reinterpret_cast<_baseRef>( new ::std::vector< ::std::shared_ptr< ::smoke::YetAnotherDummyClass > >( ) );

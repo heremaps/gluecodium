@@ -26,9 +26,9 @@
 {{>swift/SwiftProperty}}
 {{/unless}}{{/inheritedProperties}}
 {{/instanceOf}}{{/if}}
-{{#properties}}{{#unless attributes.swift.skip}}
+{{#set container=this}}{{#properties}}{{#unless attributes.swift.skip}}
 {{>swift/SwiftProperty}}
-{{/unless}}{{/properties}}{{!!
+{{/unless}}{{/properties}}{{/set}}{{!!
 
 }}
 {{#unlessPredicate "parentIsClass"}}let c_instance : _baseRef
@@ -67,6 +67,6 @@ deinit {
 {{/unless}}{{/inheritedFunctions}}
 {{/instanceOf}}{{/if}}{{!!
 
-}}{{#functions}}{{#unless attributes.swift.skip}}
+}}{{#set container=this}}{{#functions}}{{#unless attributes.swift.skip}}
 {{>swift/SwiftFunctionSignature}} {{prefixPartial "swift/SwiftFunctionBody" "" skipFirstLine=true}}
-{{/unless}}{{/functions}}
+{{/unless}}{{/functions}}{{/set}}

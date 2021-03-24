@@ -63,6 +63,7 @@ func getAllTests() -> [XCTestCaseEntry] {
         testCase(NullableListenersTests.allTests),
         testCase(NullableMethodArgumentsTests.allTests),
         testCase(NullableStructsTests.allTests),
+        testCase(OptimizedListsTests.allTests),
         testCase(PodTypeCollectionTests.allTests),
         testCase(PlainDataStructuresTests.allTests),
         testCase(RefEqualityTests.allTests),

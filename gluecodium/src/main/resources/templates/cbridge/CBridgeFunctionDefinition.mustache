@@ -49,12 +49,18 @@
 
 
 }}{{+returnConversion}}{{#set typeRef=returnType.typeRef}}{{!!
-}}{{#ifPredicate typeRef "isComplexType"}}{{!!
+}}{{#if typeRef.attributes.optimized}}{{!!
+}}reinterpret_cast<_baseRef>(
+        new (std::nothrow) std::shared_ptr<{{resolveName typeRef "C++"}}>(
+            new (std::nothrow) {{resolveName typeRef "C++"}}({{include delegateToCall}})
+        )
+    ){{!!
+}}{{/if}}{{#unless typeRef.attributes.optimized}}{{#ifPredicate typeRef "isComplexType"}}{{!!
 }}Conversion<{{resolveName typeRef "C++"}}>::toBaseRef({{include delegateToCall}}){{/ifPredicate}}{{!!
 }}{{#unlessPredicate typeRef "isComplexType"}}{{!!
 }}{{#instanceOf typeRef.type.actualType "LimeEnumeration"}}static_cast<{{resolveName typeRef}}>({{include delegateToCall}}){{/instanceOf}}{{!!
 }}{{#notInstanceOf typeRef.type.actualType "LimeEnumeration"}}{{include delegateToCall}}{{/notInstanceOf}}{{!!
-}}{{/unlessPredicate}}{{/set}}{{/returnConversion}}{{!!
+}}{{/unlessPredicate}}{{/unless}}{{/set}}{{/returnConversion}}{{!!
 
 }}{{+errorConversion}}{{#set typeRef=errorType}}{{!!
 }}{{#ifPredicate typeRef "isComplexType"}}{{!!

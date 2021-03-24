@@ -261,6 +261,7 @@ internal class SwiftGenerator : Generator {
         private val STATIC_FILES by lazy {
             listOf(
                 Generator.copyCommonFile("swift/BuiltinConversions.swift", ""),
+                Generator.copyCommonFile("swift/CollectionOf.swift", ""),
                 Generator.copyCommonFile("swift/NativeBase.swift", "")
             )
         }
