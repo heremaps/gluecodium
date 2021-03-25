@@ -159,6 +159,7 @@ internal class CppGenerator : Generator {
         val templateData = mutableMapOf(
             "internalNamespace" to internalNamespace,
             "namespace" to rootNamespace + rootElement.path.head,
+            "rootNamespace" to rootNamespace,
             "exportName" to exportName,
             "model" to rootElement,
             "equatables" to equatableTypes,

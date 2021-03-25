@@ -26,3 +26,7 @@ types BasicTypes {
         someField: String
     }
 }
+
+class BasicForwardDeclarations {
+    fun useBasic(): Basic
+}

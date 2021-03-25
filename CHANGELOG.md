@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed missing "root namespace" for forward declarations in C++.
+
 ## 8.10.0
 Release date: 2021-03-22
 ### Features:
