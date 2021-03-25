@@ -29,13 +29,19 @@
 
 {{/if}}
 {{#if forwardDeclarations}}
+{{#rootNamespace}}
+namespace {{this}} {
+{{/rootNamespace}}
 {{#forwardDeclarations}}
 {{>forwardDeclarationGroup}}
 {{/forwardDeclarations}}
+{{#rootNamespace}}
+}
+{{/rootNamespace}}
 
 {{/if}}
 {{#namespace}}
-namespace {{.}} {
+namespace {{this}} {
 {{/namespace}}
 {{#model}}
 {{include contentTemplate}}
@@ -60,7 +66,7 @@ struct is_error_code_enum< {{resolveName "FQN"}} > : public std::true_type { };
 {{#if equatables}}
 
 {{#internalNamespace}}
-namespace {{.}} {
+namespace {{this}} {
 {{/internalNamespace}}
 {{#equatables}}
 template<>
