@@ -26,6 +26,6 @@
 @Override
 {{/if}}
 {{#unless isInterface}}{{#if isImpl}}public {{/if}}{{#unless isImpl}}{{resolveName visibility}}{{/unless}}{{/unless}}{{!!
-}}{{#if isStatic}}static {{/if}}{{#unless isInterface logic="and"}}native {{/unless}}{{resolveName returnType}}{{/unless}}{{!!
+}}{{#if isStatic}}static {{/if}}{{#unless isInterface}}native {{/unless}}{{resolveName returnType}}{{/unless}}{{!!
 }} {{resolveName}}{{#if isCached}}_private{{/if}}{{!!
 }}({{joinPartial parameters "java/JavaParameter" ", "}}){{#thrownType}} throws {{resolveName typeRef}}{{/thrownType}}

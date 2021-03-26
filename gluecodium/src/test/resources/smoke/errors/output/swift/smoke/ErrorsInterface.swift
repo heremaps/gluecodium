@@ -121,29 +121,6 @@ internal func getRef(_ ref: ErrorsInterface?, owning: Bool = true) -> RefHolder 
             fatalError("Unexpected error: \(error)")
         }
     }
-    functions.smoke_ErrorsInterface_methodWithPayloadError = {(swift_class_pointer) in
-        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ErrorsInterface
-        do {
-            try swift_class.methodWithPayloadError()
-            return smoke_ErrorsInterface_methodWithPayloadError_result(has_value: true, error_value: 0)
-        } catch let error as WithPayloadError {
-            return smoke_ErrorsInterface_methodWithPayloadError_result(has_value: false, error_value: copyToCType(error).ref)
-        } catch {
-            fatalError("Unexpected error: \(error)")
-        }
-    }
-    functions.smoke_ErrorsInterface_methodWithPayloadErrorAndReturnValue = {(swift_class_pointer) in
-        let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! ErrorsInterface
-        do {
-            let call_result = try swift_class.methodWithPayloadErrorAndReturnValue()
-            let result_handle = copyToCType(call_result).ref
-            return smoke_ErrorsInterface_methodWithPayloadErrorAndReturnValue_result(has_value: true, .init(returned_value: result_handle))
-        } catch let error as WithPayloadError {
-            return smoke_ErrorsInterface_methodWithPayloadErrorAndReturnValue_result(has_value: false, .init(error_value: copyToCType(error).ref))
-        } catch {
-            fatalError("Unexpected error: \(error)")
-        }
-    }
     let proxy = smoke_ErrorsInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_ErrorsInterface_release_handle) : RefHolder(proxy)
 }

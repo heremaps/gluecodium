@@ -88,9 +88,9 @@ void
 {{#interfaces}}
 FfiOpaqueHandle
 {{libraryName}}_{{resolveName}}_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter{{!!
-}}{{#each inheritedFunctions functions}}{{#unless attributes.dart.skip}}{{!!
+}}{{#each inheritedFunctions functions}}{{#unless attributes.dart.skip isStatic logic="and"}}{{!!
 }}, FfiOpaqueHandle f{{iter.position}}{{/unless}}{{/each}}{{!!
-}}{{#each inheritedProperties properties}}{{#unless attributes.dart.skip}}, FfiOpaqueHandle p{{iter.position}}g{{!!
+}}{{#each inheritedProperties properties}}{{#unless attributes.dart.skip isStatic logic="and"}}, FfiOpaqueHandle p{{iter.position}}g{{!!
 }}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{/unless}}{{/each}}) {
     auto cached_proxy = {{>ffi/FfiInternal}}::get_cached_proxy<{{resolveName}}_Proxy>(token, isolate_id, "{{resolveName}}");
     std::shared_ptr<{{resolveName}}_Proxy>* proxy_ptr;
@@ -99,9 +99,9 @@ FfiOpaqueHandle
     } else {
         proxy_ptr = new (std::nothrow) std::shared_ptr<{{resolveName}}_Proxy>(
             new (std::nothrow) {{resolveName}}_Proxy(token, isolate_id, deleter{{!!
-            }}{{#each inheritedFunctions functions}}{{#unless attributes.dart.skip}}{{!!
+            }}{{#each inheritedFunctions functions}}{{#unless attributes.dart.skip isStatic logic="and"}}{{!!
             }}, f{{iter.position}}{{/unless}}{{/each}}{{!!
-            }}{{#each inheritedProperties properties}}{{#unless attributes.dart.skip}}, p{{iter.position}}g{{!!
+            }}{{#each inheritedProperties properties}}{{#unless attributes.dart.skip isStatic logic="and"}}, p{{iter.position}}g{{!!
             }}{{#if setter}}, p{{iter.position}}s{{/if}}{{/unless}}{{/each}})
         );
         {{>ffi/FfiInternal}}::cache_proxy(token, isolate_id, "{{resolveName}}", *proxy_ptr);

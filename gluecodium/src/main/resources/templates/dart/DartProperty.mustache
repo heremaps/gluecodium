@@ -25,7 +25,7 @@
 {{#if override}}{{#unless isStatic}}@override
 {{/unless}}{{/if}}
 {{#if isStatic}}static {{/if}}{{resolveName property.typeRef}} get {{resolveName visibility}}{{resolveName property}}{{!!
-}}{{#unless skipBody}}{{>dart/DartFunctionBody}}{{/unless}}{{#if skipBody}};{{/if}}
+}}{{>dart/DartFunctionBody}}
 {{/getter}}
 {{#setter}}
 {{#unless skipDocs}}{{>dart/DartDocumentation}}
@@ -33,6 +33,6 @@
 {{#if override}}{{#unless isStatic}}@override
 {{/unless}}{{/if}}
 {{#if isStatic}}static {{/if}}set {{resolveName visibility}}{{resolveName property}}({{resolveName property.typeRef}} value){{!!
-}}{{#unless skipBody}}{{>dart/DartFunctionBody}}{{/unless}}{{#if skipBody}};{{/if}}
+}}{{>dart/DartFunctionBody}}
 {{/setter}}
 {{/set}}

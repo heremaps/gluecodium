@@ -56,10 +56,10 @@
     }
 
 {{#set class=this}}{{#class}}
-{{#each inheritedFunctions functions}}{{#unless attributes.swift.skip}}
+{{#each inheritedFunctions functions}}{{#unless attributes.swift.skip isStatic logic="and"}}
 {{#set delegateToCall="delegateCall2" function=this}}{{>functionTableEntry}}{{/set}}
 {{/unless}}{{/each}}
-{{#each inheritedProperties properties}}{{#unless attributes.swift.skip}}
+{{#each inheritedProperties properties}}{{#unless attributes.swift.skip isStatic logic="and"}}
 {{#set property=this}}{{#getter}}{{#set delegateToCall="callPropertyGetter" function=this}}{{>functionTableEntry}}{{/set}}{{/getter}}
 {{#setter}}{{#set delegateToCall="callPropertySetter" function=this}}{{>functionTableEntry}}{{/set}}{{/setter}}{{/set}}
 {{/unless}}{{/each}}

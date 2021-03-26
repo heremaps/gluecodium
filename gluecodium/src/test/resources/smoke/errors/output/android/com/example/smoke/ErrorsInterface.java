@@ -39,7 +39,11 @@ public interface ErrorsInterface {
     void methodWithExternalErrors() throws ErrorsInterface.ExternalException;
     @NonNull
     String methodWithErrorsAndReturnValue() throws ErrorsInterface.InternalException;
-    static void methodWithPayloadError() throws WithPayloadException;
+    static void methodWithPayloadError() throws WithPayloadException {
+        ErrorsInterfaceImpl.methodWithPayloadError();
+    }
     @NonNull
-    static String methodWithPayloadErrorAndReturnValue() throws WithPayloadException;
+    static String methodWithPayloadErrorAndReturnValue() throws WithPayloadException {
+        return ErrorsInterfaceImpl.methodWithPayloadErrorAndReturnValue();
+    }
 }

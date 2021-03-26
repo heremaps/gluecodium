@@ -16,7 +16,7 @@ abstract class ListenersWithReturnValues {
     @required ListenersWithReturnValues_ResultEnum Function() lambda_fetchDataEnum,
     @required List<double> Function() lambda_fetchDataArray,
     @required Map<String, double> Function() lambda_fetchDataMap,
-    @required CalculationResult Function() lambda_fetchDataInstance
+    @required CalculationResult Function() lambda_fetchDataInstance,
   }) => ListenersWithReturnValues$Lambdas(
     lambda_fetchDataDouble,
     lambda_fetchDataString,
@@ -24,7 +24,7 @@ abstract class ListenersWithReturnValues {
     lambda_fetchDataEnum,
     lambda_fetchDataArray,
     lambda_fetchDataMap,
-    lambda_fetchDataInstance
+    lambda_fetchDataInstance,
   );
   /// Destroys the underlying native object.
   ///
@@ -194,7 +194,7 @@ class ListenersWithReturnValues$Lambdas implements ListenersWithReturnValues {
     this.lambda_fetchDataEnum,
     this.lambda_fetchDataArray,
     this.lambda_fetchDataMap,
-    this.lambda_fetchDataInstance
+    this.lambda_fetchDataInstance,
   );
   @override
   void release() {}

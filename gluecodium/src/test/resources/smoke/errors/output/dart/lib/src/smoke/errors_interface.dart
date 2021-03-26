@@ -13,14 +13,10 @@ abstract class ErrorsInterface {
     @required void Function() lambda_methodWithErrors,
     @required void Function() lambda_methodWithExternalErrors,
     @required String Function() lambda_methodWithErrorsAndReturnValue,
-    @required void Function() lambda_methodWithPayloadError,
-    @required String Function() lambda_methodWithPayloadErrorAndReturnValue
   }) => ErrorsInterface$Lambdas(
     lambda_methodWithErrors,
     lambda_methodWithExternalErrors,
     lambda_methodWithErrorsAndReturnValue,
-    lambda_methodWithPayloadError,
-    lambda_methodWithPayloadErrorAndReturnValue
   );
   /// Destroys the underlying native object.
   ///
@@ -30,8 +26,8 @@ abstract class ErrorsInterface {
   methodWithErrors();
   methodWithExternalErrors();
   String methodWithErrorsAndReturnValue();
-  static methodWithPayloadError();
-  static String methodWithPayloadErrorAndReturnValue();
+  static methodWithPayloadError() => ErrorsInterface$Impl.methodWithPayloadError();
+  static String methodWithPayloadErrorAndReturnValue() => ErrorsInterface$Impl.methodWithPayloadErrorAndReturnValue();
 }
 enum ErrorsInterface_InternalError {
     errorNone,
@@ -176,8 +172,8 @@ final _smoke_ErrorsInterface_release_handle = __lib.catchArgumentError(() => __l
     void Function(Pointer<Void>)
   >('library_smoke_ErrorsInterface_release_handle'));
 final _smoke_ErrorsInterface_create_proxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Pointer, Pointer, Pointer, Pointer)
   >('library_smoke_ErrorsInterface_create_proxy'));
 final _smoke_ErrorsInterface_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -258,14 +254,10 @@ class ErrorsInterface$Lambdas implements ErrorsInterface {
   void Function() lambda_methodWithErrors;
   void Function() lambda_methodWithExternalErrors;
   String Function() lambda_methodWithErrorsAndReturnValue;
-  void Function() lambda_methodWithPayloadError;
-  String Function() lambda_methodWithPayloadErrorAndReturnValue;
   ErrorsInterface$Lambdas(
     this.lambda_methodWithErrors,
     this.lambda_methodWithExternalErrors,
     this.lambda_methodWithErrorsAndReturnValue,
-    this.lambda_methodWithPayloadError,
-    this.lambda_methodWithPayloadErrorAndReturnValue
   );
   @override
   void release() {}
@@ -278,12 +270,6 @@ class ErrorsInterface$Lambdas implements ErrorsInterface {
   @override
   String methodWithErrorsAndReturnValue() =>
     lambda_methodWithErrorsAndReturnValue();
-  @override
-  static methodWithPayloadError() =>
-    lambda_methodWithPayloadError();
-  @override
-  static String methodWithPayloadErrorAndReturnValue() =>
-    lambda_methodWithPayloadErrorAndReturnValue();
 }
 class ErrorsInterface$Impl implements ErrorsInterface {
   Pointer<Void> handle;
@@ -443,32 +429,6 @@ int _ErrorsInterface_methodWithErrorsAndReturnValue_static(int _token, Pointer<P
   }
   return _error_flag ? 1 : 0;
 }
-int _ErrorsInterface_methodWithPayloadError_static(int _token, Pointer<Pointer<Void>> _error) {
-  bool _error_flag = false;
-  try {
-    (__lib.instanceCache[_token] as ErrorsInterface).methodWithPayloadError();
-  } on WithPayloadException catch(e) {
-    _error_flag = true;
-    final _error_object = e.error;
-    _error.value = smoke_Payload_toFfi(_error_object);
-  } finally {
-  }
-  return _error_flag ? 1 : 0;
-}
-int _ErrorsInterface_methodWithPayloadErrorAndReturnValue_static(int _token, Pointer<Pointer<Void>> _result, Pointer<Pointer<Void>> _error) {
-  bool _error_flag = false;
-  String _result_object = null;
-  try {
-    _result_object = (__lib.instanceCache[_token] as ErrorsInterface).methodWithPayloadErrorAndReturnValue();
-    _result.value = String_toFfi(_result_object);
-  } on WithPayloadException catch(e) {
-    _error_flag = true;
-    final _error_object = e.error;
-    _error.value = smoke_Payload_toFfi(_error_object);
-  } finally {
-  }
-  return _error_flag ? 1 : 0;
-}
 Pointer<Void> smoke_ErrorsInterface_toFfi(ErrorsInterface value) {
   if (value is ErrorsInterface$Impl) return _smoke_ErrorsInterface_copy_handle(value.handle);
   final result = _smoke_ErrorsInterface_create_proxy(
@@ -477,9 +437,7 @@ Pointer<Void> smoke_ErrorsInterface_toFfi(ErrorsInterface value) {
     __lib.uncacheObjectFfi,
     Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint32>)>(_ErrorsInterface_methodWithErrors_static, __lib.unknownError),
     Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint32>)>(_ErrorsInterface_methodWithExternalErrors_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>, Pointer<Uint32>)>(_ErrorsInterface_methodWithErrorsAndReturnValue_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_ErrorsInterface_methodWithPayloadError_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>, Pointer<Pointer<Void>>)>(_ErrorsInterface_methodWithPayloadErrorAndReturnValue_static, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>, Pointer<Uint32>)>(_ErrorsInterface_methodWithErrorsAndReturnValue_static, __lib.unknownError)
   );
   return result;
 }

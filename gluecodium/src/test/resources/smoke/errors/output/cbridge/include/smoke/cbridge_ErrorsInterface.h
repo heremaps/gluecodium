@@ -49,8 +49,6 @@ typedef struct {
     smoke_ErrorsInterface_methodWithErrors_result(*smoke_ErrorsInterface_methodWithErrors)(void* swift_pointer);
     smoke_ErrorsInterface_methodWithExternalErrors_result(*smoke_ErrorsInterface_methodWithExternalErrors)(void* swift_pointer);
     smoke_ErrorsInterface_methodWithErrorsAndReturnValue_result(*smoke_ErrorsInterface_methodWithErrorsAndReturnValue)(void* swift_pointer);
-    smoke_ErrorsInterface_methodWithPayloadError_result(*smoke_ErrorsInterface_methodWithPayloadError)(void* swift_pointer);
-    smoke_ErrorsInterface_methodWithPayloadErrorAndReturnValue_result(*smoke_ErrorsInterface_methodWithPayloadErrorAndReturnValue)(void* swift_pointer);
 } smoke_ErrorsInterface_FunctionTable;
 _GLUECODIUM_C_EXPORT _baseRef smoke_ErrorsInterface_create_proxy(smoke_ErrorsInterface_FunctionTable functionTable);
 _GLUECODIUM_C_EXPORT const void* smoke_ErrorsInterface_get_swift_object_from_cache(_baseRef handle);

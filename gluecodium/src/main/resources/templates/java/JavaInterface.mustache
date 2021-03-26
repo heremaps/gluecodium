@@ -24,10 +24,10 @@
 {{/constants}}
 {{>java/JavaContainerContents}}
 {{#set isInterface=true}}
-{{#functions}}{{#unless attributes.java.skip}}
+{{#functions}}{{#unless attributes.java.skip isStatic logic="and"}}
 {{prefixPartial "java/JavaMethodSignature" "    "}};
 {{/unless}}{{/functions}}
-{{#properties}}{{#unless attributes.java.skip}}{{#set property=this}}
+{{#properties}}{{#unless attributes.java.skip isStatic logic="and"}}{{#set property=this}}
 {{#set isGetter=true}}{{#getter}}
 {{prefixPartial "java/JavaMethodSignature" "    "}};
 {{/getter}}{{/set}}
@@ -35,5 +35,27 @@
 {{prefixPartial "java/JavaMethodSignature" "    "}};
 {{/setter}}
 {{/set}}{{/unless}}{{/properties}}
+{{/set}}{{!!
+
+}}{{#ifPredicate "hasStaticFunctions"}}
+{{#set isInterface=true interface=this}}
+{{#functions}}{{#if isStatic}}{{#unless attributes.java.skip}}
+{{prefixPartial "java/JavaMethodSignature" "    "}}{{prefixPartial "redirectToImpl" "    " skipFirstLine=true}}
+{{/unless}}{{/if}}{{/functions}}
+{{#properties}}{{#if isStatic}}{{#unless attributes.java.skip}}{{#set property=this}}
+{{#set isGetter=true}}{{#getter}}
+{{prefixPartial "java/JavaMethodSignature" "    "}}{{prefixPartial "redirectToImpl" "    " skipFirstLine=true}}
+{{/getter}}{{/set}}
+{{#setter}}
+{{prefixPartial "java/JavaMethodSignature" "    "}}{{prefixPartial "redirectToImpl" "    " skipFirstLine=true}}
+{{/setter}}
+{{/set}}{{/unless}}{{/if}}{{/properties}}
 {{/set}}
+{{/ifPredicate}}
+}{{!!
+
+}}{{+redirectToImpl}} {
+    {{#unless returnType.isVoid}}return {{/unless}}{{resolveName interface}}Impl.{{resolveName}}({{!!
+    }}{{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
 }
+{{/redirectToImpl}}

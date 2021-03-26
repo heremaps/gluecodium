@@ -113,6 +113,15 @@
    ...
 }
 {
+    initStructMetadata leak
+
+    Memcheck:Leak
+    match-leak-kinds: possible
+    fun:_Znam
+    fun:swift_initStructMetadata
+    fun:*
+}
+{
    relocateClassMetadata
 
    Memcheck:Leak

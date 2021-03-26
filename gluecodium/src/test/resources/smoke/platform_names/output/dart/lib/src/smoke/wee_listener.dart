@@ -8,9 +8,9 @@ import 'package:library/src/_library_context.dart' as __lib;
 abstract class weeListener {
   weeListener() {}
   factory weeListener.fromLambdas({
-    @required void Function(String) lambda_WeeMethod
+    @required void Function(String) lambda_WeeMethod,
   }) => weeListener$Lambdas(
-    lambda_WeeMethod
+    lambda_WeeMethod,
   );
   /// Destroys the underlying native object.
   ///
@@ -39,7 +39,7 @@ final _smoke_PlatformNamesListener_get_type_id = __lib.catchArgumentError(() => 
 class weeListener$Lambdas implements weeListener {
   void Function(String) lambda_WeeMethod;
   weeListener$Lambdas(
-    this.lambda_WeeMethod
+    this.lambda_WeeMethod,
   );
   @override
   void release() {}

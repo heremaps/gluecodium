@@ -182,12 +182,14 @@ feature(Listeners cpp android swift dart SOURCES
     input/src/cpp/ListenerRoundtrip.cpp
     input/src/cpp/ListenerWithMaps.cpp
     input/src/cpp/MultiListener.cpp
+    input/src/cpp/InterfaceWithStatic.cpp
 
     input/lime/StringListeners.lime
     input/lime/ListenerRoundtrip.lime
     input/lime/ListenerWithMaps.lime
     input/lime/ListenerNameClash.lime
     input/lime/MultiListener.lime
+    input/lime/InterfaceWithStatic.lime
 )
 
 feature(ComplexListeners cpp android swift dart SOURCES

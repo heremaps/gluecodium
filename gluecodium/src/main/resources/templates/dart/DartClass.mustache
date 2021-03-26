@@ -34,7 +34,7 @@
 {{>dart/DartRedirectFunction}}
 {{/unless}}{{/functions}}{{/set}}
 {{#set parent=this}}{{#properties}}
-{{#set property=this}}{{prefixPartial "dartPropertyRedirect" "  "}}{{/set}}
+{{prefixPartial "dart/DartRedirectProperty" "  "}}
 {{/properties}}{{/set}}{{!!
 }}{{#if testableMode}}
 
@@ -185,23 +185,6 @@ void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
 }
 {{/unless}}{{/dartConstructor}}{{!!
-
-}}{{+dartPropertyRedirect}}
-{{#getter}}
-{{>dart/DartDocumentation}}{{>dart/DartAttributes}}{{!!
-}}{{#if isStatic}}{{#unless testableMode}}static {{/unless}}{{/if}}{{!!
-}}{{resolveName property.typeRef}} get {{resolveName visibility}}{{resolveName property}}{{!!
-}}{{#if isStatic}} => {{#if testableMode}}$class{{/if}}{{#unless testableMode}}{{resolveName parent}}$Impl{{/unless}}.{{!!
-}}{{resolveName visibility}}{{resolveName property}}{{/if}};
-{{/getter}}
-{{#setter}}
-{{>dart/DartDocumentation}}{{>dart/DartAttributes}}{{!!
-}}{{#if isStatic}}{{#unless testableMode}}static {{/unless}}{{!!
-}}{{/if}}set {{resolveName visibility}}{{resolveName property}}({{resolveName property.typeRef}} value){{!!
-}}{{#if isStatic}} { {{#if testableMode}}$class{{/if}}{{#unless testableMode}}{{resolveName parent}}$Impl{{/unless}}{{!!
-}}.{{resolveName visibility}}{{resolveName property}} = value; }{{/if}}{{#unless isStatic}};{{/unless}}
-{{/setter}}
-{{/dartPropertyRedirect}}{{!!
 
 }}{{+dartCachedProperty}}
 {{#if isStatic}}{{#unless testableMode}}static {{/unless}}{{/if}}{{resolveName typeRef}} _cache_{{resolveName}};

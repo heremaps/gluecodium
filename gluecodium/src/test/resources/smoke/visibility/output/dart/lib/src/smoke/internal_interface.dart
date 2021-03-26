@@ -9,9 +9,9 @@ import 'package:library/src/_library_context.dart' as __lib;
 abstract class InternalInterface {
   InternalInterface() {}
   factory InternalInterface.fromLambdas({
-    @required void Function() lambda_fooBar
+    @required void Function() lambda_fooBar,
   }) => InternalInterface$Lambdas(
-    lambda_fooBar
+    lambda_fooBar,
   );
   /// Destroys the underlying native object.
   ///
@@ -41,7 +41,7 @@ final _smoke_InternalInterface_get_type_id = __lib.catchArgumentError(() => __li
 class InternalInterface$Lambdas implements InternalInterface {
   void Function() lambda_fooBar;
   InternalInterface$Lambdas(
-    this.lambda_fooBar
+    this.lambda_fooBar,
   );
   @override
   void release() {}
