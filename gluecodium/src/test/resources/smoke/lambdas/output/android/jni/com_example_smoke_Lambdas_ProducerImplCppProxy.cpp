@@ -9,11 +9,11 @@ namespace gluecodium
 {
 namespace jni
 {
-com_example_smoke_Lambdas_00024ProducerImpl_CppProxy::com_example_smoke_Lambdas_00024ProducerImpl_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
-    : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode, "com_example_smoke_Lambdas_00024ProducerImpl" ) {
+com_example_smoke_Lambdas_00024Producer_CppProxy::com_example_smoke_Lambdas_00024Producer_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
+    : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode, "com_example_smoke_Lambdas_00024Producer" ) {
 }
 ::std::string
-com_example_smoke_Lambdas_00024ProducerImpl_CppProxy::operator()(  ) {
+com_example_smoke_Lambdas_00024Producer_CppProxy::operator()(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto result = callJavaMethod<jstring>( "apply", "()Ljava/lang/String;", jniEnv  );
     if ( jniEnv->ExceptionCheck( ) )

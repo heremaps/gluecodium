@@ -9,11 +9,11 @@ namespace gluecodium
 {
 namespace jni
 {
-class com_example_smoke_CalculatorListenerImpl_CppProxy : public CppProxyBase, public ::smoke::CalculatorListener {
+class com_example_smoke_CalculatorListener_CppProxy : public CppProxyBase, public ::smoke::CalculatorListener {
 public:
-    com_example_smoke_CalculatorListenerImpl_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode );
-    com_example_smoke_CalculatorListenerImpl_CppProxy( const com_example_smoke_CalculatorListenerImpl_CppProxy& ) = delete;
-    com_example_smoke_CalculatorListenerImpl_CppProxy& operator=( const com_example_smoke_CalculatorListenerImpl_CppProxy& ) = delete;
+    com_example_smoke_CalculatorListener_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode );
+    com_example_smoke_CalculatorListener_CppProxy( const com_example_smoke_CalculatorListener_CppProxy& ) = delete;
+    com_example_smoke_CalculatorListener_CppProxy& operator=( const com_example_smoke_CalculatorListener_CppProxy& ) = delete;
     void on_calculation_result( const double ncalculationResult ) override;
     void on_calculation_result_const( const double ncalculationResult ) const override;
     void on_calculation_result_struct( const ::smoke::CalculatorListener::ResultStruct& ncalculationResult ) override;

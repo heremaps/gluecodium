@@ -22,15 +22,12 @@ package com.here.gluecodium.generator.jni
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.model.lime.LimeElement
-import com.here.gluecodium.model.lime.LimeInterface
-import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeType
 
 internal class JniMangledNameResolver(private val baseNameResolver: JniNameResolver) : NameResolver {
 
     override fun resolveName(element: Any) =
         when (element) {
-            is LimeInterface, is LimeLambda -> mangleName(baseNameResolver.resolveName(element)) + "Impl"
             is LimeElement -> mangleName(baseNameResolver.resolveName(element))
             else -> mangleName(element.toString())
         }

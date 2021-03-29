@@ -12,11 +12,11 @@ namespace gluecodium
 {
 namespace jni
 {
-REGISTER_JNI_CLASS_CACHE_INHERITANCE("com/example/smoke/ListenerWithPropertiesImpl", com_example_smoke_ListenerWithPropertiesImpl, "smoke_ListenerWithProperties", ::smoke::ListenerWithProperties)
+REGISTER_JNI_CLASS_CACHE_INHERITANCE("com/example/smoke/ListenerWithPropertiesImpl", com_example_smoke_ListenerWithProperties, "smoke_ListenerWithProperties", ::smoke::ListenerWithProperties)
 template<>
 void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared_ptr<::smoke::ListenerWithProperties>& result)
 {
-    CppProxyBase::createProxy<::smoke::ListenerWithProperties, com_example_smoke_ListenerWithPropertiesImpl_CppProxy>(env, obj, "com_example_smoke_ListenerWithPropertiesImpl", result);
+    CppProxyBase::createProxy<::smoke::ListenerWithProperties, com_example_smoke_ListenerWithProperties_CppProxy>(env, obj, "com_example_smoke_ListenerWithProperties", result);
 }
 std::shared_ptr<::smoke::ListenerWithProperties> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::smoke::ListenerWithProperties>*)
 {

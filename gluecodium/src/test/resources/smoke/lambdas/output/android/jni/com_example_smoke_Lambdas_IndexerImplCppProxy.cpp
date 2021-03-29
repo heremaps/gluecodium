@@ -9,11 +9,11 @@ namespace gluecodium
 {
 namespace jni
 {
-com_example_smoke_Lambdas_00024IndexerImpl_CppProxy::com_example_smoke_Lambdas_00024IndexerImpl_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
-    : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode, "com_example_smoke_Lambdas_00024IndexerImpl" ) {
+com_example_smoke_Lambdas_00024Indexer_CppProxy::com_example_smoke_Lambdas_00024Indexer_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
+    : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode, "com_example_smoke_Lambdas_00024Indexer" ) {
 }
 int32_t
-com_example_smoke_Lambdas_00024IndexerImpl_CppProxy::operator()( const ::std::string& np0, const float nindex ) {
+com_example_smoke_Lambdas_00024Indexer_CppProxy::operator()( const ::std::string& np0, const float nindex ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto jp0 = convert_to_jni( jniEnv, np0 );
     jfloat jindex = nindex;

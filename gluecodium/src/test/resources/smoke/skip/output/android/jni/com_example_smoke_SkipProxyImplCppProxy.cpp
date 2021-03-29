@@ -9,15 +9,15 @@ namespace gluecodium
 {
 namespace jni
 {
-com_example_smoke_SkipProxyImpl_CppProxy::com_example_smoke_SkipProxyImpl_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
-    : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode, "com_example_smoke_SkipProxyImpl" ) {
+com_example_smoke_SkipProxy_CppProxy::com_example_smoke_SkipProxy_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
+    : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode, "com_example_smoke_SkipProxy" ) {
 }
 ::std::string
-com_example_smoke_SkipProxyImpl_CppProxy::not_in_java( const ::std::string& ninput ) {
+com_example_smoke_SkipProxy_CppProxy::not_in_java( const ::std::string& ninput ) {
     return {};
 }
 bool
-com_example_smoke_SkipProxyImpl_CppProxy::not_in_swift( const bool ninput ) {
+com_example_smoke_SkipProxy_CppProxy::not_in_swift( const bool ninput ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     jboolean jinput = ninput;
     auto result = callJavaMethod<jboolean>( "notInSwift", "(Z)Z", jniEnv , jinput);
@@ -31,7 +31,7 @@ com_example_smoke_SkipProxyImpl_CppProxy::not_in_swift( const bool ninput ) {
     return result;
 }
 float
-com_example_smoke_SkipProxyImpl_CppProxy::not_in_dart( const float ninput ) {
+com_example_smoke_SkipProxy_CppProxy::not_in_dart( const float ninput ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     jfloat jinput = ninput;
     auto result = callJavaMethod<jfloat>( "notInDart", "(F)F", jniEnv , jinput);
@@ -45,14 +45,14 @@ com_example_smoke_SkipProxyImpl_CppProxy::not_in_dart( const float ninput ) {
     return result;
 }
 ::std::string
-com_example_smoke_SkipProxyImpl_CppProxy::get_skipped_in_java(  ) const {
+com_example_smoke_SkipProxy_CppProxy::get_skipped_in_java(  ) const {
     return {};
 }
 void
-com_example_smoke_SkipProxyImpl_CppProxy::set_skipped_in_java( const ::std::string& nvalue ) {
+com_example_smoke_SkipProxy_CppProxy::set_skipped_in_java( const ::std::string& nvalue ) {
 }
 bool
-com_example_smoke_SkipProxyImpl_CppProxy::is_skipped_in_swift(  ) const {
+com_example_smoke_SkipProxy_CppProxy::is_skipped_in_swift(  ) const {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto result = callJavaMethod<jboolean>( "isSkippedInSwift", "()Z", jniEnv  );
     if ( jniEnv->ExceptionCheck( ) )
@@ -65,7 +65,7 @@ com_example_smoke_SkipProxyImpl_CppProxy::is_skipped_in_swift(  ) const {
     return result;
 }
 void
-com_example_smoke_SkipProxyImpl_CppProxy::set_skipped_in_swift( const bool nvalue ) {
+com_example_smoke_SkipProxy_CppProxy::set_skipped_in_swift( const bool nvalue ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     jboolean jvalue = nvalue;
     callJavaMethod<void>( "setSkippedInSwift", "(Z)V", jniEnv , jvalue);
@@ -78,7 +78,7 @@ com_example_smoke_SkipProxyImpl_CppProxy::set_skipped_in_swift( const bool nvalu
     }
 }
 float
-com_example_smoke_SkipProxyImpl_CppProxy::get_skipped_in_dart(  ) const {
+com_example_smoke_SkipProxy_CppProxy::get_skipped_in_dart(  ) const {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto result = callJavaMethod<jfloat>( "getSkippedInDart", "()F", jniEnv  );
     if ( jniEnv->ExceptionCheck( ) )
@@ -91,7 +91,7 @@ com_example_smoke_SkipProxyImpl_CppProxy::get_skipped_in_dart(  ) const {
     return result;
 }
 void
-com_example_smoke_SkipProxyImpl_CppProxy::set_skipped_in_dart( const float nvalue ) {
+com_example_smoke_SkipProxy_CppProxy::set_skipped_in_dart( const float nvalue ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     jfloat jvalue = nvalue;
     callJavaMethod<void>( "setSkippedInDart", "(F)V", jniEnv , jvalue);
@@ -104,11 +104,11 @@ com_example_smoke_SkipProxyImpl_CppProxy::set_skipped_in_dart( const float nvalu
     }
 }
 ::smoke::SkippedEverywhere
-com_example_smoke_SkipProxyImpl_CppProxy::get_skipped_everywhere(  ) const {
+com_example_smoke_SkipProxy_CppProxy::get_skipped_everywhere(  ) const {
     return {};
 }
 void
-com_example_smoke_SkipProxyImpl_CppProxy::set_skipped_everywhere( const ::smoke::SkippedEverywhere& nvalue ) {
+com_example_smoke_SkipProxy_CppProxy::set_skipped_everywhere( const ::smoke::SkippedEverywhere& nvalue ) {
 }
 }
 }

@@ -18,4 +18,6 @@
   ! License-Filename: LICENSE
   !
   !}}
-Java_{{resolveName container "mangled"}}{{#instanceOf container "LimeInterface"}}{{/instanceOf}}
+Java_{{resolveName container "mangled"}}{{!!
+}}{{#instanceOf container "LimeInterface"}}Impl{{/instanceOf}}{{!!
+}}{{#instanceOf container "LimeLambda"}}Impl{{/instanceOf}}
