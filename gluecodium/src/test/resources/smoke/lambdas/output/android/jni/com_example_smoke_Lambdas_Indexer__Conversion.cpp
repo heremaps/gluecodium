@@ -12,12 +12,12 @@ namespace gluecodium
 {
 namespace jni
 {
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/Lambdas$IndexerImpl", com_example_smoke_Lambdas_00024IndexerImpl, ::smoke::Lambdas::Indexer)
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/Lambdas$IndexerImpl", com_example_smoke_Lambdas_00024Indexer, ::smoke::Lambdas::Indexer)
 void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::smoke::Lambdas::Indexer& result)
 {
-    std::shared_ptr<com_example_smoke_Lambdas_00024IndexerImpl_CppProxy> _nproxy{};
-    CppProxyBase::createProxy<com_example_smoke_Lambdas_00024IndexerImpl_CppProxy, com_example_smoke_Lambdas_00024IndexerImpl_CppProxy>(env, obj, "com_example_smoke_Lambdas_00024IndexerImpl", _nproxy);
-    result = std::bind(&com_example_smoke_Lambdas_00024IndexerImpl_CppProxy::operator(), _nproxy, std::placeholders::_1, std::placeholders::_2);
+    std::shared_ptr<com_example_smoke_Lambdas_00024Indexer_CppProxy> _nproxy{};
+    CppProxyBase::createProxy<com_example_smoke_Lambdas_00024Indexer_CppProxy, com_example_smoke_Lambdas_00024Indexer_CppProxy>(env, obj, "com_example_smoke_Lambdas_00024Indexer", _nproxy);
+    result = std::bind(&com_example_smoke_Lambdas_00024Indexer_CppProxy::operator(), _nproxy, std::placeholders::_1, std::placeholders::_2);
 }
 ::smoke::Lambdas::Indexer convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, ::smoke::Lambdas::Indexer*)
 {

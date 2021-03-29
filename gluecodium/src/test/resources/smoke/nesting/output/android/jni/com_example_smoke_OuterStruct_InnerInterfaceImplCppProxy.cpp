@@ -9,11 +9,11 @@ namespace gluecodium
 {
 namespace jni
 {
-com_example_smoke_OuterStruct_00024InnerInterfaceImpl_CppProxy::com_example_smoke_OuterStruct_00024InnerInterfaceImpl_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
-    : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode, "com_example_smoke_OuterStruct_00024InnerInterfaceImpl" ) {
+com_example_smoke_OuterStruct_00024InnerInterface_CppProxy::com_example_smoke_OuterStruct_00024InnerInterface_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode )
+    : CppProxyBase( _jenv, std::move( globalRef ), _jHashCode, "com_example_smoke_OuterStruct_00024InnerInterface" ) {
 }
 ::std::unordered_map< ::std::string, ::std::shared_ptr< ::std::vector< uint8_t > > >
-com_example_smoke_OuterStruct_00024InnerInterfaceImpl_CppProxy::bar_baz(  ) {
+com_example_smoke_OuterStruct_00024InnerInterface_CppProxy::bar_baz(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto result = callJavaMethod<jobject>( "barBaz", "()Ljava/util/Map;", jniEnv  );
     if ( jniEnv->ExceptionCheck( ) )

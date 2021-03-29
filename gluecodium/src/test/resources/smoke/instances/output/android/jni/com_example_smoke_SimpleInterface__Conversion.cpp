@@ -12,11 +12,11 @@ namespace gluecodium
 {
 namespace jni
 {
-REGISTER_JNI_CLASS_CACHE_INHERITANCE("com/example/smoke/SimpleInterfaceImpl", com_example_smoke_SimpleInterfaceImpl, "smoke_SimpleInterface", ::smoke::SimpleInterface)
+REGISTER_JNI_CLASS_CACHE_INHERITANCE("com/example/smoke/SimpleInterfaceImpl", com_example_smoke_SimpleInterface, "smoke_SimpleInterface", ::smoke::SimpleInterface)
 template<>
 void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared_ptr<::smoke::SimpleInterface>& result)
 {
-    CppProxyBase::createProxy<::smoke::SimpleInterface, com_example_smoke_SimpleInterfaceImpl_CppProxy>(env, obj, "com_example_smoke_SimpleInterfaceImpl", result);
+    CppProxyBase::createProxy<::smoke::SimpleInterface, com_example_smoke_SimpleInterface_CppProxy>(env, obj, "com_example_smoke_SimpleInterface", result);
 }
 std::shared_ptr<::smoke::SimpleInterface> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::smoke::SimpleInterface>*)
 {

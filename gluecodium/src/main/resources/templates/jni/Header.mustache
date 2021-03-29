@@ -70,10 +70,10 @@ JNIEXPORT jint JNICALL
 }}{{+jniPropertyHeader}}{{!!
 }}{{#set property=this}}{{#getter}}
 JNIEXPORT {{resolveName returnType}} JNICALL
-Java_{{resolveName container "mangled"}}_{{resolveName property "mangled" "getter"}}(JNIEnv* _jenv, jobject _jinstance);
+{{>jni/FunctionSignaturePrefix}}_{{resolveName property "mangled" "getter"}}(JNIEnv* _jenv, jobject _jinstance);
 {{/getter}}{{#setter}}
 JNIEXPORT void JNICALL
-Java_{{resolveName container "mangled"}}_{{resolveName property "mangled" "setter"}}(JNIEnv* _jenv, jobject _jinstance{{!!
+{{>jni/FunctionSignaturePrefix}}_{{resolveName property "mangled" "setter"}}(JNIEnv* _jenv, jobject _jinstance{{!!
 }}{{#parameters}}, {{resolveName typeRef}} j{{resolveName}}{{/parameters}});
 {{/setter}}{{/set}}{{!!
 }}{{/jniPropertyHeader}}
