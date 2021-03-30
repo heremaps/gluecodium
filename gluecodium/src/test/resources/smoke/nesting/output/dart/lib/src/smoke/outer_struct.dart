@@ -250,9 +250,9 @@ void smoke_OuterStruct_InnerClass_releaseFfiHandle_nullable(Pointer<Void> handle
 abstract class OuterStruct_InnerInterface {
   OuterStruct_InnerInterface() {}
   factory OuterStruct_InnerInterface.fromLambdas({
-    @required Map<String, Uint8List> Function() lambda_barBaz
+    @required Map<String, Uint8List> Function() lambda_barBaz,
   }) => OuterStruct_InnerInterface$Lambdas(
-    lambda_barBaz
+    lambda_barBaz,
   );
   /// Destroys the underlying native object.
   ///
@@ -281,7 +281,7 @@ final _smoke_OuterStruct_InnerInterface_get_type_id = __lib.catchArgumentError((
 class OuterStruct_InnerInterface$Lambdas implements OuterStruct_InnerInterface {
   Map<String, Uint8List> Function() lambda_barBaz;
   OuterStruct_InnerInterface$Lambdas(
-    this.lambda_barBaz
+    this.lambda_barBaz,
   );
   @override
   void release() {}

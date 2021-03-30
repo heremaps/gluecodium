@@ -15,14 +15,14 @@ abstract class CalculatorListener {
     @required void Function(CalculatorListener_ResultStruct) lambda_onCalculationResultStruct,
     @required void Function(List<double>) lambda_onCalculationResultArray,
     @required void Function(Map<String, double>) lambda_onCalculationResultMap,
-    @required void Function(CalculationResult) lambda_onCalculationResultInstance
+    @required void Function(CalculationResult) lambda_onCalculationResultInstance,
   }) => CalculatorListener$Lambdas(
     lambda_onCalculationResult,
     lambda_onCalculationResultConst,
     lambda_onCalculationResultStruct,
     lambda_onCalculationResultArray,
     lambda_onCalculationResultMap,
-    lambda_onCalculationResultInstance
+    lambda_onCalculationResultInstance,
   );
   /// Destroys the underlying native object.
   ///
@@ -130,7 +130,7 @@ class CalculatorListener$Lambdas implements CalculatorListener {
     this.lambda_onCalculationResultStruct,
     this.lambda_onCalculationResultArray,
     this.lambda_onCalculationResultMap,
-    this.lambda_onCalculationResultInstance
+    this.lambda_onCalculationResultInstance,
   );
   @override
   void release() {}

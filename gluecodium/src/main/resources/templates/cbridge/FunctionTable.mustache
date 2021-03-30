@@ -21,17 +21,17 @@
 typedef struct {
     void* swift_pointer;
     void(*release)(void* swift_pointer);
-{{#each inheritedFunctions functions}}
+{{#each inheritedFunctions functions}}{{#unless isStatic}}
     {{#if thrownType}}{{resolveName}}_result{{/if}}{{#unless thrownType}}{{resolveName returnType}}{{/unless}}{{!!
     }}(*{{resolveName}})(void* swift_pointer{{#if parameters}}, {{/if}}{{!!
     }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
-{{/each}}
-{{#each inheritedProperties properties}}
+{{/unless}}{{/each}}
+{{#each inheritedProperties properties}}{{#unless isStatic}}
 {{#getter}}
     {{resolveName typeRef}}(*{{resolveName}})(void* swift_pointer);
 {{/getter}}
 {{#setter}}
     void(*{{resolveName}})(void* swift_pointer, {{resolveName typeRef}} value);
 {{/setter}}
-{{/each}}
+{{/unless}}{{/each}}
 } {{resolveName}}_FunctionTable;

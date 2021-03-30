@@ -8,9 +8,9 @@ import 'package:library/src/_library_context.dart' as __lib;
 abstract class OuterInterface {
   OuterInterface() {}
   factory OuterInterface.fromLambdas({
-    @required String Function(String) lambda_foo
+    @required String Function(String) lambda_foo,
   }) => OuterInterface$Lambdas(
-    lambda_foo
+    lambda_foo,
   );
   /// Destroys the underlying native object.
   ///
@@ -86,9 +86,9 @@ void smoke_OuterInterface_InnerClass_releaseFfiHandle_nullable(Pointer<Void> han
 abstract class OuterInterface_InnerInterface {
   OuterInterface_InnerInterface() {}
   factory OuterInterface_InnerInterface.fromLambdas({
-    @required String Function(String) lambda_foo
+    @required String Function(String) lambda_foo,
   }) => OuterInterface_InnerInterface$Lambdas(
-    lambda_foo
+    lambda_foo,
   );
   /// Destroys the underlying native object.
   ///
@@ -117,7 +117,7 @@ final _smoke_OuterInterface_InnerInterface_get_type_id = __lib.catchArgumentErro
 class OuterInterface_InnerInterface$Lambdas implements OuterInterface_InnerInterface {
   String Function(String) lambda_foo;
   OuterInterface_InnerInterface$Lambdas(
-    this.lambda_foo
+    this.lambda_foo,
   );
   @override
   void release() {}
@@ -214,7 +214,7 @@ final _smoke_OuterInterface_get_type_id = __lib.catchArgumentError(() => __lib.n
 class OuterInterface$Lambdas implements OuterInterface {
   String Function(String) lambda_foo;
   OuterInterface$Lambdas(
-    this.lambda_foo
+    this.lambda_foo,
   );
   @override
   void release() {}

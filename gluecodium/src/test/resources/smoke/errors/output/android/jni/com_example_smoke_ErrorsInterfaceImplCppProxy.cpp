@@ -87,53 +87,5 @@ com_example_smoke_ErrorsInterface_CppProxy::method_with_errors_and_return_value(
     return convert_from_jni( jniEnv, result, (::std::string*)nullptr );
     }
 }
-::gluecodium::Return< void, ::smoke::Payload >
-com_example_smoke_ErrorsInterface_CppProxy::method_with_payload_error(  ) {
-    JNIEnv* jniEnv = getJniEnvironment( );
-    callJavaMethod<void>( "methodWithPayloadError", "()V", jniEnv  );
-    auto jException = make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
-    if ( jException )
-    {
-        jniEnv->ExceptionClear( );
-        auto jErrorValue = get_object_field_value(
-            jniEnv,
-            jException,
-            "error",
-            "Lcom/example/smoke/Payload;" );
-        auto nErrorValue = convert_from_jni(
-            jniEnv,
-            jErrorValue,
-            (::smoke::Payload*)nullptr );
-        return ::smoke::Payload{nErrorValue};
-    }
-    else
-    {
-        return {true};
-    }
-}
-::gluecodium::Return< ::std::string, ::smoke::Payload >
-com_example_smoke_ErrorsInterface_CppProxy::method_with_payload_error_and_return_value(  ) {
-    JNIEnv* jniEnv = getJniEnvironment( );
-    auto result = callJavaMethod<jstring>( "methodWithPayloadErrorAndReturnValue", "()Ljava/lang/String;", jniEnv  );
-    auto jException = make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
-    if ( jException )
-    {
-        jniEnv->ExceptionClear( );
-        auto jErrorValue = get_object_field_value(
-            jniEnv,
-            jException,
-            "error",
-            "Lcom/example/smoke/Payload;" );
-        auto nErrorValue = convert_from_jni(
-            jniEnv,
-            jErrorValue,
-            (::smoke::Payload*)nullptr );
-        return ::smoke::Payload{nErrorValue};
-    }
-    else
-    {
-    return convert_from_jni( jniEnv, result, (::std::string*)nullptr );
-    }
-}
 }
 }

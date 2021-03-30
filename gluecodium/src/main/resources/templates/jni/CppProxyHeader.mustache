@@ -42,18 +42,18 @@ public:
     {{resolveName "mangled"}}_CppProxy( const {{resolveName "mangled"}}_CppProxy& ) = delete;
     {{resolveName "mangled"}}_CppProxy& operator=( const {{resolveName "mangled"}}_CppProxy& ) = delete;
 
-{{#inheritedFunctions}}
+{{#inheritedFunctions}}{{#unless isStatic}}
 {{>proxyMethodHeader}} override;
-{{/inheritedFunctions}}
-{{#inheritedProperties}}
+{{/unless}}{{/inheritedFunctions}}
+{{#inheritedProperties}}{{#unless isStatic}}
 {{>proxyPropertyHeader}}
-{{/inheritedProperties}}
-{{#functions}}
+{{/unless}}{{/inheritedProperties}}
+{{#functions}}{{#unless isStatic}}
 {{>proxyMethodHeader}}{{#instanceOf container "LimeInterface"}} override{{/instanceOf}};
-{{/functions}}
-{{#properties}}
+{{/unless}}{{/functions}}
+{{#properties}}{{#unless isStatic}}
 {{>proxyPropertyHeader}}
-{{/properties}}
+{{/unless}}{{/properties}}
 };
 
 }

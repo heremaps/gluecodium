@@ -1,6 +1,8 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Features:
+  * Added support for static functions and properties in interfaces.
 ### Bug fixes:
   * Fixed missing "root namespace" for forward declarations in C++.
 

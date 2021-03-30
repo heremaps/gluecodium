@@ -9,10 +9,10 @@ abstract class SimpleInterface {
   SimpleInterface() {}
   factory SimpleInterface.fromLambdas({
     @required String Function() lambda_getStringValue,
-    @required SimpleInterface Function(SimpleInterface) lambda_useSimpleInterface
+    @required SimpleInterface Function(SimpleInterface) lambda_useSimpleInterface,
   }) => SimpleInterface$Lambdas(
     lambda_getStringValue,
-    lambda_useSimpleInterface
+    lambda_useSimpleInterface,
   );
   /// Destroys the underlying native object.
   ///
@@ -44,7 +44,7 @@ class SimpleInterface$Lambdas implements SimpleInterface {
   SimpleInterface Function(SimpleInterface) lambda_useSimpleInterface;
   SimpleInterface$Lambdas(
     this.lambda_getStringValue,
-    this.lambda_useSimpleInterface
+    this.lambda_useSimpleInterface,
   );
   @override
   void release() {}

@@ -21,6 +21,7 @@ package com.here.gluecodium.generator.java
 
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.model.lime.LimeClass
+import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeRef
 
@@ -43,6 +44,14 @@ internal object JavaGeneratorPredicates {
                 limeTypeRef !is LimeTypeRef -> false
                 limeTypeRef.isNullable -> true
                 JavaImportResolver.needsNonNullAnnotation(limeTypeRef.type.actualType) -> true
+                else -> false
+            }
+        },
+        "hasStaticFunctions" to { limeInterface ->
+            when {
+                limeInterface !is LimeInterface -> false
+                limeInterface.functions.any { it.isStatic } -> true
+                limeInterface.properties.any { it.isStatic } -> true
                 else -> false
             }
         },

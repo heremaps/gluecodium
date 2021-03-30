@@ -14,8 +14,8 @@
 #include <new>
 class smoke_ErrorsInterface_Proxy : public ::smoke::ErrorsInterface {
 public:
-    smoke_ErrorsInterface_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2, FfiOpaqueHandle f3, FfiOpaqueHandle f4)
-        : token(token), isolate_id(isolate_id), deleter(deleter), f0(f0), f1(f1), f2(f2), f3(f3), f4(f4) { }
+    smoke_ErrorsInterface_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2)
+        : token(token), isolate_id(isolate_id), deleter(deleter), f0(f0), f1(f1), f2(f2) { }
     ~smoke_ErrorsInterface_Proxy() {
         gluecodium::ffi::remove_cached_proxy(token, isolate_id, "smoke_ErrorsInterface");
         gluecodium::ffi::remove_cached_token(this, isolate_id);
@@ -62,36 +62,6 @@ public:
             return _result;
         }
     }
-    gluecodium::Return<void, ::smoke::Payload>
-    method_with_payload_error() override {
-        FfiOpaqueHandle _error_handle;
-        bool _error_flag;
-        dispatch([&]() { _error_flag = (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle*)>(f3))(token,
-            &_error_handle
-        ); });
-        auto _error_result = gluecodium::ffi::Conversion<::smoke::Payload>::toCpp(_error_handle);
-        delete reinterpret_cast<::smoke::Payload*>(_error_handle);
-        return _error_result;
-    }
-    gluecodium::Return<std::string, ::smoke::Payload>
-    method_with_payload_error_and_return_value() override {
-        FfiOpaqueHandle _result_handle;
-        FfiOpaqueHandle _error_handle;
-        bool _error_flag;
-        dispatch([&]() { _error_flag = (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle*, FfiOpaqueHandle*)>(f4))(token,
-            &_result_handle,
-            &_error_handle
-        ); });
-        if (_error_flag) {
-            auto _error_result = gluecodium::ffi::Conversion<::smoke::Payload>::toCpp(_error_handle);
-            delete reinterpret_cast<::smoke::Payload*>(_error_handle);
-            return _error_result;
-        } else {
-            auto _result = gluecodium::ffi::Conversion<std::string>::toCpp(_result_handle);
-            delete reinterpret_cast<std::string*>(_result_handle);
-            return _result;
-        }
-    }
 private:
     const uint64_t token;
     const int32_t isolate_id;
@@ -99,8 +69,6 @@ private:
     const FfiOpaqueHandle f0;
     const FfiOpaqueHandle f1;
     const FfiOpaqueHandle f2;
-    const FfiOpaqueHandle f3;
-    const FfiOpaqueHandle f4;
     inline void dispatch(std::function<void()>&& callback) const
     {
         gluecodium::ffi::IsolateContext::is_current(isolate_id)
@@ -260,14 +228,14 @@ library_smoke_ErrorsInterface_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::ErrorsInterface>*>(handle);
 }
 FfiOpaqueHandle
-library_smoke_ErrorsInterface_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2, FfiOpaqueHandle f3, FfiOpaqueHandle f4) {
+library_smoke_ErrorsInterface_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2) {
     auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_ErrorsInterface_Proxy>(token, isolate_id, "smoke_ErrorsInterface");
     std::shared_ptr<smoke_ErrorsInterface_Proxy>* proxy_ptr;
     if (cached_proxy) {
         proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_ErrorsInterface_Proxy>(cached_proxy);
     } else {
         proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_ErrorsInterface_Proxy>(
-            new (std::nothrow) smoke_ErrorsInterface_Proxy(token, isolate_id, deleter, f0, f1, f2, f3, f4)
+            new (std::nothrow) smoke_ErrorsInterface_Proxy(token, isolate_id, deleter, f0, f1, f2)
         );
         gluecodium::ffi::cache_proxy(token, isolate_id, "smoke_ErrorsInterface", *proxy_ptr);
         gluecodium::ffi::cache_token(proxy_ptr->get(), isolate_id, token);

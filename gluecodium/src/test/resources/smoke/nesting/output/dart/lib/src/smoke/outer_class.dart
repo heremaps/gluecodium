@@ -80,9 +80,9 @@ void smoke_OuterClass_InnerClass_releaseFfiHandle_nullable(Pointer<Void> handle)
 abstract class OuterClass_InnerInterface {
   OuterClass_InnerInterface() {}
   factory OuterClass_InnerInterface.fromLambdas({
-    @required String Function(String) lambda_foo
+    @required String Function(String) lambda_foo,
   }) => OuterClass_InnerInterface$Lambdas(
-    lambda_foo
+    lambda_foo,
   );
   /// Destroys the underlying native object.
   ///
@@ -111,7 +111,7 @@ final _smoke_OuterClass_InnerInterface_get_type_id = __lib.catchArgumentError(()
 class OuterClass_InnerInterface$Lambdas implements OuterClass_InnerInterface {
   String Function(String) lambda_foo;
   OuterClass_InnerInterface$Lambdas(
-    this.lambda_foo
+    this.lambda_foo,
   );
   @override
   void release() {}

@@ -24,24 +24,22 @@ abstract class {{resolveName}} {{#if parent}}implements {{resolveName parent}} {
   {{resolveName}}() {}
 
   factory {{resolveName}}.fromLambdas({
-{{#each inheritedFunctions functions}}
-    @required {{>dart/DartLambdaType}} lambda_{{resolveName}}{{#if iter.hasNext}},
-{{/if}}{{/each}}{{#if inheritedFunctions functions logic="or"}}{{#if inheritedProperties properties logic="or"}},
-{{/if}}{{/if}}{{#each inheritedProperties properties}}{{#set property=this}}{{#getter}}
+{{#each inheritedFunctions functions}}{{#unless isStatic}}
+    @required {{>dart/DartLambdaType}} lambda_{{resolveName}},
+{{/unless}}{{/each}}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#set property=this}}{{#getter}}
     @required {{>dart/DartLambdaType}} lambda_{{resolveName property}}_get{{#if setter}},
 {{/if}}{{/getter}}{{#setter}}
     @required {{>dart/DartLambdaType}} lambda_{{resolveName property}}_set{{/setter}}{{#if iter.hasNext}},
-{{/if}}{{/set}}{{/each}}
+{{/if}}{{/set}}{{/unless}}{{/each}}
 
   }) => {{resolveName}}$Lambdas(
-{{#each inheritedFunctions functions}}
-    lambda_{{resolveName}}{{#if iter.hasNext}},
-{{/if}}{{/each}}{{#if inheritedFunctions functions logic="or"}}{{#if inheritedProperties properties logic="or"}},
-{{/if}}{{/if}}{{#each inheritedProperties properties}}{{#set property=this}}{{#getter}}
+{{#each inheritedFunctions functions}}{{#unless isStatic}}
+    lambda_{{resolveName}},
+{{/unless}}{{/each}}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#set property=this}}{{#getter}}
     lambda_{{resolveName property}}_get{{#if setter}},
 {{/if}}{{/getter}}{{#setter}}
     lambda_{{resolveName property}}_set{{/setter}}{{#if iter.hasNext}},
-{{/if}}{{/set}}{{/each}}
+{{/if}}{{/set}}{{/unless}}{{/each}}
 
   );
 {{/if}}
@@ -53,11 +51,10 @@ abstract class {{resolveName}} {{#if parent}}implements {{resolveName parent}} {
 {{prefixPartial "dart/DartConstant" "  "}}
 {{/constants}}{{/set}}
 {{#set parent=this}}{{#functions}}
-{{prefixPartial "dart/DartFunctionDocs" "  "}}
-{{prefixPartial "dart/DartFunctionSignature" "  "}};
+{{>dart/DartRedirectFunction}}
 {{/functions}}{{/set}}
-{{#set skipBody=true}}{{#properties}}
-{{prefixPartial "dart/DartProperty" "  "}}
+{{#set parent=this}}{{#properties}}
+{{prefixPartial "dart/DartRedirectProperty" "  "}}
 {{/properties}}{{/set}}
 }
 
@@ -106,44 +103,43 @@ final _{{resolveName "Ffi"}}_get_type_id = __lib.catchArgumentError(() => __lib.
 {{/functions}}{{!!
 }}{{#if inheritedFunctions functions inheritedProperties properties logic="or"}}
 class {{resolveName}}$Lambdas implements {{resolveName}} {
-{{#each inheritedFunctions functions}}
+{{#each inheritedFunctions functions}}{{#unless isStatic}}
   {{>dart/DartLambdaType}} lambda_{{resolveName}};
-{{/each}}
-{{#each inheritedProperties properties}}{{#set property=this}}
+{{/unless}}{{/each}}
+{{#each inheritedProperties properties}}{{#unless isStatic}}{{#set property=this}}
 {{#getter}}  {{>dart/DartLambdaType}} lambda_{{resolveName property}}_get;
 {{/getter}}{{!!
 }}{{#setter}}  {{>dart/DartLambdaType}} lambda_{{resolveName property}}_set;
 {{/setter}}
-{{/set}}{{/each}}
+{{/set}}{{/unless}}{{/each}}
 
   {{resolveName}}$Lambdas(
-{{#each inheritedFunctions functions}}
-    this.lambda_{{resolveName}}{{#if iter.hasNext}},
-{{/if}}{{/each}}{{#if inheritedFunctions functions logic="or"}}{{#if inheritedProperties properties logic="or"}},
-{{/if}}{{/if}}{{#each inheritedProperties properties}}{{#set property=this}}{{#getter}}
+{{#each inheritedFunctions functions}}{{#unless isStatic}}
+    this.lambda_{{resolveName}},
+{{/unless}}{{/each}}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#set property=this}}{{#getter}}
     this.lambda_{{resolveName property}}_get{{#if setter}},
 {{/if}}{{/getter}}{{#setter}}
     this.lambda_{{resolveName property}}_set{{/setter}}{{#if iter.hasNext}},
-{{/if}}{{/set}}{{/each}}
+{{/if}}{{/set}}{{/unless}}{{/each}}
 
   );
 
   @override
   void release() {}
 
-{{#each inheritedFunctions functions}}
+{{#each inheritedFunctions functions}}{{#unless isStatic}}
   @override
   {{>dart/DartFunctionSignature}} =>
     lambda_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
-{{/each}}
-{{#each inheritedProperties properties}}
+{{/unless}}{{/each}}
+{{#each inheritedProperties properties}}{{#unless isStatic}}
   @override
   {{resolveName typeRef}} get {{resolveName visibility}}{{resolveName}} => lambda_{{resolveName}}_get();
 {{#if setter}}
   @override
   set {{resolveName visibility}}{{resolveName}}({{resolveName typeRef}} value) => lambda_{{resolveName}}_set(value);
 {{/if}}
-{{/each}}
+{{/unless}}{{/each}}
 }
 {{/if}}
 
@@ -172,7 +168,7 @@ class {{resolveName}}$Impl implements {{resolveName}} {
 }}{{/self}}{{/set}}{{/if}}
 }
 
-{{#set parent=this}}{{#each inheritedFunctions functions}}
+{{#set parent=this}}{{#each inheritedFunctions functions}}{{#unless isStatic}}
 int _{{resolveName parent}}_{{resolveName}}_static({{!!
 }}int _token{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
@@ -211,9 +207,9 @@ int _{{resolveName parent}}_{{resolveName}}_static({{!!
   }
   return{{#if thrownType}} _error_flag ? 1 :{{/if}} 0;
 }
-{{/each}}
+{{/unless}}{{/each}}
 
-{{#each inheritedProperties properties}}
+{{#each inheritedProperties properties}}{{#unless isStatic}}
 int _{{resolveName parent}}_{{resolveName}}_get_static(int _token, Pointer<{{resolveName typeRef "FfiApiTypes"}}> _result) {
   _result.value = {{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{!!
   }}(__lib.instanceCache[_token] as {{resolveName parent}}).{{resolveName visibility}}{{resolveName}});
@@ -231,7 +227,7 @@ int _{{resolveName parent}}_{{resolveName}}_set_static(int _token, {{resolveName
   return 0;
 }
 {{/if}}
-{{/each}}{{/set}}
+{{/unless}}{{/each}}{{/set}}
 
 Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
   if (value is {{resolveName}}$Impl) return _{{resolveName "Ffi"}}_copy_handle(value.handle);
@@ -239,12 +235,12 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
   final result = _{{resolveName "Ffi"}}_create_proxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi{{#set parent=this}}{{#each inheritedFunctions functions}},
+    __lib.uncacheObjectFfi{{#set parent=this}}{{#each inheritedFunctions functions}}{{#unless isStatic}},
     Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}_{{resolveName}}_static, __lib.unknownError){{!!
-    }}{{/each}}{{#each inheritedProperties properties}}{{#set property=this}}{{#getter}},
+    }}{{/unless}}{{/each}}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#set property=this}}{{#getter}},
     Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}_{{resolveName property}}_get_static, __lib.unknownError){{/getter}}{{#setter}},
     Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}_{{resolveName property}}_set_static, __lib.unknownError){{/setter}}{{!!
-    }}{{/set}}{{/each}}{{/set}}
+    }}{{/set}}{{/unless}}{{/each}}{{/set}}
   );
 
   return result;
@@ -287,7 +283,5 @@ void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) =>
 }}{{#unless returnType.isVoid}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}>{{/unless}}{{!!
 }}{{#if thrownType}}, Pointer<{{resolveName exception.errorType "FfiApiTypes"}}>{{/if}}){{/ffiApi}}{{!!
 
-}}{{+ffiFunctionPointers}}{{#if inheritedFunctions functions logic="or"}}, {{!!
-}}{{#each inheritedFunctions functions}}Pointer{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}{{!!
-}}{{#if inheritedProperties properties logic="or"}}, {{!!
-}}{{#each inheritedProperties properties}}Pointer{{#if setter}}, Pointer{{/if}}{{#if iter.hasNext}}, {{/if}}{{/each}}{{/if}}{{/ffiFunctionPointers}}
+}}{{+ffiFunctionPointers}}{{#each inheritedFunctions functions}}{{#unless isStatic}}, Pointer{{/unless}}{{/each}}{{!!
+}}{{#each inheritedProperties properties}}{{#unless isStatic}}, Pointer{{#if setter}}, Pointer{{/if}}{{/unless}}{{/each}}{{/ffiFunctionPointers}}

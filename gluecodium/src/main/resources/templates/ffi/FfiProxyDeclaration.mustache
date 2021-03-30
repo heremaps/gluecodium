@@ -21,14 +21,14 @@
 class {{resolveName}}_Proxy{{#unless isLambda}} : public {{resolveName "C++"}}{{/unless}} {
 public:
     {{resolveName}}_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter{{!!
-    }}{{#each inheritedFunctions functions}}{{#unless attributes.dart.skip}}{{!!
+    }}{{#each inheritedFunctions functions}}{{#unless attributes.dart.skip isStatic logic="and"}}{{!!
     }}, FfiOpaqueHandle f{{iter.position}}{{/unless}}{{/each}}{{!!
-    }}{{#each inheritedProperties properties}}{{#unless attributes.dart.skip}}, FfiOpaqueHandle p{{iter.position}}g{{!!
+    }}{{#each inheritedProperties properties}}{{#unless attributes.dart.skip isStatic logic="and"}}, FfiOpaqueHandle p{{iter.position}}g{{!!
     }}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{/unless}}{{/each}})
         : token(token), isolate_id(isolate_id), deleter(deleter){{!!
-        }}{{#each inheritedFunctions functions}}{{#unless attributes.dart.skip}}{{!!
+        }}{{#each inheritedFunctions functions}}{{#unless attributes.dart.skip isStatic logic="and"}}{{!!
         }}, f{{iter.position}}(f{{iter.position}}){{/unless}}{{/each}}{{!!
-        }}{{#each inheritedProperties properties}}{{#unless attributes.dart.skip}}, p{{iter.position}}g(p{{iter.position}}g){{!!
+        }}{{#each inheritedProperties properties}}{{#unless attributes.dart.skip isStatic logic="and"}}, p{{iter.position}}g(p{{iter.position}}g){{!!
         }}{{#if setter}}, p{{iter.position}}s(p{{iter.position}}s){{/if}}{{/unless}}{{/each}} { }
 
     ~{{resolveName}}_Proxy() {
@@ -45,7 +45,7 @@ public:
     {{resolveName}}_Proxy(const {{resolveName}}_Proxy&) = delete;
     {{resolveName}}_Proxy& operator=(const {{resolveName}}_Proxy&) = delete;
 
-{{#each inheritedFunctions functions}}
+{{#each inheritedFunctions functions}}{{#unless isStatic}}
     {{resolveName "C++ return type"}}
     {{resolveName "C++"}}({{#parameters}}const {{resolveName typeRef "C++ parameter"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
     }}{{#if attributes.cpp.const}} const{{/if}}{{#unless isLambda}} override{{/unless}} {
@@ -77,9 +77,9 @@ public:
 {{/unless}}
     }
 
-{{/each}}
+{{/unless}}{{/each}}
 
-{{#each inheritedProperties properties}}{{#set isSkipped=attributes.dart.skip}}
+{{#each inheritedProperties properties}}{{#unless isStatic}}{{#set isSkipped=attributes.dart.skip}}
 {{#getter}}
     {{resolveName returnType.typeRef "C++"}}
     {{resolveName "C++"}}() const override {
@@ -105,16 +105,16 @@ public:
 {{/unless}}
     }
 {{/setter}}
-{{/set}}{{/each}}
+{{/set}}{{/unless}}{{/each}}
 
 private:
     const uint64_t token;
     const int32_t isolate_id;
     const FfiOpaqueHandle deleter;
-{{#each inheritedFunctions functions}}{{#unless attributes.dart.skip}}
+{{#each inheritedFunctions functions}}{{#unless attributes.dart.skip isStatic logic="and"}}
     const FfiOpaqueHandle f{{iter.position}};
 {{/unless}}{{/each}}
-{{#each inheritedProperties properties}}{{#unless attributes.dart.skip}}
+{{#each inheritedProperties properties}}{{#unless attributes.dart.skip isStatic logic="and"}}
     const FfiOpaqueHandle p{{iter.position}}g;{{#if setter}}
     const FfiOpaqueHandle p{{iter.position}}s;
 {{/if}}

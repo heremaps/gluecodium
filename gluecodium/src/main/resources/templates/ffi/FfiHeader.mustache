@@ -50,9 +50,9 @@ _GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_release_handle(FfiOp
 {{#each interfaces lambdas}}
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_create_proxy({{!!
 }}uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter{{!!
-}}{{#each inheritedFunctions functions}}{{#unless attributes.dart.skip}}{{!!
+}}{{#each inheritedFunctions functions}}{{#unless attributes.dart.skip isStatic logic="and"}}{{!!
 }}, FfiOpaqueHandle f{{iter.position}}{{/unless}}{{/each}}{{!!
-}}{{#each inheritedProperties properties}}{{#unless attributes.dart.skip}}, FfiOpaqueHandle p{{iter.position}}g{{!!
+}}{{#each inheritedProperties properties}}{{#unless attributes.dart.skip isStatic logic="and"}}, FfiOpaqueHandle p{{iter.position}}g{{!!
 }}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{/unless}}{{/each}});
 {{/each}}
 
