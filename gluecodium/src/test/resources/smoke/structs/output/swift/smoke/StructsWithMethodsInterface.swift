@@ -45,36 +45,40 @@ public class StructsWithMethodsInterface {
         public func distanceTo(other: StructsWithMethodsInterface.Vector3) -> Double {
             let c_self_handle = moveToCType(self)
             let c_other = moveToCType(other)
-            return moveFromCType(smoke_StructsWithMethodsInterface_Vector3_distanceTo(c_self_handle.ref, c_other.ref))
+            let c_result_handle = smoke_StructsWithMethodsInterface_Vector3_distanceTo(c_self_handle.ref, c_other.ref)
+            return moveFromCType(c_result_handle)
         }
         public func add(other: StructsWithMethodsInterface.Vector3) -> StructsWithMethodsInterface.Vector3 {
             let c_self_handle = moveToCType(self)
             let c_other = moveToCType(other)
-            return moveFromCType(smoke_StructsWithMethodsInterface_Vector3_add(c_self_handle.ref, c_other.ref))
+            let c_result_handle = smoke_StructsWithMethodsInterface_Vector3_add(c_self_handle.ref, c_other.ref)
+            return moveFromCType(c_result_handle)
         }
         public static func validate(x: Double, y: Double, z: Double) -> Bool {
             let c_x = moveToCType(x)
             let c_y = moveToCType(y)
             let c_z = moveToCType(z)
-            return moveFromCType(smoke_StructsWithMethodsInterface_Vector3_validate(c_x.ref, c_y.ref, c_z.ref))
+            let c_result_handle = smoke_StructsWithMethodsInterface_Vector3_validate(c_x.ref, c_y.ref, c_z.ref)
+            return moveFromCType(c_result_handle)
         }
         private static func create(input: String) -> _baseRef {
             let c_input = moveToCType(input)
-            return moveFromCType(smoke_StructsWithMethodsInterface_Vector3_create_String(c_input.ref))
+            let c_result_handle = smoke_StructsWithMethodsInterface_Vector3_create_String(c_input.ref)
+            return moveFromCType(c_result_handle)
         }
         private static func create(other: StructsWithMethodsInterface.Vector3) throws -> _baseRef {
             let c_other = moveToCType(other)
             let RESULT = smoke_StructsWithMethodsInterface_Vector3_create_Vector3(c_other.ref)
             if (!RESULT.has_value) {
                 throw moveFromCType(RESULT.error_value) as ValidationError
-            } else {
-                return moveFromCType(RESULT.returned_value)
             }
+            let c_result_handle = RESULT.returned_value
+            return moveFromCType(c_result_handle)
         }
     }
     public struct StructWithStaticMethodsOnly {
         public static func doStuff() -> Void {
-            return moveFromCType(smoke_StructsWithMethodsInterface_StructWithStaticMethodsOnly_doStuff())
+            smoke_StructsWithMethodsInterface_StructWithStaticMethodsOnly_doStuff()
         }
     }
 }

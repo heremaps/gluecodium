@@ -17,11 +17,11 @@ public class LambdasWithStructuredTypes {
     }
     public func doClassStuff(callback: @escaping LambdasWithStructuredTypes.ClassCallback) -> Void {
         let c_callback = moveToCType(callback)
-        return moveFromCType(smoke_LambdasWithStructuredTypes_doClassStuff(self.c_instance, c_callback.ref))
+        smoke_LambdasWithStructuredTypes_doClassStuff(self.c_instance, c_callback.ref)
     }
     public func doStructStuff(callback: @escaping LambdasWithStructuredTypes.StructCallback) -> Void {
         let c_callback = moveToCType(callback)
-        return moveFromCType(smoke_LambdasWithStructuredTypes_doStructStuff(self.c_instance, c_callback.ref))
+        smoke_LambdasWithStructuredTypes_doStructStuff(self.c_instance, c_callback.ref)
     }
 }
 internal func getRef(_ ref: LambdasWithStructuredTypes?, owning: Bool = true) -> RefHolder {

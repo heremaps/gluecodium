@@ -8,11 +8,12 @@ public class AttributesClass {
     @OnPropertyInClass
     public var prop: String {
         get {
-            return moveFromCType(smoke_AttributesClass_prop_get(self.c_instance))
+            let c_result_handle = smoke_AttributesClass_prop_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_AttributesClass_prop_set(self.c_instance, c_value.ref))
+            smoke_AttributesClass_prop_set(self.c_instance, c_value.ref)
         }
     }
     let c_instance : _baseRef
@@ -29,7 +30,7 @@ public class AttributesClass {
     @OnFunctionInClass
     public func veryFun(@OnParameterInClass param: String) -> Void {
         let c_param = moveToCType(param)
-        return moveFromCType(smoke_AttributesClass_veryFun(self.c_instance, c_param.ref))
+        smoke_AttributesClass_veryFun(self.c_instance, c_param.ref)
     }
 }
 internal func getRef(_ ref: AttributesClass?, owning: Bool = true) -> RefHolder {

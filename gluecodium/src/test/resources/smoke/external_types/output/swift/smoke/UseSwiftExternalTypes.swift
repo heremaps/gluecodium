@@ -16,19 +16,23 @@ public class UseSwiftExternalTypes {
     }
     public static func dateIntervalRoundTrip(input: DateInterval) -> DateInterval {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_UseSwiftExternalTypes_dateIntervalRoundTrip(c_input.ref))
+        let c_result_handle = smoke_UseSwiftExternalTypes_dateIntervalRoundTrip(c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public static func persistenceRoundTrip(input: URLCredential.Persistence) -> URLCredential.Persistence {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_UseSwiftExternalTypes_persistenceRoundTrip(c_input.ref))
+        let c_result_handle = smoke_UseSwiftExternalTypes_persistenceRoundTrip(c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public static func colorRoundTrip(input: UIColor) -> UIColor {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_UseSwiftExternalTypes_colorRoundTrip(c_input.ref))
+        let c_result_handle = smoke_UseSwiftExternalTypes_colorRoundTrip(c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public static func seasonRoundTrip(input: SwiftSeason) -> SwiftSeason {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_UseSwiftExternalTypes_seasonRoundTrip(c_input.ref))
+        let c_result_handle = smoke_UseSwiftExternalTypes_seasonRoundTrip(c_input.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: UseSwiftExternalTypes?, owning: Bool = true) -> RefHolder {

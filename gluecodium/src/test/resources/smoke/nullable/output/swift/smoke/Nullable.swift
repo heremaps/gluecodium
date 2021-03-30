@@ -6,92 +6,102 @@ public class Nullable {
     public typealias SomeMap = [Int64: String]
     public var stringProperty: String? {
         get {
-            return moveFromCType(smoke_Nullable_stringProperty_get(self.c_instance))
+            let c_result_handle = smoke_Nullable_stringProperty_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_stringProperty_set(self.c_instance, c_value.ref))
+            smoke_Nullable_stringProperty_set(self.c_instance, c_value.ref)
         }
     }
     public var isBoolProperty: Bool? {
         get {
-            return moveFromCType(smoke_Nullable_isBoolProperty_get(self.c_instance))
+            let c_result_handle = smoke_Nullable_isBoolProperty_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_isBoolProperty_set(self.c_instance, c_value.ref))
+            smoke_Nullable_isBoolProperty_set(self.c_instance, c_value.ref)
         }
     }
     public var doubleProperty: Double? {
         get {
-            return moveFromCType(smoke_Nullable_doubleProperty_get(self.c_instance))
+            let c_result_handle = smoke_Nullable_doubleProperty_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_doubleProperty_set(self.c_instance, c_value.ref))
+            smoke_Nullable_doubleProperty_set(self.c_instance, c_value.ref)
         }
     }
     public var intProperty: Int64? {
         get {
-            return moveFromCType(smoke_Nullable_intProperty_get(self.c_instance))
+            let c_result_handle = smoke_Nullable_intProperty_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_intProperty_set(self.c_instance, c_value.ref))
+            smoke_Nullable_intProperty_set(self.c_instance, c_value.ref)
         }
     }
     public var structProperty: Nullable.SomeStruct? {
         get {
-            return moveFromCType(smoke_Nullable_structProperty_get(self.c_instance))
+            let c_result_handle = smoke_Nullable_structProperty_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_structProperty_set(self.c_instance, c_value.ref))
+            smoke_Nullable_structProperty_set(self.c_instance, c_value.ref)
         }
     }
     public var enumProperty: Nullable.SomeEnum? {
         get {
-            return moveFromCType(smoke_Nullable_enumProperty_get(self.c_instance))
+            let c_result_handle = smoke_Nullable_enumProperty_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_enumProperty_set(self.c_instance, c_value.ref))
+            smoke_Nullable_enumProperty_set(self.c_instance, c_value.ref)
         }
     }
     public var arrayProperty: Nullable.SomeArray? {
         get {
-            return foobar_moveFromCType(smoke_Nullable_arrayProperty_get(self.c_instance))
+            let c_result_handle = smoke_Nullable_arrayProperty_get(self.c_instance)
+            return foobar_moveFromCType(c_result_handle)
         }
         set {
             let c_value = foobar_moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_arrayProperty_set(self.c_instance, c_value.ref))
+            smoke_Nullable_arrayProperty_set(self.c_instance, c_value.ref)
         }
     }
     public var inlineArrayProperty: [String]? {
         get {
-            return foobar_moveFromCType(smoke_Nullable_inlineArrayProperty_get(self.c_instance))
+            let c_result_handle = smoke_Nullable_inlineArrayProperty_get(self.c_instance)
+            return foobar_moveFromCType(c_result_handle)
         }
         set {
             let c_value = foobar_moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_inlineArrayProperty_set(self.c_instance, c_value.ref))
+            smoke_Nullable_inlineArrayProperty_set(self.c_instance, c_value.ref)
         }
     }
     public var mapProperty: Nullable.SomeMap? {
         get {
-            return foobar_moveFromCType(smoke_Nullable_mapProperty_get(self.c_instance))
+            let c_result_handle = smoke_Nullable_mapProperty_get(self.c_instance)
+            return foobar_moveFromCType(c_result_handle)
         }
         set {
             let c_value = foobar_moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_mapProperty_set(self.c_instance, c_value.ref))
+            smoke_Nullable_mapProperty_set(self.c_instance, c_value.ref)
         }
     }
     public var instanceProperty: SomeInterface? {
         get {
-            return SomeInterface_moveFromCType(smoke_Nullable_instanceProperty_get(self.c_instance))
+            let c_result_handle = smoke_Nullable_instanceProperty_get(self.c_instance)
+            return SomeInterface_moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_Nullable_instanceProperty_set(self.c_instance, c_value.ref))
+            smoke_Nullable_instanceProperty_set(self.c_instance, c_value.ref)
         }
     }
     let c_instance : _baseRef
@@ -183,43 +193,53 @@ public class Nullable {
     }
     public func methodWithString(input: String?) -> String? {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_Nullable_methodWithString(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_Nullable_methodWithString(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public func methodWithBoolean(input: Bool?) -> Bool? {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_Nullable_methodWithBoolean(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_Nullable_methodWithBoolean(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public func methodWithDouble(input: Double?) -> Double? {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_Nullable_methodWithDouble(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_Nullable_methodWithDouble(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public func methodWithInt(input: Int64?) -> Int64? {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_Nullable_methodWithInt(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_Nullable_methodWithInt(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public func methodWithSomeStruct(input: Nullable.SomeStruct?) -> Nullable.SomeStruct? {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_Nullable_methodWithSomeStruct(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_Nullable_methodWithSomeStruct(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public func methodWithSomeEnum(input: Nullable.SomeEnum?) -> Nullable.SomeEnum? {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_Nullable_methodWithSomeEnum(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_Nullable_methodWithSomeEnum(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public func methodWithSomeArray(input: Nullable.SomeArray?) -> Nullable.SomeArray? {
         let c_input = foobar_moveToCType(input)
-        return foobar_moveFromCType(smoke_Nullable_methodWithSomeArray(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_Nullable_methodWithSomeArray(self.c_instance, c_input.ref)
+        return foobar_moveFromCType(c_result_handle)
     }
     public func methodWithInlineArray(input: [String]?) -> [String]? {
         let c_input = foobar_moveToCType(input)
-        return foobar_moveFromCType(smoke_Nullable_methodWithInlineArray(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_Nullable_methodWithInlineArray(self.c_instance, c_input.ref)
+        return foobar_moveFromCType(c_result_handle)
     }
     public func methodWithSomeMap(input: Nullable.SomeMap?) -> Nullable.SomeMap? {
         let c_input = foobar_moveToCType(input)
-        return foobar_moveFromCType(smoke_Nullable_methodWithSomeMap(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_Nullable_methodWithSomeMap(self.c_instance, c_input.ref)
+        return foobar_moveFromCType(c_result_handle)
     }
     public func methodWithInstance(input: SomeInterface?) -> SomeInterface? {
         let c_input = moveToCType(input)
-        return SomeInterface_moveFromCType(smoke_Nullable_methodWithInstance(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_Nullable_methodWithInstance(self.c_instance, c_input.ref)
+        return SomeInterface_moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: Nullable?, owning: Bool = true) -> RefHolder {

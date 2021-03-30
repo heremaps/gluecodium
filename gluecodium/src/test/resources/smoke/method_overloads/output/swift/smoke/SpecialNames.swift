@@ -14,16 +14,16 @@ public class SpecialNames {
         smoke_SpecialNames_release_handle(c_instance)
     }
     public func create() -> Void {
-        return moveFromCType(smoke_SpecialNames_create(self.c_instance))
+        smoke_SpecialNames_create(self.c_instance)
     }
     public func release() -> Void {
-        return moveFromCType(smoke_SpecialNames_release(self.c_instance))
+        smoke_SpecialNames_release(self.c_instance)
     }
     public func createProxy() -> Void {
-        return moveFromCType(smoke_SpecialNames_createProxy(self.c_instance))
+        smoke_SpecialNames_createProxy(self.c_instance)
     }
     public func Uppercase() -> Void {
-        return moveFromCType(smoke_SpecialNames_Uppercase(self.c_instance))
+        smoke_SpecialNames_Uppercase(self.c_instance)
     }
 }
 internal func getRef(_ ref: SpecialNames?, owning: Bool = true) -> RefHolder {

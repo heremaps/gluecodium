@@ -30,11 +30,13 @@
     let RESULT = {{>delegateCall}}
     if (!RESULT.has_value) {
         throw moveFromCType(RESULT.error_value) as {{resolveName exception "" "ref"}}
-    }{{#unless returnType.isVoid}} else {
-        return {{#unless isConstructor}}{{#returnType}}{{>swift/ConversionPrefixFrom}}{{/returnType}}{{/unless}}moveFromCType(RESULT.returned_value)
-    }{{/unless}}
-{{/if}}{{#unless thrownType}}
-    return {{#unless isConstructor}}{{#returnType}}{{>swift/ConversionPrefixFrom}}{{/returnType}}{{/unless}}moveFromCType({{>delegateCall}})
+    }
+{{#unless returnType.isVoid}}
+    let c_result_handle = RESULT.returned_value
+{{/unless}}{{/if}}{{#unless thrownType}}
+    {{#unless returnType.isVoid}}let c_result_handle = {{/unless}}{{>delegateCall}}
+{{/unless}}{{#unless returnType.isVoid}}
+    return {{#unless isConstructor}}{{#returnType}}{{>swift/ConversionPrefixFrom}}{{/returnType}}{{/unless}}moveFromCType(c_result_handle)
 {{/unless}}
 }{{!!
 

@@ -17,7 +17,7 @@ internal class _ListenerInterface: ListenerInterface {
         smoke_ListenerInterface_release_handle(c_instance)
     }
     public func notify() -> Void {
-        return moveFromCType(smoke_ListenerInterface_notify(self.c_instance))
+        smoke_ListenerInterface_notify(self.c_instance)
     }
 }
 @_cdecl("_CBridgeInitsmoke_ListenerInterface")

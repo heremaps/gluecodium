@@ -17,7 +17,7 @@ public struct AttributesStruct {
     public func veryFun(@OnParameterInStruct param: String) -> Void {
         let c_self_handle = moveToCType(self)
         let c_param = moveToCType(param)
-        return moveFromCType(smoke_AttributesStruct_veryFun(c_self_handle.ref, c_param.ref))
+        smoke_AttributesStruct_veryFun(c_self_handle.ref, c_param.ref)
     }
 }
 internal func copyFromCType(_ handle: _baseRef) -> AttributesStruct {
@@ -59,4 +59,3 @@ internal func copyToCType(_ swiftType: AttributesStruct?) -> RefHolder {
 internal func moveToCType(_ swiftType: AttributesStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_AttributesStruct_release_optional_handle)
 }
-

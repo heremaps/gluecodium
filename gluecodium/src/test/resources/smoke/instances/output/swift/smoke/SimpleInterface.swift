@@ -18,11 +18,13 @@ internal class _SimpleInterface: SimpleInterface {
         smoke_SimpleInterface_release_handle(c_instance)
     }
     public func getStringValue() -> String {
-        return moveFromCType(smoke_SimpleInterface_getStringValue(self.c_instance))
+        let c_result_handle = smoke_SimpleInterface_getStringValue(self.c_instance)
+        return moveFromCType(c_result_handle)
     }
     public func useSimpleInterface(input: SimpleInterface) -> SimpleInterface {
         let c_input = moveToCType(input)
-        return SimpleInterface_moveFromCType(smoke_SimpleInterface_useSimpleInterface(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_SimpleInterface_useSimpleInterface(self.c_instance, c_input.ref)
+        return SimpleInterface_moveFromCType(c_result_handle)
     }
 }
 @_cdecl("_CBridgeInitsmoke_SimpleInterface")

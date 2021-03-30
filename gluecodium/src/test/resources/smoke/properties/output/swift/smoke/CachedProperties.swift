@@ -3,10 +3,12 @@
 import Foundation
 public class CachedProperties {
     public private(set) lazy var cachedProperty: [String] = {
-        return foobar_moveFromCType(smoke_CachedProperties_cachedProperty_get(self.c_instance))
+        let c_result_handle = smoke_CachedProperties_cachedProperty_get(self.c_instance)
+        return foobar_moveFromCType(c_result_handle)
     }()
     public private(set) static var staticCachedProperty: Data = {
-        return moveFromCType(smoke_CachedProperties_staticCachedProperty_get())
+        let c_result_handle = smoke_CachedProperties_staticCachedProperty_get()
+        return moveFromCType(c_result_handle)
     }()
     let c_instance : _baseRef
     init(cCachedProperties: _baseRef) {

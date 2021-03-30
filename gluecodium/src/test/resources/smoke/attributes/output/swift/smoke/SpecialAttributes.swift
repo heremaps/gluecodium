@@ -15,11 +15,11 @@ public class SpecialAttributes {
     }
     @Deprecated("foo\nbar")
     public func withEscaping() -> Void {
-        return moveFromCType(smoke_SpecialAttributes_withEscaping(self.c_instance))
+        smoke_SpecialAttributes_withEscaping(self.c_instance)
     }
     @HackMerm -rf *
     public func withLineBreak() -> Void {
-        return moveFromCType(smoke_SpecialAttributes_withLineBreak(self.c_instance))
+        smoke_SpecialAttributes_withLineBreak(self.c_instance)
     }
 }
 internal func getRef(_ ref: SpecialAttributes?, owning: Bool = true) -> RefHolder {

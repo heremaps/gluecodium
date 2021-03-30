@@ -14,7 +14,7 @@ internal class InternalClass {
         smoke_InternalClass_release_handle(c_instance)
     }
     internal func fooBar() -> Void {
-        return moveFromCType(smoke_InternalClass_fooBar(self.c_instance))
+        smoke_InternalClass_fooBar(self.c_instance)
     }
 }
 internal func getRef(_ ref: InternalClass?, owning: Bool = true) -> RefHolder {

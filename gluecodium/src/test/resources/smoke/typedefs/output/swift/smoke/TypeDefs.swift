@@ -10,11 +10,12 @@ public class TypeDefs {
     public typealias NestedStructTypeDef = TypeDefs.TestStructTypeDef
     public var primitiveTypeProperty: [TypeDefs.PrimitiveTypeDef] {
         get {
-            return foobar_moveFromCType(smoke_TypeDefs_primitiveTypeProperty_get(self.c_instance))
+            let c_result_handle = smoke_TypeDefs_primitiveTypeProperty_get(self.c_instance)
+            return foobar_moveFromCType(c_result_handle)
         }
         set {
             let c_value = foobar_moveToCType(newValue)
-            return moveFromCType(smoke_TypeDefs_primitiveTypeProperty_set(self.c_instance, c_value.ref))
+            smoke_TypeDefs_primitiveTypeProperty_set(self.c_instance, c_value.ref)
         }
     }
     let c_instance : _baseRef
@@ -48,27 +49,33 @@ public class TypeDefs {
     }
     public static func methodWithPrimitiveTypeDef(input: TypeDefs.PrimitiveTypeDef) -> TypeDefs.PrimitiveTypeDef {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_TypeDefs_methodWithPrimitiveTypeDef(c_input.ref))
+        let c_result_handle = smoke_TypeDefs_methodWithPrimitiveTypeDef(c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public static func methodWithComplexTypeDef(input: TypeDefs.ComplexTypeDef) -> TypeDefs.ComplexTypeDef {
         let c_input = foobar_moveToCType(input)
-        return foobar_moveFromCType(smoke_TypeDefs_methodWithComplexTypeDef(c_input.ref))
+        let c_result_handle = smoke_TypeDefs_methodWithComplexTypeDef(c_input.ref)
+        return foobar_moveFromCType(c_result_handle)
     }
     public static func returnNestedIntTypeDef(input: TypeDefs.NestedIntTypeDef) -> TypeDefs.NestedIntTypeDef {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_TypeDefs_returnNestedIntTypeDef(c_input.ref))
+        let c_result_handle = smoke_TypeDefs_returnNestedIntTypeDef(c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public static func returnTestStructTypeDef(input: TypeDefs.TestStructTypeDef) -> TypeDefs.TestStructTypeDef {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_TypeDefs_returnTestStructTypeDef(c_input.ref))
+        let c_result_handle = smoke_TypeDefs_returnTestStructTypeDef(c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public static func returnNestedStructTypeDef(input: TypeDefs.NestedStructTypeDef) -> TypeDefs.NestedStructTypeDef {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_TypeDefs_returnNestedStructTypeDef(c_input.ref))
+        let c_result_handle = smoke_TypeDefs_returnNestedStructTypeDef(c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public static func returnTypeDefPointFromTypeCollection(input: PointTypeDef) -> PointTypeDef {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_TypeDefs_returnTypeDefPointFromTypeCollection(c_input.ref))
+        let c_result_handle = smoke_TypeDefs_returnTypeDefPointFromTypeCollection(c_input.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: TypeDefs?, owning: Bool = true) -> RefHolder {

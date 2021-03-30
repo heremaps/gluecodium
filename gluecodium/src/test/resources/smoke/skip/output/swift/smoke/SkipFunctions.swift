@@ -15,11 +15,13 @@ public class SkipFunctions {
     }
     public static func notInJava(input: String) -> String {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_SkipFunctions_notInJava(c_input.ref))
+        let c_result_handle = smoke_SkipFunctions_notInJava(c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public static func notInDart(input: Float) -> Float {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_SkipFunctions_notInDart(c_input.ref))
+        let c_result_handle = smoke_SkipFunctions_notInDart(c_input.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: SkipFunctions?, owning: Bool = true) -> RefHolder {

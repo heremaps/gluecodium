@@ -18,7 +18,7 @@ internal class _bazListener: bazListener {
     }
     public func BazMethod(_ BazParameter: String) -> Void {
         let c_BazParameter = moveToCType(BazParameter)
-        return moveFromCType(smoke_bazListener_BazMethod(self.c_instance, c_BazParameter.ref))
+        smoke_bazListener_BazMethod(self.c_instance, c_BazParameter.ref)
     }
 }
 @_cdecl("_CBridgeInitsmoke_bazListener")

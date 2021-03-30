@@ -7,11 +7,12 @@ public protocol Weakling : AnyObject {
 internal class _Weakling: Weakling {
     weak var listener: ListenerInterface? {
         get {
-            return ListenerInterface_moveFromCType(smoke_Weakling_listener_get(self.c_instance))
+            let c_result_handle = smoke_Weakling_listener_get(self.c_instance)
+            return ListenerInterface_moveFromCType(c_result_handle)
         }
         set {
             let c_value = weakToCType(newValue)
-            return moveFromCType(smoke_Weakling_listener_set(self.c_instance, c_value.ref))
+            smoke_Weakling_listener_set(self.c_instance, c_value.ref)
         }
     }
     let c_instance : _baseRef

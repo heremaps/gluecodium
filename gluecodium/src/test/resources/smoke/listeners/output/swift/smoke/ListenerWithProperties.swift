@@ -14,65 +14,72 @@ public protocol ListenerWithProperties : AnyObject {
 internal class _ListenerWithProperties: ListenerWithProperties {
     var message: String {
         get {
-            return moveFromCType(smoke_ListenerWithProperties_message_get(self.c_instance))
+            let c_result_handle = smoke_ListenerWithProperties_message_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_ListenerWithProperties_message_set(self.c_instance, c_value.ref))
+            smoke_ListenerWithProperties_message_set(self.c_instance, c_value.ref)
         }
     }
     var packedMessage: CalculationResult {
         get {
-            return CalculationResult_moveFromCType(smoke_ListenerWithProperties_packedMessage_get(self.c_instance))
+            let c_result_handle = smoke_ListenerWithProperties_packedMessage_get(self.c_instance)
+            return CalculationResult_moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_ListenerWithProperties_packedMessage_set(self.c_instance, c_value.ref))
+            smoke_ListenerWithProperties_packedMessage_set(self.c_instance, c_value.ref)
         }
     }
     var structuredMessage: ResultStruct {
         get {
-            return moveFromCType(smoke_ListenerWithProperties_structuredMessage_get(self.c_instance))
+            let c_result_handle = smoke_ListenerWithProperties_structuredMessage_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_ListenerWithProperties_structuredMessage_set(self.c_instance, c_value.ref))
+            smoke_ListenerWithProperties_structuredMessage_set(self.c_instance, c_value.ref)
         }
     }
     var enumeratedMessage: ResultEnum {
         get {
-            return moveFromCType(smoke_ListenerWithProperties_enumeratedMessage_get(self.c_instance))
+            let c_result_handle = smoke_ListenerWithProperties_enumeratedMessage_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_ListenerWithProperties_enumeratedMessage_set(self.c_instance, c_value.ref))
+            smoke_ListenerWithProperties_enumeratedMessage_set(self.c_instance, c_value.ref)
         }
     }
     var arrayedMessage: [String] {
         get {
-            return foobar_moveFromCType(smoke_ListenerWithProperties_arrayedMessage_get(self.c_instance))
+            let c_result_handle = smoke_ListenerWithProperties_arrayedMessage_get(self.c_instance)
+            return foobar_moveFromCType(c_result_handle)
         }
         set {
             let c_value = foobar_moveToCType(newValue)
-            return moveFromCType(smoke_ListenerWithProperties_arrayedMessage_set(self.c_instance, c_value.ref))
+            smoke_ListenerWithProperties_arrayedMessage_set(self.c_instance, c_value.ref)
         }
     }
     var mappedMessage: ListenerWithProperties.StringToDouble {
         get {
-            return foobar_moveFromCType(smoke_ListenerWithProperties_mappedMessage_get(self.c_instance))
+            let c_result_handle = smoke_ListenerWithProperties_mappedMessage_get(self.c_instance)
+            return foobar_moveFromCType(c_result_handle)
         }
         set {
             let c_value = foobar_moveToCType(newValue)
-            return moveFromCType(smoke_ListenerWithProperties_mappedMessage_set(self.c_instance, c_value.ref))
+            smoke_ListenerWithProperties_mappedMessage_set(self.c_instance, c_value.ref)
         }
     }
     var bufferedMessage: Data {
         get {
-            return moveFromCType(smoke_ListenerWithProperties_bufferedMessage_get(self.c_instance))
+            let c_result_handle = smoke_ListenerWithProperties_bufferedMessage_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_ListenerWithProperties_bufferedMessage_set(self.c_instance, c_value.ref))
+            smoke_ListenerWithProperties_bufferedMessage_set(self.c_instance, c_value.ref)
         }
     }
     let c_instance : _baseRef

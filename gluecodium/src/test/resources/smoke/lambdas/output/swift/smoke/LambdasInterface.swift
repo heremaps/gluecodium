@@ -19,7 +19,7 @@ internal class _LambdasInterface: LambdasInterface {
     }
     public func takeScreenshot(callback: @escaping LambdasInterface.TakeScreenshotCallback) -> Void {
         let c_callback = moveToCType(callback)
-        return moveFromCType(smoke_LambdasInterface_takeScreenshot(self.c_instance, c_callback.ref))
+        smoke_LambdasInterface_takeScreenshot(self.c_instance, c_callback.ref)
     }
 }
 @_cdecl("_CBridgeInitsmoke_LambdasInterface")

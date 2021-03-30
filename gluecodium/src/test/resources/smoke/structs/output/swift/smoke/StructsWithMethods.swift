@@ -29,31 +29,35 @@ public struct Vector {
     public func distanceTo(other: Vector) -> Double {
         let c_self_handle = moveToCType(self)
         let c_other = moveToCType(other)
-        return moveFromCType(smoke_StructsWithMethods_Vector_distanceTo(c_self_handle.ref, c_other.ref))
+        let c_result_handle = smoke_StructsWithMethods_Vector_distanceTo(c_self_handle.ref, c_other.ref)
+        return moveFromCType(c_result_handle)
     }
     public func add(other: Vector) -> Vector {
         let c_self_handle = moveToCType(self)
         let c_other = moveToCType(other)
-        return moveFromCType(smoke_StructsWithMethods_Vector_add(c_self_handle.ref, c_other.ref))
+        let c_result_handle = smoke_StructsWithMethods_Vector_add(c_self_handle.ref, c_other.ref)
+        return moveFromCType(c_result_handle)
     }
     public static func validate(x: Double, y: Double) -> Bool {
         let c_x = moveToCType(x)
         let c_y = moveToCType(y)
-        return moveFromCType(smoke_StructsWithMethods_Vector_validate(c_x.ref, c_y.ref))
+        let c_result_handle = smoke_StructsWithMethods_Vector_validate(c_x.ref, c_y.ref)
+        return moveFromCType(c_result_handle)
     }
     private static func create(x: Double, y: Double) -> _baseRef {
         let c_x = moveToCType(x)
         let c_y = moveToCType(y)
-        return moveFromCType(smoke_StructsWithMethods_Vector_create_Double_Double(c_x.ref, c_y.ref))
+        let c_result_handle = smoke_StructsWithMethods_Vector_create_Double_Double(c_x.ref, c_y.ref)
+        return moveFromCType(c_result_handle)
     }
     private static func create(other: Vector) throws -> _baseRef {
         let c_other = moveToCType(other)
         let RESULT = smoke_StructsWithMethods_Vector_create_Vector(c_other.ref)
         if (!RESULT.has_value) {
             throw moveFromCType(RESULT.error_value) as ValidationError
-        } else {
-            return moveFromCType(RESULT.returned_value)
         }
+        let c_result_handle = RESULT.returned_value
+        return moveFromCType(c_result_handle)
     }
 }
 internal func copyFromCType(_ handle: _baseRef) -> Vector {

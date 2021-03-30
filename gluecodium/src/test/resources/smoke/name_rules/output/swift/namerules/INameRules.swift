@@ -14,29 +14,32 @@ public class INameRules {
     }
     public var intPropertyPod: UInt32 {
         get {
-            return moveFromCType(namerules_INameRules_intPropertyPod_get(self.c_instance))
+            let c_result_handle = namerules_INameRules_intPropertyPod_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(namerules_INameRules_intPropertyPod_set(self.c_instance, c_value.ref))
+            namerules_INameRules_intPropertyPod_set(self.c_instance, c_value.ref)
         }
     }
     public var isBooleanPropertyPod: Bool {
         get {
-            return moveFromCType(namerules_INameRules_isBooleanPropertyPod_get(self.c_instance))
+            let c_result_handle = namerules_INameRules_isBooleanPropertyPod_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(namerules_INameRules_isBooleanPropertyPod_set(self.c_instance, c_value.ref))
+            namerules_INameRules_isBooleanPropertyPod_set(self.c_instance, c_value.ref)
         }
     }
     public var structPropertyPod: INameRules.IExampleStruct {
         get {
-            return moveFromCType(namerules_INameRules_structPropertyPod_get(self.c_instance))
+            let c_result_handle = namerules_INameRules_structPropertyPod_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(namerules_INameRules_structPropertyPod_set(self.c_instance, c_value.ref))
+            namerules_INameRules_structPropertyPod_set(self.c_instance, c_value.ref)
         }
     }
     let c_instance : _baseRef
@@ -67,16 +70,17 @@ public class INameRules {
         }
     }
     private static func create() -> _baseRef {
-        return moveFromCType(namerules_INameRules_create())
+        let c_result_handle = namerules_INameRules_create()
+        return moveFromCType(c_result_handle)
     }
     public func someMethod(someArgument: INameRules.IExampleStruct) throws -> Double {
         let c_someArgument = moveToCType(someArgument)
         let RESULT = namerules_INameRules_someMethod(self.c_instance, c_someArgument.ref)
         if (!RESULT.has_value) {
             throw moveFromCType(RESULT.error_value) as INameRules.ExampleError
-        } else {
-            return moveFromCType(RESULT.returned_value)
         }
+        let c_result_handle = RESULT.returned_value
+        return moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: INameRules?, owning: Bool = true) -> RefHolder {

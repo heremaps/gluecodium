@@ -50,12 +50,14 @@ public class LevelOne {
                     stringField = moveFromCType(smoke_LevelOne_LevelTwo_LevelThree_LevelFour_stringField_get(cHandle))
                 }
                 public static func fooFactory() -> LevelOne.LevelTwo.LevelThree.LevelFour {
-                    return moveFromCType(smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fooFactory())
+                    let c_result_handle = smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fooFactory()
+                    return moveFromCType(c_result_handle)
                 }
             }
             public func foo(input: InnerInterface) -> InnerClass {
                 let c_input = moveToCType(input)
-                return InnerClass_moveFromCType(smoke_LevelOne_LevelTwo_LevelThree_foo(self.c_instance, c_input.ref))
+                let c_result_handle = smoke_LevelOne_LevelTwo_LevelThree_foo(self.c_instance, c_input.ref)
+                return InnerClass_moveFromCType(c_result_handle)
             }
         }
     }

@@ -18,7 +18,8 @@ internal class _OuterInterface: OuterInterface {
     }
     public func foo(input: String) -> String {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_OuterInterface_foo(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_OuterInterface_foo(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 public class InnerClass {
@@ -35,7 +36,8 @@ public class InnerClass {
     }
     public func foo(input: String) -> String {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_OuterInterface_InnerClass_foo(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_OuterInterface_InnerClass_foo(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 public protocol InnerInterface : AnyObject {
@@ -55,7 +57,8 @@ internal class _InnerInterface: InnerInterface {
     }
     public func foo(input: String) -> String {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_OuterInterface_InnerInterface_foo(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_OuterInterface_InnerInterface_foo(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 @_cdecl("_CBridgeInitsmoke_OuterInterface")

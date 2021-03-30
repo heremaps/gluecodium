@@ -7,20 +7,22 @@ public class PublicClass {
     internal typealias StringToInternalStructMap = [String: PublicClass.InternalStruct]
     internal var internalStructProperty: PublicClass.InternalStruct {
         get {
-            return moveFromCType(smoke_PublicClass_internalStructProperty_get(self.c_instance))
+            let c_result_handle = smoke_PublicClass_internalStructProperty_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_PublicClass_internalStructProperty_set(self.c_instance, c_value.ref))
+            smoke_PublicClass_internalStructProperty_set(self.c_instance, c_value.ref)
         }
     }
     public internal(set) var internalSetterProperty: String {
         get {
-            return moveFromCType(smoke_PublicClass_internalSetterProperty_get(self.c_instance))
+            let c_result_handle = smoke_PublicClass_internalSetterProperty_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_PublicClass_internalSetterProperty_set(self.c_instance, c_value.ref))
+            smoke_PublicClass_internalSetterProperty_set(self.c_instance, c_value.ref)
         }
     }
     let c_instance : _baseRef
@@ -74,7 +76,8 @@ public class PublicClass {
     }
     internal func internalMethod(input: PublicClass.InternalStruct) -> PublicClass.InternalStructTypeDef {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_PublicClass_internalMethod(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_PublicClass_internalMethod(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: PublicClass?, owning: Bool = true) -> RefHolder {

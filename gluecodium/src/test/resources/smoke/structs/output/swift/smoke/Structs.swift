@@ -137,20 +137,24 @@ public class Structs {
     }
     public static func swapPointCoordinates(input: Structs.Point) -> Structs.Point {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_Structs_swapPointCoordinates(c_input.ref))
+        let c_result_handle = smoke_Structs_swapPointCoordinates(c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public static func returnAllTypesStruct(input: Structs.AllTypesStruct) -> Structs.AllTypesStruct {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_Structs_returnAllTypesStruct(c_input.ref))
+        let c_result_handle = smoke_Structs_returnAllTypesStruct(c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public static func createPoint(x: Double, y: Double) -> Point {
         let c_x = moveToCType(x)
         let c_y = moveToCType(y)
-        return moveFromCType(smoke_Structs_createPoint(c_x.ref, c_y.ref))
+        let c_result_handle = smoke_Structs_createPoint(c_x.ref, c_y.ref)
+        return moveFromCType(c_result_handle)
     }
     public static func modifyAllTypesStruct(input: AllTypesStruct) -> AllTypesStruct {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_Structs_modifyAllTypesStruct(c_input.ref))
+        let c_result_handle = smoke_Structs_modifyAllTypesStruct(c_input.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: Structs?, owning: Bool = true) -> RefHolder {

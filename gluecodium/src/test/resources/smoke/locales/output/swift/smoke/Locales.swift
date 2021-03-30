@@ -7,11 +7,12 @@ public class Locales {
     public typealias LocaleMap = [String: Locale]
     public var localeProperty: Locale {
         get {
-            return moveFromCType(smoke_Locales_localeProperty_get(self.c_instance))
+            let c_result_handle = smoke_Locales_localeProperty_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_Locales_localeProperty_set(self.c_instance, c_value.ref))
+            smoke_Locales_localeProperty_set(self.c_instance, c_value.ref)
         }
     }
     let c_instance : _baseRef
@@ -36,7 +37,8 @@ public class Locales {
     }
     public func localeMethod(input: Locale) -> Locale {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_Locales_localeMethod(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_Locales_localeMethod(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: Locales?, owning: Bool = true) -> RefHolder {

@@ -17,7 +17,7 @@ internal class _InternalInterface: InternalInterface {
         smoke_InternalInterface_release_handle(c_instance)
     }
     internal func fooBar() -> Void {
-        return moveFromCType(smoke_InternalInterface_fooBar(self.c_instance))
+        smoke_InternalInterface_fooBar(self.c_instance)
     }
 }
 @_cdecl("_CBridgeInitsmoke_InternalInterface")

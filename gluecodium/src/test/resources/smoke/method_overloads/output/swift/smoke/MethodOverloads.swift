@@ -29,45 +29,55 @@ public class MethodOverloads {
     }
     public func isBoolean(input: Bool) -> Bool {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_MethodOverloads_isBoolean_Boolean(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_MethodOverloads_isBoolean_Boolean(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public func isBoolean(input: Int8) -> Bool {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_MethodOverloads_isBoolean_Byte(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_MethodOverloads_isBoolean_Byte(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public func isBoolean(input: String) -> Bool {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_MethodOverloads_isBoolean_String(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_MethodOverloads_isBoolean_String(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public func isBoolean(input: MethodOverloads.Point) -> Bool {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_MethodOverloads_isBoolean_Point(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_MethodOverloads_isBoolean_Point(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public func isBoolean(input1: Bool, input2: Int8, input3: String, input4: MethodOverloads.Point) -> Bool {
         let c_input1 = moveToCType(input1)
         let c_input2 = moveToCType(input2)
         let c_input3 = moveToCType(input3)
         let c_input4 = moveToCType(input4)
-        return moveFromCType(smoke_MethodOverloads_isBoolean_Boolean_Byte_String_Point(self.c_instance, c_input1.ref, c_input2.ref, c_input3.ref, c_input4.ref))
+        let c_result_handle = smoke_MethodOverloads_isBoolean_Boolean_Byte_String_Point(self.c_instance, c_input1.ref, c_input2.ref, c_input3.ref, c_input4.ref)
+        return moveFromCType(c_result_handle)
     }
     public func isBoolean(input: MethodOverloads.StringArray) -> Bool {
         let c_input = foobar_moveToCType(input)
-        return moveFromCType(smoke_MethodOverloads_isBoolean__3String_4(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_MethodOverloads_isBoolean__3String_4(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public func isBoolean(input: MethodOverloads.IntArray) -> Bool {
         let c_input = foobar_moveToCType(input)
-        return moveFromCType(smoke_MethodOverloads_isBoolean__3Byte_4(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_MethodOverloads_isBoolean__3Byte_4(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public func isBoolean() -> Bool {
-        return moveFromCType(smoke_MethodOverloads_isBoolean_(self.c_instance))
+        let c_result_handle = smoke_MethodOverloads_isBoolean_(self.c_instance)
+        return moveFromCType(c_result_handle)
     }
     public func isFloat(input: String) -> Bool {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_MethodOverloads_isFloat_String(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_MethodOverloads_isFloat_String(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public func isFloat(input: MethodOverloads.IntArray) -> Bool {
         let c_input = foobar_moveToCType(input)
-        return moveFromCType(smoke_MethodOverloads_isFloat__3Byte_4(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_MethodOverloads_isFloat__3Byte_4(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: MethodOverloads?, owning: Bool = true) -> RefHolder {

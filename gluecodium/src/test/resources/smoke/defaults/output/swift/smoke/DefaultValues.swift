@@ -147,7 +147,8 @@ public class DefaultValues {
     }
     public static func processStructWithDefaults(input: DefaultValues.StructWithDefaults) -> DefaultValues.StructWithDefaults {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_DefaultValues_processStructWithDefaults(c_input.ref))
+        let c_result_handle = smoke_DefaultValues_processStructWithDefaults(c_input.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: DefaultValues?, owning: Bool = true) -> RefHolder {

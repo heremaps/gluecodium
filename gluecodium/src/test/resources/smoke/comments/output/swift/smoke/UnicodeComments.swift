@@ -22,9 +22,9 @@ public class UnicodeComments {
         let RESULT = smoke_UnicodeComments_someMethodWithAllComments(self.c_instance, c_input.ref)
         if (!RESULT.has_value) {
             throw moveFromCType(RESULT.error_value) as Comments.SomethingWrongError
-        } else {
-            return moveFromCType(RESULT.returned_value)
         }
+        let c_result_handle = RESULT.returned_value
+        return moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: UnicodeComments?, owning: Bool = true) -> RefHolder {

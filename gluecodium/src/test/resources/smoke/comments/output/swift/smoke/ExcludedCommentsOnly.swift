@@ -14,11 +14,12 @@ public class ExcludedCommentsOnly {
     /// :nodoc:
     public var isSomeProperty: ExcludedCommentsOnly.Usefulness {
         get {
-            return moveFromCType(smoke_ExcludedCommentsOnly_isSomeProperty_get(self.c_instance))
+            let c_result_handle = smoke_ExcludedCommentsOnly_isSomeProperty_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_ExcludedCommentsOnly_isSomeProperty_set(self.c_instance, c_value.ref))
+            smoke_ExcludedCommentsOnly_isSomeProperty_set(self.c_instance, c_value.ref)
         }
     }
     let c_instance : _baseRef
@@ -58,14 +59,14 @@ public class ExcludedCommentsOnly {
         let RESULT = smoke_ExcludedCommentsOnly_someMethodWithAllComments(self.c_instance, c_inputParameter.ref)
         if (!RESULT.has_value) {
             throw moveFromCType(RESULT.error_value) as ExcludedCommentsOnly.SomethingWrongError
-        } else {
-            return moveFromCType(RESULT.returned_value)
         }
+        let c_result_handle = RESULT.returned_value
+        return moveFromCType(c_result_handle)
     }
     ///
     /// :nodoc:
     public func someMethodWithoutReturnTypeOrInputParameters() -> Void {
-        return moveFromCType(smoke_ExcludedCommentsOnly_someMethodWithoutReturnTypeOrInputParameters(self.c_instance))
+        smoke_ExcludedCommentsOnly_someMethodWithoutReturnTypeOrInputParameters(self.c_instance)
     }
 }
 internal func getRef(_ ref: ExcludedCommentsOnly?, owning: Bool = true) -> RefHolder {

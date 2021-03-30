@@ -73,9 +73,9 @@ public class CommentsLinks {
         let RESULT = smoke_CommentsLinks_randomMethod_SomeEnum(self.c_instance, c_inputParameter.ref)
         if (!RESULT.has_value) {
             throw moveFromCType(RESULT.error_value) as Comments.SomethingWrongError
-        } else {
-            return moveFromCType(RESULT.returned_value)
         }
+        let c_result_handle = RESULT.returned_value
+        return moveFromCType(c_result_handle)
     }
     /// Links to method overloads:
     /// * other one: `CommentsLinks.randomMethod(Comments.SomeEnum)`
@@ -87,7 +87,7 @@ public class CommentsLinks {
     public func randomMethod(text: String, flag: Bool) -> Void {
         let c_text = moveToCType(text)
         let c_flag = moveToCType(flag)
-        return moveFromCType(smoke_CommentsLinks_randomMethod_String_Boolean(self.c_instance, c_text.ref, c_flag.ref))
+        smoke_CommentsLinks_randomMethod_String_Boolean(self.c_instance, c_text.ref, c_flag.ref)
     }
 }
 internal func getRef(_ ref: CommentsLinks?, owning: Bool = true) -> RefHolder {

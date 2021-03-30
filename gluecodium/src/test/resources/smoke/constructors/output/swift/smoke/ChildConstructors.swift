@@ -16,11 +16,13 @@ public class ChildConstructors: Constructors {
         super.init(cConstructors: cChildConstructors)
     }
     private static func create() -> _baseRef {
-        return moveFromCType(smoke_ChildConstructors_create_())
+        let c_result_handle = smoke_ChildConstructors_create_()
+        return moveFromCType(c_result_handle)
     }
     private static func create(other: Constructors) -> _baseRef {
         let c_other = moveToCType(other)
-        return moveFromCType(smoke_ChildConstructors_create_Constructors(c_other.ref))
+        let c_result_handle = smoke_ChildConstructors_create_Constructors(c_other.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 @_cdecl("_CBridgeInitsmoke_ChildConstructors")

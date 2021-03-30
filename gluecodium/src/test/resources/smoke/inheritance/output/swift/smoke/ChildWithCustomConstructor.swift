@@ -11,7 +11,8 @@ public class ChildWithCustomConstructor: ParentWithCustomConstructor {
         super.init(cParentWithCustomConstructor: cChildWithCustomConstructor)
     }
     private static func make() -> _baseRef {
-        return moveFromCType(smoke_ChildWithCustomConstructor_make())
+        let c_result_handle = smoke_ChildWithCustomConstructor_make()
+        return moveFromCType(c_result_handle)
     }
 }
 @_cdecl("_CBridgeInitsmoke_ChildWithCustomConstructor")

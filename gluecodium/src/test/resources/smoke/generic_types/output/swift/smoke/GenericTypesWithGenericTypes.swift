@@ -15,31 +15,38 @@ public class GenericTypesWithGenericTypes {
     }
     public func methodWithListOfLists(input: [[Int32]]) -> [[Int32]] {
         let c_input = foobar_moveToCType(input)
-        return foobar_moveFromCType(smoke_GenericTypesWithGenericTypes_methodWithListOfLists(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_GenericTypesWithGenericTypes_methodWithListOfLists(self.c_instance, c_input.ref)
+        return foobar_moveFromCType(c_result_handle)
     }
     public func methodWithMapOfMaps(input: [Int32: [Int32: Bool]]) -> [[Int32: Bool]: Bool] {
         let c_input = foobar_moveToCType(input)
-        return foobar_moveFromCType(smoke_GenericTypesWithGenericTypes_methodWithMapOfMaps(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_GenericTypesWithGenericTypes_methodWithMapOfMaps(self.c_instance, c_input.ref)
+        return foobar_moveFromCType(c_result_handle)
     }
     public func methodWithSetOfSets(input: Set<Set<Int32>>) -> Set<Set<Int32>> {
         let c_input = foobar_moveToCType(input)
-        return foobar_moveFromCType(smoke_GenericTypesWithGenericTypes_methodWithSetOfSets(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_GenericTypesWithGenericTypes_methodWithSetOfSets(self.c_instance, c_input.ref)
+        return foobar_moveFromCType(c_result_handle)
     }
     public func methodWithListAndMap(input: [[Int32: Bool]]) -> [Int32: [Int32]] {
         let c_input = foobar_moveToCType(input)
-        return foobar_moveFromCType(smoke_GenericTypesWithGenericTypes_methodWithListAndMap(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_GenericTypesWithGenericTypes_methodWithListAndMap(self.c_instance, c_input.ref)
+        return foobar_moveFromCType(c_result_handle)
     }
     public func methodWithListAndSet(input: [Set<Int32>]) -> Set<[Int32]> {
         let c_input = foobar_moveToCType(input)
-        return foobar_moveFromCType(smoke_GenericTypesWithGenericTypes_methodWithListAndSet(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_GenericTypesWithGenericTypes_methodWithListAndSet(self.c_instance, c_input.ref)
+        return foobar_moveFromCType(c_result_handle)
     }
     public func methodWithMapAndSet(input: [Int32: Set<Int32>]) -> Set<[Int32: Bool]> {
         let c_input = foobar_moveToCType(input)
-        return foobar_moveFromCType(smoke_GenericTypesWithGenericTypes_methodWithMapAndSet(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_GenericTypesWithGenericTypes_methodWithMapAndSet(self.c_instance, c_input.ref)
+        return foobar_moveFromCType(c_result_handle)
     }
     public func methodWithMapGenericKeys(input: [Set<Int32>: Bool]) -> [[Int32]: Bool] {
         let c_input = foobar_moveToCType(input)
-        return foobar_moveFromCType(smoke_GenericTypesWithGenericTypes_methodWithMapGenericKeys(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_GenericTypesWithGenericTypes_methodWithMapGenericKeys(self.c_instance, c_input.ref)
+        return foobar_moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: GenericTypesWithGenericTypes?, owning: Bool = true) -> RefHolder {

@@ -7,11 +7,12 @@ public class Dates {
     public typealias DateMap = [String: Date]
     public var dateProperty: Date {
         get {
-            return moveFromCType(smoke_Dates_dateProperty_get(self.c_instance))
+            let c_result_handle = smoke_Dates_dateProperty_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_Dates_dateProperty_set(self.c_instance, c_value.ref))
+            smoke_Dates_dateProperty_set(self.c_instance, c_value.ref)
         }
     }
     let c_instance : _baseRef
@@ -36,7 +37,8 @@ public class Dates {
     }
     public func dateMethod(input: Date) -> Date {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_Dates_dateMethod(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_Dates_dateMethod(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: Dates?, owning: Bool = true) -> RefHolder {
