@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 8.11.0
+Release date: 2021-03-30
 ### Features:
   * Added support for static functions and properties in interfaces.
 ### Bug fixes:
