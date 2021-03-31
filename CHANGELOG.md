@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 8.11.1
+Release date: 2021-03-31
+### Bug fixes:
+  * Reduced boilerplate code for functions returning `void` in Swift.
+
 ## 8.11.0
 Release date: 2021-03-30
 ### Features:
