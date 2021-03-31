@@ -25,7 +25,8 @@ public class NestedReferences {
     public func insideOut(struct1: NestedReferences.NestedReferences, struct2: NestedReferences.NestedReferences) -> NestedReferences {
         let c_struct1 = moveToCType(struct1)
         let c_struct2 = moveToCType(struct2)
-        return NestedReferences_moveFromCType(smoke_NestedReferences_insideOut(self.c_instance, c_struct1.ref, c_struct2.ref))
+        let c_result_handle = smoke_NestedReferences_insideOut(self.c_instance, c_struct1.ref, c_struct2.ref)
+        return NestedReferences_moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: NestedReferences?, owning: Bool = true) -> RefHolder {

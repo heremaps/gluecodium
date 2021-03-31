@@ -40,9 +40,9 @@ public class Errors {
         let RESULT = smoke_Errors_methodWithErrorsAndReturnValue()
         if (!RESULT.has_value) {
             throw moveFromCType(RESULT.error_value) as Errors.InternalError
-        } else {
-            return moveFromCType(RESULT.returned_value)
         }
+        let c_result_handle = RESULT.returned_value
+        return moveFromCType(c_result_handle)
     }
     public static func methodWithPayloadError() throws -> Void {
         let RESULT = smoke_Errors_methodWithPayloadError()
@@ -54,9 +54,9 @@ public class Errors {
         let RESULT = smoke_Errors_methodWithPayloadErrorAndReturnValue()
         if (!RESULT.has_value) {
             throw moveFromCType(RESULT.error_value) as WithPayloadError
-        } else {
-            return moveFromCType(RESULT.returned_value)
         }
+        let c_result_handle = RESULT.returned_value
+        return moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: Errors?, owning: Bool = true) -> RefHolder {

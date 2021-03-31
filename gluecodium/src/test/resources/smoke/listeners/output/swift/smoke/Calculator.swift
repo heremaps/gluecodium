@@ -15,11 +15,11 @@ public class Calculator {
     }
     public static func registerListener(listener: CalculatorListener) -> Void {
         let c_listener = moveToCType(listener)
-        return moveFromCType(smoke_Calculator_registerListener(c_listener.ref))
+        smoke_Calculator_registerListener(c_listener.ref)
     }
     public static func unregisterListener(listener: CalculatorListener) -> Void {
         let c_listener = moveToCType(listener)
-        return moveFromCType(smoke_Calculator_unregisterListener(c_listener.ref))
+        smoke_Calculator_unregisterListener(c_listener.ref)
     }
 }
 internal func getRef(_ ref: Calculator?, owning: Bool = true) -> RefHolder {

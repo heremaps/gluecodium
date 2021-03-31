@@ -24,7 +24,7 @@ public struct OuterStruct {
         }
         public func doSomething() -> Void {
             let c_self_handle = moveToCType(self)
-            return moveFromCType(smoke_OuterStruct_InnerStruct_doSomething(c_self_handle.ref))
+            smoke_OuterStruct_InnerStruct_doSomething(c_self_handle.ref)
         }
     }
     public class InnerClass {
@@ -40,7 +40,8 @@ public struct OuterStruct {
             smoke_OuterStruct_InnerClass_release_handle(c_instance)
         }
         public func fooBar() -> Set<Locale> {
-            return foobar_moveFromCType(smoke_OuterStruct_InnerClass_fooBar(self.c_instance))
+            let c_result_handle = smoke_OuterStruct_InnerClass_fooBar(self.c_instance)
+            return foobar_moveFromCType(c_result_handle)
         }
     }
     public func doNothing() throws -> Void {
@@ -67,7 +68,8 @@ internal class _InnerInterface: InnerInterface {
         smoke_OuterStruct_InnerInterface_release_handle(c_instance)
     }
     public func barBaz() -> [String: Data] {
-        return foobar_moveFromCType(smoke_OuterStruct_InnerInterface_barBaz(self.c_instance))
+        let c_result_handle = smoke_OuterStruct_InnerInterface_barBaz(self.c_instance)
+        return foobar_moveFromCType(c_result_handle)
     }
 }
 internal func copyFromCType(_ handle: _baseRef) -> OuterStruct {

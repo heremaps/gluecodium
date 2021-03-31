@@ -6,7 +6,7 @@ public class ChildClassFromClass: ParentClass {
         super.init(cParentClass: cChildClassFromClass)
     }
     public func childClassMethod() -> Void {
-        return moveFromCType(smoke_ChildClassFromClass_childClassMethod(self.c_instance))
+        smoke_ChildClassFromClass_childClassMethod(self.c_instance)
     }
 }
 @_cdecl("_CBridgeInitsmoke_ChildClassFromClass")

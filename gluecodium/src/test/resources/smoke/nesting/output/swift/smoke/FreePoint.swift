@@ -15,7 +15,8 @@ public struct FreePoint {
     }
     public func flip() -> FreePoint {
         let c_self_handle = moveToCType(self)
-        return moveFromCType(smoke_FreePoint_flip(c_self_handle.ref))
+        let c_result_handle = smoke_FreePoint_flip(c_self_handle.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 internal func copyFromCType(_ handle: _baseRef) -> FreePoint {

@@ -31,11 +31,11 @@ public class PlatformComments {
     }
     /// This is some very useless method that is very swift.
     public func doNothing() -> Void {
-        return moveFromCType(smoke_PlatformComments_doNothing(self.c_instance))
+        smoke_PlatformComments_doNothing(self.c_instance)
     }
     /// Eats a hip bruschetta.
     public func doMagic() -> Void {
-        return moveFromCType(smoke_PlatformComments_doMagic(self.c_instance))
+        smoke_PlatformComments_doMagic(self.c_instance)
     }
     /// This is some very useful method that measures the usefulness of its input or \esc@pe{s}.
     /// - Parameter input: Very useful parameter that \[\esc@pe{s}\]
@@ -46,14 +46,14 @@ public class PlatformComments {
         let RESULT = smoke_PlatformComments_someMethodWithAllComments(self.c_instance, c_input.ref)
         if (!RESULT.has_value) {
             throw moveFromCType(RESULT.error_value) as PlatformComments.SomethingWrongError
-        } else {
-            return moveFromCType(RESULT.returned_value)
         }
+        let c_result_handle = RESULT.returned_value
+        return moveFromCType(c_result_handle)
     }
     ///
     @available(*, deprecated, message: "A very awesome method that is deprecated.")
     public func someDeprecatedMethod() -> Void {
-        return moveFromCType(smoke_PlatformComments_someDeprecatedMethod(self.c_instance))
+        smoke_PlatformComments_someDeprecatedMethod(self.c_instance)
     }
 }
 internal func getRef(_ ref: PlatformComments?, owning: Bool = true) -> RefHolder {

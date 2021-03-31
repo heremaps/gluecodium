@@ -4,7 +4,8 @@ import Foundation
 public class ExternalClass {
     public var someProperty: String {
         get {
-            return moveFromCType(smoke_ExternalClass_someProperty_get(self.c_instance))
+            let c_result_handle = smoke_ExternalClass_someProperty_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
     }
     let c_instance : _baseRef
@@ -32,7 +33,7 @@ public class ExternalClass {
     }
     public func someMethod(someParameter: Int8) -> Void {
         let c_someParameter = moveToCType(someParameter)
-        return moveFromCType(smoke_ExternalClass_someMethod(self.c_instance, c_someParameter.ref))
+        smoke_ExternalClass_someMethod(self.c_instance, c_someParameter.ref)
     }
 }
 internal func getRef(_ ref: ExternalClass?, owning: Bool = true) -> RefHolder {

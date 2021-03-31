@@ -11,7 +11,7 @@ internal struct InternalStruct {
     }
     internal func fooBar() -> Void {
         let c_self_handle = moveToCType(self)
-        return moveFromCType(smoke_PublicTypeCollection_InternalStruct_fooBar(c_self_handle.ref))
+        smoke_PublicTypeCollection_InternalStruct_fooBar(c_self_handle.ref)
     }
 }
 internal func copyFromCType(_ handle: _baseRef) -> InternalStruct {

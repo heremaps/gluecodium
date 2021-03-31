@@ -27,12 +27,14 @@ public class OuterClass {
         }
         public func foo(input: String) -> String {
             let c_input = moveToCType(input)
-            return moveFromCType(smoke_OuterClass_InnerClass_foo(self.c_instance, c_input.ref))
+            let c_result_handle = smoke_OuterClass_InnerClass_foo(self.c_instance, c_input.ref)
+            return moveFromCType(c_result_handle)
         }
     }
     public func foo(input: String) -> String {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_OuterClass_foo(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_OuterClass_foo(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 public protocol InnerInterface : AnyObject {
@@ -52,7 +54,8 @@ internal class _InnerInterface: InnerInterface {
     }
     public func foo(input: String) -> String {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_OuterClass_InnerInterface_foo(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_OuterClass_InnerInterface_foo(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: OuterClass?, owning: Bool = true) -> RefHolder {

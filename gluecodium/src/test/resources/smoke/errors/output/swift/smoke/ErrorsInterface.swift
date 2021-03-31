@@ -37,9 +37,9 @@ internal class _ErrorsInterface: ErrorsInterface {
         let RESULT = smoke_ErrorsInterface_methodWithErrorsAndReturnValue(self.c_instance)
         if (!RESULT.has_value) {
             throw moveFromCType(RESULT.error_value) as InternalError
-        } else {
-            return moveFromCType(RESULT.returned_value)
         }
+        let c_result_handle = RESULT.returned_value
+        return moveFromCType(c_result_handle)
     }
     public static func methodWithPayloadError() throws -> Void {
         let RESULT = smoke_ErrorsInterface_methodWithPayloadError()
@@ -51,9 +51,9 @@ internal class _ErrorsInterface: ErrorsInterface {
         let RESULT = smoke_ErrorsInterface_methodWithPayloadErrorAndReturnValue()
         if (!RESULT.has_value) {
             throw moveFromCType(RESULT.error_value) as WithPayloadError
-        } else {
-            return moveFromCType(RESULT.returned_value)
         }
+        let c_result_handle = RESULT.returned_value
+        return moveFromCType(c_result_handle)
     }
 }
 public enum InternalError : UInt32, CaseIterable, Codable {

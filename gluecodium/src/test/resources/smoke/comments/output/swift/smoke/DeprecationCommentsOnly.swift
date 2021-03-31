@@ -19,11 +19,12 @@ internal class _DeprecationCommentsOnly: DeprecationCommentsOnly {
     @available(*, deprecated, message: "Unfortunately, this property is deprecated.")
     var isSomeProperty: DeprecationCommentsOnly.Usefulness {
         get {
-            return moveFromCType(smoke_DeprecationCommentsOnly_isSomeProperty_get(self.c_instance))
+            let c_result_handle = smoke_DeprecationCommentsOnly_isSomeProperty_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_DeprecationCommentsOnly_isSomeProperty_set(self.c_instance, c_value.ref))
+            smoke_DeprecationCommentsOnly_isSomeProperty_set(self.c_instance, c_value.ref)
         }
     }
     let c_instance : _baseRef
@@ -43,7 +44,8 @@ internal class _DeprecationCommentsOnly: DeprecationCommentsOnly {
     @available(*, deprecated, message: "Unfortunately, this method is deprecated.")
     public func someMethodWithAllComments(input: String) -> DeprecationCommentsOnly.Usefulness {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_DeprecationCommentsOnly_someMethodWithAllComments(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_DeprecationCommentsOnly_someMethodWithAllComments(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 @available(*, deprecated, message: "Unfortunately, this enum is deprecated.")

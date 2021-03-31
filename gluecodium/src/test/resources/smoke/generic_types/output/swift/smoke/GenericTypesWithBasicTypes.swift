@@ -7,29 +7,32 @@ public class GenericTypesWithBasicTypes {
     public typealias BasicSet = Set<String>
     public var listProperty: [Float] {
         get {
-            return foobar_moveFromCType(smoke_GenericTypesWithBasicTypes_listProperty_get(self.c_instance))
+            let c_result_handle = smoke_GenericTypesWithBasicTypes_listProperty_get(self.c_instance)
+            return foobar_moveFromCType(c_result_handle)
         }
         set {
             let c_value = foobar_moveToCType(newValue)
-            return moveFromCType(smoke_GenericTypesWithBasicTypes_listProperty_set(self.c_instance, c_value.ref))
+            smoke_GenericTypesWithBasicTypes_listProperty_set(self.c_instance, c_value.ref)
         }
     }
     public var mapProperty: [Float: Double] {
         get {
-            return foobar_moveFromCType(smoke_GenericTypesWithBasicTypes_mapProperty_get(self.c_instance))
+            let c_result_handle = smoke_GenericTypesWithBasicTypes_mapProperty_get(self.c_instance)
+            return foobar_moveFromCType(c_result_handle)
         }
         set {
             let c_value = foobar_moveToCType(newValue)
-            return moveFromCType(smoke_GenericTypesWithBasicTypes_mapProperty_set(self.c_instance, c_value.ref))
+            smoke_GenericTypesWithBasicTypes_mapProperty_set(self.c_instance, c_value.ref)
         }
     }
     public var setProperty: Set<Float> {
         get {
-            return foobar_moveFromCType(smoke_GenericTypesWithBasicTypes_setProperty_get(self.c_instance))
+            let c_result_handle = smoke_GenericTypesWithBasicTypes_setProperty_get(self.c_instance)
+            return foobar_moveFromCType(c_result_handle)
         }
         set {
             let c_value = foobar_moveToCType(newValue)
-            return moveFromCType(smoke_GenericTypesWithBasicTypes_setProperty_set(self.c_instance, c_value.ref))
+            smoke_GenericTypesWithBasicTypes_setProperty_set(self.c_instance, c_value.ref)
         }
     }
     let c_instance : _baseRef
@@ -60,27 +63,33 @@ public class GenericTypesWithBasicTypes {
     }
     public func methodWithList(input: [Int32]) -> [Int32] {
         let c_input = foobar_moveToCType(input)
-        return foobar_moveFromCType(smoke_GenericTypesWithBasicTypes_methodWithList(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_GenericTypesWithBasicTypes_methodWithList(self.c_instance, c_input.ref)
+        return foobar_moveFromCType(c_result_handle)
     }
     public func methodWithMap(input: [Int32: Bool]) -> [Int32: Bool] {
         let c_input = foobar_moveToCType(input)
-        return foobar_moveFromCType(smoke_GenericTypesWithBasicTypes_methodWithMap(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_GenericTypesWithBasicTypes_methodWithMap(self.c_instance, c_input.ref)
+        return foobar_moveFromCType(c_result_handle)
     }
     public func methodWithSet(input: Set<Int32>) -> Set<Int32> {
         let c_input = foobar_moveToCType(input)
-        return foobar_moveFromCType(smoke_GenericTypesWithBasicTypes_methodWithSet(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_GenericTypesWithBasicTypes_methodWithSet(self.c_instance, c_input.ref)
+        return foobar_moveFromCType(c_result_handle)
     }
     public func methodWithListTypeAlias(input: GenericTypesWithBasicTypes.BasicList) -> GenericTypesWithBasicTypes.BasicList {
         let c_input = foobar_moveToCType(input)
-        return foobar_moveFromCType(smoke_GenericTypesWithBasicTypes_methodWithListTypeAlias(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_GenericTypesWithBasicTypes_methodWithListTypeAlias(self.c_instance, c_input.ref)
+        return foobar_moveFromCType(c_result_handle)
     }
     public func methodWithMapTypeAlias(input: GenericTypesWithBasicTypes.BasicMap) -> GenericTypesWithBasicTypes.BasicMap {
         let c_input = foobar_moveToCType(input)
-        return foobar_moveFromCType(smoke_GenericTypesWithBasicTypes_methodWithMapTypeAlias(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_GenericTypesWithBasicTypes_methodWithMapTypeAlias(self.c_instance, c_input.ref)
+        return foobar_moveFromCType(c_result_handle)
     }
     public func methodWithSetTypeAlias(input: GenericTypesWithBasicTypes.BasicSet) -> GenericTypesWithBasicTypes.BasicSet {
         let c_input = foobar_moveToCType(input)
-        return foobar_moveFromCType(smoke_GenericTypesWithBasicTypes_methodWithSetTypeAlias(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_GenericTypesWithBasicTypes_methodWithSetTypeAlias(self.c_instance, c_input.ref)
+        return foobar_moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: GenericTypesWithBasicTypes?, owning: Bool = true) -> RefHolder {

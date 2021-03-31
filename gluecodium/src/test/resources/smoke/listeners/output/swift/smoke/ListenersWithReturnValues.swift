@@ -24,25 +24,32 @@ internal class _ListenersWithReturnValues: ListenersWithReturnValues {
         smoke_ListenersWithReturnValues_release_handle(c_instance)
     }
     public func fetchDataDouble() -> Double {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchDataDouble(self.c_instance))
+        let c_result_handle = smoke_ListenersWithReturnValues_fetchDataDouble(self.c_instance)
+        return moveFromCType(c_result_handle)
     }
     public func fetchDataString() -> String {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchDataString(self.c_instance))
+        let c_result_handle = smoke_ListenersWithReturnValues_fetchDataString(self.c_instance)
+        return moveFromCType(c_result_handle)
     }
     public func fetchDataStruct() -> ResultStruct {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchDataStruct(self.c_instance))
+        let c_result_handle = smoke_ListenersWithReturnValues_fetchDataStruct(self.c_instance)
+        return moveFromCType(c_result_handle)
     }
     public func fetchDataEnum() -> ResultEnum {
-        return moveFromCType(smoke_ListenersWithReturnValues_fetchDataEnum(self.c_instance))
+        let c_result_handle = smoke_ListenersWithReturnValues_fetchDataEnum(self.c_instance)
+        return moveFromCType(c_result_handle)
     }
     public func fetchDataArray() -> [Double] {
-        return foobar_moveFromCType(smoke_ListenersWithReturnValues_fetchDataArray(self.c_instance))
+        let c_result_handle = smoke_ListenersWithReturnValues_fetchDataArray(self.c_instance)
+        return foobar_moveFromCType(c_result_handle)
     }
     public func fetchDataMap() -> ListenersWithReturnValues.StringToDouble {
-        return foobar_moveFromCType(smoke_ListenersWithReturnValues_fetchDataMap(self.c_instance))
+        let c_result_handle = smoke_ListenersWithReturnValues_fetchDataMap(self.c_instance)
+        return foobar_moveFromCType(c_result_handle)
     }
     public func fetchDataInstance() -> CalculationResult {
-        return CalculationResult_moveFromCType(smoke_ListenersWithReturnValues_fetchDataInstance(self.c_instance))
+        let c_result_handle = smoke_ListenersWithReturnValues_fetchDataInstance(self.c_instance)
+        return CalculationResult_moveFromCType(c_result_handle)
     }
 }
 public enum ResultEnum : UInt32, CaseIterable, Codable {

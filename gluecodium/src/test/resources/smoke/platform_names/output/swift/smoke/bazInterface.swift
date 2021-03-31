@@ -12,11 +12,12 @@ public class bazInterface {
     }
     public var BAZ_PROPERTY: UInt32 {
         get {
-            return moveFromCType(smoke_bazInterface_BAZ_PROPERTY_get(self.c_instance))
+            let c_result_handle = smoke_bazInterface_BAZ_PROPERTY_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_bazInterface_BAZ_PROPERTY_set(self.c_instance, c_value.ref))
+            smoke_bazInterface_BAZ_PROPERTY_set(self.c_instance, c_value.ref)
         }
     }
     let c_instance : _baseRef
@@ -32,11 +33,13 @@ public class bazInterface {
     }
     public func BazMethod(_ BazParameter: String) -> bazStruct {
         let c_BazParameter = moveToCType(BazParameter)
-        return moveFromCType(smoke_bazInterface_BazMethod(self.c_instance, c_BazParameter.ref))
+        let c_result_handle = smoke_bazInterface_BazMethod(self.c_instance, c_BazParameter.ref)
+        return moveFromCType(c_result_handle)
     }
     private static func make(_ makeParameter: String) -> _baseRef {
         let c_makeParameter = moveToCType(makeParameter)
-        return moveFromCType(smoke_bazInterface_make(c_makeParameter.ref))
+        let c_result_handle = smoke_bazInterface_make(c_makeParameter.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: bazInterface?, owning: Bool = true) -> RefHolder {

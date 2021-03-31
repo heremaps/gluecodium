@@ -10,20 +10,22 @@ public protocol SkipProxy : AnyObject {
 internal class _SkipProxy: SkipProxy {
     var skippedInJava: String {
         get {
-            return moveFromCType(smoke_SkipProxy_skippedInJava_get(self.c_instance))
+            let c_result_handle = smoke_SkipProxy_skippedInJava_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_SkipProxy_skippedInJava_set(self.c_instance, c_value.ref))
+            smoke_SkipProxy_skippedInJava_set(self.c_instance, c_value.ref)
         }
     }
     var skippedInDart: Float {
         get {
-            return moveFromCType(smoke_SkipProxy_skippedInDart_get(self.c_instance))
+            let c_result_handle = smoke_SkipProxy_skippedInDart_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_SkipProxy_skippedInDart_set(self.c_instance, c_value.ref))
+            smoke_SkipProxy_skippedInDart_set(self.c_instance, c_value.ref)
         }
     }
     let c_instance : _baseRef
@@ -39,11 +41,13 @@ internal class _SkipProxy: SkipProxy {
     }
     public func notInJava(input: String) -> String {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_SkipProxy_notInJava(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_SkipProxy_notInJava(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public func notInDart(input: Float) -> Float {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_SkipProxy_notInDart(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_SkipProxy_notInDart(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 @_cdecl("_CBridgeInitsmoke_SkipProxy")

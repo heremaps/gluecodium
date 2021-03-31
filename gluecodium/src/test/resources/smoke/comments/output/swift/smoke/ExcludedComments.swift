@@ -20,11 +20,12 @@ public class ExcludedComments {
     /// :nodoc:
     public var isSomeProperty: ExcludedComments.Usefulness {
         get {
-            return moveFromCType(smoke_ExcludedComments_isSomeProperty_get(self.c_instance))
+            let c_result_handle = smoke_ExcludedComments_isSomeProperty_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_ExcludedComments_isSomeProperty_set(self.c_instance, c_value.ref))
+            smoke_ExcludedComments_isSomeProperty_set(self.c_instance, c_value.ref)
         }
     }
     let c_instance : _baseRef
@@ -73,14 +74,14 @@ public class ExcludedComments {
         let RESULT = smoke_ExcludedComments_someMethodWithAllComments(self.c_instance, c_inputParameter.ref)
         if (!RESULT.has_value) {
             throw moveFromCType(RESULT.error_value) as ExcludedComments.SomethingWrongError
-        } else {
-            return moveFromCType(RESULT.returned_value)
         }
+        let c_result_handle = RESULT.returned_value
+        return moveFromCType(c_result_handle)
     }
     /// This is some very useful method that does nothing.
     /// :nodoc:
     public func someMethodWithoutReturnTypeOrInputParameters() -> Void {
-        return moveFromCType(smoke_ExcludedComments_someMethodWithoutReturnTypeOrInputParameters(self.c_instance))
+        smoke_ExcludedComments_someMethodWithoutReturnTypeOrInputParameters(self.c_instance)
     }
 }
 internal func getRef(_ ref: ExcludedComments?, owning: Bool = true) -> RefHolder {

@@ -12,11 +12,12 @@ public class Class: Interface {
     }
     public var property: Enum {
         get {
-            return moveFromCType(package_Class_property_get(self.c_instance))
+            let c_result_handle = package_Class_property_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(package_Class_property_set(self.c_instance, c_value.ref))
+            package_Class_property_set(self.c_instance, c_value.ref)
         }
     }
     let c_instance : _baseRef
@@ -31,16 +32,17 @@ public class Class: Interface {
         package_Class_release_handle(c_instance)
     }
     private static func constructor() -> _baseRef {
-        return moveFromCType(package_Class_constructor())
+        let c_result_handle = package_Class_constructor()
+        return moveFromCType(c_result_handle)
     }
     public func fun(double: List) throws -> Struct {
         let c_double = foobar_moveToCType(double)
         let RESULT = package_Class_fun(self.c_instance, c_double.ref)
         if (!RESULT.has_value) {
             throw moveFromCType(RESULT.error_value) as ExceptionError
-        } else {
-            return moveFromCType(RESULT.returned_value)
         }
+        let c_result_handle = RESULT.returned_value
+        return moveFromCType(c_result_handle)
     }
 }
 @_cdecl("_CBridgeInitpackage_Class")

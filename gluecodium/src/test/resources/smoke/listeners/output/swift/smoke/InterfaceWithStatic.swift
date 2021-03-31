@@ -10,20 +10,22 @@ public protocol InterfaceWithStatic : AnyObject {
 internal class _InterfaceWithStatic: InterfaceWithStatic {
     var regularProperty: String {
         get {
-            return moveFromCType(smoke_InterfaceWithStatic_regularProperty_get(self.c_instance))
+            let c_result_handle = smoke_InterfaceWithStatic_regularProperty_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_InterfaceWithStatic_regularProperty_set(self.c_instance, c_value.ref))
+            smoke_InterfaceWithStatic_regularProperty_set(self.c_instance, c_value.ref)
         }
     }
     static var staticProperty: String {
         get {
-            return moveFromCType(smoke_InterfaceWithStatic_staticProperty_get())
+            let c_result_handle = smoke_InterfaceWithStatic_staticProperty_get()
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_InterfaceWithStatic_staticProperty_set(c_value.ref))
+            smoke_InterfaceWithStatic_staticProperty_set(c_value.ref)
         }
     }
     let c_instance : _baseRef
@@ -38,10 +40,12 @@ internal class _InterfaceWithStatic: InterfaceWithStatic {
         smoke_InterfaceWithStatic_release_handle(c_instance)
     }
     public func regularFunction() -> String {
-        return moveFromCType(smoke_InterfaceWithStatic_regularFunction(self.c_instance))
+        let c_result_handle = smoke_InterfaceWithStatic_regularFunction(self.c_instance)
+        return moveFromCType(c_result_handle)
     }
     public static func staticFunction() -> String {
-        return moveFromCType(smoke_InterfaceWithStatic_staticFunction())
+        let c_result_handle = smoke_InterfaceWithStatic_staticFunction()
+        return moveFromCType(c_result_handle)
     }
 }
 @_cdecl("_CBridgeInitsmoke_InterfaceWithStatic")

@@ -16,32 +16,32 @@ public class MultipleAttributesSwift {
     @Foo
     @Bar
     public func noLists2() -> Void {
-        return moveFromCType(smoke_MultipleAttributesSwift_noLists2(self.c_instance))
+        smoke_MultipleAttributesSwift_noLists2(self.c_instance)
     }
     @Foo
     @Bar
     @Baz
     public func noLists3() -> Void {
-        return moveFromCType(smoke_MultipleAttributesSwift_noLists3(self.c_instance))
+        smoke_MultipleAttributesSwift_noLists3(self.c_instance)
     }
     @Foo
     @Bar
     @Baz
     public func listFirst() -> Void {
-        return moveFromCType(smoke_MultipleAttributesSwift_listFirst(self.c_instance))
+        smoke_MultipleAttributesSwift_listFirst(self.c_instance)
     }
     @Foo
     @Bar
     @Baz
     public func listSecond() -> Void {
-        return moveFromCType(smoke_MultipleAttributesSwift_listSecond(self.c_instance))
+        smoke_MultipleAttributesSwift_listSecond(self.c_instance)
     }
     @Foo
     @Bar
     @Baz
     @Fizz
     public func twoLists() -> Void {
-        return moveFromCType(smoke_MultipleAttributesSwift_twoLists(self.c_instance))
+        smoke_MultipleAttributesSwift_twoLists(self.c_instance)
     }
 }
 internal func getRef(_ ref: MultipleAttributesSwift?, owning: Bool = true) -> RefHolder {

@@ -11,11 +11,12 @@ public class AttributesWithDeprecated {
     @OnPropertyInClass
     public var prop: String {
         get {
-            return moveFromCType(smoke_AttributesWithDeprecated_prop_get(self.c_instance))
+            let c_result_handle = smoke_AttributesWithDeprecated_prop_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_AttributesWithDeprecated_prop_set(self.c_instance, c_value.ref))
+            smoke_AttributesWithDeprecated_prop_set(self.c_instance, c_value.ref)
         }
     }
     let c_instance : _baseRef
@@ -44,7 +45,7 @@ public class AttributesWithDeprecated {
     @available(*, deprecated)
     @OnFunctionInClass
     public func veryFun() -> Void {
-        return moveFromCType(smoke_AttributesWithDeprecated_veryFun(self.c_instance))
+        smoke_AttributesWithDeprecated_veryFun(self.c_instance)
     }
 }
 internal func getRef(_ ref: AttributesWithDeprecated?, owning: Bool = true) -> RefHolder {

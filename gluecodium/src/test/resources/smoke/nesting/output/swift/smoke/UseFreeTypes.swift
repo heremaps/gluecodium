@@ -19,9 +19,9 @@ public class UseFreeTypes {
         let RESULT = smoke_UseFreeTypes_doStuff(self.c_instance, c_point.ref, c_mode.ref)
         if (!RESULT.has_value) {
             throw moveFromCType(RESULT.error_value) as FreeError
-        } else {
-            return moveFromCType(RESULT.returned_value)
         }
+        let c_result_handle = RESULT.returned_value
+        return moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: UseFreeTypes?, owning: Bool = true) -> RefHolder {

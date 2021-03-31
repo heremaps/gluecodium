@@ -43,7 +43,8 @@ public class MultiLineComments {
     public func someMethodWithLongComment(input: String, ratio: Double) -> Float {
         let c_input = moveToCType(input)
         let c_ratio = moveToCType(ratio)
-        return moveFromCType(smoke_MultiLineComments_someMethodWithLongComment(self.c_instance, c_input.ref, c_ratio.ref))
+        let c_result_handle = smoke_MultiLineComments_someMethodWithLongComment(self.c_instance, c_input.ref, c_ratio.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: MultiLineComments?, owning: Bool = true) -> RefHolder {

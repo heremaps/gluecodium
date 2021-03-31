@@ -8,7 +8,8 @@ public protocol ExternalInterface : AnyObject {
 internal class _ExternalInterface: ExternalInterface {
     var someProperty: String {
         get {
-            return moveFromCType(smoke_ExternalInterface_someProperty_get(self.c_instance))
+            let c_result_handle = smoke_ExternalInterface_someProperty_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
     }
     let c_instance : _baseRef
@@ -24,7 +25,7 @@ internal class _ExternalInterface: ExternalInterface {
     }
     public func someMethod(someParameter: Int8) -> Void {
         let c_someParameter = moveToCType(someParameter)
-        return moveFromCType(smoke_ExternalInterface_someMethod(self.c_instance, c_someParameter.ref))
+        smoke_ExternalInterface_someMethod(self.c_instance, c_someParameter.ref)
     }
 }
 public enum SomeEnum : UInt32, CaseIterable, Codable {

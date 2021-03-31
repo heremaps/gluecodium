@@ -7,11 +7,12 @@ public protocol PropertiesInterface : AnyObject {
 internal class _PropertiesInterface: PropertiesInterface {
     var structProperty: ExampleStruct {
         get {
-            return moveFromCType(smoke_PropertiesInterface_structProperty_get(self.c_instance))
+            let c_result_handle = smoke_PropertiesInterface_structProperty_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_PropertiesInterface_structProperty_set(self.c_instance, c_value.ref))
+            smoke_PropertiesInterface_structProperty_set(self.c_instance, c_value.ref)
         }
     }
     let c_instance : _baseRef

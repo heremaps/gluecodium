@@ -36,20 +36,24 @@ public class Enums {
     }
     public static func methodWithEnumeration(input: Enums.SimpleEnum) -> Enums.SimpleEnum {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_Enums_methodWithEnumeration(c_input.ref))
+        let c_result_handle = smoke_Enums_methodWithEnumeration(c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public static func flipEnumValue(input: Enums.InternalErrorCode) -> Enums.InternalErrorCode {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_Enums_flipEnumValue(c_input.ref))
+        let c_result_handle = smoke_Enums_flipEnumValue(c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public static func extractEnumFromStruct(input: Enums.ErrorStruct) -> Enums.InternalErrorCode {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_Enums_extractEnumFromStruct(c_input.ref))
+        let c_result_handle = smoke_Enums_extractEnumFromStruct(c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     public static func createStructWithEnumInside(type: Enums.InternalErrorCode, message: String) -> Enums.ErrorStruct {
         let c_type = moveToCType(type)
         let c_message = moveToCType(message)
-        return moveFromCType(smoke_Enums_createStructWithEnumInside(c_type.ref, c_message.ref))
+        let c_result_handle = smoke_Enums_createStructWithEnumInside(c_type.ref, c_message.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: Enums?, owning: Bool = true) -> RefHolder {

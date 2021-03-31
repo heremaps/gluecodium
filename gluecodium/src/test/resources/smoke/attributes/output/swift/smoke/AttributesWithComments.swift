@@ -11,11 +11,12 @@ public class AttributesWithComments {
     @OnPropertyInClass
     public var prop: String {
         get {
-            return moveFromCType(smoke_AttributesWithComments_prop_get(self.c_instance))
+            let c_result_handle = smoke_AttributesWithComments_prop_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_AttributesWithComments_prop_set(self.c_instance, c_value.ref))
+            smoke_AttributesWithComments_prop_set(self.c_instance, c_value.ref)
         }
     }
     let c_instance : _baseRef
@@ -43,7 +44,7 @@ public class AttributesWithComments {
     /// Function comment
     @OnFunctionInClass
     public func veryFun() -> Void {
-        return moveFromCType(smoke_AttributesWithComments_veryFun(self.c_instance))
+        smoke_AttributesWithComments_veryFun(self.c_instance)
     }
 }
 internal func getRef(_ ref: AttributesWithComments?, owning: Bool = true) -> RefHolder {

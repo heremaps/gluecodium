@@ -22,12 +22,14 @@ public class Lambdas {
     public func deconfuse(value: String, confuser: @escaping Lambdas.Convoluter) -> Lambdas.Producer {
         let c_value = moveToCType(value)
         let c_confuser = moveToCType(confuser)
-        return moveFromCType(smoke_Lambdas_deconfuse(self.c_instance, c_value.ref, c_confuser.ref))
+        let c_result_handle = smoke_Lambdas_deconfuse(self.c_instance, c_value.ref, c_confuser.ref)
+        return moveFromCType(c_result_handle)
     }
     public static func fuse(items: [String], callback: @escaping Lambdas.Indexer) -> [Int32: String] {
         let c_items = foobar_moveToCType(items)
         let c_callback = moveToCType(callback)
-        return foobar_moveFromCType(smoke_Lambdas_fuse(c_items.ref, c_callback.ref))
+        let c_result_handle = smoke_Lambdas_fuse(c_items.ref, c_callback.ref)
+        return foobar_moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: Lambdas?, owning: Bool = true) -> RefHolder {

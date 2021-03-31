@@ -14,11 +14,12 @@ internal class _AttributesInterface: AttributesInterface {
     @OnPropertyInInterface
     var prop: String {
         get {
-            return moveFromCType(smoke_AttributesInterface_prop_get(self.c_instance))
+            let c_result_handle = smoke_AttributesInterface_prop_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_AttributesInterface_prop_set(self.c_instance, c_value.ref))
+            smoke_AttributesInterface_prop_set(self.c_instance, c_value.ref)
         }
     }
     let c_instance : _baseRef
@@ -35,7 +36,7 @@ internal class _AttributesInterface: AttributesInterface {
     @OnFunctionInInterface
     public func veryFun(@OnParameterInInterface param: String) -> Void {
         let c_param = moveToCType(param)
-        return moveFromCType(smoke_AttributesInterface_veryFun(self.c_instance, c_param.ref))
+        smoke_AttributesInterface_veryFun(self.c_instance, c_param.ref)
     }
 }
 @_cdecl("_CBridgeInitsmoke_AttributesInterface")

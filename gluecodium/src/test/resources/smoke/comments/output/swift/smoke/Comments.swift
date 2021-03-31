@@ -14,11 +14,12 @@ public class Comments {
     /// Some very useful property.
     public var isSomeProperty: Comments.Usefulness {
         get {
-            return moveFromCType(smoke_Comments_isSomeProperty_get(self.c_instance))
+            let c_result_handle = smoke_Comments_isSomeProperty_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_Comments_isSomeProperty_set(self.c_instance, c_value.ref))
+            smoke_Comments_isSomeProperty_set(self.c_instance, c_value.ref)
         }
     }
     let c_instance : _baseRef
@@ -69,59 +70,64 @@ public class Comments {
         let RESULT = smoke_Comments_someMethodWithAllComments(self.c_instance, c_inputParameter.ref)
         if (!RESULT.has_value) {
             throw moveFromCType(RESULT.error_value) as Comments.SomethingWrongError
-        } else {
-            return moveFromCType(RESULT.returned_value)
         }
+        let c_result_handle = RESULT.returned_value
+        return moveFromCType(c_result_handle)
     }
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter input: Very useful input parameter
     /// - Returns:
     public func someMethodWithInputComments(input: String) -> Comments.Usefulness {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_Comments_someMethodWithInputComments(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_Comments_someMethodWithInputComments(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter input:
     /// - Returns: Usefulness of the input
     public func someMethodWithOutputComments(input: String) -> Comments.Usefulness {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_Comments_someMethodWithOutputComments(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_Comments_someMethodWithOutputComments(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter input:
     /// - Returns:
     public func someMethodWithNoComments(input: String) -> Comments.Usefulness {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_Comments_someMethodWithNoComments(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_Comments_someMethodWithNoComments(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
     /// This is some very useful method that does not measure the usefulness of its input.
     /// - Parameter input: Very useful input parameter
     public func someMethodWithoutReturnTypeWithAllComments(input: String) -> Void {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_Comments_someMethodWithoutReturnTypeWithAllComments(self.c_instance, c_input.ref))
+        smoke_Comments_someMethodWithoutReturnTypeWithAllComments(self.c_instance, c_input.ref)
     }
     /// This is some very useful method that does not measure the usefulness of its input.
     /// - Parameter input:
     public func someMethodWithoutReturnTypeWithNoComments(input: String) -> Void {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_Comments_someMethodWithoutReturnTypeWithNoComments(self.c_instance, c_input.ref))
+        smoke_Comments_someMethodWithoutReturnTypeWithNoComments(self.c_instance, c_input.ref)
     }
     /// This is some very useful method that measures the usefulness of something.
     /// - Returns: Usefulness of the input
     public func someMethodWithoutInputParametersWithAllComments() -> Comments.Usefulness {
-        return moveFromCType(smoke_Comments_someMethodWithoutInputParametersWithAllComments(self.c_instance))
+        let c_result_handle = smoke_Comments_someMethodWithoutInputParametersWithAllComments(self.c_instance)
+        return moveFromCType(c_result_handle)
     }
     /// This is some very useful method that measures the usefulness of something.
     /// - Returns:
     public func someMethodWithoutInputParametersWithNoComments() -> Comments.Usefulness {
-        return moveFromCType(smoke_Comments_someMethodWithoutInputParametersWithNoComments(self.c_instance))
+        let c_result_handle = smoke_Comments_someMethodWithoutInputParametersWithNoComments(self.c_instance)
+        return moveFromCType(c_result_handle)
     }
     public func someMethodWithNothing() -> Void {
-        return moveFromCType(smoke_Comments_someMethodWithNothing(self.c_instance))
+        smoke_Comments_someMethodWithNothing(self.c_instance)
     }
     /// This is some very useful method that does nothing.
     public func someMethodWithoutReturnTypeOrInputParameters() -> Void {
-        return moveFromCType(smoke_Comments_someMethodWithoutReturnTypeOrInputParameters(self.c_instance))
+        smoke_Comments_someMethodWithoutReturnTypeOrInputParameters(self.c_instance)
     }
     ///
     /// - Parameters:
@@ -131,14 +137,16 @@ public class Comments {
     public func oneParameterCommentOnly(undocumented: String, documented: String) -> String {
         let c_undocumented = moveToCType(undocumented)
         let c_documented = moveToCType(documented)
-        return moveFromCType(smoke_Comments_oneParameterCommentOnly(self.c_instance, c_undocumented.ref, c_documented.ref))
+        let c_result_handle = smoke_Comments_oneParameterCommentOnly(self.c_instance, c_undocumented.ref, c_documented.ref)
+        return moveFromCType(c_result_handle)
     }
     ///
     /// - Parameter undocumented:
     /// - Returns: nicely documented
     public func returnCommentOnly(undocumented: String) -> String {
         let c_undocumented = moveToCType(undocumented)
-        return moveFromCType(smoke_Comments_returnCommentOnly(self.c_instance, c_undocumented.ref))
+        let c_result_handle = smoke_Comments_returnCommentOnly(self.c_instance, c_undocumented.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: Comments?, owning: Bool = true) -> RefHolder {

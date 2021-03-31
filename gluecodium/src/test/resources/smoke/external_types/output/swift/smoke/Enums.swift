@@ -23,7 +23,7 @@ public class Enums {
     }
     public static func methodWithExternalEnum(input: Enums.ExternalEnum) -> Void {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_Enums_methodWithExternalEnum(c_input.ref))
+        smoke_Enums_methodWithExternalEnum(c_input.ref)
     }
 }
 internal func getRef(_ ref: Enums?, owning: Bool = true) -> RefHolder {

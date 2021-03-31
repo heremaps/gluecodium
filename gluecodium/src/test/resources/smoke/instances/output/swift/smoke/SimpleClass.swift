@@ -14,11 +14,13 @@ public class SimpleClass {
         smoke_SimpleClass_release_handle(c_instance)
     }
     public func getStringValue() -> String {
-        return moveFromCType(smoke_SimpleClass_getStringValue(self.c_instance))
+        let c_result_handle = smoke_SimpleClass_getStringValue(self.c_instance)
+        return moveFromCType(c_result_handle)
     }
     public func useSimpleClass(input: SimpleClass) -> SimpleClass {
         let c_input = moveToCType(input)
-        return SimpleClass_moveFromCType(smoke_SimpleClass_useSimpleClass(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_SimpleClass_useSimpleClass(self.c_instance, c_input.ref)
+        return SimpleClass_moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: SimpleClass?, owning: Bool = true) -> RefHolder {

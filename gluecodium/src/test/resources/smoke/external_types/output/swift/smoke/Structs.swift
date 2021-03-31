@@ -41,10 +41,12 @@ public class Structs {
         }
     }
     public static func getExternalStruct() -> Structs.ExternalStruct {
-        return moveFromCType(smoke_Structs_getExternalStruct())
+        let c_result_handle = smoke_Structs_getExternalStruct()
+        return moveFromCType(c_result_handle)
     }
     public static func getAnotherExternalStruct() -> Structs.AnotherExternalStruct {
-        return moveFromCType(smoke_Structs_getAnotherExternalStruct())
+        let c_result_handle = smoke_Structs_getAnotherExternalStruct()
+        return moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: Structs?, owning: Bool = true) -> RefHolder {

@@ -32,22 +32,24 @@ internal class _DeprecationComments: DeprecationComments {
     Use `Comments.isSomeProperty` instead.")
     var isSomeProperty: DeprecationComments.Usefulness {
         get {
-            return moveFromCType(smoke_DeprecationComments_isSomeProperty_get(self.c_instance))
+            let c_result_handle = smoke_DeprecationComments_isSomeProperty_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_DeprecationComments_isSomeProperty_set(self.c_instance, c_value.ref))
+            smoke_DeprecationComments_isSomeProperty_set(self.c_instance, c_value.ref)
         }
     }
     /// Describes the property but not accessors.
     @available(*, deprecated, message: "Will be removed in v3.2.1.")
     var propertyButNotAccessors: String {
         get {
-            return moveFromCType(smoke_DeprecationComments_propertyButNotAccessors_get(self.c_instance))
+            let c_result_handle = smoke_DeprecationComments_propertyButNotAccessors_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_DeprecationComments_propertyButNotAccessors_set(self.c_instance, c_value.ref))
+            smoke_DeprecationComments_propertyButNotAccessors_set(self.c_instance, c_value.ref)
         }
     }
     let c_instance : _baseRef
@@ -68,7 +70,8 @@ internal class _DeprecationComments: DeprecationComments {
     Use `Comments.someMethodWithAllComments(...)` instead.")
     public func someMethodWithAllComments(input: String) -> DeprecationComments.Usefulness {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_DeprecationComments_someMethodWithAllComments(self.c_instance, c_input.ref))
+        let c_result_handle = smoke_DeprecationComments_someMethodWithAllComments(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 /// This is some very useful enum.

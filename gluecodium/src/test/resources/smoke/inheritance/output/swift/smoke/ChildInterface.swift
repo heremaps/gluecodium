@@ -9,11 +9,12 @@ public protocol ChildInterface : ParentInterface {
 internal class _ChildInterface: ChildInterface {
     var rootProperty: String {
         get {
-            return moveFromCType(smoke_ParentInterface_rootProperty_get(self.c_instance))
+            let c_result_handle = smoke_ParentInterface_rootProperty_get(self.c_instance)
+            return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            return moveFromCType(smoke_ParentInterface_rootProperty_set(self.c_instance, c_value.ref))
+            smoke_ParentInterface_rootProperty_set(self.c_instance, c_value.ref)
         }
     }
     let c_instance : _baseRef
@@ -28,10 +29,10 @@ internal class _ChildInterface: ChildInterface {
         smoke_ChildInterface_release_handle(c_instance)
     }
     public func rootMethod() -> Void {
-        return moveFromCType(smoke_ParentInterface_rootMethod(self.c_instance))
+        smoke_ParentInterface_rootMethod(self.c_instance)
     }
     public func childMethod() -> Void {
-        return moveFromCType(smoke_ChildInterface_childMethod(self.c_instance))
+        smoke_ChildInterface_childMethod(self.c_instance)
     }
 }
 @_cdecl("_CBridgeInitsmoke_ChildInterface")

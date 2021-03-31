@@ -15,7 +15,8 @@ public class EnumsInTypeCollectionInterface {
     }
     public static func flipEnumValue(input: TCEnum) -> TCEnum {
         let c_input = moveToCType(input)
-        return moveFromCType(smoke_EnumsInTypeCollectionInterface_flipEnumValue(c_input.ref))
+        let c_result_handle = smoke_EnumsInTypeCollectionInterface_flipEnumValue(c_input.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: EnumsInTypeCollectionInterface?, owning: Bool = true) -> RefHolder {
