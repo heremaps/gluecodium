@@ -4,6 +4,8 @@ import 'package:library/src/smoke/another_dummy_class.dart';
 import 'package:library/src/smoke/dummy_class.dart';
 import 'package:library/src/smoke/dummy_interface.dart';
 import 'package:library/src/smoke/generic_types_with_compound_types.dart';
+import 'package:library/src/smoke/unreasonably_lazy_class.dart';
+import 'package:library/src/smoke/very_big_struct.dart';
 import 'package:library/src/smoke/yet_another_dummy_class.dart';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
@@ -1198,6 +1200,176 @@ List<GenericTypesWithCompoundTypes_SomeEnum> foobar_ListOf_smoke_GenericTypesWit
 }
 void foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle_nullable(handle);
+final _foobar_ListOf_smoke_UnreasonablyLazyClass_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(),
+    Pointer<Void> Function()
+  >('library_foobar_ListOf_smoke_UnreasonablyLazyClass_create_handle'));
+final _foobar_ListOf_smoke_UnreasonablyLazyClass_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_foobar_ListOf_smoke_UnreasonablyLazyClass_release_handle'));
+final _foobar_ListOf_smoke_UnreasonablyLazyClass_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Pointer<Void>),
+    void Function(Pointer<Void>, Pointer<Void>)
+  >('library_foobar_ListOf_smoke_UnreasonablyLazyClass_insert'));
+final _foobar_ListOf_smoke_UnreasonablyLazyClass_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+>('library_foobar_ListOf_smoke_UnreasonablyLazyClass_iterator'));
+final _foobar_ListOf_smoke_UnreasonablyLazyClass_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+>('library_foobar_ListOf_smoke_UnreasonablyLazyClass_iterator_release_handle'));
+final _foobar_ListOf_smoke_UnreasonablyLazyClass_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Int8 Function(Pointer<Void>, Pointer<Void>),
+    int Function(Pointer<Void>, Pointer<Void>)
+>('library_foobar_ListOf_smoke_UnreasonablyLazyClass_iterator_is_valid'));
+final _foobar_ListOf_smoke_UnreasonablyLazyClass_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+>('library_foobar_ListOf_smoke_UnreasonablyLazyClass_iterator_increment'));
+final _foobar_ListOf_smoke_UnreasonablyLazyClass_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+>('library_foobar_ListOf_smoke_UnreasonablyLazyClass_iterator_get'));
+Pointer<Void> foobar_ListOf_smoke_UnreasonablyLazyClass_toFfi(List<UnreasonablyLazyClass> value) {
+  final _result = _foobar_ListOf_smoke_UnreasonablyLazyClass_create_handle();
+  for (final element in value) {
+    final _element_handle = smoke_UnreasonablyLazyClass_toFfi(element);
+    _foobar_ListOf_smoke_UnreasonablyLazyClass_insert(_result, _element_handle);
+    smoke_UnreasonablyLazyClass_releaseFfiHandle(_element_handle);
+  }
+  return _result;
+}
+List<UnreasonablyLazyClass> foobar_ListOf_smoke_UnreasonablyLazyClass_fromFfi(Pointer<Void> handle) {
+  final result = List<UnreasonablyLazyClass>();
+  final _iterator_handle = _foobar_ListOf_smoke_UnreasonablyLazyClass_iterator(handle);
+  while (_foobar_ListOf_smoke_UnreasonablyLazyClass_iterator_is_valid(handle, _iterator_handle) != 0) {
+    final _element_handle = _foobar_ListOf_smoke_UnreasonablyLazyClass_iterator_get(_iterator_handle);
+    try {
+      result.add(smoke_UnreasonablyLazyClass_fromFfi(_element_handle));
+    } finally {
+      smoke_UnreasonablyLazyClass_releaseFfiHandle(_element_handle);
+    }
+    _foobar_ListOf_smoke_UnreasonablyLazyClass_iterator_increment(_iterator_handle);
+  }
+  _foobar_ListOf_smoke_UnreasonablyLazyClass_iterator_release_handle(_iterator_handle);
+  return result;
+}
+void foobar_ListOf_smoke_UnreasonablyLazyClass_releaseFfiHandle(Pointer<Void> handle) => _foobar_ListOf_smoke_UnreasonablyLazyClass_release_handle(handle);
+final _foobar_ListOf_smoke_UnreasonablyLazyClass_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_foobar_ListOf_smoke_UnreasonablyLazyClass_create_handle_nullable'));
+final _foobar_ListOf_smoke_UnreasonablyLazyClass_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_foobar_ListOf_smoke_UnreasonablyLazyClass_release_handle_nullable'));
+final _foobar_ListOf_smoke_UnreasonablyLazyClass_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_foobar_ListOf_smoke_UnreasonablyLazyClass_get_value_nullable'));
+Pointer<Void> foobar_ListOf_smoke_UnreasonablyLazyClass_toFfi_nullable(List<UnreasonablyLazyClass> value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = foobar_ListOf_smoke_UnreasonablyLazyClass_toFfi(value);
+  final result = _foobar_ListOf_smoke_UnreasonablyLazyClass_create_handle_nullable(_handle);
+  foobar_ListOf_smoke_UnreasonablyLazyClass_releaseFfiHandle(_handle);
+  return result;
+}
+List<UnreasonablyLazyClass> foobar_ListOf_smoke_UnreasonablyLazyClass_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _foobar_ListOf_smoke_UnreasonablyLazyClass_get_value_nullable(handle);
+  final result = foobar_ListOf_smoke_UnreasonablyLazyClass_fromFfi(_handle);
+  foobar_ListOf_smoke_UnreasonablyLazyClass_releaseFfiHandle(_handle);
+  return result;
+}
+void foobar_ListOf_smoke_UnreasonablyLazyClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _foobar_ListOf_smoke_UnreasonablyLazyClass_release_handle_nullable(handle);
+final _foobar_ListOf_smoke_VeryBigStruct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(),
+    Pointer<Void> Function()
+  >('library_foobar_ListOf_smoke_VeryBigStruct_create_handle'));
+final _foobar_ListOf_smoke_VeryBigStruct_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_foobar_ListOf_smoke_VeryBigStruct_release_handle'));
+final _foobar_ListOf_smoke_VeryBigStruct_insert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Pointer<Void>),
+    void Function(Pointer<Void>, Pointer<Void>)
+  >('library_foobar_ListOf_smoke_VeryBigStruct_insert'));
+final _foobar_ListOf_smoke_VeryBigStruct_iterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+>('library_foobar_ListOf_smoke_VeryBigStruct_iterator'));
+final _foobar_ListOf_smoke_VeryBigStruct_iterator_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+>('library_foobar_ListOf_smoke_VeryBigStruct_iterator_release_handle'));
+final _foobar_ListOf_smoke_VeryBigStruct_iterator_is_valid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Int8 Function(Pointer<Void>, Pointer<Void>),
+    int Function(Pointer<Void>, Pointer<Void>)
+>('library_foobar_ListOf_smoke_VeryBigStruct_iterator_is_valid'));
+final _foobar_ListOf_smoke_VeryBigStruct_iterator_increment = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+>('library_foobar_ListOf_smoke_VeryBigStruct_iterator_increment'));
+final _foobar_ListOf_smoke_VeryBigStruct_iterator_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+>('library_foobar_ListOf_smoke_VeryBigStruct_iterator_get'));
+Pointer<Void> foobar_ListOf_smoke_VeryBigStruct_toFfi(List<VeryBigStruct> value) {
+  final _result = _foobar_ListOf_smoke_VeryBigStruct_create_handle();
+  for (final element in value) {
+    final _element_handle = smoke_VeryBigStruct_toFfi(element);
+    _foobar_ListOf_smoke_VeryBigStruct_insert(_result, _element_handle);
+    smoke_VeryBigStruct_releaseFfiHandle(_element_handle);
+  }
+  return _result;
+}
+List<VeryBigStruct> foobar_ListOf_smoke_VeryBigStruct_fromFfi(Pointer<Void> handle) {
+  final result = List<VeryBigStruct>();
+  final _iterator_handle = _foobar_ListOf_smoke_VeryBigStruct_iterator(handle);
+  while (_foobar_ListOf_smoke_VeryBigStruct_iterator_is_valid(handle, _iterator_handle) != 0) {
+    final _element_handle = _foobar_ListOf_smoke_VeryBigStruct_iterator_get(_iterator_handle);
+    try {
+      result.add(smoke_VeryBigStruct_fromFfi(_element_handle));
+    } finally {
+      smoke_VeryBigStruct_releaseFfiHandle(_element_handle);
+    }
+    _foobar_ListOf_smoke_VeryBigStruct_iterator_increment(_iterator_handle);
+  }
+  _foobar_ListOf_smoke_VeryBigStruct_iterator_release_handle(_iterator_handle);
+  return result;
+}
+void foobar_ListOf_smoke_VeryBigStruct_releaseFfiHandle(Pointer<Void> handle) => _foobar_ListOf_smoke_VeryBigStruct_release_handle(handle);
+final _foobar_ListOf_smoke_VeryBigStruct_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_foobar_ListOf_smoke_VeryBigStruct_create_handle_nullable'));
+final _foobar_ListOf_smoke_VeryBigStruct_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_foobar_ListOf_smoke_VeryBigStruct_release_handle_nullable'));
+final _foobar_ListOf_smoke_VeryBigStruct_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_foobar_ListOf_smoke_VeryBigStruct_get_value_nullable'));
+Pointer<Void> foobar_ListOf_smoke_VeryBigStruct_toFfi_nullable(List<VeryBigStruct> value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = foobar_ListOf_smoke_VeryBigStruct_toFfi(value);
+  final result = _foobar_ListOf_smoke_VeryBigStruct_create_handle_nullable(_handle);
+  foobar_ListOf_smoke_VeryBigStruct_releaseFfiHandle(_handle);
+  return result;
+}
+List<VeryBigStruct> foobar_ListOf_smoke_VeryBigStruct_fromFfi_nullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _foobar_ListOf_smoke_VeryBigStruct_get_value_nullable(handle);
+  final result = foobar_ListOf_smoke_VeryBigStruct_fromFfi(_handle);
+  foobar_ListOf_smoke_VeryBigStruct_releaseFfiHandle(_handle);
+  return result;
+}
+void foobar_ListOf_smoke_VeryBigStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+  _foobar_ListOf_smoke_VeryBigStruct_release_handle_nullable(handle);
 final _foobar_ListOf_smoke_YetAnotherDummyClass_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()

@@ -9,6 +9,8 @@
 #include "smoke/DummyClass.h"
 #include "smoke/DummyInterface.h"
 #include "smoke/GenericTypesWithCompoundTypes.h"
+#include "smoke/UnreasonablyLazyClass.h"
+#include "smoke/VeryBigStruct.h"
 #include "smoke/YetAnotherDummyClass.h"
 #include <cstdint>
 #include <memory>
@@ -859,6 +861,126 @@ library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nul
 {
     return gluecodium::ffi::Conversion<std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>::toFfi(
         **reinterpret_cast<gluecodium::optional<std::vector<::smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle)
+    );
+}
+FfiOpaqueHandle
+library_foobar_ListOf_smoke_UnreasonablyLazyClass_create_handle() {
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::shared_ptr<::smoke::UnreasonablyLazyClass>>());
+}
+void
+library_foobar_ListOf_smoke_UnreasonablyLazyClass_release_handle(FfiOpaqueHandle handle) {
+    delete reinterpret_cast<std::vector<std::shared_ptr<::smoke::UnreasonablyLazyClass>>*>(handle);
+}
+void
+library_foobar_ListOf_smoke_UnreasonablyLazyClass_insert(FfiOpaqueHandle handle, FfiOpaqueHandle value) {
+    reinterpret_cast<std::vector<std::shared_ptr<::smoke::UnreasonablyLazyClass>>*>(handle)->push_back(
+        gluecodium::ffi::Conversion<std::shared_ptr<::smoke::UnreasonablyLazyClass>>::toCpp(value)
+    );
+}
+FfiOpaqueHandle
+library_foobar_ListOf_smoke_UnreasonablyLazyClass_iterator(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::shared_ptr<::smoke::UnreasonablyLazyClass>>::iterator(
+        reinterpret_cast<std::vector<std::shared_ptr<::smoke::UnreasonablyLazyClass>>*>(handle)->begin()
+    ));
+}
+void
+library_foobar_ListOf_smoke_UnreasonablyLazyClass_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
+    delete reinterpret_cast<std::vector<std::shared_ptr<::smoke::UnreasonablyLazyClass>>::iterator*>(iterator_handle);
+}
+bool
+library_foobar_ListOf_smoke_UnreasonablyLazyClass_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
+    return *reinterpret_cast<std::vector<std::shared_ptr<::smoke::UnreasonablyLazyClass>>::iterator*>(iterator_handle) !=
+        reinterpret_cast<std::vector<std::shared_ptr<::smoke::UnreasonablyLazyClass>>*>(handle)->end();
+}
+void
+library_foobar_ListOf_smoke_UnreasonablyLazyClass_iterator_increment(FfiOpaqueHandle iterator_handle) {
+    ++*reinterpret_cast<std::vector<std::shared_ptr<::smoke::UnreasonablyLazyClass>>::iterator*>(iterator_handle);
+}
+FfiOpaqueHandle
+library_foobar_ListOf_smoke_UnreasonablyLazyClass_iterator_get(FfiOpaqueHandle iterator_handle) {
+    return gluecodium::ffi::Conversion<std::shared_ptr<::smoke::UnreasonablyLazyClass>>::toFfi(
+        **reinterpret_cast<std::vector<std::shared_ptr<::smoke::UnreasonablyLazyClass>>::iterator*>(iterator_handle)
+    );
+}
+FfiOpaqueHandle
+library_foobar_ListOf_smoke_UnreasonablyLazyClass_create_handle_nullable(FfiOpaqueHandle value)
+{
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) gluecodium::optional<std::vector<std::shared_ptr<::smoke::UnreasonablyLazyClass>>>(
+            gluecodium::ffi::Conversion<std::vector<std::shared_ptr<::smoke::UnreasonablyLazyClass>>>::toCpp(value)
+        )
+    );
+}
+void
+library_foobar_ListOf_smoke_UnreasonablyLazyClass_release_handle_nullable(FfiOpaqueHandle handle)
+{
+    delete reinterpret_cast<gluecodium::optional<std::vector<std::shared_ptr<::smoke::UnreasonablyLazyClass>>>*>(handle);
+}
+FfiOpaqueHandle
+library_foobar_ListOf_smoke_UnreasonablyLazyClass_get_value_nullable(FfiOpaqueHandle handle)
+{
+    return gluecodium::ffi::Conversion<std::vector<std::shared_ptr<::smoke::UnreasonablyLazyClass>>>::toFfi(
+        **reinterpret_cast<gluecodium::optional<std::vector<std::shared_ptr<::smoke::UnreasonablyLazyClass>>>*>(handle)
+    );
+}
+FfiOpaqueHandle
+library_foobar_ListOf_smoke_VeryBigStruct_create_handle() {
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<::smoke::VeryBigStruct>());
+}
+void
+library_foobar_ListOf_smoke_VeryBigStruct_release_handle(FfiOpaqueHandle handle) {
+    delete reinterpret_cast<std::vector<::smoke::VeryBigStruct>*>(handle);
+}
+void
+library_foobar_ListOf_smoke_VeryBigStruct_insert(FfiOpaqueHandle handle, FfiOpaqueHandle value) {
+    reinterpret_cast<std::vector<::smoke::VeryBigStruct>*>(handle)->push_back(
+        gluecodium::ffi::Conversion<::smoke::VeryBigStruct>::toCpp(value)
+    );
+}
+FfiOpaqueHandle
+library_foobar_ListOf_smoke_VeryBigStruct_iterator(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<::smoke::VeryBigStruct>::iterator(
+        reinterpret_cast<std::vector<::smoke::VeryBigStruct>*>(handle)->begin()
+    ));
+}
+void
+library_foobar_ListOf_smoke_VeryBigStruct_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
+    delete reinterpret_cast<std::vector<::smoke::VeryBigStruct>::iterator*>(iterator_handle);
+}
+bool
+library_foobar_ListOf_smoke_VeryBigStruct_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
+    return *reinterpret_cast<std::vector<::smoke::VeryBigStruct>::iterator*>(iterator_handle) !=
+        reinterpret_cast<std::vector<::smoke::VeryBigStruct>*>(handle)->end();
+}
+void
+library_foobar_ListOf_smoke_VeryBigStruct_iterator_increment(FfiOpaqueHandle iterator_handle) {
+    ++*reinterpret_cast<std::vector<::smoke::VeryBigStruct>::iterator*>(iterator_handle);
+}
+FfiOpaqueHandle
+library_foobar_ListOf_smoke_VeryBigStruct_iterator_get(FfiOpaqueHandle iterator_handle) {
+    return gluecodium::ffi::Conversion<::smoke::VeryBigStruct>::toFfi(
+        **reinterpret_cast<std::vector<::smoke::VeryBigStruct>::iterator*>(iterator_handle)
+    );
+}
+FfiOpaqueHandle
+library_foobar_ListOf_smoke_VeryBigStruct_create_handle_nullable(FfiOpaqueHandle value)
+{
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) gluecodium::optional<std::vector<::smoke::VeryBigStruct>>(
+            gluecodium::ffi::Conversion<std::vector<::smoke::VeryBigStruct>>::toCpp(value)
+        )
+    );
+}
+void
+library_foobar_ListOf_smoke_VeryBigStruct_release_handle_nullable(FfiOpaqueHandle handle)
+{
+    delete reinterpret_cast<gluecodium::optional<std::vector<::smoke::VeryBigStruct>>*>(handle);
+}
+FfiOpaqueHandle
+library_foobar_ListOf_smoke_VeryBigStruct_get_value_nullable(FfiOpaqueHandle handle)
+{
+    return gluecodium::ffi::Conversion<std::vector<::smoke::VeryBigStruct>>::toFfi(
+        **reinterpret_cast<gluecodium::optional<std::vector<::smoke::VeryBigStruct>>*>(handle)
     );
 }
 FfiOpaqueHandle

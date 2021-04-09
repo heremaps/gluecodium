@@ -46,6 +46,7 @@ internal class DartImportResolver(
     private val builtInTypesConversionImport = createConversionImport("builtin_types")
     private val typeRepositoryImport = DartImport("$srcPath/_type_repository", "__lib")
     private val tokenCacheImport = DartImport("$srcPath/_token_cache", "__lib")
+    private val lazyListImport = DartImport("$srcPath/_lazy_list", "__lib")
 
     fun resolveDeclarationImports(limeElement: LimeElement): List<DartImport> =
         when {
@@ -67,7 +68,8 @@ internal class DartImportResolver(
 
     fun resolveImports(limeElement: LimeElement): List<DartImport> =
         when (limeElement) {
-            is LimeTypeRef -> resolveTypeImports(limeElement.type)
+            is LimeTypeRef -> resolveTypeImports(limeElement.type) +
+                listOfNotNull(lazyListImport.takeIf { limeElement.attributes.have(LimeAttributeType.OPTIMIZED) })
             is LimeType -> resolveTypeImports(limeElement)
             is LimeNamedElement -> listOf(createImport(limeElement))
             else -> emptyList()

@@ -185,9 +185,16 @@ void
 {{#set parent=this}}{{#fields}}
 {{resolveName typeRef}}
 {{libraryName}}_{{resolveName parent}}_get_field_{{resolveName}}(FfiOpaqueHandle handle) {
-    return {{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toFfi(
+    return {{#if typeRef.attributes.optimized}}{{!!
+    }}reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) std::shared_ptr<{{resolveName typeRef "C++"}}>(
+            new (std::nothrow) {{resolveName typeRef "C++"}}(
+                reinterpret_cast<{{resolveName parent "C++"}}*>(handle)->{{resolveName "C++"}}
+            )
+        )
+    );{{/if}}{{#unless typeRef.attributes.optimized}}{{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toFfi(
         reinterpret_cast<{{resolveName parent "C++"}}*>(handle)->{{resolveName "C++"}}
-    );
+    );{{/unless}}
 }
 
 {{/fields}}{{/set}}
@@ -257,10 +264,18 @@ FfiOpaqueHandle
 {{libraryName}}_{{resolveName}}({{#unless isStatic}}FfiOpaqueHandle _self, {{/unless}}int32_t _isolate_id{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) {
     {{>ffi/FfiInternal}}::IsolateContext _isolate_context(_isolate_id);
-    {{#isNotEq returnType.typeRef.toString "Void"}}return {{>ffi/FfiInternal}}::Conversion<{{resolveName returnType.typeRef "C++"}}>::toFfi(
-{{/isNotEq}}{{!!
-}}{{>ffiCallCppFunction}}{{#isNotEq returnType.typeRef.toString "Void"}}
-    ){{/isNotEq}};
+    {{#isEq returnType.typeRef.toString "Void"}}{{>ffiCallCppFunction}};{{/isEq}}{{!!
+    }}{{#isNotEq returnType.typeRef.toString "Void"}}return {{#if returnType.typeRef.attributes.optimized}}{{!!
+    }}reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) std::shared_ptr<{{resolveName returnType.typeRef "C++"}}>(
+            new (std::nothrow) {{resolveName returnType.typeRef "C++"}}(
+        {{>ffiCallCppFunction}}
+            )
+        )
+    );{{/if}}{{#unless returnType.typeRef.attributes.optimized}}{{!!
+    }}{{>ffi/FfiInternal}}::Conversion<{{resolveName returnType.typeRef "C++"}}>::toFfi(
+{{>ffiCallCppFunction}}
+    );{{/unless}}{{/isNotEq}}
 }
 {{/unless}}{{/ffiFunction}}{{!!
 

@@ -488,9 +488,9 @@ deprecated, takes a string literal value as a deprecation message. Platform-spec
 deprecation messages (see `Platform-specific comments` below for syntax).
 * **@Cached**: marks a property to be cached on platform side (i.e. read from C++ only once on first
 access and cached in Java/Swift/Dart afterwards). Currently only supported for read-only properties.
-* **@Optimized**: marks a type reference of `List<>` type to fetch list elements from C++ to platform side on demand
-instead of a creating a full platform-side copy. C++ list is generated as an `std::vector<std::shared_ptr<>>` in this
-case. This attribute can be applied only to:
+* **@Optimized**: *EXPERIMENTAL* marks a type reference of `List<>` type to fetch list elements from C++ to platform
+side on demand instead of a creating a full platform-side copy. C++ list is generated as an
+`std::vector<std::shared_ptr<>>` in this case. This attribute can be applied only to:
   * return type of a function
   * type of a read-only property
   * type of a field in an `@Immutable` struct
