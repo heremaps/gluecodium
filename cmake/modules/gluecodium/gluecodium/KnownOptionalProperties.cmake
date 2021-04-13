@@ -137,7 +137,7 @@ _gluecodium_define_target_property(
   BRIEF_DOCS "The name of export macro for COMMON sources."
   FULL_DOCS
     "The name of export macro for COMMON sources. If not set then _GLUECODIUM_CPP_EXPORT is used."
-    "This property is initialized by the value of the GLUECODIUM_CPP_EXPORT_MACRO_NAME_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
+    "This property is initialized by the value of the GLUECODIUM_CPP_EXPORT_COMMON_MACRO_NAME_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
 )
 
 _gluecodium_define_target_property(
