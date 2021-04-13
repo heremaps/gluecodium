@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Added `@EnableIf("Tag1", "Tag2"...)` attribute for enabling elements based on presence of user-defined custom tags.
+
 ## 8.11.1
 Release date: 2021-03-31
 ### Bug fixes:

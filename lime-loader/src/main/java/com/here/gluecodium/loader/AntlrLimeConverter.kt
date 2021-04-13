@@ -95,6 +95,10 @@ internal object AntlrLimeConverter {
             annotationValues.forEach { addSkipAttribute(attributes, it) }
             return
         }
+        if (attributeType == LimeAttributeType.ENABLE_IF) {
+            annotationValues.forEach { addEnableIfAttribute(attributes, it) }
+            return
+        }
 
         annotationValues.forEach {
             val valueType = convertAnnotationValueType(it, attributeType) ?: return@forEach
@@ -135,6 +139,22 @@ internal object AntlrLimeConverter {
         }
     }
 
+    private fun addEnableIfAttribute(
+        attributes: LimeAttributes.Builder,
+        valueContext: LimeParser.AnnotationValueContext
+    ) {
+        val valueTypeText = valueContext.simpleId()?.text
+        val value = when (valueTypeText?.toLowerCase()) {
+            null, "tag" -> convertAnnotationValue(valueContext)
+            else -> valueTypeText
+        }
+
+        val valueList = if (value is List<*>) value else listOf(value)
+        valueList.filterIsInstance<String>().forEach {
+            attributes.addAttribute(LimeAttributeType.ENABLE_IF, LimeAttributeValueType.TAG, it)
+        }
+    }
+
     private fun convertAnnotationType(ctx: LimeParser.AnnotationContext) =
         when (val id = ctx.simpleId().text) {
             "Cached" -> LimeAttributeType.CACHED
@@ -142,6 +162,7 @@ internal object AntlrLimeConverter {
             "Dart" -> LimeAttributeType.DART
             "Deprecated" -> LimeAttributeType.DEPRECATED
             "Equatable" -> LimeAttributeType.EQUATABLE
+            "EnableIf" -> LimeAttributeType.ENABLE_IF
             "Immutable" -> LimeAttributeType.IMMUTABLE
             "Java" -> LimeAttributeType.JAVA
             "PointerEquatable" -> LimeAttributeType.POINTER_EQUATABLE
@@ -156,9 +177,8 @@ internal object AntlrLimeConverter {
         attributeType: LimeAttributeType
     ): LimeAttributeValueType? {
         val id = ctx.simpleId()?.text ?: return (
-            attributeType.defaultValueType ?: throw LimeLoadingException(
-                "Attribute type $attributeType does not support values"
-            )
+            attributeType.defaultValueType
+                ?: throw LimeLoadingException("Attribute type $attributeType does not support values")
             )
         return when (id) {
             "Name" -> LimeAttributeValueType.NAME

@@ -31,6 +31,7 @@ enum class LimeAttributeType(
     DART("Dart", LimeAttributeValueType.NAME),
     CACHED("Cached"),
     DEPRECATED("Deprecated", LimeAttributeValueType.MESSAGE),
+    ENABLE_IF("EnableIf", LimeAttributeValueType.TAG),
     EQUATABLE("Equatable"),
     IMMUTABLE("Immutable"),
     POINTER_EQUATABLE("PointerEquatable"),
