@@ -493,6 +493,9 @@ access and cached in Java/Swift/Dart afterwards). Currently only supported for r
 case-insensitive. There are three predefined tags that do not need to be specified explicitly: "Java", "Swift", and
 "Dart". They mark the element to be skipped in the generated code for the corresponding language. There is no skip tag
 for C++.
+* **@EnableIf(**\[**Tag** **=**\] **"**_CustomTag_**"**__)__ or **@EnableIf(**__CustomTag__**)**: marks an element to be
+enabled only if a custom tag with that name was defined through command-line parameters. If the tag is not present, the
+element is skipped ((not generated). Custom tags are case-insensitive.
 * **@Java**: marks an element with Java-specific behaviors:
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Java.
   This is the default specification for this attribute.

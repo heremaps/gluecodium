@@ -253,6 +253,15 @@ class Gluecodium(
         }
 
         private fun hasSkipTags(limeElement: LimeNamedElement, tags: Set<String>): Boolean {
+            val enableIfTags =
+                limeElement.attributes.get(LimeAttributeType.ENABLE_IF, LimeAttributeValueType.TAG, Any::class.java)
+            val isEnabled = when (enableIfTags) {
+                is String -> tags.contains(enableIfTags)
+                is List<*> -> enableIfTags.filterIsInstance<String>().intersect(tags).isNotEmpty()
+                else -> true
+            }
+            if (!isEnabled) return true
+
             val skipTags =
                 limeElement.attributes.get(LimeAttributeType.SKIP, LimeAttributeValueType.TAG, Any::class.java)
             return when (skipTags) {

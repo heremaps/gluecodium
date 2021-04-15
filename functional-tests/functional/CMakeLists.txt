@@ -407,10 +407,13 @@ feature(SkipAttribute cpp android swift dart SOURCES
     input/lime/Skip.lime
     input/lime/SkipTags.lime
     input/lime/SkipEnumerator.lime
+    input/lime/EnableIfEnabled.lime
+    input/lime/EnableIfSkipped.lime
 
     input/src/cpp/Skip.cpp
     input/src/cpp/SkipTags.cpp
     input/src/cpp/SkipEnumerator.cpp
+    input/src/cpp/EnableIfEnabled.cpp
 )
 
 # This feature is intended for Swift only.
@@ -458,7 +461,7 @@ set_target_properties(functional_bindings PROPERTIES
     GLUECODIUM_DART_LIBRARY_NAME "functional"
     GLUECODIUM_DART_NAMERULES "${CMAKE_CURRENT_SOURCE_DIR}/../config/dart.properties"
     GLUECODIUM_COPYRIGHT_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/../config/COPYRIGHT"
-    GLUECODIUM_TAGS "Lite"
+    GLUECODIUM_TAGS "Lite,ExperimentalFoo"
     GLUECODIUM_VERBOSE ON)
 
 gluecodium_get_target_compile_definitions(functional_bindings RESULT_PUBLIC _public_definitions
@@ -480,7 +483,9 @@ if(swift IN_LIST GLUECODIUM_GENERATORS_DEFAULT)
 
     target_sources(functional PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/SkipMe.swift"
-        "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/SkipMeToo.swift")
+        "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/SkipMeToo.swift"
+        "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/SkippedMe.swift"
+        "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/SkippedMeToo.swift")
 
     if (APPLE OR CMAKE_GENERATOR STREQUAL "Xcode")
         find_package(XCTest REQUIRED)
