@@ -20,12 +20,18 @@
 buildscript {
     repositories {
         mavenLocal()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.20"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32"
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.13.0"
         classpath "com.diffplug.spotless:spotless-plugin-gradle:5.10.2"
+
+        modules {
+            module("org.jetbrains.trove4j:trove4j") {
+                replacedBy("org.jetbrains.intellij.deps:trove4j")
+            }
+        }
     }
 }
 plugins {
@@ -34,7 +40,7 @@ plugins {
 
 allprojects {
     repositories {
-        jcenter()
+        mavenCentral()
     }
 
     configurations.all {

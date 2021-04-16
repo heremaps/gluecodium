@@ -72,17 +72,23 @@ buildscript {
     repositories {
         google()
         mavenLocal()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.20"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32"
 
         def gluecodiumVersion = project.hasProperty('gluecodiumVersion')
             ? project.property('gluecodiumVersion').toString().trim() : '+'
 
         classpath "com.here.gluecodium:gluecodium-gradle:${gluecodiumVersion}"
         classpath 'com.diffplug.spotless:spotless-plugin-gradle:5.10.2'
+
+        modules {
+            module("org.jetbrains.trove4j:trove4j") {
+                replacedBy("org.jetbrains.intellij.deps:trove4j")
+            }
+        }
     }
 }
 
@@ -90,7 +96,7 @@ allprojects {
     repositories {
         google()
         mavenLocal()
-        jcenter()
+        mavenCentral()
     }
 }
 
