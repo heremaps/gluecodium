@@ -112,6 +112,10 @@
 {{#functions}}{{#unless attributes.java.skip}}
 {{prefixPartial "java/JavaFunction" "    "}}
 {{/unless}}{{/functions}}
+
+{{#eval "optimizedLists" path}}{{#this}}
+{{#elementType}}{{prefixPartial "java/LazyNativeList" "    "}}{{/elementType}}
+{{/this}}{{/eval}}
 }{{!!
 
 }}{{+structVisibility}}{{#unless external.java.converter}}{{resolveName visibility}}{{/unless}}{{/structVisibility}}

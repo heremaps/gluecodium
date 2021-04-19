@@ -30,6 +30,7 @@
 #include "JniReference.h"
 
 #include "{{>common/InternalInclude}}Optional.h"
+#include <memory>
 #include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
@@ -146,6 +147,15 @@ convert_from_jni(JNIEnv* _env,
     return _arrayList
         ? optional<std::vector<T>>(convert_from_jni(_env, _arrayList, (std::vector<T>*)nullptr))
         : optional<std::vector<T>>{};
+}
+
+template <typename T>
+JniReference<jobject>
+convert_to_jni_optimized(JNIEnv* _env, const std::vector<std::shared_ptr<T>>& _ninput, const char* _className) {
+    auto vector_ptr = new (std::nothrow) std::shared_ptr<std::vector<std::shared_ptr<T>>>(
+        new (std::nothrow) std::vector<std::shared_ptr<T>>(_ninput)
+    );
+    return create_instance_object(_env, find_class(_env, _className), reinterpret_cast<jlong>(vector_ptr));
 }
 
 // Templated functions to create HashMaps from C++ unordered_maps and vice versa

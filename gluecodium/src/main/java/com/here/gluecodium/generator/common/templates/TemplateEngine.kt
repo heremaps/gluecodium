@@ -22,7 +22,9 @@ package com.here.gluecodium.generator.common.templates
 import com.here.gluecodium.generator.common.NameResolver
 import org.trimou.engine.MustacheEngine
 import org.trimou.engine.MustacheEngineBuilder
+import org.trimou.engine.interpolation.BracketDotKeySplitter
 import org.trimou.engine.locator.ClassPathTemplateLocator
+import org.trimou.handlebars.EvalHelper
 import org.trimou.handlebars.HelpersBuilder
 import org.trimou.handlebars.SwitchHelper
 
@@ -40,6 +42,7 @@ object TemplateEngine {
         engine = MustacheEngineBuilder.newBuilder()
             .addTemplateLocator(ClassPathTemplateLocator(1, "templates", "mustache"))
             .setProperty("org.trimou.engine.config.skipValueEscaping", true)
+            .setKeySplitter(BracketDotKeySplitter())
             .registerHelper("prefix", PrefixHelper())
             .registerHelper("prefixPartial", PrefixPartialHelper())
             .registerHelper("joinPartial", JoinPartialHelper())
@@ -57,6 +60,7 @@ object TemplateEngine {
             .registerHelper("sort", sortHelper)
             .registerHelpers(
                 HelpersBuilder.empty()
+                    .addEval(EvalHelper.BracketDotNotation())
                     .addIsEqual()
                     .addIsNotEqual()
                     .addInclude()

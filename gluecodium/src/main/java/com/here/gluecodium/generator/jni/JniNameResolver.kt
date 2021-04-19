@@ -25,6 +25,7 @@ import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.generator.java.JavaNameRules
 import com.here.gluecodium.model.lime.LimeAttributeType.CACHED
 import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
+import com.here.gluecodium.model.lime.LimeAttributeType.OPTIMIZED
 import com.here.gluecodium.model.lime.LimeAttributeValueType.FUNCTION_NAME
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
@@ -66,9 +67,13 @@ internal class JniNameResolver(
 
     override fun resolveSetterName(element: Any) = resolveAccessorName(element) { getSetterName(it) }
 
-    // Narrow usage: only for intermediate types for "external" types with converters.
+    // Narrow usage:
+    // * for intermediate types for "external" types with converters
+    // * or for optimized list types
     override fun resolveReferenceName(element: Any) =
         when {
+            element is LimeTypeRef && element.attributes.have(OPTIMIZED) ->
+                javaNameRules.getName((element.type.actualType as LimeList).elementType.type.actualType) + "LazyNativeList"
             element !is LimeType ->
                 throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
             element.external?.java?.get(CONVERTER_NAME) == null -> resolveTypeName(element)

@@ -1,0 +1,78 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2021 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+{{>java/CopyrightHeader}}
+
+{{#includes}}
+{{>common/Include}}
+{{/includes}}
+#include "JniReference.h"
+#include <memory>
+#include <vector>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+JNIEXPORT void JNICALL
+{{>lnlSignaturePrefix}}_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef) {
+    delete reinterpret_cast<std::shared_ptr<{{resolveName listType "C++"}}>*>(_jpointerRef);
+}
+
+JNIEXPORT jint JNICALL
+{{>lnlSignaturePrefix}}_getSize(JNIEnv* _jenv, jobject _jinstance) {
+    auto handle = {{>getNativeHandle}};
+    auto& vector = *reinterpret_cast<std::shared_ptr<{{resolveName listType "C++"}}>*>(handle);
+    return vector->size();
+}
+
+JNIEXPORT jobject JNICALL
+{{>lnlSignaturePrefix}}_get(JNIEnv* _jenv, jobject _jinstance, jint index) {
+    auto handle = {{>getNativeHandle}};
+    auto& vector = *reinterpret_cast<std::shared_ptr<{{resolveName listType "C++"}}>*>(handle);
+    if (index < 0 || index >= vector->size()) {
+        auto exceptionClass = {{>common/InternalNamespace}}jni::find_class(_jenv, "java/lang/IndexOutOfBoundsException");
+        _jenv->ThrowNew(exceptionClass.get(), "List index out of bounds.");
+        return {};
+    } else {
+        auto& result = {{>typeDereference}}vector->operator[](index);
+        return {{>common/InternalNamespace}}jni::convert_to_jni(_jenv, result).release();
+    }
+}
+
+#ifdef __cplusplus
+}
+#endif{{!!
+
+}}{{+lnlSignaturePrefix}}{{>jni/FunctionSignaturePrefix}}_00024{{resolveName listType "mangled" "ref"}}{{/lnlSignaturePrefix}}{{!!
+
+}}{{+getNativeHandle}}{{!!
+}}{{>common/InternalNamespace}}jni::get_field_value(
+        _jenv,
+        {{>common/InternalNamespace}}jni::make_non_releasing_ref(_jinstance),
+        "nativeHandle",
+        (int64_t*)nullptr
+    ){{!!
+}}{{/getNativeHandle}}{{!!
+
+}}{{+typeDereference}}{{!!
+}}{{#notInstanceOf elementType.type.actualType "LimeClass"}}{{#notInstanceOf elementType.type.actualType "LimeInterface"}}{{!!
+}}*{{/notInstanceOf}}{{/notInstanceOf}}{{!!
+}}{{/typeDereference}}

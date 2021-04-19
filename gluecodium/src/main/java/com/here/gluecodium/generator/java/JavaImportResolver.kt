@@ -20,6 +20,7 @@
 package com.here.gluecodium.generator.java
 
 import com.here.gluecodium.generator.common.ImportsResolver
+import com.here.gluecodium.model.lime.LimeAttributeType.OPTIMIZED
 import com.here.gluecodium.model.lime.LimeAttributeType.SERIALIZABLE
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
@@ -53,6 +54,7 @@ internal class JavaImportResolver(
     private val nullableAnnotation: JavaImport?
 ) : ImportsResolver<JavaImport> {
     val nativeBaseImport = JavaImport(internalPackages, "NativeBase")
+    private val abstractNativeListImport = JavaImport(internalPackages, "AbstractNativeList")
 
     override fun resolveElementImports(limeElement: LimeElement): List<JavaImport> =
         when (limeElement) {
@@ -127,7 +129,8 @@ internal class JavaImportResolver(
         val imports = when {
             limeType.external?.java != null -> emptyList()
             limeType is LimeBasicType -> listOfNotNull(resolveBasicTypeImport(limeType.typeId))
-            limeType is LimeList -> resolveTypeRefImports(limeType.elementType, ignoreNullability = true) + listImport
+            limeType is LimeList -> resolveTypeRefImports(limeType.elementType, ignoreNullability = true) + listImport +
+                if (limeTypeRef.attributes.have(OPTIMIZED)) listOf(abstractNativeListImport) else emptyList()
             limeType is LimeSet -> resolveTypeRefImports(limeType.elementType, ignoreNullability = true) + setImport
             limeType is LimeMap -> resolveTypeRefImports(limeType.keyType, ignoreNullability = true) +
                 resolveTypeRefImports(limeType.valueType, ignoreNullability = true) + mapImport

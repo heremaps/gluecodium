@@ -23,6 +23,7 @@ import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class JniMangledNameResolver(private val baseNameResolver: JniNameResolver) : NameResolver {
 
@@ -38,10 +39,12 @@ internal class JniMangledNameResolver(private val baseNameResolver: JniNameResol
     override fun resolveSetterName(element: Any) =
         baseNameResolver.resolveSetterName(element)?.let { mangleName(it) }
 
-    // Narrow usage: only for intermediate types for "external" types with converters.
+    // Narrow usage:
+    // * for intermediate types for "external" types with converters
+    // * or for optimized list types
     override fun resolveReferenceName(element: Any) =
         when (element) {
-            is LimeType -> mangleName(baseNameResolver.resolveReferenceName(element))
+            is LimeType, is LimeTypeRef -> mangleName(baseNameResolver.resolveReferenceName(element))
             else -> throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }
 

@@ -88,4 +88,8 @@
 {{/setter}}{{/set}}
 {{/unless}}{{/classElement.inheritedProperties}}
 {{/set}}{{/instanceOf}}{{/if}}
+
+{{#eval "optimizedLists" path}}{{#this}}
+{{#elementType}}{{prefixPartial "java/LazyNativeList" "    "}}{{/elementType}}
+{{/this}}{{/eval}}
 }
