@@ -40,3 +40,14 @@ struct StructWithJavaPositionalDefaults {
     secondFreeField: Boolean
     thirdInitField: String = "\\Jonny \"Magic\" Smith\n"
 }
+
+@Dart(PositionalDefaults)
+@Java(Skip) @Swift(Skip)
+struct StructWithCollectionDefaults {
+    emptyListField: List<String> = []
+    emptyMapField: Map<String, String> = []
+    emptySetField: Set<String> = []
+    listField: List<String> = ["foo", "bar"]
+    mapField: Map<String, String> = ["foo": "bar"]
+    setField: Set<String> = ["foo", "bar"]
+}

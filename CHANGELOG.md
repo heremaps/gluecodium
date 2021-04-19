@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed Dart compilation error for `@PositionalDefaults` structs with fields of List/Map/Set types.
+
 ## 8.12.0
 Release date: 2021-04-15
 ### Features:

@@ -202,7 +202,7 @@ void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) => _{{resolveN
 }}{{#if attributes.dart.positionalDefaults initializedFields}}{{!!
 }}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}_internal{{/if}}({{!!
   }}{{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}, {{/uninitializedFields}}{{!!
-  }}[{{#initializedFields}}{{resolveName typeRef}} {{resolveName}} = {{resolveName defaultValue}}{{#if iter.hasNext}}, {{/if}}{{/initializedFields}}])
+  }}[{{#initializedFields}}{{resolveName typeRef}} {{resolveName}} = {{>constPrefix}}{{resolveName defaultValue}}{{#if iter.hasNext}}, {{/if}}{{/initializedFields}}])
     : {{#fields}}{{resolveName visibility}}{{resolveName}} = {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}};
 {{/if}}{{!!
 }}{{#unless attributes.dart.positionalDefaults initializedFields}}{{!!
@@ -223,4 +223,10 @@ void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) => _{{resolveN
 
 }}{{+fromFfiFieldInit}}{{!!
 }}      {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}_handle){{#if iter.hasNext}}, {{/if}}
-{{/fromFfiFieldInit}}
+{{/fromFfiFieldInit}}{{!!
+
+}}{{+constPrefix}}{{#set type=typeRef.type.actualType}}{{!!
+}}{{#instanceOf type "LimeList"}}const {{/instanceOf}}{{!!
+}}{{#instanceOf type "LimeMap"}}const {{/instanceOf}}{{!!
+}}{{#instanceOf type "LimeSet"}}const {{/instanceOf}}{{!!
+}}{{/set}}{{/constPrefix}}
