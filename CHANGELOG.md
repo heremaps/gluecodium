@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 8.12.2
+Release date: 2021-04-22
 ### Bug fixes:
   * Fixed Java compilation issue for Android API level 21.
 
