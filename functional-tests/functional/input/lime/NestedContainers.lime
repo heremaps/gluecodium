@@ -51,3 +51,19 @@ class LevelOne {
         }
     }
 }
+
+open class NestedContainersParentClass {
+    fun parentFun()
+    property parentProperty: String
+}
+
+class OuterClassWithInheritance : NestedContainersParentClass {
+    class OuterClassInnerClass {
+        fun bar(input: String): String
+    }
+    interface OuterClassInnerInterface {
+        fun baz(input: String): String
+    }
+
+    fun foo(input: String): String
+}

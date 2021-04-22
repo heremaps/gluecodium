@@ -19,7 +19,7 @@
   !
   !}}
 {{>java/JavaDocComment}}{{>java/JavaAttributes}}
-{{resolveName visibility}}interface {{resolveName}} {{#if this.parent}}extends {{resolveName parent "" ref}} {{/if}}{
+{{resolveName visibility}}interface {{resolveName}} {{#if this.parent}}extends {{resolveName this.parent "" ref}} {{/if}}{
 {{#constants}}{{prefixPartial "java/JavaConstant" "    "}}
 {{/constants}}
 {{>java/JavaContainerContents}}
