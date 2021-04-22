@@ -112,7 +112,7 @@ public abstract class AbstractNativeList<T> extends NativeBase implements List<T
 
     private List<Object> toArrayList() {
         List<Object> arrayList = new ArrayList<>();
-        iterator().forEachRemaining(arrayList::add);
+        for (final T element: this) arrayList.add(element);
         return arrayList;
     }
 
