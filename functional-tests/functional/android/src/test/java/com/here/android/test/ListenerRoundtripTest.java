@@ -18,6 +18,9 @@
  */
 package com.here.android.test;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+
 import android.os.Build;
 import com.here.android.RobolectricApplication;
 import org.junit.Test;
@@ -40,5 +43,22 @@ public class ListenerRoundtripTest {
   @Test
   public void stringListenerRoundTripDoesNotCrash() {
     Nlp.setRoute(new RouteProviderImpl(), new RouteImpl());
+  }
+
+  @Test
+  public void childClassRoundTrip() {
+    final SomeLifecycleListener listener = new SomeIndicator();
+
+    assertTrue(RealBase.compareListenerToInitial(listener));
+  }
+
+  @Test
+  public void convolutedRoundTrip() {
+    final SomeLifecycleListener listener = new SomeIndicator();
+    final SomeBase base = new RealBase();
+
+    base.addLifecycleListener(listener);
+
+    assertTrue(listener.isWeakPtrAlive());
   }
 }

@@ -59,8 +59,25 @@ class ListenerRoundtripTests: XCTestCase {
         XCTAssertTrue(RouteStorage.route === route)
     }
 
+    func testChildClassRoundTrip() {
+        let listener = SomeIndicator()
+
+        XCTAssertTrue(RealBase.compareListenerToInitial(listener))
+    }
+
+    func testConvolutedRoundTrip() {
+        let listener = SomeIndicator()
+        let base = RealBase()
+
+        base.addLifecycleListener(listener)
+
+        XCTAssertTrue(listener.isWeakPtrAlive())
+    }
+
     static var allTests = [
         ("testListenerRoundTripPreservesType", testListenerRoundTripPreservesType),
-        ("testOriginalSwiftObjectIsReturnedBack", testOriginalSwiftObjectIsReturnedBack)
+        ("testOriginalSwiftObjectIsReturnedBack", testOriginalSwiftObjectIsReturnedBack),
+        ("testChildClassRoundTrip", testChildClassRoundTrip),
+        ("testConvolutedRoundTrip", testConvolutedRoundTrip)
     ]
 }

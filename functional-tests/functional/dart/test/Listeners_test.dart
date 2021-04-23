@@ -71,4 +71,22 @@ void main() {
 
     expect(result, isTrue);
   });
+  _testSuite.test("Child class round trip", () {
+    final listener = SomeIndicator();
+
+    expect(RealBase.compareListenerToInitial(listener), isTrue);
+
+    listener.release();
+  });
+  _testSuite.test("Convoluted round trip", () {
+    final listener = SomeIndicator();
+    final base = RealBase();
+
+    base.addLifecycleListener(listener);
+
+    expect(listener.isWeakPtrAlive(), isTrue);
+
+    base.release();
+    listener.release();
+  });
 }
