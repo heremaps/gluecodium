@@ -690,6 +690,112 @@ internal func foobar_moveFromCType(_ handle: _baseRef) -> [UInt8]? {
     }
     return foobar_copyFromCType(handle)
 }
+internal func foobar_copyFromCType(_ handle: _baseRef) -> [UnreasonablyLazyClass] {
+    var result: [UnreasonablyLazyClass] = []
+    let count = foobar_ArrayOf_smoke_UnreasonablyLazyClass_count(handle)
+    for idx in 0..<count {
+        result.append(UnreasonablyLazyClass_copyFromCType(foobar_ArrayOf_smoke_UnreasonablyLazyClass_get(handle, idx)))
+    }
+    return result
+}
+internal func foobar_moveFromCType(_ handle: _baseRef) -> [UnreasonablyLazyClass] {
+    defer {
+        foobar_ArrayOf_smoke_UnreasonablyLazyClass_release_handle(handle)
+    }
+    return foobar_copyFromCType(handle)
+}
+internal func foobar_copyToCType(_ swiftArray: [UnreasonablyLazyClass]) -> RefHolder {
+    let handle = foobar_ArrayOf_smoke_UnreasonablyLazyClass_create_handle()
+    for item in swiftArray {
+        let _item = moveToCType(item)
+        foobar_ArrayOf_smoke_UnreasonablyLazyClass_append(handle, _item.ref)
+    }
+    return RefHolder(handle)
+}
+internal func foobar_moveToCType(_ swiftArray: [UnreasonablyLazyClass]) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftArray).ref, release: foobar_ArrayOf_smoke_UnreasonablyLazyClass_release_handle)
+}
+internal func foobar_copyToCType(_ swiftArray: [UnreasonablyLazyClass]?) -> RefHolder {
+    guard let swiftArray = swiftArray else {
+        return RefHolder(0)
+    }
+    let optionalHandle = foobar_ArrayOf_smoke_UnreasonablyLazyClass_create_optional_handle()
+    let handle = foobar_ArrayOf_smoke_UnreasonablyLazyClass_unwrap_optional_handle(optionalHandle)
+    for item in swiftArray {
+        let _item = moveToCType(item)
+        foobar_ArrayOf_smoke_UnreasonablyLazyClass_append(handle, _item.ref)
+    }
+    return RefHolder(optionalHandle)
+}
+internal func foobar_moveToCType(_ swiftType: [UnreasonablyLazyClass]?) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: foobar_ArrayOf_smoke_UnreasonablyLazyClass_release_optional_handle)
+}
+internal func foobar_copyFromCType(_ handle: _baseRef) -> [UnreasonablyLazyClass]? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = foobar_ArrayOf_smoke_UnreasonablyLazyClass_unwrap_optional_handle(handle)
+    return foobar_copyFromCType(unwrappedHandle) as [UnreasonablyLazyClass]
+}
+internal func foobar_moveFromCType(_ handle: _baseRef) -> [UnreasonablyLazyClass]? {
+    defer {
+        foobar_ArrayOf_smoke_UnreasonablyLazyClass_release_optional_handle(handle)
+    }
+    return foobar_copyFromCType(handle)
+}
+internal func foobar_copyFromCType(_ handle: _baseRef) -> [VeryBigStruct] {
+    var result: [VeryBigStruct] = []
+    let count = foobar_ArrayOf_smoke_VeryBigStruct_count(handle)
+    for idx in 0..<count {
+        result.append(copyFromCType(foobar_ArrayOf_smoke_VeryBigStruct_get(handle, idx)))
+    }
+    return result
+}
+internal func foobar_moveFromCType(_ handle: _baseRef) -> [VeryBigStruct] {
+    defer {
+        foobar_ArrayOf_smoke_VeryBigStruct_release_handle(handle)
+    }
+    return foobar_copyFromCType(handle)
+}
+internal func foobar_copyToCType(_ swiftArray: [VeryBigStruct]) -> RefHolder {
+    let handle = foobar_ArrayOf_smoke_VeryBigStruct_create_handle()
+    for item in swiftArray {
+        let _item = moveToCType(item)
+        foobar_ArrayOf_smoke_VeryBigStruct_append(handle, _item.ref)
+    }
+    return RefHolder(handle)
+}
+internal func foobar_moveToCType(_ swiftArray: [VeryBigStruct]) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftArray).ref, release: foobar_ArrayOf_smoke_VeryBigStruct_release_handle)
+}
+internal func foobar_copyToCType(_ swiftArray: [VeryBigStruct]?) -> RefHolder {
+    guard let swiftArray = swiftArray else {
+        return RefHolder(0)
+    }
+    let optionalHandle = foobar_ArrayOf_smoke_VeryBigStruct_create_optional_handle()
+    let handle = foobar_ArrayOf_smoke_VeryBigStruct_unwrap_optional_handle(optionalHandle)
+    for item in swiftArray {
+        let _item = moveToCType(item)
+        foobar_ArrayOf_smoke_VeryBigStruct_append(handle, _item.ref)
+    }
+    return RefHolder(optionalHandle)
+}
+internal func foobar_moveToCType(_ swiftType: [VeryBigStruct]?) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: foobar_ArrayOf_smoke_VeryBigStruct_release_optional_handle)
+}
+internal func foobar_copyFromCType(_ handle: _baseRef) -> [VeryBigStruct]? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = foobar_ArrayOf_smoke_VeryBigStruct_unwrap_optional_handle(handle)
+    return foobar_copyFromCType(unwrappedHandle) as [VeryBigStruct]
+}
+internal func foobar_moveFromCType(_ handle: _baseRef) -> [VeryBigStruct]? {
+    defer {
+        foobar_ArrayOf_smoke_VeryBigStruct_release_optional_handle(handle)
+    }
+    return foobar_copyFromCType(handle)
+}
 internal func foobar_copyFromCType(_ handle: _baseRef) -> [YetAnotherDummyClass] {
     var result: [YetAnotherDummyClass] = []
     let count = foobar_ArrayOf_smoke_YetAnotherDummyClass_count(handle)

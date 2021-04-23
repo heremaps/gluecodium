@@ -66,12 +66,18 @@ void {{resolveName}}_release_optional_handle(_baseRef handle) {
 {{#fields}}
 {{resolveName typeRef}} {{resolveName structElement}}_{{resolveName}}_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const {{resolveName structElement "C++"}}>(handle);
-    {{#set field=this}}{{#ifPredicate typeRef "isComplexType"}}{{!!
-}}return Conversion<{{resolveName typeRef "C++"}}>::toBaseRef({{>getCppFieldValue}});{{/ifPredicate}}{{!!
+    return {{#set field=this}}{{#if typeRef.attributes.optimized}}{{!!
+    }}reinterpret_cast<_baseRef>(
+        new (std::nothrow) std::shared_ptr<{{resolveName typeRef "C++"}}>(
+            new (std::nothrow) {{resolveName typeRef "C++"}}({{>getCppFieldValue}})
+        )
+    );{{!!
+}}{{/if}}{{#unless typeRef.attributes.optimized}}{{#ifPredicate typeRef "isComplexType"}}{{!!
+}}Conversion<{{resolveName typeRef "C++"}}>::toBaseRef({{>getCppFieldValue}});{{/ifPredicate}}{{!!
 }}{{#unlessPredicate typeRef "isComplexType"}}{{!!
-}}{{#instanceOf typeRef.type.actualType "LimeEnumeration"}}return static_cast<{{resolveName typeRef}}>({{>getCppFieldValue}});{{/instanceOf}}{{!!
-}}{{#notInstanceOf typeRef.type.actualType "LimeEnumeration"}}return {{>getCppFieldValue}};{{/notInstanceOf}}{{!!
-}}{{/unlessPredicate}}{{/set}}
+}}{{#instanceOf typeRef.type.actualType "LimeEnumeration"}}static_cast<{{resolveName typeRef}}>({{>getCppFieldValue}});{{/instanceOf}}{{!!
+}}{{#notInstanceOf typeRef.type.actualType "LimeEnumeration"}}{{>getCppFieldValue}};{{/notInstanceOf}}{{!!
+}}{{/unlessPredicate}}{{/unless}}{{/set}}
 }
 {{/fields}}
 {{/set}}

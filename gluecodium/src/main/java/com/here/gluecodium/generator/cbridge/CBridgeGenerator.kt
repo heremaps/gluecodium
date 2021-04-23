@@ -26,14 +26,18 @@ import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.common.NameResolver
+import com.here.gluecodium.generator.common.OptimizedListsCollector
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.CppFullNameResolver
 import com.here.gluecodium.generator.cpp.CppIncludeResolver
 import com.here.gluecodium.generator.cpp.CppNameCache
 import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
+import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
+import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeGenericType
@@ -49,8 +53,8 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 import java.nio.file.Paths
 
 internal class CBridgeGenerator(
-    limeReferenceMap: Map<String, LimeElement>,
-    rootNamespace: List<String>,
+    private val limeReferenceMap: Map<String, LimeElement>,
+    private val rootNamespace: List<String>,
     nameCache: CppNameCache,
     private val internalNamespace: List<String>,
     cppNameRules: CppNameRules,
@@ -68,6 +72,11 @@ internal class CBridgeGenerator(
     val genericTypesCollector = GenericTypesCollector(nameResolver)
 
     fun generate(rootElement: LimeNamedElement): List<GeneratedFile> {
+        val optimizedLists = when (rootElement) {
+            is LimeContainer -> OptimizedListsCollector().getAllOptimizedLists(rootElement)
+            else -> emptyMap()
+        }
+
         val templateData = mutableMapOf("model" to rootElement, "internalNamespace" to internalNamespace)
         val nameResolvers = mapOf<String, NameResolver>("" to nameResolver, "C++" to cppRefNameResolver)
 
@@ -85,7 +94,8 @@ internal class CBridgeGenerator(
             TemplateEngine.render("cbridge/CBridgeImplementation", templateData, nameResolvers, predicates)
         val implFile = GeneratedFile(implFileContent, fileNames.getImplFilePath(rootElement))
 
-        return listOf(headerFile, implFile)
+        return listOf(headerFile, implFile) +
+            optimizedLists.keys.flatMap { generateOptimizedListFiles(limeReferenceMap[it], optimizedLists[it]) }
     }
 
     fun generateCollections(limeModel: List<LimeNamedElement>): List<GeneratedFile> {
@@ -118,6 +128,44 @@ internal class CBridgeGenerator(
         val implFileContent =
             TemplateEngine.render("cbridge/CBridgeCollectionsImpl", templateData, nameResolvers, predicates)
         val implFile = GeneratedFile(implFileContent, CBRIDGE_COLLECTIONS_IMPL)
+
+        return listOf(headerFile, implFile)
+    }
+
+    private fun generateOptimizedListFiles(limeElement: LimeElement?, lists: List<LimeList>?): List<GeneratedFile> {
+        if (limeElement !is LimeNamedElement || lists.isNullOrEmpty()) return emptyList()
+
+        val containerData = mutableMapOf("container" to limeElement, "internalNamespace" to internalNamespace)
+        return lists.flatMap { generateOptimizedListFile(it, limeElement, containerData) }
+    }
+
+    private fun generateOptimizedListFile(
+        limeList: LimeList,
+        container: LimeNamedElement,
+        containerData: MutableMap<String, Any>
+    ): List<GeneratedFile> {
+        val elementType = limeList.elementType.type.actualType
+        val infix = "_${elementType.name}LazyList"
+        val headerFileName = CBridgeNameRules.createPath(container, rootNamespace, "include", ".h", infix)
+
+        containerData["listType"] = LimeDirectTypeRef(limeList, attributes = optimizedAttributes)
+        containerData["elementType"] = limeList.elementType
+        val nameResolvers = mapOf<String, NameResolver>("" to nameResolver, "C++" to cppRefNameResolver)
+
+        val headerFile = GeneratedFile(
+            TemplateEngine.render("cbridge/LazyListHeader", containerData, nameResolvers, predicates),
+            headerFileName
+        )
+
+        val implIncludes =
+            implIncludeCollector.collectImports(elementType) + Include.createInternalInclude(headerFileName)
+        containerData["includes"] = implIncludes.distinct().sorted()
+        val implFileName = CBridgeNameRules.createPath(container, rootNamespace, "src", ".cpp", infix)
+
+        val implFile = GeneratedFile(
+            TemplateEngine.render("cbridge/LazyListImpl", containerData, nameResolvers, predicates),
+            implFileName
+        )
 
         return listOf(headerFile, implFile)
     }
@@ -228,6 +276,8 @@ internal class CBridgeGenerator(
         private val DATE_HANDLE_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "DateHandle.h").toString()
         private val EXPORT_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "Export.h").toString()
         private val PROXY_CACHE_FILENAME = Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "CachedProxyBase.h").toString()
+
+        private val optimizedAttributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.OPTIMIZED).build()
 
         val STATIC_FILES by lazy {
             listOf(

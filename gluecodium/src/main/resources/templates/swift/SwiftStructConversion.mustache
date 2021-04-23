@@ -37,8 +37,11 @@
 {{#if external.swift.converter}}
     let swiftType = {{external.swift.converter}}.convertToInternal(swiftType_ext)
 {{/if}}
-{{#fields}}
+{{#fields}}{{#if typeRef.attributes.optimized}}
+    let c_{{resolveName}} = RefHolder(swiftType.{{resolveName}}.c_handle)
+{{/if}}{{#unless typeRef.attributes.optimized}}
     let c_{{resolveName}} = {{>swift/ConversionPrefixTo}}moveToCType(swiftType.{{resolveName}})
+{{/unless}}
 {{/fields}}
     return RefHolder({{resolveName "CBridge"}}_create_handle({{#fields}}c_{{resolveName}}.ref{{#if iter.hasNext}}, {{/if}}{{/fields}}))
 }
@@ -73,8 +76,11 @@ Optionals
 {{#if external.swift.converter}}
     let swiftType = {{external.swift.converter}}.convertToInternal(swiftType_ext)
 {{/if}}
-{{#fields}}
+{{#fields}}{{#if typeRef.attributes.optimized}}
+    let c_{{resolveName}} = RefHolder(swiftType.{{resolveName}}.c_handle)
+{{/if}}{{#unless typeRef.attributes.optimized}}
     let c_{{resolveName}} = {{>swift/ConversionPrefixTo}}moveToCType(swiftType.{{resolveName}})
+{{/unless}}
 {{/fields}}
     return RefHolder({{resolveName "CBridge"}}_create_optional_handle({{#fields}}c_{{resolveName}}.ref{{#if iter.hasNext}}, {{/if}}{{/fields}}))
 }
