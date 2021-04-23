@@ -1,9 +1,14 @@
 # Gluecodium project Release Notes
 
+## 8.12.2
+Release date: 2021-04-22
+### Bug fixes:
+  * Fixed Java compilation issue for Android API level 21.
+
 ## 8.12.1
 Release date: 2021-04-19
 ### Bug fixes:
-  * Fixed Dart compilation error for `@PositionalDefaults` structs with fields of List/Map/Set types.
+  * Fixed Dart compilation issue for `@PositionalDefaults` structs with fields of List/Map/Set types.
 
 ## 8.12.0
 Release date: 2021-04-15
