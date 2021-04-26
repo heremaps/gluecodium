@@ -80,6 +80,8 @@ final _{{resolveName "Ffi"}}_get_type_id = __lib.catchArgumentError(() => __lib.
   >('{{libraryName}}_{{resolveName "Ffi"}}_get_type_id'));
 {{/if}}
 
+{{>dart/DartOptimizedLists}}
+
 {{#functions}}
 {{>dart/DartFunctionException}}
 
@@ -103,7 +105,7 @@ class {{resolveName}}$Impl{{!!
     handle = null;
   }
 
-{{#set inheritanceParent=this.parent parent=this ignoreStatic=testableMode}}{{#constructors}}
+{{#set inheritanceParent=this.parent parent=this container=this ignoreStatic=testableMode}}{{#constructors}}
 {{prefixPartial "dartConstructor" "  "}}
 {{/constructors}}
 {{#functions}}

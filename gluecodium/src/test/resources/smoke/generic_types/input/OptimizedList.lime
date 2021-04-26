@@ -23,13 +23,11 @@ struct VeryBigStruct {
 
 class UnreasonablyLazyClass {}
 
-@Skip(Dart)
 class UseOptimizedList {
     static fun fetchTheBigOnes(): @Optimized List<VeryBigStruct>
     static property lazyOnes: @Optimized List<UnreasonablyLazyClass> { get }
 }
 
-@Skip(Dart)
 @Immutable
 struct UseOptimizedListStruct {
     structs: @Optimized List<VeryBigStruct>

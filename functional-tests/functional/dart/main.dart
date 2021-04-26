@@ -48,6 +48,7 @@ import "test/MethodOverloads_test.dart" as MethodOverloadsTests;
 import "test/MultiListener_test.dart" as MultiListenerTests;
 import "test/Nesting_test.dart" as NestingTests;
 import "test/Nullable_test.dart" as NullableTests;
+import "test/OptimizedLists_test.dart" as OptimizedListsTests;
 import "test/PlainDataStructures_test.dart" as PlainDataStructuresTests;
 import "test/PlainDataStructuresImmutable_test.dart" as PlainDataStructuresImmutableTests;
 import "test/PlainDataStructuresTypeCollection_test.dart" as PlainDataStructuresTypeCollectionTests;
@@ -90,6 +91,7 @@ final _allTests = [
   MultiListenerTests.main,
   NestingTests.main,
   NullableTests.main,
+  OptimizedListsTests.main,
   PlainDataStructuresTests.main,
   PlainDataStructuresImmutableTests.main,
   PlainDataStructuresTypeCollectionTests.main,

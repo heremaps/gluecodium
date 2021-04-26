@@ -62,8 +62,14 @@
 }}{{#unless isStatic}}Pointer<Void>, {{/unless}}int{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{/ffiDart}}{{!!
 
-}}{{+ffiReturnConversion}}  {{#returnType}}try {
+}}{{+ffiReturnConversion}}{{!!
+}}  {{#returnType}}{{#if typeRef.attributes.optimized}}{{!!
+}}{{#set elementType=typeRef.type.actualType.elementType.type.actualType typeRef=typeRef.type.actualType.elementType}}{{!!
+    }}return {{#set varName="__result_handle"}}{{prefixPartial "dart/InitLazyList" "    " skipFirstLine=true}}{{/set}};{{/set}}
+{{/if}}{{#unless typeRef.attributes.optimized}}try {
     return {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(__result_handle);
   } finally {
     {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(__result_handle);
-  }{{/returnType}}{{/ffiReturnConversion}}
+  }
+{{/unless}}{{/returnType}}{{!!
+}}{{/ffiReturnConversion}}

@@ -25,6 +25,7 @@ import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.generator.cpp.CppLibraryIncludes
 import com.here.gluecodium.generator.cpp.CppNameCache
 import com.here.gluecodium.generator.cpp.CppNameRules
+import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeValueType.ACCESSORS
 import com.here.gluecodium.model.lime.LimeBasicType
@@ -85,7 +86,7 @@ internal class FfiCppNameResolver(
 
     private fun getTypeRefName(limeTypeRef: LimeTypeRef): String {
         val limeType = limeTypeRef.type.actualType
-        val typeName = resolveName(limeType)
+        val typeName = getTypeName(limeType, isOptimized = limeTypeRef.attributes.have(LimeAttributeType.OPTIMIZED))
         return when {
             limeType is LimeContainerWithInheritance -> "std::shared_ptr<$typeName>"
             limeTypeRef.isNullable -> "$internalNamespace::optional<$typeName>"
@@ -93,10 +94,10 @@ internal class FfiCppNameResolver(
         }
     }
 
-    private fun getTypeName(limeType: LimeType): String =
+    private fun getTypeName(limeType: LimeType, isOptimized: Boolean = false): String =
         when (limeType) {
             is LimeBasicType -> getBasicTypeName(limeType.typeId)
-            is LimeGenericType -> getGenericTypeName(limeType)
+            is LimeGenericType -> getGenericTypeName(limeType, isOptimized)
             else -> cppNameResolver.getFullyQualifiedName(limeType)
         }
 
@@ -146,13 +147,18 @@ internal class FfiCppNameResolver(
         }
     }
 
-    private fun getGenericTypeName(limeType: LimeGenericType): String {
+    private fun getGenericTypeName(limeType: LimeGenericType, isOptimized: Boolean): String {
         val templateName: String
         val templateParameters: List<String>
         when (limeType) {
             is LimeList -> {
                 templateName = "vector"
-                templateParameters = listOf(resolveName(limeType.elementType))
+                val elementName = when {
+                    isOptimized && limeType.elementType.type.actualType !is LimeContainerWithInheritance ->
+                        "::std::shared_ptr< ${resolveName(limeType.elementType)} >"
+                    else -> resolveName(limeType.elementType)
+                }
+                templateParameters = listOf(elementName)
             }
             is LimeSet -> {
                 templateName = "unordered_set"

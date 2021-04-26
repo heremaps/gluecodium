@@ -1,6 +1,8 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Implementation:
+  * Added support for `@Optimized` attribute on type references of `List<>` type. This is an experimental feature.
 ### Bug fixes:
   * Fixed compilation issues for all languages when a nested class/interface is declared in an outer class/interface
     and the outer type has an inheritance parent.
