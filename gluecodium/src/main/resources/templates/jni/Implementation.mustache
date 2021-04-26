@@ -38,7 +38,7 @@ extern "C" {
 {{>jniPropertyImpl}}
 {{/unless}}{{/properties}}
 
-{{#if parent}}{{#instanceOf parent.type.actualType "LimeInterface"}}
+{{#if this.parent}}{{#instanceOf this.parent.type.actualType "LimeInterface"}}
 {{#inheritedFunctions}}{{#unless attributes.java.skip}}
 {{>jniMethodImpl}}
 

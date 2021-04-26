@@ -19,7 +19,7 @@
   !
   !}}
 {{>dart/DartDocumentation}}{{>dart/DartAttributes}}
-{{#unless testableMode}}abstract {{/unless}}class {{resolveName}} {{#if parent}}implements {{resolveName parent}} {{/if}}{
+{{#unless testableMode}}abstract {{/unless}}class {{resolveName}} {{#if this.parent}}implements {{resolveName this.parent}} {{/if}}{
 {{#set parent=this}}{{#constructors}}
 {{>dart/DartRedirectConstructor}}
 {{/constructors}}{{/set}}
@@ -73,7 +73,7 @@ final _{{resolveName "Ffi"}}_release_handle = __lib.catchArgumentError(() => __l
   >('{{libraryName}}_{{resolveName "Ffi"}}_release_handle'));
 {{#if attributes.equatable}}{{>dart/DartFfiEqualityFunction}}{{/if}}{{!!
 }}{{#if attributes.pointerEquatable}}{{>dart/DartFfiEqualityFunction}}{{/if}}
-{{#if parent visibility.isOpen logic="or"}}
+{{#if this.parent visibility.isOpen logic="or"}}
 final _{{resolveName "Ffi"}}_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -103,7 +103,7 @@ class {{resolveName}}$Impl{{!!
     handle = null;
   }
 
-{{#set inheritanceParent=parent parent=this ignoreStatic=testableMode}}{{#constructors}}
+{{#set inheritanceParent=this.parent parent=this ignoreStatic=testableMode}}{{#constructors}}
 {{prefixPartial "dartConstructor" "  "}}
 {{/constructors}}
 {{#functions}}
@@ -115,17 +115,17 @@ class {{resolveName}}$Impl{{!!
 {{#unless isStatic}}  @override
 {{/unless}}
 {{prefixPartial "dart/DartFunction" "  "}}
-{{/inheritedFunctions}}{{/instanceOf}}{{/if}}{{/set}}
+{{/inheritedFunctions}}{{/instanceOf}}{{/if}}
 {{#set override=true skipDocs=true}}{{#properties}}{{#if attributes.cached}}
 {{prefixPartial "dartCachedProperty" "  "}}
 {{/if}}{{#unless attributes.cached}}
 {{prefixPartial "dart/DartProperty" "  "}}
 {{/unless}}{{/properties}}
-{{#if parent}}{{#instanceOf parent.type.actualType "LimeInterface"}}
+{{#if inheritanceParent}}{{#instanceOf inheritanceParent.type.actualType "LimeInterface"}}
 {{#inheritedProperties}}
 {{prefixPartial "dart/DartProperty" "  "}}
 {{/inheritedProperties}}
-{{/instanceOf}}{{/if}}{{/set}}
+{{/instanceOf}}{{/if}}{{/set}}{{/set}}
 {{#if attributes.equatable}}{{prefixPartial "dart/DartEqualityOperator" "  "}}{{/if}}{{!!
 }}{{#if attributes.pointerEquatable}}{{prefixPartial "dart/DartEqualityOperator" "  "}}{{/if}}
 }
@@ -139,14 +139,14 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) =>
   final instance = __lib.instanceCache[token] as {{resolveName}};
   if (instance != null) return instance;
 
-{{#if parent visibility.isOpen logic="or"}}
+{{#if this.parent visibility.isOpen logic="or"}}
   final _type_id_handle = _{{resolveName "Ffi"}}_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
 
 {{/if}}
   final _copied_handle = _{{resolveName "Ffi"}}_copy_handle(handle);
-  final result = {{#if parent visibility.isOpen logic="or"}}factoryConstructor != null
+  final result = {{#if this.parent visibility.isOpen logic="or"}}factoryConstructor != null
     ? factoryConstructor(_copied_handle)
     : {{/if}}{{resolveName}}$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));

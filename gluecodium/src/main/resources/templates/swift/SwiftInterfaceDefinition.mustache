@@ -20,7 +20,7 @@
   !}}
 {{>swift/SwiftComment}}{{>swift/SwiftAttributes}}{{!!
 }}{{resolveName visibility}} protocol {{resolveName}} : {{!!
-}}{{#if parent}}{{resolveName parent}}{{/if}}{{#unless parent}}AnyObject{{/unless}} {
+}}{{#if this.parent}}{{resolveName this.parent}}{{/if}}{{#unless this.parent}}AnyObject{{/unless}} {
 {{#set isInterface=true interface=this}}{{#each typeAliases exceptions}}
 {{prefixPartial "swift/SwiftTypeAlias" "    "}}
 {{/each}}

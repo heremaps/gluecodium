@@ -20,7 +20,7 @@ public final class OuterClassWithInheritance extends ParentClass {
         }
         private static native void disposeNativeHandle(long nativeHandle);
         @NonNull
-        public native String foo(@NonNull final String input);
+        public native String bar(@NonNull final String input);
     }
     /**
      * @exclude
@@ -36,11 +36,11 @@ public final class OuterClassWithInheritance extends ParentClass {
         }
         private static native void disposeNativeHandle(long nativeHandle);
         @NonNull
-        public native String foo(@NonNull final String input);
+        public native String baz(@NonNull final String input);
     }
     public interface InnerInterface {
         @NonNull
-        String foo(@NonNull final String input);
+        String baz(@NonNull final String input);
     }
     /**
      * For internal use only.

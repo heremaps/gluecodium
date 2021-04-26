@@ -20,7 +20,7 @@
   !}}
 {{>swift/SwiftComment}}{{>swift/SwiftAttributes}}{{!!
 }}{{resolveName visibility}} class {{resolveName}}{{!!
-}}{{#if parent}}: {{resolveName parent}}{{/if}}{{#unless parent}}{{/unless}} {
+}}{{#if this.parent}}: {{resolveName this.parent}}{{/if}} {
 
 {{#each typeAliases exceptions}}
 {{prefixPartial "swift/SwiftTypeAlias" "    "}}

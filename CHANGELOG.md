@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed compilation issues for all languages when a nested class/interface is declared in an outer class/interface
+    and the outer type has an inheritance parent.
+
 ## 8.12.2
 Release date: 2021-04-22
 ### Bug fixes:

@@ -1,0 +1,16 @@
+package smoke
+class OuterClassWithInheritance : ParentClass {
+    class InnerClass {
+        fun bar(
+            input: String
+        ): String
+    }
+    interface InnerInterface {
+        fun baz(
+            input: String
+        ): String
+    }
+    fun foo(
+        input: String
+    ): String
+}

@@ -21,7 +21,7 @@
 {{#constants}}
 {{>swift/SwiftConstant}}
 {{/constants}}
-{{#if parent}}{{#instanceOf parent.type.actualType "LimeInterface"}}
+{{#if this.parent}}{{#instanceOf this.parent.type.actualType "LimeInterface"}}
 {{#inheritedProperties}}{{#unless attributes.swift.skip}}
 {{>swift/SwiftProperty}}
 {{/unless}}{{/inheritedProperties}}
@@ -61,7 +61,7 @@ deinit {
 {{>swift/SwiftStructDefinition}}
 {{/structs}}{{/unless}}{{!!
 
-}}{{#if parent}}{{#instanceOf parent.type.actualType "LimeInterface"}}
+}}{{#if this.parent}}{{#instanceOf this.parent.type.actualType "LimeInterface"}}
 {{#inheritedFunctions}}{{#unless attributes.swift.skip}}
 {{>swift/SwiftFunctionSignature}} {{prefixPartial "swift/SwiftFunctionBody" "" skipFirstLine=true}}
 {{/unless}}{{/inheritedFunctions}}

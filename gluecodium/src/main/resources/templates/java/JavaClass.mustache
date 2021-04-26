@@ -75,7 +75,7 @@
 {{/setter}}{{/set}}
 {{/unless}}{{/properties}}
 
-{{#if parent}}{{#instanceOf parent.type.actualType "LimeInterface"}}{{#set override=true classElement=this}}
+{{#if this.parent}}{{#instanceOf this.parent.type.actualType "LimeInterface"}}{{#set override=true classElement=this}}
 {{#set isClass=true}}{{#classElement.inheritedFunctions}}{{#unless attributes.java.skip}}
 {{prefixPartial "java/JavaFunction" "    "}}
 {{/unless}}{{/classElement.inheritedFunctions}}{{/set}}
