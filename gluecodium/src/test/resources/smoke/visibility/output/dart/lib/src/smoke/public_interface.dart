@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
@@ -96,9 +97,8 @@ final _smoke_PublicInterface_get_type_id = __lib.catchArgumentError(() => __lib.
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PublicInterface_get_type_id'));
-class PublicInterface$Impl implements PublicInterface {
-  Pointer<Void> handle;
-  PublicInterface$Impl(this.handle);
+class PublicInterface$Impl extends __lib.NativeBase implements PublicInterface {
+  PublicInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -109,7 +109,7 @@ class PublicInterface$Impl implements PublicInterface {
   }
 }
 Pointer<Void> smoke_PublicInterface_toFfi(PublicInterface value) {
-  if (value is PublicInterface$Impl) return _smoke_PublicInterface_copy_handle(value.handle);
+  if (value is __lib.NativeBase) return _smoke_PublicInterface_copy_handle((value as __lib.NativeBase).handle);
   final result = _smoke_PublicInterface_create_proxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,

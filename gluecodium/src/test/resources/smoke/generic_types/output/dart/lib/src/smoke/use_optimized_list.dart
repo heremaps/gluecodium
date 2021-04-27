@@ -1,4 +1,5 @@
 import 'package:library/src/_lazy_list.dart' as __lib;
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/unreasonably_lazy_class.dart';
@@ -49,10 +50,8 @@ final _smoke_UseOptimizedList_smoke_VeryBigStructLazyList_release_handle = __lib
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_UseOptimizedList_smoke_VeryBigStructLazyList_release_handle'));
-class UseOptimizedList$Impl implements UseOptimizedList {
-  @protected
-  Pointer<Void> handle;
-  UseOptimizedList$Impl(this.handle);
+class UseOptimizedList$Impl extends __lib.NativeBase implements UseOptimizedList {
+  UseOptimizedList$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -93,7 +92,7 @@ class UseOptimizedList$Impl implements UseOptimizedList {
   }
 }
 Pointer<Void> smoke_UseOptimizedList_toFfi(UseOptimizedList value) =>
-  _smoke_UseOptimizedList_copy_handle((value as UseOptimizedList$Impl).handle);
+  _smoke_UseOptimizedList_copy_handle((value as __lib.NativeBase).handle);
 UseOptimizedList smoke_UseOptimizedList_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
@@ -55,9 +56,8 @@ class SimpleInterface$Lambdas implements SimpleInterface {
   SimpleInterface useSimpleInterface(SimpleInterface input) =>
     lambda_useSimpleInterface(input);
 }
-class SimpleInterface$Impl implements SimpleInterface {
-  Pointer<Void> handle;
-  SimpleInterface$Impl(this.handle);
+class SimpleInterface$Impl extends __lib.NativeBase implements SimpleInterface {
+  SimpleInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -112,7 +112,7 @@ int _SimpleInterface_useSimpleInterface_static(int _token, Pointer<Void> input, 
   return 0;
 }
 Pointer<Void> smoke_SimpleInterface_toFfi(SimpleInterface value) {
-  if (value is SimpleInterface$Impl) return _smoke_SimpleInterface_copy_handle(value.handle);
+  if (value is __lib.NativeBase) return _smoke_SimpleInterface_copy_handle((value as __lib.NativeBase).handle);
   final result = _smoke_SimpleInterface_create_proxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,

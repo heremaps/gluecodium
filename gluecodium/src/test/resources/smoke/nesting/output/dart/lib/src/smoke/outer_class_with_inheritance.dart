@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
@@ -31,10 +32,8 @@ final _smoke_OuterClassWithInheritance_InnerClass_release_handle = __lib.catchAr
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_OuterClassWithInheritance_InnerClass_release_handle'));
-class OuterClassWithInheritance_InnerClass$Impl implements OuterClassWithInheritance_InnerClass {
-  @protected
-  Pointer<Void> handle;
-  OuterClassWithInheritance_InnerClass$Impl(this.handle);
+class OuterClassWithInheritance_InnerClass$Impl extends __lib.NativeBase implements OuterClassWithInheritance_InnerClass {
+  OuterClassWithInheritance_InnerClass$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -58,7 +57,7 @@ class OuterClassWithInheritance_InnerClass$Impl implements OuterClassWithInherit
   }
 }
 Pointer<Void> smoke_OuterClassWithInheritance_InnerClass_toFfi(OuterClassWithInheritance_InnerClass value) =>
-  _smoke_OuterClassWithInheritance_InnerClass_copy_handle((value as OuterClassWithInheritance_InnerClass$Impl).handle);
+  _smoke_OuterClassWithInheritance_InnerClass_copy_handle((value as __lib.NativeBase).handle);
 OuterClassWithInheritance_InnerClass smoke_OuterClassWithInheritance_InnerClass_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
@@ -120,9 +119,8 @@ class OuterClassWithInheritance_InnerInterface$Lambdas implements OuterClassWith
   String baz(String input) =>
     lambda_baz(input);
 }
-class OuterClassWithInheritance_InnerInterface$Impl implements OuterClassWithInheritance_InnerInterface {
-  Pointer<Void> handle;
-  OuterClassWithInheritance_InnerInterface$Impl(this.handle);
+class OuterClassWithInheritance_InnerInterface$Impl extends __lib.NativeBase implements OuterClassWithInheritance_InnerInterface {
+  OuterClassWithInheritance_InnerInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -156,7 +154,7 @@ int _OuterClassWithInheritance_InnerInterface_baz_static(int _token, Pointer<Voi
   return 0;
 }
 Pointer<Void> smoke_OuterClassWithInheritance_InnerInterface_toFfi(OuterClassWithInheritance_InnerInterface value) {
-  if (value is OuterClassWithInheritance_InnerInterface$Impl) return _smoke_OuterClassWithInheritance_InnerInterface_copy_handle(value.handle);
+  if (value is __lib.NativeBase) return _smoke_OuterClassWithInheritance_InnerInterface_copy_handle((value as __lib.NativeBase).handle);
   final result = _smoke_OuterClassWithInheritance_InnerInterface_create_proxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
@@ -227,7 +225,7 @@ class OuterClassWithInheritance$Impl extends ParentClass$Impl implements OuterCl
   }
 }
 Pointer<Void> smoke_OuterClassWithInheritance_toFfi(OuterClassWithInheritance value) =>
-  _smoke_OuterClassWithInheritance_copy_handle((value as OuterClassWithInheritance$Impl).handle);
+  _smoke_OuterClassWithInheritance_copy_handle((value as __lib.NativeBase).handle);
 OuterClassWithInheritance smoke_OuterClassWithInheritance_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

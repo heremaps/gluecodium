@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/lambdas_declaration_order.dart';
@@ -202,10 +203,8 @@ final _smoke_LambdasWithStructuredTypes_release_handle = __lib.catchArgumentErro
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_LambdasWithStructuredTypes_release_handle'));
-class LambdasWithStructuredTypes$Impl implements LambdasWithStructuredTypes {
-  @protected
-  Pointer<Void> handle;
-  LambdasWithStructuredTypes$Impl(this.handle);
+class LambdasWithStructuredTypes$Impl extends __lib.NativeBase implements LambdasWithStructuredTypes {
+  LambdasWithStructuredTypes$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -242,7 +241,7 @@ class LambdasWithStructuredTypes$Impl implements LambdasWithStructuredTypes {
   }
 }
 Pointer<Void> smoke_LambdasWithStructuredTypes_toFfi(LambdasWithStructuredTypes value) =>
-  _smoke_LambdasWithStructuredTypes_copy_handle((value as LambdasWithStructuredTypes$Impl).handle);
+  _smoke_LambdasWithStructuredTypes_copy_handle((value as __lib.NativeBase).handle);
 LambdasWithStructuredTypes smoke_LambdasWithStructuredTypes_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

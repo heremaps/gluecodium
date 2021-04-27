@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
@@ -750,10 +751,8 @@ final _smoke_Structs_release_handle = __lib.catchArgumentError(() => __lib.nativ
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Structs_release_handle'));
-class Structs$Impl implements Structs {
-  @protected
-  Pointer<Void> handle;
-  Structs$Impl(this.handle);
+class Structs$Impl extends __lib.NativeBase implements Structs {
+  Structs$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -810,7 +809,7 @@ class Structs$Impl implements Structs {
   }
 }
 Pointer<Void> smoke_Structs_toFfi(Structs value) =>
-  _smoke_Structs_copy_handle((value as Structs$Impl).handle);
+  _smoke_Structs_copy_handle((value as __lib.NativeBase).handle);
 Structs smoke_Structs_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

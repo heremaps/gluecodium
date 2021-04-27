@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
@@ -117,9 +118,8 @@ class PropertiesInterface$Lambdas implements PropertiesInterface {
   @override
   set structProperty(PropertiesInterface_ExampleStruct value) => lambda_structProperty_set(value);
 }
-class PropertiesInterface$Impl implements PropertiesInterface {
-  Pointer<Void> handle;
-  PropertiesInterface$Impl(this.handle);
+class PropertiesInterface$Impl extends __lib.NativeBase implements PropertiesInterface {
+  PropertiesInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -165,7 +165,7 @@ int _PropertiesInterface_structProperty_set_static(int _token, Pointer<Void> _va
   return 0;
 }
 Pointer<Void> smoke_PropertiesInterface_toFfi(PropertiesInterface value) {
-  if (value is PropertiesInterface$Impl) return _smoke_PropertiesInterface_copy_handle(value.handle);
+  if (value is __lib.NativeBase) return _smoke_PropertiesInterface_copy_handle((value as __lib.NativeBase).handle);
   final result = _smoke_PropertiesInterface_create_proxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,

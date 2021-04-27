@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
@@ -105,10 +106,8 @@ final _smoke_MethodOverloads_release_handle = __lib.catchArgumentError(() => __l
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_MethodOverloads_release_handle'));
-class MethodOverloads$Impl implements MethodOverloads {
-  @protected
-  Pointer<Void> handle;
-  MethodOverloads$Impl(this.handle);
+class MethodOverloads$Impl extends __lib.NativeBase implements MethodOverloads {
+  MethodOverloads$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -253,7 +252,7 @@ class MethodOverloads$Impl implements MethodOverloads {
   }
 }
 Pointer<Void> smoke_MethodOverloads_toFfi(MethodOverloads value) =>
-  _smoke_MethodOverloads_copy_handle((value as MethodOverloads$Impl).handle);
+  _smoke_MethodOverloads_copy_handle((value as __lib.NativeBase).handle);
 MethodOverloads smoke_MethodOverloads_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

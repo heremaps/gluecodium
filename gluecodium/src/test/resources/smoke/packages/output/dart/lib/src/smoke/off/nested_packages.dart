@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
@@ -85,10 +86,8 @@ final _smoke_off_NestedPackages_release_handle = __lib.catchArgumentError(() => 
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_off_NestedPackages_release_handle'));
-class NestedPackages$Impl implements NestedPackages {
-  @protected
-  Pointer<Void> handle;
-  NestedPackages$Impl(this.handle);
+class NestedPackages$Impl extends __lib.NativeBase implements NestedPackages {
+  NestedPackages$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -110,7 +109,7 @@ class NestedPackages$Impl implements NestedPackages {
   }
 }
 Pointer<Void> smoke_off_NestedPackages_toFfi(NestedPackages value) =>
-  _smoke_off_NestedPackages_copy_handle((value as NestedPackages$Impl).handle);
+  _smoke_off_NestedPackages_copy_handle((value as __lib.NativeBase).handle);
 NestedPackages smoke_off_NestedPackages_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

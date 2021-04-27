@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
@@ -47,9 +48,8 @@ class weeListener$Lambdas implements weeListener {
   WeeMethod(String WeeParameter) =>
     lambda_WeeMethod(WeeParameter);
 }
-class weeListener$Impl implements weeListener {
-  Pointer<Void> handle;
-  weeListener$Impl(this.handle);
+class weeListener$Impl extends __lib.NativeBase implements weeListener {
+  weeListener$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -81,7 +81,7 @@ int _weeListener_WeeMethod_static(int _token, Pointer<Void> WeeParameter) {
   return 0;
 }
 Pointer<Void> smoke_PlatformNamesListener_toFfi(weeListener value) {
-  if (value is weeListener$Impl) return _smoke_PlatformNamesListener_copy_handle(value.handle);
+  if (value is __lib.NativeBase) return _smoke_PlatformNamesListener_copy_handle((value as __lib.NativeBase).handle);
   final result = _smoke_PlatformNamesListener_create_proxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,

@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/outer_class.dart';
@@ -163,10 +164,8 @@ final _smoke_LevelOne_LevelTwo_LevelThree_release_handle = __lib.catchArgumentEr
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_LevelOne_LevelTwo_LevelThree_release_handle'));
-class LevelOne_LevelTwo_LevelThree$Impl implements LevelOne_LevelTwo_LevelThree {
-  @protected
-  Pointer<Void> handle;
-  LevelOne_LevelTwo_LevelThree$Impl(this.handle);
+class LevelOne_LevelTwo_LevelThree$Impl extends __lib.NativeBase implements LevelOne_LevelTwo_LevelThree {
+  LevelOne_LevelTwo_LevelThree$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -190,7 +189,7 @@ class LevelOne_LevelTwo_LevelThree$Impl implements LevelOne_LevelTwo_LevelThree 
   }
 }
 Pointer<Void> smoke_LevelOne_LevelTwo_LevelThree_toFfi(LevelOne_LevelTwo_LevelThree value) =>
-  _smoke_LevelOne_LevelTwo_LevelThree_copy_handle((value as LevelOne_LevelTwo_LevelThree$Impl).handle);
+  _smoke_LevelOne_LevelTwo_LevelThree_copy_handle((value as __lib.NativeBase).handle);
 LevelOne_LevelTwo_LevelThree smoke_LevelOne_LevelTwo_LevelThree_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
@@ -219,10 +218,8 @@ final _smoke_LevelOne_LevelTwo_release_handle = __lib.catchArgumentError(() => _
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_LevelOne_LevelTwo_release_handle'));
-class LevelOne_LevelTwo$Impl implements LevelOne_LevelTwo {
-  @protected
-  Pointer<Void> handle;
-  LevelOne_LevelTwo$Impl(this.handle);
+class LevelOne_LevelTwo$Impl extends __lib.NativeBase implements LevelOne_LevelTwo {
+  LevelOne_LevelTwo$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -233,7 +230,7 @@ class LevelOne_LevelTwo$Impl implements LevelOne_LevelTwo {
   }
 }
 Pointer<Void> smoke_LevelOne_LevelTwo_toFfi(LevelOne_LevelTwo value) =>
-  _smoke_LevelOne_LevelTwo_copy_handle((value as LevelOne_LevelTwo$Impl).handle);
+  _smoke_LevelOne_LevelTwo_copy_handle((value as __lib.NativeBase).handle);
 LevelOne_LevelTwo smoke_LevelOne_LevelTwo_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
@@ -262,10 +259,8 @@ final _smoke_LevelOne_release_handle = __lib.catchArgumentError(() => __lib.nati
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_LevelOne_release_handle'));
-class LevelOne$Impl implements LevelOne {
-  @protected
-  Pointer<Void> handle;
-  LevelOne$Impl(this.handle);
+class LevelOne$Impl extends __lib.NativeBase implements LevelOne {
+  LevelOne$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -276,7 +271,7 @@ class LevelOne$Impl implements LevelOne {
   }
 }
 Pointer<Void> smoke_LevelOne_toFfi(LevelOne value) =>
-  _smoke_LevelOne_copy_handle((value as LevelOne$Impl).handle);
+  _smoke_LevelOne_copy_handle((value as __lib.NativeBase).handle);
 LevelOne smoke_LevelOne_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

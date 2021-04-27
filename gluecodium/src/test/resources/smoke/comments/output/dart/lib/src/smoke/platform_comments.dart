@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
@@ -182,10 +183,8 @@ final _someMethodWithAllComments_return_has_error = __lib.catchArgumentError(() 
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_PlatformComments_someMethodWithAllComments__String_return_has_error'));
-class PlatformComments$Impl implements PlatformComments {
-  @protected
-  Pointer<Void> handle;
-  PlatformComments$Impl(this.handle);
+class PlatformComments$Impl extends __lib.NativeBase implements PlatformComments {
+  PlatformComments$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -253,7 +252,7 @@ class PlatformComments$Impl implements PlatformComments {
   }
 }
 Pointer<Void> smoke_PlatformComments_toFfi(PlatformComments value) =>
-  _smoke_PlatformComments_copy_handle((value as PlatformComments$Impl).handle);
+  _smoke_PlatformComments_copy_handle((value as __lib.NativeBase).handle);
 PlatformComments smoke_PlatformComments_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

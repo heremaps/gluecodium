@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
@@ -223,9 +224,8 @@ class DeprecationComments$Lambdas implements DeprecationComments {
   @override
   set propertyButNotAccessors(String value) => lambda_propertyButNotAccessors_set(value);
 }
-class DeprecationComments$Impl implements DeprecationComments {
-  Pointer<Void> handle;
-  DeprecationComments$Impl(this.handle);
+class DeprecationComments$Impl extends __lib.NativeBase implements DeprecationComments {
+  DeprecationComments$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -336,7 +336,7 @@ int _DeprecationComments_propertyButNotAccessors_set_static(int _token, Pointer<
   return 0;
 }
 Pointer<Void> smoke_DeprecationComments_toFfi(DeprecationComments value) {
-  if (value is DeprecationComments$Impl) return _smoke_DeprecationComments_copy_handle(value.handle);
+  if (value is __lib.NativeBase) return _smoke_DeprecationComments_copy_handle((value as __lib.NativeBase).handle);
   final result = _smoke_DeprecationComments_create_proxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,

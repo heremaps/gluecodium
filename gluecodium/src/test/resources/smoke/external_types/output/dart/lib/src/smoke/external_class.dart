@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
@@ -138,10 +139,8 @@ final _smoke_ExternalClass_release_handle = __lib.catchArgumentError(() => __lib
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ExternalClass_release_handle'));
-class ExternalClass$Impl implements ExternalClass {
-  @protected
-  Pointer<Void> handle;
-  ExternalClass$Impl(this.handle);
+class ExternalClass$Impl extends __lib.NativeBase implements ExternalClass {
+  ExternalClass$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -176,7 +175,7 @@ class ExternalClass$Impl implements ExternalClass {
   }
 }
 Pointer<Void> smoke_ExternalClass_toFfi(ExternalClass value) =>
-  _smoke_ExternalClass_copy_handle((value as ExternalClass$Impl).handle);
+  _smoke_ExternalClass_copy_handle((value as __lib.NativeBase).handle);
 ExternalClass smoke_ExternalClass_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

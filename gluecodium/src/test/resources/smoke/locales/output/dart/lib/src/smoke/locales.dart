@@ -1,4 +1,5 @@
 import 'package:intl/locale.dart';
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
@@ -88,10 +89,8 @@ final _smoke_Locales_release_handle = __lib.catchArgumentError(() => __lib.nativ
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Locales_release_handle'));
-class Locales$Impl implements Locales {
-  @protected
-  Pointer<Void> handle;
-  Locales$Impl(this.handle);
+class Locales$Impl extends __lib.NativeBase implements Locales {
+  Locales$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -139,7 +138,7 @@ class Locales$Impl implements Locales {
   }
 }
 Pointer<Void> smoke_Locales_toFfi(Locales value) =>
-  _smoke_Locales_copy_handle((value as Locales$Impl).handle);
+  _smoke_Locales_copy_handle((value as __lib.NativeBase).handle);
 Locales smoke_Locales_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

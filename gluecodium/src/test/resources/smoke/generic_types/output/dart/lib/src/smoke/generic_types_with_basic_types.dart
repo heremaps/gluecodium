@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
@@ -117,10 +118,8 @@ final _smoke_GenericTypesWithBasicTypes_release_handle = __lib.catchArgumentErro
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_GenericTypesWithBasicTypes_release_handle'));
-class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
-  @protected
-  Pointer<Void> handle;
-  GenericTypesWithBasicTypes$Impl(this.handle);
+class GenericTypesWithBasicTypes$Impl extends __lib.NativeBase implements GenericTypesWithBasicTypes {
+  GenericTypesWithBasicTypes$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -281,7 +280,7 @@ class GenericTypesWithBasicTypes$Impl implements GenericTypesWithBasicTypes {
   }
 }
 Pointer<Void> smoke_GenericTypesWithBasicTypes_toFfi(GenericTypesWithBasicTypes value) =>
-  _smoke_GenericTypesWithBasicTypes_copy_handle((value as GenericTypesWithBasicTypes$Impl).handle);
+  _smoke_GenericTypesWithBasicTypes_copy_handle((value as __lib.NativeBase).handle);
 GenericTypesWithBasicTypes smoke_GenericTypesWithBasicTypes_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

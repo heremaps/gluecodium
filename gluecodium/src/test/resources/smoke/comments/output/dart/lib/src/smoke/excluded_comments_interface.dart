@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
@@ -31,9 +32,8 @@ final _smoke_ExcludedCommentsInterface_get_type_id = __lib.catchArgumentError(()
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsInterface_get_type_id'));
-class ExcludedCommentsInterface$Impl implements ExcludedCommentsInterface {
-  Pointer<Void> handle;
-  ExcludedCommentsInterface$Impl(this.handle);
+class ExcludedCommentsInterface$Impl extends __lib.NativeBase implements ExcludedCommentsInterface {
+  ExcludedCommentsInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -44,7 +44,7 @@ class ExcludedCommentsInterface$Impl implements ExcludedCommentsInterface {
   }
 }
 Pointer<Void> smoke_ExcludedCommentsInterface_toFfi(ExcludedCommentsInterface value) {
-  if (value is ExcludedCommentsInterface$Impl) return _smoke_ExcludedCommentsInterface_copy_handle(value.handle);
+  if (value is __lib.NativeBase) return _smoke_ExcludedCommentsInterface_copy_handle((value as __lib.NativeBase).handle);
   final result = _smoke_ExcludedCommentsInterface_create_proxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,

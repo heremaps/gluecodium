@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/free_enum.dart';
@@ -40,10 +41,8 @@ final _doStuff_return_has_error = __lib.catchArgumentError(() => __lib.nativeLib
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum_return_has_error'));
-class UseFreeTypes$Impl implements UseFreeTypes {
-  @protected
-  Pointer<Void> handle;
-  UseFreeTypes$Impl(this.handle);
+class UseFreeTypes$Impl extends __lib.NativeBase implements UseFreeTypes {
+  UseFreeTypes$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -80,7 +79,7 @@ class UseFreeTypes$Impl implements UseFreeTypes {
   }
 }
 Pointer<Void> smoke_UseFreeTypes_toFfi(UseFreeTypes value) =>
-  _smoke_UseFreeTypes_copy_handle((value as UseFreeTypes$Impl).handle);
+  _smoke_UseFreeTypes_copy_handle((value as __lib.NativeBase).handle);
 UseFreeTypes smoke_UseFreeTypes_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

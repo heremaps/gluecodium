@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
@@ -67,9 +68,8 @@ class AttributesInterface$Lambdas implements AttributesInterface {
   @override
   set prop(String value) => lambda_prop_set(value);
 }
-class AttributesInterface$Impl implements AttributesInterface {
-  Pointer<Void> handle;
-  AttributesInterface$Impl(this.handle);
+class AttributesInterface$Impl extends __lib.NativeBase implements AttributesInterface {
+  AttributesInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -138,7 +138,7 @@ int _AttributesInterface_prop_set_static(int _token, Pointer<Void> _value) {
   return 0;
 }
 Pointer<Void> smoke_AttributesInterface_toFfi(AttributesInterface value) {
-  if (value is AttributesInterface$Impl) return _smoke_AttributesInterface_copy_handle(value.handle);
+  if (value is __lib.NativeBase) return _smoke_AttributesInterface_copy_handle((value as __lib.NativeBase).handle);
   final result = _smoke_AttributesInterface_create_proxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,

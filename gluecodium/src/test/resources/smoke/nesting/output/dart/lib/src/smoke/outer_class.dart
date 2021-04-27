@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
@@ -30,10 +31,8 @@ final _smoke_OuterClass_InnerClass_release_handle = __lib.catchArgumentError(() 
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_OuterClass_InnerClass_release_handle'));
-class OuterClass_InnerClass$Impl implements OuterClass_InnerClass {
-  @protected
-  Pointer<Void> handle;
-  OuterClass_InnerClass$Impl(this.handle);
+class OuterClass_InnerClass$Impl extends __lib.NativeBase implements OuterClass_InnerClass {
+  OuterClass_InnerClass$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -57,7 +56,7 @@ class OuterClass_InnerClass$Impl implements OuterClass_InnerClass {
   }
 }
 Pointer<Void> smoke_OuterClass_InnerClass_toFfi(OuterClass_InnerClass value) =>
-  _smoke_OuterClass_InnerClass_copy_handle((value as OuterClass_InnerClass$Impl).handle);
+  _smoke_OuterClass_InnerClass_copy_handle((value as __lib.NativeBase).handle);
 OuterClass_InnerClass smoke_OuterClass_InnerClass_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
@@ -119,9 +118,8 @@ class OuterClass_InnerInterface$Lambdas implements OuterClass_InnerInterface {
   String foo(String input) =>
     lambda_foo(input);
 }
-class OuterClass_InnerInterface$Impl implements OuterClass_InnerInterface {
-  Pointer<Void> handle;
-  OuterClass_InnerInterface$Impl(this.handle);
+class OuterClass_InnerInterface$Impl extends __lib.NativeBase implements OuterClass_InnerInterface {
+  OuterClass_InnerInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -155,7 +153,7 @@ int _OuterClass_InnerInterface_foo_static(int _token, Pointer<Void> input, Point
   return 0;
 }
 Pointer<Void> smoke_OuterClass_InnerInterface_toFfi(OuterClass_InnerInterface value) {
-  if (value is OuterClass_InnerInterface$Impl) return _smoke_OuterClass_InnerInterface_copy_handle(value.handle);
+  if (value is __lib.NativeBase) return _smoke_OuterClass_InnerInterface_copy_handle((value as __lib.NativeBase).handle);
   final result = _smoke_OuterClass_InnerInterface_create_proxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
@@ -197,10 +195,8 @@ final _smoke_OuterClass_release_handle = __lib.catchArgumentError(() => __lib.na
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_OuterClass_release_handle'));
-class OuterClass$Impl implements OuterClass {
-  @protected
-  Pointer<Void> handle;
-  OuterClass$Impl(this.handle);
+class OuterClass$Impl extends __lib.NativeBase implements OuterClass {
+  OuterClass$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -224,7 +220,7 @@ class OuterClass$Impl implements OuterClass {
   }
 }
 Pointer<Void> smoke_OuterClass_toFfi(OuterClass value) =>
-  _smoke_OuterClass_copy_handle((value as OuterClass$Impl).handle);
+  _smoke_OuterClass_copy_handle((value as __lib.NativeBase).handle);
 OuterClass smoke_OuterClass_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

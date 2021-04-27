@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
@@ -113,10 +114,8 @@ final _smoke_ClassWithInternalLambda_release_handle = __lib.catchArgumentError((
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ClassWithInternalLambda_release_handle'));
-class ClassWithInternalLambda$Impl implements ClassWithInternalLambda {
-  @protected
-  Pointer<Void> handle;
-  ClassWithInternalLambda$Impl(this.handle);
+class ClassWithInternalLambda$Impl extends __lib.NativeBase implements ClassWithInternalLambda {
+  ClassWithInternalLambda$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -140,7 +139,7 @@ class ClassWithInternalLambda$Impl implements ClassWithInternalLambda {
   }
 }
 Pointer<Void> smoke_ClassWithInternalLambda_toFfi(ClassWithInternalLambda value) =>
-  _smoke_ClassWithInternalLambda_copy_handle((value as ClassWithInternalLambda$Impl).handle);
+  _smoke_ClassWithInternalLambda_copy_handle((value as __lib.NativeBase).handle);
 ClassWithInternalLambda smoke_ClassWithInternalLambda_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

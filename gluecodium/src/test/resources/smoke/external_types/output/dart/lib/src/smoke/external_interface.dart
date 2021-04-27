@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
@@ -170,9 +171,8 @@ class ExternalInterface$Lambdas implements ExternalInterface {
   @override
   String get someProperty => lambda_someProperty_get();
 }
-class ExternalInterface$Impl implements ExternalInterface {
-  Pointer<Void> handle;
-  ExternalInterface$Impl(this.handle);
+class ExternalInterface$Impl extends __lib.NativeBase implements ExternalInterface {
+  ExternalInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -218,7 +218,7 @@ int _ExternalInterface_someProperty_get_static(int _token, Pointer<Pointer<Void>
   return 0;
 }
 Pointer<Void> smoke_ExternalInterface_toFfi(ExternalInterface value) {
-  if (value is ExternalInterface$Impl) return _smoke_ExternalInterface_copy_handle(value.handle);
+  if (value is __lib.NativeBase) return _smoke_ExternalInterface_copy_handle((value as __lib.NativeBase).handle);
   final result = _smoke_ExternalInterface_create_proxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,

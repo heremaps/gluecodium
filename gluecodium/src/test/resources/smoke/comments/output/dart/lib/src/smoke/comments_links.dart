@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/comments.dart';
@@ -157,10 +158,8 @@ final _randomMethod_return_has_error = __lib.catchArgumentError(() => __lib.nati
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_CommentsLinks_randomMethod__SomeEnum_return_has_error'));
-class CommentsLinks$Impl implements CommentsLinks {
-  @protected
-  Pointer<Void> handle;
-  CommentsLinks$Impl(this.handle);
+class CommentsLinks$Impl extends __lib.NativeBase implements CommentsLinks {
+  CommentsLinks$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -210,7 +209,7 @@ class CommentsLinks$Impl implements CommentsLinks {
   }
 }
 Pointer<Void> smoke_CommentsLinks_toFfi(CommentsLinks value) =>
-  _smoke_CommentsLinks_copy_handle((value as CommentsLinks$Impl).handle);
+  _smoke_CommentsLinks_copy_handle((value as __lib.NativeBase).handle);
 CommentsLinks smoke_CommentsLinks_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
