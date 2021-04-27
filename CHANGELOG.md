@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 8.13.0
+Release date: 2021-04-27
 ### Implementation:
   * Added support for `@Optimized` attribute on type references of `List<>` type. This is an experimental feature.
 ### Bug fixes:
