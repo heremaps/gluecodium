@@ -29,11 +29,11 @@ class SpecialAttributes$Impl extends __lib.NativeBase implements SpecialAttribut
   SpecialAttributes$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_SpecialAttributes_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   withEscaping() {
@@ -63,8 +63,8 @@ Pointer<Void> smoke_SpecialAttributes_toFfi(SpecialAttributes value) =>
 SpecialAttributes smoke_SpecialAttributes_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as SpecialAttributes;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is SpecialAttributes) return instance;
   final _copied_handle = _smoke_SpecialAttributes_copy_handle(handle);
   final result = SpecialAttributes$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -72,9 +72,9 @@ SpecialAttributes smoke_SpecialAttributes_fromFfi(Pointer<Void> handle) {
 }
 void smoke_SpecialAttributes_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_SpecialAttributes_release_handle(handle);
-Pointer<Void> smoke_SpecialAttributes_toFfi_nullable(SpecialAttributes value) =>
+Pointer<Void> smoke_SpecialAttributes_toFfi_nullable(SpecialAttributes? value) =>
   value != null ? smoke_SpecialAttributes_toFfi(value) : Pointer<Void>.fromAddress(0);
-SpecialAttributes smoke_SpecialAttributes_fromFfi_nullable(Pointer<Void> handle) =>
+SpecialAttributes? smoke_SpecialAttributes_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_SpecialAttributes_fromFfi(handle) : null;
 void smoke_SpecialAttributes_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_SpecialAttributes_release_handle(handle);

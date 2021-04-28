@@ -58,14 +58,14 @@ final _smoke_Enums_SimpleEnum_get_value_nullable = __lib.catchArgumentError(() =
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Enums_SimpleEnum_get_value_nullable'));
-Pointer<Void> smoke_Enums_SimpleEnum_toFfi_nullable(Enums_SimpleEnum value) {
+Pointer<Void> smoke_Enums_SimpleEnum_toFfi_nullable(Enums_SimpleEnum? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Enums_SimpleEnum_toFfi(value);
   final result = _smoke_Enums_SimpleEnum_create_handle_nullable(_handle);
   smoke_Enums_SimpleEnum_releaseFfiHandle(_handle);
   return result;
 }
-Enums_SimpleEnum smoke_Enums_SimpleEnum_fromFfi_nullable(Pointer<Void> handle) {
+Enums_SimpleEnum? smoke_Enums_SimpleEnum_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_Enums_SimpleEnum_get_value_nullable(handle);
   final result = smoke_Enums_SimpleEnum_fromFfi(_handle);
@@ -117,14 +117,14 @@ final _smoke_Enums_InternalErrorCode_get_value_nullable = __lib.catchArgumentErr
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Enums_InternalErrorCode_get_value_nullable'));
-Pointer<Void> smoke_Enums_InternalErrorCode_toFfi_nullable(Enums_InternalErrorCode value) {
+Pointer<Void> smoke_Enums_InternalErrorCode_toFfi_nullable(Enums_InternalErrorCode? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Enums_InternalErrorCode_toFfi(value);
   final result = _smoke_Enums_InternalErrorCode_create_handle_nullable(_handle);
   smoke_Enums_InternalErrorCode_releaseFfiHandle(_handle);
   return result;
 }
-Enums_InternalErrorCode smoke_Enums_InternalErrorCode_fromFfi_nullable(Pointer<Void> handle) {
+Enums_InternalErrorCode? smoke_Enums_InternalErrorCode_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_Enums_InternalErrorCode_get_value_nullable(handle);
   final result = smoke_Enums_InternalErrorCode_fromFfi(_handle);
@@ -191,14 +191,14 @@ final _smoke_Enums_ErrorStruct_get_value_nullable = __lib.catchArgumentError(() 
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Enums_ErrorStruct_get_value_nullable'));
-Pointer<Void> smoke_Enums_ErrorStruct_toFfi_nullable(Enums_ErrorStruct value) {
+Pointer<Void> smoke_Enums_ErrorStruct_toFfi_nullable(Enums_ErrorStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Enums_ErrorStruct_toFfi(value);
   final result = _smoke_Enums_ErrorStruct_create_handle_nullable(_handle);
   smoke_Enums_ErrorStruct_releaseFfiHandle(_handle);
   return result;
 }
-Enums_ErrorStruct smoke_Enums_ErrorStruct_fromFfi_nullable(Pointer<Void> handle) {
+Enums_ErrorStruct? smoke_Enums_ErrorStruct_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_Enums_ErrorStruct_get_value_nullable(handle);
   final result = smoke_Enums_ErrorStruct_fromFfi(_handle);
@@ -221,11 +221,11 @@ class Enums$Impl extends __lib.NativeBase implements Enums {
   Enums$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_Enums_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   static Enums_SimpleEnum methodWithEnumeration(Enums_SimpleEnum input) {
     final _methodWithEnumeration_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint32 Function(Int32, Uint32), int Function(int, int)>('library_smoke_Enums_methodWithEnumeration__SimpleEnum'));
@@ -279,8 +279,8 @@ Pointer<Void> smoke_Enums_toFfi(Enums value) =>
 Enums smoke_Enums_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as Enums;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is Enums) return instance;
   final _copied_handle = _smoke_Enums_copy_handle(handle);
   final result = Enums$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -288,9 +288,9 @@ Enums smoke_Enums_fromFfi(Pointer<Void> handle) {
 }
 void smoke_Enums_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_Enums_release_handle(handle);
-Pointer<Void> smoke_Enums_toFfi_nullable(Enums value) =>
+Pointer<Void> smoke_Enums_toFfi_nullable(Enums? value) =>
   value != null ? smoke_Enums_toFfi(value) : Pointer<Void>.fromAddress(0);
-Enums smoke_Enums_fromFfi_nullable(Pointer<Void> handle) =>
+Enums? smoke_Enums_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_Enums_fromFfi(handle) : null;
 void smoke_Enums_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_Enums_release_handle(handle);

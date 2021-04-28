@@ -80,14 +80,14 @@ final _smoke_MethodOverloads_Point_get_value_nullable = __lib.catchArgumentError
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_MethodOverloads_Point_get_value_nullable'));
-Pointer<Void> smoke_MethodOverloads_Point_toFfi_nullable(MethodOverloads_Point value) {
+Pointer<Void> smoke_MethodOverloads_Point_toFfi_nullable(MethodOverloads_Point? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_MethodOverloads_Point_toFfi(value);
   final result = _smoke_MethodOverloads_Point_create_handle_nullable(_handle);
   smoke_MethodOverloads_Point_releaseFfiHandle(_handle);
   return result;
 }
-MethodOverloads_Point smoke_MethodOverloads_Point_fromFfi_nullable(Pointer<Void> handle) {
+MethodOverloads_Point? smoke_MethodOverloads_Point_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_MethodOverloads_Point_get_value_nullable(handle);
   final result = smoke_MethodOverloads_Point_fromFfi(_handle);
@@ -110,11 +110,11 @@ class MethodOverloads$Impl extends __lib.NativeBase implements MethodOverloads {
   MethodOverloads$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_MethodOverloads_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   bool isBoolean(bool input) {
@@ -256,8 +256,8 @@ Pointer<Void> smoke_MethodOverloads_toFfi(MethodOverloads value) =>
 MethodOverloads smoke_MethodOverloads_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as MethodOverloads;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is MethodOverloads) return instance;
   final _copied_handle = _smoke_MethodOverloads_copy_handle(handle);
   final result = MethodOverloads$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -265,9 +265,9 @@ MethodOverloads smoke_MethodOverloads_fromFfi(Pointer<Void> handle) {
 }
 void smoke_MethodOverloads_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_MethodOverloads_release_handle(handle);
-Pointer<Void> smoke_MethodOverloads_toFfi_nullable(MethodOverloads value) =>
+Pointer<Void> smoke_MethodOverloads_toFfi_nullable(MethodOverloads? value) =>
   value != null ? smoke_MethodOverloads_toFfi(value) : Pointer<Void>.fromAddress(0);
-MethodOverloads smoke_MethodOverloads_fromFfi_nullable(Pointer<Void> handle) =>
+MethodOverloads? smoke_MethodOverloads_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_MethodOverloads_fromFfi(handle) : null;
 void smoke_MethodOverloads_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_MethodOverloads_release_handle(handle);

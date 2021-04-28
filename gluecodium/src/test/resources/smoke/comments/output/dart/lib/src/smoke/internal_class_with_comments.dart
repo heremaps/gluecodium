@@ -31,11 +31,11 @@ class InternalClassWithComments$Impl extends __lib.NativeBase implements Interna
   InternalClassWithComments$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_InternalClassWithComments_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   internal_doNothing() {
@@ -54,8 +54,8 @@ Pointer<Void> smoke_InternalClassWithComments_toFfi(InternalClassWithComments va
 InternalClassWithComments smoke_InternalClassWithComments_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as InternalClassWithComments;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is InternalClassWithComments) return instance;
   final _copied_handle = _smoke_InternalClassWithComments_copy_handle(handle);
   final result = InternalClassWithComments$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -63,9 +63,9 @@ InternalClassWithComments smoke_InternalClassWithComments_fromFfi(Pointer<Void> 
 }
 void smoke_InternalClassWithComments_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_InternalClassWithComments_release_handle(handle);
-Pointer<Void> smoke_InternalClassWithComments_toFfi_nullable(InternalClassWithComments value) =>
+Pointer<Void> smoke_InternalClassWithComments_toFfi_nullable(InternalClassWithComments? value) =>
   value != null ? smoke_InternalClassWithComments_toFfi(value) : Pointer<Void>.fromAddress(0);
-InternalClassWithComments smoke_InternalClassWithComments_fromFfi_nullable(Pointer<Void> handle) =>
+InternalClassWithComments? smoke_InternalClassWithComments_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_InternalClassWithComments_fromFfi(handle) : null;
 void smoke_InternalClassWithComments_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_InternalClassWithComments_release_handle(handle);

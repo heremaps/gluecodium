@@ -75,14 +75,14 @@ final _smoke_Properties_InternalErrorCode_get_value_nullable = __lib.catchArgume
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Properties_InternalErrorCode_get_value_nullable'));
-Pointer<Void> smoke_Properties_InternalErrorCode_toFfi_nullable(Properties_InternalErrorCode value) {
+Pointer<Void> smoke_Properties_InternalErrorCode_toFfi_nullable(Properties_InternalErrorCode? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Properties_InternalErrorCode_toFfi(value);
   final result = _smoke_Properties_InternalErrorCode_create_handle_nullable(_handle);
   smoke_Properties_InternalErrorCode_releaseFfiHandle(_handle);
   return result;
 }
-Properties_InternalErrorCode smoke_Properties_InternalErrorCode_fromFfi_nullable(Pointer<Void> handle) {
+Properties_InternalErrorCode? smoke_Properties_InternalErrorCode_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_Properties_InternalErrorCode_get_value_nullable(handle);
   final result = smoke_Properties_InternalErrorCode_fromFfi(_handle);
@@ -139,14 +139,14 @@ final _smoke_Properties_ExampleStruct_get_value_nullable = __lib.catchArgumentEr
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Properties_ExampleStruct_get_value_nullable'));
-Pointer<Void> smoke_Properties_ExampleStruct_toFfi_nullable(Properties_ExampleStruct value) {
+Pointer<Void> smoke_Properties_ExampleStruct_toFfi_nullable(Properties_ExampleStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Properties_ExampleStruct_toFfi(value);
   final result = _smoke_Properties_ExampleStruct_create_handle_nullable(_handle);
   smoke_Properties_ExampleStruct_releaseFfiHandle(_handle);
   return result;
 }
-Properties_ExampleStruct smoke_Properties_ExampleStruct_fromFfi_nullable(Pointer<Void> handle) {
+Properties_ExampleStruct? smoke_Properties_ExampleStruct_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_Properties_ExampleStruct_get_value_nullable(handle);
   final result = smoke_Properties_ExampleStruct_fromFfi(_handle);
@@ -169,11 +169,11 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
   Properties$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_Properties_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   int get builtInTypeProperty {
@@ -389,8 +389,8 @@ Pointer<Void> smoke_Properties_toFfi(Properties value) =>
 Properties smoke_Properties_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as Properties;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is Properties) return instance;
   final _copied_handle = _smoke_Properties_copy_handle(handle);
   final result = Properties$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -398,9 +398,9 @@ Properties smoke_Properties_fromFfi(Pointer<Void> handle) {
 }
 void smoke_Properties_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_Properties_release_handle(handle);
-Pointer<Void> smoke_Properties_toFfi_nullable(Properties value) =>
+Pointer<Void> smoke_Properties_toFfi_nullable(Properties? value) =>
   value != null ? smoke_Properties_toFfi(value) : Pointer<Void>.fromAddress(0);
-Properties smoke_Properties_fromFfi_nullable(Pointer<Void> handle) =>
+Properties? smoke_Properties_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_Properties_fromFfi(handle) : null;
 void smoke_Properties_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_Properties_release_handle(handle);

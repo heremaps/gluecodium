@@ -54,11 +54,11 @@ class UseOptimizedList$Impl extends __lib.NativeBase implements UseOptimizedList
   UseOptimizedList$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_UseOptimizedList_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   static List<VeryBigStruct> fetchTheBigOnes() {
     final _fetchTheBigOnes_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_UseOptimizedList_fetchTheBigOnes'));
@@ -96,8 +96,8 @@ Pointer<Void> smoke_UseOptimizedList_toFfi(UseOptimizedList value) =>
 UseOptimizedList smoke_UseOptimizedList_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as UseOptimizedList;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is UseOptimizedList) return instance;
   final _copied_handle = _smoke_UseOptimizedList_copy_handle(handle);
   final result = UseOptimizedList$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -105,9 +105,9 @@ UseOptimizedList smoke_UseOptimizedList_fromFfi(Pointer<Void> handle) {
 }
 void smoke_UseOptimizedList_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_UseOptimizedList_release_handle(handle);
-Pointer<Void> smoke_UseOptimizedList_toFfi_nullable(UseOptimizedList value) =>
+Pointer<Void> smoke_UseOptimizedList_toFfi_nullable(UseOptimizedList? value) =>
   value != null ? smoke_UseOptimizedList_toFfi(value) : Pointer<Void>.fromAddress(0);
-UseOptimizedList smoke_UseOptimizedList_fromFfi_nullable(Pointer<Void> handle) =>
+UseOptimizedList? smoke_UseOptimizedList_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_UseOptimizedList_fromFfi(handle) : null;
 void smoke_UseOptimizedList_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_UseOptimizedList_release_handle(handle);

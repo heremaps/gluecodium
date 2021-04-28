@@ -104,14 +104,14 @@ final _smoke_UseOptimizedListStruct_get_value_nullable = __lib.catchArgumentErro
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_UseOptimizedListStruct_get_value_nullable'));
-Pointer<Void> smoke_UseOptimizedListStruct_toFfi_nullable(UseOptimizedListStruct value) {
+Pointer<Void> smoke_UseOptimizedListStruct_toFfi_nullable(UseOptimizedListStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_UseOptimizedListStruct_toFfi(value);
   final result = _smoke_UseOptimizedListStruct_create_handle_nullable(_handle);
   smoke_UseOptimizedListStruct_releaseFfiHandle(_handle);
   return result;
 }
-UseOptimizedListStruct smoke_UseOptimizedListStruct_fromFfi_nullable(Pointer<Void> handle) {
+UseOptimizedListStruct? smoke_UseOptimizedListStruct_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_UseOptimizedListStruct_get_value_nullable(handle);
   final result = smoke_UseOptimizedListStruct_fromFfi(_handle);

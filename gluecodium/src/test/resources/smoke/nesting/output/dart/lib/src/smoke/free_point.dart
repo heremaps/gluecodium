@@ -73,14 +73,14 @@ final _smoke_FreePoint_get_value_nullable = __lib.catchArgumentError(() => __lib
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_FreePoint_get_value_nullable'));
-Pointer<Void> smoke_FreePoint_toFfi_nullable(FreePoint value) {
+Pointer<Void> smoke_FreePoint_toFfi_nullable(FreePoint? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_FreePoint_toFfi(value);
   final result = _smoke_FreePoint_create_handle_nullable(_handle);
   smoke_FreePoint_releaseFfiHandle(_handle);
   return result;
 }
-FreePoint smoke_FreePoint_fromFfi_nullable(Pointer<Void> handle) {
+FreePoint? smoke_FreePoint_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_FreePoint_get_value_nullable(handle);
   final result = smoke_FreePoint_fromFfi(_handle);

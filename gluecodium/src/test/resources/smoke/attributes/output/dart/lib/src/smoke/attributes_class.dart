@@ -34,11 +34,11 @@ class AttributesClass$Impl extends __lib.NativeBase implements AttributesClass {
   AttributesClass$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_AttributesClass_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   veryFun(@OnParameterInClass String param) {
@@ -85,8 +85,8 @@ Pointer<Void> smoke_AttributesClass_toFfi(AttributesClass value) =>
 AttributesClass smoke_AttributesClass_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as AttributesClass;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is AttributesClass) return instance;
   final _copied_handle = _smoke_AttributesClass_copy_handle(handle);
   final result = AttributesClass$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -94,9 +94,9 @@ AttributesClass smoke_AttributesClass_fromFfi(Pointer<Void> handle) {
 }
 void smoke_AttributesClass_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_AttributesClass_release_handle(handle);
-Pointer<Void> smoke_AttributesClass_toFfi_nullable(AttributesClass value) =>
+Pointer<Void> smoke_AttributesClass_toFfi_nullable(AttributesClass? value) =>
   value != null ? smoke_AttributesClass_toFfi(value) : Pointer<Void>.fromAddress(0);
-AttributesClass smoke_AttributesClass_fromFfi_nullable(Pointer<Void> handle) =>
+AttributesClass? smoke_AttributesClass_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_AttributesClass_fromFfi(handle) : null;
 void smoke_AttributesClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_AttributesClass_release_handle(handle);

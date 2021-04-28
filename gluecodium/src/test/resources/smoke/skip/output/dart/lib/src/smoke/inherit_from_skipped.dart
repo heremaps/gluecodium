@@ -10,12 +10,12 @@ import 'package:library/src/_library_context.dart' as __lib;
 abstract class InheritFromSkipped implements SkipProxy {
   InheritFromSkipped() {}
   factory InheritFromSkipped.fromLambdas({
-    @required String Function(String) lambda_notInJava,
-    @required bool Function(bool) lambda_notInSwift,
-    @required String Function() lambda_skippedInJava_get,
-    @required void Function(String) lambda_skippedInJava_set,
-    @required bool Function() lambda_isSkippedInSwift_get,
-    @required void Function(bool) lambda_isSkippedInSwift_set
+    required String Function(String) lambda_notInJava,
+    required bool Function(bool) lambda_notInSwift,
+    required String Function() lambda_skippedInJava_get,
+    required void Function(String) lambda_skippedInJava_set,
+    required bool Function() lambda_isSkippedInSwift_get,
+    required void Function(bool) lambda_isSkippedInSwift_set
   }) => InheritFromSkipped$Lambdas(
     lambda_notInJava,
     lambda_notInSwift,
@@ -83,11 +83,11 @@ class InheritFromSkipped$Impl extends __lib.NativeBase implements InheritFromSki
   InheritFromSkipped$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_InheritFromSkipped_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   String notInJava(String input) {
@@ -161,7 +161,7 @@ class InheritFromSkipped$Impl extends __lib.NativeBase implements InheritFromSki
   }
 }
 int _InheritFromSkipped_notInJava_static(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
-  String _result_object = null;
+  String? _result_object = null;
   try {
     _result_object = (__lib.instanceCache[_token] as InheritFromSkipped).notInJava(String_fromFfi(input));
     _result.value = String_toFfi(_result_object);
@@ -171,7 +171,7 @@ int _InheritFromSkipped_notInJava_static(int _token, Pointer<Void> input, Pointe
   return 0;
 }
 int _InheritFromSkipped_notInSwift_static(int _token, int input, Pointer<Uint8> _result) {
-  bool _result_object = null;
+  bool? _result_object = null;
   try {
     _result_object = (__lib.instanceCache[_token] as InheritFromSkipped).notInSwift(Boolean_fromFfi(input));
     _result.value = Boolean_toFfi(_result_object);
@@ -224,8 +224,8 @@ Pointer<Void> smoke_InheritFromSkipped_toFfi(InheritFromSkipped value) {
 InheritFromSkipped smoke_InheritFromSkipped_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as InheritFromSkipped;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is InheritFromSkipped) return instance;
   final _type_id_handle = _smoke_InheritFromSkipped_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -238,9 +238,9 @@ InheritFromSkipped smoke_InheritFromSkipped_fromFfi(Pointer<Void> handle) {
 }
 void smoke_InheritFromSkipped_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_InheritFromSkipped_release_handle(handle);
-Pointer<Void> smoke_InheritFromSkipped_toFfi_nullable(InheritFromSkipped value) =>
+Pointer<Void> smoke_InheritFromSkipped_toFfi_nullable(InheritFromSkipped? value) =>
   value != null ? smoke_InheritFromSkipped_toFfi(value) : Pointer<Void>.fromAddress(0);
-InheritFromSkipped smoke_InheritFromSkipped_fromFfi_nullable(Pointer<Void> handle) =>
+InheritFromSkipped? smoke_InheritFromSkipped_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_InheritFromSkipped_fromFfi(handle) : null;
 void smoke_InheritFromSkipped_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_InheritFromSkipped_release_handle(handle);

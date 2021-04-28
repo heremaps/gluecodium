@@ -64,14 +64,14 @@ final _smoke_PublicTypeCollection_InternalStruct_get_value_nullable = __lib.catc
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PublicTypeCollection_InternalStruct_get_value_nullable'));
-Pointer<Void> smoke_PublicTypeCollection_InternalStruct_toFfi_nullable(InternalStruct value) {
+Pointer<Void> smoke_PublicTypeCollection_InternalStruct_toFfi_nullable(InternalStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_PublicTypeCollection_InternalStruct_toFfi(value);
   final result = _smoke_PublicTypeCollection_InternalStruct_create_handle_nullable(_handle);
   smoke_PublicTypeCollection_InternalStruct_releaseFfiHandle(_handle);
   return result;
 }
-InternalStruct smoke_PublicTypeCollection_InternalStruct_fromFfi_nullable(Pointer<Void> handle) {
+InternalStruct? smoke_PublicTypeCollection_InternalStruct_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_PublicTypeCollection_InternalStruct_get_value_nullable(handle);
   final result = smoke_PublicTypeCollection_InternalStruct_fromFfi(_handle);

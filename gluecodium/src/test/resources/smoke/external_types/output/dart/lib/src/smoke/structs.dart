@@ -92,14 +92,14 @@ final _smoke_Structs_ExternalStruct_get_value_nullable = __lib.catchArgumentErro
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_ExternalStruct_get_value_nullable'));
-Pointer<Void> smoke_Structs_ExternalStruct_toFfi_nullable(Structs_ExternalStruct value) {
+Pointer<Void> smoke_Structs_ExternalStruct_toFfi_nullable(Structs_ExternalStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_ExternalStruct_toFfi(value);
   final result = _smoke_Structs_ExternalStruct_create_handle_nullable(_handle);
   smoke_Structs_ExternalStruct_releaseFfiHandle(_handle);
   return result;
 }
-Structs_ExternalStruct smoke_Structs_ExternalStruct_fromFfi_nullable(Pointer<Void> handle) {
+Structs_ExternalStruct? smoke_Structs_ExternalStruct_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_Structs_ExternalStruct_get_value_nullable(handle);
   final result = smoke_Structs_ExternalStruct_fromFfi(_handle);
@@ -156,14 +156,14 @@ final _smoke_Structs_AnotherExternalStruct_get_value_nullable = __lib.catchArgum
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_AnotherExternalStruct_get_value_nullable'));
-Pointer<Void> smoke_Structs_AnotherExternalStruct_toFfi_nullable(Structs_AnotherExternalStruct value) {
+Pointer<Void> smoke_Structs_AnotherExternalStruct_toFfi_nullable(Structs_AnotherExternalStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Structs_AnotherExternalStruct_toFfi(value);
   final result = _smoke_Structs_AnotherExternalStruct_create_handle_nullable(_handle);
   smoke_Structs_AnotherExternalStruct_releaseFfiHandle(_handle);
   return result;
 }
-Structs_AnotherExternalStruct smoke_Structs_AnotherExternalStruct_fromFfi_nullable(Pointer<Void> handle) {
+Structs_AnotherExternalStruct? smoke_Structs_AnotherExternalStruct_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_Structs_AnotherExternalStruct_get_value_nullable(handle);
   final result = smoke_Structs_AnotherExternalStruct_fromFfi(_handle);
@@ -186,11 +186,11 @@ class Structs$Impl extends __lib.NativeBase implements Structs {
   Structs$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_Structs_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   static Structs_ExternalStruct getExternalStruct() {
     final _getExternalStruct_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Structs_getExternalStruct'));
@@ -216,8 +216,8 @@ Pointer<Void> smoke_Structs_toFfi(Structs value) =>
 Structs smoke_Structs_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as Structs;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is Structs) return instance;
   final _copied_handle = _smoke_Structs_copy_handle(handle);
   final result = Structs$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -225,9 +225,9 @@ Structs smoke_Structs_fromFfi(Pointer<Void> handle) {
 }
 void smoke_Structs_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_Structs_release_handle(handle);
-Pointer<Void> smoke_Structs_toFfi_nullable(Structs value) =>
+Pointer<Void> smoke_Structs_toFfi_nullable(Structs? value) =>
   value != null ? smoke_Structs_toFfi(value) : Pointer<Void>.fromAddress(0);
-Structs smoke_Structs_fromFfi_nullable(Pointer<Void> handle) =>
+Structs? smoke_Structs_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_Structs_fromFfi(handle) : null;
 void smoke_Structs_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_Structs_release_handle(handle);

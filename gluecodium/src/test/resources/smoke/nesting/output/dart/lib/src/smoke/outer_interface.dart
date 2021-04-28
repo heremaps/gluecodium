@@ -9,7 +9,7 @@ import 'package:library/src/_library_context.dart' as __lib;
 abstract class OuterInterface {
   OuterInterface() {}
   factory OuterInterface.fromLambdas({
-    @required String Function(String) lambda_foo,
+    required String Function(String) lambda_foo,
   }) => OuterInterface$Lambdas(
     lambda_foo,
   );
@@ -41,11 +41,11 @@ class OuterInterface_InnerClass$Impl extends __lib.NativeBase implements OuterIn
   OuterInterface_InnerClass$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_OuterInterface_InnerClass_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   String foo(String input) {
@@ -66,8 +66,8 @@ Pointer<Void> smoke_OuterInterface_InnerClass_toFfi(OuterInterface_InnerClass va
 OuterInterface_InnerClass smoke_OuterInterface_InnerClass_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as OuterInterface_InnerClass;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is OuterInterface_InnerClass) return instance;
   final _copied_handle = _smoke_OuterInterface_InnerClass_copy_handle(handle);
   final result = OuterInterface_InnerClass$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -75,9 +75,9 @@ OuterInterface_InnerClass smoke_OuterInterface_InnerClass_fromFfi(Pointer<Void> 
 }
 void smoke_OuterInterface_InnerClass_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_OuterInterface_InnerClass_release_handle(handle);
-Pointer<Void> smoke_OuterInterface_InnerClass_toFfi_nullable(OuterInterface_InnerClass value) =>
+Pointer<Void> smoke_OuterInterface_InnerClass_toFfi_nullable(OuterInterface_InnerClass? value) =>
   value != null ? smoke_OuterInterface_InnerClass_toFfi(value) : Pointer<Void>.fromAddress(0);
-OuterInterface_InnerClass smoke_OuterInterface_InnerClass_fromFfi_nullable(Pointer<Void> handle) =>
+OuterInterface_InnerClass? smoke_OuterInterface_InnerClass_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_OuterInterface_InnerClass_fromFfi(handle) : null;
 void smoke_OuterInterface_InnerClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_OuterInterface_InnerClass_release_handle(handle);
@@ -85,7 +85,7 @@ void smoke_OuterInterface_InnerClass_releaseFfiHandle_nullable(Pointer<Void> han
 abstract class OuterInterface_InnerInterface {
   OuterInterface_InnerInterface() {}
   factory OuterInterface_InnerInterface.fromLambdas({
-    @required String Function(String) lambda_foo,
+    required String Function(String) lambda_foo,
   }) => OuterInterface_InnerInterface$Lambdas(
     lambda_foo,
   );
@@ -128,11 +128,11 @@ class OuterInterface_InnerInterface$Impl extends __lib.NativeBase implements Out
   OuterInterface_InnerInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_OuterInterface_InnerInterface_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   String foo(String input) {
@@ -149,7 +149,7 @@ class OuterInterface_InnerInterface$Impl extends __lib.NativeBase implements Out
   }
 }
 int _OuterInterface_InnerInterface_foo_static(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
-  String _result_object = null;
+  String? _result_object = null;
   try {
     _result_object = (__lib.instanceCache[_token] as OuterInterface_InnerInterface).foo(String_fromFfi(input));
     _result.value = String_toFfi(_result_object);
@@ -171,8 +171,8 @@ Pointer<Void> smoke_OuterInterface_InnerInterface_toFfi(OuterInterface_InnerInte
 OuterInterface_InnerInterface smoke_OuterInterface_InnerInterface_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as OuterInterface_InnerInterface;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is OuterInterface_InnerInterface) return instance;
   final _type_id_handle = _smoke_OuterInterface_InnerInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -185,9 +185,9 @@ OuterInterface_InnerInterface smoke_OuterInterface_InnerInterface_fromFfi(Pointe
 }
 void smoke_OuterInterface_InnerInterface_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_OuterInterface_InnerInterface_release_handle(handle);
-Pointer<Void> smoke_OuterInterface_InnerInterface_toFfi_nullable(OuterInterface_InnerInterface value) =>
+Pointer<Void> smoke_OuterInterface_InnerInterface_toFfi_nullable(OuterInterface_InnerInterface? value) =>
   value != null ? smoke_OuterInterface_InnerInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
-OuterInterface_InnerInterface smoke_OuterInterface_InnerInterface_fromFfi_nullable(Pointer<Void> handle) =>
+OuterInterface_InnerInterface? smoke_OuterInterface_InnerInterface_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_OuterInterface_InnerInterface_fromFfi(handle) : null;
 void smoke_OuterInterface_InnerInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_OuterInterface_InnerInterface_release_handle(handle);
@@ -224,11 +224,11 @@ class OuterInterface$Impl extends __lib.NativeBase implements OuterInterface {
   OuterInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_OuterInterface_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   String foo(String input) {
@@ -245,7 +245,7 @@ class OuterInterface$Impl extends __lib.NativeBase implements OuterInterface {
   }
 }
 int _OuterInterface_foo_static(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
-  String _result_object = null;
+  String? _result_object = null;
   try {
     _result_object = (__lib.instanceCache[_token] as OuterInterface).foo(String_fromFfi(input));
     _result.value = String_toFfi(_result_object);
@@ -267,8 +267,8 @@ Pointer<Void> smoke_OuterInterface_toFfi(OuterInterface value) {
 OuterInterface smoke_OuterInterface_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as OuterInterface;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is OuterInterface) return instance;
   final _type_id_handle = _smoke_OuterInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -281,9 +281,9 @@ OuterInterface smoke_OuterInterface_fromFfi(Pointer<Void> handle) {
 }
 void smoke_OuterInterface_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_OuterInterface_release_handle(handle);
-Pointer<Void> smoke_OuterInterface_toFfi_nullable(OuterInterface value) =>
+Pointer<Void> smoke_OuterInterface_toFfi_nullable(OuterInterface? value) =>
   value != null ? smoke_OuterInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
-OuterInterface smoke_OuterInterface_fromFfi_nullable(Pointer<Void> handle) =>
+OuterInterface? smoke_OuterInterface_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_OuterInterface_fromFfi(handle) : null;
 void smoke_OuterInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_OuterInterface_release_handle(handle);

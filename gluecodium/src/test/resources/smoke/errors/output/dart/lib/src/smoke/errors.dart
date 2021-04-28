@@ -61,14 +61,14 @@ final _smoke_Errors_InternalErrorCode_get_value_nullable = __lib.catchArgumentEr
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Errors_InternalErrorCode_get_value_nullable'));
-Pointer<Void> smoke_Errors_InternalErrorCode_toFfi_nullable(Errors_InternalErrorCode value) {
+Pointer<Void> smoke_Errors_InternalErrorCode_toFfi_nullable(Errors_InternalErrorCode? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Errors_InternalErrorCode_toFfi(value);
   final result = _smoke_Errors_InternalErrorCode_create_handle_nullable(_handle);
   smoke_Errors_InternalErrorCode_releaseFfiHandle(_handle);
   return result;
 }
-Errors_InternalErrorCode smoke_Errors_InternalErrorCode_fromFfi_nullable(Pointer<Void> handle) {
+Errors_InternalErrorCode? smoke_Errors_InternalErrorCode_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_Errors_InternalErrorCode_get_value_nullable(handle);
   final result = smoke_Errors_InternalErrorCode_fromFfi(_handle);
@@ -127,14 +127,14 @@ final _smoke_Errors_ExternalErrors_get_value_nullable = __lib.catchArgumentError
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Errors_ExternalErrors_get_value_nullable'));
-Pointer<Void> smoke_Errors_ExternalErrors_toFfi_nullable(Errors_ExternalErrors value) {
+Pointer<Void> smoke_Errors_ExternalErrors_toFfi_nullable(Errors_ExternalErrors? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Errors_ExternalErrors_toFfi(value);
   final result = _smoke_Errors_ExternalErrors_create_handle_nullable(_handle);
   smoke_Errors_ExternalErrors_releaseFfiHandle(_handle);
   return result;
 }
-Errors_ExternalErrors smoke_Errors_ExternalErrors_fromFfi_nullable(Pointer<Void> handle) {
+Errors_ExternalErrors? smoke_Errors_ExternalErrors_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_Errors_ExternalErrors_get_value_nullable(handle);
   final result = smoke_Errors_ExternalErrors_fromFfi(_handle);
@@ -236,11 +236,11 @@ class Errors$Impl extends __lib.NativeBase implements Errors {
   Errors$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_Errors_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   static methodWithErrors() {
     final _methodWithErrors_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithErrors'));
@@ -348,8 +348,8 @@ Pointer<Void> smoke_Errors_toFfi(Errors value) =>
 Errors smoke_Errors_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as Errors;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is Errors) return instance;
   final _copied_handle = _smoke_Errors_copy_handle(handle);
   final result = Errors$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -357,9 +357,9 @@ Errors smoke_Errors_fromFfi(Pointer<Void> handle) {
 }
 void smoke_Errors_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_Errors_release_handle(handle);
-Pointer<Void> smoke_Errors_toFfi_nullable(Errors value) =>
+Pointer<Void> smoke_Errors_toFfi_nullable(Errors? value) =>
   value != null ? smoke_Errors_toFfi(value) : Pointer<Void>.fromAddress(0);
-Errors smoke_Errors_fromFfi_nullable(Pointer<Void> handle) =>
+Errors? smoke_Errors_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_Errors_fromFfi(handle) : null;
 void smoke_Errors_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_Errors_release_handle(handle);

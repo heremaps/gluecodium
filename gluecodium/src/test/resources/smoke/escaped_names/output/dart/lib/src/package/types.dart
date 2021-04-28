@@ -37,14 +37,14 @@ final _package_Types_Enum_get_value_nullable = __lib.catchArgumentError(() => __
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_package_Types_Enum_get_value_nullable'));
-Pointer<Void> package_Types_Enum_toFfi_nullable(Enum value) {
+Pointer<Void> package_Types_Enum_toFfi_nullable(Enum? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = package_Types_Enum_toFfi(value);
   final result = _package_Types_Enum_create_handle_nullable(_handle);
   package_Types_Enum_releaseFfiHandle(_handle);
   return result;
 }
-Enum package_Types_Enum_fromFfi_nullable(Pointer<Void> handle) {
+Enum? package_Types_Enum_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _package_Types_Enum_get_value_nullable(handle);
   final result = package_Types_Enum_fromFfi(_handle);
@@ -107,14 +107,14 @@ final _package_Types_Struct_get_value_nullable = __lib.catchArgumentError(() => 
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_package_Types_Struct_get_value_nullable'));
-Pointer<Void> package_Types_Struct_toFfi_nullable(Struct value) {
+Pointer<Void> package_Types_Struct_toFfi_nullable(Struct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = package_Types_Struct_toFfi(value);
   final result = _package_Types_Struct_create_handle_nullable(_handle);
   package_Types_Struct_releaseFfiHandle(_handle);
   return result;
 }
-Struct package_Types_Struct_fromFfi_nullable(Pointer<Void> handle) {
+Struct? package_Types_Struct_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _package_Types_Struct_get_value_nullable(handle);
   final result = package_Types_Struct_fromFfi(_handle);

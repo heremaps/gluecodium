@@ -11,12 +11,12 @@ import 'package:library/src/_library_context.dart' as __lib;
 abstract class CalculatorListener {
   CalculatorListener() {}
   factory CalculatorListener.fromLambdas({
-    @required void Function(double) lambda_onCalculationResult,
-    @required void Function(double) lambda_onCalculationResultConst,
-    @required void Function(CalculatorListener_ResultStruct) lambda_onCalculationResultStruct,
-    @required void Function(List<double>) lambda_onCalculationResultArray,
-    @required void Function(Map<String, double>) lambda_onCalculationResultMap,
-    @required void Function(CalculationResult) lambda_onCalculationResultInstance,
+    required void Function(double) lambda_onCalculationResult,
+    required void Function(double) lambda_onCalculationResultConst,
+    required void Function(CalculatorListener_ResultStruct) lambda_onCalculationResultStruct,
+    required void Function(List<double>) lambda_onCalculationResultArray,
+    required void Function(Map<String, double>) lambda_onCalculationResultMap,
+    required void Function(CalculationResult) lambda_onCalculationResultInstance,
   }) => CalculatorListener$Lambdas(
     lambda_onCalculationResult,
     lambda_onCalculationResultConst,
@@ -84,14 +84,14 @@ final _smoke_CalculatorListener_ResultStruct_get_value_nullable = __lib.catchArg
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_CalculatorListener_ResultStruct_get_value_nullable'));
-Pointer<Void> smoke_CalculatorListener_ResultStruct_toFfi_nullable(CalculatorListener_ResultStruct value) {
+Pointer<Void> smoke_CalculatorListener_ResultStruct_toFfi_nullable(CalculatorListener_ResultStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_CalculatorListener_ResultStruct_toFfi(value);
   final result = _smoke_CalculatorListener_ResultStruct_create_handle_nullable(_handle);
   smoke_CalculatorListener_ResultStruct_releaseFfiHandle(_handle);
   return result;
 }
-CalculatorListener_ResultStruct smoke_CalculatorListener_ResultStruct_fromFfi_nullable(Pointer<Void> handle) {
+CalculatorListener_ResultStruct? smoke_CalculatorListener_ResultStruct_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_CalculatorListener_ResultStruct_get_value_nullable(handle);
   final result = smoke_CalculatorListener_ResultStruct_fromFfi(_handle);
@@ -158,11 +158,11 @@ class CalculatorListener$Impl extends __lib.NativeBase implements CalculatorList
   CalculatorListener$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_CalculatorListener_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   onCalculationResult(double calculationResult) {
@@ -309,8 +309,8 @@ Pointer<Void> smoke_CalculatorListener_toFfi(CalculatorListener value) {
 CalculatorListener smoke_CalculatorListener_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as CalculatorListener;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is CalculatorListener) return instance;
   final _type_id_handle = _smoke_CalculatorListener_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -323,9 +323,9 @@ CalculatorListener smoke_CalculatorListener_fromFfi(Pointer<Void> handle) {
 }
 void smoke_CalculatorListener_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_CalculatorListener_release_handle(handle);
-Pointer<Void> smoke_CalculatorListener_toFfi_nullable(CalculatorListener value) =>
+Pointer<Void> smoke_CalculatorListener_toFfi_nullable(CalculatorListener? value) =>
   value != null ? smoke_CalculatorListener_toFfi(value) : Pointer<Void>.fromAddress(0);
-CalculatorListener smoke_CalculatorListener_fromFfi_nullable(Pointer<Void> handle) =>
+CalculatorListener? smoke_CalculatorListener_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_CalculatorListener_fromFfi(handle) : null;
 void smoke_CalculatorListener_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_CalculatorListener_release_handle(handle);

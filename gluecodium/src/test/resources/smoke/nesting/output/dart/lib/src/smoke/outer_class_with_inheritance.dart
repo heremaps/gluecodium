@@ -36,11 +36,11 @@ class OuterClassWithInheritance_InnerClass$Impl extends __lib.NativeBase impleme
   OuterClassWithInheritance_InnerClass$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_OuterClassWithInheritance_InnerClass_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   String bar(String input) {
@@ -61,8 +61,8 @@ Pointer<Void> smoke_OuterClassWithInheritance_InnerClass_toFfi(OuterClassWithInh
 OuterClassWithInheritance_InnerClass smoke_OuterClassWithInheritance_InnerClass_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as OuterClassWithInheritance_InnerClass;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is OuterClassWithInheritance_InnerClass) return instance;
   final _copied_handle = _smoke_OuterClassWithInheritance_InnerClass_copy_handle(handle);
   final result = OuterClassWithInheritance_InnerClass$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -70,9 +70,9 @@ OuterClassWithInheritance_InnerClass smoke_OuterClassWithInheritance_InnerClass_
 }
 void smoke_OuterClassWithInheritance_InnerClass_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_OuterClassWithInheritance_InnerClass_release_handle(handle);
-Pointer<Void> smoke_OuterClassWithInheritance_InnerClass_toFfi_nullable(OuterClassWithInheritance_InnerClass value) =>
+Pointer<Void> smoke_OuterClassWithInheritance_InnerClass_toFfi_nullable(OuterClassWithInheritance_InnerClass? value) =>
   value != null ? smoke_OuterClassWithInheritance_InnerClass_toFfi(value) : Pointer<Void>.fromAddress(0);
-OuterClassWithInheritance_InnerClass smoke_OuterClassWithInheritance_InnerClass_fromFfi_nullable(Pointer<Void> handle) =>
+OuterClassWithInheritance_InnerClass? smoke_OuterClassWithInheritance_InnerClass_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_OuterClassWithInheritance_InnerClass_fromFfi(handle) : null;
 void smoke_OuterClassWithInheritance_InnerClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_OuterClassWithInheritance_InnerClass_release_handle(handle);
@@ -80,7 +80,7 @@ void smoke_OuterClassWithInheritance_InnerClass_releaseFfiHandle_nullable(Pointe
 abstract class OuterClassWithInheritance_InnerInterface {
   OuterClassWithInheritance_InnerInterface() {}
   factory OuterClassWithInheritance_InnerInterface.fromLambdas({
-    @required String Function(String) lambda_baz,
+    required String Function(String) lambda_baz,
   }) => OuterClassWithInheritance_InnerInterface$Lambdas(
     lambda_baz,
   );
@@ -123,11 +123,11 @@ class OuterClassWithInheritance_InnerInterface$Impl extends __lib.NativeBase imp
   OuterClassWithInheritance_InnerInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_OuterClassWithInheritance_InnerInterface_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   String baz(String input) {
@@ -144,7 +144,7 @@ class OuterClassWithInheritance_InnerInterface$Impl extends __lib.NativeBase imp
   }
 }
 int _OuterClassWithInheritance_InnerInterface_baz_static(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
-  String _result_object = null;
+  String? _result_object = null;
   try {
     _result_object = (__lib.instanceCache[_token] as OuterClassWithInheritance_InnerInterface).baz(String_fromFfi(input));
     _result.value = String_toFfi(_result_object);
@@ -166,8 +166,8 @@ Pointer<Void> smoke_OuterClassWithInheritance_InnerInterface_toFfi(OuterClassWit
 OuterClassWithInheritance_InnerInterface smoke_OuterClassWithInheritance_InnerInterface_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as OuterClassWithInheritance_InnerInterface;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is OuterClassWithInheritance_InnerInterface) return instance;
   final _type_id_handle = _smoke_OuterClassWithInheritance_InnerInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -180,9 +180,9 @@ OuterClassWithInheritance_InnerInterface smoke_OuterClassWithInheritance_InnerIn
 }
 void smoke_OuterClassWithInheritance_InnerInterface_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_OuterClassWithInheritance_InnerInterface_release_handle(handle);
-Pointer<Void> smoke_OuterClassWithInheritance_InnerInterface_toFfi_nullable(OuterClassWithInheritance_InnerInterface value) =>
+Pointer<Void> smoke_OuterClassWithInheritance_InnerInterface_toFfi_nullable(OuterClassWithInheritance_InnerInterface? value) =>
   value != null ? smoke_OuterClassWithInheritance_InnerInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
-OuterClassWithInheritance_InnerInterface smoke_OuterClassWithInheritance_InnerInterface_fromFfi_nullable(Pointer<Void> handle) =>
+OuterClassWithInheritance_InnerInterface? smoke_OuterClassWithInheritance_InnerInterface_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_OuterClassWithInheritance_InnerInterface_fromFfi(handle) : null;
 void smoke_OuterClassWithInheritance_InnerInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_OuterClassWithInheritance_InnerInterface_release_handle(handle);
@@ -204,11 +204,11 @@ class OuterClassWithInheritance$Impl extends ParentClass$Impl implements OuterCl
   OuterClassWithInheritance$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_OuterClassWithInheritance_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   String foo(String input) {
@@ -229,8 +229,8 @@ Pointer<Void> smoke_OuterClassWithInheritance_toFfi(OuterClassWithInheritance va
 OuterClassWithInheritance smoke_OuterClassWithInheritance_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as OuterClassWithInheritance;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is OuterClassWithInheritance) return instance;
   final _type_id_handle = _smoke_OuterClassWithInheritance_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -243,9 +243,9 @@ OuterClassWithInheritance smoke_OuterClassWithInheritance_fromFfi(Pointer<Void> 
 }
 void smoke_OuterClassWithInheritance_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_OuterClassWithInheritance_release_handle(handle);
-Pointer<Void> smoke_OuterClassWithInheritance_toFfi_nullable(OuterClassWithInheritance value) =>
+Pointer<Void> smoke_OuterClassWithInheritance_toFfi_nullable(OuterClassWithInheritance? value) =>
   value != null ? smoke_OuterClassWithInheritance_toFfi(value) : Pointer<Void>.fromAddress(0);
-OuterClassWithInheritance smoke_OuterClassWithInheritance_fromFfi_nullable(Pointer<Void> handle) =>
+OuterClassWithInheritance? smoke_OuterClassWithInheritance_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_OuterClassWithInheritance_fromFfi(handle) : null;
 void smoke_OuterClassWithInheritance_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_OuterClassWithInheritance_release_handle(handle);

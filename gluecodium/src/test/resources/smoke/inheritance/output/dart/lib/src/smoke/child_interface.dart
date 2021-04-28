@@ -10,10 +10,10 @@ import 'package:library/src/_library_context.dart' as __lib;
 abstract class ChildInterface implements ParentInterface {
   ChildInterface() {}
   factory ChildInterface.fromLambdas({
-    @required void Function() lambda_rootMethod,
-    @required void Function() lambda_childMethod,
-    @required String Function() lambda_rootProperty_get,
-    @required void Function(String) lambda_rootProperty_set
+    required void Function() lambda_rootMethod,
+    required void Function() lambda_childMethod,
+    required String Function() lambda_rootProperty_get,
+    required void Function(String) lambda_rootProperty_set
   }) => ChildInterface$Lambdas(
     lambda_rootMethod,
     lambda_childMethod,
@@ -72,11 +72,11 @@ class ChildInterface$Impl extends __lib.NativeBase implements ChildInterface {
   ChildInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_ChildInterface_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   rootMethod() {
@@ -166,8 +166,8 @@ Pointer<Void> smoke_ChildInterface_toFfi(ChildInterface value) {
 ChildInterface smoke_ChildInterface_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as ChildInterface;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is ChildInterface) return instance;
   final _type_id_handle = _smoke_ChildInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -180,9 +180,9 @@ ChildInterface smoke_ChildInterface_fromFfi(Pointer<Void> handle) {
 }
 void smoke_ChildInterface_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_ChildInterface_release_handle(handle);
-Pointer<Void> smoke_ChildInterface_toFfi_nullable(ChildInterface value) =>
+Pointer<Void> smoke_ChildInterface_toFfi_nullable(ChildInterface? value) =>
   value != null ? smoke_ChildInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
-ChildInterface smoke_ChildInterface_fromFfi_nullable(Pointer<Void> handle) =>
+ChildInterface? smoke_ChildInterface_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_ChildInterface_fromFfi(handle) : null;
 void smoke_ChildInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_ChildInterface_release_handle(handle);

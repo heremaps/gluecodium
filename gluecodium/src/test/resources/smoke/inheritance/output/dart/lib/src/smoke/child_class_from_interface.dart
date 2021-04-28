@@ -32,11 +32,11 @@ class ChildClassFromInterface$Impl extends __lib.NativeBase implements ChildClas
   ChildClassFromInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_ChildClassFromInterface_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   childClassMethod() {
@@ -90,8 +90,8 @@ Pointer<Void> smoke_ChildClassFromInterface_toFfi(ChildClassFromInterface value)
 ChildClassFromInterface smoke_ChildClassFromInterface_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as ChildClassFromInterface;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is ChildClassFromInterface) return instance;
   final _type_id_handle = _smoke_ChildClassFromInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -104,9 +104,9 @@ ChildClassFromInterface smoke_ChildClassFromInterface_fromFfi(Pointer<Void> hand
 }
 void smoke_ChildClassFromInterface_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_ChildClassFromInterface_release_handle(handle);
-Pointer<Void> smoke_ChildClassFromInterface_toFfi_nullable(ChildClassFromInterface value) =>
+Pointer<Void> smoke_ChildClassFromInterface_toFfi_nullable(ChildClassFromInterface? value) =>
   value != null ? smoke_ChildClassFromInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
-ChildClassFromInterface smoke_ChildClassFromInterface_fromFfi_nullable(Pointer<Void> handle) =>
+ChildClassFromInterface? smoke_ChildClassFromInterface_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_ChildClassFromInterface_fromFfi(handle) : null;
 void smoke_ChildClassFromInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_ChildClassFromInterface_release_handle(handle);

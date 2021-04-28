@@ -30,11 +30,11 @@ class weeInterface$Impl extends __lib.NativeBase implements weeInterface {
   weeInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_PlatformNamesInterface_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   weeInterface$Impl.make(String makeParameter) : super(_make(makeParameter)) {
     __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
@@ -89,8 +89,8 @@ Pointer<Void> smoke_PlatformNamesInterface_toFfi(weeInterface value) =>
 weeInterface smoke_PlatformNamesInterface_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as weeInterface;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is weeInterface) return instance;
   final _copied_handle = _smoke_PlatformNamesInterface_copy_handle(handle);
   final result = weeInterface$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -98,9 +98,9 @@ weeInterface smoke_PlatformNamesInterface_fromFfi(Pointer<Void> handle) {
 }
 void smoke_PlatformNamesInterface_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_PlatformNamesInterface_release_handle(handle);
-Pointer<Void> smoke_PlatformNamesInterface_toFfi_nullable(weeInterface value) =>
+Pointer<Void> smoke_PlatformNamesInterface_toFfi_nullable(weeInterface? value) =>
   value != null ? smoke_PlatformNamesInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
-weeInterface smoke_PlatformNamesInterface_fromFfi_nullable(Pointer<Void> handle) =>
+weeInterface? smoke_PlatformNamesInterface_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_PlatformNamesInterface_fromFfi(handle) : null;
 void smoke_PlatformNamesInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_PlatformNamesInterface_release_handle(handle);

@@ -51,14 +51,14 @@ final _smoke_SkipEnumeratorExplicitTag_get_value_nullable = __lib.catchArgumentE
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_SkipEnumeratorExplicitTag_get_value_nullable'));
-Pointer<Void> smoke_SkipEnumeratorExplicitTag_toFfi_nullable(SkipEnumeratorExplicitTag value) {
+Pointer<Void> smoke_SkipEnumeratorExplicitTag_toFfi_nullable(SkipEnumeratorExplicitTag? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_SkipEnumeratorExplicitTag_toFfi(value);
   final result = _smoke_SkipEnumeratorExplicitTag_create_handle_nullable(_handle);
   smoke_SkipEnumeratorExplicitTag_releaseFfiHandle(_handle);
   return result;
 }
-SkipEnumeratorExplicitTag smoke_SkipEnumeratorExplicitTag_fromFfi_nullable(Pointer<Void> handle) {
+SkipEnumeratorExplicitTag? smoke_SkipEnumeratorExplicitTag_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_SkipEnumeratorExplicitTag_get_value_nullable(handle);
   final result = smoke_SkipEnumeratorExplicitTag_fromFfi(_handle);
