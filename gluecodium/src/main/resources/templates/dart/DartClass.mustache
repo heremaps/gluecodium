@@ -86,15 +86,10 @@ final _{{resolveName "Ffi"}}_get_type_id = __lib.catchArgumentError(() => __lib.
 {{>dart/DartFunctionException}}
 
 {{/functions}}
-class {{resolveName}}$Impl{{!!
-}}{{#if hasClassParent}} extends {{resolveName parent}}$Impl{{/if}} implements {{resolveName}} {
-{{#unless hasClassParent}}
-  @protected
-  Pointer<Void> handle;
+class {{resolveName}}$Impl extends {{#if hasClassParent}}{{resolveName parent}}$Impl{{/if}}{{!!
+}}{{#unless hasClassParent}}__lib.NativeBase{{/unless}} implements {{resolveName}} {
 
-{{/unless}}
-  {{resolveName}}$Impl({{#if hasClassParent}}Pointer<Void> {{/if}}{{#unless hasClassParent}}this.{{/unless}}handle){{!!
-  }}{{#if hasClassParent}} : super(handle){{/if}};
+  {{resolveName}}$Impl(Pointer<Void> handle) : super(handle);
 
   @override
   void release() {
@@ -133,7 +128,7 @@ class {{resolveName}}$Impl{{!!
 }
 
 Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) =>
-  _{{resolveName "Ffi"}}_copy_handle((value as {{resolveName}}$Impl).handle);
+  _{{resolveName "Ffi"}}_copy_handle((value as __lib.NativeBase).handle);
 
 {{resolveName}} {{resolveName "Ffi"}}_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
@@ -181,9 +176,7 @@ void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) =>
 }}{{#unless testableMode}}
 {{resolveName parent}}$Impl.{{resolveName visibility}}{{resolveName}}({{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) : {{!!
-}}{{#unless hasClassParent}}handle = {{/unless}}{{#if hasClassParent}}super({{/if}}{{!!
-}}_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
-}}{{#if hasClassParent}}){{/if}} {
+}}super(_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})) {
   __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
 }
 {{/unless}}{{/dartConstructor}}{{!!

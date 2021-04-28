@@ -143,9 +143,9 @@ class {{resolveName}}$Lambdas implements {{resolveName}} {
 }
 {{/if}}
 
-class {{resolveName}}$Impl implements {{resolveName}} {
-  Pointer<Void> handle;
-  {{resolveName}}$Impl(this.handle);
+class {{resolveName}}$Impl extends __lib.NativeBase implements {{resolveName}} {
+
+  {{resolveName}}$Impl(Pointer<Void> handle) : super(handle);
 
   @override
   void release() {
@@ -230,7 +230,7 @@ int _{{resolveName parent}}_{{resolveName}}_set_static(int _token, {{resolveName
 {{/unless}}{{/each}}{{/set}}
 
 Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
-  if (value is {{resolveName}}$Impl) return _{{resolveName "Ffi"}}_copy_handle(value.handle);
+  if (value is __lib.NativeBase) return _{{resolveName "Ffi"}}_copy_handle((value as __lib.NativeBase).handle);
 
   final result = _{{resolveName "Ffi"}}_create_proxy(
     __lib.cacheObject(value),

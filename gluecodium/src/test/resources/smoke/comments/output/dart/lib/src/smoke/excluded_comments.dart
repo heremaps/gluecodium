@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
@@ -291,10 +292,8 @@ final _someMethodWithAllComments_return_has_error = __lib.catchArgumentError(() 
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_ExcludedComments_someMethodWithAllComments__String_return_has_error'));
-class ExcludedComments$Impl implements ExcludedComments {
-  @protected
-  Pointer<Void> handle;
-  ExcludedComments$Impl(this.handle);
+class ExcludedComments$Impl extends __lib.NativeBase implements ExcludedComments {
+  ExcludedComments$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -364,7 +363,7 @@ class ExcludedComments$Impl implements ExcludedComments {
   }
 }
 Pointer<Void> smoke_ExcludedComments_toFfi(ExcludedComments value) =>
-  _smoke_ExcludedComments_copy_handle((value as ExcludedComments$Impl).handle);
+  _smoke_ExcludedComments_copy_handle((value as __lib.NativeBase).handle);
 ExcludedComments smoke_ExcludedComments_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

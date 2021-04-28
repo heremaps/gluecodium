@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
@@ -191,9 +192,8 @@ class DeprecationCommentsOnly$Lambdas implements DeprecationCommentsOnly {
   @override
   set isSomeProperty(bool value) => lambda_isSomeProperty_set(value);
 }
-class DeprecationCommentsOnly$Impl implements DeprecationCommentsOnly {
-  Pointer<Void> handle;
-  DeprecationCommentsOnly$Impl(this.handle);
+class DeprecationCommentsOnly$Impl extends __lib.NativeBase implements DeprecationCommentsOnly {
+  DeprecationCommentsOnly$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -264,7 +264,7 @@ int _DeprecationCommentsOnly_isSomeProperty_set_static(int _token, int _value) {
   return 0;
 }
 Pointer<Void> smoke_DeprecationCommentsOnly_toFfi(DeprecationCommentsOnly value) {
-  if (value is DeprecationCommentsOnly$Impl) return _smoke_DeprecationCommentsOnly_copy_handle(value.handle);
+  if (value is __lib.NativeBase) return _smoke_DeprecationCommentsOnly_copy_handle((value as __lib.NativeBase).handle);
   final result = _smoke_DeprecationCommentsOnly_create_proxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,

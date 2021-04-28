@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
@@ -26,10 +27,8 @@ final _smoke_InternalClassWithComments_release_handle = __lib.catchArgumentError
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_InternalClassWithComments_release_handle'));
-class InternalClassWithComments$Impl implements InternalClassWithComments {
-  @protected
-  Pointer<Void> handle;
-  InternalClassWithComments$Impl(this.handle);
+class InternalClassWithComments$Impl extends __lib.NativeBase implements InternalClassWithComments {
+  InternalClassWithComments$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -51,7 +50,7 @@ class InternalClassWithComments$Impl implements InternalClassWithComments {
   }
 }
 Pointer<Void> smoke_InternalClassWithComments_toFfi(InternalClassWithComments value) =>
-  _smoke_InternalClassWithComments_copy_handle((value as InternalClassWithComments$Impl).handle);
+  _smoke_InternalClassWithComments_copy_handle((value as __lib.NativeBase).handle);
 InternalClassWithComments smoke_InternalClassWithComments_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
@@ -220,9 +221,8 @@ class ListenersWithReturnValues$Lambdas implements ListenersWithReturnValues {
   CalculationResult fetchDataInstance() =>
     lambda_fetchDataInstance();
 }
-class ListenersWithReturnValues$Impl implements ListenersWithReturnValues {
-  Pointer<Void> handle;
-  ListenersWithReturnValues$Impl(this.handle);
+class ListenersWithReturnValues$Impl extends __lib.NativeBase implements ListenersWithReturnValues {
+  ListenersWithReturnValues$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -374,7 +374,7 @@ int _ListenersWithReturnValues_fetchDataInstance_static(int _token, Pointer<Poin
   return 0;
 }
 Pointer<Void> smoke_ListenersWithReturnValues_toFfi(ListenersWithReturnValues value) {
-  if (value is ListenersWithReturnValues$Impl) return _smoke_ListenersWithReturnValues_copy_handle(value.handle);
+  if (value is __lib.NativeBase) return _smoke_ListenersWithReturnValues_copy_handle((value as __lib.NativeBase).handle);
   final result = _smoke_ListenersWithReturnValues_create_proxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,

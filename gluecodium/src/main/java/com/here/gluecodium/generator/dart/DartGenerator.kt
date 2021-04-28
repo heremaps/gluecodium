@@ -419,6 +419,11 @@ internal class DartGenerator : Generator {
                 COMMON
             ),
             GeneratedFile(
+                TemplateEngine.render("dart/DartNativeBase", templateData, nameResolvers),
+                "$LIB_DIR/$SRC_DIR_SUFFIX/_native_base.dart",
+                COMMON
+            ),
+            GeneratedFile(
                 TemplateEngine.render("dart/DartPubspec", templateData, nameResolvers),
                 "$ROOT_DIR/pubspec.yaml",
                 COMMON

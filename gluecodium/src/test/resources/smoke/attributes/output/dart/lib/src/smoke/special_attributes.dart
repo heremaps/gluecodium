@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
@@ -24,10 +25,8 @@ final _smoke_SpecialAttributes_release_handle = __lib.catchArgumentError(() => _
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_SpecialAttributes_release_handle'));
-class SpecialAttributes$Impl implements SpecialAttributes {
-  @protected
-  Pointer<Void> handle;
-  SpecialAttributes$Impl(this.handle);
+class SpecialAttributes$Impl extends __lib.NativeBase implements SpecialAttributes {
+  SpecialAttributes$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -60,7 +59,7 @@ class SpecialAttributes$Impl implements SpecialAttributes {
   }
 }
 Pointer<Void> smoke_SpecialAttributes_toFfi(SpecialAttributes value) =>
-  _smoke_SpecialAttributes_copy_handle((value as SpecialAttributes$Impl).handle);
+  _smoke_SpecialAttributes_copy_handle((value as __lib.NativeBase).handle);
 SpecialAttributes smoke_SpecialAttributes_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

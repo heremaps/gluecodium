@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
@@ -27,10 +28,8 @@ final _smoke_InternalClassWithFunctions_release_handle = __lib.catchArgumentErro
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_InternalClassWithFunctions_release_handle'));
-class InternalClassWithFunctions$Impl implements InternalClassWithFunctions {
-  @protected
-  Pointer<Void> handle;
-  InternalClassWithFunctions$Impl(this.handle);
+class InternalClassWithFunctions$Impl extends __lib.NativeBase implements InternalClassWithFunctions {
+  InternalClassWithFunctions$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -39,10 +38,10 @@ class InternalClassWithFunctions$Impl implements InternalClassWithFunctions {
     _smoke_InternalClassWithFunctions_release_handle(handle);
     handle = null;
   }
-  InternalClassWithFunctions$Impl.internal_make() : handle = _make() {
+  InternalClassWithFunctions$Impl.internal_make() : super(_make()) {
     __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
   }
-  InternalClassWithFunctions$Impl.internal_remake(String foo) : handle = _remake(foo) {
+  InternalClassWithFunctions$Impl.internal_remake(String foo) : super(_remake(foo)) {
     __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
   }
   @override
@@ -70,7 +69,7 @@ class InternalClassWithFunctions$Impl implements InternalClassWithFunctions {
   }
 }
 Pointer<Void> smoke_InternalClassWithFunctions_toFfi(InternalClassWithFunctions value) =>
-  _smoke_InternalClassWithFunctions_copy_handle((value as InternalClassWithFunctions$Impl).handle);
+  _smoke_InternalClassWithFunctions_copy_handle((value as __lib.NativeBase).handle);
 InternalClassWithFunctions smoke_InternalClassWithFunctions_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

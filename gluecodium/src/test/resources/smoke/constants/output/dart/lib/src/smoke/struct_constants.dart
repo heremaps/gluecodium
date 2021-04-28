@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
@@ -160,10 +161,8 @@ final _smoke_StructConstants_release_handle = __lib.catchArgumentError(() => __l
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_StructConstants_release_handle'));
-class StructConstants$Impl implements StructConstants {
-  @protected
-  Pointer<Void> handle;
-  StructConstants$Impl(this.handle);
+class StructConstants$Impl extends __lib.NativeBase implements StructConstants {
+  StructConstants$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -174,7 +173,7 @@ class StructConstants$Impl implements StructConstants {
   }
 }
 Pointer<Void> smoke_StructConstants_toFfi(StructConstants value) =>
-  _smoke_StructConstants_copy_handle((value as StructConstants$Impl).handle);
+  _smoke_StructConstants_copy_handle((value as __lib.NativeBase).handle);
 StructConstants smoke_StructConstants_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

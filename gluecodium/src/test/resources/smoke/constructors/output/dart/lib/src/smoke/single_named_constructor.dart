@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
@@ -20,10 +21,8 @@ final _smoke_SingleNamedConstructor_release_handle = __lib.catchArgumentError(()
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_SingleNamedConstructor_release_handle'));
-class SingleNamedConstructor$Impl implements SingleNamedConstructor {
-  @protected
-  Pointer<Void> handle;
-  SingleNamedConstructor$Impl(this.handle);
+class SingleNamedConstructor$Impl extends __lib.NativeBase implements SingleNamedConstructor {
+  SingleNamedConstructor$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -32,7 +31,7 @@ class SingleNamedConstructor$Impl implements SingleNamedConstructor {
     _smoke_SingleNamedConstructor_release_handle(handle);
     handle = null;
   }
-  SingleNamedConstructor$Impl.fooBar() : handle = _fooBar() {
+  SingleNamedConstructor$Impl.fooBar() : super(_fooBar()) {
     __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
   }
   static Pointer<Void> _fooBar() {
@@ -42,7 +41,7 @@ class SingleNamedConstructor$Impl implements SingleNamedConstructor {
   }
 }
 Pointer<Void> smoke_SingleNamedConstructor_toFfi(SingleNamedConstructor value) =>
-  _smoke_SingleNamedConstructor_copy_handle((value as SingleNamedConstructor$Impl).handle);
+  _smoke_SingleNamedConstructor_copy_handle((value as __lib.NativeBase).handle);
 SingleNamedConstructor smoke_SingleNamedConstructor_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

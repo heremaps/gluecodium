@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
@@ -19,10 +20,8 @@ final _smoke_EnableIfSkipped_release_handle = __lib.catchArgumentError(() => __l
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_EnableIfSkipped_release_handle'));
-class EnableIfSkipped$Impl implements EnableIfSkipped {
-  @protected
-  Pointer<Void> handle;
-  EnableIfSkipped$Impl(this.handle);
+class EnableIfSkipped$Impl extends __lib.NativeBase implements EnableIfSkipped {
+  EnableIfSkipped$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -33,7 +32,7 @@ class EnableIfSkipped$Impl implements EnableIfSkipped {
   }
 }
 Pointer<Void> smoke_EnableIfSkipped_toFfi(EnableIfSkipped value) =>
-  _smoke_EnableIfSkipped_copy_handle((value as EnableIfSkipped$Impl).handle);
+  _smoke_EnableIfSkipped_copy_handle((value as __lib.NativeBase).handle);
 EnableIfSkipped smoke_EnableIfSkipped_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

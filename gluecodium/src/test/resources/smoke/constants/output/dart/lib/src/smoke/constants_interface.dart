@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
@@ -85,10 +86,8 @@ final _smoke_ConstantsInterface_release_handle = __lib.catchArgumentError(() => 
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ConstantsInterface_release_handle'));
-class ConstantsInterface$Impl implements ConstantsInterface {
-  @protected
-  Pointer<Void> handle;
-  ConstantsInterface$Impl(this.handle);
+class ConstantsInterface$Impl extends __lib.NativeBase implements ConstantsInterface {
+  ConstantsInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -99,7 +98,7 @@ class ConstantsInterface$Impl implements ConstantsInterface {
   }
 }
 Pointer<Void> smoke_ConstantsInterface_toFfi(ConstantsInterface value) =>
-  _smoke_ConstantsInterface_copy_handle((value as ConstantsInterface$Impl).handle);
+  _smoke_ConstantsInterface_copy_handle((value as __lib.NativeBase).handle);
 ConstantsInterface smoke_ConstantsInterface_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

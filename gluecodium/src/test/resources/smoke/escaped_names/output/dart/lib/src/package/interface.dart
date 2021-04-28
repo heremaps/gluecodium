@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
@@ -29,9 +30,8 @@ final _package_Interface_get_type_id = __lib.catchArgumentError(() => __lib.nati
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_package_Interface_get_type_id'));
-class Interface$Impl implements Interface {
-  Pointer<Void> handle;
-  Interface$Impl(this.handle);
+class Interface$Impl extends __lib.NativeBase implements Interface {
+  Interface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -42,7 +42,7 @@ class Interface$Impl implements Interface {
   }
 }
 Pointer<Void> package_Interface_toFfi(Interface value) {
-  if (value is Interface$Impl) return _package_Interface_copy_handle(value.handle);
+  if (value is __lib.NativeBase) return _package_Interface_copy_handle((value as __lib.NativeBase).handle);
   final result = _package_Interface_create_proxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,

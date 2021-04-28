@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
@@ -50,7 +51,7 @@ class ChildClassFromClass$Impl extends ParentClass$Impl implements ChildClassFro
   }
 }
 Pointer<Void> smoke_ChildClassFromClass_toFfi(ChildClassFromClass value) =>
-  _smoke_ChildClassFromClass_copy_handle((value as ChildClassFromClass$Impl).handle);
+  _smoke_ChildClassFromClass_copy_handle((value as __lib.NativeBase).handle);
 ChildClassFromClass smoke_ChildClassFromClass_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

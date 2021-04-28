@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed Dart runtime issue when passing a child class of an interface from C++ to Dart and then back to C++.
+
 ## 8.13.0
 Release date: 2021-04-27
 ### Implementation:

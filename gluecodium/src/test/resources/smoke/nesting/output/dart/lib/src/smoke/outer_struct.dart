@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:intl/locale.dart';
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
@@ -202,10 +203,8 @@ final _smoke_OuterStruct_InnerClass_release_handle = __lib.catchArgumentError(()
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_OuterStruct_InnerClass_release_handle'));
-class OuterStruct_InnerClass$Impl implements OuterStruct_InnerClass {
-  @protected
-  Pointer<Void> handle;
-  OuterStruct_InnerClass$Impl(this.handle);
+class OuterStruct_InnerClass$Impl extends __lib.NativeBase implements OuterStruct_InnerClass {
+  OuterStruct_InnerClass$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -227,7 +226,7 @@ class OuterStruct_InnerClass$Impl implements OuterStruct_InnerClass {
   }
 }
 Pointer<Void> smoke_OuterStruct_InnerClass_toFfi(OuterStruct_InnerClass value) =>
-  _smoke_OuterStruct_InnerClass_copy_handle((value as OuterStruct_InnerClass$Impl).handle);
+  _smoke_OuterStruct_InnerClass_copy_handle((value as __lib.NativeBase).handle);
 OuterStruct_InnerClass smoke_OuterStruct_InnerClass_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
@@ -289,9 +288,8 @@ class OuterStruct_InnerInterface$Lambdas implements OuterStruct_InnerInterface {
   Map<String, Uint8List> barBaz() =>
     lambda_barBaz();
 }
-class OuterStruct_InnerInterface$Impl implements OuterStruct_InnerInterface {
-  Pointer<Void> handle;
-  OuterStruct_InnerInterface$Impl(this.handle);
+class OuterStruct_InnerInterface$Impl extends __lib.NativeBase implements OuterStruct_InnerInterface {
+  OuterStruct_InnerInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -322,7 +320,7 @@ int _OuterStruct_InnerInterface_barBaz_static(int _token, Pointer<Pointer<Void>>
   return 0;
 }
 Pointer<Void> smoke_OuterStruct_InnerInterface_toFfi(OuterStruct_InnerInterface value) {
-  if (value is OuterStruct_InnerInterface$Impl) return _smoke_OuterStruct_InnerInterface_copy_handle(value.handle);
+  if (value is __lib.NativeBase) return _smoke_OuterStruct_InnerInterface_copy_handle((value as __lib.NativeBase).handle);
   final result = _smoke_OuterStruct_InnerInterface_create_proxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,

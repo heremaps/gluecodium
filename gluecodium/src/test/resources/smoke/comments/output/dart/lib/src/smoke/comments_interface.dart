@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
@@ -296,9 +297,8 @@ class CommentsInterface$Lambdas implements CommentsInterface {
   @override
   set isSomeProperty(bool value) => lambda_isSomeProperty_set(value);
 }
-class CommentsInterface$Impl implements CommentsInterface {
-  Pointer<Void> handle;
-  CommentsInterface$Impl(this.handle);
+class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterface {
+  CommentsInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -556,7 +556,7 @@ int _CommentsInterface_isSomeProperty_set_static(int _token, int _value) {
   return 0;
 }
 Pointer<Void> smoke_CommentsInterface_toFfi(CommentsInterface value) {
-  if (value is CommentsInterface$Impl) return _smoke_CommentsInterface_copy_handle(value.handle);
+  if (value is __lib.NativeBase) return _smoke_CommentsInterface_copy_handle((value as __lib.NativeBase).handle);
   final result = _smoke_CommentsInterface_create_proxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,

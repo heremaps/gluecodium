@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
@@ -111,10 +112,8 @@ final _fromString_return_has_error = __lib.catchArgumentError(() => __lib.native
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Constructors_create__String_return_has_error'));
-class Constructors$Impl implements Constructors {
-  @protected
-  Pointer<Void> handle;
-  Constructors$Impl(this.handle);
+class Constructors$Impl extends __lib.NativeBase implements Constructors {
+  Constructors$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -123,22 +122,22 @@ class Constructors$Impl implements Constructors {
     _smoke_Constructors_release_handle(handle);
     handle = null;
   }
-  Constructors$Impl.$init() : handle = _$init() {
+  Constructors$Impl.$init() : super(_$init()) {
     __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
   }
-  Constructors$Impl.fromOther(Constructors other) : handle = _fromOther(other) {
+  Constructors$Impl.fromOther(Constructors other) : super(_fromOther(other)) {
     __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
   }
-  Constructors$Impl.fromMulti(String foo, int bar) : handle = _fromMulti(foo, bar) {
+  Constructors$Impl.fromMulti(String foo, int bar) : super(_fromMulti(foo, bar)) {
     __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
   }
-  Constructors$Impl.fromString(String input) : handle = _fromString(input) {
+  Constructors$Impl.fromString(String input) : super(_fromString(input)) {
     __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
   }
-  Constructors$Impl.fromList(List<double> input) : handle = _fromList(input) {
+  Constructors$Impl.fromList(List<double> input) : super(_fromList(input)) {
     __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
   }
-  Constructors$Impl.create(int input) : handle = _create(input) {
+  Constructors$Impl.create(int input) : super(_create(input)) {
     __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
   }
   static Pointer<Void> _$init() {
@@ -196,7 +195,7 @@ class Constructors$Impl implements Constructors {
   }
 }
 Pointer<Void> smoke_Constructors_toFfi(Constructors value) =>
-  _smoke_Constructors_copy_handle((value as Constructors$Impl).handle);
+  _smoke_Constructors_copy_handle((value as __lib.NativeBase).handle);
 Constructors smoke_Constructors_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

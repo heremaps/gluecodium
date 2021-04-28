@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
@@ -153,9 +154,8 @@ class CalculatorListener$Lambdas implements CalculatorListener {
   onCalculationResultInstance(CalculationResult calculationResult) =>
     lambda_onCalculationResultInstance(calculationResult);
 }
-class CalculatorListener$Impl implements CalculatorListener {
-  Pointer<Void> handle;
-  CalculatorListener$Impl(this.handle);
+class CalculatorListener$Impl extends __lib.NativeBase implements CalculatorListener {
+  CalculatorListener$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -292,7 +292,7 @@ int _CalculatorListener_onCalculationResultInstance_static(int _token, Pointer<V
   return 0;
 }
 Pointer<Void> smoke_CalculatorListener_toFfi(CalculatorListener value) {
-  if (value is CalculatorListener$Impl) return _smoke_CalculatorListener_copy_handle(value.handle);
+  if (value is __lib.NativeBase) return _smoke_CalculatorListener_copy_handle((value as __lib.NativeBase).handle);
   final result = _smoke_CalculatorListener_create_proxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,

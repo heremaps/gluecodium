@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:foo/bar.dart' as bar;
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/smoke/http_client_response_compression_state.dart';
 import 'package:library/src/smoke/int.dart';
@@ -29,10 +30,8 @@ final _smoke_UseDartExternalTypes_release_handle = __lib.catchArgumentError(() =
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_UseDartExternalTypes_release_handle'));
-class UseDartExternalTypes$Impl implements UseDartExternalTypes {
-  @protected
-  Pointer<Void> handle;
-  UseDartExternalTypes$Impl(this.handle);
+class UseDartExternalTypes$Impl extends __lib.NativeBase implements UseDartExternalTypes {
+  UseDartExternalTypes$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -87,7 +86,7 @@ class UseDartExternalTypes$Impl implements UseDartExternalTypes {
   }
 }
 Pointer<Void> smoke_UseDartExternalTypes_toFfi(UseDartExternalTypes value) =>
-  _smoke_UseDartExternalTypes_copy_handle((value as UseDartExternalTypes$Impl).handle);
+  _smoke_UseDartExternalTypes_copy_handle((value as __lib.NativeBase).handle);
 UseDartExternalTypes smoke_UseDartExternalTypes_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

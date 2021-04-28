@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
@@ -67,9 +68,8 @@ class ChildInterface$Lambdas implements ChildInterface {
   @override
   set rootProperty(String value) => lambda_rootProperty_set(value);
 }
-class ChildInterface$Impl implements ChildInterface {
-  Pointer<Void> handle;
-  ChildInterface$Impl(this.handle);
+class ChildInterface$Impl extends __lib.NativeBase implements ChildInterface {
+  ChildInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -151,7 +151,7 @@ int _ChildInterface_rootProperty_set_static(int _token, Pointer<Void> _value) {
   return 0;
 }
 Pointer<Void> smoke_ChildInterface_toFfi(ChildInterface value) {
-  if (value is ChildInterface$Impl) return _smoke_ChildInterface_copy_handle(value.handle);
+  if (value is __lib.NativeBase) return _smoke_ChildInterface_copy_handle((value as __lib.NativeBase).handle);
   final result = _smoke_ChildInterface_create_proxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,

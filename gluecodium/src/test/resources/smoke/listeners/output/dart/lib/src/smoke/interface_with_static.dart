@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
@@ -64,9 +65,8 @@ class InterfaceWithStatic$Lambdas implements InterfaceWithStatic {
   @override
   set regularProperty(String value) => lambda_regularProperty_set(value);
 }
-class InterfaceWithStatic$Impl implements InterfaceWithStatic {
-  Pointer<Void> handle;
-  InterfaceWithStatic$Impl(this.handle);
+class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWithStatic {
+  InterfaceWithStatic$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -162,7 +162,7 @@ int _InterfaceWithStatic_regularProperty_set_static(int _token, Pointer<Void> _v
   return 0;
 }
 Pointer<Void> smoke_InterfaceWithStatic_toFfi(InterfaceWithStatic value) {
-  if (value is InterfaceWithStatic$Impl) return _smoke_InterfaceWithStatic_copy_handle(value.handle);
+  if (value is __lib.NativeBase) return _smoke_InterfaceWithStatic_copy_handle((value as __lib.NativeBase).handle);
   final result = _smoke_InterfaceWithStatic_create_proxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,

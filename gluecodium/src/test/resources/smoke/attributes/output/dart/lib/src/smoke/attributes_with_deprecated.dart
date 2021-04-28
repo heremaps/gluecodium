@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
@@ -100,10 +101,8 @@ final _smoke_AttributesWithDeprecated_release_handle = __lib.catchArgumentError(
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_AttributesWithDeprecated_release_handle'));
-class AttributesWithDeprecated$Impl implements AttributesWithDeprecated {
-  @protected
-  Pointer<Void> handle;
-  AttributesWithDeprecated$Impl(this.handle);
+class AttributesWithDeprecated$Impl extends __lib.NativeBase implements AttributesWithDeprecated {
+  AttributesWithDeprecated$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -151,7 +150,7 @@ class AttributesWithDeprecated$Impl implements AttributesWithDeprecated {
   }
 }
 Pointer<Void> smoke_AttributesWithDeprecated_toFfi(AttributesWithDeprecated value) =>
-  _smoke_AttributesWithDeprecated_copy_handle((value as AttributesWithDeprecated$Impl).handle);
+  _smoke_AttributesWithDeprecated_copy_handle((value as __lib.NativeBase).handle);
 AttributesWithDeprecated smoke_AttributesWithDeprecated_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

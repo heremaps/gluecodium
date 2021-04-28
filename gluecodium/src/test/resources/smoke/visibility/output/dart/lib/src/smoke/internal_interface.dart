@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
@@ -49,9 +50,8 @@ class InternalInterface$Lambdas implements InternalInterface {
   internal_fooBar() =>
     lambda_fooBar();
 }
-class InternalInterface$Impl implements InternalInterface {
-  Pointer<Void> handle;
-  InternalInterface$Impl(this.handle);
+class InternalInterface$Impl extends __lib.NativeBase implements InternalInterface {
+  InternalInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -80,7 +80,7 @@ int _InternalInterface_fooBar_static(int _token) {
   return 0;
 }
 Pointer<Void> smoke_InternalInterface_toFfi(InternalInterface value) {
-  if (value is InternalInterface$Impl) return _smoke_InternalInterface_copy_handle(value.handle);
+  if (value is __lib.NativeBase) return _smoke_InternalInterface_copy_handle((value as __lib.NativeBase).handle);
   final result = _smoke_InternalInterface_create_proxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,

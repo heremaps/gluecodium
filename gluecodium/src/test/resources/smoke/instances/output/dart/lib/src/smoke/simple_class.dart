@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
@@ -22,10 +23,8 @@ final _smoke_SimpleClass_release_handle = __lib.catchArgumentError(() => __lib.n
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_SimpleClass_release_handle'));
-class SimpleClass$Impl implements SimpleClass {
-  @protected
-  Pointer<Void> handle;
-  SimpleClass$Impl(this.handle);
+class SimpleClass$Impl extends __lib.NativeBase implements SimpleClass {
+  SimpleClass$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -60,7 +59,7 @@ class SimpleClass$Impl implements SimpleClass {
   }
 }
 Pointer<Void> smoke_SimpleClass_toFfi(SimpleClass value) =>
-  _smoke_SimpleClass_copy_handle((value as SimpleClass$Impl).handle);
+  _smoke_SimpleClass_copy_handle((value as __lib.NativeBase).handle);
 SimpleClass smoke_SimpleClass_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

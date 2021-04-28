@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
@@ -710,10 +711,8 @@ final _smoke_DefaultValues_release_handle = __lib.catchArgumentError(() => __lib
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_DefaultValues_release_handle'));
-class DefaultValues$Impl implements DefaultValues {
-  @protected
-  Pointer<Void> handle;
-  DefaultValues$Impl(this.handle);
+class DefaultValues$Impl extends __lib.NativeBase implements DefaultValues {
+  DefaultValues$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -735,7 +734,7 @@ class DefaultValues$Impl implements DefaultValues {
   }
 }
 Pointer<Void> smoke_DefaultValues_toFfi(DefaultValues value) =>
-  _smoke_DefaultValues_copy_handle((value as DefaultValues$Impl).handle);
+  _smoke_DefaultValues_copy_handle((value as __lib.NativeBase).handle);
 DefaultValues smoke_DefaultValues_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

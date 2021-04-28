@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
@@ -101,10 +102,8 @@ final _smoke_AttributesWithComments_release_handle = __lib.catchArgumentError(()
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_AttributesWithComments_release_handle'));
-class AttributesWithComments$Impl implements AttributesWithComments {
-  @protected
-  Pointer<Void> handle;
-  AttributesWithComments$Impl(this.handle);
+class AttributesWithComments$Impl extends __lib.NativeBase implements AttributesWithComments {
+  AttributesWithComments$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -152,7 +151,7 @@ class AttributesWithComments$Impl implements AttributesWithComments {
   }
 }
 Pointer<Void> smoke_AttributesWithComments_toFfi(AttributesWithComments value) =>
-  _smoke_AttributesWithComments_copy_handle((value as AttributesWithComments$Impl).handle);
+  _smoke_AttributesWithComments_copy_handle((value as __lib.NativeBase).handle);
 AttributesWithComments smoke_AttributesWithComments_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

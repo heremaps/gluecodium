@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
@@ -27,10 +28,8 @@ final _smoke_ChildClassFromInterface_get_type_id = __lib.catchArgumentError(() =
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ChildClassFromInterface_get_type_id'));
-class ChildClassFromInterface$Impl implements ChildClassFromInterface {
-  @protected
-  Pointer<Void> handle;
-  ChildClassFromInterface$Impl(this.handle);
+class ChildClassFromInterface$Impl extends __lib.NativeBase implements ChildClassFromInterface {
+  ChildClassFromInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -87,7 +86,7 @@ class ChildClassFromInterface$Impl implements ChildClassFromInterface {
   }
 }
 Pointer<Void> smoke_ChildClassFromInterface_toFfi(ChildClassFromInterface value) =>
-  _smoke_ChildClassFromInterface_copy_handle((value as ChildClassFromInterface$Impl).handle);
+  _smoke_ChildClassFromInterface_copy_handle((value as __lib.NativeBase).handle);
 ChildClassFromInterface smoke_ChildClassFromInterface_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);

@@ -1,3 +1,4 @@
+import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
@@ -32,9 +33,8 @@ final __are_equal = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFun
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_EquatableInterface_get_type_id'));
-class EquatableInterface$Impl implements EquatableInterface {
-  Pointer<Void> handle;
-  EquatableInterface$Impl(this.handle);
+class EquatableInterface$Impl extends __lib.NativeBase implements EquatableInterface {
+  EquatableInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
     if (handle == null) return;
@@ -51,7 +51,7 @@ class EquatableInterface$Impl implements EquatableInterface {
   }
 }
 Pointer<Void> smoke_EquatableInterface_toFfi(EquatableInterface value) {
-  if (value is EquatableInterface$Impl) return _smoke_EquatableInterface_copy_handle(value.handle);
+  if (value is __lib.NativeBase) return _smoke_EquatableInterface_copy_handle((value as __lib.NativeBase).handle);
   final result = _smoke_EquatableInterface_create_proxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
