@@ -30,6 +30,7 @@ import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class DartImportResolver(
@@ -42,6 +43,7 @@ internal class DartImportResolver(
 
     override fun resolveElementImports(limeElement: LimeElement): List<DartImport> =
         when (limeElement) {
+            is LimeTypeAlias -> emptyList()
             is LimeTypeRef -> resolveTypeImports(limeElement.type) +
                 listOfNotNull(lazyListImport.takeIf { limeElement.attributes.have(LimeAttributeType.OPTIMIZED) })
             is LimeType -> resolveTypeImports(limeElement)

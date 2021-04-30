@@ -29,6 +29,7 @@ import com.here.gluecodium.generator.common.GeneratedFile.SourceSet.COMMON
 import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.GeneratorOptions
 import com.here.gluecodium.generator.common.ImportsCollector
+import com.here.gluecodium.generator.common.ImportsResolver
 import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
@@ -36,7 +37,6 @@ import com.here.gluecodium.generator.common.OptimizedListsCollector
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.CppNameRules
-import com.here.gluecodium.generator.ffi.FfiCppIncludeCollector
 import com.here.gluecodium.generator.ffi.FfiCppIncludeResolver
 import com.here.gluecodium.generator.ffi.FfiCppNameResolver
 import com.here.gluecodium.generator.ffi.FfiCppParameterTypeNameResolver
@@ -135,10 +135,18 @@ internal class DartGenerator : Generator {
             "C++ parameter" to FfiCppParameterTypeNameResolver(ffiCppNameResolver),
             "C++ return type" to FfiCppReturnTypeNameResolver(internalNamespace, ffiCppNameResolver)
         )
+
         val importResolver =
             DartImportResolver(limeModel.referenceMap, dartNameResolver, "$libraryName/$SRC_DIR_SUFFIX")
+        val declarationImportResolver = DartDeclarationImportResolver("$libraryName/$SRC_DIR_SUFFIX")
+        val importsCollector =
+            DartImportsCollector(importResolver, collectTypeRefImports = true, collectParentImports = true)
+        val declarationImportsCollector = DartImportsCollector(declarationImportResolver, collectOwnImports = true)
+
         val includeResolver = FfiCppIncludeResolver(limeModel.referenceMap, cppNameRules, internalNamespace)
-        val includeCollector = FfiCppIncludeCollector(includeResolver)
+        val includeCollector =
+            DartImportsCollector(includeResolver, collectTypeRefImports = true, collectOwnImports = true)
+
         val exportsCollector = mutableMapOf<List<String>, MutableList<DartExport>>()
         val typeRepositoriesCollector = mutableListOf<LimeContainerWithInheritance>()
 
@@ -148,19 +156,15 @@ internal class DartGenerator : Generator {
             .distinctBy { ffiNameResolver.resolveName(it) }
             .sortedBy { ffiNameResolver.resolveName(it) }
 
-        val importCollectors = listOf(
-            DartImportsCollector(importResolver),
-            DartDeclarationImportsCollector(DartDeclarationImportResolver("$libraryName/$SRC_DIR_SUFFIX"))
-        )
         val generatedFiles = dartFilteredElements.flatMap {
             listOfNotNull(
                 generateDart(
-                    it, dartResolvers, dartNameResolver, importCollectors,
+                    it, dartResolvers, dartNameResolver, listOf(importsCollector, declarationImportsCollector),
                     exportsCollector, typeRepositoriesCollector
                 )
             )
         } + ffiFilteredModel.topElements.flatMap {
-            generateFfi(it, ffiResolvers, includeCollector, ffiFilteredModel.referenceMap)
+            generateFfi(it, ffiResolvers, includeResolver, includeCollector, ffiFilteredModel.referenceMap)
         } +
             generateDartGenericTypesConversion(genericTypes, dartResolvers, importResolver) +
             generateFfiGenericTypesConversion(genericTypes, ffiResolvers, includeResolver) +
@@ -228,7 +232,8 @@ internal class DartGenerator : Generator {
     private fun generateFfi(
         rootElement: LimeNamedElement,
         nameResolvers: Map<String, NameResolver>,
-        includeCollector: FfiCppIncludeCollector,
+        includeResolver: ImportsResolver<Include>,
+        includeCollector: ImportsCollector<Include>,
         limeReferenceMap: Map<String, LimeElement>
     ): List<GeneratedFile> {
         val limeType = rootElement as? LimeType
@@ -271,7 +276,7 @@ internal class DartGenerator : Generator {
             GeneratedFile(headerContent, "$FFI_DIR/$fileName.h"),
             GeneratedFile(implContent, "$FFI_DIR/$fileName.cpp")
         ) + optimizedLists.keys.flatMap {
-            generateOptimizedListFiles(limeReferenceMap[it], optimizedLists[it], fileName, nameResolvers, includeCollector.includeResolver)
+            generateOptimizedListFiles(limeReferenceMap[it], optimizedLists[it], fileName, nameResolvers, includeResolver)
         }
     }
 
@@ -280,7 +285,7 @@ internal class DartGenerator : Generator {
         lists: List<LimeList>?,
         fileNamePrefix: String,
         nameResolvers: Map<String, NameResolver>,
-        includeResolver: FfiCppIncludeResolver
+        includeResolver: ImportsResolver<Include>
     ): List<GeneratedFile> {
         if (limeElement !is LimeNamedElement || lists.isNullOrEmpty()) return emptyList()
 
@@ -297,7 +302,7 @@ internal class DartGenerator : Generator {
         containerFileName: String,
         containerData: MutableMap<String, Any>,
         nameResolvers: Map<String, NameResolver>,
-        includeResolver: FfiCppIncludeResolver
+        includeResolver: ImportsResolver<Include>
     ): List<GeneratedFile> {
         val fileName = "${containerFileName}_${limeList.elementType.type.actualType.name}LazyList"
 

@@ -20,6 +20,7 @@
 package com.here.gluecodium.generator.dart
 
 import com.here.gluecodium.generator.common.ImportsCollector
+import com.here.gluecodium.generator.common.ImportsResolver
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeException
@@ -28,23 +29,35 @@ import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
-import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 
-internal class DartImportsCollector(private val importResolver: DartImportResolver) : ImportsCollector<DartImport> {
+internal class DartImportsCollector<T>(
+    private val importsResolver: ImportsResolver<T>,
+    private val collectTypeRefImports: Boolean = false,
+    private val collectOwnImports: Boolean = false,
+    private val collectParentImports: Boolean = false
+) : ImportsCollector<T> {
 
-    override fun collectImports(limeElement: LimeNamedElement): List<DartImport> {
-        val allTypes = LimeTypeHelper.getAllTypes(limeElement).filterNot { it is LimeTypeAlias }
-        val parentTypeRefs = listOfNotNull((limeElement as? LimeContainerWithInheritance)?.parent)
-        return (collectTypeRefs(allTypes) + parentTypeRefs).flatMap { importResolver.resolveElementImports(it) }
+    override fun collectImports(limeElement: LimeNamedElement): List<T> {
+        val allTypes = LimeTypeHelper.getAllTypes(limeElement)
+        val typeRefImports =
+            if (collectTypeRefImports)
+                collectTypeRefs(allTypes).flatMap { importsResolver.resolveElementImports(it) }
+            else emptyList()
+        val ownImports =
+            if (collectOwnImports) allTypes.flatMap { importsResolver.resolveElementImports(it) } else emptyList()
+        val parentImports =
+            if (collectParentImports)
+                collectParentTypeRefs(limeElement, allTypes).flatMap { importsResolver.resolveElementImports(it) }
+            else emptyList()
+        return typeRefImports + ownImports + parentImports
     }
 
     private fun collectTypeRefs(allTypes: List<LimeType>): List<LimeTypeRef> {
-        val classes = allTypes.filterIsInstance<LimeContainerWithInheritance>()
-        val functions = allTypes.filterIsInstance<LimeContainer>().flatMap { it.functions } +
-            classes.flatMap { it.inheritedFunctions }
-        val properties = classes.flatMap { it.properties + it.inheritedProperties }
+        val containers = allTypes.filterIsInstance<LimeContainer>()
+        val functions = containers.flatMap { it.functions }
+        val properties = containers.flatMap { it.properties }
         val lambdas = allTypes.filterIsInstance<LimeLambda>()
         val exceptions = allTypes.filterIsInstance<LimeException>()
         val structs = allTypes.filterIsInstance<LimeStruct>()
@@ -58,4 +71,11 @@ internal class DartImportsCollector(private val importResolver: DartImportResolv
         limeFunction.parameters.map { it.typeRef } +
             limeFunction.returnType.typeRef +
             listOfNotNull(limeFunction.thrownType?.typeRef, limeFunction.exception?.errorType)
+
+    private fun collectParentTypeRefs(limeElement: LimeNamedElement, allTypes: List<LimeType>): List<LimeTypeRef> {
+        val parentTypeRef = (limeElement as? LimeContainerWithInheritance)?.parent ?: return emptyList()
+        val containers = allTypes.filterIsInstance<LimeContainerWithInheritance>()
+        return containers.flatMap { it.inheritedFunctions }.flatMap { collectTypeRefs(it) } +
+            containers.flatMap { it.inheritedProperties }.map { it.typeRef } + parentTypeRef
+    }
 }
