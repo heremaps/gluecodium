@@ -3,12 +3,14 @@
 #include "ReverseCache.h"
 #include "IsolateContext.h"
 #include "gluecodium/Optional.h"
+#include "gluecodium/UnorderedMapHash.h"
 #include "gluecodium/VectorHash.h"
 #include "smoke/Nullable.h"
 #include "smoke/SomeInterface.h"
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <vector>
 #include <memory>
 #include <new>

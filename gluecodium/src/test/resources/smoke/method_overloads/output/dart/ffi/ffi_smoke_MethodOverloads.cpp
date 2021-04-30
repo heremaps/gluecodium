@@ -2,10 +2,12 @@
 #include "ConversionBase.h"
 #include "ReverseCache.h"
 #include "IsolateContext.h"
+#include "gluecodium/VectorHash.h"
 #include "smoke/MethodOverloads.h"
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <vector>
 #include <memory>
 #include <new>
 #ifdef __cplusplus

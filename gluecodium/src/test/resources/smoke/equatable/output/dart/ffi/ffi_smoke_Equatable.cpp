@@ -2,10 +2,12 @@
 #include "ConversionBase.h"
 #include "ReverseCache.h"
 #include "gluecodium/Optional.h"
+#include "gluecodium/UnorderedMapHash.h"
 #include "gluecodium/VectorHash.h"
 #include "smoke/Equatable.h"
 #include <cstdint>
 #include <string>
+#include <unordered_map>
 #include <vector>
 #include <memory>
 #include <new>
