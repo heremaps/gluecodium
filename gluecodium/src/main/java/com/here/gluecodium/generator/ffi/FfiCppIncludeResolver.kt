@@ -20,14 +20,20 @@
 package com.here.gluecodium.generator.ffi
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
+import com.here.gluecodium.generator.common.CommonGeneratorPredicates
+import com.here.gluecodium.generator.common.ImportsResolver
 import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.cpp.CppIncludesCache
 import com.here.gluecodium.generator.cpp.CppLibraryIncludes
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
+import com.here.gluecodium.model.lime.LimeClass
+import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
@@ -40,15 +46,17 @@ internal class FfiCppIncludeResolver(
     limeReferenceMap: Map<String, LimeElement>,
     nameRules: CppNameRules,
     internalNamespace: List<String>
-) {
+) : ImportsResolver<Include> {
     private val cppIncludesCache = CppIncludesCache(limeReferenceMap, nameRules, internalNamespace)
-    val typeRepositoryInclude
-        get() = cppIncludesCache.typeRepositoryInclude
 
-    fun resolveIncludes(limeElement: LimeElement): List<Include> =
+    override fun resolveElementImports(limeElement: LimeElement): List<Include> =
         when (limeElement) {
             is LimeTypeRef -> getTypeRefIncludes(limeElement)
             is LimeTypesCollection -> emptyList()
+            is LimeClass -> getTypeIncludes(limeElement) + getContainerIncludes(limeElement)
+            is LimeInterface -> getTypeIncludes(limeElement) + getThrownTypeIncludes(limeElement) +
+                getContainerIncludes(limeElement) + proxyIncludes
+            is LimeLambda -> getTypeIncludes(limeElement) + proxyIncludes + isolateContextInclude
             is LimeType -> getTypeIncludes(limeElement.actualType)
             else ->
                 throw GluecodiumExecutionException("Unsupported element type ${limeElement.javaClass.name}")
@@ -99,4 +107,28 @@ internal class FfiCppIncludeResolver(
             TypeId.LOCALE -> listOf(cppIncludesCache.createInternalNamespaceInclude("Locale.h"))
             else -> listOf(CppLibraryIncludes.INT_TYPES)
         }
+
+    private fun getThrownTypeIncludes(limeInterface: LimeInterface): List<Include> {
+        val exceptionEnums = limeInterface.functions
+            .mapNotNull { it.exception?.errorType?.type?.actualType }
+            .filterIsInstance<LimeEnumeration>()
+        return when {
+            exceptionEnums.isNotEmpty() -> listOf(CppLibraryIncludes.SYSTEM_ERROR)
+            else -> emptyList()
+        }
+    }
+
+    private fun getContainerIncludes(limeContainer: LimeContainer): List<Include> =
+        listOfNotNull(
+            isolateContextInclude.takeIf { limeContainer.functions.isNotEmpty() || limeContainer.properties.isNotEmpty() },
+            cppIncludesCache.typeRepositoryInclude.takeIf { CommonGeneratorPredicates.hasTypeRepository(limeContainer) }
+        )
+
+    companion object {
+        private val isolateContextInclude = Include.createInternalInclude("IsolateContext.h")
+        private val proxyIncludes = listOf(
+            Include.createInternalInclude("CallbacksQueue.h"),
+            Include.createInternalInclude("ProxyCache.h")
+        )
+    }
 }
