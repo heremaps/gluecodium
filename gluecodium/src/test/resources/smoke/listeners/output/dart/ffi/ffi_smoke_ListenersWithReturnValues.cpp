@@ -5,11 +5,13 @@
 #include "IsolateContext.h"
 #include "ProxyCache.h"
 #include "gluecodium/TypeRepository.h"
+#include "gluecodium/UnorderedMapHash.h"
 #include "gluecodium/VectorHash.h"
 #include "smoke/CalculationResult.h"
 #include "smoke/ListenersWithReturnValues.h"
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <vector>
 #include <memory>
 #include <new>
@@ -260,4 +262,3 @@ library_smoke_ListenersWithReturnValues_get_type_id(FfiOpaqueHandle handle) {
 #ifdef __cplusplus
 }
 #endif
-

@@ -2,6 +2,7 @@
 #include "ConversionBase.h"
 #include "ReverseCache.h"
 #include "IsolateContext.h"
+#include "gluecodium/VectorHash.h"
 #include "smoke/Structs.h"
 #include "smoke/TypeCollection.h"
 #include <cstdint>

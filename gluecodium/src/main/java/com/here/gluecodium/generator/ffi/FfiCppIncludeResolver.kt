@@ -63,7 +63,7 @@ internal class FfiCppIncludeResolver(
         }
 
     private fun getTypeRefIncludes(limeTypeRef: LimeTypeRef): List<Include> =
-        getTypeIncludes(limeTypeRef.type) +
+        getTypeIncludes(limeTypeRef.type.actualType) +
             if (limeTypeRef.isNullable) listOf(cppIncludesCache.optionalInclude) else emptyList()
 
     private fun getTypeIncludes(limeType: LimeType) =

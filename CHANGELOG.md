@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed missing includes types referenced through type aliases in Dart FFI.
+
 ## 8.13.1
 Release date: 2021-04-28
 ### Bug fixes:
