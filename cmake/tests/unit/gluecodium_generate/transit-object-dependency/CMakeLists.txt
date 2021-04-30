@@ -1,4 +1,4 @@
-# Copyright (C) 2020 HERE Europe B.V.
+# Copyright (C) 2021 HERE Europe B.V.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -46,9 +46,14 @@ gluecodium_generate(generated.module GENERATORS ${_gluecodium_generator})
 gluecodium_target_lime_sources(generated.module PUBLIC "${CMAKE_CURRENT_LIST_DIR}/lime/foo.lime")
 
 # Intermediate target
+test_assert_defined(VARIABLE INTERMEDIATE_LIBRARY_TYPE
+                    MESSAGE "Intermediate library type has to be defined")
+test_assert_defined(VARIABLE INTERMEDIATE_SOURCES_VISIBILITY
+                    MESSAGE "Intermediate sources visibility has to be defined")
 add_library(intermediate.module ${INTERMEDIATE_LIBRARY_TYPE}
                                 "${CMAKE_CURRENT_LIST_DIR}/cpp/Dummy.cpp")
-target_sources(intermediate.module INTERFACE $<TARGET_OBJECTS:generated.module>)
+target_sources(intermediate.module ${INTERMEDIATE_SOURCES_VISIBILITY}
+               $<TARGET_OBJECTS:generated.module>)
 
 # Final target
 add_library(shared.module SHARED "${CMAKE_CURRENT_LIST_DIR}/cpp/Dummy.cpp")
