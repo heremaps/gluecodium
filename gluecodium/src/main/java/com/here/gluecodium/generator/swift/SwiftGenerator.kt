@@ -29,6 +29,7 @@ import com.here.gluecodium.generator.common.CommentsProcessor
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.GeneratorOptions
+import com.here.gluecodium.generator.common.GenericImportsCollector
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.common.templates.TemplateEngine
@@ -69,7 +70,14 @@ internal class SwiftGenerator : Generator {
     private lateinit var nameRules: SwiftNameRules
     private lateinit var conversionVisibility: String
     private var internalPrefix: String? = null
-    private val importsCollector = SwiftImportsCollector(SwiftImportsResolver())
+    private val importsCollector =
+        GenericImportsCollector(
+            SwiftImportsResolver(),
+            collectTypeRefImports = true,
+            collectOwnImports = true,
+            collectParentImports = true,
+            collectTypeAliasImports = true
+        )
 
     override val shortName = "swift"
 
