@@ -32,12 +32,14 @@ import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypesCollection
 
@@ -51,12 +53,12 @@ internal class FfiCppIncludeResolver(
     override fun resolveElementImports(limeElement: LimeElement): List<Include> =
         when (limeElement) {
             is LimeTypeRef -> getTypeRefIncludes(limeElement)
-            is LimeTypesCollection -> emptyList()
+            is LimeTypesCollection, is LimeException, is LimeTypeAlias -> emptyList()
             is LimeInterface -> getTypeIncludes(limeElement) + getThrownTypeIncludes(limeElement) +
                 getContainerIncludes(limeElement) + proxyIncludes
             is LimeContainer -> getTypeIncludes(limeElement) + getContainerIncludes(limeElement)
             is LimeLambda -> getTypeIncludes(limeElement) + proxyIncludes + isolateContextInclude
-            is LimeType -> getTypeIncludes(limeElement.actualType)
+            is LimeType -> getTypeIncludes(limeElement)
             else ->
                 throw GluecodiumExecutionException("Unsupported element type ${limeElement.javaClass.name}")
         }
@@ -67,6 +69,7 @@ internal class FfiCppIncludeResolver(
 
     private fun getTypeIncludes(limeType: LimeType) =
         when (limeType) {
+            is LimeException -> emptyList()
             is LimeBasicType -> getBasicTypeIncludes(limeType)
             is LimeList -> getTypeRefIncludes(limeType.elementType) + listOf(
                 CppLibraryIncludes.VECTOR,
