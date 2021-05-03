@@ -1,59 +1,7 @@
 //
 //
 import Foundation
-internal func foobar_copyFromCType(_ handle: _baseRef) -> [DateInterval] {
-    var result: [DateInterval] = []
-    let count = foobar_ArrayOf_smoke_DateInterval_count(handle)
-    for idx in 0..<count {
-        result.append(copyFromCType(foobar_ArrayOf_smoke_DateInterval_get(handle, idx)))
-    }
-    return result
-}
-internal func foobar_moveFromCType(_ handle: _baseRef) -> [DateInterval] {
-    defer {
-        foobar_ArrayOf_smoke_DateInterval_release_handle(handle)
-    }
-    return foobar_copyFromCType(handle)
-}
-internal func foobar_copyToCType(_ swiftArray: [DateInterval]) -> RefHolder {
-    let handle = foobar_ArrayOf_smoke_DateInterval_create_handle()
-    for item in swiftArray {
-        let _item = moveToCType(item)
-        foobar_ArrayOf_smoke_DateInterval_append(handle, _item.ref)
-    }
-    return RefHolder(handle)
-}
-internal func foobar_moveToCType(_ swiftArray: [DateInterval]) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftArray).ref, release: foobar_ArrayOf_smoke_DateInterval_release_handle)
-}
-internal func foobar_copyToCType(_ swiftArray: [DateInterval]?) -> RefHolder {
-    guard let swiftArray = swiftArray else {
-        return RefHolder(0)
-    }
-    let optionalHandle = foobar_ArrayOf_smoke_DateInterval_create_optional_handle()
-    let handle = foobar_ArrayOf_smoke_DateInterval_unwrap_optional_handle(optionalHandle)
-    for item in swiftArray {
-        let _item = moveToCType(item)
-        foobar_ArrayOf_smoke_DateInterval_append(handle, _item.ref)
-    }
-    return RefHolder(optionalHandle)
-}
-internal func foobar_moveToCType(_ swiftType: [DateInterval]?) -> RefHolder {
-    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: foobar_ArrayOf_smoke_DateInterval_release_optional_handle)
-}
-internal func foobar_copyFromCType(_ handle: _baseRef) -> [DateInterval]? {
-    guard handle != 0 else {
-        return nil
-    }
-    let unwrappedHandle = foobar_ArrayOf_smoke_DateInterval_unwrap_optional_handle(handle)
-    return foobar_copyFromCType(unwrappedHandle) as [DateInterval]
-}
-internal func foobar_moveFromCType(_ handle: _baseRef) -> [DateInterval]? {
-    defer {
-        foobar_ArrayOf_smoke_DateInterval_release_optional_handle(handle)
-    }
-    return foobar_copyFromCType(handle)
-}
+import UIKit
 internal func foobar_copyFromCType(_ handle: _baseRef) -> [Int8] {
     var result: [Int8] = []
     let count = foobar_ArrayOf__Byte_count(handle)
@@ -157,6 +105,59 @@ internal func foobar_copyFromCType(_ handle: _baseRef) -> [String]? {
 internal func foobar_moveFromCType(_ handle: _baseRef) -> [String]? {
     defer {
         foobar_ArrayOf__String_release_optional_handle(handle)
+    }
+    return foobar_copyFromCType(handle)
+}
+internal func foobar_copyFromCType(_ handle: _baseRef) -> [UIColor] {
+    var result: [UIColor] = []
+    let count = foobar_ArrayOf_smoke_UIColor_count(handle)
+    for idx in 0..<count {
+        result.append(copyFromCType(foobar_ArrayOf_smoke_UIColor_get(handle, idx)))
+    }
+    return result
+}
+internal func foobar_moveFromCType(_ handle: _baseRef) -> [UIColor] {
+    defer {
+        foobar_ArrayOf_smoke_UIColor_release_handle(handle)
+    }
+    return foobar_copyFromCType(handle)
+}
+internal func foobar_copyToCType(_ swiftArray: [UIColor]) -> RefHolder {
+    let handle = foobar_ArrayOf_smoke_UIColor_create_handle()
+    for item in swiftArray {
+        let _item = moveToCType(item)
+        foobar_ArrayOf_smoke_UIColor_append(handle, _item.ref)
+    }
+    return RefHolder(handle)
+}
+internal func foobar_moveToCType(_ swiftArray: [UIColor]) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftArray).ref, release: foobar_ArrayOf_smoke_UIColor_release_handle)
+}
+internal func foobar_copyToCType(_ swiftArray: [UIColor]?) -> RefHolder {
+    guard let swiftArray = swiftArray else {
+        return RefHolder(0)
+    }
+    let optionalHandle = foobar_ArrayOf_smoke_UIColor_create_optional_handle()
+    let handle = foobar_ArrayOf_smoke_UIColor_unwrap_optional_handle(optionalHandle)
+    for item in swiftArray {
+        let _item = moveToCType(item)
+        foobar_ArrayOf_smoke_UIColor_append(handle, _item.ref)
+    }
+    return RefHolder(optionalHandle)
+}
+internal func foobar_moveToCType(_ swiftType: [UIColor]?) -> RefHolder {
+    return RefHolder(ref: foobar_copyToCType(swiftType).ref, release: foobar_ArrayOf_smoke_UIColor_release_optional_handle)
+}
+internal func foobar_copyFromCType(_ handle: _baseRef) -> [UIColor]? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = foobar_ArrayOf_smoke_UIColor_unwrap_optional_handle(handle)
+    return foobar_copyFromCType(unwrappedHandle) as [UIColor]
+}
+internal func foobar_moveFromCType(_ handle: _baseRef) -> [UIColor]? {
+    defer {
+        foobar_ArrayOf_smoke_UIColor_release_optional_handle(handle)
     }
     return foobar_copyFromCType(handle)
 }

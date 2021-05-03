@@ -75,8 +75,8 @@ class UseSwiftExternalTypes {
 }
 
 @Java(Skip) @Dart(Skip)
-typealias ExternalList = List<DateInterval>
+typealias ExternalList = List<PseudoColor>
 @Java(Skip) @Dart(Skip)
-typealias ExternalSet = Set<Persistence>
+typealias ExternalSet = Set<PseudoColor>
 @Java(Skip) @Dart(Skip)
-typealias ExternalMap = Map<Persistence, DateInterval>
+typealias ExternalMap = Map<Persistence, PseudoColor>
