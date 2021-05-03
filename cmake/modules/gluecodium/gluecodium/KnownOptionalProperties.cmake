@@ -69,7 +69,7 @@ _gluecodium_define_target_property(
   GLUECODIUM_JAVA_INTERNAL_PACKAGE
   BRIEF_DOCS "The package to use for internal Java code"
   FULL_DOCS
-    "The package to use for internal Java code. \"com.example\" is used if not specified."
+    "The subpackage to use for internal Java code. This value is appended with separator '.' to a value passed with GLUECODIUM_JAVA_PACKAGE"
     "This property is initialized by the value of the GLUECODIUM_JAVA_INTERNAL_PACKAGE_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
 )
 
