@@ -10,9 +10,9 @@ import 'package:library/src/_library_context.dart' as __lib;
 abstract class AttributesInterface {
   AttributesInterface() {}
   factory AttributesInterface.fromLambdas({
-    @required void Function(String) lambda_veryFun,
-    @required String Function() lambda_prop_get,
-    @required void Function(String) lambda_prop_set
+    required void Function(String) lambda_veryFun,
+    required String Function() lambda_prop_get,
+    required void Function(String) lambda_prop_set
   }) => AttributesInterface$Lambdas(
     lambda_veryFun,
     lambda_prop_get,
@@ -72,11 +72,11 @@ class AttributesInterface$Impl extends __lib.NativeBase implements AttributesInt
   AttributesInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_AttributesInterface_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   veryFun(@OnParameterInInterface String param) {
@@ -152,8 +152,8 @@ Pointer<Void> smoke_AttributesInterface_toFfi(AttributesInterface value) {
 AttributesInterface smoke_AttributesInterface_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as AttributesInterface;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is AttributesInterface) return instance;
   final _type_id_handle = _smoke_AttributesInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -166,9 +166,9 @@ AttributesInterface smoke_AttributesInterface_fromFfi(Pointer<Void> handle) {
 }
 void smoke_AttributesInterface_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_AttributesInterface_release_handle(handle);
-Pointer<Void> smoke_AttributesInterface_toFfi_nullable(AttributesInterface value) =>
+Pointer<Void> smoke_AttributesInterface_toFfi_nullable(AttributesInterface? value) =>
   value != null ? smoke_AttributesInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
-AttributesInterface smoke_AttributesInterface_fromFfi_nullable(Pointer<Void> handle) =>
+AttributesInterface? smoke_AttributesInterface_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_AttributesInterface_fromFfi(handle) : null;
 void smoke_AttributesInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_AttributesInterface_release_handle(handle);

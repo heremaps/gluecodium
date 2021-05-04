@@ -31,7 +31,7 @@ void main() {
     expect(result.first, 42);
   });
   _testSuite.test("Call a method throwing an exception nested in a struct", () {
-    OuterStructInstantiationException exception = null;
+    OuterStructInstantiationException? exception = null;
 
     try {
       OuterStruct.doNothing();

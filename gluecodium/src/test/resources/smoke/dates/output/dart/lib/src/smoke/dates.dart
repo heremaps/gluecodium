@@ -62,14 +62,14 @@ final _smoke_Dates_DateStruct_get_value_nullable = __lib.catchArgumentError(() =
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Dates_DateStruct_get_value_nullable'));
-Pointer<Void> smoke_Dates_DateStruct_toFfi_nullable(Dates_DateStruct value) {
+Pointer<Void> smoke_Dates_DateStruct_toFfi_nullable(Dates_DateStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Dates_DateStruct_toFfi(value);
   final result = _smoke_Dates_DateStruct_create_handle_nullable(_handle);
   smoke_Dates_DateStruct_releaseFfiHandle(_handle);
   return result;
 }
-Dates_DateStruct smoke_Dates_DateStruct_fromFfi_nullable(Pointer<Void> handle) {
+Dates_DateStruct? smoke_Dates_DateStruct_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_Dates_DateStruct_get_value_nullable(handle);
   final result = smoke_Dates_DateStruct_fromFfi(_handle);
@@ -92,11 +92,11 @@ class Dates$Impl extends __lib.NativeBase implements Dates {
   Dates$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_Dates_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   DateTime dateMethod(DateTime input) {
@@ -141,8 +141,8 @@ Pointer<Void> smoke_Dates_toFfi(Dates value) =>
 Dates smoke_Dates_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as Dates;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is Dates) return instance;
   final _copied_handle = _smoke_Dates_copy_handle(handle);
   final result = Dates$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -150,9 +150,9 @@ Dates smoke_Dates_fromFfi(Pointer<Void> handle) {
 }
 void smoke_Dates_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_Dates_release_handle(handle);
-Pointer<Void> smoke_Dates_toFfi_nullable(Dates value) =>
+Pointer<Void> smoke_Dates_toFfi_nullable(Dates? value) =>
   value != null ? smoke_Dates_toFfi(value) : Pointer<Void>.fromAddress(0);
-Dates smoke_Dates_fromFfi_nullable(Pointer<Void> handle) =>
+Dates? smoke_Dates_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_Dates_fromFfi(handle) : null;
 void smoke_Dates_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_Dates_release_handle(handle);

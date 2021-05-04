@@ -60,14 +60,14 @@ final _smoke_ConstantsInterface_StateEnum_get_value_nullable = __lib.catchArgume
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_ConstantsInterface_StateEnum_get_value_nullable'));
-Pointer<Void> smoke_ConstantsInterface_StateEnum_toFfi_nullable(ConstantsInterface_StateEnum value) {
+Pointer<Void> smoke_ConstantsInterface_StateEnum_toFfi_nullable(ConstantsInterface_StateEnum? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_ConstantsInterface_StateEnum_toFfi(value);
   final result = _smoke_ConstantsInterface_StateEnum_create_handle_nullable(_handle);
   smoke_ConstantsInterface_StateEnum_releaseFfiHandle(_handle);
   return result;
 }
-ConstantsInterface_StateEnum smoke_ConstantsInterface_StateEnum_fromFfi_nullable(Pointer<Void> handle) {
+ConstantsInterface_StateEnum? smoke_ConstantsInterface_StateEnum_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_ConstantsInterface_StateEnum_get_value_nullable(handle);
   final result = smoke_ConstantsInterface_StateEnum_fromFfi(_handle);
@@ -90,11 +90,11 @@ class ConstantsInterface$Impl extends __lib.NativeBase implements ConstantsInter
   ConstantsInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_ConstantsInterface_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
 }
 Pointer<Void> smoke_ConstantsInterface_toFfi(ConstantsInterface value) =>
@@ -102,8 +102,8 @@ Pointer<Void> smoke_ConstantsInterface_toFfi(ConstantsInterface value) =>
 ConstantsInterface smoke_ConstantsInterface_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as ConstantsInterface;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is ConstantsInterface) return instance;
   final _copied_handle = _smoke_ConstantsInterface_copy_handle(handle);
   final result = ConstantsInterface$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -111,9 +111,9 @@ ConstantsInterface smoke_ConstantsInterface_fromFfi(Pointer<Void> handle) {
 }
 void smoke_ConstantsInterface_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_ConstantsInterface_release_handle(handle);
-Pointer<Void> smoke_ConstantsInterface_toFfi_nullable(ConstantsInterface value) =>
+Pointer<Void> smoke_ConstantsInterface_toFfi_nullable(ConstantsInterface? value) =>
   value != null ? smoke_ConstantsInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
-ConstantsInterface smoke_ConstantsInterface_fromFfi_nullable(Pointer<Void> handle) =>
+ConstantsInterface? smoke_ConstantsInterface_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_ConstantsInterface_fromFfi(handle) : null;
 void smoke_ConstantsInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_ConstantsInterface_release_handle(handle);

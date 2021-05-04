@@ -116,14 +116,14 @@ final _smoke_CommentsLinks_RandomStruct_get_value_nullable = __lib.catchArgument
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_CommentsLinks_RandomStruct_get_value_nullable'));
-Pointer<Void> smoke_CommentsLinks_RandomStruct_toFfi_nullable(CommentsLinks_RandomStruct value) {
+Pointer<Void> smoke_CommentsLinks_RandomStruct_toFfi_nullable(CommentsLinks_RandomStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_CommentsLinks_RandomStruct_toFfi(value);
   final result = _smoke_CommentsLinks_RandomStruct_create_handle_nullable(_handle);
   smoke_CommentsLinks_RandomStruct_releaseFfiHandle(_handle);
   return result;
 }
-CommentsLinks_RandomStruct smoke_CommentsLinks_RandomStruct_fromFfi_nullable(Pointer<Void> handle) {
+CommentsLinks_RandomStruct? smoke_CommentsLinks_RandomStruct_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_CommentsLinks_RandomStruct_get_value_nullable(handle);
   final result = smoke_CommentsLinks_RandomStruct_fromFfi(_handle);
@@ -162,11 +162,11 @@ class CommentsLinks$Impl extends __lib.NativeBase implements CommentsLinks {
   CommentsLinks$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_CommentsLinks_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   Comments_SomeEnum randomMethod(Comments_SomeEnum inputParameter) {
@@ -213,8 +213,8 @@ Pointer<Void> smoke_CommentsLinks_toFfi(CommentsLinks value) =>
 CommentsLinks smoke_CommentsLinks_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as CommentsLinks;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is CommentsLinks) return instance;
   final _copied_handle = _smoke_CommentsLinks_copy_handle(handle);
   final result = CommentsLinks$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -222,9 +222,9 @@ CommentsLinks smoke_CommentsLinks_fromFfi(Pointer<Void> handle) {
 }
 void smoke_CommentsLinks_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_CommentsLinks_release_handle(handle);
-Pointer<Void> smoke_CommentsLinks_toFfi_nullable(CommentsLinks value) =>
+Pointer<Void> smoke_CommentsLinks_toFfi_nullable(CommentsLinks? value) =>
   value != null ? smoke_CommentsLinks_toFfi(value) : Pointer<Void>.fromAddress(0);
-CommentsLinks smoke_CommentsLinks_fromFfi_nullable(Pointer<Void> handle) =>
+CommentsLinks? smoke_CommentsLinks_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_CommentsLinks_fromFfi(handle) : null;
 void smoke_CommentsLinks_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_CommentsLinks_release_handle(handle);

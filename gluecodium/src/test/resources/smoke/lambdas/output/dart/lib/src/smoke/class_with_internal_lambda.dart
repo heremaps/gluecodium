@@ -47,7 +47,7 @@ class ClassWithInternalLambda_InternalLambda$Impl {
   }
 }
 int _ClassWithInternalLambda_InternalLambda_call_static(int _token, Pointer<Void> p0, Pointer<Uint8> _result) {
-  bool _result_object;
+  bool? _result_object = null;
   try {
     _result_object = (__lib.instanceCache[_token] as ClassWithInternalLambda_InternalLambda)(String_fromFfi(p0));
     _result.value = Boolean_toFfi(_result_object);
@@ -88,14 +88,14 @@ final _smoke_ClassWithInternalLambda_InternalLambda_get_value_nullable = __lib.c
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ClassWithInternalLambda_InternalLambda_get_value_nullable'));
-Pointer<Void> smoke_ClassWithInternalLambda_InternalLambda_toFfi_nullable(ClassWithInternalLambda_InternalLambda value) {
+Pointer<Void> smoke_ClassWithInternalLambda_InternalLambda_toFfi_nullable(ClassWithInternalLambda_InternalLambda? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_ClassWithInternalLambda_InternalLambda_toFfi(value);
   final result = _smoke_ClassWithInternalLambda_InternalLambda_create_handle_nullable(_handle);
   smoke_ClassWithInternalLambda_InternalLambda_releaseFfiHandle(_handle);
   return result;
 }
-ClassWithInternalLambda_InternalLambda smoke_ClassWithInternalLambda_InternalLambda_fromFfi_nullable(Pointer<Void> handle) {
+ClassWithInternalLambda_InternalLambda? smoke_ClassWithInternalLambda_InternalLambda_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_ClassWithInternalLambda_InternalLambda_get_value_nullable(handle);
   final result = smoke_ClassWithInternalLambda_InternalLambda_fromFfi(_handle);
@@ -118,11 +118,11 @@ class ClassWithInternalLambda$Impl extends __lib.NativeBase implements ClassWith
   ClassWithInternalLambda$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_ClassWithInternalLambda_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   static bool invokeInternalLambda(ClassWithInternalLambda_InternalLambda lambda, String value) {
     final _invokeInternalLambda_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Pointer<Void>, Pointer<Void>), int Function(int, Pointer<Void>, Pointer<Void>)>('library_smoke_ClassWithInternalLambda_invokeInternalLambda__InternalLambda_String'));
@@ -143,8 +143,8 @@ Pointer<Void> smoke_ClassWithInternalLambda_toFfi(ClassWithInternalLambda value)
 ClassWithInternalLambda smoke_ClassWithInternalLambda_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as ClassWithInternalLambda;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is ClassWithInternalLambda) return instance;
   final _copied_handle = _smoke_ClassWithInternalLambda_copy_handle(handle);
   final result = ClassWithInternalLambda$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -152,9 +152,9 @@ ClassWithInternalLambda smoke_ClassWithInternalLambda_fromFfi(Pointer<Void> hand
 }
 void smoke_ClassWithInternalLambda_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_ClassWithInternalLambda_release_handle(handle);
-Pointer<Void> smoke_ClassWithInternalLambda_toFfi_nullable(ClassWithInternalLambda value) =>
+Pointer<Void> smoke_ClassWithInternalLambda_toFfi_nullable(ClassWithInternalLambda? value) =>
   value != null ? smoke_ClassWithInternalLambda_toFfi(value) : Pointer<Void>.fromAddress(0);
-ClassWithInternalLambda smoke_ClassWithInternalLambda_fromFfi_nullable(Pointer<Void> handle) =>
+ClassWithInternalLambda? smoke_ClassWithInternalLambda_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_ClassWithInternalLambda_fromFfi(handle) : null;
 void smoke_ClassWithInternalLambda_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_ClassWithInternalLambda_release_handle(handle);

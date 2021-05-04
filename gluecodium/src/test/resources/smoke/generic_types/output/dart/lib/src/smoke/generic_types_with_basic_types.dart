@@ -92,14 +92,14 @@ final _smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_value_nullable = 
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_value_nullable'));
-Pointer<Void> smoke_GenericTypesWithBasicTypes_StructWithGenerics_toFfi_nullable(GenericTypesWithBasicTypes_StructWithGenerics value) {
+Pointer<Void> smoke_GenericTypesWithBasicTypes_StructWithGenerics_toFfi_nullable(GenericTypesWithBasicTypes_StructWithGenerics? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_GenericTypesWithBasicTypes_StructWithGenerics_toFfi(value);
   final result = _smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_handle_nullable(_handle);
   smoke_GenericTypesWithBasicTypes_StructWithGenerics_releaseFfiHandle(_handle);
   return result;
 }
-GenericTypesWithBasicTypes_StructWithGenerics smoke_GenericTypesWithBasicTypes_StructWithGenerics_fromFfi_nullable(Pointer<Void> handle) {
+GenericTypesWithBasicTypes_StructWithGenerics? smoke_GenericTypesWithBasicTypes_StructWithGenerics_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_GenericTypesWithBasicTypes_StructWithGenerics_get_value_nullable(handle);
   final result = smoke_GenericTypesWithBasicTypes_StructWithGenerics_fromFfi(_handle);
@@ -122,11 +122,11 @@ class GenericTypesWithBasicTypes$Impl extends __lib.NativeBase implements Generi
   GenericTypesWithBasicTypes$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_GenericTypesWithBasicTypes_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   List<int> methodWithList(List<int> input) {
@@ -284,8 +284,8 @@ Pointer<Void> smoke_GenericTypesWithBasicTypes_toFfi(GenericTypesWithBasicTypes 
 GenericTypesWithBasicTypes smoke_GenericTypesWithBasicTypes_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as GenericTypesWithBasicTypes;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is GenericTypesWithBasicTypes) return instance;
   final _copied_handle = _smoke_GenericTypesWithBasicTypes_copy_handle(handle);
   final result = GenericTypesWithBasicTypes$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -293,9 +293,9 @@ GenericTypesWithBasicTypes smoke_GenericTypesWithBasicTypes_fromFfi(Pointer<Void
 }
 void smoke_GenericTypesWithBasicTypes_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_GenericTypesWithBasicTypes_release_handle(handle);
-Pointer<Void> smoke_GenericTypesWithBasicTypes_toFfi_nullable(GenericTypesWithBasicTypes value) =>
+Pointer<Void> smoke_GenericTypesWithBasicTypes_toFfi_nullable(GenericTypesWithBasicTypes? value) =>
   value != null ? smoke_GenericTypesWithBasicTypes_toFfi(value) : Pointer<Void>.fromAddress(0);
-GenericTypesWithBasicTypes smoke_GenericTypesWithBasicTypes_fromFfi_nullable(Pointer<Void> handle) =>
+GenericTypesWithBasicTypes? smoke_GenericTypesWithBasicTypes_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_GenericTypesWithBasicTypes_fromFfi(handle) : null;
 void smoke_GenericTypesWithBasicTypes_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_GenericTypesWithBasicTypes_release_handle(handle);

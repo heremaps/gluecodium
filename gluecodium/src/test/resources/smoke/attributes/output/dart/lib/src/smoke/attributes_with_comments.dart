@@ -76,14 +76,14 @@ final _smoke_AttributesWithComments_SomeStruct_get_value_nullable = __lib.catchA
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_AttributesWithComments_SomeStruct_get_value_nullable'));
-Pointer<Void> smoke_AttributesWithComments_SomeStruct_toFfi_nullable(AttributesWithComments_SomeStruct value) {
+Pointer<Void> smoke_AttributesWithComments_SomeStruct_toFfi_nullable(AttributesWithComments_SomeStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_AttributesWithComments_SomeStruct_toFfi(value);
   final result = _smoke_AttributesWithComments_SomeStruct_create_handle_nullable(_handle);
   smoke_AttributesWithComments_SomeStruct_releaseFfiHandle(_handle);
   return result;
 }
-AttributesWithComments_SomeStruct smoke_AttributesWithComments_SomeStruct_fromFfi_nullable(Pointer<Void> handle) {
+AttributesWithComments_SomeStruct? smoke_AttributesWithComments_SomeStruct_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_AttributesWithComments_SomeStruct_get_value_nullable(handle);
   final result = smoke_AttributesWithComments_SomeStruct_fromFfi(_handle);
@@ -106,11 +106,11 @@ class AttributesWithComments$Impl extends __lib.NativeBase implements Attributes
   AttributesWithComments$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_AttributesWithComments_release_handle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   veryFun() {
@@ -155,8 +155,8 @@ Pointer<Void> smoke_AttributesWithComments_toFfi(AttributesWithComments value) =
 AttributesWithComments smoke_AttributesWithComments_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token] as AttributesWithComments;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is AttributesWithComments) return instance;
   final _copied_handle = _smoke_AttributesWithComments_copy_handle(handle);
   final result = AttributesWithComments$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -164,9 +164,9 @@ AttributesWithComments smoke_AttributesWithComments_fromFfi(Pointer<Void> handle
 }
 void smoke_AttributesWithComments_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_AttributesWithComments_release_handle(handle);
-Pointer<Void> smoke_AttributesWithComments_toFfi_nullable(AttributesWithComments value) =>
+Pointer<Void> smoke_AttributesWithComments_toFfi_nullable(AttributesWithComments? value) =>
   value != null ? smoke_AttributesWithComments_toFfi(value) : Pointer<Void>.fromAddress(0);
-AttributesWithComments smoke_AttributesWithComments_fromFfi_nullable(Pointer<Void> handle) =>
+AttributesWithComments? smoke_AttributesWithComments_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_AttributesWithComments_fromFfi(handle) : null;
 void smoke_AttributesWithComments_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_AttributesWithComments_release_handle(handle);

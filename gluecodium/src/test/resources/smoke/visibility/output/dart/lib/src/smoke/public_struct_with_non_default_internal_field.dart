@@ -73,14 +73,14 @@ final _smoke_PublicStructWithNonDefaultInternalField_get_value_nullable = __lib.
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PublicStructWithNonDefaultInternalField_get_value_nullable'));
-Pointer<Void> smoke_PublicStructWithNonDefaultInternalField_toFfi_nullable(PublicStructWithNonDefaultInternalField value) {
+Pointer<Void> smoke_PublicStructWithNonDefaultInternalField_toFfi_nullable(PublicStructWithNonDefaultInternalField? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_PublicStructWithNonDefaultInternalField_toFfi(value);
   final result = _smoke_PublicStructWithNonDefaultInternalField_create_handle_nullable(_handle);
   smoke_PublicStructWithNonDefaultInternalField_releaseFfiHandle(_handle);
   return result;
 }
-PublicStructWithNonDefaultInternalField smoke_PublicStructWithNonDefaultInternalField_fromFfi_nullable(Pointer<Void> handle) {
+PublicStructWithNonDefaultInternalField? smoke_PublicStructWithNonDefaultInternalField_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_PublicStructWithNonDefaultInternalField_get_value_nullable(handle);
   final result = smoke_PublicStructWithNonDefaultInternalField_fromFfi(_handle);

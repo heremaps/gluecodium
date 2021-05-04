@@ -50,14 +50,14 @@ final _smoke_StructWithInterface_get_value_nullable = __lib.catchArgumentError((
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithInterface_get_value_nullable'));
-Pointer<Void> smoke_StructWithInterface_toFfi_nullable(StructWithInterface value) {
+Pointer<Void> smoke_StructWithInterface_toFfi_nullable(StructWithInterface? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_StructWithInterface_toFfi(value);
   final result = _smoke_StructWithInterface_create_handle_nullable(_handle);
   smoke_StructWithInterface_releaseFfiHandle(_handle);
   return result;
 }
-StructWithInterface smoke_StructWithInterface_fromFfi_nullable(Pointer<Void> handle) {
+StructWithInterface? smoke_StructWithInterface_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_StructWithInterface_get_value_nullable(handle);
   final result = smoke_StructWithInterface_fromFfi(_handle);
