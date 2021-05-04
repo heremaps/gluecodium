@@ -22,6 +22,7 @@ package com.here.gluecodium.generator.dart
 import com.here.gluecodium.generator.dart.DartImport.ImportType
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.IMPORT_PATH_NAME
 import com.here.gluecodium.model.lime.LimeGenericType
@@ -44,14 +45,15 @@ internal class DartImportResolver(
     override fun resolveElementImports(limeElement: LimeElement): List<DartImport> =
         when (limeElement) {
             is LimeTypeAlias -> emptyList()
-            is LimeTypeRef -> resolveTypeImports(limeElement.type) +
+            is LimeTypeRef -> resolveTypeImports(limeElement.type) + resolveConversionImports(limeElement.type) +
                 listOfNotNull(lazyListImport.takeIf { limeElement.attributes.have(LimeAttributeType.OPTIMIZED) })
-            is LimeType -> resolveTypeImports(limeElement)
+            is LimeType -> resolveTypeImports(limeElement) + resolveConversionImports(limeElement)
+            is LimeConstant -> resolveTypeImports(limeElement.typeRef.type)
             is LimeNamedElement -> listOf(createImport(limeElement))
             else -> emptyList()
         }
 
-    private fun resolveTypeImports(limeType: LimeType) =
+    private fun resolveTypeImports(limeType: LimeType): List<DartImport> =
         when (val actualType = limeType.actualType) {
             is LimeBasicType -> resolveBasicTypeImports(actualType)
             is LimeGenericType -> resolveGenericTypeImports(actualType)
@@ -61,6 +63,18 @@ internal class DartImportResolver(
             )
         }
 
+    private fun resolveConversionImports(limeType: LimeType): List<DartImport> =
+        when (val actualType = limeType.actualType) {
+            is LimeBasicType -> listOf(builtInTypesConversionImport)
+            is LimeList ->
+                resolveConversionImports(actualType.elementType.type) + createConversionImport("generic_types")
+            is LimeSet ->
+                resolveConversionImports(actualType.elementType.type) + createConversionImport("generic_types")
+            is LimeMap -> resolveConversionImports(actualType.keyType.type) +
+                resolveConversionImports(actualType.valueType.type) + createConversionImport("generic_types")
+            else -> emptyList()
+        }
+
     private fun createImport(limeElement: LimeNamedElement): DartImport {
         val filePath = limeElement.path.head.joinToString("/")
         val fileName = nameResolver.resolveFileName(getTopElement(limeElement))
@@ -68,21 +82,20 @@ internal class DartImportResolver(
     }
 
     private fun resolveBasicTypeImports(limeType: LimeBasicType) =
-        listOf(builtInTypesConversionImport) +
-            when (limeType.typeId) {
-                LimeBasicType.TypeId.BLOB ->
-                    listOf(DartImport("typed_data", importType = ImportType.SYSTEM))
-                LimeBasicType.TypeId.LOCALE -> listOf(DartImport("intl/locale"))
-                else -> emptyList()
-            }
+        when (limeType.typeId) {
+            LimeBasicType.TypeId.BLOB ->
+                listOf(DartImport("typed_data", importType = ImportType.SYSTEM))
+            LimeBasicType.TypeId.LOCALE -> listOf(DartImport("intl/locale"))
+            else -> emptyList()
+        }
 
     private fun resolveGenericTypeImports(limeType: LimeGenericType) =
         when (limeType) {
-            is LimeList -> resolveElementImports(limeType.elementType)
-            is LimeSet -> resolveElementImports(limeType.elementType)
-            is LimeMap -> resolveElementImports(limeType.keyType) + resolveElementImports(limeType.valueType)
+            is LimeList -> resolveTypeImports(limeType.elementType.type)
+            is LimeSet -> resolveTypeImports(limeType.elementType.type)
+            is LimeMap -> resolveTypeImports(limeType.keyType.type) + resolveTypeImports(limeType.valueType.type)
             else -> emptyList()
-        } + createConversionImport("generic_types")
+        }
 
     private fun getTopElement(limeElement: LimeNamedElement) =
         generateSequence(limeElement) {
