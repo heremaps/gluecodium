@@ -22,11 +22,33 @@ package com.here.gluecodium.generator.swift
 import com.here.gluecodium.generator.common.ImportsResolver
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeExternalDescriptor
-import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeGenericType
+import com.here.gluecodium.model.lime.LimeList
+import com.here.gluecodium.model.lime.LimeMap
+import com.here.gluecodium.model.lime.LimeSet
+import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class SwiftImportsResolver : ImportsResolver<String> {
-    override fun resolveElementImports(limeElement: LimeElement) =
-        listOfNotNull(
-            (limeElement as? LimeNamedElement)?.external?.swift?.get(LimeExternalDescriptor.FRAMEWORK_NAME)
-        ).filter { it.isNotBlank() }
+
+    override fun resolveElementImports(limeElement: LimeElement): List<String> =
+        when (limeElement) {
+            is LimeTypeRef -> resolveElementImports(limeElement.type)
+            is LimeGenericType -> resolveGenericTypeImports(limeElement)
+            is LimeType -> listOfNotNull(getFrameworkName(limeElement))
+            else -> emptyList()
+        }
+
+    private fun getFrameworkName(limeType: LimeType): String? {
+        val frameworkName = limeType.external?.swift?.get(LimeExternalDescriptor.FRAMEWORK_NAME)
+        return if (frameworkName.isNullOrBlank()) null else frameworkName
+    }
+
+    private fun resolveGenericTypeImports(limeType: LimeGenericType) =
+        when (limeType) {
+            is LimeList -> resolveElementImports(limeType.elementType)
+            is LimeSet -> resolveElementImports(limeType.elementType)
+            is LimeMap -> resolveElementImports(limeType.keyType) + resolveElementImports(limeType.valueType)
+            else -> emptyList()
+        }
 }
