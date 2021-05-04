@@ -34,6 +34,7 @@ class ThreadedListenerImpl implements ThreadedListener {
   @override
   int onEvent(String message) {
     completer.complete(message);
+    return 0;
   }
 
   @override
@@ -46,9 +47,9 @@ class ThreadedListenerImpl implements ThreadedListener {
   void release() {}
 }
 
-void main(String library_name) {
+void main(List<String> args) {
   setUp(() {
-    LibraryContext.init(IsolateOrigin.main, nativeLibraryPath: library_name);
+    LibraryContext.init(IsolateOrigin.main, nativeLibraryPath: args[0]);
   });
   tearDown(() {
     LibraryContext.release();
