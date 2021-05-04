@@ -22,11 +22,7 @@ package com.here.gluecodium.generator.swift
 import com.here.gluecodium.common.LimeTypeRefsVisitor
 import com.here.gluecodium.generator.common.ImportsCollector
 import com.here.gluecodium.generator.common.ImportsResolver
-import com.here.gluecodium.model.lime.LimeGenericType
-import com.here.gluecodium.model.lime.LimeList
-import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
-import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
@@ -41,17 +37,9 @@ internal class SwiftImportsCollector(private val importsResolver: ImportsResolve
             .flatMap { importsResolver.resolveElementImports(it) }
     }
 
-    private class ReferredTypesCollector : LimeTypeRefsVisitor<List<LimeType>>() {
-        override fun visitTypeRef(parentElement: LimeNamedElement, limeTypeRef: LimeTypeRef?): List<LimeType> =
-            when (val limeType = limeTypeRef?.type?.actualType) {
-                null -> emptyList()
-                !is LimeGenericType -> listOf(limeType)
-                is LimeList -> listOf(limeType) + visitTypeRef(parentElement, limeType.elementType)
-                is LimeSet -> listOf(limeType) + visitTypeRef(parentElement, limeType.elementType)
-                is LimeMap -> listOf(limeType) + visitTypeRef(parentElement, limeType.keyType) +
-                    visitTypeRef(parentElement, limeType.valueType)
-                else -> emptyList()
-            }
+    private class ReferredTypesCollector : LimeTypeRefsVisitor<List<LimeTypeRef>>() {
+        override fun visitTypeRef(parentElement: LimeNamedElement, limeTypeRef: LimeTypeRef?) =
+            listOfNotNull(limeTypeRef)
 
         fun getAllReferredTypes(types: List<LimeType>) = traverseTypes(types).flatten()
     }
