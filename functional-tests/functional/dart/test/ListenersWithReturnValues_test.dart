@@ -60,8 +60,8 @@ class TestListener extends ListenerWithReturn {
 }
 
 void main() {
-  ListenerWithReturn envelope;
-  MessageDelivery delivery;
+  late ListenerWithReturn envelope;
+  late MessageDelivery delivery;
   setUp(() {
     envelope = TestListener();
     delivery = MessageDelivery();

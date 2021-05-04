@@ -26,7 +26,7 @@ import "../test_suite.dart";
 final _testSuite = TestSuite("Nullable");
 
 void main() {
-  NullableInterface instance;
+  late NullableInterface instance;
   setUp(() {
     instance = NullableInterface();
   });
@@ -80,7 +80,7 @@ void main() {
     expect(result.stringField, "");
     expect(result.boolField, isFalse);
     expect(result.doubleField, 0.0);
-    expect(result.structField.stringField, "");
+    expect(result.structField?.stringField, "");
     expect(result.enumField, NullableInterfaceSomeEnum.off);
     expect(result.arrayField, isEmpty);
     expect(result.inlineArrayField, isEmpty);
@@ -105,7 +105,7 @@ void main() {
     expect(result.stringField, "Foo");
     expect(result.boolField, isTrue);
     expect(result.doubleField, 3.14);
-    expect(result.structField.stringField, "Bar");
+    expect(result.structField?.stringField, "Bar");
     expect(result.enumField, NullableInterfaceSomeEnum.on);
     expect(result.arrayField, ["Baz"]);
     expect(result.inlineArrayField, ["Fizz"]);
@@ -234,16 +234,14 @@ void main() {
     expect(result, isNull);
   });
   _testSuite.test("Nullable Struct round trip with zero", () {
-    final result =
-        instance.methodWithSomeStruct(NullableInterfaceSomeStruct(""));
+    final result = instance.methodWithSomeStruct(NullableInterfaceSomeStruct(""));
 
-    expect(result.stringField, "");
+    expect(result?.stringField, "");
   });
   _testSuite.test("Nullable Struct round trip with non-zero", () {
-    final result =
-        instance.methodWithSomeStruct(NullableInterfaceSomeStruct("Foo"));
+    final result = instance.methodWithSomeStruct(NullableInterfaceSomeStruct("Foo"));
 
-    expect(result.stringField, "Foo");
+    expect(result?.stringField, "Foo");
   });
   _testSuite.test("Nullable Enum round trip with null", () {
     final result = instance.methodWithSomeEnum(null);
