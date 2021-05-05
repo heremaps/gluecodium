@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed missing imports for constants in Dart.
+
 ## 9.0.0
 Release date: 2021-05-05
 ### Features:

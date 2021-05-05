@@ -55,7 +55,10 @@ internal class GenericImportsCollector<T>(
             if (collectTypeAliasImports)
                 allTypes.filterIsInstance<LimeTypeAlias>().flatMap { importsResolver.resolveElementImports(it.typeRef) }
             else emptyList()
-        return typeRefImports + ownImports + parentImports + typeAliasImports
+        val constantImports = allTypes.filterIsInstance<LimeContainer>().flatMap { it.constants }
+            .flatMap { importsResolver.resolveElementImports(it) }
+
+        return typeRefImports + ownImports + parentImports + typeAliasImports + constantImports
     }
 
     private fun collectTypeRefs(allTypes: List<LimeType>): List<LimeTypeRef> {
@@ -65,7 +68,7 @@ internal class GenericImportsCollector<T>(
         val lambdas = allTypes.filterIsInstance<LimeLambda>()
         val exceptions = allTypes.filterIsInstance<LimeException>()
         val structs = allTypes.filterIsInstance<LimeStruct>()
-        return structs.flatMap { it.fields + it.constants }.map { it.typeRef } +
+        return structs.flatMap { it.fields }.map { it.typeRef } +
             functions.flatMap { collectTypeRefs(it) } + properties.map { it.typeRef } +
             lambdas.flatMap { collectTypeRefs(it.asFunction()) } +
             exceptions.map { it.errorType }
