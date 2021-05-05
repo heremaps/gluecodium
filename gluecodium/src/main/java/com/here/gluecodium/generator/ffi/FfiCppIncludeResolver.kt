@@ -28,6 +28,7 @@ import com.here.gluecodium.generator.cpp.CppLibraryIncludes
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
+import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
@@ -53,7 +54,7 @@ internal class FfiCppIncludeResolver(
     override fun resolveElementImports(limeElement: LimeElement): List<Include> =
         when (limeElement) {
             is LimeTypeRef -> getTypeRefIncludes(limeElement)
-            is LimeTypesCollection, is LimeException, is LimeTypeAlias -> emptyList()
+            is LimeTypesCollection, is LimeException, is LimeTypeAlias, is LimeConstant -> emptyList()
             is LimeInterface -> getTypeIncludes(limeElement) + getThrownTypeIncludes(limeElement) +
                 getContainerIncludes(limeElement) + proxyIncludes
             is LimeContainer -> getTypeIncludes(limeElement) + getContainerIncludes(limeElement)

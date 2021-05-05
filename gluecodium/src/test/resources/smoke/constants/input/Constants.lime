@@ -66,3 +66,8 @@ class CollectionConstants {
     const mapConstant: Map<String, String> = ["foo": "bar"]
     const mixedConstant: Map<List<String>, Set<String>> = [["foo"]: ["bar"]]
 }
+
+@Java(Skip) @Swift(Skip)
+types CrossFileConstants {
+    const fooBar: Constants.StateEnum = Constants.StateEnum.ON
+}
