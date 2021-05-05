@@ -143,7 +143,7 @@ internal class DartGenerator : Generator {
             DartImportResolver(limeModel.referenceMap, dartNameResolver, "$libraryName/$SRC_DIR_SUFFIX")
         val declarationImportResolver = DartDeclarationImportResolver("$libraryName/$SRC_DIR_SUFFIX")
         val importsCollector =
-            GenericImportsCollector(importResolver, collectTypeRefImports = true, collectParentImports = true)
+            GenericImportsCollector(importResolver, collectTypeRefImports = true, parentTypeFilter = { true })
         val declarationImportsCollector = GenericImportsCollector(declarationImportResolver, collectOwnImports = true)
 
         val includeResolver = FfiCppIncludeResolver(limeModel.referenceMap, cppNameRules, internalNamespace)

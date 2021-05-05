@@ -24,6 +24,7 @@ import com.here.gluecodium.generator.cbridge.CBridgeNameRules.CBRIDGE_INTERNAL
 import com.here.gluecodium.generator.cbridge.CBridgeNameRules.CBRIDGE_PUBLIC
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Generator
+import com.here.gluecodium.generator.common.GenericImportsCollector
 import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.OptimizedListsCollector
@@ -41,6 +42,7 @@ import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeGenericType
+import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
@@ -66,8 +68,20 @@ internal class CBridgeGenerator(
     private val cppIncludeResolver = CppIncludeResolver(limeReferenceMap, cppNameRules, internalNamespace)
     private val fileNames = CBridgeFileNames(rootNamespace)
     private val headerIncludeCollector =
-        CBridgeIncludeCollector(CBridgeHeaderIncludeResolver(limeReferenceMap, fileNames))
-    private val implIncludeCollector = CBridgeImplIncludeCollector(CBridgeImplIncludeResolver(cppIncludeResolver))
+        GenericImportsCollector(
+            CBridgeHeaderIncludeResolver(limeReferenceMap, fileNames),
+            skipAttribute = LimeAttributeType.SWIFT,
+            collectTypeRefImports = true,
+            collectOwnImports = true
+        )
+    private val implIncludeCollector =
+        GenericImportsCollector(
+            CBridgeImplIncludeResolver(cppIncludeResolver),
+            skipAttribute = LimeAttributeType.SWIFT,
+            collectTypeRefImports = true,
+            collectOwnImports = true,
+            parentTypeFilter = { it is LimeInterface }
+        )
     private val predicates = CBridgeGeneratorPredicates(cppNameResolver).predicates
     val genericTypesCollector = GenericTypesCollector(nameResolver)
 
