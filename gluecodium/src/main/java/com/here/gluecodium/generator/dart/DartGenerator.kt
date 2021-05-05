@@ -28,6 +28,7 @@ import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.GeneratedFile.SourceSet.COMMON
 import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.GeneratorOptions
+import com.here.gluecodium.generator.common.GenericImportsCollector
 import com.here.gluecodium.generator.common.ImportsCollector
 import com.here.gluecodium.generator.common.ImportsResolver
 import com.here.gluecodium.generator.common.Include
@@ -140,12 +141,12 @@ internal class DartGenerator : Generator {
             DartImportResolver(limeModel.referenceMap, dartNameResolver, "$libraryName/$SRC_DIR_SUFFIX")
         val declarationImportResolver = DartDeclarationImportResolver("$libraryName/$SRC_DIR_SUFFIX")
         val importsCollector =
-            DartImportsCollector(importResolver, collectTypeRefImports = true, collectParentImports = true)
-        val declarationImportsCollector = DartImportsCollector(declarationImportResolver, collectOwnImports = true)
+            GenericImportsCollector(importResolver, collectTypeRefImports = true, collectParentImports = true)
+        val declarationImportsCollector = GenericImportsCollector(declarationImportResolver, collectOwnImports = true)
 
         val includeResolver = FfiCppIncludeResolver(limeModel.referenceMap, cppNameRules, internalNamespace)
         val includeCollector =
-            DartImportsCollector(includeResolver, collectTypeRefImports = true, collectOwnImports = true)
+            GenericImportsCollector(includeResolver, collectTypeRefImports = true, collectOwnImports = true)
 
         val exportsCollector = mutableMapOf<List<String>, MutableList<DartExport>>()
         val typeRepositoriesCollector = mutableListOf<LimeContainerWithInheritance>()

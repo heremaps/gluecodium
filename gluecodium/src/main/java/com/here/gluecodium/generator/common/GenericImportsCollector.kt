@@ -17,10 +17,8 @@
  * License-Filename: LICENSE
  */
 
-package com.here.gluecodium.generator.dart
+package com.here.gluecodium.generator.common
 
-import com.here.gluecodium.generator.common.ImportsCollector
-import com.here.gluecodium.generator.common.ImportsResolver
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeException
@@ -29,14 +27,16 @@ import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 
-internal class DartImportsCollector<T>(
+internal class GenericImportsCollector<T>(
     private val importsResolver: ImportsResolver<T>,
     private val collectTypeRefImports: Boolean = false,
     private val collectOwnImports: Boolean = false,
-    private val collectParentImports: Boolean = false
+    private val collectParentImports: Boolean = false,
+    private val collectTypeAliasImports: Boolean = false
 ) : ImportsCollector<T> {
 
     override fun collectImports(limeElement: LimeNamedElement): List<T> {
@@ -51,7 +51,11 @@ internal class DartImportsCollector<T>(
             if (collectParentImports)
                 collectParentTypeRefs(limeElement, allTypes).flatMap { importsResolver.resolveElementImports(it) }
             else emptyList()
-        return typeRefImports + ownImports + parentImports
+        val typeAliasImports =
+            if (collectTypeAliasImports)
+                allTypes.filterIsInstance<LimeTypeAlias>().flatMap { importsResolver.resolveElementImports(it.typeRef) }
+            else emptyList()
+        return typeRefImports + ownImports + parentImports + typeAliasImports
     }
 
     private fun collectTypeRefs(allTypes: List<LimeType>): List<LimeTypeRef> {
