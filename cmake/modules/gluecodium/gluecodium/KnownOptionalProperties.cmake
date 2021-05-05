@@ -116,6 +116,14 @@ _gluecodium_define_target_property(
 )
 
 _gluecodium_define_target_property(
+  GLUECODIUM_CPP_NAMESPACE
+  BRIEF_DOCS "C++ namespace for public (API) headers."
+  FULL_DOCS
+    "The C++ namespace to use in public headers. For example \"my::module\" or \"my.module\"."
+    "This property is initialized by the value of the GLUECODIUM_CPP_NAMESPACE_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
+)
+
+_gluecodium_define_target_property(
   GLUECODIUM_CPP_INTERNAL_NAMESPACE
   BRIEF_DOCS "The dot separated C++ namespace to use mostly in COMMON sourceset."
   FULL_DOCS
