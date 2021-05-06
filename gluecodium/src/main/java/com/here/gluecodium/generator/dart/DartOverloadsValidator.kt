@@ -22,6 +22,7 @@ package com.here.gluecodium.generator.dart
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.model.lime.LimeAttributeType.DART
 import com.here.gluecodium.model.lime.LimeAttributeValueType.DEFAULT
+import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeNamedElement
@@ -38,15 +39,14 @@ internal class DartOverloadsValidator(
         if (werror) LimeLogger::error else LimeLogger::warning
 
     fun validate(limeElements: List<LimeNamedElement>): Boolean {
-        val validationResults = limeElements
-            .filterIsInstance<LimeContainerWithInheritance>()
-            .map { validateContainer(it) }
+        val validationResults = limeElements.filterIsInstance<LimeContainer>().map { validateContainer(it) }
 
         return !werror || !validationResults.contains(false)
     }
 
-    private fun validateContainer(limeContainer: LimeContainerWithInheritance): Boolean {
-        val allFunctions = limeContainer.functions + limeContainer.inheritedFunctions
+    private fun validateContainer(limeContainer: LimeContainer): Boolean {
+        val allFunctions = limeContainer.functions +
+            ((limeContainer as? LimeContainerWithInheritance)?.inheritedFunctions ?: emptyList())
         val constructors = allFunctions.filter { it.isConstructor }
 
         val overloadedFunctions = (allFunctions - constructors)

@@ -3,6 +3,7 @@
 ## Unreleased
 ### Bug fixes:
   * Fixed missing imports for constants in Dart.
+  * Added missing Dart overloads validation for functions/constructors of structs.
 
 ## 9.0.0
 Release date: 2021-05-05
