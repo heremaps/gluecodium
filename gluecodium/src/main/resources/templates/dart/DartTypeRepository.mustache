@@ -24,9 +24,6 @@
 {{>dart/DartImport}}
 {{/imports}}
 
-import 'dart:ffi';
-import 'package:ffi/ffi.dart';
-
 final Map<String, Function> typeRepository = { {{#typeRepositories}}
   "{{resolveName "Ffi"}}": (handle) => {{resolveName}}$Impl(handle),
 {{/typeRepositories}} };

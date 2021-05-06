@@ -23,15 +23,15 @@ typedef {{resolveName}} = {{>dart/DartLambdaType}};
 
 // {{resolveName}} "private" section, not exported.
 
-final _{{resolveName "Ffi"}}_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _{{resolveName "FfiCamelCase"}}CopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('{{libraryName}}_{{resolveName "Ffi"}}_copy_handle'));
-final _{{resolveName "Ffi"}}_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _{{resolveName "FfiCamelCase"}}ReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('{{libraryName}}_{{resolveName "Ffi"}}_release_handle'));
-final _{{resolveName "Ffi"}}_create_proxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _{{resolveName "FfiCamelCase"}}CreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
     Pointer<Void> Function(int, int, Pointer, Pointer)
   >('{{libraryName}}_{{resolveName "Ffi"}}_create_proxy'));
@@ -41,7 +41,7 @@ class {{resolveName}}$Impl {
   final Pointer<Void> handle;
   {{resolveName}}$Impl(this.handle);
 
-  void release() => _{{resolveName "Ffi"}}_release_handle(handle);
+  void release() => _{{resolveName "FfiCamelCase"}}ReleaseHandle(handle);
 
 {{#set parent=this}}{{#asFunction}}
 {{prefixPartial "dart/DartFunction" "  "}}
@@ -53,20 +53,20 @@ int _{{resolveName parent}}_{{resolveName}}_static({{!!
 }}int _token{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
 }}{{#unless returnType.isVoid}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}> _result{{/unless}}) {
-  {{#unless returnType.isVoid}}{{resolveName returnType.typeRef}} _result_object;{{/unless}}
+  {{#unless returnType.isVoid}}{{resolveName returnType.typeRef}} _resultObject;{{/unless}}
   try {
-    {{#unless returnType.isVoid}}_result_object = {{/unless}}{{!!
+    {{#unless returnType.isVoid}}_resultObject = {{/unless}}{{!!
   }}(__lib.instanceCache[_token] as {{resolveName parent}})({{#parameters}}{{!!
   }}{{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}}){{#if iter.hasNext}}, {{/if}}{{!!
   }}{{/parameters}});{{#unless returnType.isVoid}}
-    _result.value = {{#returnType}}{{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}{{/returnType}}(_result_object);{{/unless}}
+    _result.value = {{#returnType}}{{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}{{/returnType}}(_resultObject);{{/unless}}
   } finally {
 {{#parameters}}
     {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}});
 {{/parameters}}{{#instanceOf returnType.typeRef.type.actualType "LimeClass"}}
-    if (_result_object != null) _result_object.release();
+    if (_resultObject != null) _resultObject.release();
 {{/instanceOf}}{{#instanceOf returnType.typeRef.type.actualType "LimeInterface"}}
-    if (_result_object != null) _result_object.release();
+    if (_resultObject != null) _resultObject.release();
 {{/instanceOf}}
   }
   return 0;
@@ -74,7 +74,7 @@ int _{{resolveName parent}}_{{resolveName}}_static({{!!
 {{/asFunction}}{{/set}}
 
 Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
-  final result = _{{resolveName "Ffi"}}_create_proxy(
+  final result = _{{resolveName "FfiCamelCase"}}CreateProxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,{{#set parent=this}}{{#asFunction}}
@@ -85,7 +85,7 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
 }
 
 {{resolveName}} {{resolveName "Ffi"}}_fromFfi(Pointer<Void> handle) {
-  final _impl = {{resolveName}}$Impl(_{{resolveName "Ffi"}}_copy_handle(handle));
+  final _impl = {{resolveName}}$Impl(_{{resolveName "FfiCamelCase"}}CopyHandle(handle));
   return ({{#asFunction}}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{/asFunction}}){{!!
   }} {
     final _result =_impl.{{#asFunction}}{{resolveName visibility}}{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{/asFunction}});
@@ -95,7 +95,7 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
 }
 
 void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) =>
-  _{{resolveName "Ffi"}}_release_handle(handle);
+  _{{resolveName "FfiCamelCase"}}ReleaseHandle(handle);
 
 // Nullable {{resolveName}}
 

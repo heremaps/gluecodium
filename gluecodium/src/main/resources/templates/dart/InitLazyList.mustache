@@ -22,10 +22,10 @@ __lib.LazyList(
   {{varName}},
   _{{resolveName container "Ffi"}}_{{resolveName elementType "Ffi"}}LazyList_get_size({{varName}}),
   (index) {
-    final __element_handle = _{{resolveName container "Ffi"}}_{{resolveName elementType "Ffi"}}LazyList_get({{varName}}, index);
-    final __element_result = {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(__element_handle);
-    {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(__element_handle);
-    return __element_result;
+    final __elementHandle = _{{resolveName container "Ffi"}}_{{resolveName elementType "Ffi"}}LazyList_get({{varName}}, index);
+    final __elementResult = {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(__elementHandle);
+    {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(__elementHandle);
+    return __elementResult;
   },
   () => _{{resolveName container "Ffi"}}_{{resolveName elementType "Ffi"}}LazyList_release_handle({{varName}})
 )

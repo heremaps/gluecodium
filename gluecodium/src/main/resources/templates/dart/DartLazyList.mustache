@@ -30,7 +30,7 @@ class _LazyIterator<E> extends Iterator<E> {
   int position;
 
   _LazyIterator(this.list, [int start = -1, int step = 1])
-    : step = step, length = list.length, position = start {}
+    : step = step, length = list.length, position = start;
 
   bool moveNext() {
     position += step;
@@ -49,7 +49,7 @@ class LazyList<E> extends Iterable<E> implements List<E> {
   final E Function(int) _elementGetter;
   final void Function() _releaser;
 
-  LazyList(this.handle, int length, this._elementGetter, this._releaser) : _length = length {}
+  LazyList(this.handle, int length, this._elementGetter, this._releaser) : _length = length;
 
   void release() => _releaser();
 
@@ -66,7 +66,7 @@ class LazyList<E> extends Iterable<E> implements List<E> {
   List<E> operator +(List<E> other) => cast<E>() + other;
   Map<int, E> asMap() => cast<E>().asMap();
   Iterable<E> getRange(int start, int end) => cast<E>().getRange(start, end);
-  List<E> sublist(int start, [int end = null]) => cast<E>().sublist(start, end);
+  List<E> sublist(int start, [int end]) => cast<E>().sublist(start, end);
   Iterable<E> get reversed => cast<E>().reversed;
 
   // Methods relying on the iterator
@@ -81,9 +81,9 @@ class LazyList<E> extends Iterable<E> implements List<E> {
     return -1;
   }
 
-  int lastIndexOf(E element, [int start = null]) => lastIndexWhere((it) => element == it, start);
+  int lastIndexOf(E element, [int start]) => lastIndexWhere((it) => element == it, start);
 
-  int lastIndexWhere(bool test(E element), [int start = null]) {
+  int lastIndexWhere(bool test(E element), [int start]) {
     final iterator = _LazyIterator(this, start ?? length, -1);
     while (iterator.moveNext()) {
       if (test(iterator.current)) return iterator.position;
@@ -111,7 +111,7 @@ class LazyList<E> extends Iterable<E> implements List<E> {
   void setRange(int start, int end, Iterable<E> iterable, [int skipCount = 0]) => throw UnsupportedError(_cannotModify);
   void shuffle([Random random]) => throw UnsupportedError(_cannotModify);
   void sort([int compare(E a, E b)]) => throw UnsupportedError(_cannotModify);
-  void set first(E value) => throw UnsupportedError(_cannotModify);
-  void set last(E value) => throw UnsupportedError(_cannotModify);
+  set first(E value) => throw UnsupportedError(_cannotModify);
+  set last(E value) => throw UnsupportedError(_cannotModify);
   set length(int newLength) => throw UnsupportedError(_cannotModify);
 }

@@ -22,5 +22,5 @@
 bool operator ==(dynamic other) {
   if (identical(this, other)) return true;
   if (other is! {{resolveName}}$Impl) return false;
-  return __are_equal((this as {{resolveName}}$Impl).handle, other.handle) != 0;
+  return __areEqual((this as {{resolveName}}$Impl).handle, other.handle) != 0;
 }

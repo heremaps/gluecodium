@@ -6,6 +6,7 @@
   * Fixed missing imports for collections of "external" types in Swift.
   * Fixed missing imports for constants in Dart.
   * Added missing Dart overloads validation for functions/constructors of structs.
+  * Fixed Dart warnings from "dart analyze" static analysis tool.
 
 ## 8.13.1
 Release date: 2021-04-28
