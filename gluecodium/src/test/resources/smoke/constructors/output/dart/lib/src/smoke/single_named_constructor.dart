@@ -25,11 +25,11 @@ class SingleNamedConstructor$Impl extends __lib.NativeBase implements SingleName
   SingleNamedConstructor$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle.address == 0) return;
+    if (handle == null) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_SingleNamedConstructor_release_handle(handle);
-    handle = Pointer<Void>.fromAddress(0);
+    handle = null;
   }
   SingleNamedConstructor$Impl.fooBar() : super(_fooBar()) {
     __lib.ffi_cache_token(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
@@ -45,8 +45,8 @@ Pointer<Void> smoke_SingleNamedConstructor_toFfi(SingleNamedConstructor value) =
 SingleNamedConstructor smoke_SingleNamedConstructor_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is SingleNamedConstructor) return instance;
+  final instance = __lib.instanceCache[token] as SingleNamedConstructor;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_SingleNamedConstructor_copy_handle(handle);
   final result = SingleNamedConstructor$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -54,9 +54,9 @@ SingleNamedConstructor smoke_SingleNamedConstructor_fromFfi(Pointer<Void> handle
 }
 void smoke_SingleNamedConstructor_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_SingleNamedConstructor_release_handle(handle);
-Pointer<Void> smoke_SingleNamedConstructor_toFfi_nullable(SingleNamedConstructor? value) =>
+Pointer<Void> smoke_SingleNamedConstructor_toFfi_nullable(SingleNamedConstructor value) =>
   value != null ? smoke_SingleNamedConstructor_toFfi(value) : Pointer<Void>.fromAddress(0);
-SingleNamedConstructor? smoke_SingleNamedConstructor_fromFfi_nullable(Pointer<Void> handle) =>
+SingleNamedConstructor smoke_SingleNamedConstructor_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_SingleNamedConstructor_fromFfi(handle) : null;
 void smoke_SingleNamedConstructor_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_SingleNamedConstructor_release_handle(handle);

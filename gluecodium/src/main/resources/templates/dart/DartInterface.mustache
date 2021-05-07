@@ -25,11 +25,11 @@ abstract class {{resolveName}} {{#if this.parent}}implements {{resolveName this.
 
   factory {{resolveName}}.fromLambdas({
 {{#each inheritedFunctions functions}}{{#unless isStatic}}
-    required {{>dart/DartLambdaType}} lambda_{{resolveName}},
+    @required {{>dart/DartLambdaType}} lambda_{{resolveName}},
 {{/unless}}{{/each}}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#set property=this}}{{#getter}}
-    required {{>dart/DartLambdaType}} lambda_{{resolveName property}}_get{{#if setter}},
+    @required {{>dart/DartLambdaType}} lambda_{{resolveName property}}_get{{#if setter}},
 {{/if}}{{/getter}}{{#setter}}
-    required {{>dart/DartLambdaType}} lambda_{{resolveName property}}_set{{/setter}}{{#if iter.hasNext}},
+    @required {{>dart/DartLambdaType}} lambda_{{resolveName property}}_set{{/setter}}{{#if iter.hasNext}},
 {{/if}}{{/set}}{{/unless}}{{/each}}
 
   }) => {{resolveName}}$Lambdas(
@@ -149,11 +149,11 @@ class {{resolveName}}$Impl extends __lib.NativeBase implements {{resolveName}} {
 
   @override
   void release() {
-    if (handle.address == 0) return;
+    if (handle == null) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _{{resolveName "Ffi"}}_release_handle(handle);
-    handle = Pointer<Void>.fromAddress(0);
+    handle = null;
   }
 
 {{#set parent=this}}{{#each inheritedFunctions functions}}
@@ -177,7 +177,7 @@ int _{{resolveName parent}}_{{resolveName}}_static({{!!
 {{#if thrownType}}
   bool _error_flag = false;
 {{/if}}{{#unless returnType.isVoid}}
-  {{resolveName returnType.typeRef}}{{#unless returnType.typeRef.isNullable}}?{{/unless}} _result_object = null;{{/unless}}
+  {{resolveName returnType.typeRef}} _result_object = null;{{/unless}}
   try {
     {{#unless returnType.isVoid}}_result_object = {{/unless}}{{!!
   }}(__lib.instanceCache[_token] as {{resolveName parent}}).{{resolveName visibility}}{{resolveName}}({{#parameters}}{{!!
@@ -190,9 +190,9 @@ int _{{resolveName parent}}_{{resolveName}}_static({{!!
     final _error_object = e.error;
     _error.value = {{#set typeRef=exception.errorType call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_error_object);
 {{#instanceOf exception.errorType.type.actualType "LimeClass"}}
-    _error_object.release();
+    if (_error_object != null) _error_object.release();
 {{/instanceOf}}{{#instanceOf exception.errorType.type.actualType "LimeInterface"}}
-    _error_object.release();
+    if (_error_object != null) _error_object.release();
 {{/instanceOf}}
 {{/if}}
   } finally {
@@ -200,9 +200,9 @@ int _{{resolveName parent}}_{{resolveName}}_static({{!!
     {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}});
 {{/parameters}}{{!!
 }}{{#instanceOf returnType.typeRef.type.actualType "LimeClass"}}
-    _result_object?.release();
+    if (_result_object != null) _result_object.release();
 {{/instanceOf}}{{#instanceOf returnType.typeRef.type.actualType "LimeInterface"}}
-    _result_object?.release();
+    if (_result_object != null) _result_object.release();
 {{/instanceOf}}
   }
   return{{#if thrownType}} _error_flag ? 1 :{{/if}} 0;
@@ -249,8 +249,8 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
 {{resolveName}} {{resolveName "Ffi"}}_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is {{resolveName}}) return instance;
+  final instance = __lib.instanceCache[token] as {{resolveName}};
+  if (instance != null) return instance;
 
   final _type_id_handle = _{{resolveName "Ffi"}}_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
@@ -267,10 +267,10 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
 void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) =>
   _{{resolveName "Ffi"}}_release_handle(handle);
 
-Pointer<Void> {{resolveName "Ffi"}}_toFfi_nullable({{resolveName}}? value) =>
+Pointer<Void> {{resolveName "Ffi"}}_toFfi_nullable({{resolveName}} value) =>
   value != null ? {{resolveName "Ffi"}}_toFfi(value) : Pointer<Void>.fromAddress(0);
 
-{{resolveName}}? {{resolveName "Ffi"}}_fromFfi_nullable(Pointer<Void> handle) =>
+{{resolveName}} {{resolveName "Ffi"}}_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? {{resolveName "Ffi"}}_fromFfi(handle) : null;
 
 void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) =>

@@ -71,14 +71,14 @@ final _smoke_PlatformComments_SomeEnum_get_value_nullable = __lib.catchArgumentE
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_PlatformComments_SomeEnum_get_value_nullable'));
-Pointer<Void> smoke_PlatformComments_SomeEnum_toFfi_nullable(PlatformComments_SomeEnum? value) {
+Pointer<Void> smoke_PlatformComments_SomeEnum_toFfi_nullable(PlatformComments_SomeEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_PlatformComments_SomeEnum_toFfi(value);
   final result = _smoke_PlatformComments_SomeEnum_create_handle_nullable(_handle);
   smoke_PlatformComments_SomeEnum_releaseFfiHandle(_handle);
   return result;
 }
-PlatformComments_SomeEnum? smoke_PlatformComments_SomeEnum_fromFfi_nullable(Pointer<Void> handle) {
+PlatformComments_SomeEnum smoke_PlatformComments_SomeEnum_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_PlatformComments_SomeEnum_get_value_nullable(handle);
   final result = smoke_PlatformComments_SomeEnum_fromFfi(_handle);
@@ -141,14 +141,14 @@ final _smoke_PlatformComments_Something_get_value_nullable = __lib.catchArgument
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PlatformComments_Something_get_value_nullable'));
-Pointer<Void> smoke_PlatformComments_Something_toFfi_nullable(PlatformComments_Something? value) {
+Pointer<Void> smoke_PlatformComments_Something_toFfi_nullable(PlatformComments_Something value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_PlatformComments_Something_toFfi(value);
   final result = _smoke_PlatformComments_Something_create_handle_nullable(_handle);
   smoke_PlatformComments_Something_releaseFfiHandle(_handle);
   return result;
 }
-PlatformComments_Something? smoke_PlatformComments_Something_fromFfi_nullable(Pointer<Void> handle) {
+PlatformComments_Something smoke_PlatformComments_Something_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_PlatformComments_Something_get_value_nullable(handle);
   final result = smoke_PlatformComments_Something_fromFfi(_handle);
@@ -187,11 +187,11 @@ class PlatformComments$Impl extends __lib.NativeBase implements PlatformComments
   PlatformComments$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle.address == 0) return;
+    if (handle == null) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_PlatformComments_release_handle(handle);
-    handle = Pointer<Void>.fromAddress(0);
+    handle = null;
   }
   @override
   doNothing() {
@@ -256,8 +256,8 @@ Pointer<Void> smoke_PlatformComments_toFfi(PlatformComments value) =>
 PlatformComments smoke_PlatformComments_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is PlatformComments) return instance;
+  final instance = __lib.instanceCache[token] as PlatformComments;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_PlatformComments_copy_handle(handle);
   final result = PlatformComments$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -265,9 +265,9 @@ PlatformComments smoke_PlatformComments_fromFfi(Pointer<Void> handle) {
 }
 void smoke_PlatformComments_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_PlatformComments_release_handle(handle);
-Pointer<Void> smoke_PlatformComments_toFfi_nullable(PlatformComments? value) =>
+Pointer<Void> smoke_PlatformComments_toFfi_nullable(PlatformComments value) =>
   value != null ? smoke_PlatformComments_toFfi(value) : Pointer<Void>.fromAddress(0);
-PlatformComments? smoke_PlatformComments_fromFfi_nullable(Pointer<Void> handle) =>
+PlatformComments smoke_PlatformComments_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_PlatformComments_fromFfi(handle) : null;
 void smoke_PlatformComments_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_PlatformComments_release_handle(handle);

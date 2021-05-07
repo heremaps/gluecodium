@@ -73,14 +73,14 @@ final _smoke_StructWithEnums_get_value_nullable = __lib.catchArgumentError(() =>
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithEnums_get_value_nullable'));
-Pointer<Void> smoke_StructWithEnums_toFfi_nullable(StructWithEnums? value) {
+Pointer<Void> smoke_StructWithEnums_toFfi_nullable(StructWithEnums value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_StructWithEnums_toFfi(value);
   final result = _smoke_StructWithEnums_create_handle_nullable(_handle);
   smoke_StructWithEnums_releaseFfiHandle(_handle);
   return result;
 }
-StructWithEnums? smoke_StructWithEnums_fromFfi_nullable(Pointer<Void> handle) {
+StructWithEnums smoke_StructWithEnums_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_StructWithEnums_get_value_nullable(handle);
   final result = smoke_StructWithEnums_fromFfi(_handle);

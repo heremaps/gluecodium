@@ -38,14 +38,14 @@ final _smoke_PlatformNames_BasicEnum_get_value_nullable = __lib.catchArgumentErr
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_PlatformNames_BasicEnum_get_value_nullable'));
-Pointer<Void> smoke_PlatformNames_BasicEnum_toFfi_nullable(werrEnum? value) {
+Pointer<Void> smoke_PlatformNames_BasicEnum_toFfi_nullable(werrEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_PlatformNames_BasicEnum_toFfi(value);
   final result = _smoke_PlatformNames_BasicEnum_create_handle_nullable(_handle);
   smoke_PlatformNames_BasicEnum_releaseFfiHandle(_handle);
   return result;
 }
-werrEnum? smoke_PlatformNames_BasicEnum_fromFfi_nullable(Pointer<Void> handle) {
+werrEnum smoke_PlatformNames_BasicEnum_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_PlatformNames_BasicEnum_get_value_nullable(handle);
   final result = smoke_PlatformNames_BasicEnum_fromFfi(_handle);
@@ -115,14 +115,14 @@ final _smoke_PlatformNames_BasicStruct_get_value_nullable = __lib.catchArgumentE
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PlatformNames_BasicStruct_get_value_nullable'));
-Pointer<Void> smoke_PlatformNames_BasicStruct_toFfi_nullable(weeStruct? value) {
+Pointer<Void> smoke_PlatformNames_BasicStruct_toFfi_nullable(weeStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_PlatformNames_BasicStruct_toFfi(value);
   final result = _smoke_PlatformNames_BasicStruct_create_handle_nullable(_handle);
   smoke_PlatformNames_BasicStruct_releaseFfiHandle(_handle);
   return result;
 }
-weeStruct? smoke_PlatformNames_BasicStruct_fromFfi_nullable(Pointer<Void> handle) {
+weeStruct smoke_PlatformNames_BasicStruct_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_PlatformNames_BasicStruct_get_value_nullable(handle);
   final result = smoke_PlatformNames_BasicStruct_fromFfi(_handle);

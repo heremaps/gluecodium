@@ -11,9 +11,9 @@ import 'package:library/src/_library_context.dart' as __lib;
 abstract class ErrorsInterface {
   ErrorsInterface() {}
   factory ErrorsInterface.fromLambdas({
-    required void Function() lambda_methodWithErrors,
-    required void Function() lambda_methodWithExternalErrors,
-    required String Function() lambda_methodWithErrorsAndReturnValue,
+    @required void Function() lambda_methodWithErrors,
+    @required void Function() lambda_methodWithExternalErrors,
+    @required String Function() lambda_methodWithErrorsAndReturnValue,
   }) => ErrorsInterface$Lambdas(
     lambda_methodWithErrors,
     lambda_methodWithExternalErrors,
@@ -72,14 +72,14 @@ final _smoke_ErrorsInterface_InternalError_get_value_nullable = __lib.catchArgum
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_ErrorsInterface_InternalError_get_value_nullable'));
-Pointer<Void> smoke_ErrorsInterface_InternalError_toFfi_nullable(ErrorsInterface_InternalError? value) {
+Pointer<Void> smoke_ErrorsInterface_InternalError_toFfi_nullable(ErrorsInterface_InternalError value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_ErrorsInterface_InternalError_toFfi(value);
   final result = _smoke_ErrorsInterface_InternalError_create_handle_nullable(_handle);
   smoke_ErrorsInterface_InternalError_releaseFfiHandle(_handle);
   return result;
 }
-ErrorsInterface_InternalError? smoke_ErrorsInterface_InternalError_fromFfi_nullable(Pointer<Void> handle) {
+ErrorsInterface_InternalError smoke_ErrorsInterface_InternalError_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_ErrorsInterface_InternalError_get_value_nullable(handle);
   final result = smoke_ErrorsInterface_InternalError_fromFfi(_handle);
@@ -138,14 +138,14 @@ final _smoke_ErrorsInterface_ExternalErrors_get_value_nullable = __lib.catchArgu
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_ErrorsInterface_ExternalErrors_get_value_nullable'));
-Pointer<Void> smoke_ErrorsInterface_ExternalErrors_toFfi_nullable(ErrorsInterface_ExternalErrors? value) {
+Pointer<Void> smoke_ErrorsInterface_ExternalErrors_toFfi_nullable(ErrorsInterface_ExternalErrors value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_ErrorsInterface_ExternalErrors_toFfi(value);
   final result = _smoke_ErrorsInterface_ExternalErrors_create_handle_nullable(_handle);
   smoke_ErrorsInterface_ExternalErrors_releaseFfiHandle(_handle);
   return result;
 }
-ErrorsInterface_ExternalErrors? smoke_ErrorsInterface_ExternalErrors_fromFfi_nullable(Pointer<Void> handle) {
+ErrorsInterface_ExternalErrors smoke_ErrorsInterface_ExternalErrors_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_ErrorsInterface_ExternalErrors_get_value_nullable(handle);
   final result = smoke_ErrorsInterface_ExternalErrors_fromFfi(_handle);
@@ -276,11 +276,11 @@ class ErrorsInterface$Impl extends __lib.NativeBase implements ErrorsInterface {
   ErrorsInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle.address == 0) return;
+    if (handle == null) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_ErrorsInterface_release_handle(handle);
-    handle = Pointer<Void>.fromAddress(0);
+    handle = null;
   }
   @override
   methodWithErrors() {
@@ -417,7 +417,7 @@ int _ErrorsInterface_methodWithExternalErrors_static(int _token, Pointer<Uint32>
 }
 int _ErrorsInterface_methodWithErrorsAndReturnValue_static(int _token, Pointer<Pointer<Void>> _result, Pointer<Uint32> _error) {
   bool _error_flag = false;
-  String? _result_object = null;
+  String _result_object = null;
   try {
     _result_object = (__lib.instanceCache[_token] as ErrorsInterface).methodWithErrorsAndReturnValue();
     _result.value = String_toFfi(_result_object);
@@ -444,8 +444,8 @@ Pointer<Void> smoke_ErrorsInterface_toFfi(ErrorsInterface value) {
 ErrorsInterface smoke_ErrorsInterface_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is ErrorsInterface) return instance;
+  final instance = __lib.instanceCache[token] as ErrorsInterface;
+  if (instance != null) return instance;
   final _type_id_handle = _smoke_ErrorsInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -458,9 +458,9 @@ ErrorsInterface smoke_ErrorsInterface_fromFfi(Pointer<Void> handle) {
 }
 void smoke_ErrorsInterface_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_ErrorsInterface_release_handle(handle);
-Pointer<Void> smoke_ErrorsInterface_toFfi_nullable(ErrorsInterface? value) =>
+Pointer<Void> smoke_ErrorsInterface_toFfi_nullable(ErrorsInterface value) =>
   value != null ? smoke_ErrorsInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
-ErrorsInterface? smoke_ErrorsInterface_fromFfi_nullable(Pointer<Void> handle) =>
+ErrorsInterface smoke_ErrorsInterface_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_ErrorsInterface_fromFfi(handle) : null;
 void smoke_ErrorsInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_ErrorsInterface_release_handle(handle);

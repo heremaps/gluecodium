@@ -2,18 +2,10 @@
 
 ## Unreleased
 ### Bug fixes:
-  * Fixed missing imports for constants in Dart.
-  * Added missing Dart overloads validation for functions/constructors of structs.
-
-## 9.0.0
-Release date: 2021-05-05
-### Features:
-  * Generated Dart code now supports null safety.
-### Breaking changes:
-  * Generated Dart code now requires minimum Dart version 2.12.0.
-### Bug fixes:
   * Fixed missing includes for types referenced through type aliases in Dart FFI.
   * Fixed missing imports for collections of "external" types in Swift.
+  * Fixed missing imports for constants in Dart.
+  * Added missing Dart overloads validation for functions/constructors of structs.
 
 ## 8.13.1
 Release date: 2021-04-28

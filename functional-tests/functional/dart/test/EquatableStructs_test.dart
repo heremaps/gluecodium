@@ -34,7 +34,7 @@ EquatableStruct createEquatableStruct() {
 }
 
 void main() {
-  late EquatableStruct struct;
+  EquatableStruct struct;
   setUp(() {
     struct = createEquatableStruct();
   });

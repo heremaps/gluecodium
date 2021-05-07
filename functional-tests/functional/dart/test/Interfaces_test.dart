@@ -124,7 +124,7 @@ void main() {
     result2.release();
   });
   _testSuite.test("Delegator with functions", () {
-    String stringValue = "";
+    String stringValue;
     final delegator = SimpleInterfaceOne.fromLambdas(
       lambda_setStringValue: (value) { stringValue = value; },
       lambda_getStringValue: () => stringValue
@@ -136,7 +136,7 @@ void main() {
     expect(result, "foo");
   });
   _testSuite.test("Delegator with property", () {
-    String stringValue = "";
+    String stringValue;
     final delegator = InterfaceWithProperty.fromLambdas(
       lambda_stringProperty_set: (value) { stringValue = value; },
       lambda_stringProperty_get: () => stringValue

@@ -35,7 +35,7 @@ class StandaloneProducer$Impl {
   }
 }
 int _StandaloneProducer_call_static(int _token, Pointer<Pointer<Void>> _result) {
-  String? _result_object = null;
+  String _result_object;
   try {
     _result_object = (__lib.instanceCache[_token] as StandaloneProducer)();
     _result.value = String_toFfi(_result_object);
@@ -75,14 +75,14 @@ final _smoke_StandaloneProducer_get_value_nullable = __lib.catchArgumentError(()
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StandaloneProducer_get_value_nullable'));
-Pointer<Void> smoke_StandaloneProducer_toFfi_nullable(StandaloneProducer? value) {
+Pointer<Void> smoke_StandaloneProducer_toFfi_nullable(StandaloneProducer value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_StandaloneProducer_toFfi(value);
   final result = _smoke_StandaloneProducer_create_handle_nullable(_handle);
   smoke_StandaloneProducer_releaseFfiHandle(_handle);
   return result;
 }
-StandaloneProducer? smoke_StandaloneProducer_fromFfi_nullable(Pointer<Void> handle) {
+StandaloneProducer smoke_StandaloneProducer_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_StandaloneProducer_get_value_nullable(handle);
   final result = smoke_StandaloneProducer_fromFfi(_handle);

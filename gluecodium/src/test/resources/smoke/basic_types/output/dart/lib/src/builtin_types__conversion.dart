@@ -50,15 +50,12 @@ final _String_get_value = __lib.catchArgumentError(() => __lib.nativeLibrary.loo
     Pointer<Utf8> Function(Pointer<Void>)
   >('library_std_string_get_value'));
 Pointer<Void> String_toFfi(String value) {
-  final cValue = value.toNativeUtf8();
+  final cValue = Utf8.toUtf8(value);
   final result = _String_create_handle(cValue);
-  malloc.free(cValue);
+  free(cValue);
   return result;
 }
-String String_fromFfi(Pointer<Void> handle) {
-  final Pointer<Utf8> cString = _String_get_value(handle);
-  return cString.toDartString();
-}
+String String_fromFfi(Pointer<Void> handle) => Utf8.fromUtf8(_String_get_value(handle));
 void String_releaseFfiHandle(Pointer<Void> handle) => _String_release_handle(handle);
 // Locale
 final _Locale_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -86,30 +83,32 @@ final _Locale_get_language_tag = __lib.catchArgumentError(() => __lib.nativeLibr
     Pointer<Utf8> Function(Pointer<Void>)
 >('library_locale_get_language_tag'));
 Pointer<Void> Locale_toFfi(Locale locale) {
-  final cLanguageCode = locale.languageCode.toNativeUtf8();
-  final cCountryCode = locale.countryCode?.toNativeUtf8() ?? Pointer<Utf8>.fromAddress(0);
-  final cScriptCode = locale.scriptCode?.toNativeUtf8() ?? Pointer<Utf8>.fromAddress(0);
-  final cLanguageTag = locale.toLanguageTag().toNativeUtf8();
+  final cLanguageCode = Utf8.toUtf8(locale.languageCode);
+  final cCountryCode =
+    locale.countryCode != null ? Utf8.toUtf8(locale.countryCode) : Pointer<Utf8>.fromAddress(0);
+  final cScriptCode =
+    locale.scriptCode != null ? Utf8.toUtf8(locale.scriptCode) : Pointer<Utf8>.fromAddress(0);
+  final cLanguageTag = Utf8.toUtf8(locale.toLanguageTag());
   final result = _Locale_create_handle(cLanguageCode, cCountryCode, cScriptCode, cLanguageTag);
-  malloc.free(cLanguageCode);
-  if (cCountryCode.address != 0) malloc.free(cCountryCode);
-  if (cScriptCode.address != 0) malloc.free(cScriptCode);
-  malloc.free(cLanguageTag);
+  free(cLanguageCode);
+  if (cCountryCode.address != 0) free(cCountryCode);
+  if (cScriptCode.address != 0) free(cScriptCode);
+  free(cLanguageTag);
   return result;
 }
 Locale Locale_fromFfi(Pointer<Void> handle) {
-  final Pointer<Utf8> languageTagCstring = _Locale_get_language_tag(handle);
+  final languageTagCstring = _Locale_get_language_tag(handle);
   if (languageTagCstring.address != 0) {
     // BCP 47 language tag takes precedence if present.
-    return Locale.parse(languageTagCstring.toDartString());
+    return Locale.parse(Utf8.fromUtf8(languageTagCstring));
   }
-  final Pointer<Utf8> languageCodeCstring = _Locale_get_language_code(handle);
-  final Pointer<Utf8> countryCodeCstring = _Locale_get_country_code(handle);
-  final Pointer<Utf8> scriptCodeCstring = _Locale_get_script_code(handle);
+  final languageCodeCstring = _Locale_get_language_code(handle);
+  final countryCodeCstring = _Locale_get_country_code(handle);
+  final scriptCodeCstring = _Locale_get_script_code(handle);
   return Locale.fromSubtags(
-    languageCode: languageCodeCstring.address != 0 ? languageCodeCstring.toDartString() : "und",
-    countryCode: countryCodeCstring.address != 0 ? countryCodeCstring.toDartString() : null,
-    scriptCode: scriptCodeCstring.address != 0 ? scriptCodeCstring.toDartString() : null
+    languageCode: languageCodeCstring.address != 0 ? Utf8.fromUtf8(languageCodeCstring) : null,
+    countryCode: countryCodeCstring.address != 0 ? Utf8.fromUtf8(countryCodeCstring) : null,
+    scriptCode: scriptCodeCstring.address != 0 ? Utf8.fromUtf8(scriptCodeCstring) : null
   );
 }
 void Locale_releaseFfiHandle(Pointer<Void> handle) => _Locale_release_handle(handle);
@@ -126,13 +125,13 @@ final _Byte_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibr
     Int8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_Byte_get_value_nullable'));
-Pointer<Void> Byte_toFfi_nullable(int? value) {
+Pointer<Void> Byte_toFfi_nullable(int value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
   final result = _Byte_create_handle_nullable(_handle);
   return result;
 }
-int? Byte_fromFfi_nullable(Pointer<Void> handle) {
+int Byte_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _Byte_get_value_nullable(handle);
   final result = (_handle);
@@ -152,13 +151,13 @@ final _UByte_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLib
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_UByte_get_value_nullable'));
-Pointer<Void> UByte_toFfi_nullable(int? value) {
+Pointer<Void> UByte_toFfi_nullable(int value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
   final result = _UByte_create_handle_nullable(_handle);
   return result;
 }
-int? UByte_fromFfi_nullable(Pointer<Void> handle) {
+int UByte_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _UByte_get_value_nullable(handle);
   final result = (_handle);
@@ -178,13 +177,13 @@ final _Short_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLib
     Int16 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_Short_get_value_nullable'));
-Pointer<Void> Short_toFfi_nullable(int? value) {
+Pointer<Void> Short_toFfi_nullable(int value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
   final result = _Short_create_handle_nullable(_handle);
   return result;
 }
-int? Short_fromFfi_nullable(Pointer<Void> handle) {
+int Short_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _Short_get_value_nullable(handle);
   final result = (_handle);
@@ -204,13 +203,13 @@ final _UShort_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLi
     Uint16 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_UShort_get_value_nullable'));
-Pointer<Void> UShort_toFfi_nullable(int? value) {
+Pointer<Void> UShort_toFfi_nullable(int value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
   final result = _UShort_create_handle_nullable(_handle);
   return result;
 }
-int? UShort_fromFfi_nullable(Pointer<Void> handle) {
+int UShort_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _UShort_get_value_nullable(handle);
   final result = (_handle);
@@ -230,13 +229,13 @@ final _Int_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibra
     Int32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_Int_get_value_nullable'));
-Pointer<Void> Int_toFfi_nullable(int? value) {
+Pointer<Void> Int_toFfi_nullable(int value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
   final result = _Int_create_handle_nullable(_handle);
   return result;
 }
-int? Int_fromFfi_nullable(Pointer<Void> handle) {
+int Int_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _Int_get_value_nullable(handle);
   final result = (_handle);
@@ -256,13 +255,13 @@ final _UInt_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibr
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_UInt_get_value_nullable'));
-Pointer<Void> UInt_toFfi_nullable(int? value) {
+Pointer<Void> UInt_toFfi_nullable(int value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
   final result = _UInt_create_handle_nullable(_handle);
   return result;
 }
-int? UInt_fromFfi_nullable(Pointer<Void> handle) {
+int UInt_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _UInt_get_value_nullable(handle);
   final result = (_handle);
@@ -282,13 +281,13 @@ final _Long_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibr
     Int64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_Long_get_value_nullable'));
-Pointer<Void> Long_toFfi_nullable(int? value) {
+Pointer<Void> Long_toFfi_nullable(int value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
   final result = _Long_create_handle_nullable(_handle);
   return result;
 }
-int? Long_fromFfi_nullable(Pointer<Void> handle) {
+int Long_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _Long_get_value_nullable(handle);
   final result = (_handle);
@@ -308,13 +307,13 @@ final _ULong_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLib
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_ULong_get_value_nullable'));
-Pointer<Void> ULong_toFfi_nullable(int? value) {
+Pointer<Void> ULong_toFfi_nullable(int value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
   final result = _ULong_create_handle_nullable(_handle);
   return result;
 }
-int? ULong_fromFfi_nullable(Pointer<Void> handle) {
+int ULong_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _ULong_get_value_nullable(handle);
   final result = (_handle);
@@ -334,13 +333,13 @@ final _Float_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLib
     Float Function(Pointer<Void>),
     double Function(Pointer<Void>)
   >('library_Float_get_value_nullable'));
-Pointer<Void> Float_toFfi_nullable(double? value) {
+Pointer<Void> Float_toFfi_nullable(double value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
   final result = _Float_create_handle_nullable(_handle);
   return result;
 }
-double? Float_fromFfi_nullable(Pointer<Void> handle) {
+double Float_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _Float_get_value_nullable(handle);
   final result = (_handle);
@@ -360,13 +359,13 @@ final _Double_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLi
     Double Function(Pointer<Void>),
     double Function(Pointer<Void>)
   >('library_Double_get_value_nullable'));
-Pointer<Void> Double_toFfi_nullable(double? value) {
+Pointer<Void> Double_toFfi_nullable(double value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
   final result = _Double_create_handle_nullable(_handle);
   return result;
 }
-double? Double_fromFfi_nullable(Pointer<Void> handle) {
+double Double_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _Double_get_value_nullable(handle);
   final result = (_handle);
@@ -386,14 +385,14 @@ final _Boolean_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeL
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_Boolean_get_value_nullable'));
-Pointer<Void> Boolean_toFfi_nullable(bool? value) {
+Pointer<Void> Boolean_toFfi_nullable(bool value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = Boolean_toFfi(value);
   final result = _Boolean_create_handle_nullable(_handle);
   Boolean_releaseFfiHandle(_handle);
   return result;
 }
-bool? Boolean_fromFfi_nullable(Pointer<Void> handle) {
+bool Boolean_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _Boolean_get_value_nullable(handle);
   final result = Boolean_fromFfi(_handle);
@@ -414,14 +413,14 @@ final _String_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLi
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_String_get_value_nullable'));
-Pointer<Void> String_toFfi_nullable(String? value) {
+Pointer<Void> String_toFfi_nullable(String value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = String_toFfi(value);
   final result = _String_create_handle_nullable(_handle);
   String_releaseFfiHandle(_handle);
   return result;
 }
-String? String_fromFfi_nullable(Pointer<Void> handle) {
+String String_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _String_get_value_nullable(handle);
   final result = String_fromFfi(_handle);
@@ -442,14 +441,14 @@ final _Blob_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibr
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_Blob_get_value_nullable'));
-Pointer<Void> Blob_toFfi_nullable(Uint8List? value) {
+Pointer<Void> Blob_toFfi_nullable(Uint8List value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = Blob_toFfi(value);
   final result = _Blob_create_handle_nullable(_handle);
   Blob_releaseFfiHandle(_handle);
   return result;
 }
-Uint8List? Blob_fromFfi_nullable(Pointer<Void> handle) {
+Uint8List Blob_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _Blob_get_value_nullable(handle);
   final result = Blob_fromFfi(_handle);
@@ -470,14 +469,14 @@ final _Date_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibr
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_Date_get_value_nullable'));
-Pointer<Void> Date_toFfi_nullable(DateTime? value) {
+Pointer<Void> Date_toFfi_nullable(DateTime value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = Date_toFfi(value);
   final result = _Date_create_handle_nullable(_handle);
   Date_releaseFfiHandle(_handle);
   return result;
 }
-DateTime? Date_fromFfi_nullable(Pointer<Void> handle) {
+DateTime Date_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _Date_get_value_nullable(handle);
   final result = Date_fromFfi(_handle);
@@ -498,14 +497,14 @@ final _Locale_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLi
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_Locale_get_value_nullable'));
-Pointer<Void> Locale_toFfi_nullable(Locale? value) {
+Pointer<Void> Locale_toFfi_nullable(Locale value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = Locale_toFfi(value);
   final result = _Locale_create_handle_nullable(_handle);
   Locale_releaseFfiHandle(_handle);
   return result;
 }
-Locale? Locale_fromFfi_nullable(Pointer<Void> handle) {
+Locale Locale_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _Locale_get_value_nullable(handle);
   final result = Locale_fromFfi(_handle);

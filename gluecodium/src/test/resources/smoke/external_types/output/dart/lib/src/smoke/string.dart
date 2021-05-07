@@ -60,14 +60,14 @@ final _smoke_DartSeason_get_value_nullable = __lib.catchArgumentError(() => __li
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_DartSeason_get_value_nullable'));
-Pointer<Void> smoke_DartSeason_toFfi_nullable(String? value) {
+Pointer<Void> smoke_DartSeason_toFfi_nullable(String value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_DartSeason_toFfi(value);
   final result = _smoke_DartSeason_create_handle_nullable(_handle);
   smoke_DartSeason_releaseFfiHandle(_handle);
   return result;
 }
-String? smoke_DartSeason_fromFfi_nullable(Pointer<Void> handle) {
+String smoke_DartSeason_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_DartSeason_get_value_nullable(handle);
   final result = smoke_DartSeason_fromFfi(_handle);

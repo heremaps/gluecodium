@@ -49,11 +49,11 @@ class CommentsMarkdown$Impl extends __lib.NativeBase implements CommentsMarkdown
   CommentsMarkdown$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle.address == 0) return;
+    if (handle == null) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_CommentsMarkdown_release_handle(handle);
-    handle = Pointer<Void>.fromAddress(0);
+    handle = null;
   }
 }
 Pointer<Void> smoke_CommentsMarkdown_toFfi(CommentsMarkdown value) =>
@@ -61,8 +61,8 @@ Pointer<Void> smoke_CommentsMarkdown_toFfi(CommentsMarkdown value) =>
 CommentsMarkdown smoke_CommentsMarkdown_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is CommentsMarkdown) return instance;
+  final instance = __lib.instanceCache[token] as CommentsMarkdown;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_CommentsMarkdown_copy_handle(handle);
   final result = CommentsMarkdown$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -70,9 +70,9 @@ CommentsMarkdown smoke_CommentsMarkdown_fromFfi(Pointer<Void> handle) {
 }
 void smoke_CommentsMarkdown_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_CommentsMarkdown_release_handle(handle);
-Pointer<Void> smoke_CommentsMarkdown_toFfi_nullable(CommentsMarkdown? value) =>
+Pointer<Void> smoke_CommentsMarkdown_toFfi_nullable(CommentsMarkdown value) =>
   value != null ? smoke_CommentsMarkdown_toFfi(value) : Pointer<Void>.fromAddress(0);
-CommentsMarkdown? smoke_CommentsMarkdown_fromFfi_nullable(Pointer<Void> handle) =>
+CommentsMarkdown smoke_CommentsMarkdown_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_CommentsMarkdown_fromFfi(handle) : null;
 void smoke_CommentsMarkdown_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_CommentsMarkdown_release_handle(handle);

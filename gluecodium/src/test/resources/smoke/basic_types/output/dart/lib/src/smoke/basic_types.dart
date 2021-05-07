@@ -37,11 +37,11 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
   BasicTypes$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle.address == 0) return;
+    if (handle == null) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_BasicTypes_release_handle(handle);
-    handle = Pointer<Void>.fromAddress(0);
+    handle = null;
   }
   static String stringFunction(String input) {
     final _stringFunction_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_BasicTypes_stringFunction__String'));
@@ -181,8 +181,8 @@ Pointer<Void> smoke_BasicTypes_toFfi(BasicTypes value) =>
 BasicTypes smoke_BasicTypes_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is BasicTypes) return instance;
+  final instance = __lib.instanceCache[token] as BasicTypes;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_BasicTypes_copy_handle(handle);
   final result = BasicTypes$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -190,9 +190,9 @@ BasicTypes smoke_BasicTypes_fromFfi(Pointer<Void> handle) {
 }
 void smoke_BasicTypes_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_BasicTypes_release_handle(handle);
-Pointer<Void> smoke_BasicTypes_toFfi_nullable(BasicTypes? value) =>
+Pointer<Void> smoke_BasicTypes_toFfi_nullable(BasicTypes value) =>
   value != null ? smoke_BasicTypes_toFfi(value) : Pointer<Void>.fromAddress(0);
-BasicTypes? smoke_BasicTypes_fromFfi_nullable(Pointer<Void> handle) =>
+BasicTypes smoke_BasicTypes_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_BasicTypes_fromFfi(handle) : null;
 void smoke_BasicTypes_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_BasicTypes_release_handle(handle);

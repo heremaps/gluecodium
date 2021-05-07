@@ -4,6 +4,6 @@ import 'package:meta/meta.dart';
 /// @nodoc
 class NativeBase {
   @protected
-  Pointer<Void> handle = Pointer<Void>.fromAddress(0);
+  Pointer<Void> handle;
   NativeBase(this.handle);
 }

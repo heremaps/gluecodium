@@ -28,11 +28,11 @@ class CollectionConstants$Impl extends __lib.NativeBase implements CollectionCon
   CollectionConstants$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle.address == 0) return;
+    if (handle == null) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_CollectionConstants_release_handle(handle);
-    handle = Pointer<Void>.fromAddress(0);
+    handle = null;
   }
 }
 Pointer<Void> smoke_CollectionConstants_toFfi(CollectionConstants value) =>
@@ -40,8 +40,8 @@ Pointer<Void> smoke_CollectionConstants_toFfi(CollectionConstants value) =>
 CollectionConstants smoke_CollectionConstants_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is CollectionConstants) return instance;
+  final instance = __lib.instanceCache[token] as CollectionConstants;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_CollectionConstants_copy_handle(handle);
   final result = CollectionConstants$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -49,9 +49,9 @@ CollectionConstants smoke_CollectionConstants_fromFfi(Pointer<Void> handle) {
 }
 void smoke_CollectionConstants_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_CollectionConstants_release_handle(handle);
-Pointer<Void> smoke_CollectionConstants_toFfi_nullable(CollectionConstants? value) =>
+Pointer<Void> smoke_CollectionConstants_toFfi_nullable(CollectionConstants value) =>
   value != null ? smoke_CollectionConstants_toFfi(value) : Pointer<Void>.fromAddress(0);
-CollectionConstants? smoke_CollectionConstants_fromFfi_nullable(Pointer<Void> handle) =>
+CollectionConstants smoke_CollectionConstants_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_CollectionConstants_fromFfi(handle) : null;
 void smoke_CollectionConstants_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_CollectionConstants_release_handle(handle);

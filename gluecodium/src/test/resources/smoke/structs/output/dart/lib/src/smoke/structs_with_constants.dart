@@ -63,14 +63,14 @@ final _smoke_StructsWithConstants_Route_get_value_nullable = __lib.catchArgument
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructsWithConstants_Route_get_value_nullable'));
-Pointer<Void> smoke_StructsWithConstants_Route_toFfi_nullable(Route? value) {
+Pointer<Void> smoke_StructsWithConstants_Route_toFfi_nullable(Route value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_StructsWithConstants_Route_toFfi(value);
   final result = _smoke_StructsWithConstants_Route_create_handle_nullable(_handle);
   smoke_StructsWithConstants_Route_releaseFfiHandle(_handle);
   return result;
 }
-Route? smoke_StructsWithConstants_Route_fromFfi_nullable(Pointer<Void> handle) {
+Route smoke_StructsWithConstants_Route_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_StructsWithConstants_Route_get_value_nullable(handle);
   final result = smoke_StructsWithConstants_Route_fromFfi(_handle);

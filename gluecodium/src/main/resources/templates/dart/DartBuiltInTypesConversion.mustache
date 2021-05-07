@@ -89,16 +89,13 @@ final _String_get_value = __lib.catchArgumentError(() => __lib.nativeLibrary.loo
   >('{{libraryName}}_std_string_get_value'));
 
 Pointer<Void> String_toFfi(String value) {
-  final cValue = value.toNativeUtf8();
+  final cValue = Utf8.toUtf8(value);
   final result = _String_create_handle(cValue);
-  malloc.free(cValue);
+  free(cValue);
   return result;
 }
 
-String String_fromFfi(Pointer<Void> handle) {
-  final Pointer<Utf8> cString = _String_get_value(handle);
-  return cString.toDartString();
-}
+String String_fromFfi(Pointer<Void> handle) => Utf8.fromUtf8(_String_get_value(handle));
 
 void String_releaseFfiHandle(Pointer<Void> handle) => _String_release_handle(handle);
 
@@ -130,36 +127,38 @@ final _Locale_get_language_tag = __lib.catchArgumentError(() => __lib.nativeLibr
 >('{{libraryName}}_locale_get_language_tag'));
 
 Pointer<Void> Locale_toFfi(Locale locale) {
-  final cLanguageCode = locale.languageCode.toNativeUtf8();
-  final cCountryCode = locale.countryCode?.toNativeUtf8() ?? Pointer<Utf8>.fromAddress(0);
-  final cScriptCode = locale.scriptCode?.toNativeUtf8() ?? Pointer<Utf8>.fromAddress(0);
-  final cLanguageTag = locale.toLanguageTag().toNativeUtf8();
+  final cLanguageCode = Utf8.toUtf8(locale.languageCode);
+  final cCountryCode =
+    locale.countryCode != null ? Utf8.toUtf8(locale.countryCode) : Pointer<Utf8>.fromAddress(0);
+  final cScriptCode =
+    locale.scriptCode != null ? Utf8.toUtf8(locale.scriptCode) : Pointer<Utf8>.fromAddress(0);
+  final cLanguageTag = Utf8.toUtf8(locale.toLanguageTag());
 
   final result = _Locale_create_handle(cLanguageCode, cCountryCode, cScriptCode, cLanguageTag);
 
-  malloc.free(cLanguageCode);
-  if (cCountryCode.address != 0) malloc.free(cCountryCode);
-  if (cScriptCode.address != 0) malloc.free(cScriptCode);
-  malloc.free(cLanguageTag);
+  free(cLanguageCode);
+  if (cCountryCode.address != 0) free(cCountryCode);
+  if (cScriptCode.address != 0) free(cScriptCode);
+  free(cLanguageTag);
 
   return result;
 }
 
 Locale Locale_fromFfi(Pointer<Void> handle) {
-  final Pointer<Utf8> languageTagCstring = _Locale_get_language_tag(handle);
+  final languageTagCstring = _Locale_get_language_tag(handle);
   if (languageTagCstring.address != 0) {
     // BCP 47 language tag takes precedence if present.
-    return Locale.parse(languageTagCstring.toDartString());
+    return Locale.parse(Utf8.fromUtf8(languageTagCstring));
   }
 
-  final Pointer<Utf8> languageCodeCstring = _Locale_get_language_code(handle);
-  final Pointer<Utf8> countryCodeCstring = _Locale_get_country_code(handle);
-  final Pointer<Utf8> scriptCodeCstring = _Locale_get_script_code(handle);
+  final languageCodeCstring = _Locale_get_language_code(handle);
+  final countryCodeCstring = _Locale_get_country_code(handle);
+  final scriptCodeCstring = _Locale_get_script_code(handle);
 
   return Locale.fromSubtags(
-    languageCode: languageCodeCstring.address != 0 ? languageCodeCstring.toDartString() : "und",
-    countryCode: countryCodeCstring.address != 0 ? countryCodeCstring.toDartString() : null,
-    scriptCode: scriptCodeCstring.address != 0 ? scriptCodeCstring.toDartString() : null
+    languageCode: languageCodeCstring.address != 0 ? Utf8.fromUtf8(languageCodeCstring) : null,
+    countryCode: countryCodeCstring.address != 0 ? Utf8.fromUtf8(countryCodeCstring) : null,
+    scriptCode: scriptCodeCstring.address != 0 ? Utf8.fromUtf8(scriptCodeCstring) : null
   );
 }
 
@@ -181,7 +180,7 @@ final _{{this}}_get_value_nullable = __lib.catchArgumentError(() => __lib.native
     {{resolveName "FfiDartTypes"}} Function(Pointer<Void>)
   >('{{libraryName}}_{{this}}_get_value_nullable'));
 
-Pointer<Void> {{this}}_toFfi_nullable({{resolveName}}? value) {
+Pointer<Void> {{this}}_toFfi_nullable({{resolveName}} value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = {{#unless isNumericType}}{{this}}_toFfi{{/unless}}(value);
   final result = _{{this}}_create_handle_nullable(_handle);{{#unless isNumericType}}
@@ -189,7 +188,7 @@ Pointer<Void> {{this}}_toFfi_nullable({{resolveName}}? value) {
   return result;
 }
 
-{{resolveName}}? {{this}}_fromFfi_nullable(Pointer<Void> handle) {
+{{resolveName}} {{this}}_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _{{this}}_get_value_nullable(handle);
   final result = {{#unless isNumericType}}{{this}}_fromFfi{{/unless}}(_handle);{{#unless isNumericType}}

@@ -37,11 +37,11 @@ class EquatableInterface$Impl extends __lib.NativeBase implements EquatableInter
   EquatableInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle.address == 0) return;
+    if (handle == null) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_EquatableInterface_release_handle(handle);
-    handle = Pointer<Void>.fromAddress(0);
+    handle = null;
   }
   @override
   bool operator ==(dynamic other) {
@@ -62,8 +62,8 @@ Pointer<Void> smoke_EquatableInterface_toFfi(EquatableInterface value) {
 EquatableInterface smoke_EquatableInterface_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is EquatableInterface) return instance;
+  final instance = __lib.instanceCache[token] as EquatableInterface;
+  if (instance != null) return instance;
   final _type_id_handle = _smoke_EquatableInterface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -76,9 +76,9 @@ EquatableInterface smoke_EquatableInterface_fromFfi(Pointer<Void> handle) {
 }
 void smoke_EquatableInterface_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_EquatableInterface_release_handle(handle);
-Pointer<Void> smoke_EquatableInterface_toFfi_nullable(EquatableInterface? value) =>
+Pointer<Void> smoke_EquatableInterface_toFfi_nullable(EquatableInterface value) =>
   value != null ? smoke_EquatableInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
-EquatableInterface? smoke_EquatableInterface_fromFfi_nullable(Pointer<Void> handle) =>
+EquatableInterface smoke_EquatableInterface_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_EquatableInterface_fromFfi(handle) : null;
 void smoke_EquatableInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_EquatableInterface_release_handle(handle);

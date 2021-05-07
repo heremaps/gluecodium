@@ -6,7 +6,7 @@ int _instanceCounter = 1024;
 final Map<int, Object> instanceCache = {};
 final Map<Object, int> tokenCache = {};
 int cacheObject(Object obj) {
-  int? token = tokenCache[obj];
+  int token = tokenCache[obj];
   if (token == null) {
     token = _instanceCounter++;
     instanceCache[token] = obj;

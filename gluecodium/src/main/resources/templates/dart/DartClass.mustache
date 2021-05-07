@@ -93,11 +93,11 @@ class {{resolveName}}$Impl extends {{#if hasClassParent}}{{resolveName parent}}$
 
   @override
   void release() {
-    if (handle.address == 0) return;
+    if (handle == null) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _{{resolveName "Ffi"}}_release_handle(handle);
-    handle = Pointer<Void>.fromAddress(0);
+    handle = null;
   }
 
 {{#set inheritanceParent=this.parent parent=this container=this ignoreStatic=testableMode}}{{#constructors}}
@@ -133,8 +133,8 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) =>
 {{resolveName}} {{resolveName "Ffi"}}_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is {{resolveName}}) return instance;
+  final instance = __lib.instanceCache[token] as {{resolveName}};
+  if (instance != null) return instance;
 
 {{#if this.parent visibility.isOpen logic="or"}}
   final _type_id_handle = _{{resolveName "Ffi"}}_get_type_id(handle);
@@ -153,10 +153,10 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) =>
 void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) =>
   _{{resolveName "Ffi"}}_release_handle(handle);
 
-Pointer<Void> {{resolveName "Ffi"}}_toFfi_nullable({{resolveName}}? value) =>
+Pointer<Void> {{resolveName "Ffi"}}_toFfi_nullable({{resolveName}} value) =>
   value != null ? {{resolveName "Ffi"}}_toFfi(value) : Pointer<Void>.fromAddress(0);
 
-{{resolveName}}? {{resolveName "Ffi"}}_fromFfi_nullable(Pointer<Void> handle) =>
+{{resolveName}} {{resolveName "Ffi"}}_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? {{resolveName "Ffi"}}_fromFfi(handle) : null;
 
 void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) =>
@@ -182,7 +182,7 @@ void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) =>
 {{/unless}}{{/dartConstructor}}{{!!
 
 }}{{+dartCachedProperty}}
-{{#if isStatic}}{{#unless testableMode}}static {{/unless}}{{/if}}late {{resolveName typeRef}} _cache_{{resolveName}};
+{{#if isStatic}}{{#unless testableMode}}static {{/unless}}{{/if}}{{resolveName typeRef}} _cache_{{resolveName}};
 {{#if isStatic}}{{#unless testableMode}}static {{/unless}}{{/if}}bool _is_cached_{{resolveName}} = false;
 {{#unless isStatic}}@override
 {{/unless}}

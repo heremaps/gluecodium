@@ -32,11 +32,11 @@ class ChildClassFromClass$Impl extends ParentClass$Impl implements ChildClassFro
   ChildClassFromClass$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle.address == 0) return;
+    if (handle == null) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_ChildClassFromClass_release_handle(handle);
-    handle = Pointer<Void>.fromAddress(0);
+    handle = null;
   }
   @override
   childClassMethod() {
@@ -55,8 +55,8 @@ Pointer<Void> smoke_ChildClassFromClass_toFfi(ChildClassFromClass value) =>
 ChildClassFromClass smoke_ChildClassFromClass_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is ChildClassFromClass) return instance;
+  final instance = __lib.instanceCache[token] as ChildClassFromClass;
+  if (instance != null) return instance;
   final _type_id_handle = _smoke_ChildClassFromClass_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -69,9 +69,9 @@ ChildClassFromClass smoke_ChildClassFromClass_fromFfi(Pointer<Void> handle) {
 }
 void smoke_ChildClassFromClass_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_ChildClassFromClass_release_handle(handle);
-Pointer<Void> smoke_ChildClassFromClass_toFfi_nullable(ChildClassFromClass? value) =>
+Pointer<Void> smoke_ChildClassFromClass_toFfi_nullable(ChildClassFromClass value) =>
   value != null ? smoke_ChildClassFromClass_toFfi(value) : Pointer<Void>.fromAddress(0);
-ChildClassFromClass? smoke_ChildClassFromClass_fromFfi_nullable(Pointer<Void> handle) =>
+ChildClassFromClass smoke_ChildClassFromClass_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_ChildClassFromClass_fromFfi(handle) : null;
 void smoke_ChildClassFromClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_ChildClassFromClass_release_handle(handle);

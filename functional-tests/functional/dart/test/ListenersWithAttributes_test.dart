@@ -36,16 +36,17 @@ class TestListener implements ListenerWithAttributes {
   String message = "Doesn't work";
 
   @override
-  MessagePackage? packedMessage = null;
+  MessagePackage packedMessage = null;
 
   @override
-  MessageBox? boxedMessage = null;
+  MessageBox boxedMessage = null;
 
   @override
-  late ListenerWithReturnMessageStruct structuredMessage;
+  ListenerWithReturnMessageStruct structuredMessage = null;
 
   @override
-  ListenerWithReturnMessageEnum enumeratedMessage = ListenerWithReturnMessageEnum.no;
+  ListenerWithReturnMessageEnum enumeratedMessage =
+      ListenerWithReturnMessageEnum.no;
 
   @override
   List<String> arrayedMessage = ["Doesn't work"];
@@ -58,14 +59,14 @@ class TestListener implements ListenerWithAttributes {
 
   @override
   void release() {
-    packedMessage?.release();
-    boxedMessage?.release();
+    if (packedMessage != null) packedMessage.release();
+    if (boxedMessage != null) boxedMessage.release();
   }
 }
 
 void main() {
-  late ListenerWithAttributes envelope;
-  late AttributedMessageDelivery delivery;
+  ListenerWithAttributes envelope;
+  AttributedMessageDelivery delivery;
   setUp(() {
     envelope = TestListener();
     delivery = AttributedMessageDelivery();
