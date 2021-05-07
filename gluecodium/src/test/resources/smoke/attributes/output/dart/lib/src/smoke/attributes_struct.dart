@@ -68,14 +68,14 @@ final _smoke_AttributesStruct_get_value_nullable = __lib.catchArgumentError(() =
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_AttributesStruct_get_value_nullable'));
-Pointer<Void> smoke_AttributesStruct_toFfi_nullable(AttributesStruct? value) {
+Pointer<Void> smoke_AttributesStruct_toFfi_nullable(AttributesStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_AttributesStruct_toFfi(value);
   final result = _smoke_AttributesStruct_create_handle_nullable(_handle);
   smoke_AttributesStruct_releaseFfiHandle(_handle);
   return result;
 }
-AttributesStruct? smoke_AttributesStruct_fromFfi_nullable(Pointer<Void> handle) {
+AttributesStruct smoke_AttributesStruct_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_AttributesStruct_get_value_nullable(handle);
   final result = smoke_AttributesStruct_fromFfi(_handle);

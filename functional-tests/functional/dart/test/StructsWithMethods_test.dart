@@ -66,8 +66,8 @@ void main() {
     expect(result, isFalse);
   });
   _testSuite.test("Vector copy constructor does not throw", () {
-    Vector? result = null;
-    ValidationException? exception = null;
+    Vector result = null;
+    ValidationException exception = null;
 
     try {
       result = new Vector.createCopy(vector);
@@ -76,12 +76,12 @@ void main() {
     }
 
     expect(exception, isNull);
-    expect(result?.x, 1);
-    expect(result?.y, 2);
+    expect(result.x, 1);
+    expect(result.y, 2);
   });
   _testSuite.test("Vector copy constructor throws", () {
-    Vector? result = null;
-    ValidationException? exception = null;
+    Vector result = null;
+    ValidationException exception = null;
 
     try {
       result = new Vector.createCopy(new Vector.create(1, double.nan));
@@ -90,7 +90,8 @@ void main() {
     }
 
     expect(result, isNull);
-    expect(exception?.error, ValidationErrorCode.validationFailed);
+    expect(exception, isNotNull);
+    expect(exception.error, ValidationErrorCode.validationFailed);
   });
   _testSuite.test("Vector3 distance to self", () {
     final result = vector3.distanceTo(vector3);
@@ -133,8 +134,8 @@ void main() {
     expect(result, isFalse);
   });
   _testSuite.test("Vector3 copy constructor does not throw", () {
-    StructsWithMethodsInterfaceVector3? result = null;
-    ValidationException? exception = null;
+    StructsWithMethodsInterfaceVector3 result = null;
+    ValidationException exception = null;
 
     try {
       result = new StructsWithMethodsInterfaceVector3.createCopy(vector3);
@@ -143,13 +144,13 @@ void main() {
     }
 
     expect(exception, isNull);
-    expect(result?.x, 1);
-    expect(result?.y, 2);
-    expect(result?.z, 3);
+    expect(result.x, 1);
+    expect(result.y, 2);
+    expect(result.z, 3);
   });
   _testSuite.test("Vector3 copy constructor throws", () {
-    StructsWithMethodsInterfaceVector3? result = null;
-    ValidationException? exception = null;
+    StructsWithMethodsInterfaceVector3 result = null;
+    ValidationException exception = null;
 
     try {
       result = new StructsWithMethodsInterfaceVector3.createCopy(
@@ -160,6 +161,7 @@ void main() {
     }
 
     expect(result, isNull);
-    expect(exception?.error, ValidationErrorCode.validationFailed);
+    expect(exception, isNotNull);
+    expect(exception.error, ValidationErrorCode.validationFailed);
   });
 }

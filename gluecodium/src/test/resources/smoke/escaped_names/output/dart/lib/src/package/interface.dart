@@ -34,11 +34,11 @@ class Interface$Impl extends __lib.NativeBase implements Interface {
   Interface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle.address == 0) return;
+    if (handle == null) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _package_Interface_release_handle(handle);
-    handle = Pointer<Void>.fromAddress(0);
+    handle = null;
   }
 }
 Pointer<Void> package_Interface_toFfi(Interface value) {
@@ -53,8 +53,8 @@ Pointer<Void> package_Interface_toFfi(Interface value) {
 Interface package_Interface_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is Interface) return instance;
+  final instance = __lib.instanceCache[token] as Interface;
+  if (instance != null) return instance;
   final _type_id_handle = _package_Interface_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -67,9 +67,9 @@ Interface package_Interface_fromFfi(Pointer<Void> handle) {
 }
 void package_Interface_releaseFfiHandle(Pointer<Void> handle) =>
   _package_Interface_release_handle(handle);
-Pointer<Void> package_Interface_toFfi_nullable(Interface? value) =>
+Pointer<Void> package_Interface_toFfi_nullable(Interface value) =>
   value != null ? package_Interface_toFfi(value) : Pointer<Void>.fromAddress(0);
-Interface? package_Interface_fromFfi_nullable(Pointer<Void> handle) =>
+Interface package_Interface_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? package_Interface_fromFfi(handle) : null;
 void package_Interface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _package_Interface_release_handle(handle);

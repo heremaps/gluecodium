@@ -63,14 +63,14 @@ final _smoke_Locales_LocaleStruct_get_value_nullable = __lib.catchArgumentError(
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Locales_LocaleStruct_get_value_nullable'));
-Pointer<Void> smoke_Locales_LocaleStruct_toFfi_nullable(Locales_LocaleStruct? value) {
+Pointer<Void> smoke_Locales_LocaleStruct_toFfi_nullable(Locales_LocaleStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_Locales_LocaleStruct_toFfi(value);
   final result = _smoke_Locales_LocaleStruct_create_handle_nullable(_handle);
   smoke_Locales_LocaleStruct_releaseFfiHandle(_handle);
   return result;
 }
-Locales_LocaleStruct? smoke_Locales_LocaleStruct_fromFfi_nullable(Pointer<Void> handle) {
+Locales_LocaleStruct smoke_Locales_LocaleStruct_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_Locales_LocaleStruct_get_value_nullable(handle);
   final result = smoke_Locales_LocaleStruct_fromFfi(_handle);
@@ -93,11 +93,11 @@ class Locales$Impl extends __lib.NativeBase implements Locales {
   Locales$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle.address == 0) return;
+    if (handle == null) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_Locales_release_handle(handle);
-    handle = Pointer<Void>.fromAddress(0);
+    handle = null;
   }
   @override
   Locale localeMethod(Locale input) {
@@ -142,8 +142,8 @@ Pointer<Void> smoke_Locales_toFfi(Locales value) =>
 Locales smoke_Locales_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is Locales) return instance;
+  final instance = __lib.instanceCache[token] as Locales;
+  if (instance != null) return instance;
   final _copied_handle = _smoke_Locales_copy_handle(handle);
   final result = Locales$Impl(_copied_handle);
   __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
@@ -151,9 +151,9 @@ Locales smoke_Locales_fromFfi(Pointer<Void> handle) {
 }
 void smoke_Locales_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_Locales_release_handle(handle);
-Pointer<Void> smoke_Locales_toFfi_nullable(Locales? value) =>
+Pointer<Void> smoke_Locales_toFfi_nullable(Locales value) =>
   value != null ? smoke_Locales_toFfi(value) : Pointer<Void>.fromAddress(0);
-Locales? smoke_Locales_fromFfi_nullable(Pointer<Void> handle) =>
+Locales smoke_Locales_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_Locales_fromFfi(handle) : null;
 void smoke_Locales_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_Locales_release_handle(handle);

@@ -39,14 +39,14 @@ final _smoke_AttributesEnum_get_value_nullable = __lib.catchArgumentError(() => 
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_AttributesEnum_get_value_nullable'));
-Pointer<Void> smoke_AttributesEnum_toFfi_nullable(AttributesEnum? value) {
+Pointer<Void> smoke_AttributesEnum_toFfi_nullable(AttributesEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_AttributesEnum_toFfi(value);
   final result = _smoke_AttributesEnum_create_handle_nullable(_handle);
   smoke_AttributesEnum_releaseFfiHandle(_handle);
   return result;
 }
-AttributesEnum? smoke_AttributesEnum_fromFfi_nullable(Pointer<Void> handle) {
+AttributesEnum smoke_AttributesEnum_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_AttributesEnum_get_value_nullable(handle);
   final result = smoke_AttributesEnum_fromFfi(_handle);

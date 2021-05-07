@@ -25,10 +25,10 @@ import "../test_suite.dart";
 final _testSuite = TestSuite("SimpleEquality");
 
 void main() {
-  late NonEquatableClass class1;
-  late NonEquatableClass class2;
-  late NonEquatableInterface interface1;
-  late NonEquatableInterface interface2;
+  NonEquatableClass class1;
+  NonEquatableClass class2;
+  NonEquatableInterface interface1;
+  NonEquatableInterface interface2;
 
   setUp(() {
     class1 = NonEquatableFactory.createNonEquatableClass();

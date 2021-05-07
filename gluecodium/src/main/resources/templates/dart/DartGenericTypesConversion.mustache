@@ -105,8 +105,7 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
 }
 
 {{resolveName}} {{resolveName "Ffi"}}_fromFfi(Pointer<Void> handle) {
-  final result = {{resolveName}}{{#instanceOf this "LimeList"}}.empty(growable: true){{/instanceOf}}{{!!
-  }}{{#notInstanceOf this "LimeList"}}(){{/notInstanceOf}};
+  final result = {{resolveName}}();
   final _iterator_handle = _{{resolveName "Ffi"}}_iterator(handle);
   while (_{{resolveName "Ffi"}}_iterator_is_valid(handle, _iterator_handle) != 0) {
 {{#instanceOf this "LimeMap"}}

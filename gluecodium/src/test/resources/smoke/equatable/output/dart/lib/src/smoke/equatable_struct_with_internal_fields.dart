@@ -118,14 +118,14 @@ final _smoke_EquatableStructWithInternalFields_get_value_nullable = __lib.catchA
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_EquatableStructWithInternalFields_get_value_nullable'));
-Pointer<Void> smoke_EquatableStructWithInternalFields_toFfi_nullable(EquatableStructWithInternalFields? value) {
+Pointer<Void> smoke_EquatableStructWithInternalFields_toFfi_nullable(EquatableStructWithInternalFields value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_EquatableStructWithInternalFields_toFfi(value);
   final result = _smoke_EquatableStructWithInternalFields_create_handle_nullable(_handle);
   smoke_EquatableStructWithInternalFields_releaseFfiHandle(_handle);
   return result;
 }
-EquatableStructWithInternalFields? smoke_EquatableStructWithInternalFields_fromFfi_nullable(Pointer<Void> handle) {
+EquatableStructWithInternalFields smoke_EquatableStructWithInternalFields_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_EquatableStructWithInternalFields_get_value_nullable(handle);
   final result = smoke_EquatableStructWithInternalFields_fromFfi(_handle);

@@ -51,8 +51,8 @@ void main() {
 
     final result = Maps.methodWithMapToStruct(input);
 
-    expect(result[31]?.value, equals("FOO"));
-    expect(result[42]?.value, equals("BAR"));
+    expect(result[31].value, equals("FOO"));
+    expect(result[42].value, equals("BAR"));
   });
   _testSuite.test("Empty nested Map round trip", () {
     final input = <int, Map<int, MapsSomeStruct>>{};
@@ -66,8 +66,8 @@ void main() {
 
     final result = Maps.methodWithNestedMap(input);
 
-    expect(result[31]?[77]?.value, equals("FOO"));
-    expect(result[42]?[199]?.value, equals("BAR"));
+    expect(result[31][77].value, equals("FOO"));
+    expect(result[42][199].value, equals("BAR"));
   });
   _testSuite.test("Empty Map in Struct round trip", () {
     final input = MapsStructWithMap({});
@@ -101,12 +101,12 @@ void main() {
 
     final result = Maps.methodWithMapOfInstances(input);
 
-    expect(result["One"]?.getStringValue(), equals("Functional One"));
-    expect(result["Two"]?.getStringValue(), equals("Functional Two"));
+    expect(result["One"].getStringValue(), equals("Functional One"));
+    expect(result["Two"].getStringValue(), equals("Functional Two"));
 
     instance1.release();
     instance2.release();
-    result["One"]?.release();
-    result["Two"]?.release();
+    result["One"].release();
+    result["Two"].release();
   });
 }

@@ -9,12 +9,12 @@ import 'package:library/src/_library_context.dart' as __lib;
 abstract class SkipProxy {
   SkipProxy() {}
   factory SkipProxy.fromLambdas({
-    required String Function(String) lambda_notInJava,
-    required bool Function(bool) lambda_notInSwift,
-    required String Function() lambda_skippedInJava_get,
-    required void Function(String) lambda_skippedInJava_set,
-    required bool Function() lambda_isSkippedInSwift_get,
-    required void Function(bool) lambda_isSkippedInSwift_set
+    @required String Function(String) lambda_notInJava,
+    @required bool Function(bool) lambda_notInSwift,
+    @required String Function() lambda_skippedInJava_get,
+    @required void Function(String) lambda_skippedInJava_set,
+    @required bool Function() lambda_isSkippedInSwift_get,
+    @required void Function(bool) lambda_isSkippedInSwift_set
   }) => SkipProxy$Lambdas(
     lambda_notInJava,
     lambda_notInSwift,
@@ -88,11 +88,11 @@ class SkipProxy$Impl extends __lib.NativeBase implements SkipProxy {
   SkipProxy$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle.address == 0) return;
+    if (handle == null) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_SkipProxy_release_handle(handle);
-    handle = Pointer<Void>.fromAddress(0);
+    handle = null;
   }
   @override
   String notInJava(String input) {
@@ -166,7 +166,7 @@ class SkipProxy$Impl extends __lib.NativeBase implements SkipProxy {
   }
 }
 int _SkipProxy_notInJava_static(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
-  String? _result_object = null;
+  String _result_object = null;
   try {
     _result_object = (__lib.instanceCache[_token] as SkipProxy).notInJava(String_fromFfi(input));
     _result.value = String_toFfi(_result_object);
@@ -176,7 +176,7 @@ int _SkipProxy_notInJava_static(int _token, Pointer<Void> input, Pointer<Pointer
   return 0;
 }
 int _SkipProxy_notInSwift_static(int _token, int input, Pointer<Uint8> _result) {
-  bool? _result_object = null;
+  bool _result_object = null;
   try {
     _result_object = (__lib.instanceCache[_token] as SkipProxy).notInSwift(Boolean_fromFfi(input));
     _result.value = Boolean_toFfi(_result_object);
@@ -229,8 +229,8 @@ Pointer<Void> smoke_SkipProxy_toFfi(SkipProxy value) {
 SkipProxy smoke_SkipProxy_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is SkipProxy) return instance;
+  final instance = __lib.instanceCache[token] as SkipProxy;
+  if (instance != null) return instance;
   final _type_id_handle = _smoke_SkipProxy_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -243,9 +243,9 @@ SkipProxy smoke_SkipProxy_fromFfi(Pointer<Void> handle) {
 }
 void smoke_SkipProxy_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_SkipProxy_release_handle(handle);
-Pointer<Void> smoke_SkipProxy_toFfi_nullable(SkipProxy? value) =>
+Pointer<Void> smoke_SkipProxy_toFfi_nullable(SkipProxy value) =>
   value != null ? smoke_SkipProxy_toFfi(value) : Pointer<Void>.fromAddress(0);
-SkipProxy? smoke_SkipProxy_fromFfi_nullable(Pointer<Void> handle) =>
+SkipProxy smoke_SkipProxy_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_SkipProxy_fromFfi(handle) : null;
 void smoke_SkipProxy_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_SkipProxy_release_handle(handle);

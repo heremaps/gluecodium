@@ -85,14 +85,14 @@ final _smoke_DartColor_get_value_nullable = __lib.catchArgumentError(() => __lib
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_DartColor_get_value_nullable'));
-Pointer<Void> smoke_DartColor_toFfi_nullable(int? value) {
+Pointer<Void> smoke_DartColor_toFfi_nullable(int value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_DartColor_toFfi(value);
   final result = _smoke_DartColor_create_handle_nullable(_handle);
   smoke_DartColor_releaseFfiHandle(_handle);
   return result;
 }
-int? smoke_DartColor_fromFfi_nullable(Pointer<Void> handle) {
+int smoke_DartColor_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_DartColor_get_value_nullable(handle);
   final result = smoke_DartColor_fromFfi(_handle);

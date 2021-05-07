@@ -166,14 +166,14 @@ final _smoke_StructsWithMethods_Vector_get_value_nullable = __lib.catchArgumentE
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructsWithMethods_Vector_get_value_nullable'));
-Pointer<Void> smoke_StructsWithMethods_Vector_toFfi_nullable(Vector? value) {
+Pointer<Void> smoke_StructsWithMethods_Vector_toFfi_nullable(Vector value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_StructsWithMethods_Vector_toFfi(value);
   final result = _smoke_StructsWithMethods_Vector_create_handle_nullable(_handle);
   smoke_StructsWithMethods_Vector_releaseFfiHandle(_handle);
   return result;
 }
-Vector? smoke_StructsWithMethods_Vector_fromFfi_nullable(Pointer<Void> handle) {
+Vector smoke_StructsWithMethods_Vector_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_StructsWithMethods_Vector_get_value_nullable(handle);
   final result = smoke_StructsWithMethods_Vector_fromFfi(_handle);

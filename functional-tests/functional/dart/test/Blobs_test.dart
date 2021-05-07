@@ -52,8 +52,8 @@ void main() {
     expect(result.image, Uint8List.fromList([255, 42, 0]));
   });
   _testSuite.test("methodThatExplodes() throws", () {
-    Uint8List? result = null;
-    ExplosiveException? exception = null;
+    Uint8List result = null;
+    ExplosiveException exception = null;
 
     try {
       result = ArraysByteBuffer.methodThatExplodes(true);
@@ -62,11 +62,12 @@ void main() {
     }
 
     expect(result, isNull);
-    expect(exception?.error, ExplosiveErrorCode.exploded);
+    expect(exception, isNotNull);
+    expect(exception.error, ExplosiveErrorCode.exploded);
   });
   _testSuite.test("methodThatExplodes() does not throw", () {
-    Uint8List? result = null;
-    ExplosiveException? exception = null;
+    Uint8List result = null;
+    ExplosiveException exception = null;
 
     try {
       result = ArraysByteBuffer.methodThatExplodes(false);

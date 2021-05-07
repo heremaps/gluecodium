@@ -12,20 +12,20 @@ import 'package:library/src/_library_context.dart' as __lib;
 abstract class ListenerWithProperties {
   ListenerWithProperties() {}
   factory ListenerWithProperties.fromLambdas({
-    required String Function() lambda_message_get,
-    required void Function(String) lambda_message_set,
-    required CalculationResult Function() lambda_packedMessage_get,
-    required void Function(CalculationResult) lambda_packedMessage_set,
-    required ListenerWithProperties_ResultStruct Function() lambda_structuredMessage_get,
-    required void Function(ListenerWithProperties_ResultStruct) lambda_structuredMessage_set,
-    required ListenerWithProperties_ResultEnum Function() lambda_enumeratedMessage_get,
-    required void Function(ListenerWithProperties_ResultEnum) lambda_enumeratedMessage_set,
-    required List<String> Function() lambda_arrayedMessage_get,
-    required void Function(List<String>) lambda_arrayedMessage_set,
-    required Map<String, double> Function() lambda_mappedMessage_get,
-    required void Function(Map<String, double>) lambda_mappedMessage_set,
-    required Uint8List Function() lambda_bufferedMessage_get,
-    required void Function(Uint8List) lambda_bufferedMessage_set
+    @required String Function() lambda_message_get,
+    @required void Function(String) lambda_message_set,
+    @required CalculationResult Function() lambda_packedMessage_get,
+    @required void Function(CalculationResult) lambda_packedMessage_set,
+    @required ListenerWithProperties_ResultStruct Function() lambda_structuredMessage_get,
+    @required void Function(ListenerWithProperties_ResultStruct) lambda_structuredMessage_set,
+    @required ListenerWithProperties_ResultEnum Function() lambda_enumeratedMessage_get,
+    @required void Function(ListenerWithProperties_ResultEnum) lambda_enumeratedMessage_set,
+    @required List<String> Function() lambda_arrayedMessage_get,
+    @required void Function(List<String>) lambda_arrayedMessage_set,
+    @required Map<String, double> Function() lambda_mappedMessage_get,
+    @required void Function(Map<String, double>) lambda_mappedMessage_set,
+    @required Uint8List Function() lambda_bufferedMessage_get,
+    @required void Function(Uint8List) lambda_bufferedMessage_set
   }) => ListenerWithProperties$Lambdas(
     lambda_message_get,
     lambda_message_set,
@@ -104,14 +104,14 @@ final _smoke_ListenerWithProperties_ResultEnum_get_value_nullable = __lib.catchA
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_ListenerWithProperties_ResultEnum_get_value_nullable'));
-Pointer<Void> smoke_ListenerWithProperties_ResultEnum_toFfi_nullable(ListenerWithProperties_ResultEnum? value) {
+Pointer<Void> smoke_ListenerWithProperties_ResultEnum_toFfi_nullable(ListenerWithProperties_ResultEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_ListenerWithProperties_ResultEnum_toFfi(value);
   final result = _smoke_ListenerWithProperties_ResultEnum_create_handle_nullable(_handle);
   smoke_ListenerWithProperties_ResultEnum_releaseFfiHandle(_handle);
   return result;
 }
-ListenerWithProperties_ResultEnum? smoke_ListenerWithProperties_ResultEnum_fromFfi_nullable(Pointer<Void> handle) {
+ListenerWithProperties_ResultEnum smoke_ListenerWithProperties_ResultEnum_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_ListenerWithProperties_ResultEnum_get_value_nullable(handle);
   final result = smoke_ListenerWithProperties_ResultEnum_fromFfi(_handle);
@@ -168,14 +168,14 @@ final _smoke_ListenerWithProperties_ResultStruct_get_value_nullable = __lib.catc
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ListenerWithProperties_ResultStruct_get_value_nullable'));
-Pointer<Void> smoke_ListenerWithProperties_ResultStruct_toFfi_nullable(ListenerWithProperties_ResultStruct? value) {
+Pointer<Void> smoke_ListenerWithProperties_ResultStruct_toFfi_nullable(ListenerWithProperties_ResultStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_ListenerWithProperties_ResultStruct_toFfi(value);
   final result = _smoke_ListenerWithProperties_ResultStruct_create_handle_nullable(_handle);
   smoke_ListenerWithProperties_ResultStruct_releaseFfiHandle(_handle);
   return result;
 }
-ListenerWithProperties_ResultStruct? smoke_ListenerWithProperties_ResultStruct_fromFfi_nullable(Pointer<Void> handle) {
+ListenerWithProperties_ResultStruct smoke_ListenerWithProperties_ResultStruct_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smoke_ListenerWithProperties_ResultStruct_get_value_nullable(handle);
   final result = smoke_ListenerWithProperties_ResultStruct_fromFfi(_handle);
@@ -268,11 +268,11 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
   ListenerWithProperties$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle.address == 0) return;
+    if (handle == null) return;
     __lib.uncacheObject(this);
     __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
     _smoke_ListenerWithProperties_release_handle(handle);
-    handle = Pointer<Void>.fromAddress(0);
+    handle = null;
   }
   String get message {
     final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ListenerWithProperties_message_get'));
@@ -546,8 +546,8 @@ Pointer<Void> smoke_ListenerWithProperties_toFfi(ListenerWithProperties value) {
 ListenerWithProperties smoke_ListenerWithProperties_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffi_get_cached_token(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is ListenerWithProperties) return instance;
+  final instance = __lib.instanceCache[token] as ListenerWithProperties;
+  if (instance != null) return instance;
   final _type_id_handle = _smoke_ListenerWithProperties_get_type_id(handle);
   final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
   String_releaseFfiHandle(_type_id_handle);
@@ -560,9 +560,9 @@ ListenerWithProperties smoke_ListenerWithProperties_fromFfi(Pointer<Void> handle
 }
 void smoke_ListenerWithProperties_releaseFfiHandle(Pointer<Void> handle) =>
   _smoke_ListenerWithProperties_release_handle(handle);
-Pointer<Void> smoke_ListenerWithProperties_toFfi_nullable(ListenerWithProperties? value) =>
+Pointer<Void> smoke_ListenerWithProperties_toFfi_nullable(ListenerWithProperties value) =>
   value != null ? smoke_ListenerWithProperties_toFfi(value) : Pointer<Void>.fromAddress(0);
-ListenerWithProperties? smoke_ListenerWithProperties_fromFfi_nullable(Pointer<Void> handle) =>
+ListenerWithProperties smoke_ListenerWithProperties_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_ListenerWithProperties_fromFfi(handle) : null;
 void smoke_ListenerWithProperties_releaseFfiHandle_nullable(Pointer<Void> handle) =>
   _smoke_ListenerWithProperties_release_handle(handle);

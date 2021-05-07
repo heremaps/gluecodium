@@ -53,8 +53,7 @@ int _{{resolveName parent}}_{{resolveName}}_static({{!!
 }}int _token{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
 }}{{#unless returnType.isVoid}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}> _result{{/unless}}) {
-  {{#unless returnType.isVoid}}{{resolveName returnType.typeRef}}{{!!
-  }}{{#unless returnType.typeRef.isNullable}}?{{/unless}} _result_object = null;{{/unless}}
+  {{#unless returnType.isVoid}}{{resolveName returnType.typeRef}} _result_object;{{/unless}}
   try {
     {{#unless returnType.isVoid}}_result_object = {{/unless}}{{!!
   }}(__lib.instanceCache[_token] as {{resolveName parent}})({{#parameters}}{{!!
@@ -65,9 +64,9 @@ int _{{resolveName parent}}_{{resolveName}}_static({{!!
 {{#parameters}}
     {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}});
 {{/parameters}}{{#instanceOf returnType.typeRef.type.actualType "LimeClass"}}
-    _result_object?.release();
+    if (_result_object != null) _result_object.release();
 {{/instanceOf}}{{#instanceOf returnType.typeRef.type.actualType "LimeInterface"}}
-    _result_object?.release();
+    if (_result_object != null) _result_object.release();
 {{/instanceOf}}
   }
   return 0;

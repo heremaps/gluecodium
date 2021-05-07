@@ -25,7 +25,7 @@ import "../test_suite.dart";
 final _testSuite = TestSuite("MultiListener");
 
 class MultiReceiver implements ReceiverA, ReceiverB {
-  final log = List<String>.empty(growable: true);
+  final log = List<String>();
 
   @override
   void receiveA(String message) {

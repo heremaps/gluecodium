@@ -55,11 +55,11 @@ void main() {
 
     final result = Dates.increaseDateMaybe(input);
 
-    expect(result?.year, 1971);
-    expect(result?.month, 3);
-    expect(result?.day, 6);
-    expect(result?.hour, 8);
-    expect(result?.minute, 10);
-    expect(result?.second, 12);
+    expect(result.year, 1971);
+    expect(result.month, 3);
+    expect(result.day, 6);
+    expect(result.hour, 8);
+    expect(result.minute, 10);
+    expect(result.second, 12);
   });
 }

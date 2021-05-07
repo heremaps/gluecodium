@@ -205,8 +205,7 @@ internal class DartNameResolver(
     private fun resolveTypeRefName(limeTypeRef: LimeTypeRef): String {
         val typeName = resolveName(limeTypeRef.type)
         val alias = limeTypeRef.type.actualType.external?.dart?.get(IMPORT_PATH_NAME)?.let { computeAlias(it) }
-        val suffix = if (limeTypeRef.isNullable) "?" else ""
-        return listOfNotNull(alias, typeName).joinToString(".") + suffix
+        return listOfNotNull(alias, typeName).joinToString(".")
     }
 
     private fun buildPathMap(): Map<String, String> {
