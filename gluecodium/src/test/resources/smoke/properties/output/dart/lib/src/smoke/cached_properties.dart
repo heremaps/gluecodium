@@ -4,7 +4,6 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'dart:ffi';
-import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class CachedProperties {
@@ -17,11 +16,11 @@ abstract class CachedProperties {
   static Uint8List get staticCachedProperty => CachedProperties$Impl.staticCachedProperty;
 }
 // CachedProperties "private" section, not exported.
-final _smoke_CachedProperties_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeCachedpropertiesCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_CachedProperties_copy_handle'));
-final _smoke_CachedProperties_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeCachedpropertiesReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_CachedProperties_release_handle'));
@@ -31,60 +30,60 @@ class CachedProperties$Impl extends __lib.NativeBase implements CachedProperties
   void release() {
     if (handle == null) return;
     __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
-    _smoke_CachedProperties_release_handle(handle);
+    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    _smokeCachedpropertiesReleaseHandle(handle);
     handle = null;
   }
-  List<String> _cache_cachedProperty;
-  bool _is_cached_cachedProperty = false;
+  /*late*/ List<String> _cachedPropertyCache;
+  bool _cachedPropertyIsCached = false;
   @override
   List<String> get cachedProperty {
-    if (!_is_cached_cachedProperty) {
-      final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_CachedProperties_cachedProperty_get'));
-      final __result_handle = _get_ffi(this.handle, __lib.LibraryContext.isolateId);
+    if (!_cachedPropertyIsCached) {
+      final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_CachedProperties_cachedProperty_get'));
+      final __resultHandle = _getFfi(this.handle, __lib.LibraryContext.isolateId);
       try {
-        _cache_cachedProperty = foobar_ListOf_String_fromFfi(__result_handle);
+        _cachedPropertyCache = foobar_ListOf_String_fromFfi(__resultHandle);
       } finally {
-        foobar_ListOf_String_releaseFfiHandle(__result_handle);
+        foobar_ListOf_String_releaseFfiHandle(__resultHandle);
       }
-      _is_cached_cachedProperty = true;
+      _cachedPropertyIsCached = true;
     }
-    return _cache_cachedProperty;
+    return _cachedPropertyCache;
   }
-  static Uint8List _cache_staticCachedProperty;
-  static bool _is_cached_staticCachedProperty = false;
+  static /*late*/ Uint8List _staticCachedPropertyCache;
+  static bool _staticCachedPropertyIsCached = false;
   static Uint8List get staticCachedProperty {
-    if (!_is_cached_staticCachedProperty) {
-      final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_CachedProperties_staticCachedProperty_get'));
-      final __result_handle = _get_ffi(__lib.LibraryContext.isolateId);
+    if (!_staticCachedPropertyIsCached) {
+      final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_CachedProperties_staticCachedProperty_get'));
+      final __resultHandle = _getFfi(__lib.LibraryContext.isolateId);
       try {
-        _cache_staticCachedProperty = Blob_fromFfi(__result_handle);
+        _staticCachedPropertyCache = Blob_fromFfi(__resultHandle);
       } finally {
-        Blob_releaseFfiHandle(__result_handle);
+        Blob_releaseFfiHandle(__resultHandle);
       }
-      _is_cached_staticCachedProperty = true;
+      _staticCachedPropertyIsCached = true;
     }
-    return _cache_staticCachedProperty;
+    return _staticCachedPropertyCache;
   }
 }
 Pointer<Void> smoke_CachedProperties_toFfi(CachedProperties value) =>
-  _smoke_CachedProperties_copy_handle((value as __lib.NativeBase).handle);
+  _smokeCachedpropertiesCopyHandle((value as __lib.NativeBase).handle);
 CachedProperties smoke_CachedProperties_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as CachedProperties;
   if (instance != null) return instance;
-  final _copied_handle = _smoke_CachedProperties_copy_handle(handle);
-  final result = CachedProperties$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  final _copiedHandle = _smokeCachedpropertiesCopyHandle(handle);
+  final result = CachedProperties$Impl(_copiedHandle);
+  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_CachedProperties_releaseFfiHandle(Pointer<Void> handle) =>
-  _smoke_CachedProperties_release_handle(handle);
+  _smokeCachedpropertiesReleaseHandle(handle);
 Pointer<Void> smoke_CachedProperties_toFfi_nullable(CachedProperties value) =>
   value != null ? smoke_CachedProperties_toFfi(value) : Pointer<Void>.fromAddress(0);
 CachedProperties smoke_CachedProperties_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_CachedProperties_fromFfi(handle) : null;
 void smoke_CachedProperties_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_CachedProperties_release_handle(handle);
+  _smokeCachedpropertiesReleaseHandle(handle);
 // End of CachedProperties "private" section.

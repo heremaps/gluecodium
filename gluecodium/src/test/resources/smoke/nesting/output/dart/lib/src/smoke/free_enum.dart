@@ -1,8 +1,6 @@
 import 'dart:ffi';
-import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
-
 enum FreeEnum {
     foo,
     bar
@@ -33,32 +31,32 @@ FreeEnum smoke_FreeEnum_fromFfi(int handle) {
   }
 }
 void smoke_FreeEnum_releaseFfiHandle(int handle) {}
-final _smoke_FreeEnum_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smoke_FreeEnumCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
   >('library_smoke_FreeEnum_create_handle_nullable'));
-final _smoke_FreeEnum_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smoke_FreeEnumReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_FreeEnum_release_handle_nullable'));
-final _smoke_FreeEnum_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smoke_FreeEnumGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_FreeEnum_get_value_nullable'));
 Pointer<Void> smoke_FreeEnum_toFfi_nullable(FreeEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_FreeEnum_toFfi(value);
-  final result = _smoke_FreeEnum_create_handle_nullable(_handle);
+  final result = _smoke_FreeEnumCreateHandleNullable(_handle);
   smoke_FreeEnum_releaseFfiHandle(_handle);
   return result;
 }
 FreeEnum smoke_FreeEnum_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_FreeEnum_get_value_nullable(handle);
+  final _handle = _smoke_FreeEnumGetValueNullable(handle);
   final result = smoke_FreeEnum_fromFfi(_handle);
   smoke_FreeEnum_releaseFfiHandle(_handle);
   return result;
 }
 void smoke_FreeEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_FreeEnum_release_handle_nullable(handle);
+  _smoke_FreeEnumReleaseHandleNullable(handle);
 // End of FreeEnum "private" section.

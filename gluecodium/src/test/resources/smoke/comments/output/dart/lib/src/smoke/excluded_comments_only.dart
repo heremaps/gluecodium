@@ -2,7 +2,6 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
-import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 /// @nodoc
@@ -48,34 +47,34 @@ ExcludedCommentsOnly_SomeEnum smoke_ExcludedCommentsOnly_SomeEnum_fromFfi(int ha
   }
 }
 void smoke_ExcludedCommentsOnly_SomeEnum_releaseFfiHandle(int handle) {}
-final _smoke_ExcludedCommentsOnly_SomeEnum_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smoke_ExcludedCommentsOnly_SomeEnumCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
   >('library_smoke_ExcludedCommentsOnly_SomeEnum_create_handle_nullable'));
-final _smoke_ExcludedCommentsOnly_SomeEnum_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smoke_ExcludedCommentsOnly_SomeEnumReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_SomeEnum_release_handle_nullable'));
-final _smoke_ExcludedCommentsOnly_SomeEnum_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smoke_ExcludedCommentsOnly_SomeEnumGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_SomeEnum_get_value_nullable'));
 Pointer<Void> smoke_ExcludedCommentsOnly_SomeEnum_toFfi_nullable(ExcludedCommentsOnly_SomeEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_ExcludedCommentsOnly_SomeEnum_toFfi(value);
-  final result = _smoke_ExcludedCommentsOnly_SomeEnum_create_handle_nullable(_handle);
+  final result = _smoke_ExcludedCommentsOnly_SomeEnumCreateHandleNullable(_handle);
   smoke_ExcludedCommentsOnly_SomeEnum_releaseFfiHandle(_handle);
   return result;
 }
 ExcludedCommentsOnly_SomeEnum smoke_ExcludedCommentsOnly_SomeEnum_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_ExcludedCommentsOnly_SomeEnum_get_value_nullable(handle);
+  final _handle = _smoke_ExcludedCommentsOnly_SomeEnumGetValueNullable(handle);
   final result = smoke_ExcludedCommentsOnly_SomeEnum_fromFfi(_handle);
   smoke_ExcludedCommentsOnly_SomeEnum_releaseFfiHandle(_handle);
   return result;
 }
 void smoke_ExcludedCommentsOnly_SomeEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_ExcludedCommentsOnly_SomeEnum_release_handle_nullable(handle);
+  _smoke_ExcludedCommentsOnly_SomeEnumReleaseHandleNullable(handle);
 // End of ExcludedCommentsOnly_SomeEnum "private" section.
 /// @nodoc
 class ExcludedCommentsOnly_SomethingWrongException implements Exception {
@@ -89,77 +88,77 @@ class ExcludedCommentsOnly_SomeStruct {
   ExcludedCommentsOnly_SomeStruct(this.someField);
 }
 // ExcludedCommentsOnly_SomeStruct "private" section, not exported.
-final _smoke_ExcludedCommentsOnly_SomeStruct_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeExcludedcommentsonlySomestructCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint8),
     Pointer<Void> Function(int)
   >('library_smoke_ExcludedCommentsOnly_SomeStruct_create_handle'));
-final _smoke_ExcludedCommentsOnly_SomeStruct_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeExcludedcommentsonlySomestructReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_SomeStruct_release_handle'));
-final _smoke_ExcludedCommentsOnly_SomeStruct_get_field_someField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeExcludedcommentsonlySomestructGetFieldsomeField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_SomeStruct_get_field_someField'));
 Pointer<Void> smoke_ExcludedCommentsOnly_SomeStruct_toFfi(ExcludedCommentsOnly_SomeStruct value) {
-  final _someField_handle = Boolean_toFfi(value.someField);
-  final _result = _smoke_ExcludedCommentsOnly_SomeStruct_create_handle(_someField_handle);
-  Boolean_releaseFfiHandle(_someField_handle);
+  final _someFieldHandle = Boolean_toFfi(value.someField);
+  final _result = _smokeExcludedcommentsonlySomestructCreateHandle(_someFieldHandle);
+  Boolean_releaseFfiHandle(_someFieldHandle);
   return _result;
 }
 ExcludedCommentsOnly_SomeStruct smoke_ExcludedCommentsOnly_SomeStruct_fromFfi(Pointer<Void> handle) {
-  final _someField_handle = _smoke_ExcludedCommentsOnly_SomeStruct_get_field_someField(handle);
+  final _someFieldHandle = _smokeExcludedcommentsonlySomestructGetFieldsomeField(handle);
   try {
     return ExcludedCommentsOnly_SomeStruct(
-      Boolean_fromFfi(_someField_handle)
+      Boolean_fromFfi(_someFieldHandle)
     );
   } finally {
-    Boolean_releaseFfiHandle(_someField_handle);
+    Boolean_releaseFfiHandle(_someFieldHandle);
   }
 }
-void smoke_ExcludedCommentsOnly_SomeStruct_releaseFfiHandle(Pointer<Void> handle) => _smoke_ExcludedCommentsOnly_SomeStruct_release_handle(handle);
+void smoke_ExcludedCommentsOnly_SomeStruct_releaseFfiHandle(Pointer<Void> handle) => _smokeExcludedcommentsonlySomestructReleaseHandle(handle);
 // Nullable ExcludedCommentsOnly_SomeStruct
-final _smoke_ExcludedCommentsOnly_SomeStruct_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smoke_ExcludedCommentsOnly_SomeStructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_SomeStruct_create_handle_nullable'));
-final _smoke_ExcludedCommentsOnly_SomeStruct_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smoke_ExcludedCommentsOnly_SomeStructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_SomeStruct_release_handle_nullable'));
-final _smoke_ExcludedCommentsOnly_SomeStruct_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smoke_ExcludedCommentsOnly_SomeStructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_SomeStruct_get_value_nullable'));
 Pointer<Void> smoke_ExcludedCommentsOnly_SomeStruct_toFfi_nullable(ExcludedCommentsOnly_SomeStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_ExcludedCommentsOnly_SomeStruct_toFfi(value);
-  final result = _smoke_ExcludedCommentsOnly_SomeStruct_create_handle_nullable(_handle);
+  final result = _smoke_ExcludedCommentsOnly_SomeStructCreateHandleNullable(_handle);
   smoke_ExcludedCommentsOnly_SomeStruct_releaseFfiHandle(_handle);
   return result;
 }
 ExcludedCommentsOnly_SomeStruct smoke_ExcludedCommentsOnly_SomeStruct_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_ExcludedCommentsOnly_SomeStruct_get_value_nullable(handle);
+  final _handle = _smoke_ExcludedCommentsOnly_SomeStructGetValueNullable(handle);
   final result = smoke_ExcludedCommentsOnly_SomeStruct_fromFfi(_handle);
   smoke_ExcludedCommentsOnly_SomeStruct_releaseFfiHandle(_handle);
   return result;
 }
 void smoke_ExcludedCommentsOnly_SomeStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_ExcludedCommentsOnly_SomeStruct_release_handle_nullable(handle);
+  _smoke_ExcludedCommentsOnly_SomeStructReleaseHandleNullable(handle);
 // End of ExcludedCommentsOnly_SomeStruct "private" section.
 /// @nodoc
 typedef ExcludedCommentsOnly_SomeLambda = double Function(String, int);
 // ExcludedCommentsOnly_SomeLambda "private" section, not exported.
-final _smoke_ExcludedCommentsOnly_SomeLambda_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeExcludedcommentsonlySomelambdaCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_SomeLambda_copy_handle'));
-final _smoke_ExcludedCommentsOnly_SomeLambda_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeExcludedcommentsonlySomelambdaReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_SomeLambda_release_handle'));
-final _smoke_ExcludedCommentsOnly_SomeLambda_create_proxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeExcludedcommentsonlySomelambdaCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
     Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_ExcludedCommentsOnly_SomeLambda_create_proxy'));
@@ -167,27 +166,27 @@ class ExcludedCommentsOnly_SomeLambda$Impl {
   Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
   ExcludedCommentsOnly_SomeLambda$Impl(this.handle);
-  void release() => _smoke_ExcludedCommentsOnly_SomeLambda_release_handle(handle);
+  void release() => _smokeExcludedcommentsonlySomelambdaReleaseHandle(handle);
   double call(String p0, int p1) {
-    final _call_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Double Function(Pointer<Void>, Int32, Pointer<Void>, Int32), double Function(Pointer<Void>, int, Pointer<Void>, int)>('library_smoke_ExcludedCommentsOnly_SomeLambda_call__String_Int'));
-    final _p0_handle = String_toFfi(p0);
-    final _p1_handle = (p1);
+    final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Double Function(Pointer<Void>, Int32, Pointer<Void>, Int32), double Function(Pointer<Void>, int, Pointer<Void>, int)>('library_smoke_ExcludedCommentsOnly_SomeLambda_call__String_Int'));
+    final _p0Handle = String_toFfi(p0);
+    final _p1Handle = (p1);
     final _handle = this.handle;
-    final __result_handle = _call_ffi(_handle, __lib.LibraryContext.isolateId, _p0_handle, _p1_handle);
-    String_releaseFfiHandle(_p0_handle);
-    (_p1_handle);
+    final __resultHandle = _callFfi(_handle, __lib.LibraryContext.isolateId, _p0Handle, _p1Handle);
+    String_releaseFfiHandle(_p0Handle);
+    (_p1Handle);
     try {
-      return (__result_handle);
+      return (__resultHandle);
     } finally {
-      (__result_handle);
+      (__resultHandle);
     }
   }
 }
 int _ExcludedCommentsOnly_SomeLambda_call_static(int _token, Pointer<Void> p0, int p1, Pointer<Double> _result) {
-  double _result_object;
+  double _resultObject;
   try {
-    _result_object = (__lib.instanceCache[_token] as ExcludedCommentsOnly_SomeLambda)(String_fromFfi(p0), (p1));
-    _result.value = (_result_object);
+    _resultObject = (__lib.instanceCache[_token] as ExcludedCommentsOnly_SomeLambda)(String_fromFfi(p0), (p1));
+    _result.value = (_resultObject);
   } finally {
     String_releaseFfiHandle(p0);
     (p1);
@@ -195,7 +194,7 @@ int _ExcludedCommentsOnly_SomeLambda_call_static(int _token, Pointer<Void> p0, i
   return 0;
 }
 Pointer<Void> smoke_ExcludedCommentsOnly_SomeLambda_toFfi(ExcludedCommentsOnly_SomeLambda value) {
-  final result = _smoke_ExcludedCommentsOnly_SomeLambda_create_proxy(
+  final result = _smokeExcludedcommentsonlySomelambdaCreateProxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
@@ -204,7 +203,7 @@ Pointer<Void> smoke_ExcludedCommentsOnly_SomeLambda_toFfi(ExcludedCommentsOnly_S
   return result;
 }
 ExcludedCommentsOnly_SomeLambda smoke_ExcludedCommentsOnly_SomeLambda_fromFfi(Pointer<Void> handle) {
-  final _impl = ExcludedCommentsOnly_SomeLambda$Impl(_smoke_ExcludedCommentsOnly_SomeLambda_copy_handle(handle));
+  final _impl = ExcludedCommentsOnly_SomeLambda$Impl(_smokeExcludedcommentsonlySomelambdaCopyHandle(handle));
   return (String p0, int p1) {
     final _result =_impl.call(p0, p1);
     _impl.release();
@@ -212,59 +211,59 @@ ExcludedCommentsOnly_SomeLambda smoke_ExcludedCommentsOnly_SomeLambda_fromFfi(Po
   };
 }
 void smoke_ExcludedCommentsOnly_SomeLambda_releaseFfiHandle(Pointer<Void> handle) =>
-  _smoke_ExcludedCommentsOnly_SomeLambda_release_handle(handle);
+  _smokeExcludedcommentsonlySomelambdaReleaseHandle(handle);
 // Nullable ExcludedCommentsOnly_SomeLambda
-final _smoke_ExcludedCommentsOnly_SomeLambda_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smoke_ExcludedCommentsOnly_SomeLambdaCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_SomeLambda_create_handle_nullable'));
-final _smoke_ExcludedCommentsOnly_SomeLambda_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smoke_ExcludedCommentsOnly_SomeLambdaReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_SomeLambda_release_handle_nullable'));
-final _smoke_ExcludedCommentsOnly_SomeLambda_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smoke_ExcludedCommentsOnly_SomeLambdaGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_SomeLambda_get_value_nullable'));
 Pointer<Void> smoke_ExcludedCommentsOnly_SomeLambda_toFfi_nullable(ExcludedCommentsOnly_SomeLambda value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_ExcludedCommentsOnly_SomeLambda_toFfi(value);
-  final result = _smoke_ExcludedCommentsOnly_SomeLambda_create_handle_nullable(_handle);
+  final result = _smoke_ExcludedCommentsOnly_SomeLambdaCreateHandleNullable(_handle);
   smoke_ExcludedCommentsOnly_SomeLambda_releaseFfiHandle(_handle);
   return result;
 }
 ExcludedCommentsOnly_SomeLambda smoke_ExcludedCommentsOnly_SomeLambda_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_ExcludedCommentsOnly_SomeLambda_get_value_nullable(handle);
+  final _handle = _smoke_ExcludedCommentsOnly_SomeLambdaGetValueNullable(handle);
   final result = smoke_ExcludedCommentsOnly_SomeLambda_fromFfi(_handle);
   smoke_ExcludedCommentsOnly_SomeLambda_releaseFfiHandle(_handle);
   return result;
 }
 void smoke_ExcludedCommentsOnly_SomeLambda_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_ExcludedCommentsOnly_SomeLambda_release_handle_nullable(handle);
+  _smoke_ExcludedCommentsOnly_SomeLambdaReleaseHandleNullable(handle);
 // End of ExcludedCommentsOnly_SomeLambda "private" section.
 // ExcludedCommentsOnly "private" section, not exported.
-final _smoke_ExcludedCommentsOnly_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeExcludedcommentsonlyCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_copy_handle'));
-final _smoke_ExcludedCommentsOnly_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeExcludedcommentsonlyReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_release_handle'));
-final _someMethodWithAllComments_return_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _someMethodWithAllCommentsReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_someMethodWithAllComments__String_return_release_handle'));
-final _someMethodWithAllComments_return_get_result = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _someMethodWithAllCommentsReturnGetResult = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_someMethodWithAllComments__String_return_get_result'));
-final _someMethodWithAllComments_return_get_error = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _someMethodWithAllCommentsReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_someMethodWithAllComments__String_return_get_error'));
-final _someMethodWithAllComments_return_has_error = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _someMethodWithAllCommentsReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_someMethodWithAllComments__String_return_has_error'));
@@ -274,88 +273,88 @@ class ExcludedCommentsOnly$Impl extends __lib.NativeBase implements ExcludedComm
   void release() {
     if (handle == null) return;
     __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
-    _smoke_ExcludedCommentsOnly_release_handle(handle);
+    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    _smokeExcludedcommentsonlyReleaseHandle(handle);
     handle = null;
   }
   @override
   bool someMethodWithAllComments(String inputParameter) {
-    final _someMethodWithAllComments_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ExcludedCommentsOnly_someMethodWithAllComments__String'));
-    final _inputParameter_handle = String_toFfi(inputParameter);
+    final _someMethodWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ExcludedCommentsOnly_someMethodWithAllComments__String'));
+    final _inputParameterHandle = String_toFfi(inputParameter);
     final _handle = this.handle;
-    final __call_result_handle = _someMethodWithAllComments_ffi(_handle, __lib.LibraryContext.isolateId, _inputParameter_handle);
-    String_releaseFfiHandle(_inputParameter_handle);
-    if (_someMethodWithAllComments_return_has_error(__call_result_handle) != 0) {
-        final __error_handle = _someMethodWithAllComments_return_get_error(__call_result_handle);
-        _someMethodWithAllComments_return_release_handle(__call_result_handle);
+    final __callResultHandle = _someMethodWithAllCommentsFfi(_handle, __lib.LibraryContext.isolateId, _inputParameterHandle);
+    String_releaseFfiHandle(_inputParameterHandle);
+    if (_someMethodWithAllCommentsReturnHasError(__callResultHandle) != 0) {
+        final __errorHandle = _someMethodWithAllCommentsReturnGetError(__callResultHandle);
+        _someMethodWithAllCommentsReturnReleaseHandle(__callResultHandle);
         try {
-          throw ExcludedCommentsOnly_SomethingWrongException(smoke_ExcludedCommentsOnly_SomeEnum_fromFfi(__error_handle));
+          throw ExcludedCommentsOnly_SomethingWrongException(smoke_ExcludedCommentsOnly_SomeEnum_fromFfi(__errorHandle));
         } finally {
-          smoke_ExcludedCommentsOnly_SomeEnum_releaseFfiHandle(__error_handle);
+          smoke_ExcludedCommentsOnly_SomeEnum_releaseFfiHandle(__errorHandle);
         }
     }
-    final __result_handle = _someMethodWithAllComments_return_get_result(__call_result_handle);
-    _someMethodWithAllComments_return_release_handle(__call_result_handle);
+    final __resultHandle = _someMethodWithAllCommentsReturnGetResult(__callResultHandle);
+    _someMethodWithAllCommentsReturnReleaseHandle(__callResultHandle);
     try {
-      return Boolean_fromFfi(__result_handle);
+      return Boolean_fromFfi(__resultHandle);
     } finally {
-      Boolean_releaseFfiHandle(__result_handle);
+      Boolean_releaseFfiHandle(__resultHandle);
     }
   }
   @override
   someMethodWithoutReturnTypeOrInputParameters() {
-    final _someMethodWithoutReturnTypeOrInputParameters_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ExcludedCommentsOnly_someMethodWithoutReturnTypeOrInputParameters'));
+    final _someMethodWithoutReturnTypeOrInputParametersFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ExcludedCommentsOnly_someMethodWithoutReturnTypeOrInputParameters'));
     final _handle = this.handle;
-    final __result_handle = _someMethodWithoutReturnTypeOrInputParameters_ffi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = _someMethodWithoutReturnTypeOrInputParametersFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return (__result_handle);
+      return (__resultHandle);
     } finally {
-      (__result_handle);
+      (__resultHandle);
     }
   }
   @override
   bool get isSomeProperty {
-    final _get_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_ExcludedCommentsOnly_isSomeProperty_get'));
+    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_ExcludedCommentsOnly_isSomeProperty_get'));
     final _handle = this.handle;
-    final __result_handle = _get_ffi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return Boolean_fromFfi(__result_handle);
+      return Boolean_fromFfi(__resultHandle);
     } finally {
-      Boolean_releaseFfiHandle(__result_handle);
+      Boolean_releaseFfiHandle(__resultHandle);
     }
   }
   @override
   set isSomeProperty(bool value) {
-    final _set_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_ExcludedCommentsOnly_isSomeProperty_set__Boolean'));
-    final _value_handle = Boolean_toFfi(value);
+    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_ExcludedCommentsOnly_isSomeProperty_set__Boolean'));
+    final _valueHandle = Boolean_toFfi(value);
     final _handle = this.handle;
-    final __result_handle = _set_ffi(_handle, __lib.LibraryContext.isolateId, _value_handle);
-    Boolean_releaseFfiHandle(_value_handle);
+    final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    Boolean_releaseFfiHandle(_valueHandle);
     try {
-      return (__result_handle);
+      return (__resultHandle);
     } finally {
-      (__result_handle);
+      (__resultHandle);
     }
   }
 }
 Pointer<Void> smoke_ExcludedCommentsOnly_toFfi(ExcludedCommentsOnly value) =>
-  _smoke_ExcludedCommentsOnly_copy_handle((value as __lib.NativeBase).handle);
+  _smokeExcludedcommentsonlyCopyHandle((value as __lib.NativeBase).handle);
 ExcludedCommentsOnly smoke_ExcludedCommentsOnly_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as ExcludedCommentsOnly;
   if (instance != null) return instance;
-  final _copied_handle = _smoke_ExcludedCommentsOnly_copy_handle(handle);
-  final result = ExcludedCommentsOnly$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  final _copiedHandle = _smokeExcludedcommentsonlyCopyHandle(handle);
+  final result = ExcludedCommentsOnly$Impl(_copiedHandle);
+  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_ExcludedCommentsOnly_releaseFfiHandle(Pointer<Void> handle) =>
-  _smoke_ExcludedCommentsOnly_release_handle(handle);
+  _smokeExcludedcommentsonlyReleaseHandle(handle);
 Pointer<Void> smoke_ExcludedCommentsOnly_toFfi_nullable(ExcludedCommentsOnly value) =>
   value != null ? smoke_ExcludedCommentsOnly_toFfi(value) : Pointer<Void>.fromAddress(0);
 ExcludedCommentsOnly smoke_ExcludedCommentsOnly_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_ExcludedCommentsOnly_fromFfi(handle) : null;
 void smoke_ExcludedCommentsOnly_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_ExcludedCommentsOnly_release_handle(handle);
+  _smokeExcludedcommentsonlyReleaseHandle(handle);
 // End of ExcludedCommentsOnly "private" section.

@@ -19,20 +19,20 @@
   !
   !}}
 {{#if thrownType}}
-final _{{resolveName}}_return_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _{{resolveName}}ReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('{{libraryName}}_{{resolveName "Ffi"}}_return_release_handle'));
-final _{{resolveName}}_return_get_result = {{#unless returnType.isVoid}}__lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _{{resolveName}}ReturnGetResult = {{#unless returnType.isVoid}}__lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     {{resolveName returnType.typeRef "FfiApiTypes"}} Function(Pointer<Void>),
     {{resolveName returnType.typeRef "FfiDartTypes"}} Function(Pointer<Void>)
   >('{{libraryName}}_{{resolveName "Ffi"}}_return_get_result'));{{/unless}}{{!!
     }}{{#if returnType.isVoid}}(Pointer) {};{{/if}}
-final _{{resolveName}}_return_get_error = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _{{resolveName}}ReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     {{resolveName exception.errorType "FfiApiTypes"}} Function(Pointer<Void>),
     {{resolveName exception.errorType "FfiDartTypes"}} Function(Pointer<Void>)
   >('{{libraryName}}_{{resolveName "Ffi"}}_return_get_error'));
-final _{{resolveName}}_return_has_error = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _{{resolveName}}ReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('{{libraryName}}_{{resolveName "Ffi"}}_return_has_error'));

@@ -2,7 +2,6 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
-import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class BasicTypes {
@@ -25,11 +24,11 @@ abstract class BasicTypes {
   static int ulongFunction(int input) => BasicTypes$Impl.ulongFunction(input);
 }
 // BasicTypes "private" section, not exported.
-final _smoke_BasicTypes_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeBasictypesCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_BasicTypes_copy_handle'));
-final _smoke_BasicTypes_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeBasictypesReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_BasicTypes_release_handle'));
@@ -39,161 +38,161 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
   void release() {
     if (handle == null) return;
     __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
-    _smoke_BasicTypes_release_handle(handle);
+    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    _smokeBasictypesReleaseHandle(handle);
     handle = null;
   }
   static String stringFunction(String input) {
-    final _stringFunction_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_BasicTypes_stringFunction__String'));
-    final _input_handle = String_toFfi(input);
-    final __result_handle = _stringFunction_ffi(__lib.LibraryContext.isolateId, _input_handle);
-    String_releaseFfiHandle(_input_handle);
+    final _stringFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_BasicTypes_stringFunction__String'));
+    final _inputHandle = String_toFfi(input);
+    final __resultHandle = _stringFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
+    String_releaseFfiHandle(_inputHandle);
     try {
-      return String_fromFfi(__result_handle);
+      return String_fromFfi(__resultHandle);
     } finally {
-      String_releaseFfiHandle(__result_handle);
+      String_releaseFfiHandle(__resultHandle);
     }
   }
   static bool boolFunction(bool input) {
-    final _boolFunction_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Uint8), int Function(int, int)>('library_smoke_BasicTypes_boolFunction__Boolean'));
-    final _input_handle = Boolean_toFfi(input);
-    final __result_handle = _boolFunction_ffi(__lib.LibraryContext.isolateId, _input_handle);
-    Boolean_releaseFfiHandle(_input_handle);
+    final _boolFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Uint8), int Function(int, int)>('library_smoke_BasicTypes_boolFunction__Boolean'));
+    final _inputHandle = Boolean_toFfi(input);
+    final __resultHandle = _boolFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
+    Boolean_releaseFfiHandle(_inputHandle);
     try {
-      return Boolean_fromFfi(__result_handle);
+      return Boolean_fromFfi(__resultHandle);
     } finally {
-      Boolean_releaseFfiHandle(__result_handle);
+      Boolean_releaseFfiHandle(__resultHandle);
     }
   }
   static double floatFunction(double input) {
-    final _floatFunction_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Float Function(Int32, Float), double Function(int, double)>('library_smoke_BasicTypes_floatFunction__Float'));
-    final _input_handle = (input);
-    final __result_handle = _floatFunction_ffi(__lib.LibraryContext.isolateId, _input_handle);
-    (_input_handle);
+    final _floatFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Float Function(Int32, Float), double Function(int, double)>('library_smoke_BasicTypes_floatFunction__Float'));
+    final _inputHandle = (input);
+    final __resultHandle = _floatFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
+    (_inputHandle);
     try {
-      return (__result_handle);
+      return (__resultHandle);
     } finally {
-      (__result_handle);
+      (__resultHandle);
     }
   }
   static double doubleFunction(double input) {
-    final _doubleFunction_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Double Function(Int32, Double), double Function(int, double)>('library_smoke_BasicTypes_doubleFunction__Double'));
-    final _input_handle = (input);
-    final __result_handle = _doubleFunction_ffi(__lib.LibraryContext.isolateId, _input_handle);
-    (_input_handle);
+    final _doubleFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Double Function(Int32, Double), double Function(int, double)>('library_smoke_BasicTypes_doubleFunction__Double'));
+    final _inputHandle = (input);
+    final __resultHandle = _doubleFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
+    (_inputHandle);
     try {
-      return (__result_handle);
+      return (__resultHandle);
     } finally {
-      (__result_handle);
+      (__resultHandle);
     }
   }
   static int byteFunction(int input) {
-    final _byteFunction_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Int8 Function(Int32, Int8), int Function(int, int)>('library_smoke_BasicTypes_byteFunction__Byte'));
-    final _input_handle = (input);
-    final __result_handle = _byteFunction_ffi(__lib.LibraryContext.isolateId, _input_handle);
-    (_input_handle);
+    final _byteFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Int8 Function(Int32, Int8), int Function(int, int)>('library_smoke_BasicTypes_byteFunction__Byte'));
+    final _inputHandle = (input);
+    final __resultHandle = _byteFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
+    (_inputHandle);
     try {
-      return (__result_handle);
+      return (__resultHandle);
     } finally {
-      (__result_handle);
+      (__resultHandle);
     }
   }
   static int shortFunction(int input) {
-    final _shortFunction_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Int16 Function(Int32, Int16), int Function(int, int)>('library_smoke_BasicTypes_shortFunction__Short'));
-    final _input_handle = (input);
-    final __result_handle = _shortFunction_ffi(__lib.LibraryContext.isolateId, _input_handle);
-    (_input_handle);
+    final _shortFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Int16 Function(Int32, Int16), int Function(int, int)>('library_smoke_BasicTypes_shortFunction__Short'));
+    final _inputHandle = (input);
+    final __resultHandle = _shortFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
+    (_inputHandle);
     try {
-      return (__result_handle);
+      return (__resultHandle);
     } finally {
-      (__result_handle);
+      (__resultHandle);
     }
   }
   static int intFunction(int input) {
-    final _intFunction_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Int32 Function(Int32, Int32), int Function(int, int)>('library_smoke_BasicTypes_intFunction__Int'));
-    final _input_handle = (input);
-    final __result_handle = _intFunction_ffi(__lib.LibraryContext.isolateId, _input_handle);
-    (_input_handle);
+    final _intFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Int32 Function(Int32, Int32), int Function(int, int)>('library_smoke_BasicTypes_intFunction__Int'));
+    final _inputHandle = (input);
+    final __resultHandle = _intFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
+    (_inputHandle);
     try {
-      return (__result_handle);
+      return (__resultHandle);
     } finally {
-      (__result_handle);
+      (__resultHandle);
     }
   }
   static int longFunction(int input) {
-    final _longFunction_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Int64 Function(Int32, Int64), int Function(int, int)>('library_smoke_BasicTypes_longFunction__Long'));
-    final _input_handle = (input);
-    final __result_handle = _longFunction_ffi(__lib.LibraryContext.isolateId, _input_handle);
-    (_input_handle);
+    final _longFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Int64 Function(Int32, Int64), int Function(int, int)>('library_smoke_BasicTypes_longFunction__Long'));
+    final _inputHandle = (input);
+    final __resultHandle = _longFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
+    (_inputHandle);
     try {
-      return (__result_handle);
+      return (__resultHandle);
     } finally {
-      (__result_handle);
+      (__resultHandle);
     }
   }
   static int ubyteFunction(int input) {
-    final _ubyteFunction_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Uint8), int Function(int, int)>('library_smoke_BasicTypes_ubyteFunction__UByte'));
-    final _input_handle = (input);
-    final __result_handle = _ubyteFunction_ffi(__lib.LibraryContext.isolateId, _input_handle);
-    (_input_handle);
+    final _ubyteFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Uint8), int Function(int, int)>('library_smoke_BasicTypes_ubyteFunction__UByte'));
+    final _inputHandle = (input);
+    final __resultHandle = _ubyteFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
+    (_inputHandle);
     try {
-      return (__result_handle);
+      return (__resultHandle);
     } finally {
-      (__result_handle);
+      (__resultHandle);
     }
   }
   static int ushortFunction(int input) {
-    final _ushortFunction_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint16 Function(Int32, Uint16), int Function(int, int)>('library_smoke_BasicTypes_ushortFunction__UShort'));
-    final _input_handle = (input);
-    final __result_handle = _ushortFunction_ffi(__lib.LibraryContext.isolateId, _input_handle);
-    (_input_handle);
+    final _ushortFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint16 Function(Int32, Uint16), int Function(int, int)>('library_smoke_BasicTypes_ushortFunction__UShort'));
+    final _inputHandle = (input);
+    final __resultHandle = _ushortFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
+    (_inputHandle);
     try {
-      return (__result_handle);
+      return (__resultHandle);
     } finally {
-      (__result_handle);
+      (__resultHandle);
     }
   }
   static int uintFunction(int input) {
-    final _uintFunction_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint32 Function(Int32, Uint32), int Function(int, int)>('library_smoke_BasicTypes_uintFunction__UInt'));
-    final _input_handle = (input);
-    final __result_handle = _uintFunction_ffi(__lib.LibraryContext.isolateId, _input_handle);
-    (_input_handle);
+    final _uintFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint32 Function(Int32, Uint32), int Function(int, int)>('library_smoke_BasicTypes_uintFunction__UInt'));
+    final _inputHandle = (input);
+    final __resultHandle = _uintFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
+    (_inputHandle);
     try {
-      return (__result_handle);
+      return (__resultHandle);
     } finally {
-      (__result_handle);
+      (__resultHandle);
     }
   }
   static int ulongFunction(int input) {
-    final _ulongFunction_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint64 Function(Int32, Uint64), int Function(int, int)>('library_smoke_BasicTypes_ulongFunction__ULong'));
-    final _input_handle = (input);
-    final __result_handle = _ulongFunction_ffi(__lib.LibraryContext.isolateId, _input_handle);
-    (_input_handle);
+    final _ulongFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint64 Function(Int32, Uint64), int Function(int, int)>('library_smoke_BasicTypes_ulongFunction__ULong'));
+    final _inputHandle = (input);
+    final __resultHandle = _ulongFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
+    (_inputHandle);
     try {
-      return (__result_handle);
+      return (__resultHandle);
     } finally {
-      (__result_handle);
+      (__resultHandle);
     }
   }
 }
 Pointer<Void> smoke_BasicTypes_toFfi(BasicTypes value) =>
-  _smoke_BasicTypes_copy_handle((value as __lib.NativeBase).handle);
+  _smokeBasictypesCopyHandle((value as __lib.NativeBase).handle);
 BasicTypes smoke_BasicTypes_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as BasicTypes;
   if (instance != null) return instance;
-  final _copied_handle = _smoke_BasicTypes_copy_handle(handle);
-  final result = BasicTypes$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  final _copiedHandle = _smokeBasictypesCopyHandle(handle);
+  final result = BasicTypes$Impl(_copiedHandle);
+  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_BasicTypes_releaseFfiHandle(Pointer<Void> handle) =>
-  _smoke_BasicTypes_release_handle(handle);
+  _smokeBasictypesReleaseHandle(handle);
 Pointer<Void> smoke_BasicTypes_toFfi_nullable(BasicTypes value) =>
   value != null ? smoke_BasicTypes_toFfi(value) : Pointer<Void>.fromAddress(0);
 BasicTypes smoke_BasicTypes_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_BasicTypes_fromFfi(handle) : null;
 void smoke_BasicTypes_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_BasicTypes_release_handle(handle);
+  _smokeBasictypesReleaseHandle(handle);
 // End of BasicTypes "private" section.

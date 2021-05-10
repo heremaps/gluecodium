@@ -37,9 +37,9 @@ DynamicLibrary _loadNativeLibrary(String nativeLibraryPath) {
 }
 
 String _getLibraryPath(String nativeLibraryName) {
-  if (Platform.isWindows) return 'lib${nativeLibraryName}.dll';
-  if (Platform.isMacOS || Platform.isIOS) return 'lib${nativeLibraryName}.dylib';
-  return 'lib${nativeLibraryName}.so';
+  if (Platform.isWindows) return 'lib$nativeLibraryName.dll';
+  if (Platform.isMacOS || Platform.isIOS) return 'lib$nativeLibraryName.dylib';
+  return 'lib$nativeLibraryName.so';
 }
 
 dynamic catchArgumentError(Function f) {
@@ -50,19 +50,19 @@ dynamic catchArgumentError(Function f) {
   }
 }
 
-final _library_callbacks_queue_init = catchArgumentError(() => nativeLibrary.lookupFunction<
+final _libraryCallbacksQueueInit = catchArgumentError(() => nativeLibrary.lookupFunction<
     Int32 Function(Uint8),
     int Function(int)
   >('{{libraryName}}_library_callbacks_queue_init'));
-final _library_callbacks_queue_release = catchArgumentError(() => nativeLibrary.lookupFunction<
+final _libraryCallbacksQueueRelease = catchArgumentError(() => nativeLibrary.lookupFunction<
     Void Function(Int32),
     void Function(int)
   >('{{libraryName}}_library_callbacks_queue_release'));
-final _library_wait_for_callbacks = catchArgumentError(() => nativeLibrary.lookupFunction<
+final _libraryWaitForCallbacks = catchArgumentError(() => nativeLibrary.lookupFunction<
     Uint8 Function(Int32),
     int Function(int)
   >('{{libraryName}}_library_wait_for_callbacks'));
-final _library_execute_callbacks = catchArgumentError(() => nativeLibrary.lookupFunction<
+final _libraryExecuteCallbacks = catchArgumentError(() => nativeLibrary.lookupFunction<
     Void Function(Int32),
     void Function(int)
   >('{{libraryName}}_library_execute_callbacks'));
@@ -96,16 +96,16 @@ class LibraryContext {
   /// fails, current process is used as a native library instead.
   static void init(IsolateOrigin isolateOrigin, {String nativeLibraryPath}) {
     _loadCustomLibrary(nativeLibraryPath);
-    _isolateId = _library_callbacks_queue_init(isolateOrigin == IsolateOrigin.main ? 1 : 0);
+    _isolateId = _libraryCallbacksQueueInit(isolateOrigin == IsolateOrigin.main ? 1 : 0);
 
     final receivePort = ReceivePort();
     Isolate.spawn(_sentryIsolate, _SentryIsolateMessage(receivePort.sendPort, isolateId, nativeLibraryPath));
-    _callbackStream = receivePort.listen((dynamic _) { _library_execute_callbacks(isolateId); });
+    _callbackStream = receivePort.listen((dynamic _) { _libraryExecuteCallbacks(isolateId); });
   }
 
   static void release() {
     _callbackStream.cancel();
-    _library_callbacks_queue_release(isolateId);
+    _libraryCallbacksQueueRelease(isolateId);
   }
 
   static void _sentryIsolate(_SentryIsolateMessage message) {
@@ -113,7 +113,7 @@ class LibraryContext {
 
     WaitCallbackResult waitResult = WaitCallbackResult.stopped;
     do {
-      waitResult = WaitCallbackResult.values[_library_wait_for_callbacks(message.isolateId)];
+      waitResult = WaitCallbackResult.values[_libraryWaitForCallbacks(message.isolateId)];
       if (waitResult == WaitCallbackResult.hasIncoming) {
         message.port.send(1);
       }
@@ -121,7 +121,7 @@ class LibraryContext {
     message.port.send(0);
   }
 
-  static DynamicLibrary _loadCustomLibrary(String nativeLibraryPath) {
+  static void _loadCustomLibrary(String nativeLibraryPath) {
     if (nativeLibraryPath != null) _nativeLibrary = _loadNativeLibrary(nativeLibraryPath);
   }
 }

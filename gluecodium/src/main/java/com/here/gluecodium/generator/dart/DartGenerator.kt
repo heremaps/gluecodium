@@ -23,6 +23,7 @@ import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.common.LimeModelFilter
 import com.here.gluecodium.common.LimeTypeRefsVisitor
+import com.here.gluecodium.generator.common.CamelCaseNameResolver
 import com.here.gluecodium.generator.common.CommentsProcessor
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.GeneratedFile.SourceSet.COMMON
@@ -122,7 +123,8 @@ internal class DartGenerator : Generator {
             "" to dartNameResolver,
             "Ffi" to ffiNameResolver,
             "FfiApiTypes" to FfiApiTypeNameResolver(),
-            "FfiDartTypes" to FfiDartTypeNameResolver()
+            "FfiDartTypes" to FfiDartTypeNameResolver(),
+            "FfiCamelCase" to CamelCaseNameResolver(ffiNameResolver)
         )
         val ffiCppNameResolver = FfiCppNameResolver(
             limeModel.referenceMap,
@@ -441,6 +443,7 @@ internal class DartGenerator : Generator {
         nameResolvers: Map<String, NameResolver>,
         importResolver: DartImportResolver
     ): GeneratedFile {
+        val fileName = "$SRC_DIR_SUFFIX/generic_types__conversion"
         val imports = genericTypes.flatMap { importResolver.resolveElementImports(it) }
 
         val content = TemplateEngine.render(
@@ -448,13 +451,13 @@ internal class DartGenerator : Generator {
             mapOf(
                 "libraryName" to libraryName,
                 "internalPrefix" to internalPrefix,
-                "imports" to imports.distinct().sorted(),
+                "imports" to imports.distinct().sorted().filterNot { it.filePath.endsWith(fileName) },
                 "genericTypes" to genericTypes
             ),
             nameResolvers
         )
 
-        return GeneratedFile(content, "$LIB_DIR/$SRC_DIR_SUFFIX/generic_types__conversion.dart")
+        return GeneratedFile(content, "$LIB_DIR/$fileName.dart")
     }
 
     private fun generateFfiGenericTypesConversion(

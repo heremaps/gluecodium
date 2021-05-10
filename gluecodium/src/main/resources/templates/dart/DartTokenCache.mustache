@@ -21,7 +21,6 @@
 {{#if copyrightHeader}}{{prefix copyrightHeader "// "}}{{/if}}
 
 import 'dart:ffi';
-import 'package:ffi/ffi.dart';
 
 import 'package:{{libraryName}}/src/_library_context.dart' as __lib;
 
@@ -53,15 +52,15 @@ void uncacheObject(Object object) {
 
 final uncacheObjectFfi = Pointer.fromFunction<Void Function(Uint64)>(uncacheObjectByToken);
 
-final ffi_get_cached_token = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final ffiGetCachedToken = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Uint64 Function(Pointer<Void>, Int32),
       int Function(Pointer<Void>, int)
     >('{{libraryName}}_get_cached_token'));
-final ffi_cache_token = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final ffiCacheToken = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Void Function(Pointer<Void>, Int32, Uint64),
       void Function(Pointer<Void>, int, int)
     >('{{libraryName}}_cache_token'));
-final ffi_uncache_token = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final ffiUncacheToken = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Void Function(Pointer<Void>, Int32),
       void Function(Pointer<Void>, int)
     >('{{libraryName}}_uncache_token'));
