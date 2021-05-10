@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 8.13.2
+Release date: 2021-05-10
 ### Bug fixes:
   * Fixed missing includes for types referenced through type aliases in Dart FFI.
   * Fixed missing imports for collections of "external" types in Swift.
