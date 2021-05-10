@@ -2,7 +2,6 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
-import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class PlatformComments {
@@ -59,34 +58,34 @@ PlatformComments_SomeEnum smoke_PlatformComments_SomeEnum_fromFfi(int handle) {
   }
 }
 void smoke_PlatformComments_SomeEnum_releaseFfiHandle(int handle) {}
-final _smoke_PlatformComments_SomeEnum_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smoke_PlatformComments_SomeEnumCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
   >('library_smoke_PlatformComments_SomeEnum_create_handle_nullable'));
-final _smoke_PlatformComments_SomeEnum_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smoke_PlatformComments_SomeEnumReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_PlatformComments_SomeEnum_release_handle_nullable'));
-final _smoke_PlatformComments_SomeEnum_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smoke_PlatformComments_SomeEnumGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_PlatformComments_SomeEnum_get_value_nullable'));
 Pointer<Void> smoke_PlatformComments_SomeEnum_toFfi_nullable(PlatformComments_SomeEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_PlatformComments_SomeEnum_toFfi(value);
-  final result = _smoke_PlatformComments_SomeEnum_create_handle_nullable(_handle);
+  final result = _smoke_PlatformComments_SomeEnumCreateHandleNullable(_handle);
   smoke_PlatformComments_SomeEnum_releaseFfiHandle(_handle);
   return result;
 }
 PlatformComments_SomeEnum smoke_PlatformComments_SomeEnum_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_PlatformComments_SomeEnum_get_value_nullable(handle);
+  final _handle = _smoke_PlatformComments_SomeEnumGetValueNullable(handle);
   final result = smoke_PlatformComments_SomeEnum_fromFfi(_handle);
   smoke_PlatformComments_SomeEnum_releaseFfiHandle(_handle);
   return result;
 }
 void smoke_PlatformComments_SomeEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_PlatformComments_SomeEnum_release_handle_nullable(handle);
+  _smoke_PlatformComments_SomeEnumReleaseHandleNullable(handle);
 // End of PlatformComments_SomeEnum "private" section.
 /// An exception when something goes wrong.
 class PlatformComments_SomethingWrongException implements Exception {
@@ -99,87 +98,87 @@ class PlatformComments_Something {
   PlatformComments_Something(this.nothing);
 }
 // PlatformComments_Something "private" section, not exported.
-final _smoke_PlatformComments_Something_create_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokePlatformcommentsSomethingCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PlatformComments_Something_create_handle'));
-final _smoke_PlatformComments_Something_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokePlatformcommentsSomethingReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_PlatformComments_Something_release_handle'));
-final _smoke_PlatformComments_Something_get_field_nothing = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokePlatformcommentsSomethingGetFieldnothing = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PlatformComments_Something_get_field_nothing'));
 Pointer<Void> smoke_PlatformComments_Something_toFfi(PlatformComments_Something value) {
-  final _nothing_handle = String_toFfi(value.nothing);
-  final _result = _smoke_PlatformComments_Something_create_handle(_nothing_handle);
-  String_releaseFfiHandle(_nothing_handle);
+  final _nothingHandle = String_toFfi(value.nothing);
+  final _result = _smokePlatformcommentsSomethingCreateHandle(_nothingHandle);
+  String_releaseFfiHandle(_nothingHandle);
   return _result;
 }
 PlatformComments_Something smoke_PlatformComments_Something_fromFfi(Pointer<Void> handle) {
-  final _nothing_handle = _smoke_PlatformComments_Something_get_field_nothing(handle);
+  final _nothingHandle = _smokePlatformcommentsSomethingGetFieldnothing(handle);
   try {
     return PlatformComments_Something(
-      String_fromFfi(_nothing_handle)
+      String_fromFfi(_nothingHandle)
     );
   } finally {
-    String_releaseFfiHandle(_nothing_handle);
+    String_releaseFfiHandle(_nothingHandle);
   }
 }
-void smoke_PlatformComments_Something_releaseFfiHandle(Pointer<Void> handle) => _smoke_PlatformComments_Something_release_handle(handle);
+void smoke_PlatformComments_Something_releaseFfiHandle(Pointer<Void> handle) => _smokePlatformcommentsSomethingReleaseHandle(handle);
 // Nullable PlatformComments_Something
-final _smoke_PlatformComments_Something_create_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smoke_PlatformComments_SomethingCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PlatformComments_Something_create_handle_nullable'));
-final _smoke_PlatformComments_Something_release_handle_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smoke_PlatformComments_SomethingReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_PlatformComments_Something_release_handle_nullable'));
-final _smoke_PlatformComments_Something_get_value_nullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smoke_PlatformComments_SomethingGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PlatformComments_Something_get_value_nullable'));
 Pointer<Void> smoke_PlatformComments_Something_toFfi_nullable(PlatformComments_Something value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smoke_PlatformComments_Something_toFfi(value);
-  final result = _smoke_PlatformComments_Something_create_handle_nullable(_handle);
+  final result = _smoke_PlatformComments_SomethingCreateHandleNullable(_handle);
   smoke_PlatformComments_Something_releaseFfiHandle(_handle);
   return result;
 }
 PlatformComments_Something smoke_PlatformComments_Something_fromFfi_nullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_PlatformComments_Something_get_value_nullable(handle);
+  final _handle = _smoke_PlatformComments_SomethingGetValueNullable(handle);
   final result = smoke_PlatformComments_Something_fromFfi(_handle);
   smoke_PlatformComments_Something_releaseFfiHandle(_handle);
   return result;
 }
 void smoke_PlatformComments_Something_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_PlatformComments_Something_release_handle_nullable(handle);
+  _smoke_PlatformComments_SomethingReleaseHandleNullable(handle);
 // End of PlatformComments_Something "private" section.
 // PlatformComments "private" section, not exported.
-final _smoke_PlatformComments_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokePlatformcommentsCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PlatformComments_copy_handle'));
-final _smoke_PlatformComments_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokePlatformcommentsReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_PlatformComments_release_handle'));
-final _someMethodWithAllComments_return_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _someMethodWithAllCommentsReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_PlatformComments_someMethodWithAllComments__String_return_release_handle'));
-final _someMethodWithAllComments_return_get_result = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _someMethodWithAllCommentsReturnGetResult = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_PlatformComments_someMethodWithAllComments__String_return_get_result'));
-final _someMethodWithAllComments_return_get_error = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _someMethodWithAllCommentsReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_PlatformComments_someMethodWithAllComments__String_return_get_error'));
-final _someMethodWithAllComments_return_has_error = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _someMethodWithAllCommentsReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_PlatformComments_someMethodWithAllComments__String_return_has_error'));
@@ -189,86 +188,86 @@ class PlatformComments$Impl extends __lib.NativeBase implements PlatformComments
   void release() {
     if (handle == null) return;
     __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
-    _smoke_PlatformComments_release_handle(handle);
+    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    _smokePlatformcommentsReleaseHandle(handle);
     handle = null;
   }
   @override
   doNothing() {
-    final _doNothing_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PlatformComments_doNothing'));
+    final _doNothingFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PlatformComments_doNothing'));
     final _handle = this.handle;
-    final __result_handle = _doNothing_ffi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = _doNothingFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return (__result_handle);
+      return (__resultHandle);
     } finally {
-      (__result_handle);
+      (__resultHandle);
     }
   }
   @override
   doMagic() {
-    final _doMagic_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PlatformComments_doMagic'));
+    final _doMagicFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PlatformComments_doMagic'));
     final _handle = this.handle;
-    final __result_handle = _doMagic_ffi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = _doMagicFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return (__result_handle);
+      return (__resultHandle);
     } finally {
-      (__result_handle);
+      (__resultHandle);
     }
   }
   @override
   bool someMethodWithAllComments(String input) {
-    final _someMethodWithAllComments_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PlatformComments_someMethodWithAllComments__String'));
-    final _input_handle = String_toFfi(input);
+    final _someMethodWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PlatformComments_someMethodWithAllComments__String'));
+    final _inputHandle = String_toFfi(input);
     final _handle = this.handle;
-    final __call_result_handle = _someMethodWithAllComments_ffi(_handle, __lib.LibraryContext.isolateId, _input_handle);
-    String_releaseFfiHandle(_input_handle);
-    if (_someMethodWithAllComments_return_has_error(__call_result_handle) != 0) {
-        final __error_handle = _someMethodWithAllComments_return_get_error(__call_result_handle);
-        _someMethodWithAllComments_return_release_handle(__call_result_handle);
+    final __callResultHandle = _someMethodWithAllCommentsFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    String_releaseFfiHandle(_inputHandle);
+    if (_someMethodWithAllCommentsReturnHasError(__callResultHandle) != 0) {
+        final __errorHandle = _someMethodWithAllCommentsReturnGetError(__callResultHandle);
+        _someMethodWithAllCommentsReturnReleaseHandle(__callResultHandle);
         try {
-          throw PlatformComments_SomethingWrongException(smoke_PlatformComments_SomeEnum_fromFfi(__error_handle));
+          throw PlatformComments_SomethingWrongException(smoke_PlatformComments_SomeEnum_fromFfi(__errorHandle));
         } finally {
-          smoke_PlatformComments_SomeEnum_releaseFfiHandle(__error_handle);
+          smoke_PlatformComments_SomeEnum_releaseFfiHandle(__errorHandle);
         }
     }
-    final __result_handle = _someMethodWithAllComments_return_get_result(__call_result_handle);
-    _someMethodWithAllComments_return_release_handle(__call_result_handle);
+    final __resultHandle = _someMethodWithAllCommentsReturnGetResult(__callResultHandle);
+    _someMethodWithAllCommentsReturnReleaseHandle(__callResultHandle);
     try {
-      return Boolean_fromFfi(__result_handle);
+      return Boolean_fromFfi(__resultHandle);
     } finally {
-      Boolean_releaseFfiHandle(__result_handle);
+      Boolean_releaseFfiHandle(__resultHandle);
     }
   }
   @override
   someDeprecatedMethod() {
-    final _someDeprecatedMethod_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PlatformComments_someDeprecatedMethod'));
+    final _someDeprecatedMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PlatformComments_someDeprecatedMethod'));
     final _handle = this.handle;
-    final __result_handle = _someDeprecatedMethod_ffi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = _someDeprecatedMethodFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return (__result_handle);
+      return (__resultHandle);
     } finally {
-      (__result_handle);
+      (__resultHandle);
     }
   }
 }
 Pointer<Void> smoke_PlatformComments_toFfi(PlatformComments value) =>
-  _smoke_PlatformComments_copy_handle((value as __lib.NativeBase).handle);
+  _smokePlatformcommentsCopyHandle((value as __lib.NativeBase).handle);
 PlatformComments smoke_PlatformComments_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as PlatformComments;
   if (instance != null) return instance;
-  final _copied_handle = _smoke_PlatformComments_copy_handle(handle);
-  final result = PlatformComments$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  final _copiedHandle = _smokePlatformcommentsCopyHandle(handle);
+  final result = PlatformComments$Impl(_copiedHandle);
+  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_PlatformComments_releaseFfiHandle(Pointer<Void> handle) =>
-  _smoke_PlatformComments_release_handle(handle);
+  _smokePlatformcommentsReleaseHandle(handle);
 Pointer<Void> smoke_PlatformComments_toFfi_nullable(PlatformComments value) =>
   value != null ? smoke_PlatformComments_toFfi(value) : Pointer<Void>.fromAddress(0);
 PlatformComments smoke_PlatformComments_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_PlatformComments_fromFfi(handle) : null;
 void smoke_PlatformComments_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_PlatformComments_release_handle(handle);
+  _smokePlatformcommentsReleaseHandle(handle);
 // End of PlatformComments "private" section.

@@ -7,7 +7,6 @@ import 'package:library/src/smoke/int.dart';
 import 'package:library/src/smoke/rectangle_int_.dart';
 import 'package:library/src/smoke/string.dart';
 import 'dart:ffi';
-import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class UseDartExternalTypes {
@@ -22,11 +21,11 @@ abstract class UseDartExternalTypes {
   static String seasonRoundTrip(String input) => UseDartExternalTypes$Impl.seasonRoundTrip(input);
 }
 // UseDartExternalTypes "private" section, not exported.
-final _smoke_UseDartExternalTypes_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeUsedartexternaltypesCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_UseDartExternalTypes_copy_handle'));
-final _smoke_UseDartExternalTypes_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeUsedartexternaltypesReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_UseDartExternalTypes_release_handle'));
@@ -36,73 +35,73 @@ class UseDartExternalTypes$Impl extends __lib.NativeBase implements UseDartExter
   void release() {
     if (handle == null) return;
     __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
-    _smoke_UseDartExternalTypes_release_handle(handle);
+    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    _smokeUsedartexternaltypesReleaseHandle(handle);
     handle = null;
   }
   static math.Rectangle<int> rectangleRoundTrip(math.Rectangle<int> input) {
-    final _rectangleRoundTrip_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_UseDartExternalTypes_rectangleRoundTrip__Rectangle'));
-    final _input_handle = smoke_Rectangle_toFfi(input);
-    final __result_handle = _rectangleRoundTrip_ffi(__lib.LibraryContext.isolateId, _input_handle);
-    smoke_Rectangle_releaseFfiHandle(_input_handle);
+    final _rectangleRoundTripFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_UseDartExternalTypes_rectangleRoundTrip__Rectangle'));
+    final _inputHandle = smoke_Rectangle_toFfi(input);
+    final __resultHandle = _rectangleRoundTripFfi(__lib.LibraryContext.isolateId, _inputHandle);
+    smoke_Rectangle_releaseFfiHandle(_inputHandle);
     try {
-      return smoke_Rectangle_fromFfi(__result_handle);
+      return smoke_Rectangle_fromFfi(__resultHandle);
     } finally {
-      smoke_Rectangle_releaseFfiHandle(__result_handle);
+      smoke_Rectangle_releaseFfiHandle(__resultHandle);
     }
   }
   static bar.HttpClientResponseCompressionState compressionStateRoundTrip(bar.HttpClientResponseCompressionState input) {
-    final _compressionStateRoundTrip_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint32 Function(Int32, Uint32), int Function(int, int)>('library_smoke_UseDartExternalTypes_compressionStateRoundTrip__CompressionState'));
-    final _input_handle = smoke_CompressionState_toFfi(input);
-    final __result_handle = _compressionStateRoundTrip_ffi(__lib.LibraryContext.isolateId, _input_handle);
-    smoke_CompressionState_releaseFfiHandle(_input_handle);
+    final _compressionStateRoundTripFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint32 Function(Int32, Uint32), int Function(int, int)>('library_smoke_UseDartExternalTypes_compressionStateRoundTrip__CompressionState'));
+    final _inputHandle = smoke_CompressionState_toFfi(input);
+    final __resultHandle = _compressionStateRoundTripFfi(__lib.LibraryContext.isolateId, _inputHandle);
+    smoke_CompressionState_releaseFfiHandle(_inputHandle);
     try {
-      return smoke_CompressionState_fromFfi(__result_handle);
+      return smoke_CompressionState_fromFfi(__resultHandle);
     } finally {
-      smoke_CompressionState_releaseFfiHandle(__result_handle);
+      smoke_CompressionState_releaseFfiHandle(__resultHandle);
     }
   }
   static int colorRoundTrip(int input) {
-    final _colorRoundTrip_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_UseDartExternalTypes_colorRoundTrip__DartColor'));
-    final _input_handle = smoke_DartColor_toFfi(input);
-    final __result_handle = _colorRoundTrip_ffi(__lib.LibraryContext.isolateId, _input_handle);
-    smoke_DartColor_releaseFfiHandle(_input_handle);
+    final _colorRoundTripFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_UseDartExternalTypes_colorRoundTrip__DartColor'));
+    final _inputHandle = smoke_DartColor_toFfi(input);
+    final __resultHandle = _colorRoundTripFfi(__lib.LibraryContext.isolateId, _inputHandle);
+    smoke_DartColor_releaseFfiHandle(_inputHandle);
     try {
-      return smoke_DartColor_fromFfi(__result_handle);
+      return smoke_DartColor_fromFfi(__resultHandle);
     } finally {
-      smoke_DartColor_releaseFfiHandle(__result_handle);
+      smoke_DartColor_releaseFfiHandle(__resultHandle);
     }
   }
   static String seasonRoundTrip(String input) {
-    final _seasonRoundTrip_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint32 Function(Int32, Uint32), int Function(int, int)>('library_smoke_UseDartExternalTypes_seasonRoundTrip__DartSeason'));
-    final _input_handle = smoke_DartSeason_toFfi(input);
-    final __result_handle = _seasonRoundTrip_ffi(__lib.LibraryContext.isolateId, _input_handle);
-    smoke_DartSeason_releaseFfiHandle(_input_handle);
+    final _seasonRoundTripFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint32 Function(Int32, Uint32), int Function(int, int)>('library_smoke_UseDartExternalTypes_seasonRoundTrip__DartSeason'));
+    final _inputHandle = smoke_DartSeason_toFfi(input);
+    final __resultHandle = _seasonRoundTripFfi(__lib.LibraryContext.isolateId, _inputHandle);
+    smoke_DartSeason_releaseFfiHandle(_inputHandle);
     try {
-      return smoke_DartSeason_fromFfi(__result_handle);
+      return smoke_DartSeason_fromFfi(__resultHandle);
     } finally {
-      smoke_DartSeason_releaseFfiHandle(__result_handle);
+      smoke_DartSeason_releaseFfiHandle(__resultHandle);
     }
   }
 }
 Pointer<Void> smoke_UseDartExternalTypes_toFfi(UseDartExternalTypes value) =>
-  _smoke_UseDartExternalTypes_copy_handle((value as __lib.NativeBase).handle);
+  _smokeUsedartexternaltypesCopyHandle((value as __lib.NativeBase).handle);
 UseDartExternalTypes smoke_UseDartExternalTypes_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as UseDartExternalTypes;
   if (instance != null) return instance;
-  final _copied_handle = _smoke_UseDartExternalTypes_copy_handle(handle);
-  final result = UseDartExternalTypes$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+  final _copiedHandle = _smokeUsedartexternaltypesCopyHandle(handle);
+  final result = UseDartExternalTypes$Impl(_copiedHandle);
+  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_UseDartExternalTypes_releaseFfiHandle(Pointer<Void> handle) =>
-  _smoke_UseDartExternalTypes_release_handle(handle);
+  _smokeUsedartexternaltypesReleaseHandle(handle);
 Pointer<Void> smoke_UseDartExternalTypes_toFfi_nullable(UseDartExternalTypes value) =>
   value != null ? smoke_UseDartExternalTypes_toFfi(value) : Pointer<Void>.fromAddress(0);
 UseDartExternalTypes smoke_UseDartExternalTypes_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_UseDartExternalTypes_fromFfi(handle) : null;
 void smoke_UseDartExternalTypes_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_UseDartExternalTypes_release_handle(handle);
+  _smokeUsedartexternaltypesReleaseHandle(handle);
 // End of UseDartExternalTypes "private" section.

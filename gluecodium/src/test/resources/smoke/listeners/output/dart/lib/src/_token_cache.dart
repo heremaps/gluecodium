@@ -1,5 +1,4 @@
 import 'dart:ffi';
-import 'package:ffi/ffi.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 const unknownError = -1;
 int _instanceCounter = 1024;
@@ -23,15 +22,15 @@ void uncacheObject(Object object) {
   tokenCache.remove(object);
 }
 final uncacheObjectFfi = Pointer.fromFunction<Void Function(Uint64)>(uncacheObjectByToken);
-final ffi_get_cached_token = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final ffiGetCachedToken = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Uint64 Function(Pointer<Void>, Int32),
       int Function(Pointer<Void>, int)
     >('library_get_cached_token'));
-final ffi_cache_token = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final ffiCacheToken = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Void Function(Pointer<Void>, Int32, Uint64),
       void Function(Pointer<Void>, int, int)
     >('library_cache_token'));
-final ffi_uncache_token = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final ffiUncacheToken = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
       Void Function(Pointer<Void>, Int32),
       void Function(Pointer<Void>, int)
     >('library_uncache_token'));

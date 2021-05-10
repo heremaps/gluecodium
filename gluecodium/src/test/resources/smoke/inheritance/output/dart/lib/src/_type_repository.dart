@@ -9,8 +9,6 @@ import 'package:library/src/smoke/internal_parent.dart';
 import 'package:library/src/smoke/parent_class.dart';
 import 'package:library/src/smoke/parent_interface.dart';
 import 'package:library/src/smoke/parent_with_class_references.dart';
-import 'dart:ffi';
-import 'package:ffi/ffi.dart';
 final Map<String, Function> typeRepository = {
   "smoke_ChildClassFromClass": (handle) => ChildClassFromClass$Impl(handle),
   "smoke_ChildClassFromInterface": (handle) => ChildClassFromInterface$Impl(handle),

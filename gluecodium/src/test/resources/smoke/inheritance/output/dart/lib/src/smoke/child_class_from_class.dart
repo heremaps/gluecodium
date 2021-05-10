@@ -4,7 +4,6 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/parent_class.dart';
 import 'dart:ffi';
-import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class ChildClassFromClass implements ParentClass {
@@ -16,15 +15,15 @@ abstract class ChildClassFromClass implements ParentClass {
   childClassMethod();
 }
 // ChildClassFromClass "private" section, not exported.
-final _smoke_ChildClassFromClass_copy_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeChildclassfromclassCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ChildClassFromClass_copy_handle'));
-final _smoke_ChildClassFromClass_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeChildclassfromclassReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ChildClassFromClass_release_handle'));
-final _smoke_ChildClassFromClass_get_type_id = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeChildclassfromclassGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ChildClassFromClass_get_type_id'));
@@ -34,45 +33,45 @@ class ChildClassFromClass$Impl extends ParentClass$Impl implements ChildClassFro
   void release() {
     if (handle == null) return;
     __lib.uncacheObject(this);
-    __lib.ffi_uncache_token(handle, __lib.LibraryContext.isolateId);
-    _smoke_ChildClassFromClass_release_handle(handle);
+    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    _smokeChildclassfromclassReleaseHandle(handle);
     handle = null;
   }
   @override
   childClassMethod() {
-    final _childClassMethod_ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ChildClassFromClass_childClassMethod'));
+    final _childClassMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ChildClassFromClass_childClassMethod'));
     final _handle = this.handle;
-    final __result_handle = _childClassMethod_ffi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = _childClassMethodFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return (__result_handle);
+      return (__resultHandle);
     } finally {
-      (__result_handle);
+      (__resultHandle);
     }
   }
 }
 Pointer<Void> smoke_ChildClassFromClass_toFfi(ChildClassFromClass value) =>
-  _smoke_ChildClassFromClass_copy_handle((value as __lib.NativeBase).handle);
+  _smokeChildclassfromclassCopyHandle((value as __lib.NativeBase).handle);
 ChildClassFromClass smoke_ChildClassFromClass_fromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffi_get_cached_token(handle, isolateId);
+  final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as ChildClassFromClass;
   if (instance != null) return instance;
-  final _type_id_handle = _smoke_ChildClassFromClass_get_type_id(handle);
-  final factoryConstructor = __lib.typeRepository[String_fromFfi(_type_id_handle)];
-  String_releaseFfiHandle(_type_id_handle);
-  final _copied_handle = _smoke_ChildClassFromClass_copy_handle(handle);
+  final _typeIdHandle = _smokeChildclassfromclassGetTypeId(handle);
+  final factoryConstructor = __lib.typeRepository[String_fromFfi(_typeIdHandle)];
+  String_releaseFfiHandle(_typeIdHandle);
+  final _copiedHandle = _smokeChildclassfromclassCopyHandle(handle);
   final result = factoryConstructor != null
-    ? factoryConstructor(_copied_handle)
-    : ChildClassFromClass$Impl(_copied_handle);
-  __lib.ffi_cache_token(_copied_handle, isolateId, __lib.cacheObject(result));
+    ? factoryConstructor(_copiedHandle)
+    : ChildClassFromClass$Impl(_copiedHandle);
+  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
 void smoke_ChildClassFromClass_releaseFfiHandle(Pointer<Void> handle) =>
-  _smoke_ChildClassFromClass_release_handle(handle);
+  _smokeChildclassfromclassReleaseHandle(handle);
 Pointer<Void> smoke_ChildClassFromClass_toFfi_nullable(ChildClassFromClass value) =>
   value != null ? smoke_ChildClassFromClass_toFfi(value) : Pointer<Void>.fromAddress(0);
 ChildClassFromClass smoke_ChildClassFromClass_fromFfi_nullable(Pointer<Void> handle) =>
   handle.address != 0 ? smoke_ChildClassFromClass_fromFfi(handle) : null;
 void smoke_ChildClassFromClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_ChildClassFromClass_release_handle(handle);
+  _smokeChildclassfromclassReleaseHandle(handle);
 // End of ChildClassFromClass "private" section.
