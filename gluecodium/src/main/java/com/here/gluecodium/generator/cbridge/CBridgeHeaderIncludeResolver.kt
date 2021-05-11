@@ -27,10 +27,11 @@ import com.here.gluecodium.model.lime.LimeAttributeType.POINTER_EQUATABLE
 import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
-import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeLambdaParameter
 import com.here.gluecodium.model.lime.LimeList
@@ -49,11 +50,11 @@ internal class CBridgeHeaderIncludeResolver(
     override fun resolveElementImports(limeElement: LimeElement): List<Include> {
         if (limeElement.attributes.have(SWIFT, SKIP)) return emptyList()
         return when (limeElement) {
+            is LimeConstant -> emptyList()
             is LimeTypeRef -> resolveTypeRefIncludes(limeElement)
             is LimeReturnType -> resolveTypeRefIncludes(limeElement.typeRef)
             is LimeLambdaParameter -> resolveTypeRefIncludes(limeElement.typeRef)
             is LimeTypedElement -> resolveTypeRefIncludes(limeElement.typeRef)
-            is LimeFunction -> resolveFunctionIncludes(limeElement)
             is LimeContainer -> resolveContainerIncludes(limeElement)
             is LimeEnumeration -> listOf(createHeaderInclude(limeElement), INT_INCLUDE)
             is LimeList -> resolveTypeRefIncludes(limeElement.elementType)
@@ -76,6 +77,7 @@ internal class CBridgeHeaderIncludeResolver(
             is LimeBasicType -> resolveBasicTypeInclude(limeType.typeId)
             is LimeEnumeration -> listOf(createHeaderInclude(limeType))
             is LimeGenericType -> resolveElementImports(limeType)
+            is LimeException -> resolveExceptionPayloadIncludes(limeType.errorType.type.actualType) + BOOL_INCLUDE
             else -> emptyList()
         }
     }
@@ -87,9 +89,12 @@ internal class CBridgeHeaderIncludeResolver(
             else -> emptyList()
         }
 
-    private fun resolveFunctionIncludes(limeFunction: LimeFunction) =
-        limeFunction.exception?.let { listOf(createHeaderInclude(it.errorType.type.actualType), BOOL_INCLUDE) }
-            ?: emptyList()
+    private fun resolveExceptionPayloadIncludes(limeType: LimeType) =
+        when (limeType) {
+            is LimeBasicType -> resolveBasicTypeInclude(limeType.typeId)
+            is LimeGenericType -> resolveElementImports(limeType)
+            else -> listOf(createHeaderInclude(limeType))
+        }
 
     private fun createHeaderInclude(limeType: LimeType) =
         Include.createInternalInclude(fileNames.getHeaderFilePath(getTopElement(limeType)))

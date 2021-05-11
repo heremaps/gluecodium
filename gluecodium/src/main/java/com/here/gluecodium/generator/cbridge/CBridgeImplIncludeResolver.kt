@@ -27,10 +27,11 @@ import com.here.gluecodium.generator.cpp.CppLibraryIncludes
 import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
-import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
@@ -52,16 +53,16 @@ internal class CBridgeImplIncludeResolver(private val cppIncludeResolver: CppInc
     override fun resolveElementImports(limeElement: LimeElement): List<Include> {
         if (limeElement.attributes.have(SWIFT, SKIP)) return emptyList()
         return when (limeElement) {
+            is LimeTypesCollection, is LimeConstant -> emptyList()
             is LimeTypeRef -> resolveTypeRefIncludes(limeElement)
             is LimeReturnType -> resolveTypeRefIncludes(limeElement.typeRef)
             is LimeLambdaParameter -> resolveTypeRefIncludes(limeElement.typeRef)
             is LimeTypedElement -> resolveTypeRefIncludes(limeElement.typeRef)
-            is LimeFunction -> resolveFunctionIncludes(limeElement)
             is LimeLambda -> resolveLambdaIncludes(limeElement)
             is LimeStruct -> resolveStructIncludes(limeElement)
             is LimeContainerWithInheritance -> resolveClassInterfaceIncludes(limeElement)
             is LimeGenericType -> resolveGenericTypeIncludes(limeElement)
-            is LimeTypesCollection -> emptyList()
+            is LimeException -> resolveTypeRefIncludes(limeElement.errorType)
             is LimeType -> cppIncludeResolver.resolveElementImports(limeElement)
             else -> emptyList()
         }
@@ -91,9 +92,12 @@ internal class CBridgeImplIncludeResolver(private val cppIncludeResolver: CppInc
         cppIncludeResolver.resolveElementImports(limeContainer) +
             listOf(CppLibraryIncludes.MEMORY, CppLibraryIncludes.NEW, BASE_HANDLE_IMPL_INCLUDE)
 
-    private fun resolveTypeRefIncludes(limeTypeRef: LimeTypeRef): List<Include> =
-        cppIncludeResolver.resolveElementImports(limeTypeRef) +
-            limeTypeRef.type.actualType.let { resolveGenericTypeIncludes(it) + resolveHandleIncludes(it) }
+    private fun resolveTypeRefIncludes(limeTypeRef: LimeTypeRef): List<Include> {
+        val actualType = limeTypeRef.type.actualType
+        if (actualType is LimeException) return emptyList()
+        return cppIncludeResolver.resolveElementImports(limeTypeRef) +
+            actualType.let { resolveGenericTypeIncludes(it) + resolveHandleIncludes(it) }
+    }
 
     private fun resolveHandleIncludes(limeType: LimeType): List<Include> {
         val typeId = (limeType as? LimeBasicType)?.typeId ?: return emptyList()
@@ -113,9 +117,6 @@ internal class CBridgeImplIncludeResolver(private val cppIncludeResolver: CppInc
                 resolveTypeRefIncludes(limeType.valueType)
             else -> emptyList()
         }
-
-    private fun resolveFunctionIncludes(limeFunction: LimeFunction) =
-        limeFunction.exception?.errorType?.let { resolveTypeRefIncludes(it) } ?: emptyList()
 
     private fun resolveLambdaIncludes(limeLambda: LimeLambda) = cppIncludeResolver.resolveElementImports(limeLambda) +
         listOf(

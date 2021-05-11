@@ -75,7 +75,7 @@ internal class SwiftGenerator : Generator {
             SwiftImportsResolver(),
             collectTypeRefImports = true,
             collectOwnImports = true,
-            collectParentImports = true,
+            parentTypeFilter = { true },
             collectTypeAliasImports = true
         )
 

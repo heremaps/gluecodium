@@ -19,6 +19,8 @@
 
 package com.here.gluecodium.generator.common
 
+import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeException
@@ -33,9 +35,10 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class GenericImportsCollector<T>(
     private val importsResolver: ImportsResolver<T>,
+    private val skipAttribute: LimeAttributeType? = null,
     private val collectTypeRefImports: Boolean = false,
     private val collectOwnImports: Boolean = false,
-    private val collectParentImports: Boolean = false,
+    private val parentTypeFilter: (LimeContainerWithInheritance) -> Boolean = { false },
     private val collectTypeAliasImports: Boolean = false
 ) : ImportsCollector<T> {
 
@@ -48,9 +51,10 @@ internal class GenericImportsCollector<T>(
         val ownImports =
             if (collectOwnImports) allTypes.flatMap { importsResolver.resolveElementImports(it) } else emptyList()
         val parentImports =
-            if (collectParentImports)
-                collectParentTypeRefs(limeElement, allTypes).flatMap { importsResolver.resolveElementImports(it) }
-            else emptyList()
+            allTypes.filterIsInstance<LimeContainerWithInheritance>()
+                .filter(parentTypeFilter)
+                .flatMap { collectParentTypeRefs(it) }
+                .flatMap { importsResolver.resolveElementImports(it) }
         val typeAliasImports =
             if (collectTypeAliasImports)
                 allTypes.filterIsInstance<LimeTypeAlias>().flatMap { importsResolver.resolveElementImports(it.typeRef) }
@@ -61,10 +65,13 @@ internal class GenericImportsCollector<T>(
         return typeRefImports + ownImports + parentImports + typeAliasImports + constantImports
     }
 
+    private fun skipPredicate(limeElement: LimeNamedElement) =
+        skipAttribute != null && limeElement.attributes.have(skipAttribute, LimeAttributeValueType.SKIP)
+
     private fun collectTypeRefs(allTypes: List<LimeType>): List<LimeTypeRef> {
         val containers = allTypes.filterIsInstance<LimeContainer>()
-        val functions = containers.flatMap { it.functions }
-        val properties = containers.flatMap { it.properties }
+        val functions = containers.flatMap { it.functions }.filterNot { skipPredicate(it) }
+        val properties = containers.flatMap { it.properties }.filterNot { skipPredicate(it) }
         val lambdas = allTypes.filterIsInstance<LimeLambda>()
         val exceptions = allTypes.filterIsInstance<LimeException>()
         val structs = allTypes.filterIsInstance<LimeStruct>()
@@ -79,10 +86,9 @@ internal class GenericImportsCollector<T>(
             limeFunction.returnType.typeRef +
             listOfNotNull(limeFunction.thrownType?.typeRef, limeFunction.exception?.errorType)
 
-    private fun collectParentTypeRefs(limeElement: LimeNamedElement, allTypes: List<LimeType>): List<LimeTypeRef> {
-        val parentTypeRef = (limeElement as? LimeContainerWithInheritance)?.parent ?: return emptyList()
-        val containers = allTypes.filterIsInstance<LimeContainerWithInheritance>()
-        return containers.flatMap { it.inheritedFunctions }.flatMap { collectTypeRefs(it) } +
-            containers.flatMap { it.inheritedProperties }.map { it.typeRef } + parentTypeRef
+    private fun collectParentTypeRefs(limeContainer: LimeContainerWithInheritance): List<LimeTypeRef> {
+        val parentTypeRef = limeContainer.parent ?: return emptyList()
+        return limeContainer.inheritedFunctions.flatMap { collectTypeRefs(it) } +
+            limeContainer.inheritedProperties.map { it.typeRef } + parentTypeRef
     }
 }
