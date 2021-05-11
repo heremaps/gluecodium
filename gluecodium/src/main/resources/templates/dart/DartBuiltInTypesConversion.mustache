@@ -46,66 +46,66 @@ final _blobGetDataPointer = __lib.catchArgumentError(() => __lib.nativeLibrary.l
     Pointer<Uint8> Function(Pointer<Void>)
 >('{{libraryName}}_blob_get_data_pointer'));
 
-Pointer<Void> Blob_toFfi(Uint8List list) {
+Pointer<Void> blobToFfi(Uint8List list) {
   final result = _blobCreateHandle(list.length);
   (_blobGetDataPointer(result) as Pointer<Uint8>).asTypedList(list.length).setRange(0, list.length, list);
   return result;
 }
 
-Uint8List Blob_fromFfi(Pointer<Void> handle) =>
+Uint8List blobFromFfi(Pointer<Void> handle) =>
   Uint8List.fromList((_blobGetDataPointer(handle) as Pointer<Uint8>).asTypedList(_blobGetLength(handle)));
 
-void Blob_releaseFfiHandle(Pointer<Void> handle) => _blobReleaseHandle(handle);
+void blobReleaseFfiHandle(Pointer<Void> handle) => _blobReleaseHandle(handle);
 
 // Boolean
 
-int Boolean_toFfi(bool value) => value ? 1 : 0;
+int booleanToFfi(bool value) => value ? 1 : 0;
 
-bool Boolean_fromFfi(int handle) => handle != 0;
+bool booleanFromFfi(int handle) => handle != 0;
 
-void Boolean_releaseFfiHandle(int handle) {}
+void booleanReleaseFfiHandle(int handle) {}
 
 // Date
 
-int Date_toFfi(DateTime value) => value.microsecondsSinceEpoch;
+int dateToFfi(DateTime value) => value.microsecondsSinceEpoch;
 
-DateTime Date_fromFfi(int us) => DateTime.fromMicrosecondsSinceEpoch(us, isUtc: true);
+DateTime dateFromFfi(int us) => DateTime.fromMicrosecondsSinceEpoch(us, isUtc: true);
 
-void Date_releaseFfiHandle(int handle) {}
+void dateReleaseFfiHandle(int handle) {}
 
 // String
 
-final _StringCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _stringCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Utf8>),
     Pointer<Void> Function(Pointer<Utf8>)
   >('{{libraryName}}_std_string_create_handle'));
-final _StringReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _stringReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('{{libraryName}}_std_string_release_handle'));
-final _StringGetValue = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _stringGetValue = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Utf8> Function(Pointer<Void>),
     Pointer<Utf8> Function(Pointer<Void>)
   >('{{libraryName}}_std_string_get_value'));
 
-Pointer<Void> String_toFfi(String value) {
+Pointer<Void> stringToFfi(String value) {
   final cValue = Utf8.toUtf8(value);
-  final result = _StringCreateHandle(cValue);
+  final result = _stringCreateHandle(cValue);
   free(cValue);
   return result;
 }
 
-String String_fromFfi(Pointer<Void> handle) => Utf8.fromUtf8(_StringGetValue(handle));
+String stringFromFfi(Pointer<Void> handle) => Utf8.fromUtf8(_stringGetValue(handle));
 
-void String_releaseFfiHandle(Pointer<Void> handle) => _StringReleaseHandle(handle);
+void stringReleaseFfiHandle(Pointer<Void> handle) => _stringReleaseHandle(handle);
 
 // Locale
 
-final _LocaleCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _localeCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>),
     Pointer<Void> Function(Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>)
   >('{{libraryName}}_locale_create_handle'));
-final _LocaleReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _localeReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('{{libraryName}}_locale_release_handle'));
@@ -121,12 +121,12 @@ final LocaleGetScriptCode = __lib.catchArgumentError(() => __lib.nativeLibrary.l
     Pointer<Utf8> Function(Pointer<Void>),
     Pointer<Utf8> Function(Pointer<Void>)
 >('{{libraryName}}_locale_get_script_code'));
-final _LocaleGetLanguageTag = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _localeGetLanguageTag = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Utf8> Function(Pointer<Void>),
     Pointer<Utf8> Function(Pointer<Void>)
 >('{{libraryName}}_locale_get_language_tag'));
 
-Pointer<Void> Locale_toFfi(Locale locale) {
+Pointer<Void> localeToFfi(Locale locale) {
   final cLanguageCode = Utf8.toUtf8(locale.languageCode);
   final cCountryCode =
     locale.countryCode != null ? Utf8.toUtf8(locale.countryCode) : Pointer<Utf8>.fromAddress(0);
@@ -134,7 +134,7 @@ Pointer<Void> Locale_toFfi(Locale locale) {
     locale.scriptCode != null ? Utf8.toUtf8(locale.scriptCode) : Pointer<Utf8>.fromAddress(0);
   final cLanguageTag = Utf8.toUtf8(locale.toLanguageTag());
 
-  final result = _LocaleCreateHandle(cLanguageCode, cCountryCode, cScriptCode, cLanguageTag);
+  final result = _localeCreateHandle(cLanguageCode, cCountryCode, cScriptCode, cLanguageTag);
 
   free(cLanguageCode);
   if (cCountryCode.address != 0) free(cCountryCode);
@@ -144,8 +144,8 @@ Pointer<Void> Locale_toFfi(Locale locale) {
   return result;
 }
 
-Locale Locale_fromFfi(Pointer<Void> handle) {
-  final Pointer<Utf8> languageTagCstring = _LocaleGetLanguageTag(handle);
+Locale localeFromFfi(Pointer<Void> handle) {
+  final Pointer<Utf8> languageTagCstring = _localeGetLanguageTag(handle);
   if (languageTagCstring.address != 0) {
     // BCP 47 language tag takes precedence if present.
     return Locale.parse(Utf8.fromUtf8(languageTagCstring));
@@ -162,40 +162,41 @@ Locale Locale_fromFfi(Pointer<Void> handle) {
   );
 }
 
-void Locale_releaseFfiHandle(Pointer<Void> handle) => _LocaleReleaseHandle(handle);
+void localeReleaseFfiHandle(Pointer<Void> handle) => _localeReleaseHandle(handle);
 
 {{#builtInTypes}}
 // Nullable {{this}}
 
-final _{{resolveName toString "FfiCamelCase"}}CreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _{{resolveName toString "Ffi"}}CreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function({{resolveName "FfiApiTypes"}}),
     Pointer<Void> Function({{resolveName "FfiDartTypes"}})
   >('{{libraryName}}_{{this}}_create_handle_nullable'));
-final _{{resolveName toString "FfiCamelCase"}}ReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _{{resolveName toString "Ffi"}}ReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('{{libraryName}}_{{this}}_release_handle_nullable'));
-final _{{resolveName toString "FfiCamelCase"}}GetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _{{resolveName toString "Ffi"}}GetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     {{resolveName "FfiApiTypes"}} Function(Pointer<Void>),
     {{resolveName "FfiDartTypes"}} Function(Pointer<Void>)
   >('{{libraryName}}_{{this}}_get_value_nullable'));
 
-Pointer<Void> {{this}}_toFfi_nullable({{resolveName}} value) {
+Pointer<Void> {{resolveName toString "Ffi"}}ToFfiNullable({{resolveName}} value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = {{#unless isNumericType}}{{this}}_toFfi{{/unless}}(value);
-  final result = _{{resolveName toString "FfiCamelCase"}}CreateHandleNullable(_handle);{{#unless isNumericType}}
-  {{this}}_releaseFfiHandle(_handle);{{/unless}}
+  final _handle = {{#unless isNumericType}}{{resolveName toString "Ffi"}}ToFfi{{/unless}}(value);
+  final result = _{{resolveName toString "Ffi"}}CreateHandleNullable(_handle);{{#unless isNumericType}}
+  {{resolveName toString "Ffi"}}ReleaseFfiHandle(_handle);{{/unless}}
   return result;
 }
 
-{{resolveName}} {{this}}_fromFfi_nullable(Pointer<Void> handle) {
+{{resolveName}} {{resolveName toString "Ffi"}}FromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _{{resolveName toString "FfiCamelCase"}}GetValueNullable(handle);
-  final result = {{#unless isNumericType}}{{this}}_fromFfi{{/unless}}(_handle);{{#unless isNumericType}}
-  {{this}}_releaseFfiHandle(_handle);{{/unless}}
+  final _handle = _{{resolveName toString "Ffi"}}GetValueNullable(handle);
+  final result = {{#unless isNumericType}}{{resolveName toString "Ffi"}}FromFfi{{/unless}}(_handle);{{#unless isNumericType}}
+  {{resolveName toString "Ffi"}}ReleaseFfiHandle(_handle);{{/unless}}
   return result;
 }
 
-void {{this}}_releaseFfiHandle_nullable(Pointer<Void> handle) => _{{resolveName toString "FfiCamelCase"}}ReleaseHandleNullable(handle);
+void {{resolveName toString "Ffi"}}ReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _{{resolveName toString "Ffi"}}ReleaseHandleNullable(handle);
 
 {{/builtInTypes}}

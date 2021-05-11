@@ -27,7 +27,7 @@
 {{>dart/DartDocumentation}}{{>dart/DartAttributes}}
 {{#if attributes.immutable}}
 @immutable{{/if}}
-class {{resolveName}}{{#if external.dart.converter}}_internal{{/if}} {
+class {{resolveName}}{{#if external.dart.converter}}Internal{{/if}} {
 {{>dartFieldsAndConstants}}
 {{#set parent=this isStruct=true}}{{#constructors}}
 {{>dart/DartRedirectConstructor}}
@@ -36,7 +36,7 @@ class {{resolveName}}{{#if external.dart.converter}}_internal{{/if}} {
 {{>dart/DartRedirectFunction}}
 {{/unless}}{{/functions}}{{/set}}
 
-  static var $class = {{resolveName}}{{#if external.dart.converter}}_internal{{/if}}$Impl();
+  static var $class = {{resolveName}}{{#if external.dart.converter}}Internal{{/if}}$Impl();
 }
 
 {{/if}}{{!!
@@ -44,7 +44,7 @@ class {{resolveName}}{{#if external.dart.converter}}_internal{{/if}} {
 }}{{>dart/DartDocumentation}}{{>dart/DartAttributes}}
 {{#if attributes.immutable}}
 @immutable{{/if}}
-class {{resolveName}}{{#if external.dart.converter}}_internal{{/if}}{{#if testableMode}}$Impl{{/if}} {
+class {{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{#if testableMode}}$Impl{{/if}} {
 {{>dartFieldsAndConstants}}
 {{#set parent=this isStruct=true ignoreStatic=testableMode}}{{#constructors}}
 {{prefixPartial "dart/DartFunctionDocs" "  "}}
@@ -94,47 +94,47 @@ class {{resolveName}}{{#if external.dart.converter}}_internal{{/if}}{{#if testab
 
 // {{resolveName}} "private" section, not exported.
 
-final _{{resolveName "FfiCamelCase"}}CreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _{{resolveName "Ffi"}}CreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function({{#fields}}{{resolveName typeRef "FfiApiTypes"}}{{#if iter.hasNext}}, {{/if}}{{/fields}}),
     Pointer<Void> Function({{#fields}}{{resolveName typeRef "FfiDartTypes"}}{{#if iter.hasNext}}, {{/if}}{{/fields}})
-  >('{{libraryName}}_{{resolveName "Ffi"}}_create_handle'));
-final _{{resolveName "FfiCamelCase"}}ReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+  >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_create_handle'));
+final _{{resolveName "Ffi"}}ReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('{{libraryName}}_{{resolveName "Ffi"}}_release_handle'));
+  >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_release_handle'));
 {{#set parent=this}}{{#fields}}
-final _{{resolveName parent "FfiCamelCase"}}GetField{{resolveName "Ffi"}} = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _{{resolveName parent "Ffi"}}GetField{{resolveName "Ffi"}} = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     {{resolveName typeRef "FfiApiTypes"}} Function(Pointer<Void>),
     {{resolveName typeRef "FfiDartTypes"}} Function(Pointer<Void>)
-  >('{{libraryName}}_{{resolveName parent "Ffi"}}_get_field_{{resolveName "Ffi"}}'));
+  >('{{libraryName}}_{{resolveName parent "FfiSnakeCase"}}_get_field_{{resolveName "FfiSnakeCase"}}'));
 {{/fields}}{{/set}}
 
 {{>dart/DartOptimizedLists}}
 
-Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName this "" "ref"}} value{{#if external.dart.converter}}_ext{{/if}}) {
+Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#if external.dart.converter}}External{{/if}}) {
 {{#if external.dart.converter}}
-  final value = {{external.dart.converter}}.convertToInternal(value_ext);
+  final value = {{external.dart.converter}}.convertToInternal(valueExternal);
 {{/if}}
 {{#fields}}{{#if typeRef.attributes.optimized}}
   final _{{resolveName}}Handle = (value.{{resolveName visibility}}{{resolveName}} as __lib.LazyList).handle;
 {{/if}}{{#unless typeRef.attributes.optimized}}
-  final _{{resolveName}}Handle = {{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(value.{{resolveName visibility}}{{resolveName}});
+  final _{{resolveName}}Handle = {{#set call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(value.{{resolveName visibility}}{{resolveName}});
 {{/unless}}{{/fields}}
-  final _result = _{{resolveName "FfiCamelCase"}}CreateHandle({{#fields}}_{{resolveName}}Handle{{#if iter.hasNext}}, {{/if}}{{/fields}});
+  final _result = _{{resolveName "Ffi"}}CreateHandle({{#fields}}_{{resolveName}}Handle{{#if iter.hasNext}}, {{/if}}{{/fields}});
 {{#fields}}{{#unless typeRef.attributes.optimized}}
-  {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}Handle);
+  {{#set call="ReleaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}Handle);
 {{/unless}}{{/fields}}
   return _result;
 }
 
-{{resolveName this "" "ref"}} {{resolveName "Ffi"}}_fromFfi(Pointer<Void> handle) {
+{{resolveName this "" "ref"}} {{resolveName "Ffi"}}FromFfi(Pointer<Void> handle) {
 {{#set parent=this}}{{#fields}}
   final _{{resolveName}}Handle = {{!!
-  }}_{{resolveName parent "FfiCamelCase"}}GetField{{resolveName "Ffi"}}(handle);
+  }}_{{resolveName parent "Ffi"}}GetField{{resolveName "Ffi"}}(handle);
 {{/fields}}{{/set}}
   try {
 {{#if external.dart.converter}}
-    final resultInternal = {{resolveName}}_internal{{#if constructors}}._{{/if}}(
+    final resultInternal = {{resolveName}}Internal{{#if constructors}}._{{/if}}(
 {{#set container=this}}{{#fields}}
 {{>fromFfiFieldInit}}
 {{/fields}}{{/set}}
@@ -156,12 +156,12 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName this "" "ref"}} value{{#
 {{/unless}}
   } finally {
 {{#fields}}{{#unless typeRef.attributes.optimized}}
-    {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}Handle);
+    {{#set call="ReleaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}Handle);
 {{/unless}}{{/fields}}
   }
 }
 
-void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) => _{{resolveName "FfiCamelCase"}}ReleaseHandle(handle);
+void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) => _{{resolveName "Ffi"}}ReleaseHandle(handle);
 
 // Nullable {{resolveName}}
 
@@ -205,19 +205,19 @@ void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) => _{{resolveN
 {{/fields}}
 {{/unless}}{{/resolveName}}{{/unless}}{{!!
 }}{{#if attributes.dart.positionalDefaults initializedFields}}{{!!
-}}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}_internal{{/if}}({{!!
+}}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}({{!!
   }}{{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}, {{/uninitializedFields}}{{!!
   }}[{{#initializedFields}}{{resolveName typeRef}} {{resolveName}} = {{>constPrefix}}{{resolveName defaultValue}}{{#if iter.hasNext}}, {{/if}}{{/initializedFields}}])
     : {{#fields}}{{resolveName visibility}}{{resolveName}} = {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}};
 {{/if}}{{!!
 }}{{#unless attributes.dart.positionalDefaults initializedFields}}{{!!
-}}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}_internal{{/if}}{{!!
+}}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{!!
 }}{{#if constructors}}._{{/if}}({{#fields}}this.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
 {{/unless}}
 {{#if constructors}}  {{resolveName}}{{#if constructors}}._copy{{/if}}({{resolveName}} _other) : {{!!
 }}this._({{#fields}}_other.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
 {{/if}}{{#unless constructors}}{{#if initializedFields}}
-  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}_internal{{/if}}.withDefaults({{!!
+  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}.withDefaults({{!!
   }}{{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}})
     : {{#fields}}{{resolveName visibility}}{{resolveName}} = {{#if defaultValue}}{{resolveName defaultValue}}{{/if}}{{!!
     }}{{#unless defaultValue}}{{resolveName}}{{/unless}}{{#if iter.hasNext}}, {{/if}}{{/fields}};
@@ -232,7 +232,7 @@ void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) => _{{resolveN
 }}{{#set elementType=typeRef.type.actualType.elementType.type.actualType typeRef=typeRef.type.actualType.elementType}}{{!!
 }}{{prefixPartial "dart/InitLazyList" "      " skipFirstLine=true}}{{/set}}{{/setJoin}}{{/resolveName}}{{/if}}{{!!
 }}{{#unless typeRef.attributes.optimized}}{{!!
-}}{{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}Handle){{/unless}}{{#if iter.hasNext}}, {{/if}}
+}}{{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}Handle){{/unless}}{{#if iter.hasNext}}, {{/if}}
 {{/fromFfiFieldInit}}{{!!
 
 }}{{+constPrefix}}{{#set type=typeRef.type.actualType}}{{!!

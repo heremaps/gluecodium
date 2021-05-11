@@ -21,31 +21,31 @@
 final _{{resolveName "Ffi"}}CreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function({{resolveName "FfiApiTypes"}}),
     Pointer<Void> Function({{resolveName "FfiDartTypes"}})
-  >('{{libraryName}}_{{internalPrefix}}{{resolveName "Ffi"}}_create_handle_nullable'));
+  >('{{libraryName}}_{{internalPrefix}}{{resolveName "FfiSnakeCase"}}_create_handle_nullable'));
 final _{{resolveName "Ffi"}}ReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('{{libraryName}}_{{internalPrefix}}{{resolveName "Ffi"}}_release_handle_nullable'));
+  >('{{libraryName}}_{{internalPrefix}}{{resolveName "FfiSnakeCase"}}_release_handle_nullable'));
 final _{{resolveName "Ffi"}}GetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     {{resolveName "FfiApiTypes"}} Function(Pointer<Void>),
     {{resolveName "FfiDartTypes"}} Function(Pointer<Void>)
-  >('{{libraryName}}_{{internalPrefix}}{{resolveName "Ffi"}}_get_value_nullable'));
+  >('{{libraryName}}_{{internalPrefix}}{{resolveName "FfiSnakeCase"}}_get_value_nullable'));
 
-Pointer<Void> {{resolveName "Ffi"}}_toFfi_nullable({{resolveName this "" "ref"}} value) {
+Pointer<Void> {{resolveName "Ffi"}}ToFfiNullable({{resolveName this "" "ref"}} value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = {{resolveName "Ffi"}}_toFfi(value);
+  final _handle = {{resolveName "Ffi"}}ToFfi(value);
   final result = _{{resolveName "Ffi"}}CreateHandleNullable(_handle);
-  {{resolveName "Ffi"}}_releaseFfiHandle(_handle);
+  {{resolveName "Ffi"}}ReleaseFfiHandle(_handle);
   return result;
 }
 
-{{resolveName this "" "ref"}} {{resolveName "Ffi"}}_fromFfi_nullable(Pointer<Void> handle) {
+{{resolveName this "" "ref"}} {{resolveName "Ffi"}}FromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _{{resolveName "Ffi"}}GetValueNullable(handle);
-  final result = {{resolveName "Ffi"}}_fromFfi(_handle);
-  {{resolveName "Ffi"}}_releaseFfiHandle(_handle);
+  final result = {{resolveName "Ffi"}}FromFfi(_handle);
+  {{resolveName "Ffi"}}ReleaseFfiHandle(_handle);
   return result;
 }
 
-void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+void {{resolveName "Ffi"}}ReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _{{resolveName "Ffi"}}ReleaseHandleNullable(handle);

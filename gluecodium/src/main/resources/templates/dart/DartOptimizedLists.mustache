@@ -19,19 +19,19 @@
   !
   !}}
 {{#set container=this}}{{#eval "optimizedLists" path}}{{#this}}{{#set elementType=elementType.type.actualType}}
-final _{{resolveName container "Ffi"}}_{{resolveName elementType "Ffi"}}LazyList_get_size = {{!!
+final _{{resolveName container "Ffi"}}{{resolveName elementType "Ffi"}}LazyListGetSize = {{!!
 }}__lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('{{libraryName}}_{{resolveName container "Ffi"}}_{{resolveName elementType "Ffi"}}LazyList_get_size'));
-final _{{resolveName container "Ffi"}}_{{resolveName elementType "Ffi"}}LazyList_get = {{!!
+  >('{{libraryName}}_{{resolveName container "FfiSnakeCase"}}_{{resolveName elementType "FfiSnakeCase"}}LazyList_get_size'));
+final _{{resolveName container "Ffi"}}{{resolveName elementType "Ffi"}}LazyListGet = {{!!
 }}__lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     {{resolveName elementType "FfiApiTypes"}} Function(Pointer<Void>, Uint64),
     {{resolveName elementType "FfiDartTypes"}} Function(Pointer<Void>, int)
-  >('{{libraryName}}_{{resolveName container "Ffi"}}_{{resolveName elementType "Ffi"}}LazyList_get'));
-final _{{resolveName container "Ffi"}}_{{resolveName elementType "Ffi"}}LazyList_release_handle = {{!!
+  >('{{libraryName}}_{{resolveName container "FfiSnakeCase"}}_{{resolveName elementType "FfiSnakeCase"}}LazyList_get'));
+final _{{resolveName container "Ffi"}}{{resolveName elementType "Ffi"}}LazyListReleaseHandle = {{!!
 }}__lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('{{libraryName}}_{{resolveName container "Ffi"}}_{{resolveName elementType "Ffi"}}LazyList_release_handle'));
+  >('{{libraryName}}_{{resolveName container "FfiSnakeCase"}}_{{resolveName elementType "FfiSnakeCase"}}LazyList_release_handle'));
 {{/set}}{{/this}}{{/eval}}{{/set}}

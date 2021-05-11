@@ -20,7 +20,7 @@
   !}}
 {{#unlessPredicate "skipDeclaration"}}
 {{>dart/DartDocumentation}}{{>dart/DartAttributes}}
-enum {{resolveName}}{{#if external.dart.converter}}_internal{{/if}} {
+enum {{resolveName}}{{#if external.dart.converter}}Internal{{/if}} {
 {{#enumerators}}
 {{prefixPartial "dart/DartEnumerator" "    "}}
 {{/enumerators}}
@@ -29,13 +29,13 @@ enum {{resolveName}}{{#if external.dart.converter}}_internal{{/if}} {
 
 // {{resolveName}} "private" section, not exported.
 
-int {{resolveName "Ffi"}}_toFfi({{resolveName this "" "ref"}} value{{#if external.dart.converter}}_ext{{/if}}) {
+int {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#if external.dart.converter}}External{{/if}}) {
 {{#if external.dart.converter}}
-  final value = {{external.dart.converter}}.convertToInternal(value_ext);
+  final value = {{external.dart.converter}}.convertToInternal(valueExternal);
 {{/if}}
   switch (value) {
 {{#set parent=this}}{{#enumerators}}
-  case {{resolveName parent "" "ref"}}{{#if external.dart.converter}}_internal{{/if}}.{{resolveName}}:
+  case {{resolveName parent "" "ref"}}{{#if external.dart.converter}}Internal{{/if}}.{{resolveName}}:
     return {{value}};
   break;
 {{/enumerators}}{{/set}}
@@ -44,12 +44,12 @@ int {{resolveName "Ffi"}}_toFfi({{resolveName this "" "ref"}} value{{#if externa
   }
 }
 
-{{resolveName this "" "ref"}} {{resolveName "Ffi"}}_fromFfi(int handle) {
+{{resolveName this "" "ref"}} {{resolveName "Ffi"}}FromFfi(int handle) {
   switch (handle) {
 {{#set parent=this}}{{#enumerators}}
   case {{value}}:
 {{#if external.dart.converter}}
-    return {{external.dart.converter}}.convertFromInternal({{resolveName parent}}_internal.{{resolveName}});
+    return {{external.dart.converter}}.convertFromInternal({{resolveName parent}}Internal.{{resolveName}});
 {{/if}}{{#unless external.dart.converter}}
     return {{resolveName parent "" "ref"}}.{{resolveName}};
 {{/unless}}
@@ -60,7 +60,7 @@ int {{resolveName "Ffi"}}_toFfi({{resolveName this "" "ref"}} value{{#if externa
   }
 }
 
-void {{resolveName "Ffi"}}_releaseFfiHandle(int handle) {}
+void {{resolveName "Ffi"}}ReleaseFfiHandle(int handle) {}
 
 {{>dart/DartNullableTypeConversion}}
 

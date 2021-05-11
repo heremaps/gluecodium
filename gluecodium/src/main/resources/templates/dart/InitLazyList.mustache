@@ -20,12 +20,12 @@
   !}}
 __lib.LazyList(
   {{varName}},
-  _{{resolveName container "Ffi"}}_{{resolveName elementType "Ffi"}}LazyList_get_size({{varName}}),
+  _{{resolveName container "Ffi"}}{{resolveName elementType "Ffi"}}LazyListGetSize({{varName}}),
   (index) {
-    final __elementHandle = _{{resolveName container "Ffi"}}_{{resolveName elementType "Ffi"}}LazyList_get({{varName}}, index);
-    final __elementResult = {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(__elementHandle);
-    {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(__elementHandle);
+    final __elementHandle = _{{resolveName container "Ffi"}}{{resolveName elementType "Ffi"}}LazyListGet({{varName}}, index);
+    final __elementResult = {{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(__elementHandle);
+    {{#set call="ReleaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(__elementHandle);
     return __elementResult;
   },
-  () => _{{resolveName container "Ffi"}}_{{resolveName elementType "Ffi"}}LazyList_release_handle({{varName}})
+  () => _{{resolveName container "Ffi"}}{{resolveName elementType "Ffi"}}LazyListReleaseHandle({{varName}})
 )

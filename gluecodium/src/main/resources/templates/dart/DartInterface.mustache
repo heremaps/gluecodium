@@ -79,23 +79,23 @@ abstract class {{resolveName}} {{#if this.parent}}implements {{resolveName this.
 
 // {{resolveName}} "private" section, not exported.
 
-final _{{resolveName "FfiCamelCase"}}CopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _{{resolveName "Ffi"}}CopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('{{libraryName}}_{{resolveName "Ffi"}}_copy_handle'));
-final _{{resolveName "FfiCamelCase"}}ReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+  >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_copy_handle'));
+final _{{resolveName "Ffi"}}ReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('{{libraryName}}_{{resolveName "Ffi"}}_release_handle'));
-final _{{resolveName "FfiCamelCase"}}CreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+  >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_release_handle'));
+final _{{resolveName "Ffi"}}CreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64, Int32, Pointer{{>ffiFunctionPointers}}),
     Pointer<Void> Function(int, int, Pointer{{>ffiFunctionPointers}})
-  >('{{libraryName}}_{{resolveName "Ffi"}}_create_proxy'));
+  >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_create_proxy'));
 {{#if attributes.equatable}}{{>dart/DartFfiEqualityFunction}}{{/if}}
-final _{{resolveName "FfiCamelCase"}}GetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _{{resolveName "Ffi"}}GetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('{{libraryName}}_{{resolveName "Ffi"}}_get_type_id'));
+  >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_get_type_id'));
 
 {{#functions}}
 {{>dart/DartFunctionException}}
@@ -152,7 +152,7 @@ class {{resolveName}}$Impl extends __lib.NativeBase implements {{resolveName}} {
     if (handle == null) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
-    _{{resolveName "FfiCamelCase"}}ReleaseHandle(handle);
+    _{{resolveName "Ffi"}}ReleaseHandle(handle);
     handle = null;
   }
 
@@ -169,7 +169,7 @@ class {{resolveName}}$Impl extends __lib.NativeBase implements {{resolveName}} {
 }
 
 {{#set parent=this}}{{#each inheritedFunctions functions}}{{#unless isStatic}}
-int _{{resolveName parent}}_{{resolveName}}_static({{!!
+int _{{resolveName parent}}{{resolveName}}Static({{!!
 }}int _token{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
 }}{{#unless returnType.isVoid}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}> _result{{/unless}}{{!!
@@ -181,14 +181,14 @@ int _{{resolveName parent}}_{{resolveName}}_static({{!!
   try {
     {{#unless returnType.isVoid}}_resultObject = {{/unless}}{{!!
   }}(__lib.instanceCache[_token] as {{resolveName parent}}).{{resolveName visibility}}{{resolveName}}({{#parameters}}{{!!
-  }}{{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}}){{#if iter.hasNext}}, {{/if}}{{!!
+  }}{{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}}){{#if iter.hasNext}}, {{/if}}{{!!
   }}{{/parameters}});{{#unless returnType.isVoid}}
-    _result.value = {{#returnType}}{{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}{{/returnType}}(_resultObject);{{/unless}}
+    _result.value = {{#returnType}}{{#set call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}{{/returnType}}(_resultObject);{{/unless}}
 {{#if thrownType}}
   } on {{resolveName exception}} catch(e) {
     _errorFlag = true;
     final _errorObject = e.error;
-    _error.value = {{#set typeRef=exception.errorType call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_errorObject);
+    _error.value = {{#set typeRef=exception.errorType call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_errorObject);
 {{#instanceOf exception.errorType.type.actualType "LimeClass"}}
     if (_errorObject != null) _errorObject.release();
 {{/instanceOf}}{{#instanceOf exception.errorType.type.actualType "LimeInterface"}}
@@ -197,7 +197,7 @@ int _{{resolveName parent}}_{{resolveName}}_static({{!!
 {{/if}}
   } finally {
 {{#parameters}}
-    {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}});
+    {{#set call="ReleaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}});
 {{/parameters}}{{!!
 }}{{#instanceOf returnType.typeRef.type.actualType "LimeClass"}}
     if (_resultObject != null) _resultObject.release();
@@ -210,53 +210,53 @@ int _{{resolveName parent}}_{{resolveName}}_static({{!!
 {{/unless}}{{/each}}
 
 {{#each inheritedProperties properties}}{{#unless isStatic}}
-int _{{resolveName parent}}_{{resolveName}}_get_static(int _token, Pointer<{{resolveName typeRef "FfiApiTypes"}}> _result) {
-  _result.value = {{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{!!
+int _{{resolveName parent}}{{resolveName}}GetStatic(int _token, Pointer<{{resolveName typeRef "FfiApiTypes"}}> _result) {
+  _result.value = {{#set call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{!!
   }}(__lib.instanceCache[_token] as {{resolveName parent}}).{{resolveName visibility}}{{resolveName}});
   return 0;
 }
 {{#if setter}}
 
-int _{{resolveName parent}}_{{resolveName}}_set_static(int _token, {{resolveName typeRef "FfiDartTypes"}} _value) {
+int _{{resolveName parent}}{{resolveName}}SetStatic(int _token, {{resolveName typeRef "FfiDartTypes"}} _value) {
   try {
     (__lib.instanceCache[_token] as {{resolveName parent}}).{{resolveName visibility}}{{resolveName}} =
-      {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_value);
+      {{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_value);
   } finally {
-    {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_value);
+    {{#set call="ReleaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_value);
   }
   return 0;
 }
 {{/if}}
 {{/unless}}{{/each}}{{/set}}
 
-Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
-  if (value is __lib.NativeBase) return _{{resolveName "FfiCamelCase"}}CopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
+  if (value is __lib.NativeBase) return _{{resolveName "Ffi"}}CopyHandle((value as __lib.NativeBase).handle);
 
-  final result = _{{resolveName "FfiCamelCase"}}CreateProxy(
+  final result = _{{resolveName "Ffi"}}CreateProxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi{{#set parent=this}}{{#each inheritedFunctions functions}}{{#unless isStatic}},
-    Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}_{{resolveName}}_static, __lib.unknownError){{!!
+    Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}{{resolveName}}Static, __lib.unknownError){{!!
     }}{{/unless}}{{/each}}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#set property=this}}{{#getter}},
-    Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}_{{resolveName property}}_get_static, __lib.unknownError){{/getter}}{{#setter}},
-    Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}_{{resolveName property}}_set_static, __lib.unknownError){{/setter}}{{!!
+    Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}{{resolveName property}}GetStatic, __lib.unknownError){{/getter}}{{#setter}},
+    Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}{{resolveName property}}SetStatic, __lib.unknownError){{/setter}}{{!!
     }}{{/set}}{{/unless}}{{/each}}{{/set}}
   );
 
   return result;
 }
 
-{{resolveName}} {{resolveName "Ffi"}}_fromFfi(Pointer<Void> handle) {
+{{resolveName}} {{resolveName "Ffi"}}FromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as {{resolveName}};
   if (instance != null) return instance;
 
-  final _typeIdHandle = _{{resolveName "FfiCamelCase"}}GetTypeId(handle);
-  final factoryConstructor = __lib.typeRepository[String_fromFfi(_typeIdHandle)];
-  String_releaseFfiHandle(_typeIdHandle);
+  final _typeIdHandle = _{{resolveName "Ffi"}}GetTypeId(handle);
+  final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
+  stringReleaseFfiHandle(_typeIdHandle);
 
-  final _copiedHandle = _{{resolveName "FfiCamelCase"}}CopyHandle(handle);
+  final _copiedHandle = _{{resolveName "Ffi"}}CopyHandle(handle);
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : {{resolveName}}$Impl(_copiedHandle);
@@ -264,17 +264,17 @@ Pointer<Void> {{resolveName "Ffi"}}_toFfi({{resolveName}} value) {
   return result;
 }
 
-void {{resolveName "Ffi"}}_releaseFfiHandle(Pointer<Void> handle) =>
-  _{{resolveName "FfiCamelCase"}}ReleaseHandle(handle);
+void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) =>
+  _{{resolveName "Ffi"}}ReleaseHandle(handle);
 
-Pointer<Void> {{resolveName "Ffi"}}_toFfi_nullable({{resolveName}} value) =>
-  value != null ? {{resolveName "Ffi"}}_toFfi(value) : Pointer<Void>.fromAddress(0);
+Pointer<Void> {{resolveName "Ffi"}}ToFfiNullable({{resolveName}} value) =>
+  value != null ? {{resolveName "Ffi"}}ToFfi(value) : Pointer<Void>.fromAddress(0);
 
-{{resolveName}} {{resolveName "Ffi"}}_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? {{resolveName "Ffi"}}_fromFfi(handle) : null;
+{{resolveName}} {{resolveName "Ffi"}}FromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? {{resolveName "Ffi"}}FromFfi(handle) : null;
 
-void {{resolveName "Ffi"}}_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _{{resolveName "FfiCamelCase"}}ReleaseHandle(handle);
+void {{resolveName "Ffi"}}ReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _{{resolveName "Ffi"}}ReleaseHandle(handle);
 
 // End of {{resolveName}} "private" section.{{!!
 
