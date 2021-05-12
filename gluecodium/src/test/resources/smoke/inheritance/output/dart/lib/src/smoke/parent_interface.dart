@@ -87,17 +87,17 @@ class ParentInterface$Impl extends __lib.NativeBase implements ParentInterface {
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return String_fromFfi(__resultHandle);
+      return stringFromFfi(__resultHandle);
     } finally {
-      String_releaseFfiHandle(__resultHandle);
+      stringReleaseFfiHandle(__resultHandle);
     }
   }
   set rootProperty(String value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ParentInterface_rootProperty_set__String'));
-    final _valueHandle = String_toFfi(value);
+    final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
     final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
-    String_releaseFfiHandle(_valueHandle);
+    stringReleaseFfiHandle(_valueHandle);
     try {
       return (__resultHandle);
     } finally {
@@ -105,46 +105,46 @@ class ParentInterface$Impl extends __lib.NativeBase implements ParentInterface {
     }
   }
 }
-int _ParentInterface_rootMethod_static(int _token) {
+int _ParentInterfacerootMethodStatic(int _token) {
   try {
     (__lib.instanceCache[_token] as ParentInterface).rootMethod();
   } finally {
   }
   return 0;
 }
-int _ParentInterface_rootProperty_get_static(int _token, Pointer<Pointer<Void>> _result) {
-  _result.value = String_toFfi((__lib.instanceCache[_token] as ParentInterface).rootProperty);
+int _ParentInterfacerootPropertyGetStatic(int _token, Pointer<Pointer<Void>> _result) {
+  _result.value = stringToFfi((__lib.instanceCache[_token] as ParentInterface).rootProperty);
   return 0;
 }
-int _ParentInterface_rootProperty_set_static(int _token, Pointer<Void> _value) {
+int _ParentInterfacerootPropertySetStatic(int _token, Pointer<Void> _value) {
   try {
     (__lib.instanceCache[_token] as ParentInterface).rootProperty =
-      String_fromFfi(_value);
+      stringFromFfi(_value);
   } finally {
-    String_releaseFfiHandle(_value);
+    stringReleaseFfiHandle(_value);
   }
   return 0;
 }
-Pointer<Void> smoke_ParentInterface_toFfi(ParentInterface value) {
+Pointer<Void> smokeParentinterfaceToFfi(ParentInterface value) {
   if (value is __lib.NativeBase) return _smokeParentinterfaceCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokeParentinterfaceCreateProxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64)>(_ParentInterface_rootMethod_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_ParentInterface_rootProperty_get_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_ParentInterface_rootProperty_set_static, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64)>(_ParentInterfacerootMethodStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_ParentInterfacerootPropertyGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_ParentInterfacerootPropertySetStatic, __lib.unknownError)
   );
   return result;
 }
-ParentInterface smoke_ParentInterface_fromFfi(Pointer<Void> handle) {
+ParentInterface smokeParentinterfaceFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as ParentInterface;
   if (instance != null) return instance;
   final _typeIdHandle = _smokeParentinterfaceGetTypeId(handle);
-  final factoryConstructor = __lib.typeRepository[String_fromFfi(_typeIdHandle)];
-  String_releaseFfiHandle(_typeIdHandle);
+  final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
+  stringReleaseFfiHandle(_typeIdHandle);
   final _copiedHandle = _smokeParentinterfaceCopyHandle(handle);
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
@@ -152,12 +152,12 @@ ParentInterface smoke_ParentInterface_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_ParentInterface_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeParentinterfaceReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeParentinterfaceReleaseHandle(handle);
-Pointer<Void> smoke_ParentInterface_toFfi_nullable(ParentInterface value) =>
-  value != null ? smoke_ParentInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
-ParentInterface smoke_ParentInterface_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_ParentInterface_fromFfi(handle) : null;
-void smoke_ParentInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeParentinterfaceToFfiNullable(ParentInterface value) =>
+  value != null ? smokeParentinterfaceToFfi(value) : Pointer<Void>.fromAddress(0);
+ParentInterface smokeParentinterfaceFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeParentinterfaceFromFfi(handle) : null;
+void smokeParentinterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeParentinterfaceReleaseHandle(handle);
 // End of ParentInterface "private" section.

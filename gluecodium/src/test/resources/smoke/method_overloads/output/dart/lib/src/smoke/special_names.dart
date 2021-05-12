@@ -79,9 +79,9 @@ class SpecialNames$Impl extends __lib.NativeBase implements SpecialNames {
     }
   }
 }
-Pointer<Void> smoke_SpecialNames_toFfi(SpecialNames value) =>
+Pointer<Void> smokeSpecialnamesToFfi(SpecialNames value) =>
   _smokeSpecialnamesCopyHandle((value as __lib.NativeBase).handle);
-SpecialNames smoke_SpecialNames_fromFfi(Pointer<Void> handle) {
+SpecialNames smokeSpecialnamesFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as SpecialNames;
@@ -91,12 +91,12 @@ SpecialNames smoke_SpecialNames_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_SpecialNames_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeSpecialnamesReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeSpecialnamesReleaseHandle(handle);
-Pointer<Void> smoke_SpecialNames_toFfi_nullable(SpecialNames value) =>
-  value != null ? smoke_SpecialNames_toFfi(value) : Pointer<Void>.fromAddress(0);
-SpecialNames smoke_SpecialNames_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_SpecialNames_fromFfi(handle) : null;
-void smoke_SpecialNames_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeSpecialnamesToFfiNullable(SpecialNames value) =>
+  value != null ? smokeSpecialnamesToFfi(value) : Pointer<Void>.fromAddress(0);
+SpecialNames smokeSpecialnamesFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeSpecialnamesFromFfi(handle) : null;
+void smokeSpecialnamesReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeSpecialnamesReleaseHandle(handle);
 // End of SpecialNames "private" section.

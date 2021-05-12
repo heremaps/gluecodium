@@ -35,10 +35,10 @@ class MapScene_LoadSceneCallback$Impl {
   void release() => _smokeMapsceneLoadscenecallbackReleaseHandle(handle);
   call(String p0) {
     final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MapScene_LoadSceneCallback_call__String'));
-    final _p0Handle = String_toFfi_nullable(p0);
+    final _p0Handle = stringToFfiNullable(p0);
     final _handle = this.handle;
     final __resultHandle = _callFfi(_handle, __lib.LibraryContext.isolateId, _p0Handle);
-    String_releaseFfiHandle_nullable(_p0Handle);
+    stringReleaseFfiHandleNullable(_p0Handle);
     try {
       return (__resultHandle);
     } finally {
@@ -46,24 +46,24 @@ class MapScene_LoadSceneCallback$Impl {
     }
   }
 }
-int _MapScene_LoadSceneCallback_call_static(int _token, Pointer<Void> p0) {
+int _MapScene_LoadSceneCallbackcallStatic(int _token, Pointer<Void> p0) {
   try {
-    (__lib.instanceCache[_token] as MapScene_LoadSceneCallback)(String_fromFfi_nullable(p0));
+    (__lib.instanceCache[_token] as MapScene_LoadSceneCallback)(stringFromFfiNullable(p0));
   } finally {
-    String_releaseFfiHandle_nullable(p0);
+    stringReleaseFfiHandleNullable(p0);
   }
   return 0;
 }
-Pointer<Void> smoke_MapScene_LoadSceneCallback_toFfi(MapScene_LoadSceneCallback value) {
+Pointer<Void> smokeMapsceneLoadscenecallbackToFfi(MapScene_LoadSceneCallback value) {
   final result = _smokeMapsceneLoadscenecallbackCreateProxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_MapScene_LoadSceneCallback_call_static, __lib.unknownError)
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_MapScene_LoadSceneCallbackcallStatic, __lib.unknownError)
   );
   return result;
 }
-MapScene_LoadSceneCallback smoke_MapScene_LoadSceneCallback_fromFfi(Pointer<Void> handle) {
+MapScene_LoadSceneCallback smokeMapsceneLoadscenecallbackFromFfi(Pointer<Void> handle) {
   final _impl = MapScene_LoadSceneCallback$Impl(_smokeMapsceneLoadscenecallbackCopyHandle(handle));
   return (String p0) {
     final _result =_impl.call(p0);
@@ -71,37 +71,37 @@ MapScene_LoadSceneCallback smoke_MapScene_LoadSceneCallback_fromFfi(Pointer<Void
     return _result;
   };
 }
-void smoke_MapScene_LoadSceneCallback_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeMapsceneLoadscenecallbackReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeMapsceneLoadscenecallbackReleaseHandle(handle);
 // Nullable MapScene_LoadSceneCallback
-final _smoke_MapScene_LoadSceneCallbackCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeMapsceneLoadscenecallbackCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_MapScene_LoadSceneCallback_create_handle_nullable'));
-final _smoke_MapScene_LoadSceneCallbackReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeMapsceneLoadscenecallbackReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_MapScene_LoadSceneCallback_release_handle_nullable'));
-final _smoke_MapScene_LoadSceneCallbackGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeMapsceneLoadscenecallbackGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_MapScene_LoadSceneCallback_get_value_nullable'));
-Pointer<Void> smoke_MapScene_LoadSceneCallback_toFfi_nullable(MapScene_LoadSceneCallback value) {
+Pointer<Void> smokeMapsceneLoadscenecallbackToFfiNullable(MapScene_LoadSceneCallback value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_MapScene_LoadSceneCallback_toFfi(value);
-  final result = _smoke_MapScene_LoadSceneCallbackCreateHandleNullable(_handle);
-  smoke_MapScene_LoadSceneCallback_releaseFfiHandle(_handle);
+  final _handle = smokeMapsceneLoadscenecallbackToFfi(value);
+  final result = _smokeMapsceneLoadscenecallbackCreateHandleNullable(_handle);
+  smokeMapsceneLoadscenecallbackReleaseFfiHandle(_handle);
   return result;
 }
-MapScene_LoadSceneCallback smoke_MapScene_LoadSceneCallback_fromFfi_nullable(Pointer<Void> handle) {
+MapScene_LoadSceneCallback smokeMapsceneLoadscenecallbackFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_MapScene_LoadSceneCallbackGetValueNullable(handle);
-  final result = smoke_MapScene_LoadSceneCallback_fromFfi(_handle);
-  smoke_MapScene_LoadSceneCallback_releaseFfiHandle(_handle);
+  final _handle = _smokeMapsceneLoadscenecallbackGetValueNullable(handle);
+  final result = smokeMapsceneLoadscenecallbackFromFfi(_handle);
+  smokeMapsceneLoadscenecallbackReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_MapScene_LoadSceneCallback_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_MapScene_LoadSceneCallbackReleaseHandleNullable(handle);
+void smokeMapsceneLoadscenecallbackReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeMapsceneLoadscenecallbackReleaseHandleNullable(handle);
 // End of MapScene_LoadSceneCallback "private" section.
 // MapScene "private" section, not exported.
 final _smokeMapsceneCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -126,11 +126,11 @@ class MapScene$Impl extends __lib.NativeBase implements MapScene {
   loadSceneWithInt(int mapScheme, MapScene_LoadSceneCallback callback) {
     final _loadSceneWithIntFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Int32, Pointer<Void>), void Function(Pointer<Void>, int, int, Pointer<Void>)>('library_smoke_MapScene_loadScene__Int_LoadSceneCallback'));
     final _mapSchemeHandle = (mapScheme);
-    final _callbackHandle = smoke_MapScene_LoadSceneCallback_toFfi_nullable(callback);
+    final _callbackHandle = smokeMapsceneLoadscenecallbackToFfiNullable(callback);
     final _handle = this.handle;
     final __resultHandle = _loadSceneWithIntFfi(_handle, __lib.LibraryContext.isolateId, _mapSchemeHandle, _callbackHandle);
     (_mapSchemeHandle);
-    smoke_MapScene_LoadSceneCallback_releaseFfiHandle_nullable(_callbackHandle);
+    smokeMapsceneLoadscenecallbackReleaseFfiHandleNullable(_callbackHandle);
     try {
       return (__resultHandle);
     } finally {
@@ -140,12 +140,12 @@ class MapScene$Impl extends __lib.NativeBase implements MapScene {
   @override
   loadSceneWithString(String configurationFile, MapScene_LoadSceneCallback callback) {
     final _loadSceneWithStringFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>, Pointer<Void>)>('library_smoke_MapScene_loadScene__String_LoadSceneCallback'));
-    final _configurationFileHandle = String_toFfi(configurationFile);
-    final _callbackHandle = smoke_MapScene_LoadSceneCallback_toFfi_nullable(callback);
+    final _configurationFileHandle = stringToFfi(configurationFile);
+    final _callbackHandle = smokeMapsceneLoadscenecallbackToFfiNullable(callback);
     final _handle = this.handle;
     final __resultHandle = _loadSceneWithStringFfi(_handle, __lib.LibraryContext.isolateId, _configurationFileHandle, _callbackHandle);
-    String_releaseFfiHandle(_configurationFileHandle);
-    smoke_MapScene_LoadSceneCallback_releaseFfiHandle_nullable(_callbackHandle);
+    stringReleaseFfiHandle(_configurationFileHandle);
+    smokeMapsceneLoadscenecallbackReleaseFfiHandleNullable(_callbackHandle);
     try {
       return (__resultHandle);
     } finally {
@@ -153,9 +153,9 @@ class MapScene$Impl extends __lib.NativeBase implements MapScene {
     }
   }
 }
-Pointer<Void> smoke_MapScene_toFfi(MapScene value) =>
+Pointer<Void> smokeMapsceneToFfi(MapScene value) =>
   _smokeMapsceneCopyHandle((value as __lib.NativeBase).handle);
-MapScene smoke_MapScene_fromFfi(Pointer<Void> handle) {
+MapScene smokeMapsceneFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as MapScene;
@@ -165,12 +165,12 @@ MapScene smoke_MapScene_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_MapScene_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeMapsceneReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeMapsceneReleaseHandle(handle);
-Pointer<Void> smoke_MapScene_toFfi_nullable(MapScene value) =>
-  value != null ? smoke_MapScene_toFfi(value) : Pointer<Void>.fromAddress(0);
-MapScene smoke_MapScene_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_MapScene_fromFfi(handle) : null;
-void smoke_MapScene_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeMapsceneToFfiNullable(MapScene value) =>
+  value != null ? smokeMapsceneToFfi(value) : Pointer<Void>.fromAddress(0);
+MapScene smokeMapsceneFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeMapsceneFromFfi(handle) : null;
+void smokeMapsceneReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeMapsceneReleaseHandle(handle);
 // End of MapScene "private" section.

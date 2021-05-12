@@ -18,9 +18,9 @@ class StructWithMethods$Impl {
   StructWithMethods(this.field);
   voidFunction() {
     final _voidFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_StructWithMethods_voidFunction'));
-    final _handle = smoke_StructWithMethods_toFfi(this);
+    final _handle = smokeStructwithmethodsToFfi(this);
     final __resultHandle = _voidFunctionFfi(_handle, __lib.LibraryContext.isolateId);
-    smoke_StructWithMethods_releaseFfiHandle(_handle);
+    smokeStructwithmethodsReleaseFfiHandle(_handle);
     try {
       return (__resultHandle);
     } finally {
@@ -29,20 +29,20 @@ class StructWithMethods$Impl {
   }
   bool boolFunction() {
     final _boolFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_StructWithMethods_boolFunction'));
-    final _handle = smoke_StructWithMethods_toFfi(this);
+    final _handle = smokeStructwithmethodsToFfi(this);
     final __resultHandle = _boolFunctionFfi(_handle, __lib.LibraryContext.isolateId);
-    smoke_StructWithMethods_releaseFfiHandle(_handle);
+    smokeStructwithmethodsReleaseFfiHandle(_handle);
     try {
-      return Boolean_fromFfi(__resultHandle);
+      return booleanFromFfi(__resultHandle);
     } finally {
-      Boolean_releaseFfiHandle(__resultHandle);
+      booleanReleaseFfiHandle(__resultHandle);
     }
   }
   int intFunction() {
     final _intFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Int32 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_StructWithMethods_intFunction'));
-    final _handle = smoke_StructWithMethods_toFfi(this);
+    final _handle = smokeStructwithmethodsToFfi(this);
     final __resultHandle = _intFunctionFfi(_handle, __lib.LibraryContext.isolateId);
-    smoke_StructWithMethods_releaseFfiHandle(_handle);
+    smokeStructwithmethodsReleaseFfiHandle(_handle);
     try {
       return (__resultHandle);
     } finally {
@@ -51,24 +51,24 @@ class StructWithMethods$Impl {
   }
   String stringFunction() {
     final _stringFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_StructWithMethods_stringFunction'));
-    final _handle = smoke_StructWithMethods_toFfi(this);
+    final _handle = smokeStructwithmethodsToFfi(this);
     final __resultHandle = _stringFunctionFfi(_handle, __lib.LibraryContext.isolateId);
-    smoke_StructWithMethods_releaseFfiHandle(_handle);
+    smokeStructwithmethodsReleaseFfiHandle(_handle);
     try {
-      return String_fromFfi(__resultHandle);
+      return stringFromFfi(__resultHandle);
     } finally {
-      String_releaseFfiHandle(__resultHandle);
+      stringReleaseFfiHandle(__resultHandle);
     }
   }
   StructWithMethods structFunction() {
     final _structFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_StructWithMethods_structFunction'));
-    final _handle = smoke_StructWithMethods_toFfi(this);
+    final _handle = smokeStructwithmethodsToFfi(this);
     final __resultHandle = _structFunctionFfi(_handle, __lib.LibraryContext.isolateId);
-    smoke_StructWithMethods_releaseFfiHandle(_handle);
+    smokeStructwithmethodsReleaseFfiHandle(_handle);
     try {
-      return smoke_StructWithMethods_fromFfi(__resultHandle);
+      return smokeStructwithmethodsFromFfi(__resultHandle);
     } finally {
-      smoke_StructWithMethods_releaseFfiHandle(__resultHandle);
+      smokeStructwithmethodsReleaseFfiHandle(__resultHandle);
     }
   }
   staticFunction() {
@@ -94,50 +94,50 @@ final _smokeStructwithmethodsGetFieldfield = __lib.catchArgumentError(() => __li
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithMethods_get_field_field'));
-Pointer<Void> smoke_StructWithMethods_toFfi(StructWithMethods value) {
-  final _fieldHandle = String_toFfi(value.field);
+Pointer<Void> smokeStructwithmethodsToFfi(StructWithMethods value) {
+  final _fieldHandle = stringToFfi(value.field);
   final _result = _smokeStructwithmethodsCreateHandle(_fieldHandle);
-  String_releaseFfiHandle(_fieldHandle);
+  stringReleaseFfiHandle(_fieldHandle);
   return _result;
 }
-StructWithMethods smoke_StructWithMethods_fromFfi(Pointer<Void> handle) {
+StructWithMethods smokeStructwithmethodsFromFfi(Pointer<Void> handle) {
   final _fieldHandle = _smokeStructwithmethodsGetFieldfield(handle);
   try {
     return StructWithMethods(
-      String_fromFfi(_fieldHandle)
+      stringFromFfi(_fieldHandle)
     );
   } finally {
-    String_releaseFfiHandle(_fieldHandle);
+    stringReleaseFfiHandle(_fieldHandle);
   }
 }
-void smoke_StructWithMethods_releaseFfiHandle(Pointer<Void> handle) => _smokeStructwithmethodsReleaseHandle(handle);
+void smokeStructwithmethodsReleaseFfiHandle(Pointer<Void> handle) => _smokeStructwithmethodsReleaseHandle(handle);
 // Nullable StructWithMethods
-final _smoke_StructWithMethodsCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructwithmethodsCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithMethods_create_handle_nullable'));
-final _smoke_StructWithMethodsReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructwithmethodsReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_StructWithMethods_release_handle_nullable'));
-final _smoke_StructWithMethodsGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructwithmethodsGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithMethods_get_value_nullable'));
-Pointer<Void> smoke_StructWithMethods_toFfi_nullable(StructWithMethods value) {
+Pointer<Void> smokeStructwithmethodsToFfiNullable(StructWithMethods value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_StructWithMethods_toFfi(value);
-  final result = _smoke_StructWithMethodsCreateHandleNullable(_handle);
-  smoke_StructWithMethods_releaseFfiHandle(_handle);
+  final _handle = smokeStructwithmethodsToFfi(value);
+  final result = _smokeStructwithmethodsCreateHandleNullable(_handle);
+  smokeStructwithmethodsReleaseFfiHandle(_handle);
   return result;
 }
-StructWithMethods smoke_StructWithMethods_fromFfi_nullable(Pointer<Void> handle) {
+StructWithMethods smokeStructwithmethodsFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_StructWithMethodsGetValueNullable(handle);
-  final result = smoke_StructWithMethods_fromFfi(_handle);
-  smoke_StructWithMethods_releaseFfiHandle(_handle);
+  final _handle = _smokeStructwithmethodsGetValueNullable(handle);
+  final result = smokeStructwithmethodsFromFfi(_handle);
+  smokeStructwithmethodsReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_StructWithMethods_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_StructWithMethodsReleaseHandleNullable(handle);
+void smokeStructwithmethodsReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeStructwithmethodsReleaseHandleNullable(handle);
 // End of StructWithMethods "private" section.

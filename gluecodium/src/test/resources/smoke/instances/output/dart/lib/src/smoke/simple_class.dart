@@ -38,28 +38,28 @@ class SimpleClass$Impl extends __lib.NativeBase implements SimpleClass {
     final _handle = this.handle;
     final __resultHandle = _getStringValueFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return String_fromFfi(__resultHandle);
+      return stringFromFfi(__resultHandle);
     } finally {
-      String_releaseFfiHandle(__resultHandle);
+      stringReleaseFfiHandle(__resultHandle);
     }
   }
   @override
   SimpleClass useSimpleClass(SimpleClass input) {
     final _useSimpleClassFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_SimpleClass_useSimpleClass__SimpleClass'));
-    final _inputHandle = smoke_SimpleClass_toFfi(input);
+    final _inputHandle = smokeSimpleclassToFfi(input);
     final _handle = this.handle;
     final __resultHandle = _useSimpleClassFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
-    smoke_SimpleClass_releaseFfiHandle(_inputHandle);
+    smokeSimpleclassReleaseFfiHandle(_inputHandle);
     try {
-      return smoke_SimpleClass_fromFfi(__resultHandle);
+      return smokeSimpleclassFromFfi(__resultHandle);
     } finally {
-      smoke_SimpleClass_releaseFfiHandle(__resultHandle);
+      smokeSimpleclassReleaseFfiHandle(__resultHandle);
     }
   }
 }
-Pointer<Void> smoke_SimpleClass_toFfi(SimpleClass value) =>
+Pointer<Void> smokeSimpleclassToFfi(SimpleClass value) =>
   _smokeSimpleclassCopyHandle((value as __lib.NativeBase).handle);
-SimpleClass smoke_SimpleClass_fromFfi(Pointer<Void> handle) {
+SimpleClass smokeSimpleclassFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as SimpleClass;
@@ -69,12 +69,12 @@ SimpleClass smoke_SimpleClass_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_SimpleClass_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeSimpleclassReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeSimpleclassReleaseHandle(handle);
-Pointer<Void> smoke_SimpleClass_toFfi_nullable(SimpleClass value) =>
-  value != null ? smoke_SimpleClass_toFfi(value) : Pointer<Void>.fromAddress(0);
-SimpleClass smoke_SimpleClass_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_SimpleClass_fromFfi(handle) : null;
-void smoke_SimpleClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeSimpleclassToFfiNullable(SimpleClass value) =>
+  value != null ? smokeSimpleclassToFfi(value) : Pointer<Void>.fromAddress(0);
+SimpleClass smokeSimpleclassFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeSimpleclassFromFfi(handle) : null;
+void smokeSimpleclassReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeSimpleclassReleaseHandle(handle);
 // End of SimpleClass "private" section.

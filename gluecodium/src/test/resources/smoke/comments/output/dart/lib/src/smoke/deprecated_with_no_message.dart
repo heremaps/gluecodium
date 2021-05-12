@@ -20,50 +20,50 @@ final _smokeDeprecatedwithnomessageGetFieldfield = __lib.catchArgumentError(() =
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_DeprecatedWithNoMessage_get_field_field'));
-Pointer<Void> smoke_DeprecatedWithNoMessage_toFfi(DeprecatedWithNoMessage value) {
-  final _fieldHandle = String_toFfi(value.field);
+Pointer<Void> smokeDeprecatedwithnomessageToFfi(DeprecatedWithNoMessage value) {
+  final _fieldHandle = stringToFfi(value.field);
   final _result = _smokeDeprecatedwithnomessageCreateHandle(_fieldHandle);
-  String_releaseFfiHandle(_fieldHandle);
+  stringReleaseFfiHandle(_fieldHandle);
   return _result;
 }
-DeprecatedWithNoMessage smoke_DeprecatedWithNoMessage_fromFfi(Pointer<Void> handle) {
+DeprecatedWithNoMessage smokeDeprecatedwithnomessageFromFfi(Pointer<Void> handle) {
   final _fieldHandle = _smokeDeprecatedwithnomessageGetFieldfield(handle);
   try {
     return DeprecatedWithNoMessage(
-      String_fromFfi(_fieldHandle)
+      stringFromFfi(_fieldHandle)
     );
   } finally {
-    String_releaseFfiHandle(_fieldHandle);
+    stringReleaseFfiHandle(_fieldHandle);
   }
 }
-void smoke_DeprecatedWithNoMessage_releaseFfiHandle(Pointer<Void> handle) => _smokeDeprecatedwithnomessageReleaseHandle(handle);
+void smokeDeprecatedwithnomessageReleaseFfiHandle(Pointer<Void> handle) => _smokeDeprecatedwithnomessageReleaseHandle(handle);
 // Nullable DeprecatedWithNoMessage
-final _smoke_DeprecatedWithNoMessageCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeDeprecatedwithnomessageCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_DeprecatedWithNoMessage_create_handle_nullable'));
-final _smoke_DeprecatedWithNoMessageReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeDeprecatedwithnomessageReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_DeprecatedWithNoMessage_release_handle_nullable'));
-final _smoke_DeprecatedWithNoMessageGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeDeprecatedwithnomessageGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_DeprecatedWithNoMessage_get_value_nullable'));
-Pointer<Void> smoke_DeprecatedWithNoMessage_toFfi_nullable(DeprecatedWithNoMessage value) {
+Pointer<Void> smokeDeprecatedwithnomessageToFfiNullable(DeprecatedWithNoMessage value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_DeprecatedWithNoMessage_toFfi(value);
-  final result = _smoke_DeprecatedWithNoMessageCreateHandleNullable(_handle);
-  smoke_DeprecatedWithNoMessage_releaseFfiHandle(_handle);
+  final _handle = smokeDeprecatedwithnomessageToFfi(value);
+  final result = _smokeDeprecatedwithnomessageCreateHandleNullable(_handle);
+  smokeDeprecatedwithnomessageReleaseFfiHandle(_handle);
   return result;
 }
-DeprecatedWithNoMessage smoke_DeprecatedWithNoMessage_fromFfi_nullable(Pointer<Void> handle) {
+DeprecatedWithNoMessage smokeDeprecatedwithnomessageFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_DeprecatedWithNoMessageGetValueNullable(handle);
-  final result = smoke_DeprecatedWithNoMessage_fromFfi(_handle);
-  smoke_DeprecatedWithNoMessage_releaseFfiHandle(_handle);
+  final _handle = _smokeDeprecatedwithnomessageGetValueNullable(handle);
+  final result = smokeDeprecatedwithnomessageFromFfi(_handle);
+  smokeDeprecatedwithnomessageReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_DeprecatedWithNoMessage_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_DeprecatedWithNoMessageReleaseHandleNullable(handle);
+void smokeDeprecatedwithnomessageReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeDeprecatedwithnomessageReleaseHandleNullable(handle);
 // End of DeprecatedWithNoMessage "private" section.

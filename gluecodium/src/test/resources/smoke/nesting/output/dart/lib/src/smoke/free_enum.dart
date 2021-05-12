@@ -6,7 +6,7 @@ enum FreeEnum {
     bar
 }
 // FreeEnum "private" section, not exported.
-int smoke_FreeEnum_toFfi(FreeEnum value) {
+int smokeFreeenumToFfi(FreeEnum value) {
   switch (value) {
   case FreeEnum.foo:
     return 0;
@@ -18,7 +18,7 @@ int smoke_FreeEnum_toFfi(FreeEnum value) {
     throw StateError("Invalid enum value $value for FreeEnum enum.");
   }
 }
-FreeEnum smoke_FreeEnum_fromFfi(int handle) {
+FreeEnum smokeFreeenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return FreeEnum.foo;
@@ -30,33 +30,33 @@ FreeEnum smoke_FreeEnum_fromFfi(int handle) {
     throw StateError("Invalid numeric value $handle for FreeEnum enum.");
   }
 }
-void smoke_FreeEnum_releaseFfiHandle(int handle) {}
-final _smoke_FreeEnumCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+void smokeFreeenumReleaseFfiHandle(int handle) {}
+final _smokeFreeenumCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
   >('library_smoke_FreeEnum_create_handle_nullable'));
-final _smoke_FreeEnumReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeFreeenumReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_FreeEnum_release_handle_nullable'));
-final _smoke_FreeEnumGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeFreeenumGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_FreeEnum_get_value_nullable'));
-Pointer<Void> smoke_FreeEnum_toFfi_nullable(FreeEnum value) {
+Pointer<Void> smokeFreeenumToFfiNullable(FreeEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_FreeEnum_toFfi(value);
-  final result = _smoke_FreeEnumCreateHandleNullable(_handle);
-  smoke_FreeEnum_releaseFfiHandle(_handle);
+  final _handle = smokeFreeenumToFfi(value);
+  final result = _smokeFreeenumCreateHandleNullable(_handle);
+  smokeFreeenumReleaseFfiHandle(_handle);
   return result;
 }
-FreeEnum smoke_FreeEnum_fromFfi_nullable(Pointer<Void> handle) {
+FreeEnum smokeFreeenumFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_FreeEnumGetValueNullable(handle);
-  final result = smoke_FreeEnum_fromFfi(_handle);
-  smoke_FreeEnum_releaseFfiHandle(_handle);
+  final _handle = _smokeFreeenumGetValueNullable(handle);
+  final result = smokeFreeenumFromFfi(_handle);
+  smokeFreeenumReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_FreeEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_FreeEnumReleaseHandleNullable(handle);
+void smokeFreeenumReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeFreeenumReleaseHandleNullable(handle);
 // End of FreeEnum "private" section.

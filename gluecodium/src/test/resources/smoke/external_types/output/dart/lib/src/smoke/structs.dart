@@ -46,67 +46,67 @@ final _smokeStructsExternalstructGetFieldexternalStructField = __lib.catchArgume
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_ExternalStruct_get_field_externalStructField'));
-Pointer<Void> smoke_Structs_ExternalStruct_toFfi(Structs_ExternalStruct value) {
-  final _stringFieldHandle = String_toFfi(value.stringField);
-  final _externalStringFieldHandle = String_toFfi(value.externalStringField);
-  final _externalArrayFieldHandle = foobar_ListOf_Byte_toFfi(value.externalArrayField);
-  final _externalStructFieldHandle = smoke_Structs_AnotherExternalStruct_toFfi(value.externalStructField);
+Pointer<Void> smokeStructsExternalstructToFfi(Structs_ExternalStruct value) {
+  final _stringFieldHandle = stringToFfi(value.stringField);
+  final _externalStringFieldHandle = stringToFfi(value.externalStringField);
+  final _externalArrayFieldHandle = foobarListofByteToFfi(value.externalArrayField);
+  final _externalStructFieldHandle = smokeStructsAnotherexternalstructToFfi(value.externalStructField);
   final _result = _smokeStructsExternalstructCreateHandle(_stringFieldHandle, _externalStringFieldHandle, _externalArrayFieldHandle, _externalStructFieldHandle);
-  String_releaseFfiHandle(_stringFieldHandle);
-  String_releaseFfiHandle(_externalStringFieldHandle);
-  foobar_ListOf_Byte_releaseFfiHandle(_externalArrayFieldHandle);
-  smoke_Structs_AnotherExternalStruct_releaseFfiHandle(_externalStructFieldHandle);
+  stringReleaseFfiHandle(_stringFieldHandle);
+  stringReleaseFfiHandle(_externalStringFieldHandle);
+  foobarListofByteReleaseFfiHandle(_externalArrayFieldHandle);
+  smokeStructsAnotherexternalstructReleaseFfiHandle(_externalStructFieldHandle);
   return _result;
 }
-Structs_ExternalStruct smoke_Structs_ExternalStruct_fromFfi(Pointer<Void> handle) {
+Structs_ExternalStruct smokeStructsExternalstructFromFfi(Pointer<Void> handle) {
   final _stringFieldHandle = _smokeStructsExternalstructGetFieldstringField(handle);
   final _externalStringFieldHandle = _smokeStructsExternalstructGetFieldexternalStringField(handle);
   final _externalArrayFieldHandle = _smokeStructsExternalstructGetFieldexternalArrayField(handle);
   final _externalStructFieldHandle = _smokeStructsExternalstructGetFieldexternalStructField(handle);
   try {
     return Structs_ExternalStruct(
-      String_fromFfi(_stringFieldHandle),
-      String_fromFfi(_externalStringFieldHandle),
-      foobar_ListOf_Byte_fromFfi(_externalArrayFieldHandle),
-      smoke_Structs_AnotherExternalStruct_fromFfi(_externalStructFieldHandle)
+      stringFromFfi(_stringFieldHandle),
+      stringFromFfi(_externalStringFieldHandle),
+      foobarListofByteFromFfi(_externalArrayFieldHandle),
+      smokeStructsAnotherexternalstructFromFfi(_externalStructFieldHandle)
     );
   } finally {
-    String_releaseFfiHandle(_stringFieldHandle);
-    String_releaseFfiHandle(_externalStringFieldHandle);
-    foobar_ListOf_Byte_releaseFfiHandle(_externalArrayFieldHandle);
-    smoke_Structs_AnotherExternalStruct_releaseFfiHandle(_externalStructFieldHandle);
+    stringReleaseFfiHandle(_stringFieldHandle);
+    stringReleaseFfiHandle(_externalStringFieldHandle);
+    foobarListofByteReleaseFfiHandle(_externalArrayFieldHandle);
+    smokeStructsAnotherexternalstructReleaseFfiHandle(_externalStructFieldHandle);
   }
 }
-void smoke_Structs_ExternalStruct_releaseFfiHandle(Pointer<Void> handle) => _smokeStructsExternalstructReleaseHandle(handle);
+void smokeStructsExternalstructReleaseFfiHandle(Pointer<Void> handle) => _smokeStructsExternalstructReleaseHandle(handle);
 // Nullable Structs_ExternalStruct
-final _smoke_Structs_ExternalStructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsExternalstructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_ExternalStruct_create_handle_nullable'));
-final _smoke_Structs_ExternalStructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsExternalstructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Structs_ExternalStruct_release_handle_nullable'));
-final _smoke_Structs_ExternalStructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsExternalstructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_ExternalStruct_get_value_nullable'));
-Pointer<Void> smoke_Structs_ExternalStruct_toFfi_nullable(Structs_ExternalStruct value) {
+Pointer<Void> smokeStructsExternalstructToFfiNullable(Structs_ExternalStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_Structs_ExternalStruct_toFfi(value);
-  final result = _smoke_Structs_ExternalStructCreateHandleNullable(_handle);
-  smoke_Structs_ExternalStruct_releaseFfiHandle(_handle);
+  final _handle = smokeStructsExternalstructToFfi(value);
+  final result = _smokeStructsExternalstructCreateHandleNullable(_handle);
+  smokeStructsExternalstructReleaseFfiHandle(_handle);
   return result;
 }
-Structs_ExternalStruct smoke_Structs_ExternalStruct_fromFfi_nullable(Pointer<Void> handle) {
+Structs_ExternalStruct smokeStructsExternalstructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_Structs_ExternalStructGetValueNullable(handle);
-  final result = smoke_Structs_ExternalStruct_fromFfi(_handle);
-  smoke_Structs_ExternalStruct_releaseFfiHandle(_handle);
+  final _handle = _smokeStructsExternalstructGetValueNullable(handle);
+  final result = smokeStructsExternalstructFromFfi(_handle);
+  smokeStructsExternalstructReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_Structs_ExternalStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_Structs_ExternalStructReleaseHandleNullable(handle);
+void smokeStructsExternalstructReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeStructsExternalstructReleaseHandleNullable(handle);
 // End of Structs_ExternalStruct "private" section.
 class Structs_AnotherExternalStruct {
   int intField;
@@ -125,13 +125,13 @@ final _smokeStructsAnotherexternalstructGetFieldintField = __lib.catchArgumentEr
     Int8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Structs_AnotherExternalStruct_get_field_intField'));
-Pointer<Void> smoke_Structs_AnotherExternalStruct_toFfi(Structs_AnotherExternalStruct value) {
+Pointer<Void> smokeStructsAnotherexternalstructToFfi(Structs_AnotherExternalStruct value) {
   final _intFieldHandle = (value.intField);
   final _result = _smokeStructsAnotherexternalstructCreateHandle(_intFieldHandle);
   (_intFieldHandle);
   return _result;
 }
-Structs_AnotherExternalStruct smoke_Structs_AnotherExternalStruct_fromFfi(Pointer<Void> handle) {
+Structs_AnotherExternalStruct smokeStructsAnotherexternalstructFromFfi(Pointer<Void> handle) {
   final _intFieldHandle = _smokeStructsAnotherexternalstructGetFieldintField(handle);
   try {
     return Structs_AnotherExternalStruct(
@@ -141,36 +141,36 @@ Structs_AnotherExternalStruct smoke_Structs_AnotherExternalStruct_fromFfi(Pointe
     (_intFieldHandle);
   }
 }
-void smoke_Structs_AnotherExternalStruct_releaseFfiHandle(Pointer<Void> handle) => _smokeStructsAnotherexternalstructReleaseHandle(handle);
+void smokeStructsAnotherexternalstructReleaseFfiHandle(Pointer<Void> handle) => _smokeStructsAnotherexternalstructReleaseHandle(handle);
 // Nullable Structs_AnotherExternalStruct
-final _smoke_Structs_AnotherExternalStructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsAnotherexternalstructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_AnotherExternalStruct_create_handle_nullable'));
-final _smoke_Structs_AnotherExternalStructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsAnotherexternalstructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Structs_AnotherExternalStruct_release_handle_nullable'));
-final _smoke_Structs_AnotherExternalStructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsAnotherexternalstructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_AnotherExternalStruct_get_value_nullable'));
-Pointer<Void> smoke_Structs_AnotherExternalStruct_toFfi_nullable(Structs_AnotherExternalStruct value) {
+Pointer<Void> smokeStructsAnotherexternalstructToFfiNullable(Structs_AnotherExternalStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_Structs_AnotherExternalStruct_toFfi(value);
-  final result = _smoke_Structs_AnotherExternalStructCreateHandleNullable(_handle);
-  smoke_Structs_AnotherExternalStruct_releaseFfiHandle(_handle);
+  final _handle = smokeStructsAnotherexternalstructToFfi(value);
+  final result = _smokeStructsAnotherexternalstructCreateHandleNullable(_handle);
+  smokeStructsAnotherexternalstructReleaseFfiHandle(_handle);
   return result;
 }
-Structs_AnotherExternalStruct smoke_Structs_AnotherExternalStruct_fromFfi_nullable(Pointer<Void> handle) {
+Structs_AnotherExternalStruct smokeStructsAnotherexternalstructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_Structs_AnotherExternalStructGetValueNullable(handle);
-  final result = smoke_Structs_AnotherExternalStruct_fromFfi(_handle);
-  smoke_Structs_AnotherExternalStruct_releaseFfiHandle(_handle);
+  final _handle = _smokeStructsAnotherexternalstructGetValueNullable(handle);
+  final result = smokeStructsAnotherexternalstructFromFfi(_handle);
+  smokeStructsAnotherexternalstructReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_Structs_AnotherExternalStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_Structs_AnotherExternalStructReleaseHandleNullable(handle);
+void smokeStructsAnotherexternalstructReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeStructsAnotherexternalstructReleaseHandleNullable(handle);
 // End of Structs_AnotherExternalStruct "private" section.
 // Structs "private" section, not exported.
 final _smokeStructsCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -195,24 +195,24 @@ class Structs$Impl extends __lib.NativeBase implements Structs {
     final _getExternalStructFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Structs_getExternalStruct'));
     final __resultHandle = _getExternalStructFfi(__lib.LibraryContext.isolateId);
     try {
-      return smoke_Structs_ExternalStruct_fromFfi(__resultHandle);
+      return smokeStructsExternalstructFromFfi(__resultHandle);
     } finally {
-      smoke_Structs_ExternalStruct_releaseFfiHandle(__resultHandle);
+      smokeStructsExternalstructReleaseFfiHandle(__resultHandle);
     }
   }
   static Structs_AnotherExternalStruct getAnotherExternalStruct() {
     final _getAnotherExternalStructFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Structs_getAnotherExternalStruct'));
     final __resultHandle = _getAnotherExternalStructFfi(__lib.LibraryContext.isolateId);
     try {
-      return smoke_Structs_AnotherExternalStruct_fromFfi(__resultHandle);
+      return smokeStructsAnotherexternalstructFromFfi(__resultHandle);
     } finally {
-      smoke_Structs_AnotherExternalStruct_releaseFfiHandle(__resultHandle);
+      smokeStructsAnotherexternalstructReleaseFfiHandle(__resultHandle);
     }
   }
 }
-Pointer<Void> smoke_Structs_toFfi(Structs value) =>
+Pointer<Void> smokeStructsToFfi(Structs value) =>
   _smokeStructsCopyHandle((value as __lib.NativeBase).handle);
-Structs smoke_Structs_fromFfi(Pointer<Void> handle) {
+Structs smokeStructsFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as Structs;
@@ -222,12 +222,12 @@ Structs smoke_Structs_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_Structs_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeStructsReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeStructsReleaseHandle(handle);
-Pointer<Void> smoke_Structs_toFfi_nullable(Structs value) =>
-  value != null ? smoke_Structs_toFfi(value) : Pointer<Void>.fromAddress(0);
-Structs smoke_Structs_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_Structs_fromFfi(handle) : null;
-void smoke_Structs_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeStructsToFfiNullable(Structs value) =>
+  value != null ? smokeStructsToFfi(value) : Pointer<Void>.fromAddress(0);
+Structs smokeStructsFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeStructsFromFfi(handle) : null;
+void smokeStructsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeStructsReleaseHandle(handle);
 // End of Structs "private" section.

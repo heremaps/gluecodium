@@ -45,9 +45,9 @@ class InternalClass$Impl extends __lib.NativeBase implements InternalClass {
     }
   }
 }
-Pointer<Void> smoke_InternalClass_toFfi(InternalClass value) =>
+Pointer<Void> smokeInternalclassToFfi(InternalClass value) =>
   _smokeInternalclassCopyHandle((value as __lib.NativeBase).handle);
-InternalClass smoke_InternalClass_fromFfi(Pointer<Void> handle) {
+InternalClass smokeInternalclassFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as InternalClass;
@@ -57,12 +57,12 @@ InternalClass smoke_InternalClass_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_InternalClass_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeInternalclassReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeInternalclassReleaseHandle(handle);
-Pointer<Void> smoke_InternalClass_toFfi_nullable(InternalClass value) =>
-  value != null ? smoke_InternalClass_toFfi(value) : Pointer<Void>.fromAddress(0);
-InternalClass smoke_InternalClass_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_InternalClass_fromFfi(handle) : null;
-void smoke_InternalClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeInternalclassToFfiNullable(InternalClass value) =>
+  value != null ? smokeInternalclassToFfi(value) : Pointer<Void>.fromAddress(0);
+InternalClass smokeInternalclassFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeInternalclassFromFfi(handle) : null;
+void smokeInternalclassReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeInternalclassReleaseHandle(handle);
 // End of InternalClass "private" section.

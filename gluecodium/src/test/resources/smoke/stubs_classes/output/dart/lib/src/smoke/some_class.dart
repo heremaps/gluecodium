@@ -65,9 +65,9 @@ class SomeClass$Impl extends __lib.NativeBase implements SomeClass {
     final _handle = this.handle;
     final __resultHandle = _boolFunctionFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return Boolean_fromFfi(__resultHandle);
+      return booleanFromFfi(__resultHandle);
     } finally {
-      Boolean_releaseFfiHandle(__resultHandle);
+      booleanReleaseFfiHandle(__resultHandle);
     }
   }
   @override
@@ -87,9 +87,9 @@ class SomeClass$Impl extends __lib.NativeBase implements SomeClass {
     final _handle = this.handle;
     final __resultHandle = _stringFunctionFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return String_fromFfi(__resultHandle);
+      return stringFromFfi(__resultHandle);
     } finally {
-      String_releaseFfiHandle(__resultHandle);
+      stringReleaseFfiHandle(__resultHandle);
     }
   }
   @override
@@ -98,9 +98,9 @@ class SomeClass$Impl extends __lib.NativeBase implements SomeClass {
     final _handle = this.handle;
     final __resultHandle = _classFunctionFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return smoke_SomeClass_fromFfi(__resultHandle);
+      return smokeSomeclassFromFfi(__resultHandle);
     } finally {
-      smoke_SomeClass_releaseFfiHandle(__resultHandle);
+      smokeSomeclassReleaseFfiHandle(__resultHandle);
     }
   }
   staticFunction() {
@@ -113,9 +113,9 @@ class SomeClass$Impl extends __lib.NativeBase implements SomeClass {
     }
   }
 }
-Pointer<Void> smoke_SomeClass_toFfi(SomeClass value) =>
+Pointer<Void> smokeSomeclassToFfi(SomeClass value) =>
   _smokeSomeclassCopyHandle((value as __lib.NativeBase).handle);
-SomeClass smoke_SomeClass_fromFfi(Pointer<Void> handle) {
+SomeClass smokeSomeclassFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as SomeClass;
@@ -125,12 +125,12 @@ SomeClass smoke_SomeClass_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_SomeClass_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeSomeclassReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeSomeclassReleaseHandle(handle);
-Pointer<Void> smoke_SomeClass_toFfi_nullable(SomeClass value) =>
-  value != null ? smoke_SomeClass_toFfi(value) : Pointer<Void>.fromAddress(0);
-SomeClass smoke_SomeClass_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_SomeClass_fromFfi(handle) : null;
-void smoke_SomeClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeSomeclassToFfiNullable(SomeClass value) =>
+  value != null ? smokeSomeclassToFfi(value) : Pointer<Void>.fromAddress(0);
+SomeClass smokeSomeclassFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeSomeclassFromFfi(handle) : null;
+void smokeSomeclassReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeSomeclassReleaseHandle(handle);
 // End of SomeClass "private" section.

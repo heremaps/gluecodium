@@ -27,55 +27,55 @@ final _smokeStructswithconstantsRouteGetFieldtype = __lib.catchArgumentError(() 
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_StructsWithConstants_Route_get_field_type'));
-Pointer<Void> smoke_StructsWithConstants_Route_toFfi(Route value) {
-  final _descriptionHandle = String_toFfi(value.description);
-  final _typeHandle = smoke_RouteUtils_RouteType_toFfi(value.type);
+Pointer<Void> smokeStructswithconstantsRouteToFfi(Route value) {
+  final _descriptionHandle = stringToFfi(value.description);
+  final _typeHandle = smokeRouteutilsRoutetypeToFfi(value.type);
   final _result = _smokeStructswithconstantsRouteCreateHandle(_descriptionHandle, _typeHandle);
-  String_releaseFfiHandle(_descriptionHandle);
-  smoke_RouteUtils_RouteType_releaseFfiHandle(_typeHandle);
+  stringReleaseFfiHandle(_descriptionHandle);
+  smokeRouteutilsRoutetypeReleaseFfiHandle(_typeHandle);
   return _result;
 }
-Route smoke_StructsWithConstants_Route_fromFfi(Pointer<Void> handle) {
+Route smokeStructswithconstantsRouteFromFfi(Pointer<Void> handle) {
   final _descriptionHandle = _smokeStructswithconstantsRouteGetFielddescription(handle);
   final _typeHandle = _smokeStructswithconstantsRouteGetFieldtype(handle);
   try {
     return Route(
-      String_fromFfi(_descriptionHandle),
-      smoke_RouteUtils_RouteType_fromFfi(_typeHandle)
+      stringFromFfi(_descriptionHandle),
+      smokeRouteutilsRoutetypeFromFfi(_typeHandle)
     );
   } finally {
-    String_releaseFfiHandle(_descriptionHandle);
-    smoke_RouteUtils_RouteType_releaseFfiHandle(_typeHandle);
+    stringReleaseFfiHandle(_descriptionHandle);
+    smokeRouteutilsRoutetypeReleaseFfiHandle(_typeHandle);
   }
 }
-void smoke_StructsWithConstants_Route_releaseFfiHandle(Pointer<Void> handle) => _smokeStructswithconstantsRouteReleaseHandle(handle);
+void smokeStructswithconstantsRouteReleaseFfiHandle(Pointer<Void> handle) => _smokeStructswithconstantsRouteReleaseHandle(handle);
 // Nullable Route
-final _smoke_StructsWithConstants_RouteCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructswithconstantsRouteCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructsWithConstants_Route_create_handle_nullable'));
-final _smoke_StructsWithConstants_RouteReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructswithconstantsRouteReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_StructsWithConstants_Route_release_handle_nullable'));
-final _smoke_StructsWithConstants_RouteGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructswithconstantsRouteGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructsWithConstants_Route_get_value_nullable'));
-Pointer<Void> smoke_StructsWithConstants_Route_toFfi_nullable(Route value) {
+Pointer<Void> smokeStructswithconstantsRouteToFfiNullable(Route value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_StructsWithConstants_Route_toFfi(value);
-  final result = _smoke_StructsWithConstants_RouteCreateHandleNullable(_handle);
-  smoke_StructsWithConstants_Route_releaseFfiHandle(_handle);
+  final _handle = smokeStructswithconstantsRouteToFfi(value);
+  final result = _smokeStructswithconstantsRouteCreateHandleNullable(_handle);
+  smokeStructswithconstantsRouteReleaseFfiHandle(_handle);
   return result;
 }
-Route smoke_StructsWithConstants_Route_fromFfi_nullable(Pointer<Void> handle) {
+Route smokeStructswithconstantsRouteFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_StructsWithConstants_RouteGetValueNullable(handle);
-  final result = smoke_StructsWithConstants_Route_fromFfi(_handle);
-  smoke_StructsWithConstants_Route_releaseFfiHandle(_handle);
+  final _handle = _smokeStructswithconstantsRouteGetValueNullable(handle);
+  final result = smokeStructswithconstantsRouteFromFfi(_handle);
+  smokeStructswithconstantsRouteReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_StructsWithConstants_Route_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_StructsWithConstants_RouteReleaseHandleNullable(handle);
+void smokeStructswithconstantsRouteReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeStructswithconstantsRouteReleaseHandleNullable(handle);
 // End of Route "private" section.

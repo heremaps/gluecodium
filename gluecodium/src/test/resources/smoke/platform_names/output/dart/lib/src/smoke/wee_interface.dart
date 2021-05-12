@@ -41,21 +41,21 @@ class weeInterface$Impl extends __lib.NativeBase implements weeInterface {
   @override
   weeStruct WeeMethod(String WeeParameter) {
     final _WeeMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PlatformNamesInterface_basicMethod__String'));
-    final _WeeParameterHandle = String_toFfi(WeeParameter);
+    final _WeeParameterHandle = stringToFfi(WeeParameter);
     final _handle = this.handle;
     final __resultHandle = _WeeMethodFfi(_handle, __lib.LibraryContext.isolateId, _WeeParameterHandle);
-    String_releaseFfiHandle(_WeeParameterHandle);
+    stringReleaseFfiHandle(_WeeParameterHandle);
     try {
-      return smoke_PlatformNames_BasicStruct_fromFfi(__resultHandle);
+      return smokePlatformnamesBasicstructFromFfi(__resultHandle);
     } finally {
-      smoke_PlatformNames_BasicStruct_releaseFfiHandle(__resultHandle);
+      smokePlatformnamesBasicstructReleaseFfiHandle(__resultHandle);
     }
   }
   static Pointer<Void> _make(String makeParameter) {
     final _makeFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_PlatformNamesInterface_create__String'));
-    final _makeParameterHandle = String_toFfi(makeParameter);
+    final _makeParameterHandle = stringToFfi(makeParameter);
     final __resultHandle = _makeFfi(__lib.LibraryContext.isolateId, _makeParameterHandle);
-    String_releaseFfiHandle(_makeParameterHandle);
+    stringReleaseFfiHandle(_makeParameterHandle);
     return __resultHandle;
   }
   @override
@@ -83,9 +83,9 @@ class weeInterface$Impl extends __lib.NativeBase implements weeInterface {
     }
   }
 }
-Pointer<Void> smoke_PlatformNamesInterface_toFfi(weeInterface value) =>
+Pointer<Void> smokePlatformnamesinterfaceToFfi(weeInterface value) =>
   _smokePlatformnamesinterfaceCopyHandle((value as __lib.NativeBase).handle);
-weeInterface smoke_PlatformNamesInterface_fromFfi(Pointer<Void> handle) {
+weeInterface smokePlatformnamesinterfaceFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as weeInterface;
@@ -95,12 +95,12 @@ weeInterface smoke_PlatformNamesInterface_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_PlatformNamesInterface_releaseFfiHandle(Pointer<Void> handle) =>
+void smokePlatformnamesinterfaceReleaseFfiHandle(Pointer<Void> handle) =>
   _smokePlatformnamesinterfaceReleaseHandle(handle);
-Pointer<Void> smoke_PlatformNamesInterface_toFfi_nullable(weeInterface value) =>
-  value != null ? smoke_PlatformNamesInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
-weeInterface smoke_PlatformNamesInterface_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_PlatformNamesInterface_fromFfi(handle) : null;
-void smoke_PlatformNamesInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokePlatformnamesinterfaceToFfiNullable(weeInterface value) =>
+  value != null ? smokePlatformnamesinterfaceToFfi(value) : Pointer<Void>.fromAddress(0);
+weeInterface smokePlatformnamesinterfaceFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokePlatformnamesinterfaceFromFfi(handle) : null;
+void smokePlatformnamesinterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokePlatformnamesinterfaceReleaseHandle(handle);
 // End of weeInterface "private" section.

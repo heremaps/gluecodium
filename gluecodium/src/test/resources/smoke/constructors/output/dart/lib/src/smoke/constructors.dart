@@ -24,7 +24,7 @@ enum Constructors_ErrorEnum {
     crashed
 }
 // Constructors_ErrorEnum "private" section, not exported.
-int smoke_Constructors_ErrorEnum_toFfi(Constructors_ErrorEnum value) {
+int smokeConstructorsErrorenumToFfi(Constructors_ErrorEnum value) {
   switch (value) {
   case Constructors_ErrorEnum.none:
     return 0;
@@ -36,7 +36,7 @@ int smoke_Constructors_ErrorEnum_toFfi(Constructors_ErrorEnum value) {
     throw StateError("Invalid enum value $value for Constructors_ErrorEnum enum.");
   }
 }
-Constructors_ErrorEnum smoke_Constructors_ErrorEnum_fromFfi(int handle) {
+Constructors_ErrorEnum smokeConstructorsErrorenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return Constructors_ErrorEnum.none;
@@ -48,35 +48,35 @@ Constructors_ErrorEnum smoke_Constructors_ErrorEnum_fromFfi(int handle) {
     throw StateError("Invalid numeric value $handle for Constructors_ErrorEnum enum.");
   }
 }
-void smoke_Constructors_ErrorEnum_releaseFfiHandle(int handle) {}
-final _smoke_Constructors_ErrorEnumCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+void smokeConstructorsErrorenumReleaseFfiHandle(int handle) {}
+final _smokeConstructorsErrorenumCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
   >('library_smoke_Constructors_ErrorEnum_create_handle_nullable'));
-final _smoke_Constructors_ErrorEnumReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeConstructorsErrorenumReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Constructors_ErrorEnum_release_handle_nullable'));
-final _smoke_Constructors_ErrorEnumGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeConstructorsErrorenumGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Constructors_ErrorEnum_get_value_nullable'));
-Pointer<Void> smoke_Constructors_ErrorEnum_toFfi_nullable(Constructors_ErrorEnum value) {
+Pointer<Void> smokeConstructorsErrorenumToFfiNullable(Constructors_ErrorEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_Constructors_ErrorEnum_toFfi(value);
-  final result = _smoke_Constructors_ErrorEnumCreateHandleNullable(_handle);
-  smoke_Constructors_ErrorEnum_releaseFfiHandle(_handle);
+  final _handle = smokeConstructorsErrorenumToFfi(value);
+  final result = _smokeConstructorsErrorenumCreateHandleNullable(_handle);
+  smokeConstructorsErrorenumReleaseFfiHandle(_handle);
   return result;
 }
-Constructors_ErrorEnum smoke_Constructors_ErrorEnum_fromFfi_nullable(Pointer<Void> handle) {
+Constructors_ErrorEnum smokeConstructorsErrorenumFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_Constructors_ErrorEnumGetValueNullable(handle);
-  final result = smoke_Constructors_ErrorEnum_fromFfi(_handle);
-  smoke_Constructors_ErrorEnum_releaseFfiHandle(_handle);
+  final _handle = _smokeConstructorsErrorenumGetValueNullable(handle);
+  final result = smokeConstructorsErrorenumFromFfi(_handle);
+  smokeConstructorsErrorenumReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_Constructors_ErrorEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_Constructors_ErrorEnumReleaseHandleNullable(handle);
+void smokeConstructorsErrorenumReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeConstructorsErrorenumReleaseHandleNullable(handle);
 // End of Constructors_ErrorEnum "private" section.
 class Constructors_ConstructorExplodedException implements Exception {
   final Constructors_ErrorEnum error;
@@ -146,32 +146,32 @@ class Constructors$Impl extends __lib.NativeBase implements Constructors {
   }
   static Pointer<Void> _fromOther(Constructors other) {
     final _fromOtherFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Constructors_create__Constructors'));
-    final _otherHandle = smoke_Constructors_toFfi(other);
+    final _otherHandle = smokeConstructorsToFfi(other);
     final __resultHandle = _fromOtherFfi(__lib.LibraryContext.isolateId, _otherHandle);
-    smoke_Constructors_releaseFfiHandle(_otherHandle);
+    smokeConstructorsReleaseFfiHandle(_otherHandle);
     return __resultHandle;
   }
   static Pointer<Void> _fromMulti(String foo, int bar) {
     final _fromMultiFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>, Uint64), Pointer<Void> Function(int, Pointer<Void>, int)>('library_smoke_Constructors_create__String_ULong'));
-    final _fooHandle = String_toFfi(foo);
+    final _fooHandle = stringToFfi(foo);
     final _barHandle = (bar);
     final __resultHandle = _fromMultiFfi(__lib.LibraryContext.isolateId, _fooHandle, _barHandle);
-    String_releaseFfiHandle(_fooHandle);
+    stringReleaseFfiHandle(_fooHandle);
     (_barHandle);
     return __resultHandle;
   }
   static Pointer<Void> _fromString(String input) {
     final _fromStringFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Constructors_create__String'));
-    final _inputHandle = String_toFfi(input);
+    final _inputHandle = stringToFfi(input);
     final __callResultHandle = _fromStringFfi(__lib.LibraryContext.isolateId, _inputHandle);
-    String_releaseFfiHandle(_inputHandle);
+    stringReleaseFfiHandle(_inputHandle);
     if (_fromStringReturnHasError(__callResultHandle) != 0) {
         final __errorHandle = _fromStringReturnGetError(__callResultHandle);
         _fromStringReturnReleaseHandle(__callResultHandle);
         try {
-          throw Constructors_ConstructorExplodedException(smoke_Constructors_ErrorEnum_fromFfi(__errorHandle));
+          throw Constructors_ConstructorExplodedException(smokeConstructorsErrorenumFromFfi(__errorHandle));
         } finally {
-          smoke_Constructors_ErrorEnum_releaseFfiHandle(__errorHandle);
+          smokeConstructorsErrorenumReleaseFfiHandle(__errorHandle);
         }
     }
     final __resultHandle = _fromStringReturnGetResult(__callResultHandle);
@@ -180,9 +180,9 @@ class Constructors$Impl extends __lib.NativeBase implements Constructors {
   }
   static Pointer<Void> _fromList(List<double> input) {
     final _fromListFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Constructors_create__ListOf_1Double'));
-    final _inputHandle = foobar_ListOf_Double_toFfi(input);
+    final _inputHandle = foobarListofDoubleToFfi(input);
     final __resultHandle = _fromListFfi(__lib.LibraryContext.isolateId, _inputHandle);
-    foobar_ListOf_Double_releaseFfiHandle(_inputHandle);
+    foobarListofDoubleReleaseFfiHandle(_inputHandle);
     return __resultHandle;
   }
   static Pointer<Void> _create(int input) {
@@ -193,16 +193,16 @@ class Constructors$Impl extends __lib.NativeBase implements Constructors {
     return __resultHandle;
   }
 }
-Pointer<Void> smoke_Constructors_toFfi(Constructors value) =>
+Pointer<Void> smokeConstructorsToFfi(Constructors value) =>
   _smokeConstructorsCopyHandle((value as __lib.NativeBase).handle);
-Constructors smoke_Constructors_fromFfi(Pointer<Void> handle) {
+Constructors smokeConstructorsFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as Constructors;
   if (instance != null) return instance;
   final _typeIdHandle = _smokeConstructorsGetTypeId(handle);
-  final factoryConstructor = __lib.typeRepository[String_fromFfi(_typeIdHandle)];
-  String_releaseFfiHandle(_typeIdHandle);
+  final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
+  stringReleaseFfiHandle(_typeIdHandle);
   final _copiedHandle = _smokeConstructorsCopyHandle(handle);
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
@@ -210,12 +210,12 @@ Constructors smoke_Constructors_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_Constructors_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeConstructorsReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeConstructorsReleaseHandle(handle);
-Pointer<Void> smoke_Constructors_toFfi_nullable(Constructors value) =>
-  value != null ? smoke_Constructors_toFfi(value) : Pointer<Void>.fromAddress(0);
-Constructors smoke_Constructors_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_Constructors_fromFfi(handle) : null;
-void smoke_Constructors_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeConstructorsToFfiNullable(Constructors value) =>
+  value != null ? smokeConstructorsToFfi(value) : Pointer<Void>.fromAddress(0);
+Constructors smokeConstructorsFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeConstructorsFromFfi(handle) : null;
+void smokeConstructorsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeConstructorsReleaseHandle(handle);
 // End of Constructors "private" section.

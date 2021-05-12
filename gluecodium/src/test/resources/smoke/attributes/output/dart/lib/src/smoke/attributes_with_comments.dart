@@ -45,52 +45,52 @@ final _smokeAttributeswithcommentsSomestructGetFieldfield = __lib.catchArgumentE
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_AttributesWithComments_SomeStruct_get_field_field'));
-Pointer<Void> smoke_AttributesWithComments_SomeStruct_toFfi(AttributesWithComments_SomeStruct value) {
-  final _fieldHandle = String_toFfi(value.field);
+Pointer<Void> smokeAttributeswithcommentsSomestructToFfi(AttributesWithComments_SomeStruct value) {
+  final _fieldHandle = stringToFfi(value.field);
   final _result = _smokeAttributeswithcommentsSomestructCreateHandle(_fieldHandle);
-  String_releaseFfiHandle(_fieldHandle);
+  stringReleaseFfiHandle(_fieldHandle);
   return _result;
 }
-AttributesWithComments_SomeStruct smoke_AttributesWithComments_SomeStruct_fromFfi(Pointer<Void> handle) {
+AttributesWithComments_SomeStruct smokeAttributeswithcommentsSomestructFromFfi(Pointer<Void> handle) {
   final _fieldHandle = _smokeAttributeswithcommentsSomestructGetFieldfield(handle);
   try {
     return AttributesWithComments_SomeStruct(
-      String_fromFfi(_fieldHandle)
+      stringFromFfi(_fieldHandle)
     );
   } finally {
-    String_releaseFfiHandle(_fieldHandle);
+    stringReleaseFfiHandle(_fieldHandle);
   }
 }
-void smoke_AttributesWithComments_SomeStruct_releaseFfiHandle(Pointer<Void> handle) => _smokeAttributeswithcommentsSomestructReleaseHandle(handle);
+void smokeAttributeswithcommentsSomestructReleaseFfiHandle(Pointer<Void> handle) => _smokeAttributeswithcommentsSomestructReleaseHandle(handle);
 // Nullable AttributesWithComments_SomeStruct
-final _smoke_AttributesWithComments_SomeStructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeAttributeswithcommentsSomestructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_AttributesWithComments_SomeStruct_create_handle_nullable'));
-final _smoke_AttributesWithComments_SomeStructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeAttributeswithcommentsSomestructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_AttributesWithComments_SomeStruct_release_handle_nullable'));
-final _smoke_AttributesWithComments_SomeStructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeAttributeswithcommentsSomestructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_AttributesWithComments_SomeStruct_get_value_nullable'));
-Pointer<Void> smoke_AttributesWithComments_SomeStruct_toFfi_nullable(AttributesWithComments_SomeStruct value) {
+Pointer<Void> smokeAttributeswithcommentsSomestructToFfiNullable(AttributesWithComments_SomeStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_AttributesWithComments_SomeStruct_toFfi(value);
-  final result = _smoke_AttributesWithComments_SomeStructCreateHandleNullable(_handle);
-  smoke_AttributesWithComments_SomeStruct_releaseFfiHandle(_handle);
+  final _handle = smokeAttributeswithcommentsSomestructToFfi(value);
+  final result = _smokeAttributeswithcommentsSomestructCreateHandleNullable(_handle);
+  smokeAttributeswithcommentsSomestructReleaseFfiHandle(_handle);
   return result;
 }
-AttributesWithComments_SomeStruct smoke_AttributesWithComments_SomeStruct_fromFfi_nullable(Pointer<Void> handle) {
+AttributesWithComments_SomeStruct smokeAttributeswithcommentsSomestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_AttributesWithComments_SomeStructGetValueNullable(handle);
-  final result = smoke_AttributesWithComments_SomeStruct_fromFfi(_handle);
-  smoke_AttributesWithComments_SomeStruct_releaseFfiHandle(_handle);
+  final _handle = _smokeAttributeswithcommentsSomestructGetValueNullable(handle);
+  final result = smokeAttributeswithcommentsSomestructFromFfi(_handle);
+  smokeAttributeswithcommentsSomestructReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_AttributesWithComments_SomeStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_AttributesWithComments_SomeStructReleaseHandleNullable(handle);
+void smokeAttributeswithcommentsSomestructReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeAttributeswithcommentsSomestructReleaseHandleNullable(handle);
 // End of AttributesWithComments_SomeStruct "private" section.
 // AttributesWithComments "private" section, not exported.
 final _smokeAttributeswithcommentsCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -129,19 +129,19 @@ class AttributesWithComments$Impl extends __lib.NativeBase implements Attributes
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return String_fromFfi(__resultHandle);
+      return stringFromFfi(__resultHandle);
     } finally {
-      String_releaseFfiHandle(__resultHandle);
+      stringReleaseFfiHandle(__resultHandle);
     }
   }
   @OnPropertyInClass
   @override
   set prop(String value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AttributesWithComments_prop_set__String'));
-    final _valueHandle = String_toFfi(value);
+    final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
     final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
-    String_releaseFfiHandle(_valueHandle);
+    stringReleaseFfiHandle(_valueHandle);
     try {
       return (__resultHandle);
     } finally {
@@ -149,9 +149,9 @@ class AttributesWithComments$Impl extends __lib.NativeBase implements Attributes
     }
   }
 }
-Pointer<Void> smoke_AttributesWithComments_toFfi(AttributesWithComments value) =>
+Pointer<Void> smokeAttributeswithcommentsToFfi(AttributesWithComments value) =>
   _smokeAttributeswithcommentsCopyHandle((value as __lib.NativeBase).handle);
-AttributesWithComments smoke_AttributesWithComments_fromFfi(Pointer<Void> handle) {
+AttributesWithComments smokeAttributeswithcommentsFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as AttributesWithComments;
@@ -161,12 +161,12 @@ AttributesWithComments smoke_AttributesWithComments_fromFfi(Pointer<Void> handle
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_AttributesWithComments_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeAttributeswithcommentsReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeAttributeswithcommentsReleaseHandle(handle);
-Pointer<Void> smoke_AttributesWithComments_toFfi_nullable(AttributesWithComments value) =>
-  value != null ? smoke_AttributesWithComments_toFfi(value) : Pointer<Void>.fromAddress(0);
-AttributesWithComments smoke_AttributesWithComments_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_AttributesWithComments_fromFfi(handle) : null;
-void smoke_AttributesWithComments_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeAttributeswithcommentsToFfiNullable(AttributesWithComments value) =>
+  value != null ? smokeAttributeswithcommentsToFfi(value) : Pointer<Void>.fromAddress(0);
+AttributesWithComments smokeAttributeswithcommentsFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeAttributeswithcommentsFromFfi(handle) : null;
+void smokeAttributeswithcommentsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeAttributeswithcommentsReleaseHandle(handle);
 // End of AttributesWithComments "private" section.

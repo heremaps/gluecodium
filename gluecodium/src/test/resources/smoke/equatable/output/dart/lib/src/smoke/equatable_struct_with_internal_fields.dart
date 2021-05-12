@@ -67,21 +67,21 @@ final _smokeEquatablestructwithinternalfieldsGetFieldinternalSetField = __lib.ca
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_EquatableStructWithInternalFields_get_field_internalSetField'));
-Pointer<Void> smoke_EquatableStructWithInternalFields_toFfi(EquatableStructWithInternalFields value) {
-  final _publicFieldHandle = String_toFfi(value.publicField);
-  final _internalFieldHandle = String_toFfi(value.internal_internalField);
-  final _internalListFieldHandle = foobar_ListOf_String_toFfi(value.internal_internalListField);
-  final _internalMapFieldHandle = foobar_MapOf_String_to_String_toFfi(value.internal_internalMapField);
-  final _internalSetFieldHandle = foobar_SetOf_String_toFfi(value.internal_internalSetField);
+Pointer<Void> smokeEquatablestructwithinternalfieldsToFfi(EquatableStructWithInternalFields value) {
+  final _publicFieldHandle = stringToFfi(value.publicField);
+  final _internalFieldHandle = stringToFfi(value.internal_internalField);
+  final _internalListFieldHandle = foobarListofStringToFfi(value.internal_internalListField);
+  final _internalMapFieldHandle = foobarMapofStringToStringToFfi(value.internal_internalMapField);
+  final _internalSetFieldHandle = foobarSetofStringToFfi(value.internal_internalSetField);
   final _result = _smokeEquatablestructwithinternalfieldsCreateHandle(_publicFieldHandle, _internalFieldHandle, _internalListFieldHandle, _internalMapFieldHandle, _internalSetFieldHandle);
-  String_releaseFfiHandle(_publicFieldHandle);
-  String_releaseFfiHandle(_internalFieldHandle);
-  foobar_ListOf_String_releaseFfiHandle(_internalListFieldHandle);
-  foobar_MapOf_String_to_String_releaseFfiHandle(_internalMapFieldHandle);
-  foobar_SetOf_String_releaseFfiHandle(_internalSetFieldHandle);
+  stringReleaseFfiHandle(_publicFieldHandle);
+  stringReleaseFfiHandle(_internalFieldHandle);
+  foobarListofStringReleaseFfiHandle(_internalListFieldHandle);
+  foobarMapofStringToStringReleaseFfiHandle(_internalMapFieldHandle);
+  foobarSetofStringReleaseFfiHandle(_internalSetFieldHandle);
   return _result;
 }
-EquatableStructWithInternalFields smoke_EquatableStructWithInternalFields_fromFfi(Pointer<Void> handle) {
+EquatableStructWithInternalFields smokeEquatablestructwithinternalfieldsFromFfi(Pointer<Void> handle) {
   final _publicFieldHandle = _smokeEquatablestructwithinternalfieldsGetFieldpublicField(handle);
   final _internalFieldHandle = _smokeEquatablestructwithinternalfieldsGetFieldinternalField(handle);
   final _internalListFieldHandle = _smokeEquatablestructwithinternalfieldsGetFieldinternalListField(handle);
@@ -89,48 +89,48 @@ EquatableStructWithInternalFields smoke_EquatableStructWithInternalFields_fromFf
   final _internalSetFieldHandle = _smokeEquatablestructwithinternalfieldsGetFieldinternalSetField(handle);
   try {
     return EquatableStructWithInternalFields(
-      String_fromFfi(_publicFieldHandle),
-      String_fromFfi(_internalFieldHandle),
-      foobar_ListOf_String_fromFfi(_internalListFieldHandle),
-      foobar_MapOf_String_to_String_fromFfi(_internalMapFieldHandle),
-      foobar_SetOf_String_fromFfi(_internalSetFieldHandle)
+      stringFromFfi(_publicFieldHandle),
+      stringFromFfi(_internalFieldHandle),
+      foobarListofStringFromFfi(_internalListFieldHandle),
+      foobarMapofStringToStringFromFfi(_internalMapFieldHandle),
+      foobarSetofStringFromFfi(_internalSetFieldHandle)
     );
   } finally {
-    String_releaseFfiHandle(_publicFieldHandle);
-    String_releaseFfiHandle(_internalFieldHandle);
-    foobar_ListOf_String_releaseFfiHandle(_internalListFieldHandle);
-    foobar_MapOf_String_to_String_releaseFfiHandle(_internalMapFieldHandle);
-    foobar_SetOf_String_releaseFfiHandle(_internalSetFieldHandle);
+    stringReleaseFfiHandle(_publicFieldHandle);
+    stringReleaseFfiHandle(_internalFieldHandle);
+    foobarListofStringReleaseFfiHandle(_internalListFieldHandle);
+    foobarMapofStringToStringReleaseFfiHandle(_internalMapFieldHandle);
+    foobarSetofStringReleaseFfiHandle(_internalSetFieldHandle);
   }
 }
-void smoke_EquatableStructWithInternalFields_releaseFfiHandle(Pointer<Void> handle) => _smokeEquatablestructwithinternalfieldsReleaseHandle(handle);
+void smokeEquatablestructwithinternalfieldsReleaseFfiHandle(Pointer<Void> handle) => _smokeEquatablestructwithinternalfieldsReleaseHandle(handle);
 // Nullable EquatableStructWithInternalFields
-final _smoke_EquatableStructWithInternalFieldsCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeEquatablestructwithinternalfieldsCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_EquatableStructWithInternalFields_create_handle_nullable'));
-final _smoke_EquatableStructWithInternalFieldsReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeEquatablestructwithinternalfieldsReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_EquatableStructWithInternalFields_release_handle_nullable'));
-final _smoke_EquatableStructWithInternalFieldsGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeEquatablestructwithinternalfieldsGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_EquatableStructWithInternalFields_get_value_nullable'));
-Pointer<Void> smoke_EquatableStructWithInternalFields_toFfi_nullable(EquatableStructWithInternalFields value) {
+Pointer<Void> smokeEquatablestructwithinternalfieldsToFfiNullable(EquatableStructWithInternalFields value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_EquatableStructWithInternalFields_toFfi(value);
-  final result = _smoke_EquatableStructWithInternalFieldsCreateHandleNullable(_handle);
-  smoke_EquatableStructWithInternalFields_releaseFfiHandle(_handle);
+  final _handle = smokeEquatablestructwithinternalfieldsToFfi(value);
+  final result = _smokeEquatablestructwithinternalfieldsCreateHandleNullable(_handle);
+  smokeEquatablestructwithinternalfieldsReleaseFfiHandle(_handle);
   return result;
 }
-EquatableStructWithInternalFields smoke_EquatableStructWithInternalFields_fromFfi_nullable(Pointer<Void> handle) {
+EquatableStructWithInternalFields smokeEquatablestructwithinternalfieldsFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_EquatableStructWithInternalFieldsGetValueNullable(handle);
-  final result = smoke_EquatableStructWithInternalFields_fromFfi(_handle);
-  smoke_EquatableStructWithInternalFields_releaseFfiHandle(_handle);
+  final _handle = _smokeEquatablestructwithinternalfieldsGetValueNullable(handle);
+  final result = smokeEquatablestructwithinternalfieldsFromFfi(_handle);
+  smokeEquatablestructwithinternalfieldsReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_EquatableStructWithInternalFields_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_EquatableStructWithInternalFieldsReleaseHandleNullable(handle);
+void smokeEquatablestructwithinternalfieldsReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeEquatablestructwithinternalfieldsReleaseHandleNullable(handle);
 // End of EquatableStructWithInternalFields "private" section.

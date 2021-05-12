@@ -42,7 +42,7 @@ class ExcludedCommentsInterface$Impl extends __lib.NativeBase implements Exclude
     handle = null;
   }
 }
-Pointer<Void> smoke_ExcludedCommentsInterface_toFfi(ExcludedCommentsInterface value) {
+Pointer<Void> smokeExcludedcommentsinterfaceToFfi(ExcludedCommentsInterface value) {
   if (value is __lib.NativeBase) return _smokeExcludedcommentsinterfaceCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokeExcludedcommentsinterfaceCreateProxy(
     __lib.cacheObject(value),
@@ -51,14 +51,14 @@ Pointer<Void> smoke_ExcludedCommentsInterface_toFfi(ExcludedCommentsInterface va
   );
   return result;
 }
-ExcludedCommentsInterface smoke_ExcludedCommentsInterface_fromFfi(Pointer<Void> handle) {
+ExcludedCommentsInterface smokeExcludedcommentsinterfaceFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as ExcludedCommentsInterface;
   if (instance != null) return instance;
   final _typeIdHandle = _smokeExcludedcommentsinterfaceGetTypeId(handle);
-  final factoryConstructor = __lib.typeRepository[String_fromFfi(_typeIdHandle)];
-  String_releaseFfiHandle(_typeIdHandle);
+  final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
+  stringReleaseFfiHandle(_typeIdHandle);
   final _copiedHandle = _smokeExcludedcommentsinterfaceCopyHandle(handle);
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
@@ -66,12 +66,12 @@ ExcludedCommentsInterface smoke_ExcludedCommentsInterface_fromFfi(Pointer<Void> 
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_ExcludedCommentsInterface_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeExcludedcommentsinterfaceReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeExcludedcommentsinterfaceReleaseHandle(handle);
-Pointer<Void> smoke_ExcludedCommentsInterface_toFfi_nullable(ExcludedCommentsInterface value) =>
-  value != null ? smoke_ExcludedCommentsInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
-ExcludedCommentsInterface smoke_ExcludedCommentsInterface_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_ExcludedCommentsInterface_fromFfi(handle) : null;
-void smoke_ExcludedCommentsInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeExcludedcommentsinterfaceToFfiNullable(ExcludedCommentsInterface value) =>
+  value != null ? smokeExcludedcommentsinterfaceToFfi(value) : Pointer<Void>.fromAddress(0);
+ExcludedCommentsInterface smokeExcludedcommentsinterfaceFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeExcludedcommentsinterfaceFromFfi(handle) : null;
+void smokeExcludedcommentsinterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeExcludedcommentsinterfaceReleaseHandle(handle);
 // End of ExcludedCommentsInterface "private" section.

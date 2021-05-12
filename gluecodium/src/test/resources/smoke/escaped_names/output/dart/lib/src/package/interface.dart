@@ -40,7 +40,7 @@ class Interface$Impl extends __lib.NativeBase implements Interface {
     handle = null;
   }
 }
-Pointer<Void> package_Interface_toFfi(Interface value) {
+Pointer<Void> packageInterfaceToFfi(Interface value) {
   if (value is __lib.NativeBase) return _packageInterfaceCopyHandle((value as __lib.NativeBase).handle);
   final result = _packageInterfaceCreateProxy(
     __lib.cacheObject(value),
@@ -49,14 +49,14 @@ Pointer<Void> package_Interface_toFfi(Interface value) {
   );
   return result;
 }
-Interface package_Interface_fromFfi(Pointer<Void> handle) {
+Interface packageInterfaceFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as Interface;
   if (instance != null) return instance;
   final _typeIdHandle = _packageInterfaceGetTypeId(handle);
-  final factoryConstructor = __lib.typeRepository[String_fromFfi(_typeIdHandle)];
-  String_releaseFfiHandle(_typeIdHandle);
+  final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
+  stringReleaseFfiHandle(_typeIdHandle);
   final _copiedHandle = _packageInterfaceCopyHandle(handle);
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
@@ -64,12 +64,12 @@ Interface package_Interface_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void package_Interface_releaseFfiHandle(Pointer<Void> handle) =>
+void packageInterfaceReleaseFfiHandle(Pointer<Void> handle) =>
   _packageInterfaceReleaseHandle(handle);
-Pointer<Void> package_Interface_toFfi_nullable(Interface value) =>
-  value != null ? package_Interface_toFfi(value) : Pointer<Void>.fromAddress(0);
-Interface package_Interface_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? package_Interface_fromFfi(handle) : null;
-void package_Interface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> packageInterfaceToFfiNullable(Interface value) =>
+  value != null ? packageInterfaceToFfi(value) : Pointer<Void>.fromAddress(0);
+Interface packageInterfaceFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? packageInterfaceFromFfi(handle) : null;
+void packageInterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _packageInterfaceReleaseHandle(handle);
 // End of Interface "private" section.

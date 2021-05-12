@@ -56,65 +56,65 @@ final _smokeSimpleequatablestructGetFieldnullableInterfaceField = __lib.catchArg
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_SimpleEquatableStruct_get_field_nullableInterfaceField'));
-Pointer<Void> smoke_SimpleEquatableStruct_toFfi(SimpleEquatableStruct value) {
-  final _classFieldHandle = smoke_NonEquatableClass_toFfi(value.classField);
-  final _interfaceFieldHandle = smoke_NonEquatableInterface_toFfi(value.interfaceField);
-  final _nullableClassFieldHandle = smoke_NonEquatableClass_toFfi_nullable(value.nullableClassField);
-  final _nullableInterfaceFieldHandle = smoke_NonEquatableInterface_toFfi_nullable(value.nullableInterfaceField);
+Pointer<Void> smokeSimpleequatablestructToFfi(SimpleEquatableStruct value) {
+  final _classFieldHandle = smokeNonequatableclassToFfi(value.classField);
+  final _interfaceFieldHandle = smokeNonequatableinterfaceToFfi(value.interfaceField);
+  final _nullableClassFieldHandle = smokeNonequatableclassToFfiNullable(value.nullableClassField);
+  final _nullableInterfaceFieldHandle = smokeNonequatableinterfaceToFfiNullable(value.nullableInterfaceField);
   final _result = _smokeSimpleequatablestructCreateHandle(_classFieldHandle, _interfaceFieldHandle, _nullableClassFieldHandle, _nullableInterfaceFieldHandle);
-  smoke_NonEquatableClass_releaseFfiHandle(_classFieldHandle);
-  smoke_NonEquatableInterface_releaseFfiHandle(_interfaceFieldHandle);
-  smoke_NonEquatableClass_releaseFfiHandle_nullable(_nullableClassFieldHandle);
-  smoke_NonEquatableInterface_releaseFfiHandle_nullable(_nullableInterfaceFieldHandle);
+  smokeNonequatableclassReleaseFfiHandle(_classFieldHandle);
+  smokeNonequatableinterfaceReleaseFfiHandle(_interfaceFieldHandle);
+  smokeNonequatableclassReleaseFfiHandleNullable(_nullableClassFieldHandle);
+  smokeNonequatableinterfaceReleaseFfiHandleNullable(_nullableInterfaceFieldHandle);
   return _result;
 }
-SimpleEquatableStruct smoke_SimpleEquatableStruct_fromFfi(Pointer<Void> handle) {
+SimpleEquatableStruct smokeSimpleequatablestructFromFfi(Pointer<Void> handle) {
   final _classFieldHandle = _smokeSimpleequatablestructGetFieldclassField(handle);
   final _interfaceFieldHandle = _smokeSimpleequatablestructGetFieldinterfaceField(handle);
   final _nullableClassFieldHandle = _smokeSimpleequatablestructGetFieldnullableClassField(handle);
   final _nullableInterfaceFieldHandle = _smokeSimpleequatablestructGetFieldnullableInterfaceField(handle);
   try {
     return SimpleEquatableStruct(
-      smoke_NonEquatableClass_fromFfi(_classFieldHandle),
-      smoke_NonEquatableInterface_fromFfi(_interfaceFieldHandle),
-      smoke_NonEquatableClass_fromFfi_nullable(_nullableClassFieldHandle),
-      smoke_NonEquatableInterface_fromFfi_nullable(_nullableInterfaceFieldHandle)
+      smokeNonequatableclassFromFfi(_classFieldHandle),
+      smokeNonequatableinterfaceFromFfi(_interfaceFieldHandle),
+      smokeNonequatableclassFromFfiNullable(_nullableClassFieldHandle),
+      smokeNonequatableinterfaceFromFfiNullable(_nullableInterfaceFieldHandle)
     );
   } finally {
-    smoke_NonEquatableClass_releaseFfiHandle(_classFieldHandle);
-    smoke_NonEquatableInterface_releaseFfiHandle(_interfaceFieldHandle);
-    smoke_NonEquatableClass_releaseFfiHandle_nullable(_nullableClassFieldHandle);
-    smoke_NonEquatableInterface_releaseFfiHandle_nullable(_nullableInterfaceFieldHandle);
+    smokeNonequatableclassReleaseFfiHandle(_classFieldHandle);
+    smokeNonequatableinterfaceReleaseFfiHandle(_interfaceFieldHandle);
+    smokeNonequatableclassReleaseFfiHandleNullable(_nullableClassFieldHandle);
+    smokeNonequatableinterfaceReleaseFfiHandleNullable(_nullableInterfaceFieldHandle);
   }
 }
-void smoke_SimpleEquatableStruct_releaseFfiHandle(Pointer<Void> handle) => _smokeSimpleequatablestructReleaseHandle(handle);
+void smokeSimpleequatablestructReleaseFfiHandle(Pointer<Void> handle) => _smokeSimpleequatablestructReleaseHandle(handle);
 // Nullable SimpleEquatableStruct
-final _smoke_SimpleEquatableStructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeSimpleequatablestructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_SimpleEquatableStruct_create_handle_nullable'));
-final _smoke_SimpleEquatableStructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeSimpleequatablestructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_SimpleEquatableStruct_release_handle_nullable'));
-final _smoke_SimpleEquatableStructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeSimpleequatablestructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_SimpleEquatableStruct_get_value_nullable'));
-Pointer<Void> smoke_SimpleEquatableStruct_toFfi_nullable(SimpleEquatableStruct value) {
+Pointer<Void> smokeSimpleequatablestructToFfiNullable(SimpleEquatableStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_SimpleEquatableStruct_toFfi(value);
-  final result = _smoke_SimpleEquatableStructCreateHandleNullable(_handle);
-  smoke_SimpleEquatableStruct_releaseFfiHandle(_handle);
+  final _handle = smokeSimpleequatablestructToFfi(value);
+  final result = _smokeSimpleequatablestructCreateHandleNullable(_handle);
+  smokeSimpleequatablestructReleaseFfiHandle(_handle);
   return result;
 }
-SimpleEquatableStruct smoke_SimpleEquatableStruct_fromFfi_nullable(Pointer<Void> handle) {
+SimpleEquatableStruct smokeSimpleequatablestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_SimpleEquatableStructGetValueNullable(handle);
-  final result = smoke_SimpleEquatableStruct_fromFfi(_handle);
-  smoke_SimpleEquatableStruct_releaseFfiHandle(_handle);
+  final _handle = _smokeSimpleequatablestructGetValueNullable(handle);
+  final result = smokeSimpleequatablestructFromFfi(_handle);
+  smokeSimpleequatablestructReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_SimpleEquatableStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_SimpleEquatableStructReleaseHandleNullable(handle);
+void smokeSimpleequatablestructReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeSimpleequatablestructReleaseHandleNullable(handle);
 // End of SimpleEquatableStruct "private" section.

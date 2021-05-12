@@ -34,30 +34,30 @@ class SkipFunctions$Impl extends __lib.NativeBase implements SkipFunctions {
   }
   static String notInJava(String input) {
     final _notInJavaFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_SkipFunctions_notInJava__String'));
-    final _inputHandle = String_toFfi(input);
+    final _inputHandle = stringToFfi(input);
     final __resultHandle = _notInJavaFfi(__lib.LibraryContext.isolateId, _inputHandle);
-    String_releaseFfiHandle(_inputHandle);
+    stringReleaseFfiHandle(_inputHandle);
     try {
-      return String_fromFfi(__resultHandle);
+      return stringFromFfi(__resultHandle);
     } finally {
-      String_releaseFfiHandle(__resultHandle);
+      stringReleaseFfiHandle(__resultHandle);
     }
   }
   static bool notInSwift(bool input) {
     final _notInSwiftFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Uint8), int Function(int, int)>('library_smoke_SkipFunctions_notInSwift__Boolean'));
-    final _inputHandle = Boolean_toFfi(input);
+    final _inputHandle = booleanToFfi(input);
     final __resultHandle = _notInSwiftFfi(__lib.LibraryContext.isolateId, _inputHandle);
-    Boolean_releaseFfiHandle(_inputHandle);
+    booleanReleaseFfiHandle(_inputHandle);
     try {
-      return Boolean_fromFfi(__resultHandle);
+      return booleanFromFfi(__resultHandle);
     } finally {
-      Boolean_releaseFfiHandle(__resultHandle);
+      booleanReleaseFfiHandle(__resultHandle);
     }
   }
 }
-Pointer<Void> smoke_SkipFunctions_toFfi(SkipFunctions value) =>
+Pointer<Void> smokeSkipfunctionsToFfi(SkipFunctions value) =>
   _smokeSkipfunctionsCopyHandle((value as __lib.NativeBase).handle);
-SkipFunctions smoke_SkipFunctions_fromFfi(Pointer<Void> handle) {
+SkipFunctions smokeSkipfunctionsFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as SkipFunctions;
@@ -67,12 +67,12 @@ SkipFunctions smoke_SkipFunctions_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_SkipFunctions_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeSkipfunctionsReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeSkipfunctionsReleaseHandle(handle);
-Pointer<Void> smoke_SkipFunctions_toFfi_nullable(SkipFunctions value) =>
-  value != null ? smoke_SkipFunctions_toFfi(value) : Pointer<Void>.fromAddress(0);
-SkipFunctions smoke_SkipFunctions_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_SkipFunctions_fromFfi(handle) : null;
-void smoke_SkipFunctions_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeSkipfunctionsToFfiNullable(SkipFunctions value) =>
+  value != null ? smokeSkipfunctionsToFfi(value) : Pointer<Void>.fromAddress(0);
+SkipFunctions smokeSkipfunctionsFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeSkipfunctionsFromFfi(handle) : null;
+void smokeSkipfunctionsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeSkipfunctionsReleaseHandle(handle);
 // End of SkipFunctions "private" section.

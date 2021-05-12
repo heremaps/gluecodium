@@ -60,10 +60,10 @@ class weeListener$Impl extends __lib.NativeBase implements weeListener {
   @override
   WeeMethod(String WeeParameter) {
     final _WeeMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PlatformNamesListener_basicMethod__String'));
-    final _WeeParameterHandle = String_toFfi(WeeParameter);
+    final _WeeParameterHandle = stringToFfi(WeeParameter);
     final _handle = this.handle;
     final __resultHandle = _WeeMethodFfi(_handle, __lib.LibraryContext.isolateId, _WeeParameterHandle);
-    String_releaseFfiHandle(_WeeParameterHandle);
+    stringReleaseFfiHandle(_WeeParameterHandle);
     try {
       return (__resultHandle);
     } finally {
@@ -71,32 +71,32 @@ class weeListener$Impl extends __lib.NativeBase implements weeListener {
     }
   }
 }
-int _weeListener_WeeMethod_static(int _token, Pointer<Void> WeeParameter) {
+int _weeListenerWeeMethodStatic(int _token, Pointer<Void> WeeParameter) {
   try {
-    (__lib.instanceCache[_token] as weeListener).WeeMethod(String_fromFfi(WeeParameter));
+    (__lib.instanceCache[_token] as weeListener).WeeMethod(stringFromFfi(WeeParameter));
   } finally {
-    String_releaseFfiHandle(WeeParameter);
+    stringReleaseFfiHandle(WeeParameter);
   }
   return 0;
 }
-Pointer<Void> smoke_PlatformNamesListener_toFfi(weeListener value) {
+Pointer<Void> smokePlatformnameslistenerToFfi(weeListener value) {
   if (value is __lib.NativeBase) return _smokePlatformnameslistenerCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokePlatformnameslistenerCreateProxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_weeListener_WeeMethod_static, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_weeListenerWeeMethodStatic, __lib.unknownError)
   );
   return result;
 }
-weeListener smoke_PlatformNamesListener_fromFfi(Pointer<Void> handle) {
+weeListener smokePlatformnameslistenerFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as weeListener;
   if (instance != null) return instance;
   final _typeIdHandle = _smokePlatformnameslistenerGetTypeId(handle);
-  final factoryConstructor = __lib.typeRepository[String_fromFfi(_typeIdHandle)];
-  String_releaseFfiHandle(_typeIdHandle);
+  final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
+  stringReleaseFfiHandle(_typeIdHandle);
   final _copiedHandle = _smokePlatformnameslistenerCopyHandle(handle);
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
@@ -104,12 +104,12 @@ weeListener smoke_PlatformNamesListener_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_PlatformNamesListener_releaseFfiHandle(Pointer<Void> handle) =>
+void smokePlatformnameslistenerReleaseFfiHandle(Pointer<Void> handle) =>
   _smokePlatformnameslistenerReleaseHandle(handle);
-Pointer<Void> smoke_PlatformNamesListener_toFfi_nullable(weeListener value) =>
-  value != null ? smoke_PlatformNamesListener_toFfi(value) : Pointer<Void>.fromAddress(0);
-weeListener smoke_PlatformNamesListener_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_PlatformNamesListener_fromFfi(handle) : null;
-void smoke_PlatformNamesListener_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokePlatformnameslistenerToFfiNullable(weeListener value) =>
+  value != null ? smokePlatformnameslistenerToFfi(value) : Pointer<Void>.fromAddress(0);
+weeListener smokePlatformnameslistenerFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokePlatformnameslistenerFromFfi(handle) : null;
+void smokePlatformnameslistenerReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokePlatformnameslistenerReleaseHandle(handle);
 // End of weeListener "private" section.

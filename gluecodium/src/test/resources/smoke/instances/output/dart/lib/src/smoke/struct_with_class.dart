@@ -19,50 +19,50 @@ final _smokeStructwithclassGetFieldclassInstance = __lib.catchArgumentError(() =
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithClass_get_field_classInstance'));
-Pointer<Void> smoke_StructWithClass_toFfi(StructWithClass value) {
-  final _classInstanceHandle = smoke_SimpleClass_toFfi(value.classInstance);
+Pointer<Void> smokeStructwithclassToFfi(StructWithClass value) {
+  final _classInstanceHandle = smokeSimpleclassToFfi(value.classInstance);
   final _result = _smokeStructwithclassCreateHandle(_classInstanceHandle);
-  smoke_SimpleClass_releaseFfiHandle(_classInstanceHandle);
+  smokeSimpleclassReleaseFfiHandle(_classInstanceHandle);
   return _result;
 }
-StructWithClass smoke_StructWithClass_fromFfi(Pointer<Void> handle) {
+StructWithClass smokeStructwithclassFromFfi(Pointer<Void> handle) {
   final _classInstanceHandle = _smokeStructwithclassGetFieldclassInstance(handle);
   try {
     return StructWithClass(
-      smoke_SimpleClass_fromFfi(_classInstanceHandle)
+      smokeSimpleclassFromFfi(_classInstanceHandle)
     );
   } finally {
-    smoke_SimpleClass_releaseFfiHandle(_classInstanceHandle);
+    smokeSimpleclassReleaseFfiHandle(_classInstanceHandle);
   }
 }
-void smoke_StructWithClass_releaseFfiHandle(Pointer<Void> handle) => _smokeStructwithclassReleaseHandle(handle);
+void smokeStructwithclassReleaseFfiHandle(Pointer<Void> handle) => _smokeStructwithclassReleaseHandle(handle);
 // Nullable StructWithClass
-final _smoke_StructWithClassCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructwithclassCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithClass_create_handle_nullable'));
-final _smoke_StructWithClassReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructwithclassReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_StructWithClass_release_handle_nullable'));
-final _smoke_StructWithClassGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructwithclassGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithClass_get_value_nullable'));
-Pointer<Void> smoke_StructWithClass_toFfi_nullable(StructWithClass value) {
+Pointer<Void> smokeStructwithclassToFfiNullable(StructWithClass value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_StructWithClass_toFfi(value);
-  final result = _smoke_StructWithClassCreateHandleNullable(_handle);
-  smoke_StructWithClass_releaseFfiHandle(_handle);
+  final _handle = smokeStructwithclassToFfi(value);
+  final result = _smokeStructwithclassCreateHandleNullable(_handle);
+  smokeStructwithclassReleaseFfiHandle(_handle);
   return result;
 }
-StructWithClass smoke_StructWithClass_fromFfi_nullable(Pointer<Void> handle) {
+StructWithClass smokeStructwithclassFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_StructWithClassGetValueNullable(handle);
-  final result = smoke_StructWithClass_fromFfi(_handle);
-  smoke_StructWithClass_releaseFfiHandle(_handle);
+  final _handle = _smokeStructwithclassGetValueNullable(handle);
+  final result = smokeStructwithclassFromFfi(_handle);
+  smokeStructwithclassReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_StructWithClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_StructWithClassReleaseHandleNullable(handle);
+void smokeStructwithclassReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeStructwithclassReleaseHandleNullable(handle);
 // End of StructWithClass "private" section.

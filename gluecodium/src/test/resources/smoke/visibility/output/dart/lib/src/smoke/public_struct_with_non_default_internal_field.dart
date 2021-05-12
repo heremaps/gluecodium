@@ -32,60 +32,60 @@ final _smokePublicstructwithnondefaultinternalfieldGetFieldpublicField = __lib.c
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_PublicStructWithNonDefaultInternalField_get_field_publicField'));
-Pointer<Void> smoke_PublicStructWithNonDefaultInternalField_toFfi(PublicStructWithNonDefaultInternalField value) {
+Pointer<Void> smokePublicstructwithnondefaultinternalfieldToFfi(PublicStructWithNonDefaultInternalField value) {
   final _defaultedFieldHandle = (value.defaultedField);
-  final _internalFieldHandle = String_toFfi(value.internal_internalField);
-  final _publicFieldHandle = Boolean_toFfi(value.publicField);
+  final _internalFieldHandle = stringToFfi(value.internal_internalField);
+  final _publicFieldHandle = booleanToFfi(value.publicField);
   final _result = _smokePublicstructwithnondefaultinternalfieldCreateHandle(_defaultedFieldHandle, _internalFieldHandle, _publicFieldHandle);
   (_defaultedFieldHandle);
-  String_releaseFfiHandle(_internalFieldHandle);
-  Boolean_releaseFfiHandle(_publicFieldHandle);
+  stringReleaseFfiHandle(_internalFieldHandle);
+  booleanReleaseFfiHandle(_publicFieldHandle);
   return _result;
 }
-PublicStructWithNonDefaultInternalField smoke_PublicStructWithNonDefaultInternalField_fromFfi(Pointer<Void> handle) {
+PublicStructWithNonDefaultInternalField smokePublicstructwithnondefaultinternalfieldFromFfi(Pointer<Void> handle) {
   final _defaultedFieldHandle = _smokePublicstructwithnondefaultinternalfieldGetFielddefaultedField(handle);
   final _internalFieldHandle = _smokePublicstructwithnondefaultinternalfieldGetFieldinternalField(handle);
   final _publicFieldHandle = _smokePublicstructwithnondefaultinternalfieldGetFieldpublicField(handle);
   try {
     return PublicStructWithNonDefaultInternalField(
       (_defaultedFieldHandle),
-      String_fromFfi(_internalFieldHandle),
-      Boolean_fromFfi(_publicFieldHandle)
+      stringFromFfi(_internalFieldHandle),
+      booleanFromFfi(_publicFieldHandle)
     );
   } finally {
     (_defaultedFieldHandle);
-    String_releaseFfiHandle(_internalFieldHandle);
-    Boolean_releaseFfiHandle(_publicFieldHandle);
+    stringReleaseFfiHandle(_internalFieldHandle);
+    booleanReleaseFfiHandle(_publicFieldHandle);
   }
 }
-void smoke_PublicStructWithNonDefaultInternalField_releaseFfiHandle(Pointer<Void> handle) => _smokePublicstructwithnondefaultinternalfieldReleaseHandle(handle);
+void smokePublicstructwithnondefaultinternalfieldReleaseFfiHandle(Pointer<Void> handle) => _smokePublicstructwithnondefaultinternalfieldReleaseHandle(handle);
 // Nullable PublicStructWithNonDefaultInternalField
-final _smoke_PublicStructWithNonDefaultInternalFieldCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokePublicstructwithnondefaultinternalfieldCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PublicStructWithNonDefaultInternalField_create_handle_nullable'));
-final _smoke_PublicStructWithNonDefaultInternalFieldReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokePublicstructwithnondefaultinternalfieldReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_PublicStructWithNonDefaultInternalField_release_handle_nullable'));
-final _smoke_PublicStructWithNonDefaultInternalFieldGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokePublicstructwithnondefaultinternalfieldGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PublicStructWithNonDefaultInternalField_get_value_nullable'));
-Pointer<Void> smoke_PublicStructWithNonDefaultInternalField_toFfi_nullable(PublicStructWithNonDefaultInternalField value) {
+Pointer<Void> smokePublicstructwithnondefaultinternalfieldToFfiNullable(PublicStructWithNonDefaultInternalField value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_PublicStructWithNonDefaultInternalField_toFfi(value);
-  final result = _smoke_PublicStructWithNonDefaultInternalFieldCreateHandleNullable(_handle);
-  smoke_PublicStructWithNonDefaultInternalField_releaseFfiHandle(_handle);
+  final _handle = smokePublicstructwithnondefaultinternalfieldToFfi(value);
+  final result = _smokePublicstructwithnondefaultinternalfieldCreateHandleNullable(_handle);
+  smokePublicstructwithnondefaultinternalfieldReleaseFfiHandle(_handle);
   return result;
 }
-PublicStructWithNonDefaultInternalField smoke_PublicStructWithNonDefaultInternalField_fromFfi_nullable(Pointer<Void> handle) {
+PublicStructWithNonDefaultInternalField smokePublicstructwithnondefaultinternalfieldFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_PublicStructWithNonDefaultInternalFieldGetValueNullable(handle);
-  final result = smoke_PublicStructWithNonDefaultInternalField_fromFfi(_handle);
-  smoke_PublicStructWithNonDefaultInternalField_releaseFfiHandle(_handle);
+  final _handle = _smokePublicstructwithnondefaultinternalfieldGetValueNullable(handle);
+  final result = smokePublicstructwithnondefaultinternalfieldFromFfi(_handle);
+  smokePublicstructwithnondefaultinternalfieldReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_PublicStructWithNonDefaultInternalField_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_PublicStructWithNonDefaultInternalFieldReleaseHandleNullable(handle);
+void smokePublicstructwithnondefaultinternalfieldReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokePublicstructwithnondefaultinternalfieldReleaseHandleNullable(handle);
 // End of PublicStructWithNonDefaultInternalField "private" section.

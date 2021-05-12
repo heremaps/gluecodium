@@ -71,64 +71,64 @@ class SimpleInterface$Impl extends __lib.NativeBase implements SimpleInterface {
     final _handle = this.handle;
     final __resultHandle = _getStringValueFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return String_fromFfi(__resultHandle);
+      return stringFromFfi(__resultHandle);
     } finally {
-      String_releaseFfiHandle(__resultHandle);
+      stringReleaseFfiHandle(__resultHandle);
     }
   }
   @override
   SimpleInterface useSimpleInterface(SimpleInterface input) {
     final _useSimpleInterfaceFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_SimpleInterface_useSimpleInterface__SimpleInterface'));
-    final _inputHandle = smoke_SimpleInterface_toFfi(input);
+    final _inputHandle = smokeSimpleinterfaceToFfi(input);
     final _handle = this.handle;
     final __resultHandle = _useSimpleInterfaceFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
-    smoke_SimpleInterface_releaseFfiHandle(_inputHandle);
+    smokeSimpleinterfaceReleaseFfiHandle(_inputHandle);
     try {
-      return smoke_SimpleInterface_fromFfi(__resultHandle);
+      return smokeSimpleinterfaceFromFfi(__resultHandle);
     } finally {
-      smoke_SimpleInterface_releaseFfiHandle(__resultHandle);
+      smokeSimpleinterfaceReleaseFfiHandle(__resultHandle);
     }
   }
 }
-int _SimpleInterface_getStringValue_static(int _token, Pointer<Pointer<Void>> _result) {
+int _SimpleInterfacegetStringValueStatic(int _token, Pointer<Pointer<Void>> _result) {
   String _resultObject = null;
   try {
     _resultObject = (__lib.instanceCache[_token] as SimpleInterface).getStringValue();
-    _result.value = String_toFfi(_resultObject);
+    _result.value = stringToFfi(_resultObject);
   } finally {
   }
   return 0;
 }
-int _SimpleInterface_useSimpleInterface_static(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
+int _SimpleInterfaceuseSimpleInterfaceStatic(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
   SimpleInterface _resultObject = null;
   try {
-    _resultObject = (__lib.instanceCache[_token] as SimpleInterface).useSimpleInterface(smoke_SimpleInterface_fromFfi(input));
-    _result.value = smoke_SimpleInterface_toFfi(_resultObject);
+    _resultObject = (__lib.instanceCache[_token] as SimpleInterface).useSimpleInterface(smokeSimpleinterfaceFromFfi(input));
+    _result.value = smokeSimpleinterfaceToFfi(_resultObject);
   } finally {
-    smoke_SimpleInterface_releaseFfiHandle(input);
+    smokeSimpleinterfaceReleaseFfiHandle(input);
     if (_resultObject != null) _resultObject.release();
   }
   return 0;
 }
-Pointer<Void> smoke_SimpleInterface_toFfi(SimpleInterface value) {
+Pointer<Void> smokeSimpleinterfaceToFfi(SimpleInterface value) {
   if (value is __lib.NativeBase) return _smokeSimpleinterfaceCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokeSimpleinterfaceCreateProxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_SimpleInterface_getStringValue_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_SimpleInterface_useSimpleInterface_static, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_SimpleInterfacegetStringValueStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_SimpleInterfaceuseSimpleInterfaceStatic, __lib.unknownError)
   );
   return result;
 }
-SimpleInterface smoke_SimpleInterface_fromFfi(Pointer<Void> handle) {
+SimpleInterface smokeSimpleinterfaceFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as SimpleInterface;
   if (instance != null) return instance;
   final _typeIdHandle = _smokeSimpleinterfaceGetTypeId(handle);
-  final factoryConstructor = __lib.typeRepository[String_fromFfi(_typeIdHandle)];
-  String_releaseFfiHandle(_typeIdHandle);
+  final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
+  stringReleaseFfiHandle(_typeIdHandle);
   final _copiedHandle = _smokeSimpleinterfaceCopyHandle(handle);
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
@@ -136,12 +136,12 @@ SimpleInterface smoke_SimpleInterface_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_SimpleInterface_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeSimpleinterfaceReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeSimpleinterfaceReleaseHandle(handle);
-Pointer<Void> smoke_SimpleInterface_toFfi_nullable(SimpleInterface value) =>
-  value != null ? smoke_SimpleInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
-SimpleInterface smoke_SimpleInterface_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_SimpleInterface_fromFfi(handle) : null;
-void smoke_SimpleInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeSimpleinterfaceToFfiNullable(SimpleInterface value) =>
+  value != null ? smokeSimpleinterfaceToFfi(value) : Pointer<Void>.fromAddress(0);
+SimpleInterface smokeSimpleinterfaceFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeSimpleinterfaceFromFfi(handle) : null;
+void smokeSimpleinterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeSimpleinterfaceReleaseHandle(handle);
 // End of SimpleInterface "private" section.

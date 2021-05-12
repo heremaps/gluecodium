@@ -27,55 +27,55 @@ final _smokeStructwithalldefaultsGetFieldstringField = __lib.catchArgumentError(
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithAllDefaults_get_field_stringField'));
-Pointer<Void> smoke_StructWithAllDefaults_toFfi(StructWithAllDefaults value) {
+Pointer<Void> smokeStructwithalldefaultsToFfi(StructWithAllDefaults value) {
   final _intFieldHandle = (value.intField);
-  final _stringFieldHandle = String_toFfi(value.stringField);
+  final _stringFieldHandle = stringToFfi(value.stringField);
   final _result = _smokeStructwithalldefaultsCreateHandle(_intFieldHandle, _stringFieldHandle);
   (_intFieldHandle);
-  String_releaseFfiHandle(_stringFieldHandle);
+  stringReleaseFfiHandle(_stringFieldHandle);
   return _result;
 }
-StructWithAllDefaults smoke_StructWithAllDefaults_fromFfi(Pointer<Void> handle) {
+StructWithAllDefaults smokeStructwithalldefaultsFromFfi(Pointer<Void> handle) {
   final _intFieldHandle = _smokeStructwithalldefaultsGetFieldintField(handle);
   final _stringFieldHandle = _smokeStructwithalldefaultsGetFieldstringField(handle);
   try {
     return StructWithAllDefaults(
       (_intFieldHandle),
-      String_fromFfi(_stringFieldHandle)
+      stringFromFfi(_stringFieldHandle)
     );
   } finally {
     (_intFieldHandle);
-    String_releaseFfiHandle(_stringFieldHandle);
+    stringReleaseFfiHandle(_stringFieldHandle);
   }
 }
-void smoke_StructWithAllDefaults_releaseFfiHandle(Pointer<Void> handle) => _smokeStructwithalldefaultsReleaseHandle(handle);
+void smokeStructwithalldefaultsReleaseFfiHandle(Pointer<Void> handle) => _smokeStructwithalldefaultsReleaseHandle(handle);
 // Nullable StructWithAllDefaults
-final _smoke_StructWithAllDefaultsCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructwithalldefaultsCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithAllDefaults_create_handle_nullable'));
-final _smoke_StructWithAllDefaultsReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructwithalldefaultsReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_StructWithAllDefaults_release_handle_nullable'));
-final _smoke_StructWithAllDefaultsGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructwithalldefaultsGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithAllDefaults_get_value_nullable'));
-Pointer<Void> smoke_StructWithAllDefaults_toFfi_nullable(StructWithAllDefaults value) {
+Pointer<Void> smokeStructwithalldefaultsToFfiNullable(StructWithAllDefaults value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_StructWithAllDefaults_toFfi(value);
-  final result = _smoke_StructWithAllDefaultsCreateHandleNullable(_handle);
-  smoke_StructWithAllDefaults_releaseFfiHandle(_handle);
+  final _handle = smokeStructwithalldefaultsToFfi(value);
+  final result = _smokeStructwithalldefaultsCreateHandleNullable(_handle);
+  smokeStructwithalldefaultsReleaseFfiHandle(_handle);
   return result;
 }
-StructWithAllDefaults smoke_StructWithAllDefaults_fromFfi_nullable(Pointer<Void> handle) {
+StructWithAllDefaults smokeStructwithalldefaultsFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_StructWithAllDefaultsGetValueNullable(handle);
-  final result = smoke_StructWithAllDefaults_fromFfi(_handle);
-  smoke_StructWithAllDefaults_releaseFfiHandle(_handle);
+  final _handle = _smokeStructwithalldefaultsGetValueNullable(handle);
+  final result = smokeStructwithalldefaultsFromFfi(_handle);
+  smokeStructwithalldefaultsReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_StructWithAllDefaults_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_StructWithAllDefaultsReleaseHandleNullable(handle);
+void smokeStructwithalldefaultsReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeStructwithalldefaultsReleaseHandleNullable(handle);
 // End of StructWithAllDefaults "private" section.

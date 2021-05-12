@@ -49,20 +49,20 @@ class OuterInterface_InnerClass$Impl extends __lib.NativeBase implements OuterIn
   @override
   String foo(String input) {
     final _fooFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterInterface_InnerClass_foo__String'));
-    final _inputHandle = String_toFfi(input);
+    final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
     final __resultHandle = _fooFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
-    String_releaseFfiHandle(_inputHandle);
+    stringReleaseFfiHandle(_inputHandle);
     try {
-      return String_fromFfi(__resultHandle);
+      return stringFromFfi(__resultHandle);
     } finally {
-      String_releaseFfiHandle(__resultHandle);
+      stringReleaseFfiHandle(__resultHandle);
     }
   }
 }
-Pointer<Void> smoke_OuterInterface_InnerClass_toFfi(OuterInterface_InnerClass value) =>
+Pointer<Void> smokeOuterinterfaceInnerclassToFfi(OuterInterface_InnerClass value) =>
   _smokeOuterinterfaceInnerclassCopyHandle((value as __lib.NativeBase).handle);
-OuterInterface_InnerClass smoke_OuterInterface_InnerClass_fromFfi(Pointer<Void> handle) {
+OuterInterface_InnerClass smokeOuterinterfaceInnerclassFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as OuterInterface_InnerClass;
@@ -72,13 +72,13 @@ OuterInterface_InnerClass smoke_OuterInterface_InnerClass_fromFfi(Pointer<Void> 
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_OuterInterface_InnerClass_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeOuterinterfaceInnerclassReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeOuterinterfaceInnerclassReleaseHandle(handle);
-Pointer<Void> smoke_OuterInterface_InnerClass_toFfi_nullable(OuterInterface_InnerClass value) =>
-  value != null ? smoke_OuterInterface_InnerClass_toFfi(value) : Pointer<Void>.fromAddress(0);
-OuterInterface_InnerClass smoke_OuterInterface_InnerClass_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_OuterInterface_InnerClass_fromFfi(handle) : null;
-void smoke_OuterInterface_InnerClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeOuterinterfaceInnerclassToFfiNullable(OuterInterface_InnerClass value) =>
+  value != null ? smokeOuterinterfaceInnerclassToFfi(value) : Pointer<Void>.fromAddress(0);
+OuterInterface_InnerClass smokeOuterinterfaceInnerclassFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeOuterinterfaceInnerclassFromFfi(handle) : null;
+void smokeOuterinterfaceInnerclassReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeOuterinterfaceInnerclassReleaseHandle(handle);
 // End of OuterInterface_InnerClass "private" section.
 abstract class OuterInterface_InnerInterface {
@@ -136,45 +136,45 @@ class OuterInterface_InnerInterface$Impl extends __lib.NativeBase implements Out
   @override
   String foo(String input) {
     final _fooFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterInterface_InnerInterface_foo__String'));
-    final _inputHandle = String_toFfi(input);
+    final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
     final __resultHandle = _fooFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
-    String_releaseFfiHandle(_inputHandle);
+    stringReleaseFfiHandle(_inputHandle);
     try {
-      return String_fromFfi(__resultHandle);
+      return stringFromFfi(__resultHandle);
     } finally {
-      String_releaseFfiHandle(__resultHandle);
+      stringReleaseFfiHandle(__resultHandle);
     }
   }
 }
-int _OuterInterface_InnerInterface_foo_static(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
+int _OuterInterface_InnerInterfacefooStatic(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
   String _resultObject = null;
   try {
-    _resultObject = (__lib.instanceCache[_token] as OuterInterface_InnerInterface).foo(String_fromFfi(input));
-    _result.value = String_toFfi(_resultObject);
+    _resultObject = (__lib.instanceCache[_token] as OuterInterface_InnerInterface).foo(stringFromFfi(input));
+    _result.value = stringToFfi(_resultObject);
   } finally {
-    String_releaseFfiHandle(input);
+    stringReleaseFfiHandle(input);
   }
   return 0;
 }
-Pointer<Void> smoke_OuterInterface_InnerInterface_toFfi(OuterInterface_InnerInterface value) {
+Pointer<Void> smokeOuterinterfaceInnerinterfaceToFfi(OuterInterface_InnerInterface value) {
   if (value is __lib.NativeBase) return _smokeOuterinterfaceInnerinterfaceCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokeOuterinterfaceInnerinterfaceCreateProxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_OuterInterface_InnerInterface_foo_static, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_OuterInterface_InnerInterfacefooStatic, __lib.unknownError)
   );
   return result;
 }
-OuterInterface_InnerInterface smoke_OuterInterface_InnerInterface_fromFfi(Pointer<Void> handle) {
+OuterInterface_InnerInterface smokeOuterinterfaceInnerinterfaceFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as OuterInterface_InnerInterface;
   if (instance != null) return instance;
   final _typeIdHandle = _smokeOuterinterfaceInnerinterfaceGetTypeId(handle);
-  final factoryConstructor = __lib.typeRepository[String_fromFfi(_typeIdHandle)];
-  String_releaseFfiHandle(_typeIdHandle);
+  final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
+  stringReleaseFfiHandle(_typeIdHandle);
   final _copiedHandle = _smokeOuterinterfaceInnerinterfaceCopyHandle(handle);
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
@@ -182,13 +182,13 @@ OuterInterface_InnerInterface smoke_OuterInterface_InnerInterface_fromFfi(Pointe
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_OuterInterface_InnerInterface_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeOuterinterfaceInnerinterfaceReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeOuterinterfaceInnerinterfaceReleaseHandle(handle);
-Pointer<Void> smoke_OuterInterface_InnerInterface_toFfi_nullable(OuterInterface_InnerInterface value) =>
-  value != null ? smoke_OuterInterface_InnerInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
-OuterInterface_InnerInterface smoke_OuterInterface_InnerInterface_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_OuterInterface_InnerInterface_fromFfi(handle) : null;
-void smoke_OuterInterface_InnerInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeOuterinterfaceInnerinterfaceToFfiNullable(OuterInterface_InnerInterface value) =>
+  value != null ? smokeOuterinterfaceInnerinterfaceToFfi(value) : Pointer<Void>.fromAddress(0);
+OuterInterface_InnerInterface smokeOuterinterfaceInnerinterfaceFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeOuterinterfaceInnerinterfaceFromFfi(handle) : null;
+void smokeOuterinterfaceInnerinterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeOuterinterfaceInnerinterfaceReleaseHandle(handle);
 // End of OuterInterface_InnerInterface "private" section.
 // OuterInterface "private" section, not exported.
@@ -232,45 +232,45 @@ class OuterInterface$Impl extends __lib.NativeBase implements OuterInterface {
   @override
   String foo(String input) {
     final _fooFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterInterface_foo__String'));
-    final _inputHandle = String_toFfi(input);
+    final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
     final __resultHandle = _fooFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
-    String_releaseFfiHandle(_inputHandle);
+    stringReleaseFfiHandle(_inputHandle);
     try {
-      return String_fromFfi(__resultHandle);
+      return stringFromFfi(__resultHandle);
     } finally {
-      String_releaseFfiHandle(__resultHandle);
+      stringReleaseFfiHandle(__resultHandle);
     }
   }
 }
-int _OuterInterface_foo_static(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
+int _OuterInterfacefooStatic(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
   String _resultObject = null;
   try {
-    _resultObject = (__lib.instanceCache[_token] as OuterInterface).foo(String_fromFfi(input));
-    _result.value = String_toFfi(_resultObject);
+    _resultObject = (__lib.instanceCache[_token] as OuterInterface).foo(stringFromFfi(input));
+    _result.value = stringToFfi(_resultObject);
   } finally {
-    String_releaseFfiHandle(input);
+    stringReleaseFfiHandle(input);
   }
   return 0;
 }
-Pointer<Void> smoke_OuterInterface_toFfi(OuterInterface value) {
+Pointer<Void> smokeOuterinterfaceToFfi(OuterInterface value) {
   if (value is __lib.NativeBase) return _smokeOuterinterfaceCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokeOuterinterfaceCreateProxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_OuterInterface_foo_static, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_OuterInterfacefooStatic, __lib.unknownError)
   );
   return result;
 }
-OuterInterface smoke_OuterInterface_fromFfi(Pointer<Void> handle) {
+OuterInterface smokeOuterinterfaceFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as OuterInterface;
   if (instance != null) return instance;
   final _typeIdHandle = _smokeOuterinterfaceGetTypeId(handle);
-  final factoryConstructor = __lib.typeRepository[String_fromFfi(_typeIdHandle)];
-  String_releaseFfiHandle(_typeIdHandle);
+  final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
+  stringReleaseFfiHandle(_typeIdHandle);
   final _copiedHandle = _smokeOuterinterfaceCopyHandle(handle);
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
@@ -278,12 +278,12 @@ OuterInterface smoke_OuterInterface_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_OuterInterface_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeOuterinterfaceReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeOuterinterfaceReleaseHandle(handle);
-Pointer<Void> smoke_OuterInterface_toFfi_nullable(OuterInterface value) =>
-  value != null ? smoke_OuterInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
-OuterInterface smoke_OuterInterface_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_OuterInterface_fromFfi(handle) : null;
-void smoke_OuterInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeOuterinterfaceToFfiNullable(OuterInterface value) =>
+  value != null ? smokeOuterinterfaceToFfi(value) : Pointer<Void>.fromAddress(0);
+OuterInterface smokeOuterinterfaceFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeOuterinterfaceFromFfi(handle) : null;
+void smokeOuterinterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeOuterinterfaceReleaseHandle(handle);
 // End of OuterInterface "private" section.

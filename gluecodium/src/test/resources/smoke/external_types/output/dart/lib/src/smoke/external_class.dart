@@ -17,7 +17,7 @@ enum ExternalClass_SomeEnum {
     someValue
 }
 // ExternalClass_SomeEnum "private" section, not exported.
-int smoke_ExternalClass_SomeEnum_toFfi(ExternalClass_SomeEnum value) {
+int smokeExternalclassSomeenumToFfi(ExternalClass_SomeEnum value) {
   switch (value) {
   case ExternalClass_SomeEnum.someValue:
     return 0;
@@ -26,7 +26,7 @@ int smoke_ExternalClass_SomeEnum_toFfi(ExternalClass_SomeEnum value) {
     throw StateError("Invalid enum value $value for ExternalClass_SomeEnum enum.");
   }
 }
-ExternalClass_SomeEnum smoke_ExternalClass_SomeEnum_fromFfi(int handle) {
+ExternalClass_SomeEnum smokeExternalclassSomeenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return ExternalClass_SomeEnum.someValue;
@@ -35,35 +35,35 @@ ExternalClass_SomeEnum smoke_ExternalClass_SomeEnum_fromFfi(int handle) {
     throw StateError("Invalid numeric value $handle for ExternalClass_SomeEnum enum.");
   }
 }
-void smoke_ExternalClass_SomeEnum_releaseFfiHandle(int handle) {}
-final _smoke_ExternalClass_SomeEnumCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+void smokeExternalclassSomeenumReleaseFfiHandle(int handle) {}
+final _smokeExternalclassSomeenumCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
   >('library_smoke_ExternalClass_SomeEnum_create_handle_nullable'));
-final _smoke_ExternalClass_SomeEnumReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeExternalclassSomeenumReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ExternalClass_SomeEnum_release_handle_nullable'));
-final _smoke_ExternalClass_SomeEnumGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeExternalclassSomeenumGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_ExternalClass_SomeEnum_get_value_nullable'));
-Pointer<Void> smoke_ExternalClass_SomeEnum_toFfi_nullable(ExternalClass_SomeEnum value) {
+Pointer<Void> smokeExternalclassSomeenumToFfiNullable(ExternalClass_SomeEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_ExternalClass_SomeEnum_toFfi(value);
-  final result = _smoke_ExternalClass_SomeEnumCreateHandleNullable(_handle);
-  smoke_ExternalClass_SomeEnum_releaseFfiHandle(_handle);
+  final _handle = smokeExternalclassSomeenumToFfi(value);
+  final result = _smokeExternalclassSomeenumCreateHandleNullable(_handle);
+  smokeExternalclassSomeenumReleaseFfiHandle(_handle);
   return result;
 }
-ExternalClass_SomeEnum smoke_ExternalClass_SomeEnum_fromFfi_nullable(Pointer<Void> handle) {
+ExternalClass_SomeEnum smokeExternalclassSomeenumFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_ExternalClass_SomeEnumGetValueNullable(handle);
-  final result = smoke_ExternalClass_SomeEnum_fromFfi(_handle);
-  smoke_ExternalClass_SomeEnum_releaseFfiHandle(_handle);
+  final _handle = _smokeExternalclassSomeenumGetValueNullable(handle);
+  final result = smokeExternalclassSomeenumFromFfi(_handle);
+  smokeExternalclassSomeenumReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_ExternalClass_SomeEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_ExternalClass_SomeEnumReleaseHandleNullable(handle);
+void smokeExternalclassSomeenumReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeExternalclassSomeenumReleaseHandleNullable(handle);
 // End of ExternalClass_SomeEnum "private" section.
 class ExternalClass_SomeStruct {
   String someField;
@@ -82,52 +82,52 @@ final _smokeExternalclassSomestructGetFieldsomeField = __lib.catchArgumentError(
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ExternalClass_SomeStruct_get_field_someField'));
-Pointer<Void> smoke_ExternalClass_SomeStruct_toFfi(ExternalClass_SomeStruct value) {
-  final _someFieldHandle = String_toFfi(value.someField);
+Pointer<Void> smokeExternalclassSomestructToFfi(ExternalClass_SomeStruct value) {
+  final _someFieldHandle = stringToFfi(value.someField);
   final _result = _smokeExternalclassSomestructCreateHandle(_someFieldHandle);
-  String_releaseFfiHandle(_someFieldHandle);
+  stringReleaseFfiHandle(_someFieldHandle);
   return _result;
 }
-ExternalClass_SomeStruct smoke_ExternalClass_SomeStruct_fromFfi(Pointer<Void> handle) {
+ExternalClass_SomeStruct smokeExternalclassSomestructFromFfi(Pointer<Void> handle) {
   final _someFieldHandle = _smokeExternalclassSomestructGetFieldsomeField(handle);
   try {
     return ExternalClass_SomeStruct(
-      String_fromFfi(_someFieldHandle)
+      stringFromFfi(_someFieldHandle)
     );
   } finally {
-    String_releaseFfiHandle(_someFieldHandle);
+    stringReleaseFfiHandle(_someFieldHandle);
   }
 }
-void smoke_ExternalClass_SomeStruct_releaseFfiHandle(Pointer<Void> handle) => _smokeExternalclassSomestructReleaseHandle(handle);
+void smokeExternalclassSomestructReleaseFfiHandle(Pointer<Void> handle) => _smokeExternalclassSomestructReleaseHandle(handle);
 // Nullable ExternalClass_SomeStruct
-final _smoke_ExternalClass_SomeStructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeExternalclassSomestructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ExternalClass_SomeStruct_create_handle_nullable'));
-final _smoke_ExternalClass_SomeStructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeExternalclassSomestructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ExternalClass_SomeStruct_release_handle_nullable'));
-final _smoke_ExternalClass_SomeStructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeExternalclassSomestructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ExternalClass_SomeStruct_get_value_nullable'));
-Pointer<Void> smoke_ExternalClass_SomeStruct_toFfi_nullable(ExternalClass_SomeStruct value) {
+Pointer<Void> smokeExternalclassSomestructToFfiNullable(ExternalClass_SomeStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_ExternalClass_SomeStruct_toFfi(value);
-  final result = _smoke_ExternalClass_SomeStructCreateHandleNullable(_handle);
-  smoke_ExternalClass_SomeStruct_releaseFfiHandle(_handle);
+  final _handle = smokeExternalclassSomestructToFfi(value);
+  final result = _smokeExternalclassSomestructCreateHandleNullable(_handle);
+  smokeExternalclassSomestructReleaseFfiHandle(_handle);
   return result;
 }
-ExternalClass_SomeStruct smoke_ExternalClass_SomeStruct_fromFfi_nullable(Pointer<Void> handle) {
+ExternalClass_SomeStruct smokeExternalclassSomestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_ExternalClass_SomeStructGetValueNullable(handle);
-  final result = smoke_ExternalClass_SomeStruct_fromFfi(_handle);
-  smoke_ExternalClass_SomeStruct_releaseFfiHandle(_handle);
+  final _handle = _smokeExternalclassSomestructGetValueNullable(handle);
+  final result = smokeExternalclassSomestructFromFfi(_handle);
+  smokeExternalclassSomestructReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_ExternalClass_SomeStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_ExternalClass_SomeStructReleaseHandleNullable(handle);
+void smokeExternalclassSomestructReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeExternalclassSomestructReleaseHandleNullable(handle);
 // End of ExternalClass_SomeStruct "private" section.
 // ExternalClass "private" section, not exported.
 final _smokeExternalclassCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -167,15 +167,15 @@ class ExternalClass$Impl extends __lib.NativeBase implements ExternalClass {
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return String_fromFfi(__resultHandle);
+      return stringFromFfi(__resultHandle);
     } finally {
-      String_releaseFfiHandle(__resultHandle);
+      stringReleaseFfiHandle(__resultHandle);
     }
   }
 }
-Pointer<Void> smoke_ExternalClass_toFfi(ExternalClass value) =>
+Pointer<Void> smokeExternalclassToFfi(ExternalClass value) =>
   _smokeExternalclassCopyHandle((value as __lib.NativeBase).handle);
-ExternalClass smoke_ExternalClass_fromFfi(Pointer<Void> handle) {
+ExternalClass smokeExternalclassFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as ExternalClass;
@@ -185,12 +185,12 @@ ExternalClass smoke_ExternalClass_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_ExternalClass_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeExternalclassReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeExternalclassReleaseHandle(handle);
-Pointer<Void> smoke_ExternalClass_toFfi_nullable(ExternalClass value) =>
-  value != null ? smoke_ExternalClass_toFfi(value) : Pointer<Void>.fromAddress(0);
-ExternalClass smoke_ExternalClass_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_ExternalClass_fromFfi(handle) : null;
-void smoke_ExternalClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeExternalclassToFfiNullable(ExternalClass value) =>
+  value != null ? smokeExternalclassToFfi(value) : Pointer<Void>.fromAddress(0);
+ExternalClass smokeExternalclassFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeExternalclassFromFfi(handle) : null;
+void smokeExternalclassReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeExternalclassReleaseHandle(handle);
 // End of ExternalClass "private" section.

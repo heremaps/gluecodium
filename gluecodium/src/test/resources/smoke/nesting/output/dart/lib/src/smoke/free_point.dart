@@ -10,13 +10,13 @@ class FreePoint {
   static final FreeEnum aBar = FreeEnum.bar;
   FreePoint flip() {
     final _flipFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_FreePoint_flip'));
-    final _handle = smoke_FreePoint_toFfi(this);
+    final _handle = smokeFreepointToFfi(this);
     final __resultHandle = _flipFfi(_handle, __lib.LibraryContext.isolateId);
-    smoke_FreePoint_releaseFfiHandle(_handle);
+    smokeFreepointReleaseFfiHandle(_handle);
     try {
-      return smoke_FreePoint_fromFfi(__resultHandle);
+      return smokeFreepointFromFfi(__resultHandle);
     } finally {
-      smoke_FreePoint_releaseFfiHandle(__resultHandle);
+      smokeFreepointReleaseFfiHandle(__resultHandle);
     }
   }
 }
@@ -37,7 +37,7 @@ final _smokeFreepointGetFieldy = __lib.catchArgumentError(() => __lib.nativeLibr
     Double Function(Pointer<Void>),
     double Function(Pointer<Void>)
   >('library_smoke_FreePoint_get_field_y'));
-Pointer<Void> smoke_FreePoint_toFfi(FreePoint value) {
+Pointer<Void> smokeFreepointToFfi(FreePoint value) {
   final _xHandle = (value.x);
   final _yHandle = (value.y);
   final _result = _smokeFreepointCreateHandle(_xHandle, _yHandle);
@@ -45,7 +45,7 @@ Pointer<Void> smoke_FreePoint_toFfi(FreePoint value) {
   (_yHandle);
   return _result;
 }
-FreePoint smoke_FreePoint_fromFfi(Pointer<Void> handle) {
+FreePoint smokeFreepointFromFfi(Pointer<Void> handle) {
   final _xHandle = _smokeFreepointGetFieldx(handle);
   final _yHandle = _smokeFreepointGetFieldy(handle);
   try {
@@ -58,34 +58,34 @@ FreePoint smoke_FreePoint_fromFfi(Pointer<Void> handle) {
     (_yHandle);
   }
 }
-void smoke_FreePoint_releaseFfiHandle(Pointer<Void> handle) => _smokeFreepointReleaseHandle(handle);
+void smokeFreepointReleaseFfiHandle(Pointer<Void> handle) => _smokeFreepointReleaseHandle(handle);
 // Nullable FreePoint
-final _smoke_FreePointCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeFreepointCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_FreePoint_create_handle_nullable'));
-final _smoke_FreePointReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeFreepointReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_FreePoint_release_handle_nullable'));
-final _smoke_FreePointGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeFreepointGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_FreePoint_get_value_nullable'));
-Pointer<Void> smoke_FreePoint_toFfi_nullable(FreePoint value) {
+Pointer<Void> smokeFreepointToFfiNullable(FreePoint value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_FreePoint_toFfi(value);
-  final result = _smoke_FreePointCreateHandleNullable(_handle);
-  smoke_FreePoint_releaseFfiHandle(_handle);
+  final _handle = smokeFreepointToFfi(value);
+  final result = _smokeFreepointCreateHandleNullable(_handle);
+  smokeFreepointReleaseFfiHandle(_handle);
   return result;
 }
-FreePoint smoke_FreePoint_fromFfi_nullable(Pointer<Void> handle) {
+FreePoint smokeFreepointFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_FreePointGetValueNullable(handle);
-  final result = smoke_FreePoint_fromFfi(_handle);
-  smoke_FreePoint_releaseFfiHandle(_handle);
+  final _handle = _smokeFreepointGetValueNullable(handle);
+  final result = smokeFreepointFromFfi(_handle);
+  smokeFreepointReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_FreePoint_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_FreePointReleaseHandleNullable(handle);
+void smokeFreepointReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeFreepointReleaseHandleNullable(handle);
 // End of FreePoint "private" section.

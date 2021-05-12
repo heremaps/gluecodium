@@ -12,11 +12,11 @@ class AttributesStruct {
   @OnFunctionInStruct
   veryFun(@OnParameterInStruct String param) {
     final _veryFunFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AttributesStruct_veryFun__String'));
-    final _paramHandle = String_toFfi(param);
-    final _handle = smoke_AttributesStruct_toFfi(this);
+    final _paramHandle = stringToFfi(param);
+    final _handle = smokeAttributesstructToFfi(this);
     final __resultHandle = _veryFunFfi(_handle, __lib.LibraryContext.isolateId, _paramHandle);
-    smoke_AttributesStruct_releaseFfiHandle(_handle);
-    String_releaseFfiHandle(_paramHandle);
+    smokeAttributesstructReleaseFfiHandle(_handle);
+    stringReleaseFfiHandle(_paramHandle);
     try {
       return (__resultHandle);
     } finally {
@@ -37,50 +37,50 @@ final _smokeAttributesstructGetFieldfield = __lib.catchArgumentError(() => __lib
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_AttributesStruct_get_field_field'));
-Pointer<Void> smoke_AttributesStruct_toFfi(AttributesStruct value) {
-  final _fieldHandle = String_toFfi(value.field);
+Pointer<Void> smokeAttributesstructToFfi(AttributesStruct value) {
+  final _fieldHandle = stringToFfi(value.field);
   final _result = _smokeAttributesstructCreateHandle(_fieldHandle);
-  String_releaseFfiHandle(_fieldHandle);
+  stringReleaseFfiHandle(_fieldHandle);
   return _result;
 }
-AttributesStruct smoke_AttributesStruct_fromFfi(Pointer<Void> handle) {
+AttributesStruct smokeAttributesstructFromFfi(Pointer<Void> handle) {
   final _fieldHandle = _smokeAttributesstructGetFieldfield(handle);
   try {
     return AttributesStruct(
-      String_fromFfi(_fieldHandle)
+      stringFromFfi(_fieldHandle)
     );
   } finally {
-    String_releaseFfiHandle(_fieldHandle);
+    stringReleaseFfiHandle(_fieldHandle);
   }
 }
-void smoke_AttributesStruct_releaseFfiHandle(Pointer<Void> handle) => _smokeAttributesstructReleaseHandle(handle);
+void smokeAttributesstructReleaseFfiHandle(Pointer<Void> handle) => _smokeAttributesstructReleaseHandle(handle);
 // Nullable AttributesStruct
-final _smoke_AttributesStructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeAttributesstructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_AttributesStruct_create_handle_nullable'));
-final _smoke_AttributesStructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeAttributesstructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_AttributesStruct_release_handle_nullable'));
-final _smoke_AttributesStructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeAttributesstructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_AttributesStruct_get_value_nullable'));
-Pointer<Void> smoke_AttributesStruct_toFfi_nullable(AttributesStruct value) {
+Pointer<Void> smokeAttributesstructToFfiNullable(AttributesStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_AttributesStruct_toFfi(value);
-  final result = _smoke_AttributesStructCreateHandleNullable(_handle);
-  smoke_AttributesStruct_releaseFfiHandle(_handle);
+  final _handle = smokeAttributesstructToFfi(value);
+  final result = _smokeAttributesstructCreateHandleNullable(_handle);
+  smokeAttributesstructReleaseFfiHandle(_handle);
   return result;
 }
-AttributesStruct smoke_AttributesStruct_fromFfi_nullable(Pointer<Void> handle) {
+AttributesStruct smokeAttributesstructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_AttributesStructGetValueNullable(handle);
-  final result = smoke_AttributesStruct_fromFfi(_handle);
-  smoke_AttributesStruct_releaseFfiHandle(_handle);
+  final _handle = _smokeAttributesstructGetValueNullable(handle);
+  final result = smokeAttributesstructFromFfi(_handle);
+  smokeAttributesstructReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_AttributesStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_AttributesStructReleaseHandleNullable(handle);
+void smokeAttributesstructReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeAttributesstructReleaseHandleNullable(handle);
 // End of AttributesStruct "private" section.

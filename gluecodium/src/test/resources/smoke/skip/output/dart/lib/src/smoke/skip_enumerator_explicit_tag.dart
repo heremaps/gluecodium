@@ -7,7 +7,7 @@ enum SkipEnumeratorExplicitTag {
     three
 }
 // SkipEnumeratorExplicitTag "private" section, not exported.
-int smoke_SkipEnumeratorExplicitTag_toFfi(SkipEnumeratorExplicitTag value) {
+int smokeSkipenumeratorexplicittagToFfi(SkipEnumeratorExplicitTag value) {
   switch (value) {
   case SkipEnumeratorExplicitTag.zero:
     return 0;
@@ -22,7 +22,7 @@ int smoke_SkipEnumeratorExplicitTag_toFfi(SkipEnumeratorExplicitTag value) {
     throw StateError("Invalid enum value $value for SkipEnumeratorExplicitTag enum.");
   }
 }
-SkipEnumeratorExplicitTag smoke_SkipEnumeratorExplicitTag_fromFfi(int handle) {
+SkipEnumeratorExplicitTag smokeSkipenumeratorexplicittagFromFfi(int handle) {
   switch (handle) {
   case 0:
     return SkipEnumeratorExplicitTag.zero;
@@ -37,33 +37,34 @@ SkipEnumeratorExplicitTag smoke_SkipEnumeratorExplicitTag_fromFfi(int handle) {
     throw StateError("Invalid numeric value $handle for SkipEnumeratorExplicitTag enum.");
   }
 }
-void smoke_SkipEnumeratorExplicitTag_releaseFfiHandle(int handle) {}
-final _smoke_SkipEnumeratorExplicitTagCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+void smokeSkipenumeratorexplicittagReleaseFfiHandle(int handle) {}
+final _smokeSkipenumeratorexplicittagCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
   >('library_smoke_SkipEnumeratorExplicitTag_create_handle_nullable'));
-final _smoke_SkipEnumeratorExplicitTagReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeSkipenumeratorexplicittagReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_SkipEnumeratorExplicitTag_release_handle_nullable'));
-final _smoke_SkipEnumeratorExplicitTagGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeSkipenumeratorexplicittagGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_SkipEnumeratorExplicitTag_get_value_nullable'));
-Pointer<Void> smoke_SkipEnumeratorExplicitTag_toFfi_nullable(SkipEnumeratorExplicitTag value) {
+Pointer<Void> smokeSkipenumeratorexplicittagToFfiNullable(SkipEnumeratorExplicitTag value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_SkipEnumeratorExplicitTag_toFfi(value);
-  final result = _smoke_SkipEnumeratorExplicitTagCreateHandleNullable(_handle);
-  smoke_SkipEnumeratorExplicitTag_releaseFfiHandle(_handle);
+  final _handle = smokeSkipenumeratorexplicittagToFfi(value);
+  final result = _smokeSkipenumeratorexplicittagCreateHandleNullable(_handle);
+  smokeSkipenumeratorexplicittagReleaseFfiHandle(_handle);
   return result;
 }
-SkipEnumeratorExplicitTag smoke_SkipEnumeratorExplicitTag_fromFfi_nullable(Pointer<Void> handle) {
+SkipEnumeratorExplicitTag smokeSkipenumeratorexplicittagFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_SkipEnumeratorExplicitTagGetValueNullable(handle);
-  final result = smoke_SkipEnumeratorExplicitTag_fromFfi(_handle);
-  smoke_SkipEnumeratorExplicitTag_releaseFfiHandle(_handle);
+  final _handle = _smokeSkipenumeratorexplicittagGetValueNullable(handle);
+  final result = smokeSkipenumeratorexplicittagFromFfi(_handle);
+  smokeSkipenumeratorexplicittagReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_SkipEnumeratorExplicitTag_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_SkipEnumeratorExplicitTagReleaseHandleNullable(handle);
+void smokeSkipenumeratorexplicittagReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeSkipenumeratorexplicittagReleaseHandleNullable(handle);
 // End of SkipEnumeratorExplicitTag "private" section.
+
