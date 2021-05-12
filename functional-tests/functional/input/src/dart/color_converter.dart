@@ -21,7 +21,7 @@
 import "test/int.dart";
 
 class ColorConverter {
-  static int convertFromInternal(int_internal internalColor) {
+  static int convertFromInternal(intInternal internalColor) {
     final alpha = (internalColor.alpha * 255).round() << 24;
     final red = (internalColor.red * 255).round() << 16;
     final green = (internalColor.green * 255).round() << 8;
@@ -29,8 +29,8 @@ class ColorConverter {
     return alpha + red + green + blue;
   }
 
-  static int_internal convertToInternal(int systemColor) =>
-    int_internal(
+  static intInternal convertToInternal(int systemColor) =>
+    intInternal(
         ((systemColor >> 16) & 0xFF) / 255.0,
         ((systemColor >> 8) & 0xFF) / 255.0,
         (systemColor & 0xFF) / 255.0,

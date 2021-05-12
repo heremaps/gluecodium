@@ -101,9 +101,9 @@ class EnableIfEnabled$Impl extends __lib.NativeBase implements EnableIfEnabled {
     }
   }
 }
-Pointer<Void> smoke_EnableIfEnabled_toFfi(EnableIfEnabled value) =>
+Pointer<Void> smokeEnableifenabledToFfi(EnableIfEnabled value) =>
   _smokeEnableifenabledCopyHandle((value as __lib.NativeBase).handle);
-EnableIfEnabled smoke_EnableIfEnabled_fromFfi(Pointer<Void> handle) {
+EnableIfEnabled smokeEnableifenabledFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as EnableIfEnabled;
@@ -113,12 +113,12 @@ EnableIfEnabled smoke_EnableIfEnabled_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_EnableIfEnabled_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeEnableifenabledReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeEnableifenabledReleaseHandle(handle);
-Pointer<Void> smoke_EnableIfEnabled_toFfi_nullable(EnableIfEnabled value) =>
-  value != null ? smoke_EnableIfEnabled_toFfi(value) : Pointer<Void>.fromAddress(0);
-EnableIfEnabled smoke_EnableIfEnabled_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_EnableIfEnabled_fromFfi(handle) : null;
-void smoke_EnableIfEnabled_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeEnableifenabledToFfiNullable(EnableIfEnabled value) =>
+  value != null ? smokeEnableifenabledToFfi(value) : Pointer<Void>.fromAddress(0);
+EnableIfEnabled smokeEnableifenabledFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeEnableifenabledFromFfi(handle) : null;
+void smokeEnableifenabledReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeEnableifenabledReleaseHandle(handle);
 // End of EnableIfEnabled "private" section.

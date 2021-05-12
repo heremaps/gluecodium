@@ -34,59 +34,59 @@ final _foobarListofNullableDateIteratorGet = __lib.catchArgumentError(() => __li
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
 >('library_foobar_ListOf_Nullable_Date_iterator_get'));
-Pointer<Void> foobar_ListOf_Nullable_Date_toFfi(List<DateTime> value) {
+Pointer<Void> foobarListofNullableDateToFfi(List<DateTime> value) {
   final _result = _foobarListofNullableDateCreateHandle();
   for (final element in value) {
-    final _elementHandle = Date_toFfi_nullable(element);
+    final _elementHandle = dateToFfiNullable(element);
     _foobarListofNullableDateInsert(_result, _elementHandle);
-    Date_releaseFfiHandle_nullable(_elementHandle);
+    dateReleaseFfiHandleNullable(_elementHandle);
   }
   return _result;
 }
-List<DateTime> foobar_ListOf_Nullable_Date_fromFfi(Pointer<Void> handle) {
+List<DateTime> foobarListofNullableDateFromFfi(Pointer<Void> handle) {
   final result = List<DateTime>.empty(growable: true);
   final _iteratorHandle = _foobarListofNullableDateIterator(handle);
   while (_foobarListofNullableDateIteratorIsValid(handle, _iteratorHandle) != 0) {
     final _elementHandle = _foobarListofNullableDateIteratorGet(_iteratorHandle);
     try {
-      result.add(Date_fromFfi_nullable(_elementHandle));
+      result.add(dateFromFfiNullable(_elementHandle));
     } finally {
-      Date_releaseFfiHandle_nullable(_elementHandle);
+      dateReleaseFfiHandleNullable(_elementHandle);
     }
     _foobarListofNullableDateIteratorIncrement(_iteratorHandle);
   }
   _foobarListofNullableDateIteratorReleaseHandle(_iteratorHandle);
   return result;
 }
-void foobar_ListOf_Nullable_Date_releaseFfiHandle(Pointer<Void> handle) => _foobarListofNullableDateReleaseHandle(handle);
-final _foobar_ListOf_Nullable_DateCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+void foobarListofNullableDateReleaseFfiHandle(Pointer<Void> handle) => _foobarListofNullableDateReleaseHandle(handle);
+final _foobarListofNullableDateCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_Nullable_Date_create_handle_nullable'));
-final _foobar_ListOf_Nullable_DateReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _foobarListofNullableDateReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_foobar_ListOf_Nullable_Date_release_handle_nullable'));
-final _foobar_ListOf_Nullable_DateGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _foobarListofNullableDateGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_Nullable_Date_get_value_nullable'));
-Pointer<Void> foobar_ListOf_Nullable_Date_toFfi_nullable(List<DateTime> value) {
+Pointer<Void> foobarListofNullableDateToFfiNullable(List<DateTime> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = foobar_ListOf_Nullable_Date_toFfi(value);
-  final result = _foobar_ListOf_Nullable_DateCreateHandleNullable(_handle);
-  foobar_ListOf_Nullable_Date_releaseFfiHandle(_handle);
+  final _handle = foobarListofNullableDateToFfi(value);
+  final result = _foobarListofNullableDateCreateHandleNullable(_handle);
+  foobarListofNullableDateReleaseFfiHandle(_handle);
   return result;
 }
-List<DateTime> foobar_ListOf_Nullable_Date_fromFfi_nullable(Pointer<Void> handle) {
+List<DateTime> foobarListofNullableDateFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _foobar_ListOf_Nullable_DateGetValueNullable(handle);
-  final result = foobar_ListOf_Nullable_Date_fromFfi(_handle);
-  foobar_ListOf_Nullable_Date_releaseFfiHandle(_handle);
+  final _handle = _foobarListofNullableDateGetValueNullable(handle);
+  final result = foobarListofNullableDateFromFfi(_handle);
+  foobarListofNullableDateReleaseFfiHandle(_handle);
   return result;
 }
-void foobar_ListOf_Nullable_Date_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _foobar_ListOf_Nullable_DateReleaseHandleNullable(handle);
+void foobarListofNullableDateReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _foobarListofNullableDateReleaseHandleNullable(handle);
 final _foobarListofStringCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
@@ -119,59 +119,59 @@ final _foobarListofStringIteratorGet = __lib.catchArgumentError(() => __lib.nati
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
 >('library_foobar_ListOf_String_iterator_get'));
-Pointer<Void> foobar_ListOf_String_toFfi(List<String> value) {
+Pointer<Void> foobarListofStringToFfi(List<String> value) {
   final _result = _foobarListofStringCreateHandle();
   for (final element in value) {
-    final _elementHandle = String_toFfi(element);
+    final _elementHandle = stringToFfi(element);
     _foobarListofStringInsert(_result, _elementHandle);
-    String_releaseFfiHandle(_elementHandle);
+    stringReleaseFfiHandle(_elementHandle);
   }
   return _result;
 }
-List<String> foobar_ListOf_String_fromFfi(Pointer<Void> handle) {
+List<String> foobarListofStringFromFfi(Pointer<Void> handle) {
   final result = List<String>.empty(growable: true);
   final _iteratorHandle = _foobarListofStringIterator(handle);
   while (_foobarListofStringIteratorIsValid(handle, _iteratorHandle) != 0) {
     final _elementHandle = _foobarListofStringIteratorGet(_iteratorHandle);
     try {
-      result.add(String_fromFfi(_elementHandle));
+      result.add(stringFromFfi(_elementHandle));
     } finally {
-      String_releaseFfiHandle(_elementHandle);
+      stringReleaseFfiHandle(_elementHandle);
     }
     _foobarListofStringIteratorIncrement(_iteratorHandle);
   }
   _foobarListofStringIteratorReleaseHandle(_iteratorHandle);
   return result;
 }
-void foobar_ListOf_String_releaseFfiHandle(Pointer<Void> handle) => _foobarListofStringReleaseHandle(handle);
-final _foobar_ListOf_StringCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+void foobarListofStringReleaseFfiHandle(Pointer<Void> handle) => _foobarListofStringReleaseHandle(handle);
+final _foobarListofStringCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_String_create_handle_nullable'));
-final _foobar_ListOf_StringReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _foobarListofStringReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_foobar_ListOf_String_release_handle_nullable'));
-final _foobar_ListOf_StringGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _foobarListofStringGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_String_get_value_nullable'));
-Pointer<Void> foobar_ListOf_String_toFfi_nullable(List<String> value) {
+Pointer<Void> foobarListofStringToFfiNullable(List<String> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = foobar_ListOf_String_toFfi(value);
-  final result = _foobar_ListOf_StringCreateHandleNullable(_handle);
-  foobar_ListOf_String_releaseFfiHandle(_handle);
+  final _handle = foobarListofStringToFfi(value);
+  final result = _foobarListofStringCreateHandleNullable(_handle);
+  foobarListofStringReleaseFfiHandle(_handle);
   return result;
 }
-List<String> foobar_ListOf_String_fromFfi_nullable(Pointer<Void> handle) {
+List<String> foobarListofStringFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _foobar_ListOf_StringGetValueNullable(handle);
-  final result = foobar_ListOf_String_fromFfi(_handle);
-  foobar_ListOf_String_releaseFfiHandle(_handle);
+  final _handle = _foobarListofStringGetValueNullable(handle);
+  final result = foobarListofStringFromFfi(_handle);
+  foobarListofStringReleaseFfiHandle(_handle);
   return result;
 }
-void foobar_ListOf_String_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _foobar_ListOf_StringReleaseHandleNullable(handle);
+void foobarListofStringReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _foobarListofStringReleaseHandleNullable(handle);
 final _foobarMapofIntToNullableSmokeNullableSomestructCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
@@ -208,18 +208,18 @@ final _foobarMapofIntToNullableSmokeNullableSomestructIteratorGetValue = __lib.c
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
 >('library_foobar_MapOf_Int_to_Nullable_smoke_Nullable_SomeStruct_iterator_get_value'));
-Pointer<Void> foobar_MapOf_Int_to_Nullable_smoke_Nullable_SomeStruct_toFfi(Map<int, Nullable_SomeStruct> value) {
+Pointer<Void> foobarMapofIntToNullableSmokeNullableSomestructToFfi(Map<int, Nullable_SomeStruct> value) {
   final _result = _foobarMapofIntToNullableSmokeNullableSomestructCreateHandle();
   for (final entry in value.entries) {
     final _keyHandle = (entry.key);
-    final _valueHandle = smoke_Nullable_SomeStruct_toFfi_nullable(entry.value);
+    final _valueHandle = smokeNullableSomestructToFfiNullable(entry.value);
     _foobarMapofIntToNullableSmokeNullableSomestructPut(_result, _keyHandle, _valueHandle);
     (_keyHandle);
-    smoke_Nullable_SomeStruct_releaseFfiHandle_nullable(_valueHandle);
+    smokeNullableSomestructReleaseFfiHandleNullable(_valueHandle);
   }
   return _result;
 }
-Map<int, Nullable_SomeStruct> foobar_MapOf_Int_to_Nullable_smoke_Nullable_SomeStruct_fromFfi(Pointer<Void> handle) {
+Map<int, Nullable_SomeStruct> foobarMapofIntToNullableSmokeNullableSomestructFromFfi(Pointer<Void> handle) {
   final result = Map<int, Nullable_SomeStruct>();
   final _iteratorHandle = _foobarMapofIntToNullableSmokeNullableSomestructIterator(handle);
   while (_foobarMapofIntToNullableSmokeNullableSomestructIteratorIsValid(handle, _iteratorHandle) != 0) {
@@ -227,45 +227,45 @@ Map<int, Nullable_SomeStruct> foobar_MapOf_Int_to_Nullable_smoke_Nullable_SomeSt
     final _valueHandle = _foobarMapofIntToNullableSmokeNullableSomestructIteratorGetValue(_iteratorHandle);
     try {
       result[(_keyHandle)] =
-        smoke_Nullable_SomeStruct_fromFfi_nullable(_valueHandle);
+        smokeNullableSomestructFromFfiNullable(_valueHandle);
     } finally {
       (_keyHandle);
-      smoke_Nullable_SomeStruct_releaseFfiHandle_nullable(_valueHandle);
+      smokeNullableSomestructReleaseFfiHandleNullable(_valueHandle);
     }
     _foobarMapofIntToNullableSmokeNullableSomestructIteratorIncrement(_iteratorHandle);
   }
   _foobarMapofIntToNullableSmokeNullableSomestructIteratorReleaseHandle(_iteratorHandle);
   return result;
 }
-void foobar_MapOf_Int_to_Nullable_smoke_Nullable_SomeStruct_releaseFfiHandle(Pointer<Void> handle) => _foobarMapofIntToNullableSmokeNullableSomestructReleaseHandle(handle);
-final _foobar_MapOf_Int_to_Nullable_smoke_Nullable_SomeStructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+void foobarMapofIntToNullableSmokeNullableSomestructReleaseFfiHandle(Pointer<Void> handle) => _foobarMapofIntToNullableSmokeNullableSomestructReleaseHandle(handle);
+final _foobarMapofIntToNullableSmokeNullableSomestructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_Int_to_Nullable_smoke_Nullable_SomeStruct_create_handle_nullable'));
-final _foobar_MapOf_Int_to_Nullable_smoke_Nullable_SomeStructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _foobarMapofIntToNullableSmokeNullableSomestructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_foobar_MapOf_Int_to_Nullable_smoke_Nullable_SomeStruct_release_handle_nullable'));
-final _foobar_MapOf_Int_to_Nullable_smoke_Nullable_SomeStructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _foobarMapofIntToNullableSmokeNullableSomestructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_Int_to_Nullable_smoke_Nullable_SomeStruct_get_value_nullable'));
-Pointer<Void> foobar_MapOf_Int_to_Nullable_smoke_Nullable_SomeStruct_toFfi_nullable(Map<int, Nullable_SomeStruct> value) {
+Pointer<Void> foobarMapofIntToNullableSmokeNullableSomestructToFfiNullable(Map<int, Nullable_SomeStruct> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = foobar_MapOf_Int_to_Nullable_smoke_Nullable_SomeStruct_toFfi(value);
-  final result = _foobar_MapOf_Int_to_Nullable_smoke_Nullable_SomeStructCreateHandleNullable(_handle);
-  foobar_MapOf_Int_to_Nullable_smoke_Nullable_SomeStruct_releaseFfiHandle(_handle);
+  final _handle = foobarMapofIntToNullableSmokeNullableSomestructToFfi(value);
+  final result = _foobarMapofIntToNullableSmokeNullableSomestructCreateHandleNullable(_handle);
+  foobarMapofIntToNullableSmokeNullableSomestructReleaseFfiHandle(_handle);
   return result;
 }
-Map<int, Nullable_SomeStruct> foobar_MapOf_Int_to_Nullable_smoke_Nullable_SomeStruct_fromFfi_nullable(Pointer<Void> handle) {
+Map<int, Nullable_SomeStruct> foobarMapofIntToNullableSmokeNullableSomestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _foobar_MapOf_Int_to_Nullable_smoke_Nullable_SomeStructGetValueNullable(handle);
-  final result = foobar_MapOf_Int_to_Nullable_smoke_Nullable_SomeStruct_fromFfi(_handle);
-  foobar_MapOf_Int_to_Nullable_smoke_Nullable_SomeStruct_releaseFfiHandle(_handle);
+  final _handle = _foobarMapofIntToNullableSmokeNullableSomestructGetValueNullable(handle);
+  final result = foobarMapofIntToNullableSmokeNullableSomestructFromFfi(_handle);
+  foobarMapofIntToNullableSmokeNullableSomestructReleaseFfiHandle(_handle);
   return result;
 }
-void foobar_MapOf_Int_to_Nullable_smoke_Nullable_SomeStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _foobar_MapOf_Int_to_Nullable_smoke_Nullable_SomeStructReleaseHandleNullable(handle);
+void foobarMapofIntToNullableSmokeNullableSomestructReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _foobarMapofIntToNullableSmokeNullableSomestructReleaseHandleNullable(handle);
 final _foobarMapofLongToStringCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
@@ -302,18 +302,18 @@ final _foobarMapofLongToStringIteratorGetValue = __lib.catchArgumentError(() => 
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
 >('library_foobar_MapOf_Long_to_String_iterator_get_value'));
-Pointer<Void> foobar_MapOf_Long_to_String_toFfi(Map<int, String> value) {
+Pointer<Void> foobarMapofLongToStringToFfi(Map<int, String> value) {
   final _result = _foobarMapofLongToStringCreateHandle();
   for (final entry in value.entries) {
     final _keyHandle = (entry.key);
-    final _valueHandle = String_toFfi(entry.value);
+    final _valueHandle = stringToFfi(entry.value);
     _foobarMapofLongToStringPut(_result, _keyHandle, _valueHandle);
     (_keyHandle);
-    String_releaseFfiHandle(_valueHandle);
+    stringReleaseFfiHandle(_valueHandle);
   }
   return _result;
 }
-Map<int, String> foobar_MapOf_Long_to_String_fromFfi(Pointer<Void> handle) {
+Map<int, String> foobarMapofLongToStringFromFfi(Pointer<Void> handle) {
   final result = Map<int, String>();
   final _iteratorHandle = _foobarMapofLongToStringIterator(handle);
   while (_foobarMapofLongToStringIteratorIsValid(handle, _iteratorHandle) != 0) {
@@ -321,42 +321,42 @@ Map<int, String> foobar_MapOf_Long_to_String_fromFfi(Pointer<Void> handle) {
     final _valueHandle = _foobarMapofLongToStringIteratorGetValue(_iteratorHandle);
     try {
       result[(_keyHandle)] =
-        String_fromFfi(_valueHandle);
+        stringFromFfi(_valueHandle);
     } finally {
       (_keyHandle);
-      String_releaseFfiHandle(_valueHandle);
+      stringReleaseFfiHandle(_valueHandle);
     }
     _foobarMapofLongToStringIteratorIncrement(_iteratorHandle);
   }
   _foobarMapofLongToStringIteratorReleaseHandle(_iteratorHandle);
   return result;
 }
-void foobar_MapOf_Long_to_String_releaseFfiHandle(Pointer<Void> handle) => _foobarMapofLongToStringReleaseHandle(handle);
-final _foobar_MapOf_Long_to_StringCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+void foobarMapofLongToStringReleaseFfiHandle(Pointer<Void> handle) => _foobarMapofLongToStringReleaseHandle(handle);
+final _foobarMapofLongToStringCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_Long_to_String_create_handle_nullable'));
-final _foobar_MapOf_Long_to_StringReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _foobarMapofLongToStringReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_foobar_MapOf_Long_to_String_release_handle_nullable'));
-final _foobar_MapOf_Long_to_StringGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _foobarMapofLongToStringGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_Long_to_String_get_value_nullable'));
-Pointer<Void> foobar_MapOf_Long_to_String_toFfi_nullable(Map<int, String> value) {
+Pointer<Void> foobarMapofLongToStringToFfiNullable(Map<int, String> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = foobar_MapOf_Long_to_String_toFfi(value);
-  final result = _foobar_MapOf_Long_to_StringCreateHandleNullable(_handle);
-  foobar_MapOf_Long_to_String_releaseFfiHandle(_handle);
+  final _handle = foobarMapofLongToStringToFfi(value);
+  final result = _foobarMapofLongToStringCreateHandleNullable(_handle);
+  foobarMapofLongToStringReleaseFfiHandle(_handle);
   return result;
 }
-Map<int, String> foobar_MapOf_Long_to_String_fromFfi_nullable(Pointer<Void> handle) {
+Map<int, String> foobarMapofLongToStringFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _foobar_MapOf_Long_to_StringGetValueNullable(handle);
-  final result = foobar_MapOf_Long_to_String_fromFfi(_handle);
-  foobar_MapOf_Long_to_String_releaseFfiHandle(_handle);
+  final _handle = _foobarMapofLongToStringGetValueNullable(handle);
+  final result = foobarMapofLongToStringFromFfi(_handle);
+  foobarMapofLongToStringReleaseFfiHandle(_handle);
   return result;
 }
-void foobar_MapOf_Long_to_String_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _foobar_MapOf_Long_to_StringReleaseHandleNullable(handle);
+void foobarMapofLongToStringReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _foobarMapofLongToStringReleaseHandleNullable(handle);

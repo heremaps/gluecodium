@@ -32,60 +32,60 @@ final _smokeStructwithenumsGetFieldlastField = __lib.catchArgumentError(() => __
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_StructWithEnums_get_field_lastField'));
-Pointer<Void> smoke_StructWithEnums_toFfi(StructWithEnums value) {
-  final _firstFieldHandle = smoke_SomethingEnum_toFfi(value.firstField);
-  final _explicitFieldHandle = smoke_SomethingEnum_toFfi(value.explicitField);
-  final _lastFieldHandle = smoke_SomethingEnum_toFfi(value.lastField);
+Pointer<Void> smokeStructwithenumsToFfi(StructWithEnums value) {
+  final _firstFieldHandle = smokeSomethingenumToFfi(value.firstField);
+  final _explicitFieldHandle = smokeSomethingenumToFfi(value.explicitField);
+  final _lastFieldHandle = smokeSomethingenumToFfi(value.lastField);
   final _result = _smokeStructwithenumsCreateHandle(_firstFieldHandle, _explicitFieldHandle, _lastFieldHandle);
-  smoke_SomethingEnum_releaseFfiHandle(_firstFieldHandle);
-  smoke_SomethingEnum_releaseFfiHandle(_explicitFieldHandle);
-  smoke_SomethingEnum_releaseFfiHandle(_lastFieldHandle);
+  smokeSomethingenumReleaseFfiHandle(_firstFieldHandle);
+  smokeSomethingenumReleaseFfiHandle(_explicitFieldHandle);
+  smokeSomethingenumReleaseFfiHandle(_lastFieldHandle);
   return _result;
 }
-StructWithEnums smoke_StructWithEnums_fromFfi(Pointer<Void> handle) {
+StructWithEnums smokeStructwithenumsFromFfi(Pointer<Void> handle) {
   final _firstFieldHandle = _smokeStructwithenumsGetFieldfirstField(handle);
   final _explicitFieldHandle = _smokeStructwithenumsGetFieldexplicitField(handle);
   final _lastFieldHandle = _smokeStructwithenumsGetFieldlastField(handle);
   try {
     return StructWithEnums(
-      smoke_SomethingEnum_fromFfi(_firstFieldHandle),
-      smoke_SomethingEnum_fromFfi(_explicitFieldHandle),
-      smoke_SomethingEnum_fromFfi(_lastFieldHandle)
+      smokeSomethingenumFromFfi(_firstFieldHandle),
+      smokeSomethingenumFromFfi(_explicitFieldHandle),
+      smokeSomethingenumFromFfi(_lastFieldHandle)
     );
   } finally {
-    smoke_SomethingEnum_releaseFfiHandle(_firstFieldHandle);
-    smoke_SomethingEnum_releaseFfiHandle(_explicitFieldHandle);
-    smoke_SomethingEnum_releaseFfiHandle(_lastFieldHandle);
+    smokeSomethingenumReleaseFfiHandle(_firstFieldHandle);
+    smokeSomethingenumReleaseFfiHandle(_explicitFieldHandle);
+    smokeSomethingenumReleaseFfiHandle(_lastFieldHandle);
   }
 }
-void smoke_StructWithEnums_releaseFfiHandle(Pointer<Void> handle) => _smokeStructwithenumsReleaseHandle(handle);
+void smokeStructwithenumsReleaseFfiHandle(Pointer<Void> handle) => _smokeStructwithenumsReleaseHandle(handle);
 // Nullable StructWithEnums
-final _smoke_StructWithEnumsCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructwithenumsCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithEnums_create_handle_nullable'));
-final _smoke_StructWithEnumsReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructwithenumsReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_StructWithEnums_release_handle_nullable'));
-final _smoke_StructWithEnumsGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructwithenumsGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithEnums_get_value_nullable'));
-Pointer<Void> smoke_StructWithEnums_toFfi_nullable(StructWithEnums value) {
+Pointer<Void> smokeStructwithenumsToFfiNullable(StructWithEnums value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_StructWithEnums_toFfi(value);
-  final result = _smoke_StructWithEnumsCreateHandleNullable(_handle);
-  smoke_StructWithEnums_releaseFfiHandle(_handle);
+  final _handle = smokeStructwithenumsToFfi(value);
+  final result = _smokeStructwithenumsCreateHandleNullable(_handle);
+  smokeStructwithenumsReleaseFfiHandle(_handle);
   return result;
 }
-StructWithEnums smoke_StructWithEnums_fromFfi_nullable(Pointer<Void> handle) {
+StructWithEnums smokeStructwithenumsFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_StructWithEnumsGetValueNullable(handle);
-  final result = smoke_StructWithEnums_fromFfi(_handle);
-  smoke_StructWithEnums_releaseFfiHandle(_handle);
+  final _handle = _smokeStructwithenumsGetValueNullable(handle);
+  final result = smokeStructwithenumsFromFfi(_handle);
+  smokeStructwithenumsReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_StructWithEnums_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_StructWithEnumsReleaseHandleNullable(handle);
+void smokeStructwithenumsReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeStructwithenumsReleaseHandleNullable(handle);
 // End of StructWithEnums "private" section.

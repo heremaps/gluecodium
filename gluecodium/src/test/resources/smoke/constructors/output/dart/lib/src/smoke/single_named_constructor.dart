@@ -39,9 +39,9 @@ class SingleNamedConstructor$Impl extends __lib.NativeBase implements SingleName
     return __resultHandle;
   }
 }
-Pointer<Void> smoke_SingleNamedConstructor_toFfi(SingleNamedConstructor value) =>
+Pointer<Void> smokeSinglenamedconstructorToFfi(SingleNamedConstructor value) =>
   _smokeSinglenamedconstructorCopyHandle((value as __lib.NativeBase).handle);
-SingleNamedConstructor smoke_SingleNamedConstructor_fromFfi(Pointer<Void> handle) {
+SingleNamedConstructor smokeSinglenamedconstructorFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as SingleNamedConstructor;
@@ -51,12 +51,12 @@ SingleNamedConstructor smoke_SingleNamedConstructor_fromFfi(Pointer<Void> handle
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_SingleNamedConstructor_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeSinglenamedconstructorReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeSinglenamedconstructorReleaseHandle(handle);
-Pointer<Void> smoke_SingleNamedConstructor_toFfi_nullable(SingleNamedConstructor value) =>
-  value != null ? smoke_SingleNamedConstructor_toFfi(value) : Pointer<Void>.fromAddress(0);
-SingleNamedConstructor smoke_SingleNamedConstructor_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_SingleNamedConstructor_fromFfi(handle) : null;
-void smoke_SingleNamedConstructor_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeSinglenamedconstructorToFfiNullable(SingleNamedConstructor value) =>
+  value != null ? smokeSinglenamedconstructorToFfi(value) : Pointer<Void>.fromAddress(0);
+SingleNamedConstructor smokeSinglenamedconstructorFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeSinglenamedconstructorFromFfi(handle) : null;
+void smokeSinglenamedconstructorReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeSinglenamedconstructorReleaseHandle(handle);
 // End of SingleNamedConstructor "private" section.

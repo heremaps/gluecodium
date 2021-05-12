@@ -25,5 +25,5 @@
 {{/imports}}
 
 final Map<String, Function> typeRepository = { {{#typeRepositories}}
-  "{{resolveName "Ffi"}}": (handle) => {{resolveName}}$Impl(handle),
+  "{{resolveName "FfiSnakeCase"}}": (handle) => {{resolveName}}$Impl(handle),
 {{/typeRepositories}} };

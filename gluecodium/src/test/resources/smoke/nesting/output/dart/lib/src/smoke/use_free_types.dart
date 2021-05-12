@@ -53,33 +53,33 @@ class UseFreeTypes$Impl extends __lib.NativeBase implements UseFreeTypes {
   @override
   DateTime doStuff(FreePoint point, FreeEnum mode) {
     final _doStuffFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>, Uint32), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>, int)>('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum'));
-    final _pointHandle = smoke_FreePoint_toFfi(point);
-    final _modeHandle = smoke_FreeEnum_toFfi(mode);
+    final _pointHandle = smokeFreepointToFfi(point);
+    final _modeHandle = smokeFreeenumToFfi(mode);
     final _handle = this.handle;
     final __callResultHandle = _doStuffFfi(_handle, __lib.LibraryContext.isolateId, _pointHandle, _modeHandle);
-    smoke_FreePoint_releaseFfiHandle(_pointHandle);
-    smoke_FreeEnum_releaseFfiHandle(_modeHandle);
+    smokeFreepointReleaseFfiHandle(_pointHandle);
+    smokeFreeenumReleaseFfiHandle(_modeHandle);
     if (_doStuffReturnHasError(__callResultHandle) != 0) {
         final __errorHandle = _doStuffReturnGetError(__callResultHandle);
         _doStuffReturnReleaseHandle(__callResultHandle);
         try {
-          throw FreeException(smoke_FreeEnum_fromFfi(__errorHandle));
+          throw FreeException(smokeFreeenumFromFfi(__errorHandle));
         } finally {
-          smoke_FreeEnum_releaseFfiHandle(__errorHandle);
+          smokeFreeenumReleaseFfiHandle(__errorHandle);
         }
     }
     final __resultHandle = _doStuffReturnGetResult(__callResultHandle);
     _doStuffReturnReleaseHandle(__callResultHandle);
     try {
-      return Date_fromFfi(__resultHandle);
+      return dateFromFfi(__resultHandle);
     } finally {
-      Date_releaseFfiHandle(__resultHandle);
+      dateReleaseFfiHandle(__resultHandle);
     }
   }
 }
-Pointer<Void> smoke_UseFreeTypes_toFfi(UseFreeTypes value) =>
+Pointer<Void> smokeUsefreetypesToFfi(UseFreeTypes value) =>
   _smokeUsefreetypesCopyHandle((value as __lib.NativeBase).handle);
-UseFreeTypes smoke_UseFreeTypes_fromFfi(Pointer<Void> handle) {
+UseFreeTypes smokeUsefreetypesFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as UseFreeTypes;
@@ -89,12 +89,12 @@ UseFreeTypes smoke_UseFreeTypes_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_UseFreeTypes_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeUsefreetypesReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeUsefreetypesReleaseHandle(handle);
-Pointer<Void> smoke_UseFreeTypes_toFfi_nullable(UseFreeTypes value) =>
-  value != null ? smoke_UseFreeTypes_toFfi(value) : Pointer<Void>.fromAddress(0);
-UseFreeTypes smoke_UseFreeTypes_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_UseFreeTypes_fromFfi(handle) : null;
-void smoke_UseFreeTypes_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeUsefreetypesToFfiNullable(UseFreeTypes value) =>
+  value != null ? smokeUsefreetypesToFfi(value) : Pointer<Void>.fromAddress(0);
+UseFreeTypes smokeUsefreetypesFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeUsefreetypesFromFfi(handle) : null;
+void smokeUsefreetypesReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeUsefreetypesReleaseHandle(handle);
 // End of UseFreeTypes "private" section.

@@ -59,31 +59,31 @@ class UnicodeComments$Impl extends __lib.NativeBase implements UnicodeComments {
   @override
   bool someMethodWithAllComments(String input) {
     final _someMethodWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_UnicodeComments_someMethodWithAllComments__String'));
-    final _inputHandle = String_toFfi(input);
+    final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
     final __callResultHandle = _someMethodWithAllCommentsFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
-    String_releaseFfiHandle(_inputHandle);
+    stringReleaseFfiHandle(_inputHandle);
     if (_someMethodWithAllCommentsReturnHasError(__callResultHandle) != 0) {
         final __errorHandle = _someMethodWithAllCommentsReturnGetError(__callResultHandle);
         _someMethodWithAllCommentsReturnReleaseHandle(__callResultHandle);
         try {
-          throw Comments_SomethingWrongException(smoke_Comments_SomeEnum_fromFfi(__errorHandle));
+          throw Comments_SomethingWrongException(smokeCommentsSomeenumFromFfi(__errorHandle));
         } finally {
-          smoke_Comments_SomeEnum_releaseFfiHandle(__errorHandle);
+          smokeCommentsSomeenumReleaseFfiHandle(__errorHandle);
         }
     }
     final __resultHandle = _someMethodWithAllCommentsReturnGetResult(__callResultHandle);
     _someMethodWithAllCommentsReturnReleaseHandle(__callResultHandle);
     try {
-      return Boolean_fromFfi(__resultHandle);
+      return booleanFromFfi(__resultHandle);
     } finally {
-      Boolean_releaseFfiHandle(__resultHandle);
+      booleanReleaseFfiHandle(__resultHandle);
     }
   }
 }
-Pointer<Void> smoke_UnicodeComments_toFfi(UnicodeComments value) =>
+Pointer<Void> smokeUnicodecommentsToFfi(UnicodeComments value) =>
   _smokeUnicodecommentsCopyHandle((value as __lib.NativeBase).handle);
-UnicodeComments smoke_UnicodeComments_fromFfi(Pointer<Void> handle) {
+UnicodeComments smokeUnicodecommentsFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as UnicodeComments;
@@ -93,12 +93,12 @@ UnicodeComments smoke_UnicodeComments_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_UnicodeComments_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeUnicodecommentsReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeUnicodecommentsReleaseHandle(handle);
-Pointer<Void> smoke_UnicodeComments_toFfi_nullable(UnicodeComments value) =>
-  value != null ? smoke_UnicodeComments_toFfi(value) : Pointer<Void>.fromAddress(0);
-UnicodeComments smoke_UnicodeComments_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_UnicodeComments_fromFfi(handle) : null;
-void smoke_UnicodeComments_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeUnicodecommentsToFfiNullable(UnicodeComments value) =>
+  value != null ? smokeUnicodecommentsToFfi(value) : Pointer<Void>.fromAddress(0);
+UnicodeComments smokeUnicodecommentsFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeUnicodecommentsFromFfi(handle) : null;
+void smokeUnicodecommentsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeUnicodecommentsReleaseHandle(handle);
 // End of UnicodeComments "private" section.

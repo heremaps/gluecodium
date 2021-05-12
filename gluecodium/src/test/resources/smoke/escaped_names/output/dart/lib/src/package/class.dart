@@ -69,25 +69,25 @@ class Class$Impl extends __lib.NativeBase implements Class {
   @override
   Struct fun(List<Struct> double) {
     final _funFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_package_Class_fun__ListOf_1package_1Types_1Struct'));
-    final _doubleHandle = foobar_ListOf_package_Types_Struct_toFfi(double);
+    final _doubleHandle = foobarListofPackageTypesStructToFfi(double);
     final _handle = this.handle;
     final __callResultHandle = _funFfi(_handle, __lib.LibraryContext.isolateId, _doubleHandle);
-    foobar_ListOf_package_Types_Struct_releaseFfiHandle(_doubleHandle);
+    foobarListofPackageTypesStructReleaseFfiHandle(_doubleHandle);
     if (_funReturnHasError(__callResultHandle) != 0) {
         final __errorHandle = _funReturnGetError(__callResultHandle);
         _funReturnReleaseHandle(__callResultHandle);
         try {
-          throw ExceptionException(package_Types_Enum_fromFfi(__errorHandle));
+          throw ExceptionException(packageTypesEnumFromFfi(__errorHandle));
         } finally {
-          package_Types_Enum_releaseFfiHandle(__errorHandle);
+          packageTypesEnumReleaseFfiHandle(__errorHandle);
         }
     }
     final __resultHandle = _funReturnGetResult(__callResultHandle);
     _funReturnReleaseHandle(__callResultHandle);
     try {
-      return package_Types_Struct_fromFfi(__resultHandle);
+      return packageTypesStructFromFfi(__resultHandle);
     } finally {
-      package_Types_Struct_releaseFfiHandle(__resultHandle);
+      packageTypesStructReleaseFfiHandle(__resultHandle);
     }
   }
   @override
@@ -96,18 +96,18 @@ class Class$Impl extends __lib.NativeBase implements Class {
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return package_Types_Enum_fromFfi(__resultHandle);
+      return packageTypesEnumFromFfi(__resultHandle);
     } finally {
-      package_Types_Enum_releaseFfiHandle(__resultHandle);
+      packageTypesEnumReleaseFfiHandle(__resultHandle);
     }
   }
   @override
   set property(Enum value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint32), void Function(Pointer<Void>, int, int)>('library_package_Class_property_set__enum'));
-    final _valueHandle = package_Types_Enum_toFfi(value);
+    final _valueHandle = packageTypesEnumToFfi(value);
     final _handle = this.handle;
     final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
-    package_Types_Enum_releaseFfiHandle(_valueHandle);
+    packageTypesEnumReleaseFfiHandle(_valueHandle);
     try {
       return (__resultHandle);
     } finally {
@@ -115,16 +115,16 @@ class Class$Impl extends __lib.NativeBase implements Class {
     }
   }
 }
-Pointer<Void> package_Class_toFfi(Class value) =>
+Pointer<Void> packageClassToFfi(Class value) =>
   _packageClassCopyHandle((value as __lib.NativeBase).handle);
-Class package_Class_fromFfi(Pointer<Void> handle) {
+Class packageClassFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as Class;
   if (instance != null) return instance;
   final _typeIdHandle = _packageClassGetTypeId(handle);
-  final factoryConstructor = __lib.typeRepository[String_fromFfi(_typeIdHandle)];
-  String_releaseFfiHandle(_typeIdHandle);
+  final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
+  stringReleaseFfiHandle(_typeIdHandle);
   final _copiedHandle = _packageClassCopyHandle(handle);
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
@@ -132,12 +132,12 @@ Class package_Class_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void package_Class_releaseFfiHandle(Pointer<Void> handle) =>
+void packageClassReleaseFfiHandle(Pointer<Void> handle) =>
   _packageClassReleaseHandle(handle);
-Pointer<Void> package_Class_toFfi_nullable(Class value) =>
-  value != null ? package_Class_toFfi(value) : Pointer<Void>.fromAddress(0);
-Class package_Class_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? package_Class_fromFfi(handle) : null;
-void package_Class_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> packageClassToFfiNullable(Class value) =>
+  value != null ? packageClassToFfi(value) : Pointer<Void>.fromAddress(0);
+Class packageClassFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? packageClassFromFfi(handle) : null;
+void packageClassReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _packageClassReleaseHandle(handle);
 // End of Class "private" section.

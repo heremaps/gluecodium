@@ -106,9 +106,9 @@ class MultipleAttributesDart$Impl extends __lib.NativeBase implements MultipleAt
     }
   }
 }
-Pointer<Void> smoke_MultipleAttributesDart_toFfi(MultipleAttributesDart value) =>
+Pointer<Void> smokeMultipleattributesdartToFfi(MultipleAttributesDart value) =>
   _smokeMultipleattributesdartCopyHandle((value as __lib.NativeBase).handle);
-MultipleAttributesDart smoke_MultipleAttributesDart_fromFfi(Pointer<Void> handle) {
+MultipleAttributesDart smokeMultipleattributesdartFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as MultipleAttributesDart;
@@ -118,12 +118,12 @@ MultipleAttributesDart smoke_MultipleAttributesDart_fromFfi(Pointer<Void> handle
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_MultipleAttributesDart_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeMultipleattributesdartReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeMultipleattributesdartReleaseHandle(handle);
-Pointer<Void> smoke_MultipleAttributesDart_toFfi_nullable(MultipleAttributesDart value) =>
-  value != null ? smoke_MultipleAttributesDart_toFfi(value) : Pointer<Void>.fromAddress(0);
-MultipleAttributesDart smoke_MultipleAttributesDart_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_MultipleAttributesDart_fromFfi(handle) : null;
-void smoke_MultipleAttributesDart_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeMultipleattributesdartToFfiNullable(MultipleAttributesDart value) =>
+  value != null ? smokeMultipleattributesdartToFfi(value) : Pointer<Void>.fromAddress(0);
+MultipleAttributesDart smokeMultipleattributesdartFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeMultipleattributesdartFromFfi(handle) : null;
+void smokeMultipleattributesdartReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeMultipleattributesdartReleaseHandle(handle);
 // End of MultipleAttributesDart "private" section.

@@ -80,9 +80,9 @@ class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWith
     final _handle = this.handle;
     final __resultHandle = _regularFunctionFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return String_fromFfi(__resultHandle);
+      return stringFromFfi(__resultHandle);
     } finally {
-      String_releaseFfiHandle(__resultHandle);
+      stringReleaseFfiHandle(__resultHandle);
     }
   }
   @override
@@ -90,9 +90,9 @@ class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWith
     final _staticFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InterfaceWithStatic_staticFunction'));
     final __resultHandle = _staticFunctionFfi(__lib.LibraryContext.isolateId);
     try {
-      return String_fromFfi(__resultHandle);
+      return stringFromFfi(__resultHandle);
     } finally {
-      String_releaseFfiHandle(__resultHandle);
+      stringReleaseFfiHandle(__resultHandle);
     }
   }
   String get regularProperty {
@@ -100,17 +100,17 @@ class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWith
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return String_fromFfi(__resultHandle);
+      return stringFromFfi(__resultHandle);
     } finally {
-      String_releaseFfiHandle(__resultHandle);
+      stringReleaseFfiHandle(__resultHandle);
     }
   }
   set regularProperty(String value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_InterfaceWithStatic_regularProperty_set__String'));
-    final _valueHandle = String_toFfi(value);
+    final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
     final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
-    String_releaseFfiHandle(_valueHandle);
+    stringReleaseFfiHandle(_valueHandle);
     try {
       return (__resultHandle);
     } finally {
@@ -121,16 +121,16 @@ class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWith
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InterfaceWithStatic_staticProperty_get'));
     final __resultHandle = _getFfi(__lib.LibraryContext.isolateId);
     try {
-      return String_fromFfi(__resultHandle);
+      return stringFromFfi(__resultHandle);
     } finally {
-      String_releaseFfiHandle(__resultHandle);
+      stringReleaseFfiHandle(__resultHandle);
     }
   }
   static set staticProperty(String value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32, Pointer<Void>), void Function(int, Pointer<Void>)>('library_smoke_InterfaceWithStatic_staticProperty_set__String'));
-    final _valueHandle = String_toFfi(value);
+    final _valueHandle = stringToFfi(value);
     final __resultHandle = _setFfi(__lib.LibraryContext.isolateId, _valueHandle);
-    String_releaseFfiHandle(_valueHandle);
+    stringReleaseFfiHandle(_valueHandle);
     try {
       return (__resultHandle);
     } finally {
@@ -138,48 +138,48 @@ class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWith
     }
   }
 }
-int _InterfaceWithStatic_regularFunction_static(int _token, Pointer<Pointer<Void>> _result) {
+int _InterfaceWithStaticregularFunctionStatic(int _token, Pointer<Pointer<Void>> _result) {
   String _resultObject = null;
   try {
     _resultObject = (__lib.instanceCache[_token] as InterfaceWithStatic).regularFunction();
-    _result.value = String_toFfi(_resultObject);
+    _result.value = stringToFfi(_resultObject);
   } finally {
   }
   return 0;
 }
-int _InterfaceWithStatic_regularProperty_get_static(int _token, Pointer<Pointer<Void>> _result) {
-  _result.value = String_toFfi((__lib.instanceCache[_token] as InterfaceWithStatic).regularProperty);
+int _InterfaceWithStaticregularPropertyGetStatic(int _token, Pointer<Pointer<Void>> _result) {
+  _result.value = stringToFfi((__lib.instanceCache[_token] as InterfaceWithStatic).regularProperty);
   return 0;
 }
-int _InterfaceWithStatic_regularProperty_set_static(int _token, Pointer<Void> _value) {
+int _InterfaceWithStaticregularPropertySetStatic(int _token, Pointer<Void> _value) {
   try {
     (__lib.instanceCache[_token] as InterfaceWithStatic).regularProperty =
-      String_fromFfi(_value);
+      stringFromFfi(_value);
   } finally {
-    String_releaseFfiHandle(_value);
+    stringReleaseFfiHandle(_value);
   }
   return 0;
 }
-Pointer<Void> smoke_InterfaceWithStatic_toFfi(InterfaceWithStatic value) {
+Pointer<Void> smokeInterfacewithstaticToFfi(InterfaceWithStatic value) {
   if (value is __lib.NativeBase) return _smokeInterfacewithstaticCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokeInterfacewithstaticCreateProxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_InterfaceWithStatic_regularFunction_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_InterfaceWithStatic_regularProperty_get_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_InterfaceWithStatic_regularProperty_set_static, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_InterfaceWithStaticregularFunctionStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_InterfaceWithStaticregularPropertyGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_InterfaceWithStaticregularPropertySetStatic, __lib.unknownError)
   );
   return result;
 }
-InterfaceWithStatic smoke_InterfaceWithStatic_fromFfi(Pointer<Void> handle) {
+InterfaceWithStatic smokeInterfacewithstaticFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as InterfaceWithStatic;
   if (instance != null) return instance;
   final _typeIdHandle = _smokeInterfacewithstaticGetTypeId(handle);
-  final factoryConstructor = __lib.typeRepository[String_fromFfi(_typeIdHandle)];
-  String_releaseFfiHandle(_typeIdHandle);
+  final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
+  stringReleaseFfiHandle(_typeIdHandle);
   final _copiedHandle = _smokeInterfacewithstaticCopyHandle(handle);
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
@@ -187,12 +187,12 @@ InterfaceWithStatic smoke_InterfaceWithStatic_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_InterfaceWithStatic_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeInterfacewithstaticReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeInterfacewithstaticReleaseHandle(handle);
-Pointer<Void> smoke_InterfaceWithStatic_toFfi_nullable(InterfaceWithStatic value) =>
-  value != null ? smoke_InterfaceWithStatic_toFfi(value) : Pointer<Void>.fromAddress(0);
-InterfaceWithStatic smoke_InterfaceWithStatic_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_InterfaceWithStatic_fromFfi(handle) : null;
-void smoke_InterfaceWithStatic_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeInterfacewithstaticToFfiNullable(InterfaceWithStatic value) =>
+  value != null ? smokeInterfacewithstaticToFfi(value) : Pointer<Void>.fromAddress(0);
+InterfaceWithStatic smokeInterfacewithstaticFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeInterfacewithstaticFromFfi(handle) : null;
+void smokeInterfacewithstaticReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeInterfacewithstaticReleaseHandle(handle);
 // End of InterfaceWithStatic "private" section.

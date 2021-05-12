@@ -43,21 +43,21 @@ final _smokeStructwithinitializerdefaultsGetFieldmapField = __lib.catchArgumentE
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithInitializerDefaults_get_field_mapField'));
-Pointer<Void> smoke_StructWithInitializerDefaults_toFfi(StructWithInitializerDefaults value) {
-  final _intsFieldHandle = ListOf_Int_toFfi(value.intsField);
-  final _floatsFieldHandle = ListOf_Float_toFfi(value.floatsField);
-  final _structFieldHandle = smoke_TypesWithDefaults_StructWithAnEnum_toFfi(value.structField);
-  final _setTypeFieldHandle = SetOf_String_toFfi(value.setTypeField);
-  final _mapFieldHandle = MapOf_UInt_to_String_toFfi(value.mapField);
+Pointer<Void> smokeStructwithinitializerdefaultsToFfi(StructWithInitializerDefaults value) {
+  final _intsFieldHandle = listofIntToFfi(value.intsField);
+  final _floatsFieldHandle = listofFloatToFfi(value.floatsField);
+  final _structFieldHandle = smokeTypeswithdefaultsStructwithanenumToFfi(value.structField);
+  final _setTypeFieldHandle = setofStringToFfi(value.setTypeField);
+  final _mapFieldHandle = mapofUintToStringToFfi(value.mapField);
   final _result = _smokeStructwithinitializerdefaultsCreateHandle(_intsFieldHandle, _floatsFieldHandle, _structFieldHandle, _setTypeFieldHandle, _mapFieldHandle);
-  ListOf_Int_releaseFfiHandle(_intsFieldHandle);
-  ListOf_Float_releaseFfiHandle(_floatsFieldHandle);
-  smoke_TypesWithDefaults_StructWithAnEnum_releaseFfiHandle(_structFieldHandle);
-  SetOf_String_releaseFfiHandle(_setTypeFieldHandle);
-  MapOf_UInt_to_String_releaseFfiHandle(_mapFieldHandle);
+  listofIntReleaseFfiHandle(_intsFieldHandle);
+  listofFloatReleaseFfiHandle(_floatsFieldHandle);
+  smokeTypeswithdefaultsStructwithanenumReleaseFfiHandle(_structFieldHandle);
+  setofStringReleaseFfiHandle(_setTypeFieldHandle);
+  mapofUintToStringReleaseFfiHandle(_mapFieldHandle);
   return _result;
 }
-StructWithInitializerDefaults smoke_StructWithInitializerDefaults_fromFfi(Pointer<Void> handle) {
+StructWithInitializerDefaults smokeStructwithinitializerdefaultsFromFfi(Pointer<Void> handle) {
   final _intsFieldHandle = _smokeStructwithinitializerdefaultsGetFieldintsField(handle);
   final _floatsFieldHandle = _smokeStructwithinitializerdefaultsGetFieldfloatsField(handle);
   final _structFieldHandle = _smokeStructwithinitializerdefaultsGetFieldstructField(handle);
@@ -65,48 +65,48 @@ StructWithInitializerDefaults smoke_StructWithInitializerDefaults_fromFfi(Pointe
   final _mapFieldHandle = _smokeStructwithinitializerdefaultsGetFieldmapField(handle);
   try {
     return StructWithInitializerDefaults(
-      ListOf_Int_fromFfi(_intsFieldHandle),
-      ListOf_Float_fromFfi(_floatsFieldHandle),
-      smoke_TypesWithDefaults_StructWithAnEnum_fromFfi(_structFieldHandle),
-      SetOf_String_fromFfi(_setTypeFieldHandle),
-      MapOf_UInt_to_String_fromFfi(_mapFieldHandle)
+      listofIntFromFfi(_intsFieldHandle),
+      listofFloatFromFfi(_floatsFieldHandle),
+      smokeTypeswithdefaultsStructwithanenumFromFfi(_structFieldHandle),
+      setofStringFromFfi(_setTypeFieldHandle),
+      mapofUintToStringFromFfi(_mapFieldHandle)
     );
   } finally {
-    ListOf_Int_releaseFfiHandle(_intsFieldHandle);
-    ListOf_Float_releaseFfiHandle(_floatsFieldHandle);
-    smoke_TypesWithDefaults_StructWithAnEnum_releaseFfiHandle(_structFieldHandle);
-    SetOf_String_releaseFfiHandle(_setTypeFieldHandle);
-    MapOf_UInt_to_String_releaseFfiHandle(_mapFieldHandle);
+    listofIntReleaseFfiHandle(_intsFieldHandle);
+    listofFloatReleaseFfiHandle(_floatsFieldHandle);
+    smokeTypeswithdefaultsStructwithanenumReleaseFfiHandle(_structFieldHandle);
+    setofStringReleaseFfiHandle(_setTypeFieldHandle);
+    mapofUintToStringReleaseFfiHandle(_mapFieldHandle);
   }
 }
-void smoke_StructWithInitializerDefaults_releaseFfiHandle(Pointer<Void> handle) => _smokeStructwithinitializerdefaultsReleaseHandle(handle);
+void smokeStructwithinitializerdefaultsReleaseFfiHandle(Pointer<Void> handle) => _smokeStructwithinitializerdefaultsReleaseHandle(handle);
 // Nullable StructWithInitializerDefaults
-final _smoke_StructWithInitializerDefaultsCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructwithinitializerdefaultsCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithInitializerDefaults_create_handle_nullable'));
-final _smoke_StructWithInitializerDefaultsReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructwithinitializerdefaultsReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_StructWithInitializerDefaults_release_handle_nullable'));
-final _smoke_StructWithInitializerDefaultsGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructwithinitializerdefaultsGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithInitializerDefaults_get_value_nullable'));
-Pointer<Void> smoke_StructWithInitializerDefaults_toFfi_nullable(StructWithInitializerDefaults value) {
+Pointer<Void> smokeStructwithinitializerdefaultsToFfiNullable(StructWithInitializerDefaults value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_StructWithInitializerDefaults_toFfi(value);
-  final result = _smoke_StructWithInitializerDefaultsCreateHandleNullable(_handle);
-  smoke_StructWithInitializerDefaults_releaseFfiHandle(_handle);
+  final _handle = smokeStructwithinitializerdefaultsToFfi(value);
+  final result = _smokeStructwithinitializerdefaultsCreateHandleNullable(_handle);
+  smokeStructwithinitializerdefaultsReleaseFfiHandle(_handle);
   return result;
 }
-StructWithInitializerDefaults smoke_StructWithInitializerDefaults_fromFfi_nullable(Pointer<Void> handle) {
+StructWithInitializerDefaults smokeStructwithinitializerdefaultsFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_StructWithInitializerDefaultsGetValueNullable(handle);
-  final result = smoke_StructWithInitializerDefaults_fromFfi(_handle);
-  smoke_StructWithInitializerDefaults_releaseFfiHandle(_handle);
+  final _handle = _smokeStructwithinitializerdefaultsGetValueNullable(handle);
+  final result = smokeStructwithinitializerdefaultsFromFfi(_handle);
+  smokeStructwithinitializerdefaultsReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_StructWithInitializerDefaults_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_StructWithInitializerDefaultsReleaseHandleNullable(handle);
+void smokeStructwithinitializerdefaultsReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeStructwithinitializerdefaultsReleaseHandleNullable(handle);
 // End of StructWithInitializerDefaults "private" section.

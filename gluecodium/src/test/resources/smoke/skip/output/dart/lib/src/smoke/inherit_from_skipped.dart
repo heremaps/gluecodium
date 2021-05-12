@@ -91,27 +91,27 @@ class InheritFromSkipped$Impl extends __lib.NativeBase implements InheritFromSki
   @override
   String notInJava(String input) {
     final _notInJavaFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_SkipProxy_notInJava__String'));
-    final _inputHandle = String_toFfi(input);
+    final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
     final __resultHandle = _notInJavaFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
-    String_releaseFfiHandle(_inputHandle);
+    stringReleaseFfiHandle(_inputHandle);
     try {
-      return String_fromFfi(__resultHandle);
+      return stringFromFfi(__resultHandle);
     } finally {
-      String_releaseFfiHandle(__resultHandle);
+      stringReleaseFfiHandle(__resultHandle);
     }
   }
   @override
   bool notInSwift(bool input) {
     final _notInSwiftFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Uint8), int Function(Pointer<Void>, int, int)>('library_smoke_SkipProxy_notInSwift__Boolean'));
-    final _inputHandle = Boolean_toFfi(input);
+    final _inputHandle = booleanToFfi(input);
     final _handle = this.handle;
     final __resultHandle = _notInSwiftFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
-    Boolean_releaseFfiHandle(_inputHandle);
+    booleanReleaseFfiHandle(_inputHandle);
     try {
-      return Boolean_fromFfi(__resultHandle);
+      return booleanFromFfi(__resultHandle);
     } finally {
-      Boolean_releaseFfiHandle(__resultHandle);
+      booleanReleaseFfiHandle(__resultHandle);
     }
   }
   String get skippedInJava {
@@ -119,17 +119,17 @@ class InheritFromSkipped$Impl extends __lib.NativeBase implements InheritFromSki
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return String_fromFfi(__resultHandle);
+      return stringFromFfi(__resultHandle);
     } finally {
-      String_releaseFfiHandle(__resultHandle);
+      stringReleaseFfiHandle(__resultHandle);
     }
   }
   set skippedInJava(String value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_SkipProxy_skippedInJava_set__String'));
-    final _valueHandle = String_toFfi(value);
+    final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
     final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
-    String_releaseFfiHandle(_valueHandle);
+    stringReleaseFfiHandle(_valueHandle);
     try {
       return (__resultHandle);
     } finally {
@@ -141,17 +141,17 @@ class InheritFromSkipped$Impl extends __lib.NativeBase implements InheritFromSki
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return Boolean_fromFfi(__resultHandle);
+      return booleanFromFfi(__resultHandle);
     } finally {
-      Boolean_releaseFfiHandle(__resultHandle);
+      booleanReleaseFfiHandle(__resultHandle);
     }
   }
   set isSkippedInSwift(bool value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_SkipProxy_isSkippedInSwift_set__Boolean'));
-    final _valueHandle = Boolean_toFfi(value);
+    final _valueHandle = booleanToFfi(value);
     final _handle = this.handle;
     final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
-    Boolean_releaseFfiHandle(_valueHandle);
+    booleanReleaseFfiHandle(_valueHandle);
     try {
       return (__resultHandle);
     } finally {
@@ -159,75 +159,75 @@ class InheritFromSkipped$Impl extends __lib.NativeBase implements InheritFromSki
     }
   }
 }
-int _InheritFromSkipped_notInJava_static(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
+int _InheritFromSkippednotInJavaStatic(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
   String _resultObject = null;
   try {
-    _resultObject = (__lib.instanceCache[_token] as InheritFromSkipped).notInJava(String_fromFfi(input));
-    _result.value = String_toFfi(_resultObject);
+    _resultObject = (__lib.instanceCache[_token] as InheritFromSkipped).notInJava(stringFromFfi(input));
+    _result.value = stringToFfi(_resultObject);
   } finally {
-    String_releaseFfiHandle(input);
+    stringReleaseFfiHandle(input);
   }
   return 0;
 }
-int _InheritFromSkipped_notInSwift_static(int _token, int input, Pointer<Uint8> _result) {
+int _InheritFromSkippednotInSwiftStatic(int _token, int input, Pointer<Uint8> _result) {
   bool _resultObject = null;
   try {
-    _resultObject = (__lib.instanceCache[_token] as InheritFromSkipped).notInSwift(Boolean_fromFfi(input));
-    _result.value = Boolean_toFfi(_resultObject);
+    _resultObject = (__lib.instanceCache[_token] as InheritFromSkipped).notInSwift(booleanFromFfi(input));
+    _result.value = booleanToFfi(_resultObject);
   } finally {
-    Boolean_releaseFfiHandle(input);
+    booleanReleaseFfiHandle(input);
   }
   return 0;
 }
-int _InheritFromSkipped_skippedInJava_get_static(int _token, Pointer<Pointer<Void>> _result) {
-  _result.value = String_toFfi((__lib.instanceCache[_token] as InheritFromSkipped).skippedInJava);
+int _InheritFromSkippedskippedInJavaGetStatic(int _token, Pointer<Pointer<Void>> _result) {
+  _result.value = stringToFfi((__lib.instanceCache[_token] as InheritFromSkipped).skippedInJava);
   return 0;
 }
-int _InheritFromSkipped_skippedInJava_set_static(int _token, Pointer<Void> _value) {
+int _InheritFromSkippedskippedInJavaSetStatic(int _token, Pointer<Void> _value) {
   try {
     (__lib.instanceCache[_token] as InheritFromSkipped).skippedInJava =
-      String_fromFfi(_value);
+      stringFromFfi(_value);
   } finally {
-    String_releaseFfiHandle(_value);
+    stringReleaseFfiHandle(_value);
   }
   return 0;
 }
-int _InheritFromSkipped_isSkippedInSwift_get_static(int _token, Pointer<Uint8> _result) {
-  _result.value = Boolean_toFfi((__lib.instanceCache[_token] as InheritFromSkipped).isSkippedInSwift);
+int _InheritFromSkippedisSkippedInSwiftGetStatic(int _token, Pointer<Uint8> _result) {
+  _result.value = booleanToFfi((__lib.instanceCache[_token] as InheritFromSkipped).isSkippedInSwift);
   return 0;
 }
-int _InheritFromSkipped_isSkippedInSwift_set_static(int _token, int _value) {
+int _InheritFromSkippedisSkippedInSwiftSetStatic(int _token, int _value) {
   try {
     (__lib.instanceCache[_token] as InheritFromSkipped).isSkippedInSwift =
-      Boolean_fromFfi(_value);
+      booleanFromFfi(_value);
   } finally {
-    Boolean_releaseFfiHandle(_value);
+    booleanReleaseFfiHandle(_value);
   }
   return 0;
 }
-Pointer<Void> smoke_InheritFromSkipped_toFfi(InheritFromSkipped value) {
+Pointer<Void> smokeInheritfromskippedToFfi(InheritFromSkipped value) {
   if (value is __lib.NativeBase) return _smokeInheritfromskippedCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokeInheritfromskippedCreateProxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_InheritFromSkipped_notInJava_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Uint8, Pointer<Uint8>)>(_InheritFromSkipped_notInSwift_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_InheritFromSkipped_skippedInJava_get_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_InheritFromSkipped_skippedInJava_set_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint8>)>(_InheritFromSkipped_isSkippedInSwift_get_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Uint8)>(_InheritFromSkipped_isSkippedInSwift_set_static, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_InheritFromSkippednotInJavaStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Uint8, Pointer<Uint8>)>(_InheritFromSkippednotInSwiftStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_InheritFromSkippedskippedInJavaGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_InheritFromSkippedskippedInJavaSetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint8>)>(_InheritFromSkippedisSkippedInSwiftGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Uint8)>(_InheritFromSkippedisSkippedInSwiftSetStatic, __lib.unknownError)
   );
   return result;
 }
-InheritFromSkipped smoke_InheritFromSkipped_fromFfi(Pointer<Void> handle) {
+InheritFromSkipped smokeInheritfromskippedFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as InheritFromSkipped;
   if (instance != null) return instance;
   final _typeIdHandle = _smokeInheritfromskippedGetTypeId(handle);
-  final factoryConstructor = __lib.typeRepository[String_fromFfi(_typeIdHandle)];
-  String_releaseFfiHandle(_typeIdHandle);
+  final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
+  stringReleaseFfiHandle(_typeIdHandle);
   final _copiedHandle = _smokeInheritfromskippedCopyHandle(handle);
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
@@ -235,12 +235,12 @@ InheritFromSkipped smoke_InheritFromSkipped_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_InheritFromSkipped_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeInheritfromskippedReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeInheritfromskippedReleaseHandle(handle);
-Pointer<Void> smoke_InheritFromSkipped_toFfi_nullable(InheritFromSkipped value) =>
-  value != null ? smoke_InheritFromSkipped_toFfi(value) : Pointer<Void>.fromAddress(0);
-InheritFromSkipped smoke_InheritFromSkipped_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_InheritFromSkipped_fromFfi(handle) : null;
-void smoke_InheritFromSkipped_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeInheritfromskippedToFfiNullable(InheritFromSkipped value) =>
+  value != null ? smokeInheritfromskippedToFfi(value) : Pointer<Void>.fromAddress(0);
+InheritFromSkipped smokeInheritfromskippedFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeInheritfromskippedFromFfi(handle) : null;
+void smokeInheritfromskippedReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeInheritfromskippedReleaseHandle(handle);
 // End of InheritFromSkipped "private" section.

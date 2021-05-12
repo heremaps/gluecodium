@@ -39,9 +39,9 @@ class SingleNamelessConstructor$Impl extends __lib.NativeBase implements SingleN
     return __resultHandle;
   }
 }
-Pointer<Void> smoke_SingleNamelessConstructor_toFfi(SingleNamelessConstructor value) =>
+Pointer<Void> smokeSinglenamelessconstructorToFfi(SingleNamelessConstructor value) =>
   _smokeSinglenamelessconstructorCopyHandle((value as __lib.NativeBase).handle);
-SingleNamelessConstructor smoke_SingleNamelessConstructor_fromFfi(Pointer<Void> handle) {
+SingleNamelessConstructor smokeSinglenamelessconstructorFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as SingleNamelessConstructor;
@@ -51,12 +51,12 @@ SingleNamelessConstructor smoke_SingleNamelessConstructor_fromFfi(Pointer<Void> 
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_SingleNamelessConstructor_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeSinglenamelessconstructorReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeSinglenamelessconstructorReleaseHandle(handle);
-Pointer<Void> smoke_SingleNamelessConstructor_toFfi_nullable(SingleNamelessConstructor value) =>
-  value != null ? smoke_SingleNamelessConstructor_toFfi(value) : Pointer<Void>.fromAddress(0);
-SingleNamelessConstructor smoke_SingleNamelessConstructor_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_SingleNamelessConstructor_fromFfi(handle) : null;
-void smoke_SingleNamelessConstructor_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeSinglenamelessconstructorToFfiNullable(SingleNamelessConstructor value) =>
+  value != null ? smokeSinglenamelessconstructorToFfi(value) : Pointer<Void>.fromAddress(0);
+SingleNamelessConstructor smokeSinglenamelessconstructorFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeSinglenamelessconstructorFromFfi(handle) : null;
+void smokeSinglenamelessconstructorReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeSinglenamelessconstructorReleaseHandle(handle);
 // End of SingleNamelessConstructor "private" section.

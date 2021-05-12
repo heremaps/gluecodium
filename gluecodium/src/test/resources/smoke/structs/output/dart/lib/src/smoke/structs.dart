@@ -23,7 +23,7 @@ enum Structs_FooBar {
     bar
 }
 // Structs_FooBar "private" section, not exported.
-int smoke_Structs_FooBar_toFfi(Structs_FooBar value) {
+int smokeStructsFoobarToFfi(Structs_FooBar value) {
   switch (value) {
   case Structs_FooBar.foo:
     return 0;
@@ -35,7 +35,7 @@ int smoke_Structs_FooBar_toFfi(Structs_FooBar value) {
     throw StateError("Invalid enum value $value for Structs_FooBar enum.");
   }
 }
-Structs_FooBar smoke_Structs_FooBar_fromFfi(int handle) {
+Structs_FooBar smokeStructsFoobarFromFfi(int handle) {
   switch (handle) {
   case 0:
     return Structs_FooBar.foo;
@@ -47,35 +47,35 @@ Structs_FooBar smoke_Structs_FooBar_fromFfi(int handle) {
     throw StateError("Invalid numeric value $handle for Structs_FooBar enum.");
   }
 }
-void smoke_Structs_FooBar_releaseFfiHandle(int handle) {}
-final _smoke_Structs_FooBarCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+void smokeStructsFoobarReleaseFfiHandle(int handle) {}
+final _smokeStructsFoobarCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
   >('library_smoke_Structs_FooBar_create_handle_nullable'));
-final _smoke_Structs_FooBarReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsFoobarReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Structs_FooBar_release_handle_nullable'));
-final _smoke_Structs_FooBarGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsFoobarGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Structs_FooBar_get_value_nullable'));
-Pointer<Void> smoke_Structs_FooBar_toFfi_nullable(Structs_FooBar value) {
+Pointer<Void> smokeStructsFoobarToFfiNullable(Structs_FooBar value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_Structs_FooBar_toFfi(value);
-  final result = _smoke_Structs_FooBarCreateHandleNullable(_handle);
-  smoke_Structs_FooBar_releaseFfiHandle(_handle);
+  final _handle = smokeStructsFoobarToFfi(value);
+  final result = _smokeStructsFoobarCreateHandleNullable(_handle);
+  smokeStructsFoobarReleaseFfiHandle(_handle);
   return result;
 }
-Structs_FooBar smoke_Structs_FooBar_fromFfi_nullable(Pointer<Void> handle) {
+Structs_FooBar smokeStructsFoobarFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_Structs_FooBarGetValueNullable(handle);
-  final result = smoke_Structs_FooBar_fromFfi(_handle);
-  smoke_Structs_FooBar_releaseFfiHandle(_handle);
+  final _handle = _smokeStructsFoobarGetValueNullable(handle);
+  final result = smokeStructsFoobarFromFfi(_handle);
+  smokeStructsFoobarReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_Structs_FooBar_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_Structs_FooBarReleaseHandleNullable(handle);
+void smokeStructsFoobarReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeStructsFoobarReleaseHandleNullable(handle);
 // End of Structs_FooBar "private" section.
 class Structs_Point {
   double x;
@@ -99,7 +99,7 @@ final _smokeStructsPointGetFieldy = __lib.catchArgumentError(() => __lib.nativeL
     Double Function(Pointer<Void>),
     double Function(Pointer<Void>)
   >('library_smoke_Structs_Point_get_field_y'));
-Pointer<Void> smoke_Structs_Point_toFfi(Structs_Point value) {
+Pointer<Void> smokeStructsPointToFfi(Structs_Point value) {
   final _xHandle = (value.x);
   final _yHandle = (value.y);
   final _result = _smokeStructsPointCreateHandle(_xHandle, _yHandle);
@@ -107,7 +107,7 @@ Pointer<Void> smoke_Structs_Point_toFfi(Structs_Point value) {
   (_yHandle);
   return _result;
 }
-Structs_Point smoke_Structs_Point_fromFfi(Pointer<Void> handle) {
+Structs_Point smokeStructsPointFromFfi(Pointer<Void> handle) {
   final _xHandle = _smokeStructsPointGetFieldx(handle);
   final _yHandle = _smokeStructsPointGetFieldy(handle);
   try {
@@ -120,36 +120,36 @@ Structs_Point smoke_Structs_Point_fromFfi(Pointer<Void> handle) {
     (_yHandle);
   }
 }
-void smoke_Structs_Point_releaseFfiHandle(Pointer<Void> handle) => _smokeStructsPointReleaseHandle(handle);
+void smokeStructsPointReleaseFfiHandle(Pointer<Void> handle) => _smokeStructsPointReleaseHandle(handle);
 // Nullable Structs_Point
-final _smoke_Structs_PointCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsPointCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_Point_create_handle_nullable'));
-final _smoke_Structs_PointReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsPointReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Structs_Point_release_handle_nullable'));
-final _smoke_Structs_PointGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsPointGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_Point_get_value_nullable'));
-Pointer<Void> smoke_Structs_Point_toFfi_nullable(Structs_Point value) {
+Pointer<Void> smokeStructsPointToFfiNullable(Structs_Point value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_Structs_Point_toFfi(value);
-  final result = _smoke_Structs_PointCreateHandleNullable(_handle);
-  smoke_Structs_Point_releaseFfiHandle(_handle);
+  final _handle = smokeStructsPointToFfi(value);
+  final result = _smokeStructsPointCreateHandleNullable(_handle);
+  smokeStructsPointReleaseFfiHandle(_handle);
   return result;
 }
-Structs_Point smoke_Structs_Point_fromFfi_nullable(Pointer<Void> handle) {
+Structs_Point smokeStructsPointFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_Structs_PointGetValueNullable(handle);
-  final result = smoke_Structs_Point_fromFfi(_handle);
-  smoke_Structs_Point_releaseFfiHandle(_handle);
+  final _handle = _smokeStructsPointGetValueNullable(handle);
+  final result = smokeStructsPointFromFfi(_handle);
+  smokeStructsPointReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_Structs_Point_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_Structs_PointReleaseHandleNullable(handle);
+void smokeStructsPointReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeStructsPointReleaseHandleNullable(handle);
 // End of Structs_Point "private" section.
 class Structs_Line {
   Structs_Point a;
@@ -173,57 +173,57 @@ final _smokeStructsLineGetFieldb = __lib.catchArgumentError(() => __lib.nativeLi
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_Line_get_field_b'));
-Pointer<Void> smoke_Structs_Line_toFfi(Structs_Line value) {
-  final _aHandle = smoke_Structs_Point_toFfi(value.a);
-  final _bHandle = smoke_Structs_Point_toFfi(value.b);
+Pointer<Void> smokeStructsLineToFfi(Structs_Line value) {
+  final _aHandle = smokeStructsPointToFfi(value.a);
+  final _bHandle = smokeStructsPointToFfi(value.b);
   final _result = _smokeStructsLineCreateHandle(_aHandle, _bHandle);
-  smoke_Structs_Point_releaseFfiHandle(_aHandle);
-  smoke_Structs_Point_releaseFfiHandle(_bHandle);
+  smokeStructsPointReleaseFfiHandle(_aHandle);
+  smokeStructsPointReleaseFfiHandle(_bHandle);
   return _result;
 }
-Structs_Line smoke_Structs_Line_fromFfi(Pointer<Void> handle) {
+Structs_Line smokeStructsLineFromFfi(Pointer<Void> handle) {
   final _aHandle = _smokeStructsLineGetFielda(handle);
   final _bHandle = _smokeStructsLineGetFieldb(handle);
   try {
     return Structs_Line(
-      smoke_Structs_Point_fromFfi(_aHandle),
-      smoke_Structs_Point_fromFfi(_bHandle)
+      smokeStructsPointFromFfi(_aHandle),
+      smokeStructsPointFromFfi(_bHandle)
     );
   } finally {
-    smoke_Structs_Point_releaseFfiHandle(_aHandle);
-    smoke_Structs_Point_releaseFfiHandle(_bHandle);
+    smokeStructsPointReleaseFfiHandle(_aHandle);
+    smokeStructsPointReleaseFfiHandle(_bHandle);
   }
 }
-void smoke_Structs_Line_releaseFfiHandle(Pointer<Void> handle) => _smokeStructsLineReleaseHandle(handle);
+void smokeStructsLineReleaseFfiHandle(Pointer<Void> handle) => _smokeStructsLineReleaseHandle(handle);
 // Nullable Structs_Line
-final _smoke_Structs_LineCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsLineCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_Line_create_handle_nullable'));
-final _smoke_Structs_LineReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsLineReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Structs_Line_release_handle_nullable'));
-final _smoke_Structs_LineGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsLineGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_Line_get_value_nullable'));
-Pointer<Void> smoke_Structs_Line_toFfi_nullable(Structs_Line value) {
+Pointer<Void> smokeStructsLineToFfiNullable(Structs_Line value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_Structs_Line_toFfi(value);
-  final result = _smoke_Structs_LineCreateHandleNullable(_handle);
-  smoke_Structs_Line_releaseFfiHandle(_handle);
+  final _handle = smokeStructsLineToFfi(value);
+  final result = _smokeStructsLineCreateHandleNullable(_handle);
+  smokeStructsLineReleaseFfiHandle(_handle);
   return result;
 }
-Structs_Line smoke_Structs_Line_fromFfi_nullable(Pointer<Void> handle) {
+Structs_Line smokeStructsLineFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_Structs_LineGetValueNullable(handle);
-  final result = smoke_Structs_Line_fromFfi(_handle);
-  smoke_Structs_Line_releaseFfiHandle(_handle);
+  final _handle = _smokeStructsLineGetValueNullable(handle);
+  final result = smokeStructsLineFromFfi(_handle);
+  smokeStructsLineReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_Structs_Line_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_Structs_LineReleaseHandleNullable(handle);
+void smokeStructsLineReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeStructsLineReleaseHandleNullable(handle);
 // End of Structs_Line "private" section.
 @immutable
 class Structs_AllTypesStruct {
@@ -308,7 +308,7 @@ final _smokeStructsAlltypesstructGetFieldpointField = __lib.catchArgumentError((
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_AllTypesStruct_get_field_pointField'));
-Pointer<Void> smoke_Structs_AllTypesStruct_toFfi(Structs_AllTypesStruct value) {
+Pointer<Void> smokeStructsAlltypesstructToFfi(Structs_AllTypesStruct value) {
   final _int8FieldHandle = (value.int8Field);
   final _uint8FieldHandle = (value.uint8Field);
   final _int16FieldHandle = (value.int16Field);
@@ -319,10 +319,10 @@ Pointer<Void> smoke_Structs_AllTypesStruct_toFfi(Structs_AllTypesStruct value) {
   final _uint64FieldHandle = (value.uint64Field);
   final _floatFieldHandle = (value.floatField);
   final _doubleFieldHandle = (value.doubleField);
-  final _stringFieldHandle = String_toFfi(value.stringField);
-  final _booleanFieldHandle = Boolean_toFfi(value.booleanField);
-  final _bytesFieldHandle = Blob_toFfi(value.bytesField);
-  final _pointFieldHandle = smoke_Structs_Point_toFfi(value.pointField);
+  final _stringFieldHandle = stringToFfi(value.stringField);
+  final _booleanFieldHandle = booleanToFfi(value.booleanField);
+  final _bytesFieldHandle = blobToFfi(value.bytesField);
+  final _pointFieldHandle = smokeStructsPointToFfi(value.pointField);
   final _result = _smokeStructsAlltypesstructCreateHandle(_int8FieldHandle, _uint8FieldHandle, _int16FieldHandle, _uint16FieldHandle, _int32FieldHandle, _uint32FieldHandle, _int64FieldHandle, _uint64FieldHandle, _floatFieldHandle, _doubleFieldHandle, _stringFieldHandle, _booleanFieldHandle, _bytesFieldHandle, _pointFieldHandle);
   (_int8FieldHandle);
   (_uint8FieldHandle);
@@ -334,13 +334,13 @@ Pointer<Void> smoke_Structs_AllTypesStruct_toFfi(Structs_AllTypesStruct value) {
   (_uint64FieldHandle);
   (_floatFieldHandle);
   (_doubleFieldHandle);
-  String_releaseFfiHandle(_stringFieldHandle);
-  Boolean_releaseFfiHandle(_booleanFieldHandle);
-  Blob_releaseFfiHandle(_bytesFieldHandle);
-  smoke_Structs_Point_releaseFfiHandle(_pointFieldHandle);
+  stringReleaseFfiHandle(_stringFieldHandle);
+  booleanReleaseFfiHandle(_booleanFieldHandle);
+  blobReleaseFfiHandle(_bytesFieldHandle);
+  smokeStructsPointReleaseFfiHandle(_pointFieldHandle);
   return _result;
 }
-Structs_AllTypesStruct smoke_Structs_AllTypesStruct_fromFfi(Pointer<Void> handle) {
+Structs_AllTypesStruct smokeStructsAlltypesstructFromFfi(Pointer<Void> handle) {
   final _int8FieldHandle = _smokeStructsAlltypesstructGetFieldint8Field(handle);
   final _uint8FieldHandle = _smokeStructsAlltypesstructGetFielduint8Field(handle);
   final _int16FieldHandle = _smokeStructsAlltypesstructGetFieldint16Field(handle);
@@ -367,10 +367,10 @@ Structs_AllTypesStruct smoke_Structs_AllTypesStruct_fromFfi(Pointer<Void> handle
       (_uint64FieldHandle),
       (_floatFieldHandle),
       (_doubleFieldHandle),
-      String_fromFfi(_stringFieldHandle),
-      Boolean_fromFfi(_booleanFieldHandle),
-      Blob_fromFfi(_bytesFieldHandle),
-      smoke_Structs_Point_fromFfi(_pointFieldHandle)
+      stringFromFfi(_stringFieldHandle),
+      booleanFromFfi(_booleanFieldHandle),
+      blobFromFfi(_bytesFieldHandle),
+      smokeStructsPointFromFfi(_pointFieldHandle)
     );
   } finally {
     (_int8FieldHandle);
@@ -383,42 +383,42 @@ Structs_AllTypesStruct smoke_Structs_AllTypesStruct_fromFfi(Pointer<Void> handle
     (_uint64FieldHandle);
     (_floatFieldHandle);
     (_doubleFieldHandle);
-    String_releaseFfiHandle(_stringFieldHandle);
-    Boolean_releaseFfiHandle(_booleanFieldHandle);
-    Blob_releaseFfiHandle(_bytesFieldHandle);
-    smoke_Structs_Point_releaseFfiHandle(_pointFieldHandle);
+    stringReleaseFfiHandle(_stringFieldHandle);
+    booleanReleaseFfiHandle(_booleanFieldHandle);
+    blobReleaseFfiHandle(_bytesFieldHandle);
+    smokeStructsPointReleaseFfiHandle(_pointFieldHandle);
   }
 }
-void smoke_Structs_AllTypesStruct_releaseFfiHandle(Pointer<Void> handle) => _smokeStructsAlltypesstructReleaseHandle(handle);
+void smokeStructsAlltypesstructReleaseFfiHandle(Pointer<Void> handle) => _smokeStructsAlltypesstructReleaseHandle(handle);
 // Nullable Structs_AllTypesStruct
-final _smoke_Structs_AllTypesStructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsAlltypesstructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_AllTypesStruct_create_handle_nullable'));
-final _smoke_Structs_AllTypesStructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsAlltypesstructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Structs_AllTypesStruct_release_handle_nullable'));
-final _smoke_Structs_AllTypesStructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsAlltypesstructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_AllTypesStruct_get_value_nullable'));
-Pointer<Void> smoke_Structs_AllTypesStruct_toFfi_nullable(Structs_AllTypesStruct value) {
+Pointer<Void> smokeStructsAlltypesstructToFfiNullable(Structs_AllTypesStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_Structs_AllTypesStruct_toFfi(value);
-  final result = _smoke_Structs_AllTypesStructCreateHandleNullable(_handle);
-  smoke_Structs_AllTypesStruct_releaseFfiHandle(_handle);
+  final _handle = smokeStructsAlltypesstructToFfi(value);
+  final result = _smokeStructsAlltypesstructCreateHandleNullable(_handle);
+  smokeStructsAlltypesstructReleaseFfiHandle(_handle);
   return result;
 }
-Structs_AllTypesStruct smoke_Structs_AllTypesStruct_fromFfi_nullable(Pointer<Void> handle) {
+Structs_AllTypesStruct smokeStructsAlltypesstructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_Structs_AllTypesStructGetValueNullable(handle);
-  final result = smoke_Structs_AllTypesStruct_fromFfi(_handle);
-  smoke_Structs_AllTypesStruct_releaseFfiHandle(_handle);
+  final _handle = _smokeStructsAlltypesstructGetValueNullable(handle);
+  final result = smokeStructsAlltypesstructFromFfi(_handle);
+  smokeStructsAlltypesstructReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_Structs_AllTypesStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_Structs_AllTypesStructReleaseHandleNullable(handle);
+void smokeStructsAlltypesstructReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeStructsAlltypesstructReleaseHandleNullable(handle);
 // End of Structs_AllTypesStruct "private" section.
 class Structs_NestingImmutableStruct {
   Structs_AllTypesStruct structField;
@@ -437,52 +437,52 @@ final _smokeStructsNestingimmutablestructGetFieldstructField = __lib.catchArgume
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_NestingImmutableStruct_get_field_structField'));
-Pointer<Void> smoke_Structs_NestingImmutableStruct_toFfi(Structs_NestingImmutableStruct value) {
-  final _structFieldHandle = smoke_Structs_AllTypesStruct_toFfi(value.structField);
+Pointer<Void> smokeStructsNestingimmutablestructToFfi(Structs_NestingImmutableStruct value) {
+  final _structFieldHandle = smokeStructsAlltypesstructToFfi(value.structField);
   final _result = _smokeStructsNestingimmutablestructCreateHandle(_structFieldHandle);
-  smoke_Structs_AllTypesStruct_releaseFfiHandle(_structFieldHandle);
+  smokeStructsAlltypesstructReleaseFfiHandle(_structFieldHandle);
   return _result;
 }
-Structs_NestingImmutableStruct smoke_Structs_NestingImmutableStruct_fromFfi(Pointer<Void> handle) {
+Structs_NestingImmutableStruct smokeStructsNestingimmutablestructFromFfi(Pointer<Void> handle) {
   final _structFieldHandle = _smokeStructsNestingimmutablestructGetFieldstructField(handle);
   try {
     return Structs_NestingImmutableStruct(
-      smoke_Structs_AllTypesStruct_fromFfi(_structFieldHandle)
+      smokeStructsAlltypesstructFromFfi(_structFieldHandle)
     );
   } finally {
-    smoke_Structs_AllTypesStruct_releaseFfiHandle(_structFieldHandle);
+    smokeStructsAlltypesstructReleaseFfiHandle(_structFieldHandle);
   }
 }
-void smoke_Structs_NestingImmutableStruct_releaseFfiHandle(Pointer<Void> handle) => _smokeStructsNestingimmutablestructReleaseHandle(handle);
+void smokeStructsNestingimmutablestructReleaseFfiHandle(Pointer<Void> handle) => _smokeStructsNestingimmutablestructReleaseHandle(handle);
 // Nullable Structs_NestingImmutableStruct
-final _smoke_Structs_NestingImmutableStructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsNestingimmutablestructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_NestingImmutableStruct_create_handle_nullable'));
-final _smoke_Structs_NestingImmutableStructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsNestingimmutablestructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Structs_NestingImmutableStruct_release_handle_nullable'));
-final _smoke_Structs_NestingImmutableStructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsNestingimmutablestructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_NestingImmutableStruct_get_value_nullable'));
-Pointer<Void> smoke_Structs_NestingImmutableStruct_toFfi_nullable(Structs_NestingImmutableStruct value) {
+Pointer<Void> smokeStructsNestingimmutablestructToFfiNullable(Structs_NestingImmutableStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_Structs_NestingImmutableStruct_toFfi(value);
-  final result = _smoke_Structs_NestingImmutableStructCreateHandleNullable(_handle);
-  smoke_Structs_NestingImmutableStruct_releaseFfiHandle(_handle);
+  final _handle = smokeStructsNestingimmutablestructToFfi(value);
+  final result = _smokeStructsNestingimmutablestructCreateHandleNullable(_handle);
+  smokeStructsNestingimmutablestructReleaseFfiHandle(_handle);
   return result;
 }
-Structs_NestingImmutableStruct smoke_Structs_NestingImmutableStruct_fromFfi_nullable(Pointer<Void> handle) {
+Structs_NestingImmutableStruct smokeStructsNestingimmutablestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_Structs_NestingImmutableStructGetValueNullable(handle);
-  final result = smoke_Structs_NestingImmutableStruct_fromFfi(_handle);
-  smoke_Structs_NestingImmutableStruct_releaseFfiHandle(_handle);
+  final _handle = _smokeStructsNestingimmutablestructGetValueNullable(handle);
+  final result = smokeStructsNestingimmutablestructFromFfi(_handle);
+  smokeStructsNestingimmutablestructReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_Structs_NestingImmutableStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_Structs_NestingImmutableStructReleaseHandleNullable(handle);
+void smokeStructsNestingimmutablestructReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeStructsNestingimmutablestructReleaseHandleNullable(handle);
 // End of Structs_NestingImmutableStruct "private" section.
 class Structs_DoubleNestingImmutableStruct {
   Structs_NestingImmutableStruct nestingStructField;
@@ -501,52 +501,52 @@ final _smokeStructsDoublenestingimmutablestructGetFieldnestingStructField = __li
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_DoubleNestingImmutableStruct_get_field_nestingStructField'));
-Pointer<Void> smoke_Structs_DoubleNestingImmutableStruct_toFfi(Structs_DoubleNestingImmutableStruct value) {
-  final _nestingStructFieldHandle = smoke_Structs_NestingImmutableStruct_toFfi(value.nestingStructField);
+Pointer<Void> smokeStructsDoublenestingimmutablestructToFfi(Structs_DoubleNestingImmutableStruct value) {
+  final _nestingStructFieldHandle = smokeStructsNestingimmutablestructToFfi(value.nestingStructField);
   final _result = _smokeStructsDoublenestingimmutablestructCreateHandle(_nestingStructFieldHandle);
-  smoke_Structs_NestingImmutableStruct_releaseFfiHandle(_nestingStructFieldHandle);
+  smokeStructsNestingimmutablestructReleaseFfiHandle(_nestingStructFieldHandle);
   return _result;
 }
-Structs_DoubleNestingImmutableStruct smoke_Structs_DoubleNestingImmutableStruct_fromFfi(Pointer<Void> handle) {
+Structs_DoubleNestingImmutableStruct smokeStructsDoublenestingimmutablestructFromFfi(Pointer<Void> handle) {
   final _nestingStructFieldHandle = _smokeStructsDoublenestingimmutablestructGetFieldnestingStructField(handle);
   try {
     return Structs_DoubleNestingImmutableStruct(
-      smoke_Structs_NestingImmutableStruct_fromFfi(_nestingStructFieldHandle)
+      smokeStructsNestingimmutablestructFromFfi(_nestingStructFieldHandle)
     );
   } finally {
-    smoke_Structs_NestingImmutableStruct_releaseFfiHandle(_nestingStructFieldHandle);
+    smokeStructsNestingimmutablestructReleaseFfiHandle(_nestingStructFieldHandle);
   }
 }
-void smoke_Structs_DoubleNestingImmutableStruct_releaseFfiHandle(Pointer<Void> handle) => _smokeStructsDoublenestingimmutablestructReleaseHandle(handle);
+void smokeStructsDoublenestingimmutablestructReleaseFfiHandle(Pointer<Void> handle) => _smokeStructsDoublenestingimmutablestructReleaseHandle(handle);
 // Nullable Structs_DoubleNestingImmutableStruct
-final _smoke_Structs_DoubleNestingImmutableStructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsDoublenestingimmutablestructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_DoubleNestingImmutableStruct_create_handle_nullable'));
-final _smoke_Structs_DoubleNestingImmutableStructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsDoublenestingimmutablestructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Structs_DoubleNestingImmutableStruct_release_handle_nullable'));
-final _smoke_Structs_DoubleNestingImmutableStructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsDoublenestingimmutablestructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_DoubleNestingImmutableStruct_get_value_nullable'));
-Pointer<Void> smoke_Structs_DoubleNestingImmutableStruct_toFfi_nullable(Structs_DoubleNestingImmutableStruct value) {
+Pointer<Void> smokeStructsDoublenestingimmutablestructToFfiNullable(Structs_DoubleNestingImmutableStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_Structs_DoubleNestingImmutableStruct_toFfi(value);
-  final result = _smoke_Structs_DoubleNestingImmutableStructCreateHandleNullable(_handle);
-  smoke_Structs_DoubleNestingImmutableStruct_releaseFfiHandle(_handle);
+  final _handle = smokeStructsDoublenestingimmutablestructToFfi(value);
+  final result = _smokeStructsDoublenestingimmutablestructCreateHandleNullable(_handle);
+  smokeStructsDoublenestingimmutablestructReleaseFfiHandle(_handle);
   return result;
 }
-Structs_DoubleNestingImmutableStruct smoke_Structs_DoubleNestingImmutableStruct_fromFfi_nullable(Pointer<Void> handle) {
+Structs_DoubleNestingImmutableStruct smokeStructsDoublenestingimmutablestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_Structs_DoubleNestingImmutableStructGetValueNullable(handle);
-  final result = smoke_Structs_DoubleNestingImmutableStruct_fromFfi(_handle);
-  smoke_Structs_DoubleNestingImmutableStruct_releaseFfiHandle(_handle);
+  final _handle = _smokeStructsDoublenestingimmutablestructGetValueNullable(handle);
+  final result = smokeStructsDoublenestingimmutablestructFromFfi(_handle);
+  smokeStructsDoublenestingimmutablestructReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_Structs_DoubleNestingImmutableStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_Structs_DoubleNestingImmutableStructReleaseHandleNullable(handle);
+void smokeStructsDoublenestingimmutablestructReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeStructsDoublenestingimmutablestructReleaseHandleNullable(handle);
 // End of Structs_DoubleNestingImmutableStruct "private" section.
 class Structs_StructWithArrayOfImmutable {
   List<Structs_AllTypesStruct> arrayField;
@@ -565,52 +565,52 @@ final _smokeStructsStructwitharrayofimmutableGetFieldarrayField = __lib.catchArg
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_StructWithArrayOfImmutable_get_field_arrayField'));
-Pointer<Void> smoke_Structs_StructWithArrayOfImmutable_toFfi(Structs_StructWithArrayOfImmutable value) {
-  final _arrayFieldHandle = foobar_ListOf_smoke_Structs_AllTypesStruct_toFfi(value.arrayField);
+Pointer<Void> smokeStructsStructwitharrayofimmutableToFfi(Structs_StructWithArrayOfImmutable value) {
+  final _arrayFieldHandle = foobarListofSmokeStructsAlltypesstructToFfi(value.arrayField);
   final _result = _smokeStructsStructwitharrayofimmutableCreateHandle(_arrayFieldHandle);
-  foobar_ListOf_smoke_Structs_AllTypesStruct_releaseFfiHandle(_arrayFieldHandle);
+  foobarListofSmokeStructsAlltypesstructReleaseFfiHandle(_arrayFieldHandle);
   return _result;
 }
-Structs_StructWithArrayOfImmutable smoke_Structs_StructWithArrayOfImmutable_fromFfi(Pointer<Void> handle) {
+Structs_StructWithArrayOfImmutable smokeStructsStructwitharrayofimmutableFromFfi(Pointer<Void> handle) {
   final _arrayFieldHandle = _smokeStructsStructwitharrayofimmutableGetFieldarrayField(handle);
   try {
     return Structs_StructWithArrayOfImmutable(
-      foobar_ListOf_smoke_Structs_AllTypesStruct_fromFfi(_arrayFieldHandle)
+      foobarListofSmokeStructsAlltypesstructFromFfi(_arrayFieldHandle)
     );
   } finally {
-    foobar_ListOf_smoke_Structs_AllTypesStruct_releaseFfiHandle(_arrayFieldHandle);
+    foobarListofSmokeStructsAlltypesstructReleaseFfiHandle(_arrayFieldHandle);
   }
 }
-void smoke_Structs_StructWithArrayOfImmutable_releaseFfiHandle(Pointer<Void> handle) => _smokeStructsStructwitharrayofimmutableReleaseHandle(handle);
+void smokeStructsStructwitharrayofimmutableReleaseFfiHandle(Pointer<Void> handle) => _smokeStructsStructwitharrayofimmutableReleaseHandle(handle);
 // Nullable Structs_StructWithArrayOfImmutable
-final _smoke_Structs_StructWithArrayOfImmutableCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsStructwitharrayofimmutableCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_StructWithArrayOfImmutable_create_handle_nullable'));
-final _smoke_Structs_StructWithArrayOfImmutableReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsStructwitharrayofimmutableReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Structs_StructWithArrayOfImmutable_release_handle_nullable'));
-final _smoke_Structs_StructWithArrayOfImmutableGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsStructwitharrayofimmutableGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_StructWithArrayOfImmutable_get_value_nullable'));
-Pointer<Void> smoke_Structs_StructWithArrayOfImmutable_toFfi_nullable(Structs_StructWithArrayOfImmutable value) {
+Pointer<Void> smokeStructsStructwitharrayofimmutableToFfiNullable(Structs_StructWithArrayOfImmutable value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_Structs_StructWithArrayOfImmutable_toFfi(value);
-  final result = _smoke_Structs_StructWithArrayOfImmutableCreateHandleNullable(_handle);
-  smoke_Structs_StructWithArrayOfImmutable_releaseFfiHandle(_handle);
+  final _handle = smokeStructsStructwitharrayofimmutableToFfi(value);
+  final result = _smokeStructsStructwitharrayofimmutableCreateHandleNullable(_handle);
+  smokeStructsStructwitharrayofimmutableReleaseFfiHandle(_handle);
   return result;
 }
-Structs_StructWithArrayOfImmutable smoke_Structs_StructWithArrayOfImmutable_fromFfi_nullable(Pointer<Void> handle) {
+Structs_StructWithArrayOfImmutable smokeStructsStructwitharrayofimmutableFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_Structs_StructWithArrayOfImmutableGetValueNullable(handle);
-  final result = smoke_Structs_StructWithArrayOfImmutable_fromFfi(_handle);
-  smoke_Structs_StructWithArrayOfImmutable_releaseFfiHandle(_handle);
+  final _handle = _smokeStructsStructwitharrayofimmutableGetValueNullable(handle);
+  final result = smokeStructsStructwitharrayofimmutableFromFfi(_handle);
+  smokeStructsStructwitharrayofimmutableReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_Structs_StructWithArrayOfImmutable_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_Structs_StructWithArrayOfImmutableReleaseHandleNullable(handle);
+void smokeStructsStructwitharrayofimmutableReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeStructsStructwitharrayofimmutableReleaseHandleNullable(handle);
 // End of Structs_StructWithArrayOfImmutable "private" section.
 @immutable
 class Structs_ImmutableStructWithCppAccessors {
@@ -630,52 +630,52 @@ final _smokeStructsImmutablestructwithcppaccessorsGetFieldstringField = __lib.ca
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_ImmutableStructWithCppAccessors_get_field_stringField'));
-Pointer<Void> smoke_Structs_ImmutableStructWithCppAccessors_toFfi(Structs_ImmutableStructWithCppAccessors value) {
-  final _stringFieldHandle = String_toFfi(value.stringField);
+Pointer<Void> smokeStructsImmutablestructwithcppaccessorsToFfi(Structs_ImmutableStructWithCppAccessors value) {
+  final _stringFieldHandle = stringToFfi(value.stringField);
   final _result = _smokeStructsImmutablestructwithcppaccessorsCreateHandle(_stringFieldHandle);
-  String_releaseFfiHandle(_stringFieldHandle);
+  stringReleaseFfiHandle(_stringFieldHandle);
   return _result;
 }
-Structs_ImmutableStructWithCppAccessors smoke_Structs_ImmutableStructWithCppAccessors_fromFfi(Pointer<Void> handle) {
+Structs_ImmutableStructWithCppAccessors smokeStructsImmutablestructwithcppaccessorsFromFfi(Pointer<Void> handle) {
   final _stringFieldHandle = _smokeStructsImmutablestructwithcppaccessorsGetFieldstringField(handle);
   try {
     return Structs_ImmutableStructWithCppAccessors(
-      String_fromFfi(_stringFieldHandle)
+      stringFromFfi(_stringFieldHandle)
     );
   } finally {
-    String_releaseFfiHandle(_stringFieldHandle);
+    stringReleaseFfiHandle(_stringFieldHandle);
   }
 }
-void smoke_Structs_ImmutableStructWithCppAccessors_releaseFfiHandle(Pointer<Void> handle) => _smokeStructsImmutablestructwithcppaccessorsReleaseHandle(handle);
+void smokeStructsImmutablestructwithcppaccessorsReleaseFfiHandle(Pointer<Void> handle) => _smokeStructsImmutablestructwithcppaccessorsReleaseHandle(handle);
 // Nullable Structs_ImmutableStructWithCppAccessors
-final _smoke_Structs_ImmutableStructWithCppAccessorsCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsImmutablestructwithcppaccessorsCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_ImmutableStructWithCppAccessors_create_handle_nullable'));
-final _smoke_Structs_ImmutableStructWithCppAccessorsReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsImmutablestructwithcppaccessorsReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Structs_ImmutableStructWithCppAccessors_release_handle_nullable'));
-final _smoke_Structs_ImmutableStructWithCppAccessorsGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsImmutablestructwithcppaccessorsGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_ImmutableStructWithCppAccessors_get_value_nullable'));
-Pointer<Void> smoke_Structs_ImmutableStructWithCppAccessors_toFfi_nullable(Structs_ImmutableStructWithCppAccessors value) {
+Pointer<Void> smokeStructsImmutablestructwithcppaccessorsToFfiNullable(Structs_ImmutableStructWithCppAccessors value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_Structs_ImmutableStructWithCppAccessors_toFfi(value);
-  final result = _smoke_Structs_ImmutableStructWithCppAccessorsCreateHandleNullable(_handle);
-  smoke_Structs_ImmutableStructWithCppAccessors_releaseFfiHandle(_handle);
+  final _handle = smokeStructsImmutablestructwithcppaccessorsToFfi(value);
+  final result = _smokeStructsImmutablestructwithcppaccessorsCreateHandleNullable(_handle);
+  smokeStructsImmutablestructwithcppaccessorsReleaseFfiHandle(_handle);
   return result;
 }
-Structs_ImmutableStructWithCppAccessors smoke_Structs_ImmutableStructWithCppAccessors_fromFfi_nullable(Pointer<Void> handle) {
+Structs_ImmutableStructWithCppAccessors smokeStructsImmutablestructwithcppaccessorsFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_Structs_ImmutableStructWithCppAccessorsGetValueNullable(handle);
-  final result = smoke_Structs_ImmutableStructWithCppAccessors_fromFfi(_handle);
-  smoke_Structs_ImmutableStructWithCppAccessors_releaseFfiHandle(_handle);
+  final _handle = _smokeStructsImmutablestructwithcppaccessorsGetValueNullable(handle);
+  final result = smokeStructsImmutablestructwithcppaccessorsFromFfi(_handle);
+  smokeStructsImmutablestructwithcppaccessorsReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_Structs_ImmutableStructWithCppAccessors_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_Structs_ImmutableStructWithCppAccessorsReleaseHandleNullable(handle);
+void smokeStructsImmutablestructwithcppaccessorsReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeStructsImmutablestructwithcppaccessorsReleaseHandleNullable(handle);
 // End of Structs_ImmutableStructWithCppAccessors "private" section.
 class Structs_MutableStructWithCppAccessors {
   String stringField;
@@ -694,52 +694,52 @@ final _smokeStructsMutablestructwithcppaccessorsGetFieldstringField = __lib.catc
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_MutableStructWithCppAccessors_get_field_stringField'));
-Pointer<Void> smoke_Structs_MutableStructWithCppAccessors_toFfi(Structs_MutableStructWithCppAccessors value) {
-  final _stringFieldHandle = String_toFfi(value.stringField);
+Pointer<Void> smokeStructsMutablestructwithcppaccessorsToFfi(Structs_MutableStructWithCppAccessors value) {
+  final _stringFieldHandle = stringToFfi(value.stringField);
   final _result = _smokeStructsMutablestructwithcppaccessorsCreateHandle(_stringFieldHandle);
-  String_releaseFfiHandle(_stringFieldHandle);
+  stringReleaseFfiHandle(_stringFieldHandle);
   return _result;
 }
-Structs_MutableStructWithCppAccessors smoke_Structs_MutableStructWithCppAccessors_fromFfi(Pointer<Void> handle) {
+Structs_MutableStructWithCppAccessors smokeStructsMutablestructwithcppaccessorsFromFfi(Pointer<Void> handle) {
   final _stringFieldHandle = _smokeStructsMutablestructwithcppaccessorsGetFieldstringField(handle);
   try {
     return Structs_MutableStructWithCppAccessors(
-      String_fromFfi(_stringFieldHandle)
+      stringFromFfi(_stringFieldHandle)
     );
   } finally {
-    String_releaseFfiHandle(_stringFieldHandle);
+    stringReleaseFfiHandle(_stringFieldHandle);
   }
 }
-void smoke_Structs_MutableStructWithCppAccessors_releaseFfiHandle(Pointer<Void> handle) => _smokeStructsMutablestructwithcppaccessorsReleaseHandle(handle);
+void smokeStructsMutablestructwithcppaccessorsReleaseFfiHandle(Pointer<Void> handle) => _smokeStructsMutablestructwithcppaccessorsReleaseHandle(handle);
 // Nullable Structs_MutableStructWithCppAccessors
-final _smoke_Structs_MutableStructWithCppAccessorsCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsMutablestructwithcppaccessorsCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_MutableStructWithCppAccessors_create_handle_nullable'));
-final _smoke_Structs_MutableStructWithCppAccessorsReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsMutablestructwithcppaccessorsReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Structs_MutableStructWithCppAccessors_release_handle_nullable'));
-final _smoke_Structs_MutableStructWithCppAccessorsGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructsMutablestructwithcppaccessorsGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_MutableStructWithCppAccessors_get_value_nullable'));
-Pointer<Void> smoke_Structs_MutableStructWithCppAccessors_toFfi_nullable(Structs_MutableStructWithCppAccessors value) {
+Pointer<Void> smokeStructsMutablestructwithcppaccessorsToFfiNullable(Structs_MutableStructWithCppAccessors value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_Structs_MutableStructWithCppAccessors_toFfi(value);
-  final result = _smoke_Structs_MutableStructWithCppAccessorsCreateHandleNullable(_handle);
-  smoke_Structs_MutableStructWithCppAccessors_releaseFfiHandle(_handle);
+  final _handle = smokeStructsMutablestructwithcppaccessorsToFfi(value);
+  final result = _smokeStructsMutablestructwithcppaccessorsCreateHandleNullable(_handle);
+  smokeStructsMutablestructwithcppaccessorsReleaseFfiHandle(_handle);
   return result;
 }
-Structs_MutableStructWithCppAccessors smoke_Structs_MutableStructWithCppAccessors_fromFfi_nullable(Pointer<Void> handle) {
+Structs_MutableStructWithCppAccessors smokeStructsMutablestructwithcppaccessorsFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_Structs_MutableStructWithCppAccessorsGetValueNullable(handle);
-  final result = smoke_Structs_MutableStructWithCppAccessors_fromFfi(_handle);
-  smoke_Structs_MutableStructWithCppAccessors_releaseFfiHandle(_handle);
+  final _handle = _smokeStructsMutablestructwithcppaccessorsGetValueNullable(handle);
+  final result = smokeStructsMutablestructwithcppaccessorsFromFfi(_handle);
+  smokeStructsMutablestructwithcppaccessorsReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_Structs_MutableStructWithCppAccessors_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_Structs_MutableStructWithCppAccessorsReleaseHandleNullable(handle);
+void smokeStructsMutablestructwithcppaccessorsReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeStructsMutablestructwithcppaccessorsReleaseHandleNullable(handle);
 // End of Structs_MutableStructWithCppAccessors "private" section.
 // Structs "private" section, not exported.
 final _smokeStructsCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -762,24 +762,24 @@ class Structs$Impl extends __lib.NativeBase implements Structs {
   }
   static Structs_Point swapPointCoordinates(Structs_Point input) {
     final _swapPointCoordinatesFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_swapPointCoordinates__Point'));
-    final _inputHandle = smoke_Structs_Point_toFfi(input);
+    final _inputHandle = smokeStructsPointToFfi(input);
     final __resultHandle = _swapPointCoordinatesFfi(__lib.LibraryContext.isolateId, _inputHandle);
-    smoke_Structs_Point_releaseFfiHandle(_inputHandle);
+    smokeStructsPointReleaseFfiHandle(_inputHandle);
     try {
-      return smoke_Structs_Point_fromFfi(__resultHandle);
+      return smokeStructsPointFromFfi(__resultHandle);
     } finally {
-      smoke_Structs_Point_releaseFfiHandle(__resultHandle);
+      smokeStructsPointReleaseFfiHandle(__resultHandle);
     }
   }
   static Structs_AllTypesStruct returnAllTypesStruct(Structs_AllTypesStruct input) {
     final _returnAllTypesStructFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_returnAllTypesStruct__AllTypesStruct'));
-    final _inputHandle = smoke_Structs_AllTypesStruct_toFfi(input);
+    final _inputHandle = smokeStructsAlltypesstructToFfi(input);
     final __resultHandle = _returnAllTypesStructFfi(__lib.LibraryContext.isolateId, _inputHandle);
-    smoke_Structs_AllTypesStruct_releaseFfiHandle(_inputHandle);
+    smokeStructsAlltypesstructReleaseFfiHandle(_inputHandle);
     try {
-      return smoke_Structs_AllTypesStruct_fromFfi(__resultHandle);
+      return smokeStructsAlltypesstructFromFfi(__resultHandle);
     } finally {
-      smoke_Structs_AllTypesStruct_releaseFfiHandle(__resultHandle);
+      smokeStructsAlltypesstructReleaseFfiHandle(__resultHandle);
     }
   }
   static Point createPoint(double x, double y) {
@@ -790,26 +790,26 @@ class Structs$Impl extends __lib.NativeBase implements Structs {
     (_xHandle);
     (_yHandle);
     try {
-      return smoke_TypeCollection_Point_fromFfi(__resultHandle);
+      return smokeTypecollectionPointFromFfi(__resultHandle);
     } finally {
-      smoke_TypeCollection_Point_releaseFfiHandle(__resultHandle);
+      smokeTypecollectionPointReleaseFfiHandle(__resultHandle);
     }
   }
   static AllTypesStruct modifyAllTypesStruct(AllTypesStruct input) {
     final _modifyAllTypesStructFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_modifyAllTypesStruct__AllTypesStruct'));
-    final _inputHandle = smoke_TypeCollection_AllTypesStruct_toFfi(input);
+    final _inputHandle = smokeTypecollectionAlltypesstructToFfi(input);
     final __resultHandle = _modifyAllTypesStructFfi(__lib.LibraryContext.isolateId, _inputHandle);
-    smoke_TypeCollection_AllTypesStruct_releaseFfiHandle(_inputHandle);
+    smokeTypecollectionAlltypesstructReleaseFfiHandle(_inputHandle);
     try {
-      return smoke_TypeCollection_AllTypesStruct_fromFfi(__resultHandle);
+      return smokeTypecollectionAlltypesstructFromFfi(__resultHandle);
     } finally {
-      smoke_TypeCollection_AllTypesStruct_releaseFfiHandle(__resultHandle);
+      smokeTypecollectionAlltypesstructReleaseFfiHandle(__resultHandle);
     }
   }
 }
-Pointer<Void> smoke_Structs_toFfi(Structs value) =>
+Pointer<Void> smokeStructsToFfi(Structs value) =>
   _smokeStructsCopyHandle((value as __lib.NativeBase).handle);
-Structs smoke_Structs_fromFfi(Pointer<Void> handle) {
+Structs smokeStructsFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as Structs;
@@ -819,12 +819,12 @@ Structs smoke_Structs_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_Structs_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeStructsReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeStructsReleaseHandle(handle);
-Pointer<Void> smoke_Structs_toFfi_nullable(Structs value) =>
-  value != null ? smoke_Structs_toFfi(value) : Pointer<Void>.fromAddress(0);
-Structs smoke_Structs_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_Structs_fromFfi(handle) : null;
-void smoke_Structs_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeStructsToFfiNullable(Structs value) =>
+  value != null ? smokeStructsToFfi(value) : Pointer<Void>.fromAddress(0);
+Structs smokeStructsFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeStructsFromFfi(handle) : null;
+void smokeStructsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeStructsReleaseHandle(handle);
 // End of Structs "private" section.

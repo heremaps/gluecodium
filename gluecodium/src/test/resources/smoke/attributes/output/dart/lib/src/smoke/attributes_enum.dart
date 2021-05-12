@@ -7,7 +7,7 @@ enum AttributesEnum {
     nope
 }
 // AttributesEnum "private" section, not exported.
-int smoke_AttributesEnum_toFfi(AttributesEnum value) {
+int smokeAttributesenumToFfi(AttributesEnum value) {
   switch (value) {
   case AttributesEnum.nope:
     return 0;
@@ -16,7 +16,7 @@ int smoke_AttributesEnum_toFfi(AttributesEnum value) {
     throw StateError("Invalid enum value $value for AttributesEnum enum.");
   }
 }
-AttributesEnum smoke_AttributesEnum_fromFfi(int handle) {
+AttributesEnum smokeAttributesenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return AttributesEnum.nope;
@@ -25,33 +25,33 @@ AttributesEnum smoke_AttributesEnum_fromFfi(int handle) {
     throw StateError("Invalid numeric value $handle for AttributesEnum enum.");
   }
 }
-void smoke_AttributesEnum_releaseFfiHandle(int handle) {}
-final _smoke_AttributesEnumCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+void smokeAttributesenumReleaseFfiHandle(int handle) {}
+final _smokeAttributesenumCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
   >('library_smoke_AttributesEnum_create_handle_nullable'));
-final _smoke_AttributesEnumReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeAttributesenumReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_AttributesEnum_release_handle_nullable'));
-final _smoke_AttributesEnumGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeAttributesenumGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_AttributesEnum_get_value_nullable'));
-Pointer<Void> smoke_AttributesEnum_toFfi_nullable(AttributesEnum value) {
+Pointer<Void> smokeAttributesenumToFfiNullable(AttributesEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_AttributesEnum_toFfi(value);
-  final result = _smoke_AttributesEnumCreateHandleNullable(_handle);
-  smoke_AttributesEnum_releaseFfiHandle(_handle);
+  final _handle = smokeAttributesenumToFfi(value);
+  final result = _smokeAttributesenumCreateHandleNullable(_handle);
+  smokeAttributesenumReleaseFfiHandle(_handle);
   return result;
 }
-AttributesEnum smoke_AttributesEnum_fromFfi_nullable(Pointer<Void> handle) {
+AttributesEnum smokeAttributesenumFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_AttributesEnumGetValueNullable(handle);
-  final result = smoke_AttributesEnum_fromFfi(_handle);
-  smoke_AttributesEnum_releaseFfiHandle(_handle);
+  final _handle = _smokeAttributesenumGetValueNullable(handle);
+  final result = smokeAttributesenumFromFfi(_handle);
+  smokeAttributesenumReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_AttributesEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_AttributesEnumReleaseHandleNullable(handle);
+void smokeAttributesenumReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeAttributesenumReleaseHandleNullable(handle);
 // End of AttributesEnum "private" section.

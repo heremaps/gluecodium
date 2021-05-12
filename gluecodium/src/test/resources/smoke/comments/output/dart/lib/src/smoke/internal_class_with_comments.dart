@@ -48,9 +48,9 @@ class InternalClassWithComments$Impl extends __lib.NativeBase implements Interna
     }
   }
 }
-Pointer<Void> smoke_InternalClassWithComments_toFfi(InternalClassWithComments value) =>
+Pointer<Void> smokeInternalclasswithcommentsToFfi(InternalClassWithComments value) =>
   _smokeInternalclasswithcommentsCopyHandle((value as __lib.NativeBase).handle);
-InternalClassWithComments smoke_InternalClassWithComments_fromFfi(Pointer<Void> handle) {
+InternalClassWithComments smokeInternalclasswithcommentsFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as InternalClassWithComments;
@@ -60,12 +60,12 @@ InternalClassWithComments smoke_InternalClassWithComments_fromFfi(Pointer<Void> 
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_InternalClassWithComments_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeInternalclasswithcommentsReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeInternalclasswithcommentsReleaseHandle(handle);
-Pointer<Void> smoke_InternalClassWithComments_toFfi_nullable(InternalClassWithComments value) =>
-  value != null ? smoke_InternalClassWithComments_toFfi(value) : Pointer<Void>.fromAddress(0);
-InternalClassWithComments smoke_InternalClassWithComments_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_InternalClassWithComments_fromFfi(handle) : null;
-void smoke_InternalClassWithComments_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeInternalclasswithcommentsToFfiNullable(InternalClassWithComments value) =>
+  value != null ? smokeInternalclasswithcommentsToFfi(value) : Pointer<Void>.fromAddress(0);
+InternalClassWithComments smokeInternalclasswithcommentsFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeInternalclasswithcommentsFromFfi(handle) : null;
+void smokeInternalclasswithcommentsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeInternalclasswithcommentsReleaseHandle(handle);
 // End of InternalClassWithComments "private" section.

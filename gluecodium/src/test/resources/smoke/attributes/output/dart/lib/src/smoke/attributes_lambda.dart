@@ -34,23 +34,23 @@ class AttributesLambda$Impl {
     }
   }
 }
-int _AttributesLambda_call_static(int _token) {
+int _AttributesLambdacallStatic(int _token) {
   try {
     (__lib.instanceCache[_token] as AttributesLambda)();
   } finally {
   }
   return 0;
 }
-Pointer<Void> smoke_AttributesLambda_toFfi(AttributesLambda value) {
+Pointer<Void> smokeAttributeslambdaToFfi(AttributesLambda value) {
   final result = _smokeAttributeslambdaCreateProxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Int64 Function(Uint64)>(_AttributesLambda_call_static, __lib.unknownError)
+    Pointer.fromFunction<Int64 Function(Uint64)>(_AttributesLambdacallStatic, __lib.unknownError)
   );
   return result;
 }
-AttributesLambda smoke_AttributesLambda_fromFfi(Pointer<Void> handle) {
+AttributesLambda smokeAttributeslambdaFromFfi(Pointer<Void> handle) {
   final _impl = AttributesLambda$Impl(_smokeAttributeslambdaCopyHandle(handle));
   return () {
     final _result =_impl.call();
@@ -58,35 +58,35 @@ AttributesLambda smoke_AttributesLambda_fromFfi(Pointer<Void> handle) {
     return _result;
   };
 }
-void smoke_AttributesLambda_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeAttributeslambdaReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeAttributeslambdaReleaseHandle(handle);
 // Nullable AttributesLambda
-final _smoke_AttributesLambdaCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeAttributeslambdaCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_AttributesLambda_create_handle_nullable'));
-final _smoke_AttributesLambdaReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeAttributeslambdaReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_AttributesLambda_release_handle_nullable'));
-final _smoke_AttributesLambdaGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeAttributeslambdaGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_AttributesLambda_get_value_nullable'));
-Pointer<Void> smoke_AttributesLambda_toFfi_nullable(AttributesLambda value) {
+Pointer<Void> smokeAttributeslambdaToFfiNullable(AttributesLambda value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_AttributesLambda_toFfi(value);
-  final result = _smoke_AttributesLambdaCreateHandleNullable(_handle);
-  smoke_AttributesLambda_releaseFfiHandle(_handle);
+  final _handle = smokeAttributeslambdaToFfi(value);
+  final result = _smokeAttributeslambdaCreateHandleNullable(_handle);
+  smokeAttributeslambdaReleaseFfiHandle(_handle);
   return result;
 }
-AttributesLambda smoke_AttributesLambda_fromFfi_nullable(Pointer<Void> handle) {
+AttributesLambda smokeAttributeslambdaFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_AttributesLambdaGetValueNullable(handle);
-  final result = smoke_AttributesLambda_fromFfi(_handle);
-  smoke_AttributesLambda_releaseFfiHandle(_handle);
+  final _handle = _smokeAttributeslambdaGetValueNullable(handle);
+  final result = smokeAttributeslambdaFromFfi(_handle);
+  smokeAttributeslambdaReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_AttributesLambda_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_AttributesLambdaReleaseHandleNullable(handle);
+void smokeAttributeslambdaReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeAttributeslambdaReleaseHandleNullable(handle);
 // End of AttributesLambda "private" section.

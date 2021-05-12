@@ -29,11 +29,11 @@ class Vector {
   Vector.create(int input) : this._copy(_create(input));
   double distanceTo(Vector other) {
     final _distanceToFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Double Function(Pointer<Void>, Int32, Pointer<Void>), double Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_StructsWithMethods_Vector_distanceTo__Vector'));
-    final _otherHandle = smoke_StructsWithMethods_Vector_toFfi(other);
-    final _handle = smoke_StructsWithMethods_Vector_toFfi(this);
+    final _otherHandle = smokeStructswithmethodsVectorToFfi(other);
+    final _handle = smokeStructswithmethodsVectorToFfi(this);
     final __resultHandle = _distanceToFfi(_handle, __lib.LibraryContext.isolateId, _otherHandle);
-    smoke_StructsWithMethods_Vector_releaseFfiHandle(_handle);
-    smoke_StructsWithMethods_Vector_releaseFfiHandle(_otherHandle);
+    smokeStructswithmethodsVectorReleaseFfiHandle(_handle);
+    smokeStructswithmethodsVectorReleaseFfiHandle(_otherHandle);
     try {
       return (__resultHandle);
     } finally {
@@ -42,15 +42,15 @@ class Vector {
   }
   Vector add(Vector other) {
     final _addFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_StructsWithMethods_Vector_add__Vector'));
-    final _otherHandle = smoke_StructsWithMethods_Vector_toFfi(other);
-    final _handle = smoke_StructsWithMethods_Vector_toFfi(this);
+    final _otherHandle = smokeStructswithmethodsVectorToFfi(other);
+    final _handle = smokeStructswithmethodsVectorToFfi(this);
     final __resultHandle = _addFfi(_handle, __lib.LibraryContext.isolateId, _otherHandle);
-    smoke_StructsWithMethods_Vector_releaseFfiHandle(_handle);
-    smoke_StructsWithMethods_Vector_releaseFfiHandle(_otherHandle);
+    smokeStructswithmethodsVectorReleaseFfiHandle(_handle);
+    smokeStructswithmethodsVectorReleaseFfiHandle(_otherHandle);
     try {
-      return smoke_StructsWithMethods_Vector_fromFfi(__resultHandle);
+      return smokeStructswithmethodsVectorFromFfi(__resultHandle);
     } finally {
-      smoke_StructsWithMethods_Vector_releaseFfiHandle(__resultHandle);
+      smokeStructswithmethodsVectorReleaseFfiHandle(__resultHandle);
     }
   }
   static bool validate(double x, double y) {
@@ -61,9 +61,9 @@ class Vector {
     (_xHandle);
     (_yHandle);
     try {
-      return Boolean_fromFfi(__resultHandle);
+      return booleanFromFfi(__resultHandle);
     } finally {
-      Boolean_releaseFfiHandle(__resultHandle);
+      booleanReleaseFfiHandle(__resultHandle);
     }
   }
   static Vector _$init(double x, double y) {
@@ -74,31 +74,31 @@ class Vector {
     (_xHandle);
     (_yHandle);
     try {
-      return smoke_StructsWithMethods_Vector_fromFfi(__resultHandle);
+      return smokeStructswithmethodsVectorFromFfi(__resultHandle);
     } finally {
-      smoke_StructsWithMethods_Vector_releaseFfiHandle(__resultHandle);
+      smokeStructswithmethodsVectorReleaseFfiHandle(__resultHandle);
     }
   }
   static Vector _copy(Vector other) {
     final _copyFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_StructsWithMethods_Vector_create__Vector'));
-    final _otherHandle = smoke_StructsWithMethods_Vector_toFfi(other);
+    final _otherHandle = smokeStructswithmethodsVectorToFfi(other);
     final __callResultHandle = _copyFfi(__lib.LibraryContext.isolateId, _otherHandle);
-    smoke_StructsWithMethods_Vector_releaseFfiHandle(_otherHandle);
+    smokeStructswithmethodsVectorReleaseFfiHandle(_otherHandle);
     if (_copyReturnHasError(__callResultHandle) != 0) {
         final __errorHandle = _copyReturnGetError(__callResultHandle);
         _copyReturnReleaseHandle(__callResultHandle);
         try {
-          throw ValidationException(smoke_ValidationUtils_ValidationErrorCode_fromFfi(__errorHandle));
+          throw ValidationException(smokeValidationutilsValidationerrorcodeFromFfi(__errorHandle));
         } finally {
-          smoke_ValidationUtils_ValidationErrorCode_releaseFfiHandle(__errorHandle);
+          smokeValidationutilsValidationerrorcodeReleaseFfiHandle(__errorHandle);
         }
     }
     final __resultHandle = _copyReturnGetResult(__callResultHandle);
     _copyReturnReleaseHandle(__callResultHandle);
     try {
-      return smoke_StructsWithMethods_Vector_fromFfi(__resultHandle);
+      return smokeStructswithmethodsVectorFromFfi(__resultHandle);
     } finally {
-      smoke_StructsWithMethods_Vector_releaseFfiHandle(__resultHandle);
+      smokeStructswithmethodsVectorReleaseFfiHandle(__resultHandle);
     }
   }
   static Vector _create(int input) {
@@ -107,9 +107,9 @@ class Vector {
     final __resultHandle = _createFfi(__lib.LibraryContext.isolateId, _inputHandle);
     (_inputHandle);
     try {
-      return smoke_StructsWithMethods_Vector_fromFfi(__resultHandle);
+      return smokeStructswithmethodsVectorFromFfi(__resultHandle);
     } finally {
-      smoke_StructsWithMethods_Vector_releaseFfiHandle(__resultHandle);
+      smokeStructswithmethodsVectorReleaseFfiHandle(__resultHandle);
     }
   }
 }
@@ -130,7 +130,7 @@ final _smokeStructswithmethodsVectorGetFieldy = __lib.catchArgumentError(() => _
     Double Function(Pointer<Void>),
     double Function(Pointer<Void>)
   >('library_smoke_StructsWithMethods_Vector_get_field_y'));
-Pointer<Void> smoke_StructsWithMethods_Vector_toFfi(Vector value) {
+Pointer<Void> smokeStructswithmethodsVectorToFfi(Vector value) {
   final _xHandle = (value.x);
   final _yHandle = (value.y);
   final _result = _smokeStructswithmethodsVectorCreateHandle(_xHandle, _yHandle);
@@ -138,7 +138,7 @@ Pointer<Void> smoke_StructsWithMethods_Vector_toFfi(Vector value) {
   (_yHandle);
   return _result;
 }
-Vector smoke_StructsWithMethods_Vector_fromFfi(Pointer<Void> handle) {
+Vector smokeStructswithmethodsVectorFromFfi(Pointer<Void> handle) {
   final _xHandle = _smokeStructswithmethodsVectorGetFieldx(handle);
   final _yHandle = _smokeStructswithmethodsVectorGetFieldy(handle);
   try {
@@ -151,34 +151,34 @@ Vector smoke_StructsWithMethods_Vector_fromFfi(Pointer<Void> handle) {
     (_yHandle);
   }
 }
-void smoke_StructsWithMethods_Vector_releaseFfiHandle(Pointer<Void> handle) => _smokeStructswithmethodsVectorReleaseHandle(handle);
+void smokeStructswithmethodsVectorReleaseFfiHandle(Pointer<Void> handle) => _smokeStructswithmethodsVectorReleaseHandle(handle);
 // Nullable Vector
-final _smoke_StructsWithMethods_VectorCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructswithmethodsVectorCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructsWithMethods_Vector_create_handle_nullable'));
-final _smoke_StructsWithMethods_VectorReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructswithmethodsVectorReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_StructsWithMethods_Vector_release_handle_nullable'));
-final _smoke_StructsWithMethods_VectorGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructswithmethodsVectorGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructsWithMethods_Vector_get_value_nullable'));
-Pointer<Void> smoke_StructsWithMethods_Vector_toFfi_nullable(Vector value) {
+Pointer<Void> smokeStructswithmethodsVectorToFfiNullable(Vector value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_StructsWithMethods_Vector_toFfi(value);
-  final result = _smoke_StructsWithMethods_VectorCreateHandleNullable(_handle);
-  smoke_StructsWithMethods_Vector_releaseFfiHandle(_handle);
+  final _handle = smokeStructswithmethodsVectorToFfi(value);
+  final result = _smokeStructswithmethodsVectorCreateHandleNullable(_handle);
+  smokeStructswithmethodsVectorReleaseFfiHandle(_handle);
   return result;
 }
-Vector smoke_StructsWithMethods_Vector_fromFfi_nullable(Pointer<Void> handle) {
+Vector smokeStructswithmethodsVectorFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_StructsWithMethods_VectorGetValueNullable(handle);
-  final result = smoke_StructsWithMethods_Vector_fromFfi(_handle);
-  smoke_StructsWithMethods_Vector_releaseFfiHandle(_handle);
+  final _handle = _smokeStructswithmethodsVectorGetValueNullable(handle);
+  final result = smokeStructswithmethodsVectorFromFfi(_handle);
+  smokeStructswithmethodsVectorReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_StructsWithMethods_Vector_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_StructsWithMethods_VectorReleaseHandleNullable(handle);
+void smokeStructswithmethodsVectorReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeStructswithmethodsVectorReleaseHandleNullable(handle);
 // End of Vector "private" section.

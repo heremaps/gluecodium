@@ -19,29 +19,30 @@
   !
   !}}
  {
-  final _{{resolveName}}Ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<{{>ffiApi}}, {{>ffiDart}}>('{{libraryName}}_{{resolveName "Ffi"}}'));
+  final _{{resolveName}}Ffi = __lib.catchArgumentError(() => {{!!
+  }}__lib.nativeLibrary.lookupFunction<{{>ffiApi}}, {{>ffiDart}}>('{{libraryName}}_{{resolveName "FfiSnakeCase"}}'));
 {{#parameters}}
-  final _{{resolveName}}Handle = {{#set call="toFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}});
+  final _{{resolveName}}Handle = {{#set call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}});
 {{/parameters}}{{#unless isStatic}}
-  final _handle = {{#if isStruct}}{{resolveName parent "Ffi"}}_toFfi(this){{/if}}{{!!
+  final _handle = {{#if isStruct}}{{resolveName parent "Ffi"}}ToFfi(this){{/if}}{{!!
   }}{{#unless isStruct}}this.handle{{/unless}};
 {{/unless}}
   final __{{#if thrownType}}callResult{{/if}}{{#unless thrownType}}result{{/unless}}Handle = _{{resolveName}}Ffi({{!!
   }}{{#unless isStatic}}_handle, {{/unless}}__lib.LibraryContext.isolateId{{#if parameters}}, {{/if}}{{!!
   }}{{#parameters}}_{{resolveName}}Handle{{#if iter.hasNext}}, {{/if}}{{/parameters}});
-{{#if isStruct}}{{#unless isStatic}}  {{resolveName parent "Ffi"}}_releaseFfiHandle(_handle);
+{{#if isStruct}}{{#unless isStatic}}  {{resolveName parent "Ffi"}}ReleaseFfiHandle(_handle);
 {{/unless}}{{/if}}{{!!
 }}{{#parameters}}
-  {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}Handle);
+  {{#set call="ReleaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}Handle);
 {{/parameters}}
 {{#if thrownType}}
   if (_{{resolveName}}ReturnHasError(__callResultHandle) != 0) {
       final __errorHandle = _{{resolveName}}ReturnGetError(__callResultHandle);
       _{{resolveName}}ReturnReleaseHandle(__callResultHandle);
       try {
-        throw {{resolveName exception}}({{#set call="fromFfi" typeRef=exception.errorType}}{{>dart/DartFfiConversionCall}}{{/set}}(__errorHandle));
+        throw {{resolveName exception}}({{#set call="FromFfi" typeRef=exception.errorType}}{{>dart/DartFfiConversionCall}}{{/set}}(__errorHandle));
       } finally {
-        {{#set call="releaseFfiHandle" typeRef=exception.errorType}}{{>dart/DartFfiConversionCall}}{{/set}}(__errorHandle);
+        {{#set call="ReleaseFfiHandle" typeRef=exception.errorType}}{{>dart/DartFfiConversionCall}}{{/set}}(__errorHandle);
       }
   }
   final __resultHandle = _{{resolveName}}ReturnGetResult(__callResultHandle);
@@ -67,9 +68,9 @@
 }}{{#set elementType=typeRef.type.actualType.elementType.type.actualType typeRef=typeRef.type.actualType.elementType}}{{!!
     }}return {{#set varName="__resultHandle"}}{{prefixPartial "dart/InitLazyList" "    " skipFirstLine=true}}{{/set}};{{/set}}
 {{/if}}{{#unless typeRef.attributes.optimized}}try {
-    return {{#set call="fromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(__resultHandle);
+    return {{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(__resultHandle);
   } finally {
-    {{#set call="releaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(__resultHandle);
+    {{#set call="ReleaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(__resultHandle);
   }
 {{/unless}}{{/returnType}}{{!!
 }}{{/ffiReturnConversion}}

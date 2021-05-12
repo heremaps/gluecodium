@@ -21,29 +21,29 @@
 import "test/string.dart";
 
 class SeasonConverter {
-  static String convertFromInternal(String_internal internalSeason) {
+  static String convertFromInternal(StringInternal internalSeason) {
     switch (internalSeason) {
-      case String_internal.winter:
+      case StringInternal.winter:
         return "winter";
-      case String_internal.spring:
+      case StringInternal.spring:
         return "spring";
-      case String_internal.summer:
+      case StringInternal.summer:
         return "summer";
-      case String_internal.autumn:
+      case StringInternal.autumn:
         return "autumn";
     }
   }
 
-  static String_internal convertToInternal(String systemSeason) {
+  static StringInternal convertToInternal(String systemSeason) {
     switch (systemSeason) {
       case "winter":
-        return String_internal.winter;
+        return StringInternal.winter;
       case "spring":
-        return String_internal.spring;
+        return StringInternal.spring;
       case "summer":
-        return String_internal.summer;
+        return StringInternal.summer;
       case "autumn":
-        return String_internal.autumn;
+        return StringInternal.autumn;
     }
   }
 }

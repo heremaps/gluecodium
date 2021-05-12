@@ -42,10 +42,10 @@ class AttributesClass$Impl extends __lib.NativeBase implements AttributesClass {
   @override
   veryFun(@OnParameterInClass String param) {
     final _veryFunFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AttributesClass_veryFun__String'));
-    final _paramHandle = String_toFfi(param);
+    final _paramHandle = stringToFfi(param);
     final _handle = this.handle;
     final __resultHandle = _veryFunFfi(_handle, __lib.LibraryContext.isolateId, _paramHandle);
-    String_releaseFfiHandle(_paramHandle);
+    stringReleaseFfiHandle(_paramHandle);
     try {
       return (__resultHandle);
     } finally {
@@ -59,19 +59,19 @@ class AttributesClass$Impl extends __lib.NativeBase implements AttributesClass {
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return String_fromFfi(__resultHandle);
+      return stringFromFfi(__resultHandle);
     } finally {
-      String_releaseFfiHandle(__resultHandle);
+      stringReleaseFfiHandle(__resultHandle);
     }
   }
   @OnPropertyInClass
   @override
   set prop(String value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AttributesClass_prop_set__String'));
-    final _valueHandle = String_toFfi(value);
+    final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
     final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
-    String_releaseFfiHandle(_valueHandle);
+    stringReleaseFfiHandle(_valueHandle);
     try {
       return (__resultHandle);
     } finally {
@@ -79,9 +79,9 @@ class AttributesClass$Impl extends __lib.NativeBase implements AttributesClass {
     }
   }
 }
-Pointer<Void> smoke_AttributesClass_toFfi(AttributesClass value) =>
+Pointer<Void> smokeAttributesclassToFfi(AttributesClass value) =>
   _smokeAttributesclassCopyHandle((value as __lib.NativeBase).handle);
-AttributesClass smoke_AttributesClass_fromFfi(Pointer<Void> handle) {
+AttributesClass smokeAttributesclassFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as AttributesClass;
@@ -91,12 +91,12 @@ AttributesClass smoke_AttributesClass_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_AttributesClass_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeAttributesclassReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeAttributesclassReleaseHandle(handle);
-Pointer<Void> smoke_AttributesClass_toFfi_nullable(AttributesClass value) =>
-  value != null ? smoke_AttributesClass_toFfi(value) : Pointer<Void>.fromAddress(0);
-AttributesClass smoke_AttributesClass_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_AttributesClass_fromFfi(handle) : null;
-void smoke_AttributesClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeAttributesclassToFfiNullable(AttributesClass value) =>
+  value != null ? smokeAttributesclassToFfi(value) : Pointer<Void>.fromAddress(0);
+AttributesClass smokeAttributesclassFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeAttributesclassFromFfi(handle) : null;
+void smokeAttributesclassReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeAttributesclassReleaseHandle(handle);
 // End of AttributesClass "private" section.

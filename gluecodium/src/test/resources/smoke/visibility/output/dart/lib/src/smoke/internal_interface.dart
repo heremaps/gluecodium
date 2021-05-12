@@ -71,31 +71,31 @@ class InternalInterface$Impl extends __lib.NativeBase implements InternalInterfa
     }
   }
 }
-int _InternalInterface_fooBar_static(int _token) {
+int _InternalInterfacefooBarStatic(int _token) {
   try {
     (__lib.instanceCache[_token] as InternalInterface).internal_fooBar();
   } finally {
   }
   return 0;
 }
-Pointer<Void> smoke_InternalInterface_toFfi(InternalInterface value) {
+Pointer<Void> smokeInternalinterfaceToFfi(InternalInterface value) {
   if (value is __lib.NativeBase) return _smokeInternalinterfaceCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokeInternalinterfaceCreateProxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64)>(_InternalInterface_fooBar_static, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64)>(_InternalInterfacefooBarStatic, __lib.unknownError)
   );
   return result;
 }
-InternalInterface smoke_InternalInterface_fromFfi(Pointer<Void> handle) {
+InternalInterface smokeInternalinterfaceFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as InternalInterface;
   if (instance != null) return instance;
   final _typeIdHandle = _smokeInternalinterfaceGetTypeId(handle);
-  final factoryConstructor = __lib.typeRepository[String_fromFfi(_typeIdHandle)];
-  String_releaseFfiHandle(_typeIdHandle);
+  final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
+  stringReleaseFfiHandle(_typeIdHandle);
   final _copiedHandle = _smokeInternalinterfaceCopyHandle(handle);
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
@@ -103,12 +103,12 @@ InternalInterface smoke_InternalInterface_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_InternalInterface_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeInternalinterfaceReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeInternalinterfaceReleaseHandle(handle);
-Pointer<Void> smoke_InternalInterface_toFfi_nullable(InternalInterface value) =>
-  value != null ? smoke_InternalInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
-InternalInterface smoke_InternalInterface_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_InternalInterface_fromFfi(handle) : null;
-void smoke_InternalInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeInternalinterfaceToFfiNullable(InternalInterface value) =>
+  value != null ? smokeInternalinterfaceToFfi(value) : Pointer<Void>.fromAddress(0);
+InternalInterface smokeInternalinterfaceFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeInternalinterfaceFromFfi(handle) : null;
+void smokeInternalinterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeInternalinterfaceReleaseHandle(handle);
 // End of InternalInterface "private" section.

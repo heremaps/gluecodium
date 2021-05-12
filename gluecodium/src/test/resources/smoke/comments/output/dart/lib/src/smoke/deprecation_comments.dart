@@ -58,7 +58,7 @@ enum DeprecationComments_SomeEnum {
     useless
 }
 // DeprecationComments_SomeEnum "private" section, not exported.
-int smoke_DeprecationComments_SomeEnum_toFfi(DeprecationComments_SomeEnum value) {
+int smokeDeprecationcommentsSomeenumToFfi(DeprecationComments_SomeEnum value) {
   switch (value) {
   case DeprecationComments_SomeEnum.useless:
     return 0;
@@ -67,7 +67,7 @@ int smoke_DeprecationComments_SomeEnum_toFfi(DeprecationComments_SomeEnum value)
     throw StateError("Invalid enum value $value for DeprecationComments_SomeEnum enum.");
   }
 }
-DeprecationComments_SomeEnum smoke_DeprecationComments_SomeEnum_fromFfi(int handle) {
+DeprecationComments_SomeEnum smokeDeprecationcommentsSomeenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return DeprecationComments_SomeEnum.useless;
@@ -76,35 +76,35 @@ DeprecationComments_SomeEnum smoke_DeprecationComments_SomeEnum_fromFfi(int hand
     throw StateError("Invalid numeric value $handle for DeprecationComments_SomeEnum enum.");
   }
 }
-void smoke_DeprecationComments_SomeEnum_releaseFfiHandle(int handle) {}
-final _smoke_DeprecationComments_SomeEnumCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+void smokeDeprecationcommentsSomeenumReleaseFfiHandle(int handle) {}
+final _smokeDeprecationcommentsSomeenumCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
   >('library_smoke_DeprecationComments_SomeEnum_create_handle_nullable'));
-final _smoke_DeprecationComments_SomeEnumReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeDeprecationcommentsSomeenumReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_DeprecationComments_SomeEnum_release_handle_nullable'));
-final _smoke_DeprecationComments_SomeEnumGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeDeprecationcommentsSomeenumGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_DeprecationComments_SomeEnum_get_value_nullable'));
-Pointer<Void> smoke_DeprecationComments_SomeEnum_toFfi_nullable(DeprecationComments_SomeEnum value) {
+Pointer<Void> smokeDeprecationcommentsSomeenumToFfiNullable(DeprecationComments_SomeEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_DeprecationComments_SomeEnum_toFfi(value);
-  final result = _smoke_DeprecationComments_SomeEnumCreateHandleNullable(_handle);
-  smoke_DeprecationComments_SomeEnum_releaseFfiHandle(_handle);
+  final _handle = smokeDeprecationcommentsSomeenumToFfi(value);
+  final result = _smokeDeprecationcommentsSomeenumCreateHandleNullable(_handle);
+  smokeDeprecationcommentsSomeenumReleaseFfiHandle(_handle);
   return result;
 }
-DeprecationComments_SomeEnum smoke_DeprecationComments_SomeEnum_fromFfi_nullable(Pointer<Void> handle) {
+DeprecationComments_SomeEnum smokeDeprecationcommentsSomeenumFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_DeprecationComments_SomeEnumGetValueNullable(handle);
-  final result = smoke_DeprecationComments_SomeEnum_fromFfi(_handle);
-  smoke_DeprecationComments_SomeEnum_releaseFfiHandle(_handle);
+  final _handle = _smokeDeprecationcommentsSomeenumGetValueNullable(handle);
+  final result = smokeDeprecationcommentsSomeenumFromFfi(_handle);
+  smokeDeprecationcommentsSomeenumReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_DeprecationComments_SomeEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_DeprecationComments_SomeEnumReleaseHandleNullable(handle);
+void smokeDeprecationcommentsSomeenumReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeDeprecationcommentsSomeenumReleaseHandleNullable(handle);
 // End of DeprecationComments_SomeEnum "private" section.
 @Deprecated("Unfortunately, this exception is deprecated, please use [Comments_SomethingWrongException] instead.")
 class DeprecationComments_SomethingWrongException implements Exception {
@@ -132,52 +132,52 @@ final _smokeDeprecationcommentsSomestructGetFieldsomeField = __lib.catchArgument
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_DeprecationComments_SomeStruct_get_field_someField'));
-Pointer<Void> smoke_DeprecationComments_SomeStruct_toFfi(DeprecationComments_SomeStruct value) {
-  final _someFieldHandle = Boolean_toFfi(value.someField);
+Pointer<Void> smokeDeprecationcommentsSomestructToFfi(DeprecationComments_SomeStruct value) {
+  final _someFieldHandle = booleanToFfi(value.someField);
   final _result = _smokeDeprecationcommentsSomestructCreateHandle(_someFieldHandle);
-  Boolean_releaseFfiHandle(_someFieldHandle);
+  booleanReleaseFfiHandle(_someFieldHandle);
   return _result;
 }
-DeprecationComments_SomeStruct smoke_DeprecationComments_SomeStruct_fromFfi(Pointer<Void> handle) {
+DeprecationComments_SomeStruct smokeDeprecationcommentsSomestructFromFfi(Pointer<Void> handle) {
   final _someFieldHandle = _smokeDeprecationcommentsSomestructGetFieldsomeField(handle);
   try {
     return DeprecationComments_SomeStruct(
-      Boolean_fromFfi(_someFieldHandle)
+      booleanFromFfi(_someFieldHandle)
     );
   } finally {
-    Boolean_releaseFfiHandle(_someFieldHandle);
+    booleanReleaseFfiHandle(_someFieldHandle);
   }
 }
-void smoke_DeprecationComments_SomeStruct_releaseFfiHandle(Pointer<Void> handle) => _smokeDeprecationcommentsSomestructReleaseHandle(handle);
+void smokeDeprecationcommentsSomestructReleaseFfiHandle(Pointer<Void> handle) => _smokeDeprecationcommentsSomestructReleaseHandle(handle);
 // Nullable DeprecationComments_SomeStruct
-final _smoke_DeprecationComments_SomeStructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeDeprecationcommentsSomestructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_DeprecationComments_SomeStruct_create_handle_nullable'));
-final _smoke_DeprecationComments_SomeStructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeDeprecationcommentsSomestructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_DeprecationComments_SomeStruct_release_handle_nullable'));
-final _smoke_DeprecationComments_SomeStructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeDeprecationcommentsSomestructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_DeprecationComments_SomeStruct_get_value_nullable'));
-Pointer<Void> smoke_DeprecationComments_SomeStruct_toFfi_nullable(DeprecationComments_SomeStruct value) {
+Pointer<Void> smokeDeprecationcommentsSomestructToFfiNullable(DeprecationComments_SomeStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_DeprecationComments_SomeStruct_toFfi(value);
-  final result = _smoke_DeprecationComments_SomeStructCreateHandleNullable(_handle);
-  smoke_DeprecationComments_SomeStruct_releaseFfiHandle(_handle);
+  final _handle = smokeDeprecationcommentsSomestructToFfi(value);
+  final result = _smokeDeprecationcommentsSomestructCreateHandleNullable(_handle);
+  smokeDeprecationcommentsSomestructReleaseFfiHandle(_handle);
   return result;
 }
-DeprecationComments_SomeStruct smoke_DeprecationComments_SomeStruct_fromFfi_nullable(Pointer<Void> handle) {
+DeprecationComments_SomeStruct smokeDeprecationcommentsSomestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_DeprecationComments_SomeStructGetValueNullable(handle);
-  final result = smoke_DeprecationComments_SomeStruct_fromFfi(_handle);
-  smoke_DeprecationComments_SomeStruct_releaseFfiHandle(_handle);
+  final _handle = _smokeDeprecationcommentsSomestructGetValueNullable(handle);
+  final result = smokeDeprecationcommentsSomestructFromFfi(_handle);
+  smokeDeprecationcommentsSomestructReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_DeprecationComments_SomeStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_DeprecationComments_SomeStructReleaseHandleNullable(handle);
+void smokeDeprecationcommentsSomestructReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeDeprecationcommentsSomestructReleaseHandleNullable(handle);
 // End of DeprecationComments_SomeStruct "private" section.
 // DeprecationComments "private" section, not exported.
 final _smokeDeprecationcommentsCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -236,14 +236,14 @@ class DeprecationComments$Impl extends __lib.NativeBase implements DeprecationCo
   @override
   bool someMethodWithAllComments(String input) {
     final _someMethodWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DeprecationComments_someMethodWithAllComments__String'));
-    final _inputHandle = String_toFfi(input);
+    final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
     final __resultHandle = _someMethodWithAllCommentsFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
-    String_releaseFfiHandle(_inputHandle);
+    stringReleaseFfiHandle(_inputHandle);
     try {
-      return Boolean_fromFfi(__resultHandle);
+      return booleanFromFfi(__resultHandle);
     } finally {
-      Boolean_releaseFfiHandle(__resultHandle);
+      booleanReleaseFfiHandle(__resultHandle);
     }
   }
   /// Gets some very useful property.
@@ -253,19 +253,19 @@ class DeprecationComments$Impl extends __lib.NativeBase implements DeprecationCo
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return Boolean_fromFfi(__resultHandle);
+      return booleanFromFfi(__resultHandle);
     } finally {
-      Boolean_releaseFfiHandle(__resultHandle);
+      booleanReleaseFfiHandle(__resultHandle);
     }
   }
   /// Sets some very useful property.
   @Deprecated("Unfortunately, this property's setter is deprecated.\nUse [Comments.isSomeProperty] instead.")
   set isSomeProperty(bool value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_DeprecationComments_isSomeProperty_set__Boolean'));
-    final _valueHandle = Boolean_toFfi(value);
+    final _valueHandle = booleanToFfi(value);
     final _handle = this.handle;
     final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
-    Boolean_releaseFfiHandle(_valueHandle);
+    booleanReleaseFfiHandle(_valueHandle);
     try {
       return (__resultHandle);
     } finally {
@@ -279,18 +279,18 @@ class DeprecationComments$Impl extends __lib.NativeBase implements DeprecationCo
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return String_fromFfi(__resultHandle);
+      return stringFromFfi(__resultHandle);
     } finally {
-      String_releaseFfiHandle(__resultHandle);
+      stringReleaseFfiHandle(__resultHandle);
     }
   }
   @Deprecated("Will be removed in v3.2.1.")
   set propertyButNotAccessors(String value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DeprecationComments_propertyButNotAccessors_set__String'));
-    final _valueHandle = String_toFfi(value);
+    final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
     final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
-    String_releaseFfiHandle(_valueHandle);
+    stringReleaseFfiHandle(_valueHandle);
     try {
       return (__resultHandle);
     } finally {
@@ -298,64 +298,64 @@ class DeprecationComments$Impl extends __lib.NativeBase implements DeprecationCo
     }
   }
 }
-int _DeprecationComments_someMethodWithAllComments_static(int _token, Pointer<Void> input, Pointer<Uint8> _result) {
+int _DeprecationCommentssomeMethodWithAllCommentsStatic(int _token, Pointer<Void> input, Pointer<Uint8> _result) {
   bool _resultObject = null;
   try {
-    _resultObject = (__lib.instanceCache[_token] as DeprecationComments).someMethodWithAllComments(String_fromFfi(input));
-    _result.value = Boolean_toFfi(_resultObject);
+    _resultObject = (__lib.instanceCache[_token] as DeprecationComments).someMethodWithAllComments(stringFromFfi(input));
+    _result.value = booleanToFfi(_resultObject);
   } finally {
-    String_releaseFfiHandle(input);
+    stringReleaseFfiHandle(input);
   }
   return 0;
 }
-int _DeprecationComments_isSomeProperty_get_static(int _token, Pointer<Uint8> _result) {
-  _result.value = Boolean_toFfi((__lib.instanceCache[_token] as DeprecationComments).isSomeProperty);
+int _DeprecationCommentsisSomePropertyGetStatic(int _token, Pointer<Uint8> _result) {
+  _result.value = booleanToFfi((__lib.instanceCache[_token] as DeprecationComments).isSomeProperty);
   return 0;
 }
-int _DeprecationComments_isSomeProperty_set_static(int _token, int _value) {
+int _DeprecationCommentsisSomePropertySetStatic(int _token, int _value) {
   try {
     (__lib.instanceCache[_token] as DeprecationComments).isSomeProperty =
-      Boolean_fromFfi(_value);
+      booleanFromFfi(_value);
   } finally {
-    Boolean_releaseFfiHandle(_value);
+    booleanReleaseFfiHandle(_value);
   }
   return 0;
 }
-int _DeprecationComments_propertyButNotAccessors_get_static(int _token, Pointer<Pointer<Void>> _result) {
-  _result.value = String_toFfi((__lib.instanceCache[_token] as DeprecationComments).propertyButNotAccessors);
+int _DeprecationCommentspropertyButNotAccessorsGetStatic(int _token, Pointer<Pointer<Void>> _result) {
+  _result.value = stringToFfi((__lib.instanceCache[_token] as DeprecationComments).propertyButNotAccessors);
   return 0;
 }
-int _DeprecationComments_propertyButNotAccessors_set_static(int _token, Pointer<Void> _value) {
+int _DeprecationCommentspropertyButNotAccessorsSetStatic(int _token, Pointer<Void> _value) {
   try {
     (__lib.instanceCache[_token] as DeprecationComments).propertyButNotAccessors =
-      String_fromFfi(_value);
+      stringFromFfi(_value);
   } finally {
-    String_releaseFfiHandle(_value);
+    stringReleaseFfiHandle(_value);
   }
   return 0;
 }
-Pointer<Void> smoke_DeprecationComments_toFfi(DeprecationComments value) {
+Pointer<Void> smokeDeprecationcommentsToFfi(DeprecationComments value) {
   if (value is __lib.NativeBase) return _smokeDeprecationcommentsCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokeDeprecationcommentsCreateProxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_DeprecationComments_someMethodWithAllComments_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint8>)>(_DeprecationComments_isSomeProperty_get_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Uint8)>(_DeprecationComments_isSomeProperty_set_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_DeprecationComments_propertyButNotAccessors_get_static, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_DeprecationComments_propertyButNotAccessors_set_static, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_DeprecationCommentssomeMethodWithAllCommentsStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint8>)>(_DeprecationCommentsisSomePropertyGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Uint8)>(_DeprecationCommentsisSomePropertySetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_DeprecationCommentspropertyButNotAccessorsGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_DeprecationCommentspropertyButNotAccessorsSetStatic, __lib.unknownError)
   );
   return result;
 }
-DeprecationComments smoke_DeprecationComments_fromFfi(Pointer<Void> handle) {
+DeprecationComments smokeDeprecationcommentsFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as DeprecationComments;
   if (instance != null) return instance;
   final _typeIdHandle = _smokeDeprecationcommentsGetTypeId(handle);
-  final factoryConstructor = __lib.typeRepository[String_fromFfi(_typeIdHandle)];
-  String_releaseFfiHandle(_typeIdHandle);
+  final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
+  stringReleaseFfiHandle(_typeIdHandle);
   final _copiedHandle = _smokeDeprecationcommentsCopyHandle(handle);
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
@@ -363,12 +363,12 @@ DeprecationComments smoke_DeprecationComments_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_DeprecationComments_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeDeprecationcommentsReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeDeprecationcommentsReleaseHandle(handle);
-Pointer<Void> smoke_DeprecationComments_toFfi_nullable(DeprecationComments value) =>
-  value != null ? smoke_DeprecationComments_toFfi(value) : Pointer<Void>.fromAddress(0);
-DeprecationComments smoke_DeprecationComments_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_DeprecationComments_fromFfi(handle) : null;
-void smoke_DeprecationComments_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeDeprecationcommentsToFfiNullable(DeprecationComments value) =>
+  value != null ? smokeDeprecationcommentsToFfi(value) : Pointer<Void>.fromAddress(0);
+DeprecationComments smokeDeprecationcommentsFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeDeprecationcommentsFromFfi(handle) : null;
+void smokeDeprecationcommentsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeDeprecationcommentsReleaseHandle(handle);
 // End of DeprecationComments "private" section.

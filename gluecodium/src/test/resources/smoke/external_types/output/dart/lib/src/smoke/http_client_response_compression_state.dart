@@ -3,7 +3,7 @@ import 'dart:ffi';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 // HttpClientResponseCompressionState "private" section, not exported.
-int smoke_CompressionState_toFfi(bar.HttpClientResponseCompressionState value) {
+int smokeCompressionstateToFfi(bar.HttpClientResponseCompressionState value) {
   switch (value) {
   case bar.HttpClientResponseCompressionState.compressed:
     return 0;
@@ -18,7 +18,7 @@ int smoke_CompressionState_toFfi(bar.HttpClientResponseCompressionState value) {
     throw StateError("Invalid enum value $value for HttpClientResponseCompressionState enum.");
   }
 }
-bar.HttpClientResponseCompressionState smoke_CompressionState_fromFfi(int handle) {
+bar.HttpClientResponseCompressionState smokeCompressionstateFromFfi(int handle) {
   switch (handle) {
   case 0:
     return bar.HttpClientResponseCompressionState.compressed;
@@ -33,33 +33,33 @@ bar.HttpClientResponseCompressionState smoke_CompressionState_fromFfi(int handle
     throw StateError("Invalid numeric value $handle for HttpClientResponseCompressionState enum.");
   }
 }
-void smoke_CompressionState_releaseFfiHandle(int handle) {}
-final _smoke_CompressionStateCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+void smokeCompressionstateReleaseFfiHandle(int handle) {}
+final _smokeCompressionstateCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
   >('library_smoke_CompressionState_create_handle_nullable'));
-final _smoke_CompressionStateReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeCompressionstateReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_CompressionState_release_handle_nullable'));
-final _smoke_CompressionStateGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeCompressionstateGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_CompressionState_get_value_nullable'));
-Pointer<Void> smoke_CompressionState_toFfi_nullable(bar.HttpClientResponseCompressionState value) {
+Pointer<Void> smokeCompressionstateToFfiNullable(bar.HttpClientResponseCompressionState value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_CompressionState_toFfi(value);
-  final result = _smoke_CompressionStateCreateHandleNullable(_handle);
-  smoke_CompressionState_releaseFfiHandle(_handle);
+  final _handle = smokeCompressionstateToFfi(value);
+  final result = _smokeCompressionstateCreateHandleNullable(_handle);
+  smokeCompressionstateReleaseFfiHandle(_handle);
   return result;
 }
-bar.HttpClientResponseCompressionState smoke_CompressionState_fromFfi_nullable(Pointer<Void> handle) {
+bar.HttpClientResponseCompressionState smokeCompressionstateFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_CompressionStateGetValueNullable(handle);
-  final result = smoke_CompressionState_fromFfi(_handle);
-  smoke_CompressionState_releaseFfiHandle(_handle);
+  final _handle = _smokeCompressionstateGetValueNullable(handle);
+  final result = smokeCompressionstateFromFfi(_handle);
+  smokeCompressionstateReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_CompressionState_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_CompressionStateReleaseHandleNullable(handle);
+void smokeCompressionstateReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeCompressionstateReleaseHandleNullable(handle);
 // End of HttpClientResponseCompressionState "private" section.

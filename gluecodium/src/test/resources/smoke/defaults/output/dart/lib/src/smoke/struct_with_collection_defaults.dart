@@ -48,23 +48,23 @@ final _smokeStructwithcollectiondefaultsGetFieldsetField = __lib.catchArgumentEr
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithCollectionDefaults_get_field_setField'));
-Pointer<Void> smoke_StructWithCollectionDefaults_toFfi(StructWithCollectionDefaults value) {
-  final _emptyListFieldHandle = ListOf_String_toFfi(value.emptyListField);
-  final _emptyMapFieldHandle = MapOf_String_to_String_toFfi(value.emptyMapField);
-  final _emptySetFieldHandle = SetOf_String_toFfi(value.emptySetField);
-  final _listFieldHandle = ListOf_String_toFfi(value.listField);
-  final _mapFieldHandle = MapOf_String_to_String_toFfi(value.mapField);
-  final _setFieldHandle = SetOf_String_toFfi(value.setField);
+Pointer<Void> smokeStructwithcollectiondefaultsToFfi(StructWithCollectionDefaults value) {
+  final _emptyListFieldHandle = listofStringToFfi(value.emptyListField);
+  final _emptyMapFieldHandle = mapofStringToStringToFfi(value.emptyMapField);
+  final _emptySetFieldHandle = setofStringToFfi(value.emptySetField);
+  final _listFieldHandle = listofStringToFfi(value.listField);
+  final _mapFieldHandle = mapofStringToStringToFfi(value.mapField);
+  final _setFieldHandle = setofStringToFfi(value.setField);
   final _result = _smokeStructwithcollectiondefaultsCreateHandle(_emptyListFieldHandle, _emptyMapFieldHandle, _emptySetFieldHandle, _listFieldHandle, _mapFieldHandle, _setFieldHandle);
-  ListOf_String_releaseFfiHandle(_emptyListFieldHandle);
-  MapOf_String_to_String_releaseFfiHandle(_emptyMapFieldHandle);
-  SetOf_String_releaseFfiHandle(_emptySetFieldHandle);
-  ListOf_String_releaseFfiHandle(_listFieldHandle);
-  MapOf_String_to_String_releaseFfiHandle(_mapFieldHandle);
-  SetOf_String_releaseFfiHandle(_setFieldHandle);
+  listofStringReleaseFfiHandle(_emptyListFieldHandle);
+  mapofStringToStringReleaseFfiHandle(_emptyMapFieldHandle);
+  setofStringReleaseFfiHandle(_emptySetFieldHandle);
+  listofStringReleaseFfiHandle(_listFieldHandle);
+  mapofStringToStringReleaseFfiHandle(_mapFieldHandle);
+  setofStringReleaseFfiHandle(_setFieldHandle);
   return _result;
 }
-StructWithCollectionDefaults smoke_StructWithCollectionDefaults_fromFfi(Pointer<Void> handle) {
+StructWithCollectionDefaults smokeStructwithcollectiondefaultsFromFfi(Pointer<Void> handle) {
   final _emptyListFieldHandle = _smokeStructwithcollectiondefaultsGetFieldemptyListField(handle);
   final _emptyMapFieldHandle = _smokeStructwithcollectiondefaultsGetFieldemptyMapField(handle);
   final _emptySetFieldHandle = _smokeStructwithcollectiondefaultsGetFieldemptySetField(handle);
@@ -73,50 +73,50 @@ StructWithCollectionDefaults smoke_StructWithCollectionDefaults_fromFfi(Pointer<
   final _setFieldHandle = _smokeStructwithcollectiondefaultsGetFieldsetField(handle);
   try {
     return StructWithCollectionDefaults(
-      ListOf_String_fromFfi(_emptyListFieldHandle),
-      MapOf_String_to_String_fromFfi(_emptyMapFieldHandle),
-      SetOf_String_fromFfi(_emptySetFieldHandle),
-      ListOf_String_fromFfi(_listFieldHandle),
-      MapOf_String_to_String_fromFfi(_mapFieldHandle),
-      SetOf_String_fromFfi(_setFieldHandle)
+      listofStringFromFfi(_emptyListFieldHandle),
+      mapofStringToStringFromFfi(_emptyMapFieldHandle),
+      setofStringFromFfi(_emptySetFieldHandle),
+      listofStringFromFfi(_listFieldHandle),
+      mapofStringToStringFromFfi(_mapFieldHandle),
+      setofStringFromFfi(_setFieldHandle)
     );
   } finally {
-    ListOf_String_releaseFfiHandle(_emptyListFieldHandle);
-    MapOf_String_to_String_releaseFfiHandle(_emptyMapFieldHandle);
-    SetOf_String_releaseFfiHandle(_emptySetFieldHandle);
-    ListOf_String_releaseFfiHandle(_listFieldHandle);
-    MapOf_String_to_String_releaseFfiHandle(_mapFieldHandle);
-    SetOf_String_releaseFfiHandle(_setFieldHandle);
+    listofStringReleaseFfiHandle(_emptyListFieldHandle);
+    mapofStringToStringReleaseFfiHandle(_emptyMapFieldHandle);
+    setofStringReleaseFfiHandle(_emptySetFieldHandle);
+    listofStringReleaseFfiHandle(_listFieldHandle);
+    mapofStringToStringReleaseFfiHandle(_mapFieldHandle);
+    setofStringReleaseFfiHandle(_setFieldHandle);
   }
 }
-void smoke_StructWithCollectionDefaults_releaseFfiHandle(Pointer<Void> handle) => _smokeStructwithcollectiondefaultsReleaseHandle(handle);
+void smokeStructwithcollectiondefaultsReleaseFfiHandle(Pointer<Void> handle) => _smokeStructwithcollectiondefaultsReleaseHandle(handle);
 // Nullable StructWithCollectionDefaults
-final _smoke_StructWithCollectionDefaultsCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructwithcollectiondefaultsCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithCollectionDefaults_create_handle_nullable'));
-final _smoke_StructWithCollectionDefaultsReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructwithcollectiondefaultsReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_StructWithCollectionDefaults_release_handle_nullable'));
-final _smoke_StructWithCollectionDefaultsGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructwithcollectiondefaultsGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithCollectionDefaults_get_value_nullable'));
-Pointer<Void> smoke_StructWithCollectionDefaults_toFfi_nullable(StructWithCollectionDefaults value) {
+Pointer<Void> smokeStructwithcollectiondefaultsToFfiNullable(StructWithCollectionDefaults value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_StructWithCollectionDefaults_toFfi(value);
-  final result = _smoke_StructWithCollectionDefaultsCreateHandleNullable(_handle);
-  smoke_StructWithCollectionDefaults_releaseFfiHandle(_handle);
+  final _handle = smokeStructwithcollectiondefaultsToFfi(value);
+  final result = _smokeStructwithcollectiondefaultsCreateHandleNullable(_handle);
+  smokeStructwithcollectiondefaultsReleaseFfiHandle(_handle);
   return result;
 }
-StructWithCollectionDefaults smoke_StructWithCollectionDefaults_fromFfi_nullable(Pointer<Void> handle) {
+StructWithCollectionDefaults smokeStructwithcollectiondefaultsFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_StructWithCollectionDefaultsGetValueNullable(handle);
-  final result = smoke_StructWithCollectionDefaults_fromFfi(_handle);
-  smoke_StructWithCollectionDefaults_releaseFfiHandle(_handle);
+  final _handle = _smokeStructwithcollectiondefaultsGetValueNullable(handle);
+  final result = smokeStructwithcollectiondefaultsFromFfi(_handle);
+  smokeStructwithcollectiondefaultsReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_StructWithCollectionDefaults_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_StructWithCollectionDefaultsReleaseHandleNullable(handle);
+void smokeStructwithcollectiondefaultsReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeStructwithcollectiondefaultsReleaseHandleNullable(handle);
 // End of StructWithCollectionDefaults "private" section.

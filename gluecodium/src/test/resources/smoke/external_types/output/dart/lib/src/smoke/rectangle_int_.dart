@@ -28,7 +28,7 @@ final _smokeRectangleGetFieldheight = __lib.catchArgumentError(() => __lib.nativ
     Int32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Rectangle_get_field_height'));
-Pointer<Void> smoke_Rectangle_toFfi(math.Rectangle<int> value) {
+Pointer<Void> smokeRectangleToFfi(math.Rectangle<int> value) {
   final _leftHandle = (value.left);
   final _topHandle = (value.top);
   final _widthHandle = (value.width);
@@ -40,7 +40,7 @@ Pointer<Void> smoke_Rectangle_toFfi(math.Rectangle<int> value) {
   (_heightHandle);
   return _result;
 }
-math.Rectangle<int> smoke_Rectangle_fromFfi(Pointer<Void> handle) {
+math.Rectangle<int> smokeRectangleFromFfi(Pointer<Void> handle) {
   final _leftHandle = _smokeRectangleGetFieldleft(handle);
   final _topHandle = _smokeRectangleGetFieldtop(handle);
   final _widthHandle = _smokeRectangleGetFieldwidth(handle);
@@ -59,34 +59,34 @@ math.Rectangle<int> smoke_Rectangle_fromFfi(Pointer<Void> handle) {
     (_heightHandle);
   }
 }
-void smoke_Rectangle_releaseFfiHandle(Pointer<Void> handle) => _smokeRectangleReleaseHandle(handle);
+void smokeRectangleReleaseFfiHandle(Pointer<Void> handle) => _smokeRectangleReleaseHandle(handle);
 // Nullable Rectangle<int>
-final _smoke_RectangleCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeRectangleCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Rectangle_create_handle_nullable'));
-final _smoke_RectangleReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeRectangleReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Rectangle_release_handle_nullable'));
-final _smoke_RectangleGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeRectangleGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Rectangle_get_value_nullable'));
-Pointer<Void> smoke_Rectangle_toFfi_nullable(math.Rectangle<int> value) {
+Pointer<Void> smokeRectangleToFfiNullable(math.Rectangle<int> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_Rectangle_toFfi(value);
-  final result = _smoke_RectangleCreateHandleNullable(_handle);
-  smoke_Rectangle_releaseFfiHandle(_handle);
+  final _handle = smokeRectangleToFfi(value);
+  final result = _smokeRectangleCreateHandleNullable(_handle);
+  smokeRectangleReleaseFfiHandle(_handle);
   return result;
 }
-math.Rectangle<int> smoke_Rectangle_fromFfi_nullable(Pointer<Void> handle) {
+math.Rectangle<int> smokeRectangleFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_RectangleGetValueNullable(handle);
-  final result = smoke_Rectangle_fromFfi(_handle);
-  smoke_Rectangle_releaseFfiHandle(_handle);
+  final _handle = _smokeRectangleGetValueNullable(handle);
+  final result = smokeRectangleFromFfi(_handle);
+  smokeRectangleReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_Rectangle_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_RectangleReleaseHandleNullable(handle);
+void smokeRectangleReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeRectangleReleaseHandleNullable(handle);
 // End of Rectangle<int> "private" section.

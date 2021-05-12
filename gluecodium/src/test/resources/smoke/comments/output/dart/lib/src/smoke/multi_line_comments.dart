@@ -66,11 +66,11 @@ class MultiLineComments$Impl extends __lib.NativeBase implements MultiLineCommen
   @override
   double someMethodWithLongComment(String input, double ratio) {
     final _someMethodWithLongCommentFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Float Function(Pointer<Void>, Int32, Pointer<Void>, Double), double Function(Pointer<Void>, int, Pointer<Void>, double)>('library_smoke_MultiLineComments_someMethodWithLongComment__String_Double'));
-    final _inputHandle = String_toFfi(input);
+    final _inputHandle = stringToFfi(input);
     final _ratioHandle = (ratio);
     final _handle = this.handle;
     final __resultHandle = _someMethodWithLongCommentFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle, _ratioHandle);
-    String_releaseFfiHandle(_inputHandle);
+    stringReleaseFfiHandle(_inputHandle);
     (_ratioHandle);
     try {
       return (__resultHandle);
@@ -79,9 +79,9 @@ class MultiLineComments$Impl extends __lib.NativeBase implements MultiLineCommen
     }
   }
 }
-Pointer<Void> smoke_MultiLineComments_toFfi(MultiLineComments value) =>
+Pointer<Void> smokeMultilinecommentsToFfi(MultiLineComments value) =>
   _smokeMultilinecommentsCopyHandle((value as __lib.NativeBase).handle);
-MultiLineComments smoke_MultiLineComments_fromFfi(Pointer<Void> handle) {
+MultiLineComments smokeMultilinecommentsFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as MultiLineComments;
@@ -91,12 +91,12 @@ MultiLineComments smoke_MultiLineComments_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_MultiLineComments_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeMultilinecommentsReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeMultilinecommentsReleaseHandle(handle);
-Pointer<Void> smoke_MultiLineComments_toFfi_nullable(MultiLineComments value) =>
-  value != null ? smoke_MultiLineComments_toFfi(value) : Pointer<Void>.fromAddress(0);
-MultiLineComments smoke_MultiLineComments_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_MultiLineComments_fromFfi(handle) : null;
-void smoke_MultiLineComments_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeMultilinecommentsToFfiNullable(MultiLineComments value) =>
+  value != null ? smokeMultilinecommentsToFfi(value) : Pointer<Void>.fromAddress(0);
+MultiLineComments smokeMultilinecommentsFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeMultilinecommentsFromFfi(handle) : null;
+void smokeMultilinecommentsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeMultilinecommentsReleaseHandle(handle);
 // End of MultiLineComments "private" section.

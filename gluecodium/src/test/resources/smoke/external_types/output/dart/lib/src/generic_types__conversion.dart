@@ -37,7 +37,7 @@ final _foobarListofByteIteratorGet = __lib.catchArgumentError(() => __lib.native
     Int8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
 >('library_foobar_ListOf_Byte_iterator_get'));
-Pointer<Void> foobar_ListOf_Byte_toFfi(List<int> value) {
+Pointer<Void> foobarListofByteToFfi(List<int> value) {
   final _result = _foobarListofByteCreateHandle();
   for (final element in value) {
     final _elementHandle = (element);
@@ -46,7 +46,7 @@ Pointer<Void> foobar_ListOf_Byte_toFfi(List<int> value) {
   }
   return _result;
 }
-List<int> foobar_ListOf_Byte_fromFfi(Pointer<Void> handle) {
+List<int> foobarListofByteFromFfi(Pointer<Void> handle) {
   final result = List<int>.empty(growable: true);
   final _iteratorHandle = _foobarListofByteIterator(handle);
   while (_foobarListofByteIteratorIsValid(handle, _iteratorHandle) != 0) {
@@ -61,35 +61,35 @@ List<int> foobar_ListOf_Byte_fromFfi(Pointer<Void> handle) {
   _foobarListofByteIteratorReleaseHandle(_iteratorHandle);
   return result;
 }
-void foobar_ListOf_Byte_releaseFfiHandle(Pointer<Void> handle) => _foobarListofByteReleaseHandle(handle);
-final _foobar_ListOf_ByteCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+void foobarListofByteReleaseFfiHandle(Pointer<Void> handle) => _foobarListofByteReleaseHandle(handle);
+final _foobarListofByteCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_Byte_create_handle_nullable'));
-final _foobar_ListOf_ByteReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _foobarListofByteReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_foobar_ListOf_Byte_release_handle_nullable'));
-final _foobar_ListOf_ByteGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _foobarListofByteGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_Byte_get_value_nullable'));
-Pointer<Void> foobar_ListOf_Byte_toFfi_nullable(List<int> value) {
+Pointer<Void> foobarListofByteToFfiNullable(List<int> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = foobar_ListOf_Byte_toFfi(value);
-  final result = _foobar_ListOf_ByteCreateHandleNullable(_handle);
-  foobar_ListOf_Byte_releaseFfiHandle(_handle);
+  final _handle = foobarListofByteToFfi(value);
+  final result = _foobarListofByteCreateHandleNullable(_handle);
+  foobarListofByteReleaseFfiHandle(_handle);
   return result;
 }
-List<int> foobar_ListOf_Byte_fromFfi_nullable(Pointer<Void> handle) {
+List<int> foobarListofByteFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _foobar_ListOf_ByteGetValueNullable(handle);
-  final result = foobar_ListOf_Byte_fromFfi(_handle);
-  foobar_ListOf_Byte_releaseFfiHandle(_handle);
+  final _handle = _foobarListofByteGetValueNullable(handle);
+  final result = foobarListofByteFromFfi(_handle);
+  foobarListofByteReleaseFfiHandle(_handle);
   return result;
 }
-void foobar_ListOf_Byte_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _foobar_ListOf_ByteReleaseHandleNullable(handle);
+void foobarListofByteReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _foobarListofByteReleaseHandleNullable(handle);
 final _foobarListofStringCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
@@ -122,59 +122,59 @@ final _foobarListofStringIteratorGet = __lib.catchArgumentError(() => __lib.nati
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
 >('library_foobar_ListOf_String_iterator_get'));
-Pointer<Void> foobar_ListOf_String_toFfi(List<String> value) {
+Pointer<Void> foobarListofStringToFfi(List<String> value) {
   final _result = _foobarListofStringCreateHandle();
   for (final element in value) {
-    final _elementHandle = String_toFfi(element);
+    final _elementHandle = stringToFfi(element);
     _foobarListofStringInsert(_result, _elementHandle);
-    String_releaseFfiHandle(_elementHandle);
+    stringReleaseFfiHandle(_elementHandle);
   }
   return _result;
 }
-List<String> foobar_ListOf_String_fromFfi(Pointer<Void> handle) {
+List<String> foobarListofStringFromFfi(Pointer<Void> handle) {
   final result = List<String>.empty(growable: true);
   final _iteratorHandle = _foobarListofStringIterator(handle);
   while (_foobarListofStringIteratorIsValid(handle, _iteratorHandle) != 0) {
     final _elementHandle = _foobarListofStringIteratorGet(_iteratorHandle);
     try {
-      result.add(String_fromFfi(_elementHandle));
+      result.add(stringFromFfi(_elementHandle));
     } finally {
-      String_releaseFfiHandle(_elementHandle);
+      stringReleaseFfiHandle(_elementHandle);
     }
     _foobarListofStringIteratorIncrement(_iteratorHandle);
   }
   _foobarListofStringIteratorReleaseHandle(_iteratorHandle);
   return result;
 }
-void foobar_ListOf_String_releaseFfiHandle(Pointer<Void> handle) => _foobarListofStringReleaseHandle(handle);
-final _foobar_ListOf_StringCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+void foobarListofStringReleaseFfiHandle(Pointer<Void> handle) => _foobarListofStringReleaseHandle(handle);
+final _foobarListofStringCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_String_create_handle_nullable'));
-final _foobar_ListOf_StringReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _foobarListofStringReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_foobar_ListOf_String_release_handle_nullable'));
-final _foobar_ListOf_StringGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _foobarListofStringGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_String_get_value_nullable'));
-Pointer<Void> foobar_ListOf_String_toFfi_nullable(List<String> value) {
+Pointer<Void> foobarListofStringToFfiNullable(List<String> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = foobar_ListOf_String_toFfi(value);
-  final result = _foobar_ListOf_StringCreateHandleNullable(_handle);
-  foobar_ListOf_String_releaseFfiHandle(_handle);
+  final _handle = foobarListofStringToFfi(value);
+  final result = _foobarListofStringCreateHandleNullable(_handle);
+  foobarListofStringReleaseFfiHandle(_handle);
   return result;
 }
-List<String> foobar_ListOf_String_fromFfi_nullable(Pointer<Void> handle) {
+List<String> foobarListofStringFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _foobar_ListOf_StringGetValueNullable(handle);
-  final result = foobar_ListOf_String_fromFfi(_handle);
-  foobar_ListOf_String_releaseFfiHandle(_handle);
+  final _handle = _foobarListofStringGetValueNullable(handle);
+  final result = foobarListofStringFromFfi(_handle);
+  foobarListofStringReleaseFfiHandle(_handle);
   return result;
 }
-void foobar_ListOf_String_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _foobar_ListOf_StringReleaseHandleNullable(handle);
+void foobarListofStringReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _foobarListofStringReleaseHandleNullable(handle);
 final _foobarListofSmokeRectangleCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
@@ -207,59 +207,59 @@ final _foobarListofSmokeRectangleIteratorGet = __lib.catchArgumentError(() => __
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
 >('library_foobar_ListOf_smoke_Rectangle_iterator_get'));
-Pointer<Void> foobar_ListOf_smoke_Rectangle_toFfi(List<math.Rectangle<int>> value) {
+Pointer<Void> foobarListofSmokeRectangleToFfi(List<math.Rectangle<int>> value) {
   final _result = _foobarListofSmokeRectangleCreateHandle();
   for (final element in value) {
-    final _elementHandle = smoke_Rectangle_toFfi(element);
+    final _elementHandle = smokeRectangleToFfi(element);
     _foobarListofSmokeRectangleInsert(_result, _elementHandle);
-    smoke_Rectangle_releaseFfiHandle(_elementHandle);
+    smokeRectangleReleaseFfiHandle(_elementHandle);
   }
   return _result;
 }
-List<math.Rectangle<int>> foobar_ListOf_smoke_Rectangle_fromFfi(Pointer<Void> handle) {
+List<math.Rectangle<int>> foobarListofSmokeRectangleFromFfi(Pointer<Void> handle) {
   final result = List<math.Rectangle<int>>.empty(growable: true);
   final _iteratorHandle = _foobarListofSmokeRectangleIterator(handle);
   while (_foobarListofSmokeRectangleIteratorIsValid(handle, _iteratorHandle) != 0) {
     final _elementHandle = _foobarListofSmokeRectangleIteratorGet(_iteratorHandle);
     try {
-      result.add(smoke_Rectangle_fromFfi(_elementHandle));
+      result.add(smokeRectangleFromFfi(_elementHandle));
     } finally {
-      smoke_Rectangle_releaseFfiHandle(_elementHandle);
+      smokeRectangleReleaseFfiHandle(_elementHandle);
     }
     _foobarListofSmokeRectangleIteratorIncrement(_iteratorHandle);
   }
   _foobarListofSmokeRectangleIteratorReleaseHandle(_iteratorHandle);
   return result;
 }
-void foobar_ListOf_smoke_Rectangle_releaseFfiHandle(Pointer<Void> handle) => _foobarListofSmokeRectangleReleaseHandle(handle);
-final _foobar_ListOf_smoke_RectangleCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+void foobarListofSmokeRectangleReleaseFfiHandle(Pointer<Void> handle) => _foobarListofSmokeRectangleReleaseHandle(handle);
+final _foobarListofSmokeRectangleCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_smoke_Rectangle_create_handle_nullable'));
-final _foobar_ListOf_smoke_RectangleReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _foobarListofSmokeRectangleReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_foobar_ListOf_smoke_Rectangle_release_handle_nullable'));
-final _foobar_ListOf_smoke_RectangleGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _foobarListofSmokeRectangleGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_smoke_Rectangle_get_value_nullable'));
-Pointer<Void> foobar_ListOf_smoke_Rectangle_toFfi_nullable(List<math.Rectangle<int>> value) {
+Pointer<Void> foobarListofSmokeRectangleToFfiNullable(List<math.Rectangle<int>> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = foobar_ListOf_smoke_Rectangle_toFfi(value);
-  final result = _foobar_ListOf_smoke_RectangleCreateHandleNullable(_handle);
-  foobar_ListOf_smoke_Rectangle_releaseFfiHandle(_handle);
+  final _handle = foobarListofSmokeRectangleToFfi(value);
+  final result = _foobarListofSmokeRectangleCreateHandleNullable(_handle);
+  foobarListofSmokeRectangleReleaseFfiHandle(_handle);
   return result;
 }
-List<math.Rectangle<int>> foobar_ListOf_smoke_Rectangle_fromFfi_nullable(Pointer<Void> handle) {
+List<math.Rectangle<int>> foobarListofSmokeRectangleFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _foobar_ListOf_smoke_RectangleGetValueNullable(handle);
-  final result = foobar_ListOf_smoke_Rectangle_fromFfi(_handle);
-  foobar_ListOf_smoke_Rectangle_releaseFfiHandle(_handle);
+  final _handle = _foobarListofSmokeRectangleGetValueNullable(handle);
+  final result = foobarListofSmokeRectangleFromFfi(_handle);
+  foobarListofSmokeRectangleReleaseFfiHandle(_handle);
   return result;
 }
-void foobar_ListOf_smoke_Rectangle_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _foobar_ListOf_smoke_RectangleReleaseHandleNullable(handle);
+void foobarListofSmokeRectangleReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _foobarListofSmokeRectangleReleaseHandleNullable(handle);
 final _foobarMapofSmokeCompressionstateToSmokeRectangleCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
@@ -296,64 +296,64 @@ final _foobarMapofSmokeCompressionstateToSmokeRectangleIteratorGetValue = __lib.
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
 >('library_foobar_MapOf_smoke_CompressionState_to_smoke_Rectangle_iterator_get_value'));
-Pointer<Void> foobar_MapOf_smoke_CompressionState_to_smoke_Rectangle_toFfi(Map<bar.HttpClientResponseCompressionState, math.Rectangle<int>> value) {
+Pointer<Void> foobarMapofSmokeCompressionstateToSmokeRectangleToFfi(Map<bar.HttpClientResponseCompressionState, math.Rectangle<int>> value) {
   final _result = _foobarMapofSmokeCompressionstateToSmokeRectangleCreateHandle();
   for (final entry in value.entries) {
-    final _keyHandle = smoke_CompressionState_toFfi(entry.key);
-    final _valueHandle = smoke_Rectangle_toFfi(entry.value);
+    final _keyHandle = smokeCompressionstateToFfi(entry.key);
+    final _valueHandle = smokeRectangleToFfi(entry.value);
     _foobarMapofSmokeCompressionstateToSmokeRectanglePut(_result, _keyHandle, _valueHandle);
-    smoke_CompressionState_releaseFfiHandle(_keyHandle);
-    smoke_Rectangle_releaseFfiHandle(_valueHandle);
+    smokeCompressionstateReleaseFfiHandle(_keyHandle);
+    smokeRectangleReleaseFfiHandle(_valueHandle);
   }
   return _result;
 }
-Map<bar.HttpClientResponseCompressionState, math.Rectangle<int>> foobar_MapOf_smoke_CompressionState_to_smoke_Rectangle_fromFfi(Pointer<Void> handle) {
+Map<bar.HttpClientResponseCompressionState, math.Rectangle<int>> foobarMapofSmokeCompressionstateToSmokeRectangleFromFfi(Pointer<Void> handle) {
   final result = Map<bar.HttpClientResponseCompressionState, math.Rectangle<int>>();
   final _iteratorHandle = _foobarMapofSmokeCompressionstateToSmokeRectangleIterator(handle);
   while (_foobarMapofSmokeCompressionstateToSmokeRectangleIteratorIsValid(handle, _iteratorHandle) != 0) {
     final _keyHandle = _foobarMapofSmokeCompressionstateToSmokeRectangleIteratorGetKey(_iteratorHandle);
     final _valueHandle = _foobarMapofSmokeCompressionstateToSmokeRectangleIteratorGetValue(_iteratorHandle);
     try {
-      result[smoke_CompressionState_fromFfi(_keyHandle)] =
-        smoke_Rectangle_fromFfi(_valueHandle);
+      result[smokeCompressionstateFromFfi(_keyHandle)] =
+        smokeRectangleFromFfi(_valueHandle);
     } finally {
-      smoke_CompressionState_releaseFfiHandle(_keyHandle);
-      smoke_Rectangle_releaseFfiHandle(_valueHandle);
+      smokeCompressionstateReleaseFfiHandle(_keyHandle);
+      smokeRectangleReleaseFfiHandle(_valueHandle);
     }
     _foobarMapofSmokeCompressionstateToSmokeRectangleIteratorIncrement(_iteratorHandle);
   }
   _foobarMapofSmokeCompressionstateToSmokeRectangleIteratorReleaseHandle(_iteratorHandle);
   return result;
 }
-void foobar_MapOf_smoke_CompressionState_to_smoke_Rectangle_releaseFfiHandle(Pointer<Void> handle) => _foobarMapofSmokeCompressionstateToSmokeRectangleReleaseHandle(handle);
-final _foobar_MapOf_smoke_CompressionState_to_smoke_RectangleCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+void foobarMapofSmokeCompressionstateToSmokeRectangleReleaseFfiHandle(Pointer<Void> handle) => _foobarMapofSmokeCompressionstateToSmokeRectangleReleaseHandle(handle);
+final _foobarMapofSmokeCompressionstateToSmokeRectangleCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_smoke_CompressionState_to_smoke_Rectangle_create_handle_nullable'));
-final _foobar_MapOf_smoke_CompressionState_to_smoke_RectangleReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _foobarMapofSmokeCompressionstateToSmokeRectangleReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_foobar_MapOf_smoke_CompressionState_to_smoke_Rectangle_release_handle_nullable'));
-final _foobar_MapOf_smoke_CompressionState_to_smoke_RectangleGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _foobarMapofSmokeCompressionstateToSmokeRectangleGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_smoke_CompressionState_to_smoke_Rectangle_get_value_nullable'));
-Pointer<Void> foobar_MapOf_smoke_CompressionState_to_smoke_Rectangle_toFfi_nullable(Map<bar.HttpClientResponseCompressionState, math.Rectangle<int>> value) {
+Pointer<Void> foobarMapofSmokeCompressionstateToSmokeRectangleToFfiNullable(Map<bar.HttpClientResponseCompressionState, math.Rectangle<int>> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = foobar_MapOf_smoke_CompressionState_to_smoke_Rectangle_toFfi(value);
-  final result = _foobar_MapOf_smoke_CompressionState_to_smoke_RectangleCreateHandleNullable(_handle);
-  foobar_MapOf_smoke_CompressionState_to_smoke_Rectangle_releaseFfiHandle(_handle);
+  final _handle = foobarMapofSmokeCompressionstateToSmokeRectangleToFfi(value);
+  final result = _foobarMapofSmokeCompressionstateToSmokeRectangleCreateHandleNullable(_handle);
+  foobarMapofSmokeCompressionstateToSmokeRectangleReleaseFfiHandle(_handle);
   return result;
 }
-Map<bar.HttpClientResponseCompressionState, math.Rectangle<int>> foobar_MapOf_smoke_CompressionState_to_smoke_Rectangle_fromFfi_nullable(Pointer<Void> handle) {
+Map<bar.HttpClientResponseCompressionState, math.Rectangle<int>> foobarMapofSmokeCompressionstateToSmokeRectangleFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _foobar_MapOf_smoke_CompressionState_to_smoke_RectangleGetValueNullable(handle);
-  final result = foobar_MapOf_smoke_CompressionState_to_smoke_Rectangle_fromFfi(_handle);
-  foobar_MapOf_smoke_CompressionState_to_smoke_Rectangle_releaseFfiHandle(_handle);
+  final _handle = _foobarMapofSmokeCompressionstateToSmokeRectangleGetValueNullable(handle);
+  final result = foobarMapofSmokeCompressionstateToSmokeRectangleFromFfi(_handle);
+  foobarMapofSmokeCompressionstateToSmokeRectangleReleaseFfiHandle(_handle);
   return result;
 }
-void foobar_MapOf_smoke_CompressionState_to_smoke_Rectangle_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _foobar_MapOf_smoke_CompressionState_to_smoke_RectangleReleaseHandleNullable(handle);
+void foobarMapofSmokeCompressionstateToSmokeRectangleReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _foobarMapofSmokeCompressionstateToSmokeRectangleReleaseHandleNullable(handle);
 final _foobarSetofSmokeCompressionstateCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
@@ -386,56 +386,56 @@ final _foobarSetofSmokeCompressionstateIteratorGet = __lib.catchArgumentError(()
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
 >('library_foobar_SetOf_smoke_CompressionState_iterator_get'));
-Pointer<Void> foobar_SetOf_smoke_CompressionState_toFfi(Set<bar.HttpClientResponseCompressionState> value) {
+Pointer<Void> foobarSetofSmokeCompressionstateToFfi(Set<bar.HttpClientResponseCompressionState> value) {
   final _result = _foobarSetofSmokeCompressionstateCreateHandle();
   for (final element in value) {
-    final _elementHandle = smoke_CompressionState_toFfi(element);
+    final _elementHandle = smokeCompressionstateToFfi(element);
     _foobarSetofSmokeCompressionstateInsert(_result, _elementHandle);
-    smoke_CompressionState_releaseFfiHandle(_elementHandle);
+    smokeCompressionstateReleaseFfiHandle(_elementHandle);
   }
   return _result;
 }
-Set<bar.HttpClientResponseCompressionState> foobar_SetOf_smoke_CompressionState_fromFfi(Pointer<Void> handle) {
+Set<bar.HttpClientResponseCompressionState> foobarSetofSmokeCompressionstateFromFfi(Pointer<Void> handle) {
   final result = Set<bar.HttpClientResponseCompressionState>();
   final _iteratorHandle = _foobarSetofSmokeCompressionstateIterator(handle);
   while (_foobarSetofSmokeCompressionstateIteratorIsValid(handle, _iteratorHandle) != 0) {
     final _elementHandle = _foobarSetofSmokeCompressionstateIteratorGet(_iteratorHandle);
     try {
-      result.add(smoke_CompressionState_fromFfi(_elementHandle));
+      result.add(smokeCompressionstateFromFfi(_elementHandle));
     } finally {
-      smoke_CompressionState_releaseFfiHandle(_elementHandle);
+      smokeCompressionstateReleaseFfiHandle(_elementHandle);
     }
     _foobarSetofSmokeCompressionstateIteratorIncrement(_iteratorHandle);
   }
   _foobarSetofSmokeCompressionstateIteratorReleaseHandle(_iteratorHandle);
   return result;
 }
-void foobar_SetOf_smoke_CompressionState_releaseFfiHandle(Pointer<Void> handle) => _foobarSetofSmokeCompressionstateReleaseHandle(handle);
-final _foobar_SetOf_smoke_CompressionStateCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+void foobarSetofSmokeCompressionstateReleaseFfiHandle(Pointer<Void> handle) => _foobarSetofSmokeCompressionstateReleaseHandle(handle);
+final _foobarSetofSmokeCompressionstateCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_SetOf_smoke_CompressionState_create_handle_nullable'));
-final _foobar_SetOf_smoke_CompressionStateReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _foobarSetofSmokeCompressionstateReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_foobar_SetOf_smoke_CompressionState_release_handle_nullable'));
-final _foobar_SetOf_smoke_CompressionStateGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _foobarSetofSmokeCompressionstateGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_SetOf_smoke_CompressionState_get_value_nullable'));
-Pointer<Void> foobar_SetOf_smoke_CompressionState_toFfi_nullable(Set<bar.HttpClientResponseCompressionState> value) {
+Pointer<Void> foobarSetofSmokeCompressionstateToFfiNullable(Set<bar.HttpClientResponseCompressionState> value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = foobar_SetOf_smoke_CompressionState_toFfi(value);
-  final result = _foobar_SetOf_smoke_CompressionStateCreateHandleNullable(_handle);
-  foobar_SetOf_smoke_CompressionState_releaseFfiHandle(_handle);
+  final _handle = foobarSetofSmokeCompressionstateToFfi(value);
+  final result = _foobarSetofSmokeCompressionstateCreateHandleNullable(_handle);
+  foobarSetofSmokeCompressionstateReleaseFfiHandle(_handle);
   return result;
 }
-Set<bar.HttpClientResponseCompressionState> foobar_SetOf_smoke_CompressionState_fromFfi_nullable(Pointer<Void> handle) {
+Set<bar.HttpClientResponseCompressionState> foobarSetofSmokeCompressionstateFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _foobar_SetOf_smoke_CompressionStateGetValueNullable(handle);
-  final result = foobar_SetOf_smoke_CompressionState_fromFfi(_handle);
-  foobar_SetOf_smoke_CompressionState_releaseFfiHandle(_handle);
+  final _handle = _foobarSetofSmokeCompressionstateGetValueNullable(handle);
+  final result = foobarSetofSmokeCompressionstateFromFfi(_handle);
+  foobarSetofSmokeCompressionstateReleaseFfiHandle(_handle);
   return result;
 }
-void foobar_SetOf_smoke_CompressionState_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _foobar_SetOf_smoke_CompressionStateReleaseHandleNullable(handle);
+void foobarSetofSmokeCompressionstateReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _foobarSetofSmokeCompressionstateReleaseHandleNullable(handle);

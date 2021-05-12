@@ -37,7 +37,7 @@ enum Properties_InternalErrorCode {
     errorFatal
 }
 // Properties_InternalErrorCode "private" section, not exported.
-int smoke_Properties_InternalErrorCode_toFfi(Properties_InternalErrorCode value) {
+int smokePropertiesInternalerrorcodeToFfi(Properties_InternalErrorCode value) {
   switch (value) {
   case Properties_InternalErrorCode.errorNone:
     return 0;
@@ -49,7 +49,7 @@ int smoke_Properties_InternalErrorCode_toFfi(Properties_InternalErrorCode value)
     throw StateError("Invalid enum value $value for Properties_InternalErrorCode enum.");
   }
 }
-Properties_InternalErrorCode smoke_Properties_InternalErrorCode_fromFfi(int handle) {
+Properties_InternalErrorCode smokePropertiesInternalerrorcodeFromFfi(int handle) {
   switch (handle) {
   case 0:
     return Properties_InternalErrorCode.errorNone;
@@ -61,35 +61,35 @@ Properties_InternalErrorCode smoke_Properties_InternalErrorCode_fromFfi(int hand
     throw StateError("Invalid numeric value $handle for Properties_InternalErrorCode enum.");
   }
 }
-void smoke_Properties_InternalErrorCode_releaseFfiHandle(int handle) {}
-final _smoke_Properties_InternalErrorCodeCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+void smokePropertiesInternalerrorcodeReleaseFfiHandle(int handle) {}
+final _smokePropertiesInternalerrorcodeCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
   >('library_smoke_Properties_InternalErrorCode_create_handle_nullable'));
-final _smoke_Properties_InternalErrorCodeReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokePropertiesInternalerrorcodeReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Properties_InternalErrorCode_release_handle_nullable'));
-final _smoke_Properties_InternalErrorCodeGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokePropertiesInternalerrorcodeGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Properties_InternalErrorCode_get_value_nullable'));
-Pointer<Void> smoke_Properties_InternalErrorCode_toFfi_nullable(Properties_InternalErrorCode value) {
+Pointer<Void> smokePropertiesInternalerrorcodeToFfiNullable(Properties_InternalErrorCode value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_Properties_InternalErrorCode_toFfi(value);
-  final result = _smoke_Properties_InternalErrorCodeCreateHandleNullable(_handle);
-  smoke_Properties_InternalErrorCode_releaseFfiHandle(_handle);
+  final _handle = smokePropertiesInternalerrorcodeToFfi(value);
+  final result = _smokePropertiesInternalerrorcodeCreateHandleNullable(_handle);
+  smokePropertiesInternalerrorcodeReleaseFfiHandle(_handle);
   return result;
 }
-Properties_InternalErrorCode smoke_Properties_InternalErrorCode_fromFfi_nullable(Pointer<Void> handle) {
+Properties_InternalErrorCode smokePropertiesInternalerrorcodeFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_Properties_InternalErrorCodeGetValueNullable(handle);
-  final result = smoke_Properties_InternalErrorCode_fromFfi(_handle);
-  smoke_Properties_InternalErrorCode_releaseFfiHandle(_handle);
+  final _handle = _smokePropertiesInternalerrorcodeGetValueNullable(handle);
+  final result = smokePropertiesInternalerrorcodeFromFfi(_handle);
+  smokePropertiesInternalerrorcodeReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_Properties_InternalErrorCode_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_Properties_InternalErrorCodeReleaseHandleNullable(handle);
+void smokePropertiesInternalerrorcodeReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokePropertiesInternalerrorcodeReleaseHandleNullable(handle);
 // End of Properties_InternalErrorCode "private" section.
 class Properties_ExampleStruct {
   double value;
@@ -108,13 +108,13 @@ final _smokePropertiesExamplestructGetFieldvalue = __lib.catchArgumentError(() =
     Double Function(Pointer<Void>),
     double Function(Pointer<Void>)
   >('library_smoke_Properties_ExampleStruct_get_field_value'));
-Pointer<Void> smoke_Properties_ExampleStruct_toFfi(Properties_ExampleStruct value) {
+Pointer<Void> smokePropertiesExamplestructToFfi(Properties_ExampleStruct value) {
   final _valueHandle = (value.value);
   final _result = _smokePropertiesExamplestructCreateHandle(_valueHandle);
   (_valueHandle);
   return _result;
 }
-Properties_ExampleStruct smoke_Properties_ExampleStruct_fromFfi(Pointer<Void> handle) {
+Properties_ExampleStruct smokePropertiesExamplestructFromFfi(Pointer<Void> handle) {
   final _valueHandle = _smokePropertiesExamplestructGetFieldvalue(handle);
   try {
     return Properties_ExampleStruct(
@@ -124,36 +124,36 @@ Properties_ExampleStruct smoke_Properties_ExampleStruct_fromFfi(Pointer<Void> ha
     (_valueHandle);
   }
 }
-void smoke_Properties_ExampleStruct_releaseFfiHandle(Pointer<Void> handle) => _smokePropertiesExamplestructReleaseHandle(handle);
+void smokePropertiesExamplestructReleaseFfiHandle(Pointer<Void> handle) => _smokePropertiesExamplestructReleaseHandle(handle);
 // Nullable Properties_ExampleStruct
-final _smoke_Properties_ExampleStructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokePropertiesExamplestructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Properties_ExampleStruct_create_handle_nullable'));
-final _smoke_Properties_ExampleStructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokePropertiesExamplestructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Properties_ExampleStruct_release_handle_nullable'));
-final _smoke_Properties_ExampleStructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokePropertiesExamplestructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Properties_ExampleStruct_get_value_nullable'));
-Pointer<Void> smoke_Properties_ExampleStruct_toFfi_nullable(Properties_ExampleStruct value) {
+Pointer<Void> smokePropertiesExamplestructToFfiNullable(Properties_ExampleStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_Properties_ExampleStruct_toFfi(value);
-  final result = _smoke_Properties_ExampleStructCreateHandleNullable(_handle);
-  smoke_Properties_ExampleStruct_releaseFfiHandle(_handle);
+  final _handle = smokePropertiesExamplestructToFfi(value);
+  final result = _smokePropertiesExamplestructCreateHandleNullable(_handle);
+  smokePropertiesExamplestructReleaseFfiHandle(_handle);
   return result;
 }
-Properties_ExampleStruct smoke_Properties_ExampleStruct_fromFfi_nullable(Pointer<Void> handle) {
+Properties_ExampleStruct smokePropertiesExamplestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_Properties_ExampleStructGetValueNullable(handle);
-  final result = smoke_Properties_ExampleStruct_fromFfi(_handle);
-  smoke_Properties_ExampleStruct_releaseFfiHandle(_handle);
+  final _handle = _smokePropertiesExamplestructGetValueNullable(handle);
+  final result = smokePropertiesExamplestructFromFfi(_handle);
+  smokePropertiesExamplestructReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_Properties_ExampleStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_Properties_ExampleStructReleaseHandleNullable(handle);
+void smokePropertiesExamplestructReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokePropertiesExamplestructReleaseHandleNullable(handle);
 // End of Properties_ExampleStruct "private" section.
 // Properties "private" section, not exported.
 final _smokePropertiesCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -215,18 +215,18 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return smoke_Properties_ExampleStruct_fromFfi(__resultHandle);
+      return smokePropertiesExamplestructFromFfi(__resultHandle);
     } finally {
-      smoke_Properties_ExampleStruct_releaseFfiHandle(__resultHandle);
+      smokePropertiesExamplestructReleaseFfiHandle(__resultHandle);
     }
   }
   @override
   set structProperty(Properties_ExampleStruct value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Properties_structProperty_set__ExampleStruct'));
-    final _valueHandle = smoke_Properties_ExampleStruct_toFfi(value);
+    final _valueHandle = smokePropertiesExamplestructToFfi(value);
     final _handle = this.handle;
     final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
-    smoke_Properties_ExampleStruct_releaseFfiHandle(_valueHandle);
+    smokePropertiesExamplestructReleaseFfiHandle(_valueHandle);
     try {
       return (__resultHandle);
     } finally {
@@ -239,18 +239,18 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return foobar_ListOf_String_fromFfi(__resultHandle);
+      return foobarListofStringFromFfi(__resultHandle);
     } finally {
-      foobar_ListOf_String_releaseFfiHandle(__resultHandle);
+      foobarListofStringReleaseFfiHandle(__resultHandle);
     }
   }
   @override
   set arrayProperty(List<String> value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Properties_arrayProperty_set__ListOf_1String'));
-    final _valueHandle = foobar_ListOf_String_toFfi(value);
+    final _valueHandle = foobarListofStringToFfi(value);
     final _handle = this.handle;
     final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
-    foobar_ListOf_String_releaseFfiHandle(_valueHandle);
+    foobarListofStringReleaseFfiHandle(_valueHandle);
     try {
       return (__resultHandle);
     } finally {
@@ -263,18 +263,18 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return smoke_Properties_InternalErrorCode_fromFfi(__resultHandle);
+      return smokePropertiesInternalerrorcodeFromFfi(__resultHandle);
     } finally {
-      smoke_Properties_InternalErrorCode_releaseFfiHandle(__resultHandle);
+      smokePropertiesInternalerrorcodeReleaseFfiHandle(__resultHandle);
     }
   }
   @override
   set complexTypeProperty(Properties_InternalErrorCode value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint32), void Function(Pointer<Void>, int, int)>('library_smoke_Properties_complexTypeProperty_set__InternalErrorCode'));
-    final _valueHandle = smoke_Properties_InternalErrorCode_toFfi(value);
+    final _valueHandle = smokePropertiesInternalerrorcodeToFfi(value);
     final _handle = this.handle;
     final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
-    smoke_Properties_InternalErrorCode_releaseFfiHandle(_valueHandle);
+    smokePropertiesInternalerrorcodeReleaseFfiHandle(_valueHandle);
     try {
       return (__resultHandle);
     } finally {
@@ -287,18 +287,18 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return Blob_fromFfi(__resultHandle);
+      return blobFromFfi(__resultHandle);
     } finally {
-      Blob_releaseFfiHandle(__resultHandle);
+      blobReleaseFfiHandle(__resultHandle);
     }
   }
   @override
   set byteBufferProperty(Uint8List value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Properties_byteBufferProperty_set__Blob'));
-    final _valueHandle = Blob_toFfi(value);
+    final _valueHandle = blobToFfi(value);
     final _handle = this.handle;
     final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
-    Blob_releaseFfiHandle(_valueHandle);
+    blobReleaseFfiHandle(_valueHandle);
     try {
       return (__resultHandle);
     } finally {
@@ -311,18 +311,18 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return smoke_PropertiesInterface_fromFfi(__resultHandle);
+      return smokePropertiesinterfaceFromFfi(__resultHandle);
     } finally {
-      smoke_PropertiesInterface_releaseFfiHandle(__resultHandle);
+      smokePropertiesinterfaceReleaseFfiHandle(__resultHandle);
     }
   }
   @override
   set instanceProperty(PropertiesInterface value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Properties_instanceProperty_set__PropertiesInterface'));
-    final _valueHandle = smoke_PropertiesInterface_toFfi(value);
+    final _valueHandle = smokePropertiesinterfaceToFfi(value);
     final _handle = this.handle;
     final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
-    smoke_PropertiesInterface_releaseFfiHandle(_valueHandle);
+    smokePropertiesinterfaceReleaseFfiHandle(_valueHandle);
     try {
       return (__resultHandle);
     } finally {
@@ -335,18 +335,18 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
     try {
-      return Boolean_fromFfi(__resultHandle);
+      return booleanFromFfi(__resultHandle);
     } finally {
-      Boolean_releaseFfiHandle(__resultHandle);
+      booleanReleaseFfiHandle(__resultHandle);
     }
   }
   @override
   set isBooleanProperty(bool value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_Properties_isBooleanProperty_set__Boolean'));
-    final _valueHandle = Boolean_toFfi(value);
+    final _valueHandle = booleanToFfi(value);
     final _handle = this.handle;
     final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
-    Boolean_releaseFfiHandle(_valueHandle);
+    booleanReleaseFfiHandle(_valueHandle);
     try {
       return (__resultHandle);
     } finally {
@@ -357,16 +357,16 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Properties_staticProperty_get'));
     final __resultHandle = _getFfi(__lib.LibraryContext.isolateId);
     try {
-      return String_fromFfi(__resultHandle);
+      return stringFromFfi(__resultHandle);
     } finally {
-      String_releaseFfiHandle(__resultHandle);
+      stringReleaseFfiHandle(__resultHandle);
     }
   }
   static set staticProperty(String value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32, Pointer<Void>), void Function(int, Pointer<Void>)>('library_smoke_Properties_staticProperty_set__String'));
-    final _valueHandle = String_toFfi(value);
+    final _valueHandle = stringToFfi(value);
     final __resultHandle = _setFfi(__lib.LibraryContext.isolateId, _valueHandle);
-    String_releaseFfiHandle(_valueHandle);
+    stringReleaseFfiHandle(_valueHandle);
     try {
       return (__resultHandle);
     } finally {
@@ -377,15 +377,15 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Properties_staticReadonlyProperty_get'));
     final __resultHandle = _getFfi(__lib.LibraryContext.isolateId);
     try {
-      return smoke_Properties_ExampleStruct_fromFfi(__resultHandle);
+      return smokePropertiesExamplestructFromFfi(__resultHandle);
     } finally {
-      smoke_Properties_ExampleStruct_releaseFfiHandle(__resultHandle);
+      smokePropertiesExamplestructReleaseFfiHandle(__resultHandle);
     }
   }
 }
-Pointer<Void> smoke_Properties_toFfi(Properties value) =>
+Pointer<Void> smokePropertiesToFfi(Properties value) =>
   _smokePropertiesCopyHandle((value as __lib.NativeBase).handle);
-Properties smoke_Properties_fromFfi(Pointer<Void> handle) {
+Properties smokePropertiesFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as Properties;
@@ -395,12 +395,12 @@ Properties smoke_Properties_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_Properties_releaseFfiHandle(Pointer<Void> handle) =>
+void smokePropertiesReleaseFfiHandle(Pointer<Void> handle) =>
   _smokePropertiesReleaseHandle(handle);
-Pointer<Void> smoke_Properties_toFfi_nullable(Properties value) =>
-  value != null ? smoke_Properties_toFfi(value) : Pointer<Void>.fromAddress(0);
-Properties smoke_Properties_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_Properties_fromFfi(handle) : null;
-void smoke_Properties_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokePropertiesToFfiNullable(Properties value) =>
+  value != null ? smokePropertiesToFfi(value) : Pointer<Void>.fromAddress(0);
+Properties smokePropertiesFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokePropertiesFromFfi(handle) : null;
+void smokePropertiesReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokePropertiesReleaseHandle(handle);
 // End of Properties "private" section.

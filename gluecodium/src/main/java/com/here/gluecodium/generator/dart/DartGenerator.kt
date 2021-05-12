@@ -121,10 +121,10 @@ internal class DartGenerator : Generator {
 
         val dartResolvers = mapOf(
             "" to dartNameResolver,
-            "Ffi" to ffiNameResolver,
+            "Ffi" to CamelCaseNameResolver(ffiNameResolver),
+            "FfiSnakeCase" to ffiNameResolver,
             "FfiApiTypes" to FfiApiTypeNameResolver(),
-            "FfiDartTypes" to FfiDartTypeNameResolver(),
-            "FfiCamelCase" to CamelCaseNameResolver(ffiNameResolver)
+            "FfiDartTypes" to FfiDartTypeNameResolver()
         )
         val ffiCppNameResolver = FfiCppNameResolver(
             limeModel.referenceMap,

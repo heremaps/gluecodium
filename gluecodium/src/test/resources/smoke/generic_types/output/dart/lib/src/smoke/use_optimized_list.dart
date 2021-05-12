@@ -25,27 +25,27 @@ final _smokeUseoptimizedlistReleaseHandle = __lib.catchArgumentError(() => __lib
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_UseOptimizedList_release_handle'));
-final _smoke_UseOptimizedList_smoke_UnreasonablyLazyClassLazyList_get_size = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeUseoptimizedlistsmokeUnreasonablylazyclassLazyListGetSize = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_UseOptimizedList_smoke_UnreasonablyLazyClassLazyList_get_size'));
-final _smoke_UseOptimizedList_smoke_UnreasonablyLazyClassLazyList_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeUseoptimizedlistsmokeUnreasonablylazyclassLazyListGet = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>, Uint64),
     Pointer<Void> Function(Pointer<Void>, int)
   >('library_smoke_UseOptimizedList_smoke_UnreasonablyLazyClassLazyList_get'));
-final _smoke_UseOptimizedList_smoke_UnreasonablyLazyClassLazyList_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeUseoptimizedlistsmokeUnreasonablylazyclassLazyListReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_UseOptimizedList_smoke_UnreasonablyLazyClassLazyList_release_handle'));
-final _smoke_UseOptimizedList_smoke_VeryBigStructLazyList_get_size = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeUseoptimizedlistsmokeVerybigstructLazyListGetSize = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_UseOptimizedList_smoke_VeryBigStructLazyList_get_size'));
-final _smoke_UseOptimizedList_smoke_VeryBigStructLazyList_get = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeUseoptimizedlistsmokeVerybigstructLazyListGet = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>, Uint64),
     Pointer<Void> Function(Pointer<Void>, int)
   >('library_smoke_UseOptimizedList_smoke_VeryBigStructLazyList_get'));
-final _smoke_UseOptimizedList_smoke_VeryBigStructLazyList_release_handle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeUseoptimizedlistsmokeVerybigstructLazyListReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_UseOptimizedList_smoke_VeryBigStructLazyList_release_handle'));
@@ -64,14 +64,14 @@ class UseOptimizedList$Impl extends __lib.NativeBase implements UseOptimizedList
     final __resultHandle = _fetchTheBigOnesFfi(__lib.LibraryContext.isolateId);
     return __lib.LazyList(
         __resultHandle,
-        _smoke_UseOptimizedList_smoke_VeryBigStructLazyList_get_size(__resultHandle),
+        _smokeUseoptimizedlistsmokeVerybigstructLazyListGetSize(__resultHandle),
         (index) {
-          final __elementHandle = _smoke_UseOptimizedList_smoke_VeryBigStructLazyList_get(__resultHandle, index);
-          final __elementResult = smoke_VeryBigStruct_fromFfi(__elementHandle);
-          smoke_VeryBigStruct_releaseFfiHandle(__elementHandle);
+          final __elementHandle = _smokeUseoptimizedlistsmokeVerybigstructLazyListGet(__resultHandle, index);
+          final __elementResult = smokeVerybigstructFromFfi(__elementHandle);
+          smokeVerybigstructReleaseFfiHandle(__elementHandle);
           return __elementResult;
         },
-        () => _smoke_UseOptimizedList_smoke_VeryBigStructLazyList_release_handle(__resultHandle)
+        () => _smokeUseoptimizedlistsmokeVerybigstructLazyListReleaseHandle(__resultHandle)
       );
   }
   static List<UnreasonablyLazyClass> get lazyOnes {
@@ -79,20 +79,20 @@ class UseOptimizedList$Impl extends __lib.NativeBase implements UseOptimizedList
     final __resultHandle = _getFfi(__lib.LibraryContext.isolateId);
     return __lib.LazyList(
         __resultHandle,
-        _smoke_UseOptimizedList_smoke_UnreasonablyLazyClassLazyList_get_size(__resultHandle),
+        _smokeUseoptimizedlistsmokeUnreasonablylazyclassLazyListGetSize(__resultHandle),
         (index) {
-          final __elementHandle = _smoke_UseOptimizedList_smoke_UnreasonablyLazyClassLazyList_get(__resultHandle, index);
-          final __elementResult = smoke_UnreasonablyLazyClass_fromFfi(__elementHandle);
-          smoke_UnreasonablyLazyClass_releaseFfiHandle(__elementHandle);
+          final __elementHandle = _smokeUseoptimizedlistsmokeUnreasonablylazyclassLazyListGet(__resultHandle, index);
+          final __elementResult = smokeUnreasonablylazyclassFromFfi(__elementHandle);
+          smokeUnreasonablylazyclassReleaseFfiHandle(__elementHandle);
           return __elementResult;
         },
-        () => _smoke_UseOptimizedList_smoke_UnreasonablyLazyClassLazyList_release_handle(__resultHandle)
+        () => _smokeUseoptimizedlistsmokeUnreasonablylazyclassLazyListReleaseHandle(__resultHandle)
       );
   }
 }
-Pointer<Void> smoke_UseOptimizedList_toFfi(UseOptimizedList value) =>
+Pointer<Void> smokeUseoptimizedlistToFfi(UseOptimizedList value) =>
   _smokeUseoptimizedlistCopyHandle((value as __lib.NativeBase).handle);
-UseOptimizedList smoke_UseOptimizedList_fromFfi(Pointer<Void> handle) {
+UseOptimizedList smokeUseoptimizedlistFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as UseOptimizedList;
@@ -102,12 +102,12 @@ UseOptimizedList smoke_UseOptimizedList_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_UseOptimizedList_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeUseoptimizedlistReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeUseoptimizedlistReleaseHandle(handle);
-Pointer<Void> smoke_UseOptimizedList_toFfi_nullable(UseOptimizedList value) =>
-  value != null ? smoke_UseOptimizedList_toFfi(value) : Pointer<Void>.fromAddress(0);
-UseOptimizedList smoke_UseOptimizedList_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_UseOptimizedList_fromFfi(handle) : null;
-void smoke_UseOptimizedList_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeUseoptimizedlistToFfiNullable(UseOptimizedList value) =>
+  value != null ? smokeUseoptimizedlistToFfi(value) : Pointer<Void>.fromAddress(0);
+UseOptimizedList smokeUseoptimizedlistFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeUseoptimizedlistFromFfi(handle) : null;
+void smokeUseoptimizedlistReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeUseoptimizedlistReleaseHandle(handle);
 // End of UseOptimizedList "private" section.

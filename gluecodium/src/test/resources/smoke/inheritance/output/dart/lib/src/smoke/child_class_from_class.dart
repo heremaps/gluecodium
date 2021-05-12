@@ -49,16 +49,16 @@ class ChildClassFromClass$Impl extends ParentClass$Impl implements ChildClassFro
     }
   }
 }
-Pointer<Void> smoke_ChildClassFromClass_toFfi(ChildClassFromClass value) =>
+Pointer<Void> smokeChildclassfromclassToFfi(ChildClassFromClass value) =>
   _smokeChildclassfromclassCopyHandle((value as __lib.NativeBase).handle);
-ChildClassFromClass smoke_ChildClassFromClass_fromFfi(Pointer<Void> handle) {
+ChildClassFromClass smokeChildclassfromclassFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as ChildClassFromClass;
   if (instance != null) return instance;
   final _typeIdHandle = _smokeChildclassfromclassGetTypeId(handle);
-  final factoryConstructor = __lib.typeRepository[String_fromFfi(_typeIdHandle)];
-  String_releaseFfiHandle(_typeIdHandle);
+  final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
+  stringReleaseFfiHandle(_typeIdHandle);
   final _copiedHandle = _smokeChildclassfromclassCopyHandle(handle);
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
@@ -66,12 +66,12 @@ ChildClassFromClass smoke_ChildClassFromClass_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_ChildClassFromClass_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeChildclassfromclassReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeChildclassfromclassReleaseHandle(handle);
-Pointer<Void> smoke_ChildClassFromClass_toFfi_nullable(ChildClassFromClass value) =>
-  value != null ? smoke_ChildClassFromClass_toFfi(value) : Pointer<Void>.fromAddress(0);
-ChildClassFromClass smoke_ChildClassFromClass_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_ChildClassFromClass_fromFfi(handle) : null;
-void smoke_ChildClassFromClass_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeChildclassfromclassToFfiNullable(ChildClassFromClass value) =>
+  value != null ? smokeChildclassfromclassToFfi(value) : Pointer<Void>.fromAddress(0);
+ChildClassFromClass smokeChildclassfromclassFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeChildclassfromclassFromFfi(handle) : null;
+void smokeChildclassfromclassReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeChildclassfromclassReleaseHandle(handle);
 // End of ChildClassFromClass "private" section.

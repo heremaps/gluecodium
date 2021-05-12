@@ -49,7 +49,7 @@ class EquatableInterface$Impl extends __lib.NativeBase implements EquatableInter
     return __areEqual((this as EquatableInterface$Impl).handle, other.handle) != 0;
   }
 }
-Pointer<Void> smoke_EquatableInterface_toFfi(EquatableInterface value) {
+Pointer<Void> smokeEquatableinterfaceToFfi(EquatableInterface value) {
   if (value is __lib.NativeBase) return _smokeEquatableinterfaceCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokeEquatableinterfaceCreateProxy(
     __lib.cacheObject(value),
@@ -58,14 +58,14 @@ Pointer<Void> smoke_EquatableInterface_toFfi(EquatableInterface value) {
   );
   return result;
 }
-EquatableInterface smoke_EquatableInterface_fromFfi(Pointer<Void> handle) {
+EquatableInterface smokeEquatableinterfaceFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as EquatableInterface;
   if (instance != null) return instance;
   final _typeIdHandle = _smokeEquatableinterfaceGetTypeId(handle);
-  final factoryConstructor = __lib.typeRepository[String_fromFfi(_typeIdHandle)];
-  String_releaseFfiHandle(_typeIdHandle);
+  final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
+  stringReleaseFfiHandle(_typeIdHandle);
   final _copiedHandle = _smokeEquatableinterfaceCopyHandle(handle);
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
@@ -73,12 +73,12 @@ EquatableInterface smoke_EquatableInterface_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_EquatableInterface_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeEquatableinterfaceReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeEquatableinterfaceReleaseHandle(handle);
-Pointer<Void> smoke_EquatableInterface_toFfi_nullable(EquatableInterface value) =>
-  value != null ? smoke_EquatableInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
-EquatableInterface smoke_EquatableInterface_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_EquatableInterface_fromFfi(handle) : null;
-void smoke_EquatableInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeEquatableinterfaceToFfiNullable(EquatableInterface value) =>
+  value != null ? smokeEquatableinterfaceToFfi(value) : Pointer<Void>.fromAddress(0);
+EquatableInterface smokeEquatableinterfaceFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeEquatableinterfaceFromFfi(handle) : null;
+void smokeEquatableinterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeEquatableinterfaceReleaseHandle(handle);
 // End of EquatableInterface "private" section.

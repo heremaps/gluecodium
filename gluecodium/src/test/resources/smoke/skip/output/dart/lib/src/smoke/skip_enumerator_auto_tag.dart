@@ -6,7 +6,7 @@ enum SkipEnumeratorAutoTag {
     three
 }
 // SkipEnumeratorAutoTag "private" section, not exported.
-int smoke_SkipEnumeratorAutoTag_toFfi(SkipEnumeratorAutoTag value) {
+int smokeSkipenumeratorautotagToFfi(SkipEnumeratorAutoTag value) {
   switch (value) {
   case SkipEnumeratorAutoTag.one:
     return 0;
@@ -18,7 +18,7 @@ int smoke_SkipEnumeratorAutoTag_toFfi(SkipEnumeratorAutoTag value) {
     throw StateError("Invalid enum value $value for SkipEnumeratorAutoTag enum.");
   }
 }
-SkipEnumeratorAutoTag smoke_SkipEnumeratorAutoTag_fromFfi(int handle) {
+SkipEnumeratorAutoTag smokeSkipenumeratorautotagFromFfi(int handle) {
   switch (handle) {
   case 0:
     return SkipEnumeratorAutoTag.one;
@@ -30,33 +30,33 @@ SkipEnumeratorAutoTag smoke_SkipEnumeratorAutoTag_fromFfi(int handle) {
     throw StateError("Invalid numeric value $handle for SkipEnumeratorAutoTag enum.");
   }
 }
-void smoke_SkipEnumeratorAutoTag_releaseFfiHandle(int handle) {}
-final _smoke_SkipEnumeratorAutoTagCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+void smokeSkipenumeratorautotagReleaseFfiHandle(int handle) {}
+final _smokeSkipenumeratorautotagCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
   >('library_smoke_SkipEnumeratorAutoTag_create_handle_nullable'));
-final _smoke_SkipEnumeratorAutoTagReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeSkipenumeratorautotagReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_SkipEnumeratorAutoTag_release_handle_nullable'));
-final _smoke_SkipEnumeratorAutoTagGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeSkipenumeratorautotagGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_SkipEnumeratorAutoTag_get_value_nullable'));
-Pointer<Void> smoke_SkipEnumeratorAutoTag_toFfi_nullable(SkipEnumeratorAutoTag value) {
+Pointer<Void> smokeSkipenumeratorautotagToFfiNullable(SkipEnumeratorAutoTag value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_SkipEnumeratorAutoTag_toFfi(value);
-  final result = _smoke_SkipEnumeratorAutoTagCreateHandleNullable(_handle);
-  smoke_SkipEnumeratorAutoTag_releaseFfiHandle(_handle);
+  final _handle = smokeSkipenumeratorautotagToFfi(value);
+  final result = _smokeSkipenumeratorautotagCreateHandleNullable(_handle);
+  smokeSkipenumeratorautotagReleaseFfiHandle(_handle);
   return result;
 }
-SkipEnumeratorAutoTag smoke_SkipEnumeratorAutoTag_fromFfi_nullable(Pointer<Void> handle) {
+SkipEnumeratorAutoTag smokeSkipenumeratorautotagFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_SkipEnumeratorAutoTagGetValueNullable(handle);
-  final result = smoke_SkipEnumeratorAutoTag_fromFfi(_handle);
-  smoke_SkipEnumeratorAutoTag_releaseFfiHandle(_handle);
+  final _handle = _smokeSkipenumeratorautotagGetValueNullable(handle);
+  final result = smokeSkipenumeratorautotagFromFfi(_handle);
+  smokeSkipenumeratorautotagReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_SkipEnumeratorAutoTag_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_SkipEnumeratorAutoTagReleaseHandleNullable(handle);
+void smokeSkipenumeratorautotagReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeSkipenumeratorautotagReleaseHandleNullable(handle);
 // End of SkipEnumeratorAutoTag "private" section.

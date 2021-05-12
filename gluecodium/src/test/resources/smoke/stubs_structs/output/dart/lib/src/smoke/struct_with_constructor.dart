@@ -18,9 +18,9 @@ class StructWithConstructor$Impl {
     final _fooBarFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_StructWithConstructor_fooBar'));
     final __resultHandle = _fooBarFfi(__lib.LibraryContext.isolateId);
     try {
-      return smoke_StructWithConstructor_fromFfi(__resultHandle);
+      return smokeStructwithconstructorFromFfi(__resultHandle);
     } finally {
-      smoke_StructWithConstructor_releaseFfiHandle(__resultHandle);
+      smokeStructwithconstructorReleaseFfiHandle(__resultHandle);
     }
   }
 }
@@ -37,50 +37,50 @@ final _smokeStructwithconstructorGetFieldfield = __lib.catchArgumentError(() => 
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithConstructor_get_field_field'));
-Pointer<Void> smoke_StructWithConstructor_toFfi(StructWithConstructor value) {
-  final _fieldHandle = String_toFfi(value.field);
+Pointer<Void> smokeStructwithconstructorToFfi(StructWithConstructor value) {
+  final _fieldHandle = stringToFfi(value.field);
   final _result = _smokeStructwithconstructorCreateHandle(_fieldHandle);
-  String_releaseFfiHandle(_fieldHandle);
+  stringReleaseFfiHandle(_fieldHandle);
   return _result;
 }
-StructWithConstructor smoke_StructWithConstructor_fromFfi(Pointer<Void> handle) {
+StructWithConstructor smokeStructwithconstructorFromFfi(Pointer<Void> handle) {
   final _fieldHandle = _smokeStructwithconstructorGetFieldfield(handle);
   try {
     return StructWithConstructor._(
-      String_fromFfi(_fieldHandle)
+      stringFromFfi(_fieldHandle)
     );
   } finally {
-    String_releaseFfiHandle(_fieldHandle);
+    stringReleaseFfiHandle(_fieldHandle);
   }
 }
-void smoke_StructWithConstructor_releaseFfiHandle(Pointer<Void> handle) => _smokeStructwithconstructorReleaseHandle(handle);
+void smokeStructwithconstructorReleaseFfiHandle(Pointer<Void> handle) => _smokeStructwithconstructorReleaseHandle(handle);
 // Nullable StructWithConstructor
-final _smoke_StructWithConstructorCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructwithconstructorCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithConstructor_create_handle_nullable'));
-final _smoke_StructWithConstructorReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructwithconstructorReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_StructWithConstructor_release_handle_nullable'));
-final _smoke_StructWithConstructorGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeStructwithconstructorGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithConstructor_get_value_nullable'));
-Pointer<Void> smoke_StructWithConstructor_toFfi_nullable(StructWithConstructor value) {
+Pointer<Void> smokeStructwithconstructorToFfiNullable(StructWithConstructor value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_StructWithConstructor_toFfi(value);
-  final result = _smoke_StructWithConstructorCreateHandleNullable(_handle);
-  smoke_StructWithConstructor_releaseFfiHandle(_handle);
+  final _handle = smokeStructwithconstructorToFfi(value);
+  final result = _smokeStructwithconstructorCreateHandleNullable(_handle);
+  smokeStructwithconstructorReleaseFfiHandle(_handle);
   return result;
 }
-StructWithConstructor smoke_StructWithConstructor_fromFfi_nullable(Pointer<Void> handle) {
+StructWithConstructor smokeStructwithconstructorFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_StructWithConstructorGetValueNullable(handle);
-  final result = smoke_StructWithConstructor_fromFfi(_handle);
-  smoke_StructWithConstructor_releaseFfiHandle(_handle);
+  final _handle = _smokeStructwithconstructorGetValueNullable(handle);
+  final result = smokeStructwithconstructorFromFfi(_handle);
+  smokeStructwithconstructorReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_StructWithConstructor_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_StructWithConstructorReleaseHandleNullable(handle);
+void smokeStructwithconstructorReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeStructwithconstructorReleaseHandleNullable(handle);
 // End of StructWithConstructor "private" section.

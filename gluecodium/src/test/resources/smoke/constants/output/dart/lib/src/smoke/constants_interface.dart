@@ -22,7 +22,7 @@ enum ConstantsInterface_StateEnum {
     on
 }
 // ConstantsInterface_StateEnum "private" section, not exported.
-int smoke_ConstantsInterface_StateEnum_toFfi(ConstantsInterface_StateEnum value) {
+int smokeConstantsinterfaceStateenumToFfi(ConstantsInterface_StateEnum value) {
   switch (value) {
   case ConstantsInterface_StateEnum.off:
     return 0;
@@ -34,7 +34,7 @@ int smoke_ConstantsInterface_StateEnum_toFfi(ConstantsInterface_StateEnum value)
     throw StateError("Invalid enum value $value for ConstantsInterface_StateEnum enum.");
   }
 }
-ConstantsInterface_StateEnum smoke_ConstantsInterface_StateEnum_fromFfi(int handle) {
+ConstantsInterface_StateEnum smokeConstantsinterfaceStateenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return ConstantsInterface_StateEnum.off;
@@ -46,35 +46,35 @@ ConstantsInterface_StateEnum smoke_ConstantsInterface_StateEnum_fromFfi(int hand
     throw StateError("Invalid numeric value $handle for ConstantsInterface_StateEnum enum.");
   }
 }
-void smoke_ConstantsInterface_StateEnum_releaseFfiHandle(int handle) {}
-final _smoke_ConstantsInterface_StateEnumCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+void smokeConstantsinterfaceStateenumReleaseFfiHandle(int handle) {}
+final _smokeConstantsinterfaceStateenumCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
   >('library_smoke_ConstantsInterface_StateEnum_create_handle_nullable'));
-final _smoke_ConstantsInterface_StateEnumReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeConstantsinterfaceStateenumReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ConstantsInterface_StateEnum_release_handle_nullable'));
-final _smoke_ConstantsInterface_StateEnumGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeConstantsinterfaceStateenumGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_ConstantsInterface_StateEnum_get_value_nullable'));
-Pointer<Void> smoke_ConstantsInterface_StateEnum_toFfi_nullable(ConstantsInterface_StateEnum value) {
+Pointer<Void> smokeConstantsinterfaceStateenumToFfiNullable(ConstantsInterface_StateEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_ConstantsInterface_StateEnum_toFfi(value);
-  final result = _smoke_ConstantsInterface_StateEnumCreateHandleNullable(_handle);
-  smoke_ConstantsInterface_StateEnum_releaseFfiHandle(_handle);
+  final _handle = smokeConstantsinterfaceStateenumToFfi(value);
+  final result = _smokeConstantsinterfaceStateenumCreateHandleNullable(_handle);
+  smokeConstantsinterfaceStateenumReleaseFfiHandle(_handle);
   return result;
 }
-ConstantsInterface_StateEnum smoke_ConstantsInterface_StateEnum_fromFfi_nullable(Pointer<Void> handle) {
+ConstantsInterface_StateEnum smokeConstantsinterfaceStateenumFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_ConstantsInterface_StateEnumGetValueNullable(handle);
-  final result = smoke_ConstantsInterface_StateEnum_fromFfi(_handle);
-  smoke_ConstantsInterface_StateEnum_releaseFfiHandle(_handle);
+  final _handle = _smokeConstantsinterfaceStateenumGetValueNullable(handle);
+  final result = smokeConstantsinterfaceStateenumFromFfi(_handle);
+  smokeConstantsinterfaceStateenumReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_ConstantsInterface_StateEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_ConstantsInterface_StateEnumReleaseHandleNullable(handle);
+void smokeConstantsinterfaceStateenumReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeConstantsinterfaceStateenumReleaseHandleNullable(handle);
 // End of ConstantsInterface_StateEnum "private" section.
 // ConstantsInterface "private" section, not exported.
 final _smokeConstantsinterfaceCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -96,9 +96,9 @@ class ConstantsInterface$Impl extends __lib.NativeBase implements ConstantsInter
     handle = null;
   }
 }
-Pointer<Void> smoke_ConstantsInterface_toFfi(ConstantsInterface value) =>
+Pointer<Void> smokeConstantsinterfaceToFfi(ConstantsInterface value) =>
   _smokeConstantsinterfaceCopyHandle((value as __lib.NativeBase).handle);
-ConstantsInterface smoke_ConstantsInterface_fromFfi(Pointer<Void> handle) {
+ConstantsInterface smokeConstantsinterfaceFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as ConstantsInterface;
@@ -108,12 +108,12 @@ ConstantsInterface smoke_ConstantsInterface_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_ConstantsInterface_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeConstantsinterfaceReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeConstantsinterfaceReleaseHandle(handle);
-Pointer<Void> smoke_ConstantsInterface_toFfi_nullable(ConstantsInterface value) =>
-  value != null ? smoke_ConstantsInterface_toFfi(value) : Pointer<Void>.fromAddress(0);
-ConstantsInterface smoke_ConstantsInterface_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_ConstantsInterface_fromFfi(handle) : null;
-void smoke_ConstantsInterface_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeConstantsinterfaceToFfiNullable(ConstantsInterface value) =>
+  value != null ? smokeConstantsinterfaceToFfi(value) : Pointer<Void>.fromAddress(0);
+ConstantsInterface smokeConstantsinterfaceFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeConstantsinterfaceFromFfi(handle) : null;
+void smokeConstantsinterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeConstantsinterfaceReleaseHandle(handle);
 // End of ConstantsInterface "private" section.

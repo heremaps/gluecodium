@@ -44,24 +44,24 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
   }
   static String stringFunction(String input) {
     final _stringFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_BasicTypes_stringFunction__String'));
-    final _inputHandle = String_toFfi(input);
+    final _inputHandle = stringToFfi(input);
     final __resultHandle = _stringFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
-    String_releaseFfiHandle(_inputHandle);
+    stringReleaseFfiHandle(_inputHandle);
     try {
-      return String_fromFfi(__resultHandle);
+      return stringFromFfi(__resultHandle);
     } finally {
-      String_releaseFfiHandle(__resultHandle);
+      stringReleaseFfiHandle(__resultHandle);
     }
   }
   static bool boolFunction(bool input) {
     final _boolFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Uint8), int Function(int, int)>('library_smoke_BasicTypes_boolFunction__Boolean'));
-    final _inputHandle = Boolean_toFfi(input);
+    final _inputHandle = booleanToFfi(input);
     final __resultHandle = _boolFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
-    Boolean_releaseFfiHandle(_inputHandle);
+    booleanReleaseFfiHandle(_inputHandle);
     try {
-      return Boolean_fromFfi(__resultHandle);
+      return booleanFromFfi(__resultHandle);
     } finally {
-      Boolean_releaseFfiHandle(__resultHandle);
+      booleanReleaseFfiHandle(__resultHandle);
     }
   }
   static double floatFunction(double input) {
@@ -175,9 +175,9 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
     }
   }
 }
-Pointer<Void> smoke_BasicTypes_toFfi(BasicTypes value) =>
+Pointer<Void> smokeBasictypesToFfi(BasicTypes value) =>
   _smokeBasictypesCopyHandle((value as __lib.NativeBase).handle);
-BasicTypes smoke_BasicTypes_fromFfi(Pointer<Void> handle) {
+BasicTypes smokeBasictypesFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
   final instance = __lib.instanceCache[token] as BasicTypes;
@@ -187,12 +187,12 @@ BasicTypes smoke_BasicTypes_fromFfi(Pointer<Void> handle) {
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
   return result;
 }
-void smoke_BasicTypes_releaseFfiHandle(Pointer<Void> handle) =>
+void smokeBasictypesReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeBasictypesReleaseHandle(handle);
-Pointer<Void> smoke_BasicTypes_toFfi_nullable(BasicTypes value) =>
-  value != null ? smoke_BasicTypes_toFfi(value) : Pointer<Void>.fromAddress(0);
-BasicTypes smoke_BasicTypes_fromFfi_nullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smoke_BasicTypes_fromFfi(handle) : null;
-void smoke_BasicTypes_releaseFfiHandle_nullable(Pointer<Void> handle) =>
+Pointer<Void> smokeBasictypesToFfiNullable(BasicTypes value) =>
+  value != null ? smokeBasictypesToFfi(value) : Pointer<Void>.fromAddress(0);
+BasicTypes smokeBasictypesFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeBasictypesFromFfi(handle) : null;
+void smokeBasictypesReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeBasictypesReleaseHandle(handle);
 // End of BasicTypes "private" section.

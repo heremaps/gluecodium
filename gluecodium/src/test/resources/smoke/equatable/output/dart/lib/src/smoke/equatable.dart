@@ -10,7 +10,7 @@ enum SomeEnum {
     bar
 }
 // SomeEnum "private" section, not exported.
-int smoke_Equatable_SomeEnum_toFfi(SomeEnum value) {
+int smokeEquatableSomeenumToFfi(SomeEnum value) {
   switch (value) {
   case SomeEnum.foo:
     return 0;
@@ -22,7 +22,7 @@ int smoke_Equatable_SomeEnum_toFfi(SomeEnum value) {
     throw StateError("Invalid enum value $value for SomeEnum enum.");
   }
 }
-SomeEnum smoke_Equatable_SomeEnum_fromFfi(int handle) {
+SomeEnum smokeEquatableSomeenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return SomeEnum.foo;
@@ -34,35 +34,35 @@ SomeEnum smoke_Equatable_SomeEnum_fromFfi(int handle) {
     throw StateError("Invalid numeric value $handle for SomeEnum enum.");
   }
 }
-void smoke_Equatable_SomeEnum_releaseFfiHandle(int handle) {}
-final _smoke_Equatable_SomeEnumCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+void smokeEquatableSomeenumReleaseFfiHandle(int handle) {}
+final _smokeEquatableSomeenumCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
   >('library_smoke_Equatable_SomeEnum_create_handle_nullable'));
-final _smoke_Equatable_SomeEnumReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeEquatableSomeenumReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Equatable_SomeEnum_release_handle_nullable'));
-final _smoke_Equatable_SomeEnumGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeEquatableSomeenumGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Equatable_SomeEnum_get_value_nullable'));
-Pointer<Void> smoke_Equatable_SomeEnum_toFfi_nullable(SomeEnum value) {
+Pointer<Void> smokeEquatableSomeenumToFfiNullable(SomeEnum value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_Equatable_SomeEnum_toFfi(value);
-  final result = _smoke_Equatable_SomeEnumCreateHandleNullable(_handle);
-  smoke_Equatable_SomeEnum_releaseFfiHandle(_handle);
+  final _handle = smokeEquatableSomeenumToFfi(value);
+  final result = _smokeEquatableSomeenumCreateHandleNullable(_handle);
+  smokeEquatableSomeenumReleaseFfiHandle(_handle);
   return result;
 }
-SomeEnum smoke_Equatable_SomeEnum_fromFfi_nullable(Pointer<Void> handle) {
+SomeEnum smokeEquatableSomeenumFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_Equatable_SomeEnumGetValueNullable(handle);
-  final result = smoke_Equatable_SomeEnum_fromFfi(_handle);
-  smoke_Equatable_SomeEnum_releaseFfiHandle(_handle);
+  final _handle = _smokeEquatableSomeenumGetValueNullable(handle);
+  final result = smokeEquatableSomeenumFromFfi(_handle);
+  smokeEquatableSomeenumReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_Equatable_SomeEnum_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_Equatable_SomeEnumReleaseHandleNullable(handle);
+void smokeEquatableSomeenumReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeEquatableSomeenumReleaseHandleNullable(handle);
 // End of SomeEnum "private" section.
 class EquatableStruct {
   bool boolField;
@@ -157,31 +157,31 @@ final _smokeEquatableEquatablestructGetFieldmapField = __lib.catchArgumentError(
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Equatable_EquatableStruct_get_field_mapField'));
-Pointer<Void> smoke_Equatable_EquatableStruct_toFfi(EquatableStruct value) {
-  final _boolFieldHandle = Boolean_toFfi(value.boolField);
+Pointer<Void> smokeEquatableEquatablestructToFfi(EquatableStruct value) {
+  final _boolFieldHandle = booleanToFfi(value.boolField);
   final _intFieldHandle = (value.intField);
   final _longFieldHandle = (value.longField);
   final _floatFieldHandle = (value.floatField);
   final _doubleFieldHandle = (value.doubleField);
-  final _stringFieldHandle = String_toFfi(value.stringField);
-  final _structFieldHandle = smoke_Equatable_NestedEquatableStruct_toFfi(value.structField);
-  final _enumFieldHandle = smoke_Equatable_SomeEnum_toFfi(value.enumField);
-  final _arrayFieldHandle = foobar_ListOf_String_toFfi(value.arrayField);
-  final _mapFieldHandle = foobar_MapOf_Int_to_String_toFfi(value.mapField);
+  final _stringFieldHandle = stringToFfi(value.stringField);
+  final _structFieldHandle = smokeEquatableNestedequatablestructToFfi(value.structField);
+  final _enumFieldHandle = smokeEquatableSomeenumToFfi(value.enumField);
+  final _arrayFieldHandle = foobarListofStringToFfi(value.arrayField);
+  final _mapFieldHandle = foobarMapofIntToStringToFfi(value.mapField);
   final _result = _smokeEquatableEquatablestructCreateHandle(_boolFieldHandle, _intFieldHandle, _longFieldHandle, _floatFieldHandle, _doubleFieldHandle, _stringFieldHandle, _structFieldHandle, _enumFieldHandle, _arrayFieldHandle, _mapFieldHandle);
-  Boolean_releaseFfiHandle(_boolFieldHandle);
+  booleanReleaseFfiHandle(_boolFieldHandle);
   (_intFieldHandle);
   (_longFieldHandle);
   (_floatFieldHandle);
   (_doubleFieldHandle);
-  String_releaseFfiHandle(_stringFieldHandle);
-  smoke_Equatable_NestedEquatableStruct_releaseFfiHandle(_structFieldHandle);
-  smoke_Equatable_SomeEnum_releaseFfiHandle(_enumFieldHandle);
-  foobar_ListOf_String_releaseFfiHandle(_arrayFieldHandle);
-  foobar_MapOf_Int_to_String_releaseFfiHandle(_mapFieldHandle);
+  stringReleaseFfiHandle(_stringFieldHandle);
+  smokeEquatableNestedequatablestructReleaseFfiHandle(_structFieldHandle);
+  smokeEquatableSomeenumReleaseFfiHandle(_enumFieldHandle);
+  foobarListofStringReleaseFfiHandle(_arrayFieldHandle);
+  foobarMapofIntToStringReleaseFfiHandle(_mapFieldHandle);
   return _result;
 }
-EquatableStruct smoke_Equatable_EquatableStruct_fromFfi(Pointer<Void> handle) {
+EquatableStruct smokeEquatableEquatablestructFromFfi(Pointer<Void> handle) {
   final _boolFieldHandle = _smokeEquatableEquatablestructGetFieldboolField(handle);
   final _intFieldHandle = _smokeEquatableEquatablestructGetFieldintField(handle);
   final _longFieldHandle = _smokeEquatableEquatablestructGetFieldlongField(handle);
@@ -194,60 +194,60 @@ EquatableStruct smoke_Equatable_EquatableStruct_fromFfi(Pointer<Void> handle) {
   final _mapFieldHandle = _smokeEquatableEquatablestructGetFieldmapField(handle);
   try {
     return EquatableStruct(
-      Boolean_fromFfi(_boolFieldHandle),
+      booleanFromFfi(_boolFieldHandle),
       (_intFieldHandle),
       (_longFieldHandle),
       (_floatFieldHandle),
       (_doubleFieldHandle),
-      String_fromFfi(_stringFieldHandle),
-      smoke_Equatable_NestedEquatableStruct_fromFfi(_structFieldHandle),
-      smoke_Equatable_SomeEnum_fromFfi(_enumFieldHandle),
-      foobar_ListOf_String_fromFfi(_arrayFieldHandle),
-      foobar_MapOf_Int_to_String_fromFfi(_mapFieldHandle)
+      stringFromFfi(_stringFieldHandle),
+      smokeEquatableNestedequatablestructFromFfi(_structFieldHandle),
+      smokeEquatableSomeenumFromFfi(_enumFieldHandle),
+      foobarListofStringFromFfi(_arrayFieldHandle),
+      foobarMapofIntToStringFromFfi(_mapFieldHandle)
     );
   } finally {
-    Boolean_releaseFfiHandle(_boolFieldHandle);
+    booleanReleaseFfiHandle(_boolFieldHandle);
     (_intFieldHandle);
     (_longFieldHandle);
     (_floatFieldHandle);
     (_doubleFieldHandle);
-    String_releaseFfiHandle(_stringFieldHandle);
-    smoke_Equatable_NestedEquatableStruct_releaseFfiHandle(_structFieldHandle);
-    smoke_Equatable_SomeEnum_releaseFfiHandle(_enumFieldHandle);
-    foobar_ListOf_String_releaseFfiHandle(_arrayFieldHandle);
-    foobar_MapOf_Int_to_String_releaseFfiHandle(_mapFieldHandle);
+    stringReleaseFfiHandle(_stringFieldHandle);
+    smokeEquatableNestedequatablestructReleaseFfiHandle(_structFieldHandle);
+    smokeEquatableSomeenumReleaseFfiHandle(_enumFieldHandle);
+    foobarListofStringReleaseFfiHandle(_arrayFieldHandle);
+    foobarMapofIntToStringReleaseFfiHandle(_mapFieldHandle);
   }
 }
-void smoke_Equatable_EquatableStruct_releaseFfiHandle(Pointer<Void> handle) => _smokeEquatableEquatablestructReleaseHandle(handle);
+void smokeEquatableEquatablestructReleaseFfiHandle(Pointer<Void> handle) => _smokeEquatableEquatablestructReleaseHandle(handle);
 // Nullable EquatableStruct
-final _smoke_Equatable_EquatableStructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeEquatableEquatablestructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Equatable_EquatableStruct_create_handle_nullable'));
-final _smoke_Equatable_EquatableStructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeEquatableEquatablestructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Equatable_EquatableStruct_release_handle_nullable'));
-final _smoke_Equatable_EquatableStructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeEquatableEquatablestructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Equatable_EquatableStruct_get_value_nullable'));
-Pointer<Void> smoke_Equatable_EquatableStruct_toFfi_nullable(EquatableStruct value) {
+Pointer<Void> smokeEquatableEquatablestructToFfiNullable(EquatableStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_Equatable_EquatableStruct_toFfi(value);
-  final result = _smoke_Equatable_EquatableStructCreateHandleNullable(_handle);
-  smoke_Equatable_EquatableStruct_releaseFfiHandle(_handle);
+  final _handle = smokeEquatableEquatablestructToFfi(value);
+  final result = _smokeEquatableEquatablestructCreateHandleNullable(_handle);
+  smokeEquatableEquatablestructReleaseFfiHandle(_handle);
   return result;
 }
-EquatableStruct smoke_Equatable_EquatableStruct_fromFfi_nullable(Pointer<Void> handle) {
+EquatableStruct smokeEquatableEquatablestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_Equatable_EquatableStructGetValueNullable(handle);
-  final result = smoke_Equatable_EquatableStruct_fromFfi(_handle);
-  smoke_Equatable_EquatableStruct_releaseFfiHandle(_handle);
+  final _handle = _smokeEquatableEquatablestructGetValueNullable(handle);
+  final result = smokeEquatableEquatablestructFromFfi(_handle);
+  smokeEquatableEquatablestructReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_Equatable_EquatableStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_Equatable_EquatableStructReleaseHandleNullable(handle);
+void smokeEquatableEquatablestructReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeEquatableEquatablestructReleaseHandleNullable(handle);
 // End of EquatableStruct "private" section.
 class EquatableNullableStruct {
   bool boolField;
@@ -335,29 +335,29 @@ final _smokeEquatableEquatablenullablestructGetFieldmapField = __lib.catchArgume
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Equatable_EquatableNullableStruct_get_field_mapField'));
-Pointer<Void> smoke_Equatable_EquatableNullableStruct_toFfi(EquatableNullableStruct value) {
-  final _boolFieldHandle = Boolean_toFfi_nullable(value.boolField);
-  final _intFieldHandle = Int_toFfi_nullable(value.intField);
-  final _uintFieldHandle = UShort_toFfi_nullable(value.uintField);
-  final _floatFieldHandle = Float_toFfi_nullable(value.floatField);
-  final _stringFieldHandle = String_toFfi_nullable(value.stringField);
-  final _structFieldHandle = smoke_Equatable_NestedEquatableStruct_toFfi_nullable(value.structField);
-  final _enumFieldHandle = smoke_Equatable_SomeEnum_toFfi_nullable(value.enumField);
-  final _arrayFieldHandle = foobar_ListOf_String_toFfi_nullable(value.arrayField);
-  final _mapFieldHandle = foobar_MapOf_Int_to_String_toFfi_nullable(value.mapField);
+Pointer<Void> smokeEquatableEquatablenullablestructToFfi(EquatableNullableStruct value) {
+  final _boolFieldHandle = booleanToFfiNullable(value.boolField);
+  final _intFieldHandle = intToFfiNullable(value.intField);
+  final _uintFieldHandle = uShortToFfiNullable(value.uintField);
+  final _floatFieldHandle = floatToFfiNullable(value.floatField);
+  final _stringFieldHandle = stringToFfiNullable(value.stringField);
+  final _structFieldHandle = smokeEquatableNestedequatablestructToFfiNullable(value.structField);
+  final _enumFieldHandle = smokeEquatableSomeenumToFfiNullable(value.enumField);
+  final _arrayFieldHandle = foobarListofStringToFfiNullable(value.arrayField);
+  final _mapFieldHandle = foobarMapofIntToStringToFfiNullable(value.mapField);
   final _result = _smokeEquatableEquatablenullablestructCreateHandle(_boolFieldHandle, _intFieldHandle, _uintFieldHandle, _floatFieldHandle, _stringFieldHandle, _structFieldHandle, _enumFieldHandle, _arrayFieldHandle, _mapFieldHandle);
-  Boolean_releaseFfiHandle_nullable(_boolFieldHandle);
-  Int_releaseFfiHandle_nullable(_intFieldHandle);
-  UShort_releaseFfiHandle_nullable(_uintFieldHandle);
-  Float_releaseFfiHandle_nullable(_floatFieldHandle);
-  String_releaseFfiHandle_nullable(_stringFieldHandle);
-  smoke_Equatable_NestedEquatableStruct_releaseFfiHandle_nullable(_structFieldHandle);
-  smoke_Equatable_SomeEnum_releaseFfiHandle_nullable(_enumFieldHandle);
-  foobar_ListOf_String_releaseFfiHandle_nullable(_arrayFieldHandle);
-  foobar_MapOf_Int_to_String_releaseFfiHandle_nullable(_mapFieldHandle);
+  booleanReleaseFfiHandleNullable(_boolFieldHandle);
+  intReleaseFfiHandleNullable(_intFieldHandle);
+  uShortReleaseFfiHandleNullable(_uintFieldHandle);
+  floatReleaseFfiHandleNullable(_floatFieldHandle);
+  stringReleaseFfiHandleNullable(_stringFieldHandle);
+  smokeEquatableNestedequatablestructReleaseFfiHandleNullable(_structFieldHandle);
+  smokeEquatableSomeenumReleaseFfiHandleNullable(_enumFieldHandle);
+  foobarListofStringReleaseFfiHandleNullable(_arrayFieldHandle);
+  foobarMapofIntToStringReleaseFfiHandleNullable(_mapFieldHandle);
   return _result;
 }
-EquatableNullableStruct smoke_Equatable_EquatableNullableStruct_fromFfi(Pointer<Void> handle) {
+EquatableNullableStruct smokeEquatableEquatablenullablestructFromFfi(Pointer<Void> handle) {
   final _boolFieldHandle = _smokeEquatableEquatablenullablestructGetFieldboolField(handle);
   final _intFieldHandle = _smokeEquatableEquatablenullablestructGetFieldintField(handle);
   final _uintFieldHandle = _smokeEquatableEquatablenullablestructGetFielduintField(handle);
@@ -369,58 +369,58 @@ EquatableNullableStruct smoke_Equatable_EquatableNullableStruct_fromFfi(Pointer<
   final _mapFieldHandle = _smokeEquatableEquatablenullablestructGetFieldmapField(handle);
   try {
     return EquatableNullableStruct(
-      Boolean_fromFfi_nullable(_boolFieldHandle),
-      Int_fromFfi_nullable(_intFieldHandle),
-      UShort_fromFfi_nullable(_uintFieldHandle),
-      Float_fromFfi_nullable(_floatFieldHandle),
-      String_fromFfi_nullable(_stringFieldHandle),
-      smoke_Equatable_NestedEquatableStruct_fromFfi_nullable(_structFieldHandle),
-      smoke_Equatable_SomeEnum_fromFfi_nullable(_enumFieldHandle),
-      foobar_ListOf_String_fromFfi_nullable(_arrayFieldHandle),
-      foobar_MapOf_Int_to_String_fromFfi_nullable(_mapFieldHandle)
+      booleanFromFfiNullable(_boolFieldHandle),
+      intFromFfiNullable(_intFieldHandle),
+      uShortFromFfiNullable(_uintFieldHandle),
+      floatFromFfiNullable(_floatFieldHandle),
+      stringFromFfiNullable(_stringFieldHandle),
+      smokeEquatableNestedequatablestructFromFfiNullable(_structFieldHandle),
+      smokeEquatableSomeenumFromFfiNullable(_enumFieldHandle),
+      foobarListofStringFromFfiNullable(_arrayFieldHandle),
+      foobarMapofIntToStringFromFfiNullable(_mapFieldHandle)
     );
   } finally {
-    Boolean_releaseFfiHandle_nullable(_boolFieldHandle);
-    Int_releaseFfiHandle_nullable(_intFieldHandle);
-    UShort_releaseFfiHandle_nullable(_uintFieldHandle);
-    Float_releaseFfiHandle_nullable(_floatFieldHandle);
-    String_releaseFfiHandle_nullable(_stringFieldHandle);
-    smoke_Equatable_NestedEquatableStruct_releaseFfiHandle_nullable(_structFieldHandle);
-    smoke_Equatable_SomeEnum_releaseFfiHandle_nullable(_enumFieldHandle);
-    foobar_ListOf_String_releaseFfiHandle_nullable(_arrayFieldHandle);
-    foobar_MapOf_Int_to_String_releaseFfiHandle_nullable(_mapFieldHandle);
+    booleanReleaseFfiHandleNullable(_boolFieldHandle);
+    intReleaseFfiHandleNullable(_intFieldHandle);
+    uShortReleaseFfiHandleNullable(_uintFieldHandle);
+    floatReleaseFfiHandleNullable(_floatFieldHandle);
+    stringReleaseFfiHandleNullable(_stringFieldHandle);
+    smokeEquatableNestedequatablestructReleaseFfiHandleNullable(_structFieldHandle);
+    smokeEquatableSomeenumReleaseFfiHandleNullable(_enumFieldHandle);
+    foobarListofStringReleaseFfiHandleNullable(_arrayFieldHandle);
+    foobarMapofIntToStringReleaseFfiHandleNullable(_mapFieldHandle);
   }
 }
-void smoke_Equatable_EquatableNullableStruct_releaseFfiHandle(Pointer<Void> handle) => _smokeEquatableEquatablenullablestructReleaseHandle(handle);
+void smokeEquatableEquatablenullablestructReleaseFfiHandle(Pointer<Void> handle) => _smokeEquatableEquatablenullablestructReleaseHandle(handle);
 // Nullable EquatableNullableStruct
-final _smoke_Equatable_EquatableNullableStructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeEquatableEquatablenullablestructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Equatable_EquatableNullableStruct_create_handle_nullable'));
-final _smoke_Equatable_EquatableNullableStructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeEquatableEquatablenullablestructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Equatable_EquatableNullableStruct_release_handle_nullable'));
-final _smoke_Equatable_EquatableNullableStructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeEquatableEquatablenullablestructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Equatable_EquatableNullableStruct_get_value_nullable'));
-Pointer<Void> smoke_Equatable_EquatableNullableStruct_toFfi_nullable(EquatableNullableStruct value) {
+Pointer<Void> smokeEquatableEquatablenullablestructToFfiNullable(EquatableNullableStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_Equatable_EquatableNullableStruct_toFfi(value);
-  final result = _smoke_Equatable_EquatableNullableStructCreateHandleNullable(_handle);
-  smoke_Equatable_EquatableNullableStruct_releaseFfiHandle(_handle);
+  final _handle = smokeEquatableEquatablenullablestructToFfi(value);
+  final result = _smokeEquatableEquatablenullablestructCreateHandleNullable(_handle);
+  smokeEquatableEquatablenullablestructReleaseFfiHandle(_handle);
   return result;
 }
-EquatableNullableStruct smoke_Equatable_EquatableNullableStruct_fromFfi_nullable(Pointer<Void> handle) {
+EquatableNullableStruct smokeEquatableEquatablenullablestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_Equatable_EquatableNullableStructGetValueNullable(handle);
-  final result = smoke_Equatable_EquatableNullableStruct_fromFfi(_handle);
-  smoke_Equatable_EquatableNullableStruct_releaseFfiHandle(_handle);
+  final _handle = _smokeEquatableEquatablenullablestructGetValueNullable(handle);
+  final result = smokeEquatableEquatablenullablestructFromFfi(_handle);
+  smokeEquatableEquatablenullablestructReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_Equatable_EquatableNullableStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_Equatable_EquatableNullableStructReleaseHandleNullable(handle);
+void smokeEquatableEquatablenullablestructReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeEquatableEquatablenullablestructReleaseHandleNullable(handle);
 // End of EquatableNullableStruct "private" section.
 class NestedEquatableStruct {
   String fooField;
@@ -452,50 +452,51 @@ final _smokeEquatableNestedequatablestructGetFieldfooField = __lib.catchArgument
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Equatable_NestedEquatableStruct_get_field_fooField'));
-Pointer<Void> smoke_Equatable_NestedEquatableStruct_toFfi(NestedEquatableStruct value) {
-  final _fooFieldHandle = String_toFfi(value.fooField);
+Pointer<Void> smokeEquatableNestedequatablestructToFfi(NestedEquatableStruct value) {
+  final _fooFieldHandle = stringToFfi(value.fooField);
   final _result = _smokeEquatableNestedequatablestructCreateHandle(_fooFieldHandle);
-  String_releaseFfiHandle(_fooFieldHandle);
+  stringReleaseFfiHandle(_fooFieldHandle);
   return _result;
 }
-NestedEquatableStruct smoke_Equatable_NestedEquatableStruct_fromFfi(Pointer<Void> handle) {
+NestedEquatableStruct smokeEquatableNestedequatablestructFromFfi(Pointer<Void> handle) {
   final _fooFieldHandle = _smokeEquatableNestedequatablestructGetFieldfooField(handle);
   try {
     return NestedEquatableStruct(
-      String_fromFfi(_fooFieldHandle)
+      stringFromFfi(_fooFieldHandle)
     );
   } finally {
-    String_releaseFfiHandle(_fooFieldHandle);
+    stringReleaseFfiHandle(_fooFieldHandle);
   }
 }
-void smoke_Equatable_NestedEquatableStruct_releaseFfiHandle(Pointer<Void> handle) => _smokeEquatableNestedequatablestructReleaseHandle(handle);
+void smokeEquatableNestedequatablestructReleaseFfiHandle(Pointer<Void> handle) => _smokeEquatableNestedequatablestructReleaseHandle(handle);
 // Nullable NestedEquatableStruct
-final _smoke_Equatable_NestedEquatableStructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeEquatableNestedequatablestructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Equatable_NestedEquatableStruct_create_handle_nullable'));
-final _smoke_Equatable_NestedEquatableStructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeEquatableNestedequatablestructReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Equatable_NestedEquatableStruct_release_handle_nullable'));
-final _smoke_Equatable_NestedEquatableStructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeEquatableNestedequatablestructGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Equatable_NestedEquatableStruct_get_value_nullable'));
-Pointer<Void> smoke_Equatable_NestedEquatableStruct_toFfi_nullable(NestedEquatableStruct value) {
+Pointer<Void> smokeEquatableNestedequatablestructToFfiNullable(NestedEquatableStruct value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smoke_Equatable_NestedEquatableStruct_toFfi(value);
-  final result = _smoke_Equatable_NestedEquatableStructCreateHandleNullable(_handle);
-  smoke_Equatable_NestedEquatableStruct_releaseFfiHandle(_handle);
+  final _handle = smokeEquatableNestedequatablestructToFfi(value);
+  final result = _smokeEquatableNestedequatablestructCreateHandleNullable(_handle);
+  smokeEquatableNestedequatablestructReleaseFfiHandle(_handle);
   return result;
 }
-NestedEquatableStruct smoke_Equatable_NestedEquatableStruct_fromFfi_nullable(Pointer<Void> handle) {
+NestedEquatableStruct smokeEquatableNestedequatablestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _smoke_Equatable_NestedEquatableStructGetValueNullable(handle);
-  final result = smoke_Equatable_NestedEquatableStruct_fromFfi(_handle);
-  smoke_Equatable_NestedEquatableStruct_releaseFfiHandle(_handle);
+  final _handle = _smokeEquatableNestedequatablestructGetValueNullable(handle);
+  final result = smokeEquatableNestedequatablestructFromFfi(_handle);
+  smokeEquatableNestedequatablestructReleaseFfiHandle(_handle);
   return result;
 }
-void smoke_Equatable_NestedEquatableStruct_releaseFfiHandle_nullable(Pointer<Void> handle) =>
-  _smoke_Equatable_NestedEquatableStructReleaseHandleNullable(handle);
+void smokeEquatableNestedequatablestructReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeEquatableNestedequatablestructReleaseHandleNullable(handle);
 // End of NestedEquatableStruct "private" section.
+
