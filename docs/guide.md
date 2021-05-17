@@ -133,14 +133,6 @@ Classes and structs marked like this are equal comparable. For structs compariso
 are auto-generated. For classes only the declaration is generated which needs to be implemented in C++
 or otherwise results in linking errors.
 
-**Note:** All fields in structs marked as `@Equatable` need to be of simple type or be marked as
-`@Equatable` or `@PointerEquatable` themselves.
-
-### `@PointerEquatable`
-
-Classes marked like this are equal comparable by comparing the instances raw pointer in C++.
-Interfaces marked as `@PointerEquatable` also support hashing.
-
 Exception types
 ---------------
 
