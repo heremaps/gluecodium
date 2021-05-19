@@ -36,17 +36,16 @@ internal class DartDeclarationImportResolver(srcPath: String) : DartImportResolv
     private val tokenCacheImport = DartImport("$srcPath/_token_cache", "__lib")
     private val nativeBaseImport = DartImport("$srcPath/_native_base", "__lib")
 
+    private val classInterfaceImports =
+        listOf(builtInTypesConversionImport, typeRepositoryImport, tokenCacheImport, nativeBaseImport)
+
     override fun resolveElementImports(limeElement: LimeElement): List<DartImport> =
         when {
             limeElement is LimeLambda -> listOf(tokenCacheImport)
-            limeElement is LimeStruct && limeElement.external?.dart == null &&
-                limeElement.attributes.have(LimeAttributeType.EQUATABLE) ->
-                listOf(collectionSystemImport, collectionPackageImport)
-            limeElement is LimeInterface ->
-                listOf(builtInTypesConversionImport, typeRepositoryImport, tokenCacheImport, nativeBaseImport)
-            limeElement is LimeClass &&
-                (limeElement.parent != null || limeElement.visibility.isOpen) ->
-                listOf(builtInTypesConversionImport, typeRepositoryImport, tokenCacheImport, nativeBaseImport)
+            limeElement is LimeStruct && limeElement.external?.dart == null -> resolveStructImports(limeElement)
+            limeElement is LimeInterface -> classInterfaceImports + metaPackageImport
+            limeElement is LimeClass && (limeElement.parent != null || limeElement.visibility.isOpen) ->
+                classInterfaceImports
             limeElement is LimeClass -> listOf(tokenCacheImport, nativeBaseImport)
             else -> emptyList()
         } + listOfNotNull(
@@ -54,8 +53,20 @@ internal class DartDeclarationImportResolver(srcPath: String) : DartImportResolv
             resolveExternalImport(limeElement, CONVERTER_IMPORT_NAME, useAlias = false)
         )
 
+    private fun resolveStructImports(limeStruct: LimeStruct): List<DartImport> {
+        val result = mutableListOf<DartImport>()
+        if (limeStruct.attributes.have(LimeAttributeType.EQUATABLE)) {
+            result += listOf(collectionSystemImport, collectionPackageImport)
+        }
+        if (limeStruct.attributes.have(LimeAttributeType.IMMUTABLE)) {
+            result += listOf(metaPackageImport)
+        }
+        return result
+    }
+
     companion object {
         private val collectionSystemImport = DartImport("collection", importType = ImportType.SYSTEM)
         private val collectionPackageImport = DartImport("collection/collection")
+        private val metaPackageImport = DartImport("meta/meta")
     }
 }

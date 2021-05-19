@@ -33,7 +33,7 @@
 {{#if isStruct}}{{#unless isStatic}}  {{resolveName parent "Ffi"}}ReleaseFfiHandle(_handle);
 {{/unless}}{{/if}}{{!!
 }}{{#parameters}}
-  {{#set call="ReleaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}Handle);
+  {{#resolveName}}{{#setJoin "varName" "_" this "Handle" delimiter=""}}{{>dart/DartFfiReleaseHandle}}{{/setJoin}}{{/resolveName}}
 {{/parameters}}
 {{#if thrownType}}
   if (_{{resolveName}}ReturnHasError(__callResultHandle) != 0) {
@@ -42,7 +42,7 @@
       try {
         throw {{resolveName exception}}({{#set call="FromFfi" typeRef=exception.errorType}}{{>dart/DartFfiConversionCall}}{{/set}}(__errorHandle));
       } finally {
-        {{#set call="ReleaseFfiHandle" typeRef=exception.errorType}}{{>dart/DartFfiConversionCall}}{{/set}}(__errorHandle);
+        {{#set typeRef=exception.errorType varName="__errorHandle"}}{{>dart/DartFfiReleaseHandle}}{{/set}}
       }
   }
   final __resultHandle = _{{resolveName}}ReturnGetResult(__callResultHandle);
@@ -70,7 +70,7 @@
 {{/if}}{{#unless typeRef.attributes.optimized}}try {
     return {{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(__resultHandle);
   } finally {
-    {{#set call="ReleaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(__resultHandle);
+    {{#set varName="__resultHandle"}}{{>dart/DartFfiReleaseHandle}}{{/set}}
   }
 {{/unless}}{{/returnType}}{{!!
 }}{{/ffiReturnConversion}}

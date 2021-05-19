@@ -37,7 +37,6 @@ final _{{resolveName "Ffi"}}CreateProxy = __lib.catchArgumentError(() => __lib.n
   >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_create_proxy'));
 
 class {{resolveName}}$Impl {
-  Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
   {{resolveName}}$Impl(this.handle);
 
@@ -48,21 +47,21 @@ class {{resolveName}}$Impl {
 {{/asFunction}}{{/set}}
 }
 
-{{#set parent=this}}{{#asFunction}}
-int _{{resolveName parent}}{{resolveName}}Static({{!!
+{{#set lambda=this}}{{#asFunction}}
+int _{{resolveName lambda "Ffi"}}{{resolveName}}Static({{!!
 }}int _token{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
 }}{{#unless returnType.isVoid}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}> _result{{/unless}}) {
   {{#unless returnType.isVoid}}{{resolveName returnType.typeRef}} _resultObject;{{/unless}}
   try {
     {{#unless returnType.isVoid}}_resultObject = {{/unless}}{{!!
-  }}(__lib.instanceCache[_token] as {{resolveName parent}})({{#parameters}}{{!!
+  }}(__lib.instanceCache[_token] as {{resolveName lambda}})({{#parameters}}{{!!
   }}{{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}}){{#if iter.hasNext}}, {{/if}}{{!!
   }}{{/parameters}});{{#unless returnType.isVoid}}
     _result.value = {{#returnType}}{{#set call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}{{/returnType}}(_resultObject);{{/unless}}
   } finally {
 {{#parameters}}
-    {{#set call="ReleaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}});
+    {{#resolveName}}{{#set varName=this}}{{>dart/DartFfiReleaseHandle}}{{/set}}{{/resolveName}}
 {{/parameters}}{{#instanceOf returnType.typeRef.type.actualType "LimeClass"}}
     if (_resultObject != null) _resultObject.release();
 {{/instanceOf}}{{#instanceOf returnType.typeRef.type.actualType "LimeInterface"}}
@@ -77,8 +76,8 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
   final result = _{{resolveName "Ffi"}}CreateProxy(
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi,{{#set parent=this}}{{#asFunction}}
-    Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}{{resolveName}}Static, __lib.unknownError){{/asFunction}}{{/set}}
+    __lib.uncacheObjectFfi,{{#set lambda=this}}{{#asFunction}}
+    Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName lambda "Ffi"}}{{resolveName}}Static, __lib.unknownError){{/asFunction}}{{/set}}
   );
 
   return result;
