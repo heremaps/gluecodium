@@ -59,14 +59,14 @@ final _smokeErrorsInternalerrorcodeGetValueNullable = __lib.catchArgumentError((
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Errors_InternalErrorCode_get_value_nullable'));
-Pointer<Void> smokeErrorsInternalerrorcodeToFfiNullable(Errors_InternalErrorCode value) {
+Pointer<Void> smokeErrorsInternalerrorcodeToFfiNullable(Errors_InternalErrorCode? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeErrorsInternalerrorcodeToFfi(value);
   final result = _smokeErrorsInternalerrorcodeCreateHandleNullable(_handle);
   smokeErrorsInternalerrorcodeReleaseFfiHandle(_handle);
   return result;
 }
-Errors_InternalErrorCode smokeErrorsInternalerrorcodeFromFfiNullable(Pointer<Void> handle) {
+Errors_InternalErrorCode? smokeErrorsInternalerrorcodeFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeErrorsInternalerrorcodeGetValueNullable(handle);
   final result = smokeErrorsInternalerrorcodeFromFfi(_handle);
@@ -125,14 +125,14 @@ final _smokeErrorsExternalerrorsGetValueNullable = __lib.catchArgumentError(() =
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Errors_ExternalErrors_get_value_nullable'));
-Pointer<Void> smokeErrorsExternalerrorsToFfiNullable(Errors_ExternalErrors value) {
+Pointer<Void> smokeErrorsExternalerrorsToFfiNullable(Errors_ExternalErrors? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeErrorsExternalerrorsToFfi(value);
   final result = _smokeErrorsExternalerrorsCreateHandleNullable(_handle);
   smokeErrorsExternalerrorsReleaseFfiHandle(_handle);
   return result;
 }
-Errors_ExternalErrors smokeErrorsExternalerrorsFromFfiNullable(Pointer<Void> handle) {
+Errors_ExternalErrors? smokeErrorsExternalerrorsFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeErrorsExternalerrorsGetValueNullable(handle);
   final result = smokeErrorsExternalerrorsFromFfi(_handle);
@@ -234,11 +234,11 @@ class Errors$Impl extends __lib.NativeBase implements Errors {
   Errors$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeErrorsReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   static methodWithErrors() {
     final _methodWithErrorsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithErrors'));
@@ -343,8 +343,8 @@ Pointer<Void> smokeErrorsToFfi(Errors value) =>
 Errors smokeErrorsFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as Errors;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is Errors) return instance;
   final _copiedHandle = _smokeErrorsCopyHandle(handle);
   final result = Errors$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -352,9 +352,9 @@ Errors smokeErrorsFromFfi(Pointer<Void> handle) {
 }
 void smokeErrorsReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeErrorsReleaseHandle(handle);
-Pointer<Void> smokeErrorsToFfiNullable(Errors value) =>
+Pointer<Void> smokeErrorsToFfiNullable(Errors? value) =>
   value != null ? smokeErrorsToFfi(value) : Pointer<Void>.fromAddress(0);
-Errors smokeErrorsFromFfiNullable(Pointer<Void> handle) =>
+Errors? smokeErrorsFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeErrorsFromFfi(handle) : null;
 void smokeErrorsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeErrorsReleaseHandle(handle);

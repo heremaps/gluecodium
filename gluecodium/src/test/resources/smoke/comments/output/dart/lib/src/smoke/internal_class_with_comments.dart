@@ -28,11 +28,11 @@ class InternalClassWithComments$Impl extends __lib.NativeBase implements Interna
   InternalClassWithComments$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeInternalclasswithcommentsReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   internal_doNothing() {
@@ -50,8 +50,8 @@ Pointer<Void> smokeInternalclasswithcommentsToFfi(InternalClassWithComments valu
 InternalClassWithComments smokeInternalclasswithcommentsFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as InternalClassWithComments;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is InternalClassWithComments) return instance;
   final _copiedHandle = _smokeInternalclasswithcommentsCopyHandle(handle);
   final result = InternalClassWithComments$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -59,9 +59,9 @@ InternalClassWithComments smokeInternalclasswithcommentsFromFfi(Pointer<Void> ha
 }
 void smokeInternalclasswithcommentsReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeInternalclasswithcommentsReleaseHandle(handle);
-Pointer<Void> smokeInternalclasswithcommentsToFfiNullable(InternalClassWithComments value) =>
+Pointer<Void> smokeInternalclasswithcommentsToFfiNullable(InternalClassWithComments? value) =>
   value != null ? smokeInternalclasswithcommentsToFfi(value) : Pointer<Void>.fromAddress(0);
-InternalClassWithComments smokeInternalclasswithcommentsFromFfiNullable(Pointer<Void> handle) =>
+InternalClassWithComments? smokeInternalclasswithcommentsFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeInternalclasswithcommentsFromFfi(handle) : null;
 void smokeInternalclasswithcommentsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeInternalclasswithcommentsReleaseHandle(handle);

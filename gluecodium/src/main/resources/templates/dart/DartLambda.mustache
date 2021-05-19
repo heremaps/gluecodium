@@ -53,7 +53,7 @@ int _{{resolveName lambda "Ffi"}}{{resolveName}}Static({{!!
 }}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
 }}{{#unless returnType.isVoid}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}> _result{{/unless}}) {
   {{#unless returnType.isVoid}}{{resolveName returnType.typeRef}}{{!!
-  }}{{#unless returnType.typeRef.isNullable}}?{{/unless}} _resultObject = null;{{/unless}}
+  }}{{#unless returnType.typeRef.isNullable}}?{{/unless}} _resultObject;{{/unless}}
   try {
     {{#unless returnType.isVoid}}_resultObject = {{/unless}}{{!!
   }}(__lib.instanceCache[_token] as {{resolveName lambda}})({{#parameters}}{{!!

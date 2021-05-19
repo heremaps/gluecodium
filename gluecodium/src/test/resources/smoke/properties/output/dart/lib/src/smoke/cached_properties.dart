@@ -27,13 +27,13 @@ class CachedProperties$Impl extends __lib.NativeBase implements CachedProperties
   CachedProperties$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeCachedpropertiesReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
-  /*late*/ List<String> _cachedPropertyCache;
+  late List<String> _cachedPropertyCache;
   bool _cachedPropertyIsCached = false;
   @override
   List<String> get cachedProperty {
@@ -49,7 +49,7 @@ class CachedProperties$Impl extends __lib.NativeBase implements CachedProperties
     }
     return _cachedPropertyCache;
   }
-  static /*late*/ Uint8List _staticCachedPropertyCache;
+  static late Uint8List _staticCachedPropertyCache;
   static bool _staticCachedPropertyIsCached = false;
   static Uint8List get staticCachedProperty {
     if (!_staticCachedPropertyIsCached) {
@@ -70,8 +70,8 @@ Pointer<Void> smokeCachedpropertiesToFfi(CachedProperties value) =>
 CachedProperties smokeCachedpropertiesFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as CachedProperties;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is CachedProperties) return instance;
   final _copiedHandle = _smokeCachedpropertiesCopyHandle(handle);
   final result = CachedProperties$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -79,9 +79,9 @@ CachedProperties smokeCachedpropertiesFromFfi(Pointer<Void> handle) {
 }
 void smokeCachedpropertiesReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeCachedpropertiesReleaseHandle(handle);
-Pointer<Void> smokeCachedpropertiesToFfiNullable(CachedProperties value) =>
+Pointer<Void> smokeCachedpropertiesToFfiNullable(CachedProperties? value) =>
   value != null ? smokeCachedpropertiesToFfi(value) : Pointer<Void>.fromAddress(0);
-CachedProperties smokeCachedpropertiesFromFfiNullable(Pointer<Void> handle) =>
+CachedProperties? smokeCachedpropertiesFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeCachedpropertiesFromFfi(handle) : null;
 void smokeCachedpropertiesReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeCachedpropertiesReleaseHandle(handle);

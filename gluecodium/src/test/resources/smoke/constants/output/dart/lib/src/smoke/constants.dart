@@ -42,14 +42,14 @@ final _smokeConstantsStateenumGetValueNullable = __lib.catchArgumentError(() => 
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Constants_StateEnum_get_value_nullable'));
-Pointer<Void> smokeConstantsStateenumToFfiNullable(StateEnum value) {
+Pointer<Void> smokeConstantsStateenumToFfiNullable(StateEnum? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeConstantsStateenumToFfi(value);
   final result = _smokeConstantsStateenumCreateHandleNullable(_handle);
   smokeConstantsStateenumReleaseFfiHandle(_handle);
   return result;
 }
-StateEnum smokeConstantsStateenumFromFfiNullable(Pointer<Void> handle) {
+StateEnum? smokeConstantsStateenumFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeConstantsStateenumGetValueNullable(handle);
   final result = smokeConstantsStateenumFromFfi(_handle);

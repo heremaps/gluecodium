@@ -11,36 +11,36 @@ abstract class Nullable {
   /// Call this to free memory when you no longer need this instance.
   /// Note that setting the instance to null will not destroy the underlying native object.
   void release();
-  String methodWithString(String input);
-  bool methodWithBoolean(bool input);
-  double methodWithDouble(double input);
-  int methodWithInt(int input);
-  Nullable_SomeStruct methodWithSomeStruct(Nullable_SomeStruct input);
-  Nullable_SomeEnum methodWithSomeEnum(Nullable_SomeEnum input);
-  List<String> methodWithSomeArray(List<String> input);
-  List<String> methodWithInlineArray(List<String> input);
-  Map<int, String> methodWithSomeMap(Map<int, String> input);
-  SomeInterface methodWithInstance(SomeInterface input);
-  String get stringProperty;
-  set stringProperty(String value);
-  bool get isBoolProperty;
-  set isBoolProperty(bool value);
-  double get doubleProperty;
-  set doubleProperty(double value);
-  int get intProperty;
-  set intProperty(int value);
-  Nullable_SomeStruct get structProperty;
-  set structProperty(Nullable_SomeStruct value);
-  Nullable_SomeEnum get enumProperty;
-  set enumProperty(Nullable_SomeEnum value);
-  List<String> get arrayProperty;
-  set arrayProperty(List<String> value);
-  List<String> get inlineArrayProperty;
-  set inlineArrayProperty(List<String> value);
-  Map<int, String> get mapProperty;
-  set mapProperty(Map<int, String> value);
-  SomeInterface get instanceProperty;
-  set instanceProperty(SomeInterface value);
+  String? methodWithString(String? input);
+  bool? methodWithBoolean(bool? input);
+  double? methodWithDouble(double? input);
+  int? methodWithInt(int? input);
+  Nullable_SomeStruct? methodWithSomeStruct(Nullable_SomeStruct? input);
+  Nullable_SomeEnum? methodWithSomeEnum(Nullable_SomeEnum? input);
+  List<String>? methodWithSomeArray(List<String>? input);
+  List<String>? methodWithInlineArray(List<String>? input);
+  Map<int, String>? methodWithSomeMap(Map<int, String>? input);
+  SomeInterface? methodWithInstance(SomeInterface? input);
+  String? get stringProperty;
+  set stringProperty(String? value);
+  bool? get isBoolProperty;
+  set isBoolProperty(bool? value);
+  double? get doubleProperty;
+  set doubleProperty(double? value);
+  int? get intProperty;
+  set intProperty(int? value);
+  Nullable_SomeStruct? get structProperty;
+  set structProperty(Nullable_SomeStruct? value);
+  Nullable_SomeEnum? get enumProperty;
+  set enumProperty(Nullable_SomeEnum? value);
+  List<String>? get arrayProperty;
+  set arrayProperty(List<String>? value);
+  List<String>? get inlineArrayProperty;
+  set inlineArrayProperty(List<String>? value);
+  Map<int, String>? get mapProperty;
+  set mapProperty(Map<int, String>? value);
+  SomeInterface? get instanceProperty;
+  set instanceProperty(SomeInterface? value);
 }
 enum Nullable_SomeEnum {
     on,
@@ -84,14 +84,14 @@ final _smokeNullableSomeenumGetValueNullable = __lib.catchArgumentError(() => __
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Nullable_SomeEnum_get_value_nullable'));
-Pointer<Void> smokeNullableSomeenumToFfiNullable(Nullable_SomeEnum value) {
+Pointer<Void> smokeNullableSomeenumToFfiNullable(Nullable_SomeEnum? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeNullableSomeenumToFfi(value);
   final result = _smokeNullableSomeenumCreateHandleNullable(_handle);
   smokeNullableSomeenumReleaseFfiHandle(_handle);
   return result;
 }
-Nullable_SomeEnum smokeNullableSomeenumFromFfiNullable(Pointer<Void> handle) {
+Nullable_SomeEnum? smokeNullableSomeenumFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeNullableSomeenumGetValueNullable(handle);
   final result = smokeNullableSomeenumFromFfi(_handle);
@@ -148,14 +148,14 @@ final _smokeNullableSomestructGetValueNullable = __lib.catchArgumentError(() => 
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Nullable_SomeStruct_get_value_nullable'));
-Pointer<Void> smokeNullableSomestructToFfiNullable(Nullable_SomeStruct value) {
+Pointer<Void> smokeNullableSomestructToFfiNullable(Nullable_SomeStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeNullableSomestructToFfi(value);
   final result = _smokeNullableSomestructCreateHandleNullable(_handle);
   smokeNullableSomestructReleaseFfiHandle(_handle);
   return result;
 }
-Nullable_SomeStruct smokeNullableSomestructFromFfiNullable(Pointer<Void> handle) {
+Nullable_SomeStruct? smokeNullableSomestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeNullableSomestructGetValueNullable(handle);
   final result = smokeNullableSomestructFromFfi(_handle);
@@ -166,15 +166,15 @@ void smokeNullableSomestructReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeNullableSomestructReleaseHandleNullable(handle);
 // End of Nullable_SomeStruct "private" section.
 class Nullable_NullableStruct {
-  String stringField;
-  bool boolField;
-  double doubleField;
-  Nullable_SomeStruct structField;
-  Nullable_SomeEnum enumField;
-  List<String> arrayField;
-  List<String> inlineArrayField;
-  Map<int, String> mapField;
-  SomeInterface instanceField;
+  String? stringField;
+  bool? boolField;
+  double? doubleField;
+  Nullable_SomeStruct? structField;
+  Nullable_SomeEnum? enumField;
+  List<String>? arrayField;
+  List<String>? inlineArrayField;
+  Map<int, String>? mapField;
+  SomeInterface? instanceField;
   Nullable_NullableStruct(this.stringField, this.boolField, this.doubleField, this.structField, this.enumField, this.arrayField, this.inlineArrayField, this.mapField, this.instanceField);
 }
 // Nullable_NullableStruct "private" section, not exported.
@@ -292,14 +292,14 @@ final _smokeNullableNullablestructGetValueNullable = __lib.catchArgumentError(()
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Nullable_NullableStruct_get_value_nullable'));
-Pointer<Void> smokeNullableNullablestructToFfiNullable(Nullable_NullableStruct value) {
+Pointer<Void> smokeNullableNullablestructToFfiNullable(Nullable_NullableStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeNullableNullablestructToFfi(value);
   final result = _smokeNullableNullablestructCreateHandleNullable(_handle);
   smokeNullableNullablestructReleaseFfiHandle(_handle);
   return result;
 }
-Nullable_NullableStruct smokeNullableNullablestructFromFfiNullable(Pointer<Void> handle) {
+Nullable_NullableStruct? smokeNullableNullablestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeNullableNullablestructGetValueNullable(handle);
   final result = smokeNullableNullablestructFromFfi(_handle);
@@ -310,14 +310,14 @@ void smokeNullableNullablestructReleaseFfiHandleNullable(Pointer<Void> handle) =
   _smokeNullableNullablestructReleaseHandleNullable(handle);
 // End of Nullable_NullableStruct "private" section.
 class Nullable_NullableIntsStruct {
-  int int8Field;
-  int int16Field;
-  int int32Field;
-  int int64Field;
-  int uint8Field;
-  int uint16Field;
-  int uint32Field;
-  int uint64Field;
+  int? int8Field;
+  int? int16Field;
+  int? int32Field;
+  int? int64Field;
+  int? uint8Field;
+  int? uint16Field;
+  int? uint32Field;
+  int? uint64Field;
   Nullable_NullableIntsStruct(this.int8Field, this.int16Field, this.int32Field, this.int64Field, this.uint8Field, this.uint16Field, this.uint32Field, this.uint64Field);
 }
 // Nullable_NullableIntsStruct "private" section, not exported.
@@ -426,14 +426,14 @@ final _smokeNullableNullableintsstructGetValueNullable = __lib.catchArgumentErro
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Nullable_NullableIntsStruct_get_value_nullable'));
-Pointer<Void> smokeNullableNullableintsstructToFfiNullable(Nullable_NullableIntsStruct value) {
+Pointer<Void> smokeNullableNullableintsstructToFfiNullable(Nullable_NullableIntsStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeNullableNullableintsstructToFfi(value);
   final result = _smokeNullableNullableintsstructCreateHandleNullable(_handle);
   smokeNullableNullableintsstructReleaseFfiHandle(_handle);
   return result;
 }
-Nullable_NullableIntsStruct smokeNullableNullableintsstructFromFfiNullable(Pointer<Void> handle) {
+Nullable_NullableIntsStruct? smokeNullableNullableintsstructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeNullableNullableintsstructGetValueNullable(handle);
   final result = smokeNullableNullableintsstructFromFfi(_handle);
@@ -456,14 +456,14 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
   Nullable$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeNullableReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
-  String methodWithString(String input) {
+  String? methodWithString(String? input) {
     final _methodWithStringFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithString__String'));
     final _inputHandle = stringToFfiNullable(input);
     final _handle = this.handle;
@@ -476,7 +476,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  bool methodWithBoolean(bool input) {
+  bool? methodWithBoolean(bool? input) {
     final _methodWithBooleanFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithBoolean__Boolean'));
     final _inputHandle = booleanToFfiNullable(input);
     final _handle = this.handle;
@@ -489,7 +489,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  double methodWithDouble(double input) {
+  double? methodWithDouble(double? input) {
     final _methodWithDoubleFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithDouble__Double'));
     final _inputHandle = doubleToFfiNullable(input);
     final _handle = this.handle;
@@ -502,7 +502,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  int methodWithInt(int input) {
+  int? methodWithInt(int? input) {
     final _methodWithIntFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithInt__Long'));
     final _inputHandle = longToFfiNullable(input);
     final _handle = this.handle;
@@ -515,7 +515,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  Nullable_SomeStruct methodWithSomeStruct(Nullable_SomeStruct input) {
+  Nullable_SomeStruct? methodWithSomeStruct(Nullable_SomeStruct? input) {
     final _methodWithSomeStructFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithSomeStruct__SomeStruct'));
     final _inputHandle = smokeNullableSomestructToFfiNullable(input);
     final _handle = this.handle;
@@ -528,7 +528,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  Nullable_SomeEnum methodWithSomeEnum(Nullable_SomeEnum input) {
+  Nullable_SomeEnum? methodWithSomeEnum(Nullable_SomeEnum? input) {
     final _methodWithSomeEnumFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithSomeEnum__SomeEnum'));
     final _inputHandle = smokeNullableSomeenumToFfiNullable(input);
     final _handle = this.handle;
@@ -541,7 +541,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  List<String> methodWithSomeArray(List<String> input) {
+  List<String>? methodWithSomeArray(List<String>? input) {
     final _methodWithSomeArrayFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithSomeArray__ListOf_1String'));
     final _inputHandle = foobarListofStringToFfiNullable(input);
     final _handle = this.handle;
@@ -554,7 +554,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  List<String> methodWithInlineArray(List<String> input) {
+  List<String>? methodWithInlineArray(List<String>? input) {
     final _methodWithInlineArrayFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithInlineArray__ListOf_1String'));
     final _inputHandle = foobarListofStringToFfiNullable(input);
     final _handle = this.handle;
@@ -567,7 +567,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  Map<int, String> methodWithSomeMap(Map<int, String> input) {
+  Map<int, String>? methodWithSomeMap(Map<int, String>? input) {
     final _methodWithSomeMapFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithSomeMap__MapOf_1Long_1to_1String'));
     final _inputHandle = foobarMapofLongToStringToFfiNullable(input);
     final _handle = this.handle;
@@ -580,7 +580,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  SomeInterface methodWithInstance(SomeInterface input) {
+  SomeInterface? methodWithInstance(SomeInterface? input) {
     final _methodWithInstanceFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithInstance__SomeInterface'));
     final _inputHandle = smokeSomeinterfaceToFfiNullable(input);
     final _handle = this.handle;
@@ -593,7 +593,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  String get stringProperty {
+  String? get stringProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Nullable_stringProperty_get'));
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
@@ -604,7 +604,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  set stringProperty(String value) {
+  set stringProperty(String? value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_stringProperty_set__String'));
     final _valueHandle = stringToFfiNullable(value);
     final _handle = this.handle;
@@ -616,7 +616,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  bool get isBoolProperty {
+  bool? get isBoolProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Nullable_isBoolProperty_get'));
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
@@ -627,7 +627,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  set isBoolProperty(bool value) {
+  set isBoolProperty(bool? value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_isBoolProperty_set__Boolean'));
     final _valueHandle = booleanToFfiNullable(value);
     final _handle = this.handle;
@@ -639,7 +639,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  double get doubleProperty {
+  double? get doubleProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Nullable_doubleProperty_get'));
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
@@ -650,7 +650,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  set doubleProperty(double value) {
+  set doubleProperty(double? value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_doubleProperty_set__Double'));
     final _valueHandle = doubleToFfiNullable(value);
     final _handle = this.handle;
@@ -662,7 +662,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  int get intProperty {
+  int? get intProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Nullable_intProperty_get'));
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
@@ -673,7 +673,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  set intProperty(int value) {
+  set intProperty(int? value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_intProperty_set__Long'));
     final _valueHandle = longToFfiNullable(value);
     final _handle = this.handle;
@@ -685,7 +685,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  Nullable_SomeStruct get structProperty {
+  Nullable_SomeStruct? get structProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Nullable_structProperty_get'));
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
@@ -696,7 +696,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  set structProperty(Nullable_SomeStruct value) {
+  set structProperty(Nullable_SomeStruct? value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_structProperty_set__SomeStruct'));
     final _valueHandle = smokeNullableSomestructToFfiNullable(value);
     final _handle = this.handle;
@@ -708,7 +708,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  Nullable_SomeEnum get enumProperty {
+  Nullable_SomeEnum? get enumProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Nullable_enumProperty_get'));
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
@@ -719,7 +719,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  set enumProperty(Nullable_SomeEnum value) {
+  set enumProperty(Nullable_SomeEnum? value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_enumProperty_set__SomeEnum'));
     final _valueHandle = smokeNullableSomeenumToFfiNullable(value);
     final _handle = this.handle;
@@ -731,7 +731,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  List<String> get arrayProperty {
+  List<String>? get arrayProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Nullable_arrayProperty_get'));
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
@@ -742,7 +742,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  set arrayProperty(List<String> value) {
+  set arrayProperty(List<String>? value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_arrayProperty_set__ListOf_1String'));
     final _valueHandle = foobarListofStringToFfiNullable(value);
     final _handle = this.handle;
@@ -754,7 +754,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  List<String> get inlineArrayProperty {
+  List<String>? get inlineArrayProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Nullable_inlineArrayProperty_get'));
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
@@ -765,7 +765,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  set inlineArrayProperty(List<String> value) {
+  set inlineArrayProperty(List<String>? value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_inlineArrayProperty_set__ListOf_1String'));
     final _valueHandle = foobarListofStringToFfiNullable(value);
     final _handle = this.handle;
@@ -777,7 +777,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  Map<int, String> get mapProperty {
+  Map<int, String>? get mapProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Nullable_mapProperty_get'));
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
@@ -788,7 +788,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  set mapProperty(Map<int, String> value) {
+  set mapProperty(Map<int, String>? value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_mapProperty_set__MapOf_1Long_1to_1String'));
     final _valueHandle = foobarMapofLongToStringToFfiNullable(value);
     final _handle = this.handle;
@@ -800,7 +800,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  SomeInterface get instanceProperty {
+  SomeInterface? get instanceProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Nullable_instanceProperty_get'));
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
@@ -811,7 +811,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  set instanceProperty(SomeInterface value) {
+  set instanceProperty(SomeInterface? value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_instanceProperty_set__SomeInterface'));
     final _valueHandle = smokeSomeinterfaceToFfiNullable(value);
     final _handle = this.handle;
@@ -828,8 +828,8 @@ Pointer<Void> smokeNullableToFfi(Nullable value) =>
 Nullable smokeNullableFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as Nullable;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is Nullable) return instance;
   final _copiedHandle = _smokeNullableCopyHandle(handle);
   final result = Nullable$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -837,9 +837,9 @@ Nullable smokeNullableFromFfi(Pointer<Void> handle) {
 }
 void smokeNullableReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeNullableReleaseHandle(handle);
-Pointer<Void> smokeNullableToFfiNullable(Nullable value) =>
+Pointer<Void> smokeNullableToFfiNullable(Nullable? value) =>
   value != null ? smokeNullableToFfi(value) : Pointer<Void>.fromAddress(0);
-Nullable smokeNullableFromFfiNullable(Pointer<Void> handle) =>
+Nullable? smokeNullableFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeNullableFromFfi(handle) : null;
 void smokeNullableReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeNullableReleaseHandle(handle);

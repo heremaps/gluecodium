@@ -25,11 +25,11 @@ class SkipFunctions$Impl extends __lib.NativeBase implements SkipFunctions {
   SkipFunctions$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeSkipfunctionsReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   static String notInJava(String input) {
     final _notInJavaFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_SkipFunctions_notInJava__String'));
@@ -59,8 +59,8 @@ Pointer<Void> smokeSkipfunctionsToFfi(SkipFunctions value) =>
 SkipFunctions smokeSkipfunctionsFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as SkipFunctions;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is SkipFunctions) return instance;
   final _copiedHandle = _smokeSkipfunctionsCopyHandle(handle);
   final result = SkipFunctions$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -68,9 +68,9 @@ SkipFunctions smokeSkipfunctionsFromFfi(Pointer<Void> handle) {
 }
 void smokeSkipfunctionsReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeSkipfunctionsReleaseHandle(handle);
-Pointer<Void> smokeSkipfunctionsToFfiNullable(SkipFunctions value) =>
+Pointer<Void> smokeSkipfunctionsToFfiNullable(SkipFunctions? value) =>
   value != null ? smokeSkipfunctionsToFfi(value) : Pointer<Void>.fromAddress(0);
-SkipFunctions smokeSkipfunctionsFromFfiNullable(Pointer<Void> handle) =>
+SkipFunctions? smokeSkipfunctionsFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeSkipfunctionsFromFfi(handle) : null;
 void smokeSkipfunctionsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeSkipfunctionsReleaseHandle(handle);

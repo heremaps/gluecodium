@@ -31,11 +31,11 @@ class ChildWithParentClassReferences$Impl extends __lib.NativeBase implements Ch
   ChildWithParentClassReferences$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeChildwithparentclassreferencesReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   ChildClassFromClass classFunction() {
@@ -77,8 +77,8 @@ Pointer<Void> smokeChildwithparentclassreferencesToFfi(ChildWithParentClassRefer
 ChildWithParentClassReferences smokeChildwithparentclassreferencesFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as ChildWithParentClassReferences;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is ChildWithParentClassReferences) return instance;
   final _typeIdHandle = _smokeChildwithparentclassreferencesGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -91,9 +91,9 @@ ChildWithParentClassReferences smokeChildwithparentclassreferencesFromFfi(Pointe
 }
 void smokeChildwithparentclassreferencesReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeChildwithparentclassreferencesReleaseHandle(handle);
-Pointer<Void> smokeChildwithparentclassreferencesToFfiNullable(ChildWithParentClassReferences value) =>
+Pointer<Void> smokeChildwithparentclassreferencesToFfiNullable(ChildWithParentClassReferences? value) =>
   value != null ? smokeChildwithparentclassreferencesToFfi(value) : Pointer<Void>.fromAddress(0);
-ChildWithParentClassReferences smokeChildwithparentclassreferencesFromFfiNullable(Pointer<Void> handle) =>
+ChildWithParentClassReferences? smokeChildwithparentclassreferencesFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeChildwithparentclassreferencesFromFfi(handle) : null;
 void smokeChildwithparentclassreferencesReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeChildwithparentclassreferencesReleaseHandle(handle);

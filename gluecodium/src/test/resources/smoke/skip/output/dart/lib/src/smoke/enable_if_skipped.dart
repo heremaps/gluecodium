@@ -22,11 +22,11 @@ class EnableIfSkipped$Impl extends __lib.NativeBase implements EnableIfSkipped {
   EnableIfSkipped$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeEnableifskippedReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
 }
 Pointer<Void> smokeEnableifskippedToFfi(EnableIfSkipped value) =>
@@ -34,8 +34,8 @@ Pointer<Void> smokeEnableifskippedToFfi(EnableIfSkipped value) =>
 EnableIfSkipped smokeEnableifskippedFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as EnableIfSkipped;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is EnableIfSkipped) return instance;
   final _copiedHandle = _smokeEnableifskippedCopyHandle(handle);
   final result = EnableIfSkipped$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -43,9 +43,9 @@ EnableIfSkipped smokeEnableifskippedFromFfi(Pointer<Void> handle) {
 }
 void smokeEnableifskippedReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeEnableifskippedReleaseHandle(handle);
-Pointer<Void> smokeEnableifskippedToFfiNullable(EnableIfSkipped value) =>
+Pointer<Void> smokeEnableifskippedToFfiNullable(EnableIfSkipped? value) =>
   value != null ? smokeEnableifskippedToFfi(value) : Pointer<Void>.fromAddress(0);
-EnableIfSkipped smokeEnableifskippedFromFfiNullable(Pointer<Void> handle) =>
+EnableIfSkipped? smokeEnableifskippedFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeEnableifskippedFromFfi(handle) : null;
 void smokeEnableifskippedReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeEnableifskippedReleaseHandle(handle);

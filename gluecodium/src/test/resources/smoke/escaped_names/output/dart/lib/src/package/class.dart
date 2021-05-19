@@ -51,11 +51,11 @@ class Class$Impl extends __lib.NativeBase implements Class {
   Class$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _packageClassReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   Class$Impl.constructor() : super(_constructor()) {
     __lib.ffiCacheToken(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
@@ -118,8 +118,8 @@ Pointer<Void> packageClassToFfi(Class value) =>
 Class packageClassFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as Class;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is Class) return instance;
   final _typeIdHandle = _packageClassGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -132,9 +132,9 @@ Class packageClassFromFfi(Pointer<Void> handle) {
 }
 void packageClassReleaseFfiHandle(Pointer<Void> handle) =>
   _packageClassReleaseHandle(handle);
-Pointer<Void> packageClassToFfiNullable(Class value) =>
+Pointer<Void> packageClassToFfiNullable(Class? value) =>
   value != null ? packageClassToFfi(value) : Pointer<Void>.fromAddress(0);
-Class packageClassFromFfiNullable(Pointer<Void> handle) =>
+Class? packageClassFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? packageClassFromFfi(handle) : null;
 void packageClassReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _packageClassReleaseHandle(handle);

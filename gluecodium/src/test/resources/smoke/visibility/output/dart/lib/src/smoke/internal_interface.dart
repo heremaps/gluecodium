@@ -9,7 +9,7 @@ import 'package:meta/meta.dart';
 abstract class InternalInterface {
   InternalInterface();
   factory InternalInterface.fromLambdas({
-    @required void Function() lambda_fooBar,
+    required void Function() lambda_fooBar,
   }) => InternalInterface$Lambdas(
     lambda_fooBar,
   );
@@ -53,11 +53,11 @@ class InternalInterface$Impl extends __lib.NativeBase implements InternalInterfa
   InternalInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeInternalinterfaceReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   internal_fooBar() {
@@ -90,8 +90,8 @@ Pointer<Void> smokeInternalinterfaceToFfi(InternalInterface value) {
 InternalInterface smokeInternalinterfaceFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as InternalInterface;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is InternalInterface) return instance;
   final _typeIdHandle = _smokeInternalinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -104,9 +104,9 @@ InternalInterface smokeInternalinterfaceFromFfi(Pointer<Void> handle) {
 }
 void smokeInternalinterfaceReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeInternalinterfaceReleaseHandle(handle);
-Pointer<Void> smokeInternalinterfaceToFfiNullable(InternalInterface value) =>
+Pointer<Void> smokeInternalinterfaceToFfiNullable(InternalInterface? value) =>
   value != null ? smokeInternalinterfaceToFfi(value) : Pointer<Void>.fromAddress(0);
-InternalInterface smokeInternalinterfaceFromFfiNullable(Pointer<Void> handle) =>
+InternalInterface? smokeInternalinterfaceFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeInternalinterfaceFromFfi(handle) : null;
 void smokeInternalinterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeInternalinterfaceReleaseHandle(handle);

@@ -49,11 +49,11 @@ class UnicodeComments$Impl extends __lib.NativeBase implements UnicodeComments {
   UnicodeComments$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeUnicodecommentsReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   bool someMethodWithAllComments(String input) {
@@ -85,8 +85,8 @@ Pointer<Void> smokeUnicodecommentsToFfi(UnicodeComments value) =>
 UnicodeComments smokeUnicodecommentsFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as UnicodeComments;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is UnicodeComments) return instance;
   final _copiedHandle = _smokeUnicodecommentsCopyHandle(handle);
   final result = UnicodeComments$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -94,9 +94,9 @@ UnicodeComments smokeUnicodecommentsFromFfi(Pointer<Void> handle) {
 }
 void smokeUnicodecommentsReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeUnicodecommentsReleaseHandle(handle);
-Pointer<Void> smokeUnicodecommentsToFfiNullable(UnicodeComments value) =>
+Pointer<Void> smokeUnicodecommentsToFfiNullable(UnicodeComments? value) =>
   value != null ? smokeUnicodecommentsToFfi(value) : Pointer<Void>.fromAddress(0);
-UnicodeComments smokeUnicodecommentsFromFfiNullable(Pointer<Void> handle) =>
+UnicodeComments? smokeUnicodecommentsFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeUnicodecommentsFromFfi(handle) : null;
 void smokeUnicodecommentsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeUnicodecommentsReleaseHandle(handle);
