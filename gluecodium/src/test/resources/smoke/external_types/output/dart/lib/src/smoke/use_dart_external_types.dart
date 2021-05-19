@@ -33,11 +33,11 @@ class UseDartExternalTypes$Impl extends __lib.NativeBase implements UseDartExter
   UseDartExternalTypes$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeUsedartexternaltypesReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   static math.Rectangle<int> rectangleRoundTrip(math.Rectangle<int> input) {
     final _rectangleRoundTripFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_UseDartExternalTypes_rectangleRoundTrip__Rectangle'));
@@ -89,8 +89,8 @@ Pointer<Void> smokeUsedartexternaltypesToFfi(UseDartExternalTypes value) =>
 UseDartExternalTypes smokeUsedartexternaltypesFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as UseDartExternalTypes;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is UseDartExternalTypes) return instance;
   final _copiedHandle = _smokeUsedartexternaltypesCopyHandle(handle);
   final result = UseDartExternalTypes$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -98,9 +98,9 @@ UseDartExternalTypes smokeUsedartexternaltypesFromFfi(Pointer<Void> handle) {
 }
 void smokeUsedartexternaltypesReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeUsedartexternaltypesReleaseHandle(handle);
-Pointer<Void> smokeUsedartexternaltypesToFfiNullable(UseDartExternalTypes value) =>
+Pointer<Void> smokeUsedartexternaltypesToFfiNullable(UseDartExternalTypes? value) =>
   value != null ? smokeUsedartexternaltypesToFfi(value) : Pointer<Void>.fromAddress(0);
-UseDartExternalTypes smokeUsedartexternaltypesFromFfiNullable(Pointer<Void> handle) =>
+UseDartExternalTypes? smokeUsedartexternaltypesFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeUsedartexternaltypesFromFfi(handle) : null;
 void smokeUsedartexternaltypesReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeUsedartexternaltypesReleaseHandle(handle);

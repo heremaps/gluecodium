@@ -72,14 +72,14 @@ final _smokePublicstructwithnondefaultinternalfieldGetValueNullable = __lib.catc
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PublicStructWithNonDefaultInternalField_get_value_nullable'));
-Pointer<Void> smokePublicstructwithnondefaultinternalfieldToFfiNullable(PublicStructWithNonDefaultInternalField value) {
+Pointer<Void> smokePublicstructwithnondefaultinternalfieldToFfiNullable(PublicStructWithNonDefaultInternalField? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokePublicstructwithnondefaultinternalfieldToFfi(value);
   final result = _smokePublicstructwithnondefaultinternalfieldCreateHandleNullable(_handle);
   smokePublicstructwithnondefaultinternalfieldReleaseFfiHandle(_handle);
   return result;
 }
-PublicStructWithNonDefaultInternalField smokePublicstructwithnondefaultinternalfieldFromFfiNullable(Pointer<Void> handle) {
+PublicStructWithNonDefaultInternalField? smokePublicstructwithnondefaultinternalfieldFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokePublicstructwithnondefaultinternalfieldGetValueNullable(handle);
   final result = smokePublicstructwithnondefaultinternalfieldFromFfi(_handle);

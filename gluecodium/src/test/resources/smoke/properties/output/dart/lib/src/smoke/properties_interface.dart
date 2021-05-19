@@ -8,8 +8,8 @@ import 'package:library/src/_library_context.dart' as __lib;
 abstract class PropertiesInterface {
   PropertiesInterface();
   factory PropertiesInterface.fromLambdas({
-    @required PropertiesInterface_ExampleStruct Function() lambda_structProperty_get,
-    @required void Function(PropertiesInterface_ExampleStruct) lambda_structProperty_set
+    required PropertiesInterface_ExampleStruct Function() lambda_structProperty_get,
+    required void Function(PropertiesInterface_ExampleStruct) lambda_structProperty_set
   }) => PropertiesInterface$Lambdas(
     lambda_structProperty_get,
     lambda_structProperty_set
@@ -69,14 +69,14 @@ final _smokePropertiesinterfaceExamplestructGetValueNullable = __lib.catchArgume
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PropertiesInterface_ExampleStruct_get_value_nullable'));
-Pointer<Void> smokePropertiesinterfaceExamplestructToFfiNullable(PropertiesInterface_ExampleStruct value) {
+Pointer<Void> smokePropertiesinterfaceExamplestructToFfiNullable(PropertiesInterface_ExampleStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokePropertiesinterfaceExamplestructToFfi(value);
   final result = _smokePropertiesinterfaceExamplestructCreateHandleNullable(_handle);
   smokePropertiesinterfaceExamplestructReleaseFfiHandle(_handle);
   return result;
 }
-PropertiesInterface_ExampleStruct smokePropertiesinterfaceExamplestructFromFfiNullable(Pointer<Void> handle) {
+PropertiesInterface_ExampleStruct? smokePropertiesinterfaceExamplestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokePropertiesinterfaceExamplestructGetValueNullable(handle);
   final result = smokePropertiesinterfaceExamplestructFromFfi(_handle);
@@ -121,11 +121,11 @@ class PropertiesInterface$Impl extends __lib.NativeBase implements PropertiesInt
   PropertiesInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokePropertiesinterfaceReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   PropertiesInterface_ExampleStruct get structProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_PropertiesInterface_structProperty_get'));
@@ -177,8 +177,8 @@ Pointer<Void> smokePropertiesinterfaceToFfi(PropertiesInterface value) {
 PropertiesInterface smokePropertiesinterfaceFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as PropertiesInterface;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is PropertiesInterface) return instance;
   final _typeIdHandle = _smokePropertiesinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -191,9 +191,9 @@ PropertiesInterface smokePropertiesinterfaceFromFfi(Pointer<Void> handle) {
 }
 void smokePropertiesinterfaceReleaseFfiHandle(Pointer<Void> handle) =>
   _smokePropertiesinterfaceReleaseHandle(handle);
-Pointer<Void> smokePropertiesinterfaceToFfiNullable(PropertiesInterface value) =>
+Pointer<Void> smokePropertiesinterfaceToFfiNullable(PropertiesInterface? value) =>
   value != null ? smokePropertiesinterfaceToFfi(value) : Pointer<Void>.fromAddress(0);
-PropertiesInterface smokePropertiesinterfaceFromFfiNullable(Pointer<Void> handle) =>
+PropertiesInterface? smokePropertiesinterfaceFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokePropertiesinterfaceFromFfi(handle) : null;
 void smokePropertiesinterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokePropertiesinterfaceReleaseHandle(handle);

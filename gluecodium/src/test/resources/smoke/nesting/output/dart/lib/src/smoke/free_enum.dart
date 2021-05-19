@@ -43,14 +43,14 @@ final _smokeFreeenumGetValueNullable = __lib.catchArgumentError(() => __lib.nati
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_FreeEnum_get_value_nullable'));
-Pointer<Void> smokeFreeenumToFfiNullable(FreeEnum value) {
+Pointer<Void> smokeFreeenumToFfiNullable(FreeEnum? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeFreeenumToFfi(value);
   final result = _smokeFreeenumCreateHandleNullable(_handle);
   smokeFreeenumReleaseFfiHandle(_handle);
   return result;
 }
-FreeEnum smokeFreeenumFromFfiNullable(Pointer<Void> handle) {
+FreeEnum? smokeFreeenumFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeFreeenumGetValueNullable(handle);
   final result = smokeFreeenumFromFfi(_handle);

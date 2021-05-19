@@ -89,14 +89,14 @@ final _smokeOuterstructInnerenumGetValueNullable = __lib.catchArgumentError(() =
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_OuterStruct_InnerEnum_get_value_nullable'));
-Pointer<Void> smokeOuterstructInnerenumToFfiNullable(OuterStruct_InnerEnum value) {
+Pointer<Void> smokeOuterstructInnerenumToFfiNullable(OuterStruct_InnerEnum? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeOuterstructInnerenumToFfi(value);
   final result = _smokeOuterstructInnerenumCreateHandleNullable(_handle);
   smokeOuterstructInnerenumReleaseFfiHandle(_handle);
   return result;
 }
-OuterStruct_InnerEnum smokeOuterstructInnerenumFromFfiNullable(Pointer<Void> handle) {
+OuterStruct_InnerEnum? smokeOuterstructInnerenumFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeOuterstructInnerenumGetValueNullable(handle);
   final result = smokeOuterstructInnerenumFromFfi(_handle);
@@ -168,14 +168,14 @@ final _smokeOuterstructInnerstructGetValueNullable = __lib.catchArgumentError(()
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_OuterStruct_InnerStruct_get_value_nullable'));
-Pointer<Void> smokeOuterstructInnerstructToFfiNullable(OuterStruct_InnerStruct value) {
+Pointer<Void> smokeOuterstructInnerstructToFfiNullable(OuterStruct_InnerStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeOuterstructInnerstructToFfi(value);
   final result = _smokeOuterstructInnerstructCreateHandleNullable(_handle);
   smokeOuterstructInnerstructReleaseFfiHandle(_handle);
   return result;
 }
-OuterStruct_InnerStruct smokeOuterstructInnerstructFromFfiNullable(Pointer<Void> handle) {
+OuterStruct_InnerStruct? smokeOuterstructInnerstructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeOuterstructInnerstructGetValueNullable(handle);
   final result = smokeOuterstructInnerstructFromFfi(_handle);
@@ -206,11 +206,11 @@ class OuterStruct_InnerClass$Impl extends __lib.NativeBase implements OuterStruc
   OuterStruct_InnerClass$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeOuterstructInnerclassReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   Set<Locale> fooBar() {
@@ -229,8 +229,8 @@ Pointer<Void> smokeOuterstructInnerclassToFfi(OuterStruct_InnerClass value) =>
 OuterStruct_InnerClass smokeOuterstructInnerclassFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as OuterStruct_InnerClass;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is OuterStruct_InnerClass) return instance;
   final _copiedHandle = _smokeOuterstructInnerclassCopyHandle(handle);
   final result = OuterStruct_InnerClass$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -238,9 +238,9 @@ OuterStruct_InnerClass smokeOuterstructInnerclassFromFfi(Pointer<Void> handle) {
 }
 void smokeOuterstructInnerclassReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeOuterstructInnerclassReleaseHandle(handle);
-Pointer<Void> smokeOuterstructInnerclassToFfiNullable(OuterStruct_InnerClass value) =>
+Pointer<Void> smokeOuterstructInnerclassToFfiNullable(OuterStruct_InnerClass? value) =>
   value != null ? smokeOuterstructInnerclassToFfi(value) : Pointer<Void>.fromAddress(0);
-OuterStruct_InnerClass smokeOuterstructInnerclassFromFfiNullable(Pointer<Void> handle) =>
+OuterStruct_InnerClass? smokeOuterstructInnerclassFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeOuterstructInnerclassFromFfi(handle) : null;
 void smokeOuterstructInnerclassReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeOuterstructInnerclassReleaseHandle(handle);
@@ -248,7 +248,7 @@ void smokeOuterstructInnerclassReleaseFfiHandleNullable(Pointer<Void> handle) =>
 abstract class OuterStruct_InnerInterface {
   OuterStruct_InnerInterface();
   factory OuterStruct_InnerInterface.fromLambdas({
-    @required Map<String, Uint8List> Function() lambda_barBaz,
+    required Map<String, Uint8List> Function() lambda_barBaz,
   }) => OuterStruct_InnerInterface$Lambdas(
     lambda_barBaz,
   );
@@ -291,11 +291,11 @@ class OuterStruct_InnerInterface$Impl extends __lib.NativeBase implements OuterS
   OuterStruct_InnerInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeOuterstructInnerinterfaceReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   Map<String, Uint8List> barBaz() {
@@ -310,7 +310,7 @@ class OuterStruct_InnerInterface$Impl extends __lib.NativeBase implements OuterS
   }
 }
 int _OuterStruct_InnerInterfacebarBazStatic(int _token, Pointer<Pointer<Void>> _result) {
-  Map<String, Uint8List> _resultObject = null;
+  Map<String, Uint8List>? _resultObject = null;
   try {
     _resultObject = (__lib.instanceCache[_token] as OuterStruct_InnerInterface).barBaz();
     _result.value = foobarMapofStringToBlobToFfi(_resultObject);
@@ -331,8 +331,8 @@ Pointer<Void> smokeOuterstructInnerinterfaceToFfi(OuterStruct_InnerInterface val
 OuterStruct_InnerInterface smokeOuterstructInnerinterfaceFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as OuterStruct_InnerInterface;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is OuterStruct_InnerInterface) return instance;
   final _typeIdHandle = _smokeOuterstructInnerinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -345,9 +345,9 @@ OuterStruct_InnerInterface smokeOuterstructInnerinterfaceFromFfi(Pointer<Void> h
 }
 void smokeOuterstructInnerinterfaceReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeOuterstructInnerinterfaceReleaseHandle(handle);
-Pointer<Void> smokeOuterstructInnerinterfaceToFfiNullable(OuterStruct_InnerInterface value) =>
+Pointer<Void> smokeOuterstructInnerinterfaceToFfiNullable(OuterStruct_InnerInterface? value) =>
   value != null ? smokeOuterstructInnerinterfaceToFfi(value) : Pointer<Void>.fromAddress(0);
-OuterStruct_InnerInterface smokeOuterstructInnerinterfaceFromFfiNullable(Pointer<Void> handle) =>
+OuterStruct_InnerInterface? smokeOuterstructInnerinterfaceFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeOuterstructInnerinterfaceFromFfi(handle) : null;
 void smokeOuterstructInnerinterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeOuterstructInnerinterfaceReleaseHandle(handle);
@@ -395,14 +395,14 @@ final _smokeOuterstructGetValueNullable = __lib.catchArgumentError(() => __lib.n
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_OuterStruct_get_value_nullable'));
-Pointer<Void> smokeOuterstructToFfiNullable(OuterStruct value) {
+Pointer<Void> smokeOuterstructToFfiNullable(OuterStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeOuterstructToFfi(value);
   final result = _smokeOuterstructCreateHandleNullable(_handle);
   smokeOuterstructReleaseFfiHandle(_handle);
   return result;
 }
-OuterStruct smokeOuterstructFromFfiNullable(Pointer<Void> handle) {
+OuterStruct? smokeOuterstructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeOuterstructGetValueNullable(handle);
   final result = smokeOuterstructFromFfi(_handle);

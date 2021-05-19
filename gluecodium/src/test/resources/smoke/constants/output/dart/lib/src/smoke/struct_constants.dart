@@ -70,14 +70,14 @@ final _smokeStructconstantsSomestructGetValueNullable = __lib.catchArgumentError
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructConstants_SomeStruct_get_value_nullable'));
-Pointer<Void> smokeStructconstantsSomestructToFfiNullable(StructConstants_SomeStruct value) {
+Pointer<Void> smokeStructconstantsSomestructToFfiNullable(StructConstants_SomeStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeStructconstantsSomestructToFfi(value);
   final result = _smokeStructconstantsSomestructCreateHandleNullable(_handle);
   smokeStructconstantsSomestructReleaseFfiHandle(_handle);
   return result;
 }
-StructConstants_SomeStruct smokeStructconstantsSomestructFromFfiNullable(Pointer<Void> handle) {
+StructConstants_SomeStruct? smokeStructconstantsSomestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeStructconstantsSomestructGetValueNullable(handle);
   final result = smokeStructconstantsSomestructFromFfi(_handle);
@@ -134,14 +134,14 @@ final _smokeStructconstantsNestingstructGetValueNullable = __lib.catchArgumentEr
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructConstants_NestingStruct_get_value_nullable'));
-Pointer<Void> smokeStructconstantsNestingstructToFfiNullable(StructConstants_NestingStruct value) {
+Pointer<Void> smokeStructconstantsNestingstructToFfiNullable(StructConstants_NestingStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeStructconstantsNestingstructToFfi(value);
   final result = _smokeStructconstantsNestingstructCreateHandleNullable(_handle);
   smokeStructconstantsNestingstructReleaseFfiHandle(_handle);
   return result;
 }
-StructConstants_NestingStruct smokeStructconstantsNestingstructFromFfiNullable(Pointer<Void> handle) {
+StructConstants_NestingStruct? smokeStructconstantsNestingstructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeStructconstantsNestingstructGetValueNullable(handle);
   final result = smokeStructconstantsNestingstructFromFfi(_handle);
@@ -164,11 +164,11 @@ class StructConstants$Impl extends __lib.NativeBase implements StructConstants {
   StructConstants$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeStructconstantsReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
 }
 Pointer<Void> smokeStructconstantsToFfi(StructConstants value) =>
@@ -176,8 +176,8 @@ Pointer<Void> smokeStructconstantsToFfi(StructConstants value) =>
 StructConstants smokeStructconstantsFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as StructConstants;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is StructConstants) return instance;
   final _copiedHandle = _smokeStructconstantsCopyHandle(handle);
   final result = StructConstants$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -185,9 +185,9 @@ StructConstants smokeStructconstantsFromFfi(Pointer<Void> handle) {
 }
 void smokeStructconstantsReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeStructconstantsReleaseHandle(handle);
-Pointer<Void> smokeStructconstantsToFfiNullable(StructConstants value) =>
+Pointer<Void> smokeStructconstantsToFfiNullable(StructConstants? value) =>
   value != null ? smokeStructconstantsToFfi(value) : Pointer<Void>.fromAddress(0);
-StructConstants smokeStructconstantsFromFfiNullable(Pointer<Void> handle) =>
+StructConstants? smokeStructconstantsFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeStructconstantsFromFfi(handle) : null;
 void smokeStructconstantsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeStructconstantsReleaseHandle(handle);

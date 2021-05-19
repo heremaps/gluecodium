@@ -75,14 +75,14 @@ final _smokeExcludedcommentsSomeenumGetValueNullable = __lib.catchArgumentError(
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_ExcludedComments_SomeEnum_get_value_nullable'));
-Pointer<Void> smokeExcludedcommentsSomeenumToFfiNullable(ExcludedComments_SomeEnum value) {
+Pointer<Void> smokeExcludedcommentsSomeenumToFfiNullable(ExcludedComments_SomeEnum? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeExcludedcommentsSomeenumToFfi(value);
   final result = _smokeExcludedcommentsSomeenumCreateHandleNullable(_handle);
   smokeExcludedcommentsSomeenumReleaseFfiHandle(_handle);
   return result;
 }
-ExcludedComments_SomeEnum smokeExcludedcommentsSomeenumFromFfiNullable(Pointer<Void> handle) {
+ExcludedComments_SomeEnum? smokeExcludedcommentsSomeenumFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeExcludedcommentsSomeenumGetValueNullable(handle);
   final result = smokeExcludedcommentsSomeenumFromFfi(_handle);
@@ -153,14 +153,14 @@ final _smokeExcludedcommentsSomestructGetValueNullable = __lib.catchArgumentErro
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ExcludedComments_SomeStruct_get_value_nullable'));
-Pointer<Void> smokeExcludedcommentsSomestructToFfiNullable(ExcludedComments_SomeStruct value) {
+Pointer<Void> smokeExcludedcommentsSomestructToFfiNullable(ExcludedComments_SomeStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeExcludedcommentsSomestructToFfi(value);
   final result = _smokeExcludedcommentsSomestructCreateHandleNullable(_handle);
   smokeExcludedcommentsSomestructReleaseFfiHandle(_handle);
   return result;
 }
-ExcludedComments_SomeStruct smokeExcludedcommentsSomestructFromFfiNullable(Pointer<Void> handle) {
+ExcludedComments_SomeStruct? smokeExcludedcommentsSomestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeExcludedcommentsSomestructGetValueNullable(handle);
   final result = smokeExcludedcommentsSomestructFromFfi(_handle);
@@ -207,7 +207,7 @@ class ExcludedComments_SomeLambda$Impl {
   }
 }
 int _ExcludedComments_SomeLambdacallStatic(int _token, Pointer<Void> p0, int p1, Pointer<Double> _result) {
-  double _resultObject;
+  double? _resultObject = null;
   try {
     _resultObject = (__lib.instanceCache[_token] as ExcludedComments_SomeLambda)(stringFromFfi(p0), (p1));
     _result.value = (_resultObject);
@@ -249,14 +249,14 @@ final _smokeExcludedcommentsSomelambdaGetValueNullable = __lib.catchArgumentErro
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ExcludedComments_SomeLambda_get_value_nullable'));
-Pointer<Void> smokeExcludedcommentsSomelambdaToFfiNullable(ExcludedComments_SomeLambda value) {
+Pointer<Void> smokeExcludedcommentsSomelambdaToFfiNullable(ExcludedComments_SomeLambda? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeExcludedcommentsSomelambdaToFfi(value);
   final result = _smokeExcludedcommentsSomelambdaCreateHandleNullable(_handle);
   smokeExcludedcommentsSomelambdaReleaseFfiHandle(_handle);
   return result;
 }
-ExcludedComments_SomeLambda smokeExcludedcommentsSomelambdaFromFfiNullable(Pointer<Void> handle) {
+ExcludedComments_SomeLambda? smokeExcludedcommentsSomelambdaFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeExcludedcommentsSomelambdaGetValueNullable(handle);
   final result = smokeExcludedcommentsSomelambdaFromFfi(_handle);
@@ -295,11 +295,11 @@ class ExcludedComments$Impl extends __lib.NativeBase implements ExcludedComments
   ExcludedComments$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeExcludedcommentsReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   bool someMethodWithAllComments(String inputParameter) {
@@ -366,8 +366,8 @@ Pointer<Void> smokeExcludedcommentsToFfi(ExcludedComments value) =>
 ExcludedComments smokeExcludedcommentsFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as ExcludedComments;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is ExcludedComments) return instance;
   final _copiedHandle = _smokeExcludedcommentsCopyHandle(handle);
   final result = ExcludedComments$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -375,9 +375,9 @@ ExcludedComments smokeExcludedcommentsFromFfi(Pointer<Void> handle) {
 }
 void smokeExcludedcommentsReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeExcludedcommentsReleaseHandle(handle);
-Pointer<Void> smokeExcludedcommentsToFfiNullable(ExcludedComments value) =>
+Pointer<Void> smokeExcludedcommentsToFfiNullable(ExcludedComments? value) =>
   value != null ? smokeExcludedcommentsToFfi(value) : Pointer<Void>.fromAddress(0);
-ExcludedComments smokeExcludedcommentsFromFfiNullable(Pointer<Void> handle) =>
+ExcludedComments? smokeExcludedcommentsFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeExcludedcommentsFromFfi(handle) : null;
 void smokeExcludedcommentsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeExcludedcommentsReleaseHandle(handle);

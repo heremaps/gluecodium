@@ -44,11 +44,11 @@ class UseFreeTypes$Impl extends __lib.NativeBase implements UseFreeTypes {
   UseFreeTypes$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeUsefreetypesReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   DateTime doStuff(FreePoint point, FreeEnum mode) {
@@ -82,8 +82,8 @@ Pointer<Void> smokeUsefreetypesToFfi(UseFreeTypes value) =>
 UseFreeTypes smokeUsefreetypesFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as UseFreeTypes;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is UseFreeTypes) return instance;
   final _copiedHandle = _smokeUsefreetypesCopyHandle(handle);
   final result = UseFreeTypes$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -91,9 +91,9 @@ UseFreeTypes smokeUsefreetypesFromFfi(Pointer<Void> handle) {
 }
 void smokeUsefreetypesReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeUsefreetypesReleaseHandle(handle);
-Pointer<Void> smokeUsefreetypesToFfiNullable(UseFreeTypes value) =>
+Pointer<Void> smokeUsefreetypesToFfiNullable(UseFreeTypes? value) =>
   value != null ? smokeUsefreetypesToFfi(value) : Pointer<Void>.fromAddress(0);
-UseFreeTypes smokeUsefreetypesFromFfiNullable(Pointer<Void> handle) =>
+UseFreeTypes? smokeUsefreetypesFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeUsefreetypesFromFfi(handle) : null;
 void smokeUsefreetypesReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeUsefreetypesReleaseHandle(handle);

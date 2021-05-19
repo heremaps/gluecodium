@@ -8,7 +8,7 @@ import 'package:library/src/_library_context.dart' as __lib;
 abstract class weeListener {
   weeListener();
   factory weeListener.fromLambdas({
-    @required void Function(String) lambda_WeeMethod,
+    required void Function(String) lambda_WeeMethod,
   }) => weeListener$Lambdas(
     lambda_WeeMethod,
   );
@@ -51,11 +51,11 @@ class weeListener$Impl extends __lib.NativeBase implements weeListener {
   weeListener$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokePlatformnameslistenerReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   WeeMethod(String WeeParameter) {
@@ -92,8 +92,8 @@ Pointer<Void> smokePlatformnameslistenerToFfi(weeListener value) {
 weeListener smokePlatformnameslistenerFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as weeListener;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is weeListener) return instance;
   final _typeIdHandle = _smokePlatformnameslistenerGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -106,9 +106,9 @@ weeListener smokePlatformnameslistenerFromFfi(Pointer<Void> handle) {
 }
 void smokePlatformnameslistenerReleaseFfiHandle(Pointer<Void> handle) =>
   _smokePlatformnameslistenerReleaseHandle(handle);
-Pointer<Void> smokePlatformnameslistenerToFfiNullable(weeListener value) =>
+Pointer<Void> smokePlatformnameslistenerToFfiNullable(weeListener? value) =>
   value != null ? smokePlatformnameslistenerToFfi(value) : Pointer<Void>.fromAddress(0);
-weeListener smokePlatformnameslistenerFromFfiNullable(Pointer<Void> handle) =>
+weeListener? smokePlatformnameslistenerFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokePlatformnameslistenerFromFfi(handle) : null;
 void smokePlatformnameslistenerReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokePlatformnameslistenerReleaseHandle(handle);

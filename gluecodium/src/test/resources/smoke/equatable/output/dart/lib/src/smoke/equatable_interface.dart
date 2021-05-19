@@ -36,11 +36,11 @@ class EquatableInterface$Impl extends __lib.NativeBase implements EquatableInter
   EquatableInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeEquatableinterfaceReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   bool operator ==(dynamic other) {
@@ -61,8 +61,8 @@ Pointer<Void> smokeEquatableinterfaceToFfi(EquatableInterface value) {
 EquatableInterface smokeEquatableinterfaceFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as EquatableInterface;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is EquatableInterface) return instance;
   final _typeIdHandle = _smokeEquatableinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -75,9 +75,9 @@ EquatableInterface smokeEquatableinterfaceFromFfi(Pointer<Void> handle) {
 }
 void smokeEquatableinterfaceReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeEquatableinterfaceReleaseHandle(handle);
-Pointer<Void> smokeEquatableinterfaceToFfiNullable(EquatableInterface value) =>
+Pointer<Void> smokeEquatableinterfaceToFfiNullable(EquatableInterface? value) =>
   value != null ? smokeEquatableinterfaceToFfi(value) : Pointer<Void>.fromAddress(0);
-EquatableInterface smokeEquatableinterfaceFromFfiNullable(Pointer<Void> handle) =>
+EquatableInterface? smokeEquatableinterfaceFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeEquatableinterfaceFromFfi(handle) : null;
 void smokeEquatableinterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeEquatableinterfaceReleaseHandle(handle);

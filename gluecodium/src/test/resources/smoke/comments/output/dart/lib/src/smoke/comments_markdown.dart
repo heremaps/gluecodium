@@ -48,11 +48,11 @@ class CommentsMarkdown$Impl extends __lib.NativeBase implements CommentsMarkdown
   CommentsMarkdown$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeCommentsmarkdownReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
 }
 Pointer<Void> smokeCommentsmarkdownToFfi(CommentsMarkdown value) =>
@@ -60,8 +60,8 @@ Pointer<Void> smokeCommentsmarkdownToFfi(CommentsMarkdown value) =>
 CommentsMarkdown smokeCommentsmarkdownFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as CommentsMarkdown;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is CommentsMarkdown) return instance;
   final _copiedHandle = _smokeCommentsmarkdownCopyHandle(handle);
   final result = CommentsMarkdown$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -69,9 +69,9 @@ CommentsMarkdown smokeCommentsmarkdownFromFfi(Pointer<Void> handle) {
 }
 void smokeCommentsmarkdownReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeCommentsmarkdownReleaseHandle(handle);
-Pointer<Void> smokeCommentsmarkdownToFfiNullable(CommentsMarkdown value) =>
+Pointer<Void> smokeCommentsmarkdownToFfiNullable(CommentsMarkdown? value) =>
   value != null ? smokeCommentsmarkdownToFfi(value) : Pointer<Void>.fromAddress(0);
-CommentsMarkdown smokeCommentsmarkdownFromFfiNullable(Pointer<Void> handle) =>
+CommentsMarkdown? smokeCommentsmarkdownFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeCommentsmarkdownFromFfi(handle) : null;
 void smokeCommentsmarkdownReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeCommentsmarkdownReleaseHandle(handle);

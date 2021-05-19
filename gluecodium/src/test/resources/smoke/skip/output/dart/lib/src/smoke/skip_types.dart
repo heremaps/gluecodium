@@ -58,14 +58,14 @@ final _smokeSkiptypesNotinjavaGetValueNullable = __lib.catchArgumentError(() => 
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_SkipTypes_NotInJava_get_value_nullable'));
-Pointer<Void> smokeSkiptypesNotinjavaToFfiNullable(SkipTypes_NotInJava value) {
+Pointer<Void> smokeSkiptypesNotinjavaToFfiNullable(SkipTypes_NotInJava? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeSkiptypesNotinjavaToFfi(value);
   final result = _smokeSkiptypesNotinjavaCreateHandleNullable(_handle);
   smokeSkiptypesNotinjavaReleaseFfiHandle(_handle);
   return result;
 }
-SkipTypes_NotInJava smokeSkiptypesNotinjavaFromFfiNullable(Pointer<Void> handle) {
+SkipTypes_NotInJava? smokeSkiptypesNotinjavaFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeSkiptypesNotinjavaGetValueNullable(handle);
   final result = smokeSkiptypesNotinjavaFromFfi(_handle);
@@ -122,14 +122,14 @@ final _smokeSkiptypesNotinswiftGetValueNullable = __lib.catchArgumentError(() =>
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_SkipTypes_NotInSwift_get_value_nullable'));
-Pointer<Void> smokeSkiptypesNotinswiftToFfiNullable(SkipTypes_NotInSwift value) {
+Pointer<Void> smokeSkiptypesNotinswiftToFfiNullable(SkipTypes_NotInSwift? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeSkiptypesNotinswiftToFfi(value);
   final result = _smokeSkiptypesNotinswiftCreateHandleNullable(_handle);
   smokeSkiptypesNotinswiftReleaseFfiHandle(_handle);
   return result;
 }
-SkipTypes_NotInSwift smokeSkiptypesNotinswiftFromFfiNullable(Pointer<Void> handle) {
+SkipTypes_NotInSwift? smokeSkiptypesNotinswiftFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeSkiptypesNotinswiftGetValueNullable(handle);
   final result = smokeSkiptypesNotinswiftFromFfi(_handle);
@@ -152,11 +152,11 @@ class SkipTypes$Impl extends __lib.NativeBase implements SkipTypes {
   SkipTypes$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeSkiptypesReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
 }
 Pointer<Void> smokeSkiptypesToFfi(SkipTypes value) =>
@@ -164,8 +164,8 @@ Pointer<Void> smokeSkiptypesToFfi(SkipTypes value) =>
 SkipTypes smokeSkiptypesFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as SkipTypes;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is SkipTypes) return instance;
   final _copiedHandle = _smokeSkiptypesCopyHandle(handle);
   final result = SkipTypes$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -173,9 +173,9 @@ SkipTypes smokeSkiptypesFromFfi(Pointer<Void> handle) {
 }
 void smokeSkiptypesReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeSkiptypesReleaseHandle(handle);
-Pointer<Void> smokeSkiptypesToFfiNullable(SkipTypes value) =>
+Pointer<Void> smokeSkiptypesToFfiNullable(SkipTypes? value) =>
   value != null ? smokeSkiptypesToFfi(value) : Pointer<Void>.fromAddress(0);
-SkipTypes smokeSkiptypesFromFfiNullable(Pointer<Void> handle) =>
+SkipTypes? smokeSkiptypesFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeSkiptypesFromFfi(handle) : null;
 void smokeSkiptypesReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeSkiptypesReleaseHandle(handle);

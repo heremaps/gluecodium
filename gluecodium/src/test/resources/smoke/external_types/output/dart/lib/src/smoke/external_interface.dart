@@ -8,8 +8,8 @@ import 'package:library/src/_library_context.dart' as __lib;
 abstract class ExternalInterface {
   ExternalInterface();
   factory ExternalInterface.fromLambdas({
-    @required void Function(int) lambda_someMethod,
-    @required String Function() lambda_someProperty_get
+    required void Function(int) lambda_someMethod,
+    required String Function() lambda_someProperty_get
   }) => ExternalInterface$Lambdas(
     lambda_someMethod,
     lambda_someProperty_get
@@ -57,14 +57,14 @@ final _smokeExternalinterfaceSomeenumGetValueNullable = __lib.catchArgumentError
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_ExternalInterface_SomeEnum_get_value_nullable'));
-Pointer<Void> smokeExternalinterfaceSomeenumToFfiNullable(ExternalInterface_SomeEnum value) {
+Pointer<Void> smokeExternalinterfaceSomeenumToFfiNullable(ExternalInterface_SomeEnum? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeExternalinterfaceSomeenumToFfi(value);
   final result = _smokeExternalinterfaceSomeenumCreateHandleNullable(_handle);
   smokeExternalinterfaceSomeenumReleaseFfiHandle(_handle);
   return result;
 }
-ExternalInterface_SomeEnum smokeExternalinterfaceSomeenumFromFfiNullable(Pointer<Void> handle) {
+ExternalInterface_SomeEnum? smokeExternalinterfaceSomeenumFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeExternalinterfaceSomeenumGetValueNullable(handle);
   final result = smokeExternalinterfaceSomeenumFromFfi(_handle);
@@ -121,14 +121,14 @@ final _smokeExternalinterfaceSomestructGetValueNullable = __lib.catchArgumentErr
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ExternalInterface_SomeStruct_get_value_nullable'));
-Pointer<Void> smokeExternalinterfaceSomestructToFfiNullable(ExternalInterface_SomeStruct value) {
+Pointer<Void> smokeExternalinterfaceSomestructToFfiNullable(ExternalInterface_SomeStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeExternalinterfaceSomestructToFfi(value);
   final result = _smokeExternalinterfaceSomestructCreateHandleNullable(_handle);
   smokeExternalinterfaceSomestructReleaseFfiHandle(_handle);
   return result;
 }
-ExternalInterface_SomeStruct smokeExternalinterfaceSomestructFromFfiNullable(Pointer<Void> handle) {
+ExternalInterface_SomeStruct? smokeExternalinterfaceSomestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeExternalinterfaceSomestructGetValueNullable(handle);
   final result = smokeExternalinterfaceSomestructFromFfi(_handle);
@@ -174,11 +174,11 @@ class ExternalInterface$Impl extends __lib.NativeBase implements ExternalInterfa
   ExternalInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeExternalinterfaceReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   someMethod(int someParameter) {
@@ -230,8 +230,8 @@ Pointer<Void> smokeExternalinterfaceToFfi(ExternalInterface value) {
 ExternalInterface smokeExternalinterfaceFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as ExternalInterface;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is ExternalInterface) return instance;
   final _typeIdHandle = _smokeExternalinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -244,9 +244,9 @@ ExternalInterface smokeExternalinterfaceFromFfi(Pointer<Void> handle) {
 }
 void smokeExternalinterfaceReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeExternalinterfaceReleaseHandle(handle);
-Pointer<Void> smokeExternalinterfaceToFfiNullable(ExternalInterface value) =>
+Pointer<Void> smokeExternalinterfaceToFfiNullable(ExternalInterface? value) =>
   value != null ? smokeExternalinterfaceToFfi(value) : Pointer<Void>.fromAddress(0);
-ExternalInterface smokeExternalinterfaceFromFfiNullable(Pointer<Void> handle) =>
+ExternalInterface? smokeExternalinterfaceFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeExternalinterfaceFromFfi(handle) : null;
 void smokeExternalinterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeExternalinterfaceReleaseHandle(handle);

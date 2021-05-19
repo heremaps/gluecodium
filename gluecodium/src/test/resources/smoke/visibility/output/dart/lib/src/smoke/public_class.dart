@@ -63,14 +63,14 @@ final _smokePublicclassInternalenumGetValueNullable = __lib.catchArgumentError((
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_PublicClass_InternalEnum_get_value_nullable'));
-Pointer<Void> smokePublicclassInternalenumToFfiNullable(PublicClass_InternalEnum value) {
+Pointer<Void> smokePublicclassInternalenumToFfiNullable(PublicClass_InternalEnum? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokePublicclassInternalenumToFfi(value);
   final result = _smokePublicclassInternalenumCreateHandleNullable(_handle);
   smokePublicclassInternalenumReleaseFfiHandle(_handle);
   return result;
 }
-PublicClass_InternalEnum smokePublicclassInternalenumFromFfiNullable(Pointer<Void> handle) {
+PublicClass_InternalEnum? smokePublicclassInternalenumFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokePublicclassInternalenumGetValueNullable(handle);
   final result = smokePublicclassInternalenumFromFfi(_handle);
@@ -129,14 +129,14 @@ final _smokePublicclassInternalstructGetValueNullable = __lib.catchArgumentError
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PublicClass_InternalStruct_get_value_nullable'));
-Pointer<Void> smokePublicclassInternalstructToFfiNullable(PublicClass_InternalStruct value) {
+Pointer<Void> smokePublicclassInternalstructToFfiNullable(PublicClass_InternalStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokePublicclassInternalstructToFfi(value);
   final result = _smokePublicclassInternalstructCreateHandleNullable(_handle);
   smokePublicclassInternalstructReleaseFfiHandle(_handle);
   return result;
 }
-PublicClass_InternalStruct smokePublicclassInternalstructFromFfiNullable(Pointer<Void> handle) {
+PublicClass_InternalStruct? smokePublicclassInternalstructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokePublicclassInternalstructGetValueNullable(handle);
   final result = smokePublicclassInternalstructFromFfi(_handle);
@@ -194,14 +194,14 @@ final _smokePublicclassPublicstructGetValueNullable = __lib.catchArgumentError((
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PublicClass_PublicStruct_get_value_nullable'));
-Pointer<Void> smokePublicclassPublicstructToFfiNullable(PublicClass_PublicStruct value) {
+Pointer<Void> smokePublicclassPublicstructToFfiNullable(PublicClass_PublicStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokePublicclassPublicstructToFfi(value);
   final result = _smokePublicclassPublicstructCreateHandleNullable(_handle);
   smokePublicclassPublicstructReleaseFfiHandle(_handle);
   return result;
 }
-PublicClass_PublicStruct smokePublicclassPublicstructFromFfiNullable(Pointer<Void> handle) {
+PublicClass_PublicStruct? smokePublicclassPublicstructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokePublicclassPublicstructGetValueNullable(handle);
   final result = smokePublicclassPublicstructFromFfi(_handle);
@@ -271,14 +271,14 @@ final _smokePublicclassPublicstructwithinternaldefaultsGetValueNullable = __lib.
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PublicClass_PublicStructWithInternalDefaults_get_value_nullable'));
-Pointer<Void> smokePublicclassPublicstructwithinternaldefaultsToFfiNullable(PublicClass_PublicStructWithInternalDefaults value) {
+Pointer<Void> smokePublicclassPublicstructwithinternaldefaultsToFfiNullable(PublicClass_PublicStructWithInternalDefaults? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokePublicclassPublicstructwithinternaldefaultsToFfi(value);
   final result = _smokePublicclassPublicstructwithinternaldefaultsCreateHandleNullable(_handle);
   smokePublicclassPublicstructwithinternaldefaultsReleaseFfiHandle(_handle);
   return result;
 }
-PublicClass_PublicStructWithInternalDefaults smokePublicclassPublicstructwithinternaldefaultsFromFfiNullable(Pointer<Void> handle) {
+PublicClass_PublicStructWithInternalDefaults? smokePublicclassPublicstructwithinternaldefaultsFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokePublicclassPublicstructwithinternaldefaultsGetValueNullable(handle);
   final result = smokePublicclassPublicstructwithinternaldefaultsFromFfi(_handle);
@@ -301,11 +301,11 @@ class PublicClass$Impl extends __lib.NativeBase implements PublicClass {
   PublicClass$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokePublicclassReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   PublicClass_InternalStruct internal_internalMethod(PublicClass_InternalStruct input) {
@@ -374,8 +374,8 @@ Pointer<Void> smokePublicclassToFfi(PublicClass value) =>
 PublicClass smokePublicclassFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as PublicClass;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is PublicClass) return instance;
   final _copiedHandle = _smokePublicclassCopyHandle(handle);
   final result = PublicClass$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -383,9 +383,9 @@ PublicClass smokePublicclassFromFfi(Pointer<Void> handle) {
 }
 void smokePublicclassReleaseFfiHandle(Pointer<Void> handle) =>
   _smokePublicclassReleaseHandle(handle);
-Pointer<Void> smokePublicclassToFfiNullable(PublicClass value) =>
+Pointer<Void> smokePublicclassToFfiNullable(PublicClass? value) =>
   value != null ? smokePublicclassToFfi(value) : Pointer<Void>.fromAddress(0);
-PublicClass smokePublicclassFromFfiNullable(Pointer<Void> handle) =>
+PublicClass? smokePublicclassFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokePublicclassFromFfi(handle) : null;
 void smokePublicclassReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokePublicclassReleaseHandle(handle);

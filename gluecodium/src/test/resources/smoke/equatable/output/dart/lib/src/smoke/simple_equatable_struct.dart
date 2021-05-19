@@ -8,8 +8,8 @@ import 'package:library/src/_library_context.dart' as __lib;
 class SimpleEquatableStruct {
   NonEquatableClass classField;
   NonEquatableInterface interfaceField;
-  NonEquatableClass nullableClassField;
-  NonEquatableInterface nullableInterfaceField;
+  NonEquatableClass? nullableClassField;
+  NonEquatableInterface? nullableInterfaceField;
   SimpleEquatableStruct(this.classField, this.interfaceField, this.nullableClassField, this.nullableInterfaceField);
   @override
   bool operator ==(dynamic other) {
@@ -101,14 +101,14 @@ final _smokeSimpleequatablestructGetValueNullable = __lib.catchArgumentError(() 
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_SimpleEquatableStruct_get_value_nullable'));
-Pointer<Void> smokeSimpleequatablestructToFfiNullable(SimpleEquatableStruct value) {
+Pointer<Void> smokeSimpleequatablestructToFfiNullable(SimpleEquatableStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeSimpleequatablestructToFfi(value);
   final result = _smokeSimpleequatablestructCreateHandleNullable(_handle);
   smokeSimpleequatablestructReleaseFfiHandle(_handle);
   return result;
 }
-SimpleEquatableStruct smokeSimpleequatablestructFromFfiNullable(Pointer<Void> handle) {
+SimpleEquatableStruct? smokeSimpleequatablestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeSimpleequatablestructGetValueNullable(handle);
   final result = smokeSimpleequatablestructFromFfi(_handle);

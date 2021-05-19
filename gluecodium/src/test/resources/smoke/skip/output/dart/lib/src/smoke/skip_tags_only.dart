@@ -23,11 +23,11 @@ class SkipTagsOnly$Impl extends __lib.NativeBase implements SkipTagsOnly {
   SkipTagsOnly$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeSkiptagsonlyReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
 }
 Pointer<Void> smokeSkiptagsonlyToFfi(SkipTagsOnly value) =>
@@ -35,8 +35,8 @@ Pointer<Void> smokeSkiptagsonlyToFfi(SkipTagsOnly value) =>
 SkipTagsOnly smokeSkiptagsonlyFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as SkipTagsOnly;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is SkipTagsOnly) return instance;
   final _copiedHandle = _smokeSkiptagsonlyCopyHandle(handle);
   final result = SkipTagsOnly$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -44,9 +44,9 @@ SkipTagsOnly smokeSkiptagsonlyFromFfi(Pointer<Void> handle) {
 }
 void smokeSkiptagsonlyReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeSkiptagsonlyReleaseHandle(handle);
-Pointer<Void> smokeSkiptagsonlyToFfiNullable(SkipTagsOnly value) =>
+Pointer<Void> smokeSkiptagsonlyToFfiNullable(SkipTagsOnly? value) =>
   value != null ? smokeSkiptagsonlyToFfi(value) : Pointer<Void>.fromAddress(0);
-SkipTagsOnly smokeSkiptagsonlyFromFfiNullable(Pointer<Void> handle) =>
+SkipTagsOnly? smokeSkiptagsonlyFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeSkiptagsonlyFromFfi(handle) : null;
 void smokeSkiptagsonlyReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeSkiptagsonlyReleaseHandle(handle);

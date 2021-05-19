@@ -87,14 +87,14 @@ final _smokeLambdaswithstructuredtypesClasscallbackGetValueNullable = __lib.catc
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_LambdasWithStructuredTypes_ClassCallback_get_value_nullable'));
-Pointer<Void> smokeLambdaswithstructuredtypesClasscallbackToFfiNullable(LambdasWithStructuredTypes_ClassCallback value) {
+Pointer<Void> smokeLambdaswithstructuredtypesClasscallbackToFfiNullable(LambdasWithStructuredTypes_ClassCallback? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeLambdaswithstructuredtypesClasscallbackToFfi(value);
   final result = _smokeLambdaswithstructuredtypesClasscallbackCreateHandleNullable(_handle);
   smokeLambdaswithstructuredtypesClasscallbackReleaseFfiHandle(_handle);
   return result;
 }
-LambdasWithStructuredTypes_ClassCallback smokeLambdaswithstructuredtypesClasscallbackFromFfiNullable(Pointer<Void> handle) {
+LambdasWithStructuredTypes_ClassCallback? smokeLambdaswithstructuredtypesClasscallbackFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeLambdaswithstructuredtypesClasscallbackGetValueNullable(handle);
   final result = smokeLambdaswithstructuredtypesClasscallbackFromFfi(_handle);
@@ -176,14 +176,14 @@ final _smokeLambdaswithstructuredtypesStructcallbackGetValueNullable = __lib.cat
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_LambdasWithStructuredTypes_StructCallback_get_value_nullable'));
-Pointer<Void> smokeLambdaswithstructuredtypesStructcallbackToFfiNullable(LambdasWithStructuredTypes_StructCallback value) {
+Pointer<Void> smokeLambdaswithstructuredtypesStructcallbackToFfiNullable(LambdasWithStructuredTypes_StructCallback? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeLambdaswithstructuredtypesStructcallbackToFfi(value);
   final result = _smokeLambdaswithstructuredtypesStructcallbackCreateHandleNullable(_handle);
   smokeLambdaswithstructuredtypesStructcallbackReleaseFfiHandle(_handle);
   return result;
 }
-LambdasWithStructuredTypes_StructCallback smokeLambdaswithstructuredtypesStructcallbackFromFfiNullable(Pointer<Void> handle) {
+LambdasWithStructuredTypes_StructCallback? smokeLambdaswithstructuredtypesStructcallbackFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeLambdaswithstructuredtypesStructcallbackGetValueNullable(handle);
   final result = smokeLambdaswithstructuredtypesStructcallbackFromFfi(_handle);
@@ -206,11 +206,11 @@ class LambdasWithStructuredTypes$Impl extends __lib.NativeBase implements Lambda
   LambdasWithStructuredTypes$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeLambdaswithstructuredtypesReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   doClassStuff(LambdasWithStructuredTypes_ClassCallback callback) {
@@ -244,8 +244,8 @@ Pointer<Void> smokeLambdaswithstructuredtypesToFfi(LambdasWithStructuredTypes va
 LambdasWithStructuredTypes smokeLambdaswithstructuredtypesFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as LambdasWithStructuredTypes;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is LambdasWithStructuredTypes) return instance;
   final _copiedHandle = _smokeLambdaswithstructuredtypesCopyHandle(handle);
   final result = LambdasWithStructuredTypes$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -253,9 +253,9 @@ LambdasWithStructuredTypes smokeLambdaswithstructuredtypesFromFfi(Pointer<Void> 
 }
 void smokeLambdaswithstructuredtypesReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeLambdaswithstructuredtypesReleaseHandle(handle);
-Pointer<Void> smokeLambdaswithstructuredtypesToFfiNullable(LambdasWithStructuredTypes value) =>
+Pointer<Void> smokeLambdaswithstructuredtypesToFfiNullable(LambdasWithStructuredTypes? value) =>
   value != null ? smokeLambdaswithstructuredtypesToFfi(value) : Pointer<Void>.fromAddress(0);
-LambdasWithStructuredTypes smokeLambdaswithstructuredtypesFromFfiNullable(Pointer<Void> handle) =>
+LambdasWithStructuredTypes? smokeLambdaswithstructuredtypesFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeLambdaswithstructuredtypesFromFfi(handle) : null;
 void smokeLambdaswithstructuredtypesReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeLambdaswithstructuredtypesReleaseHandle(handle);

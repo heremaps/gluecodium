@@ -62,14 +62,14 @@ final _smokeStructwithsomedefaultsGetValueNullable = __lib.catchArgumentError(()
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithSomeDefaults_get_value_nullable'));
-Pointer<Void> smokeStructwithsomedefaultsToFfiNullable(StructWithSomeDefaults value) {
+Pointer<Void> smokeStructwithsomedefaultsToFfiNullable(StructWithSomeDefaults? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeStructwithsomedefaultsToFfi(value);
   final result = _smokeStructwithsomedefaultsCreateHandleNullable(_handle);
   smokeStructwithsomedefaultsReleaseFfiHandle(_handle);
   return result;
 }
-StructWithSomeDefaults smokeStructwithsomedefaultsFromFfiNullable(Pointer<Void> handle) {
+StructWithSomeDefaults? smokeStructwithsomedefaultsFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeStructwithsomedefaultsGetValueNullable(handle);
   final result = smokeStructwithsomedefaultsFromFfi(_handle);

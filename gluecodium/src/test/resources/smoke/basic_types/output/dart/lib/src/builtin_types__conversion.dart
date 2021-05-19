@@ -50,12 +50,15 @@ final _stringGetValue = __lib.catchArgumentError(() => __lib.nativeLibrary.looku
     Pointer<Utf8> Function(Pointer<Void>)
   >('library_std_string_get_value'));
 Pointer<Void> stringToFfi(String value) {
-  final cValue = Utf8.toUtf8(value);
+  final cValue = value.toNativeUtf8();
   final result = _stringCreateHandle(cValue);
-  free(cValue);
+  malloc.free(cValue);
   return result;
 }
-String stringFromFfi(Pointer<Void> handle) => Utf8.fromUtf8(_stringGetValue(handle));
+String stringFromFfi(Pointer<Void> handle) {
+  final Pointer<Utf8> cString = _stringGetValue(handle);
+  return cString.toDartString();
+}
 void stringReleaseFfiHandle(Pointer<Void> handle) => _stringReleaseHandle(handle);
 // Locale
 final _localeCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -83,32 +86,30 @@ final _localeGetLanguageTag = __lib.catchArgumentError(() => __lib.nativeLibrary
     Pointer<Utf8> Function(Pointer<Void>)
 >('library_locale_get_language_tag'));
 Pointer<Void> localeToFfi(Locale locale) {
-  final cLanguageCode = Utf8.toUtf8(locale.languageCode);
-  final cCountryCode =
-    locale.countryCode != null ? Utf8.toUtf8(locale.countryCode) : Pointer<Utf8>.fromAddress(0);
-  final cScriptCode =
-    locale.scriptCode != null ? Utf8.toUtf8(locale.scriptCode) : Pointer<Utf8>.fromAddress(0);
-  final cLanguageTag = Utf8.toUtf8(locale.toLanguageTag());
+  final cLanguageCode = locale.languageCode.toNativeUtf8();
+  final cCountryCode = locale.countryCode?.toNativeUtf8() ?? Pointer<Utf8>.fromAddress(0);
+  final cScriptCode = locale.scriptCode?.toNativeUtf8() ?? Pointer<Utf8>.fromAddress(0);
+  final cLanguageTag = locale.toLanguageTag().toNativeUtf8();
   final result = _localeCreateHandle(cLanguageCode, cCountryCode, cScriptCode, cLanguageTag);
-  free(cLanguageCode);
-  if (cCountryCode.address != 0) free(cCountryCode);
-  if (cScriptCode.address != 0) free(cScriptCode);
-  free(cLanguageTag);
+  malloc.free(cLanguageCode);
+  if (cCountryCode.address != 0) malloc.free(cCountryCode);
+  if (cScriptCode.address != 0) malloc.free(cScriptCode);
+  malloc.free(cLanguageTag);
   return result;
 }
 Locale localeFromFfi(Pointer<Void> handle) {
   final Pointer<Utf8> languageTagCstring = _localeGetLanguageTag(handle);
   if (languageTagCstring.address != 0) {
     // BCP 47 language tag takes precedence if present.
-    return Locale.parse(Utf8.fromUtf8(languageTagCstring));
+    return Locale.parse(languageTagCstring.toDartString());
   }
   final Pointer<Utf8> languageCodeCstring = LocaleGetLanguageCode(handle);
   final Pointer<Utf8> countryCodeCstring = LocaleGetCountryCode(handle);
   final Pointer<Utf8> scriptCodeCstring = LocaleGetScriptCode(handle);
   return Locale.fromSubtags(
-    languageCode: languageCodeCstring.address != 0 ? Utf8.fromUtf8(languageCodeCstring) : null,
-    countryCode: countryCodeCstring.address != 0 ? Utf8.fromUtf8(countryCodeCstring) : null,
-    scriptCode: scriptCodeCstring.address != 0 ? Utf8.fromUtf8(scriptCodeCstring) : null
+    languageCode: languageCodeCstring.address != 0 ? languageCodeCstring.toDartString() : "und",
+    countryCode: countryCodeCstring.address != 0 ? countryCodeCstring.toDartString() : null,
+    scriptCode: scriptCodeCstring.address != 0 ? scriptCodeCstring.toDartString() : null
   );
 }
 void localeReleaseFfiHandle(Pointer<Void> handle) => _localeReleaseHandle(handle);
@@ -125,13 +126,13 @@ final _byteGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary
     Int8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_Byte_get_value_nullable'));
-Pointer<Void> byteToFfiNullable(int value) {
+Pointer<Void> byteToFfiNullable(int? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
   final result = _byteCreateHandleNullable(_handle);
   return result;
 }
-int byteFromFfiNullable(Pointer<Void> handle) {
+int? byteFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _byteGetValueNullable(handle);
   final result = (_handle);
@@ -152,13 +153,13 @@ final _uByteGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrar
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_UByte_get_value_nullable'));
-Pointer<Void> uByteToFfiNullable(int value) {
+Pointer<Void> uByteToFfiNullable(int? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
   final result = _uByteCreateHandleNullable(_handle);
   return result;
 }
-int uByteFromFfiNullable(Pointer<Void> handle) {
+int? uByteFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _uByteGetValueNullable(handle);
   final result = (_handle);
@@ -179,13 +180,13 @@ final _shortGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrar
     Int16 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_Short_get_value_nullable'));
-Pointer<Void> shortToFfiNullable(int value) {
+Pointer<Void> shortToFfiNullable(int? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
   final result = _shortCreateHandleNullable(_handle);
   return result;
 }
-int shortFromFfiNullable(Pointer<Void> handle) {
+int? shortFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _shortGetValueNullable(handle);
   final result = (_handle);
@@ -206,13 +207,13 @@ final _uShortGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibra
     Uint16 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_UShort_get_value_nullable'));
-Pointer<Void> uShortToFfiNullable(int value) {
+Pointer<Void> uShortToFfiNullable(int? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
   final result = _uShortCreateHandleNullable(_handle);
   return result;
 }
-int uShortFromFfiNullable(Pointer<Void> handle) {
+int? uShortFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _uShortGetValueNullable(handle);
   final result = (_handle);
@@ -233,13 +234,13 @@ final _intGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.
     Int32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_Int_get_value_nullable'));
-Pointer<Void> intToFfiNullable(int value) {
+Pointer<Void> intToFfiNullable(int? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
   final result = _intCreateHandleNullable(_handle);
   return result;
 }
-int intFromFfiNullable(Pointer<Void> handle) {
+int? intFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _intGetValueNullable(handle);
   final result = (_handle);
@@ -260,13 +261,13 @@ final _uIntGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_UInt_get_value_nullable'));
-Pointer<Void> uIntToFfiNullable(int value) {
+Pointer<Void> uIntToFfiNullable(int? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
   final result = _uIntCreateHandleNullable(_handle);
   return result;
 }
-int uIntFromFfiNullable(Pointer<Void> handle) {
+int? uIntFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _uIntGetValueNullable(handle);
   final result = (_handle);
@@ -287,13 +288,13 @@ final _longGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary
     Int64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_Long_get_value_nullable'));
-Pointer<Void> longToFfiNullable(int value) {
+Pointer<Void> longToFfiNullable(int? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
   final result = _longCreateHandleNullable(_handle);
   return result;
 }
-int longFromFfiNullable(Pointer<Void> handle) {
+int? longFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _longGetValueNullable(handle);
   final result = (_handle);
@@ -314,13 +315,13 @@ final _uLongGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrar
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_ULong_get_value_nullable'));
-Pointer<Void> uLongToFfiNullable(int value) {
+Pointer<Void> uLongToFfiNullable(int? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
   final result = _uLongCreateHandleNullable(_handle);
   return result;
 }
-int uLongFromFfiNullable(Pointer<Void> handle) {
+int? uLongFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _uLongGetValueNullable(handle);
   final result = (_handle);
@@ -341,13 +342,13 @@ final _floatGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrar
     Float Function(Pointer<Void>),
     double Function(Pointer<Void>)
   >('library_Float_get_value_nullable'));
-Pointer<Void> floatToFfiNullable(double value) {
+Pointer<Void> floatToFfiNullable(double? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
   final result = _floatCreateHandleNullable(_handle);
   return result;
 }
-double floatFromFfiNullable(Pointer<Void> handle) {
+double? floatFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _floatGetValueNullable(handle);
   final result = (_handle);
@@ -368,13 +369,13 @@ final _doubleGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibra
     Double Function(Pointer<Void>),
     double Function(Pointer<Void>)
   >('library_Double_get_value_nullable'));
-Pointer<Void> doubleToFfiNullable(double value) {
+Pointer<Void> doubleToFfiNullable(double? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = (value);
   final result = _doubleCreateHandleNullable(_handle);
   return result;
 }
-double doubleFromFfiNullable(Pointer<Void> handle) {
+double? doubleFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _doubleGetValueNullable(handle);
   final result = (_handle);
@@ -395,14 +396,14 @@ final _booleanGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibr
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_Boolean_get_value_nullable'));
-Pointer<Void> booleanToFfiNullable(bool value) {
+Pointer<Void> booleanToFfiNullable(bool? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = booleanToFfi(value);
   final result = _booleanCreateHandleNullable(_handle);
   booleanReleaseFfiHandle(_handle);
   return result;
 }
-bool booleanFromFfiNullable(Pointer<Void> handle) {
+bool? booleanFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _booleanGetValueNullable(handle);
   final result = booleanFromFfi(_handle);
@@ -424,14 +425,14 @@ final _stringGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibra
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_String_get_value_nullable'));
-Pointer<Void> stringToFfiNullable(String value) {
+Pointer<Void> stringToFfiNullable(String? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = stringToFfi(value);
   final result = _stringCreateHandleNullable(_handle);
   stringReleaseFfiHandle(_handle);
   return result;
 }
-String stringFromFfiNullable(Pointer<Void> handle) {
+String? stringFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _stringGetValueNullable(handle);
   final result = stringFromFfi(_handle);
@@ -453,14 +454,14 @@ final _blobGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_Blob_get_value_nullable'));
-Pointer<Void> blobToFfiNullable(Uint8List value) {
+Pointer<Void> blobToFfiNullable(Uint8List? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = blobToFfi(value);
   final result = _blobCreateHandleNullable(_handle);
   blobReleaseFfiHandle(_handle);
   return result;
 }
-Uint8List blobFromFfiNullable(Pointer<Void> handle) {
+Uint8List? blobFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _blobGetValueNullable(handle);
   final result = blobFromFfi(_handle);
@@ -482,14 +483,14 @@ final _dateGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_Date_get_value_nullable'));
-Pointer<Void> dateToFfiNullable(DateTime value) {
+Pointer<Void> dateToFfiNullable(DateTime? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = dateToFfi(value);
   final result = _dateCreateHandleNullable(_handle);
   dateReleaseFfiHandle(_handle);
   return result;
 }
-DateTime dateFromFfiNullable(Pointer<Void> handle) {
+DateTime? dateFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _dateGetValueNullable(handle);
   final result = dateFromFfi(_handle);
@@ -511,14 +512,14 @@ final _localeGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibra
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_Locale_get_value_nullable'));
-Pointer<Void> localeToFfiNullable(Locale value) {
+Pointer<Void> localeToFfiNullable(Locale? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = localeToFfi(value);
   final result = _localeCreateHandleNullable(_handle);
   localeReleaseFfiHandle(_handle);
   return result;
 }
-Locale localeFromFfiNullable(Pointer<Void> handle) {
+Locale? localeFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _localeGetValueNullable(handle);
   final result = localeFromFfi(_handle);

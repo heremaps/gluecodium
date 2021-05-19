@@ -32,11 +32,11 @@ class SomeClass$Impl extends __lib.NativeBase implements SomeClass {
   SomeClass$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeSomeclassReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   SomeClass fooBar() {
     final result = SomeClass$Impl(_fooBar());
@@ -118,8 +118,8 @@ Pointer<Void> smokeSomeclassToFfi(SomeClass value) =>
 SomeClass smokeSomeclassFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as SomeClass;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is SomeClass) return instance;
   final _copiedHandle = _smokeSomeclassCopyHandle(handle);
   final result = SomeClass$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -127,9 +127,9 @@ SomeClass smokeSomeclassFromFfi(Pointer<Void> handle) {
 }
 void smokeSomeclassReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeSomeclassReleaseHandle(handle);
-Pointer<Void> smokeSomeclassToFfiNullable(SomeClass value) =>
+Pointer<Void> smokeSomeclassToFfiNullable(SomeClass? value) =>
   value != null ? smokeSomeclassToFfi(value) : Pointer<Void>.fromAddress(0);
-SomeClass smokeSomeclassFromFfiNullable(Pointer<Void> handle) =>
+SomeClass? smokeSomeclassFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeSomeclassFromFfi(handle) : null;
 void smokeSomeclassReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeSomeclassReleaseHandle(handle);

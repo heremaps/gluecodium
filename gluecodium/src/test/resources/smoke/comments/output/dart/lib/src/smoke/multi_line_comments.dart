@@ -57,11 +57,11 @@ class MultiLineComments$Impl extends __lib.NativeBase implements MultiLineCommen
   MultiLineComments$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeMultilinecommentsReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   double someMethodWithLongComment(String input, double ratio) {
@@ -84,8 +84,8 @@ Pointer<Void> smokeMultilinecommentsToFfi(MultiLineComments value) =>
 MultiLineComments smokeMultilinecommentsFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as MultiLineComments;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is MultiLineComments) return instance;
   final _copiedHandle = _smokeMultilinecommentsCopyHandle(handle);
   final result = MultiLineComments$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -93,9 +93,9 @@ MultiLineComments smokeMultilinecommentsFromFfi(Pointer<Void> handle) {
 }
 void smokeMultilinecommentsReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeMultilinecommentsReleaseHandle(handle);
-Pointer<Void> smokeMultilinecommentsToFfiNullable(MultiLineComments value) =>
+Pointer<Void> smokeMultilinecommentsToFfiNullable(MultiLineComments? value) =>
   value != null ? smokeMultilinecommentsToFfi(value) : Pointer<Void>.fromAddress(0);
-MultiLineComments smokeMultilinecommentsFromFfiNullable(Pointer<Void> handle) =>
+MultiLineComments? smokeMultilinecommentsFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeMultilinecommentsFromFfi(handle) : null;
 void smokeMultilinecommentsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeMultilinecommentsReleaseHandle(handle);

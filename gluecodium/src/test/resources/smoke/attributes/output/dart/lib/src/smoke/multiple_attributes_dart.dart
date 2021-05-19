@@ -44,11 +44,11 @@ class MultipleAttributesDart$Impl extends __lib.NativeBase implements MultipleAt
   MultipleAttributesDart$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeMultipleattributesdartReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   noLists2() {
@@ -111,8 +111,8 @@ Pointer<Void> smokeMultipleattributesdartToFfi(MultipleAttributesDart value) =>
 MultipleAttributesDart smokeMultipleattributesdartFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as MultipleAttributesDart;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is MultipleAttributesDart) return instance;
   final _copiedHandle = _smokeMultipleattributesdartCopyHandle(handle);
   final result = MultipleAttributesDart$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -120,9 +120,9 @@ MultipleAttributesDart smokeMultipleattributesdartFromFfi(Pointer<Void> handle) 
 }
 void smokeMultipleattributesdartReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeMultipleattributesdartReleaseHandle(handle);
-Pointer<Void> smokeMultipleattributesdartToFfiNullable(MultipleAttributesDart value) =>
+Pointer<Void> smokeMultipleattributesdartToFfiNullable(MultipleAttributesDart? value) =>
   value != null ? smokeMultipleattributesdartToFfi(value) : Pointer<Void>.fromAddress(0);
-MultipleAttributesDart smokeMultipleattributesdartFromFfiNullable(Pointer<Void> handle) =>
+MultipleAttributesDart? smokeMultipleattributesdartFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeMultipleattributesdartFromFfi(handle) : null;
 void smokeMultipleattributesdartReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeMultipleattributesdartReleaseHandle(handle);

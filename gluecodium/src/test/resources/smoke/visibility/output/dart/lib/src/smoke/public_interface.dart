@@ -62,14 +62,14 @@ final _smokePublicinterfaceInternalstructGetValueNullable = __lib.catchArgumentE
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PublicInterface_InternalStruct_get_value_nullable'));
-Pointer<Void> smokePublicinterfaceInternalstructToFfiNullable(PublicInterface_InternalStruct value) {
+Pointer<Void> smokePublicinterfaceInternalstructToFfiNullable(PublicInterface_InternalStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokePublicinterfaceInternalstructToFfi(value);
   final result = _smokePublicinterfaceInternalstructCreateHandleNullable(_handle);
   smokePublicinterfaceInternalstructReleaseFfiHandle(_handle);
   return result;
 }
-PublicInterface_InternalStruct smokePublicinterfaceInternalstructFromFfiNullable(Pointer<Void> handle) {
+PublicInterface_InternalStruct? smokePublicinterfaceInternalstructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokePublicinterfaceInternalstructGetValueNullable(handle);
   final result = smokePublicinterfaceInternalstructFromFfi(_handle);
@@ -100,11 +100,11 @@ class PublicInterface$Impl extends __lib.NativeBase implements PublicInterface {
   PublicInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokePublicinterfaceReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
 }
 Pointer<Void> smokePublicinterfaceToFfi(PublicInterface value) {
@@ -119,8 +119,8 @@ Pointer<Void> smokePublicinterfaceToFfi(PublicInterface value) {
 PublicInterface smokePublicinterfaceFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as PublicInterface;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is PublicInterface) return instance;
   final _typeIdHandle = _smokePublicinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -133,9 +133,9 @@ PublicInterface smokePublicinterfaceFromFfi(Pointer<Void> handle) {
 }
 void smokePublicinterfaceReleaseFfiHandle(Pointer<Void> handle) =>
   _smokePublicinterfaceReleaseHandle(handle);
-Pointer<Void> smokePublicinterfaceToFfiNullable(PublicInterface value) =>
+Pointer<Void> smokePublicinterfaceToFfiNullable(PublicInterface? value) =>
   value != null ? smokePublicinterfaceToFfi(value) : Pointer<Void>.fromAddress(0);
-PublicInterface smokePublicinterfaceFromFfiNullable(Pointer<Void> handle) =>
+PublicInterface? smokePublicinterfaceFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokePublicinterfaceFromFfi(handle) : null;
 void smokePublicinterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokePublicinterfaceReleaseHandle(handle);

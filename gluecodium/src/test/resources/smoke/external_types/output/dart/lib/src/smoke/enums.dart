@@ -54,14 +54,14 @@ final _smokeEnumsExternalenumGetValueNullable = __lib.catchArgumentError(() => _
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Enums_ExternalEnum_get_value_nullable'));
-Pointer<Void> smokeEnumsExternalenumToFfiNullable(Enums_ExternalEnum value) {
+Pointer<Void> smokeEnumsExternalenumToFfiNullable(Enums_ExternalEnum? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeEnumsExternalenumToFfi(value);
   final result = _smokeEnumsExternalenumCreateHandleNullable(_handle);
   smokeEnumsExternalenumReleaseFfiHandle(_handle);
   return result;
 }
-Enums_ExternalEnum smokeEnumsExternalenumFromFfiNullable(Pointer<Void> handle) {
+Enums_ExternalEnum? smokeEnumsExternalenumFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeEnumsExternalenumGetValueNullable(handle);
   final result = smokeEnumsExternalenumFromFfi(_handle);
@@ -113,14 +113,14 @@ final _smokeEnumsVeryexternalenumGetValueNullable = __lib.catchArgumentError(() 
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Enums_VeryExternalEnum_get_value_nullable'));
-Pointer<Void> smokeEnumsVeryexternalenumToFfiNullable(Enums_VeryExternalEnum value) {
+Pointer<Void> smokeEnumsVeryexternalenumToFfiNullable(Enums_VeryExternalEnum? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeEnumsVeryexternalenumToFfi(value);
   final result = _smokeEnumsVeryexternalenumCreateHandleNullable(_handle);
   smokeEnumsVeryexternalenumReleaseFfiHandle(_handle);
   return result;
 }
-Enums_VeryExternalEnum smokeEnumsVeryexternalenumFromFfiNullable(Pointer<Void> handle) {
+Enums_VeryExternalEnum? smokeEnumsVeryexternalenumFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeEnumsVeryexternalenumGetValueNullable(handle);
   final result = smokeEnumsVeryexternalenumFromFfi(_handle);
@@ -143,11 +143,11 @@ class Enums$Impl extends __lib.NativeBase implements Enums {
   Enums$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeEnumsReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   static methodWithExternalEnum(Enums_ExternalEnum input) {
     final _methodWithExternalEnumFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32, Uint32), void Function(int, int)>('library_smoke_Enums_methodWithExternalEnum__External_1Enum'));
@@ -166,8 +166,8 @@ Pointer<Void> smokeEnumsToFfi(Enums value) =>
 Enums smokeEnumsFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as Enums;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is Enums) return instance;
   final _copiedHandle = _smokeEnumsCopyHandle(handle);
   final result = Enums$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -175,9 +175,9 @@ Enums smokeEnumsFromFfi(Pointer<Void> handle) {
 }
 void smokeEnumsReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeEnumsReleaseHandle(handle);
-Pointer<Void> smokeEnumsToFfiNullable(Enums value) =>
+Pointer<Void> smokeEnumsToFfiNullable(Enums? value) =>
   value != null ? smokeEnumsToFfi(value) : Pointer<Void>.fromAddress(0);
-Enums smokeEnumsFromFfiNullable(Pointer<Void> handle) =>
+Enums? smokeEnumsFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeEnumsFromFfi(handle) : null;
 void smokeEnumsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeEnumsReleaseHandle(handle);

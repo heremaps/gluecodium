@@ -36,11 +36,11 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
   BasicTypes$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeBasictypesReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   static String stringFunction(String input) {
     final _stringFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_BasicTypes_stringFunction__String'));
@@ -180,8 +180,8 @@ Pointer<Void> smokeBasictypesToFfi(BasicTypes value) =>
 BasicTypes smokeBasictypesFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as BasicTypes;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is BasicTypes) return instance;
   final _copiedHandle = _smokeBasictypesCopyHandle(handle);
   final result = BasicTypes$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -189,9 +189,9 @@ BasicTypes smokeBasictypesFromFfi(Pointer<Void> handle) {
 }
 void smokeBasictypesReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeBasictypesReleaseHandle(handle);
-Pointer<Void> smokeBasictypesToFfiNullable(BasicTypes value) =>
+Pointer<Void> smokeBasictypesToFfiNullable(BasicTypes? value) =>
   value != null ? smokeBasictypesToFfi(value) : Pointer<Void>.fromAddress(0);
-BasicTypes smokeBasictypesFromFfiNullable(Pointer<Void> handle) =>
+BasicTypes? smokeBasictypesFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeBasictypesFromFfi(handle) : null;
 void smokeBasictypesReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeBasictypesReleaseHandle(handle);

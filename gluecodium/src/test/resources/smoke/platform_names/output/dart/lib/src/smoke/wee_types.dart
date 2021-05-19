@@ -37,14 +37,14 @@ final _smokePlatformnamesBasicenumGetValueNullable = __lib.catchArgumentError(()
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_PlatformNames_BasicEnum_get_value_nullable'));
-Pointer<Void> smokePlatformnamesBasicenumToFfiNullable(werrEnum value) {
+Pointer<Void> smokePlatformnamesBasicenumToFfiNullable(werrEnum? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokePlatformnamesBasicenumToFfi(value);
   final result = _smokePlatformnamesBasicenumCreateHandleNullable(_handle);
   smokePlatformnamesBasicenumReleaseFfiHandle(_handle);
   return result;
 }
-werrEnum smokePlatformnamesBasicenumFromFfiNullable(Pointer<Void> handle) {
+werrEnum? smokePlatformnamesBasicenumFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokePlatformnamesBasicenumGetValueNullable(handle);
   final result = smokePlatformnamesBasicenumFromFfi(_handle);
@@ -114,14 +114,14 @@ final _smokePlatformnamesBasicstructGetValueNullable = __lib.catchArgumentError(
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PlatformNames_BasicStruct_get_value_nullable'));
-Pointer<Void> smokePlatformnamesBasicstructToFfiNullable(weeStruct value) {
+Pointer<Void> smokePlatformnamesBasicstructToFfiNullable(weeStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokePlatformnamesBasicstructToFfi(value);
   final result = _smokePlatformnamesBasicstructCreateHandleNullable(_handle);
   smokePlatformnamesBasicstructReleaseFfiHandle(_handle);
   return result;
 }
-weeStruct smokePlatformnamesBasicstructFromFfiNullable(Pointer<Void> handle) {
+weeStruct? smokePlatformnamesBasicstructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokePlatformnamesBasicstructGetValueNullable(handle);
   final result = smokePlatformnamesBasicstructFromFfi(_handle);

@@ -61,14 +61,14 @@ final _smokeConstructorsErrorenumGetValueNullable = __lib.catchArgumentError(() 
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Constructors_ErrorEnum_get_value_nullable'));
-Pointer<Void> smokeConstructorsErrorenumToFfiNullable(Constructors_ErrorEnum value) {
+Pointer<Void> smokeConstructorsErrorenumToFfiNullable(Constructors_ErrorEnum? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeConstructorsErrorenumToFfi(value);
   final result = _smokeConstructorsErrorenumCreateHandleNullable(_handle);
   smokeConstructorsErrorenumReleaseFfiHandle(_handle);
   return result;
 }
-Constructors_ErrorEnum smokeConstructorsErrorenumFromFfiNullable(Pointer<Void> handle) {
+Constructors_ErrorEnum? smokeConstructorsErrorenumFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeConstructorsErrorenumGetValueNullable(handle);
   final result = smokeConstructorsErrorenumFromFfi(_handle);
@@ -115,11 +115,11 @@ class Constructors$Impl extends __lib.NativeBase implements Constructors {
   Constructors$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeConstructorsReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   Constructors$Impl.$init() : super(_$init()) {
     __lib.ffiCacheToken(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
@@ -198,8 +198,8 @@ Pointer<Void> smokeConstructorsToFfi(Constructors value) =>
 Constructors smokeConstructorsFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as Constructors;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is Constructors) return instance;
   final _typeIdHandle = _smokeConstructorsGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -212,9 +212,9 @@ Constructors smokeConstructorsFromFfi(Pointer<Void> handle) {
 }
 void smokeConstructorsReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeConstructorsReleaseHandle(handle);
-Pointer<Void> smokeConstructorsToFfiNullable(Constructors value) =>
+Pointer<Void> smokeConstructorsToFfiNullable(Constructors? value) =>
   value != null ? smokeConstructorsToFfi(value) : Pointer<Void>.fromAddress(0);
-Constructors smokeConstructorsFromFfiNullable(Pointer<Void> handle) =>
+Constructors? smokeConstructorsFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeConstructorsFromFfi(handle) : null;
 void smokeConstructorsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeConstructorsReleaseHandle(handle);

@@ -28,11 +28,11 @@ class SpecialAttributes$Impl extends __lib.NativeBase implements SpecialAttribut
   SpecialAttributes$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeSpecialattributesReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   withEscaping() {
@@ -62,8 +62,8 @@ Pointer<Void> smokeSpecialattributesToFfi(SpecialAttributes value) =>
 SpecialAttributes smokeSpecialattributesFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as SpecialAttributes;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is SpecialAttributes) return instance;
   final _copiedHandle = _smokeSpecialattributesCopyHandle(handle);
   final result = SpecialAttributes$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -71,9 +71,9 @@ SpecialAttributes smokeSpecialattributesFromFfi(Pointer<Void> handle) {
 }
 void smokeSpecialattributesReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeSpecialattributesReleaseHandle(handle);
-Pointer<Void> smokeSpecialattributesToFfiNullable(SpecialAttributes value) =>
+Pointer<Void> smokeSpecialattributesToFfiNullable(SpecialAttributes? value) =>
   value != null ? smokeSpecialattributesToFfi(value) : Pointer<Void>.fromAddress(0);
-SpecialAttributes smokeSpecialattributesFromFfiNullable(Pointer<Void> handle) =>
+SpecialAttributes? smokeSpecialattributesFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeSpecialattributesFromFfi(handle) : null;
 void smokeSpecialattributesReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeSpecialattributesReleaseHandle(handle);

@@ -50,14 +50,14 @@ final _smokeSkipenumeratorexplicittagGetValueNullable = __lib.catchArgumentError
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_SkipEnumeratorExplicitTag_get_value_nullable'));
-Pointer<Void> smokeSkipenumeratorexplicittagToFfiNullable(SkipEnumeratorExplicitTag value) {
+Pointer<Void> smokeSkipenumeratorexplicittagToFfiNullable(SkipEnumeratorExplicitTag? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeSkipenumeratorexplicittagToFfi(value);
   final result = _smokeSkipenumeratorexplicittagCreateHandleNullable(_handle);
   smokeSkipenumeratorexplicittagReleaseFfiHandle(_handle);
   return result;
 }
-SkipEnumeratorExplicitTag smokeSkipenumeratorexplicittagFromFfiNullable(Pointer<Void> handle) {
+SkipEnumeratorExplicitTag? smokeSkipenumeratorexplicittagFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeSkipenumeratorexplicittagGetValueNullable(handle);
   final result = smokeSkipenumeratorexplicittagFromFfi(_handle);
@@ -67,4 +67,3 @@ SkipEnumeratorExplicitTag smokeSkipenumeratorexplicittagFromFfiNullable(Pointer<
 void smokeSkipenumeratorexplicittagReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeSkipenumeratorexplicittagReleaseHandleNullable(handle);
 // End of SkipEnumeratorExplicitTag "private" section.
-

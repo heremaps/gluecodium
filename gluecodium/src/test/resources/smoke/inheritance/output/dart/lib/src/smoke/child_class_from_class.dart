@@ -31,11 +31,11 @@ class ChildClassFromClass$Impl extends ParentClass$Impl implements ChildClassFro
   ChildClassFromClass$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeChildclassfromclassReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   childClassMethod() {
@@ -54,8 +54,8 @@ Pointer<Void> smokeChildclassfromclassToFfi(ChildClassFromClass value) =>
 ChildClassFromClass smokeChildclassfromclassFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as ChildClassFromClass;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is ChildClassFromClass) return instance;
   final _typeIdHandle = _smokeChildclassfromclassGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -68,9 +68,9 @@ ChildClassFromClass smokeChildclassfromclassFromFfi(Pointer<Void> handle) {
 }
 void smokeChildclassfromclassReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeChildclassfromclassReleaseHandle(handle);
-Pointer<Void> smokeChildclassfromclassToFfiNullable(ChildClassFromClass value) =>
+Pointer<Void> smokeChildclassfromclassToFfiNullable(ChildClassFromClass? value) =>
   value != null ? smokeChildclassfromclassToFfi(value) : Pointer<Void>.fromAddress(0);
-ChildClassFromClass smokeChildclassfromclassFromFfiNullable(Pointer<Void> handle) =>
+ChildClassFromClass? smokeChildclassfromclassFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeChildclassfromclassFromFfi(handle) : null;
 void smokeChildclassfromclassReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeChildclassfromclassReleaseHandle(handle);
