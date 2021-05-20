@@ -21,7 +21,7 @@ Functional tests
   functionality. There are tests for Java, Swift, and C++.
 * "functional-tests/scripts" sub-directory contains Bash scripts that are used to run both suites of functional tests on
   CI. The same scripts can be used to execute the tests locally in a POSIX environment (see
-  [Development tools](development_tools.md) for information on tools required for runnung tests locally).
+  [Development tools](development_tools.md) for information on tools required for running tests locally).
 
 Additional tools
 ----------------
