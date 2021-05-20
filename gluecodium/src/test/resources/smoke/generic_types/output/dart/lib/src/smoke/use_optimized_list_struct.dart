@@ -2,8 +2,8 @@ import 'package:library/src/_lazy_list.dart' as __lib;
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/unreasonably_lazy_class.dart';
 import 'package:library/src/smoke/very_big_struct.dart';
-import 'dart:ffi';
 import 'package:meta/meta.dart';
+import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 @immutable
 class UseOptimizedListStruct {

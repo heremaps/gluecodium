@@ -4,7 +4,6 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/payload.dart';
 import 'package:library/src/smoke/with_payload_exception.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class Errors {
   /// Destroys the underlying native object.
@@ -258,7 +257,6 @@ class Errors$Impl extends __lib.NativeBase implements Errors {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   static methodWithExternalErrors() {
@@ -278,7 +276,6 @@ class Errors$Impl extends __lib.NativeBase implements Errors {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   static String methodWithErrorsAndReturnValue() {
@@ -318,7 +315,6 @@ class Errors$Impl extends __lib.NativeBase implements Errors {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   static String methodWithPayloadErrorAndReturnValue() {

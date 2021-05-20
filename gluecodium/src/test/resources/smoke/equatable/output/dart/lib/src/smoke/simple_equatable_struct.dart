@@ -3,7 +3,6 @@ import 'package:collection/collection.dart';
 import 'package:library/src/smoke/non_equatable_class.dart';
 import 'package:library/src/smoke/non_equatable_interface.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 class SimpleEquatableStruct {
   NonEquatableClass classField;

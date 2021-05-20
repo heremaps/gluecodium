@@ -2,7 +2,6 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class PublicClass {
   /// Destroys the underlying native object.
@@ -241,7 +240,6 @@ Pointer<Void> smokePublicclassPublicstructwithinternaldefaultsToFfi(PublicClass_
   final _publicFieldHandle = (value.publicField);
   final _result = _smokePublicclassPublicstructwithinternaldefaultsCreateHandle(_internalFieldHandle, _publicFieldHandle);
   stringReleaseFfiHandle(_internalFieldHandle);
-  (_publicFieldHandle);
   return _result;
 }
 PublicClass_PublicStructWithInternalDefaults smokePublicclassPublicstructwithinternaldefaultsFromFfi(Pointer<Void> handle) {
@@ -254,7 +252,6 @@ PublicClass_PublicStructWithInternalDefaults smokePublicclassPublicstructwithint
     );
   } finally {
     stringReleaseFfiHandle(_internalFieldHandle);
-    (_publicFieldHandle);
   }
 }
 void smokePublicclassPublicstructwithinternaldefaultsReleaseFfiHandle(Pointer<Void> handle) => _smokePublicclassPublicstructwithinternaldefaultsReleaseHandle(handle);
@@ -341,7 +338,6 @@ class PublicClass$Impl extends __lib.NativeBase implements PublicClass {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -365,7 +361,6 @@ class PublicClass$Impl extends __lib.NativeBase implements PublicClass {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }

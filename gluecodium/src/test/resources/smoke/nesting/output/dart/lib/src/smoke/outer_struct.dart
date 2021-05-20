@@ -5,8 +5,8 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
-import 'dart:ffi';
 import 'package:meta/meta.dart';
+import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 final _doNothingReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
@@ -43,7 +43,6 @@ class OuterStruct {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }
@@ -121,7 +120,6 @@ class OuterStruct_InnerStruct {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }
@@ -310,7 +308,7 @@ class OuterStruct_InnerInterface$Impl extends __lib.NativeBase implements OuterS
   }
 }
 int _OuterStruct_InnerInterfacebarBazStatic(int _token, Pointer<Pointer<Void>> _result) {
-  Map<String, Uint8List> _resultObject = null;
+  Map<String, Uint8List> _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as OuterStruct_InnerInterface).barBaz();
     _result.value = foobarMapofStringToBlobToFfi(_resultObject);

@@ -45,7 +45,6 @@ Pointer<Void> foobarListofFloatToFfi(List<double> value) {
   for (final element in value) {
     final _elementHandle = (element);
     _foobarListofFloatInsert(_result, _elementHandle);
-    (_elementHandle);
   }
   return _result;
 }
@@ -57,7 +56,6 @@ List<double> foobarListofFloatFromFfi(Pointer<Void> handle) {
     try {
       result.add((_elementHandle));
     } finally {
-      (_elementHandle);
     }
     _foobarListofFloatIteratorIncrement(_iteratorHandle);
   }
@@ -130,7 +128,6 @@ Pointer<Void> foobarListofIntToFfi(List<int> value) {
   for (final element in value) {
     final _elementHandle = (element);
     _foobarListofIntInsert(_result, _elementHandle);
-    (_elementHandle);
   }
   return _result;
 }
@@ -142,7 +139,6 @@ List<int> foobarListofIntFromFfi(Pointer<Void> handle) {
     try {
       result.add((_elementHandle));
     } finally {
-      (_elementHandle);
     }
     _foobarListofIntIteratorIncrement(_iteratorHandle);
   }
@@ -300,7 +296,6 @@ Pointer<Void> foobarListofUbyteToFfi(List<int> value) {
   for (final element in value) {
     final _elementHandle = (element);
     _foobarListofUbyteInsert(_result, _elementHandle);
-    (_elementHandle);
   }
   return _result;
 }
@@ -312,7 +307,6 @@ List<int> foobarListofUbyteFromFfi(Pointer<Void> handle) {
     try {
       result.add((_elementHandle));
     } finally {
-      (_elementHandle);
     }
     _foobarListofUbyteIteratorIncrement(_iteratorHandle);
   }
@@ -1495,8 +1489,6 @@ Pointer<Void> foobarMapofFloatToDoubleToFfi(Map<double, double> value) {
     final _keyHandle = (entry.key);
     final _valueHandle = (entry.value);
     _foobarMapofFloatToDoublePut(_result, _keyHandle, _valueHandle);
-    (_keyHandle);
-    (_valueHandle);
   }
   return _result;
 }
@@ -1510,8 +1502,6 @@ Map<double, double> foobarMapofFloatToDoubleFromFfi(Pointer<Void> handle) {
       result[(_keyHandle)] =
         (_valueHandle);
     } finally {
-      (_keyHandle);
-      (_valueHandle);
     }
     _foobarMapofFloatToDoubleIteratorIncrement(_iteratorHandle);
   }
@@ -1589,7 +1579,6 @@ Pointer<Void> foobarMapofIntToBooleanToFfi(Map<int, bool> value) {
     final _keyHandle = (entry.key);
     final _valueHandle = booleanToFfi(entry.value);
     _foobarMapofIntToBooleanPut(_result, _keyHandle, _valueHandle);
-    (_keyHandle);
     booleanReleaseFfiHandle(_valueHandle);
   }
   return _result;
@@ -1604,7 +1593,6 @@ Map<int, bool> foobarMapofIntToBooleanFromFfi(Pointer<Void> handle) {
       result[(_keyHandle)] =
         booleanFromFfi(_valueHandle);
     } finally {
-      (_keyHandle);
       booleanReleaseFfiHandle(_valueHandle);
     }
     _foobarMapofIntToBooleanIteratorIncrement(_iteratorHandle);
@@ -1683,7 +1671,6 @@ Pointer<Void> foobarMapofIntToFoobarListofIntToFfi(Map<int, List<int>> value) {
     final _keyHandle = (entry.key);
     final _valueHandle = foobarListofIntToFfi(entry.value);
     _foobarMapofIntToFoobarListofIntPut(_result, _keyHandle, _valueHandle);
-    (_keyHandle);
     foobarListofIntReleaseFfiHandle(_valueHandle);
   }
   return _result;
@@ -1698,7 +1685,6 @@ Map<int, List<int>> foobarMapofIntToFoobarListofIntFromFfi(Pointer<Void> handle)
       result[(_keyHandle)] =
         foobarListofIntFromFfi(_valueHandle);
     } finally {
-      (_keyHandle);
       foobarListofIntReleaseFfiHandle(_valueHandle);
     }
     _foobarMapofIntToFoobarListofIntIteratorIncrement(_iteratorHandle);
@@ -1777,7 +1763,6 @@ Pointer<Void> foobarMapofIntToFoobarMapofIntToBooleanToFfi(Map<int, Map<int, boo
     final _keyHandle = (entry.key);
     final _valueHandle = foobarMapofIntToBooleanToFfi(entry.value);
     _foobarMapofIntToFoobarMapofIntToBooleanPut(_result, _keyHandle, _valueHandle);
-    (_keyHandle);
     foobarMapofIntToBooleanReleaseFfiHandle(_valueHandle);
   }
   return _result;
@@ -1792,7 +1777,6 @@ Map<int, Map<int, bool>> foobarMapofIntToFoobarMapofIntToBooleanFromFfi(Pointer<
       result[(_keyHandle)] =
         foobarMapofIntToBooleanFromFfi(_valueHandle);
     } finally {
-      (_keyHandle);
       foobarMapofIntToBooleanReleaseFfiHandle(_valueHandle);
     }
     _foobarMapofIntToFoobarMapofIntToBooleanIteratorIncrement(_iteratorHandle);
@@ -1871,7 +1855,6 @@ Pointer<Void> foobarMapofIntToFoobarSetofIntToFfi(Map<int, Set<int>> value) {
     final _keyHandle = (entry.key);
     final _valueHandle = foobarSetofIntToFfi(entry.value);
     _foobarMapofIntToFoobarSetofIntPut(_result, _keyHandle, _valueHandle);
-    (_keyHandle);
     foobarSetofIntReleaseFfiHandle(_valueHandle);
   }
   return _result;
@@ -1886,7 +1869,6 @@ Map<int, Set<int>> foobarMapofIntToFoobarSetofIntFromFfi(Pointer<Void> handle) {
       result[(_keyHandle)] =
         foobarSetofIntFromFfi(_valueHandle);
     } finally {
-      (_keyHandle);
       foobarSetofIntReleaseFfiHandle(_valueHandle);
     }
     _foobarMapofIntToFoobarSetofIntIteratorIncrement(_iteratorHandle);
@@ -1965,7 +1947,6 @@ Pointer<Void> foobarMapofIntToSmokeDummyclassToFfi(Map<int, DummyClass> value) {
     final _keyHandle = (entry.key);
     final _valueHandle = smokeDummyclassToFfi(entry.value);
     _foobarMapofIntToSmokeDummyclassPut(_result, _keyHandle, _valueHandle);
-    (_keyHandle);
     smokeDummyclassReleaseFfiHandle(_valueHandle);
   }
   return _result;
@@ -1980,7 +1961,6 @@ Map<int, DummyClass> foobarMapofIntToSmokeDummyclassFromFfi(Pointer<Void> handle
       result[(_keyHandle)] =
         smokeDummyclassFromFfi(_valueHandle);
     } finally {
-      (_keyHandle);
       smokeDummyclassReleaseFfiHandle(_valueHandle);
     }
     _foobarMapofIntToSmokeDummyclassIteratorIncrement(_iteratorHandle);
@@ -2059,7 +2039,6 @@ Pointer<Void> foobarMapofIntToSmokeDummyinterfaceToFfi(Map<int, DummyInterface> 
     final _keyHandle = (entry.key);
     final _valueHandle = smokeDummyinterfaceToFfi(entry.value);
     _foobarMapofIntToSmokeDummyinterfacePut(_result, _keyHandle, _valueHandle);
-    (_keyHandle);
     smokeDummyinterfaceReleaseFfiHandle(_valueHandle);
   }
   return _result;
@@ -2074,7 +2053,6 @@ Map<int, DummyInterface> foobarMapofIntToSmokeDummyinterfaceFromFfi(Pointer<Void
       result[(_keyHandle)] =
         smokeDummyinterfaceFromFfi(_valueHandle);
     } finally {
-      (_keyHandle);
       smokeDummyinterfaceReleaseFfiHandle(_valueHandle);
     }
     _foobarMapofIntToSmokeDummyinterfaceIteratorIncrement(_iteratorHandle);
@@ -2153,7 +2131,6 @@ Pointer<Void> foobarMapofIntToSmokeGenerictypeswithcompoundtypesExternalenumToFf
     final _keyHandle = (entry.key);
     final _valueHandle = smokeGenerictypeswithcompoundtypesExternalenumToFfi(entry.value);
     _foobarMapofIntToSmokeGenerictypeswithcompoundtypesExternalenumPut(_result, _keyHandle, _valueHandle);
-    (_keyHandle);
     smokeGenerictypeswithcompoundtypesExternalenumReleaseFfiHandle(_valueHandle);
   }
   return _result;
@@ -2168,7 +2145,6 @@ Map<int, GenericTypesWithCompoundTypes_ExternalEnum> foobarMapofIntToSmokeGeneri
       result[(_keyHandle)] =
         smokeGenerictypeswithcompoundtypesExternalenumFromFfi(_valueHandle);
     } finally {
-      (_keyHandle);
       smokeGenerictypeswithcompoundtypesExternalenumReleaseFfiHandle(_valueHandle);
     }
     _foobarMapofIntToSmokeGenerictypeswithcompoundtypesExternalenumIteratorIncrement(_iteratorHandle);
@@ -2247,7 +2223,6 @@ Pointer<Void> foobarMapofIntToSmokeGenerictypeswithcompoundtypesSomeenumToFfi(Ma
     final _keyHandle = (entry.key);
     final _valueHandle = smokeGenerictypeswithcompoundtypesSomeenumToFfi(entry.value);
     _foobarMapofIntToSmokeGenerictypeswithcompoundtypesSomeenumPut(_result, _keyHandle, _valueHandle);
-    (_keyHandle);
     smokeGenerictypeswithcompoundtypesSomeenumReleaseFfiHandle(_valueHandle);
   }
   return _result;
@@ -2262,7 +2237,6 @@ Map<int, GenericTypesWithCompoundTypes_SomeEnum> foobarMapofIntToSmokeGenerictyp
       result[(_keyHandle)] =
         smokeGenerictypeswithcompoundtypesSomeenumFromFfi(_valueHandle);
     } finally {
-      (_keyHandle);
       smokeGenerictypeswithcompoundtypesSomeenumReleaseFfiHandle(_valueHandle);
     }
     _foobarMapofIntToSmokeGenerictypeswithcompoundtypesSomeenumIteratorIncrement(_iteratorHandle);
@@ -2623,7 +2597,6 @@ Pointer<Void> foobarMapofUbyteToStringToFfi(Map<int, String> value) {
     final _keyHandle = (entry.key);
     final _valueHandle = stringToFfi(entry.value);
     _foobarMapofUbyteToStringPut(_result, _keyHandle, _valueHandle);
-    (_keyHandle);
     stringReleaseFfiHandle(_valueHandle);
   }
   return _result;
@@ -2638,7 +2611,6 @@ Map<int, String> foobarMapofUbyteToStringFromFfi(Pointer<Void> handle) {
       result[(_keyHandle)] =
         stringFromFfi(_valueHandle);
     } finally {
-      (_keyHandle);
       stringReleaseFfiHandle(_valueHandle);
     }
     _foobarMapofUbyteToStringIteratorIncrement(_iteratorHandle);
@@ -3182,7 +3154,6 @@ Pointer<Void> foobarSetofFloatToFfi(Set<double> value) {
   for (final element in value) {
     final _elementHandle = (element);
     _foobarSetofFloatInsert(_result, _elementHandle);
-    (_elementHandle);
   }
   return _result;
 }
@@ -3194,7 +3165,6 @@ Set<double> foobarSetofFloatFromFfi(Pointer<Void> handle) {
     try {
       result.add((_elementHandle));
     } finally {
-      (_elementHandle);
     }
     _foobarSetofFloatIteratorIncrement(_iteratorHandle);
   }
@@ -3267,7 +3237,6 @@ Pointer<Void> foobarSetofIntToFfi(Set<int> value) {
   for (final element in value) {
     final _elementHandle = (element);
     _foobarSetofIntInsert(_result, _elementHandle);
-    (_elementHandle);
   }
   return _result;
 }
@@ -3279,7 +3248,6 @@ Set<int> foobarSetofIntFromFfi(Pointer<Void> handle) {
     try {
       result.add((_elementHandle));
     } finally {
-      (_elementHandle);
     }
     _foobarSetofIntIteratorIncrement(_iteratorHandle);
   }
@@ -3437,7 +3405,6 @@ Pointer<Void> foobarSetofUbyteToFfi(Set<int> value) {
   for (final element in value) {
     final _elementHandle = (element);
     _foobarSetofUbyteInsert(_result, _elementHandle);
-    (_elementHandle);
   }
   return _result;
 }
@@ -3449,7 +3416,6 @@ Set<int> foobarSetofUbyteFromFfi(Pointer<Void> handle) {
     try {
       result.add((_elementHandle));
     } finally {
-      (_elementHandle);
     }
     _foobarSetofUbyteIteratorIncrement(_iteratorHandle);
   }

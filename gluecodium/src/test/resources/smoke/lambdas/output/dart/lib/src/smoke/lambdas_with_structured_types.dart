@@ -1,10 +1,8 @@
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
-import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/lambdas_declaration_order.dart';
 import 'package:library/src/smoke/lambdas_interface.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class LambdasWithStructuredTypes {
   /// Destroys the underlying native object.
@@ -30,7 +28,6 @@ final _smokeLambdaswithstructuredtypesClasscallbackCreateProxy = __lib.catchArgu
     Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_LambdasWithStructuredTypes_ClassCallback_create_proxy'));
 class LambdasWithStructuredTypes_ClassCallback$Impl {
-  Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
   LambdasWithStructuredTypes_ClassCallback$Impl(this.handle);
   void release() => _smokeLambdaswithstructuredtypesClasscallbackReleaseHandle(handle);
@@ -43,11 +40,10 @@ class LambdasWithStructuredTypes_ClassCallback$Impl {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }
-int _LambdasWithStructuredTypes_ClassCallbackcallStatic(int _token, Pointer<Void> p0) {
+int _smokeLambdaswithstructuredtypesClasscallbackcallStatic(int _token, Pointer<Void> p0) {
   try {
     (__lib.instanceCache[_token] as LambdasWithStructuredTypes_ClassCallback)(smokeLambdasinterfaceFromFfi(p0));
   } finally {
@@ -60,7 +56,7 @@ Pointer<Void> smokeLambdaswithstructuredtypesClasscallbackToFfi(LambdasWithStruc
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_LambdasWithStructuredTypes_ClassCallbackcallStatic, __lib.unknownError)
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_smokeLambdaswithstructuredtypesClasscallbackcallStatic, __lib.unknownError)
   );
   return result;
 }
@@ -119,7 +115,6 @@ final _smokeLambdaswithstructuredtypesStructcallbackCreateProxy = __lib.catchArg
     Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_LambdasWithStructuredTypes_StructCallback_create_proxy'));
 class LambdasWithStructuredTypes_StructCallback$Impl {
-  Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
   LambdasWithStructuredTypes_StructCallback$Impl(this.handle);
   void release() => _smokeLambdaswithstructuredtypesStructcallbackReleaseHandle(handle);
@@ -132,11 +127,10 @@ class LambdasWithStructuredTypes_StructCallback$Impl {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }
-int _LambdasWithStructuredTypes_StructCallbackcallStatic(int _token, Pointer<Void> p0) {
+int _smokeLambdaswithstructuredtypesStructcallbackcallStatic(int _token, Pointer<Void> p0) {
   try {
     (__lib.instanceCache[_token] as LambdasWithStructuredTypes_StructCallback)(smokeLambdasdeclarationorderSomestructFromFfi(p0));
   } finally {
@@ -149,7 +143,7 @@ Pointer<Void> smokeLambdaswithstructuredtypesStructcallbackToFfi(LambdasWithStru
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_LambdasWithStructuredTypes_StructCallbackcallStatic, __lib.unknownError)
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_smokeLambdaswithstructuredtypesStructcallbackcallStatic, __lib.unknownError)
   );
   return result;
 }
@@ -222,7 +216,6 @@ class LambdasWithStructuredTypes$Impl extends __lib.NativeBase implements Lambda
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -235,7 +228,6 @@ class LambdasWithStructuredTypes$Impl extends __lib.NativeBase implements Lambda
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }

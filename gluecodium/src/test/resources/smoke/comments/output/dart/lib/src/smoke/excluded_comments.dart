@@ -2,7 +2,6 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 /// This is some very useful class.
 /// @nodoc
@@ -187,7 +186,6 @@ final _smokeExcludedcommentsSomelambdaCreateProxy = __lib.catchArgumentError(() 
     Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_ExcludedComments_SomeLambda_create_proxy'));
 class ExcludedComments_SomeLambda$Impl {
-  Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
   ExcludedComments_SomeLambda$Impl(this.handle);
   void release() => _smokeExcludedcommentsSomelambdaReleaseHandle(handle);
@@ -198,22 +196,19 @@ class ExcludedComments_SomeLambda$Impl {
     final _handle = this.handle;
     final __resultHandle = _callFfi(_handle, __lib.LibraryContext.isolateId, _p0Handle, _p1Handle);
     stringReleaseFfiHandle(_p0Handle);
-    (_p1Handle);
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }
-int _ExcludedComments_SomeLambdacallStatic(int _token, Pointer<Void> p0, int p1, Pointer<Double> _result) {
+int _smokeExcludedcommentsSomelambdacallStatic(int _token, Pointer<Void> p0, int p1, Pointer<Double> _result) {
   double _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as ExcludedComments_SomeLambda)(stringFromFfi(p0), (p1));
     _result.value = (_resultObject);
   } finally {
     stringReleaseFfiHandle(p0);
-    (p1);
   }
   return 0;
 }
@@ -222,7 +217,7 @@ Pointer<Void> smokeExcludedcommentsSomelambdaToFfi(ExcludedComments_SomeLambda v
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Int32, Pointer<Double>)>(_ExcludedComments_SomeLambdacallStatic, __lib.unknownError)
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Int32, Pointer<Double>)>(_smokeExcludedcommentsSomelambdacallStatic, __lib.unknownError)
   );
   return result;
 }
@@ -333,7 +328,6 @@ class ExcludedComments$Impl extends __lib.NativeBase implements ExcludedComments
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -357,7 +351,6 @@ class ExcludedComments$Impl extends __lib.NativeBase implements ExcludedComments
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }

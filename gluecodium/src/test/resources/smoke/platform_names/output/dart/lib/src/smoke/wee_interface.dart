@@ -3,7 +3,6 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/wee_types.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class weeInterface {
   factory weeInterface.make(String makeParameter) => weeInterface$Impl.make(makeParameter);
@@ -66,7 +65,6 @@ class weeInterface$Impl extends __lib.NativeBase implements weeInterface {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -75,11 +73,9 @@ class weeInterface$Impl extends __lib.NativeBase implements weeInterface {
     final _valueHandle = (value);
     final _handle = this.handle;
     final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
-    (_valueHandle);
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }

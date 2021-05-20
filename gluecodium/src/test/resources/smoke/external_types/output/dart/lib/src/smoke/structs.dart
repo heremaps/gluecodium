@@ -3,7 +3,6 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class Structs {
   /// Destroys the underlying native object.
@@ -128,7 +127,6 @@ final _smokeStructsAnotherexternalstructGetFieldintField = __lib.catchArgumentEr
 Pointer<Void> smokeStructsAnotherexternalstructToFfi(Structs_AnotherExternalStruct value) {
   final _intFieldHandle = (value.intField);
   final _result = _smokeStructsAnotherexternalstructCreateHandle(_intFieldHandle);
-  (_intFieldHandle);
   return _result;
 }
 Structs_AnotherExternalStruct smokeStructsAnotherexternalstructFromFfi(Pointer<Void> handle) {
@@ -138,7 +136,6 @@ Structs_AnotherExternalStruct smokeStructsAnotherexternalstructFromFfi(Pointer<V
       (_intFieldHandle)
     );
   } finally {
-    (_intFieldHandle);
   }
 }
 void smokeStructsAnotherexternalstructReleaseFfiHandle(Pointer<Void> handle) => _smokeStructsAnotherexternalstructReleaseHandle(handle);

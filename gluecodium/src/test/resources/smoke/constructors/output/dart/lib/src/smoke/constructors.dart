@@ -4,7 +4,6 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class Constructors {
   factory Constructors() => Constructors$Impl.$init();
@@ -157,7 +156,6 @@ class Constructors$Impl extends __lib.NativeBase implements Constructors {
     final _barHandle = (bar);
     final __resultHandle = _fromMultiFfi(__lib.LibraryContext.isolateId, _fooHandle, _barHandle);
     stringReleaseFfiHandle(_fooHandle);
-    (_barHandle);
     return __resultHandle;
   }
   static Pointer<Void> _fromString(String input) {
@@ -189,7 +187,6 @@ class Constructors$Impl extends __lib.NativeBase implements Constructors {
     final _createFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Uint64), Pointer<Void> Function(int, int)>('library_smoke_Constructors_create__ULong'));
     final _inputHandle = (input);
     final __resultHandle = _createFfi(__lib.LibraryContext.isolateId, _inputHandle);
-    (_inputHandle);
     return __resultHandle;
   }
 }

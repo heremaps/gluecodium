@@ -4,8 +4,8 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/calculation_result.dart';
-import 'dart:ffi';
 import 'package:meta/meta.dart';
+import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class ListenersWithReturnValues {
   ListenersWithReturnValues();
@@ -118,7 +118,6 @@ final _smokeListenerswithreturnvaluesResultstructGetFieldresult = __lib.catchArg
 Pointer<Void> smokeListenerswithreturnvaluesResultstructToFfi(ListenersWithReturnValues_ResultStruct value) {
   final _resultHandle = (value.result);
   final _result = _smokeListenerswithreturnvaluesResultstructCreateHandle(_resultHandle);
-  (_resultHandle);
   return _result;
 }
 ListenersWithReturnValues_ResultStruct smokeListenerswithreturnvaluesResultstructFromFfi(Pointer<Void> handle) {
@@ -128,7 +127,6 @@ ListenersWithReturnValues_ResultStruct smokeListenerswithreturnvaluesResultstruc
       (_resultHandle)
     );
   } finally {
-    (_resultHandle);
   }
 }
 void smokeListenerswithreturnvaluesResultstructReleaseFfiHandle(Pointer<Void> handle) => _smokeListenerswithreturnvaluesResultstructReleaseHandle(handle);
@@ -238,7 +236,6 @@ class ListenersWithReturnValues$Impl extends __lib.NativeBase implements Listene
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -309,7 +306,7 @@ class ListenersWithReturnValues$Impl extends __lib.NativeBase implements Listene
   }
 }
 int _ListenersWithReturnValuesfetchDataDoubleStatic(int _token, Pointer<Double> _result) {
-  double _resultObject = null;
+  double _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as ListenersWithReturnValues).fetchDataDouble();
     _result.value = (_resultObject);
@@ -318,7 +315,7 @@ int _ListenersWithReturnValuesfetchDataDoubleStatic(int _token, Pointer<Double> 
   return 0;
 }
 int _ListenersWithReturnValuesfetchDataStringStatic(int _token, Pointer<Pointer<Void>> _result) {
-  String _resultObject = null;
+  String _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as ListenersWithReturnValues).fetchDataString();
     _result.value = stringToFfi(_resultObject);
@@ -327,7 +324,7 @@ int _ListenersWithReturnValuesfetchDataStringStatic(int _token, Pointer<Pointer<
   return 0;
 }
 int _ListenersWithReturnValuesfetchDataStructStatic(int _token, Pointer<Pointer<Void>> _result) {
-  ListenersWithReturnValues_ResultStruct _resultObject = null;
+  ListenersWithReturnValues_ResultStruct _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as ListenersWithReturnValues).fetchDataStruct();
     _result.value = smokeListenerswithreturnvaluesResultstructToFfi(_resultObject);
@@ -336,7 +333,7 @@ int _ListenersWithReturnValuesfetchDataStructStatic(int _token, Pointer<Pointer<
   return 0;
 }
 int _ListenersWithReturnValuesfetchDataEnumStatic(int _token, Pointer<Uint32> _result) {
-  ListenersWithReturnValues_ResultEnum _resultObject = null;
+  ListenersWithReturnValues_ResultEnum _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as ListenersWithReturnValues).fetchDataEnum();
     _result.value = smokeListenerswithreturnvaluesResultenumToFfi(_resultObject);
@@ -345,7 +342,7 @@ int _ListenersWithReturnValuesfetchDataEnumStatic(int _token, Pointer<Uint32> _r
   return 0;
 }
 int _ListenersWithReturnValuesfetchDataArrayStatic(int _token, Pointer<Pointer<Void>> _result) {
-  List<double> _resultObject = null;
+  List<double> _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as ListenersWithReturnValues).fetchDataArray();
     _result.value = foobarListofDoubleToFfi(_resultObject);
@@ -354,7 +351,7 @@ int _ListenersWithReturnValuesfetchDataArrayStatic(int _token, Pointer<Pointer<V
   return 0;
 }
 int _ListenersWithReturnValuesfetchDataMapStatic(int _token, Pointer<Pointer<Void>> _result) {
-  Map<String, double> _resultObject = null;
+  Map<String, double> _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as ListenersWithReturnValues).fetchDataMap();
     _result.value = foobarMapofStringToDoubleToFfi(_resultObject);
@@ -363,7 +360,7 @@ int _ListenersWithReturnValuesfetchDataMapStatic(int _token, Pointer<Pointer<Voi
   return 0;
 }
 int _ListenersWithReturnValuesfetchDataInstanceStatic(int _token, Pointer<Pointer<Void>> _result) {
-  CalculationResult _resultObject = null;
+  CalculationResult _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as ListenersWithReturnValues).fetchDataInstance();
     _result.value = smokeCalculationresultToFfi(_resultObject);

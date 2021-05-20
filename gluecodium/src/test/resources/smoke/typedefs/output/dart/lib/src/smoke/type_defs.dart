@@ -4,7 +4,6 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/type_collection.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class TypeDefs {
   /// Destroys the underlying native object.
@@ -41,7 +40,6 @@ final _smokeTypedefsStructhavingaliasfielddefinedbelowGetFieldfield = __lib.catc
 Pointer<Void> smokeTypedefsStructhavingaliasfielddefinedbelowToFfi(TypeDefs_StructHavingAliasFieldDefinedBelow value) {
   final _fieldHandle = (value.field);
   final _result = _smokeTypedefsStructhavingaliasfielddefinedbelowCreateHandle(_fieldHandle);
-  (_fieldHandle);
   return _result;
 }
 TypeDefs_StructHavingAliasFieldDefinedBelow smokeTypedefsStructhavingaliasfielddefinedbelowFromFfi(Pointer<Void> handle) {
@@ -51,7 +49,6 @@ TypeDefs_StructHavingAliasFieldDefinedBelow smokeTypedefsStructhavingaliasfieldd
       (_fieldHandle)
     );
   } finally {
-    (_fieldHandle);
   }
 }
 void smokeTypedefsStructhavingaliasfielddefinedbelowReleaseFfiHandle(Pointer<Void> handle) => _smokeTypedefsStructhavingaliasfielddefinedbelowReleaseHandle(handle);
@@ -172,11 +169,9 @@ class TypeDefs$Impl extends __lib.NativeBase implements TypeDefs {
     final _methodWithPrimitiveTypeDefFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Double Function(Int32, Double), double Function(int, double)>('library_smoke_TypeDefs_methodWithPrimitiveTypeDef__Double'));
     final _inputHandle = (input);
     final __resultHandle = _methodWithPrimitiveTypeDefFfi(__lib.LibraryContext.isolateId, _inputHandle);
-    (_inputHandle);
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   static List<TypeDefs_TestStruct> methodWithComplexTypeDef(List<TypeDefs_TestStruct> input) {
@@ -194,11 +189,9 @@ class TypeDefs$Impl extends __lib.NativeBase implements TypeDefs {
     final _returnNestedIntTypeDefFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Double Function(Int32, Double), double Function(int, double)>('library_smoke_TypeDefs_returnNestedIntTypeDef__Double'));
     final _inputHandle = (input);
     final __resultHandle = _returnNestedIntTypeDefFfi(__lib.LibraryContext.isolateId, _inputHandle);
-    (_inputHandle);
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   static TypeDefs_TestStruct returnTestStructTypeDef(TypeDefs_TestStruct input) {
@@ -255,7 +248,6 @@ class TypeDefs$Impl extends __lib.NativeBase implements TypeDefs {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }

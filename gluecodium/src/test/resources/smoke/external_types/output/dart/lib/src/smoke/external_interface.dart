@@ -2,8 +2,8 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'dart:ffi';
 import 'package:meta/meta.dart';
+import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class ExternalInterface {
   ExternalInterface();
@@ -186,11 +186,9 @@ class ExternalInterface$Impl extends __lib.NativeBase implements ExternalInterfa
     final _someParameterHandle = (someParameter);
     final _handle = this.handle;
     final __resultHandle = _someMethodFfi(_handle, __lib.LibraryContext.isolateId, _someParameterHandle);
-    (_someParameterHandle);
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   String get someProperty {
@@ -208,7 +206,6 @@ int _ExternalInterfacesomeMethodStatic(int _token, int someParameter) {
   try {
     (__lib.instanceCache[_token] as ExternalInterface).someMethod((someParameter));
   } finally {
-    (someParameter);
   }
   return 0;
 }

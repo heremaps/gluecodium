@@ -3,7 +3,6 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class DefaultValues {
   /// Destroys the underlying native object.
@@ -195,10 +194,6 @@ Pointer<Void> smokeDefaultvaluesStructwithdefaultsToFfi(DefaultValues_StructWith
   final _enumFieldHandle = smokeDefaultvaluesSomeenumToFfi(value.enumField);
   final _externalEnumFieldHandle = smokeDefaultvaluesExternalenumToFfi(value.externalEnumField);
   final _result = _smokeDefaultvaluesStructwithdefaultsCreateHandle(_intFieldHandle, _uintFieldHandle, _floatFieldHandle, _doubleFieldHandle, _boolFieldHandle, _stringFieldHandle, _enumFieldHandle, _externalEnumFieldHandle);
-  (_intFieldHandle);
-  (_uintFieldHandle);
-  (_floatFieldHandle);
-  (_doubleFieldHandle);
   booleanReleaseFfiHandle(_boolFieldHandle);
   stringReleaseFfiHandle(_stringFieldHandle);
   smokeDefaultvaluesSomeenumReleaseFfiHandle(_enumFieldHandle);
@@ -226,10 +221,6 @@ DefaultValues_StructWithDefaults smokeDefaultvaluesStructwithdefaultsFromFfi(Poi
       smokeDefaultvaluesExternalenumFromFfi(_externalEnumFieldHandle)
     );
   } finally {
-    (_intFieldHandle);
-    (_uintFieldHandle);
-    (_floatFieldHandle);
-    (_doubleFieldHandle);
     booleanReleaseFfiHandle(_boolFieldHandle);
     stringReleaseFfiHandle(_stringFieldHandle);
     smokeDefaultvaluesSomeenumReleaseFfiHandle(_enumFieldHandle);
@@ -435,12 +426,6 @@ Pointer<Void> smokeDefaultvaluesStructwithspecialdefaultsToFfi(DefaultValues_Str
   final _doubleInfinityFieldHandle = (value.doubleInfinityField);
   final _doubleNegativeInfinityFieldHandle = (value.doubleNegativeInfinityField);
   final _result = _smokeDefaultvaluesStructwithspecialdefaultsCreateHandle(_floatNanFieldHandle, _floatInfinityFieldHandle, _floatNegativeInfinityFieldHandle, _doubleNanFieldHandle, _doubleInfinityFieldHandle, _doubleNegativeInfinityFieldHandle);
-  (_floatNanFieldHandle);
-  (_floatInfinityFieldHandle);
-  (_floatNegativeInfinityFieldHandle);
-  (_doubleNanFieldHandle);
-  (_doubleInfinityFieldHandle);
-  (_doubleNegativeInfinityFieldHandle);
   return _result;
 }
 DefaultValues_StructWithSpecialDefaults smokeDefaultvaluesStructwithspecialdefaultsFromFfi(Pointer<Void> handle) {
@@ -460,12 +445,6 @@ DefaultValues_StructWithSpecialDefaults smokeDefaultvaluesStructwithspecialdefau
       (_doubleNegativeInfinityFieldHandle)
     );
   } finally {
-    (_floatNanFieldHandle);
-    (_floatInfinityFieldHandle);
-    (_floatNegativeInfinityFieldHandle);
-    (_doubleNanFieldHandle);
-    (_doubleInfinityFieldHandle);
-    (_doubleNegativeInfinityFieldHandle);
   }
 }
 void smokeDefaultvaluesStructwithspecialdefaultsReleaseFfiHandle(Pointer<Void> handle) => _smokeDefaultvaluesStructwithspecialdefaultsReleaseHandle(handle);
@@ -645,7 +624,6 @@ Pointer<Void> smokeDefaultvaluesStructwithtypedefdefaultsToFfi(DefaultValues_Str
   final _stringFieldHandle = stringToFfi(value.stringField);
   final _enumFieldHandle = smokeDefaultvaluesSomeenumToFfi(value.enumField);
   final _result = _smokeDefaultvaluesStructwithtypedefdefaultsCreateHandle(_longFieldHandle, _boolFieldHandle, _stringFieldHandle, _enumFieldHandle);
-  (_longFieldHandle);
   booleanReleaseFfiHandle(_boolFieldHandle);
   stringReleaseFfiHandle(_stringFieldHandle);
   smokeDefaultvaluesSomeenumReleaseFfiHandle(_enumFieldHandle);
@@ -664,7 +642,6 @@ DefaultValues_StructWithTypedefDefaults smokeDefaultvaluesStructwithtypedefdefau
       smokeDefaultvaluesSomeenumFromFfi(_enumFieldHandle)
     );
   } finally {
-    (_longFieldHandle);
     booleanReleaseFfiHandle(_boolFieldHandle);
     stringReleaseFfiHandle(_stringFieldHandle);
     smokeDefaultvaluesSomeenumReleaseFfiHandle(_enumFieldHandle);

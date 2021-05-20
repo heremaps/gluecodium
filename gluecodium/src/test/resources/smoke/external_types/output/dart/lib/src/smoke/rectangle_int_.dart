@@ -1,7 +1,5 @@
 import 'dart:math' as math;
-import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 // Rectangle<int> "private" section, not exported.
 final _smokeRectangleCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -34,10 +32,6 @@ Pointer<Void> smokeRectangleToFfi(math.Rectangle<int> value) {
   final _widthHandle = (value.width);
   final _heightHandle = (value.height);
   final _result = _smokeRectangleCreateHandle(_leftHandle, _topHandle, _widthHandle, _heightHandle);
-  (_leftHandle);
-  (_topHandle);
-  (_widthHandle);
-  (_heightHandle);
   return _result;
 }
 math.Rectangle<int> smokeRectangleFromFfi(Pointer<Void> handle) {
@@ -53,10 +47,6 @@ math.Rectangle<int> smokeRectangleFromFfi(Pointer<Void> handle) {
       (_heightHandle)
     );
   } finally {
-    (_leftHandle);
-    (_topHandle);
-    (_widthHandle);
-    (_heightHandle);
   }
 }
 void smokeRectangleReleaseFfiHandle(Pointer<Void> handle) => _smokeRectangleReleaseHandle(handle);

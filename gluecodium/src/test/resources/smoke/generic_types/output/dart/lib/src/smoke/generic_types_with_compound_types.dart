@@ -5,7 +5,6 @@ import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/dummy_class.dart';
 import 'package:library/src/smoke/dummy_interface.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class GenericTypesWithCompoundTypes {
   /// Destroys the underlying native object.
@@ -160,7 +159,6 @@ final _smokeGenerictypeswithcompoundtypesBasicstructGetFieldvalue = __lib.catchA
 Pointer<Void> smokeGenerictypeswithcompoundtypesBasicstructToFfi(GenericTypesWithCompoundTypes_BasicStruct value) {
   final _valueHandle = (value.value);
   final _result = _smokeGenerictypeswithcompoundtypesBasicstructCreateHandle(_valueHandle);
-  (_valueHandle);
   return _result;
 }
 GenericTypesWithCompoundTypes_BasicStruct smokeGenerictypeswithcompoundtypesBasicstructFromFfi(Pointer<Void> handle) {
@@ -170,7 +168,6 @@ GenericTypesWithCompoundTypes_BasicStruct smokeGenerictypeswithcompoundtypesBasi
       (_valueHandle)
     );
   } finally {
-    (_valueHandle);
   }
 }
 void smokeGenerictypeswithcompoundtypesBasicstructReleaseFfiHandle(Pointer<Void> handle) => _smokeGenerictypeswithcompoundtypesBasicstructReleaseHandle(handle);

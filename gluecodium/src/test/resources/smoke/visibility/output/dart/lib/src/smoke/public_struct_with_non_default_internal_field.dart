@@ -1,6 +1,5 @@
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 class PublicStructWithNonDefaultInternalField {
   int defaultedField;
@@ -37,7 +36,6 @@ Pointer<Void> smokePublicstructwithnondefaultinternalfieldToFfi(PublicStructWith
   final _internalFieldHandle = stringToFfi(value.internal_internalField);
   final _publicFieldHandle = booleanToFfi(value.publicField);
   final _result = _smokePublicstructwithnondefaultinternalfieldCreateHandle(_defaultedFieldHandle, _internalFieldHandle, _publicFieldHandle);
-  (_defaultedFieldHandle);
   stringReleaseFfiHandle(_internalFieldHandle);
   booleanReleaseFfiHandle(_publicFieldHandle);
   return _result;
@@ -53,7 +51,6 @@ PublicStructWithNonDefaultInternalField smokePublicstructwithnondefaultinternalf
       booleanFromFfi(_publicFieldHandle)
     );
   } finally {
-    (_defaultedFieldHandle);
     stringReleaseFfiHandle(_internalFieldHandle);
     booleanReleaseFfiHandle(_publicFieldHandle);
   }
