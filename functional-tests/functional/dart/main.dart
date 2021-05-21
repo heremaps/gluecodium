@@ -28,6 +28,7 @@ import "test/Constants_test.dart" as ConstantsTests;
 import "test/CppConstMethods_test.dart" as CppConstMethodsTests;
 import "test/Dates_test.dart" as DatesTests;
 import "test/Defaults_test.dart" as DefaultsTests;
+import "test/Durations_test.dart" as DurationsTests;
 import "test/EquatableClasses_test.dart" as EquatableClassesTests;
 import "test/EquatableStructs_test.dart" as EquatableStructsTests;
 import "test/Enums_test.dart" as EnumsTests;
@@ -71,6 +72,7 @@ final _allTests = [
   CppConstMethodsTests.main,
   DatesTests.main,
   DefaultsTests.main,
+  DurationsTests.main,
   EquatableClassesTests.main,
   EquatableStructsTests.main,
   EnumsTests.main,

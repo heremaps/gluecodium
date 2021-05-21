@@ -23,9 +23,5 @@ internal class CamelCaseNameResolver(private val mainResolver: NameResolver, upp
 
     val camelCase = if (upper) NameHelper::toUpperCamelCase else NameHelper::toLowerCamelCase
 
-    override fun resolveName(element: Any): String =
-        when (element) {
-            is String -> camelCase(element)
-            else -> camelCase(mainResolver.resolveName(element))
-        }
+    override fun resolveName(element: Any) = camelCase(mainResolver.resolveName(element))
 }

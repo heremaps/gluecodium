@@ -25,6 +25,7 @@
 #include "OpaqueHandle.h"
 #include "{{>common/InternalInclude}}Optional.h"
 #include <chrono>
+#include <cstdlib>
 #include <functional>
 #include <memory>
 #include <new>
@@ -173,6 +174,61 @@ struct Conversion<
                     **reinterpret_cast<{{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<uint64_t>*>(handle)
                 )
             ) : {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::time_point<Clock, Duration>>{};
+    }
+};
+
+template<class Rep, class Period>
+struct Conversion<std::chrono::duration<Rep, Period>, typename std::enable_if<std::is_class<std::chrono::duration<Rep, Period>>::value>::type> {
+    static uint64_t
+    toFfi(const std::chrono::duration<Rep, Period>& t) {
+        return std::chrono::duration_cast<std::chrono::microseconds>(t).count();
+    }
+
+    static uint64_t
+    toFfi(std::chrono::duration<Rep, Period>&& t) {
+        return std::chrono::duration_cast<std::chrono::microseconds>(t).count();
+    }
+
+    static std::chrono::duration<Rep, Period>
+    toCpp(uint64_t microseconds_value) {
+        using namespace std::chrono;
+        auto num = Period::den * microseconds::period::num;
+        auto den = Period::num * microseconds::period::den;
+        auto micro_division = std::lldiv(microseconds_value * num, den);
+        auto result_value = micro_division.quot;
+
+        // Rounding
+        if (2 * micro_division.rem >= den) {
+            result_value += 1;
+        }
+
+        return std::chrono::duration<Rep, Period>(result_value);
+    }
+};
+
+template<class Rep, class Period>
+struct Conversion<
+    {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::duration<Rep, Period>>,
+    typename std::enable_if<std::is_class<{{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::duration<Rep, Period>>>::value>::type
+> {
+    static FfiOpaqueHandle
+    toFfi({{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::duration<Rep, Period>> t) {
+        return t
+            ? reinterpret_cast<FfiOpaqueHandle>(
+                new (std::nothrow) {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<uint64_t>(
+                    Conversion<std::chrono::duration<Rep, Period>>::toFfi(*t)
+                )
+            ) : 0;
+    }
+
+    static {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::duration<Rep, Period>>
+    toCpp(const FfiOpaqueHandle& handle) {
+        return handle
+            ? {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::duration<Rep, Period>>(
+                Conversion<std::chrono::duration<Rep, Period>>::toCpp(
+                    **reinterpret_cast<{{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<uint64_t>*>(handle)
+                )
+            ) : {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::duration<Rep, Period>>{};
     }
 };
 

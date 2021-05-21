@@ -36,6 +36,10 @@ void booleanReleaseFfiHandle(int handle) {}
 int dateToFfi(DateTime value) => value.microsecondsSinceEpoch;
 DateTime dateFromFfi(int us) => DateTime.fromMicrosecondsSinceEpoch(us, isUtc: true);
 void dateReleaseFfiHandle(int handle) {}
+// Duration
+int durationToFfi(Duration value) => value.inMicroseconds;
+Duration durationFromFfi(int us) => Duration(microseconds: us);
+void durationReleaseFfiHandle(int handle) {}
 // String
 final _stringCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Utf8>),
@@ -509,3 +513,13 @@ DateTime? dateFromFfiNullable(Pointer<Void> handle) {
   return dateFromFfi(_longGetValueNullable(handle));
 }
 void dateReleaseFfiHandleNullable(Pointer<Void> handle) => _longReleaseHandleNullable(handle);
+// Nullable Duration
+Pointer<Void> durationToFfiNullable(Duration? value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  return _longCreateHandleNullable(durationToFfi(value));
+}
+Duration? durationFromFfiNullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  return durationFromFfi(_longGetValueNullable(handle));
+}
+void durationReleaseFfiHandleNullable(Pointer<Void> handle) => _longReleaseHandleNullable(handle);

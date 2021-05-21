@@ -108,11 +108,8 @@ internal class FfiNameResolver(
             TypeId.BOOLEAN -> "bool"
             TypeId.FLOAT -> "float"
             TypeId.DOUBLE -> "double"
-            TypeId.STRING -> OPAQUE_HANDLE_TYPE
-            TypeId.BLOB -> OPAQUE_HANDLE_TYPE
-            TypeId.DATE -> "uint64_t"
-            TypeId.LOCALE -> OPAQUE_HANDLE_TYPE
-            else -> "" // TODO: #911 Duration types
+            TypeId.DATE, TypeId.DURATION -> "uint64_t"
+            TypeId.STRING, TypeId.BLOB, TypeId.LOCALE -> OPAQUE_HANDLE_TYPE
         }
 
     private fun getListName(elementType: LimeTypeRef) =

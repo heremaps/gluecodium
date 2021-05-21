@@ -98,14 +98,14 @@ internal class FfiCppIncludeResolver(
         when (limeType.typeId) {
             TypeId.VOID, TypeId.BOOLEAN, TypeId.FLOAT, TypeId.DOUBLE -> emptyList()
             TypeId.STRING -> listOf(CppLibraryIncludes.STRING)
-            TypeId.BLOB -> listOf(
-                CppLibraryIncludes.MEMORY,
-                CppLibraryIncludes.VECTOR,
-                CppLibraryIncludes.INT_TYPES
-            )
+            TypeId.BLOB -> listOf(CppLibraryIncludes.MEMORY, CppLibraryIncludes.VECTOR, CppLibraryIncludes.INT_TYPES)
             TypeId.DATE -> listOf(
                 CppLibraryIncludes.CHRONO,
                 cppIncludesCache.createInternalNamespaceInclude("TimePointHash.h")
+            )
+            TypeId.DURATION -> listOf(
+                CppLibraryIncludes.CHRONO,
+                cppIncludesCache.createInternalNamespaceInclude("DurationHash.h")
             )
             TypeId.LOCALE -> listOf(cppIncludesCache.createInternalNamespaceInclude("Locale.h"))
             else -> listOf(CppLibraryIncludes.INT_TYPES)
