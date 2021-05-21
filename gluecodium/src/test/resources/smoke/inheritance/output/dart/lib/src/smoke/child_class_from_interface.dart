@@ -4,7 +4,6 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/parent_interface.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class ChildClassFromInterface implements ParentInterface {
   /// Destroys the underlying native object.
@@ -45,7 +44,6 @@ class ChildClassFromInterface$Impl extends __lib.NativeBase implements ChildClas
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -56,7 +54,6 @@ class ChildClassFromInterface$Impl extends __lib.NativeBase implements ChildClas
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -80,7 +77,6 @@ class ChildClassFromInterface$Impl extends __lib.NativeBase implements ChildClas
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }

@@ -4,7 +4,6 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/some_interface.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class Nullable {
   /// Destroys the underlying native object.
@@ -614,7 +613,6 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -638,7 +636,6 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -662,7 +659,6 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -686,7 +682,6 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -710,7 +705,6 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -734,7 +728,6 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -758,7 +751,6 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -782,7 +774,6 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -806,7 +797,6 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -830,7 +820,6 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }

@@ -53,6 +53,7 @@ add_custom_target(test_dart ALL
 add_test(NAME unit_tests_dart COMMAND ${CMAKE_CURRENT_BINARY_DIR}/test_dart $<TARGET_FILE:functional>)
 
 if(BUILD_DART_WITH_ASAN)
+    find_library(LIBASAN NAMES asan libasan.so.5 libasan.so.4 REQUIRED)
     set_tests_properties(unit_tests_dart PROPERTIES
-        ENVIRONMENT "LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libasan.so.4")
+        ENVIRONMENT "LD_PRELOAD=${LIBASAN}")
 endif()

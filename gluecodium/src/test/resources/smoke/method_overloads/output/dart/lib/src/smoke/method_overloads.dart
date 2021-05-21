@@ -3,7 +3,6 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class MethodOverloads {
   /// Destroys the underlying native object.
@@ -48,8 +47,6 @@ Pointer<Void> smokeMethodoverloadsPointToFfi(MethodOverloads_Point value) {
   final _xHandle = (value.x);
   final _yHandle = (value.y);
   final _result = _smokeMethodoverloadsPointCreateHandle(_xHandle, _yHandle);
-  (_xHandle);
-  (_yHandle);
   return _result;
 }
 MethodOverloads_Point smokeMethodoverloadsPointFromFfi(Pointer<Void> handle) {
@@ -61,8 +58,6 @@ MethodOverloads_Point smokeMethodoverloadsPointFromFfi(Pointer<Void> handle) {
       (_yHandle)
     );
   } finally {
-    (_xHandle);
-    (_yHandle);
   }
 }
 void smokeMethodoverloadsPointReleaseFfiHandle(Pointer<Void> handle) => _smokeMethodoverloadsPointReleaseHandle(handle);
@@ -134,7 +129,6 @@ class MethodOverloads$Impl extends __lib.NativeBase implements MethodOverloads {
     final _inputHandle = (input);
     final _handle = this.handle;
     final __resultHandle = _isBooleanByteFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
-    (_inputHandle);
     try {
       return booleanFromFfi(__resultHandle);
     } finally {
@@ -177,7 +171,6 @@ class MethodOverloads$Impl extends __lib.NativeBase implements MethodOverloads {
     final _handle = this.handle;
     final __resultHandle = _isBooleanMultiFfi(_handle, __lib.LibraryContext.isolateId, _input1Handle, _input2Handle, _input3Handle, _input4Handle);
     booleanReleaseFfiHandle(_input1Handle);
-    (_input2Handle);
     stringReleaseFfiHandle(_input3Handle);
     smokeMethodoverloadsPointReleaseFfiHandle(_input4Handle);
     try {

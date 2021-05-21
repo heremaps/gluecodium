@@ -4,8 +4,8 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/calculation_result.dart';
-import 'dart:ffi';
 import 'package:meta/meta.dart';
+import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class CalculatorListener {
   CalculatorListener();
@@ -56,7 +56,6 @@ final _smokeCalculatorlistenerResultstructGetFieldresult = __lib.catchArgumentEr
 Pointer<Void> smokeCalculatorlistenerResultstructToFfi(CalculatorListener_ResultStruct value) {
   final _resultHandle = (value.result);
   final _result = _smokeCalculatorlistenerResultstructCreateHandle(_resultHandle);
-  (_resultHandle);
   return _result;
 }
 CalculatorListener_ResultStruct smokeCalculatorlistenerResultstructFromFfi(Pointer<Void> handle) {
@@ -66,7 +65,6 @@ CalculatorListener_ResultStruct smokeCalculatorlistenerResultstructFromFfi(Point
       (_resultHandle)
     );
   } finally {
-    (_resultHandle);
   }
 }
 void smokeCalculatorlistenerResultstructReleaseFfiHandle(Pointer<Void> handle) => _smokeCalculatorlistenerResultstructReleaseHandle(handle);
@@ -169,11 +167,9 @@ class CalculatorListener$Impl extends __lib.NativeBase implements CalculatorList
     final _calculationResultHandle = (calculationResult);
     final _handle = this.handle;
     final __resultHandle = _onCalculationResultFfi(_handle, __lib.LibraryContext.isolateId, _calculationResultHandle);
-    (_calculationResultHandle);
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -182,11 +178,9 @@ class CalculatorListener$Impl extends __lib.NativeBase implements CalculatorList
     final _calculationResultHandle = (calculationResult);
     final _handle = this.handle;
     final __resultHandle = _onCalculationResultConstFfi(_handle, __lib.LibraryContext.isolateId, _calculationResultHandle);
-    (_calculationResultHandle);
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -199,7 +193,6 @@ class CalculatorListener$Impl extends __lib.NativeBase implements CalculatorList
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -212,7 +205,6 @@ class CalculatorListener$Impl extends __lib.NativeBase implements CalculatorList
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -225,7 +217,6 @@ class CalculatorListener$Impl extends __lib.NativeBase implements CalculatorList
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -238,7 +229,6 @@ class CalculatorListener$Impl extends __lib.NativeBase implements CalculatorList
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }
@@ -246,7 +236,6 @@ int _CalculatorListeneronCalculationResultStatic(int _token, double calculationR
   try {
     (__lib.instanceCache[_token] as CalculatorListener).onCalculationResult((calculationResult));
   } finally {
-    (calculationResult);
   }
   return 0;
 }
@@ -254,7 +243,6 @@ int _CalculatorListeneronCalculationResultConstStatic(int _token, double calcula
   try {
     (__lib.instanceCache[_token] as CalculatorListener).onCalculationResultConst((calculationResult));
   } finally {
-    (calculationResult);
   }
   return 0;
 }

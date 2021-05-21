@@ -2,8 +2,8 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'dart:ffi';
 import 'package:meta/meta.dart';
+import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class PropertiesInterface {
   PropertiesInterface();
@@ -42,7 +42,6 @@ final _smokePropertiesinterfaceExamplestructGetFieldvalue = __lib.catchArgumentE
 Pointer<Void> smokePropertiesinterfaceExamplestructToFfi(PropertiesInterface_ExampleStruct value) {
   final _valueHandle = (value.value);
   final _result = _smokePropertiesinterfaceExamplestructCreateHandle(_valueHandle);
-  (_valueHandle);
   return _result;
 }
 PropertiesInterface_ExampleStruct smokePropertiesinterfaceExamplestructFromFfi(Pointer<Void> handle) {
@@ -52,7 +51,6 @@ PropertiesInterface_ExampleStruct smokePropertiesinterfaceExamplestructFromFfi(P
       (_valueHandle)
     );
   } finally {
-    (_valueHandle);
   }
 }
 void smokePropertiesinterfaceExamplestructReleaseFfiHandle(Pointer<Void> handle) => _smokePropertiesinterfaceExamplestructReleaseHandle(handle);
@@ -146,7 +144,6 @@ class PropertiesInterface$Impl extends __lib.NativeBase implements PropertiesInt
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }

@@ -3,8 +3,8 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/parent_class.dart';
-import 'dart:ffi';
 import 'package:meta/meta.dart';
+import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class OuterClassWithInheritance implements ParentClass {
   /// Destroys the underlying native object.
@@ -143,7 +143,7 @@ class OuterClassWithInheritance_InnerInterface$Impl extends __lib.NativeBase imp
   }
 }
 int _OuterClassWithInheritance_InnerInterfacebazStatic(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
-  String _resultObject = null;
+  String _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as OuterClassWithInheritance_InnerInterface).baz(stringFromFfi(input));
     _result.value = stringToFfi(_resultObject);

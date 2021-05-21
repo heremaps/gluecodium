@@ -1,8 +1,6 @@
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
-import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class EnableIfEnabled {
   /// Destroys the underlying native object.
@@ -43,7 +41,6 @@ class EnableIfEnabled$Impl extends __lib.NativeBase implements EnableIfEnabled {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   static enableIfUnquotedList() {
@@ -52,7 +49,6 @@ class EnableIfEnabled$Impl extends __lib.NativeBase implements EnableIfEnabled {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   static enableIfQuoted() {
@@ -61,7 +57,6 @@ class EnableIfEnabled$Impl extends __lib.NativeBase implements EnableIfEnabled {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   static enableIfQuotedList() {
@@ -70,7 +65,6 @@ class EnableIfEnabled$Impl extends __lib.NativeBase implements EnableIfEnabled {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   static enableIfTagged() {
@@ -79,7 +73,6 @@ class EnableIfEnabled$Impl extends __lib.NativeBase implements EnableIfEnabled {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   static enableIfTaggedList() {
@@ -88,7 +81,6 @@ class EnableIfEnabled$Impl extends __lib.NativeBase implements EnableIfEnabled {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   static enableIfMixedList() {
@@ -97,7 +89,6 @@ class EnableIfEnabled$Impl extends __lib.NativeBase implements EnableIfEnabled {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }

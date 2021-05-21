@@ -5,7 +5,6 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/properties_interface.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class Properties {
   /// Destroys the underlying native object.
@@ -111,7 +110,6 @@ final _smokePropertiesExamplestructGetFieldvalue = __lib.catchArgumentError(() =
 Pointer<Void> smokePropertiesExamplestructToFfi(Properties_ExampleStruct value) {
   final _valueHandle = (value.value);
   final _result = _smokePropertiesExamplestructCreateHandle(_valueHandle);
-  (_valueHandle);
   return _result;
 }
 Properties_ExampleStruct smokePropertiesExamplestructFromFfi(Pointer<Void> handle) {
@@ -121,7 +119,6 @@ Properties_ExampleStruct smokePropertiesExamplestructFromFfi(Pointer<Void> handl
       (_valueHandle)
     );
   } finally {
-    (_valueHandle);
   }
 }
 void smokePropertiesExamplestructReleaseFfiHandle(Pointer<Void> handle) => _smokePropertiesExamplestructReleaseHandle(handle);
@@ -182,7 +179,6 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -191,11 +187,9 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
     final _valueHandle = (value);
     final _handle = this.handle;
     final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
-    (_valueHandle);
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -206,7 +200,6 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -230,7 +223,6 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -254,7 +246,6 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -278,7 +269,6 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -302,7 +292,6 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -326,7 +315,6 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -350,7 +338,6 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   static String get staticProperty {
@@ -370,7 +357,6 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   static Properties_ExampleStruct get staticReadonlyProperty {

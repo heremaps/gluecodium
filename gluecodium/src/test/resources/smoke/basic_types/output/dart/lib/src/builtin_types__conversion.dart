@@ -66,15 +66,15 @@ final _localeReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_locale_release_handle'));
-final LocaleGetLanguageCode = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _localeGetLanguageCode = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Utf8> Function(Pointer<Void>),
     Pointer<Utf8> Function(Pointer<Void>)
 >('library_locale_get_language_code'));
-final LocaleGetCountryCode = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _localeGetCountryCode = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Utf8> Function(Pointer<Void>),
     Pointer<Utf8> Function(Pointer<Void>)
 >('library_locale_get_country_code'));
-final LocaleGetScriptCode = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _localeGetScriptCode = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Utf8> Function(Pointer<Void>),
     Pointer<Utf8> Function(Pointer<Void>)
 >('library_locale_get_script_code'));
@@ -102,9 +102,9 @@ Locale localeFromFfi(Pointer<Void> handle) {
     // BCP 47 language tag takes precedence if present.
     return Locale.parse(Utf8.fromUtf8(languageTagCstring));
   }
-  final Pointer<Utf8> languageCodeCstring = LocaleGetLanguageCode(handle);
-  final Pointer<Utf8> countryCodeCstring = LocaleGetCountryCode(handle);
-  final Pointer<Utf8> scriptCodeCstring = LocaleGetScriptCode(handle);
+  final Pointer<Utf8> languageCodeCstring = _localeGetLanguageCode(handle);
+  final Pointer<Utf8> countryCodeCstring = _localeGetCountryCode(handle);
+  final Pointer<Utf8> scriptCodeCstring = _localeGetScriptCode(handle);
   return Locale.fromSubtags(
     languageCode: languageCodeCstring.address != 0 ? Utf8.fromUtf8(languageCodeCstring) : null,
     countryCode: countryCodeCstring.address != 0 ? Utf8.fromUtf8(countryCodeCstring) : null,

@@ -89,15 +89,15 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
     final _keyHandle = {{#set typeRef=keyType call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(entry.key);
     final _valueHandle = {{#set typeRef=valueType call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(entry.value);
     _{{resolveName "Ffi"}}Put(_result, _keyHandle, _valueHandle);
-    {{#set typeRef=keyType call="ReleaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_keyHandle);
-    {{#set typeRef=valueType call="ReleaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_valueHandle);
+    {{#set typeRef=keyType varName="_keyHandle"}}{{>dart/DartFfiReleaseHandle}}{{/set}}
+    {{#set typeRef=valueType varName="_valueHandle"}}{{>dart/DartFfiReleaseHandle}}{{/set}}
   }
 {{/instanceOf}}{{!!
 }}{{#notInstanceOf this "LimeMap"}}
   for (final element in value) {
     final _elementHandle = {{#set typeRef=elementType call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(element);
     _{{resolveName "Ffi"}}Insert(_result, _elementHandle);
-    {{#set typeRef=elementType call="ReleaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_elementHandle);
+    {{#set typeRef=elementType varName="_elementHandle"}}{{>dart/DartFfiReleaseHandle}}{{/set}}
   }
 {{/notInstanceOf}}
   return _result;
@@ -115,8 +115,8 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
       result[{{#set typeRef=keyType call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_keyHandle)] =
         {{#set typeRef=valueType call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_valueHandle);
     } finally {
-      {{#set typeRef=keyType call="ReleaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_keyHandle);
-      {{#set typeRef=valueType call="ReleaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_valueHandle);
+      {{#set typeRef=keyType varName="_keyHandle"}}{{>dart/DartFfiReleaseHandle}}{{/set}}
+      {{#set typeRef=valueType varName="_valueHandle"}}{{>dart/DartFfiReleaseHandle}}{{/set}}
     }
 {{/instanceOf}}{{!!
 }}{{#notInstanceOf this "LimeMap"}}
@@ -124,7 +124,7 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
     try {
       result.add({{#set typeRef=elementType call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_elementHandle));
     } finally {
-      {{#set typeRef=elementType call="ReleaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_elementHandle);
+      {{#set typeRef=elementType varName="_elementHandle"}}{{>dart/DartFfiReleaseHandle}}{{/set}}
     }
 {{/notInstanceOf}}
     _{{resolveName "Ffi"}}IteratorIncrement(_iteratorHandle);

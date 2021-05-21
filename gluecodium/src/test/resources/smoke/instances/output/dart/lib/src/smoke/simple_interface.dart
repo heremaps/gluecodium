@@ -2,8 +2,8 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'dart:ffi';
 import 'package:meta/meta.dart';
+import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class SimpleInterface {
   SimpleInterface();
@@ -91,7 +91,7 @@ class SimpleInterface$Impl extends __lib.NativeBase implements SimpleInterface {
   }
 }
 int _SimpleInterfacegetStringValueStatic(int _token, Pointer<Pointer<Void>> _result) {
-  String _resultObject = null;
+  String _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as SimpleInterface).getStringValue();
     _result.value = stringToFfi(_resultObject);
@@ -100,7 +100,7 @@ int _SimpleInterfacegetStringValueStatic(int _token, Pointer<Pointer<Void>> _res
   return 0;
 }
 int _SimpleInterfaceuseSimpleInterfaceStatic(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
-  SimpleInterface _resultObject = null;
+  SimpleInterface _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as SimpleInterface).useSimpleInterface(smokeSimpleinterfaceFromFfi(input));
     _result.value = smokeSimpleinterfaceToFfi(_resultObject);

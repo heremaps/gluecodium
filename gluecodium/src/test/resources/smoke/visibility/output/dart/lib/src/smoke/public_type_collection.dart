@@ -1,6 +1,5 @@
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 /// @nodoc
 class InternalStruct {
@@ -16,7 +15,6 @@ class InternalStruct {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }

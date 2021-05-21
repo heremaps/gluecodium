@@ -2,8 +2,8 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'dart:ffi';
 import 'package:meta/meta.dart';
+import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class InterfaceWithStatic {
   InterfaceWithStatic();
@@ -114,7 +114,6 @@ class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWith
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   static String get staticProperty {
@@ -134,12 +133,11 @@ class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWith
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }
 int _InterfaceWithStaticregularFunctionStatic(int _token, Pointer<Pointer<Void>> _result) {
-  String _resultObject = null;
+  String _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as InterfaceWithStatic).regularFunction();
     _result.value = stringToFfi(_resultObject);

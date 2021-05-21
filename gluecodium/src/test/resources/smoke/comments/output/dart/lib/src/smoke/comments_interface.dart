@@ -2,8 +2,8 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'dart:ffi';
 import 'package:meta/meta.dart';
+import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 /// This is some very useful interface.
 abstract class CommentsInterface {
@@ -368,7 +368,6 @@ class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterfa
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -381,7 +380,6 @@ class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterfa
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -414,7 +412,6 @@ class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterfa
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -425,7 +422,6 @@ class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterfa
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   /// Gets some very useful property.
@@ -449,12 +445,11 @@ class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterfa
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }
 int _CommentsInterfacesomeMethodWithAllCommentsStatic(int _token, Pointer<Void> input, Pointer<Uint8> _result) {
-  bool _resultObject = null;
+  bool _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as CommentsInterface).someMethodWithAllComments(stringFromFfi(input));
     _result.value = booleanToFfi(_resultObject);
@@ -464,7 +459,7 @@ int _CommentsInterfacesomeMethodWithAllCommentsStatic(int _token, Pointer<Void> 
   return 0;
 }
 int _CommentsInterfacesomeMethodWithInputCommentsStatic(int _token, Pointer<Void> input, Pointer<Uint8> _result) {
-  bool _resultObject = null;
+  bool _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as CommentsInterface).someMethodWithInputComments(stringFromFfi(input));
     _result.value = booleanToFfi(_resultObject);
@@ -474,7 +469,7 @@ int _CommentsInterfacesomeMethodWithInputCommentsStatic(int _token, Pointer<Void
   return 0;
 }
 int _CommentsInterfacesomeMethodWithOutputCommentsStatic(int _token, Pointer<Void> input, Pointer<Uint8> _result) {
-  bool _resultObject = null;
+  bool _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as CommentsInterface).someMethodWithOutputComments(stringFromFfi(input));
     _result.value = booleanToFfi(_resultObject);
@@ -484,7 +479,7 @@ int _CommentsInterfacesomeMethodWithOutputCommentsStatic(int _token, Pointer<Voi
   return 0;
 }
 int _CommentsInterfacesomeMethodWithNoCommentsStatic(int _token, Pointer<Void> input, Pointer<Uint8> _result) {
-  bool _resultObject = null;
+  bool _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as CommentsInterface).someMethodWithNoComments(stringFromFfi(input));
     _result.value = booleanToFfi(_resultObject);
@@ -510,7 +505,7 @@ int _CommentsInterfacesomeMethodWithoutReturnTypeWithNoCommentsStatic(int _token
   return 0;
 }
 int _CommentsInterfacesomeMethodWithoutInputParametersWithAllCommentsStatic(int _token, Pointer<Uint8> _result) {
-  bool _resultObject = null;
+  bool _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as CommentsInterface).someMethodWithoutInputParametersWithAllComments();
     _result.value = booleanToFfi(_resultObject);
@@ -519,7 +514,7 @@ int _CommentsInterfacesomeMethodWithoutInputParametersWithAllCommentsStatic(int 
   return 0;
 }
 int _CommentsInterfacesomeMethodWithoutInputParametersWithNoCommentsStatic(int _token, Pointer<Uint8> _result) {
-  bool _resultObject = null;
+  bool _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as CommentsInterface).someMethodWithoutInputParametersWithNoComments();
     _result.value = booleanToFfi(_resultObject);

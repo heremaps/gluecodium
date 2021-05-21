@@ -3,7 +3,6 @@ import 'package:collection/collection.dart';
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 enum SomeEnum {
     foo,
@@ -170,10 +169,6 @@ Pointer<Void> smokeEquatableEquatablestructToFfi(EquatableStruct value) {
   final _mapFieldHandle = foobarMapofIntToStringToFfi(value.mapField);
   final _result = _smokeEquatableEquatablestructCreateHandle(_boolFieldHandle, _intFieldHandle, _longFieldHandle, _floatFieldHandle, _doubleFieldHandle, _stringFieldHandle, _structFieldHandle, _enumFieldHandle, _arrayFieldHandle, _mapFieldHandle);
   booleanReleaseFfiHandle(_boolFieldHandle);
-  (_intFieldHandle);
-  (_longFieldHandle);
-  (_floatFieldHandle);
-  (_doubleFieldHandle);
   stringReleaseFfiHandle(_stringFieldHandle);
   smokeEquatableNestedequatablestructReleaseFfiHandle(_structFieldHandle);
   smokeEquatableSomeenumReleaseFfiHandle(_enumFieldHandle);
@@ -207,10 +202,6 @@ EquatableStruct smokeEquatableEquatablestructFromFfi(Pointer<Void> handle) {
     );
   } finally {
     booleanReleaseFfiHandle(_boolFieldHandle);
-    (_intFieldHandle);
-    (_longFieldHandle);
-    (_floatFieldHandle);
-    (_doubleFieldHandle);
     stringReleaseFfiHandle(_stringFieldHandle);
     smokeEquatableNestedequatablestructReleaseFfiHandle(_structFieldHandle);
     smokeEquatableSomeenumReleaseFfiHandle(_enumFieldHandle);
@@ -499,4 +490,3 @@ NestedEquatableStruct smokeEquatableNestedequatablestructFromFfiNullable(Pointer
 void smokeEquatableNestedequatablestructReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeEquatableNestedequatablestructReleaseHandleNullable(handle);
 // End of NestedEquatableStruct "private" section.
-
