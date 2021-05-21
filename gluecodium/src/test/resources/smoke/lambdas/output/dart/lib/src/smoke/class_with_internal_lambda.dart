@@ -2,7 +2,6 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class ClassWithInternalLambda {
   /// Destroys the underlying native object.
@@ -28,7 +27,6 @@ final _smokeClasswithinternallambdaInternallambdaCreateProxy = __lib.catchArgume
     Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_ClassWithInternalLambda_InternalLambda_create_proxy'));
 class ClassWithInternalLambda_InternalLambda$Impl {
-  Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
   ClassWithInternalLambda_InternalLambda$Impl(this.handle);
   void release() => _smokeClasswithinternallambdaInternallambdaReleaseHandle(handle);
@@ -45,7 +43,7 @@ class ClassWithInternalLambda_InternalLambda$Impl {
     }
   }
 }
-int _ClassWithInternalLambda_InternalLambdacallStatic(int _token, Pointer<Void> p0, Pointer<Uint8> _result) {
+int _smokeClasswithinternallambdaInternallambdacallStatic(int _token, Pointer<Void> p0, Pointer<Uint8> _result) {
   bool _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as ClassWithInternalLambda_InternalLambda)(stringFromFfi(p0));
@@ -60,7 +58,7 @@ Pointer<Void> smokeClasswithinternallambdaInternallambdaToFfi(ClassWithInternalL
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_ClassWithInternalLambda_InternalLambdacallStatic, __lib.unknownError)
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_smokeClasswithinternallambdaInternallambdacallStatic, __lib.unknownError)
   );
   return result;
 }

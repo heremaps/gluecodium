@@ -2,7 +2,6 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 @OnClass
 abstract class AttributesClass {
@@ -49,7 +48,6 @@ class AttributesClass$Impl extends __lib.NativeBase implements AttributesClass {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @OnPropertyInClass
@@ -75,7 +73,6 @@ class AttributesClass$Impl extends __lib.NativeBase implements AttributesClass {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }

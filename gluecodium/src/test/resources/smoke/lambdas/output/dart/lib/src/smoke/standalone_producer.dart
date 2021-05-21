@@ -1,7 +1,6 @@
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 typedef StandaloneProducer = String Function();
 // StandaloneProducer "private" section, not exported.
@@ -18,7 +17,6 @@ final _smokeStandaloneproducerCreateProxy = __lib.catchArgumentError(() => __lib
     Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_StandaloneProducer_create_proxy'));
 class StandaloneProducer$Impl {
-  Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
   StandaloneProducer$Impl(this.handle);
   void release() => _smokeStandaloneproducerReleaseHandle(handle);
@@ -33,7 +31,7 @@ class StandaloneProducer$Impl {
     }
   }
 }
-int _StandaloneProducercallStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokeStandaloneproducercallStatic(int _token, Pointer<Pointer<Void>> _result) {
   String _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as StandaloneProducer)();
@@ -47,7 +45,7 @@ Pointer<Void> smokeStandaloneproducerToFfi(StandaloneProducer value) {
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_StandaloneProducercallStatic, __lib.unknownError)
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeStandaloneproducercallStatic, __lib.unknownError)
   );
   return result;
 }

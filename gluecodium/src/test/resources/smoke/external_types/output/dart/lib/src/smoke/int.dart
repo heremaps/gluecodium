@@ -1,7 +1,5 @@
-import 'package:library/src/builtin_types__conversion.dart';
 import '../color_converter.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 class intInternal {
   double red;
@@ -44,10 +42,6 @@ Pointer<Void> smokeDartcolorToFfi(int valueExternal) {
   final _blueHandle = (value.blue);
   final _alphaHandle = (value.alpha);
   final _result = _smokeDartcolorCreateHandle(_redHandle, _greenHandle, _blueHandle, _alphaHandle);
-  (_redHandle);
-  (_greenHandle);
-  (_blueHandle);
-  (_alphaHandle);
   return _result;
 }
 int smokeDartcolorFromFfi(Pointer<Void> handle) {
@@ -64,10 +58,6 @@ int smokeDartcolorFromFfi(Pointer<Void> handle) {
     );
     return ColorConverter.convertFromInternal(resultInternal);
   } finally {
-    (_redHandle);
-    (_greenHandle);
-    (_blueHandle);
-    (_alphaHandle);
   }
 }
 void smokeDartcolorReleaseFfiHandle(Pointer<Void> handle) => _smokeDartcolorReleaseHandle(handle);

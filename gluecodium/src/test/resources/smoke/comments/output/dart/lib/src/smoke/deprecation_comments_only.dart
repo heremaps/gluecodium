@@ -2,8 +2,8 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'dart:ffi';
 import 'package:meta/meta.dart';
+import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 @Deprecated("Unfortunately, this interface is deprecated.")
 abstract class DeprecationCommentsOnly {
@@ -235,12 +235,11 @@ class DeprecationCommentsOnly$Impl extends __lib.NativeBase implements Deprecati
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }
 int _DeprecationCommentsOnlysomeMethodWithAllCommentsStatic(int _token, Pointer<Void> input, Pointer<Uint8> _result) {
-  bool _resultObject = null;
+  bool _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as DeprecationCommentsOnly).someMethodWithAllComments(stringFromFfi(input));
     _result.value = booleanToFfi(_resultObject);

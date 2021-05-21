@@ -7,7 +7,6 @@ import 'package:library/src/smoke/int.dart';
 import 'package:library/src/smoke/rectangle_int_.dart';
 import 'package:library/src/smoke/string.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class UseDartExternalTypes {
   /// Destroys the underlying native object.

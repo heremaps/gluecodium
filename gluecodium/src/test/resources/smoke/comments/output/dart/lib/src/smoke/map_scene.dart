@@ -2,7 +2,6 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 /// Referencing some type [MapScene.loadSceneWithInt].
 abstract class MapScene {
@@ -29,7 +28,6 @@ final _smokeMapsceneLoadscenecallbackCreateProxy = __lib.catchArgumentError(() =
     Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_MapScene_LoadSceneCallback_create_proxy'));
 class MapScene_LoadSceneCallback$Impl {
-  Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
   MapScene_LoadSceneCallback$Impl(this.handle);
   void release() => _smokeMapsceneLoadscenecallbackReleaseHandle(handle);
@@ -42,11 +40,10 @@ class MapScene_LoadSceneCallback$Impl {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }
-int _MapScene_LoadSceneCallbackcallStatic(int _token, Pointer<Void> p0) {
+int _smokeMapsceneLoadscenecallbackcallStatic(int _token, Pointer<Void> p0) {
   try {
     (__lib.instanceCache[_token] as MapScene_LoadSceneCallback)(stringFromFfiNullable(p0));
   } finally {
@@ -59,7 +56,7 @@ Pointer<Void> smokeMapsceneLoadscenecallbackToFfi(MapScene_LoadSceneCallback val
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_MapScene_LoadSceneCallbackcallStatic, __lib.unknownError)
+    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>)>(_smokeMapsceneLoadscenecallbackcallStatic, __lib.unknownError)
   );
   return result;
 }
@@ -129,12 +126,10 @@ class MapScene$Impl extends __lib.NativeBase implements MapScene {
     final _callbackHandle = smokeMapsceneLoadscenecallbackToFfiNullable(callback);
     final _handle = this.handle;
     final __resultHandle = _loadSceneWithIntFfi(_handle, __lib.LibraryContext.isolateId, _mapSchemeHandle, _callbackHandle);
-    (_mapSchemeHandle);
     smokeMapsceneLoadscenecallbackReleaseFfiHandleNullable(_callbackHandle);
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -149,7 +144,6 @@ class MapScene$Impl extends __lib.NativeBase implements MapScene {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }

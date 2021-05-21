@@ -1,7 +1,5 @@
-import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/free_enum.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 class FreePoint {
   double x;
@@ -41,8 +39,6 @@ Pointer<Void> smokeFreepointToFfi(FreePoint value) {
   final _xHandle = (value.x);
   final _yHandle = (value.y);
   final _result = _smokeFreepointCreateHandle(_xHandle, _yHandle);
-  (_xHandle);
-  (_yHandle);
   return _result;
 }
 FreePoint smokeFreepointFromFfi(Pointer<Void> handle) {
@@ -54,8 +50,6 @@ FreePoint smokeFreepointFromFfi(Pointer<Void> handle) {
       (_yHandle)
     );
   } finally {
-    (_xHandle);
-    (_yHandle);
   }
 }
 void smokeFreepointReleaseFfiHandle(Pointer<Void> handle) => _smokeFreepointReleaseHandle(handle);

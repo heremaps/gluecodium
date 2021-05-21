@@ -1,7 +1,6 @@
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/route_utils.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 class Route {
   String description;

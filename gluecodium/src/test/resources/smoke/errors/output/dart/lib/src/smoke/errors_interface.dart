@@ -4,8 +4,8 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/payload.dart';
 import 'package:library/src/smoke/with_payload_exception.dart';
-import 'dart:ffi';
 import 'package:meta/meta.dart';
+import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class ErrorsInterface {
   ErrorsInterface();
@@ -300,7 +300,6 @@ class ErrorsInterface$Impl extends __lib.NativeBase implements ErrorsInterface {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -322,7 +321,6 @@ class ErrorsInterface$Impl extends __lib.NativeBase implements ErrorsInterface {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -365,7 +363,6 @@ class ErrorsInterface$Impl extends __lib.NativeBase implements ErrorsInterface {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   @override
@@ -416,7 +413,7 @@ int _ErrorsInterfacemethodWithExternalErrorsStatic(int _token, Pointer<Uint32> _
 }
 int _ErrorsInterfacemethodWithErrorsAndReturnValueStatic(int _token, Pointer<Pointer<Void>> _result, Pointer<Uint32> _error) {
   bool _errorFlag = false;
-  String _resultObject = null;
+  String _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as ErrorsInterface).methodWithErrorsAndReturnValue();
     _result.value = stringToFfi(_resultObject);

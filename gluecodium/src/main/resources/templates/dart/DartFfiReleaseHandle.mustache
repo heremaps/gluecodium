@@ -18,14 +18,12 @@
   ! License-Filename: LICENSE
   !
   !}}
-__lib.LazyList(
-  {{varName}},
-  _{{resolveName container "Ffi"}}{{resolveName elementType "Ffi"}}LazyListGetSize({{varName}}),
-  (index) {
-    final __elementHandle = _{{resolveName container "Ffi"}}{{resolveName elementType "Ffi"}}LazyListGet({{varName}}, index);
-    final __elementResult = {{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(__elementHandle);
-    {{#set varName="__elementHandle"}}{{>dart/DartFfiReleaseHandle}}{{/set}}
-    return __elementResult;
-  },
-  () => _{{resolveName container "Ffi"}}{{resolveName elementType "Ffi"}}LazyListReleaseHandle({{varName}})
-)
+{{#typeRef.type.actualType}}{{!!
+}}{{#instanceOf this "LimeBasicType"}}{{!!
+}}{{#if typeRef.isNullable}}{{resolveName typeId.toString "Ffi"}}ReleaseFfiHandleNullable({{varName}});{{/if}}{{!!
+}}{{#unless typeRef.isNullable}}{{#unless typeId.isNumericType}}{{!!
+}}{{#isNotEq typeId.toString "Void"}}{{resolveName typeId.toString "Ffi"}}ReleaseFfiHandle({{varName}});{{/isNotEq}}{{!!
+}}{{/unless}}{{/unless}}{{/instanceOf}}{{!!
+}}{{#notInstanceOf this "LimeBasicType"}}{{!!
+}}{{resolveName "Ffi"}}ReleaseFfiHandle{{#if typeRef.isNullable}}Nullable{{/if}}({{varName}});{{/notInstanceOf}}{{!!
+}}{{/typeRef.type.actualType}}

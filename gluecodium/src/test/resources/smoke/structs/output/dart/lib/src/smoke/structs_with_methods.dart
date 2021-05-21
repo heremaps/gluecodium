@@ -1,7 +1,6 @@
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/validation_utils.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 final _copyReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
@@ -37,7 +36,6 @@ class Vector {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   Vector add(Vector other) {
@@ -58,8 +56,6 @@ class Vector {
     final _xHandle = (x);
     final _yHandle = (y);
     final __resultHandle = _validateFfi(__lib.LibraryContext.isolateId, _xHandle, _yHandle);
-    (_xHandle);
-    (_yHandle);
     try {
       return booleanFromFfi(__resultHandle);
     } finally {
@@ -71,8 +67,6 @@ class Vector {
     final _xHandle = (x);
     final _yHandle = (y);
     final __resultHandle = _$initFfi(__lib.LibraryContext.isolateId, _xHandle, _yHandle);
-    (_xHandle);
-    (_yHandle);
     try {
       return smokeStructswithmethodsVectorFromFfi(__resultHandle);
     } finally {
@@ -105,7 +99,6 @@ class Vector {
     final _createFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Uint64), Pointer<Void> Function(int, int)>('library_smoke_StructsWithMethods_Vector_create__ULong'));
     final _inputHandle = (input);
     final __resultHandle = _createFfi(__lib.LibraryContext.isolateId, _inputHandle);
-    (_inputHandle);
     try {
       return smokeStructswithmethodsVectorFromFfi(__resultHandle);
     } finally {
@@ -134,8 +127,6 @@ Pointer<Void> smokeStructswithmethodsVectorToFfi(Vector value) {
   final _xHandle = (value.x);
   final _yHandle = (value.y);
   final _result = _smokeStructswithmethodsVectorCreateHandle(_xHandle, _yHandle);
-  (_xHandle);
-  (_yHandle);
   return _result;
 }
 Vector smokeStructswithmethodsVectorFromFfi(Pointer<Void> handle) {
@@ -147,8 +138,6 @@ Vector smokeStructswithmethodsVectorFromFfi(Pointer<Void> handle) {
       (_yHandle)
     );
   } finally {
-    (_xHandle);
-    (_yHandle);
   }
 }
 void smokeStructswithmethodsVectorReleaseFfiHandle(Pointer<Void> handle) => _smokeStructswithmethodsVectorReleaseHandle(handle);

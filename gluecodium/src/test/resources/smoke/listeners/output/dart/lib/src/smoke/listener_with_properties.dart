@@ -5,8 +5,8 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/calculation_result.dart';
-import 'dart:ffi';
 import 'package:meta/meta.dart';
+import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class ListenerWithProperties {
   ListenerWithProperties();
@@ -140,7 +140,6 @@ final _smokeListenerwithpropertiesResultstructGetFieldresult = __lib.catchArgume
 Pointer<Void> smokeListenerwithpropertiesResultstructToFfi(ListenerWithProperties_ResultStruct value) {
   final _resultHandle = (value.result);
   final _result = _smokeListenerwithpropertiesResultstructCreateHandle(_resultHandle);
-  (_resultHandle);
   return _result;
 }
 ListenerWithProperties_ResultStruct smokeListenerwithpropertiesResultstructFromFfi(Pointer<Void> handle) {
@@ -150,7 +149,6 @@ ListenerWithProperties_ResultStruct smokeListenerwithpropertiesResultstructFromF
       (_resultHandle)
     );
   } finally {
-    (_resultHandle);
   }
 }
 void smokeListenerwithpropertiesResultstructReleaseFfiHandle(Pointer<Void> handle) => _smokeListenerwithpropertiesResultstructReleaseHandle(handle);
@@ -292,7 +290,6 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   CalculationResult get packedMessage {
@@ -314,7 +311,6 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   ListenerWithProperties_ResultStruct get structuredMessage {
@@ -336,7 +332,6 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   ListenerWithProperties_ResultEnum get enumeratedMessage {
@@ -358,7 +353,6 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   List<String> get arrayedMessage {
@@ -380,7 +374,6 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   Map<String, double> get mappedMessage {
@@ -402,7 +395,6 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   Uint8List get bufferedMessage {
@@ -424,7 +416,6 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }

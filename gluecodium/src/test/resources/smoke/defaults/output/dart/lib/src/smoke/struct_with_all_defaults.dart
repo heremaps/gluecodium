@@ -1,6 +1,5 @@
 import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 class StructWithAllDefaults {
   int intField;
@@ -31,7 +30,6 @@ Pointer<Void> smokeStructwithalldefaultsToFfi(StructWithAllDefaults value) {
   final _intFieldHandle = (value.intField);
   final _stringFieldHandle = stringToFfi(value.stringField);
   final _result = _smokeStructwithalldefaultsCreateHandle(_intFieldHandle, _stringFieldHandle);
-  (_intFieldHandle);
   stringReleaseFfiHandle(_stringFieldHandle);
   return _result;
 }
@@ -44,7 +42,6 @@ StructWithAllDefaults smokeStructwithalldefaultsFromFfi(Pointer<Void> handle) {
       stringFromFfi(_stringFieldHandle)
     );
   } finally {
-    (_intFieldHandle);
     stringReleaseFfiHandle(_stringFieldHandle);
   }
 }

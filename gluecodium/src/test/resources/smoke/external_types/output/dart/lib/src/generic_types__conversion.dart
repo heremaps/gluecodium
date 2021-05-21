@@ -42,7 +42,6 @@ Pointer<Void> foobarListofByteToFfi(List<int> value) {
   for (final element in value) {
     final _elementHandle = (element);
     _foobarListofByteInsert(_result, _elementHandle);
-    (_elementHandle);
   }
   return _result;
 }
@@ -54,7 +53,6 @@ List<int> foobarListofByteFromFfi(Pointer<Void> handle) {
     try {
       result.add((_elementHandle));
     } finally {
-      (_elementHandle);
     }
     _foobarListofByteIteratorIncrement(_iteratorHandle);
   }

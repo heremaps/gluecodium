@@ -1,6 +1,5 @@
 import 'package:library/src/smoke/something_enum.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 class StructWithEnums {
   SomethingEnum firstField;

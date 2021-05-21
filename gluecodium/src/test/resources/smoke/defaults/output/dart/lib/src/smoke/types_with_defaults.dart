@@ -1,8 +1,8 @@
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/an_enum.dart';
 import 'package:library/src/smoke/default_values.dart';
-import 'dart:ffi';
 import 'package:meta/meta.dart';
+import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 enum SomeEnum {
     fooValue,
@@ -121,10 +121,6 @@ Pointer<Void> smokeTypeswithdefaultsStructwithdefaultsToFfi(StructWithDefaults v
   final _stringFieldHandle = stringToFfi(value.stringField);
   final _enumFieldHandle = smokeTypeswithdefaultsSomeenumToFfi(value.enumField);
   final _result = _smokeTypeswithdefaultsStructwithdefaultsCreateHandle(_intFieldHandle, _uintFieldHandle, _floatFieldHandle, _doubleFieldHandle, _boolFieldHandle, _stringFieldHandle, _enumFieldHandle);
-  (_intFieldHandle);
-  (_uintFieldHandle);
-  (_floatFieldHandle);
-  (_doubleFieldHandle);
   booleanReleaseFfiHandle(_boolFieldHandle);
   stringReleaseFfiHandle(_stringFieldHandle);
   smokeTypeswithdefaultsSomeenumReleaseFfiHandle(_enumFieldHandle);
@@ -149,10 +145,6 @@ StructWithDefaults smokeTypeswithdefaultsStructwithdefaultsFromFfi(Pointer<Void>
       smokeTypeswithdefaultsSomeenumFromFfi(_enumFieldHandle)
     );
   } finally {
-    (_intFieldHandle);
-    (_uintFieldHandle);
-    (_floatFieldHandle);
-    (_doubleFieldHandle);
     booleanReleaseFfiHandle(_boolFieldHandle);
     stringReleaseFfiHandle(_stringFieldHandle);
     smokeTypeswithdefaultsSomeenumReleaseFfiHandle(_enumFieldHandle);
@@ -254,10 +246,6 @@ Pointer<Void> smokeTypeswithdefaultsImmutablestructwithdefaultsToFfi(ImmutableSt
   final _enumFieldHandle = smokeTypeswithdefaultsSomeenumToFfi(value.enumField);
   final _externalEnumFieldHandle = smokeDefaultvaluesExternalenumToFfi(value.externalEnumField);
   final _result = _smokeTypeswithdefaultsImmutablestructwithdefaultsCreateHandle(_intFieldHandle, _uintFieldHandle, _floatFieldHandle, _doubleFieldHandle, _boolFieldHandle, _stringFieldHandle, _enumFieldHandle, _externalEnumFieldHandle);
-  (_intFieldHandle);
-  (_uintFieldHandle);
-  (_floatFieldHandle);
-  (_doubleFieldHandle);
   booleanReleaseFfiHandle(_boolFieldHandle);
   stringReleaseFfiHandle(_stringFieldHandle);
   smokeTypeswithdefaultsSomeenumReleaseFfiHandle(_enumFieldHandle);
@@ -285,10 +273,6 @@ ImmutableStructWithDefaults smokeTypeswithdefaultsImmutablestructwithdefaultsFro
       smokeDefaultvaluesExternalenumFromFfi(_externalEnumFieldHandle)
     );
   } finally {
-    (_intFieldHandle);
-    (_uintFieldHandle);
-    (_floatFieldHandle);
-    (_doubleFieldHandle);
     booleanReleaseFfiHandle(_boolFieldHandle);
     stringReleaseFfiHandle(_stringFieldHandle);
     smokeTypeswithdefaultsSomeenumReleaseFfiHandle(_enumFieldHandle);

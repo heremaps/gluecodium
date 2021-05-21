@@ -214,7 +214,6 @@ Pointer<Void> foobarMapofIntToNullableSmokeNullableSomestructToFfi(Map<int, Null
     final _keyHandle = (entry.key);
     final _valueHandle = smokeNullableSomestructToFfiNullable(entry.value);
     _foobarMapofIntToNullableSmokeNullableSomestructPut(_result, _keyHandle, _valueHandle);
-    (_keyHandle);
     smokeNullableSomestructReleaseFfiHandleNullable(_valueHandle);
   }
   return _result;
@@ -229,7 +228,6 @@ Map<int, Nullable_SomeStruct> foobarMapofIntToNullableSmokeNullableSomestructFro
       result[(_keyHandle)] =
         smokeNullableSomestructFromFfiNullable(_valueHandle);
     } finally {
-      (_keyHandle);
       smokeNullableSomestructReleaseFfiHandleNullable(_valueHandle);
     }
     _foobarMapofIntToNullableSmokeNullableSomestructIteratorIncrement(_iteratorHandle);
@@ -308,7 +306,6 @@ Pointer<Void> foobarMapofLongToStringToFfi(Map<int, String> value) {
     final _keyHandle = (entry.key);
     final _valueHandle = stringToFfi(entry.value);
     _foobarMapofLongToStringPut(_result, _keyHandle, _valueHandle);
-    (_keyHandle);
     stringReleaseFfiHandle(_valueHandle);
   }
   return _result;
@@ -323,7 +320,6 @@ Map<int, String> foobarMapofLongToStringFromFfi(Pointer<Void> handle) {
       result[(_keyHandle)] =
         stringFromFfi(_valueHandle);
     } finally {
-      (_keyHandle);
       stringReleaseFfiHandle(_valueHandle);
     }
     _foobarMapofLongToStringIteratorIncrement(_iteratorHandle);

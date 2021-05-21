@@ -2,8 +2,8 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'dart:ffi';
 import 'package:meta/meta.dart';
+import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class SkipProxy {
   SkipProxy();
@@ -138,7 +138,6 @@ class SkipProxy$Impl extends __lib.NativeBase implements SkipProxy {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   bool get isSkippedInSwift {
@@ -160,12 +159,11 @@ class SkipProxy$Impl extends __lib.NativeBase implements SkipProxy {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }
 int _SkipProxynotInJavaStatic(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
-  String _resultObject = null;
+  String _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as SkipProxy).notInJava(stringFromFfi(input));
     _result.value = stringToFfi(_resultObject);
@@ -175,7 +173,7 @@ int _SkipProxynotInJavaStatic(int _token, Pointer<Void> input, Pointer<Pointer<V
   return 0;
 }
 int _SkipProxynotInSwiftStatic(int _token, int input, Pointer<Uint8> _result) {
-  bool _resultObject = null;
+  bool _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as SkipProxy).notInSwift(booleanFromFfi(input));
     _result.value = booleanToFfi(_resultObject);

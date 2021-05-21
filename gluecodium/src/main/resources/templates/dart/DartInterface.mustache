@@ -177,7 +177,7 @@ int _{{resolveName parent}}{{resolveName}}Static({{!!
 {{#if thrownType}}
   bool _errorFlag = false;
 {{/if}}{{#unless returnType.isVoid}}
-  {{resolveName returnType.typeRef}} _resultObject = null;{{/unless}}
+  {{resolveName returnType.typeRef}} _resultObject;{{/unless}}
   try {
     {{#unless returnType.isVoid}}_resultObject = {{/unless}}{{!!
   }}(__lib.instanceCache[_token] as {{resolveName parent}}).{{resolveName visibility}}{{resolveName}}({{#parameters}}{{!!
@@ -197,7 +197,7 @@ int _{{resolveName parent}}{{resolveName}}Static({{!!
 {{/if}}
   } finally {
 {{#parameters}}
-    {{#set call="ReleaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}});
+    {{#resolveName}}{{#set varName=this}}{{>dart/DartFfiReleaseHandle}}{{/set}}{{/resolveName}}
 {{/parameters}}{{!!
 }}{{#instanceOf returnType.typeRef.type.actualType "LimeClass"}}
     if (_resultObject != null) _resultObject.release();
@@ -222,7 +222,7 @@ int _{{resolveName parent}}{{resolveName}}SetStatic(int _token, {{resolveName ty
     (__lib.instanceCache[_token] as {{resolveName parent}}).{{resolveName visibility}}{{resolveName}} =
       {{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_value);
   } finally {
-    {{#set call="ReleaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_value);
+    {{#set varName="_value"}}{{>dart/DartFfiReleaseHandle}}{{/set}}
   }
   return 0;
 }

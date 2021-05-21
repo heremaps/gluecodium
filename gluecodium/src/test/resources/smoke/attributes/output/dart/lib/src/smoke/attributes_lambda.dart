@@ -1,7 +1,5 @@
 import 'package:library/src/_token_cache.dart' as __lib;
-import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 @OnLambda
 typedef AttributesLambda = void Function();
@@ -19,7 +17,6 @@ final _smokeAttributeslambdaCreateProxy = __lib.catchArgumentError(() => __lib.n
     Pointer<Void> Function(int, int, Pointer, Pointer)
   >('library_smoke_AttributesLambda_create_proxy'));
 class AttributesLambda$Impl {
-  Pointer<Void> get _handle => handle;
   final Pointer<Void> handle;
   AttributesLambda$Impl(this.handle);
   void release() => _smokeAttributeslambdaReleaseHandle(handle);
@@ -30,11 +27,10 @@ class AttributesLambda$Impl {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }
-int _AttributesLambdacallStatic(int _token) {
+int _smokeAttributeslambdacallStatic(int _token) {
   try {
     (__lib.instanceCache[_token] as AttributesLambda)();
   } finally {
@@ -46,7 +42,7 @@ Pointer<Void> smokeAttributeslambdaToFfi(AttributesLambda value) {
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Int64 Function(Uint64)>(_AttributesLambdacallStatic, __lib.unknownError)
+    Pointer.fromFunction<Int64 Function(Uint64)>(_smokeAttributeslambdacallStatic, __lib.unknownError)
   );
   return result;
 }

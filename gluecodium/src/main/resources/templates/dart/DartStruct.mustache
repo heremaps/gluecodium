@@ -122,7 +122,7 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#i
 {{/unless}}{{/fields}}
   final _result = _{{resolveName "Ffi"}}CreateHandle({{#fields}}_{{resolveName}}Handle{{#if iter.hasNext}}, {{/if}}{{/fields}});
 {{#fields}}{{#unless typeRef.attributes.optimized}}
-  {{#set call="ReleaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}Handle);
+  {{#resolveName}}{{#setJoin "varName" "_" this "Handle" delimiter=""}}{{>dart/DartFfiReleaseHandle}}{{/setJoin}}{{/resolveName}}
 {{/unless}}{{/fields}}
   return _result;
 }
@@ -156,7 +156,7 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#i
 {{/unless}}
   } finally {
 {{#fields}}{{#unless typeRef.attributes.optimized}}
-    {{#set call="ReleaseFfiHandle"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}Handle);
+    {{#resolveName}}{{#setJoin "varName" "_" this "Handle" delimiter=""}}{{>dart/DartFfiReleaseHandle}}{{/setJoin}}{{/resolveName}}
 {{/unless}}{{/fields}}
   }
 }

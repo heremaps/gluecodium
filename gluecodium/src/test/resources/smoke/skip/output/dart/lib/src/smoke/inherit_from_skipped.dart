@@ -3,8 +3,8 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/skip_proxy.dart';
-import 'dart:ffi';
 import 'package:meta/meta.dart';
+import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class InheritFromSkipped implements SkipProxy {
   InheritFromSkipped();
@@ -133,7 +133,6 @@ class InheritFromSkipped$Impl extends __lib.NativeBase implements InheritFromSki
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
   bool get isSkippedInSwift {
@@ -155,12 +154,11 @@ class InheritFromSkipped$Impl extends __lib.NativeBase implements InheritFromSki
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }
 int _InheritFromSkippednotInJavaStatic(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
-  String _resultObject = null;
+  String _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as InheritFromSkipped).notInJava(stringFromFfi(input));
     _result.value = stringToFfi(_resultObject);
@@ -170,7 +168,7 @@ int _InheritFromSkippednotInJavaStatic(int _token, Pointer<Void> input, Pointer<
   return 0;
 }
 int _InheritFromSkippednotInSwiftStatic(int _token, int input, Pointer<Uint8> _result) {
-  bool _resultObject = null;
+  bool _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as InheritFromSkipped).notInSwift(booleanFromFfi(input));
     _result.value = booleanToFfi(_resultObject);

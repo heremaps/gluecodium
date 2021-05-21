@@ -4,8 +4,8 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/type_collection.dart';
-import 'dart:ffi';
 import 'package:meta/meta.dart';
+import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class Structs {
   /// Destroys the underlying native object.
@@ -103,8 +103,6 @@ Pointer<Void> smokeStructsPointToFfi(Structs_Point value) {
   final _xHandle = (value.x);
   final _yHandle = (value.y);
   final _result = _smokeStructsPointCreateHandle(_xHandle, _yHandle);
-  (_xHandle);
-  (_yHandle);
   return _result;
 }
 Structs_Point smokeStructsPointFromFfi(Pointer<Void> handle) {
@@ -116,8 +114,6 @@ Structs_Point smokeStructsPointFromFfi(Pointer<Void> handle) {
       (_yHandle)
     );
   } finally {
-    (_xHandle);
-    (_yHandle);
   }
 }
 void smokeStructsPointReleaseFfiHandle(Pointer<Void> handle) => _smokeStructsPointReleaseHandle(handle);
@@ -324,16 +320,6 @@ Pointer<Void> smokeStructsAlltypesstructToFfi(Structs_AllTypesStruct value) {
   final _bytesFieldHandle = blobToFfi(value.bytesField);
   final _pointFieldHandle = smokeStructsPointToFfi(value.pointField);
   final _result = _smokeStructsAlltypesstructCreateHandle(_int8FieldHandle, _uint8FieldHandle, _int16FieldHandle, _uint16FieldHandle, _int32FieldHandle, _uint32FieldHandle, _int64FieldHandle, _uint64FieldHandle, _floatFieldHandle, _doubleFieldHandle, _stringFieldHandle, _booleanFieldHandle, _bytesFieldHandle, _pointFieldHandle);
-  (_int8FieldHandle);
-  (_uint8FieldHandle);
-  (_int16FieldHandle);
-  (_uint16FieldHandle);
-  (_int32FieldHandle);
-  (_uint32FieldHandle);
-  (_int64FieldHandle);
-  (_uint64FieldHandle);
-  (_floatFieldHandle);
-  (_doubleFieldHandle);
   stringReleaseFfiHandle(_stringFieldHandle);
   booleanReleaseFfiHandle(_booleanFieldHandle);
   blobReleaseFfiHandle(_bytesFieldHandle);
@@ -373,16 +359,6 @@ Structs_AllTypesStruct smokeStructsAlltypesstructFromFfi(Pointer<Void> handle) {
       smokeStructsPointFromFfi(_pointFieldHandle)
     );
   } finally {
-    (_int8FieldHandle);
-    (_uint8FieldHandle);
-    (_int16FieldHandle);
-    (_uint16FieldHandle);
-    (_int32FieldHandle);
-    (_uint32FieldHandle);
-    (_int64FieldHandle);
-    (_uint64FieldHandle);
-    (_floatFieldHandle);
-    (_doubleFieldHandle);
     stringReleaseFfiHandle(_stringFieldHandle);
     booleanReleaseFfiHandle(_booleanFieldHandle);
     blobReleaseFfiHandle(_bytesFieldHandle);
@@ -787,8 +763,6 @@ class Structs$Impl extends __lib.NativeBase implements Structs {
     final _xHandle = (x);
     final _yHandle = (y);
     final __resultHandle = _createPointFfi(__lib.LibraryContext.isolateId, _xHandle, _yHandle);
-    (_xHandle);
-    (_yHandle);
     try {
       return smokeTypecollectionPointFromFfi(__resultHandle);
     } finally {

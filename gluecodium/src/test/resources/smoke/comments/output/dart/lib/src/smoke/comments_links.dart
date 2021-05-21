@@ -3,7 +3,6 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/comments.dart';
 import 'dart:ffi';
-import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 /// The nested types like [CommentsLinks.randomMethod2] don't need full name prefix, but it's
 /// possible to references other interfaces like [CommentsInterface] or other members
@@ -203,7 +202,6 @@ class CommentsLinks$Impl extends __lib.NativeBase implements CommentsLinks {
     try {
       return (__resultHandle);
     } finally {
-      (__resultHandle);
     }
   }
 }
