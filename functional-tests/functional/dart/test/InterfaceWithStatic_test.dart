@@ -24,12 +24,15 @@ import "../test_suite.dart";
 
 final _testSuite = TestSuite("InterfaceWithStatic");
 
-class InterfaceWithStaticImpl extends InterfaceWithStatic {
+class InterfaceWithStaticImpl implements InterfaceWithStatic {
   @override
   String regularFunction() => "buzz1";
 
   @override
   String regularProperty = "buzz2";
+
+  @override
+  release() {}
 }
 
 void main() {

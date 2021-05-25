@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Breaking changes:
+  * In Dart, factory constructor `fromLambdas()` that is generated for interfaces was renamed into a nameless factory
+    constructor. Its signature was changed from using named "required" parameters to using positional parameters.
+
 ## 9.0.1-beta1
 Release date: 2021-05-19
 ### Features:

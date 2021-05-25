@@ -21,24 +21,22 @@
 {{>dart/DartDocumentation}}{{>dart/DartAttributes}}
 abstract class {{resolveName}} {{#if this.parent}}implements {{resolveName this.parent}} {{/if}}{
 {{#if inheritedFunctions functions inheritedProperties properties logic="or"}}
-  {{resolveName}}();
-
-  factory {{resolveName}}.fromLambdas({
+  factory {{resolveName}}(
 {{#each inheritedFunctions functions}}{{#unless isStatic}}
-    required {{>dart/DartLambdaType}} lambda_{{resolveName}},
+    {{>dart/DartLambdaType}} {{resolveName}}Lambda,
 {{/unless}}{{/each}}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#set property=this}}{{#getter}}
-    required {{>dart/DartLambdaType}} lambda_{{resolveName property}}_get{{#if setter}},
+    {{>dart/DartLambdaType}} {{resolveName property}}GetLambda{{#if setter}},
 {{/if}}{{/getter}}{{#setter}}
-    required {{>dart/DartLambdaType}} lambda_{{resolveName property}}_set{{/setter}}{{#if iter.hasNext}},
+    {{>dart/DartLambdaType}} {{resolveName property}}SetLambda{{/setter}}{{#if iter.hasNext}},
 {{/if}}{{/set}}{{/unless}}{{/each}}
 
-  }) => {{resolveName}}$Lambdas(
+  ) => {{resolveName}}$Lambdas(
 {{#each inheritedFunctions functions}}{{#unless isStatic}}
-    lambda_{{resolveName}},
+    {{resolveName}}Lambda,
 {{/unless}}{{/each}}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#set property=this}}{{#getter}}
-    lambda_{{resolveName property}}_get{{#if setter}},
+    {{resolveName property}}GetLambda{{#if setter}},
 {{/if}}{{/getter}}{{#setter}}
-    lambda_{{resolveName property}}_set{{/setter}}{{#if iter.hasNext}},
+    {{resolveName property}}SetLambda{{/setter}}{{#if iter.hasNext}},
 {{/if}}{{/set}}{{/unless}}{{/each}}
 
   );
@@ -104,22 +102,22 @@ final _{{resolveName "Ffi"}}GetTypeId = __lib.catchArgumentError(() => __lib.nat
 }}{{#if inheritedFunctions functions inheritedProperties properties logic="or"}}
 class {{resolveName}}$Lambdas implements {{resolveName}} {
 {{#each inheritedFunctions functions}}{{#unless isStatic}}
-  {{>dart/DartLambdaType}} lambda_{{resolveName}};
+  {{>dart/DartLambdaType}} {{resolveName}}Lambda;
 {{/unless}}{{/each}}
 {{#each inheritedProperties properties}}{{#unless isStatic}}{{#set property=this}}
-{{#getter}}  {{>dart/DartLambdaType}} lambda_{{resolveName property}}_get;
+{{#getter}}  {{>dart/DartLambdaType}} {{resolveName property}}GetLambda;
 {{/getter}}{{!!
-}}{{#setter}}  {{>dart/DartLambdaType}} lambda_{{resolveName property}}_set;
+}}{{#setter}}  {{>dart/DartLambdaType}} {{resolveName property}}SetLambda;
 {{/setter}}
 {{/set}}{{/unless}}{{/each}}
 
   {{resolveName}}$Lambdas(
 {{#each inheritedFunctions functions}}{{#unless isStatic}}
-    this.lambda_{{resolveName}},
+    this.{{resolveName}}Lambda,
 {{/unless}}{{/each}}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#set property=this}}{{#getter}}
-    this.lambda_{{resolveName property}}_get{{#if setter}},
+    this.{{resolveName property}}GetLambda{{#if setter}},
 {{/if}}{{/getter}}{{#setter}}
-    this.lambda_{{resolveName property}}_set{{/setter}}{{#if iter.hasNext}},
+    this.{{resolveName property}}SetLambda{{/setter}}{{#if iter.hasNext}},
 {{/if}}{{/set}}{{/unless}}{{/each}}
 
   );
@@ -130,14 +128,14 @@ class {{resolveName}}$Lambdas implements {{resolveName}} {
 {{#each inheritedFunctions functions}}{{#unless isStatic}}
   @override
   {{>dart/DartFunctionSignature}} =>
-    lambda_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
+    {{resolveName}}Lambda({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
 {{/unless}}{{/each}}
 {{#each inheritedProperties properties}}{{#unless isStatic}}
   @override
-  {{resolveName typeRef}} get {{resolveName visibility}}{{resolveName}} => lambda_{{resolveName}}_get();
+  {{resolveName typeRef}} get {{resolveName visibility}}{{resolveName}} => {{resolveName}}GetLambda();
 {{#if setter}}
   @override
-  set {{resolveName visibility}}{{resolveName}}({{resolveName typeRef}} value) => lambda_{{resolveName}}_set(value);
+  set {{resolveName visibility}}{{resolveName}}({{resolveName typeRef}} value) => {{resolveName}}SetLambda(value);
 {{/if}}
 {{/unless}}{{/each}}
 }
