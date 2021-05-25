@@ -5,6 +5,8 @@
   * Generated Dart code now supports null safety.
 ### Breaking changes:
   * Generated Dart code now requires minimum Dart version 2.12.0.
+  * In Dart, factory constructor `fromLambdas()` that is generated for interfaces was renamed into a nameless factory
+    constructor. Its signature was changed from using named "required" parameters to using positional parameters.
 
 ## 8.13.5
 Release date: 2021-05-27

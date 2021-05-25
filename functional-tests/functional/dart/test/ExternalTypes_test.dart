@@ -27,9 +27,12 @@ import "../test_suite.dart";
 
 final _testSuite = TestSuite("ExternalTypes");
 
-class MyDartClass extends MyClass {
+class MyDartClass implements MyClass {
   @override
   int foo() => 77;
+
+  @override
+  release() {}
 }
 
 void main() {

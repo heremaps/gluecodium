@@ -24,9 +24,12 @@ import "../test_suite.dart";
 
 final _testSuite = TestSuite("CppConstMethods");
 
-class CppConstCallback extends CppConstInterface {
+class CppConstCallback implements CppConstInterface {
   @override
   String getFoo() => "FOO";
+
+  @override
+  release() {}
 }
 
 void main() {
