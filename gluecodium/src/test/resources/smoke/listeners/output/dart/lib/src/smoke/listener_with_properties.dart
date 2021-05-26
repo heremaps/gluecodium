@@ -9,37 +9,36 @@ import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/calculation_result.dart';
 import 'package:meta/meta.dart';
 abstract class ListenerWithProperties {
-  ListenerWithProperties();
-  factory ListenerWithProperties.fromLambdas({
-    required String Function() lambda_message_get,
-    required void Function(String) lambda_message_set,
-    required CalculationResult Function() lambda_packedMessage_get,
-    required void Function(CalculationResult) lambda_packedMessage_set,
-    required ListenerWithProperties_ResultStruct Function() lambda_structuredMessage_get,
-    required void Function(ListenerWithProperties_ResultStruct) lambda_structuredMessage_set,
-    required ListenerWithProperties_ResultEnum Function() lambda_enumeratedMessage_get,
-    required void Function(ListenerWithProperties_ResultEnum) lambda_enumeratedMessage_set,
-    required List<String> Function() lambda_arrayedMessage_get,
-    required void Function(List<String>) lambda_arrayedMessage_set,
-    required Map<String, double> Function() lambda_mappedMessage_get,
-    required void Function(Map<String, double>) lambda_mappedMessage_set,
-    required Uint8List Function() lambda_bufferedMessage_get,
-    required void Function(Uint8List) lambda_bufferedMessage_set
-  }) => ListenerWithProperties$Lambdas(
-    lambda_message_get,
-    lambda_message_set,
-    lambda_packedMessage_get,
-    lambda_packedMessage_set,
-    lambda_structuredMessage_get,
-    lambda_structuredMessage_set,
-    lambda_enumeratedMessage_get,
-    lambda_enumeratedMessage_set,
-    lambda_arrayedMessage_get,
-    lambda_arrayedMessage_set,
-    lambda_mappedMessage_get,
-    lambda_mappedMessage_set,
-    lambda_bufferedMessage_get,
-    lambda_bufferedMessage_set
+  factory ListenerWithProperties(
+    String Function() messageGetLambda,
+    void Function(String) messageSetLambda,
+    CalculationResult Function() packedMessageGetLambda,
+    void Function(CalculationResult) packedMessageSetLambda,
+    ListenerWithProperties_ResultStruct Function() structuredMessageGetLambda,
+    void Function(ListenerWithProperties_ResultStruct) structuredMessageSetLambda,
+    ListenerWithProperties_ResultEnum Function() enumeratedMessageGetLambda,
+    void Function(ListenerWithProperties_ResultEnum) enumeratedMessageSetLambda,
+    List<String> Function() arrayedMessageGetLambda,
+    void Function(List<String>) arrayedMessageSetLambda,
+    Map<String, double> Function() mappedMessageGetLambda,
+    void Function(Map<String, double>) mappedMessageSetLambda,
+    Uint8List Function() bufferedMessageGetLambda,
+    void Function(Uint8List) bufferedMessageSetLambda
+  ) => ListenerWithProperties$Lambdas(
+    messageGetLambda,
+    messageSetLambda,
+    packedMessageGetLambda,
+    packedMessageSetLambda,
+    structuredMessageGetLambda,
+    structuredMessageSetLambda,
+    enumeratedMessageGetLambda,
+    enumeratedMessageSetLambda,
+    arrayedMessageGetLambda,
+    arrayedMessageSetLambda,
+    mappedMessageGetLambda,
+    mappedMessageSetLambda,
+    bufferedMessageGetLambda,
+    bufferedMessageSetLambda
   );
   /// Destroys the underlying native object.
   ///
@@ -200,66 +199,66 @@ final _smokeListenerwithpropertiesGetTypeId = __lib.catchArgumentError(() => __l
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ListenerWithProperties_get_type_id'));
 class ListenerWithProperties$Lambdas implements ListenerWithProperties {
-  String Function() lambda_message_get;
-  void Function(String) lambda_message_set;
-  CalculationResult Function() lambda_packedMessage_get;
-  void Function(CalculationResult) lambda_packedMessage_set;
-  ListenerWithProperties_ResultStruct Function() lambda_structuredMessage_get;
-  void Function(ListenerWithProperties_ResultStruct) lambda_structuredMessage_set;
-  ListenerWithProperties_ResultEnum Function() lambda_enumeratedMessage_get;
-  void Function(ListenerWithProperties_ResultEnum) lambda_enumeratedMessage_set;
-  List<String> Function() lambda_arrayedMessage_get;
-  void Function(List<String>) lambda_arrayedMessage_set;
-  Map<String, double> Function() lambda_mappedMessage_get;
-  void Function(Map<String, double>) lambda_mappedMessage_set;
-  Uint8List Function() lambda_bufferedMessage_get;
-  void Function(Uint8List) lambda_bufferedMessage_set;
+  String Function() messageGetLambda;
+  void Function(String) messageSetLambda;
+  CalculationResult Function() packedMessageGetLambda;
+  void Function(CalculationResult) packedMessageSetLambda;
+  ListenerWithProperties_ResultStruct Function() structuredMessageGetLambda;
+  void Function(ListenerWithProperties_ResultStruct) structuredMessageSetLambda;
+  ListenerWithProperties_ResultEnum Function() enumeratedMessageGetLambda;
+  void Function(ListenerWithProperties_ResultEnum) enumeratedMessageSetLambda;
+  List<String> Function() arrayedMessageGetLambda;
+  void Function(List<String>) arrayedMessageSetLambda;
+  Map<String, double> Function() mappedMessageGetLambda;
+  void Function(Map<String, double>) mappedMessageSetLambda;
+  Uint8List Function() bufferedMessageGetLambda;
+  void Function(Uint8List) bufferedMessageSetLambda;
   ListenerWithProperties$Lambdas(
-    this.lambda_message_get,
-    this.lambda_message_set,
-    this.lambda_packedMessage_get,
-    this.lambda_packedMessage_set,
-    this.lambda_structuredMessage_get,
-    this.lambda_structuredMessage_set,
-    this.lambda_enumeratedMessage_get,
-    this.lambda_enumeratedMessage_set,
-    this.lambda_arrayedMessage_get,
-    this.lambda_arrayedMessage_set,
-    this.lambda_mappedMessage_get,
-    this.lambda_mappedMessage_set,
-    this.lambda_bufferedMessage_get,
-    this.lambda_bufferedMessage_set
+    this.messageGetLambda,
+    this.messageSetLambda,
+    this.packedMessageGetLambda,
+    this.packedMessageSetLambda,
+    this.structuredMessageGetLambda,
+    this.structuredMessageSetLambda,
+    this.enumeratedMessageGetLambda,
+    this.enumeratedMessageSetLambda,
+    this.arrayedMessageGetLambda,
+    this.arrayedMessageSetLambda,
+    this.mappedMessageGetLambda,
+    this.mappedMessageSetLambda,
+    this.bufferedMessageGetLambda,
+    this.bufferedMessageSetLambda
   );
   @override
   void release() {}
   @override
-  String get message => lambda_message_get();
+  String get message => messageGetLambda();
   @override
-  set message(String value) => lambda_message_set(value);
+  set message(String value) => messageSetLambda(value);
   @override
-  CalculationResult get packedMessage => lambda_packedMessage_get();
+  CalculationResult get packedMessage => packedMessageGetLambda();
   @override
-  set packedMessage(CalculationResult value) => lambda_packedMessage_set(value);
+  set packedMessage(CalculationResult value) => packedMessageSetLambda(value);
   @override
-  ListenerWithProperties_ResultStruct get structuredMessage => lambda_structuredMessage_get();
+  ListenerWithProperties_ResultStruct get structuredMessage => structuredMessageGetLambda();
   @override
-  set structuredMessage(ListenerWithProperties_ResultStruct value) => lambda_structuredMessage_set(value);
+  set structuredMessage(ListenerWithProperties_ResultStruct value) => structuredMessageSetLambda(value);
   @override
-  ListenerWithProperties_ResultEnum get enumeratedMessage => lambda_enumeratedMessage_get();
+  ListenerWithProperties_ResultEnum get enumeratedMessage => enumeratedMessageGetLambda();
   @override
-  set enumeratedMessage(ListenerWithProperties_ResultEnum value) => lambda_enumeratedMessage_set(value);
+  set enumeratedMessage(ListenerWithProperties_ResultEnum value) => enumeratedMessageSetLambda(value);
   @override
-  List<String> get arrayedMessage => lambda_arrayedMessage_get();
+  List<String> get arrayedMessage => arrayedMessageGetLambda();
   @override
-  set arrayedMessage(List<String> value) => lambda_arrayedMessage_set(value);
+  set arrayedMessage(List<String> value) => arrayedMessageSetLambda(value);
   @override
-  Map<String, double> get mappedMessage => lambda_mappedMessage_get();
+  Map<String, double> get mappedMessage => mappedMessageGetLambda();
   @override
-  set mappedMessage(Map<String, double> value) => lambda_mappedMessage_set(value);
+  set mappedMessage(Map<String, double> value) => mappedMessageSetLambda(value);
   @override
-  Uint8List get bufferedMessage => lambda_bufferedMessage_get();
+  Uint8List get bufferedMessage => bufferedMessageGetLambda();
   @override
-  set bufferedMessage(Uint8List value) => lambda_bufferedMessage_set(value);
+  set bufferedMessage(Uint8List value) => bufferedMessageSetLambda(value);
 }
 class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWithProperties {
   ListenerWithProperties$Impl(Pointer<Void> handle) : super(handle);

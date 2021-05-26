@@ -6,13 +6,12 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 abstract class SimpleInterface {
-  SimpleInterface();
-  factory SimpleInterface.fromLambdas({
-    required String Function() lambda_getStringValue,
-    required SimpleInterface Function(SimpleInterface) lambda_useSimpleInterface,
-  }) => SimpleInterface$Lambdas(
-    lambda_getStringValue,
-    lambda_useSimpleInterface,
+  factory SimpleInterface(
+    String Function() getStringValueLambda,
+    SimpleInterface Function(SimpleInterface) useSimpleInterfaceLambda,
+  ) => SimpleInterface$Lambdas(
+    getStringValueLambda,
+    useSimpleInterfaceLambda,
   );
   /// Destroys the underlying native object.
   ///
@@ -40,20 +39,20 @@ final _smokeSimpleinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nati
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_SimpleInterface_get_type_id'));
 class SimpleInterface$Lambdas implements SimpleInterface {
-  String Function() lambda_getStringValue;
-  SimpleInterface Function(SimpleInterface) lambda_useSimpleInterface;
+  String Function() getStringValueLambda;
+  SimpleInterface Function(SimpleInterface) useSimpleInterfaceLambda;
   SimpleInterface$Lambdas(
-    this.lambda_getStringValue,
-    this.lambda_useSimpleInterface,
+    this.getStringValueLambda,
+    this.useSimpleInterfaceLambda,
   );
   @override
   void release() {}
   @override
   String getStringValue() =>
-    lambda_getStringValue();
+    getStringValueLambda();
   @override
   SimpleInterface useSimpleInterface(SimpleInterface input) =>
-    lambda_useSimpleInterface(input);
+    useSimpleInterfaceLambda(input);
 }
 class SimpleInterface$Impl extends __lib.NativeBase implements SimpleInterface {
   SimpleInterface$Impl(Pointer<Void> handle) : super(handle);

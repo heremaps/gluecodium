@@ -8,19 +8,18 @@ import 'package:meta/meta.dart';
 /// This is some very useful interface.
 @Deprecated("Unfortunately, this interface is deprecated. Use [Comments] instead.")
 abstract class DeprecationComments {
-  DeprecationComments();
-  factory DeprecationComments.fromLambdas({
-    required bool Function(String) lambda_someMethodWithAllComments,
-    required bool Function() lambda_isSomeProperty_get,
-    required void Function(bool) lambda_isSomeProperty_set,
-    required String Function() lambda_propertyButNotAccessors_get,
-    required void Function(String) lambda_propertyButNotAccessors_set
-  }) => DeprecationComments$Lambdas(
-    lambda_someMethodWithAllComments,
-    lambda_isSomeProperty_get,
-    lambda_isSomeProperty_set,
-    lambda_propertyButNotAccessors_get,
-    lambda_propertyButNotAccessors_set
+  factory DeprecationComments(
+    bool Function(String) someMethodWithAllCommentsLambda,
+    bool Function() isSomePropertyGetLambda,
+    void Function(bool) isSomePropertySetLambda,
+    String Function() propertyButNotAccessorsGetLambda,
+    void Function(String) propertyButNotAccessorsSetLambda
+  ) => DeprecationComments$Lambdas(
+    someMethodWithAllCommentsLambda,
+    isSomePropertyGetLambda,
+    isSomePropertySetLambda,
+    propertyButNotAccessorsGetLambda,
+    propertyButNotAccessorsSetLambda
   );
   /// Destroys the underlying native object.
   ///
@@ -197,31 +196,31 @@ final _smokeDeprecationcommentsGetTypeId = __lib.catchArgumentError(() => __lib.
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_DeprecationComments_get_type_id'));
 class DeprecationComments$Lambdas implements DeprecationComments {
-  bool Function(String) lambda_someMethodWithAllComments;
-  bool Function() lambda_isSomeProperty_get;
-  void Function(bool) lambda_isSomeProperty_set;
-  String Function() lambda_propertyButNotAccessors_get;
-  void Function(String) lambda_propertyButNotAccessors_set;
+  bool Function(String) someMethodWithAllCommentsLambda;
+  bool Function() isSomePropertyGetLambda;
+  void Function(bool) isSomePropertySetLambda;
+  String Function() propertyButNotAccessorsGetLambda;
+  void Function(String) propertyButNotAccessorsSetLambda;
   DeprecationComments$Lambdas(
-    this.lambda_someMethodWithAllComments,
-    this.lambda_isSomeProperty_get,
-    this.lambda_isSomeProperty_set,
-    this.lambda_propertyButNotAccessors_get,
-    this.lambda_propertyButNotAccessors_set
+    this.someMethodWithAllCommentsLambda,
+    this.isSomePropertyGetLambda,
+    this.isSomePropertySetLambda,
+    this.propertyButNotAccessorsGetLambda,
+    this.propertyButNotAccessorsSetLambda
   );
   @override
   void release() {}
   @override
   bool someMethodWithAllComments(String input) =>
-    lambda_someMethodWithAllComments(input);
+    someMethodWithAllCommentsLambda(input);
   @override
-  bool get isSomeProperty => lambda_isSomeProperty_get();
+  bool get isSomeProperty => isSomePropertyGetLambda();
   @override
-  set isSomeProperty(bool value) => lambda_isSomeProperty_set(value);
+  set isSomeProperty(bool value) => isSomePropertySetLambda(value);
   @override
-  String get propertyButNotAccessors => lambda_propertyButNotAccessors_get();
+  String get propertyButNotAccessors => propertyButNotAccessorsGetLambda();
   @override
-  set propertyButNotAccessors(String value) => lambda_propertyButNotAccessors_set(value);
+  set propertyButNotAccessors(String value) => propertyButNotAccessorsSetLambda(value);
 }
 class DeprecationComments$Impl extends __lib.NativeBase implements DeprecationComments {
   DeprecationComments$Impl(Pointer<Void> handle) : super(handle);

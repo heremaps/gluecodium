@@ -7,33 +7,32 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 /// This is some very useful interface.
 abstract class CommentsInterface {
-  CommentsInterface();
-  factory CommentsInterface.fromLambdas({
-    required bool Function(String) lambda_someMethodWithAllComments,
-    required bool Function(String) lambda_someMethodWithInputComments,
-    required bool Function(String) lambda_someMethodWithOutputComments,
-    required bool Function(String) lambda_someMethodWithNoComments,
-    required void Function(String) lambda_someMethodWithoutReturnTypeWithAllComments,
-    required void Function(String) lambda_someMethodWithoutReturnTypeWithNoComments,
-    required bool Function() lambda_someMethodWithoutInputParametersWithAllComments,
-    required bool Function() lambda_someMethodWithoutInputParametersWithNoComments,
-    required void Function() lambda_someMethodWithNothing,
-    required void Function() lambda_someMethodWithoutReturnTypeOrInputParameters,
-    required bool Function() lambda_isSomeProperty_get,
-    required void Function(bool) lambda_isSomeProperty_set
-  }) => CommentsInterface$Lambdas(
-    lambda_someMethodWithAllComments,
-    lambda_someMethodWithInputComments,
-    lambda_someMethodWithOutputComments,
-    lambda_someMethodWithNoComments,
-    lambda_someMethodWithoutReturnTypeWithAllComments,
-    lambda_someMethodWithoutReturnTypeWithNoComments,
-    lambda_someMethodWithoutInputParametersWithAllComments,
-    lambda_someMethodWithoutInputParametersWithNoComments,
-    lambda_someMethodWithNothing,
-    lambda_someMethodWithoutReturnTypeOrInputParameters,
-    lambda_isSomeProperty_get,
-    lambda_isSomeProperty_set
+  factory CommentsInterface(
+    bool Function(String) someMethodWithAllCommentsLambda,
+    bool Function(String) someMethodWithInputCommentsLambda,
+    bool Function(String) someMethodWithOutputCommentsLambda,
+    bool Function(String) someMethodWithNoCommentsLambda,
+    void Function(String) someMethodWithoutReturnTypeWithAllCommentsLambda,
+    void Function(String) someMethodWithoutReturnTypeWithNoCommentsLambda,
+    bool Function() someMethodWithoutInputParametersWithAllCommentsLambda,
+    bool Function() someMethodWithoutInputParametersWithNoCommentsLambda,
+    void Function() someMethodWithNothingLambda,
+    void Function() someMethodWithoutReturnTypeOrInputParametersLambda,
+    bool Function() isSomePropertyGetLambda,
+    void Function(bool) isSomePropertySetLambda
+  ) => CommentsInterface$Lambdas(
+    someMethodWithAllCommentsLambda,
+    someMethodWithInputCommentsLambda,
+    someMethodWithOutputCommentsLambda,
+    someMethodWithNoCommentsLambda,
+    someMethodWithoutReturnTypeWithAllCommentsLambda,
+    someMethodWithoutReturnTypeWithNoCommentsLambda,
+    someMethodWithoutInputParametersWithAllCommentsLambda,
+    someMethodWithoutInputParametersWithNoCommentsLambda,
+    someMethodWithNothingLambda,
+    someMethodWithoutReturnTypeOrInputParametersLambda,
+    isSomePropertyGetLambda,
+    isSomePropertySetLambda
   );
   /// Destroys the underlying native object.
   ///
@@ -233,68 +232,68 @@ final _smokeCommentsinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.na
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_CommentsInterface_get_type_id'));
 class CommentsInterface$Lambdas implements CommentsInterface {
-  bool Function(String) lambda_someMethodWithAllComments;
-  bool Function(String) lambda_someMethodWithInputComments;
-  bool Function(String) lambda_someMethodWithOutputComments;
-  bool Function(String) lambda_someMethodWithNoComments;
-  void Function(String) lambda_someMethodWithoutReturnTypeWithAllComments;
-  void Function(String) lambda_someMethodWithoutReturnTypeWithNoComments;
-  bool Function() lambda_someMethodWithoutInputParametersWithAllComments;
-  bool Function() lambda_someMethodWithoutInputParametersWithNoComments;
-  void Function() lambda_someMethodWithNothing;
-  void Function() lambda_someMethodWithoutReturnTypeOrInputParameters;
-  bool Function() lambda_isSomeProperty_get;
-  void Function(bool) lambda_isSomeProperty_set;
+  bool Function(String) someMethodWithAllCommentsLambda;
+  bool Function(String) someMethodWithInputCommentsLambda;
+  bool Function(String) someMethodWithOutputCommentsLambda;
+  bool Function(String) someMethodWithNoCommentsLambda;
+  void Function(String) someMethodWithoutReturnTypeWithAllCommentsLambda;
+  void Function(String) someMethodWithoutReturnTypeWithNoCommentsLambda;
+  bool Function() someMethodWithoutInputParametersWithAllCommentsLambda;
+  bool Function() someMethodWithoutInputParametersWithNoCommentsLambda;
+  void Function() someMethodWithNothingLambda;
+  void Function() someMethodWithoutReturnTypeOrInputParametersLambda;
+  bool Function() isSomePropertyGetLambda;
+  void Function(bool) isSomePropertySetLambda;
   CommentsInterface$Lambdas(
-    this.lambda_someMethodWithAllComments,
-    this.lambda_someMethodWithInputComments,
-    this.lambda_someMethodWithOutputComments,
-    this.lambda_someMethodWithNoComments,
-    this.lambda_someMethodWithoutReturnTypeWithAllComments,
-    this.lambda_someMethodWithoutReturnTypeWithNoComments,
-    this.lambda_someMethodWithoutInputParametersWithAllComments,
-    this.lambda_someMethodWithoutInputParametersWithNoComments,
-    this.lambda_someMethodWithNothing,
-    this.lambda_someMethodWithoutReturnTypeOrInputParameters,
-    this.lambda_isSomeProperty_get,
-    this.lambda_isSomeProperty_set
+    this.someMethodWithAllCommentsLambda,
+    this.someMethodWithInputCommentsLambda,
+    this.someMethodWithOutputCommentsLambda,
+    this.someMethodWithNoCommentsLambda,
+    this.someMethodWithoutReturnTypeWithAllCommentsLambda,
+    this.someMethodWithoutReturnTypeWithNoCommentsLambda,
+    this.someMethodWithoutInputParametersWithAllCommentsLambda,
+    this.someMethodWithoutInputParametersWithNoCommentsLambda,
+    this.someMethodWithNothingLambda,
+    this.someMethodWithoutReturnTypeOrInputParametersLambda,
+    this.isSomePropertyGetLambda,
+    this.isSomePropertySetLambda
   );
   @override
   void release() {}
   @override
   bool someMethodWithAllComments(String input) =>
-    lambda_someMethodWithAllComments(input);
+    someMethodWithAllCommentsLambda(input);
   @override
   bool someMethodWithInputComments(String input) =>
-    lambda_someMethodWithInputComments(input);
+    someMethodWithInputCommentsLambda(input);
   @override
   bool someMethodWithOutputComments(String input) =>
-    lambda_someMethodWithOutputComments(input);
+    someMethodWithOutputCommentsLambda(input);
   @override
   bool someMethodWithNoComments(String input) =>
-    lambda_someMethodWithNoComments(input);
+    someMethodWithNoCommentsLambda(input);
   @override
   someMethodWithoutReturnTypeWithAllComments(String input) =>
-    lambda_someMethodWithoutReturnTypeWithAllComments(input);
+    someMethodWithoutReturnTypeWithAllCommentsLambda(input);
   @override
   someMethodWithoutReturnTypeWithNoComments(String input) =>
-    lambda_someMethodWithoutReturnTypeWithNoComments(input);
+    someMethodWithoutReturnTypeWithNoCommentsLambda(input);
   @override
   bool someMethodWithoutInputParametersWithAllComments() =>
-    lambda_someMethodWithoutInputParametersWithAllComments();
+    someMethodWithoutInputParametersWithAllCommentsLambda();
   @override
   bool someMethodWithoutInputParametersWithNoComments() =>
-    lambda_someMethodWithoutInputParametersWithNoComments();
+    someMethodWithoutInputParametersWithNoCommentsLambda();
   @override
   someMethodWithNothing() =>
-    lambda_someMethodWithNothing();
+    someMethodWithNothingLambda();
   @override
   someMethodWithoutReturnTypeOrInputParameters() =>
-    lambda_someMethodWithoutReturnTypeOrInputParameters();
+    someMethodWithoutReturnTypeOrInputParametersLambda();
   @override
-  bool get isSomeProperty => lambda_isSomeProperty_get();
+  bool get isSomeProperty => isSomePropertyGetLambda();
   @override
-  set isSomeProperty(bool value) => lambda_isSomeProperty_set(value);
+  set isSomeProperty(bool value) => isSomePropertySetLambda(value);
 }
 class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterface {
   CommentsInterface$Impl(Pointer<Void> handle) : super(handle);

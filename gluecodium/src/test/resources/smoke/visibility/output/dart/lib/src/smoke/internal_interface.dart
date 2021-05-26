@@ -7,11 +7,10 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 /// @nodoc
 abstract class InternalInterface {
-  InternalInterface();
-  factory InternalInterface.fromLambdas({
-    required void Function() lambda_fooBar,
-  }) => InternalInterface$Lambdas(
-    lambda_fooBar,
+  factory InternalInterface(
+    void Function() fooBarLambda,
+  ) => InternalInterface$Lambdas(
+    fooBarLambda,
   );
   /// Destroys the underlying native object.
   ///
@@ -39,15 +38,15 @@ final _smokeInternalinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.na
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_InternalInterface_get_type_id'));
 class InternalInterface$Lambdas implements InternalInterface {
-  void Function() lambda_fooBar;
+  void Function() fooBarLambda;
   InternalInterface$Lambdas(
-    this.lambda_fooBar,
+    this.fooBarLambda,
   );
   @override
   void release() {}
   @override
   internal_fooBar() =>
-    lambda_fooBar();
+    fooBarLambda();
 }
 class InternalInterface$Impl extends __lib.NativeBase implements InternalInterface {
   InternalInterface$Impl(Pointer<Void> handle) : super(handle);

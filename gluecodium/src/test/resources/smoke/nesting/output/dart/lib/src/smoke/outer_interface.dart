@@ -6,11 +6,10 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 abstract class OuterInterface {
-  OuterInterface();
-  factory OuterInterface.fromLambdas({
-    required String Function(String) lambda_foo,
-  }) => OuterInterface$Lambdas(
-    lambda_foo,
+  factory OuterInterface(
+    String Function(String) fooLambda,
+  ) => OuterInterface$Lambdas(
+    fooLambda,
   );
   /// Destroys the underlying native object.
   ///
@@ -82,11 +81,10 @@ void smokeOuterinterfaceInnerclassReleaseFfiHandleNullable(Pointer<Void> handle)
   _smokeOuterinterfaceInnerclassReleaseHandle(handle);
 // End of OuterInterface_InnerClass "private" section.
 abstract class OuterInterface_InnerInterface {
-  OuterInterface_InnerInterface();
-  factory OuterInterface_InnerInterface.fromLambdas({
-    required String Function(String) lambda_foo,
-  }) => OuterInterface_InnerInterface$Lambdas(
-    lambda_foo,
+  factory OuterInterface_InnerInterface(
+    String Function(String) fooLambda,
+  ) => OuterInterface_InnerInterface$Lambdas(
+    fooLambda,
   );
   /// Destroys the underlying native object.
   ///
@@ -113,15 +111,15 @@ final _smokeOuterinterfaceInnerinterfaceGetTypeId = __lib.catchArgumentError(() 
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_OuterInterface_InnerInterface_get_type_id'));
 class OuterInterface_InnerInterface$Lambdas implements OuterInterface_InnerInterface {
-  String Function(String) lambda_foo;
+  String Function(String) fooLambda;
   OuterInterface_InnerInterface$Lambdas(
-    this.lambda_foo,
+    this.fooLambda,
   );
   @override
   void release() {}
   @override
   String foo(String input) =>
-    lambda_foo(input);
+    fooLambda(input);
 }
 class OuterInterface_InnerInterface$Impl extends __lib.NativeBase implements OuterInterface_InnerInterface {
   OuterInterface_InnerInterface$Impl(Pointer<Void> handle) : super(handle);
@@ -209,15 +207,15 @@ final _smokeOuterinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativ
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_OuterInterface_get_type_id'));
 class OuterInterface$Lambdas implements OuterInterface {
-  String Function(String) lambda_foo;
+  String Function(String) fooLambda;
   OuterInterface$Lambdas(
-    this.lambda_foo,
+    this.fooLambda,
   );
   @override
   void release() {}
   @override
   String foo(String input) =>
-    lambda_foo(input);
+    fooLambda(input);
 }
 class OuterInterface$Impl extends __lib.NativeBase implements OuterInterface {
   OuterInterface$Impl(Pointer<Void> handle) : super(handle);

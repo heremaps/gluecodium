@@ -7,17 +7,16 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/parent_interface.dart';
 import 'package:meta/meta.dart';
 abstract class ChildInterface implements ParentInterface {
-  ChildInterface();
-  factory ChildInterface.fromLambdas({
-    required void Function() lambda_rootMethod,
-    required void Function() lambda_childMethod,
-    required String Function() lambda_rootProperty_get,
-    required void Function(String) lambda_rootProperty_set
-  }) => ChildInterface$Lambdas(
-    lambda_rootMethod,
-    lambda_childMethod,
-    lambda_rootProperty_get,
-    lambda_rootProperty_set
+  factory ChildInterface(
+    void Function() rootMethodLambda,
+    void Function() childMethodLambda,
+    String Function() rootPropertyGetLambda,
+    void Function(String) rootPropertySetLambda
+  ) => ChildInterface$Lambdas(
+    rootMethodLambda,
+    childMethodLambda,
+    rootPropertyGetLambda,
+    rootPropertySetLambda
   );
   /// Destroys the underlying native object.
   ///
@@ -44,28 +43,28 @@ final _smokeChildinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativ
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ChildInterface_get_type_id'));
 class ChildInterface$Lambdas implements ChildInterface {
-  void Function() lambda_rootMethod;
-  void Function() lambda_childMethod;
-  String Function() lambda_rootProperty_get;
-  void Function(String) lambda_rootProperty_set;
+  void Function() rootMethodLambda;
+  void Function() childMethodLambda;
+  String Function() rootPropertyGetLambda;
+  void Function(String) rootPropertySetLambda;
   ChildInterface$Lambdas(
-    this.lambda_rootMethod,
-    this.lambda_childMethod,
-    this.lambda_rootProperty_get,
-    this.lambda_rootProperty_set
+    this.rootMethodLambda,
+    this.childMethodLambda,
+    this.rootPropertyGetLambda,
+    this.rootPropertySetLambda
   );
   @override
   void release() {}
   @override
   rootMethod() =>
-    lambda_rootMethod();
+    rootMethodLambda();
   @override
   childMethod() =>
-    lambda_childMethod();
+    childMethodLambda();
   @override
-  String get rootProperty => lambda_rootProperty_get();
+  String get rootProperty => rootPropertyGetLambda();
   @override
-  set rootProperty(String value) => lambda_rootProperty_set(value);
+  set rootProperty(String value) => rootPropertySetLambda(value);
 }
 class ChildInterface$Impl extends __lib.NativeBase implements ChildInterface {
   ChildInterface$Impl(Pointer<Void> handle) : super(handle);

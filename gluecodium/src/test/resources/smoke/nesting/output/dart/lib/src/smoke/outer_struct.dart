@@ -244,11 +244,10 @@ void smokeOuterstructInnerclassReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeOuterstructInnerclassReleaseHandle(handle);
 // End of OuterStruct_InnerClass "private" section.
 abstract class OuterStruct_InnerInterface {
-  OuterStruct_InnerInterface();
-  factory OuterStruct_InnerInterface.fromLambdas({
-    required Map<String, Uint8List> Function() lambda_barBaz,
-  }) => OuterStruct_InnerInterface$Lambdas(
-    lambda_barBaz,
+  factory OuterStruct_InnerInterface(
+    Map<String, Uint8List> Function() barBazLambda,
+  ) => OuterStruct_InnerInterface$Lambdas(
+    barBazLambda,
   );
   /// Destroys the underlying native object.
   ///
@@ -275,15 +274,15 @@ final _smokeOuterstructInnerinterfaceGetTypeId = __lib.catchArgumentError(() => 
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_OuterStruct_InnerInterface_get_type_id'));
 class OuterStruct_InnerInterface$Lambdas implements OuterStruct_InnerInterface {
-  Map<String, Uint8List> Function() lambda_barBaz;
+  Map<String, Uint8List> Function() barBazLambda;
   OuterStruct_InnerInterface$Lambdas(
-    this.lambda_barBaz,
+    this.barBazLambda,
   );
   @override
   void release() {}
   @override
   Map<String, Uint8List> barBaz() =>
-    lambda_barBaz();
+    barBazLambda();
 }
 class OuterStruct_InnerInterface$Impl extends __lib.NativeBase implements OuterStruct_InnerInterface {
   OuterStruct_InnerInterface$Impl(Pointer<Void> handle) : super(handle);

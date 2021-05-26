@@ -8,15 +8,14 @@ import 'package:library/src/smoke/payload.dart';
 import 'package:library/src/smoke/with_payload_exception.dart';
 import 'package:meta/meta.dart';
 abstract class ErrorsInterface {
-  ErrorsInterface();
-  factory ErrorsInterface.fromLambdas({
-    required void Function() lambda_methodWithErrors,
-    required void Function() lambda_methodWithExternalErrors,
-    required String Function() lambda_methodWithErrorsAndReturnValue,
-  }) => ErrorsInterface$Lambdas(
-    lambda_methodWithErrors,
-    lambda_methodWithExternalErrors,
-    lambda_methodWithErrorsAndReturnValue,
+  factory ErrorsInterface(
+    void Function() methodWithErrorsLambda,
+    void Function() methodWithExternalErrorsLambda,
+    String Function() methodWithErrorsAndReturnValueLambda,
+  ) => ErrorsInterface$Lambdas(
+    methodWithErrorsLambda,
+    methodWithExternalErrorsLambda,
+    methodWithErrorsAndReturnValueLambda,
   );
   /// Destroys the underlying native object.
   ///
@@ -251,25 +250,25 @@ final _methodWithPayloadErrorAndReturnValueReturnHasError = __lib.catchArgumentE
     int Function(Pointer<Void>)
   >('library_smoke_ErrorsInterface_methodWithPayloadErrorAndReturnValue_return_has_error'));
 class ErrorsInterface$Lambdas implements ErrorsInterface {
-  void Function() lambda_methodWithErrors;
-  void Function() lambda_methodWithExternalErrors;
-  String Function() lambda_methodWithErrorsAndReturnValue;
+  void Function() methodWithErrorsLambda;
+  void Function() methodWithExternalErrorsLambda;
+  String Function() methodWithErrorsAndReturnValueLambda;
   ErrorsInterface$Lambdas(
-    this.lambda_methodWithErrors,
-    this.lambda_methodWithExternalErrors,
-    this.lambda_methodWithErrorsAndReturnValue,
+    this.methodWithErrorsLambda,
+    this.methodWithExternalErrorsLambda,
+    this.methodWithErrorsAndReturnValueLambda,
   );
   @override
   void release() {}
   @override
   methodWithErrors() =>
-    lambda_methodWithErrors();
+    methodWithErrorsLambda();
   @override
   methodWithExternalErrors() =>
-    lambda_methodWithExternalErrors();
+    methodWithExternalErrorsLambda();
   @override
   String methodWithErrorsAndReturnValue() =>
-    lambda_methodWithErrorsAndReturnValue();
+    methodWithErrorsAndReturnValueLambda();
 }
 class ErrorsInterface$Impl extends __lib.NativeBase implements ErrorsInterface {
   ErrorsInterface$Impl(Pointer<Void> handle) : super(handle);
