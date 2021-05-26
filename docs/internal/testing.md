@@ -31,6 +31,9 @@ files based on directory structure: "<test-name>/input" for IDL files (and somet
 name rules), "<test-name>/output/<generator-name>" for reference files. If the "output" directory of some test case does
 not have a sub-directory for a particular generator, the test case is ignored for this generator, but there is no
 failure.
+  
+Changes affecting generated code require updating existing "reference" files, even if no new "smoke" tests are created.
+This ensures "smoke" tests are passing, and also demonstrates the changes to "real" code to the reviewers of the change.
 
 Functional tests
 ----------------
