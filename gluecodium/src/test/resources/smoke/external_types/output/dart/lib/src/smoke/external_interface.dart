@@ -6,13 +6,12 @@ import 'dart:ffi';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class ExternalInterface {
-  ExternalInterface();
-  factory ExternalInterface.fromLambdas({
-    required void Function(int) lambda_someMethod,
-    required String Function() lambda_someProperty_get
-  }) => ExternalInterface$Lambdas(
-    lambda_someMethod,
-    lambda_someProperty_get
+  factory ExternalInterface(
+    void Function(int) someMethodLambda,
+    String Function() somePropertyGetLambda
+  ) => ExternalInterface$Lambdas(
+    someMethodLambda,
+    somePropertyGetLambda
   );
   /// Destroys the underlying native object.
   ///
@@ -156,19 +155,19 @@ final _smokeExternalinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.na
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ExternalInterface_get_type_id'));
 class ExternalInterface$Lambdas implements ExternalInterface {
-  void Function(int) lambda_someMethod;
-  String Function() lambda_someProperty_get;
+  void Function(int) someMethodLambda;
+  String Function() somePropertyGetLambda;
   ExternalInterface$Lambdas(
-    this.lambda_someMethod,
-    this.lambda_someProperty_get
+    this.someMethodLambda,
+    this.somePropertyGetLambda
   );
   @override
   void release() {}
   @override
   someMethod(int someParameter) =>
-    lambda_someMethod(someParameter);
+    someMethodLambda(someParameter);
   @override
-  String get someProperty => lambda_someProperty_get();
+  String get someProperty => somePropertyGetLambda();
 }
 class ExternalInterface$Impl extends __lib.NativeBase implements ExternalInterface {
   ExternalInterface$Impl(Pointer<Void> handle) : super(handle);

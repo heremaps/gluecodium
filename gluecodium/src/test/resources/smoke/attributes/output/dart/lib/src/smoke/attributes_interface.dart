@@ -7,15 +7,14 @@ import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 @OnInterface
 abstract class AttributesInterface {
-  AttributesInterface();
-  factory AttributesInterface.fromLambdas({
-    required void Function(String) lambda_veryFun,
-    required String Function() lambda_prop_get,
-    required void Function(String) lambda_prop_set
-  }) => AttributesInterface$Lambdas(
-    lambda_veryFun,
-    lambda_prop_get,
-    lambda_prop_set
+  factory AttributesInterface(
+    void Function(String) veryFunLambda,
+    String Function() propGetLambda,
+    void Function(String) propSetLambda
+  ) => AttributesInterface$Lambdas(
+    veryFunLambda,
+    propGetLambda,
+    propSetLambda
   );
   /// Destroys the underlying native object.
   ///
@@ -49,23 +48,23 @@ final _smokeAttributesinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_AttributesInterface_get_type_id'));
 class AttributesInterface$Lambdas implements AttributesInterface {
-  void Function(String) lambda_veryFun;
-  String Function() lambda_prop_get;
-  void Function(String) lambda_prop_set;
+  void Function(String) veryFunLambda;
+  String Function() propGetLambda;
+  void Function(String) propSetLambda;
   AttributesInterface$Lambdas(
-    this.lambda_veryFun,
-    this.lambda_prop_get,
-    this.lambda_prop_set
+    this.veryFunLambda,
+    this.propGetLambda,
+    this.propSetLambda
   );
   @override
   void release() {}
   @override
   veryFun(@OnParameterInInterface String param) =>
-    lambda_veryFun(param);
+    veryFunLambda(param);
   @override
-  String get prop => lambda_prop_get();
+  String get prop => propGetLambda();
   @override
-  set prop(String value) => lambda_prop_set(value);
+  set prop(String value) => propSetLambda(value);
 }
 class AttributesInterface$Impl extends __lib.NativeBase implements AttributesInterface {
   AttributesInterface$Impl(Pointer<Void> handle) : super(handle);

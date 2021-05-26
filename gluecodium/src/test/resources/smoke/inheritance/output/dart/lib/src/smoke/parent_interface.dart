@@ -6,15 +6,14 @@ import 'dart:ffi';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class ParentInterface {
-  ParentInterface();
-  factory ParentInterface.fromLambdas({
-    required void Function() lambda_rootMethod,
-    required String Function() lambda_rootProperty_get,
-    required void Function(String) lambda_rootProperty_set
-  }) => ParentInterface$Lambdas(
-    lambda_rootMethod,
-    lambda_rootProperty_get,
-    lambda_rootProperty_set
+  factory ParentInterface(
+    void Function() rootMethodLambda,
+    String Function() rootPropertyGetLambda,
+    void Function(String) rootPropertySetLambda
+  ) => ParentInterface$Lambdas(
+    rootMethodLambda,
+    rootPropertyGetLambda,
+    rootPropertySetLambda
   );
   /// Destroys the underlying native object.
   ///
@@ -43,23 +42,23 @@ final _smokeParentinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nati
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ParentInterface_get_type_id'));
 class ParentInterface$Lambdas implements ParentInterface {
-  void Function() lambda_rootMethod;
-  String Function() lambda_rootProperty_get;
-  void Function(String) lambda_rootProperty_set;
+  void Function() rootMethodLambda;
+  String Function() rootPropertyGetLambda;
+  void Function(String) rootPropertySetLambda;
   ParentInterface$Lambdas(
-    this.lambda_rootMethod,
-    this.lambda_rootProperty_get,
-    this.lambda_rootProperty_set
+    this.rootMethodLambda,
+    this.rootPropertyGetLambda,
+    this.rootPropertySetLambda
   );
   @override
   void release() {}
   @override
   rootMethod() =>
-    lambda_rootMethod();
+    rootMethodLambda();
   @override
-  String get rootProperty => lambda_rootProperty_get();
+  String get rootProperty => rootPropertyGetLambda();
   @override
-  set rootProperty(String value) => lambda_rootProperty_set(value);
+  set rootProperty(String value) => rootPropertySetLambda(value);
 }
 class ParentInterface$Impl extends __lib.NativeBase implements ParentInterface {
   ParentInterface$Impl(Pointer<Void> handle) : super(handle);

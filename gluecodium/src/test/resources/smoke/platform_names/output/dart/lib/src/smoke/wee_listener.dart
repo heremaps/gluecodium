@@ -6,11 +6,10 @@ import 'dart:ffi';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class weeListener {
-  weeListener();
-  factory weeListener.fromLambdas({
-    required void Function(String) lambda_WeeMethod,
-  }) => weeListener$Lambdas(
-    lambda_WeeMethod,
+  factory weeListener(
+    void Function(String) WeeMethodLambda,
+  ) => weeListener$Lambdas(
+    WeeMethodLambda,
   );
   /// Destroys the underlying native object.
   ///
@@ -37,15 +36,15 @@ final _smokePlatformnameslistenerGetTypeId = __lib.catchArgumentError(() => __li
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PlatformNamesListener_get_type_id'));
 class weeListener$Lambdas implements weeListener {
-  void Function(String) lambda_WeeMethod;
+  void Function(String) WeeMethodLambda;
   weeListener$Lambdas(
-    this.lambda_WeeMethod,
+    this.WeeMethodLambda,
   );
   @override
   void release() {}
   @override
   WeeMethod(String WeeParameter) =>
-    lambda_WeeMethod(WeeParameter);
+    WeeMethodLambda(WeeParameter);
 }
 class weeListener$Impl extends __lib.NativeBase implements weeListener {
   weeListener$Impl(Pointer<Void> handle) : super(handle);

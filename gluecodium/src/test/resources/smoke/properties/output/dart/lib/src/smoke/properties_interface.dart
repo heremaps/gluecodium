@@ -6,13 +6,12 @@ import 'dart:ffi';
 import 'package:meta/meta.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 abstract class PropertiesInterface {
-  PropertiesInterface();
-  factory PropertiesInterface.fromLambdas({
-    required PropertiesInterface_ExampleStruct Function() lambda_structProperty_get,
-    required void Function(PropertiesInterface_ExampleStruct) lambda_structProperty_set
-  }) => PropertiesInterface$Lambdas(
-    lambda_structProperty_get,
-    lambda_structProperty_set
+  factory PropertiesInterface(
+    PropertiesInterface_ExampleStruct Function() structPropertyGetLambda,
+    void Function(PropertiesInterface_ExampleStruct) structPropertySetLambda
+  ) => PropertiesInterface$Lambdas(
+    structPropertyGetLambda,
+    structPropertySetLambda
   );
   /// Destroys the underlying native object.
   ///
@@ -104,18 +103,18 @@ final _smokePropertiesinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PropertiesInterface_get_type_id'));
 class PropertiesInterface$Lambdas implements PropertiesInterface {
-  PropertiesInterface_ExampleStruct Function() lambda_structProperty_get;
-  void Function(PropertiesInterface_ExampleStruct) lambda_structProperty_set;
+  PropertiesInterface_ExampleStruct Function() structPropertyGetLambda;
+  void Function(PropertiesInterface_ExampleStruct) structPropertySetLambda;
   PropertiesInterface$Lambdas(
-    this.lambda_structProperty_get,
-    this.lambda_structProperty_set
+    this.structPropertyGetLambda,
+    this.structPropertySetLambda
   );
   @override
   void release() {}
   @override
-  PropertiesInterface_ExampleStruct get structProperty => lambda_structProperty_get();
+  PropertiesInterface_ExampleStruct get structProperty => structPropertyGetLambda();
   @override
-  set structProperty(PropertiesInterface_ExampleStruct value) => lambda_structProperty_set(value);
+  set structProperty(PropertiesInterface_ExampleStruct value) => structPropertySetLambda(value);
 }
 class PropertiesInterface$Impl extends __lib.NativeBase implements PropertiesInterface {
   PropertiesInterface$Impl(Pointer<Void> handle) : super(handle);
