@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed remaining Dart warnings from "dart analyze" static analysis tool.
+
 ## 8.13.4
 Release date: 2021-05-21
 ### Bug fixes:

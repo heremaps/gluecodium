@@ -169,7 +169,7 @@ class {{resolveName}}$Impl extends __lib.NativeBase implements {{resolveName}} {
 }
 
 {{#set parent=this}}{{#each inheritedFunctions functions}}{{#unless isStatic}}
-int _{{resolveName parent}}{{resolveName}}Static({{!!
+int _{{resolveName parent "Ffi"}}{{resolveName}}Static({{!!
 }}int _token{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
 }}{{#unless returnType.isVoid}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}> _result{{/unless}}{{!!
@@ -210,14 +210,14 @@ int _{{resolveName parent}}{{resolveName}}Static({{!!
 {{/unless}}{{/each}}
 
 {{#each inheritedProperties properties}}{{#unless isStatic}}
-int _{{resolveName parent}}{{resolveName}}GetStatic(int _token, Pointer<{{resolveName typeRef "FfiApiTypes"}}> _result) {
+int _{{resolveName parent "Ffi"}}{{resolveName}}GetStatic(int _token, Pointer<{{resolveName typeRef "FfiApiTypes"}}> _result) {
   _result.value = {{#set call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{!!
   }}(__lib.instanceCache[_token] as {{resolveName parent}}).{{resolveName visibility}}{{resolveName}});
   return 0;
 }
 {{#if setter}}
 
-int _{{resolveName parent}}{{resolveName}}SetStatic(int _token, {{resolveName typeRef "FfiDartTypes"}} _value) {
+int _{{resolveName parent "Ffi"}}{{resolveName}}SetStatic(int _token, {{resolveName typeRef "FfiDartTypes"}} _value) {
   try {
     (__lib.instanceCache[_token] as {{resolveName parent}}).{{resolveName visibility}}{{resolveName}} =
       {{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_value);
@@ -236,10 +236,10 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi{{#set parent=this}}{{#each inheritedFunctions functions}}{{#unless isStatic}},
-    Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}{{resolveName}}Static, __lib.unknownError){{!!
+    Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent "Ffi"}}{{resolveName}}Static, __lib.unknownError){{!!
     }}{{/unless}}{{/each}}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#set property=this}}{{#getter}},
-    Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}{{resolveName property}}GetStatic, __lib.unknownError){{/getter}}{{#setter}},
-    Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}{{resolveName property}}SetStatic, __lib.unknownError){{/setter}}{{!!
+    Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent "Ffi"}}{{resolveName property}}GetStatic, __lib.unknownError){{/getter}}{{#setter}},
+    Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent "Ffi"}}{{resolveName property}}SetStatic, __lib.unknownError){{/setter}}{{!!
     }}{{/set}}{{/unless}}{{/each}}{{/set}}
   );
 
