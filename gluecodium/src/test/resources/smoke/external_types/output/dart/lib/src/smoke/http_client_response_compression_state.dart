@@ -1,5 +1,5 @@
-import 'package:foo/bar.dart' as bar;
 import 'dart:ffi';
+import 'package:foo/bar.dart' as bar;
 import 'package:library/src/_library_context.dart' as __lib;
 // HttpClientResponseCompressionState "private" section, not exported.
 int smokeCompressionstateToFfi(bar.HttpClientResponseCompressionState value) {

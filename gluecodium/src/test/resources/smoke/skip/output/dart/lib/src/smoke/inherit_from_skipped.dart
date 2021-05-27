@@ -1,11 +1,11 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/skip_proxy.dart';
 import 'package:meta/meta.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 abstract class InheritFromSkipped implements SkipProxy {
   InheritFromSkipped();
   factory InheritFromSkipped.fromLambdas({
@@ -157,7 +157,7 @@ class InheritFromSkipped$Impl extends __lib.NativeBase implements InheritFromSki
     }
   }
 }
-int _InheritFromSkippednotInJavaStatic(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
+int _smokeInheritfromskippednotInJavaStatic(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
   String _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as InheritFromSkipped).notInJava(stringFromFfi(input));
@@ -167,7 +167,7 @@ int _InheritFromSkippednotInJavaStatic(int _token, Pointer<Void> input, Pointer<
   }
   return 0;
 }
-int _InheritFromSkippednotInSwiftStatic(int _token, int input, Pointer<Uint8> _result) {
+int _smokeInheritfromskippednotInSwiftStatic(int _token, int input, Pointer<Uint8> _result) {
   bool _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as InheritFromSkipped).notInSwift(booleanFromFfi(input));
@@ -177,11 +177,11 @@ int _InheritFromSkippednotInSwiftStatic(int _token, int input, Pointer<Uint8> _r
   }
   return 0;
 }
-int _InheritFromSkippedskippedInJavaGetStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokeInheritfromskippedskippedInJavaGetStatic(int _token, Pointer<Pointer<Void>> _result) {
   _result.value = stringToFfi((__lib.instanceCache[_token] as InheritFromSkipped).skippedInJava);
   return 0;
 }
-int _InheritFromSkippedskippedInJavaSetStatic(int _token, Pointer<Void> _value) {
+int _smokeInheritfromskippedskippedInJavaSetStatic(int _token, Pointer<Void> _value) {
   try {
     (__lib.instanceCache[_token] as InheritFromSkipped).skippedInJava =
       stringFromFfi(_value);
@@ -190,11 +190,11 @@ int _InheritFromSkippedskippedInJavaSetStatic(int _token, Pointer<Void> _value) 
   }
   return 0;
 }
-int _InheritFromSkippedisSkippedInSwiftGetStatic(int _token, Pointer<Uint8> _result) {
+int _smokeInheritfromskippedisSkippedInSwiftGetStatic(int _token, Pointer<Uint8> _result) {
   _result.value = booleanToFfi((__lib.instanceCache[_token] as InheritFromSkipped).isSkippedInSwift);
   return 0;
 }
-int _InheritFromSkippedisSkippedInSwiftSetStatic(int _token, int _value) {
+int _smokeInheritfromskippedisSkippedInSwiftSetStatic(int _token, int _value) {
   try {
     (__lib.instanceCache[_token] as InheritFromSkipped).isSkippedInSwift =
       booleanFromFfi(_value);
@@ -209,12 +209,12 @@ Pointer<Void> smokeInheritfromskippedToFfi(InheritFromSkipped value) {
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_InheritFromSkippednotInJavaStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Uint8, Pointer<Uint8>)>(_InheritFromSkippednotInSwiftStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_InheritFromSkippedskippedInJavaGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_InheritFromSkippedskippedInJavaSetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint8>)>(_InheritFromSkippedisSkippedInSwiftGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Uint8)>(_InheritFromSkippedisSkippedInSwiftSetStatic, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_smokeInheritfromskippednotInJavaStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Uint8, Pointer<Uint8>)>(_smokeInheritfromskippednotInSwiftStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeInheritfromskippedskippedInJavaGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokeInheritfromskippedskippedInJavaSetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint8>)>(_smokeInheritfromskippedisSkippedInSwiftGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Uint8)>(_smokeInheritfromskippedisSkippedInSwiftSetStatic, __lib.unknownError)
   );
   return result;
 }

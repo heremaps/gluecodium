@@ -1,13 +1,13 @@
+import 'dart:ffi';
 import 'dart:math' as math;
 import 'package:foo/bar.dart' as bar;
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/smoke/http_client_response_compression_state.dart';
 import 'package:library/src/smoke/int.dart';
 import 'package:library/src/smoke/rectangle_int_.dart';
 import 'package:library/src/smoke/string.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 abstract class UseDartExternalTypes {
   /// Destroys the underlying native object.
   ///

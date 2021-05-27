@@ -1,8 +1,8 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/types_with_defaults.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 class StructWithInitializerDefaults {
   List<int> intsField;
   List<double> floatsField;

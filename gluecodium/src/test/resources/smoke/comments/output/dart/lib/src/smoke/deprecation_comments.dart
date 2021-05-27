@@ -1,10 +1,10 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 /// This is some very useful interface.
 @Deprecated("Unfortunately, this interface is deprecated. Use [Comments] instead.")
 abstract class DeprecationComments {
@@ -296,7 +296,7 @@ class DeprecationComments$Impl extends __lib.NativeBase implements DeprecationCo
     }
   }
 }
-int _DeprecationCommentssomeMethodWithAllCommentsStatic(int _token, Pointer<Void> input, Pointer<Uint8> _result) {
+int _smokeDeprecationcommentssomeMethodWithAllCommentsStatic(int _token, Pointer<Void> input, Pointer<Uint8> _result) {
   bool _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as DeprecationComments).someMethodWithAllComments(stringFromFfi(input));
@@ -306,11 +306,11 @@ int _DeprecationCommentssomeMethodWithAllCommentsStatic(int _token, Pointer<Void
   }
   return 0;
 }
-int _DeprecationCommentsisSomePropertyGetStatic(int _token, Pointer<Uint8> _result) {
+int _smokeDeprecationcommentsisSomePropertyGetStatic(int _token, Pointer<Uint8> _result) {
   _result.value = booleanToFfi((__lib.instanceCache[_token] as DeprecationComments).isSomeProperty);
   return 0;
 }
-int _DeprecationCommentsisSomePropertySetStatic(int _token, int _value) {
+int _smokeDeprecationcommentsisSomePropertySetStatic(int _token, int _value) {
   try {
     (__lib.instanceCache[_token] as DeprecationComments).isSomeProperty =
       booleanFromFfi(_value);
@@ -319,11 +319,11 @@ int _DeprecationCommentsisSomePropertySetStatic(int _token, int _value) {
   }
   return 0;
 }
-int _DeprecationCommentspropertyButNotAccessorsGetStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokeDeprecationcommentspropertyButNotAccessorsGetStatic(int _token, Pointer<Pointer<Void>> _result) {
   _result.value = stringToFfi((__lib.instanceCache[_token] as DeprecationComments).propertyButNotAccessors);
   return 0;
 }
-int _DeprecationCommentspropertyButNotAccessorsSetStatic(int _token, Pointer<Void> _value) {
+int _smokeDeprecationcommentspropertyButNotAccessorsSetStatic(int _token, Pointer<Void> _value) {
   try {
     (__lib.instanceCache[_token] as DeprecationComments).propertyButNotAccessors =
       stringFromFfi(_value);
@@ -338,11 +338,11 @@ Pointer<Void> smokeDeprecationcommentsToFfi(DeprecationComments value) {
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_DeprecationCommentssomeMethodWithAllCommentsStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint8>)>(_DeprecationCommentsisSomePropertyGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Uint8)>(_DeprecationCommentsisSomePropertySetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_DeprecationCommentspropertyButNotAccessorsGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_DeprecationCommentspropertyButNotAccessorsSetStatic, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_smokeDeprecationcommentssomeMethodWithAllCommentsStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint8>)>(_smokeDeprecationcommentsisSomePropertyGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Uint8)>(_smokeDeprecationcommentsisSomePropertySetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeDeprecationcommentspropertyButNotAccessorsGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokeDeprecationcommentspropertyButNotAccessorsSetStatic, __lib.unknownError)
   );
   return result;
 }

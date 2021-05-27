@@ -1,3 +1,5 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
@@ -5,8 +7,6 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/child_class_from_class.dart';
 import 'package:library/src/smoke/parent_class.dart';
 import 'package:library/src/smoke/parent_with_class_references.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 abstract class ChildWithParentClassReferences implements ParentWithClassReferences {
   /// Destroys the underlying native object.
   ///

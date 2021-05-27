@@ -1,5 +1,5 @@
-import 'dart:math' as math;
 import 'dart:ffi';
+import 'dart:math' as math;
 import 'package:library/src/_library_context.dart' as __lib;
 // Rectangle<int> "private" section, not exported.
 final _smokeRectangleCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<

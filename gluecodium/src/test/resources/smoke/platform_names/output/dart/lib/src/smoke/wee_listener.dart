@@ -1,10 +1,10 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 abstract class weeListener {
   weeListener();
   factory weeListener.fromLambdas({
@@ -70,7 +70,7 @@ class weeListener$Impl extends __lib.NativeBase implements weeListener {
     }
   }
 }
-int _weeListenerWeeMethodStatic(int _token, Pointer<Void> WeeParameter) {
+int _smokePlatformnameslistenerWeeMethodStatic(int _token, Pointer<Void> WeeParameter) {
   try {
     (__lib.instanceCache[_token] as weeListener).WeeMethod(stringFromFfi(WeeParameter));
   } finally {
@@ -84,7 +84,7 @@ Pointer<Void> smokePlatformnameslistenerToFfi(weeListener value) {
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_weeListenerWeeMethodStatic, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokePlatformnameslistenerWeeMethodStatic, __lib.unknownError)
   );
   return result;
 }

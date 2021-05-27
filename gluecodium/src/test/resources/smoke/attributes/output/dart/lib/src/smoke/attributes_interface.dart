@@ -1,10 +1,10 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 @OnInterface
 abstract class AttributesInterface {
   AttributesInterface();
@@ -113,7 +113,7 @@ class AttributesInterface$Impl extends __lib.NativeBase implements AttributesInt
     }
   }
 }
-int _AttributesInterfaceveryFunStatic(int _token, Pointer<Void> param) {
+int _smokeAttributesinterfaceveryFunStatic(int _token, Pointer<Void> param) {
   try {
     (__lib.instanceCache[_token] as AttributesInterface).veryFun(stringFromFfi(param));
   } finally {
@@ -121,11 +121,11 @@ int _AttributesInterfaceveryFunStatic(int _token, Pointer<Void> param) {
   }
   return 0;
 }
-int _AttributesInterfacepropGetStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokeAttributesinterfacepropGetStatic(int _token, Pointer<Pointer<Void>> _result) {
   _result.value = stringToFfi((__lib.instanceCache[_token] as AttributesInterface).prop);
   return 0;
 }
-int _AttributesInterfacepropSetStatic(int _token, Pointer<Void> _value) {
+int _smokeAttributesinterfacepropSetStatic(int _token, Pointer<Void> _value) {
   try {
     (__lib.instanceCache[_token] as AttributesInterface).prop =
       stringFromFfi(_value);
@@ -140,9 +140,9 @@ Pointer<Void> smokeAttributesinterfaceToFfi(AttributesInterface value) {
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_AttributesInterfaceveryFunStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_AttributesInterfacepropGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_AttributesInterfacepropSetStatic, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokeAttributesinterfaceveryFunStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeAttributesinterfacepropGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokeAttributesinterfacepropSetStatic, __lib.unknownError)
   );
   return result;
 }

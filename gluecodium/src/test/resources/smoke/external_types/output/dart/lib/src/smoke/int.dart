@@ -1,6 +1,6 @@
-import '../color_converter.dart';
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
+import '../color_converter.dart';
 class intInternal {
   double red;
   double green;

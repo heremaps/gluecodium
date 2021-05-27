@@ -1,11 +1,11 @@
+import 'dart:ffi';
 import 'package:library/src/_lazy_list.dart' as __lib;
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/unreasonably_lazy_class.dart';
 import 'package:library/src/smoke/very_big_struct.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 abstract class UseOptimizedList {
   /// Destroys the underlying native object.
   ///

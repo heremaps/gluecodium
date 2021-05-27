@@ -1,10 +1,10 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 abstract class PropertiesInterface {
   PropertiesInterface();
   factory PropertiesInterface.fromLambdas({
@@ -147,11 +147,11 @@ class PropertiesInterface$Impl extends __lib.NativeBase implements PropertiesInt
     }
   }
 }
-int _PropertiesInterfacestructPropertyGetStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokePropertiesinterfacestructPropertyGetStatic(int _token, Pointer<Pointer<Void>> _result) {
   _result.value = smokePropertiesinterfaceExamplestructToFfi((__lib.instanceCache[_token] as PropertiesInterface).structProperty);
   return 0;
 }
-int _PropertiesInterfacestructPropertySetStatic(int _token, Pointer<Void> _value) {
+int _smokePropertiesinterfacestructPropertySetStatic(int _token, Pointer<Void> _value) {
   try {
     (__lib.instanceCache[_token] as PropertiesInterface).structProperty =
       smokePropertiesinterfaceExamplestructFromFfi(_value);
@@ -166,8 +166,8 @@ Pointer<Void> smokePropertiesinterfaceToFfi(PropertiesInterface value) {
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_PropertiesInterfacestructPropertyGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_PropertiesInterfacestructPropertySetStatic, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokePropertiesinterfacestructPropertyGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokePropertiesinterfacestructPropertySetStatic, __lib.unknownError)
   );
   return result;
 }

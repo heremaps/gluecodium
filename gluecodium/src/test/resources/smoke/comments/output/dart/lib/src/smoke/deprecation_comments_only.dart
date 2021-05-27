@@ -1,10 +1,10 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 @Deprecated("Unfortunately, this interface is deprecated.")
 abstract class DeprecationCommentsOnly {
   DeprecationCommentsOnly();
@@ -238,7 +238,7 @@ class DeprecationCommentsOnly$Impl extends __lib.NativeBase implements Deprecati
     }
   }
 }
-int _DeprecationCommentsOnlysomeMethodWithAllCommentsStatic(int _token, Pointer<Void> input, Pointer<Uint8> _result) {
+int _smokeDeprecationcommentsonlysomeMethodWithAllCommentsStatic(int _token, Pointer<Void> input, Pointer<Uint8> _result) {
   bool _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as DeprecationCommentsOnly).someMethodWithAllComments(stringFromFfi(input));
@@ -248,11 +248,11 @@ int _DeprecationCommentsOnlysomeMethodWithAllCommentsStatic(int _token, Pointer<
   }
   return 0;
 }
-int _DeprecationCommentsOnlyisSomePropertyGetStatic(int _token, Pointer<Uint8> _result) {
+int _smokeDeprecationcommentsonlyisSomePropertyGetStatic(int _token, Pointer<Uint8> _result) {
   _result.value = booleanToFfi((__lib.instanceCache[_token] as DeprecationCommentsOnly).isSomeProperty);
   return 0;
 }
-int _DeprecationCommentsOnlyisSomePropertySetStatic(int _token, int _value) {
+int _smokeDeprecationcommentsonlyisSomePropertySetStatic(int _token, int _value) {
   try {
     (__lib.instanceCache[_token] as DeprecationCommentsOnly).isSomeProperty =
       booleanFromFfi(_value);
@@ -267,9 +267,9 @@ Pointer<Void> smokeDeprecationcommentsonlyToFfi(DeprecationCommentsOnly value) {
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_DeprecationCommentsOnlysomeMethodWithAllCommentsStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint8>)>(_DeprecationCommentsOnlyisSomePropertyGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Uint8)>(_DeprecationCommentsOnlyisSomePropertySetStatic, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_smokeDeprecationcommentsonlysomeMethodWithAllCommentsStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint8>)>(_smokeDeprecationcommentsonlyisSomePropertyGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Uint8)>(_smokeDeprecationcommentsonlyisSomePropertySetStatic, __lib.unknownError)
   );
   return result;
 }

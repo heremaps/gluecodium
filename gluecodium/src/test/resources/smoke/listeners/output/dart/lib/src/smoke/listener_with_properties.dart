@@ -1,4 +1,6 @@
+import 'dart:ffi';
 import 'dart:typed_data';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
@@ -6,8 +8,6 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/calculation_result.dart';
 import 'package:meta/meta.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 abstract class ListenerWithProperties {
   ListenerWithProperties();
   factory ListenerWithProperties.fromLambdas({
@@ -419,11 +419,11 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
     }
   }
 }
-int _ListenerWithPropertiesmessageGetStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokeListenerwithpropertiesmessageGetStatic(int _token, Pointer<Pointer<Void>> _result) {
   _result.value = stringToFfi((__lib.instanceCache[_token] as ListenerWithProperties).message);
   return 0;
 }
-int _ListenerWithPropertiesmessageSetStatic(int _token, Pointer<Void> _value) {
+int _smokeListenerwithpropertiesmessageSetStatic(int _token, Pointer<Void> _value) {
   try {
     (__lib.instanceCache[_token] as ListenerWithProperties).message =
       stringFromFfi(_value);
@@ -432,11 +432,11 @@ int _ListenerWithPropertiesmessageSetStatic(int _token, Pointer<Void> _value) {
   }
   return 0;
 }
-int _ListenerWithPropertiespackedMessageGetStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokeListenerwithpropertiespackedMessageGetStatic(int _token, Pointer<Pointer<Void>> _result) {
   _result.value = smokeCalculationresultToFfi((__lib.instanceCache[_token] as ListenerWithProperties).packedMessage);
   return 0;
 }
-int _ListenerWithPropertiespackedMessageSetStatic(int _token, Pointer<Void> _value) {
+int _smokeListenerwithpropertiespackedMessageSetStatic(int _token, Pointer<Void> _value) {
   try {
     (__lib.instanceCache[_token] as ListenerWithProperties).packedMessage =
       smokeCalculationresultFromFfi(_value);
@@ -445,11 +445,11 @@ int _ListenerWithPropertiespackedMessageSetStatic(int _token, Pointer<Void> _val
   }
   return 0;
 }
-int _ListenerWithPropertiesstructuredMessageGetStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokeListenerwithpropertiesstructuredMessageGetStatic(int _token, Pointer<Pointer<Void>> _result) {
   _result.value = smokeListenerwithpropertiesResultstructToFfi((__lib.instanceCache[_token] as ListenerWithProperties).structuredMessage);
   return 0;
 }
-int _ListenerWithPropertiesstructuredMessageSetStatic(int _token, Pointer<Void> _value) {
+int _smokeListenerwithpropertiesstructuredMessageSetStatic(int _token, Pointer<Void> _value) {
   try {
     (__lib.instanceCache[_token] as ListenerWithProperties).structuredMessage =
       smokeListenerwithpropertiesResultstructFromFfi(_value);
@@ -458,11 +458,11 @@ int _ListenerWithPropertiesstructuredMessageSetStatic(int _token, Pointer<Void> 
   }
   return 0;
 }
-int _ListenerWithPropertiesenumeratedMessageGetStatic(int _token, Pointer<Uint32> _result) {
+int _smokeListenerwithpropertiesenumeratedMessageGetStatic(int _token, Pointer<Uint32> _result) {
   _result.value = smokeListenerwithpropertiesResultenumToFfi((__lib.instanceCache[_token] as ListenerWithProperties).enumeratedMessage);
   return 0;
 }
-int _ListenerWithPropertiesenumeratedMessageSetStatic(int _token, int _value) {
+int _smokeListenerwithpropertiesenumeratedMessageSetStatic(int _token, int _value) {
   try {
     (__lib.instanceCache[_token] as ListenerWithProperties).enumeratedMessage =
       smokeListenerwithpropertiesResultenumFromFfi(_value);
@@ -471,11 +471,11 @@ int _ListenerWithPropertiesenumeratedMessageSetStatic(int _token, int _value) {
   }
   return 0;
 }
-int _ListenerWithPropertiesarrayedMessageGetStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokeListenerwithpropertiesarrayedMessageGetStatic(int _token, Pointer<Pointer<Void>> _result) {
   _result.value = foobarListofStringToFfi((__lib.instanceCache[_token] as ListenerWithProperties).arrayedMessage);
   return 0;
 }
-int _ListenerWithPropertiesarrayedMessageSetStatic(int _token, Pointer<Void> _value) {
+int _smokeListenerwithpropertiesarrayedMessageSetStatic(int _token, Pointer<Void> _value) {
   try {
     (__lib.instanceCache[_token] as ListenerWithProperties).arrayedMessage =
       foobarListofStringFromFfi(_value);
@@ -484,11 +484,11 @@ int _ListenerWithPropertiesarrayedMessageSetStatic(int _token, Pointer<Void> _va
   }
   return 0;
 }
-int _ListenerWithPropertiesmappedMessageGetStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokeListenerwithpropertiesmappedMessageGetStatic(int _token, Pointer<Pointer<Void>> _result) {
   _result.value = foobarMapofStringToDoubleToFfi((__lib.instanceCache[_token] as ListenerWithProperties).mappedMessage);
   return 0;
 }
-int _ListenerWithPropertiesmappedMessageSetStatic(int _token, Pointer<Void> _value) {
+int _smokeListenerwithpropertiesmappedMessageSetStatic(int _token, Pointer<Void> _value) {
   try {
     (__lib.instanceCache[_token] as ListenerWithProperties).mappedMessage =
       foobarMapofStringToDoubleFromFfi(_value);
@@ -497,11 +497,11 @@ int _ListenerWithPropertiesmappedMessageSetStatic(int _token, Pointer<Void> _val
   }
   return 0;
 }
-int _ListenerWithPropertiesbufferedMessageGetStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokeListenerwithpropertiesbufferedMessageGetStatic(int _token, Pointer<Pointer<Void>> _result) {
   _result.value = blobToFfi((__lib.instanceCache[_token] as ListenerWithProperties).bufferedMessage);
   return 0;
 }
-int _ListenerWithPropertiesbufferedMessageSetStatic(int _token, Pointer<Void> _value) {
+int _smokeListenerwithpropertiesbufferedMessageSetStatic(int _token, Pointer<Void> _value) {
   try {
     (__lib.instanceCache[_token] as ListenerWithProperties).bufferedMessage =
       blobFromFfi(_value);
@@ -516,20 +516,20 @@ Pointer<Void> smokeListenerwithpropertiesToFfi(ListenerWithProperties value) {
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenerWithPropertiesmessageGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_ListenerWithPropertiesmessageSetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenerWithPropertiespackedMessageGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_ListenerWithPropertiespackedMessageSetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenerWithPropertiesstructuredMessageGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_ListenerWithPropertiesstructuredMessageSetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint32>)>(_ListenerWithPropertiesenumeratedMessageGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Uint32)>(_ListenerWithPropertiesenumeratedMessageSetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenerWithPropertiesarrayedMessageGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_ListenerWithPropertiesarrayedMessageSetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenerWithPropertiesmappedMessageGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_ListenerWithPropertiesmappedMessageSetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenerWithPropertiesbufferedMessageGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_ListenerWithPropertiesbufferedMessageSetStatic, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeListenerwithpropertiesmessageGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokeListenerwithpropertiesmessageSetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeListenerwithpropertiespackedMessageGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokeListenerwithpropertiespackedMessageSetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeListenerwithpropertiesstructuredMessageGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokeListenerwithpropertiesstructuredMessageSetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint32>)>(_smokeListenerwithpropertiesenumeratedMessageGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Uint32)>(_smokeListenerwithpropertiesenumeratedMessageSetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeListenerwithpropertiesarrayedMessageGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokeListenerwithpropertiesarrayedMessageSetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeListenerwithpropertiesmappedMessageGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokeListenerwithpropertiesmappedMessageSetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeListenerwithpropertiesbufferedMessageGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokeListenerwithpropertiesbufferedMessageSetStatic, __lib.unknownError)
   );
   return result;
 }

@@ -1,10 +1,10 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 /// @nodoc
 abstract class InternalInterface {
   InternalInterface();
@@ -70,7 +70,7 @@ class InternalInterface$Impl extends __lib.NativeBase implements InternalInterfa
     }
   }
 }
-int _InternalInterfacefooBarStatic(int _token) {
+int _smokeInternalinterfacefooBarStatic(int _token) {
   try {
     (__lib.instanceCache[_token] as InternalInterface).internal_fooBar();
   } finally {
@@ -83,7 +83,7 @@ Pointer<Void> smokeInternalinterfaceToFfi(InternalInterface value) {
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64)>(_InternalInterfacefooBarStatic, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64)>(_smokeInternalinterfacefooBarStatic, __lib.unknownError)
   );
   return result;
 }
