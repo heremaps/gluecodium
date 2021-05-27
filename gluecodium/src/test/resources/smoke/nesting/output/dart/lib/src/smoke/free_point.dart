@@ -1,6 +1,6 @@
-import 'package:library/src/smoke/free_enum.dart';
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
+import 'package:library/src/smoke/free_enum.dart';
 class FreePoint {
   double x;
   double y;

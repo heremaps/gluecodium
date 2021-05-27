@@ -1,10 +1,10 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 abstract class OuterInterface {
   OuterInterface();
   factory OuterInterface.fromLambdas({
@@ -147,7 +147,7 @@ class OuterInterface_InnerInterface$Impl extends __lib.NativeBase implements Out
     }
   }
 }
-int _OuterInterface_InnerInterfacefooStatic(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
+int _smokeOuterinterfaceInnerinterfacefooStatic(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
   String _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as OuterInterface_InnerInterface).foo(stringFromFfi(input));
@@ -163,7 +163,7 @@ Pointer<Void> smokeOuterinterfaceInnerinterfaceToFfi(OuterInterface_InnerInterfa
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_OuterInterface_InnerInterfacefooStatic, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_smokeOuterinterfaceInnerinterfacefooStatic, __lib.unknownError)
   );
   return result;
 }
@@ -243,7 +243,7 @@ class OuterInterface$Impl extends __lib.NativeBase implements OuterInterface {
     }
   }
 }
-int _OuterInterfacefooStatic(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
+int _smokeOuterinterfacefooStatic(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
   String _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as OuterInterface).foo(stringFromFfi(input));
@@ -259,7 +259,7 @@ Pointer<Void> smokeOuterinterfaceToFfi(OuterInterface value) {
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_OuterInterfacefooStatic, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_smokeOuterinterfacefooStatic, __lib.unknownError)
   );
   return result;
 }

@@ -1,9 +1,7 @@
-import 'dart:collection';
-import 'package:collection/collection.dart';
-import 'package:library/src/smoke/non_equatable_class.dart';
-import 'package:library/src/smoke/non_equatable_interface.dart';
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
+import 'package:library/src/smoke/non_equatable_class.dart';
+import 'package:library/src/smoke/non_equatable_interface.dart';
 class SimpleEquatableStruct {
   NonEquatableClass classField;
   NonEquatableInterface interfaceField;

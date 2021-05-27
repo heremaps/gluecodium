@@ -1,9 +1,9 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/wee_types.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 abstract class weeInterface {
   factory weeInterface.make(String makeParameter) => weeInterface$Impl.make(makeParameter);
   /// Destroys the underlying native object.

@@ -1,11 +1,11 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/parent_interface.dart';
 import 'package:meta/meta.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 abstract class ChildInterface implements ParentInterface {
   ChildInterface();
   factory ChildInterface.fromLambdas({
@@ -119,25 +119,25 @@ class ChildInterface$Impl extends __lib.NativeBase implements ChildInterface {
     }
   }
 }
-int _ChildInterfacerootMethodStatic(int _token) {
+int _smokeChildinterfacerootMethodStatic(int _token) {
   try {
     (__lib.instanceCache[_token] as ChildInterface).rootMethod();
   } finally {
   }
   return 0;
 }
-int _ChildInterfacechildMethodStatic(int _token) {
+int _smokeChildinterfacechildMethodStatic(int _token) {
   try {
     (__lib.instanceCache[_token] as ChildInterface).childMethod();
   } finally {
   }
   return 0;
 }
-int _ChildInterfacerootPropertyGetStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokeChildinterfacerootPropertyGetStatic(int _token, Pointer<Pointer<Void>> _result) {
   _result.value = stringToFfi((__lib.instanceCache[_token] as ChildInterface).rootProperty);
   return 0;
 }
-int _ChildInterfacerootPropertySetStatic(int _token, Pointer<Void> _value) {
+int _smokeChildinterfacerootPropertySetStatic(int _token, Pointer<Void> _value) {
   try {
     (__lib.instanceCache[_token] as ChildInterface).rootProperty =
       stringFromFfi(_value);
@@ -152,10 +152,10 @@ Pointer<Void> smokeChildinterfaceToFfi(ChildInterface value) {
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64)>(_ChildInterfacerootMethodStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64)>(_ChildInterfacechildMethodStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_ChildInterfacerootPropertyGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_ChildInterfacerootPropertySetStatic, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64)>(_smokeChildinterfacerootMethodStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64)>(_smokeChildinterfacechildMethodStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeChildinterfacerootPropertyGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokeChildinterfacerootPropertySetStatic, __lib.unknownError)
   );
   return result;
 }

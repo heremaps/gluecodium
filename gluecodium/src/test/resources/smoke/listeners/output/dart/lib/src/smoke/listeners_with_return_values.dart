@@ -1,3 +1,5 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
@@ -5,8 +7,6 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/calculation_result.dart';
 import 'package:meta/meta.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 abstract class ListenersWithReturnValues {
   ListenersWithReturnValues();
   factory ListenersWithReturnValues.fromLambdas({
@@ -305,7 +305,7 @@ class ListenersWithReturnValues$Impl extends __lib.NativeBase implements Listene
     }
   }
 }
-int _ListenersWithReturnValuesfetchDataDoubleStatic(int _token, Pointer<Double> _result) {
+int _smokeListenerswithreturnvaluesfetchDataDoubleStatic(int _token, Pointer<Double> _result) {
   double _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as ListenersWithReturnValues).fetchDataDouble();
@@ -314,7 +314,7 @@ int _ListenersWithReturnValuesfetchDataDoubleStatic(int _token, Pointer<Double> 
   }
   return 0;
 }
-int _ListenersWithReturnValuesfetchDataStringStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokeListenerswithreturnvaluesfetchDataStringStatic(int _token, Pointer<Pointer<Void>> _result) {
   String _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as ListenersWithReturnValues).fetchDataString();
@@ -323,7 +323,7 @@ int _ListenersWithReturnValuesfetchDataStringStatic(int _token, Pointer<Pointer<
   }
   return 0;
 }
-int _ListenersWithReturnValuesfetchDataStructStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokeListenerswithreturnvaluesfetchDataStructStatic(int _token, Pointer<Pointer<Void>> _result) {
   ListenersWithReturnValues_ResultStruct _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as ListenersWithReturnValues).fetchDataStruct();
@@ -332,7 +332,7 @@ int _ListenersWithReturnValuesfetchDataStructStatic(int _token, Pointer<Pointer<
   }
   return 0;
 }
-int _ListenersWithReturnValuesfetchDataEnumStatic(int _token, Pointer<Uint32> _result) {
+int _smokeListenerswithreturnvaluesfetchDataEnumStatic(int _token, Pointer<Uint32> _result) {
   ListenersWithReturnValues_ResultEnum _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as ListenersWithReturnValues).fetchDataEnum();
@@ -341,7 +341,7 @@ int _ListenersWithReturnValuesfetchDataEnumStatic(int _token, Pointer<Uint32> _r
   }
   return 0;
 }
-int _ListenersWithReturnValuesfetchDataArrayStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokeListenerswithreturnvaluesfetchDataArrayStatic(int _token, Pointer<Pointer<Void>> _result) {
   List<double> _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as ListenersWithReturnValues).fetchDataArray();
@@ -350,7 +350,7 @@ int _ListenersWithReturnValuesfetchDataArrayStatic(int _token, Pointer<Pointer<V
   }
   return 0;
 }
-int _ListenersWithReturnValuesfetchDataMapStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokeListenerswithreturnvaluesfetchDataMapStatic(int _token, Pointer<Pointer<Void>> _result) {
   Map<String, double> _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as ListenersWithReturnValues).fetchDataMap();
@@ -359,7 +359,7 @@ int _ListenersWithReturnValuesfetchDataMapStatic(int _token, Pointer<Pointer<Voi
   }
   return 0;
 }
-int _ListenersWithReturnValuesfetchDataInstanceStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokeListenerswithreturnvaluesfetchDataInstanceStatic(int _token, Pointer<Pointer<Void>> _result) {
   CalculationResult _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as ListenersWithReturnValues).fetchDataInstance();
@@ -375,13 +375,13 @@ Pointer<Void> smokeListenerswithreturnvaluesToFfi(ListenersWithReturnValues valu
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Double>)>(_ListenersWithReturnValuesfetchDataDoubleStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenersWithReturnValuesfetchDataStringStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenersWithReturnValuesfetchDataStructStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint32>)>(_ListenersWithReturnValuesfetchDataEnumStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenersWithReturnValuesfetchDataArrayStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenersWithReturnValuesfetchDataMapStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_ListenersWithReturnValuesfetchDataInstanceStatic, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Double>)>(_smokeListenerswithreturnvaluesfetchDataDoubleStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeListenerswithreturnvaluesfetchDataStringStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeListenerswithreturnvaluesfetchDataStructStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint32>)>(_smokeListenerswithreturnvaluesfetchDataEnumStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeListenerswithreturnvaluesfetchDataArrayStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeListenerswithreturnvaluesfetchDataMapStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeListenerswithreturnvaluesfetchDataInstanceStatic, __lib.unknownError)
   );
   return result;
 }

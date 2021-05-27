@@ -1,10 +1,10 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 abstract class SkipProxy {
   SkipProxy();
   factory SkipProxy.fromLambdas({
@@ -162,7 +162,7 @@ class SkipProxy$Impl extends __lib.NativeBase implements SkipProxy {
     }
   }
 }
-int _SkipProxynotInJavaStatic(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
+int _smokeSkipproxynotInJavaStatic(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
   String _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as SkipProxy).notInJava(stringFromFfi(input));
@@ -172,7 +172,7 @@ int _SkipProxynotInJavaStatic(int _token, Pointer<Void> input, Pointer<Pointer<V
   }
   return 0;
 }
-int _SkipProxynotInSwiftStatic(int _token, int input, Pointer<Uint8> _result) {
+int _smokeSkipproxynotInSwiftStatic(int _token, int input, Pointer<Uint8> _result) {
   bool _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as SkipProxy).notInSwift(booleanFromFfi(input));
@@ -182,11 +182,11 @@ int _SkipProxynotInSwiftStatic(int _token, int input, Pointer<Uint8> _result) {
   }
   return 0;
 }
-int _SkipProxyskippedInJavaGetStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokeSkipproxyskippedInJavaGetStatic(int _token, Pointer<Pointer<Void>> _result) {
   _result.value = stringToFfi((__lib.instanceCache[_token] as SkipProxy).skippedInJava);
   return 0;
 }
-int _SkipProxyskippedInJavaSetStatic(int _token, Pointer<Void> _value) {
+int _smokeSkipproxyskippedInJavaSetStatic(int _token, Pointer<Void> _value) {
   try {
     (__lib.instanceCache[_token] as SkipProxy).skippedInJava =
       stringFromFfi(_value);
@@ -195,11 +195,11 @@ int _SkipProxyskippedInJavaSetStatic(int _token, Pointer<Void> _value) {
   }
   return 0;
 }
-int _SkipProxyisSkippedInSwiftGetStatic(int _token, Pointer<Uint8> _result) {
+int _smokeSkipproxyisSkippedInSwiftGetStatic(int _token, Pointer<Uint8> _result) {
   _result.value = booleanToFfi((__lib.instanceCache[_token] as SkipProxy).isSkippedInSwift);
   return 0;
 }
-int _SkipProxyisSkippedInSwiftSetStatic(int _token, int _value) {
+int _smokeSkipproxyisSkippedInSwiftSetStatic(int _token, int _value) {
   try {
     (__lib.instanceCache[_token] as SkipProxy).isSkippedInSwift =
       booleanFromFfi(_value);
@@ -214,12 +214,12 @@ Pointer<Void> smokeSkipproxyToFfi(SkipProxy value) {
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_SkipProxynotInJavaStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Uint8, Pointer<Uint8>)>(_SkipProxynotInSwiftStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_SkipProxyskippedInJavaGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_SkipProxyskippedInJavaSetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint8>)>(_SkipProxyisSkippedInSwiftGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Uint8)>(_SkipProxyisSkippedInSwiftSetStatic, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_smokeSkipproxynotInJavaStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Uint8, Pointer<Uint8>)>(_smokeSkipproxynotInSwiftStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeSkipproxyskippedInJavaGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokeSkipproxyskippedInJavaSetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint8>)>(_smokeSkipproxyisSkippedInSwiftGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Uint8)>(_smokeSkipproxyisSkippedInSwiftSetStatic, __lib.unknownError)
   );
   return result;
 }

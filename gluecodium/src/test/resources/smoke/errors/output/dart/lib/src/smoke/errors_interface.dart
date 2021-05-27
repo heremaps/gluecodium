@@ -1,3 +1,5 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
@@ -5,8 +7,6 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/payload.dart';
 import 'package:library/src/smoke/with_payload_exception.dart';
 import 'package:meta/meta.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 abstract class ErrorsInterface {
   ErrorsInterface();
   factory ErrorsInterface.fromLambdas({
@@ -387,7 +387,7 @@ class ErrorsInterface$Impl extends __lib.NativeBase implements ErrorsInterface {
     }
   }
 }
-int _ErrorsInterfacemethodWithErrorsStatic(int _token, Pointer<Uint32> _error) {
+int _smokeErrorsinterfacemethodWithErrorsStatic(int _token, Pointer<Uint32> _error) {
   bool _errorFlag = false;
   try {
     (__lib.instanceCache[_token] as ErrorsInterface).methodWithErrors();
@@ -399,7 +399,7 @@ int _ErrorsInterfacemethodWithErrorsStatic(int _token, Pointer<Uint32> _error) {
   }
   return _errorFlag ? 1 : 0;
 }
-int _ErrorsInterfacemethodWithExternalErrorsStatic(int _token, Pointer<Uint32> _error) {
+int _smokeErrorsinterfacemethodWithExternalErrorsStatic(int _token, Pointer<Uint32> _error) {
   bool _errorFlag = false;
   try {
     (__lib.instanceCache[_token] as ErrorsInterface).methodWithExternalErrors();
@@ -411,7 +411,7 @@ int _ErrorsInterfacemethodWithExternalErrorsStatic(int _token, Pointer<Uint32> _
   }
   return _errorFlag ? 1 : 0;
 }
-int _ErrorsInterfacemethodWithErrorsAndReturnValueStatic(int _token, Pointer<Pointer<Void>> _result, Pointer<Uint32> _error) {
+int _smokeErrorsinterfacemethodWithErrorsAndReturnValueStatic(int _token, Pointer<Pointer<Void>> _result, Pointer<Uint32> _error) {
   bool _errorFlag = false;
   String _resultObject;
   try {
@@ -431,9 +431,9 @@ Pointer<Void> smokeErrorsinterfaceToFfi(ErrorsInterface value) {
     __lib.cacheObject(value),
     __lib.LibraryContext.isolateId,
     __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint32>)>(_ErrorsInterfacemethodWithErrorsStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint32>)>(_ErrorsInterfacemethodWithExternalErrorsStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>, Pointer<Uint32>)>(_ErrorsInterfacemethodWithErrorsAndReturnValueStatic, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint32>)>(_smokeErrorsinterfacemethodWithErrorsStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint32>)>(_smokeErrorsinterfacemethodWithExternalErrorsStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>, Pointer<Uint32>)>(_smokeErrorsinterfacemethodWithErrorsAndReturnValueStatic, __lib.unknownError)
   );
   return result;
 }
