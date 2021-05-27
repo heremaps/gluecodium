@@ -27,7 +27,7 @@
 {{>dart/DartDocumentation}}{{>dart/DartAttributes}}
 {{#if attributes.immutable}}
 @immutable{{/if}}
-class {{resolveName}}{{#if external.dart.converter}}Internal{{/if}} {
+abstract class {{resolveName}}{{#if external.dart.converter}}Internal{{/if}} {
 {{>dartFieldsAndConstants}}
 {{#set parent=this isStruct=true}}{{#constructors}}
 {{>dart/DartRedirectConstructor}}
@@ -36,7 +36,8 @@ class {{resolveName}}{{#if external.dart.converter}}Internal{{/if}} {
 {{>dart/DartRedirectFunction}}
 {{/unless}}{{/functions}}{{/set}}
 
-  static var $class = {{resolveName}}{{#if external.dart.converter}}Internal{{/if}}$Impl();
+  static var $class = {{resolveName}}{{#if external.dart.converter}}Internal{{/if}}$Impl{{#if constructors}}._{{/if}}({{!!
+  }}{{#fields}}null{{#if iter.hasNext}}, {{/if}}{{/fields}});
 }
 
 {{/if}}{{!!
@@ -45,7 +46,8 @@ class {{resolveName}}{{#if external.dart.converter}}Internal{{/if}} {
 {{#if attributes.immutable}}
 @immutable{{/if}}
 class {{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{#if testableMode}}$Impl{{/if}} {
-{{>dartFieldsAndConstants}}
+{{#if testableMode}}{{#set implSuffix="$Impl" struct=this}}{{#struct}}{{>dartFieldsAndConstants}}{{/struct}}{{/set}}{{/if}}{{!!
+}}{{#unless testableMode}}{{>dartFieldsAndConstants}}{{/unless}}
 {{#set parent=this isStruct=true ignoreStatic=testableMode}}{{#constructors}}
 {{prefixPartial "dart/DartFunctionDocs" "  "}}
 {{prefixPartial "dartConstructor" "  "}}
@@ -134,7 +136,7 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#i
 {{/fields}}{{/set}}
   try {
 {{#if external.dart.converter}}
-    final resultInternal = {{resolveName}}Internal{{#if constructors}}._{{/if}}(
+    final resultInternal = {{resolveName}}Internal{{#if testableMode}}$Impl{{/if}}{{#if constructors}}._{{/if}}(
 {{#set container=this}}{{#fields}}
 {{>fromFfiFieldInit}}
 {{/fields}}{{/set}}
@@ -169,7 +171,8 @@ void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) => _{{resolveNa
 
 // End of {{resolveName}} "private" section.{{!!
 
-}}{{+dartConstructor}}{{#if attributes.immutable}}const {{/if}}{{resolveName parent}}{{#unless attributes.dart.default}}{{!!
+}}{{+dartConstructor}}{{#if attributes.immutable}}const {{/if}}{{resolveName parent}}{{#if testableMode}}$Impl{{/if}}{{!!
+}}{{#unless attributes.dart.default}}{{!!
 }}{{#isEq constructors.size 1}}{{#if attributes.dart.name}}.{{resolveName visibility}}{{resolveName}}{{/if}}{{!!
 }}{{#unless attributes.dart.name}}{{#if visibility.isInternal}}.{{resolveName visibility}}{{/if}}{{/unless}}{{/isEq}}{{!!
 }}{{#isNotEq constructors.size 1}}.{{resolveName visibility}}{{resolveName}}{{/isNotEq}}{{!!
@@ -205,20 +208,20 @@ void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) => _{{resolveNa
 {{/fields}}
 {{/unless}}{{/resolveName}}{{/unless}}{{!!
 }}{{#if attributes.dart.positionalDefaults initializedFields}}{{!!
-}}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}({{!!
+}}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{implSuffix}}({{!!
   }}{{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}, {{/uninitializedFields}}{{!!
   }}[{{#initializedFields}}{{resolveName typeRef}} {{resolveName}} = {{>constPrefix}}{{resolveName defaultValue}}{{#if iter.hasNext}}, {{/if}}{{/initializedFields}}])
     : {{#fields}}{{resolveName visibility}}{{resolveName}} = {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}};
 {{/if}}{{!!
 }}{{#unless attributes.dart.positionalDefaults initializedFields}}{{!!
-}}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{!!
+}}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{implSuffix}}{{!!
 }}{{#if constructors}}._{{/if}}({{#fields}}this.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
 {{/unless}}
-{{#if constructors}}  {{resolveName}}{{#if constructors}}._copy{{/if}}({{resolveName}} _other) : {{!!
+{{#if constructors}}  {{resolveName}}{{#if testableMode}}$Impl{{/if}}{{#if constructors}}._copy{{/if}}({{resolveName}} _other) : {{!!
 }}this._({{#fields}}_other.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
 {{/if}}{{#unless constructors}}{{#if initializedFields}}
-  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}.withDefaults({{!!
-  }}{{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}})
+  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{implSuffix}}{{!!
+  }}.withDefaults({{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}})
     : {{#fields}}{{resolveName visibility}}{{resolveName}} = {{#if defaultValue}}{{resolveName defaultValue}}{{/if}}{{!!
     }}{{#unless defaultValue}}{{resolveName}}{{/unless}}{{#if iter.hasNext}}, {{/if}}{{/fields}};
 {{/if}}{{/unless}}{{/if}}

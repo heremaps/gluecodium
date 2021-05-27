@@ -3,7 +3,7 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-class SomeClass {
+abstract class SomeClass {
   factory SomeClass() => $class.fooBar();
   /// @nodoc
   @Deprecated("Does nothing")
@@ -14,7 +14,7 @@ class SomeClass {
   String stringFunction();
   SomeClass classFunction();
   static void staticFunction() => $class.staticFunction();
-  static var $class = SomeClass$Impl();
+  static var $class = SomeClass$Impl(null);
 }
 // SomeClass "private" section, not exported.
 final _smokeSomeclassRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
