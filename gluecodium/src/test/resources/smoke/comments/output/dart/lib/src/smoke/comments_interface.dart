@@ -224,8 +224,8 @@ final _smokeCommentsinterfaceReleaseHandle = __lib.catchArgumentError(() => __li
     void Function(Pointer<Void>)
   >('library_smoke_CommentsInterface_release_handle'));
 final _smokeCommentsinterfaceCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
   >('library_smoke_CommentsInterface_create_proxy'));
 final _smokeCommentsinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -300,8 +300,7 @@ class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterfa
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeCommentsinterfaceReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -447,101 +446,101 @@ class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterfa
     }
   }
 }
-int _smokeCommentsinterfacesomeMethodWithAllCommentsStatic(int _token, Pointer<Void> input, Pointer<Uint8> _result) {
+int _smokeCommentsinterfacesomeMethodWithAllCommentsStatic(Object _obj, Pointer<Void> input, Pointer<Uint8> _result) {
   bool? _resultObject;
   try {
-    _resultObject = (__lib.instanceCache[_token] as CommentsInterface).someMethodWithAllComments(stringFromFfi(input));
+    _resultObject = (_obj as CommentsInterface).someMethodWithAllComments(stringFromFfi(input));
     _result.value = booleanToFfi(_resultObject);
   } finally {
     stringReleaseFfiHandle(input);
   }
   return 0;
 }
-int _smokeCommentsinterfacesomeMethodWithInputCommentsStatic(int _token, Pointer<Void> input, Pointer<Uint8> _result) {
+int _smokeCommentsinterfacesomeMethodWithInputCommentsStatic(Object _obj, Pointer<Void> input, Pointer<Uint8> _result) {
   bool? _resultObject;
   try {
-    _resultObject = (__lib.instanceCache[_token] as CommentsInterface).someMethodWithInputComments(stringFromFfi(input));
+    _resultObject = (_obj as CommentsInterface).someMethodWithInputComments(stringFromFfi(input));
     _result.value = booleanToFfi(_resultObject);
   } finally {
     stringReleaseFfiHandle(input);
   }
   return 0;
 }
-int _smokeCommentsinterfacesomeMethodWithOutputCommentsStatic(int _token, Pointer<Void> input, Pointer<Uint8> _result) {
+int _smokeCommentsinterfacesomeMethodWithOutputCommentsStatic(Object _obj, Pointer<Void> input, Pointer<Uint8> _result) {
   bool? _resultObject;
   try {
-    _resultObject = (__lib.instanceCache[_token] as CommentsInterface).someMethodWithOutputComments(stringFromFfi(input));
+    _resultObject = (_obj as CommentsInterface).someMethodWithOutputComments(stringFromFfi(input));
     _result.value = booleanToFfi(_resultObject);
   } finally {
     stringReleaseFfiHandle(input);
   }
   return 0;
 }
-int _smokeCommentsinterfacesomeMethodWithNoCommentsStatic(int _token, Pointer<Void> input, Pointer<Uint8> _result) {
+int _smokeCommentsinterfacesomeMethodWithNoCommentsStatic(Object _obj, Pointer<Void> input, Pointer<Uint8> _result) {
   bool? _resultObject;
   try {
-    _resultObject = (__lib.instanceCache[_token] as CommentsInterface).someMethodWithNoComments(stringFromFfi(input));
+    _resultObject = (_obj as CommentsInterface).someMethodWithNoComments(stringFromFfi(input));
     _result.value = booleanToFfi(_resultObject);
   } finally {
     stringReleaseFfiHandle(input);
   }
   return 0;
 }
-int _smokeCommentsinterfacesomeMethodWithoutReturnTypeWithAllCommentsStatic(int _token, Pointer<Void> input) {
+int _smokeCommentsinterfacesomeMethodWithoutReturnTypeWithAllCommentsStatic(Object _obj, Pointer<Void> input) {
   try {
-    (__lib.instanceCache[_token] as CommentsInterface).someMethodWithoutReturnTypeWithAllComments(stringFromFfi(input));
+    (_obj as CommentsInterface).someMethodWithoutReturnTypeWithAllComments(stringFromFfi(input));
   } finally {
     stringReleaseFfiHandle(input);
   }
   return 0;
 }
-int _smokeCommentsinterfacesomeMethodWithoutReturnTypeWithNoCommentsStatic(int _token, Pointer<Void> input) {
+int _smokeCommentsinterfacesomeMethodWithoutReturnTypeWithNoCommentsStatic(Object _obj, Pointer<Void> input) {
   try {
-    (__lib.instanceCache[_token] as CommentsInterface).someMethodWithoutReturnTypeWithNoComments(stringFromFfi(input));
+    (_obj as CommentsInterface).someMethodWithoutReturnTypeWithNoComments(stringFromFfi(input));
   } finally {
     stringReleaseFfiHandle(input);
   }
   return 0;
 }
-int _smokeCommentsinterfacesomeMethodWithoutInputParametersWithAllCommentsStatic(int _token, Pointer<Uint8> _result) {
+int _smokeCommentsinterfacesomeMethodWithoutInputParametersWithAllCommentsStatic(Object _obj, Pointer<Uint8> _result) {
   bool? _resultObject;
   try {
-    _resultObject = (__lib.instanceCache[_token] as CommentsInterface).someMethodWithoutInputParametersWithAllComments();
+    _resultObject = (_obj as CommentsInterface).someMethodWithoutInputParametersWithAllComments();
     _result.value = booleanToFfi(_resultObject);
   } finally {
   }
   return 0;
 }
-int _smokeCommentsinterfacesomeMethodWithoutInputParametersWithNoCommentsStatic(int _token, Pointer<Uint8> _result) {
+int _smokeCommentsinterfacesomeMethodWithoutInputParametersWithNoCommentsStatic(Object _obj, Pointer<Uint8> _result) {
   bool? _resultObject;
   try {
-    _resultObject = (__lib.instanceCache[_token] as CommentsInterface).someMethodWithoutInputParametersWithNoComments();
+    _resultObject = (_obj as CommentsInterface).someMethodWithoutInputParametersWithNoComments();
     _result.value = booleanToFfi(_resultObject);
   } finally {
   }
   return 0;
 }
-int _smokeCommentsinterfacesomeMethodWithNothingStatic(int _token) {
+int _smokeCommentsinterfacesomeMethodWithNothingStatic(Object _obj) {
   try {
-    (__lib.instanceCache[_token] as CommentsInterface).someMethodWithNothing();
+    (_obj as CommentsInterface).someMethodWithNothing();
   } finally {
   }
   return 0;
 }
-int _smokeCommentsinterfacesomeMethodWithoutReturnTypeOrInputParametersStatic(int _token) {
+int _smokeCommentsinterfacesomeMethodWithoutReturnTypeOrInputParametersStatic(Object _obj) {
   try {
-    (__lib.instanceCache[_token] as CommentsInterface).someMethodWithoutReturnTypeOrInputParameters();
+    (_obj as CommentsInterface).someMethodWithoutReturnTypeOrInputParameters();
   } finally {
   }
   return 0;
 }
-int _smokeCommentsinterfaceisSomePropertyGetStatic(int _token, Pointer<Uint8> _result) {
-  _result.value = booleanToFfi((__lib.instanceCache[_token] as CommentsInterface).isSomeProperty);
+int _smokeCommentsinterfaceisSomePropertyGetStatic(Object _obj, Pointer<Uint8> _result) {
+  _result.value = booleanToFfi((_obj as CommentsInterface).isSomeProperty);
   return 0;
 }
-int _smokeCommentsinterfaceisSomePropertySetStatic(int _token, int _value) {
+int _smokeCommentsinterfaceisSomePropertySetStatic(Object _obj, int _value) {
   try {
-    (__lib.instanceCache[_token] as CommentsInterface).isSomeProperty =
+    (_obj as CommentsInterface).isSomeProperty =
       booleanFromFfi(_value);
   } finally {
     booleanReleaseFfiHandle(_value);
@@ -551,29 +550,27 @@ int _smokeCommentsinterfaceisSomePropertySetStatic(int _token, int _value) {
 Pointer<Void> smokeCommentsinterfaceToFfi(CommentsInterface value) {
   if (value is __lib.NativeBase) return _smokeCommentsinterfaceCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokeCommentsinterfaceCreateProxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_smokeCommentsinterfacesomeMethodWithAllCommentsStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_smokeCommentsinterfacesomeMethodWithInputCommentsStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_smokeCommentsinterfacesomeMethodWithOutputCommentsStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Uint8>)>(_smokeCommentsinterfacesomeMethodWithNoCommentsStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokeCommentsinterfacesomeMethodWithoutReturnTypeWithAllCommentsStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokeCommentsinterfacesomeMethodWithoutReturnTypeWithNoCommentsStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint8>)>(_smokeCommentsinterfacesomeMethodWithoutInputParametersWithAllCommentsStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint8>)>(_smokeCommentsinterfacesomeMethodWithoutInputParametersWithNoCommentsStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64)>(_smokeCommentsinterfacesomeMethodWithNothingStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64)>(_smokeCommentsinterfacesomeMethodWithoutReturnTypeOrInputParametersStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint8>)>(_smokeCommentsinterfaceisSomePropertyGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Uint8)>(_smokeCommentsinterfaceisSomePropertySetStatic, __lib.unknownError)
+    value,
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>, Pointer<Uint8>)>(_smokeCommentsinterfacesomeMethodWithAllCommentsStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>, Pointer<Uint8>)>(_smokeCommentsinterfacesomeMethodWithInputCommentsStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>, Pointer<Uint8>)>(_smokeCommentsinterfacesomeMethodWithOutputCommentsStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>, Pointer<Uint8>)>(_smokeCommentsinterfacesomeMethodWithNoCommentsStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeCommentsinterfacesomeMethodWithoutReturnTypeWithAllCommentsStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeCommentsinterfacesomeMethodWithoutReturnTypeWithNoCommentsStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Uint8>)>(_smokeCommentsinterfacesomeMethodWithoutInputParametersWithAllCommentsStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Uint8>)>(_smokeCommentsinterfacesomeMethodWithoutInputParametersWithNoCommentsStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle)>(_smokeCommentsinterfacesomeMethodWithNothingStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle)>(_smokeCommentsinterfacesomeMethodWithoutReturnTypeOrInputParametersStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Uint8>)>(_smokeCommentsinterfaceisSomePropertyGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Uint8)>(_smokeCommentsinterfaceisSomePropertySetStatic, __lib.unknownError)
   );
   return result;
 }
 CommentsInterface smokeCommentsinterfaceFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is CommentsInterface) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is CommentsInterface) return instance as CommentsInterface;
   final _typeIdHandle = _smokeCommentsinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -581,7 +578,7 @@ CommentsInterface smokeCommentsinterfaceFromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : CommentsInterface$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeCommentsinterfaceReleaseFfiHandle(Pointer<Void> handle) =>

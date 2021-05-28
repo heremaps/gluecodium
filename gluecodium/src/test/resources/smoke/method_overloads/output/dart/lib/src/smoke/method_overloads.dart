@@ -105,8 +105,7 @@ class MethodOverloads$Impl extends __lib.NativeBase implements MethodOverloads {
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeMethodoverloadsReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -246,13 +245,11 @@ class MethodOverloads$Impl extends __lib.NativeBase implements MethodOverloads {
 Pointer<Void> smokeMethodoverloadsToFfi(MethodOverloads value) =>
   _smokeMethodoverloadsCopyHandle((value as __lib.NativeBase).handle);
 MethodOverloads smokeMethodoverloadsFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is MethodOverloads) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is MethodOverloads) return instance as MethodOverloads;
   final _copiedHandle = _smokeMethodoverloadsCopyHandle(handle);
   final result = MethodOverloads$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeMethodoverloadsReleaseFfiHandle(Pointer<Void> handle) =>

@@ -1,6 +1,6 @@
 #include "ffi_smoke_ExternalWithNoFunctions.h"
 #include "ConversionBase.h"
-#include "ReverseCache.h"
+#include "InstanceCache.h"
 #include "CallbacksQueue.h"
 #include "ProxyCache.h"
 #include "gluecodium/TypeRepository.h"
@@ -10,23 +10,30 @@
 #include <new>
 class smoke_ExternalWithNoFunctions_Proxy : public ::some::path::Bar {
 public:
-    smoke_ExternalWithNoFunctions_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter)
-        : token(token), isolate_id(isolate_id), deleter(deleter) { }
+    smoke_ExternalWithNoFunctions_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle)
+        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)) {
+        library_cache_dart_handle_by_raw_pointer(this, dart_handle);
+    }
     ~smoke_ExternalWithNoFunctions_Proxy() {
         gluecodium::ffi::remove_cached_proxy(token, isolate_id, "smoke_ExternalWithNoFunctions");
-        gluecodium::ffi::remove_cached_token(this, isolate_id);
-        auto token_local = token;
-        auto deleter_local = reinterpret_cast<void (*)(uint64_t)>(deleter);
-        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [token_local, deleter_local]() {
-            (*deleter_local)(token_local);
-        });
+        auto raw_pointer_local = this;
+        auto dart_persistent_handle_local = dart_persistent_handle;
+        auto deleter = [raw_pointer_local, dart_persistent_handle_local]() {
+            library_uncache_dart_handle_by_raw_pointer(raw_pointer_local);
+            Dart_DeletePersistentHandle_DL(dart_persistent_handle_local);
+        };
+        if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
+            deleter();
+        } else {
+            gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
+        }
     }
     smoke_ExternalWithNoFunctions_Proxy(const smoke_ExternalWithNoFunctions_Proxy&) = delete;
     smoke_ExternalWithNoFunctions_Proxy& operator=(const smoke_ExternalWithNoFunctions_Proxy&) = delete;
 private:
     const uint64_t token;
     const int32_t isolate_id;
-    const FfiOpaqueHandle deleter;
+    const Dart_PersistentHandle dart_persistent_handle;
 };
 #ifdef __cplusplus
 extern "C" {
@@ -44,17 +51,16 @@ library_smoke_ExternalWithNoFunctions_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::some::path::Bar>*>(handle);
 }
 FfiOpaqueHandle
-library_smoke_ExternalWithNoFunctions_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter) {
+library_smoke_ExternalWithNoFunctions_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle) {
     auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_ExternalWithNoFunctions_Proxy>(token, isolate_id, "smoke_ExternalWithNoFunctions");
     std::shared_ptr<smoke_ExternalWithNoFunctions_Proxy>* proxy_ptr;
     if (cached_proxy) {
         proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_ExternalWithNoFunctions_Proxy>(cached_proxy);
     } else {
         proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_ExternalWithNoFunctions_Proxy>(
-            new (std::nothrow) smoke_ExternalWithNoFunctions_Proxy(token, isolate_id, deleter)
+            new (std::nothrow) smoke_ExternalWithNoFunctions_Proxy(token, isolate_id, dart_handle)
         );
         gluecodium::ffi::cache_proxy(token, isolate_id, "smoke_ExternalWithNoFunctions", *proxy_ptr);
-        gluecodium::ffi::cache_token(proxy_ptr->get(), isolate_id, token);
     }
     return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
 }

@@ -169,8 +169,8 @@ final _smokeListenerswithreturnvaluesReleaseHandle = __lib.catchArgumentError(()
     void Function(Pointer<Void>)
   >('library_smoke_ListenersWithReturnValues_release_handle'));
 final _smokeListenerswithreturnvaluesCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
   >('library_smoke_ListenersWithReturnValues_create_proxy'));
 final _smokeListenerswithreturnvaluesGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -222,8 +222,7 @@ class ListenersWithReturnValues$Impl extends __lib.NativeBase implements Listene
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeListenerswithreturnvaluesReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -304,64 +303,64 @@ class ListenersWithReturnValues$Impl extends __lib.NativeBase implements Listene
     }
   }
 }
-int _smokeListenerswithreturnvaluesfetchDataDoubleStatic(int _token, Pointer<Double> _result) {
+int _smokeListenerswithreturnvaluesfetchDataDoubleStatic(Object _obj, Pointer<Double> _result) {
   double? _resultObject;
   try {
-    _resultObject = (__lib.instanceCache[_token] as ListenersWithReturnValues).fetchDataDouble();
+    _resultObject = (_obj as ListenersWithReturnValues).fetchDataDouble();
     _result.value = (_resultObject);
   } finally {
   }
   return 0;
 }
-int _smokeListenerswithreturnvaluesfetchDataStringStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokeListenerswithreturnvaluesfetchDataStringStatic(Object _obj, Pointer<Pointer<Void>> _result) {
   String? _resultObject;
   try {
-    _resultObject = (__lib.instanceCache[_token] as ListenersWithReturnValues).fetchDataString();
+    _resultObject = (_obj as ListenersWithReturnValues).fetchDataString();
     _result.value = stringToFfi(_resultObject);
   } finally {
   }
   return 0;
 }
-int _smokeListenerswithreturnvaluesfetchDataStructStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokeListenerswithreturnvaluesfetchDataStructStatic(Object _obj, Pointer<Pointer<Void>> _result) {
   ListenersWithReturnValues_ResultStruct? _resultObject;
   try {
-    _resultObject = (__lib.instanceCache[_token] as ListenersWithReturnValues).fetchDataStruct();
+    _resultObject = (_obj as ListenersWithReturnValues).fetchDataStruct();
     _result.value = smokeListenerswithreturnvaluesResultstructToFfi(_resultObject);
   } finally {
   }
   return 0;
 }
-int _smokeListenerswithreturnvaluesfetchDataEnumStatic(int _token, Pointer<Uint32> _result) {
+int _smokeListenerswithreturnvaluesfetchDataEnumStatic(Object _obj, Pointer<Uint32> _result) {
   ListenersWithReturnValues_ResultEnum? _resultObject;
   try {
-    _resultObject = (__lib.instanceCache[_token] as ListenersWithReturnValues).fetchDataEnum();
+    _resultObject = (_obj as ListenersWithReturnValues).fetchDataEnum();
     _result.value = smokeListenerswithreturnvaluesResultenumToFfi(_resultObject);
   } finally {
   }
   return 0;
 }
-int _smokeListenerswithreturnvaluesfetchDataArrayStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokeListenerswithreturnvaluesfetchDataArrayStatic(Object _obj, Pointer<Pointer<Void>> _result) {
   List<double>? _resultObject;
   try {
-    _resultObject = (__lib.instanceCache[_token] as ListenersWithReturnValues).fetchDataArray();
+    _resultObject = (_obj as ListenersWithReturnValues).fetchDataArray();
     _result.value = foobarListofDoubleToFfi(_resultObject);
   } finally {
   }
   return 0;
 }
-int _smokeListenerswithreturnvaluesfetchDataMapStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokeListenerswithreturnvaluesfetchDataMapStatic(Object _obj, Pointer<Pointer<Void>> _result) {
   Map<String, double>? _resultObject;
   try {
-    _resultObject = (__lib.instanceCache[_token] as ListenersWithReturnValues).fetchDataMap();
+    _resultObject = (_obj as ListenersWithReturnValues).fetchDataMap();
     _result.value = foobarMapofStringToDoubleToFfi(_resultObject);
   } finally {
   }
   return 0;
 }
-int _smokeListenerswithreturnvaluesfetchDataInstanceStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokeListenerswithreturnvaluesfetchDataInstanceStatic(Object _obj, Pointer<Pointer<Void>> _result) {
   CalculationResult? _resultObject;
   try {
-    _resultObject = (__lib.instanceCache[_token] as ListenersWithReturnValues).fetchDataInstance();
+    _resultObject = (_obj as ListenersWithReturnValues).fetchDataInstance();
     _result.value = smokeCalculationresultToFfi(_resultObject);
   } finally {
     _resultObject?.release();
@@ -371,24 +370,22 @@ int _smokeListenerswithreturnvaluesfetchDataInstanceStatic(int _token, Pointer<P
 Pointer<Void> smokeListenerswithreturnvaluesToFfi(ListenersWithReturnValues value) {
   if (value is __lib.NativeBase) return _smokeListenerswithreturnvaluesCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokeListenerswithreturnvaluesCreateProxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Double>)>(_smokeListenerswithreturnvaluesfetchDataDoubleStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeListenerswithreturnvaluesfetchDataStringStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeListenerswithreturnvaluesfetchDataStructStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint32>)>(_smokeListenerswithreturnvaluesfetchDataEnumStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeListenerswithreturnvaluesfetchDataArrayStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeListenerswithreturnvaluesfetchDataMapStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeListenerswithreturnvaluesfetchDataInstanceStatic, __lib.unknownError)
+    value,
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Double>)>(_smokeListenerswithreturnvaluesfetchDataDoubleStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeListenerswithreturnvaluesfetchDataStringStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeListenerswithreturnvaluesfetchDataStructStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Uint32>)>(_smokeListenerswithreturnvaluesfetchDataEnumStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeListenerswithreturnvaluesfetchDataArrayStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeListenerswithreturnvaluesfetchDataMapStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeListenerswithreturnvaluesfetchDataInstanceStatic, __lib.unknownError)
   );
   return result;
 }
 ListenersWithReturnValues smokeListenerswithreturnvaluesFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is ListenersWithReturnValues) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is ListenersWithReturnValues) return instance as ListenersWithReturnValues;
   final _typeIdHandle = _smokeListenerswithreturnvaluesGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -396,7 +393,7 @@ ListenersWithReturnValues smokeListenerswithreturnvaluesFromFfi(Pointer<Void> ha
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : ListenersWithReturnValues$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeListenerswithreturnvaluesReleaseFfiHandle(Pointer<Void> handle) =>

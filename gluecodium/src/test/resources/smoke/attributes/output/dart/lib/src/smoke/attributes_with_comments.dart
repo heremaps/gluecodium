@@ -105,8 +105,7 @@ class AttributesWithComments$Impl extends __lib.NativeBase implements Attributes
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeAttributeswithcommentsReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -149,13 +148,11 @@ class AttributesWithComments$Impl extends __lib.NativeBase implements Attributes
 Pointer<Void> smokeAttributeswithcommentsToFfi(AttributesWithComments value) =>
   _smokeAttributeswithcommentsCopyHandle((value as __lib.NativeBase).handle);
 AttributesWithComments smokeAttributeswithcommentsFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is AttributesWithComments) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is AttributesWithComments) return instance as AttributesWithComments;
   final _copiedHandle = _smokeAttributeswithcommentsCopyHandle(handle);
   final result = AttributesWithComments$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeAttributeswithcommentsReleaseFfiHandle(Pointer<Void> handle) =>

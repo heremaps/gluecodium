@@ -1,6 +1,7 @@
 #pragma once
 #include "Export.h"
 #include "OpaqueHandle.h"
+#include "dart_api_dl.h"
 #include <stdint.h>
 #ifdef __cplusplus
 extern "C" {
@@ -16,7 +17,7 @@ _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerClass_copy
 _GLUECODIUM_FFI_EXPORT void library_smoke_OuterStruct_InnerClass_release_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerInterface_copy_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT void library_smoke_OuterStruct_InnerInterface_release_handle(FfiOpaqueHandle handle);
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerInterface_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerInterface_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_create_handle(FfiOpaqueHandle);
 _GLUECODIUM_FFI_EXPORT void library_smoke_OuterStruct_release_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_get_field_field(FfiOpaqueHandle handle);

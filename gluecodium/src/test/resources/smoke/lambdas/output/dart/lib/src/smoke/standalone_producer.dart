@@ -13,8 +13,8 @@ final _smokeStandaloneproducerReleaseHandle = __lib.catchArgumentError(() => __l
     void Function(Pointer<Void>)
   >('library_smoke_StandaloneProducer_release_handle'));
 final _smokeStandaloneproducerCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_StandaloneProducer_create_proxy'));
 class StandaloneProducer$Impl {
   final Pointer<Void> handle;
@@ -31,24 +31,22 @@ class StandaloneProducer$Impl {
     }
   }
 }
-int _smokeStandaloneproducercallStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokeStandaloneproducercallStatic(Object _obj, Pointer<Pointer<Void>> _result) {
   String? _resultObject;
   try {
-    _resultObject = (__lib.instanceCache[_token] as StandaloneProducer)();
+    _resultObject = (_obj as StandaloneProducer)();
     _result.value = stringToFfi(_resultObject);
   } finally {
   }
   return 0;
 }
-Pointer<Void> smokeStandaloneproducerToFfi(StandaloneProducer value) {
-  final result = _smokeStandaloneproducerCreateProxy(
-    __lib.cacheObject(value),
+Pointer<Void> smokeStandaloneproducerToFfi(StandaloneProducer value) =>
+  _smokeStandaloneproducerCreateProxy(
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeStandaloneproducercallStatic, __lib.unknownError)
+    value,
+    Pointer.fromFunction<Int64 Function(Handle, Pointer<Pointer<Void>>)>(_smokeStandaloneproducercallStatic, __lib.unknownError)
   );
-  return result;
-}
 StandaloneProducer smokeStandaloneproducerFromFfi(Pointer<Void> handle) {
   final _impl = StandaloneProducer$Impl(_smokeStandaloneproducerCopyHandle(handle));
   return () {

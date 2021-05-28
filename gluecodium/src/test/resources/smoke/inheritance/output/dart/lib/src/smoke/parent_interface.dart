@@ -34,8 +34,8 @@ final _smokeParentinterfaceReleaseHandle = __lib.catchArgumentError(() => __lib.
     void Function(Pointer<Void>)
   >('library_smoke_ParentInterface_release_handle'));
 final _smokeParentinterfaceCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Pointer, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer)
   >('library_smoke_ParentInterface_create_proxy'));
 final _smokeParentinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -65,8 +65,7 @@ class ParentInterface$Impl extends __lib.NativeBase implements ParentInterface {
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeParentinterfaceReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -102,20 +101,20 @@ class ParentInterface$Impl extends __lib.NativeBase implements ParentInterface {
     }
   }
 }
-int _smokeParentinterfacerootMethodStatic(int _token) {
+int _smokeParentinterfacerootMethodStatic(Object _obj) {
   try {
-    (__lib.instanceCache[_token] as ParentInterface).rootMethod();
+    (_obj as ParentInterface).rootMethod();
   } finally {
   }
   return 0;
 }
-int _smokeParentinterfacerootPropertyGetStatic(int _token, Pointer<Pointer<Void>> _result) {
-  _result.value = stringToFfi((__lib.instanceCache[_token] as ParentInterface).rootProperty);
+int _smokeParentinterfacerootPropertyGetStatic(Object _obj, Pointer<Pointer<Void>> _result) {
+  _result.value = stringToFfi((_obj as ParentInterface).rootProperty);
   return 0;
 }
-int _smokeParentinterfacerootPropertySetStatic(int _token, Pointer<Void> _value) {
+int _smokeParentinterfacerootPropertySetStatic(Object _obj, Pointer<Void> _value) {
   try {
-    (__lib.instanceCache[_token] as ParentInterface).rootProperty =
+    (_obj as ParentInterface).rootProperty =
       stringFromFfi(_value);
   } finally {
     stringReleaseFfiHandle(_value);
@@ -125,20 +124,18 @@ int _smokeParentinterfacerootPropertySetStatic(int _token, Pointer<Void> _value)
 Pointer<Void> smokeParentinterfaceToFfi(ParentInterface value) {
   if (value is __lib.NativeBase) return _smokeParentinterfaceCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokeParentinterfaceCreateProxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64)>(_smokeParentinterfacerootMethodStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeParentinterfacerootPropertyGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokeParentinterfacerootPropertySetStatic, __lib.unknownError)
+    value,
+    Pointer.fromFunction<Uint8 Function(Handle)>(_smokeParentinterfacerootMethodStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeParentinterfacerootPropertyGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeParentinterfacerootPropertySetStatic, __lib.unknownError)
   );
   return result;
 }
 ParentInterface smokeParentinterfaceFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is ParentInterface) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is ParentInterface) return instance as ParentInterface;
   final _typeIdHandle = _smokeParentinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -146,7 +143,7 @@ ParentInterface smokeParentinterfaceFromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : ParentInterface$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeParentinterfaceReleaseFfiHandle(Pointer<Void> handle) =>

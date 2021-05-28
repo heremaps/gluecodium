@@ -24,8 +24,8 @@ final _smokeExcludedcommentsinterfaceReleaseHandle = __lib.catchArgumentError(()
     void Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsInterface_release_handle'));
 final _smokeExcludedcommentsinterfaceCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer),
-    Pointer<Void> Function(int, int, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle),
+    Pointer<Void> Function(int, int, Object)
   >('library_smoke_ExcludedCommentsInterface_create_proxy'));
 final _smokeExcludedcommentsinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -36,8 +36,7 @@ class ExcludedCommentsInterface$Impl extends __lib.NativeBase implements Exclude
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeExcludedcommentsinterfaceReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -45,17 +44,15 @@ class ExcludedCommentsInterface$Impl extends __lib.NativeBase implements Exclude
 Pointer<Void> smokeExcludedcommentsinterfaceToFfi(ExcludedCommentsInterface value) {
   if (value is __lib.NativeBase) return _smokeExcludedcommentsinterfaceCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokeExcludedcommentsinterfaceCreateProxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi
+    value
   );
   return result;
 }
 ExcludedCommentsInterface smokeExcludedcommentsinterfaceFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is ExcludedCommentsInterface) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is ExcludedCommentsInterface) return instance as ExcludedCommentsInterface;
   final _typeIdHandle = _smokeExcludedcommentsinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -63,7 +60,7 @@ ExcludedCommentsInterface smokeExcludedcommentsinterfaceFromFfi(Pointer<Void> ha
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : ExcludedCommentsInterface$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeExcludedcommentsinterfaceReleaseFfiHandle(Pointer<Void> handle) =>

@@ -40,8 +40,7 @@ class OuterInterface_InnerClass$Impl extends __lib.NativeBase implements OuterIn
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeOuterinterfaceInnerclassReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -62,13 +61,11 @@ class OuterInterface_InnerClass$Impl extends __lib.NativeBase implements OuterIn
 Pointer<Void> smokeOuterinterfaceInnerclassToFfi(OuterInterface_InnerClass value) =>
   _smokeOuterinterfaceInnerclassCopyHandle((value as __lib.NativeBase).handle);
 OuterInterface_InnerClass smokeOuterinterfaceInnerclassFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is OuterInterface_InnerClass) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is OuterInterface_InnerClass) return instance as OuterInterface_InnerClass;
   final _copiedHandle = _smokeOuterinterfaceInnerclassCopyHandle(handle);
   final result = OuterInterface_InnerClass$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeOuterinterfaceInnerclassReleaseFfiHandle(Pointer<Void> handle) =>
@@ -103,8 +100,8 @@ final _smokeOuterinterfaceInnerinterfaceReleaseHandle = __lib.catchArgumentError
     void Function(Pointer<Void>)
   >('library_smoke_OuterInterface_InnerInterface_release_handle'));
 final _smokeOuterinterfaceInnerinterfaceCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_OuterInterface_InnerInterface_create_proxy'));
 final _smokeOuterinterfaceInnerinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -126,8 +123,7 @@ class OuterInterface_InnerInterface$Impl extends __lib.NativeBase implements Out
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeOuterinterfaceInnerinterfaceReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -145,10 +141,10 @@ class OuterInterface_InnerInterface$Impl extends __lib.NativeBase implements Out
     }
   }
 }
-int _smokeOuterinterfaceInnerinterfacefooStatic(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
+int _smokeOuterinterfaceInnerinterfacefooStatic(Object _obj, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
   String? _resultObject;
   try {
-    _resultObject = (__lib.instanceCache[_token] as OuterInterface_InnerInterface).foo(stringFromFfi(input));
+    _resultObject = (_obj as OuterInterface_InnerInterface).foo(stringFromFfi(input));
     _result.value = stringToFfi(_resultObject);
   } finally {
     stringReleaseFfiHandle(input);
@@ -158,18 +154,16 @@ int _smokeOuterinterfaceInnerinterfacefooStatic(int _token, Pointer<Void> input,
 Pointer<Void> smokeOuterinterfaceInnerinterfaceToFfi(OuterInterface_InnerInterface value) {
   if (value is __lib.NativeBase) return _smokeOuterinterfaceInnerinterfaceCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokeOuterinterfaceInnerinterfaceCreateProxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_smokeOuterinterfaceInnerinterfacefooStatic, __lib.unknownError)
+    value,
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>, Pointer<Pointer<Void>>)>(_smokeOuterinterfaceInnerinterfacefooStatic, __lib.unknownError)
   );
   return result;
 }
 OuterInterface_InnerInterface smokeOuterinterfaceInnerinterfaceFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is OuterInterface_InnerInterface) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is OuterInterface_InnerInterface) return instance as OuterInterface_InnerInterface;
   final _typeIdHandle = _smokeOuterinterfaceInnerinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -177,7 +171,7 @@ OuterInterface_InnerInterface smokeOuterinterfaceInnerinterfaceFromFfi(Pointer<V
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : OuterInterface_InnerInterface$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeOuterinterfaceInnerinterfaceReleaseFfiHandle(Pointer<Void> handle) =>
@@ -199,8 +193,8 @@ final _smokeOuterinterfaceReleaseHandle = __lib.catchArgumentError(() => __lib.n
     void Function(Pointer<Void>)
   >('library_smoke_OuterInterface_release_handle'));
 final _smokeOuterinterfaceCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_OuterInterface_create_proxy'));
 final _smokeOuterinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -222,8 +216,7 @@ class OuterInterface$Impl extends __lib.NativeBase implements OuterInterface {
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeOuterinterfaceReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -241,10 +234,10 @@ class OuterInterface$Impl extends __lib.NativeBase implements OuterInterface {
     }
   }
 }
-int _smokeOuterinterfacefooStatic(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
+int _smokeOuterinterfacefooStatic(Object _obj, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
   String? _resultObject;
   try {
-    _resultObject = (__lib.instanceCache[_token] as OuterInterface).foo(stringFromFfi(input));
+    _resultObject = (_obj as OuterInterface).foo(stringFromFfi(input));
     _result.value = stringToFfi(_resultObject);
   } finally {
     stringReleaseFfiHandle(input);
@@ -254,18 +247,16 @@ int _smokeOuterinterfacefooStatic(int _token, Pointer<Void> input, Pointer<Point
 Pointer<Void> smokeOuterinterfaceToFfi(OuterInterface value) {
   if (value is __lib.NativeBase) return _smokeOuterinterfaceCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokeOuterinterfaceCreateProxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_smokeOuterinterfacefooStatic, __lib.unknownError)
+    value,
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>, Pointer<Pointer<Void>>)>(_smokeOuterinterfacefooStatic, __lib.unknownError)
   );
   return result;
 }
 OuterInterface smokeOuterinterfaceFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is OuterInterface) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is OuterInterface) return instance as OuterInterface;
   final _typeIdHandle = _smokeOuterinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -273,7 +264,7 @@ OuterInterface smokeOuterinterfaceFromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : OuterInterface$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeOuterinterfaceReleaseFfiHandle(Pointer<Void> handle) =>

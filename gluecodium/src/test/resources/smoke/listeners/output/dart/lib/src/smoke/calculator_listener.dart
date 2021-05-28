@@ -107,8 +107,8 @@ final _smokeCalculatorlistenerReleaseHandle = __lib.catchArgumentError(() => __l
     void Function(Pointer<Void>)
   >('library_smoke_CalculatorListener_release_handle'));
 final _smokeCalculatorlistenerCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
   >('library_smoke_CalculatorListener_create_proxy'));
 final _smokeCalculatorlistenerGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -155,8 +155,7 @@ class CalculatorListener$Impl extends __lib.NativeBase implements CalculatorList
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeCalculatorlistenerReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -231,47 +230,47 @@ class CalculatorListener$Impl extends __lib.NativeBase implements CalculatorList
     }
   }
 }
-int _smokeCalculatorlisteneronCalculationResultStatic(int _token, double calculationResult) {
+int _smokeCalculatorlisteneronCalculationResultStatic(Object _obj, double calculationResult) {
   try {
-    (__lib.instanceCache[_token] as CalculatorListener).onCalculationResult((calculationResult));
+    (_obj as CalculatorListener).onCalculationResult((calculationResult));
   } finally {
   }
   return 0;
 }
-int _smokeCalculatorlisteneronCalculationResultConstStatic(int _token, double calculationResult) {
+int _smokeCalculatorlisteneronCalculationResultConstStatic(Object _obj, double calculationResult) {
   try {
-    (__lib.instanceCache[_token] as CalculatorListener).onCalculationResultConst((calculationResult));
+    (_obj as CalculatorListener).onCalculationResultConst((calculationResult));
   } finally {
   }
   return 0;
 }
-int _smokeCalculatorlisteneronCalculationResultStructStatic(int _token, Pointer<Void> calculationResult) {
+int _smokeCalculatorlisteneronCalculationResultStructStatic(Object _obj, Pointer<Void> calculationResult) {
   try {
-    (__lib.instanceCache[_token] as CalculatorListener).onCalculationResultStruct(smokeCalculatorlistenerResultstructFromFfi(calculationResult));
+    (_obj as CalculatorListener).onCalculationResultStruct(smokeCalculatorlistenerResultstructFromFfi(calculationResult));
   } finally {
     smokeCalculatorlistenerResultstructReleaseFfiHandle(calculationResult);
   }
   return 0;
 }
-int _smokeCalculatorlisteneronCalculationResultArrayStatic(int _token, Pointer<Void> calculationResult) {
+int _smokeCalculatorlisteneronCalculationResultArrayStatic(Object _obj, Pointer<Void> calculationResult) {
   try {
-    (__lib.instanceCache[_token] as CalculatorListener).onCalculationResultArray(foobarListofDoubleFromFfi(calculationResult));
+    (_obj as CalculatorListener).onCalculationResultArray(foobarListofDoubleFromFfi(calculationResult));
   } finally {
     foobarListofDoubleReleaseFfiHandle(calculationResult);
   }
   return 0;
 }
-int _smokeCalculatorlisteneronCalculationResultMapStatic(int _token, Pointer<Void> calculationResults) {
+int _smokeCalculatorlisteneronCalculationResultMapStatic(Object _obj, Pointer<Void> calculationResults) {
   try {
-    (__lib.instanceCache[_token] as CalculatorListener).onCalculationResultMap(foobarMapofStringToDoubleFromFfi(calculationResults));
+    (_obj as CalculatorListener).onCalculationResultMap(foobarMapofStringToDoubleFromFfi(calculationResults));
   } finally {
     foobarMapofStringToDoubleReleaseFfiHandle(calculationResults);
   }
   return 0;
 }
-int _smokeCalculatorlisteneronCalculationResultInstanceStatic(int _token, Pointer<Void> calculationResult) {
+int _smokeCalculatorlisteneronCalculationResultInstanceStatic(Object _obj, Pointer<Void> calculationResult) {
   try {
-    (__lib.instanceCache[_token] as CalculatorListener).onCalculationResultInstance(smokeCalculationresultFromFfi(calculationResult));
+    (_obj as CalculatorListener).onCalculationResultInstance(smokeCalculationresultFromFfi(calculationResult));
   } finally {
     smokeCalculationresultReleaseFfiHandle(calculationResult);
   }
@@ -280,23 +279,21 @@ int _smokeCalculatorlisteneronCalculationResultInstanceStatic(int _token, Pointe
 Pointer<Void> smokeCalculatorlistenerToFfi(CalculatorListener value) {
   if (value is __lib.NativeBase) return _smokeCalculatorlistenerCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokeCalculatorlistenerCreateProxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Double)>(_smokeCalculatorlisteneronCalculationResultStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Double)>(_smokeCalculatorlisteneronCalculationResultConstStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokeCalculatorlisteneronCalculationResultStructStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokeCalculatorlisteneronCalculationResultArrayStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokeCalculatorlisteneronCalculationResultMapStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokeCalculatorlisteneronCalculationResultInstanceStatic, __lib.unknownError)
+    value,
+    Pointer.fromFunction<Uint8 Function(Handle, Double)>(_smokeCalculatorlisteneronCalculationResultStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Double)>(_smokeCalculatorlisteneronCalculationResultConstStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeCalculatorlisteneronCalculationResultStructStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeCalculatorlisteneronCalculationResultArrayStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeCalculatorlisteneronCalculationResultMapStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeCalculatorlisteneronCalculationResultInstanceStatic, __lib.unknownError)
   );
   return result;
 }
 CalculatorListener smokeCalculatorlistenerFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is CalculatorListener) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is CalculatorListener) return instance as CalculatorListener;
   final _typeIdHandle = _smokeCalculatorlistenerGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -304,7 +301,7 @@ CalculatorListener smokeCalculatorlistenerFromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : CalculatorListener$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeCalculatorlistenerReleaseFfiHandle(Pointer<Void> handle) =>

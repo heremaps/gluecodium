@@ -299,8 +299,7 @@ class PublicClass$Impl extends __lib.NativeBase implements PublicClass {
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokePublicclassReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -367,13 +366,11 @@ class PublicClass$Impl extends __lib.NativeBase implements PublicClass {
 Pointer<Void> smokePublicclassToFfi(PublicClass value) =>
   _smokePublicclassCopyHandle((value as __lib.NativeBase).handle);
 PublicClass smokePublicclassFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is PublicClass) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is PublicClass) return instance as PublicClass;
   final _copiedHandle = _smokePublicclassCopyHandle(handle);
   final result = PublicClass$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokePublicclassReleaseFfiHandle(Pointer<Void> handle) =>

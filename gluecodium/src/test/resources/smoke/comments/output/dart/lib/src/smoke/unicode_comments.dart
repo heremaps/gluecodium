@@ -50,8 +50,7 @@ class UnicodeComments$Impl extends __lib.NativeBase implements UnicodeComments {
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeUnicodecommentsReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -83,13 +82,11 @@ class UnicodeComments$Impl extends __lib.NativeBase implements UnicodeComments {
 Pointer<Void> smokeUnicodecommentsToFfi(UnicodeComments value) =>
   _smokeUnicodecommentsCopyHandle((value as __lib.NativeBase).handle);
 UnicodeComments smokeUnicodecommentsFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is UnicodeComments) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is UnicodeComments) return instance as UnicodeComments;
   final _copiedHandle = _smokeUnicodecommentsCopyHandle(handle);
   final result = UnicodeComments$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeUnicodecommentsReleaseFfiHandle(Pointer<Void> handle) =>

@@ -24,13 +24,12 @@ class SingleNamelessConstructor$Impl extends __lib.NativeBase implements SingleN
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeSinglenamelessconstructorReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
   SingleNamelessConstructor$Impl.create() : super(_create()) {
-    __lib.ffiCacheToken(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
+    __lib.cacheInstance(handle, this);
   }
   static Pointer<Void> _create() {
     final _createFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_SingleNamelessConstructor_create'));
@@ -41,13 +40,11 @@ class SingleNamelessConstructor$Impl extends __lib.NativeBase implements SingleN
 Pointer<Void> smokeSinglenamelessconstructorToFfi(SingleNamelessConstructor value) =>
   _smokeSinglenamelessconstructorCopyHandle((value as __lib.NativeBase).handle);
 SingleNamelessConstructor smokeSinglenamelessconstructorFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is SingleNamelessConstructor) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is SingleNamelessConstructor) return instance as SingleNamelessConstructor;
   final _copiedHandle = _smokeSinglenamelessconstructorCopyHandle(handle);
   final result = SingleNamelessConstructor$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeSinglenamelessconstructorReleaseFfiHandle(Pointer<Void> handle) =>
