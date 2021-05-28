@@ -13,6 +13,8 @@ _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Lambdas_Confuser_call__Stri
 _GLUECODIUM_FFI_EXPORT void library_smoke_Lambdas_Consumer_call__String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle p0);
 _GLUECODIUM_FFI_EXPORT int32_t library_smoke_Lambdas_Indexer_call__String_Float(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle p0, float p1);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Lambdas_NullableConfuser_call__String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle p0);
+_GLUECODIUM_FFI_EXPORT void library_smoke_Lambdas_register_finalizer(
+    FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Lambdas_copy_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT void library_smoke_Lambdas_release_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Lambdas_Producer_copy_handle(FfiOpaqueHandle handle);

@@ -5,10 +5,8 @@ import 'package:library/src/_token_cache.dart' as __lib;
 /// This looks internal
 /// @nodoc
 abstract class InternalClassWithComments {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   /// This is definitely internal
   ///
@@ -16,6 +14,10 @@ abstract class InternalClassWithComments {
   internal_doNothing();
 }
 // InternalClassWithComments "private" section, not exported.
+final _smokeInternalclasswithcommentsRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_InternalClassWithComments_register_finalizer'));
 final _smokeInternalclasswithcommentsCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -27,12 +29,7 @@ final _smokeInternalclasswithcommentsReleaseHandle = __lib.catchArgumentError(()
 class InternalClassWithComments$Impl extends __lib.NativeBase implements InternalClassWithComments {
   InternalClassWithComments$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeInternalclasswithcommentsReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   @override
   internal_doNothing() {
     final _doNothingFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalClassWithComments_doNothing'));
@@ -52,6 +49,7 @@ InternalClassWithComments smokeInternalclasswithcommentsFromFfi(Pointer<Void> ha
   final _copiedHandle = _smokeInternalclasswithcommentsCopyHandle(handle);
   final result = InternalClassWithComments$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeInternalclasswithcommentsRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeInternalclasswithcommentsReleaseFfiHandle(Pointer<Void> handle) =>

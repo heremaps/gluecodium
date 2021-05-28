@@ -16,10 +16,8 @@ abstract class DeprecationCommentsOnly {
     isSomePropertyGetLambda,
     isSomePropertySetLambda
   );
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release() {}
   @Deprecated("Unfortunately, this constant is deprecated.")
   static final bool veryUseful = true;
@@ -155,6 +153,10 @@ void smokeDeprecationcommentsonlySomestructReleaseFfiHandleNullable(Pointer<Void
   _smokeDeprecationcommentsonlySomestructReleaseHandleNullable(handle);
 // End of DeprecationCommentsOnly_SomeStruct "private" section.
 // DeprecationCommentsOnly "private" section, not exported.
+final _smokeDeprecationcommentsonlyRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_DeprecationCommentsOnly_register_finalizer'));
 final _smokeDeprecationcommentsonlyCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -193,12 +195,7 @@ class DeprecationCommentsOnly$Lambdas implements DeprecationCommentsOnly {
 class DeprecationCommentsOnly$Impl extends __lib.NativeBase implements DeprecationCommentsOnly {
   DeprecationCommentsOnly$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeDeprecationcommentsonlyReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   @override
   bool someMethodWithAllComments(String input) {
     final _someMethodWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DeprecationCommentsOnly_someMethodWithAllComments__String'));
@@ -282,6 +279,7 @@ DeprecationCommentsOnly smokeDeprecationcommentsonlyFromFfi(Pointer<Void> handle
     ? factoryConstructor(_copiedHandle)
     : DeprecationCommentsOnly$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeDeprecationcommentsonlyRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeDeprecationcommentsonlyReleaseFfiHandle(Pointer<Void> handle) =>

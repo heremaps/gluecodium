@@ -18,10 +18,8 @@ import 'package:library/src/builtin_types__conversion.dart';
 ///
 /// ```Some example code;```
 abstract class MultiLineComments {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   /// This is very important method.
   ///
@@ -44,6 +42,10 @@ abstract class MultiLineComments {
   double someMethodWithLongComment(String input, double ratio);
 }
 // MultiLineComments "private" section, not exported.
+final _smokeMultilinecommentsRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_MultiLineComments_register_finalizer'));
 final _smokeMultilinecommentsCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -55,12 +57,7 @@ final _smokeMultilinecommentsReleaseHandle = __lib.catchArgumentError(() => __li
 class MultiLineComments$Impl extends __lib.NativeBase implements MultiLineComments {
   MultiLineComments$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeMultilinecommentsReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   @override
   double someMethodWithLongComment(String input, double ratio) {
     final _someMethodWithLongCommentFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Float Function(Pointer<Void>, Int32, Pointer<Void>, Double), double Function(Pointer<Void>, int, Pointer<Void>, double)>('library_smoke_MultiLineComments_someMethodWithLongComment__String_Double'));
@@ -83,6 +80,7 @@ MultiLineComments smokeMultilinecommentsFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeMultilinecommentsCopyHandle(handle);
   final result = MultiLineComments$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeMultilinecommentsRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeMultilinecommentsReleaseFfiHandle(Pointer<Void> handle) =>

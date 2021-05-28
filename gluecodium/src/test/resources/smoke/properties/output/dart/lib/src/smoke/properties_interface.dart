@@ -13,10 +13,8 @@ abstract class PropertiesInterface {
     structPropertyGetLambda,
     structPropertySetLambda
   );
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release() {}
   PropertiesInterface_ExampleStruct get structProperty;
   set structProperty(PropertiesInterface_ExampleStruct value);
@@ -84,6 +82,10 @@ void smokePropertiesinterfaceExamplestructReleaseFfiHandleNullable(Pointer<Void>
   _smokePropertiesinterfaceExamplestructReleaseHandleNullable(handle);
 // End of PropertiesInterface_ExampleStruct "private" section.
 // PropertiesInterface "private" section, not exported.
+final _smokePropertiesinterfaceRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_PropertiesInterface_register_finalizer'));
 final _smokePropertiesinterfaceCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -117,12 +119,7 @@ class PropertiesInterface$Lambdas implements PropertiesInterface {
 class PropertiesInterface$Impl extends __lib.NativeBase implements PropertiesInterface {
   PropertiesInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokePropertiesinterfaceReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   PropertiesInterface_ExampleStruct get structProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_PropertiesInterface_structProperty_get'));
     final _handle = this.handle;
@@ -180,6 +177,7 @@ PropertiesInterface smokePropertiesinterfaceFromFfi(Pointer<Void> handle) {
     ? factoryConstructor(_copiedHandle)
     : PropertiesInterface$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokePropertiesinterfaceRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokePropertiesinterfaceReleaseFfiHandle(Pointer<Void> handle) =>

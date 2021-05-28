@@ -40,10 +40,8 @@ abstract class ListenerWithProperties {
     bufferedMessageGetLambda,
     bufferedMessageSetLambda
   );
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release() {}
   String get message;
   set message(String value);
@@ -182,6 +180,10 @@ void smokeListenerwithpropertiesResultstructReleaseFfiHandleNullable(Pointer<Voi
   _smokeListenerwithpropertiesResultstructReleaseHandleNullable(handle);
 // End of ListenerWithProperties_ResultStruct "private" section.
 // ListenerWithProperties "private" section, not exported.
+final _smokeListenerwithpropertiesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_ListenerWithProperties_register_finalizer'));
 final _smokeListenerwithpropertiesCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -263,12 +265,7 @@ class ListenerWithProperties$Lambdas implements ListenerWithProperties {
 class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWithProperties {
   ListenerWithProperties$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeListenerwithpropertiesReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   String get message {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ListenerWithProperties_message_get'));
     final _handle = this.handle;
@@ -542,6 +539,7 @@ ListenerWithProperties smokeListenerwithpropertiesFromFfi(Pointer<Void> handle) 
     ? factoryConstructor(_copiedHandle)
     : ListenerWithProperties$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeListenerwithpropertiesRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeListenerwithpropertiesReleaseFfiHandle(Pointer<Void> handle) =>

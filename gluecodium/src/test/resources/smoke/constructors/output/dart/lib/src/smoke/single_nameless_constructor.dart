@@ -4,13 +4,15 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 abstract class SingleNamelessConstructor {
   factory SingleNamelessConstructor() => SingleNamelessConstructor$Impl.create();
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
 }
 // SingleNamelessConstructor "private" section, not exported.
+final _smokeSinglenamelessconstructorRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_SingleNamelessConstructor_register_finalizer'));
 final _smokeSinglenamelessconstructorCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -22,14 +24,10 @@ final _smokeSinglenamelessconstructorReleaseHandle = __lib.catchArgumentError(()
 class SingleNamelessConstructor$Impl extends __lib.NativeBase implements SingleNamelessConstructor {
   SingleNamelessConstructor$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeSinglenamelessconstructorReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   SingleNamelessConstructor$Impl.create() : super(_create()) {
     __lib.cacheInstance(handle, this);
+    _smokeSinglenamelessconstructorRegisterFinalizer(handle, __lib.LibraryContext.isolateId, this);
   }
   static Pointer<Void> _create() {
     final _createFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_SingleNamelessConstructor_create'));
@@ -45,6 +43,7 @@ SingleNamelessConstructor smokeSinglenamelessconstructorFromFfi(Pointer<Void> ha
   final _copiedHandle = _smokeSinglenamelessconstructorCopyHandle(handle);
   final result = SingleNamelessConstructor$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeSinglenamelessconstructorRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeSinglenamelessconstructorReleaseFfiHandle(Pointer<Void> handle) =>

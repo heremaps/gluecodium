@@ -4,13 +4,15 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 abstract class SingleNamedConstructor {
   factory SingleNamedConstructor.fooBar() => SingleNamedConstructor$Impl.fooBar();
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
 }
 // SingleNamedConstructor "private" section, not exported.
+final _smokeSinglenamedconstructorRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_SingleNamedConstructor_register_finalizer'));
 final _smokeSinglenamedconstructorCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -22,14 +24,10 @@ final _smokeSinglenamedconstructorReleaseHandle = __lib.catchArgumentError(() =>
 class SingleNamedConstructor$Impl extends __lib.NativeBase implements SingleNamedConstructor {
   SingleNamedConstructor$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeSinglenamedconstructorReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   SingleNamedConstructor$Impl.fooBar() : super(_fooBar()) {
     __lib.cacheInstance(handle, this);
+    _smokeSinglenamedconstructorRegisterFinalizer(handle, __lib.LibraryContext.isolateId, this);
   }
   static Pointer<Void> _fooBar() {
     final _fooBarFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_SingleNamedConstructor_create'));
@@ -45,6 +43,7 @@ SingleNamedConstructor smokeSinglenamedconstructorFromFfi(Pointer<Void> handle) 
   final _copiedHandle = _smokeSinglenamedconstructorCopyHandle(handle);
   final result = SingleNamedConstructor$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeSinglenamedconstructorRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeSinglenamedconstructorReleaseFfiHandle(Pointer<Void> handle) =>

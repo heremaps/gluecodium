@@ -19,9 +19,10 @@ class LazyList<E> extends Iterable<E> implements List<E> {
   final Pointer<Void> handle;
   final int _length;
   final E Function(int) _elementGetter;
-  final void Function() _releaser;
-  LazyList(this.handle, int length, this._elementGetter, this._releaser) : _length = length;
-  void release() => _releaser();
+  LazyList(this.handle, int length, this._elementGetter, void registerFinalizer(Object))
+    : _length = length {
+    registerFinalizer(this);
+  }
   Iterator<E> get iterator => _LazyIterator(this);
   int get length => _length;
   E operator [](int index) => _elementGetter(index);

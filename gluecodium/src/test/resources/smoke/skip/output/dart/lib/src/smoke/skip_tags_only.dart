@@ -3,13 +3,15 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 abstract class SkipTagsOnly {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
 }
 // SkipTagsOnly "private" section, not exported.
+final _smokeSkiptagsonlyRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_SkipTagsOnly_register_finalizer'));
 final _smokeSkiptagsonlyCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -21,12 +23,7 @@ final _smokeSkiptagsonlyReleaseHandle = __lib.catchArgumentError(() => __lib.nat
 class SkipTagsOnly$Impl extends __lib.NativeBase implements SkipTagsOnly {
   SkipTagsOnly$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeSkiptagsonlyReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
 }
 Pointer<Void> smokeSkiptagsonlyToFfi(SkipTagsOnly value) =>
   _smokeSkiptagsonlyCopyHandle((value as __lib.NativeBase).handle);
@@ -36,6 +33,7 @@ SkipTagsOnly smokeSkiptagsonlyFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeSkiptagsonlyCopyHandle(handle);
   final result = SkipTagsOnly$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeSkiptagsonlyRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeSkiptagsonlyReleaseFfiHandle(Pointer<Void> handle) =>

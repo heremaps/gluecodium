@@ -9,10 +9,8 @@ import 'package:library/src/smoke/int.dart';
 import 'package:library/src/smoke/rectangle_int_.dart';
 import 'package:library/src/smoke/string.dart';
 abstract class UseDartExternalTypes {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   static math.Rectangle<int> rectangleRoundTrip(math.Rectangle<int> input) => UseDartExternalTypes$Impl.rectangleRoundTrip(input);
   static bar.HttpClientResponseCompressionState compressionStateRoundTrip(bar.HttpClientResponseCompressionState input) => UseDartExternalTypes$Impl.compressionStateRoundTrip(input);
@@ -20,6 +18,10 @@ abstract class UseDartExternalTypes {
   static String seasonRoundTrip(String input) => UseDartExternalTypes$Impl.seasonRoundTrip(input);
 }
 // UseDartExternalTypes "private" section, not exported.
+final _smokeUsedartexternaltypesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_UseDartExternalTypes_register_finalizer'));
 final _smokeUsedartexternaltypesCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -31,12 +33,7 @@ final _smokeUsedartexternaltypesReleaseHandle = __lib.catchArgumentError(() => _
 class UseDartExternalTypes$Impl extends __lib.NativeBase implements UseDartExternalTypes {
   UseDartExternalTypes$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeUsedartexternaltypesReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   static math.Rectangle<int> rectangleRoundTrip(math.Rectangle<int> input) {
     final _rectangleRoundTripFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_UseDartExternalTypes_rectangleRoundTrip__Rectangle'));
     final _inputHandle = smokeRectangleToFfi(input);
@@ -90,6 +87,7 @@ UseDartExternalTypes smokeUsedartexternaltypesFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeUsedartexternaltypesCopyHandle(handle);
   final result = UseDartExternalTypes$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeUsedartexternaltypesRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeUsedartexternaltypesReleaseFfiHandle(Pointer<Void> handle) =>

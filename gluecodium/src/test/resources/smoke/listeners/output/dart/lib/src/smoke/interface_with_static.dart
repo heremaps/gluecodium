@@ -15,10 +15,8 @@ abstract class InterfaceWithStatic {
     regularPropertyGetLambda,
     regularPropertySetLambda,
   );
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release() {}
   String regularFunction();
   static String staticFunction() => InterfaceWithStatic$Impl.staticFunction();
@@ -28,6 +26,10 @@ abstract class InterfaceWithStatic {
   static set staticProperty(String value) { InterfaceWithStatic$Impl.staticProperty = value; }
 }
 // InterfaceWithStatic "private" section, not exported.
+final _smokeInterfacewithstaticRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_InterfaceWithStatic_register_finalizer'));
 final _smokeInterfacewithstaticCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -66,12 +68,7 @@ class InterfaceWithStatic$Lambdas implements InterfaceWithStatic {
 class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWithStatic {
   InterfaceWithStatic$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeInterfacewithstaticReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   @override
   String regularFunction() {
     final _regularFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_InterfaceWithStatic_regularFunction'));
@@ -179,6 +176,7 @@ InterfaceWithStatic smokeInterfacewithstaticFromFfi(Pointer<Void> handle) {
     ? factoryConstructor(_copiedHandle)
     : InterfaceWithStatic$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeInterfacewithstaticRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeInterfacewithstaticReleaseFfiHandle(Pointer<Void> handle) =>

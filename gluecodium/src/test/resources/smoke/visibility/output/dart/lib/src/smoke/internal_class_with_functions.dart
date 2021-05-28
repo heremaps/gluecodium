@@ -9,15 +9,17 @@ abstract class InternalClassWithFunctions {
   factory InternalClassWithFunctions.make() => InternalClassWithFunctions$Impl.internal_make();
   /// @nodoc
   factory InternalClassWithFunctions.remake(String foo) => InternalClassWithFunctions$Impl.internal_remake(foo);
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   /// @nodoc
   internal_fooBar();
 }
 // InternalClassWithFunctions "private" section, not exported.
+final _smokeInternalclasswithfunctionsRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_InternalClassWithFunctions_register_finalizer'));
 final _smokeInternalclasswithfunctionsCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -29,17 +31,14 @@ final _smokeInternalclasswithfunctionsReleaseHandle = __lib.catchArgumentError((
 class InternalClassWithFunctions$Impl extends __lib.NativeBase implements InternalClassWithFunctions {
   InternalClassWithFunctions$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeInternalclasswithfunctionsReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   InternalClassWithFunctions$Impl.internal_make() : super(_make()) {
     __lib.cacheInstance(handle, this);
+    _smokeInternalclasswithfunctionsRegisterFinalizer(handle, __lib.LibraryContext.isolateId, this);
   }
   InternalClassWithFunctions$Impl.internal_remake(String foo) : super(_remake(foo)) {
     __lib.cacheInstance(handle, this);
+    _smokeInternalclasswithfunctionsRegisterFinalizer(handle, __lib.LibraryContext.isolateId, this);
   }
   @override
   internal_fooBar() {
@@ -72,6 +71,7 @@ InternalClassWithFunctions smokeInternalclasswithfunctionsFromFfi(Pointer<Void> 
   final _copiedHandle = _smokeInternalclasswithfunctionsCopyHandle(handle);
   final result = InternalClassWithFunctions$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeInternalclasswithfunctionsRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeInternalclasswithfunctionsReleaseFfiHandle(Pointer<Void> handle) =>

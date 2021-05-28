@@ -15,16 +15,18 @@ abstract class ParentInterface {
     rootPropertyGetLambda,
     rootPropertySetLambda
   );
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release() {}
   rootMethod();
   String get rootProperty;
   set rootProperty(String value);
 }
 // ParentInterface "private" section, not exported.
+final _smokeParentinterfaceRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_ParentInterface_register_finalizer'));
 final _smokeParentinterfaceCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -63,12 +65,7 @@ class ParentInterface$Lambdas implements ParentInterface {
 class ParentInterface$Impl extends __lib.NativeBase implements ParentInterface {
   ParentInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeParentinterfaceReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   @override
   rootMethod() {
     final _rootMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentInterface_rootMethod'));
@@ -144,6 +141,7 @@ ParentInterface smokeParentinterfaceFromFfi(Pointer<Void> handle) {
     ? factoryConstructor(_copiedHandle)
     : ParentInterface$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeParentinterfaceRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeParentinterfaceReleaseFfiHandle(Pointer<Void> handle) =>

@@ -7,10 +7,8 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/public_class.dart';
 import 'package:meta/meta.dart';
 abstract class PublicInterface {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release() {}
 }
 /// @nodoc
@@ -80,6 +78,10 @@ void smokePublicinterfaceInternalstructReleaseFfiHandleNullable(Pointer<Void> ha
   _smokePublicinterfaceInternalstructReleaseHandleNullable(handle);
 // End of PublicInterface_InternalStruct "private" section.
 // PublicInterface "private" section, not exported.
+final _smokePublicinterfaceRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_PublicInterface_register_finalizer'));
 final _smokePublicinterfaceCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -99,12 +101,7 @@ final _smokePublicinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nati
 class PublicInterface$Impl extends __lib.NativeBase implements PublicInterface {
   PublicInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokePublicinterfaceReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
 }
 Pointer<Void> smokePublicinterfaceToFfi(PublicInterface value) {
   if (value is __lib.NativeBase) return _smokePublicinterfaceCopyHandle((value as __lib.NativeBase).handle);
@@ -126,6 +123,7 @@ PublicInterface smokePublicinterfaceFromFfi(Pointer<Void> handle) {
     ? factoryConstructor(_copiedHandle)
     : PublicInterface$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokePublicinterfaceRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokePublicinterfaceReleaseFfiHandle(Pointer<Void> handle) =>

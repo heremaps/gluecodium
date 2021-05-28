@@ -1,6 +1,7 @@
 #include "ffi_smoke_ListenersWithReturnValues.h"
 #include "ConversionBase.h"
 #include "InstanceCache.h"
+#include "FinalizerData.h"
 #include "CallbacksQueue.h"
 #include "IsolateContext.h"
 #include "ProxyCache.h"
@@ -19,14 +20,15 @@ class smoke_ListenersWithReturnValues_Proxy : public ::smoke::ListenersWithRetur
 public:
     smoke_ListenersWithReturnValues_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2, FfiOpaqueHandle f3, FfiOpaqueHandle f4, FfiOpaqueHandle f5, FfiOpaqueHandle f6)
         : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f0(f0), f1(f1), f2(f2), f3(f3), f4(f4), f5(f5), f6(f6) {
-        library_cache_dart_handle_by_raw_pointer(this, dart_handle);
+        library_cache_dart_handle_by_raw_pointer(this, isolate_id, dart_handle);
     }
     ~smoke_ListenersWithReturnValues_Proxy() {
         gluecodium::ffi::remove_cached_proxy(token, isolate_id, "smoke_ListenersWithReturnValues");
         auto raw_pointer_local = this;
+        auto isolate_id_local = isolate_id;
         auto dart_persistent_handle_local = dart_persistent_handle;
-        auto deleter = [raw_pointer_local, dart_persistent_handle_local]() {
-            library_uncache_dart_handle_by_raw_pointer(raw_pointer_local);
+        auto deleter = [raw_pointer_local, isolate_id_local, dart_persistent_handle_local]() {
+            library_uncache_dart_handle_by_raw_pointer(raw_pointer_local, isolate_id_local);
             Dart_DeletePersistentHandle_DL(dart_persistent_handle_local);
         };
         if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
@@ -176,6 +178,18 @@ library_smoke_ListenersWithReturnValues_fetchDataInstance(FfiOpaqueHandle _self,
     return gluecodium::ffi::Conversion<std::shared_ptr<::smoke::CalculationResult>>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::ListenersWithReturnValues>>::toCpp(_self)).fetch_data_instance()
     );
+}
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_ListenersWithReturnValues_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::ListenersWithReturnValues>*>(handle);
+    library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
+    library_smoke_ListenersWithReturnValues_release_handle(handle);
+}
+void
+library_smoke_ListenersWithReturnValues_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_ListenersWithReturnValues_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
 }
 FfiOpaqueHandle
 library_smoke_ListenersWithReturnValues_copy_handle(FfiOpaqueHandle handle) {

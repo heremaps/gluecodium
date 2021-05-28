@@ -7,10 +7,8 @@ import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/dummy_class.dart';
 import 'package:library/src/smoke/dummy_interface.dart';
 abstract class GenericTypesWithCompoundTypes {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   List<GenericTypesWithCompoundTypes_ExternalStruct> methodWithStructList(List<GenericTypesWithCompoundTypes_BasicStruct> input);
   Map<String, GenericTypesWithCompoundTypes_ExternalStruct> methodWithStructMap(Map<String, GenericTypesWithCompoundTypes_BasicStruct> input);
@@ -266,6 +264,10 @@ void smokeGenerictypeswithcompoundtypesExternalstructReleaseFfiHandleNullable(Po
   _smokeGenerictypeswithcompoundtypesExternalstructReleaseHandleNullable(handle);
 // End of GenericTypesWithCompoundTypes_ExternalStruct "private" section.
 // GenericTypesWithCompoundTypes "private" section, not exported.
+final _smokeGenerictypeswithcompoundtypesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_GenericTypesWithCompoundTypes_register_finalizer'));
 final _smokeGenerictypeswithcompoundtypesCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -277,12 +279,7 @@ final _smokeGenerictypeswithcompoundtypesReleaseHandle = __lib.catchArgumentErro
 class GenericTypesWithCompoundTypes$Impl extends __lib.NativeBase implements GenericTypesWithCompoundTypes {
   GenericTypesWithCompoundTypes$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeGenerictypeswithcompoundtypesReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   @override
   List<GenericTypesWithCompoundTypes_ExternalStruct> methodWithStructList(List<GenericTypesWithCompoundTypes_BasicStruct> input) {
     final _methodWithStructListFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithCompoundTypes_methodWithStructList__ListOf_1smoke_1GenericTypesWithCompoundTypes_1BasicStruct'));
@@ -396,6 +393,7 @@ GenericTypesWithCompoundTypes smokeGenerictypeswithcompoundtypesFromFfi(Pointer<
   final _copiedHandle = _smokeGenerictypeswithcompoundtypesCopyHandle(handle);
   final result = GenericTypesWithCompoundTypes$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeGenerictypeswithcompoundtypesRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeGenerictypeswithcompoundtypesReleaseFfiHandle(Pointer<Void> handle) =>
