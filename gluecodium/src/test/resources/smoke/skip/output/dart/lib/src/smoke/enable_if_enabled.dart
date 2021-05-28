@@ -29,11 +29,11 @@ class EnableIfEnabled$Impl extends __lib.NativeBase implements EnableIfEnabled {
   EnableIfEnabled$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeEnableifenabledReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   static enableIfUnquoted() {
     final _enableIfUnquotedFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfUnquoted'));
@@ -97,8 +97,8 @@ Pointer<Void> smokeEnableifenabledToFfi(EnableIfEnabled value) =>
 EnableIfEnabled smokeEnableifenabledFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as EnableIfEnabled;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is EnableIfEnabled) return instance;
   final _copiedHandle = _smokeEnableifenabledCopyHandle(handle);
   final result = EnableIfEnabled$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -106,9 +106,9 @@ EnableIfEnabled smokeEnableifenabledFromFfi(Pointer<Void> handle) {
 }
 void smokeEnableifenabledReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeEnableifenabledReleaseHandle(handle);
-Pointer<Void> smokeEnableifenabledToFfiNullable(EnableIfEnabled value) =>
+Pointer<Void> smokeEnableifenabledToFfiNullable(EnableIfEnabled? value) =>
   value != null ? smokeEnableifenabledToFfi(value) : Pointer<Void>.fromAddress(0);
-EnableIfEnabled smokeEnableifenabledFromFfiNullable(Pointer<Void> handle) =>
+EnableIfEnabled? smokeEnableifenabledFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeEnableifenabledFromFfi(handle) : null;
 void smokeEnableifenabledReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeEnableifenabledReleaseHandle(handle);

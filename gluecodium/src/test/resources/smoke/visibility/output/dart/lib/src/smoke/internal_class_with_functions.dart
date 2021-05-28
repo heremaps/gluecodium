@@ -30,11 +30,11 @@ class InternalClassWithFunctions$Impl extends __lib.NativeBase implements Intern
   InternalClassWithFunctions$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeInternalclasswithfunctionsReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   InternalClassWithFunctions$Impl.internal_make() : super(_make()) {
     __lib.ffiCacheToken(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
@@ -70,8 +70,8 @@ Pointer<Void> smokeInternalclasswithfunctionsToFfi(InternalClassWithFunctions va
 InternalClassWithFunctions smokeInternalclasswithfunctionsFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as InternalClassWithFunctions;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is InternalClassWithFunctions) return instance;
   final _copiedHandle = _smokeInternalclasswithfunctionsCopyHandle(handle);
   final result = InternalClassWithFunctions$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -79,9 +79,9 @@ InternalClassWithFunctions smokeInternalclasswithfunctionsFromFfi(Pointer<Void> 
 }
 void smokeInternalclasswithfunctionsReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeInternalclasswithfunctionsReleaseHandle(handle);
-Pointer<Void> smokeInternalclasswithfunctionsToFfiNullable(InternalClassWithFunctions value) =>
+Pointer<Void> smokeInternalclasswithfunctionsToFfiNullable(InternalClassWithFunctions? value) =>
   value != null ? smokeInternalclasswithfunctionsToFfi(value) : Pointer<Void>.fromAddress(0);
-InternalClassWithFunctions smokeInternalclasswithfunctionsFromFfiNullable(Pointer<Void> handle) =>
+InternalClassWithFunctions? smokeInternalclasswithfunctionsFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeInternalclasswithfunctionsFromFfi(handle) : null;
 void smokeInternalclasswithfunctionsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeInternalclasswithfunctionsReleaseHandle(handle);

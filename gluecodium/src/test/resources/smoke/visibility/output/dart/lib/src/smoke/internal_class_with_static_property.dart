@@ -28,11 +28,11 @@ class InternalClassWithStaticProperty$Impl extends __lib.NativeBase implements I
   InternalClassWithStaticProperty$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeInternalclasswithstaticpropertyReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   static String get internal_fooBar {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InternalClassWithStaticProperty_fooBar_get'));
@@ -59,8 +59,8 @@ Pointer<Void> smokeInternalclasswithstaticpropertyToFfi(InternalClassWithStaticP
 InternalClassWithStaticProperty smokeInternalclasswithstaticpropertyFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as InternalClassWithStaticProperty;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is InternalClassWithStaticProperty) return instance;
   final _copiedHandle = _smokeInternalclasswithstaticpropertyCopyHandle(handle);
   final result = InternalClassWithStaticProperty$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -68,9 +68,9 @@ InternalClassWithStaticProperty smokeInternalclasswithstaticpropertyFromFfi(Poin
 }
 void smokeInternalclasswithstaticpropertyReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeInternalclasswithstaticpropertyReleaseHandle(handle);
-Pointer<Void> smokeInternalclasswithstaticpropertyToFfiNullable(InternalClassWithStaticProperty value) =>
+Pointer<Void> smokeInternalclasswithstaticpropertyToFfiNullable(InternalClassWithStaticProperty? value) =>
   value != null ? smokeInternalclasswithstaticpropertyToFfi(value) : Pointer<Void>.fromAddress(0);
-InternalClassWithStaticProperty smokeInternalclasswithstaticpropertyFromFfiNullable(Pointer<Void> handle) =>
+InternalClassWithStaticProperty? smokeInternalclasswithstaticpropertyFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeInternalclasswithstaticpropertyFromFfi(handle) : null;
 void smokeInternalclasswithstaticpropertyReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeInternalclasswithstaticpropertyReleaseHandle(handle);

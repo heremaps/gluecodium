@@ -62,14 +62,14 @@ final _smokeLeveloneLeveltwoLevelthreeLevelfourenumGetValueNullable = __lib.catc
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFourEnum_get_value_nullable'));
-Pointer<Void> smokeLeveloneLeveltwoLevelthreeLevelfourenumToFfiNullable(LevelOne_LevelTwo_LevelThree_LevelFourEnum value) {
+Pointer<Void> smokeLeveloneLeveltwoLevelthreeLevelfourenumToFfiNullable(LevelOne_LevelTwo_LevelThree_LevelFourEnum? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeLeveloneLeveltwoLevelthreeLevelfourenumToFfi(value);
   final result = _smokeLeveloneLeveltwoLevelthreeLevelfourenumCreateHandleNullable(_handle);
   smokeLeveloneLeveltwoLevelthreeLevelfourenumReleaseFfiHandle(_handle);
   return result;
 }
-LevelOne_LevelTwo_LevelThree_LevelFourEnum smokeLeveloneLeveltwoLevelthreeLevelfourenumFromFfiNullable(Pointer<Void> handle) {
+LevelOne_LevelTwo_LevelThree_LevelFourEnum? smokeLeveloneLeveltwoLevelthreeLevelfourenumFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeLeveloneLeveltwoLevelthreeLevelfourenumGetValueNullable(handle);
   final result = smokeLeveloneLeveltwoLevelthreeLevelfourenumFromFfi(_handle);
@@ -136,14 +136,14 @@ final _smokeLeveloneLeveltwoLevelthreeLevelfourGetValueNullable = __lib.catchArg
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_get_value_nullable'));
-Pointer<Void> smokeLeveloneLeveltwoLevelthreeLevelfourToFfiNullable(LevelOne_LevelTwo_LevelThree_LevelFour value) {
+Pointer<Void> smokeLeveloneLeveltwoLevelthreeLevelfourToFfiNullable(LevelOne_LevelTwo_LevelThree_LevelFour? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeLeveloneLeveltwoLevelthreeLevelfourToFfi(value);
   final result = _smokeLeveloneLeveltwoLevelthreeLevelfourCreateHandleNullable(_handle);
   smokeLeveloneLeveltwoLevelthreeLevelfourReleaseFfiHandle(_handle);
   return result;
 }
-LevelOne_LevelTwo_LevelThree_LevelFour smokeLeveloneLeveltwoLevelthreeLevelfourFromFfiNullable(Pointer<Void> handle) {
+LevelOne_LevelTwo_LevelThree_LevelFour? smokeLeveloneLeveltwoLevelthreeLevelfourFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeLeveloneLeveltwoLevelthreeLevelfourGetValueNullable(handle);
   final result = smokeLeveloneLeveltwoLevelthreeLevelfourFromFfi(_handle);
@@ -166,11 +166,11 @@ class LevelOne_LevelTwo_LevelThree$Impl extends __lib.NativeBase implements Leve
   LevelOne_LevelTwo_LevelThree$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeLeveloneLeveltwoLevelthreeReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   OuterInterface_InnerClass foo(OuterClass_InnerInterface input) {
@@ -191,8 +191,8 @@ Pointer<Void> smokeLeveloneLeveltwoLevelthreeToFfi(LevelOne_LevelTwo_LevelThree 
 LevelOne_LevelTwo_LevelThree smokeLeveloneLeveltwoLevelthreeFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as LevelOne_LevelTwo_LevelThree;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is LevelOne_LevelTwo_LevelThree) return instance;
   final _copiedHandle = _smokeLeveloneLeveltwoLevelthreeCopyHandle(handle);
   final result = LevelOne_LevelTwo_LevelThree$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -200,9 +200,9 @@ LevelOne_LevelTwo_LevelThree smokeLeveloneLeveltwoLevelthreeFromFfi(Pointer<Void
 }
 void smokeLeveloneLeveltwoLevelthreeReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeLeveloneLeveltwoLevelthreeReleaseHandle(handle);
-Pointer<Void> smokeLeveloneLeveltwoLevelthreeToFfiNullable(LevelOne_LevelTwo_LevelThree value) =>
+Pointer<Void> smokeLeveloneLeveltwoLevelthreeToFfiNullable(LevelOne_LevelTwo_LevelThree? value) =>
   value != null ? smokeLeveloneLeveltwoLevelthreeToFfi(value) : Pointer<Void>.fromAddress(0);
-LevelOne_LevelTwo_LevelThree smokeLeveloneLeveltwoLevelthreeFromFfiNullable(Pointer<Void> handle) =>
+LevelOne_LevelTwo_LevelThree? smokeLeveloneLeveltwoLevelthreeFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeLeveloneLeveltwoLevelthreeFromFfi(handle) : null;
 void smokeLeveloneLeveltwoLevelthreeReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeLeveloneLeveltwoLevelthreeReleaseHandle(handle);
@@ -220,11 +220,11 @@ class LevelOne_LevelTwo$Impl extends __lib.NativeBase implements LevelOne_LevelT
   LevelOne_LevelTwo$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeLeveloneLeveltwoReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
 }
 Pointer<Void> smokeLeveloneLeveltwoToFfi(LevelOne_LevelTwo value) =>
@@ -232,8 +232,8 @@ Pointer<Void> smokeLeveloneLeveltwoToFfi(LevelOne_LevelTwo value) =>
 LevelOne_LevelTwo smokeLeveloneLeveltwoFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as LevelOne_LevelTwo;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is LevelOne_LevelTwo) return instance;
   final _copiedHandle = _smokeLeveloneLeveltwoCopyHandle(handle);
   final result = LevelOne_LevelTwo$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -241,9 +241,9 @@ LevelOne_LevelTwo smokeLeveloneLeveltwoFromFfi(Pointer<Void> handle) {
 }
 void smokeLeveloneLeveltwoReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeLeveloneLeveltwoReleaseHandle(handle);
-Pointer<Void> smokeLeveloneLeveltwoToFfiNullable(LevelOne_LevelTwo value) =>
+Pointer<Void> smokeLeveloneLeveltwoToFfiNullable(LevelOne_LevelTwo? value) =>
   value != null ? smokeLeveloneLeveltwoToFfi(value) : Pointer<Void>.fromAddress(0);
-LevelOne_LevelTwo smokeLeveloneLeveltwoFromFfiNullable(Pointer<Void> handle) =>
+LevelOne_LevelTwo? smokeLeveloneLeveltwoFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeLeveloneLeveltwoFromFfi(handle) : null;
 void smokeLeveloneLeveltwoReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeLeveloneLeveltwoReleaseHandle(handle);
@@ -261,11 +261,11 @@ class LevelOne$Impl extends __lib.NativeBase implements LevelOne {
   LevelOne$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeLeveloneReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
 }
 Pointer<Void> smokeLeveloneToFfi(LevelOne value) =>
@@ -273,8 +273,8 @@ Pointer<Void> smokeLeveloneToFfi(LevelOne value) =>
 LevelOne smokeLeveloneFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as LevelOne;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is LevelOne) return instance;
   final _copiedHandle = _smokeLeveloneCopyHandle(handle);
   final result = LevelOne$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -282,9 +282,9 @@ LevelOne smokeLeveloneFromFfi(Pointer<Void> handle) {
 }
 void smokeLeveloneReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeLeveloneReleaseHandle(handle);
-Pointer<Void> smokeLeveloneToFfiNullable(LevelOne value) =>
+Pointer<Void> smokeLeveloneToFfiNullable(LevelOne? value) =>
   value != null ? smokeLeveloneToFfi(value) : Pointer<Void>.fromAddress(0);
-LevelOne smokeLeveloneFromFfiNullable(Pointer<Void> handle) =>
+LevelOne? smokeLeveloneFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeLeveloneFromFfi(handle) : null;
 void smokeLeveloneReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeLeveloneReleaseHandle(handle);

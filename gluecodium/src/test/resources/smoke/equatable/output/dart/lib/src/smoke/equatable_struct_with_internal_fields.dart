@@ -116,14 +116,14 @@ final _smokeEquatablestructwithinternalfieldsGetValueNullable = __lib.catchArgum
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_EquatableStructWithInternalFields_get_value_nullable'));
-Pointer<Void> smokeEquatablestructwithinternalfieldsToFfiNullable(EquatableStructWithInternalFields value) {
+Pointer<Void> smokeEquatablestructwithinternalfieldsToFfiNullable(EquatableStructWithInternalFields? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeEquatablestructwithinternalfieldsToFfi(value);
   final result = _smokeEquatablestructwithinternalfieldsCreateHandleNullable(_handle);
   smokeEquatablestructwithinternalfieldsReleaseFfiHandle(_handle);
   return result;
 }
-EquatableStructWithInternalFields smokeEquatablestructwithinternalfieldsFromFfiNullable(Pointer<Void> handle) {
+EquatableStructWithInternalFields? smokeEquatablestructwithinternalfieldsFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeEquatablestructwithinternalfieldsGetValueNullable(handle);
   final result = smokeEquatablestructwithinternalfieldsFromFfi(_handle);

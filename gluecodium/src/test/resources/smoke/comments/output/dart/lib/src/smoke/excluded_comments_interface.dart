@@ -35,11 +35,11 @@ class ExcludedCommentsInterface$Impl extends __lib.NativeBase implements Exclude
   ExcludedCommentsInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeExcludedcommentsinterfaceReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
 }
 Pointer<Void> smokeExcludedcommentsinterfaceToFfi(ExcludedCommentsInterface value) {
@@ -54,8 +54,8 @@ Pointer<Void> smokeExcludedcommentsinterfaceToFfi(ExcludedCommentsInterface valu
 ExcludedCommentsInterface smokeExcludedcommentsinterfaceFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as ExcludedCommentsInterface;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is ExcludedCommentsInterface) return instance;
   final _typeIdHandle = _smokeExcludedcommentsinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -68,9 +68,9 @@ ExcludedCommentsInterface smokeExcludedcommentsinterfaceFromFfi(Pointer<Void> ha
 }
 void smokeExcludedcommentsinterfaceReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeExcludedcommentsinterfaceReleaseHandle(handle);
-Pointer<Void> smokeExcludedcommentsinterfaceToFfiNullable(ExcludedCommentsInterface value) =>
+Pointer<Void> smokeExcludedcommentsinterfaceToFfiNullable(ExcludedCommentsInterface? value) =>
   value != null ? smokeExcludedcommentsinterfaceToFfi(value) : Pointer<Void>.fromAddress(0);
-ExcludedCommentsInterface smokeExcludedcommentsinterfaceFromFfiNullable(Pointer<Void> handle) =>
+ExcludedCommentsInterface? smokeExcludedcommentsinterfaceFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeExcludedcommentsinterfaceFromFfi(handle) : null;
 void smokeExcludedcommentsinterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeExcludedcommentsinterfaceReleaseHandle(handle);

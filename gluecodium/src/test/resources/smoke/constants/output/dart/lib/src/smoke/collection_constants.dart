@@ -26,11 +26,11 @@ class CollectionConstants$Impl extends __lib.NativeBase implements CollectionCon
   CollectionConstants$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeCollectionconstantsReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
 }
 Pointer<Void> smokeCollectionconstantsToFfi(CollectionConstants value) =>
@@ -38,8 +38,8 @@ Pointer<Void> smokeCollectionconstantsToFfi(CollectionConstants value) =>
 CollectionConstants smokeCollectionconstantsFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as CollectionConstants;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is CollectionConstants) return instance;
   final _copiedHandle = _smokeCollectionconstantsCopyHandle(handle);
   final result = CollectionConstants$Impl(_copiedHandle);
   __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
@@ -47,9 +47,9 @@ CollectionConstants smokeCollectionconstantsFromFfi(Pointer<Void> handle) {
 }
 void smokeCollectionconstantsReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeCollectionconstantsReleaseHandle(handle);
-Pointer<Void> smokeCollectionconstantsToFfiNullable(CollectionConstants value) =>
+Pointer<Void> smokeCollectionconstantsToFfiNullable(CollectionConstants? value) =>
   value != null ? smokeCollectionconstantsToFfi(value) : Pointer<Void>.fromAddress(0);
-CollectionConstants smokeCollectionconstantsFromFfiNullable(Pointer<Void> handle) =>
+CollectionConstants? smokeCollectionconstantsFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeCollectionconstantsFromFfi(handle) : null;
 void smokeCollectionconstantsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeCollectionconstantsReleaseHandle(handle);

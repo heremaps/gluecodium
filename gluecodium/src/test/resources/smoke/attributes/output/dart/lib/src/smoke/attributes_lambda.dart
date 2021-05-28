@@ -69,14 +69,14 @@ final _smokeAttributeslambdaGetValueNullable = __lib.catchArgumentError(() => __
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_AttributesLambda_get_value_nullable'));
-Pointer<Void> smokeAttributeslambdaToFfiNullable(AttributesLambda value) {
+Pointer<Void> smokeAttributeslambdaToFfiNullable(AttributesLambda? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeAttributeslambdaToFfi(value);
   final result = _smokeAttributeslambdaCreateHandleNullable(_handle);
   smokeAttributeslambdaReleaseFfiHandle(_handle);
   return result;
 }
-AttributesLambda smokeAttributeslambdaFromFfiNullable(Pointer<Void> handle) {
+AttributesLambda? smokeAttributeslambdaFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeAttributeslambdaGetValueNullable(handle);
   final result = smokeAttributeslambdaFromFfi(_handle);

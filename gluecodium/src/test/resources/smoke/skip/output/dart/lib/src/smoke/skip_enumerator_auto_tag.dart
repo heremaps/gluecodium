@@ -42,14 +42,14 @@ final _smokeSkipenumeratorautotagGetValueNullable = __lib.catchArgumentError(() 
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_SkipEnumeratorAutoTag_get_value_nullable'));
-Pointer<Void> smokeSkipenumeratorautotagToFfiNullable(SkipEnumeratorAutoTag value) {
+Pointer<Void> smokeSkipenumeratorautotagToFfiNullable(SkipEnumeratorAutoTag? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeSkipenumeratorautotagToFfi(value);
   final result = _smokeSkipenumeratorautotagCreateHandleNullable(_handle);
   smokeSkipenumeratorautotagReleaseFfiHandle(_handle);
   return result;
 }
-SkipEnumeratorAutoTag smokeSkipenumeratorautotagFromFfiNullable(Pointer<Void> handle) {
+SkipEnumeratorAutoTag? smokeSkipenumeratorautotagFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeSkipenumeratorautotagGetValueNullable(handle);
   final result = smokeSkipenumeratorautotagFromFfi(_handle);

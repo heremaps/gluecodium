@@ -72,14 +72,14 @@ final _foobarListofByteGetValueNullable = __lib.catchArgumentError(() => __lib.n
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_Byte_get_value_nullable'));
-Pointer<Void> foobarListofByteToFfiNullable(List<int> value) {
+Pointer<Void> foobarListofByteToFfiNullable(List<int>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobarListofByteToFfi(value);
   final result = _foobarListofByteCreateHandleNullable(_handle);
   foobarListofByteReleaseFfiHandle(_handle);
   return result;
 }
-List<int> foobarListofByteFromFfiNullable(Pointer<Void> handle) {
+List<int>? foobarListofByteFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobarListofByteGetValueNullable(handle);
   final result = foobarListofByteFromFfi(_handle);
@@ -157,14 +157,14 @@ final _foobarListofStringGetValueNullable = __lib.catchArgumentError(() => __lib
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_String_get_value_nullable'));
-Pointer<Void> foobarListofStringToFfiNullable(List<String> value) {
+Pointer<Void> foobarListofStringToFfiNullable(List<String>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobarListofStringToFfi(value);
   final result = _foobarListofStringCreateHandleNullable(_handle);
   foobarListofStringReleaseFfiHandle(_handle);
   return result;
 }
-List<String> foobarListofStringFromFfiNullable(Pointer<Void> handle) {
+List<String>? foobarListofStringFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobarListofStringGetValueNullable(handle);
   final result = foobarListofStringFromFfi(_handle);
@@ -242,14 +242,14 @@ final _foobarListofSmokeRectangleGetValueNullable = __lib.catchArgumentError(() 
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_smoke_Rectangle_get_value_nullable'));
-Pointer<Void> foobarListofSmokeRectangleToFfiNullable(List<math.Rectangle<int>> value) {
+Pointer<Void> foobarListofSmokeRectangleToFfiNullable(List<math.Rectangle<int>>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobarListofSmokeRectangleToFfi(value);
   final result = _foobarListofSmokeRectangleCreateHandleNullable(_handle);
   foobarListofSmokeRectangleReleaseFfiHandle(_handle);
   return result;
 }
-List<math.Rectangle<int>> foobarListofSmokeRectangleFromFfiNullable(Pointer<Void> handle) {
+List<math.Rectangle<int>>? foobarListofSmokeRectangleFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobarListofSmokeRectangleGetValueNullable(handle);
   final result = foobarListofSmokeRectangleFromFfi(_handle);
@@ -336,14 +336,14 @@ final _foobarMapofSmokeCompressionstateToSmokeRectangleGetValueNullable = __lib.
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_smoke_CompressionState_to_smoke_Rectangle_get_value_nullable'));
-Pointer<Void> foobarMapofSmokeCompressionstateToSmokeRectangleToFfiNullable(Map<bar.HttpClientResponseCompressionState, math.Rectangle<int>> value) {
+Pointer<Void> foobarMapofSmokeCompressionstateToSmokeRectangleToFfiNullable(Map<bar.HttpClientResponseCompressionState, math.Rectangle<int>>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobarMapofSmokeCompressionstateToSmokeRectangleToFfi(value);
   final result = _foobarMapofSmokeCompressionstateToSmokeRectangleCreateHandleNullable(_handle);
   foobarMapofSmokeCompressionstateToSmokeRectangleReleaseFfiHandle(_handle);
   return result;
 }
-Map<bar.HttpClientResponseCompressionState, math.Rectangle<int>> foobarMapofSmokeCompressionstateToSmokeRectangleFromFfiNullable(Pointer<Void> handle) {
+Map<bar.HttpClientResponseCompressionState, math.Rectangle<int>>? foobarMapofSmokeCompressionstateToSmokeRectangleFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobarMapofSmokeCompressionstateToSmokeRectangleGetValueNullable(handle);
   final result = foobarMapofSmokeCompressionstateToSmokeRectangleFromFfi(_handle);
@@ -421,14 +421,14 @@ final _foobarSetofSmokeCompressionstateGetValueNullable = __lib.catchArgumentErr
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_SetOf_smoke_CompressionState_get_value_nullable'));
-Pointer<Void> foobarSetofSmokeCompressionstateToFfiNullable(Set<bar.HttpClientResponseCompressionState> value) {
+Pointer<Void> foobarSetofSmokeCompressionstateToFfiNullable(Set<bar.HttpClientResponseCompressionState>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobarSetofSmokeCompressionstateToFfi(value);
   final result = _foobarSetofSmokeCompressionstateCreateHandleNullable(_handle);
   foobarSetofSmokeCompressionstateReleaseFfiHandle(_handle);
   return result;
 }
-Set<bar.HttpClientResponseCompressionState> foobarSetofSmokeCompressionstateFromFfiNullable(Pointer<Void> handle) {
+Set<bar.HttpClientResponseCompressionState>? foobarSetofSmokeCompressionstateFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobarSetofSmokeCompressionstateGetValueNullable(handle);
   final result = foobarSetofSmokeCompressionstateFromFfi(_handle);

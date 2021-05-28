@@ -31,11 +31,11 @@ class ParentClass$Impl extends __lib.NativeBase implements ParentClass {
   ParentClass$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeParentclassReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   rootMethod() {
@@ -76,8 +76,8 @@ Pointer<Void> smokeParentclassToFfi(ParentClass value) =>
 ParentClass smokeParentclassFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as ParentClass;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is ParentClass) return instance;
   final _typeIdHandle = _smokeParentclassGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -90,9 +90,9 @@ ParentClass smokeParentclassFromFfi(Pointer<Void> handle) {
 }
 void smokeParentclassReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeParentclassReleaseHandle(handle);
-Pointer<Void> smokeParentclassToFfiNullable(ParentClass value) =>
+Pointer<Void> smokeParentclassToFfiNullable(ParentClass? value) =>
   value != null ? smokeParentclassToFfi(value) : Pointer<Void>.fromAddress(0);
-ParentClass smokeParentclassFromFfiNullable(Pointer<Void> handle) =>
+ParentClass? smokeParentclassFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeParentclassFromFfi(handle) : null;
 void smokeParentclassReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeParentclassReleaseHandle(handle);

@@ -8,9 +8,9 @@ import 'package:meta/meta.dart';
 abstract class InterfaceWithStatic {
   InterfaceWithStatic();
   factory InterfaceWithStatic.fromLambdas({
-    @required String Function() lambda_regularFunction,
-    @required String Function() lambda_regularProperty_get,
-    @required void Function(String) lambda_regularProperty_set,
+    required String Function() lambda_regularFunction,
+    required String Function() lambda_regularProperty_get,
+    required void Function(String) lambda_regularProperty_set,
   }) => InterfaceWithStatic$Lambdas(
     lambda_regularFunction,
     lambda_regularProperty_get,
@@ -68,11 +68,11 @@ class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWith
   InterfaceWithStatic$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {
-    if (handle == null) return;
+    if (handle.address == 0) return;
     __lib.uncacheObject(this);
     __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
     _smokeInterfacewithstaticReleaseHandle(handle);
-    handle = null;
+    handle = Pointer<Void>.fromAddress(0);
   }
   @override
   String regularFunction() {
@@ -137,7 +137,7 @@ class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWith
   }
 }
 int _smokeInterfacewithstaticregularFunctionStatic(int _token, Pointer<Pointer<Void>> _result) {
-  String _resultObject;
+  String? _resultObject;
   try {
     _resultObject = (__lib.instanceCache[_token] as InterfaceWithStatic).regularFunction();
     _result.value = stringToFfi(_resultObject);
@@ -173,8 +173,8 @@ Pointer<Void> smokeInterfacewithstaticToFfi(InterfaceWithStatic value) {
 InterfaceWithStatic smokeInterfacewithstaticFromFfi(Pointer<Void> handle) {
   final isolateId = __lib.LibraryContext.isolateId;
   final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as InterfaceWithStatic;
-  if (instance != null) return instance;
+  final instance = __lib.instanceCache[token];
+  if (instance is InterfaceWithStatic) return instance;
   final _typeIdHandle = _smokeInterfacewithstaticGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -187,9 +187,9 @@ InterfaceWithStatic smokeInterfacewithstaticFromFfi(Pointer<Void> handle) {
 }
 void smokeInterfacewithstaticReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeInterfacewithstaticReleaseHandle(handle);
-Pointer<Void> smokeInterfacewithstaticToFfiNullable(InterfaceWithStatic value) =>
+Pointer<Void> smokeInterfacewithstaticToFfiNullable(InterfaceWithStatic? value) =>
   value != null ? smokeInterfacewithstaticToFfi(value) : Pointer<Void>.fromAddress(0);
-InterfaceWithStatic smokeInterfacewithstaticFromFfiNullable(Pointer<Void> handle) =>
+InterfaceWithStatic? smokeInterfacewithstaticFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeInterfacewithstaticFromFfi(handle) : null;
 void smokeInterfacewithstaticReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeInterfacewithstaticReleaseHandle(handle);

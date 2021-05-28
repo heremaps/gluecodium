@@ -61,14 +61,14 @@ final _smokePublictypecollectionInternalstructGetValueNullable = __lib.catchArgu
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PublicTypeCollection_InternalStruct_get_value_nullable'));
-Pointer<Void> smokePublictypecollectionInternalstructToFfiNullable(InternalStruct value) {
+Pointer<Void> smokePublictypecollectionInternalstructToFfiNullable(InternalStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokePublictypecollectionInternalstructToFfi(value);
   final result = _smokePublictypecollectionInternalstructCreateHandleNullable(_handle);
   smokePublictypecollectionInternalstructReleaseFfiHandle(_handle);
   return result;
 }
-InternalStruct smokePublictypecollectionInternalstructFromFfiNullable(Pointer<Void> handle) {
+InternalStruct? smokePublictypecollectionInternalstructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokePublictypecollectionInternalstructGetValueNullable(handle);
   final result = smokePublictypecollectionInternalstructFromFfi(_handle);
