@@ -76,11 +76,10 @@ void smokeOuterclassInnerclassReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeOuterclassInnerclassReleaseHandle(handle);
 // End of OuterClass_InnerClass "private" section.
 abstract class OuterClass_InnerInterface {
-  OuterClass_InnerInterface();
-  factory OuterClass_InnerInterface.fromLambdas({
-    required String Function(String) lambda_foo,
-  }) => OuterClass_InnerInterface$Lambdas(
-    lambda_foo,
+  factory OuterClass_InnerInterface(
+    String Function(String) fooLambda,
+  ) => OuterClass_InnerInterface$Lambdas(
+    fooLambda,
   );
   /// Destroys the underlying native object.
   ///
@@ -107,15 +106,15 @@ final _smokeOuterclassInnerinterfaceGetTypeId = __lib.catchArgumentError(() => _
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_OuterClass_InnerInterface_get_type_id'));
 class OuterClass_InnerInterface$Lambdas implements OuterClass_InnerInterface {
-  String Function(String) lambda_foo;
+  String Function(String) fooLambda;
   OuterClass_InnerInterface$Lambdas(
-    this.lambda_foo,
+    this.fooLambda,
   );
   @override
   void release() {}
   @override
   String foo(String input) =>
-    lambda_foo(input);
+    fooLambda(input);
 }
 class OuterClass_InnerInterface$Impl extends __lib.NativeBase implements OuterClass_InnerInterface {
   OuterClass_InnerInterface$Impl(Pointer<Void> handle) : super(handle);

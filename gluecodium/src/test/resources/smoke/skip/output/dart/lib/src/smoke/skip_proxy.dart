@@ -6,21 +6,20 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 abstract class SkipProxy {
-  SkipProxy();
-  factory SkipProxy.fromLambdas({
-    required String Function(String) lambda_notInJava,
-    required bool Function(bool) lambda_notInSwift,
-    required String Function() lambda_skippedInJava_get,
-    required void Function(String) lambda_skippedInJava_set,
-    required bool Function() lambda_isSkippedInSwift_get,
-    required void Function(bool) lambda_isSkippedInSwift_set
-  }) => SkipProxy$Lambdas(
-    lambda_notInJava,
-    lambda_notInSwift,
-    lambda_skippedInJava_get,
-    lambda_skippedInJava_set,
-    lambda_isSkippedInSwift_get,
-    lambda_isSkippedInSwift_set
+  factory SkipProxy(
+    String Function(String) notInJavaLambda,
+    bool Function(bool) notInSwiftLambda,
+    String Function() skippedInJavaGetLambda,
+    void Function(String) skippedInJavaSetLambda,
+    bool Function() isSkippedInSwiftGetLambda,
+    void Function(bool) isSkippedInSwiftSetLambda
+  ) => SkipProxy$Lambdas(
+    notInJavaLambda,
+    notInSwiftLambda,
+    skippedInJavaGetLambda,
+    skippedInJavaSetLambda,
+    isSkippedInSwiftGetLambda,
+    isSkippedInSwiftSetLambda
   );
   /// Destroys the underlying native object.
   ///
@@ -52,36 +51,36 @@ final _smokeSkipproxyGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibr
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_SkipProxy_get_type_id'));
 class SkipProxy$Lambdas implements SkipProxy {
-  String Function(String) lambda_notInJava;
-  bool Function(bool) lambda_notInSwift;
-  String Function() lambda_skippedInJava_get;
-  void Function(String) lambda_skippedInJava_set;
-  bool Function() lambda_isSkippedInSwift_get;
-  void Function(bool) lambda_isSkippedInSwift_set;
+  String Function(String) notInJavaLambda;
+  bool Function(bool) notInSwiftLambda;
+  String Function() skippedInJavaGetLambda;
+  void Function(String) skippedInJavaSetLambda;
+  bool Function() isSkippedInSwiftGetLambda;
+  void Function(bool) isSkippedInSwiftSetLambda;
   SkipProxy$Lambdas(
-    this.lambda_notInJava,
-    this.lambda_notInSwift,
-    this.lambda_skippedInJava_get,
-    this.lambda_skippedInJava_set,
-    this.lambda_isSkippedInSwift_get,
-    this.lambda_isSkippedInSwift_set
+    this.notInJavaLambda,
+    this.notInSwiftLambda,
+    this.skippedInJavaGetLambda,
+    this.skippedInJavaSetLambda,
+    this.isSkippedInSwiftGetLambda,
+    this.isSkippedInSwiftSetLambda
   );
   @override
   void release() {}
   @override
   String notInJava(String input) =>
-    lambda_notInJava(input);
+    notInJavaLambda(input);
   @override
   bool notInSwift(bool input) =>
-    lambda_notInSwift(input);
+    notInSwiftLambda(input);
   @override
-  String get skippedInJava => lambda_skippedInJava_get();
+  String get skippedInJava => skippedInJavaGetLambda();
   @override
-  set skippedInJava(String value) => lambda_skippedInJava_set(value);
+  set skippedInJava(String value) => skippedInJavaSetLambda(value);
   @override
-  bool get isSkippedInSwift => lambda_isSkippedInSwift_get();
+  bool get isSkippedInSwift => isSkippedInSwiftGetLambda();
   @override
-  set isSkippedInSwift(bool value) => lambda_isSkippedInSwift_set(value);
+  set isSkippedInSwift(bool value) => isSkippedInSwiftSetLambda(value);
 }
 class SkipProxy$Impl extends __lib.NativeBase implements SkipProxy {
   SkipProxy$Impl(Pointer<Void> handle) : super(handle);

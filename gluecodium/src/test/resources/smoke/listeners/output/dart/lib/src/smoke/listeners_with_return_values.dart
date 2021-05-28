@@ -8,23 +8,22 @@ import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/calculation_result.dart';
 import 'package:meta/meta.dart';
 abstract class ListenersWithReturnValues {
-  ListenersWithReturnValues();
-  factory ListenersWithReturnValues.fromLambdas({
-    required double Function() lambda_fetchDataDouble,
-    required String Function() lambda_fetchDataString,
-    required ListenersWithReturnValues_ResultStruct Function() lambda_fetchDataStruct,
-    required ListenersWithReturnValues_ResultEnum Function() lambda_fetchDataEnum,
-    required List<double> Function() lambda_fetchDataArray,
-    required Map<String, double> Function() lambda_fetchDataMap,
-    required CalculationResult Function() lambda_fetchDataInstance,
-  }) => ListenersWithReturnValues$Lambdas(
-    lambda_fetchDataDouble,
-    lambda_fetchDataString,
-    lambda_fetchDataStruct,
-    lambda_fetchDataEnum,
-    lambda_fetchDataArray,
-    lambda_fetchDataMap,
-    lambda_fetchDataInstance,
+  factory ListenersWithReturnValues(
+    double Function() fetchDataDoubleLambda,
+    String Function() fetchDataStringLambda,
+    ListenersWithReturnValues_ResultStruct Function() fetchDataStructLambda,
+    ListenersWithReturnValues_ResultEnum Function() fetchDataEnumLambda,
+    List<double> Function() fetchDataArrayLambda,
+    Map<String, double> Function() fetchDataMapLambda,
+    CalculationResult Function() fetchDataInstanceLambda,
+  ) => ListenersWithReturnValues$Lambdas(
+    fetchDataDoubleLambda,
+    fetchDataStringLambda,
+    fetchDataStructLambda,
+    fetchDataEnumLambda,
+    fetchDataArrayLambda,
+    fetchDataMapLambda,
+    fetchDataInstanceLambda,
   );
   /// Destroys the underlying native object.
   ///
@@ -178,45 +177,45 @@ final _smokeListenerswithreturnvaluesGetTypeId = __lib.catchArgumentError(() => 
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ListenersWithReturnValues_get_type_id'));
 class ListenersWithReturnValues$Lambdas implements ListenersWithReturnValues {
-  double Function() lambda_fetchDataDouble;
-  String Function() lambda_fetchDataString;
-  ListenersWithReturnValues_ResultStruct Function() lambda_fetchDataStruct;
-  ListenersWithReturnValues_ResultEnum Function() lambda_fetchDataEnum;
-  List<double> Function() lambda_fetchDataArray;
-  Map<String, double> Function() lambda_fetchDataMap;
-  CalculationResult Function() lambda_fetchDataInstance;
+  double Function() fetchDataDoubleLambda;
+  String Function() fetchDataStringLambda;
+  ListenersWithReturnValues_ResultStruct Function() fetchDataStructLambda;
+  ListenersWithReturnValues_ResultEnum Function() fetchDataEnumLambda;
+  List<double> Function() fetchDataArrayLambda;
+  Map<String, double> Function() fetchDataMapLambda;
+  CalculationResult Function() fetchDataInstanceLambda;
   ListenersWithReturnValues$Lambdas(
-    this.lambda_fetchDataDouble,
-    this.lambda_fetchDataString,
-    this.lambda_fetchDataStruct,
-    this.lambda_fetchDataEnum,
-    this.lambda_fetchDataArray,
-    this.lambda_fetchDataMap,
-    this.lambda_fetchDataInstance,
+    this.fetchDataDoubleLambda,
+    this.fetchDataStringLambda,
+    this.fetchDataStructLambda,
+    this.fetchDataEnumLambda,
+    this.fetchDataArrayLambda,
+    this.fetchDataMapLambda,
+    this.fetchDataInstanceLambda,
   );
   @override
   void release() {}
   @override
   double fetchDataDouble() =>
-    lambda_fetchDataDouble();
+    fetchDataDoubleLambda();
   @override
   String fetchDataString() =>
-    lambda_fetchDataString();
+    fetchDataStringLambda();
   @override
   ListenersWithReturnValues_ResultStruct fetchDataStruct() =>
-    lambda_fetchDataStruct();
+    fetchDataStructLambda();
   @override
   ListenersWithReturnValues_ResultEnum fetchDataEnum() =>
-    lambda_fetchDataEnum();
+    fetchDataEnumLambda();
   @override
   List<double> fetchDataArray() =>
-    lambda_fetchDataArray();
+    fetchDataArrayLambda();
   @override
   Map<String, double> fetchDataMap() =>
-    lambda_fetchDataMap();
+    fetchDataMapLambda();
   @override
   CalculationResult fetchDataInstance() =>
-    lambda_fetchDataInstance();
+    fetchDataInstanceLambda();
 }
 class ListenersWithReturnValues$Impl extends __lib.NativeBase implements ListenersWithReturnValues {
   ListenersWithReturnValues$Impl(Pointer<Void> handle) : super(handle);

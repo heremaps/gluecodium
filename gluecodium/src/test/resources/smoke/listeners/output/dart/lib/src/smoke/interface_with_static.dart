@@ -6,15 +6,14 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 abstract class InterfaceWithStatic {
-  InterfaceWithStatic();
-  factory InterfaceWithStatic.fromLambdas({
-    required String Function() lambda_regularFunction,
-    required String Function() lambda_regularProperty_get,
-    required void Function(String) lambda_regularProperty_set,
-  }) => InterfaceWithStatic$Lambdas(
-    lambda_regularFunction,
-    lambda_regularProperty_get,
-    lambda_regularProperty_set,
+  factory InterfaceWithStatic(
+    String Function() regularFunctionLambda,
+    String Function() regularPropertyGetLambda,
+    void Function(String) regularPropertySetLambda,
+  ) => InterfaceWithStatic$Lambdas(
+    regularFunctionLambda,
+    regularPropertyGetLambda,
+    regularPropertySetLambda,
   );
   /// Destroys the underlying native object.
   ///
@@ -46,23 +45,23 @@ final _smokeInterfacewithstaticGetTypeId = __lib.catchArgumentError(() => __lib.
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_InterfaceWithStatic_get_type_id'));
 class InterfaceWithStatic$Lambdas implements InterfaceWithStatic {
-  String Function() lambda_regularFunction;
-  String Function() lambda_regularProperty_get;
-  void Function(String) lambda_regularProperty_set;
+  String Function() regularFunctionLambda;
+  String Function() regularPropertyGetLambda;
+  void Function(String) regularPropertySetLambda;
   InterfaceWithStatic$Lambdas(
-    this.lambda_regularFunction,
-    this.lambda_regularProperty_get,
-    this.lambda_regularProperty_set,
+    this.regularFunctionLambda,
+    this.regularPropertyGetLambda,
+    this.regularPropertySetLambda,
   );
   @override
   void release() {}
   @override
   String regularFunction() =>
-    lambda_regularFunction();
+    regularFunctionLambda();
   @override
-  String get regularProperty => lambda_regularProperty_get();
+  String get regularProperty => regularPropertyGetLambda();
   @override
-  set regularProperty(String value) => lambda_regularProperty_set(value);
+  set regularProperty(String value) => regularPropertySetLambda(value);
 }
 class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWithStatic {
   InterfaceWithStatic$Impl(Pointer<Void> handle) : super(handle);

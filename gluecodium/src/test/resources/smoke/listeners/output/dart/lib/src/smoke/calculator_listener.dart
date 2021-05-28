@@ -8,21 +8,20 @@ import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/calculation_result.dart';
 import 'package:meta/meta.dart';
 abstract class CalculatorListener {
-  CalculatorListener();
-  factory CalculatorListener.fromLambdas({
-    required void Function(double) lambda_onCalculationResult,
-    required void Function(double) lambda_onCalculationResultConst,
-    required void Function(CalculatorListener_ResultStruct) lambda_onCalculationResultStruct,
-    required void Function(List<double>) lambda_onCalculationResultArray,
-    required void Function(Map<String, double>) lambda_onCalculationResultMap,
-    required void Function(CalculationResult) lambda_onCalculationResultInstance,
-  }) => CalculatorListener$Lambdas(
-    lambda_onCalculationResult,
-    lambda_onCalculationResultConst,
-    lambda_onCalculationResultStruct,
-    lambda_onCalculationResultArray,
-    lambda_onCalculationResultMap,
-    lambda_onCalculationResultInstance,
+  factory CalculatorListener(
+    void Function(double) onCalculationResultLambda,
+    void Function(double) onCalculationResultConstLambda,
+    void Function(CalculatorListener_ResultStruct) onCalculationResultStructLambda,
+    void Function(List<double>) onCalculationResultArrayLambda,
+    void Function(Map<String, double>) onCalculationResultMapLambda,
+    void Function(CalculationResult) onCalculationResultInstanceLambda,
+  ) => CalculatorListener$Lambdas(
+    onCalculationResultLambda,
+    onCalculationResultConstLambda,
+    onCalculationResultStructLambda,
+    onCalculationResultArrayLambda,
+    onCalculationResultMapLambda,
+    onCalculationResultInstanceLambda,
   );
   /// Destroys the underlying native object.
   ///
@@ -116,40 +115,40 @@ final _smokeCalculatorlistenerGetTypeId = __lib.catchArgumentError(() => __lib.n
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_CalculatorListener_get_type_id'));
 class CalculatorListener$Lambdas implements CalculatorListener {
-  void Function(double) lambda_onCalculationResult;
-  void Function(double) lambda_onCalculationResultConst;
-  void Function(CalculatorListener_ResultStruct) lambda_onCalculationResultStruct;
-  void Function(List<double>) lambda_onCalculationResultArray;
-  void Function(Map<String, double>) lambda_onCalculationResultMap;
-  void Function(CalculationResult) lambda_onCalculationResultInstance;
+  void Function(double) onCalculationResultLambda;
+  void Function(double) onCalculationResultConstLambda;
+  void Function(CalculatorListener_ResultStruct) onCalculationResultStructLambda;
+  void Function(List<double>) onCalculationResultArrayLambda;
+  void Function(Map<String, double>) onCalculationResultMapLambda;
+  void Function(CalculationResult) onCalculationResultInstanceLambda;
   CalculatorListener$Lambdas(
-    this.lambda_onCalculationResult,
-    this.lambda_onCalculationResultConst,
-    this.lambda_onCalculationResultStruct,
-    this.lambda_onCalculationResultArray,
-    this.lambda_onCalculationResultMap,
-    this.lambda_onCalculationResultInstance,
+    this.onCalculationResultLambda,
+    this.onCalculationResultConstLambda,
+    this.onCalculationResultStructLambda,
+    this.onCalculationResultArrayLambda,
+    this.onCalculationResultMapLambda,
+    this.onCalculationResultInstanceLambda,
   );
   @override
   void release() {}
   @override
   onCalculationResult(double calculationResult) =>
-    lambda_onCalculationResult(calculationResult);
+    onCalculationResultLambda(calculationResult);
   @override
   onCalculationResultConst(double calculationResult) =>
-    lambda_onCalculationResultConst(calculationResult);
+    onCalculationResultConstLambda(calculationResult);
   @override
   onCalculationResultStruct(CalculatorListener_ResultStruct calculationResult) =>
-    lambda_onCalculationResultStruct(calculationResult);
+    onCalculationResultStructLambda(calculationResult);
   @override
   onCalculationResultArray(List<double> calculationResult) =>
-    lambda_onCalculationResultArray(calculationResult);
+    onCalculationResultArrayLambda(calculationResult);
   @override
   onCalculationResultMap(Map<String, double> calculationResults) =>
-    lambda_onCalculationResultMap(calculationResults);
+    onCalculationResultMapLambda(calculationResults);
   @override
   onCalculationResultInstance(CalculationResult calculationResult) =>
-    lambda_onCalculationResultInstance(calculationResult);
+    onCalculationResultInstanceLambda(calculationResult);
 }
 class CalculatorListener$Impl extends __lib.NativeBase implements CalculatorListener {
   CalculatorListener$Impl(Pointer<Void> handle) : super(handle);

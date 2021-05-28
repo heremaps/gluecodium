@@ -7,15 +7,14 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 @Deprecated("Unfortunately, this interface is deprecated.")
 abstract class DeprecationCommentsOnly {
-  DeprecationCommentsOnly();
-  factory DeprecationCommentsOnly.fromLambdas({
-    required bool Function(String) lambda_someMethodWithAllComments,
-    required bool Function() lambda_isSomeProperty_get,
-    required void Function(bool) lambda_isSomeProperty_set
-  }) => DeprecationCommentsOnly$Lambdas(
-    lambda_someMethodWithAllComments,
-    lambda_isSomeProperty_get,
-    lambda_isSomeProperty_set
+  factory DeprecationCommentsOnly(
+    bool Function(String) someMethodWithAllCommentsLambda,
+    bool Function() isSomePropertyGetLambda,
+    void Function(bool) isSomePropertySetLambda
+  ) => DeprecationCommentsOnly$Lambdas(
+    someMethodWithAllCommentsLambda,
+    isSomePropertyGetLambda,
+    isSomePropertySetLambda
   );
   /// Destroys the underlying native object.
   ///
@@ -173,23 +172,23 @@ final _smokeDeprecationcommentsonlyGetTypeId = __lib.catchArgumentError(() => __
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_DeprecationCommentsOnly_get_type_id'));
 class DeprecationCommentsOnly$Lambdas implements DeprecationCommentsOnly {
-  bool Function(String) lambda_someMethodWithAllComments;
-  bool Function() lambda_isSomeProperty_get;
-  void Function(bool) lambda_isSomeProperty_set;
+  bool Function(String) someMethodWithAllCommentsLambda;
+  bool Function() isSomePropertyGetLambda;
+  void Function(bool) isSomePropertySetLambda;
   DeprecationCommentsOnly$Lambdas(
-    this.lambda_someMethodWithAllComments,
-    this.lambda_isSomeProperty_get,
-    this.lambda_isSomeProperty_set
+    this.someMethodWithAllCommentsLambda,
+    this.isSomePropertyGetLambda,
+    this.isSomePropertySetLambda
   );
   @override
   void release() {}
   @override
   bool someMethodWithAllComments(String input) =>
-    lambda_someMethodWithAllComments(input);
+    someMethodWithAllCommentsLambda(input);
   @override
-  bool get isSomeProperty => lambda_isSomeProperty_get();
+  bool get isSomeProperty => isSomePropertyGetLambda();
   @override
-  set isSomeProperty(bool value) => lambda_isSomeProperty_set(value);
+  set isSomeProperty(bool value) => isSomePropertySetLambda(value);
 }
 class DeprecationCommentsOnly$Impl extends __lib.NativeBase implements DeprecationCommentsOnly {
   DeprecationCommentsOnly$Impl(Pointer<Void> handle) : super(handle);
