@@ -1,5 +1,28 @@
 # Gluecodium project Release Notes
 
+## 9.1.0
+Release date: 2021-05-31
+### Features:
+  * Dart generated code now supports automatic finalization (clean-up of underlying C++ objects).
+### Bug fixes:
+  * Fixed issues caused by ALIAS libraries in CMake toolchain.
+### Deprecated:
+  * `release()` method on classes and interfaces in Dart is now deprecated and does nothing.
+
+## 9.0.1
+Release date: 2021-05-28
+### Features:
+  * Generated Dart code now supports null safety.
+### Breaking changes:
+  * Generated Dart code now requires minimum Dart version 2.12.0.
+  * In Dart, factory constructor `fromLambdas()` that is generated for interfaces was renamed into a nameless factory
+    constructor. Its signature was changed from using named "required" parameters to using positional parameters.
+
+## 8.13.5
+Release date: 2021-05-27
+### Bug fixes:
+  * Fixed remaining Dart warnings from "dart analyze" static analysis tool.
+
 ## 8.13.4
 Release date: 2021-05-21
 ### Bug fixes:

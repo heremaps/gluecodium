@@ -1,6 +1,6 @@
-import 'package:library/src/smoke/simple_class.dart';
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
+import 'package:library/src/smoke/simple_class.dart';
 class StructWithClass {
   SimpleClass classInstance;
   StructWithClass(this.classInstance);
@@ -48,14 +48,14 @@ final _smokeStructwithclassGetValueNullable = __lib.catchArgumentError(() => __l
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithClass_get_value_nullable'));
-Pointer<Void> smokeStructwithclassToFfiNullable(StructWithClass value) {
+Pointer<Void> smokeStructwithclassToFfiNullable(StructWithClass? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeStructwithclassToFfi(value);
   final result = _smokeStructwithclassCreateHandleNullable(_handle);
   smokeStructwithclassReleaseFfiHandle(_handle);
   return result;
 }
-StructWithClass smokeStructwithclassFromFfiNullable(Pointer<Void> handle) {
+StructWithClass? smokeStructwithclassFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeStructwithclassGetValueNullable(handle);
   final result = smokeStructwithclassFromFfi(_handle);

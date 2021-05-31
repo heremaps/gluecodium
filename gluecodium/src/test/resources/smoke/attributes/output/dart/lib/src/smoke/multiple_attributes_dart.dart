@@ -1,12 +1,10 @@
-import 'package:library/src/_native_base.dart' as __lib;
-import 'package:library/src/_token_cache.dart' as __lib;
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
+import 'package:library/src/_native_base.dart' as __lib;
+import 'package:library/src/_token_cache.dart' as __lib;
 abstract class MultipleAttributesDart {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   @Foo
   @Bar
@@ -30,6 +28,10 @@ abstract class MultipleAttributesDart {
   twoLists();
 }
 // MultipleAttributesDart "private" section, not exported.
+final _smokeMultipleattributesdartRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_MultipleAttributesDart_register_finalizer'));
 final _smokeMultipleattributesdartCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -41,13 +43,7 @@ final _smokeMultipleattributesdartReleaseHandle = __lib.catchArgumentError(() =>
 class MultipleAttributesDart$Impl extends __lib.NativeBase implements MultipleAttributesDart {
   MultipleAttributesDart$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
-    _smokeMultipleattributesdartReleaseHandle(handle);
-    handle = null;
-  }
+  void release() {}
   @override
   noLists2() {
     final _noLists2Ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_MultipleAttributesDart_noLists2'));
@@ -102,20 +98,19 @@ class MultipleAttributesDart$Impl extends __lib.NativeBase implements MultipleAt
 Pointer<Void> smokeMultipleattributesdartToFfi(MultipleAttributesDart value) =>
   _smokeMultipleattributesdartCopyHandle((value as __lib.NativeBase).handle);
 MultipleAttributesDart smokeMultipleattributesdartFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as MultipleAttributesDart;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is MultipleAttributesDart) return instance as MultipleAttributesDart;
   final _copiedHandle = _smokeMultipleattributesdartCopyHandle(handle);
   final result = MultipleAttributesDart$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
+  _smokeMultipleattributesdartRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeMultipleattributesdartReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeMultipleattributesdartReleaseHandle(handle);
-Pointer<Void> smokeMultipleattributesdartToFfiNullable(MultipleAttributesDart value) =>
+Pointer<Void> smokeMultipleattributesdartToFfiNullable(MultipleAttributesDart? value) =>
   value != null ? smokeMultipleattributesdartToFfi(value) : Pointer<Void>.fromAddress(0);
-MultipleAttributesDart smokeMultipleattributesdartFromFfiNullable(Pointer<Void> handle) =>
+MultipleAttributesDart? smokeMultipleattributesdartFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeMultipleattributesdartFromFfi(handle) : null;
 void smokeMultipleattributesdartReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeMultipleattributesdartReleaseHandle(handle);

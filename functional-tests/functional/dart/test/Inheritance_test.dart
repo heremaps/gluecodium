@@ -30,52 +30,38 @@ void main() {
 
     expect(result.getName(), "Johnny");
     expect(result.luckyNumber, 7);
-
-    result.release();
   });
   _testSuite.test("Cast child class instance to parent", () {
     final ParentInterface result = ChildClass.createChildClass();
 
     expect(result.getName(), "Johnny");
     expect(result.luckyNumber, 7);
-
-    result.release();
   });
   _testSuite.test("Create grandchild class instance", () {
     final GrandchildClass result = GrandchildClass.createGrandchildClass();
 
     expect(result.getName(), "John F. Kimberly");
     expect(result.luckyNumber, 42);
-
-    result.release();
   });
   _testSuite.test("Cast grandchild class instance to grandparent", () {
     final ParentInterface result = GrandchildClass.createGrandchildClass();
 
     expect(result.getName(), "John F. Kimberly");
     expect(result.luckyNumber, 42);
-
-    result.release();
   });
   _testSuite.test("Type information is preserved for interface inheriting from interface", () {
     final RootInterface result = InheritanceTestHelper.createChildAsRootInterface();
 
     expect(result, isA<ChildInterface>());
-
-    result.release();
   });
   _testSuite.test("Type information is preserved for class inheriting from interface", () {
     final ChildInterface result = InheritanceTestHelper.createConcreteChildAsChildInterface();
 
     expect(result, isA<ConcreteChild>());
-
-    result.release();
   });
   _testSuite.test("Type information is preserved for class inheriting from class", () {
     final ConcreteChild result = InheritanceTestHelper.createGrandchildClassAsChildClass();
 
     expect(result, isA<ConcreteGrandChild>());
-
-    result.release();
   });
 }

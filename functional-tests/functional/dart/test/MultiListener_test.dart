@@ -25,7 +25,7 @@ import "../test_suite.dart";
 final _testSuite = TestSuite("MultiListener");
 
 class MultiReceiver implements ReceiverA, ReceiverB {
-  final log = List<String>();
+  final log = List<String>.empty(growable: true);
 
   @override
   void receiveA(String message) {
@@ -55,7 +55,5 @@ void main() {
     expect(myMultiReceiver.log.length, 2);
     expect(myMultiReceiver.log[0], "ReceiverA: received from Sender: Sent from A");
     expect(myMultiReceiver.log[1], "ReceiverB: received from Sender: Sent from B");
-
-    mySender.release();
   });
 }

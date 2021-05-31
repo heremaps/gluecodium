@@ -1,6 +1,7 @@
 #include "ffi_smoke_Nullable.h"
 #include "ConversionBase.h"
-#include "ReverseCache.h"
+#include "InstanceCache.h"
+#include "FinalizerData.h"
 #include "IsolateContext.h"
 #include "gluecodium/Optional.h"
 #include "gluecodium/UnorderedMapHash.h"
@@ -246,6 +247,18 @@ library_smoke_Nullable_instanceProperty_set__SomeInterface(FfiOpaqueHandle _self
             (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::Nullable>>::toCpp(_self)).set_instance_property(
             gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SomeInterface>>::toCpp(value)
         );
+}
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_Nullable_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::Nullable>*>(handle);
+    library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
+    library_smoke_Nullable_release_handle(handle);
+}
+void
+library_smoke_Nullable_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_Nullable_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
 }
 FfiOpaqueHandle
 library_smoke_Nullable_copy_handle(FfiOpaqueHandle handle) {

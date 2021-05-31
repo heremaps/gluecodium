@@ -1,9 +1,9 @@
 import 'dart:collection';
+import 'dart:ffi';
 import 'package:collection/collection.dart';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 class EquatableStructWithInternalFields {
   String publicField;
   /// @nodoc
@@ -116,14 +116,14 @@ final _smokeEquatablestructwithinternalfieldsGetValueNullable = __lib.catchArgum
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_EquatableStructWithInternalFields_get_value_nullable'));
-Pointer<Void> smokeEquatablestructwithinternalfieldsToFfiNullable(EquatableStructWithInternalFields value) {
+Pointer<Void> smokeEquatablestructwithinternalfieldsToFfiNullable(EquatableStructWithInternalFields? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeEquatablestructwithinternalfieldsToFfi(value);
   final result = _smokeEquatablestructwithinternalfieldsCreateHandleNullable(_handle);
   smokeEquatablestructwithinternalfieldsReleaseFfiHandle(_handle);
   return result;
 }
-EquatableStructWithInternalFields smokeEquatablestructwithinternalfieldsFromFfiNullable(Pointer<Void> handle) {
+EquatableStructWithInternalFields? smokeEquatablestructwithinternalfieldsFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeEquatablestructwithinternalfieldsGetValueNullable(handle);
   final result = smokeEquatablestructwithinternalfieldsFromFfi(_handle);

@@ -1,14 +1,12 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 /// This is some very useful interface.
 abstract class Comments {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   /// This is some very useful constant.
   static final bool veryUseful = true;
@@ -110,14 +108,14 @@ final _smokeCommentsSomeenumGetValueNullable = __lib.catchArgumentError(() => __
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Comments_SomeEnum_get_value_nullable'));
-Pointer<Void> smokeCommentsSomeenumToFfiNullable(Comments_SomeEnum value) {
+Pointer<Void> smokeCommentsSomeenumToFfiNullable(Comments_SomeEnum? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeCommentsSomeenumToFfi(value);
   final result = _smokeCommentsSomeenumCreateHandleNullable(_handle);
   smokeCommentsSomeenumReleaseFfiHandle(_handle);
   return result;
 }
-Comments_SomeEnum smokeCommentsSomeenumFromFfiNullable(Pointer<Void> handle) {
+Comments_SomeEnum? smokeCommentsSomeenumFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeCommentsSomeenumGetValueNullable(handle);
   final result = smokeCommentsSomeenumFromFfi(_handle);
@@ -138,7 +136,7 @@ class Comments_SomeStruct {
   /// remains to be seen
   bool someField;
   /// Can be `null`
-  String nullableField;
+  String? nullableField;
   /// This is how easy it is to construct.
   /// [someField] How useful this struct is
   /// remains to be seen
@@ -197,14 +195,14 @@ final _smokeCommentsSomestructGetValueNullable = __lib.catchArgumentError(() => 
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Comments_SomeStruct_get_value_nullable'));
-Pointer<Void> smokeCommentsSomestructToFfiNullable(Comments_SomeStruct value) {
+Pointer<Void> smokeCommentsSomestructToFfiNullable(Comments_SomeStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeCommentsSomestructToFfi(value);
   final result = _smokeCommentsSomestructCreateHandleNullable(_handle);
   smokeCommentsSomestructReleaseFfiHandle(_handle);
   return result;
 }
-Comments_SomeStruct smokeCommentsSomestructFromFfiNullable(Pointer<Void> handle) {
+Comments_SomeStruct? smokeCommentsSomestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeCommentsSomestructGetValueNullable(handle);
   final result = smokeCommentsSomestructFromFfi(_handle);
@@ -226,8 +224,8 @@ final _smokeCommentsSomelambdaReleaseHandle = __lib.catchArgumentError(() => __l
     void Function(Pointer<Void>)
   >('library_smoke_Comments_SomeLambda_release_handle'));
 final _smokeCommentsSomelambdaCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_Comments_SomeLambda_create_proxy'));
 class Comments_SomeLambda$Impl {
   final Pointer<Void> handle;
@@ -246,25 +244,23 @@ class Comments_SomeLambda$Impl {
     }
   }
 }
-int _smokeCommentsSomelambdacallStatic(int _token, Pointer<Void> p0, int p1, Pointer<Double> _result) {
-  double _resultObject;
+int _smokeCommentsSomelambdacallStatic(Object _obj, Pointer<Void> p0, int p1, Pointer<Double> _result) {
+  double? _resultObject;
   try {
-    _resultObject = (__lib.instanceCache[_token] as Comments_SomeLambda)(stringFromFfi(p0), (p1));
+    _resultObject = (_obj as Comments_SomeLambda)(stringFromFfi(p0), (p1));
     _result.value = (_resultObject);
   } finally {
     stringReleaseFfiHandle(p0);
   }
   return 0;
 }
-Pointer<Void> smokeCommentsSomelambdaToFfi(Comments_SomeLambda value) {
-  final result = _smokeCommentsSomelambdaCreateProxy(
-    __lib.cacheObject(value),
+Pointer<Void> smokeCommentsSomelambdaToFfi(Comments_SomeLambda value) =>
+  _smokeCommentsSomelambdaCreateProxy(
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Int64 Function(Uint64, Pointer<Void>, Int32, Pointer<Double>)>(_smokeCommentsSomelambdacallStatic, __lib.unknownError)
+    value,
+    Pointer.fromFunction<Int64 Function(Handle, Pointer<Void>, Int32, Pointer<Double>)>(_smokeCommentsSomelambdacallStatic, __lib.unknownError)
   );
-  return result;
-}
 Comments_SomeLambda smokeCommentsSomelambdaFromFfi(Pointer<Void> handle) {
   final _impl = Comments_SomeLambda$Impl(_smokeCommentsSomelambdaCopyHandle(handle));
   return (String p0, int p1) {
@@ -288,14 +284,14 @@ final _smokeCommentsSomelambdaGetValueNullable = __lib.catchArgumentError(() => 
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Comments_SomeLambda_get_value_nullable'));
-Pointer<Void> smokeCommentsSomelambdaToFfiNullable(Comments_SomeLambda value) {
+Pointer<Void> smokeCommentsSomelambdaToFfiNullable(Comments_SomeLambda? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeCommentsSomelambdaToFfi(value);
   final result = _smokeCommentsSomelambdaCreateHandleNullable(_handle);
   smokeCommentsSomelambdaReleaseFfiHandle(_handle);
   return result;
 }
-Comments_SomeLambda smokeCommentsSomelambdaFromFfiNullable(Pointer<Void> handle) {
+Comments_SomeLambda? smokeCommentsSomelambdaFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeCommentsSomelambdaGetValueNullable(handle);
   final result = smokeCommentsSomelambdaFromFfi(_handle);
@@ -306,6 +302,10 @@ void smokeCommentsSomelambdaReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeCommentsSomelambdaReleaseHandleNullable(handle);
 // End of Comments_SomeLambda "private" section.
 // Comments "private" section, not exported.
+final _smokeCommentsRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_Comments_register_finalizer'));
 final _smokeCommentsCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -333,13 +333,7 @@ final _someMethodWithAllCommentsReturnHasError = __lib.catchArgumentError(() => 
 class Comments$Impl extends __lib.NativeBase implements Comments {
   Comments$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
-    _smokeCommentsReleaseHandle(handle);
-    handle = null;
-  }
+  void release() {}
   @override
   bool someMethodWithAllComments(String inputParameter) {
     final _someMethodWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Comments_someMethodWithAllComments__String'));
@@ -524,20 +518,19 @@ class Comments$Impl extends __lib.NativeBase implements Comments {
 Pointer<Void> smokeCommentsToFfi(Comments value) =>
   _smokeCommentsCopyHandle((value as __lib.NativeBase).handle);
 Comments smokeCommentsFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as Comments;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is Comments) return instance as Comments;
   final _copiedHandle = _smokeCommentsCopyHandle(handle);
   final result = Comments$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
+  _smokeCommentsRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeCommentsReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeCommentsReleaseHandle(handle);
-Pointer<Void> smokeCommentsToFfiNullable(Comments value) =>
+Pointer<Void> smokeCommentsToFfiNullable(Comments? value) =>
   value != null ? smokeCommentsToFfi(value) : Pointer<Void>.fromAddress(0);
-Comments smokeCommentsFromFfiNullable(Pointer<Void> handle) =>
+Comments? smokeCommentsFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeCommentsFromFfi(handle) : null;
 void smokeCommentsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeCommentsReleaseHandle(handle);

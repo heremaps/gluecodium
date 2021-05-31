@@ -1,5 +1,5 @@
-import 'dart:math' as math;
 import 'dart:ffi';
+import 'dart:math' as math;
 import 'package:library/src/_library_context.dart' as __lib;
 // Rectangle<int> "private" section, not exported.
 final _smokeRectangleCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -63,14 +63,14 @@ final _smokeRectangleGetValueNullable = __lib.catchArgumentError(() => __lib.nat
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Rectangle_get_value_nullable'));
-Pointer<Void> smokeRectangleToFfiNullable(math.Rectangle<int> value) {
+Pointer<Void> smokeRectangleToFfiNullable(math.Rectangle<int>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeRectangleToFfi(value);
   final result = _smokeRectangleCreateHandleNullable(_handle);
   smokeRectangleReleaseFfiHandle(_handle);
   return result;
 }
-math.Rectangle<int> smokeRectangleFromFfiNullable(Pointer<Void> handle) {
+math.Rectangle<int>? smokeRectangleFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeRectangleGetValueNullable(handle);
   final result = smokeRectangleFromFfi(_handle);

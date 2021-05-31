@@ -32,8 +32,8 @@ final _{{resolveName "Ffi"}}ReleaseHandle = __lib.catchArgumentError(() => __lib
     void Function(Pointer<Void>)
   >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_release_handle'));
 final _{{resolveName "Ffi"}}CreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer)
   >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_create_proxy'));
 
 class {{resolveName}}$Impl {
@@ -49,39 +49,33 @@ class {{resolveName}}$Impl {
 
 {{#set lambda=this}}{{#asFunction}}
 int _{{resolveName lambda "Ffi"}}{{resolveName}}Static({{!!
-}}int _token{{#if parameters}}, {{/if}}{{!!
+}}Object _obj{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
 }}{{#unless returnType.isVoid}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}> _result{{/unless}}) {
-  {{#unless returnType.isVoid}}{{resolveName returnType.typeRef}} _resultObject;{{/unless}}
+  {{#unless returnType.isVoid}}{{resolveName returnType.typeRef}}{{!!
+  }}{{#unless returnType.typeRef.isNullable}}?{{/unless}} _resultObject;{{/unless}}
   try {
     {{#unless returnType.isVoid}}_resultObject = {{/unless}}{{!!
-  }}(__lib.instanceCache[_token] as {{resolveName lambda}})({{#parameters}}{{!!
+  }}(_obj as {{resolveName lambda}})({{#parameters}}{{!!
   }}{{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}}){{#if iter.hasNext}}, {{/if}}{{!!
   }}{{/parameters}});{{#unless returnType.isVoid}}
     _result.value = {{#returnType}}{{#set call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}{{/returnType}}(_resultObject);{{/unless}}
   } finally {
 {{#parameters}}
     {{#resolveName}}{{#set varName=this}}{{>dart/DartFfiReleaseHandle}}{{/set}}{{/resolveName}}
-{{/parameters}}{{#instanceOf returnType.typeRef.type.actualType "LimeClass"}}
-    if (_resultObject != null) _resultObject.release();
-{{/instanceOf}}{{#instanceOf returnType.typeRef.type.actualType "LimeInterface"}}
-    if (_resultObject != null) _resultObject.release();
-{{/instanceOf}}
+{{/parameters}}
   }
   return 0;
 }
 {{/asFunction}}{{/set}}
 
-Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
-  final result = _{{resolveName "Ffi"}}CreateProxy(
-    __lib.cacheObject(value),
+Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) =>
+  _{{resolveName "Ffi"}}CreateProxy(
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi,{{#set lambda=this}}{{#asFunction}}
+    value,{{#set lambda=this}}{{#asFunction}}
     Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName lambda "Ffi"}}{{resolveName}}Static, __lib.unknownError){{/asFunction}}{{/set}}
   );
-
-  return result;
-}
 
 {{resolveName}} {{resolveName "Ffi"}}FromFfi(Pointer<Void> handle) {
   final _impl = {{resolveName}}$Impl(_{{resolveName "Ffi"}}CopyHandle(handle));
@@ -102,6 +96,6 @@ void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) =>
 
 // End of {{resolveName}} "private" section.{{!!
 
-}}{{+ffiApi}}Int64 Function(Uint64{{#if parameters}}, {{/if}}{{!!
+}}{{+ffiApi}}Int64 Function(Handle{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiApiTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
 }}{{#unless returnType.isVoid}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}>{{/unless}}){{/ffiApi}}

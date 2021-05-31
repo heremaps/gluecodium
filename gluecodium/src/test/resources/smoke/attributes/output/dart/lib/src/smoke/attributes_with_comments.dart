@@ -1,15 +1,13 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 /// Class comment
 @OnClass
 abstract class AttributesWithComments {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   /// Const comment
   @OnConstInClass
@@ -74,14 +72,14 @@ final _smokeAttributeswithcommentsSomestructGetValueNullable = __lib.catchArgume
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_AttributesWithComments_SomeStruct_get_value_nullable'));
-Pointer<Void> smokeAttributeswithcommentsSomestructToFfiNullable(AttributesWithComments_SomeStruct value) {
+Pointer<Void> smokeAttributeswithcommentsSomestructToFfiNullable(AttributesWithComments_SomeStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeAttributeswithcommentsSomestructToFfi(value);
   final result = _smokeAttributeswithcommentsSomestructCreateHandleNullable(_handle);
   smokeAttributeswithcommentsSomestructReleaseFfiHandle(_handle);
   return result;
 }
-AttributesWithComments_SomeStruct smokeAttributeswithcommentsSomestructFromFfiNullable(Pointer<Void> handle) {
+AttributesWithComments_SomeStruct? smokeAttributeswithcommentsSomestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeAttributeswithcommentsSomestructGetValueNullable(handle);
   final result = smokeAttributeswithcommentsSomestructFromFfi(_handle);
@@ -92,6 +90,10 @@ void smokeAttributeswithcommentsSomestructReleaseFfiHandleNullable(Pointer<Void>
   _smokeAttributeswithcommentsSomestructReleaseHandleNullable(handle);
 // End of AttributesWithComments_SomeStruct "private" section.
 // AttributesWithComments "private" section, not exported.
+final _smokeAttributeswithcommentsRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_AttributesWithComments_register_finalizer'));
 final _smokeAttributeswithcommentsCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -103,13 +105,7 @@ final _smokeAttributeswithcommentsReleaseHandle = __lib.catchArgumentError(() =>
 class AttributesWithComments$Impl extends __lib.NativeBase implements AttributesWithComments {
   AttributesWithComments$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
-    _smokeAttributeswithcommentsReleaseHandle(handle);
-    handle = null;
-  }
+  void release() {}
   @override
   veryFun() {
     final _veryFunFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_AttributesWithComments_veryFun'));
@@ -149,20 +145,19 @@ class AttributesWithComments$Impl extends __lib.NativeBase implements Attributes
 Pointer<Void> smokeAttributeswithcommentsToFfi(AttributesWithComments value) =>
   _smokeAttributeswithcommentsCopyHandle((value as __lib.NativeBase).handle);
 AttributesWithComments smokeAttributeswithcommentsFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as AttributesWithComments;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is AttributesWithComments) return instance as AttributesWithComments;
   final _copiedHandle = _smokeAttributeswithcommentsCopyHandle(handle);
   final result = AttributesWithComments$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
+  _smokeAttributeswithcommentsRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeAttributeswithcommentsReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeAttributeswithcommentsReleaseHandle(handle);
-Pointer<Void> smokeAttributeswithcommentsToFfiNullable(AttributesWithComments value) =>
+Pointer<Void> smokeAttributeswithcommentsToFfiNullable(AttributesWithComments? value) =>
   value != null ? smokeAttributeswithcommentsToFfi(value) : Pointer<Void>.fromAddress(0);
-AttributesWithComments smokeAttributeswithcommentsFromFfiNullable(Pointer<Void> handle) =>
+AttributesWithComments? smokeAttributeswithcommentsFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeAttributeswithcommentsFromFfi(handle) : null;
 void smokeAttributeswithcommentsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeAttributeswithcommentsReleaseHandle(handle);

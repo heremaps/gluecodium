@@ -1,16 +1,14 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/public_class.dart';
 import 'package:meta/meta.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 abstract class PublicInterface {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release() {}
 }
 /// @nodoc
@@ -62,14 +60,14 @@ final _smokePublicinterfaceInternalstructGetValueNullable = __lib.catchArgumentE
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PublicInterface_InternalStruct_get_value_nullable'));
-Pointer<Void> smokePublicinterfaceInternalstructToFfiNullable(PublicInterface_InternalStruct value) {
+Pointer<Void> smokePublicinterfaceInternalstructToFfiNullable(PublicInterface_InternalStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokePublicinterfaceInternalstructToFfi(value);
   final result = _smokePublicinterfaceInternalstructCreateHandleNullable(_handle);
   smokePublicinterfaceInternalstructReleaseFfiHandle(_handle);
   return result;
 }
-PublicInterface_InternalStruct smokePublicinterfaceInternalstructFromFfiNullable(Pointer<Void> handle) {
+PublicInterface_InternalStruct? smokePublicinterfaceInternalstructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokePublicinterfaceInternalstructGetValueNullable(handle);
   final result = smokePublicinterfaceInternalstructFromFfi(_handle);
@@ -80,6 +78,10 @@ void smokePublicinterfaceInternalstructReleaseFfiHandleNullable(Pointer<Void> ha
   _smokePublicinterfaceInternalstructReleaseHandleNullable(handle);
 // End of PublicInterface_InternalStruct "private" section.
 // PublicInterface "private" section, not exported.
+final _smokePublicinterfaceRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_PublicInterface_register_finalizer'));
 final _smokePublicinterfaceCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -89,8 +91,8 @@ final _smokePublicinterfaceReleaseHandle = __lib.catchArgumentError(() => __lib.
     void Function(Pointer<Void>)
   >('library_smoke_PublicInterface_release_handle'));
 final _smokePublicinterfaceCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer),
-    Pointer<Void> Function(int, int, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle),
+    Pointer<Void> Function(int, int, Object)
   >('library_smoke_PublicInterface_create_proxy'));
 final _smokePublicinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -99,28 +101,20 @@ final _smokePublicinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nati
 class PublicInterface$Impl extends __lib.NativeBase implements PublicInterface {
   PublicInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
-    _smokePublicinterfaceReleaseHandle(handle);
-    handle = null;
-  }
+  void release() {}
 }
 Pointer<Void> smokePublicinterfaceToFfi(PublicInterface value) {
   if (value is __lib.NativeBase) return _smokePublicinterfaceCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokePublicinterfaceCreateProxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi
+    value
   );
   return result;
 }
 PublicInterface smokePublicinterfaceFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as PublicInterface;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is PublicInterface) return instance as PublicInterface;
   final _typeIdHandle = _smokePublicinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -128,14 +122,15 @@ PublicInterface smokePublicinterfaceFromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : PublicInterface$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
+  _smokePublicinterfaceRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokePublicinterfaceReleaseFfiHandle(Pointer<Void> handle) =>
   _smokePublicinterfaceReleaseHandle(handle);
-Pointer<Void> smokePublicinterfaceToFfiNullable(PublicInterface value) =>
+Pointer<Void> smokePublicinterfaceToFfiNullable(PublicInterface? value) =>
   value != null ? smokePublicinterfaceToFfi(value) : Pointer<Void>.fromAddress(0);
-PublicInterface smokePublicinterfaceFromFfiNullable(Pointer<Void> handle) =>
+PublicInterface? smokePublicinterfaceFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokePublicinterfaceFromFfi(handle) : null;
 void smokePublicinterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokePublicinterfaceReleaseHandle(handle);

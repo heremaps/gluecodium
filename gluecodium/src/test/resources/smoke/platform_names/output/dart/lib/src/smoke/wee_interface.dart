@@ -1,21 +1,23 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/wee_types.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 abstract class weeInterface {
   factory weeInterface.make(String makeParameter) => weeInterface$Impl.make(makeParameter);
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   weeStruct WeeMethod(String WeeParameter);
   int get WEE_PROPERTY;
   set WEE_PROPERTY(int value);
 }
 // weeInterface "private" section, not exported.
+final _smokePlatformnamesinterfaceRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_PlatformNamesInterface_register_finalizer'));
 final _smokePlatformnamesinterfaceCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -27,15 +29,10 @@ final _smokePlatformnamesinterfaceReleaseHandle = __lib.catchArgumentError(() =>
 class weeInterface$Impl extends __lib.NativeBase implements weeInterface {
   weeInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
-    _smokePlatformnamesinterfaceReleaseHandle(handle);
-    handle = null;
-  }
+  void release() {}
   weeInterface$Impl.make(String makeParameter) : super(_make(makeParameter)) {
-    __lib.ffiCacheToken(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
+    __lib.cacheInstance(handle, this);
+    _smokePlatformnamesinterfaceRegisterFinalizer(handle, __lib.LibraryContext.isolateId, this);
   }
   @override
   weeStruct WeeMethod(String WeeParameter) {
@@ -82,20 +79,19 @@ class weeInterface$Impl extends __lib.NativeBase implements weeInterface {
 Pointer<Void> smokePlatformnamesinterfaceToFfi(weeInterface value) =>
   _smokePlatformnamesinterfaceCopyHandle((value as __lib.NativeBase).handle);
 weeInterface smokePlatformnamesinterfaceFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as weeInterface;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is weeInterface) return instance as weeInterface;
   final _copiedHandle = _smokePlatformnamesinterfaceCopyHandle(handle);
   final result = weeInterface$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
+  _smokePlatformnamesinterfaceRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokePlatformnamesinterfaceReleaseFfiHandle(Pointer<Void> handle) =>
   _smokePlatformnamesinterfaceReleaseHandle(handle);
-Pointer<Void> smokePlatformnamesinterfaceToFfiNullable(weeInterface value) =>
+Pointer<Void> smokePlatformnamesinterfaceToFfiNullable(weeInterface? value) =>
   value != null ? smokePlatformnamesinterfaceToFfi(value) : Pointer<Void>.fromAddress(0);
-weeInterface smokePlatformnamesinterfaceFromFfiNullable(Pointer<Void> handle) =>
+weeInterface? smokePlatformnamesinterfaceFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokePlatformnamesinterfaceFromFfi(handle) : null;
 void smokePlatformnamesinterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokePlatformnamesinterfaceReleaseHandle(handle);

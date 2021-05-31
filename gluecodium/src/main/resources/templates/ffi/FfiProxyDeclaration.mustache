@@ -20,26 +20,41 @@
   !}}
 class {{resolveName}}_Proxy{{#unless isLambda}} : public {{resolveName "C++"}}{{/unless}} {
 public:
-    {{resolveName}}_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter{{!!
+    {{resolveName}}_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle{{!!
     }}{{#each inheritedFunctions functions}}{{#unless attributes.dart.skip isStatic logic="and"}}{{!!
     }}, FfiOpaqueHandle f{{iter.position}}{{/unless}}{{/each}}{{!!
     }}{{#each inheritedProperties properties}}{{#unless attributes.dart.skip isStatic logic="and"}}, FfiOpaqueHandle p{{iter.position}}g{{!!
     }}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{/unless}}{{/each}})
-        : token(token), isolate_id(isolate_id), deleter(deleter){{!!
+        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)){{!!
         }}{{#each inheritedFunctions functions}}{{#unless attributes.dart.skip isStatic logic="and"}}{{!!
         }}, f{{iter.position}}(f{{iter.position}}){{/unless}}{{/each}}{{!!
         }}{{#each inheritedProperties properties}}{{#unless attributes.dart.skip isStatic logic="and"}}, p{{iter.position}}g(p{{iter.position}}g){{!!
-        }}{{#if setter}}, p{{iter.position}}s(p{{iter.position}}s){{/if}}{{/unless}}{{/each}} { }
+        }}{{#if setter}}, p{{iter.position}}s(p{{iter.position}}s){{/if}}{{/unless}}{{/each}} {
+{{#unless isLambda}}
+        {{libraryName}}_cache_dart_handle_by_raw_pointer(this, isolate_id, dart_handle);
+{{/unless}}
+    }
 
     ~{{resolveName}}_Proxy() {
         {{>ffi/FfiInternal}}::remove_cached_proxy(token, isolate_id, "{{resolveName}}");
-        {{>ffi/FfiInternal}}::remove_cached_token(this, isolate_id);
 
-        auto token_local = token;
-        auto deleter_local = reinterpret_cast<void (*)(uint64_t)>(deleter);
-        {{>ffi/FfiInternal}}::cbqm.enqueueCallback(isolate_id, [token_local, deleter_local]() {
-            (*deleter_local)(token_local);
-        });
+{{#unless isLambda}}
+        auto raw_pointer_local = this;
+        auto isolate_id_local = isolate_id;
+{{/unless}}
+        auto dart_persistent_handle_local = dart_persistent_handle;
+        auto deleter = [{{#unless isLambda}}raw_pointer_local, isolate_id_local, {{/unless}}dart_persistent_handle_local]() {
+{{#unless isLambda}}
+            {{libraryName}}_uncache_dart_handle_by_raw_pointer(raw_pointer_local, isolate_id_local);
+{{/unless}}
+            Dart_DeletePersistentHandle_DL(dart_persistent_handle_local);
+        };
+
+        if ({{>ffi/FfiInternal}}::IsolateContext::is_current(isolate_id)) {
+            deleter();
+        } else {
+            {{>ffi/FfiInternal}}::cbqm.enqueueCallback(isolate_id, deleter);
+        }
     }
 
     {{resolveName}}_Proxy(const {{resolveName}}_Proxy&) = delete;
@@ -55,11 +70,11 @@ public:
         {{#unless returnType.isVoid}}{{resolveName returnType.typeRef}} _result_handle;{{/unless}}
         {{#if thrownType}}{{resolveName  exception.errorType}} _error_handle;
         bool _error_flag;{{/if}}
-        dispatch([&]() { {{#if thrownType}}_error_flag = {{/if}}(*reinterpret_cast<bool (*)(uint64_t{{#if parameters}}, {{/if}}{{!!
+        dispatch([&]() { {{#if thrownType}}_error_flag = {{/if}}(*reinterpret_cast<bool (*)(Dart_Handle{{#if parameters}}, {{/if}}{{!!
         }}{{#parameters}}{{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
         }}{{#unless returnType.isVoid}}, {{resolveName returnType.typeRef}}*{{/unless}}{{!!
         }}{{#if thrownType}}, {{resolveName  exception.errorType}}*{{/if}}){{!!
-        }}>(f{{iter.position}}))(token{{#if parameters}}, {{/if}}{{#parameters}}
+        }}>(f{{iter.position}}))(Dart_HandleFromPersistent_DL(dart_persistent_handle){{#if parameters}}, {{/if}}{{#parameters}}
             {{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toFfi({{resolveName}}){{#if iter.hasNext}},
 {{/if}}{{/parameters}}{{#unless returnType.isVoid}},
             &_result_handle{{/unless}}{{#if thrownType}},
@@ -87,8 +102,8 @@ public:
         return {};
 {{/if}}{{#unless isSkipped}}
         {{resolveName returnType.typeRef}} _result_handle;
-        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, {{resolveName returnType.typeRef}}*)>{{!!
-        }}(p{{iter.position}}g))(token, &_result_handle); });
+        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, {{resolveName returnType.typeRef}}*)>{{!!
+        }}(p{{iter.position}}g))(Dart_HandleFromPersistent_DL(dart_persistent_handle), &_result_handle); });
         auto _result = {{>ffi/FfiInternal}}::Conversion<{{resolveName returnType.typeRef "C++"}}>::toCpp(_result_handle);
         {{#set typeRef=returnType.typeRef handle="_result_handle"}}{{>ffiReleaseHandle}}{{/set}};
         return _result;
@@ -99,7 +114,8 @@ public:
     void
     {{resolveName "C++"}}(const {{resolveName typeRef "C++ parameter"}} value) override {
 {{#unless isSkipped}}
-        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, {{resolveName typeRef}})>(p{{iter.position}}s))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, {{resolveName typeRef}})>(p{{iter.position}}s))(
+            Dart_HandleFromPersistent_DL(dart_persistent_handle),
             {{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toFfi(value)
         ); });
 {{/unless}}
@@ -110,7 +126,7 @@ public:
 private:
     const uint64_t token;
     const int32_t isolate_id;
-    const FfiOpaqueHandle deleter;
+    const Dart_PersistentHandle dart_persistent_handle;
 {{#each inheritedFunctions functions}}{{#unless attributes.dart.skip isStatic logic="and"}}
     const FfiOpaqueHandle f{{iter.position}};
 {{/unless}}{{/each}}

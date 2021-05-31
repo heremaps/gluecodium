@@ -9,6 +9,7 @@ include(gluecodium/Swift)
 
 # MAIN
 add_library(ModuleWithMainOnly SHARED "${CMAKE_CURRENT_LIST_DIR}/cpp/MainBarImpl.cpp")
+add_library(test::ModuleWithMainOnly ALIAS ModuleWithMainOnly)
 gluecodium_generate(ModuleWithMainOnly GENERATORS cpp swift MAIN_ONLY)
 
 gluecodium_target_lime_sources(ModuleWithMainOnly

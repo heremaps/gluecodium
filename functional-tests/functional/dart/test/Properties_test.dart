@@ -27,12 +27,9 @@ import "../test_suite.dart";
 final _testSuite = TestSuite("Properties");
 
 void main() {
-  Attributes attributes;
+  late Attributes attributes;
   setUp(() {
     attributes = Attributes();
-  });
-  tearDown(() {
-    attributes.release();
   });
 
   _testSuite.test("Primitive type Property round trip", () {
@@ -79,8 +76,6 @@ void main() {
 
     expect(instance.callCount, 1);
     expect(result1, equals(["foo", "bar"]));
-
-    instance.release();
   });
   _testSuite.test("Static cached property", () {
     expect(CachedProperties.staticCallCount, 0);
@@ -99,11 +94,8 @@ void main() {
   _testSuite.test("Property in a nested class", () {
     final geometry = VenueGeometry();
     final internalAddress = geometry.internalAddress;
-    final result = internalAddress.longAddress;
+    final result = internalAddress?.longAddress;
 
     expect(result, "foobar");
-
-    geometry.release();
-    internalAddress.release();
   });
 }

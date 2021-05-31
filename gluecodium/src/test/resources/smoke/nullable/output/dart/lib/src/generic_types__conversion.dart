@@ -34,7 +34,7 @@ final _foobarListofNullableDateIteratorGet = __lib.catchArgumentError(() => __li
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
 >('library_foobar_ListOf_Nullable_Date_iterator_get'));
-Pointer<Void> foobarListofNullableDateToFfi(List<DateTime> value) {
+Pointer<Void> foobarListofNullableDateToFfi(List<DateTime?> value) {
   final _result = _foobarListofNullableDateCreateHandle();
   for (final element in value) {
     final _elementHandle = dateToFfiNullable(element);
@@ -43,8 +43,8 @@ Pointer<Void> foobarListofNullableDateToFfi(List<DateTime> value) {
   }
   return _result;
 }
-List<DateTime> foobarListofNullableDateFromFfi(Pointer<Void> handle) {
-  final result = List<DateTime>.empty(growable: true);
+List<DateTime?> foobarListofNullableDateFromFfi(Pointer<Void> handle) {
+  final result = List<DateTime?>.empty(growable: true);
   final _iteratorHandle = _foobarListofNullableDateIterator(handle);
   while (_foobarListofNullableDateIteratorIsValid(handle, _iteratorHandle) != 0) {
     final _elementHandle = _foobarListofNullableDateIteratorGet(_iteratorHandle);
@@ -71,14 +71,14 @@ final _foobarListofNullableDateGetValueNullable = __lib.catchArgumentError(() =>
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_Nullable_Date_get_value_nullable'));
-Pointer<Void> foobarListofNullableDateToFfiNullable(List<DateTime> value) {
+Pointer<Void> foobarListofNullableDateToFfiNullable(List<DateTime?>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobarListofNullableDateToFfi(value);
   final result = _foobarListofNullableDateCreateHandleNullable(_handle);
   foobarListofNullableDateReleaseFfiHandle(_handle);
   return result;
 }
-List<DateTime> foobarListofNullableDateFromFfiNullable(Pointer<Void> handle) {
+List<DateTime?>? foobarListofNullableDateFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobarListofNullableDateGetValueNullable(handle);
   final result = foobarListofNullableDateFromFfi(_handle);
@@ -156,14 +156,14 @@ final _foobarListofStringGetValueNullable = __lib.catchArgumentError(() => __lib
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_String_get_value_nullable'));
-Pointer<Void> foobarListofStringToFfiNullable(List<String> value) {
+Pointer<Void> foobarListofStringToFfiNullable(List<String>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobarListofStringToFfi(value);
   final result = _foobarListofStringCreateHandleNullable(_handle);
   foobarListofStringReleaseFfiHandle(_handle);
   return result;
 }
-List<String> foobarListofStringFromFfiNullable(Pointer<Void> handle) {
+List<String>? foobarListofStringFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobarListofStringGetValueNullable(handle);
   final result = foobarListofStringFromFfi(_handle);
@@ -208,7 +208,7 @@ final _foobarMapofIntToNullableSmokeNullableSomestructIteratorGetValue = __lib.c
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
 >('library_foobar_MapOf_Int_to_Nullable_smoke_Nullable_SomeStruct_iterator_get_value'));
-Pointer<Void> foobarMapofIntToNullableSmokeNullableSomestructToFfi(Map<int, Nullable_SomeStruct> value) {
+Pointer<Void> foobarMapofIntToNullableSmokeNullableSomestructToFfi(Map<int, Nullable_SomeStruct?> value) {
   final _result = _foobarMapofIntToNullableSmokeNullableSomestructCreateHandle();
   for (final entry in value.entries) {
     final _keyHandle = (entry.key);
@@ -218,8 +218,8 @@ Pointer<Void> foobarMapofIntToNullableSmokeNullableSomestructToFfi(Map<int, Null
   }
   return _result;
 }
-Map<int, Nullable_SomeStruct> foobarMapofIntToNullableSmokeNullableSomestructFromFfi(Pointer<Void> handle) {
-  final result = Map<int, Nullable_SomeStruct>();
+Map<int, Nullable_SomeStruct?> foobarMapofIntToNullableSmokeNullableSomestructFromFfi(Pointer<Void> handle) {
+  final result = Map<int, Nullable_SomeStruct?>();
   final _iteratorHandle = _foobarMapofIntToNullableSmokeNullableSomestructIterator(handle);
   while (_foobarMapofIntToNullableSmokeNullableSomestructIteratorIsValid(handle, _iteratorHandle) != 0) {
     final _keyHandle = _foobarMapofIntToNullableSmokeNullableSomestructIteratorGetKey(_iteratorHandle);
@@ -248,14 +248,14 @@ final _foobarMapofIntToNullableSmokeNullableSomestructGetValueNullable = __lib.c
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_Int_to_Nullable_smoke_Nullable_SomeStruct_get_value_nullable'));
-Pointer<Void> foobarMapofIntToNullableSmokeNullableSomestructToFfiNullable(Map<int, Nullable_SomeStruct> value) {
+Pointer<Void> foobarMapofIntToNullableSmokeNullableSomestructToFfiNullable(Map<int, Nullable_SomeStruct?>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobarMapofIntToNullableSmokeNullableSomestructToFfi(value);
   final result = _foobarMapofIntToNullableSmokeNullableSomestructCreateHandleNullable(_handle);
   foobarMapofIntToNullableSmokeNullableSomestructReleaseFfiHandle(_handle);
   return result;
 }
-Map<int, Nullable_SomeStruct> foobarMapofIntToNullableSmokeNullableSomestructFromFfiNullable(Pointer<Void> handle) {
+Map<int, Nullable_SomeStruct?>? foobarMapofIntToNullableSmokeNullableSomestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobarMapofIntToNullableSmokeNullableSomestructGetValueNullable(handle);
   final result = foobarMapofIntToNullableSmokeNullableSomestructFromFfi(_handle);
@@ -340,14 +340,14 @@ final _foobarMapofLongToStringGetValueNullable = __lib.catchArgumentError(() => 
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_Long_to_String_get_value_nullable'));
-Pointer<Void> foobarMapofLongToStringToFfiNullable(Map<int, String> value) {
+Pointer<Void> foobarMapofLongToStringToFfiNullable(Map<int, String>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobarMapofLongToStringToFfi(value);
   final result = _foobarMapofLongToStringCreateHandleNullable(_handle);
   foobarMapofLongToStringReleaseFfiHandle(_handle);
   return result;
 }
-Map<int, String> foobarMapofLongToStringFromFfiNullable(Pointer<Void> handle) {
+Map<int, String>? foobarMapofLongToStringFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobarMapofLongToStringGetValueNullable(handle);
   final result = foobarMapofLongToStringFromFfi(_handle);

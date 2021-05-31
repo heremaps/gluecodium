@@ -25,7 +25,7 @@ import "../test_suite.dart";
 
 final _testSuite = TestSuite("ListenersWithErrors");
 
-class TestListener extends ErrorsInInterface {
+class TestListener implements ErrorsInInterface {
   String _message = "Doesn't work";
 
   @override
@@ -43,9 +43,12 @@ class TestListener extends ErrorsInInterface {
   void setMessageWithPayload(String value) {
     _message = value;
   }
+
+  @override
+  release() {}
 }
 
-class ThrowingListener extends ErrorsInInterface {
+class ThrowingListener implements ErrorsInInterface {
   String _message = "Doesn't work";
 
   @override
@@ -67,15 +70,15 @@ class ThrowingListener extends ErrorsInInterface {
   void setMessageWithPayload(String value) {
     throw WithPayloadException(Payload(42, "foo"));
   }
+
+  @override
+  release() {}
 }
 
 void main() {
-  ErrorMessenger messenger;
+  late ErrorMessenger messenger;
   setUp(() {
     messenger = ErrorMessenger();
-  });
-  tearDown(() {
-    messenger.release();
   });
 
   _testSuite.test("String round trip works", () {
@@ -87,7 +90,7 @@ void main() {
     expect(result, "Works");
   });
   _testSuite.test("getMessage() error rethrown", () {
-    AdditionalErrorsExternalException exception = null;
+    AdditionalErrorsExternalException? exception = null;
     final ErrorsInInterface listener = ThrowingListener();
 
     try {
@@ -96,13 +99,10 @@ void main() {
       exception = e;
     }
 
-    expect(exception, isNotNull);
-    expect(exception.error, AdditionalErrorsExternalErrorCode.failed);
-
-    listener.release();
+    expect(exception?.error, AdditionalErrorsExternalErrorCode.failed);
   });
   _testSuite.test("setMessage() error rethrown", () {
-    AdditionalErrorsExternalException exception = null;
+    AdditionalErrorsExternalException? exception = null;
     final ErrorsInInterface listener = ThrowingListener();
 
     try {
@@ -111,13 +111,10 @@ void main() {
       exception = e;
     }
 
-    expect(exception, isNotNull);
-    expect(exception.error, AdditionalErrorsExternalErrorCode.failed);
-
-    listener.release();
+    expect(exception?.error, AdditionalErrorsExternalErrorCode.failed);
   });
   _testSuite.test("getMessageWithPayload() error rethrown", () {
-    WithPayloadException exception = null;
+    WithPayloadException? exception = null;
     final ErrorsInInterface listener = ThrowingListener();
 
     try {
@@ -126,13 +123,10 @@ void main() {
       exception = e;
     }
 
-    expect(exception, isNotNull);
-    expect(exception.error, Payload(42, "foo"));
-
-    listener.release();
+    expect(exception?.error, Payload(42, "foo"));
   });
   _testSuite.test("setMessageWithPayload() error rethrown", () {
-    WithPayloadException exception = null;
+    WithPayloadException? exception = null;
     final ErrorsInInterface listener = ThrowingListener();
 
     try {
@@ -141,9 +135,6 @@ void main() {
       exception = e;
     }
 
-    expect(exception, isNotNull);
-    expect(exception.error, Payload(42, "foo"));
-
-    listener.release();
+    expect(exception?.error, Payload(42, "foo"));
   });
 }

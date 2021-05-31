@@ -1,10 +1,10 @@
+import 'dart:ffi';
 import 'package:library/src/_lazy_list.dart' as __lib;
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/unreasonably_lazy_class.dart';
 import 'package:library/src/smoke/very_big_struct.dart';
 import 'package:meta/meta.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 @immutable
 class UseOptimizedListStruct {
   final List<VeryBigStruct> structs;
@@ -36,10 +36,10 @@ final _smokeUseoptimizedliststructsmokeVerybigstructLazyListGet = __lib.catchArg
     Pointer<Void> Function(Pointer<Void>, Uint64),
     Pointer<Void> Function(Pointer<Void>, int)
   >('library_smoke_UseOptimizedListStruct_smoke_VeryBigStructLazyList_get'));
-final _smokeUseoptimizedliststructsmokeVerybigstructLazyListReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>),
-    void Function(Pointer<Void>)
-  >('library_smoke_UseOptimizedListStruct_smoke_VeryBigStructLazyList_release_handle'));
+final _smokeUseoptimizedliststructsmokeVerybigstructLazyListRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_UseOptimizedListStruct_smoke_VeryBigStructLazyList_register_finalizer'));
 final _smokeUseoptimizedliststructsmokeUnreasonablylazyclassLazyListGetSize = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
@@ -48,10 +48,10 @@ final _smokeUseoptimizedliststructsmokeUnreasonablylazyclassLazyListGet = __lib.
     Pointer<Void> Function(Pointer<Void>, Uint64),
     Pointer<Void> Function(Pointer<Void>, int)
   >('library_smoke_UseOptimizedListStruct_smoke_UnreasonablyLazyClassLazyList_get'));
-final _smokeUseoptimizedliststructsmokeUnreasonablylazyclassLazyListReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>),
-    void Function(Pointer<Void>)
-  >('library_smoke_UseOptimizedListStruct_smoke_UnreasonablyLazyClassLazyList_release_handle'));
+final _smokeUseoptimizedliststructsmokeUnreasonablylazyclassLazyListRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_UseOptimizedListStruct_smoke_UnreasonablyLazyClassLazyList_register_finalizer'));
 Pointer<Void> smokeUseoptimizedliststructToFfi(UseOptimizedListStruct value) {
   final _structsHandle = (value.structs as __lib.LazyList).handle;
   final _classesHandle = (value.classes as __lib.LazyList).handle;
@@ -72,7 +72,7 @@ UseOptimizedListStruct smokeUseoptimizedliststructFromFfi(Pointer<Void> handle) 
           smokeVerybigstructReleaseFfiHandle(__elementHandle);
           return __elementResult;
         },
-        () => _smokeUseoptimizedliststructsmokeVerybigstructLazyListReleaseHandle(_structsHandle)
+        (obj) => _smokeUseoptimizedliststructsmokeVerybigstructLazyListRegisterFinalizer(_structsHandle, __lib.LibraryContext.isolateId, obj)
       ),
       __lib.LazyList(
         _classesHandle,
@@ -83,7 +83,7 @@ UseOptimizedListStruct smokeUseoptimizedliststructFromFfi(Pointer<Void> handle) 
           smokeUnreasonablylazyclassReleaseFfiHandle(__elementHandle);
           return __elementResult;
         },
-        () => _smokeUseoptimizedliststructsmokeUnreasonablylazyclassLazyListReleaseHandle(_classesHandle)
+        (obj) => _smokeUseoptimizedliststructsmokeUnreasonablylazyclassLazyListRegisterFinalizer(_classesHandle, __lib.LibraryContext.isolateId, obj)
       )
     );
   } finally {
@@ -103,14 +103,14 @@ final _smokeUseoptimizedliststructGetValueNullable = __lib.catchArgumentError(()
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_UseOptimizedListStruct_get_value_nullable'));
-Pointer<Void> smokeUseoptimizedliststructToFfiNullable(UseOptimizedListStruct value) {
+Pointer<Void> smokeUseoptimizedliststructToFfiNullable(UseOptimizedListStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeUseoptimizedliststructToFfi(value);
   final result = _smokeUseoptimizedliststructCreateHandleNullable(_handle);
   smokeUseoptimizedliststructReleaseFfiHandle(_handle);
   return result;
 }
-UseOptimizedListStruct smokeUseoptimizedliststructFromFfiNullable(Pointer<Void> handle) {
+UseOptimizedListStruct? smokeUseoptimizedliststructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeUseoptimizedliststructGetValueNullable(handle);
   final result = smokeUseoptimizedliststructFromFfi(_handle);

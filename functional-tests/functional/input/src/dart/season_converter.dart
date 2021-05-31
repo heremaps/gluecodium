@@ -31,6 +31,8 @@ class SeasonConverter {
         return "summer";
       case StringInternal.autumn:
         return "autumn";
+      default:
+        return "";
     }
   }
 
@@ -44,6 +46,8 @@ class SeasonConverter {
         return StringInternal.summer;
       case "autumn":
         return StringInternal.autumn;
+      default:
+        return StringInternal.winter;
     }
   }
 }

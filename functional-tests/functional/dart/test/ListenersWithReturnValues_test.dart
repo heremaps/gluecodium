@@ -26,12 +26,15 @@ import "../test_suite.dart";
 
 final _testSuite = TestSuite("ListenersWithReturnValues");
 
-class TestMessagePackage extends MessagePackage {
+class TestMessagePackage implements MessagePackage {
   @override
   String unpackMessage() => "Works";
+
+  @override
+  release() {}
 }
 
-class TestListener extends ListenerWithReturn {
+class TestListener implements ListenerWithReturn {
   @override
   String getMessage() => "Works";
 
@@ -57,18 +60,17 @@ class TestListener extends ListenerWithReturn {
 
   @override
   Uint8List getBufferedMessage() => Uint8List.fromList(utf8.encode("Works"));
+
+  @override
+  release() {}
 }
 
 void main() {
-  ListenerWithReturn envelope;
-  MessageDelivery delivery;
+  late ListenerWithReturn envelope;
+  late MessageDelivery delivery;
   setUp(() {
     envelope = TestListener();
     delivery = MessageDelivery();
-  });
-  tearDown(() {
-    envelope.release();
-    delivery.release();
   });
 
   _testSuite.test("String return works", () {

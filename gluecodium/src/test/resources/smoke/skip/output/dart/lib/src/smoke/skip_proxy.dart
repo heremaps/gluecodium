@@ -1,31 +1,28 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 abstract class SkipProxy {
-  SkipProxy();
-  factory SkipProxy.fromLambdas({
-    @required String Function(String) lambda_notInJava,
-    @required bool Function(bool) lambda_notInSwift,
-    @required String Function() lambda_skippedInJava_get,
-    @required void Function(String) lambda_skippedInJava_set,
-    @required bool Function() lambda_isSkippedInSwift_get,
-    @required void Function(bool) lambda_isSkippedInSwift_set
-  }) => SkipProxy$Lambdas(
-    lambda_notInJava,
-    lambda_notInSwift,
-    lambda_skippedInJava_get,
-    lambda_skippedInJava_set,
-    lambda_isSkippedInSwift_get,
-    lambda_isSkippedInSwift_set
+  factory SkipProxy(
+    String Function(String) notInJavaLambda,
+    bool Function(bool) notInSwiftLambda,
+    String Function() skippedInJavaGetLambda,
+    void Function(String) skippedInJavaSetLambda,
+    bool Function() isSkippedInSwiftGetLambda,
+    void Function(bool) isSkippedInSwiftSetLambda
+  ) => SkipProxy$Lambdas(
+    notInJavaLambda,
+    notInSwiftLambda,
+    skippedInJavaGetLambda,
+    skippedInJavaSetLambda,
+    isSkippedInSwiftGetLambda,
+    isSkippedInSwiftSetLambda
   );
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release() {}
   String notInJava(String input);
   bool notInSwift(bool input);
@@ -35,6 +32,10 @@ abstract class SkipProxy {
   set isSkippedInSwift(bool value);
 }
 // SkipProxy "private" section, not exported.
+final _smokeSkipproxyRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_SkipProxy_register_finalizer'));
 final _smokeSkipproxyCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -44,55 +45,49 @@ final _smokeSkipproxyReleaseHandle = __lib.catchArgumentError(() => __lib.native
     void Function(Pointer<Void>)
   >('library_smoke_SkipProxy_release_handle'));
 final _smokeSkipproxyCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
   >('library_smoke_SkipProxy_create_proxy'));
 final _smokeSkipproxyGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_SkipProxy_get_type_id'));
 class SkipProxy$Lambdas implements SkipProxy {
-  String Function(String) lambda_notInJava;
-  bool Function(bool) lambda_notInSwift;
-  String Function() lambda_skippedInJava_get;
-  void Function(String) lambda_skippedInJava_set;
-  bool Function() lambda_isSkippedInSwift_get;
-  void Function(bool) lambda_isSkippedInSwift_set;
+  String Function(String) notInJavaLambda;
+  bool Function(bool) notInSwiftLambda;
+  String Function() skippedInJavaGetLambda;
+  void Function(String) skippedInJavaSetLambda;
+  bool Function() isSkippedInSwiftGetLambda;
+  void Function(bool) isSkippedInSwiftSetLambda;
   SkipProxy$Lambdas(
-    this.lambda_notInJava,
-    this.lambda_notInSwift,
-    this.lambda_skippedInJava_get,
-    this.lambda_skippedInJava_set,
-    this.lambda_isSkippedInSwift_get,
-    this.lambda_isSkippedInSwift_set
+    this.notInJavaLambda,
+    this.notInSwiftLambda,
+    this.skippedInJavaGetLambda,
+    this.skippedInJavaSetLambda,
+    this.isSkippedInSwiftGetLambda,
+    this.isSkippedInSwiftSetLambda
   );
   @override
   void release() {}
   @override
   String notInJava(String input) =>
-    lambda_notInJava(input);
+    notInJavaLambda(input);
   @override
   bool notInSwift(bool input) =>
-    lambda_notInSwift(input);
+    notInSwiftLambda(input);
   @override
-  String get skippedInJava => lambda_skippedInJava_get();
+  String get skippedInJava => skippedInJavaGetLambda();
   @override
-  set skippedInJava(String value) => lambda_skippedInJava_set(value);
+  set skippedInJava(String value) => skippedInJavaSetLambda(value);
   @override
-  bool get isSkippedInSwift => lambda_isSkippedInSwift_get();
+  bool get isSkippedInSwift => isSkippedInSwiftGetLambda();
   @override
-  set isSkippedInSwift(bool value) => lambda_isSkippedInSwift_set(value);
+  set isSkippedInSwift(bool value) => isSkippedInSwiftSetLambda(value);
 }
 class SkipProxy$Impl extends __lib.NativeBase implements SkipProxy {
   SkipProxy$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
-    _smokeSkipproxyReleaseHandle(handle);
-    handle = null;
-  }
+  void release() {}
   @override
   String notInJava(String input) {
     final _notInJavaFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_SkipProxy_notInJava__String'));
@@ -162,46 +157,46 @@ class SkipProxy$Impl extends __lib.NativeBase implements SkipProxy {
     }
   }
 }
-int _SkipProxynotInJavaStatic(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
-  String _resultObject;
+int _smokeSkipproxynotInJavaStatic(Object _obj, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
+  String? _resultObject;
   try {
-    _resultObject = (__lib.instanceCache[_token] as SkipProxy).notInJava(stringFromFfi(input));
+    _resultObject = (_obj as SkipProxy).notInJava(stringFromFfi(input));
     _result.value = stringToFfi(_resultObject);
   } finally {
     stringReleaseFfiHandle(input);
   }
   return 0;
 }
-int _SkipProxynotInSwiftStatic(int _token, int input, Pointer<Uint8> _result) {
-  bool _resultObject;
+int _smokeSkipproxynotInSwiftStatic(Object _obj, int input, Pointer<Uint8> _result) {
+  bool? _resultObject;
   try {
-    _resultObject = (__lib.instanceCache[_token] as SkipProxy).notInSwift(booleanFromFfi(input));
+    _resultObject = (_obj as SkipProxy).notInSwift(booleanFromFfi(input));
     _result.value = booleanToFfi(_resultObject);
   } finally {
     booleanReleaseFfiHandle(input);
   }
   return 0;
 }
-int _SkipProxyskippedInJavaGetStatic(int _token, Pointer<Pointer<Void>> _result) {
-  _result.value = stringToFfi((__lib.instanceCache[_token] as SkipProxy).skippedInJava);
+int _smokeSkipproxyskippedInJavaGetStatic(Object _obj, Pointer<Pointer<Void>> _result) {
+  _result.value = stringToFfi((_obj as SkipProxy).skippedInJava);
   return 0;
 }
-int _SkipProxyskippedInJavaSetStatic(int _token, Pointer<Void> _value) {
+int _smokeSkipproxyskippedInJavaSetStatic(Object _obj, Pointer<Void> _value) {
   try {
-    (__lib.instanceCache[_token] as SkipProxy).skippedInJava =
+    (_obj as SkipProxy).skippedInJava =
       stringFromFfi(_value);
   } finally {
     stringReleaseFfiHandle(_value);
   }
   return 0;
 }
-int _SkipProxyisSkippedInSwiftGetStatic(int _token, Pointer<Uint8> _result) {
-  _result.value = booleanToFfi((__lib.instanceCache[_token] as SkipProxy).isSkippedInSwift);
+int _smokeSkipproxyisSkippedInSwiftGetStatic(Object _obj, Pointer<Uint8> _result) {
+  _result.value = booleanToFfi((_obj as SkipProxy).isSkippedInSwift);
   return 0;
 }
-int _SkipProxyisSkippedInSwiftSetStatic(int _token, int _value) {
+int _smokeSkipproxyisSkippedInSwiftSetStatic(Object _obj, int _value) {
   try {
-    (__lib.instanceCache[_token] as SkipProxy).isSkippedInSwift =
+    (_obj as SkipProxy).isSkippedInSwift =
       booleanFromFfi(_value);
   } finally {
     booleanReleaseFfiHandle(_value);
@@ -211,23 +206,21 @@ int _SkipProxyisSkippedInSwiftSetStatic(int _token, int _value) {
 Pointer<Void> smokeSkipproxyToFfi(SkipProxy value) {
   if (value is __lib.NativeBase) return _smokeSkipproxyCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokeSkipproxyCreateProxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_SkipProxynotInJavaStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Uint8, Pointer<Uint8>)>(_SkipProxynotInSwiftStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_SkipProxyskippedInJavaGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_SkipProxyskippedInJavaSetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint8>)>(_SkipProxyisSkippedInSwiftGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Uint8)>(_SkipProxyisSkippedInSwiftSetStatic, __lib.unknownError)
+    value,
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>, Pointer<Pointer<Void>>)>(_smokeSkipproxynotInJavaStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Uint8, Pointer<Uint8>)>(_smokeSkipproxynotInSwiftStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeSkipproxyskippedInJavaGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeSkipproxyskippedInJavaSetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Uint8>)>(_smokeSkipproxyisSkippedInSwiftGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Uint8)>(_smokeSkipproxyisSkippedInSwiftSetStatic, __lib.unknownError)
   );
   return result;
 }
 SkipProxy smokeSkipproxyFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as SkipProxy;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is SkipProxy) return instance as SkipProxy;
   final _typeIdHandle = _smokeSkipproxyGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -235,14 +228,15 @@ SkipProxy smokeSkipproxyFromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : SkipProxy$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
+  _smokeSkipproxyRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeSkipproxyReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeSkipproxyReleaseHandle(handle);
-Pointer<Void> smokeSkipproxyToFfiNullable(SkipProxy value) =>
+Pointer<Void> smokeSkipproxyToFfiNullable(SkipProxy? value) =>
   value != null ? smokeSkipproxyToFfi(value) : Pointer<Void>.fromAddress(0);
-SkipProxy smokeSkipproxyFromFfiNullable(Pointer<Void> handle) =>
+SkipProxy? smokeSkipproxyFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeSkipproxyFromFfi(handle) : null;
 void smokeSkipproxyReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeSkipproxyReleaseHandle(handle);

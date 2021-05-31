@@ -1,13 +1,11 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 abstract class SkipTypes {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
 }
 class SkipTypes_NotInJava {
@@ -57,14 +55,14 @@ final _smokeSkiptypesNotinjavaGetValueNullable = __lib.catchArgumentError(() => 
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_SkipTypes_NotInJava_get_value_nullable'));
-Pointer<Void> smokeSkiptypesNotinjavaToFfiNullable(SkipTypes_NotInJava value) {
+Pointer<Void> smokeSkiptypesNotinjavaToFfiNullable(SkipTypes_NotInJava? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeSkiptypesNotinjavaToFfi(value);
   final result = _smokeSkiptypesNotinjavaCreateHandleNullable(_handle);
   smokeSkiptypesNotinjavaReleaseFfiHandle(_handle);
   return result;
 }
-SkipTypes_NotInJava smokeSkiptypesNotinjavaFromFfiNullable(Pointer<Void> handle) {
+SkipTypes_NotInJava? smokeSkiptypesNotinjavaFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeSkiptypesNotinjavaGetValueNullable(handle);
   final result = smokeSkiptypesNotinjavaFromFfi(_handle);
@@ -121,14 +119,14 @@ final _smokeSkiptypesNotinswiftGetValueNullable = __lib.catchArgumentError(() =>
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_SkipTypes_NotInSwift_get_value_nullable'));
-Pointer<Void> smokeSkiptypesNotinswiftToFfiNullable(SkipTypes_NotInSwift value) {
+Pointer<Void> smokeSkiptypesNotinswiftToFfiNullable(SkipTypes_NotInSwift? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeSkiptypesNotinswiftToFfi(value);
   final result = _smokeSkiptypesNotinswiftCreateHandleNullable(_handle);
   smokeSkiptypesNotinswiftReleaseFfiHandle(_handle);
   return result;
 }
-SkipTypes_NotInSwift smokeSkiptypesNotinswiftFromFfiNullable(Pointer<Void> handle) {
+SkipTypes_NotInSwift? smokeSkiptypesNotinswiftFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeSkiptypesNotinswiftGetValueNullable(handle);
   final result = smokeSkiptypesNotinswiftFromFfi(_handle);
@@ -139,6 +137,10 @@ void smokeSkiptypesNotinswiftReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeSkiptypesNotinswiftReleaseHandleNullable(handle);
 // End of SkipTypes_NotInSwift "private" section.
 // SkipTypes "private" section, not exported.
+final _smokeSkiptypesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_SkipTypes_register_finalizer'));
 final _smokeSkiptypesCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -150,31 +152,24 @@ final _smokeSkiptypesReleaseHandle = __lib.catchArgumentError(() => __lib.native
 class SkipTypes$Impl extends __lib.NativeBase implements SkipTypes {
   SkipTypes$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
-    _smokeSkiptypesReleaseHandle(handle);
-    handle = null;
-  }
+  void release() {}
 }
 Pointer<Void> smokeSkiptypesToFfi(SkipTypes value) =>
   _smokeSkiptypesCopyHandle((value as __lib.NativeBase).handle);
 SkipTypes smokeSkiptypesFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as SkipTypes;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is SkipTypes) return instance as SkipTypes;
   final _copiedHandle = _smokeSkiptypesCopyHandle(handle);
   final result = SkipTypes$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
+  _smokeSkiptypesRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeSkiptypesReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeSkiptypesReleaseHandle(handle);
-Pointer<Void> smokeSkiptypesToFfiNullable(SkipTypes value) =>
+Pointer<Void> smokeSkiptypesToFfiNullable(SkipTypes? value) =>
   value != null ? smokeSkiptypesToFfi(value) : Pointer<Void>.fromAddress(0);
-SkipTypes smokeSkiptypesFromFfiNullable(Pointer<Void> handle) =>
+SkipTypes? smokeSkiptypesFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeSkiptypesFromFfi(handle) : null;
 void smokeSkiptypesReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeSkiptypesReleaseHandle(handle);

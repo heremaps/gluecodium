@@ -1,6 +1,7 @@
 #pragma once
 #include "Export.h"
 #include "OpaqueHandle.h"
+#include "dart_api_dl.h"
 #include <stdint.h>
 #ifdef __cplusplus
 extern "C" {
@@ -35,6 +36,8 @@ _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Nullable_mapProperty_get(Ff
 _GLUECODIUM_FFI_EXPORT void library_smoke_Nullable_mapProperty_set__MapOf_1Long_1to_1String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Nullable_instanceProperty_get(FfiOpaqueHandle _self, int32_t _isolate_id);
 _GLUECODIUM_FFI_EXPORT void library_smoke_Nullable_instanceProperty_set__SomeInterface(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value);
+_GLUECODIUM_FFI_EXPORT void library_smoke_Nullable_register_finalizer(
+    FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Nullable_copy_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT void library_smoke_Nullable_release_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Nullable_SomeStruct_create_handle(FfiOpaqueHandle);

@@ -1,6 +1,7 @@
 #include "ffi_smoke_Properties.h"
 #include "ConversionBase.h"
-#include "ReverseCache.h"
+#include "InstanceCache.h"
+#include "FinalizerData.h"
 #include "IsolateContext.h"
 #include "gluecodium/VectorHash.h"
 #include "smoke/Properties.h"
@@ -139,6 +140,18 @@ library_smoke_Properties_staticReadonlyProperty_get(int32_t _isolate_id) {
     return gluecodium::ffi::Conversion<::smoke::Properties::ExampleStruct>::toFfi(
         ::smoke::Properties::get_static_readonly_property()
     );
+}
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_Properties_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::Properties>*>(handle);
+    library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
+    library_smoke_Properties_release_handle(handle);
+}
+void
+library_smoke_Properties_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_Properties_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
 }
 FfiOpaqueHandle
 library_smoke_Properties_copy_handle(FfiOpaqueHandle handle) {

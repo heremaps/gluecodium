@@ -1,7 +1,7 @@
-import 'package:library/src/builtin_types__conversion.dart';
-import 'package:library/src/smoke/validation_utils.dart';
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
+import 'package:library/src/builtin_types__conversion.dart';
+import 'package:library/src/smoke/validation_utils.dart';
 final _copyReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -154,14 +154,14 @@ final _smokeStructswithmethodsVectorGetValueNullable = __lib.catchArgumentError(
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructsWithMethods_Vector_get_value_nullable'));
-Pointer<Void> smokeStructswithmethodsVectorToFfiNullable(Vector value) {
+Pointer<Void> smokeStructswithmethodsVectorToFfiNullable(Vector? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeStructswithmethodsVectorToFfi(value);
   final result = _smokeStructswithmethodsVectorCreateHandleNullable(_handle);
   smokeStructswithmethodsVectorReleaseFfiHandle(_handle);
   return result;
 }
-Vector smokeStructswithmethodsVectorFromFfiNullable(Pointer<Void> handle) {
+Vector? smokeStructswithmethodsVectorFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeStructswithmethodsVectorGetValueNullable(handle);
   final result = smokeStructswithmethodsVectorFromFfi(_handle);

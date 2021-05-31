@@ -1,18 +1,20 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 abstract class Interface {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release() {}
 }
 // Interface "private" section, not exported.
+final _packageInterfaceRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_package_Interface_register_finalizer'));
 final _packageInterfaceCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -22,8 +24,8 @@ final _packageInterfaceReleaseHandle = __lib.catchArgumentError(() => __lib.nati
     void Function(Pointer<Void>)
   >('library_package_Interface_release_handle'));
 final _packageInterfaceCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer),
-    Pointer<Void> Function(int, int, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle),
+    Pointer<Void> Function(int, int, Object)
   >('library_package_Interface_create_proxy'));
 final _packageInterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -32,28 +34,20 @@ final _packageInterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativeLi
 class Interface$Impl extends __lib.NativeBase implements Interface {
   Interface$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
-    _packageInterfaceReleaseHandle(handle);
-    handle = null;
-  }
+  void release() {}
 }
 Pointer<Void> packageInterfaceToFfi(Interface value) {
   if (value is __lib.NativeBase) return _packageInterfaceCopyHandle((value as __lib.NativeBase).handle);
   final result = _packageInterfaceCreateProxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi
+    value
   );
   return result;
 }
 Interface packageInterfaceFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as Interface;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is Interface) return instance as Interface;
   final _typeIdHandle = _packageInterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -61,14 +55,15 @@ Interface packageInterfaceFromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : Interface$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
+  _packageInterfaceRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void packageInterfaceReleaseFfiHandle(Pointer<Void> handle) =>
   _packageInterfaceReleaseHandle(handle);
-Pointer<Void> packageInterfaceToFfiNullable(Interface value) =>
+Pointer<Void> packageInterfaceToFfiNullable(Interface? value) =>
   value != null ? packageInterfaceToFfi(value) : Pointer<Void>.fromAddress(0);
-Interface packageInterfaceFromFfiNullable(Pointer<Void> handle) =>
+Interface? packageInterfaceFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? packageInterfaceFromFfi(handle) : null;
 void packageInterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _packageInterfaceReleaseHandle(handle);

@@ -24,21 +24,28 @@ import "../test_suite.dart";
 
 final _testSuite = TestSuite("Listeners");
 
-class MessageListener extends StringListener {
+class MessageListener implements StringListener {
+  static String storedMessage = "";
+
   @override
-  void onMessage(String message) {}
+  void onMessage(String message) { storedMessage = message; }
 
   @override
   void onConstMessage(String message) {}
 
   @override
   void onStructMessage(StringListenerStringStruct message) {}
+
+  @override
+  release() {}
 }
 
-class RouteImpl extends Route {
+class RouteImpl implements Route {
+  @override
+  release() {}
 }
 
-class RouteProviderImpl extends RouteProvider {
+class RouteProviderImpl implements RouteProvider {
   static bool setRouteWasRun = false;
   static bool setRouteCouldCast = false;
 
@@ -46,8 +53,10 @@ class RouteProviderImpl extends RouteProvider {
   void setRoute(Route route) {
     setRouteWasRun = true;
     setRouteCouldCast = route is RouteImpl;
-    route.release();
   }
+
+  @override
+  release() {}
 }
 
 void main() {
@@ -75,8 +84,6 @@ void main() {
     final listener = SomeIndicator();
 
     expect(RealBase.compareListenerToInitial(listener), isTrue);
-
-    listener.release();
   });
   _testSuite.test("Convoluted round trip", () {
     final listener = SomeIndicator();
@@ -85,8 +92,13 @@ void main() {
     base.addLifecycleListener(listener);
 
     expect(listener.isWeakPtrAlive(), isTrue);
+  });
+  _testSuite.test("Proxy keeps Dart object alive", () {
+    PersistingLogger.addListener(MessageListener());
+    PersistingLogger.messageAll("foobar");
 
-    base.release();
-    listener.release();
+    expect(MessageListener.storedMessage, "foobar");
+
+    PersistingLogger.removeAllListeners();
   });
 }

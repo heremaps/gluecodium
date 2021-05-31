@@ -1,6 +1,7 @@
 #pragma once
 #include "Export.h"
 #include "OpaqueHandle.h"
+#include "dart_api_dl.h"
 #include <stdint.h>
 #ifdef __cplusplus
 extern "C" {
@@ -12,11 +13,15 @@ _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_doNothing(FfiOp
 _GLUECODIUM_FFI_EXPORT void library_smoke_OuterStruct_InnerStruct_doSomething(FfiOpaqueHandle _self, int32_t _isolate_id);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerClass_fooBar(FfiOpaqueHandle _self, int32_t _isolate_id);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerInterface_barBaz(FfiOpaqueHandle _self, int32_t _isolate_id);
+_GLUECODIUM_FFI_EXPORT void library_smoke_OuterStruct_InnerClass_register_finalizer(
+    FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerClass_copy_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT void library_smoke_OuterStruct_InnerClass_release_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT void library_smoke_OuterStruct_InnerInterface_register_finalizer(
+    FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerInterface_copy_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT void library_smoke_OuterStruct_InnerInterface_release_handle(FfiOpaqueHandle handle);
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerInterface_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerInterface_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_create_handle(FfiOpaqueHandle);
 _GLUECODIUM_FFI_EXPORT void library_smoke_OuterStruct_release_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_get_field_field(FfiOpaqueHandle handle);

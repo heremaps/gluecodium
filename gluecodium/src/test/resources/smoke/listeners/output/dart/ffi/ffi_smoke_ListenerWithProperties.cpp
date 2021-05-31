@@ -1,6 +1,7 @@
 #include "ffi_smoke_ListenerWithProperties.h"
 #include "ConversionBase.h"
-#include "ReverseCache.h"
+#include "InstanceCache.h"
+#include "FinalizerData.h"
 #include "CallbacksQueue.h"
 #include "IsolateContext.h"
 #include "ProxyCache.h"
@@ -18,121 +19,136 @@
 #include <new>
 class smoke_ListenerWithProperties_Proxy : public ::smoke::ListenerWithProperties {
 public:
-    smoke_ListenerWithProperties_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle p0g, FfiOpaqueHandle p0s, FfiOpaqueHandle p1g, FfiOpaqueHandle p1s, FfiOpaqueHandle p2g, FfiOpaqueHandle p2s, FfiOpaqueHandle p3g, FfiOpaqueHandle p3s, FfiOpaqueHandle p4g, FfiOpaqueHandle p4s, FfiOpaqueHandle p5g, FfiOpaqueHandle p5s, FfiOpaqueHandle p6g, FfiOpaqueHandle p6s)
-        : token(token), isolate_id(isolate_id), deleter(deleter), p0g(p0g), p0s(p0s), p1g(p1g), p1s(p1s), p2g(p2g), p2s(p2s), p3g(p3g), p3s(p3s), p4g(p4g), p4s(p4s), p5g(p5g), p5s(p5s), p6g(p6g), p6s(p6s) { }
+    smoke_ListenerWithProperties_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle p0g, FfiOpaqueHandle p0s, FfiOpaqueHandle p1g, FfiOpaqueHandle p1s, FfiOpaqueHandle p2g, FfiOpaqueHandle p2s, FfiOpaqueHandle p3g, FfiOpaqueHandle p3s, FfiOpaqueHandle p4g, FfiOpaqueHandle p4s, FfiOpaqueHandle p5g, FfiOpaqueHandle p5s, FfiOpaqueHandle p6g, FfiOpaqueHandle p6s)
+        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), p0g(p0g), p0s(p0s), p1g(p1g), p1s(p1s), p2g(p2g), p2s(p2s), p3g(p3g), p3s(p3s), p4g(p4g), p4s(p4s), p5g(p5g), p5s(p5s), p6g(p6g), p6s(p6s) {
+        library_cache_dart_handle_by_raw_pointer(this, isolate_id, dart_handle);
+    }
     ~smoke_ListenerWithProperties_Proxy() {
         gluecodium::ffi::remove_cached_proxy(token, isolate_id, "smoke_ListenerWithProperties");
-        gluecodium::ffi::remove_cached_token(this, isolate_id);
-        auto token_local = token;
-        auto deleter_local = reinterpret_cast<void (*)(uint64_t)>(deleter);
-        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [token_local, deleter_local]() {
-            (*deleter_local)(token_local);
-        });
+        auto raw_pointer_local = this;
+        auto isolate_id_local = isolate_id;
+        auto dart_persistent_handle_local = dart_persistent_handle;
+        auto deleter = [raw_pointer_local, isolate_id_local, dart_persistent_handle_local]() {
+            library_uncache_dart_handle_by_raw_pointer(raw_pointer_local, isolate_id_local);
+            Dart_DeletePersistentHandle_DL(dart_persistent_handle_local);
+        };
+        if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
+            deleter();
+        } else {
+            gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
+        }
     }
     smoke_ListenerWithProperties_Proxy(const smoke_ListenerWithProperties_Proxy&) = delete;
     smoke_ListenerWithProperties_Proxy& operator=(const smoke_ListenerWithProperties_Proxy&) = delete;
     std::string
     get_message() const override {
         FfiOpaqueHandle _result_handle;
-        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle*)>(p0g))(token, &_result_handle); });
+        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, FfiOpaqueHandle*)>(p0g))(Dart_HandleFromPersistent_DL(dart_persistent_handle), &_result_handle); });
         auto _result = gluecodium::ffi::Conversion<std::string>::toCpp(_result_handle);
         delete reinterpret_cast<std::string*>(_result_handle);
         return _result;
     }
     void
     set_message(const std::string& value) override {
-        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle)>(p0s))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, FfiOpaqueHandle)>(p0s))(
+            Dart_HandleFromPersistent_DL(dart_persistent_handle),
             gluecodium::ffi::Conversion<std::string>::toFfi(value)
         ); });
     }
     std::shared_ptr<::smoke::CalculationResult>
     get_packed_message() const override {
         FfiOpaqueHandle _result_handle;
-        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle*)>(p1g))(token, &_result_handle); });
+        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, FfiOpaqueHandle*)>(p1g))(Dart_HandleFromPersistent_DL(dart_persistent_handle), &_result_handle); });
         auto _result = gluecodium::ffi::Conversion<std::shared_ptr<::smoke::CalculationResult>>::toCpp(_result_handle);
         delete reinterpret_cast<std::shared_ptr<::smoke::CalculationResult>*>(_result_handle);
         return _result;
     }
     void
     set_packed_message(const std::shared_ptr<::smoke::CalculationResult>& value) override {
-        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle)>(p1s))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, FfiOpaqueHandle)>(p1s))(
+            Dart_HandleFromPersistent_DL(dart_persistent_handle),
             gluecodium::ffi::Conversion<std::shared_ptr<::smoke::CalculationResult>>::toFfi(value)
         ); });
     }
     ::smoke::ListenerWithProperties::ResultStruct
     get_structured_message() const override {
         FfiOpaqueHandle _result_handle;
-        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle*)>(p2g))(token, &_result_handle); });
+        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, FfiOpaqueHandle*)>(p2g))(Dart_HandleFromPersistent_DL(dart_persistent_handle), &_result_handle); });
         auto _result = gluecodium::ffi::Conversion<::smoke::ListenerWithProperties::ResultStruct>::toCpp(_result_handle);
         delete reinterpret_cast<::smoke::ListenerWithProperties::ResultStruct*>(_result_handle);
         return _result;
     }
     void
     set_structured_message(const ::smoke::ListenerWithProperties::ResultStruct& value) override {
-        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle)>(p2s))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, FfiOpaqueHandle)>(p2s))(
+            Dart_HandleFromPersistent_DL(dart_persistent_handle),
             gluecodium::ffi::Conversion<::smoke::ListenerWithProperties::ResultStruct>::toFfi(value)
         ); });
     }
     ::smoke::ListenerWithProperties::ResultEnum
     get_enumerated_message() const override {
         uint32_t _result_handle;
-        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, uint32_t*)>(p3g))(token, &_result_handle); });
+        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, uint32_t*)>(p3g))(Dart_HandleFromPersistent_DL(dart_persistent_handle), &_result_handle); });
         auto _result = gluecodium::ffi::Conversion<::smoke::ListenerWithProperties::ResultEnum>::toCpp(_result_handle);
         ;
         return _result;
     }
     void
     set_enumerated_message(const ::smoke::ListenerWithProperties::ResultEnum value) override {
-        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, uint32_t)>(p3s))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, uint32_t)>(p3s))(
+            Dart_HandleFromPersistent_DL(dart_persistent_handle),
             gluecodium::ffi::Conversion<::smoke::ListenerWithProperties::ResultEnum>::toFfi(value)
         ); });
     }
     std::vector<std::string>
     get_arrayed_message() const override {
         FfiOpaqueHandle _result_handle;
-        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle*)>(p4g))(token, &_result_handle); });
+        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, FfiOpaqueHandle*)>(p4g))(Dart_HandleFromPersistent_DL(dart_persistent_handle), &_result_handle); });
         auto _result = gluecodium::ffi::Conversion<std::vector<std::string>>::toCpp(_result_handle);
         delete reinterpret_cast<std::vector<std::string>*>(_result_handle);
         return _result;
     }
     void
     set_arrayed_message(const std::vector<std::string>& value) override {
-        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle)>(p4s))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, FfiOpaqueHandle)>(p4s))(
+            Dart_HandleFromPersistent_DL(dart_persistent_handle),
             gluecodium::ffi::Conversion<std::vector<std::string>>::toFfi(value)
         ); });
     }
     std::unordered_map<std::string, double>
     get_mapped_message() const override {
         FfiOpaqueHandle _result_handle;
-        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle*)>(p5g))(token, &_result_handle); });
+        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, FfiOpaqueHandle*)>(p5g))(Dart_HandleFromPersistent_DL(dart_persistent_handle), &_result_handle); });
         auto _result = gluecodium::ffi::Conversion<std::unordered_map<std::string, double>>::toCpp(_result_handle);
         delete reinterpret_cast<std::unordered_map<std::string, double>*>(_result_handle);
         return _result;
     }
     void
     set_mapped_message(const std::unordered_map<std::string, double>& value) override {
-        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle)>(p5s))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, FfiOpaqueHandle)>(p5s))(
+            Dart_HandleFromPersistent_DL(dart_persistent_handle),
             gluecodium::ffi::Conversion<std::unordered_map<std::string, double>>::toFfi(value)
         ); });
     }
     std::shared_ptr<std::vector<uint8_t>>
     get_buffered_message() const override {
         FfiOpaqueHandle _result_handle;
-        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle*)>(p6g))(token, &_result_handle); });
+        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, FfiOpaqueHandle*)>(p6g))(Dart_HandleFromPersistent_DL(dart_persistent_handle), &_result_handle); });
         auto _result = gluecodium::ffi::Conversion<std::shared_ptr<std::vector<uint8_t>>>::toCpp(_result_handle);
         delete reinterpret_cast<std::shared_ptr<std::vector<uint8_t>>*>(_result_handle);
         return _result;
     }
     void
     set_buffered_message(const std::shared_ptr<std::vector<uint8_t>>& value) override {
-        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle)>(p6s))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, FfiOpaqueHandle)>(p6s))(
+            Dart_HandleFromPersistent_DL(dart_persistent_handle),
             gluecodium::ffi::Conversion<std::shared_ptr<std::vector<uint8_t>>>::toFfi(value)
         ); });
     }
 private:
     const uint64_t token;
     const int32_t isolate_id;
-    const FfiOpaqueHandle deleter;
+    const Dart_PersistentHandle dart_persistent_handle;
     const FfiOpaqueHandle p0g;
     const FfiOpaqueHandle p0s;
     const FfiOpaqueHandle p1g;
@@ -255,6 +271,18 @@ library_smoke_ListenerWithProperties_bufferedMessage_set__Blob(FfiOpaqueHandle _
             gluecodium::ffi::Conversion<std::shared_ptr<std::vector<uint8_t>>>::toCpp(value)
         );
 }
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_ListenerWithProperties_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::ListenerWithProperties>*>(handle);
+    library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
+    library_smoke_ListenerWithProperties_release_handle(handle);
+}
+void
+library_smoke_ListenerWithProperties_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_ListenerWithProperties_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
+}
 FfiOpaqueHandle
 library_smoke_ListenerWithProperties_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
@@ -268,17 +296,16 @@ library_smoke_ListenerWithProperties_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::ListenerWithProperties>*>(handle);
 }
 FfiOpaqueHandle
-library_smoke_ListenerWithProperties_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle p0g, FfiOpaqueHandle p0s, FfiOpaqueHandle p1g, FfiOpaqueHandle p1s, FfiOpaqueHandle p2g, FfiOpaqueHandle p2s, FfiOpaqueHandle p3g, FfiOpaqueHandle p3s, FfiOpaqueHandle p4g, FfiOpaqueHandle p4s, FfiOpaqueHandle p5g, FfiOpaqueHandle p5s, FfiOpaqueHandle p6g, FfiOpaqueHandle p6s) {
+library_smoke_ListenerWithProperties_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle p0g, FfiOpaqueHandle p0s, FfiOpaqueHandle p1g, FfiOpaqueHandle p1s, FfiOpaqueHandle p2g, FfiOpaqueHandle p2s, FfiOpaqueHandle p3g, FfiOpaqueHandle p3s, FfiOpaqueHandle p4g, FfiOpaqueHandle p4s, FfiOpaqueHandle p5g, FfiOpaqueHandle p5s, FfiOpaqueHandle p6g, FfiOpaqueHandle p6s) {
     auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_ListenerWithProperties_Proxy>(token, isolate_id, "smoke_ListenerWithProperties");
     std::shared_ptr<smoke_ListenerWithProperties_Proxy>* proxy_ptr;
     if (cached_proxy) {
         proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_ListenerWithProperties_Proxy>(cached_proxy);
     } else {
         proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_ListenerWithProperties_Proxy>(
-            new (std::nothrow) smoke_ListenerWithProperties_Proxy(token, isolate_id, deleter, p0g, p0s, p1g, p1s, p2g, p2s, p3g, p3s, p4g, p4s, p5g, p5s, p6g, p6s)
+            new (std::nothrow) smoke_ListenerWithProperties_Proxy(token, isolate_id, dart_handle, p0g, p0s, p1g, p1s, p2g, p2s, p3g, p3s, p4g, p4s, p5g, p5s, p6g, p6s)
         );
         gluecodium::ffi::cache_proxy(token, isolate_id, "smoke_ListenerWithProperties", *proxy_ptr);
-        gluecodium::ffi::cache_token(proxy_ptr->get(), isolate_id, token);
     }
     return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
 }

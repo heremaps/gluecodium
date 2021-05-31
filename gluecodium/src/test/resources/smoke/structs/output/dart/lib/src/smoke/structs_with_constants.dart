@@ -1,7 +1,7 @@
-import 'package:library/src/builtin_types__conversion.dart';
-import 'package:library/src/smoke/route_utils.dart';
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
+import 'package:library/src/builtin_types__conversion.dart';
+import 'package:library/src/smoke/route_utils.dart';
 class Route {
   String description;
   RouteType type;
@@ -61,14 +61,14 @@ final _smokeStructswithconstantsRouteGetValueNullable = __lib.catchArgumentError
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructsWithConstants_Route_get_value_nullable'));
-Pointer<Void> smokeStructswithconstantsRouteToFfiNullable(Route value) {
+Pointer<Void> smokeStructswithconstantsRouteToFfiNullable(Route? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeStructswithconstantsRouteToFfi(value);
   final result = _smokeStructswithconstantsRouteCreateHandleNullable(_handle);
   smokeStructswithconstantsRouteReleaseFfiHandle(_handle);
   return result;
 }
-Route smokeStructswithconstantsRouteFromFfiNullable(Pointer<Void> handle) {
+Route? smokeStructswithconstantsRouteFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeStructswithconstantsRouteGetValueNullable(handle);
   final result = smokeStructswithconstantsRouteFromFfi(_handle);

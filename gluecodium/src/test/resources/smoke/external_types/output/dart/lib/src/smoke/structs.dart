@@ -1,14 +1,12 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 abstract class Structs {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   static Structs_ExternalStruct getExternalStruct() => Structs$Impl.getExternalStruct();
   static Structs_AnotherExternalStruct getAnotherExternalStruct() => Structs$Impl.getAnotherExternalStruct();
@@ -90,14 +88,14 @@ final _smokeStructsExternalstructGetValueNullable = __lib.catchArgumentError(() 
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_ExternalStruct_get_value_nullable'));
-Pointer<Void> smokeStructsExternalstructToFfiNullable(Structs_ExternalStruct value) {
+Pointer<Void> smokeStructsExternalstructToFfiNullable(Structs_ExternalStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeStructsExternalstructToFfi(value);
   final result = _smokeStructsExternalstructCreateHandleNullable(_handle);
   smokeStructsExternalstructReleaseFfiHandle(_handle);
   return result;
 }
-Structs_ExternalStruct smokeStructsExternalstructFromFfiNullable(Pointer<Void> handle) {
+Structs_ExternalStruct? smokeStructsExternalstructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeStructsExternalstructGetValueNullable(handle);
   final result = smokeStructsExternalstructFromFfi(_handle);
@@ -152,14 +150,14 @@ final _smokeStructsAnotherexternalstructGetValueNullable = __lib.catchArgumentEr
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Structs_AnotherExternalStruct_get_value_nullable'));
-Pointer<Void> smokeStructsAnotherexternalstructToFfiNullable(Structs_AnotherExternalStruct value) {
+Pointer<Void> smokeStructsAnotherexternalstructToFfiNullable(Structs_AnotherExternalStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeStructsAnotherexternalstructToFfi(value);
   final result = _smokeStructsAnotherexternalstructCreateHandleNullable(_handle);
   smokeStructsAnotherexternalstructReleaseFfiHandle(_handle);
   return result;
 }
-Structs_AnotherExternalStruct smokeStructsAnotherexternalstructFromFfiNullable(Pointer<Void> handle) {
+Structs_AnotherExternalStruct? smokeStructsAnotherexternalstructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeStructsAnotherexternalstructGetValueNullable(handle);
   final result = smokeStructsAnotherexternalstructFromFfi(_handle);
@@ -170,6 +168,10 @@ void smokeStructsAnotherexternalstructReleaseFfiHandleNullable(Pointer<Void> han
   _smokeStructsAnotherexternalstructReleaseHandleNullable(handle);
 // End of Structs_AnotherExternalStruct "private" section.
 // Structs "private" section, not exported.
+final _smokeStructsRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_Structs_register_finalizer'));
 final _smokeStructsCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -181,13 +183,7 @@ final _smokeStructsReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLi
 class Structs$Impl extends __lib.NativeBase implements Structs {
   Structs$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
-    _smokeStructsReleaseHandle(handle);
-    handle = null;
-  }
+  void release() {}
   static Structs_ExternalStruct getExternalStruct() {
     final _getExternalStructFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Structs_getExternalStruct'));
     final __resultHandle = _getExternalStructFfi(__lib.LibraryContext.isolateId);
@@ -210,20 +206,19 @@ class Structs$Impl extends __lib.NativeBase implements Structs {
 Pointer<Void> smokeStructsToFfi(Structs value) =>
   _smokeStructsCopyHandle((value as __lib.NativeBase).handle);
 Structs smokeStructsFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as Structs;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is Structs) return instance as Structs;
   final _copiedHandle = _smokeStructsCopyHandle(handle);
   final result = Structs$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
+  _smokeStructsRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeStructsReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeStructsReleaseHandle(handle);
-Pointer<Void> smokeStructsToFfiNullable(Structs value) =>
+Pointer<Void> smokeStructsToFfiNullable(Structs? value) =>
   value != null ? smokeStructsToFfi(value) : Pointer<Void>.fromAddress(0);
-Structs smokeStructsFromFfiNullable(Pointer<Void> handle) =>
+Structs? smokeStructsFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeStructsFromFfi(handle) : null;
 void smokeStructsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeStructsReleaseHandle(handle);

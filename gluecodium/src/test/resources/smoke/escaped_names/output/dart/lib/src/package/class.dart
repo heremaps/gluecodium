@@ -1,3 +1,5 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
@@ -5,20 +7,20 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/package/interface.dart';
 import 'package:library/src/package/types.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 abstract class Class implements Interface {
   factory Class() => Class$Impl.constructor();
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   Struct fun(List<Struct> double);
   Enum get property;
   set property(Enum value);
 }
 // Class "private" section, not exported.
+final _packageClassRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_package_Class_register_finalizer'));
 final _packageClassCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -50,15 +52,10 @@ final _funReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lo
 class Class$Impl extends __lib.NativeBase implements Class {
   Class$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
-    _packageClassReleaseHandle(handle);
-    handle = null;
-  }
+  void release() {}
   Class$Impl.constructor() : super(_constructor()) {
-    __lib.ffiCacheToken(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
+    __lib.cacheInstance(handle, this);
+    _packageClassRegisterFinalizer(handle, __lib.LibraryContext.isolateId, this);
   }
   static Pointer<Void> _constructor() {
     final _constructorFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_package_Class_constructor'));
@@ -116,10 +113,8 @@ class Class$Impl extends __lib.NativeBase implements Class {
 Pointer<Void> packageClassToFfi(Class value) =>
   _packageClassCopyHandle((value as __lib.NativeBase).handle);
 Class packageClassFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as Class;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is Class) return instance as Class;
   final _typeIdHandle = _packageClassGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -127,14 +122,15 @@ Class packageClassFromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : Class$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
+  _packageClassRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void packageClassReleaseFfiHandle(Pointer<Void> handle) =>
   _packageClassReleaseHandle(handle);
-Pointer<Void> packageClassToFfiNullable(Class value) =>
+Pointer<Void> packageClassToFfiNullable(Class? value) =>
   value != null ? packageClassToFfi(value) : Pointer<Void>.fromAddress(0);
-Class packageClassFromFfiNullable(Pointer<Void> handle) =>
+Class? packageClassFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? packageClassFromFfi(handle) : null;
 void packageClassReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _packageClassReleaseHandle(handle);

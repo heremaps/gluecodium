@@ -34,6 +34,7 @@ include(gluecodium/Gluecodium)
 include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/assert.cmake)
 
 add_library(shared.module SHARED EXCLUDE_FROM_ALL )
+add_library(test::alias.to.shared.module ALIAS shared.module)
 
 set(GLUECODIUM_GENERATOR_FOLDER_DEFAULT "generated-sources")
 gluecodium_generate(shared.module GENERATORS ${_gluecodium_generator})
@@ -120,6 +121,33 @@ elseif(ANDROID)
     MESSAGE "When Swift code is not generated"
             "then variable with bridging headers should be undefined")
 endif()
+
+gluecodium_list_generated_files(
+  test::alias.to.shared.module
+  OUTPUT_ALL _all_files_alias
+  OUTPUT_CPP _cpp_files_alias
+  OUTPUT_SWIFT _swift_files_alias
+  OUTPUT_BRIDGING_HEADERS _bridging_files_alias)
+
+test_expect_strequal_lists(
+  EXPECTED ${_all_files} ACTUAL ${_all_files_alias}
+  MESSAGE "When generated files are listed for alis"
+          "then the list must be the same as for aliased target")
+
+test_expect_strequal_lists(
+  EXPECTED ${_cpp_files} ACTUAL ${_cpp_files_alias}
+  MESSAGE "When generated files are listed for alis"
+          "then the list must be the same as for aliased target")
+
+test_expect_strequal_lists(
+  EXPECTED ${_swift_files} ACTUAL ${_swift_files_alias}
+  MESSAGE "When generated files are listed for alis"
+          "then the list must be the same as for aliased target")
+
+test_expect_strequal_lists(
+  EXPECTED ${_bridging_files} ACTUAL ${_bridging_files_alias}
+  MESSAGE "When generated files are listed for alis"
+          "then the list must be the same as for aliased target")
 
 gluecodium_list_generated_files(
   shared.module

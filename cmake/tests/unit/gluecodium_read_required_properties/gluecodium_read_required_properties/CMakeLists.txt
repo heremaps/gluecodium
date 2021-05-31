@@ -72,6 +72,23 @@ test_expect_false(CONDITION DEFINED _output_common_dir)
 test_expect_strequal(EXPECTED "${CMAKE_CURRENT_BINARY_DIR}/gluecodium/cpp.main/cpp/build"
                      ACTUAL ${_output_build_dir})
 
+add_library(test::alias.to.cpp.main ALIAS cpp.main)
+gluecodium_read_required_properties(
+  test::alias.to.cpp.main
+  GENERATORS _generators_alias
+  SOURCE_SETS _source_sets_alias
+  OUTPUT_DIR _output_dir_alias
+  OUTPUT_MAIN_DIR _output_main_dir_alias
+  OUTPUT_COMMON_DIR _output_common_dir_alias
+  OUTPUT_BUILD_DIR _output_build_dir_alias)
+
+test_expect_strequal(EXPECTED ${_generators} ACTUAL ${_generators_alias})
+test_expect_strequal(EXPECTED ${_source_sets} ACTUAL ${_source_sets_alias})
+test_expect_strequal(EXPECTED ${_output_dir} ACTUAL ${_output_dir_alias})
+test_expect_strequal(EXPECTED ${_output_main_dir} ACTUAL ${_output_main_dir_alias})
+test_expect_strequal(EXPECTED ${_output_common_dir} ACTUAL ${_output_common_dir_alias})
+test_expect_strequal(EXPECTED ${_output_build_dir} ACTUAL ${_output_build_dir_alias})
+
 unset_all(_generators _source_sets _output_dir _output_main_dir _output_common_dir
           _output_build_dir)
 add_library(cpp.android.main.common SHARED EXCLUDE_FROM_ALL )

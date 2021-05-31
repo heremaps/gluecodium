@@ -1,13 +1,11 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 abstract class Dates {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   DateTime dateMethod(DateTime input);
   DateTime get dateProperty;
@@ -60,14 +58,14 @@ final _smokeDatesDatestructGetValueNullable = __lib.catchArgumentError(() => __l
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Dates_DateStruct_get_value_nullable'));
-Pointer<Void> smokeDatesDatestructToFfiNullable(Dates_DateStruct value) {
+Pointer<Void> smokeDatesDatestructToFfiNullable(Dates_DateStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeDatesDatestructToFfi(value);
   final result = _smokeDatesDatestructCreateHandleNullable(_handle);
   smokeDatesDatestructReleaseFfiHandle(_handle);
   return result;
 }
-Dates_DateStruct smokeDatesDatestructFromFfiNullable(Pointer<Void> handle) {
+Dates_DateStruct? smokeDatesDatestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeDatesDatestructGetValueNullable(handle);
   final result = smokeDatesDatestructFromFfi(_handle);
@@ -78,6 +76,10 @@ void smokeDatesDatestructReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeDatesDatestructReleaseHandleNullable(handle);
 // End of Dates_DateStruct "private" section.
 // Dates "private" section, not exported.
+final _smokeDatesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_Dates_register_finalizer'));
 final _smokeDatesCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -89,13 +91,7 @@ final _smokeDatesReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibr
 class Dates$Impl extends __lib.NativeBase implements Dates {
   Dates$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
-    _smokeDatesReleaseHandle(handle);
-    handle = null;
-  }
+  void release() {}
   @override
   DateTime dateMethod(DateTime input) {
     final _dateMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32, Uint64), int Function(Pointer<Void>, int, int)>('library_smoke_Dates_dateMethod__Date'));
@@ -136,20 +132,19 @@ class Dates$Impl extends __lib.NativeBase implements Dates {
 Pointer<Void> smokeDatesToFfi(Dates value) =>
   _smokeDatesCopyHandle((value as __lib.NativeBase).handle);
 Dates smokeDatesFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as Dates;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is Dates) return instance as Dates;
   final _copiedHandle = _smokeDatesCopyHandle(handle);
   final result = Dates$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
+  _smokeDatesRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeDatesReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeDatesReleaseHandle(handle);
-Pointer<Void> smokeDatesToFfiNullable(Dates value) =>
+Pointer<Void> smokeDatesToFfiNullable(Dates? value) =>
   value != null ? smokeDatesToFfi(value) : Pointer<Void>.fromAddress(0);
-Dates smokeDatesFromFfiNullable(Pointer<Void> handle) =>
+Dates? smokeDatesFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeDatesFromFfi(handle) : null;
 void smokeDatesReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeDatesReleaseHandle(handle);

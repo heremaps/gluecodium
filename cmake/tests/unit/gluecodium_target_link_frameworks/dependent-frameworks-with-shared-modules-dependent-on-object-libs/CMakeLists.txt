@@ -16,15 +16,27 @@ include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/assert.cmake)
 include(gluecodium/Gluecodium)
 include(gluecodium/Swift)
 
+if(TEST_USE_ALIASES)
+  set(TARGET_OBJECT_WITH_MAIN_AND_COMMON test::ObjectWithMainAndCommon)
+  set(TARGET_OBJECT_WITH_MAIN_ONLY test::ObjectWithMainOnly)
+  set(TARGET_MODULE_WITH_MAIN_AND_COMMON test::ModuleWithMainAndCommon)
+else()
+  set(TARGET_OBJECT_WITH_MAIN_AND_COMMON ObjectWithMainAndCommon)
+  set(TARGET_OBJECT_WITH_MAIN_ONLY ObjectWithMainOnly)
+  set(TARGET_MODULE_WITH_MAIN_AND_COMMON ModuleWithMainAndCommon)
+endif()
+
 # COMMON + MAIN
 add_library(ObjectWithMainAndCommon OBJECT)
+add_library(test::ObjectWithMainAndCommon ALIAS ObjectWithMainAndCommon)
 gluecodium_generate(ObjectWithMainAndCommon GENERATORS cpp swift)
 gluecodium_target_lime_sources(ObjectWithMainAndCommon
                                PUBLIC "${CMAKE_CURRENT_LIST_DIR}/lime/common_main_foo.lime")
 set_target_properties(ObjectWithMainAndCommon PROPERTIES GLUECODIUM_SWIFT_EXPOSE_INTERNALS ON)
 
 add_library(ModuleWithMainAndCommon SHARED "${CMAKE_CURRENT_LIST_DIR}/cpp/CommonMainFooImpl.cpp")
-target_link_libraries(ModuleWithMainAndCommon PUBLIC ObjectWithMainAndCommon)
+add_library(test::ModuleWithMainAndCommon ALIAS ModuleWithMainAndCommon)
+target_link_libraries(ModuleWithMainAndCommon PUBLIC ${TARGET_OBJECT_WITH_MAIN_AND_COMMON})
 
 set(MACOSX_FRAMEWORK_NAME ModuleWithMainAndCommon)
 set_target_properties(
@@ -41,13 +53,14 @@ endif()
 
 # MAIN
 add_library(ObjectWithMainOnly OBJECT)
+add_library(test::ObjectWithMainOnly ALIAS ObjectWithMainOnly)
 gluecodium_generate(ObjectWithMainOnly GENERATORS cpp swift MAIN_ONLY)
 gluecodium_target_lime_sources(ObjectWithMainOnly
                                PRIVATE "${CMAKE_CURRENT_LIST_DIR}/lime/main_bar.lime")
 target_link_libraries(ObjectWithMainOnly PUBLIC ModuleWithMainAndCommon)
 
 add_library(ModuleWithMainOnly SHARED "${CMAKE_CURRENT_LIST_DIR}/cpp/MainBarImpl.cpp")
-target_link_libraries(ModuleWithMainOnly PRIVATE ObjectWithMainOnly)
+target_link_libraries(ModuleWithMainOnly PRIVATE ${TARGET_OBJECT_WITH_MAIN_ONLY})
 
 set(MACOSX_FRAMEWORK_NAME ModuleWithMainOnly)
 set_target_properties(
@@ -67,13 +80,14 @@ if(GLUECODIUM_DONT_USE_TARGET_GENEX_EVAL)
 else()
   test_expect_strequal_lists(
     EXPECTED
-      "$<TARGET_GENEX_EVAL:ModuleWithMainOnly,$<TARGET_PROPERTY:ObjectWithMainOnly,GLUECODIUM_SWIFT>>"
+      "$<TARGET_GENEX_EVAL:ModuleWithMainOnly,$<TARGET_PROPERTY:${TARGET_OBJECT_WITH_MAIN_ONLY},GLUECODIUM_SWIFT>>"
     ACTUAL ${_main_only_swift_sources}
     MESSAGE "When Swift sources are collected then they should belong only to the current target")
 endif()
 
-gluecodium_target_link_frameworks(ModuleWithMainOnly FRAMEWORKS ModuleWithMainAndCommon
-                                  COMMON_FRAMEWORK ModuleWithMainAndCommon)
+gluecodium_target_link_frameworks(
+  ModuleWithMainOnly FRAMEWORKS ${TARGET_MODULE_WITH_MAIN_AND_COMMON}
+  COMMON_FRAMEWORK ${TARGET_MODULE_WITH_MAIN_AND_COMMON})
 
 # Check that generated Swift is compiled in the framework 'ModuleWithMainAndCommon'
 add_library(ModuleUseMainOnly SHARED)

@@ -26,7 +26,7 @@ import 'dart:io';
 import 'dart:isolate';
 
 final nativeLibrary = _nativeLibrary ?? _loadNativeLibrary(_getLibraryPath("{{libraryName}}"));
-/*late*/ DynamicLibrary _nativeLibrary;
+DynamicLibrary? _nativeLibrary;
 
 DynamicLibrary _loadNativeLibrary(String nativeLibraryPath) {
   try {
@@ -71,7 +71,7 @@ class _SentryIsolateMessage {
   _SentryIsolateMessage(this.port, this.isolateId, this.nativeLibraryPath);
   final SendPort port;
   final int isolateId;
-  final String nativeLibraryPath;
+  final String? nativeLibraryPath;
 }
 
 enum IsolateOrigin {
@@ -89,13 +89,14 @@ class LibraryContext {
   static int get isolateId => _isolateId;
 
   static int _isolateId = -1;
-  /*late*/ static StreamSubscription _callbackStream;
+  static late StreamSubscription _callbackStream;
 
   /// [nativeLibraryPath] is an optional parameter specifying a path to native shared library
   /// binary. If omitted (null) automatic library loading is attempted as a fallback. If loading
   /// fails, current process is used as a native library instead.
-  static void init(IsolateOrigin isolateOrigin, {String nativeLibraryPath}) {
+  static void init(IsolateOrigin isolateOrigin, {String? nativeLibraryPath}) {
     _loadCustomLibrary(nativeLibraryPath);
+    _initializeDartDl();
     _isolateId = _libraryCallbacksQueueInit(isolateOrigin == IsolateOrigin.main ? 1 : 0);
 
     final receivePort = ReceivePort();
@@ -121,7 +122,18 @@ class LibraryContext {
     message.port.send(0);
   }
 
-  static void _loadCustomLibrary(String nativeLibraryPath) {
+  static void _loadCustomLibrary(String? nativeLibraryPath) {
     if (nativeLibraryPath != null) _nativeLibrary = _loadNativeLibrary(nativeLibraryPath);
+  }
+
+  static void _initializeDartDl() {
+    final _libraryDartDlInit = catchArgumentError(() => nativeLibrary.lookupFunction<
+        Int32 Function(Pointer<Void>),
+        int Function(Pointer<Void>)
+      >('{{libraryName}}_dart_dl_initialize'));
+
+    if (_libraryDartDlInit(NativeApi.initializeApiDLData) != 1) {
+      throw UnsupportedError("Unsupported version of Dart DL API. FFI 1.0 (Dart 2.12) or newer is required.");
+    }
   }
 }

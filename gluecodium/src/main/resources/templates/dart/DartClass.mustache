@@ -63,6 +63,10 @@
 
 // {{resolveName}} "private" section, not exported.
 
+final _{{resolveName "Ffi"}}RegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_register_finalizer'));
 final _{{resolveName "Ffi"}}CopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -92,13 +96,7 @@ class {{resolveName}}$Impl extends {{#if hasClassParent}}{{resolveName parent}}$
   {{resolveName}}$Impl(Pointer<Void> handle) : super(handle);
 
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
-    _{{resolveName "Ffi"}}ReleaseHandle(handle);
-    handle = null;
-  }
+  void release() {}
 
 {{#set inheritanceParent=this.parent parent=this container=this ignoreStatic=testableMode}}{{#constructors}}
 {{prefixPartial "dartConstructor" "  "}}
@@ -131,10 +129,8 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) =>
   _{{resolveName "Ffi"}}CopyHandle((value as __lib.NativeBase).handle);
 
 {{resolveName}} {{resolveName "Ffi"}}FromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as {{resolveName}};
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is {{resolveName}}) return instance as {{resolveName}};
 
 {{#if this.parent visibility.isOpen logic="or"}}
   final _typeIdHandle = _{{resolveName "Ffi"}}GetTypeId(handle);
@@ -146,17 +142,18 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) =>
   final result = {{#if this.parent visibility.isOpen logic="or"}}factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : {{/if}}{{resolveName}}$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
+  _{{resolveName "Ffi"}}RegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 
 void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) =>
   _{{resolveName "Ffi"}}ReleaseHandle(handle);
 
-Pointer<Void> {{resolveName "Ffi"}}ToFfiNullable({{resolveName}} value) =>
+Pointer<Void> {{resolveName "Ffi"}}ToFfiNullable({{resolveName}}? value) =>
   value != null ? {{resolveName "Ffi"}}ToFfi(value) : Pointer<Void>.fromAddress(0);
 
-{{resolveName}} {{resolveName "Ffi"}}FromFfiNullable(Pointer<Void> handle) =>
+{{resolveName}}? {{resolveName "Ffi"}}FromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? {{resolveName "Ffi"}}FromFfi(handle) : null;
 
 void {{resolveName "Ffi"}}ReleaseFfiHandleNullable(Pointer<Void> handle) =>
@@ -169,7 +166,8 @@ void {{resolveName "Ffi"}}ReleaseFfiHandleNullable(Pointer<Void> handle) =>
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) {
   final result = {{resolveName parent}}$Impl({{!!
   }}_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}));
-  __lib.ffiCacheToken(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(handle, result);
+  _{{resolveName parent "Ffi"}}RegisterFinalizer(handle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 {{/if}}{{!!
@@ -177,12 +175,13 @@ void {{resolveName "Ffi"}}ReleaseFfiHandleNullable(Pointer<Void> handle) =>
 {{resolveName parent}}$Impl.{{resolveName visibility}}{{resolveName}}({{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) : {{!!
 }}super(_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})) {
-  __lib.ffiCacheToken(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
+  __lib.cacheInstance(handle, this);
+  _{{resolveName parent "Ffi"}}RegisterFinalizer(handle, __lib.LibraryContext.isolateId, this);
 }
 {{/unless}}{{/dartConstructor}}{{!!
 
 }}{{+dartCachedProperty}}
-{{#if isStatic}}{{#unless testableMode}}static {{/unless}}{{/if}}/*late*/ {{resolveName typeRef}} _{{resolveName}}Cache;
+{{#if isStatic}}{{#unless testableMode}}static {{/unless}}{{/if}}late {{resolveName typeRef}} _{{resolveName}}Cache;
 {{#if isStatic}}{{#unless testableMode}}static {{/unless}}{{/if}}bool _{{resolveName}}IsCached = false;
 {{#unless isStatic}}@override
 {{/unless}}

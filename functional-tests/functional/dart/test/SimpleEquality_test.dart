@@ -25,22 +25,16 @@ import "../test_suite.dart";
 final _testSuite = TestSuite("SimpleEquality");
 
 void main() {
-  NonEquatableClass class1;
-  NonEquatableClass class2;
-  NonEquatableInterface interface1;
-  NonEquatableInterface interface2;
+  late NonEquatableClass class1;
+  late NonEquatableClass class2;
+  late NonEquatableInterface interface1;
+  late NonEquatableInterface interface2;
 
   setUp(() {
     class1 = NonEquatableFactory.createNonEquatableClass();
     class2 = NonEquatableFactory.createNonEquatableClass();
     interface1 = NonEquatableFactory.createNonEquatableInterface();
     interface2 = NonEquatableFactory.createNonEquatableInterface();
-  });
-  tearDown(() {
-    class1.release();
-    class2.release();
-    interface1.release();
-    interface2.release();
   });
 
   _testSuite.test("Simple equality for structs", () {

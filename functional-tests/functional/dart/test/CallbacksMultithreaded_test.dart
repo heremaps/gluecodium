@@ -34,6 +34,7 @@ class ThreadedListenerImpl implements ThreadedListener {
   @override
   int onEvent(String message) {
     completer.complete(message);
+    return 0;
   }
 
   @override
@@ -46,9 +47,9 @@ class ThreadedListenerImpl implements ThreadedListener {
   void release() {}
 }
 
-void main(String library_name) {
+void main(List<String> args) {
   setUp(() {
-    LibraryContext.init(IsolateOrigin.main, nativeLibraryPath: library_name);
+    LibraryContext.init(IsolateOrigin.main, nativeLibraryPath: args[0]);
   });
   tearDown(() {
     LibraryContext.release();
@@ -62,8 +63,6 @@ void main(String library_name) {
     final result = await completer.future;
 
     expect(result, "foo");
-
-    notifier.release();
   });
   _testSuite.test("Lambda notifier on different C++ thread", () async {
     final notifier = new ThreadedNotifier();
@@ -74,7 +73,5 @@ void main(String library_name) {
     final result = await completer.future;
 
     expect(result, "foo");
-
-    notifier.release();
   });
 }

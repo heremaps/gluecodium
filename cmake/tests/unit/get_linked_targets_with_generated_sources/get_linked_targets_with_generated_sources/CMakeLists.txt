@@ -33,6 +33,7 @@ include(gluecodium/Gluecodium)
 include(gluecodium/gluecodium/GetLinkedTargetsWithGeneratedSources)
 
 add_library(shared1.generated.code SHARED EXCLUDE_FROM_ALL "cpp/FooImpl.cpp" "lime/foo.lime")
+add_library(test::alias.to.shared1.generated.code ALIAS shared1.generated.code)
 gluecodium_generate(shared1.generated.code GENERATORS ${_gluecodium_generators})
 
 gluecodium_get_linked_targets_with_generated_sources(_targets shared1.generated.code ONLY_STATIC)
@@ -122,6 +123,12 @@ gluecodium_get_linked_targets_with_generated_sources(_targets shared1.generated.
 test_expect_strequal_lists(
   EXPECTED shared1.generated.code static1.generated.code shared2.generated.code
            object1.generated.code ACTUAL ${_targets})
+
+gluecodium_get_linked_targets_with_generated_sources(_targets_alias
+                                                     test::alias.to.shared1.generated.code)
+test_expect_strequal_lists(
+  EXPECTED test::alias.to.shared1.generated.code static1.generated.code shared2.generated.code
+           object1.generated.code ACTUAL ${_targets_alias})
 
 if(APPLE AND CMAKE_GENERATOR STREQUAL "Xcode")
   # cmake-format: off

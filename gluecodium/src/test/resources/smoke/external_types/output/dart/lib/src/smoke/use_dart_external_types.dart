@@ -1,18 +1,16 @@
+import 'dart:ffi';
 import 'dart:math' as math;
 import 'package:foo/bar.dart' as bar;
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/smoke/http_client_response_compression_state.dart';
 import 'package:library/src/smoke/int.dart';
 import 'package:library/src/smoke/rectangle_int_.dart';
 import 'package:library/src/smoke/string.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 abstract class UseDartExternalTypes {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   static math.Rectangle<int> rectangleRoundTrip(math.Rectangle<int> input) => UseDartExternalTypes$Impl.rectangleRoundTrip(input);
   static bar.HttpClientResponseCompressionState compressionStateRoundTrip(bar.HttpClientResponseCompressionState input) => UseDartExternalTypes$Impl.compressionStateRoundTrip(input);
@@ -20,6 +18,10 @@ abstract class UseDartExternalTypes {
   static String seasonRoundTrip(String input) => UseDartExternalTypes$Impl.seasonRoundTrip(input);
 }
 // UseDartExternalTypes "private" section, not exported.
+final _smokeUsedartexternaltypesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_UseDartExternalTypes_register_finalizer'));
 final _smokeUsedartexternaltypesCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -31,13 +33,7 @@ final _smokeUsedartexternaltypesReleaseHandle = __lib.catchArgumentError(() => _
 class UseDartExternalTypes$Impl extends __lib.NativeBase implements UseDartExternalTypes {
   UseDartExternalTypes$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
-    _smokeUsedartexternaltypesReleaseHandle(handle);
-    handle = null;
-  }
+  void release() {}
   static math.Rectangle<int> rectangleRoundTrip(math.Rectangle<int> input) {
     final _rectangleRoundTripFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_UseDartExternalTypes_rectangleRoundTrip__Rectangle'));
     final _inputHandle = smokeRectangleToFfi(input);
@@ -86,20 +82,19 @@ class UseDartExternalTypes$Impl extends __lib.NativeBase implements UseDartExter
 Pointer<Void> smokeUsedartexternaltypesToFfi(UseDartExternalTypes value) =>
   _smokeUsedartexternaltypesCopyHandle((value as __lib.NativeBase).handle);
 UseDartExternalTypes smokeUsedartexternaltypesFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as UseDartExternalTypes;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is UseDartExternalTypes) return instance as UseDartExternalTypes;
   final _copiedHandle = _smokeUsedartexternaltypesCopyHandle(handle);
   final result = UseDartExternalTypes$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
+  _smokeUsedartexternaltypesRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeUsedartexternaltypesReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeUsedartexternaltypesReleaseHandle(handle);
-Pointer<Void> smokeUsedartexternaltypesToFfiNullable(UseDartExternalTypes value) =>
+Pointer<Void> smokeUsedartexternaltypesToFfiNullable(UseDartExternalTypes? value) =>
   value != null ? smokeUsedartexternaltypesToFfi(value) : Pointer<Void>.fromAddress(0);
-UseDartExternalTypes smokeUsedartexternaltypesFromFfiNullable(Pointer<Void> handle) =>
+UseDartExternalTypes? smokeUsedartexternaltypesFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeUsedartexternaltypesFromFfi(handle) : null;
 void smokeUsedartexternaltypesReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeUsedartexternaltypesReleaseHandle(handle);

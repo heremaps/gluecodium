@@ -1,15 +1,13 @@
+import 'dart:ffi';
+import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
 @Deprecated("")
 @OnClass
 abstract class AttributesWithDeprecated {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   @Deprecated("")
   @OnConstInClass
@@ -73,14 +71,14 @@ final _smokeAttributeswithdeprecatedSomestructGetValueNullable = __lib.catchArgu
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_AttributesWithDeprecated_SomeStruct_get_value_nullable'));
-Pointer<Void> smokeAttributeswithdeprecatedSomestructToFfiNullable(AttributesWithDeprecated_SomeStruct value) {
+Pointer<Void> smokeAttributeswithdeprecatedSomestructToFfiNullable(AttributesWithDeprecated_SomeStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeAttributeswithdeprecatedSomestructToFfi(value);
   final result = _smokeAttributeswithdeprecatedSomestructCreateHandleNullable(_handle);
   smokeAttributeswithdeprecatedSomestructReleaseFfiHandle(_handle);
   return result;
 }
-AttributesWithDeprecated_SomeStruct smokeAttributeswithdeprecatedSomestructFromFfiNullable(Pointer<Void> handle) {
+AttributesWithDeprecated_SomeStruct? smokeAttributeswithdeprecatedSomestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeAttributeswithdeprecatedSomestructGetValueNullable(handle);
   final result = smokeAttributeswithdeprecatedSomestructFromFfi(_handle);
@@ -91,6 +89,10 @@ void smokeAttributeswithdeprecatedSomestructReleaseFfiHandleNullable(Pointer<Voi
   _smokeAttributeswithdeprecatedSomestructReleaseHandleNullable(handle);
 // End of AttributesWithDeprecated_SomeStruct "private" section.
 // AttributesWithDeprecated "private" section, not exported.
+final _smokeAttributeswithdeprecatedRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_AttributesWithDeprecated_register_finalizer'));
 final _smokeAttributeswithdeprecatedCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -102,13 +104,7 @@ final _smokeAttributeswithdeprecatedReleaseHandle = __lib.catchArgumentError(() 
 class AttributesWithDeprecated$Impl extends __lib.NativeBase implements AttributesWithDeprecated {
   AttributesWithDeprecated$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
-    _smokeAttributeswithdeprecatedReleaseHandle(handle);
-    handle = null;
-  }
+  void release() {}
   @override
   veryFun() {
     final _veryFunFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_AttributesWithDeprecated_veryFun'));
@@ -148,20 +144,19 @@ class AttributesWithDeprecated$Impl extends __lib.NativeBase implements Attribut
 Pointer<Void> smokeAttributeswithdeprecatedToFfi(AttributesWithDeprecated value) =>
   _smokeAttributeswithdeprecatedCopyHandle((value as __lib.NativeBase).handle);
 AttributesWithDeprecated smokeAttributeswithdeprecatedFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as AttributesWithDeprecated;
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is AttributesWithDeprecated) return instance as AttributesWithDeprecated;
   final _copiedHandle = _smokeAttributeswithdeprecatedCopyHandle(handle);
   final result = AttributesWithDeprecated$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
+  _smokeAttributeswithdeprecatedRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeAttributeswithdeprecatedReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeAttributeswithdeprecatedReleaseHandle(handle);
-Pointer<Void> smokeAttributeswithdeprecatedToFfiNullable(AttributesWithDeprecated value) =>
+Pointer<Void> smokeAttributeswithdeprecatedToFfiNullable(AttributesWithDeprecated? value) =>
   value != null ? smokeAttributeswithdeprecatedToFfi(value) : Pointer<Void>.fromAddress(0);
-AttributesWithDeprecated smokeAttributeswithdeprecatedFromFfiNullable(Pointer<Void> handle) =>
+AttributesWithDeprecated? smokeAttributeswithdeprecatedFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeAttributeswithdeprecatedFromFfi(handle) : null;
 void smokeAttributeswithdeprecatedReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeAttributeswithdeprecatedReleaseHandle(handle);

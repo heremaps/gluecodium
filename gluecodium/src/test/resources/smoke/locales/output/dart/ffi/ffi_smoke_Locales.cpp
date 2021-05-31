@@ -1,6 +1,7 @@
 #include "ffi_smoke_Locales.h"
 #include "ConversionBase.h"
-#include "ReverseCache.h"
+#include "InstanceCache.h"
+#include "FinalizerData.h"
 #include "IsolateContext.h"
 #include "gluecodium/Locale.h"
 #include "smoke/Locales.h"
@@ -32,6 +33,18 @@ library_smoke_Locales_localeProperty_set__Locale(FfiOpaqueHandle _self, int32_t 
             (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::Locales>>::toCpp(_self)).set_locale_property(
             gluecodium::ffi::Conversion<gluecodium::Locale>::toCpp(value)
         );
+}
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_Locales_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::Locales>*>(handle);
+    library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
+    library_smoke_Locales_release_handle(handle);
+}
+void
+library_smoke_Locales_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_Locales_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
 }
 FfiOpaqueHandle
 library_smoke_Locales_copy_handle(FfiOpaqueHandle handle) {

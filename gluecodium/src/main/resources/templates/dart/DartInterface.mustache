@@ -21,24 +21,22 @@
 {{>dart/DartDocumentation}}{{>dart/DartAttributes}}
 abstract class {{resolveName}} {{#if this.parent}}implements {{resolveName this.parent}} {{/if}}{
 {{#if inheritedFunctions functions inheritedProperties properties logic="or"}}
-  {{resolveName}}();
-
-  factory {{resolveName}}.fromLambdas({
+  factory {{resolveName}}(
 {{#each inheritedFunctions functions}}{{#unless isStatic}}
-    @required {{>dart/DartLambdaType}} lambda_{{resolveName}},
+    {{>dart/DartLambdaType}} {{resolveName}}Lambda,
 {{/unless}}{{/each}}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#set property=this}}{{#getter}}
-    @required {{>dart/DartLambdaType}} lambda_{{resolveName property}}_get{{#if setter}},
+    {{>dart/DartLambdaType}} {{resolveName property}}GetLambda{{#if setter}},
 {{/if}}{{/getter}}{{#setter}}
-    @required {{>dart/DartLambdaType}} lambda_{{resolveName property}}_set{{/setter}}{{#if iter.hasNext}},
+    {{>dart/DartLambdaType}} {{resolveName property}}SetLambda{{/setter}}{{#if iter.hasNext}},
 {{/if}}{{/set}}{{/unless}}{{/each}}
 
-  }) => {{resolveName}}$Lambdas(
+  ) => {{resolveName}}$Lambdas(
 {{#each inheritedFunctions functions}}{{#unless isStatic}}
-    lambda_{{resolveName}},
+    {{resolveName}}Lambda,
 {{/unless}}{{/each}}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#set property=this}}{{#getter}}
-    lambda_{{resolveName property}}_get{{#if setter}},
+    {{resolveName property}}GetLambda{{#if setter}},
 {{/if}}{{/getter}}{{#setter}}
-    lambda_{{resolveName property}}_set{{/setter}}{{#if iter.hasNext}},
+    {{resolveName property}}SetLambda{{/setter}}{{#if iter.hasNext}},
 {{/if}}{{/set}}{{/unless}}{{/each}}
 
   );
@@ -79,6 +77,10 @@ abstract class {{resolveName}} {{#if this.parent}}implements {{resolveName this.
 
 // {{resolveName}} "private" section, not exported.
 
+final _{{resolveName "Ffi"}}RegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_register_finalizer'));
 final _{{resolveName "Ffi"}}CopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -88,8 +90,8 @@ final _{{resolveName "Ffi"}}ReleaseHandle = __lib.catchArgumentError(() => __lib
     void Function(Pointer<Void>)
   >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_release_handle'));
 final _{{resolveName "Ffi"}}CreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer{{>ffiFunctionPointers}}),
-    Pointer<Void> Function(int, int, Pointer{{>ffiFunctionPointers}})
+    Pointer<Void> Function(Uint64, Int32, Handle{{>ffiFunctionPointers}}),
+    Pointer<Void> Function(int, int, Object{{>ffiFunctionPointers}})
   >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_create_proxy'));
 {{#if attributes.equatable}}{{>dart/DartFfiEqualityFunction}}{{/if}}
 final _{{resolveName "Ffi"}}GetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -104,22 +106,22 @@ final _{{resolveName "Ffi"}}GetTypeId = __lib.catchArgumentError(() => __lib.nat
 }}{{#if inheritedFunctions functions inheritedProperties properties logic="or"}}
 class {{resolveName}}$Lambdas implements {{resolveName}} {
 {{#each inheritedFunctions functions}}{{#unless isStatic}}
-  {{>dart/DartLambdaType}} lambda_{{resolveName}};
+  {{>dart/DartLambdaType}} {{resolveName}}Lambda;
 {{/unless}}{{/each}}
 {{#each inheritedProperties properties}}{{#unless isStatic}}{{#set property=this}}
-{{#getter}}  {{>dart/DartLambdaType}} lambda_{{resolveName property}}_get;
+{{#getter}}  {{>dart/DartLambdaType}} {{resolveName property}}GetLambda;
 {{/getter}}{{!!
-}}{{#setter}}  {{>dart/DartLambdaType}} lambda_{{resolveName property}}_set;
+}}{{#setter}}  {{>dart/DartLambdaType}} {{resolveName property}}SetLambda;
 {{/setter}}
 {{/set}}{{/unless}}{{/each}}
 
   {{resolveName}}$Lambdas(
 {{#each inheritedFunctions functions}}{{#unless isStatic}}
-    this.lambda_{{resolveName}},
+    this.{{resolveName}}Lambda,
 {{/unless}}{{/each}}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#set property=this}}{{#getter}}
-    this.lambda_{{resolveName property}}_get{{#if setter}},
+    this.{{resolveName property}}GetLambda{{#if setter}},
 {{/if}}{{/getter}}{{#setter}}
-    this.lambda_{{resolveName property}}_set{{/setter}}{{#if iter.hasNext}},
+    this.{{resolveName property}}SetLambda{{/setter}}{{#if iter.hasNext}},
 {{/if}}{{/set}}{{/unless}}{{/each}}
 
   );
@@ -130,14 +132,14 @@ class {{resolveName}}$Lambdas implements {{resolveName}} {
 {{#each inheritedFunctions functions}}{{#unless isStatic}}
   @override
   {{>dart/DartFunctionSignature}} =>
-    lambda_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
+    {{resolveName}}Lambda({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
 {{/unless}}{{/each}}
 {{#each inheritedProperties properties}}{{#unless isStatic}}
   @override
-  {{resolveName typeRef}} get {{resolveName visibility}}{{resolveName}} => lambda_{{resolveName}}_get();
+  {{resolveName typeRef}} get {{resolveName visibility}}{{resolveName}} => {{resolveName}}GetLambda();
 {{#if setter}}
   @override
-  set {{resolveName visibility}}{{resolveName}}({{resolveName typeRef}} value) => lambda_{{resolveName}}_set(value);
+  set {{resolveName visibility}}{{resolveName}}({{resolveName typeRef}} value) => {{resolveName}}SetLambda(value);
 {{/if}}
 {{/unless}}{{/each}}
 }
@@ -148,13 +150,7 @@ class {{resolveName}}$Impl extends __lib.NativeBase implements {{resolveName}} {
   {{resolveName}}$Impl(Pointer<Void> handle) : super(handle);
 
   @override
-  void release() {
-    if (handle == null) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
-    _{{resolveName "Ffi"}}ReleaseHandle(handle);
-    handle = null;
-  }
+  void release() {}
 
 {{#set parent=this}}{{#each inheritedFunctions functions}}
   @override
@@ -169,18 +165,18 @@ class {{resolveName}}$Impl extends __lib.NativeBase implements {{resolveName}} {
 }
 
 {{#set parent=this}}{{#each inheritedFunctions functions}}{{#unless isStatic}}
-int _{{resolveName parent}}{{resolveName}}Static({{!!
-}}int _token{{#if parameters}}, {{/if}}{{!!
+int _{{resolveName parent "Ffi"}}{{resolveName}}Static({{!!
+}}Object _obj{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
 }}{{#unless returnType.isVoid}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}> _result{{/unless}}{{!!
 }}{{#if thrownType}}, Pointer<{{resolveName exception.errorType "FfiApiTypes"}}> _error{{/if}}) {
 {{#if thrownType}}
   bool _errorFlag = false;
 {{/if}}{{#unless returnType.isVoid}}
-  {{resolveName returnType.typeRef}} _resultObject;{{/unless}}
+  {{resolveName returnType.typeRef}}{{#unless returnType.typeRef.isNullable}}?{{/unless}} _resultObject;{{/unless}}
   try {
     {{#unless returnType.isVoid}}_resultObject = {{/unless}}{{!!
-  }}(__lib.instanceCache[_token] as {{resolveName parent}}).{{resolveName visibility}}{{resolveName}}({{#parameters}}{{!!
+  }}(_obj as {{resolveName parent}}).{{resolveName visibility}}{{resolveName}}({{#parameters}}{{!!
   }}{{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}}){{#if iter.hasNext}}, {{/if}}{{!!
   }}{{/parameters}});{{#unless returnType.isVoid}}
     _result.value = {{#returnType}}{{#set call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}{{/returnType}}(_resultObject);{{/unless}}
@@ -189,37 +185,27 @@ int _{{resolveName parent}}{{resolveName}}Static({{!!
     _errorFlag = true;
     final _errorObject = e.error;
     _error.value = {{#set typeRef=exception.errorType call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_errorObject);
-{{#instanceOf exception.errorType.type.actualType "LimeClass"}}
-    if (_errorObject != null) _errorObject.release();
-{{/instanceOf}}{{#instanceOf exception.errorType.type.actualType "LimeInterface"}}
-    if (_errorObject != null) _errorObject.release();
-{{/instanceOf}}
 {{/if}}
   } finally {
 {{#parameters}}
     {{#resolveName}}{{#set varName=this}}{{>dart/DartFfiReleaseHandle}}{{/set}}{{/resolveName}}
-{{/parameters}}{{!!
-}}{{#instanceOf returnType.typeRef.type.actualType "LimeClass"}}
-    if (_resultObject != null) _resultObject.release();
-{{/instanceOf}}{{#instanceOf returnType.typeRef.type.actualType "LimeInterface"}}
-    if (_resultObject != null) _resultObject.release();
-{{/instanceOf}}
+{{/parameters}}
   }
   return{{#if thrownType}} _errorFlag ? 1 :{{/if}} 0;
 }
 {{/unless}}{{/each}}
 
 {{#each inheritedProperties properties}}{{#unless isStatic}}
-int _{{resolveName parent}}{{resolveName}}GetStatic(int _token, Pointer<{{resolveName typeRef "FfiApiTypes"}}> _result) {
+int _{{resolveName parent "Ffi"}}{{resolveName}}GetStatic(Object _obj, Pointer<{{resolveName typeRef "FfiApiTypes"}}> _result) {
   _result.value = {{#set call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{!!
-  }}(__lib.instanceCache[_token] as {{resolveName parent}}).{{resolveName visibility}}{{resolveName}});
+  }}(_obj as {{resolveName parent}}).{{resolveName visibility}}{{resolveName}});
   return 0;
 }
 {{#if setter}}
 
-int _{{resolveName parent}}{{resolveName}}SetStatic(int _token, {{resolveName typeRef "FfiDartTypes"}} _value) {
+int _{{resolveName parent "Ffi"}}{{resolveName}}SetStatic(Object _obj, {{resolveName typeRef "FfiDartTypes"}} _value) {
   try {
-    (__lib.instanceCache[_token] as {{resolveName parent}}).{{resolveName visibility}}{{resolveName}} =
+    (_obj as {{resolveName parent}}).{{resolveName visibility}}{{resolveName}} =
       {{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_value);
   } finally {
     {{#set varName="_value"}}{{>dart/DartFfiReleaseHandle}}{{/set}}
@@ -233,13 +219,13 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
   if (value is __lib.NativeBase) return _{{resolveName "Ffi"}}CopyHandle((value as __lib.NativeBase).handle);
 
   final result = _{{resolveName "Ffi"}}CreateProxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi{{#set parent=this}}{{#each inheritedFunctions functions}}{{#unless isStatic}},
-    Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}{{resolveName}}Static, __lib.unknownError){{!!
+    value{{#set parent=this}}{{#each inheritedFunctions functions}}{{#unless isStatic}},
+    Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent "Ffi"}}{{resolveName}}Static, __lib.unknownError){{!!
     }}{{/unless}}{{/each}}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#set property=this}}{{#getter}},
-    Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}{{resolveName property}}GetStatic, __lib.unknownError){{/getter}}{{#setter}},
-    Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent}}{{resolveName property}}SetStatic, __lib.unknownError){{/setter}}{{!!
+    Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent "Ffi"}}{{resolveName property}}GetStatic, __lib.unknownError){{/getter}}{{#setter}},
+    Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName parent "Ffi"}}{{resolveName property}}SetStatic, __lib.unknownError){{/setter}}{{!!
     }}{{/set}}{{/unless}}{{/each}}{{/set}}
   );
 
@@ -247,10 +233,8 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
 }
 
 {{resolveName}} {{resolveName "Ffi"}}FromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token] as {{resolveName}};
-  if (instance != null) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is {{resolveName}}) return instance as {{resolveName}};
 
   final _typeIdHandle = _{{resolveName "Ffi"}}GetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
@@ -260,17 +244,18 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : {{resolveName}}$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
+  _{{resolveName "Ffi"}}RegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 
 void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) =>
   _{{resolveName "Ffi"}}ReleaseHandle(handle);
 
-Pointer<Void> {{resolveName "Ffi"}}ToFfiNullable({{resolveName}} value) =>
+Pointer<Void> {{resolveName "Ffi"}}ToFfiNullable({{resolveName}}? value) =>
   value != null ? {{resolveName "Ffi"}}ToFfi(value) : Pointer<Void>.fromAddress(0);
 
-{{resolveName}} {{resolveName "Ffi"}}FromFfiNullable(Pointer<Void> handle) =>
+{{resolveName}}? {{resolveName "Ffi"}}FromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? {{resolveName "Ffi"}}FromFfi(handle) : null;
 
 void {{resolveName "Ffi"}}ReleaseFfiHandleNullable(Pointer<Void> handle) =>
@@ -278,7 +263,7 @@ void {{resolveName "Ffi"}}ReleaseFfiHandleNullable(Pointer<Void> handle) =>
 
 // End of {{resolveName}} "private" section.{{!!
 
-}}{{+ffiApi}}Uint8 Function(Uint64{{#if parameters}}, {{/if}}{{!!
+}}{{+ffiApi}}Uint8 Function(Handle{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiApiTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
 }}{{#unless returnType.isVoid}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}>{{/unless}}{{!!
 }}{{#if thrownType}}, Pointer<{{resolveName exception.errorType "FfiApiTypes"}}>{{/if}}){{/ffiApi}}{{!!

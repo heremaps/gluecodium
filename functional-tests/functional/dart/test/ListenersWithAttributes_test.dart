@@ -26,9 +26,12 @@ import "../test_suite.dart";
 
 final _testSuite = TestSuite("ListenersWithAttributes");
 
-class TestMessagePackage extends MessagePackage {
+class TestMessagePackage implements MessagePackage {
   @override
   String unpackMessage() => "Works";
+
+  @override
+  release() {}
 }
 
 class TestListener implements ListenerWithAttributes {
@@ -36,17 +39,16 @@ class TestListener implements ListenerWithAttributes {
   String message = "Doesn't work";
 
   @override
-  MessagePackage packedMessage = null;
+  MessagePackage? packedMessage = null;
 
   @override
-  MessageBox boxedMessage = null;
+  MessageBox? boxedMessage = null;
 
   @override
-  ListenerWithReturnMessageStruct structuredMessage = null;
+  late ListenerWithReturnMessageStruct structuredMessage;
 
   @override
-  ListenerWithReturnMessageEnum enumeratedMessage =
-      ListenerWithReturnMessageEnum.no;
+  ListenerWithReturnMessageEnum enumeratedMessage = ListenerWithReturnMessageEnum.no;
 
   @override
   List<String> arrayedMessage = ["Doesn't work"];
@@ -58,22 +60,15 @@ class TestListener implements ListenerWithAttributes {
   Uint8List bufferedMessage = Uint8List.fromList(utf8.encode("Doesn't work"));
 
   @override
-  void release() {
-    if (packedMessage != null) packedMessage.release();
-    if (boxedMessage != null) boxedMessage.release();
-  }
+  void release() {}
 }
 
 void main() {
-  ListenerWithAttributes envelope;
-  AttributedMessageDelivery delivery;
+  late ListenerWithAttributes envelope;
+  late AttributedMessageDelivery delivery;
   setUp(() {
     envelope = TestListener();
     delivery = AttributedMessageDelivery();
-  });
-  tearDown(() {
-    envelope.release();
-    delivery.release();
   });
 
   _testSuite.test("String round trip works", () {

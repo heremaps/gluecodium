@@ -42,14 +42,14 @@ final _smokeEnumstartswithoneGetValueNullable = __lib.catchArgumentError(() => _
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_EnumStartsWithOne_get_value_nullable'));
-Pointer<Void> smokeEnumstartswithoneToFfiNullable(EnumStartsWithOne value) {
+Pointer<Void> smokeEnumstartswithoneToFfiNullable(EnumStartsWithOne? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeEnumstartswithoneToFfi(value);
   final result = _smokeEnumstartswithoneCreateHandleNullable(_handle);
   smokeEnumstartswithoneReleaseFfiHandle(_handle);
   return result;
 }
-EnumStartsWithOne smokeEnumstartswithoneFromFfiNullable(Pointer<Void> handle) {
+EnumStartsWithOne? smokeEnumstartswithoneFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeEnumstartswithoneGetValueNullable(handle);
   final result = smokeEnumstartswithoneFromFfi(_handle);

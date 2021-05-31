@@ -1,6 +1,6 @@
-import 'package:library/src/smoke/simple_interface.dart';
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
+import 'package:library/src/smoke/simple_interface.dart';
 class StructWithInterface {
   SimpleInterface interfaceInstance;
   StructWithInterface(this.interfaceInstance);
@@ -48,14 +48,14 @@ final _smokeStructwithinterfaceGetValueNullable = __lib.catchArgumentError(() =>
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithInterface_get_value_nullable'));
-Pointer<Void> smokeStructwithinterfaceToFfiNullable(StructWithInterface value) {
+Pointer<Void> smokeStructwithinterfaceToFfiNullable(StructWithInterface? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeStructwithinterfaceToFfi(value);
   final result = _smokeStructwithinterfaceCreateHandleNullable(_handle);
   smokeStructwithinterfaceReleaseFfiHandle(_handle);
   return result;
 }
-StructWithInterface smokeStructwithinterfaceFromFfiNullable(Pointer<Void> handle) {
+StructWithInterface? smokeStructwithinterfaceFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeStructwithinterfaceGetValueNullable(handle);
   final result = smokeStructwithinterfaceFromFfi(_handle);

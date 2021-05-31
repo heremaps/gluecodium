@@ -70,7 +70,7 @@ void main() {
   _testSuite.test("Call nullable C++ lambda in Dart", () {
     final lambda = Lambdas.getConcatenatorOrNull(">.<");
 
-    final result = lambda("foo", "bar");
+    final result = lambda!("foo", "bar");
 
     expect(result, "foo>.<bar");
   });
@@ -107,7 +107,7 @@ void main() {
 
     final result = lambda("foo");
 
-    expect(result(), "foo");
+    expect(result!(), "foo");
   });
   _testSuite.test("Call nullable C++ lambda in Dart with null", () {
     final lambda = Lambdas.getNullableConfuser();
@@ -117,14 +117,14 @@ void main() {
     expect(result, isNull);
   });
   _testSuite.test("Call nullable Dart lambda in C++ with value", () {
-    final lambda = (String s1) => s1 != null ? () => s1 : null;
+    final lambda = (String? s1) => s1 != null ? () => s1 : null;
 
     final result = Lambdas.applyNullableConfuser(lambda, "foo");
 
-    expect(result(), "foo");
+    expect(result!(), "foo");
   });
   _testSuite.test("Call nullable Dart lambda in C++ with null", () {
-    final lambda = (String s1) => s1 != null ? () => s1 : null;
+    final lambda = (String? s1) => s1 != null ? () => s1 : null;
 
     final result = Lambdas.applyNullableConfuser(lambda, null);
 

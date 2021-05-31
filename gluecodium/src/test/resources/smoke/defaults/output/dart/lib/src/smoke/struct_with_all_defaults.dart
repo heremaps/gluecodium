@@ -1,6 +1,6 @@
-import 'package:library/src/builtin_types__conversion.dart';
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
+import 'package:library/src/builtin_types__conversion.dart';
 class StructWithAllDefaults {
   int intField;
   String stringField;
@@ -59,14 +59,14 @@ final _smokeStructwithalldefaultsGetValueNullable = __lib.catchArgumentError(() 
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithAllDefaults_get_value_nullable'));
-Pointer<Void> smokeStructwithalldefaultsToFfiNullable(StructWithAllDefaults value) {
+Pointer<Void> smokeStructwithalldefaultsToFfiNullable(StructWithAllDefaults? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeStructwithalldefaultsToFfi(value);
   final result = _smokeStructwithalldefaultsCreateHandleNullable(_handle);
   smokeStructwithalldefaultsReleaseFfiHandle(_handle);
   return result;
 }
-StructWithAllDefaults smokeStructwithalldefaultsFromFfiNullable(Pointer<Void> handle) {
+StructWithAllDefaults? smokeStructwithalldefaultsFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeStructwithalldefaultsGetValueNullable(handle);
   final result = smokeStructwithalldefaultsFromFfi(_handle);

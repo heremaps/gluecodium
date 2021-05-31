@@ -1,6 +1,7 @@
 #pragma once
 #include "Export.h"
 #include "OpaqueHandle.h"
+#include "dart_api_dl.h"
 #include <stdint.h>
 #ifdef __cplusplus
 extern "C" {
@@ -15,6 +16,8 @@ _GLUECODIUM_FFI_EXPORT bool library_smoke_Constructors_create__String_return_has
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Constructors_create__String(int32_t _isolate_id, FfiOpaqueHandle input);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Constructors_create__ListOf_1Double(int32_t _isolate_id, FfiOpaqueHandle input);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Constructors_create__ULong(int32_t _isolate_id, uint64_t input);
+_GLUECODIUM_FFI_EXPORT void library_smoke_Constructors_register_finalizer(
+    FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Constructors_copy_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT void library_smoke_Constructors_release_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Constructors_ErrorEnum_create_handle_nullable(uint32_t value);

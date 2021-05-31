@@ -9,6 +9,7 @@ include(gluecodium/Swift)
 
 # COMMON + MAIN
 add_library(ModuleWithMainAndCommon SHARED "${CMAKE_CURRENT_LIST_DIR}/cpp/CommonMainFooImpl.cpp")
+add_library(test::ModuleWithMainAndCommon ALIAS ModuleWithMainAndCommon)
 gluecodium_generate(ModuleWithMainAndCommon GENERATORS cpp swift)
 
 gluecodium_target_lime_sources(ModuleWithMainAndCommon
