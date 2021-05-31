@@ -15,9 +15,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
+include(${CMAKE_CURRENT_LIST_DIR}/CheckArguments.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/InitVariablesWithUnitedFilePaths.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/ReadRequiredProperties.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/CheckArguments.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/ResolvePossibleAlias.cmake)
 
 function(gluecodium_list_generated_files _target)
   set(_options MAIN COMMON)
@@ -44,7 +45,8 @@ function(gluecodium_list_generated_files _target)
     set(_source_sets ${_source_sets_from_properties})
   endif()
 
-  gluecodium_init_variables_with_united_file_paths(${_target})
+  gluecodium_resolve_possible_alias(_aliased_target ${_target})
+  gluecodium_init_variables_with_united_file_paths(${_aliased_target})
 
   foreach(_source_set ${_source_sets})
     string(TOLOWER ${_source_set} _group)

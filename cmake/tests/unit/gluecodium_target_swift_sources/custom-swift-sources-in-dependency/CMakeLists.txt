@@ -36,8 +36,15 @@ if(NOT TEST_GENERATED_CODE_LIBRARY_TYPE)
   set(TEST_GENERATED_CODE_LIBRARY_TYPE OBJECT)
 endif()
 
-# Module with generated sourcess
+if(TEST_USE_ALIASES)
+  set(TARGET_MODULE_WITH_GENERATED_SOURCES test::module.with.generated.sources)
+else()
+  set(TARGET_MODULE_WITH_GENERATED_SOURCES module.with.generated.sources)
+endif()
+
+# Module with generated sources
 add_library(module.with.generated.sources ${TEST_GENERATED_CODE_LIBRARY_TYPE})
+add_library(test::module.with.generated.sources ALIAS module.with.generated.sources)
 
 gluecodium_generate(module.with.generated.sources GENERATORS swift cpp)
 gluecodium_target_lime_sources(module.with.generated.sources
@@ -48,9 +55,15 @@ gluecodium_target_swift_sources(module.with.generated.sources
 # Final shared module.
 add_library(SharedModule SHARED)
 target_sources(SharedModule PRIVATE "${CMAKE_CURRENT_LIST_DIR}/cpp/FooImpl.cpp")
-target_link_libraries(SharedModule PRIVATE module.with.generated.sources)
+target_link_libraries(SharedModule PRIVATE ${TARGET_MODULE_WITH_GENERATED_SOURCES})
 set_target_properties(SharedModule PROPERTIES FRAMEWORK TRUE XCODE_ATTRIBUTE_DEFINES_MODULE YES)
-gluecodium_target_swift_sources(SharedModule COLLECT_FROM_DEPENDENCIES ADD_MODULE_MODULEMAP)
+
+if(TEST_USE_COPY_FROM_TARGETS)
+  gluecodium_target_swift_sources(
+    SharedModule COPY_FROM_TARGETS ${TARGET_MODULE_WITH_GENERATED_SOURCES} ADD_MODULE_MODULEMAP)
+else()
+  gluecodium_target_swift_sources(SharedModule COLLECT_FROM_DEPENDENCIES ADD_MODULE_MODULEMAP)
+endif()
 
 # Check that generated Swift is compiled in the framework 'SingleModule'
 add_library(UseCustomCode SHARED "${CMAKE_CURRENT_LIST_DIR}/swift/use_custom.swift")
