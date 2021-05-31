@@ -15,16 +15,30 @@ add_subdirectory(framework-main)
 
 # Check that generated Swift is compiled in the framework 'ModuleWithMainAndCommon'
 add_library(ModuleUseMainOnly SHARED "${CMAKE_CURRENT_LIST_DIR}/swift/use_bar.swift")
-target_link_libraries(ModuleUseMainOnly PRIVATE ModuleWithMainOnly ModuleWithMainAndCommon)
+if(TEST_USE_ALIASES)
+  target_link_libraries(ModuleUseMainOnly PRIVATE test::ModuleWithMainOnly
+                                                  test::ModuleWithMainAndCommon)
+else()
+  target_link_libraries(ModuleUseMainOnly PRIVATE ModuleWithMainOnly ModuleWithMainAndCommon)
+endif()
 
 set(MACOSX_FRAMEWORK_NAME ModuleUseMainOnly)
 set_target_properties(ModuleUseMainOnly PROPERTIES FRAMEWORK TRUE MACOSX_FRAMEWORK_IDENTIFIER
                                                                   use.gluecodium.test)
-
-set_property(
-  TARGET ModuleUseMainOnly
-  APPEND_STRING
-  PROPERTY
-    XCODE_ATTRIBUTE_OTHER_SWIFT_FLAGS
-    " -framework ModuleWithMainOnly -F$<TARGET_BUNDLE_DIR:ModuleWithMainOnly>/.. -framework CustomName -F$<TARGET_BUNDLE_DIR:ModuleWithMainAndCommon>/.."
-)
+if(TEST_USE_ALIASES)
+  set_property(
+    TARGET ModuleUseMainOnly
+    APPEND_STRING
+    PROPERTY
+      XCODE_ATTRIBUTE_OTHER_SWIFT_FLAGS
+      " -framework ModuleWithMainOnly -F$<TARGET_BUNDLE_DIR:test::ModuleWithMainOnly>/.. -framework CustomName -F$<TARGET_BUNDLE_DIR:test::ModuleWithMainAndCommon>/.."
+  )
+else()
+  set_property(
+    TARGET ModuleUseMainOnly
+    APPEND_STRING
+    PROPERTY
+      XCODE_ATTRIBUTE_OTHER_SWIFT_FLAGS
+      " -framework ModuleWithMainOnly -F$<TARGET_BUNDLE_DIR:ModuleWithMainOnly>/.. -framework CustomName -F$<TARGET_BUNDLE_DIR:ModuleWithMainAndCommon>/.."
+  )
+endif()

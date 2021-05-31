@@ -57,6 +57,7 @@ in `FRAMEWORKS` option as well.
 
 include(${CMAKE_CURRENT_LIST_DIR}/../gluecodium/details/ListGeneratedFiles.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/../gluecodium/details/ReadRequiredProperties.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/../gluecodium/details/ResolvePossibleAlias.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/../gluecodium/details/GeneratorExpressions.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/../gluecodium/GetLinkedTargetsWithGeneratedSources.cmake)
 
@@ -87,17 +88,20 @@ function(_gluecodium_target_link_framework target_dst target_framework)
   gluecodium_get_linked_targets_with_generated_sources(_targets_with_generated_sources
                                                        ${target_dst} ONLY_STATIC)
 
+  gluecodium_resolve_possible_alias(target_framework_aliased ${target_framework})
   if(CMAKE_VERSION GREATER_EQUAL 3.12 AND NOT GLUECODIUM_DONT_USE_TARGET_GENEX_EVAL)
-    _gluecodium_get_framework_name_expression(_framework_name ${target_framework})
+    _gluecodium_get_framework_name_expression(_framework_name ${target_framework_aliased})
   else()
     get_target_property(_framework_name ${target_framework} OUTPUT_NAME)
     if(NOT _framework_name)
-      string(MAKE_C_IDENTIFIER "${target_framework}" _framework_name)
+      string(MAKE_C_IDENTIFIER "${target_framework_aliased}" _framework_name)
     endif()
   endif()
 
   foreach(_target_with_generated_sources IN LISTS _targets_with_generated_sources)
-    set_property(TARGET ${_target_with_generated_sources} APPEND
+    gluecodium_resolve_possible_alias(_target_with_generated_source_aliased
+                                      ${_target_with_generated_sources})
+    set_property(TARGET ${_target_with_generated_source_aliased} APPEND
                  PROPERTY GLUECODIUM_IMPORT_FRAMEWORKS ${_framework_name})
   endforeach()
 
@@ -140,10 +144,12 @@ function(_gluecodium_target_link_common_target target_dst common_target)
 
   _gluecodium_is_framework_expression(_is_framework_expression ${target_dst})
 
-  target_sources(${target_dst} PRIVATE "$<${_is_framework_expression}:${_common_swift}>")
+  gluecodium_resolve_possible_alias(target_dst_aliased ${target_dst})
 
-  set_property(TARGET ${target_dst} APPEND PROPERTY GLUECODIUM_BRIDGING_HEADERS
-                                                    ${_common_bridging_headers})
+  target_sources(${target_dst_aliased} PRIVATE "$<${_is_framework_expression}:${_common_swift}>")
 
-  set_property(TARGET ${target_dst} APPEND PROPERTY GLUECODIUM_SWIFT ${_common_swift})
+  set_property(TARGET ${target_dst_aliased} APPEND PROPERTY GLUECODIUM_BRIDGING_HEADERS
+                                                            ${_common_bridging_headers})
+
+  set_property(TARGET ${target_dst_aliased} APPEND PROPERTY GLUECODIUM_SWIFT ${_common_swift})
 endfunction()
