@@ -61,7 +61,8 @@ if(DEFINED DARTLANG_FOUND)
   return()
 endif()
 
-set(_path_suffixes "bin/cache/dart-sdk/include" "cache/dart-sdk/include" "include")
+set(_path_suffixes "bin/cache/dart-sdk/include" "bin/cache/dart-sdk/include/third_party/dart"
+                   "cache/dart-sdk/include" "cache/dart-sdk/include/third_party/dart" "include")
 set(_find_hints ${DART_LANG_ROOT} ${FLUTTER_ROOT})
 
 find_program(_dart_exe dart)
