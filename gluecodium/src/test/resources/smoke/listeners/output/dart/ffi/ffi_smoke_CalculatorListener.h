@@ -1,6 +1,7 @@
 #pragma once
 #include "Export.h"
 #include "OpaqueHandle.h"
+#include "dart_api_dl.h"
 #include <stdint.h>
 #ifdef __cplusplus
 extern "C" {
@@ -13,7 +14,7 @@ _GLUECODIUM_FFI_EXPORT void library_smoke_CalculatorListener_onCalculationResult
 _GLUECODIUM_FFI_EXPORT void library_smoke_CalculatorListener_onCalculationResultInstance__CalculationResult(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle calculationResult);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_CalculatorListener_copy_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT void library_smoke_CalculatorListener_release_handle(FfiOpaqueHandle handle);
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_CalculatorListener_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2, FfiOpaqueHandle f3, FfiOpaqueHandle f4, FfiOpaqueHandle f5);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_CalculatorListener_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2, FfiOpaqueHandle f3, FfiOpaqueHandle f4, FfiOpaqueHandle f5);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_CalculatorListener_ResultStruct_create_handle(double);
 _GLUECODIUM_FFI_EXPORT void library_smoke_CalculatorListener_ResultStruct_release_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT double library_smoke_CalculatorListener_ResultStruct_get_field_result(FfiOpaqueHandle handle);

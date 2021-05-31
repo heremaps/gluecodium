@@ -1,36 +1,31 @@
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
+final _ffiGetCachedDartHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+      Handle Function(Pointer<Void>, Handle),
+      Object? Function(Pointer<Void>, Object?)
+    >('library_get_cached_dart_handle'));
+final _ffiCacheDartHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+      Void Function(Pointer<Void>, Handle),
+      void Function(Pointer<Void>, Object)
+    >('library_cache_dart_handle'));
+final _ffiUncacheDartHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+      Void Function(Pointer<Void>),
+      void Function(Pointer<Void>)
+    >('library_uncache_dart_handle'));
 const unknownError = -1;
 int _instanceCounter = 1024;
-final Map<int, Object> instanceCache = {};
-final Map<Object, int> tokenCache = {};
-int cacheObject(Object obj) {
+final Expando<int> tokenCache = Expando<int>();
+// "Token" here is a unique-id stand-in for a Dart object on FFI side, to be used as a cache key where necessary.
+// Dart_Handle cannot be used as a cache key in FFI due to lack of meaningful FFI-side hash function.
+// Currently these tokens are only used for caching "proxy" objects and nothing else.
+int getObjectToken(Object obj) {
   int? token = tokenCache[obj];
   if (token == null) {
     token = _instanceCounter++;
-    instanceCache[token] = obj;
     tokenCache[obj] = token;
   }
   return token;
 }
-void uncacheObjectByToken(int token) {
-  tokenCache.remove(instanceCache[token]);
-  instanceCache.remove(token);
-}
-void uncacheObject(Object object) {
-  instanceCache.remove(tokenCache[object]);
-  tokenCache.remove(object);
-}
-final uncacheObjectFfi = Pointer.fromFunction<Void Function(Uint64)>(uncacheObjectByToken);
-final ffiGetCachedToken = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Uint64 Function(Pointer<Void>, Int32),
-      int Function(Pointer<Void>, int)
-    >('library_get_cached_token'));
-final ffiCacheToken = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Void Function(Pointer<Void>, Int32, Uint64),
-      void Function(Pointer<Void>, int, int)
-    >('library_cache_token'));
-final ffiUncacheToken = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-      Void Function(Pointer<Void>, Int32),
-      void Function(Pointer<Void>, int)
-    >('library_uncache_token'));
+Object? getCachedInstance(Pointer<Void> handle) => _ffiGetCachedDartHandle(handle, null);
+void cacheInstance(Pointer<Void> handle, Object obj) => _ffiCacheDartHandle(handle, obj);
+void uncacheInstance(Pointer<Void> handle) => _ffiUncacheDartHandle(handle);

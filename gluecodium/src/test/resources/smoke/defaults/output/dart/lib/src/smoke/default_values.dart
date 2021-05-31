@@ -692,8 +692,7 @@ class DefaultValues$Impl extends __lib.NativeBase implements DefaultValues {
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeDefaultvaluesReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -712,13 +711,11 @@ class DefaultValues$Impl extends __lib.NativeBase implements DefaultValues {
 Pointer<Void> smokeDefaultvaluesToFfi(DefaultValues value) =>
   _smokeDefaultvaluesCopyHandle((value as __lib.NativeBase).handle);
 DefaultValues smokeDefaultvaluesFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is DefaultValues) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is DefaultValues) return instance as DefaultValues;
   final _copiedHandle = _smokeDefaultvaluesCopyHandle(handle);
   final result = DefaultValues$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeDefaultvaluesReleaseFfiHandle(Pointer<Void> handle) =>

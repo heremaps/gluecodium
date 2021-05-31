@@ -33,8 +33,7 @@ class UseDartExternalTypes$Impl extends __lib.NativeBase implements UseDartExter
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeUsedartexternaltypesReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -86,13 +85,11 @@ class UseDartExternalTypes$Impl extends __lib.NativeBase implements UseDartExter
 Pointer<Void> smokeUsedartexternaltypesToFfi(UseDartExternalTypes value) =>
   _smokeUsedartexternaltypesCopyHandle((value as __lib.NativeBase).handle);
 UseDartExternalTypes smokeUsedartexternaltypesFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is UseDartExternalTypes) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is UseDartExternalTypes) return instance as UseDartExternalTypes;
   final _copiedHandle = _smokeUsedartexternaltypesCopyHandle(handle);
   final result = UseDartExternalTypes$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeUsedartexternaltypesReleaseFfiHandle(Pointer<Void> handle) =>

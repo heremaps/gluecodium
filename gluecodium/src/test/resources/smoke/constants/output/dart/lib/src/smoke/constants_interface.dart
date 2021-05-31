@@ -89,8 +89,7 @@ class ConstantsInterface$Impl extends __lib.NativeBase implements ConstantsInter
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeConstantsinterfaceReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -98,13 +97,11 @@ class ConstantsInterface$Impl extends __lib.NativeBase implements ConstantsInter
 Pointer<Void> smokeConstantsinterfaceToFfi(ConstantsInterface value) =>
   _smokeConstantsinterfaceCopyHandle((value as __lib.NativeBase).handle);
 ConstantsInterface smokeConstantsinterfaceFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is ConstantsInterface) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is ConstantsInterface) return instance as ConstantsInterface;
   final _copiedHandle = _smokeConstantsinterfaceCopyHandle(handle);
   final result = ConstantsInterface$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeConstantsinterfaceReleaseFfiHandle(Pointer<Void> handle) =>

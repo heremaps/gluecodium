@@ -1,6 +1,6 @@
 #include "ffi_smoke_SpecialNamesInterface.h"
 #include "ConversionBase.h"
-#include "ReverseCache.h"
+#include "InstanceCache.h"
 #include "CallbacksQueue.h"
 #include "IsolateContext.h"
 #include "ProxyCache.h"
@@ -12,29 +12,36 @@
 #include <new>
 class smoke_SpecialNamesInterface_Proxy : public ::smoke::SpecialNamesInterface {
 public:
-    smoke_SpecialNamesInterface_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
-        : token(token), isolate_id(isolate_id), deleter(deleter), f0(f0) { }
+    smoke_SpecialNamesInterface_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0)
+        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f0(f0) {
+        library_cache_dart_handle_by_raw_pointer(this, dart_handle);
+    }
     ~smoke_SpecialNamesInterface_Proxy() {
         gluecodium::ffi::remove_cached_proxy(token, isolate_id, "smoke_SpecialNamesInterface");
-        gluecodium::ffi::remove_cached_token(this, isolate_id);
-        auto token_local = token;
-        auto deleter_local = reinterpret_cast<void (*)(uint64_t)>(deleter);
-        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [token_local, deleter_local]() {
-            (*deleter_local)(token_local);
-        });
+        auto raw_pointer_local = this;
+        auto dart_persistent_handle_local = dart_persistent_handle;
+        auto deleter = [raw_pointer_local, dart_persistent_handle_local]() {
+            library_uncache_dart_handle_by_raw_pointer(raw_pointer_local);
+            Dart_DeletePersistentHandle_DL(dart_persistent_handle_local);
+        };
+        if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
+            deleter();
+        } else {
+            gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
+        }
     }
     smoke_SpecialNamesInterface_Proxy(const smoke_SpecialNamesInterface_Proxy&) = delete;
     smoke_SpecialNamesInterface_Proxy& operator=(const smoke_SpecialNamesInterface_Proxy&) = delete;
     void
     dispatch(const ::smoke::SpecialNamesInterface::Callback& callback) const override {
-        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t, FfiOpaqueHandle)>(f0))(token,
+        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, FfiOpaqueHandle)>(f0))(Dart_HandleFromPersistent_DL(dart_persistent_handle),
             gluecodium::ffi::Conversion<::smoke::SpecialNamesInterface::Callback>::toFfi(callback)
         ); });
     }
 private:
     const uint64_t token;
     const int32_t isolate_id;
-    const FfiOpaqueHandle deleter;
+    const Dart_PersistentHandle dart_persistent_handle;
     const FfiOpaqueHandle f0;
     inline void dispatch(std::function<void()>&& callback) const
     {
@@ -45,28 +52,32 @@ private:
 };
 class smoke_SpecialNamesInterface_Callback_Proxy {
 public:
-    smoke_SpecialNamesInterface_Callback_Proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0)
-        : token(token), isolate_id(isolate_id), deleter(deleter), f0(f0) { }
+    smoke_SpecialNamesInterface_Callback_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0)
+        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f0(f0) {
+    }
     ~smoke_SpecialNamesInterface_Callback_Proxy() {
         gluecodium::ffi::remove_cached_proxy(token, isolate_id, "smoke_SpecialNamesInterface_Callback");
-        gluecodium::ffi::remove_cached_token(this, isolate_id);
-        auto token_local = token;
-        auto deleter_local = reinterpret_cast<void (*)(uint64_t)>(deleter);
-        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, [token_local, deleter_local]() {
-            (*deleter_local)(token_local);
-        });
+        auto dart_persistent_handle_local = dart_persistent_handle;
+        auto deleter = [dart_persistent_handle_local]() {
+            Dart_DeletePersistentHandle_DL(dart_persistent_handle_local);
+        };
+        if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
+            deleter();
+        } else {
+            gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
+        }
     }
     smoke_SpecialNamesInterface_Callback_Proxy(const smoke_SpecialNamesInterface_Callback_Proxy&) = delete;
     smoke_SpecialNamesInterface_Callback_Proxy& operator=(const smoke_SpecialNamesInterface_Callback_Proxy&) = delete;
     void
     operator()() {
-        dispatch([&]() { (*reinterpret_cast<bool (*)(uint64_t)>(f0))(token
+        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle)>(f0))(Dart_HandleFromPersistent_DL(dart_persistent_handle)
         ); });
     }
 private:
     const uint64_t token;
     const int32_t isolate_id;
-    const FfiOpaqueHandle deleter;
+    const Dart_PersistentHandle dart_persistent_handle;
     const FfiOpaqueHandle f0;
     inline void dispatch(std::function<void()>&& callback) const
     {
@@ -136,25 +147,24 @@ library_smoke_SpecialNamesInterface_Callback_get_value_nullable(FfiOpaqueHandle 
     );
 }
 FfiOpaqueHandle
-library_smoke_SpecialNamesInterface_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
+library_smoke_SpecialNamesInterface_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0) {
     auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_SpecialNamesInterface_Proxy>(token, isolate_id, "smoke_SpecialNamesInterface");
     std::shared_ptr<smoke_SpecialNamesInterface_Proxy>* proxy_ptr;
     if (cached_proxy) {
         proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_SpecialNamesInterface_Proxy>(cached_proxy);
     } else {
         proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_SpecialNamesInterface_Proxy>(
-            new (std::nothrow) smoke_SpecialNamesInterface_Proxy(token, isolate_id, deleter, f0)
+            new (std::nothrow) smoke_SpecialNamesInterface_Proxy(token, isolate_id, dart_handle, f0)
         );
         gluecodium::ffi::cache_proxy(token, isolate_id, "smoke_SpecialNamesInterface", *proxy_ptr);
-        gluecodium::ffi::cache_token(proxy_ptr->get(), isolate_id, token);
     }
     return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
 }
 FfiOpaqueHandle
-library_smoke_SpecialNamesInterface_Callback_create_proxy(uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter, FfiOpaqueHandle f0) {
+library_smoke_SpecialNamesInterface_Callback_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0) {
     auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_SpecialNamesInterface_Callback_Proxy>(token, isolate_id, "smoke_SpecialNamesInterface_Callback");
     if (!cached_proxy) {
-        cached_proxy = std::make_shared<smoke_SpecialNamesInterface_Callback_Proxy>(token, isolate_id, deleter, f0);
+        cached_proxy = std::make_shared<smoke_SpecialNamesInterface_Callback_Proxy>(token, isolate_id, dart_handle, f0);
         gluecodium::ffi::cache_proxy(token, isolate_id, "smoke_SpecialNamesInterface_Callback", cached_proxy);
     }
     return reinterpret_cast<FfiOpaqueHandle>(

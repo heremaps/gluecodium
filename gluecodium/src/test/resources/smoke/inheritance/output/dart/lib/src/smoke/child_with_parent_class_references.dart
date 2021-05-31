@@ -32,8 +32,7 @@ class ChildWithParentClassReferences$Impl extends __lib.NativeBase implements Ch
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeChildwithparentclassreferencesReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -75,10 +74,8 @@ class ChildWithParentClassReferences$Impl extends __lib.NativeBase implements Ch
 Pointer<Void> smokeChildwithparentclassreferencesToFfi(ChildWithParentClassReferences value) =>
   _smokeChildwithparentclassreferencesCopyHandle((value as __lib.NativeBase).handle);
 ChildWithParentClassReferences smokeChildwithparentclassreferencesFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is ChildWithParentClassReferences) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is ChildWithParentClassReferences) return instance as ChildWithParentClassReferences;
   final _typeIdHandle = _smokeChildwithparentclassreferencesGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -86,7 +83,7 @@ ChildWithParentClassReferences smokeChildwithparentclassreferencesFromFfi(Pointe
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : ChildWithParentClassReferences$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeChildwithparentclassreferencesReleaseFfiHandle(Pointer<Void> handle) =>

@@ -160,8 +160,7 @@ class TypeDefs$Impl extends __lib.NativeBase implements TypeDefs {
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeTypedefsReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -254,13 +253,11 @@ class TypeDefs$Impl extends __lib.NativeBase implements TypeDefs {
 Pointer<Void> smokeTypedefsToFfi(TypeDefs value) =>
   _smokeTypedefsCopyHandle((value as __lib.NativeBase).handle);
 TypeDefs smokeTypedefsFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is TypeDefs) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is TypeDefs) return instance as TypeDefs;
   final _copiedHandle = _smokeTypedefsCopyHandle(handle);
   final result = TypeDefs$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeTypedefsReleaseFfiHandle(Pointer<Void> handle) =>

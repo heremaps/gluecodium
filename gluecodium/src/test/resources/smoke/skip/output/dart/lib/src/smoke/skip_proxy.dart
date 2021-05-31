@@ -43,8 +43,8 @@ final _smokeSkipproxyReleaseHandle = __lib.catchArgumentError(() => __lib.native
     void Function(Pointer<Void>)
   >('library_smoke_SkipProxy_release_handle'));
 final _smokeSkipproxyCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
   >('library_smoke_SkipProxy_create_proxy'));
 final _smokeSkipproxyGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -87,8 +87,7 @@ class SkipProxy$Impl extends __lib.NativeBase implements SkipProxy {
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeSkipproxyReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -161,46 +160,46 @@ class SkipProxy$Impl extends __lib.NativeBase implements SkipProxy {
     }
   }
 }
-int _smokeSkipproxynotInJavaStatic(int _token, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
+int _smokeSkipproxynotInJavaStatic(Object _obj, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
   String? _resultObject;
   try {
-    _resultObject = (__lib.instanceCache[_token] as SkipProxy).notInJava(stringFromFfi(input));
+    _resultObject = (_obj as SkipProxy).notInJava(stringFromFfi(input));
     _result.value = stringToFfi(_resultObject);
   } finally {
     stringReleaseFfiHandle(input);
   }
   return 0;
 }
-int _smokeSkipproxynotInSwiftStatic(int _token, int input, Pointer<Uint8> _result) {
+int _smokeSkipproxynotInSwiftStatic(Object _obj, int input, Pointer<Uint8> _result) {
   bool? _resultObject;
   try {
-    _resultObject = (__lib.instanceCache[_token] as SkipProxy).notInSwift(booleanFromFfi(input));
+    _resultObject = (_obj as SkipProxy).notInSwift(booleanFromFfi(input));
     _result.value = booleanToFfi(_resultObject);
   } finally {
     booleanReleaseFfiHandle(input);
   }
   return 0;
 }
-int _smokeSkipproxyskippedInJavaGetStatic(int _token, Pointer<Pointer<Void>> _result) {
-  _result.value = stringToFfi((__lib.instanceCache[_token] as SkipProxy).skippedInJava);
+int _smokeSkipproxyskippedInJavaGetStatic(Object _obj, Pointer<Pointer<Void>> _result) {
+  _result.value = stringToFfi((_obj as SkipProxy).skippedInJava);
   return 0;
 }
-int _smokeSkipproxyskippedInJavaSetStatic(int _token, Pointer<Void> _value) {
+int _smokeSkipproxyskippedInJavaSetStatic(Object _obj, Pointer<Void> _value) {
   try {
-    (__lib.instanceCache[_token] as SkipProxy).skippedInJava =
+    (_obj as SkipProxy).skippedInJava =
       stringFromFfi(_value);
   } finally {
     stringReleaseFfiHandle(_value);
   }
   return 0;
 }
-int _smokeSkipproxyisSkippedInSwiftGetStatic(int _token, Pointer<Uint8> _result) {
-  _result.value = booleanToFfi((__lib.instanceCache[_token] as SkipProxy).isSkippedInSwift);
+int _smokeSkipproxyisSkippedInSwiftGetStatic(Object _obj, Pointer<Uint8> _result) {
+  _result.value = booleanToFfi((_obj as SkipProxy).isSkippedInSwift);
   return 0;
 }
-int _smokeSkipproxyisSkippedInSwiftSetStatic(int _token, int _value) {
+int _smokeSkipproxyisSkippedInSwiftSetStatic(Object _obj, int _value) {
   try {
-    (__lib.instanceCache[_token] as SkipProxy).isSkippedInSwift =
+    (_obj as SkipProxy).isSkippedInSwift =
       booleanFromFfi(_value);
   } finally {
     booleanReleaseFfiHandle(_value);
@@ -210,23 +209,21 @@ int _smokeSkipproxyisSkippedInSwiftSetStatic(int _token, int _value) {
 Pointer<Void> smokeSkipproxyToFfi(SkipProxy value) {
   if (value is __lib.NativeBase) return _smokeSkipproxyCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokeSkipproxyCreateProxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>, Pointer<Pointer<Void>>)>(_smokeSkipproxynotInJavaStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Uint8, Pointer<Uint8>)>(_smokeSkipproxynotInSwiftStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeSkipproxyskippedInJavaGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokeSkipproxyskippedInJavaSetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Uint8>)>(_smokeSkipproxyisSkippedInSwiftGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Uint8)>(_smokeSkipproxyisSkippedInSwiftSetStatic, __lib.unknownError)
+    value,
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>, Pointer<Pointer<Void>>)>(_smokeSkipproxynotInJavaStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Uint8, Pointer<Uint8>)>(_smokeSkipproxynotInSwiftStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeSkipproxyskippedInJavaGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeSkipproxyskippedInJavaSetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Uint8>)>(_smokeSkipproxyisSkippedInSwiftGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Uint8)>(_smokeSkipproxyisSkippedInSwiftSetStatic, __lib.unknownError)
   );
   return result;
 }
 SkipProxy smokeSkipproxyFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is SkipProxy) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is SkipProxy) return instance as SkipProxy;
   final _typeIdHandle = _smokeSkipproxyGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -234,7 +231,7 @@ SkipProxy smokeSkipproxyFromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : SkipProxy$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeSkipproxyReleaseFfiHandle(Pointer<Void> handle) =>

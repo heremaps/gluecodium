@@ -26,8 +26,7 @@ class SimpleClass$Impl extends __lib.NativeBase implements SimpleClass {
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeSimpleclassReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -59,13 +58,11 @@ class SimpleClass$Impl extends __lib.NativeBase implements SimpleClass {
 Pointer<Void> smokeSimpleclassToFfi(SimpleClass value) =>
   _smokeSimpleclassCopyHandle((value as __lib.NativeBase).handle);
 SimpleClass smokeSimpleclassFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is SimpleClass) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is SimpleClass) return instance as SimpleClass;
   final _copiedHandle = _smokeSimpleclassCopyHandle(handle);
   final result = SimpleClass$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeSimpleclassReleaseFfiHandle(Pointer<Void> handle) =>

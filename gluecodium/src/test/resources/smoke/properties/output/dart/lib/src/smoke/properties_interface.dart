@@ -93,8 +93,8 @@ final _smokePropertiesinterfaceReleaseHandle = __lib.catchArgumentError(() => __
     void Function(Pointer<Void>)
   >('library_smoke_PropertiesInterface_release_handle'));
 final _smokePropertiesinterfaceCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_PropertiesInterface_create_proxy'));
 final _smokePropertiesinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -119,8 +119,7 @@ class PropertiesInterface$Impl extends __lib.NativeBase implements PropertiesInt
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokePropertiesinterfaceReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -146,13 +145,13 @@ class PropertiesInterface$Impl extends __lib.NativeBase implements PropertiesInt
     }
   }
 }
-int _smokePropertiesinterfacestructPropertyGetStatic(int _token, Pointer<Pointer<Void>> _result) {
-  _result.value = smokePropertiesinterfaceExamplestructToFfi((__lib.instanceCache[_token] as PropertiesInterface).structProperty);
+int _smokePropertiesinterfacestructPropertyGetStatic(Object _obj, Pointer<Pointer<Void>> _result) {
+  _result.value = smokePropertiesinterfaceExamplestructToFfi((_obj as PropertiesInterface).structProperty);
   return 0;
 }
-int _smokePropertiesinterfacestructPropertySetStatic(int _token, Pointer<Void> _value) {
+int _smokePropertiesinterfacestructPropertySetStatic(Object _obj, Pointer<Void> _value) {
   try {
-    (__lib.instanceCache[_token] as PropertiesInterface).structProperty =
+    (_obj as PropertiesInterface).structProperty =
       smokePropertiesinterfaceExamplestructFromFfi(_value);
   } finally {
     smokePropertiesinterfaceExamplestructReleaseFfiHandle(_value);
@@ -162,19 +161,17 @@ int _smokePropertiesinterfacestructPropertySetStatic(int _token, Pointer<Void> _
 Pointer<Void> smokePropertiesinterfaceToFfi(PropertiesInterface value) {
   if (value is __lib.NativeBase) return _smokePropertiesinterfaceCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokePropertiesinterfaceCreateProxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokePropertiesinterfacestructPropertyGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokePropertiesinterfacestructPropertySetStatic, __lib.unknownError)
+    value,
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokePropertiesinterfacestructPropertyGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokePropertiesinterfacestructPropertySetStatic, __lib.unknownError)
   );
   return result;
 }
 PropertiesInterface smokePropertiesinterfaceFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is PropertiesInterface) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is PropertiesInterface) return instance as PropertiesInterface;
   final _typeIdHandle = _smokePropertiesinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -182,7 +179,7 @@ PropertiesInterface smokePropertiesinterfaceFromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : PropertiesInterface$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokePropertiesinterfaceReleaseFfiHandle(Pointer<Void> handle) =>

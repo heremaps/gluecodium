@@ -24,6 +24,9 @@
 
 #include "Export.h"
 #include "OpaqueHandle.h"
+{{#if interfaces lambdas logic="or"}}
+#include "dart_api_dl.h"
+{{/if}}
 #include <stdint.h>
 
 #ifdef __cplusplus
@@ -49,7 +52,7 @@ _GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_release_handle(FfiOp
 
 {{#each interfaces lambdas}}
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_create_proxy({{!!
-}}uint64_t token, int32_t isolate_id, FfiOpaqueHandle deleter{{!!
+}}uint64_t token, int32_t isolate_id, Dart_Handle dart_handle{{!!
 }}{{#each inheritedFunctions functions}}{{#unless attributes.dart.skip isStatic logic="and"}}{{!!
 }}, FfiOpaqueHandle f{{iter.position}}{{/unless}}{{/each}}{{!!
 }}{{#each inheritedProperties properties}}{{#unless attributes.dart.skip isStatic logic="and"}}, FfiOpaqueHandle p{{iter.position}}g{{!!

@@ -1,6 +1,5 @@
 #include "ffi_smoke_Properties.h"
 #include "ConversionBase.h"
-#include "ReverseCache.h"
 #include "IsolateContext.h"
 #include "gluecodium/VectorHash.h"
 #include "smoke/Properties.h"

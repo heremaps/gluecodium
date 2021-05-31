@@ -22,8 +22,8 @@ final _smokeEquatableinterfaceReleaseHandle = __lib.catchArgumentError(() => __l
     void Function(Pointer<Void>)
   >('library_smoke_EquatableInterface_release_handle'));
 final _smokeEquatableinterfaceCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer),
-    Pointer<Void> Function(int, int, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle),
+    Pointer<Void> Function(int, int, Object)
   >('library_smoke_EquatableInterface_create_proxy'));
 final __areEqual = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>, Pointer<Void>),
@@ -37,8 +37,7 @@ class EquatableInterface$Impl extends __lib.NativeBase implements EquatableInter
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeEquatableinterfaceReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -52,17 +51,15 @@ class EquatableInterface$Impl extends __lib.NativeBase implements EquatableInter
 Pointer<Void> smokeEquatableinterfaceToFfi(EquatableInterface value) {
   if (value is __lib.NativeBase) return _smokeEquatableinterfaceCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokeEquatableinterfaceCreateProxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi
+    value
   );
   return result;
 }
 EquatableInterface smokeEquatableinterfaceFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is EquatableInterface) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is EquatableInterface) return instance as EquatableInterface;
   final _typeIdHandle = _smokeEquatableinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -70,7 +67,7 @@ EquatableInterface smokeEquatableinterfaceFromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : EquatableInterface$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeEquatableinterfaceReleaseFfiHandle(Pointer<Void> handle) =>

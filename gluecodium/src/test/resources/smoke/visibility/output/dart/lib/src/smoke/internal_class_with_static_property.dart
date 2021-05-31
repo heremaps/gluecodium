@@ -29,8 +29,7 @@ class InternalClassWithStaticProperty$Impl extends __lib.NativeBase implements I
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeInternalclasswithstaticpropertyReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -57,13 +56,11 @@ class InternalClassWithStaticProperty$Impl extends __lib.NativeBase implements I
 Pointer<Void> smokeInternalclasswithstaticpropertyToFfi(InternalClassWithStaticProperty value) =>
   _smokeInternalclasswithstaticpropertyCopyHandle((value as __lib.NativeBase).handle);
 InternalClassWithStaticProperty smokeInternalclasswithstaticpropertyFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is InternalClassWithStaticProperty) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is InternalClassWithStaticProperty) return instance as InternalClassWithStaticProperty;
   final _copiedHandle = _smokeInternalclasswithstaticpropertyCopyHandle(handle);
   final result = InternalClassWithStaticProperty$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeInternalclasswithstaticpropertyReleaseFfiHandle(Pointer<Void> handle) =>

@@ -27,8 +27,7 @@ class SpecialAttributes$Impl extends __lib.NativeBase implements SpecialAttribut
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeSpecialattributesReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -56,13 +55,11 @@ class SpecialAttributes$Impl extends __lib.NativeBase implements SpecialAttribut
 Pointer<Void> smokeSpecialattributesToFfi(SpecialAttributes value) =>
   _smokeSpecialattributesCopyHandle((value as __lib.NativeBase).handle);
 SpecialAttributes smokeSpecialattributesFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is SpecialAttributes) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is SpecialAttributes) return instance as SpecialAttributes;
   final _copiedHandle = _smokeSpecialattributesCopyHandle(handle);
   final result = SpecialAttributes$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeSpecialattributesReleaseFfiHandle(Pointer<Void> handle) =>

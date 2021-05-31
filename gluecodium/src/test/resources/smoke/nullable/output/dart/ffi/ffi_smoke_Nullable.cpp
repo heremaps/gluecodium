@@ -1,6 +1,5 @@
 #include "ffi_smoke_Nullable.h"
 #include "ConversionBase.h"
-#include "ReverseCache.h"
 #include "IsolateContext.h"
 #include "gluecodium/Optional.h"
 #include "gluecodium/UnorderedMapHash.h"

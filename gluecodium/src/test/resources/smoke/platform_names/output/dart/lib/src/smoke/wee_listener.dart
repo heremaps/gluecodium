@@ -28,8 +28,8 @@ final _smokePlatformnameslistenerReleaseHandle = __lib.catchArgumentError(() => 
     void Function(Pointer<Void>)
   >('library_smoke_PlatformNamesListener_release_handle'));
 final _smokePlatformnameslistenerCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_PlatformNamesListener_create_proxy'));
 final _smokePlatformnameslistenerGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -51,8 +51,7 @@ class weeListener$Impl extends __lib.NativeBase implements weeListener {
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokePlatformnameslistenerReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -69,9 +68,9 @@ class weeListener$Impl extends __lib.NativeBase implements weeListener {
     }
   }
 }
-int _smokePlatformnameslistenerWeeMethodStatic(int _token, Pointer<Void> WeeParameter) {
+int _smokePlatformnameslistenerWeeMethodStatic(Object _obj, Pointer<Void> WeeParameter) {
   try {
-    (__lib.instanceCache[_token] as weeListener).WeeMethod(stringFromFfi(WeeParameter));
+    (_obj as weeListener).WeeMethod(stringFromFfi(WeeParameter));
   } finally {
     stringReleaseFfiHandle(WeeParameter);
   }
@@ -80,18 +79,16 @@ int _smokePlatformnameslistenerWeeMethodStatic(int _token, Pointer<Void> WeePara
 Pointer<Void> smokePlatformnameslistenerToFfi(weeListener value) {
   if (value is __lib.NativeBase) return _smokePlatformnameslistenerCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokePlatformnameslistenerCreateProxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokePlatformnameslistenerWeeMethodStatic, __lib.unknownError)
+    value,
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokePlatformnameslistenerWeeMethodStatic, __lib.unknownError)
   );
   return result;
 }
 weeListener smokePlatformnameslistenerFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is weeListener) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is weeListener) return instance as weeListener;
   final _typeIdHandle = _smokePlatformnameslistenerGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -99,7 +96,7 @@ weeListener smokePlatformnameslistenerFromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : weeListener$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokePlatformnameslistenerReleaseFfiHandle(Pointer<Void> handle) =>
