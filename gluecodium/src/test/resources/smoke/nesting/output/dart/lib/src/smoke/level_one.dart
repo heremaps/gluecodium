@@ -167,8 +167,7 @@ class LevelOne_LevelTwo_LevelThree$Impl extends __lib.NativeBase implements Leve
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeLeveloneLeveltwoLevelthreeReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -189,13 +188,11 @@ class LevelOne_LevelTwo_LevelThree$Impl extends __lib.NativeBase implements Leve
 Pointer<Void> smokeLeveloneLeveltwoLevelthreeToFfi(LevelOne_LevelTwo_LevelThree value) =>
   _smokeLeveloneLeveltwoLevelthreeCopyHandle((value as __lib.NativeBase).handle);
 LevelOne_LevelTwo_LevelThree smokeLeveloneLeveltwoLevelthreeFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is LevelOne_LevelTwo_LevelThree) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is LevelOne_LevelTwo_LevelThree) return instance as LevelOne_LevelTwo_LevelThree;
   final _copiedHandle = _smokeLeveloneLeveltwoLevelthreeCopyHandle(handle);
   final result = LevelOne_LevelTwo_LevelThree$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeLeveloneLeveltwoLevelthreeReleaseFfiHandle(Pointer<Void> handle) =>
@@ -221,8 +218,7 @@ class LevelOne_LevelTwo$Impl extends __lib.NativeBase implements LevelOne_LevelT
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeLeveloneLeveltwoReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -230,13 +226,11 @@ class LevelOne_LevelTwo$Impl extends __lib.NativeBase implements LevelOne_LevelT
 Pointer<Void> smokeLeveloneLeveltwoToFfi(LevelOne_LevelTwo value) =>
   _smokeLeveloneLeveltwoCopyHandle((value as __lib.NativeBase).handle);
 LevelOne_LevelTwo smokeLeveloneLeveltwoFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is LevelOne_LevelTwo) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is LevelOne_LevelTwo) return instance as LevelOne_LevelTwo;
   final _copiedHandle = _smokeLeveloneLeveltwoCopyHandle(handle);
   final result = LevelOne_LevelTwo$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeLeveloneLeveltwoReleaseFfiHandle(Pointer<Void> handle) =>
@@ -262,8 +256,7 @@ class LevelOne$Impl extends __lib.NativeBase implements LevelOne {
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeLeveloneReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -271,13 +264,11 @@ class LevelOne$Impl extends __lib.NativeBase implements LevelOne {
 Pointer<Void> smokeLeveloneToFfi(LevelOne value) =>
   _smokeLeveloneCopyHandle((value as __lib.NativeBase).handle);
 LevelOne smokeLeveloneFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is LevelOne) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is LevelOne) return instance as LevelOne;
   final _copiedHandle = _smokeLeveloneCopyHandle(handle);
   final result = LevelOne$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeLeveloneReleaseFfiHandle(Pointer<Void> handle) =>

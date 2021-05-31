@@ -92,8 +92,7 @@ class Locales$Impl extends __lib.NativeBase implements Locales {
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeLocalesReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -137,13 +136,11 @@ class Locales$Impl extends __lib.NativeBase implements Locales {
 Pointer<Void> smokeLocalesToFfi(Locales value) =>
   _smokeLocalesCopyHandle((value as __lib.NativeBase).handle);
 Locales smokeLocalesFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is Locales) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is Locales) return instance as Locales;
   final _copiedHandle = _smokeLocalesCopyHandle(handle);
   final result = Locales$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeLocalesReleaseFfiHandle(Pointer<Void> handle) =>

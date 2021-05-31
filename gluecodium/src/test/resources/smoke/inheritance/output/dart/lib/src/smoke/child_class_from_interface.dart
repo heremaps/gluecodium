@@ -31,8 +31,7 @@ class ChildClassFromInterface$Impl extends __lib.NativeBase implements ChildClas
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeChildclassfrominterfaceReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -83,10 +82,8 @@ class ChildClassFromInterface$Impl extends __lib.NativeBase implements ChildClas
 Pointer<Void> smokeChildclassfrominterfaceToFfi(ChildClassFromInterface value) =>
   _smokeChildclassfrominterfaceCopyHandle((value as __lib.NativeBase).handle);
 ChildClassFromInterface smokeChildclassfrominterfaceFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is ChildClassFromInterface) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is ChildClassFromInterface) return instance as ChildClassFromInterface;
   final _typeIdHandle = _smokeChildclassfrominterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -94,7 +91,7 @@ ChildClassFromInterface smokeChildclassfrominterfaceFromFfi(Pointer<Void> handle
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : ChildClassFromInterface$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeChildclassfrominterfaceReleaseFfiHandle(Pointer<Void> handle) =>

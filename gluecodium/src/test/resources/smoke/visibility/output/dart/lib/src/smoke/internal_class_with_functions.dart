@@ -31,16 +31,15 @@ class InternalClassWithFunctions$Impl extends __lib.NativeBase implements Intern
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeInternalclasswithfunctionsReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
   InternalClassWithFunctions$Impl.internal_make() : super(_make()) {
-    __lib.ffiCacheToken(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
+    __lib.cacheInstance(handle, this);
   }
   InternalClassWithFunctions$Impl.internal_remake(String foo) : super(_remake(foo)) {
-    __lib.ffiCacheToken(handle, __lib.LibraryContext.isolateId, __lib.cacheObject(this));
+    __lib.cacheInstance(handle, this);
   }
   @override
   internal_fooBar() {
@@ -68,13 +67,11 @@ class InternalClassWithFunctions$Impl extends __lib.NativeBase implements Intern
 Pointer<Void> smokeInternalclasswithfunctionsToFfi(InternalClassWithFunctions value) =>
   _smokeInternalclasswithfunctionsCopyHandle((value as __lib.NativeBase).handle);
 InternalClassWithFunctions smokeInternalclasswithfunctionsFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is InternalClassWithFunctions) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is InternalClassWithFunctions) return instance as InternalClassWithFunctions;
   final _copiedHandle = _smokeInternalclasswithfunctionsCopyHandle(handle);
   final result = InternalClassWithFunctions$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeInternalclasswithfunctionsReleaseFfiHandle(Pointer<Void> handle) =>

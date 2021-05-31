@@ -28,8 +28,7 @@ class CachedProperties$Impl extends __lib.NativeBase implements CachedProperties
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeCachedpropertiesReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -68,13 +67,11 @@ class CachedProperties$Impl extends __lib.NativeBase implements CachedProperties
 Pointer<Void> smokeCachedpropertiesToFfi(CachedProperties value) =>
   _smokeCachedpropertiesCopyHandle((value as __lib.NativeBase).handle);
 CachedProperties smokeCachedpropertiesFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is CachedProperties) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is CachedProperties) return instance as CachedProperties;
   final _copiedHandle = _smokeCachedpropertiesCopyHandle(handle);
   final result = CachedProperties$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeCachedpropertiesReleaseFfiHandle(Pointer<Void> handle) =>

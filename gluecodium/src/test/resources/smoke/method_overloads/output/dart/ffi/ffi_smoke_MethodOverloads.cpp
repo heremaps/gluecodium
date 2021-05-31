@@ -1,6 +1,5 @@
 #include "ffi_smoke_MethodOverloads.h"
 #include "ConversionBase.h"
-#include "ReverseCache.h"
 #include "IsolateContext.h"
 #include "gluecodium/VectorHash.h"
 #include "smoke/MethodOverloads.h"

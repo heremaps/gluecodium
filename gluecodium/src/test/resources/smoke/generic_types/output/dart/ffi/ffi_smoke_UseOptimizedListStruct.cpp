@@ -1,6 +1,5 @@
 #include "ffi_smoke_UseOptimizedListStruct.h"
 #include "ConversionBase.h"
-#include "ReverseCache.h"
 #include "gluecodium/VectorHash.h"
 #include "smoke/UnreasonablyLazyClass.h"
 #include "smoke/UseOptimizedListStruct.h"

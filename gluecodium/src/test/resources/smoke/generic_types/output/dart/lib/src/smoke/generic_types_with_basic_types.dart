@@ -121,8 +121,7 @@ class GenericTypesWithBasicTypes$Impl extends __lib.NativeBase implements Generi
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeGenerictypeswithbasictypesReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -277,13 +276,11 @@ class GenericTypesWithBasicTypes$Impl extends __lib.NativeBase implements Generi
 Pointer<Void> smokeGenerictypeswithbasictypesToFfi(GenericTypesWithBasicTypes value) =>
   _smokeGenerictypeswithbasictypesCopyHandle((value as __lib.NativeBase).handle);
 GenericTypesWithBasicTypes smokeGenerictypeswithbasictypesFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is GenericTypesWithBasicTypes) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is GenericTypesWithBasicTypes) return instance as GenericTypesWithBasicTypes;
   final _copiedHandle = _smokeGenerictypeswithbasictypesCopyHandle(handle);
   final result = GenericTypesWithBasicTypes$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeGenerictypeswithbasictypesReleaseFfiHandle(Pointer<Void> handle) =>

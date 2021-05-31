@@ -1,6 +1,5 @@
 #include "ffi_smoke_StructsWithMethods.h"
 #include "ConversionBase.h"
-#include "ReverseCache.h"
 #include "IsolateContext.h"
 #include "smoke/StructsWithMethods.h"
 #include "smoke/ValidationUtils.h"

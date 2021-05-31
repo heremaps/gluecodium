@@ -235,8 +235,7 @@ class Errors$Impl extends __lib.NativeBase implements Errors {
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeErrorsReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -341,13 +340,11 @@ class Errors$Impl extends __lib.NativeBase implements Errors {
 Pointer<Void> smokeErrorsToFfi(Errors value) =>
   _smokeErrorsCopyHandle((value as __lib.NativeBase).handle);
 Errors smokeErrorsFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is Errors) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is Errors) return instance as Errors;
   final _copiedHandle = _smokeErrorsCopyHandle(handle);
   final result = Errors$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeErrorsReleaseFfiHandle(Pointer<Void> handle) =>

@@ -183,8 +183,7 @@ class Structs$Impl extends __lib.NativeBase implements Structs {
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeStructsReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -210,13 +209,11 @@ class Structs$Impl extends __lib.NativeBase implements Structs {
 Pointer<Void> smokeStructsToFfi(Structs value) =>
   _smokeStructsCopyHandle((value as __lib.NativeBase).handle);
 Structs smokeStructsFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is Structs) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is Structs) return instance as Structs;
   final _copiedHandle = _smokeStructsCopyHandle(handle);
   final result = Structs$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeStructsReleaseFfiHandle(Pointer<Void> handle) =>

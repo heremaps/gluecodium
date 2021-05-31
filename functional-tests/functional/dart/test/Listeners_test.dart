@@ -25,8 +25,10 @@ import "../test_suite.dart";
 final _testSuite = TestSuite("Listeners");
 
 class MessageListener implements StringListener {
+  static String storedMessage = "";
+
   @override
-  void onMessage(String message) {}
+  void onMessage(String message) { storedMessage = message; }
 
   @override
   void onConstMessage(String message) {}
@@ -96,5 +98,13 @@ void main() {
 
     base.release();
     listener.release();
+  });
+  _testSuite.test("Proxy keeps Dart object alive", () {
+    PersistingLogger.addListener(MessageListener());
+    PersistingLogger.messageAll("foobar");
+
+    expect(MessageListener.storedMessage, "foobar");
+
+    PersistingLogger.removeAllListeners();
   });
 }

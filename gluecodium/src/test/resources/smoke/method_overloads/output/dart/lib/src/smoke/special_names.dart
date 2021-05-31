@@ -27,8 +27,7 @@ class SpecialNames$Impl extends __lib.NativeBase implements SpecialNames {
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeSpecialnamesReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -76,13 +75,11 @@ class SpecialNames$Impl extends __lib.NativeBase implements SpecialNames {
 Pointer<Void> smokeSpecialnamesToFfi(SpecialNames value) =>
   _smokeSpecialnamesCopyHandle((value as __lib.NativeBase).handle);
 SpecialNames smokeSpecialnamesFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is SpecialNames) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is SpecialNames) return instance as SpecialNames;
   final _copiedHandle = _smokeSpecialnamesCopyHandle(handle);
   final result = SpecialNames$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeSpecialnamesReleaseFfiHandle(Pointer<Void> handle) =>

@@ -37,8 +37,8 @@ final _smokeInterfacewithstaticReleaseHandle = __lib.catchArgumentError(() => __
     void Function(Pointer<Void>)
   >('library_smoke_InterfaceWithStatic_release_handle'));
 final _smokeInterfacewithstaticCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Pointer, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Pointer, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer)
   >('library_smoke_InterfaceWithStatic_create_proxy'));
 final _smokeInterfacewithstaticGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -68,8 +68,7 @@ class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWith
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeInterfacewithstaticReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -135,22 +134,22 @@ class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWith
     }
   }
 }
-int _smokeInterfacewithstaticregularFunctionStatic(int _token, Pointer<Pointer<Void>> _result) {
+int _smokeInterfacewithstaticregularFunctionStatic(Object _obj, Pointer<Pointer<Void>> _result) {
   String? _resultObject;
   try {
-    _resultObject = (__lib.instanceCache[_token] as InterfaceWithStatic).regularFunction();
+    _resultObject = (_obj as InterfaceWithStatic).regularFunction();
     _result.value = stringToFfi(_resultObject);
   } finally {
   }
   return 0;
 }
-int _smokeInterfacewithstaticregularPropertyGetStatic(int _token, Pointer<Pointer<Void>> _result) {
-  _result.value = stringToFfi((__lib.instanceCache[_token] as InterfaceWithStatic).regularProperty);
+int _smokeInterfacewithstaticregularPropertyGetStatic(Object _obj, Pointer<Pointer<Void>> _result) {
+  _result.value = stringToFfi((_obj as InterfaceWithStatic).regularProperty);
   return 0;
 }
-int _smokeInterfacewithstaticregularPropertySetStatic(int _token, Pointer<Void> _value) {
+int _smokeInterfacewithstaticregularPropertySetStatic(Object _obj, Pointer<Void> _value) {
   try {
-    (__lib.instanceCache[_token] as InterfaceWithStatic).regularProperty =
+    (_obj as InterfaceWithStatic).regularProperty =
       stringFromFfi(_value);
   } finally {
     stringReleaseFfiHandle(_value);
@@ -160,20 +159,18 @@ int _smokeInterfacewithstaticregularPropertySetStatic(int _token, Pointer<Void> 
 Pointer<Void> smokeInterfacewithstaticToFfi(InterfaceWithStatic value) {
   if (value is __lib.NativeBase) return _smokeInterfacewithstaticCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokeInterfacewithstaticCreateProxy(
-    __lib.cacheObject(value),
+    __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    __lib.uncacheObjectFfi,
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeInterfacewithstaticregularFunctionStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Pointer<Void>>)>(_smokeInterfacewithstaticregularPropertyGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Uint64, Pointer<Void>)>(_smokeInterfacewithstaticregularPropertySetStatic, __lib.unknownError)
+    value,
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeInterfacewithstaticregularFunctionStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeInterfacewithstaticregularPropertyGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeInterfacewithstaticregularPropertySetStatic, __lib.unknownError)
   );
   return result;
 }
 InterfaceWithStatic smokeInterfacewithstaticFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is InterfaceWithStatic) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is InterfaceWithStatic) return instance as InterfaceWithStatic;
   final _typeIdHandle = _smokeInterfacewithstaticGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -181,7 +178,7 @@ InterfaceWithStatic smokeInterfacewithstaticFromFfi(Pointer<Void> handle) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : InterfaceWithStatic$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeInterfacewithstaticReleaseFfiHandle(Pointer<Void> handle) =>

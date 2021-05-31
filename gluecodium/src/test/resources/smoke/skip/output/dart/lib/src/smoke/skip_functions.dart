@@ -26,8 +26,7 @@ class SkipFunctions$Impl extends __lib.NativeBase implements SkipFunctions {
   @override
   void release() {
     if (handle.address == 0) return;
-    __lib.uncacheObject(this);
-    __lib.ffiUncacheToken(handle, __lib.LibraryContext.isolateId);
+    __lib.uncacheInstance(handle);
     _smokeSkipfunctionsReleaseHandle(handle);
     handle = Pointer<Void>.fromAddress(0);
   }
@@ -57,13 +56,11 @@ class SkipFunctions$Impl extends __lib.NativeBase implements SkipFunctions {
 Pointer<Void> smokeSkipfunctionsToFfi(SkipFunctions value) =>
   _smokeSkipfunctionsCopyHandle((value as __lib.NativeBase).handle);
 SkipFunctions smokeSkipfunctionsFromFfi(Pointer<Void> handle) {
-  final isolateId = __lib.LibraryContext.isolateId;
-  final token = __lib.ffiGetCachedToken(handle, isolateId);
-  final instance = __lib.instanceCache[token];
-  if (instance is SkipFunctions) return instance;
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is SkipFunctions) return instance as SkipFunctions;
   final _copiedHandle = _smokeSkipfunctionsCopyHandle(handle);
   final result = SkipFunctions$Impl(_copiedHandle);
-  __lib.ffiCacheToken(_copiedHandle, isolateId, __lib.cacheObject(result));
+  __lib.cacheInstance(_copiedHandle, result);
   return result;
 }
 void smokeSkipfunctionsReleaseFfiHandle(Pointer<Void> handle) =>
