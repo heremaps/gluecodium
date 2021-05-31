@@ -8,13 +8,15 @@ import 'package:library/src/smoke/child_class_from_class.dart';
 import 'package:library/src/smoke/parent_class.dart';
 import 'package:library/src/smoke/parent_with_class_references.dart';
 abstract class ChildWithParentClassReferences implements ParentWithClassReferences {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
 }
 // ChildWithParentClassReferences "private" section, not exported.
+final _smokeChildwithparentclassreferencesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_ChildWithParentClassReferences_register_finalizer'));
 final _smokeChildwithparentclassreferencesCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -30,12 +32,7 @@ final _smokeChildwithparentclassreferencesGetTypeId = __lib.catchArgumentError((
 class ChildWithParentClassReferences$Impl extends __lib.NativeBase implements ChildWithParentClassReferences {
   ChildWithParentClassReferences$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeChildwithparentclassreferencesReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   @override
   ChildClassFromClass classFunction() {
     final _classFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ParentWithClassReferences_classFunction'));
@@ -84,6 +81,7 @@ ChildWithParentClassReferences smokeChildwithparentclassreferencesFromFfi(Pointe
     ? factoryConstructor(_copiedHandle)
     : ChildWithParentClassReferences$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeChildwithparentclassreferencesRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeChildwithparentclassreferencesReleaseFfiHandle(Pointer<Void> handle) =>

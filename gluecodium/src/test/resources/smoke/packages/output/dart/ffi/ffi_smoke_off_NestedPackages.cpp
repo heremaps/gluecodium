@@ -1,5 +1,7 @@
 #include "ffi_smoke_off_NestedPackages.h"
 #include "ConversionBase.h"
+#include "InstanceCache.h"
+#include "FinalizerData.h"
 #include "IsolateContext.h"
 #include "smoke/off/NestedPackages.h"
 #include <memory>
@@ -17,6 +19,18 @@ library_smoke_off_NestedPackages_basicMethod__SomeStruct(int32_t _isolate_id, Ff
             gluecodium::ffi::Conversion<::smoke::off::NestedPackages::SomeStruct>::toCpp(input)
         )
     );
+}
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_off_NestedPackages_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::off::NestedPackages>*>(handle);
+    library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
+    library_smoke_off_NestedPackages_release_handle(handle);
+}
+void
+library_smoke_off_NestedPackages_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_off_NestedPackages_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
 }
 FfiOpaqueHandle
 library_smoke_off_NestedPackages_copy_handle(FfiOpaqueHandle handle) {

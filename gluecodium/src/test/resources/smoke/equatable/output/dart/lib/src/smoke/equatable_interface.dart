@@ -6,13 +6,15 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 abstract class EquatableInterface {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release() {}
 }
 // EquatableInterface "private" section, not exported.
+final _smokeEquatableinterfaceRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_EquatableInterface_register_finalizer'));
 final _smokeEquatableinterfaceCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -35,12 +37,7 @@ final __areEqual = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunc
 class EquatableInterface$Impl extends __lib.NativeBase implements EquatableInterface {
   EquatableInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeEquatableinterfaceReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   @override
   bool operator ==(dynamic other) {
     if (identical(this, other)) return true;
@@ -68,6 +65,7 @@ EquatableInterface smokeEquatableinterfaceFromFfi(Pointer<Void> handle) {
     ? factoryConstructor(_copiedHandle)
     : EquatableInterface$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeEquatableinterfaceRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeEquatableinterfaceReleaseFfiHandle(Pointer<Void> handle) =>

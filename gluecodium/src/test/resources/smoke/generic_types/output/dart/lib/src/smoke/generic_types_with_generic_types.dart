@@ -5,10 +5,8 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 abstract class GenericTypesWithGenericTypes {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   List<List<int>> methodWithListOfLists(List<List<int>> input);
   Map<Map<int, bool>, bool> methodWithMapOfMaps(Map<int, Map<int, bool>> input);
@@ -19,6 +17,10 @@ abstract class GenericTypesWithGenericTypes {
   Map<List<int>, bool> methodWithMapGenericKeys(Map<Set<int>, bool> input);
 }
 // GenericTypesWithGenericTypes "private" section, not exported.
+final _smokeGenerictypeswithgenerictypesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_GenericTypesWithGenericTypes_register_finalizer'));
 final _smokeGenerictypeswithgenerictypesCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -30,12 +32,7 @@ final _smokeGenerictypeswithgenerictypesReleaseHandle = __lib.catchArgumentError
 class GenericTypesWithGenericTypes$Impl extends __lib.NativeBase implements GenericTypesWithGenericTypes {
   GenericTypesWithGenericTypes$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeGenerictypeswithgenerictypesReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   @override
   List<List<int>> methodWithListOfLists(List<List<int>> input) {
     final _methodWithListOfListsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithListOfLists__ListOf_1foobar_1ListOf_1Int'));
@@ -136,6 +133,7 @@ GenericTypesWithGenericTypes smokeGenerictypeswithgenerictypesFromFfi(Pointer<Vo
   final _copiedHandle = _smokeGenerictypeswithgenerictypesCopyHandle(handle);
   final result = GenericTypesWithGenericTypes$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeGenerictypeswithgenerictypesRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeGenerictypeswithgenerictypesReleaseFfiHandle(Pointer<Void> handle) =>

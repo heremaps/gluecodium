@@ -36,12 +36,6 @@ void main() {
 
     expect(result1.getStringValue(), equals("one"));
     expect(result2.getStringValue(), equals("two"));
-
-    input1.release();
-    input2.release();
-    nested.release();
-    result1.release();
-    result2.release();
   });
   _testSuite.test("Set same type instances, identical instances", () {
     final input = SimpleInstantiableOne("one");
@@ -53,11 +47,6 @@ void main() {
 
     expect(result1.getStringValue(), equals("one"));
     expect(result2.getStringValue(), equals("one"));
-
-    input.release();
-    nested.release();
-    result1.release();
-    result2.release();
   });
   _testSuite.test("Set multiple type instances", () {
     final simpleOne1 = SimpleInstantiableOne("one");
@@ -78,18 +67,6 @@ void main() {
     expect(result2.getStringValue(), equals("two"));
     expect(result4.getStringValue(), equals("one"));
     expect(result6.getStringValue(), equals("other"));
-
-    simpleOne1.release();
-    simpleOne2.release();
-    simpleTwo.release();
-    nestedOne.release();
-    nestedTwo.release();
-    result1.release();
-    result2.release();
-    result3.release();
-    result4.release();
-    result5.release();
-    result6.release();
   });
   _testSuite.test("Set self instance", () {
     final nestedTwo = InstancesFactory.createNestedInstantiableTwo();
@@ -106,20 +83,10 @@ void main() {
 
     final nestedTwoOther = InstancesFactory.createNestedInstantiableTwo();
     nestedTwo.setSelfInstantiable(nestedTwoOther); // Needed to break reference loop.
-    nestedTwoOther.release();
-    nestedTwo.release();
-
-    simpleOne.release();
-    simpleTwo.release();
-    nestedOne.release();
-    result1.release();
-    result2.release();
   });
   _testSuite.test("Get instance from struct", () {
     final result = InstanceInStruct.createInStruct();
 
     expect(result.mySelf.getStringValue(), equals("foo"));
-
-    result.mySelf.release();
   });
 }

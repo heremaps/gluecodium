@@ -7,15 +7,17 @@ import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/unreasonably_lazy_class.dart';
 import 'package:library/src/smoke/very_big_struct.dart';
 abstract class UseOptimizedList {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   static List<VeryBigStruct> fetchTheBigOnes() => UseOptimizedList$Impl.fetchTheBigOnes();
   static List<UnreasonablyLazyClass> get lazyOnes => UseOptimizedList$Impl.lazyOnes;
 }
 // UseOptimizedList "private" section, not exported.
+final _smokeUseoptimizedlistRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_UseOptimizedList_register_finalizer'));
 final _smokeUseoptimizedlistCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -32,10 +34,10 @@ final _smokeUseoptimizedlistsmokeUnreasonablylazyclassLazyListGet = __lib.catchA
     Pointer<Void> Function(Pointer<Void>, Uint64),
     Pointer<Void> Function(Pointer<Void>, int)
   >('library_smoke_UseOptimizedList_smoke_UnreasonablyLazyClassLazyList_get'));
-final _smokeUseoptimizedlistsmokeUnreasonablylazyclassLazyListReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>),
-    void Function(Pointer<Void>)
-  >('library_smoke_UseOptimizedList_smoke_UnreasonablyLazyClassLazyList_release_handle'));
+final _smokeUseoptimizedlistsmokeUnreasonablylazyclassLazyListRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_UseOptimizedList_smoke_UnreasonablyLazyClassLazyList_register_finalizer'));
 final _smokeUseoptimizedlistsmokeVerybigstructLazyListGetSize = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
@@ -44,19 +46,14 @@ final _smokeUseoptimizedlistsmokeVerybigstructLazyListGet = __lib.catchArgumentE
     Pointer<Void> Function(Pointer<Void>, Uint64),
     Pointer<Void> Function(Pointer<Void>, int)
   >('library_smoke_UseOptimizedList_smoke_VeryBigStructLazyList_get'));
-final _smokeUseoptimizedlistsmokeVerybigstructLazyListReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>),
-    void Function(Pointer<Void>)
-  >('library_smoke_UseOptimizedList_smoke_VeryBigStructLazyList_release_handle'));
+final _smokeUseoptimizedlistsmokeVerybigstructLazyListRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_UseOptimizedList_smoke_VeryBigStructLazyList_register_finalizer'));
 class UseOptimizedList$Impl extends __lib.NativeBase implements UseOptimizedList {
   UseOptimizedList$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeUseoptimizedlistReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   static List<VeryBigStruct> fetchTheBigOnes() {
     final _fetchTheBigOnesFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_UseOptimizedList_fetchTheBigOnes'));
     final __resultHandle = _fetchTheBigOnesFfi(__lib.LibraryContext.isolateId);
@@ -69,7 +66,7 @@ class UseOptimizedList$Impl extends __lib.NativeBase implements UseOptimizedList
           smokeVerybigstructReleaseFfiHandle(__elementHandle);
           return __elementResult;
         },
-        () => _smokeUseoptimizedlistsmokeVerybigstructLazyListReleaseHandle(__resultHandle)
+        (obj) => _smokeUseoptimizedlistsmokeVerybigstructLazyListRegisterFinalizer(__resultHandle, __lib.LibraryContext.isolateId, obj)
       );
   }
   static List<UnreasonablyLazyClass> get lazyOnes {
@@ -84,7 +81,7 @@ class UseOptimizedList$Impl extends __lib.NativeBase implements UseOptimizedList
           smokeUnreasonablylazyclassReleaseFfiHandle(__elementHandle);
           return __elementResult;
         },
-        () => _smokeUseoptimizedlistsmokeUnreasonablylazyclassLazyListReleaseHandle(__resultHandle)
+        (obj) => _smokeUseoptimizedlistsmokeUnreasonablylazyclassLazyListRegisterFinalizer(__resultHandle, __lib.LibraryContext.isolateId, obj)
       );
   }
 }
@@ -96,6 +93,7 @@ UseOptimizedList smokeUseoptimizedlistFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeUseoptimizedlistCopyHandle(handle);
   final result = UseOptimizedList$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeUseoptimizedlistRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeUseoptimizedlistReleaseFfiHandle(Pointer<Void> handle) =>

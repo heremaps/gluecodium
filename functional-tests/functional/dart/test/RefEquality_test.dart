@@ -32,9 +32,6 @@ void main() {
     final result = instance1 == instance2;
 
     expect(result, isTrue);
-
-    instance1.release();
-    instance2.release();
   });
   _testSuite.test("Ref inequality preserved for a class", () {
     final instance1 = DummyFactory.getDummyClassSingleton();
@@ -43,9 +40,6 @@ void main() {
     final result = instance1 == instance2;
 
     expect(result, isFalse);
-
-    instance1.release();
-    instance2.release();
   });
   _testSuite.test("Ref equality preserved for an interface", () {
     final instance1 = DummyFactory.getDummyInterfaceSingleton();
@@ -54,9 +48,6 @@ void main() {
     final result = instance1 == instance2;
 
     expect(result, isTrue);
-
-    instance1.release();
-    instance2.release();
   });
   _testSuite.test("Ref inequality preserved for an interface", () {
     final instance1 = DummyFactory.getDummyInterfaceSingleton();
@@ -65,9 +56,6 @@ void main() {
     final result = instance1 == instance2;
 
     expect(result, isFalse);
-
-    instance1.release();
-    instance2.release();
   });
   _testSuite.test("Ref equality preserved for a class constructor", () {
     final instance1 = DummyClass();
@@ -76,9 +64,6 @@ void main() {
     final result = instance1 == instance2;
 
     expect(result, isTrue);
-
-    instance1.release();
-    instance2.release();
   });
   _testSuite.test("Ref inequality preserved for a class constructor", () {
     final instance1 = DummyClass();
@@ -87,18 +72,12 @@ void main() {
     final result = instance1 == instance2;
 
     expect(result, isFalse);
-
-    instance1.release();
-    instance2.release();
   });
   _testSuite.test("Ref equality preserved for a class in a list", () {
     final list = [DummyClass()];
     final result = DummyClass.dummyClassListRoundTrip(list);
 
     expect(list.first == result.first, isTrue);
-
-    list.first.release();
-    result.first.release();
   });
   _testSuite.test("Ref equality preserved for child class returned as parent type", () {
     final instance1 = DummyFactory.getDummyChildClassSingleton();
@@ -107,8 +86,5 @@ void main() {
     final result = instance1 == instance2;
 
     expect(result, isTrue);
-
-    instance1.release();
-    instance2.release();
   });
 }

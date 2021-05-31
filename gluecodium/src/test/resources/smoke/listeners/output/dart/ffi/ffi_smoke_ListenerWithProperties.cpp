@@ -1,6 +1,7 @@
 #include "ffi_smoke_ListenerWithProperties.h"
 #include "ConversionBase.h"
 #include "InstanceCache.h"
+#include "FinalizerData.h"
 #include "CallbacksQueue.h"
 #include "IsolateContext.h"
 #include "ProxyCache.h"
@@ -20,14 +21,15 @@ class smoke_ListenerWithProperties_Proxy : public ::smoke::ListenerWithPropertie
 public:
     smoke_ListenerWithProperties_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle p0g, FfiOpaqueHandle p0s, FfiOpaqueHandle p1g, FfiOpaqueHandle p1s, FfiOpaqueHandle p2g, FfiOpaqueHandle p2s, FfiOpaqueHandle p3g, FfiOpaqueHandle p3s, FfiOpaqueHandle p4g, FfiOpaqueHandle p4s, FfiOpaqueHandle p5g, FfiOpaqueHandle p5s, FfiOpaqueHandle p6g, FfiOpaqueHandle p6s)
         : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), p0g(p0g), p0s(p0s), p1g(p1g), p1s(p1s), p2g(p2g), p2s(p2s), p3g(p3g), p3s(p3s), p4g(p4g), p4s(p4s), p5g(p5g), p5s(p5s), p6g(p6g), p6s(p6s) {
-        library_cache_dart_handle_by_raw_pointer(this, dart_handle);
+        library_cache_dart_handle_by_raw_pointer(this, isolate_id, dart_handle);
     }
     ~smoke_ListenerWithProperties_Proxy() {
         gluecodium::ffi::remove_cached_proxy(token, isolate_id, "smoke_ListenerWithProperties");
         auto raw_pointer_local = this;
+        auto isolate_id_local = isolate_id;
         auto dart_persistent_handle_local = dart_persistent_handle;
-        auto deleter = [raw_pointer_local, dart_persistent_handle_local]() {
-            library_uncache_dart_handle_by_raw_pointer(raw_pointer_local);
+        auto deleter = [raw_pointer_local, isolate_id_local, dart_persistent_handle_local]() {
+            library_uncache_dart_handle_by_raw_pointer(raw_pointer_local, isolate_id_local);
             Dart_DeletePersistentHandle_DL(dart_persistent_handle_local);
         };
         if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
@@ -268,6 +270,18 @@ library_smoke_ListenerWithProperties_bufferedMessage_set__Blob(FfiOpaqueHandle _
             (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::ListenerWithProperties>>::toCpp(_self)).set_buffered_message(
             gluecodium::ffi::Conversion<std::shared_ptr<std::vector<uint8_t>>>::toCpp(value)
         );
+}
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_ListenerWithProperties_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::ListenerWithProperties>*>(handle);
+    library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
+    library_smoke_ListenerWithProperties_release_handle(handle);
+}
+void
+library_smoke_ListenerWithProperties_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_ListenerWithProperties_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
 }
 FfiOpaqueHandle
 library_smoke_ListenerWithProperties_copy_handle(FfiOpaqueHandle handle) {

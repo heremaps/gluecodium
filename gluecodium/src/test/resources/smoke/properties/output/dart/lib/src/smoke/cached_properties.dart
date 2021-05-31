@@ -6,15 +6,17 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 abstract class CachedProperties {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   List<String> get cachedProperty;
   static Uint8List get staticCachedProperty => CachedProperties$Impl.staticCachedProperty;
 }
 // CachedProperties "private" section, not exported.
+final _smokeCachedpropertiesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_CachedProperties_register_finalizer'));
 final _smokeCachedpropertiesCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -26,12 +28,7 @@ final _smokeCachedpropertiesReleaseHandle = __lib.catchArgumentError(() => __lib
 class CachedProperties$Impl extends __lib.NativeBase implements CachedProperties {
   CachedProperties$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeCachedpropertiesReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   late List<String> _cachedPropertyCache;
   bool _cachedPropertyIsCached = false;
   @override
@@ -72,6 +69,7 @@ CachedProperties smokeCachedpropertiesFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeCachedpropertiesCopyHandle(handle);
   final result = CachedProperties$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeCachedpropertiesRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeCachedpropertiesReleaseFfiHandle(Pointer<Void> handle) =>

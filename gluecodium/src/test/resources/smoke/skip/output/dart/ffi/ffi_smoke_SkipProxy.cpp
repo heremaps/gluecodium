@@ -1,6 +1,7 @@
 #include "ffi_smoke_SkipProxy.h"
 #include "ConversionBase.h"
 #include "InstanceCache.h"
+#include "FinalizerData.h"
 #include "CallbacksQueue.h"
 #include "IsolateContext.h"
 #include "ProxyCache.h"
@@ -15,14 +16,15 @@ class smoke_SkipProxy_Proxy : public ::smoke::SkipProxy {
 public:
     smoke_SkipProxy_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle p0g, FfiOpaqueHandle p0s, FfiOpaqueHandle p1g, FfiOpaqueHandle p1s)
         : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f0(f0), f1(f1), p0g(p0g), p0s(p0s), p1g(p1g), p1s(p1s) {
-        library_cache_dart_handle_by_raw_pointer(this, dart_handle);
+        library_cache_dart_handle_by_raw_pointer(this, isolate_id, dart_handle);
     }
     ~smoke_SkipProxy_Proxy() {
         gluecodium::ffi::remove_cached_proxy(token, isolate_id, "smoke_SkipProxy");
         auto raw_pointer_local = this;
+        auto isolate_id_local = isolate_id;
         auto dart_persistent_handle_local = dart_persistent_handle;
-        auto deleter = [raw_pointer_local, dart_persistent_handle_local]() {
-            library_uncache_dart_handle_by_raw_pointer(raw_pointer_local);
+        auto deleter = [raw_pointer_local, isolate_id_local, dart_persistent_handle_local]() {
+            library_uncache_dart_handle_by_raw_pointer(raw_pointer_local, isolate_id_local);
             Dart_DeletePersistentHandle_DL(dart_persistent_handle_local);
         };
         if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
@@ -168,6 +170,18 @@ library_smoke_SkipProxy_isSkippedInSwift_set__Boolean(FfiOpaqueHandle _self, int
             (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SkipProxy>>::toCpp(_self)).set_skipped_in_swift(
             gluecodium::ffi::Conversion<bool>::toCpp(value)
         );
+}
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_SkipProxy_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::SkipProxy>*>(handle);
+    library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
+    library_smoke_SkipProxy_release_handle(handle);
+}
+void
+library_smoke_SkipProxy_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_SkipProxy_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
 }
 FfiOpaqueHandle
 library_smoke_SkipProxy_copy_handle(FfiOpaqueHandle handle) {

@@ -77,6 +77,10 @@ abstract class {{resolveName}} {{#if this.parent}}implements {{resolveName this.
 
 // {{resolveName}} "private" section, not exported.
 
+final _{{resolveName "Ffi"}}RegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_register_finalizer'));
 final _{{resolveName "Ffi"}}CopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -146,12 +150,7 @@ class {{resolveName}}$Impl extends __lib.NativeBase implements {{resolveName}} {
   {{resolveName}}$Impl(Pointer<Void> handle) : super(handle);
 
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _{{resolveName "Ffi"}}ReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
 
 {{#set parent=this}}{{#each inheritedFunctions functions}}
   @override
@@ -186,21 +185,11 @@ int _{{resolveName parent "Ffi"}}{{resolveName}}Static({{!!
     _errorFlag = true;
     final _errorObject = e.error;
     _error.value = {{#set typeRef=exception.errorType call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_errorObject);
-{{#instanceOf exception.errorType.type.actualType "LimeClass"}}
-    _errorObject.release();
-{{/instanceOf}}{{#instanceOf exception.errorType.type.actualType "LimeInterface"}}
-    _errorObject.release();
-{{/instanceOf}}
 {{/if}}
   } finally {
 {{#parameters}}
     {{#resolveName}}{{#set varName=this}}{{>dart/DartFfiReleaseHandle}}{{/set}}{{/resolveName}}
-{{/parameters}}{{!!
-}}{{#instanceOf returnType.typeRef.type.actualType "LimeClass"}}
-    _resultObject?.release();
-{{/instanceOf}}{{#instanceOf returnType.typeRef.type.actualType "LimeInterface"}}
-    _resultObject?.release();
-{{/instanceOf}}
+{{/parameters}}
   }
   return{{#if thrownType}} _errorFlag ? 1 :{{/if}} 0;
 }
@@ -256,6 +245,7 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
     ? factoryConstructor(_copiedHandle)
     : {{resolveName}}$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _{{resolveName "Ffi"}}RegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 

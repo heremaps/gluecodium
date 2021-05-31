@@ -21,10 +21,8 @@ abstract class SkipProxy {
     isSkippedInSwiftGetLambda,
     isSkippedInSwiftSetLambda
   );
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release() {}
   String notInJava(String input);
   bool notInSwift(bool input);
@@ -34,6 +32,10 @@ abstract class SkipProxy {
   set isSkippedInSwift(bool value);
 }
 // SkipProxy "private" section, not exported.
+final _smokeSkipproxyRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_SkipProxy_register_finalizer'));
 final _smokeSkipproxyCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -85,12 +87,7 @@ class SkipProxy$Lambdas implements SkipProxy {
 class SkipProxy$Impl extends __lib.NativeBase implements SkipProxy {
   SkipProxy$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeSkipproxyReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   @override
   String notInJava(String input) {
     final _notInJavaFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_SkipProxy_notInJava__String'));
@@ -232,6 +229,7 @@ SkipProxy smokeSkipproxyFromFfi(Pointer<Void> handle) {
     ? factoryConstructor(_copiedHandle)
     : SkipProxy$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeSkipproxyRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeSkipproxyReleaseFfiHandle(Pointer<Void> handle) =>

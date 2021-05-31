@@ -31,7 +31,7 @@ public:
         }}{{#each inheritedProperties properties}}{{#unless attributes.dart.skip isStatic logic="and"}}, p{{iter.position}}g(p{{iter.position}}g){{!!
         }}{{#if setter}}, p{{iter.position}}s(p{{iter.position}}s){{/if}}{{/unless}}{{/each}} {
 {{#unless isLambda}}
-        {{libraryName}}_cache_dart_handle_by_raw_pointer(this, dart_handle);
+        {{libraryName}}_cache_dart_handle_by_raw_pointer(this, isolate_id, dart_handle);
 {{/unless}}
     }
 
@@ -40,11 +40,12 @@ public:
 
 {{#unless isLambda}}
         auto raw_pointer_local = this;
+        auto isolate_id_local = isolate_id;
 {{/unless}}
         auto dart_persistent_handle_local = dart_persistent_handle;
-        auto deleter = [{{#unless isLambda}}raw_pointer_local, {{/unless}}dart_persistent_handle_local]() {
+        auto deleter = [{{#unless isLambda}}raw_pointer_local, isolate_id_local, {{/unless}}dart_persistent_handle_local]() {
 {{#unless isLambda}}
-            {{libraryName}}_uncache_dart_handle_by_raw_pointer(raw_pointer_local);
+            {{libraryName}}_uncache_dart_handle_by_raw_pointer(raw_pointer_local, isolate_id_local);
 {{/unless}}
             Dart_DeletePersistentHandle_DL(dart_persistent_handle_local);
         };

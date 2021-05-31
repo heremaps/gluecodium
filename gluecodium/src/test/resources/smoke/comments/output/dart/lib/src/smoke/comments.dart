@@ -5,10 +5,8 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 /// This is some very useful interface.
 abstract class Comments {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   /// This is some very useful constant.
   static final bool veryUseful = true;
@@ -304,6 +302,10 @@ void smokeCommentsSomelambdaReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeCommentsSomelambdaReleaseHandleNullable(handle);
 // End of Comments_SomeLambda "private" section.
 // Comments "private" section, not exported.
+final _smokeCommentsRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_Comments_register_finalizer'));
 final _smokeCommentsCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -331,12 +333,7 @@ final _someMethodWithAllCommentsReturnHasError = __lib.catchArgumentError(() => 
 class Comments$Impl extends __lib.NativeBase implements Comments {
   Comments$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeCommentsReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   @override
   bool someMethodWithAllComments(String inputParameter) {
     final _someMethodWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Comments_someMethodWithAllComments__String'));
@@ -526,6 +523,7 @@ Comments smokeCommentsFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeCommentsCopyHandle(handle);
   final result = Comments$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeCommentsRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeCommentsReleaseFfiHandle(Pointer<Void> handle) =>

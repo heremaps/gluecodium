@@ -6,10 +6,8 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/type_collection.dart';
 abstract class TypeDefs {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   static double methodWithPrimitiveTypeDef(double input) => TypeDefs$Impl.methodWithPrimitiveTypeDef(input);
   static List<TypeDefs_TestStruct> methodWithComplexTypeDef(List<TypeDefs_TestStruct> input) => TypeDefs$Impl.methodWithComplexTypeDef(input);
@@ -147,6 +145,10 @@ void smokeTypedefsTeststructReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeTypedefsTeststructReleaseHandleNullable(handle);
 // End of TypeDefs_TestStruct "private" section.
 // TypeDefs "private" section, not exported.
+final _smokeTypedefsRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_TypeDefs_register_finalizer'));
 final _smokeTypedefsCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -158,12 +160,7 @@ final _smokeTypedefsReleaseHandle = __lib.catchArgumentError(() => __lib.nativeL
 class TypeDefs$Impl extends __lib.NativeBase implements TypeDefs {
   TypeDefs$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeTypedefsReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   static double methodWithPrimitiveTypeDef(double input) {
     final _methodWithPrimitiveTypeDefFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Double Function(Int32, Double), double Function(int, double)>('library_smoke_TypeDefs_methodWithPrimitiveTypeDef__Double'));
     final _inputHandle = (input);
@@ -258,6 +255,7 @@ TypeDefs smokeTypedefsFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeTypedefsCopyHandle(handle);
   final result = TypeDefs$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeTypedefsRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeTypedefsReleaseFfiHandle(Pointer<Void> handle) =>

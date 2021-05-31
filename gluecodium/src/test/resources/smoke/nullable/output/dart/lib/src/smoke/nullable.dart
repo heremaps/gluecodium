@@ -6,10 +6,8 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/some_interface.dart';
 abstract class Nullable {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   String? methodWithString(String? input);
   bool? methodWithBoolean(bool? input);
@@ -444,6 +442,10 @@ void smokeNullableNullableintsstructReleaseFfiHandleNullable(Pointer<Void> handl
   _smokeNullableNullableintsstructReleaseHandleNullable(handle);
 // End of Nullable_NullableIntsStruct "private" section.
 // Nullable "private" section, not exported.
+final _smokeNullableRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_Nullable_register_finalizer'));
 final _smokeNullableCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -455,12 +457,7 @@ final _smokeNullableReleaseHandle = __lib.catchArgumentError(() => __lib.nativeL
 class Nullable$Impl extends __lib.NativeBase implements Nullable {
   Nullable$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeNullableReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   @override
   String? methodWithString(String? input) {
     final _methodWithStringFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithString__String'));
@@ -830,6 +827,7 @@ Nullable smokeNullableFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeNullableCopyHandle(handle);
   final result = Nullable$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeNullableRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeNullableReleaseFfiHandle(Pointer<Void> handle) =>

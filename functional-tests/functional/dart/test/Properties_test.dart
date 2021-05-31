@@ -31,9 +31,6 @@ void main() {
   setUp(() {
     attributes = Attributes();
   });
-  tearDown(() {
-    attributes.release();
-  });
 
   _testSuite.test("Primitive type Property round trip", () {
     attributes.builtInTypeAttribute = 42;
@@ -79,8 +76,6 @@ void main() {
 
     expect(instance.callCount, 1);
     expect(result1, equals(["foo", "bar"]));
-
-    instance.release();
   });
   _testSuite.test("Static cached property", () {
     expect(CachedProperties.staticCallCount, 0);
@@ -102,8 +97,5 @@ void main() {
     final result = internalAddress?.longAddress;
 
     expect(result, "foobar");
-
-    geometry.release();
-    internalAddress?.release();
   });
 }

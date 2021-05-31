@@ -4,10 +4,8 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 abstract class Dates {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   DateTime dateMethod(DateTime input);
   DateTime get dateProperty;
@@ -78,6 +76,10 @@ void smokeDatesDatestructReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeDatesDatestructReleaseHandleNullable(handle);
 // End of Dates_DateStruct "private" section.
 // Dates "private" section, not exported.
+final _smokeDatesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_Dates_register_finalizer'));
 final _smokeDatesCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -89,12 +91,7 @@ final _smokeDatesReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibr
 class Dates$Impl extends __lib.NativeBase implements Dates {
   Dates$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeDatesReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   @override
   DateTime dateMethod(DateTime input) {
     final _dateMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32, Uint64), int Function(Pointer<Void>, int, int)>('library_smoke_Dates_dateMethod__Date'));
@@ -140,6 +137,7 @@ Dates smokeDatesFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeDatesCopyHandle(handle);
   final result = Dates$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeDatesRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeDatesReleaseFfiHandle(Pointer<Void> handle) =>

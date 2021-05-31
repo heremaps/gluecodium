@@ -63,11 +63,7 @@ int _{{resolveName lambda "Ffi"}}{{resolveName}}Static({{!!
   } finally {
 {{#parameters}}
     {{#resolveName}}{{#set varName=this}}{{>dart/DartFfiReleaseHandle}}{{/set}}{{/resolveName}}
-{{/parameters}}{{#instanceOf returnType.typeRef.type.actualType "LimeClass"}}
-    _resultObject?.release();
-{{/instanceOf}}{{#instanceOf returnType.typeRef.type.actualType "LimeInterface"}}
-    _resultObject?.release();
-{{/instanceOf}}
+{{/parameters}}
   }
   return 0;
 }

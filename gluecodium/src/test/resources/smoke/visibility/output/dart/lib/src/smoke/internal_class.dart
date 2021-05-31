@@ -4,15 +4,17 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 /// @nodoc
 abstract class InternalClass {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   /// @nodoc
   internal_fooBar();
 }
 // InternalClass "private" section, not exported.
+final _smokeInternalclassRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_InternalClass_register_finalizer'));
 final _smokeInternalclassCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -24,12 +26,7 @@ final _smokeInternalclassReleaseHandle = __lib.catchArgumentError(() => __lib.na
 class InternalClass$Impl extends __lib.NativeBase implements InternalClass {
   InternalClass$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeInternalclassReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   @override
   internal_fooBar() {
     final _fooBarFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalClass_fooBar'));
@@ -49,6 +46,7 @@ InternalClass smokeInternalclassFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeInternalclassCopyHandle(handle);
   final result = InternalClass$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeInternalclassRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeInternalclassReleaseFfiHandle(Pointer<Void> handle) =>

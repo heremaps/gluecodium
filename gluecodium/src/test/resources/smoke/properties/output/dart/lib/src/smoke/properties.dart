@@ -7,10 +7,8 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/properties_interface.dart';
 abstract class Properties {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   int get builtInTypeProperty;
   set builtInTypeProperty(int value);
@@ -153,6 +151,10 @@ void smokePropertiesExamplestructReleaseFfiHandleNullable(Pointer<Void> handle) 
   _smokePropertiesExamplestructReleaseHandleNullable(handle);
 // End of Properties_ExampleStruct "private" section.
 // Properties "private" section, not exported.
+final _smokePropertiesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_Properties_register_finalizer'));
 final _smokePropertiesCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -164,12 +166,7 @@ final _smokePropertiesReleaseHandle = __lib.catchArgumentError(() => __lib.nativ
 class Properties$Impl extends __lib.NativeBase implements Properties {
   Properties$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokePropertiesReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   @override
   int get builtInTypeProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint32 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_Properties_builtInTypeProperty_get'));
@@ -376,6 +373,7 @@ Properties smokePropertiesFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokePropertiesCopyHandle(handle);
   final result = Properties$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokePropertiesRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokePropertiesReleaseFfiHandle(Pointer<Void> handle) =>

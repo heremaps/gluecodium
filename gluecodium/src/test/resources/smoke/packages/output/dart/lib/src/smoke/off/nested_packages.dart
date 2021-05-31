@@ -4,10 +4,8 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 abstract class NestedPackages {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   static NestedPackages_SomeStruct basicMethod(NestedPackages_SomeStruct input) => NestedPackages$Impl.basicMethod(input);
 }
@@ -76,6 +74,10 @@ void smokeOffNestedpackagesSomestructReleaseFfiHandleNullable(Pointer<Void> hand
   _smokeOffNestedpackagesSomestructReleaseHandleNullable(handle);
 // End of NestedPackages_SomeStruct "private" section.
 // NestedPackages "private" section, not exported.
+final _smokeOffNestedpackagesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_off_NestedPackages_register_finalizer'));
 final _smokeOffNestedpackagesCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -87,12 +89,7 @@ final _smokeOffNestedpackagesReleaseHandle = __lib.catchArgumentError(() => __li
 class NestedPackages$Impl extends __lib.NativeBase implements NestedPackages {
   NestedPackages$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeOffNestedpackagesReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   static NestedPackages_SomeStruct basicMethod(NestedPackages_SomeStruct input) {
     final _basicMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_off_NestedPackages_basicMethod__SomeStruct'));
     final _inputHandle = smokeOffNestedpackagesSomestructToFfi(input);
@@ -113,6 +110,7 @@ NestedPackages smokeOffNestedpackagesFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeOffNestedpackagesCopyHandle(handle);
   final result = NestedPackages$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeOffNestedpackagesRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeOffNestedpackagesReleaseFfiHandle(Pointer<Void> handle) =>

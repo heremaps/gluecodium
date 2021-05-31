@@ -27,5 +27,6 @@ __lib.LazyList(
     {{#set varName="__elementHandle"}}{{>dart/DartFfiReleaseHandle}}{{/set}}
     return __elementResult;
   },
-  () => _{{resolveName container "Ffi"}}{{resolveName elementType "Ffi"}}LazyListReleaseHandle({{varName}})
+  (obj) => _{{resolveName container "Ffi"}}{{resolveName elementType "Ffi"}}LazyListRegisterFinalizer({{!!
+  }}{{varName}}, __lib.LibraryContext.isolateId, obj)
 )

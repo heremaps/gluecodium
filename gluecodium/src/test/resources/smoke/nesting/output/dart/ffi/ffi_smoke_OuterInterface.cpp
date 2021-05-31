@@ -1,6 +1,7 @@
 #include "ffi_smoke_OuterInterface.h"
 #include "ConversionBase.h"
 #include "InstanceCache.h"
+#include "FinalizerData.h"
 #include "CallbacksQueue.h"
 #include "IsolateContext.h"
 #include "ProxyCache.h"
@@ -14,14 +15,15 @@ class smoke_OuterInterface_Proxy : public ::smoke::OuterInterface {
 public:
     smoke_OuterInterface_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0)
         : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f0(f0) {
-        library_cache_dart_handle_by_raw_pointer(this, dart_handle);
+        library_cache_dart_handle_by_raw_pointer(this, isolate_id, dart_handle);
     }
     ~smoke_OuterInterface_Proxy() {
         gluecodium::ffi::remove_cached_proxy(token, isolate_id, "smoke_OuterInterface");
         auto raw_pointer_local = this;
+        auto isolate_id_local = isolate_id;
         auto dart_persistent_handle_local = dart_persistent_handle;
-        auto deleter = [raw_pointer_local, dart_persistent_handle_local]() {
-            library_uncache_dart_handle_by_raw_pointer(raw_pointer_local);
+        auto deleter = [raw_pointer_local, isolate_id_local, dart_persistent_handle_local]() {
+            library_uncache_dart_handle_by_raw_pointer(raw_pointer_local, isolate_id_local);
             Dart_DeletePersistentHandle_DL(dart_persistent_handle_local);
         };
         if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
@@ -59,14 +61,15 @@ class smoke_OuterInterface_InnerInterface_Proxy : public ::smoke::OuterInterface
 public:
     smoke_OuterInterface_InnerInterface_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0)
         : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f0(f0) {
-        library_cache_dart_handle_by_raw_pointer(this, dart_handle);
+        library_cache_dart_handle_by_raw_pointer(this, isolate_id, dart_handle);
     }
     ~smoke_OuterInterface_InnerInterface_Proxy() {
         gluecodium::ffi::remove_cached_proxy(token, isolate_id, "smoke_OuterInterface_InnerInterface");
         auto raw_pointer_local = this;
+        auto isolate_id_local = isolate_id;
         auto dart_persistent_handle_local = dart_persistent_handle;
-        auto deleter = [raw_pointer_local, dart_persistent_handle_local]() {
-            library_uncache_dart_handle_by_raw_pointer(raw_pointer_local);
+        auto deleter = [raw_pointer_local, isolate_id_local, dart_persistent_handle_local]() {
+            library_uncache_dart_handle_by_raw_pointer(raw_pointer_local, isolate_id_local);
             Dart_DeletePersistentHandle_DL(dart_persistent_handle_local);
         };
         if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
@@ -130,6 +133,18 @@ library_smoke_OuterInterface_InnerInterface_foo__String(FfiOpaqueHandle _self, i
         )
     );
 }
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_OuterInterface_InnerClass_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::OuterInterface::InnerClass>*>(handle);
+    library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
+    library_smoke_OuterInterface_InnerClass_release_handle(handle);
+}
+void
+library_smoke_OuterInterface_InnerClass_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_OuterInterface_InnerClass_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
+}
 FfiOpaqueHandle
 library_smoke_OuterInterface_InnerClass_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
@@ -142,6 +157,18 @@ void
 library_smoke_OuterInterface_InnerClass_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::OuterInterface::InnerClass>*>(handle);
 }
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_OuterInterface_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::OuterInterface>*>(handle);
+    library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
+    library_smoke_OuterInterface_release_handle(handle);
+}
+void
+library_smoke_OuterInterface_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_OuterInterface_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
+}
 FfiOpaqueHandle
 library_smoke_OuterInterface_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
@@ -153,6 +180,18 @@ library_smoke_OuterInterface_copy_handle(FfiOpaqueHandle handle) {
 void
 library_smoke_OuterInterface_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::OuterInterface>*>(handle);
+}
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_OuterInterface_InnerInterface_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::OuterInterface::InnerInterface>*>(handle);
+    library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
+    library_smoke_OuterInterface_InnerInterface_release_handle(handle);
+}
+void
+library_smoke_OuterInterface_InnerInterface_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_OuterInterface_InnerInterface_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
 }
 FfiOpaqueHandle
 library_smoke_OuterInterface_InnerInterface_copy_handle(FfiOpaqueHandle handle) {

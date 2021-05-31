@@ -108,7 +108,5 @@ void main() {
     final result = useMyClass.callBar(MyDartClass());
 
     expect(result, 77);
-
-    useMyClass.release(); // No automatic finalizers in Dart's own FFI API yet.
   });
 }

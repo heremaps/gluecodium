@@ -5,10 +5,8 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 abstract class DefaultValues {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   static DefaultValues_StructWithDefaults processStructWithDefaults(DefaultValues_StructWithDefaults input) => DefaultValues$Impl.processStructWithDefaults(input);
 }
@@ -679,6 +677,10 @@ void smokeDefaultvaluesStructwithtypedefdefaultsReleaseFfiHandleNullable(Pointer
   _smokeDefaultvaluesStructwithtypedefdefaultsReleaseHandleNullable(handle);
 // End of DefaultValues_StructWithTypedefDefaults "private" section.
 // DefaultValues "private" section, not exported.
+final _smokeDefaultvaluesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_DefaultValues_register_finalizer'));
 final _smokeDefaultvaluesCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -690,12 +692,7 @@ final _smokeDefaultvaluesReleaseHandle = __lib.catchArgumentError(() => __lib.na
 class DefaultValues$Impl extends __lib.NativeBase implements DefaultValues {
   DefaultValues$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeDefaultvaluesReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   static DefaultValues_StructWithDefaults processStructWithDefaults(DefaultValues_StructWithDefaults input) {
     final _processStructWithDefaultsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_DefaultValues_processStructWithDefaults__StructWithDefaults'));
     final _inputHandle = smokeDefaultvaluesStructwithdefaultsToFfi(input);
@@ -716,6 +713,7 @@ DefaultValues smokeDefaultvaluesFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeDefaultvaluesCopyHandle(handle);
   final result = DefaultValues$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeDefaultvaluesRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeDefaultvaluesReleaseFfiHandle(Pointer<Void> handle) =>

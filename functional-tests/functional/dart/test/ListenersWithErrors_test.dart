@@ -80,9 +80,6 @@ void main() {
   setUp(() {
     messenger = ErrorMessenger();
   });
-  tearDown(() {
-    messenger.release();
-  });
 
   _testSuite.test("String round trip works", () {
     final ErrorsInInterface listener = TestListener();
@@ -103,8 +100,6 @@ void main() {
     }
 
     expect(exception?.error, AdditionalErrorsExternalErrorCode.failed);
-
-    listener.release();
   });
   _testSuite.test("setMessage() error rethrown", () {
     AdditionalErrorsExternalException? exception = null;
@@ -117,8 +112,6 @@ void main() {
     }
 
     expect(exception?.error, AdditionalErrorsExternalErrorCode.failed);
-
-    listener.release();
   });
   _testSuite.test("getMessageWithPayload() error rethrown", () {
     WithPayloadException? exception = null;
@@ -131,8 +124,6 @@ void main() {
     }
 
     expect(exception?.error, Payload(42, "foo"));
-
-    listener.release();
   });
   _testSuite.test("setMessageWithPayload() error rethrown", () {
     WithPayloadException? exception = null;
@@ -145,7 +136,5 @@ void main() {
     }
 
     expect(exception?.error, Payload(42, "foo"));
-
-    listener.release();
   });
 }

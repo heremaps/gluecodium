@@ -9,16 +9,18 @@ import 'package:library/src/package/interface.dart';
 import 'package:library/src/package/types.dart';
 abstract class Class implements Interface {
   factory Class() => Class$Impl.constructor();
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   Struct fun(List<Struct> double);
   Enum get property;
   set property(Enum value);
 }
 // Class "private" section, not exported.
+final _packageClassRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_package_Class_register_finalizer'));
 final _packageClassCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -50,14 +52,10 @@ final _funReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lo
 class Class$Impl extends __lib.NativeBase implements Class {
   Class$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _packageClassReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   Class$Impl.constructor() : super(_constructor()) {
     __lib.cacheInstance(handle, this);
+    _packageClassRegisterFinalizer(handle, __lib.LibraryContext.isolateId, this);
   }
   static Pointer<Void> _constructor() {
     final _constructorFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_package_Class_constructor'));
@@ -125,6 +123,7 @@ Class packageClassFromFfi(Pointer<Void> handle) {
     ? factoryConstructor(_copiedHandle)
     : Class$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _packageClassRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void packageClassReleaseFfiHandle(Pointer<Void> handle) =>

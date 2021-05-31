@@ -6,10 +6,8 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/payload.dart';
 import 'package:library/src/smoke/with_payload_exception.dart';
 abstract class Errors {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   static methodWithErrors() => Errors$Impl.methodWithErrors();
   static methodWithExternalErrors() => Errors$Impl.methodWithExternalErrors();
@@ -151,6 +149,10 @@ class Errors_ExternalException implements Exception {
   Errors_ExternalException(this.error);
 }
 // Errors "private" section, not exported.
+final _smokeErrorsRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_Errors_register_finalizer'));
 final _smokeErrorsCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -233,12 +235,7 @@ final _methodWithPayloadErrorAndReturnValueReturnHasError = __lib.catchArgumentE
 class Errors$Impl extends __lib.NativeBase implements Errors {
   Errors$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeErrorsReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   static methodWithErrors() {
     final _methodWithErrorsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithErrors'));
     final __callResultHandle = _methodWithErrorsFfi(__lib.LibraryContext.isolateId);
@@ -345,6 +342,7 @@ Errors smokeErrorsFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeErrorsCopyHandle(handle);
   final result = Errors$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeErrorsRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeErrorsReleaseFfiHandle(Pointer<Void> handle) =>

@@ -144,11 +144,6 @@ void main() {
 
     expect(result[0].getStringValue(), equals("bar"));
     expect(result[1].getStringValue(), equals("foo"));
-
-    instance1.release();
-    instance2.release();
-    result[0].release();
-    result[1].release();
   });
   _testSuite.test("Reverse nested Primitive list", () {
     final input = [[-4.2, 3.1], [2.81, -1.41]];

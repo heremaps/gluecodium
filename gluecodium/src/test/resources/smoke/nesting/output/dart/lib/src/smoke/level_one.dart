@@ -6,24 +6,18 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/outer_class.dart';
 import 'package:library/src/smoke/outer_interface.dart';
 abstract class LevelOne {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
 }
 abstract class LevelOne_LevelTwo {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
 }
 abstract class LevelOne_LevelTwo_LevelThree {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   OuterInterface_InnerClass foo(OuterClass_InnerInterface input);
 }
@@ -154,6 +148,10 @@ void smokeLeveloneLeveltwoLevelthreeLevelfourReleaseFfiHandleNullable(Pointer<Vo
   _smokeLeveloneLeveltwoLevelthreeLevelfourReleaseHandleNullable(handle);
 // End of LevelOne_LevelTwo_LevelThree_LevelFour "private" section.
 // LevelOne_LevelTwo_LevelThree "private" section, not exported.
+final _smokeLeveloneLeveltwoLevelthreeRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_LevelOne_LevelTwo_LevelThree_register_finalizer'));
 final _smokeLeveloneLeveltwoLevelthreeCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -165,12 +163,7 @@ final _smokeLeveloneLeveltwoLevelthreeReleaseHandle = __lib.catchArgumentError((
 class LevelOne_LevelTwo_LevelThree$Impl extends __lib.NativeBase implements LevelOne_LevelTwo_LevelThree {
   LevelOne_LevelTwo_LevelThree$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeLeveloneLeveltwoLevelthreeReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   @override
   OuterInterface_InnerClass foo(OuterClass_InnerInterface input) {
     final _fooFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_LevelOne_LevelTwo_LevelThree_foo__InnerInterface'));
@@ -193,6 +186,7 @@ LevelOne_LevelTwo_LevelThree smokeLeveloneLeveltwoLevelthreeFromFfi(Pointer<Void
   final _copiedHandle = _smokeLeveloneLeveltwoLevelthreeCopyHandle(handle);
   final result = LevelOne_LevelTwo_LevelThree$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeLeveloneLeveltwoLevelthreeRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeLeveloneLeveltwoLevelthreeReleaseFfiHandle(Pointer<Void> handle) =>
@@ -205,6 +199,10 @@ void smokeLeveloneLeveltwoLevelthreeReleaseFfiHandleNullable(Pointer<Void> handl
   _smokeLeveloneLeveltwoLevelthreeReleaseHandle(handle);
 // End of LevelOne_LevelTwo_LevelThree "private" section.
 // LevelOne_LevelTwo "private" section, not exported.
+final _smokeLeveloneLeveltwoRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_LevelOne_LevelTwo_register_finalizer'));
 final _smokeLeveloneLeveltwoCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -216,12 +214,7 @@ final _smokeLeveloneLeveltwoReleaseHandle = __lib.catchArgumentError(() => __lib
 class LevelOne_LevelTwo$Impl extends __lib.NativeBase implements LevelOne_LevelTwo {
   LevelOne_LevelTwo$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeLeveloneLeveltwoReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
 }
 Pointer<Void> smokeLeveloneLeveltwoToFfi(LevelOne_LevelTwo value) =>
   _smokeLeveloneLeveltwoCopyHandle((value as __lib.NativeBase).handle);
@@ -231,6 +224,7 @@ LevelOne_LevelTwo smokeLeveloneLeveltwoFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeLeveloneLeveltwoCopyHandle(handle);
   final result = LevelOne_LevelTwo$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeLeveloneLeveltwoRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeLeveloneLeveltwoReleaseFfiHandle(Pointer<Void> handle) =>
@@ -243,6 +237,10 @@ void smokeLeveloneLeveltwoReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeLeveloneLeveltwoReleaseHandle(handle);
 // End of LevelOne_LevelTwo "private" section.
 // LevelOne "private" section, not exported.
+final _smokeLeveloneRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_LevelOne_register_finalizer'));
 final _smokeLeveloneCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -254,12 +252,7 @@ final _smokeLeveloneReleaseHandle = __lib.catchArgumentError(() => __lib.nativeL
 class LevelOne$Impl extends __lib.NativeBase implements LevelOne {
   LevelOne$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeLeveloneReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
 }
 Pointer<Void> smokeLeveloneToFfi(LevelOne value) =>
   _smokeLeveloneCopyHandle((value as __lib.NativeBase).handle);
@@ -269,6 +262,7 @@ LevelOne smokeLeveloneFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeLeveloneCopyHandle(handle);
   final result = LevelOne$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeLeveloneRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeLeveloneReleaseFfiHandle(Pointer<Void> handle) =>

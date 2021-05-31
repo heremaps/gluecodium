@@ -103,10 +103,5 @@ void main() {
 
     expect(result["One"]?.getStringValue(), equals("Functional One"));
     expect(result["Two"]?.getStringValue(), equals("Functional Two"));
-
-    instance1.release();
-    instance2.release();
-    result["One"]?.release();
-    result["Two"]?.release();
   });
 }

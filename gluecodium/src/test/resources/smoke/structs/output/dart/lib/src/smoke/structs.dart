@@ -8,10 +8,8 @@ import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/type_collection.dart';
 import 'package:meta/meta.dart';
 abstract class Structs {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   static Structs_Point swapPointCoordinates(Structs_Point input) => Structs$Impl.swapPointCoordinates(input);
   static Structs_AllTypesStruct returnAllTypesStruct(Structs_AllTypesStruct input) => Structs$Impl.returnAllTypesStruct(input);
@@ -718,6 +716,10 @@ void smokeStructsMutablestructwithcppaccessorsReleaseFfiHandleNullable(Pointer<V
   _smokeStructsMutablestructwithcppaccessorsReleaseHandleNullable(handle);
 // End of Structs_MutableStructWithCppAccessors "private" section.
 // Structs "private" section, not exported.
+final _smokeStructsRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_Structs_register_finalizer'));
 final _smokeStructsCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -729,12 +731,7 @@ final _smokeStructsReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLi
 class Structs$Impl extends __lib.NativeBase implements Structs {
   Structs$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeStructsReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   static Structs_Point swapPointCoordinates(Structs_Point input) {
     final _swapPointCoordinatesFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_swapPointCoordinates__Point'));
     final _inputHandle = smokeStructsPointToFfi(input);
@@ -788,6 +785,7 @@ Structs smokeStructsFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeStructsCopyHandle(handle);
   final result = Structs$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeStructsRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeStructsReleaseFfiHandle(Pointer<Void> handle) =>

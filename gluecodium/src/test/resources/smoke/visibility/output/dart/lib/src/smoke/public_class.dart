@@ -4,10 +4,8 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 abstract class PublicClass {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   /// @nodoc
   PublicClass_InternalStruct internal_internalMethod(PublicClass_InternalStruct input);
@@ -286,6 +284,10 @@ void smokePublicclassPublicstructwithinternaldefaultsReleaseFfiHandleNullable(Po
   _smokePublicclassPublicstructwithinternaldefaultsReleaseHandleNullable(handle);
 // End of PublicClass_PublicStructWithInternalDefaults "private" section.
 // PublicClass "private" section, not exported.
+final _smokePublicclassRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_PublicClass_register_finalizer'));
 final _smokePublicclassCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -297,12 +299,7 @@ final _smokePublicclassReleaseHandle = __lib.catchArgumentError(() => __lib.nati
 class PublicClass$Impl extends __lib.NativeBase implements PublicClass {
   PublicClass$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokePublicclassReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   @override
   PublicClass_InternalStruct internal_internalMethod(PublicClass_InternalStruct input) {
     final _internalMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PublicClass_internalMethod__InternalStruct'));
@@ -371,6 +368,7 @@ PublicClass smokePublicclassFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokePublicclassCopyHandle(handle);
   final result = PublicClass$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokePublicclassRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokePublicclassReleaseFfiHandle(Pointer<Void> handle) =>

@@ -63,6 +63,10 @@
 
 // {{resolveName}} "private" section, not exported.
 
+final _{{resolveName "Ffi"}}RegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_register_finalizer'));
 final _{{resolveName "Ffi"}}CopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -92,12 +96,7 @@ class {{resolveName}}$Impl extends {{#if hasClassParent}}{{resolveName parent}}$
   {{resolveName}}$Impl(Pointer<Void> handle) : super(handle);
 
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _{{resolveName "Ffi"}}ReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
 
 {{#set inheritanceParent=this.parent parent=this container=this ignoreStatic=testableMode}}{{#constructors}}
 {{prefixPartial "dartConstructor" "  "}}
@@ -144,6 +143,7 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) =>
     ? factoryConstructor(_copiedHandle)
     : {{/if}}{{resolveName}}$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _{{resolveName "Ffi"}}RegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 
@@ -167,6 +167,7 @@ void {{resolveName "Ffi"}}ReleaseFfiHandleNullable(Pointer<Void> handle) =>
   final result = {{resolveName parent}}$Impl({{!!
   }}_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}));
   __lib.cacheInstance(handle, result);
+  _{{resolveName parent "Ffi"}}RegisterFinalizer(handle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 {{/if}}{{!!
@@ -175,6 +176,7 @@ void {{resolveName "Ffi"}}ReleaseFfiHandleNullable(Pointer<Void> handle) =>
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) : {{!!
 }}super(_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})) {
   __lib.cacheInstance(handle, this);
+  _{{resolveName parent "Ffi"}}RegisterFinalizer(handle, __lib.LibraryContext.isolateId, this);
 }
 {{/unless}}{{/dartConstructor}}{{!!
 

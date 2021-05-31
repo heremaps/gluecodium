@@ -4,10 +4,8 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 abstract class SkipTypes {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
 }
 class SkipTypes_NotInJava {
@@ -139,6 +137,10 @@ void smokeSkiptypesNotinswiftReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeSkiptypesNotinswiftReleaseHandleNullable(handle);
 // End of SkipTypes_NotInSwift "private" section.
 // SkipTypes "private" section, not exported.
+final _smokeSkiptypesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_SkipTypes_register_finalizer'));
 final _smokeSkiptypesCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -150,12 +152,7 @@ final _smokeSkiptypesReleaseHandle = __lib.catchArgumentError(() => __lib.native
 class SkipTypes$Impl extends __lib.NativeBase implements SkipTypes {
   SkipTypes$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeSkiptypesReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
 }
 Pointer<Void> smokeSkiptypesToFfi(SkipTypes value) =>
   _smokeSkiptypesCopyHandle((value as __lib.NativeBase).handle);
@@ -165,6 +162,7 @@ SkipTypes smokeSkiptypesFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeSkiptypesCopyHandle(handle);
   final result = SkipTypes$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeSkiptypesRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeSkiptypesReleaseFfiHandle(Pointer<Void> handle) =>

@@ -3,10 +3,8 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 abstract class EnableIfEnabled {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   static enableIfUnquoted() => EnableIfEnabled$Impl.enableIfUnquoted();
   static enableIfUnquotedList() => EnableIfEnabled$Impl.enableIfUnquotedList();
@@ -17,6 +15,10 @@ abstract class EnableIfEnabled {
   static enableIfMixedList() => EnableIfEnabled$Impl.enableIfMixedList();
 }
 // EnableIfEnabled "private" section, not exported.
+final _smokeEnableifenabledRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_EnableIfEnabled_register_finalizer'));
 final _smokeEnableifenabledCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -28,12 +30,7 @@ final _smokeEnableifenabledReleaseHandle = __lib.catchArgumentError(() => __lib.
 class EnableIfEnabled$Impl extends __lib.NativeBase implements EnableIfEnabled {
   EnableIfEnabled$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeEnableifenabledReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   static enableIfUnquoted() {
     final _enableIfUnquotedFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfUnquoted'));
     final __resultHandle = _enableIfUnquotedFfi(__lib.LibraryContext.isolateId);
@@ -99,6 +96,7 @@ EnableIfEnabled smokeEnableifenabledFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeEnableifenabledCopyHandle(handle);
   final result = EnableIfEnabled$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeEnableifenabledRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeEnableifenabledReleaseFfiHandle(Pointer<Void> handle) =>

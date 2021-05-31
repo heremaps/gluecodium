@@ -31,9 +31,16 @@
 extern "C" {
 #endif
 
+// "Private" finalizer, not exposed to be callable from Dart.
 void
-{{>lazyListPrefix}}_release_handle(FfiOpaqueHandle handle) {
+{{>lazyListPrefix}}_finalizer(FfiOpaqueHandle handle, int32_t /*isolate_id*/) {
     delete reinterpret_cast<std::shared_ptr<{{resolveName listType "C++"}}>*>(handle);
+}
+
+void
+{{>lazyListPrefix}}_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &{{>lazyListPrefix}}_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &{{libraryName}}_execute_finalizer);
 }
 
 uint64_t

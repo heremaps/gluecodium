@@ -4,15 +4,17 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 abstract class SimpleClass {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   String getStringValue();
   SimpleClass useSimpleClass(SimpleClass input);
 }
 // SimpleClass "private" section, not exported.
+final _smokeSimpleclassRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_SimpleClass_register_finalizer'));
 final _smokeSimpleclassCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -24,12 +26,7 @@ final _smokeSimpleclassReleaseHandle = __lib.catchArgumentError(() => __lib.nati
 class SimpleClass$Impl extends __lib.NativeBase implements SimpleClass {
   SimpleClass$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeSimpleclassReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   @override
   String getStringValue() {
     final _getStringValueFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_SimpleClass_getStringValue'));
@@ -63,6 +60,7 @@ SimpleClass smokeSimpleclassFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeSimpleclassCopyHandle(handle);
   final result = SimpleClass$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeSimpleclassRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeSimpleclassReleaseFfiHandle(Pointer<Void> handle) =>

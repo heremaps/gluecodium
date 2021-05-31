@@ -1,6 +1,7 @@
 #pragma once
 #include "Export.h"
 #include "OpaqueHandle.h"
+#include "dart_api_dl.h"
 #include <stdint.h>
 #ifdef __cplusplus
 extern "C" {
@@ -27,6 +28,8 @@ _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Errors_methodWithPayloadErr
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Errors_methodWithPayloadErrorAndReturnValue_return_get_error(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT bool library_smoke_Errors_methodWithPayloadErrorAndReturnValue_return_has_error(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Errors_methodWithPayloadErrorAndReturnValue(int32_t _isolate_id);
+_GLUECODIUM_FFI_EXPORT void library_smoke_Errors_register_finalizer(
+    FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Errors_copy_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT void library_smoke_Errors_release_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Errors_InternalErrorCode_create_handle_nullable(uint32_t value);

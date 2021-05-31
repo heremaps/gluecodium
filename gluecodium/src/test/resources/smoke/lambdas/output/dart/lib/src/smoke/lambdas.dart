@@ -5,10 +5,8 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 abstract class Lambdas {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
   Lambdas_Producer deconfuse(String value, Lambdas_Confuser confuser);
   static Map<int, String> fuse(List<String> items, Lambdas_Indexer callback) => Lambdas$Impl.fuse(items, callback);
@@ -449,6 +447,10 @@ void smokeLambdasNullableconfuserReleaseFfiHandleNullable(Pointer<Void> handle) 
   _smokeLambdasNullableconfuserReleaseHandleNullable(handle);
 // End of Lambdas_NullableConfuser "private" section.
 // Lambdas "private" section, not exported.
+final _smokeLambdasRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_Lambdas_register_finalizer'));
 final _smokeLambdasCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -460,12 +462,7 @@ final _smokeLambdasReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLi
 class Lambdas$Impl extends __lib.NativeBase implements Lambdas {
   Lambdas$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeLambdasReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
   @override
   Lambdas_Producer deconfuse(String value, Lambdas_Confuser confuser) {
     final _deconfuseFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>, Pointer<Void>)>('library_smoke_Lambdas_deconfuse__String_Confuser'));
@@ -503,6 +500,7 @@ Lambdas smokeLambdasFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeLambdasCopyHandle(handle);
   final result = Lambdas$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeLambdasRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeLambdasReleaseFfiHandle(Pointer<Void> handle) =>

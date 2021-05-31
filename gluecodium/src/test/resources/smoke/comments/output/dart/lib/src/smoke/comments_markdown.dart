@@ -28,13 +28,15 @@ import 'package:library/src/_token_cache.dart' as __lib;
 ///
 /// [title](https://www.markdownguide.org/cheat-sheet/)
 abstract class CommentsMarkdown {
-  /// Destroys the underlying native object.
-  ///
-  /// Call this to free memory when you no longer need this instance.
-  /// Note that setting the instance to null will not destroy the underlying native object.
+  /// @nodoc
+  @Deprecated("Does nothing")
   void release();
 }
 // CommentsMarkdown "private" section, not exported.
+final _smokeCommentsmarkdownRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_CommentsMarkdown_register_finalizer'));
 final _smokeCommentsmarkdownCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -46,12 +48,7 @@ final _smokeCommentsmarkdownReleaseHandle = __lib.catchArgumentError(() => __lib
 class CommentsMarkdown$Impl extends __lib.NativeBase implements CommentsMarkdown {
   CommentsMarkdown$Impl(Pointer<Void> handle) : super(handle);
   @override
-  void release() {
-    if (handle.address == 0) return;
-    __lib.uncacheInstance(handle);
-    _smokeCommentsmarkdownReleaseHandle(handle);
-    handle = Pointer<Void>.fromAddress(0);
-  }
+  void release() {}
 }
 Pointer<Void> smokeCommentsmarkdownToFfi(CommentsMarkdown value) =>
   _smokeCommentsmarkdownCopyHandle((value as __lib.NativeBase).handle);
@@ -61,6 +58,7 @@ CommentsMarkdown smokeCommentsmarkdownFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeCommentsmarkdownCopyHandle(handle);
   final result = CommentsMarkdown$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
+  _smokeCommentsmarkdownRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
 void smokeCommentsmarkdownReleaseFfiHandle(Pointer<Void> handle) =>
