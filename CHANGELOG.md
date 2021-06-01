@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Updated Dart generator to generate `void` function return type explicitly.
+
 ## 9.1.0
 Release date: 2021-05-31
 ### Features:
