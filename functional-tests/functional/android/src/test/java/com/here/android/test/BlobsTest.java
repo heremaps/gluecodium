@@ -32,7 +32,7 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class)
-public class ArraysByteBufferTest {
+public class BlobsTest {
 
   @Test
   public void methodWithByteBuffer_emptyArray() {
@@ -166,5 +166,20 @@ public class ArraysByteBufferTest {
 
     assertNotNull(resultStruct);
     assertEquals(java.util.Arrays.asList((short) 3, (short) 2, (short) 1), resultStruct.image);
+  }
+
+  @Test
+  public void blobNullsBreakingNull() {
+    byte[] resultBuffer = BlobNulls.getBreakingNull();
+
+    assertNotNull(resultBuffer);
+    assertEquals(0, resultBuffer.length);
+  }
+
+  @Test
+  public void blobNullsValidNull() {
+    byte[] resultBuffer = BlobNulls.getValidNull();
+
+    assertNull(resultBuffer);
   }
 }

@@ -194,7 +194,7 @@ convert_to_jni( JNIEnv* env, const std::shared_ptr< std::vector< uint8_t > >& nv
 {
     if ( !nvalue )
     {
-        return {};
+        return make_local_ref(env, env->NewByteArray(0));
     }
 
     jsize size = static_cast< jsize >( nvalue->size( ) );

@@ -64,3 +64,8 @@ class ArraysByteBuffer {
         errorFlag: Boolean
     ): /* Output buffer */ Blob throws Explosive
 }
+
+class BlobNulls {
+    static fun getBreakingNull(): Blob
+    static fun getValidNull(): Blob?
+}
