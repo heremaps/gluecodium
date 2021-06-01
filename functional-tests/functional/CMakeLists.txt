@@ -86,10 +86,10 @@ feature(MethodOverloading cpp android swift dart SOURCES
 )
 
 feature(Blob cpp android swift dart SOURCES
-    input/src/cpp/ArraysByteBuffer.cpp
+    input/src/cpp/Blobs.cpp
     input/src/cpp/StaticByteArrayMethods.cpp
 
-    input/lime/ArraysByteBuffer.lime
+    input/lime/Blobs.lime
     input/lime/StaticByteArrayMethods.lime
 )
 

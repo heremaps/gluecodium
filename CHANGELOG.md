@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed runtime issues in Java when a 'null' is returned from C++ for a non-nullable `Blob`.
+
 ## 9.1.0
 Release date: 2021-05-31
 ### Features:
