@@ -6,7 +6,7 @@ abstract class Enums {
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
-  static methodWithExternalEnum(Enums_ExternalEnum input) => Enums$Impl.methodWithExternalEnum(input);
+  static void methodWithExternalEnum(Enums_ExternalEnum input) => Enums$Impl.methodWithExternalEnum(input);
 }
 enum Enums_ExternalEnum {
     fooValue,
@@ -143,7 +143,7 @@ class Enums$Impl extends __lib.NativeBase implements Enums {
   Enums$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {}
-  static methodWithExternalEnum(Enums_ExternalEnum input) {
+  static void methodWithExternalEnum(Enums_ExternalEnum input) {
     final _methodWithExternalEnumFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32, Uint32), void Function(int, int)>('library_smoke_Enums_methodWithExternalEnum__External_1Enum'));
     final _inputHandle = smokeEnumsExternalenumToFfi(input);
     final __resultHandle = _methodWithExternalEnumFfi(__lib.LibraryContext.isolateId, _inputHandle);

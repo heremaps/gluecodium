@@ -21,7 +21,7 @@ abstract class ChildInterface implements ParentInterface {
   /// @nodoc
   @Deprecated("Does nothing")
   void release() {}
-  childMethod();
+  void childMethod();
 }
 // ChildInterface "private" section, not exported.
 final _smokeChildinterfaceRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -58,10 +58,10 @@ class ChildInterface$Lambdas implements ChildInterface {
   @override
   void release() {}
   @override
-  rootMethod() =>
+  void rootMethod() =>
     rootMethodLambda();
   @override
-  childMethod() =>
+  void childMethod() =>
     childMethodLambda();
   @override
   String get rootProperty => rootPropertyGetLambda();
@@ -73,7 +73,7 @@ class ChildInterface$Impl extends __lib.NativeBase implements ChildInterface {
   @override
   void release() {}
   @override
-  rootMethod() {
+  void rootMethod() {
     final _rootMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentInterface_rootMethod'));
     final _handle = this.handle;
     final __resultHandle = _rootMethodFfi(_handle, __lib.LibraryContext.isolateId);
@@ -83,7 +83,7 @@ class ChildInterface$Impl extends __lib.NativeBase implements ChildInterface {
     }
   }
   @override
-  childMethod() {
+  void childMethod() {
     final _childMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ChildInterface_childMethod'));
     final _handle = this.handle;
     final __resultHandle = _childMethodFfi(_handle, __lib.LibraryContext.isolateId);

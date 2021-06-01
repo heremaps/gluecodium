@@ -22,7 +22,7 @@ abstract class AttributesInterface {
   @OnConstInInterface
   static final bool pi = false;
   @OnFunctionInInterface
-  veryFun(@OnParameterInInterface String param);
+  void veryFun(@OnParameterInInterface String param);
   @OnPropertyInInterface
   String get prop;
   @OnPropertyInInterface
@@ -61,7 +61,7 @@ class AttributesInterface$Lambdas implements AttributesInterface {
   @override
   void release() {}
   @override
-  veryFun(@OnParameterInInterface String param) =>
+  void veryFun(@OnParameterInInterface String param) =>
     veryFunLambda(param);
   @override
   String get prop => propGetLambda();
@@ -73,7 +73,7 @@ class AttributesInterface$Impl extends __lib.NativeBase implements AttributesInt
   @override
   void release() {}
   @override
-  veryFun(@OnParameterInInterface String param) {
+  void veryFun(@OnParameterInInterface String param) {
     final _veryFunFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AttributesInterface_veryFun__String'));
     final _paramHandle = stringToFfi(param);
     final _handle = this.handle;

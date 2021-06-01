@@ -8,8 +8,8 @@ abstract class LambdasWithStructuredTypes {
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
-  doClassStuff(LambdasWithStructuredTypes_ClassCallback callback);
-  doStructStuff(LambdasWithStructuredTypes_StructCallback callback);
+  void doClassStuff(LambdasWithStructuredTypes_ClassCallback callback);
+  void doStructStuff(LambdasWithStructuredTypes_StructCallback callback);
 }
 typedef LambdasWithStructuredTypes_ClassCallback = void Function(LambdasInterface);
 // LambdasWithStructuredTypes_ClassCallback "private" section, not exported.
@@ -29,7 +29,7 @@ class LambdasWithStructuredTypes_ClassCallback$Impl {
   final Pointer<Void> handle;
   LambdasWithStructuredTypes_ClassCallback$Impl(this.handle);
   void release() => _smokeLambdaswithstructuredtypesClasscallbackReleaseHandle(handle);
-  call(LambdasInterface p0) {
+  void call(LambdasInterface p0) {
     final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_LambdasWithStructuredTypes_ClassCallback_call__LambdasInterface'));
     final _p0Handle = smokeLambdasinterfaceToFfi(p0);
     final _handle = this.handle;
@@ -114,7 +114,7 @@ class LambdasWithStructuredTypes_StructCallback$Impl {
   final Pointer<Void> handle;
   LambdasWithStructuredTypes_StructCallback$Impl(this.handle);
   void release() => _smokeLambdaswithstructuredtypesStructcallbackReleaseHandle(handle);
-  call(LambdasDeclarationOrder_SomeStruct p0) {
+  void call(LambdasDeclarationOrder_SomeStruct p0) {
     final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_LambdasWithStructuredTypes_StructCallback_call__SomeStruct'));
     final _p0Handle = smokeLambdasdeclarationorderSomestructToFfi(p0);
     final _handle = this.handle;
@@ -199,7 +199,7 @@ class LambdasWithStructuredTypes$Impl extends __lib.NativeBase implements Lambda
   @override
   void release() {}
   @override
-  doClassStuff(LambdasWithStructuredTypes_ClassCallback callback) {
+  void doClassStuff(LambdasWithStructuredTypes_ClassCallback callback) {
     final _doClassStuffFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_LambdasWithStructuredTypes_doClassStuff__ClassCallback'));
     final _callbackHandle = smokeLambdaswithstructuredtypesClasscallbackToFfi(callback);
     final _handle = this.handle;
@@ -211,7 +211,7 @@ class LambdasWithStructuredTypes$Impl extends __lib.NativeBase implements Lambda
     }
   }
   @override
-  doStructStuff(LambdasWithStructuredTypes_StructCallback callback) {
+  void doStructStuff(LambdasWithStructuredTypes_StructCallback callback) {
     final _doStructStuffFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_LambdasWithStructuredTypes_doStructStuff__StructCallback'));
     final _callbackHandle = smokeLambdaswithstructuredtypesStructcallbackToFfi(callback);
     final _handle = this.handle;

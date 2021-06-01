@@ -6,10 +6,10 @@ abstract class SpecialNames {
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
-  create();
-  reallyRelease();
-  createProxy();
-  Uppercase();
+  void create();
+  void reallyRelease();
+  void createProxy();
+  void Uppercase();
 }
 // SpecialNames "private" section, not exported.
 final _smokeSpecialnamesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -29,7 +29,7 @@ class SpecialNames$Impl extends __lib.NativeBase implements SpecialNames {
   @override
   void release() {}
   @override
-  create() {
+  void create() {
     final _createFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_create'));
     final _handle = this.handle;
     final __resultHandle = _createFfi(_handle, __lib.LibraryContext.isolateId);
@@ -39,7 +39,7 @@ class SpecialNames$Impl extends __lib.NativeBase implements SpecialNames {
     }
   }
   @override
-  reallyRelease() {
+  void reallyRelease() {
     final _reallyReleaseFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_release'));
     final _handle = this.handle;
     final __resultHandle = _reallyReleaseFfi(_handle, __lib.LibraryContext.isolateId);
@@ -49,7 +49,7 @@ class SpecialNames$Impl extends __lib.NativeBase implements SpecialNames {
     }
   }
   @override
-  createProxy() {
+  void createProxy() {
     final _createProxyFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_createProxy'));
     final _handle = this.handle;
     final __resultHandle = _createProxyFfi(_handle, __lib.LibraryContext.isolateId);
@@ -59,7 +59,7 @@ class SpecialNames$Impl extends __lib.NativeBase implements SpecialNames {
     }
   }
   @override
-  Uppercase() {
+  void Uppercase() {
     final _UppercaseFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_Uppercase'));
     final _handle = this.handle;
     final __resultHandle = _UppercaseFfi(_handle, __lib.LibraryContext.isolateId);

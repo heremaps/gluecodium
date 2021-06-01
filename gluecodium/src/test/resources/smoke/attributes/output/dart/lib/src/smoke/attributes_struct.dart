@@ -9,7 +9,7 @@ class AttributesStruct {
   @OnConstInStruct
   static final bool pi = false;
   @OnFunctionInStruct
-  veryFun(@OnParameterInStruct String param) {
+  void veryFun(@OnParameterInStruct String param) {
     final _veryFunFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AttributesStruct_veryFun__String'));
     final _paramHandle = stringToFfi(param);
     final _handle = smokeAttributesstructToFfi(this);

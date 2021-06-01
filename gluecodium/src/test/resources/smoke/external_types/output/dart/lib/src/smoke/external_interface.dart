@@ -16,7 +16,7 @@ abstract class ExternalInterface {
   /// @nodoc
   @Deprecated("Does nothing")
   void release() {}
-  someMethod(int someParameter);
+  void someMethod(int someParameter);
   String get someProperty;
 }
 enum ExternalInterface_SomeEnum {
@@ -166,7 +166,7 @@ class ExternalInterface$Lambdas implements ExternalInterface {
   @override
   void release() {}
   @override
-  someMethod(int someParameter) =>
+  void someMethod(int someParameter) =>
     someMethodLambda(someParameter);
   @override
   String get someProperty => somePropertyGetLambda();
@@ -176,7 +176,7 @@ class ExternalInterface$Impl extends __lib.NativeBase implements ExternalInterfa
   @override
   void release() {}
   @override
-  someMethod(int someParameter) {
+  void someMethod(int someParameter) {
     final _someMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Int8), void Function(Pointer<Void>, int, int)>('library_smoke_ExternalInterface_someMethod__Byte'));
     final _someParameterHandle = (someParameter);
     final _handle = this.handle;

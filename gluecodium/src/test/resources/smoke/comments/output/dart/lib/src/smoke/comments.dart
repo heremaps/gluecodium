@@ -36,10 +36,10 @@ abstract class Comments {
   ///
   /// [input] Very useful input parameter
   ///
-  someMethodWithoutReturnTypeWithAllComments(String input);
+  void someMethodWithoutReturnTypeWithAllComments(String input);
   /// This is some very useful method that does not measure the usefulness of its input.
   ///
-  someMethodWithoutReturnTypeWithNoComments(String input);
+  void someMethodWithoutReturnTypeWithNoComments(String input);
   /// This is some very useful method that measures the usefulness of something.
   ///
   /// Returns [bool]. Usefulness of the input
@@ -48,10 +48,10 @@ abstract class Comments {
   /// This is some very useful method that measures the usefulness of something.
   ///
   bool someMethodWithoutInputParametersWithNoComments();
-  someMethodWithNothing();
+  void someMethodWithNothing();
   /// This is some very useful method that does nothing.
   ///
-  someMethodWithoutReturnTypeOrInputParameters();
+  void someMethodWithoutReturnTypeOrInputParameters();
   /// [documented] nicely documented
   ///
   String oneParameterCommentOnly(String undocumented, String documented);
@@ -398,7 +398,7 @@ class Comments$Impl extends __lib.NativeBase implements Comments {
     }
   }
   @override
-  someMethodWithoutReturnTypeWithAllComments(String input) {
+  void someMethodWithoutReturnTypeWithAllComments(String input) {
     final _someMethodWithoutReturnTypeWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Comments_someMethodWithoutReturnTypeWithAllComments__String'));
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
@@ -410,7 +410,7 @@ class Comments$Impl extends __lib.NativeBase implements Comments {
     }
   }
   @override
-  someMethodWithoutReturnTypeWithNoComments(String input) {
+  void someMethodWithoutReturnTypeWithNoComments(String input) {
     final _someMethodWithoutReturnTypeWithNoCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Comments_someMethodWithoutReturnTypeWithNoComments__String'));
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
@@ -444,7 +444,7 @@ class Comments$Impl extends __lib.NativeBase implements Comments {
     }
   }
   @override
-  someMethodWithNothing() {
+  void someMethodWithNothing() {
     final _someMethodWithNothingFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_Comments_someMethodWithNothing'));
     final _handle = this.handle;
     final __resultHandle = _someMethodWithNothingFfi(_handle, __lib.LibraryContext.isolateId);
@@ -454,7 +454,7 @@ class Comments$Impl extends __lib.NativeBase implements Comments {
     }
   }
   @override
-  someMethodWithoutReturnTypeOrInputParameters() {
+  void someMethodWithoutReturnTypeOrInputParameters() {
     final _someMethodWithoutReturnTypeOrInputParametersFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_Comments_someMethodWithoutReturnTypeOrInputParameters'));
     final _handle = this.handle;
     final __resultHandle = _someMethodWithoutReturnTypeOrInputParametersFfi(_handle, __lib.LibraryContext.isolateId);

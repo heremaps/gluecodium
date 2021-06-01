@@ -8,24 +8,24 @@ abstract class MultipleAttributesDart {
   void release();
   @Foo
   @Bar
-  noLists2();
+  void noLists2();
   @Foo
   @Bar
   @Baz
-  noLists3();
+  void noLists3();
   @Foo
   @Bar
   @Baz
-  listFirst();
+  void listFirst();
   @Foo
   @Bar
   @Baz
-  listSecond();
+  void listSecond();
   @Foo
   @Bar
   @Baz
   @Fizz
-  twoLists();
+  void twoLists();
 }
 // MultipleAttributesDart "private" section, not exported.
 final _smokeMultipleattributesdartRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -45,7 +45,7 @@ class MultipleAttributesDart$Impl extends __lib.NativeBase implements MultipleAt
   @override
   void release() {}
   @override
-  noLists2() {
+  void noLists2() {
     final _noLists2Ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_MultipleAttributesDart_noLists2'));
     final _handle = this.handle;
     final __resultHandle = _noLists2Ffi(_handle, __lib.LibraryContext.isolateId);
@@ -55,7 +55,7 @@ class MultipleAttributesDart$Impl extends __lib.NativeBase implements MultipleAt
     }
   }
   @override
-  noLists3() {
+  void noLists3() {
     final _noLists3Ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_MultipleAttributesDart_noLists3'));
     final _handle = this.handle;
     final __resultHandle = _noLists3Ffi(_handle, __lib.LibraryContext.isolateId);
@@ -65,7 +65,7 @@ class MultipleAttributesDart$Impl extends __lib.NativeBase implements MultipleAt
     }
   }
   @override
-  listFirst() {
+  void listFirst() {
     final _listFirstFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_MultipleAttributesDart_listFirst'));
     final _handle = this.handle;
     final __resultHandle = _listFirstFfi(_handle, __lib.LibraryContext.isolateId);
@@ -75,7 +75,7 @@ class MultipleAttributesDart$Impl extends __lib.NativeBase implements MultipleAt
     }
   }
   @override
-  listSecond() {
+  void listSecond() {
     final _listSecondFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_MultipleAttributesDart_listSecond'));
     final _handle = this.handle;
     final __resultHandle = _listSecondFfi(_handle, __lib.LibraryContext.isolateId);
@@ -85,7 +85,7 @@ class MultipleAttributesDart$Impl extends __lib.NativeBase implements MultipleAt
     }
   }
   @override
-  twoLists() {
+  void twoLists() {
     final _twoListsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_MultipleAttributesDart_twoLists'));
     final _handle = this.handle;
     final __resultHandle = _twoListsFfi(_handle, __lib.LibraryContext.isolateId);

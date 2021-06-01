@@ -14,7 +14,7 @@ abstract class AttributesWithDeprecated {
   static final bool pi = false;
   @Deprecated("")
   @OnFunctionInClass
-  veryFun();
+  void veryFun();
   @Deprecated("")
   @OnPropertyInClass
   String get prop;
@@ -106,7 +106,7 @@ class AttributesWithDeprecated$Impl extends __lib.NativeBase implements Attribut
   @override
   void release() {}
   @override
-  veryFun() {
+  void veryFun() {
     final _veryFunFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_AttributesWithDeprecated_veryFun'));
     final _handle = this.handle;
     final __resultHandle = _veryFunFfi(_handle, __lib.LibraryContext.isolateId);

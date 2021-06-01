@@ -14,7 +14,7 @@ abstract class weeListener {
   /// @nodoc
   @Deprecated("Does nothing")
   void release() {}
-  WeeMethod(String WeeParameter);
+  void WeeMethod(String WeeParameter);
 }
 // weeListener "private" section, not exported.
 final _smokePlatformnameslistenerRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -45,7 +45,7 @@ class weeListener$Lambdas implements weeListener {
   @override
   void release() {}
   @override
-  WeeMethod(String WeeParameter) =>
+  void WeeMethod(String WeeParameter) =>
     WeeMethodLambda(WeeParameter);
 }
 class weeListener$Impl extends __lib.NativeBase implements weeListener {
@@ -53,7 +53,7 @@ class weeListener$Impl extends __lib.NativeBase implements weeListener {
   @override
   void release() {}
   @override
-  WeeMethod(String WeeParameter) {
+  void WeeMethod(String WeeParameter) {
     final _WeeMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PlatformNamesListener_basicMethod__String'));
     final _WeeParameterHandle = stringToFfi(WeeParameter);
     final _handle = this.handle;

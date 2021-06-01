@@ -9,10 +9,10 @@ abstract class Errors {
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
-  static methodWithErrors() => Errors$Impl.methodWithErrors();
-  static methodWithExternalErrors() => Errors$Impl.methodWithExternalErrors();
+  static void methodWithErrors() => Errors$Impl.methodWithErrors();
+  static void methodWithExternalErrors() => Errors$Impl.methodWithExternalErrors();
   static String methodWithErrorsAndReturnValue() => Errors$Impl.methodWithErrorsAndReturnValue();
-  static methodWithPayloadError() => Errors$Impl.methodWithPayloadError();
+  static void methodWithPayloadError() => Errors$Impl.methodWithPayloadError();
   static String methodWithPayloadErrorAndReturnValue() => Errors$Impl.methodWithPayloadErrorAndReturnValue();
 }
 enum Errors_InternalErrorCode {
@@ -236,7 +236,7 @@ class Errors$Impl extends __lib.NativeBase implements Errors {
   Errors$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {}
-  static methodWithErrors() {
+  static void methodWithErrors() {
     final _methodWithErrorsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithErrors'));
     final __callResultHandle = _methodWithErrorsFfi(__lib.LibraryContext.isolateId);
     if (_methodWithErrorsReturnHasError(__callResultHandle) != 0) {
@@ -255,7 +255,7 @@ class Errors$Impl extends __lib.NativeBase implements Errors {
     } finally {
     }
   }
-  static methodWithExternalErrors() {
+  static void methodWithExternalErrors() {
     final _methodWithExternalErrorsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithExternalErrors'));
     final __callResultHandle = _methodWithExternalErrorsFfi(__lib.LibraryContext.isolateId);
     if (_methodWithExternalErrorsReturnHasError(__callResultHandle) != 0) {
@@ -294,7 +294,7 @@ class Errors$Impl extends __lib.NativeBase implements Errors {
       stringReleaseFfiHandle(__resultHandle);
     }
   }
-  static methodWithPayloadError() {
+  static void methodWithPayloadError() {
     final _methodWithPayloadErrorFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithPayloadError'));
     final __callResultHandle = _methodWithPayloadErrorFfi(__lib.LibraryContext.isolateId);
     if (_methodWithPayloadErrorReturnHasError(__callResultHandle) != 0) {

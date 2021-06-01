@@ -59,7 +59,7 @@ abstract class CommentsLinks {
   /// * this one: [CommentsLinks.randomMethod2]
   /// * ambiguous one: [CommentsLinks.randomMethod2]
   ///
-  randomMethod2(String text, bool flag);
+  void randomMethod2(String text, bool flag);
 }
 /// Links also work in:
 class CommentsLinks_RandomStruct {
@@ -187,7 +187,7 @@ class CommentsLinks$Impl extends __lib.NativeBase implements CommentsLinks {
     }
   }
   @override
-  randomMethod2(String text, bool flag) {
+  void randomMethod2(String text, bool flag) {
     final _randomMethod2Ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>, Uint8), void Function(Pointer<Void>, int, Pointer<Void>, int)>('library_smoke_CommentsLinks_randomMethod__String_Boolean'));
     final _textHandle = stringToFfi(text);
     final _flagHandle = booleanToFfi(flag);

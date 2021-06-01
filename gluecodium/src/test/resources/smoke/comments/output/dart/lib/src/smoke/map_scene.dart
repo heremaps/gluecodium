@@ -8,8 +8,8 @@ abstract class MapScene {
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
-  loadSceneWithInt(int mapScheme, MapScene_LoadSceneCallback? callback);
-  loadSceneWithString(String configurationFile, MapScene_LoadSceneCallback? callback);
+  void loadSceneWithInt(int mapScheme, MapScene_LoadSceneCallback? callback);
+  void loadSceneWithString(String configurationFile, MapScene_LoadSceneCallback? callback);
 }
 typedef MapScene_LoadSceneCallback = void Function(String?);
 // MapScene_LoadSceneCallback "private" section, not exported.
@@ -29,7 +29,7 @@ class MapScene_LoadSceneCallback$Impl {
   final Pointer<Void> handle;
   MapScene_LoadSceneCallback$Impl(this.handle);
   void release() => _smokeMapsceneLoadscenecallbackReleaseHandle(handle);
-  call(String? p0) {
+  void call(String? p0) {
     final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MapScene_LoadSceneCallback_call__String'));
     final _p0Handle = stringToFfiNullable(p0);
     final _handle = this.handle;
@@ -114,7 +114,7 @@ class MapScene$Impl extends __lib.NativeBase implements MapScene {
   @override
   void release() {}
   @override
-  loadSceneWithInt(int mapScheme, MapScene_LoadSceneCallback? callback) {
+  void loadSceneWithInt(int mapScheme, MapScene_LoadSceneCallback? callback) {
     final _loadSceneWithIntFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Int32, Pointer<Void>), void Function(Pointer<Void>, int, int, Pointer<Void>)>('library_smoke_MapScene_loadScene__Int_LoadSceneCallback'));
     final _mapSchemeHandle = (mapScheme);
     final _callbackHandle = smokeMapsceneLoadscenecallbackToFfiNullable(callback);
@@ -127,7 +127,7 @@ class MapScene$Impl extends __lib.NativeBase implements MapScene {
     }
   }
   @override
-  loadSceneWithString(String configurationFile, MapScene_LoadSceneCallback? callback) {
+  void loadSceneWithString(String configurationFile, MapScene_LoadSceneCallback? callback) {
     final _loadSceneWithStringFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>, Pointer<Void>)>('library_smoke_MapScene_loadScene__String_LoadSceneCallback'));
     final _configurationFileHandle = stringToFfi(configurationFile);
     final _callbackHandle = smokeMapsceneLoadscenecallbackToFfiNullable(callback);
