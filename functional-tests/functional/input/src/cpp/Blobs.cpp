@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/ArraysByteBuffer.h"
+#include "test/BlobNulls.h"
 #include "another/TypeCollectionWithEnums.h"
 
 namespace test
@@ -84,4 +85,14 @@ ArraysByteBuffer::method_that_explodes( const bool error_flag )
     }
 }
 
-}  // namespace test
+std::shared_ptr<std::vector<uint8_t>>
+BlobNulls::get_breaking_null() {
+    return {};
+}
+
+lorem_ipsum::test::optional<std::shared_ptr<std::vector<uint8_t>>>
+BlobNulls::get_valid_null() {
+    return {};
+}
+
+}

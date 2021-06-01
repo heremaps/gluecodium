@@ -2,7 +2,8 @@
 
 ## Unreleased
 ### Bug fixes:
-  * Updated Dart generator to generate `void` function return type explicitly.
+  * Fixed runtime issues in Java when a 'null' is returned from C++ for a non-nullable `Blob`.
+  * Updated Dart generator to generate `void` function return type explicitly.  
 
 ## 9.1.0
 Release date: 2021-05-31
