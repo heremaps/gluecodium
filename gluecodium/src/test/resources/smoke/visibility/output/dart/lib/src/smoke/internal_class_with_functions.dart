@@ -13,7 +13,7 @@ abstract class InternalClassWithFunctions {
   @Deprecated("Does nothing")
   void release();
   /// @nodoc
-  internal_fooBar();
+  void internal_fooBar();
 }
 // InternalClassWithFunctions "private" section, not exported.
 final _smokeInternalclasswithfunctionsRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -41,7 +41,7 @@ class InternalClassWithFunctions$Impl extends __lib.NativeBase implements Intern
     _smokeInternalclasswithfunctionsRegisterFinalizer(handle, __lib.LibraryContext.isolateId, this);
   }
   @override
-  internal_fooBar() {
+  void internal_fooBar() {
     final _fooBarFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalClassWithFunctions_fooBar'));
     final _handle = this.handle;
     final __resultHandle = _fooBarFfi(_handle, __lib.LibraryContext.isolateId);

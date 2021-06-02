@@ -8,7 +8,7 @@ abstract class InternalClass {
   @Deprecated("Does nothing")
   void release();
   /// @nodoc
-  internal_fooBar();
+  void internal_fooBar();
 }
 // InternalClass "private" section, not exported.
 final _smokeInternalclassRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -28,7 +28,7 @@ class InternalClass$Impl extends __lib.NativeBase implements InternalClass {
   @override
   void release() {}
   @override
-  internal_fooBar() {
+  void internal_fooBar() {
     final _fooBarFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalClass_fooBar'));
     final _handle = this.handle;
     final __resultHandle = _fooBarFfi(_handle, __lib.LibraryContext.isolateId);

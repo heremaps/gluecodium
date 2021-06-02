@@ -8,12 +8,12 @@ class SomeClass {
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
-  voidFunction();
+  void voidFunction();
   bool boolFunction();
   int intFunction();
   String stringFunction();
   SomeClass classFunction();
-  static staticFunction() => $class.staticFunction();
+  static void staticFunction() => $class.staticFunction();
   static var $class = SomeClass$Impl();
 }
 // SomeClass "private" section, not exported.
@@ -45,7 +45,7 @@ class SomeClass$Impl extends __lib.NativeBase implements SomeClass {
     return __resultHandle;
   }
   @override
-  voidFunction() {
+  void voidFunction() {
     final _voidFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SomeClass_voidFunction'));
     final _handle = this.handle;
     final __resultHandle = _voidFunctionFfi(_handle, __lib.LibraryContext.isolateId);
@@ -97,7 +97,7 @@ class SomeClass$Impl extends __lib.NativeBase implements SomeClass {
       smokeSomeclassReleaseFfiHandle(__resultHandle);
     }
   }
-  staticFunction() {
+  void staticFunction() {
     final _staticFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_SomeClass_staticFunction'));
     final __resultHandle = _staticFunctionFfi(__lib.LibraryContext.isolateId);
     try {

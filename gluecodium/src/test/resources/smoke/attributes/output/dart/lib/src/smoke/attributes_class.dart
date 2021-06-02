@@ -11,7 +11,7 @@ abstract class AttributesClass {
   @OnConstInClass
   static final bool pi = false;
   @OnFunctionInClass
-  veryFun(@OnParameterInClass String param);
+  void veryFun(@OnParameterInClass String param);
   @OnPropertyInClass
   String get prop;
   @OnPropertyInClass
@@ -35,7 +35,7 @@ class AttributesClass$Impl extends __lib.NativeBase implements AttributesClass {
   @override
   void release() {}
   @override
-  veryFun(@OnParameterInClass String param) {
+  void veryFun(@OnParameterInClass String param) {
     final _veryFunFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AttributesClass_veryFun__String'));
     final _paramHandle = stringToFfi(param);
     final _handle = this.handle;

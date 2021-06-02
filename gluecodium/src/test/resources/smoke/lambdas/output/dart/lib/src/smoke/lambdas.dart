@@ -203,7 +203,7 @@ class Lambdas_Consumer$Impl {
   final Pointer<Void> handle;
   Lambdas_Consumer$Impl(this.handle);
   void release() => _smokeLambdasConsumerReleaseHandle(handle);
-  call(String p0) {
+  void call(String p0) {
     final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Lambdas_Consumer_call__String'));
     final _p0Handle = stringToFfi(p0);
     final _handle = this.handle;

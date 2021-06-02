@@ -9,10 +9,10 @@ abstract class PlatformComments {
   void release();
   /// This is some very useless method that cannot have overloads.
   ///
-  doNothing();
+  void doNothing();
   /// Colors everything in fuchsia.
   ///
-  doMagic();
+  void doMagic();
   /// This is some very useful method that measures the usefulness of its input or \esc@pe{s}.
   ///
   /// [input] Very useful parameter that \[\esc@pe{s}\]
@@ -23,7 +23,7 @@ abstract class PlatformComments {
   ///
   bool someMethodWithAllComments(String input);
   @Deprecated("A very useless method that is deprecated.")
-  someDeprecatedMethod();
+  void someDeprecatedMethod();
 }
 enum PlatformComments_SomeEnum {
     useless,
@@ -188,7 +188,7 @@ class PlatformComments$Impl extends __lib.NativeBase implements PlatformComments
   @override
   void release() {}
   @override
-  doNothing() {
+  void doNothing() {
     final _doNothingFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PlatformComments_doNothing'));
     final _handle = this.handle;
     final __resultHandle = _doNothingFfi(_handle, __lib.LibraryContext.isolateId);
@@ -198,7 +198,7 @@ class PlatformComments$Impl extends __lib.NativeBase implements PlatformComments
     }
   }
   @override
-  doMagic() {
+  void doMagic() {
     final _doMagicFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PlatformComments_doMagic'));
     final _handle = this.handle;
     final __resultHandle = _doMagicFfi(_handle, __lib.LibraryContext.isolateId);
@@ -232,7 +232,7 @@ class PlatformComments$Impl extends __lib.NativeBase implements PlatformComments
     }
   }
   @override
-  someDeprecatedMethod() {
+  void someDeprecatedMethod() {
     final _someDeprecatedMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PlatformComments_someDeprecatedMethod'));
     final _handle = this.handle;
     final __resultHandle = _someDeprecatedMethodFfi(_handle, __lib.LibraryContext.isolateId);

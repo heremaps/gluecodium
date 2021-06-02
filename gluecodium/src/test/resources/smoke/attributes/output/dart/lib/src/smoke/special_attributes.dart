@@ -7,9 +7,9 @@ abstract class SpecialAttributes {
   @Deprecated("Does nothing")
   void release();
   @Deprecated("foo\nbar")
-  withEscaping();
+  void withEscaping();
   @HackMerm -rf *
-  withLineBreak();
+  void withLineBreak();
 }
 // SpecialAttributes "private" section, not exported.
 final _smokeSpecialattributesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -29,7 +29,7 @@ class SpecialAttributes$Impl extends __lib.NativeBase implements SpecialAttribut
   @override
   void release() {}
   @override
-  withEscaping() {
+  void withEscaping() {
     final _withEscapingFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialAttributes_withEscaping'));
     final _handle = this.handle;
     final __resultHandle = _withEscapingFfi(_handle, __lib.LibraryContext.isolateId);
@@ -39,7 +39,7 @@ class SpecialAttributes$Impl extends __lib.NativeBase implements SpecialAttribut
     }
   }
   @override
-  withLineBreak() {
+  void withLineBreak() {
     final _withLineBreakFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialAttributes_withLineBreak'));
     final _handle = this.handle;
     final __resultHandle = _withLineBreakFfi(_handle, __lib.LibraryContext.isolateId);

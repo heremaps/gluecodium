@@ -16,7 +16,7 @@ abstract class InternalInterface {
   @Deprecated("Does nothing")
   void release() {}
   /// @nodoc
-  internal_fooBar();
+  void internal_fooBar();
 }
 // InternalInterface "private" section, not exported.
 final _smokeInternalinterfaceRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -47,7 +47,7 @@ class InternalInterface$Lambdas implements InternalInterface {
   @override
   void release() {}
   @override
-  internal_fooBar() =>
+  void internal_fooBar() =>
     fooBarLambda();
 }
 class InternalInterface$Impl extends __lib.NativeBase implements InternalInterface {
@@ -55,7 +55,7 @@ class InternalInterface$Impl extends __lib.NativeBase implements InternalInterfa
   @override
   void release() {}
   @override
-  internal_fooBar() {
+  void internal_fooBar() {
     final _fooBarFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalInterface_fooBar'));
     final _handle = this.handle;
     final __resultHandle = _fooBarFfi(_handle, __lib.LibraryContext.isolateId);

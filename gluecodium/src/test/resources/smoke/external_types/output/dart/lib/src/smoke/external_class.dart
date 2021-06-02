@@ -7,7 +7,7 @@ abstract class ExternalClass {
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
-  someMethod(int someParameter);
+  void someMethod(int someParameter);
   String get someProperty;
 }
 enum ExternalClass_SomeEnum {
@@ -144,7 +144,7 @@ class ExternalClass$Impl extends __lib.NativeBase implements ExternalClass {
   @override
   void release() {}
   @override
-  someMethod(int someParameter) {
+  void someMethod(int someParameter) {
     final _someMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Int8), void Function(Pointer<Void>, int, int)>('library_smoke_ExternalClass_someMethod__Byte'));
     final _someParameterHandle = (someParameter);
     final _handle = this.handle;

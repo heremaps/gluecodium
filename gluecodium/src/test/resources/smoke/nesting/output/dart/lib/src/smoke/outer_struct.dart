@@ -24,7 +24,7 @@ final _doNothingReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibr
 class OuterStruct {
   String field;
   OuterStruct(this.field);
-  doNothing() {
+  void doNothing() {
     final _doNothingFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_OuterStruct_doNothing'));
     final _handle = smokeOuterstructToFfi(this);
     final __callResultHandle = _doNothingFfi(_handle, __lib.LibraryContext.isolateId);
@@ -112,7 +112,7 @@ class OuterStruct_InstantiationException implements Exception {
 class OuterStruct_InnerStruct {
   List<DateTime> otherField;
   OuterStruct_InnerStruct(this.otherField);
-  doSomething() {
+  void doSomething() {
     final _doSomethingFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_OuterStruct_InnerStruct_doSomething'));
     final _handle = smokeOuterstructInnerstructToFfi(this);
     final __resultHandle = _doSomethingFfi(_handle, __lib.LibraryContext.isolateId);

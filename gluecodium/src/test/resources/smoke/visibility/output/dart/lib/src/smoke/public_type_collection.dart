@@ -7,7 +7,7 @@ class InternalStruct {
   String internal_stringField;
   InternalStruct(this.internal_stringField);
   /// @nodoc
-  internal_fooBar() {
+  void internal_fooBar() {
     final _fooBarFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PublicTypeCollection_InternalStruct_fooBar'));
     final _handle = smokePublictypecollectionInternalstructToFfi(this);
     final __resultHandle = _fooBarFfi(_handle, __lib.LibraryContext.isolateId);

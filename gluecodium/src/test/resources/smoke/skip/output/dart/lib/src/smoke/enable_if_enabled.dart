@@ -6,13 +6,13 @@ abstract class EnableIfEnabled {
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
-  static enableIfUnquoted() => EnableIfEnabled$Impl.enableIfUnquoted();
-  static enableIfUnquotedList() => EnableIfEnabled$Impl.enableIfUnquotedList();
-  static enableIfQuoted() => EnableIfEnabled$Impl.enableIfQuoted();
-  static enableIfQuotedList() => EnableIfEnabled$Impl.enableIfQuotedList();
-  static enableIfTagged() => EnableIfEnabled$Impl.enableIfTagged();
-  static enableIfTaggedList() => EnableIfEnabled$Impl.enableIfTaggedList();
-  static enableIfMixedList() => EnableIfEnabled$Impl.enableIfMixedList();
+  static void enableIfUnquoted() => EnableIfEnabled$Impl.enableIfUnquoted();
+  static void enableIfUnquotedList() => EnableIfEnabled$Impl.enableIfUnquotedList();
+  static void enableIfQuoted() => EnableIfEnabled$Impl.enableIfQuoted();
+  static void enableIfQuotedList() => EnableIfEnabled$Impl.enableIfQuotedList();
+  static void enableIfTagged() => EnableIfEnabled$Impl.enableIfTagged();
+  static void enableIfTaggedList() => EnableIfEnabled$Impl.enableIfTaggedList();
+  static void enableIfMixedList() => EnableIfEnabled$Impl.enableIfMixedList();
 }
 // EnableIfEnabled "private" section, not exported.
 final _smokeEnableifenabledRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -31,7 +31,7 @@ class EnableIfEnabled$Impl extends __lib.NativeBase implements EnableIfEnabled {
   EnableIfEnabled$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {}
-  static enableIfUnquoted() {
+  static void enableIfUnquoted() {
     final _enableIfUnquotedFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfUnquoted'));
     final __resultHandle = _enableIfUnquotedFfi(__lib.LibraryContext.isolateId);
     try {
@@ -39,7 +39,7 @@ class EnableIfEnabled$Impl extends __lib.NativeBase implements EnableIfEnabled {
     } finally {
     }
   }
-  static enableIfUnquotedList() {
+  static void enableIfUnquotedList() {
     final _enableIfUnquotedListFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfUnquotedList'));
     final __resultHandle = _enableIfUnquotedListFfi(__lib.LibraryContext.isolateId);
     try {
@@ -47,7 +47,7 @@ class EnableIfEnabled$Impl extends __lib.NativeBase implements EnableIfEnabled {
     } finally {
     }
   }
-  static enableIfQuoted() {
+  static void enableIfQuoted() {
     final _enableIfQuotedFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfQuoted'));
     final __resultHandle = _enableIfQuotedFfi(__lib.LibraryContext.isolateId);
     try {
@@ -55,7 +55,7 @@ class EnableIfEnabled$Impl extends __lib.NativeBase implements EnableIfEnabled {
     } finally {
     }
   }
-  static enableIfQuotedList() {
+  static void enableIfQuotedList() {
     final _enableIfQuotedListFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfQuotedList'));
     final __resultHandle = _enableIfQuotedListFfi(__lib.LibraryContext.isolateId);
     try {
@@ -63,7 +63,7 @@ class EnableIfEnabled$Impl extends __lib.NativeBase implements EnableIfEnabled {
     } finally {
     }
   }
-  static enableIfTagged() {
+  static void enableIfTagged() {
     final _enableIfTaggedFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfTagged'));
     final __resultHandle = _enableIfTaggedFfi(__lib.LibraryContext.isolateId);
     try {
@@ -71,7 +71,7 @@ class EnableIfEnabled$Impl extends __lib.NativeBase implements EnableIfEnabled {
     } finally {
     }
   }
-  static enableIfTaggedList() {
+  static void enableIfTaggedList() {
     final _enableIfTaggedListFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfTaggedList'));
     final __resultHandle = _enableIfTaggedListFfi(__lib.LibraryContext.isolateId);
     try {
@@ -79,7 +79,7 @@ class EnableIfEnabled$Impl extends __lib.NativeBase implements EnableIfEnabled {
     } finally {
     }
   }
-  static enableIfMixedList() {
+  static void enableIfMixedList() {
     final _enableIfMixedListFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfMixedList'));
     final __resultHandle = _enableIfMixedListFfi(__lib.LibraryContext.isolateId);
     try {

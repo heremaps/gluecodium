@@ -4,18 +4,18 @@ import 'package:library/src/builtin_types__conversion.dart';
 class StructWithMethods {
   String field;
   StructWithMethods(this.field);
-  voidFunction();
+  void voidFunction();
   bool boolFunction();
   int intFunction();
   String stringFunction();
   StructWithMethods structFunction();
-  static staticFunction() => $class.staticFunction();
+  static void staticFunction() => $class.staticFunction();
   static var $class = StructWithMethods$Impl();
 }
 class StructWithMethods$Impl {
   String field;
   StructWithMethods(this.field);
-  voidFunction() {
+  void voidFunction() {
     final _voidFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_StructWithMethods_voidFunction'));
     final _handle = smokeStructwithmethodsToFfi(this);
     final __resultHandle = _voidFunctionFfi(_handle, __lib.LibraryContext.isolateId);
@@ -68,7 +68,7 @@ class StructWithMethods$Impl {
       smokeStructwithmethodsReleaseFfiHandle(__resultHandle);
     }
   }
-  staticFunction() {
+  void staticFunction() {
     final _staticFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_StructWithMethods_staticFunction'));
     final __resultHandle = _staticFunctionFfi(__lib.LibraryContext.isolateId);
     try {

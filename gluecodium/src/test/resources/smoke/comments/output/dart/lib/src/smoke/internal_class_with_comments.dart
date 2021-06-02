@@ -11,7 +11,7 @@ abstract class InternalClassWithComments {
   /// This is definitely internal
   ///
   /// @nodoc
-  internal_doNothing();
+  void internal_doNothing();
 }
 // InternalClassWithComments "private" section, not exported.
 final _smokeInternalclasswithcommentsRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -31,7 +31,7 @@ class InternalClassWithComments$Impl extends __lib.NativeBase implements Interna
   @override
   void release() {}
   @override
-  internal_doNothing() {
+  void internal_doNothing() {
     final _doNothingFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalClassWithComments_doNothing'));
     final _handle = this.handle;
     final __resultHandle = _doNothingFfi(_handle, __lib.LibraryContext.isolateId);

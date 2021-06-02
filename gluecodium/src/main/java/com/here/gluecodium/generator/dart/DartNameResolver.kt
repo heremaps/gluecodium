@@ -40,6 +40,7 @@ import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeProperty
+import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
@@ -64,6 +65,7 @@ internal class DartNameResolver(
             is LimeComment -> resolveComment(element)
             is TypeId -> resolveBasicType(element)
             is LimeVisibility -> resolveVisibility(element)
+            is LimeReturnType -> resolveName(element.typeRef)
             is LimeBasicType -> resolveBasicType(element.typeId)
             is LimeValue -> resolveValue(element)
             is LimeGenericType -> resolveGenericType(element)

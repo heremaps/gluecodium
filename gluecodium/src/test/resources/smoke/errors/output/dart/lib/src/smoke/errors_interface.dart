@@ -20,10 +20,10 @@ abstract class ErrorsInterface {
   /// @nodoc
   @Deprecated("Does nothing")
   void release() {}
-  methodWithErrors();
-  methodWithExternalErrors();
+  void methodWithErrors();
+  void methodWithExternalErrors();
   String methodWithErrorsAndReturnValue();
-  static methodWithPayloadError() => ErrorsInterface$Impl.methodWithPayloadError();
+  static void methodWithPayloadError() => ErrorsInterface$Impl.methodWithPayloadError();
   static String methodWithPayloadErrorAndReturnValue() => ErrorsInterface$Impl.methodWithPayloadErrorAndReturnValue();
 }
 enum ErrorsInterface_InternalError {
@@ -263,10 +263,10 @@ class ErrorsInterface$Lambdas implements ErrorsInterface {
   @override
   void release() {}
   @override
-  methodWithErrors() =>
+  void methodWithErrors() =>
     methodWithErrorsLambda();
   @override
-  methodWithExternalErrors() =>
+  void methodWithExternalErrors() =>
     methodWithExternalErrorsLambda();
   @override
   String methodWithErrorsAndReturnValue() =>
@@ -277,7 +277,7 @@ class ErrorsInterface$Impl extends __lib.NativeBase implements ErrorsInterface {
   @override
   void release() {}
   @override
-  methodWithErrors() {
+  void methodWithErrors() {
     final _methodWithErrorsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ErrorsInterface_methodWithErrors'));
     final _handle = this.handle;
     final __callResultHandle = _methodWithErrorsFfi(_handle, __lib.LibraryContext.isolateId);
@@ -298,7 +298,7 @@ class ErrorsInterface$Impl extends __lib.NativeBase implements ErrorsInterface {
     }
   }
   @override
-  methodWithExternalErrors() {
+  void methodWithExternalErrors() {
     final _methodWithExternalErrorsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ErrorsInterface_methodWithExternalErrors'));
     final _handle = this.handle;
     final __callResultHandle = _methodWithExternalErrorsFfi(_handle, __lib.LibraryContext.isolateId);
@@ -341,7 +341,7 @@ class ErrorsInterface$Impl extends __lib.NativeBase implements ErrorsInterface {
     }
   }
   @override
-  static methodWithPayloadError() {
+  static void methodWithPayloadError() {
     final _methodWithPayloadErrorFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_ErrorsInterface_methodWithPayloadError'));
     final __callResultHandle = _methodWithPayloadErrorFfi(__lib.LibraryContext.isolateId);
     if (_methodWithPayloadErrorReturnHasError(__callResultHandle) != 0) {

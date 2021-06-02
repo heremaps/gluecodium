@@ -25,7 +25,7 @@ abstract class ExcludedComments {
   /// This is some very useful method that does nothing.
   ///
   /// @nodoc
-  someMethodWithoutReturnTypeOrInputParameters();
+  void someMethodWithoutReturnTypeOrInputParameters();
   /// Gets some very useful property.
   /// @nodoc
   bool get isSomeProperty;
@@ -315,7 +315,7 @@ class ExcludedComments$Impl extends __lib.NativeBase implements ExcludedComments
     }
   }
   @override
-  someMethodWithoutReturnTypeOrInputParameters() {
+  void someMethodWithoutReturnTypeOrInputParameters() {
     final _someMethodWithoutReturnTypeOrInputParametersFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ExcludedComments_someMethodWithoutReturnTypeOrInputParameters'));
     final _handle = this.handle;
     final __resultHandle = _someMethodWithoutReturnTypeOrInputParametersFfi(_handle, __lib.LibraryContext.isolateId);

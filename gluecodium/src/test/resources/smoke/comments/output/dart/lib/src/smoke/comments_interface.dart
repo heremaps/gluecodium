@@ -63,10 +63,10 @@ abstract class CommentsInterface {
   ///
   /// [input] Very useful input parameter
   ///
-  someMethodWithoutReturnTypeWithAllComments(String input);
+  void someMethodWithoutReturnTypeWithAllComments(String input);
   /// This is some very useful method that does not measure the usefulness of its input.
   ///
-  someMethodWithoutReturnTypeWithNoComments(String input);
+  void someMethodWithoutReturnTypeWithNoComments(String input);
   /// This is some very useful method that measures the usefulness of something.
   ///
   /// Returns [bool]. Usefulness of the input
@@ -75,10 +75,10 @@ abstract class CommentsInterface {
   /// This is some very useful method that measures the usefulness of something.
   ///
   bool someMethodWithoutInputParametersWithNoComments();
-  someMethodWithNothing();
+  void someMethodWithNothing();
   /// This is some very useful method that does nothing.
   ///
-  someMethodWithoutReturnTypeOrInputParameters();
+  void someMethodWithoutReturnTypeOrInputParameters();
   /// Gets some very useful property.
   bool get isSomeProperty;
   /// Sets some very useful property.
@@ -275,10 +275,10 @@ class CommentsInterface$Lambdas implements CommentsInterface {
   bool someMethodWithNoComments(String input) =>
     someMethodWithNoCommentsLambda(input);
   @override
-  someMethodWithoutReturnTypeWithAllComments(String input) =>
+  void someMethodWithoutReturnTypeWithAllComments(String input) =>
     someMethodWithoutReturnTypeWithAllCommentsLambda(input);
   @override
-  someMethodWithoutReturnTypeWithNoComments(String input) =>
+  void someMethodWithoutReturnTypeWithNoComments(String input) =>
     someMethodWithoutReturnTypeWithNoCommentsLambda(input);
   @override
   bool someMethodWithoutInputParametersWithAllComments() =>
@@ -287,10 +287,10 @@ class CommentsInterface$Lambdas implements CommentsInterface {
   bool someMethodWithoutInputParametersWithNoComments() =>
     someMethodWithoutInputParametersWithNoCommentsLambda();
   @override
-  someMethodWithNothing() =>
+  void someMethodWithNothing() =>
     someMethodWithNothingLambda();
   @override
-  someMethodWithoutReturnTypeOrInputParameters() =>
+  void someMethodWithoutReturnTypeOrInputParameters() =>
     someMethodWithoutReturnTypeOrInputParametersLambda();
   @override
   bool get isSomeProperty => isSomePropertyGetLambda();
@@ -354,7 +354,7 @@ class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterfa
     }
   }
   @override
-  someMethodWithoutReturnTypeWithAllComments(String input) {
+  void someMethodWithoutReturnTypeWithAllComments(String input) {
     final _someMethodWithoutReturnTypeWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CommentsInterface_someMethodWithoutReturnTypeWithAllComments__String'));
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
@@ -366,7 +366,7 @@ class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterfa
     }
   }
   @override
-  someMethodWithoutReturnTypeWithNoComments(String input) {
+  void someMethodWithoutReturnTypeWithNoComments(String input) {
     final _someMethodWithoutReturnTypeWithNoCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CommentsInterface_someMethodWithoutReturnTypeWithNoComments__String'));
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
@@ -400,7 +400,7 @@ class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterfa
     }
   }
   @override
-  someMethodWithNothing() {
+  void someMethodWithNothing() {
     final _someMethodWithNothingFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_CommentsInterface_someMethodWithNothing'));
     final _handle = this.handle;
     final __resultHandle = _someMethodWithNothingFfi(_handle, __lib.LibraryContext.isolateId);
@@ -410,7 +410,7 @@ class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterfa
     }
   }
   @override
-  someMethodWithoutReturnTypeOrInputParameters() {
+  void someMethodWithoutReturnTypeOrInputParameters() {
     final _someMethodWithoutReturnTypeOrInputParametersFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_CommentsInterface_someMethodWithoutReturnTypeOrInputParameters'));
     final _handle = this.handle;
     final __resultHandle = _someMethodWithoutReturnTypeOrInputParametersFfi(_handle, __lib.LibraryContext.isolateId);

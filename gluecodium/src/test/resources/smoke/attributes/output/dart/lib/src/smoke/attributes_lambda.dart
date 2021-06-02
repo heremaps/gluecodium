@@ -20,7 +20,7 @@ class AttributesLambda$Impl {
   final Pointer<Void> handle;
   AttributesLambda$Impl(this.handle);
   void release() => _smokeAttributeslambdaReleaseHandle(handle);
-  call() {
+  void call() {
     final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_AttributesLambda_call'));
     final _handle = this.handle;
     final __resultHandle = _callFfi(_handle, __lib.LibraryContext.isolateId);
@@ -84,4 +84,3 @@ AttributesLambda? smokeAttributeslambdaFromFfiNullable(Pointer<Void> handle) {
 void smokeAttributeslambdaReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeAttributeslambdaReleaseHandleNullable(handle);
 // End of AttributesLambda "private" section.
-

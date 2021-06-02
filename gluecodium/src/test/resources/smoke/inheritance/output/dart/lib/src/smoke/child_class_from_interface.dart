@@ -9,7 +9,7 @@ abstract class ChildClassFromInterface implements ParentInterface {
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
-  childClassMethod();
+  void childClassMethod();
 }
 // ChildClassFromInterface "private" section, not exported.
 final _smokeChildclassfrominterfaceRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -33,7 +33,7 @@ class ChildClassFromInterface$Impl extends __lib.NativeBase implements ChildClas
   @override
   void release() {}
   @override
-  childClassMethod() {
+  void childClassMethod() {
     final _childClassMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ChildClassFromInterface_childClassMethod'));
     final _handle = this.handle;
     final __resultHandle = _childClassMethodFfi(_handle, __lib.LibraryContext.isolateId);
@@ -43,7 +43,7 @@ class ChildClassFromInterface$Impl extends __lib.NativeBase implements ChildClas
     }
   }
   @override
-  rootMethod() {
+  void rootMethod() {
     final _rootMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentInterface_rootMethod'));
     final _handle = this.handle;
     final __resultHandle = _rootMethodFfi(_handle, __lib.LibraryContext.isolateId);

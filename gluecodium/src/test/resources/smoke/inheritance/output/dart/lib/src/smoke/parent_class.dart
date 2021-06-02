@@ -8,7 +8,7 @@ abstract class ParentClass {
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
-  rootMethod();
+  void rootMethod();
   String get rootProperty;
   set rootProperty(String value);
 }
@@ -34,7 +34,7 @@ class ParentClass$Impl extends __lib.NativeBase implements ParentClass {
   @override
   void release() {}
   @override
-  rootMethod() {
+  void rootMethod() {
     final _rootMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentClass_rootMethod'));
     final _handle = this.handle;
     final __resultHandle = _rootMethodFfi(_handle, __lib.LibraryContext.isolateId);
