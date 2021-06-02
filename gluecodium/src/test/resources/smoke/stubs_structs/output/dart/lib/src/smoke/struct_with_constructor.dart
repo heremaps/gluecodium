@@ -1,18 +1,18 @@
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-class StructWithConstructor {
+abstract class StructWithConstructor {
   String field;
   StructWithConstructor._(this.field);
-  StructWithConstructor._copy(StructWithConstructor _other) : this._(_other.field);
+  StructWithConstructor$Impl._copy(StructWithConstructor _other) : this._(_other.field);
   factory StructWithConstructor() => $class.fooBar();
-  static var $class = StructWithConstructor$Impl();
+  static var $class = StructWithConstructor$Impl._(null);
 }
 class StructWithConstructor$Impl {
   String field;
-  StructWithConstructor._(this.field);
-  StructWithConstructor._copy(StructWithConstructor _other) : this._(_other.field);
-  StructWithConstructor() : this._copy(_fooBar());
+  StructWithConstructor$Impl._(this.field);
+  StructWithConstructor$Impl._copy(StructWithConstructor _other) : this._(_other.field);
+  StructWithConstructor$Impl() : this._copy(_fooBar());
   StructWithConstructor _fooBar() {
     final _fooBarFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_StructWithConstructor_fooBar'));
     final __resultHandle = _fooBarFfi(__lib.LibraryContext.isolateId);

@@ -19,7 +19,7 @@
   !
   !}}
 {{>dart/DartDocumentation}}{{>dart/DartAttributes}}
-{{#unless testableMode}}abstract {{/unless}}class {{resolveName}} {{#if this.parent}}implements {{resolveName this.parent}} {{/if}}{
+abstract class {{resolveName}} {{#if this.parent}}implements {{resolveName this.parent}} {{/if}}{
 {{#set parent=this}}{{#constructors}}
 {{>dart/DartRedirectConstructor}}
 {{/constructors}}{{/set}}
@@ -38,7 +38,7 @@
 {{/properties}}{{/set}}{{!!
 }}{{#if testableMode}}
 
-  static var $class = {{resolveName}}$Impl();
+  static var $class = {{resolveName}}$Impl(null);
 {{/if}}
 }
 

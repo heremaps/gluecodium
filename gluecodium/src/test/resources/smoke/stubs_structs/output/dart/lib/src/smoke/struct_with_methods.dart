@@ -1,7 +1,7 @@
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-class StructWithMethods {
+abstract class StructWithMethods {
   String field;
   StructWithMethods(this.field);
   void voidFunction();
@@ -10,11 +10,11 @@ class StructWithMethods {
   String stringFunction();
   StructWithMethods structFunction();
   static void staticFunction() => $class.staticFunction();
-  static var $class = StructWithMethods$Impl();
+  static var $class = StructWithMethods$Impl(null);
 }
 class StructWithMethods$Impl {
   String field;
-  StructWithMethods(this.field);
+  StructWithMethods$Impl(this.field);
   void voidFunction() {
     final _voidFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_StructWithMethods_voidFunction'));
     final _handle = smokeStructwithmethodsToFfi(this);
