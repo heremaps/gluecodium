@@ -4,6 +4,10 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 typedef StandaloneProducer = String Function();
 // StandaloneProducer "private" section, not exported.
+final _smokeStandaloneproducerRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_StandaloneProducer_register_finalizer'));
 final _smokeStandaloneproducerCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -19,7 +23,6 @@ final _smokeStandaloneproducerCreateProxy = __lib.catchArgumentError(() => __lib
 class StandaloneProducer$Impl {
   final Pointer<Void> handle;
   StandaloneProducer$Impl(this.handle);
-  void release() => _smokeStandaloneproducerReleaseHandle(handle);
   String call() {
     final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_StandaloneProducer_call'));
     final _handle = this.handle;
@@ -48,12 +51,11 @@ Pointer<Void> smokeStandaloneproducerToFfi(StandaloneProducer value) =>
     Pointer.fromFunction<Int64 Function(Handle, Pointer<Pointer<Void>>)>(_smokeStandaloneproducercallStatic, __lib.unknownError)
   );
 StandaloneProducer smokeStandaloneproducerFromFfi(Pointer<Void> handle) {
-  final _impl = StandaloneProducer$Impl(_smokeStandaloneproducerCopyHandle(handle));
-  return () {
-    final _result =_impl.call();
-    _impl.release();
-    return _result;
-  };
+  final _copiedHandle = _smokeStandaloneproducerCopyHandle(handle);
+  final _impl = StandaloneProducer$Impl(_copiedHandle);
+  final result = () => _impl.call();
+  _smokeStandaloneproducerRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
+  return result;
 }
 void smokeStandaloneproducerReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeStandaloneproducerReleaseHandle(handle);

@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Added automatic finalization for lambdas in Dart.
+
 ## 9.1.1
 Release date: 2021-06-02
 ### Bug fixes:

@@ -50,12 +50,14 @@ extern "C" {
 {{>ffiClassImpl}}
 {{/model}}
 
-{{#classes}}
+{{#each classes lambdas}}
 // "Private" finalizer, not exposed to be callable from Dart.
 void
 {{libraryName}}_{{resolveName}}_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
-    auto ptr_ptr = reinterpret_cast<std::shared_ptr<{{resolveName "C++"}}>*>(handle);
+{{#notInstanceOf this "LimeLambda"}}
+    auto ptr_ptr = reinterpret_cast<{{>cppHandleType}}*>(handle);
     {{libraryName}}_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
+{{/notInstanceOf}}
     {{libraryName}}_{{resolveName}}_release_handle(handle);
 }
 
@@ -68,39 +70,23 @@ void
 FfiOpaqueHandle
 {{libraryName}}_{{resolveName}}_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::shared_ptr<{{resolveName "C++"}}>(
-            *reinterpret_cast<std::shared_ptr<{{resolveName "C++"}}>*>(handle)
+        new (std::nothrow) {{>cppHandleType}}(
+            *reinterpret_cast<{{>cppHandleType}}*>(handle)
         )
     );
 }
 
 void
 {{libraryName}}_{{resolveName}}_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::shared_ptr<{{resolveName "C++"}}>*>(handle);
+    delete reinterpret_cast<{{>cppHandleType}}*>(handle);
 }
 
 {{#if attributes.equatable}}{{>ffiEqualityFunction}}{{/if}}{{!!
-}}{{#if attributes.pointerEquatable}}{{>ffiEqualityFunction}}{{/if}}
+}}{{#if attributes.pointerEquatable}}{{>ffiEqualityFunction}}{{/if}}{{!!
+}}{{#instanceOf this "LimeLambda"}}{{#set type=this handleType="FfiOpaqueHandle"}}{{>ffi/FfiNullableImpl}}{{/set}}
 
-{{/classes}}
-{{#lambdas}}
-FfiOpaqueHandle
-{{libraryName}}_{{resolveName}}_copy_handle(FfiOpaqueHandle handle) {
-    return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) {{resolveName "C++"}}(
-            *reinterpret_cast<{{resolveName "C++"}}*>(handle)
-        )
-    );
-}
-
-void
-{{libraryName}}_{{resolveName}}_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<{{resolveName "C++"}}*>(handle);
-}
-
-{{#set type=this handleType="FfiOpaqueHandle"}}{{>ffi/FfiNullableImpl}}{{/set}}
-
-{{/lambdas}}
+{{/instanceOf}}
+{{/each}}
 
 {{#interfaces}}
 FfiOpaqueHandle
@@ -350,4 +336,7 @@ bool
 {{#each classes interfaces}}
 {{>ffiClassImpl}}
 {{/each}}
-{{/ffiClassImpl}}
+{{/ffiClassImpl}}{{!!
+
+}}{{+cppHandleType}}{{#instanceOf this "LimeLambda"}}{{resolveName "C++"}}{{/instanceOf}}{{!!
+}}{{#notInstanceOf this "LimeLambda"}}std::shared_ptr<{{resolveName "C++"}}>{{/notInstanceOf}}{{/cppHandleType}}

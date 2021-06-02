@@ -127,6 +127,16 @@ void
 library_smoke_SpecialNamesInterface_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::SpecialNamesInterface>*>(handle);
 }
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_SpecialNamesInterface_Callback_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    library_smoke_SpecialNamesInterface_Callback_release_handle(handle);
+}
+void
+library_smoke_SpecialNamesInterface_Callback_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_SpecialNamesInterface_Callback_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
+}
 FfiOpaqueHandle
 library_smoke_SpecialNamesInterface_Callback_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(

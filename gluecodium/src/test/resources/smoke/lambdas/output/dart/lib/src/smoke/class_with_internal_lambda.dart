@@ -12,6 +12,10 @@ abstract class ClassWithInternalLambda {
 /// @nodoc
 typedef ClassWithInternalLambda_InternalLambda = bool Function(String);
 // ClassWithInternalLambda_InternalLambda "private" section, not exported.
+final _smokeClasswithinternallambdaInternallambdaRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_ClassWithInternalLambda_InternalLambda_register_finalizer'));
 final _smokeClasswithinternallambdaInternallambdaCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -27,7 +31,6 @@ final _smokeClasswithinternallambdaInternallambdaCreateProxy = __lib.catchArgume
 class ClassWithInternalLambda_InternalLambda$Impl {
   final Pointer<Void> handle;
   ClassWithInternalLambda_InternalLambda$Impl(this.handle);
-  void release() => _smokeClasswithinternallambdaInternallambdaReleaseHandle(handle);
   bool internal_call(String p0) {
     final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ClassWithInternalLambda_InternalLambda_call__String'));
     final _p0Handle = stringToFfi(p0);
@@ -59,12 +62,11 @@ Pointer<Void> smokeClasswithinternallambdaInternallambdaToFfi(ClassWithInternalL
     Pointer.fromFunction<Int64 Function(Handle, Pointer<Void>, Pointer<Uint8>)>(_smokeClasswithinternallambdaInternallambdacallStatic, __lib.unknownError)
   );
 ClassWithInternalLambda_InternalLambda smokeClasswithinternallambdaInternallambdaFromFfi(Pointer<Void> handle) {
-  final _impl = ClassWithInternalLambda_InternalLambda$Impl(_smokeClasswithinternallambdaInternallambdaCopyHandle(handle));
-  return (String p0) {
-    final _result =_impl.internal_call(p0);
-    _impl.release();
-    return _result;
-  };
+  final _copiedHandle = _smokeClasswithinternallambdaInternallambdaCopyHandle(handle);
+  final _impl = ClassWithInternalLambda_InternalLambda$Impl(_copiedHandle);
+  final result = (String p0) => _impl.internal_call(p0);
+  _smokeClasswithinternallambdaInternallambdaRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
+  return result;
 }
 void smokeClasswithinternallambdaInternallambdaReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeClasswithinternallambdaInternallambdaReleaseHandle(handle);
