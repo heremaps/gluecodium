@@ -1,10 +1,12 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 9.1.1
+Release date: 2021-06-02
 ### Bug fixes:
   * Fixed runtime issues in Java when a 'null' is returned from C++ for a non-nullable `Blob`.
   * Updated Dart generator to generate `void` function return type explicitly.  
   * Fixed compilation issues in Dart generated for testable "stubs" mode.
+  * Updated Dart SDK discovery mechanism in CMake toolchain to be aware of the new Flutter SDK path.
 
 ## 9.1.0
 Release date: 2021-05-31
