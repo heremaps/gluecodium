@@ -171,6 +171,10 @@ void smokeExcludedcommentsSomestructReleaseFfiHandleNullable(Pointer<Void> handl
 /// @nodoc
 typedef ExcludedComments_SomeLambda = double Function(String, int);
 // ExcludedComments_SomeLambda "private" section, not exported.
+final _smokeExcludedcommentsSomelambdaRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_ExcludedComments_SomeLambda_register_finalizer'));
 final _smokeExcludedcommentsSomelambdaCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -186,7 +190,6 @@ final _smokeExcludedcommentsSomelambdaCreateProxy = __lib.catchArgumentError(() 
 class ExcludedComments_SomeLambda$Impl {
   final Pointer<Void> handle;
   ExcludedComments_SomeLambda$Impl(this.handle);
-  void release() => _smokeExcludedcommentsSomelambdaReleaseHandle(handle);
   double call(String p0, int p1) {
     final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Double Function(Pointer<Void>, Int32, Pointer<Void>, Int32), double Function(Pointer<Void>, int, Pointer<Void>, int)>('library_smoke_ExcludedComments_SomeLambda_call__String_Int'));
     final _p0Handle = stringToFfi(p0);
@@ -218,12 +221,11 @@ Pointer<Void> smokeExcludedcommentsSomelambdaToFfi(ExcludedComments_SomeLambda v
     Pointer.fromFunction<Int64 Function(Handle, Pointer<Void>, Int32, Pointer<Double>)>(_smokeExcludedcommentsSomelambdacallStatic, __lib.unknownError)
   );
 ExcludedComments_SomeLambda smokeExcludedcommentsSomelambdaFromFfi(Pointer<Void> handle) {
-  final _impl = ExcludedComments_SomeLambda$Impl(_smokeExcludedcommentsSomelambdaCopyHandle(handle));
-  return (String p0, int p1) {
-    final _result =_impl.call(p0, p1);
-    _impl.release();
-    return _result;
-  };
+  final _copiedHandle = _smokeExcludedcommentsSomelambdaCopyHandle(handle);
+  final _impl = ExcludedComments_SomeLambda$Impl(_copiedHandle);
+  final result = (String p0, int p1) => _impl.call(p0, p1);
+  _smokeExcludedcommentsSomelambdaRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
+  return result;
 }
 void smokeExcludedcommentsSomelambdaReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeExcludedcommentsSomelambdaReleaseHandle(handle);

@@ -13,6 +13,10 @@ abstract class MapScene {
 }
 typedef MapScene_LoadSceneCallback = void Function(String?);
 // MapScene_LoadSceneCallback "private" section, not exported.
+final _smokeMapsceneLoadscenecallbackRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_MapScene_LoadSceneCallback_register_finalizer'));
 final _smokeMapsceneLoadscenecallbackCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -28,7 +32,6 @@ final _smokeMapsceneLoadscenecallbackCreateProxy = __lib.catchArgumentError(() =
 class MapScene_LoadSceneCallback$Impl {
   final Pointer<Void> handle;
   MapScene_LoadSceneCallback$Impl(this.handle);
-  void release() => _smokeMapsceneLoadscenecallbackReleaseHandle(handle);
   void call(String? p0) {
     final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MapScene_LoadSceneCallback_call__String'));
     final _p0Handle = stringToFfiNullable(p0);
@@ -57,12 +60,11 @@ Pointer<Void> smokeMapsceneLoadscenecallbackToFfi(MapScene_LoadSceneCallback val
     Pointer.fromFunction<Int64 Function(Handle, Pointer<Void>)>(_smokeMapsceneLoadscenecallbackcallStatic, __lib.unknownError)
   );
 MapScene_LoadSceneCallback smokeMapsceneLoadscenecallbackFromFfi(Pointer<Void> handle) {
-  final _impl = MapScene_LoadSceneCallback$Impl(_smokeMapsceneLoadscenecallbackCopyHandle(handle));
-  return (String? p0) {
-    final _result =_impl.call(p0);
-    _impl.release();
-    return _result;
-  };
+  final _copiedHandle = _smokeMapsceneLoadscenecallbackCopyHandle(handle);
+  final _impl = MapScene_LoadSceneCallback$Impl(_copiedHandle);
+  final result = (String? p0) => _impl.call(p0);
+  _smokeMapsceneLoadscenecallbackRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
+  return result;
 }
 void smokeMapsceneLoadscenecallbackReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeMapsceneLoadscenecallbackReleaseHandle(handle);

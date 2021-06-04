@@ -23,6 +23,10 @@ typedef {{resolveName}} = {{>dart/DartLambdaType}};
 
 // {{resolveName}} "private" section, not exported.
 
+final _{{resolveName "Ffi"}}RegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_register_finalizer'));
 final _{{resolveName "Ffi"}}CopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -39,8 +43,6 @@ final _{{resolveName "Ffi"}}CreateProxy = __lib.catchArgumentError(() => __lib.n
 class {{resolveName}}$Impl {
   final Pointer<Void> handle;
   {{resolveName}}$Impl(this.handle);
-
-  void release() => _{{resolveName "Ffi"}}ReleaseHandle(handle);
 
 {{#set parent=this}}{{#asFunction}}
 {{prefixPartial "dart/DartFunction" "  "}}
@@ -78,13 +80,12 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) =>
   );
 
 {{resolveName}} {{resolveName "Ffi"}}FromFfi(Pointer<Void> handle) {
-  final _impl = {{resolveName}}$Impl(_{{resolveName "Ffi"}}CopyHandle(handle));
-  return ({{#asFunction}}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{/asFunction}}){{!!
-  }} {
-    final _result =_impl.{{#asFunction}}{{resolveName visibility}}{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{/asFunction}});
-    _impl.release();
-    return _result;
-  };
+  final _copiedHandle = _{{resolveName "Ffi"}}CopyHandle(handle);
+  final _impl = {{resolveName}}$Impl(_copiedHandle);
+  final result = {{#asFunction}}({{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) => {{!!
+  }}_impl.{{resolveName visibility}}{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{/asFunction}};
+  _{{resolveName "Ffi"}}RegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
+  return result;
 }
 
 void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) =>

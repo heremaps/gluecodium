@@ -4,6 +4,10 @@ import 'package:library/src/_token_cache.dart' as __lib;
 @OnLambda
 typedef AttributesLambda = void Function();
 // AttributesLambda "private" section, not exported.
+final _smokeAttributeslambdaRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_AttributesLambda_register_finalizer'));
 final _smokeAttributeslambdaCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -19,7 +23,6 @@ final _smokeAttributeslambdaCreateProxy = __lib.catchArgumentError(() => __lib.n
 class AttributesLambda$Impl {
   final Pointer<Void> handle;
   AttributesLambda$Impl(this.handle);
-  void release() => _smokeAttributeslambdaReleaseHandle(handle);
   void call() {
     final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_AttributesLambda_call'));
     final _handle = this.handle;
@@ -45,12 +48,11 @@ Pointer<Void> smokeAttributeslambdaToFfi(AttributesLambda value) =>
     Pointer.fromFunction<Int64 Function(Handle)>(_smokeAttributeslambdacallStatic, __lib.unknownError)
   );
 AttributesLambda smokeAttributeslambdaFromFfi(Pointer<Void> handle) {
-  final _impl = AttributesLambda$Impl(_smokeAttributeslambdaCopyHandle(handle));
-  return () {
-    final _result =_impl.call();
-    _impl.release();
-    return _result;
-  };
+  final _copiedHandle = _smokeAttributeslambdaCopyHandle(handle);
+  final _impl = AttributesLambda$Impl(_copiedHandle);
+  final result = () => _impl.call();
+  _smokeAttributeslambdaRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
+  return result;
 }
 void smokeAttributeslambdaReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeAttributeslambdaReleaseHandle(handle);

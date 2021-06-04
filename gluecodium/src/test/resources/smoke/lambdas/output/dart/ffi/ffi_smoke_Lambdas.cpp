@@ -311,6 +311,16 @@ void
 library_smoke_Lambdas_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::Lambdas>*>(handle);
 }
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_Lambdas_Producer_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    library_smoke_Lambdas_Producer_release_handle(handle);
+}
+void
+library_smoke_Lambdas_Producer_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_Lambdas_Producer_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
+}
 FfiOpaqueHandle
 library_smoke_Lambdas_Producer_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
@@ -343,6 +353,16 @@ library_smoke_Lambdas_Producer_get_value_nullable(FfiOpaqueHandle handle)
     return gluecodium::ffi::Conversion<::smoke::Lambdas::Producer>::toFfi(
         **reinterpret_cast<gluecodium::optional<::smoke::Lambdas::Producer>*>(handle)
     );
+}
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_Lambdas_Confuser_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    library_smoke_Lambdas_Confuser_release_handle(handle);
+}
+void
+library_smoke_Lambdas_Confuser_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_Lambdas_Confuser_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
 }
 FfiOpaqueHandle
 library_smoke_Lambdas_Confuser_copy_handle(FfiOpaqueHandle handle) {
@@ -377,6 +397,16 @@ library_smoke_Lambdas_Confuser_get_value_nullable(FfiOpaqueHandle handle)
         **reinterpret_cast<gluecodium::optional<::smoke::Lambdas::Confuser>*>(handle)
     );
 }
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_Lambdas_Consumer_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    library_smoke_Lambdas_Consumer_release_handle(handle);
+}
+void
+library_smoke_Lambdas_Consumer_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_Lambdas_Consumer_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
+}
 FfiOpaqueHandle
 library_smoke_Lambdas_Consumer_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
@@ -410,6 +440,16 @@ library_smoke_Lambdas_Consumer_get_value_nullable(FfiOpaqueHandle handle)
         **reinterpret_cast<gluecodium::optional<::smoke::Lambdas::Consumer>*>(handle)
     );
 }
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_Lambdas_Indexer_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    library_smoke_Lambdas_Indexer_release_handle(handle);
+}
+void
+library_smoke_Lambdas_Indexer_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_Lambdas_Indexer_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
+}
 FfiOpaqueHandle
 library_smoke_Lambdas_Indexer_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
@@ -442,6 +482,16 @@ library_smoke_Lambdas_Indexer_get_value_nullable(FfiOpaqueHandle handle)
     return gluecodium::ffi::Conversion<::smoke::Lambdas::Indexer>::toFfi(
         **reinterpret_cast<gluecodium::optional<::smoke::Lambdas::Indexer>*>(handle)
     );
+}
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_Lambdas_NullableConfuser_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    library_smoke_Lambdas_NullableConfuser_release_handle(handle);
+}
+void
+library_smoke_Lambdas_NullableConfuser_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_Lambdas_NullableConfuser_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
 }
 FfiOpaqueHandle
 library_smoke_Lambdas_NullableConfuser_copy_handle(FfiOpaqueHandle handle) {

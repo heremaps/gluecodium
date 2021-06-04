@@ -215,6 +215,10 @@ void smokeCommentsSomestructReleaseFfiHandleNullable(Pointer<Void> handle) =>
 /// This is some very useful lambda that does it.
 typedef Comments_SomeLambda = double Function(String, int);
 // Comments_SomeLambda "private" section, not exported.
+final _smokeCommentsSomelambdaRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_Comments_SomeLambda_register_finalizer'));
 final _smokeCommentsSomelambdaCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -230,7 +234,6 @@ final _smokeCommentsSomelambdaCreateProxy = __lib.catchArgumentError(() => __lib
 class Comments_SomeLambda$Impl {
   final Pointer<Void> handle;
   Comments_SomeLambda$Impl(this.handle);
-  void release() => _smokeCommentsSomelambdaReleaseHandle(handle);
   double call(String p0, int p1) {
     final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Double Function(Pointer<Void>, Int32, Pointer<Void>, Int32), double Function(Pointer<Void>, int, Pointer<Void>, int)>('library_smoke_Comments_SomeLambda_call__String_Int'));
     final _p0Handle = stringToFfi(p0);
@@ -262,12 +265,11 @@ Pointer<Void> smokeCommentsSomelambdaToFfi(Comments_SomeLambda value) =>
     Pointer.fromFunction<Int64 Function(Handle, Pointer<Void>, Int32, Pointer<Double>)>(_smokeCommentsSomelambdacallStatic, __lib.unknownError)
   );
 Comments_SomeLambda smokeCommentsSomelambdaFromFfi(Pointer<Void> handle) {
-  final _impl = Comments_SomeLambda$Impl(_smokeCommentsSomelambdaCopyHandle(handle));
-  return (String p0, int p1) {
-    final _result =_impl.call(p0, p1);
-    _impl.release();
-    return _result;
-  };
+  final _copiedHandle = _smokeCommentsSomelambdaCopyHandle(handle);
+  final _impl = Comments_SomeLambda$Impl(_copiedHandle);
+  final result = (String p0, int p1) => _impl.call(p0, p1);
+  _smokeCommentsSomelambdaRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
+  return result;
 }
 void smokeCommentsSomelambdaReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeCommentsSomelambdaReleaseHandle(handle);

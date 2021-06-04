@@ -37,20 +37,15 @@ extern "C" {
 {{>ffiClassHeader}}
 {{/model}}
 
-{{#classes}}
+{{#each classes lambdas}}
 _GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_register_finalizer(
     FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_copy_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_release_handle(FfiOpaqueHandle handle);
 {{#if attributes.equatable}}{{>ffiEqualityFunctionDeclaration}}{{/if}}{{!!
-}}{{#if attributes.pointerEquatable}}{{>ffiEqualityFunctionDeclaration}}{{/if}}
-{{/classes}}
-
-{{#lambdas}}
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_copy_handle(FfiOpaqueHandle handle);
-_GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_release_handle(FfiOpaqueHandle handle);
-{{#set type=this handleType="FfiOpaqueHandle"}}{{>ffi/FfiNullableDeclaration}}{{/set}}
-{{/lambdas}}
+}}{{#if attributes.pointerEquatable}}{{>ffiEqualityFunctionDeclaration}}{{/if}}{{!!
+}}{{#instanceOf this "LimeLambda"}}{{#set type=this handleType="FfiOpaqueHandle"}}{{>ffi/FfiNullableDeclaration}}{{/set}}{{/instanceOf}}
+{{/each}}
 
 {{#each interfaces lambdas}}
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_create_proxy({{!!
