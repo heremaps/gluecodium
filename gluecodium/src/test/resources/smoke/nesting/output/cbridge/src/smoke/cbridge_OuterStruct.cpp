@@ -111,7 +111,7 @@ void smoke_OuterStruct_InnerClass_remove_swift_object_from_wrapper_cache(_baseRe
     ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::OuterStruct::InnerClass >>(handle)->get());
 }
 _baseRef smoke_OuterStruct_InnerClass_fooBar(_baseRef _instance) {
-    return Conversion<::std::unordered_set< ::gluecodium::Locale >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::OuterStruct::InnerClass >>(_instance)->get()->foo_bar());
+    return Conversion<::std::unordered_set< ::gluecodium::Locale, ::gluecodium::hash< ::gluecodium::Locale > >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::OuterStruct::InnerClass >>(_instance)->get()->foo_bar());
 }
 void smoke_OuterStruct_InnerInterface_release_handle(_baseRef handle) {
     delete get_pointer<::std::shared_ptr< ::smoke::OuterStruct::InnerInterface >>(handle);

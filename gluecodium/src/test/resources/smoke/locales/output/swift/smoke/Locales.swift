@@ -5,6 +5,8 @@ public class Locales {
     public typealias LocaleTypeDef = Locale
     public typealias LocaleArray = [Locale]
     public typealias LocaleMap = [String: Locale]
+    public typealias LocaleSet = Set<Locale>
+    public typealias LocaleKeyMap = [Locale: String]
     public var localeProperty: Locale {
         get {
             let c_result_handle = smoke_Locales_localeProperty_get(self.c_instance)

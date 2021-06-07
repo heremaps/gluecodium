@@ -103,7 +103,7 @@ library_smoke_OuterStruct_InnerStruct_doSomething(FfiOpaqueHandle _self, int32_t
 FfiOpaqueHandle
 library_smoke_OuterStruct_InnerClass_fooBar(FfiOpaqueHandle _self, int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-    return gluecodium::ffi::Conversion<std::unordered_set<gluecodium::Locale>>::toFfi(
+    return gluecodium::ffi::Conversion<std::unordered_set<gluecodium::Locale, gluecodium::hash<gluecodium::Locale>>>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::OuterStruct::InnerClass>>::toCpp(_self)).foo_bar()
     );
 }
