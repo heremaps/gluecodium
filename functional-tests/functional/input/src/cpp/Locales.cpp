@@ -19,61 +19,90 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/Locales.h"
+#include "test/LocaleGenerics.h"
 #include "test/LocalesStruct.h"
 
 namespace test
 {
-lorem_ipsum::test::Locale s_locale = lorem_ipsum::test::Locale(std::string{"foo"}, "bar", "baz");
+using namespace lorem_ipsum::test;
+
+Locale s_locale = Locale(std::string{"foo"}, "bar", "baz");
 std::string nonsense = "@#$%";
 
-lorem_ipsum::test::Locale
-Locales::locale_round_trip(const lorem_ipsum::test::Locale& input) {
+// Locales
+
+Locale
+Locales::locale_round_trip(const Locale& input) {
     return input;
 }
 
-lorem_ipsum::test::Locale
-Locales::locale_round_trip_strip_tag(const lorem_ipsum::test::Locale& input) {
-    return lorem_ipsum::test::Locale(input.language_code, input.country_code, input.script_code);
+Locale
+Locales::locale_round_trip_strip_tag(const Locale& input) {
+    return Locale(input.language_code, input.country_code, input.script_code);
 }
 
-lorem_ipsum::test::optional<lorem_ipsum::test::Locale>
-Locales::locale_round_trip_nullable(
-    const lorem_ipsum::test::optional<lorem_ipsum::test::Locale>& input) {
+optional<Locale>
+Locales::locale_round_trip_nullable(const optional<Locale>& input) {
     return input;
 }
 
-lorem_ipsum::test::Locale
+Locale
 Locales::get_locale_property() {
     return s_locale;
 }
 
 void
-Locales::set_locale_property(const lorem_ipsum::test::Locale& value) {
+Locales::set_locale_property(const Locale& value) {
     s_locale = value;
 }
 
-lorem_ipsum::test::Locale
+Locale
 Locales::get_locale_with_malformed_tag() {
-    return lorem_ipsum::test::Locale(nonsense);
+    return Locale(nonsense);
 }
 
-lorem_ipsum::test::Locale
+Locale
 Locales::get_locale_with_malformed_language() {
-    return lorem_ipsum::test::Locale(nonsense, "bar", "baz");
+    return Locale(nonsense, "bar", "baz");
 }
 
-lorem_ipsum::test::Locale
+Locale
 Locales::get_locale_with_malformed_country() {
-    return lorem_ipsum::test::Locale("foo", nonsense, "baz");
+    return Locale("foo", nonsense, "baz");
 }
 
-lorem_ipsum::test::Locale
+Locale
 Locales::get_locale_with_malformed_script() {
-    return lorem_ipsum::test::Locale("foo", "bar", nonsense);
+    return Locale("foo", "bar", nonsense);
 }
+
+// LocalesStruct
 
 LocalesStruct
 LocalesStruct::locales_struct_round_trip(const LocalesStruct& input) {
+    return input;
+}
+
+// LocaleGenerics
+
+std::vector<Locale>
+LocaleGenerics::locale_list_round_trip(const std::vector<Locale>& input) {
+    return input;
+}
+
+std::unordered_set<Locale, hash<Locale>>
+LocaleGenerics::locale_set_round_trip(const std::unordered_set<Locale, hash<Locale>>& input) {
+    return input;
+}
+
+std::unordered_map<Locale, std::string, hash<Locale>>
+LocaleGenerics::locale_keys_map_round_trip(
+    const std::unordered_map<Locale, std::string, hash<Locale>>& input) {
+    return input;
+}
+
+std::unordered_map<std::string, Locale>
+LocaleGenerics::locale_values_map_round_trip(const std::unordered_map<std::string, Locale>& input) {
     return input;
 }
 

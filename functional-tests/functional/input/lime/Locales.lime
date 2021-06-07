@@ -36,3 +36,10 @@ struct LocalesStruct {
 
     static fun localesStructRoundTrip(input: LocalesStruct): LocalesStruct
 }
+
+class LocaleGenerics {
+    static fun localeListRoundTrip(input: List<Locale>): List<Locale>
+    static fun localeSetRoundTrip(input: Set<Locale>): Set<Locale>
+    static fun localeKeysMapRoundTrip(input: Map<Locale, String>): Map<Locale, String>
+    static fun localeValuesMapRoundTrip(input: Map<String, Locale>): Map<String, Locale>
+}

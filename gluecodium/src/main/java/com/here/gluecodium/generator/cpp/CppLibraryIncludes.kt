@@ -21,6 +21,7 @@ package com.here.gluecodium.generator.cpp
 
 import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 object CppLibraryIncludes {
@@ -39,8 +40,13 @@ object CppLibraryIncludes {
     val UTILITY = Include.createSystemInclude("utility")
 
     fun hasStdHash(limeType: LimeTypeRef): Boolean {
-        val actualType = limeType.type.actualType as? LimeBasicType ?: return false
-        return actualType.typeId != LimeBasicType.TypeId.BLOB &&
-            actualType.typeId != LimeBasicType.TypeId.DATE
+        val basicType = limeType.type.actualType
+        return when {
+            basicType !is LimeBasicType -> false
+            basicType.typeId.isNumericType -> true
+            basicType.typeId == TypeId.BOOLEAN -> true
+            basicType.typeId == TypeId.STRING -> true
+            else -> false
+        }
     }
 }

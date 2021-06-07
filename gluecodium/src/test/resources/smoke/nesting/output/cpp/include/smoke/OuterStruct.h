@@ -35,7 +35,7 @@ struct _GLUECODIUM_CPP_EXPORT OuterStruct {
         InnerClass();
         virtual ~InnerClass() = 0;
     public:
-        virtual ::std::unordered_set< ::gluecodium::Locale > foo_bar(  ) = 0;
+        virtual ::std::unordered_set< ::gluecodium::Locale, ::gluecodium::hash< ::gluecodium::Locale > > foo_bar(  ) = 0;
     };
     class _GLUECODIUM_CPP_EXPORT Builder {
     public:

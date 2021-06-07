@@ -25,6 +25,8 @@ class Locales {
     typealias LocaleTypeDef = Locale
     typealias LocaleArray = List<Locale>
     typealias LocaleMap = Map<String, Locale>
+    typealias LocaleSet = Set<Locale>
+    typealias LocaleKeyMap = Map<Locale, String>
 
     fun localeMethod(input: Locale): Locale
 
