@@ -5,6 +5,7 @@
   * Added automatic finalization for lambdas in Dart.
 ### Bug fixes:
   * Fixed `Locale` hash usage for maps and sets in C++.
+  * Fixed compilation issues for `@Optimized` Lists as struct fields in Java.
 
 ## 9.1.1
 Release date: 2021-06-02
