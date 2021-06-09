@@ -54,7 +54,7 @@ public class ListenerRoundtripTest {
 
   @Test
   public void convolutedRoundTrip() {
-    final SomeLifecycleListener listener = new SomeIndicator();
+    final SomeIndicator listener = new SomeIndicator();
     final SomeBase base = new RealBase();
 
     base.addLifecycleListener(listener);
