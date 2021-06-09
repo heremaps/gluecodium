@@ -179,7 +179,7 @@ create_object( JNIEnv* env, const JniReference<jclass>& javaClass )
     const char* signature = "()V";
     auto theConstructor = env->GetMethodID( javaClass.get(), name, signature );
 
-    return new_object(env, javaClass, theConstructor );
+    return new_object(env, javaClass, theConstructor);
 }
 
 inline JniReference<jobject>
@@ -189,7 +189,8 @@ create_instance_object( JNIEnv* env, const JniReference<jclass>& javaClass, jlon
     const char* signature = "(JLjava/lang/Object;)V";
     auto theConstructor = env->GetMethodID( javaClass.get(), name, signature );
 
-    return new_object(env, javaClass, theConstructor, instancePointer, NULL );
+    // On Mac platform `jlong` and `jobject` are `long long`, but `NULL` is `long`, so need to cast here.
+    return new_object(env, javaClass, theConstructor, instancePointer, static_cast<jobject>(NULL));
 }
 
 inline JniReference<jobject>
