@@ -43,9 +43,9 @@ smoke_Errors_methodWithExternalErrors_result smoke_Errors_methodWithExternalErro
 smoke_Errors_methodWithErrorsAndReturnValue_result smoke_Errors_methodWithErrorsAndReturnValue() {
     auto&& RESULT = ::smoke::Errors::method_with_errors_and_return_value();
     if (RESULT.has_value()) {
-        return {true, .returned_value = Conversion<::std::string>::toBaseRef(RESULT.unsafe_value())};
+        return {.has_value = true, .returned_value = Conversion<::std::string>::toBaseRef(RESULT.unsafe_value())};
     } else {
-        return {false, .error_value = static_cast< smoke_Errors_InternalErrorCode >(RESULT.error().value())};
+        return {.has_value = false, .error_value = static_cast< smoke_Errors_InternalErrorCode >(RESULT.error().value())};
     }
 }
 smoke_Errors_methodWithPayloadError_result smoke_Errors_methodWithPayloadError() {
@@ -53,14 +53,14 @@ smoke_Errors_methodWithPayloadError_result smoke_Errors_methodWithPayloadError()
     if (RESULT.has_value()) {
         return {true, 0};
     } else {
-        return {false, .error_value = Conversion<::smoke::Payload>::toBaseRef(RESULT.error())};
+        return {.has_value = false, .error_value = Conversion<::smoke::Payload>::toBaseRef(RESULT.error())};
     }
 }
 smoke_Errors_methodWithPayloadErrorAndReturnValue_result smoke_Errors_methodWithPayloadErrorAndReturnValue() {
     auto&& RESULT = ::smoke::Errors::method_with_payload_error_and_return_value();
     if (RESULT.has_value()) {
-        return {true, .returned_value = Conversion<::std::string>::toBaseRef(RESULT.unsafe_value())};
+        return {.has_value = true, .returned_value = Conversion<::std::string>::toBaseRef(RESULT.unsafe_value())};
     } else {
-        return {false, .error_value = Conversion<::smoke::Payload>::toBaseRef(RESULT.error())};
+        return {.has_value = false, .error_value = Conversion<::smoke::Payload>::toBaseRef(RESULT.error())};
     }
 }

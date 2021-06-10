@@ -90,9 +90,9 @@ _baseRef smoke_StructsWithMethodsInterface_Vector3_create_String(_baseRef input)
 smoke_StructsWithMethodsInterface_Vector3_create_Vector3_result smoke_StructsWithMethodsInterface_Vector3_create_Vector3(_baseRef other) {
     auto&& RESULT = ::smoke::StructsWithMethodsInterface::Vector3::create(Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toCpp(other));
     if (RESULT.has_value()) {
-        return {true, .returned_value = Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toBaseRef(RESULT.unsafe_value())};
+        return {.has_value = true, .returned_value = Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toBaseRef(RESULT.unsafe_value())};
     } else {
-        return {false, .error_value = static_cast< smoke_ValidationUtils_ValidationErrorCode >(RESULT.error().value())};
+        return {.has_value = false, .error_value = static_cast< smoke_ValidationUtils_ValidationErrorCode >(RESULT.error().value())};
     }
 }
 void smoke_StructsWithMethodsInterface_StructWithStaticMethodsOnly_doStuff() {
