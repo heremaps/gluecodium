@@ -26,9 +26,9 @@
 {{/if}}{{#unless returnType.isVoid}}
     auto&& RESULT = {{>callBaseApi}};
     if (RESULT.has_value()) {
-        return {true, .returned_value = {{#set delegateToCall="unsafe_value"}}{{>returnConversion}}{{/set}}};
+        return {.has_value = true, .returned_value = {{#set delegateToCall="unsafe_value"}}{{>returnConversion}}{{/set}}};
     } else {
-        return {false, .error_value = static_cast< {{resolveName errorType}} >(RESULT.error().value())};
+        return {.has_value = false, .error_value = static_cast< {{resolveName errorType}} >(RESULT.error().value())};
     }
 {{/unless}}{{/ifPredicate}}{{!!
 }}{{#unlessPredicate errorType "isNonNullableEnum"}}
@@ -37,10 +37,10 @@
 {{#if returnType.isVoid}}
         return {true, 0};
 {{/if}}{{#unless returnType.isVoid}}
-        return {true, .returned_value = {{#set delegateToCall="unsafe_value"}}{{>returnConversion}}{{/set}}};
+        return {.has_value = true, .returned_value = {{#set delegateToCall="unsafe_value"}}{{>returnConversion}}{{/set}}};
 {{/unless}}
     } else {
-        return {false, .error_value = {{>errorConversion}}};
+        return {.has_value = false, .error_value = {{>errorConversion}}};
     }
 {{/unlessPredicate}}{{!!
 }}{{/set}}{{/if}}{{!!

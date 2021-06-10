@@ -61,9 +61,9 @@ _baseRef smoke_Constructors_create_String_ULong(_baseRef foo, uint64_t bar) {
 smoke_Constructors_create_String_result smoke_Constructors_create_String(_baseRef input) {
     auto&& RESULT = ::smoke::Constructors::create(Conversion<::std::string>::toCpp(input));
     if (RESULT.has_value()) {
-        return {true, .returned_value = Conversion<::std::shared_ptr< ::smoke::Constructors >>::toBaseRef(RESULT.unsafe_value())};
+        return {.has_value = true, .returned_value = Conversion<::std::shared_ptr< ::smoke::Constructors >>::toBaseRef(RESULT.unsafe_value())};
     } else {
-        return {false, .error_value = static_cast< smoke_Constructors_ErrorEnum >(RESULT.error().value())};
+        return {.has_value = false, .error_value = static_cast< smoke_Constructors_ErrorEnum >(RESULT.error().value())};
     }
 }
 _baseRef smoke_Constructors_create__3Double_4(_baseRef input) {

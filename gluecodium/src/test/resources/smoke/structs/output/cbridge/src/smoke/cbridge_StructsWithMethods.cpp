@@ -59,8 +59,8 @@ _baseRef smoke_StructsWithMethods_Vector_create_Double_Double(double x, double y
 smoke_StructsWithMethods_Vector_create_Vector_result smoke_StructsWithMethods_Vector_create_Vector(_baseRef other) {
     auto&& RESULT = ::smoke::Vector::create(Conversion<::smoke::Vector>::toCpp(other));
     if (RESULT.has_value()) {
-        return {true, .returned_value = Conversion<::smoke::Vector>::toBaseRef(RESULT.unsafe_value())};
+        return {.has_value = true, .returned_value = Conversion<::smoke::Vector>::toBaseRef(RESULT.unsafe_value())};
     } else {
-        return {false, .error_value = static_cast< smoke_ValidationUtils_ValidationErrorCode >(RESULT.error().value())};
+        return {.has_value = false, .error_value = static_cast< smoke_ValidationUtils_ValidationErrorCode >(RESULT.error().value())};
     }
 }

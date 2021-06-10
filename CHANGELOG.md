@@ -7,6 +7,7 @@
   * Fixed `Locale` hash usage for maps and sets in C++.
   * Fixed compilation issues for `@Optimized` Lists as struct fields in Java.
   * Fixed compilation issue for Java when compiled on a Mac.
+  * Fixed CBridge compilation warning about a C99 extension syntax being used.
 
 ## 9.1.1
 Release date: 2021-06-02

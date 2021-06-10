@@ -59,9 +59,9 @@ smoke_ErrorsInterface_methodWithExternalErrors_result smoke_ErrorsInterface_meth
 smoke_ErrorsInterface_methodWithErrorsAndReturnValue_result smoke_ErrorsInterface_methodWithErrorsAndReturnValue(_baseRef _instance) {
     auto&& RESULT = get_pointer<::std::shared_ptr< ::smoke::ErrorsInterface >>(_instance)->get()->method_with_errors_and_return_value();
     if (RESULT.has_value()) {
-        return {true, .returned_value = Conversion<::std::string>::toBaseRef(RESULT.unsafe_value())};
+        return {.has_value = true, .returned_value = Conversion<::std::string>::toBaseRef(RESULT.unsafe_value())};
     } else {
-        return {false, .error_value = static_cast< smoke_ErrorsInterface_InternalError >(RESULT.error().value())};
+        return {.has_value = false, .error_value = static_cast< smoke_ErrorsInterface_InternalError >(RESULT.error().value())};
     }
 }
 smoke_ErrorsInterface_methodWithPayloadError_result smoke_ErrorsInterface_methodWithPayloadError() {
@@ -69,15 +69,15 @@ smoke_ErrorsInterface_methodWithPayloadError_result smoke_ErrorsInterface_method
     if (RESULT.has_value()) {
         return {true, 0};
     } else {
-        return {false, .error_value = Conversion<::smoke::Payload>::toBaseRef(RESULT.error())};
+        return {.has_value = false, .error_value = Conversion<::smoke::Payload>::toBaseRef(RESULT.error())};
     }
 }
 smoke_ErrorsInterface_methodWithPayloadErrorAndReturnValue_result smoke_ErrorsInterface_methodWithPayloadErrorAndReturnValue() {
     auto&& RESULT = ::smoke::ErrorsInterface::method_with_payload_error_and_return_value();
     if (RESULT.has_value()) {
-        return {true, .returned_value = Conversion<::std::string>::toBaseRef(RESULT.unsafe_value())};
+        return {.has_value = true, .returned_value = Conversion<::std::string>::toBaseRef(RESULT.unsafe_value())};
     } else {
-        return {false, .error_value = Conversion<::smoke::Payload>::toBaseRef(RESULT.error())};
+        return {.has_value = false, .error_value = Conversion<::smoke::Payload>::toBaseRef(RESULT.error())};
     }
 }
 class smoke_ErrorsInterfaceProxy : public ::smoke::ErrorsInterface, public CachedProxyBase<smoke_ErrorsInterfaceProxy> {
