@@ -3,6 +3,7 @@
 #include "InstanceCache.h"
 #include "FinalizerData.h"
 #include "IsolateContext.h"
+#include "gluecodium/Optional.h"
 #include "gluecodium/TimePointHash.h"
 #include "smoke/Dates.h"
 #include <chrono>
@@ -18,6 +19,15 @@ library_smoke_Dates_dateMethod__Date(FfiOpaqueHandle _self, int32_t _isolate_id,
     return gluecodium::ffi::Conversion<std::chrono::system_clock::time_point>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::Dates>>::toCpp(_self)).date_method(
             gluecodium::ffi::Conversion<std::chrono::system_clock::time_point>::toCpp(input)
+        )
+    );
+}
+FfiOpaqueHandle
+library_smoke_Dates_nullableDateMethod__Date(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
+    return gluecodium::ffi::Conversion<gluecodium::optional<std::chrono::system_clock::time_point>>::toFfi(
+        (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::Dates>>::toCpp(_self)).nullable_date_method(
+            gluecodium::ffi::Conversion<gluecodium::optional<std::chrono::system_clock::time_point>>::toCpp(input)
         )
     );
 }
@@ -60,8 +70,8 @@ library_smoke_Dates_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<::smoke::Dates>*>(handle);
 }
 FfiOpaqueHandle
-library_smoke_Dates_DateStruct_create_handle(uint64_t dateField) {
-    auto _result = new (std::nothrow) ::smoke::Dates::DateStruct(gluecodium::ffi::Conversion<std::chrono::system_clock::time_point>::toCpp(dateField));
+library_smoke_Dates_DateStruct_create_handle(uint64_t dateField, FfiOpaqueHandle nullableDateField) {
+    auto _result = new (std::nothrow) ::smoke::Dates::DateStruct(gluecodium::ffi::Conversion<std::chrono::system_clock::time_point>::toCpp(dateField), gluecodium::ffi::Conversion<gluecodium::optional<std::chrono::system_clock::time_point>>::toCpp(nullableDateField));
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void
@@ -72,6 +82,12 @@ uint64_t
 library_smoke_Dates_DateStruct_get_field_dateField(FfiOpaqueHandle handle) {
     return gluecodium::ffi::Conversion<std::chrono::system_clock::time_point>::toFfi(
         reinterpret_cast<::smoke::Dates::DateStruct*>(handle)->date_field
+    );
+}
+FfiOpaqueHandle
+library_smoke_Dates_DateStruct_get_field_nullableDateField(FfiOpaqueHandle handle) {
+    return gluecodium::ffi::Conversion<gluecodium::optional<std::chrono::system_clock::time_point>>::toFfi(
+        reinterpret_cast<::smoke::Dates::DateStruct*>(handle)->nullable_date_field
     );
 }
 FfiOpaqueHandle

@@ -8,17 +8,19 @@ abstract class Dates {
   @Deprecated("Does nothing")
   void release();
   DateTime dateMethod(DateTime input);
+  DateTime? nullableDateMethod(DateTime? input);
   DateTime get dateProperty;
   set dateProperty(DateTime value);
 }
 class Dates_DateStruct {
   DateTime dateField;
-  Dates_DateStruct(this.dateField);
+  DateTime? nullableDateField;
+  Dates_DateStruct(this.dateField, this.nullableDateField);
 }
 // Dates_DateStruct "private" section, not exported.
 final _smokeDatesDatestructCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64),
-    Pointer<Void> Function(int)
+    Pointer<Void> Function(Uint64, Pointer<Void>),
+    Pointer<Void> Function(int, Pointer<Void>)
   >('library_smoke_Dates_DateStruct_create_handle'));
 final _smokeDatesDatestructReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
@@ -28,20 +30,29 @@ final _smokeDatesDatestructGetFielddateField = __lib.catchArgumentError(() => __
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Dates_DateStruct_get_field_dateField'));
+final _smokeDatesDatestructGetFieldnullableDateField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_Dates_DateStruct_get_field_nullableDateField'));
 Pointer<Void> smokeDatesDatestructToFfi(Dates_DateStruct value) {
   final _dateFieldHandle = dateToFfi(value.dateField);
-  final _result = _smokeDatesDatestructCreateHandle(_dateFieldHandle);
+  final _nullableDateFieldHandle = dateToFfiNullable(value.nullableDateField);
+  final _result = _smokeDatesDatestructCreateHandle(_dateFieldHandle, _nullableDateFieldHandle);
   dateReleaseFfiHandle(_dateFieldHandle);
+  dateReleaseFfiHandleNullable(_nullableDateFieldHandle);
   return _result;
 }
 Dates_DateStruct smokeDatesDatestructFromFfi(Pointer<Void> handle) {
   final _dateFieldHandle = _smokeDatesDatestructGetFielddateField(handle);
+  final _nullableDateFieldHandle = _smokeDatesDatestructGetFieldnullableDateField(handle);
   try {
     return Dates_DateStruct(
-      dateFromFfi(_dateFieldHandle)
+      dateFromFfi(_dateFieldHandle),
+      dateFromFfiNullable(_nullableDateFieldHandle)
     );
   } finally {
     dateReleaseFfiHandle(_dateFieldHandle);
+    dateReleaseFfiHandleNullable(_nullableDateFieldHandle);
   }
 }
 void smokeDatesDatestructReleaseFfiHandle(Pointer<Void> handle) => _smokeDatesDatestructReleaseHandle(handle);
@@ -103,6 +114,19 @@ class Dates$Impl extends __lib.NativeBase implements Dates {
       return dateFromFfi(__resultHandle);
     } finally {
       dateReleaseFfiHandle(__resultHandle);
+    }
+  }
+  @override
+  DateTime? nullableDateMethod(DateTime? input) {
+    final _nullableDateMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Dates_nullableDateMethod__Date'));
+    final _inputHandle = dateToFfiNullable(input);
+    final _handle = this.handle;
+    final __resultHandle = _nullableDateMethodFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    dateReleaseFfiHandleNullable(_inputHandle);
+    try {
+      return dateFromFfiNullable(__resultHandle);
+    } finally {
+      dateReleaseFfiHandleNullable(__resultHandle);
     }
   }
   @override

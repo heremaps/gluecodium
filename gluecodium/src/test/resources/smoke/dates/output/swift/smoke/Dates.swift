@@ -28,16 +28,24 @@ public class Dates {
     }
     public struct DateStruct {
         public var dateField: Date
-        public init(dateField: Date) {
+        public var nullableDateField: Date?
+        public init(dateField: Date, nullableDateField: Date? = nil) {
             self.dateField = dateField
+            self.nullableDateField = nullableDateField
         }
         internal init(cHandle: _baseRef) {
             dateField = moveFromCType(smoke_Dates_DateStruct_dateField_get(cHandle))
+            nullableDateField = moveFromCType(smoke_Dates_DateStruct_nullableDateField_get(cHandle))
         }
     }
     public func dateMethod(input: Date) -> Date {
         let c_input = moveToCType(input)
         let c_result_handle = smoke_Dates_dateMethod(self.c_instance, c_input.ref)
+        return moveFromCType(c_result_handle)
+    }
+    public func nullableDateMethod(input: Date?) -> Date? {
+        let c_input = moveToCType(input)
+        let c_result_handle = smoke_Dates_nullableDateMethod(self.c_instance, c_input.ref)
         return moveFromCType(c_result_handle)
     }
 }
@@ -118,7 +126,8 @@ internal func moveFromCType(_ handle: _baseRef) -> Dates.DateStruct {
 }
 internal func copyToCType(_ swiftType: Dates.DateStruct) -> RefHolder {
     let c_dateField = moveToCType(swiftType.dateField)
-    return RefHolder(smoke_Dates_DateStruct_create_handle(c_dateField.ref))
+    let c_nullableDateField = moveToCType(swiftType.nullableDateField)
+    return RefHolder(smoke_Dates_DateStruct_create_handle(c_dateField.ref, c_nullableDateField.ref))
 }
 internal func moveToCType(_ swiftType: Dates.DateStruct) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Dates_DateStruct_release_handle)
@@ -141,7 +150,8 @@ internal func copyToCType(_ swiftType: Dates.DateStruct?) -> RefHolder {
         return RefHolder(0)
     }
     let c_dateField = moveToCType(swiftType.dateField)
-    return RefHolder(smoke_Dates_DateStruct_create_optional_handle(c_dateField.ref))
+    let c_nullableDateField = moveToCType(swiftType.nullableDateField)
+    return RefHolder(smoke_Dates_DateStruct_create_optional_handle(c_dateField.ref, c_nullableDateField.ref))
 }
 internal func moveToCType(_ swiftType: Dates.DateStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Dates_DateStruct_release_optional_handle)
