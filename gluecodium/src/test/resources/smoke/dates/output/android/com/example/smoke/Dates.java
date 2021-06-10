@@ -1,17 +1,20 @@
 /*
  *
-
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import com.example.NativeBase;
 import java.util.Date;
 public final class Dates extends NativeBase {
     public static final class DateStruct {
         @NonNull
         public Date dateField;
-        public DateStruct(@NonNull final Date dateField) {
+        @Nullable
+        public Date nullableDateField;
+        public DateStruct(@NonNull final Date dateField, @Nullable final Date nullableDateField) {
             this.dateField = dateField;
+            this.nullableDateField = nullableDateField;
         }
     }
     /**
@@ -29,6 +32,8 @@ public final class Dates extends NativeBase {
     private static native void disposeNativeHandle(long nativeHandle);
     @NonNull
     public native Date dateMethod(@NonNull final Date input);
+    @Nullable
+    public native Date nullableDateMethod(@Nullable final Date input);
     @NonNull
     public native Date getDateProperty();
     public native void setDateProperty(@NonNull final Date value);
