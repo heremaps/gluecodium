@@ -125,15 +125,11 @@ internal class SwiftGenerator : Generator {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
 
+        val swiftGenericsCollector = CBridgeGenerator.GenericTypesCollector(SwiftActualNameResolver(swiftNameResolver))
         return swiftFiles + filteredElements.flatMap { cBridgeGenerator.generate(it) } +
             CBridgeGenerator.STATIC_FILES + STATIC_FILES +
             cBridgeGenerator.generateCollections(filteredElements) +
-            generateCollections(
-                filteredElements,
-                cBridgeGenerator.genericTypesCollector,
-                swiftNameResolver,
-                nameResolvers
-            ) +
+            generateCollections(filteredElements, swiftGenericsCollector, swiftNameResolver, nameResolvers) +
             generateBuiltinOptionals(nameResolvers + ("C++" to cBridgeGenerator.cppNameResolver)) +
             cBridgeGenerator.generateHelpers() + generateRefHolder()
     }
