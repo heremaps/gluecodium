@@ -393,9 +393,8 @@ internal class DartGenerator : Generator {
         )
     }
 
-    private fun generateFfiCommonFiles(
-        nameResolvers: Map<String, NameResolver>
-    ): List<GeneratedFile> {
+    private fun generateFfiCommonFiles(nameResolvers: Map<String, NameResolver>): List<GeneratedFile> {
+
         val headerOnly = listOf("ConversionBase", "Export", "OpaqueHandle")
         val headerAndImpl = listOf(
             "BlobHandle",

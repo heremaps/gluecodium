@@ -46,6 +46,7 @@ internal class FfiNameResolver(
 
     override fun resolveName(element: Any): String =
         when (element) {
+            is String -> mangleName(element)
             is TypeId -> getBasicTypeName(element)
             is LimeTypeRef -> getTypeRefName(element)
             is LimeFunction -> getMangledFullName(element)
