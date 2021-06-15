@@ -37,7 +37,7 @@ extern "C" {
 
 {{#builtInTypes}}
 FfiOpaqueHandle
-{{libraryName}}_{{this}}_create_handle_nullable({{resolveName}} value)
+{{libraryName}}_{{resolveName toString ""}}_create_handle_nullable({{resolveName}} value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<{{resolveName "C++"}}>(
@@ -48,13 +48,13 @@ FfiOpaqueHandle
 }
 
 void
-{{libraryName}}_{{this}}_release_handle_nullable(FfiOpaqueHandle handle)
+{{libraryName}}_{{resolveName toString ""}}_release_handle_nullable(FfiOpaqueHandle handle)
 {
     delete reinterpret_cast<{{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<{{resolveName "C++"}}>*>(handle);
 }
 
 {{resolveName}}
-{{libraryName}}_{{this}}_get_value_nullable(FfiOpaqueHandle handle)
+{{libraryName}}_{{resolveName toString ""}}_get_value_nullable(FfiOpaqueHandle handle)
 {
     return {{#unless isNumericType}}{{#isNotEq toString "Boolean"}}{{!!
     }}{{>ffi/FfiInternal}}::Conversion<{{resolveName "C++"}}>::toFfi{{/isNotEq}}{{/unless}}(

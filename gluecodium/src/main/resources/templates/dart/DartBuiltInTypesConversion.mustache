@@ -171,15 +171,15 @@ void localeReleaseFfiHandle(Pointer<Void> handle) => _localeReleaseHandle(handle
 final _{{resolveName toString "Ffi"}}CreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function({{resolveName "FfiApiTypes"}}),
     Pointer<Void> Function({{resolveName "FfiDartTypes"}})
-  >('{{libraryName}}_{{this}}_create_handle_nullable'));
+  >('{{libraryName}}_{{resolveName toString "FfiSnakeCase"}}_create_handle_nullable'));
 final _{{resolveName toString "Ffi"}}ReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('{{libraryName}}_{{this}}_release_handle_nullable'));
+  >('{{libraryName}}_{{resolveName toString "FfiSnakeCase"}}_release_handle_nullable'));
 final _{{resolveName toString "Ffi"}}GetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     {{resolveName "FfiApiTypes"}} Function(Pointer<Void>),
     {{resolveName "FfiDartTypes"}} Function(Pointer<Void>)
-  >('{{libraryName}}_{{this}}_get_value_nullable'));
+  >('{{libraryName}}_{{resolveName toString "FfiSnakeCase"}}_get_value_nullable'));
 
 Pointer<Void> {{resolveName toString "Ffi"}}ToFfiNullable({{resolveName}}? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
