@@ -23,4 +23,5 @@
 }}{{#ifPredicate "hasCppTypeAttribute"}}{{resolveName "CBridge"}}{{/ifPredicate}}{{!!
 }}{{#unlessPredicate "hasCppTypeAttribute"}}{{#instanceOf this "LimeList"}}{{internalPrefix}}{{/instanceOf}}{{!!
 }}{{#instanceOf this "LimeSet"}}{{internalPrefix}}{{/instanceOf}}{{!!
-}}{{#instanceOf this "LimeMap"}}{{internalPrefix}}{{/instanceOf}}{{/unlessPredicate}}{{/typeRef.type.actualType}}
+}}{{#instanceOf this "LimeMap"}}{{internalPrefix}}{{/instanceOf}}{{!!
+}}{{#ifPredicate "hasDurationType"}}TimeInterval_{{/ifPredicate}}{{/unlessPredicate}}{{/typeRef.type.actualType}}

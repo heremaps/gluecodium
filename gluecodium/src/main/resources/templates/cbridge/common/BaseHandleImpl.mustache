@@ -156,36 +156,30 @@ struct Conversion< ::std::shared_ptr< T > >
 
 namespace
 {
-
-template<class Clock, class Duration>
+template<class Rep, class Period>
 double
-time_point_to_seconds_since_epoch(const std::chrono::time_point<Clock, Duration>& timestamp) {
+duration_to_seconds_double(const std::chrono::duration<Rep, Period>& d) {
     // Double can represent an integer up to 52 bits without a loss of precision. For big 64-bit
     // integers there is a loss, so those should be divided as integers, not as doubles.
-
-    using namespace std::chrono;
-    auto time_since_epoch_scaled = timestamp.time_since_epoch().count() * Clock::period::num;
-
-    auto division_results = std::lldiv(time_since_epoch_scaled, Clock::period::den);
+    auto division_results = std::lldiv(d.count() * Period::num, Period::den);
     return static_cast<double>(division_results.quot) +
-        static_cast<double>(division_results.rem) / Clock::period::den;
+        static_cast<double>(division_results.rem) / Period::den;
 }
 
-template<class Clock, class Duration >
-std::chrono::time_point<Clock, Duration>
-seconds_since_epoch_to_time_point(double seconds_since_epoch) {
+template<class Rep, class Period>
+std::chrono::duration<Rep, Period>
+seconds_double_to_duration(double seconds_double) {
     // Double can represent an integer up to 52 bits without a loss of precision. For big 64-bit
     // integers there is a loss, so those should be multiplied as integers, not as doubles.
 
-    using namespace std::chrono;
-    auto time_since_epoch_scaled = seconds_since_epoch / Clock::period::num;
-    auto integralPart = std::floor(time_since_epoch_scaled);
-    auto decimalPart = time_since_epoch_scaled - integralPart;
+    auto seconds_scaled = seconds_double / Period::num;
+    auto integralPart = std::floor(seconds_scaled);
+    auto decimalPart = seconds_scaled - integralPart;
 
-    auto time_since_epoch =
-        static_cast<int64_t>(integralPart) * Clock::period::den +
-        static_cast<int64_t>(std::round( decimalPart * Clock::period::den));
-    return time_point<Clock, Duration>(Duration(time_since_epoch));
+    auto tick_count =
+        static_cast<int64_t>(integralPart) * Period::den +
+        static_cast<int64_t>(std::round(decimalPart * Period::den));
+    return std::chrono::duration<Rep, Period>(tick_count);
 }
 }
 
@@ -234,29 +228,33 @@ template<class Clock, class Duration>
 struct Conversion<std::chrono::time_point<Clock, Duration>> {
     static double
     toBaseRef(const std::chrono::time_point<Clock, Duration>& timestamp) {
-        return time_point_to_seconds_since_epoch( timestamp );
+        return duration_to_seconds_double(timestamp.time_since_epoch());
     }
 
     static double
     toBaseRef(std::chrono::time_point<Clock, Duration>&& timestamp) {
-        return time_point_to_seconds_since_epoch( timestamp );
+        return duration_to_seconds_double(timestamp.time_since_epoch());
     }
 
     static double
     referenceBaseRef(const std::chrono::time_point<Clock, Duration>& timestamp) {
-        return time_point_to_seconds_since_epoch( timestamp );
+        return duration_to_seconds_double(timestamp.time_since_epoch());
     }
 
     static std::chrono::time_point<Clock, Duration>
-    toCpp( double seconds_since_epoch )
-    {
-        return seconds_since_epoch_to_time_point<Clock, Duration>(seconds_since_epoch);
+    toCpp(double seconds_value) {
+        using namespace ::std::chrono;
+        return time_point<Clock, Duration>(
+            seconds_double_to_duration<typename Duration::rep, typename Duration::period>(seconds_value)
+        );
     }
 
     static std::chrono::time_point<Clock, Duration>
-    toCppReturn( double seconds_since_epoch )
-    {
-        return seconds_since_epoch_to_time_point<Clock, Duration>(seconds_since_epoch);
+    toCppReturn(double seconds_value) {
+        using namespace ::std::chrono;
+        return time_point<Clock, Duration>(
+            seconds_double_to_duration<typename Duration::rep, typename Duration::period>(seconds_value)
+        );
     }
 };
 
@@ -266,7 +264,7 @@ struct Conversion<{{>common/InternalNamespace}}optional<std::chrono::time_point<
     toBaseRef({{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>> ptr) {
         if (!ptr) return 0;
         return reinterpret_cast<_baseRef>(
-            new {{>common/InternalNamespace}}optional<double>(time_point_to_seconds_since_epoch(*ptr))
+            new {{>common/InternalNamespace}}optional<double>(duration_to_seconds_double(ptr->time_since_epoch()))
         );
     }
 
@@ -281,7 +279,9 @@ struct Conversion<{{>common/InternalNamespace}}optional<std::chrono::time_point<
         auto optional_double = *reinterpret_cast<{{>common/InternalNamespace}}optional<double>*>(ref);
         if (!optional_double) return {};
         return {{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>(
-            seconds_since_epoch_to_time_point<Clock, Duration>(*optional_double)
+            std::chrono::time_point<Clock, Duration>(
+                seconds_double_to_duration<typename Duration::rep, typename Duration::period>(*optional_double)
+            )
         );
     }
 
@@ -292,7 +292,77 @@ struct Conversion<{{>common/InternalNamespace}}optional<std::chrono::time_point<
         auto result = !*optional_ptr
             ? {{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>{}
             : {{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>(
-                seconds_since_epoch_to_time_point<Clock, Duration>(**optional_ptr)
+                std::chrono::time_point<Clock, Duration>(
+                    seconds_double_to_duration<typename Duration::rep, typename Duration::period>(**optional_ptr)
+                )
+            );
+        delete optional_ptr;
+        return result;
+    }
+};
+
+template<class Rep, class Period>
+struct Conversion<std::chrono::duration<Rep, Period>>
+{
+    static double
+    toBaseRef(const std::chrono::duration<Rep, Period>& d) {
+        return duration_to_seconds_double(d);
+    }
+
+    static double
+    toBaseRef(const std::chrono::duration<Rep, Period>&& d) {
+        return duration_to_seconds_double(d);
+    }
+
+    static double
+    referenceBaseRef(const std::chrono::duration<Rep, Period>& d) {
+        return duration_to_seconds_double(d);
+    }
+
+    static std::chrono::duration<Rep, Period>
+    toCpp(double seconds_double) {
+        return seconds_double_to_duration<Rep, Period>(seconds_double);
+    }
+
+    static std::chrono::duration<Rep, Period>
+    toCppReturn(double seconds_double) {
+        return seconds_double_to_duration<Rep, Period>(seconds_double);
+    }
+};
+
+template<class Rep, class Period>
+struct Conversion<{{>common/InternalNamespace}}optional<std::chrono::duration<Rep, Period>>> {
+    static _baseRef
+    toBaseRef({{>common/InternalNamespace}}optional<std::chrono::duration<Rep, Period>> ptr) {
+        if (!ptr) return 0;
+        return reinterpret_cast<_baseRef>(
+            new {{>common/InternalNamespace}}optional<double>(duration_to_seconds_double(*ptr))
+        );
+    }
+
+    static _baseRef
+    referenceBaseRef(const {{>common/InternalNamespace}}optional<std::chrono::duration<Rep, Period>>& ptr) {
+        return toBaseRef(ptr);
+    }
+
+    static {{>common/InternalNamespace}}optional<std::chrono::duration<Rep, Period>>
+    toCpp(_baseRef ref) {
+        if (ref == 0) return {};
+        auto optional_double = *reinterpret_cast<{{>common/InternalNamespace}}optional<double>*>(ref);
+        if (!optional_double) return {};
+        return {{>common/InternalNamespace}}optional<std::chrono::duration<Rep, Period>>(
+            seconds_double_to_duration<Rep, Period>(*optional_double)
+        );
+    }
+
+    static {{>common/InternalNamespace}}optional<std::chrono::duration<Rep, Period>>
+    toCppReturn(_baseRef ref) {
+        if (ref == 0) return {};
+        auto optional_ptr = reinterpret_cast<{{>common/InternalNamespace}}optional<double>*>(ref);
+        auto result = !*optional_ptr
+            ? {{>common/InternalNamespace}}optional<std::chrono::duration<Rep, Period>>{}
+            : {{>common/InternalNamespace}}optional<std::chrono::duration<Rep, Period>>(
+                seconds_double_to_duration<Rep, Period>(**optional_ptr)
             );
         delete optional_ptr;
         return result;
