@@ -71,6 +71,7 @@ internal class FfiDartTypeNameResolver : NameResolver {
             TypeId.BLOB -> OPAQUE_HANDLE_TYPE
             TypeId.DATE -> "int"
             TypeId.LOCALE -> OPAQUE_HANDLE_TYPE
+            else -> "" // TODO: #911 Duration types
         }
 
     companion object {

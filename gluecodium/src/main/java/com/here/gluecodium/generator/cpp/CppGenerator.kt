@@ -265,6 +265,7 @@ internal class CppGenerator : Generator {
 
         private val logger = Logger.getLogger(CppGenerator::class.java.name)
         private val COMMON_HEADERS = listOf(
+            "DurationHash",
             "Hash",
             "Locale",
             "Optional",

@@ -97,6 +97,7 @@ ULongType: 'ULong' ;
 StringType: 'String' ;
 BlobType: 'Blob' ;
 DateType: 'Date' ;
+DurationType: 'Duration' ;
 LocaleType: 'Locale' ;
 
 ListType: 'List' ;

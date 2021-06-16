@@ -65,6 +65,7 @@ internal class JniTypeSignatureNameResolver(private val baseNameResolver: JniNam
             TypeId.BLOB -> "[B"
             TypeId.DATE -> "Ljava/util/Date;"
             TypeId.LOCALE -> "Ljava/util/Locale;"
+            else -> "" // TODO: #911 Duration types
         }
 
     private fun resolveNullableBasicTypeSignature(typeId: TypeId) =

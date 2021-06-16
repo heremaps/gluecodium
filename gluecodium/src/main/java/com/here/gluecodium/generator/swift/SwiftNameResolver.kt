@@ -104,6 +104,7 @@ internal class SwiftNameResolver(
             TypeId.BLOB -> "Data"
             TypeId.DATE -> "Date"
             TypeId.LOCALE -> "Locale"
+            else -> "" // TODO: #911 Duration types
         }
 
     private fun resolveValue(limeValue: LimeValue): String =

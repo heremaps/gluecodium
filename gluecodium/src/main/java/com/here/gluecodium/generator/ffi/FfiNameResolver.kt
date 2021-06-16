@@ -112,6 +112,7 @@ internal class FfiNameResolver(
             TypeId.BLOB -> OPAQUE_HANDLE_TYPE
             TypeId.DATE -> "uint64_t"
             TypeId.LOCALE -> OPAQUE_HANDLE_TYPE
+            else -> "" // TODO: #911 Duration types
         }
 
     private fun getListName(elementType: LimeTypeRef) =

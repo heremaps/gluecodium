@@ -40,6 +40,7 @@ class LimeBasicType(val typeId: TypeId) : LimeType(path = LimePath.EMPTY_PATH) {
         STRING("String"),
         BLOB("Blob"),
         DATE("Date"),
+        DURATION("Duration"),
         LOCALE("Locale");
 
         override fun toString() = tag

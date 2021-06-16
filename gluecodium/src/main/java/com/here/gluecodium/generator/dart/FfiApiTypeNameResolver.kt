@@ -71,6 +71,7 @@ internal class FfiApiTypeNameResolver : NameResolver {
             TypeId.BLOB -> OPAQUE_HANDLE_TYPE
             TypeId.DATE -> "Uint64"
             TypeId.LOCALE -> OPAQUE_HANDLE_TYPE
+            else -> "" // TODO: #911 Duration types
         }
 
     companion object {
