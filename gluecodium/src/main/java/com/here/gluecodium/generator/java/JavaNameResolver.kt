@@ -181,8 +181,8 @@ internal class JavaNameResolver(
             TypeId.STRING -> "String"
             TypeId.BLOB -> "byte[]"
             TypeId.DATE -> "Date"
+            TypeId.DURATION -> "Duration"
             TypeId.LOCALE -> "Locale"
-            else -> "" // TODO: #911 Duration types
         }
 
     private fun buildPathMap(): Map<String, String> {

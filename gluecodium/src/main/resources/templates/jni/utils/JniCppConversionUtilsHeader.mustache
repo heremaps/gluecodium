@@ -28,9 +28,11 @@
 #include "JniReference.h"
 #include "{{>common/InternalInclude}}Locale.h"
 #include "{{>common/InternalInclude}}Optional.h"
+#include "JniCallJavaMethod.h"
 
 #include <chrono>
 #include <cstdint>
+#include <cstdlib>
 #include <functional>
 #include <memory>
 #include <string>
@@ -100,6 +102,55 @@ convert_from_jni(
 }
 
 /**
+ * Converts a Java Duration object to an std::chrono::duration<>.
+ */
+template<class Rep, class Period>
+std::chrono::duration<Rep, Period>
+convert_from_jni(JNIEnv* env, const JniReference<jobject>& jvalue, std::chrono::duration<Rep, Period>*) {
+    if (!jvalue) {
+        auto exceptionClass = {{>common/InternalNamespace}}jni::find_class(env, "java/lang/NullPointerException");
+        env->ThrowNew(exceptionClass.get(), "");
+        return {};
+    }
+
+    auto javaDurationClass = find_class(env, "java/time/Duration");
+    auto getSecondsMethodId = env->GetMethodID(javaDurationClass.get(), "getSeconds", "()J");
+    jlong seconds_value = call_java_method<jlong>(env, jvalue, getSecondsMethodId);
+    auto getNanoMethodId = env->GetMethodID(javaDurationClass.get(), "getNano", "()I");
+    jint nano_value = call_java_method<jint>(env, jvalue, getNanoMethodId);
+
+    using namespace std::chrono;
+
+    auto seconds_division = std::lldiv(seconds_value * Period::den, Period::num);
+    auto combined_nano_value =
+        duration_cast<nanoseconds>(seconds(seconds_division.rem)).count() + nano_value;
+    auto num = Period::den * nanoseconds::period::num;
+    auto den = Period::num * nanoseconds::period::den;
+    auto nano_division = std::lldiv(combined_nano_value * num, den);
+    auto result_value = seconds_division.quot + nano_division.quot;
+
+    // Rounding
+    if (2 * nano_division.rem >= den) {
+        result_value += 1;
+    }
+
+    return duration<Rep, Period>(result_value);
+}
+
+template<class Rep, class Period>
+{{>common/InternalNamespace}}optional<std::chrono::duration<Rep, Period>>
+convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue,
+    {{>common/InternalNamespace}}optional<std::chrono::duration<Rep, Period>>*
+) {
+
+    return jvalue
+        ? {{>common/InternalNamespace}}optional<std::chrono::duration<Rep, Period>>(
+            convert_from_jni( env, jvalue, (std::chrono::duration<Rep, Period>*)nullptr))
+        : {{>common/InternalNamespace}}optional<std::chrono::duration<Rep, Period>>{};
+}
+
+/**
  * Converts a Java Locale object to {{>common/InternalNamespace}}Locale.
  */
 JNIEXPORT {{>common/InternalNamespace}}Locale convert_from_jni(
@@ -143,11 +194,35 @@ convert_to_jni(JNIEnv* env, const {{>common/InternalNamespace}}optional<std::chr
 }
 
 /**
- * Converts {{>common/InternalNamespace}}Locale to a Java Date object.
+ * Converts an std::chrono::duration<> to a Java Duration object.
+ */
+template<class Rep, class Period>
+JniReference<jobject>
+convert_to_jni(JNIEnv* env, const std::chrono::duration<Rep, Period>& nvalue) {
+    auto javaDurationClass = find_class(env, "java/time/Duration");
+    auto factoryMethodId = env->GetStaticMethodID(javaDurationClass.get(), "ofSeconds", "(JJ)Ljava/time/Duration;");
+
+    using namespace std::chrono;
+    auto seconds_duration = duration_cast<seconds>(nvalue);
+    auto seconds_value = duration_cast<seconds>(nvalue).count();
+    auto nanos_adjustment = duration_cast<nanoseconds>(nvalue - seconds_duration).count();
+    return make_local_ref(env, env->CallStaticObjectMethod(javaDurationClass.get(), factoryMethodId, seconds_value, nanos_adjustment));
+}
+
+/**
+ * Converts {{>common/InternalNamespace}}Locale to a Java Locale object.
  */
 JNIEXPORT JniReference<jobject> convert_to_jni(JNIEnv* env, const {{>common/InternalNamespace}}Locale& nvalue);
 JNIEXPORT JniReference<jobject> convert_to_jni(
     JNIEnv* env, const {{>common/InternalNamespace}}optional<{{>common/InternalNamespace}}Locale>& nvalue);
+
+template<class Rep, class Period>
+JNIEXPORT JniReference<jobject> convert_to_jni(
+    JNIEnv* env, const {{>common/InternalNamespace}}optional<std::chrono::duration<Rep, Period>>& nvalue ) {
+
+    return nvalue ? convert_to_jni(env, *nvalue) : JniReference<jobject>{};
+}
+
 
 // -------------------- optional<std::function<>> conversion functions -----------------------------
 
