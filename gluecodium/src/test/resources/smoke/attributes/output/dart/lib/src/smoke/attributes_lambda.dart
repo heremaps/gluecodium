@@ -26,11 +26,7 @@ class AttributesLambda$Impl {
   void call() {
     final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_AttributesLambda_call'));
     final _handle = this.handle;
-    final __resultHandle = _callFfi(_handle, __lib.LibraryContext.isolateId);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
+    _callFfi(_handle, __lib.LibraryContext.isolateId);
   }
 }
 int _smokeAttributeslambdacallStatic(Object _obj) {

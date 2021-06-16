@@ -12,7 +12,6 @@ final _doNothingReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativ
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_OuterStruct_doNothing_return_release_handle'));
-final _doNothingReturnGetResult = (Pointer) {};
 final _doNothingReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
@@ -38,12 +37,7 @@ class OuterStruct {
           smokeOuterstructInnerenumReleaseFfiHandle(__errorHandle);
         }
     }
-    final __resultHandle = _doNothingReturnGetResult(__callResultHandle);
     _doNothingReturnReleaseHandle(__callResultHandle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
   }
 }
 enum OuterStruct_InnerEnum {
@@ -115,12 +109,8 @@ class OuterStruct_InnerStruct {
   void doSomething() {
     final _doSomethingFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_OuterStruct_InnerStruct_doSomething'));
     final _handle = smokeOuterstructInnerstructToFfi(this);
-    final __resultHandle = _doSomethingFfi(_handle, __lib.LibraryContext.isolateId);
+    _doSomethingFfi(_handle, __lib.LibraryContext.isolateId);
     smokeOuterstructInnerstructReleaseFfiHandle(_handle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
   }
 }
 // OuterStruct_InnerStruct "private" section, not exported.

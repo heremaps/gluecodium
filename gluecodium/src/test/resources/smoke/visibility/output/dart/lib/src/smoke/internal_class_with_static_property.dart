@@ -42,12 +42,8 @@ class InternalClassWithStaticProperty$Impl extends __lib.NativeBase implements I
   static set internal_fooBar(String value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32, Pointer<Void>), void Function(int, Pointer<Void>)>('library_smoke_InternalClassWithStaticProperty_fooBar_set__String'));
     final _valueHandle = stringToFfi(value);
-    final __resultHandle = _setFfi(__lib.LibraryContext.isolateId, _valueHandle);
+    _setFfi(__lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
   }
 }
 Pointer<Void> smokeInternalclasswithstaticpropertyToFfi(InternalClassWithStaticProperty value) =>

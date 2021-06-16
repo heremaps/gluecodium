@@ -3,6 +3,8 @@
 ## Unreleased
 ### Bug fixes:
   * Fixed "dart analyze" warning about unnecessary cast in the class/interface equality operator.
+  * In Dart there is now less dead code generated for functions returning `void`. This also fixes a corresponding "dart
+    analyze" warning.
 
 ## 9.2.0
 Release date: 2021-06-22
