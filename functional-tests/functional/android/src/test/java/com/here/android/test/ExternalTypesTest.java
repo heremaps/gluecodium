@@ -19,8 +19,12 @@
 package com.here.android.test;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.os.Build;
 import com.here.android.RobolectricApplication;
 import com.here.android.external.AnotherExternalStruct;
@@ -152,4 +156,29 @@ public final class ExternalTypesTest {
 
     assertEquals(77, result);
   }
+
+  @Test
+  public void createSomeSerializableExternalStruct() {
+    ExternalMarkedAsSerializable struct = new ExternalMarkedAsSerializable(42);
+
+    assertFalse(android.os.Parcelable.class.isInstance(struct));
+  }
+
+  @Test
+  public void createSomeSerializableExternalStructWithExternalSerializableField() {
+    AnExternalStruct externalStruct = new AnExternalStruct(42);
+    SerializableStructWithExternalField mainStruct = new SerializableStructWithExternalField(externalStruct);
+
+    Parcel parcel = Parcel.obtain();
+    parcel.writeParcelable(mainStruct, 0);
+    parcel.setDataPosition(0);
+
+    SerializableStructWithExternalField resultStruct =
+        parcel.readParcelable(Thread.currentThread().getContextClassLoader());
+
+    assertNotNull(resultStruct);
+    assertTrue(android.os.Parcelable.class.isInstance(mainStruct));
+    assertEquals(42, resultStruct.someStruct.mData);
+  }
+
 }

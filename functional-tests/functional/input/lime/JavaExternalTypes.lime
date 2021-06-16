@@ -89,3 +89,18 @@ struct JavaExternalTypesStruct {
     color: SystemColor
     season: Season
 }
+
+@Serializable
+struct ExternalMarkedAsSerializable {
+    external {
+        java name "com.here.android.test.AnExternalStruct"
+        java converter "com.here.android.test.ExternalStructMarkedAsSerializableConverter"
+    }
+
+    field: Int
+}
+
+@Serializable
+struct SerializableStructWithExternalField {
+    someStruct: ExternalMarkedAsSerializable
+}
