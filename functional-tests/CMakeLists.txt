@@ -22,7 +22,7 @@ else()
 endif()
 project(functional_tests)
 
-if (NOT dart IN_LIST GLUECODIUM_GENERATORS_DEFAULT)
+if (NOT FUNCTIONAL_GLUECODIUM_GENERATOR STREQUAL "dart")
     include (CTest)
 else()
     enable_testing()
@@ -36,7 +36,8 @@ if(NOT DEFINED TEST_CPP_VERSION)
 endif()
 set(CMAKE_CXX_STANDARD ${TEST_CPP_VERSION})
 
-set(GLUECODIUM_GENERATORS_DEFAULT "cpp;android;swift" CACHE STRING "Gluecodium generator(s) to use [defaults to: cpp;android;swift]")
+set(FUNCTIONAL_GLUECODIUM_GENERATOR "cpp" CACHE STRING "Gluecodium generator(s) to use [defaults to: cpp]")
+set(GLUECODIUM_GENERATORS_DEFAULT "cpp;${FUNCTIONAL_GLUECODIUM_GENERATOR}")
 
 # Ensure that symbols are properly exported.
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)

@@ -19,7 +19,7 @@ cmake_minimum_required(VERSION 3.6)
 
 project(functional)
 
-if (swift IN_LIST GLUECODIUM_GENERATORS_DEFAULT)
+if (FUNCTIONAL_GLUECODIUM_GENERATOR STREQUAL "swift")
     enable_language(Swift)
     set (CMAKE_Swift_LANGUAGE_VERSION 5)
     if (CMAKE_GENERATOR STREQUAL "Xcode")
@@ -50,7 +50,7 @@ function(feature feature_name)
     set(lime_sources)
 
     foreach(generator ${feature_GENERATORS} ${feature_UNPARSED_ARGUMENTS})
-        if(${generator} IN_LIST GLUECODIUM_GENERATORS_DEFAULT)
+        if(FUNCTIONAL_GLUECODIUM_GENERATOR STREQUAL ${generator})
             message("Enabling feature ${feature_name} for ${generator}")
             foreach(source ${feature_SOURCES})
                 get_filename_component(extension "${source}" EXT)
@@ -439,7 +439,7 @@ feature(Locales cpp android swift dart SOURCES
 
 # OBJECT suits all test variants except swift for linux,
 # because build system can't mix Swift and C++ code in single target
-if (swift IN_LIST GLUECODIUM_GENERATORS_DEFAULT AND NOT CMAKE_GENERATOR STREQUAL "Xcode")
+if (FUNCTIONAL_GLUECODIUM_GENERATOR STREQUAL "swift" AND NOT CMAKE_GENERATOR STREQUAL "Xcode")
     set (_binding_lib_type STATIC)
 else()
     set (_binding_lib_type OBJECT)
@@ -480,7 +480,7 @@ add_library(functional SHARED)
 target_link_libraries(functional PUBLIC functional_bindings)
 
 # Target platform specific rules to follow...
-if(swift IN_LIST GLUECODIUM_GENERATORS_DEFAULT)
+if(FUNCTIONAL_GLUECODIUM_GENERATOR STREQUAL "swift")
     include(gluecodium/Swift)
 
     file(GLOB_RECURSE SWIFT_TEST_SOURCES CONFIGURE_DEPENDS ${FUNCTIONAL_SWIFT_TESTS}/*.swift)
@@ -536,7 +536,7 @@ if(swift IN_LIST GLUECODIUM_GENERATORS_DEFAULT)
         add_test(NAME XCTest.functional COMMAND testfunctional)
     endif()
 
-elseif(dart IN_LIST GLUECODIUM_GENERATORS_DEFAULT)
+elseif(FUNCTIONAL_GLUECODIUM_GENERATOR STREQUAL "dart")
     if(BUILD_DART_WITH_ASAN)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fsanitize=leak")
         set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fsanitize=address -fsanitize=leak")

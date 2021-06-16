@@ -23,7 +23,7 @@ project.buildDir = "${rootProject.buildDir}"
 
 def getCMakeCommonParameters() {
     return ['-Wno-dev',
-        '-DGLUECODIUM_GENERATORS_DEFAULT=android;cpp',
+        '-DFUNCTIONAL_GLUECODIUM_GENERATOR=android',
         "-DGLUECODIUM_BASE_OUTPUT_DIR_DEFAULT=${rootProject.generatedDir}",
         "-DGLUECODIUM_VERSION_DEFAULT=${rootProject.useGluecodiumVersion()}"]
 }
