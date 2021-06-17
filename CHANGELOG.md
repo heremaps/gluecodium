@@ -2,6 +2,12 @@
 
 ## Unreleased
 ### Features:
+  * Added support for type aliases (typedefs) in Dart
+### Breaking changes:
+  * Generated Dart code now requires minimum Dart version 2.13.0.
+
+## Unreleased
+### Features:
   * Added support for per-platform visibility attributes (e.g. `@Java(Internal)`, etc.).
   * Added a `null` check in Dart for non-nullable class and interface usages.
   * Added support for `@Swift(OptionSet)` attribute.

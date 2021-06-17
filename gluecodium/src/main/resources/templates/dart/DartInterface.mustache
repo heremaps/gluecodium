@@ -61,6 +61,9 @@ abstract class {{resolveName}}{{!!
 {{/ifPredicate}}
 }
 
+{{#typeAliases}}
+{{>dart/DartTypeAlias}}
+{{/typeAliases}}
 {{#enumerations}}
 {{>dart/DartEnumeration}}
 {{/enumerations}}

@@ -69,6 +69,7 @@ import "test/StaticIntMethods_test.dart" as StaticIntMethodsTests;
 import "test/StaticStringMethods_test.dart" as StaticStringMethodsTests;
 import "test/StructsWithConstants_test.dart" as StructsWithConstantsTests;
 import "test/StructsWithMethods_test.dart" as StructsWithMethodsTests;
+import "test/TypeAliases_test.dart" as TypeAliasesTests;
 
 final _allTests = [
   AsyncTests.main,
@@ -117,7 +118,8 @@ final _allTests = [
   StaticIntMethodsTests.main,
   StaticStringMethodsTests.main,
   StructsWithConstantsTests.main,
-  StructsWithMethodsTests.main
+  StructsWithMethodsTests.main,
+  TypeAliasesTests.main
 ];
 
 String _getLibraryPath(String nativeLibraryName) {

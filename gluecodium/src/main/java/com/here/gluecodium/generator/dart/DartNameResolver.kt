@@ -48,7 +48,6 @@ import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
-import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeValue
@@ -83,7 +82,6 @@ internal class DartNameResolver(
             is LimeValue -> resolveValue(element)
             is LimeGenericType -> resolveGenericType(element)
             is LimeTypeRef -> resolveTypeRefName(element)
-            is LimeTypeAlias -> resolveName(element.typeRef)
             is LimeType -> resolveTypeName(element)
             is LimeNamedElement -> getPlatformName(element)
             else ->
@@ -261,11 +259,11 @@ internal class DartNameResolver(
 
     private fun resolveTypeRefName(limeTypeRef: LimeTypeRef, ignoreDuplicates: Boolean = false): String {
         val typeName = resolveName(limeTypeRef.type)
-        val importPath = limeTypeRef.type.actualType.external?.dart?.get(IMPORT_PATH_NAME)
+        val importPath = limeTypeRef.type.external?.dart?.get(IMPORT_PATH_NAME)
         val alias = when {
             importPath != null -> computeAlias(importPath)
             ignoreDuplicates -> null
-            duplicateNames.contains(typeName) -> limeTypeRef.type.actualType.path.head.joinToString("_")
+            duplicateNames.contains(typeName) -> limeTypeRef.type.path.head.joinToString("_")
             else -> null
         }
         val suffix = if (limeTypeRef.isNullable) "?" else ""
@@ -303,7 +301,7 @@ internal class DartNameResolver(
     private fun buildDuplicateNames() =
         limeReferenceMap.values
             .filterIsInstance<LimeType>()
-            .filterNot { it is LimeTypeAlias || it is LimeGenericType || it is LimeBasicType }
+            .filterNot { it is LimeGenericType || it is LimeBasicType }
             .filter { it.external?.dart == null }
             .groupBy { resolveTypeName(it) }
             .filterValues { it.size > 1 }
