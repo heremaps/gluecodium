@@ -42,7 +42,7 @@ class EquatableInterface$Impl extends __lib.NativeBase implements EquatableInter
   bool operator ==(dynamic other) {
     if (identical(this, other)) return true;
     if (other is! EquatableInterface$Impl) return false;
-    return __areEqual((this as EquatableInterface$Impl).handle, other.handle) != 0;
+    return __areEqual(this.handle, other.handle) != 0;
   }
 }
 Pointer<Void> smokeEquatableinterfaceToFfi(EquatableInterface value) {
