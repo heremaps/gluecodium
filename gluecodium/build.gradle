@@ -30,12 +30,12 @@ dependencies {
     compile 'com.vladsch.flexmark:flexmark-util:0.62.2'
     compile 'com.vladsch.flexmark:flexmark:0.62.2'
     compile 'commons-cli:commons-cli:1.4'
-    compile 'org.apache.logging.log4j:log4j-core:2.13.3'
+    compile 'org.apache.logging.log4j:log4j-core:2.14.1'
     compile 'org.jetbrains.kotlin:kotlin-reflect:1.4.32'
     compile 'org.jetbrains.kotlin:kotlin-stdlib:1.4.32'
     compile 'org.jetbrains:annotations:13.0'
-    compile 'org.slf4j:slf4j-api:1.7.26'
-    compile 'org.slf4j:slf4j-log4j12:1.7.26'
+    compile 'org.slf4j:slf4j-api:1.7.31'
+    compile 'org.slf4j:slf4j-log4j12:1.7.31'
     compile 'org.trimou:trimou-core:2.5.0.Final'
 
     testCompile files({ project(":lime-runtime").sourceSets.test.output })
