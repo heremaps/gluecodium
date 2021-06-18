@@ -48,7 +48,7 @@ class SmokeTest(
 ) {
     @JvmField
     @Rule
-    val errorCollector = NiceErrorCollector()
+    internal val errorCollector = NiceErrorCollector()
 
     private lateinit var gluecodium: Gluecodium
 
@@ -110,19 +110,22 @@ class SmokeTest(
 
         val generatedContents = results.associateBy({ it.targetFile.path }, { it.content })
 
-        referenceFiles.forEach {
-            val relativePath = getRelativePath(outputDirectory, it)
+        for (referenceFile in referenceFiles) {
+            val relativePath = getRelativePath(outputDirectory, referenceFile)
             val generatedContent = generatedContents[relativePath]
             errorCollector.checkNotNull(
                 "File was not generated: $relativePath, generated files:\n${generatedContents.keys.joinToString("\n")}",
                 generatedContent
             )
 
-            if (generatedContent != null) {
-                val expected = it.readText()
-                errorCollector.checkEquals(
-                    "File content differs for file: $relativePath",
-                    ignoreUnimportantDifferences(expected),
+            if (generatedContent == null) continue
+
+            val fragments = referenceFile.readText().split(SKIP_TAG)
+            fragments.forEachIndexed { index, fragment ->
+                val fragmentInfix = if (fragments.size > 1) " (fragment #${index + 1})" else ""
+                errorCollector.checkContainsString(
+                    "File content$fragmentInfix differs for file: $relativePath",
+                    ignoreUnimportantDifferences(fragment),
                     ignoreUnimportantDifferences(generatedContent)
                 )
             }
@@ -146,6 +149,7 @@ class SmokeTest(
         private val LOADER = LimeModelLoader.getLoaders().first()
 
         private const val RESOURCE_PREFIX = "smoke"
+        private const val SKIP_TAG = "{{SKIP}}"
 
         @JvmStatic
         @Parameterized.Parameters(name = "{2}, {1}")

@@ -1,6 +1,3 @@
-//
-//
-#pragma once
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -8,11 +5,9 @@ extern "C" {
 #include "cbridge/include/Export.h"
 #include <stdbool.h>
 #include <stdint.h>
-_GLUECODIUM_C_EXPORT void smoke_BasicTypes_release_handle(_baseRef handle);
-_GLUECODIUM_C_EXPORT _baseRef smoke_BasicTypes_copy_handle(_baseRef handle);
-_GLUECODIUM_C_EXPORT const void* smoke_BasicTypes_get_swift_object_from_wrapper_cache(_baseRef handle);
-_GLUECODIUM_C_EXPORT void smoke_BasicTypes_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer);
-_GLUECODIUM_C_EXPORT void smoke_BasicTypes_remove_swift_object_from_wrapper_cache(_baseRef handle);
+
+{{SKIP}}
+
 _GLUECODIUM_C_EXPORT _baseRef smoke_BasicTypes_stringFunction(_baseRef input);
 _GLUECODIUM_C_EXPORT bool smoke_BasicTypes_boolFunction(bool input);
 _GLUECODIUM_C_EXPORT float smoke_BasicTypes_floatFunction(float input);

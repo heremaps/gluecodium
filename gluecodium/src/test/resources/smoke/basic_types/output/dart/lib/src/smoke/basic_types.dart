@@ -1,42 +1,3 @@
-import 'dart:ffi';
-import 'package:library/src/_library_context.dart' as __lib;
-import 'package:library/src/_native_base.dart' as __lib;
-import 'package:library/src/_token_cache.dart' as __lib;
-import 'package:library/src/builtin_types__conversion.dart';
-abstract class BasicTypes {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
-  static String stringFunction(String input) => BasicTypes$Impl.stringFunction(input);
-  static bool boolFunction(bool input) => BasicTypes$Impl.boolFunction(input);
-  static double floatFunction(double input) => BasicTypes$Impl.floatFunction(input);
-  static double doubleFunction(double input) => BasicTypes$Impl.doubleFunction(input);
-  static int byteFunction(int input) => BasicTypes$Impl.byteFunction(input);
-  static int shortFunction(int input) => BasicTypes$Impl.shortFunction(input);
-  static int intFunction(int input) => BasicTypes$Impl.intFunction(input);
-  static int longFunction(int input) => BasicTypes$Impl.longFunction(input);
-  static int ubyteFunction(int input) => BasicTypes$Impl.ubyteFunction(input);
-  static int ushortFunction(int input) => BasicTypes$Impl.ushortFunction(input);
-  static int uintFunction(int input) => BasicTypes$Impl.uintFunction(input);
-  static int ulongFunction(int input) => BasicTypes$Impl.ulongFunction(input);
-}
-// BasicTypes "private" section, not exported.
-final _smokeBasictypesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>, Int32, Handle),
-    void Function(Pointer<Void>, int, Object)
-  >('library_smoke_BasicTypes_register_finalizer'));
-final _smokeBasictypesCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Pointer<Void>),
-    Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_BasicTypes_copy_handle'));
-final _smokeBasictypesReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>),
-    void Function(Pointer<Void>)
-  >('library_smoke_BasicTypes_release_handle'));
-class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
-  BasicTypes$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
   static String stringFunction(String input) {
     final _stringFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_BasicTypes_stringFunction__String'));
     final _inputHandle = stringToFfi(input);
@@ -149,24 +110,3 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
     } finally {
     }
   }
-}
-Pointer<Void> smokeBasictypesToFfi(BasicTypes value) =>
-  _smokeBasictypesCopyHandle((value as __lib.NativeBase).handle);
-BasicTypes smokeBasictypesFromFfi(Pointer<Void> handle) {
-  final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is BasicTypes) return instance as BasicTypes;
-  final _copiedHandle = _smokeBasictypesCopyHandle(handle);
-  final result = BasicTypes$Impl(_copiedHandle);
-  __lib.cacheInstance(_copiedHandle, result);
-  _smokeBasictypesRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
-  return result;
-}
-void smokeBasictypesReleaseFfiHandle(Pointer<Void> handle) =>
-  _smokeBasictypesReleaseHandle(handle);
-Pointer<Void> smokeBasictypesToFfiNullable(BasicTypes? value) =>
-  value != null ? smokeBasictypesToFfi(value) : Pointer<Void>.fromAddress(0);
-BasicTypes? smokeBasictypesFromFfiNullable(Pointer<Void> handle) =>
-  handle.address != 0 ? smokeBasictypesFromFfi(handle) : null;
-void smokeBasictypesReleaseFfiHandleNullable(Pointer<Void> handle) =>
-  _smokeBasictypesReleaseHandle(handle);
-// End of BasicTypes "private" section.

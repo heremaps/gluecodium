@@ -1,18 +1,3 @@
-//
-//
-import Foundation
-public class BasicTypes {
-    let c_instance : _baseRef
-    init(cBasicTypes: _baseRef) {
-        guard cBasicTypes != 0 else {
-            fatalError("Nullptr value is not supported for initializers")
-        }
-        c_instance = cBasicTypes
-    }
-    deinit {
-        smoke_BasicTypes_remove_swift_object_from_wrapper_cache(c_instance)
-        smoke_BasicTypes_release_handle(c_instance)
-    }
     public static func stringFunction(input: String) -> String {
         let c_input = moveToCType(input)
         let c_result_handle = smoke_BasicTypes_stringFunction(c_input.ref)
@@ -73,70 +58,4 @@ public class BasicTypes {
         let c_result_handle = smoke_BasicTypes_ulongFunction(c_input.ref)
         return moveFromCType(c_result_handle)
     }
-}
-internal func getRef(_ ref: BasicTypes?, owning: Bool = true) -> RefHolder {
-    guard let c_handle = ref?.c_instance else {
-        return RefHolder(0)
-    }
-    let handle_copy = smoke_BasicTypes_copy_handle(c_handle)
-    return owning
-        ? RefHolder(ref: handle_copy, release: smoke_BasicTypes_release_handle)
-        : RefHolder(handle_copy)
-}
-extension BasicTypes: NativeBase {
-    /// :nodoc:
-    var c_handle: _baseRef { return c_instance }
-}
-extension BasicTypes: Hashable {
-    /// :nodoc:
-    public static func == (lhs: BasicTypes, rhs: BasicTypes) -> Bool {
-        return lhs.c_handle == rhs.c_handle
-    }
-    /// :nodoc:
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(c_handle)
-    }
-}
-internal func BasicTypes_copyFromCType(_ handle: _baseRef) -> BasicTypes {
-    if let swift_pointer = smoke_BasicTypes_get_swift_object_from_wrapper_cache(handle),
-        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? BasicTypes {
-        return re_constructed
-    }
-    let result = BasicTypes(cBasicTypes: smoke_BasicTypes_copy_handle(handle))
-    smoke_BasicTypes_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
-    return result
-}
-internal func BasicTypes_moveFromCType(_ handle: _baseRef) -> BasicTypes {
-    if let swift_pointer = smoke_BasicTypes_get_swift_object_from_wrapper_cache(handle),
-        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? BasicTypes {
-        smoke_BasicTypes_release_handle(handle)
-        return re_constructed
-    }
-    let result = BasicTypes(cBasicTypes: handle)
-    smoke_BasicTypes_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
-    return result
-}
-internal func BasicTypes_copyFromCType(_ handle: _baseRef) -> BasicTypes? {
-    guard handle != 0 else {
-        return nil
-    }
-    return BasicTypes_moveFromCType(handle) as BasicTypes
-}
-internal func BasicTypes_moveFromCType(_ handle: _baseRef) -> BasicTypes? {
-    guard handle != 0 else {
-        return nil
-    }
-    return BasicTypes_moveFromCType(handle) as BasicTypes
-}
-internal func copyToCType(_ swiftClass: BasicTypes) -> RefHolder {
-    return getRef(swiftClass, owning: false)
-}
-internal func moveToCType(_ swiftClass: BasicTypes) -> RefHolder {
-    return getRef(swiftClass, owning: true)
-}
-internal func copyToCType(_ swiftClass: BasicTypes?) -> RefHolder {
-    return getRef(swiftClass, owning: false)
-}
-internal func moveToCType(_ swiftClass: BasicTypes?) -> RefHolder {
-    return getRef(swiftClass, owning: true)
 }

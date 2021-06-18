@@ -1,17 +1,8 @@
-// -------------------------------------------------------------------------------------------------
-//
-//
-// -------------------------------------------------------------------------------------------------
-#pragma once
-#include "gluecodium/ExportGluecodiumCpp.h"
 #include <cstdint>
 #include <string>
-namespace smoke {
-class _GLUECODIUM_CPP_EXPORT BasicTypes {
-public:
-    BasicTypes();
-    virtual ~BasicTypes() = 0;
-public:
+
+{{SKIP}}
+
     static ::std::string string_function( const ::std::string& input );
     static bool bool_function( const bool input );
     static float float_function( const float input );
@@ -24,5 +15,3 @@ public:
     static uint16_t ushort_function( const uint16_t input );
     static uint32_t uint_function( const uint32_t input );
     static uint64_t ulong_function( const uint64_t input );
-};
-}

@@ -42,6 +42,7 @@ dependencies {
     testImplementation 'io.mockk:mockk-dsl-jvm:1.10.0'
     testImplementation 'io.mockk:mockk:1.10.0'
     testImplementation 'junit:junit:4.12'
+    testImplementation 'org.bitbucket.cowwoc:diff-match-patch:1.2'
 }
 
 apply plugin: 'application'

@@ -19,38 +19,55 @@
 
 package com.here.gluecodium.test
 
-import org.junit.Assert.assertEquals
+import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch
+import org.hamcrest.CoreMatchers.containsString
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertThat
+import org.junit.ComparisonFailure
 import org.junit.rules.ErrorCollector
 
 /**
- * Custom error collector that calls specific assert*() methods instead of just generic assertThat()
+ * Custom error collector that calls specific assert*() methods instead of just generic assertThat().
  */
-class NiceErrorCollector : ErrorCollector() {
+internal class NiceErrorCollector : ErrorCollector() {
     /**
-     * Adds a failure with the given `message` to the table if `actualValue` is not null.
-     * Execution continues, but the test will fail at the end if the match fails.
+     * Adds a failure with the given [message] to the table if [value] is not null.
+     * Execution continues, but the test will fail at the end if a match fails.
      */
     fun <T> checkNotNull(message: String, value: T?) {
+        checkSucceeds { assertNotNull(message, value) }
+    }
+
+    /**
+     * Adds a failure with the given [message] to the table if the [expectedValue] string is not contained in the
+     * [actualValue] string. Execution continues, but the test will fail at the end if a match fails. The assertion
+     * error is rethrown as a [ComparisonFailure] to produce a nice diff in IDE.
+     */
+    fun checkContainsString(message: String, expectedValue: String, actualValue: String) {
         checkSucceeds {
-            assertNotNull(message, value)
-            value
+            try {
+                assertThat(message, actualValue, containsString(expectedValue))
+            } catch (e: AssertionError) {
+                val strippedValue = stripValue(actualValue, expectedValue)
+                throw ComparisonFailure(message, expectedValue, strippedValue)
+            }
         }
     }
 
     /**
-     * Adds a failure with the given `message` to the table if `expectedValue` does not
-     * match `actualValue`. Execution continues, but the test will fail at the end if the match
-     * fails.
-     *
-     * @implNote Calling assertEquals() makes sure the stored AssertionError is actually a
-     * ComparisonFailure object. This allows IntelliJ to format the message nicely with a link to
-     * a diff of the values.
+     * Strip prefix and suffix from the [actualValue] value to show only the diff to the [expectedValue] itself.
      */
-    fun <T> checkEquals(message: String, expectedValue: T, actualValue: T) {
-        checkSucceeds {
-            assertEquals(message, expectedValue, actualValue)
-            actualValue
+    private fun stripValue(actualValue: String, expectedValue: String): String {
+        var result = actualValue
+
+        val diff = DiffMatchPatch().diffMain(expectedValue, actualValue)
+        if (diff.first.operation == DiffMatchPatch.Operation.INSERT) {
+            result = result.drop(diff.first.text.length)
         }
+        if (diff.last.operation == DiffMatchPatch.Operation.INSERT) {
+            result = result.dropLast(diff.last.text.length)
+        }
+
+        return result
     }
 }
