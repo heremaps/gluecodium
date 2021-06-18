@@ -7,16 +7,17 @@ repositories {
 }
 
 dependencies {
-    compile project(":gluecodium")
+    implementation project(":gluecodium")
 
-    compile 'org.jetbrains.kotlin:kotlin-stdlib:1.4.32'
-    compile('com.android.tools.build:gradle:4.1.2') {
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.4.32'
+    implementation('com.android.tools.build:gradle:4.1.2') {
         exclude group: 'net.sf.proguard', module: 'proguard-gradle'
     }
+    implementation 'com.natpryce:konfig:1.6.10.0'
 
-    testCompile 'io.mockk:mockk-dsl-jvm:1.10.0'
-    testCompile 'io.mockk:mockk:1.10.0'
-    testCompile 'junit:junit:4.12'
+    testImplementation 'io.mockk:mockk-dsl-jvm:1.10.0'
+    testImplementation 'io.mockk:mockk:1.10.0'
+    testImplementation 'junit:junit:4.12'
 }
 
 gradlePlugin {
