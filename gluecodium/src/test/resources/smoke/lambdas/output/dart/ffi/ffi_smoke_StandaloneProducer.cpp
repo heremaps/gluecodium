@@ -1,5 +1,6 @@
 #include "ffi_smoke_StandaloneProducer.h"
 #include "ConversionBase.h"
+#include "FinalizerData.h"
 #include "CallbacksQueue.h"
 #include "IsolateContext.h"
 #include "ProxyCache.h"
