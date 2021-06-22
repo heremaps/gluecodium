@@ -43,16 +43,17 @@ class AnExternalStruct implements Parcelable {
     parcel.writeInt(mData);
   }
 
-  public static final Parcelable.Creator<AnExternalStruct> CREATOR = new Parcelable.Creator<AnExternalStruct>() {
+  public static final Parcelable.Creator<AnExternalStruct> CREATOR =
+      new Parcelable.Creator<AnExternalStruct>() {
 
-    @Override
-    public AnExternalStruct createFromParcel(Parcel parcel) {
-      return new AnExternalStruct(parcel);
-    }
+        @Override
+        public AnExternalStruct createFromParcel(Parcel parcel) {
+          return new AnExternalStruct(parcel);
+        }
 
-    @Override
-    public AnExternalStruct[] newArray(int i) {
-      return new AnExternalStruct[i];
-    }
-  };
+        @Override
+        public AnExternalStruct[] newArray(int i) {
+          return new AnExternalStruct[i];
+        }
+      };
 }
