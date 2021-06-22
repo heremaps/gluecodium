@@ -21,27 +21,27 @@ plugins {
     id "com.lazan.dependency-export" version "0.5"
 }
 dependencies {
-    compile project(":lime-runtime")
-    compile project(":lime-loader")
+    api project(":lime-runtime")
+    implementation project(":lime-loader")
 
-    compile 'com.android.tools:annotations:25.3.0'
-    compile 'com.google.guava:guava:29.0-jre'
-    compile 'com.natpryce:konfig:1.6.10.0'
-    compile 'com.vladsch.flexmark:flexmark-util:0.62.2'
-    compile 'com.vladsch.flexmark:flexmark:0.62.2'
-    compile 'commons-cli:commons-cli:1.4'
-    compile 'org.apache.logging.log4j:log4j-core:2.13.3'
-    compile 'org.jetbrains.kotlin:kotlin-reflect:1.4.32'
-    compile 'org.jetbrains.kotlin:kotlin-stdlib:1.4.32'
-    compile 'org.jetbrains:annotations:13.0'
-    compile 'org.slf4j:slf4j-api:1.7.26'
-    compile 'org.slf4j:slf4j-log4j12:1.7.26'
-    compile 'org.trimou:trimou-core:2.5.0.Final'
+    compileOnly 'com.android.tools:annotations:25.3.0'
+    implementation 'com.google.guava:guava:29.0-jre'
+    implementation 'com.natpryce:konfig:1.6.10.0'
+    implementation 'com.vladsch.flexmark:flexmark-util:0.62.2'
+    implementation 'com.vladsch.flexmark:flexmark:0.62.2'
+    implementation 'commons-cli:commons-cli:1.4'
+    implementation 'org.apache.logging.log4j:log4j-core:2.14.1'
+    implementation 'org.jetbrains.kotlin:kotlin-reflect:1.4.32'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.4.32'
+    implementation 'org.jetbrains:annotations:13.0'
+    implementation 'org.slf4j:slf4j-api:1.7.31'
+    implementation 'org.slf4j:slf4j-log4j12:1.7.31'
+    implementation 'org.trimou:trimou-core:2.5.0.Final'
 
-    testCompile files({ project(":lime-runtime").sourceSets.test.output })
-    testCompile 'io.mockk:mockk-dsl-jvm:1.10.0'
-    testCompile 'io.mockk:mockk:1.10.0'
-    testCompile 'junit:junit:4.12'
+    testImplementation files({ project(":lime-runtime").sourceSets.test.output })
+    testImplementation 'io.mockk:mockk-dsl-jvm:1.10.0'
+    testImplementation 'io.mockk:mockk:1.10.0'
+    testImplementation 'junit:junit:4.12'
 }
 
 apply plugin: 'application'
@@ -50,7 +50,7 @@ mainClassName = 'com.here.gluecodium.Gluecodium'
 jar {
     manifest {
         attributes('Main-Class': 'com.here.gluecodium.Gluecodium',
-                   'Class-Path': configurations.runtime.files.collect { it.getName() }.join(' '))
+                   'Class-Path': configurations.runtimeClasspath.files.collect { it.getName() }.join(' '))
     }
 }
 

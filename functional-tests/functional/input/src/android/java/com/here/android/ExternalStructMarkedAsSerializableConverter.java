@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2019 HERE Europe B.V.
+ * Copyright (C) 2016-2021 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,19 +16,14 @@
  * SPDX-License-Identifier: Apache-2.0
  * License-Filename: LICENSE
  */
+package com.here.android.test;
 
-dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.4.32'
-    compileOnly 'org.jetbrains:annotations:13.0'
+class ExternalStructMarkedAsSerializableConverter {
+  static com.here.android.test.AnExternalStruct convertFromInternal(ExternalMarkedAsSerializable struct) {
+    return new com.here.android.test.AnExternalStruct(struct.field);
+  }
 
-    testImplementation 'io.mockk:mockk-dsl-jvm:1.10.0'
-    testImplementation 'io.mockk:mockk:1.10.0'
-    testImplementation 'junit:junit:4.12'
+  static ExternalMarkedAsSerializable convertToInternal(com.here.android.test.AnExternalStruct s) {
+    return new ExternalMarkedAsSerializable(s.mData);
+  }
 }
-
-javadoc.enabled = false
-
-apply from: "$rootDir/gradle/spotless.gradle"
-
-project.ext.longName = 'Gluecodium LIME runtime'
-apply from: "$rootDir/gradle/publishing.gradle"

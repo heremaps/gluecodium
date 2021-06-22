@@ -20,10 +20,10 @@
   !}}
 {{>java/JavaDocComment}}{{>java/JavaAttributes}}
 {{>structVisibility}}{{#if forceStatic}}static {{/if}}final class {{resolveName}} {{!!
-}}{{#if attributes.serializable}}implements Parcelable {{/if}}{
-{{#if attributes.serializable}}{{prefixPartial "java/ParcelableCreator" "    "}}
+}}{{#unless external.java.name}}{{#if attributes.serializable}}implements Parcelable {{/if}}{{/unless}}{
+{{#unless external.java.name}}{{#if attributes.serializable}}{{prefixPartial "java/ParcelableCreator" "    "}}
 
-{{/if}}
+{{/if}}{{/unless}}
 {{#constants}}{{prefixPartial "java/JavaConstant" "    "}}
 {{/constants}}
 {{#set isImmutable=attributes.immutable}}{{#fields}}{{prefixPartial "java/JavaField" "    "}}
