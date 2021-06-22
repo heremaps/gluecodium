@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 9.2.0
+Release date: 2021-06-22
 ### Features:
   * Added automatic finalization for lambdas in Dart.
 ### Bug fixes:
@@ -13,7 +14,7 @@
 ## 9.1.1
 Release date: 2021-06-02
 ### Bug fixes:
-  * Fixed runtime issues in Java when a 'null' is returned from C++ for a non-nullable `Blob`.
+  * Fixed runtime issues in Java when a `null` is returned from C++ for a non-nullable `Blob`.
   * Updated Dart generator to generate `void` function return type explicitly.  
   * Fixed compilation issues in Dart generated for testable "stubs" mode.
   * Updated Dart SDK discovery mechanism in CMake toolchain to be aware of the new Flutter SDK path.
