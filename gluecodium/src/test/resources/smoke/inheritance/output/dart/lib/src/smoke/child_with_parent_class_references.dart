@@ -60,12 +60,8 @@ class ChildWithParentClassReferences$Impl extends __lib.NativeBase implements Ch
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ParentWithClassReferences_classProperty_set__ParentClass'));
     final _valueHandle = smokeParentclassToFfi(value);
     final _handle = this.handle;
-    final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     smokeParentclassReleaseFfiHandle(_valueHandle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
   }
 }
 Pointer<Void> smokeChildwithparentclassreferencesToFfi(ChildWithParentClassReferences value) =>

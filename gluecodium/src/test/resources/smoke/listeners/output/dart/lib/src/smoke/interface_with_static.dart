@@ -104,12 +104,8 @@ class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWith
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_InterfaceWithStatic_regularProperty_set__String'));
     final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
-    final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
   }
   static String get staticProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InterfaceWithStatic_staticProperty_get'));
@@ -123,12 +119,8 @@ class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWith
   static set staticProperty(String value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32, Pointer<Void>), void Function(int, Pointer<Void>)>('library_smoke_InterfaceWithStatic_staticProperty_set__String'));
     final _valueHandle = stringToFfi(value);
-    final __resultHandle = _setFfi(__lib.LibraryContext.isolateId, _valueHandle);
+    _setFfi(__lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
   }
 }
 int _smokeInterfacewithstaticregularFunctionStatic(Object _obj, Pointer<Pointer<Void>> _result) {

@@ -37,11 +37,7 @@ class ParentClass$Impl extends __lib.NativeBase implements ParentClass {
   void rootMethod() {
     final _rootMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentClass_rootMethod'));
     final _handle = this.handle;
-    final __resultHandle = _rootMethodFfi(_handle, __lib.LibraryContext.isolateId);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
+    _rootMethodFfi(_handle, __lib.LibraryContext.isolateId);
   }
   @override
   String get rootProperty {
@@ -59,12 +55,8 @@ class ParentClass$Impl extends __lib.NativeBase implements ParentClass {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ParentClass_rootProperty_set__String'));
     final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
-    final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
   }
 }
 Pointer<Void> smokeParentclassToFfi(ParentClass value) =>

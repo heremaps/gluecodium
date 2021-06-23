@@ -191,21 +191,13 @@ class PlatformComments$Impl extends __lib.NativeBase implements PlatformComments
   void doNothing() {
     final _doNothingFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PlatformComments_doNothing'));
     final _handle = this.handle;
-    final __resultHandle = _doNothingFfi(_handle, __lib.LibraryContext.isolateId);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
+    _doNothingFfi(_handle, __lib.LibraryContext.isolateId);
   }
   @override
   void doMagic() {
     final _doMagicFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PlatformComments_doMagic'));
     final _handle = this.handle;
-    final __resultHandle = _doMagicFfi(_handle, __lib.LibraryContext.isolateId);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
+    _doMagicFfi(_handle, __lib.LibraryContext.isolateId);
   }
   @override
   bool someMethodWithAllComments(String input) {
@@ -235,11 +227,7 @@ class PlatformComments$Impl extends __lib.NativeBase implements PlatformComments
   void someDeprecatedMethod() {
     final _someDeprecatedMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PlatformComments_someDeprecatedMethod'));
     final _handle = this.handle;
-    final __resultHandle = _someDeprecatedMethodFfi(_handle, __lib.LibraryContext.isolateId);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
+    _someDeprecatedMethodFfi(_handle, __lib.LibraryContext.isolateId);
   }
 }
 Pointer<Void> smokePlatformcommentsToFfi(PlatformComments value) =>

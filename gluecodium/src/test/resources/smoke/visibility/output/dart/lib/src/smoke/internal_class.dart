@@ -31,11 +31,7 @@ class InternalClass$Impl extends __lib.NativeBase implements InternalClass {
   void internal_fooBar() {
     final _fooBarFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalClass_fooBar'));
     final _handle = this.handle;
-    final __resultHandle = _fooBarFfi(_handle, __lib.LibraryContext.isolateId);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
+    _fooBarFfi(_handle, __lib.LibraryContext.isolateId);
   }
 }
 Pointer<Void> smokeInternalclassToFfi(InternalClass value) =>

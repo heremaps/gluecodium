@@ -184,7 +184,6 @@ final _methodWithErrorsReturnReleaseHandle = __lib.catchArgumentError(() => __li
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ErrorsInterface_methodWithErrors_return_release_handle'));
-final _methodWithErrorsReturnGetResult = (Pointer) {};
 final _methodWithErrorsReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
@@ -197,7 +196,6 @@ final _methodWithExternalErrorsReturnReleaseHandle = __lib.catchArgumentError(()
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ErrorsInterface_methodWithExternalErrors_return_release_handle'));
-final _methodWithExternalErrorsReturnGetResult = (Pointer) {};
 final _methodWithExternalErrorsReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
@@ -226,7 +224,6 @@ final _methodWithPayloadErrorReturnReleaseHandle = __lib.catchArgumentError(() =
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ErrorsInterface_methodWithPayloadError_return_release_handle'));
-final _methodWithPayloadErrorReturnGetResult = (Pointer) {};
 final _methodWithPayloadErrorReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -290,12 +287,7 @@ class ErrorsInterface$Impl extends __lib.NativeBase implements ErrorsInterface {
           smokeErrorsinterfaceInternalerrorReleaseFfiHandle(__errorHandle);
         }
     }
-    final __resultHandle = _methodWithErrorsReturnGetResult(__callResultHandle);
     _methodWithErrorsReturnReleaseHandle(__callResultHandle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
   }
   @override
   void methodWithExternalErrors() {
@@ -311,12 +303,7 @@ class ErrorsInterface$Impl extends __lib.NativeBase implements ErrorsInterface {
           smokeErrorsinterfaceExternalerrorsReleaseFfiHandle(__errorHandle);
         }
     }
-    final __resultHandle = _methodWithExternalErrorsReturnGetResult(__callResultHandle);
     _methodWithExternalErrorsReturnReleaseHandle(__callResultHandle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
   }
   @override
   String methodWithErrorsAndReturnValue() {
@@ -353,12 +340,7 @@ class ErrorsInterface$Impl extends __lib.NativeBase implements ErrorsInterface {
           smokePayloadReleaseFfiHandle(__errorHandle);
         }
     }
-    final __resultHandle = _methodWithPayloadErrorReturnGetResult(__callResultHandle);
     _methodWithPayloadErrorReturnReleaseHandle(__callResultHandle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
   }
   @override
   static String methodWithPayloadErrorAndReturnValue() {

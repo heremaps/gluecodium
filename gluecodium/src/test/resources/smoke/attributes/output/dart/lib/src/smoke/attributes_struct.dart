@@ -13,13 +13,9 @@ class AttributesStruct {
     final _veryFunFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AttributesStruct_veryFun__String'));
     final _paramHandle = stringToFfi(param);
     final _handle = smokeAttributesstructToFfi(this);
-    final __resultHandle = _veryFunFfi(_handle, __lib.LibraryContext.isolateId, _paramHandle);
+    _veryFunFfi(_handle, __lib.LibraryContext.isolateId, _paramHandle);
     smokeAttributesstructReleaseFfiHandle(_handle);
     stringReleaseFfiHandle(_paramHandle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
   }
 }
 // AttributesStruct "private" section, not exported.

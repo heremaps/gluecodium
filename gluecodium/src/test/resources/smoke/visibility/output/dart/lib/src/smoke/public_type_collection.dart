@@ -10,12 +10,8 @@ class InternalStruct {
   void internal_fooBar() {
     final _fooBarFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PublicTypeCollection_InternalStruct_fooBar'));
     final _handle = smokePublictypecollectionInternalstructToFfi(this);
-    final __resultHandle = _fooBarFfi(_handle, __lib.LibraryContext.isolateId);
+    _fooBarFfi(_handle, __lib.LibraryContext.isolateId);
     smokePublictypecollectionInternalstructReleaseFfiHandle(_handle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
   }
 }
 // InternalStruct "private" section, not exported.

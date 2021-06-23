@@ -214,12 +214,8 @@ class Lambdas_Consumer$Impl {
     final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Lambdas_Consumer_call__String'));
     final _p0Handle = stringToFfi(p0);
     final _handle = this.handle;
-    final __resultHandle = _callFfi(_handle, __lib.LibraryContext.isolateId, _p0Handle);
+    _callFfi(_handle, __lib.LibraryContext.isolateId, _p0Handle);
     stringReleaseFfiHandle(_p0Handle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
   }
 }
 int _smokeLambdasConsumercallStatic(Object _obj, Pointer<Void> p0) {
