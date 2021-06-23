@@ -239,12 +239,8 @@ class TypeDefs$Impl extends __lib.NativeBase implements TypeDefs {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_TypeDefs_primitiveTypeProperty_set__ListOf_1Double'));
     final _valueHandle = foobarListofDoubleToFfi(value);
     final _handle = this.handle;
-    final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     foobarListofDoubleReleaseFfiHandle(_valueHandle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
   }
 }
 Pointer<Void> smokeTypedefsToFfi(TypeDefs value) =>

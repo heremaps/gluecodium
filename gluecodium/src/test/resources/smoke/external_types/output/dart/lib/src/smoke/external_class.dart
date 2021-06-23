@@ -148,11 +148,7 @@ class ExternalClass$Impl extends __lib.NativeBase implements ExternalClass {
     final _someMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Int8), void Function(Pointer<Void>, int, int)>('library_smoke_ExternalClass_someMethod__Byte'));
     final _someParameterHandle = (someParameter);
     final _handle = this.handle;
-    final __resultHandle = _someMethodFfi(_handle, __lib.LibraryContext.isolateId, _someParameterHandle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
+    _someMethodFfi(_handle, __lib.LibraryContext.isolateId, _someParameterHandle);
   }
   @override
   String get someProperty {

@@ -18,12 +18,8 @@ class StructWithMethods$Impl {
   void voidFunction() {
     final _voidFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_StructWithMethods_voidFunction'));
     final _handle = smokeStructwithmethodsToFfi(this);
-    final __resultHandle = _voidFunctionFfi(_handle, __lib.LibraryContext.isolateId);
+    _voidFunctionFfi(_handle, __lib.LibraryContext.isolateId);
     smokeStructwithmethodsReleaseFfiHandle(_handle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
   }
   bool boolFunction() {
     final _boolFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_StructWithMethods_boolFunction'));
@@ -70,11 +66,7 @@ class StructWithMethods$Impl {
   }
   void staticFunction() {
     final _staticFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_StructWithMethods_staticFunction'));
-    final __resultHandle = _staticFunctionFfi(__lib.LibraryContext.isolateId);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
+    _staticFunctionFfi(__lib.LibraryContext.isolateId);
   }
 }
 // StructWithMethods "private" section, not exported.

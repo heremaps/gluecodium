@@ -36,12 +36,8 @@ class MapScene_LoadSceneCallback$Impl {
     final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MapScene_LoadSceneCallback_call__String'));
     final _p0Handle = stringToFfiNullable(p0);
     final _handle = this.handle;
-    final __resultHandle = _callFfi(_handle, __lib.LibraryContext.isolateId, _p0Handle);
+    _callFfi(_handle, __lib.LibraryContext.isolateId, _p0Handle);
     stringReleaseFfiHandleNullable(_p0Handle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
   }
 }
 int _smokeMapsceneLoadscenecallbackcallStatic(Object _obj, Pointer<Void> p0) {
@@ -121,12 +117,8 @@ class MapScene$Impl extends __lib.NativeBase implements MapScene {
     final _mapSchemeHandle = (mapScheme);
     final _callbackHandle = smokeMapsceneLoadscenecallbackToFfiNullable(callback);
     final _handle = this.handle;
-    final __resultHandle = _loadSceneWithIntFfi(_handle, __lib.LibraryContext.isolateId, _mapSchemeHandle, _callbackHandle);
+    _loadSceneWithIntFfi(_handle, __lib.LibraryContext.isolateId, _mapSchemeHandle, _callbackHandle);
     smokeMapsceneLoadscenecallbackReleaseFfiHandleNullable(_callbackHandle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
   }
   @override
   void loadSceneWithString(String configurationFile, MapScene_LoadSceneCallback? callback) {
@@ -134,13 +126,9 @@ class MapScene$Impl extends __lib.NativeBase implements MapScene {
     final _configurationFileHandle = stringToFfi(configurationFile);
     final _callbackHandle = smokeMapsceneLoadscenecallbackToFfiNullable(callback);
     final _handle = this.handle;
-    final __resultHandle = _loadSceneWithStringFfi(_handle, __lib.LibraryContext.isolateId, _configurationFileHandle, _callbackHandle);
+    _loadSceneWithStringFfi(_handle, __lib.LibraryContext.isolateId, _configurationFileHandle, _callbackHandle);
     stringReleaseFfiHandle(_configurationFileHandle);
     smokeMapsceneLoadscenecallbackReleaseFfiHandleNullable(_callbackHandle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
   }
 }
 Pointer<Void> smokeMapsceneToFfi(MapScene value) =>

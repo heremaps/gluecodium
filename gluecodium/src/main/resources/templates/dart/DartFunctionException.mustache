@@ -23,11 +23,12 @@ final _{{resolveName}}ReturnReleaseHandle = __lib.catchArgumentError(() => __lib
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_return_release_handle'));
-final _{{resolveName}}ReturnGetResult = {{#unless returnType.isVoid}}__lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+{{#unless returnType.isVoid}}
+final _{{resolveName}}ReturnGetResult = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     {{resolveName returnType.typeRef "FfiApiTypes"}} Function(Pointer<Void>),
     {{resolveName returnType.typeRef "FfiDartTypes"}} Function(Pointer<Void>)
-  >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_return_get_result'));{{/unless}}{{!!
-    }}{{#if returnType.isVoid}}(Pointer) {};{{/if}}
+  >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_return_get_result'));
+{{/unless}}
 final _{{resolveName}}ReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     {{resolveName exception.errorType "FfiApiTypes"}} Function(Pointer<Void>),
     {{resolveName exception.errorType "FfiDartTypes"}} Function(Pointer<Void>)

@@ -180,11 +180,7 @@ class ExternalInterface$Impl extends __lib.NativeBase implements ExternalInterfa
     final _someMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Int8), void Function(Pointer<Void>, int, int)>('library_smoke_ExternalInterface_someMethod__Byte'));
     final _someParameterHandle = (someParameter);
     final _handle = this.handle;
-    final __resultHandle = _someMethodFfi(_handle, __lib.LibraryContext.isolateId, _someParameterHandle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
+    _someMethodFfi(_handle, __lib.LibraryContext.isolateId, _someParameterHandle);
   }
   String get someProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ExternalInterface_someProperty_get'));

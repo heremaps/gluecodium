@@ -48,11 +48,7 @@ class SomeClass$Impl extends __lib.NativeBase implements SomeClass {
   void voidFunction() {
     final _voidFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SomeClass_voidFunction'));
     final _handle = this.handle;
-    final __resultHandle = _voidFunctionFfi(_handle, __lib.LibraryContext.isolateId);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
+    _voidFunctionFfi(_handle, __lib.LibraryContext.isolateId);
   }
   @override
   bool boolFunction() {
@@ -99,11 +95,7 @@ class SomeClass$Impl extends __lib.NativeBase implements SomeClass {
   }
   void staticFunction() {
     final _staticFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_SomeClass_staticFunction'));
-    final __resultHandle = _staticFunctionFfi(__lib.LibraryContext.isolateId);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
+    _staticFunctionFfi(__lib.LibraryContext.isolateId);
   }
 }
 Pointer<Void> smokeSomeclassToFfi(SomeClass value) =>
