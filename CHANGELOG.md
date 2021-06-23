@@ -1,6 +1,13 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Bug fixes:
+  * Fixed "dart analyze" warning about unnecessary cast in the class/interface equality operator.
+  * In Dart there is now less dead code generated for functions returning `void`. This also fixes a corresponding "dart
+    analyze" warning.
+
+## 9.2.0
+Release date: 2021-06-22
 ### Features:
   * Added automatic finalization for lambdas in Dart.
 ### Bug fixes:
@@ -8,11 +15,12 @@
   * Fixed compilation issues for `@Optimized` Lists as struct fields in Java.
   * Fixed compilation issue for Java when compiled on a Mac.
   * Fixed CBridge compilation warning about a C99 extension syntax being used.
+  * Fixed compilation issue for `@Serializable` "external" structs in Java.
 
 ## 9.1.1
 Release date: 2021-06-02
 ### Bug fixes:
-  * Fixed runtime issues in Java when a 'null' is returned from C++ for a non-nullable `Blob`.
+  * Fixed runtime issues in Java when a `null` is returned from C++ for a non-nullable `Blob`.
   * Updated Dart generator to generate `void` function return type explicitly.  
   * Fixed compilation issues in Dart generated for testable "stubs" mode.
   * Updated Dart SDK discovery mechanism in CMake toolchain to be aware of the new Flutter SDK path.

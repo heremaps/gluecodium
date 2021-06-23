@@ -25,6 +25,8 @@
 #include "ConversionBase.h"
 {{#if classes}}
 #include "InstanceCache.h"
+{{/if}}
+{{#if classes lambdas logic="or"}}
 #include "FinalizerData.h"
 {{/if}}
 {{#includes}}

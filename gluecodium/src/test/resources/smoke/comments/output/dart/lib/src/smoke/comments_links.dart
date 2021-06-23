@@ -192,13 +192,9 @@ class CommentsLinks$Impl extends __lib.NativeBase implements CommentsLinks {
     final _textHandle = stringToFfi(text);
     final _flagHandle = booleanToFfi(flag);
     final _handle = this.handle;
-    final __resultHandle = _randomMethod2Ffi(_handle, __lib.LibraryContext.isolateId, _textHandle, _flagHandle);
+    _randomMethod2Ffi(_handle, __lib.LibraryContext.isolateId, _textHandle, _flagHandle);
     stringReleaseFfiHandle(_textHandle);
     booleanReleaseFfiHandle(_flagHandle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
   }
 }
 Pointer<Void> smokeCommentslinksToFfi(CommentsLinks value) =>

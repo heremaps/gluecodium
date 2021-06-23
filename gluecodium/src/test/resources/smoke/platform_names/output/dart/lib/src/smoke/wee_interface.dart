@@ -69,11 +69,7 @@ class weeInterface$Impl extends __lib.NativeBase implements weeInterface {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint32), void Function(Pointer<Void>, int, int)>('library_smoke_PlatformNamesInterface_basicProperty_set__UInt'));
     final _valueHandle = (value);
     final _handle = this.handle;
-    final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
+    _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
   }
 }
 Pointer<Void> smokePlatformnamesinterfaceToFfi(weeInterface value) =>

@@ -32,41 +32,25 @@ class SpecialNames$Impl extends __lib.NativeBase implements SpecialNames {
   void create() {
     final _createFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_create'));
     final _handle = this.handle;
-    final __resultHandle = _createFfi(_handle, __lib.LibraryContext.isolateId);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
+    _createFfi(_handle, __lib.LibraryContext.isolateId);
   }
   @override
   void reallyRelease() {
     final _reallyReleaseFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_release'));
     final _handle = this.handle;
-    final __resultHandle = _reallyReleaseFfi(_handle, __lib.LibraryContext.isolateId);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
+    _reallyReleaseFfi(_handle, __lib.LibraryContext.isolateId);
   }
   @override
   void createProxy() {
     final _createProxyFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_createProxy'));
     final _handle = this.handle;
-    final __resultHandle = _createProxyFfi(_handle, __lib.LibraryContext.isolateId);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
+    _createProxyFfi(_handle, __lib.LibraryContext.isolateId);
   }
   @override
   void Uppercase() {
     final _UppercaseFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_Uppercase'));
     final _handle = this.handle;
-    final __resultHandle = _UppercaseFfi(_handle, __lib.LibraryContext.isolateId);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
+    _UppercaseFfi(_handle, __lib.LibraryContext.isolateId);
   }
 }
 Pointer<Void> smokeSpecialnamesToFfi(SpecialNames value) =>

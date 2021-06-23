@@ -27,8 +27,9 @@
   final _handle = {{#if isStruct}}{{resolveName parent "Ffi"}}ToFfi(this){{/if}}{{!!
   }}{{#unless isStruct}}this.handle{{/unless}};
 {{/unless}}
-  final __{{#if thrownType}}callResult{{/if}}{{#unless thrownType}}result{{/unless}}Handle = _{{resolveName}}Ffi({{!!
-  }}{{#unless isStatic}}_handle, {{/unless}}__lib.LibraryContext.isolateId{{#if parameters}}, {{/if}}{{!!
+  {{#if thrownType}}final __callResultHandle = {{/if}}{{!!
+  }}{{#unless thrownType returnType.isVoid logic="and"}}final __resultHandle = {{/unless}}{{!!
+  }}_{{resolveName}}Ffi({{#unless isStatic}}_handle, {{/unless}}__lib.LibraryContext.isolateId{{#if parameters}}, {{/if}}{{!!
   }}{{#parameters}}_{{resolveName}}Handle{{#if iter.hasNext}}, {{/if}}{{/parameters}});
 {{#if isStruct}}{{#unless isStatic}}  {{resolveName parent "Ffi"}}ReleaseFfiHandle(_handle);
 {{/unless}}{{/if}}{{!!
@@ -45,12 +46,14 @@
         {{#set typeRef=exception.errorType varName="__errorHandle"}}{{>dart/DartFfiReleaseHandle}}{{/set}}
       }
   }
+{{#unless returnType.isVoid}}
   final __resultHandle = _{{resolveName}}ReturnGetResult(__callResultHandle);
+{{/unless}}
   _{{resolveName}}ReturnReleaseHandle(__callResultHandle);
 {{/if}}
 {{#if isConstructor}}{{#if isStruct}}{{>ffiReturnConversion}}{{/if}}{{!!
 }}{{#unless isStruct}}  return __resultHandle;{{/unless}}{{/if}}{{!!
-}}{{#unless isConstructor}}{{>ffiReturnConversion}}{{/unless}}
+}}{{#unless isConstructor returnType.isVoid logic="and"}}{{>ffiReturnConversion}}{{/unless}}
 }{{!!
 
 }}{{+ffiApi}}{{#if thrownType}}Pointer<Void>{{/if}}{{#unless thrownType}}{{!!

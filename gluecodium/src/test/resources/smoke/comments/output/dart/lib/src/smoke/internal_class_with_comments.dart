@@ -34,11 +34,7 @@ class InternalClassWithComments$Impl extends __lib.NativeBase implements Interna
   void internal_doNothing() {
     final _doNothingFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalClassWithComments_doNothing'));
     final _handle = this.handle;
-    final __resultHandle = _doNothingFfi(_handle, __lib.LibraryContext.isolateId);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
+    _doNothingFfi(_handle, __lib.LibraryContext.isolateId);
   }
 }
 Pointer<Void> smokeInternalclasswithcommentsToFfi(InternalClassWithComments value) =>

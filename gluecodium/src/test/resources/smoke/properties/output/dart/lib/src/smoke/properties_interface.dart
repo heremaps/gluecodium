@@ -134,12 +134,8 @@ class PropertiesInterface$Impl extends __lib.NativeBase implements PropertiesInt
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PropertiesInterface_structProperty_set__ExampleStruct'));
     final _valueHandle = smokePropertiesinterfaceExamplestructToFfi(value);
     final _handle = this.handle;
-    final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     smokePropertiesinterfaceExamplestructReleaseFfiHandle(_valueHandle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
   }
 }
 int _smokePropertiesinterfacestructPropertyGetStatic(Object _obj, Pointer<Pointer<Void>> _result) {

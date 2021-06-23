@@ -57,12 +57,8 @@ class weeListener$Impl extends __lib.NativeBase implements weeListener {
     final _WeeMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PlatformNamesListener_basicMethod__String'));
     final _WeeParameterHandle = stringToFfi(WeeParameter);
     final _handle = this.handle;
-    final __resultHandle = _WeeMethodFfi(_handle, __lib.LibraryContext.isolateId, _WeeParameterHandle);
+    _WeeMethodFfi(_handle, __lib.LibraryContext.isolateId, _WeeParameterHandle);
     stringReleaseFfiHandle(_WeeParameterHandle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
   }
 }
 int _smokePlatformnameslistenerWeeMethodStatic(Object _obj, Pointer<Void> WeeParameter) {

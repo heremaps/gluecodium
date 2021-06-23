@@ -77,12 +77,8 @@ class AttributesInterface$Impl extends __lib.NativeBase implements AttributesInt
     final _veryFunFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AttributesInterface_veryFun__String'));
     final _paramHandle = stringToFfi(param);
     final _handle = this.handle;
-    final __resultHandle = _veryFunFfi(_handle, __lib.LibraryContext.isolateId, _paramHandle);
+    _veryFunFfi(_handle, __lib.LibraryContext.isolateId, _paramHandle);
     stringReleaseFfiHandle(_paramHandle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
   }
   @OnPropertyInInterface
   String get prop {
@@ -100,12 +96,8 @@ class AttributesInterface$Impl extends __lib.NativeBase implements AttributesInt
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AttributesInterface_prop_set__String'));
     final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
-    final __resultHandle = _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
   }
 }
 int _smokeAttributesinterfaceveryFunStatic(Object _obj, Pointer<Void> param) {

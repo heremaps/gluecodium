@@ -36,11 +36,7 @@ class ChildClassFromClass$Impl extends ParentClass$Impl implements ChildClassFro
   void childClassMethod() {
     final _childClassMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ChildClassFromClass_childClassMethod'));
     final _handle = this.handle;
-    final __resultHandle = _childClassMethodFfi(_handle, __lib.LibraryContext.isolateId);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
+    _childClassMethodFfi(_handle, __lib.LibraryContext.isolateId);
   }
 }
 Pointer<Void> smokeChildclassfromclassToFfi(ChildClassFromClass value) =>
