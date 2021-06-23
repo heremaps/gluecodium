@@ -18,7 +18,6 @@
  */
 package com.here.android.test;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 import android.os.Build;

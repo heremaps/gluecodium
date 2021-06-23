@@ -23,9 +23,8 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.os.Build;
+import android.os.Parcel;
 import com.here.android.RobolectricApplication;
 import com.here.android.external.AnotherExternalStruct;
 import com.here.android.external.ExternalEnum;
@@ -167,7 +166,8 @@ public final class ExternalTypesTest {
   @Test
   public void createSomeSerializableExternalStructWithExternalSerializableField() {
     AnExternalStruct externalStruct = new AnExternalStruct(42);
-    SerializableStructWithExternalField mainStruct = new SerializableStructWithExternalField(externalStruct);
+    SerializableStructWithExternalField mainStruct =
+        new SerializableStructWithExternalField(externalStruct);
 
     Parcel parcel = Parcel.obtain();
     parcel.writeParcelable(mainStruct, 0);
@@ -180,5 +180,4 @@ public final class ExternalTypesTest {
     assertTrue(android.os.Parcelable.class.isInstance(mainStruct));
     assertEquals(42, resultStruct.someStruct.mData);
   }
-
 }
