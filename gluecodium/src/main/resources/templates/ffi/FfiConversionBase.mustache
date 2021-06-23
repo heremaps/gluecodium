@@ -126,24 +126,27 @@ struct Conversion<T, typename std::enable_if<std::is_enum<T>::value>::type> {
     }
 };
 
-template<>
-struct Conversion<std::chrono::system_clock::time_point, void> {
+template<class Clock, class Duration>
+struct Conversion<
+    std::chrono::time_point<Clock, Duration>,
+    typename std::enable_if<std::is_class<std::chrono::time_point<Clock, Duration>>::value>::type
+> {
     static uint64_t
-    toFfi(const std::chrono::system_clock::time_point& t) {
+    toFfi(const std::chrono::time_point<Clock, Duration>& t) {
         using namespace std::chrono;
-        return duration_cast<microseconds>( t.time_since_epoch()).count();
+        return duration_cast<microseconds>(t.time_since_epoch()).count();
     }
 
     static uint64_t
-    toFfi(std::chrono::system_clock::time_point&& t) {
+    toFfi(std::chrono::time_point<Clock, Duration>&& t) {
         using namespace std::chrono;
-        return duration_cast<microseconds>( t.time_since_epoch()).count();
+        return duration_cast<microseconds>(t.time_since_epoch()).count();
     }
 
-    static std::chrono::system_clock::time_point
+    static std::chrono::time_point<Clock, Duration>
     toCpp(uint64_t t) {
         using namespace std::chrono;
-        return system_clock::time_point(duration_cast<system_clock::duration>(microseconds(t)));
+        return time_point<Clock, Duration>(duration_cast<Duration>(microseconds(t)));
     }
 };
 

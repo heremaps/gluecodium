@@ -1,7 +1,6 @@
 //
 //
 #include "cbridge/include/smoke/cbridge_Dates.h"
-#include "cbridge/include/DateHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"

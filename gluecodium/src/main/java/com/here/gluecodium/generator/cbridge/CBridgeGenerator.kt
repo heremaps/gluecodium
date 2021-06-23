@@ -199,10 +199,6 @@ internal class CBridgeGenerator(
                 Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "LocaleHandle.cpp").toString()
             ),
             generateHelperContent(
-                "DateHandle",
-                Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "DateHandle.cpp").toString()
-            ),
-            generateHelperContent(
                 "BuiltinHandle",
                 Paths.get(CBRIDGE_PUBLIC, SRC_DIR, "BuiltinHandle.cpp").toString()
             ),
@@ -287,7 +283,6 @@ internal class CBridgeGenerator(
 
         private val BASE_HANDLE_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "BaseHandle.h").toString()
         private val STRING_HANDLE_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "StringHandle.h").toString()
-        private val DATE_HANDLE_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "DateHandle.h").toString()
         private val EXPORT_FILE = Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "Export.h").toString()
         private val PROXY_CACHE_FILENAME = Paths.get(CBRIDGE_INTERNAL, INCLUDE_DIR, "CachedProxyBase.h").toString()
 
@@ -297,7 +292,6 @@ internal class CBridgeGenerator(
             listOf(
                 Generator.copyCommonFile(BASE_HANDLE_FILE, ""),
                 Generator.copyCommonFile(STRING_HANDLE_FILE, ""),
-                Generator.copyCommonFile(DATE_HANDLE_FILE, ""),
                 Generator.copyCommonFile(EXPORT_FILE, ""),
                 Generator.copyCommonFile(Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "BuiltinHandle.h").toString(), ""),
                 Generator.copyCommonFile(Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "ByteArrayHandle.h").toString(), ""),
