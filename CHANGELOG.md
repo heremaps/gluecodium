@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed "dart analyze" warning about unnecessary cast in the class/interface equality operator.
+
 ## 9.2.0
 Release date: 2021-06-22
 ### Features:
