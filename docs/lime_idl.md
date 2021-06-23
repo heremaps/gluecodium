@@ -563,6 +563,9 @@ element is skipped ((not generated). Custom tags are case-insensitive.
   generated code. _Attribute_ does not need to be enclosed in `[[]]`. _Attribute_ can contain parameters, e.g.
   `@Cpp(Attribute="deprecated(\"It's deprecated.\")")`. If some of the parameters are string literals, their enclosing
   quotes need to be backslash-escaped, as in the example.
+  * **Type** **=** **"**_TypeName_**"**: marks a `Date` type reference to use an alternative type in C++ generated code.
+  For example, `@Cpp(Type="std::chrono::steady_clock::time_point")` will use monotonic clock time point type, instead of
+  the system clock time point type which is used by default.    
   * ~~**ExternalType** **=** **"**_HeaderPaths_**"**~~: legacy attribute, superseded by `cpp
   include` in the `External Descriptor` (see above).
   * ~~**ExternalName** **=** **"**_FullyQualifiedName_**"**~~: legacy attribute, superseded by `cpp

@@ -43,6 +43,11 @@ namespace jni
 
 // -------------------- JNI object field getters --------------------------------------------------
 
+JNIEXPORT JniReference< jobject > get_object_field_value( JNIEnv* env,
+                                       const JniReference<jobject>& object,
+                                       const char* fieldName,
+                                       const char* fieldSignature );
+
 JNIEXPORT bool get_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, bool* );
 JNIEXPORT int8_t get_field_value(
@@ -128,16 +133,28 @@ JNIEXPORT {{>common/InternalNamespace}}optional< ::std::shared_ptr< ::std::vecto
     const char* fieldName,
     {{>common/InternalNamespace}}optional< ::std::shared_ptr< ::std::vector< uint8_t > > >* );
 
-JNIEXPORT ::std::chrono::system_clock::time_point get_field_value(
-    JNIEnv* env,
-    const JniReference< jobject >& object,
-    const char* fieldName,
-    ::std::chrono::system_clock::time_point* );
-JNIEXPORT {{>common/InternalNamespace}}optional< ::std::chrono::system_clock::time_point > get_field_value(
-    JNIEnv* env,
-    const JniReference< jobject >& object,
-    const char* fieldName,
-    {{>common/InternalNamespace}}optional< ::std::chrono::system_clock::time_point >* );
+template<class Clock, class Duration>
+std::chrono::time_point<Clock, Duration>
+get_field_value(
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, std::chrono::time_point<Clock, Duration>*
+) {
+    auto fieldValue = get_object_field_value(env, object, fieldName, "Ljava/util/Date;");
+
+    return {{>common/InternalNamespace}}jni::convert_from_jni(env, fieldValue, (std::chrono::time_point<Clock, Duration>*)nullptr);
+}
+
+template<class Clock, class Duration>
+{{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>
+get_field_value(
+    JNIEnv* env, const JniReference<jobject >& object, const char* fieldName,
+    {{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>*
+) {
+    auto fieldValue = get_object_field_value(env, object, fieldName, "Ljava/util/Date;");
+
+    return {{>common/InternalNamespace}}jni::convert_from_jni(
+        env, fieldValue, ({{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>*)nullptr
+    );
+}
 
 JNIEXPORT {{>common/InternalNamespace}}Locale get_field_value(
     JNIEnv* env,
@@ -150,12 +167,13 @@ JNIEXPORT {{>common/InternalNamespace}}optional< {{>common/InternalNamespace}}Lo
     const char* fieldName,
     {{>common/InternalNamespace}}optional< {{>common/InternalNamespace}}Locale >* );
 
-JNIEXPORT JniReference< jobject > get_object_field_value( JNIEnv* env,
-                                       const JniReference<jobject>& object,
-                                       const char* fieldName,
-                                       const char* fieldSignature );
-
 // -------------------- JNI object field setters --------------------------------------------------
+
+JNIEXPORT void set_object_field_value( JNIEnv* env,
+                             const JniReference<jobject>& object,
+                             const char* fieldName,
+                             const char* fieldSignature,
+                             const JniReference<jobject>& fieldValue );
 
 JNIEXPORT void set_field_value(
     JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, bool value );
@@ -242,14 +260,26 @@ JNIEXPORT void set_field_value( JNIEnv* env,
                       const char* fieldName,
                       {{>common/InternalNamespace}}optional< std::shared_ptr< ::std::vector< uint8_t > > > fieldValue );
 
-JNIEXPORT void set_field_value( JNIEnv* env,
-                      const JniReference<jobject>& object,
-                      const char* fieldName,
-                      const ::std::chrono::system_clock::time_point& fieldValue );
-JNIEXPORT void set_field_value( JNIEnv* env,
-                      const JniReference<jobject>& object,
-                      const char* fieldName,
-                      {{>common/InternalNamespace}}optional< ::std::chrono::system_clock::time_point > fieldValue );
+template<class Clock, class Duration>
+void
+set_field_value(
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, const std::chrono::time_point<Clock, Duration>& fieldValue
+) {
+    auto fieldId = env->GetFieldID(get_object_class(env, object).get(), fieldName, "Ljava/util/Date;");
+    auto jValue = {{>common/InternalNamespace}}jni::convert_to_jni(env, fieldValue);
+    env->SetObjectField(object.get(), fieldId, jValue.get());
+}
+
+template<class Clock, class Duration>
+void
+set_field_value(
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName,
+    const {{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>& fieldValue
+) {
+    auto fieldId = env->GetFieldID(get_object_class(env, object).get(), fieldName, "Ljava/util/Date;");
+    auto jValue = {{>common/InternalNamespace}}jni::convert_to_jni(env, fieldValue);
+    env->SetObjectField(object.get(), fieldId, jValue.get());
+}
 
 JNIEXPORT void set_field_value( JNIEnv* env,
                       const JniReference<jobject>& object,
@@ -259,12 +289,6 @@ JNIEXPORT void set_field_value( JNIEnv* env,
                       const JniReference<jobject>& object,
                       const char* fieldName,
                       {{>common/InternalNamespace}}optional< {{>common/InternalNamespace}}Locale > fieldValue );
-
-JNIEXPORT void set_object_field_value( JNIEnv* env,
-                             const JniReference<jobject>& object,
-                             const char* fieldName,
-                             const char* fieldSignature,
-                             const JniReference<jobject>& fieldValue );
 
 }
 {{#internalNamespace}}

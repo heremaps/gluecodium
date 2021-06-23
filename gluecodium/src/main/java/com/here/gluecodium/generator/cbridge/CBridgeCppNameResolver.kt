@@ -41,8 +41,7 @@ internal class CBridgeCppNameResolver(
 
     override fun resolveName(element: Any): String =
         when (element) {
-            is LimeTypeRef -> resolveTypeRefName(element)
-            is LimeBasicType, is LimeGenericType -> cppShortNameResolver.resolveName(element)
+            is LimeTypeRef, is LimeBasicType, is LimeGenericType -> cppShortNameResolver.resolveName(element)
             is LimeType -> cppFullNameResolver.resolveName(element)
             is LimeFunction -> resolveFunctionName(element)
             else -> cppShortNameResolver.resolveName(element)
@@ -53,28 +52,19 @@ internal class CBridgeCppNameResolver(
         return when {
             parentElement is LimeLambda -> "operator()"
             parentElement !is LimeProperty -> cppShortNameResolver.resolveName(limeFunction)
-            limeFunction === parentElement.setter -> cppShortNameResolver.resolveSetterName(parentElement)
-            else -> cppShortNameResolver.resolveGetterName(parentElement)
-        }!!
+            limeFunction === parentElement.setter -> cppShortNameResolver.resolveSetterName(parentElement)!!
+            else -> cppShortNameResolver.resolveGetterName(parentElement)!!
+        }
     }
 
     override fun resolveGetterName(element: Any) = cppShortNameResolver.resolveGetterName(element)
 
     override fun resolveSetterName(element: Any) = cppShortNameResolver.resolveSetterName(element)
 
-    override fun resolveReferenceName(element: Any) =
+    override fun resolveReferenceName(element: Any): String? =
         when (element) {
-            is LimeType -> cppShortNameResolver.resolveName(LimeDirectTypeRef(element))
-            is LimeTypeRef -> resolveTypeRefName(element)
+            is LimeType -> resolveReferenceName(LimeDirectTypeRef(element))
+            is LimeTypeRef -> cppShortNameResolver.resolveName(element)
             else -> null
         }
-
-    private fun resolveTypeRefName(limeTypeRef: LimeTypeRef) =
-        cppShortNameResolver.resolveName(
-            LimeDirectTypeRef(
-                limeTypeRef.type.actualType,
-                isNullable = limeTypeRef.isNullable,
-                attributes = limeTypeRef.attributes
-            )
-        )
 }

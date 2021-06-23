@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Added support for `@Cpp(Type)` attribute. This attribute can only be applied to a `Date` type reference, and it
+    specifies which `timepoint<>` type to use in C++ generated code to represent this single type reference.
+
 ## 9.2.1
 Release date: 2021-06-25
 ### Bug fixes:

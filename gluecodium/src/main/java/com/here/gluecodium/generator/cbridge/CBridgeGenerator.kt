@@ -62,7 +62,7 @@ internal class CBridgeGenerator(
     cppNameRules: CppNameRules,
     private val nameResolver: CBridgeNameResolver
 ) {
-    val cppNameResolver = CppNameResolver(limeReferenceMap, internalNamespace, nameCache)
+    val cppNameResolver = CppNameResolver(limeReferenceMap, internalNamespace, nameCache, forceFollowThrough = true)
     private val cppRefNameResolver =
         CBridgeCppNameResolver(limeReferenceMap, CppFullNameResolver(nameCache), cppNameResolver)
     private val cppIncludeResolver = CppIncludeResolver(limeReferenceMap, cppNameRules, internalNamespace)
