@@ -19,7 +19,8 @@
 package com.here.android.test;
 
 class ExternalStructMarkedAsSerializableConverter {
-  static com.here.android.test.AnExternalStruct convertFromInternal(ExternalMarkedAsSerializable struct) {
+  static com.here.android.test.AnExternalStruct convertFromInternal(
+      ExternalMarkedAsSerializable struct) {
     return new com.here.android.test.AnExternalStruct(struct.field);
   }
 

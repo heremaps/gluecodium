@@ -35,13 +35,19 @@ public class InterfaceWithStaticTest {
     private String foo = "buzz2";
 
     @Override
-    public String regularFunction() { return "buzz1"; }
+    public String regularFunction() {
+      return "buzz1";
+    }
 
     @Override
-    public String getRegularProperty() { return foo; }
+    public String getRegularProperty() {
+      return foo;
+    }
 
     @Override
-    public void setRegularProperty(final String value) { foo = value; }
+    public void setRegularProperty(final String value) {
+      foo = value;
+    }
   }
 
   @Test
