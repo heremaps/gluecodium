@@ -50,6 +50,11 @@ function(feature feature_name)
     set(lime_sources)
 
     foreach(generator ${feature_GENERATORS} ${feature_UNPARSED_ARGUMENTS})
+        if (generator STREQUAL "cpp" AND NOT GLUECODIUM_GENERATORS_DEFAULT STREQUAL "cpp")
+            # cpp presents in all functional tests and must be excluded unless it's
+            # necessary to test ONLY cpp
+            continue ()
+        endif ()
         if(${generator} IN_LIST GLUECODIUM_GENERATORS_DEFAULT)
             message("Enabling feature ${feature_name} for ${generator}")
             foreach(source ${feature_SOURCES})
