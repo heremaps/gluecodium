@@ -9,7 +9,7 @@
 #include <memory>
 #include <memory>
 #include <new>
-class smoke_ExternalWithNoFunctions_Proxy : public ::some::path::Bar {
+class smoke_ExternalWithNoFunctions_Proxy : public some::path::Bar {
 public:
     smoke_ExternalWithNoFunctions_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle)
         : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)) {
@@ -43,7 +43,7 @@ extern "C" {
 // "Private" finalizer, not exposed to be callable from Dart.
 void
 library_smoke_ExternalWithNoFunctions_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
-    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::some::path::Bar>*>(handle);
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<some::path::Bar>*>(handle);
     library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
     library_smoke_ExternalWithNoFunctions_release_handle(handle);
 }
@@ -55,14 +55,14 @@ library_smoke_ExternalWithNoFunctions_register_finalizer(FfiOpaqueHandle ffi_han
 FfiOpaqueHandle
 library_smoke_ExternalWithNoFunctions_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::shared_ptr<::some::path::Bar>(
-            *reinterpret_cast<std::shared_ptr<::some::path::Bar>*>(handle)
+        new (std::nothrow) std::shared_ptr<some::path::Bar>(
+            *reinterpret_cast<std::shared_ptr<some::path::Bar>*>(handle)
         )
     );
 }
 void
 library_smoke_ExternalWithNoFunctions_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::shared_ptr<::some::path::Bar>*>(handle);
+    delete reinterpret_cast<std::shared_ptr<some::path::Bar>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_ExternalWithNoFunctions_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle) {
@@ -80,7 +80,7 @@ library_smoke_ExternalWithNoFunctions_create_proxy(uint64_t token, int32_t isola
 }
 FfiOpaqueHandle
 library_smoke_ExternalWithNoFunctions_get_type_id(FfiOpaqueHandle handle) {
-    const auto& type_id = ::gluecodium::get_type_repository().get_id(reinterpret_cast<std::shared_ptr<::some::path::Bar>*>(handle)->get());
+    const auto& type_id = ::gluecodium::get_type_repository().get_id(reinterpret_cast<std::shared_ptr<some::path::Bar>*>(handle)->get());
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::string(type_id));
 }
 #ifdef __cplusplus

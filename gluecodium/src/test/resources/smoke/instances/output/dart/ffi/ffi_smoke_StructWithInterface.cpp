@@ -10,38 +10,38 @@ extern "C" {
 #endif
 FfiOpaqueHandle
 library_smoke_StructWithInterface_create_handle(FfiOpaqueHandle interfaceInstance) {
-    auto _result = new (std::nothrow) ::smoke::StructWithInterface(gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SimpleInterface>>::toCpp(interfaceInstance));
+    auto _result = new (std::nothrow) smoke::StructWithInterface(gluecodium::ffi::Conversion<std::shared_ptr<smoke::SimpleInterface>>::toCpp(interfaceInstance));
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void
 library_smoke_StructWithInterface_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<::smoke::StructWithInterface*>(handle);
+    delete reinterpret_cast<smoke::StructWithInterface*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_StructWithInterface_get_field_interfaceInstance(FfiOpaqueHandle handle) {
-    return gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SimpleInterface>>::toFfi(
-        reinterpret_cast<::smoke::StructWithInterface*>(handle)->interface_instance
+    return gluecodium::ffi::Conversion<std::shared_ptr<smoke::SimpleInterface>>::toFfi(
+        reinterpret_cast<smoke::StructWithInterface*>(handle)->interface_instance
     );
 }
 FfiOpaqueHandle
 library_smoke_StructWithInterface_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<::smoke::StructWithInterface>(
-            gluecodium::ffi::Conversion<::smoke::StructWithInterface>::toCpp(value)
+        new (std::nothrow) gluecodium::optional<smoke::StructWithInterface>(
+            gluecodium::ffi::Conversion<smoke::StructWithInterface>::toCpp(value)
         )
     );
 }
 void
 library_smoke_StructWithInterface_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<::smoke::StructWithInterface>*>(handle);
+    delete reinterpret_cast<gluecodium::optional<smoke::StructWithInterface>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_StructWithInterface_get_value_nullable(FfiOpaqueHandle handle)
 {
-    return gluecodium::ffi::Conversion<::smoke::StructWithInterface>::toFfi(
-        **reinterpret_cast<gluecodium::optional<::smoke::StructWithInterface>*>(handle)
+    return gluecodium::ffi::Conversion<smoke::StructWithInterface>::toFfi(
+        **reinterpret_cast<gluecodium::optional<smoke::StructWithInterface>*>(handle)
     );
 }
 #ifdef __cplusplus

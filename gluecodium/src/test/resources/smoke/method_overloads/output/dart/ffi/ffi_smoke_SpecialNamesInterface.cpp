@@ -11,7 +11,7 @@
 #include <memory>
 #include <memory>
 #include <new>
-class smoke_SpecialNamesInterface_Proxy : public ::smoke::SpecialNamesInterface {
+class smoke_SpecialNamesInterface_Proxy : public smoke::SpecialNamesInterface {
 public:
     smoke_SpecialNamesInterface_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0)
         : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f0(f0) {
@@ -35,9 +35,9 @@ public:
     smoke_SpecialNamesInterface_Proxy(const smoke_SpecialNamesInterface_Proxy&) = delete;
     smoke_SpecialNamesInterface_Proxy& operator=(const smoke_SpecialNamesInterface_Proxy&) = delete;
     void
-    dispatch(const ::smoke::SpecialNamesInterface::Callback& callback) const override {
+    dispatch(const smoke::SpecialNamesInterface::Callback& callback) const override {
         dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, FfiOpaqueHandle)>(f0))(Dart_HandleFromPersistent_DL(dart_persistent_handle),
-            gluecodium::ffi::Conversion<::smoke::SpecialNamesInterface::Callback>::toFfi(callback)
+            gluecodium::ffi::Conversion<smoke::SpecialNamesInterface::Callback>::toFfi(callback)
         ); });
     }
 private:
@@ -94,19 +94,19 @@ extern "C" {
 void
 library_smoke_SpecialNamesInterface_dispatch__Callback(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle callback) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SpecialNamesInterface>>::toCpp(_self)).dispatch(
-            gluecodium::ffi::Conversion<::smoke::SpecialNamesInterface::Callback>::toCpp(callback)
+            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SpecialNamesInterface>>::toCpp(_self)).dispatch(
+            gluecodium::ffi::Conversion<smoke::SpecialNamesInterface::Callback>::toCpp(callback)
         );
 }
 void
 library_smoke_SpecialNamesInterface_Callback_call(FfiOpaqueHandle _self, int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            gluecodium::ffi::Conversion<::smoke::SpecialNamesInterface::Callback>::toCpp(_self).operator()();
+            gluecodium::ffi::Conversion<smoke::SpecialNamesInterface::Callback>::toCpp(_self).operator()();
 }
 // "Private" finalizer, not exposed to be callable from Dart.
 void
 library_smoke_SpecialNamesInterface_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
-    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::SpecialNamesInterface>*>(handle);
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<smoke::SpecialNamesInterface>*>(handle);
     library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
     library_smoke_SpecialNamesInterface_release_handle(handle);
 }
@@ -118,14 +118,14 @@ library_smoke_SpecialNamesInterface_register_finalizer(FfiOpaqueHandle ffi_handl
 FfiOpaqueHandle
 library_smoke_SpecialNamesInterface_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::shared_ptr<::smoke::SpecialNamesInterface>(
-            *reinterpret_cast<std::shared_ptr<::smoke::SpecialNamesInterface>*>(handle)
+        new (std::nothrow) std::shared_ptr<smoke::SpecialNamesInterface>(
+            *reinterpret_cast<std::shared_ptr<smoke::SpecialNamesInterface>*>(handle)
         )
     );
 }
 void
 library_smoke_SpecialNamesInterface_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::shared_ptr<::smoke::SpecialNamesInterface>*>(handle);
+    delete reinterpret_cast<std::shared_ptr<smoke::SpecialNamesInterface>*>(handle);
 }
 // "Private" finalizer, not exposed to be callable from Dart.
 void
@@ -140,34 +140,34 @@ library_smoke_SpecialNamesInterface_Callback_register_finalizer(FfiOpaqueHandle 
 FfiOpaqueHandle
 library_smoke_SpecialNamesInterface_Callback_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) ::smoke::SpecialNamesInterface::Callback(
-            *reinterpret_cast<::smoke::SpecialNamesInterface::Callback*>(handle)
+        new (std::nothrow) smoke::SpecialNamesInterface::Callback(
+            *reinterpret_cast<smoke::SpecialNamesInterface::Callback*>(handle)
         )
     );
 }
 void
 library_smoke_SpecialNamesInterface_Callback_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<::smoke::SpecialNamesInterface::Callback*>(handle);
+    delete reinterpret_cast<smoke::SpecialNamesInterface::Callback*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_SpecialNamesInterface_Callback_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<::smoke::SpecialNamesInterface::Callback>(
-            gluecodium::ffi::Conversion<::smoke::SpecialNamesInterface::Callback>::toCpp(value)
+        new (std::nothrow) gluecodium::optional<smoke::SpecialNamesInterface::Callback>(
+            gluecodium::ffi::Conversion<smoke::SpecialNamesInterface::Callback>::toCpp(value)
         )
     );
 }
 void
 library_smoke_SpecialNamesInterface_Callback_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<::smoke::SpecialNamesInterface::Callback>*>(handle);
+    delete reinterpret_cast<gluecodium::optional<smoke::SpecialNamesInterface::Callback>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_SpecialNamesInterface_Callback_get_value_nullable(FfiOpaqueHandle handle)
 {
-    return gluecodium::ffi::Conversion<::smoke::SpecialNamesInterface::Callback>::toFfi(
-        **reinterpret_cast<gluecodium::optional<::smoke::SpecialNamesInterface::Callback>*>(handle)
+    return gluecodium::ffi::Conversion<smoke::SpecialNamesInterface::Callback>::toFfi(
+        **reinterpret_cast<gluecodium::optional<smoke::SpecialNamesInterface::Callback>*>(handle)
     );
 }
 FfiOpaqueHandle
@@ -192,14 +192,14 @@ library_smoke_SpecialNamesInterface_Callback_create_proxy(uint64_t token, int32_
         gluecodium::ffi::cache_proxy(token, isolate_id, "smoke_SpecialNamesInterface_Callback", cached_proxy);
     }
     return reinterpret_cast<FfiOpaqueHandle>(
-        new ::smoke::SpecialNamesInterface::Callback(
+        new smoke::SpecialNamesInterface::Callback(
             std::bind(&smoke_SpecialNamesInterface_Callback_Proxy::operator(), cached_proxy)
         )
     );
 }
 FfiOpaqueHandle
 library_smoke_SpecialNamesInterface_get_type_id(FfiOpaqueHandle handle) {
-    const auto& type_id = ::gluecodium::get_type_repository().get_id(reinterpret_cast<std::shared_ptr<::smoke::SpecialNamesInterface>*>(handle)->get());
+    const auto& type_id = ::gluecodium::get_type_repository().get_id(reinterpret_cast<std::shared_ptr<smoke::SpecialNamesInterface>*>(handle)->get());
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::string(type_id));
 }
 #ifdef __cplusplus

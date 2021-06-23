@@ -61,7 +61,9 @@ internal class CppNameResolver(
     internalNamespace: List<String>,
     private val nameCache: CppNameCache,
     private val limeLogger: LimeLogger? = null,
-    private val commentsProcessor: CommentsProcessor? = null
+    private val commentsProcessor: CommentsProcessor? = null,
+    private val forceFullNames: Boolean = false,
+    private val forceFollowThrough: Boolean = false
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
 
     private val hashTypeName = (listOf("") + internalNamespace + "hash").joinToString("::")
@@ -122,18 +124,21 @@ internal class CppNameResolver(
         }
     }
 
-    private fun resolveTypeName(limeType: LimeType, isFullName: Boolean, isOptimized: Boolean = false) =
-        when {
-            limeType is LimeBasicType -> resolveBasicType(limeType.typeId)
-            limeType is LimeGenericType -> resolveGenericType(limeType, isOptimized)
-            limeType is LimeException -> "::std::error_code"
-            isFullName -> when (limeType.actualType) {
+    private fun resolveTypeName(limeType: LimeType, isFullName: Boolean, isOptimized: Boolean = false): String {
+        val resolvedType = if (forceFollowThrough) limeType.actualType else limeType
+        return when {
+            resolvedType is LimeBasicType -> resolveBasicType(resolvedType.typeId)
+            resolvedType is LimeGenericType -> resolveGenericType(resolvedType, isOptimized)
+            resolvedType is LimeException -> "::std::error_code"
+            isFullName -> when (resolvedType.actualType) {
                 is LimeContainerWithInheritance ->
-                    "::std::shared_ptr< ${nameCache.getFullyQualifiedName(limeType)} >"
-                else -> nameCache.getFullyQualifiedName(limeType)
+                    "::std::shared_ptr< ${nameCache.getFullyQualifiedName(resolvedType)} >"
+                else -> nameCache.getFullyQualifiedName(resolvedType)
             }
-            else -> nameCache.getName(limeType)
+            forceFullNames -> nameCache.getFullyQualifiedName(resolvedType)
+            else -> nameCache.getName(resolvedType)
         }
+    }
 
     private fun resolveBasicType(typeId: TypeId) =
         when (typeId) {

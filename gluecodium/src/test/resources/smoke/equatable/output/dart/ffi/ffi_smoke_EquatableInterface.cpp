@@ -9,7 +9,7 @@
 #include <memory>
 #include <memory>
 #include <new>
-class smoke_EquatableInterface_Proxy : public ::smoke::EquatableInterface {
+class smoke_EquatableInterface_Proxy : public smoke::EquatableInterface {
 public:
     smoke_EquatableInterface_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle)
         : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)) {
@@ -43,7 +43,7 @@ extern "C" {
 // "Private" finalizer, not exposed to be callable from Dart.
 void
 library_smoke_EquatableInterface_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
-    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::EquatableInterface>*>(handle);
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<smoke::EquatableInterface>*>(handle);
     library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
     library_smoke_EquatableInterface_release_handle(handle);
 }
@@ -55,14 +55,14 @@ library_smoke_EquatableInterface_register_finalizer(FfiOpaqueHandle ffi_handle, 
 FfiOpaqueHandle
 library_smoke_EquatableInterface_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::shared_ptr<::smoke::EquatableInterface>(
-            *reinterpret_cast<std::shared_ptr<::smoke::EquatableInterface>*>(handle)
+        new (std::nothrow) std::shared_ptr<smoke::EquatableInterface>(
+            *reinterpret_cast<std::shared_ptr<smoke::EquatableInterface>*>(handle)
         )
     );
 }
 void
 library_smoke_EquatableInterface_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::shared_ptr<::smoke::EquatableInterface>*>(handle);
+    delete reinterpret_cast<std::shared_ptr<smoke::EquatableInterface>*>(handle);
 }
 bool
 library_smoke_EquatableInterface_are_equal(FfiOpaqueHandle handle1, FfiOpaqueHandle handle2) {
@@ -70,8 +70,8 @@ library_smoke_EquatableInterface_are_equal(FfiOpaqueHandle handle1, FfiOpaqueHan
     bool isNull2 = handle2 == 0;
     if (isNull1 && isNull2) return true;
     if (isNull1 || isNull2) return false;
-    return **reinterpret_cast<std::shared_ptr<::smoke::EquatableInterface>*>(handle1) ==
-        **reinterpret_cast<std::shared_ptr<::smoke::EquatableInterface>*>(handle2);
+    return **reinterpret_cast<std::shared_ptr<smoke::EquatableInterface>*>(handle1) ==
+        **reinterpret_cast<std::shared_ptr<smoke::EquatableInterface>*>(handle2);
 }
 FfiOpaqueHandle
 library_smoke_EquatableInterface_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle) {
@@ -89,7 +89,7 @@ library_smoke_EquatableInterface_create_proxy(uint64_t token, int32_t isolate_id
 }
 FfiOpaqueHandle
 library_smoke_EquatableInterface_get_type_id(FfiOpaqueHandle handle) {
-    const auto& type_id = ::gluecodium::get_type_repository().get_id(reinterpret_cast<std::shared_ptr<::smoke::EquatableInterface>*>(handle)->get());
+    const auto& type_id = ::gluecodium::get_type_repository().get_id(reinterpret_cast<std::shared_ptr<smoke::EquatableInterface>*>(handle)->get());
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::string(type_id));
 }
 #ifdef __cplusplus

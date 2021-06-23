@@ -16,7 +16,7 @@
 #include <vector>
 #include <memory>
 #include <new>
-class smoke_CalculatorListener_Proxy : public ::smoke::CalculatorListener {
+class smoke_CalculatorListener_Proxy : public smoke::CalculatorListener {
 public:
     smoke_CalculatorListener_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2, FfiOpaqueHandle f3, FfiOpaqueHandle f4, FfiOpaqueHandle f5)
         : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f0(f0), f1(f1), f2(f2), f3(f3), f4(f4), f5(f5) {
@@ -52,9 +52,9 @@ public:
         ); });
     }
     void
-    on_calculation_result_struct(const ::smoke::CalculatorListener::ResultStruct& calculationResult) override {
+    on_calculation_result_struct(const smoke::CalculatorListener::ResultStruct& calculationResult) override {
         dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, FfiOpaqueHandle)>(f2))(Dart_HandleFromPersistent_DL(dart_persistent_handle),
-            gluecodium::ffi::Conversion<::smoke::CalculatorListener::ResultStruct>::toFfi(calculationResult)
+            gluecodium::ffi::Conversion<smoke::CalculatorListener::ResultStruct>::toFfi(calculationResult)
         ); });
     }
     void
@@ -70,9 +70,9 @@ public:
         ); });
     }
     void
-    on_calculation_result_instance(const std::shared_ptr<::smoke::CalculationResult>& calculationResult) override {
+    on_calculation_result_instance(const std::shared_ptr<smoke::CalculationResult>& calculationResult) override {
         dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, FfiOpaqueHandle)>(f5))(Dart_HandleFromPersistent_DL(dart_persistent_handle),
-            gluecodium::ffi::Conversion<std::shared_ptr<::smoke::CalculationResult>>::toFfi(calculationResult)
+            gluecodium::ffi::Conversion<std::shared_ptr<smoke::CalculationResult>>::toFfi(calculationResult)
         ); });
     }
 private:
@@ -98,49 +98,49 @@ extern "C" {
 void
 library_smoke_CalculatorListener_onCalculationResult__Double(FfiOpaqueHandle _self, int32_t _isolate_id, double calculationResult) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::CalculatorListener>>::toCpp(_self)).on_calculation_result(
+            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::CalculatorListener>>::toCpp(_self)).on_calculation_result(
             gluecodium::ffi::Conversion<double>::toCpp(calculationResult)
         );
 }
 void
 library_smoke_CalculatorListener_onCalculationResultConst__Double(FfiOpaqueHandle _self, int32_t _isolate_id, double calculationResult) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::CalculatorListener>>::toCpp(_self)).on_calculation_result_const(
+            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::CalculatorListener>>::toCpp(_self)).on_calculation_result_const(
             gluecodium::ffi::Conversion<double>::toCpp(calculationResult)
         );
 }
 void
 library_smoke_CalculatorListener_onCalculationResultStruct__ResultStruct(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle calculationResult) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::CalculatorListener>>::toCpp(_self)).on_calculation_result_struct(
-            gluecodium::ffi::Conversion<::smoke::CalculatorListener::ResultStruct>::toCpp(calculationResult)
+            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::CalculatorListener>>::toCpp(_self)).on_calculation_result_struct(
+            gluecodium::ffi::Conversion<smoke::CalculatorListener::ResultStruct>::toCpp(calculationResult)
         );
 }
 void
 library_smoke_CalculatorListener_onCalculationResultArray__ListOf_1Double(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle calculationResult) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::CalculatorListener>>::toCpp(_self)).on_calculation_result_array(
+            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::CalculatorListener>>::toCpp(_self)).on_calculation_result_array(
             gluecodium::ffi::Conversion<std::vector<double>>::toCpp(calculationResult)
         );
 }
 void
 library_smoke_CalculatorListener_onCalculationResultMap__MapOf_1String_1to_1Double(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle calculationResults) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::CalculatorListener>>::toCpp(_self)).on_calculation_result_map(
+            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::CalculatorListener>>::toCpp(_self)).on_calculation_result_map(
             gluecodium::ffi::Conversion<std::unordered_map<std::string, double>>::toCpp(calculationResults)
         );
 }
 void
 library_smoke_CalculatorListener_onCalculationResultInstance__CalculationResult(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle calculationResult) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::CalculatorListener>>::toCpp(_self)).on_calculation_result_instance(
-            gluecodium::ffi::Conversion<std::shared_ptr<::smoke::CalculationResult>>::toCpp(calculationResult)
+            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::CalculatorListener>>::toCpp(_self)).on_calculation_result_instance(
+            gluecodium::ffi::Conversion<std::shared_ptr<smoke::CalculationResult>>::toCpp(calculationResult)
         );
 }
 // "Private" finalizer, not exposed to be callable from Dart.
 void
 library_smoke_CalculatorListener_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
-    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::CalculatorListener>*>(handle);
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<smoke::CalculatorListener>*>(handle);
     library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
     library_smoke_CalculatorListener_release_handle(handle);
 }
@@ -152,14 +152,14 @@ library_smoke_CalculatorListener_register_finalizer(FfiOpaqueHandle ffi_handle, 
 FfiOpaqueHandle
 library_smoke_CalculatorListener_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::shared_ptr<::smoke::CalculatorListener>(
-            *reinterpret_cast<std::shared_ptr<::smoke::CalculatorListener>*>(handle)
+        new (std::nothrow) std::shared_ptr<smoke::CalculatorListener>(
+            *reinterpret_cast<std::shared_ptr<smoke::CalculatorListener>*>(handle)
         )
     );
 }
 void
 library_smoke_CalculatorListener_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::shared_ptr<::smoke::CalculatorListener>*>(handle);
+    delete reinterpret_cast<std::shared_ptr<smoke::CalculatorListener>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_CalculatorListener_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2, FfiOpaqueHandle f3, FfiOpaqueHandle f4, FfiOpaqueHandle f5) {
@@ -177,43 +177,43 @@ library_smoke_CalculatorListener_create_proxy(uint64_t token, int32_t isolate_id
 }
 FfiOpaqueHandle
 library_smoke_CalculatorListener_ResultStruct_create_handle(double result) {
-    auto _result = new (std::nothrow) ::smoke::CalculatorListener::ResultStruct(gluecodium::ffi::Conversion<double>::toCpp(result));
+    auto _result = new (std::nothrow) smoke::CalculatorListener::ResultStruct(gluecodium::ffi::Conversion<double>::toCpp(result));
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void
 library_smoke_CalculatorListener_ResultStruct_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<::smoke::CalculatorListener::ResultStruct*>(handle);
+    delete reinterpret_cast<smoke::CalculatorListener::ResultStruct*>(handle);
 }
 double
 library_smoke_CalculatorListener_ResultStruct_get_field_result(FfiOpaqueHandle handle) {
     return gluecodium::ffi::Conversion<double>::toFfi(
-        reinterpret_cast<::smoke::CalculatorListener::ResultStruct*>(handle)->result
+        reinterpret_cast<smoke::CalculatorListener::ResultStruct*>(handle)->result
     );
 }
 FfiOpaqueHandle
 library_smoke_CalculatorListener_ResultStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<::smoke::CalculatorListener::ResultStruct>(
-            gluecodium::ffi::Conversion<::smoke::CalculatorListener::ResultStruct>::toCpp(value)
+        new (std::nothrow) gluecodium::optional<smoke::CalculatorListener::ResultStruct>(
+            gluecodium::ffi::Conversion<smoke::CalculatorListener::ResultStruct>::toCpp(value)
         )
     );
 }
 void
 library_smoke_CalculatorListener_ResultStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<::smoke::CalculatorListener::ResultStruct>*>(handle);
+    delete reinterpret_cast<gluecodium::optional<smoke::CalculatorListener::ResultStruct>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_CalculatorListener_ResultStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
-    return gluecodium::ffi::Conversion<::smoke::CalculatorListener::ResultStruct>::toFfi(
-        **reinterpret_cast<gluecodium::optional<::smoke::CalculatorListener::ResultStruct>*>(handle)
+    return gluecodium::ffi::Conversion<smoke::CalculatorListener::ResultStruct>::toFfi(
+        **reinterpret_cast<gluecodium::optional<smoke::CalculatorListener::ResultStruct>*>(handle)
     );
 }
 FfiOpaqueHandle
 library_smoke_CalculatorListener_get_type_id(FfiOpaqueHandle handle) {
-    const auto& type_id = ::gluecodium::get_type_repository().get_id(reinterpret_cast<std::shared_ptr<::smoke::CalculatorListener>*>(handle)->get());
+    const auto& type_id = ::gluecodium::get_type_repository().get_id(reinterpret_cast<std::shared_ptr<smoke::CalculatorListener>*>(handle)->get());
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::string(type_id));
 }
 #ifdef __cplusplus

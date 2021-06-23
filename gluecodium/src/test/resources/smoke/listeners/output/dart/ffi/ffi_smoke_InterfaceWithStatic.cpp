@@ -11,7 +11,7 @@
 #include <string>
 #include <memory>
 #include <new>
-class smoke_InterfaceWithStatic_Proxy : public ::smoke::InterfaceWithStatic {
+class smoke_InterfaceWithStatic_Proxy : public smoke::InterfaceWithStatic {
 public:
     smoke_InterfaceWithStatic_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0, FfiOpaqueHandle p0g, FfiOpaqueHandle p0s)
         : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f0(f0), p0g(p0g), p0s(p0s) {
@@ -80,27 +80,27 @@ FfiOpaqueHandle
 library_smoke_InterfaceWithStatic_regularFunction(FfiOpaqueHandle _self, int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::string>::toFfi(
-        (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::InterfaceWithStatic>>::toCpp(_self)).regular_function()
+        (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::InterfaceWithStatic>>::toCpp(_self)).regular_function()
     );
 }
 FfiOpaqueHandle
 library_smoke_InterfaceWithStatic_staticFunction(int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::string>::toFfi(
-        ::smoke::InterfaceWithStatic::static_function()
+        smoke::InterfaceWithStatic::static_function()
     );
 }
 FfiOpaqueHandle
 library_smoke_InterfaceWithStatic_regularProperty_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::string>::toFfi(
-        (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::InterfaceWithStatic>>::toCpp(_self)).get_regular_property()
+        (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::InterfaceWithStatic>>::toCpp(_self)).get_regular_property()
     );
 }
 void
 library_smoke_InterfaceWithStatic_regularProperty_set__String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::InterfaceWithStatic>>::toCpp(_self)).set_regular_property(
+            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::InterfaceWithStatic>>::toCpp(_self)).set_regular_property(
             gluecodium::ffi::Conversion<std::string>::toCpp(value)
         );
 }
@@ -108,20 +108,20 @@ FfiOpaqueHandle
 library_smoke_InterfaceWithStatic_staticProperty_get(int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::string>::toFfi(
-        ::smoke::InterfaceWithStatic::get_static_property()
+        smoke::InterfaceWithStatic::get_static_property()
     );
 }
 void
 library_smoke_InterfaceWithStatic_staticProperty_set__String(int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            ::smoke::InterfaceWithStatic::set_static_property(
+            smoke::InterfaceWithStatic::set_static_property(
             gluecodium::ffi::Conversion<std::string>::toCpp(value)
         );
 }
 // "Private" finalizer, not exposed to be callable from Dart.
 void
 library_smoke_InterfaceWithStatic_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
-    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::InterfaceWithStatic>*>(handle);
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<smoke::InterfaceWithStatic>*>(handle);
     library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
     library_smoke_InterfaceWithStatic_release_handle(handle);
 }
@@ -133,14 +133,14 @@ library_smoke_InterfaceWithStatic_register_finalizer(FfiOpaqueHandle ffi_handle,
 FfiOpaqueHandle
 library_smoke_InterfaceWithStatic_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::shared_ptr<::smoke::InterfaceWithStatic>(
-            *reinterpret_cast<std::shared_ptr<::smoke::InterfaceWithStatic>*>(handle)
+        new (std::nothrow) std::shared_ptr<smoke::InterfaceWithStatic>(
+            *reinterpret_cast<std::shared_ptr<smoke::InterfaceWithStatic>*>(handle)
         )
     );
 }
 void
 library_smoke_InterfaceWithStatic_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::shared_ptr<::smoke::InterfaceWithStatic>*>(handle);
+    delete reinterpret_cast<std::shared_ptr<smoke::InterfaceWithStatic>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_InterfaceWithStatic_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0, FfiOpaqueHandle p0g, FfiOpaqueHandle p0s) {
@@ -158,7 +158,7 @@ library_smoke_InterfaceWithStatic_create_proxy(uint64_t token, int32_t isolate_i
 }
 FfiOpaqueHandle
 library_smoke_InterfaceWithStatic_get_type_id(FfiOpaqueHandle handle) {
-    const auto& type_id = ::gluecodium::get_type_repository().get_id(reinterpret_cast<std::shared_ptr<::smoke::InterfaceWithStatic>*>(handle)->get());
+    const auto& type_id = ::gluecodium::get_type_repository().get_id(reinterpret_cast<std::shared_ptr<smoke::InterfaceWithStatic>*>(handle)->get());
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::string(type_id));
 }
 #ifdef __cplusplus

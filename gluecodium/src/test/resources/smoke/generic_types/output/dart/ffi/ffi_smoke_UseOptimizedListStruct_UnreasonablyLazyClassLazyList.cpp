@@ -10,7 +10,7 @@ extern "C" {
 // "Private" finalizer, not exposed to be callable from Dart.
 void
 library_smoke_UseOptimizedListStruct_smoke_UnreasonablyLazyClassLazyList_finalizer(FfiOpaqueHandle handle, int32_t /*isolate_id*/) {
-    delete reinterpret_cast<std::shared_ptr<std::vector<std::shared_ptr<::smoke::UnreasonablyLazyClass>>>*>(handle);
+    delete reinterpret_cast<std::shared_ptr<std::vector<std::shared_ptr<smoke::UnreasonablyLazyClass>>>*>(handle);
 }
 void
 library_smoke_UseOptimizedListStruct_smoke_UnreasonablyLazyClassLazyList_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
@@ -19,14 +19,14 @@ library_smoke_UseOptimizedListStruct_smoke_UnreasonablyLazyClassLazyList_registe
 }
 uint64_t
 library_smoke_UseOptimizedListStruct_smoke_UnreasonablyLazyClassLazyList_get_size(FfiOpaqueHandle handle) {
-    auto& vector = *reinterpret_cast<std::shared_ptr<std::vector<std::shared_ptr<::smoke::UnreasonablyLazyClass>>>*>(handle);
+    auto& vector = *reinterpret_cast<std::shared_ptr<std::vector<std::shared_ptr<smoke::UnreasonablyLazyClass>>>*>(handle);
     return vector->size();
 }
 FfiOpaqueHandle
 library_smoke_UseOptimizedListStruct_smoke_UnreasonablyLazyClassLazyList_get(FfiOpaqueHandle handle, uint64_t index) {
-    auto& vector = *reinterpret_cast<std::shared_ptr<std::vector<std::shared_ptr<::smoke::UnreasonablyLazyClass>>>*>(handle);
+    auto& vector = *reinterpret_cast<std::shared_ptr<std::vector<std::shared_ptr<smoke::UnreasonablyLazyClass>>>*>(handle);
     auto& result = vector->operator[](index);
-    return gluecodium::ffi::Conversion<std::shared_ptr<::smoke::UnreasonablyLazyClass>>::toFfi(result);
+    return gluecodium::ffi::Conversion<std::shared_ptr<smoke::UnreasonablyLazyClass>>::toFfi(result);
 }
 #ifdef __cplusplus
 }
