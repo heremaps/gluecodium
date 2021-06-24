@@ -57,7 +57,7 @@ FfiOpaqueHandle
 library_smoke_StandaloneProducer_call(FfiOpaqueHandle _self, int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::string>::toFfi(
-        gluecodium::ffi::Conversion<::smoke::StandaloneProducer>::toCpp(_self).operator()()
+        gluecodium::ffi::Conversion<smoke::StandaloneProducer>::toCpp(_self).operator()()
     );
 }
 // "Private" finalizer, not exposed to be callable from Dart.
@@ -73,34 +73,34 @@ library_smoke_StandaloneProducer_register_finalizer(FfiOpaqueHandle ffi_handle, 
 FfiOpaqueHandle
 library_smoke_StandaloneProducer_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) ::smoke::StandaloneProducer(
-            *reinterpret_cast<::smoke::StandaloneProducer*>(handle)
+        new (std::nothrow) smoke::StandaloneProducer(
+            *reinterpret_cast<smoke::StandaloneProducer*>(handle)
         )
     );
 }
 void
 library_smoke_StandaloneProducer_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<::smoke::StandaloneProducer*>(handle);
+    delete reinterpret_cast<smoke::StandaloneProducer*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_StandaloneProducer_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<::smoke::StandaloneProducer>(
-            gluecodium::ffi::Conversion<::smoke::StandaloneProducer>::toCpp(value)
+        new (std::nothrow) gluecodium::optional<smoke::StandaloneProducer>(
+            gluecodium::ffi::Conversion<smoke::StandaloneProducer>::toCpp(value)
         )
     );
 }
 void
 library_smoke_StandaloneProducer_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<::smoke::StandaloneProducer>*>(handle);
+    delete reinterpret_cast<gluecodium::optional<smoke::StandaloneProducer>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_StandaloneProducer_get_value_nullable(FfiOpaqueHandle handle)
 {
-    return gluecodium::ffi::Conversion<::smoke::StandaloneProducer>::toFfi(
-        **reinterpret_cast<gluecodium::optional<::smoke::StandaloneProducer>*>(handle)
+    return gluecodium::ffi::Conversion<smoke::StandaloneProducer>::toFfi(
+        **reinterpret_cast<gluecodium::optional<smoke::StandaloneProducer>*>(handle)
     );
 }
 FfiOpaqueHandle
@@ -111,7 +111,7 @@ library_smoke_StandaloneProducer_create_proxy(uint64_t token, int32_t isolate_id
         gluecodium::ffi::cache_proxy(token, isolate_id, "smoke_StandaloneProducer", cached_proxy);
     }
     return reinterpret_cast<FfiOpaqueHandle>(
-        new ::smoke::StandaloneProducer(
+        new smoke::StandaloneProducer(
             std::bind(&smoke_StandaloneProducer_Proxy::operator(), cached_proxy)
         )
     );

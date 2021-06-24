@@ -12,7 +12,7 @@
 #include <string>
 #include <memory>
 #include <new>
-class smoke_SkipProxy_Proxy : public ::smoke::SkipProxy {
+class smoke_SkipProxy_Proxy : public smoke::SkipProxy {
 public:
     smoke_SkipProxy_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle p0g, FfiOpaqueHandle p0s, FfiOpaqueHandle p1g, FfiOpaqueHandle p1s)
         : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f0(f0), f1(f1), p0g(p0g), p0s(p0s), p1g(p1g), p1s(p1s) {
@@ -98,12 +98,12 @@ public:
     void
     set_skipped_in_dart(const float value) override {
     }
-    ::smoke::SkippedEverywhere
+    smoke::SkippedEverywhere
     get_skipped_everywhere() const override {
         return {};
     }
     void
-    set_skipped_everywhere(const ::smoke::SkippedEverywhere& value) override {
+    set_skipped_everywhere(const smoke::SkippedEverywhere& value) override {
     }
 private:
     const uint64_t token;
@@ -129,7 +129,7 @@ FfiOpaqueHandle
 library_smoke_SkipProxy_notInJava__String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::string>::toFfi(
-        (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SkipProxy>>::toCpp(_self)).not_in_java(
+        (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SkipProxy>>::toCpp(_self)).not_in_java(
             gluecodium::ffi::Conversion<std::string>::toCpp(input)
         )
     );
@@ -138,7 +138,7 @@ bool
 library_smoke_SkipProxy_notInSwift__Boolean(FfiOpaqueHandle _self, int32_t _isolate_id, bool input) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<bool>::toFfi(
-        (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SkipProxy>>::toCpp(_self)).not_in_swift(
+        (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SkipProxy>>::toCpp(_self)).not_in_swift(
             gluecodium::ffi::Conversion<bool>::toCpp(input)
         )
     );
@@ -147,13 +147,13 @@ FfiOpaqueHandle
 library_smoke_SkipProxy_skippedInJava_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::string>::toFfi(
-        (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SkipProxy>>::toCpp(_self)).get_skipped_in_java()
+        (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SkipProxy>>::toCpp(_self)).get_skipped_in_java()
     );
 }
 void
 library_smoke_SkipProxy_skippedInJava_set__String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SkipProxy>>::toCpp(_self)).set_skipped_in_java(
+            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SkipProxy>>::toCpp(_self)).set_skipped_in_java(
             gluecodium::ffi::Conversion<std::string>::toCpp(value)
         );
 }
@@ -161,20 +161,20 @@ bool
 library_smoke_SkipProxy_isSkippedInSwift_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<bool>::toFfi(
-        (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SkipProxy>>::toCpp(_self)).is_skipped_in_swift()
+        (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SkipProxy>>::toCpp(_self)).is_skipped_in_swift()
     );
 }
 void
 library_smoke_SkipProxy_isSkippedInSwift_set__Boolean(FfiOpaqueHandle _self, int32_t _isolate_id, bool value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::SkipProxy>>::toCpp(_self)).set_skipped_in_swift(
+            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SkipProxy>>::toCpp(_self)).set_skipped_in_swift(
             gluecodium::ffi::Conversion<bool>::toCpp(value)
         );
 }
 // "Private" finalizer, not exposed to be callable from Dart.
 void
 library_smoke_SkipProxy_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
-    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::SkipProxy>*>(handle);
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<smoke::SkipProxy>*>(handle);
     library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
     library_smoke_SkipProxy_release_handle(handle);
 }
@@ -186,14 +186,14 @@ library_smoke_SkipProxy_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t i
 FfiOpaqueHandle
 library_smoke_SkipProxy_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::shared_ptr<::smoke::SkipProxy>(
-            *reinterpret_cast<std::shared_ptr<::smoke::SkipProxy>*>(handle)
+        new (std::nothrow) std::shared_ptr<smoke::SkipProxy>(
+            *reinterpret_cast<std::shared_ptr<smoke::SkipProxy>*>(handle)
         )
     );
 }
 void
 library_smoke_SkipProxy_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::shared_ptr<::smoke::SkipProxy>*>(handle);
+    delete reinterpret_cast<std::shared_ptr<smoke::SkipProxy>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_SkipProxy_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle p0g, FfiOpaqueHandle p0s, FfiOpaqueHandle p1g, FfiOpaqueHandle p1s) {
@@ -211,7 +211,7 @@ library_smoke_SkipProxy_create_proxy(uint64_t token, int32_t isolate_id, Dart_Ha
 }
 FfiOpaqueHandle
 library_smoke_SkipProxy_get_type_id(FfiOpaqueHandle handle) {
-    const auto& type_id = ::gluecodium::get_type_repository().get_id(reinterpret_cast<std::shared_ptr<::smoke::SkipProxy>*>(handle)->get());
+    const auto& type_id = ::gluecodium::get_type_repository().get_id(reinterpret_cast<std::shared_ptr<smoke::SkipProxy>*>(handle)->get());
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::string(type_id));
 }
 #ifdef __cplusplus

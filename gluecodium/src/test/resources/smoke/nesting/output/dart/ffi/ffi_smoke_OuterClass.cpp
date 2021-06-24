@@ -11,7 +11,7 @@
 #include <string>
 #include <memory>
 #include <new>
-class smoke_OuterClass_InnerInterface_Proxy : public ::smoke::OuterClass::InnerInterface {
+class smoke_OuterClass_InnerInterface_Proxy : public smoke::OuterClass::InnerInterface {
 public:
     smoke_OuterClass_InnerInterface_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0)
         : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f0(f0) {
@@ -64,7 +64,7 @@ FfiOpaqueHandle
 library_smoke_OuterClass_foo__String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::string>::toFfi(
-        (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::OuterClass>>::toCpp(_self)).foo(
+        (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::OuterClass>>::toCpp(_self)).foo(
             gluecodium::ffi::Conversion<std::string>::toCpp(input)
         )
     );
@@ -73,7 +73,7 @@ FfiOpaqueHandle
 library_smoke_OuterClass_InnerClass_foo__String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::string>::toFfi(
-        (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::OuterClass::InnerClass>>::toCpp(_self)).foo(
+        (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::OuterClass::InnerClass>>::toCpp(_self)).foo(
             gluecodium::ffi::Conversion<std::string>::toCpp(input)
         )
     );
@@ -82,7 +82,7 @@ FfiOpaqueHandle
 library_smoke_OuterClass_InnerInterface_foo__String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::string>::toFfi(
-        (*gluecodium::ffi::Conversion<std::shared_ptr<::smoke::OuterClass::InnerInterface>>::toCpp(_self)).foo(
+        (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::OuterClass::InnerInterface>>::toCpp(_self)).foo(
             gluecodium::ffi::Conversion<std::string>::toCpp(input)
         )
     );
@@ -90,7 +90,7 @@ library_smoke_OuterClass_InnerInterface_foo__String(FfiOpaqueHandle _self, int32
 // "Private" finalizer, not exposed to be callable from Dart.
 void
 library_smoke_OuterClass_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
-    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::OuterClass>*>(handle);
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<smoke::OuterClass>*>(handle);
     library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
     library_smoke_OuterClass_release_handle(handle);
 }
@@ -102,19 +102,19 @@ library_smoke_OuterClass_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t 
 FfiOpaqueHandle
 library_smoke_OuterClass_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::shared_ptr<::smoke::OuterClass>(
-            *reinterpret_cast<std::shared_ptr<::smoke::OuterClass>*>(handle)
+        new (std::nothrow) std::shared_ptr<smoke::OuterClass>(
+            *reinterpret_cast<std::shared_ptr<smoke::OuterClass>*>(handle)
         )
     );
 }
 void
 library_smoke_OuterClass_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::shared_ptr<::smoke::OuterClass>*>(handle);
+    delete reinterpret_cast<std::shared_ptr<smoke::OuterClass>*>(handle);
 }
 // "Private" finalizer, not exposed to be callable from Dart.
 void
 library_smoke_OuterClass_InnerClass_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
-    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::OuterClass::InnerClass>*>(handle);
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<smoke::OuterClass::InnerClass>*>(handle);
     library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
     library_smoke_OuterClass_InnerClass_release_handle(handle);
 }
@@ -126,19 +126,19 @@ library_smoke_OuterClass_InnerClass_register_finalizer(FfiOpaqueHandle ffi_handl
 FfiOpaqueHandle
 library_smoke_OuterClass_InnerClass_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::shared_ptr<::smoke::OuterClass::InnerClass>(
-            *reinterpret_cast<std::shared_ptr<::smoke::OuterClass::InnerClass>*>(handle)
+        new (std::nothrow) std::shared_ptr<smoke::OuterClass::InnerClass>(
+            *reinterpret_cast<std::shared_ptr<smoke::OuterClass::InnerClass>*>(handle)
         )
     );
 }
 void
 library_smoke_OuterClass_InnerClass_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::shared_ptr<::smoke::OuterClass::InnerClass>*>(handle);
+    delete reinterpret_cast<std::shared_ptr<smoke::OuterClass::InnerClass>*>(handle);
 }
 // "Private" finalizer, not exposed to be callable from Dart.
 void
 library_smoke_OuterClass_InnerInterface_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
-    auto ptr_ptr = reinterpret_cast<std::shared_ptr<::smoke::OuterClass::InnerInterface>*>(handle);
+    auto ptr_ptr = reinterpret_cast<std::shared_ptr<smoke::OuterClass::InnerInterface>*>(handle);
     library_uncache_dart_handle_by_raw_pointer(ptr_ptr->get(), isolate_id);
     library_smoke_OuterClass_InnerInterface_release_handle(handle);
 }
@@ -150,14 +150,14 @@ library_smoke_OuterClass_InnerInterface_register_finalizer(FfiOpaqueHandle ffi_h
 FfiOpaqueHandle
 library_smoke_OuterClass_InnerInterface_copy_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::shared_ptr<::smoke::OuterClass::InnerInterface>(
-            *reinterpret_cast<std::shared_ptr<::smoke::OuterClass::InnerInterface>*>(handle)
+        new (std::nothrow) std::shared_ptr<smoke::OuterClass::InnerInterface>(
+            *reinterpret_cast<std::shared_ptr<smoke::OuterClass::InnerInterface>*>(handle)
         )
     );
 }
 void
 library_smoke_OuterClass_InnerInterface_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<std::shared_ptr<::smoke::OuterClass::InnerInterface>*>(handle);
+    delete reinterpret_cast<std::shared_ptr<smoke::OuterClass::InnerInterface>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_OuterClass_InnerInterface_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0) {
@@ -175,7 +175,7 @@ library_smoke_OuterClass_InnerInterface_create_proxy(uint64_t token, int32_t iso
 }
 FfiOpaqueHandle
 library_smoke_OuterClass_InnerInterface_get_type_id(FfiOpaqueHandle handle) {
-    const auto& type_id = ::gluecodium::get_type_repository().get_id(reinterpret_cast<std::shared_ptr<::smoke::OuterClass::InnerInterface>*>(handle)->get());
+    const auto& type_id = ::gluecodium::get_type_repository().get_id(reinterpret_cast<std::shared_ptr<smoke::OuterClass::InnerInterface>*>(handle)->get());
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::string(type_id));
 }
 #ifdef __cplusplus
