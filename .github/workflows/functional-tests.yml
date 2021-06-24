@@ -234,7 +234,7 @@ jobs:
       - name: Install Dart SDK
         run: |
           DART_RELEASE_CHANNEL=stable
-          DART_VERSION=2.12.0
+          DART_VERSION=2.12.3
           wget -nv https://storage.googleapis.com/dart-archive/channels/${DART_RELEASE_CHANNEL}/release/${DART_VERSION}/linux_packages/dart_${DART_VERSION}-1_amd64.deb
           sudo apt -y install ./dart_${DART_VERSION}-1_amd64.deb
       - name: Build and run functional tests
@@ -273,14 +273,14 @@ jobs:
         with:
           path: |
             ~/dart_sdk
-          key: ${{ runner.os }}-dart-2.12.0-stable
-          restore-keys: ${{ runner.os }}-dart-2.12.0-stable
+          key: ${{ runner.os }}-dart-2.12.3-stable
+          restore-keys: ${{ runner.os }}-dart-2.12.3-stable
       - name: Compile Dart SDK without tcmalloc
         run: |
           export DART_ROOT=${HOME}/dart_sdk
           export DART_BIN=${DART_ROOT}/bin
           export PATH=${PATH}:${PWD}/depot_tools:${DART_BIN}
-          DART_VERSION=2.12.0
+          DART_VERSION=2.12.3
           if [ ! -d "${DART_ROOT}/bin" ]; then
             sudo apt install -y python2
             sudo update-alternatives --install /usr/bin/python python /usr/bin/python2 1
@@ -296,11 +296,7 @@ jobs:
             mkdir -p ${DART_BIN}
             pushd out/ReleaseX64/dart-sdk
             pushd bin
-            mv dart dart2native dartaotruntime pub utils ${DART_BIN}
-            popd
-            pushd bin/snapshots
-            mkdir -p ${DART_BIN}/snapshots
-            mv dart2native.dart.snapshot gen_kernel.dart.snapshot pub.dart.snapshot ${DART_BIN}/snapshots
+            mv * ${DART_BIN}
             popd
             mv include ${DART_ROOT}
             mkdir -p ${DART_ROOT}/lib
@@ -355,7 +351,7 @@ jobs:
       - name: Install Dart SDK
         run: |
           DART_RELEASE_CHANNEL=stable
-          DART_VERSION=2.12.0
+          DART_VERSION=2.12.3
           wget -nv https://storage.googleapis.com/dart-archive/channels/${DART_RELEASE_CHANNEL}/release/${DART_VERSION}/linux_packages/dart_${DART_VERSION}-1_amd64.deb
           sudo apt -y install ./dart_${DART_VERSION}-1_amd64.deb
       - name: Build and run functional tests

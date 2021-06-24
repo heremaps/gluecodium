@@ -23,7 +23,6 @@ if(NOT FUNCTIONAL_BUILD_DART_TESTS)
 endif()
 
 find_program(DART_VM dart)
-find_program(DART_PUB pub)
 find_program(DART_COMPILER dart2native)
 
 if(DART_VM)
@@ -44,7 +43,7 @@ endforeach()
 
 add_custom_target(test_dart ALL
     COMMENT "Compiling native executable from Dart sources"
-    COMMAND ${DART_PUB} "get" # Fetch dependencies according to pubspec.yaml file
+    COMMAND ${DART_VM} "pub" "get" # Fetch dependencies according to pubspec.yaml file
     COMMAND ${DART_COMPILER} "main.dart" "-o" "test_dart"
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     DEPENDS functional
