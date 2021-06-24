@@ -5,6 +5,8 @@
   * Fixed "dart analyze" warning about unnecessary cast in the class/interface equality operator.
   * In Dart there is now less dead code generated for functions returning `void`. This also fixes a corresponding "dart
     analyze" warning.
+  * Fixed Gluecodium crash caused by a documentation comment on a function parameter when another overload of this
+    function is skipped.
 
 ## 9.2.0
 Release date: 2021-06-22
