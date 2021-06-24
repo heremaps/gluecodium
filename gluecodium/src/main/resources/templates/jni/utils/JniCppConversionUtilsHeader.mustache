@@ -24,6 +24,7 @@
 
 #include <jni.h>
 
+#include "JniCallJavaMethod.h"
 #include "JniReference.h"
 #include "{{>common/InternalInclude}}Locale.h"
 #include "{{>common/InternalInclude}}Optional.h"
@@ -66,11 +67,37 @@ JNIEXPORT {{>common/InternalNamespace}}optional<std::shared_ptr< ::std::vector< 
 /**
  * Converts a Java Date object to an std::chrono::time_point.
  */
-JNIEXPORT std::chrono::system_clock::time_point convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::chrono::system_clock::time_point* );
-JNIEXPORT {{>common/InternalNamespace}}optional<std::chrono::system_clock::time_point> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue,
-    {{>common/InternalNamespace}}optional<std::chrono::system_clock::time_point>* );
+template<class Clock, class Duration>
+std::chrono::time_point<Clock, Duration>
+convert_from_jni(JNIEnv* env, const JniReference<jobject>& jvalue, std::chrono::time_point<Clock, Duration>*) {
+    if (!jvalue)
+    {
+        auto exceptionClass = {{>common/InternalNamespace}}jni::find_class(env, "java/lang/NullPointerException");
+        env->ThrowNew(exceptionClass.get(), "");
+        return {};
+    }
+
+    auto javaDateClass = find_class(env, "java/util/Date");
+    auto getTimeMethodId = env->GetMethodID(javaDateClass.get(), "getTime", "()J");
+    jlong time_ms_epoch = call_java_method<jlong>(env, jvalue, getTimeMethodId);
+
+    using namespace std::chrono;
+    return time_point<Clock, Duration>(duration_cast<Duration>(milliseconds(time_ms_epoch)));
+}
+
+template<class Clock, class Duration>
+{{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>
+convert_from_jni(
+    JNIEnv* env,
+    const JniReference<jobject>& jvalue,
+    {{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>*
+) {
+    return jvalue
+        ? {{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>(
+            convert_from_jni(env, jvalue, (std::chrono::time_point<Clock, Duration>*)nullptr)
+        )
+        : {{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>{};
+}
 
 /**
  * Converts a Java Locale object to {{>common/InternalNamespace}}Locale.
@@ -99,9 +126,21 @@ JNIEXPORT JniReference<jbyteArray> convert_to_jni(
 /**
  * Converts an std::chrono::time_point to a Java Date object.
  */
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, const std::chrono::system_clock::time_point& nvalue );
-JNIEXPORT JniReference<jobject> convert_to_jni(
-    JNIEnv* env, const {{>common/InternalNamespace}}optional<std::chrono::system_clock::time_point>& nvalue );
+template<class Clock, class Duration>
+JniReference<jobject>
+convert_to_jni(JNIEnv* env, const std::chrono::time_point<Clock, Duration>& nvalue) {
+    auto javaDateClass = find_class(env, "java/util/Date");
+    jlong time_ms_epoch = std::chrono::duration_cast<std::chrono::milliseconds>(nvalue.time_since_epoch()).count();
+
+    auto constructorMethodId = env->GetMethodID(javaDateClass.get(), "<init>", "(J)V");
+    return new_object(env, javaDateClass, constructorMethodId, time_ms_epoch);
+}
+
+template<class Clock, class Duration>
+JniReference<jobject>
+convert_to_jni(JNIEnv* env, const {{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>& nvalue) {
+    return nvalue ? convert_to_jni(env, *nvalue) : JniReference<jobject>{};
+}
 
 /**
  * Converts {{>common/InternalNamespace}}Locale to a Java Date object.

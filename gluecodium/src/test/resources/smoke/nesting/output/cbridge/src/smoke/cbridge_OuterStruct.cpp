@@ -2,7 +2,6 @@
 //
 #include "cbridge/include/smoke/cbridge_OuterStruct.h"
 #include "cbridge/include/ByteArrayHandle.h"
-#include "cbridge/include/DateHandle.h"
 #include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"

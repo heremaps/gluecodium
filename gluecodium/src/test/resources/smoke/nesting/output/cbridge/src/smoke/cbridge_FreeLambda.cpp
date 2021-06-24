@@ -1,7 +1,6 @@
 //
 //
 #include "cbridge/include/smoke/cbridge_FreeLambda.h"
-#include "cbridge/include/DateHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
 #include "gluecodium/Optional.h"
