@@ -243,7 +243,7 @@ struct Conversion<std::chrono::time_point<Clock, Duration>> {
     }
 
     static double
-    referenceBaseRef(std::chrono::time_point<Clock, Duration>& timestamp) {
+    referenceBaseRef(const std::chrono::time_point<Clock, Duration>& timestamp) {
         return time_point_to_seconds_since_epoch( timestamp );
     }
 

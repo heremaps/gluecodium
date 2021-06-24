@@ -7,10 +7,12 @@
 #include "gluecodium/Optional.h"
 #include "gluecodium/TimePointHash.h"
 #include "gluecodium/UnorderedMapHash.h"
+#include "gluecodium/UnorderedSetHash.h"
 #include "gluecodium/VectorHash.h"
 #include <chrono>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 namespace smoke {
 class _GLUECODIUM_CPP_EXPORT Dates {
@@ -32,5 +34,7 @@ public:
     virtual ::gluecodium::optional< ::std::chrono::system_clock::time_point > nullable_date_method( const ::gluecodium::optional< ::std::chrono::system_clock::time_point >& input ) = 0;
     virtual ::std::chrono::system_clock::time_point get_date_property(  ) const = 0;
     virtual void set_date_property( const ::std::chrono::system_clock::time_point& value ) = 0;
+    virtual ::std::unordered_set< ::std::chrono::system_clock::time_point, ::gluecodium::hash< ::std::chrono::system_clock::time_point > > get_date_set(  ) const = 0;
+    virtual void set_date_set( const ::std::unordered_set< ::std::chrono::system_clock::time_point, ::gluecodium::hash< ::std::chrono::system_clock::time_point > >& value ) = 0;
 };
 }

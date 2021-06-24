@@ -25,6 +25,7 @@ namespace test
 using namespace std::chrono;
 
 system_clock::time_point s_date;
+std::unordered_set<system_clock::time_point, lorem_ipsum::test::hash<system_clock::time_point>> s_date_set;
 
 system_clock::time_point
 Dates::increase_date( const system_clock::time_point& input )
@@ -49,4 +50,15 @@ Dates::set_date_attribute( const system_clock::time_point& value )
 {
     s_date = value;
 }
-}  // namespace test
+
+std::unordered_set<system_clock::time_point, lorem_ipsum::test::hash<system_clock::time_point>>
+Dates::get_date_set() {
+    return s_date_set;
+}
+
+void
+Dates::set_date_set(const std::unordered_set<system_clock::time_point, lorem_ipsum::test::hash<system_clock::time_point>>& value) {
+    s_date_set = value;
+}
+
+}

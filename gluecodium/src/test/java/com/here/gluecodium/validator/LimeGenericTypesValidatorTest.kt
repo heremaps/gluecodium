@@ -77,7 +77,7 @@ class LimeGenericTypesValidatorTest(
         fun testData() = listOf(
             arrayOf(LimeBasicType(LimeBasicType.TypeId.FLOAT), true),
             arrayOf(LimeBasicType(LimeBasicType.TypeId.BLOB), false),
-            arrayOf(LimeBasicType(LimeBasicType.TypeId.DATE), false),
+            arrayOf(LimeBasicType(LimeBasicType.TypeId.DATE), true),
             arrayOf(LimeEnumeration(EMPTY_PATH), true),
             arrayOf(LimeList(LimeBasicTypeRef.INT), true),
             arrayOf(LimeSet(LimeBasicTypeRef.INT), true),

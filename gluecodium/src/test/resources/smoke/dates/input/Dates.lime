@@ -31,4 +31,5 @@ class Dates {
     fun nullableDateMethod(input: Date?): Date?
 
     property dateProperty: Date
+    property dateSet: Set<Date>
 }

@@ -3,6 +3,7 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:library/src/generic_types__conversion.dart';
 abstract class Dates {
   /// @nodoc
   @Deprecated("Does nothing")
@@ -11,6 +12,8 @@ abstract class Dates {
   DateTime? nullableDateMethod(DateTime? input);
   DateTime get dateProperty;
   set dateProperty(DateTime value);
+  Set<DateTime> get dateSet;
+  set dateSet(Set<DateTime> value);
 }
 class Dates_DateStruct {
   DateTime dateField;
@@ -147,6 +150,25 @@ class Dates$Impl extends __lib.NativeBase implements Dates {
     final _handle = this.handle;
     _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     dateReleaseFfiHandle(_valueHandle);
+  }
+  @override
+  Set<DateTime> get dateSet {
+    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Dates_dateSet_get'));
+    final _handle = this.handle;
+    final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
+    try {
+      return foobarSetofDateFromFfi(__resultHandle);
+    } finally {
+      foobarSetofDateReleaseFfiHandle(__resultHandle);
+    }
+  }
+  @override
+  set dateSet(Set<DateTime> value) {
+    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Dates_dateSet_set__SetOf_1Date'));
+    final _valueHandle = foobarSetofDateToFfi(value);
+    final _handle = this.handle;
+    _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    foobarSetofDateReleaseFfiHandle(_valueHandle);
   }
 }
 Pointer<Void> smokeDatesToFfi(Dates value) =>
