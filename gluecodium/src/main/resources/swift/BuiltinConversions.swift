@@ -166,13 +166,13 @@ internal func copyFromCType(_ handle: _baseRef) -> Date? {
     guard handle != 0 else {
         return nil
     }
-    let unwrappedHandle = chrono_time_point_unwrap_optional_handle(handle)
+    let unwrappedHandle = double_value_get(handle)
     return copyFromCType(unwrappedHandle) as Date
 }
 
 internal func moveFromCType(_ handle: _baseRef) -> Date? {
     defer {
-        chrono_time_point_release_optional_handle(handle)
+        double_release_handle(handle)
     }
     return copyFromCType(handle)
 }
@@ -181,12 +181,11 @@ internal func copyToCType(_ swiftType: Date?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    return RefHolder(chrono_time_point_create_optional_handle(copyToCType(swiftType).ref))
+    return RefHolder(double_create_handle(copyToCType(swiftType).ref))
 }
 
 internal func moveToCType(_ swiftType: Date?) -> RefHolder {
-    return RefHolder(ref: copyToCType(swiftType).ref,
-                     release: chrono_time_point_release_optional_handle)
+    return RefHolder(ref: copyToCType(swiftType).ref, release: double_release_handle)
 }
 
 // Locale

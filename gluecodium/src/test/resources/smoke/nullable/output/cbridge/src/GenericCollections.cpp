@@ -1,7 +1,6 @@
 //
 //
 #include "cbridge/include/GenericCollections.h"
-#include "cbridge/include/DateHandle.h"
 #include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "gluecodium/Optional.h"

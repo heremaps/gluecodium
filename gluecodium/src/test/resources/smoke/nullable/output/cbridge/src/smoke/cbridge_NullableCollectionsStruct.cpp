@@ -1,7 +1,6 @@
 //
 //
 #include "cbridge/include/smoke/cbridge_NullableCollectionsStruct.h"
-#include "cbridge/include/DateHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "gluecodium/Optional.h"
 #include "gluecodium/TimePointHash.h"

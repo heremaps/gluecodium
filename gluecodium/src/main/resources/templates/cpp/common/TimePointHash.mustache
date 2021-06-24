@@ -46,12 +46,10 @@
 namespace {{.}} {
 {{/internalNamespace}}
 
-template<>
-struct hash<std::chrono::system_clock::time_point>
-{
-    size_t operator( )( const std::chrono::system_clock::time_point& t ) const noexcept
-    {
-        return hash<std::chrono::system_clock::time_point::duration::rep>{}( t.time_since_epoch( ).count( ) );
+template<class Clock, class Duration>
+struct hash<std::chrono::time_point<Clock, Duration>> {
+    size_t operator()(const std::chrono::time_point<Clock, Duration>& t) const noexcept {
+        return hash<typename Clock::rep>{}(t.time_since_epoch().count());
     }
 };
 {{#internalNamespace}}

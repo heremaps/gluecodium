@@ -104,7 +104,6 @@ internal class CBridgeImplIncludeResolver(private val cppIncludeResolver: CppInc
         return when (typeId) {
             LimeBasicType.TypeId.STRING -> listOf(STRING_HANDLE_INCLUDE)
             LimeBasicType.TypeId.BLOB -> listOf(BLOB_HANDLE_INCLUDE)
-            LimeBasicType.TypeId.DATE -> listOf(DATE_HANDLE_INCLUDE)
             else -> emptyList()
         }
     }
@@ -135,7 +134,6 @@ internal class CBridgeImplIncludeResolver(private val cppIncludeResolver: CppInc
             Include.createInternalInclude(createInternalHeaderPath("CachedProxyBase.h"))
         private val STRING_HANDLE_INCLUDE = Include.createInternalInclude(createPublicHeaderPath("StringHandle.h"))
         private val BLOB_HANDLE_INCLUDE = Include.createInternalInclude(createPublicHeaderPath("ByteArrayHandle.h"))
-        private val DATE_HANDLE_INCLUDE = Include.createInternalInclude(createPublicHeaderPath("DateHandle.h"))
 
         private fun createPublicHeaderPath(fileName: String) =
             listOf(CBridgeNameRules.CBRIDGE_PUBLIC, "include", fileName).joinToString(File.separator)

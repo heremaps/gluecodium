@@ -156,36 +156,36 @@ struct Conversion< ::std::shared_ptr< T > >
 
 namespace
 {
+
+template<class Clock, class Duration>
 double
-time_point_to_seconds_since_epoch( const ::std::chrono::system_clock::time_point& timestamp )
-{
+time_point_to_seconds_since_epoch(const std::chrono::time_point<Clock, Duration>& timestamp) {
     // Double can represent an integer up to 52 bits without a loss of precision. For big 64-bit
     // integers there is a loss, so those should be divided as integers, not as doubles.
 
-    using namespace ::std::chrono;
-    auto time_since_epoch_scaled =
-        timestamp.time_since_epoch( ).count( ) * system_clock::period::num;
+    using namespace std::chrono;
+    auto time_since_epoch_scaled = timestamp.time_since_epoch().count() * Clock::period::num;
 
-    auto division_results = ::std::lldiv( time_since_epoch_scaled, system_clock::period::den );
-    return static_cast< double >( division_results.quot ) +
-        static_cast< double >( division_results.rem ) / system_clock::period::den;
+    auto division_results = std::lldiv(time_since_epoch_scaled, Clock::period::den);
+    return static_cast<double>(division_results.quot) +
+        static_cast<double>(division_results.rem) / Clock::period::den;
 }
 
-std::chrono::system_clock::time_point
-seconds_since_epoch_to_time_point( double seconds_since_epoch )
-{
+template<class Clock, class Duration >
+std::chrono::time_point<Clock, Duration>
+seconds_since_epoch_to_time_point(double seconds_since_epoch) {
     // Double can represent an integer up to 52 bits without a loss of precision. For big 64-bit
     // integers there is a loss, so those should be multiplied as integers, not as doubles.
 
-    using namespace ::std::chrono;
-    auto time_since_epoch_scaled = seconds_since_epoch / system_clock::period::num;
-    auto integralPart = ::std::floor( time_since_epoch_scaled );
+    using namespace std::chrono;
+    auto time_since_epoch_scaled = seconds_since_epoch / Clock::period::num;
+    auto integralPart = std::floor(time_since_epoch_scaled);
     auto decimalPart = time_since_epoch_scaled - integralPart;
 
     auto time_since_epoch =
-        static_cast< int64_t >( integralPart ) * system_clock::period::den +
-        static_cast< int64_t >( ::std::round( decimalPart * system_clock::period::den ) );
-    return system_clock::time_point( system_clock::duration( time_since_epoch ) );
+        static_cast<int64_t>(integralPart) * Clock::period::den +
+        static_cast<int64_t>(std::round( decimalPart * Clock::period::den));
+    return time_point<Clock, Duration>(Duration(time_since_epoch));
 }
 }
 
@@ -230,36 +230,71 @@ struct Conversion< {{>common/InternalNamespace}}optional< T > >
     }
 };
 
-template<>
-struct Conversion< ::std::chrono::system_clock::time_point >
-{
+template<class Clock, class Duration>
+struct Conversion<std::chrono::time_point<Clock, Duration>> {
     static double
-    toBaseRef( const ::std::chrono::system_clock::time_point& timestamp )
-    {
+    toBaseRef(const std::chrono::time_point<Clock, Duration>& timestamp) {
         return time_point_to_seconds_since_epoch( timestamp );
     }
 
     static double
-    toBaseRef( ::std::chrono::system_clock::time_point&& timestamp )
-    {
+    toBaseRef(std::chrono::time_point<Clock, Duration>&& timestamp) {
         return time_point_to_seconds_since_epoch( timestamp );
     }
 
     static double
-    referenceBaseRef( ::std::chrono::system_clock::time_point& timestamp )
-    {
+    referenceBaseRef(std::chrono::time_point<Clock, Duration>& timestamp) {
         return time_point_to_seconds_since_epoch( timestamp );
     }
 
-    static ::std::chrono::system_clock::time_point
+    static std::chrono::time_point<Clock, Duration>
     toCpp( double seconds_since_epoch )
     {
-        return seconds_since_epoch_to_time_point( seconds_since_epoch );
+        return seconds_since_epoch_to_time_point<Clock, Duration>(seconds_since_epoch);
     }
 
-    static ::std::chrono::system_clock::time_point
+    static std::chrono::time_point<Clock, Duration>
     toCppReturn( double seconds_since_epoch )
     {
-        return seconds_since_epoch_to_time_point( seconds_since_epoch );
+        return seconds_since_epoch_to_time_point<Clock, Duration>(seconds_since_epoch);
+    }
+};
+
+template<class Clock, class Duration>
+struct Conversion<{{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>> {
+    static _baseRef
+    toBaseRef({{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>> ptr) {
+        if (!ptr) return 0;
+        return reinterpret_cast<_baseRef>(
+            new {{>common/InternalNamespace}}optional<double>(time_point_to_seconds_since_epoch(*ptr))
+        );
+    }
+
+    static _baseRef
+    referenceBaseRef(const {{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>& ptr) {
+        return toBaseRef(ptr);
+    }
+
+    static {{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>
+    toCpp(_baseRef ref) {
+        if (ref == 0) return {};
+        auto optional_double = *reinterpret_cast<{{>common/InternalNamespace}}optional<double>*>(ref);
+        if (!optional_double) return {};
+        return {{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>(
+            seconds_since_epoch_to_time_point<Clock, Duration>(*optional_double)
+        );
+    }
+
+    static {{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>
+    toCppReturn(_baseRef ref) {
+        if (ref == 0) return {};
+        auto optional_ptr = reinterpret_cast<{{>common/InternalNamespace}}optional<double>*>(ref);
+        auto result = !*optional_ptr
+            ? {{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>{}
+            : {{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>(
+                seconds_since_epoch_to_time_point<Clock, Duration>(**optional_ptr)
+            );
+        delete optional_ptr;
+        return result;
     }
 };
