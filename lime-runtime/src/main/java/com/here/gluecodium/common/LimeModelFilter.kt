@@ -58,8 +58,14 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
     fun filter(): LimeModel {
         val topElements = limeModel.topElements.filter(predicate).map { filterTopElement(it) }
         val auxiliaryElements = limeModel.auxiliaryElements.filter(predicate).map { filterTopElement(it) }
+
         // Has to be filtered last, when [droppedElements] is already filled.
-        val referenceMap = limeModel.referenceMap.filterValues { refMapPredicate(it) }
+        val referenceMap = limeModel.referenceMap.filterValues { refMapPredicate(it) }.toMutableMap()
+        // Restore ambiguous keys if some of the non-ambiguous entries are still present.
+        referenceMap.entries
+            .filter { it.key.contains(":") }
+            .sortedBy { it.key }
+            .forEach { referenceMap.putIfAbsent(it.key.split(":").first(), it.value) }
 
         return LimeModel(referenceMap, topElements, auxiliaryElements, limeModel.fileNameMap)
     }
