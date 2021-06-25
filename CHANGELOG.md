@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 9.2.1
+Release date: 2021-06-25
 ### Bug fixes:
   * Fixed "dart analyze" warning about unnecessary cast in the class/interface equality operator.
   * In Dart there is now less dead code generated for functions returning `void`. This also fixes a corresponding "dart
