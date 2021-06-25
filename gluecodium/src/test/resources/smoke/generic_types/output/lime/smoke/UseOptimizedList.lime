@@ -1,0 +1,7 @@
+package smoke
+class UseOptimizedList {
+    static fun fetchTheBigOnes(): @Optimized List<VeryBigStruct>
+    static property lazyOnes: @Optimized List<UnreasonablyLazyClass> {
+        get
+    }
+}

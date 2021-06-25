@@ -26,7 +26,7 @@
 {{/unless}}{{/if}}{{!!
 }}{{#if attributes.toString}}{{attributes}}
 {{/if}}
-{{visibility}}{{#if isStatic}}static {{/if}}property {{escapedName}}: {{typeRef.escapedName}}{{#if needsAccessorsSection}} {
+{{visibility}}{{#if isStatic}}static {{/if}}property {{escapedName}}: {{>lime/LimeTypeRef}}{{#if needsAccessorsSection}} {
 {{#getter}}
 {{prefixPartial "lime/LimeGetter" "    "}}
 {{/getter}}
