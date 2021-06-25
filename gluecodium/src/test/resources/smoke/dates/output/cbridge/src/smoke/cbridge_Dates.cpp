@@ -6,10 +6,12 @@
 #include "cbridge_internal/include/WrapperCache.h"
 #include "gluecodium/Optional.h"
 #include "gluecodium/TimePointHash.h"
+#include "gluecodium/UnorderedSetHash.h"
 #include "smoke/Dates.h"
 #include <chrono>
 #include <memory>
 #include <new>
+#include <unordered_set>
 void smoke_Dates_release_handle(_baseRef handle) {
     delete get_pointer<::std::shared_ptr< ::smoke::Dates >>(handle);
 }
@@ -42,6 +44,12 @@ double smoke_Dates_dateProperty_get(_baseRef _instance) {
 }
 void smoke_Dates_dateProperty_set(_baseRef _instance, double value) {
     return get_pointer<::std::shared_ptr< ::smoke::Dates >>(_instance)->get()->set_date_property(Conversion<::std::chrono::system_clock::time_point>::toCpp(value));
+}
+_baseRef smoke_Dates_dateSet_get(_baseRef _instance) {
+    return Conversion<::std::unordered_set< ::std::chrono::system_clock::time_point, ::gluecodium::hash< ::std::chrono::system_clock::time_point > >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::Dates >>(_instance)->get()->get_date_set());
+}
+void smoke_Dates_dateSet_set(_baseRef _instance, _baseRef value) {
+    return get_pointer<::std::shared_ptr< ::smoke::Dates >>(_instance)->get()->set_date_set(Conversion<::std::unordered_set< ::std::chrono::system_clock::time_point, ::gluecodium::hash< ::std::chrono::system_clock::time_point > >>::toCpp(value));
 }
 _baseRef
 smoke_Dates_DateStruct_create_handle( double dateField, _baseRef nullableDateField )

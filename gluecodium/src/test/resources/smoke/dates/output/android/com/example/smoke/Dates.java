@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import com.example.NativeBase;
 import java.util.Date;
+import java.util.Set;
 public final class Dates extends NativeBase {
     public static final class DateStruct {
         @NonNull
@@ -37,4 +38,7 @@ public final class Dates extends NativeBase {
     @NonNull
     public native Date getDateProperty();
     public native void setDateProperty(@NonNull final Date value);
+    @NonNull
+    public native Set<Date> getDateSet();
+    public native void setDateSet(@NonNull final Set<Date> value);
 }

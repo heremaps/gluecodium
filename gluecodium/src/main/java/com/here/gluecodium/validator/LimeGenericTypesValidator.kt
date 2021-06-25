@@ -71,9 +71,7 @@ internal class LimeGenericTypesValidator(private val logger: LimeLogger) :
             actualType is LimeEnumeration -> true
             actualType.attributes.have(LimeAttributeType.EQUATABLE) -> true
             actualType is LimeContainerWithInheritance -> true
-            actualType is LimeBasicType ->
-                actualType.typeId != LimeBasicType.TypeId.BLOB &&
-                    actualType.typeId != LimeBasicType.TypeId.DATE
+            actualType is LimeBasicType -> actualType.typeId != LimeBasicType.TypeId.BLOB
             actualType is LimeTypeAlias -> isHashable(actualType.typeRef)
             actualType is LimeList -> isHashable(actualType.elementType)
             actualType is LimeSet -> isHashable(actualType.elementType)

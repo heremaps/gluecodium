@@ -7,6 +7,7 @@
     analyze" warning.
   * Fixed Gluecodium crash caused by a documentation comment on a function parameter when another overload of this
     function is skipped.
+  * Fixed validation issue that prevented usage of `Date` type in `Set<Date>` and `Map<Date, SomeType>` collections.
 
 ## 9.2.0
 Release date: 2021-06-22

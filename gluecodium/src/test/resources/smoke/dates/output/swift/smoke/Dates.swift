@@ -15,6 +15,16 @@ public class Dates {
             smoke_Dates_dateProperty_set(self.c_instance, c_value.ref)
         }
     }
+    public var dateSet: Set<Date> {
+        get {
+            let c_result_handle = smoke_Dates_dateSet_get(self.c_instance)
+            return foobar_moveFromCType(c_result_handle)
+        }
+        set {
+            let c_value = foobar_moveToCType(newValue)
+            smoke_Dates_dateSet_set(self.c_instance, c_value.ref)
+        }
+    }
     let c_instance : _baseRef
     init(cDates: _baseRef) {
         guard cDates != 0 else {

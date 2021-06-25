@@ -4,8 +4,8 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include "cbridge\include\BaseHandle.h"
-#include "cbridge\include\Export.h"
+#include "cbridge/include/BaseHandle.h"
+#include "cbridge/include/Export.h"
 _GLUECODIUM_C_EXPORT _baseRef smoke_Dates_DateStruct_create_handle(double dateField, _baseRef nullableDateField);
 _GLUECODIUM_C_EXPORT void smoke_Dates_DateStruct_release_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef smoke_Dates_DateStruct_create_optional_handle(double dateField, _baseRef nullableDateField);
@@ -22,6 +22,8 @@ _GLUECODIUM_C_EXPORT double smoke_Dates_dateMethod(_baseRef _instance, double in
 _GLUECODIUM_C_EXPORT _baseRef smoke_Dates_nullableDateMethod(_baseRef _instance, _baseRef input);
 _GLUECODIUM_C_EXPORT double smoke_Dates_dateProperty_get(_baseRef _instance);
 _GLUECODIUM_C_EXPORT void smoke_Dates_dateProperty_set(_baseRef _instance, double value);
+_GLUECODIUM_C_EXPORT _baseRef smoke_Dates_dateSet_get(_baseRef _instance);
+_GLUECODIUM_C_EXPORT void smoke_Dates_dateSet_set(_baseRef _instance, _baseRef value);
 #ifdef __cplusplus
 }
 #endif

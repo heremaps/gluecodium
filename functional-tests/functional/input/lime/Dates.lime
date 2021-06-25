@@ -35,4 +35,5 @@ class Dates {
         input: Date?
     ): Date?
     static property dateAttribute: Date
+    static property dateSet: Set<Date>
 }
