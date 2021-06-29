@@ -33,3 +33,18 @@ class Dates {
     property dateProperty: Date
     property dateSet: Set<Date>
 }
+
+class DatesSteady {
+    typealias MonotonicDate = @Cpp(Type = "std::chrono::steady_clock::time_point") Date
+
+    struct DateStruct {
+        dateField: MonotonicDate
+        nullableDateField: MonotonicDate?
+    }
+
+    typealias DateList = List<MonotonicDate>
+    typealias DateMap = Map<MonotonicDate, String>
+
+    fun dateMethod(input: MonotonicDate): MonotonicDate
+    fun nullableDateMethod(input: MonotonicDate?): MonotonicDate?
+}

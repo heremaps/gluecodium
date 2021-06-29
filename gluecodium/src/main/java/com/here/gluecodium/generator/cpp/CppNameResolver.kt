@@ -28,6 +28,8 @@ import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeType.OPTIMIZED
 import com.here.gluecodium.model.lime.LimeAttributeValueType.ACCESSORS
+import com.here.gluecodium.model.lime.LimeAttributeValueType.TYPE
+import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeComment
@@ -48,6 +50,7 @@ import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.lime.LimeValue.Special.ValueId
@@ -114,33 +117,31 @@ internal class CppNameResolver(
         }
 
     private fun resolveTypeRef(limeTypeRef: LimeTypeRef): String {
-        val typeName =
-            resolveTypeName(limeTypeRef.type, isFullName = true, isOptimized = limeTypeRef.attributes.have(OPTIMIZED))
+        val typeName = resolveTypeName(limeTypeRef.type, isFullName = true, limeTypeRef.attributes)
         return when {
-            limeTypeRef.isNullable &&
-                limeTypeRef.type.actualType !is LimeContainerWithInheritance ->
+            limeTypeRef.isNullable && limeTypeRef.type.actualType !is LimeContainerWithInheritance ->
                 "$optionalTypeName< $typeName >"
             else -> typeName
         }
     }
 
-    private fun resolveTypeName(limeType: LimeType, isFullName: Boolean, isOptimized: Boolean = false): String {
-        val resolvedType = if (forceFollowThrough) limeType.actualType else limeType
-        return when {
-            resolvedType is LimeBasicType -> resolveBasicType(resolvedType.typeId)
-            resolvedType is LimeGenericType -> resolveGenericType(resolvedType, isOptimized)
-            resolvedType is LimeException -> "::std::error_code"
-            isFullName -> when (resolvedType.actualType) {
+    private fun resolveTypeName(limeType: LimeType, isFullName: Boolean, attributes: LimeAttributes? = null): String =
+        when {
+            forceFollowThrough && limeType is LimeTypeAlias ->
+                resolveTypeName(limeType.typeRef.type, isFullName, limeType.typeRef.attributes)
+            limeType is LimeBasicType -> resolveBasicType(limeType.typeId, attributes)
+            limeType is LimeGenericType -> resolveGenericType(limeType, attributes)
+            limeType is LimeException -> "::std::error_code"
+            isFullName -> when (limeType.actualType) {
                 is LimeContainerWithInheritance ->
-                    "::std::shared_ptr< ${nameCache.getFullyQualifiedName(resolvedType)} >"
-                else -> nameCache.getFullyQualifiedName(resolvedType)
+                    "::std::shared_ptr< ${nameCache.getFullyQualifiedName(limeType)} >"
+                else -> nameCache.getFullyQualifiedName(limeType)
             }
-            forceFullNames -> nameCache.getFullyQualifiedName(resolvedType)
-            else -> nameCache.getName(resolvedType)
+            forceFullNames -> nameCache.getFullyQualifiedName(limeType)
+            else -> nameCache.getName(limeType)
         }
-    }
 
-    private fun resolveBasicType(typeId: TypeId) =
+    private fun resolveBasicType(typeId: TypeId, attributes: LimeAttributes? = null) =
         when (typeId) {
             TypeId.VOID -> "void"
             TypeId.INT8 -> "int8_t"
@@ -156,7 +157,7 @@ internal class CppNameResolver(
             TypeId.DOUBLE -> "double"
             TypeId.STRING -> "::std::string"
             TypeId.BLOB -> "::std::shared_ptr< ::std::vector< uint8_t > >"
-            TypeId.DATE -> "::std::chrono::system_clock::time_point"
+            TypeId.DATE -> attributes?.get(CPP, TYPE) ?: "::std::chrono::system_clock::time_point"
             TypeId.LOCALE -> localeTypeName
         }
 
@@ -184,12 +185,13 @@ internal class CppNameResolver(
                 "{${resolveValue(limeValue.key)}, ${resolveValue(limeValue.value)}}"
         }
 
-    private fun resolveGenericType(limeType: LimeGenericType, isOptimized: Boolean) =
+    private fun resolveGenericType(limeType: LimeGenericType, attributes: LimeAttributes? = null) =
         when (limeType) {
             is LimeList -> {
                 val elementType = limeType.elementType
                 val elementName = when {
-                    isOptimized && elementType.type.actualType !is LimeContainerWithInheritance ->
+                    (attributes?.have(OPTIMIZED) == true) &&
+                        elementType.type.actualType !is LimeContainerWithInheritance ->
                         "::std::shared_ptr< ${resolveName(elementType)} >"
                     else -> resolveName(elementType)
                 }

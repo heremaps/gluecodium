@@ -87,4 +87,47 @@ public class DatesTest {
     assertEquals(dateCalendar.get(Calendar.MINUTE) + 1, resultCalendar.get(Calendar.MINUTE));
     assertEquals(dateCalendar.get(Calendar.SECOND) + 1, resultCalendar.get(Calendar.SECOND));
   }
+
+  @Test
+  public void steadyDateMethodRoundTrip() {
+    Date date = new Date(1, 3, 5, 7, 9, 11);
+    Calendar dateCalendar = new GregorianCalendar();
+    dateCalendar.setTime(date);
+
+    Date result = DatesSteady.increaseDate(date);
+
+    Calendar resultCalendar = new GregorianCalendar();
+    resultCalendar.setTime(result);
+    assertEquals(dateCalendar.get(Calendar.YEAR), resultCalendar.get(Calendar.YEAR));
+    assertEquals(dateCalendar.get(Calendar.MONTH), resultCalendar.get(Calendar.MONTH));
+    assertEquals(dateCalendar.get(Calendar.DATE) + 1, resultCalendar.get(Calendar.DATE));
+    assertEquals(dateCalendar.get(Calendar.HOUR) + 1, resultCalendar.get(Calendar.HOUR));
+    assertEquals(dateCalendar.get(Calendar.MINUTE) + 1, resultCalendar.get(Calendar.MINUTE));
+    assertEquals(dateCalendar.get(Calendar.SECOND) + 1, resultCalendar.get(Calendar.SECOND));
+  }
+
+  @Test
+  public void steadyDateMethodNullableNullRoundTrip() {
+    Date result = DatesSteady.increaseDateMaybe(null);
+
+    assertNull(result);
+  }
+
+  @Test
+  public void steadyDateMethodNullableRoundTrip() {
+    Date date = new Date(1, 3, 5, 7, 9, 11);
+    Calendar dateCalendar = new GregorianCalendar();
+    dateCalendar.setTime(date);
+
+    Date result = DatesSteady.increaseDateMaybe(date);
+
+    Calendar resultCalendar = new GregorianCalendar();
+    resultCalendar.setTime(result);
+    assertEquals(dateCalendar.get(Calendar.YEAR), resultCalendar.get(Calendar.YEAR));
+    assertEquals(dateCalendar.get(Calendar.MONTH), resultCalendar.get(Calendar.MONTH));
+    assertEquals(dateCalendar.get(Calendar.DATE) + 1, resultCalendar.get(Calendar.DATE));
+    assertEquals(dateCalendar.get(Calendar.HOUR) + 1, resultCalendar.get(Calendar.HOUR));
+    assertEquals(dateCalendar.get(Calendar.MINUTE) + 1, resultCalendar.get(Calendar.MINUTE));
+    assertEquals(dateCalendar.get(Calendar.SECOND) + 1, resultCalendar.get(Calendar.SECOND));
+  }
 }

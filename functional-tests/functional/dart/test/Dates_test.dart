@@ -62,4 +62,33 @@ void main() {
     expect(result?.minute, 10);
     expect(result?.second, 12);
   });
+  _testSuite.test("Date steady method round trip", () {
+    final input = DateTime.utc(1971, 3, 5, 7, 9, 11);
+
+    final result = DatesSteady.increaseDate(input);
+
+    expect(result.year, 1971);
+    expect(result.month, 3);
+    expect(result.day, 6);
+    expect(result.hour, 8);
+    expect(result.minute, 10);
+    expect(result.second, 12);
+  });
+  _testSuite.test("Nullable Date steady null round trip", () {
+    final result = DatesSteady.increaseDateMaybe(null);
+
+    expect(result, isNull);
+  });
+  _testSuite.test("Nullable Date steady non-null round trip", () {
+    final input = DateTime.utc(1971, 3, 5, 7, 9, 11);
+
+    final result = DatesSteady.increaseDateMaybe(input);
+
+    expect(result?.year, 1971);
+    expect(result?.month, 3);
+    expect(result?.day, 6);
+    expect(result?.hour, 8);
+    expect(result?.minute, 10);
+    expect(result?.second, 12);
+  });
 }

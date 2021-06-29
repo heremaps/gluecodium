@@ -80,11 +80,54 @@ class DatesTests: XCTestCase {
         XCTAssertEqual(calendar.component(.second, from: result!), dateComponents.second! + 1)
     }
 
+    func testDatesSteadyMethodRoundTrip() {
+        let calendar = Calendar.current
+        let dateComponents = DateComponents(calendar: calendar,
+                                            year: 1971, month: 3, day: 5,
+                                            hour: 7, minute: 9, second: 11)
+
+        let result = DatesSteady.increaseDate(input: dateComponents.date!)
+
+        XCTAssertEqual(calendar.component(.year, from: result), dateComponents.year!)
+        XCTAssertEqual(calendar.component(.month, from: result), dateComponents.month!)
+        XCTAssertEqual(calendar.component(.day, from: result), dateComponents.day! + 1)
+        XCTAssertEqual(calendar.component(.hour, from: result), dateComponents.hour! + 1)
+        XCTAssertEqual(calendar.component(.minute, from: result), dateComponents.minute! + 1)
+        XCTAssertEqual(calendar.component(.second, from: result), dateComponents.second! + 1)
+    }
+
+    func testDatesSteadyMethodNullableNullRoundTrip() {
+        let result = DatesSteady.increaseDateMaybe(input: nil)
+
+        XCTAssertNil(result)
+    }
+
+    func testDatesSteadyMethodNullableRoundTrip() {
+        let calendar = Calendar.current
+        let dateComponents = DateComponents(calendar: calendar,
+                                            year: 1971, month: 3, day: 5,
+                                            hour: 7, minute: 9, second: 11)
+
+        let result = DatesSteady.increaseDateMaybe(input: dateComponents.date)
+
+        XCTAssertNotNil(result)
+        XCTAssertEqual(calendar.component(.year, from: result!), dateComponents.year!)
+        XCTAssertEqual(calendar.component(.month, from: result!), dateComponents.month!)
+        XCTAssertEqual(calendar.component(.day, from: result!), dateComponents.day! + 1)
+        XCTAssertEqual(calendar.component(.hour, from: result!), dateComponents.hour! + 1)
+        XCTAssertEqual(calendar.component(.minute, from: result!), dateComponents.minute! + 1)
+        XCTAssertEqual(calendar.component(.second, from: result!), dateComponents.second! + 1)
+    }
+
+
     static var allTests = [
         ("testDateAttributeRoundTrip", testDateAttributeRoundTrip),
         ("testDateAttributeRoundTripRounding", testDateAttributeRoundTripRounding),
         ("testDateMethodRoundTrip", testDateMethodRoundTrip),
         ("testMethodNullableNullRoundTrip", testMethodNullableNullRoundTrip),
-        ("testMethodNullableRoundTrip", testMethodNullableRoundTrip)
+        ("testMethodNullableRoundTrip", testMethodNullableRoundTrip),
+        ("testDatesSteadyMethodRoundTrip", testDatesSteadyMethodRoundTrip),
+        ("testDatesSteadyMethodNullableNullRoundTrip", testDatesSteadyMethodNullableNullRoundTrip),
+        ("testDatesSteadyMethodNullableRoundTrip", testDatesSteadyMethodNullableRoundTrip)
     ]
 }

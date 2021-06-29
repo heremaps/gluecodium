@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/Dates.h"
+#include "test/DatesSteady.h"
 
 namespace test
 {
@@ -59,6 +60,17 @@ Dates::get_date_set() {
 void
 Dates::set_date_set(const std::unordered_set<system_clock::time_point, lorem_ipsum::test::hash<system_clock::time_point>>& value) {
     s_date_set = value;
+}
+
+
+steady_clock::time_point
+DatesSteady::increase_date(const steady_clock::time_point& input) {
+    return input + hours(24) + hours(1) + minutes(1) + seconds(1);
+}
+
+lorem_ipsum::test::optional<steady_clock::time_point>
+DatesSteady::increase_date_maybe(const lorem_ipsum::test::optional<steady_clock::time_point>& input) {
+    return input ? *input + hours(24) + hours(1) + minutes(1) + seconds(1) : input;
 }
 
 }
