@@ -565,7 +565,8 @@ element is skipped ((not generated). Custom tags are case-insensitive.
   quotes need to be backslash-escaped, as in the example.
   * **Type** **=** **"**_TypeName_**"**: marks a `Date` type reference to use an alternative type in C++ generated code.
   For example, `@Cpp(Type="std::chrono::steady_clock::time_point")` will use monotonic clock time point type, instead of
-  the system clock time point type which is used by default.    
+  the system clock time point type which is used by default.
+  * **ToString**: When applied for enum, helper function mapping enum to string will be generated.
   * ~~**ExternalType** **=** **"**_HeaderPaths_**"**~~: legacy attribute, superseded by `cpp
   include` in the `External Descriptor` (see above).
   * ~~**ExternalName** **=** **"**_FullyQualifiedName_**"**~~: legacy attribute, superseded by `cpp

@@ -4,6 +4,8 @@
 ### Features:
   * Added support for `@Cpp(Type)` attribute. This attribute can only be applied to a `Date` type reference, and it
     specifies which `timepoint<>` type to use in C++ generated code to represent this single type reference.
+  * Added support for `@Cpp(ToString)` attribute. When applied for enum, helper function mapping enum to string
+    will be generated.
 
 ## 9.2.1
 Release date: 2021-06-25

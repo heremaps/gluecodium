@@ -21,7 +21,9 @@ package com.here.gluecodium.generator.cpp
 
 import com.here.gluecodium.generator.common.ImportsResolver
 import com.here.gluecodium.generator.common.Include
+import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeType.OPTIMIZED
+import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
@@ -67,7 +69,9 @@ internal class CppIncludeResolver(
             is LimeGenericType -> resolveGenericTypeIncludes(limeElement)
             is LimeFunction -> resolveExceptionIncludes(limeElement)
             is LimeLambda -> cppIncludesCache.resolveIncludes(limeElement) + CppLibraryIncludes.FUNCTIONAL
-            is LimeNamedElement -> cppIncludesCache.resolveIncludes(limeElement)
+            is LimeNamedElement -> cppIncludesCache.resolveIncludes(limeElement) +
+                if (limeElement.attributes.have(CPP, LimeAttributeValueType.TO_STRING)) listOf(CppLibraryIncludes.STRING)
+                else emptyList()
             else -> emptyList()
         }
 
