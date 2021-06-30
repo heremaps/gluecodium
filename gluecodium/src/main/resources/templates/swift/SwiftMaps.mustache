@@ -24,7 +24,7 @@ import {{this}}
 {{/imports}}
 
 {{#collections}}
-internal func {{internalPrefix}}copyFromCType(_ handle: _baseRef) -> {{resolveName}} {
+internal func {{>functionPrefix}}copyFromCType(_ handle: _baseRef) -> {{resolveName}} {
     var swiftDict: {{resolveName}} = [:]
     let iterator_handle = {{resolveName "CBridge"}}_iterator(handle)
     while {{resolveName "CBridge"}}_iterator_is_valid(handle, iterator_handle) {
@@ -39,14 +39,14 @@ internal func {{internalPrefix}}copyFromCType(_ handle: _baseRef) -> {{resolveNa
     return swiftDict
 }
 
-internal func {{internalPrefix}}moveFromCType(_ handle: _baseRef) -> {{resolveName}} {
+internal func {{>functionPrefix}}moveFromCType(_ handle: _baseRef) -> {{resolveName}} {
     defer {
         {{resolveName "CBridge"}}_release_handle(handle)
     }
-    return {{internalPrefix}}copyFromCType(handle)
+    return {{>functionPrefix}}copyFromCType(handle)
 }
 
-internal func {{internalPrefix}}copyToCType(_ swiftDict: {{resolveName}}) -> RefHolder {
+internal func {{>functionPrefix}}copyToCType(_ swiftDict: {{resolveName}}) -> RefHolder {
     let c_handle = {{resolveName "CBridge"}}_create_handle()
     for (key, value) in swiftDict {
         let c_key = {{#set typeRef=keyType}}{{>swift/ConversionPrefixTo}}{{/set}}moveToCType(key)
@@ -56,29 +56,29 @@ internal func {{internalPrefix}}copyToCType(_ swiftDict: {{resolveName}}) -> Ref
     return RefHolder(c_handle)
 }
 
-internal func {{internalPrefix}}moveToCType(_ swiftDict: {{resolveName}}) -> RefHolder {
-    return RefHolder(ref: {{internalPrefix}}copyToCType(swiftDict).ref, release: {{resolveName "CBridge"}}_release_handle)
+internal func {{>functionPrefix}}moveToCType(_ swiftDict: {{resolveName}}) -> RefHolder {
+    return RefHolder(ref: {{>functionPrefix}}copyToCType(swiftDict).ref, release: {{resolveName "CBridge"}}_release_handle)
 }
 
 {{!!
 Optionals
 }}
-internal func {{internalPrefix}}copyFromCType(_ handle: _baseRef) -> {{resolveName}}? {
+internal func {{>functionPrefix}}copyFromCType(_ handle: _baseRef) -> {{resolveName}}? {
     guard handle != 0 else {
         return nil
     }
     let unwrappedHandle = {{resolveName "CBridge"}}_unwrap_optional_handle(handle)
-    return {{internalPrefix}}copyFromCType(unwrappedHandle) as {{resolveName}}
+    return {{>functionPrefix}}copyFromCType(unwrappedHandle) as {{resolveName}}
 }
 
-internal func {{internalPrefix}}moveFromCType(_ handle: _baseRef) -> {{resolveName}}? {
+internal func {{>functionPrefix}}moveFromCType(_ handle: _baseRef) -> {{resolveName}}? {
     defer {
         {{resolveName "CBridge"}}_release_optional_handle(handle)
     }
-    return {{internalPrefix}}copyFromCType(handle)
+    return {{>functionPrefix}}copyFromCType(handle)
 }
 
-internal func {{internalPrefix}}copyToCType(_ swiftDict: {{resolveName}}?) -> RefHolder {
+internal func {{>functionPrefix}}copyToCType(_ swiftDict: {{resolveName}}?) -> RefHolder {
     guard let swiftDict = swiftDict else {
         return RefHolder(0)
     }
@@ -92,8 +92,11 @@ internal func {{internalPrefix}}copyToCType(_ swiftDict: {{resolveName}}?) -> Re
     return RefHolder(optionalHandle)
 }
 
-internal func {{internalPrefix}}moveToCType(_ swiftType: {{resolveName}}?) -> RefHolder {
-    return RefHolder(ref: {{internalPrefix}}copyToCType(swiftType).ref, release: {{resolveName "CBridge"}}_release_optional_handle)
+internal func {{>functionPrefix}}moveToCType(_ swiftType: {{resolveName}}?) -> RefHolder {
+    return RefHolder(ref: {{>functionPrefix}}copyToCType(swiftType).ref, release: {{resolveName "CBridge"}}_release_optional_handle)
 }
 
-{{/collections}}
+{{/collections}}{{!!
+
+}}{{+functionPrefix}}{{#ifPredicate "hasCppTypeAttribute"}}{{resolveName "CBridge"}}{{/ifPredicate}}{{!!
+}}{{#unlessPredicate "hasCppTypeAttribute"}}{{internalPrefix}}{{/unlessPredicate}}{{/functionPrefix}}

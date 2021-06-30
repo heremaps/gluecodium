@@ -51,4 +51,5 @@ class DatesSteady {
 
     static fun increaseDate(input: MonotonicDate): MonotonicDate
     static fun increaseDateMaybe(input: MonotonicDate?): MonotonicDate?
+    static fun dateListMethod(input: DateList): DateList
 }

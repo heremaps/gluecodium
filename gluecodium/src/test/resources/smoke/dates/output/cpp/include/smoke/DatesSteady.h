@@ -30,5 +30,6 @@ public:
 public:
     virtual ::smoke::DatesSteady::MonotonicDate date_method( const ::smoke::DatesSteady::MonotonicDate& input ) = 0;
     virtual ::gluecodium::optional< ::smoke::DatesSteady::MonotonicDate > nullable_date_method( const ::gluecodium::optional< ::smoke::DatesSteady::MonotonicDate >& input ) = 0;
+    virtual ::smoke::DatesSteady::DateList date_list_method( const ::smoke::DatesSteady::DateList& input ) = 0;
 };
 }

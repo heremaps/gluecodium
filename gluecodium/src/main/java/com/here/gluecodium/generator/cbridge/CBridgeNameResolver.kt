@@ -24,6 +24,8 @@ import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.generator.swift.SwiftNameRules
 import com.here.gluecodium.generator.swift.SwiftSignatureResolver
+import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeElement
@@ -37,6 +39,7 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class CBridgeNameResolver(
@@ -118,19 +121,25 @@ internal class CBridgeNameResolver(
         }
 
     private fun resolveElementTypeName(limeTypeRef: LimeTypeRef): String {
-        val limeType = limeTypeRef.type.actualType
+        val limeType = limeTypeRef.type
+        if (limeType is LimeTypeAlias) return resolveElementTypeName(limeType.typeRef)
+
         val prefix = when {
             limeTypeRef.isNullable -> "nullable_"
             limeType is LimeBasicType -> "_"
             else -> ""
         }
-        return prefix + resolveName(limeType)
+        val cppType = limeTypeRef.attributes.get(LimeAttributeType.CPP, LimeAttributeValueType.TYPE, String::class.java)
+        val suffix = cppType?.let { "_" + mangleSignature(it) } ?: ""
+        return prefix + resolveName(limeType) + suffix
     }
 
     companion object {
         private const val HANDLE = "_baseRef"
 
         private fun mangleSignature(name: String) =
-            name.replace("_", "_1").replace(":", "_2").replace("[", "_3").replace("]", "_4")
+            name.replace("_", "_1").replace(":", "_2")
+                .replace("[", "_3").replace("]", "_4")
+                .replace("<", "_5").replace(">", "_6")
     }
 }
