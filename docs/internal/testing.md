@@ -47,3 +47,8 @@ would.
 These tests could be run locally (see [Development tools](development_tools.md) for the list of required software). They
 are also run on CI (currently GitHub Actions CI, see the [config](../../.github/workflows/functional-tests.yml) for
 details).
+
+When running the functional tests through the dedicated build scripts (located in "functional-tests/scripts" directory),
+it is recommended to use "--publish" build script parameter. This ensures the locally built copy of Gluecodium is
+published to the local Maven repository. Moreover, for the Android functional tests, "--hostOnly" parameter is
+recommended, to only build the tests for the current host platform, but not any other supported platforms.
