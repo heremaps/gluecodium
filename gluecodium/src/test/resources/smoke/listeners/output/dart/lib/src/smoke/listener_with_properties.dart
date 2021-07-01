@@ -345,7 +345,7 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
     }
   }
   set arrayedMessage(List<String> value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ListenerWithProperties_arrayedMessage_set__ListOf_1String'));
+    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ListenerWithProperties_arrayedMessage_set__ListOf_String'));
     final _valueHandle = foobarListofStringToFfi(value);
     final _handle = this.handle;
     _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
@@ -362,7 +362,7 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
     }
   }
   set mappedMessage(Map<String, double> value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ListenerWithProperties_mappedMessage_set__MapOf_1String_1to_1Double'));
+    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ListenerWithProperties_mappedMessage_set__MapOf_String_to_Double'));
     final _valueHandle = foobarMapofStringToDoubleToFfi(value);
     final _handle = this.handle;
     _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);

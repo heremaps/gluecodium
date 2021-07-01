@@ -131,7 +131,7 @@ class DatesSteady$Impl extends __lib.NativeBase implements DatesSteady {
   }
   @override
   List<DateTime> dateListMethod(List<DateTime> input) {
-    final _dateListMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DatesSteady_dateListMethod__ListOf_1Date'));
+    final _dateListMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DatesSteady_dateListMethod__ListOf_Date'));
     final _inputHandle = foobarListofDateToFfi(input);
     final _handle = this.handle;
     final __resultHandle = _dateListMethodFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);

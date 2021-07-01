@@ -236,7 +236,7 @@ library_smoke_Lambdas_deconfuse__String_Confuser(FfiOpaqueHandle _self, int32_t 
     );
 }
 FfiOpaqueHandle
-library_smoke_Lambdas_fuse__ListOf_1String_Indexer(int32_t _isolate_id, FfiOpaqueHandle items, FfiOpaqueHandle callback) {
+library_smoke_Lambdas_fuse__ListOf_String_Indexer(int32_t _isolate_id, FfiOpaqueHandle items, FfiOpaqueHandle callback) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::unordered_map<int32_t, std::string>>::toFfi(
         smoke::Lambdas::fuse(

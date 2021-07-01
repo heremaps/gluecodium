@@ -24,7 +24,7 @@ library_smoke_TypeDefs_methodWithPrimitiveTypeDef__Double(int32_t _isolate_id, d
     );
 }
 FfiOpaqueHandle
-library_smoke_TypeDefs_methodWithComplexTypeDef__ListOf_1smoke_1TypeDefs_1TestStruct(int32_t _isolate_id, FfiOpaqueHandle input) {
+library_smoke_TypeDefs_methodWithComplexTypeDef__ListOf_smoke_TypeDefs_TestStruct(int32_t _isolate_id, FfiOpaqueHandle input) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::vector<smoke::TypeDefs::TestStruct>>::toFfi(
         smoke::TypeDefs::method_with_complex_type_def(
@@ -76,7 +76,7 @@ library_smoke_TypeDefs_primitiveTypeProperty_get(FfiOpaqueHandle _self, int32_t 
     );
 }
 void
-library_smoke_TypeDefs_primitiveTypeProperty_set__ListOf_1Double(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
+library_smoke_TypeDefs_primitiveTypeProperty_set__ListOf_Double(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
             (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::TypeDefs>>::toCpp(_self)).set_primitive_type_property(
             gluecodium::ffi::Conversion<std::vector<double>>::toCpp(value)

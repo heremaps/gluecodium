@@ -73,7 +73,7 @@ library_smoke_Nullable_methodWithSomeEnum__SomeEnum(FfiOpaqueHandle _self, int32
     );
 }
 FfiOpaqueHandle
-library_smoke_Nullable_methodWithSomeArray__ListOf_1String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
+library_smoke_Nullable_methodWithSomeArray__ListOf_String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<gluecodium::optional<std::vector<std::string>>>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).method_with_some_array(
@@ -82,7 +82,7 @@ library_smoke_Nullable_methodWithSomeArray__ListOf_1String(FfiOpaqueHandle _self
     );
 }
 FfiOpaqueHandle
-library_smoke_Nullable_methodWithInlineArray__ListOf_1String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
+library_smoke_Nullable_methodWithInlineArray__ListOf_String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<gluecodium::optional<std::vector<std::string>>>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).method_with_inline_array(
@@ -91,7 +91,7 @@ library_smoke_Nullable_methodWithInlineArray__ListOf_1String(FfiOpaqueHandle _se
     );
 }
 FfiOpaqueHandle
-library_smoke_Nullable_methodWithSomeMap__MapOf_1Long_1to_1String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
+library_smoke_Nullable_methodWithSomeMap__MapOf_Long_to_String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<gluecodium::optional<std::unordered_map<int64_t, std::string>>>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).method_with_some_map(
@@ -200,7 +200,7 @@ library_smoke_Nullable_arrayProperty_get(FfiOpaqueHandle _self, int32_t _isolate
     );
 }
 void
-library_smoke_Nullable_arrayProperty_set__ListOf_1String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
+library_smoke_Nullable_arrayProperty_set__ListOf_String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
             (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).set_array_property(
             gluecodium::ffi::Conversion<gluecodium::optional<std::vector<std::string>>>::toCpp(value)
@@ -214,7 +214,7 @@ library_smoke_Nullable_inlineArrayProperty_get(FfiOpaqueHandle _self, int32_t _i
     );
 }
 void
-library_smoke_Nullable_inlineArrayProperty_set__ListOf_1String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
+library_smoke_Nullable_inlineArrayProperty_set__ListOf_String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
             (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).set_inline_array_property(
             gluecodium::ffi::Conversion<gluecodium::optional<std::vector<std::string>>>::toCpp(value)
@@ -228,7 +228,7 @@ library_smoke_Nullable_mapProperty_get(FfiOpaqueHandle _self, int32_t _isolate_i
     );
 }
 void
-library_smoke_Nullable_mapProperty_set__MapOf_1Long_1to_1String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
+library_smoke_Nullable_mapProperty_set__MapOf_Long_to_String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
             (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).set_map_property(
             gluecodium::ffi::Conversion<gluecodium::optional<std::unordered_map<int64_t, std::string>>>::toCpp(value)

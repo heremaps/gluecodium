@@ -179,7 +179,7 @@ class Constructors$Impl extends __lib.NativeBase implements Constructors {
     return __resultHandle;
   }
   static Pointer<Void> _fromList(List<double> input) {
-    final _fromListFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Constructors_create__ListOf_1Double'));
+    final _fromListFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Constructors_create__ListOf_Double'));
     final _inputHandle = foobarListofDoubleToFfi(input);
     final __resultHandle = _fromListFfi(__lib.LibraryContext.isolateId, _inputHandle);
     foobarListofDoubleReleaseFfiHandle(_inputHandle);

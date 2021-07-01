@@ -35,7 +35,7 @@ class GenericTypesWithGenericTypes$Impl extends __lib.NativeBase implements Gene
   void release() {}
   @override
   List<List<int>> methodWithListOfLists(List<List<int>> input) {
-    final _methodWithListOfListsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithListOfLists__ListOf_1foobar_1ListOf_1Int'));
+    final _methodWithListOfListsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithListOfLists__ListOf_foobar_ListOf_Int'));
     final _inputHandle = foobarListofFoobarListofIntToFfi(input);
     final _handle = this.handle;
     final __resultHandle = _methodWithListOfListsFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
@@ -48,7 +48,7 @@ class GenericTypesWithGenericTypes$Impl extends __lib.NativeBase implements Gene
   }
   @override
   Map<Map<int, bool>, bool> methodWithMapOfMaps(Map<int, Map<int, bool>> input) {
-    final _methodWithMapOfMapsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithMapOfMaps__MapOf_1Int_1to_1foobar_1MapOf_1Int_1to_1Boolean'));
+    final _methodWithMapOfMapsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithMapOfMaps__MapOf_Int_to_foobar_MapOf_Int_to_Boolean'));
     final _inputHandle = foobarMapofIntToFoobarMapofIntToBooleanToFfi(input);
     final _handle = this.handle;
     final __resultHandle = _methodWithMapOfMapsFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
@@ -61,7 +61,7 @@ class GenericTypesWithGenericTypes$Impl extends __lib.NativeBase implements Gene
   }
   @override
   Set<Set<int>> methodWithSetOfSets(Set<Set<int>> input) {
-    final _methodWithSetOfSetsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithSetOfSets__SetOf_1foobar_1SetOf_1Int'));
+    final _methodWithSetOfSetsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithSetOfSets__SetOf_foobar_SetOf_Int'));
     final _inputHandle = foobarSetofFoobarSetofIntToFfi(input);
     final _handle = this.handle;
     final __resultHandle = _methodWithSetOfSetsFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
@@ -74,7 +74,7 @@ class GenericTypesWithGenericTypes$Impl extends __lib.NativeBase implements Gene
   }
   @override
   Map<int, List<int>> methodWithListAndMap(List<Map<int, bool>> input) {
-    final _methodWithListAndMapFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithListAndMap__ListOf_1foobar_1MapOf_1Int_1to_1Boolean'));
+    final _methodWithListAndMapFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithListAndMap__ListOf_foobar_MapOf_Int_to_Boolean'));
     final _inputHandle = foobarListofFoobarMapofIntToBooleanToFfi(input);
     final _handle = this.handle;
     final __resultHandle = _methodWithListAndMapFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
@@ -87,7 +87,7 @@ class GenericTypesWithGenericTypes$Impl extends __lib.NativeBase implements Gene
   }
   @override
   Set<List<int>> methodWithListAndSet(List<Set<int>> input) {
-    final _methodWithListAndSetFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithListAndSet__ListOf_1foobar_1SetOf_1Int'));
+    final _methodWithListAndSetFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithListAndSet__ListOf_foobar_SetOf_Int'));
     final _inputHandle = foobarListofFoobarSetofIntToFfi(input);
     final _handle = this.handle;
     final __resultHandle = _methodWithListAndSetFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
@@ -100,7 +100,7 @@ class GenericTypesWithGenericTypes$Impl extends __lib.NativeBase implements Gene
   }
   @override
   Set<Map<int, bool>> methodWithMapAndSet(Map<int, Set<int>> input) {
-    final _methodWithMapAndSetFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithMapAndSet__MapOf_1Int_1to_1foobar_1SetOf_1Int'));
+    final _methodWithMapAndSetFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithMapAndSet__MapOf_Int_to_foobar_SetOf_Int'));
     final _inputHandle = foobarMapofIntToFoobarSetofIntToFfi(input);
     final _handle = this.handle;
     final __resultHandle = _methodWithMapAndSetFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
@@ -113,7 +113,7 @@ class GenericTypesWithGenericTypes$Impl extends __lib.NativeBase implements Gene
   }
   @override
   Map<List<int>, bool> methodWithMapGenericKeys(Map<Set<int>, bool> input) {
-    final _methodWithMapGenericKeysFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithMapGenericKeys__MapOf_1foobar_1SetOf_1Int_1to_1Boolean'));
+    final _methodWithMapGenericKeysFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithMapGenericKeys__MapOf_foobar_SetOf_Int_to_Boolean'));
     final _inputHandle = foobarMapofFoobarSetofIntToBooleanToFfi(input);
     final _handle = this.handle;
     final __resultHandle = _methodWithMapGenericKeysFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
