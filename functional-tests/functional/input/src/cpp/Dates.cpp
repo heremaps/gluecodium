@@ -73,4 +73,9 @@ DatesSteady::increase_date_maybe(const lorem_ipsum::test::optional<steady_clock:
     return input ? *input + hours(24) + hours(1) + minutes(1) + seconds(1) : input;
 }
 
+std::vector<steady_clock::time_point>
+DatesSteady::date_list_method(const std::vector<steady_clock::time_point>& input) {
+    return input;
+}
+
 }

@@ -31,9 +31,14 @@ import com.here.gluecodium.model.lime.LimeExternalDescriptor
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeList
+import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeProperty
+import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeTypeRef
 
 /**
  * List of predicates used by `ifPredicate`/`unlessPredicate` template helpers in Swift generator.
@@ -45,6 +50,15 @@ internal class SwiftGeneratorPredicates(limeReferenceMap: Map<String, LimeElemen
     val predicates = mapOf(
         "hasAnyComment" to { limeElement: Any ->
             CommonGeneratorPredicates.hasAnyComment(limeElement, "Swift")
+        },
+        "hasCppTypeAttribute" to { limeGenericType: Any ->
+            when (limeGenericType) {
+                is LimeList -> hasCppTypeAttribute(limeGenericType.elementType)
+                is LimeSet -> hasCppTypeAttribute(limeGenericType.elementType)
+                is LimeMap ->
+                    hasCppTypeAttribute(limeGenericType.keyType) || hasCppTypeAttribute(limeGenericType.keyType)
+                else -> false
+            }
         },
         "hasDeprecatedEnumerators" to { limeEnumeration: Any ->
             limeEnumeration is LimeEnumeration &&
@@ -92,5 +106,14 @@ internal class SwiftGeneratorPredicates(limeReferenceMap: Map<String, LimeElemen
         return limeType is LimeContainerWithInheritance &&
             !limeType.attributes.have(LimeAttributeType.EQUATABLE) &&
             !limeType.attributes.have(LimeAttributeType.POINTER_EQUATABLE)
+    }
+
+    private fun hasCppTypeAttribute(limeTypeRef: LimeTypeRef): Boolean {
+        val limeType = limeTypeRef.type
+        return when {
+            limeTypeRef.attributes.have(LimeAttributeType.CPP, LimeAttributeValueType.TYPE) -> true
+            limeType is LimeTypeAlias -> hasCppTypeAttribute(limeType.typeRef)
+            else -> false
+        }
     }
 }

@@ -47,4 +47,5 @@ class DatesSteady {
 
     fun dateMethod(input: MonotonicDate): MonotonicDate
     fun nullableDateMethod(input: MonotonicDate?): MonotonicDate?
+    fun dateListMethod(input: DateList): DateList
 }
