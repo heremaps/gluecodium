@@ -22,6 +22,8 @@ package com.here.gluecodium.generator.ffi
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
+import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeElement
@@ -34,6 +36,7 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeSignatureResolver
 import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class FfiNameResolver(
@@ -67,8 +70,13 @@ internal class FfiNameResolver(
     }
 
     private fun getNestedTypeRefName(limeTypeRef: LimeTypeRef): String {
+        val limeType = limeTypeRef.type
+        if (limeType is LimeTypeAlias) return getNestedTypeRefName(limeType.typeRef)
+
         val prefix = if (limeTypeRef.isNullable) "Nullable_" else ""
-        return prefix + getTypeName(limeTypeRef.type.actualType)
+        val cppType = limeTypeRef.attributes.get(LimeAttributeType.CPP, LimeAttributeValueType.TYPE, String::class.java)
+        val suffix = cppType?.let { "_" + mangleName(it) } ?: ""
+        return prefix + getTypeName(limeTypeRef.type.actualType) + suffix
     }
 
     private fun getTypeName(limeType: LimeType) =
@@ -147,6 +155,7 @@ internal class FfiNameResolver(
             .replace("<", "Of_")
             .replace(",", "_")
             .replace(">", "")
+            .replace("::", "_2")
 
     private class FfiSignatureResolver(
         limeReferenceMap: Map<String, LimeElement>,

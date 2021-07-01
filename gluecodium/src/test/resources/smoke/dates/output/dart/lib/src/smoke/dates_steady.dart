@@ -131,15 +131,15 @@ class DatesSteady$Impl extends __lib.NativeBase implements DatesSteady {
   }
   @override
   List<DateTime> dateListMethod(List<DateTime> input) {
-    final _dateListMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DatesSteady_dateListMethod__ListOf_Date'));
-    final _inputHandle = foobarListofDateToFfi(input);
+    final _dateListMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DatesSteady_dateListMethod__ListOf_Date_std_2chrono_2steady_1clock_2time_1point'));
+    final _inputHandle = foobarListofDateStd2chrono2steady1clock2time1pointToFfi(input);
     final _handle = this.handle;
     final __resultHandle = _dateListMethodFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
-    foobarListofDateReleaseFfiHandle(_inputHandle);
+    foobarListofDateStd2chrono2steady1clock2time1pointReleaseFfiHandle(_inputHandle);
     try {
-      return foobarListofDateFromFfi(__resultHandle);
+      return foobarListofDateStd2chrono2steady1clock2time1pointFromFfi(__resultHandle);
     } finally {
-      foobarListofDateReleaseFfiHandle(__resultHandle);
+      foobarListofDateStd2chrono2steady1clock2time1pointReleaseFfiHandle(__resultHandle);
     }
   }
 }
