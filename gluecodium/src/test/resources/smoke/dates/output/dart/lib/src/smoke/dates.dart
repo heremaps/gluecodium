@@ -164,7 +164,7 @@ class Dates$Impl extends __lib.NativeBase implements Dates {
   }
   @override
   set dateSet(Set<DateTime> value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Dates_dateSet_set__SetOf_1Date'));
+    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Dates_dateSet_set__SetOf_Date'));
     final _valueHandle = foobarSetofDateToFfi(value);
     final _handle = this.handle;
     _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);

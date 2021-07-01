@@ -538,7 +538,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
   }
   @override
   List<String>? methodWithSomeArray(List<String>? input) {
-    final _methodWithSomeArrayFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithSomeArray__ListOf_1String'));
+    final _methodWithSomeArrayFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithSomeArray__ListOf_String'));
     final _inputHandle = foobarListofStringToFfiNullable(input);
     final _handle = this.handle;
     final __resultHandle = _methodWithSomeArrayFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
@@ -551,7 +551,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
   }
   @override
   List<String>? methodWithInlineArray(List<String>? input) {
-    final _methodWithInlineArrayFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithInlineArray__ListOf_1String'));
+    final _methodWithInlineArrayFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithInlineArray__ListOf_String'));
     final _inputHandle = foobarListofStringToFfiNullable(input);
     final _handle = this.handle;
     final __resultHandle = _methodWithInlineArrayFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
@@ -564,7 +564,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
   }
   @override
   Map<int, String>? methodWithSomeMap(Map<int, String>? input) {
-    final _methodWithSomeMapFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithSomeMap__MapOf_1Long_1to_1String'));
+    final _methodWithSomeMapFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithSomeMap__MapOf_Long_to_String'));
     final _inputHandle = foobarMapofLongToStringToFfiNullable(input);
     final _handle = this.handle;
     final __resultHandle = _methodWithSomeMapFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
@@ -715,7 +715,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
   }
   @override
   set arrayProperty(List<String>? value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_arrayProperty_set__ListOf_1String'));
+    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_arrayProperty_set__ListOf_String'));
     final _valueHandle = foobarListofStringToFfiNullable(value);
     final _handle = this.handle;
     _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
@@ -734,7 +734,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
   }
   @override
   set inlineArrayProperty(List<String>? value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_inlineArrayProperty_set__ListOf_1String'));
+    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_inlineArrayProperty_set__ListOf_String'));
     final _valueHandle = foobarListofStringToFfiNullable(value);
     final _handle = this.handle;
     _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
@@ -753,7 +753,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
   }
   @override
   set mapProperty(Map<int, String>? value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_mapProperty_set__MapOf_1Long_1to_1String'));
+    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_mapProperty_set__MapOf_Long_to_String'));
     final _valueHandle = foobarMapofLongToStringToFfiNullable(value);
     final _handle = this.handle;
     _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);

@@ -144,7 +144,7 @@ class Enums$Impl extends __lib.NativeBase implements Enums {
   @override
   void release() {}
   static void methodWithExternalEnum(Enums_ExternalEnum input) {
-    final _methodWithExternalEnumFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32, Uint32), void Function(int, int)>('library_smoke_Enums_methodWithExternalEnum__External_1Enum'));
+    final _methodWithExternalEnumFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32, Uint32), void Function(int, int)>('library_smoke_Enums_methodWithExternalEnum__External_Enum'));
     final _inputHandle = smokeEnumsExternalenumToFfi(input);
     _methodWithExternalEnumFfi(__lib.LibraryContext.isolateId, _inputHandle);
     smokeEnumsExternalenumReleaseFfiHandle(_inputHandle);

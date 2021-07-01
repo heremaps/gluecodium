@@ -11,11 +11,11 @@ _GLUECODIUM_FFI_EXPORT bool library_smoke_MethodOverloads_isBoolean__Byte(FfiOpa
 _GLUECODIUM_FFI_EXPORT bool library_smoke_MethodOverloads_isBoolean__String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input);
 _GLUECODIUM_FFI_EXPORT bool library_smoke_MethodOverloads_isBoolean__Point(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input);
 _GLUECODIUM_FFI_EXPORT bool library_smoke_MethodOverloads_isBoolean__Boolean_Byte_String_Point(FfiOpaqueHandle _self, int32_t _isolate_id, bool input1, int8_t input2, FfiOpaqueHandle input3, FfiOpaqueHandle input4);
-_GLUECODIUM_FFI_EXPORT bool library_smoke_MethodOverloads_isBoolean__ListOf_1String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input);
-_GLUECODIUM_FFI_EXPORT bool library_smoke_MethodOverloads_isBoolean__ListOf_1Byte(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input);
+_GLUECODIUM_FFI_EXPORT bool library_smoke_MethodOverloads_isBoolean__ListOf_String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input);
+_GLUECODIUM_FFI_EXPORT bool library_smoke_MethodOverloads_isBoolean__ListOf_Byte(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input);
 _GLUECODIUM_FFI_EXPORT bool library_smoke_MethodOverloads_isBoolean(FfiOpaqueHandle _self, int32_t _isolate_id);
 _GLUECODIUM_FFI_EXPORT bool library_smoke_MethodOverloads_isFloat__String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input);
-_GLUECODIUM_FFI_EXPORT bool library_smoke_MethodOverloads_isFloat__ListOf_1Byte(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input);
+_GLUECODIUM_FFI_EXPORT bool library_smoke_MethodOverloads_isFloat__ListOf_Byte(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input);
 _GLUECODIUM_FFI_EXPORT void library_smoke_MethodOverloads_register_finalizer(
     FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_MethodOverloads_copy_handle(FfiOpaqueHandle handle);

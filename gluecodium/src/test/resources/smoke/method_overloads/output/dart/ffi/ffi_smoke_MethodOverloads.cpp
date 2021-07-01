@@ -63,7 +63,7 @@ library_smoke_MethodOverloads_isBoolean__Boolean_Byte_String_Point(FfiOpaqueHand
     );
 }
 bool
-library_smoke_MethodOverloads_isBoolean__ListOf_1String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
+library_smoke_MethodOverloads_isBoolean__ListOf_String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<bool>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::MethodOverloads>>::toCpp(_self)).is_boolean(
@@ -72,7 +72,7 @@ library_smoke_MethodOverloads_isBoolean__ListOf_1String(FfiOpaqueHandle _self, i
     );
 }
 bool
-library_smoke_MethodOverloads_isBoolean__ListOf_1Byte(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
+library_smoke_MethodOverloads_isBoolean__ListOf_Byte(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<bool>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::MethodOverloads>>::toCpp(_self)).is_boolean(
@@ -97,7 +97,7 @@ library_smoke_MethodOverloads_isFloat__String(FfiOpaqueHandle _self, int32_t _is
     );
 }
 bool
-library_smoke_MethodOverloads_isFloat__ListOf_1Byte(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
+library_smoke_MethodOverloads_isFloat__ListOf_Byte(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<bool>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::MethodOverloads>>::toCpp(_self)).is_float(
