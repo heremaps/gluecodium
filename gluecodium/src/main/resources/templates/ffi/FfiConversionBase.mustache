@@ -150,6 +150,32 @@ struct Conversion<
     }
 };
 
+template<class Clock, class Duration>
+struct Conversion<
+    {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::time_point<Clock, Duration>>,
+    typename std::enable_if<std::is_class<{{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::time_point<Clock, Duration>>>::value>::type
+> {
+    static FfiOpaqueHandle
+    toFfi({{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::time_point<Clock, Duration>> t) {
+        return t
+            ? reinterpret_cast<FfiOpaqueHandle>(
+                new (std::nothrow) {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<uint64_t>(
+                    Conversion<std::chrono::time_point<Clock, Duration>>::toFfi(*t)
+                )
+            ) : 0;
+    }
+
+    static {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::time_point<Clock, Duration>>
+    toCpp(const FfiOpaqueHandle& handle) {
+        return handle
+            ? {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::time_point<Clock, Duration>>(
+                Conversion<std::chrono::time_point<Clock, Duration>>::toCpp(
+                    **reinterpret_cast<{{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<uint64_t>*>(handle)
+                )
+            ) : {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::time_point<Clock, Duration>>{};
+    }
+};
+
 }
 {{#internalNamespace}}
 }

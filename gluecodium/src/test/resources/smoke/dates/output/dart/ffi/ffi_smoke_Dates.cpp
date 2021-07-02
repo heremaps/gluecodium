@@ -55,7 +55,7 @@ library_smoke_Dates_dateSet_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
     );
 }
 void
-library_smoke_Dates_dateSet_set__SetOf_1Date(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
+library_smoke_Dates_dateSet_set__SetOf_Date(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
             (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Dates>>::toCpp(_self)).set_date_set(
             gluecodium::ffi::Conversion<std::unordered_set<std::chrono::system_clock::time_point, gluecodium::hash<std::chrono::system_clock::time_point>>>::toCpp(value)

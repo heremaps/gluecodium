@@ -132,7 +132,8 @@ internal class SwiftGenerator : Generator {
                 filteredElements,
                 cBridgeGenerator.genericTypesCollector,
                 swiftNameResolver,
-                nameResolvers
+                nameResolvers,
+                predicates
             ) +
             generateBuiltinOptionals(nameResolvers + ("C++" to cBridgeGenerator.cppNameResolver)) +
             cBridgeGenerator.generateHelpers() + generateRefHolder()
@@ -165,7 +166,8 @@ internal class SwiftGenerator : Generator {
         limeModel: List<LimeNamedElement>,
         genericTypesCollector: CBridgeGenerator.GenericTypesCollector,
         swiftNameResolver: SwiftNameResolver,
-        nameResolvers: Map<String, NameResolver>
+        nameResolvers: Map<String, NameResolver>,
+        predicates: SwiftGeneratorPredicates
     ): List<GeneratedFile> {
 
         val allTypes = limeModel.flatMap { LimeTypeHelper.getAllTypes(it) }
@@ -177,21 +179,24 @@ internal class SwiftGenerator : Generator {
             "swift/SwiftLists",
             "swift/Collections.swift",
             swiftNameResolver,
-            nameResolvers
+            nameResolvers,
+            predicates
         )
         val mapsFile = generateCollectionsFile(
             genericTypes.filterIsInstance<LimeMap>(),
             "swift/SwiftMaps",
             "swift/Dictionaries.swift",
             swiftNameResolver,
-            nameResolvers
+            nameResolvers,
+            predicates
         )
         val setsFile = generateCollectionsFile(
             genericTypes.filterIsInstance<LimeSet>(),
             "swift/SwiftSets",
             "swift/Sets.swift",
             swiftNameResolver,
-            nameResolvers
+            nameResolvers,
+            predicates
         )
 
         return listOf(listsFile, mapsFile, setsFile)
@@ -202,7 +207,8 @@ internal class SwiftGenerator : Generator {
         templateName: String,
         fileName: String,
         swiftNameResolver: SwiftNameResolver,
-        nameResolvers: Map<String, NameResolver>
+        nameResolvers: Map<String, NameResolver>,
+        predicates: SwiftGeneratorPredicates
     ): GeneratedFile {
         val imports = collections.flatMap { importsCollector.collectImports(it) }
         val templateData = mapOf(
@@ -210,7 +216,8 @@ internal class SwiftGenerator : Generator {
             "internalPrefix" to internalPrefix,
             "collections" to collections.sortedBy { swiftNameResolver.resolveName(it) }
         )
-        return GeneratedFile(TemplateEngine.render(templateName, templateData, nameResolvers), fileName)
+        val content = TemplateEngine.render(templateName, templateData, nameResolvers, predicates.predicates)
+        return GeneratedFile(content, fileName)
     }
 
     private fun generateBuiltinOptionals(nameResolvers: Map<String, NameResolver>): GeneratedFile {

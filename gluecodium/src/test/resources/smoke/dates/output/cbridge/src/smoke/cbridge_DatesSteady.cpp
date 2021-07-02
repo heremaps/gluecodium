@@ -5,9 +5,11 @@
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
 #include "gluecodium/Optional.h"
+#include "gluecodium/VectorHash.h"
 #include "smoke/DatesSteady.h"
 #include <memory>
 #include <new>
+#include <vector>
 void smoke_DatesSteady_release_handle(_baseRef handle) {
     delete get_pointer<::std::shared_ptr< ::smoke::DatesSteady >>(handle);
 }
@@ -34,6 +36,9 @@ double smoke_DatesSteady_dateMethod(_baseRef _instance, double input) {
 }
 _baseRef smoke_DatesSteady_nullableDateMethod(_baseRef _instance, _baseRef input) {
     return Conversion<::gluecodium::optional< std::chrono::steady_clock::time_point >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::DatesSteady >>(_instance)->get()->nullable_date_method(Conversion<::gluecodium::optional< std::chrono::steady_clock::time_point >>::toCpp(input)));
+}
+_baseRef smoke_DatesSteady_dateListMethod(_baseRef _instance, _baseRef input) {
+    return Conversion<::std::vector< std::chrono::steady_clock::time_point >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::DatesSteady >>(_instance)->get()->date_list_method(Conversion<::std::vector< std::chrono::steady_clock::time_point >>::toCpp(input)));
 }
 _baseRef
 smoke_DatesSteady_DateStruct_create_handle( double dateField, _baseRef nullableDateField )

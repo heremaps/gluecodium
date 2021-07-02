@@ -485,7 +485,7 @@ class Lambdas$Impl extends __lib.NativeBase implements Lambdas {
     }
   }
   static Map<int, String> fuse(List<String> items, Lambdas_Indexer callback) {
-    final _fuseFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>, Pointer<Void>)>('library_smoke_Lambdas_fuse__ListOf_1String_Indexer'));
+    final _fuseFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>, Pointer<Void>)>('library_smoke_Lambdas_fuse__ListOf_String_Indexer'));
     final _itemsHandle = foobarListofStringToFfi(items);
     final _callbackHandle = smokeLambdasIndexerToFfi(callback);
     final __resultHandle = _fuseFfi(__lib.LibraryContext.isolateId, _itemsHandle, _callbackHandle);

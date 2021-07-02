@@ -180,7 +180,7 @@ class CalculatorListener$Impl extends __lib.NativeBase implements CalculatorList
   }
   @override
   void onCalculationResultArray(List<double> calculationResult) {
-    final _onCalculationResultArrayFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CalculatorListener_onCalculationResultArray__ListOf_1Double'));
+    final _onCalculationResultArrayFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CalculatorListener_onCalculationResultArray__ListOf_Double'));
     final _calculationResultHandle = foobarListofDoubleToFfi(calculationResult);
     final _handle = this.handle;
     _onCalculationResultArrayFfi(_handle, __lib.LibraryContext.isolateId, _calculationResultHandle);
@@ -188,7 +188,7 @@ class CalculatorListener$Impl extends __lib.NativeBase implements CalculatorList
   }
   @override
   void onCalculationResultMap(Map<String, double> calculationResults) {
-    final _onCalculationResultMapFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CalculatorListener_onCalculationResultMap__MapOf_1String_1to_1Double'));
+    final _onCalculationResultMapFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CalculatorListener_onCalculationResultMap__MapOf_String_to_Double'));
     final _calculationResultsHandle = foobarMapofStringToDoubleToFfi(calculationResults);
     final _handle = this.handle;
     _onCalculationResultMapFfi(_handle, __lib.LibraryContext.isolateId, _calculationResultsHandle);

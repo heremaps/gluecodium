@@ -117,14 +117,14 @@ library_smoke_CalculatorListener_onCalculationResultStruct__ResultStruct(FfiOpaq
         );
 }
 void
-library_smoke_CalculatorListener_onCalculationResultArray__ListOf_1Double(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle calculationResult) {
+library_smoke_CalculatorListener_onCalculationResultArray__ListOf_Double(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle calculationResult) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
             (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::CalculatorListener>>::toCpp(_self)).on_calculation_result_array(
             gluecodium::ffi::Conversion<std::vector<double>>::toCpp(calculationResult)
         );
 }
 void
-library_smoke_CalculatorListener_onCalculationResultMap__MapOf_1String_1to_1Double(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle calculationResults) {
+library_smoke_CalculatorListener_onCalculationResultMap__MapOf_String_to_Double(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle calculationResults) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
             (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::CalculatorListener>>::toCpp(_self)).on_calculation_result_map(
             gluecodium::ffi::Conversion<std::unordered_map<std::string, double>>::toCpp(calculationResults)

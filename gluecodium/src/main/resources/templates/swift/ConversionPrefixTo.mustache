@@ -18,6 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#typeRef.type.actualType}}{{#instanceOf this "LimeList"}}{{internalPrefix}}{{/instanceOf}}{{!!
+{{#typeRef.type.actualType}}{{#ifPredicate "hasCppTypeAttribute"}}{{resolveName "CBridge"}}{{/ifPredicate}}{{!!
+}}{{#unlessPredicate "hasCppTypeAttribute"}}{{#instanceOf this "LimeList"}}{{internalPrefix}}{{/instanceOf}}{{!!
 }}{{#instanceOf this "LimeSet"}}{{internalPrefix}}{{/instanceOf}}{{!!
-}}{{#instanceOf this "LimeMap"}}{{internalPrefix}}{{/instanceOf}}{{/typeRef.type.actualType}}
+}}{{#instanceOf this "LimeMap"}}{{internalPrefix}}{{/instanceOf}}{{/unlessPredicate}}{{/typeRef.type.actualType}}

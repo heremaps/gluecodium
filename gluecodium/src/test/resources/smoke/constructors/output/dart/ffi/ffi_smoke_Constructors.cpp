@@ -78,7 +78,7 @@ library_smoke_Constructors_create__String(int32_t _isolate_id, FfiOpaqueHandle i
     ));
 }
 FfiOpaqueHandle
-library_smoke_Constructors_create__ListOf_1Double(int32_t _isolate_id, FfiOpaqueHandle input) {
+library_smoke_Constructors_create__ListOf_Double(int32_t _isolate_id, FfiOpaqueHandle input) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<std::shared_ptr<smoke::Constructors>>::toFfi(
         smoke::Constructors::create(
