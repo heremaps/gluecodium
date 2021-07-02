@@ -182,6 +182,7 @@ internal class JavaNameResolver(
             TypeId.BLOB -> "byte[]"
             TypeId.DATE -> "Date"
             TypeId.LOCALE -> "Locale"
+            else -> "" // TODO: #911 Duration types
         }
 
     private fun buildPathMap(): Map<String, String> {

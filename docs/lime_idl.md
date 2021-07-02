@@ -375,7 +375,10 @@ Basic types:
 * **UInt**: unsigned 32-bit integer type
 * **ULong**: unsigned 64-bit integer type
 * **Blob**: generic binary data type
-* **Date**: date type (containing both a calendar date and a clock timestamp)
+* **Date**: date type (containing both a calendar date, and a clock timestamp). Default C++ type is
+`std::chrono::system_clock::timepoint`, can be changed through `@Cpp(Type)` attribute (see `Attributes` below).
+* **Duration**: duration type. Default C++ type is `std::chrono::seconds`, can be changed through `@Cpp(Type)` attribute
+(see `Attributes` below).
 * **Locale**: locale type (containing ISO codes for region, language, and script; and/or BCP 47
 language tag)
 
@@ -563,10 +566,10 @@ element is skipped ((not generated). Custom tags are case-insensitive.
   generated code. _Attribute_ does not need to be enclosed in `[[]]`. _Attribute_ can contain parameters, e.g.
   `@Cpp(Attribute="deprecated(\"It's deprecated.\")")`. If some of the parameters are string literals, their enclosing
   quotes need to be backslash-escaped, as in the example.
-  * **Type** **=** **"**_TypeName_**"**: marks a `Date` type reference to use an alternative type in C++ generated code.
-  For example, `@Cpp(Type="std::chrono::steady_clock::time_point")` will use monotonic clock time point type, instead of
-  the system clock time point type which is used by default.
-  * **ToString**: When applied for enum, helper function mapping enum to string will be generated.
+  * **Type** **=** **"**_TypeName_**"**: marks a `Date` or a `Duration` type reference to use an alternative type in C++
+  generated code. For example, `@Cpp(Type="std::chrono::steady_clock::time_point") Date` will use monotonic clock time
+  point type, instead of the system clock time point type which is used by default.
+  * **ToString**: marks an enumeration to have a helper `to_string()` function generated, mapping the enum to string.
   * ~~**ExternalType** **=** **"**_HeaderPaths_**"**~~: legacy attribute, superseded by `cpp
   include` in the `External Descriptor` (see above).
   * ~~**ExternalName** **=** **"**_FullyQualifiedName_**"**~~: legacy attribute, superseded by `cpp

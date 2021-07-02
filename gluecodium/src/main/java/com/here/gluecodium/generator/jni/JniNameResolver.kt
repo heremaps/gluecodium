@@ -150,5 +150,6 @@ internal class JniNameResolver(
             TypeId.STRING -> "jstring"
             TypeId.BLOB -> "jbyteArray"
             TypeId.DATE, TypeId.LOCALE -> "jobject"
+            else -> "" // TODO: #911 Duration types
         }
 }

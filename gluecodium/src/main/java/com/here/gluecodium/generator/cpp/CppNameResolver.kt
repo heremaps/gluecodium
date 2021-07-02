@@ -158,6 +158,7 @@ internal class CppNameResolver(
             TypeId.STRING -> "::std::string"
             TypeId.BLOB -> "::std::shared_ptr< ::std::vector< uint8_t > >"
             TypeId.DATE -> attributes?.get(CPP, TYPE) ?: "::std::chrono::system_clock::time_point"
+            TypeId.DURATION -> attributes?.get(CPP, TYPE) ?: "::std::chrono::seconds"
             TypeId.LOCALE -> localeTypeName
         }
 

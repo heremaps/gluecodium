@@ -104,6 +104,7 @@ internal class DartNameResolver(
             TypeId.BLOB -> "Uint8List"
             TypeId.DATE -> "DateTime"
             TypeId.LOCALE -> "Locale"
+            else -> "" // TODO: #911 Duration types
         }
 
     private fun resolveValue(limeValue: LimeValue): String =

@@ -56,6 +56,7 @@ internal class CppIncludeResolver(
 
     private val returnInclude = cppIncludesCache.createInternalNamespaceInclude("Return.h")
     private val timePointHashInclude = cppIncludesCache.createInternalNamespaceInclude("TimePointHash.h")
+    private val durationHashInclude = cppIncludesCache.createInternalNamespaceInclude("DurationHash.h")
     private val vectorHashInclude = cppIncludesCache.createInternalNamespaceInclude("VectorHash.h")
     private val unorderedMapHashInclude = cppIncludesCache.createInternalNamespaceInclude("UnorderedMapHash.h")
     private val unorderedSetHashInclude = cppIncludesCache.createInternalNamespaceInclude("UnorderedSetHash.h")
@@ -109,6 +110,7 @@ internal class CppIncludeResolver(
         return when (limeType.typeId) {
             TypeId.STRING -> listOf(CppLibraryIncludes.STRING)
             TypeId.DATE -> listOf(CppLibraryIncludes.CHRONO, timePointHashInclude)
+            TypeId.DURATION -> listOf(CppLibraryIncludes.CHRONO, durationHashInclude)
             TypeId.LOCALE -> listOf(localeInclude)
             TypeId.BLOB -> listOf(
                 CppLibraryIncludes.MEMORY,
@@ -119,10 +121,10 @@ internal class CppIncludeResolver(
         }
     }
 
-    private fun resolveGenericTypeIncludes(limeType: LimeGenericType) =
+    private fun resolveGenericTypeIncludes(limeType: LimeGenericType): List<Include> =
         when (limeType) {
-            is LimeList -> resolveElementImports(limeType.elementType) + CppLibraryIncludes.VECTOR +
-                vectorHashInclude
+            is LimeList ->
+                resolveElementImports(limeType.elementType) + CppLibraryIncludes.VECTOR + vectorHashInclude
             is LimeSet ->
                 limeType.elementType.let { resolveElementImports(it) + resolveHashIncludes(it) } +
                     CppLibraryIncludes.SET + unorderedSetHashInclude

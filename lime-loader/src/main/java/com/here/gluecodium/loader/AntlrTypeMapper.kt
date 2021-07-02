@@ -86,6 +86,7 @@ internal class AntlrTypeMapper(
             predefinedType.DoubleType() != null -> TypeId.DOUBLE
             predefinedType.BlobType() != null -> TypeId.BLOB
             predefinedType.DateType() != null -> TypeId.DATE
+            predefinedType.DurationType() != null -> TypeId.DURATION
             predefinedType.LocaleType() != null -> TypeId.LOCALE
             else -> throw LimeLoadingException("Unrecognized predefined type: $predefinedType")
         }

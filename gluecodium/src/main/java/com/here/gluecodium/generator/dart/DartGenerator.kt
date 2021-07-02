@@ -48,7 +48,7 @@ import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeType.DART
 import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeAttributes
-import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
@@ -343,7 +343,7 @@ internal class DartGenerator : Generator {
         val templateData = mapOf(
             "libraryName" to libraryName,
             "lookupErrorMessage" to lookupErrorMessage,
-            "builtInTypes" to LimeBasicType.TypeId.values().subtract(customNullableTypes),
+            "builtInTypes" to TypeId.values().subtract(customNullableTypes),
             "typeRepositories" to typeRepositories.sortedBy { it.fullName },
             "imports" to
                 typeRepositories.flatMap { importResolver.resolveElementImports(it) }.distinct().sorted()
@@ -412,7 +412,7 @@ internal class DartGenerator : Generator {
             "libraryName" to libraryName,
             "opaqueHandleType" to OPAQUE_HANDLE_TYPE,
             "internalNamespace" to internalNamespace,
-            "builtInTypes" to LimeBasicType.TypeId.values().subtract(customNullableTypes)
+            "builtInTypes" to TypeId.values().subtract(customNullableTypes)
         )
 
         return headerOnly.map {
@@ -538,7 +538,7 @@ internal class DartGenerator : Generator {
         private const val OPAQUE_HANDLE_TYPE = "void*"
 
         private val optimizedAttributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.OPTIMIZED).build()
-        private val customNullableTypes = setOf(LimeBasicType.TypeId.VOID, LimeBasicType.TypeId.DATE)
+        private val customNullableTypes = setOf(TypeId.VOID, TypeId.DATE, TypeId.DURATION)
 
         private val predicates = mapOf(
             "skipDeclaration" to { limeType: Any ->
