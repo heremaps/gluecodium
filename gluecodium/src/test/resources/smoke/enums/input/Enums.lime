@@ -58,3 +58,9 @@ enum EnumStartsWithOne {
     FIRST = 1,
     SECOND
 }
+
+@Cpp(ToString)
+enum EnumWithToStringHelper {
+    FIRST,
+    SECOND
+}

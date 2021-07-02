@@ -56,7 +56,8 @@ set(SOURCES
   tests/OptionalTest.cpp
   tests/ReturnTest.cpp
   tests/RuntimeTypeInformationTest.cpp
-  tests/StructConstructorTest.cpp)
+  tests/StructConstructorTest.cpp
+  tests/EnumTest.cpp)
 
 if(TEST_CPP_VERSION LESS 17)
   list(APPEND SOURCES

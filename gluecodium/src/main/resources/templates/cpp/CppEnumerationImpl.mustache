@@ -28,3 +28,15 @@ static_assert(
 );
 {{/enumerators}}{{/set}}{{/resolveName}}
 {{/if}}
+
+{{#if attributes.cpp.tostring}}
+  std::string
+  to_string({{resolveName}} enumeration) {
+    switch (enumeration) {
+    {{#set enum=this}}{{#enumerators}}
+      case {{resolveName enum}}::{{resolveName}}: return "{{resolveName enum}}::{{resolveName}}";
+    {{/enumerators}}{{/set}}
+    }
+    return "<unknown>";
+  }
+{{/if}}
