@@ -575,6 +575,17 @@ element is skipped ((not generated). Custom tags are case-insensitive.
   * ~~**ExternalSetter** **=** **"**_FunctionName_**"**~~: legacy attribute, superseded by `cpp
   setterName` in the `External Descriptor` (see above).
 
+#### Skip/enable attributes precedence
+
+When multiple `@Skip` and/or `@EnableIf` attributes are specified for the element, the following rules are applied to
+resolve them:
+* If there are several attributes of the same kind, they are combined using "or" logic: i.e. when there are multiple
+`@Skip` attributes, the element is skipped if any of the "skip" conditions is satisfied; when there are multiple
+`@EnableIf` attributes, the element is enabled if any of the "enable" conditions is satisfied.
+* If there are simultaneously both `@Skip` and `@EnableIf` attributes, `@Skip` attribute take precedence: i.e. the
+element is present if and only if `@EnableIf` condition is true and `@Skip` condition if false; otherwise the element is
+skipped.
+
 ### Comments
 
 There are two kinds of comments in LimeIDL: local comments and documentation comments. Local
