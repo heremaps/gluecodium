@@ -1,11 +1,14 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 9.3.0
+Release date: 2021-07-05
 ### Features:
-  * Added support for `@Cpp(Type)` attribute. This attribute can only be applied to a `Date` type reference, and it
-    specifies which `timepoint<>` type to use in C++ generated code to represent this single type reference.
-  * Added support for `@Cpp(ToString)` attribute. When applied for enum, helper function mapping enum to string
-    will be generated.
+  * Added support for `Duration` built-in type. This type is mapped to the `Duration` type in Java and Dart,
+    `TimeInterval` type in Swift, and `std::chrono::seconds` in C++.
+  * Added support for `@Cpp(Type)` attribute. This attribute can only be applied to a `Date` or a `Duration` type
+    reference, and it  specifies which type to use in C++ generated code to represent this single type reference.
+  * Added support for `@Cpp(ToString)` attribute. When applied to an enumeration type, helper function mapping the
+    enumerators to their string representations is generated in C++.
 
 ## 9.2.1
 Release date: 2021-06-25
@@ -1037,7 +1040,7 @@ Release date: 2019-05-06
   * Passing `null` to @NonNull String or ByteBuffer in Java now causes a NullPointerException.
 
 ### Features:
-  * Added built-in Date type.
+  * Added built-in `Date` type.
 
 ## 4.0.2
 Release date: 2019-04-17
