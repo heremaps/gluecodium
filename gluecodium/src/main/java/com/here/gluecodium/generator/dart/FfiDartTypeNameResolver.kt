@@ -67,11 +67,8 @@ internal class FfiDartTypeNameResolver : NameResolver {
             TypeId.BOOLEAN -> "int"
             TypeId.FLOAT -> "double"
             TypeId.DOUBLE -> "double"
-            TypeId.STRING -> OPAQUE_HANDLE_TYPE
-            TypeId.BLOB -> OPAQUE_HANDLE_TYPE
-            TypeId.DATE -> "int"
-            TypeId.LOCALE -> OPAQUE_HANDLE_TYPE
-            else -> "" // TODO: #911 Duration types
+            TypeId.DATE, TypeId.DURATION -> "int"
+            TypeId.STRING, TypeId.BLOB, TypeId.LOCALE -> OPAQUE_HANDLE_TYPE
         }
 
     companion object {

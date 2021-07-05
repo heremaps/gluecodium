@@ -361,7 +361,7 @@ feature(Dates cpp android swift dart SOURCES
     input/lime/Dates.lime
 )
 
-feature(Durations cpp android swift SOURCES
+feature(Durations cpp android swift dart SOURCES
     input/src/cpp/Durations.cpp
 
     input/lime/Durations.lime

@@ -21,6 +21,7 @@ Release date: 2021-06-25
 Release date: 2021-06-22
 ### Features:
   * Added automatic finalization for lambdas in Dart.
+  * Added support for system `Duration` types in all generators.
 ### Bug fixes:
   * Fixed `Locale` hash usage for maps and sets in C++.
   * Fixed compilation issues for `@Optimized` Lists as struct fields in Java.
