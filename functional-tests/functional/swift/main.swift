@@ -37,6 +37,7 @@ func getAllTests() -> [XCTestCaseEntry] {
         testCase(CppConstMethodsTests.allTests),
         testCase(DatesTests.allTests),
         testCase(DefaultsTests.allTests),
+        testCase(DurationsTests.allTests),
         testCase(EnumsTests.allTests),
         testCase(EquatableInstancesTests.allTests),
         testCase(EquatableNullableTests.allTests),
