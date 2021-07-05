@@ -22,6 +22,8 @@ package com.here.gluecodium.generator.dart
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.common.LimeModelFilter
+import com.here.gluecodium.common.LimeModelSkipPredicates
+import com.here.gluecodium.common.LimeModelSkipPredicates.isSkippedByTags
 import com.here.gluecodium.common.LimeTypeRefsVisitor
 import com.here.gluecodium.generator.common.CamelCaseNameResolver
 import com.here.gluecodium.generator.common.CommentsProcessor
@@ -57,7 +59,6 @@ import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CONVERTER_NAME
-import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
@@ -65,7 +66,6 @@ import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
-import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
@@ -85,6 +85,7 @@ internal class DartGenerator : Generator {
     private lateinit var internalNamespace: List<String>
     private lateinit var internalPrefix: String
     private lateinit var commentsProcessor: CommentsProcessor
+    private lateinit var activeTags: Set<String>
     private var overloadsWerror: Boolean = false
     private var testableMode: Boolean = false
 
@@ -101,18 +102,19 @@ internal class DartGenerator : Generator {
         commentsProcessor = DartCommentsProcessor(options.werror.contains(GeneratorOptions.WARNING_DOC_LINKS))
         overloadsWerror = options.werror.contains(GeneratorOptions.WARNING_DART_OVERLOADS)
         testableMode = options.generateStubs
+        activeTags = options.tags
     }
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
-        val dartNameResolver =
-            DartNameResolver(limeModel.referenceMap, nameRules, limeLogger, commentsProcessor)
+        val dartNameResolver = DartNameResolver(limeModel.referenceMap, nameRules, limeLogger, commentsProcessor)
         val ffiNameResolver = FfiNameResolver(limeModel.referenceMap, nameRules, internalPrefix)
 
-        val ffiFilteredModel = LimeModelFilter.filter(limeModel) {
-            it is LimeFunction || it is LimeProperty || !it.attributes.have(DART, SKIP)
-        }
-        val dartFilteredElements = LimeModelFilter.filter(limeModel) { !it.attributes.have(DART, SKIP) }.topElements
+        val ffiFilteredModel =
+            LimeModelFilter.filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, DART, activeTags) }
+        val dartFilteredElements = LimeModelFilter
+            .filter(limeModel) { !isSkippedByTags(it, activeTags) && !it.attributes.have(DART, SKIP) }
+            .topElements
         val validationResult = DartOverloadsValidator(dartNameResolver, limeLogger, overloadsWerror)
             .validate(dartFilteredElements)
         if (!validationResult) {

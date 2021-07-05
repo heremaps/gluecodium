@@ -24,7 +24,6 @@ data class GluecodiumOptions(
     var auxiliaryIdlSources: List<String> = emptyList(),
     var outputDir: String = "",
     var commonOutputDir: String = "",
-    var tags: Set<String> = emptySet(),
     var generators: Set<String> = setOf(),
     var isValidatingOnly: Boolean = false,
     var isEnableCaching: Boolean = false

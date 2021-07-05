@@ -21,6 +21,8 @@ package com.here.gluecodium.generator.cpp
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
+import com.here.gluecodium.common.LimeModelFilter
+import com.here.gluecodium.common.LimeModelSkipPredicates
 import com.here.gluecodium.generator.common.CommentsProcessor
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Generator
@@ -63,6 +65,7 @@ internal class CppGenerator : Generator {
     private lateinit var exportName: String
     private lateinit var exportCommonName: String
     private lateinit var exportInclude: Include
+    private lateinit var activeTags: Set<String>
 
     override val shortName = GENERATOR_NAME
 
@@ -79,22 +82,25 @@ internal class CppGenerator : Generator {
                 getExportFileName(exportName) + ".h"
             ).toString()
         )
+        activeTags = options.tags
     }
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
+        val filteredModel =
+            LimeModelFilter.filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, null, activeTags) }
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
 
         val overloadsValidator =
-            LimeOverloadsValidator(limeModel.referenceMap, LimeAttributeType.CPP, nameRules, limeLogger)
-        val validationResult = overloadsValidator.validate(limeModel.topElements)
+            LimeOverloadsValidator(filteredModel.referenceMap, LimeAttributeType.CPP, nameRules, limeLogger)
+        val validationResult = overloadsValidator.validate(filteredModel.topElements)
         if (!validationResult) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
 
-        val includeResolver = CppIncludeResolver(limeModel.referenceMap, nameRules, internalNamespace)
-        val cachingNameResolver = CppNameCache(rootNamespace, limeModel.referenceMap, nameRules)
+        val includeResolver = CppIncludeResolver(filteredModel.referenceMap, nameRules, internalNamespace)
+        val cachingNameResolver = CppNameCache(rootNamespace, filteredModel.referenceMap, nameRules)
         val nameResolver = CppNameResolver(
-            limeModel.referenceMap,
+            filteredModel.referenceMap,
             internalNamespace,
             cachingNameResolver,
             limeLogger,
@@ -102,7 +108,7 @@ internal class CppGenerator : Generator {
         )
         val fullNameResolver = CppFullNameResolver(cachingNameResolver)
 
-        val allErrorEnums = limeModel.topElements
+        val allErrorEnums = filteredModel.topElements
             .flatMap { LimeTypeHelper.getAllTypes(it) }
             .asSequence()
             .filterIsInstance<LimeException>()
@@ -112,7 +118,7 @@ internal class CppGenerator : Generator {
             .map { it.fullName }
             .toSet()
 
-        val generatedFiles = limeModel.topElements.flatMap {
+        val generatedFiles = filteredModel.topElements.flatMap {
             val fileName = nameRules.getOutputFilePath(it)
             generateCode(it, fileName, includeResolver, nameResolver, fullNameResolver, allErrorEnums)
         } + COMMON_HEADERS.map { generateHelperFile(it, "include", ".h") } +

@@ -31,10 +31,6 @@ interface Generator {
     /** Short name of the generator. */
     val shortName: String
 
-    /** Whether the generator expects an unfiltered model as an input. */
-    val needsUnfilteredModel: Boolean
-        get() = false
-
     /** Initialize the generator with given options. */
     fun initialize(options: GeneratorOptions) {}
 
