@@ -23,7 +23,6 @@ import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.common.LimeModelFilter
 import com.here.gluecodium.common.LimeModelSkipPredicates
-import com.here.gluecodium.common.LimeModelSkipPredicates.isSkippedByTags
 import com.here.gluecodium.common.LimeTypeRefsVisitor
 import com.here.gluecodium.generator.common.CamelCaseNameResolver
 import com.here.gluecodium.generator.common.CommentsProcessor
@@ -110,10 +109,10 @@ internal class DartGenerator : Generator {
         val dartNameResolver = DartNameResolver(limeModel.referenceMap, nameRules, limeLogger, commentsProcessor)
         val ffiNameResolver = FfiNameResolver(limeModel.referenceMap, nameRules, internalPrefix)
 
-        val ffiFilteredModel =
-            LimeModelFilter.filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, DART, activeTags) }
+        val ffiFilteredModel = LimeModelFilter
+            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, DART, retainFunctions = true) }
         val dartFilteredElements = LimeModelFilter
-            .filter(limeModel) { !isSkippedByTags(it, activeTags) && !it.attributes.have(DART, SKIP) }
+            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, DART, retainFunctions = false) }
             .topElements
         val validationResult = DartOverloadsValidator(dartNameResolver, limeLogger, overloadsWerror)
             .validate(dartFilteredElements)

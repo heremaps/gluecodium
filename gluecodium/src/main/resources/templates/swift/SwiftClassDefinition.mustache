@@ -28,7 +28,7 @@
 {{#lambdas}}
 {{prefixPartial "swift/SwiftLambdaDefinition" "    "}}
 {{/lambdas}}
-{{#set class=this}}{{#constructors}}{{#unless attributes.swift.skip}}
+{{#set class=this}}{{#constructors}}
 {{prefixPartial "swift/SwiftFunctionComment" "    "}}
     {{resolveName visibility}} {{#ifPredicate "isOverriding"}}override {{/ifPredicate}}{{!!
     }}init({{>swift/SwiftFunctionParameters}}){{#if thrownType}} throws{{/if}} {
@@ -44,7 +44,7 @@
         {{resolveName class "CBridge"}}_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
     }
 
-{{/unless}}{{/constructors}}{{/set}}
+{{/constructors}}{{/set}}
 
 {{prefixPartial "swift/CommonClassParts" "    "}}
 }

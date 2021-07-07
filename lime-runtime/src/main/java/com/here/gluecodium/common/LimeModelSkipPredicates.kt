@@ -29,18 +29,19 @@ import com.here.gluecodium.model.lime.LimeProperty
 object LimeModelSkipPredicates {
     fun shouldRetainElement(
         limeElement: LimeNamedElement,
-        platformAttribute: LimeAttributeType?,
-        activeTags: Set<String>
+        activeTags: Set<String>,
+        platformAttribute: LimeAttributeType? = null,
+        retainFunctions: Boolean = false
     ) =
         when {
             isSkippedByTags(limeElement, activeTags) -> false
-            platformAttribute == null -> true
-            limeElement is LimeFunction || limeElement is LimeProperty -> true
-            limeElement.attributes.have(platformAttribute, LimeAttributeValueType.SKIP) -> false
+            retainFunctions && (limeElement is LimeFunction || limeElement is LimeProperty) -> true
+            platformAttribute != null &&
+                limeElement.attributes.have(platformAttribute, LimeAttributeValueType.SKIP) -> false
             else -> true
         }
 
-    fun isSkippedByTags(limeElement: LimeNamedElement, activeTags: Set<String>): Boolean {
+    private fun isSkippedByTags(limeElement: LimeNamedElement, activeTags: Set<String>): Boolean {
         val isEnabled = hasTagsMatch(limeElement, LimeAttributeType.ENABLE_IF, activeTags)
         if (isEnabled == false) return true
 

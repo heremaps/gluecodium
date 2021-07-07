@@ -29,7 +29,7 @@
 {{#set isImmutable=attributes.immutable}}{{#fields}}{{prefixPartial "java/JavaField" "    "}}
 {{/fields}}{{/set}}
 {{>java/JavaContainerContents}}
-{{#set classElement=this}}{{#constructors}}{{#unless attributes.java.skip}}
+{{#set classElement=this}}{{#constructors}}
 {{prefixPartial "java/JavaMethodComment" "    "}}
     {{>structVisibility}}{{resolveName classElement}}({{#set noAttributes=true}}{{joinPartial parameters "java/JavaParameter" ", "}}{{/set}}){{!!
     }}{{#thrownType}} throws {{resolveName typeRef}}{{/thrownType}} {
@@ -37,7 +37,7 @@
 {{#fields}}        this.{{resolveName}} = _other.{{resolveName}};
 {{/fields}}
     }
-{{/unless}}{{/constructors}}{{/set}}
+{{/constructors}}{{/set}}
 {{#if fields}}{{#unless constructors}}
 
 {{#unless constructorComment.isEmpty}}
@@ -109,9 +109,9 @@
 
 {{/unless}}{{/if}}{{/unless}}
 
-{{#functions}}{{#unless attributes.java.skip}}
+{{#functions}}
 {{prefixPartial "java/JavaFunction" "    "}}
-{{/unless}}{{/functions}}
+{{/functions}}
 
 {{#eval "optimizedLists" path}}{{#this}}
 {{#elementType}}{{prefixPartial "java/LazyNativeList" "    "}}{{/elementType}}

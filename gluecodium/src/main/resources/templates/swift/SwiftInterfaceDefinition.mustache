@@ -27,15 +27,15 @@
 {{#lambdas}}
 {{prefixPartial "swift/SwiftLambdaDefinition" "    "}}
 {{/lambdas}}{{/set}}
-{{#each inheritedProperties properties}}{{#unless attributes.swift.skip}}
+{{#each inheritedProperties properties}}
 {{prefixPartial "swift/SwiftComment" "    "}}{{prefixPartial "swift/SwiftAttributes" "    "}}
     {{#if isStatic}}static {{/if}}var {{resolveName}}: {{resolveName typeRef}} { get {{#if setter}}set {{/if}}}
-{{/unless}}{{/each}}
-{{#each inheritedFunctions functions}}{{#unless attributes.swift.skip}}
+{{/each}}
+{{#each inheritedFunctions functions}}
 {{prefixPartial "swift/SwiftFunctionComment" "    "}}{{prefixPartial "swift/SwiftAttributes" "    "}}
     {{#if isStatic}}static {{/if}}func {{resolveName}}({{>swift/SwiftFunctionParameters}}){{!!
     }}{{#if thrownType}} throws{{/if}} -> {{resolveName returnType}}
-{{/unless}}{{/each}}
+{{/each}}
 }
 
 internal class _{{resolveName}}: {{resolveName}} {

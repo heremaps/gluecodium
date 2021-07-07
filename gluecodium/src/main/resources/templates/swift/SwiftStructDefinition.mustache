@@ -81,7 +81,7 @@
 {{/fields}}{{/set}}
     }
 {{/if}}{{!!
-}}{{#set struct=this}}{{#constructors}}{{#unless attributes.swift.skip}}
+}}{{#set struct=this}}{{#constructors}}
 {{prefixPartial "swift/SwiftFunctionComment" "    "}}
     {{resolveName visibility}} {{#if overriding}}override {{/if}}init({{>swift/SwiftFunctionParameters}}){{#if thrownType}} throws{{/if}} {
         let _result_handle = {{#if thrownType}}try {{/if}}{{resolveName struct "" "ref"}}.{{resolveName}}({{#parameters}}{{!!
@@ -97,7 +97,7 @@
 {{/fields}}
     }
 
-{{/unless}}{{/constructors}}{{/set}}
+{{/constructors}}{{/set}}
 {{#enumerations}}
 {{prefixPartial "swift/SwiftEnumDefinition" "    "}}
 {{/enumerations}}
@@ -132,9 +132,9 @@
 {{/ifPredicate}}{{!!
 }}{{#if functions}}
 
-{{#set selfIsStruct=true}}{{#functions}}{{#unless attributes.swift.skip}}
+{{#set selfIsStruct=true}}{{#functions}}
 {{prefixPartial "swift/SwiftFunctionSignature" "    "}} {{prefixPartial "swift/SwiftFunctionBody" "    " skipFirstLine=true}}
-{{/unless}}{{/functions}}{{/set}}{{/if}}
+{{/functions}}{{/set}}{{/if}}
 }
 
 {{#interfaces}}
