@@ -52,7 +52,8 @@ internal class JniTemplates(
     private val internalNamespace: List<String>,
     cppNameRules: CppNameRules,
     generatorName: String,
-    nameCache: CppNameCache
+    nameCache: CppNameCache,
+    activeTags: Set<String>
 ) {
     private val jniNameResolver = JniNameResolver(limeReferenceMap, basePackages, javaNameRules)
     private val cppNameResolver = CppNameResolver(limeReferenceMap, internalNamespace, nameCache)
@@ -64,7 +65,7 @@ internal class JniTemplates(
         "C++" to cppNameResolver,
         "C++ FQN" to CppFullNameResolver(nameCache)
     )
-    private val predicates = JniGeneratorPredicates(limeReferenceMap, javaNameRules, cppNameResolver).predicates
+    private val predicates = JniGeneratorPredicates(limeReferenceMap, javaNameRules, cppNameResolver, activeTags).predicates
 
     private val cppIncludeResolver = CppIncludeResolver(limeReferenceMap, cppNameRules, internalNamespace)
     private val jniIncludeResolver = JniIncludeResolver(fileNameRules)

@@ -30,22 +30,22 @@
 
 extern "C" {
 
-{{#container}}{{#functions}}{{#unless attributes.java.skip}}
+{{#container}}{{#functions}}{{#ifPredicate "shouldRetain"}}
 {{>jniMethodImpl}}
 
-{{/unless}}{{/functions}}
-{{#properties}}{{#unless attributes.java.skip}}
+{{/ifPredicate}}{{/functions}}
+{{#properties}}{{#ifPredicate "shouldRetain"}}
 {{>jniPropertyImpl}}
-{{/unless}}{{/properties}}
+{{/ifPredicate}}{{/properties}}
 
 {{#if this.parent}}{{#instanceOf this.parent.type.actualType "LimeInterface"}}
-{{#inheritedFunctions}}{{#unless attributes.java.skip}}
+{{#inheritedFunctions}}{{#ifPredicate "shouldRetain"}}
 {{>jniMethodImpl}}
 
-{{/unless}}{{/inheritedFunctions}}
-{{#inheritedProperties}}{{#unless attributes.java.skip}}
+{{/ifPredicate}}{{/inheritedFunctions}}
+{{#inheritedProperties}}{{#ifPredicate "shouldRetain"}}
 {{>jniPropertyImpl}}
-{{/unless}}{{/inheritedProperties}}
+{{/ifPredicate}}{{/inheritedProperties}}
 {{/instanceOf}}{{/if}}
 
 {{#notInstanceOf container "LimeStruct"}}

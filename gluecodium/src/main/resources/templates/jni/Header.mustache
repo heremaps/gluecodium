@@ -28,24 +28,24 @@
 extern "C" {
 #endif
 
-{{#container}}{{#functions}}{{#unless attributes.java.skip}}
+{{#container}}{{#functions}}{{#ifPredicate "shouldRetain"}}
 {{>jniFunctionHeader}}
 
-{{/unless}}{{/functions}}
-{{#properties}}{{#unless attributes.java.skip}}
+{{/ifPredicate}}{{/functions}}
+{{#properties}}{{#ifPredicate "shouldRetain"}}
 {{>jniPropertyHeader}}
 
-{{/unless}}{{/properties}}
+{{/ifPredicate}}{{/properties}}
 
 {{#if this.parent}}{{#instanceOf this.parent.type.actualType "LimeInterface"}}
-{{#inheritedFunctions}}{{#unless attributes.java.skip}}
+{{#inheritedFunctions}}{{#ifPredicate "shouldRetain"}}
 {{>jniFunctionHeader}}
 
-{{/unless}}{{/inheritedFunctions}}
-{{#inheritedProperties}}{{#unless attributes.java.skip}}
+{{/ifPredicate}}{{/inheritedFunctions}}
+{{#inheritedProperties}}{{#ifPredicate "shouldRetain"}}
 {{>jniPropertyHeader}}
 
-{{/unless}}{{/inheritedProperties}}
+{{/ifPredicate}}{{/inheritedProperties}}
 {{/instanceOf}}{{/if}}
 
 {{#if attributes.equatable attributes.pointerEquatable logic="or"}}

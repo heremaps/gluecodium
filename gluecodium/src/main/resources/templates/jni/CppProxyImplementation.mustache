@@ -63,9 +63,9 @@ namespace jni
 }}{{#notInstanceOf container "LimeLambda"}}{{resolveName "C++"}}{{/notInstanceOf}}{{/unless}}( {{!!
 }}{{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} {{!!
 }}){{#if attributes.cpp.const isConst logic="or"}} const{{/if}} {
-{{#if attributes.java.skip isSkipped logic="or"}}
+{{#unlessPredicate "shouldRetain"}}
     {{#unless returnType.isVoid}}return {};{{/unless}}
-{{/if}}{{#unless attributes.java.skip isSkipped logic="and"}}
+{{/unlessPredicate}}{{#ifPredicate "shouldRetain"}}
     JNIEnv* jniEnv = getJniEnvironment( );{{!!
 }}{{#parameters}}{{!!
 }}{{#unlessPredicate typeRef "isJniPrimitive"}}
@@ -123,17 +123,17 @@ namespace jni
 {{/notInstanceOf}}{{/if}}
     }
 {{/if}}
-{{/unless}}
+{{/ifPredicate}}
 }
 {{/proxyMethodImpl}}{{!!
 
 }}{{+proxyPropertyImpl}}{{!!
-}}{{#if getter}}{{#set property=this function=getter isConst=true isSkipped=attributes.java.skip}}{{!!
+}}{{#if getter}}{{#set property=this function=getter isConst=true}}{{!!
 }}{{#resolveName property "C++" "getter"}}{{#set cppName=this}}{{!!
 }}{{#resolveName property "" "getter"}}{{#set javaName=this}}{{#function}}
 {{>proxyMethodImpl}}
 {{/function}}{{/set}}{{/resolveName}}{{/set}}{{/resolveName}}{{/set}}{{/if}}{{!!
-}}{{#if setter}}{{#set property=this function=setter isSkipped=attributes.java.skip}}{{!!
+}}{{#if setter}}{{#set property=this function=setter}}{{!!
 }}{{#resolveName property "C++" "setter"}}{{#set cppName=this}}{{!!
 }}{{#resolveName property "" "setter"}}{{#set javaName=this}}{{#function}}
 {{>proxyMethodImpl}}
