@@ -86,13 +86,14 @@ internal class JavaGenerator : Generator {
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val cachingNameResolver = CppNameCache(rootNamespace, limeModel.referenceMap, cppNameRules)
-        val filteredElements = LimeModelFilter
-            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, JAVA, activeTags) }
-            .topElements
+        val jniFilteredModel = LimeModelFilter
+            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, JAVA, retainFunctions = true) }
+        val javaFilteredModel = LimeModelFilter
+            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, JAVA, retainFunctions = false) }
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
 
         val overloadsValidator = LimeOverloadsValidator(limeModel.referenceMap, JAVA, javaNameRules, limeLogger)
-        val validationResult = overloadsValidator.validate(filteredElements)
+        val validationResult = overloadsValidator.validate(jniFilteredModel.topElements)
         if (!validationResult) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
@@ -111,7 +112,7 @@ internal class JavaGenerator : Generator {
             nonNullAnnotation = nonNullAnnotation,
             nullableAnnotation = nullableAnnotation
         )
-        val resultFiles = flattenTypeCollections(filteredElements)
+        val resultFiles = flattenTypeCollections(javaFilteredModel.topElements)
             .flatMap { generateJavaFiles(it, nameResolver, importResolver) }
             .toMutableList()
 
@@ -128,7 +129,7 @@ internal class JavaGenerator : Generator {
         )
 
         val jniTemplates = JniTemplates(
-            limeReferenceMap = limeModel.referenceMap,
+            limeReferenceMap = jniFilteredModel.referenceMap,
             javaNameRules = javaNameRules,
             basePackages = basePackages,
             internalPackages = internalPackage,
@@ -145,7 +146,7 @@ internal class JavaGenerator : Generator {
             resultFiles += jniTemplates.generateConversionUtilsHeaderFile(fileName)
         }
 
-        val allTypes = filteredElements.flatMap { LimeTypeHelper.getAllTypes(it) }
+        val allTypes = jniFilteredModel.topElements.flatMap { LimeTypeHelper.getAllTypes(it) }
         resultFiles += allTypes.flatMap { jniTemplates.generateFiles(it) } +
             jniTemplates.generateConversionFiles(allTypes)
 

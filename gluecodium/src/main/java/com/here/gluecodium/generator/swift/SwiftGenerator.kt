@@ -94,45 +94,47 @@ internal class SwiftGenerator : Generator {
     }
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
-        val limeReferenceMap = limeModel.referenceMap
-        val filteredElements = LimeModelFilter
-            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, SWIFT, activeTags) }
-            .topElements
+        val cbridgeFilteredModel = LimeModelFilter
+            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, SWIFT, retainFunctions = true) }
+        val swiftFilteredModel = LimeModelFilter
+            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, SWIFT, retainFunctions = false) }
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
 
         val overloadsValidator = LimeOverloadsValidator(limeModel.referenceMap, SWIFT, nameRules, limeLogger)
         val weakPropertiesValidator = SwiftWeakPropertiesValidator(limeLogger)
-        val validationResults =
-            listOf(overloadsValidator.validate(filteredElements), weakPropertiesValidator.validate(filteredElements))
+        val validationResults = listOf(
+            overloadsValidator.validate(cbridgeFilteredModel.topElements),
+            weakPropertiesValidator.validate(cbridgeFilteredModel.topElements)
+        )
         if (validationResults.contains(false)) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
 
-        val cbridgeNameResolver = CBridgeNameResolver(limeReferenceMap, nameRules, internalPrefix ?: "")
+        val cbridgeNameResolver = CBridgeNameResolver(cbridgeFilteredModel.referenceMap, nameRules, internalPrefix ?: "")
         val cBridgeGenerator = CBridgeGenerator(
-            limeReferenceMap = limeReferenceMap,
+            limeReferenceMap = cbridgeFilteredModel.referenceMap,
             rootNamespace = rootNamespace,
-            nameCache = CppNameCache(rootNamespace, limeReferenceMap, cppNameRules),
+            nameCache = CppNameCache(rootNamespace, cbridgeFilteredModel.referenceMap, cppNameRules),
             internalNamespace = internalNamespace,
             cppNameRules = cppNameRules,
             nameResolver = cbridgeNameResolver
         )
 
-        val swiftNameResolver = SwiftNameResolver(limeReferenceMap, nameRules, limeLogger, commentsProcessor)
+        val swiftNameResolver = SwiftNameResolver(limeModel.referenceMap, nameRules, limeLogger, commentsProcessor)
         val mangledNameResolver = SwiftMangledNameResolver(swiftNameResolver)
         val nameResolvers =
             mapOf("" to swiftNameResolver, "CBridge" to cbridgeNameResolver, "mangled" to mangledNameResolver)
-        val predicates = SwiftGeneratorPredicates(limeReferenceMap, nameRules)
-        val swiftFiles = filteredElements.map { generateSwiftFile(it, nameResolvers, predicates) }
+        val predicates = SwiftGeneratorPredicates(limeModel.referenceMap, nameRules)
+        val swiftFiles = swiftFilteredModel.topElements.map { generateSwiftFile(it, nameResolvers, predicates) }
         if (commentsProcessor.hasError) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
 
-        return swiftFiles + filteredElements.flatMap { cBridgeGenerator.generate(it) } +
+        return swiftFiles + cbridgeFilteredModel.topElements.flatMap { cBridgeGenerator.generate(it) } +
             CBridgeGenerator.STATIC_FILES + STATIC_FILES +
-            cBridgeGenerator.generateCollections(filteredElements) +
+            cBridgeGenerator.generateCollections(cbridgeFilteredModel.topElements) +
             generateCollections(
-                filteredElements,
+                swiftFilteredModel.topElements,
                 cBridgeGenerator.genericTypesCollector,
                 swiftNameResolver,
                 nameResolvers,

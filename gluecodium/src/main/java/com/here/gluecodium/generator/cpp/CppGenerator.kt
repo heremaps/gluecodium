@@ -87,7 +87,7 @@ internal class CppGenerator : Generator {
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val filteredModel =
-            LimeModelFilter.filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, null, activeTags) }
+            LimeModelFilter.filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags) }
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
 
         val overloadsValidator =

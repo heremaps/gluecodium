@@ -43,29 +43,29 @@ static {{/if}}class {{resolveName}}Impl extends NativeBase implements {{resolveN
 
 {{/if}}
 
-{{#set isImpl=true interface=this}}{{#functions}}{{#unless attributes.java.skip}}
+{{#set isImpl=true interface=this}}{{#functions}}
 {{prefixPartial "java/JavaFunction" "    "}}
-{{/unless}}{{/functions}}
-{{#interface.properties}}{{#unless attributes.java.skip}}{{#set isCached=attributes.cached}}
+{{/functions}}
+{{#interface.properties}}{{#set isCached=attributes.cached}}
 {{#getter}}
 {{prefixPartial "java/JavaFunction" "    "}}
 {{/getter}}
 {{#setter}}
 {{prefixPartial "java/JavaFunction" "    "}}
 {{/setter}}
-{{/set}}{{/unless}}{{/interface.properties}}
+{{/set}}{{/interface.properties}}
 
 {{#if parent}}{{#set override=true}}
-{{#interface.inheritedFunctions}}{{#unless attributes.java.skip}}
+{{#interface.inheritedFunctions}}
 {{prefixPartial "java/JavaFunction" "    "}}
-{{/unless}}{{/interface.inheritedFunctions}}
-{{#interface.inheritedProperties}}{{#unless attributes.java.skip}}{{#set isCached=attributes.cached}}
+{{/interface.inheritedFunctions}}
+{{#interface.inheritedProperties}}{{#set isCached=attributes.cached}}
 {{#getter}}
 {{prefixPartial "java/JavaFunction" "    "}}
 {{/getter}}
 {{#setter}}
 {{prefixPartial "java/JavaFunction" "    "}}
 {{/setter}}
-{{/set}}{{/unless}}{{/interface.inheritedProperties}}
+{{/set}}{{/interface.inheritedProperties}}
 {{/set}}{{/if}}{{/set}}
 }
