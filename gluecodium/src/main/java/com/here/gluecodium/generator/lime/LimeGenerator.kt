@@ -39,8 +39,6 @@ internal class LimeGenerator : Generator {
 
     override val shortName = "lime"
 
-    override val needsUnfilteredModel = true
-
     override fun generate(limeModel: LimeModel) = limeModel.topElements.map { generate(it) }
 
     private fun generate(rootElement: LimeNamedElement): GeneratedFile {

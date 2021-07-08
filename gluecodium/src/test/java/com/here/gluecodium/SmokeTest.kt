@@ -99,14 +99,7 @@ class SmokeTest(
 
         val limeModel = LOADER.loadModel(listOf(inputDirectory.toString()), listOf(auxDirectory.toString()))
         assertTrue(gluecodium.validateModel(limeModel))
-        assertTrue(
-            gluecodium.executeGenerator(
-                generatorName = generatorName,
-                filteredModel = gluecodium.filterModel(limeModel),
-                unfilteredModel = limeModel,
-                fileNamesCache = HashMap()
-            )
-        )
+        assertTrue(gluecodium.executeGenerator(generatorName, limeModel, HashMap()))
 
         val generatedContents = results.associateBy({ it.targetFile.path }, { it.content })
 

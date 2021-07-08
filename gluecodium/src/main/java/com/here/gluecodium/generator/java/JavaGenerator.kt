@@ -22,6 +22,7 @@ package com.here.gluecodium.generator.java
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.common.LimeModelFilter
+import com.here.gluecodium.common.LimeModelSkipPredicates
 import com.here.gluecodium.generator.common.CommentsProcessor
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Generator
@@ -33,18 +34,15 @@ import com.here.gluecodium.generator.cpp.CppNameCache
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.jni.JniTemplates
 import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
-import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CONVERTER_NAME
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.NAME_NAME
-import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
-import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeHelper
@@ -66,6 +64,7 @@ internal class JavaGenerator : Generator {
     private lateinit var javaNameRules: JavaNameRules
     private lateinit var basePackages: List<String>
     private lateinit var internalPackageList: List<String>
+    private lateinit var activeTags: Set<String>
     private var nonNullAnnotation: JavaImport? = null
     private var nullableAnnotation: JavaImport? = null
 
@@ -82,11 +81,14 @@ internal class JavaGenerator : Generator {
         nullableAnnotation = annotationFromOption(options.javaNullableAnnotation)
         basePackages = if (options.javaPackages.isNotEmpty()) options.javaPackages else listOf("com", "example")
         internalPackageList = basePackages + internalPackage
+        activeTags = options.tags
     }
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val cachingNameResolver = CppNameCache(rootNamespace, limeModel.referenceMap, cppNameRules)
-        val filteredElements = LimeModelFilter.filter(limeModel) { shouldRetainElement(it) }.topElements
+        val filteredElements = LimeModelFilter
+            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, JAVA, activeTags) }
+            .topElements
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
 
         val overloadsValidator = LimeOverloadsValidator(limeModel.referenceMap, JAVA, javaNameRules, limeLogger)
@@ -162,13 +164,6 @@ internal class JavaGenerator : Generator {
                         if (it.constants.isNotEmpty()) listOf(it) else emptyList()
                 else -> listOf(it)
             }
-        }
-
-    private fun shouldRetainElement(limeElement: LimeNamedElement) =
-        when {
-            limeElement is LimeFunction || limeElement is LimeProperty -> true
-            limeElement.attributes.have(JAVA, SKIP) -> false
-            else -> true
         }
 
     private fun generateJavaFiles(

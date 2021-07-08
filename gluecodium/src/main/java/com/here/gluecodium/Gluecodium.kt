@@ -25,17 +25,13 @@ import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.cli.OptionReader
 import com.here.gluecodium.cli.OptionReaderException
 import com.here.gluecodium.common.LimeLogger
-import com.here.gluecodium.common.LimeModelFilter
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.GeneratorOptions
 import com.here.gluecodium.generator.common.templates.TemplateEngine
-import com.here.gluecodium.model.lime.LimeAttributeType
-import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeModelLoader
 import com.here.gluecodium.model.lime.LimeModelLoaderException
-import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.validator.LimeDeprecationsValidator
 import com.here.gluecodium.validator.LimeEnumeratorRefsValidator
 import com.here.gluecodium.validator.LimeExternalTypesValidator
@@ -101,18 +97,10 @@ class Gluecodium(
 
         TemplateEngine.initCopyrightHeaderContents(generatorOptions.copyrightHeaderContents)
 
-        val filteredModel = filterModel(limeModel)
         val fileNamesCache = hashMapOf<String, String>()
         var executionSucceeded = false
         try {
-            executionSucceeded = discoverGenerators().all {
-                executeGenerator(
-                    generatorName = it,
-                    filteredModel = filteredModel,
-                    unfilteredModel = limeModel,
-                    fileNamesCache = fileNamesCache
-                )
-            }
+            executionSucceeded = discoverGenerators().all { executeGenerator(it, limeModel, fileNamesCache) }
         } finally {
             // cache has to be updated in any case
             executionSucceeded = cache.write(executionSucceeded)
@@ -122,8 +110,7 @@ class Gluecodium(
 
     internal fun executeGenerator(
         generatorName: String,
-        filteredModel: LimeModel,
-        unfilteredModel: LimeModel,
+        limeModel: LimeModel,
         fileNamesCache: MutableMap<String, String>
     ): Boolean {
         LOGGER.fine("Using generator '$generatorName'")
@@ -134,9 +121,8 @@ class Gluecodium(
         }
         LOGGER.fine("Initialized generator '$generatorName'")
 
-        val inputModel = if (generator.needsUnfilteredModel) unfilteredModel else filteredModel
         val outputFiles = try {
-            generator.generate(inputModel)
+            generator.generate(limeModel)
         } catch (e: LimeModelLoaderException) {
             LOGGER.severe(e.message)
             return false
@@ -175,9 +161,6 @@ class Gluecodium(
         val validationResults = validators.map { it.invoke(limeModel) }
         return typeRefsValidationResult && !validationResults.contains(false)
     }
-
-    internal fun filterModel(limeModel: LimeModel) =
-        if (gluecodiumOptions.tags.isEmpty()) limeModel else LimeModelFilter.filter(limeModel) { !hasSkipTags(it, gluecodiumOptions.tags) }
 
     private fun getTypeRefDependentValidators(limeLogger: LimeLogger) =
         listOf<(LimeModel) -> Boolean>(
@@ -252,25 +235,6 @@ class Gluecodium(
                 return false
             }
             return true
-        }
-
-        private fun hasSkipTags(limeElement: LimeNamedElement, tags: Set<String>): Boolean {
-            val enableIfTags =
-                limeElement.attributes.get(LimeAttributeType.ENABLE_IF, LimeAttributeValueType.TAG, Any::class.java)
-            val isEnabled = when (enableIfTags) {
-                is String -> tags.contains(enableIfTags)
-                is List<*> -> enableIfTags.filterIsInstance<String>().intersect(tags).isNotEmpty()
-                else -> true
-            }
-            if (!isEnabled) return true
-
-            val skipTags =
-                limeElement.attributes.get(LimeAttributeType.SKIP, LimeAttributeValueType.TAG, Any::class.java)
-            return when (skipTags) {
-                is String -> tags.contains(skipTags)
-                is List<*> -> skipTags.filterIsInstance<String>().intersect(tags).isNotEmpty()
-                else -> false
-            }
         }
 
         @JvmStatic
