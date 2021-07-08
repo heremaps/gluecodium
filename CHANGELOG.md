@@ -1,5 +1,11 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Added support for tag-based platform-specific skip attribute in IDL (e.g. `@Java(Skip="Tag1")`, similarly for Swift
+    and Dart). Elements marked with such attribute will be omitted in only in that platform's generated code and only
+    if these specific used-defined tags are present.
+
 ## 9.3.0
 Release date: 2021-07-05
 ### Features:

@@ -111,11 +111,10 @@ internal class DartGenerator : Generator {
 
         val ffiFilteredModel = LimeModelFilter
             .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, DART, retainFunctions = true) }
-        val dartFilteredElements = LimeModelFilter
+        val dartFilteredModel = LimeModelFilter
             .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, DART, retainFunctions = false) }
-            .topElements
         val validationResult = DartOverloadsValidator(dartNameResolver, limeLogger, overloadsWerror)
-            .validate(dartFilteredElements)
+            .validate(dartFilteredModel.topElements)
         if (!validationResult) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
@@ -160,15 +159,16 @@ internal class DartGenerator : Generator {
             .distinctBy { ffiNameResolver.resolveName(it) }
             .sortedBy { ffiNameResolver.resolveName(it) }
 
-        val generatedFiles = dartFilteredElements.flatMap {
+        val predicates = predicates(dartFilteredModel.referenceMap, activeTags)
+        val generatedFiles = dartFilteredModel.topElements.flatMap {
             listOfNotNull(
                 generateDart(
                     it, dartResolvers, dartNameResolver, listOf(importsCollector, declarationImportsCollector),
-                    exportsCollector, typeRepositoriesCollector
+                    exportsCollector, typeRepositoriesCollector, predicates
                 )
             )
         } + ffiFilteredModel.topElements.flatMap {
-            generateFfi(it, ffiResolvers, includeResolver, includeCollector, ffiFilteredModel.referenceMap)
+            generateFfi(it, ffiResolvers, includeResolver, includeCollector, ffiFilteredModel.referenceMap, activeTags)
         } +
             generateDartGenericTypesConversion(genericTypes, dartResolvers, importResolver) +
             generateFfiGenericTypesConversion(genericTypes, ffiResolvers, includeResolver) +
@@ -188,7 +188,8 @@ internal class DartGenerator : Generator {
         dartNameResolver: DartNameResolver,
         importCollectors: List<ImportsCollector<DartImport>>,
         exportsCollector: MutableMap<List<String>, MutableList<DartExport>>,
-        typeRepositoriesCollector: MutableList<LimeContainerWithInheritance>
+        typeRepositoriesCollector: MutableList<LimeContainerWithInheritance>,
+        predicates: Map<String, (Any) -> Boolean>
     ): GeneratedFile? {
         val contentTemplateName = selectTemplate(rootElement) ?: return null
 
@@ -238,7 +239,8 @@ internal class DartGenerator : Generator {
         nameResolvers: Map<String, NameResolver>,
         includeResolver: ImportsResolver<Include>,
         includeCollector: ImportsCollector<Include>,
-        limeReferenceMap: Map<String, LimeElement>
+        limeReferenceMap: Map<String, LimeElement>,
+        activeTags: Set<String>
     ): List<GeneratedFile> {
         val limeType = rootElement as? LimeType
         if (limeType == null || limeType is LimeException) return emptyList()
@@ -271,8 +273,9 @@ internal class DartGenerator : Generator {
             "headerName" to fileName,
             "includes" to includeCollector.collectImports(limeType).distinct().sorted()
         )
-        val headerContent = TemplateEngine.render("ffi/FfiHeader", data, nameResolvers)
-        val implContent = TemplateEngine.render("ffi/FfiImplementation", data, nameResolvers)
+        val predicates = predicates(limeReferenceMap, activeTags)
+        val headerContent = TemplateEngine.render("ffi/FfiHeader", data, nameResolvers, predicates)
+        val implContent = TemplateEngine.render("ffi/FfiImplementation", data, nameResolvers, predicates)
 
         val optimizedLists = OptimizedListsCollector().getAllOptimizedLists(rootElement)
 
@@ -280,7 +283,7 @@ internal class DartGenerator : Generator {
             GeneratedFile(headerContent, "$FFI_DIR/$fileName.h"),
             GeneratedFile(implContent, "$FFI_DIR/$fileName.cpp")
         ) + optimizedLists.keys.flatMap {
-            generateOptimizedListFiles(limeReferenceMap[it], optimizedLists[it], fileName, nameResolvers, includeResolver)
+            generateOptimizedListFiles(limeReferenceMap[it], optimizedLists[it], fileName, nameResolvers, includeResolver, predicates)
         }
     }
 
@@ -289,7 +292,8 @@ internal class DartGenerator : Generator {
         lists: List<LimeList>?,
         fileNamePrefix: String,
         nameResolvers: Map<String, NameResolver>,
-        includeResolver: ImportsResolver<Include>
+        includeResolver: ImportsResolver<Include>,
+        predicates: Map<String, (Any) -> Boolean>
     ): List<GeneratedFile> {
         if (limeElement !is LimeNamedElement || lists.isNullOrEmpty()) return emptyList()
 
@@ -298,7 +302,9 @@ internal class DartGenerator : Generator {
             "internalNamespace" to internalNamespace,
             "libraryName" to libraryName
         )
-        return lists.flatMap { generateOptimizedListFile(it, fileNamePrefix, containerData, nameResolvers, includeResolver) }
+        return lists.flatMap {
+            generateOptimizedListFile(it, fileNamePrefix, containerData, nameResolvers, includeResolver, predicates)
+        }
     }
 
     private fun generateOptimizedListFile(
@@ -306,7 +312,8 @@ internal class DartGenerator : Generator {
         containerFileName: String,
         containerData: MutableMap<String, Any>,
         nameResolvers: Map<String, NameResolver>,
-        includeResolver: ImportsResolver<Include>
+        includeResolver: ImportsResolver<Include>,
+        predicates: Map<String, (Any) -> Boolean>
     ): List<GeneratedFile> {
         val fileName = "${containerFileName}_${limeList.elementType.type.actualType.name}LazyList"
 
@@ -541,11 +548,16 @@ internal class DartGenerator : Generator {
         private val optimizedAttributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.OPTIMIZED).build()
         private val customNullableTypes = setOf(TypeId.VOID, TypeId.DATE, TypeId.DURATION)
 
-        private val predicates = mapOf(
-            "skipDeclaration" to { limeType: Any ->
-                limeType is LimeType && skipDeclaration(limeType)
-            }
-        )
+        private fun predicates(limeReferenceMap: Map<String, LimeElement>, activeTags: Set<String>) =
+            mapOf(
+                "skipDeclaration" to { limeType: Any ->
+                    limeType is LimeType && skipDeclaration(limeType)
+                },
+                "shouldRetain" to { limeElement: Any ->
+                    limeElement is LimeNamedElement &&
+                        LimeModelSkipPredicates.shouldRetainCheckParent(limeElement, activeTags, DART, limeReferenceMap)
+                }
+            )
 
         private fun skipDeclaration(limeType: LimeType) = limeType.external?.dart != null &&
             limeType.external?.dart?.get(CONVERTER_NAME) == null

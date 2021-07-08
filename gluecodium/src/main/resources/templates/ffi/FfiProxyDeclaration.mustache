@@ -21,15 +21,15 @@
 class {{resolveName}}_Proxy{{#unless isLambda}} : public {{resolveName "C++"}}{{/unless}} {
 public:
     {{resolveName}}_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle{{!!
-    }}{{#each inheritedFunctions functions}}{{#unless attributes.dart.skip isStatic logic="and"}}{{!!
-    }}, FfiOpaqueHandle f{{iter.position}}{{/unless}}{{/each}}{{!!
-    }}{{#each inheritedProperties properties}}{{#unless attributes.dart.skip isStatic logic="and"}}, FfiOpaqueHandle p{{iter.position}}g{{!!
-    }}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{/unless}}{{/each}})
+    }}{{#each inheritedFunctions functions}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}{{!!
+    }}, FfiOpaqueHandle f{{iter.position}}{{/ifPredicate}}{{/unless}}{{/each}}{{!!
+    }}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}, FfiOpaqueHandle p{{iter.position}}g{{!!
+    }}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{/ifPredicate}}{{/unless}}{{/each}})
         : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)){{!!
-        }}{{#each inheritedFunctions functions}}{{#unless attributes.dart.skip isStatic logic="and"}}{{!!
-        }}, f{{iter.position}}(f{{iter.position}}){{/unless}}{{/each}}{{!!
-        }}{{#each inheritedProperties properties}}{{#unless attributes.dart.skip isStatic logic="and"}}, p{{iter.position}}g(p{{iter.position}}g){{!!
-        }}{{#if setter}}, p{{iter.position}}s(p{{iter.position}}s){{/if}}{{/unless}}{{/each}} {
+        }}{{#each inheritedFunctions functions}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}{{!!
+        }}, f{{iter.position}}(f{{iter.position}}){{/ifPredicate}}{{/unless}}{{/each}}{{!!
+        }}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}, p{{iter.position}}g(p{{iter.position}}g){{!!
+        }}{{#if setter}}, p{{iter.position}}s(p{{iter.position}}s){{/if}}{{/ifPredicate}}{{/unless}}{{/each}} {
 {{#unless isLambda}}
         {{libraryName}}_cache_dart_handle_by_raw_pointer(this, isolate_id, dart_handle);
 {{/unless}}
@@ -64,9 +64,9 @@ public:
     {{resolveName "C++ return type"}}
     {{resolveName "C++"}}({{#parameters}}const {{resolveName typeRef "C++ parameter"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
     }}{{#if attributes.cpp.const}} const{{/if}}{{#unless isLambda}} override{{/unless}} {
-{{#if attributes.dart.skip}}
+{{#unlessPredicate "shouldRetain"}}
 {{#unless returnType.isVoid}}         return {};{{/unless}}
-{{/if}}{{#unless attributes.dart.skip}}
+{{/unlessPredicate}}{{#ifPredicate "shouldRetain"}}
         {{#unless returnType.isVoid}}{{resolveName returnType.typeRef}} _result_handle;{{/unless}}
         {{#if thrownType}}{{resolveName  exception.errorType}} _error_handle;
         bool _error_flag;{{/if}}
@@ -89,52 +89,52 @@ public:
         }{{/unless}}{{/if}}{{!!
         }}{{#unless thrownType}}{{#unless returnType.isVoid}}
 {{prefixPartial "proxyReturnResult" "        "}}{{/unless}}{{/unless}}
-{{/unless}}
+{{/ifPredicate}}
     }
 
 {{/unless}}{{/each}}
 
-{{#each inheritedProperties properties}}{{#unless isStatic}}{{#set isSkipped=attributes.dart.skip}}
+{{#each inheritedProperties properties}}{{#unless isStatic}}
 {{#getter}}
     {{resolveName returnType.typeRef "C++"}}
     {{resolveName "C++"}}() const override {
-{{#if isSkipped}}
+{{#unlessPredicate "shouldRetain"}}
         return {};
-{{/if}}{{#unless isSkipped}}
+{{/unlessPredicate}}{{#ifPredicate "shouldRetain"}}
         {{resolveName returnType.typeRef}} _result_handle;
         dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, {{resolveName returnType.typeRef}}*)>{{!!
         }}(p{{iter.position}}g))(Dart_HandleFromPersistent_DL(dart_persistent_handle), &_result_handle); });
         auto _result = {{>ffi/FfiInternal}}::Conversion<{{resolveName returnType.typeRef "C++"}}>::toCpp(_result_handle);
         {{#set typeRef=returnType.typeRef handle="_result_handle"}}{{>ffiReleaseHandle}}{{/set}};
         return _result;
-{{/unless}}
+{{/ifPredicate}}
     }
 {{/getter}}
 {{#setter}}
     void
     {{resolveName "C++"}}(const {{resolveName typeRef "C++ parameter"}} value) override {
-{{#unless isSkipped}}
+{{#ifPredicate "shouldRetain"}}
         dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, {{resolveName typeRef}})>(p{{iter.position}}s))(
             Dart_HandleFromPersistent_DL(dart_persistent_handle),
             {{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toFfi(value)
         ); });
-{{/unless}}
+{{/ifPredicate}}
     }
 {{/setter}}
-{{/set}}{{/unless}}{{/each}}
+{{/unless}}{{/each}}
 
 private:
     const uint64_t token;
     const int32_t isolate_id;
     const Dart_PersistentHandle dart_persistent_handle;
-{{#each inheritedFunctions functions}}{{#unless attributes.dart.skip isStatic logic="and"}}
+{{#each inheritedFunctions functions}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}
     const FfiOpaqueHandle f{{iter.position}};
-{{/unless}}{{/each}}
-{{#each inheritedProperties properties}}{{#unless attributes.dart.skip isStatic logic="and"}}
+{{/ifPredicate}}{{/unless}}{{/each}}
+{{#each inheritedProperties properties}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}
     const FfiOpaqueHandle p{{iter.position}}g;{{#if setter}}
     const FfiOpaqueHandle p{{iter.position}}s;
 {{/if}}
-{{/unless}}{{/each}}
+{{/ifPredicate}}{{/unless}}{{/each}}
 {{#if inheritedFunctions functions inheritedProperties properties logic="or"}}
 
     inline void dispatch(std::function<void()>&& callback) const
