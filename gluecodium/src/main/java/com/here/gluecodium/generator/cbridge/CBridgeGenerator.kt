@@ -60,7 +60,8 @@ internal class CBridgeGenerator(
     nameCache: CppNameCache,
     private val internalNamespace: List<String>,
     cppNameRules: CppNameRules,
-    private val nameResolver: CBridgeNameResolver
+    private val nameResolver: CBridgeNameResolver,
+    activeTags: Set<String>
 ) {
     val cppNameResolver = CppNameResolver(limeReferenceMap, internalNamespace, nameCache, forceFollowThrough = true)
     private val cppRefNameResolver =
@@ -82,7 +83,7 @@ internal class CBridgeGenerator(
             collectOwnImports = true,
             parentTypeFilter = { it is LimeInterface }
         )
-    private val predicates = CBridgeGeneratorPredicates(cppNameResolver).predicates
+    private val predicates = CBridgeGeneratorPredicates(cppNameResolver, limeReferenceMap, activeTags).predicates
     val genericTypesCollector = GenericTypesCollector(nameResolver)
 
     fun generate(rootElement: LimeNamedElement): List<GeneratedFile> {

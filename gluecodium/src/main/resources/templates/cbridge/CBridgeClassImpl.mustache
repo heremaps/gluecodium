@@ -88,17 +88,17 @@ uint64_t {{resolveName}}_hash(_baseRef handle) {
 {{/if}}
 
 {{#set selfType=this}}
-{{#functions}}{{#unless attributes.swift.skip}}
+{{#functions}}{{#ifPredicate "shouldRetain"}}
 {{>cbridge/CBridgeFunctionDefinition}}
-{{/unless}}{{/functions}}
-{{#properties}}{{#unless attributes.swift.skip}}
+{{/ifPredicate}}{{/functions}}
+{{#properties}}{{#ifPredicate "shouldRetain"}}
 {{#getter}}
 {{>cbridge/CBridgeFunctionDefinition}}
 {{/getter}}
 {{#setter}}
 {{>cbridge/CBridgeFunctionDefinition}}
 {{/setter}}
-{{/unless}}{{/properties}}
+{{/ifPredicate}}{{/properties}}
 {{/set}}
 
 {{#instanceOf this "LimeInterface"}}

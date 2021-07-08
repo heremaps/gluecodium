@@ -117,7 +117,8 @@ internal class SwiftGenerator : Generator {
             nameCache = CppNameCache(rootNamespace, cbridgeFilteredModel.referenceMap, cppNameRules),
             internalNamespace = internalNamespace,
             cppNameRules = cppNameRules,
-            nameResolver = cbridgeNameResolver
+            nameResolver = cbridgeNameResolver,
+            activeTags = activeTags
         )
 
         val swiftNameResolver = SwiftNameResolver(limeModel.referenceMap, nameRules, limeLogger, commentsProcessor)

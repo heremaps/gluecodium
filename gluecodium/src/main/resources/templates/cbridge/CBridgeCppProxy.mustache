@@ -36,9 +36,9 @@ public:
 {{#each this.inheritedFunctions this.functions}}{{#unless isStatic}}
     {{>cpp/CppReturnType}} {{resolveName "C++"}}({{joinPartial parameters "cppParameter" ", "}}){{!!
     }}{{#if attributes.cpp.const}} const{{/if}}{{#unless isLambda}} override{{/unless}} {
-{{#if attributes.swift.skip}}
+{{#unlessPredicate "shouldRetain"}}
         {{#if returnType.isVoid error}}return {};{{/if}}{{#unless returnType.isVoid}}return {};{{/unless}}
-{{/if}}{{#unless attributes.swift.skip}}{{#if thrownType}}
+{{/unlessPredicate}}{{#ifPredicate "shouldRetain"}}{{#if thrownType}}
         auto _result_with_error = {{>swiftDelegateCall}};
         if (!_result_with_error.has_value)
         {
@@ -49,24 +49,24 @@ public:
         {{/if}}{{#unless thrownType}}
         {{#unless returnType.isVoid}}auto _call_result = {{/unless}}{{>swiftDelegateCall}};
         {{/unless}}
-        {{#unless returnType.isVoid}}{{>returnConversion}}{{/unless}}{{/unless}}
+        {{#unless returnType.isVoid}}{{>returnConversion}}{{/unless}}{{/ifPredicate}}
     }
 {{/unless}}{{/each}}
 {{#each this.inheritedProperties this.properties}}{{#unless isStatic}}
     {{resolveName typeRef "C++"}} {{resolveName this "C++" "getter"}}() const override {
-{{#if attributes.swift.skip}}
+{{#unlessPredicate "shouldRetain"}}
         return {};
-{{/if}}{{#unless attributes.swift.skip}}
+{{/unlessPredicate}}{{#ifPredicate "shouldRetain"}}
         auto _call_result = mFunctions.{{resolveName getter}}(mFunctions.swift_pointer);
         {{#set returnType=getter.returnType}}{{>returnConversion}}{{/set}}
-{{/unless}}
+{{/ifPredicate}}
     }
 {{#if setter}}
     void {{resolveName this "C++" "setter"}}({{#setter.parameters.0}}{{>cppParameter}}{{/setter.parameters.0}}) override {
-{{#unless attributes.swift.skip}}
+{{#ifPredicate "shouldRetain"}}
         mFunctions.{{resolveName setter}}({{!!
         }}mFunctions.swift_pointer, {{#setter.parameters.0}}{{>swiftParameter}}{{/setter.parameters.0}});
-{{/unless}}
+{{/ifPredicate}}
     }
 {{/if}}
 {{/unless}}{{/each}}
