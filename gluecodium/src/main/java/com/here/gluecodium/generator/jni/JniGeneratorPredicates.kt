@@ -19,10 +19,12 @@
 
 package com.here.gluecodium.generator.jni
 
+import com.here.gluecodium.common.LimeModelSkipPredicates
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.java.JavaNameRules
 import com.here.gluecodium.generator.java.JavaSignatureResolver
+import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId.BOOLEAN
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId.VOID
@@ -43,7 +45,8 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 internal class JniGeneratorPredicates(
     limeReferenceMap: Map<String, LimeElement>,
     javaNameRules: JavaNameRules,
-    private val cppNameResolver: CppNameResolver
+    cppNameResolver: CppNameResolver,
+    activeTags: Set<String>
 ) {
     private val javaSignatureResolver = JavaSignatureResolver(limeReferenceMap, javaNameRules)
 
@@ -82,6 +85,10 @@ internal class JniGeneratorPredicates(
         "returnsOpaqueHandle" to { limeFunction: Any ->
             limeFunction is LimeFunction && limeFunction.isConstructor &&
                 limeFunction.returnType.typeRef.type is LimeClass
+        },
+        "shouldRetain" to { limeElement: Any ->
+            limeElement is LimeNamedElement &&
+                LimeModelSkipPredicates.shouldRetainCheckParent(limeElement, activeTags, JAVA, limeReferenceMap)
         }
     )
 

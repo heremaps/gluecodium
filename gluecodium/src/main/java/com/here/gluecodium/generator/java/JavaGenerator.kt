@@ -136,7 +136,8 @@ internal class JavaGenerator : Generator {
             internalNamespace = internalNamespace,
             cppNameRules = cppNameRules,
             generatorName = GENERATOR_NAME,
-            nameCache = cachingNameResolver
+            nameCache = cachingNameResolver,
+            activeTags = activeTags
         )
         for (fileName in UTILS_FILES) {
             resultFiles += jniTemplates.generateConversionUtilsHeaderFile(fileName)

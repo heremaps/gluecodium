@@ -21,7 +21,9 @@ package com.here.gluecodium.common
 
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
+import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeAttributeValueType.TAG
+import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeProperty
@@ -36,25 +38,40 @@ object LimeModelSkipPredicates {
         when {
             isSkippedByTags(limeElement, activeTags) -> false
             retainFunctions && (limeElement is LimeFunction || limeElement is LimeProperty) -> true
-            platformAttribute != null &&
-                limeElement.attributes.have(platformAttribute, LimeAttributeValueType.SKIP) -> false
+            platformAttribute?.let { hasTagsMatch(limeElement, it, SKIP, activeTags) } == true -> false
             else -> true
         }
 
+    fun shouldRetainCheckParent(
+        limeElement: LimeNamedElement,
+        activeTags: Set<String>,
+        platformAttribute: LimeAttributeType,
+        limeReferenceMap: Map<String, LimeElement>
+    ) = when {
+        !shouldRetainElement(limeElement, activeTags, platformAttribute) -> false
+        !limeElement.path.hasParent -> true
+        else -> {
+            val parentElement = limeReferenceMap[limeElement.path.parent.toString()] as LimeNamedElement
+            shouldRetainElement(parentElement, activeTags, platformAttribute)
+        }
+    }
+
     private fun isSkippedByTags(limeElement: LimeNamedElement, activeTags: Set<String>): Boolean {
-        val isEnabled = hasTagsMatch(limeElement, LimeAttributeType.ENABLE_IF, activeTags)
+        val isEnabled = hasTagsMatch(limeElement, LimeAttributeType.ENABLE_IF, TAG, activeTags)
         if (isEnabled == false) return true
 
-        val isSkipped = hasTagsMatch(limeElement, LimeAttributeType.SKIP, activeTags)
+        val isSkipped = hasTagsMatch(limeElement, LimeAttributeType.SKIP, TAG, activeTags)
         return isSkipped ?: false
     }
 
     private fun hasTagsMatch(
         limeElement: LimeNamedElement,
         attributeType: LimeAttributeType,
+        attributeValueType: LimeAttributeValueType,
         activeTags: Set<String>
     ): Boolean? =
-        when (val attributeTags = limeElement.attributes.get(attributeType, TAG, Any::class.java)) {
+        when (val attributeTags = limeElement.attributes.get(attributeType, attributeValueType, Any::class.java)) {
+            true -> true
             is String -> activeTags.contains(attributeTags)
             is List<*> -> attributeTags.filterIsInstance<String>().intersect(activeTags).isNotEmpty()
             else -> null

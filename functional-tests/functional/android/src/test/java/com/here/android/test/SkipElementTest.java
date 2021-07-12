@@ -29,7 +29,14 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class)
-public final class SkipEnumeratorTest {
+public final class SkipElementTest {
+
+  // Compile-time check that SkipTagsInJava contains exactly one method.
+  private static class SkipTagsInJavaImpl implements SkipTagsInJava {
+    @Override
+    public void dontSkipTagged() {}
+  }
+
   @Test
   public void autoTagRoundTrip() {
     SkipEnumeratorAutoTag value = SkipEnumeratorAutoTag.THREE;
