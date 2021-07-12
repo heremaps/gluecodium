@@ -21,7 +21,7 @@
 {{#unless external.cpp}}{{!!
 }}{{>cpp/CppDocComment}}
 class {{>cpp/CppExportMacro}}{{>cpp/CppAttributesInline}}{{resolveName}}{{!!
-}}{{#if this.parent}}: public {{resolveName this.parent.type "FQN"}}{{/if}} {
+}}{{#if this.parents}}: {{#this.parents}}public {{resolveName this.type "FQN"}}{{#if iter.hasNext}}, {{/if}}{{/this.parents}}{{/if}} {
 public:
     {{resolveName}}();
     virtual ~{{resolveName}}() = 0;

@@ -279,6 +279,11 @@ feature(Inheritance cpp android swift dart SOURCES
     input/lime/ConstructorOverride.lime
 )
 
+feature(MultipleInheritance cpp SOURCES
+    input/src/cpp/MultipleInheritance.cpp
+    input/lime/MultipleInheritance.lime
+)
+
 feature(Serialization android swift SOURCES
     input/lime/Serialization.lime
 )

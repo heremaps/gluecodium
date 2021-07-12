@@ -41,8 +41,9 @@ internal abstract class CppImportsCollector<T> : ImportsCollector<T> {
         limeElement: LimeNamedElement,
         allTypeRefs: List<LimeTypeRef>
     ): List<LimeContainerWithInheritance> {
-        val filteredPaths = listOf(limeElement.path) +
-            listOfNotNull((limeElement as? LimeContainerWithInheritance)?.parent?.type?.path)
+        val parentPaths =
+            if (limeElement is LimeContainerWithInheritance) limeElement.parents.map { it.type.path } else emptyList()
+        val filteredPaths = setOf(limeElement.path) + parentPaths
         return allTypeRefs.map { it.type }
             .filterIsInstance<LimeContainerWithInheritance>()
             .filter { !it.path.hasParent && it.external?.cpp == null && !filteredPaths.contains(it.path) }
