@@ -91,9 +91,9 @@ void {{resolveName}}_release_optional_handle(_baseRef handle) {
 {{>cbridge/CBridgeClassImpl}}
 {{/each}}
 
-{{#set selfType=this}}{{#functions}}{{#unless attributes.swift.skip}}
+{{#set selfType=this}}{{#functions}}{{#ifPredicate "shouldRetain"}}
 {{>cbridge/CBridgeFunctionDefinition}}
-{{/unless}}{{/functions}}{{/set}}{{!!
+{{/ifPredicate}}{{/functions}}{{/set}}{{!!
 
 }}{{+getCppFieldValue}}struct_pointer->{{#ifPredicate field "hasCppGetter"}}{{resolveName field "C++" "getter"}}(){{/ifPredicate}}{{!!
 }}{{#unlessPredicate field "hasCppGetter"}}{{resolveName field "C++"}}{{/unlessPredicate}}{{/getCppFieldValue}}{{!!

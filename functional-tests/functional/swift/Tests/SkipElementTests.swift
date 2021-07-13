@@ -21,7 +21,12 @@
 import XCTest
 import functional
 
-class SkipEnumeratorTests: XCTestCase {
+class SkipElementTests: XCTestCase {
+    // Compile-time check that SkipTagsInSwift contains exactly one method.
+    class SkipTagsInSwiftImpl: SkipTagsInSwift {
+        func dontSkipTagged() {}
+    }
+
     func testAutoTagRoundTrip() {
         let value = SkipEnumeratorAutoTag.three
 

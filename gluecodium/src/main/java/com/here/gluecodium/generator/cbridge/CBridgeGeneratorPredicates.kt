@@ -19,19 +19,27 @@
 
 package com.here.gluecodium.generator.cbridge
 
+import com.here.gluecodium.common.LimeModelSkipPredicates
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.cpp.CppNameResolver
+import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId.BOOLEAN
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId.VOID
+import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeField
+import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 /**
  * List of predicates used by `ifPredicate`/`unlessPredicate` template helpers in CBridge generator.
  */
-internal class CBridgeGeneratorPredicates(private val cppNameResolver: CppNameResolver) {
+internal class CBridgeGeneratorPredicates(
+    cppNameResolver: CppNameResolver,
+    limeReferenceMap: Map<String, LimeElement>,
+    activeTags: Set<String>
+) {
     val predicates = mapOf(
         "hasCppGetter" to { limeField: Any ->
             limeField is LimeField && cppNameResolver.resolveGetterName(limeField) != null
@@ -54,6 +62,10 @@ internal class CBridgeGeneratorPredicates(private val cppNameResolver: CppNameRe
                     !(limeType.typeId.isNumericType || limeType.typeId == BOOLEAN || limeType.typeId == VOID)
                 else -> true
             }
+        },
+        "shouldRetain" to { limeElement: Any ->
+            limeElement is LimeNamedElement &&
+                LimeModelSkipPredicates.shouldRetainCheckParent(limeElement, activeTags, SWIFT, limeReferenceMap)
         }
     )
 }

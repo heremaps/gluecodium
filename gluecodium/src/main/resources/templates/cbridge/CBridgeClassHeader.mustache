@@ -22,8 +22,8 @@
 {{>cbridge/CBridgeEnumeration}}
 {{/enumerations}}
 
-{{#functions}}{{#unless attributes.swift.skip}}{{#if thrownType}}{{>cbridge/ThrowingFunctionReturnType}}
-{{/if}}{{/unless}}{{/functions}}
+{{#functions}}{{#ifPredicate "shouldRetain"}}{{#if thrownType}}{{>cbridge/ThrowingFunctionReturnType}}
+{{/if}}{{/ifPredicate}}{{/functions}}
 
 {{#structs}}
 {{>cbridge/CBridgeStructHeader}}
@@ -49,17 +49,17 @@ _GLUECODIUM_C_EXPORT _baseRef {{resolveName}}_create_proxy({{resolveName}}_Funct
 _GLUECODIUM_C_EXPORT const void* {{resolveName}}_get_swift_object_from_cache(_baseRef handle);
 {{/instanceOf}}
 
-{{#functions}}{{#unless attributes.swift.skip}}
+{{#functions}}{{#ifPredicate "shouldRetain"}}
 _GLUECODIUM_C_EXPORT {{>cbridge/CBridgeFunctionSignature}};
-{{/unless}}{{/functions}}
-{{#properties}}{{#unless attributes.swift.skip}}
+{{/ifPredicate}}{{/functions}}
+{{#properties}}{{#ifPredicate "shouldRetain"}}
 {{#getter}}
 _GLUECODIUM_C_EXPORT {{>cbridge/CBridgeFunctionSignature}};
 {{/getter}}
 {{#setter}}
 _GLUECODIUM_C_EXPORT {{>cbridge/CBridgeFunctionSignature}};
 {{/setter}}
-{{/unless}}{{/properties}}
+{{/ifPredicate}}{{/properties}}
 
 {{#each classes interfaces}}
 {{>cbridge/CBridgeClassHeader}}
