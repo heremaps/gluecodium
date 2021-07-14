@@ -36,3 +36,13 @@ interface SkipTagsInSwift {
     @Swift(Skip = ["Lite", "Pro"])
     fun skipTaggedList()
 }
+
+@Skip(Java, Swift)
+interface SkipTagsInDart {
+    @Dart(Skip = "Lite")
+    fun skipTagged()
+    @Dart(Skip = "Pro")
+    fun dontSkipTagged()
+    @Dart(Skip = ["Lite", "Pro"])
+    fun skipTaggedList()
+}

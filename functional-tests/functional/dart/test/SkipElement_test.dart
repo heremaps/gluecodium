@@ -22,7 +22,16 @@ import "package:test/test.dart";
 import "package:functional/test.dart";
 import "../test_suite.dart";
 
-final _testSuite = TestSuite("SkipEnumerator");
+final _testSuite = TestSuite("SkipElement");
+
+// Compile-time check that SkipTagsInDart contains exactly one method.
+class SkipTagsInDartImpl implements SkipTagsInDart {
+  @override
+  void dontSkipTagged() {}
+
+  @override
+  void release() {}
+}
 
 void main() {
   _testSuite.test("AutoTagRoundTrip", () {

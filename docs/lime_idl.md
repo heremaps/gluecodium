@@ -347,7 +347,7 @@ custom constructors, field default values.
 * **Note:** the way of specifying the name of the external type to use varies slightly between
 output languages. For C++ and Java it needs to be a fully-qualified name and it is specified through
 `cpp name "..."` and `java name "..."` values of the external descriptor. For Swift and Dart a
-regular short name is enough so it can be specified through `@Swift("...")` and `@Dart("...")`
+regular short name is enough, so it can be specified through `@Swift("...")` and `@Dart("...")`
 attributes (or omitted if the name is the name of the type in IDL declaration).
 * **Note:** due to specifics of external type naming mentioned just above, the intermediate internal
 type which is generated when a converter is specified has an additional `_internal` suffix to its
@@ -510,8 +510,9 @@ element is skipped ((not generated). Custom tags are case-insensitive.
   This is the default specification for this attribute.
   * **FunctionName** **=** **"**_FunctionName_**"**: marks a lambda type to have a specific function
   name in the generated functional interface in Java (instead of a default name).
-  * **Skip**: marks an element to be skipped (not generated) in Java. Can be applied to any element except for struct
-  fields. `@Java(Skip)` is equivalent `@Skip(Java)` (see `@Skip` above).
+  * **Skip** \[**=** **"**_CustomTag_**"** \]: marks an element to be skipped (not generated) in Java. Can be applied to
+  any element except for struct fields. Optionally, if custom tag is specified, the element is only skipped if that tag
+  was defined (see `@Skip` above).
   * **Attribute** **=** **"**_Annotation_**"**: marks an element to be marked with the given annotation in Java
   generated code. _Annotation_ does not need to be prepended with `@`. _Annotation_ can contain parameters, e.g.
   `@Java(Attribute="Deprecated(\"It's deprecated.\")")`. If some of the parameters are string literals, their enclosing
@@ -530,8 +531,9 @@ element is skipped ((not generated). Custom tags are case-insensitive.
   use case for this is adding nested types into a pre-existing Swift type (i.e. non-generated).
   Extending a generated type is also possible, but requires usage of `Name` attribute to avoid name
   clashes on other platforms.
-  * **Skip**: marks an element to be skipped (not generated) in Swift. Can be applied to any element except for struct
-  fields. `@Swift(Skip)` is equivalent `@Skip(Swift)` (see `@Skip` above).
+  * **Skip** \[**=** **"**_CustomTag_**"** \]: marks an element to be skipped (not generated) in Swift. Can be applied to
+  any element except for struct fields. Optionally, if custom tag is specified, the element is only skipped if that tag
+  was defined (see `@Skip` above).
   * **Weak**: marks a property in an interface as `weak` in Swift. Property should have a nullable type. Please note
   that `weak` properties are still represented with "strong" pointers on C++ side. Due to this limitation, if an
   interface type is used for such property, that interface can only have methods that return nullable values or `void`.
@@ -543,8 +545,9 @@ element is skipped ((not generated). Custom tags are case-insensitive.
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Dart.
   This is the default specification for this attribute.
   * **Default**: marks a constructor as a "default" (nameless) in Dart.
-  * **Skip**: marks an element to be skipped (not generated) in Dart. Can be applied to any element except for struct
-  fields. `@Dart(Skip)` is equivalent `@Skip(Dart)` (see `@Skip` above).
+  * **Skip** \[**=** **"**_CustomTag_**"** \]: marks an element to be skipped (not generated) in Dart. Can be applied to
+  any element except for struct fields. Optionally, if custom tag is specified, the element is only skipped if that tag
+  was defined (see `@Skip` above).
   * **PositionalDefaults**: marks a struct to have a constructor with optional positional parameters in Dart. Can only
   be applied to a struct that has at least one field with a default value.
   * **Attribute** **=** **"**_Annotation_**"**: marks an element to be marked with the given annotation in Dart
