@@ -49,10 +49,8 @@ int smokeNullableSomeenumToFfi(Nullable_SomeEnum value) {
   switch (value) {
   case Nullable_SomeEnum.on:
     return 0;
-  break;
   case Nullable_SomeEnum.off:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for Nullable_SomeEnum enum.");
   }
@@ -61,10 +59,8 @@ Nullable_SomeEnum smokeNullableSomeenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return Nullable_SomeEnum.on;
-  break;
   case 1:
     return Nullable_SomeEnum.off;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for Nullable_SomeEnum enum.");
   }
@@ -783,7 +779,7 @@ Pointer<Void> smokeNullableToFfi(Nullable value) =>
   _smokeNullableCopyHandle((value as __lib.NativeBase).handle);
 Nullable smokeNullableFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is Nullable) return instance as Nullable;
+  if (instance != null && instance is Nullable) return instance;
   final _copiedHandle = _smokeNullableCopyHandle(handle);
   final result = Nullable$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

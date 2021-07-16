@@ -17,10 +17,8 @@ int smokeEnumsExternalenumToFfi(Enums_ExternalEnum value) {
   switch (value) {
   case Enums_ExternalEnum.fooValue:
     return 0;
-  break;
   case Enums_ExternalEnum.barValue:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for Enums_ExternalEnum enum.");
   }
@@ -29,10 +27,8 @@ Enums_ExternalEnum smokeEnumsExternalenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return Enums_ExternalEnum.fooValue;
-  break;
   case 1:
     return Enums_ExternalEnum.barValue;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for Enums_ExternalEnum enum.");
   }
@@ -76,10 +72,8 @@ int smokeEnumsVeryexternalenumToFfi(Enums_VeryExternalEnum value) {
   switch (value) {
   case Enums_VeryExternalEnum.foo:
     return 0;
-  break;
   case Enums_VeryExternalEnum.bar:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for Enums_VeryExternalEnum enum.");
   }
@@ -88,10 +82,8 @@ Enums_VeryExternalEnum smokeEnumsVeryexternalenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return Enums_VeryExternalEnum.foo;
-  break;
   case 1:
     return Enums_VeryExternalEnum.bar;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for Enums_VeryExternalEnum enum.");
   }
@@ -154,7 +146,7 @@ Pointer<Void> smokeEnumsToFfi(Enums value) =>
   _smokeEnumsCopyHandle((value as __lib.NativeBase).handle);
 Enums smokeEnumsFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is Enums) return instance as Enums;
+  if (instance != null && instance is Enums) return instance;
   final _copiedHandle = _smokeEnumsCopyHandle(handle);
   final result = Enums$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

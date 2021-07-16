@@ -8,7 +8,6 @@ int packageTypesEnumToFfi(Enum value) {
   switch (value) {
   case Enum.naN:
     return 0;
-  break;
   default:
     throw StateError("Invalid enum value $value for Enum enum.");
   }
@@ -17,7 +16,6 @@ Enum packageTypesEnumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return Enum.naN;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for Enum enum.");
   }

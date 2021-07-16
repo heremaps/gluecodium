@@ -64,7 +64,7 @@ Pointer<Void> smokeEnableifenabledToFfi(EnableIfEnabled value) =>
   _smokeEnableifenabledCopyHandle((value as __lib.NativeBase).handle);
 EnableIfEnabled smokeEnableifenabledFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is EnableIfEnabled) return instance as EnableIfEnabled;
+  if (instance != null && instance is EnableIfEnabled) return instance;
   final _copiedHandle = _smokeEnableifenabledCopyHandle(handle);
   final result = EnableIfEnabled$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

@@ -9,7 +9,6 @@ int smokePlatformnamesBasicenumToFfi(werrEnum value) {
   switch (value) {
   case werrEnum.WEE_ITEM:
     return 0;
-  break;
   default:
     throw StateError("Invalid enum value $value for werrEnum enum.");
   }
@@ -18,7 +17,6 @@ werrEnum smokePlatformnamesBasicenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return werrEnum.WEE_ITEM;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for werrEnum enum.");
   }

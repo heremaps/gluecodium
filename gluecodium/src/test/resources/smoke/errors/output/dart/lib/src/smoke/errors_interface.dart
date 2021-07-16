@@ -6,7 +6,6 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/payload.dart';
 import 'package:library/src/smoke/with_payload_exception.dart';
-import 'package:meta/meta.dart';
 abstract class ErrorsInterface {
   factory ErrorsInterface(
     void Function() methodWithErrorsLambda,
@@ -35,10 +34,8 @@ int smokeErrorsinterfaceInternalerrorToFfi(ErrorsInterface_InternalError value) 
   switch (value) {
   case ErrorsInterface_InternalError.errorNone:
     return 0;
-  break;
   case ErrorsInterface_InternalError.errorFatal:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for ErrorsInterface_InternalError enum.");
   }
@@ -47,10 +44,8 @@ ErrorsInterface_InternalError smokeErrorsinterfaceInternalerrorFromFfi(int handl
   switch (handle) {
   case 0:
     return ErrorsInterface_InternalError.errorNone;
-  break;
   case 1:
     return ErrorsInterface_InternalError.errorFatal;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for ErrorsInterface_InternalError enum.");
   }
@@ -95,13 +90,10 @@ int smokeErrorsinterfaceExternalerrorsToFfi(ErrorsInterface_ExternalErrors value
   switch (value) {
   case ErrorsInterface_ExternalErrors.none:
     return 0;
-  break;
   case ErrorsInterface_ExternalErrors.boom:
     return 1;
-  break;
   case ErrorsInterface_ExternalErrors.bust:
     return 2;
-  break;
   default:
     throw StateError("Invalid enum value $value for ErrorsInterface_ExternalErrors enum.");
   }
@@ -110,13 +102,10 @@ ErrorsInterface_ExternalErrors smokeErrorsinterfaceExternalerrorsFromFfi(int han
   switch (handle) {
   case 0:
     return ErrorsInterface_ExternalErrors.none;
-  break;
   case 1:
     return ErrorsInterface_ExternalErrors.boom;
-  break;
   case 2:
     return ErrorsInterface_ExternalErrors.bust;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for ErrorsInterface_ExternalErrors enum.");
   }
@@ -416,7 +405,7 @@ Pointer<Void> smokeErrorsinterfaceToFfi(ErrorsInterface value) {
 }
 ErrorsInterface smokeErrorsinterfaceFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is ErrorsInterface) return instance as ErrorsInterface;
+  if (instance != null && instance is ErrorsInterface) return instance;
   final _typeIdHandle = _smokeErrorsinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);

@@ -175,7 +175,7 @@ Pointer<Void> smokeDatesToFfi(Dates value) =>
   _smokeDatesCopyHandle((value as __lib.NativeBase).handle);
 Dates smokeDatesFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is Dates) return instance as Dates;
+  if (instance != null && instance is Dates) return instance;
   final _copiedHandle = _smokeDatesCopyHandle(handle);
   final result = Dates$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

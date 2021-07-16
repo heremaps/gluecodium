@@ -9,10 +9,8 @@ int smokeSkipenumeratorautotagToFfi(SkipEnumeratorAutoTag value) {
   switch (value) {
   case SkipEnumeratorAutoTag.one:
     return 0;
-  break;
   case SkipEnumeratorAutoTag.three:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for SkipEnumeratorAutoTag enum.");
   }
@@ -21,10 +19,8 @@ SkipEnumeratorAutoTag smokeSkipenumeratorautotagFromFfi(int handle) {
   switch (handle) {
   case 0:
     return SkipEnumeratorAutoTag.one;
-  break;
   case 1:
     return SkipEnumeratorAutoTag.three;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for SkipEnumeratorAutoTag enum.");
   }

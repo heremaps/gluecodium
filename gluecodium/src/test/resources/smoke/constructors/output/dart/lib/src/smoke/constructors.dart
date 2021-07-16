@@ -25,10 +25,8 @@ int smokeConstructorsErrorenumToFfi(Constructors_ErrorEnum value) {
   switch (value) {
   case Constructors_ErrorEnum.none:
     return 0;
-  break;
   case Constructors_ErrorEnum.crashed:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for Constructors_ErrorEnum enum.");
   }
@@ -37,10 +35,8 @@ Constructors_ErrorEnum smokeConstructorsErrorenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return Constructors_ErrorEnum.none;
-  break;
   case 1:
     return Constructors_ErrorEnum.crashed;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for Constructors_ErrorEnum enum.");
   }
@@ -196,7 +192,7 @@ Pointer<Void> smokeConstructorsToFfi(Constructors value) =>
   _smokeConstructorsCopyHandle((value as __lib.NativeBase).handle);
 Constructors smokeConstructorsFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is Constructors) return instance as Constructors;
+  if (instance != null && instance is Constructors) return instance;
   final _typeIdHandle = _smokeConstructorsGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);

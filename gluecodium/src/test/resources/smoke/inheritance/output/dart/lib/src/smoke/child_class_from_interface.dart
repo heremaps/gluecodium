@@ -68,7 +68,7 @@ Pointer<Void> smokeChildclassfrominterfaceToFfi(ChildClassFromInterface value) =
   _smokeChildclassfrominterfaceCopyHandle((value as __lib.NativeBase).handle);
 ChildClassFromInterface smokeChildclassfrominterfaceFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is ChildClassFromInterface) return instance as ChildClassFromInterface;
+  if (instance != null && instance is ChildClassFromInterface) return instance;
   final _typeIdHandle = _smokeChildclassfrominterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);

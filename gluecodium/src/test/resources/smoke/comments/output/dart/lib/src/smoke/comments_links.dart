@@ -201,7 +201,7 @@ Pointer<Void> smokeCommentslinksToFfi(CommentsLinks value) =>
   _smokeCommentslinksCopyHandle((value as __lib.NativeBase).handle);
 CommentsLinks smokeCommentslinksFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is CommentsLinks) return instance as CommentsLinks;
+  if (instance != null && instance is CommentsLinks) return instance;
   final _copiedHandle = _smokeCommentslinksCopyHandle(handle);
   final result = CommentsLinks$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

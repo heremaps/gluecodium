@@ -9,10 +9,8 @@ int smokeFreeenumToFfi(FreeEnum value) {
   switch (value) {
   case FreeEnum.foo:
     return 0;
-  break;
   case FreeEnum.bar:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for FreeEnum enum.");
   }
@@ -21,10 +19,8 @@ FreeEnum smokeFreeenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return FreeEnum.foo;
-  break;
   case 1:
     return FreeEnum.bar;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for FreeEnum enum.");
   }

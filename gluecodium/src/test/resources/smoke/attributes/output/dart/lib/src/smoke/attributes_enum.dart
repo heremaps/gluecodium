@@ -10,7 +10,6 @@ int smokeAttributesenumToFfi(AttributesEnum value) {
   switch (value) {
   case AttributesEnum.nope:
     return 0;
-  break;
   default:
     throw StateError("Invalid enum value $value for AttributesEnum enum.");
   }
@@ -19,7 +18,6 @@ AttributesEnum smokeAttributesenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return AttributesEnum.nope;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for AttributesEnum enum.");
   }

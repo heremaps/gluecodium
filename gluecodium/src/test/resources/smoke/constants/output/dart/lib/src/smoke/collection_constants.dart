@@ -33,7 +33,7 @@ Pointer<Void> smokeCollectionconstantsToFfi(CollectionConstants value) =>
   _smokeCollectionconstantsCopyHandle((value as __lib.NativeBase).handle);
 CollectionConstants smokeCollectionconstantsFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is CollectionConstants) return instance as CollectionConstants;
+  if (instance != null && instance is CollectionConstants) return instance;
   final _copiedHandle = _smokeCollectionconstantsCopyHandle(handle);
   final result = CollectionConstants$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

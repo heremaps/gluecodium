@@ -5,7 +5,6 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/skip_proxy.dart';
-import 'package:meta/meta.dart';
 abstract class InheritFromSkipped implements SkipProxy {
   factory InheritFromSkipped(
     String Function(String) notInJavaLambda,
@@ -207,7 +206,7 @@ Pointer<Void> smokeInheritfromskippedToFfi(InheritFromSkipped value) {
 }
 InheritFromSkipped smokeInheritfromskippedFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is InheritFromSkipped) return instance as InheritFromSkipped;
+  if (instance != null && instance is InheritFromSkipped) return instance;
   final _typeIdHandle = _smokeInheritfromskippedGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);

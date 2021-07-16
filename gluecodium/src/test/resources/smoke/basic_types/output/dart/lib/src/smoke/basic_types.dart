@@ -154,7 +154,7 @@ Pointer<Void> smokeBasictypesToFfi(BasicTypes value) =>
   _smokeBasictypesCopyHandle((value as __lib.NativeBase).handle);
 BasicTypes smokeBasictypesFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is BasicTypes) return instance as BasicTypes;
+  if (instance != null && instance is BasicTypes) return instance;
   final _copiedHandle = _smokeBasictypesCopyHandle(handle);
   final result = BasicTypes$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

@@ -158,7 +158,7 @@ Pointer<Void> smokeSkiptypesToFfi(SkipTypes value) =>
   _smokeSkiptypesCopyHandle((value as __lib.NativeBase).handle);
 SkipTypes smokeSkiptypesFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is SkipTypes) return instance as SkipTypes;
+  if (instance != null && instance is SkipTypes) return instance;
   final _copiedHandle = _smokeSkiptypesCopyHandle(handle);
   final result = SkipTypes$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

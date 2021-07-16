@@ -168,7 +168,7 @@ Pointer<Void> smokeStructconstantsToFfi(StructConstants value) =>
   _smokeStructconstantsCopyHandle((value as __lib.NativeBase).handle);
 StructConstants smokeStructconstantsFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is StructConstants) return instance as StructConstants;
+  if (instance != null && instance is StructConstants) return instance;
   final _copiedHandle = _smokeStructconstantsCopyHandle(handle);
   final result = StructConstants$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

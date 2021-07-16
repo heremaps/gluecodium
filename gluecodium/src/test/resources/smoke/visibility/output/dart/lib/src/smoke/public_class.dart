@@ -27,10 +27,8 @@ int smokePublicclassInternalenumToFfi(PublicClass_InternalEnum value) {
   switch (value) {
   case PublicClass_InternalEnum.foo:
     return 0;
-  break;
   case PublicClass_InternalEnum.bar:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for PublicClass_InternalEnum enum.");
   }
@@ -39,10 +37,8 @@ PublicClass_InternalEnum smokePublicclassInternalenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return PublicClass_InternalEnum.foo;
-  break;
   case 1:
     return PublicClass_InternalEnum.bar;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for PublicClass_InternalEnum enum.");
   }
@@ -356,7 +352,7 @@ Pointer<Void> smokePublicclassToFfi(PublicClass value) =>
   _smokePublicclassCopyHandle((value as __lib.NativeBase).handle);
 PublicClass smokePublicclassFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is PublicClass) return instance as PublicClass;
+  if (instance != null && instance is PublicClass) return instance;
   final _copiedHandle = _smokePublicclassCopyHandle(handle);
   final result = PublicClass$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

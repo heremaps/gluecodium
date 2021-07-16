@@ -63,7 +63,7 @@ Pointer<Void> smokeInternalclasswithfunctionsToFfi(InternalClassWithFunctions va
   _smokeInternalclasswithfunctionsCopyHandle((value as __lib.NativeBase).handle);
 InternalClassWithFunctions smokeInternalclasswithfunctionsFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is InternalClassWithFunctions) return instance as InternalClassWithFunctions;
+  if (instance != null && instance is InternalClassWithFunctions) return instance;
   final _copiedHandle = _smokeInternalclasswithfunctionsCopyHandle(handle);
   final result = InternalClassWithFunctions$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

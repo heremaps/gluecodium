@@ -80,7 +80,7 @@ Pointer<Void> smokeUnicodecommentsToFfi(UnicodeComments value) =>
   _smokeUnicodecommentsCopyHandle((value as __lib.NativeBase).handle);
 UnicodeComments smokeUnicodecommentsFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is UnicodeComments) return instance as UnicodeComments;
+  if (instance != null && instance is UnicodeComments) return instance;
   final _copiedHandle = _smokeUnicodecommentsCopyHandle(handle);
   final result = UnicodeComments$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

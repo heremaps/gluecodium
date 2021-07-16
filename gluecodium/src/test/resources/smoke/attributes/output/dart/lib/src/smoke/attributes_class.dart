@@ -68,7 +68,7 @@ Pointer<Void> smokeAttributesclassToFfi(AttributesClass value) =>
   _smokeAttributesclassCopyHandle((value as __lib.NativeBase).handle);
 AttributesClass smokeAttributesclassFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is AttributesClass) return instance as AttributesClass;
+  if (instance != null && instance is AttributesClass) return instance;
   final _copiedHandle = _smokeAttributesclassCopyHandle(handle);
   final result = AttributesClass$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

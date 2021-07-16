@@ -28,10 +28,8 @@ int smokeGenerictypeswithcompoundtypesSomeenumToFfi(GenericTypesWithCompoundType
   switch (value) {
   case GenericTypesWithCompoundTypes_SomeEnum.foo:
     return 0;
-  break;
   case GenericTypesWithCompoundTypes_SomeEnum.bar:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for GenericTypesWithCompoundTypes_SomeEnum enum.");
   }
@@ -40,10 +38,8 @@ GenericTypesWithCompoundTypes_SomeEnum smokeGenerictypeswithcompoundtypesSomeenu
   switch (handle) {
   case 0:
     return GenericTypesWithCompoundTypes_SomeEnum.foo;
-  break;
   case 1:
     return GenericTypesWithCompoundTypes_SomeEnum.bar;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for GenericTypesWithCompoundTypes_SomeEnum enum.");
   }
@@ -87,10 +83,8 @@ int smokeGenerictypeswithcompoundtypesExternalenumToFfi(GenericTypesWithCompound
   switch (value) {
   case GenericTypesWithCompoundTypes_ExternalEnum.on:
     return 0;
-  break;
   case GenericTypesWithCompoundTypes_ExternalEnum.off:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for GenericTypesWithCompoundTypes_ExternalEnum enum.");
   }
@@ -99,10 +93,8 @@ GenericTypesWithCompoundTypes_ExternalEnum smokeGenerictypeswithcompoundtypesExt
   switch (handle) {
   case 0:
     return GenericTypesWithCompoundTypes_ExternalEnum.on;
-  break;
   case 1:
     return GenericTypesWithCompoundTypes_ExternalEnum.off;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for GenericTypesWithCompoundTypes_ExternalEnum enum.");
   }
@@ -389,7 +381,7 @@ Pointer<Void> smokeGenerictypeswithcompoundtypesToFfi(GenericTypesWithCompoundTy
   _smokeGenerictypeswithcompoundtypesCopyHandle((value as __lib.NativeBase).handle);
 GenericTypesWithCompoundTypes smokeGenerictypeswithcompoundtypesFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is GenericTypesWithCompoundTypes) return instance as GenericTypesWithCompoundTypes;
+  if (instance != null && instance is GenericTypesWithCompoundTypes) return instance;
   final _copiedHandle = _smokeGenerictypeswithcompoundtypesCopyHandle(handle);
   final result = GenericTypesWithCompoundTypes$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

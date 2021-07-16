@@ -247,7 +247,7 @@ Pointer<Void> smokeTypedefsToFfi(TypeDefs value) =>
   _smokeTypedefsCopyHandle((value as __lib.NativeBase).handle);
 TypeDefs smokeTypedefsFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is TypeDefs) return instance as TypeDefs;
+  if (instance != null && instance is TypeDefs) return instance;
   final _copiedHandle = _smokeTypedefsCopyHandle(handle);
   final result = TypeDefs$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

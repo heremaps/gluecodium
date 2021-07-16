@@ -4,7 +4,6 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'package:meta/meta.dart';
 @Deprecated("Unfortunately, this interface is deprecated.")
 abstract class DeprecationCommentsOnly {
   factory DeprecationCommentsOnly(
@@ -42,7 +41,6 @@ int smokeDeprecationcommentsonlySomeenumToFfi(DeprecationCommentsOnly_SomeEnum v
   switch (value) {
   case DeprecationCommentsOnly_SomeEnum.useless:
     return 0;
-  break;
   default:
     throw StateError("Invalid enum value $value for DeprecationCommentsOnly_SomeEnum enum.");
   }
@@ -51,7 +49,6 @@ DeprecationCommentsOnly_SomeEnum smokeDeprecationcommentsonlySomeenumFromFfi(int
   switch (handle) {
   case 0:
     return DeprecationCommentsOnly_SomeEnum.useless;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for DeprecationCommentsOnly_SomeEnum enum.");
   }
@@ -266,7 +263,7 @@ Pointer<Void> smokeDeprecationcommentsonlyToFfi(DeprecationCommentsOnly value) {
 }
 DeprecationCommentsOnly smokeDeprecationcommentsonlyFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is DeprecationCommentsOnly) return instance as DeprecationCommentsOnly;
+  if (instance != null && instance is DeprecationCommentsOnly) return instance;
   final _typeIdHandle = _smokeDeprecationcommentsonlyGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);

@@ -54,7 +54,7 @@ Pointer<Void> smokeCommentsmarkdownToFfi(CommentsMarkdown value) =>
   _smokeCommentsmarkdownCopyHandle((value as __lib.NativeBase).handle);
 CommentsMarkdown smokeCommentsmarkdownFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is CommentsMarkdown) return instance as CommentsMarkdown;
+  if (instance != null && instance is CommentsMarkdown) return instance;
   final _copiedHandle = _smokeCommentsmarkdownCopyHandle(handle);
   final result = CommentsMarkdown$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

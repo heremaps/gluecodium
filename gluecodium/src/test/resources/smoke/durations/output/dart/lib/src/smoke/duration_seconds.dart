@@ -143,7 +143,7 @@ Pointer<Void> smokeDurationsecondsToFfi(DurationSeconds value) =>
   _smokeDurationsecondsCopyHandle((value as __lib.NativeBase).handle);
 DurationSeconds smokeDurationsecondsFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is DurationSeconds) return instance as DurationSeconds;
+  if (instance != null && instance is DurationSeconds) return instance;
   final _copiedHandle = _smokeDurationsecondsCopyHandle(handle);
   final result = DurationSeconds$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

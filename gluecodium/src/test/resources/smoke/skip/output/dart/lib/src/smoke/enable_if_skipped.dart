@@ -29,7 +29,7 @@ Pointer<Void> smokeEnableifskippedToFfi(EnableIfSkipped value) =>
   _smokeEnableifskippedCopyHandle((value as __lib.NativeBase).handle);
 EnableIfSkipped smokeEnableifskippedFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is EnableIfSkipped) return instance as EnableIfSkipped;
+  if (instance != null && instance is EnableIfSkipped) return instance;
   final _copiedHandle = _smokeEnableifskippedCopyHandle(handle);
   final result = EnableIfSkipped$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

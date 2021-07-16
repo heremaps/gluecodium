@@ -207,7 +207,7 @@ Pointer<Void> smokeStructsToFfi(Structs value) =>
   _smokeStructsCopyHandle((value as __lib.NativeBase).handle);
 Structs smokeStructsFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is Structs) return instance as Structs;
+  if (instance != null && instance is Structs) return instance;
   final _copiedHandle = _smokeStructsCopyHandle(handle);
   final result = Structs$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

@@ -24,10 +24,8 @@ int smokeErrorsInternalerrorcodeToFfi(Errors_InternalErrorCode value) {
   switch (value) {
   case Errors_InternalErrorCode.errorNone:
     return 0;
-  break;
   case Errors_InternalErrorCode.errorFatal:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for Errors_InternalErrorCode enum.");
   }
@@ -36,10 +34,8 @@ Errors_InternalErrorCode smokeErrorsInternalerrorcodeFromFfi(int handle) {
   switch (handle) {
   case 0:
     return Errors_InternalErrorCode.errorNone;
-  break;
   case 1:
     return Errors_InternalErrorCode.errorFatal;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for Errors_InternalErrorCode enum.");
   }
@@ -84,13 +80,10 @@ int smokeErrorsExternalerrorsToFfi(Errors_ExternalErrors value) {
   switch (value) {
   case Errors_ExternalErrors.none:
     return 0;
-  break;
   case Errors_ExternalErrors.boom:
     return 1;
-  break;
   case Errors_ExternalErrors.bust:
     return 2;
-  break;
   default:
     throw StateError("Invalid enum value $value for Errors_ExternalErrors enum.");
   }
@@ -99,13 +92,10 @@ Errors_ExternalErrors smokeErrorsExternalerrorsFromFfi(int handle) {
   switch (handle) {
   case 0:
     return Errors_ExternalErrors.none;
-  break;
   case 1:
     return Errors_ExternalErrors.boom;
-  break;
   case 2:
     return Errors_ExternalErrors.bust;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for Errors_ExternalErrors enum.");
   }
@@ -320,7 +310,7 @@ Pointer<Void> smokeErrorsToFfi(Errors value) =>
   _smokeErrorsCopyHandle((value as __lib.NativeBase).handle);
 Errors smokeErrorsFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is Errors) return instance as Errors;
+  if (instance != null && instance is Errors) return instance;
   final _copiedHandle = _smokeErrorsCopyHandle(handle);
   final result = Errors$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

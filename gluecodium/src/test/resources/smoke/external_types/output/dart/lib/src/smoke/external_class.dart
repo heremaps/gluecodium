@@ -18,7 +18,6 @@ int smokeExternalclassSomeenumToFfi(ExternalClass_SomeEnum value) {
   switch (value) {
   case ExternalClass_SomeEnum.someValue:
     return 0;
-  break;
   default:
     throw StateError("Invalid enum value $value for ExternalClass_SomeEnum enum.");
   }
@@ -27,7 +26,6 @@ ExternalClass_SomeEnum smokeExternalclassSomeenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return ExternalClass_SomeEnum.someValue;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for ExternalClass_SomeEnum enum.");
   }
@@ -166,7 +164,7 @@ Pointer<Void> smokeExternalclassToFfi(ExternalClass value) =>
   _smokeExternalclassCopyHandle((value as __lib.NativeBase).handle);
 ExternalClass smokeExternalclassFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is ExternalClass) return instance as ExternalClass;
+  if (instance != null && instance is ExternalClass) return instance;
   final _copiedHandle = _smokeExternalclassCopyHandle(handle);
   final result = ExternalClass$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

@@ -13,10 +13,8 @@ int smokeTypeswithdefaultsSomeenumToFfi(SomeEnum value) {
   switch (value) {
   case SomeEnum.fooValue:
     return 0;
-  break;
   case SomeEnum.barValue:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for SomeEnum enum.");
   }
@@ -25,10 +23,8 @@ SomeEnum smokeTypeswithdefaultsSomeenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return SomeEnum.fooValue;
-  break;
   case 1:
     return SomeEnum.barValue;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for SomeEnum enum.");
   }

@@ -6,7 +6,6 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/calculation_result.dart';
-import 'package:meta/meta.dart';
 abstract class CalculatorListener {
   factory CalculatorListener(
     void Function(double) onCalculationResultLambda,
@@ -266,7 +265,7 @@ Pointer<Void> smokeCalculatorlistenerToFfi(CalculatorListener value) {
 }
 CalculatorListener smokeCalculatorlistenerFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is CalculatorListener) return instance as CalculatorListener;
+  if (instance != null && instance is CalculatorListener) return instance;
   final _typeIdHandle = _smokeCalculatorlistenerGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);

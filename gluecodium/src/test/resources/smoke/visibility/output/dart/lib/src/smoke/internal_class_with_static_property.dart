@@ -50,7 +50,7 @@ Pointer<Void> smokeInternalclasswithstaticpropertyToFfi(InternalClassWithStaticP
   _smokeInternalclasswithstaticpropertyCopyHandle((value as __lib.NativeBase).handle);
 InternalClassWithStaticProperty smokeInternalclasswithstaticpropertyFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is InternalClassWithStaticProperty) return instance as InternalClassWithStaticProperty;
+  if (instance != null && instance is InternalClassWithStaticProperty) return instance;
   final _copiedHandle = _smokeInternalclasswithstaticpropertyCopyHandle(handle);
   final result = InternalClassWithStaticProperty$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

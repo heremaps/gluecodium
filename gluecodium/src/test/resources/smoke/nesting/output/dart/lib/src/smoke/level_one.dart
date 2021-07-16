@@ -29,7 +29,6 @@ int smokeLeveloneLeveltwoLevelthreeLevelfourenumToFfi(LevelOne_LevelTwo_LevelThr
   switch (value) {
   case LevelOne_LevelTwo_LevelThree_LevelFourEnum.none:
     return 0;
-  break;
   default:
     throw StateError("Invalid enum value $value for LevelOne_LevelTwo_LevelThree_LevelFourEnum enum.");
   }
@@ -38,7 +37,6 @@ LevelOne_LevelTwo_LevelThree_LevelFourEnum smokeLeveloneLeveltwoLevelthreeLevelf
   switch (handle) {
   case 0:
     return LevelOne_LevelTwo_LevelThree_LevelFourEnum.none;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for LevelOne_LevelTwo_LevelThree_LevelFourEnum enum.");
   }
@@ -182,7 +180,7 @@ Pointer<Void> smokeLeveloneLeveltwoLevelthreeToFfi(LevelOne_LevelTwo_LevelThree 
   _smokeLeveloneLeveltwoLevelthreeCopyHandle((value as __lib.NativeBase).handle);
 LevelOne_LevelTwo_LevelThree smokeLeveloneLeveltwoLevelthreeFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is LevelOne_LevelTwo_LevelThree) return instance as LevelOne_LevelTwo_LevelThree;
+  if (instance != null && instance is LevelOne_LevelTwo_LevelThree) return instance;
   final _copiedHandle = _smokeLeveloneLeveltwoLevelthreeCopyHandle(handle);
   final result = LevelOne_LevelTwo_LevelThree$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
@@ -220,7 +218,7 @@ Pointer<Void> smokeLeveloneLeveltwoToFfi(LevelOne_LevelTwo value) =>
   _smokeLeveloneLeveltwoCopyHandle((value as __lib.NativeBase).handle);
 LevelOne_LevelTwo smokeLeveloneLeveltwoFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is LevelOne_LevelTwo) return instance as LevelOne_LevelTwo;
+  if (instance != null && instance is LevelOne_LevelTwo) return instance;
   final _copiedHandle = _smokeLeveloneLeveltwoCopyHandle(handle);
   final result = LevelOne_LevelTwo$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
@@ -258,7 +256,7 @@ Pointer<Void> smokeLeveloneToFfi(LevelOne value) =>
   _smokeLeveloneCopyHandle((value as __lib.NativeBase).handle);
 LevelOne smokeLeveloneFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is LevelOne) return instance as LevelOne;
+  if (instance != null && instance is LevelOne) return instance;
   final _copiedHandle = _smokeLeveloneCopyHandle(handle);
   final result = LevelOne$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

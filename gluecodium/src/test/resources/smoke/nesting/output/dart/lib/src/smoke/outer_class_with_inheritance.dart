@@ -5,7 +5,6 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/parent_class.dart';
-import 'package:meta/meta.dart';
 abstract class OuterClassWithInheritance implements ParentClass {
   /// @nodoc
   @Deprecated("Does nothing")
@@ -53,7 +52,7 @@ Pointer<Void> smokeOuterclasswithinheritanceInnerclassToFfi(OuterClassWithInheri
   _smokeOuterclasswithinheritanceInnerclassCopyHandle((value as __lib.NativeBase).handle);
 OuterClassWithInheritance_InnerClass smokeOuterclasswithinheritanceInnerclassFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is OuterClassWithInheritance_InnerClass) return instance as OuterClassWithInheritance_InnerClass;
+  if (instance != null && instance is OuterClassWithInheritance_InnerClass) return instance;
   final _copiedHandle = _smokeOuterclasswithinheritanceInnerclassCopyHandle(handle);
   final result = OuterClassWithInheritance_InnerClass$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
@@ -152,7 +151,7 @@ Pointer<Void> smokeOuterclasswithinheritanceInnerinterfaceToFfi(OuterClassWithIn
 }
 OuterClassWithInheritance_InnerInterface smokeOuterclasswithinheritanceInnerinterfaceFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is OuterClassWithInheritance_InnerInterface) return instance as OuterClassWithInheritance_InnerInterface;
+  if (instance != null && instance is OuterClassWithInheritance_InnerInterface) return instance;
   final _typeIdHandle = _smokeOuterclasswithinheritanceInnerinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -212,7 +211,7 @@ Pointer<Void> smokeOuterclasswithinheritanceToFfi(OuterClassWithInheritance valu
   _smokeOuterclasswithinheritanceCopyHandle((value as __lib.NativeBase).handle);
 OuterClassWithInheritance smokeOuterclasswithinheritanceFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is OuterClassWithInheritance) return instance as OuterClassWithInheritance;
+  if (instance != null && instance is OuterClassWithInheritance) return instance;
   final _typeIdHandle = _smokeOuterclasswithinheritanceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);

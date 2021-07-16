@@ -106,7 +106,7 @@ Pointer<Void> smokeOffNestedpackagesToFfi(NestedPackages value) =>
   _smokeOffNestedpackagesCopyHandle((value as __lib.NativeBase).handle);
 NestedPackages smokeOffNestedpackagesFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is NestedPackages) return instance as NestedPackages;
+  if (instance != null && instance is NestedPackages) return instance;
   final _copiedHandle = _smokeOffNestedpackagesCopyHandle(handle);
   final result = NestedPackages$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

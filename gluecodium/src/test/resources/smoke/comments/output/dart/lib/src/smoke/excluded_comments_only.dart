@@ -29,7 +29,6 @@ int smokeExcludedcommentsonlySomeenumToFfi(ExcludedCommentsOnly_SomeEnum value) 
   switch (value) {
   case ExcludedCommentsOnly_SomeEnum.useless:
     return 0;
-  break;
   default:
     throw StateError("Invalid enum value $value for ExcludedCommentsOnly_SomeEnum enum.");
   }
@@ -38,7 +37,6 @@ ExcludedCommentsOnly_SomeEnum smokeExcludedcommentsonlySomeenumFromFfi(int handl
   switch (handle) {
   case 0:
     return ExcludedCommentsOnly_SomeEnum.useless;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for ExcludedCommentsOnly_SomeEnum enum.");
   }
@@ -322,7 +320,7 @@ Pointer<Void> smokeExcludedcommentsonlyToFfi(ExcludedCommentsOnly value) =>
   _smokeExcludedcommentsonlyCopyHandle((value as __lib.NativeBase).handle);
 ExcludedCommentsOnly smokeExcludedcommentsonlyFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is ExcludedCommentsOnly) return instance as ExcludedCommentsOnly;
+  if (instance != null && instance is ExcludedCommentsOnly) return instance;
   final _copiedHandle = _smokeExcludedcommentsonlyCopyHandle(handle);
   final result = ExcludedCommentsOnly$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
