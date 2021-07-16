@@ -135,7 +135,7 @@ Pointer<Void> smokeMapsceneToFfi(MapScene value) =>
   _smokeMapsceneCopyHandle((value as __lib.NativeBase).handle);
 MapScene smokeMapsceneFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is MapScene) return instance as MapScene;
+  if (instance != null && instance is MapScene) return instance;
   final _copiedHandle = _smokeMapsceneCopyHandle(handle);
   final result = MapScene$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

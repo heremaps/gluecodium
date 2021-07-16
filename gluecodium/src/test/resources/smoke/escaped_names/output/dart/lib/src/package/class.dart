@@ -110,7 +110,7 @@ Pointer<Void> packageClassToFfi(Class value) =>
   _packageClassCopyHandle((value as __lib.NativeBase).handle);
 Class packageClassFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is Class) return instance as Class;
+  if (instance != null && instance is Class) return instance;
   final _typeIdHandle = _packageClassGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);

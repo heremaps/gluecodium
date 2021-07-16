@@ -56,7 +56,7 @@ Pointer<Void> smokeSimpleclassToFfi(SimpleClass value) =>
   _smokeSimpleclassCopyHandle((value as __lib.NativeBase).handle);
 SimpleClass smokeSimpleclassFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is SimpleClass) return instance as SimpleClass;
+  if (instance != null && instance is SimpleClass) return instance;
   final _copiedHandle = _smokeSimpleclassCopyHandle(handle);
   final result = SimpleClass$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

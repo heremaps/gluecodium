@@ -9,10 +9,8 @@ int smokeEnumstartswithoneToFfi(EnumStartsWithOne value) {
   switch (value) {
   case EnumStartsWithOne.first:
     return 1;
-  break;
   case EnumStartsWithOne.second:
     return 2;
-  break;
   default:
     throw StateError("Invalid enum value $value for EnumStartsWithOne enum.");
   }
@@ -21,10 +19,8 @@ EnumStartsWithOne smokeEnumstartswithoneFromFfi(int handle) {
   switch (handle) {
   case 1:
     return EnumStartsWithOne.first;
-  break;
   case 2:
     return EnumStartsWithOne.second;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for EnumStartsWithOne enum.");
   }

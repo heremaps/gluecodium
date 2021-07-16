@@ -9,10 +9,8 @@ int smokeConstantsStateenumToFfi(StateEnum value) {
   switch (value) {
   case StateEnum.off:
     return 0;
-  break;
   case StateEnum.on:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for StateEnum enum.");
   }
@@ -21,10 +19,8 @@ StateEnum smokeConstantsStateenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return StateEnum.off;
-  break;
   case 1:
     return StateEnum.on;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for StateEnum enum.");
   }

@@ -13,16 +13,12 @@ int smokeDartseasonToFfi(String valueExternal) {
   switch (value) {
   case StringInternal.winter:
     return 0;
-  break;
   case StringInternal.spring:
     return 1;
-  break;
   case StringInternal.summer:
     return 2;
-  break;
   case StringInternal.autumn:
     return 3;
-  break;
   default:
     throw StateError("Invalid enum value $value for String enum.");
   }
@@ -31,16 +27,12 @@ String smokeDartseasonFromFfi(int handle) {
   switch (handle) {
   case 0:
     return SeasonConverter.convertFromInternal(StringInternal.winter);
-  break;
   case 1:
     return SeasonConverter.convertFromInternal(StringInternal.spring);
-  break;
   case 2:
     return SeasonConverter.convertFromInternal(StringInternal.summer);
-  break;
   case 3:
     return SeasonConverter.convertFromInternal(StringInternal.autumn);
-  break;
   default:
     throw StateError("Invalid numeric value $handle for String enum.");
   }

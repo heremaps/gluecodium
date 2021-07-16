@@ -4,7 +4,6 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'package:meta/meta.dart';
 abstract class SkipTagsInDart {
   factory SkipTagsInDart(
     void Function() dontSkipTaggedLambda,
@@ -78,7 +77,7 @@ Pointer<Void> smokeSkiptagsindartToFfi(SkipTagsInDart value) {
 }
 SkipTagsInDart smokeSkiptagsindartFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is SkipTagsInDart) return instance as SkipTagsInDart;
+  if (instance != null && instance is SkipTagsInDart) return instance;
   final _typeIdHandle = _smokeSkiptagsindartGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);

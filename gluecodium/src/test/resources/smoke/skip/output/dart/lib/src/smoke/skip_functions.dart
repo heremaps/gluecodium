@@ -54,7 +54,7 @@ Pointer<Void> smokeSkipfunctionsToFfi(SkipFunctions value) =>
   _smokeSkipfunctionsCopyHandle((value as __lib.NativeBase).handle);
 SkipFunctions smokeSkipfunctionsFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is SkipFunctions) return instance as SkipFunctions;
+  if (instance != null && instance is SkipFunctions) return instance;
   final _copiedHandle = _smokeSkipfunctionsCopyHandle(handle);
   final result = SkipFunctions$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

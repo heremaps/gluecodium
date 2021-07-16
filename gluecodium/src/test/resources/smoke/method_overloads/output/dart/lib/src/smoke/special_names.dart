@@ -57,7 +57,7 @@ Pointer<Void> smokeSpecialnamesToFfi(SpecialNames value) =>
   _smokeSpecialnamesCopyHandle((value as __lib.NativeBase).handle);
 SpecialNames smokeSpecialnamesFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is SpecialNames) return instance as SpecialNames;
+  if (instance != null && instance is SpecialNames) return instance;
   final _copiedHandle = _smokeSpecialnamesCopyHandle(handle);
   final result = SpecialNames$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

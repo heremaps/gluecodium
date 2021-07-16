@@ -130,7 +130,7 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) =>
 
 {{resolveName}} {{resolveName "Ffi"}}FromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is {{resolveName}}) return instance as {{resolveName}};
+  if (instance != null && instance is {{resolveName}}) return instance;
 
 {{#if this.parent visibility.isOpen logic="or"}}
   final _typeIdHandle = _{{resolveName "Ffi"}}GetTypeId(handle);

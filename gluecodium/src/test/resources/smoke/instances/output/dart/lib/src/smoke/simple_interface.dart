@@ -4,7 +4,6 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'package:meta/meta.dart';
 abstract class SimpleInterface {
   factory SimpleInterface(
     String Function() getStringValueLambda,
@@ -117,7 +116,7 @@ Pointer<Void> smokeSimpleinterfaceToFfi(SimpleInterface value) {
 }
 SimpleInterface smokeSimpleinterfaceFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is SimpleInterface) return instance as SimpleInterface;
+  if (instance != null && instance is SimpleInterface) return instance;
   final _typeIdHandle = _smokeSimpleinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);

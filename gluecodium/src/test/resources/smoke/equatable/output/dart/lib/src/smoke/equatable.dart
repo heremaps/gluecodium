@@ -13,10 +13,8 @@ int smokeEquatableSomeenumToFfi(SomeEnum value) {
   switch (value) {
   case SomeEnum.foo:
     return 0;
-  break;
   case SomeEnum.bar:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for SomeEnum enum.");
   }
@@ -25,10 +23,8 @@ SomeEnum smokeEquatableSomeenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return SomeEnum.foo;
-  break;
   case 1:
     return SomeEnum.bar;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for SomeEnum enum.");
   }

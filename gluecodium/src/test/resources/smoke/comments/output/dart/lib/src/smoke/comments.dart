@@ -75,10 +75,8 @@ int smokeCommentsSomeenumToFfi(Comments_SomeEnum value) {
   switch (value) {
   case Comments_SomeEnum.useless:
     return 0;
-  break;
   case Comments_SomeEnum.useful:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for Comments_SomeEnum enum.");
   }
@@ -87,10 +85,8 @@ Comments_SomeEnum smokeCommentsSomeenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return Comments_SomeEnum.useless;
-  break;
   case 1:
     return Comments_SomeEnum.useful;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for Comments_SomeEnum enum.");
   }
@@ -501,7 +497,7 @@ Pointer<Void> smokeCommentsToFfi(Comments value) =>
   _smokeCommentsCopyHandle((value as __lib.NativeBase).handle);
 Comments smokeCommentsFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is Comments) return instance as Comments;
+  if (instance != null && instance is Comments) return instance;
   final _copiedHandle = _smokeCommentsCopyHandle(handle);
   final result = Comments$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

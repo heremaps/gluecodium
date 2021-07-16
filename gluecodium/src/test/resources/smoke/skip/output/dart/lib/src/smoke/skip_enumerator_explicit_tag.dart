@@ -10,13 +10,10 @@ int smokeSkipenumeratorexplicittagToFfi(SkipEnumeratorExplicitTag value) {
   switch (value) {
   case SkipEnumeratorExplicitTag.zero:
     return 0;
-  break;
   case SkipEnumeratorExplicitTag.one:
     return 3;
-  break;
   case SkipEnumeratorExplicitTag.three:
     return 4;
-  break;
   default:
     throw StateError("Invalid enum value $value for SkipEnumeratorExplicitTag enum.");
   }
@@ -25,13 +22,10 @@ SkipEnumeratorExplicitTag smokeSkipenumeratorexplicittagFromFfi(int handle) {
   switch (handle) {
   case 0:
     return SkipEnumeratorExplicitTag.zero;
-  break;
   case 3:
     return SkipEnumeratorExplicitTag.one;
-  break;
   case 4:
     return SkipEnumeratorExplicitTag.three;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for SkipEnumeratorExplicitTag enum.");
   }

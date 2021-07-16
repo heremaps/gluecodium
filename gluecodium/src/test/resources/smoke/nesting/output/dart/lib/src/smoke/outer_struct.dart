@@ -7,7 +7,6 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
-import 'package:meta/meta.dart';
 final _doNothingReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -49,10 +48,8 @@ int smokeOuterstructInnerenumToFfi(OuterStruct_InnerEnum value) {
   switch (value) {
   case OuterStruct_InnerEnum.foo:
     return 0;
-  break;
   case OuterStruct_InnerEnum.bar:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for OuterStruct_InnerEnum enum.");
   }
@@ -61,10 +58,8 @@ OuterStruct_InnerEnum smokeOuterstructInnerenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return OuterStruct_InnerEnum.foo;
-  break;
   case 1:
     return OuterStruct_InnerEnum.bar;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for OuterStruct_InnerEnum enum.");
   }
@@ -212,7 +207,7 @@ Pointer<Void> smokeOuterstructInnerclassToFfi(OuterStruct_InnerClass value) =>
   _smokeOuterstructInnerclassCopyHandle((value as __lib.NativeBase).handle);
 OuterStruct_InnerClass smokeOuterstructInnerclassFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is OuterStruct_InnerClass) return instance as OuterStruct_InnerClass;
+  if (instance != null && instance is OuterStruct_InnerClass) return instance;
   final _copiedHandle = _smokeOuterstructInnerclassCopyHandle(handle);
   final result = OuterStruct_InnerClass$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
@@ -308,7 +303,7 @@ Pointer<Void> smokeOuterstructInnerinterfaceToFfi(OuterStruct_InnerInterface val
 }
 OuterStruct_InnerInterface smokeOuterstructInnerinterfaceFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is OuterStruct_InnerInterface) return instance as OuterStruct_InnerInterface;
+  if (instance != null && instance is OuterStruct_InnerInterface) return instance;
   final _typeIdHandle = _smokeOuterstructInnerinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);

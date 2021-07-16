@@ -4,7 +4,6 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'package:meta/meta.dart';
 abstract class ExternalInterface {
   factory ExternalInterface(
     void Function(int) someMethodLambda,
@@ -27,7 +26,6 @@ int smokeExternalinterfaceSomeenumToFfi(ExternalInterface_SomeEnum value) {
   switch (value) {
   case ExternalInterface_SomeEnum.someValue:
     return 0;
-  break;
   default:
     throw StateError("Invalid enum value $value for ExternalInterface_SomeEnum enum.");
   }
@@ -36,7 +34,6 @@ ExternalInterface_SomeEnum smokeExternalinterfaceSomeenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return ExternalInterface_SomeEnum.someValue;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for ExternalInterface_SomeEnum enum.");
   }
@@ -217,7 +214,7 @@ Pointer<Void> smokeExternalinterfaceToFfi(ExternalInterface value) {
 }
 ExternalInterface smokeExternalinterfaceFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is ExternalInterface) return instance as ExternalInterface;
+  if (instance != null && instance is ExternalInterface) return instance;
   final _typeIdHandle = _smokeExternalinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);

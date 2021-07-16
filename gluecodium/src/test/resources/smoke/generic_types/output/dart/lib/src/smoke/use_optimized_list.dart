@@ -89,7 +89,7 @@ Pointer<Void> smokeUseoptimizedlistToFfi(UseOptimizedList value) =>
   _smokeUseoptimizedlistCopyHandle((value as __lib.NativeBase).handle);
 UseOptimizedList smokeUseoptimizedlistFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is UseOptimizedList) return instance as UseOptimizedList;
+  if (instance != null && instance is UseOptimizedList) return instance;
   final _copiedHandle = _smokeUseoptimizedlistCopyHandle(handle);
   final result = UseOptimizedList$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

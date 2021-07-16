@@ -45,7 +45,7 @@ Pointer<Void> smokeSpecialattributesToFfi(SpecialAttributes value) =>
   _smokeSpecialattributesCopyHandle((value as __lib.NativeBase).handle);
 SpecialAttributes smokeSpecialattributesFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is SpecialAttributes) return instance as SpecialAttributes;
+  if (instance != null && instance is SpecialAttributes) return instance;
   final _copiedHandle = _smokeSpecialattributesCopyHandle(handle);
   final result = SpecialAttributes$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

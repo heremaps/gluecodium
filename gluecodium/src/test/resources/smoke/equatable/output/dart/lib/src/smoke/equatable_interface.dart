@@ -4,7 +4,6 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'package:meta/meta.dart';
 abstract class EquatableInterface {
   /// @nodoc
   @Deprecated("Does nothing")
@@ -56,7 +55,7 @@ Pointer<Void> smokeEquatableinterfaceToFfi(EquatableInterface value) {
 }
 EquatableInterface smokeEquatableinterfaceFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is EquatableInterface) return instance as EquatableInterface;
+  if (instance != null && instance is EquatableInterface) return instance;
   final _typeIdHandle = _smokeEquatableinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);

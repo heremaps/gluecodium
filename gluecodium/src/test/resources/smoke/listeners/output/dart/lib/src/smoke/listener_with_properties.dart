@@ -7,7 +7,6 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/calculation_result.dart';
-import 'package:meta/meta.dart';
 abstract class ListenerWithProperties {
   factory ListenerWithProperties(
     String Function() messageGetLambda,
@@ -67,10 +66,8 @@ int smokeListenerwithpropertiesResultenumToFfi(ListenerWithProperties_ResultEnum
   switch (value) {
   case ListenerWithProperties_ResultEnum.none:
     return 0;
-  break;
   case ListenerWithProperties_ResultEnum.result:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for ListenerWithProperties_ResultEnum enum.");
   }
@@ -79,10 +76,8 @@ ListenerWithProperties_ResultEnum smokeListenerwithpropertiesResultenumFromFfi(i
   switch (handle) {
   case 0:
     return ListenerWithProperties_ResultEnum.none;
-  break;
   case 1:
     return ListenerWithProperties_ResultEnum.result;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for ListenerWithProperties_ResultEnum enum.");
   }
@@ -502,7 +497,7 @@ Pointer<Void> smokeListenerwithpropertiesToFfi(ListenerWithProperties value) {
 }
 ListenerWithProperties smokeListenerwithpropertiesFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is ListenerWithProperties) return instance as ListenerWithProperties;
+  if (instance != null && instance is ListenerWithProperties) return instance;
   final _typeIdHandle = _smokeListenerwithpropertiesGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);

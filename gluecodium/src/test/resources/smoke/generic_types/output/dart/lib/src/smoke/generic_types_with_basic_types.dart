@@ -262,7 +262,7 @@ Pointer<Void> smokeGenerictypeswithbasictypesToFfi(GenericTypesWithBasicTypes va
   _smokeGenerictypeswithbasictypesCopyHandle((value as __lib.NativeBase).handle);
 GenericTypesWithBasicTypes smokeGenerictypeswithbasictypesFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is GenericTypesWithBasicTypes) return instance as GenericTypesWithBasicTypes;
+  if (instance != null && instance is GenericTypesWithBasicTypes) return instance;
   final _copiedHandle = _smokeGenerictypeswithbasictypesCopyHandle(handle);
   final result = GenericTypesWithBasicTypes$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

@@ -243,7 +243,7 @@ Pointer<Void> smokeMethodoverloadsToFfi(MethodOverloads value) =>
   _smokeMethodoverloadsCopyHandle((value as __lib.NativeBase).handle);
 MethodOverloads smokeMethodoverloadsFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is MethodOverloads) return instance as MethodOverloads;
+  if (instance != null && instance is MethodOverloads) return instance;
   final _copiedHandle = _smokeMethodoverloadsCopyHandle(handle);
   final result = MethodOverloads$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

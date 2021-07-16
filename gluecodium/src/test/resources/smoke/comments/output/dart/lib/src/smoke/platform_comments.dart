@@ -34,10 +34,8 @@ int smokePlatformcommentsSomeenumToFfi(PlatformComments_SomeEnum value) {
   switch (value) {
   case PlatformComments_SomeEnum.useless:
     return 0;
-  break;
   case PlatformComments_SomeEnum.useful:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for PlatformComments_SomeEnum enum.");
   }
@@ -46,10 +44,8 @@ PlatformComments_SomeEnum smokePlatformcommentsSomeenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return PlatformComments_SomeEnum.useless;
-  break;
   case 1:
     return PlatformComments_SomeEnum.useful;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for PlatformComments_SomeEnum enum.");
   }
@@ -234,7 +230,7 @@ Pointer<Void> smokePlatformcommentsToFfi(PlatformComments value) =>
   _smokePlatformcommentsCopyHandle((value as __lib.NativeBase).handle);
 PlatformComments smokePlatformcommentsFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is PlatformComments) return instance as PlatformComments;
+  if (instance != null && instance is PlatformComments) return instance;
   final _copiedHandle = _smokePlatformcommentsCopyHandle(handle);
   final result = PlatformComments$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

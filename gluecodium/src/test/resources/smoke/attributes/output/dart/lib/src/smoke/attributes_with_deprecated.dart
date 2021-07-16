@@ -137,7 +137,7 @@ Pointer<Void> smokeAttributeswithdeprecatedToFfi(AttributesWithDeprecated value)
   _smokeAttributeswithdeprecatedCopyHandle((value as __lib.NativeBase).handle);
 AttributesWithDeprecated smokeAttributeswithdeprecatedFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is AttributesWithDeprecated) return instance as AttributesWithDeprecated;
+  if (instance != null && instance is AttributesWithDeprecated) return instance;
   final _copiedHandle = _smokeAttributeswithdeprecatedCopyHandle(handle);
   final result = AttributesWithDeprecated$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

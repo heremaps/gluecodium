@@ -502,7 +502,7 @@ Pointer<Void> smokeLambdasToFfi(Lambdas value) =>
   _smokeLambdasCopyHandle((value as __lib.NativeBase).handle);
 Lambdas smokeLambdasFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is Lambdas) return instance as Lambdas;
+  if (instance != null && instance is Lambdas) return instance;
   final _copiedHandle = _smokeLambdasCopyHandle(handle);
   final result = Lambdas$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
