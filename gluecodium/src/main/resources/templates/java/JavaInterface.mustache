@@ -19,7 +19,8 @@
   !
   !}}
 {{>java/JavaDocComment}}{{>java/JavaAttributes}}
-{{resolveName visibility}}interface {{resolveName}} {{#if this.parent}}extends {{resolveName this.parent "" ref}} {{/if}}{
+{{resolveName visibility}}interface {{resolveName}} {{!!
+}}{{#if this.parents}}extends {{#parents}}{{resolveName this "" "ref"}}{{#if iter.hasNext}}, {{/if}}{{/parents}} {{/if}}{
 {{#constants}}{{prefixPartial "java/JavaConstant" "    "}}
 {{/constants}}
 {{>java/JavaContainerContents}}

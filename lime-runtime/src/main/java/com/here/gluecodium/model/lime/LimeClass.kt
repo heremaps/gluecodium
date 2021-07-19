@@ -61,4 +61,12 @@ class LimeClass(
     @Suppress("unused")
     val hasClassParent
         get() = parentClass != null
+
+    @Suppress("unused")
+    val interfaceInheritedFunctions
+        get() = parentInterfaces.flatMap { it.functions + it.inheritedFunctions }
+
+    @Suppress("unused")
+    val interfaceInheritedProperties
+        get() = parentInterfaces.flatMap { it.properties + it.inheritedProperties }
 }

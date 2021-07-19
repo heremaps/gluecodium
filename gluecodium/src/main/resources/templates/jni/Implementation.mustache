@@ -38,7 +38,7 @@ extern "C" {
 {{>jniPropertyImpl}}
 {{/ifPredicate}}{{/properties}}
 
-{{#if this.parent}}{{#instanceOf this.parent.type.actualType "LimeInterface"}}
+{{#if this.parentInterfaces}}
 {{#inheritedFunctions}}{{#ifPredicate "shouldRetain"}}
 {{>jniMethodImpl}}
 
@@ -46,7 +46,7 @@ extern "C" {
 {{#inheritedProperties}}{{#ifPredicate "shouldRetain"}}
 {{>jniPropertyImpl}}
 {{/ifPredicate}}{{/inheritedProperties}}
-{{/instanceOf}}{{/if}}
+{{/if}}
 
 {{#notInstanceOf container "LimeStruct"}}
 JNIEXPORT void JNICALL

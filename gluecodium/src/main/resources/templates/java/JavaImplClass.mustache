@@ -55,7 +55,7 @@ static {{/if}}class {{resolveName}}Impl extends NativeBase implements {{resolveN
 {{/setter}}
 {{/set}}{{/interface.properties}}
 
-{{#if parent}}{{#set override=true}}
+{{#if interface.parents}}{{#set override=true}}
 {{#interface.inheritedFunctions}}
 {{prefixPartial "java/JavaFunction" "    "}}
 {{/interface.inheritedFunctions}}

@@ -66,6 +66,9 @@ void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared
 {{>cppTypeName}} {{>conversionPrefix}}convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, {{>cppTypeName}}*)
 {
     {{>cppTypeName}} _nresult{};
+{{#if isNarrow}}
+    createCppProxy(_env, _jobj, _nresult);
+{{/if}}{{#unless isNarrow}}
     auto& nativeBaseClass = get_cached_native_base_class();
     if (_env->IsInstanceOf(_jobj.get(), nativeBaseClass.get()))
     {
@@ -83,6 +86,7 @@ void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared
     {
         {{>conversionPrefix}}createCppProxy(_env, _jobj, _nresult);
     }
+{{/unless}}
     return _nresult;
 }
 

@@ -21,9 +21,9 @@
 {{>java/JavaDocComment}}{{>java/JavaAttributes}}
 {{resolveName visibility}}{{#if forceStatic}}static {{/if}}{{!!
 }}{{#unless visibility.isOpen visibility.isInternal logic="and"}}final {{/unless}}{{!!
-}}class {{resolveName}} extends {{#if this.parent}}{{!!
-}}{{#instanceOf this.parent.type.actualType "LimeInterface"}}NativeBase implements {{/instanceOf}}{{resolveName this.parent}}{{/if}}{{!!
-}}{{#unless this.parent}}NativeBase{{/unless}} {
+}}class {{resolveName}} extends {{#if this.parentClass}}{{resolveName this.parentClass "" "ref"}}{{/if}}{{!!
+}}{{#unless this.parentClass}}NativeBase{{/unless}}{{#if this.parentInterfaces}} implements {{!!
+}}{{#this.parentInterfaces}}{{resolveName this "" "ref"}}{{#if iter.hasNext}}, {{/if}}{{/this.parentInterfaces}}{{/if}} {
 {{#constants}}{{prefixPartial "java/JavaConstant" "    "}}
 {{/constants}}
 {{>java/JavaContainerContents}}
@@ -75,19 +75,19 @@
 {{/setter}}{{/set}}
 {{/properties}}
 
-{{#if this.parent}}{{#instanceOf this.parent.type.actualType "LimeInterface"}}{{#set override=true classElement=this}}
-{{#set isClass=true}}{{#classElement.inheritedFunctions}}
+{{#if this.parentInterfaces}}{{#set override=true classElement=this}}
+{{#set isClass=true}}{{#classElement.interfaceInheritedFunctions}}
 {{prefixPartial "java/JavaFunction" "    "}}
-{{/classElement.inheritedFunctions}}{{/set}}
-{{#classElement.inheritedProperties}}{{#set isCached=attributes.cached property=this}}
+{{/classElement.interfaceInheritedFunctions}}{{/set}}
+{{#classElement.interfaceInheritedProperties}}{{#set isCached=attributes.cached property=this}}
 {{#set isGetter=true}}{{#getter}}
 {{prefixPartial "java/JavaFunction" "    "}}
 {{/getter}}{{/set}}
 {{#setter}}
 {{prefixPartial "java/JavaFunction" "    "}}
 {{/setter}}{{/set}}
-{{/classElement.inheritedProperties}}
-{{/set}}{{/instanceOf}}{{/if}}
+{{/classElement.interfaceInheritedProperties}}
+{{/set}}{{/if}}
 
 {{#eval "optimizedLists" path}}{{#this}}
 {{#elementType}}{{prefixPartial "java/LazyNativeList" "    "}}{{/elementType}}

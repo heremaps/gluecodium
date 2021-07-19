@@ -136,7 +136,8 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
                 classes = classes.filter(predicate).map { filterClass(it) },
                 interfaces = interfaces.filter(predicate).map { filterInterface(it) },
                 lambdas = lambdas.filter(predicate),
-                parents = parents.map { LimeDirectTypeRef(filterTopElement(it.type.actualType) as LimeType) }
+                parents = parents.map { LimeDirectTypeRef(filterTopElement(it.type.actualType) as LimeType) },
+                isNarrow = isNarrow
             )
         }.also { remap(it) }
 
