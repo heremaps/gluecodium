@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 9.3.3
+Release date: 2021-07-20
 ### Bug fixes:
   * Suppressed "dart analyze" warning about deprecated element usage for enumerations with a deprecated enumerator.
 
