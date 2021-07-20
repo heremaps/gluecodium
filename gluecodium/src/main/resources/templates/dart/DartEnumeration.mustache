@@ -36,6 +36,9 @@ int {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#if external
   switch (value) {
 {{#set parent=this}}{{#enumerators}}
   case {{resolveName parent "" "ref"}}{{#if external.dart.converter}}Internal{{/if}}.{{resolveName}}:
+{{#if this.attributes.deprecated}}
+  // ignore: deprecated_member_use_from_same_package
+{{/if}}
     return {{value}};
 {{/enumerators}}{{/set}}
   default:
@@ -45,7 +48,9 @@ int {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#if external
 
 {{resolveName this "" "ref"}} {{resolveName "Ffi"}}FromFfi(int handle) {
   switch (handle) {
-{{#set parent=this}}{{#enumerators}}
+{{#set parent=this}}{{#enumerators}}{{#if this.attributes.deprecated}}
+  // ignore: deprecated_member_use_from_same_package
+{{/if}}
   case {{value}}:
 {{#if external.dart.converter}}
     return {{external.dart.converter}}.convertFromInternal({{resolveName parent}}Internal.{{resolveName}});
