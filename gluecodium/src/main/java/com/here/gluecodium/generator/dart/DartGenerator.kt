@@ -47,7 +47,6 @@ import com.here.gluecodium.generator.ffi.FfiCppReturnTypeNameResolver
 import com.here.gluecodium.generator.ffi.FfiNameResolver
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeType.DART
-import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeClass
@@ -106,13 +105,15 @@ internal class DartGenerator : Generator {
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
-        val dartNameResolver = DartNameResolver(limeModel.referenceMap, nameRules, limeLogger, commentsProcessor)
-        val ffiNameResolver = FfiNameResolver(limeModel.referenceMap, nameRules, internalPrefix)
 
         val ffiFilteredModel = LimeModelFilter
             .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, DART, retainFunctions = true) }
         val dartFilteredModel = LimeModelFilter
             .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, DART, retainFunctions = false) }
+
+        val dartNameResolver = DartNameResolver(ffiFilteredModel.referenceMap, nameRules, limeLogger, commentsProcessor)
+        val ffiNameResolver = FfiNameResolver(dartFilteredModel.referenceMap, nameRules, internalPrefix)
+
         val validationResult = DartOverloadsValidator(dartNameResolver, limeLogger, overloadsWerror)
             .validate(dartFilteredModel.topElements)
         if (!validationResult) {
@@ -126,12 +127,8 @@ internal class DartGenerator : Generator {
             "FfiApiTypes" to FfiApiTypeNameResolver(),
             "FfiDartTypes" to FfiDartTypeNameResolver()
         )
-        val ffiCppNameResolver = FfiCppNameResolver(
-            limeModel.referenceMap,
-            cppNameRules,
-            rootNamespace,
-            internalNamespace
-        )
+        val ffiCppNameResolver =
+            FfiCppNameResolver(ffiFilteredModel.referenceMap, cppNameRules, rootNamespace, internalNamespace)
         val ffiResolvers = mapOf(
             "" to ffiNameResolver,
             "C++" to ffiCppNameResolver,
@@ -140,20 +137,20 @@ internal class DartGenerator : Generator {
         )
 
         val importResolver =
-            DartImportResolver(limeModel.referenceMap, dartNameResolver, "$libraryName/$SRC_DIR_SUFFIX")
+            DartImportResolver(dartFilteredModel.referenceMap, dartNameResolver, "$libraryName/$SRC_DIR_SUFFIX")
         val declarationImportResolver = DartDeclarationImportResolver("$libraryName/$SRC_DIR_SUFFIX")
         val importsCollector =
             GenericImportsCollector(importResolver, collectTypeRefImports = true, parentTypeFilter = { true })
         val declarationImportsCollector = GenericImportsCollector(declarationImportResolver, collectOwnImports = true)
 
-        val includeResolver = FfiCppIncludeResolver(limeModel.referenceMap, cppNameRules, internalNamespace)
+        val includeResolver = FfiCppIncludeResolver(ffiFilteredModel.referenceMap, cppNameRules, internalNamespace)
         val includeCollector =
             GenericImportsCollector(includeResolver, collectTypeRefImports = true, collectOwnImports = true)
 
         val exportsCollector = mutableMapOf<List<String>, MutableList<DartExport>>()
         val typeRepositoriesCollector = mutableListOf<LimeContainerWithInheritance>()
 
-        val genericTypes = TypeRefsCollector.getAllTypeRefs(limeModel)
+        val genericTypes = TypeRefsCollector.getAllTypeRefs(dartFilteredModel)
             .map { it.type }
             .filterIsInstance<LimeGenericType>()
             .distinctBy { ffiNameResolver.resolveName(it) }
@@ -522,19 +519,9 @@ internal class DartGenerator : Generator {
             }
 
         fun getAllTypeRefs(limeModel: LimeModel): List<LimeTypeRef> {
-            val allElements = limeModel.referenceMap.values
-                .filterIsInstance<LimeNamedElement>()
-                .filterNot { isSkipped(it, limeModel) }
+            val allElements = limeModel.referenceMap.values.filterIsInstance<LimeNamedElement>()
             return traverseModel(allElements).flatten()
         }
-
-        private fun isSkipped(element: LimeNamedElement, limeModel: LimeModel) =
-            generateSequence(element) {
-                when {
-                    it.path.hasParent -> limeModel.referenceMap[it.path.parent.toString()] as? LimeNamedElement
-                    else -> null
-                }
-            }.any { it.attributes.have(DART, SKIP) }
     }
 
     companion object {

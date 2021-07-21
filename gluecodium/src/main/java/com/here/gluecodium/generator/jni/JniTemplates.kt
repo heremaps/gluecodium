@@ -65,11 +65,12 @@ internal class JniTemplates(
         "C++" to cppNameResolver,
         "C++ FQN" to CppFullNameResolver(nameCache)
     )
-    private val predicates = JniGeneratorPredicates(limeReferenceMap, javaNameRules, cppNameResolver, activeTags).predicates
+    private val generatorPredicates =
+        JniGeneratorPredicates(limeReferenceMap, javaNameRules, cppNameResolver, activeTags)
 
     private val cppIncludeResolver = CppIncludeResolver(limeReferenceMap, cppNameRules, internalNamespace)
     private val jniIncludeResolver = JniIncludeResolver(fileNameRules)
-    private val jniIncludeCollector = JniIncludeCollector(jniIncludeResolver)
+    private val jniIncludeCollector = JniIncludeCollector(jniIncludeResolver) { generatorPredicates.shouldRetain(it) }
 
     fun generateFiles(limeElement: LimeNamedElement): List<GeneratedFile> {
         val optimizedLists = when (limeElement) {
@@ -93,7 +94,7 @@ internal class JniTemplates(
 
         val fileName = fileNameRules.getElementFileName(limeElement)
         val headerFile = GeneratedFile(
-            TemplateEngine.render("jni/Header", containerData, nameResolvers, predicates),
+            TemplateEngine.render("jni/Header", containerData, nameResolvers, generatorPredicates.predicates),
             fileNameRules.getHeaderFilePath(fileName)
         )
 
@@ -103,7 +104,7 @@ internal class JniTemplates(
             listOfNotNull(JniIncludeResolver.exceptionThrowerInclude.takeIf { hasThrowingFunctions(limeElement) })
 
         val implFile = GeneratedFile(
-            TemplateEngine.render("jni/Implementation", containerData, nameResolvers, predicates),
+            TemplateEngine.render("jni/Implementation", containerData, nameResolvers, generatorPredicates.predicates),
             fileNameRules.getImplementationFilePath(fileName)
         )
 
@@ -131,7 +132,12 @@ internal class JniTemplates(
         containerData["listType"] = LimeDirectTypeRef(limeList, attributes = optimizedAttributes)
         containerData["elementType"] = limeList.elementType
         val headerFile = GeneratedFile(
-            TemplateEngine.render("jni/LazyNativeListHeader", containerData, nameResolvers, predicates),
+            TemplateEngine.render(
+                "jni/LazyNativeListHeader",
+                containerData,
+                nameResolvers,
+                generatorPredicates.predicates
+            ),
             fileNameRules.getHeaderFilePath(fileName)
         )
 
@@ -140,7 +146,12 @@ internal class JniTemplates(
         containerData["includes"] = implIncludes.distinct().sorted()
 
         val implFile = GeneratedFile(
-            TemplateEngine.render("jni/LazyNativeListImpl", containerData, nameResolvers, predicates),
+            TemplateEngine.render(
+                "jni/LazyNativeListImpl",
+                containerData,
+                nameResolvers,
+                generatorPredicates.predicates
+            ),
             fileNameRules.getImplementationFilePath(fileName)
         )
 
@@ -199,7 +210,12 @@ internal class JniTemplates(
 
         mustacheData["includes"] = listOf(selfInclude)
         val implFile = GeneratedFile(
-            TemplateEngine.render("jni/StructConversionImplementation", mustacheData, nameResolvers, predicates),
+            TemplateEngine.render(
+                "jni/StructConversionImplementation",
+                mustacheData,
+                nameResolvers,
+                generatorPredicates.predicates
+            ),
             fileNameRules.getImplementationFilePath(fileName)
         )
 
@@ -221,7 +237,12 @@ internal class JniTemplates(
 
         mustacheData["includes"] = listOf(Include.createInternalInclude("$fileName.h"))
         val implFile = GeneratedFile(
-            TemplateEngine.render("jni/EnumConversionImplementation", mustacheData, nameResolvers, predicates),
+            TemplateEngine.render(
+                "jni/EnumConversionImplementation",
+                mustacheData,
+                nameResolvers,
+                generatorPredicates.predicates
+            ),
             fileNameRules.getImplementationFilePath(fileName)
         )
 
@@ -253,7 +274,12 @@ internal class JniTemplates(
                 listOf(Include.createInternalInclude("$proxyFileName.h"))
             } else emptyList()
         val implFile = GeneratedFile(
-            TemplateEngine.render("jni/InstanceConversionImplementation", mustacheData, nameResolvers, predicates),
+            TemplateEngine.render(
+                "jni/InstanceConversionImplementation",
+                mustacheData,
+                nameResolvers,
+                generatorPredicates.predicates
+            ),
             fileNameRules.getImplementationFilePath(fileName)
         )
 
@@ -269,7 +295,7 @@ internal class JniTemplates(
 
         val fileName = fileNameRules.getElementFileName(limeElement) + "CppProxy"
         val headerFile = GeneratedFile(
-            TemplateEngine.render("jni/CppProxyHeader", mustacheData, nameResolvers, predicates),
+            TemplateEngine.render("jni/CppProxyHeader", mustacheData, nameResolvers, generatorPredicates.predicates),
             fileNameRules.getHeaderFilePath(fileName)
         )
 
@@ -277,7 +303,12 @@ internal class JniTemplates(
         val includes = jniIncludeCollector.collectImports(limeElement).distinct().minus(selfInclude).sorted()
         mustacheData["includes"] = listOf(selfInclude) + includes
         val implFile = GeneratedFile(
-            TemplateEngine.render("jni/CppProxyImplementation", mustacheData, nameResolvers, predicates),
+            TemplateEngine.render(
+                "jni/CppProxyImplementation",
+                mustacheData,
+                nameResolvers,
+                generatorPredicates.predicates
+            ),
             fileNameRules.getImplementationFilePath(fileName)
         )
 

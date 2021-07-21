@@ -68,22 +68,22 @@ internal class CBridgeGenerator(
         CBridgeCppNameResolver(limeReferenceMap, CppFullNameResolver(nameCache), cppNameResolver)
     private val cppIncludeResolver = CppIncludeResolver(limeReferenceMap, cppNameRules, internalNamespace)
     private val fileNames = CBridgeFileNames(rootNamespace)
+    private val generatorPredicates = CBridgeGeneratorPredicates(cppNameResolver, limeReferenceMap, activeTags)
     private val headerIncludeCollector =
         GenericImportsCollector(
             CBridgeHeaderIncludeResolver(limeReferenceMap, fileNames),
-            skipAttribute = LimeAttributeType.SWIFT,
+            retainPredicate = { generatorPredicates.shouldRetain(it) },
             collectTypeRefImports = true,
             collectOwnImports = true
         )
     private val implIncludeCollector =
         GenericImportsCollector(
             CBridgeImplIncludeResolver(cppIncludeResolver),
-            skipAttribute = LimeAttributeType.SWIFT,
+            retainPredicate = { generatorPredicates.shouldRetain(it) },
             collectTypeRefImports = true,
             collectOwnImports = true,
             parentTypeFilter = { it is LimeInterface }
         )
-    private val predicates = CBridgeGeneratorPredicates(cppNameResolver, limeReferenceMap, activeTags).predicates
     val genericTypesCollector = GenericTypesCollector(nameResolver)
 
     fun generate(rootElement: LimeNamedElement): List<GeneratedFile> {
@@ -99,14 +99,24 @@ internal class CBridgeGenerator(
         val selfInclude = Include.createInternalInclude(headerFilePath)
         templateData["includes"] = headerIncludeCollector.collectImports(rootElement).distinct().sorted() - selfInclude
         templateData["contentTemplate"] = (selectHeaderTemplate(rootElement) ?: return emptyList())
-        val headerFileContent = TemplateEngine.render("cbridge/CBridgeHeader", templateData, nameResolvers, predicates)
+        val headerFileContent = TemplateEngine.render(
+            "cbridge/CBridgeHeader",
+            templateData,
+            nameResolvers,
+            generatorPredicates.predicates
+        )
         val headerFile = GeneratedFile(headerFileContent, headerFilePath)
 
         templateData["contentTemplate"] = selectImplTemplate(rootElement) ?: return listOf(headerFile)
         templateData["includes"] =
             listOf(selfInclude) + implIncludeCollector.collectImports(rootElement).distinct().sorted()
         val implFileContent =
-            TemplateEngine.render("cbridge/CBridgeImplementation", templateData, nameResolvers, predicates)
+            TemplateEngine.render(
+                "cbridge/CBridgeImplementation",
+                templateData,
+                nameResolvers,
+                generatorPredicates.predicates
+            )
         val implFile = GeneratedFile(implFileContent, fileNames.getImplFilePath(rootElement))
 
         return listOf(headerFile, implFile) +
@@ -132,7 +142,12 @@ internal class CBridgeGenerator(
             )
         templateData["includes"] = headerIncludes.distinct().sorted()
         val headerFileContent =
-            TemplateEngine.render("cbridge/CBridgeCollectionsHeader", templateData, nameResolvers, predicates)
+            TemplateEngine.render(
+                "cbridge/CBridgeCollectionsHeader",
+                templateData,
+                nameResolvers,
+                generatorPredicates.predicates
+            )
         val headerFile = GeneratedFile(headerFileContent, CBRIDGE_COLLECTIONS_HEADER)
 
         val implIncludes = genericTypes.flatMap { implIncludeCollector.collectImports(it) } +
@@ -141,7 +156,12 @@ internal class CBridgeGenerator(
         templateData["includes"] =
             listOf(Include.createInternalInclude(CBRIDGE_COLLECTIONS_HEADER)) + implIncludes.distinct().sorted()
         val implFileContent =
-            TemplateEngine.render("cbridge/CBridgeCollectionsImpl", templateData, nameResolvers, predicates)
+            TemplateEngine.render(
+                "cbridge/CBridgeCollectionsImpl",
+                templateData,
+                nameResolvers,
+                generatorPredicates.predicates
+            )
         val implFile = GeneratedFile(implFileContent, CBRIDGE_COLLECTIONS_IMPL)
 
         return listOf(headerFile, implFile)
@@ -168,7 +188,12 @@ internal class CBridgeGenerator(
         val nameResolvers = mapOf<String, NameResolver>("" to nameResolver, "C++" to cppRefNameResolver)
 
         val headerFile = GeneratedFile(
-            TemplateEngine.render("cbridge/LazyListHeader", containerData, nameResolvers, predicates),
+            TemplateEngine.render(
+                "cbridge/LazyListHeader",
+                containerData,
+                nameResolvers,
+                generatorPredicates.predicates
+            ),
             headerFileName
         )
 
@@ -178,7 +203,7 @@ internal class CBridgeGenerator(
         val implFileName = CBridgeNameRules.createPath(container, rootNamespace, "src", ".cpp", infix)
 
         val implFile = GeneratedFile(
-            TemplateEngine.render("cbridge/LazyListImpl", containerData, nameResolvers, predicates),
+            TemplateEngine.render("cbridge/LazyListImpl", containerData, nameResolvers, generatorPredicates.predicates),
             implFileName
         )
 

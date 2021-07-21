@@ -79,7 +79,7 @@ internal class JavaGenerator : Generator {
         javaNameRules = JavaNameRules(nameRuleSetFromConfig(options.javaNameRules))
         nonNullAnnotation = annotationFromOption(options.javaNonNullAnnotation)
         nullableAnnotation = annotationFromOption(options.javaNullableAnnotation)
-        basePackages = if (options.javaPackages.isNotEmpty()) options.javaPackages else listOf("com", "example")
+        basePackages = options.javaPackages.ifEmpty { listOf("com", "example") }
         internalPackageList = basePackages + internalPackage
         activeTags = options.tags
     }
@@ -114,8 +114,11 @@ internal class JavaGenerator : Generator {
             nonNullAnnotation = nonNullAnnotation,
             nullableAnnotation = nullableAnnotation
         )
+        val importCollector = JavaImportCollector(importResolver) {
+            LimeModelSkipPredicates.shouldRetainCheckParent(it, activeTags, JAVA, limeModel.referenceMap)
+        }
         val resultFiles = flattenTypeCollections(javaFilteredModel.topElements)
-            .flatMap { generateJavaFiles(it, nameResolver, importResolver) }
+            .flatMap { generateJavaFiles(it, nameResolver, importResolver, importCollector) }
             .toMutableList()
 
         val nativeBasePath = (listOf(GENERATOR_NAME) + internalPackageList).joinToString("/")
@@ -173,7 +176,8 @@ internal class JavaGenerator : Generator {
     private fun generateJavaFiles(
         limeElement: LimeNamedElement,
         nameResolver: JavaNameResolver,
-        importResolver: JavaImportResolver
+        importResolver: JavaImportResolver,
+        importCollector: JavaImportCollector
     ): List<GeneratedFile> {
         if (limeElement.external?.java?.get(NAME_NAME) != null &&
             limeElement.external?.java?.get(CONVERTER_NAME) == null
@@ -183,7 +187,6 @@ internal class JavaGenerator : Generator {
 
         val contentTemplateName = selectTemplate(limeElement) ?: return emptyList()
         val packages = (basePackages + limeElement.path.head).map { JavaNameResolver.normalizePackageName(it) }
-        val importCollector = JavaImportCollector(importResolver)
         val imports = importCollector.collectImports(limeElement).filterNot { it.packageNames == packages }
         val optimizedLists = OptimizedListsCollector().getAllOptimizedLists(limeElement)
 
