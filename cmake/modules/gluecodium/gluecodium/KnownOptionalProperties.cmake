@@ -225,6 +225,15 @@ _gluecodium_define_target_property(
 )
 
 _gluecodium_define_target_property(
+  GLUECODIUM_STUBS
+  BRIEF_DOCS "Generate stubs (instead of actual code) which are usefull for unit testing."
+  FULL_DOCS
+    "The generation step produces stubs (currently only Dart is supported)."
+    "The generated code doesn't perform any call to C++ via ffi and doesn't require native library."
+    "This property is initialized by the value of the GLUECODIUM_STUBS_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
+)
+
+_gluecodium_define_target_property(
   GLUECODIUM_VALIDATE_ONLY
   BRIEF_DOCS "Perform validation of input files without generating any code."
   FULL_DOCS
