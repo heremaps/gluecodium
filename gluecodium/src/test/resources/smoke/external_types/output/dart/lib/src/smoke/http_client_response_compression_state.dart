@@ -6,13 +6,10 @@ int smokeCompressionstateToFfi(bar.HttpClientResponseCompressionState value) {
   switch (value) {
   case bar.HttpClientResponseCompressionState.compressed:
     return 0;
-  break;
   case bar.HttpClientResponseCompressionState.decompressed:
     return 1;
-  break;
   case bar.HttpClientResponseCompressionState.notCompressed:
     return 2;
-  break;
   default:
     throw StateError("Invalid enum value $value for HttpClientResponseCompressionState enum.");
   }
@@ -21,13 +18,10 @@ bar.HttpClientResponseCompressionState smokeCompressionstateFromFfi(int handle) 
   switch (handle) {
   case 0:
     return bar.HttpClientResponseCompressionState.compressed;
-  break;
   case 1:
     return bar.HttpClientResponseCompressionState.decompressed;
-  break;
   case 2:
     return bar.HttpClientResponseCompressionState.notCompressed;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for HttpClientResponseCompressionState enum.");
   }

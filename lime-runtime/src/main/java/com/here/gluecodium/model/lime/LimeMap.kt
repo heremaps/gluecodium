@@ -23,8 +23,14 @@ class LimeMap(val keyType: LimeTypeRef, val valueType: LimeTypeRef) : LimeGeneri
     override val name
         get() = "Map<$keyType, $valueType>"
 
-    override val escapedName
-        get() = "Map<${keyType.escapedName}, ${valueType.escapedName}>"
+    override val escapedName: String
+        get() {
+            val keyTypeAttributes = keyType.attributes
+            val keyTypeAttributesString = if (keyTypeAttributes.isEmpty()) "" else "$keyTypeAttributes "
+            val valueTypeAttributes = valueType.attributes
+            val valueTypeAttributesString = if (valueTypeAttributes.isEmpty()) "" else "$valueTypeAttributes "
+            return "Map<$keyTypeAttributesString${keyType.escapedName}, $valueTypeAttributesString${valueType.escapedName}>"
+        }
 
     override val childTypes
         get() = listOf(keyType, valueType)

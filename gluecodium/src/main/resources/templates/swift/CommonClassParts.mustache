@@ -22,13 +22,13 @@
 {{>swift/SwiftConstant}}
 {{/constants}}
 {{#if this.parent}}{{#instanceOf this.parent.type.actualType "LimeInterface"}}
-{{#inheritedProperties}}{{#unless attributes.swift.skip}}
+{{#inheritedProperties}}
 {{>swift/SwiftProperty}}
-{{/unless}}{{/inheritedProperties}}
+{{/inheritedProperties}}
 {{/instanceOf}}{{/if}}
-{{#set container=this}}{{#properties}}{{#unless attributes.swift.skip}}
+{{#set container=this}}{{#properties}}
 {{>swift/SwiftProperty}}
-{{/unless}}{{/properties}}{{/set}}{{!!
+{{/properties}}{{/set}}{{!!
 
 }}
 {{#unlessPredicate "parentIsClass"}}let c_instance : _baseRef
@@ -62,11 +62,11 @@ deinit {
 {{/structs}}{{/unless}}{{!!
 
 }}{{#if this.parent}}{{#instanceOf this.parent.type.actualType "LimeInterface"}}
-{{#inheritedFunctions}}{{#unless attributes.swift.skip}}
+{{#inheritedFunctions}}
 {{>swift/SwiftFunctionSignature}} {{prefixPartial "swift/SwiftFunctionBody" "" skipFirstLine=true}}
-{{/unless}}{{/inheritedFunctions}}
+{{/inheritedFunctions}}
 {{/instanceOf}}{{/if}}{{!!
 
-}}{{#set container=this}}{{#functions}}{{#unless attributes.swift.skip}}
+}}{{#set container=this}}{{#functions}}
 {{>swift/SwiftFunctionSignature}} {{prefixPartial "swift/SwiftFunctionBody" "" skipFirstLine=true}}
-{{/unless}}{{/functions}}{{/set}}
+{{/functions}}{{/set}}

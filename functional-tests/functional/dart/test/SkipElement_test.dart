@@ -18,28 +18,34 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-import XCTest
-import functional
+import "package:test/test.dart";
+import "package:functional/test.dart";
+import "../test_suite.dart";
 
-class SkipEnumeratorTests: XCTestCase {
-    func testAutoTagRoundTrip() {
-        let value = SkipEnumeratorAutoTag.three
+final _testSuite = TestSuite("SkipElement");
 
-        let result = UseSkipEnumerator.autoTagRoundTrip(input: value)
+// Compile-time check that SkipTagsInDart contains exactly one method.
+class SkipTagsInDartImpl implements SkipTagsInDart {
+  @override
+  void dontSkipTagged() {}
 
-        XCTAssertEqual(result, value)
-    }
+  @override
+  void release() {}
+}
 
-    func testExplicitTagRoundTrip() {
-        let value = SkipEnumeratorExplicitTag.three
+void main() {
+  _testSuite.test("AutoTagRoundTrip", () {
+    final value = SkipEnumeratorAutoTag.three;
 
-        let result = UseSkipEnumerator.explicitTagRoundTrip(input: value)
+    final result = UseSkipEnumerator.autoTagRoundTrip(value);
 
-        XCTAssertEqual(result, value)
-    }
+    expect(result, value);
+  });
+  _testSuite.test("ExplicitTagRoundTrip", () {
+    final value = SkipEnumeratorExplicitTag.three;
 
-    static var allTests = [
-        ("testAutoTagRoundTrip", testAutoTagRoundTrip),
-        ("testExplicitTagRoundTrip", testExplicitTagRoundTrip)
-    ]
+    final result = UseSkipEnumerator.explicitTagRoundTrip(value);
+
+    expect(result, value);
+  });
 }

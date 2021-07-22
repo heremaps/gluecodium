@@ -4,7 +4,6 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'package:meta/meta.dart';
 abstract class OuterClass {
   /// @nodoc
   @Deprecated("Does nothing")
@@ -52,7 +51,7 @@ Pointer<Void> smokeOuterclassInnerclassToFfi(OuterClass_InnerClass value) =>
   _smokeOuterclassInnerclassCopyHandle((value as __lib.NativeBase).handle);
 OuterClass_InnerClass smokeOuterclassInnerclassFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is OuterClass_InnerClass) return instance as OuterClass_InnerClass;
+  if (instance != null && instance is OuterClass_InnerClass) return instance;
   final _copiedHandle = _smokeOuterclassInnerclassCopyHandle(handle);
   final result = OuterClass_InnerClass$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
@@ -151,7 +150,7 @@ Pointer<Void> smokeOuterclassInnerinterfaceToFfi(OuterClass_InnerInterface value
 }
 OuterClass_InnerInterface smokeOuterclassInnerinterfaceFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is OuterClass_InnerInterface) return instance as OuterClass_InnerInterface;
+  if (instance != null && instance is OuterClass_InnerInterface) return instance;
   final _typeIdHandle = _smokeOuterclassInnerinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -207,7 +206,7 @@ Pointer<Void> smokeOuterclassToFfi(OuterClass value) =>
   _smokeOuterclassCopyHandle((value as __lib.NativeBase).handle);
 OuterClass smokeOuterclassFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is OuterClass) return instance as OuterClass;
+  if (instance != null && instance is OuterClass) return instance;
   final _copiedHandle = _smokeOuterclassCopyHandle(handle);
   final result = OuterClass$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

@@ -135,7 +135,7 @@ Pointer<Void> smokeClasswithinternallambdaToFfi(ClassWithInternalLambda value) =
   _smokeClasswithinternallambdaCopyHandle((value as __lib.NativeBase).handle);
 ClassWithInternalLambda smokeClasswithinternallambdaFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is ClassWithInternalLambda) return instance as ClassWithInternalLambda;
+  if (instance != null && instance is ClassWithInternalLambda) return instance;
   final _copiedHandle = _smokeClasswithinternallambdaCopyHandle(handle);
   final result = ClassWithInternalLambda$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

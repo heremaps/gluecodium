@@ -7,7 +7,7 @@
 extern "C" {
 #endif
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Lambdas_deconfuse__String_Confuser(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value, FfiOpaqueHandle confuser);
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Lambdas_fuse__ListOf_1String_Indexer(int32_t _isolate_id, FfiOpaqueHandle items, FfiOpaqueHandle callback);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Lambdas_fuse__ListOf_String_Indexer(int32_t _isolate_id, FfiOpaqueHandle items, FfiOpaqueHandle callback);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Lambdas_Producer_call(FfiOpaqueHandle _self, int32_t _isolate_id);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Lambdas_Confuser_call__String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle p0);
 _GLUECODIUM_FFI_EXPORT void library_smoke_Lambdas_Consumer_call__String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle p0);

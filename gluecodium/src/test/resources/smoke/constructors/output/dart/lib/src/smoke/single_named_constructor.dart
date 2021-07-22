@@ -39,7 +39,7 @@ Pointer<Void> smokeSinglenamedconstructorToFfi(SingleNamedConstructor value) =>
   _smokeSinglenamedconstructorCopyHandle((value as __lib.NativeBase).handle);
 SingleNamedConstructor smokeSinglenamedconstructorFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is SingleNamedConstructor) return instance as SingleNamedConstructor;
+  if (instance != null && instance is SingleNamedConstructor) return instance;
   final _copiedHandle = _smokeSinglenamedconstructorCopyHandle(handle);
   final result = SingleNamedConstructor$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

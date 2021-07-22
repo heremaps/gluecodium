@@ -38,10 +38,8 @@ int smokePropertiesInternalerrorcodeToFfi(Properties_InternalErrorCode value) {
   switch (value) {
   case Properties_InternalErrorCode.errorNone:
     return 0;
-  break;
   case Properties_InternalErrorCode.errorFatal:
     return 999;
-  break;
   default:
     throw StateError("Invalid enum value $value for Properties_InternalErrorCode enum.");
   }
@@ -50,10 +48,8 @@ Properties_InternalErrorCode smokePropertiesInternalerrorcodeFromFfi(int handle)
   switch (handle) {
   case 0:
     return Properties_InternalErrorCode.errorNone;
-  break;
   case 999:
     return Properties_InternalErrorCode.errorFatal;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for Properties_InternalErrorCode enum.");
   }
@@ -226,7 +222,7 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
   }
   @override
   set arrayProperty(List<String> value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Properties_arrayProperty_set__ListOf_1String'));
+    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Properties_arrayProperty_set__ListOf_String'));
     final _valueHandle = foobarListofStringToFfi(value);
     final _handle = this.handle;
     _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
@@ -337,7 +333,7 @@ Pointer<Void> smokePropertiesToFfi(Properties value) =>
   _smokePropertiesCopyHandle((value as __lib.NativeBase).handle);
 Properties smokePropertiesFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is Properties) return instance as Properties;
+  if (instance != null && instance is Properties) return instance;
   final _copiedHandle = _smokePropertiesCopyHandle(handle);
   final result = Properties$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

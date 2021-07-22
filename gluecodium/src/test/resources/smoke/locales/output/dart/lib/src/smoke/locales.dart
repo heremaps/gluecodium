@@ -130,7 +130,7 @@ Pointer<Void> smokeLocalesToFfi(Locales value) =>
   _smokeLocalesCopyHandle((value as __lib.NativeBase).handle);
 Locales smokeLocalesFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is Locales) return instance as Locales;
+  if (instance != null && instance is Locales) return instance;
   final _copiedHandle = _smokeLocalesCopyHandle(handle);
   final result = Locales$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

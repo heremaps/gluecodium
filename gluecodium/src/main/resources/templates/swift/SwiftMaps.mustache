@@ -99,4 +99,5 @@ internal func {{>functionPrefix}}moveToCType(_ swiftType: {{resolveName}}?) -> R
 {{/collections}}{{!!
 
 }}{{+functionPrefix}}{{#ifPredicate "hasCppTypeAttribute"}}{{resolveName "CBridge"}}{{/ifPredicate}}{{!!
-}}{{#unlessPredicate "hasCppTypeAttribute"}}{{internalPrefix}}{{/unlessPredicate}}{{/functionPrefix}}
+}}{{#unlessPredicate "hasCppTypeAttribute"}}{{internalPrefix}}{{!!
+}}{{#ifPredicate "hasDurationType"}}TimeInterval_{{/ifPredicate}}{{/unlessPredicate}}{{/functionPrefix}}

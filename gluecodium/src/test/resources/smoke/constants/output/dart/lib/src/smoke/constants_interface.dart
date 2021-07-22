@@ -23,10 +23,8 @@ int smokeConstantsinterfaceStateenumToFfi(ConstantsInterface_StateEnum value) {
   switch (value) {
   case ConstantsInterface_StateEnum.off:
     return 0;
-  break;
   case ConstantsInterface_StateEnum.on:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for ConstantsInterface_StateEnum enum.");
   }
@@ -35,10 +33,8 @@ ConstantsInterface_StateEnum smokeConstantsinterfaceStateenumFromFfi(int handle)
   switch (handle) {
   case 0:
     return ConstantsInterface_StateEnum.off;
-  break;
   case 1:
     return ConstantsInterface_StateEnum.on;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for ConstantsInterface_StateEnum enum.");
   }
@@ -95,7 +91,7 @@ Pointer<Void> smokeConstantsinterfaceToFfi(ConstantsInterface value) =>
   _smokeConstantsinterfaceCopyHandle((value as __lib.NativeBase).handle);
 ConstantsInterface smokeConstantsinterfaceFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is ConstantsInterface) return instance as ConstantsInterface;
+  if (instance != null && instance is ConstantsInterface) return instance;
   final _copiedHandle = _smokeConstantsinterfaceCopyHandle(handle);
   final result = ConstantsInterface$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

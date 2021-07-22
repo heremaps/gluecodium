@@ -4,7 +4,6 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'package:meta/meta.dart';
 /// This is some very useful interface.
 abstract class CommentsInterface {
   factory CommentsInterface(
@@ -96,10 +95,8 @@ int smokeCommentsinterfaceSomeenumToFfi(CommentsInterface_SomeEnum value) {
   switch (value) {
   case CommentsInterface_SomeEnum.useless:
     return 0;
-  break;
   case CommentsInterface_SomeEnum.useful:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for CommentsInterface_SomeEnum enum.");
   }
@@ -108,10 +105,8 @@ CommentsInterface_SomeEnum smokeCommentsinterfaceSomeenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return CommentsInterface_SomeEnum.useless;
-  break;
   case 1:
     return CommentsInterface_SomeEnum.useful;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for CommentsInterface_SomeEnum enum.");
   }
@@ -547,7 +542,7 @@ Pointer<Void> smokeCommentsinterfaceToFfi(CommentsInterface value) {
 }
 CommentsInterface smokeCommentsinterfaceFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is CommentsInterface) return instance as CommentsInterface;
+  if (instance != null && instance is CommentsInterface) return instance;
   final _typeIdHandle = _smokeCommentsinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);

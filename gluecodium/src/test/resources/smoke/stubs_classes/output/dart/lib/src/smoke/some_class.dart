@@ -102,7 +102,7 @@ Pointer<Void> smokeSomeclassToFfi(SomeClass value) =>
   _smokeSomeclassCopyHandle((value as __lib.NativeBase).handle);
 SomeClass smokeSomeclassFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is SomeClass) return instance as SomeClass;
+  if (instance != null && instance is SomeClass) return instance;
   final _copiedHandle = _smokeSomeclassCopyHandle(handle);
   final result = SomeClass$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

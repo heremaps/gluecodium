@@ -79,7 +79,7 @@ Pointer<Void> smokeMultipleattributesdartToFfi(MultipleAttributesDart value) =>
   _smokeMultipleattributesdartCopyHandle((value as __lib.NativeBase).handle);
 MultipleAttributesDart smokeMultipleattributesdartFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is MultipleAttributesDart) return instance as MultipleAttributesDart;
+  if (instance != null && instance is MultipleAttributesDart) return instance;
   final _copiedHandle = _smokeMultipleattributesdartCopyHandle(handle);
   final result = MultipleAttributesDart$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

@@ -64,6 +64,7 @@ internal class JniTypeSignatureNameResolver(private val baseNameResolver: JniNam
             TypeId.STRING -> "Ljava/lang/String;"
             TypeId.BLOB -> "[B"
             TypeId.DATE -> "Ljava/util/Date;"
+            TypeId.DURATION -> "Ljava/time/Duration;"
             TypeId.LOCALE -> "Ljava/util/Locale;"
         }
 

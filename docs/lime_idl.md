@@ -347,7 +347,7 @@ custom constructors, field default values.
 * **Note:** the way of specifying the name of the external type to use varies slightly between
 output languages. For C++ and Java it needs to be a fully-qualified name and it is specified through
 `cpp name "..."` and `java name "..."` values of the external descriptor. For Swift and Dart a
-regular short name is enough so it can be specified through `@Swift("...")` and `@Dart("...")`
+regular short name is enough, so it can be specified through `@Swift("...")` and `@Dart("...")`
 attributes (or omitted if the name is the name of the type in IDL declaration).
 * **Note:** due to specifics of external type naming mentioned just above, the intermediate internal
 type which is generated when a converter is specified has an additional `_internal` suffix to its
@@ -375,7 +375,10 @@ Basic types:
 * **UInt**: unsigned 32-bit integer type
 * **ULong**: unsigned 64-bit integer type
 * **Blob**: generic binary data type
-* **Date**: date type (containing both a calendar date and a clock timestamp)
+* **Date**: date type (containing both a calendar date, and a clock timestamp). Default C++ type is
+`std::chrono::system_clock::timepoint`, can be changed through `@Cpp(Type)` attribute (see `Attributes` below).
+* **Duration**: duration type. Default C++ type is `std::chrono::seconds`, can be changed through `@Cpp(Type)` attribute
+(see `Attributes` below).
 * **Locale**: locale type (containing ISO codes for region, language, and script; and/or BCP 47
 language tag)
 
@@ -507,8 +510,9 @@ element is skipped ((not generated). Custom tags are case-insensitive.
   This is the default specification for this attribute.
   * **FunctionName** **=** **"**_FunctionName_**"**: marks a lambda type to have a specific function
   name in the generated functional interface in Java (instead of a default name).
-  * **Skip**: marks an element to be skipped (not generated) in Java. Can be applied to any element except for struct
-  fields. `@Java(Skip)` is equivalent `@Skip(Java)` (see `@Skip` above).
+  * **Skip** \[**=** **"**_CustomTag_**"** \]: marks an element to be skipped (not generated) in Java. Can be applied to
+  any element except for struct fields. Optionally, if custom tag is specified, the element is only skipped if that tag
+  was defined (see `@Skip` above).
   * **Attribute** **=** **"**_Annotation_**"**: marks an element to be marked with the given annotation in Java
   generated code. _Annotation_ does not need to be prepended with `@`. _Annotation_ can contain parameters, e.g.
   `@Java(Attribute="Deprecated(\"It's deprecated.\")")`. If some of the parameters are string literals, their enclosing
@@ -527,8 +531,9 @@ element is skipped ((not generated). Custom tags are case-insensitive.
   use case for this is adding nested types into a pre-existing Swift type (i.e. non-generated).
   Extending a generated type is also possible, but requires usage of `Name` attribute to avoid name
   clashes on other platforms.
-  * **Skip**: marks an element to be skipped (not generated) in Swift. Can be applied to any element except for struct
-  fields. `@Swift(Skip)` is equivalent `@Skip(Swift)` (see `@Skip` above).
+  * **Skip** \[**=** **"**_CustomTag_**"** \]: marks an element to be skipped (not generated) in Swift. Can be applied to
+  any element except for struct fields. Optionally, if custom tag is specified, the element is only skipped if that tag
+  was defined (see `@Skip` above).
   * **Weak**: marks a property in an interface as `weak` in Swift. Property should have a nullable type. Please note
   that `weak` properties are still represented with "strong" pointers on C++ side. Due to this limitation, if an
   interface type is used for such property, that interface can only have methods that return nullable values or `void`.
@@ -540,8 +545,9 @@ element is skipped ((not generated). Custom tags are case-insensitive.
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Dart.
   This is the default specification for this attribute.
   * **Default**: marks a constructor as a "default" (nameless) in Dart.
-  * **Skip**: marks an element to be skipped (not generated) in Dart. Can be applied to any element except for struct
-  fields. `@Dart(Skip)` is equivalent `@Skip(Dart)` (see `@Skip` above).
+  * **Skip** \[**=** **"**_CustomTag_**"** \]: marks an element to be skipped (not generated) in Dart. Can be applied to
+  any element except for struct fields. Optionally, if custom tag is specified, the element is only skipped if that tag
+  was defined (see `@Skip` above).
   * **PositionalDefaults**: marks a struct to have a constructor with optional positional parameters in Dart. Can only
   be applied to a struct that has at least one field with a default value.
   * **Attribute** **=** **"**_Annotation_**"**: marks an element to be marked with the given annotation in Dart
@@ -563,9 +569,10 @@ element is skipped ((not generated). Custom tags are case-insensitive.
   generated code. _Attribute_ does not need to be enclosed in `[[]]`. _Attribute_ can contain parameters, e.g.
   `@Cpp(Attribute="deprecated(\"It's deprecated.\")")`. If some of the parameters are string literals, their enclosing
   quotes need to be backslash-escaped, as in the example.
-  * **Type** **=** **"**_TypeName_**"**: marks a `Date` type reference to use an alternative type in C++ generated code.
-  For example, `@Cpp(Type="std::chrono::steady_clock::time_point")` will use monotonic clock time point type, instead of
-  the system clock time point type which is used by default.    
+  * **Type** **=** **"**_TypeName_**"**: marks a `Date` or a `Duration` type reference to use an alternative type in C++
+  generated code. For example, `@Cpp(Type="std::chrono::steady_clock::time_point") Date` will use monotonic clock time
+  point type, instead of the system clock time point type which is used by default.
+  * **ToString**: marks an enumeration to have a helper `to_string()` function generated, mapping the enum to string.
   * ~~**ExternalType** **=** **"**_HeaderPaths_**"**~~: legacy attribute, superseded by `cpp
   include` in the `External Descriptor` (see above).
   * ~~**ExternalName** **=** **"**_FullyQualifiedName_**"**~~: legacy attribute, superseded by `cpp
@@ -574,6 +581,17 @@ element is skipped ((not generated). Custom tags are case-insensitive.
   getterName` in the `External Descriptor` (see above).
   * ~~**ExternalSetter** **=** **"**_FunctionName_**"**~~: legacy attribute, superseded by `cpp
   setterName` in the `External Descriptor` (see above).
+
+#### Skip/enable attributes precedence
+
+When multiple `@Skip` and/or `@EnableIf` attributes are specified for the element, the following rules are applied to
+resolve them:
+* If there are several attributes of the same kind, they are combined using "or" logic: i.e. when there are multiple
+`@Skip` attributes, the element is skipped if any of the "skip" conditions is satisfied; when there are multiple
+`@EnableIf` attributes, the element is enabled if any of the "enable" conditions is satisfied.
+* If there are simultaneously both `@Skip` and `@EnableIf` attributes, `@Skip` attribute take precedence: i.e. the
+element is present if and only if `@EnableIf` condition is true and `@Skip` condition if false; otherwise the element is
+skipped.
 
 ### Comments
 

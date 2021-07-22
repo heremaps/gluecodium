@@ -361,6 +361,12 @@ feature(Dates cpp android swift dart SOURCES
     input/lime/Dates.lime
 )
 
+feature(Durations cpp android swift dart SOURCES
+    input/src/cpp/Durations.cpp
+
+    input/lime/Durations.lime
+)
+
 feature(StructsWithCompanion cpp android swift dart SOURCES
     input/src/cpp/StructsWithMethods.cpp
     input/src/cpp/StructsWithConstants.cpp
@@ -415,6 +421,7 @@ feature(Visibility dart SOURCES
 feature(SkipAttribute cpp android swift dart SOURCES
     input/lime/Skip.lime
     input/lime/SkipTags.lime
+    input/lime/SkipTagsInPlatform.lime
     input/lime/SkipEnumerator.lime
     input/lime/EnableIfEnabled.lime
     input/lime/EnableIfSkipped.lime

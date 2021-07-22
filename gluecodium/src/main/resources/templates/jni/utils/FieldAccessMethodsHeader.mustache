@@ -290,6 +290,63 @@ JNIEXPORT void set_field_value( JNIEnv* env,
                       const char* fieldName,
                       {{>common/InternalNamespace}}optional< {{>common/InternalNamespace}}Locale > fieldValue );
 
+JNIEXPORT void set_object_field_value( JNIEnv* env,
+                             const JniReference<jobject>& object,
+                             const char* fieldName,
+                             const char* fieldSignature,
+                             const JniReference<jobject>& fieldValue );
+
+// -------------------- Templated JNI field accessors for Duration types --------------------------
+
+template<class Rep, class Period>
+JNIEXPORT ::std::chrono::duration<Rep, Period> get_field_value(
+    JNIEnv* env,
+    const JniReference<jobject>& object,
+    const char* fieldName,
+    ::std::chrono::duration<Rep, Period>* ) {
+
+    auto fieldValue = get_object_field_value(env, object, fieldName, "Ljava/time/Duration;");
+
+    return {{>common/InternalNamespace}}jni::convert_from_jni(env, fieldValue, (::std::chrono::duration<Rep, Period>*)nullptr);
+}
+
+template<class Rep, class Period>
+JNIEXPORT {{>common/InternalNamespace}}optional<::std::chrono::duration<Rep, Period>> get_field_value(
+    JNIEnv* env,
+    const JniReference<jobject>& object,
+    const char* fieldName,
+    {{>common/InternalNamespace}}optional<::std::chrono::duration<Rep, Period>>* ) {
+
+    auto fieldValue = get_object_field_value(env, object, fieldName, "Ljava/time/Duration;");
+
+    return {{>common/InternalNamespace}}jni::convert_from_jni(
+        env, fieldValue, ({{>common/InternalNamespace}}optional<::std::chrono::duration<Rep, Period>>*)nullptr);
+}
+
+template<class Rep, class Period>
+JNIEXPORT void set_field_value(
+    JNIEnv* env,
+    const JniReference<jobject>& object,
+    const char* fieldName,
+    const ::std::chrono::duration<Rep, Period>& fieldValue ) {
+
+    auto fieldId = env->GetFieldID(get_object_class(env, object).get(), fieldName, "Ljava/time/Duration;");
+    auto jValue = {{>common/InternalNamespace}}jni::convert_to_jni(env, fieldValue);
+    env->SetObjectField(object.get(), fieldId, jValue.get());
+}
+
+template<class Rep, class Period>
+JNIEXPORT void set_field_value(
+    JNIEnv* env,
+    const JniReference<jobject>& object,
+    const char* fieldName,
+    {{>common/InternalNamespace}}optional<::std::chrono::duration<Rep, Period>> fieldValue ) {
+
+    auto fieldId = env->GetFieldID(get_object_class(env, object).get(), fieldName, "Ljava/time/Duration;");
+    auto jValue = {{>common/InternalNamespace}}jni::convert_to_jni(env, fieldValue);
+    env->SetObjectField(object.get(), fieldId, jValue.get());
+}
+
 }
 {{#internalNamespace}}
 }

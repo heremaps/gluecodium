@@ -149,6 +149,6 @@ internal class JniNameResolver(
             TypeId.DOUBLE -> "jdouble"
             TypeId.STRING -> "jstring"
             TypeId.BLOB -> "jbyteArray"
-            TypeId.DATE, TypeId.LOCALE -> "jobject"
+            TypeId.DATE, TypeId.DURATION, TypeId.LOCALE -> "jobject"
         }
 }

@@ -22,6 +22,7 @@ package com.here.gluecodium.generator.swift
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
+import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
@@ -56,13 +57,21 @@ internal class SwiftGeneratorPredicates(limeReferenceMap: Map<String, LimeElemen
                 is LimeList -> hasCppTypeAttribute(limeGenericType.elementType)
                 is LimeSet -> hasCppTypeAttribute(limeGenericType.elementType)
                 is LimeMap ->
-                    hasCppTypeAttribute(limeGenericType.keyType) || hasCppTypeAttribute(limeGenericType.keyType)
+                    hasCppTypeAttribute(limeGenericType.keyType) || hasCppTypeAttribute(limeGenericType.valueType)
                 else -> false
             }
         },
         "hasDeprecatedEnumerators" to { limeEnumeration: Any ->
             limeEnumeration is LimeEnumeration &&
                 limeEnumeration.enumerators.any { it.attributes.have(LimeAttributeType.DEPRECATED) }
+        },
+        "hasDurationType" to { limeGenericType: Any ->
+            when (limeGenericType) {
+                is LimeList -> hasDurationType(limeGenericType.elementType)
+                is LimeSet -> hasDurationType(limeGenericType.elementType)
+                is LimeMap -> hasDurationType(limeGenericType.keyType) || hasDurationType(limeGenericType.valueType)
+                else -> false
+            }
         },
         "hasTypeRepository" to { CommonGeneratorPredicates.hasTypeRepository(it) },
         "hasWeakSupport" to fun(limeInterface: Any): Boolean {
@@ -115,5 +124,10 @@ internal class SwiftGeneratorPredicates(limeReferenceMap: Map<String, LimeElemen
             limeType is LimeTypeAlias -> hasCppTypeAttribute(limeType.typeRef)
             else -> false
         }
+    }
+
+    private fun hasDurationType(limeTypeRef: LimeTypeRef): Boolean {
+        val actualType = limeTypeRef.type.actualType
+        return actualType is LimeBasicType && actualType.typeId == LimeBasicType.TypeId.DURATION
     }
 }

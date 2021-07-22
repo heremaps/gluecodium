@@ -163,6 +163,7 @@ internal class JavaImportResolver(
     private fun resolveBasicTypeImport(typeId: TypeId) =
         when (typeId) {
             TypeId.DATE -> JavaImport(javaUtilPackage, "Date")
+            TypeId.DURATION -> JavaImport(listOf("java", "time"), "Duration")
             TypeId.LOCALE -> JavaImport(javaUtilPackage, "Locale")
             else -> null
         }

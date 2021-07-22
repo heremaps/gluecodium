@@ -6,7 +6,6 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/calculation_result.dart';
-import 'package:meta/meta.dart';
 abstract class ListenersWithReturnValues {
   factory ListenersWithReturnValues(
     double Function() fetchDataDoubleLambda,
@@ -45,10 +44,8 @@ int smokeListenerswithreturnvaluesResultenumToFfi(ListenersWithReturnValues_Resu
   switch (value) {
   case ListenersWithReturnValues_ResultEnum.none:
     return 0;
-  break;
   case ListenersWithReturnValues_ResultEnum.result:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for ListenersWithReturnValues_ResultEnum enum.");
   }
@@ -57,10 +54,8 @@ ListenersWithReturnValues_ResultEnum smokeListenerswithreturnvaluesResultenumFro
   switch (handle) {
   case 0:
     return ListenersWithReturnValues_ResultEnum.none;
-  break;
   case 1:
     return ListenersWithReturnValues_ResultEnum.result;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for ListenersWithReturnValues_ResultEnum enum.");
   }
@@ -381,7 +376,7 @@ Pointer<Void> smokeListenerswithreturnvaluesToFfi(ListenersWithReturnValues valu
 }
 ListenersWithReturnValues smokeListenerswithreturnvaluesFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is ListenersWithReturnValues) return instance as ListenersWithReturnValues;
+  if (instance != null && instance is ListenersWithReturnValues) return instance;
   final _typeIdHandle = _smokeListenerswithreturnvaluesGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);

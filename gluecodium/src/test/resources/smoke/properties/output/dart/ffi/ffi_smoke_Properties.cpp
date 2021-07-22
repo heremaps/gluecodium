@@ -58,7 +58,7 @@ library_smoke_Properties_arrayProperty_get(FfiOpaqueHandle _self, int32_t _isola
     );
 }
 void
-library_smoke_Properties_arrayProperty_set__ListOf_1String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
+library_smoke_Properties_arrayProperty_set__ListOf_String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
             (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Properties>>::toCpp(_self)).set_array_property(
             gluecodium::ffi::Conversion<std::vector<std::string>>::toCpp(value)

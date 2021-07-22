@@ -284,27 +284,6 @@ library_Blob_get_value_nullable(FfiOpaqueHandle handle)
     );
 }
 FfiOpaqueHandle
-library_Date_create_handle_nullable(uint64_t value)
-{
-    return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<std::chrono::system_clock::time_point>(
-            gluecodium::ffi::Conversion<std::chrono::system_clock::time_point>::toCpp(value)
-        )
-    );
-}
-void
-library_Date_release_handle_nullable(FfiOpaqueHandle handle)
-{
-    delete reinterpret_cast<gluecodium::optional<std::chrono::system_clock::time_point>*>(handle);
-}
-uint64_t
-library_Date_get_value_nullable(FfiOpaqueHandle handle)
-{
-    return gluecodium::ffi::Conversion<std::chrono::system_clock::time_point>::toFfi(
-        **reinterpret_cast<gluecodium::optional<std::chrono::system_clock::time_point>*>(handle)
-    );
-}
-FfiOpaqueHandle
 library_Locale_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(

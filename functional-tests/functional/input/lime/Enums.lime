@@ -62,3 +62,9 @@ enum EnumWithDeprecatedItems {
     bar,
     baz
 }
+
+@Cpp(ToString)
+enum EnumWithToStringHelper {
+    FIRST,
+    SECOND
+}

@@ -36,19 +36,19 @@ final _packageClassGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrar
 final _funReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_package_Class_fun__ListOf_1package_1Types_1Struct_return_release_handle'));
+  >('library_package_Class_fun__ListOf_package_Types_Struct_return_release_handle'));
 final _funReturnGetResult = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_package_Class_fun__ListOf_1package_1Types_1Struct_return_get_result'));
+  >('library_package_Class_fun__ListOf_package_Types_Struct_return_get_result'));
 final _funReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_package_Class_fun__ListOf_1package_1Types_1Struct_return_get_error'));
+  >('library_package_Class_fun__ListOf_package_Types_Struct_return_get_error'));
 final _funReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
-  >('library_package_Class_fun__ListOf_1package_1Types_1Struct_return_has_error'));
+  >('library_package_Class_fun__ListOf_package_Types_Struct_return_has_error'));
 class Class$Impl extends __lib.NativeBase implements Class {
   Class$Impl(Pointer<Void> handle) : super(handle);
   @override
@@ -64,7 +64,7 @@ class Class$Impl extends __lib.NativeBase implements Class {
   }
   @override
   Struct fun(List<Struct> double) {
-    final _funFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_package_Class_fun__ListOf_1package_1Types_1Struct'));
+    final _funFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_package_Class_fun__ListOf_package_Types_Struct'));
     final _doubleHandle = foobarListofPackageTypesStructToFfi(double);
     final _handle = this.handle;
     final __callResultHandle = _funFfi(_handle, __lib.LibraryContext.isolateId, _doubleHandle);
@@ -110,7 +110,7 @@ Pointer<Void> packageClassToFfi(Class value) =>
   _packageClassCopyHandle((value as __lib.NativeBase).handle);
 Class packageClassFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is Class) return instance as Class;
+  if (instance != null && instance is Class) return instance;
   final _typeIdHandle = _packageClassGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);

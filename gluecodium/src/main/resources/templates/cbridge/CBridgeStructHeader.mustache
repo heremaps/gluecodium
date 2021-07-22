@@ -50,7 +50,7 @@ _GLUECODIUM_C_EXPORT {{resolveName typeRef}} {{structName}}_{{resolveName}}_get(
 {{#functions}}{{#if thrownType}}{{>cbridge/ThrowingFunctionReturnType}}
 {{/if}}{{/functions}}
 
-{{#functions}}{{#unless attributes.swift.skip}}
+{{#functions}}{{#ifPredicate "shouldRetain"}}
 _GLUECODIUM_C_EXPORT {{>cbridge/CBridgeFunctionSignature}};
-{{/unless}}{{/functions}}
+{{/ifPredicate}}{{/functions}}
 {{/if}}

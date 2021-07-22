@@ -171,7 +171,7 @@ class TypeDefs$Impl extends __lib.NativeBase implements TypeDefs {
     }
   }
   static List<TypeDefs_TestStruct> methodWithComplexTypeDef(List<TypeDefs_TestStruct> input) {
-    final _methodWithComplexTypeDefFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_TypeDefs_methodWithComplexTypeDef__ListOf_1smoke_1TypeDefs_1TestStruct'));
+    final _methodWithComplexTypeDefFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_TypeDefs_methodWithComplexTypeDef__ListOf_smoke_TypeDefs_TestStruct'));
     final _inputHandle = foobarListofSmokeTypedefsTeststructToFfi(input);
     final __resultHandle = _methodWithComplexTypeDefFfi(__lib.LibraryContext.isolateId, _inputHandle);
     foobarListofSmokeTypedefsTeststructReleaseFfiHandle(_inputHandle);
@@ -236,7 +236,7 @@ class TypeDefs$Impl extends __lib.NativeBase implements TypeDefs {
   }
   @override
   set primitiveTypeProperty(List<double> value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_TypeDefs_primitiveTypeProperty_set__ListOf_1Double'));
+    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_TypeDefs_primitiveTypeProperty_set__ListOf_Double'));
     final _valueHandle = foobarListofDoubleToFfi(value);
     final _handle = this.handle;
     _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
@@ -247,7 +247,7 @@ Pointer<Void> smokeTypedefsToFfi(TypeDefs value) =>
   _smokeTypedefsCopyHandle((value as __lib.NativeBase).handle);
 TypeDefs smokeTypedefsFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is TypeDefs) return instance as TypeDefs;
+  if (instance != null && instance is TypeDefs) return instance;
   final _copiedHandle = _smokeTypedefsCopyHandle(handle);
   final result = TypeDefs$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

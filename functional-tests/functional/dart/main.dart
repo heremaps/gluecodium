@@ -28,6 +28,7 @@ import "test/Constants_test.dart" as ConstantsTests;
 import "test/CppConstMethods_test.dart" as CppConstMethodsTests;
 import "test/Dates_test.dart" as DatesTests;
 import "test/Defaults_test.dart" as DefaultsTests;
+import "test/Durations_test.dart" as DurationsTests;
 import "test/EquatableClasses_test.dart" as EquatableClassesTests;
 import "test/EquatableStructs_test.dart" as EquatableStructsTests;
 import "test/Enums_test.dart" as EnumsTests;
@@ -56,7 +57,7 @@ import "test/Properties_test.dart" as PropertiesTests;
 import "test/RefEquality_test.dart" as RefEqualityTests;
 import "test/Sets_test.dart" as SetsTests;
 import "test/SimpleEquality_test.dart" as SimpleEqualityTests;
-import "test/SkipEnumerator_test.dart" as SkipEnumeratorTests;
+import "test/SkipElement_test.dart" as SkipElementTests;
 import "test/StaticBooleanMethods_test.dart" as StaticBooleanMethodsTests;
 import "test/StaticFloatDoubleMethods_test.dart" as StaticFloatDoubleMethodsTests;
 import "test/StaticIntMethods_test.dart" as StaticIntMethodsTests;
@@ -71,6 +72,7 @@ final _allTests = [
   CppConstMethodsTests.main,
   DatesTests.main,
   DefaultsTests.main,
+  DurationsTests.main,
   EquatableClassesTests.main,
   EquatableStructsTests.main,
   EnumsTests.main,
@@ -99,7 +101,7 @@ final _allTests = [
   RefEqualityTests.main,
   SetsTests.main,
   SimpleEqualityTests.main,
-  SkipEnumeratorTests.main,
+  SkipElementTests.main,
   StaticBooleanMethodsTests.main,
   StaticFloatDoubleMethodsTests.main,
   StaticIntMethodsTests.main,

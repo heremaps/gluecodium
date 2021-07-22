@@ -164,7 +164,7 @@ class Dates$Impl extends __lib.NativeBase implements Dates {
   }
   @override
   set dateSet(Set<DateTime> value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Dates_dateSet_set__SetOf_1Date'));
+    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Dates_dateSet_set__SetOf_Date'));
     final _valueHandle = foobarSetofDateToFfi(value);
     final _handle = this.handle;
     _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
@@ -175,7 +175,7 @@ Pointer<Void> smokeDatesToFfi(Dates value) =>
   _smokeDatesCopyHandle((value as __lib.NativeBase).handle);
 Dates smokeDatesFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is Dates) return instance as Dates;
+  if (instance != null && instance is Dates) return instance;
   final _copiedHandle = _smokeDatesCopyHandle(handle);
   final result = Dates$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

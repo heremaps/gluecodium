@@ -19,10 +19,8 @@ int smokeDefaultvaluesSomeenumToFfi(DefaultValues_SomeEnum value) {
   switch (value) {
   case DefaultValues_SomeEnum.fooValue:
     return 0;
-  break;
   case DefaultValues_SomeEnum.barValue:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for DefaultValues_SomeEnum enum.");
   }
@@ -31,10 +29,8 @@ DefaultValues_SomeEnum smokeDefaultvaluesSomeenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return DefaultValues_SomeEnum.fooValue;
-  break;
   case 1:
     return DefaultValues_SomeEnum.barValue;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for DefaultValues_SomeEnum enum.");
   }
@@ -78,10 +74,8 @@ int smokeDefaultvaluesExternalenumToFfi(DefaultValues_ExternalEnum value) {
   switch (value) {
   case DefaultValues_ExternalEnum.oneValue:
     return 0;
-  break;
   case DefaultValues_ExternalEnum.anotherValue:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for DefaultValues_ExternalEnum enum.");
   }
@@ -90,10 +84,8 @@ DefaultValues_ExternalEnum smokeDefaultvaluesExternalenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return DefaultValues_ExternalEnum.oneValue;
-  break;
   case 1:
     return DefaultValues_ExternalEnum.anotherValue;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for DefaultValues_ExternalEnum enum.");
   }
@@ -709,7 +701,7 @@ Pointer<Void> smokeDefaultvaluesToFfi(DefaultValues value) =>
   _smokeDefaultvaluesCopyHandle((value as __lib.NativeBase).handle);
 DefaultValues smokeDefaultvaluesFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is DefaultValues) return instance as DefaultValues;
+  if (instance != null && instance is DefaultValues) return instance;
   final _copiedHandle = _smokeDefaultvaluesCopyHandle(handle);
   final result = DefaultValues$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

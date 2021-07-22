@@ -67,10 +67,8 @@ internal class FfiApiTypeNameResolver : NameResolver {
             TypeId.BOOLEAN -> "Uint8"
             TypeId.FLOAT -> "Float"
             TypeId.DOUBLE -> "Double"
-            TypeId.STRING -> OPAQUE_HANDLE_TYPE
-            TypeId.BLOB -> OPAQUE_HANDLE_TYPE
-            TypeId.DATE -> "Uint64"
-            TypeId.LOCALE -> OPAQUE_HANDLE_TYPE
+            TypeId.DATE, TypeId.DURATION -> "Uint64"
+            TypeId.STRING, TypeId.BLOB, TypeId.LOCALE -> OPAQUE_HANDLE_TYPE
         }
 
     companion object {

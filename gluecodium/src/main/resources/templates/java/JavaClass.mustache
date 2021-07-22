@@ -27,14 +27,14 @@
 {{#constants}}{{prefixPartial "java/JavaConstant" "    "}}
 {{/constants}}
 {{>java/JavaContainerContents}}
-{{#set classElement=this}}{{#constructors}}{{#unless attributes.java.skip}}
+{{#set classElement=this}}{{#constructors}}
 {{prefixPartial "java/JavaMethodComment" "    "}}
     {{resolveName visibility}}{{resolveName classElement}}({{joinPartial parameters "java/JavaParameter" ", "}}){{!!
     }}{{#thrownType}} throws {{resolveName typeRef}}{{/thrownType}} {
         this({{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}), (Object)null);
         cacheThisInstance();
     }
-{{/unless}}{{/constructors}}{{/set}}
+{{/constructors}}{{/set}}
 {{#unless visibility.isInternal}}
     /**
      * For internal use only.
@@ -63,30 +63,30 @@
 
 {{/if}}
 
-{{#set isClass=true}}{{#functions}}{{#unless attributes.java.skip}}
+{{#set isClass=true}}{{#functions}}
 {{prefixPartial "java/JavaFunction" "    "}}
-{{/unless}}{{/functions}}{{/set}}
-{{#properties}}{{#unless attributes.java.skip}}{{#set isCached=attributes.cached property=this}}
+{{/functions}}{{/set}}
+{{#properties}}{{#set isCached=attributes.cached property=this}}
 {{#set isGetter=true}}{{#getter}}
 {{prefixPartial "java/JavaFunction" "    "}}
 {{/getter}}{{/set}}
 {{#setter}}
 {{prefixPartial "java/JavaFunction" "    "}}
 {{/setter}}{{/set}}
-{{/unless}}{{/properties}}
+{{/properties}}
 
 {{#if this.parent}}{{#instanceOf this.parent.type.actualType "LimeInterface"}}{{#set override=true classElement=this}}
-{{#set isClass=true}}{{#classElement.inheritedFunctions}}{{#unless attributes.java.skip}}
+{{#set isClass=true}}{{#classElement.inheritedFunctions}}
 {{prefixPartial "java/JavaFunction" "    "}}
-{{/unless}}{{/classElement.inheritedFunctions}}{{/set}}
-{{#classElement.inheritedProperties}}{{#unless attributes.java.skip}}{{#set isCached=attributes.cached property=this}}
+{{/classElement.inheritedFunctions}}{{/set}}
+{{#classElement.inheritedProperties}}{{#set isCached=attributes.cached property=this}}
 {{#set isGetter=true}}{{#getter}}
 {{prefixPartial "java/JavaFunction" "    "}}
 {{/getter}}{{/set}}
 {{#setter}}
 {{prefixPartial "java/JavaFunction" "    "}}
 {{/setter}}{{/set}}
-{{/unless}}{{/classElement.inheritedProperties}}
+{{/classElement.inheritedProperties}}
 {{/set}}{{/instanceOf}}{{/if}}
 
 {{#eval "optimizedLists" path}}{{#this}}

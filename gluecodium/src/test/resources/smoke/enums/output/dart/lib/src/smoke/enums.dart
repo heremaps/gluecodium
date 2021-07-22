@@ -21,10 +21,8 @@ int smokeEnumsSimpleenumToFfi(Enums_SimpleEnum value) {
   switch (value) {
   case Enums_SimpleEnum.first:
     return 0;
-  break;
   case Enums_SimpleEnum.second:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for Enums_SimpleEnum enum.");
   }
@@ -33,10 +31,8 @@ Enums_SimpleEnum smokeEnumsSimpleenumFromFfi(int handle) {
   switch (handle) {
   case 0:
     return Enums_SimpleEnum.first;
-  break;
   case 1:
     return Enums_SimpleEnum.second;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for Enums_SimpleEnum enum.");
   }
@@ -80,10 +76,8 @@ int smokeEnumsInternalerrorcodeToFfi(Enums_InternalErrorCode value) {
   switch (value) {
   case Enums_InternalErrorCode.errorNone:
     return 0;
-  break;
   case Enums_InternalErrorCode.errorFatal:
     return 999;
-  break;
   default:
     throw StateError("Invalid enum value $value for Enums_InternalErrorCode enum.");
   }
@@ -92,10 +86,8 @@ Enums_InternalErrorCode smokeEnumsInternalerrorcodeFromFfi(int handle) {
   switch (handle) {
   case 0:
     return Enums_InternalErrorCode.errorNone;
-  break;
   case 999:
     return Enums_InternalErrorCode.errorFatal;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for Enums_InternalErrorCode enum.");
   }
@@ -272,7 +264,7 @@ Pointer<Void> smokeEnumsToFfi(Enums value) =>
   _smokeEnumsCopyHandle((value as __lib.NativeBase).handle);
 Enums smokeEnumsFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is Enums) return instance as Enums;
+  if (instance != null && instance is Enums) return instance;
   final _copiedHandle = _smokeEnumsCopyHandle(handle);
   final result = Enums$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

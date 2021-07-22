@@ -68,7 +68,7 @@ Pointer<Void> smokeChildwithparentclassreferencesToFfi(ChildWithParentClassRefer
   _smokeChildwithparentclassreferencesCopyHandle((value as __lib.NativeBase).handle);
 ChildWithParentClassReferences smokeChildwithparentclassreferencesFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is ChildWithParentClassReferences) return instance as ChildWithParentClassReferences;
+  if (instance != null && instance is ChildWithParentClassReferences) return instance;
   final _typeIdHandle = _smokeChildwithparentclassreferencesGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);

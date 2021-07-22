@@ -23,8 +23,12 @@ class LimeList(val elementType: LimeTypeRef) : LimeGenericType() {
     override val name
         get() = "List<$elementType>"
 
-    override val escapedName
-        get() = "List<${elementType.escapedName}>"
+    override val escapedName: String
+        get() {
+            val typeRefAttributes = elementType.attributes
+            val attributesString = if (typeRefAttributes.isEmpty()) "" else "$typeRefAttributes "
+            return "List<$attributesString${elementType.escapedName}>"
+        }
 
     override val childTypes
         get() = listOf(elementType)

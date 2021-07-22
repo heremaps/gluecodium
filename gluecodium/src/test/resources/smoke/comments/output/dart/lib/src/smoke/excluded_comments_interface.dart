@@ -4,7 +4,6 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'package:meta/meta.dart';
 /// This is some very useful interface.
 /// @nodoc
 abstract class ExcludedCommentsInterface {
@@ -49,7 +48,7 @@ Pointer<Void> smokeExcludedcommentsinterfaceToFfi(ExcludedCommentsInterface valu
 }
 ExcludedCommentsInterface smokeExcludedcommentsinterfaceFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is ExcludedCommentsInterface) return instance as ExcludedCommentsInterface;
+  if (instance != null && instance is ExcludedCommentsInterface) return instance;
   final _typeIdHandle = _smokeExcludedcommentsinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);

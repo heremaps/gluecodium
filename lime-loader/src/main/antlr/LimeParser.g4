@@ -170,7 +170,7 @@ predefinedType
     : 'Byte'  | 'Short'  | 'Int'  | 'Long'  |
       'UByte'  | 'UShort'  | 'UInt'  | 'ULong' |
       'Boolean' | 'String' | 'Float' | 'Double' |
-      'Blob' | 'Date' | 'Locale' | 'Void'
+      'Blob' | 'Date' | 'Duration' | 'Locale' | 'Void'
     ;
 
 genericType

@@ -21,7 +21,9 @@ package com.here.gluecodium.generator.cpp
 
 import com.here.gluecodium.generator.common.ImportsResolver
 import com.here.gluecodium.generator.common.Include
+import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeType.OPTIMIZED
+import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
@@ -54,6 +56,7 @@ internal class CppIncludeResolver(
 
     private val returnInclude = cppIncludesCache.createInternalNamespaceInclude("Return.h")
     private val timePointHashInclude = cppIncludesCache.createInternalNamespaceInclude("TimePointHash.h")
+    private val durationHashInclude = cppIncludesCache.createInternalNamespaceInclude("DurationHash.h")
     private val vectorHashInclude = cppIncludesCache.createInternalNamespaceInclude("VectorHash.h")
     private val unorderedMapHashInclude = cppIncludesCache.createInternalNamespaceInclude("UnorderedMapHash.h")
     private val unorderedSetHashInclude = cppIncludesCache.createInternalNamespaceInclude("UnorderedSetHash.h")
@@ -67,7 +70,9 @@ internal class CppIncludeResolver(
             is LimeGenericType -> resolveGenericTypeIncludes(limeElement)
             is LimeFunction -> resolveExceptionIncludes(limeElement)
             is LimeLambda -> cppIncludesCache.resolveIncludes(limeElement) + CppLibraryIncludes.FUNCTIONAL
-            is LimeNamedElement -> cppIncludesCache.resolveIncludes(limeElement)
+            is LimeNamedElement -> cppIncludesCache.resolveIncludes(limeElement) +
+                if (limeElement.attributes.have(CPP, LimeAttributeValueType.TO_STRING)) listOf(CppLibraryIncludes.STRING)
+                else emptyList()
             else -> emptyList()
         }
 
@@ -105,6 +110,7 @@ internal class CppIncludeResolver(
         return when (limeType.typeId) {
             TypeId.STRING -> listOf(CppLibraryIncludes.STRING)
             TypeId.DATE -> listOf(CppLibraryIncludes.CHRONO, timePointHashInclude)
+            TypeId.DURATION -> listOf(CppLibraryIncludes.CHRONO, durationHashInclude)
             TypeId.LOCALE -> listOf(localeInclude)
             TypeId.BLOB -> listOf(
                 CppLibraryIncludes.MEMORY,
@@ -115,10 +121,10 @@ internal class CppIncludeResolver(
         }
     }
 
-    private fun resolveGenericTypeIncludes(limeType: LimeGenericType) =
+    private fun resolveGenericTypeIncludes(limeType: LimeGenericType): List<Include> =
         when (limeType) {
-            is LimeList -> resolveElementImports(limeType.elementType) + CppLibraryIncludes.VECTOR +
-                vectorHashInclude
+            is LimeList ->
+                resolveElementImports(limeType.elementType) + CppLibraryIncludes.VECTOR + vectorHashInclude
             is LimeSet ->
                 limeType.elementType.let { resolveElementImports(it) + resolveHashIncludes(it) } +
                     CppLibraryIncludes.SET + unorderedSetHashInclude

@@ -65,7 +65,7 @@ Pointer<Void> smokeCachedpropertiesToFfi(CachedProperties value) =>
   _smokeCachedpropertiesCopyHandle((value as __lib.NativeBase).handle);
 CachedProperties smokeCachedpropertiesFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is CachedProperties) return instance as CachedProperties;
+  if (instance != null && instance is CachedProperties) return instance;
   final _copiedHandle = _smokeCachedpropertiesCopyHandle(handle);
   final result = CachedProperties$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

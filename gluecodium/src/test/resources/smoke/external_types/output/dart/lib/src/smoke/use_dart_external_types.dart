@@ -83,7 +83,7 @@ Pointer<Void> smokeUsedartexternaltypesToFfi(UseDartExternalTypes value) =>
   _smokeUsedartexternaltypesCopyHandle((value as __lib.NativeBase).handle);
 UseDartExternalTypes smokeUsedartexternaltypesFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is UseDartExternalTypes) return instance as UseDartExternalTypes;
+  if (instance != null && instance is UseDartExternalTypes) return instance;
   final _copiedHandle = _smokeUsedartexternaltypesCopyHandle(handle);
   final result = UseDartExternalTypes$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

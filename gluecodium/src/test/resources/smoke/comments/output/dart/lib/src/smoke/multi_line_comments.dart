@@ -76,7 +76,7 @@ Pointer<Void> smokeMultilinecommentsToFfi(MultiLineComments value) =>
   _smokeMultilinecommentsCopyHandle((value as __lib.NativeBase).handle);
 MultiLineComments smokeMultilinecommentsFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is MultiLineComments) return instance as MultiLineComments;
+  if (instance != null && instance is MultiLineComments) return instance;
   final _copiedHandle = _smokeMultilinecommentsCopyHandle(handle);
   final result = MultiLineComments$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

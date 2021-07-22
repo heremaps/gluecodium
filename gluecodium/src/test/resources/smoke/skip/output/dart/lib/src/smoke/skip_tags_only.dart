@@ -29,7 +29,7 @@ Pointer<Void> smokeSkiptagsonlyToFfi(SkipTagsOnly value) =>
   _smokeSkiptagsonlyCopyHandle((value as __lib.NativeBase).handle);
 SkipTagsOnly smokeSkiptagsonlyFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is SkipTagsOnly) return instance as SkipTagsOnly;
+  if (instance != null && instance is SkipTagsOnly) return instance;
   final _copiedHandle = _smokeSkiptagsonlyCopyHandle(handle);
   final result = SkipTagsOnly$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

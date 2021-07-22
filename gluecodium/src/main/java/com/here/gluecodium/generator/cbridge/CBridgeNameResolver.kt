@@ -104,7 +104,7 @@ internal class CBridgeNameResolver(
             TypeId.BOOLEAN -> "bool"
             TypeId.FLOAT -> "float"
             TypeId.DOUBLE -> "double"
-            TypeId.DATE -> "double"
+            TypeId.DATE, TypeId.DURATION -> "double"
             else -> HANDLE
         }
 

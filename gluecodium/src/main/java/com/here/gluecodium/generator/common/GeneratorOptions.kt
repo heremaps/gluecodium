@@ -55,7 +55,8 @@ data class GeneratorOptions(
     var dartNameRules: Configuration = ConfigurationProperties.fromResource(
         Gluecodium::class.java,
         "/namerules/dart.properties"
-    )
+    ),
+    var tags: Set<String> = emptySet()
 ) {
     companion object {
         const val WARNING_DOC_LINKS = "DocLinks"

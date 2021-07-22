@@ -50,10 +50,10 @@ _GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_release_handle(FfiOp
 {{#each interfaces lambdas}}
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_create_proxy({{!!
 }}uint64_t token, int32_t isolate_id, Dart_Handle dart_handle{{!!
-}}{{#each inheritedFunctions functions}}{{#unless attributes.dart.skip isStatic logic="and"}}{{!!
-}}, FfiOpaqueHandle f{{iter.position}}{{/unless}}{{/each}}{{!!
-}}{{#each inheritedProperties properties}}{{#unless attributes.dart.skip isStatic logic="and"}}, FfiOpaqueHandle p{{iter.position}}g{{!!
-}}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{/unless}}{{/each}});
+}}{{#each inheritedFunctions functions}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}{{!!
+}}, FfiOpaqueHandle f{{iter.position}}{{/ifPredicate}}{{/unless}}{{/each}}{{!!
+}}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}, FfiOpaqueHandle p{{iter.position}}g{{!!
+}}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{/ifPredicate}}{{/unless}}{{/each}});
 {{/each}}
 
 {{#each nonExternalStructs externalStructs}}
@@ -95,19 +95,19 @@ _GLUECODIUM_FFI_EXPORT bool {{libraryName}}_{{resolveName}}_are_equal(FfiOpaqueH
 {{/ffiEqualityFunctionDeclaration}}{{!!
 
 }}{{+ffiClassHeader}}
-{{#functions}}{{#unless attributes.dart.skip}}
+{{#functions}}{{#ifPredicate "shouldRetain"}}
 {{>ffiFunctionDeclaration}}
-{{/unless}}{{/functions}}
-{{#properties}}{{#unless attributes.dart.skip}}{{#getter}}
+{{/ifPredicate}}{{/functions}}
+{{#properties}}{{#ifPredicate "shouldRetain"}}{{#getter}}
 {{>ffiFunctionDeclaration}}
 {{/getter}}{{#setter}}
 {{>ffiFunctionDeclaration}}
 {{/setter}}
-{{/unless}}{{/properties}}
+{{/ifPredicate}}{{/properties}}
 {{#structs}}
-{{#functions}}{{#unless attributes.dart.skip}}
+{{#functions}}{{#ifPredicate "shouldRetain"}}
 {{>ffiFunctionDeclaration}}
-{{/unless}}{{/functions}}
+{{/ifPredicate}}{{/functions}}
 {{/structs}}
 {{#this.lambdas}}{{#asFunction}}
 {{>ffiFunctionDeclaration}}

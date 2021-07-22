@@ -6,7 +6,6 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/calculation_result.dart';
-import 'package:meta/meta.dart';
 abstract class CalculatorListener {
   factory CalculatorListener(
     void Function(double) onCalculationResultLambda,
@@ -180,7 +179,7 @@ class CalculatorListener$Impl extends __lib.NativeBase implements CalculatorList
   }
   @override
   void onCalculationResultArray(List<double> calculationResult) {
-    final _onCalculationResultArrayFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CalculatorListener_onCalculationResultArray__ListOf_1Double'));
+    final _onCalculationResultArrayFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CalculatorListener_onCalculationResultArray__ListOf_Double'));
     final _calculationResultHandle = foobarListofDoubleToFfi(calculationResult);
     final _handle = this.handle;
     _onCalculationResultArrayFfi(_handle, __lib.LibraryContext.isolateId, _calculationResultHandle);
@@ -188,7 +187,7 @@ class CalculatorListener$Impl extends __lib.NativeBase implements CalculatorList
   }
   @override
   void onCalculationResultMap(Map<String, double> calculationResults) {
-    final _onCalculationResultMapFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CalculatorListener_onCalculationResultMap__MapOf_1String_1to_1Double'));
+    final _onCalculationResultMapFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CalculatorListener_onCalculationResultMap__MapOf_String_to_Double'));
     final _calculationResultsHandle = foobarMapofStringToDoubleToFfi(calculationResults);
     final _handle = this.handle;
     _onCalculationResultMapFfi(_handle, __lib.LibraryContext.isolateId, _calculationResultsHandle);
@@ -266,7 +265,7 @@ Pointer<Void> smokeCalculatorlistenerToFfi(CalculatorListener value) {
 }
 CalculatorListener smokeCalculatorlistenerFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is CalculatorListener) return instance as CalculatorListener;
+  if (instance != null && instance is CalculatorListener) return instance;
   final _typeIdHandle = _smokeCalculatorlistenerGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);

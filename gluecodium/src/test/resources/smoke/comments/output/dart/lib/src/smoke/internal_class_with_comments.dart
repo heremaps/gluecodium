@@ -41,7 +41,7 @@ Pointer<Void> smokeInternalclasswithcommentsToFfi(InternalClassWithComments valu
   _smokeInternalclasswithcommentsCopyHandle((value as __lib.NativeBase).handle);
 InternalClassWithComments smokeInternalclasswithcommentsFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is InternalClassWithComments) return instance as InternalClassWithComments;
+  if (instance != null && instance is InternalClassWithComments) return instance;
   final _copiedHandle = _smokeInternalclasswithcommentsCopyHandle(handle);
   final result = InternalClassWithComments$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

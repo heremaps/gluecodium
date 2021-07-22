@@ -215,7 +215,7 @@ Pointer<Void> smokeLambdaswithstructuredtypesToFfi(LambdasWithStructuredTypes va
   _smokeLambdaswithstructuredtypesCopyHandle((value as __lib.NativeBase).handle);
 LambdasWithStructuredTypes smokeLambdaswithstructuredtypesFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is LambdasWithStructuredTypes) return instance as LambdasWithStructuredTypes;
+  if (instance != null && instance is LambdasWithStructuredTypes) return instance;
   final _copiedHandle = _smokeLambdaswithstructuredtypesCopyHandle(handle);
   final result = LambdasWithStructuredTypes$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

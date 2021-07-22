@@ -18,25 +18,20 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-import "package:test/test.dart";
-import "package:functional/test.dart";
-import "../test_suite.dart";
+#include "test/EnumWithToStringHelper.h"
 
-final _testSuite = TestSuite("SkipEnumerator");
+#include <gmock/gmock.h>
 
-void main() {
-  _testSuite.test("AutoTagRoundTrip", () {
-    final value = SkipEnumeratorAutoTag.three;
+namespace test
+{
 
-    final result = UseSkipEnumerator.autoTagRoundTrip(value);
+using namespace ::testing;
+using namespace test;
 
-    expect(result, value);
-  });
-  _testSuite.test("ExplicitTagRoundTrip", () {
-    final value = SkipEnumeratorExplicitTag.three;
-
-    final result = UseSkipEnumerator.explicitTagRoundTrip(value);
-
-    expect(result, value);
-  });
+TEST( EnumTest, to_string_returns_proper_values )
+{
+    EXPECT_EQ(to_string(EnumWithToStringHelper::FIRST), "EnumWithToStringHelper::FIRST");
+    EXPECT_EQ(to_string(EnumWithToStringHelper::SECOND), "EnumWithToStringHelper::SECOND");
 }
+
+}  // test

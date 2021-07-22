@@ -4,7 +4,6 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'package:meta/meta.dart';
 abstract class OuterInterface {
   factory OuterInterface(
     String Function(String) fooLambda,
@@ -57,7 +56,7 @@ Pointer<Void> smokeOuterinterfaceInnerclassToFfi(OuterInterface_InnerClass value
   _smokeOuterinterfaceInnerclassCopyHandle((value as __lib.NativeBase).handle);
 OuterInterface_InnerClass smokeOuterinterfaceInnerclassFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is OuterInterface_InnerClass) return instance as OuterInterface_InnerClass;
+  if (instance != null && instance is OuterInterface_InnerClass) return instance;
   final _copiedHandle = _smokeOuterinterfaceInnerclassCopyHandle(handle);
   final result = OuterInterface_InnerClass$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
@@ -156,7 +155,7 @@ Pointer<Void> smokeOuterinterfaceInnerinterfaceToFfi(OuterInterface_InnerInterfa
 }
 OuterInterface_InnerInterface smokeOuterinterfaceInnerinterfaceFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is OuterInterface_InnerInterface) return instance as OuterInterface_InnerInterface;
+  if (instance != null && instance is OuterInterface_InnerInterface) return instance;
   final _typeIdHandle = _smokeOuterinterfaceInnerinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
@@ -249,7 +248,7 @@ Pointer<Void> smokeOuterinterfaceToFfi(OuterInterface value) {
 }
 OuterInterface smokeOuterinterfaceFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is OuterInterface) return instance as OuterInterface;
+  if (instance != null && instance is OuterInterface) return instance;
   final _typeIdHandle = _smokeOuterinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);

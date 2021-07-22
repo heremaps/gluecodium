@@ -22,6 +22,7 @@ package com.here.gluecodium.generator.swift
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.common.LimeModelFilter
+import com.here.gluecodium.common.LimeModelSkipPredicates
 import com.here.gluecodium.generator.cbridge.CBridgeGenerator
 import com.here.gluecodium.generator.cbridge.CBridgeGenerator.Companion.getAllParentTypes
 import com.here.gluecodium.generator.cbridge.CBridgeNameResolver
@@ -36,12 +37,10 @@ import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.CppNameCache
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
-import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
-import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
@@ -49,7 +48,6 @@ import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
-import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeAlias
@@ -69,7 +67,9 @@ internal class SwiftGenerator : Generator {
     private lateinit var cppNameRules: CppNameRules
     private lateinit var nameRules: SwiftNameRules
     private lateinit var conversionVisibility: String
+    private lateinit var activeTags: Set<String>
     private var internalPrefix: String? = null
+
     private val importsCollector =
         GenericImportsCollector(
             SwiftImportsResolver(),
@@ -90,46 +90,52 @@ internal class SwiftGenerator : Generator {
         internalPrefix = options.internalPrefix
         conversionVisibility =
             if (options.swiftExposeInternals) CONVERSION_VISIBILITY_PUBLIC else CONVERSION_VISIBILITY_INTERNAL
+        activeTags = options.tags
     }
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
-        val limeReferenceMap = limeModel.referenceMap
-        val filteredElements = LimeModelFilter.filter(limeModel) { shouldRetainElement(it) }.topElements
+        val cbridgeFilteredModel = LimeModelFilter
+            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, SWIFT, retainFunctions = true) }
+        val swiftFilteredModel = LimeModelFilter
+            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, SWIFT, retainFunctions = false) }
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
 
         val overloadsValidator = LimeOverloadsValidator(limeModel.referenceMap, SWIFT, nameRules, limeLogger)
         val weakPropertiesValidator = SwiftWeakPropertiesValidator(limeLogger)
-        val validationResults =
-            listOf(overloadsValidator.validate(filteredElements), weakPropertiesValidator.validate(filteredElements))
+        val validationResults = listOf(
+            overloadsValidator.validate(cbridgeFilteredModel.topElements),
+            weakPropertiesValidator.validate(cbridgeFilteredModel.topElements)
+        )
         if (validationResults.contains(false)) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
 
-        val cbridgeNameResolver = CBridgeNameResolver(limeReferenceMap, nameRules, internalPrefix ?: "")
+        val cbridgeNameResolver = CBridgeNameResolver(cbridgeFilteredModel.referenceMap, nameRules, internalPrefix ?: "")
         val cBridgeGenerator = CBridgeGenerator(
-            limeReferenceMap = limeReferenceMap,
+            limeReferenceMap = cbridgeFilteredModel.referenceMap,
             rootNamespace = rootNamespace,
-            nameCache = CppNameCache(rootNamespace, limeReferenceMap, cppNameRules),
+            nameCache = CppNameCache(rootNamespace, cbridgeFilteredModel.referenceMap, cppNameRules),
             internalNamespace = internalNamespace,
             cppNameRules = cppNameRules,
-            nameResolver = cbridgeNameResolver
+            nameResolver = cbridgeNameResolver,
+            activeTags = activeTags
         )
 
-        val swiftNameResolver = SwiftNameResolver(limeReferenceMap, nameRules, limeLogger, commentsProcessor)
+        val swiftNameResolver = SwiftNameResolver(limeModel.referenceMap, nameRules, limeLogger, commentsProcessor)
         val mangledNameResolver = SwiftMangledNameResolver(swiftNameResolver)
         val nameResolvers =
             mapOf("" to swiftNameResolver, "CBridge" to cbridgeNameResolver, "mangled" to mangledNameResolver)
-        val predicates = SwiftGeneratorPredicates(limeReferenceMap, nameRules)
-        val swiftFiles = filteredElements.map { generateSwiftFile(it, nameResolvers, predicates) }
+        val predicates = SwiftGeneratorPredicates(limeModel.referenceMap, nameRules)
+        val swiftFiles = swiftFilteredModel.topElements.map { generateSwiftFile(it, nameResolvers, predicates) }
         if (commentsProcessor.hasError) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
 
-        return swiftFiles + filteredElements.flatMap { cBridgeGenerator.generate(it) } +
+        return swiftFiles + cbridgeFilteredModel.topElements.flatMap { cBridgeGenerator.generate(it) } +
             CBridgeGenerator.STATIC_FILES + STATIC_FILES +
-            cBridgeGenerator.generateCollections(filteredElements) +
+            cBridgeGenerator.generateCollections(cbridgeFilteredModel.topElements) +
             generateCollections(
-                filteredElements,
+                swiftFilteredModel.topElements,
                 cBridgeGenerator.genericTypesCollector,
                 swiftNameResolver,
                 nameResolvers,
@@ -258,13 +264,6 @@ internal class SwiftGenerator : Generator {
             is LimeInterface -> "swift/SwiftClassConversion"
             is LimeTypesCollection -> null
             else -> null
-        }
-
-    private fun shouldRetainElement(limeElement: LimeNamedElement) =
-        when {
-            limeElement is LimeFunction || limeElement is LimeProperty -> true
-            limeElement.attributes.have(SWIFT, SKIP) -> false
-            else -> true
         }
 
     companion object {

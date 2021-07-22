@@ -5,7 +5,6 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/parent_interface.dart';
-import 'package:meta/meta.dart';
 abstract class ChildInterface implements ParentInterface {
   factory ChildInterface(
     void Function() rootMethodLambda,
@@ -144,7 +143,7 @@ Pointer<Void> smokeChildinterfaceToFfi(ChildInterface value) {
 }
 ChildInterface smokeChildinterfaceFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is ChildInterface) return instance as ChildInterface;
+  if (instance != null && instance is ChildInterface) return instance;
   final _typeIdHandle = _smokeChildinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);

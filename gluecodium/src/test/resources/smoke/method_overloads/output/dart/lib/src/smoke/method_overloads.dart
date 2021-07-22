@@ -177,7 +177,7 @@ class MethodOverloads$Impl extends __lib.NativeBase implements MethodOverloads {
   }
   @override
   bool isBooleanStringArray(List<String> input) {
-    final _isBooleanStringArrayFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MethodOverloads_isBoolean__ListOf_1String'));
+    final _isBooleanStringArrayFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MethodOverloads_isBoolean__ListOf_String'));
     final _inputHandle = foobarListofStringToFfi(input);
     final _handle = this.handle;
     final __resultHandle = _isBooleanStringArrayFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
@@ -190,7 +190,7 @@ class MethodOverloads$Impl extends __lib.NativeBase implements MethodOverloads {
   }
   @override
   bool isBooleanIntArray(List<int> input) {
-    final _isBooleanIntArrayFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MethodOverloads_isBoolean__ListOf_1Byte'));
+    final _isBooleanIntArrayFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MethodOverloads_isBoolean__ListOf_Byte'));
     final _inputHandle = foobarListofByteToFfi(input);
     final _handle = this.handle;
     final __resultHandle = _isBooleanIntArrayFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
@@ -227,7 +227,7 @@ class MethodOverloads$Impl extends __lib.NativeBase implements MethodOverloads {
   }
   @override
   bool isFloatList(List<int> input) {
-    final _isFloatListFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MethodOverloads_isFloat__ListOf_1Byte'));
+    final _isFloatListFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MethodOverloads_isFloat__ListOf_Byte'));
     final _inputHandle = foobarListofByteToFfi(input);
     final _handle = this.handle;
     final __resultHandle = _isFloatListFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
@@ -243,7 +243,7 @@ Pointer<Void> smokeMethodoverloadsToFfi(MethodOverloads value) =>
   _smokeMethodoverloadsCopyHandle((value as __lib.NativeBase).handle);
 MethodOverloads smokeMethodoverloadsFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is MethodOverloads) return instance as MethodOverloads;
+  if (instance != null && instance is MethodOverloads) return instance;
   final _copiedHandle = _smokeMethodoverloadsCopyHandle(handle);
   final result = MethodOverloads$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

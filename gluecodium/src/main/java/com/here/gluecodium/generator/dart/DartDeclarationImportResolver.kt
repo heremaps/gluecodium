@@ -53,7 +53,7 @@ internal class DartDeclarationImportResolver(srcPath: String) : DartImportResolv
         return when {
             limeElement is LimeLambda -> listOf(tokenCacheImport)
             limeElement is LimeStruct && limeElement.external?.dart == null -> resolveStructImports(limeElement)
-            limeElement is LimeInterface -> classInterfaceImports + metaPackageImport
+            limeElement is LimeInterface -> classInterfaceImports
             limeElement is LimeClass && (limeElement.parent != null || limeElement.visibility.isOpen) ->
                 classInterfaceImports
             limeElement is LimeClass -> listOf(tokenCacheImport, nativeBaseImport)

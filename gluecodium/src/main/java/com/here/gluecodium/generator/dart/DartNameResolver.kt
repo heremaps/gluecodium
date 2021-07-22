@@ -103,6 +103,7 @@ internal class DartNameResolver(
             TypeId.STRING -> "String"
             TypeId.BLOB -> "Uint8List"
             TypeId.DATE -> "DateTime"
+            TypeId.DURATION -> "Duration"
             TypeId.LOCALE -> "Locale"
         }
 

@@ -76,7 +76,7 @@ Pointer<Void> smokePlatformnamesinterfaceToFfi(weeInterface value) =>
   _smokePlatformnamesinterfaceCopyHandle((value as __lib.NativeBase).handle);
 weeInterface smokePlatformnamesinterfaceFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is weeInterface) return instance as weeInterface;
+  if (instance != null && instance is weeInterface) return instance;
   final _copiedHandle = _smokePlatformnamesinterfaceCopyHandle(handle);
   final result = weeInterface$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

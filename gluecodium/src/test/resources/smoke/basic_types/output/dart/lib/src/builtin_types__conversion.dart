@@ -36,6 +36,10 @@ void booleanReleaseFfiHandle(int handle) {}
 int dateToFfi(DateTime value) => value.microsecondsSinceEpoch;
 DateTime dateFromFfi(int us) => DateTime.fromMicrosecondsSinceEpoch(us, isUtc: true);
 void dateReleaseFfiHandle(int handle) {}
+// Duration
+int durationToFfi(Duration value) => value.inMicroseconds;
+Duration durationFromFfi(int us) => Duration(microseconds: us);
+void durationReleaseFfiHandle(int handle) {}
 // String
 final _stringCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Utf8>),
@@ -470,35 +474,6 @@ Uint8List? blobFromFfiNullable(Pointer<Void> handle) {
 }
 void blobReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _blobReleaseHandleNullable(handle);
-// Nullable Date
-final _dateCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64),
-    Pointer<Void> Function(int)
-  >('library_Date_create_handle_nullable'));
-final _dateReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>),
-    void Function(Pointer<Void>)
-  >('library_Date_release_handle_nullable'));
-final _dateGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Uint64 Function(Pointer<Void>),
-    int Function(Pointer<Void>)
-  >('library_Date_get_value_nullable'));
-Pointer<Void> dateToFfiNullable(DateTime? value) {
-  if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = dateToFfi(value);
-  final result = _dateCreateHandleNullable(_handle);
-  dateReleaseFfiHandle(_handle);
-  return result;
-}
-DateTime? dateFromFfiNullable(Pointer<Void> handle) {
-  if (handle.address == 0) return null;
-  final _handle = _dateGetValueNullable(handle);
-  final result = dateFromFfi(_handle);
-  dateReleaseFfiHandle(_handle);
-  return result;
-}
-void dateReleaseFfiHandleNullable(Pointer<Void> handle) =>
-  _dateReleaseHandleNullable(handle);
 // Nullable Locale
 final _localeCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -528,3 +503,23 @@ Locale? localeFromFfiNullable(Pointer<Void> handle) {
 }
 void localeReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _localeReleaseHandleNullable(handle);
+// Nullable Date
+Pointer<Void> dateToFfiNullable(DateTime? value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  return _longCreateHandleNullable(dateToFfi(value));
+}
+DateTime? dateFromFfiNullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  return dateFromFfi(_longGetValueNullable(handle));
+}
+void dateReleaseFfiHandleNullable(Pointer<Void> handle) => _longReleaseHandleNullable(handle);
+// Nullable Duration
+Pointer<Void> durationToFfiNullable(Duration? value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  return _longCreateHandleNullable(durationToFfi(value));
+}
+Duration? durationFromFfiNullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  return durationFromFfi(_longGetValueNullable(handle));
+}
+void durationReleaseFfiHandleNullable(Pointer<Void> handle) => _longReleaseHandleNullable(handle);

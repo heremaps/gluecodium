@@ -3,8 +3,8 @@
 #include "InstanceCache.h"
 #include "FinalizerData.h"
 #include "IsolateContext.h"
-#include "foo/Bar.h"
-#include "smoke/Enums.h"
+#include "foo\Bar.h"
+#include "smoke\Enums.h"
 #include <memory>
 #include <memory>
 #include <new>
@@ -12,7 +12,7 @@
 extern "C" {
 #endif
 void
-library_smoke_Enums_methodWithExternalEnum__External_1Enum(int32_t _isolate_id, uint32_t input) {
+library_smoke_Enums_methodWithExternalEnum__External_Enum(int32_t _isolate_id, uint32_t input) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
             smoke::Enums::method_with_external_enum(
             gluecodium::ffi::Conversion<smoke::Enums::External_Enum>::toCpp(input)

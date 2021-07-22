@@ -86,59 +86,144 @@ List<DateTime>? foobarListofDateFromFfiNullable(Pointer<Void> handle) {
 }
 void foobarListofDateReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _foobarListofDateReleaseHandleNullable(handle);
-final _foobarMapofDateToStringCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _foobarListofDateStd2chrono2steady1clock2time1pointCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
-  >('library_foobar_MapOf_Date_to_String_create_handle'));
-final _foobarMapofDateToStringReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_Date_std_2chrono_2steady_1clock_2time_1point_create_handle'));
+final _foobarListofDateStd2chrono2steady1clock2time1pointReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_Date_to_String_release_handle'));
-final _foobarMapofDateToStringPut = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>, Uint64, Pointer<Void>),
-    void Function(Pointer<Void>, int, Pointer<Void>)
-  >('library_foobar_MapOf_Date_to_String_put'));
-final _foobarMapofDateToStringIterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_ListOf_Date_std_2chrono_2steady_1clock_2time_1point_release_handle'));
+final _foobarListofDateStd2chrono2steady1clock2time1pointInsert = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Uint64),
+    void Function(Pointer<Void>, int)
+  >('library_foobar_ListOf_Date_std_2chrono_2steady_1clock_2time_1point_insert'));
+final _foobarListofDateStd2chrono2steady1clock2time1pointIterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_Date_to_String_iterator'));
-final _foobarMapofDateToStringIteratorReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_Date_std_2chrono_2steady_1clock_2time_1point_iterator'));
+final _foobarListofDateStd2chrono2steady1clock2time1pointIteratorReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_Date_to_String_iterator_release_handle'));
-final _foobarMapofDateToStringIteratorIsValid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_Date_std_2chrono_2steady_1clock_2time_1point_iterator_release_handle'));
+final _foobarListofDateStd2chrono2steady1clock2time1pointIteratorIsValid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Int8 Function(Pointer<Void>, Pointer<Void>),
     int Function(Pointer<Void>, Pointer<Void>)
->('library_foobar_MapOf_Date_to_String_iterator_is_valid'));
-final _foobarMapofDateToStringIteratorIncrement = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_Date_std_2chrono_2steady_1clock_2time_1point_iterator_is_valid'));
+final _foobarListofDateStd2chrono2steady1clock2time1pointIteratorIncrement = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
->('library_foobar_MapOf_Date_to_String_iterator_increment'));
-final _foobarMapofDateToStringIteratorGetKey = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_Date_std_2chrono_2steady_1clock_2time_1point_iterator_increment'));
+final _foobarListofDateStd2chrono2steady1clock2time1pointIteratorGet = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
->('library_foobar_MapOf_Date_to_String_iterator_get_key'));
-final _foobarMapofDateToStringIteratorGetValue = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+>('library_foobar_ListOf_Date_std_2chrono_2steady_1clock_2time_1point_iterator_get'));
+Pointer<Void> foobarListofDateStd2chrono2steady1clock2time1pointToFfi(List<DateTime> value) {
+  final _result = _foobarListofDateStd2chrono2steady1clock2time1pointCreateHandle();
+  for (final element in value) {
+    final _elementHandle = dateToFfi(element);
+    _foobarListofDateStd2chrono2steady1clock2time1pointInsert(_result, _elementHandle);
+    dateReleaseFfiHandle(_elementHandle);
+  }
+  return _result;
+}
+List<DateTime> foobarListofDateStd2chrono2steady1clock2time1pointFromFfi(Pointer<Void> handle) {
+  final result = List<DateTime>.empty(growable: true);
+  final _iteratorHandle = _foobarListofDateStd2chrono2steady1clock2time1pointIterator(handle);
+  while (_foobarListofDateStd2chrono2steady1clock2time1pointIteratorIsValid(handle, _iteratorHandle) != 0) {
+    final _elementHandle = _foobarListofDateStd2chrono2steady1clock2time1pointIteratorGet(_iteratorHandle);
+    try {
+      result.add(dateFromFfi(_elementHandle));
+    } finally {
+      dateReleaseFfiHandle(_elementHandle);
+    }
+    _foobarListofDateStd2chrono2steady1clock2time1pointIteratorIncrement(_iteratorHandle);
+  }
+  _foobarListofDateStd2chrono2steady1clock2time1pointIteratorReleaseHandle(_iteratorHandle);
+  return result;
+}
+void foobarListofDateStd2chrono2steady1clock2time1pointReleaseFfiHandle(Pointer<Void> handle) => _foobarListofDateStd2chrono2steady1clock2time1pointReleaseHandle(handle);
+final _foobarListofDateStd2chrono2steady1clock2time1pointCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
->('library_foobar_MapOf_Date_to_String_iterator_get_value'));
-Pointer<Void> foobarMapofDateToStringToFfi(Map<DateTime, String> value) {
-  final _result = _foobarMapofDateToStringCreateHandle();
+  >('library_foobar_ListOf_Date_std_2chrono_2steady_1clock_2time_1point_create_handle_nullable'));
+final _foobarListofDateStd2chrono2steady1clock2time1pointReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_foobar_ListOf_Date_std_2chrono_2steady_1clock_2time_1point_release_handle_nullable'));
+final _foobarListofDateStd2chrono2steady1clock2time1pointGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_foobar_ListOf_Date_std_2chrono_2steady_1clock_2time_1point_get_value_nullable'));
+Pointer<Void> foobarListofDateStd2chrono2steady1clock2time1pointToFfiNullable(List<DateTime>? value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = foobarListofDateStd2chrono2steady1clock2time1pointToFfi(value);
+  final result = _foobarListofDateStd2chrono2steady1clock2time1pointCreateHandleNullable(_handle);
+  foobarListofDateStd2chrono2steady1clock2time1pointReleaseFfiHandle(_handle);
+  return result;
+}
+List<DateTime>? foobarListofDateStd2chrono2steady1clock2time1pointFromFfiNullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _foobarListofDateStd2chrono2steady1clock2time1pointGetValueNullable(handle);
+  final result = foobarListofDateStd2chrono2steady1clock2time1pointFromFfi(_handle);
+  foobarListofDateStd2chrono2steady1clock2time1pointReleaseFfiHandle(_handle);
+  return result;
+}
+void foobarListofDateStd2chrono2steady1clock2time1pointReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _foobarListofDateStd2chrono2steady1clock2time1pointReleaseHandleNullable(handle);
+final _foobarMapofDateStd2chrono2steady1clock2time1pointToStringCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(),
+    Pointer<Void> Function()
+  >('library_foobar_MapOf_Date_std_2chrono_2steady_1clock_2time_1point_to_String_create_handle'));
+final _foobarMapofDateStd2chrono2steady1clock2time1pointToStringReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_foobar_MapOf_Date_std_2chrono_2steady_1clock_2time_1point_to_String_release_handle'));
+final _foobarMapofDateStd2chrono2steady1clock2time1pointToStringPut = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Uint64, Pointer<Void>),
+    void Function(Pointer<Void>, int, Pointer<Void>)
+  >('library_foobar_MapOf_Date_std_2chrono_2steady_1clock_2time_1point_to_String_put'));
+final _foobarMapofDateStd2chrono2steady1clock2time1pointToStringIterator = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+>('library_foobar_MapOf_Date_std_2chrono_2steady_1clock_2time_1point_to_String_iterator'));
+final _foobarMapofDateStd2chrono2steady1clock2time1pointToStringIteratorReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+>('library_foobar_MapOf_Date_std_2chrono_2steady_1clock_2time_1point_to_String_iterator_release_handle'));
+final _foobarMapofDateStd2chrono2steady1clock2time1pointToStringIteratorIsValid = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Int8 Function(Pointer<Void>, Pointer<Void>),
+    int Function(Pointer<Void>, Pointer<Void>)
+>('library_foobar_MapOf_Date_std_2chrono_2steady_1clock_2time_1point_to_String_iterator_is_valid'));
+final _foobarMapofDateStd2chrono2steady1clock2time1pointToStringIteratorIncrement = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+>('library_foobar_MapOf_Date_std_2chrono_2steady_1clock_2time_1point_to_String_iterator_increment'));
+final _foobarMapofDateStd2chrono2steady1clock2time1pointToStringIteratorGetKey = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Uint64 Function(Pointer<Void>),
+    int Function(Pointer<Void>)
+>('library_foobar_MapOf_Date_std_2chrono_2steady_1clock_2time_1point_to_String_iterator_get_key'));
+final _foobarMapofDateStd2chrono2steady1clock2time1pointToStringIteratorGetValue = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+>('library_foobar_MapOf_Date_std_2chrono_2steady_1clock_2time_1point_to_String_iterator_get_value'));
+Pointer<Void> foobarMapofDateStd2chrono2steady1clock2time1pointToStringToFfi(Map<DateTime, String> value) {
+  final _result = _foobarMapofDateStd2chrono2steady1clock2time1pointToStringCreateHandle();
   for (final entry in value.entries) {
     final _keyHandle = dateToFfi(entry.key);
     final _valueHandle = stringToFfi(entry.value);
-    _foobarMapofDateToStringPut(_result, _keyHandle, _valueHandle);
+    _foobarMapofDateStd2chrono2steady1clock2time1pointToStringPut(_result, _keyHandle, _valueHandle);
     dateReleaseFfiHandle(_keyHandle);
     stringReleaseFfiHandle(_valueHandle);
   }
   return _result;
 }
-Map<DateTime, String> foobarMapofDateToStringFromFfi(Pointer<Void> handle) {
+Map<DateTime, String> foobarMapofDateStd2chrono2steady1clock2time1pointToStringFromFfi(Pointer<Void> handle) {
   final result = Map<DateTime, String>();
-  final _iteratorHandle = _foobarMapofDateToStringIterator(handle);
-  while (_foobarMapofDateToStringIteratorIsValid(handle, _iteratorHandle) != 0) {
-    final _keyHandle = _foobarMapofDateToStringIteratorGetKey(_iteratorHandle);
-    final _valueHandle = _foobarMapofDateToStringIteratorGetValue(_iteratorHandle);
+  final _iteratorHandle = _foobarMapofDateStd2chrono2steady1clock2time1pointToStringIterator(handle);
+  while (_foobarMapofDateStd2chrono2steady1clock2time1pointToStringIteratorIsValid(handle, _iteratorHandle) != 0) {
+    final _keyHandle = _foobarMapofDateStd2chrono2steady1clock2time1pointToStringIteratorGetKey(_iteratorHandle);
+    final _valueHandle = _foobarMapofDateStd2chrono2steady1clock2time1pointToStringIteratorGetValue(_iteratorHandle);
     try {
       result[dateFromFfi(_keyHandle)] =
         stringFromFfi(_valueHandle);
@@ -146,40 +231,40 @@ Map<DateTime, String> foobarMapofDateToStringFromFfi(Pointer<Void> handle) {
       dateReleaseFfiHandle(_keyHandle);
       stringReleaseFfiHandle(_valueHandle);
     }
-    _foobarMapofDateToStringIteratorIncrement(_iteratorHandle);
+    _foobarMapofDateStd2chrono2steady1clock2time1pointToStringIteratorIncrement(_iteratorHandle);
   }
-  _foobarMapofDateToStringIteratorReleaseHandle(_iteratorHandle);
+  _foobarMapofDateStd2chrono2steady1clock2time1pointToStringIteratorReleaseHandle(_iteratorHandle);
   return result;
 }
-void foobarMapofDateToStringReleaseFfiHandle(Pointer<Void> handle) => _foobarMapofDateToStringReleaseHandle(handle);
-final _foobarMapofDateToStringCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+void foobarMapofDateStd2chrono2steady1clock2time1pointToStringReleaseFfiHandle(Pointer<Void> handle) => _foobarMapofDateStd2chrono2steady1clock2time1pointToStringReleaseHandle(handle);
+final _foobarMapofDateStd2chrono2steady1clock2time1pointToStringCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_Date_to_String_create_handle_nullable'));
-final _foobarMapofDateToStringReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Date_std_2chrono_2steady_1clock_2time_1point_to_String_create_handle_nullable'));
+final _foobarMapofDateStd2chrono2steady1clock2time1pointToStringReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_foobar_MapOf_Date_to_String_release_handle_nullable'));
-final _foobarMapofDateToStringGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+  >('library_foobar_MapOf_Date_std_2chrono_2steady_1clock_2time_1point_to_String_release_handle_nullable'));
+final _foobarMapofDateStd2chrono2steady1clock2time1pointToStringGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_foobar_MapOf_Date_to_String_get_value_nullable'));
-Pointer<Void> foobarMapofDateToStringToFfiNullable(Map<DateTime, String>? value) {
+  >('library_foobar_MapOf_Date_std_2chrono_2steady_1clock_2time_1point_to_String_get_value_nullable'));
+Pointer<Void> foobarMapofDateStd2chrono2steady1clock2time1pointToStringToFfiNullable(Map<DateTime, String>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = foobarMapofDateToStringToFfi(value);
-  final result = _foobarMapofDateToStringCreateHandleNullable(_handle);
-  foobarMapofDateToStringReleaseFfiHandle(_handle);
+  final _handle = foobarMapofDateStd2chrono2steady1clock2time1pointToStringToFfi(value);
+  final result = _foobarMapofDateStd2chrono2steady1clock2time1pointToStringCreateHandleNullable(_handle);
+  foobarMapofDateStd2chrono2steady1clock2time1pointToStringReleaseFfiHandle(_handle);
   return result;
 }
-Map<DateTime, String>? foobarMapofDateToStringFromFfiNullable(Pointer<Void> handle) {
+Map<DateTime, String>? foobarMapofDateStd2chrono2steady1clock2time1pointToStringFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
-  final _handle = _foobarMapofDateToStringGetValueNullable(handle);
-  final result = foobarMapofDateToStringFromFfi(_handle);
-  foobarMapofDateToStringReleaseFfiHandle(_handle);
+  final _handle = _foobarMapofDateStd2chrono2steady1clock2time1pointToStringGetValueNullable(handle);
+  final result = foobarMapofDateStd2chrono2steady1clock2time1pointToStringFromFfi(_handle);
+  foobarMapofDateStd2chrono2steady1clock2time1pointToStringReleaseFfiHandle(_handle);
   return result;
 }
-void foobarMapofDateToStringReleaseFfiHandleNullable(Pointer<Void> handle) =>
-  _foobarMapofDateToStringReleaseHandleNullable(handle);
+void foobarMapofDateStd2chrono2steady1clock2time1pointToStringReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _foobarMapofDateStd2chrono2steady1clock2time1pointToStringReleaseHandleNullable(handle);
 final _foobarMapofStringToDateCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()

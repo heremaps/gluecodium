@@ -182,7 +182,6 @@ object OptionReader {
         gluecodiumOptions.generators = getStringListValue("generators")?.toSet() ?: emptySet()
         gluecodiumOptions.isValidatingOnly = getFlagValue("validate")
         gluecodiumOptions.isEnableCaching = getFlagValue("output") && getFlagValue("cache")
-        getStringListValue("tag")?.let { gluecodiumOptions.tags = CaseInsensitiveSet(it) }
 
         val generatorOptions = GeneratorOptions()
 
@@ -212,6 +211,7 @@ object OptionReader {
             readConfigFile(getStringValue("dartnamerules"), generatorOptions.dartNameRules)
 
         generatorOptions.copyrightHeaderContents = getStringValue("copyright")?.let { File(it).readText() }
+        getStringListValue("tag")?.let { generatorOptions.tags = CaseInsensitiveSet(it) }
 
         return Pair(gluecodiumOptions, generatorOptions)
     }

@@ -103,6 +103,7 @@ internal class SwiftNameResolver(
             TypeId.STRING -> "String"
             TypeId.BLOB -> "Data"
             TypeId.DATE -> "Date"
+            TypeId.DURATION -> "TimeInterval"
             TypeId.LOCALE -> "Locale"
         }
 

@@ -25,10 +25,8 @@ int smokeStructsFoobarToFfi(Structs_FooBar value) {
   switch (value) {
   case Structs_FooBar.foo:
     return 0;
-  break;
   case Structs_FooBar.bar:
     return 1;
-  break;
   default:
     throw StateError("Invalid enum value $value for Structs_FooBar enum.");
   }
@@ -37,10 +35,8 @@ Structs_FooBar smokeStructsFoobarFromFfi(int handle) {
   switch (handle) {
   case 0:
     return Structs_FooBar.foo;
-  break;
   case 1:
     return Structs_FooBar.bar;
-  break;
   default:
     throw StateError("Invalid numeric value $handle for Structs_FooBar enum.");
   }
@@ -781,7 +777,7 @@ Pointer<Void> smokeStructsToFfi(Structs value) =>
   _smokeStructsCopyHandle((value as __lib.NativeBase).handle);
 Structs smokeStructsFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is Structs) return instance as Structs;
+  if (instance != null && instance is Structs) return instance;
   final _copiedHandle = _smokeStructsCopyHandle(handle);
   final result = Structs$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

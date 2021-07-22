@@ -138,7 +138,7 @@ Pointer<Void> smokeAttributeswithcommentsToFfi(AttributesWithComments value) =>
   _smokeAttributeswithcommentsCopyHandle((value as __lib.NativeBase).handle);
 AttributesWithComments smokeAttributeswithcommentsFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is AttributesWithComments) return instance as AttributesWithComments;
+  if (instance != null && instance is AttributesWithComments) return instance;
   final _copiedHandle = _smokeAttributeswithcommentsCopyHandle(handle);
   final result = AttributesWithComments$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);

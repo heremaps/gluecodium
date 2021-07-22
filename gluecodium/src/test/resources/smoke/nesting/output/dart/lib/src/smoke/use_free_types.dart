@@ -76,7 +76,7 @@ Pointer<Void> smokeUsefreetypesToFfi(UseFreeTypes value) =>
   _smokeUsefreetypesCopyHandle((value as __lib.NativeBase).handle);
 UseFreeTypes smokeUsefreetypesFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
-  if (instance != null && instance is UseFreeTypes) return instance as UseFreeTypes;
+  if (instance != null && instance is UseFreeTypes) return instance;
   final _copiedHandle = _smokeUsefreetypesCopyHandle(handle);
   final result = UseFreeTypes$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
