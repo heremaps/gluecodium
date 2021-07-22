@@ -33,7 +33,6 @@ import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.CppGeneratorPredicates.predicates
-import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeType.EQUATABLE
 import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeContainer
@@ -90,8 +89,8 @@ internal class CppGenerator : Generator {
             LimeModelFilter.filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags) }
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
 
-        val overloadsValidator =
-            LimeOverloadsValidator(filteredModel.referenceMap, LimeAttributeType.CPP, nameRules, limeLogger)
+        val signatureResolver = CppSignatureResolver(filteredModel.referenceMap, nameRules)
+        val overloadsValidator = LimeOverloadsValidator(signatureResolver, limeLogger)
         val validationResult = overloadsValidator.validate(filteredModel.topElements)
         if (!validationResult) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")

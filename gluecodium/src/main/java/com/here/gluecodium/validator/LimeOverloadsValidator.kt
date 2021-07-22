@@ -20,9 +20,6 @@
 package com.here.gluecodium.validator
 
 import com.here.gluecodium.common.LimeLogger
-import com.here.gluecodium.generator.common.NameRules
-import com.here.gluecodium.generator.common.PlatformSignatureResolver
-import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeSignatureResolver
@@ -31,13 +28,6 @@ internal class LimeOverloadsValidator(
     private val signatureResolver: LimeSignatureResolver,
     private val logger: LimeLogger
 ) {
-    constructor(
-        referenceMap: Map<String, LimeElement>,
-        platformAttributeType: LimeAttributeType,
-        nameRules: NameRules,
-        logger: LimeLogger
-    ) : this(PlatformSignatureResolver(referenceMap, platformAttributeType, nameRules), logger)
-
     fun validate(limeModel: Collection<LimeElement>): Boolean {
         val validationResults =
             limeModel.filterIsInstance<LimeFunction>().map { validateFunction(it, signatureResolver) }

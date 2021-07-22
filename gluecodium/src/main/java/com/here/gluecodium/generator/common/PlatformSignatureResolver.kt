@@ -26,7 +26,7 @@ import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeSignatureResolver
 
-internal open class PlatformSignatureResolver(
+internal abstract class PlatformSignatureResolver(
     limeReferenceMap: Map<String, LimeElement>,
     private val platformAttributeType: LimeAttributeType,
     private val nameRules: NameRules
