@@ -48,7 +48,7 @@ internal class JniGeneratorPredicates(
     cppNameResolver: CppNameResolver,
     activeTags: Set<String>
 ) {
-    private val javaSignatureResolver = JavaSignatureResolver(limeReferenceMap, javaNameRules)
+    private val javaSignatureResolver = JavaSignatureResolver(limeReferenceMap, javaNameRules, activeTags)
 
     val predicates = mapOf(
         "hasConstructors" to { limeContainer: Any ->

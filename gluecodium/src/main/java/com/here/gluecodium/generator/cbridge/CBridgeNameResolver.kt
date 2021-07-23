@@ -45,10 +45,9 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 internal class CBridgeNameResolver(
     limeReferenceMap: Map<String, LimeElement>,
     private val swiftNameRules: SwiftNameRules,
-    private val internalPrefix: String
+    private val internalPrefix: String,
+    private val signatureResolver: SwiftSignatureResolver
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
-
-    private val signatureResolver = SwiftSignatureResolver(limeReferenceMap, swiftNameRules)
 
     override fun resolveName(element: Any): String =
         when (element) {

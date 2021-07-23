@@ -26,4 +26,4 @@ import com.here.gluecodium.model.lime.LimeElement
 internal class CppSignatureResolver(
     limeReferenceMap: Map<String, LimeElement>,
     nameRules: CppNameRules
-) : PlatformSignatureResolver(limeReferenceMap, LimeAttributeType.CPP, nameRules)
+) : PlatformSignatureResolver(limeReferenceMap, LimeAttributeType.CPP, nameRules, emptySet())

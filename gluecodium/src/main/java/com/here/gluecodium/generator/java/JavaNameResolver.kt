@@ -55,11 +55,11 @@ internal class JavaNameResolver(
     private val basePackages: List<String>,
     private val javaNameRules: JavaNameRules,
     private val limeLogger: LimeLogger,
-    private val commentsProcessor: CommentsProcessor
+    private val commentsProcessor: CommentsProcessor,
+    private val signatureResolver: JavaSignatureResolver
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
 
     private val valueResolver = JavaValueResolver(this)
-    private val signatureResolver = JavaSignatureResolver(limeReferenceMap, javaNameRules)
     private val limeToJavaNames = buildPathMap()
 
     override fun resolveName(element: Any): String =

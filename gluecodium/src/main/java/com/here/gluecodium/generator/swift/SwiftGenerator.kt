@@ -100,8 +100,8 @@ internal class SwiftGenerator : Generator {
             .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, SWIFT, retainFunctions = false) }
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
 
-        val overloadsValidator =
-            LimeOverloadsValidator(SwiftSignatureResolver(limeModel.referenceMap, nameRules), limeLogger)
+        val signatureResolver = SwiftSignatureResolver(cbridgeFilteredModel.referenceMap, nameRules, activeTags)
+        val overloadsValidator = LimeOverloadsValidator(signatureResolver, limeLogger)
         val weakPropertiesValidator = SwiftWeakPropertiesValidator(limeLogger)
         val validationResults = listOf(
             overloadsValidator.validate(cbridgeFilteredModel.topElements),
@@ -111,7 +111,8 @@ internal class SwiftGenerator : Generator {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
 
-        val cbridgeNameResolver = CBridgeNameResolver(cbridgeFilteredModel.referenceMap, nameRules, internalPrefix ?: "")
+        val cbridgeNameResolver =
+            CBridgeNameResolver(cbridgeFilteredModel.referenceMap, nameRules, internalPrefix ?: "", signatureResolver)
         val cBridgeGenerator = CBridgeGenerator(
             limeReferenceMap = cbridgeFilteredModel.referenceMap,
             rootNamespace = rootNamespace,
@@ -122,11 +123,12 @@ internal class SwiftGenerator : Generator {
             activeTags = activeTags
         )
 
-        val swiftNameResolver = SwiftNameResolver(limeModel.referenceMap, nameRules, limeLogger, commentsProcessor)
+        val swiftNameResolver =
+            SwiftNameResolver(limeModel.referenceMap, nameRules, limeLogger, commentsProcessor, signatureResolver)
         val mangledNameResolver = SwiftMangledNameResolver(swiftNameResolver)
         val nameResolvers =
             mapOf("" to swiftNameResolver, "CBridge" to cbridgeNameResolver, "mangled" to mangledNameResolver)
-        val predicates = SwiftGeneratorPredicates(limeModel.referenceMap, nameRules)
+        val predicates = SwiftGeneratorPredicates(limeModel.referenceMap, nameRules, signatureResolver)
         val swiftFiles = swiftFilteredModel.topElements.map { generateSwiftFile(it, nameResolvers, predicates) }
         if (commentsProcessor.hasError) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
