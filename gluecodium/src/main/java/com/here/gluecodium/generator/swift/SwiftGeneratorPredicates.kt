@@ -44,10 +44,11 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 /**
  * List of predicates used by `ifPredicate`/`unlessPredicate` template helpers in Swift generator.
  */
-internal class SwiftGeneratorPredicates(limeReferenceMap: Map<String, LimeElement>, nameRules: SwiftNameRules) {
-
-    private val signatureResolver = SwiftSignatureResolver(limeReferenceMap, nameRules)
-
+internal class SwiftGeneratorPredicates(
+    limeReferenceMap: Map<String, LimeElement>,
+    nameRules: SwiftNameRules,
+    private val signatureResolver: SwiftSignatureResolver
+) {
     val predicates = mapOf(
         "hasAnyComment" to { limeElement: Any ->
             CommonGeneratorPredicates.hasAnyComment(limeElement, "Swift")

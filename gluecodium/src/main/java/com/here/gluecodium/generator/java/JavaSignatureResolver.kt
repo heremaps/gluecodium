@@ -26,8 +26,9 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class JavaSignatureResolver(
     limeReferenceMap: Map<String, LimeElement>,
-    nameRules: JavaNameRules
-) : PlatformSignatureResolver(limeReferenceMap, LimeAttributeType.JAVA, nameRules) {
+    nameRules: JavaNameRules,
+    activeTags: Set<String>
+) : PlatformSignatureResolver(limeReferenceMap, LimeAttributeType.JAVA, nameRules, activeTags) {
 
     override fun getArrayName(elementType: LimeTypeRef) = TYPE_ERASED_ARRAY
 

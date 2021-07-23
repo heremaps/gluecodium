@@ -25,5 +25,6 @@ import com.here.gluecodium.model.lime.LimeElement
 
 internal class SwiftSignatureResolver(
     limeReferenceMap: Map<String, LimeElement>,
-    nameRules: SwiftNameRules
-) : PlatformSignatureResolver(limeReferenceMap, LimeAttributeType.SWIFT, nameRules)
+    nameRules: SwiftNameRules,
+    activeTags: Set<String>
+) : PlatformSignatureResolver(limeReferenceMap, LimeAttributeType.SWIFT, nameRules, activeTags)

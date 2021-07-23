@@ -19,6 +19,7 @@
 
 package com.here.gluecodium.generator.common
 
+import com.here.gluecodium.common.LimeModelSkipPredicates
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeContainer
@@ -29,11 +30,13 @@ import com.here.gluecodium.model.lime.LimeSignatureResolver
 internal abstract class PlatformSignatureResolver(
     limeReferenceMap: Map<String, LimeElement>,
     private val platformAttributeType: LimeAttributeType,
-    private val nameRules: NameRules
+    private val nameRules: NameRules,
+    private val activeTags: Set<String>
 ) : LimeSignatureResolver(limeReferenceMap) {
 
     override fun getAllContainerFunctions(limeContainer: LimeContainer) =
-        limeContainer.functions.filterNot { it.attributes.have(platformAttributeType, LimeAttributeValueType.SKIP) }
+        limeContainer.functions
+            .filter { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, platformAttributeType) }
 
     override fun getFunctionName(limeFunction: LimeFunction) =
         limeFunction.attributes.get(platformAttributeType, LimeAttributeValueType.NAME, String::class.java)

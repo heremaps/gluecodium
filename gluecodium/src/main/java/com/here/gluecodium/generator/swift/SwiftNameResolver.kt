@@ -57,7 +57,8 @@ internal class SwiftNameResolver(
     limeReferenceMap: Map<String, LimeElement>,
     private val nameRules: SwiftNameRules,
     private val limeLogger: LimeLogger,
-    private val commentsProcessor: CommentsProcessor
+    private val commentsProcessor: CommentsProcessor,
+    private val signatureResolver: SwiftSignatureResolver
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
 
     private val limeToSwiftNames = buildPathMap()
@@ -196,7 +197,6 @@ internal class SwiftNameResolver(
             .associateBy({ it.fullName }, { resolveFullName(it) })
             .toMutableMap()
 
-        val signatureResolver = SwiftSignatureResolver(limeReferenceMap, nameRules)
         limeReferenceMap.values.filterIsInstance<LimeFunction>().forEach { function ->
             val ambiguousKey = function.path.withSuffix("").toString()
             val functionCommentRef = resolveCommentRef(function, signatureResolver)
