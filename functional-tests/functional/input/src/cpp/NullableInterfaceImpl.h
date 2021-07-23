@@ -41,6 +41,7 @@ public:
         const Optional< double >& input ) override;
     Optional< int64_t > method_with_int(
         const Optional< int64_t >& input ) override;
+    Optional<uint32_t> method_with_uint(const Optional<uint32_t>& input) override;
     Optional< SomeStruct > method_with_some_struct(
         const Optional< SomeStruct >& input ) override;
     Optional< SomeEnum > method_with_some_enum(

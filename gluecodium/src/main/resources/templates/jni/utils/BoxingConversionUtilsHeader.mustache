@@ -70,6 +70,10 @@ JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, {{>common/InternalN
 JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, {{>common/InternalNamespace}}optional<int16_t> nvalue );
 JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, {{>common/InternalNamespace}}optional<int32_t> nvalue );
 JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, {{>common/InternalNamespace}}optional<int64_t> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, {{>common/InternalNamespace}}optional<uint8_t> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, {{>common/InternalNamespace}}optional<uint16_t> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, {{>common/InternalNamespace}}optional<uint32_t> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, {{>common/InternalNamespace}}optional<uint64_t> nvalue );
 
 JNIEXPORT {{>common/InternalNamespace}}optional<bool> convert_from_jni(
     JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<bool>* );
