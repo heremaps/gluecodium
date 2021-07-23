@@ -92,7 +92,8 @@ internal class JavaGenerator : Generator {
             .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, JAVA, retainFunctions = false) }
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
 
-        val overloadsValidator = LimeOverloadsValidator(limeModel.referenceMap, JAVA, javaNameRules, limeLogger)
+        val overloadsValidator =
+            LimeOverloadsValidator(JavaSignatureResolver(limeModel.referenceMap, javaNameRules), limeLogger)
         val validationResult = overloadsValidator.validate(jniFilteredModel.topElements)
         if (!validationResult) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")

@@ -100,7 +100,8 @@ internal class SwiftGenerator : Generator {
             .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, SWIFT, retainFunctions = false) }
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
 
-        val overloadsValidator = LimeOverloadsValidator(limeModel.referenceMap, SWIFT, nameRules, limeLogger)
+        val overloadsValidator =
+            LimeOverloadsValidator(SwiftSignatureResolver(limeModel.referenceMap, nameRules), limeLogger)
         val weakPropertiesValidator = SwiftWeakPropertiesValidator(limeLogger)
         val validationResults = listOf(
             overloadsValidator.validate(cbridgeFilteredModel.topElements),

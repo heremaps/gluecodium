@@ -23,7 +23,6 @@ import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.common.CommentsProcessor
 import com.here.gluecodium.generator.common.NameResolver
-import com.here.gluecodium.generator.common.PlatformSignatureResolver
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeType.OPTIMIZED
@@ -73,7 +72,7 @@ internal class CppNameResolver(
     private val optionalTypeName = (listOf("") + internalNamespace + "optional").joinToString("::")
     private val localeTypeName = (listOf("") + internalNamespace + "Locale").joinToString("::")
 
-    private val signatureResolver = PlatformSignatureResolver(limeReferenceMap, CPP, nameCache.nameRules)
+    private val signatureResolver = CppSignatureResolver(limeReferenceMap, nameCache.nameRules)
     private val limeToCppNames = buildPathMap()
 
     override fun resolveName(element: Any): String =
