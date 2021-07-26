@@ -26,7 +26,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/AddGenerateCommand.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/TargetGeneratedSources.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/TargetIncludeDirectories.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/TargetCompileDefinitions.cmake)
-include(${CMAKE_CURRENT_LIST_DIR}/details/ListGeneratedFiles.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/details/CreateDefaultGenerateTarget.cmake)
 
 #[===================================================================================================[.rst:
 Calls sequence of commands to add step to generate sources and configure target's
@@ -150,10 +150,5 @@ function(gluecodium_generate _target)
   gluecodium_target_include_directories(${_target})
   gluecodium_target_compile_definitions(${_target})
 
-  gluecodium_list_generated_files(${_target} OUTPUT_ALL _generated_sources)
-  add_custom_target(${_target}.gluecodium.generate DEPENDS ${_generated_sources})
-
-  # CMake 3.19 enabled support of "new build system" in Xcode >= 12.x "New build system" requires
-  # for targets which depend on the same generated files to have dependency between them.
-  add_dependencies(${_target} ${_target}.gluecodium.generate)
+  _gluecodium_create_default_generated_target(${_target})
 endfunction()
