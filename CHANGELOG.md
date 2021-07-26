@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed Dart compilation issues when default visibility of C++ symbols is set to "hidden" in the build system.
+
 ## 9.3.4
 Release date: 2021-07-26
 ### Bug fixes:
