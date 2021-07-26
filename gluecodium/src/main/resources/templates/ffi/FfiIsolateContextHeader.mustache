@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include "Export.h"
 #include <cstdint>
 
 {{#internalNamespace}}
@@ -30,7 +31,7 @@ namespace {{.}}
 {{/internalNamespace}}
 namespace ffi
 {
-class IsolateContext
+class _GLUECODIUM_FFI_EXPORT IsolateContext
 {
 private:
     const int32_t m_previous_id;
