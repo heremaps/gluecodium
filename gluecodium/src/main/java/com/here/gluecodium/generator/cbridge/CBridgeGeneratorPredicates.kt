@@ -37,8 +37,8 @@ import com.here.gluecodium.model.lime.LimeTypeRef
  */
 internal class CBridgeGeneratorPredicates(
     cppNameResolver: CppNameResolver,
-    limeReferenceMap: Map<String, LimeElement>,
-    activeTags: Set<String>
+    private val limeReferenceMap: Map<String, LimeElement>,
+    private val activeTags: Set<String>
 ) {
     val predicates = mapOf(
         "hasCppGetter" to { limeField: Any ->
@@ -64,8 +64,10 @@ internal class CBridgeGeneratorPredicates(
             }
         },
         "shouldRetain" to { limeElement: Any ->
-            limeElement is LimeNamedElement &&
-                LimeModelSkipPredicates.shouldRetainCheckParent(limeElement, activeTags, SWIFT, limeReferenceMap)
+            limeElement is LimeNamedElement && shouldRetain(limeElement)
         }
     )
+
+    fun shouldRetain(limeElement: LimeNamedElement) =
+        LimeModelSkipPredicates.shouldRetainCheckParent(limeElement, activeTags, SWIFT, limeReferenceMap)
 }

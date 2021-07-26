@@ -24,8 +24,6 @@ import com.here.gluecodium.generator.common.ImportsResolver
 import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.cpp.CppIncludeResolver
 import com.here.gluecodium.generator.cpp.CppLibraryIncludes
-import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
-import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeContainer
@@ -50,9 +48,8 @@ import java.io.File
 internal class CBridgeImplIncludeResolver(private val cppIncludeResolver: CppIncludeResolver) :
     ImportsResolver<Include> {
 
-    override fun resolveElementImports(limeElement: LimeElement): List<Include> {
-        if (limeElement.attributes.have(SWIFT, SKIP)) return emptyList()
-        return when (limeElement) {
+    override fun resolveElementImports(limeElement: LimeElement) =
+        when (limeElement) {
             is LimeTypesCollection, is LimeConstant -> emptyList()
             is LimeTypeRef -> resolveTypeRefIncludes(limeElement)
             is LimeReturnType -> resolveTypeRefIncludes(limeElement.typeRef)
@@ -66,7 +63,6 @@ internal class CBridgeImplIncludeResolver(private val cppIncludeResolver: CppInc
             is LimeType -> cppIncludeResolver.resolveElementImports(limeElement)
             else -> emptyList()
         }
-    }
 
     private fun resolveClassInterfaceIncludes(limeContainer: LimeContainerWithInheritance): List<Include> {
         val containerIncludes = resolveContainerIncludes(limeContainer)

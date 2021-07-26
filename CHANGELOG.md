@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed compilation issues caused by tag-based platform-specific skip attributes when the custom tag is not set.
+
 ## 9.3.3
 Release date: 2021-07-20
 ### Bug fixes:

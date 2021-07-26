@@ -24,8 +24,6 @@ import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.model.lime.LimeAttributeType.EQUATABLE
 import com.here.gluecodium.model.lime.LimeAttributeType.POINTER_EQUATABLE
-import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
-import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeContainer
@@ -47,9 +45,8 @@ internal class CBridgeHeaderIncludeResolver(
     private val fileNames: CBridgeFileNames
 ) : ReferenceMapBasedResolver(limeReferenceMap), ImportsResolver<Include> {
 
-    override fun resolveElementImports(limeElement: LimeElement): List<Include> {
-        if (limeElement.attributes.have(SWIFT, SKIP)) return emptyList()
-        return when (limeElement) {
+    override fun resolveElementImports(limeElement: LimeElement) =
+        when (limeElement) {
             is LimeConstant -> emptyList()
             is LimeTypeRef -> resolveTypeRefIncludes(limeElement)
             is LimeReturnType -> resolveTypeRefIncludes(limeElement.typeRef)
@@ -62,7 +59,6 @@ internal class CBridgeHeaderIncludeResolver(
             is LimeMap -> resolveTypeRefIncludes(limeElement.keyType) + resolveTypeRefIncludes(limeElement.valueType)
             else -> emptyList()
         }
-    }
 
     private fun resolveContainerIncludes(limeContainer: LimeContainer) =
         when {

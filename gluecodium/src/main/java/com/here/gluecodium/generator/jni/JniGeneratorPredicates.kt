@@ -43,10 +43,10 @@ import com.here.gluecodium.model.lime.LimeTypeRef
  * List of predicates used by `ifPredicate`/`unlessPredicate` template helpers in JNI generator.
  */
 internal class JniGeneratorPredicates(
-    limeReferenceMap: Map<String, LimeElement>,
+    private val limeReferenceMap: Map<String, LimeElement>,
     javaNameRules: JavaNameRules,
     cppNameResolver: CppNameResolver,
-    activeTags: Set<String>
+    private val activeTags: Set<String>
 ) {
     private val javaSignatureResolver = JavaSignatureResolver(limeReferenceMap, javaNameRules, activeTags)
 
@@ -87,10 +87,12 @@ internal class JniGeneratorPredicates(
                 limeFunction.returnType.typeRef.type is LimeClass
         },
         "shouldRetain" to { limeElement: Any ->
-            limeElement is LimeNamedElement &&
-                LimeModelSkipPredicates.shouldRetainCheckParent(limeElement, activeTags, JAVA, limeReferenceMap)
+            limeElement is LimeNamedElement && shouldRetain(limeElement)
         }
     )
+
+    fun shouldRetain(limeElement: LimeNamedElement) =
+        LimeModelSkipPredicates.shouldRetainCheckParent(limeElement, activeTags, JAVA, limeReferenceMap)
 
     companion object {
         fun hasThrowingFunctions(limeElement: LimeNamedElement) =

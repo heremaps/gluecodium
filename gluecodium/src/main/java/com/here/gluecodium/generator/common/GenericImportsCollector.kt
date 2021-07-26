@@ -19,8 +19,6 @@
 
 package com.here.gluecodium.generator.common
 
-import com.here.gluecodium.model.lime.LimeAttributeType
-import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeException
@@ -35,7 +33,7 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class GenericImportsCollector<T>(
     private val importsResolver: ImportsResolver<T>,
-    private val skipAttribute: LimeAttributeType? = null,
+    private val retainPredicate: ((LimeNamedElement) -> Boolean)? = null,
     private val collectTypeRefImports: Boolean = false,
     private val collectOwnImports: Boolean = false,
     private val parentTypeFilter: (LimeContainerWithInheritance) -> Boolean = { false },
@@ -65,13 +63,13 @@ internal class GenericImportsCollector<T>(
         return typeRefImports + ownImports + parentImports + typeAliasImports + constantImports
     }
 
-    private fun skipPredicate(limeElement: LimeNamedElement) =
-        skipAttribute != null && limeElement.attributes.have(skipAttribute, LimeAttributeValueType.SKIP)
+    private fun shouldRetain(limeElement: LimeNamedElement) =
+        retainPredicate == null || retainPredicate.invoke(limeElement)
 
     private fun collectTypeRefs(allTypes: List<LimeType>): List<LimeTypeRef> {
         val containers = allTypes.filterIsInstance<LimeContainer>()
-        val functions = containers.flatMap { it.functions }.filterNot { skipPredicate(it) }
-        val properties = containers.flatMap { it.properties }.filterNot { skipPredicate(it) }
+        val functions = containers.flatMap { it.functions }.filter { shouldRetain(it) }
+        val properties = containers.flatMap { it.properties }.filter { shouldRetain(it) }
         val lambdas = allTypes.filterIsInstance<LimeLambda>()
         val exceptions = allTypes.filterIsInstance<LimeException>()
         val structs = allTypes.filterIsInstance<LimeStruct>()

@@ -20,8 +20,6 @@
 package com.here.gluecodium.generator.java
 
 import com.here.gluecodium.generator.common.ImportsCollector
-import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
-import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeContainer
@@ -33,10 +31,13 @@ import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
 
-internal class JavaImportCollector(private val importsResolver: JavaImportResolver) : ImportsCollector<JavaImport> {
+internal class JavaImportCollector(
+    private val importsResolver: JavaImportResolver,
+    private val retainPredicate: (LimeNamedElement) -> Boolean
+) : ImportsCollector<JavaImport> {
 
     override fun collectImports(limeElement: LimeNamedElement): List<JavaImport> {
-        if (limeElement.attributes.have(JAVA, SKIP)) return emptyList()
+        if (!retainPredicate(limeElement)) return emptyList()
 
         val nestedImports = when (limeElement) {
             is LimeStruct ->
