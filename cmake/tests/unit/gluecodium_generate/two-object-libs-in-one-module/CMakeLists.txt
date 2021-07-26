@@ -59,6 +59,8 @@ gluecodium_generate(object.module.only.main GENERATORS ${_gluecodium_generator} 
 gluecodium_target_lime_sources(object.module.only.main
                                PRIVATE "${CMAKE_CURRENT_LIST_DIR}/lime/main_bar.lime")
 
+set_target_properties(object.module.only.main PROPERTIES GLUECODIUM_DART_LIBRARY_NAME "only_main")
+
 # Final shared module. Xcode doesn't like empty targets and silently ignores them, so dummy source
 # file is necessary.
 add_library(shared.module SHARED "${CMAKE_CURRENT_LIST_DIR}/cpp/Dummy.cpp")
