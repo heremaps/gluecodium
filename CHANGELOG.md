@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 9.3.4
+Release date: 2021-07-26
 ### Bug fixes:
   * Fixed compilation issues caused by tag-based platform-specific skip attributes when the custom tag is not set.
   * Fixed Java compilation issues for nullable unsigned integer types.
