@@ -34,5 +34,11 @@ function(get_supported_gluecodium_generators result)
   elseif(CMAKE_GENERATOR STREQUAL "Xcode")
     list(APPEND _gluecodium_generator swift)
   endif()
+
+  find_program(_dart_exe dart)
+  if(_dart_exe)
+    list(APPEND _gluecodium_generator dart)
+  endif()
+
   set(${result} ${_gluecodium_generator} PARENT_SCOPE)
 endfunction()

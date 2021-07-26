@@ -158,11 +158,11 @@ _gluecodium_define_target_property(
 )
 
 _gluecodium_define_target_property(
-  GLUECODIUM_CBRIDGE_INTERNAL_PREFIX
-  BRIEF_DOCS "Name prefix for internal conversion functions in Swift"
+  GLUECODIUM_INTERNAL_PREFIX
+  BRIEF_DOCS "Name prefix for internal conversion functions in Swift and Dart"
   FULL_DOCS
-    "Name prefix for internal conversion functions in Swift."
-    "This property is initialized by the value of the GLUECODIUM_CBRIDGE_INTERNAL_PREFIX_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
+    "Name prefix for internal conversion functions in Swift and Dart."
+    "This property is initialized by the value of the GLUECODIUM_INTERNAL_PREFIX_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called. Otherwise default value is target's output name."
 )
 
 _gluecodium_define_target_property(

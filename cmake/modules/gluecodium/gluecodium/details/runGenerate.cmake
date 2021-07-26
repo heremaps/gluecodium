@@ -145,7 +145,7 @@ function(_prepare_gluecodium_config_file file_path)
   _append_option(javanullableannotation GLUECODIUM_JAVA_NULLABLE_ANNOTATION)
   _append_option(libraryname GLUECODIUM_DART_LIBRARY_NAME)
   _append_option(dartlookuperrormessage GLUECODIUM_DART_FUNCTION_LOOKUP_ERROR_MESSAGE)
-  _append_option(internalprefix GLUECODIUM_CBRIDGE_INTERNAL_PREFIX)
+  _append_option(internalprefix GLUECODIUM_INTERNAL_PREFIX)
   _append_option(cppexport GLUECODIUM_CPP_EXPORT_MACRO_NAME)
   _append_option(cppexportcommon GLUECODIUM_CPP_EXPORT_COMMON_MACRO_NAME)
 
