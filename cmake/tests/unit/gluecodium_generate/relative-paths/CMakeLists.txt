@@ -7,15 +7,10 @@ set(CMAKE_CXX_STANDARD 17)
 list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
 
 include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/assert.cmake)
+include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/get_supported_gluecodium_generators.cmake)
 include(gluecodium/Gluecodium)
 
-list(APPEND _gluecodium_generator cpp)
-
-if(ANDROID)
-  list(APPEND _gluecodium_generator android)
-elseif(APPLE AND CMAKE_GENERATOR STREQUAL "Xcode")
-  list(APPEND _gluecodium_generator swift)
-endif()
+get_supported_gluecodium_generators(_gluecodium_generator)
 
 add_library(single.module.package SHARED "cpp/FooImpl.cpp")
 

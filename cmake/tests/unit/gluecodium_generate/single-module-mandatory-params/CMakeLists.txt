@@ -11,15 +11,14 @@ endif()
 list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
 
 include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/assert.cmake)
+include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/get_supported_gluecodium_generators.cmake)
 include(gluecodium/Gluecodium)
 
-list(APPEND _gluecodium_generator cpp)
+get_supported_gluecodium_generators(_gluecodium_generator)
 
 if(ANDROID)
-  list(APPEND _gluecodium_generator android)
   set(_expected_symbol "Java_com_example_unit_test_Foo_make")
-elseif(APPLE AND CMAKE_GENERATOR STREQUAL "Xcode")
-  list(APPEND _gluecodium_generator swift)
+elseif(CMAKE_GENERATOR STREQUAL "Xcode")
   set(_expected_symbol "unit_test_Foo_make")
 endif()
 
