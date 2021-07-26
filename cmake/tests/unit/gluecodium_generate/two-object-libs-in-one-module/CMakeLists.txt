@@ -27,18 +27,18 @@ endif()
 
 list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
 
-list(APPEND _gluecodium_generator cpp)
 if(ANDROID)
-  list(APPEND _gluecodium_generator android)
   set(_expected_symbol_common "Java_com_example_unit_test_CommonMainFoo_make")
   set(_expected_symbol_main "Java_com_example_unit_test_MainBar_make")
-elseif(APPLE AND CMAKE_GENERATOR STREQUAL "Xcode")
-  list(APPEND _gluecodium_generator swift)
+elseif(CMAKE_GENERATOR STREQUAL "Xcode")
   set(_expected_symbol_common "unit_test_CommonMainFoo_make")
   set(_expected_symbol_main "unit_test_MainBar_make")
 endif()
 
+include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/get_supported_gluecodium_generators.cmake)
 include(gluecodium/Gluecodium)
+
+get_supported_gluecodium_generators(_gluecodium_generator)
 
 # Module 1, includes MAIN and COMMON source set
 add_library(object.module.with.common OBJECT)

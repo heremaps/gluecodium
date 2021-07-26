@@ -27,14 +27,10 @@ endif()
 
 list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
 
-list(APPEND _gluecodium_generator cpp)
-if(ANDROID)
-  list(APPEND _gluecodium_generator android)
-elseif(APPLE AND CMAKE_GENERATOR STREQUAL "Xcode")
-  list(APPEND _gluecodium_generator swift)
-endif()
-
+include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/get_supported_gluecodium_generators.cmake)
 include(gluecodium/Gluecodium)
+
+get_supported_gluecodium_generators(_gluecodium_generator)
 
 # Module 1, includes MAIN and COMMON source set
 add_library(shared.module.with.common SHARED)

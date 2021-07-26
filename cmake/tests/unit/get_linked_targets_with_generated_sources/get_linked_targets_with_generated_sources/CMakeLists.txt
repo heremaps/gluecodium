@@ -21,16 +21,12 @@ project(gluecodium.test)
 
 list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
 
-list(APPEND _gluecodium_generators cpp)
-if(ANDROID)
-  list(APPEND _gluecodium_generators android)
-elseif(APPLE AND CMAKE_GENERATOR STREQUAL "Xcode")
-  list(APPEND _gluecodium_generators swift)
-endif()
-
+include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/get_supported_gluecodium_generators.cmake)
 include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/assert.cmake)
 include(gluecodium/Gluecodium)
 include(gluecodium/gluecodium/GetLinkedTargetsWithGeneratedSources)
+
+get_supported_gluecodium_generators(_gluecodium_generators)
 
 add_library(shared1.generated.code SHARED EXCLUDE_FROM_ALL "cpp/FooImpl.cpp" "lime/foo.lime")
 add_library(test::alias.to.shared1.generated.code ALIAS shared1.generated.code)
