@@ -82,6 +82,9 @@ final _{{resolveName "Ffi"}}IteratorGet = __lib.catchArgumentError(() => __lib.n
 >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_iterator_get'));
 {{/notInstanceOf}}
 
+{{#ifPredicate "hasDeprecatedElementTypes"}}
+// ignore: deprecated_member_use_from_same_package
+{{/ifPredicate}}
 Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
   final _result = _{{resolveName "Ffi"}}CreateHandle();
 {{#instanceOf this "LimeMap"}}
@@ -103,7 +106,13 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
   return _result;
 }
 
+{{#ifPredicate "hasDeprecatedElementTypes"}}
+// ignore: deprecated_member_use_from_same_package
+{{/ifPredicate}}
 {{resolveName}} {{resolveName "Ffi"}}FromFfi(Pointer<Void> handle) {
+{{#ifPredicate "hasDeprecatedElementTypes"}}
+  // ignore: deprecated_member_use_from_same_package
+{{/ifPredicate}}
   final result = {{resolveName}}{{#instanceOf this "LimeList"}}.empty(growable: true){{/instanceOf}}{{!!
   }}{{#notInstanceOf this "LimeList"}}(){{/notInstanceOf}};
   final _iteratorHandle = _{{resolveName "Ffi"}}Iterator(handle);

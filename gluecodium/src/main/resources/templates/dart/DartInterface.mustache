@@ -21,6 +21,9 @@
 {{>dart/DartDocumentation}}{{>dart/DartAttributes}}
 abstract class {{resolveName}} {{#if this.parent}}implements {{resolveName this.parent}} {{/if}}{
 {{#if inheritedFunctions functions inheritedProperties properties logic="or"}}
+{{#ifPredicate "hasDeprecatedParameters"}}
+  // ignore: deprecated_member_use_from_same_package
+{{/ifPredicate}}
   factory {{resolveName}}(
 {{#each inheritedFunctions functions}}{{#unless isStatic}}
     {{>dart/DartLambdaType}} {{resolveName}}Lambda,
@@ -104,14 +107,28 @@ final _{{resolveName "Ffi"}}GetTypeId = __lib.catchArgumentError(() => __lib.nat
 
 {{/functions}}{{!!
 }}{{#if inheritedFunctions functions inheritedProperties properties logic="or"}}
+{{#if this.attributes.deprecated}}
+// ignore: deprecated_member_use_from_same_package
+{{/if}}
 class {{resolveName}}$Lambdas implements {{resolveName}} {
 {{#each inheritedFunctions functions}}{{#unless isStatic}}
+{{#ifPredicate "hasDeprecatedParameters"}}
+  // ignore: deprecated_member_use_from_same_package
+{{/ifPredicate}}
   {{>dart/DartLambdaType}} {{resolveName}}Lambda;
 {{/unless}}{{/each}}
 {{#each inheritedProperties properties}}{{#unless isStatic}}{{#set property=this}}
-{{#getter}}  {{>dart/DartLambdaType}} {{resolveName property}}GetLambda;
+{{#getter}}
+{{#if property.typeRef.type.attributes.deprecated}}
+  // ignore: deprecated_member_use_from_same_package
+{{/if}}
+  {{>dart/DartLambdaType}} {{resolveName property}}GetLambda;
 {{/getter}}{{!!
-}}{{#setter}}  {{>dart/DartLambdaType}} {{resolveName property}}SetLambda;
+}}{{#setter}}
+{{#if property.typeRef.type.attributes.deprecated}}
+  // ignore: deprecated_member_use_from_same_package
+{{/if}}
+  {{>dart/DartLambdaType}} {{resolveName property}}SetLambda;
 {{/setter}}
 {{/set}}{{/unless}}{{/each}}
 
@@ -131,20 +148,32 @@ class {{resolveName}}$Lambdas implements {{resolveName}} {
 
 {{#each inheritedFunctions functions}}{{#unless isStatic}}
   @override
+{{#ifPredicate "hasDeprecatedParameters"}}
+  // ignore: deprecated_member_use_from_same_package
+{{/ifPredicate}}
   {{>dart/DartFunctionSignature}} =>
     {{resolveName}}Lambda({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
 {{/unless}}{{/each}}
 {{#each inheritedProperties properties}}{{#unless isStatic}}
   @override
+{{#if typeRef.type.attributes.deprecated}}
+  // ignore: deprecated_member_use_from_same_package
+{{/if}}
   {{resolveName typeRef}} get {{resolveName visibility}}{{resolveName}} => {{resolveName}}GetLambda();
 {{#if setter}}
   @override
+{{#if typeRef.type.attributes.deprecated}}
+  // ignore: deprecated_member_use_from_same_package
+{{/if}}
   set {{resolveName visibility}}{{resolveName}}({{resolveName typeRef}} value) => {{resolveName}}SetLambda(value);
 {{/if}}
 {{/unless}}{{/each}}
 }
 {{/if}}
 
+{{#if this.attributes.deprecated}}
+// ignore: deprecated_member_use_from_same_package
+{{/if}}
 class {{resolveName}}$Impl extends __lib.NativeBase implements {{resolveName}} {
 
   {{resolveName}}$Impl(Pointer<Void> handle) : super(handle);
@@ -175,6 +204,9 @@ int _{{resolveName parent "Ffi"}}{{resolveName}}Static({{!!
 {{/if}}{{#unless returnType.isVoid}}
   {{resolveName returnType.typeRef}}{{#unless returnType.typeRef.isNullable}}?{{/unless}} _resultObject;{{/unless}}
   try {
+{{#if this.attributes.deprecated parent.attributes.deprecated logic="or"}}
+    // ignore: deprecated_member_use_from_same_package
+{{/if}}
     {{#unless returnType.isVoid}}_resultObject = {{/unless}}{{!!
   }}(_obj as {{resolveName parent}}).{{resolveName visibility}}{{resolveName}}({{#parameters}}{{!!
   }}{{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}}){{#if iter.hasNext}}, {{/if}}{{!!
@@ -197,6 +229,9 @@ int _{{resolveName parent "Ffi"}}{{resolveName}}Static({{!!
 
 {{#each inheritedProperties properties}}{{#unless isStatic}}
 int _{{resolveName parent "Ffi"}}{{resolveName}}GetStatic(Object _obj, Pointer<{{resolveName typeRef "FfiApiTypes"}}> _result) {
+{{#if this.attributes.deprecated parent.attributes.deprecated logic="or"}}
+  // ignore: deprecated_member_use_from_same_package
+{{/if}}
   _result.value = {{#set call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{!!
   }}(_obj as {{resolveName parent}}).{{resolveName visibility}}{{resolveName}});
   return 0;
@@ -205,6 +240,9 @@ int _{{resolveName parent "Ffi"}}{{resolveName}}GetStatic(Object _obj, Pointer<{
 
 int _{{resolveName parent "Ffi"}}{{resolveName}}SetStatic(Object _obj, {{resolveName typeRef "FfiDartTypes"}} _value) {
   try {
+{{#if this.attributes.deprecated parent.attributes.deprecated logic="or"}}
+    // ignore: deprecated_member_use_from_same_package
+{{/if}}
     (_obj as {{resolveName parent}}).{{resolveName visibility}}{{resolveName}} =
       {{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_value);
   } finally {
@@ -215,6 +253,9 @@ int _{{resolveName parent "Ffi"}}{{resolveName}}SetStatic(Object _obj, {{resolve
 {{/if}}
 {{/unless}}{{/each}}{{/set}}
 
+{{#if this.attributes.deprecated}}
+// ignore: deprecated_member_use_from_same_package
+{{/if}}
 Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
   if (value is __lib.NativeBase) return _{{resolveName "Ffi"}}CopyHandle((value as __lib.NativeBase).handle);
 
@@ -232,8 +273,14 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
   return result;
 }
 
+{{#if this.attributes.deprecated}}
+// ignore: deprecated_member_use_from_same_package
+{{/if}}
 {{resolveName}} {{resolveName "Ffi"}}FromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
+{{#if this.attributes.deprecated}}
+  // ignore: deprecated_member_use_from_same_package
+{{/if}}
   if (instance != null && instance is {{resolveName}}) return instance;
 
   final _typeIdHandle = _{{resolveName "Ffi"}}GetTypeId(handle);
@@ -252,9 +299,15 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
 void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) =>
   _{{resolveName "Ffi"}}ReleaseHandle(handle);
 
+{{#if this.attributes.deprecated}}
+// ignore: deprecated_member_use_from_same_package
+{{/if}}
 Pointer<Void> {{resolveName "Ffi"}}ToFfiNullable({{resolveName}}? value) =>
   value != null ? {{resolveName "Ffi"}}ToFfi(value) : Pointer<Void>.fromAddress(0);
 
+{{#if this.attributes.deprecated}}
+// ignore: deprecated_member_use_from_same_package
+{{/if}}
 {{resolveName}}? {{resolveName "Ffi"}}FromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? {{resolveName "Ffi"}}FromFfi(handle) : null;
 

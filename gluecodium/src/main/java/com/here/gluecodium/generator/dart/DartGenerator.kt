@@ -47,6 +47,7 @@ import com.here.gluecodium.generator.ffi.FfiCppReturnTypeNameResolver
 import com.here.gluecodium.generator.ffi.FfiNameResolver
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeType.DART
+import com.here.gluecodium.model.lime.LimeAttributeType.DEPRECATED
 import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeClass
@@ -57,6 +58,7 @@ import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CONVERTER_NAME
+import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
@@ -64,6 +66,7 @@ import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
@@ -167,7 +170,7 @@ internal class DartGenerator : Generator {
         } + ffiFilteredModel.topElements.flatMap {
             generateFfi(it, ffiResolvers, includeResolver, includeCollector, ffiFilteredModel.referenceMap, activeTags)
         } +
-            generateDartGenericTypesConversion(genericTypes, dartResolvers, importResolver) +
+            generateDartGenericTypesConversion(genericTypes, dartResolvers, importResolver, predicates) +
             generateFfiGenericTypesConversion(genericTypes, ffiResolvers, includeResolver) +
             generateDartCommonFiles(exportsCollector, typeRepositoriesCollector, dartResolvers, importResolver) +
             generateFfiCommonFiles(ffiResolvers)
@@ -198,13 +201,14 @@ internal class DartGenerator : Generator {
         val allTypes = LimeTypeHelper.getAllTypes(rootElement).filterNot { it is LimeTypeAlias }
         val nonExternalTypes = allTypes.filter { it.external?.dart == null }
         val freeConstants = (rootElement as? LimeTypesCollection)?.constants ?: emptyList()
-        val allSymbols = (nonExternalTypes + freeConstants)
-            .filterNot { it.visibility.isInternal }
-            .map { dartNameResolver.resolveName(it) }
+        val allSymbols = (nonExternalTypes + freeConstants).filterNot { it.visibility.isInternal }
         if (allSymbols.isNotEmpty()) {
-            exportsCollector
-                .getOrPut(rootElement.path.head) { mutableListOf() }
-                .add(DartExport(relativePath, allSymbols.sorted()))
+            val dartExport = DartExport(
+                relativePath,
+                allSymbols.map { dartNameResolver.resolveName(it) }.sorted(),
+                allSymbols.any { it.attributes.have(DEPRECATED) }
+            )
+            exportsCollector.getOrPut(rootElement.path.head) { mutableListOf() }.add(dartExport)
         }
         typeRepositoriesCollector += getTypeRepositories(allTypes)
         val optimizedLists = OptimizedListsCollector().getAllOptimizedLists(rootElement)
@@ -445,7 +449,8 @@ internal class DartGenerator : Generator {
     private fun generateDartGenericTypesConversion(
         genericTypes: List<LimeGenericType>,
         nameResolvers: Map<String, NameResolver>,
-        importResolver: DartImportResolver
+        importResolver: DartImportResolver,
+        predicates: Map<String, (Any) -> Boolean>
     ): GeneratedFile {
         val fileName = "$SRC_DIR_SUFFIX/generic_types__conversion"
         val imports = genericTypes.flatMap { importResolver.resolveElementImports(it) }
@@ -458,7 +463,8 @@ internal class DartGenerator : Generator {
                 "imports" to imports.distinct().sorted().filterNot { it.filePath.endsWith(fileName) },
                 "genericTypes" to genericTypes
             ),
-            nameResolvers
+            nameResolvers,
+            predicates
         )
 
         return GeneratedFile(content, "$LIB_DIR/$fileName.dart")
@@ -537,6 +543,15 @@ internal class DartGenerator : Generator {
 
         private fun predicates(limeReferenceMap: Map<String, LimeElement>, activeTags: Set<String>) =
             mapOf(
+                "hasDeprecatedFields" to { limeStruct: Any ->
+                    limeStruct is LimeStruct && limeStruct.fields.any { it.attributes.have(DEPRECATED) }
+                },
+                "hasDeprecatedParameters" to { limeElement: Any ->
+                    limeElement is LimeNamedElement && hasDeprecatedParameters(limeElement)
+                },
+                "hasDeprecatedElementTypes" to { limeType: Any ->
+                    limeType is LimeType && hasDeprecatedElementTypes(limeType)
+                },
                 "skipDeclaration" to { limeType: Any ->
                     limeType is LimeType && skipDeclaration(limeType)
                 },
@@ -545,6 +560,29 @@ internal class DartGenerator : Generator {
                         LimeModelSkipPredicates.shouldRetainCheckParent(limeElement, activeTags, DART, limeReferenceMap)
                 }
             )
+
+        private fun hasDeprecatedElementTypes(limeType: LimeType): Boolean =
+            when {
+                limeType.attributes.have(DEPRECATED) -> true
+                limeType is LimeTypeAlias -> hasDeprecatedElementTypes(limeType.typeRef.type)
+                limeType is LimeList -> hasDeprecatedElementTypes(limeType.elementType.type)
+                limeType is LimeSet -> hasDeprecatedElementTypes(limeType.elementType.type)
+                limeType is LimeMap -> hasDeprecatedElementTypes(limeType.keyType.type) ||
+                    hasDeprecatedElementTypes(limeType.valueType.type)
+                else -> false
+            }
+
+        private fun hasDeprecatedParameters(limeElement: LimeNamedElement): Boolean =
+            when (limeElement) {
+                is LimeFunction ->
+                    (limeElement.parameters.map { it.typeRef.type } + limeElement.returnType.typeRef.type)
+                        .any { it.attributes.have(DEPRECATED) }
+                is LimeProperty -> limeElement.typeRef.type.attributes.have(DEPRECATED)
+                is LimeContainerWithInheritance ->
+                    (limeElement.functions + limeElement.inheritedFunctions + limeElement.properties + limeElement.inheritedProperties)
+                        .any { hasDeprecatedParameters(it) }
+                else -> false
+            }
 
         private fun skipDeclaration(limeType: LimeType) = limeType.external?.dart != null &&
             limeType.external?.dart?.get(CONVERTER_NAME) == null

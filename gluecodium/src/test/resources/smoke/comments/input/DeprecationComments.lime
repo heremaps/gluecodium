@@ -98,3 +98,23 @@ interface DeprecationCommentsOnly {
 struct DeprecatedWithNoMessage {
     field: String
 }
+
+@Equatable
+@Deprecated("Unfortunately, this struct is deprecated. Use [comments.SomeStruct] instead.")
+struct DeprecatedEquatableStruct {
+    @Deprecated("Unfortunately, this field is deprecated.\nUse [comments.SomeStruct.someField] instead.")
+    someField: String
+}
+
+struct DeprecatedStructCtor {
+    constructor foo()
+    @Deprecated("Unfortunately, this field is deprecated.\nUse [comments.SomeStruct.someField] instead.")
+    someField: String
+}
+
+interface DeprecatedFromLambdas {
+    fun foo(input: DeprecatedEquatableStruct)
+    property bar: DeprecatedEquatableStruct
+}
+
+typealias ListOfDeprecatedStructs = List<DeprecatedWithNoMessage>

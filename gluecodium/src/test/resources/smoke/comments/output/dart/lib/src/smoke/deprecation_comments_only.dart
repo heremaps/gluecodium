@@ -6,6 +6,7 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 @Deprecated("Unfortunately, this interface is deprecated.")
 abstract class DeprecationCommentsOnly {
+  // ignore: deprecated_member_use_from_same_package
   factory DeprecationCommentsOnly(
     bool Function(String) someMethodWithAllCommentsLambda,
     bool Function() isSomePropertyGetLambda,
@@ -37,19 +38,21 @@ enum DeprecationCommentsOnly_SomeEnum {
     useless
 }
 // DeprecationCommentsOnly_SomeEnum "private" section, not exported.
+// ignore: deprecated_member_use_from_same_package
 int smokeDeprecationcommentsonlySomeenumToFfi(DeprecationCommentsOnly_SomeEnum value) {
   switch (value) {
-  case DeprecationCommentsOnly_SomeEnum.useless:
   // ignore: deprecated_member_use_from_same_package
+  case DeprecationCommentsOnly_SomeEnum.useless:
     return 0;
   default:
     throw StateError("Invalid enum value $value for DeprecationCommentsOnly_SomeEnum enum.");
   }
 }
+// ignore: deprecated_member_use_from_same_package
 DeprecationCommentsOnly_SomeEnum smokeDeprecationcommentsonlySomeenumFromFfi(int handle) {
   switch (handle) {
-  // ignore: deprecated_member_use_from_same_package
   case 0:
+    // ignore: deprecated_member_use_from_same_package
     return DeprecationCommentsOnly_SomeEnum.useless;
   default:
     throw StateError("Invalid numeric value $handle for DeprecationCommentsOnly_SomeEnum enum.");
@@ -68,6 +71,7 @@ final _smokeDeprecationcommentsonlySomeenumGetValueNullable = __lib.catchArgumen
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_DeprecationCommentsOnly_SomeEnum_get_value_nullable'));
+// ignore: deprecated_member_use_from_same_package
 Pointer<Void> smokeDeprecationcommentsonlySomeenumToFfiNullable(DeprecationCommentsOnly_SomeEnum? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeDeprecationcommentsonlySomeenumToFfi(value);
@@ -75,6 +79,7 @@ Pointer<Void> smokeDeprecationcommentsonlySomeenumToFfiNullable(DeprecationComme
   smokeDeprecationcommentsonlySomeenumReleaseFfiHandle(_handle);
   return result;
 }
+// ignore: deprecated_member_use_from_same_package
 DeprecationCommentsOnly_SomeEnum? smokeDeprecationcommentsonlySomeenumFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeDeprecationcommentsonlySomeenumGetValueNullable(handle);
@@ -104,15 +109,19 @@ final _smokeDeprecationcommentsonlySomestructGetFieldsomeField = __lib.catchArgu
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_DeprecationCommentsOnly_SomeStruct_get_field_someField'));
+// ignore: deprecated_member_use_from_same_package
 Pointer<Void> smokeDeprecationcommentsonlySomestructToFfi(DeprecationCommentsOnly_SomeStruct value) {
+  // ignore: deprecated_member_use_from_same_package
   final _someFieldHandle = booleanToFfi(value.someField);
   final _result = _smokeDeprecationcommentsonlySomestructCreateHandle(_someFieldHandle);
   booleanReleaseFfiHandle(_someFieldHandle);
   return _result;
 }
+// ignore: deprecated_member_use_from_same_package
 DeprecationCommentsOnly_SomeStruct smokeDeprecationcommentsonlySomestructFromFfi(Pointer<Void> handle) {
   final _someFieldHandle = _smokeDeprecationcommentsonlySomestructGetFieldsomeField(handle);
   try {
+    // ignore: deprecated_member_use_from_same_package
     return DeprecationCommentsOnly_SomeStruct(
       booleanFromFfi(_someFieldHandle)
     );
@@ -134,6 +143,7 @@ final _smokeDeprecationcommentsonlySomestructGetValueNullable = __lib.catchArgum
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_DeprecationCommentsOnly_SomeStruct_get_value_nullable'));
+// ignore: deprecated_member_use_from_same_package
 Pointer<Void> smokeDeprecationcommentsonlySomestructToFfiNullable(DeprecationCommentsOnly_SomeStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeDeprecationcommentsonlySomestructToFfi(value);
@@ -141,6 +151,7 @@ Pointer<Void> smokeDeprecationcommentsonlySomestructToFfiNullable(DeprecationCom
   smokeDeprecationcommentsonlySomestructReleaseFfiHandle(_handle);
   return result;
 }
+// ignore: deprecated_member_use_from_same_package
 DeprecationCommentsOnly_SomeStruct? smokeDeprecationcommentsonlySomestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeDeprecationcommentsonlySomestructGetValueNullable(handle);
@@ -172,9 +183,13 @@ final _smokeDeprecationcommentsonlyGetTypeId = __lib.catchArgumentError(() => __
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_DeprecationCommentsOnly_get_type_id'));
+// ignore: deprecated_member_use_from_same_package
 class DeprecationCommentsOnly$Lambdas implements DeprecationCommentsOnly {
+  // ignore: deprecated_member_use_from_same_package
   bool Function(String) someMethodWithAllCommentsLambda;
+  // ignore: deprecated_member_use_from_same_package
   bool Function() isSomePropertyGetLambda;
+  // ignore: deprecated_member_use_from_same_package
   void Function(bool) isSomePropertySetLambda;
   DeprecationCommentsOnly$Lambdas(
     this.someMethodWithAllCommentsLambda,
@@ -184,13 +199,17 @@ class DeprecationCommentsOnly$Lambdas implements DeprecationCommentsOnly {
   @override
   void release() {}
   @override
+  // ignore: deprecated_member_use_from_same_package
   bool someMethodWithAllComments(String input) =>
     someMethodWithAllCommentsLambda(input);
   @override
+  // ignore: deprecated_member_use_from_same_package
   bool get isSomeProperty => isSomePropertyGetLambda();
   @override
+  // ignore: deprecated_member_use_from_same_package
   set isSomeProperty(bool value) => isSomePropertySetLambda(value);
 }
+// ignore: deprecated_member_use_from_same_package
 class DeprecationCommentsOnly$Impl extends __lib.NativeBase implements DeprecationCommentsOnly {
   DeprecationCommentsOnly$Impl(Pointer<Void> handle) : super(handle);
   @override
@@ -231,6 +250,7 @@ class DeprecationCommentsOnly$Impl extends __lib.NativeBase implements Deprecati
 int _smokeDeprecationcommentsonlysomeMethodWithAllCommentsStatic(Object _obj, Pointer<Void> input, Pointer<Uint8> _result) {
   bool? _resultObject;
   try {
+    // ignore: deprecated_member_use_from_same_package
     _resultObject = (_obj as DeprecationCommentsOnly).someMethodWithAllComments(stringFromFfi(input));
     _result.value = booleanToFfi(_resultObject);
   } finally {
@@ -239,11 +259,13 @@ int _smokeDeprecationcommentsonlysomeMethodWithAllCommentsStatic(Object _obj, Po
   return 0;
 }
 int _smokeDeprecationcommentsonlyisSomePropertyGetStatic(Object _obj, Pointer<Uint8> _result) {
+  // ignore: deprecated_member_use_from_same_package
   _result.value = booleanToFfi((_obj as DeprecationCommentsOnly).isSomeProperty);
   return 0;
 }
 int _smokeDeprecationcommentsonlyisSomePropertySetStatic(Object _obj, int _value) {
   try {
+    // ignore: deprecated_member_use_from_same_package
     (_obj as DeprecationCommentsOnly).isSomeProperty =
       booleanFromFfi(_value);
   } finally {
@@ -251,6 +273,7 @@ int _smokeDeprecationcommentsonlyisSomePropertySetStatic(Object _obj, int _value
   }
   return 0;
 }
+// ignore: deprecated_member_use_from_same_package
 Pointer<Void> smokeDeprecationcommentsonlyToFfi(DeprecationCommentsOnly value) {
   if (value is __lib.NativeBase) return _smokeDeprecationcommentsonlyCopyHandle((value as __lib.NativeBase).handle);
   final result = _smokeDeprecationcommentsonlyCreateProxy(
@@ -263,8 +286,10 @@ Pointer<Void> smokeDeprecationcommentsonlyToFfi(DeprecationCommentsOnly value) {
   );
   return result;
 }
+// ignore: deprecated_member_use_from_same_package
 DeprecationCommentsOnly smokeDeprecationcommentsonlyFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
+  // ignore: deprecated_member_use_from_same_package
   if (instance != null && instance is DeprecationCommentsOnly) return instance;
   final _typeIdHandle = _smokeDeprecationcommentsonlyGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
@@ -279,8 +304,10 @@ DeprecationCommentsOnly smokeDeprecationcommentsonlyFromFfi(Pointer<Void> handle
 }
 void smokeDeprecationcommentsonlyReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeDeprecationcommentsonlyReleaseHandle(handle);
+// ignore: deprecated_member_use_from_same_package
 Pointer<Void> smokeDeprecationcommentsonlyToFfiNullable(DeprecationCommentsOnly? value) =>
   value != null ? smokeDeprecationcommentsonlyToFfi(value) : Pointer<Void>.fromAddress(0);
+// ignore: deprecated_member_use_from_same_package
 DeprecationCommentsOnly? smokeDeprecationcommentsonlyFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeDeprecationcommentsonlyFromFfi(handle) : null;
 void smokeDeprecationcommentsonlyReleaseFfiHandleNullable(Pointer<Void> handle) =>

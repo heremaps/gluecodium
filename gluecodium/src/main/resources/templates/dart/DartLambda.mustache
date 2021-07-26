@@ -71,6 +71,9 @@ int _{{resolveName lambda "Ffi"}}{{resolveName}}Static({{!!
 }
 {{/asFunction}}{{/set}}
 
+{{#if this.attributes.deprecated}}
+// ignore: deprecated_member_use_from_same_package
+{{/if}}
 Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) =>
   _{{resolveName "Ffi"}}CreateProxy(
     __lib.getObjectToken(value),
@@ -79,6 +82,9 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) =>
     Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName lambda "Ffi"}}{{resolveName}}Static, __lib.unknownError){{/asFunction}}{{/set}}
   );
 
+{{#if this.attributes.deprecated}}
+// ignore: deprecated_member_use_from_same_package
+{{/if}}
 {{resolveName}} {{resolveName "Ffi"}}FromFfi(Pointer<Void> handle) {
   final _copiedHandle = _{{resolveName "Ffi"}}CopyHandle(handle);
   final _impl = {{resolveName}}$Impl(_copiedHandle);

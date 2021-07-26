@@ -21,5 +21,8 @@
 {{#if copyrightHeader}}{{prefix copyrightHeader "// "}}{{/if}}
 
 {{#files}}
+{{#if hasDeprecations}}
+// ignore: deprecated_member_use_from_same_package
+{{/if}}
 export '{{filePath}}'{{#if show}} show {{join show delimiter=", "}}{{/if}};
 {{/files}}

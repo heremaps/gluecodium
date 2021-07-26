@@ -19,6 +19,10 @@
 
 package com.here.gluecodium.generator.dart
 
-data class DartExport(val filePath: String, val show: List<String>) : Comparable<DartExport> {
+data class DartExport(
+    val filePath: String,
+    val show: List<String>,
+    val hasDeprecations: Boolean
+) : Comparable<DartExport> {
     override fun compareTo(other: DartExport) = filePath.compareTo(other.filePath)
 }

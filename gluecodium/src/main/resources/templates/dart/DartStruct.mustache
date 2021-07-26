@@ -62,6 +62,9 @@ class {{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{#if testabl
     if (identical(this, other)) return true;
     if (other is! {{resolveName}}) return false;
     {{resolveName}} _other = other;
+{{#ifPredicate "hasDeprecatedFields"}}
+    // ignore: deprecated_member_use_from_same_package
+{{/ifPredicate}}
     return {{joinPartial fields "dartFieldEq" " &&
         "}};
   }
@@ -70,6 +73,9 @@ class {{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{#if testabl
   int get hashCode {
     int result = 7;
 {{#fields}}
+{{#if this.attributes.deprecated}}
+    // ignore: deprecated_member_use_from_same_package
+{{/if}}
     result = 31 * result + {{>dartFieldHash}};
 {{/fields}}
     return result;
@@ -113,11 +119,18 @@ final _{{resolveName parent "Ffi"}}GetField{{resolveName "Ffi"}} = __lib.catchAr
 
 {{>dart/DartOptimizedLists}}
 
+{{#if this.attributes.deprecated}}
+// ignore: deprecated_member_use_from_same_package
+{{/if}}
 Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#if external.dart.converter}}External{{/if}}) {
 {{#if external.dart.converter}}
   final value = {{external.dart.converter}}.convertToInternal(valueExternal);
 {{/if}}
-{{#fields}}{{#if typeRef.attributes.optimized}}
+{{#fields}}
+{{#if this.attributes.deprecated}}
+  // ignore: deprecated_member_use_from_same_package
+{{/if}}
+{{#if typeRef.attributes.optimized}}
   final _{{resolveName}}Handle = (value.{{resolveName visibility}}{{resolveName}} as __lib.LazyList).handle;
 {{/if}}{{#unless typeRef.attributes.optimized}}
   final _{{resolveName}}Handle = {{#set call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(value.{{resolveName visibility}}{{resolveName}});
@@ -129,12 +142,17 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#i
   return _result;
 }
 
+{{#if this.attributes.deprecated}}
+// ignore: deprecated_member_use_from_same_package
+{{/if}}
 {{resolveName this "" "ref"}} {{resolveName "Ffi"}}FromFfi(Pointer<Void> handle) {
 {{#set parent=this}}{{#fields}}
-  final _{{resolveName}}Handle = {{!!
-  }}_{{resolveName parent "Ffi"}}GetField{{resolveName "Ffi"}}(handle);
+  final _{{resolveName}}Handle = _{{resolveName parent "Ffi"}}GetField{{resolveName "Ffi"}}(handle);
 {{/fields}}{{/set}}
   try {
+{{#if this.attributes.deprecated}}
+    // ignore: deprecated_member_use_from_same_package
+{{/if}}
 {{#if external.dart.converter}}
     final resultInternal = {{resolveName}}Internal{{#if testableMode}}$Impl{{/if}}{{#if constructors}}._{{/if}}(
 {{#set container=this}}{{#fields}}
@@ -217,7 +235,11 @@ void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) => _{{resolveNa
 }}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{implSuffix}}{{!!
 }}{{#if constructors}}._{{/if}}({{#fields}}this.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
 {{/unless}}
-{{#if constructors}}  {{resolveName}}{{#if testableMode}}$Impl{{/if}}{{#if constructors}}._copy{{/if}}({{resolveName}} _other) : {{!!
+{{#if constructors}}
+{{#ifPredicate "hasDeprecatedFields"}}
+  // ignore: deprecated_member_use_from_same_package
+{{/ifPredicate}}
+  {{resolveName}}{{#if testableMode}}$Impl{{/if}}{{#if constructors}}._copy{{/if}}({{resolveName}} _other) : {{!!
 }}this._({{#fields}}_other.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
 {{/if}}{{#unless constructors}}{{#if initializedFields}}
   {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{implSuffix}}{{!!

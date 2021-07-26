@@ -31,9 +31,9 @@
 ///{{/unless}}{{/resolveName}}{{/if}}{{!!
 }}{{#if visibility.isInternal comment.isExcluded logic="or"}}
 /// @nodoc{{/if}}{{!!
-}}{{#if attributes.deprecated}}
+}}{{#if attributes.deprecated}}{{#unless isConstructor}}
 @Deprecated("{{#resolveName attributes.deprecated.message}}{{escape this}}{{/resolveName}}")
-{{/if}}{{!!
+{{/unless}}{{/if}}{{!!
 }}{{#if attributes.dart.attribute}}
 
 {{#attributes.dart.attribute}}

@@ -42,6 +42,7 @@ final _smokeAttributeswithdeprecatedSomestructGetFieldfield = __lib.catchArgumen
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_AttributesWithDeprecated_SomeStruct_get_field_field'));
 Pointer<Void> smokeAttributeswithdeprecatedSomestructToFfi(AttributesWithDeprecated_SomeStruct value) {
+  // ignore: deprecated_member_use_from_same_package
   final _fieldHandle = stringToFfi(value.field);
   final _result = _smokeAttributeswithdeprecatedSomestructCreateHandle(_fieldHandle);
   stringReleaseFfiHandle(_fieldHandle);
@@ -133,10 +134,13 @@ class AttributesWithDeprecated$Impl extends __lib.NativeBase implements Attribut
     stringReleaseFfiHandle(_valueHandle);
   }
 }
+// ignore: deprecated_member_use_from_same_package
 Pointer<Void> smokeAttributeswithdeprecatedToFfi(AttributesWithDeprecated value) =>
   _smokeAttributeswithdeprecatedCopyHandle((value as __lib.NativeBase).handle);
+// ignore: deprecated_member_use_from_same_package
 AttributesWithDeprecated smokeAttributeswithdeprecatedFromFfi(Pointer<Void> handle) {
   final instance = __lib.getCachedInstance(handle);
+  // ignore: deprecated_member_use_from_same_package
   if (instance != null && instance is AttributesWithDeprecated) return instance;
   final _copiedHandle = _smokeAttributeswithdeprecatedCopyHandle(handle);
   final result = AttributesWithDeprecated$Impl(_copiedHandle);
@@ -146,8 +150,10 @@ AttributesWithDeprecated smokeAttributeswithdeprecatedFromFfi(Pointer<Void> hand
 }
 void smokeAttributeswithdeprecatedReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeAttributeswithdeprecatedReleaseHandle(handle);
+// ignore: deprecated_member_use_from_same_package
 Pointer<Void> smokeAttributeswithdeprecatedToFfiNullable(AttributesWithDeprecated? value) =>
   value != null ? smokeAttributeswithdeprecatedToFfi(value) : Pointer<Void>.fromAddress(0);
+// ignore: deprecated_member_use_from_same_package
 AttributesWithDeprecated? smokeAttributeswithdeprecatedFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeAttributeswithdeprecatedFromFfi(handle) : null;
 void smokeAttributeswithdeprecatedReleaseFfiHandleNullable(Pointer<Void> handle) =>

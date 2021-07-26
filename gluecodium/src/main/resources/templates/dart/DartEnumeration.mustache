@@ -29,16 +29,19 @@ enum {{resolveName}}{{#if external.dart.converter}}Internal{{/if}} {
 
 // {{resolveName}} "private" section, not exported.
 
+{{#if this.attributes.deprecated}}
+// ignore: deprecated_member_use_from_same_package
+{{/if}}
 int {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#if external.dart.converter}}External{{/if}}) {
 {{#if external.dart.converter}}
   final value = {{external.dart.converter}}.convertToInternal(valueExternal);
 {{/if}}
   switch (value) {
 {{#set parent=this}}{{#enumerators}}
-  case {{resolveName parent "" "ref"}}{{#if external.dart.converter}}Internal{{/if}}.{{resolveName}}:
-{{#if this.attributes.deprecated}}
+{{#if this.attributes.deprecated parent.attributes.deprecated logic="or"}}
   // ignore: deprecated_member_use_from_same_package
 {{/if}}
+  case {{resolveName parent "" "ref"}}{{#if external.dart.converter}}Internal{{/if}}.{{resolveName}}:
     return {{value}};
 {{/enumerators}}{{/set}}
   default:
@@ -46,12 +49,16 @@ int {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#if external
   }
 }
 
+{{#if this.attributes.deprecated}}
+// ignore: deprecated_member_use_from_same_package
+{{/if}}
 {{resolveName this "" "ref"}} {{resolveName "Ffi"}}FromFfi(int handle) {
   switch (handle) {
-{{#set parent=this}}{{#enumerators}}{{#if this.attributes.deprecated}}
-  // ignore: deprecated_member_use_from_same_package
-{{/if}}
+{{#set parent=this}}{{#enumerators}}
   case {{value}}:
+{{#if this.attributes.deprecated parent.attributes.deprecated logic="or"}}
+    // ignore: deprecated_member_use_from_same_package
+{{/if}}
 {{#if external.dart.converter}}
     return {{external.dart.converter}}.convertFromInternal({{resolveName parent}}Internal.{{resolveName}});
 {{/if}}{{#unless external.dart.converter}}

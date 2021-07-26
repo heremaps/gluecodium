@@ -31,6 +31,9 @@ final _{{resolveName "Ffi"}}GetValueNullable = __lib.catchArgumentError(() => __
     {{resolveName "FfiDartTypes"}} Function(Pointer<Void>)
   >('{{libraryName}}_{{internalPrefix}}{{resolveName "FfiSnakeCase"}}_get_value_nullable'));
 
+{{#ifPredicate "hasDeprecatedElementTypes"}}
+// ignore: deprecated_member_use_from_same_package
+{{/ifPredicate}}
 Pointer<Void> {{resolveName "Ffi"}}ToFfiNullable({{resolveName this "" "ref"}}? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = {{resolveName "Ffi"}}ToFfi(value);
@@ -39,6 +42,9 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfiNullable({{resolveName this "" "ref"}}? 
   return result;
 }
 
+{{#ifPredicate "hasDeprecatedElementTypes"}}
+// ignore: deprecated_member_use_from_same_package
+{{/ifPredicate}}
 {{resolveName this "" "ref"}}? {{resolveName "Ffi"}}FromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _{{resolveName "Ffi"}}GetValueNullable(handle);
