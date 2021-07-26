@@ -3,6 +3,7 @@
 ## Unreleased
 ### Bug fixes:
   * Fixed compilation issues caused by tag-based platform-specific skip attributes when the custom tag is not set.
+  * Fixed Java compilation issues for nullable unsigned integer types.
 
 ## 9.3.3
 Release date: 2021-07-20

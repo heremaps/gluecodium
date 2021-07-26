@@ -67,6 +67,9 @@ NullableInterfaceImpl::method_with_int( const optional< int64_t >& input )
     return input;
 }
 
+optional<uint32_t>
+NullableInterfaceImpl::method_with_uint(const optional<uint32_t>& input) { return input; }
+
 optional< NullableInterface::SomeStruct >
 NullableInterfaceImpl::method_with_some_struct( const optional< NullableInterface::SomeStruct >& input )
 {
