@@ -3,6 +3,7 @@
 ## Unreleased
 ### Bug fixes:
   * Fixed Dart compilation issues when default visibility of C++ symbols is set to "hidden" in the build system.
+  * Fixed Java compilation issue for nullable unsigned integer types, again.
 
 ## 9.3.4
 Release date: 2021-07-26
