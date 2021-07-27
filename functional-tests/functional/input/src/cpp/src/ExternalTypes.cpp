@@ -20,6 +20,10 @@
 
 #include "include/ExternalTypes.h"
 
+namespace {
+const std::string s_nothing{};
+}
+
 namespace external
 {
 namespace even_more_external
@@ -29,7 +33,7 @@ make_error_code( AlienErrorCode value ) noexcept
 {
     return std::error_code( static_cast< int >( value ), std::generic_category( ) );
 }
-}  // namespace even_more_external
+}
 
 std::string
 ExternalStruct::get_some_string( ) const
@@ -70,7 +74,7 @@ ExternalStruct::_set_aStruct( const even_more_external::AlienStructure& value )
 const std::string&
 ClassWithOverloads::StructWithOverloads::overloadedMethod( )
 {
-    return {};
+    return s_nothing;
 }
 
 std::string
@@ -97,4 +101,4 @@ ClassWithOverloads::StructWithOverloads::overloadedAccessors( ) const
     return m_someField;
 }
 
-}  // namespace external
+}
