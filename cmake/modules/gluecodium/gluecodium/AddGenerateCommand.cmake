@@ -171,6 +171,8 @@ function(gluecodium_add_generate_command _target)
     _gluecodium_append_target_property_eval(_configuration_content ${_target} ${_known_property})
   endforeach()
 
+  _gluecodium_set_internal_prefix(${_target})
+
   # SOURCES property contains also public sources from dependencies.
   set(_target_sources "$<TARGET_PROPERTY:${_target},SOURCES>")
   set(_target_interface_sources "$<TARGET_PROPERTY:${_target},INTERFACE_SOURCES>")
@@ -223,6 +225,31 @@ function(gluecodium_add_generate_command _target)
             ${GLUECODIUM_DETAILS_DIR}/runGenerate.cmake
     VERBATIM
     DEPENDS "${GLUECODIUM_DETAILS_DIR}/runGenerate.cmake" ${_command_dependencies})
+endfunction()
+
+function(_gluecodium_set_internal_prefix _target)
+  get_target_property(_old_property_value ${_target} GLUECODIUM_INTERNAL_PREFIX)
+  if(NOT _old_property_value STREQUAL "_old_property_value-NOTFOUND")
+    return()
+  endif()
+
+  string(MAKE_C_IDENTIFIER "${_target}" _target_internal_prefix)
+
+  if(CMAKE_VERSION GREATER_EQUAL 3.12 AND NOT GLUECODIUM_DONT_USE_TARGET_GENEX_EVAL)
+    _gluecodium_use_property_or_default_expression(_internal_prefix_property ${_target}
+                                                   "OUTPUT_NAME" "${_target_internal_prefix}")
+    _gluecodium_wrap_genex_eval_if_possible(_internal_prefix_property ${_target})
+  else()
+    get_target_property(_output_name ${_target} OUTPUT_NAME)
+    if(_output_name)
+      set(_internal_prefix_property ${_output_name})
+    else()
+      set(_internal_prefix_property ${_target_internal_prefix})
+    endif()
+  endif()
+
+  set_target_properties(${_target} PROPERTIES GLUECODIUM_INTERNAL_PREFIX
+                                              ${_internal_prefix_property})
 endfunction()
 
 function(_gluecodium_get_default_generator_folder result)
