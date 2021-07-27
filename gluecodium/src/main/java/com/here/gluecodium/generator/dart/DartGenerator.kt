@@ -204,7 +204,7 @@ internal class DartGenerator : Generator {
         if (allSymbols.isNotEmpty()) {
             exportsCollector
                 .getOrPut(rootElement.path.head) { mutableListOf() }
-                .add(DartExport(relativePath, allSymbols))
+                .add(DartExport(relativePath, allSymbols.sorted()))
         }
         typeRepositoriesCollector += getTypeRepositories(allTypes)
         val optimizedLists = OptimizedListsCollector().getAllOptimizedLists(rootElement)
@@ -341,7 +341,7 @@ internal class DartGenerator : Generator {
     ): List<GeneratedFile> {
         val exportFiles = exports.map {
             GeneratedFile(
-                TemplateEngine.render("dart/DartExports", mapOf("files" to it.value), nameResolvers),
+                TemplateEngine.render("dart/DartExports", mapOf("files" to it.value.sorted()), nameResolvers),
                 "$LIB_DIR/${it.key.joinToString(".")}.dart"
             )
         }
