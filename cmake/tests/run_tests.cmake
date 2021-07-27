@@ -138,6 +138,7 @@ function (base_devel_run_test test_file builddir)
 
     if (_TEST_PARAMETERS)
         file (READ ${_TEST_PARAMETERS} _test_parameters)
+        string(REPLACE "\n" ";" _test_parameters "${_test_parameters}")
     endif()
 
     get_parameters_for_build_environment (_env_params)
@@ -154,6 +155,7 @@ function (base_devel_run_test test_file builddir)
             ${_env_params}
             ${test_file}
         WORKING_DIRECTORY "${builddir}"
+        COMMAND_ECHO STDOUT
         OUTPUT_VARIABLE output_config
         ERROR_VARIABLE output_config
         RESULT_VARIABLE result_config)
