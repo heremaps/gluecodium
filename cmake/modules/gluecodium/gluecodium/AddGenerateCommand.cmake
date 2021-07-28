@@ -177,6 +177,7 @@ function(gluecodium_add_generate_command _target)
   set(_target_sources "$<TARGET_PROPERTY:${_target},SOURCES>")
   set(_target_interface_sources "$<TARGET_PROPERTY:${_target},INTERFACE_SOURCES>")
   set(_target_lime_sources "$<TARGET_PROPERTY:${_target},GLUECODIUM_LIME_SOURCES>")
+  _gluecodium_wrap_genex_eval_if_possible(_target_lime_sources ${_target})
 
   if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.15 AND NOT
                                                   GLUECODIUM_DONT_USE_FILTER_GENERATOR_EXPRESSION)
