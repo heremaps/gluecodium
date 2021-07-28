@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2021 HERE Europe B.V.
+# Copyright (C) 2016-2019 HERE Europe B.V.
 # 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,10 +17,21 @@
 
 package test
 
-interface SomeSimpleInterface {
-    property value: String { get }
+interface Route {}
+
+interface RouteProvider {
+    fun setRoute(
+        route: Route
+    )
 }
 
-class SomeSimpleRoundTrip {
-    static fun roundTrip(instance: SomeSimpleInterface): SomeSimpleInterface
+class Nlp {
+    static fun setRoute(
+        routeProvider: RouteProvider,
+        route: Route
+    )
+}
+
+class RouteStorage {
+    static property route: Route
 }

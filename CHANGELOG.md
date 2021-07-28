@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed runtime issue for interfaces sent from Java to C++ and then back to Java.
+
 ## 9.3.5
 Release date: 2021-07-28
 ### Bug fixes:
