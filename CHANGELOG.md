@@ -3,6 +3,8 @@
 ## Unreleased
 ### Bug fixes:
   * Fixed runtime issue for interfaces sent from Java to C++ and then back to Java.
+  * Removed suppression of "dart analyze" warning about deprecated element usage. This should be suppressed in a
+    library-level analysis_options.yaml instead.
 
 ## 9.3.5
 Release date: 2021-07-28
