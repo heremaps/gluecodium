@@ -504,7 +504,7 @@ case-insensitive. There are three predefined tags that do not need to be specifi
 for C++.
 * **@EnableIf(**\[**Tag** **=**\] **"**_CustomTag_**"**__)__ or **@EnableIf(**__CustomTag__**)**: marks an element to be
 enabled only if a custom tag with that name was defined through command-line parameters. If the tag is not present, the
-element is skipped ((not generated). Custom tags are case-insensitive.
+element is skipped (not generated). Custom tags are case-insensitive.
 * **@Java**: marks an element with Java-specific behaviors:
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Java.
   This is the default specification for this attribute.
@@ -513,6 +513,8 @@ element is skipped ((not generated). Custom tags are case-insensitive.
   * **Skip** \[**=** **"**_CustomTag_**"** \]: marks an element to be skipped (not generated) in Java. Can be applied to
   any element except for struct fields. Optionally, if custom tag is specified, the element is only skipped if that tag
   was defined (see `@Skip` above).
+  * **@EnableIf** **=** **"**_CustomTag_**"**: marks an element to be enabled in Java only if a custom tag with that
+  name was defined through command-line parameters. If the tag is not present, the element is skipped (not generated).   
   * **Attribute** **=** **"**_Annotation_**"**: marks an element to be marked with the given annotation in Java
   generated code. _Annotation_ does not need to be prepended with `@`. _Annotation_ can contain parameters, e.g.
   `@Java(Attribute="Deprecated(\"It's deprecated.\")")`. If some of the parameters are string literals, their enclosing
@@ -534,6 +536,8 @@ element is skipped ((not generated). Custom tags are case-insensitive.
   * **Skip** \[**=** **"**_CustomTag_**"** \]: marks an element to be skipped (not generated) in Swift. Can be applied to
   any element except for struct fields. Optionally, if custom tag is specified, the element is only skipped if that tag
   was defined (see `@Skip` above).
+  * **@EnableIf** **=** **"**_CustomTag_**"**: marks an element to be enabled in Swift only if a custom tag with that
+  name was defined through command-line parameters. If the tag is not present, the element is skipped (not generated).
   * **Weak**: marks a property in an interface as `weak` in Swift. Property should have a nullable type. Please note
   that `weak` properties are still represented with "strong" pointers on C++ side. Due to this limitation, if an
   interface type is used for such property, that interface can only have methods that return nullable values or `void`.
@@ -548,6 +552,8 @@ element is skipped ((not generated). Custom tags are case-insensitive.
   * **Skip** \[**=** **"**_CustomTag_**"** \]: marks an element to be skipped (not generated) in Dart. Can be applied to
   any element except for struct fields. Optionally, if custom tag is specified, the element is only skipped if that tag
   was defined (see `@Skip` above).
+  * **@EnableIf** **=** **"**_CustomTag_**"**: marks an element to be enabled in Dart only if a custom tag with that
+  name was defined through command-line parameters. If the tag is not present, the element is skipped (not generated).
   * **PositionalDefaults**: marks a struct to have a constructor with optional positional parameters in Dart. Can only
   be applied to a struct that has at least one field with a default value.
   * **Attribute** **=** **"**_Annotation_**"**: marks an element to be marked with the given annotation in Dart
