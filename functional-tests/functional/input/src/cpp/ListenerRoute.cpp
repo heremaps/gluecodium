@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------------------------------
-// Copyright (C) 2016-2021 HERE Europe B.V.
+// Copyright (C) 2016-2019 HERE Europe B.V.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,14 +18,30 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "test/SomeSimpleInterface.h"
-#include "test/SomeSimpleRoundTrip.h"
+#include "test/Nlp.h"
+#include "test/RouteProvider.h"
+#include "test/RouteStorage.h"
 
 namespace test {
-
-std::shared_ptr<SomeSimpleInterface>
-SomeSimpleRoundTrip::round_trip(const std::shared_ptr<SomeSimpleInterface>& instance) {
-    return instance;
+namespace {
+    static std::shared_ptr<Route> s_route;
 }
 
+void
+Nlp::set_route( const std::shared_ptr< RouteProvider >& route_provider,
+                const std::shared_ptr< Route >& route )
+{
+    route_provider->set_route( route );
 }
+
+std::shared_ptr<Route>
+RouteStorage::get_route() {
+    return s_route;
+}
+
+void
+RouteStorage::set_route(const std::shared_ptr<test::Route>& route) {
+    s_route = route;
+}
+
+}  // namespace test

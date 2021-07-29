@@ -41,7 +41,7 @@ convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::fire::Baz>& _ninput)
     {
         return {};
     }
-    auto jResult = ::gluecodium::jni::CppProxyBase::getJavaObject( _ninput.get( ) );
+    auto jResult = ::gluecodium::jni::CppProxyBase::getJavaObject(_jenv, _ninput.get());
     if (jResult) return jResult;
     jResult = ::gluecodium::jni::JniWrapperCache::get_cached_wrapper(_jenv, _ninput);
     if (jResult) return jResult;

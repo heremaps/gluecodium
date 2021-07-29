@@ -97,7 +97,7 @@ convert_to_jni(JNIEnv* _jenv, const {{>cppTypeName}}& _ninput)
 {{#instanceOf this "LimeLambda"}}
     JniReference<jobject> jResult;
 {{/instanceOf}}{{#notInstanceOf this "LimeLambda"}}
-    auto jResult = {{>common/InternalNamespace}}jni::CppProxyBase::getJavaObject( _ninput.get( ) );
+    auto jResult = {{>common/InternalNamespace}}jni::CppProxyBase::getJavaObject(_jenv, _ninput.get());
     if (jResult) return jResult;
 
     jResult = {{>common/InternalNamespace}}jni::JniWrapperCache::get_cached_wrapper(_jenv, _ninput);
