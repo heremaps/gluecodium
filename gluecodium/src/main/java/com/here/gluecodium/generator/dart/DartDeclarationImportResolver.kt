@@ -69,7 +69,7 @@ internal class DartDeclarationImportResolver(srcPath: String) : DartImportResolv
         if (limeStruct.attributes.have(LimeAttributeType.EQUATABLE) &&
             limeStruct.fields.any { it.typeRef.type.actualType is LimeGenericType }
         ) {
-            result += listOf(collectionSystemImport, collectionPackageImport)
+            result += listOf(collectionPackageImport)
         }
         if (limeStruct.attributes.have(LimeAttributeType.IMMUTABLE)) {
             result += listOf(metaPackageImport)
@@ -78,7 +78,6 @@ internal class DartDeclarationImportResolver(srcPath: String) : DartImportResolv
     }
 
     companion object {
-        private val collectionSystemImport = DartImport("collection", importType = ImportType.SYSTEM)
         private val collectionPackageImport = DartImport("collection/collection")
         private val metaPackageImport = DartImport("meta/meta")
         private val ffiSystemImport = DartImport("ffi", importType = ImportType.SYSTEM)
