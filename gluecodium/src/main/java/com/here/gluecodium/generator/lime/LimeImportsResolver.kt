@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2021 HERE Europe B.V.
+ * Copyright (C) 2016-2019 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +41,7 @@ internal class LimeImportsResolver(private val path: LimePath) : ImportsResolver
         when {
             limeType.actualType is LimeGenericType -> resolveGenericTypeImports(limeType.actualType as LimeGenericType)
             limeType.path == LimePath.EMPTY_PATH -> emptyList()
+            limeType.path.parent == path.parent -> emptyList()
             (limeType.path.allParents + limeType.path).contains(path) -> emptyList()
             else -> listOfNotNull(limeType.path)
         }

@@ -18,6 +18,7 @@
  */
 package com.here.android.test;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 import android.os.Build;
@@ -36,6 +37,13 @@ public class ListenerRoundtripTest {
   static class RouteProviderImpl implements RouteProvider {
     public void setRoute(final Route route) {
       RouteImpl impl = (RouteImpl) route;
+    }
+  }
+
+  static class SomeSimpleInterfaceImpl implements SomeSimpleInterface {
+    @Override
+    public String getValue() {
+      return "this is a value";
     }
   }
 
@@ -59,5 +67,15 @@ public class ListenerRoundtripTest {
     base.addLifecycleListener(listener);
 
     assertTrue(listener.isWeakPtrAlive());
+  }
+
+  @Test
+  public void simpleRoundTrip() {
+    SomeSimpleInterface instance = new SomeSimpleInterfaceImpl();
+
+    SomeSimpleInterface result = SomeSimpleRoundTrip.roundTrip(instance);
+
+    assertTrue(result instanceof SomeSimpleInterface);
+    assertEquals("this is a value", result.getValue());
   }
 }

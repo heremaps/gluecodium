@@ -185,6 +185,7 @@ feature(JavaBuilder android SOURCES
 feature(Listeners cpp android swift dart SOURCES
     input/src/cpp/StringListeners.cpp
     input/src/cpp/ListenerRoundtrip.cpp
+    input/src/cpp/ListenerRoute.cpp
     input/src/cpp/ListenerWithMaps.cpp
     input/src/cpp/MultiListener.cpp
     input/src/cpp/InterfaceWithStatic.cpp
@@ -192,6 +193,7 @@ feature(Listeners cpp android swift dart SOURCES
 
     input/lime/StringListeners.lime
     input/lime/ListenerRoundtrip.lime
+    input/lime/ListenerRoute.lime
     input/lime/ListenerWithMaps.lime
     input/lime/ListenerNameClash.lime
     input/lime/MultiListener.lime
