@@ -23,6 +23,7 @@ import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
@@ -30,6 +31,7 @@ import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
+import com.here.gluecodium.model.lime.LimeTypedElement
 
 internal class GenericImportsCollector<T>(
     private val importsResolver: ImportsResolver<T>,
@@ -37,14 +39,14 @@ internal class GenericImportsCollector<T>(
     private val collectTypeRefImports: Boolean = false,
     private val collectOwnImports: Boolean = false,
     private val parentTypeFilter: (LimeContainerWithInheritance) -> Boolean = { false },
-    private val collectTypeAliasImports: Boolean = false
+    private val collectTypeAliasImports: Boolean = false,
+    private val collectFunctionErrorType: Boolean = true
 ) : ImportsCollector<T> {
 
     override fun collectImports(limeElement: LimeNamedElement): List<T> {
         val allTypes = LimeTypeHelper.getAllTypes(limeElement)
         val typeRefImports =
-            if (collectTypeRefImports)
-                collectTypeRefs(allTypes).flatMap { importsResolver.resolveElementImports(it) }
+            if (collectTypeRefImports) collectTypeRefs(allTypes).flatMap { importsResolver.resolveElementImports(it) }
             else emptyList()
         val ownImports =
             if (collectOwnImports) allTypes.flatMap { importsResolver.resolveElementImports(it) } else emptyList()
@@ -82,7 +84,8 @@ internal class GenericImportsCollector<T>(
     private fun collectTypeRefs(limeFunction: LimeFunction) =
         limeFunction.parameters.map { it.typeRef } +
             limeFunction.returnType.typeRef +
-            listOfNotNull(limeFunction.thrownType?.typeRef, limeFunction.exception?.errorType)
+            listOfNotNull(limeFunction.thrownType?.typeRef) +
+            if(collectFunctionErrorType) listOfNotNull(limeFunction.exception?.errorType) else emptyList()
 
     private fun collectParentTypeRefs(limeContainer: LimeContainerWithInheritance): List<LimeTypeRef> {
         val parentTypeRef = limeContainer.parent ?: return emptyList()
