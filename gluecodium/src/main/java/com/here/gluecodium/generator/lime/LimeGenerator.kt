@@ -22,6 +22,7 @@ package com.here.gluecodium.generator.lime
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Generator
+import com.here.gluecodium.generator.common.GenericImportsCollector
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeEnumeration
@@ -30,19 +31,29 @@ import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypesCollection
 
 internal class LimeGenerator : Generator {
-    private val importsCollector = LimeImportsCollector { listOfNotNull((it as? LimeNamedElement)?.path) }
 
     override val shortName = "lime"
 
     override fun generate(limeModel: LimeModel) = limeModel.topElements.map { generate(it) }
 
     private fun generate(rootElement: LimeNamedElement): GeneratedFile {
-        val imports = importsCollector.collectImports(rootElement)
+
+        val importsCollector = GenericImportsCollector(
+            importsResolver = LimeImportsResolver(rootElement.path),
+            collectTypeRefImports = true,
+            collectTypeAliasImports = true,
+            collectFunctionErrorType = false,
+            parentTypeFilter = { false },
+        )
+
+        val imports = importsCollector.collectImports(rootElement).map { escapeImport(it) }
         val content = TemplateEngine.render(
             "lime/LimeFile",
             mapOf(
@@ -55,6 +66,9 @@ internal class LimeGenerator : Generator {
         val fileName = "lime/$packagePath/${rootElement.name}.lime"
         return GeneratedFile(content, fileName)
     }
+
+    private fun escapeImport(import: LimePath) =
+        (import.head + import.tail).joinToString(".") { LimeTypeHelper.escapeIdentifier(it) }
 
     private fun selectTemplate(limeElement: LimeNamedElement) =
         when (limeElement) {
