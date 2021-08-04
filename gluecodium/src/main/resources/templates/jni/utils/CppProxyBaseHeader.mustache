@@ -77,13 +77,12 @@ public:
         auto newProxy = ::std::shared_ptr< ImplType >( newProxyInstance );
         result = newProxy;
         sProxyCache[ key ] = ::std::weak_ptr< ImplType >( newProxy );
-        registerInReverseCache( newProxyInstance, result.get( ), key );
+        registerInReverseCache(newProxyInstance, result.get(), key.jObject);
     }
 
     template <class T>
-    static JniReference<jobject> getJavaObject( T* interfacePtr )
-    {
-        return getJavaObjectFromReverseCache( interfacePtr );
+    static JniReference<jobject> getJavaObject(JNIEnv* jenv, T* interfacePtr) {
+        return getJavaObjectFromReverseCache(jenv, interfacePtr);
     }
 
 protected:
@@ -143,16 +142,16 @@ private:
 
     using ProxyCache
         = ::std::unordered_map< ProxyCacheKey, ::std::weak_ptr< CppProxyBase >, ProxyCacheKeyHash >;
-    using ReverseProxyCache = ::std::unordered_map< const void*, ProxyCacheKey >;
+    using ReverseProxyCache = ::std::unordered_map<ReverseCacheKey, jobject>;
 
 private:
     static jint getHashCode( JNIEnv* jniEnv, jobject jObj );
 
     static void registerInReverseCache( CppProxyBase* proxyBase,
                                         ReverseCacheKey reverseCacheKey,
-                                        const ProxyCacheKey& primaryKey );
+                                        const jobject& jObj );
     void removeSelfFromReverseCache( );
-    static JniReference<jobject> getJavaObjectFromReverseCache( ReverseCacheKey reverseCacheKey );
+    static JniReference<jobject> getJavaObjectFromReverseCache(JNIEnv* jniEnv, ReverseCacheKey reverseCacheKey);
 
 private:
     JniReference<jobject> mGlobalRef;

@@ -57,7 +57,6 @@ enum DeprecationComments_SomeEnum {
 int smokeDeprecationcommentsSomeenumToFfi(DeprecationComments_SomeEnum value) {
   switch (value) {
   case DeprecationComments_SomeEnum.useless:
-  // ignore: deprecated_member_use_from_same_package
     return 0;
   default:
     throw StateError("Invalid enum value $value for DeprecationComments_SomeEnum enum.");
@@ -65,7 +64,6 @@ int smokeDeprecationcommentsSomeenumToFfi(DeprecationComments_SomeEnum value) {
 }
 DeprecationComments_SomeEnum smokeDeprecationcommentsSomeenumFromFfi(int handle) {
   switch (handle) {
-  // ignore: deprecated_member_use_from_same_package
   case 0:
     return DeprecationComments_SomeEnum.useless;
   default:
