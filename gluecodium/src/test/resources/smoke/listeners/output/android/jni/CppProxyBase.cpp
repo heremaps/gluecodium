@@ -1,57 +1,31 @@
-{{!!
-  !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
-  !
-  ! Licensed under the Apache License, Version 2.0 (the "License");
-  ! you may not use this file except in compliance with the License.
-  ! You may obtain a copy of the License at
-  !
-  !     http://www.apache.org/licenses/LICENSE-2.0
-  !
-  ! Unless required by applicable law or agreed to in writing, software
-  ! distributed under the License is distributed on an "AS IS" BASIS,
-  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ! See the License for the specific language governing permissions and
-  ! limitations under the License.
-  !
-  ! SPDX-License-Identifier: Apache-2.0
-  ! License-Filename: LICENSE
-  !
-  !}}
-{{>java/CopyrightHeader}}
-
+/*
+ *
+ */
 #include "CppProxyBase.h"
 #include "JniBase.h"
 #include <utility>
-
-{{#internalNamespace}}
-namespace {{.}}
+namespace gluecodium
 {
-{{/internalNamespace}}
 namespace jni
 {
 CppProxyBase::ProxyCache CppProxyBase::sProxyCache{};
 CppProxyBase::ReverseProxyCache CppProxyBase::sReverseProxyCache{};
 CppProxyBase::GlobalJniLock CppProxyBase::sGlobalJniLock{};
-
 JNIEnv*
 CppProxyBase::getJniEnvironment( )
 {
-    return {{>common/InternalNamespace}}jni::getJniEnvironmentForCurrentThread( );
+    return ::gluecodium::jni::getJniEnvironmentForCurrentThread( );
 }
-
 CppProxyBase::CppProxyBase( JNIEnv* jenv,
-                            {{>common/InternalNamespace}}jni::JniReference<jobject> globalRef,
+                            ::gluecodium::jni::JniReference<jobject> globalRef,
                             jint jHashCode,
                             ::std::string type_key )
     : mGlobalRef( std::move( globalRef ) ), jHashCode( jHashCode ), type_key( std::move( type_key ) )
 {
 }
-
 CppProxyBase::~CppProxyBase( )
 {
     JNIEnv* jniEnv = getJniEnvironment( );
-
     {
         ::std::lock_guard< GlobalJniLock > lock( sGlobalJniLock );
         sGlobalJniLock.setJniEnvForCurrentThread( jniEnv );
@@ -59,33 +33,28 @@ CppProxyBase::~CppProxyBase( )
         removeSelfFromReverseCache( );
     }
 }
-
 bool
 CppProxyBase::ProxyCacheKey::operator==( const CppProxyBase::ProxyCacheKey& other ) const
 {
     return jHashCode == other.jHashCode &&
         sGlobalJniLock.getJniEnvForCurrentThread( )->IsSameObject( jObject, other.jObject );
 }
-
 void
 CppProxyBase::GlobalJniLock::lock( )
 {
     cacheMutex.lock( );
 }
-
 void
 CppProxyBase::GlobalJniLock::unlock( )
 {
     jniEnvForCurrentThread = nullptr;
     cacheMutex.unlock( );
 }
-
 void
 CppProxyBase::GlobalJniLock::setJniEnvForCurrentThread( JNIEnv* env )
 {
     jniEnvForCurrentThread = env;
 }
-
 JNIEnv*
 CppProxyBase::GlobalJniLock::getJniEnvForCurrentThread( )
 {
@@ -95,18 +64,15 @@ CppProxyBase::GlobalJniLock::getJniEnvForCurrentThread( )
     }
     return jniEnvForCurrentThread;
 }
-
 jint
 CppProxyBase::getHashCode( JNIEnv* jniEnv, jobject jObj )
 {
     auto jClass = find_class(jniEnv, "java/lang/System" );
     jmethodID jMethodId
         = jniEnv->GetStaticMethodID( jClass.get(), "identityHashCode", "(Ljava/lang/Object;)I" );
-
     jint jResult = jniEnv->CallStaticIntMethod( jClass.get(), jMethodId, jObj );
     return jResult;
 }
-
 void CppProxyBase::registerInReverseCache( CppProxyBase* proxyBase,
                                            ReverseCacheKey reverseCacheKey,
                                            const jobject& jObj )
@@ -114,7 +80,6 @@ void CppProxyBase::registerInReverseCache( CppProxyBase* proxyBase,
     proxyBase->mReverseCacheKey = reverseCacheKey;
     sReverseProxyCache[reverseCacheKey] = jObj;
 }
-
 void CppProxyBase::removeSelfFromReverseCache( )
 {
     if ( mReverseCacheKey != nullptr )
@@ -123,11 +88,9 @@ void CppProxyBase::removeSelfFromReverseCache( )
         mReverseCacheKey = nullptr;
     }
 }
-
 JniReference<jobject>
 CppProxyBase::getJavaObjectFromReverseCache(JNIEnv* jniEnv, ReverseCacheKey reverseCacheKey) {
     ::std::lock_guard< GlobalJniLock > lock( sGlobalJniLock );
-
     const auto iterator = sReverseProxyCache.find( reverseCacheKey );
     if (iterator == sReverseProxyCache.end( ))
     {
@@ -135,8 +98,5 @@ CppProxyBase::getJavaObjectFromReverseCache(JNIEnv* jniEnv, ReverseCacheKey reve
     }
     return make_local_ref(jniEnv, jniEnv->NewLocalRef(iterator->second));
 }
-
 }
-{{#internalNamespace}}
 }
-{{/internalNamespace}}
