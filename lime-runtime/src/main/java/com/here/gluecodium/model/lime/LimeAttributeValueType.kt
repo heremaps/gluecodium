@@ -27,6 +27,7 @@ enum class LimeAttributeValueType(private val tag: String) {
     CONST("Const"),
     CSTRING("CString"),
     DEFAULT("Default"),
+    ENABLE_IF("EnableIf"),
     EXTENSION("Extension"),
     FUNCTION_NAME("FunctionName"),
     LABEL("Label"),
