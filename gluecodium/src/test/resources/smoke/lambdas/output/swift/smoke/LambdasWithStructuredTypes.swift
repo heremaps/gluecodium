@@ -16,11 +16,11 @@ public class LambdasWithStructuredTypes {
         smoke_LambdasWithStructuredTypes_release_handle(c_instance)
     }
     public func doClassStuff(callback: @escaping LambdasWithStructuredTypes.ClassCallback) -> Void {
-        let c_callback = moveToCType(callback)
+        let c_callback = LambdasWithStructuredTypes_ClassCallback_moveToCType(callback)
         smoke_LambdasWithStructuredTypes_doClassStuff(self.c_instance, c_callback.ref)
     }
     public func doStructStuff(callback: @escaping LambdasWithStructuredTypes.StructCallback) -> Void {
-        let c_callback = moveToCType(callback)
+        let c_callback = LambdasWithStructuredTypes_StructCallback_moveToCType(callback)
         smoke_LambdasWithStructuredTypes_doStructStuff(self.c_instance, c_callback.ref)
     }
 }
@@ -90,29 +90,29 @@ internal func copyToCType(_ swiftClass: LambdasWithStructuredTypes?) -> RefHolde
 internal func moveToCType(_ swiftClass: LambdasWithStructuredTypes?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyFromCType(_ handle: _baseRef) -> LambdasWithStructuredTypes.ClassCallback {
-    return moveFromCType(smoke_LambdasWithStructuredTypes_ClassCallback_copy_handle(handle))
+internal func LambdasWithStructuredTypes_ClassCallback_copyFromCType(_ handle: _baseRef) -> LambdasWithStructuredTypes.ClassCallback {
+    return LambdasWithStructuredTypes_ClassCallback_moveFromCType(smoke_LambdasWithStructuredTypes_ClassCallback_copy_handle(handle))
 }
-internal func moveFromCType(_ handle: _baseRef) -> LambdasWithStructuredTypes.ClassCallback {
+internal func LambdasWithStructuredTypes_ClassCallback_moveFromCType(_ handle: _baseRef) -> LambdasWithStructuredTypes.ClassCallback {
     let refHolder = RefHolder(ref: handle, release: smoke_LambdasWithStructuredTypes_ClassCallback_release_handle)
     return { (p0: LambdasInterface) -> Void in
         let _p0 = moveToCType(p0)
         return moveFromCType(smoke_LambdasWithStructuredTypes_ClassCallback_call(refHolder.ref, _p0.ref))
     }
 }
-internal func copyFromCType(_ handle: _baseRef) -> LambdasWithStructuredTypes.ClassCallback? {
+internal func LambdasWithStructuredTypes_ClassCallback_copyFromCType(_ handle: _baseRef) -> LambdasWithStructuredTypes.ClassCallback? {
     guard handle != 0 else {
         return nil
     }
-    return copyFromCType(handle) as LambdasWithStructuredTypes.ClassCallback
+    return LambdasWithStructuredTypes_ClassCallback_copyFromCType(handle) as LambdasWithStructuredTypes.ClassCallback
 }
-internal func moveFromCType(_ handle: _baseRef) -> LambdasWithStructuredTypes.ClassCallback? {
+internal func LambdasWithStructuredTypes_ClassCallback_moveFromCType(_ handle: _baseRef) -> LambdasWithStructuredTypes.ClassCallback? {
     guard handle != 0 else {
         return nil
     }
-    return moveFromCType(handle) as LambdasWithStructuredTypes.ClassCallback
+    return LambdasWithStructuredTypes_ClassCallback_moveFromCType(handle) as LambdasWithStructuredTypes.ClassCallback
 }
-internal func createFunctionalTable(_ swiftType: @escaping LambdasWithStructuredTypes.ClassCallback) -> smoke_LambdasWithStructuredTypes_ClassCallback_FunctionTable {
+internal func LambdasWithStructuredTypes_ClassCallback_createFunctionalTable(_ swiftType: @escaping LambdasWithStructuredTypes.ClassCallback) -> smoke_LambdasWithStructuredTypes_ClassCallback_FunctionTable {
     class smoke_LambdasWithStructuredTypes_ClassCallback_Holder {
         let closure: LambdasWithStructuredTypes.ClassCallback
         init(_ closure: @escaping LambdasWithStructuredTypes.ClassCallback) {
@@ -132,51 +132,51 @@ internal func createFunctionalTable(_ swiftType: @escaping LambdasWithStructured
     }
     return functions
 }
-internal func copyToCType(_ swiftType: @escaping LambdasWithStructuredTypes.ClassCallback) -> RefHolder {
-    let handle = smoke_LambdasWithStructuredTypes_ClassCallback_create_proxy(createFunctionalTable(swiftType))
+internal func LambdasWithStructuredTypes_ClassCallback_copyToCType(_ swiftType: @escaping LambdasWithStructuredTypes.ClassCallback) -> RefHolder {
+    let handle = smoke_LambdasWithStructuredTypes_ClassCallback_create_proxy(LambdasWithStructuredTypes_ClassCallback_createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-internal func moveToCType(_ swiftType: @escaping LambdasWithStructuredTypes.ClassCallback) -> RefHolder {
-    let handle = smoke_LambdasWithStructuredTypes_ClassCallback_create_proxy(createFunctionalTable(swiftType))
+internal func LambdasWithStructuredTypes_ClassCallback_moveToCType(_ swiftType: @escaping LambdasWithStructuredTypes.ClassCallback) -> RefHolder {
+    let handle = smoke_LambdasWithStructuredTypes_ClassCallback_create_proxy(LambdasWithStructuredTypes_ClassCallback_createFunctionalTable(swiftType))
     return RefHolder(ref: handle, release: smoke_LambdasWithStructuredTypes_ClassCallback_release_handle)
 }
-internal func copyToCType(_ swiftType: LambdasWithStructuredTypes.ClassCallback?) -> RefHolder {
+internal func LambdasWithStructuredTypes_ClassCallback_copyToCType(_ swiftType: LambdasWithStructuredTypes.ClassCallback?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let handle = smoke_LambdasWithStructuredTypes_ClassCallback_create_optional_proxy(createFunctionalTable(swiftType))
+    let handle = smoke_LambdasWithStructuredTypes_ClassCallback_create_optional_proxy(LambdasWithStructuredTypes_ClassCallback_createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-internal func moveToCType(_ swiftType: LambdasWithStructuredTypes.ClassCallback?) -> RefHolder {
+internal func LambdasWithStructuredTypes_ClassCallback_moveToCType(_ swiftType: LambdasWithStructuredTypes.ClassCallback?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let handle = smoke_LambdasWithStructuredTypes_ClassCallback_create_optional_proxy(createFunctionalTable(swiftType))
+    let handle = smoke_LambdasWithStructuredTypes_ClassCallback_create_optional_proxy(LambdasWithStructuredTypes_ClassCallback_createFunctionalTable(swiftType))
     return RefHolder(ref: handle, release: smoke_LambdasWithStructuredTypes_ClassCallback_release_handle)
 }
-internal func copyFromCType(_ handle: _baseRef) -> LambdasWithStructuredTypes.StructCallback {
-    return moveFromCType(smoke_LambdasWithStructuredTypes_StructCallback_copy_handle(handle))
+internal func LambdasWithStructuredTypes_StructCallback_copyFromCType(_ handle: _baseRef) -> LambdasWithStructuredTypes.StructCallback {
+    return LambdasWithStructuredTypes_StructCallback_moveFromCType(smoke_LambdasWithStructuredTypes_StructCallback_copy_handle(handle))
 }
-internal func moveFromCType(_ handle: _baseRef) -> LambdasWithStructuredTypes.StructCallback {
+internal func LambdasWithStructuredTypes_StructCallback_moveFromCType(_ handle: _baseRef) -> LambdasWithStructuredTypes.StructCallback {
     let refHolder = RefHolder(ref: handle, release: smoke_LambdasWithStructuredTypes_StructCallback_release_handle)
     return { (p0: LambdasDeclarationOrder.SomeStruct) -> Void in
         let _p0 = moveToCType(p0)
         return moveFromCType(smoke_LambdasWithStructuredTypes_StructCallback_call(refHolder.ref, _p0.ref))
     }
 }
-internal func copyFromCType(_ handle: _baseRef) -> LambdasWithStructuredTypes.StructCallback? {
+internal func LambdasWithStructuredTypes_StructCallback_copyFromCType(_ handle: _baseRef) -> LambdasWithStructuredTypes.StructCallback? {
     guard handle != 0 else {
         return nil
     }
-    return copyFromCType(handle) as LambdasWithStructuredTypes.StructCallback
+    return LambdasWithStructuredTypes_StructCallback_copyFromCType(handle) as LambdasWithStructuredTypes.StructCallback
 }
-internal func moveFromCType(_ handle: _baseRef) -> LambdasWithStructuredTypes.StructCallback? {
+internal func LambdasWithStructuredTypes_StructCallback_moveFromCType(_ handle: _baseRef) -> LambdasWithStructuredTypes.StructCallback? {
     guard handle != 0 else {
         return nil
     }
-    return moveFromCType(handle) as LambdasWithStructuredTypes.StructCallback
+    return LambdasWithStructuredTypes_StructCallback_moveFromCType(handle) as LambdasWithStructuredTypes.StructCallback
 }
-internal func createFunctionalTable(_ swiftType: @escaping LambdasWithStructuredTypes.StructCallback) -> smoke_LambdasWithStructuredTypes_StructCallback_FunctionTable {
+internal func LambdasWithStructuredTypes_StructCallback_createFunctionalTable(_ swiftType: @escaping LambdasWithStructuredTypes.StructCallback) -> smoke_LambdasWithStructuredTypes_StructCallback_FunctionTable {
     class smoke_LambdasWithStructuredTypes_StructCallback_Holder {
         let closure: LambdasWithStructuredTypes.StructCallback
         init(_ closure: @escaping LambdasWithStructuredTypes.StructCallback) {
@@ -196,25 +196,25 @@ internal func createFunctionalTable(_ swiftType: @escaping LambdasWithStructured
     }
     return functions
 }
-internal func copyToCType(_ swiftType: @escaping LambdasWithStructuredTypes.StructCallback) -> RefHolder {
-    let handle = smoke_LambdasWithStructuredTypes_StructCallback_create_proxy(createFunctionalTable(swiftType))
+internal func LambdasWithStructuredTypes_StructCallback_copyToCType(_ swiftType: @escaping LambdasWithStructuredTypes.StructCallback) -> RefHolder {
+    let handle = smoke_LambdasWithStructuredTypes_StructCallback_create_proxy(LambdasWithStructuredTypes_StructCallback_createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-internal func moveToCType(_ swiftType: @escaping LambdasWithStructuredTypes.StructCallback) -> RefHolder {
-    let handle = smoke_LambdasWithStructuredTypes_StructCallback_create_proxy(createFunctionalTable(swiftType))
+internal func LambdasWithStructuredTypes_StructCallback_moveToCType(_ swiftType: @escaping LambdasWithStructuredTypes.StructCallback) -> RefHolder {
+    let handle = smoke_LambdasWithStructuredTypes_StructCallback_create_proxy(LambdasWithStructuredTypes_StructCallback_createFunctionalTable(swiftType))
     return RefHolder(ref: handle, release: smoke_LambdasWithStructuredTypes_StructCallback_release_handle)
 }
-internal func copyToCType(_ swiftType: LambdasWithStructuredTypes.StructCallback?) -> RefHolder {
+internal func LambdasWithStructuredTypes_StructCallback_copyToCType(_ swiftType: LambdasWithStructuredTypes.StructCallback?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let handle = smoke_LambdasWithStructuredTypes_StructCallback_create_optional_proxy(createFunctionalTable(swiftType))
+    let handle = smoke_LambdasWithStructuredTypes_StructCallback_create_optional_proxy(LambdasWithStructuredTypes_StructCallback_createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-internal func moveToCType(_ swiftType: LambdasWithStructuredTypes.StructCallback?) -> RefHolder {
+internal func LambdasWithStructuredTypes_StructCallback_moveToCType(_ swiftType: LambdasWithStructuredTypes.StructCallback?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let handle = smoke_LambdasWithStructuredTypes_StructCallback_create_optional_proxy(createFunctionalTable(swiftType))
+    let handle = smoke_LambdasWithStructuredTypes_StructCallback_create_optional_proxy(LambdasWithStructuredTypes_StructCallback_createFunctionalTable(swiftType))
     return RefHolder(ref: handle, release: smoke_LambdasWithStructuredTypes_StructCallback_release_handle)
 }

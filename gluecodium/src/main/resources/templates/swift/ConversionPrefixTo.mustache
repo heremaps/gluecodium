@@ -18,7 +18,8 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#typeRef.type.actualType}}{{#ifPredicate "hasCppTypeAttribute"}}{{resolveName "CBridge"}}{{/ifPredicate}}{{!!
+{{#typeRef.type.actualType}}{{#instanceOf this "LimeLambda"}}{{resolveName typeRef "mangled"}}{{/instanceOf}}{{!!
+}}{{#ifPredicate "hasCppTypeAttribute"}}{{resolveName "CBridge"}}{{/ifPredicate}}{{!!
 }}{{#unlessPredicate "hasCppTypeAttribute"}}{{#instanceOf this "LimeList"}}{{internalPrefix}}{{/instanceOf}}{{!!
 }}{{#instanceOf this "LimeSet"}}{{internalPrefix}}{{/instanceOf}}{{!!
 }}{{#instanceOf this "LimeMap"}}{{internalPrefix}}{{/instanceOf}}{{!!

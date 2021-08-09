@@ -20,6 +20,7 @@
   !}}
 {{#typeRef.type.actualType}}{{#instanceOf this "LimeInterface"}}{{resolveName typeRef "mangled"}}{{/instanceOf}}{{!!
 }}{{#instanceOf this "LimeClass"}}{{resolveName typeRef "mangled"}}{{/instanceOf}}{{!!
+}}{{#instanceOf this "LimeLambda"}}{{resolveName typeRef "mangled"}}{{/instanceOf}}{{!!
 }}{{#ifPredicate "hasCppTypeAttribute"}}{{resolveName "CBridge"}}{{/ifPredicate}}{{!!
 }}{{#unlessPredicate "hasCppTypeAttribute"}}{{#instanceOf this "LimeList"}}{{internalPrefix}}{{/instanceOf}}{{!!
 }}{{#instanceOf this "LimeSet"}}{{internalPrefix}}{{/instanceOf}}{{!!

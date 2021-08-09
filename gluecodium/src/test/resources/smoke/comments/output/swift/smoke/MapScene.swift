@@ -17,12 +17,12 @@ public class MapScene {
     }
     public func loadScene(mapScheme: Int32, callback: MapScene.LoadSceneCallback?) -> Void {
         let c_mapScheme = moveToCType(mapScheme)
-        let c_callback = moveToCType(callback)
+        let c_callback = MapScene_LoadSceneCallback_moveToCType(callback)
         smoke_MapScene_loadScene_Int_LoadSceneCallback(self.c_instance, c_mapScheme.ref, c_callback.ref)
     }
     public func loadScene(configurationFile: String, callback: MapScene.LoadSceneCallback?) -> Void {
         let c_configurationFile = moveToCType(configurationFile)
-        let c_callback = moveToCType(callback)
+        let c_callback = MapScene_LoadSceneCallback_moveToCType(callback)
         smoke_MapScene_loadScene_String_LoadSceneCallback(self.c_instance, c_configurationFile.ref, c_callback.ref)
     }
 }
@@ -92,29 +92,29 @@ internal func copyToCType(_ swiftClass: MapScene?) -> RefHolder {
 internal func moveToCType(_ swiftClass: MapScene?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyFromCType(_ handle: _baseRef) -> MapScene.LoadSceneCallback {
-    return moveFromCType(smoke_MapScene_LoadSceneCallback_copy_handle(handle))
+internal func MapScene_LoadSceneCallback_copyFromCType(_ handle: _baseRef) -> MapScene.LoadSceneCallback {
+    return MapScene_LoadSceneCallback_moveFromCType(smoke_MapScene_LoadSceneCallback_copy_handle(handle))
 }
-internal func moveFromCType(_ handle: _baseRef) -> MapScene.LoadSceneCallback {
+internal func MapScene_LoadSceneCallback_moveFromCType(_ handle: _baseRef) -> MapScene.LoadSceneCallback {
     let refHolder = RefHolder(ref: handle, release: smoke_MapScene_LoadSceneCallback_release_handle)
     return { (p0: String?) -> Void in
         let _p0 = moveToCType(p0)
         return moveFromCType(smoke_MapScene_LoadSceneCallback_call(refHolder.ref, _p0.ref))
     }
 }
-internal func copyFromCType(_ handle: _baseRef) -> MapScene.LoadSceneCallback? {
+internal func MapScene_LoadSceneCallback_copyFromCType(_ handle: _baseRef) -> MapScene.LoadSceneCallback? {
     guard handle != 0 else {
         return nil
     }
-    return copyFromCType(handle) as MapScene.LoadSceneCallback
+    return MapScene_LoadSceneCallback_copyFromCType(handle) as MapScene.LoadSceneCallback
 }
-internal func moveFromCType(_ handle: _baseRef) -> MapScene.LoadSceneCallback? {
+internal func MapScene_LoadSceneCallback_moveFromCType(_ handle: _baseRef) -> MapScene.LoadSceneCallback? {
     guard handle != 0 else {
         return nil
     }
-    return moveFromCType(handle) as MapScene.LoadSceneCallback
+    return MapScene_LoadSceneCallback_moveFromCType(handle) as MapScene.LoadSceneCallback
 }
-internal func createFunctionalTable(_ swiftType: @escaping MapScene.LoadSceneCallback) -> smoke_MapScene_LoadSceneCallback_FunctionTable {
+internal func MapScene_LoadSceneCallback_createFunctionalTable(_ swiftType: @escaping MapScene.LoadSceneCallback) -> smoke_MapScene_LoadSceneCallback_FunctionTable {
     class smoke_MapScene_LoadSceneCallback_Holder {
         let closure: MapScene.LoadSceneCallback
         init(_ closure: @escaping MapScene.LoadSceneCallback) {
@@ -134,25 +134,25 @@ internal func createFunctionalTable(_ swiftType: @escaping MapScene.LoadSceneCal
     }
     return functions
 }
-internal func copyToCType(_ swiftType: @escaping MapScene.LoadSceneCallback) -> RefHolder {
-    let handle = smoke_MapScene_LoadSceneCallback_create_proxy(createFunctionalTable(swiftType))
+internal func MapScene_LoadSceneCallback_copyToCType(_ swiftType: @escaping MapScene.LoadSceneCallback) -> RefHolder {
+    let handle = smoke_MapScene_LoadSceneCallback_create_proxy(MapScene_LoadSceneCallback_createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-internal func moveToCType(_ swiftType: @escaping MapScene.LoadSceneCallback) -> RefHolder {
-    let handle = smoke_MapScene_LoadSceneCallback_create_proxy(createFunctionalTable(swiftType))
+internal func MapScene_LoadSceneCallback_moveToCType(_ swiftType: @escaping MapScene.LoadSceneCallback) -> RefHolder {
+    let handle = smoke_MapScene_LoadSceneCallback_create_proxy(MapScene_LoadSceneCallback_createFunctionalTable(swiftType))
     return RefHolder(ref: handle, release: smoke_MapScene_LoadSceneCallback_release_handle)
 }
-internal func copyToCType(_ swiftType: MapScene.LoadSceneCallback?) -> RefHolder {
+internal func MapScene_LoadSceneCallback_copyToCType(_ swiftType: MapScene.LoadSceneCallback?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let handle = smoke_MapScene_LoadSceneCallback_create_optional_proxy(createFunctionalTable(swiftType))
+    let handle = smoke_MapScene_LoadSceneCallback_create_optional_proxy(MapScene_LoadSceneCallback_createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-internal func moveToCType(_ swiftType: MapScene.LoadSceneCallback?) -> RefHolder {
+internal func MapScene_LoadSceneCallback_moveToCType(_ swiftType: MapScene.LoadSceneCallback?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let handle = smoke_MapScene_LoadSceneCallback_create_optional_proxy(createFunctionalTable(swiftType))
+    let handle = smoke_MapScene_LoadSceneCallback_create_optional_proxy(MapScene_LoadSceneCallback_createFunctionalTable(swiftType))
     return RefHolder(ref: handle, release: smoke_MapScene_LoadSceneCallback_release_handle)
 }
