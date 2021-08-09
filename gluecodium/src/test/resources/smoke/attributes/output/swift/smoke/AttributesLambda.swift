@@ -3,28 +3,28 @@
 import Foundation
 @OnLambda
 public typealias AttributesLambda = () -> Void
-internal func copyFromCType(_ handle: _baseRef) -> AttributesLambda {
-    return moveFromCType(smoke_AttributesLambda_copy_handle(handle))
+internal func AttributesLambda_copyFromCType(_ handle: _baseRef) -> AttributesLambda {
+    return AttributesLambda_moveFromCType(smoke_AttributesLambda_copy_handle(handle))
 }
-internal func moveFromCType(_ handle: _baseRef) -> AttributesLambda {
+internal func AttributesLambda_moveFromCType(_ handle: _baseRef) -> AttributesLambda {
     let refHolder = RefHolder(ref: handle, release: smoke_AttributesLambda_release_handle)
     return { () -> Void in
         return moveFromCType(smoke_AttributesLambda_call(refHolder.ref))
     }
 }
-internal func copyFromCType(_ handle: _baseRef) -> AttributesLambda? {
+internal func AttributesLambda_copyFromCType(_ handle: _baseRef) -> AttributesLambda? {
     guard handle != 0 else {
         return nil
     }
-    return copyFromCType(handle) as AttributesLambda
+    return AttributesLambda_copyFromCType(handle) as AttributesLambda
 }
-internal func moveFromCType(_ handle: _baseRef) -> AttributesLambda? {
+internal func AttributesLambda_moveFromCType(_ handle: _baseRef) -> AttributesLambda? {
     guard handle != 0 else {
         return nil
     }
-    return moveFromCType(handle) as AttributesLambda
+    return AttributesLambda_moveFromCType(handle) as AttributesLambda
 }
-internal func createFunctionalTable(_ swiftType: @escaping AttributesLambda) -> smoke_AttributesLambda_FunctionTable {
+internal func AttributesLambda_createFunctionalTable(_ swiftType: @escaping AttributesLambda) -> smoke_AttributesLambda_FunctionTable {
     class smoke_AttributesLambda_Holder {
         let closure: AttributesLambda
         init(_ closure: @escaping AttributesLambda) {
@@ -44,25 +44,25 @@ internal func createFunctionalTable(_ swiftType: @escaping AttributesLambda) -> 
     }
     return functions
 }
-internal func copyToCType(_ swiftType: @escaping AttributesLambda) -> RefHolder {
-    let handle = smoke_AttributesLambda_create_proxy(createFunctionalTable(swiftType))
+internal func AttributesLambda_copyToCType(_ swiftType: @escaping AttributesLambda) -> RefHolder {
+    let handle = smoke_AttributesLambda_create_proxy(AttributesLambda_createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-internal func moveToCType(_ swiftType: @escaping AttributesLambda) -> RefHolder {
-    let handle = smoke_AttributesLambda_create_proxy(createFunctionalTable(swiftType))
+internal func AttributesLambda_moveToCType(_ swiftType: @escaping AttributesLambda) -> RefHolder {
+    let handle = smoke_AttributesLambda_create_proxy(AttributesLambda_createFunctionalTable(swiftType))
     return RefHolder(ref: handle, release: smoke_AttributesLambda_release_handle)
 }
-internal func copyToCType(_ swiftType: AttributesLambda?) -> RefHolder {
+internal func AttributesLambda_copyToCType(_ swiftType: AttributesLambda?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let handle = smoke_AttributesLambda_create_optional_proxy(createFunctionalTable(swiftType))
+    let handle = smoke_AttributesLambda_create_optional_proxy(AttributesLambda_createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-internal func moveToCType(_ swiftType: AttributesLambda?) -> RefHolder {
+internal func AttributesLambda_moveToCType(_ swiftType: AttributesLambda?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let handle = smoke_AttributesLambda_create_optional_proxy(createFunctionalTable(swiftType))
+    let handle = smoke_AttributesLambda_create_optional_proxy(AttributesLambda_createFunctionalTable(swiftType))
     return RefHolder(ref: handle, release: smoke_AttributesLambda_release_handle)
 }
