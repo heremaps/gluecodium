@@ -68,10 +68,7 @@ internal class DartImportResolver(
             is LimeBasicType ->
                 if (actualType.typeId.isNumericType || actualType.typeId == LimeBasicType.TypeId.VOID) emptyList()
                 else listOf(builtInTypesConversionImport)
-            is LimeList -> resolveConversionImports(actualType.elementType) + createConversionImport("generic_types")
-            is LimeSet -> resolveConversionImports(actualType.elementType) + createConversionImport("generic_types")
-            is LimeMap -> resolveConversionImports(actualType.keyType) +
-                resolveConversionImports(actualType.valueType) + createConversionImport("generic_types")
+            is LimeGenericType -> listOf(createConversionImport("generic_types"))
             else -> emptyList()
         }
 
