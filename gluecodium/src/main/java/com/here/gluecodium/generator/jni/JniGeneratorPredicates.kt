@@ -22,6 +22,8 @@ package com.here.gluecodium.generator.jni
 import com.here.gluecodium.common.LimeModelSkipPredicates
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.cpp.CppNameResolver
+import com.here.gluecodium.generator.cpp.CppNameRules
+import com.here.gluecodium.generator.cpp.CppSignatureResolver
 import com.here.gluecodium.generator.java.JavaNameRules
 import com.here.gluecodium.generator.java.JavaSignatureResolver
 import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
@@ -36,7 +38,11 @@ import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CONVERTER_NAME
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeLambda
+import com.here.gluecodium.model.lime.LimeList
+import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 /**
@@ -45,10 +51,13 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 internal class JniGeneratorPredicates(
     private val limeReferenceMap: Map<String, LimeElement>,
     javaNameRules: JavaNameRules,
+    cppNameRules: CppNameRules,
     cppNameResolver: CppNameResolver,
     private val activeTags: Set<String>
 ) {
     private val javaSignatureResolver = JavaSignatureResolver(limeReferenceMap, javaNameRules, activeTags)
+    private val cppSignatureResolver = CppSignatureResolver(limeReferenceMap, cppNameRules)
+    private val overloadedLambdas = collectOverloadedLambdas()
 
     val predicates = mapOf(
         "hasConstructors" to { limeContainer: Any ->
@@ -61,6 +70,14 @@ internal class JniGeneratorPredicates(
             limeField is LimeField && cppNameResolver.resolveSetterName(limeField) != null
         },
         "hasImmutableFields" to { CommonGeneratorPredicates.hasImmutableFields(it) },
+        "hasOverloadedLambda" to { limeType: Any ->
+            when (limeType) {
+                is LimeLambda -> isOverloadedLambda(limeType)
+                is LimeList -> isOverloadedLambda(limeType.elementType.type.actualType)
+                is LimeMap -> isOverloadedLambda(limeType.valueType.type.actualType)
+                else -> false
+            }
+        },
         "hasTypeRepository" to { CommonGeneratorPredicates.hasTypeRepository(it) },
         "isJniPrimitive" to fun(limeTypeRef: Any): Boolean {
             if (limeTypeRef !is LimeTypeRef || limeTypeRef.isNullable) return false
@@ -93,6 +110,15 @@ internal class JniGeneratorPredicates(
 
     fun shouldRetain(limeElement: LimeNamedElement) =
         LimeModelSkipPredicates.shouldRetainCheckParent(limeElement, activeTags, JAVA, limeReferenceMap)
+
+    private fun collectOverloadedLambdas(): Set<String> {
+        val lambdas = limeReferenceMap.values.filterIsInstance<LimeLambda>()
+        val signatureMap = lambdas.groupBy { cppSignatureResolver.getSignature(it) }
+        return signatureMap.values.filter { it.size > 1 }.flatten().map { it.path.toString() }.toSet()
+    }
+
+    private fun isOverloadedLambda(limeType: LimeType) =
+        limeType is LimeLambda && overloadedLambdas.contains(limeType.path.toString())
 
     companion object {
         fun hasThrowingFunctions(limeElement: LimeNamedElement) =

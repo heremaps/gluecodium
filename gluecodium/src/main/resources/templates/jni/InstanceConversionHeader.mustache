@@ -25,9 +25,16 @@
 {{#includes}}
 {{>common/Include}}
 {{/includes}}
+{{#ifPredicate model "hasOverloadedLambda"}}
+#include "JniCallJavaMethod.h"
+{{/ifPredicate}}
 #include "JniReference.h"
 #include "{{>common/InternalInclude}}Optional.h"
 #include <memory>
+{{#ifPredicate model "hasOverloadedLambda"}}
+#include <unordered_map>
+#include <vector>
+{{/ifPredicate}}
 
 {{#internalNamespace}}
 namespace {{.}}
@@ -37,8 +44,9 @@ namespace jni
 {
 
 {{#model}}
-JNIEXPORT {{>cppTypeName}} convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, {{>cppTypeName}}*);
-JNIEXPORT JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{>cppTypeName}}& _ninput);
+JNIEXPORT {{>cppTypeName}} {{>conversionPrefix}}convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, {{>cppTypeName}}*);
+JNIEXPORT JniReference<jobject> {{>conversionPrefix}}convert_to_jni(JNIEnv* _jenv, const {{>cppTypeName}}& _ninput);
+{{#ifPredicate "hasOverloadedLambda"}}{{>jni/LambdaOverloadedConversionHeader}}{{/ifPredicate}}
 {{/model}}
 
 }
@@ -47,4 +55,6 @@ JNIEXPORT JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{>cppTypeNa
 {{/internalNamespace}}{{!!
 
 }}{{+cppTypeName}}{{#instanceOf this "LimeLambda"}}{{resolveName "C++ FQN"}}{{/instanceOf}}{{!!
-}}{{#notInstanceOf this "LimeLambda"}}std::shared_ptr<{{resolveName "C++ FQN"}}>{{/notInstanceOf}}{{/cppTypeName}}
+}}{{#notInstanceOf this "LimeLambda"}}std::shared_ptr<{{resolveName "C++ FQN"}}>{{/notInstanceOf}}{{/cppTypeName}}{{!!
+
+}}{{+conversionPrefix}}{{#ifPredicate this "hasOverloadedLambda"}}{{resolveName "mangled"}}_{{/ifPredicate}}{{/conversionPrefix}}

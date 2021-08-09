@@ -140,7 +140,6 @@ internal class JavaGenerator : Generator {
             internalPackages = internalPackage,
             internalNamespace = internalNamespace,
             cppNameRules = cppNameRules,
-            generatorName = GENERATOR_NAME,
             nameCache = cachingNameResolver,
             activeTags = activeTags
         )
@@ -247,7 +246,7 @@ internal class JavaGenerator : Generator {
         }
 
     companion object {
-        private const val GENERATOR_NAME = "android"
+        internal const val GENERATOR_NAME = "android"
 
         private val logger = Logger.getLogger(JavaGenerator::class.java.name)
 
