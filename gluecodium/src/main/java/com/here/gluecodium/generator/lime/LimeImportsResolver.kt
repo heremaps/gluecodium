@@ -39,11 +39,11 @@ internal class LimeImportsResolver(private val path: LimePath) : ImportsResolver
 
     private fun resolveTypeImports(limeType: LimeType): List<LimePath> =
         when {
-            limeType.actualType is LimeGenericType -> resolveGenericTypeImports(limeType.actualType as LimeGenericType)
+            limeType is LimeGenericType -> resolveGenericTypeImports(limeType)
             limeType.path == LimePath.EMPTY_PATH -> emptyList()
-            limeType.path.parent == path.parent -> emptyList()
+            limeType.path.parent == path.parent -> emptyList() // same level package
             (limeType.path.allParents + limeType.path).contains(path) -> emptyList()
-            else -> listOfNotNull(limeType.path)
+            else -> listOf(limeType.path)
         }
 
     private fun resolveGenericTypeImports(limeType: LimeGenericType) =
