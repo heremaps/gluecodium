@@ -36,6 +36,8 @@ internal class JavaSignatureResolver(
 
     override fun getSetName(elementType: LimeTypeRef) = TYPE_ERASED_SET
 
+    override fun getNullableSuffix(limeTypeRef: LimeTypeRef) = ""
+
     companion object {
         private const val TYPE_ERASED_ARRAY = "List<>"
         private const val TYPE_ERASED_MAP = "Map<>"

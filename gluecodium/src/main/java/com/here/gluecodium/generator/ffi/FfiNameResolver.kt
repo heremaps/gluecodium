@@ -140,7 +140,8 @@ internal class FfiNameResolver(
 
         return when (limeElement) {
             is LimeFunction -> {
-                val mangledSignature = signatureResolver.getSignature(limeElement).joinToString("_")
+                val mangledSignature =
+                    signatureResolver.getSignature(limeElement).joinToString("_") { it.replace("?", "_") }
                 if (mangledSignature.isEmpty()) fullName else "${fullName}__$mangledSignature"
             }
             else -> fullName

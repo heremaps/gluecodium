@@ -92,5 +92,11 @@ class SkippedOverloads {
 
     @Swift(Skip)
     @Java(Skip)
-    constructor make_for_dart()
+    constructor make_for_dart(input: String)
+}
+
+@Java(Skip)
+class NullableOverloads {
+    fun foo(input: String)
+    fun foo(input: String?)
 }

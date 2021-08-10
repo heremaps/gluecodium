@@ -94,7 +94,7 @@ internal class JavaGenerator : Generator {
 
         val signatureResolver = JavaSignatureResolver(limeModel.referenceMap, javaNameRules, activeTags)
         val overloadsValidator = LimeOverloadsValidator(signatureResolver, limeLogger)
-        val validationResult = overloadsValidator.validate(jniFilteredModel.topElements)
+        val validationResult = overloadsValidator.validate(jniFilteredModel.referenceMap.values)
         if (!validationResult) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }

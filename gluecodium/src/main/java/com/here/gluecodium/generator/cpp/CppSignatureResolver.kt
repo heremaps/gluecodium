@@ -21,9 +21,19 @@ package com.here.gluecodium.generator.cpp
 
 import com.here.gluecodium.generator.common.PlatformSignatureResolver
 import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class CppSignatureResolver(
     limeReferenceMap: Map<String, LimeElement>,
     nameRules: CppNameRules
-) : PlatformSignatureResolver(limeReferenceMap, LimeAttributeType.CPP, nameRules, emptySet())
+) : PlatformSignatureResolver(limeReferenceMap, LimeAttributeType.CPP, nameRules, emptySet()) {
+
+    override fun getNullableSuffix(limeTypeRef: LimeTypeRef) =
+        when {
+            !limeTypeRef.isNullable -> ""
+            limeTypeRef.type.actualType is LimeContainerWithInheritance -> ""
+            else -> "?"
+        }
+}

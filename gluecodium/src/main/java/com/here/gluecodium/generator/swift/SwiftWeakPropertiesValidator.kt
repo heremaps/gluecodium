@@ -22,8 +22,8 @@ package com.here.gluecodium.generator.swift
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.WEAK
+import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeInterface
-import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeType
 
@@ -33,11 +33,8 @@ import com.here.gluecodium.model.lime.LimeType
  */
 internal class SwiftWeakPropertiesValidator(private val logger: LimeLogger) {
 
-    fun validate(limeElements: List<LimeNamedElement>): Boolean {
-        val validationResults = limeElements
-            .filterIsInstance<LimeProperty>()
-            .map { validateProperty(it) }
-
+    fun validate(limeElements: Collection<LimeElement>): Boolean {
+        val validationResults = limeElements.filterIsInstance<LimeProperty>().map { validateProperty(it) }
         return !validationResults.contains(false)
     }
 

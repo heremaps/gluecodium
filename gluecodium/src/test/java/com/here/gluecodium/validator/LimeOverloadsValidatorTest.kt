@@ -67,7 +67,6 @@ class LimeOverloadsValidatorTest(
     companion object {
         private val fooPath = LimePath(emptyList(), listOf("foo"))
         private val barPath = fooPath.child("bar")
-        private val bazPath = fooPath.child("baz")
         private val limeParameter = LimeParameter(EMPTY_PATH, typeRef = LimeBasicTypeRef.INT)
 
         @JvmStatic
@@ -81,16 +80,6 @@ class LimeOverloadsValidatorTest(
             arrayOf(
                 LimeFunction(barPath.withSuffix("0"), parameters = listOf(limeParameter)),
                 LimeFunction(barPath.withSuffix("1"), parameters = listOf(limeParameter)),
-                false
-            ),
-            arrayOf(
-                LimeFunction(barPath, isConstructor = true),
-                LimeFunction(bazPath, isConstructor = true, parameters = listOf(limeParameter)),
-                true
-            ),
-            arrayOf(
-                LimeFunction(barPath, isConstructor = true, parameters = listOf(limeParameter)),
-                LimeFunction(bazPath, isConstructor = true, parameters = listOf(limeParameter)),
                 false
             )
         )
