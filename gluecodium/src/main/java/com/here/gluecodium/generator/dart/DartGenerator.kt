@@ -447,9 +447,12 @@ internal class DartGenerator : Generator {
         nameResolvers: Map<String, NameResolver>,
         importResolver: DartImportResolver
     ): GeneratedFile {
-        val fileName = "$SRC_DIR_SUFFIX/generic_types__conversion"
-        val imports = genericTypes.flatMap { importResolver.resolveElementImports(it) }
+        val elementTypeRefs = genericTypes.filterIsInstance<LimeList>().map { it.elementType } +
+            genericTypes.filterIsInstance<LimeSet>().map { it.elementType } +
+            genericTypes.filterIsInstance<LimeMap>().flatMap { listOf(it.keyType, it.valueType) }
+        val imports = (genericTypes + elementTypeRefs).flatMap { importResolver.resolveElementImports(it) }
 
+        val fileName = "$SRC_DIR_SUFFIX/generic_types__conversion"
         val content = TemplateEngine.render(
             "dart/DartGenericTypesConversion",
             mapOf(

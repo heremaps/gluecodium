@@ -2,7 +2,6 @@ import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
-import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 abstract class GenericTypesWithGenericTypes {
   /// @nodoc

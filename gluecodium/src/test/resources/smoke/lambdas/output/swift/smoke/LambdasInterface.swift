@@ -18,7 +18,7 @@ internal class _LambdasInterface: LambdasInterface {
         smoke_LambdasInterface_release_handle(c_instance)
     }
     public func takeScreenshot(callback: @escaping LambdasInterface.TakeScreenshotCallback) -> Void {
-        let c_callback = moveToCType(callback)
+        let c_callback = LambdasInterface_TakeScreenshotCallback_moveToCType(callback)
         smoke_LambdasInterface_takeScreenshot(self.c_instance, c_callback.ref)
     }
 }
@@ -46,7 +46,7 @@ internal func getRef(_ ref: LambdasInterface?, owning: Bool = true) -> RefHolder
     }
     functions.smoke_LambdasInterface_takeScreenshot = {(swift_class_pointer, callback) in
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! LambdasInterface
-        swift_class.takeScreenshot(callback: moveFromCType(callback))
+        swift_class.takeScreenshot(callback: LambdasInterface_TakeScreenshotCallback_moveFromCType(callback))
     }
     let proxy = smoke_LambdasInterface_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_LambdasInterface_release_handle) : RefHolder(proxy)
@@ -113,29 +113,29 @@ internal func copyToCType(_ swiftClass: LambdasInterface?) -> RefHolder {
 internal func moveToCType(_ swiftClass: LambdasInterface?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyFromCType(_ handle: _baseRef) -> LambdasInterface.TakeScreenshotCallback {
-    return moveFromCType(smoke_LambdasInterface_TakeScreenshotCallback_copy_handle(handle))
+internal func LambdasInterface_TakeScreenshotCallback_copyFromCType(_ handle: _baseRef) -> LambdasInterface.TakeScreenshotCallback {
+    return LambdasInterface_TakeScreenshotCallback_moveFromCType(smoke_LambdasInterface_TakeScreenshotCallback_copy_handle(handle))
 }
-internal func moveFromCType(_ handle: _baseRef) -> LambdasInterface.TakeScreenshotCallback {
+internal func LambdasInterface_TakeScreenshotCallback_moveFromCType(_ handle: _baseRef) -> LambdasInterface.TakeScreenshotCallback {
     let refHolder = RefHolder(ref: handle, release: smoke_LambdasInterface_TakeScreenshotCallback_release_handle)
     return { (p0: Data?) -> Void in
         let _p0 = moveToCType(p0)
         return moveFromCType(smoke_LambdasInterface_TakeScreenshotCallback_call(refHolder.ref, _p0.ref))
     }
 }
-internal func copyFromCType(_ handle: _baseRef) -> LambdasInterface.TakeScreenshotCallback? {
+internal func LambdasInterface_TakeScreenshotCallback_copyFromCType(_ handle: _baseRef) -> LambdasInterface.TakeScreenshotCallback? {
     guard handle != 0 else {
         return nil
     }
-    return copyFromCType(handle) as LambdasInterface.TakeScreenshotCallback
+    return LambdasInterface_TakeScreenshotCallback_copyFromCType(handle) as LambdasInterface.TakeScreenshotCallback
 }
-internal func moveFromCType(_ handle: _baseRef) -> LambdasInterface.TakeScreenshotCallback? {
+internal func LambdasInterface_TakeScreenshotCallback_moveFromCType(_ handle: _baseRef) -> LambdasInterface.TakeScreenshotCallback? {
     guard handle != 0 else {
         return nil
     }
-    return moveFromCType(handle) as LambdasInterface.TakeScreenshotCallback
+    return LambdasInterface_TakeScreenshotCallback_moveFromCType(handle) as LambdasInterface.TakeScreenshotCallback
 }
-internal func createFunctionalTable(_ swiftType: @escaping LambdasInterface.TakeScreenshotCallback) -> smoke_LambdasInterface_TakeScreenshotCallback_FunctionTable {
+internal func LambdasInterface_TakeScreenshotCallback_createFunctionalTable(_ swiftType: @escaping LambdasInterface.TakeScreenshotCallback) -> smoke_LambdasInterface_TakeScreenshotCallback_FunctionTable {
     class smoke_LambdasInterface_TakeScreenshotCallback_Holder {
         let closure: LambdasInterface.TakeScreenshotCallback
         init(_ closure: @escaping LambdasInterface.TakeScreenshotCallback) {
@@ -155,25 +155,25 @@ internal func createFunctionalTable(_ swiftType: @escaping LambdasInterface.Take
     }
     return functions
 }
-internal func copyToCType(_ swiftType: @escaping LambdasInterface.TakeScreenshotCallback) -> RefHolder {
-    let handle = smoke_LambdasInterface_TakeScreenshotCallback_create_proxy(createFunctionalTable(swiftType))
+internal func LambdasInterface_TakeScreenshotCallback_copyToCType(_ swiftType: @escaping LambdasInterface.TakeScreenshotCallback) -> RefHolder {
+    let handle = smoke_LambdasInterface_TakeScreenshotCallback_create_proxy(LambdasInterface_TakeScreenshotCallback_createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-internal func moveToCType(_ swiftType: @escaping LambdasInterface.TakeScreenshotCallback) -> RefHolder {
-    let handle = smoke_LambdasInterface_TakeScreenshotCallback_create_proxy(createFunctionalTable(swiftType))
+internal func LambdasInterface_TakeScreenshotCallback_moveToCType(_ swiftType: @escaping LambdasInterface.TakeScreenshotCallback) -> RefHolder {
+    let handle = smoke_LambdasInterface_TakeScreenshotCallback_create_proxy(LambdasInterface_TakeScreenshotCallback_createFunctionalTable(swiftType))
     return RefHolder(ref: handle, release: smoke_LambdasInterface_TakeScreenshotCallback_release_handle)
 }
-internal func copyToCType(_ swiftType: LambdasInterface.TakeScreenshotCallback?) -> RefHolder {
+internal func LambdasInterface_TakeScreenshotCallback_copyToCType(_ swiftType: LambdasInterface.TakeScreenshotCallback?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let handle = smoke_LambdasInterface_TakeScreenshotCallback_create_optional_proxy(createFunctionalTable(swiftType))
+    let handle = smoke_LambdasInterface_TakeScreenshotCallback_create_optional_proxy(LambdasInterface_TakeScreenshotCallback_createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-internal func moveToCType(_ swiftType: LambdasInterface.TakeScreenshotCallback?) -> RefHolder {
+internal func LambdasInterface_TakeScreenshotCallback_moveToCType(_ swiftType: LambdasInterface.TakeScreenshotCallback?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let handle = smoke_LambdasInterface_TakeScreenshotCallback_create_optional_proxy(createFunctionalTable(swiftType))
+    let handle = smoke_LambdasInterface_TakeScreenshotCallback_create_optional_proxy(LambdasInterface_TakeScreenshotCallback_createFunctionalTable(swiftType))
     return RefHolder(ref: handle, release: smoke_LambdasInterface_TakeScreenshotCallback_release_handle)
 }

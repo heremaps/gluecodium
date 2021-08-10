@@ -426,6 +426,7 @@ feature(SkipAttribute cpp android swift dart SOURCES
     input/lime/SkipTagsInPlatform.lime
     input/lime/SkipEnumerator.lime
     input/lime/EnableIfEnabled.lime
+    input/lime/EnableIfInPlatform.lime
     input/lime/EnableIfSkipped.lime
 
     input/src/cpp/Skip.cpp

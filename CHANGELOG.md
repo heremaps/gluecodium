@@ -1,10 +1,15 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Features:
+  * Added support for tag-based platform-specific "enable" attribute in IDL (e.g. `@Java(EnableIf="Tag1")`, similarly
+    for Swift and Dart). Elements marked with such attribute will be present in that platform's generated code only if
+    any of these specific used-defined tags are present.
 ### Bug fixes:
   * Fixed runtime issue for interfaces sent from Java to C++ and then back to Java.
   * Removed suppression of "dart analyze" warning about deprecated element usage. This should be suppressed in a
     library-level analysis_options.yaml instead.
+  * Fixed "dart analyze" warnings about unused imports.
 
 ## 9.3.5
 Release date: 2021-07-28

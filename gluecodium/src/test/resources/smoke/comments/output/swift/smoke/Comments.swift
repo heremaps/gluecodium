@@ -215,10 +215,10 @@ internal func copyToCType(_ swiftClass: Comments?) -> RefHolder {
 internal func moveToCType(_ swiftClass: Comments?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyFromCType(_ handle: _baseRef) -> Comments.SomeLambda {
-    return moveFromCType(smoke_Comments_SomeLambda_copy_handle(handle))
+internal func Comments_SomeLambda_copyFromCType(_ handle: _baseRef) -> Comments.SomeLambda {
+    return Comments_SomeLambda_moveFromCType(smoke_Comments_SomeLambda_copy_handle(handle))
 }
-internal func moveFromCType(_ handle: _baseRef) -> Comments.SomeLambda {
+internal func Comments_SomeLambda_moveFromCType(_ handle: _baseRef) -> Comments.SomeLambda {
     let refHolder = RefHolder(ref: handle, release: smoke_Comments_SomeLambda_release_handle)
     return { (p0: String, p1: Int32) -> Double in
         let _p0 = moveToCType(p0)
@@ -226,19 +226,19 @@ internal func moveFromCType(_ handle: _baseRef) -> Comments.SomeLambda {
         return moveFromCType(smoke_Comments_SomeLambda_call(refHolder.ref, _p0.ref, _p1.ref))
     }
 }
-internal func copyFromCType(_ handle: _baseRef) -> Comments.SomeLambda? {
+internal func Comments_SomeLambda_copyFromCType(_ handle: _baseRef) -> Comments.SomeLambda? {
     guard handle != 0 else {
         return nil
     }
-    return copyFromCType(handle) as Comments.SomeLambda
+    return Comments_SomeLambda_copyFromCType(handle) as Comments.SomeLambda
 }
-internal func moveFromCType(_ handle: _baseRef) -> Comments.SomeLambda? {
+internal func Comments_SomeLambda_moveFromCType(_ handle: _baseRef) -> Comments.SomeLambda? {
     guard handle != 0 else {
         return nil
     }
-    return moveFromCType(handle) as Comments.SomeLambda
+    return Comments_SomeLambda_moveFromCType(handle) as Comments.SomeLambda
 }
-internal func createFunctionalTable(_ swiftType: @escaping Comments.SomeLambda) -> smoke_Comments_SomeLambda_FunctionTable {
+internal func Comments_SomeLambda_createFunctionalTable(_ swiftType: @escaping Comments.SomeLambda) -> smoke_Comments_SomeLambda_FunctionTable {
     class smoke_Comments_SomeLambda_Holder {
         let closure: Comments.SomeLambda
         init(_ closure: @escaping Comments.SomeLambda) {
@@ -258,26 +258,26 @@ internal func createFunctionalTable(_ swiftType: @escaping Comments.SomeLambda) 
     }
     return functions
 }
-internal func copyToCType(_ swiftType: @escaping Comments.SomeLambda) -> RefHolder {
-    let handle = smoke_Comments_SomeLambda_create_proxy(createFunctionalTable(swiftType))
+internal func Comments_SomeLambda_copyToCType(_ swiftType: @escaping Comments.SomeLambda) -> RefHolder {
+    let handle = smoke_Comments_SomeLambda_create_proxy(Comments_SomeLambda_createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-internal func moveToCType(_ swiftType: @escaping Comments.SomeLambda) -> RefHolder {
-    let handle = smoke_Comments_SomeLambda_create_proxy(createFunctionalTable(swiftType))
+internal func Comments_SomeLambda_moveToCType(_ swiftType: @escaping Comments.SomeLambda) -> RefHolder {
+    let handle = smoke_Comments_SomeLambda_create_proxy(Comments_SomeLambda_createFunctionalTable(swiftType))
     return RefHolder(ref: handle, release: smoke_Comments_SomeLambda_release_handle)
 }
-internal func copyToCType(_ swiftType: Comments.SomeLambda?) -> RefHolder {
+internal func Comments_SomeLambda_copyToCType(_ swiftType: Comments.SomeLambda?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let handle = smoke_Comments_SomeLambda_create_optional_proxy(createFunctionalTable(swiftType))
+    let handle = smoke_Comments_SomeLambda_create_optional_proxy(Comments_SomeLambda_createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-internal func moveToCType(_ swiftType: Comments.SomeLambda?) -> RefHolder {
+internal func Comments_SomeLambda_moveToCType(_ swiftType: Comments.SomeLambda?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let handle = smoke_Comments_SomeLambda_create_optional_proxy(createFunctionalTable(swiftType))
+    let handle = smoke_Comments_SomeLambda_create_optional_proxy(Comments_SomeLambda_createFunctionalTable(swiftType))
     return RefHolder(ref: handle, release: smoke_Comments_SomeLambda_release_handle)
 }
 internal func copyFromCType(_ handle: _baseRef) -> Comments.SomeStruct {

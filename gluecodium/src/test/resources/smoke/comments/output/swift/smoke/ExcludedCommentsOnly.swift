@@ -135,10 +135,10 @@ internal func copyToCType(_ swiftClass: ExcludedCommentsOnly?) -> RefHolder {
 internal func moveToCType(_ swiftClass: ExcludedCommentsOnly?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
-internal func copyFromCType(_ handle: _baseRef) -> ExcludedCommentsOnly.SomeLambda {
-    return moveFromCType(smoke_ExcludedCommentsOnly_SomeLambda_copy_handle(handle))
+internal func ExcludedCommentsOnly_SomeLambda_copyFromCType(_ handle: _baseRef) -> ExcludedCommentsOnly.SomeLambda {
+    return ExcludedCommentsOnly_SomeLambda_moveFromCType(smoke_ExcludedCommentsOnly_SomeLambda_copy_handle(handle))
 }
-internal func moveFromCType(_ handle: _baseRef) -> ExcludedCommentsOnly.SomeLambda {
+internal func ExcludedCommentsOnly_SomeLambda_moveFromCType(_ handle: _baseRef) -> ExcludedCommentsOnly.SomeLambda {
     let refHolder = RefHolder(ref: handle, release: smoke_ExcludedCommentsOnly_SomeLambda_release_handle)
     return { (p0: String, p1: Int32) -> Double in
         let _p0 = moveToCType(p0)
@@ -146,19 +146,19 @@ internal func moveFromCType(_ handle: _baseRef) -> ExcludedCommentsOnly.SomeLamb
         return moveFromCType(smoke_ExcludedCommentsOnly_SomeLambda_call(refHolder.ref, _p0.ref, _p1.ref))
     }
 }
-internal func copyFromCType(_ handle: _baseRef) -> ExcludedCommentsOnly.SomeLambda? {
+internal func ExcludedCommentsOnly_SomeLambda_copyFromCType(_ handle: _baseRef) -> ExcludedCommentsOnly.SomeLambda? {
     guard handle != 0 else {
         return nil
     }
-    return copyFromCType(handle) as ExcludedCommentsOnly.SomeLambda
+    return ExcludedCommentsOnly_SomeLambda_copyFromCType(handle) as ExcludedCommentsOnly.SomeLambda
 }
-internal func moveFromCType(_ handle: _baseRef) -> ExcludedCommentsOnly.SomeLambda? {
+internal func ExcludedCommentsOnly_SomeLambda_moveFromCType(_ handle: _baseRef) -> ExcludedCommentsOnly.SomeLambda? {
     guard handle != 0 else {
         return nil
     }
-    return moveFromCType(handle) as ExcludedCommentsOnly.SomeLambda
+    return ExcludedCommentsOnly_SomeLambda_moveFromCType(handle) as ExcludedCommentsOnly.SomeLambda
 }
-internal func createFunctionalTable(_ swiftType: @escaping ExcludedCommentsOnly.SomeLambda) -> smoke_ExcludedCommentsOnly_SomeLambda_FunctionTable {
+internal func ExcludedCommentsOnly_SomeLambda_createFunctionalTable(_ swiftType: @escaping ExcludedCommentsOnly.SomeLambda) -> smoke_ExcludedCommentsOnly_SomeLambda_FunctionTable {
     class smoke_ExcludedCommentsOnly_SomeLambda_Holder {
         let closure: ExcludedCommentsOnly.SomeLambda
         init(_ closure: @escaping ExcludedCommentsOnly.SomeLambda) {
@@ -178,26 +178,26 @@ internal func createFunctionalTable(_ swiftType: @escaping ExcludedCommentsOnly.
     }
     return functions
 }
-internal func copyToCType(_ swiftType: @escaping ExcludedCommentsOnly.SomeLambda) -> RefHolder {
-    let handle = smoke_ExcludedCommentsOnly_SomeLambda_create_proxy(createFunctionalTable(swiftType))
+internal func ExcludedCommentsOnly_SomeLambda_copyToCType(_ swiftType: @escaping ExcludedCommentsOnly.SomeLambda) -> RefHolder {
+    let handle = smoke_ExcludedCommentsOnly_SomeLambda_create_proxy(ExcludedCommentsOnly_SomeLambda_createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-internal func moveToCType(_ swiftType: @escaping ExcludedCommentsOnly.SomeLambda) -> RefHolder {
-    let handle = smoke_ExcludedCommentsOnly_SomeLambda_create_proxy(createFunctionalTable(swiftType))
+internal func ExcludedCommentsOnly_SomeLambda_moveToCType(_ swiftType: @escaping ExcludedCommentsOnly.SomeLambda) -> RefHolder {
+    let handle = smoke_ExcludedCommentsOnly_SomeLambda_create_proxy(ExcludedCommentsOnly_SomeLambda_createFunctionalTable(swiftType))
     return RefHolder(ref: handle, release: smoke_ExcludedCommentsOnly_SomeLambda_release_handle)
 }
-internal func copyToCType(_ swiftType: ExcludedCommentsOnly.SomeLambda?) -> RefHolder {
+internal func ExcludedCommentsOnly_SomeLambda_copyToCType(_ swiftType: ExcludedCommentsOnly.SomeLambda?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let handle = smoke_ExcludedCommentsOnly_SomeLambda_create_optional_proxy(createFunctionalTable(swiftType))
+    let handle = smoke_ExcludedCommentsOnly_SomeLambda_create_optional_proxy(ExcludedCommentsOnly_SomeLambda_createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-internal func moveToCType(_ swiftType: ExcludedCommentsOnly.SomeLambda?) -> RefHolder {
+internal func ExcludedCommentsOnly_SomeLambda_moveToCType(_ swiftType: ExcludedCommentsOnly.SomeLambda?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let handle = smoke_ExcludedCommentsOnly_SomeLambda_create_optional_proxy(createFunctionalTable(swiftType))
+    let handle = smoke_ExcludedCommentsOnly_SomeLambda_create_optional_proxy(ExcludedCommentsOnly_SomeLambda_createFunctionalTable(swiftType))
     return RefHolder(ref: handle, release: smoke_ExcludedCommentsOnly_SomeLambda_release_handle)
 }
 internal func copyFromCType(_ handle: _baseRef) -> ExcludedCommentsOnly.SomeStruct {
