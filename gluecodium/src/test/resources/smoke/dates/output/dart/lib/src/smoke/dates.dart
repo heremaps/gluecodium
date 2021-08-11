@@ -121,7 +121,7 @@ class Dates$Impl extends __lib.NativeBase implements Dates {
   }
   @override
   DateTime? nullableDateMethod(DateTime? input) {
-    final _nullableDateMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Dates_nullableDateMethod__Date'));
+    final _nullableDateMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Dates_nullableDateMethod__Date_'));
     final _inputHandle = dateToFfiNullable(input);
     final _handle = this.handle;
     final __resultHandle = _nullableDateMethodFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);

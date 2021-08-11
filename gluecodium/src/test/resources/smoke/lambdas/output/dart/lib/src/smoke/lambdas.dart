@@ -384,7 +384,7 @@ class Lambdas_NullableConfuser$Impl {
   final Pointer<Void> handle;
   Lambdas_NullableConfuser$Impl(this.handle);
   Lambdas_Producer? call(String? p0) {
-    final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Lambdas_NullableConfuser_call__String'));
+    final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Lambdas_NullableConfuser_call__String_'));
     final _p0Handle = stringToFfiNullable(p0);
     final _handle = this.handle;
     final __resultHandle = _callFfi(_handle, __lib.LibraryContext.isolateId, _p0Handle);

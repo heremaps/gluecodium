@@ -29,24 +29,18 @@ internal class LimeOverloadsValidator(
     private val logger: LimeLogger
 ) {
     fun validate(limeModel: Collection<LimeElement>): Boolean {
-        val validationResults =
-            limeModel.filterIsInstance<LimeFunction>().map { validateFunction(it, signatureResolver) }
+        val validationResults = limeModel.filterIsInstance<LimeFunction>()
+            .filter { !it.isConstructor }
+            .map { validateFunction(it, signatureResolver) }
         return !validationResults.contains(false)
     }
 
-    private fun validateFunction(limeFunction: LimeFunction, signatureResolver: LimeSignatureResolver): Boolean {
-
-        var result = true
-
-        if (limeFunction.isConstructor && signatureResolver.hasConstructorSignatureClash(limeFunction)) {
-            logger.error(limeFunction, "constructor has conflicting overloads")
-            result = false
+    private fun validateFunction(limeFunction: LimeFunction, signatureResolver: LimeSignatureResolver) =
+        when {
+            signatureResolver.hasSignatureClash(limeFunction) -> {
+                logger.error(limeFunction, "function has conflicting overloads")
+                false
+            }
+            else -> true
         }
-        if (!limeFunction.isConstructor && signatureResolver.hasSignatureClash(limeFunction)) {
-            logger.error(limeFunction, "function has conflicting overloads")
-            result = false
-        }
-
-        return result
-    }
 }

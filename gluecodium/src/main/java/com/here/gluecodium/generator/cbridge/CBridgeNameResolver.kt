@@ -140,5 +140,6 @@ internal class CBridgeNameResolver(
             name.replace("_", "_1").replace(":", "_2")
                 .replace("[", "_3").replace("]", "_4")
                 .replace("<", "_5").replace(">", "_6")
+                .replace("?", "_")
     }
 }
