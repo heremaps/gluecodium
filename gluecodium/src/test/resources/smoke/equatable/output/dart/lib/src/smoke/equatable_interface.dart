@@ -38,7 +38,7 @@ class EquatableInterface$Impl extends __lib.NativeBase implements EquatableInter
   @override
   void release() {}
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! EquatableInterface$Impl) return false;
     return __areEqual(this.handle, other.handle) != 0;
