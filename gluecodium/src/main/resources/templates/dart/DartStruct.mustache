@@ -58,7 +58,7 @@ class {{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{#if testabl
 {{/functions}}{{/set}}
 {{#if attributes.equatable}}{{#unless external.dart.converter}}
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! {{resolveName}}) return false;
     {{resolveName}} _other = other;
