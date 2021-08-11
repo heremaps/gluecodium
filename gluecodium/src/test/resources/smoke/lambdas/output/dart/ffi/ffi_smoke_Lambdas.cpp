@@ -279,7 +279,7 @@ library_smoke_Lambdas_Indexer_call__String_Float(FfiOpaqueHandle _self, int32_t 
     );
 }
 FfiOpaqueHandle
-library_smoke_Lambdas_NullableConfuser_call__String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle p0) {
+library_smoke_Lambdas_NullableConfuser_call__String_(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle p0) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<gluecodium::optional<smoke::Lambdas::Producer>>::toFfi(
         gluecodium::ffi::Conversion<smoke::Lambdas::NullableConfuser>::toCpp(_self).operator()(

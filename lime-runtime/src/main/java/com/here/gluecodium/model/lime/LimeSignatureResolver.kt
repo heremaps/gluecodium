@@ -74,6 +74,8 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
 
     protected open fun getSetName(elementType: LimeTypeRef) = "[${getTypeName(elementType)}:]"
 
+    protected open fun getNullableSuffix(limeTypeRef: LimeTypeRef) = if (limeTypeRef.isNullable) "?" else ""
+
     private fun computeSignature(limeFunction: LimeFunction) = limeFunction.parameters.map { getTypeName(it.typeRef) }
 
     protected fun getTypeName(limeTypeRef: LimeTypeRef): String =
@@ -83,5 +85,5 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
             is LimeMap -> getMapName(limeType.keyType, limeType.valueType)
             is LimeSet -> getSetName(limeType.elementType)
             else -> limeType.name
-        }
+        } + getNullableSuffix(limeTypeRef)
 }

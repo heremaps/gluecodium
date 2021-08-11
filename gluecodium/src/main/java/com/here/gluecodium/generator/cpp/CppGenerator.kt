@@ -91,7 +91,7 @@ internal class CppGenerator : Generator {
 
         val signatureResolver = CppSignatureResolver(filteredModel.referenceMap, nameRules)
         val overloadsValidator = LimeOverloadsValidator(signatureResolver, limeLogger)
-        val validationResult = overloadsValidator.validate(filteredModel.topElements)
+        val validationResult = overloadsValidator.validate(filteredModel.referenceMap.values)
         if (!validationResult) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }

@@ -25,7 +25,7 @@ library_smoke_DatesSteady_dateMethod__Date(FfiOpaqueHandle _self, int32_t _isola
     );
 }
 FfiOpaqueHandle
-library_smoke_DatesSteady_nullableDateMethod__Date(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
+library_smoke_DatesSteady_nullableDateMethod__Date_(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<gluecodium::optional<std::chrono::steady_clock::time_point>>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::DatesSteady>>::toCpp(_self)).nullable_date_method(
