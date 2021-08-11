@@ -18,12 +18,12 @@ public class MapScene {
     public func loadScene(mapScheme: Int32, callback: MapScene.LoadSceneCallback?) -> Void {
         let c_mapScheme = moveToCType(mapScheme)
         let c_callback = MapScene_LoadSceneCallback_moveToCType(callback)
-        smoke_MapScene_loadScene_Int_LoadSceneCallback(self.c_instance, c_mapScheme.ref, c_callback.ref)
+        smoke_MapScene_loadScene_Int_LoadSceneCallback_(self.c_instance, c_mapScheme.ref, c_callback.ref)
     }
     public func loadScene(configurationFile: String, callback: MapScene.LoadSceneCallback?) -> Void {
         let c_configurationFile = moveToCType(configurationFile)
         let c_callback = MapScene_LoadSceneCallback_moveToCType(callback)
-        smoke_MapScene_loadScene_String_LoadSceneCallback(self.c_instance, c_configurationFile.ref, c_callback.ref)
+        smoke_MapScene_loadScene_String_LoadSceneCallback_(self.c_instance, c_configurationFile.ref, c_callback.ref)
     }
 }
 internal func getRef(_ ref: MapScene?, owning: Bool = true) -> RefHolder {

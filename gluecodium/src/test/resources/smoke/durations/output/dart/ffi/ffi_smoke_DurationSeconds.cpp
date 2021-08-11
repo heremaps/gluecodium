@@ -23,7 +23,7 @@ library_smoke_DurationSeconds_durationFunction__Duration(FfiOpaqueHandle _self, 
     );
 }
 FfiOpaqueHandle
-library_smoke_DurationSeconds_nullableDurationFunction__Duration(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
+library_smoke_DurationSeconds_nullableDurationFunction__Duration_(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     return gluecodium::ffi::Conversion<gluecodium::optional<std::chrono::seconds>>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::DurationSeconds>>::toCpp(_self)).nullable_duration_function(

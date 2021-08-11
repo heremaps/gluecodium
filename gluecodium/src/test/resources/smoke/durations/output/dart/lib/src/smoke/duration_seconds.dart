@@ -108,7 +108,7 @@ class DurationSeconds$Impl extends __lib.NativeBase implements DurationSeconds {
   }
   @override
   Duration? nullableDurationFunction(Duration? input) {
-    final _nullableDurationFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DurationSeconds_nullableDurationFunction__Duration'));
+    final _nullableDurationFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DurationSeconds_nullableDurationFunction__Duration_'));
     final _inputHandle = durationToFfiNullable(input);
     final _handle = this.handle;
     final __resultHandle = _nullableDurationFunctionFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
