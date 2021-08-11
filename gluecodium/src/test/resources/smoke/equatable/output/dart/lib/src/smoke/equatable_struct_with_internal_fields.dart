@@ -15,7 +15,7 @@ class EquatableStructWithInternalFields {
   Set<String> internal_internalSetField;
   EquatableStructWithInternalFields(this.publicField, this.internal_internalField, this.internal_internalListField, this.internal_internalMapField, this.internal_internalSetField);
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! EquatableStructWithInternalFields) return false;
     EquatableStructWithInternalFields _other = other;

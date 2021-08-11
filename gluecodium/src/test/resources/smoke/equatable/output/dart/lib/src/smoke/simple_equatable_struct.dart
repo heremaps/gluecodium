@@ -9,7 +9,7 @@ class SimpleEquatableStruct {
   NonEquatableInterface? nullableInterfaceField;
   SimpleEquatableStruct(this.classField, this.interfaceField, this.nullableClassField, this.nullableInterfaceField);
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! SimpleEquatableStruct) return false;
     SimpleEquatableStruct _other = other;
