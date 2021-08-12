@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 9.4.0
+Release date: 2021-08-12
 ### Features:
   * Added support for tag-based platform-specific "enable" attribute in IDL (e.g. `@Java(EnableIf="Tag1")`, similarly
     for Swift and Dart). Elements marked with such attribute will be present in that platform's generated code only if
