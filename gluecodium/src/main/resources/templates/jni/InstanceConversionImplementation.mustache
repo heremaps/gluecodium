@@ -46,7 +46,7 @@ REGISTER_JNI_CLASS_CACHE("{{resolveName}}{{#notInstanceOf this "LimeClass"}}Impl
 {{/unlessPredicate}}
 
 {{#notInstanceOf this "LimeClass"}}{{#instanceOf this "LimeLambda"}}
-void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, {{resolveName "C++ FQN"}}& result)
+void {{>conversionPrefix}}createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, {{resolveName "C++ FQN"}}& result)
 {
     std::shared_ptr<{{resolveName "mangled"}}_CppProxy> _nproxy{};
     CppProxyBase::createProxy<{{resolveName "mangled"}}_CppProxy, {{resolveName "mangled"}}_CppProxy>({{!!
@@ -63,7 +63,7 @@ void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared
 }
 {{/notInstanceOf}}{{/notInstanceOf}}
 
-{{>cppTypeName}} convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, {{>cppTypeName}}*)
+{{>cppTypeName}} {{>conversionPrefix}}convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, {{>cppTypeName}}*)
 {
     {{>cppTypeName}} _nresult{};
     auto& nativeBaseClass = get_cached_native_base_class();
@@ -81,13 +81,13 @@ void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared
     }
     else
     {
-        createCppProxy(_env, _jobj, _nresult);
+        {{>conversionPrefix}}createCppProxy(_env, _jobj, _nresult);
     }
     return _nresult;
 }
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const {{>cppTypeName}}& _ninput)
+{{>conversionPrefix}}convert_to_jni(JNIEnv* _jenv, const {{>cppTypeName}}& _ninput)
 {
     if ( !_ninput )
     {
@@ -125,6 +125,7 @@ convert_to_jni(JNIEnv* _jenv, const {{>cppTypeName}}& _ninput)
     return jResult;
 }
 
+{{#ifPredicate "hasOverloadedLambda"}}{{>jni/LambdaOverloadedConversionImpl}}{{/ifPredicate}}
 {{/model}}
 }
 {{#internalNamespace}}
@@ -132,4 +133,6 @@ convert_to_jni(JNIEnv* _jenv, const {{>cppTypeName}}& _ninput)
 {{/internalNamespace}}{{!!
 
 }}{{+cppTypeName}}{{#instanceOf this "LimeLambda"}}{{resolveName "C++ FQN"}}{{/instanceOf}}{{!!
-}}{{#notInstanceOf this "LimeLambda"}}std::shared_ptr<{{resolveName "C++ FQN"}}>{{/notInstanceOf}}{{/cppTypeName}}
+}}{{#notInstanceOf this "LimeLambda"}}std::shared_ptr<{{resolveName "C++ FQN"}}>{{/notInstanceOf}}{{/cppTypeName}}{{!!
+
+}}{{+conversionPrefix}}{{#ifPredicate "hasOverloadedLambda"}}{{resolveName "mangled"}}_{{/ifPredicate}}{{/conversionPrefix}}

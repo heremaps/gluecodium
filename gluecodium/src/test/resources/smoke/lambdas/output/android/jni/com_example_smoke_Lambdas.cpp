@@ -27,7 +27,7 @@ Java_com_example_smoke_Lambdas_deconfuse(JNIEnv* _jenv, jobject _jinstance, jstr
             "nativeHandle",
             (int64_t*)nullptr));
     auto result = (*pInstanceSharedPointer)->deconfuse(value,confuser);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    return ::gluecodium::jni::com_example_smoke_Lambdas_00024Producer_convert_to_jni(_jenv, result).release();
 }
 jobject
 Java_com_example_smoke_Lambdas_fuse(JNIEnv* _jenv, jobject _jinstance, jobject jitems, jobject jcallback)

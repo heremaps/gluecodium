@@ -28,6 +28,7 @@ import com.here.gluecodium.generator.cpp.CppIncludeResolver
 import com.here.gluecodium.generator.cpp.CppNameCache
 import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
+import com.here.gluecodium.generator.java.JavaGenerator
 import com.here.gluecodium.generator.java.JavaNameRules
 import com.here.gluecodium.generator.jni.JniGeneratorPredicates.Companion.hasThrowingFunctions
 import com.here.gluecodium.model.lime.LimeAttributeType
@@ -51,13 +52,12 @@ internal class JniTemplates(
     private val internalPackages: List<String>,
     private val internalNamespace: List<String>,
     cppNameRules: CppNameRules,
-    generatorName: String,
     nameCache: CppNameCache,
     activeTags: Set<String>
 ) {
     private val jniNameResolver = JniNameResolver(limeReferenceMap, basePackages, javaNameRules)
     private val cppNameResolver = CppNameResolver(limeReferenceMap, internalNamespace, nameCache)
-    private val fileNameRules = JniFileNameRules(generatorName, jniNameResolver)
+    private val fileNameRules = JniFileNameRules(JavaGenerator.GENERATOR_NAME, jniNameResolver)
     private val nameResolvers = mapOf(
         "" to jniNameResolver,
         "signature" to JniTypeSignatureNameResolver(jniNameResolver),
@@ -66,7 +66,7 @@ internal class JniTemplates(
         "C++ FQN" to CppFullNameResolver(nameCache)
     )
     private val generatorPredicates =
-        JniGeneratorPredicates(limeReferenceMap, javaNameRules, cppNameResolver, activeTags)
+        JniGeneratorPredicates(limeReferenceMap, javaNameRules, nameCache.nameRules, cppNameResolver, activeTags)
 
     private val cppIncludeResolver = CppIncludeResolver(limeReferenceMap, cppNameRules, internalNamespace)
     private val jniIncludeResolver = JniIncludeResolver(fileNameRules)
@@ -264,7 +264,12 @@ internal class JniTemplates(
             "internalNamespace" to internalNamespace
         )
         val headerFile = GeneratedFile(
-            TemplateEngine.render("jni/InstanceConversionHeader", mustacheData, nameResolvers),
+            TemplateEngine.render(
+                "jni/InstanceConversionHeader",
+                mustacheData,
+                nameResolvers,
+                generatorPredicates.predicates
+            ),
             fileNameRules.getHeaderFilePath(fileName)
         )
 

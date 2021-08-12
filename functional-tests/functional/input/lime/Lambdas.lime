@@ -76,5 +76,4 @@ class ClassWithInternalLambda {
     internal static fun invokeInternalLambda(`lambda`: InternalLambda, value: String): Boolean
 }
 
-@Java(Skip) # TODO: #1026: fix in Java and remove this skip
 lambda SignatureClashLambda = () -> String

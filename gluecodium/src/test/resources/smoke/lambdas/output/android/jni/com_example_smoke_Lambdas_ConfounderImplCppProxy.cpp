@@ -25,7 +25,7 @@ com_example_smoke_Lambdas_00024Confounder_CppProxy::operator()( const ::std::str
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-    return convert_from_jni( jniEnv, result, (::smoke::Lambdas::Producer*)nullptr );
+    return com_example_smoke_Lambdas_00024Producer_convert_from_jni( jniEnv, result, (::smoke::Lambdas::Producer*)nullptr );
 }
 }
 }

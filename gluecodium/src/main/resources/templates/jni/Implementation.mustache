@@ -132,7 +132,7 @@ jint
 {{/if}}
 {{#parameters}}
 {{#unlessPredicate typeRef "isJniPrimitive"}}
-    {{resolveName typeRef "C++"}} {{resolveName}} = {{>common/InternalNamespace}}jni::convert_from_jni(_jenv,
+    {{resolveName typeRef "C++"}} {{resolveName}} = {{>common/InternalNamespace}}jni::{{>jni/JniConversionPrefix}}convert_from_jni(_jenv,
             {{>common/InternalNamespace}}jni::make_non_releasing_ref(j{{resolveName}}),
             ({{resolveName typeRef "C++"}}*)nullptr);
 {{/unlessPredicate}}{{#ifPredicate typeRef "isJniPrimitive"}}
@@ -162,7 +162,8 @@ jint
 {{/instanceOf}}{{#notInstanceOf exception.errorType.type.actualType "LimeEnumeration"}}
     if (!nativeCallResult.has_value())
     {
-        auto jErrorValue = {{>common/InternalNamespace}}jni::convert_to_jni(_jenv, nativeCallResult.error());
+        auto jErrorValue = {{>common/InternalNamespace}}jni::{{!!
+        }}{{#set typeRef=exception.errorType}}{{>jni/JniConversionPrefix}}{{/set}}convert_to_jni(_jenv, nativeCallResult.error());
 {{/notInstanceOf}}
         auto exceptionClass = {{>common/InternalNamespace}}jni::find_class(_jenv, "{{resolveName exception}}");
         auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "({{resolveName exception.errorType "signature"}})V");
@@ -190,7 +191,8 @@ jint
 }}{{>common/InternalNamespace}}jni::convert_to_jni_optimized(_jenv, result, {{!!
 }}"{{resolveName container "" "ref"}}${{resolveName returnType.typeRef "" "ref"}}"{{!!
 }}).release(){{/if}}{{!!
-}}{{#unless returnType.typeRef.attributes.optimized}}{{>common/InternalNamespace}}jni::convert_to_jni(_jenv, result).release(){{/unless}}{{/unlessPredicate}}{{!!
+}}{{#unless returnType.typeRef.attributes.optimized}}{{!!
+}}{{>common/InternalNamespace}}jni::{{#returnType}}{{>jni/JniConversionPrefix}}{{/returnType}}convert_to_jni(_jenv, result).release(){{/unless}}{{/unlessPredicate}}{{!!
 }}{{#ifPredicate returnType.typeRef "isJniPrimitive"}}result{{/ifPredicate}};{{/unlessPredicate}}{{/unless}}
 }
 {{/jniMethodBody}}{{!!
