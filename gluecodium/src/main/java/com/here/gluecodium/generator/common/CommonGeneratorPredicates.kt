@@ -20,6 +20,7 @@
 package com.here.gluecodium.generator.common
 
 import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
@@ -67,6 +68,14 @@ internal object CommonGeneratorPredicates {
             limeContainer is LimeInterface -> true
             limeContainer.visibility.isOpen -> true
             else -> limeContainer.parent != null
+        }
+
+    fun hasStaticFunctions(limeContainer: Any) =
+        when {
+            limeContainer !is LimeContainer -> false
+            limeContainer.functions.any { it.isStatic } -> true
+            limeContainer.properties.any { it.isStatic } -> true
+            else -> false
         }
 
     private fun getAllFieldTypes(limeType: LimeType) = getAllFieldTypesRec(getLeafType(limeType), mutableSetOf())

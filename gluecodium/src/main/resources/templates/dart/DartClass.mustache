@@ -21,7 +21,12 @@
 {{>dart/DartDocumentation}}{{>dart/DartAttributes}}
 abstract class {{resolveName}} {{#if this.parent}}implements {{resolveName this.parent}} {{/if}}{
 {{#set parent=this}}{{#constructors}}
-{{>dart/DartRedirectConstructor}}
+{{prefixPartial "dart/DartFunctionDocs" "  "}}
+  factory {{resolveName parent}}{{#unless attributes.dart.default}}{{!!
+  }}{{#isEq constructors.size 1}}{{#if attributes.dart.name}}.{{resolveName}}{{/if}}{{/isEq}}{{!!
+  }}{{#isNotEq constructors.size 1}}.{{resolveName}}{{/isNotEq}}{{/unless}}({{!!
+  }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
+  }}) => $prototype.{{resolveName visibility}}{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
 {{/constructors}}{{/set}}
 
 {{prefixPartial "dart/DartReleaseDocs" "  "}}
@@ -36,6 +41,12 @@ abstract class {{resolveName}} {{#if this.parent}}implements {{resolveName this.
 {{#set parent=this}}{{#properties}}
 {{prefixPartial "dart/DartRedirectProperty" "  "}}
 {{/properties}}{{/set}}
+{{#ifPredicate "hasStaticFunctions"}}
+
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = {{resolveName}}$Impl(Pointer<Void>.fromAddress(0));
+{{/ifPredicate}}
 }
 
 {{#enumerations}}
@@ -86,6 +97,10 @@ final _{{resolveName "Ffi"}}GetTypeId = __lib.catchArgumentError(() => __lib.nat
 {{>dart/DartFunctionException}}
 
 {{/functions}}
+{{#ifPredicate "hasStaticFunctions"}}
+/// @nodoc
+@visibleForTesting
+{{/ifPredicate}}
 class {{resolveName}}$Impl extends {{#if hasClassParent}}{{resolveName parent}}$Impl{{/if}}{{!!
 }}{{#unless hasClassParent}}__lib.NativeBase{{/unless}} implements {{resolveName}} {
 
@@ -94,7 +109,7 @@ class {{resolveName}}$Impl extends {{#if hasClassParent}}{{resolveName parent}}$
   @override
   void release() {}
 
-{{#set inheritanceParent=this.parent parent=this container=this}}{{#constructors}}
+{{#set inheritanceParent=this.parent parent=this container=this ignoreStatic=true}}{{#constructors}}
 {{prefixPartial "dartConstructor" "  "}}
 {{/constructors}}
 {{#functions}}
@@ -158,21 +173,22 @@ void {{resolveName "Ffi"}}ReleaseFfiHandleNullable(Pointer<Void> handle) =>
 // End of {{resolveName}} "private" section.{{!!
 
 }}{{+dartConstructor}}
-{{resolveName parent}}$Impl.{{resolveName visibility}}{{resolveName}}({{!!
-}}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) : {{!!
-}}super(_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})) {
-  __lib.cacheInstance(handle, this);
-  _{{resolveName parent "Ffi"}}RegisterFinalizer(handle, __lib.LibraryContext.isolateId, this);
+{{resolveName parent}} {{resolveName visibility}}{{resolveName}}({{!!
+}}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) {
+  final _result_handle = _{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
+  final _result = {{resolveName parent}}$Impl(_result_handle);
+  __lib.cacheInstance(_result_handle, _result);
+  _{{resolveName parent "Ffi"}}RegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+  return _result;
 }
 {{/dartConstructor}}{{!!
 
 }}{{+dartCachedProperty}}
-{{#if isStatic}}static {{/if}}late {{resolveName typeRef}} _{{resolveName}}Cache;
-{{#if isStatic}}static {{/if}}bool _{{resolveName}}IsCached = false;
+late {{resolveName typeRef}} _{{resolveName}}Cache;
+bool _{{resolveName}}IsCached = false;
 {{#unless isStatic}}@override
 {{/unless}}
-{{#if isStatic}}static {{/if}}{{!!
-}}{{resolveName typeRef}} get {{resolveName visibility}}{{resolveName}} {
+{{resolveName typeRef}} get {{resolveName visibility}}{{resolveName}} {
   if (!_{{resolveName}}IsCached) {
     final _{{resolveName getter}}Ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<{{!!
     }}{{resolveName typeRef "FfiApiTypes"}} Function({{#unless isStatic}}Pointer<Void>, {{/unless}}Int32), {{!!

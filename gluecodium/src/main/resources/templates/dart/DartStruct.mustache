@@ -30,12 +30,20 @@ class {{resolveName}}{{#if external.dart.converter}}Internal{{/if}} {
 {{>dartFieldsAndConstants}}
 {{#set parent=this isStruct=true}}{{#constructors}}
 {{prefixPartial "dart/DartFunctionDocs" "  "}}
-{{prefixPartial "dartConstructor" "  "}}
+  factory {{resolveName parent}}{{#if external.dart.converter}}Internal{{/if}}{{!!
+  }}{{#unless attributes.dart.default}}{{!!
+  }}{{#isEq constructors.size 1}}{{#if attributes.dart.name}}.{{resolveName}}{{/if}}{{/isEq}}{{!!
+  }}{{#isNotEq constructors.size 1}}.{{resolveName}}{{/isNotEq}}{{!!
+  }}{{/unless}}({{!!
+  }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
+  }}) => {{resolveName parent}}{{#if external.dart.converter}}Internal{{/if}}._copy({{!!
+  }}$prototype.{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}));
 {{/constructors}}
-{{#functions}}
+{{#functions}}{{#unless isConstructor}}
 {{prefixPartial "dart/DartFunctionDocs" "  "}}
-{{prefixPartial "dart/DartFunction" "  "}}
-{{/functions}}{{/set}}
+{{#if isStatic}}{{>dart/DartRedirectFunction}}{{/if}}{{!!
+}}{{#unless isStatic}}{{prefixPartial "dart/DartFunction" "  "}}{{/unless}}
+{{/unless}}{{/functions}}{{/set}}
 {{#if attributes.equatable}}{{#unless external.dart.converter}}
   @override
   bool operator ==(Object other) {
@@ -55,6 +63,12 @@ class {{resolveName}}{{#if external.dart.converter}}Internal{{/if}} {
     return result;
   }
 {{/unless}}{{/if}}
+{{#ifPredicate "hasStaticFunctions"}}
+
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = {{resolveName}}$Impl();
+{{/ifPredicate}}
 }
 {{/unlessPredicate}}
 
@@ -93,6 +107,17 @@ final _{{resolveName parent "Ffi"}}GetField{{resolveName "Ffi"}} = __lib.catchAr
 
 {{>dart/DartOptimizedLists}}
 
+{{#ifPredicate "hasStaticFunctions"}}
+
+/// @nodoc
+@visibleForTesting
+class {{resolveName}}$Impl {
+{{#set parent=this isStruct=true ignoreStatic=true}}{{#functions}}{{#if isStatic}}
+{{prefixPartial "dart/DartFunction" "  "}}
+{{/if}}{{/functions}}{{/set}}
+}
+{{/ifPredicate}}
+
 Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#if external.dart.converter}}External{{/if}}) {
 {{#if external.dart.converter}}
   final value = {{external.dart.converter}}.convertToInternal(valueExternal);
@@ -111,8 +136,7 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#i
 
 {{resolveName this "" "ref"}} {{resolveName "Ffi"}}FromFfi(Pointer<Void> handle) {
 {{#set parent=this}}{{#fields}}
-  final _{{resolveName}}Handle = {{!!
-  }}_{{resolveName parent "Ffi"}}GetField{{resolveName "Ffi"}}(handle);
+  final _{{resolveName}}Handle = _{{resolveName parent "Ffi"}}GetField{{resolveName "Ffi"}}(handle);
 {{/fields}}{{/set}}
   try {
 {{#if external.dart.converter}}
@@ -150,16 +174,6 @@ void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) => _{{resolveNa
 {{>dart/DartNullableTypeConversion}}
 
 // End of {{resolveName}} "private" section.{{!!
-
-}}{{+dartConstructor}}{{#if attributes.immutable}}const {{/if}}{{resolveName parent}}{{!!
-}}{{#unless attributes.dart.default}}{{!!
-}}{{#isEq constructors.size 1}}{{#if attributes.dart.name}}.{{resolveName visibility}}{{resolveName}}{{/if}}{{!!
-}}{{#unless attributes.dart.name}}{{#if visibility.isInternal}}.{{resolveName visibility}}{{/if}}{{/unless}}{{/isEq}}{{!!
-}}{{#isNotEq constructors.size 1}}.{{resolveName visibility}}{{resolveName}}{{/isNotEq}}{{!!
-}}{{/unless}}({{!!
-}}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) : {{!!
-}}this._copy(_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}));
-{{/dartConstructor}}{{!!
 
 }}{{+dartFieldEq}}{{!!
 }}{{#instanceOf typeRef.type.actualType "LimeList"}}DeepCollectionEquality().equals({{resolveName visibility}}{{resolveName}}, _other.{{resolveName visibility}}{{resolveName}}){{/instanceOf}}{{!!

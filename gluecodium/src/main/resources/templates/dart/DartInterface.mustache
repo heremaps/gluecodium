@@ -54,6 +54,12 @@ abstract class {{resolveName}} {{#if this.parent}}implements {{resolveName this.
 {{#set parent=this}}{{#properties}}
 {{prefixPartial "dart/DartRedirectProperty" "  "}}
 {{/properties}}{{/set}}
+{{#ifPredicate "hasStaticFunctions"}}
+
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = {{resolveName}}$Impl(Pointer<Void>.fromAddress(0));
+{{/ifPredicate}}
 }
 
 {{#enumerations}}
@@ -145,6 +151,10 @@ class {{resolveName}}$Lambdas implements {{resolveName}} {
 }
 {{/if}}
 
+{{#ifPredicate "hasStaticFunctions"}}
+/// @nodoc
+@visibleForTesting
+{{/ifPredicate}}
 class {{resolveName}}$Impl extends __lib.NativeBase implements {{resolveName}} {
 
   {{resolveName}}$Impl(Pointer<Void> handle) : super(handle);
@@ -152,13 +162,13 @@ class {{resolveName}}$Impl extends __lib.NativeBase implements {{resolveName}} {
   @override
   void release() {}
 
-{{#set parent=this}}{{#each inheritedFunctions functions}}
+{{#set ignoreStatic=true}}{{#set parent=this}}{{#each inheritedFunctions functions}}
   @override
 {{prefixPartial "dart/DartFunction" "  "}}
 {{/each}}{{/set}}
 {{#each inheritedProperties properties}}
 {{prefixPartial "dart/DartProperty" "  "}}
-{{/each}}
+{{/each}}{{/set}}
 {{#if attributes.equatable}}{{#set self=this nameSuffix="$Impl"}}{{#self}}{{!!
 }}{{prefixPartial "dart/DartEqualityOperator" "  "}}{{!!
 }}{{/self}}{{/set}}{{/if}}
