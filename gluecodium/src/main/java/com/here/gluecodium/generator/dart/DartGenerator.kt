@@ -85,7 +85,6 @@ internal class DartGenerator : Generator {
     private lateinit var commentsProcessor: CommentsProcessor
     private lateinit var activeTags: Set<String>
     private var overloadsWerror: Boolean = false
-    private var testableMode: Boolean = false
 
     override val shortName = "dart"
 
@@ -99,7 +98,6 @@ internal class DartGenerator : Generator {
         internalPrefix = options.internalPrefix ?: ""
         commentsProcessor = DartCommentsProcessor(options.werror.contains(GeneratorOptions.WARNING_DOC_LINKS))
         overloadsWerror = options.werror.contains(GeneratorOptions.WARNING_DART_OVERLOADS)
-        testableMode = options.generateStubs
         activeTags = options.tags
     }
 
@@ -217,7 +215,6 @@ internal class DartGenerator : Generator {
                 "model" to rootElement,
                 "contentTemplate" to contentTemplateName,
                 "libraryName" to libraryName,
-                "testableMode" to testableMode,
                 "optimizedLists" to optimizedLists
             ),
             nameResolvers,

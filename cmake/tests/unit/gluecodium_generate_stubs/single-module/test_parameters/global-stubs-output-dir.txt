@@ -1,3 +1,0 @@
--DTEST_INFO="When GLUECODIUM_BASE_STUBS_OUTPUT_DIR_DEFAULT is set then GLUECODIUM_OUTPUT_DIR is constructed based on it"
--DGLUECODIUM_BASE_STUBS_OUTPUT_DIR_DEFAULT=gluecodium-custom-stubs
--DEXPECTED_OUTPUT_DIR=gluecodium-custom-stubs/single.module.stubs/cpp-dart

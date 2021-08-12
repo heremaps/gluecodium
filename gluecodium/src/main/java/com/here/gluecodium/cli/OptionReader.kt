@@ -123,12 +123,6 @@ object OptionReader {
                 ).joinToString()
         )
         addOption(
-            "stubs",
-            "generate-stubs",
-            false,
-            "Generate stubs for classes and methods, enabling mocking in unit tests. Only supported for Dart."
-        )
-        addOption(
             "swiftexpose",
             "swift-expose-internals",
             false,
@@ -199,7 +193,6 @@ object OptionReader {
         getStringValue("dartlookuperrormessage")?.let { generatorOptions.dartLookupErrorMessage = it }
         getStringListValue("werror")?.let { generatorOptions.werror = it.toSet() }
 
-        generatorOptions.generateStubs = getFlagValue("stubs")
         generatorOptions.swiftExposeInternals = getFlagValue("swiftexpose")
 
         generatorOptions.cppNameRules = readConfigFile(getStringValue("cppnamerules"), generatorOptions.cppNameRules)

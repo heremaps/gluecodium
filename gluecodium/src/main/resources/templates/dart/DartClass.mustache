@@ -35,11 +35,7 @@ abstract class {{resolveName}} {{#if this.parent}}implements {{resolveName this.
 {{/unless}}{{/functions}}{{/set}}
 {{#set parent=this}}{{#properties}}
 {{prefixPartial "dart/DartRedirectProperty" "  "}}
-{{/properties}}{{/set}}{{!!
-}}{{#if testableMode}}
-
-  static var $class = {{resolveName}}$Impl(null);
-{{/if}}
+{{/properties}}{{/set}}
 }
 
 {{#enumerations}}
@@ -98,7 +94,7 @@ class {{resolveName}}$Impl extends {{#if hasClassParent}}{{resolveName parent}}$
   @override
   void release() {}
 
-{{#set inheritanceParent=this.parent parent=this container=this ignoreStatic=testableMode}}{{#constructors}}
+{{#set inheritanceParent=this.parent parent=this container=this}}{{#constructors}}
 {{prefixPartial "dartConstructor" "  "}}
 {{/constructors}}
 {{#functions}}
@@ -161,31 +157,21 @@ void {{resolveName "Ffi"}}ReleaseFfiHandleNullable(Pointer<Void> handle) =>
 
 // End of {{resolveName}} "private" section.{{!!
 
-}}{{+dartConstructor}}{{#if testableMode}}
-{{resolveName parent}} {{resolveName visibility}}{{resolveName}}({{!!
-}}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) {
-  final result = {{resolveName parent}}$Impl({{!!
-  }}_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}));
-  __lib.cacheInstance(handle, result);
-  _{{resolveName parent "Ffi"}}RegisterFinalizer(handle, __lib.LibraryContext.isolateId, result);
-  return result;
-}
-{{/if}}{{!!
-}}{{#unless testableMode}}
+}}{{+dartConstructor}}
 {{resolveName parent}}$Impl.{{resolveName visibility}}{{resolveName}}({{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) : {{!!
 }}super(_{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})) {
   __lib.cacheInstance(handle, this);
   _{{resolveName parent "Ffi"}}RegisterFinalizer(handle, __lib.LibraryContext.isolateId, this);
 }
-{{/unless}}{{/dartConstructor}}{{!!
+{{/dartConstructor}}{{!!
 
 }}{{+dartCachedProperty}}
-{{#if isStatic}}{{#unless testableMode}}static {{/unless}}{{/if}}late {{resolveName typeRef}} _{{resolveName}}Cache;
-{{#if isStatic}}{{#unless testableMode}}static {{/unless}}{{/if}}bool _{{resolveName}}IsCached = false;
+{{#if isStatic}}static {{/if}}late {{resolveName typeRef}} _{{resolveName}}Cache;
+{{#if isStatic}}static {{/if}}bool _{{resolveName}}IsCached = false;
 {{#unless isStatic}}@override
 {{/unless}}
-{{#if isStatic}}{{#unless testableMode}}static {{/unless}}{{/if}}{{!!
+{{#if isStatic}}static {{/if}}{{!!
 }}{{resolveName typeRef}} get {{resolveName visibility}}{{resolveName}} {
   if (!_{{resolveName}}IsCached) {
     final _{{resolveName getter}}Ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<{{!!

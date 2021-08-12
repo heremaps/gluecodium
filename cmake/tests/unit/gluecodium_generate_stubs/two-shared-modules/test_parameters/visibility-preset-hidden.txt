@@ -1,2 +1,0 @@
--DTEST_INFO="Hide symbols by default"
--DCMAKE_CXX_VISIBILITY_PRESET=hidden

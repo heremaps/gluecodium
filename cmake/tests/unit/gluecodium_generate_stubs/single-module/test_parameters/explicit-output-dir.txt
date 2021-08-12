@@ -1,5 +1,0 @@
--DTEST_INFO="OUTPUT_DIR option has precedence over all globally specified variables"
--DGLUECODIUM_BASE_OUTPUT_DIR_DEFAULT=gluecodium-custom
--DGLUECODIUM_BASE_STUBS_OUTPUT_DIR_DEFAULT=gluecodium-custom-stubs
--DEXPLICIT_OUTPUT_DIR=gluecodium-output-dir
--DEXPECTED_OUTPUT_DIR=gluecodium-output-dir
