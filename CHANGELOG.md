@@ -12,6 +12,7 @@
   * Fixed "dart analyze" warnings about unused imports.
   * Fixed validation of function overloads for C++, Java, and Swift generators; and related issues.
   * Fixed compilation issues in Java and Swift when two lambdas have the same signature.
+  * Fixed compilation issue in Dart when creating a mock of an `@Equatable` struct or class.
 
 ## 9.3.5
 Release date: 2021-07-28
