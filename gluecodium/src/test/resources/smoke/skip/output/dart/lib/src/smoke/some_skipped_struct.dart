@@ -7,7 +7,7 @@ class SomeSkippedStruct {
   List<SomeSkippedEnum> field;
   SomeSkippedStruct(this.field);
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! SomeSkippedStruct) return false;
     SomeSkippedStruct _other = other;

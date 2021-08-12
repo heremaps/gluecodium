@@ -71,7 +71,7 @@ class EquatableStruct {
   Map<int, String> mapField;
   EquatableStruct(this.boolField, this.intField, this.longField, this.floatField, this.doubleField, this.stringField, this.structField, this.enumField, this.arrayField, this.mapField);
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! EquatableStruct) return false;
     EquatableStruct _other = other;
@@ -247,7 +247,7 @@ class EquatableNullableStruct {
   Map<int, String>? mapField;
   EquatableNullableStruct(this.boolField, this.intField, this.uintField, this.floatField, this.stringField, this.structField, this.enumField, this.arrayField, this.mapField);
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! EquatableNullableStruct) return false;
     EquatableNullableStruct _other = other;
@@ -412,7 +412,7 @@ class NestedEquatableStruct {
   String fooField;
   NestedEquatableStruct(this.fooField);
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! NestedEquatableStruct) return false;
     NestedEquatableStruct _other = other;
