@@ -69,7 +69,7 @@ namespace jni
     JNIEnv* jniEnv = getJniEnvironment( );{{!!
 }}{{#parameters}}{{!!
 }}{{#unlessPredicate typeRef "isJniPrimitive"}}
-    auto j{{resolveName}} = convert_to_jni( jniEnv, n{{resolveName}} );{{!!
+    auto j{{resolveName}} = {{>jni/JniConversionPrefix}}convert_to_jni( jniEnv, n{{resolveName}} );{{!!
 }}{{/unlessPredicate}}{{#ifPredicate typeRef "isJniPrimitive"}}
     {{resolveName typeRef}} j{{resolveName}} = n{{resolveName}};{{!!
 }}{{/ifPredicate}}{{!!
@@ -89,7 +89,7 @@ namespace jni
             jException,
             "error",
             "{{resolveName exception.errorType "signature"}}" );
-        auto nErrorValue = convert_from_jni(
+        auto nErrorValue = {{#set typeRef=exception.errorType}}{{>jni/JniConversionPrefix}}{{/set}}convert_from_jni(
             jniEnv,
             jErrorValue,
             ({{resolveName exception.errorType "C++ FQN"}}*)nullptr );
@@ -112,7 +112,8 @@ namespace jni
     }
 {{/unless}}{{!!
 }}{{#unless returnType.isVoid}}
-    return {{#unlessPredicate returnType.typeRef "isJniPrimitive"}}convert_from_jni( jniEnv, result, {{!!
+    return {{#unlessPredicate returnType.typeRef "isJniPrimitive"}}{{!!
+    }}{{#returnType}}{{>jni/JniConversionPrefix}}{{/returnType}}convert_from_jni( jniEnv, result, {{!!
     }}({{resolveName returnType "C++"}}*)nullptr ){{/unlessPredicate}}{{!!
     }}{{#ifPredicate returnType.typeRef "isJniPrimitive"}}result{{/ifPredicate}};
 {{/unless}}

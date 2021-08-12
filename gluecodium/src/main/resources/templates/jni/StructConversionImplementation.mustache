@@ -50,7 +50,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput{{!!
 {{#fields}}{{#if external.java.getterName}}{{#unlessPredicate typeRef "isJniPrimitive"}}
     auto j_{{resolveName "C++"}} = call_java_method<{{resolveName typeRef}}>(_jenv, _jinput, {{!!
     }}"{{external.java.getterName}}", "(){{resolveName typeRef "signature"}}");
-    auto n_{{resolveName "C++"}} = convert_from_jni(_jenv, j_{{resolveName "C++"}}, ({{resolveName typeRef "C++"}}*)nullptr);
+    auto n_{{resolveName "C++"}} = {{>jni/JniConversionPrefix}}convert_from_jni(_jenv, j_{{resolveName "C++"}}, ({{resolveName typeRef "C++"}}*)nullptr);
 {{/unlessPredicate}}{{#ifPredicate typeRef "isJniPrimitive"}}
     auto n_{{resolveName "C++"}} = call_java_method<{{resolveName typeRef}}>(_jenv, _jinput, {{!!
     }}"{{external.java.getterName}}", "(){{resolveName typeRef "signature"}}");
@@ -61,7 +61,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput{{!!
     auto {{resolveName "C++"}}_handle = get_field_value(_jenv, j_{{resolveName "C++"}}, "nativeHandle", (int64_t*)nullptr);
     auto& n_{{resolveName "C++"}} = **reinterpret_cast<std::shared_ptr<{{resolveName typeRef "C++"}}>*>({{resolveName "C++"}}_handle);
 {{/if}}{{#unless typeRef.attributes.optimized}}
-    {{resolveName typeRef "C++"}} n_{{resolveName "C++"}} = convert_from_jni(
+    {{resolveName typeRef "C++"}} n_{{resolveName "C++"}} = {{>jni/JniConversionPrefix}}convert_from_jni(
         _jenv,
         {{>common/InternalNamespace}}jni::get_object_field_value({{!!
         }}_jenv, _jinput, "{{resolveName}}", "L{{resolveName typeRef.type.actualType}};"),
@@ -99,7 +99,7 @@ convert_to_jni(JNIEnv* _jenv, const {{resolveName "C++ FQN"}}& _ninput)
     auto& javaClass = CachedJavaClass<{{resolveName "C++ FQN"}}>::java_class;
     auto _jresult = {{>common/InternalNamespace}}jni::alloc_object(_jenv, javaClass);
 {{#set struct=this}}{{#fields}}{{#if external.java.setterName}}{{#unlessPredicate typeRef "isJniPrimitive"}}
-    auto j{{resolveName "C++"}} = convert_to_jni(_jenv, {{>getCppFieldValue}});
+    auto j{{resolveName "C++"}} = {{>jni/JniConversionPrefix}}convert_to_jni(_jenv, {{>getCppFieldValue}});
     call_java_method<void>(_jenv, _jresult, "{{external.java.setterName}}", {{!!
     }}"({{resolveName typeRef "signature"}})V", j{{cppField.name}});
 {{/unlessPredicate}}{{#ifPredicate typeRef "isJniPrimitive"}}
@@ -109,7 +109,7 @@ convert_to_jni(JNIEnv* _jenv, const {{resolveName "C++ FQN"}}& _ninput)
 }}{{#unless external.java.setterName}}{{#notInstanceOf typeRef.type.actualType "LimeBasicType"}}
     auto j{{resolveName "C++"}} = {{#if typeRef.attributes.optimized}}{{!!
 }}convert_to_jni_optimized(_jenv, {{>getCppFieldValue}}, "{{resolveName struct "" "ref"}}${{resolveName typeRef "" "ref"}}"){{/if}}{{!!
-}}{{#unless typeRef.attributes.optimized}}convert_to_jni(_jenv, {{>getCppFieldValue}}){{/unless}};
+}}{{#unless typeRef.attributes.optimized}}{{>jni/JniConversionPrefix}}convert_to_jni(_jenv, {{>getCppFieldValue}}){{/unless}};
     {{>common/InternalNamespace}}jni::set_object_field_value({{!!
     }}_jenv, _jresult, "{{resolveName}}", "L{{resolveName typeRef.type.actualType}};", j{{resolveName "C++"}});
 {{/notInstanceOf}}{{#instanceOf typeRef.type.actualType "LimeBasicType"}}

@@ -53,7 +53,7 @@ JNIEXPORT jobject JNICALL
         return {};
     } else {
         auto& result = {{>typeDereference}}vector->operator[](index);
-        return {{>common/InternalNamespace}}jni::convert_to_jni(_jenv, result).release();
+        return {{>common/InternalNamespace}}jni::{{>jni/JniConversionPrefix}}convert_to_jni(_jenv, result).release();
     }
 }
 
