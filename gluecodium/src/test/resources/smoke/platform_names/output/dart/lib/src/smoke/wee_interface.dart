@@ -4,14 +4,18 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/wee_types.dart';
+import 'package:meta/meta.dart';
 abstract class weeInterface {
-  factory weeInterface.make(String makeParameter) => weeInterface$Impl.make(makeParameter);
+  factory weeInterface.make(String makeParameter) => $prototype.make(makeParameter);
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
   weeStruct WeeMethod(String WeeParameter);
   int get WEE_PROPERTY;
   set WEE_PROPERTY(int value);
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = weeInterface$Impl(Pointer<Void>.fromAddress(0));
 }
 // weeInterface "private" section, not exported.
 final _smokePlatformnamesinterfaceRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -26,13 +30,18 @@ final _smokePlatformnamesinterfaceReleaseHandle = __lib.catchArgumentError(() =>
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_PlatformNamesInterface_release_handle'));
+/// @nodoc
+@visibleForTesting
 class weeInterface$Impl extends __lib.NativeBase implements weeInterface {
   weeInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {}
-  weeInterface$Impl.make(String makeParameter) : super(_make(makeParameter)) {
-    __lib.cacheInstance(handle, this);
-    _smokePlatformnamesinterfaceRegisterFinalizer(handle, __lib.LibraryContext.isolateId, this);
+  weeInterface make(String makeParameter) {
+    final _result_handle = _make(makeParameter);
+    final _result = weeInterface$Impl(_result_handle);
+    __lib.cacheInstance(_result_handle, _result);
+    _smokePlatformnamesinterfaceRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+    return _result;
   }
   @override
   weeStruct WeeMethod(String WeeParameter) {

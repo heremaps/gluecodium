@@ -26,6 +26,7 @@ import com.here.gluecodium.common.LimeModelSkipPredicates
 import com.here.gluecodium.common.LimeTypeRefsVisitor
 import com.here.gluecodium.generator.common.CamelCaseNameResolver
 import com.here.gluecodium.generator.common.CommentsProcessor
+import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.GeneratedFile.SourceSet.COMMON
 import com.here.gluecodium.generator.common.Generator
@@ -196,13 +197,15 @@ internal class DartGenerator : Generator {
         val allTypes = LimeTypeHelper.getAllTypes(rootElement).filterNot { it is LimeTypeAlias }
         val nonExternalTypes = allTypes.filter { it.external?.dart == null }
         val freeConstants = (rootElement as? LimeTypesCollection)?.constants ?: emptyList()
-        val allSymbols = (nonExternalTypes + freeConstants)
-            .filterNot { it.visibility.isInternal }
-            .map { dartNameResolver.resolveName(it) }
+        val allSymbols = (nonExternalTypes + freeConstants).filterNot { it.visibility.isInternal }
         if (allSymbols.isNotEmpty()) {
+            val allNames = allSymbols.map { dartNameResolver.resolveName(it) }
+            val testNames = allSymbols
+                .filter { CommonGeneratorPredicates.hasStaticFunctions(it) }
+                .map { dartNameResolver.resolveName(it) + "\$Impl" }
             exportsCollector
                 .getOrPut(rootElement.path.head) { mutableListOf() }
-                .add(DartExport(relativePath, allSymbols.sorted()))
+                .add(DartExport(relativePath, (allNames + testNames).sorted()))
         }
         typeRepositoriesCollector += getTypeRepositories(allTypes)
         val optimizedLists = OptimizedListsCollector().getAllOptimizedLists(rootElement)
@@ -537,6 +540,7 @@ internal class DartGenerator : Generator {
 
         private fun predicates(limeReferenceMap: Map<String, LimeElement>, activeTags: Set<String>) =
             mapOf(
+                "hasStaticFunctions" to CommonGeneratorPredicates::hasStaticFunctions,
                 "skipDeclaration" to { limeType: Any ->
                     limeType is LimeType && skipDeclaration(limeType)
                 },

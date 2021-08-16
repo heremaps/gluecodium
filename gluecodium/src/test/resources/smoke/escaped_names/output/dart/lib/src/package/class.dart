@@ -7,14 +7,18 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/package/interface.dart';
 import 'package:library/src/package/types.dart';
+import 'package:meta/meta.dart';
 abstract class Class implements Interface {
-  factory Class() => Class$Impl.constructor();
+  factory Class() => $prototype.constructor();
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
   Struct fun(List<Struct> double);
   Enum get property;
   set property(Enum value);
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = Class$Impl(Pointer<Void>.fromAddress(0));
 }
 // Class "private" section, not exported.
 final _packageClassRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -49,13 +53,18 @@ final _funReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lo
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_package_Class_fun__ListOf_package_Types_Struct_return_has_error'));
+/// @nodoc
+@visibleForTesting
 class Class$Impl extends __lib.NativeBase implements Class {
   Class$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {}
-  Class$Impl.constructor() : super(_constructor()) {
-    __lib.cacheInstance(handle, this);
-    _packageClassRegisterFinalizer(handle, __lib.LibraryContext.isolateId, this);
+  Class constructor() {
+    final _result_handle = _constructor();
+    final _result = Class$Impl(_result_handle);
+    __lib.cacheInstance(_result_handle, _result);
+    _packageClassRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+    return _result;
   }
   static Pointer<Void> _constructor() {
     final _constructorFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_package_Class_constructor'));

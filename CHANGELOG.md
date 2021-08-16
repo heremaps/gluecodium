@@ -1,6 +1,8 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Features:
+  * Added `$prototype` field to types with static functions/properties, to allow for mocking of these statics in tests.
 ### Removed:
   * Dart "-stubs" testable mode was removed.
 

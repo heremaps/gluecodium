@@ -2,17 +2,21 @@ import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
+import 'package:meta/meta.dart';
 abstract class EnableIfEnabled {
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
-  static void enableIfUnquoted() => EnableIfEnabled$Impl.enableIfUnquoted();
-  static void enableIfUnquotedList() => EnableIfEnabled$Impl.enableIfUnquotedList();
-  static void enableIfQuoted() => EnableIfEnabled$Impl.enableIfQuoted();
-  static void enableIfQuotedList() => EnableIfEnabled$Impl.enableIfQuotedList();
-  static void enableIfTagged() => EnableIfEnabled$Impl.enableIfTagged();
-  static void enableIfTaggedList() => EnableIfEnabled$Impl.enableIfTaggedList();
-  static void enableIfMixedList() => EnableIfEnabled$Impl.enableIfMixedList();
+  static void enableIfUnquoted() => $prototype.enableIfUnquoted();
+  static void enableIfUnquotedList() => $prototype.enableIfUnquotedList();
+  static void enableIfQuoted() => $prototype.enableIfQuoted();
+  static void enableIfQuotedList() => $prototype.enableIfQuotedList();
+  static void enableIfTagged() => $prototype.enableIfTagged();
+  static void enableIfTaggedList() => $prototype.enableIfTaggedList();
+  static void enableIfMixedList() => $prototype.enableIfMixedList();
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = EnableIfEnabled$Impl(Pointer<Void>.fromAddress(0));
 }
 // EnableIfEnabled "private" section, not exported.
 final _smokeEnableifenabledRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -27,35 +31,37 @@ final _smokeEnableifenabledReleaseHandle = __lib.catchArgumentError(() => __lib.
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_EnableIfEnabled_release_handle'));
+/// @nodoc
+@visibleForTesting
 class EnableIfEnabled$Impl extends __lib.NativeBase implements EnableIfEnabled {
   EnableIfEnabled$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {}
-  static void enableIfUnquoted() {
+  void enableIfUnquoted() {
     final _enableIfUnquotedFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfUnquoted'));
     _enableIfUnquotedFfi(__lib.LibraryContext.isolateId);
   }
-  static void enableIfUnquotedList() {
+  void enableIfUnquotedList() {
     final _enableIfUnquotedListFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfUnquotedList'));
     _enableIfUnquotedListFfi(__lib.LibraryContext.isolateId);
   }
-  static void enableIfQuoted() {
+  void enableIfQuoted() {
     final _enableIfQuotedFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfQuoted'));
     _enableIfQuotedFfi(__lib.LibraryContext.isolateId);
   }
-  static void enableIfQuotedList() {
+  void enableIfQuotedList() {
     final _enableIfQuotedListFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfQuotedList'));
     _enableIfQuotedListFfi(__lib.LibraryContext.isolateId);
   }
-  static void enableIfTagged() {
+  void enableIfTagged() {
     final _enableIfTaggedFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfTagged'));
     _enableIfTaggedFfi(__lib.LibraryContext.isolateId);
   }
-  static void enableIfTaggedList() {
+  void enableIfTaggedList() {
     final _enableIfTaggedListFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfTaggedList'));
     _enableIfTaggedListFfi(__lib.LibraryContext.isolateId);
   }
-  static void enableIfMixedList() {
+  void enableIfMixedList() {
     final _enableIfMixedListFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfMixedList'));
     _enableIfMixedListFfi(__lib.LibraryContext.isolateId);
   }

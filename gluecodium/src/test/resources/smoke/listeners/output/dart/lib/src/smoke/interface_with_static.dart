@@ -4,6 +4,7 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:meta/meta.dart';
 abstract class InterfaceWithStatic {
   factory InterfaceWithStatic(
     String Function() regularFunctionLambda,
@@ -18,11 +19,14 @@ abstract class InterfaceWithStatic {
   @Deprecated("Does nothing")
   void release() {}
   String regularFunction();
-  static String staticFunction() => InterfaceWithStatic$Impl.staticFunction();
+  static String staticFunction() => $prototype.staticFunction();
   String get regularProperty;
   set regularProperty(String value);
-  static String get staticProperty => InterfaceWithStatic$Impl.staticProperty;
-  static set staticProperty(String value) { InterfaceWithStatic$Impl.staticProperty = value; }
+  static String get staticProperty => $prototype.staticProperty;
+  static set staticProperty(String value) { $prototype.staticProperty = value; }
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = InterfaceWithStatic$Impl(Pointer<Void>.fromAddress(0));
 }
 // InterfaceWithStatic "private" section, not exported.
 final _smokeInterfacewithstaticRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -64,6 +68,8 @@ class InterfaceWithStatic$Lambdas implements InterfaceWithStatic {
   @override
   set regularProperty(String value) => regularPropertySetLambda(value);
 }
+/// @nodoc
+@visibleForTesting
 class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWithStatic {
   InterfaceWithStatic$Impl(Pointer<Void> handle) : super(handle);
   @override
@@ -80,7 +86,7 @@ class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWith
     }
   }
   @override
-  static String staticFunction() {
+  String staticFunction() {
     final _staticFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InterfaceWithStatic_staticFunction'));
     final __resultHandle = _staticFunctionFfi(__lib.LibraryContext.isolateId);
     try {
@@ -106,7 +112,7 @@ class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWith
     _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
   }
-  static String get staticProperty {
+  String get staticProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InterfaceWithStatic_staticProperty_get'));
     final __resultHandle = _getFfi(__lib.LibraryContext.isolateId);
     try {
@@ -115,7 +121,7 @@ class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWith
       stringReleaseFfiHandle(__resultHandle);
     }
   }
-  static set staticProperty(String value) {
+  set staticProperty(String value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32, Pointer<Void>), void Function(int, Pointer<Void>)>('library_smoke_InterfaceWithStatic_staticProperty_set__String'));
     final _valueHandle = stringToFfi(value);
     _setFfi(__lib.LibraryContext.isolateId, _valueHandle);

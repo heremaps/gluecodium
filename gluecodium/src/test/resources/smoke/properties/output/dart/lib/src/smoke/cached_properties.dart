@@ -5,12 +5,16 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
+import 'package:meta/meta.dart';
 abstract class CachedProperties {
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
   List<String> get cachedProperty;
-  static Uint8List get staticCachedProperty => CachedProperties$Impl.staticCachedProperty;
+  static Uint8List get staticCachedProperty => $prototype.staticCachedProperty;
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = CachedProperties$Impl(Pointer<Void>.fromAddress(0));
 }
 // CachedProperties "private" section, not exported.
 final _smokeCachedpropertiesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -25,6 +29,8 @@ final _smokeCachedpropertiesReleaseHandle = __lib.catchArgumentError(() => __lib
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_CachedProperties_release_handle'));
+/// @nodoc
+@visibleForTesting
 class CachedProperties$Impl extends __lib.NativeBase implements CachedProperties {
   CachedProperties$Impl(Pointer<Void> handle) : super(handle);
   @override
@@ -45,9 +51,9 @@ class CachedProperties$Impl extends __lib.NativeBase implements CachedProperties
     }
     return _cachedPropertyCache;
   }
-  static late Uint8List _staticCachedPropertyCache;
-  static bool _staticCachedPropertyIsCached = false;
-  static Uint8List get staticCachedProperty {
+  late Uint8List _staticCachedPropertyCache;
+  bool _staticCachedPropertyIsCached = false;
+  Uint8List get staticCachedProperty {
     if (!_staticCachedPropertyIsCached) {
       final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_CachedProperties_staticCachedProperty_get'));
       final __resultHandle = _getFfi(__lib.LibraryContext.isolateId);

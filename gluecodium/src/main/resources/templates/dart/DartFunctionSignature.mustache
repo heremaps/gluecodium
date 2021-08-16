@@ -18,9 +18,10 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if isStatic}}{{#unless ignoreStatic}}static {{/unless}}{{/if}}{{!!
+{{#unless isConstructor}}{{#if isStatic}}{{#unless ignoreStatic}}static {{/unless}}{{/if}}{{/unless}}{{!!
 }}{{#if isConstructor}}{{#if isStruct}}{{resolveName returnType}} {{/if}}{{!!
-}}{{#unless isStruct}}Pointer<Void> {{/unless}}{{/if}}{{!!
+}}{{#unless isStruct}}static Pointer<Void> {{/unless}}{{/if}}{{!!
 }}{{#unless isConstructor}}{{resolveName returnType}} {{/unless}}{{!!
-}}{{#if isConstructor}}_{{/if}}{{#unless isConstructor}}{{resolveName visibility}}{{/unless}}{{resolveName}}({{!!
+}}{{#if isConstructor}}{{#unless isStruct}}_{{/unless}}{{/if}}{{!!
+}}{{#unless isConstructor}}{{resolveName visibility}}{{/unless}}{{resolveName}}({{!!
 }}{{#parameters}}{{>dart/DartAttributesInline}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})

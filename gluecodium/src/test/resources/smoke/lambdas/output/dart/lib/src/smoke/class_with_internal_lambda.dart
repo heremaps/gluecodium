@@ -3,11 +3,15 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:meta/meta.dart';
 abstract class ClassWithInternalLambda {
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
-  static bool invokeInternalLambda(ClassWithInternalLambda_InternalLambda lambda, String value) => ClassWithInternalLambda$Impl.invokeInternalLambda(lambda, value);
+  static bool invokeInternalLambda(ClassWithInternalLambda_InternalLambda lambda, String value) => $prototype.invokeInternalLambda(lambda, value);
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = ClassWithInternalLambda$Impl(Pointer<Void>.fromAddress(0));
 }
 /// @nodoc
 typedef ClassWithInternalLambda_InternalLambda = bool Function(String);
@@ -113,11 +117,13 @@ final _smokeClasswithinternallambdaReleaseHandle = __lib.catchArgumentError(() =
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ClassWithInternalLambda_release_handle'));
+/// @nodoc
+@visibleForTesting
 class ClassWithInternalLambda$Impl extends __lib.NativeBase implements ClassWithInternalLambda {
   ClassWithInternalLambda$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {}
-  static bool invokeInternalLambda(ClassWithInternalLambda_InternalLambda lambda, String value) {
+  bool invokeInternalLambda(ClassWithInternalLambda_InternalLambda lambda, String value) {
     final _invokeInternalLambdaFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Pointer<Void>, Pointer<Void>), int Function(int, Pointer<Void>, Pointer<Void>)>('library_smoke_ClassWithInternalLambda_invokeInternalLambda__InternalLambda_String'));
     final _lambdaHandle = smokeClasswithinternallambdaInternallambdaToFfi(lambda);
     final _valueHandle = stringToFfi(value);

@@ -19,6 +19,7 @@
 
 package com.here.gluecodium.generator.dart
 
+import com.here.gluecodium.generator.common.CommonGeneratorPredicates.hasStaticFunctions
 import com.here.gluecodium.generator.dart.DartImport.ImportType
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeClass
@@ -53,10 +54,8 @@ internal class DartDeclarationImportResolver(srcPath: String) : DartImportResolv
         return when {
             limeElement is LimeLambda -> listOf(tokenCacheImport)
             limeElement is LimeStruct && limeElement.external?.dart == null -> resolveStructImports(limeElement)
-            limeElement is LimeInterface -> classInterfaceImports
-            limeElement is LimeClass && (limeElement.parent != null || limeElement.visibility.isOpen) ->
-                classInterfaceImports
-            limeElement is LimeClass -> listOf(tokenCacheImport, nativeBaseImport)
+            limeElement is LimeInterface -> resolveInterfaceImports(limeElement)
+            limeElement is LimeClass -> resolveClassImports(limeElement)
             else -> emptyList()
         } + listOfNotNull(
             resolveExternalImport(limeElement, IMPORT_PATH_NAME, useAlias = true),
@@ -69,13 +68,22 @@ internal class DartDeclarationImportResolver(srcPath: String) : DartImportResolv
         if (limeStruct.attributes.have(LimeAttributeType.EQUATABLE) &&
             limeStruct.fields.any { it.typeRef.type.actualType is LimeGenericType }
         ) {
-            result += listOf(collectionPackageImport)
+            result += collectionPackageImport
         }
-        if (limeStruct.attributes.have(LimeAttributeType.IMMUTABLE)) {
-            result += listOf(metaPackageImport)
+        if (limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) || hasStaticFunctions(limeStruct)) {
+            result += metaPackageImport
         }
         return result
     }
+
+    private fun resolveInterfaceImports(limeInterface: LimeInterface) =
+        classInterfaceImports + if (hasStaticFunctions(limeInterface)) listOf(metaPackageImport) else emptyList()
+
+    private fun resolveClassImports(limeClass: LimeClass) =
+        when {
+            limeClass.parent != null || limeClass.visibility.isOpen -> classInterfaceImports
+            else -> listOf(tokenCacheImport, nativeBaseImport)
+        } + if (hasStaticFunctions(limeClass)) listOf(metaPackageImport) else emptyList()
 
     companion object {
         private val collectionPackageImport = DartImport("collection/collection")

@@ -4,11 +4,15 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
+import 'package:meta/meta.dart';
 abstract class DefaultValues {
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
-  static DefaultValues_StructWithDefaults processStructWithDefaults(DefaultValues_StructWithDefaults input) => DefaultValues$Impl.processStructWithDefaults(input);
+  static DefaultValues_StructWithDefaults processStructWithDefaults(DefaultValues_StructWithDefaults input) => $prototype.processStructWithDefaults(input);
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = DefaultValues$Impl(Pointer<Void>.fromAddress(0));
 }
 enum DefaultValues_SomeEnum {
     fooValue,
@@ -681,11 +685,13 @@ final _smokeDefaultvaluesReleaseHandle = __lib.catchArgumentError(() => __lib.na
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_DefaultValues_release_handle'));
+/// @nodoc
+@visibleForTesting
 class DefaultValues$Impl extends __lib.NativeBase implements DefaultValues {
   DefaultValues$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {}
-  static DefaultValues_StructWithDefaults processStructWithDefaults(DefaultValues_StructWithDefaults input) {
+  DefaultValues_StructWithDefaults processStructWithDefaults(DefaultValues_StructWithDefaults input) {
     final _processStructWithDefaultsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_DefaultValues_processStructWithDefaults__StructWithDefaults'));
     final _inputHandle = smokeDefaultvaluesStructwithdefaultsToFfi(input);
     final __resultHandle = _processStructWithDefaultsFfi(__lib.LibraryContext.isolateId, _inputHandle);

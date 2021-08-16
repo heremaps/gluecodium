@@ -5,15 +5,19 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/payload.dart';
 import 'package:library/src/smoke/with_payload_exception.dart';
+import 'package:meta/meta.dart';
 abstract class Errors {
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
-  static void methodWithErrors() => Errors$Impl.methodWithErrors();
-  static void methodWithExternalErrors() => Errors$Impl.methodWithExternalErrors();
-  static String methodWithErrorsAndReturnValue() => Errors$Impl.methodWithErrorsAndReturnValue();
-  static void methodWithPayloadError() => Errors$Impl.methodWithPayloadError();
-  static String methodWithPayloadErrorAndReturnValue() => Errors$Impl.methodWithPayloadErrorAndReturnValue();
+  static void methodWithErrors() => $prototype.methodWithErrors();
+  static void methodWithExternalErrors() => $prototype.methodWithExternalErrors();
+  static String methodWithErrorsAndReturnValue() => $prototype.methodWithErrorsAndReturnValue();
+  static void methodWithPayloadError() => $prototype.methodWithPayloadError();
+  static String methodWithPayloadErrorAndReturnValue() => $prototype.methodWithPayloadErrorAndReturnValue();
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = Errors$Impl(Pointer<Void>.fromAddress(0));
 }
 enum Errors_InternalErrorCode {
     errorNone,
@@ -219,11 +223,13 @@ final _methodWithPayloadErrorAndReturnValueReturnHasError = __lib.catchArgumentE
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Errors_methodWithPayloadErrorAndReturnValue_return_has_error'));
+/// @nodoc
+@visibleForTesting
 class Errors$Impl extends __lib.NativeBase implements Errors {
   Errors$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {}
-  static void methodWithErrors() {
+  void methodWithErrors() {
     final _methodWithErrorsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithErrors'));
     final __callResultHandle = _methodWithErrorsFfi(__lib.LibraryContext.isolateId);
     if (_methodWithErrorsReturnHasError(__callResultHandle) != 0) {
@@ -237,7 +243,7 @@ class Errors$Impl extends __lib.NativeBase implements Errors {
     }
     _methodWithErrorsReturnReleaseHandle(__callResultHandle);
   }
-  static void methodWithExternalErrors() {
+  void methodWithExternalErrors() {
     final _methodWithExternalErrorsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithExternalErrors'));
     final __callResultHandle = _methodWithExternalErrorsFfi(__lib.LibraryContext.isolateId);
     if (_methodWithExternalErrorsReturnHasError(__callResultHandle) != 0) {
@@ -251,7 +257,7 @@ class Errors$Impl extends __lib.NativeBase implements Errors {
     }
     _methodWithExternalErrorsReturnReleaseHandle(__callResultHandle);
   }
-  static String methodWithErrorsAndReturnValue() {
+  String methodWithErrorsAndReturnValue() {
     final _methodWithErrorsAndReturnValueFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithErrorsAndReturnValue'));
     final __callResultHandle = _methodWithErrorsAndReturnValueFfi(__lib.LibraryContext.isolateId);
     if (_methodWithErrorsAndReturnValueReturnHasError(__callResultHandle) != 0) {
@@ -271,7 +277,7 @@ class Errors$Impl extends __lib.NativeBase implements Errors {
       stringReleaseFfiHandle(__resultHandle);
     }
   }
-  static void methodWithPayloadError() {
+  void methodWithPayloadError() {
     final _methodWithPayloadErrorFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithPayloadError'));
     final __callResultHandle = _methodWithPayloadErrorFfi(__lib.LibraryContext.isolateId);
     if (_methodWithPayloadErrorReturnHasError(__callResultHandle) != 0) {
@@ -285,7 +291,7 @@ class Errors$Impl extends __lib.NativeBase implements Errors {
     }
     _methodWithPayloadErrorReturnReleaseHandle(__callResultHandle);
   }
-  static String methodWithPayloadErrorAndReturnValue() {
+  String methodWithPayloadErrorAndReturnValue() {
     final _methodWithPayloadErrorAndReturnValueFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithPayloadErrorAndReturnValue'));
     final __callResultHandle = _methodWithPayloadErrorAndReturnValueFfi(__lib.LibraryContext.isolateId);
     if (_methodWithPayloadErrorAndReturnValueReturnHasError(__callResultHandle) != 0) {
