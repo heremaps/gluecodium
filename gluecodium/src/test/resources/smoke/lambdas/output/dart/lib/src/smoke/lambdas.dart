@@ -4,12 +4,16 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
+import 'package:meta/meta.dart';
 abstract class Lambdas {
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
   Lambdas_Producer deconfuse(String value, Lambdas_Confuser confuser);
-  static Map<int, String> fuse(List<String> items, Lambdas_Indexer callback) => Lambdas$Impl.fuse(items, callback);
+  static Map<int, String> fuse(List<String> items, Lambdas_Indexer callback) => $prototype.fuse(items, callback);
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = Lambdas$Impl(Pointer<Void>.fromAddress(0));
 }
 typedef Lambdas_Producer = String Function();
 // Lambdas_Producer "private" section, not exported.
@@ -465,6 +469,8 @@ final _smokeLambdasReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLi
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Lambdas_release_handle'));
+/// @nodoc
+@visibleForTesting
 class Lambdas$Impl extends __lib.NativeBase implements Lambdas {
   Lambdas$Impl(Pointer<Void> handle) : super(handle);
   @override
@@ -484,7 +490,7 @@ class Lambdas$Impl extends __lib.NativeBase implements Lambdas {
       smokeLambdasProducerReleaseFfiHandle(__resultHandle);
     }
   }
-  static Map<int, String> fuse(List<String> items, Lambdas_Indexer callback) {
+  Map<int, String> fuse(List<String> items, Lambdas_Indexer callback) {
     final _fuseFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>, Pointer<Void>)>('library_smoke_Lambdas_fuse__ListOf_String_Indexer'));
     final _itemsHandle = foobarListofStringToFfi(items);
     final _callbackHandle = smokeLambdasIndexerToFfi(callback);

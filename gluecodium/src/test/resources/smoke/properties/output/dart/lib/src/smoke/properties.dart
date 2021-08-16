@@ -6,6 +6,7 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/properties_interface.dart';
+import 'package:meta/meta.dart';
 abstract class Properties {
   /// @nodoc
   @Deprecated("Does nothing")
@@ -25,9 +26,12 @@ abstract class Properties {
   set instanceProperty(PropertiesInterface value);
   bool get isBooleanProperty;
   set isBooleanProperty(bool value);
-  static String get staticProperty => Properties$Impl.staticProperty;
-  static set staticProperty(String value) { Properties$Impl.staticProperty = value; }
-  static Properties_ExampleStruct get staticReadonlyProperty => Properties$Impl.staticReadonlyProperty;
+  static String get staticProperty => $prototype.staticProperty;
+  static set staticProperty(String value) { $prototype.staticProperty = value; }
+  static Properties_ExampleStruct get staticReadonlyProperty => $prototype.staticReadonlyProperty;
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = Properties$Impl(Pointer<Void>.fromAddress(0));
 }
 enum Properties_InternalErrorCode {
     errorNone,
@@ -159,6 +163,8 @@ final _smokePropertiesReleaseHandle = __lib.catchArgumentError(() => __lib.nativ
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Properties_release_handle'));
+/// @nodoc
+@visibleForTesting
 class Properties$Impl extends __lib.NativeBase implements Properties {
   Properties$Impl(Pointer<Void> handle) : super(handle);
   @override
@@ -304,7 +310,7 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
     _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     booleanReleaseFfiHandle(_valueHandle);
   }
-  static String get staticProperty {
+  String get staticProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Properties_staticProperty_get'));
     final __resultHandle = _getFfi(__lib.LibraryContext.isolateId);
     try {
@@ -313,13 +319,13 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
       stringReleaseFfiHandle(__resultHandle);
     }
   }
-  static set staticProperty(String value) {
+  set staticProperty(String value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32, Pointer<Void>), void Function(int, Pointer<Void>)>('library_smoke_Properties_staticProperty_set__String'));
     final _valueHandle = stringToFfi(value);
     _setFfi(__lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
   }
-  static Properties_ExampleStruct get staticReadonlyProperty {
+  Properties_ExampleStruct get staticReadonlyProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Properties_staticReadonlyProperty_get'));
     final __resultHandle = _getFfi(__lib.LibraryContext.isolateId);
     try {

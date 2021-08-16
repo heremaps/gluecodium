@@ -5,6 +5,7 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/outer_class.dart';
 import 'package:library/src/smoke/outer_interface.dart';
+import 'package:meta/meta.dart';
 abstract class LevelOne {
   /// @nodoc
   @Deprecated("Does nothing")
@@ -75,15 +76,10 @@ class LevelOne_LevelTwo_LevelThree_LevelFour {
   String stringField;
   LevelOne_LevelTwo_LevelThree_LevelFour(this.stringField);
   static final bool foo = false;
-  static LevelOne_LevelTwo_LevelThree_LevelFour fooFactory() {
-    final _fooFactoryFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fooFactory'));
-    final __resultHandle = _fooFactoryFfi(__lib.LibraryContext.isolateId);
-    try {
-      return smokeLeveloneLeveltwoLevelthreeLevelfourFromFfi(__resultHandle);
-    } finally {
-      smokeLeveloneLeveltwoLevelthreeLevelfourReleaseFfiHandle(__resultHandle);
-    }
-  }
+  static LevelOne_LevelTwo_LevelThree_LevelFour fooFactory() => $prototype.fooFactory();
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = LevelOne_LevelTwo_LevelThree_LevelFour$Impl();
 }
 // LevelOne_LevelTwo_LevelThree_LevelFour "private" section, not exported.
 final _smokeLeveloneLeveltwoLevelthreeLevelfourCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -98,6 +94,19 @@ final _smokeLeveloneLeveltwoLevelthreeLevelfourGetFieldstringField = __lib.catch
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_get_field_stringField'));
+/// @nodoc
+@visibleForTesting
+class LevelOne_LevelTwo_LevelThree_LevelFour$Impl {
+  LevelOne_LevelTwo_LevelThree_LevelFour fooFactory() {
+    final _fooFactoryFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fooFactory'));
+    final __resultHandle = _fooFactoryFfi(__lib.LibraryContext.isolateId);
+    try {
+      return smokeLeveloneLeveltwoLevelthreeLevelfourFromFfi(__resultHandle);
+    } finally {
+      smokeLeveloneLeveltwoLevelthreeLevelfourReleaseFfiHandle(__resultHandle);
+    }
+  }
+}
 Pointer<Void> smokeLeveloneLeveltwoLevelthreeLevelfourToFfi(LevelOne_LevelTwo_LevelThree_LevelFour value) {
   final _stringFieldHandle = stringToFfi(value.stringField);
   final _result = _smokeLeveloneLeveltwoLevelthreeLevelfourCreateHandle(_stringFieldHandle);

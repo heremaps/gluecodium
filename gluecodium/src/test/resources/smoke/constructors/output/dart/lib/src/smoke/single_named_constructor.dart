@@ -2,11 +2,15 @@ import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
+import 'package:meta/meta.dart';
 abstract class SingleNamedConstructor {
-  factory SingleNamedConstructor.fooBar() => SingleNamedConstructor$Impl.fooBar();
+  factory SingleNamedConstructor.fooBar() => $prototype.fooBar();
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = SingleNamedConstructor$Impl(Pointer<Void>.fromAddress(0));
 }
 // SingleNamedConstructor "private" section, not exported.
 final _smokeSinglenamedconstructorRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -21,13 +25,18 @@ final _smokeSinglenamedconstructorReleaseHandle = __lib.catchArgumentError(() =>
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_SingleNamedConstructor_release_handle'));
+/// @nodoc
+@visibleForTesting
 class SingleNamedConstructor$Impl extends __lib.NativeBase implements SingleNamedConstructor {
   SingleNamedConstructor$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {}
-  SingleNamedConstructor$Impl.fooBar() : super(_fooBar()) {
-    __lib.cacheInstance(handle, this);
-    _smokeSinglenamedconstructorRegisterFinalizer(handle, __lib.LibraryContext.isolateId, this);
+  SingleNamedConstructor fooBar() {
+    final _result_handle = _fooBar();
+    final _result = SingleNamedConstructor$Impl(_result_handle);
+    __lib.cacheInstance(_result_handle, _result);
+    _smokeSinglenamedconstructorRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+    return _result;
   }
   static Pointer<Void> _fooBar() {
     final _fooBarFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_SingleNamedConstructor_create'));

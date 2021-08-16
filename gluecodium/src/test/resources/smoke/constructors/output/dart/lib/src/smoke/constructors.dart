@@ -5,16 +5,20 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
+import 'package:meta/meta.dart';
 abstract class Constructors {
-  factory Constructors() => Constructors$Impl.$init();
-  factory Constructors.fromOther(Constructors other) => Constructors$Impl.fromOther(other);
-  factory Constructors.fromMulti(String foo, int bar) => Constructors$Impl.fromMulti(foo, bar);
-  factory Constructors.fromString(String input) => Constructors$Impl.fromString(input);
-  factory Constructors.fromList(List<double> input) => Constructors$Impl.fromList(input);
-  factory Constructors.create(int input) => Constructors$Impl.create(input);
+  factory Constructors() => $prototype.$init();
+  factory Constructors.fromOther(Constructors other) => $prototype.fromOther(other);
+  factory Constructors.fromMulti(String foo, int bar) => $prototype.fromMulti(foo, bar);
+  factory Constructors.fromString(String input) => $prototype.fromString(input);
+  factory Constructors.fromList(List<double> input) => $prototype.fromList(input);
+  factory Constructors.create(int input) => $prototype.create(input);
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = Constructors$Impl(Pointer<Void>.fromAddress(0));
 }
 enum Constructors_ErrorEnum {
     none,
@@ -108,33 +112,53 @@ final _fromStringReturnHasError = __lib.catchArgumentError(() => __lib.nativeLib
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Constructors_create__String_return_has_error'));
+/// @nodoc
+@visibleForTesting
 class Constructors$Impl extends __lib.NativeBase implements Constructors {
   Constructors$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {}
-  Constructors$Impl.$init() : super(_$init()) {
-    __lib.cacheInstance(handle, this);
-    _smokeConstructorsRegisterFinalizer(handle, __lib.LibraryContext.isolateId, this);
+  Constructors $init() {
+    final _result_handle = _$init();
+    final _result = Constructors$Impl(_result_handle);
+    __lib.cacheInstance(_result_handle, _result);
+    _smokeConstructorsRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+    return _result;
   }
-  Constructors$Impl.fromOther(Constructors other) : super(_fromOther(other)) {
-    __lib.cacheInstance(handle, this);
-    _smokeConstructorsRegisterFinalizer(handle, __lib.LibraryContext.isolateId, this);
+  Constructors fromOther(Constructors other) {
+    final _result_handle = _fromOther(other);
+    final _result = Constructors$Impl(_result_handle);
+    __lib.cacheInstance(_result_handle, _result);
+    _smokeConstructorsRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+    return _result;
   }
-  Constructors$Impl.fromMulti(String foo, int bar) : super(_fromMulti(foo, bar)) {
-    __lib.cacheInstance(handle, this);
-    _smokeConstructorsRegisterFinalizer(handle, __lib.LibraryContext.isolateId, this);
+  Constructors fromMulti(String foo, int bar) {
+    final _result_handle = _fromMulti(foo, bar);
+    final _result = Constructors$Impl(_result_handle);
+    __lib.cacheInstance(_result_handle, _result);
+    _smokeConstructorsRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+    return _result;
   }
-  Constructors$Impl.fromString(String input) : super(_fromString(input)) {
-    __lib.cacheInstance(handle, this);
-    _smokeConstructorsRegisterFinalizer(handle, __lib.LibraryContext.isolateId, this);
+  Constructors fromString(String input) {
+    final _result_handle = _fromString(input);
+    final _result = Constructors$Impl(_result_handle);
+    __lib.cacheInstance(_result_handle, _result);
+    _smokeConstructorsRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+    return _result;
   }
-  Constructors$Impl.fromList(List<double> input) : super(_fromList(input)) {
-    __lib.cacheInstance(handle, this);
-    _smokeConstructorsRegisterFinalizer(handle, __lib.LibraryContext.isolateId, this);
+  Constructors fromList(List<double> input) {
+    final _result_handle = _fromList(input);
+    final _result = Constructors$Impl(_result_handle);
+    __lib.cacheInstance(_result_handle, _result);
+    _smokeConstructorsRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+    return _result;
   }
-  Constructors$Impl.create(int input) : super(_create(input)) {
-    __lib.cacheInstance(handle, this);
-    _smokeConstructorsRegisterFinalizer(handle, __lib.LibraryContext.isolateId, this);
+  Constructors create(int input) {
+    final _result_handle = _create(input);
+    final _result = Constructors$Impl(_result_handle);
+    __lib.cacheInstance(_result_handle, _result);
+    _smokeConstructorsRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+    return _result;
   }
   static Pointer<Void> _$init() {
     final _$initFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Constructors_create'));

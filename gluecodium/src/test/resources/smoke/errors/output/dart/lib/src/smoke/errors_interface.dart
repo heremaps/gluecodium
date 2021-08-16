@@ -6,6 +6,7 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/payload.dart';
 import 'package:library/src/smoke/with_payload_exception.dart';
+import 'package:meta/meta.dart';
 abstract class ErrorsInterface {
   factory ErrorsInterface(
     void Function() methodWithErrorsLambda,
@@ -22,8 +23,11 @@ abstract class ErrorsInterface {
   void methodWithErrors();
   void methodWithExternalErrors();
   String methodWithErrorsAndReturnValue();
-  static void methodWithPayloadError() => ErrorsInterface$Impl.methodWithPayloadError();
-  static String methodWithPayloadErrorAndReturnValue() => ErrorsInterface$Impl.methodWithPayloadErrorAndReturnValue();
+  static void methodWithPayloadError() => $prototype.methodWithPayloadError();
+  static String methodWithPayloadErrorAndReturnValue() => $prototype.methodWithPayloadErrorAndReturnValue();
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = ErrorsInterface$Impl(Pointer<Void>.fromAddress(0));
 }
 enum ErrorsInterface_InternalError {
     errorNone,
@@ -258,6 +262,8 @@ class ErrorsInterface$Lambdas implements ErrorsInterface {
   String methodWithErrorsAndReturnValue() =>
     methodWithErrorsAndReturnValueLambda();
 }
+/// @nodoc
+@visibleForTesting
 class ErrorsInterface$Impl extends __lib.NativeBase implements ErrorsInterface {
   ErrorsInterface$Impl(Pointer<Void> handle) : super(handle);
   @override
@@ -317,7 +323,7 @@ class ErrorsInterface$Impl extends __lib.NativeBase implements ErrorsInterface {
     }
   }
   @override
-  static void methodWithPayloadError() {
+  void methodWithPayloadError() {
     final _methodWithPayloadErrorFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_ErrorsInterface_methodWithPayloadError'));
     final __callResultHandle = _methodWithPayloadErrorFfi(__lib.LibraryContext.isolateId);
     if (_methodWithPayloadErrorReturnHasError(__callResultHandle) != 0) {
@@ -332,7 +338,7 @@ class ErrorsInterface$Impl extends __lib.NativeBase implements ErrorsInterface {
     _methodWithPayloadErrorReturnReleaseHandle(__callResultHandle);
   }
   @override
-  static String methodWithPayloadErrorAndReturnValue() {
+  String methodWithPayloadErrorAndReturnValue() {
     final _methodWithPayloadErrorAndReturnValueFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_ErrorsInterface_methodWithPayloadErrorAndReturnValue'));
     final __callResultHandle = _methodWithPayloadErrorAndReturnValueFfi(__lib.LibraryContext.isolateId);
     if (_methodWithPayloadErrorAndReturnValueReturnHasError(__callResultHandle) != 0) {

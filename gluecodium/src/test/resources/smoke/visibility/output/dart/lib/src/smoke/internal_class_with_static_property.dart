@@ -3,15 +3,19 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:meta/meta.dart';
 /// @nodoc
 abstract class InternalClassWithStaticProperty {
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
   /// @nodoc
-  static String get internal_fooBar => InternalClassWithStaticProperty$Impl.internal_fooBar;
+  static String get internal_fooBar => $prototype.internal_fooBar;
   /// @nodoc
-  static set internal_fooBar(String value) { InternalClassWithStaticProperty$Impl.internal_fooBar = value; }
+  static set internal_fooBar(String value) { $prototype.internal_fooBar = value; }
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = InternalClassWithStaticProperty$Impl(Pointer<Void>.fromAddress(0));
 }
 // InternalClassWithStaticProperty "private" section, not exported.
 final _smokeInternalclasswithstaticpropertyRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -26,11 +30,13 @@ final _smokeInternalclasswithstaticpropertyReleaseHandle = __lib.catchArgumentEr
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_InternalClassWithStaticProperty_release_handle'));
+/// @nodoc
+@visibleForTesting
 class InternalClassWithStaticProperty$Impl extends __lib.NativeBase implements InternalClassWithStaticProperty {
   InternalClassWithStaticProperty$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {}
-  static String get internal_fooBar {
+  String get internal_fooBar {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InternalClassWithStaticProperty_fooBar_get'));
     final __resultHandle = _getFfi(__lib.LibraryContext.isolateId);
     try {
@@ -39,7 +45,7 @@ class InternalClassWithStaticProperty$Impl extends __lib.NativeBase implements I
       stringReleaseFfiHandle(__resultHandle);
     }
   }
-  static set internal_fooBar(String value) {
+  set internal_fooBar(String value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32, Pointer<Void>), void Function(int, Pointer<Void>)>('library_smoke_InternalClassWithStaticProperty_fooBar_set__String'));
     final _valueHandle = stringToFfi(value);
     _setFfi(__lib.LibraryContext.isolateId, _valueHandle);

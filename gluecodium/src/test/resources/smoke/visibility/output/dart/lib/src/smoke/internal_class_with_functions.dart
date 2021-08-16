@@ -3,17 +3,21 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:meta/meta.dart';
 /// @nodoc
 abstract class InternalClassWithFunctions {
   /// @nodoc
-  factory InternalClassWithFunctions.make() => InternalClassWithFunctions$Impl.internal_make();
+  factory InternalClassWithFunctions.make() => $prototype.internal_make();
   /// @nodoc
-  factory InternalClassWithFunctions.remake(String foo) => InternalClassWithFunctions$Impl.internal_remake(foo);
+  factory InternalClassWithFunctions.remake(String foo) => $prototype.internal_remake(foo);
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
   /// @nodoc
   void internal_fooBar();
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = InternalClassWithFunctions$Impl(Pointer<Void>.fromAddress(0));
 }
 // InternalClassWithFunctions "private" section, not exported.
 final _smokeInternalclasswithfunctionsRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -28,17 +32,25 @@ final _smokeInternalclasswithfunctionsReleaseHandle = __lib.catchArgumentError((
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_InternalClassWithFunctions_release_handle'));
+/// @nodoc
+@visibleForTesting
 class InternalClassWithFunctions$Impl extends __lib.NativeBase implements InternalClassWithFunctions {
   InternalClassWithFunctions$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {}
-  InternalClassWithFunctions$Impl.internal_make() : super(_make()) {
-    __lib.cacheInstance(handle, this);
-    _smokeInternalclasswithfunctionsRegisterFinalizer(handle, __lib.LibraryContext.isolateId, this);
+  InternalClassWithFunctions internal_make() {
+    final _result_handle = _make();
+    final _result = InternalClassWithFunctions$Impl(_result_handle);
+    __lib.cacheInstance(_result_handle, _result);
+    _smokeInternalclasswithfunctionsRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+    return _result;
   }
-  InternalClassWithFunctions$Impl.internal_remake(String foo) : super(_remake(foo)) {
-    __lib.cacheInstance(handle, this);
-    _smokeInternalclasswithfunctionsRegisterFinalizer(handle, __lib.LibraryContext.isolateId, this);
+  InternalClassWithFunctions internal_remake(String foo) {
+    final _result_handle = _remake(foo);
+    final _result = InternalClassWithFunctions$Impl(_result_handle);
+    __lib.cacheInstance(_result_handle, _result);
+    _smokeInternalclasswithfunctionsRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+    return _result;
   }
   @override
   void internal_fooBar() {

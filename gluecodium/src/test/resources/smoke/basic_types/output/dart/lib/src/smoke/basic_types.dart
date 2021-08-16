@@ -3,22 +3,26 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:meta/meta.dart';
 abstract class BasicTypes {
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
-  static String stringFunction(String input) => BasicTypes$Impl.stringFunction(input);
-  static bool boolFunction(bool input) => BasicTypes$Impl.boolFunction(input);
-  static double floatFunction(double input) => BasicTypes$Impl.floatFunction(input);
-  static double doubleFunction(double input) => BasicTypes$Impl.doubleFunction(input);
-  static int byteFunction(int input) => BasicTypes$Impl.byteFunction(input);
-  static int shortFunction(int input) => BasicTypes$Impl.shortFunction(input);
-  static int intFunction(int input) => BasicTypes$Impl.intFunction(input);
-  static int longFunction(int input) => BasicTypes$Impl.longFunction(input);
-  static int ubyteFunction(int input) => BasicTypes$Impl.ubyteFunction(input);
-  static int ushortFunction(int input) => BasicTypes$Impl.ushortFunction(input);
-  static int uintFunction(int input) => BasicTypes$Impl.uintFunction(input);
-  static int ulongFunction(int input) => BasicTypes$Impl.ulongFunction(input);
+  static String stringFunction(String input) => $prototype.stringFunction(input);
+  static bool boolFunction(bool input) => $prototype.boolFunction(input);
+  static double floatFunction(double input) => $prototype.floatFunction(input);
+  static double doubleFunction(double input) => $prototype.doubleFunction(input);
+  static int byteFunction(int input) => $prototype.byteFunction(input);
+  static int shortFunction(int input) => $prototype.shortFunction(input);
+  static int intFunction(int input) => $prototype.intFunction(input);
+  static int longFunction(int input) => $prototype.longFunction(input);
+  static int ubyteFunction(int input) => $prototype.ubyteFunction(input);
+  static int ushortFunction(int input) => $prototype.ushortFunction(input);
+  static int uintFunction(int input) => $prototype.uintFunction(input);
+  static int ulongFunction(int input) => $prototype.ulongFunction(input);
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = BasicTypes$Impl(Pointer<Void>.fromAddress(0));
 }
 // BasicTypes "private" section, not exported.
 final _smokeBasictypesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -33,11 +37,13 @@ final _smokeBasictypesReleaseHandle = __lib.catchArgumentError(() => __lib.nativ
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_BasicTypes_release_handle'));
+/// @nodoc
+@visibleForTesting
 class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
   BasicTypes$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {}
-  static String stringFunction(String input) {
+  String stringFunction(String input) {
     final _stringFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_BasicTypes_stringFunction__String'));
     final _inputHandle = stringToFfi(input);
     final __resultHandle = _stringFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
@@ -48,7 +54,7 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
       stringReleaseFfiHandle(__resultHandle);
     }
   }
-  static bool boolFunction(bool input) {
+  bool boolFunction(bool input) {
     final _boolFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Uint8), int Function(int, int)>('library_smoke_BasicTypes_boolFunction__Boolean'));
     final _inputHandle = booleanToFfi(input);
     final __resultHandle = _boolFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
@@ -59,7 +65,7 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
       booleanReleaseFfiHandle(__resultHandle);
     }
   }
-  static double floatFunction(double input) {
+  double floatFunction(double input) {
     final _floatFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Float Function(Int32, Float), double Function(int, double)>('library_smoke_BasicTypes_floatFunction__Float'));
     final _inputHandle = (input);
     final __resultHandle = _floatFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
@@ -68,7 +74,7 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
     } finally {
     }
   }
-  static double doubleFunction(double input) {
+  double doubleFunction(double input) {
     final _doubleFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Double Function(Int32, Double), double Function(int, double)>('library_smoke_BasicTypes_doubleFunction__Double'));
     final _inputHandle = (input);
     final __resultHandle = _doubleFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
@@ -77,7 +83,7 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
     } finally {
     }
   }
-  static int byteFunction(int input) {
+  int byteFunction(int input) {
     final _byteFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Int8 Function(Int32, Int8), int Function(int, int)>('library_smoke_BasicTypes_byteFunction__Byte'));
     final _inputHandle = (input);
     final __resultHandle = _byteFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
@@ -86,7 +92,7 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
     } finally {
     }
   }
-  static int shortFunction(int input) {
+  int shortFunction(int input) {
     final _shortFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Int16 Function(Int32, Int16), int Function(int, int)>('library_smoke_BasicTypes_shortFunction__Short'));
     final _inputHandle = (input);
     final __resultHandle = _shortFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
@@ -95,7 +101,7 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
     } finally {
     }
   }
-  static int intFunction(int input) {
+  int intFunction(int input) {
     final _intFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Int32 Function(Int32, Int32), int Function(int, int)>('library_smoke_BasicTypes_intFunction__Int'));
     final _inputHandle = (input);
     final __resultHandle = _intFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
@@ -104,7 +110,7 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
     } finally {
     }
   }
-  static int longFunction(int input) {
+  int longFunction(int input) {
     final _longFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Int64 Function(Int32, Int64), int Function(int, int)>('library_smoke_BasicTypes_longFunction__Long'));
     final _inputHandle = (input);
     final __resultHandle = _longFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
@@ -113,7 +119,7 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
     } finally {
     }
   }
-  static int ubyteFunction(int input) {
+  int ubyteFunction(int input) {
     final _ubyteFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Uint8), int Function(int, int)>('library_smoke_BasicTypes_ubyteFunction__UByte'));
     final _inputHandle = (input);
     final __resultHandle = _ubyteFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
@@ -122,7 +128,7 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
     } finally {
     }
   }
-  static int ushortFunction(int input) {
+  int ushortFunction(int input) {
     final _ushortFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint16 Function(Int32, Uint16), int Function(int, int)>('library_smoke_BasicTypes_ushortFunction__UShort'));
     final _inputHandle = (input);
     final __resultHandle = _ushortFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
@@ -131,7 +137,7 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
     } finally {
     }
   }
-  static int uintFunction(int input) {
+  int uintFunction(int input) {
     final _uintFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint32 Function(Int32, Uint32), int Function(int, int)>('library_smoke_BasicTypes_uintFunction__UInt'));
     final _inputHandle = (input);
     final __resultHandle = _uintFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);
@@ -140,7 +146,7 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
     } finally {
     }
   }
-  static int ulongFunction(int input) {
+  int ulongFunction(int input) {
     final _ulongFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint64 Function(Int32, Uint64), int Function(int, int)>('library_smoke_BasicTypes_ulongFunction__ULong'));
     final _inputHandle = (input);
     final __resultHandle = _ulongFunctionFfi(__lib.LibraryContext.isolateId, _inputHandle);

@@ -6,12 +6,16 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/unreasonably_lazy_class.dart';
 import 'package:library/src/smoke/very_big_struct.dart';
+import 'package:meta/meta.dart';
 abstract class UseOptimizedList {
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
-  static List<VeryBigStruct> fetchTheBigOnes() => UseOptimizedList$Impl.fetchTheBigOnes();
-  static List<UnreasonablyLazyClass> get lazyOnes => UseOptimizedList$Impl.lazyOnes;
+  static List<VeryBigStruct> fetchTheBigOnes() => $prototype.fetchTheBigOnes();
+  static List<UnreasonablyLazyClass> get lazyOnes => $prototype.lazyOnes;
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = UseOptimizedList$Impl(Pointer<Void>.fromAddress(0));
 }
 // UseOptimizedList "private" section, not exported.
 final _smokeUseoptimizedlistRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -50,11 +54,13 @@ final _smokeUseoptimizedlistsmokeVerybigstructLazyListRegisterFinalizer = __lib.
     Void Function(Pointer<Void>, Int32, Handle),
     void Function(Pointer<Void>, int, Object)
   >('library_smoke_UseOptimizedList_smoke_VeryBigStructLazyList_register_finalizer'));
+/// @nodoc
+@visibleForTesting
 class UseOptimizedList$Impl extends __lib.NativeBase implements UseOptimizedList {
   UseOptimizedList$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {}
-  static List<VeryBigStruct> fetchTheBigOnes() {
+  List<VeryBigStruct> fetchTheBigOnes() {
     final _fetchTheBigOnesFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_UseOptimizedList_fetchTheBigOnes'));
     final __resultHandle = _fetchTheBigOnesFfi(__lib.LibraryContext.isolateId);
     return __lib.LazyList(
@@ -69,7 +75,7 @@ class UseOptimizedList$Impl extends __lib.NativeBase implements UseOptimizedList
         (obj) => _smokeUseoptimizedlistsmokeVerybigstructLazyListRegisterFinalizer(__resultHandle, __lib.LibraryContext.isolateId, obj)
       );
   }
-  static List<UnreasonablyLazyClass> get lazyOnes {
+  List<UnreasonablyLazyClass> get lazyOnes {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_UseOptimizedList_lazyOnes_get'));
     final __resultHandle = _getFfi(__lib.LibraryContext.isolateId);
     return __lib.LazyList(

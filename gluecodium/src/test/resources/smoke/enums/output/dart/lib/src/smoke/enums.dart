@@ -3,14 +3,18 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:meta/meta.dart';
 abstract class Enums {
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
-  static Enums_SimpleEnum methodWithEnumeration(Enums_SimpleEnum input) => Enums$Impl.methodWithEnumeration(input);
-  static Enums_InternalErrorCode flipEnumValue(Enums_InternalErrorCode input) => Enums$Impl.flipEnumValue(input);
-  static Enums_InternalErrorCode extractEnumFromStruct(Enums_ErrorStruct input) => Enums$Impl.extractEnumFromStruct(input);
-  static Enums_ErrorStruct createStructWithEnumInside(Enums_InternalErrorCode type, String message) => Enums$Impl.createStructWithEnumInside(type, message);
+  static Enums_SimpleEnum methodWithEnumeration(Enums_SimpleEnum input) => $prototype.methodWithEnumeration(input);
+  static Enums_InternalErrorCode flipEnumValue(Enums_InternalErrorCode input) => $prototype.flipEnumValue(input);
+  static Enums_InternalErrorCode extractEnumFromStruct(Enums_ErrorStruct input) => $prototype.extractEnumFromStruct(input);
+  static Enums_ErrorStruct createStructWithEnumInside(Enums_InternalErrorCode type, String message) => $prototype.createStructWithEnumInside(type, message);
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = Enums$Impl(Pointer<Void>.fromAddress(0));
 }
 enum Enums_SimpleEnum {
     first,
@@ -209,11 +213,13 @@ final _smokeEnumsReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibr
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Enums_release_handle'));
+/// @nodoc
+@visibleForTesting
 class Enums$Impl extends __lib.NativeBase implements Enums {
   Enums$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {}
-  static Enums_SimpleEnum methodWithEnumeration(Enums_SimpleEnum input) {
+  Enums_SimpleEnum methodWithEnumeration(Enums_SimpleEnum input) {
     final _methodWithEnumerationFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint32 Function(Int32, Uint32), int Function(int, int)>('library_smoke_Enums_methodWithEnumeration__SimpleEnum'));
     final _inputHandle = smokeEnumsSimpleenumToFfi(input);
     final __resultHandle = _methodWithEnumerationFfi(__lib.LibraryContext.isolateId, _inputHandle);
@@ -224,7 +230,7 @@ class Enums$Impl extends __lib.NativeBase implements Enums {
       smokeEnumsSimpleenumReleaseFfiHandle(__resultHandle);
     }
   }
-  static Enums_InternalErrorCode flipEnumValue(Enums_InternalErrorCode input) {
+  Enums_InternalErrorCode flipEnumValue(Enums_InternalErrorCode input) {
     final _flipEnumValueFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint32 Function(Int32, Uint32), int Function(int, int)>('library_smoke_Enums_flipEnumValue__InternalErrorCode'));
     final _inputHandle = smokeEnumsInternalerrorcodeToFfi(input);
     final __resultHandle = _flipEnumValueFfi(__lib.LibraryContext.isolateId, _inputHandle);
@@ -235,7 +241,7 @@ class Enums$Impl extends __lib.NativeBase implements Enums {
       smokeEnumsInternalerrorcodeReleaseFfiHandle(__resultHandle);
     }
   }
-  static Enums_InternalErrorCode extractEnumFromStruct(Enums_ErrorStruct input) {
+  Enums_InternalErrorCode extractEnumFromStruct(Enums_ErrorStruct input) {
     final _extractEnumFromStructFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint32 Function(Int32, Pointer<Void>), int Function(int, Pointer<Void>)>('library_smoke_Enums_extractEnumFromStruct__ErrorStruct'));
     final _inputHandle = smokeEnumsErrorstructToFfi(input);
     final __resultHandle = _extractEnumFromStructFfi(__lib.LibraryContext.isolateId, _inputHandle);
@@ -246,7 +252,7 @@ class Enums$Impl extends __lib.NativeBase implements Enums {
       smokeEnumsInternalerrorcodeReleaseFfiHandle(__resultHandle);
     }
   }
-  static Enums_ErrorStruct createStructWithEnumInside(Enums_InternalErrorCode type, String message) {
+  Enums_ErrorStruct createStructWithEnumInside(Enums_InternalErrorCode type, String message) {
     final _createStructWithEnumInsideFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Uint32, Pointer<Void>), Pointer<Void> Function(int, int, Pointer<Void>)>('library_smoke_Enums_createStructWithEnumInside__InternalErrorCode_String'));
     final _typeHandle = smokeEnumsInternalerrorcodeToFfi(type);
     final _messageHandle = stringToFfi(message);

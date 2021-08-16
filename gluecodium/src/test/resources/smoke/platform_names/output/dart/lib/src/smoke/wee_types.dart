@@ -1,6 +1,7 @@
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:meta/meta.dart';
 enum werrEnum {
     WEE_ITEM
 }
@@ -55,18 +56,10 @@ class weeStruct {
   String WEE_FIELD;
   weeStruct._(this.WEE_FIELD);
   weeStruct._copy(weeStruct _other) : this._(_other.WEE_FIELD);
-  weeStruct.WeeCreate(String WeeParameter) : this._copy(_WeeCreate(WeeParameter));
-  static weeStruct _WeeCreate(String WeeParameter) {
-    final _WeeCreateFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_PlatformNames_BasicStruct_make__String'));
-    final _WeeParameterHandle = stringToFfi(WeeParameter);
-    final __resultHandle = _WeeCreateFfi(__lib.LibraryContext.isolateId, _WeeParameterHandle);
-    stringReleaseFfiHandle(_WeeParameterHandle);
-    try {
-      return smokePlatformnamesBasicstructFromFfi(__resultHandle);
-    } finally {
-      smokePlatformnamesBasicstructReleaseFfiHandle(__resultHandle);
-    }
-  }
+  factory weeStruct.WeeCreate(String WeeParameter) => weeStruct._copy($prototype.WeeCreate(WeeParameter));
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = weeStruct$Impl();
 }
 // weeStruct "private" section, not exported.
 final _smokePlatformnamesBasicstructCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -81,6 +74,21 @@ final _smokePlatformnamesBasicstructGetFieldstringField = __lib.catchArgumentErr
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PlatformNames_BasicStruct_get_field_stringField'));
+/// @nodoc
+@visibleForTesting
+class weeStruct$Impl {
+  weeStruct WeeCreate(String WeeParameter) {
+    final _WeeCreateFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_PlatformNames_BasicStruct_make__String'));
+    final _WeeParameterHandle = stringToFfi(WeeParameter);
+    final __resultHandle = _WeeCreateFfi(__lib.LibraryContext.isolateId, _WeeParameterHandle);
+    stringReleaseFfiHandle(_WeeParameterHandle);
+    try {
+      return smokePlatformnamesBasicstructFromFfi(__resultHandle);
+    } finally {
+      smokePlatformnamesBasicstructReleaseFfiHandle(__resultHandle);
+    }
+  }
+}
 Pointer<Void> smokePlatformnamesBasicstructToFfi(weeStruct value) {
   final _WEE_FIELDHandle = stringToFfi(value.WEE_FIELD);
   final _result = _smokePlatformnamesBasicstructCreateHandle(_WEE_FIELDHandle);

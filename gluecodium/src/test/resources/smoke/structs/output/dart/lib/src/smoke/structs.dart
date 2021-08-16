@@ -11,10 +11,13 @@ abstract class Structs {
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
-  static Structs_Point swapPointCoordinates(Structs_Point input) => Structs$Impl.swapPointCoordinates(input);
-  static Structs_AllTypesStruct returnAllTypesStruct(Structs_AllTypesStruct input) => Structs$Impl.returnAllTypesStruct(input);
-  static Point createPoint(double x, double y) => Structs$Impl.createPoint(x, y);
-  static AllTypesStruct modifyAllTypesStruct(AllTypesStruct input) => Structs$Impl.modifyAllTypesStruct(input);
+  static Structs_Point swapPointCoordinates(Structs_Point input) => $prototype.swapPointCoordinates(input);
+  static Structs_AllTypesStruct returnAllTypesStruct(Structs_AllTypesStruct input) => $prototype.returnAllTypesStruct(input);
+  static Point createPoint(double x, double y) => $prototype.createPoint(x, y);
+  static AllTypesStruct modifyAllTypesStruct(AllTypesStruct input) => $prototype.modifyAllTypesStruct(input);
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = Structs$Impl(Pointer<Void>.fromAddress(0));
 }
 enum Structs_FooBar {
     foo,
@@ -724,11 +727,13 @@ final _smokeStructsReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLi
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Structs_release_handle'));
+/// @nodoc
+@visibleForTesting
 class Structs$Impl extends __lib.NativeBase implements Structs {
   Structs$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {}
-  static Structs_Point swapPointCoordinates(Structs_Point input) {
+  Structs_Point swapPointCoordinates(Structs_Point input) {
     final _swapPointCoordinatesFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_swapPointCoordinates__Point'));
     final _inputHandle = smokeStructsPointToFfi(input);
     final __resultHandle = _swapPointCoordinatesFfi(__lib.LibraryContext.isolateId, _inputHandle);
@@ -739,7 +744,7 @@ class Structs$Impl extends __lib.NativeBase implements Structs {
       smokeStructsPointReleaseFfiHandle(__resultHandle);
     }
   }
-  static Structs_AllTypesStruct returnAllTypesStruct(Structs_AllTypesStruct input) {
+  Structs_AllTypesStruct returnAllTypesStruct(Structs_AllTypesStruct input) {
     final _returnAllTypesStructFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_returnAllTypesStruct__AllTypesStruct'));
     final _inputHandle = smokeStructsAlltypesstructToFfi(input);
     final __resultHandle = _returnAllTypesStructFfi(__lib.LibraryContext.isolateId, _inputHandle);
@@ -750,7 +755,7 @@ class Structs$Impl extends __lib.NativeBase implements Structs {
       smokeStructsAlltypesstructReleaseFfiHandle(__resultHandle);
     }
   }
-  static Point createPoint(double x, double y) {
+  Point createPoint(double x, double y) {
     final _createPointFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Double, Double), Pointer<Void> Function(int, double, double)>('library_smoke_Structs_createPoint__Double_Double'));
     final _xHandle = (x);
     final _yHandle = (y);
@@ -761,7 +766,7 @@ class Structs$Impl extends __lib.NativeBase implements Structs {
       smokeTypecollectionPointReleaseFfiHandle(__resultHandle);
     }
   }
-  static AllTypesStruct modifyAllTypesStruct(AllTypesStruct input) {
+  AllTypesStruct modifyAllTypesStruct(AllTypesStruct input) {
     final _modifyAllTypesStructFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_modifyAllTypesStruct__AllTypesStruct'));
     final _inputHandle = smokeTypecollectionAlltypesstructToFfi(input);
     final __resultHandle = _modifyAllTypesStructFfi(__lib.LibraryContext.isolateId, _inputHandle);

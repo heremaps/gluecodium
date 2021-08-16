@@ -3,12 +3,16 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:meta/meta.dart';
 abstract class SkipFunctions {
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
-  static String notInJava(String input) => SkipFunctions$Impl.notInJava(input);
-  static bool notInSwift(bool input) => SkipFunctions$Impl.notInSwift(input);
+  static String notInJava(String input) => $prototype.notInJava(input);
+  static bool notInSwift(bool input) => $prototype.notInSwift(input);
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = SkipFunctions$Impl(Pointer<Void>.fromAddress(0));
 }
 // SkipFunctions "private" section, not exported.
 final _smokeSkipfunctionsRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -23,11 +27,13 @@ final _smokeSkipfunctionsReleaseHandle = __lib.catchArgumentError(() => __lib.na
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_SkipFunctions_release_handle'));
+/// @nodoc
+@visibleForTesting
 class SkipFunctions$Impl extends __lib.NativeBase implements SkipFunctions {
   SkipFunctions$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {}
-  static String notInJava(String input) {
+  String notInJava(String input) {
     final _notInJavaFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_SkipFunctions_notInJava__String'));
     final _inputHandle = stringToFfi(input);
     final __resultHandle = _notInJavaFfi(__lib.LibraryContext.isolateId, _inputHandle);
@@ -38,7 +44,7 @@ class SkipFunctions$Impl extends __lib.NativeBase implements SkipFunctions {
       stringReleaseFfiHandle(__resultHandle);
     }
   }
-  static bool notInSwift(bool input) {
+  bool notInSwift(bool input) {
     final _notInSwiftFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Uint8), int Function(int, int)>('library_smoke_SkipFunctions_notInSwift__Boolean'));
     final _inputHandle = booleanToFfi(input);
     final __resultHandle = _notInSwiftFfi(__lib.LibraryContext.isolateId, _inputHandle);
