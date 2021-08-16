@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Removed:
+  * Dart "-stubs" testable mode was removed.
+
 ## 9.4.0
 Release date: 2021-08-12
 ### Features:

@@ -23,32 +23,12 @@
 {{>dart/DartFunctionException}}
 
 {{/functions}}{{!!
-}}{{#if testableMode}}
-{{>dart/DartDocumentation}}{{>dart/DartAttributes}}
-{{#if attributes.immutable}}
-@immutable{{/if}}
-abstract class {{resolveName}}{{#if external.dart.converter}}Internal{{/if}} {
-{{>dartFieldsAndConstants}}
-{{#set parent=this isStruct=true}}{{#constructors}}
-{{>dart/DartRedirectConstructor}}
-{{/constructors}}
-{{#functions}}{{#unless isConstructor}}
-{{>dart/DartRedirectFunction}}
-{{/unless}}{{/functions}}{{/set}}
-
-  static var $class = {{resolveName}}{{#if external.dart.converter}}Internal{{/if}}$Impl{{#if constructors}}._{{/if}}({{!!
-  }}{{#fields}}null{{#if iter.hasNext}}, {{/if}}{{/fields}});
-}
-
-{{/if}}{{!!
-
 }}{{>dart/DartDocumentation}}{{>dart/DartAttributes}}
 {{#if attributes.immutable}}
 @immutable{{/if}}
-class {{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{#if testableMode}}$Impl{{/if}} {
-{{#if testableMode}}{{#set implSuffix="$Impl" struct=this}}{{#struct}}{{>dartFieldsAndConstants}}{{/struct}}{{/set}}{{/if}}{{!!
-}}{{#unless testableMode}}{{>dartFieldsAndConstants}}{{/unless}}
-{{#set parent=this isStruct=true ignoreStatic=testableMode}}{{#constructors}}
+class {{resolveName}}{{#if external.dart.converter}}Internal{{/if}} {
+{{>dartFieldsAndConstants}}
+{{#set parent=this isStruct=true}}{{#constructors}}
 {{prefixPartial "dart/DartFunctionDocs" "  "}}
 {{prefixPartial "dartConstructor" "  "}}
 {{/constructors}}
@@ -136,7 +116,7 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#i
 {{/fields}}{{/set}}
   try {
 {{#if external.dart.converter}}
-    final resultInternal = {{resolveName}}Internal{{#if testableMode}}$Impl{{/if}}{{#if constructors}}._{{/if}}(
+    final resultInternal = {{resolveName}}Internal{{#if constructors}}._{{/if}}(
 {{#set container=this}}{{#fields}}
 {{>fromFfiFieldInit}}
 {{/fields}}{{/set}}
@@ -171,7 +151,7 @@ void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) => _{{resolveNa
 
 // End of {{resolveName}} "private" section.{{!!
 
-}}{{+dartConstructor}}{{#if attributes.immutable}}const {{/if}}{{resolveName parent}}{{#if testableMode}}$Impl{{/if}}{{!!
+}}{{+dartConstructor}}{{#if attributes.immutable}}const {{/if}}{{resolveName parent}}{{!!
 }}{{#unless attributes.dart.default}}{{!!
 }}{{#isEq constructors.size 1}}{{#if attributes.dart.name}}.{{resolveName visibility}}{{resolveName}}{{/if}}{{!!
 }}{{#unless attributes.dart.name}}{{#if visibility.isInternal}}.{{resolveName visibility}}{{/if}}{{/unless}}{{/isEq}}{{!!
@@ -217,7 +197,7 @@ void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) => _{{resolveNa
 }}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{implSuffix}}{{!!
 }}{{#if constructors}}._{{/if}}({{#fields}}this.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
 {{/unless}}
-{{#if constructors}}  {{resolveName}}{{#if testableMode}}$Impl{{/if}}{{#if constructors}}._copy{{/if}}({{resolveName}} _other) : {{!!
+{{#if constructors}}  {{resolveName}}{{#if constructors}}._copy{{/if}}({{resolveName}} _other) : {{!!
 }}this._({{#fields}}_other.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
 {{/if}}{{#unless constructors}}{{#if initializedFields}}
   {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{implSuffix}}{{!!

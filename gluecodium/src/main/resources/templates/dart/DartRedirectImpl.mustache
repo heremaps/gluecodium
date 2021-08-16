@@ -18,5 +18,4 @@
   ! License-Filename: LICENSE
   !
   !}}
- => {{#if testableMode}}$class{{/if}}{{#unless testableMode}}{{resolveName parent}}$Impl{{/unless}}{{!!
-}}.{{resolveName visibility}}{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})
+ => {{resolveName parent}}$Impl.{{resolveName visibility}}{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})

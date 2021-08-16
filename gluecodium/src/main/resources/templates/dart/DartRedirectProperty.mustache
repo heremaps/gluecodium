@@ -20,15 +20,12 @@
   !}}
 {{#set property=this}}{{#getter}}
 {{>dart/DartDocumentation}}{{>dart/DartAttributes}}{{!!
-}}{{#if isStatic}}{{#unless testableMode}}static {{/unless}}{{/if}}{{!!
+}}{{#if isStatic}}static {{/if}}{{!!
 }}{{resolveName property.typeRef}} get {{resolveName visibility}}{{resolveName property}}{{!!
-}}{{#if isStatic}} => {{#if testableMode}}$class{{/if}}{{#unless testableMode}}{{resolveName parent}}$Impl{{/unless}}.{{!!
-}}{{resolveName visibility}}{{resolveName property}}{{/if}};
+}}{{#if isStatic}} => {{resolveName parent}}$Impl.{{resolveName visibility}}{{resolveName property}}{{/if}};
 {{/getter}}
 {{#setter}}
 {{>dart/DartDocumentation}}{{>dart/DartAttributes}}{{!!
-}}{{#if isStatic}}{{#unless testableMode}}static {{/unless}}{{!!
-}}{{/if}}set {{resolveName visibility}}{{resolveName property}}({{resolveName property.typeRef}} value){{!!
-}}{{#if isStatic}} { {{#if testableMode}}$class{{/if}}{{#unless testableMode}}{{resolveName parent}}$Impl{{/unless}}{{!!
-}}.{{resolveName visibility}}{{resolveName property}} = value; }{{/if}}{{#unless isStatic}};{{/unless}}
+}}{{#if isStatic}}static {{/if}}set {{resolveName visibility}}{{resolveName property}}({{resolveName property.typeRef}} value){{!!
+}}{{#if isStatic}} { {{resolveName parent}}$Impl.{{resolveName visibility}}{{resolveName property}} = value; }{{/if}}{{#unless isStatic}};{{/unless}}
 {{/setter}}{{/set}}
