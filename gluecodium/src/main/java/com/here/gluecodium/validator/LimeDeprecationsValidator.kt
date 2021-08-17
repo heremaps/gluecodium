@@ -23,7 +23,8 @@ import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
 import com.here.gluecodium.model.lime.LimeAttributeType.POINTER_EQUATABLE
 import com.here.gluecodium.model.lime.LimeAttributeValueType.BUILDER
-import com.here.gluecodium.model.lime.LimeContainerWithInheritance
+import com.here.gluecodium.model.lime.LimeContainer
+import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
 
 /**
@@ -40,15 +41,14 @@ internal class LimeDeprecationsValidator(
             this.warning(limeElement, message)
         }
 
-    fun validate(limeElements: List<LimeNamedElement>): Boolean {
-        val validationResults = limeElements
-            .filterIsInstance<LimeContainerWithInheritance>()
-            .map { validateContainer(it) }
+    fun validate(limeModel: LimeModel): Boolean {
+        val containers = limeModel.referenceMap.values.filterIsInstance<LimeContainer>()
+        val validationResults = containers.map { validateContainer(it) }
 
         return !werror || !validationResults.contains(false)
     }
 
-    private fun validateContainer(limeContainer: LimeContainerWithInheritance) =
+    private fun validateContainer(limeContainer: LimeContainer) =
         when {
             limeContainer.attributes.have(POINTER_EQUATABLE) -> {
                 logger.logFunction(limeContainer, "@PointerEquatable attribute is deprecated")
