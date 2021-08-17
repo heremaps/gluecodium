@@ -15,7 +15,6 @@ class Structs {
         a: Point
         b: Point
     }
-    @Java(Builder)
     @Immutable
     struct AllTypesStruct {
         int8Field: Byte

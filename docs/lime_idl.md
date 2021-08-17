@@ -519,8 +519,6 @@ element is skipped (not generated). Custom tags are case-insensitive.
   * **PositionalDefaults**: marks a struct to have additional constructors simulating optional positional parameters in
   Java. Can only be applied to a struct that has at least one field with a default value. Please note that combining
   this attribute with internal (see `Visibility` above) fields is not supported.
-  * ~~**Builder**~~: **deprecated**. Marks a struct type to have a "builder" pattern generated in
-  Java.
 * **@Swift**: marks an element with Swift-specific behaviors:
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Swift.
   This is the default specification for this attribute.

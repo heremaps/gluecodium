@@ -1,10 +1,8 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
-### Bug fixes:
-  * Fixed validation for deprecated `@Java(Builder)` attribute.
 ### Removed:
-  * `@PointerEquatable` attribute was removed.
+  * `@PointerEquatable` and `@Java(Builder)` attributes were removed.
 
 ## 9.4.1
 Release date: 2021-08-17

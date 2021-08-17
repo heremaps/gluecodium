@@ -185,60 +185,6 @@ public final class PlainDataStructuresTest {
   }
 
   @Test
-  public void allTypesImmutableStructBuilder() {
-    PlainDataStructuresImmutable.AllTypesImmutableStruct allTypesStruct =
-        new PlainDataStructuresImmutable.AllTypesImmutableStruct(
-            (byte) 3,
-            (short) 4,
-            (short) 5,
-            6,
-            7,
-            8L,
-            9L,
-            10L,
-            2.0f,
-            1.0,
-            "test string",
-            true,
-            new PlainDataStructuresImmutable.Point(11.0, 12.0));
-
-    PlainDataStructuresImmutable.AllTypesImmutableStruct.Builder builder =
-        new PlainDataStructuresImmutable.AllTypesImmutableStruct.Builder();
-
-    PlainDataStructuresImmutable.AllTypesImmutableStruct result =
-        builder
-            .setInt8Field((byte) 3)
-            .setUint8Field((short) 4)
-            .setInt16Field((short) 5)
-            .setUint16Field(6)
-            .setInt32Field(7)
-            .setUint32Field(8L)
-            .setInt64Field(9L)
-            .setUint64Field(10L)
-            .setFloatField(2.0f)
-            .setDoubleField(1.0)
-            .setStringField("test string")
-            .setBooleanField(true)
-            .setPointField(new PlainDataStructuresImmutable.Point(11.0, 12.0))
-            .build();
-
-    assertEquals(allTypesStruct.booleanField, result.booleanField);
-    assertEquals(allTypesStruct.doubleField, result.doubleField);
-    assertEquals(allTypesStruct.floatField, result.floatField);
-    assertEquals(allTypesStruct.int8Field, result.int8Field);
-    assertEquals(allTypesStruct.int16Field, result.int16Field);
-    assertEquals(allTypesStruct.int32Field, result.int32Field);
-    assertEquals(allTypesStruct.int64Field, result.int64Field);
-    assertEquals(allTypesStruct.uint8Field, result.uint8Field);
-    assertEquals(allTypesStruct.uint16Field, result.uint16Field);
-    assertEquals(allTypesStruct.uint32Field, result.uint32Field);
-    assertEquals(allTypesStruct.uint64Field, result.uint64Field);
-    assertEquals(allTypesStruct.stringField, result.stringField);
-    assertEquals(allTypesStruct.pointField.x, result.pointField.x);
-    assertEquals(allTypesStruct.pointField.y, result.pointField.y);
-  }
-
-  @Test
   public void checkAllFieldsAreInitialized() {
     assertTrue(PlainDataStructures.checkAllFieldsAreInitialized());
   }

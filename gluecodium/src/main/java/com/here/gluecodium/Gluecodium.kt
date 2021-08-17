@@ -32,7 +32,6 @@ import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeModelLoader
 import com.here.gluecodium.model.lime.LimeModelLoaderException
-import com.here.gluecodium.validator.LimeDeprecationsValidator
 import com.here.gluecodium.validator.LimeEnumeratorRefsValidator
 import com.here.gluecodium.validator.LimeExternalTypesValidator
 import com.here.gluecodium.validator.LimeFunctionsValidator
@@ -178,12 +177,6 @@ class Gluecodium(
             { LimeEnumeratorRefsValidator(limeLogger).validate(it) },
             { LimeExternalTypesValidator(limeLogger).validate(it) },
             { LimePropertiesValidator(limeLogger).validate(it) },
-            {
-                LimeDeprecationsValidator(
-                    limeLogger,
-                    generatorOptions.werror.contains(GeneratorOptions.WARNING_DEPRECATED_ATTRIBUTES)
-                ).validate(it)
-            },
             { LimeFunctionsValidator(limeLogger).validate(it) },
             { LimeSkipValidator(limeLogger).validate(it) }
         )

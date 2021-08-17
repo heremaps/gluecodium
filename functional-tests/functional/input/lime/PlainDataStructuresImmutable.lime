@@ -24,7 +24,6 @@ class PlainDataStructuresImmutable {
     }
     // Immutable struct type containing all builtin and a custom data type
     @Immutable
-    @Java(Builder)
     struct AllTypesImmutableStruct {
         int8Field: Byte
         uint8Field: UByte

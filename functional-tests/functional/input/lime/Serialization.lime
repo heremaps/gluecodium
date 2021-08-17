@@ -18,7 +18,6 @@
 package test
 
 types Serialization {
-    @Java(Builder)
     @Serializable
     struct SerializableStruct {
         boolField: Boolean
