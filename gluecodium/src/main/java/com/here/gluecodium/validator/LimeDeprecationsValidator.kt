@@ -21,7 +21,6 @@ package com.here.gluecodium.validator
 
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
-import com.here.gluecodium.model.lime.LimeAttributeType.POINTER_EQUATABLE
 import com.here.gluecodium.model.lime.LimeAttributeValueType.BUILDER
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeModel
@@ -50,10 +49,6 @@ internal class LimeDeprecationsValidator(
 
     private fun validateContainer(limeContainer: LimeContainer) =
         when {
-            limeContainer.attributes.have(POINTER_EQUATABLE) -> {
-                logger.logFunction(limeContainer, "@PointerEquatable attribute is deprecated")
-                false
-            }
             limeContainer.attributes.have(JAVA, BUILDER) -> {
                 logger.logFunction(limeContainer, "@Java(Builder) attribute is deprecated")
                 false

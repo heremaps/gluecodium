@@ -20,7 +20,6 @@
 package com.here.gluecodium.validator
 
 import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
-import com.here.gluecodium.model.lime.LimeAttributeType.POINTER_EQUATABLE
 import com.here.gluecodium.model.lime.LimeAttributeValueType.BUILDER
 import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeContainer
@@ -46,14 +45,6 @@ class LimeDeprecationsValidatorTest {
         allElements[""] = object : LimeContainer(EMPTY_PATH) {}
 
         assertTrue(validator.validate(limeModel))
-    }
-
-    @Test
-    fun validateContainerWithPointerEquatableAttribute() {
-        val attributes = LimeAttributes.Builder().addAttribute(POINTER_EQUATABLE).build()
-        allElements[""] = object : LimeContainer(EMPTY_PATH, attributes = attributes) {}
-
-        assertFalse(validator.validate(limeModel))
     }
 
     @Test

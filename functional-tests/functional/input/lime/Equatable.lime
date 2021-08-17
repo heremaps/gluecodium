@@ -125,7 +125,6 @@ class EquatableClass {
     property name: String { get }
 }
 
-@PointerEquatable
 class PointerEquatableClass {
     @Equatable
     struct EquatableStruct {

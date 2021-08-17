@@ -18,7 +18,6 @@
 package unit.test
 
 // Documentation with [broken.doc.link]
-@PointerEquatable
 class Foo {
     constructor make_foo()
     constructor make_foo(parameter: Int)

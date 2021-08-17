@@ -23,7 +23,6 @@ import com.here.gluecodium.generator.common.ImportsResolver
 import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.model.lime.LimeAttributeType.EQUATABLE
-import com.here.gluecodium.model.lime.LimeAttributeType.POINTER_EQUATABLE
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeContainer
@@ -63,7 +62,6 @@ internal class CBridgeHeaderIncludeResolver(
     private fun resolveContainerIncludes(limeContainer: LimeContainer) =
         when {
             limeContainer.attributes.have(EQUATABLE) -> listOf(BOOL_INCLUDE)
-            limeContainer.attributes.have(POINTER_EQUATABLE) -> listOf(BOOL_INCLUDE)
             else -> emptyList()
         }
 

@@ -91,8 +91,6 @@ internal object CppGeneratorPredicates {
                 limeType is LimeContainerWithInheritance &&
                     limeType.attributes.have(LimeAttributeType.EQUATABLE) -> true
                 !limeField.typeRef.isNullable -> false
-                limeType is LimeContainerWithInheritance &&
-                    limeType.attributes.have(LimeAttributeType.POINTER_EQUATABLE) -> false
                 else -> true
             }
         },
@@ -103,7 +101,6 @@ internal object CppGeneratorPredicates {
                 !limeField.typeRef.isNullable -> false
                 limeType !is LimeContainerWithInheritance -> false
                 limeType.attributes.have(LimeAttributeType.EQUATABLE) -> false
-                limeType.attributes.have(LimeAttributeType.POINTER_EQUATABLE) -> false
                 else -> true
             }
         }
