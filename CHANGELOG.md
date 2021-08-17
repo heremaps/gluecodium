@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 9.4.1
+Release date: 2021-08-17
 ### Features:
   * Added `$prototype` field to types with static functions/properties, to allow for mocking of these statics in tests.
 ### Removed:
