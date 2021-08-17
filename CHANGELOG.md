@@ -3,6 +3,8 @@
 ## Unreleased
 ### Bug fixes:
   * Fixed validation for deprecated `@Java(Builder)` attribute.
+### Removed:
+  * `@PointerEquatable` attribute was removed.
 
 ## 9.4.1
 Release date: 2021-08-17

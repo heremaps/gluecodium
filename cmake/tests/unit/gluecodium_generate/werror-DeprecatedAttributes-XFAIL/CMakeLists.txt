@@ -30,7 +30,7 @@ include(gluecodium/Gluecodium)
 # Default namespace
 add_library(target.with.warnings SHARED "${CMAKE_CURRENT_LIST_DIR}/cpp/FooImpl.cpp")
 
-gluecodium_generate(target.with.warnings GENERATORS cpp dart)
+gluecodium_generate(target.with.warnings GENERATORS cpp android)
 gluecodium_target_lime_sources(target.with.warnings
                                PRIVATE "${CMAKE_CURRENT_LIST_DIR}/lime/foo.lime")
 

@@ -113,9 +113,7 @@ internal class SwiftGeneratorPredicates(
 
     private fun isRefEquatable(limeField: LimeField): Boolean {
         val limeType = limeField.typeRef.type.actualType
-        return limeType is LimeContainerWithInheritance &&
-            !limeType.attributes.have(LimeAttributeType.EQUATABLE) &&
-            !limeType.attributes.have(LimeAttributeType.POINTER_EQUATABLE)
+        return limeType is LimeContainerWithInheritance && !limeType.attributes.have(LimeAttributeType.EQUATABLE)
     }
 
     private fun hasCppTypeAttribute(limeTypeRef: LimeTypeRef): Boolean {

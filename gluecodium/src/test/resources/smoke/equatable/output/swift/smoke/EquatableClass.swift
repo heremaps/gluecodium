@@ -30,6 +30,21 @@ public class EquatableClass {
             nestedEquatableInstance = EquatableClass_moveFromCType(smoke_EquatableClass_EquatableStruct_nestedEquatableInstance_get(cHandle))
             nestedPointerEquatableInstance = PointerEquatableClass_moveFromCType(smoke_EquatableClass_EquatableStruct_nestedPointerEquatableInstance_get(cHandle))
         }
+        /// :nodoc:
+        public static func == (lhs: EquatableStruct, rhs: EquatableStruct) -> Bool {
+            return
+                lhs.intField == rhs.intField &&
+                lhs.stringField == rhs.stringField &&
+                lhs.nestedEquatableInstance == rhs.nestedEquatableInstance &&
+                lhs.nestedPointerEquatableInstance === rhs.nestedPointerEquatableInstance
+        }
+        /// :nodoc:
+        public func hash(into hasher: inout Hasher) {
+            hasher.combine(intField)
+            hasher.combine(stringField)
+            hasher.combine(nestedEquatableInstance)
+            hasher.combine(Unmanaged<AnyObject>.passUnretained(nestedPointerEquatableInstance).toOpaque().hashValue)
+        }
     }
 }
 internal func getRef(_ ref: EquatableClass?, owning: Bool = true) -> RefHolder {

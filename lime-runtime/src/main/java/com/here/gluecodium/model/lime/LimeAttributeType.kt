@@ -35,7 +35,6 @@ enum class LimeAttributeType(
     EQUATABLE("Equatable"),
     IMMUTABLE("Immutable"),
     OPTIMIZED("Optimized"),
-    POINTER_EQUATABLE("PointerEquatable"),
     SERIALIZABLE("Serializable"),
     SKIP("Skip", LimeAttributeValueType.TAG);
 

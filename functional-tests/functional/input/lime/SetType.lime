@@ -62,7 +62,6 @@ class SomeEquatableClass {
     property id: String { get }
 }
 
-@PointerEquatable
 class SomePointerEquatableClass {
     constructor create(
         id: String

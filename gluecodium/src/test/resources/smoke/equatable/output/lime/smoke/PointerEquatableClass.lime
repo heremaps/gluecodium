@@ -1,5 +1,0 @@
-package smoke
-
-@PointerEquatable
-class PointerEquatableClass {
-}
