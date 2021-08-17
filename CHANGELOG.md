@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed validation for deprecated `@Java(Builder)` attribute.
+
 ## 9.4.1
 Release date: 2021-08-17
 ### Features:
