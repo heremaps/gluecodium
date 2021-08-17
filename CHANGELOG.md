@@ -1,6 +1,8 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Features:
+  * Added support for generating "positional defaults" struct constructors with a deprecation annotation.
 ### Removed:
   * `@PointerEquatable` and `@Java(Builder)` attributes were removed.
 

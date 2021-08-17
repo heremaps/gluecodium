@@ -70,7 +70,7 @@
 {{#fields}}        this.{{resolveName}} = {{resolveName}};
 {{/fields}}
     }
-{{/unless}}{{!!
+{{/unless}}{{/if}}{{/unless}}{{!!
 
 }}{{#if attributes.java.positionalDefaults}}{{#set noAttributes=true struct=this}}
 {{#initializedFields}}{{#set fieldIndex=iter.index}}
@@ -83,9 +83,13 @@
 {{/uninitializedFields}}
 {{#initializedFields}}{{#numExpr iter.index fieldIndex op="le"}}
      * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
-{{/numExpr}}{{/initializedFields}}
+{{/numExpr}}{{/initializedFields}}{{#instanceOf struct.attributes.java.positionalDefaults "String"}}
+     * @deprecated {{#struct.attributes.java.positionalDefaults}}{{prefix this " * " skipFirstLine=true}}{{/struct.attributes.java.positionalDefaults}}
+{{/instanceOf}}
      */
-{{/unless}}
+{{/unless}}{{#instanceOf struct.attributes.java.positionalDefaults "String"}}
+    @Deprecated("{{struct.attributes.java.positionalDefaults}}")
+{{/instanceOf}}
     {{#struct}}{{>structVisibility}}{{resolveName}}{{/struct}}{{!!
     }}({{#uninitializedFields}}{{>java/JavaParameter}}, {{/uninitializedFields}}{{!!
     }}{{#initializedFields}}{{#numExpr iter.index fieldIndex op="le"}}{{>java/JavaParameter}}{{/numExpr}}{{!!
@@ -99,7 +103,7 @@
     }
 {{/set}}{{/initializedFields}}
 {{/set}}{{/if}}{{!!
-}}{{/if}}{{/unless}}{{/if}}
+}}{{/if}}
 {{#unless external.java.name}}{{#if attributes.serializable}}{{prefixPartial "java/ParcelableImpl" "    "}}
 
 {{/if}}

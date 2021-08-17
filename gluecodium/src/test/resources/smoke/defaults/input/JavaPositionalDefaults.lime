@@ -17,20 +17,6 @@
 
 package smoke
 
-@Dart(PositionalDefaults)
-@Java(Skip) @Swift(Skip)
-struct StructWithSomeDefaults {
-    intField: Int = 42
-    stringField: String
-}
-
-@Dart(PositionalDefaults)
-@Java(Skip) @Swift(Skip)
-struct StructWithAllDefaults {
-    intField: Int = 42
-    stringField: String = "\\Jonny \"Magic\" Smith\n"
-}
-
 // Foo Bar this is a comment
 // @constructor buzz fizz
 @Java(PositionalDefaults)
@@ -48,14 +34,25 @@ struct StructWithJavaPositionalDefaults {
     thirdInitField: String = "\\Jonny \"Magic\" Smith\n"
 }
 
-@Dart(PositionalDefaults)
-@Java(Skip) @Swift(Skip)
-struct StructWithCollectionDefaults {
-    emptyListField: List<String> = []
-    emptyMapField: Map<String, String> = []
-    emptySetField: Set<String> = []
-    listField: List<String> = ["foo", "bar"]
-    mapField: Map<String, String> = ["foo": "bar"]
-    setField: Set<String> = ["foo", "bar"]
+// Foo Bar this is a comment
+// @constructor buzz fizz
+@Java(PositionalDefaults = "Sorry, this is deprecated.")
+@Swift(Skip) @Dart(Skip)
+struct JavaDeprecatedPosDefaults {
+    // first init!
+    firstInitField: Int = 42
+    // first free!
+    firstFreeField: String
 }
 
+// Foo Bar this is a comment
+// @constructor buzz fizz
+@Java(PositionalDefaults = "Sorry, this is deprecated.")
+@Swift(Skip) @Dart(Skip)
+struct JavaDeprecatedPosDefaultsCustom {
+    // first init!
+    firstInitField: Int = 42
+    // first free!
+    firstFreeField: String
+    constructor custom()
+}

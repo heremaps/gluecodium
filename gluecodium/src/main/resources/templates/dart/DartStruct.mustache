@@ -194,20 +194,17 @@ void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) => _{{resolveNa
 }}{{+dartFieldsAndConstants}}{{!!
 }}{{#set parent=this}}{{#fields}}{{prefixPartial "dart/DartField" "  "}}
 {{/fields}}{{/set}}
-{{#if fields}}{{#unless constructors}}{{#resolveName constructorComment}}{{#unless this.isEmpty}}{{!!
-}}{{prefix this "  /// "}}
-{{#fields}}
-  /// [{{resolveName}}] {{#resolveName comment}}{{#unless this.isEmpty}}{{!!
-  }}{{prefix this "  /// " skipFirstLine=true}}{{/unless}}{{/resolveName}}
-{{/fields}}
-{{/unless}}{{/resolveName}}{{/unless}}{{!!
-}}{{#if attributes.dart.positionalDefaults initializedFields}}{{!!
+{{#if fields}}{{!!
+}}{{#if attributes.dart.positionalDefaults initializedFields}}{{>constructorComment}}{{!!
+}}{{#instanceOf attributes.dart.positionalDefaults "String"}}
+  @Deprecated("{{attributes.dart.positionalDefaults}}")
+{{/instanceOf}}{{!!
 }}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{implSuffix}}({{!!
   }}{{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}, {{/uninitializedFields}}{{!!
   }}[{{#initializedFields}}{{resolveName typeRef}} {{resolveName}} = {{>constPrefix}}{{resolveName defaultValue}}{{#if iter.hasNext}}, {{/if}}{{/initializedFields}}])
     : {{#fields}}{{resolveName visibility}}{{resolveName}} = {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}};
 {{/if}}{{!!
-}}{{#unless attributes.dart.positionalDefaults initializedFields}}{{!!
+}}{{#unless attributes.dart.positionalDefaults initializedFields}}{{#unless constructors}}{{>constructorComment}}{{/unless}}{{!!
 }}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{implSuffix}}{{!!
 }}{{#if constructors}}._{{/if}}({{#fields}}this.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
 {{/unless}}
@@ -236,4 +233,12 @@ void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) => _{{resolveNa
 }}{{#instanceOf type "LimeList"}}const {{/instanceOf}}{{!!
 }}{{#instanceOf type "LimeMap"}}const {{/instanceOf}}{{!!
 }}{{#instanceOf type "LimeSet"}}const {{/instanceOf}}{{!!
-}}{{/set}}{{/constPrefix}}
+}}{{/set}}{{/constPrefix}}{{!!
+
+}}{{+constructorComment}}{{#resolveName constructorComment}}{{#unless this.isEmpty}}{{!!
+}}{{prefix this "  /// "}}
+{{#fields}}
+  /// [{{resolveName}}] {{#resolveName comment}}{{#unless this.isEmpty}}{{!!
+  }}{{prefix this "  /// " skipFirstLine=true}}{{/unless}}{{/resolveName}}
+{{/fields}}
+{{/unless}}{{/resolveName}}{{/constructorComment}}
