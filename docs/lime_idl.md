@@ -516,9 +516,11 @@ element is skipped (not generated). Custom tags are case-insensitive.
   generated code. _Annotation_ does not need to be prepended with `@`. _Annotation_ can contain parameters, e.g.
   `@Java(Attribute="Deprecated(\"It's deprecated.\")")`. If some of the parameters are string literals, their enclosing
   quotes need to be backslash-escaped, as in the example.
-  * **PositionalDefaults**: marks a struct to have additional constructors simulating optional positional parameters in
-  Java. Can only be applied to a struct that has at least one field with a default value. Please note that combining
-  this attribute with internal (see `Visibility` above) fields is not supported.
+  * **PositionalDefaults** \[**=** **"**_DeprecationMessage_**"** \]: marks a struct to have additional constructors
+  simulating optional positional parameters in Java. Can only be applied to a struct that has at least one field with a
+  default value. Please note that combining this attribute with internal (see `Visibility` above) fields is not
+  supported. The positional defaults constructors will be generated with a `@Deprecated` annotation, if
+  _DeprecationMessage_ is specified.
 * **@Swift**: marks an element with Swift-specific behaviors:
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Swift.
   This is the default specification for this attribute.
@@ -549,8 +551,10 @@ element is skipped (not generated). Custom tags are case-insensitive.
   was defined (see `@Skip` above).
   * **@EnableIf** **=** **"**_CustomTag_**"**: marks an element to be enabled in Dart only if a custom tag with that
   name was defined through command-line parameters. If the tag is not present, the element is skipped (not generated).
-  * **PositionalDefaults**: marks a struct to have a constructor with optional positional parameters in Dart. Can only
-  be applied to a struct that has at least one field with a default value.
+  * **PositionalDefaults** \[**=** **"**_DeprecationMessage_**"** \]: marks a struct to have a constructor with optional
+  positional parameters in Dart. Can only be applied to a struct that has at least one field with a default value. The
+  positional defaults constructor will be generated with a `@Deprecated` annotation, if _DeprecationMessage_ is
+  specified.
   * **Attribute** **=** **"**_Annotation_**"**: marks an element to be marked with the given annotation in Dart
   generated code. _Annotation_ does not need to be prepended with `@`. _Annotation_ can contain parameters, e.g.
   `@Dart(Attribute="Deprecated(\"It's deprecated.\")")`. If some of the parameters are string literals, their enclosing
