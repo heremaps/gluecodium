@@ -19,7 +19,6 @@ package test
 
 types Equatable {
     @Equatable
-    @Java(Builder)
     struct EquatableStruct {
         boolField: Boolean
         intField: Int
@@ -35,7 +34,6 @@ types Equatable {
     }
 
     @Equatable
-    @Java(Builder)
     struct EquatableNullableStruct {
         boolField: Boolean? = null
         intField: Int? = null

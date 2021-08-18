@@ -28,7 +28,6 @@ class Structs {
     }
 
     @Immutable
-    @Java(Builder)
     struct AllTypesStruct {
         int8Field: Byte
         uint8Field: UByte

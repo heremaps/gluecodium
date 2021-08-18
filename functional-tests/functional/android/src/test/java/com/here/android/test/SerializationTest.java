@@ -29,6 +29,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -48,26 +49,12 @@ public final class SerializationTest {
     Map<Integer, String> errorMap = new HashMap<>();
     errorMap.put(0, "one");
     errorMap.put(1, "two");
+    Set<String> hashSet = new java.util.HashSet<>(java.util.Arrays.asList("foo", "bar"));
 
-    SerializableStruct serializableStruct =
-        new SerializableStruct.Builder()
-            .setBoolField(true)
-            .setByteField((byte) 42)
-            .setShortField((short) 542)
-            .setIntField(65542)
-            .setLongField(2147484000L)
-            .setFloatField(1.0f)
-            .setDoubleField(2.0)
-            .setStringField("nonsense")
-            .setStructField(nestedStruct)
-            .setByteBufferField(byteBuffer)
-            .setArrayField(stringList)
-            .setStructArrayField(structList)
-            .setMapField(errorMap)
-            .setSetField(new java.util.HashSet<>(java.util.Arrays.asList("foo", "bar")))
-            .setEnumSetField(java.util.EnumSet.of(FooEnum.BAR))
-            .setEnumField(FooEnum.BAR)
-            .build();
+    SerializableStruct serializableStruct = new SerializableStruct(
+        true, (byte) 42, (short) 542, 65542, 2147484000L, 1.0f, 2.0, "nonsense", nestedStruct,
+        byteBuffer, stringList, structList, errorMap, hashSet, java.util.EnumSet.of(FooEnum.BAR),
+        FooEnum.BAR);
 
     Parcel parcel = Parcel.obtain();
     parcel.writeParcelable(serializableStruct, 0);

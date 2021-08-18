@@ -105,9 +105,7 @@
 {{/if}}
 {{#if attributes.equatable}}{{prefixPartial "java/EqualsAndHashCode" "    "}}
 {{/if}}
-{{#if attributes.java.builder}}{{#unless constructors}}{{prefixPartial "java/FieldsBuilder" "    "}}
-
-{{/unless}}{{/if}}{{/unless}}
+{{/unless}}
 
 {{#functions}}
 {{prefixPartial "java/JavaFunction" "    "}}

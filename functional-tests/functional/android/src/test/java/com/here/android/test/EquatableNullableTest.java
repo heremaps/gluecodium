@@ -157,16 +157,8 @@ public final class EquatableNullableTest {
     someArray.add("one");
     someArray.add("two");
 
-    return new EquatableNullableStruct.Builder()
-        .setBoolField(true)
-        .setIntField(-42)
-        .setUintField(6542)
-        .setFloatField(3.14f)
-        .setStringField("nonsense")
-        .setStructField(new NestedEquatableStruct("foo"))
-        .setEnumField(SomeSomeEnum.BAR)
-        .setMapField(someMap)
-        .setArrayField(someArray)
-        .build();
+    return new EquatableNullableStruct(
+        true, -42, 6542, 3.14f, "nonsense", new NestedEquatableStruct("foo"), SomeSomeEnum.BAR,
+        someMap, someArray);
   }
 }

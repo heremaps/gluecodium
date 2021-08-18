@@ -177,11 +177,6 @@ feature(Properties cpp android swift dart SOURCES
     input/lime/AttributesInterfaceFactory.lime
 )
 
-# This feature is intended for Android only.
-feature(JavaBuilder android SOURCES
-    input/lime/JavaBuilder.lime
-)
-
 feature(Listeners cpp android swift dart SOURCES
     input/src/cpp/StringListeners.cpp
     input/src/cpp/ListenerRoundtrip.cpp

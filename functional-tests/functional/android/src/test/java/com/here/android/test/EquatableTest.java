@@ -425,17 +425,8 @@ public final class EquatableTest {
     someArray.add("one");
     someArray.add("two");
 
-    return new EquatableStruct.Builder()
-        .setBoolField(true)
-        .setIntField(65542)
-        .setLongField(2147484000L)
-        .setFloatField(1.0f)
-        .setDoubleField(2.0)
-        .setStringField("nonsense")
-        .setStructField(new NestedEquatableStruct("foo"))
-        .setEnumField(SomeSomeEnum.BAR)
-        .setMapField(someMap)
-        .setArrayField(someArray)
-        .build();
+    return new EquatableStruct(
+        true, 65542, 2147484000L, 1.0f, 2.0, "nonsense", new NestedEquatableStruct("foo"),
+        SomeSomeEnum.BAR, someMap, someArray);
   }
 }

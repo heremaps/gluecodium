@@ -43,14 +43,6 @@ public class NestingTest {
   }
 
   @Test
-  public void nestedBuilder() {
-    OuterStruct.Builder builder = new OuterStruct.Builder();
-    OuterStruct result = builder.field("nonsense").build();
-
-    assertEquals("nonsense", result.field);
-  }
-
-  @Test
   public void nestedException() throws OuterStruct.InstantiationException {
     expectedException.expect(OuterStruct.InstantiationException.class);
 
