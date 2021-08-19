@@ -3,6 +3,8 @@
 ## Unreleased
 ### Features:
   * Added support for generating "positional defaults" struct constructors with a deprecation annotation.
+### Bug fixes:
+  * Fixed duplicate documentation for static functions on structs in Dart.
 ### Removed:
   * `@PointerEquatable` and `@Java(Builder)` attributes were removed.
 

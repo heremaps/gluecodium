@@ -3,6 +3,7 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:meta/meta.dart';
 /// This is some very useful interface.
 abstract class Comments {
   /// @nodoc
@@ -138,6 +139,20 @@ class Comments_SomeStruct {
   /// remains to be seen
   /// [nullableField] Can be `null`
   Comments_SomeStruct(this.someField, this.nullableField);
+  /// This is some struct method that does nothing.
+  ///
+  void someStructMethod() {
+    final _someStructMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_Comments_SomeStruct_someStructMethod'));
+    final _handle = smokeCommentsSomestructToFfi(this);
+    _someStructMethodFfi(_handle, __lib.LibraryContext.isolateId);
+    smokeCommentsSomestructReleaseFfiHandle(_handle);
+  }
+  /// This is some static struct method that does nothing.
+  ///
+  static void someStaticStructMethod() => $prototype.someStaticStructMethod();
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = Comments_SomeStruct$Impl();
 }
 // Comments_SomeStruct "private" section, not exported.
 final _smokeCommentsSomestructCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -156,6 +171,14 @@ final _smokeCommentsSomestructGetFieldnullableField = __lib.catchArgumentError((
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Comments_SomeStruct_get_field_nullableField'));
+/// @nodoc
+@visibleForTesting
+class Comments_SomeStruct$Impl {
+  void someStaticStructMethod() {
+    final _someStaticStructMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_Comments_SomeStruct_someStaticStructMethod'));
+    _someStaticStructMethodFfi(__lib.LibraryContext.isolateId);
+  }
+}
 Pointer<Void> smokeCommentsSomestructToFfi(Comments_SomeStruct value) {
   final _someFieldHandle = booleanToFfi(value.someField);
   final _nullableFieldHandle = stringToFfiNullable(value.nullableField);

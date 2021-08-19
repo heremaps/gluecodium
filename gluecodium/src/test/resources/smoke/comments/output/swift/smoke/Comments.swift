@@ -60,6 +60,15 @@ public class Comments {
             someField = moveFromCType(smoke_Comments_SomeStruct_someField_get(cHandle))
             nullableField = moveFromCType(smoke_Comments_SomeStruct_nullableField_get(cHandle))
         }
+        /// This is some struct method that does nothing.
+        public func someStructMethod() -> Void {
+            let c_self_handle = moveToCType(self)
+            smoke_Comments_SomeStruct_someStructMethod(c_self_handle.ref)
+        }
+        /// This is some static struct method that does nothing.
+        public static func someStaticStructMethod() -> Void {
+            smoke_Comments_SomeStruct_someStaticStructMethod()
+        }
     }
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter inputParameter: Very useful input parameter

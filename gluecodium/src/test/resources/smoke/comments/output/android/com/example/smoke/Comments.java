@@ -64,6 +64,14 @@ public final class Comments extends NativeBase {
             this.someField = someField;
             this.nullableField = nullableField;
         }
+        /**
+         * <p>This is some struct method that does nothing.</p>
+         */
+        public native void someStructMethod();
+        /**
+         * <p>This is some static struct method that does nothing.</p>
+         */
+        public static native void someStaticStructMethod();
     }
     /**
      * @exclude

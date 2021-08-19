@@ -41,7 +41,7 @@ class {{resolveName}}{{#if external.dart.converter}}Internal{{/if}} {
 {{/constructors}}
 {{#functions}}{{#unless isConstructor}}
 {{prefixPartial "dart/DartFunctionDocs" "  "}}
-{{#if isStatic}}{{>dart/DartRedirectFunction}}{{/if}}{{!!
+{{#if isStatic}}{{prefixPartial "dart/DartFunctionSignature" "  "}}{{>dart/DartRedirectImpl}};{{/if}}{{!!
 }}{{#unless isStatic}}{{prefixPartial "dart/DartFunction" "  "}}{{/unless}}
 {{/unless}}{{/functions}}{{/set}}
 {{#if attributes.equatable}}{{#unless external.dart.converter}}
