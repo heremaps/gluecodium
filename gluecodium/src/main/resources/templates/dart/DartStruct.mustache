@@ -40,8 +40,7 @@ class {{resolveName}}{{#if external.dart.converter}}Internal{{/if}} {
 {{/constructors}}
 {{#functions}}{{#unless isConstructor}}
 {{prefixPartial "dart/DartFunctionDocs" "  "}}
-{{#if isStatic}}{{prefixPartial "dart/DartFunctionSignature" "  "}}{{>dart/DartRedirectImpl}};{{/if}}{{!!
-}}{{#unless isStatic}}{{prefixPartial "dart/DartFunction" "  "}}{{/unless}}
+{{prefixPartial "dart/DartFunctionSignature" "  "}}{{>dart/DartRedirectImpl}};
 {{/unless}}{{/functions}}{{/set}}
 {{#if attributes.equatable}}{{#unless external.dart.converter}}
   @override
@@ -62,12 +61,12 @@ class {{resolveName}}{{#if external.dart.converter}}Internal{{/if}} {
     return result;
   }
 {{/unless}}{{/if}}
-{{#ifPredicate "hasStaticFunctions"}}
+{{#if functions}}
 
   /// @nodoc
   @visibleForTesting
   static dynamic $prototype = {{resolveName}}$Impl();
-{{/ifPredicate}}
+{{/if}}
 }
 {{/unlessPredicate}}
 
@@ -104,18 +103,20 @@ final _{{resolveName parent "Ffi"}}GetField{{resolveName "Ffi"}} = __lib.catchAr
   >('{{libraryName}}_{{resolveName parent "FfiSnakeCase"}}_get_field_{{resolveName "FfiSnakeCase"}}'));
 {{/fields}}{{/set}}
 
+{{#unlessPredicate "skipDeclaration"}}
 {{>dart/DartOptimizedLists}}
 
-{{#ifPredicate "hasStaticFunctions"}}
+{{#if functions}}
 
 /// @nodoc
 @visibleForTesting
 class {{resolveName}}$Impl {
-{{#set parent=this isStruct=true ignoreStatic=true}}{{#functions}}{{#if isStatic}}
+{{#set parent=this isStruct=true ignoreStatic=true addThat=true}}{{#functions}}
 {{prefixPartial "dart/DartFunction" "  "}}
-{{/if}}{{/functions}}{{/set}}
+{{/functions}}{{/set}}
 }
-{{/ifPredicate}}
+{{/if}}
+{{/unlessPredicate}}
 
 Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#if external.dart.converter}}External{{/if}}) {
 {{#if external.dart.converter}}

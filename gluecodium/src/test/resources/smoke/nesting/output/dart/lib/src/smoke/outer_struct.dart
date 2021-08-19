@@ -7,6 +7,7 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
+import 'package:meta/meta.dart';
 final _doNothingReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -22,22 +23,10 @@ final _doNothingReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibr
 class OuterStruct {
   String field;
   OuterStruct(this.field);
-  void doNothing() {
-    final _doNothingFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_OuterStruct_doNothing'));
-    final _handle = smokeOuterstructToFfi(this);
-    final __callResultHandle = _doNothingFfi(_handle, __lib.LibraryContext.isolateId);
-    smokeOuterstructReleaseFfiHandle(_handle);
-    if (_doNothingReturnHasError(__callResultHandle) != 0) {
-        final __errorHandle = _doNothingReturnGetError(__callResultHandle);
-        _doNothingReturnReleaseHandle(__callResultHandle);
-        try {
-          throw OuterStruct_InstantiationException(smokeOuterstructInnerenumFromFfi(__errorHandle));
-        } finally {
-          smokeOuterstructInnerenumReleaseFfiHandle(__errorHandle);
-        }
-    }
-    _doNothingReturnReleaseHandle(__callResultHandle);
-  }
+  void doNothing() => $prototype.doNothing(this);
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = OuterStruct$Impl();
 }
 enum OuterStruct_InnerEnum {
     foo,
@@ -101,12 +90,10 @@ class OuterStruct_InstantiationException implements Exception {
 class OuterStruct_InnerStruct {
   List<DateTime> otherField;
   OuterStruct_InnerStruct(this.otherField);
-  void doSomething() {
-    final _doSomethingFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_OuterStruct_InnerStruct_doSomething'));
-    final _handle = smokeOuterstructInnerstructToFfi(this);
-    _doSomethingFfi(_handle, __lib.LibraryContext.isolateId);
-    smokeOuterstructInnerstructReleaseFfiHandle(_handle);
-  }
+  void doSomething() => $prototype.doSomething(this);
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = OuterStruct_InnerStruct$Impl();
 }
 // OuterStruct_InnerStruct "private" section, not exported.
 final _smokeOuterstructInnerstructCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -121,6 +108,16 @@ final _smokeOuterstructInnerstructGetFieldotherField = __lib.catchArgumentError(
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_OuterStruct_InnerStruct_get_field_otherField'));
+/// @nodoc
+@visibleForTesting
+class OuterStruct_InnerStruct$Impl {
+  void doSomething(OuterStruct_InnerStruct $that) {
+    final _doSomethingFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_OuterStruct_InnerStruct_doSomething'));
+    final _handle = smokeOuterstructInnerstructToFfi($that);
+    _doSomethingFfi(_handle, __lib.LibraryContext.isolateId);
+    smokeOuterstructInnerstructReleaseFfiHandle(_handle);
+  }
+}
 Pointer<Void> smokeOuterstructInnerstructToFfi(OuterStruct_InnerStruct value) {
   final _otherFieldHandle = foobarListofDateToFfi(value.otherField);
   final _result = _smokeOuterstructInnerstructCreateHandle(_otherFieldHandle);
@@ -337,6 +334,26 @@ final _smokeOuterstructGetFieldfield = __lib.catchArgumentError(() => __lib.nati
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_OuterStruct_get_field_field'));
+/// @nodoc
+@visibleForTesting
+class OuterStruct$Impl {
+  void doNothing(OuterStruct $that) {
+    final _doNothingFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_OuterStruct_doNothing'));
+    final _handle = smokeOuterstructToFfi($that);
+    final __callResultHandle = _doNothingFfi(_handle, __lib.LibraryContext.isolateId);
+    smokeOuterstructReleaseFfiHandle(_handle);
+    if (_doNothingReturnHasError(__callResultHandle) != 0) {
+        final __errorHandle = _doNothingReturnGetError(__callResultHandle);
+        _doNothingReturnReleaseHandle(__callResultHandle);
+        try {
+          throw OuterStruct_InstantiationException(smokeOuterstructInnerenumFromFfi(__errorHandle));
+        } finally {
+          smokeOuterstructInnerenumReleaseFfiHandle(__errorHandle);
+        }
+    }
+    _doNothingReturnReleaseHandle(__callResultHandle);
+  }
+}
 Pointer<Void> smokeOuterstructToFfi(OuterStruct value) {
   final _fieldHandle = stringToFfi(value.field);
   final _result = _smokeOuterstructCreateHandle(_fieldHandle);

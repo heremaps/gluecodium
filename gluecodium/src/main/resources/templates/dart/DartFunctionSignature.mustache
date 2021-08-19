@@ -18,10 +18,14 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless isConstructor}}{{#if isStatic}}{{#unless ignoreStatic}}static {{/unless}}{{/if}}{{/unless}}{{!!
-}}{{#if isConstructor}}{{#if isStruct}}{{resolveName returnType}} {{/if}}{{!!
-}}{{#unless isStruct}}static Pointer<Void> {{/unless}}{{/if}}{{!!
-}}{{#unless isConstructor}}{{resolveName returnType}} {{/unless}}{{!!
-}}{{#if isConstructor}}{{#unless isStruct}}_{{/unless}}{{/if}}{{!!
-}}{{#unless isConstructor}}{{resolveName visibility}}{{/unless}}{{resolveName}}({{!!
+{{#if isConstructor}}{{!!
+}}{{#if isStruct}}{{resolveName returnType}} {{/if}}{{#unless isStruct}}static Pointer<Void> _{{/unless}}{{resolveName}}({{!!
+}}{{/if}}{{!!
+
+}}{{#unless isConstructor}}{{!!
+}}{{#if isStatic}}{{#unless ignoreStatic}}static {{/unless}}{{/if}}{{resolveName returnType}} {{resolveName visibility}}{{resolveName}}({{!!
+}}{{#if addThat}}{{#unless isStatic}}{{resolveName parent}}{{#if parent.external.dart.converter}}Internal{{/if}} $that{{!!
+}}{{#if parameters}}, {{/if}}{{/unless}}{{/if}}{{!!
+}}{{/unless}}{{!!
+
 }}{{#parameters}}{{>dart/DartAttributesInline}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})

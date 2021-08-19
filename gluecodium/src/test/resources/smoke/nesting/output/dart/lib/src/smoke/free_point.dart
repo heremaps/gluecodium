@@ -1,22 +1,16 @@
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/smoke/free_enum.dart';
+import 'package:meta/meta.dart';
 class FreePoint {
   double x;
   double y;
   FreePoint(this.x, this.y);
   static final FreeEnum aBar = FreeEnum.bar;
-  FreePoint flip() {
-    final _flipFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_FreePoint_flip'));
-    final _handle = smokeFreepointToFfi(this);
-    final __resultHandle = _flipFfi(_handle, __lib.LibraryContext.isolateId);
-    smokeFreepointReleaseFfiHandle(_handle);
-    try {
-      return smokeFreepointFromFfi(__resultHandle);
-    } finally {
-      smokeFreepointReleaseFfiHandle(__resultHandle);
-    }
-  }
+  FreePoint flip() => $prototype.flip(this);
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = FreePoint$Impl();
 }
 // FreePoint "private" section, not exported.
 final _smokeFreepointCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -35,6 +29,21 @@ final _smokeFreepointGetFieldy = __lib.catchArgumentError(() => __lib.nativeLibr
     Double Function(Pointer<Void>),
     double Function(Pointer<Void>)
   >('library_smoke_FreePoint_get_field_y'));
+/// @nodoc
+@visibleForTesting
+class FreePoint$Impl {
+  FreePoint flip(FreePoint $that) {
+    final _flipFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_FreePoint_flip'));
+    final _handle = smokeFreepointToFfi($that);
+    final __resultHandle = _flipFfi(_handle, __lib.LibraryContext.isolateId);
+    smokeFreepointReleaseFfiHandle(_handle);
+    try {
+      return smokeFreepointFromFfi(__resultHandle);
+    } finally {
+      smokeFreepointReleaseFfiHandle(__resultHandle);
+    }
+  }
+}
 Pointer<Void> smokeFreepointToFfi(FreePoint value) {
   final _xHandle = (value.x);
   final _yHandle = (value.y);

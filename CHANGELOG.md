@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Improved mockability of `$prototype` for structs with methods in Dart.
+
 ## 9.4.3
 Release date: 2021-08-20
 ### Bug fixes:
@@ -17,7 +21,8 @@ Release date: 2021-08-19
 ## 9.4.1
 Release date: 2021-08-17
 ### Features:
-  * Added `$prototype` field to types with static functions/properties, to allow for mocking of these statics in tests.
+  * Added `$prototype` field to types with static functions/properties in Dart, to allow for mocking of these statics in
+    tests.
 ### Removed:
   * Dart "-stubs" testable mode was removed.
 
