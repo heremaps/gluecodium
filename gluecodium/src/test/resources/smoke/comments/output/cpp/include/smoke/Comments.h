@@ -64,6 +64,14 @@ public:
          * @param nullable_field Can be `null`
          */
         SomeStruct( ::smoke::Comments::Usefulness some_field, ::gluecodium::optional< ::std::string > nullable_field );
+        /**
+         * This is some struct method that does nothing.
+         */
+        void some_struct_method(  ) const;
+        /**
+         * This is some static struct method that does nothing.
+         */
+        static void some_static_struct_method(  );
     };
     /**
      * This is some very useful constant.

@@ -27,6 +27,10 @@ class comments {
         someField: Usefulness
         // Can be `null`
         nullableField: String?
+        // This is some struct method that does nothing.
+        fun someStructMethod()
+        // This is some static struct method that does nothing.
+        static fun someStaticStructMethod()
     }
 
     // This is some very useful enum.
