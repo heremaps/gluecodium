@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 9.4.2
+Release date: 2021-08-19
 ### Features:
   * Added support for generating "positional defaults" struct constructors with a deprecation annotation.
 ### Bug fixes:
