@@ -23,10 +23,9 @@ class Vector {
   double x;
   double y;
   Vector._(this.x, this.y);
-  Vector._copy(Vector _other) : this._(_other.x, _other.y);
-  factory Vector(double x, double y) => Vector._copy($prototype.$init(x, y));
-  factory Vector.copy(Vector other) => Vector._copy($prototype.copy(other));
-  factory Vector.create(int input) => Vector._copy($prototype.create(input));
+  factory Vector(double x, double y) => $prototype.$init(x, y);
+  factory Vector.copy(Vector other) => $prototype.copy(other);
+  factory Vector.create(int input) => $prototype.create(input);
   double distanceTo(Vector other) {
     final _distanceToFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Double Function(Pointer<Void>, Int32, Pointer<Void>), double Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_StructsWithMethods_Vector_distanceTo__Vector'));
     final _otherHandle = smokeStructswithmethodsVectorToFfi(other);

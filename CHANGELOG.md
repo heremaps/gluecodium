@@ -6,6 +6,7 @@ Release date: 2021-08-19
   * Added support for generating "positional defaults" struct constructors with a deprecation annotation.
 ### Bug fixes:
   * Fixed duplicate documentation for static functions on structs in Dart.
+  * Fixed testability issues for structs with custom constructors in Dart.
 ### Removed:
   * `@PointerEquatable` and `@Java(Builder)` attributes were removed.
 

@@ -55,8 +55,7 @@ void smokePlatformnamesBasicenumReleaseFfiHandleNullable(Pointer<Void> handle) =
 class weeStruct {
   String WEE_FIELD;
   weeStruct._(this.WEE_FIELD);
-  weeStruct._copy(weeStruct _other) : this._(_other.WEE_FIELD);
-  factory weeStruct.WeeCreate(String WeeParameter) => weeStruct._copy($prototype.WeeCreate(WeeParameter));
+  factory weeStruct.WeeCreate(String WeeParameter) => $prototype.WeeCreate(WeeParameter);
   /// @nodoc
   @visibleForTesting
   static dynamic $prototype = weeStruct$Impl();
