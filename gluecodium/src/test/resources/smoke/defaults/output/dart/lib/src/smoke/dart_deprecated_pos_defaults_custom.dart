@@ -12,8 +12,7 @@ class DartDeprecatedPosDefaultsCustom {
   @Deprecated("Sorry, this is deprecated.")
   DartDeprecatedPosDefaultsCustom(String stringField, [int intField = 42])
     : intField = intField, stringField = stringField;
-  DartDeprecatedPosDefaultsCustom._copy(DartDeprecatedPosDefaultsCustom _other) : this._(_other.intField, _other.stringField);
-  factory DartDeprecatedPosDefaultsCustom() => DartDeprecatedPosDefaultsCustom._copy($prototype.custom());
+  factory DartDeprecatedPosDefaultsCustom() => $prototype.custom();
   /// @nodoc
   @visibleForTesting
   static dynamic $prototype = DartDeprecatedPosDefaultsCustom$Impl();
