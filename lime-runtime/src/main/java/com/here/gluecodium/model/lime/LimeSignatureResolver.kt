@@ -44,29 +44,28 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
         return functions.map { getSignature(it) }.filter { it == signature }.count() > 1
     }
 
-    fun hasConstructorSignatureClash(limeFunction: LimeFunction) =
-        hasSignatureClash(limeFunction, getAllConstructorOverloads(limeFunction))
+    fun hasConstructorSignatureClash(limeFunction: LimeFunction): Boolean {
+        val container = getContainer(limeFunction) ?: return false
+        val overloads = getOwnFunctions(container).filter { it.isConstructor }
+        return hasSignatureClash(limeFunction, overloads)
+    }
+
+    protected fun getContainer(limeFunction: LimeFunction) =
+        referenceMap[limeFunction.path.parent.toString()] as? LimeContainer
 
     private fun getAllOverloads(limeFunction: LimeFunction): List<LimeFunction> {
-        val parentElement = referenceMap[limeFunction.path.parent.toString()] as? LimeContainer
-            ?: return listOf(limeFunction)
+        val parentElement = getContainer(limeFunction) ?: return listOf(limeFunction)
         val functionName = getFunctionName(limeFunction)
-        return getAllFunctions(parentElement).filter { getFunctionName(it) == functionName }
+        return getOwnFunctions(parentElement).filter { getFunctionName(it) == functionName }
     }
 
-    private fun getAllConstructorOverloads(limeFunction: LimeFunction) =
-        when (val parentElement = referenceMap[limeFunction.path.parent.toString()]) {
-            is LimeContainer -> getAllFunctions(parentElement).filter { it.isConstructor }
-            else -> listOf(limeFunction)
-        }
-
-    private fun getAllFunctions(limeContainer: LimeContainer): List<LimeFunction> {
+    protected fun getOwnAndParentFunctions(limeContainer: LimeContainer): List<LimeFunction> {
         val parentContainer = (limeContainer as? LimeContainerWithInheritance)?.parent?.type as? LimeContainer
-        val parentFunctions = parentContainer?.let { getAllFunctions(it) } ?: emptyList()
-        return parentFunctions + getAllContainerFunctions(limeContainer)
+        val parentFunctions = parentContainer?.let { getOwnAndParentFunctions(it) } ?: emptyList()
+        return parentFunctions + getOwnFunctions(limeContainer)
     }
 
-    protected open fun getAllContainerFunctions(limeContainer: LimeContainer) = limeContainer.functions
+    protected open fun getOwnFunctions(limeContainer: LimeContainer) = limeContainer.functions
 
     protected open fun getFunctionName(limeFunction: LimeFunction) = limeFunction.name
 
