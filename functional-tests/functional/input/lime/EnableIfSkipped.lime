@@ -32,7 +32,7 @@ types EnableIfTypesSkipped {
 
   @EnableIf(ExperimentalBar)
   struct SkippedMeToo {
-      field: SkippedMe
+      `field`: SkippedMe
   }
 
   const PlaceHolderSkipped: Boolean = true

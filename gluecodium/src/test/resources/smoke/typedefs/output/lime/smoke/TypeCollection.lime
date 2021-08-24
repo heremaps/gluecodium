@@ -9,7 +9,7 @@ types TypeCollection {
         y: Double
     }
     struct StructHavingAliasFieldDefinedBelow {
-        field: StorageId
+        `field`: StorageId
     }
 
     const INVALID_STORAGE_ID: StorageId = 0

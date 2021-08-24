@@ -151,7 +151,7 @@ class CommentsInstantiable {
 
 types CommentsTypeCollection {
     struct TypeCollectionStruct {
-        field: Int
+        `field`: Int
     }
     enum TypeCollectionEnum {
         item

@@ -18,7 +18,7 @@
 package smoke
 
 struct AuxStruct {
-    field: String
+    `field`: String
 }
 
 @Dart(Skip)

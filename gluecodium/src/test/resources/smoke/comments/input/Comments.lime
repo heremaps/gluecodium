@@ -135,7 +135,7 @@ class LongComments {
 
 types CommentsTypeCollection {
     struct TypeCollectionStruct {
-        field: Int
+        `field`: Int
     }
 
     enum TypeCollectionEnum {

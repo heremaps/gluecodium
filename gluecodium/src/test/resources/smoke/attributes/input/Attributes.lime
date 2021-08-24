@@ -82,7 +82,7 @@ struct AttributesStruct {
     @Java(Attribute = "OnField")
     @Swift(Attribute = "OnField")
     @Dart(Attribute = "OnField")
-    field: String
+    `field`: String
     @Cpp(Attribute = "OnFunctionInStruct")
     @Java(Attribute = "OnFunctionInStruct")
     @Swift(Attribute = "OnFunctionInStruct")

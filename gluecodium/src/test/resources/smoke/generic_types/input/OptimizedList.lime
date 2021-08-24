@@ -18,7 +18,7 @@
 package smoke
 
 struct VeryBigStruct {
-    field: String
+    `field`: String
 }
 
 class UnreasonablyLazyClass {}

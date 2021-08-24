@@ -18,22 +18,22 @@
 package smoke
 
 struct StructWithList {
-    field: List<StructWithList>
+    `field`: List<StructWithList>
 }
 
 @Equatable
 struct StructWithSet {
-    field: Set<StructWithSet>
+    `field`: Set<StructWithSet>
 }
 
 struct StructWithMap {
-    field: Map<String, StructWithMap>
+    `field`: Map<String, StructWithMap>
 }
 
 struct StructA {
-    field: List<StructB>
+    `field`: List<StructB>
 }
 
 struct StructB {
-    field: List<StructA>
+    `field`: List<StructA>
 }

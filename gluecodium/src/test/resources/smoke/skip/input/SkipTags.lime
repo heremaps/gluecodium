@@ -60,14 +60,14 @@ types SkipTypesTags {
 
   @Skip(Lite)
   struct SkipMeToo {
-      field: SkipMe
+      `field`: SkipMe
   }
 
   const PlaceHolder: Boolean = true
 }
 
 struct SkipField {
-  field: String
+  `field`: String
   @Skip(Lite)
   noField: SkipTypesTags.SkipMe
 }

@@ -1,6 +1,6 @@
 package smoke
 struct OuterStruct {
-    field: String
+    `field`: String
     enum InnerEnum {
         FOO,
         BAR
@@ -14,7 +14,7 @@ struct OuterStruct {
     @Dart(Skip)
     class Builder {
         constructor create()
-        fun field(
+        fun `field`(
             value: String
         ): Builder
         fun build(): OuterStruct

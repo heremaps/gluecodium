@@ -53,7 +53,7 @@ types EnableIfTypesEnabled {
 
   @EnableIf(ExperimentalFoo)
   struct EnableMeToo {
-      field: EnableMe
+      `field`: EnableMe
   }
 
   const PlaceHolderEnabled: Boolean = true
@@ -67,7 +67,7 @@ types EnableIfTypesSkipped {
 
   @EnableIf(ExperimentalBar)
   struct DontEnableMeToo {
-      field: DontEnableMe
+      `field`: DontEnableMe
   }
 
   const PlaceHolderSkipped: Boolean = true

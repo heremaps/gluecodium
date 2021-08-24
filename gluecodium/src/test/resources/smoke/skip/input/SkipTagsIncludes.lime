@@ -25,7 +25,7 @@ enum SomeSkippedEnum {
 @Dart(Skip = "Pro")
 @Equatable
 struct SomeSkippedStruct {
-    field: List<SomeSkippedEnum>
+    `field`: List<SomeSkippedEnum>
 }
 
 @Java(Skip = "Pro")
