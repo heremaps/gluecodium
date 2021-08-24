@@ -1,0 +1,9 @@
+package smoke
+
+struct FieldConstructorWithAnnotationAndComment {
+    stringField: String
+    // Some field constructor
+    @Deprecated("Shouldn't really use it")
+    field constructor(stringField)
+}
+
