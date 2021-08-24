@@ -60,6 +60,7 @@ RSquare: ']' ;
 Class: 'class' ;
 Const: 'const' ;
 Constructor: 'constructor' ;
+Field: 'field' ;
 Fun: 'fun' ;
 Enum: 'enum' ;
 Exception: 'exception' ;
