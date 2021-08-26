@@ -45,3 +45,13 @@ interface ParentInterfaceWithIncludes {
 
 @Dart(Skip)
 class ChildClassWithIncludes: ParentInterfaceWithIncludes {}
+
+@Skip(Java, Swift)
+open class ParentClassWithImports {
+    fun rootMethod(input1: IncludableStruct, input2: IncludableEnum): IncludableClass
+    property rootProperty: IncludableLambda
+}
+
+@Skip(Java, Swift)
+class ChildClassWithImports: ParentClassWithImports {}
+

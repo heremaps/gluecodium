@@ -88,3 +88,10 @@ struct PublicStructWithNonDefaultInternalField {
 internal class InternalClassWithStaticProperty {
     static property fooBar: String
 }
+
+@Skip(Java, Swift)
+types DontExportInDart {
+    struct DoExportInDart {
+        stringField: String
+    }
+}
