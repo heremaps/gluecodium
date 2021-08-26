@@ -26,31 +26,8 @@ class Vector {
   factory Vector(double x, double y) => $prototype.$init(x, y);
   factory Vector.copy(Vector other) => $prototype.copy(other);
   factory Vector.create(int input) => $prototype.create(input);
-  double distanceTo(Vector other) {
-    final _distanceToFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Double Function(Pointer<Void>, Int32, Pointer<Void>), double Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_StructsWithMethods_Vector_distanceTo__Vector'));
-    final _otherHandle = smokeStructswithmethodsVectorToFfi(other);
-    final _handle = smokeStructswithmethodsVectorToFfi(this);
-    final __resultHandle = _distanceToFfi(_handle, __lib.LibraryContext.isolateId, _otherHandle);
-    smokeStructswithmethodsVectorReleaseFfiHandle(_handle);
-    smokeStructswithmethodsVectorReleaseFfiHandle(_otherHandle);
-    try {
-      return (__resultHandle);
-    } finally {
-    }
-  }
-  Vector add(Vector other) {
-    final _addFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_StructsWithMethods_Vector_add__Vector'));
-    final _otherHandle = smokeStructswithmethodsVectorToFfi(other);
-    final _handle = smokeStructswithmethodsVectorToFfi(this);
-    final __resultHandle = _addFfi(_handle, __lib.LibraryContext.isolateId, _otherHandle);
-    smokeStructswithmethodsVectorReleaseFfiHandle(_handle);
-    smokeStructswithmethodsVectorReleaseFfiHandle(_otherHandle);
-    try {
-      return smokeStructswithmethodsVectorFromFfi(__resultHandle);
-    } finally {
-      smokeStructswithmethodsVectorReleaseFfiHandle(__resultHandle);
-    }
-  }
+  double distanceTo(Vector other) => $prototype.distanceTo(this, other);
+  Vector add(Vector other) => $prototype.add(this, other);
   static bool validate(double x, double y) => $prototype.validate(x, y);
   /// @nodoc
   @visibleForTesting
@@ -76,6 +53,31 @@ final _smokeStructswithmethodsVectorGetFieldy = __lib.catchArgumentError(() => _
 /// @nodoc
 @visibleForTesting
 class Vector$Impl {
+  double distanceTo(Vector $that, Vector other) {
+    final _distanceToFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Double Function(Pointer<Void>, Int32, Pointer<Void>), double Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_StructsWithMethods_Vector_distanceTo__Vector'));
+    final _otherHandle = smokeStructswithmethodsVectorToFfi(other);
+    final _handle = smokeStructswithmethodsVectorToFfi($that);
+    final __resultHandle = _distanceToFfi(_handle, __lib.LibraryContext.isolateId, _otherHandle);
+    smokeStructswithmethodsVectorReleaseFfiHandle(_handle);
+    smokeStructswithmethodsVectorReleaseFfiHandle(_otherHandle);
+    try {
+      return (__resultHandle);
+    } finally {
+    }
+  }
+  Vector add(Vector $that, Vector other) {
+    final _addFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_StructsWithMethods_Vector_add__Vector'));
+    final _otherHandle = smokeStructswithmethodsVectorToFfi(other);
+    final _handle = smokeStructswithmethodsVectorToFfi($that);
+    final __resultHandle = _addFfi(_handle, __lib.LibraryContext.isolateId, _otherHandle);
+    smokeStructswithmethodsVectorReleaseFfiHandle(_handle);
+    smokeStructswithmethodsVectorReleaseFfiHandle(_otherHandle);
+    try {
+      return smokeStructswithmethodsVectorFromFfi(__resultHandle);
+    } finally {
+      smokeStructswithmethodsVectorReleaseFfiHandle(__resultHandle);
+    }
+  }
   bool validate(double x, double y) {
     final _validateFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Double, Double), int Function(int, double, double)>('library_smoke_StructsWithMethods_Vector_validate__Double_Double'));
     final _xHandle = (x);

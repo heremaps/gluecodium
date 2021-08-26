@@ -24,8 +24,7 @@
 {{#parameters}}
   final _{{resolveName}}Handle = {{#set call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}});
 {{/parameters}}{{#unless isStatic}}
-  final _handle = {{#if isStruct}}{{resolveName parent "Ffi"}}ToFfi(this){{/if}}{{!!
-  }}{{#unless isStruct}}this.handle{{/unless}};
+  final _handle = {{#if isStruct}}{{resolveName parent "Ffi"}}ToFfi($that){{/if}}{{#unless isStruct}}this.handle{{/unless}};
 {{/unless}}
   {{#if thrownType}}final __callResultHandle = {{/if}}{{!!
   }}{{#unless thrownType returnType.isVoid logic="and"}}final __resultHandle = {{/unless}}{{!!

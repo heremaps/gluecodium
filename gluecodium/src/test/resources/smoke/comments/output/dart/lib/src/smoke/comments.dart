@@ -141,12 +141,7 @@ class Comments_SomeStruct {
   Comments_SomeStruct(this.someField, this.nullableField);
   /// This is some struct method that does nothing.
   ///
-  void someStructMethod() {
-    final _someStructMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_Comments_SomeStruct_someStructMethod'));
-    final _handle = smokeCommentsSomestructToFfi(this);
-    _someStructMethodFfi(_handle, __lib.LibraryContext.isolateId);
-    smokeCommentsSomestructReleaseFfiHandle(_handle);
-  }
+  void someStructMethod() => $prototype.someStructMethod(this);
   /// This is some static struct method that does nothing.
   ///
   static void someStaticStructMethod() => $prototype.someStaticStructMethod();
@@ -174,6 +169,12 @@ final _smokeCommentsSomestructGetFieldnullableField = __lib.catchArgumentError((
 /// @nodoc
 @visibleForTesting
 class Comments_SomeStruct$Impl {
+  void someStructMethod(Comments_SomeStruct $that) {
+    final _someStructMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_Comments_SomeStruct_someStructMethod'));
+    final _handle = smokeCommentsSomestructToFfi($that);
+    _someStructMethodFfi(_handle, __lib.LibraryContext.isolateId);
+    smokeCommentsSomestructReleaseFfiHandle(_handle);
+  }
   void someStaticStructMethod() {
     final _someStaticStructMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_Comments_SomeStruct_someStaticStructMethod'));
     _someStaticStructMethodFfi(__lib.LibraryContext.isolateId);

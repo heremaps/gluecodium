@@ -1,18 +1,17 @@
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:meta/meta.dart';
 /// @nodoc
 class InternalStruct {
   /// @nodoc
   String internal_stringField;
   InternalStruct(this.internal_stringField);
   /// @nodoc
-  void internal_fooBar() {
-    final _fooBarFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PublicTypeCollection_InternalStruct_fooBar'));
-    final _handle = smokePublictypecollectionInternalstructToFfi(this);
-    _fooBarFfi(_handle, __lib.LibraryContext.isolateId);
-    smokePublictypecollectionInternalstructReleaseFfiHandle(_handle);
-  }
+  void internal_fooBar() => $prototype.internal_fooBar(this);
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = InternalStruct$Impl();
 }
 // InternalStruct "private" section, not exported.
 final _smokePublictypecollectionInternalstructCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -27,6 +26,16 @@ final _smokePublictypecollectionInternalstructGetFieldstringField = __lib.catchA
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PublicTypeCollection_InternalStruct_get_field_stringField'));
+/// @nodoc
+@visibleForTesting
+class InternalStruct$Impl {
+  void internal_fooBar(InternalStruct $that) {
+    final _fooBarFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PublicTypeCollection_InternalStruct_fooBar'));
+    final _handle = smokePublictypecollectionInternalstructToFfi($that);
+    _fooBarFfi(_handle, __lib.LibraryContext.isolateId);
+    smokePublictypecollectionInternalstructReleaseFfiHandle(_handle);
+  }
+}
 Pointer<Void> smokePublictypecollectionInternalstructToFfi(InternalStruct value) {
   final _stringFieldHandle = stringToFfi(value.internal_stringField);
   final _result = _smokePublictypecollectionInternalstructCreateHandle(_stringFieldHandle);

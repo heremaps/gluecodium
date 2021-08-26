@@ -70,7 +70,7 @@ internal class DartDeclarationImportResolver(srcPath: String) : DartImportResolv
         ) {
             result += collectionPackageImport
         }
-        if (limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) || hasStaticFunctions(limeStruct)) {
+        if (limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) || limeStruct.functions.isNotEmpty()) {
             result += metaPackageImport
         }
         return result

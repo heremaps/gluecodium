@@ -1,6 +1,7 @@
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:meta/meta.dart';
 @OnStruct
 class AttributesStruct {
   @OnField
@@ -9,14 +10,10 @@ class AttributesStruct {
   @OnConstInStruct
   static final bool pi = false;
   @OnFunctionInStruct
-  void veryFun(@OnParameterInStruct String param) {
-    final _veryFunFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AttributesStruct_veryFun__String'));
-    final _paramHandle = stringToFfi(param);
-    final _handle = smokeAttributesstructToFfi(this);
-    _veryFunFfi(_handle, __lib.LibraryContext.isolateId, _paramHandle);
-    smokeAttributesstructReleaseFfiHandle(_handle);
-    stringReleaseFfiHandle(_paramHandle);
-  }
+  void veryFun(@OnParameterInStruct String param) => $prototype.veryFun(this, param);
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = AttributesStruct$Impl();
 }
 // AttributesStruct "private" section, not exported.
 final _smokeAttributesstructCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -31,6 +28,18 @@ final _smokeAttributesstructGetFieldfield = __lib.catchArgumentError(() => __lib
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_AttributesStruct_get_field_field'));
+/// @nodoc
+@visibleForTesting
+class AttributesStruct$Impl {
+  void veryFun(AttributesStruct $that, @OnParameterInStruct String param) {
+    final _veryFunFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AttributesStruct_veryFun__String'));
+    final _paramHandle = stringToFfi(param);
+    final _handle = smokeAttributesstructToFfi($that);
+    _veryFunFfi(_handle, __lib.LibraryContext.isolateId, _paramHandle);
+    smokeAttributesstructReleaseFfiHandle(_handle);
+    stringReleaseFfiHandle(_paramHandle);
+  }
+}
 Pointer<Void> smokeAttributesstructToFfi(AttributesStruct value) {
   final _fieldHandle = stringToFfi(value.field);
   final _result = _smokeAttributesstructCreateHandle(_fieldHandle);
