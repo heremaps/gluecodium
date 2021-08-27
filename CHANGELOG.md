@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 9.4.4
+Release date: 2021-08-27
 ### Bug fixes:
   * Improved mockability of `$prototype` for structs with methods in Dart.
   * Fixed extraneous exports and extraneous imports in Dart.
