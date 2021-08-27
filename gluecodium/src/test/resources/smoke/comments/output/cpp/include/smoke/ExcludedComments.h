@@ -57,7 +57,7 @@ public:
         SomeStruct( );
         /**
          * This is how easy it is to construct.
-         * @param some_field How useful this struct is
+         * \param some_field How useful this struct is
          * remains to be seen
          */
         SomeStruct( ::smoke::ExcludedComments::Usefulness some_field );

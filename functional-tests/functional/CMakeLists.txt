@@ -149,6 +149,12 @@ feature(StructsImmutable cpp android swift dart SOURCES
     input/lime/PlainDataStructuresImmutable.lime
 )
 
+feature(FieldConstructors cpp SOURCES
+    input/src/cpp/FieldConstructors.cpp
+
+    input/lime/FieldConstructors.lime
+)
+
 feature(TypeDefs cpp android swift dart SOURCES
     input/src/cpp/StaticTypedef.cpp
 
