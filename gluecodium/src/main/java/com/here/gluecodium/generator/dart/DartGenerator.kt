@@ -138,8 +138,7 @@ internal class DartGenerator : Generator {
         val importResolver =
             DartImportResolver(dartFilteredModel.referenceMap, dartNameResolver, "$libraryName/$SRC_DIR_SUFFIX")
         val declarationImportResolver = DartDeclarationImportResolver("$libraryName/$SRC_DIR_SUFFIX")
-        val importsCollector =
-            GenericImportsCollector(importResolver, collectTypeRefImports = true, parentTypeFilter = { true })
+        val importsCollector = DartImportsCollector(importResolver)
         val declarationImportsCollector = GenericImportsCollector(declarationImportResolver, collectOwnImports = true)
 
         val includeResolver = FfiCppIncludeResolver(ffiFilteredModel.referenceMap, cppNameRules, internalNamespace)
@@ -197,7 +196,8 @@ internal class DartGenerator : Generator {
         val allTypes = LimeTypeHelper.getAllTypes(rootElement).filterNot { it is LimeTypeAlias }
         val nonExternalTypes = allTypes.filter { it.external?.dart == null }
         val freeConstants = (rootElement as? LimeTypesCollection)?.constants ?: emptyList()
-        val allSymbols = (nonExternalTypes + freeConstants).filterNot { it.visibility.isInternal }
+        val allSymbols =
+            (nonExternalTypes + freeConstants).filter { it !is LimeTypesCollection && !it.visibility.isInternal }
         if (allSymbols.isNotEmpty()) {
             val allNames = allSymbols.map { dartNameResolver.resolveName(it) }
             val testNames = allSymbols

@@ -31,7 +31,7 @@ import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 
-internal class GenericImportsCollector<T>(
+internal open class GenericImportsCollector<T>(
     private val importsResolver: ImportsResolver<T>,
     private val retainPredicate: ((LimeNamedElement) -> Boolean)? = null,
     private val collectTypeRefImports: Boolean = false,
@@ -85,7 +85,7 @@ internal class GenericImportsCollector<T>(
             listOfNotNull(limeFunction.thrownType?.typeRef) +
             if (collectFunctionErrorType) listOfNotNull(limeFunction.exception?.errorType) else emptyList()
 
-    private fun collectParentTypeRefs(limeContainer: LimeContainerWithInheritance): List<LimeTypeRef> {
+    protected open fun collectParentTypeRefs(limeContainer: LimeContainerWithInheritance): List<LimeTypeRef> {
         val parentTypeRef = limeContainer.parent ?: return emptyList()
         return limeContainer.inheritedFunctions.flatMap { collectTypeRefs(it) } +
             limeContainer.inheritedProperties.map { it.typeRef } + parentTypeRef

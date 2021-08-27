@@ -3,6 +3,7 @@
 ## Unreleased
 ### Bug fixes:
   * Improved mockability of `$prototype` for structs with methods in Dart.
+  * Fixed extraneous exports and extraneous imports in Dart.
 
 ## 9.4.3
 Release date: 2021-08-20
