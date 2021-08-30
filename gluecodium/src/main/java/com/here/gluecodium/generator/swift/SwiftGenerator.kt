@@ -101,7 +101,7 @@ internal class SwiftGenerator : Generator {
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
 
         val signatureResolver = SwiftSignatureResolver(cbridgeFilteredModel.referenceMap, nameRules, activeTags)
-        val overloadsValidator = LimeOverloadsValidator(signatureResolver, limeLogger)
+        val overloadsValidator = LimeOverloadsValidator(signatureResolver, limeLogger, validateConstructors = true)
         val weakPropertiesValidator = SwiftWeakPropertiesValidator(limeLogger)
         val validationResults = listOf(
             overloadsValidator.validate(cbridgeFilteredModel.referenceMap.values),

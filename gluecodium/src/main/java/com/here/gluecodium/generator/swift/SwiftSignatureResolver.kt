@@ -22,9 +22,16 @@ package com.here.gluecodium.generator.swift
 import com.here.gluecodium.generator.common.PlatformSignatureResolver
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeFunction
 
 internal class SwiftSignatureResolver(
     limeReferenceMap: Map<String, LimeElement>,
     nameRules: SwiftNameRules,
     activeTags: Set<String>
-) : PlatformSignatureResolver(limeReferenceMap, LimeAttributeType.SWIFT, nameRules, activeTags)
+) : PlatformSignatureResolver(limeReferenceMap, LimeAttributeType.SWIFT, nameRules, activeTags) {
+    fun isOverloadingConstructor(limeFunction: LimeFunction): Boolean {
+        val container = getContainer(limeFunction) ?: return false
+        val overloads = getOwnAndParentFunctions(container).filter { it.isConstructor }
+        return hasSignatureClash(limeFunction, overloads)
+    }
+}

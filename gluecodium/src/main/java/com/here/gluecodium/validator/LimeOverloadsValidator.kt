@@ -26,12 +26,12 @@ import com.here.gluecodium.model.lime.LimeSignatureResolver
 
 internal class LimeOverloadsValidator(
     private val signatureResolver: LimeSignatureResolver,
-    private val logger: LimeLogger
+    private val logger: LimeLogger,
+    private val validateConstructors: Boolean = false
 ) {
     fun validate(limeModel: Collection<LimeElement>): Boolean {
-        val validationResults = limeModel.filterIsInstance<LimeFunction>()
-            .filter { !it.isConstructor }
-            .map { validateFunction(it, signatureResolver) }
+        val validationResults =
+            limeModel.filterIsInstance<LimeFunction>().map { validateFunction(it, signatureResolver) }
         return !validationResults.contains(false)
     }
 
@@ -39,6 +39,10 @@ internal class LimeOverloadsValidator(
         when {
             signatureResolver.hasSignatureClash(limeFunction) -> {
                 logger.error(limeFunction, "function has conflicting overloads")
+                false
+            }
+            validateConstructors && signatureResolver.hasConstructorSignatureClash(limeFunction) -> {
+                logger.error(limeFunction, "constructor has conflicting overloads")
                 false
             }
             else -> true

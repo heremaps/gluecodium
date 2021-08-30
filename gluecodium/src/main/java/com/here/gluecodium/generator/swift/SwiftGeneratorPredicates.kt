@@ -84,7 +84,7 @@ internal class SwiftGeneratorPredicates(
         },
         "isOverriding" to { limeFunction: Any ->
             limeFunction is LimeFunction && limeFunction.isConstructor &&
-                signatureResolver.hasConstructorSignatureClash(limeFunction)
+                signatureResolver.isOverloadingConstructor(limeFunction)
         },
         "isRefEquatable" to { limeField: Any ->
             limeField is LimeField && isRefEquatable(limeField)
