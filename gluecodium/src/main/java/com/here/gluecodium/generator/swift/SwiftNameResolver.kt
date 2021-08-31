@@ -155,7 +155,7 @@ internal class SwiftNameResolver(
         if (commentText.isBlank()) return ""
 
         val exactElement = limeReferenceMap[limeComment.path.toString()] as? LimeNamedElement
-        val commentedElement = exactElement ?: getParentElement(limeComment.path)
+        val commentedElement = exactElement ?: getParentElement(limeComment.path, withSuffix = true)
         return commentsProcessor.process(commentedElement.fullName, commentText, limeToSwiftNames, limeLogger)
     }
 

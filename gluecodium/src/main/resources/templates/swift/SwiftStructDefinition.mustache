@@ -31,44 +31,9 @@
 {{prefixPartial "swift/SwiftComment" "    "}}{{prefixPartial "swift/SwiftAttributes" "    "}}
 {{/if}}
     {{resolveName visibility}} {{#if isImmutable}}let{{/if}}{{#unless isImmutable}}var{{/unless}} {{resolveName}}: {{resolveName typeRef}}
-{{/fields}}{{/set}}{{#unless constructors}}{{#ifPredicate "needsReducedConstructor"}}
+{{/fields}}{{/set}}{{!!
 
-{{#resolveName constructorComment}}{{#unless this.isEmpty}}
-{{prefix this "    /// "}}
-{{#if publicFields}}
-    /// - Parameters
-{{#publicFields}}
-    ///   - {{resolveName}}: {{#resolveName comment}}{{#unless this.isEmpty}}{{prefix this "    ///       " skipFirstLine=true}}{{/unless}}{{/resolveName}}
-{{/publicFields}}
-{{/if}}
-{{/unless}}{{/resolveName}}
-    {{>swift/TypeVisibility}} init({{joinPartial publicFields "initParameter" ", "}}) {
-{{#publicFields}}
-        self.{{resolveName}} = {{resolveName}}
-{{/publicFields}}
-{{#internalFields}}
-        self.{{resolveName}} = {{defaultValue}}
-{{/internalFields}}
-    }
-{{/ifPredicate}}
-
-{{#resolveName constructorComment}}{{#unless this.isEmpty}}
-{{prefix this "    /// "}}
-{{#if publicFields}}
-    /// - Parameters
-{{#fields}}
-    ///   - {{resolveName}}: {{#resolveName comment}}{{#unless this.isEmpty}}{{prefix this "    ///       " skipFirstLine=true}}{{/unless}}{{/resolveName}}
-{{/fields}}
-{{/if}}
-{{/unless}}{{/resolveName}}
-    {{#if internalFields}}internal{{/if}}{{!!
-    }}{{#unless internalFields}}{{>swift/TypeVisibility}}{{/unless}}{{!!
-    }} init({{joinPartial fields "initParameter" ", "}}) {
-{{#fields}}
-        self.{{resolveName}} = {{resolveName}}
-{{/fields}}
-    }
-{{/unless}}
+}}{{>swift/SwiftStructConstructors}}
 
     internal init(cHandle: _baseRef) {
 {{#set container=this}}{{#fields}}{{#if typeRef.attributes.optimized}}
@@ -150,9 +115,4 @@ extension {{resolveName}} {
         }}{{#if iter.hasNext}}, {{/if}}{{/fields}}{{/set}})
     }
 }
-{{/ifPredicate}}{{!!
-
-}}{{+initParameter}}{{!!
-}}{{resolveName}}: {{#unless typeRef.isNullable}}{{#instanceOf typeRef.type.actualType "LimeLambda"}}@escaping {{/instanceOf}}{{/unless}}{{!!
-}}{{resolveName typeRef}}{{#if defaultValue}} = {{resolveName defaultValue}}{{/if}}{{!!
-}}{{#unless defaultValue}}{{#if typeRef.isNullable}} = nil{{/if}}{{/unless}}{{/initParameter}}
+{{/ifPredicate}}

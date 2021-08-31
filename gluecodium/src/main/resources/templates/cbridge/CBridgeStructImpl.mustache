@@ -28,7 +28,7 @@ _baseRef
 {{>setCppFieldValue}}
 {{/fields}}{{/set}}
 {{#ifPredicate "hasImmutableFields"}}{{!!
-}}    {{resolveName "C++"}}* _struct = new ( ::std::nothrow ) {{resolveName "C++"}}( {{#fields}}_{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}} );{{/ifPredicate}}
+}}    {{resolveName "C++"}}* _struct = new ( ::std::nothrow ) {{resolveName "C++"}}( {{>immutableFieldsInit}} );{{/ifPredicate}}
     return reinterpret_cast<_baseRef>( _struct );
 }
 
@@ -48,7 +48,7 @@ _baseRef
 {{/fields}}{{/set}}
 {{#ifPredicate "hasImmutableFields"}}{{!!
 }}    auto _struct = new ( ::std::nothrow ) {{>common/InternalNamespace}}optional<{{resolveName "C++"}}>( {{!!
-}}{{resolveName "C++"}}( {{#fields}}_{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}} ) );{{/ifPredicate}}
+}}{{resolveName "C++"}}( {{>immutableFieldsInit}} ) );{{/ifPredicate}}
     return reinterpret_cast<_baseRef>( _struct );
 }
 
@@ -111,4 +111,11 @@ void {{resolveName}}_release_optional_handle(_baseRef handle) {
 }}{{#notInstanceOf typeRef.type.actualType "LimeEnumeration"}}{{resolveName field}}{{/notInstanceOf}}{{!!
 }}{{/unlessPredicate}}{{/set}}{{!!
 }}{{#unlessPredicate structElement "hasImmutableFields"}}{{#ifPredicate "hasCppSetter"}} ){{/ifPredicate}}{{/unlessPredicate}};
-{{/setCppFieldValue}}
+{{/setCppFieldValue}}{{!!
+
+}}{{+immutableFieldsInit}}{{#if allFieldsConstructor}}{{!!
+}}{{#allFieldsConstructor}}{{#fields}}_{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}}{{/allFieldsConstructor}}{{!!
+}}{{/if}}{{!!
+}}{{#unless allFieldsConstructor}}{{!!
+}}{{#fields}}_{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}}{{!!
+}}{{/unless}}{{/immutableFieldsInit}}

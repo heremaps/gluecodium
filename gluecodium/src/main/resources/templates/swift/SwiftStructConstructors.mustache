@@ -1,0 +1,97 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2021 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+{{#unless constructors}}{{#unless fieldConstructors}}{{#ifPredicate "needsReducedConstructor"}}
+
+{{#resolveName constructorComment}}{{#unless this.isEmpty}}
+{{prefix this "    /// "}}
+{{#if publicFields}}
+    /// - Parameters
+{{#publicFields}}
+    ///   - {{resolveName}}: {{#resolveName comment}}{{#unless this.isEmpty}}{{prefix this "    ///       " skipFirstLine=true}}{{/unless}}{{/resolveName}}
+{{/publicFields}}
+{{/if}}
+{{/unless}}{{/resolveName}}
+    {{>swift/TypeVisibility}} init({{joinPartial publicFields "initParameter" ", "}}) {
+{{#publicFields}}
+        self.{{resolveName}} = {{resolveName}}
+{{/publicFields}}
+{{#internalFields}}
+        self.{{resolveName}} = {{defaultValue}}
+{{/internalFields}}
+    }
+{{/ifPredicate}}{{/unless}}{{!!
+
+}}{{#fieldConstructors}}
+{{#ifPredicate "hasAnyComment"}}{{!!
+}}{{#unless this.comment.isEmpty}}{{#resolveName this.comment}}{{prefix this "    /// "}}{{/resolveName}}
+{{/unless}}{{!!
+}}{{#if comment.isEmpty}}{{#resolveName constructorComment}}{{#unless this.isEmpty}}{{prefix this "    /// "}}
+{{/unless}}{{/resolveName}}{{/if}}{{!!
+}}{{#if fields}}
+    /// - Parameters
+{{#fields}}
+    ///   - {{resolveName}}: {{#resolveName comment}}{{#unless this.isEmpty}}{{prefix this "    ///       " skipFirstLine=true}}{{/unless}}{{/resolveName}}
+{{/fields}}{{/if}}{{!!
+}}{{#if this.comment.isExcluded}}    /// :nodoc:
+{{/if}}{{/ifPredicate}}{{!!
+}}{{#attributes.deprecated}}
+    @available(*, deprecated{{#if message}}, message: "{{resolveName message}}"{{/if}}){{/attributes.deprecated}}
+{{prefixPartial "swift/SwiftAttributes" "    "}}
+    {{>swift/TypeVisibility}} init({{!!
+    }}{{#fields}}{{>ctorParameter}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
+{{#fields}}
+        self.{{resolveName}} = {{resolveName}}
+{{/fields}}
+{{#omittedFields}}
+        self.{{resolveName}} = {{resolveName defaultValue}}
+{{/omittedFields}}
+    }
+{{/fieldConstructors}}{{!!
+
+}}{{#ifPredicate "needsAllFieldsConstructor"}}
+
+{{#resolveName constructorComment}}{{#unless this.isEmpty}}
+{{prefix this "    /// "}}
+{{#if publicFields}}
+    /// - Parameters
+{{#fields}}
+    ///   - {{resolveName}}: {{#resolveName comment}}{{#unless this.isEmpty}}{{prefix this "    ///       " skipFirstLine=true}}{{/unless}}{{/resolveName}}
+{{/fields}}
+{{/if}}
+{{/unless}}{{/resolveName}}
+    {{#if internalFields}}internal{{/if}}{{!!
+    }}{{#unless internalFields}}{{>swift/TypeVisibility}}{{/unless}}{{!!
+    }} init({{joinPartial fields "initParameter" ", "}}) {
+{{#fields}}
+        self.{{resolveName}} = {{resolveName}}
+{{/fields}}
+    }
+{{/ifPredicate}}{{!!
+
+}}{{/unless}}{{!!
+
+}}{{+ctorParameter}}{{!!
+}}{{resolveName}}: {{#unless typeRef.isNullable}}{{#instanceOf typeRef.type.actualType "LimeLambda"}}@escaping {{/instanceOf}}{{/unless}}{{!!
+}}{{resolveName typeRef}}{{/ctorParameter}}{{!!
+
+}}{{+initParameter}}{{!!
+}}{{>ctorParameter}}{{#if defaultValue}} = {{resolveName defaultValue}}{{/if}}{{!!
+}}{{#unless defaultValue}}{{#if typeRef.isNullable}} = nil{{/if}}{{/unless}}{{/initParameter}}
