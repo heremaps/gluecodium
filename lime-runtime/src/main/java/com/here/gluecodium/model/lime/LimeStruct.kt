@@ -33,7 +33,8 @@ class LimeStruct(
     interfaces: List<LimeInterface> = emptyList(),
     enumerations: List<LimeEnumeration> = emptyList(),
     val fields: List<LimeField> = emptyList(),
-    val constructorComment: LimeComment = LimeComment()
+    val constructorComment: LimeComment = LimeComment(),
+    val fieldConstructors: List<LimeFieldConstructor> = emptyList()
 ) : LimeContainer(
     path = path,
     visibility = visibility,

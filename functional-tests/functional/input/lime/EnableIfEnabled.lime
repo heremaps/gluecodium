@@ -32,7 +32,7 @@ types EnableIfTypesEnabled {
 
   @EnableIf(ExperimentalFoo)
   struct EnableMeToo {
-      field: EnableMe
+      `field`: EnableMe
   }
 
   const PlaceHolderEnabled: Boolean = true

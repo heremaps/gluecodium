@@ -32,10 +32,12 @@ import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeExternalDescriptor
 import com.here.gluecodium.model.lime.LimeField
+import com.here.gluecodium.model.lime.LimeFieldConstructor
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeLambdaParameter
+import com.here.gluecodium.model.lime.LimeLazyFieldRef
 import com.here.gluecodium.model.lime.LimeLazyTypeRef
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeParameter
@@ -260,6 +262,30 @@ internal class AntlrLimeModelBuilder(
         structuredCommentsStack.pop()
     }
 
+    override fun enterFieldConstructor(ctx: LimeParser.FieldConstructorContext) {
+        val idx = when (val ctxParent = ctx.parent) {
+            is LimeParser.StructContext -> ctxParent.fieldConstructor().indexOf(ctx)
+            else -> throw LimeLoadingException("Invalid syntax context: '$ctx'")
+        }
+        pathStack.push(currentPath.child("", idx.toString()))
+        visibilityStack.push(currentVisibility)
+        structuredCommentsStack.push(parseStructuredComment(ctx.docComment(), ctx))
+    }
+
+    override fun exitFieldConstructor(ctx: LimeParser.FieldConstructorContext) {
+        val structTypeRef = LimeLazyTypeRef(currentPath.parent.toString(), referenceResolver.referenceMap)
+        val limeElement = LimeFieldConstructor(
+            path = currentPath,
+            comment = structuredCommentsStack.peek().description,
+            attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation()),
+            structRef = structTypeRef,
+            fields = ctx.simpleId().map { LimeLazyFieldRef(structTypeRef, convertSimpleId(it)) },
+        )
+
+        storeResultAndPopStacks(limeElement)
+        structuredCommentsStack.pop()
+    }
+
     override fun enterParameter(ctx: LimeParser.ParameterContext) {
         pushPathAndVisibility(ctx.simpleId(), null)
     }
@@ -389,7 +415,8 @@ internal class AntlrLimeModelBuilder(
             structs = getPreviousResults(LimeStruct::class.java),
             classes = getPreviousResults(LimeClass::class.java),
             interfaces = getPreviousResults(LimeInterface::class.java),
-            enumerations = getPreviousResults(LimeEnumeration::class.java)
+            enumerations = getPreviousResults(LimeEnumeration::class.java),
+            fieldConstructors = getPreviousResults(LimeFieldConstructor::class.java)
         )
 
         storeResultAndPopStacks(limeElement)

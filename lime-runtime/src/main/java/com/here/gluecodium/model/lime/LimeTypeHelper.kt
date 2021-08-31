@@ -60,7 +60,7 @@ object LimeTypeHelper {
         }
 
     private val limeKeywords = setOf(
-        "class", "const", "constructor", "fun", "enum", "exception",
+        "class", "const", "constructor", "fun", "enum", "exception", "field",
         "get", "import", "interface", "internal", "lambda", "open", "package", "property", "public",
         "set", "static", "struct", "throws", "typealias", "types", "Void", "Boolean", "Float",
         "Double", "Byte", "Short", "Int", "Long", "UByte", "UShort", "UInt", "ULong", "String",

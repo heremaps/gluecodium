@@ -163,7 +163,8 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
                 structs = structs.filter(predicate),
                 classes = classes.filter(predicate),
                 interfaces = interfaces.filter(predicate),
-                enumerations = enumerations.filter(predicate)
+                enumerations = enumerations.filter(predicate),
+                fieldConstructors = fieldConstructors.filter(predicate)
             )
         }
 

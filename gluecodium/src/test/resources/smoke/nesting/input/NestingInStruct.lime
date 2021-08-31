@@ -18,7 +18,7 @@
 package smoke
 
 struct OuterStruct {
-    field: String
+    `field`: String
     fun doNothing() throws Instantiation
 
     struct InnerStruct {
@@ -45,7 +45,7 @@ struct OuterStruct {
     @Swift(Skip) @Dart(Skip)
     class Builder {
         constructor create()
-        fun field(value: String): Builder
+        fun `field`(value: String): Builder
         fun build(): OuterStruct
     }
 }

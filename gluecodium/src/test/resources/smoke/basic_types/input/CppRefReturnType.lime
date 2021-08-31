@@ -20,7 +20,7 @@ package smoke
 @Java(Skip) @Swift(Skip) @Dart(Skip)
 class CppRefReturnType {
     struct SomeStruct {
-        field: String
+        `field`: String
     }
 
     enum InternalError {

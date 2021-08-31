@@ -53,12 +53,17 @@ types
 function
     : docComment* annotation* visibility? ('static' NewLine*)? 'fun' NewLine* simpleId NewLine*
       '(' NewLine* (parameter NewLine* (',' NewLine* parameter NewLine*)*)?  ')' NewLine*
-      returnType? throwsClause? NewLine+
+      returnType? throwsClause? NewLine*
     ;
 
 constructor
     : docComment* annotation* visibility? 'constructor' NewLine* simpleId NewLine*
-      '(' NewLine* (parameter NewLine* (',' NewLine* parameter NewLine*)*)? ')' NewLine* throwsClause? NewLine+
+      '(' NewLine* (parameter NewLine* (',' NewLine* parameter NewLine*)*)? ')' NewLine* throwsClause? NewLine*
+    ;
+
+fieldConstructor
+    : docComment* annotation* 'field' NewLine* 'constructor' NewLine*
+      '(' NewLine* (simpleId NewLine* (',' NewLine* simpleId NewLine*)*)? ')' NewLine*
     ;
 
 parameter
@@ -89,7 +94,7 @@ setter
 struct
     : docComment* annotation* visibility? 'struct' NewLine* simpleId NewLine*
       '{' NewLine* externalDescriptor?
-      ((field | function | constructor | constant | container | struct | enumeration | exception) NewLine*)+
+      ((field | function | constructor | fieldConstructor | constant | container | struct | enumeration | exception) NewLine*)+
       '}' NewLine+
     ;
 

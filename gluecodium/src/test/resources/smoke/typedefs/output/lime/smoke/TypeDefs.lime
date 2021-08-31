@@ -11,7 +11,7 @@ class TypeDefs {
     typealias NestedStructTypeDef = TestStructTypeDef
 
     struct StructHavingAliasFieldDefinedBelow {
-        field: PrimitiveTypeDef
+        `field`: PrimitiveTypeDef
     }
     struct TestStruct {
         something: String

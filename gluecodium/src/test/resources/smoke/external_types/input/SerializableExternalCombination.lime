@@ -24,7 +24,7 @@ struct ExternalMarkedAsSerializable {
         java converter "com.here.android.test.ExternalStructMarkedAsSerializableConverter"
     }
 
-    field: Int
+    `field`: Int
 }
 
 @Serializable

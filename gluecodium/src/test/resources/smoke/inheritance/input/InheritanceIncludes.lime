@@ -18,11 +18,11 @@
 package smoke
 
 struct IncludableStruct {
-    field: String
+    `field`: String
 }
 
 struct ShouldNotInclude {
-    field: String
+    `field`: String
 }
 
 enum IncludableEnum {

@@ -96,5 +96,5 @@ interface DeprecationCommentsOnly {
 
 @Deprecated
 struct DeprecatedWithNoMessage {
-    field: String
+    `field`: String
 }

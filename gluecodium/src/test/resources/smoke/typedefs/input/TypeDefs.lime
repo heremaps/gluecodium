@@ -19,7 +19,7 @@ package smoke
 
 class TypeDefs {
     struct StructHavingAliasFieldDefinedBelow {
-        field: PrimitiveTypeDef
+        `field`: PrimitiveTypeDef
     }
     struct TestStruct {
         something: String
@@ -60,7 +60,7 @@ types TypeCollection {
         y: Double
     }
     struct StructHavingAliasFieldDefinedBelow {
-        field: StorageId
+        `field`: StorageId
     }
 
     typealias PointTypeDef = Point

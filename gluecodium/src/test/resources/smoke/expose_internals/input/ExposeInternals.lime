@@ -21,6 +21,6 @@ class ExposeClass {}
 
 interface ExposeInterface {}
 
-struct ExposeStruct { field: String }
+struct ExposeStruct { `field`: String }
 
 enum ExposeEnum { foo }

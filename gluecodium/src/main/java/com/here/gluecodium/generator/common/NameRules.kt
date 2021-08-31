@@ -25,6 +25,7 @@ import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeField
+import com.here.gluecodium.model.lime.LimeFieldConstructor
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimeProperty
@@ -39,6 +40,7 @@ open class NameRules(val ruleSet: NameRuleSet) {
             is LimeConstant -> ruleSet.getConstantName(limeElement.name)
             is LimeEnumerator -> ruleSet.getEnumeratorName(limeElement.name)
             is LimeFunction -> ruleSet.getMethodName(limeElement.name)
+            is LimeFieldConstructor -> ruleSet.getMethodName(limeElement.name)
             is LimeException -> ruleSet.getErrorName(limeElement.name)
             is LimeType -> ruleSet.getTypeName(limeElement.name)
             is LimeProperty -> getPropertyName(limeElement)
