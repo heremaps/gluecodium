@@ -279,7 +279,7 @@ internal class AntlrLimeModelBuilder(
             comment = structuredCommentsStack.peek().description,
             attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation()),
             structRef = structTypeRef,
-            fields = ctx.simpleId().map { LimeLazyFieldRef(structTypeRef, convertSimpleId(it)) },
+            fieldRefs = ctx.simpleId().map { LimeLazyFieldRef(structTypeRef, convertSimpleId(it)) },
         )
 
         storeResultAndPopStacks(limeElement)

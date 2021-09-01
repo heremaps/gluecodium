@@ -59,7 +59,7 @@ class LimeFieldConstructorsValidatorTest {
             override val field
                 get() = throw LimeModelLoaderException("")
         }
-        allElements[""] = LimeFieldConstructor(EMPTY_PATH, structRef = structTypeRef, fields = listOf(throwingFieldRef))
+        allElements[""] = LimeFieldConstructor(EMPTY_PATH, structRef = structTypeRef, fieldRefs = listOf(throwingFieldRef))
 
         assertFalse(validator.validate(limeModel))
     }
@@ -69,7 +69,7 @@ class LimeFieldConstructorsValidatorTest {
         allElements[""] = LimeFieldConstructor(
             EMPTY_PATH,
             structRef = structTypeRef,
-            fields = listOf(fooFieldRef, fooFieldRef)
+            fieldRefs = listOf(fooFieldRef, fooFieldRef)
         )
 
         assertFalse(validator.validate(limeModel))
@@ -77,7 +77,7 @@ class LimeFieldConstructorsValidatorTest {
 
     @Test
     fun validateDefaultedOmitted() {
-        allElements[""] = LimeFieldConstructor(EMPTY_PATH, structRef = structTypeRef, fields = listOf(fooFieldRef))
+        allElements[""] = LimeFieldConstructor(EMPTY_PATH, structRef = structTypeRef, fieldRefs = listOf(fooFieldRef))
 
         assertTrue(validator.validate(limeModel))
     }
@@ -87,7 +87,7 @@ class LimeFieldConstructorsValidatorTest {
         allElements[""] = LimeFieldConstructor(
             EMPTY_PATH,
             structRef = structTypeRef,
-            fields = listOf(object : LimeFieldRef() { override val field = barField })
+            fieldRefs = listOf(object : LimeFieldRef() { override val field = barField })
         )
 
         assertFalse(validator.validate(limeModel))

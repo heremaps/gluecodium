@@ -24,8 +24,12 @@ class LimeFieldConstructor(
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     val structRef: LimeTypeRef,
-    val fields: List<LimeFieldRef> = emptyList()
+    val fieldRefs: List<LimeFieldRef> = emptyList()
 ) : LimeNamedElement(path, LimeVisibility.PUBLIC, comment, attributes) {
     val struct
         get() = structRef.type as LimeStruct
+    val fields
+        get() = fieldRefs.map { it.field }
+    val omittedFields
+        get() = struct.fields - fields
 }
