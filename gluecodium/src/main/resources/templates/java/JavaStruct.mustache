@@ -38,72 +38,7 @@
 {{/fields}}
     }
 {{/constructors}}{{/set}}
-{{#if fields}}{{#unless constructors}}
-
-{{#unless constructorComment.isEmpty}}
-    /**
-{{#resolveName constructorComment}}{{prefix this "     * "}}{{/resolveName}}
-{{#uninitializedFields}}
-     * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
-{{/uninitializedFields}}
-     */
-{{/unless}}
-    {{#unlessPredicate "hasInternalFreeArgsConstructor"}}{{>structVisibility}}{{/unlessPredicate}}{{resolveName}}{{!!
-    }}({{#set noAttributes=true}}{{joinPartial uninitializedFields "java/JavaParameter" ", "}}{{/set}}) {
-{{#fields}}        this.{{resolveName}} = {{#if defaultValue}}{{resolveName defaultValue}}{{/if}}{{!!
-                   }}{{#unless defaultValue}}{{resolveName}}{{/unless}};
-{{/fields}}
-    }
-
-{{#if initializedFields}}
-{{#unless attributes.java.positionalDefaults}}
-{{#unless constructorComment.isEmpty}}
-    /**
-{{#resolveName constructorComment}}{{prefix this "     * "}}{{/resolveName}}
-{{#fields}}
-     * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
-{{/fields}}
-     */
-{{/unless}}
-    {{#unlessPredicate "hasInternalAllArgsConstructor"}}{{>structVisibility}}{{/unlessPredicate}}{{resolveName}}{{!!
-    }}({{joinPartial fields "java/JavaParameter" ", "}}) {
-{{#fields}}        this.{{resolveName}} = {{resolveName}};
-{{/fields}}
-    }
-{{/unless}}{{/if}}{{/unless}}{{!!
-
-}}{{#if attributes.java.positionalDefaults}}{{#set noAttributes=true struct=this}}
-{{#initializedFields}}{{#set fieldIndex=iter.index}}
-
-{{#unless constructorComment.isEmpty}}
-    /**
-{{#resolveName constructorComment}}{{prefix this "     * "}}{{/resolveName}}
-{{#uninitializedFields}}
-     * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
-{{/uninitializedFields}}
-{{#initializedFields}}{{#numExpr iter.index fieldIndex op="le"}}
-     * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
-{{/numExpr}}{{/initializedFields}}{{#instanceOf struct.attributes.java.positionalDefaults "String"}}
-     * @deprecated {{#struct.attributes.java.positionalDefaults}}{{prefix this " * " skipFirstLine=true}}{{/struct.attributes.java.positionalDefaults}}
-{{/instanceOf}}
-     */
-{{/unless}}{{#instanceOf struct.attributes.java.positionalDefaults "String"}}
-    @Deprecated("{{struct.attributes.java.positionalDefaults}}")
-{{/instanceOf}}
-    {{#struct}}{{>structVisibility}}{{resolveName}}{{/struct}}{{!!
-    }}({{#uninitializedFields}}{{>java/JavaParameter}}, {{/uninitializedFields}}{{!!
-    }}{{#initializedFields}}{{#numExpr iter.index fieldIndex op="le"}}{{>java/JavaParameter}}{{/numExpr}}{{!!
-    }}{{#numExpr iter.index fieldIndex op="lt"}}, {{/numExpr}}{{/initializedFields}}) {
-{{#uninitializedFields}}        this.{{resolveName}} = {{resolveName}};
-{{/uninitializedFields}}
-{{#initializedFields}}        {{#numExpr iter.index fieldIndex op="le"}}this.{{resolveName}} = {{resolveName}};
-{{/numExpr}}{{!!
-}}{{#numExpr iter.index fieldIndex op="gt"}}this.{{resolveName}} = {{resolveName defaultValue}};
-{{/numExpr}}{{/initializedFields}}
-    }
-{{/set}}{{/initializedFields}}
-{{/set}}{{/if}}{{!!
-}}{{/if}}
+{{>java/JavaStructConstructors}}
 {{#unless external.java.name}}{{#if attributes.serializable}}{{prefixPartial "java/ParcelableImpl" "    "}}
 
 {{/if}}
