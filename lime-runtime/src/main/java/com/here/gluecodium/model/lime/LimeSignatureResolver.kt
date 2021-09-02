@@ -65,7 +65,9 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
         return parentFunctions + getOwnFunctions(limeContainer)
     }
 
-    protected open fun getOwnFunctions(limeContainer: LimeContainer) = limeContainer.functions
+    protected open fun getOwnFunctions(limeContainer: LimeContainer) =
+        limeContainer.functions +
+            if (limeContainer is LimeStruct) limeContainer.fieldConstructors.map { it.asFunction() } else emptyList()
 
     protected open fun getFunctionName(limeFunction: LimeFunction) = limeFunction.name
 

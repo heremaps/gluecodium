@@ -44,9 +44,9 @@ class LimeOverloadsValidatorTest(
     private val allElements = mutableMapOf<String, LimeElement>()
 
     private val validatorNoConstructors =
-        LimeOverloadsValidator(LimeSignatureResolver(allElements), mockk(relaxed = true), validateConstructors = false)
+        LimeOverloadsValidator(LimeSignatureResolver(allElements), mockk(relaxed = true), false)
     private val validatorWithConstructors =
-        LimeOverloadsValidator(LimeSignatureResolver(allElements), mockk(relaxed = true), validateConstructors = true)
+        LimeOverloadsValidator(LimeSignatureResolver(allElements), mockk(relaxed = true), true)
 
     @Before
     fun setUp() {
