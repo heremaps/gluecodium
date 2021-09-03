@@ -210,6 +210,19 @@ some top-level element).
   * a constructor can have any number of parameters (zero or more).
   * a constructor can be declared as throwing an exception (optionally, also see `Exception` below).
 
+#### Field Constructor
+
+* Syntax: **field constructor** __(__\[*field-list*\]__)__
+* where *field-list* is a comma-separated list of field names
+* Example: `field constructor(latitude, longitude)`
+* Can be placed in: struct
+* Description: declares a field-based constructor in the struct type:
+  * a field constructor can have any number of parameters (zero or more), corresponding to the fields of the struct.
+  * the order of field constructor parameters can be arbitrary; it can differ from the order in which the fields
+  themselves are declared in the struct.
+  * each field constructor declaration must include all uninitialized fields of the struct (i.e. fields which do not
+  have a default value specified for them); initialized fields could be included or excluded arbitrarily.
+
 #### Property
 
 * Syntax: \[**static**\] **property** *PropertyName*__:__ *PropertyType*

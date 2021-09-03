@@ -1,0 +1,87 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2021 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+{{#if fields}}{{!!
+}}{{#if attributes.dart.positionalDefaults initializedFields}}{{>constructorComment}}{{!!
+}}{{#instanceOf attributes.dart.positionalDefaults "String"}}
+  @Deprecated("{{attributes.dart.positionalDefaults}}")
+{{/instanceOf}}{{!!
+}}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}({{!!
+  }}{{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}, {{/uninitializedFields}}{{!!
+  }}[{{#initializedFields}}{{resolveName typeRef}} {{resolveName}} = {{>constPrefix}}{{resolveName defaultValue}}{{#if iter.hasNext}}, {{/if}}{{/initializedFields}}])
+    : {{#fields}}{{resolveName visibility}}{{resolveName}} = {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}};
+{{/if}}{{!!
+
+}}{{#unless attributes.dart.positionalDefaults initializedFields}}{{!!
+
+}}{{#if constructors}}{{!!
+}}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}._({{>thisDotFields}});
+{{/if}}{{!!
+
+}}{{#unless constructors}}{{#unless allFieldsConstructor}}{{!!
+}}{{>constructorComment}}{{!!
+}}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}({{>thisDotFields}});
+{{/unless}}{{/unless}}{{!!
+
+}}{{/unless}}
+{{#unless constructors}}{{#unless fieldConstructors}}{{#if initializedFields}}
+  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{!!
+  }}.withDefaults({{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}})
+    : {{#fields}}{{resolveName visibility}}{{resolveName}} = {{#if defaultValue}}{{resolveName defaultValue}}{{/if}}{{!!
+    }}{{#unless defaultValue}}{{resolveName}}{{/unless}}{{#if iter.hasNext}}, {{/if}}{{/fields}};
+{{/if}}{{/unless}}{{/unless}}{{/if}}{{!!
+
+}}{{#set struct=this container=this}}{{#fieldConstructors}}
+{{#unless comment.isEmpty}}{{#resolveName comment}}{{!!
+}}{{prefix this "  /// "}}{{/resolveName}}
+{{/unless}}{{!!
+}}{{#if comment.isEmpty}}{{#resolveName constructorComment}}{{#unless this.isEmpty}}{{!!
+}}{{prefix this "  /// "}}
+{{/unless}}{{/resolveName}}{{/if}}
+{{#ifPredicate "hasAnyComment"}}{{#fields}}
+  /// [{{resolveName}}] {{#resolveName comment}}{{#unless this.isEmpty}}{{!!
+  }}{{prefix this "  /// " skipFirstLine=true}}{{/unless}}{{/resolveName}}
+{{/fields}}{{/ifPredicate}}{{!!
+}}{{#if this.comment.isExcluded}}
+  /// @nodoc
+{{/if}}{{!!
+}}{{#if this.attributes.deprecated}}
+  @Deprecated("{{#resolveName this.attributes.deprecated.message}}{{escape this}}{{/resolveName}}")
+{{/if}}{{>dart/DartAttributes}}{{!!
+}}  {{#if struct.attributes.immutable}}const {{/if}}{{resolveName struct}}{{#if external.dart.converter}}Internal{{/if}}{{!!
+}}{{>dart/DartConstructorName}}({{>thisDotFields}}){{#if omittedFields}}
+      : {{#omittedFields}}{{resolveName}} = {{resolveName defaultValue}}{{#if iter.hasNext}}, {{/if}}{{/omittedFields}}{{/if}};
+{{/fieldConstructors}}{{/set}}{{!!
+
+}}{{+constPrefix}}{{#set type=typeRef.type.actualType}}{{!!
+}}{{#instanceOf type "LimeList"}}const {{/instanceOf}}{{!!
+}}{{#instanceOf type "LimeMap"}}const {{/instanceOf}}{{!!
+}}{{#instanceOf type "LimeSet"}}const {{/instanceOf}}{{!!
+}}{{/set}}{{/constPrefix}}{{!!
+
+}}{{+constructorComment}}{{#resolveName constructorComment}}{{#unless this.isEmpty}}{{!!
+}}{{prefix this "  /// "}}
+{{#fields}}
+  /// [{{resolveName}}] {{#resolveName comment}}{{#unless this.isEmpty}}{{!!
+  }}{{prefix this "  /// " skipFirstLine=true}}{{/unless}}{{/resolveName}}
+{{/fields}}
+{{/unless}}{{/resolveName}}{{/constructorComment}}{{!!
+
+}}{{+thisDotFields}}{{#fields}}this.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}}{{/thisDotFields}}

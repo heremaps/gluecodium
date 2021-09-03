@@ -20,11 +20,9 @@
   !}}
 {{>dart/DartDocumentation}}{{>dart/DartAttributes}}
 abstract class {{resolveName}} {{#if this.parent}}implements {{resolveName this.parent}} {{/if}}{
-{{#set parent=this}}{{#constructors}}
+{{#set parent=this container=this}}{{#constructors}}
 {{prefixPartial "dart/DartFunctionDocs" "  "}}
-  factory {{resolveName parent}}{{#unless attributes.dart.default}}{{!!
-  }}{{#isEq constructors.size 1}}{{#if attributes.dart.name}}.{{resolveName}}{{/if}}{{/isEq}}{{!!
-  }}{{#isNotEq constructors.size 1}}.{{resolveName}}{{/isNotEq}}{{/unless}}({{!!
+  factory {{resolveName parent}}{{>dart/DartConstructorName}}({{!!
   }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
   }}) => $prototype.{{resolveName visibility}}{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
 {{/constructors}}{{/set}}

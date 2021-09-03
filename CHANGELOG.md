@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Added support for defining "field constructors" for structs in IDL.
+
 ## 9.4.5
 Release date: 2021-09-10
 ### Bug fixes:

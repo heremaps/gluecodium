@@ -27,14 +27,14 @@
 {{#if attributes.immutable}}
 @immutable{{/if}}
 class {{resolveName}}{{#if external.dart.converter}}Internal{{/if}} {
-{{>dartFieldsAndConstants}}
-{{#set parent=this isStruct=true}}{{#constructors}}
+{{#set parent=this}}{{#fields}}{{prefixPartial "dart/DartField" "  "}}
+{{/fields}}{{/set}}
+{{>dart/DartStructConstructors}}
+{{#set isInClass=true}}{{#constants}}{{prefixPartial "dart/DartConstant" "  "}}
+{{/constants}}{{/set}}
+{{#set parent=this container=this isStruct=true}}{{#constructors}}
 {{prefixPartial "dart/DartFunctionDocs" "  "}}
-  factory {{resolveName parent}}{{#if external.dart.converter}}Internal{{/if}}{{!!
-  }}{{#unless attributes.dart.default}}{{!!
-  }}{{#isEq constructors.size 1}}{{#if attributes.dart.name}}.{{resolveName}}{{/if}}{{/isEq}}{{!!
-  }}{{#isNotEq constructors.size 1}}.{{resolveName}}{{/isNotEq}}{{!!
-  }}{{/unless}}({{!!
+  factory {{resolveName parent}}{{#if external.dart.converter}}Internal{{/if}}{{>dart/DartConstructorName}}({{!!
   }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
   }}) => $prototype.{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
 {{/constructors}}
@@ -147,17 +147,26 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#i
     );
     return {{external.dart.converter}}.convertFromInternal(resultInternal);
 {{/if}}{{#unless external.dart.converter}}
-    return {{resolveName this "" "ref"}}{{#if constructors}}._{{/if}}(
-{{#set container=this}}{{#if attributes.dart.positionalDefaults initializedFields}}
+    return {{resolveName this "" "ref"}}{{#set container=this}}{{!!
+    }}{{#if allFieldsConstructor}}{{#allFieldsConstructor}}{{>dart/DartConstructorName}}{{/allFieldsConstructor}}{{/if}}{{!!
+    }}{{#unless allfieldsConstructor}}{{#if constructors}}._{{/if}}{{/unless}}(
+{{#if attributes.dart.positionalDefaults initializedFields}}
 {{#each uninitializedFields initializedFields}}
 {{>fromFfiFieldInit}}
 {{/each}}
 {{/if}}{{!!
-}}{{#unless attributes.dart.positionalDefaults initializedFields}}
+}}{{#unless attributes.dart.positionalDefaults initializedFields}}{{!!
+}}{{#if allFieldsConstructor}}{{#allFieldsConstructor}}
 {{#fields}}
 {{>fromFfiFieldInit}}
 {{/fields}}
-{{/unless}}{{/set}}
+{{/allFieldsConstructor}}{{/if}}{{!!
+}}{{#unless allFieldsConstructor}}
+{{#fields}}
+{{>fromFfiFieldInit}}
+{{/fields}}
+{{/unless}}{{!!
+}}{{/unless}}{{/set}}
     );
 {{/unless}}
   } finally {
@@ -191,33 +200,6 @@ void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) => _{{resolveNa
 }}{{resolveName visibility}}{{resolveName}}.hashCode{{/notInstanceOf}}{{/notInstanceOf}}{{/notInstanceOf}}{{!!
 }}{{/dartFieldHash}}{{!!
 
-}}{{+dartFieldsAndConstants}}{{!!
-}}{{#set parent=this}}{{#fields}}{{prefixPartial "dart/DartField" "  "}}
-{{/fields}}{{/set}}
-{{#if fields}}{{!!
-}}{{#if attributes.dart.positionalDefaults initializedFields}}{{>constructorComment}}{{!!
-}}{{#instanceOf attributes.dart.positionalDefaults "String"}}
-  @Deprecated("{{attributes.dart.positionalDefaults}}")
-{{/instanceOf}}{{!!
-}}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{implSuffix}}({{!!
-  }}{{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}, {{/uninitializedFields}}{{!!
-  }}[{{#initializedFields}}{{resolveName typeRef}} {{resolveName}} = {{>constPrefix}}{{resolveName defaultValue}}{{#if iter.hasNext}}, {{/if}}{{/initializedFields}}])
-    : {{#fields}}{{resolveName visibility}}{{resolveName}} = {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}};
-{{/if}}{{!!
-}}{{#unless attributes.dart.positionalDefaults initializedFields}}{{#unless constructors}}{{>constructorComment}}{{/unless}}{{!!
-}}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{implSuffix}}{{!!
-}}{{#if constructors}}._{{/if}}({{#fields}}this.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
-{{/unless}}
-{{#unless constructors}}{{#if initializedFields}}
-  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{implSuffix}}{{!!
-  }}.withDefaults({{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}})
-    : {{#fields}}{{resolveName visibility}}{{resolveName}} = {{#if defaultValue}}{{resolveName defaultValue}}{{/if}}{{!!
-    }}{{#unless defaultValue}}{{resolveName}}{{/unless}}{{#if iter.hasNext}}, {{/if}}{{/fields}};
-{{/if}}{{/unless}}{{/if}}
-{{#set isInClass=true}}{{#constants}}{{prefixPartial "dart/DartConstant" "  "}}
-{{/constants}}{{/set}}{{!!
-}}{{/dartFieldsAndConstants}}{{!!
-
 }}{{+fromFfiFieldInit}}{{!!
 }}      {{#if typeRef.attributes.optimized}}{{!!
 }}{{#resolveName}}{{#setJoin "varName" "_" this "Handle" delimiter=""}}{{!!
@@ -225,18 +207,4 @@ void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) => _{{resolveNa
 }}{{prefixPartial "dart/InitLazyList" "      " skipFirstLine=true}}{{/set}}{{/setJoin}}{{/resolveName}}{{/if}}{{!!
 }}{{#unless typeRef.attributes.optimized}}{{!!
 }}{{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}Handle){{/unless}}{{#if iter.hasNext}}, {{/if}}
-{{/fromFfiFieldInit}}{{!!
-
-}}{{+constPrefix}}{{#set type=typeRef.type.actualType}}{{!!
-}}{{#instanceOf type "LimeList"}}const {{/instanceOf}}{{!!
-}}{{#instanceOf type "LimeMap"}}const {{/instanceOf}}{{!!
-}}{{#instanceOf type "LimeSet"}}const {{/instanceOf}}{{!!
-}}{{/set}}{{/constPrefix}}{{!!
-
-}}{{+constructorComment}}{{#resolveName constructorComment}}{{#unless this.isEmpty}}{{!!
-}}{{prefix this "  /// "}}
-{{#fields}}
-  /// [{{resolveName}}] {{#resolveName comment}}{{#unless this.isEmpty}}{{!!
-  }}{{prefix this "  /// " skipFirstLine=true}}{{/unless}}{{/resolveName}}
-{{/fields}}
-{{/unless}}{{/resolveName}}{{/constructorComment}}
+{{/fromFfiFieldInit}}
