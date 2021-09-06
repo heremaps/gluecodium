@@ -40,17 +40,16 @@ internal class LimeFieldConstructorsValidator(private val logger: LimeLogger) {
     }
 
     private fun validateFieldConstructor(fieldConstructor: LimeFieldConstructor): Boolean {
-        val fieldsRefValidationResults = fieldConstructor.fields.map { validateRef(fieldConstructor.struct, it) }
+        val fieldsRefValidationResults = fieldConstructor.fieldRefs.map { validateRef(fieldConstructor.struct, it) }
         if (fieldsRefValidationResults.contains(false)) return false
 
-        val constructorFields = fieldConstructor.fields.map { it.field }
+        val constructorFields = fieldConstructor.fields
         val uniqueFields = constructorFields.map { it.path.toString() }.distinct()
         if (uniqueFields.size != constructorFields.size) {
             logger.error(fieldConstructor.struct, "a field constructor should not have duplicate field entries")
             return false
         }
-        val omittedFields = fieldConstructor.struct.fields - constructorFields
-        if (omittedFields.any { it.defaultValue == null }) {
+        if (fieldConstructor.omittedFields.any { it.defaultValue == null }) {
             logger.error(
                 fieldConstructor.struct,
                 "all fields omitted by a field constructor should have default values"

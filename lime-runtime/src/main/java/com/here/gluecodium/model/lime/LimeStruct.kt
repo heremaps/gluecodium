@@ -67,4 +67,7 @@ class LimeStruct(
     @Suppress("unused")
     val internalFields
         get() = fields.filter { it.visibility.isInternal }
+
+    val allFieldsConstructor
+        get() = fieldConstructors.firstOrNull { it.fieldRefs.size == fields.size }
 }
