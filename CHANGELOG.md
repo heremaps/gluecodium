@@ -3,6 +3,7 @@
 ## Unreleased
 ### Features:
   * Added support for defining "field constructors" for structs in IDL.
+  * Added support for `@Cpp(Skip)` attribute on "field constructors".
 
 ## 9.4.5
 Release date: 2021-09-10
