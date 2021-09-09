@@ -32,29 +32,8 @@ const {{resolveName typeRef}} {{parentName}}::{{resolveName}} = {{resolveName va
 {{#each classes interfaces}}
 {{>cpp/CppClassImpl}}
 {{/each}}
-{{#if fields}}
-{{#ifPredicate "hasDefaultConstructor"}}{{parentName}}::{{resolveName}}( ){{!!
-}}{{#if uninitializedFields}}
-    : {{#uninitializedFields}}{{resolveName}}{ }{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}}{{/if}}
-{
-}{{/ifPredicate}}
-{{#ifPredicate "hasPartialDefaults"}}
-
-{{parentName}}::{{resolveName}}( {{!!
-}}{{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}} )
-    : {{#uninitializedFields}}{{resolveName}}{{#initializer}}( std::move( {{resolveName}} ) ){{/initializer}}{{!!
-}}{{^initializer}}( std::move( {{resolveName}} ) ){{/initializer}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}}
-{
-}{{/ifPredicate}}
-
-{{parentName}}::{{resolveName}}( {{!!
-}}{{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}} )
-    : {{#fields}}{{resolveName}}( std::move( {{resolveName}} ) ){{#if iter.hasNext}}, {{/if}}{{/fields}}
-{
-}
-
-{{/if}}{{!!
-}}{{#if attributes.equatable}}
+{{>cpp/CppStructConstructorsImpl}}
+{{#if attributes.equatable}}
 bool {{parentName}}::operator==( const {{resolveName}}& rhs ) const
 {
     return {{joinPartial fields "fieldEq" " &&

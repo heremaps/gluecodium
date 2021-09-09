@@ -51,13 +51,14 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
                  EXCLUDE_FROM_ALL)
 
 set(SOURCES
+  tests/EnumTest.cpp
   tests/EquatableTest.cpp
+  tests/FieldConstructorsTest.cpp
   tests/ImmutableStructsTest.cpp
   tests/OptionalTest.cpp
   tests/ReturnTest.cpp
   tests/RuntimeTypeInformationTest.cpp
-  tests/StructConstructorTest.cpp
-  tests/EnumTest.cpp)
+  tests/StructConstructorTest.cpp)
 
 if(TEST_CPP_VERSION LESS 17)
   list(APPEND SOURCES

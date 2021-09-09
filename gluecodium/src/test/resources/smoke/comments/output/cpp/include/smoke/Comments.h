@@ -59,9 +59,9 @@ public:
         SomeStruct( );
         /**
          * This is how easy it is to construct.
-         * @param some_field How useful this struct is
+         * \param some_field How useful this struct is
          * remains to be seen
-         * @param nullable_field Can be `null`
+         * \param nullable_field Can be `null`
          */
         SomeStruct( ::smoke::Comments::Usefulness some_field, ::gluecodium::optional< ::std::string > nullable_field );
         /**

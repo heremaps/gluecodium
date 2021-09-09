@@ -1,6 +1,6 @@
 package smoke
 
-struct FieldConstructorWithAnnotationAndComment {
+struct FieldConstructorWithDeprecationAndComment {
     stringField: String
     // Some field constructor
     @Deprecated("Shouldn't really use it")

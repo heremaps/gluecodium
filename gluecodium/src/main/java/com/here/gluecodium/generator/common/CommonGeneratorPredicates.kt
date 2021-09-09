@@ -22,6 +22,7 @@ package com.here.gluecodium.generator.common
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
+import com.here.gluecodium.model.lime.LimeFieldConstructor
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeList
@@ -44,6 +45,11 @@ internal object CommonGeneratorPredicates {
                     (thrownType?.comment?.getFor(platformTag)?.isEmpty() == false) ||
                     attributes.have(LimeAttributeType.DEPRECATED) ||
                     parameters.any { it.comment.getFor(platformTag).isNotBlank() }
+            }
+            is LimeFieldConstructor -> limeElement.run {
+                comment.getFor(platformTag).isNotBlank() || comment.isExcluded ||
+                    attributes.have(LimeAttributeType.DEPRECATED) ||
+                    struct.constructorComment.getFor(platformTag).isNotBlank()
             }
             is LimeNamedElement -> limeElement.run {
                 comment.getFor(platformTag).isNotBlank() || comment.isExcluded ||
@@ -75,6 +81,14 @@ internal object CommonGeneratorPredicates {
             limeContainer !is LimeContainer -> false
             limeContainer.functions.any { it.isStatic } -> true
             limeContainer.properties.any { it.isStatic } -> true
+            else -> false
+        }
+
+    fun needsAllFieldsConstructor(limeStruct: Any) =
+        when {
+            limeStruct !is LimeStruct -> false
+            limeStruct.fieldConstructors.isEmpty() -> true
+            limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) -> limeStruct.allFieldsConstructor == null
             else -> false
         }
 

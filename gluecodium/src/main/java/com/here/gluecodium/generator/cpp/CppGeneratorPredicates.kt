@@ -19,13 +19,13 @@
 
 package com.here.gluecodium.generator.cpp
 
+import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
-import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
@@ -51,16 +51,13 @@ internal object CppGeneratorPredicates {
                         attributes.have(LimeAttributeType.DEPRECATED) ||
                         parameters.any { it.comment.getFor("Cpp").isNotBlank() || needsNotNullComment(it.typeRef) }
                 }
-                is LimeNamedElement -> limeElement.run {
-                    comment.getFor("Cpp").isNotBlank() || comment.isExcluded ||
-                        attributes.have(LimeAttributeType.DEPRECATED)
-                }
-                else -> false
+                else -> CommonGeneratorPredicates.hasAnyComment(limeElement, "Cpp")
             }
         },
         "hasDefaultConstructor" to { limeStruct: Any ->
             when {
                 limeStruct !is LimeStruct -> false
+                limeStruct.fieldConstructors.map { it.fields.size }.contains(0) -> false
                 limeStruct.uninitializedFields.isEmpty() -> true
                 limeStruct.uninitializedFields
                     .flatMap { getAllFieldTypes(it.typeRef.type) }
@@ -73,6 +70,7 @@ internal object CppGeneratorPredicates {
             when {
                 limeStruct !is LimeStruct -> false
                 limeStruct.uninitializedFields.isEmpty() -> false
+                limeStruct.fieldConstructors.isNotEmpty() -> false
                 else -> limeStruct.uninitializedFields.size < limeStruct.fields.size
             }
         },
@@ -83,6 +81,9 @@ internal object CppGeneratorPredicates {
                     actualType.typeId == LimeBasicType.TypeId.STRING &&
                     it.attributes.have(LimeAttributeType.CPP, LimeAttributeValueType.CSTRING)
             }
+        },
+        "needsAllFieldsConstructor" to { limeStruct: Any ->
+            limeStruct is LimeStruct && limeStruct.allFieldsConstructor == null
         },
         "needsPointerValueEqual" to fun(limeField: Any): Boolean {
             if (limeField !is LimeField) return false

@@ -45,43 +45,9 @@ public:
 }}{{#defaultValue}} = {{resolveName}}{{/defaultValue}};
 {{/fields}}{{/set}}
 {{/unless}}{{!!
-}}{{#if fields}}
 
-{{#ifPredicate "hasDefaultConstructor"}}
-{{#resolveName constructorComment}}{{#unless this.isEmpty}}
-    /**
-{{prefix this "     * "}}
-     */
-{{/unless}}{{/resolveName}}
-    {{resolveName}}( );{{/ifPredicate}}{{!!
-}}{{#ifPredicate "hasPartialDefaults"}}
-{{#resolveName constructorComment}}{{#unless this.isEmpty}}
-    /**
-{{prefix this "     * "}}
-{{#uninitializedFields}}
-     * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
-{{#ifPredicate typeRef "needsNotNullComment"}}
-     * \warning @NotNull
-{{/ifPredicate}}
-{{/uninitializedFields}}
-     */
-{{/unless}}{{/resolveName}}
-    {{resolveName}}( {{#uninitializedFields}}{{!!
-    }}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}} );{{/ifPredicate}}
-{{#resolveName constructorComment}}{{#unless this.isEmpty}}
-    /**
-{{prefix this "     * "}}
-{{#fields}}
-     * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
-{{#ifPredicate typeRef "needsNotNullComment"}}
-     * \warning @NotNull
-{{/ifPredicate}}
-{{/fields}}
-     */
-{{/unless}}{{/resolveName}}
-    {{resolveName}}( {{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}} );
+}}{{>cpp/CppStructConstructors}}{{!!
 
-{{/if}}{{!!
 }}{{#if attributes.cpp.accessors}}
 {{#set structElement=this}}{{#fields}}
 {{prefixPartial "cpp/CppFieldDoc" "    "}}
