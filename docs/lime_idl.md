@@ -258,7 +258,7 @@ struct Options {
 
 #### Exception
 
-* Syntax: **exception** *ExceptionName*\[__(__*ErrorTypeName*__)__\]
+* Syntax: **exception** *ExceptionName*__(__*ErrorTypeName*__)__
 * Example: `exception SomethingWrong(ErrorType)`
 * Can be a free-standing element at file level or can be placed in: class, interface, types, struct.
 * Description: declares an exception (error) type in the parent type:
