@@ -32,4 +32,14 @@ class LimeFieldConstructor(
         get() = fieldRefs.map { it.field }
     val omittedFields
         get() = struct.fields - fields
+
+    fun asFunction() = LimeFunction(
+        path = path,
+        comment = comment,
+        attributes = attributes,
+        returnType = LimeReturnType(structRef),
+        parameters = fields.map { LimeParameter(path.child(it.name), typeRef = it.typeRef) },
+        isStatic = true,
+        isConstructor = true
+    )
 }

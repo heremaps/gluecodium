@@ -21,17 +21,19 @@ package com.here.gluecodium.validator
 
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeFieldConstructor
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeSignatureResolver
 
 internal class LimeOverloadsValidator(
     private val signatureResolver: LimeSignatureResolver,
     private val logger: LimeLogger,
-    private val validateConstructors: Boolean = false
+    private val validateCustomConstructors: Boolean = false
 ) {
     fun validate(limeModel: Collection<LimeElement>): Boolean {
         val validationResults =
-            limeModel.filterIsInstance<LimeFunction>().map { validateFunction(it, signatureResolver) }
+            limeModel.filterIsInstance<LimeFunction>().map { validateFunction(it, signatureResolver) } +
+                limeModel.filterIsInstance<LimeFieldConstructor>().map { validateFieldConstructor(it, signatureResolver) }
         return !validationResults.contains(false)
     }
 
@@ -41,10 +43,29 @@ internal class LimeOverloadsValidator(
                 logger.error(limeFunction, "function has conflicting overloads")
                 false
             }
-            validateConstructors && signatureResolver.hasConstructorSignatureClash(limeFunction) -> {
+            validateCustomConstructors && signatureResolver.hasConstructorSignatureClash(limeFunction) -> {
                 logger.error(limeFunction, "constructor has conflicting overloads")
                 false
             }
             else -> true
         }
+
+    private fun validateFieldConstructor(
+        limeFieldConstructor: LimeFieldConstructor,
+        signatureResolver: LimeSignatureResolver
+    ): Boolean {
+        if (validateCustomConstructors) {
+            if (signatureResolver.hasConstructorSignatureClash(limeFieldConstructor.asFunction())) {
+                logger.error(limeFieldConstructor, "field constructor has conflicting overloads")
+                return false
+            }
+        } else {
+            val allSiblings = limeFieldConstructor.struct.fieldConstructors.map { it.asFunction() }
+            if (signatureResolver.hasSignatureClash(limeFieldConstructor.asFunction(), allSiblings)) {
+                logger.error(limeFieldConstructor, "field constructor has conflicting overloads")
+                return false
+            }
+        }
+        return true
+    }
 }

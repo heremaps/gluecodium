@@ -35,7 +35,7 @@ internal abstract class PlatformSignatureResolver(
 ) : LimeSignatureResolver(limeReferenceMap) {
 
     override fun getOwnFunctions(limeContainer: LimeContainer) =
-        limeContainer.functions
+        super.getOwnFunctions(limeContainer)
             .filter { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, platformAttributeType) }
 
     override fun getFunctionName(limeFunction: LimeFunction) =
