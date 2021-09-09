@@ -28,6 +28,7 @@ import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
+import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
@@ -36,10 +37,16 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal abstract class CppImportsCollector<T> : ImportsCollector<T> {
 
-    protected fun collectForwardDeclaredTypes(allTypeRefs: List<LimeTypeRef>) =
-        allTypeRefs.map { it.type }
+    protected fun collectForwardDeclaredTypes(
+        limeElement: LimeNamedElement,
+        allTypeRefs: List<LimeTypeRef>
+    ): List<LimeContainerWithInheritance> {
+        val filteredPaths = listOf(limeElement.path) +
+            listOfNotNull((limeElement as? LimeContainerWithInheritance)?.parent?.type?.path)
+        return allTypeRefs.map { it.type }
             .filterIsInstance<LimeContainerWithInheritance>()
-            .filter { !it.path.hasParent && it.external?.cpp == null }
+            .filter { !it.path.hasParent && it.external?.cpp == null && !filteredPaths.contains(it.path) }
+    }
 
     protected fun collectTypeRefs(allTypes: List<LimeType>): List<LimeTypeRef> {
         val containers = allTypes.filterIsInstance<LimeContainer>()

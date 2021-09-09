@@ -3,6 +3,7 @@
 ## Unreleased
 ### Bug fixes:
   * Restored validation of constructor overloads for C++, Java, and Swift generators.
+  * Fixed missing C++ includes for some cases of class inheritance.
 
 ## 9.4.4
 Release date: 2021-08-27

@@ -11,9 +11,6 @@
 #include <string>
 #include <system_error>
 namespace smoke {
-    class CppRefReturnType;
-}
-namespace smoke {
 class _GLUECODIUM_CPP_EXPORT CppRefReturnType {
 public:
     CppRefReturnType();

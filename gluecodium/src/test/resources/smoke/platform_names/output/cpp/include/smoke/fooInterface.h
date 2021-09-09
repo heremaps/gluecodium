@@ -9,9 +9,6 @@
 #include <memory>
 #include <string>
 namespace smoke {
-    class fooInterface;
-}
-namespace smoke {
 class _GLUECODIUM_CPP_EXPORT fooInterface {
 public:
     fooInterface();
