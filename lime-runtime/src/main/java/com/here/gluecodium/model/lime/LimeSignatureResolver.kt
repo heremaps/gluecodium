@@ -80,7 +80,9 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
 
     protected open fun getNullableSuffix(limeTypeRef: LimeTypeRef) = if (limeTypeRef.isNullable) "?" else ""
 
-    private fun computeSignature(limeFunction: LimeFunction) = limeFunction.parameters.map { getTypeName(it.typeRef) }
+    protected open fun getParameterSignature(limeParameter: LimeParameter) = getTypeName(limeParameter.typeRef)
+
+    private fun computeSignature(limeFunction: LimeFunction) = limeFunction.parameters.map { getParameterSignature(it) }
 
     protected fun getTypeName(limeTypeRef: LimeTypeRef): String =
         when (val limeType = limeTypeRef.type) {

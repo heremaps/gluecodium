@@ -23,7 +23,6 @@ import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.generator.swift.SwiftNameRules
-import com.here.gluecodium.generator.swift.SwiftSignatureResolver
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeBasicType
@@ -38,6 +37,7 @@ import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
+import com.here.gluecodium.model.lime.LimeSignatureResolver
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
@@ -46,7 +46,7 @@ internal class CBridgeNameResolver(
     limeReferenceMap: Map<String, LimeElement>,
     private val swiftNameRules: SwiftNameRules,
     private val internalPrefix: String,
-    private val signatureResolver: SwiftSignatureResolver
+    private val signatureResolver: LimeSignatureResolver
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
 
     override fun resolveName(element: Any): String =

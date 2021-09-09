@@ -27,10 +27,10 @@ import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeSignatureResolver
 
-internal abstract class PlatformSignatureResolver(
+internal open class PlatformSignatureResolver(
     limeReferenceMap: Map<String, LimeElement>,
     private val platformAttributeType: LimeAttributeType,
-    private val nameRules: NameRules,
+    protected val nameRules: NameRules,
     private val activeTags: Set<String>
 ) : LimeSignatureResolver(limeReferenceMap) {
 
