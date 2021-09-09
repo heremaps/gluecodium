@@ -32,6 +32,7 @@ import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.GeneratorOptions
 import com.here.gluecodium.generator.common.GenericImportsCollector
 import com.here.gluecodium.generator.common.NameResolver
+import com.here.gluecodium.generator.common.PlatformSignatureResolver
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.CppNameCache
@@ -100,8 +101,9 @@ internal class SwiftGenerator : Generator {
             .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, SWIFT, retainFunctions = false) }
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
 
-        val signatureResolver = SwiftSignatureResolver(cbridgeFilteredModel.referenceMap, nameRules, activeTags)
-        val overloadsValidator = LimeOverloadsValidator(signatureResolver, limeLogger, validateCustomConstructors = true)
+        val swiftSignatureResolver = SwiftSignatureResolver(cbridgeFilteredModel.referenceMap, nameRules, activeTags)
+        val overloadsValidator =
+            LimeOverloadsValidator(swiftSignatureResolver, limeLogger, validateCustomConstructors = true)
         val weakPropertiesValidator = SwiftWeakPropertiesValidator(limeLogger)
         val validationResults = listOf(
             overloadsValidator.validate(cbridgeFilteredModel.referenceMap.values),
@@ -111,8 +113,10 @@ internal class SwiftGenerator : Generator {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
 
+        val cbridgeSignatureResolver =
+            PlatformSignatureResolver(cbridgeFilteredModel.referenceMap, SWIFT, nameRules, activeTags)
         val cbridgeNameResolver =
-            CBridgeNameResolver(cbridgeFilteredModel.referenceMap, nameRules, internalPrefix ?: "", signatureResolver)
+            CBridgeNameResolver(cbridgeFilteredModel.referenceMap, nameRules, internalPrefix ?: "", cbridgeSignatureResolver)
         val cBridgeGenerator = CBridgeGenerator(
             limeReferenceMap = cbridgeFilteredModel.referenceMap,
             rootNamespace = rootNamespace,
@@ -124,11 +128,11 @@ internal class SwiftGenerator : Generator {
         )
 
         val swiftNameResolver =
-            SwiftNameResolver(limeModel.referenceMap, nameRules, limeLogger, commentsProcessor, signatureResolver)
+            SwiftNameResolver(limeModel.referenceMap, nameRules, limeLogger, commentsProcessor, swiftSignatureResolver)
         val mangledNameResolver = SwiftMangledNameResolver(swiftNameResolver)
         val nameResolvers =
             mapOf("" to swiftNameResolver, "CBridge" to cbridgeNameResolver, "mangled" to mangledNameResolver)
-        val predicates = SwiftGeneratorPredicates(limeModel.referenceMap, nameRules, signatureResolver)
+        val predicates = SwiftGeneratorPredicates(limeModel.referenceMap, nameRules, swiftSignatureResolver)
         val swiftFiles = swiftFilteredModel.topElements.map { generateSwiftFile(it, nameResolvers, predicates) }
         if (commentsProcessor.hasError) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")

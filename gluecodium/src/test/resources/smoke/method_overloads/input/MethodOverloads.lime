@@ -100,3 +100,9 @@ class NullableOverloads {
     fun foo(input: String)
     fun foo(input: String?)
 }
+
+@Java(Skip) @Dart(Skip)
+class SwiftConstructorOverloads {
+    constructor make(input: String)
+    constructor make_do(throughput: String)
+}

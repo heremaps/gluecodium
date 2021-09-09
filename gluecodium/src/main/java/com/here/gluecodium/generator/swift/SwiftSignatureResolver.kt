@@ -23,6 +23,7 @@ import com.here.gluecodium.generator.common.PlatformSignatureResolver
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeParameter
 
 internal class SwiftSignatureResolver(
     limeReferenceMap: Map<String, LimeElement>,
@@ -34,4 +35,7 @@ internal class SwiftSignatureResolver(
         val overloads = getOwnAndParentFunctions(container).filter { it.isConstructor }
         return hasSignatureClash(limeFunction, overloads)
     }
+
+    override fun getParameterSignature(limeParameter: LimeParameter) =
+        nameRules.getName(limeParameter) + ": " + getTypeName(limeParameter.typeRef)
 }
