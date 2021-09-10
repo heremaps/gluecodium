@@ -79,7 +79,11 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput{{!!
     }}{{#unlessPredicate "hasCppSetter"}}{{resolveName this "C++"}} = n_{{resolveName this "C++"}}{{/unlessPredicate}}{{!!
     }};{{/unlessPredicate}}
 {{/fields}}
-    {{#ifPredicate struct "hasImmutableFields"}}return {{resolveName "C++ FQN"}}({{#fields}}std::move(n_{{resolveName "C++"}}){{#if iter.hasNext}}, {{/if}}{{/fields}});{{/ifPredicate}}{{!!
+    {{#ifPredicate struct "hasImmutableFields"}}return {{resolveName "C++ FQN"}}({{!!
+    }}{{#if allFieldsConstructor}}{{#allFieldsConstructor}}{{!!
+    }}{{#fields}}std::move(n_{{resolveName "C++"}}){{#if iter.hasNext}}, {{/if}}{{/fields}}{{/allFieldsConstructor}}{{/if}}{{!!
+    }}{{#unless allFieldsConstructor}}{{#fields}}std::move(n_{{resolveName "C++"}}){{#if iter.hasNext}}, {{/if}}{{/fields}}{{/unless}}{{!!
+    }});{{/ifPredicate}}{{!!
     }}{{#unlessPredicate struct "hasImmutableFields"}}return _nout;{{/unlessPredicate}}
 }
 

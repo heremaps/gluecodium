@@ -1,0 +1,121 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2021 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+{{#if fields}}{{#unless constructors}}{{!!
+
+}}{{#unless fieldConstructors}}{{#if initializedFields}}
+
+{{#unless constructorComment.isEmpty}}
+    /**
+{{#resolveName constructorComment}}{{prefix this "     * "}}{{/resolveName}}
+{{#uninitializedFields}}
+     * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
+{{/uninitializedFields}}
+     */
+{{/unless}}
+    {{#unlessPredicate "hasInternalFreeArgsConstructor"}}{{>structVisibility}}{{/unlessPredicate}}{{resolveName}}{{!!
+    }}({{#set noAttributes=true}}{{joinPartial uninitializedFields "java/JavaParameter" ", "}}{{/set}}) {
+{{#fields}}        this.{{resolveName}} = {{#if defaultValue}}{{resolveName defaultValue}}{{/if}}{{!!
+                   }}{{#unless defaultValue}}{{resolveName}}{{/unless}};
+{{/fields}}
+    }
+{{/if}}{{/unless}}{{!!
+
+}}{{#ifPredicate "needsAllFieldsConstructor"}}
+
+{{#unless constructorComment.isEmpty}}
+    /**
+{{#resolveName constructorComment}}{{prefix this "     * "}}{{/resolveName}}
+{{#fields}}
+     * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
+{{/fields}}
+     */
+{{/unless}}
+    {{#unlessPredicate "hasInternalAllArgsConstructor"}}{{>structVisibility}}{{/unlessPredicate}}{{resolveName}}{{!!
+    }}({{#set noAttributes=true}}{{joinPartial fields "java/JavaParameter" ", "}}{{/set}}) {
+{{#fields}}        this.{{resolveName}} = {{resolveName}};
+{{/fields}}
+    }
+{{/ifPredicate}}{{/unless}}{{!!
+
+}}{{#set struct=this}}{{#fieldConstructors}}
+{{#ifPredicate "hasAnyComment"}}
+    /**
+
+{{#unless comment.isEmpty}}{{#resolveName comment}}{{prefix this "     * "}}
+{{/resolveName}}{{/unless}}{{!!
+}}{{#if comment.isEmpty}}{{#resolveName constructorComment}}{{#unless this.isEmpty}}{{prefix this "     * "}}
+{{/unless}}{{/resolveName}}{{/if}}{{!!
+}}{{#if comment.isExcluded}}
+     * @exclude
+{{/if}}{{!!
+}}{{#if attributes.deprecated}}
+     * @deprecated {{resolveName attributes.deprecated.message}}
+{{/if}}{{!!
+}}{{#fields}}
+     * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
+{{/fields}}
+     */{{#if attributes.deprecated}}
+    @Deprecated
+{{/if}}{{/ifPredicate}}
+{{prefixPartial "java/JavaAttributes" "    "}}
+    {{#struct}}{{>structVisibility}}{{/struct}}{{resolveName struct}}({{!!
+    }}{{#set noAttributes=true}}{{joinPartial fields "java/JavaParameter" ", "}}{{/set}}) {
+{{#fields}}        this.{{resolveName}} = {{resolveName}};
+{{/fields}}
+{{#omittedFields}}        this.{{resolveName}} = {{resolveName defaultValue}};
+{{/omittedFields}}
+    }
+{{/fieldConstructors}}{{/set}}{{!!
+
+}}{{#unless fieldConstructors}}{{#if attributes.java.positionalDefaults}}{{#set noAttributes=true struct=this}}
+{{#initializedFields}}{{#set fieldIndex=iter.index}}
+
+{{#unless constructorComment.isEmpty}}
+    /**
+{{#resolveName constructorComment}}{{prefix this "     * "}}{{/resolveName}}
+{{#uninitializedFields}}
+     * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
+{{/uninitializedFields}}
+{{#initializedFields}}{{#numExpr iter.index fieldIndex op="le"}}
+     * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
+{{/numExpr}}{{/initializedFields}}{{#instanceOf struct.attributes.java.positionalDefaults "String"}}
+     * @deprecated {{#struct.attributes.java.positionalDefaults}}{{prefix this " * " skipFirstLine=true}}{{/struct.attributes.java.positionalDefaults}}
+{{/instanceOf}}
+     */
+{{/unless}}{{#instanceOf struct.attributes.java.positionalDefaults "String"}}
+    @Deprecated("{{struct.attributes.java.positionalDefaults}}")
+{{/instanceOf}}
+    {{#struct}}{{>structVisibility}}{{resolveName}}{{/struct}}{{!!
+    }}({{#set noAttributes=true}}{{#uninitializedFields}}{{>java/JavaParameter}}, {{/uninitializedFields}}{{!!
+    }}{{#initializedFields}}{{#numExpr iter.index fieldIndex op="le"}}{{>java/JavaParameter}}{{/numExpr}}{{!!
+    }}{{#numExpr iter.index fieldIndex op="lt"}}, {{/numExpr}}{{/initializedFields}}{{/set}}) {
+{{#uninitializedFields}}        this.{{resolveName}} = {{resolveName}};
+{{/uninitializedFields}}
+{{#initializedFields}}        {{#numExpr iter.index fieldIndex op="le"}}this.{{resolveName}} = {{resolveName}};
+{{/numExpr}}{{!!
+}}{{#numExpr iter.index fieldIndex op="gt"}}this.{{resolveName}} = {{resolveName defaultValue}};
+{{/numExpr}}{{/initializedFields}}
+    }
+{{/set}}{{/initializedFields}}
+{{/set}}{{/if}}{{/unless}}{{!!
+}}{{/if}}{{!!
+
+}}{{+structVisibility}}{{#unless external.java.converter}}{{resolveName visibility}}{{/unless}}{{/structVisibility}}

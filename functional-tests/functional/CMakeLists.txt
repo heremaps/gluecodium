@@ -149,7 +149,7 @@ feature(StructsImmutable cpp android swift dart SOURCES
     input/lime/PlainDataStructuresImmutable.lime
 )
 
-feature(FieldConstructors cpp SOURCES
+feature(FieldConstructors cpp android SOURCES
     input/src/cpp/FieldConstructors.cpp
 
     input/lime/FieldConstructors.lime

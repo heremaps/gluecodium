@@ -20,6 +20,8 @@
 package com.here.gluecodium.generator.java
 
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
+import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeStruct
@@ -30,9 +32,7 @@ import com.here.gluecodium.model.lime.LimeTypeRef
  */
 internal object JavaGeneratorPredicates {
     val predicates = mapOf(
-        "hasAnyComment" to { limeElement: Any ->
-            CommonGeneratorPredicates.hasAnyComment(limeElement, "Java")
-        },
+        "hasAnyComment" to { CommonGeneratorPredicates.hasAnyComment(it, "Java") },
         "hasInternalAllArgsConstructor" to { limeStruct: Any ->
             limeStruct is LimeStruct && limeStruct.fields.any { it.visibility.isInternal }
         },
@@ -54,6 +54,11 @@ internal object JavaGeneratorPredicates {
                 limeInterface.properties.any { it.isStatic } -> true
                 else -> false
             }
+        },
+        "needsAllFieldsConstructor" to { limeStruct: Any ->
+            limeStruct is LimeStruct &&
+                !limeStruct.attributes.have(LimeAttributeType.JAVA, LimeAttributeValueType.POSITIONAL_DEFAULTS) &&
+                CommonGeneratorPredicates.needsAllFieldsConstructor(limeStruct)
         },
         "needsDisposer" to { limeClass: Any ->
             limeClass is LimeClass && limeClass.parent?.type?.actualType !is LimeClass
