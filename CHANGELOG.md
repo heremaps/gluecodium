@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 9.4.5
+Release date: 2021-09-10
 ### Bug fixes:
   * Restored validation of constructor overloads for C++, Java, and Swift generators.
   * Fixed missing C++ includes for some cases of class inheritance.
