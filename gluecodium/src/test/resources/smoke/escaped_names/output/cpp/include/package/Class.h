@@ -10,9 +10,6 @@
 #include <memory>
 #include <system_error>
 namespace package {
-    class Class;
-}
-namespace package {
 class _GLUECODIUM_CPP_EXPORT Class: public ::package::Interface {
 public:
     Class();

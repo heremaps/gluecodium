@@ -7,9 +7,6 @@
 #include <memory>
 #include <string>
 namespace smoke {
-    class SimpleClass;
-}
-namespace smoke {
 class _GLUECODIUM_CPP_EXPORT SimpleClass {
 public:
     SimpleClass();

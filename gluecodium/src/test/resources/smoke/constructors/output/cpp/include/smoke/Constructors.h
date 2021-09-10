@@ -13,9 +13,6 @@
 #include <system_error>
 #include <vector>
 namespace smoke {
-    class Constructors;
-}
-namespace smoke {
 class _GLUECODIUM_CPP_EXPORT Constructors {
 public:
     Constructors();

@@ -7,9 +7,6 @@
 #include <memory>
 #include <string>
 namespace smoke {
-    class NestedReferences;
-}
-namespace smoke {
 class _GLUECODIUM_CPP_EXPORT NestedReferences {
 public:
     NestedReferences();
