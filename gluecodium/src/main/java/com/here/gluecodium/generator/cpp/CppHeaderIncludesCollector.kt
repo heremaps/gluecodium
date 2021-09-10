@@ -45,7 +45,7 @@ internal class CppHeaderIncludesCollector(
                         (it is LimeInterface || it.visibility.isOpen)
                 }
         val allTypeRefs = collectTypeRefs(allTypes)
-        val forwardDeclaredTypes = collectForwardDeclaredTypes(allTypeRefs)
+        val forwardDeclaredTypes = collectForwardDeclaredTypes(limeElement, allTypeRefs)
 
         val allValues = LimeTypeHelper.getAllValues(limeElement)
         val equatableTypes = allTypes.filter { it.external?.cpp == null && it.attributes.have(LimeAttributeType.EQUATABLE) }

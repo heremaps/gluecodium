@@ -28,7 +28,8 @@ internal class CppForwardDeclarationsCollector(private val nameResolver: CppName
 
     override fun collectImports(limeElement: LimeNamedElement): List<CppForwardDeclarationGroup> {
         val allTypeRefs = collectTypeRefs(LimeTypeHelper.getAllTypes(limeElement))
-        val forwardDeclaredTypes = collectForwardDeclaredTypes(allTypeRefs).distinctBy { it.path }.sortedBy { it.path }
+        val forwardDeclaredTypes =
+            collectForwardDeclaredTypes(limeElement, allTypeRefs).distinctBy { it.path }.sortedBy { it.path }
         return createForwardDeclarationGroup("", forwardDeclaredTypes, 0, nameResolver).subGroups
     }
 

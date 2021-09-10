@@ -9,7 +9,6 @@
 #include <memory>
 #include <string>
 namespace smoke {
-    class EquatableClass;
     class PointerEquatableClass;
 }
 namespace smoke {

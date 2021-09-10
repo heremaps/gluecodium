@@ -8,9 +8,6 @@
 #include <memory>
 #include <string>
 namespace smoke {
-    class SimpleInterface;
-}
-namespace smoke {
 class _GLUECODIUM_CPP_EXPORT SimpleInterface {
 public:
     SimpleInterface();

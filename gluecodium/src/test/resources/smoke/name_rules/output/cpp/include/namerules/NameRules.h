@@ -12,9 +12,6 @@
 #include <system_error>
 #include <vector>
 namespace namerules {
-    class NameRules;
-}
-namespace namerules {
 class _GLUECODIUM_CPP_EXPORT NameRules {
 public:
     NameRules();
