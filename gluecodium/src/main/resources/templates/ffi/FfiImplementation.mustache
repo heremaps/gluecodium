@@ -137,7 +137,9 @@ FfiOpaqueHandle
 {{#nonExternalStructs}}
 FfiOpaqueHandle
 {{libraryName}}_{{resolveName}}_create_handle({{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
-    auto _result = new (std::nothrow) {{resolveName "C++"}}({{joinPartial fields "ffiFieldToCpp" ", "}});
+    auto _result = new (std::nothrow) {{resolveName "C++"}}({{!!
+    }}{{#if allFieldsConstructor}}{{#allFieldsConstructor}}{{joinPartial fields "ffiFieldToCpp" ", "}}{{/allFieldsConstructor}}{{/if}}{{!!
+    }}{{#unless allFieldsConstructor}}{{joinPartial fields "ffiFieldToCpp" ", "}}{{/unless}});
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 

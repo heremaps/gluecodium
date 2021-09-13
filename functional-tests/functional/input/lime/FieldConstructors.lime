@@ -21,7 +21,9 @@ struct FieldConstructorsPartialDefaults {
     stringField: String
     intField: Int
     boolField: Boolean = true
+    @Dart("withTrue")
     field constructor(intField, stringField)
+    @Dart(Default)
     field constructor(boolField, intField, stringField)
 }
 
@@ -29,9 +31,13 @@ struct FieldConstructorsAllDefaults {
     stringField: String = "nonsense"
     intField: Int = 42
     boolField: Boolean = true
+    @Dart("withAll")
     field constructor()
+    @Dart("withTrueNonsense")
     field constructor(intField)
+    @Dart("withTrue")
     field constructor(intField, stringField)
+    @Dart(Default)
     field constructor(boolField, intField, stringField)
 }
 
@@ -40,6 +46,7 @@ struct ImmutableStructNoClash {
     stringField: String = "nonsense"
     intField: Int = 42
     boolField: Boolean = true
+    @Dart("withAll")
     field constructor()
 }
 
@@ -48,7 +55,9 @@ struct ImmutableStructWithClash {
     stringField: String = "nonsense"
     intField: Int = 42
     boolField: Boolean = true
+    @Dart("withAll")
     field constructor()
+    @Dart(Default)
     field constructor(boolField, intField, stringField)
 }
 
@@ -56,6 +65,8 @@ struct FieldCustomConstructorsMix {
     stringField: String = "nonsense"
     intField: Int = 42
     boolField: Boolean = true
+    @Dart("withTrueNonsense")
     field constructor(intField)
+    @Dart(Default)
     constructor createMe(intValue: Int, dummy: Double)
 }

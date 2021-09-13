@@ -114,7 +114,7 @@ internal class DartGenerator : Generator {
         val ffiNameResolver = FfiNameResolver(dartFilteredModel.referenceMap, nameRules, internalPrefix)
 
         val validationResult = DartOverloadsValidator(dartNameResolver, limeLogger, overloadsWerror)
-            .validate(dartFilteredModel.topElements)
+            .validate(dartFilteredModel.referenceMap.values)
         if (!validationResult) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
@@ -540,7 +540,15 @@ internal class DartGenerator : Generator {
 
         private fun predicates(limeReferenceMap: Map<String, LimeElement>, activeTags: Set<String>) =
             mapOf(
-                "hasStaticFunctions" to CommonGeneratorPredicates::hasStaticFunctions,
+                "hasAnyComment" to { CommonGeneratorPredicates.hasAnyComment(it, "Dart") },
+                "hasSingleConstructor" to { limeContainer: Any ->
+                    when (limeContainer) {
+                        !is LimeContainer -> false
+                        is LimeStruct -> limeContainer.constructors.size + limeContainer.fieldConstructors.size == 1
+                        else -> limeContainer.constructors.size == 1
+                    }
+                },
+                "hasStaticFunctions" to { CommonGeneratorPredicates.hasStaticFunctions(it) },
                 "skipDeclaration" to { limeType: Any ->
                     limeType is LimeType && skipDeclaration(limeType)
                 },

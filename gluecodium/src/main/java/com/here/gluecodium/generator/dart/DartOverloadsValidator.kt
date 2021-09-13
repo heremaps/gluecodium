@@ -24,8 +24,9 @@ import com.here.gluecodium.model.lime.LimeAttributeType.DART
 import com.here.gluecodium.model.lime.LimeAttributeValueType.DEFAULT
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
-import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeStruct
 
 /**
  * Validate functions and constructors against overloading. Dart language does not support this.
@@ -38,7 +39,7 @@ internal class DartOverloadsValidator(
     private val logFunction: LimeLogger.(LimeNamedElement, String) -> Unit =
         if (werror) LimeLogger::error else LimeLogger::warning
 
-    fun validate(limeElements: List<LimeNamedElement>): Boolean {
+    fun validate(limeElements: Collection<LimeElement>): Boolean {
         val validationResults = limeElements.filterIsInstance<LimeContainer>().map { validateContainer(it) }
 
         return !werror || !validationResults.contains(false)
@@ -61,8 +62,9 @@ internal class DartOverloadsValidator(
             )
         }
 
+        val fieldConstructors = (limeContainer as? LimeStruct)?.fieldConstructors ?: emptyList()
         val overloadedConstructors =
-            constructors.groupBy { getConstructorName(it) }.filter { it.value.size > 1 }
+            (constructors + fieldConstructors).groupBy { getConstructorName(it) }.filter { it.value.size > 1 }
         overloadedConstructors.forEach { entry ->
             val pathsString = entry.value.map { it.path.toString() }.sorted().joinToString()
             val warningText = if (entry.key.isEmpty()) {
@@ -76,6 +78,6 @@ internal class DartOverloadsValidator(
         return overloadedFunctions.isEmpty() && overloadedConstructors.isEmpty()
     }
 
-    private fun getConstructorName(constructor: LimeFunction) =
+    private fun getConstructorName(constructor: LimeNamedElement) =
         if (constructor.attributes.have(DART, DEFAULT)) "" else nameResolver.resolveName(constructor)
 }
