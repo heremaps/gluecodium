@@ -60,10 +60,10 @@ object LimeTypeHelper {
         }
 
     private val limeKeywords = setOf(
-        "class", "const", "constructor", "fun", "enum", "exception", "field",
+        "class", "const", "constructor", "enum", "exception", "external", "field", "fun",
         "get", "import", "interface", "internal", "lambda", "open", "package", "property", "public",
         "set", "static", "struct", "throws", "typealias", "types", "Void", "Boolean", "Float",
         "Double", "Byte", "Short", "Int", "Long", "UByte", "UShort", "UInt", "ULong", "String",
-        "Blob", "Date", "List", "Map", "Set", "true", "false", "null", "NaN", "Infinity"
+        "Blob", "Date", "Duration", "Locale", "List", "Map", "Set", "true", "false", "null", "NaN", "Infinity"
     )
 }
