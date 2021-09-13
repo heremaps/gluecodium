@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 9.5.0
+Release date: 2021-09-13
 ### Features:
   * Added support for defining "field constructors" for structs in IDL.
   * Added support for `@Cpp(Skip)` attribute on "field constructors".
