@@ -5,3 +5,4 @@
 -javanullableannotation android.support.annotation.Nullable
 -tag lite
 -tag ExperimentalFoo
+-werror DartOverloads

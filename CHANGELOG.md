@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed an issue where Dart validation incorrectly considered skipped elements.
+
 ## 9.5.0
 Release date: 2021-09-13
 ### Features:

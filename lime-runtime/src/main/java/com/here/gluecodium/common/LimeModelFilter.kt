@@ -42,6 +42,7 @@ object LimeModelFilter {
 
 private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (LimeNamedElement) -> Boolean) {
 
+    private val referenceMap = limeModel.referenceMap.toMutableMap()
     private val droppedElements = mutableSetOf<String>()
 
     private val predicate: (LimeNamedElement) -> Boolean = {
@@ -60,7 +61,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
         val auxiliaryElements = limeModel.auxiliaryElements.filter(predicate).map { filterTopElement(it) }
 
         // Has to be filtered last, when [droppedElements] is already filled.
-        val referenceMap = limeModel.referenceMap.filterValues { refMapPredicate(it) }.toMutableMap()
+        val referenceMap = referenceMap.filterValues { refMapPredicate(it) }.toMutableMap()
         // Restore ambiguous keys if some of the non-ambiguous entries are still present.
         referenceMap.entries
             .filter { it.key.contains(":") }
@@ -88,6 +89,13 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
             else -> element
         }
 
+    private fun <T : LimeNamedElement> remap(element: T) {
+        referenceMap[element.fullName] = element
+        if (element.path.disambiguator.isNotEmpty()) {
+            referenceMap.replace(element.path.withSuffix("").toString(), element)
+        }
+    }
+
     private fun filterClass(limeClass: LimeClass): LimeClass =
         limeClass.run {
             LimeClass(
@@ -108,7 +116,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
                 lambdas = lambdas.filter(predicate),
                 parent = parent?.let { LimeDirectTypeRef(filterTopElement(it.type.actualType) as LimeType) }
             )
-        }
+        }.also { remap(it) }
 
     private fun filterInterface(limeInterface: LimeInterface): LimeInterface =
         limeInterface.run {
@@ -130,7 +138,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
                 lambdas = lambdas.filter(predicate),
                 parent = parent?.let { LimeDirectTypeRef(filterTopElement(it.type.actualType) as LimeType) }
             )
-        }
+        }.also { remap(it) }
 
     private fun filterTypesCollection(limeTypes: LimeTypesCollection) =
         limeTypes.run {
@@ -145,7 +153,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
                 typeAliases = typeAliases.filter(predicate),
                 exceptions = exceptions.filter(predicate)
             )
-        }
+        }.also { remap(it) }
 
     private fun filterStruct(limeStruct: LimeStruct) =
         limeStruct.run {
@@ -166,7 +174,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
                 enumerations = enumerations.filter(predicate),
                 fieldConstructors = fieldConstructors.filter(predicate)
             )
-        }
+        }.also { remap(it) }
 
     private fun filterEnum(limeEnum: LimeEnumeration) =
         limeEnum.run {
@@ -189,7 +197,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
                 external = external,
                 enumerators = relinkedEnumerators
             )
-        }
+        }.also { remap(it) }
 
     private fun filterConstant(limeConstant: LimeConstant) =
         limeConstant.run {
@@ -201,7 +209,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
                 typeRef = typeRef,
                 value = filterValue(value)
             )
-        }
+        }.also { remap(it) }
 
     private fun filterField(limeField: LimeField) =
         limeField.run {
@@ -214,7 +222,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
                 typeRef = typeRef,
                 defaultValue = defaultValue?.let { filterValue(it) }
             )
-        }
+        }.also { remap(it) }
 
     private fun filterValue(limeValue: LimeValue): LimeValue {
         if (limeValue !is LimeValue.Enumerator || limeValue.valueRef !is LimePositionalEnumeratorRef) return limeValue

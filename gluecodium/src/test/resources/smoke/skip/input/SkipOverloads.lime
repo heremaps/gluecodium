@@ -28,3 +28,10 @@ struct SkipOverloads {
     @Skip("Lite")
     fun doFoo()
 }
+
+@Skip(Java, Swift)
+class SkipOverloadsInDart {
+    constructor make()
+    @Skip(Dart)
+    constructor make(input: String)
+}
