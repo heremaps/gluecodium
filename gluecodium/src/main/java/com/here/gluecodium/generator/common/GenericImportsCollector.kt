@@ -85,9 +85,7 @@ internal open class GenericImportsCollector<T>(
             listOfNotNull(limeFunction.thrownType?.typeRef) +
             if (collectFunctionErrorType) listOfNotNull(limeFunction.exception?.errorType) else emptyList()
 
-    protected open fun collectParentTypeRefs(limeContainer: LimeContainerWithInheritance): List<LimeTypeRef> {
-        val parentTypeRef = limeContainer.parent ?: return emptyList()
-        return limeContainer.inheritedFunctions.flatMap { collectTypeRefs(it) } +
-            limeContainer.inheritedProperties.map { it.typeRef } + parentTypeRef
-    }
+    protected open fun collectParentTypeRefs(limeContainer: LimeContainerWithInheritance) =
+        limeContainer.inheritedFunctions.flatMap { collectTypeRefs(it) } +
+            limeContainer.inheritedProperties.map { it.typeRef } + limeContainer.parents
 }

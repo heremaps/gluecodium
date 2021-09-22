@@ -80,7 +80,7 @@ internal class LimeOptimizedListsValidator(private val logger: LimeLogger) {
     }
 
     private fun validateParent(limeContainer: LimeContainerWithInheritance): Boolean {
-        if (isOptimized(limeContainer.parent)) {
+        if (limeContainer.parents.any { isOptimized(it) }) {
             logger.error(limeContainer, "`@Optimized` attribute cannot be used with inheritance")
             return false
         }
