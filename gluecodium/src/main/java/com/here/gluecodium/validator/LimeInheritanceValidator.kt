@@ -43,7 +43,7 @@ internal class LimeInheritanceValidator(private val logger: LimeLogger) {
     }
 
     private fun validateClass(limeClass: LimeClass): Boolean {
-        val parentType = limeClass.parent?.type
+        val parentType = limeClass.parents.firstOrNull()?.type
         return when {
             parentType == null -> true
             hasInheritanceLoop(limeClass) -> {
@@ -63,7 +63,7 @@ internal class LimeInheritanceValidator(private val logger: LimeLogger) {
     }
 
     private fun validateInterface(limeInterface: LimeInterface): Boolean {
-        val parentType = limeInterface.parent?.type
+        val parentType = limeInterface.parents.firstOrNull()?.type
         return when {
             parentType == null -> true
             hasInheritanceLoop(limeInterface) -> {
