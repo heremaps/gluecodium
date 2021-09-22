@@ -49,6 +49,15 @@
    fun:*
 }
 {
+   allocateGenericValueMetadata
+
+   Memcheck:Leak
+   match-leak-kinds: possible
+   ...
+   fun:swift_allocateGenericValueMetadata
+   fun:*
+}
+{
    getFunctionTypeMetadata
 
    Memcheck:Leak

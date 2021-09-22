@@ -274,12 +274,6 @@ internal class CBridgeGenerator(
             else -> null
         }
 
-    private fun getAllParentTypes(allTypes: List<LimeType>): List<LimeType> {
-        if (allTypes.isEmpty()) return emptyList()
-        val parents = allTypes.filterIsInstance<LimeContainerWithInheritance>().mapNotNull { it.parent?.type }
-        return parents + getAllParentTypes(parents)
-    }
-
     class GenericTypesCollector(private val nameResolver: NameResolver) :
         LimeTypeRefsVisitor<List<LimeGenericType>>() {
 
@@ -328,7 +322,7 @@ internal class CBridgeGenerator(
 
         fun getAllParentTypes(allTypes: List<LimeType>): List<LimeType> {
             if (allTypes.isEmpty()) return emptyList()
-            val parents = allTypes.filterIsInstance<LimeContainerWithInheritance>().mapNotNull { it.parent?.type }
+            val parents = allTypes.filterIsInstance<LimeContainerWithInheritance>().flatMap { it.parents }.map { it.type }
             return parents + getAllParentTypes(parents)
         }
     }

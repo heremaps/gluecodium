@@ -39,11 +39,11 @@ internal func _CBridgeInit{{resolveName "CBridge"}}(handle: _baseRef) -> UnsafeM
 }
 {{/notInstanceOf}}
 
-{{#unlessPredicate "parentIsClass"}}
+{{#unless this.parentClass}}
 extension {{>implName}}: NativeBase {
     /// :nodoc:
     var c_handle: _baseRef { return c_instance }
-}{{/unlessPredicate}}{{!!
+}{{/unless}}{{!!
 
 }}{{#if attributes.equatable attributes.pointerEquatable logic="or"}}
 {{#instanceOf this "LimeInterface"}}
@@ -68,7 +68,7 @@ extension {{>implName}}: Hashable {
 }
 {{/if}}{{!!
 }}{{#unless attributes.equatable attributes.pointerEquatable logic="and"}}
-{{#instanceOf this "LimeClass"}}{{#unlessPredicate "parentIsClass"}}
+{{#instanceOf this "LimeClass"}}{{#unless this.parentClass}}
 
 extension {{>implName}}: Hashable {
     /// :nodoc:
@@ -81,7 +81,7 @@ extension {{>implName}}: Hashable {
         hasher.combine(c_handle)
     }
 }
-{{/unlessPredicate}}{{/instanceOf}}
+{{/unless}}{{/instanceOf}}
 {{/unless}}
 
 {{conversionVisibility}} func {{resolveName this "mangled"}}copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
