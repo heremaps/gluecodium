@@ -41,6 +41,14 @@ struct FieldConstructorsAllDefaults {
     field constructor(boolField, intField, stringField)
 }
 
+struct MutableStructNoClash {
+    stringField: String = "nonsense"
+    intField: Int = 42
+    boolField: Boolean = true
+    @Dart("withAll")
+    field constructor()
+}
+
 @Immutable
 struct ImmutableStructNoClash {
     stringField: String = "nonsense"

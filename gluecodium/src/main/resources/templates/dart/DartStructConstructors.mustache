@@ -37,7 +37,8 @@
 
 }}{{#unless constructors}}{{#unless allFieldsConstructor}}{{!!
 }}{{>constructorComment}}{{!!
-}}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}({{>thisDotFields}});
+}}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{!!
+}}{{#ifPredicate "needsPrivateAllFieldsCtor"}}._{{/ifPredicate}}({{>thisDotFields}});
 {{/unless}}{{/unless}}{{!!
 
 }}{{/unless}}
