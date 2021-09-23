@@ -140,7 +140,7 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#i
 {{/fields}}{{/set}}
   try {
 {{#if external.dart.converter}}
-    final resultInternal = {{resolveName}}Internal{{#if constructors}}._{{/if}}(
+    final resultInternal = {{resolveName}}Internal{{#ifPredicate "needsPrivateAllFieldsCtor"}}._{{/ifPredicate}}(
 {{#set container=this}}{{#fields}}
 {{>fromFfiFieldInit}}
 {{/fields}}{{/set}}
@@ -149,7 +149,7 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#i
 {{/if}}{{#unless external.dart.converter}}
     return {{resolveName this "" "ref"}}{{#set container=this}}{{!!
     }}{{#if allFieldsConstructor}}{{#allFieldsConstructor}}{{>dart/DartConstructorName}}{{/allFieldsConstructor}}{{/if}}{{!!
-    }}{{#unless allfieldsConstructor}}{{#if constructors}}._{{/if}}{{/unless}}(
+    }}{{#unless allfieldsConstructor}}{{#ifPredicate container "needsPrivateAllFieldsCtor"}}._{{/ifPredicate}}{{/unless}}(
 {{#if attributes.dart.positionalDefaults initializedFields}}
 {{#each uninitializedFields initializedFields}}
 {{>fromFfiFieldInit}}

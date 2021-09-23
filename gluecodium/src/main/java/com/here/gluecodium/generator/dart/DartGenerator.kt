@@ -57,7 +57,6 @@ import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
-import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CONVERTER_NAME
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
@@ -154,7 +153,7 @@ internal class DartGenerator : Generator {
             .distinctBy { ffiNameResolver.resolveName(it) }
             .sortedBy { ffiNameResolver.resolveName(it) }
 
-        val predicates = predicates(dartFilteredModel.referenceMap, activeTags)
+        val predicates = DartGeneratorPredicates(dartFilteredModel.referenceMap, activeTags).predicates
         val generatedFiles = dartFilteredModel.topElements.flatMap {
             listOfNotNull(
                 generateDart(
@@ -270,7 +269,7 @@ internal class DartGenerator : Generator {
             "headerName" to fileName,
             "includes" to includeCollector.collectImports(limeType).distinct().sorted()
         )
-        val predicates = predicates(limeReferenceMap, activeTags)
+        val predicates = DartGeneratorPredicates(limeReferenceMap, activeTags).predicates
         val headerContent = TemplateEngine.render("ffi/FfiHeader", data, nameResolvers, predicates)
         val implContent = TemplateEngine.render("ffi/FfiImplementation", data, nameResolvers, predicates)
 
@@ -537,28 +536,5 @@ internal class DartGenerator : Generator {
 
         private val optimizedAttributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.OPTIMIZED).build()
         private val customNullableTypes = setOf(TypeId.VOID, TypeId.DATE, TypeId.DURATION)
-
-        private fun predicates(limeReferenceMap: Map<String, LimeElement>, activeTags: Set<String>) =
-            mapOf(
-                "hasAnyComment" to { CommonGeneratorPredicates.hasAnyComment(it, "Dart") },
-                "hasSingleConstructor" to { limeContainer: Any ->
-                    when (limeContainer) {
-                        !is LimeContainer -> false
-                        is LimeStruct -> limeContainer.constructors.size + limeContainer.fieldConstructors.size == 1
-                        else -> limeContainer.constructors.size == 1
-                    }
-                },
-                "hasStaticFunctions" to { CommonGeneratorPredicates.hasStaticFunctions(it) },
-                "skipDeclaration" to { limeType: Any ->
-                    limeType is LimeType && skipDeclaration(limeType)
-                },
-                "shouldRetain" to { limeElement: Any ->
-                    limeElement is LimeNamedElement &&
-                        LimeModelSkipPredicates.shouldRetainCheckParent(limeElement, activeTags, DART, limeReferenceMap)
-                }
-            )
-
-        private fun skipDeclaration(limeType: LimeType) = limeType.external?.dart != null &&
-            limeType.external?.dart?.get(CONVERTER_NAME) == null
     }
 }
