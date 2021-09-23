@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 9.5.2
+Release date: 2021-09-23
 ### Bug fixes:
   * All-fields constructor for a mutable struct in Dart is now private if "fields constructors" are present.
 
