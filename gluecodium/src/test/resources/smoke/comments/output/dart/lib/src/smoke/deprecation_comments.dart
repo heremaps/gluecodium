@@ -7,6 +7,8 @@ import 'package:library/src/builtin_types__conversion.dart';
 /// This is some very useful interface.
 @Deprecated("Unfortunately, this interface is deprecated. Use [Comments] instead.")
 abstract class DeprecationComments {
+  /// This is some very useful interface.
+  @Deprecated("Unfortunately, this interface is deprecated. Use [Comments] instead.")
   factory DeprecationComments(
     bool Function(String) someMethodWithAllCommentsLambda,
     bool Function() isSomePropertyGetLambda,

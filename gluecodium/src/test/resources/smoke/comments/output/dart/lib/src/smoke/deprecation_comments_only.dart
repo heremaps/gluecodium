@@ -6,6 +6,7 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 @Deprecated("Unfortunately, this interface is deprecated.")
 abstract class DeprecationCommentsOnly {
+  @Deprecated("Unfortunately, this interface is deprecated.")
   factory DeprecationCommentsOnly(
     bool Function(String) someMethodWithAllCommentsLambda,
     bool Function() isSomePropertyGetLambda,

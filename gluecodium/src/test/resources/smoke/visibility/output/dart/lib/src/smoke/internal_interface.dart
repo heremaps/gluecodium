@@ -6,6 +6,7 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 /// @nodoc
 abstract class InternalInterface {
+  /// @nodoc
   factory InternalInterface(
     void Function() fooBarLambda,
   ) => InternalInterface$Lambdas(

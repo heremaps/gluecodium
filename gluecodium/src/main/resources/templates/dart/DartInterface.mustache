@@ -21,6 +21,7 @@
 {{>dart/DartDocumentation}}{{>dart/DartAttributes}}
 abstract class {{resolveName}} {{#if this.parent}}implements {{resolveName this.parent}} {{/if}}{
 {{#if inheritedFunctions functions inheritedProperties properties logic="or"}}
+{{prefixPartial "dart/DartDocumentation" "  "}}
   factory {{resolveName}}(
 {{#each inheritedFunctions functions}}{{#unless isStatic}}
     {{>dart/DartLambdaType}} {{resolveName}}Lambda,
