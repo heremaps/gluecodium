@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Internal elements are now marked with `@internal` annotation in Dart generated code.
+
 ## 10.0.0
 Release date: 2021-10-01
 ### Features:

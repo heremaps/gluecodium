@@ -18,13 +18,16 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if attributes.dart.attribute}}
-{{#attributes.dart.attribute}}
+{{#if this.attributes.dart.attribute}}
+{{#this.attributes.dart.attribute}}
 @{{this}}
-{{/attributes.dart.attribute}}
+{{/this.attributes.dart.attribute}}
 {{/if}}{{!!
 }}{{#if property.attributes.dart.attribute}}
 {{#property.attributes.dart.attribute}}
 @{{this}}
 {{/property.attributes.dart.attribute}}
+{{/if}}{{!!
+}}{{#if this.visibility.isInternal}}
+@internal
 {{/if}}

@@ -31,6 +31,7 @@ import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.IMPORT_PA
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
+import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypesCollection
@@ -46,7 +47,10 @@ internal class DartDeclarationImportResolver(srcPath: String) : DartImportResolv
     private val classInterfaceImports =
         listOf(builtInTypesConversionImport, typeRepositoryImport, tokenCacheImport, nativeBaseImport)
 
+    // TODO: not collected for fields?
     override fun resolveElementImports(limeElement: LimeElement): List<DartImport> {
+        if (limeElement !is LimeNamedElement) return emptyList()
+
         if (limeElement is LimeTypesCollection || limeElement is LimeException || limeElement is LimeTypeAlias ||
             limeElement is LimeConstant
         ) return emptyList()
@@ -60,7 +64,8 @@ internal class DartDeclarationImportResolver(srcPath: String) : DartImportResolv
         } + listOfNotNull(
             resolveExternalImport(limeElement, IMPORT_PATH_NAME, useAlias = true),
             resolveExternalImport(limeElement, CONVERTER_IMPORT_NAME, useAlias = false)
-        ) + listOf(ffiSystemImport, libraryContextImport)
+        ) + listOf(ffiSystemImport, libraryContextImport) +
+            if (limeElement.visibility.isInternal) listOf(metaPackageImport) else emptyList()
     }
 
     private fun resolveStructImports(limeStruct: LimeStruct): List<DartImport> {

@@ -5,13 +5,16 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 /// @nodoc
+@internal
 abstract class InternalClassWithStaticProperty {
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
   /// @nodoc
+  @internal
   static String get internal_fooBar => $prototype.internal_fooBar;
   /// @nodoc
+  @internal
   static set internal_fooBar(String value) { $prototype.internal_fooBar = value; }
   /// @nodoc
   @visibleForTesting
@@ -36,6 +39,7 @@ class InternalClassWithStaticProperty$Impl extends __lib.NativeBase implements I
   InternalClassWithStaticProperty$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {}
+  @internal
   String get internal_fooBar {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InternalClassWithStaticProperty_fooBar_get'));
     final __resultHandle = _getFfi(__lib.LibraryContext.isolateId);
@@ -45,6 +49,7 @@ class InternalClassWithStaticProperty$Impl extends __lib.NativeBase implements I
       stringReleaseFfiHandle(__resultHandle);
     }
   }
+  @internal
   set internal_fooBar(String value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32, Pointer<Void>), void Function(int, Pointer<Void>)>('library_smoke_InternalClassWithStaticProperty_fooBar_set__String'));
     final _valueHandle = stringToFfi(value);

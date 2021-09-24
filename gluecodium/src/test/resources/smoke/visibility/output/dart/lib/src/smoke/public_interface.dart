@@ -5,14 +5,17 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/public_class.dart';
+import 'package:meta/meta.dart';
 abstract class PublicInterface {
   /// @nodoc
   @Deprecated("Does nothing")
   void release() {}
 }
 /// @nodoc
+@internal
 class PublicInterface_InternalStruct {
   /// @nodoc
+  @internal
   PublicClass_InternalStruct internal_fieldOfInternalType;
   PublicInterface_InternalStruct(this.internal_fieldOfInternalType);
 }
