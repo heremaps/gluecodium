@@ -57,16 +57,9 @@ class LimeClass(
     val parentClass
         get() = parents.map { it.type.actualType }.firstOrNull { it is LimeClass }
 
-    // TODO: #1077: remove after all generators are updated
-    @Suppress("unused")
-    val hasClassParent
-        get() = parentClass != null
-
-    @Suppress("unused")
     val interfaceInheritedFunctions
         get() = parentInterfaces.flatMap { it.functions + it.inheritedFunctions }
 
-    @Suppress("unused")
     val interfaceInheritedProperties
         get() = parentInterfaces.flatMap { it.properties + it.inheritedProperties }
 }

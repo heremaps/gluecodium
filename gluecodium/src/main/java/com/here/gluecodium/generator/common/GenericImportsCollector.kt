@@ -79,7 +79,7 @@ internal open class GenericImportsCollector<T>(
             exceptions.map { it.errorType }
     }
 
-    private fun collectTypeRefs(limeFunction: LimeFunction) =
+    protected fun collectTypeRefs(limeFunction: LimeFunction) =
         limeFunction.parameters.map { it.typeRef } +
             limeFunction.returnType.typeRef +
             listOfNotNull(limeFunction.thrownType?.typeRef) +
