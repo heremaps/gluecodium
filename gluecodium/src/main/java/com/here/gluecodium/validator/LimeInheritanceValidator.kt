@@ -50,12 +50,22 @@ internal class LimeInheritanceValidator(private val logger: LimeLogger) {
                 logger.error(limeClass, "a class cannot inherit from itself or its own descendants")
                 false
             }
+            hasDiamondInheritance(limeClass) -> {
+                logger.error(limeClass, DIAMOND_INHERITANCE_MESSAGE)
+                false
+            }
             parentType !is LimeClass && parentType !is LimeInterface -> {
                 logger.error(limeClass, CLASS_INHERITANCE_MESSAGE)
                 false
             }
             parentType is LimeClass && !parentType.visibility.isOpen -> {
                 logger.error(limeClass, CLASS_INHERITANCE_MESSAGE)
+                false
+            }
+            limeClass.parents.drop(1).map { it.type.actualType }
+                .any { it !is LimeInterface || !it.isNarrow } -> {
+
+                logger.error(limeClass, MULTIPLE_INHERITANCE_MESSAGE)
                 false
             }
             else -> true
@@ -67,35 +77,54 @@ internal class LimeInheritanceValidator(private val logger: LimeLogger) {
         return when {
             parentType == null -> true
             hasInheritanceLoop(limeInterface) -> {
-                logger.error(
-                    limeInterface,
-                    "an interface cannot inherit from itself or its own descendants"
-                )
+                logger.error(limeInterface, "an interface cannot inherit from itself or its own descendants")
+                false
+            }
+            hasDiamondInheritance(limeInterface) -> {
+                logger.error(limeInterface, DIAMOND_INHERITANCE_MESSAGE)
                 false
             }
             parentType !is LimeInterface -> {
                 logger.error(limeInterface, "an interface can inherit only from an interface")
                 false
             }
+            limeInterface.parents.drop(1).map { it.type.actualType }
+                .any { it !is LimeInterface || !it.isNarrow } -> {
+
+                logger.error(limeInterface, MULTIPLE_INHERITANCE_MESSAGE)
+                false
+            }
             else -> true
         }
     }
 
-    private fun hasInheritanceLoop(limeContainer: LimeContainerWithInheritance): Boolean {
-        val visitedContainers = mutableSetOf<LimePath>()
-        val inheritanceIterator = generateSequence(limeContainer) {
-            it.parent?.type as? LimeContainerWithInheritance
-        }.iterator()
-        while (inheritanceIterator.hasNext()) {
-            if (!visitedContainers.add(inheritanceIterator.next().path)) {
-                return true
-            }
-        }
-        return false
+    private fun hasInheritanceLoop(
+        limeContainer: LimeContainerWithInheritance,
+        visitedPaths: Set<LimePath> = emptySet()
+    ): Boolean {
+        val containerPath = limeContainer.path
+        if (visitedPaths.contains(containerPath)) return true
+
+        val parentContainers = limeContainer.parents.mapNotNull { it.type.actualType as? LimeContainerWithInheritance }
+        val newVisitedPaths = visitedPaths + containerPath
+        return parentContainers.any { hasInheritanceLoop(it, newVisitedPaths) }
+    }
+
+    private fun getAllAncestors(limeContainer: LimeContainerWithInheritance): List<LimeContainerWithInheritance> =
+        limeContainer.parents
+            .mapNotNull { it.type.actualType as? LimeContainerWithInheritance }
+            .flatMap { getAllAncestors(it) + it }
+
+    private fun hasDiamondInheritance(limeContainer: LimeContainerWithInheritance): Boolean {
+        val allAncestors = getAllAncestors(limeContainer).map { it.path.toString() }
+        return allAncestors.size != allAncestors.distinct().size
     }
 
     companion object {
         private const val CLASS_INHERITANCE_MESSAGE =
             "a class can inherit only from an interface or from an open class"
+        private const val MULTIPLE_INHERITANCE_MESSAGE =
+            "additional inheritance parents beyond the first one can only be narrow interfaces"
+        private const val DIAMOND_INHERITANCE_MESSAGE = "'diamond' inheritance is not supported"
     }
 }

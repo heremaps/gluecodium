@@ -39,8 +39,8 @@ importStatement
     ;
 
 container
-    : docComment* annotation* visibility? ('class' | 'interface') NewLine* simpleId NewLine*
-      (':' NewLine* identifier NewLine*)? '{' NewLine* externalDescriptor?
+    : docComment* annotation* visibility? ('class' | 'narrow'? 'interface') NewLine* simpleId NewLine*
+      parentTypes? '{' NewLine* externalDescriptor?
       ((function | constructor | property | struct | enumeration | constant | typealias |
       exception | lambda | container) NewLine*)* '}' NewLine+
     ;
@@ -48,6 +48,10 @@ container
 types
     : docComment* annotation* visibility? 'types' NewLine* simpleId NewLine*
       '{' NewLine* ((struct | enumeration | constant | typealias | exception) NewLine*)* '}' NewLine+
+    ;
+
+parentTypes
+    : ':' NewLine* identifier NewLine* (',' NewLine* identifier NewLine*)*
     ;
 
 function

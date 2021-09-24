@@ -1,0 +1,5 @@
+package smoke
+narrow interface ParentNarrowOne {
+    fun parentFunctionOne()
+    property parentPropertyOne: String
+}

@@ -70,6 +70,7 @@ Import: 'import' ;
 Interface: 'interface' ;
 Internal: 'internal' ;
 Lambda: 'lambda' ;
+Narrow: 'narrow' ;
 Open: 'open' ;
 Package: 'package' ;
 Property: 'property' ;
