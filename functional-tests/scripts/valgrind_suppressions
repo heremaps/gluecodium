@@ -31,12 +31,39 @@
    fun:*
 }
 {
-   allocateMetadata
+   instantiateCPGenericMetadata
 
    Memcheck:Leak
    match-leak-kinds: possible
    ...
-   fun:_ZN5swift16allocateMetadataEmm
+   fun:__swift_instantiateCanonicalPrespecializedGenericMetadata
+   fun:*
+}
+{
+   instantiateGenericMetadata
+
+   Memcheck:Leak
+   match-leak-kinds: possible
+   ...
+   fun:__swift_instantiateGenericMetadata
+   fun:*
+}
+{
+   getFunctionTypeMetadata
+
+   Memcheck:Leak
+   match-leak-kinds: possible
+   ...
+   fun:swift_getFunctionTypeMetadata
+   fun:*
+}
+{
+   getMetatypeMetadata
+
+   Memcheck:Leak
+   match-leak-kinds: possible
+   ...
+   fun:swift_getMetatypeMetadata
    fun:*
 }
 {
@@ -44,10 +71,17 @@
 
    Memcheck:Leak
    match-leak-kinds: possible
-   fun:_Znam
    ...
    fun:swift_getTupleTypeMetadata
-   fun:swift_getTupleTypeMetadata2
+   fun:*
+}
+{
+   allocateMetadata
+
+   Memcheck:Leak
+   match-leak-kinds: possible
+   ...
+   fun:_ZN5swift16allocateMetadataEmm
    fun:*
 }
 {
@@ -90,6 +124,15 @@
    fun:malloc
    fun:_ZL29_registerProtocolConformancesR16ConformanceStatePKN5swift21RelativeDirectPointerINS1_35TargetProtocolConformanceDescriptorINS1_9InProcessEEELb0EiEES8_
    fun:swift_addNewDSOImage
+   fun:*
+}
+{
+   ConformanceState_cacheResult
+
+   Memcheck:Leak
+   match-leak-kinds: possible
+   ...
+   fun:_ZN16ConformanceState11cacheResultEPKN5swift14TargetMetadataINS0_9InProcessEEEPKNS0_24TargetProtocolDescriptorIS2_EEPKNS0_18TargetWitnessTableIS2_EEm
    fun:*
 }
 {
