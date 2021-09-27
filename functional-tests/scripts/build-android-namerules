@@ -52,4 +52,4 @@ GLUECODIUM_VERSION="${GLUECODIUM_VERSION:-+}"
 # Sanity checks
 [ $ANDROID_HOME ] || die "ANDROID_HOME environment variable is mandatory"
 
-./gradlew namerules:test -PhostOnly -PgluecodiumVersion=${GLUECODIUM_VERSION}
+./gradlew namerules:testRelease -PhostOnly -PgluecodiumVersion=${GLUECODIUM_VERSION}
