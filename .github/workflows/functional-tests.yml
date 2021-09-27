@@ -133,6 +133,12 @@ jobs:
             !*lime-*
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
+      - name: Cache Swift SDK
+        uses: actions/cache@v2
+        with:
+          path: ~/swift-sdk
+          key: ${{ runner.os }}-swift-5.4.3-release
+          restore-keys: ${{ runner.os }}-swift-5.4.3-release
       - name: Install CMake
         uses: jwlawson/actions-setup-cmake@v1.7
         with:
@@ -147,13 +153,17 @@ jobs:
         run: sudo apt install -y libcurl4
       - name: Install Swift SDK
         run: |
-          SWIFT_BRANCH=swift-5.3.3-release
-          SWIFT_VERSION=swift-5.3.3-RELEASE
+          SWIFT_BRANCH=swift-5.4.3-release
+          SWIFT_VERSION=swift-5.4.3-RELEASE
           SWIFT_PLATFORM=ubuntu18.04
-          SWIFT_ARCHIVE_NAME=${SWIFT_VERSION}-${SWIFT_PLATFORM}
-          SWIFT_URL=https://swift.org/builds/${SWIFT_BRANCH}/$(echo "${SWIFT_PLATFORM}" | tr -d .)/${SWIFT_VERSION}/${SWIFT_ARCHIVE_NAME}.tar.gz
-          wget -nv ${SWIFT_URL}
-          sudo tar xf ${SWIFT_ARCHIVE_NAME}.tar.gz --directory / --strip-components=1
+          SWIFT_ARCHIVE_NAME=${SWIFT_VERSION}-${SWIFT_PLATFORM}.tar.gz
+          if [ ! -d "${HOME}/swift-sdk" ]; then
+            mkdir ~/swift-sdk
+            pushd ~/swift-sdk
+            wget -nv https://swift.org/builds/${SWIFT_BRANCH}/$(echo "${SWIFT_PLATFORM}" | tr -d .)/${SWIFT_VERSION}/${SWIFT_ARCHIVE_NAME}
+            popd
+          fi
+          sudo tar xf ~/swift-sdk/${SWIFT_ARCHIVE_NAME} --directory / --strip-components=1
           sudo chmod -R o+r /usr/lib/swift/CoreFoundation
       - name: Build and run functional tests
         run: |
@@ -262,19 +272,18 @@ jobs:
             !*lime-*
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
+      - name: Cache Dart SDK
+        uses: actions/cache@v2
+        with:
+          path: ~/dart_sdk
+          key: ${{ runner.os }}-dart-2.12.0-stable
+          restore-keys: ${{ runner.os }}-dart-2.12.0-stable
       - name: Install CMake
         uses: jwlawson/actions-setup-cmake@v1.7
         with:
           cmake-version: '3.19.3'
       - name: Install ninja
         run: sudo apt install -y ninja-build
-      - name: Cache Dart SDK
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/dart_sdk
-          key: ${{ runner.os }}-dart-2.12.0-stable
-          restore-keys: ${{ runner.os }}-dart-2.12.0-stable
       - name: Compile Dart SDK without tcmalloc
         run: |
           export DART_ROOT=${HOME}/dart_sdk
