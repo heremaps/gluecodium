@@ -1,7 +1,10 @@
 # Gluecodium project Release Notes
 
+## Unreleased
 ### Features:
   * In Dart, "from lambdas" factory constructors for interfaces are now generated with a documentation comment.
+### Bug fixes:
+  * Fixed an issue in Dart where an object finalizer could run into a deadlock.
 
 ## 9.5.2
 Release date: 2021-09-23

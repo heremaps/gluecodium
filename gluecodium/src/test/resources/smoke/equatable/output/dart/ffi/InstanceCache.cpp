@@ -10,6 +10,25 @@ using InstanceCacheKey = void*;
 std::unordered_map<InstanceCacheKey, Dart_WeakPersistentHandle> _instance_cache{};
 std::mutex _instance_cache_mutex{};
 std::unordered_map<int32_t, std::vector<Dart_WeakPersistentHandle>> _deletion_queue{};
+std::vector<Dart_WeakPersistentHandle>
+library_store_handle_and_get_deletion_queue_locked(
+    void* raw_pointer, int32_t isolate_id, Dart_WeakPersistentHandle new_handle
+) {
+    const std::lock_guard<std::mutex> lock(_instance_cache_mutex);
+    _instance_cache[raw_pointer] = new_handle;
+    auto iter = _deletion_queue.find(isolate_id);
+    if (iter == _deletion_queue.end()) return {};
+    auto result = std::move(iter->second);
+    _deletion_queue.erase(iter);
+    return result;
+}
+Dart_WeakPersistentHandle
+library_get_handle_locked(void* raw_pointer)
+{
+    const std::lock_guard<std::mutex> lock(_instance_cache_mutex);
+    auto iter = _instance_cache.find(raw_pointer);
+    return (iter != _instance_cache.end()) ? iter->second : nullptr;
+}
 }
 #ifdef __cplusplus
 extern "C" {
@@ -20,21 +39,15 @@ void*
 library_raw_pointer_from_opaque_handle(FfiOpaqueHandle handle) {
     return reinterpret_cast<std::shared_ptr<void>*>(handle)->get();
 }
-// "Private" function, call only when mutex is locked.
-void
-library_process_deletion_queue(int32_t isolate_id) {
-    auto iter = _deletion_queue.find(isolate_id);
-    if (iter == _deletion_queue.end()) return;
-    for (const auto& weak_handle: iter->second) {
-        Dart_DeleteWeakPersistentHandle_DL(weak_handle);
-    }
-    _deletion_queue.erase(iter);
-}
 void
 library_cache_dart_handle_by_raw_pointer(void* raw_pointer, int32_t isolate_id, Dart_Handle dart_handle) {
-    const std::lock_guard<std::mutex> lock(_instance_cache_mutex);
-    _instance_cache[raw_pointer] = Dart_NewWeakPersistentHandle_DL(dart_handle, NULL, 0, &library_nop_finalizer);
-    library_process_deletion_queue(isolate_id);
+    auto new_handle = Dart_NewWeakPersistentHandle_DL(dart_handle, NULL, 0, &library_nop_finalizer);
+    auto pending_for_deletion =
+        library_store_handle_and_get_deletion_queue_locked(raw_pointer, isolate_id, new_handle);
+    // Process deletion queue
+    for (const auto& weak_handle: pending_for_deletion) {
+        Dart_DeleteWeakPersistentHandle_DL(weak_handle);
+    }
 }
 void
 library_uncache_dart_handle_by_raw_pointer(void* raw_pointer, int32_t isolate_id) {
@@ -51,9 +64,8 @@ library_uncache_dart_handle_by_raw_pointer(void* raw_pointer, int32_t isolate_id
 Dart_Handle
 library_get_cached_dart_handle(FfiOpaqueHandle handle, Dart_Handle null_handle) {
     auto raw_pointer = library_raw_pointer_from_opaque_handle(handle);
-    const std::lock_guard<std::mutex> lock(_instance_cache_mutex);
-    auto iter = _instance_cache.find(raw_pointer);
-    return (iter != _instance_cache.end()) ? Dart_HandleFromWeakPersistent_DL(iter->second) : null_handle;
+    auto cached_handle = library_get_handle_locked(raw_pointer);
+    return (cached_handle != nullptr) ? Dart_HandleFromWeakPersistent_DL(cached_handle) : null_handle;
 }
 void
 library_cache_dart_handle(FfiOpaqueHandle handle, int32_t isolate_id, Dart_Handle dart_handle) {
