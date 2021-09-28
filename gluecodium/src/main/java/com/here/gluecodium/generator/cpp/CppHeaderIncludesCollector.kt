@@ -38,12 +38,10 @@ internal class CppHeaderIncludesCollector(
         val allTypes = LimeTypeHelper.getAllTypes(limeElement)
         val errorEnums = allTypes.filter { allErrorEnums.contains(it.fullName) }.toSet()
 
-        val typeRegisteredClasses =
-            allTypes.filterIsInstance<LimeContainerWithInheritance>()
-                .filter {
-                    it.external?.cpp == null && it.parent == null &&
-                        (it is LimeInterface || it.visibility.isOpen)
-                }
+        val typeRegisteredClasses = allTypes.filterIsInstance<LimeContainerWithInheritance>()
+            .filter {
+                it.external?.cpp == null && it.parents.isEmpty() && (it is LimeInterface || it.visibility.isOpen)
+            }
         val allTypeRefs = collectTypeRefs(allTypes)
         val forwardDeclaredTypes = collectForwardDeclaredTypes(limeElement, allTypeRefs)
 
@@ -67,8 +65,11 @@ internal class CppHeaderIncludesCollector(
         errorEnums: Set<LimeType>,
         typeRegisteredClasses: List<LimeContainerWithInheritance>
     ): List<Include> {
-        val parentIncludes = (limeElement as? LimeContainerWithInheritance)?.parent
-            ?.let { includesResolver.resolveElementImports(it.type) } ?: emptyList()
+        val parentIncludes = when (limeElement) {
+            is LimeContainerWithInheritance ->
+                limeElement.parents.flatMap { includesResolver.resolveElementImports(it.type) }
+            else -> emptyList()
+        }
         val additionalIncludes = parentIncludes.toMutableList()
         if (allTypes.any { it is LimeEnumeration }) {
             additionalIncludes += CppLibraryIncludes.INT_TYPES

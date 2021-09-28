@@ -73,7 +73,7 @@ internal object CommonGeneratorPredicates {
             limeContainer !is LimeContainerWithInheritance -> false
             limeContainer is LimeInterface -> true
             limeContainer.visibility.isOpen -> true
-            else -> limeContainer.parent != null
+            else -> limeContainer.parents.isNotEmpty()
         }
 
     fun hasStaticFunctions(limeContainer: Any) =
