@@ -1,0 +1,57 @@
+name: Publish release
+
+# Automatically publish a GitHub release when a "release commit" is merged to "master".
+#
+# Trigger condition: on push, if "version.properties" file is changed on "master" branch.
+#
+# Steps:
+# * read new version value from "version.properties" into `env.version_tag` environment variable
+# * read second paragraph from "CHANGELOG.md", discard first two lines, and save the rest into "release_notes.log" file
+# * create a GitHub release with a tag from `env.version_tag` and release notes from "release_notes.log"
+
+on:
+  push:
+    paths:
+      - 'gluecodium/src/main/resources/version.properties'
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Create release
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Read version
+        run: |
+          IFS=" = " read -ra COMPONENTS < "./gluecodium/src/main/resources/version.properties"
+          echo "version_tag=${COMPONENTS[1]}" >> $GITHUB_ENV
+      - name: Extract latest changelog entry
+        run: |
+          in_paragraph=false
+          skip_lines=2
+          while IFS= read -r line; do
+            if [ -z "$line" ]; then
+              if [ "$in_paragraph" = false ]; then
+                in_paragraph=true
+                continue
+              else
+                break
+              fi
+            fi
+            if [ "$in_paragraph" = true ]; then
+              if (( skip_lines > 0 )); then
+                ((skip_lines--))
+              else
+                echo "$line" >> release_notes.log
+              fi
+            fi
+          done < "./CHANGELOG.md"
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: '${{ env.version_tag }}'
+          body_path: "./release_notes.log"
