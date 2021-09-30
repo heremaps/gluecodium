@@ -35,12 +35,14 @@
         return RefHolder(0)
     }
 
+{{#unless isNarrow}}
     if let instanceReference = reference as? NativeBase {
         let handle_copy = {{resolveName "CBridge"}}_copy_handle(instanceReference.c_handle)
         return owning
             ? RefHolder(ref: handle_copy, release: {{resolveName "CBridge"}}_release_handle)
             : RefHolder(handle_copy)
     }
+{{/unless}}
 
     var functions = {{resolveName "CBridge"}}_FunctionTable()
 {{#ifPredicate "hasWeakSupport"}}

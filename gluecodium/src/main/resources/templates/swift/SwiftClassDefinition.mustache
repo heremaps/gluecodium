@@ -20,7 +20,7 @@
   !}}
 {{>swift/SwiftComment}}{{>swift/SwiftAttributes}}{{!!
 }}{{resolveName visibility}} class {{resolveName}}{{!!
-}}{{#if this.parent}}: {{resolveName this.parent}}{{/if}} {
+}}{{#if this.parents}}: {{#this.parents}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/this.parents}}{{/if}} {
 
 {{#each typeAliases exceptions}}
 {{prefixPartial "swift/SwiftTypeAlias" "    "}}
@@ -36,11 +36,11 @@
 }}{{#if attributes.swift.label}}{{#isNotEq attributes.swift.label "_"}}{{attributes.swift.label}}: {{/isNotEq}}{{/if}}{{!!
 }}{{#unless attributes.swift.label}}{{resolveName}}: {{/unless}}{{!!
 }}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})
-        {{#ifPredicate class "parentIsClass"}}super.init(c{{resolveName parent.type.actualType}}: _result){{/ifPredicate}}{{!!
-        }}{{#unlessPredicate class "parentIsClass"}}guard _result != 0 else {
+        {{#if parentClass}}super.init(c{{resolveName parentClass}}: _result){{/if}}{{!!
+        }}{{#unless parentClass}}guard _result != 0 else {
             fatalError("Nullptr value is not supported for initializers")
         }
-        c_instance = _result{{/unlessPredicate}}
+        c_instance = _result{{/unless}}
         {{resolveName class "CBridge"}}_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
     }
 

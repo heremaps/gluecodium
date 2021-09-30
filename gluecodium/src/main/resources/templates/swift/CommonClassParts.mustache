@@ -21,17 +21,23 @@
 {{#constants}}
 {{>swift/SwiftConstant}}
 {{/constants}}
-{{#if this.parent}}{{#instanceOf this.parent.type.actualType "LimeInterface"}}
+{{#if this.parentInterfaces}}
+{{#if this.interfaceInheritedProperties}}
+{{#this.interfaceInheritedProperties}}
+{{>swift/SwiftProperty}}
+{{/this.interfaceInheritedProperties}}
+{{/if}}{{#unless this.interfaceInheritedProperties}}
 {{#inheritedProperties}}
 {{>swift/SwiftProperty}}
 {{/inheritedProperties}}
-{{/instanceOf}}{{/if}}
+{{/unless}}
+{{/if}}
 {{#set container=this}}{{#properties}}
 {{>swift/SwiftProperty}}
 {{/properties}}{{/set}}{{!!
 
 }}
-{{#unlessPredicate "parentIsClass"}}let c_instance : _baseRef
+{{#unless this.parentClass}}let c_instance : _baseRef
 
 init(c{{resolveName}}: _baseRef) {
     guard c{{resolveName}} != 0 else {
@@ -43,11 +49,11 @@ init(c{{resolveName}}: _baseRef) {
 deinit {
     {{resolveName "CBridge"}}_remove_swift_object_from_wrapper_cache(c_instance)
     {{resolveName "CBridge"}}_release_handle(c_instance)
-}{{/unlessPredicate}}{{!!
+}{{/unless}}{{!!
 
-}}{{#ifPredicate "parentIsClass"}}init(c{{resolveName}}: _baseRef) {
-    super.init(c{{resolveName parent.type.actualType}}: c{{resolveName}})
-}{{/ifPredicate}}
+}}{{#if this.parentClass}}init(c{{resolveName}}: _baseRef) {
+    super.init(c{{resolveName this.parentClass}}: c{{resolveName}})
+}{{/if}}
 
 {{#unless isInterface}}{{#classes}}
 {{>swift/SwiftClassDefinition}}
@@ -61,11 +67,17 @@ deinit {
 {{>swift/SwiftStructDefinition}}
 {{/structs}}{{/unless}}{{!!
 
-}}{{#if this.parent}}{{#instanceOf this.parent.type.actualType "LimeInterface"}}
+}}{{#if this.parentInterfaces}}
+{{#if this.interfaceInheritedFunctions}}
+{{#this.interfaceInheritedFunctions}}
+{{>swift/SwiftFunctionSignature}} {{prefixPartial "swift/SwiftFunctionBody" "" skipFirstLine=true}}
+{{/this.interfaceInheritedFunctions}}
+{{/if}}{{#unless this.interfaceInheritedFunctions}}
 {{#inheritedFunctions}}
 {{>swift/SwiftFunctionSignature}} {{prefixPartial "swift/SwiftFunctionBody" "" skipFirstLine=true}}
 {{/inheritedFunctions}}
-{{/instanceOf}}{{/if}}{{!!
+{{/unless}}
+{{/if}}{{!!
 
 }}{{#set container=this}}{{#functions}}
 {{>swift/SwiftFunctionSignature}} {{prefixPartial "swift/SwiftFunctionBody" "" skipFirstLine=true}}
