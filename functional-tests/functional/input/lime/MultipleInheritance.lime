@@ -29,7 +29,7 @@ open class OpenClass {
 }
 
 narrow interface NarrowInterface {
-    fun parentFunctionLight()
+    fun parentFunctionLight(): String
     property parentPropertyLight: String
 }
 
@@ -46,4 +46,15 @@ interface MultiInterface: RegularInterface, NarrowInterface {
 class MultipleInheritanceFactory {
     static fun getMultiClass(): MultiClass
     static fun getMultiInterface(): MultiInterface
+    static fun getMultiClassAsNarrow(): NarrowInterface
+    static fun getMultiClassSingleton(): NarrowInterface
+    static fun upcastMultiInterfaceToNarrow(instance: MultiInterface): NarrowInterface
+}
+
+class MultipleInheritanceChecker {
+    static fun checkSingletonEquality(instance: NarrowInterface): Boolean
+    static fun checkIsNarrow(instance: MultiInterface): Boolean
+    static fun checkIsMultiInterface(instance: NarrowInterface): Boolean
+    static fun checkNarrowEquality(instance1: NarrowInterface, instance2: NarrowInterface): Boolean
+    static fun narrowRoundTrip(instance: NarrowInterface): NarrowInterface
 }

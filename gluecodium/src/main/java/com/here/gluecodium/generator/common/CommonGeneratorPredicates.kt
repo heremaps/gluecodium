@@ -71,7 +71,7 @@ internal object CommonGeneratorPredicates {
     fun hasTypeRepository(limeContainer: Any) =
         when {
             limeContainer !is LimeContainerWithInheritance -> false
-            limeContainer is LimeInterface -> true
+            limeContainer is LimeInterface -> !limeContainer.isNarrow
             limeContainer.visibility.isOpen -> true
             else -> limeContainer.parents.isNotEmpty()
         }

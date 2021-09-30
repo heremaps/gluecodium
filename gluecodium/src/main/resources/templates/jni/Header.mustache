@@ -37,7 +37,7 @@ extern "C" {
 
 {{/ifPredicate}}{{/properties}}
 
-{{#if this.parent}}{{#instanceOf this.parent.type.actualType "LimeInterface"}}
+{{#if this.parentInterfaces}}
 {{#inheritedFunctions}}{{#ifPredicate "shouldRetain"}}
 {{>jniFunctionHeader}}
 
@@ -46,7 +46,7 @@ extern "C" {
 {{>jniPropertyHeader}}
 
 {{/ifPredicate}}{{/inheritedProperties}}
-{{/instanceOf}}{{/if}}
+{{/if}}
 
 {{#if attributes.equatable attributes.pointerEquatable logic="or"}}
 JNIEXPORT jboolean JNICALL

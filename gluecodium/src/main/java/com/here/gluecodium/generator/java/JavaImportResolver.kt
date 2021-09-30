@@ -72,9 +72,9 @@ internal class JavaImportResolver(
         }
 
     private fun resolveClassInterfaceImports(limeContainer: LimeContainerWithInheritance) =
-        resolveTypeRefImports(limeContainer.parent, ignoreNullability = true) +
+        limeContainer.parents.flatMap { resolveTypeRefImports(it, ignoreNullability = true) } +
             when {
-                (limeContainer is LimeClass && limeContainer.parent?.type?.actualType !is LimeClass) ||
+                (limeContainer is LimeClass && limeContainer.parentClass == null) ||
                     (limeContainer is LimeInterface && limeContainer.path.hasParent) -> listOf(nativeBaseImport)
                 else -> emptyList()
             }
