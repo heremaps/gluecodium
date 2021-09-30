@@ -5,4 +5,7 @@ class SpecialNames {
     fun release()
     fun createProxy()
     fun _upperCase()
+    constructor make(
+        result: String
+    )
 }

@@ -2,7 +2,10 @@ import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
+import 'package:library/src/builtin_types__conversion.dart';
+import 'package:meta/meta.dart';
 abstract class SpecialNames {
+  factory SpecialNames(String result) => $prototype.make(result);
   /// @nodoc
   @Deprecated("Does nothing")
   void release();
@@ -10,6 +13,9 @@ abstract class SpecialNames {
   void reallyRelease();
   void createProxy();
   void Uppercase();
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = SpecialNames$Impl(Pointer<Void>.fromAddress(0));
 }
 // SpecialNames "private" section, not exported.
 final _smokeSpecialnamesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -24,10 +30,19 @@ final _smokeSpecialnamesReleaseHandle = __lib.catchArgumentError(() => __lib.nat
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_SpecialNames_release_handle'));
+/// @nodoc
+@visibleForTesting
 class SpecialNames$Impl extends __lib.NativeBase implements SpecialNames {
   SpecialNames$Impl(Pointer<Void> handle) : super(handle);
   @override
   void release() {}
+  SpecialNames make(String result) {
+    final _result_handle = _make(result);
+    final _result = SpecialNames$Impl(_result_handle);
+    __lib.cacheInstance(_result_handle, _result);
+    _smokeSpecialnamesRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+    return _result;
+  }
   @override
   void create() {
     final _createFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_create'));
@@ -51,6 +66,13 @@ class SpecialNames$Impl extends __lib.NativeBase implements SpecialNames {
     final _UppercaseFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_Uppercase'));
     final _handle = this.handle;
     _UppercaseFfi(_handle, __lib.LibraryContext.isolateId);
+  }
+  static Pointer<Void> _make(String result) {
+    final _makeFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_SpecialNames_make__String'));
+    final _resultHandle = stringToFfi(result);
+    final __resultHandle = _makeFfi(__lib.LibraryContext.isolateId, _resultHandle);
+    stringReleaseFfiHandle(_resultHandle);
+    return __resultHandle;
   }
 }
 Pointer<Void> smokeSpecialnamesToFfi(SpecialNames value) =>

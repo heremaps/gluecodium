@@ -2,6 +2,14 @@
 //
 import Foundation
 public class SpecialNames {
+    public init(result: String) {
+        let _result = SpecialNames.make(result: result)
+        guard _result != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = _result
+        smoke_SpecialNames_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
+    }
     let c_instance : _baseRef
     init(cSpecialNames: _baseRef) {
         guard cSpecialNames != 0 else {
@@ -24,6 +32,11 @@ public class SpecialNames {
     }
     public func Uppercase() -> Void {
         smoke_SpecialNames_Uppercase(self.c_instance)
+    }
+    private static func make(result: String) -> _baseRef {
+        let c_result = moveToCType(result)
+        let c_result_handle = smoke_SpecialNames_make(c_result.ref)
+        return moveFromCType(c_result_handle)
     }
 }
 internal func getRef(_ ref: SpecialNames?, owning: Bool = true) -> RefHolder {

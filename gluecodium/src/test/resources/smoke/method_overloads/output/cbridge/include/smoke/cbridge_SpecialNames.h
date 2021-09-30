@@ -15,6 +15,7 @@ _GLUECODIUM_C_EXPORT void smoke_SpecialNames_create(_baseRef _instance);
 _GLUECODIUM_C_EXPORT void smoke_SpecialNames_release(_baseRef _instance);
 _GLUECODIUM_C_EXPORT void smoke_SpecialNames_createProxy(_baseRef _instance);
 _GLUECODIUM_C_EXPORT void smoke_SpecialNames_Uppercase(_baseRef _instance);
+_GLUECODIUM_C_EXPORT _baseRef smoke_SpecialNames_make(_baseRef result);
 #ifdef __cplusplus
 }
 #endif

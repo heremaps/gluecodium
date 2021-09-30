@@ -98,7 +98,7 @@ open class ConstructorOverloads {
         input: List<Double>
     )
 
-    constructor create(input: ULong)
+    constructor create(result: ULong)
 }
 
 struct StructConstructorOverloads {
