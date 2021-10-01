@@ -18,7 +18,7 @@ com_example_smoke_ListenerWithProperties_CppProxy::com_example_smoke_ListenerWit
 ::std::string
 com_example_smoke_ListenerWithProperties_CppProxy::get_message(  ) const {
     JNIEnv* jniEnv = getJniEnvironment( );
-    auto result = callJavaMethod<jstring>( "getMessage", "()Ljava/lang/String;", jniEnv  );
+    auto _result = callJavaMethod<jstring>( "getMessage", "()Ljava/lang/String;", jniEnv  );
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
@@ -26,7 +26,7 @@ com_example_smoke_ListenerWithProperties_CppProxy::get_message(  ) const {
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-    return convert_from_jni( jniEnv, result, (::std::string*)nullptr );
+    return convert_from_jni( jniEnv, _result, (::std::string*)nullptr );
 }
 void
 com_example_smoke_ListenerWithProperties_CppProxy::set_message( const ::std::string& nvalue ) {
@@ -44,7 +44,7 @@ com_example_smoke_ListenerWithProperties_CppProxy::set_message( const ::std::str
 ::std::shared_ptr< ::smoke::CalculationResult >
 com_example_smoke_ListenerWithProperties_CppProxy::get_packed_message(  ) const {
     JNIEnv* jniEnv = getJniEnvironment( );
-    auto result = callJavaMethod<jobject>( "getPackedMessage", "()Lcom/example/smoke/CalculationResult;", jniEnv  );
+    auto _result = callJavaMethod<jobject>( "getPackedMessage", "()Lcom/example/smoke/CalculationResult;", jniEnv  );
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
@@ -52,7 +52,7 @@ com_example_smoke_ListenerWithProperties_CppProxy::get_packed_message(  ) const 
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-    return convert_from_jni( jniEnv, result, (::std::shared_ptr< ::smoke::CalculationResult >*)nullptr );
+    return convert_from_jni( jniEnv, _result, (::std::shared_ptr< ::smoke::CalculationResult >*)nullptr );
 }
 void
 com_example_smoke_ListenerWithProperties_CppProxy::set_packed_message( const ::std::shared_ptr< ::smoke::CalculationResult >& nvalue ) {
@@ -70,7 +70,7 @@ com_example_smoke_ListenerWithProperties_CppProxy::set_packed_message( const ::s
 ::smoke::ListenerWithProperties::ResultStruct
 com_example_smoke_ListenerWithProperties_CppProxy::get_structured_message(  ) const {
     JNIEnv* jniEnv = getJniEnvironment( );
-    auto result = callJavaMethod<jobject>( "getStructuredMessage", "()Lcom/example/smoke/ListenerWithProperties$ResultStruct;", jniEnv  );
+    auto _result = callJavaMethod<jobject>( "getStructuredMessage", "()Lcom/example/smoke/ListenerWithProperties$ResultStruct;", jniEnv  );
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
@@ -78,7 +78,7 @@ com_example_smoke_ListenerWithProperties_CppProxy::get_structured_message(  ) co
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-    return convert_from_jni( jniEnv, result, (::smoke::ListenerWithProperties::ResultStruct*)nullptr );
+    return convert_from_jni( jniEnv, _result, (::smoke::ListenerWithProperties::ResultStruct*)nullptr );
 }
 void
 com_example_smoke_ListenerWithProperties_CppProxy::set_structured_message( const ::smoke::ListenerWithProperties::ResultStruct& nvalue ) {
@@ -96,7 +96,7 @@ com_example_smoke_ListenerWithProperties_CppProxy::set_structured_message( const
 ::smoke::ListenerWithProperties::ResultEnum
 com_example_smoke_ListenerWithProperties_CppProxy::get_enumerated_message(  ) const {
     JNIEnv* jniEnv = getJniEnvironment( );
-    auto result = callJavaMethod<jobject>( "getEnumeratedMessage", "()Lcom/example/smoke/ListenerWithProperties$ResultEnum;", jniEnv  );
+    auto _result = callJavaMethod<jobject>( "getEnumeratedMessage", "()Lcom/example/smoke/ListenerWithProperties$ResultEnum;", jniEnv  );
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
@@ -104,7 +104,7 @@ com_example_smoke_ListenerWithProperties_CppProxy::get_enumerated_message(  ) co
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-    return convert_from_jni( jniEnv, result, (::smoke::ListenerWithProperties::ResultEnum*)nullptr );
+    return convert_from_jni( jniEnv, _result, (::smoke::ListenerWithProperties::ResultEnum*)nullptr );
 }
 void
 com_example_smoke_ListenerWithProperties_CppProxy::set_enumerated_message( const ::smoke::ListenerWithProperties::ResultEnum nvalue ) {
@@ -122,7 +122,7 @@ com_example_smoke_ListenerWithProperties_CppProxy::set_enumerated_message( const
 ::std::vector< ::std::string >
 com_example_smoke_ListenerWithProperties_CppProxy::get_arrayed_message(  ) const {
     JNIEnv* jniEnv = getJniEnvironment( );
-    auto result = callJavaMethod<jobject>( "getArrayedMessage", "()Ljava/util/List;", jniEnv  );
+    auto _result = callJavaMethod<jobject>( "getArrayedMessage", "()Ljava/util/List;", jniEnv  );
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
@@ -130,7 +130,7 @@ com_example_smoke_ListenerWithProperties_CppProxy::get_arrayed_message(  ) const
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-    return convert_from_jni( jniEnv, result, (::std::vector< ::std::string >*)nullptr );
+    return convert_from_jni( jniEnv, _result, (::std::vector< ::std::string >*)nullptr );
 }
 void
 com_example_smoke_ListenerWithProperties_CppProxy::set_arrayed_message( const ::std::vector< ::std::string >& nvalue ) {
@@ -148,7 +148,7 @@ com_example_smoke_ListenerWithProperties_CppProxy::set_arrayed_message( const ::
 ::smoke::ListenerWithProperties::StringToDouble
 com_example_smoke_ListenerWithProperties_CppProxy::get_mapped_message(  ) const {
     JNIEnv* jniEnv = getJniEnvironment( );
-    auto result = callJavaMethod<jobject>( "getMappedMessage", "()Ljava/util/Map;", jniEnv  );
+    auto _result = callJavaMethod<jobject>( "getMappedMessage", "()Ljava/util/Map;", jniEnv  );
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
@@ -156,7 +156,7 @@ com_example_smoke_ListenerWithProperties_CppProxy::get_mapped_message(  ) const 
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-    return convert_from_jni( jniEnv, result, (::smoke::ListenerWithProperties::StringToDouble*)nullptr );
+    return convert_from_jni( jniEnv, _result, (::smoke::ListenerWithProperties::StringToDouble*)nullptr );
 }
 void
 com_example_smoke_ListenerWithProperties_CppProxy::set_mapped_message( const ::smoke::ListenerWithProperties::StringToDouble& nvalue ) {
@@ -174,7 +174,7 @@ com_example_smoke_ListenerWithProperties_CppProxy::set_mapped_message( const ::s
 ::std::shared_ptr< ::std::vector< uint8_t > >
 com_example_smoke_ListenerWithProperties_CppProxy::get_buffered_message(  ) const {
     JNIEnv* jniEnv = getJniEnvironment( );
-    auto result = callJavaMethod<jbyteArray>( "getBufferedMessage", "()[B", jniEnv  );
+    auto _result = callJavaMethod<jbyteArray>( "getBufferedMessage", "()[B", jniEnv  );
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
@@ -182,7 +182,7 @@ com_example_smoke_ListenerWithProperties_CppProxy::get_buffered_message(  ) cons
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-    return convert_from_jni( jniEnv, result, (::std::shared_ptr< ::std::vector< uint8_t > >*)nullptr );
+    return convert_from_jni( jniEnv, _result, (::std::shared_ptr< ::std::vector< uint8_t > >*)nullptr );
 }
 void
 com_example_smoke_ListenerWithProperties_CppProxy::set_buffered_message( const ::std::shared_ptr< ::std::vector< uint8_t > >& nvalue ) {

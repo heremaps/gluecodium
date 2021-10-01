@@ -66,7 +66,7 @@ com_example_smoke_ErrorsInterface_CppProxy::method_with_external_errors(  ) {
 ::gluecodium::Return< ::std::string, ::std::error_code >
 com_example_smoke_ErrorsInterface_CppProxy::method_with_errors_and_return_value(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
-    auto result = callJavaMethod<jstring>( "methodWithErrorsAndReturnValue", "()Ljava/lang/String;", jniEnv  );
+    auto _result = callJavaMethod<jstring>( "methodWithErrorsAndReturnValue", "()Ljava/lang/String;", jniEnv  );
     auto jException = make_local_ref<jobject>(jniEnv, jniEnv->ExceptionOccurred( ));
     if ( jException )
     {
@@ -84,7 +84,7 @@ com_example_smoke_ErrorsInterface_CppProxy::method_with_errors_and_return_value(
     }
     else
     {
-    return convert_from_jni( jniEnv, result, (::std::string*)nullptr );
+    return convert_from_jni( jniEnv, _result, (::std::string*)nullptr );
     }
 }
 }

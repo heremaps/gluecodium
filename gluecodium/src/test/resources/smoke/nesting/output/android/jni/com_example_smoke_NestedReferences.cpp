@@ -24,8 +24,8 @@ Java_com_example_smoke_NestedReferences_insideOut(JNIEnv* _jenv, jobject _jinsta
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->inside_out(struct1,struct2);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->inside_out(struct1,struct2);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 JNIEXPORT void JNICALL
 Java_com_example_smoke_NestedReferences_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)

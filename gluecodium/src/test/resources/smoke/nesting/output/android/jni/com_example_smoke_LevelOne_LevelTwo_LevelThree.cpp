@@ -23,8 +23,8 @@ Java_com_example_smoke_LevelOne_00024LevelTwo_00024LevelThree_foo(JNIEnv* _jenv,
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->foo(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->foo(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 JNIEXPORT void JNICALL
 Java_com_example_smoke_LevelOne_00024LevelTwo_00024LevelThree_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)

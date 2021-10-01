@@ -17,14 +17,14 @@ Java_com_example_smoke_InterfaceWithStaticImpl_regularFunction(JNIEnv* _jenv, jo
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->regular_function();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->regular_function();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jstring
 Java_com_example_smoke_InterfaceWithStaticImpl_staticFunction(JNIEnv* _jenv, jobject _jinstance)
 {
-    auto result = ::smoke::InterfaceWithStatic::static_function();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = ::smoke::InterfaceWithStatic::static_function();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jstring
 Java_com_example_smoke_InterfaceWithStaticImpl_getRegularProperty(JNIEnv* _jenv, jobject _jinstance)
@@ -35,8 +35,8 @@ Java_com_example_smoke_InterfaceWithStaticImpl_getRegularProperty(JNIEnv* _jenv,
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_regular_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_regular_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_InterfaceWithStaticImpl_setRegularProperty(JNIEnv* _jenv, jobject _jinstance, jstring jvalue)
@@ -55,8 +55,8 @@ Java_com_example_smoke_InterfaceWithStaticImpl_setRegularProperty(JNIEnv* _jenv,
 jstring
 Java_com_example_smoke_InterfaceWithStaticImpl_getStaticProperty(JNIEnv* _jenv, jobject _jinstance)
 {
-    auto result = ::smoke::InterfaceWithStatic::get_static_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = ::smoke::InterfaceWithStatic::get_static_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_InterfaceWithStaticImpl_setStaticProperty(JNIEnv* _jenv, jobject _jinstance, jstring jvalue)

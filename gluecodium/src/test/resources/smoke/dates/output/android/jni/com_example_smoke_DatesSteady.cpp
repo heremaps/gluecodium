@@ -20,8 +20,8 @@ Java_com_example_smoke_DatesSteady_dateMethod(JNIEnv* _jenv, jobject _jinstance,
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->date_method(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->date_method(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_DatesSteady_nullableDateMethod(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -35,8 +35,8 @@ Java_com_example_smoke_DatesSteady_nullableDateMethod(JNIEnv* _jenv, jobject _ji
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->nullable_date_method(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->nullable_date_method(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_DatesSteady_dateListMethod(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -50,8 +50,8 @@ Java_com_example_smoke_DatesSteady_dateListMethod(JNIEnv* _jenv, jobject _jinsta
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->date_list_method(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->date_list_method(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 JNIEXPORT void JNICALL
 Java_com_example_smoke_DatesSteady_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)

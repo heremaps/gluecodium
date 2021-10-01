@@ -19,8 +19,8 @@ Java_com_example_smoke_StructsWithMethodsInterface_00024Vector3_distanceTo(JNIEn
     auto _ninstance = ::gluecodium::jni::convert_from_jni(_jenv,
         ::gluecodium::jni::make_non_releasing_ref(_jinstance),
         (::smoke::StructsWithMethodsInterface::Vector3*)nullptr);
-    auto result = _ninstance.distance_to(other);
-    return result;
+    auto _result = _ninstance.distance_to(other);
+    return _result;
 }
 jobject
 Java_com_example_smoke_StructsWithMethodsInterface_00024Vector3_add(JNIEnv* _jenv, jobject _jinstance, jobject jother)
@@ -31,8 +31,8 @@ Java_com_example_smoke_StructsWithMethodsInterface_00024Vector3_add(JNIEnv* _jen
     auto _ninstance = ::gluecodium::jni::convert_from_jni(_jenv,
         ::gluecodium::jni::make_non_releasing_ref(_jinstance),
         (::smoke::StructsWithMethodsInterface::Vector3*)nullptr);
-    auto result = _ninstance.add(other);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = _ninstance.add(other);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jboolean
 Java_com_example_smoke_StructsWithMethodsInterface_00024Vector3_validate(JNIEnv* _jenv, jobject _jinstance, jdouble jx, jdouble jy, jdouble jz)
@@ -40,8 +40,8 @@ Java_com_example_smoke_StructsWithMethodsInterface_00024Vector3_validate(JNIEnv*
     double x = jx;
     double y = jy;
     double z = jz;
-    auto result = ::smoke::StructsWithMethodsInterface::Vector3::validate(x,y,z);
-    return result;
+    auto _result = ::smoke::StructsWithMethodsInterface::Vector3::validate(x,y,z);
+    return _result;
 }
 jobject
 Java_com_example_smoke_StructsWithMethodsInterface_00024Vector3_create__Ljava_lang_String_2(JNIEnv* _jenv, jobject _jinstance, jstring jinput)
@@ -49,8 +49,8 @@ Java_com_example_smoke_StructsWithMethodsInterface_00024Vector3_create__Ljava_la
     ::std::string input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
             (::std::string*)nullptr);
-    auto result = ::smoke::StructsWithMethodsInterface::Vector3::create(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = ::smoke::StructsWithMethodsInterface::Vector3::create(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_StructsWithMethodsInterface_00024Vector3_create__Lcom_example_smoke_StructsWithMethodsInterface_00024Vector3_2(JNIEnv* _jenv, jobject _jinstance, jobject jother)
@@ -71,7 +71,7 @@ Java_com_example_smoke_StructsWithMethodsInterface_00024Vector3_create__Lcom_exa
         _throw_exception.register_exception(std::move(exception));
         return nullptr;
     }
-    auto result = nativeCallResult.unsafe_value();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = nativeCallResult.unsafe_value();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 }

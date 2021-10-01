@@ -17,7 +17,7 @@ com_example_smoke_Lambdas_00024Indexer_CppProxy::operator()( const ::std::string
     JNIEnv* jniEnv = getJniEnvironment( );
     auto jp0 = convert_to_jni( jniEnv, np0 );
     jfloat jindex = nindex;
-    auto result = callJavaMethod<jint>( "apply", "(Ljava/lang/String;F)I", jniEnv , jp0, jindex);
+    auto _result = callJavaMethod<jint>( "apply", "(Ljava/lang/String;F)I", jniEnv , jp0, jindex);
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
@@ -25,7 +25,7 @@ com_example_smoke_Lambdas_00024Indexer_CppProxy::operator()( const ::std::string
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-    return result;
+    return _result;
 }
 }
 }

@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed a compilation error in Java when a function parameter is named "result".
+
 ## 9.5.3
 Release date: 2021-09-29
 ### Features:

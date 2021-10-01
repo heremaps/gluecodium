@@ -27,8 +27,8 @@ Java_com_example_smoke_ChildClassWithIncludes_rootMethod(JNIEnv* _jenv, jobject 
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->root_method(input1,input2);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->root_method(input1,input2);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_ChildClassWithIncludes_getRootProperty(JNIEnv* _jenv, jobject _jinstance)
@@ -39,8 +39,8 @@ Java_com_example_smoke_ChildClassWithIncludes_getRootProperty(JNIEnv* _jenv, job
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_root_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_root_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_ChildClassWithIncludes_setRootProperty(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)

@@ -20,8 +20,8 @@ Java_com_example_smoke_GenericTypesWithGenericTypes_methodWithListOfLists(JNIEnv
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_list_of_lists(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_list_of_lists(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_GenericTypesWithGenericTypes_methodWithMapOfMaps(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -35,8 +35,8 @@ Java_com_example_smoke_GenericTypesWithGenericTypes_methodWithMapOfMaps(JNIEnv* 
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_map_of_maps(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_map_of_maps(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_GenericTypesWithGenericTypes_methodWithSetOfSets(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -50,8 +50,8 @@ Java_com_example_smoke_GenericTypesWithGenericTypes_methodWithSetOfSets(JNIEnv* 
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_set_of_sets(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_set_of_sets(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_GenericTypesWithGenericTypes_methodWithListAndMap(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -65,8 +65,8 @@ Java_com_example_smoke_GenericTypesWithGenericTypes_methodWithListAndMap(JNIEnv*
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_list_and_map(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_list_and_map(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_GenericTypesWithGenericTypes_methodWithListAndSet(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -80,8 +80,8 @@ Java_com_example_smoke_GenericTypesWithGenericTypes_methodWithListAndSet(JNIEnv*
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_list_and_set(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_list_and_set(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_GenericTypesWithGenericTypes_methodWithMapAndSet(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -95,8 +95,8 @@ Java_com_example_smoke_GenericTypesWithGenericTypes_methodWithMapAndSet(JNIEnv* 
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_map_and_set(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_map_and_set(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_GenericTypesWithGenericTypes_methodWithMapGenericKeys(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -110,8 +110,8 @@ Java_com_example_smoke_GenericTypesWithGenericTypes_methodWithMapGenericKeys(JNI
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_map_generic_keys(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_map_generic_keys(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 JNIEXPORT void JNICALL
 Java_com_example_smoke_GenericTypesWithGenericTypes_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)

@@ -17,8 +17,8 @@ Java_com_example_smoke_SimpleInterfaceImpl_getStringValue(JNIEnv* _jenv, jobject
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_string_value();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_string_value();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_SimpleInterfaceImpl_useSimpleInterface(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -32,8 +32,8 @@ Java_com_example_smoke_SimpleInterfaceImpl_useSimpleInterface(JNIEnv* _jenv, job
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->use_simple_interface(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->use_simple_interface(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 JNIEXPORT void JNICALL
 Java_com_example_smoke_SimpleInterfaceImpl_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)

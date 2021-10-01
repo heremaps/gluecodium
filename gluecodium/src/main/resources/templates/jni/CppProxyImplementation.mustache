@@ -74,7 +74,7 @@ namespace jni
     {{resolveName typeRef}} j{{resolveName}} = n{{resolveName}};{{!!
 }}{{/ifPredicate}}{{!!
 }}{{/parameters}}
-    {{#unless returnType.isVoid}}auto result = {{/unless}}callJavaMethod<{{resolveName returnType}}>( {{!!
+    {{#unless returnType.isVoid}}auto _result = {{/unless}}callJavaMethod<{{resolveName returnType}}>( {{!!
     }}"{{#if javaName}}{{javaName}}{{/if}}{{#unless javaName}}{{resolveName}}{{/unless}}", {{!!
     }}"({{#parameters}}{{resolveName typeRef "signature"}}{{/parameters}}){{!!
     }}{{resolveName returnType "signature"}}", jniEnv {{#if parameters}},{{/if}} {{!!
@@ -113,9 +113,9 @@ namespace jni
 {{/unless}}{{!!
 }}{{#unless returnType.isVoid}}
     return {{#unlessPredicate returnType.typeRef "isJniPrimitive"}}{{!!
-    }}{{#returnType}}{{>jni/JniConversionPrefix}}{{/returnType}}convert_from_jni( jniEnv, result, {{!!
+    }}{{#returnType}}{{>jni/JniConversionPrefix}}{{/returnType}}convert_from_jni( jniEnv, _result, {{!!
     }}({{resolveName returnType "C++"}}*)nullptr ){{/unlessPredicate}}{{!!
-    }}{{#ifPredicate returnType.typeRef "isJniPrimitive"}}result{{/ifPredicate}};
+    }}{{#ifPredicate returnType.typeRef "isJniPrimitive"}}_result{{/ifPredicate}};
 {{/unless}}
 {{#if thrownType}}{{#if returnType.isVoid}}{{#instanceOf exception.errorType.type.actualType "LimeEnumeration"}}
         return ::std::error_code{};

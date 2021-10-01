@@ -13,8 +13,8 @@ extern "C" {
 jlong
 Java_com_example_smoke_Constructors_create__(JNIEnv* _jenv, jobject _jinstance)
 {
-    auto result = ::smoke::Constructors::create();
-    auto nSharedPtr = new (::std::nothrow) ::std::shared_ptr< ::smoke::Constructors >(result);
+    auto _result = ::smoke::Constructors::create();
+    auto nSharedPtr = new (::std::nothrow) ::std::shared_ptr< ::smoke::Constructors >(_result);
     if (nSharedPtr == nullptr)
     {
         auto exceptionClass = ::gluecodium::jni::find_class(_jenv, "java/lang/OutOfMemoryError");
@@ -29,8 +29,8 @@ Java_com_example_smoke_Constructors_create__Lcom_example_smoke_Constructors_2(JN
     ::std::shared_ptr< ::smoke::Constructors > other = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jother),
             (::std::shared_ptr< ::smoke::Constructors >*)nullptr);
-    auto result = ::smoke::Constructors::create(other);
-    auto nSharedPtr = new (::std::nothrow) ::std::shared_ptr< ::smoke::Constructors >(result);
+    auto _result = ::smoke::Constructors::create(other);
+    auto nSharedPtr = new (::std::nothrow) ::std::shared_ptr< ::smoke::Constructors >(_result);
     if (nSharedPtr == nullptr)
     {
         auto exceptionClass = ::gluecodium::jni::find_class(_jenv, "java/lang/OutOfMemoryError");
@@ -46,8 +46,8 @@ Java_com_example_smoke_Constructors_create__Ljava_lang_String_2J(JNIEnv* _jenv, 
             ::gluecodium::jni::make_non_releasing_ref(jfoo),
             (::std::string*)nullptr);
     uint64_t bar = jbar;
-    auto result = ::smoke::Constructors::create(foo,bar);
-    auto nSharedPtr = new (::std::nothrow) ::std::shared_ptr< ::smoke::Constructors >(result);
+    auto _result = ::smoke::Constructors::create(foo,bar);
+    auto nSharedPtr = new (::std::nothrow) ::std::shared_ptr< ::smoke::Constructors >(_result);
     if (nSharedPtr == nullptr)
     {
         auto exceptionClass = ::gluecodium::jni::find_class(_jenv, "java/lang/OutOfMemoryError");
@@ -75,8 +75,8 @@ Java_com_example_smoke_Constructors_create__Ljava_lang_String_2(JNIEnv* _jenv, j
         _throw_exception.register_exception(std::move(exception));
         return 0;
     }
-    auto result = nativeCallResult.unsafe_value();
-    auto nSharedPtr = new (::std::nothrow) ::std::shared_ptr< ::smoke::Constructors >(result);
+    auto _result = nativeCallResult.unsafe_value();
+    auto nSharedPtr = new (::std::nothrow) ::std::shared_ptr< ::smoke::Constructors >(_result);
     if (nSharedPtr == nullptr)
     {
         auto exceptionClass = ::gluecodium::jni::find_class(_jenv, "java/lang/OutOfMemoryError");
@@ -91,8 +91,8 @@ Java_com_example_smoke_Constructors_create__Ljava_util_List_2(JNIEnv* _jenv, job
     ::std::vector< double > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
             (::std::vector< double >*)nullptr);
-    auto result = ::smoke::Constructors::create(input);
-    auto nSharedPtr = new (::std::nothrow) ::std::shared_ptr< ::smoke::Constructors >(result);
+    auto _result = ::smoke::Constructors::create(input);
+    auto nSharedPtr = new (::std::nothrow) ::std::shared_ptr< ::smoke::Constructors >(_result);
     if (nSharedPtr == nullptr)
     {
         auto exceptionClass = ::gluecodium::jni::find_class(_jenv, "java/lang/OutOfMemoryError");

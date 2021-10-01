@@ -20,8 +20,8 @@ Java_com_example_smoke_DurationMilliseconds_durationFunction(JNIEnv* _jenv, jobj
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->duration_function(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->duration_function(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_DurationMilliseconds_nullableDurationFunction(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -35,8 +35,8 @@ Java_com_example_smoke_DurationMilliseconds_nullableDurationFunction(JNIEnv* _je
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->nullable_duration_function(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->nullable_duration_function(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_DurationMilliseconds_getDurationProperty(JNIEnv* _jenv, jobject _jinstance)
@@ -47,8 +47,8 @@ Java_com_example_smoke_DurationMilliseconds_getDurationProperty(JNIEnv* _jenv, j
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_duration_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_duration_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_DurationMilliseconds_setDurationProperty(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)

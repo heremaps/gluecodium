@@ -18,7 +18,7 @@ com_example_smoke_ListenersWithReturnValues_CppProxy::com_example_smoke_Listener
 double
 com_example_smoke_ListenersWithReturnValues_CppProxy::fetch_data_double(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
-    auto result = callJavaMethod<jdouble>( "fetchDataDouble", "()D", jniEnv  );
+    auto _result = callJavaMethod<jdouble>( "fetchDataDouble", "()D", jniEnv  );
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
@@ -26,12 +26,12 @@ com_example_smoke_ListenersWithReturnValues_CppProxy::fetch_data_double(  ) {
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-    return result;
+    return _result;
 }
 ::std::string
 com_example_smoke_ListenersWithReturnValues_CppProxy::fetch_data_string(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
-    auto result = callJavaMethod<jstring>( "fetchDataString", "()Ljava/lang/String;", jniEnv  );
+    auto _result = callJavaMethod<jstring>( "fetchDataString", "()Ljava/lang/String;", jniEnv  );
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
@@ -39,12 +39,12 @@ com_example_smoke_ListenersWithReturnValues_CppProxy::fetch_data_string(  ) {
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-    return convert_from_jni( jniEnv, result, (::std::string*)nullptr );
+    return convert_from_jni( jniEnv, _result, (::std::string*)nullptr );
 }
 ::smoke::ListenersWithReturnValues::ResultStruct
 com_example_smoke_ListenersWithReturnValues_CppProxy::fetch_data_struct(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
-    auto result = callJavaMethod<jobject>( "fetchDataStruct", "()Lcom/example/smoke/ListenersWithReturnValues$ResultStruct;", jniEnv  );
+    auto _result = callJavaMethod<jobject>( "fetchDataStruct", "()Lcom/example/smoke/ListenersWithReturnValues$ResultStruct;", jniEnv  );
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
@@ -52,12 +52,12 @@ com_example_smoke_ListenersWithReturnValues_CppProxy::fetch_data_struct(  ) {
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-    return convert_from_jni( jniEnv, result, (::smoke::ListenersWithReturnValues::ResultStruct*)nullptr );
+    return convert_from_jni( jniEnv, _result, (::smoke::ListenersWithReturnValues::ResultStruct*)nullptr );
 }
 ::smoke::ListenersWithReturnValues::ResultEnum
 com_example_smoke_ListenersWithReturnValues_CppProxy::fetch_data_enum(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
-    auto result = callJavaMethod<jobject>( "fetchDataEnum", "()Lcom/example/smoke/ListenersWithReturnValues$ResultEnum;", jniEnv  );
+    auto _result = callJavaMethod<jobject>( "fetchDataEnum", "()Lcom/example/smoke/ListenersWithReturnValues$ResultEnum;", jniEnv  );
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
@@ -65,12 +65,12 @@ com_example_smoke_ListenersWithReturnValues_CppProxy::fetch_data_enum(  ) {
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-    return convert_from_jni( jniEnv, result, (::smoke::ListenersWithReturnValues::ResultEnum*)nullptr );
+    return convert_from_jni( jniEnv, _result, (::smoke::ListenersWithReturnValues::ResultEnum*)nullptr );
 }
 ::std::vector< double >
 com_example_smoke_ListenersWithReturnValues_CppProxy::fetch_data_array(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
-    auto result = callJavaMethod<jobject>( "fetchDataArray", "()Ljava/util/List;", jniEnv  );
+    auto _result = callJavaMethod<jobject>( "fetchDataArray", "()Ljava/util/List;", jniEnv  );
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
@@ -78,12 +78,12 @@ com_example_smoke_ListenersWithReturnValues_CppProxy::fetch_data_array(  ) {
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-    return convert_from_jni( jniEnv, result, (::std::vector< double >*)nullptr );
+    return convert_from_jni( jniEnv, _result, (::std::vector< double >*)nullptr );
 }
 ::smoke::ListenersWithReturnValues::StringToDouble
 com_example_smoke_ListenersWithReturnValues_CppProxy::fetch_data_map(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
-    auto result = callJavaMethod<jobject>( "fetchDataMap", "()Ljava/util/Map;", jniEnv  );
+    auto _result = callJavaMethod<jobject>( "fetchDataMap", "()Ljava/util/Map;", jniEnv  );
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
@@ -91,12 +91,12 @@ com_example_smoke_ListenersWithReturnValues_CppProxy::fetch_data_map(  ) {
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-    return convert_from_jni( jniEnv, result, (::smoke::ListenersWithReturnValues::StringToDouble*)nullptr );
+    return convert_from_jni( jniEnv, _result, (::smoke::ListenersWithReturnValues::StringToDouble*)nullptr );
 }
 ::std::shared_ptr< ::smoke::CalculationResult >
 com_example_smoke_ListenersWithReturnValues_CppProxy::fetch_data_instance(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
-    auto result = callJavaMethod<jobject>( "fetchDataInstance", "()Lcom/example/smoke/CalculationResult;", jniEnv  );
+    auto _result = callJavaMethod<jobject>( "fetchDataInstance", "()Lcom/example/smoke/CalculationResult;", jniEnv  );
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
@@ -104,7 +104,7 @@ com_example_smoke_ListenersWithReturnValues_CppProxy::fetch_data_instance(  ) {
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-    return convert_from_jni( jniEnv, result, (::std::shared_ptr< ::smoke::CalculationResult >*)nullptr );
+    return convert_from_jni( jniEnv, _result, (::std::shared_ptr< ::smoke::CalculationResult >*)nullptr );
 }
 }
 }

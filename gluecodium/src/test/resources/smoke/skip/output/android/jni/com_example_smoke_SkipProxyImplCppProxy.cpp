@@ -20,7 +20,7 @@ bool
 com_example_smoke_SkipProxy_CppProxy::not_in_swift( const bool ninput ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     jboolean jinput = ninput;
-    auto result = callJavaMethod<jboolean>( "notInSwift", "(Z)Z", jniEnv , jinput);
+    auto _result = callJavaMethod<jboolean>( "notInSwift", "(Z)Z", jniEnv , jinput);
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
@@ -28,13 +28,13 @@ com_example_smoke_SkipProxy_CppProxy::not_in_swift( const bool ninput ) {
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-    return result;
+    return _result;
 }
 float
 com_example_smoke_SkipProxy_CppProxy::not_in_dart( const float ninput ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     jfloat jinput = ninput;
-    auto result = callJavaMethod<jfloat>( "notInDart", "(F)F", jniEnv , jinput);
+    auto _result = callJavaMethod<jfloat>( "notInDart", "(F)F", jniEnv , jinput);
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
@@ -42,7 +42,7 @@ com_example_smoke_SkipProxy_CppProxy::not_in_dart( const float ninput ) {
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-    return result;
+    return _result;
 }
 ::std::string
 com_example_smoke_SkipProxy_CppProxy::get_skipped_in_java(  ) const {
@@ -54,7 +54,7 @@ com_example_smoke_SkipProxy_CppProxy::set_skipped_in_java( const ::std::string& 
 bool
 com_example_smoke_SkipProxy_CppProxy::is_skipped_in_swift(  ) const {
     JNIEnv* jniEnv = getJniEnvironment( );
-    auto result = callJavaMethod<jboolean>( "isSkippedInSwift", "()Z", jniEnv  );
+    auto _result = callJavaMethod<jboolean>( "isSkippedInSwift", "()Z", jniEnv  );
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
@@ -62,7 +62,7 @@ com_example_smoke_SkipProxy_CppProxy::is_skipped_in_swift(  ) const {
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-    return result;
+    return _result;
 }
 void
 com_example_smoke_SkipProxy_CppProxy::set_skipped_in_swift( const bool nvalue ) {
@@ -80,7 +80,7 @@ com_example_smoke_SkipProxy_CppProxy::set_skipped_in_swift( const bool nvalue ) 
 float
 com_example_smoke_SkipProxy_CppProxy::get_skipped_in_dart(  ) const {
     JNIEnv* jniEnv = getJniEnvironment( );
-    auto result = callJavaMethod<jfloat>( "getSkippedInDart", "()F", jniEnv  );
+    auto _result = callJavaMethod<jfloat>( "getSkippedInDart", "()F", jniEnv  );
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
@@ -88,7 +88,7 @@ com_example_smoke_SkipProxy_CppProxy::get_skipped_in_dart(  ) const {
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-    return result;
+    return _result;
 }
 void
 com_example_smoke_SkipProxy_CppProxy::set_skipped_in_dart( const float nvalue ) {

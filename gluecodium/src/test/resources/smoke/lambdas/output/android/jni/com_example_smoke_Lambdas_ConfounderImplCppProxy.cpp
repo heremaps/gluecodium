@@ -17,7 +17,7 @@ com_example_smoke_Lambdas_00024Confounder_CppProxy::com_example_smoke_Lambdas_00
 com_example_smoke_Lambdas_00024Confounder_CppProxy::operator()( const ::std::string& np0 ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto jp0 = convert_to_jni( jniEnv, np0 );
-    auto result = callJavaMethod<jobject>( "confuse", "(Ljava/lang/String;)Lcom/example/smoke/Lambdas$Producer;", jniEnv , jp0);
+    auto _result = callJavaMethod<jobject>( "confuse", "(Ljava/lang/String;)Lcom/example/smoke/Lambdas$Producer;", jniEnv , jp0);
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
@@ -25,7 +25,7 @@ com_example_smoke_Lambdas_00024Confounder_CppProxy::operator()( const ::std::str
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-    return com_example_smoke_Lambdas_00024Producer_convert_from_jni( jniEnv, result, (::smoke::Lambdas::Producer*)nullptr );
+    return com_example_smoke_Lambdas_00024Producer_convert_from_jni( jniEnv, _result, (::smoke::Lambdas::Producer*)nullptr );
 }
 }
 }

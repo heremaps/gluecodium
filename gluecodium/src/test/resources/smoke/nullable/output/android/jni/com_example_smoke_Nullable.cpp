@@ -23,8 +23,8 @@ Java_com_example_smoke_Nullable_methodWithString(JNIEnv* _jenv, jobject _jinstan
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_string(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_string(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_Nullable_methodWithBoolean(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -38,8 +38,8 @@ Java_com_example_smoke_Nullable_methodWithBoolean(JNIEnv* _jenv, jobject _jinsta
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_boolean(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_boolean(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_Nullable_methodWithDouble(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -53,8 +53,8 @@ Java_com_example_smoke_Nullable_methodWithDouble(JNIEnv* _jenv, jobject _jinstan
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_double(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_double(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_Nullable_methodWithInt(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -68,8 +68,8 @@ Java_com_example_smoke_Nullable_methodWithInt(JNIEnv* _jenv, jobject _jinstance,
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_int(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_int(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_Nullable_methodWithSomeStruct(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -83,8 +83,8 @@ Java_com_example_smoke_Nullable_methodWithSomeStruct(JNIEnv* _jenv, jobject _jin
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_some_struct(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_some_struct(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_Nullable_methodWithSomeEnum(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -98,8 +98,8 @@ Java_com_example_smoke_Nullable_methodWithSomeEnum(JNIEnv* _jenv, jobject _jinst
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_some_enum(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_some_enum(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_Nullable_methodWithSomeArray(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -113,8 +113,8 @@ Java_com_example_smoke_Nullable_methodWithSomeArray(JNIEnv* _jenv, jobject _jins
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_some_array(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_some_array(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_Nullable_methodWithInlineArray(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -128,8 +128,8 @@ Java_com_example_smoke_Nullable_methodWithInlineArray(JNIEnv* _jenv, jobject _ji
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_inline_array(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_inline_array(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_Nullable_methodWithSomeMap(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -143,8 +143,8 @@ Java_com_example_smoke_Nullable_methodWithSomeMap(JNIEnv* _jenv, jobject _jinsta
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_some_map(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_some_map(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_Nullable_methodWithInstance(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -158,8 +158,8 @@ Java_com_example_smoke_Nullable_methodWithInstance(JNIEnv* _jenv, jobject _jinst
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_instance(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_instance(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jstring
 Java_com_example_smoke_Nullable_getStringProperty(JNIEnv* _jenv, jobject _jinstance)
@@ -170,8 +170,8 @@ Java_com_example_smoke_Nullable_getStringProperty(JNIEnv* _jenv, jobject _jinsta
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_string_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_string_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_Nullable_setStringProperty(JNIEnv* _jenv, jobject _jinstance, jstring jvalue)
@@ -196,8 +196,8 @@ Java_com_example_smoke_Nullable_isBoolProperty(JNIEnv* _jenv, jobject _jinstance
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->is_bool_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->is_bool_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_Nullable_setBoolProperty(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
@@ -222,8 +222,8 @@ Java_com_example_smoke_Nullable_getDoubleProperty(JNIEnv* _jenv, jobject _jinsta
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_double_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_double_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_Nullable_setDoubleProperty(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
@@ -248,8 +248,8 @@ Java_com_example_smoke_Nullable_getIntProperty(JNIEnv* _jenv, jobject _jinstance
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_int_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_int_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_Nullable_setIntProperty(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
@@ -274,8 +274,8 @@ Java_com_example_smoke_Nullable_getStructProperty(JNIEnv* _jenv, jobject _jinsta
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_struct_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_struct_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_Nullable_setStructProperty(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
@@ -300,8 +300,8 @@ Java_com_example_smoke_Nullable_getEnumProperty(JNIEnv* _jenv, jobject _jinstanc
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_enum_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_enum_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_Nullable_setEnumProperty(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
@@ -326,8 +326,8 @@ Java_com_example_smoke_Nullable_getArrayProperty(JNIEnv* _jenv, jobject _jinstan
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_array_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_array_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_Nullable_setArrayProperty(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
@@ -352,8 +352,8 @@ Java_com_example_smoke_Nullable_getInlineArrayProperty(JNIEnv* _jenv, jobject _j
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_inline_array_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_inline_array_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_Nullable_setInlineArrayProperty(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
@@ -378,8 +378,8 @@ Java_com_example_smoke_Nullable_getMapProperty(JNIEnv* _jenv, jobject _jinstance
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_map_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_map_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_Nullable_setMapProperty(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
@@ -404,8 +404,8 @@ Java_com_example_smoke_Nullable_getInstanceProperty(JNIEnv* _jenv, jobject _jins
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_instance_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_instance_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_Nullable_setInstanceProperty(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)

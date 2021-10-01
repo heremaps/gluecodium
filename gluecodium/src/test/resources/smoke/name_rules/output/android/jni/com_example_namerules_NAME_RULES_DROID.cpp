@@ -14,8 +14,8 @@ extern "C" {
 jlong
 Java_com_example_namerules_NAME_1RULES_1DROID_create(JNIEnv* _jenv, jobject _jinstance)
 {
-    auto result = ::namerules::NameRules::create();
-    auto nSharedPtr = new (::std::nothrow) ::std::shared_ptr< ::namerules::NameRules >(result);
+    auto _result = ::namerules::NameRules::create();
+    auto nSharedPtr = new (::std::nothrow) ::std::shared_ptr< ::namerules::NameRules >(_result);
     if (nSharedPtr == nullptr)
     {
         auto exceptionClass = ::jni::find_class(_jenv, "java/lang/OutOfMemoryError");
@@ -49,8 +49,8 @@ Java_com_example_namerules_NAME_1RULES_1DROID_some_1method(JNIEnv* _jenv, jobjec
         _throw_exception.register_exception(std::move(exception));
         return nativeCallResult.unsafe_value();
     }
-    auto result = nativeCallResult.unsafe_value();
-    return result;
+    auto _result = nativeCallResult.unsafe_value();
+    return _result;
 }
 jlong
 Java_com_example_namerules_NAME_1RULES_1DROID_loadIntProperty(JNIEnv* _jenv, jobject _jinstance)
@@ -61,8 +61,8 @@ Java_com_example_namerules_NAME_1RULES_1DROID_loadIntProperty(JNIEnv* _jenv, job
             ::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->retrieve_int_property();
-    return result;
+    auto _result = (*pInstanceSharedPointer)->retrieve_int_property();
+    return _result;
 }
 void
 Java_com_example_namerules_NAME_1RULES_1DROID_STORE_1INT_1PROPERTY(JNIEnv* _jenv, jobject _jinstance, jlong jvalue)
@@ -85,8 +85,8 @@ Java_com_example_namerules_NAME_1RULES_1DROID_loadBooleanProperty(JNIEnv* _jenv,
             ::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->really_boolean_property();
-    return result;
+    auto _result = (*pInstanceSharedPointer)->really_boolean_property();
+    return _result;
 }
 void
 Java_com_example_namerules_NAME_1RULES_1DROID_STORE_1BOOLEAN_1PROPERTY(JNIEnv* _jenv, jobject _jinstance, jboolean jvalue)
@@ -109,8 +109,8 @@ Java_com_example_namerules_NAME_1RULES_1DROID_loadStructProperty(JNIEnv* _jenv, 
             ::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->retrieve_struct_property();
-    return ::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->retrieve_struct_property();
+    return ::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_namerules_NAME_1RULES_1DROID_STORE_1STRUCT_1PROPERTY(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
