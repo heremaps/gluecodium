@@ -81,7 +81,7 @@ internal class DartDeclarationImportResolver(srcPath: String) : DartImportResolv
 
     private fun resolveClassImports(limeClass: LimeClass) =
         when {
-            limeClass.parent != null || limeClass.visibility.isOpen -> classInterfaceImports
+            limeClass.parents.isNotEmpty() || limeClass.visibility.isOpen -> classInterfaceImports
             else -> listOf(tokenCacheImport, nativeBaseImport)
         } + if (hasStaticFunctions(limeClass)) listOf(metaPackageImport) else emptyList()
 

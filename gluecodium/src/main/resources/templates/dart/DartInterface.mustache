@@ -19,7 +19,8 @@
   !
   !}}
 {{>dart/DartDocumentation}}{{>dart/DartAttributes}}
-abstract class {{resolveName}} {{#if this.parent}}implements {{resolveName this.parent}} {{/if}}{
+abstract class {{resolveName}}{{!!
+}}{{#if this.parents}} implements {{#this.parents}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/this.parents}}{{/if}} {
 {{#if inheritedFunctions functions inheritedProperties properties logic="or"}}
 {{prefixPartial "dart/DartDocumentation" "  "}}
   factory {{resolveName}}(
@@ -227,7 +228,9 @@ int _{{resolveName parent "Ffi"}}{{resolveName}}SetStatic(Object _obj, {{resolve
 {{/unless}}{{/each}}{{/set}}
 
 Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
+{{#unless isNarrow}}
   if (value is __lib.NativeBase) return _{{resolveName "Ffi"}}CopyHandle((value as __lib.NativeBase).handle);
+{{/unless}}
 
   final result = _{{resolveName "Ffi"}}CreateProxy(
     __lib.getObjectToken(value),

@@ -48,6 +48,7 @@ import "test/Locales_test.dart" as LocalesTests;
 import "test/Maps_test.dart" as MapsTests;
 import "test/MethodOverloads_test.dart" as MethodOverloadsTests;
 import "test/MultiListener_test.dart" as MultiListenerTests;
+import "test/MultipleInheritance_test.dart" as MultipleInheritanceTests;
 import "test/Nesting_test.dart" as NestingTests;
 import "test/Nullable_test.dart" as NullableTests;
 import "test/OptimizedLists_test.dart" as OptimizedListsTests;
@@ -93,6 +94,7 @@ final _allTests = [
   MapsTests.main,
   MethodOverloadsTests.main,
   MultiListenerTests.main,
+  MultipleInheritanceTests.main,
   NestingTests.main,
   NullableTests.main,
   OptimizedListsTests.main,

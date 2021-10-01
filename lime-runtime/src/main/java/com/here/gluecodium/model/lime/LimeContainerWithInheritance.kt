@@ -53,10 +53,6 @@ abstract class LimeContainerWithInheritance(
     interfaces = interfaces,
     lambdas = lambdas
 ) {
-    // TODO: #1077: remove after all generators are updated
-    val parent
-        get() = parents.firstOrNull()
-
     val parentInterfaces
         get() = parents.map { it.type.actualType }.filterIsInstance<LimeInterface>()
 
