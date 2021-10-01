@@ -18,8 +18,8 @@ Java_com_example_smoke_SkipProxyImpl_notInSwift(JNIEnv* _jenv, jobject _jinstanc
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->not_in_swift(input);
-    return result;
+    auto _result = (*pInstanceSharedPointer)->not_in_swift(input);
+    return _result;
 }
 jfloat
 Java_com_example_smoke_SkipProxyImpl_notInDart(JNIEnv* _jenv, jobject _jinstance, jfloat jinput)
@@ -31,8 +31,8 @@ Java_com_example_smoke_SkipProxyImpl_notInDart(JNIEnv* _jenv, jobject _jinstance
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->not_in_dart(input);
-    return result;
+    auto _result = (*pInstanceSharedPointer)->not_in_dart(input);
+    return _result;
 }
 jboolean
 Java_com_example_smoke_SkipProxyImpl_isSkippedInSwift(JNIEnv* _jenv, jobject _jinstance)
@@ -43,8 +43,8 @@ Java_com_example_smoke_SkipProxyImpl_isSkippedInSwift(JNIEnv* _jenv, jobject _ji
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->is_skipped_in_swift();
-    return result;
+    auto _result = (*pInstanceSharedPointer)->is_skipped_in_swift();
+    return _result;
 }
 void
 Java_com_example_smoke_SkipProxyImpl_setSkippedInSwift(JNIEnv* _jenv, jobject _jinstance, jboolean jvalue)
@@ -67,8 +67,8 @@ Java_com_example_smoke_SkipProxyImpl_getSkippedInDart(JNIEnv* _jenv, jobject _ji
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_skipped_in_dart();
-    return result;
+    auto _result = (*pInstanceSharedPointer)->get_skipped_in_dart();
+    return _result;
 }
 void
 Java_com_example_smoke_SkipProxyImpl_setSkippedInDart(JNIEnv* _jenv, jobject _jinstance, jfloat jvalue)

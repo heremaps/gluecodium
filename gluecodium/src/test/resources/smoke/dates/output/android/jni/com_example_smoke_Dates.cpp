@@ -20,8 +20,8 @@ Java_com_example_smoke_Dates_dateMethod(JNIEnv* _jenv, jobject _jinstance, jobje
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->date_method(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->date_method(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_Dates_nullableDateMethod(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -35,8 +35,8 @@ Java_com_example_smoke_Dates_nullableDateMethod(JNIEnv* _jenv, jobject _jinstanc
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->nullable_date_method(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->nullable_date_method(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_Dates_getDateProperty(JNIEnv* _jenv, jobject _jinstance)
@@ -47,8 +47,8 @@ Java_com_example_smoke_Dates_getDateProperty(JNIEnv* _jenv, jobject _jinstance)
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_date_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_date_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_Dates_setDateProperty(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
@@ -73,8 +73,8 @@ Java_com_example_smoke_Dates_getDateSet(JNIEnv* _jenv, jobject _jinstance)
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_date_set();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_date_set();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_Dates_setDateSet(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)

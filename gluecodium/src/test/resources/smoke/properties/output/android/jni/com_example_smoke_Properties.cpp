@@ -20,8 +20,8 @@ Java_com_example_smoke_Properties_getBuiltInTypeProperty(JNIEnv* _jenv, jobject 
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_built_in_type_property();
-    return result;
+    auto _result = (*pInstanceSharedPointer)->get_built_in_type_property();
+    return _result;
 }
 void
 Java_com_example_smoke_Properties_setBuiltInTypeProperty(JNIEnv* _jenv, jobject _jinstance, jlong jvalue)
@@ -44,8 +44,8 @@ Java_com_example_smoke_Properties_getReadonlyProperty(JNIEnv* _jenv, jobject _ji
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_readonly_property();
-    return result;
+    auto _result = (*pInstanceSharedPointer)->get_readonly_property();
+    return _result;
 }
 jobject
 Java_com_example_smoke_Properties_getStructProperty(JNIEnv* _jenv, jobject _jinstance)
@@ -56,8 +56,8 @@ Java_com_example_smoke_Properties_getStructProperty(JNIEnv* _jenv, jobject _jins
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_struct_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_struct_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_Properties_setStructProperty(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
@@ -82,8 +82,8 @@ Java_com_example_smoke_Properties_getArrayProperty(JNIEnv* _jenv, jobject _jinst
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_array_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_array_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_Properties_setArrayProperty(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
@@ -108,8 +108,8 @@ Java_com_example_smoke_Properties_getComplexTypeProperty(JNIEnv* _jenv, jobject 
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_complex_type_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_complex_type_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_Properties_setComplexTypeProperty(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
@@ -134,8 +134,8 @@ Java_com_example_smoke_Properties_getByteBufferProperty(JNIEnv* _jenv, jobject _
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_byte_buffer_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_byte_buffer_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_Properties_setByteBufferProperty(JNIEnv* _jenv, jobject _jinstance, jbyteArray jvalue)
@@ -160,8 +160,8 @@ Java_com_example_smoke_Properties_getInstanceProperty(JNIEnv* _jenv, jobject _ji
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_instance_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_instance_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_Properties_setInstanceProperty(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
@@ -186,8 +186,8 @@ Java_com_example_smoke_Properties_isBooleanProperty(JNIEnv* _jenv, jobject _jins
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->is_boolean_property();
-    return result;
+    auto _result = (*pInstanceSharedPointer)->is_boolean_property();
+    return _result;
 }
 void
 Java_com_example_smoke_Properties_setBooleanProperty(JNIEnv* _jenv, jobject _jinstance, jboolean jvalue)
@@ -204,8 +204,8 @@ Java_com_example_smoke_Properties_setBooleanProperty(JNIEnv* _jenv, jobject _jin
 jstring
 Java_com_example_smoke_Properties_getStaticProperty(JNIEnv* _jenv, jobject _jinstance)
 {
-    auto result = ::smoke::Properties::get_static_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = ::smoke::Properties::get_static_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_Properties_setStaticProperty(JNIEnv* _jenv, jobject _jinstance, jstring jvalue)
@@ -218,8 +218,8 @@ Java_com_example_smoke_Properties_setStaticProperty(JNIEnv* _jenv, jobject _jins
 jobject
 Java_com_example_smoke_Properties_getStaticReadonlyProperty(JNIEnv* _jenv, jobject _jinstance)
 {
-    auto result = ::smoke::Properties::get_static_readonly_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = ::smoke::Properties::get_static_readonly_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 JNIEXPORT void JNICALL
 Java_com_example_smoke_Properties_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)

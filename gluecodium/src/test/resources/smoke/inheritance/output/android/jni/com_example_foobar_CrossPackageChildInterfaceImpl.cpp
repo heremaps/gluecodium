@@ -28,8 +28,8 @@ Java_com_example_foobar_CrossPackageChildInterfaceImpl_getRootProperty(JNIEnv* _
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_root_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_root_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_foobar_CrossPackageChildInterfaceImpl_setRootProperty(JNIEnv* _jenv, jobject _jinstance, jstring jvalue)

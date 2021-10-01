@@ -21,8 +21,8 @@ Java_com_example_smoke_Lambdas_00024ConfounderImpl_confuse(JNIEnv* _jenv, jobjec
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)(p0);
-    return ::gluecodium::jni::com_example_smoke_Lambdas_00024Producer_convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)(p0);
+    return ::gluecodium::jni::com_example_smoke_Lambdas_00024Producer_convert_to_jni(_jenv, _result).release();
 }
 JNIEXPORT void JNICALL
 Java_com_example_smoke_Lambdas_00024ConfounderImpl_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)

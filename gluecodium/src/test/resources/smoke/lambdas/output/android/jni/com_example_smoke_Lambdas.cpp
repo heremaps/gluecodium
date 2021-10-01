@@ -26,8 +26,8 @@ Java_com_example_smoke_Lambdas_deconfuse(JNIEnv* _jenv, jobject _jinstance, jstr
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->deconfuse(value,confuser);
-    return ::gluecodium::jni::com_example_smoke_Lambdas_00024Producer_convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->deconfuse(value,confuser);
+    return ::gluecodium::jni::com_example_smoke_Lambdas_00024Producer_convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_Lambdas_fuse(JNIEnv* _jenv, jobject _jinstance, jobject jitems, jobject jcallback)
@@ -38,8 +38,8 @@ Java_com_example_smoke_Lambdas_fuse(JNIEnv* _jenv, jobject _jinstance, jobject j
     ::smoke::Lambdas::Indexer callback = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jcallback),
             (::smoke::Lambdas::Indexer*)nullptr);
-    auto result = ::smoke::Lambdas::fuse(items,callback);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = ::smoke::Lambdas::fuse(items,callback);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 JNIEXPORT void JNICALL
 Java_com_example_smoke_Lambdas_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)

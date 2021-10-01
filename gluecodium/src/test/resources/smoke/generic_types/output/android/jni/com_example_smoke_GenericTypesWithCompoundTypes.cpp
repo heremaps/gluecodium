@@ -26,8 +26,8 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithStructList(JNIEnv
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_struct_list(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_struct_list(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithStructMap(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -41,8 +41,8 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithStructMap(JNIEnv*
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_struct_map(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_struct_map(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithEnumList(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -56,8 +56,8 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithEnumList(JNIEnv* 
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_enum_list(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_enum_list(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithEnumMapKey(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -71,8 +71,8 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithEnumMapKey(JNIEnv
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_enum_map_key(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_enum_map_key(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithEnumMapValue(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -86,8 +86,8 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithEnumMapValue(JNIE
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_enum_map_value(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_enum_map_value(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithEnumSet(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -101,8 +101,8 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithEnumSet(JNIEnv* _
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_enum_set(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_enum_set(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithInstancesList(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -116,8 +116,8 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithInstancesList(JNI
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_instances_list(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_instances_list(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithInstancesMap(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -131,8 +131,8 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithInstancesMap(JNIE
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_instances_map(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_instances_map(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 JNIEXPORT void JNICALL
 Java_com_example_smoke_GenericTypesWithCompoundTypes_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)

@@ -19,8 +19,8 @@ Java_com_example_smoke_MethodOverloads_isBoolean__Z(JNIEnv* _jenv, jobject _jins
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->is_boolean(input);
-    return result;
+    auto _result = (*pInstanceSharedPointer)->is_boolean(input);
+    return _result;
 }
 jboolean
 Java_com_example_smoke_MethodOverloads_isBoolean__B(JNIEnv* _jenv, jobject _jinstance, jbyte jinput)
@@ -32,8 +32,8 @@ Java_com_example_smoke_MethodOverloads_isBoolean__B(JNIEnv* _jenv, jobject _jins
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->is_boolean(input);
-    return result;
+    auto _result = (*pInstanceSharedPointer)->is_boolean(input);
+    return _result;
 }
 jboolean
 Java_com_example_smoke_MethodOverloads_isBoolean__Ljava_lang_String_2(JNIEnv* _jenv, jobject _jinstance, jstring jinput)
@@ -47,8 +47,8 @@ Java_com_example_smoke_MethodOverloads_isBoolean__Ljava_lang_String_2(JNIEnv* _j
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->is_boolean(input);
-    return result;
+    auto _result = (*pInstanceSharedPointer)->is_boolean(input);
+    return _result;
 }
 jboolean
 Java_com_example_smoke_MethodOverloads_isBoolean__Lcom_example_smoke_MethodOverloads_00024Point_2(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -62,8 +62,8 @@ Java_com_example_smoke_MethodOverloads_isBoolean__Lcom_example_smoke_MethodOverl
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->is_boolean(input);
-    return result;
+    auto _result = (*pInstanceSharedPointer)->is_boolean(input);
+    return _result;
 }
 jboolean
 Java_com_example_smoke_MethodOverloads_isBoolean__ZBLjava_lang_String_2Lcom_example_smoke_MethodOverloads_00024Point_2(JNIEnv* _jenv, jobject _jinstance, jboolean jinput1, jbyte jinput2, jstring jinput3, jobject jinput4)
@@ -82,8 +82,8 @@ Java_com_example_smoke_MethodOverloads_isBoolean__ZBLjava_lang_String_2Lcom_exam
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->is_boolean(input1,input2,input3,input4);
-    return result;
+    auto _result = (*pInstanceSharedPointer)->is_boolean(input1,input2,input3,input4);
+    return _result;
 }
 jboolean
 Java_com_example_smoke_MethodOverloads_isBooleanStringArrayOverload(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -97,8 +97,8 @@ Java_com_example_smoke_MethodOverloads_isBooleanStringArrayOverload(JNIEnv* _jen
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->is_boolean(input);
-    return result;
+    auto _result = (*pInstanceSharedPointer)->is_boolean(input);
+    return _result;
 }
 jboolean
 Java_com_example_smoke_MethodOverloads_isBooleanIntArrayOverload(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -112,8 +112,8 @@ Java_com_example_smoke_MethodOverloads_isBooleanIntArrayOverload(JNIEnv* _jenv, 
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->is_boolean(input);
-    return result;
+    auto _result = (*pInstanceSharedPointer)->is_boolean(input);
+    return _result;
 }
 jboolean
 Java_com_example_smoke_MethodOverloads_isBoolean__(JNIEnv* _jenv, jobject _jinstance)
@@ -124,8 +124,8 @@ Java_com_example_smoke_MethodOverloads_isBoolean__(JNIEnv* _jenv, jobject _jinst
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->is_boolean();
-    return result;
+    auto _result = (*pInstanceSharedPointer)->is_boolean();
+    return _result;
 }
 jboolean
 Java_com_example_smoke_MethodOverloads_isFloat__Ljava_lang_String_2(JNIEnv* _jenv, jobject _jinstance, jstring jinput)
@@ -139,8 +139,8 @@ Java_com_example_smoke_MethodOverloads_isFloat__Ljava_lang_String_2(JNIEnv* _jen
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->is_float(input);
-    return result;
+    auto _result = (*pInstanceSharedPointer)->is_float(input);
+    return _result;
 }
 jboolean
 Java_com_example_smoke_MethodOverloads_isFloat__Ljava_util_List_2(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -154,8 +154,8 @@ Java_com_example_smoke_MethodOverloads_isFloat__Ljava_util_List_2(JNIEnv* _jenv,
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->is_float(input);
-    return result;
+    auto _result = (*pInstanceSharedPointer)->is_float(input);
+    return _result;
 }
 JNIEXPORT void JNICALL
 Java_com_example_smoke_MethodOverloads_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)

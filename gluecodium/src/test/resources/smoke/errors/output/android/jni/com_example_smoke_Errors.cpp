@@ -60,8 +60,8 @@ Java_com_example_smoke_Errors_methodWithErrorsAndReturnValue(JNIEnv* _jenv, jobj
         _throw_exception.register_exception(std::move(exception));
         return nullptr;
     }
-    auto result = nativeCallResult.unsafe_value();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = nativeCallResult.unsafe_value();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_Errors_methodWithPayloadError(JNIEnv* _jenv, jobject _jinstance)
@@ -91,8 +91,8 @@ Java_com_example_smoke_Errors_methodWithPayloadErrorAndReturnValue(JNIEnv* _jenv
         _throw_exception.register_exception(std::move(exception));
         return nullptr;
     }
-    auto result = nativeCallResult.unsafe_value();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = nativeCallResult.unsafe_value();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 JNIEXPORT void JNICALL
 Java_com_example_smoke_Errors_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)

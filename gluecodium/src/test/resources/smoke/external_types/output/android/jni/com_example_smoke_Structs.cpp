@@ -13,14 +13,14 @@ extern "C" {
 jobject
 Java_com_example_smoke_Structs_getExternalStruct(JNIEnv* _jenv, jobject _jinstance)
 {
-    auto result = ::smoke::Structs::get_external_struct();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = ::smoke::Structs::get_external_struct();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_Structs_getAnotherExternalStruct(JNIEnv* _jenv, jobject _jinstance)
 {
-    auto result = ::smoke::Structs::get_another_external_struct();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = ::smoke::Structs::get_another_external_struct();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 JNIEXPORT void JNICALL
 Java_com_example_smoke_Structs_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)

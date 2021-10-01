@@ -15,7 +15,7 @@ com_example_smoke_Lambdas_00024Producer_CppProxy::com_example_smoke_Lambdas_0002
 ::std::string
 com_example_smoke_Lambdas_00024Producer_CppProxy::operator()(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
-    auto result = callJavaMethod<jstring>( "apply", "()Ljava/lang/String;", jniEnv  );
+    auto _result = callJavaMethod<jstring>( "apply", "()Ljava/lang/String;", jniEnv  );
     if ( jniEnv->ExceptionCheck( ) )
     {
         jniEnv->ExceptionDescribe( );
@@ -23,7 +23,7 @@ com_example_smoke_Lambdas_00024Producer_CppProxy::operator()(  ) {
         jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
             "See the log for more information about the exception (including Java stack trace)." );
     }
-    return convert_from_jni( jniEnv, result, (::std::string*)nullptr );
+    return convert_from_jni( jniEnv, _result, (::std::string*)nullptr );
 }
 }
 }

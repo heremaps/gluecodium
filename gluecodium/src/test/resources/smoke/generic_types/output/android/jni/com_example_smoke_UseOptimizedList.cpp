@@ -13,14 +13,14 @@ extern "C" {
 jobject
 Java_com_example_smoke_UseOptimizedList_fetchTheBigOnes(JNIEnv* _jenv, jobject _jinstance)
 {
-    auto result = ::smoke::UseOptimizedList::fetch_the_big_ones();
-    return ::gluecodium::jni::convert_to_jni_optimized(_jenv, result, "com/example/smoke/UseOptimizedList$VeryBigStructLazyNativeList").release();
+    auto _result = ::smoke::UseOptimizedList::fetch_the_big_ones();
+    return ::gluecodium::jni::convert_to_jni_optimized(_jenv, _result, "com/example/smoke/UseOptimizedList$VeryBigStructLazyNativeList").release();
 }
 jobject
 Java_com_example_smoke_UseOptimizedList_getLazyOnes(JNIEnv* _jenv, jobject _jinstance)
 {
-    auto result = ::smoke::UseOptimizedList::get_lazy_ones();
-    return ::gluecodium::jni::convert_to_jni_optimized(_jenv, result, "com/example/smoke/UseOptimizedList$UnreasonablyLazyClassLazyNativeList").release();
+    auto _result = ::smoke::UseOptimizedList::get_lazy_ones();
+    return ::gluecodium::jni::convert_to_jni_optimized(_jenv, _result, "com/example/smoke/UseOptimizedList$UnreasonablyLazyClassLazyNativeList").release();
 }
 JNIEXPORT void JNICALL
 Java_com_example_smoke_UseOptimizedList_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)

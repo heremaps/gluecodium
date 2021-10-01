@@ -20,8 +20,8 @@ Java_com_example_smoke_Locales_localeMethod(JNIEnv* _jenv, jobject _jinstance, j
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->locale_method(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->locale_method(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_Locales_getLocaleProperty(JNIEnv* _jenv, jobject _jinstance)
@@ -32,8 +32,8 @@ Java_com_example_smoke_Locales_getLocaleProperty(JNIEnv* _jenv, jobject _jinstan
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_locale_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_locale_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_Locales_setLocaleProperty(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)

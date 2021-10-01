@@ -20,8 +20,8 @@ Java_com_example_smoke_GenericTypesWithBasicTypes_methodWithList(JNIEnv* _jenv, 
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_list(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_list(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_GenericTypesWithBasicTypes_methodWithMap(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -35,8 +35,8 @@ Java_com_example_smoke_GenericTypesWithBasicTypes_methodWithMap(JNIEnv* _jenv, j
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_map(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_map(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_GenericTypesWithBasicTypes_methodWithSet(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -50,8 +50,8 @@ Java_com_example_smoke_GenericTypesWithBasicTypes_methodWithSet(JNIEnv* _jenv, j
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_set(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_set(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_GenericTypesWithBasicTypes_methodWithListTypeAlias(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -65,8 +65,8 @@ Java_com_example_smoke_GenericTypesWithBasicTypes_methodWithListTypeAlias(JNIEnv
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_list_type_alias(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_list_type_alias(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_GenericTypesWithBasicTypes_methodWithMapTypeAlias(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -80,8 +80,8 @@ Java_com_example_smoke_GenericTypesWithBasicTypes_methodWithMapTypeAlias(JNIEnv*
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_map_type_alias(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_map_type_alias(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_GenericTypesWithBasicTypes_methodWithSetTypeAlias(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
@@ -95,8 +95,8 @@ Java_com_example_smoke_GenericTypesWithBasicTypes_methodWithSetTypeAlias(JNIEnv*
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->method_with_set_type_alias(input);
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->method_with_set_type_alias(input);
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 jobject
 Java_com_example_smoke_GenericTypesWithBasicTypes_getListProperty(JNIEnv* _jenv, jobject _jinstance)
@@ -107,8 +107,8 @@ Java_com_example_smoke_GenericTypesWithBasicTypes_getListProperty(JNIEnv* _jenv,
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_list_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_list_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_GenericTypesWithBasicTypes_setListProperty(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
@@ -133,8 +133,8 @@ Java_com_example_smoke_GenericTypesWithBasicTypes_getMapProperty(JNIEnv* _jenv, 
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_map_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_map_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_GenericTypesWithBasicTypes_setMapProperty(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
@@ -159,8 +159,8 @@ Java_com_example_smoke_GenericTypesWithBasicTypes_getSetProperty(JNIEnv* _jenv, 
             ::gluecodium::jni::make_non_releasing_ref(_jinstance),
             "nativeHandle",
             (int64_t*)nullptr));
-    auto result = (*pInstanceSharedPointer)->get_set_property();
-    return ::gluecodium::jni::convert_to_jni(_jenv, result).release();
+    auto _result = (*pInstanceSharedPointer)->get_set_property();
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 void
 Java_com_example_smoke_GenericTypesWithBasicTypes_setSetProperty(JNIEnv* _jenv, jobject _jinstance, jobject jvalue)
