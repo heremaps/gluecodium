@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 10.0.0
+Release date: 2021-10-01
 ### Features:
   * Added support for multiple inheritance in LIME IDL.
 
