@@ -3,6 +3,7 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:meta/meta.dart';
 abstract class PublicClass {
   /// @nodoc
   @Deprecated("Does nothing")
@@ -10,14 +11,18 @@ abstract class PublicClass {
   /// @nodoc
   PublicClass_InternalStruct internal_internalMethod(PublicClass_InternalStruct input);
   /// @nodoc
+  @internal
   PublicClass_InternalStruct get internal_internalStructProperty;
   /// @nodoc
+  @internal
   set internal_internalStructProperty(PublicClass_InternalStruct value);
   String get internalSetterProperty;
   /// @nodoc
+  @internal
   set internal_internalSetterProperty(String value);
 }
 /// @nodoc
+@internal
 enum PublicClass_InternalEnum {
     foo,
     bar
@@ -74,8 +79,10 @@ void smokePublicclassInternalenumReleaseFfiHandleNullable(Pointer<Void> handle) 
   _smokePublicclassInternalenumReleaseHandleNullable(handle);
 // End of PublicClass_InternalEnum "private" section.
 /// @nodoc
+@internal
 class PublicClass_InternalStruct {
   /// @nodoc
+  @internal
   String internal_stringField;
   PublicClass_InternalStruct(this.internal_stringField);
 }
@@ -141,6 +148,7 @@ void smokePublicclassInternalstructReleaseFfiHandleNullable(Pointer<Void> handle
 // End of PublicClass_InternalStruct "private" section.
 class PublicClass_PublicStruct {
   /// @nodoc
+  @internal
   PublicClass_InternalStruct internal_internalField;
   PublicClass_PublicStruct(this.internal_internalField);
 }
@@ -206,6 +214,7 @@ void smokePublicclassPublicstructReleaseFfiHandleNullable(Pointer<Void> handle) 
 // End of PublicClass_PublicStruct "private" section.
 class PublicClass_PublicStructWithInternalDefaults {
   /// @nodoc
+  @internal
   String internal_internalField;
   double publicField;
   PublicClass_PublicStructWithInternalDefaults(this.internal_internalField, this.publicField);
@@ -309,6 +318,7 @@ class PublicClass$Impl extends __lib.NativeBase implements PublicClass {
       smokePublicclassInternalstructReleaseFfiHandle(__resultHandle);
     }
   }
+  @internal
   @override
   PublicClass_InternalStruct get internal_internalStructProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_PublicClass_internalStructProperty_get'));
@@ -320,6 +330,7 @@ class PublicClass$Impl extends __lib.NativeBase implements PublicClass {
       smokePublicclassInternalstructReleaseFfiHandle(__resultHandle);
     }
   }
+  @internal
   @override
   set internal_internalStructProperty(PublicClass_InternalStruct value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PublicClass_internalStructProperty_set__InternalStruct'));
@@ -339,6 +350,7 @@ class PublicClass$Impl extends __lib.NativeBase implements PublicClass {
       stringReleaseFfiHandle(__resultHandle);
     }
   }
+  @internal
   @override
   set internal_internalSetterProperty(String value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PublicClass_internalSetterProperty_set__String'));

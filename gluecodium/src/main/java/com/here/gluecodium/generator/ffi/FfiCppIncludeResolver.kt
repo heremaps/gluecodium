@@ -34,6 +34,7 @@ import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
@@ -60,6 +61,7 @@ internal class FfiCppIncludeResolver(
             is LimeContainer -> getTypeIncludes(limeElement) + getContainerIncludes(limeElement)
             is LimeLambda -> getTypeIncludes(limeElement) + proxyIncludes + isolateContextInclude
             is LimeType -> getTypeIncludes(limeElement)
+            is LimeField -> emptyList()
             else ->
                 throw GluecodiumExecutionException("Unsupported element type ${limeElement.javaClass.name}")
         }

@@ -3,15 +3,20 @@ import 'package:collection/collection.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
+import 'package:meta/meta.dart';
 class EquatableStructWithInternalFields {
   String publicField;
   /// @nodoc
+  @internal
   String internal_internalField;
   /// @nodoc
+  @internal
   List<String> internal_internalListField;
   /// @nodoc
+  @internal
   Map<String, String> internal_internalMapField;
   /// @nodoc
+  @internal
   Set<String> internal_internalSetField;
   EquatableStructWithInternalFields(this.publicField, this.internal_internalField, this.internal_internalListField, this.internal_internalMapField, this.internal_internalSetField);
   @override

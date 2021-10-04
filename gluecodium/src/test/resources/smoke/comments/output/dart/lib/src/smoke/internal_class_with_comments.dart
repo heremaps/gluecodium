@@ -2,8 +2,10 @@ import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
+import 'package:meta/meta.dart';
 /// This looks internal
 /// @nodoc
+@internal
 abstract class InternalClassWithComments {
   /// @nodoc
   @Deprecated("Does nothing")
