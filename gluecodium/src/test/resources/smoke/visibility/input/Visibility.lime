@@ -95,3 +95,8 @@ types DontExportInDart {
         stringField: String
     }
 }
+
+@Skip(Java, Swift)
+class InternalPropertyOnly {
+    internal property foo: String
+}

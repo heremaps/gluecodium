@@ -33,3 +33,7 @@ struct PublicStructWithNonDefaultInternalField {
 internal class InternalClassWithStaticProperty {
     static property fooBar: String
 }
+
+interface WithInternalProperty {
+    internal property foo: String
+}

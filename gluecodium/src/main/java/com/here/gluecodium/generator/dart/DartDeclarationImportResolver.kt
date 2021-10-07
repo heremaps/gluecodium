@@ -47,7 +47,6 @@ internal class DartDeclarationImportResolver(srcPath: String) : DartImportResolv
     private val classInterfaceImports =
         listOf(builtInTypesConversionImport, typeRepositoryImport, tokenCacheImport, nativeBaseImport)
 
-    // TODO: not collected for fields?
     override fun resolveElementImports(limeElement: LimeElement): List<DartImport> {
         if (limeElement !is LimeNamedElement) return emptyList()
 
@@ -75,20 +74,32 @@ internal class DartDeclarationImportResolver(srcPath: String) : DartImportResolv
         ) {
             result += collectionPackageImport
         }
-        if (limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) || limeStruct.functions.isNotEmpty()) {
+        if (limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) || limeStruct.functions.isNotEmpty() ||
+            limeStruct.fields.any { it.visibility.isInternal }
+        ) {
             result += metaPackageImport
         }
         return result
     }
 
-    private fun resolveInterfaceImports(limeInterface: LimeInterface) =
-        classInterfaceImports + if (hasStaticFunctions(limeInterface)) listOf(metaPackageImport) else emptyList()
+    private fun resolveInterfaceImports(limeInterface: LimeInterface): List<DartImport> {
+        val result = classInterfaceImports.toMutableList()
+        if (hasStaticFunctions(limeInterface) || limeInterface.properties.any { it.visibility.isInternal }) {
+            result += metaPackageImport
+        }
+        return result
+    }
 
-    private fun resolveClassImports(limeClass: LimeClass) =
-        when {
+    private fun resolveClassImports(limeClass: LimeClass): List<DartImport> {
+        val result = when {
             limeClass.parents.isNotEmpty() || limeClass.visibility.isOpen -> classInterfaceImports
             else -> listOf(tokenCacheImport, nativeBaseImport)
-        } + if (hasStaticFunctions(limeClass)) listOf(metaPackageImport) else emptyList()
+        }.toMutableList()
+        if (hasStaticFunctions(limeClass) || limeClass.properties.any { it.visibility.isInternal }) {
+            result += listOf(metaPackageImport)
+        }
+        return result
+    }
 
     companion object {
         private val collectionPackageImport = DartImport("collection/collection")
