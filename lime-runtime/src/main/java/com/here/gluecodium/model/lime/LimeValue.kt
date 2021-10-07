@@ -77,12 +77,11 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement() {
     }
 
     class InitializerList(type: LimeTypeRef, val values: List<LimeValue>) : LimeValue(type) {
-        override fun toString(): String {
-            val limeType = typeRef.type.actualType
-            val prefix = if (limeType is LimeGenericType) "[" else "{"
-            val suffix = if (limeType is LimeGenericType) "]" else "}"
-            return values.joinToString(separator = ", ", prefix = prefix, postfix = suffix)
-        }
+        override fun toString() = values.joinToString(separator = ", ", prefix = "[", postfix = "]")
+    }
+
+    class StructInitializer(type: LimeTypeRef, val values: List<LimeValue>) : LimeValue(type) {
+        override fun toString() = values.joinToString(separator = ", ", prefix = "{", postfix = "}")
     }
 
     class KeyValuePair(val key: LimeValue, val value: LimeValue) :

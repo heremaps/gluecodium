@@ -19,12 +19,14 @@
 
 package com.here.gluecodium.generator.java
 
+import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeSet
+import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeValue
 
 internal class JavaValueResolver(private val nameResolver: JavaNameResolver) {
@@ -53,6 +55,7 @@ internal class JavaValueResolver(private val nameResolver: JavaNameResolver) {
             is LimeValue.Special -> mapSpecialValue(limeValue)
             is LimeValue.Null -> "null"
             is LimeValue.InitializerList -> mapInitializerList(limeValue)
+            is LimeValue.StructInitializer -> mapStructInitializer(limeValue)
             is LimeValue.KeyValuePair -> {
                 val keyValue = resolveValue(limeValue.key)
                 val valueValue = resolveValue(limeValue.value)
@@ -79,8 +82,17 @@ internal class JavaValueResolver(private val nameResolver: JavaNameResolver) {
                 }
                 "new HashMap<>($valuesAsList)"
             }
-            else -> "new ${nameResolver.resolveReferenceName(limeType)}($values)"
+            else -> throw GluecodiumExecutionException("Unsupported type ${limeType.javaClass.name} for initializer list")
         }
+    }
+
+    private fun mapStructInitializer(limeValue: LimeValue.StructInitializer): String {
+        val actualType = limeValue.typeRef.type.actualType
+        if (actualType !is LimeStruct) {
+            throw GluecodiumExecutionException("Unsupported type ${actualType.javaClass.name} for struct initializer")
+        }
+        val values = limeValue.values.joinToString(", ") { resolveValue(it) }
+        return "new ${nameResolver.resolveReferenceName(actualType)}($values)"
     }
 
     private fun mapSpecialValue(limeValue: LimeValue.Special): String {
