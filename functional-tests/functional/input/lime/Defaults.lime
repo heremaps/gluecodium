@@ -48,11 +48,11 @@ class Defaults {
         doubleNegativeInfinityField: Double = -Infinity
     }
     struct StructWithEmptyDefaults {
-        intsField: List<Int> = {}
-        floatsField: FloatArray = {}
-        mapField: IdToStringMap = {}
+        intsField: List<Int> = []
+        floatsField: FloatArray = []
+        mapField: IdToStringMap = []
         structField: StructWithDefaults = {}
-        setTypeField: StringSet = {}
+        setTypeField: StringSet = []
     }
     struct StructWithTypedefDefaults {
         intField: IntTypedef = 42

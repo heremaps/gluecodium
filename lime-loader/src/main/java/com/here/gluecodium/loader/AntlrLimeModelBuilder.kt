@@ -632,7 +632,7 @@ internal class AntlrLimeModelBuilder(
                         val fieldTypeRef = LimePositionalTypeRef(limeTypeRef, idx)
                         convertLiteralConstant(fieldTypeRef, childCtx)
                     }
-                return LimeValue.InitializerList(limeTypeRef, values)
+                return LimeValue.StructInitializer(limeTypeRef, values)
             }
             ctx.listInitializer() != null -> {
                 val values = ctx.listInitializer().literalConstant().map {

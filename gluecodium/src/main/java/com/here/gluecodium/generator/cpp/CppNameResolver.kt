@@ -179,8 +179,8 @@ internal class CppNameResolver(
                 "${signPrefix}std::numeric_limits<$typeString>::$valueString()"
             }
             is LimeValue.Null -> "${resolveName(limeValue.typeRef)}()"
-            is LimeValue.InitializerList ->
-                limeValue.values.joinToString(", ", "{", "}") { resolveValue(it) }
+            is LimeValue.InitializerList -> limeValue.values.joinToString(", ", "{", "}") { resolveValue(it) }
+            is LimeValue.StructInitializer -> limeValue.values.joinToString(", ", "{", "}") { resolveValue(it) }
             is LimeValue.KeyValuePair ->
                 "{${resolveValue(limeValue.key)}, ${resolveValue(limeValue.value)}}"
         }

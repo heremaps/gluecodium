@@ -128,16 +128,21 @@ internal class SwiftNameResolver(
                 val actualType = limeValue.typeRef.type.actualType
                 when {
                     actualType is LimeMap && limeValue.values.isEmpty() -> "[:]"
-                    actualType is LimeStruct ->
-                        limeValue.values
-                            .mapIndexed { index, it -> resolveName(actualType.fields[index]) + ": " + resolveValue(it) }
-                            .joinToString(prefix = "${resolveReferenceName(actualType)}(", postfix = ")", separator = ", ")
                     else -> limeValue.values.joinToString(
                         prefix = "[",
                         postfix = "]",
                         separator = ", "
                     ) { resolveValue(it) }
                 }
+            }
+            is LimeValue.StructInitializer -> {
+                val actualType = limeValue.typeRef.type.actualType
+                if (actualType !is LimeStruct) {
+                    throw GluecodiumExecutionException("Unsupported type ${actualType.javaClass.name} for struct initializer")
+                }
+                limeValue.values
+                    .mapIndexed { index, it -> resolveName(actualType.fields[index]) + ": " + resolveValue(it) }
+                    .joinToString(prefix = "${resolveReferenceName(actualType)}(", postfix = ")", separator = ", ")
             }
             is LimeValue.KeyValuePair -> "${resolveValue(limeValue.key)}: ${resolveValue(limeValue.value)}"
         }

@@ -129,13 +129,6 @@ internal class DartNameResolver(
                 val prefix: String
                 val postfix: String
                 when (actualType) {
-                    is LimeStruct -> {
-                        val useDefaultsConstructor =
-                            actualType.fields.isNotEmpty() && limeValue.values.isEmpty()
-                        val constructorName = if (useDefaultsConstructor) ".withDefaults" else ""
-                        prefix = "${resolveName(actualType)}$constructorName("
-                        postfix = ")"
-                    }
                     is LimeList -> {
                         prefix = "["
                         postfix = "]"
@@ -148,6 +141,19 @@ internal class DartNameResolver(
                 limeValue.values.joinToString(
                     prefix = prefix,
                     postfix = postfix,
+                    separator = ", "
+                ) { resolveValue(it) }
+            }
+            is LimeValue.StructInitializer -> {
+                val actualType = limeValue.typeRef.type.actualType
+                if (actualType !is LimeStruct) {
+                    throw GluecodiumExecutionException("Unsupported type ${actualType.javaClass.name} for struct initializer")
+                }
+                val useDefaultsConstructor = actualType.fields.isNotEmpty() && limeValue.values.isEmpty()
+                val constructorName = if (useDefaultsConstructor) ".withDefaults" else ""
+                limeValue.values.joinToString(
+                    prefix = "${resolveName(actualType)}$constructorName(",
+                    postfix = ")",
                     separator = ", "
                 ) { resolveValue(it) }
             }

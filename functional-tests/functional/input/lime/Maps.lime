@@ -24,7 +24,7 @@ class Maps {
         value: String = ""
     }
     struct StructWithMap {
-        errorMapping: ErrorCodeToMessageMap = {}
+        errorMapping: ErrorCodeToMessageMap = []
     }
     enum SomeEnum {
         FooValue,

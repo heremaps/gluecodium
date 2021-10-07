@@ -22,8 +22,9 @@ package com.here.gluecodium.model.lime
 class LimeBasicType(val typeId: TypeId) : LimeType(path = LimePath.EMPTY_PATH) {
     enum class TypeId(
         private val tag: String,
-        @Suppress("unused") val isIntegerType: Boolean = false,
-        @Suppress("unused") val isNumericType: Boolean = isIntegerType
+        val isIntegerType: Boolean = false,
+        val isNumericType: Boolean = isIntegerType,
+        val isLiteralType: Boolean = isNumericType
     ) {
         VOID("Void"),
         INT8("Byte", true),
@@ -36,8 +37,8 @@ class LimeBasicType(val typeId: TypeId) : LimeType(path = LimePath.EMPTY_PATH) {
         UINT64("ULong", true),
         FLOAT("Float", false, true),
         DOUBLE("Double", false, true),
-        BOOLEAN("Boolean"),
-        STRING("String"),
+        BOOLEAN("Boolean", false, false, true),
+        STRING("String", false, false, true),
         BLOB("Blob"),
         DATE("Date"),
         DURATION("Duration"),
