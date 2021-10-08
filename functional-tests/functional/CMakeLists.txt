@@ -458,6 +458,11 @@ feature(Locales cpp android swift dart SOURCES
     input/lime/Locales.lime
 )
 
+feature(CrossPackageNameClash cpp android swift dart SOURCES
+    input/lime/CrossPackageNameClashA.lime
+    input/lime/CrossPackageNameClashB.lime
+)
+
 # OBJECT suits all test variants except swift for linux,
 # because build system can't mix Swift and C++ code in single target
 if (swift IN_LIST GLUECODIUM_GENERATORS_DEFAULT AND NOT CMAKE_GENERATOR STREQUAL "Xcode")

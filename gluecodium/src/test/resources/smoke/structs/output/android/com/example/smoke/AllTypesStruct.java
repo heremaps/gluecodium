@@ -1,6 +1,5 @@
 /*
  *
-
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
@@ -21,8 +20,8 @@ public final class AllTypesStruct {
     @NonNull
     public byte[] bytesField;
     @NonNull
-    public Point pointField;
-    public AllTypesStruct(final byte int8Field, final short uint8Field, final short int16Field, final int uint16Field, final int int32Field, final long uint32Field, final long int64Field, final long uint64Field, final float floatField, final double doubleField, @NonNull final String stringField, final boolean booleanField, @NonNull final byte[] bytesField, @NonNull final Point pointField) {
+    public com.example.smoke.Point pointField;
+    public AllTypesStruct(final byte int8Field, final short uint8Field, final short int16Field, final int uint16Field, final int int32Field, final long uint32Field, final long int64Field, final long uint64Field, final float floatField, final double doubleField, @NonNull final String stringField, final boolean booleanField, @NonNull final byte[] bytesField, @NonNull final com.example.smoke.Point pointField) {
         this.int8Field = int8Field;
         this.uint8Field = uint8Field;
         this.int16Field = int16Field;

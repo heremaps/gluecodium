@@ -120,7 +120,7 @@ public final class Structs extends NativeBase {
     @NonNull
     public static native Structs.AllTypesStruct returnAllTypesStruct(@NonNull final Structs.AllTypesStruct input);
     @NonNull
-    public static native Point createPoint(final double x, final double y);
+    public static native com.example.smoke.Point createPoint(final double x, final double y);
     @NonNull
-    public static native AllTypesStruct modifyAllTypesStruct(@NonNull final AllTypesStruct input);
+    public static native com.example.smoke.AllTypesStruct modifyAllTypesStruct(@NonNull final com.example.smoke.AllTypesStruct input);
 }
