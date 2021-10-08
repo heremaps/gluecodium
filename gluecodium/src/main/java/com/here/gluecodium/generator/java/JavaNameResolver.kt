@@ -60,6 +60,7 @@ internal class JavaNameResolver(
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
 
     private val valueResolver = JavaValueResolver(this)
+    private val duplicateNames = buildDuplicateNames()
     private val limeToJavaNames = buildPathMap()
 
     override fun resolveName(element: Any): String =
@@ -150,9 +151,11 @@ internal class JavaNameResolver(
     private fun resolveNestedNames(limeElement: LimeNamedElement): List<String> {
         val elementName = javaNameRules.getName(limeElement)
         val parentElement = if (limeElement.path.hasParent) getParentElement(limeElement) else null
-        return when (parentElement) {
-            null, is LimeTypesCollection -> listOf(elementName)
-            else -> resolveNestedNames(parentElement) + elementName
+        return when {
+            parentElement != null && parentElement !is LimeTypesCollection ->
+                resolveNestedNames(parentElement) + elementName
+            duplicateNames.contains(elementName) -> resolvePackageNames(limeElement) + elementName
+            else -> listOf(elementName)
         }
     }
 
@@ -246,6 +249,15 @@ internal class JavaNameResolver(
                 limeFunction.parameters.joinToString(prefix = "(", postfix = ")") { resolveName(it.typeRef) }
             else -> ""
         }
+
+    private fun buildDuplicateNames() =
+        limeReferenceMap.values
+            .filterIsInstance<LimeType>()
+            .filterNot { it is LimeTypesCollection || it is LimeTypeAlias }
+            .map { javaNameRules.getName(it) }
+            .groupBy { it }
+            .filterValues { it.size > 1 }
+            .keys
 
     companion object {
         fun normalizePackageName(name: String) = name.replace("_", "")

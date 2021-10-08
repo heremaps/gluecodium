@@ -1,6 +1,5 @@
 /*
  *
-
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
@@ -13,7 +12,7 @@ public final class ImmutableStructWithDefaults {
     @NonNull
     public final String stringField;
     @NonNull
-    public final SomeEnum enumField;
+    public final com.example.smoke.SomeEnum enumField;
     @NonNull
     public final DefaultValues.ExternalEnum externalEnumField;
     public ImmutableStructWithDefaults(final long uintField, final boolean boolField) {
@@ -23,10 +22,10 @@ public final class ImmutableStructWithDefaults {
         this.doubleField = -1.4142;
         this.boolField = boolField;
         this.stringField = "\\Jonny \"Magic\" Smith\n";
-        this.enumField = SomeEnum.BAR_VALUE;
+        this.enumField = com.example.smoke.SomeEnum.BAR_VALUE;
         this.externalEnumField = DefaultValues.ExternalEnum.ANOTHER_VALUE;
     }
-    public ImmutableStructWithDefaults(final int intField, final long uintField, final float floatField, final double doubleField, final boolean boolField, @NonNull final String stringField, @NonNull final SomeEnum enumField, @NonNull final DefaultValues.ExternalEnum externalEnumField) {
+    public ImmutableStructWithDefaults(final int intField, final long uintField, final float floatField, final double doubleField, final boolean boolField, @NonNull final String stringField, @NonNull final com.example.smoke.SomeEnum enumField, @NonNull final DefaultValues.ExternalEnum externalEnumField) {
         this.intField = intField;
         this.uintField = uintField;
         this.floatField = floatField;

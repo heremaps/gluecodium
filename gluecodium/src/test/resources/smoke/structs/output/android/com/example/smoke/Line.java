@@ -1,15 +1,14 @@
 /*
  *
-
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
 public final class Line {
     @NonNull
-    public Point a;
+    public com.example.smoke.Point a;
     @NonNull
-    public Point b;
-    public Line(@NonNull final Point a, @NonNull final Point b) {
+    public com.example.smoke.Point b;
+    public Line(@NonNull final com.example.smoke.Point a, @NonNull final com.example.smoke.Point b) {
         this.a = a;
         this.b = b;
     }

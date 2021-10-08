@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed a compilation issue in Java when two types in different packages have the same name.
+
 ## 10.1.1
 Release date: 2021-10-08
 ### Bug fixes:
