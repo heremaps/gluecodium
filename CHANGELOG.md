@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 10.1.3
+Release date: 2021-10-08
 ### Bug fixes:
   * Fixed a compilation issue in Swift when an internal field in a struct has a type that is an enum or a collection of
     enum values.
