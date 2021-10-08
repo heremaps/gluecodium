@@ -34,7 +34,7 @@
         self.{{resolveName}} = {{resolveName}}
 {{/publicFields}}
 {{#internalFields}}
-        self.{{resolveName}} = {{defaultValue}}
+        self.{{resolveName}} = {{resolveName defaultValue}}
 {{/internalFields}}
     }
 {{/ifPredicate}}{{/unless}}{{!!
