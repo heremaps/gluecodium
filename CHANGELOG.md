@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 10.1.1
+Release date: 2021-10-08
 ### Bug fixes:
   * Added missing "meta" package import for internal properties in Dart.
 
