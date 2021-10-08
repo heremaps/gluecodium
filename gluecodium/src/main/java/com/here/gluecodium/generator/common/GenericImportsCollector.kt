@@ -47,7 +47,7 @@ internal open class GenericImportsCollector<T>(
             if (collectTypeRefImports) collectTypeRefs(allTypes).flatMap { importsResolver.resolveElementImports(it) }
             else emptyList()
         val ownImports =
-            if (collectOwnImports) allTypes.flatMap { collectOwnImports(it) } else emptyList()
+            if (collectOwnImports) allTypes.flatMap { importsResolver.resolveElementImports(it) } else emptyList()
         val parentImports =
             allTypes.filterIsInstance<LimeContainerWithInheritance>()
                 .filter(parentTypeFilter)
@@ -61,11 +61,6 @@ internal open class GenericImportsCollector<T>(
             .flatMap { importsResolver.resolveElementImports(it) }
 
         return typeRefImports + ownImports + parentImports + typeAliasImports + constantImports
-    }
-
-    private fun collectOwnImports(limeType: LimeType): List<T> {
-        val elements = listOf(limeType) + if (limeType is LimeStruct) limeType.fields else emptyList()
-        return elements.flatMap { importsResolver.resolveElementImports(it) }
     }
 
     private fun shouldRetain(limeElement: LimeNamedElement) =
