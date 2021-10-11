@@ -90,10 +90,16 @@ internal func ListenerInterface_copyFromCType(_ handle: _baseRef) -> ListenerInt
     fatalError("Failed to initialize Swift object")
 }
 internal func ListenerInterface_moveFromCType(_ handle: _baseRef) -> ListenerInterface {
-    if let swift_pointer = smoke_ListenerInterface_get_swift_object_from_cache(handle),
-        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ListenerInterface {
-        smoke_ListenerInterface_release_handle(handle)
-        return re_constructed
+    if let swift_pointer = smoke_ListenerInterface_get_swift_object_from_cache(handle) {
+        let re_constructed_uncast = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue()
+        if let re_constructed = re_constructed_uncast as? ListenerInterface {
+            smoke_ListenerInterface_release_handle(handle)
+            return re_constructed
+        }
+        if let weak_value = (re_constructed_uncast as? ListenerInterface_WeakHolder)?.value {
+            smoke_ListenerInterface_release_handle(handle)
+            return weak_value
+        }
     }
     if let swift_pointer = smoke_ListenerInterface_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? ListenerInterface {

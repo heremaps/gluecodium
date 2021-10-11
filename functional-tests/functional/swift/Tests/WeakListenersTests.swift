@@ -97,12 +97,23 @@ class WeakListenersTests: XCTestCase {
         XCTAssertNil(result)
     }
 
+    func testWeakListenerRoundTrip() {
+        let listener = ListenerImpl()
+        let weakling = WeaklingNotifier.createWeakling()
+        weakling.weakListener = listener
+
+        let result = weakling.weakListener
+
+        XCTAssertTrue(result === listener)
+    }
+
     static var allTests = [
         ("testWeaklingIsPushed", testWeaklingIsPushed),
         ("testWeaklingIsIgnored", testWeaklingIsIgnored),
         ("testWeaklingIsPushedStrongly", testWeaklingIsPushedStrongly),
         ("testWeaklingIsNotIgnored", testWeaklingIsNotIgnored),
         ("testWeaklingIsPushedMaybe", testWeaklingIsPushedMaybe),
-        ("testWeaklingIsIgnoredMaybe", testWeaklingIsIgnoredMaybe)
+        ("testWeaklingIsIgnoredMaybe", testWeaklingIsIgnoredMaybe),
+        ("testWeakListenerRoundTrip", testWeakListenerRoundTrip)
     ]
 }
