@@ -110,13 +110,25 @@ extension {{>implName}}: Hashable {
 }
 
 {{conversionVisibility}} func {{resolveName "mangled"}}moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
-{{#instanceOf this "LimeInterface"}}
+{{#instanceOf this "LimeInterface"}}{{#unlessPredicate "hasWeakSupport"}}
     if let swift_pointer = {{resolveName "CBridge"}}_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? {{resolveName this "" "ref"}} {
         {{resolveName "CBridge"}}_release_handle(handle)
         return re_constructed
     }
-{{/instanceOf}}
+{{/unlessPredicate}}{{#ifPredicate "hasWeakSupport"}}
+    if let swift_pointer = {{resolveName "CBridge"}}_get_swift_object_from_cache(handle) {
+        let re_constructed_uncast = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue()
+        if let re_constructed = re_constructed_uncast as? {{resolveName this "" "ref"}} {
+            {{resolveName "CBridge"}}_release_handle(handle)
+            return re_constructed
+        }
+        if let weak_value = (re_constructed_uncast as? {{resolveName this "" "ref"}}_WeakHolder)?.value {
+            {{resolveName "CBridge"}}_release_handle(handle)
+            return weak_value
+        }
+    }
+{{/ifPredicate}}{{/instanceOf}}
     if let swift_pointer = {{resolveName "CBridge"}}_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? {{resolveName this "" "ref"}} {
         {{resolveName "CBridge"}}_release_handle(handle)
