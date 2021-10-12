@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 10.1.4
+Release date: 2021-10-12
 ### Bug fixes:
   * Fixed a runtime issue in Swift when a property marked with `@Swift(Weak)` violated referential equality on a round
     trip.
