@@ -153,7 +153,8 @@ internal class DartGenerator : Generator {
             .distinctBy { ffiNameResolver.resolveName(it) }
             .sortedBy { ffiNameResolver.resolveName(it) }
 
-        val predicates = DartGeneratorPredicates(dartFilteredModel.referenceMap, activeTags).predicates
+        val predicates =
+            DartGeneratorPredicates(dartFilteredModel.referenceMap, activeTags, dartNameResolver).predicates
         val generatedFiles = dartFilteredModel.topElements.flatMap {
             listOfNotNull(
                 generateDart(

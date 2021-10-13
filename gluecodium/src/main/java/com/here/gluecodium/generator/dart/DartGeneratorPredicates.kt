@@ -33,7 +33,11 @@ import com.here.gluecodium.model.lime.LimeType
 /**
  * List of predicates used by `ifPredicate`/`unlessPredicate` template helpers in Dart generator.
  */
-internal class DartGeneratorPredicates(limeReferenceMap: Map<String, LimeElement>, activeTags: Set<String>) {
+internal class DartGeneratorPredicates(
+    limeReferenceMap: Map<String, LimeElement>,
+    activeTags: Set<String>,
+    dartNameResolver: DartNameResolver? = null
+) {
     val predicates = mapOf(
         "hasAnyComment" to { CommonGeneratorPredicates.hasAnyComment(it, "Dart") },
         "hasSingleConstructor" to { limeContainer: Any ->
@@ -44,6 +48,13 @@ internal class DartGeneratorPredicates(limeReferenceMap: Map<String, LimeElement
             }
         },
         "hasStaticFunctions" to { CommonGeneratorPredicates.hasStaticFunctions(it) },
+        "needsAliasPrefix" to { limeType: Any ->
+            when {
+                limeType !is LimeType -> false
+                dartNameResolver == null -> false
+                else -> dartNameResolver.typesWithDuplicateNames.contains(limeType.fullName)
+            }
+        },
         "needsPrivateAllFieldsCtor" to { limeStruct: Any ->
             when {
                 limeStruct !is LimeStruct -> false

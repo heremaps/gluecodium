@@ -15,7 +15,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-package test.foo
+package smoke.foo
 
 @Swift("Iphabet")
 enum Alphabet {

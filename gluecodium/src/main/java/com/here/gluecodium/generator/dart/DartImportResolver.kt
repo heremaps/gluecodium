@@ -81,7 +81,13 @@ internal class DartImportResolver(
     private fun createImport(limeElement: LimeNamedElement): DartImport {
         val filePath = limeElement.path.head.joinToString("/")
         val fileName = nameResolver.resolveFileName(getTopElement(limeElement))
-        return DartImport("$srcPath/$filePath/$fileName")
+        val alias = when {
+            limeElement !is LimeType -> null
+            nameResolver.typesWithDuplicateNames.contains(limeElement.fullName) ->
+                limeElement.path.head.joinToString("_")
+            else -> null
+        }
+        return DartImport("$srcPath/$filePath/$fileName", asAlias = alias)
     }
 
     private fun resolveBasicTypeImports(limeType: LimeBasicType) =

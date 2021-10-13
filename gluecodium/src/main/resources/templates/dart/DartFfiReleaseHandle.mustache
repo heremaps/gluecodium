@@ -25,5 +25,6 @@
 }}{{#isNotEq typeId.toString "Void"}}{{resolveName typeId.toString "Ffi"}}ReleaseFfiHandle({{varName}});{{/isNotEq}}{{!!
 }}{{/unless}}{{/unless}}{{/instanceOf}}{{!!
 }}{{#notInstanceOf this "LimeBasicType"}}{{!!
+}}{{#ifPredicate "needsAliasPrefix"}}{{join path.head delimiter="_"}}.{{/ifPredicate}}{{!!
 }}{{resolveName "Ffi"}}ReleaseFfiHandle{{#if typeRef.isNullable}}Nullable{{/if}}({{varName}});{{/notInstanceOf}}{{!!
 }}{{/typeRef.type.actualType}}
