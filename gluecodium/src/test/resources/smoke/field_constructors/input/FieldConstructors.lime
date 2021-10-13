@@ -78,3 +78,15 @@ struct FieldCustomConstructorsMix {
     @Dart(Default)
     constructor createMe(intValue: Int, dummy: Double)
 }
+
+struct FieldConstructorsInternalFields {
+    stringField: String = "nonsense"
+    intField: Int = 42
+    internal boolField: Boolean = true
+    @Dart("withAll")
+    field constructor()
+    @Dart("withTrue")
+    field constructor(intField, stringField)
+    @Dart(Default)
+    field constructor(boolField, intField, stringField)
+}
