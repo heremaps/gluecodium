@@ -35,10 +35,19 @@
 }}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}._({{>thisDotFields}});
 {{/if}}{{!!
 
-}}{{#unless constructors}}{{#unless allFieldsConstructor}}{{!!
+}}{{#unless constructors}}{{#unless fieldConstructors}}{{#ifPredicate "needsPublicFieldsConstructor"}}{{!!
+}}{{>constructorComment}}{{!!
+}}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}({{!!
+}}{{#publicFields}}this.{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/publicFields}}) : {{!!
+}}{{#internalFields}}{{resolveName visibility}}{{resolveName}} = {{resolveName defaultValue}}{{#if iter.hasNext}}, {{/if}}{{/internalFields}};
+{{/ifPredicate}}{{/unless}}{{!!
+
+}}{{#unless allFieldsConstructor}}{{!!
 }}{{>constructorComment}}{{!!
 }}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{!!
-}}{{#ifPredicate "needsPrivateAllFieldsCtor"}}._{{/ifPredicate}}({{>thisDotFields}});
+}}{{#ifPredicate "needsPrivateAllFieldsCtor"}}._{{/ifPredicate}}{{!!
+}}{{#unlessPredicate "needsPrivateAllFieldsCtor"}}{{#ifPredicate "needsPublicFieldsConstructor"}}.allFields{{/ifPredicate}}{{/unlessPredicate}}{{!!
+}}({{>thisDotFields}});
 {{/unless}}{{/unless}}{{!!
 
 }}{{/unless}}

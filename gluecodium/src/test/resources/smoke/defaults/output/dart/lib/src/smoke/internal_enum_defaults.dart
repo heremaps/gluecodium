@@ -12,7 +12,8 @@ class InternalEnumDefaults {
   /// @nodoc
   @internal
   List<FooBarEnum> internal_internalListField;
-  InternalEnumDefaults(this.publicField, this.publicListField, this.internal_internalField, this.internal_internalListField);
+  InternalEnumDefaults(this.publicField, this.publicListField) : internal_internalField = FooBarEnum.bar, internal_internalListField = [FooBarEnum.foo, FooBarEnum.bar, FooBarEnum.baz];
+  InternalEnumDefaults.allFields(this.publicField, this.publicListField, this.internal_internalField, this.internal_internalListField);
   InternalEnumDefaults.withDefaults()
     : publicField = FooBarEnum.foo, publicListField = [FooBarEnum.foo, FooBarEnum.bar, FooBarEnum.baz], internal_internalField = FooBarEnum.bar, internal_internalListField = [FooBarEnum.foo, FooBarEnum.bar, FooBarEnum.baz];
 }
@@ -59,7 +60,7 @@ InternalEnumDefaults smokeInternalenumdefaultsFromFfi(Pointer<Void> handle) {
   final _internalFieldHandle = _smokeInternalenumdefaultsGetFieldinternalField(handle);
   final _internalListFieldHandle = _smokeInternalenumdefaultsGetFieldinternalListField(handle);
   try {
-    return InternalEnumDefaults(
+    return InternalEnumDefaults.allFields(
       smokeFoobarenumFromFfi(_publicFieldHandle),
       listofSmokeFoobarenumFromFfi(_publicListFieldHandle),
       smokeFoobarenumFromFfi(_internalFieldHandle),
