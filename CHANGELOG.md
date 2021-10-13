@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 10.1.5
+Release date: 2021-10-13
 ### Bug fixes:
   * Fixed a compilation issue in Dart when "field constructors" are used in the presence of "internal" fields.
 
