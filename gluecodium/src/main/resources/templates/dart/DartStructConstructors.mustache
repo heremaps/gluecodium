@@ -68,7 +68,7 @@
 {{/if}}{{>dart/DartAttributes}}{{!!
 }}  {{#if struct.attributes.immutable}}const {{/if}}{{resolveName struct}}{{#if external.dart.converter}}Internal{{/if}}{{!!
 }}{{>dart/DartConstructorName}}({{>thisDotFields}}){{#if omittedFields}}
-      : {{#omittedFields}}{{resolveName}} = {{resolveName defaultValue}}{{#if iter.hasNext}}, {{/if}}{{/omittedFields}}{{/if}};
+      : {{#omittedFields}}{{resolveName visibility}}{{resolveName}} = {{resolveName defaultValue}}{{#if iter.hasNext}}, {{/if}}{{/omittedFields}}{{/if}};
 {{/fieldConstructors}}{{/set}}{{!!
 
 }}{{+constPrefix}}{{#set type=typeRef.type.actualType}}{{!!
