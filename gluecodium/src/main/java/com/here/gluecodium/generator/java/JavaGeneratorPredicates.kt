@@ -20,7 +20,7 @@
 package com.here.gluecodium.generator.java
 
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
-import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeInterface
@@ -57,7 +57,7 @@ internal object JavaGeneratorPredicates {
         },
         "needsAllFieldsConstructor" to { limeStruct: Any ->
             limeStruct is LimeStruct &&
-                !limeStruct.attributes.have(LimeAttributeType.JAVA, LimeAttributeValueType.POSITIONAL_DEFAULTS) &&
+                !limeStruct.attributes.have(JAVA, LimeAttributeValueType.POSITIONAL_DEFAULTS) &&
                 CommonGeneratorPredicates.needsAllFieldsConstructor(limeStruct)
         },
         "needsDisposer" to { limeClass: Any ->
@@ -66,6 +66,7 @@ internal object JavaGeneratorPredicates {
         "needsNonNullAnnotation" to { limeTypeRef ->
             limeTypeRef is LimeTypeRef && !limeTypeRef.isNullable &&
                 JavaImportResolver.needsNonNullAnnotation(limeTypeRef.type.actualType)
-        }
+        },
+        "needsPublicFieldsConstructor" to { CommonGeneratorPredicates.needsPublicFieldsConstructor(it, JAVA) },
     )
 }

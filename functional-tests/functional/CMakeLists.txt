@@ -423,6 +423,7 @@ feature(Lambdas cpp android swift dart SOURCES
 
 feature(Visibility dart SOURCES
     input/lime/Visibility.lime
+    input/lime/InternalFields.lime
 
     input/src/cpp/Visibility.cpp
 )

@@ -20,6 +20,7 @@
 package com.here.gluecodium.generator.common
 
 import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeFieldConstructor
@@ -91,6 +92,12 @@ internal object CommonGeneratorPredicates {
             limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) -> limeStruct.allFieldsConstructor == null
             else -> false
         }
+
+    fun needsPublicFieldsConstructor(limeStruct: Any, platformAttribute: LimeAttributeType) =
+        limeStruct is LimeStruct &&
+            !limeStruct.attributes.have(platformAttribute, LimeAttributeValueType.POSITIONAL_DEFAULTS) &&
+            limeStruct.internalFields.isNotEmpty() && limeStruct.internalFields.all { it.defaultValue != null } &&
+            limeStruct.publicFields.any { it.defaultValue != null }
 
     private fun getAllFieldTypes(limeType: LimeType) = getAllFieldTypesRec(getLeafType(limeType), mutableSetOf())
 

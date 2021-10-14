@@ -56,15 +56,12 @@ class LimeStruct(
     val initializedFields
         get() = fields.filter { it.defaultValue != null }
 
-    @Suppress("unused")
     val uninitializedFields
         get() = fields.filter { it.defaultValue == null }
 
-    @Suppress("unused")
     val publicFields
         get() = fields.filter { !it.visibility.isInternal }
 
-    @Suppress("unused")
     val internalFields
         get() = fields.filter { it.visibility.isInternal }
 

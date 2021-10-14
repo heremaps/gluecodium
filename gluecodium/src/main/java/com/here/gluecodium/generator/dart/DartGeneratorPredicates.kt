@@ -53,6 +53,7 @@ internal class DartGeneratorPredicates(limeReferenceMap: Map<String, LimeElement
                 else -> !limeStruct.attributes.have(IMMUTABLE)
             }
         },
+        "needsPublicFieldsConstructor" to { CommonGeneratorPredicates.needsPublicFieldsConstructor(it, DART) },
         "skipDeclaration" to { limeType: Any ->
             limeType is LimeType && limeType.external?.dart != null &&
                 limeType.external?.dart?.get(LimeExternalDescriptor.CONVERTER_NAME) == null

@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed an issue where a "public fields only" constructor was sometimes missing for structs with a mix of "public" and
+    "internal" fields in Java and Dart.
+
 ## 10.1.5
 Release date: 2021-10-13
 ### Bug fixes:
