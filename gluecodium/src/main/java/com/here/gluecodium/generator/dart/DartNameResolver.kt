@@ -58,7 +58,17 @@ internal class DartNameResolver(
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
 
     private val joinInfix = nameRules.ruleSet.joinInfix ?: ""
-    private val limeToDartNames = buildPathMap()
+    private val duplicateNames: Set<String>
+    private val limeToDartNames: Map<String, String>
+
+    val typesWithDuplicateNames: Set<String>
+
+    init {
+        val duplicateNamesMap = buildDuplicateNames()
+        duplicateNames = duplicateNamesMap.keys
+        typesWithDuplicateNames = duplicateNamesMap.values.flatten().map { it.fullName }.toSet()
+        limeToDartNames = buildPathMap()
+    }
 
     override fun resolveName(element: Any): String =
         when (element) {
@@ -71,7 +81,7 @@ internal class DartNameResolver(
             is LimeGenericType -> resolveGenericType(element)
             is LimeTypeRef -> resolveTypeRefName(element)
             is LimeTypeAlias -> resolveName(element.typeRef)
-            is LimeType -> resolveType(element)
+            is LimeType -> resolveTypeName(element)
             is LimeNamedElement -> getPlatformName(element)
             else ->
                 throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
@@ -79,8 +89,7 @@ internal class DartNameResolver(
 
     override fun resolveReferenceName(element: Any) =
         when (element) {
-            is LimeTypeRef -> resolveTypeRefName(element)
-            is LimeType -> resolveTypeRefName(LimeDirectTypeRef(element))
+            is LimeType -> resolveTypeRefName(LimeDirectTypeRef(element), ignoreDuplicates = true)
             else -> null
         }
 
@@ -110,11 +119,7 @@ internal class DartNameResolver(
     private fun resolveValue(limeValue: LimeValue): String =
         when (limeValue) {
             is LimeValue.Literal -> limeValue.toString()
-            is LimeValue.Enumerator -> {
-                val enumerator = limeValue.valueRef.enumerator
-                val enumeration = getParentElement(enumerator)
-                "${resolveName(enumeration)}.${resolveName(enumerator)}"
-            }
+            is LimeValue.Enumerator -> "${resolveName(limeValue.typeRef)}.${resolveName(limeValue.valueRef.enumerator)}"
             is LimeValue.Special -> {
                 val specialName = when (limeValue.value) {
                     LimeValue.Special.ValueId.NAN -> "nan"
@@ -152,7 +157,7 @@ internal class DartNameResolver(
                 val useDefaultsConstructor = actualType.fields.isNotEmpty() && limeValue.values.isEmpty()
                 val constructorName = if (useDefaultsConstructor) ".withDefaults" else ""
                 limeValue.values.joinToString(
-                    prefix = "${resolveName(actualType)}$constructorName(",
+                    prefix = "${resolveName(limeValue.typeRef)}$constructorName(",
                     postfix = ")",
                     separator = ", "
                 ) { resolveValue(it) }
@@ -172,13 +177,13 @@ internal class DartNameResolver(
             )
         }
 
-    private fun resolveType(limeType: LimeType): String {
+    private fun resolveTypeName(limeType: LimeType): String {
         val typeName = getPlatformName(limeType)
-        val parentType = if (limeType.path.hasParent) getParentElement(limeType) else null
+        val parentType = if (limeType.path.hasParent) getParentElement(limeType) as? LimeType else null
         return when (parentType) {
             null -> listOf(typeName)
             is LimeTypesCollection -> listOf(typeName)
-            else -> listOf(resolveName(parentType), typeName)
+            else -> listOf(resolveTypeName(parentType), typeName)
         }.joinToString(joinInfix)
     }
 
@@ -211,9 +216,15 @@ internal class DartNameResolver(
         return "${resolveFullName(parentElement)}.${resolveName(limeElement)}"
     }
 
-    private fun resolveTypeRefName(limeTypeRef: LimeTypeRef): String {
+    private fun resolveTypeRefName(limeTypeRef: LimeTypeRef, ignoreDuplicates: Boolean = false): String {
         val typeName = resolveName(limeTypeRef.type)
-        val alias = limeTypeRef.type.actualType.external?.dart?.get(IMPORT_PATH_NAME)?.let { computeAlias(it) }
+        val importPath = limeTypeRef.type.actualType.external?.dart?.get(IMPORT_PATH_NAME)
+        val alias = when {
+            importPath != null -> computeAlias(importPath)
+            ignoreDuplicates -> null
+            duplicateNames.contains(typeName) -> limeTypeRef.type.actualType.path.head.joinToString("_")
+            else -> null
+        }
         val suffix = if (limeTypeRef.isNullable) "?" else ""
         return listOfNotNull(alias, typeName).joinToString(".") + suffix
     }
@@ -240,6 +251,14 @@ internal class DartNameResolver(
 
         return result
     }
+
+    private fun buildDuplicateNames() =
+        limeReferenceMap.values
+            .filterIsInstance<LimeType>()
+            .filterNot { it is LimeTypesCollection || it is LimeTypeAlias }
+            .filter { it.external?.dart == null }
+            .groupBy { resolveTypeName(it) }
+            .filterValues { it.size > 1 }
 
     companion object {
         private val END_OF_SENTENCE = "\\.\\s+".toRegex()

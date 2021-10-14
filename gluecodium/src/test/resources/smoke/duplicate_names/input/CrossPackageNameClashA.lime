@@ -15,11 +15,15 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-package test.foo
+package smoke
 
-@Swift("Iphabet")
 enum Alphabet {
-    ALPHA,
-    BETA,
-    GAMMA
+    A,
+    B,
+    C
+}
+
+struct LearnToRead {
+    fieldA: smoke.Alphabet = smoke.Alphabet.A
+    fieldB: smoke.foo.Alphabet = smoke.foo.Alphabet.BETA
 }

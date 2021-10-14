@@ -24,5 +24,6 @@
 }}{{#unless typeRef.isNullable}}{{#unless typeId.isNumericType}}{{!!
 }}{{#isNotEq typeId.toString "Void"}}{{resolveName typeId.toString "Ffi"}}{{call}}{{/isNotEq}}{{!!
 }}{{/unless}}{{/unless}}{{/instanceOf}}{{!!
-}}{{#notInstanceOf this "LimeBasicType"}}{{resolveName "Ffi"}}{{call}}{{#if typeRef.isNullable}}Nullable{{/if}}{{/notInstanceOf}}{{!!
+}}{{#notInstanceOf this "LimeBasicType"}}{{#ifPredicate "needsAliasPrefix"}}{{join path.head delimiter="_"}}.{{/ifPredicate}}{{!!
+}}{{resolveName "Ffi"}}{{call}}{{#if typeRef.isNullable}}Nullable{{/if}}{{/notInstanceOf}}{{!!
 }}{{/typeRef.type.actualType}}
