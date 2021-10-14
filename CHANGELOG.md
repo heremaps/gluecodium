@@ -5,6 +5,7 @@
   * Fixed an issue where a "public fields only" constructor was sometimes missing for structs with a mix of "public" and
     "internal" fields in Java and Dart.
   * Fixed a compilation issue in Dart when two types in different packages have the same name.
+  * Fixed an extraneous include in Dart FFI caused by a "tag-in-platform" skip.
 
 ## 10.1.5
 Release date: 2021-10-13

@@ -33,3 +33,10 @@ struct SomeSkippedStruct {
 class SomeSkippedClass {
     fun doFoo(): dont.smoke.DontSmokeEnum
 }
+
+class SkippedFunctionClass {
+    @Java(Skip = "Lite")
+    @Swift(Skip = "Lite")
+    @Dart(Skip = "Lite")
+    fun doFoo(input: dont.smoke.DontSmokeEnum)
+}

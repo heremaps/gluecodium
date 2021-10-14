@@ -140,9 +140,14 @@ internal class DartGenerator : Generator {
         val importsCollector = DartImportsCollector(importResolver)
         val declarationImportsCollector = GenericImportsCollector(declarationImportResolver, collectOwnImports = true)
 
+        val generatorPredicates = DartGeneratorPredicates(dartFilteredModel.referenceMap, activeTags, dartNameResolver)
         val includeResolver = FfiCppIncludeResolver(ffiFilteredModel.referenceMap, cppNameRules, internalNamespace)
-        val includeCollector =
-            GenericImportsCollector(includeResolver, collectTypeRefImports = true, collectOwnImports = true)
+        val includeCollector = GenericImportsCollector(
+            includeResolver,
+            retainPredicate = { generatorPredicates.shouldRetain(it) },
+            collectTypeRefImports = true,
+            collectOwnImports = true
+        )
 
         val exportsCollector = mutableMapOf<List<String>, MutableList<DartExport>>()
         val typeRepositoriesCollector = mutableListOf<LimeContainerWithInheritance>()
@@ -153,13 +158,11 @@ internal class DartGenerator : Generator {
             .distinctBy { ffiNameResolver.resolveName(it) }
             .sortedBy { ffiNameResolver.resolveName(it) }
 
-        val predicates =
-            DartGeneratorPredicates(dartFilteredModel.referenceMap, activeTags, dartNameResolver).predicates
         val generatedFiles = dartFilteredModel.topElements.flatMap {
             listOfNotNull(
                 generateDart(
                     it, dartResolvers, dartNameResolver, listOf(importsCollector, declarationImportsCollector),
-                    exportsCollector, typeRepositoriesCollector, predicates
+                    exportsCollector, typeRepositoriesCollector, generatorPredicates.predicates
                 )
             )
         } + ffiFilteredModel.topElements.flatMap {

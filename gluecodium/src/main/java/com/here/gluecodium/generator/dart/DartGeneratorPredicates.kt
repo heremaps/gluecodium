@@ -34,8 +34,8 @@ import com.here.gluecodium.model.lime.LimeType
  * List of predicates used by `ifPredicate`/`unlessPredicate` template helpers in Dart generator.
  */
 internal class DartGeneratorPredicates(
-    limeReferenceMap: Map<String, LimeElement>,
-    activeTags: Set<String>,
+    private val limeReferenceMap: Map<String, LimeElement>,
+    private val activeTags: Set<String>,
     dartNameResolver: DartNameResolver? = null
 ) {
     val predicates = mapOf(
@@ -70,8 +70,10 @@ internal class DartGeneratorPredicates(
                 limeType.external?.dart?.get(LimeExternalDescriptor.CONVERTER_NAME) == null
         },
         "shouldRetain" to { limeElement: Any ->
-            limeElement is LimeNamedElement &&
-                LimeModelSkipPredicates.shouldRetainCheckParent(limeElement, activeTags, DART, limeReferenceMap)
+            limeElement is LimeNamedElement && shouldRetain(limeElement)
         }
     )
+
+    fun shouldRetain(limeElement: LimeNamedElement) =
+        LimeModelSkipPredicates.shouldRetainCheckParent(limeElement, activeTags, DART, limeReferenceMap)
 }
