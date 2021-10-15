@@ -7,7 +7,6 @@
 #include "ProxyCache.h"
 #include "gluecodium/TypeRepository.h"
 #include "smoke/SkipProxy.h"
-#include "smoke/SkippedEverywhere.h"
 #include <memory>
 #include <string>
 #include <memory>

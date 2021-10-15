@@ -36,10 +36,22 @@ types SkipTypesTags {
   }
 
   const PlaceHolder: Boolean = true
+
+  @Java(Skip = "Lite")
+  @Swift(Skip = "Lite")
+  @Dart(Skip = "Lite")
+  enum SkipPlatform { N0 }
 }
 
 struct SkipField {
   `field`: String
   @Skip(Lite)
   noField: SkipTypesTags.SkipMe
+}
+
+class SkippedFunctionClass {
+    @Java(Skip = "Lite")
+    @Swift(Skip = "Lite")
+    @Dart(Skip = "Lite")
+    fun doFoo(input: SkipTypesTags.SkipPlatform)
 }
