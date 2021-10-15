@@ -94,7 +94,7 @@
     @Deprecated
 {{/if}}{{/ifPredicate}}
 {{prefixPartial "java/JavaAttributes" "    "}}
-    {{#struct}}{{>structVisibility}}{{/struct}}{{resolveName struct}}({{!!
+    {{resolveName visibility}}{{resolveName struct}}({{!!
     }}{{#set noAttributes=true}}{{joinPartial fields "java/JavaParameter" ", "}}{{/set}}) {
 {{#fields}}        this.{{resolveName}} = {{resolveName}};
 {{/fields}}

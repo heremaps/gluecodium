@@ -66,7 +66,7 @@ constructor
     ;
 
 fieldConstructor
-    : docComment* annotation* 'field' NewLine* 'constructor' NewLine*
+    : docComment* annotation* visibility? 'field' NewLine* 'constructor' NewLine*
       '(' NewLine* (simpleId NewLine* (',' NewLine* simpleId NewLine*)*)? ')' NewLine*
     ;
 

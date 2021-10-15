@@ -88,3 +88,24 @@ struct FieldConstructorsInternalFields {
     @Dart("withTrue")
     field constructor(intField, stringField)
 }
+
+struct FieldConstructorsInternal {
+    publicField: String = "foo"
+    internal internalField: Double = 42
+    @Dart("withAll")
+    internal field constructor()
+    @Dart("withFortyTwo")
+    internal field constructor(publicField)
+    @Dart("withFoo")
+    internal field constructor(internalField)
+    @Dart(Default)
+    internal field constructor(internalField, publicField)
+}
+
+struct FieldConstructorsExposeInternal {
+    internal internalField: String = "bar"
+    @Dart("withAll")
+    internal field constructor()
+    @Dart(Default)
+    field constructor(internalField)
+}

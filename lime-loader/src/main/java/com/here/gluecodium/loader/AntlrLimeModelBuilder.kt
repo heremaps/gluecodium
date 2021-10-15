@@ -269,7 +269,7 @@ internal class AntlrLimeModelBuilder(
             else -> throw LimeLoadingException("Invalid syntax context: '$ctx'")
         }
         pathStack.push(currentPath.child("", idx.toString()))
-        visibilityStack.push(currentVisibility)
+        visibilityStack.push(convertVisibility(ctx.visibility(), visibilityStack.peek()))
         structuredCommentsStack.push(parseStructuredComment(ctx.docComment(), ctx))
     }
 
@@ -277,6 +277,7 @@ internal class AntlrLimeModelBuilder(
         val structTypeRef = LimeLazyTypeRef(currentPath.parent.toString(), referenceResolver.referenceMap)
         val limeElement = LimeFieldConstructor(
             path = currentPath,
+            visibility = currentVisibility,
             comment = structuredCommentsStack.peek().description,
             attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation()),
             structRef = structTypeRef,
