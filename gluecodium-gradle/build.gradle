@@ -9,7 +9,7 @@ repositories {
 dependencies {
     implementation project(":gluecodium")
 
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.4.32'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.31'
     implementation('com.android.tools.build:gradle:4.1.2') {
         exclude group: 'net.sf.proguard', module: 'proguard-gradle'
     }
