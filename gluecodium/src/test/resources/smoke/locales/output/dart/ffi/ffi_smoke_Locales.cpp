@@ -60,7 +60,8 @@ library_smoke_Locales_release_handle(FfiOpaqueHandle handle) {
 }
 FfiOpaqueHandle
 library_smoke_Locales_LocaleStruct_create_handle(FfiOpaqueHandle localeField) {
-    auto _result = new (std::nothrow) smoke::Locales::LocaleStruct(gluecodium::ffi::Conversion<gluecodium::Locale>::toCpp(localeField));
+    auto _result = new (std::nothrow) smoke::Locales::LocaleStruct();
+    _result->locale_field = gluecodium::ffi::Conversion<gluecodium::Locale>::toCpp(localeField);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void

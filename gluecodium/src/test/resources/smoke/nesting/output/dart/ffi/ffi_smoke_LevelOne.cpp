@@ -103,7 +103,8 @@ library_smoke_LevelOne_LevelTwo_LevelThree_release_handle(FfiOpaqueHandle handle
 }
 FfiOpaqueHandle
 library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_create_handle(FfiOpaqueHandle stringField) {
-    auto _result = new (std::nothrow) smoke::LevelOne::LevelTwo::LevelThree::LevelFour(gluecodium::ffi::Conversion<std::string>::toCpp(stringField));
+    auto _result = new (std::nothrow) smoke::LevelOne::LevelTwo::LevelThree::LevelFour();
+    _result->string_field = gluecodium::ffi::Conversion<std::string>::toCpp(stringField);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void

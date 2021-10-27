@@ -15,7 +15,17 @@ extern "C" {
 #endif
 FfiOpaqueHandle
 library_smoke_Equatable_EquatableStruct_create_handle(bool boolField, int32_t intField, int64_t longField, float floatField, double doubleField, FfiOpaqueHandle stringField, FfiOpaqueHandle structField, uint32_t enumField, FfiOpaqueHandle arrayField, FfiOpaqueHandle mapField) {
-    auto _result = new (std::nothrow) smoke::EquatableStruct(gluecodium::ffi::Conversion<bool>::toCpp(boolField), gluecodium::ffi::Conversion<int32_t>::toCpp(intField), gluecodium::ffi::Conversion<int64_t>::toCpp(longField), gluecodium::ffi::Conversion<float>::toCpp(floatField), gluecodium::ffi::Conversion<double>::toCpp(doubleField), gluecodium::ffi::Conversion<std::string>::toCpp(stringField), gluecodium::ffi::Conversion<smoke::NestedEquatableStruct>::toCpp(structField), gluecodium::ffi::Conversion<smoke::SomeEnum>::toCpp(enumField), gluecodium::ffi::Conversion<std::vector<std::string>>::toCpp(arrayField), gluecodium::ffi::Conversion<std::unordered_map<int32_t, std::string>>::toCpp(mapField));
+    auto _result = new (std::nothrow) smoke::EquatableStruct();
+    _result->bool_field = gluecodium::ffi::Conversion<bool>::toCpp(boolField);
+    _result->int_field = gluecodium::ffi::Conversion<int32_t>::toCpp(intField);
+    _result->long_field = gluecodium::ffi::Conversion<int64_t>::toCpp(longField);
+    _result->float_field = gluecodium::ffi::Conversion<float>::toCpp(floatField);
+    _result->double_field = gluecodium::ffi::Conversion<double>::toCpp(doubleField);
+    _result->string_field = gluecodium::ffi::Conversion<std::string>::toCpp(stringField);
+    _result->struct_field = gluecodium::ffi::Conversion<smoke::NestedEquatableStruct>::toCpp(structField);
+    _result->enum_field = gluecodium::ffi::Conversion<smoke::SomeEnum>::toCpp(enumField);
+    _result->array_field = gluecodium::ffi::Conversion<std::vector<std::string>>::toCpp(arrayField);
+    _result->map_field = gluecodium::ffi::Conversion<std::unordered_map<int32_t, std::string>>::toCpp(mapField);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void
@@ -105,7 +115,16 @@ library_smoke_Equatable_EquatableStruct_get_value_nullable(FfiOpaqueHandle handl
 }
 FfiOpaqueHandle
 library_smoke_Equatable_EquatableNullableStruct_create_handle(FfiOpaqueHandle boolField, FfiOpaqueHandle intField, FfiOpaqueHandle uintField, FfiOpaqueHandle floatField, FfiOpaqueHandle stringField, FfiOpaqueHandle structField, FfiOpaqueHandle enumField, FfiOpaqueHandle arrayField, FfiOpaqueHandle mapField) {
-    auto _result = new (std::nothrow) smoke::EquatableNullableStruct(gluecodium::ffi::Conversion<gluecodium::optional<bool>>::toCpp(boolField), gluecodium::ffi::Conversion<gluecodium::optional<int32_t>>::toCpp(intField), gluecodium::ffi::Conversion<gluecodium::optional<uint16_t>>::toCpp(uintField), gluecodium::ffi::Conversion<gluecodium::optional<float>>::toCpp(floatField), gluecodium::ffi::Conversion<gluecodium::optional<std::string>>::toCpp(stringField), gluecodium::ffi::Conversion<gluecodium::optional<smoke::NestedEquatableStruct>>::toCpp(structField), gluecodium::ffi::Conversion<gluecodium::optional<smoke::SomeEnum>>::toCpp(enumField), gluecodium::ffi::Conversion<gluecodium::optional<std::vector<std::string>>>::toCpp(arrayField), gluecodium::ffi::Conversion<gluecodium::optional<std::unordered_map<int32_t, std::string>>>::toCpp(mapField));
+    auto _result = new (std::nothrow) smoke::EquatableNullableStruct();
+    _result->bool_field = gluecodium::ffi::Conversion<gluecodium::optional<bool>>::toCpp(boolField);
+    _result->int_field = gluecodium::ffi::Conversion<gluecodium::optional<int32_t>>::toCpp(intField);
+    _result->uint_field = gluecodium::ffi::Conversion<gluecodium::optional<uint16_t>>::toCpp(uintField);
+    _result->float_field = gluecodium::ffi::Conversion<gluecodium::optional<float>>::toCpp(floatField);
+    _result->string_field = gluecodium::ffi::Conversion<gluecodium::optional<std::string>>::toCpp(stringField);
+    _result->struct_field = gluecodium::ffi::Conversion<gluecodium::optional<smoke::NestedEquatableStruct>>::toCpp(structField);
+    _result->enum_field = gluecodium::ffi::Conversion<gluecodium::optional<smoke::SomeEnum>>::toCpp(enumField);
+    _result->array_field = gluecodium::ffi::Conversion<gluecodium::optional<std::vector<std::string>>>::toCpp(arrayField);
+    _result->map_field = gluecodium::ffi::Conversion<gluecodium::optional<std::unordered_map<int32_t, std::string>>>::toCpp(mapField);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void
@@ -189,7 +208,8 @@ library_smoke_Equatable_EquatableNullableStruct_get_value_nullable(FfiOpaqueHand
 }
 FfiOpaqueHandle
 library_smoke_Equatable_NestedEquatableStruct_create_handle(FfiOpaqueHandle fooField) {
-    auto _result = new (std::nothrow) smoke::NestedEquatableStruct(gluecodium::ffi::Conversion<std::string>::toCpp(fooField));
+    auto _result = new (std::nothrow) smoke::NestedEquatableStruct();
+    _result->foo_field = gluecodium::ffi::Conversion<std::string>::toCpp(fooField);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void

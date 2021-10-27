@@ -167,7 +167,8 @@ library_smoke_Properties_release_handle(FfiOpaqueHandle handle) {
 }
 FfiOpaqueHandle
 library_smoke_Properties_ExampleStruct_create_handle(double value) {
-    auto _result = new (std::nothrow) smoke::Properties::ExampleStruct(gluecodium::ffi::Conversion<double>::toCpp(value));
+    auto _result = new (std::nothrow) smoke::Properties::ExampleStruct();
+    _result->value = gluecodium::ffi::Conversion<double>::toCpp(value);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void

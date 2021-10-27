@@ -40,6 +40,7 @@ internal class DartGeneratorPredicates(
 ) {
     val predicates = mapOf(
         "hasAnyComment" to { CommonGeneratorPredicates.hasAnyComment(it, "Dart") },
+        "hasImmutableFields" to { CommonGeneratorPredicates.hasImmutableFields(it) },
         "hasSingleConstructor" to { limeContainer: Any ->
             when (limeContainer) {
                 !is LimeContainer -> false

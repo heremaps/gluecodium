@@ -10,7 +10,8 @@ extern "C" {
 #endif
 FfiOpaqueHandle
 library_smoke_StructWithClass_create_handle(FfiOpaqueHandle classInstance) {
-    auto _result = new (std::nothrow) smoke::StructWithClass(gluecodium::ffi::Conversion<std::shared_ptr<smoke::SimpleClass>>::toCpp(classInstance));
+    auto _result = new (std::nothrow) smoke::StructWithClass();
+    _result->class_instance = gluecodium::ffi::Conversion<std::shared_ptr<smoke::SimpleClass>>::toCpp(classInstance);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void

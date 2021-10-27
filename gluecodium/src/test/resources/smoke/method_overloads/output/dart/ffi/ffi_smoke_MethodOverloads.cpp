@@ -131,7 +131,9 @@ library_smoke_MethodOverloads_release_handle(FfiOpaqueHandle handle) {
 }
 FfiOpaqueHandle
 library_smoke_MethodOverloads_Point_create_handle(double x, double y) {
-    auto _result = new (std::nothrow) smoke::MethodOverloads::Point(gluecodium::ffi::Conversion<double>::toCpp(x), gluecodium::ffi::Conversion<double>::toCpp(y));
+    auto _result = new (std::nothrow) smoke::MethodOverloads::Point();
+    _result->x = gluecodium::ffi::Conversion<double>::toCpp(x);
+    _result->y = gluecodium::ffi::Conversion<double>::toCpp(y);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void

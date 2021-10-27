@@ -108,7 +108,8 @@ library_smoke_TypeDefs_release_handle(FfiOpaqueHandle handle) {
 }
 FfiOpaqueHandle
 library_smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_create_handle(double field) {
-    auto _result = new (std::nothrow) smoke::TypeDefs::StructHavingAliasFieldDefinedBelow(gluecodium::ffi::Conversion<double>::toCpp(field));
+    auto _result = new (std::nothrow) smoke::TypeDefs::StructHavingAliasFieldDefinedBelow();
+    _result->field = gluecodium::ffi::Conversion<double>::toCpp(field);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void
@@ -144,7 +145,8 @@ library_smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_get_value_nullable(Ffi
 }
 FfiOpaqueHandle
 library_smoke_TypeDefs_TestStruct_create_handle(FfiOpaqueHandle something) {
-    auto _result = new (std::nothrow) smoke::TypeDefs::TestStruct(gluecodium::ffi::Conversion<std::string>::toCpp(something));
+    auto _result = new (std::nothrow) smoke::TypeDefs::TestStruct();
+    _result->something = gluecodium::ffi::Conversion<std::string>::toCpp(something);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void

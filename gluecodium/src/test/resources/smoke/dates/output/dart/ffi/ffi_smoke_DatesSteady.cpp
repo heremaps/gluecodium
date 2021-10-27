@@ -68,7 +68,9 @@ library_smoke_DatesSteady_release_handle(FfiOpaqueHandle handle) {
 }
 FfiOpaqueHandle
 library_smoke_DatesSteady_DateStruct_create_handle(uint64_t dateField, FfiOpaqueHandle nullableDateField) {
-    auto _result = new (std::nothrow) smoke::DatesSteady::DateStruct(gluecodium::ffi::Conversion<std::chrono::steady_clock::time_point>::toCpp(dateField), gluecodium::ffi::Conversion<gluecodium::optional<std::chrono::steady_clock::time_point>>::toCpp(nullableDateField));
+    auto _result = new (std::nothrow) smoke::DatesSteady::DateStruct();
+    _result->date_field = gluecodium::ffi::Conversion<std::chrono::steady_clock::time_point>::toCpp(dateField);
+    _result->nullable_date_field = gluecodium::ffi::Conversion<gluecodium::optional<std::chrono::steady_clock::time_point>>::toCpp(nullableDateField);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void
