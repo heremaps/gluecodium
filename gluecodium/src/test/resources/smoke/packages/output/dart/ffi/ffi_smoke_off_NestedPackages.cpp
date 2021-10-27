@@ -46,7 +46,8 @@ library_smoke_off_NestedPackages_release_handle(FfiOpaqueHandle handle) {
 }
 FfiOpaqueHandle
 library_smoke_off_NestedPackages_SomeStruct_create_handle(FfiOpaqueHandle someField) {
-    auto _result = new (std::nothrow) smoke::off::NestedPackages::SomeStruct(gluecodium::ffi::Conversion<std::string>::toCpp(someField));
+    auto _result = new (std::nothrow) smoke::off::NestedPackages::SomeStruct();
+    _result->some_field = gluecodium::ffi::Conversion<std::string>::toCpp(someField);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void

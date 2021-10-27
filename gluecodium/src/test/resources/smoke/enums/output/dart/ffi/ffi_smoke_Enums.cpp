@@ -3,7 +3,7 @@
 #include "InstanceCache.h"
 #include "FinalizerData.h"
 #include "IsolateContext.h"
-#include "smoke\Enums.h"
+#include "smoke/Enums.h"
 #include <memory>
 #include <string>
 #include <memory>
@@ -74,7 +74,9 @@ library_smoke_Enums_release_handle(FfiOpaqueHandle handle) {
 }
 FfiOpaqueHandle
 library_smoke_Enums_ErrorStruct_create_handle(uint32_t type, FfiOpaqueHandle message) {
-    auto _result = new (std::nothrow) smoke::Enums::ErrorStruct(gluecodium::ffi::Conversion<smoke::Enums::InternalErrorCode>::toCpp(type), gluecodium::ffi::Conversion<std::string>::toCpp(message));
+    auto _result = new (std::nothrow) smoke::Enums::ErrorStruct();
+    _result->type = gluecodium::ffi::Conversion<smoke::Enums::InternalErrorCode>::toCpp(type);
+    _result->message = gluecodium::ffi::Conversion<std::string>::toCpp(message);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void

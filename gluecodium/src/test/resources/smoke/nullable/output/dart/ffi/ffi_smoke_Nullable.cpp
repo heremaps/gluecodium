@@ -274,7 +274,8 @@ library_smoke_Nullable_release_handle(FfiOpaqueHandle handle) {
 }
 FfiOpaqueHandle
 library_smoke_Nullable_SomeStruct_create_handle(FfiOpaqueHandle stringField) {
-    auto _result = new (std::nothrow) smoke::Nullable::SomeStruct(gluecodium::ffi::Conversion<std::string>::toCpp(stringField));
+    auto _result = new (std::nothrow) smoke::Nullable::SomeStruct();
+    _result->string_field = gluecodium::ffi::Conversion<std::string>::toCpp(stringField);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void
@@ -310,7 +311,16 @@ library_smoke_Nullable_SomeStruct_get_value_nullable(FfiOpaqueHandle handle)
 }
 FfiOpaqueHandle
 library_smoke_Nullable_NullableStruct_create_handle(FfiOpaqueHandle stringField, FfiOpaqueHandle boolField, FfiOpaqueHandle doubleField, FfiOpaqueHandle structField, FfiOpaqueHandle enumField, FfiOpaqueHandle arrayField, FfiOpaqueHandle inlineArrayField, FfiOpaqueHandle mapField, FfiOpaqueHandle instanceField) {
-    auto _result = new (std::nothrow) smoke::Nullable::NullableStruct(gluecodium::ffi::Conversion<gluecodium::optional<std::string>>::toCpp(stringField), gluecodium::ffi::Conversion<gluecodium::optional<bool>>::toCpp(boolField), gluecodium::ffi::Conversion<gluecodium::optional<double>>::toCpp(doubleField), gluecodium::ffi::Conversion<gluecodium::optional<smoke::Nullable::SomeStruct>>::toCpp(structField), gluecodium::ffi::Conversion<gluecodium::optional<smoke::Nullable::SomeEnum>>::toCpp(enumField), gluecodium::ffi::Conversion<gluecodium::optional<std::vector<std::string>>>::toCpp(arrayField), gluecodium::ffi::Conversion<gluecodium::optional<std::vector<std::string>>>::toCpp(inlineArrayField), gluecodium::ffi::Conversion<gluecodium::optional<std::unordered_map<int64_t, std::string>>>::toCpp(mapField), gluecodium::ffi::Conversion<std::shared_ptr<smoke::SomeInterface>>::toCpp(instanceField));
+    auto _result = new (std::nothrow) smoke::Nullable::NullableStruct();
+    _result->string_field = gluecodium::ffi::Conversion<gluecodium::optional<std::string>>::toCpp(stringField);
+    _result->bool_field = gluecodium::ffi::Conversion<gluecodium::optional<bool>>::toCpp(boolField);
+    _result->double_field = gluecodium::ffi::Conversion<gluecodium::optional<double>>::toCpp(doubleField);
+    _result->struct_field = gluecodium::ffi::Conversion<gluecodium::optional<smoke::Nullable::SomeStruct>>::toCpp(structField);
+    _result->enum_field = gluecodium::ffi::Conversion<gluecodium::optional<smoke::Nullable::SomeEnum>>::toCpp(enumField);
+    _result->array_field = gluecodium::ffi::Conversion<gluecodium::optional<std::vector<std::string>>>::toCpp(arrayField);
+    _result->inline_array_field = gluecodium::ffi::Conversion<gluecodium::optional<std::vector<std::string>>>::toCpp(inlineArrayField);
+    _result->map_field = gluecodium::ffi::Conversion<gluecodium::optional<std::unordered_map<int64_t, std::string>>>::toCpp(mapField);
+    _result->instance_field = gluecodium::ffi::Conversion<std::shared_ptr<smoke::SomeInterface>>::toCpp(instanceField);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void
@@ -394,7 +404,15 @@ library_smoke_Nullable_NullableStruct_get_value_nullable(FfiOpaqueHandle handle)
 }
 FfiOpaqueHandle
 library_smoke_Nullable_NullableIntsStruct_create_handle(FfiOpaqueHandle int8Field, FfiOpaqueHandle int16Field, FfiOpaqueHandle int32Field, FfiOpaqueHandle int64Field, FfiOpaqueHandle uint8Field, FfiOpaqueHandle uint16Field, FfiOpaqueHandle uint32Field, FfiOpaqueHandle uint64Field) {
-    auto _result = new (std::nothrow) smoke::Nullable::NullableIntsStruct(gluecodium::ffi::Conversion<gluecodium::optional<int8_t>>::toCpp(int8Field), gluecodium::ffi::Conversion<gluecodium::optional<int16_t>>::toCpp(int16Field), gluecodium::ffi::Conversion<gluecodium::optional<int32_t>>::toCpp(int32Field), gluecodium::ffi::Conversion<gluecodium::optional<int64_t>>::toCpp(int64Field), gluecodium::ffi::Conversion<gluecodium::optional<uint8_t>>::toCpp(uint8Field), gluecodium::ffi::Conversion<gluecodium::optional<uint16_t>>::toCpp(uint16Field), gluecodium::ffi::Conversion<gluecodium::optional<uint32_t>>::toCpp(uint32Field), gluecodium::ffi::Conversion<gluecodium::optional<uint64_t>>::toCpp(uint64Field));
+    auto _result = new (std::nothrow) smoke::Nullable::NullableIntsStruct();
+    _result->int8_field = gluecodium::ffi::Conversion<gluecodium::optional<int8_t>>::toCpp(int8Field);
+    _result->int16_field = gluecodium::ffi::Conversion<gluecodium::optional<int16_t>>::toCpp(int16Field);
+    _result->int32_field = gluecodium::ffi::Conversion<gluecodium::optional<int32_t>>::toCpp(int32Field);
+    _result->int64_field = gluecodium::ffi::Conversion<gluecodium::optional<int64_t>>::toCpp(int64Field);
+    _result->uint8_field = gluecodium::ffi::Conversion<gluecodium::optional<uint8_t>>::toCpp(uint8Field);
+    _result->uint16_field = gluecodium::ffi::Conversion<gluecodium::optional<uint16_t>>::toCpp(uint16Field);
+    _result->uint32_field = gluecodium::ffi::Conversion<gluecodium::optional<uint32_t>>::toCpp(uint32Field);
+    _result->uint64_field = gluecodium::ffi::Conversion<gluecodium::optional<uint64_t>>::toCpp(uint64Field);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void

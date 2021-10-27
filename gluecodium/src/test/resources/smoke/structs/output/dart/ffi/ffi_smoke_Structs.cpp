@@ -78,7 +78,9 @@ library_smoke_Structs_release_handle(FfiOpaqueHandle handle) {
 }
 FfiOpaqueHandle
 library_smoke_Structs_Point_create_handle(double x, double y) {
-    auto _result = new (std::nothrow) smoke::Structs::Point(gluecodium::ffi::Conversion<double>::toCpp(x), gluecodium::ffi::Conversion<double>::toCpp(y));
+    auto _result = new (std::nothrow) smoke::Structs::Point();
+    _result->x = gluecodium::ffi::Conversion<double>::toCpp(x);
+    _result->y = gluecodium::ffi::Conversion<double>::toCpp(y);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void
@@ -120,7 +122,9 @@ library_smoke_Structs_Point_get_value_nullable(FfiOpaqueHandle handle)
 }
 FfiOpaqueHandle
 library_smoke_Structs_Line_create_handle(FfiOpaqueHandle a, FfiOpaqueHandle b) {
-    auto _result = new (std::nothrow) smoke::Structs::Line(gluecodium::ffi::Conversion<smoke::Structs::Point>::toCpp(a), gluecodium::ffi::Conversion<smoke::Structs::Point>::toCpp(b));
+    auto _result = new (std::nothrow) smoke::Structs::Line();
+    _result->a = gluecodium::ffi::Conversion<smoke::Structs::Point>::toCpp(a);
+    _result->b = gluecodium::ffi::Conversion<smoke::Structs::Point>::toCpp(b);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void
@@ -420,7 +424,8 @@ library_smoke_Structs_ImmutableStructWithCppAccessors_get_value_nullable(FfiOpaq
 }
 FfiOpaqueHandle
 library_smoke_Structs_MutableStructWithCppAccessors_create_handle(FfiOpaqueHandle stringField) {
-    auto _result = new (std::nothrow) smoke::Structs::MutableStructWithCppAccessors(gluecodium::ffi::Conversion<std::string>::toCpp(stringField));
+    auto _result = new (std::nothrow) smoke::Structs::MutableStructWithCppAccessors();
+    _result->set_string_field(gluecodium::ffi::Conversion<std::string>::toCpp(stringField));
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void

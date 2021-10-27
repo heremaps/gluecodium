@@ -219,7 +219,8 @@ library_smoke_ListenersWithReturnValues_create_proxy(uint64_t token, int32_t iso
 }
 FfiOpaqueHandle
 library_smoke_ListenersWithReturnValues_ResultStruct_create_handle(double result) {
-    auto _result = new (std::nothrow) smoke::ListenersWithReturnValues::ResultStruct(gluecodium::ffi::Conversion<double>::toCpp(result));
+    auto _result = new (std::nothrow) smoke::ListenersWithReturnValues::ResultStruct();
+    _result->result = gluecodium::ffi::Conversion<double>::toCpp(result);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void

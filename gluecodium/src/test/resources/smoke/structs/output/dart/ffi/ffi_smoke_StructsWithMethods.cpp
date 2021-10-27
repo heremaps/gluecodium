@@ -94,7 +94,9 @@ library_smoke_StructsWithMethods_Vector_create__ULong(int32_t _isolate_id, uint6
 }
 FfiOpaqueHandle
 library_smoke_StructsWithMethods_Vector_create_handle(double x, double y) {
-    auto _result = new (std::nothrow) smoke::Vector(gluecodium::ffi::Conversion<double>::toCpp(x), gluecodium::ffi::Conversion<double>::toCpp(y));
+    auto _result = new (std::nothrow) smoke::Vector();
+    _result->x = gluecodium::ffi::Conversion<double>::toCpp(x);
+    _result->y = gluecodium::ffi::Conversion<double>::toCpp(y);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void

@@ -311,7 +311,8 @@ library_smoke_ListenerWithProperties_create_proxy(uint64_t token, int32_t isolat
 }
 FfiOpaqueHandle
 library_smoke_ListenerWithProperties_ResultStruct_create_handle(double result) {
-    auto _result = new (std::nothrow) smoke::ListenerWithProperties::ResultStruct(gluecodium::ffi::Conversion<double>::toCpp(result));
+    auto _result = new (std::nothrow) smoke::ListenerWithProperties::ResultStruct();
+    _result->result = gluecodium::ffi::Conversion<double>::toCpp(result);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void

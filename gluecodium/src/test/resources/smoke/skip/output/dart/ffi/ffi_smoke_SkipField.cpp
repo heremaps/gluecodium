@@ -9,7 +9,8 @@ extern "C" {
 #endif
 FfiOpaqueHandle
 library_smoke_SkipField_create_handle(FfiOpaqueHandle field) {
-    auto _result = new (std::nothrow) smoke::SkipField(gluecodium::ffi::Conversion<std::string>::toCpp(field));
+    auto _result = new (std::nothrow) smoke::SkipField();
+    _result->field = gluecodium::ffi::Conversion<std::string>::toCpp(field);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void

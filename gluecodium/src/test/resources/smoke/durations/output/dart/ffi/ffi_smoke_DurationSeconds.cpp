@@ -71,7 +71,8 @@ library_smoke_DurationSeconds_release_handle(FfiOpaqueHandle handle) {
 }
 FfiOpaqueHandle
 library_smoke_DurationSeconds_DurationStruct_create_handle(uint64_t durationField) {
-    auto _result = new (std::nothrow) smoke::DurationSeconds::DurationStruct(gluecodium::ffi::Conversion<std::chrono::seconds>::toCpp(durationField));
+    auto _result = new (std::nothrow) smoke::DurationSeconds::DurationStruct();
+    _result->duration_field = gluecodium::ffi::Conversion<std::chrono::seconds>::toCpp(durationField);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void

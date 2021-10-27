@@ -178,7 +178,8 @@ library_smoke_OuterStruct_InnerInterface_create_proxy(uint64_t token, int32_t is
 }
 FfiOpaqueHandle
 library_smoke_OuterStruct_create_handle(FfiOpaqueHandle field) {
-    auto _result = new (std::nothrow) smoke::OuterStruct(gluecodium::ffi::Conversion<std::string>::toCpp(field));
+    auto _result = new (std::nothrow) smoke::OuterStruct();
+    _result->field = gluecodium::ffi::Conversion<std::string>::toCpp(field);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void
@@ -214,7 +215,8 @@ library_smoke_OuterStruct_get_value_nullable(FfiOpaqueHandle handle)
 }
 FfiOpaqueHandle
 library_smoke_OuterStruct_InnerStruct_create_handle(FfiOpaqueHandle otherField) {
-    auto _result = new (std::nothrow) smoke::OuterStruct::InnerStruct(gluecodium::ffi::Conversion<std::vector<std::chrono::system_clock::time_point>>::toCpp(otherField));
+    auto _result = new (std::nothrow) smoke::OuterStruct::InnerStruct();
+    _result->other_field = gluecodium::ffi::Conversion<std::vector<std::chrono::system_clock::time_point>>::toCpp(otherField);
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 void
