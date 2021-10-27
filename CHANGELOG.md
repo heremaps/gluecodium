@@ -1,5 +1,8 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+  * Fixed compilation issue in Dart for fields marked with `@Dart(EnableIf)`.
+
 ## 10.1.6
 Release date: 2021-10-15
 ### Bug fixes:

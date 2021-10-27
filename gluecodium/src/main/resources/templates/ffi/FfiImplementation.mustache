@@ -137,9 +137,15 @@ FfiOpaqueHandle
 {{#nonExternalStructs}}
 FfiOpaqueHandle
 {{libraryName}}_{{resolveName}}_create_handle({{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
+{{#ifPredicate "hasImmutableFields"}}
     auto _result = new (std::nothrow) {{resolveName "C++"}}({{!!
     }}{{#if allFieldsConstructor}}{{#allFieldsConstructor}}{{joinPartial fields "ffiFieldToCpp" ", "}}{{/allFieldsConstructor}}{{/if}}{{!!
     }}{{#unless allFieldsConstructor}}{{joinPartial fields "ffiFieldToCpp" ", "}}{{/unless}});
+{{/ifPredicate}}
+{{#unlessPredicate "hasImmutableFields"}}
+    auto _result = new (std::nothrow) {{resolveName "C++"}}();
+{{#set struct=this}}{{#fields}}{{>ffiSetCppField}}{{/fields}}{{/set}}
+{{/unlessPredicate}}
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 
@@ -149,15 +155,7 @@ FfiOpaqueHandle
 FfiOpaqueHandle
 {{libraryName}}_{{resolveName}}_create_handle({{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
     auto _result = new (std::nothrow) {{resolveName "C++"}}();
-{{#set parent=this}}{{#fields}}
-{{#if parent.attributes.cpp.accessors}}
-    _result->{{resolveName this "C++" "setter"}}({{>ffiFieldToCpp}});
-{{/if}}{{#unless parent.attributes.cpp.accessors}}{{#if external.cpp.setterName}}
-    _result->{{resolveName this "C++" "setter"}}({{>ffiFieldToCpp}});
-{{/if}}{{#unless external.cpp.setterName}}
-    _result->{{resolveName "C++"}} = {{>ffiFieldToCpp}};
-{{/unless}}{{/unless}}
-{{/fields}}{{/set}}
+{{#set struct=this}}{{#fields}}{{>ffiSetCppField}}{{/fields}}{{/set}}
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 
@@ -343,4 +341,14 @@ bool
 {{/ffiClassImpl}}{{!!
 
 }}{{+cppHandleType}}{{#instanceOf this "LimeLambda"}}{{resolveName "C++"}}{{/instanceOf}}{{!!
-}}{{#notInstanceOf this "LimeLambda"}}std::shared_ptr<{{resolveName "C++"}}>{{/notInstanceOf}}{{/cppHandleType}}
+}}{{#notInstanceOf this "LimeLambda"}}std::shared_ptr<{{resolveName "C++"}}>{{/notInstanceOf}}{{/cppHandleType}}{{!!
+
+}}{{+ffiSetCppField}}
+{{#if struct.attributes.cpp.accessors}}
+    _result->{{resolveName this "C++" "setter"}}({{>ffiFieldToCpp}});
+{{/if}}{{#unless struct.attributes.cpp.accessors}}{{#if external.cpp.setterName}}
+    _result->{{resolveName this "C++" "setter"}}({{>ffiFieldToCpp}});
+{{/if}}{{#unless external.cpp.setterName}}
+    _result->{{resolveName "C++"}} = {{>ffiFieldToCpp}};
+{{/unless}}{{/unless}}
+{{/ffiSetCppField}}

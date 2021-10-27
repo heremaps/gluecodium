@@ -46,3 +46,12 @@ interface EnableTagsInDart {
     @Dart(EnableIf = ["Lite", "Pro"])
     fun enableTaggedList()
 }
+
+struct EnableIfField {
+    intField: Int
+    @Java(EnableIf = "Pro")
+    @Swift(EnableIf = "Pro")
+    @Dart(EnableIf = "Pro")
+    stringField: String
+    boolField: Boolean
+}
