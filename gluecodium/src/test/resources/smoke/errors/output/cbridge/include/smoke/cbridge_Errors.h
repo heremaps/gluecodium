@@ -6,23 +6,20 @@ extern "C" {
 #endif
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/Export.h"
-#include "cbridge/include/smoke/cbridge_Payload.h"
 #include <stdbool.h>
 #include <stdint.h>
-typedef uint32_t smoke_Errors_InternalErrorCode;
-typedef uint32_t smoke_Errors_ExternalErrors;
 typedef struct {
     bool has_value;
-    smoke_Errors_InternalErrorCode error_value;
+    uint32_t error_value;
 } smoke_Errors_methodWithErrors_result;
 typedef struct {
     bool has_value;
-    smoke_Errors_ExternalErrors error_value;
+    uint32_t error_value;
 } smoke_Errors_methodWithExternalErrors_result;
 typedef struct {
     bool has_value;
     union {
-        smoke_Errors_InternalErrorCode error_value;
+        uint32_t error_value;
         _baseRef returned_value;
     };
 } smoke_Errors_methodWithErrorsAndReturnValue_result;

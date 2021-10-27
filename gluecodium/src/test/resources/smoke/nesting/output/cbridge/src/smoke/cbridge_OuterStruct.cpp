@@ -178,5 +178,5 @@ const void* smoke_OuterStruct_InnerInterface_get_swift_object_from_cache(_baseRe
 }
 smoke_OuterStruct_doNothing_result smoke_OuterStruct_doNothing(_baseRef _instance) {
     auto&& ERROR_VALUE = get_pointer<::smoke::OuterStruct>(_instance)->do_nothing().value();
-    return {ERROR_VALUE == 0, static_cast< smoke_OuterStruct_InnerEnum >(ERROR_VALUE)};
+    return {ERROR_VALUE == 0, static_cast< uint32_t >(ERROR_VALUE)};
 }

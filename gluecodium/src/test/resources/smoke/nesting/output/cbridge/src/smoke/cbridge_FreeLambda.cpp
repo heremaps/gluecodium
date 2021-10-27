@@ -18,8 +18,8 @@ _baseRef smoke_FreeLambda_copy_handle(_baseRef handle) {
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<::smoke::FreeLambda>(handle)))
         : 0;
 }
-smoke_FreeEnum smoke_FreeLambda_call(_baseRef _instance, double p0) {
-    return static_cast<smoke_FreeEnum>(get_pointer<::smoke::FreeLambda>(_instance)->operator()(Conversion<::std::chrono::system_clock::time_point>::toCpp(p0)));
+uint32_t smoke_FreeLambda_call(_baseRef _instance, double p0) {
+    return static_cast<uint32_t>(get_pointer<::smoke::FreeLambda>(_instance)->operator()(Conversion<::std::chrono::system_clock::time_point>::toCpp(p0)));
 }
 class smoke_FreeLambdaProxy : public CachedProxyBase<smoke_FreeLambdaProxy> {
 public:

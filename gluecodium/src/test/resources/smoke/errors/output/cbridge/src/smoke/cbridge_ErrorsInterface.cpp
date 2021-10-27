@@ -50,18 +50,18 @@ void* smoke_ErrorsInterface_get_typed(_baseRef handle) {
 }
 smoke_ErrorsInterface_methodWithErrors_result smoke_ErrorsInterface_methodWithErrors(_baseRef _instance) {
     auto&& ERROR_VALUE = get_pointer<::std::shared_ptr< ::smoke::ErrorsInterface >>(_instance)->get()->method_with_errors().value();
-    return {ERROR_VALUE == 0, static_cast< smoke_ErrorsInterface_InternalError >(ERROR_VALUE)};
+    return {ERROR_VALUE == 0, static_cast< uint32_t >(ERROR_VALUE)};
 }
 smoke_ErrorsInterface_methodWithExternalErrors_result smoke_ErrorsInterface_methodWithExternalErrors(_baseRef _instance) {
     auto&& ERROR_VALUE = get_pointer<::std::shared_ptr< ::smoke::ErrorsInterface >>(_instance)->get()->method_with_external_errors().value();
-    return {ERROR_VALUE == 0, static_cast< smoke_ErrorsInterface_ExternalErrors >(ERROR_VALUE)};
+    return {ERROR_VALUE == 0, static_cast< uint32_t >(ERROR_VALUE)};
 }
 smoke_ErrorsInterface_methodWithErrorsAndReturnValue_result smoke_ErrorsInterface_methodWithErrorsAndReturnValue(_baseRef _instance) {
     auto&& RESULT = get_pointer<::std::shared_ptr< ::smoke::ErrorsInterface >>(_instance)->get()->method_with_errors_and_return_value();
     if (RESULT.has_value()) {
         return {.has_value = true, .returned_value = Conversion<::std::string>::toBaseRef(RESULT.unsafe_value())};
     } else {
-        return {.has_value = false, .error_value = static_cast< smoke_ErrorsInterface_InternalError >(RESULT.error().value())};
+        return {.has_value = false, .error_value = static_cast< uint32_t >(RESULT.error().value())};
     }
 }
 smoke_ErrorsInterface_methodWithPayloadError_result smoke_ErrorsInterface_methodWithPayloadError() {

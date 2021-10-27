@@ -29,6 +29,6 @@ void smoke_Enums_remove_swift_object_from_wrapper_cache(_baseRef handle) {
     if (!::gluecodium::WrapperCache::is_alive) return;
     ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::Enums >>(handle)->get());
 }
-void smoke_Enums_methodWithExternalEnum(smoke_Enums_ExternalEnum input) {
+void smoke_Enums_methodWithExternalEnum(uint32_t input) {
     return ::smoke::Enums::method_with_external_enum(static_cast<::smoke::Enums::External_Enum>(input));
 }

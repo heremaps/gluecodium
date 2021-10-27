@@ -84,7 +84,7 @@ internal class CBridgeNameResolver(
         if (limeTypeRef.isNullable) return HANDLE
         return when (val limeType = limeTypeRef.type.actualType) {
             is LimeBasicType -> resolveBasicType(limeType.typeId)
-            is LimeEnumeration -> resolveName(limeType)
+            is LimeEnumeration -> "uint32_t"
             else -> HANDLE
         }
     }

@@ -18,10 +18,6 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#enumerations}}
-{{>cbridge/CBridgeEnumeration}}
-{{/enumerations}}
-
 {{#functions}}{{#ifPredicate "shouldRetain"}}{{#if thrownType}}{{>cbridge/ThrowingFunctionReturnType}}
 {{/if}}{{/ifPredicate}}{{/functions}}
 

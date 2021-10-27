@@ -8,11 +8,10 @@ extern "C" {
 #include "cbridge/include/Export.h"
 #include <stdbool.h>
 #include <stdint.h>
-typedef uint32_t namerules_INameRules_IExampleErrorCode;
 typedef struct {
     bool has_value;
     union {
-        namerules_INameRules_IExampleErrorCode error_value;
+        uint32_t error_value;
         double returned_value;
     };
 } namerules_INameRules_someMethod_result;

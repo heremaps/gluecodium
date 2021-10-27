@@ -40,7 +40,7 @@ namerules_INameRules_someMethod_result namerules_INameRules_someMethod(_baseRef 
     if (RESULT.has_value()) {
         return {.has_value = true, .returned_value = RESULT.unsafe_value()};
     } else {
-        return {.has_value = false, .error_value = static_cast< namerules_INameRules_IExampleErrorCode >(RESULT.error().value())};
+        return {.has_value = false, .error_value = static_cast< uint32_t >(RESULT.error().value())};
     }
 }
 uint32_t namerules_INameRules_intPropertyPod_get(_baseRef _instance) {
