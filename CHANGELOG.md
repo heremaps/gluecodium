@@ -2,6 +2,7 @@
 
 ## Unreleased
   * Fixed compilation issue in Dart for fields marked with `@Dart(EnableIf)`.
+  * Fixed compilation issue in Swift when a function/property referring to an enum is skipped in an interface.
 
 ## 10.1.6
 Release date: 2021-10-15

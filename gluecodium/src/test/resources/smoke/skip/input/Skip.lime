@@ -61,6 +61,8 @@ interface SkipProxy {
 
     @Java(Skip) @Swift(Skip) @Dart(Skip)
     property skippedEverywhere: SkippedEverywhere
+    @Java(Skip) @Swift(Skip) @Dart(Skip)
+    property skippedEverywhereToo: SkippedEverywhereEnum
 }
 
 @Java(Skip) @Swift(Skip) @Dart(Skip)
@@ -68,6 +70,11 @@ struct SkippedEverywhere {
     nothingToSeeHere: String
 
     fun useMapInDart(foo: Map<Int, SkipTypes.NotInDart>)
+}
+
+@Java(Skip) @Swift(Skip) @Dart(Skip)
+enum SkippedEverywhereEnum {
+    nothingToSeeHere
 }
 
 interface InheritFromSkipped: SkipProxy { }

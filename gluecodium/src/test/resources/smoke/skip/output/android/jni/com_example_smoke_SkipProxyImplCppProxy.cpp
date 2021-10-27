@@ -110,5 +110,12 @@ com_example_smoke_SkipProxy_CppProxy::get_skipped_everywhere(  ) const {
 void
 com_example_smoke_SkipProxy_CppProxy::set_skipped_everywhere( const ::smoke::SkippedEverywhere& nvalue ) {
 }
+::smoke::SkippedEverywhereEnum
+com_example_smoke_SkipProxy_CppProxy::get_skipped_everywhere_too(  ) const {
+    return {};
+}
+void
+com_example_smoke_SkipProxy_CppProxy::set_skipped_everywhere_too( const ::smoke::SkippedEverywhereEnum nvalue ) {
+}
 }
 }

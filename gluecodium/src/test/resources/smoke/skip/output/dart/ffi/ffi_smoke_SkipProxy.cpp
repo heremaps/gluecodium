@@ -104,6 +104,13 @@ public:
     void
     set_skipped_everywhere(const smoke::SkippedEverywhere& value) override {
     }
+    smoke::SkippedEverywhereEnum
+    get_skipped_everywhere_too() const override {
+        return {};
+    }
+    void
+    set_skipped_everywhere_too(const smoke::SkippedEverywhereEnum value) override {
+    }
 private:
     const uint64_t token;
     const int32_t isolate_id;
