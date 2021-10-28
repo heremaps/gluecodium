@@ -78,3 +78,10 @@ enum SkippedEverywhereEnum {
 }
 
 interface InheritFromSkipped: SkipProxy { }
+
+struct SkipFieldInPlatform {
+    intField: Int
+    @Java(Skip) @Swift(Skip) @Dart(Skip)
+    stringField: String
+    boolField: Boolean
+}

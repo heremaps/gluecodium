@@ -23,6 +23,7 @@ import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeType.DART
+import com.here.gluecodium.model.lime.LimeAttributeType.IMMUTABLE
 import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
 import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
@@ -30,6 +31,7 @@ import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeStruct
 
 /**
  * Validate fields and enumerators against having a platform-skip attribute.
@@ -37,9 +39,9 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 internal class LimeSkipValidator(private val logger: LimeLogger) {
 
     fun validate(limeModel: LimeModel): Boolean {
-        val fieldsOrEnumerators = limeModel.referenceMap.values.filterIsInstance<LimeNamedElement>()
-            .filter { it is LimeField || it is LimeEnumerator }
-        val validationResults = fieldsOrEnumerators.flatMap { validateSkipAttributes(it) }
+        val enumerators = limeModel.referenceMap.values.filterIsInstance<LimeEnumerator>()
+        val structs = limeModel.referenceMap.values.filterIsInstance<LimeStruct>()
+        val validationResults = enumerators.flatMap { validateSkipAttributes(it) } + structs.map { validateFields(it) }
 
         return !validationResults.contains(false)
     }
@@ -52,10 +54,14 @@ internal class LimeSkipValidator(private val logger: LimeLogger) {
             } else true
         }
 
+    private fun validateFields(limeStruct: LimeStruct) =
+        !limeStruct.attributes.have(IMMUTABLE) ||
+            !limeStruct.fields.flatMap { validateSkipAttributes(it) }.contains(false)
+
     companion object {
         private fun getErrorMessage(limeElement: LimeNamedElement, limeAttributeType: LimeAttributeType): String {
             val typePrefix = when (limeElement) {
-                is LimeField -> "field"
+                is LimeField -> "field of `@Immutable` struct"
                 is LimeEnumerator -> "enumerator"
                 else -> throw GluecodiumExecutionException("Unsupported element type ${limeElement.javaClass.name}")
             }
