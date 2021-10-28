@@ -539,8 +539,8 @@ element is skipped (not generated). Custom tags are case-insensitive.
   * **FunctionName** **=** **"**_FunctionName_**"**: marks a lambda type to have a specific function
   name in the generated functional interface in Java (instead of a default name).
   * **Skip** \[**=** **"**_CustomTag_**"** \]: marks an element to be skipped (not generated) in Java. Can be applied to
-  any element except for struct fields. Optionally, if custom tag is specified, the element is only skipped if that tag
-  was defined (see `@Skip` above).
+  any element except for enumerators and fields of `@Immutable` structs. Optionally, if custom tag is specified, the
+  element is only skipped if that tag was defined (see `@Skip` above).
   * **EnableIf** **=** **"**_CustomTag_**"**: marks an element to be enabled in Java only if a custom tag with that
   name was defined through command-line parameters. If the tag is not present, the element is skipped (not generated).   
   * **Attribute** **=** **"**_Annotation_**"**: marks an element to be marked with the given annotation in Java
@@ -562,8 +562,8 @@ element is skipped (not generated). Custom tags are case-insensitive.
   Extending a generated type is also possible, but requires usage of `Name` attribute to avoid name
   clashes on other platforms.
   * **Skip** \[**=** **"**_CustomTag_**"** \]: marks an element to be skipped (not generated) in Swift. Can be applied to
-  any element except for struct fields. Optionally, if custom tag is specified, the element is only skipped if that tag
-  was defined (see `@Skip` above).
+  any element except for enumerators and fields of `@Immutable` structs. Optionally, if custom tag is specified, the
+  element is only skipped if that tag was defined (see `@Skip` above).
   * **EnableIf** **=** **"**_CustomTag_**"**: marks an element to be enabled in Swift only if a custom tag with that
   name was defined through command-line parameters. If the tag is not present, the element is skipped (not generated).
   * **Weak**: marks a property in an interface as `weak` in Swift. Property should have a nullable type. Please note
@@ -578,8 +578,8 @@ element is skipped (not generated). Custom tags are case-insensitive.
   This is the default specification for this attribute.
   * **Default**: marks a constructor as a "default" (nameless) in Dart.
   * **Skip** \[**=** **"**_CustomTag_**"** \]: marks an element to be skipped (not generated) in Dart. Can be applied to
-  any element except for struct fields. Optionally, if custom tag is specified, the element is only skipped if that tag
-  was defined (see `@Skip` above).
+  any element except for enumerators and fields of `@Immutable` structs. Optionally, if custom tag is specified, the
+  element is only skipped if that tag was defined (see `@Skip` above).
   * **EnableIf** **=** **"**_CustomTag_**"**: marks an element to be enabled in Dart only if a custom tag with that
   name was defined through command-line parameters. If the tag is not present, the element is skipped (not generated).
   * **PositionalDefaults** \[**=** **"**_DeprecationMessage_**"** \]: marks a struct to have a constructor with optional
