@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed violation of referential equality invariant for some cases of interface inheritance.
+
 ## 10.2.1
 Release date: 2021-11-01
 ### Features:

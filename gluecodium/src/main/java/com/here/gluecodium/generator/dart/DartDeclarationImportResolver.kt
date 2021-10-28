@@ -39,7 +39,8 @@ import com.here.gluecodium.model.lime.LimeTypesCollection
 internal class DartDeclarationImportResolver(
     limeReferenceMap: Map<String, LimeElement>,
     nameResolver: DartNameResolver,
-    srcPath: String
+    srcPath: String,
+    private val descendantInterfaces: Map<String, List<LimeInterface>>
 ) : DartImportResolverBase(limeReferenceMap, nameResolver, srcPath) {
 
     private val builtInTypesConversionImport = DartImport("$srcPath/${"builtin_types"}__conversion")
@@ -90,6 +91,12 @@ internal class DartDeclarationImportResolver(
         val result = classInterfaceImports.toMutableList()
         if (hasStaticFunctions(limeInterface) || limeInterface.properties.any { it.visibility.isInternal }) {
             result += metaPackageImport
+        }
+        if (!limeInterface.isNarrow) {
+            val descendants = descendantInterfaces[limeInterface.fullName]
+            if (descendants != null) {
+                result += descendants.map { createImport(it) }
+            }
         }
         return result
     }
