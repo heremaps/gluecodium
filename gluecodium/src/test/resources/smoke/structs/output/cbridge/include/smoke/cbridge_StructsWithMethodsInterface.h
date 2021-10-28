@@ -6,8 +6,8 @@ extern "C" {
 #endif
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/Export.h"
-#include "cbridge/include/smoke/cbridge_ValidationUtils.h"
 #include <stdbool.h>
+#include <stdint.h>
 _GLUECODIUM_C_EXPORT _baseRef smoke_StructsWithMethodsInterface_Vector3_create_handle(double x, double y, double z);
 _GLUECODIUM_C_EXPORT void smoke_StructsWithMethodsInterface_Vector3_release_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef smoke_StructsWithMethodsInterface_Vector3_create_optional_handle(double x, double y, double z);
@@ -19,7 +19,7 @@ _GLUECODIUM_C_EXPORT double smoke_StructsWithMethodsInterface_Vector3_z_get(_bas
 typedef struct {
     bool has_value;
     union {
-        smoke_ValidationUtils_ValidationErrorCode error_value;
+        uint32_t error_value;
         _baseRef returned_value;
     };
 } smoke_StructsWithMethodsInterface_Vector3_create_Vector3_result;

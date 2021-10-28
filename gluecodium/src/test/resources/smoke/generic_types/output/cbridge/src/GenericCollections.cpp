@@ -1,23 +1,23 @@
 //
 //
-#include "cbridge/include/GenericCollections.h"
-#include "alien/FooEnum.h"
-#include "alien/FooStruct.h"
-#include "cbridge/include/StringHandle.h"
-#include "cbridge_internal/include/BaseHandleImpl.h"
-#include "gluecodium/Hash.h"
-#include "gluecodium/Optional.h"
-#include "gluecodium/UnorderedMapHash.h"
-#include "gluecodium/UnorderedSetHash.h"
-#include "gluecodium/VectorHash.h"
-#include "smoke/AnotherDummyClass.h"
-#include "smoke/AuxStruct.h"
-#include "smoke/DummyClass.h"
-#include "smoke/DummyInterface.h"
-#include "smoke/GenericTypesWithCompoundTypes.h"
-#include "smoke/UnreasonablyLazyClass.h"
-#include "smoke/VeryBigStruct.h"
-#include "smoke/YetAnotherDummyClass.h"
+#include "cbridge\include\GenericCollections.h"
+#include "alien\FooEnum.h"
+#include "alien\FooStruct.h"
+#include "cbridge\include\StringHandle.h"
+#include "cbridge_internal\include\BaseHandleImpl.h"
+#include "gluecodium\Hash.h"
+#include "gluecodium\Optional.h"
+#include "gluecodium\UnorderedMapHash.h"
+#include "gluecodium\UnorderedSetHash.h"
+#include "gluecodium\VectorHash.h"
+#include "smoke\AnotherDummyClass.h"
+#include "smoke\AuxStruct.h"
+#include "smoke\DummyClass.h"
+#include "smoke\DummyInterface.h"
+#include "smoke\GenericTypesWithCompoundTypes.h"
+#include "smoke\UnreasonablyLazyClass.h"
+#include "smoke\VeryBigStruct.h"
+#include "smoke\YetAnotherDummyClass.h"
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -373,10 +373,10 @@ void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_han
 uint64_t foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_count(_baseRef handle) {
     return Conversion<::std::vector< ::alien::FooEnum >>::toCpp( handle ).size( );
 }
-smoke_GenericTypesWithCompoundTypes_ExternalEnum foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get( _baseRef handle, uint64_t index ) {
-    return static_cast<smoke_GenericTypesWithCompoundTypes_ExternalEnum>(Conversion<::std::vector< ::alien::FooEnum >>::toCpp(handle)[ index ]);
+uint32_t foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get( _baseRef handle, uint64_t index ) {
+    return static_cast<uint32_t>(Conversion<::std::vector< ::alien::FooEnum >>::toCpp(handle)[ index ]);
 }
-void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_append( _baseRef handle, smoke_GenericTypesWithCompoundTypes_ExternalEnum item )
+void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_append( _baseRef handle, uint32_t item )
 {
     Conversion<::std::vector< ::alien::FooEnum >>::toCpp(handle).push_back( static_cast<::alien::FooEnum>( item ) );
 }
@@ -429,10 +429,10 @@ void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle(
 uint64_t foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_count(_baseRef handle) {
     return Conversion<::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>::toCpp( handle ).size( );
 }
-smoke_GenericTypesWithCompoundTypes_SomeEnum foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_get( _baseRef handle, uint64_t index ) {
-    return static_cast<smoke_GenericTypesWithCompoundTypes_SomeEnum>(Conversion<::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>::toCpp(handle)[ index ]);
+uint32_t foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_get( _baseRef handle, uint64_t index ) {
+    return static_cast<uint32_t>(Conversion<::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>::toCpp(handle)[ index ]);
 }
-void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_append( _baseRef handle, smoke_GenericTypesWithCompoundTypes_SomeEnum item )
+void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_append( _baseRef handle, uint32_t item )
 {
     Conversion<::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>::toCpp(handle).push_back( static_cast<::smoke::GenericTypesWithCompoundTypes::SomeEnum>( item ) );
 }
@@ -807,7 +807,7 @@ _baseRef foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_i
 void foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_release_handle(_baseRef iterator_handle) {
     delete reinterpret_cast<::std::unordered_map< int32_t, ::alien::FooEnum >::iterator*>( iterator_handle );
 }
-void foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_put(_baseRef handle, int32_t key, smoke_GenericTypesWithCompoundTypes_ExternalEnum value) {
+void foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_put(_baseRef handle, int32_t key, uint32_t value) {
     (*get_pointer<::std::unordered_map< int32_t, ::alien::FooEnum >>(handle)).emplace(key, static_cast<::alien::FooEnum>(value));
 }
 bool foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
@@ -820,9 +820,9 @@ int32_t foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_it
     auto& key = (*reinterpret_cast<::std::unordered_map< int32_t, ::alien::FooEnum >::iterator*>( iterator_handle ))->first;
     return key;
 }
-smoke_GenericTypesWithCompoundTypes_ExternalEnum foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_value(_baseRef iterator_handle) {
+uint32_t foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_value(_baseRef iterator_handle) {
     auto& value = (*reinterpret_cast<::std::unordered_map< int32_t, ::alien::FooEnum >::iterator*>( iterator_handle ))->second;
-    return static_cast<smoke_GenericTypesWithCompoundTypes_ExternalEnum>(value);
+    return static_cast<uint32_t>(value);
 }
 _baseRef foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_optional_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< int32_t, ::alien::FooEnum >>( ::std::unordered_map< int32_t, ::alien::FooEnum >( ) ) );
@@ -845,7 +845,7 @@ _baseRef foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_itera
 void foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_release_handle(_baseRef iterator_handle) {
     delete reinterpret_cast<::std::unordered_map< int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum >::iterator*>( iterator_handle );
 }
-void foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_put(_baseRef handle, int32_t key, smoke_GenericTypesWithCompoundTypes_SomeEnum value) {
+void foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_put(_baseRef handle, int32_t key, uint32_t value) {
     (*get_pointer<::std::unordered_map< int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>(handle)).emplace(key, static_cast<::smoke::GenericTypesWithCompoundTypes::SomeEnum>(value));
 }
 bool foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
@@ -858,9 +858,9 @@ int32_t foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterat
     auto& key = (*reinterpret_cast<::std::unordered_map< int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum >::iterator*>( iterator_handle ))->first;
     return key;
 }
-smoke_GenericTypesWithCompoundTypes_SomeEnum foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_value(_baseRef iterator_handle) {
+uint32_t foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_value(_baseRef iterator_handle) {
     auto& value = (*reinterpret_cast<::std::unordered_map< int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum >::iterator*>( iterator_handle ))->second;
-    return static_cast<smoke_GenericTypesWithCompoundTypes_SomeEnum>(value);
+    return static_cast<uint32_t>(value);
 }
 _baseRef foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_optional_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>( ::std::unordered_map< int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum >( ) ) );
@@ -1149,7 +1149,7 @@ _baseRef foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boole
 void foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_iterator_release_handle(_baseRef iterator_handle) {
     delete reinterpret_cast<::std::unordered_map< ::alien::FooEnum, bool, ::gluecodium::hash< ::alien::FooEnum > >::iterator*>( iterator_handle );
 }
-void foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_put(_baseRef handle, smoke_GenericTypesWithCompoundTypes_ExternalEnum key, bool value) {
+void foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_put(_baseRef handle, uint32_t key, bool value) {
     (*get_pointer<::std::unordered_map< ::alien::FooEnum, bool, ::gluecodium::hash< ::alien::FooEnum > >>(handle)).emplace(static_cast<::alien::FooEnum>(key), value);
 }
 bool foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
@@ -1158,9 +1158,9 @@ bool foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_i
 void foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_iterator_increment(_baseRef iterator_handle) {
     ++*reinterpret_cast<::std::unordered_map< ::alien::FooEnum, bool, ::gluecodium::hash< ::alien::FooEnum > >::iterator*>( iterator_handle );
 }
-smoke_GenericTypesWithCompoundTypes_ExternalEnum foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_iterator_key(_baseRef iterator_handle) {
+uint32_t foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_iterator_key(_baseRef iterator_handle) {
     auto& key = (*reinterpret_cast<::std::unordered_map< ::alien::FooEnum, bool, ::gluecodium::hash< ::alien::FooEnum > >::iterator*>( iterator_handle ))->first;
-    return static_cast<smoke_GenericTypesWithCompoundTypes_ExternalEnum>(key);
+    return static_cast<uint32_t>(key);
 }
 bool foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_iterator_value(_baseRef iterator_handle) {
     auto& value = (*reinterpret_cast<::std::unordered_map< ::alien::FooEnum, bool, ::gluecodium::hash< ::alien::FooEnum > >::iterator*>( iterator_handle ))->second;
@@ -1187,7 +1187,7 @@ _baseRef foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_i
 void foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_iterator_release_handle(_baseRef iterator_handle) {
     delete reinterpret_cast<::std::unordered_map< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >::iterator*>( iterator_handle );
 }
-void foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_put(_baseRef handle, smoke_GenericTypesWithCompoundTypes_SomeEnum key, bool value) {
+void foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_put(_baseRef handle, uint32_t key, bool value) {
     (*get_pointer<::std::unordered_map< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >>(handle)).emplace(static_cast<::smoke::GenericTypesWithCompoundTypes::SomeEnum>(key), value);
 }
 bool foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_iterator_is_valid(_baseRef handle, _baseRef iterator_handle) {
@@ -1196,9 +1196,9 @@ bool foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_itera
 void foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_iterator_increment(_baseRef iterator_handle) {
     ++*reinterpret_cast<::std::unordered_map< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >::iterator*>( iterator_handle );
 }
-smoke_GenericTypesWithCompoundTypes_SomeEnum foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_iterator_key(_baseRef iterator_handle) {
+uint32_t foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_iterator_key(_baseRef iterator_handle) {
     auto& key = (*reinterpret_cast<::std::unordered_map< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >::iterator*>( iterator_handle ))->first;
-    return static_cast<smoke_GenericTypesWithCompoundTypes_SomeEnum>(key);
+    return static_cast<uint32_t>(key);
 }
 bool foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_iterator_value(_baseRef iterator_handle) {
     auto& value = (*reinterpret_cast<::std::unordered_map< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >::iterator*>( iterator_handle ))->second;
@@ -1457,7 +1457,7 @@ _baseRef foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_ha
 void foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle(_baseRef handle) {
     delete get_pointer<::std::unordered_set< ::alien::FooEnum, ::gluecodium::hash< ::alien::FooEnum > >>(handle);
 }
-void foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_insert(_baseRef handle, smoke_GenericTypesWithCompoundTypes_ExternalEnum value) {
+void foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_insert(_baseRef handle, uint32_t value) {
     (*get_pointer<::std::unordered_set< ::alien::FooEnum, ::gluecodium::hash< ::alien::FooEnum > >>(handle)).insert(::std::move(static_cast<::alien::FooEnum>(value)));
 }
 _baseRef foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator(_baseRef handle) {
@@ -1472,9 +1472,9 @@ bool foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_v
 void foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_increment(_baseRef iterator_handle) {
     ++*reinterpret_cast<::std::unordered_set< ::alien::FooEnum, ::gluecodium::hash< ::alien::FooEnum > >::iterator*>( iterator_handle );
 }
-smoke_GenericTypesWithCompoundTypes_ExternalEnum foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get(_baseRef iterator_handle) {
+uint32_t foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get(_baseRef iterator_handle) {
     auto& value = **reinterpret_cast<::std::unordered_set< ::alien::FooEnum, ::gluecodium::hash< ::alien::FooEnum > >::iterator*>( iterator_handle );
-    return static_cast<smoke_GenericTypesWithCompoundTypes_ExternalEnum>(value);
+    return static_cast<uint32_t>(value);
 }
 _baseRef foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_optional_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_set< ::alien::FooEnum, ::gluecodium::hash< ::alien::FooEnum > >>( ::std::unordered_set< ::alien::FooEnum, ::gluecodium::hash< ::alien::FooEnum > >( ) ) );
@@ -1491,7 +1491,7 @@ _baseRef foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle
 void foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle(_baseRef handle) {
     delete get_pointer<::std::unordered_set< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >>(handle);
 }
-void foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_insert(_baseRef handle, smoke_GenericTypesWithCompoundTypes_SomeEnum value) {
+void foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_insert(_baseRef handle, uint32_t value) {
     (*get_pointer<::std::unordered_set< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >>(handle)).insert(::std::move(static_cast<::smoke::GenericTypesWithCompoundTypes::SomeEnum>(value)));
 }
 _baseRef foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator(_baseRef handle) {
@@ -1506,9 +1506,9 @@ bool foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid
 void foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_increment(_baseRef iterator_handle) {
     ++*reinterpret_cast<::std::unordered_set< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >::iterator*>( iterator_handle );
 }
-smoke_GenericTypesWithCompoundTypes_SomeEnum foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get(_baseRef iterator_handle) {
+uint32_t foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get(_baseRef iterator_handle) {
     auto& value = **reinterpret_cast<::std::unordered_set< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >::iterator*>( iterator_handle );
-    return static_cast<smoke_GenericTypesWithCompoundTypes_SomeEnum>(value);
+    return static_cast<uint32_t>(value);
 }
 _baseRef foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_optional_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_set< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >>( ::std::unordered_set< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >( ) ) );

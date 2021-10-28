@@ -35,7 +35,6 @@ import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
-import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypedElement
 
@@ -52,7 +51,7 @@ internal class CBridgeHeaderIncludeResolver(
             is LimeLambdaParameter -> resolveTypeRefIncludes(limeElement.typeRef)
             is LimeTypedElement -> resolveTypeRefIncludes(limeElement.typeRef)
             is LimeContainer -> resolveContainerIncludes(limeElement)
-            is LimeEnumeration -> listOf(createHeaderInclude(limeElement), INT_INCLUDE)
+            is LimeEnumeration -> listOf(INT_INCLUDE)
             is LimeList -> resolveTypeRefIncludes(limeElement.elementType)
             is LimeSet -> resolveTypeRefIncludes(limeElement.elementType)
             is LimeMap -> resolveTypeRefIncludes(limeElement.keyType) + resolveTypeRefIncludes(limeElement.valueType)
@@ -69,9 +68,9 @@ internal class CBridgeHeaderIncludeResolver(
         if (limeTypeRef.isNullable) return emptyList()
         return when (val limeType = limeTypeRef.type.actualType) {
             is LimeBasicType -> resolveBasicTypeInclude(limeType.typeId)
-            is LimeEnumeration -> listOf(createHeaderInclude(limeType))
+            is LimeEnumeration -> listOf(INT_INCLUDE)
             is LimeGenericType -> resolveElementImports(limeType)
-            is LimeException -> resolveExceptionPayloadIncludes(limeType.errorType.type.actualType) + BOOL_INCLUDE
+            is LimeException -> resolveTypeRefIncludes(limeType.errorType) + BOOL_INCLUDE
             else -> emptyList()
         }
     }
@@ -82,16 +81,6 @@ internal class CBridgeHeaderIncludeResolver(
             typeId.isIntegerType -> listOf(INT_INCLUDE)
             else -> emptyList()
         }
-
-    private fun resolveExceptionPayloadIncludes(limeType: LimeType) =
-        when (limeType) {
-            is LimeBasicType -> resolveBasicTypeInclude(limeType.typeId)
-            is LimeGenericType -> resolveElementImports(limeType)
-            else -> listOf(createHeaderInclude(limeType))
-        }
-
-    private fun createHeaderInclude(limeType: LimeType) =
-        Include.createInternalInclude(fileNames.getHeaderFilePath(getTopElement(limeType)))
 
     companion object {
         val BOOL_INCLUDE = Include.createSystemInclude("stdbool.h")

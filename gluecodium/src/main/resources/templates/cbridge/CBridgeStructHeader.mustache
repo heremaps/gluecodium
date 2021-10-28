@@ -18,10 +18,6 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#enumerations}}
-{{>cbridge/CBridgeEnumeration}}
-{{/enumerations}}
-
 _GLUECODIUM_C_EXPORT _baseRef {{resolveName}}_create_handle({{!!
 }}{{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
 _GLUECODIUM_C_EXPORT void {{resolveName}}_release_handle(_baseRef handle);

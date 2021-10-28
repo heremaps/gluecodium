@@ -8,7 +8,6 @@ extern "C" {
 #include "cbridge/include/Export.h"
 #include <stdbool.h>
 #include <stdint.h>
-typedef uint32_t smoke_Structs_FooBar;
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_Point_create_handle(double x, double y);
 _GLUECODIUM_C_EXPORT void smoke_Structs_Point_release_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_Point_create_optional_handle(double x, double y);

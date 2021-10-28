@@ -73,10 +73,10 @@ _baseRef smoke_ListenerWithProperties_structuredMessage_get(_baseRef _instance) 
 void smoke_ListenerWithProperties_structuredMessage_set(_baseRef _instance, _baseRef value) {
     return get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(_instance)->get()->set_structured_message(Conversion<::smoke::ListenerWithProperties::ResultStruct>::toCpp(value));
 }
-smoke_ListenerWithProperties_ResultEnum smoke_ListenerWithProperties_enumeratedMessage_get(_baseRef _instance) {
-    return static_cast<smoke_ListenerWithProperties_ResultEnum>(get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(_instance)->get()->get_enumerated_message());
+uint32_t smoke_ListenerWithProperties_enumeratedMessage_get(_baseRef _instance) {
+    return static_cast<uint32_t>(get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(_instance)->get()->get_enumerated_message());
 }
-void smoke_ListenerWithProperties_enumeratedMessage_set(_baseRef _instance, smoke_ListenerWithProperties_ResultEnum value) {
+void smoke_ListenerWithProperties_enumeratedMessage_set(_baseRef _instance, uint32_t value) {
     return get_pointer<::std::shared_ptr< ::smoke::ListenerWithProperties >>(_instance)->get()->set_enumerated_message(static_cast<::smoke::ListenerWithProperties::ResultEnum>(value));
 }
 _baseRef smoke_ListenerWithProperties_arrayedMessage_get(_baseRef _instance) {

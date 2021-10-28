@@ -29,6 +29,6 @@ void smoke_SomeSkippedClass_remove_swift_object_from_wrapper_cache(_baseRef hand
     if (!::gluecodium::WrapperCache::is_alive) return;
     ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::SomeSkippedClass >>(handle)->get());
 }
-dont_smoke_DontSmokeEnum smoke_SomeSkippedClass_doFoo(_baseRef _instance) {
-    return static_cast<dont_smoke_DontSmokeEnum>(get_pointer<::std::shared_ptr< ::smoke::SomeSkippedClass >>(_instance)->get()->do_foo());
+uint32_t smoke_SomeSkippedClass_doFoo(_baseRef _instance) {
+    return static_cast<uint32_t>(get_pointer<::std::shared_ptr< ::smoke::SomeSkippedClass >>(_instance)->get()->do_foo());
 }

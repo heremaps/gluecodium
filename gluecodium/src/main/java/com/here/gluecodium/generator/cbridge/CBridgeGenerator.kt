@@ -261,7 +261,6 @@ internal class CBridgeGenerator(
             is LimeStruct -> "cbridge/CBridgeStructHeader"
             is LimeContainer -> "cbridge/CBridgeClassHeader"
             is LimeLambda -> "cbridge/CBridgeLambdaHeader"
-            is LimeEnumeration -> "cbridge/CBridgeEnumeration"
             else -> null
         }
 

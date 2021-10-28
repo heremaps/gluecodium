@@ -6,11 +6,11 @@ extern "C" {
 #endif
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/Export.h"
-#include "cbridge/include/smoke/cbridge_SomeTypeCollection.h"
 #include <stdbool.h>
+#include <stdint.h>
 typedef struct {
     bool has_value;
-    smoke_SomeTypeCollection_SomeTypeCollectionError error_value;
+    uint32_t error_value;
 } smoke_UseTcException_doNothing_result;
 _GLUECODIUM_C_EXPORT void smoke_UseTcException_release_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef smoke_UseTcException_copy_handle(_baseRef handle);

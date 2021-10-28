@@ -62,8 +62,8 @@ _baseRef smoke_ListenersWithReturnValues_fetchDataString(_baseRef _instance) {
 _baseRef smoke_ListenersWithReturnValues_fetchDataStruct(_baseRef _instance) {
     return Conversion<::smoke::ListenersWithReturnValues::ResultStruct>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::ListenersWithReturnValues >>(_instance)->get()->fetch_data_struct());
 }
-smoke_ListenersWithReturnValues_ResultEnum smoke_ListenersWithReturnValues_fetchDataEnum(_baseRef _instance) {
-    return static_cast<smoke_ListenersWithReturnValues_ResultEnum>(get_pointer<::std::shared_ptr< ::smoke::ListenersWithReturnValues >>(_instance)->get()->fetch_data_enum());
+uint32_t smoke_ListenersWithReturnValues_fetchDataEnum(_baseRef _instance) {
+    return static_cast<uint32_t>(get_pointer<::std::shared_ptr< ::smoke::ListenersWithReturnValues >>(_instance)->get()->fetch_data_enum());
 }
 _baseRef smoke_ListenersWithReturnValues_fetchDataArray(_baseRef _instance) {
     return Conversion<::std::vector< double >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::ListenersWithReturnValues >>(_instance)->get()->fetch_data_array());

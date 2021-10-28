@@ -35,7 +35,7 @@ void dontsmoke_UseCppExternalTypes_remove_swift_object_from_wrapper_cache(_baseR
 void dontsmoke_UseCppExternalTypes_useStruct(_baseRef input) {
     return ::dontsmoke::UseCppExternalTypes::use_struct(Conversion<::fire::SomeVeryExternalStruct>::toCpp(input));
 }
-void dontsmoke_UseCppExternalTypes_useEnum(smoke_Enums_ExternalEnum input) {
+void dontsmoke_UseCppExternalTypes_useEnum(uint32_t input) {
     return ::dontsmoke::UseCppExternalTypes::use_enum(static_cast<::smoke::Enums::External_Enum>(input));
 }
 void dontsmoke_UseCppExternalTypes_useClass(_baseRef input) {

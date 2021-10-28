@@ -31,20 +31,20 @@ void smoke_Enums_remove_swift_object_from_wrapper_cache(_baseRef handle) {
     if (!::gluecodium::WrapperCache::is_alive) return;
     ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::Enums >>(handle)->get());
 }
-smoke_Enums_SimpleEnum smoke_Enums_methodWithEnumeration(smoke_Enums_SimpleEnum input) {
-    return static_cast<smoke_Enums_SimpleEnum>(::smoke::Enums::method_with_enumeration(static_cast<::smoke::Enums::SimpleEnum>(input)));
+uint32_t smoke_Enums_methodWithEnumeration(uint32_t input) {
+    return static_cast<uint32_t>(::smoke::Enums::method_with_enumeration(static_cast<::smoke::Enums::SimpleEnum>(input)));
 }
-smoke_Enums_InternalErrorCode smoke_Enums_flipEnumValue(smoke_Enums_InternalErrorCode input) {
-    return static_cast<smoke_Enums_InternalErrorCode>(::smoke::Enums::flip_enum_value(static_cast<::smoke::Enums::InternalErrorCode>(input)));
+uint32_t smoke_Enums_flipEnumValue(uint32_t input) {
+    return static_cast<uint32_t>(::smoke::Enums::flip_enum_value(static_cast<::smoke::Enums::InternalErrorCode>(input)));
 }
-smoke_Enums_InternalErrorCode smoke_Enums_extractEnumFromStruct(_baseRef input) {
-    return static_cast<smoke_Enums_InternalErrorCode>(::smoke::Enums::extract_enum_from_struct(Conversion<::smoke::Enums::ErrorStruct>::toCpp(input)));
+uint32_t smoke_Enums_extractEnumFromStruct(_baseRef input) {
+    return static_cast<uint32_t>(::smoke::Enums::extract_enum_from_struct(Conversion<::smoke::Enums::ErrorStruct>::toCpp(input)));
 }
-_baseRef smoke_Enums_createStructWithEnumInside(smoke_Enums_InternalErrorCode type, _baseRef message) {
+_baseRef smoke_Enums_createStructWithEnumInside(uint32_t type, _baseRef message) {
     return Conversion<::smoke::Enums::ErrorStruct>::toBaseRef(::smoke::Enums::create_struct_with_enum_inside(static_cast<::smoke::Enums::InternalErrorCode>(type), Conversion<::std::string>::toCpp(message)));
 }
 _baseRef
-smoke_Enums_ErrorStruct_create_handle( smoke_Enums_InternalErrorCode type, _baseRef message )
+smoke_Enums_ErrorStruct_create_handle( uint32_t type, _baseRef message )
 {
     ::smoke::Enums::ErrorStruct* _struct = new ( ::std::nothrow ) ::smoke::Enums::ErrorStruct();
     _struct->type = static_cast<::smoke::Enums::InternalErrorCode>( type );
@@ -57,7 +57,7 @@ smoke_Enums_ErrorStruct_release_handle( _baseRef handle )
     delete get_pointer<::smoke::Enums::ErrorStruct>( handle );
 }
 _baseRef
-smoke_Enums_ErrorStruct_create_optional_handle(smoke_Enums_InternalErrorCode type, _baseRef message)
+smoke_Enums_ErrorStruct_create_optional_handle(uint32_t type, _baseRef message)
 {
     auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::Enums::ErrorStruct>( ::smoke::Enums::ErrorStruct( ) );
     (*_struct)->type = static_cast<::smoke::Enums::InternalErrorCode>( type );
@@ -72,9 +72,9 @@ smoke_Enums_ErrorStruct_unwrap_optional_handle( _baseRef handle )
 void smoke_Enums_ErrorStruct_release_optional_handle(_baseRef handle) {
     delete reinterpret_cast<::gluecodium::optional<::smoke::Enums::ErrorStruct>*>( handle );
 }
-smoke_Enums_InternalErrorCode smoke_Enums_ErrorStruct_type_get(_baseRef handle) {
+uint32_t smoke_Enums_ErrorStruct_type_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::Enums::ErrorStruct>(handle);
-    return static_cast<smoke_Enums_InternalErrorCode>(struct_pointer->type);
+    return static_cast<uint32_t>(struct_pointer->type);
 }
 _baseRef smoke_Enums_ErrorStruct_message_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::Enums::ErrorStruct>(handle);

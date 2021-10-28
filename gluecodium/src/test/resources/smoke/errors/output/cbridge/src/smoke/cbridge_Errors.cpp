@@ -34,18 +34,18 @@ void smoke_Errors_remove_swift_object_from_wrapper_cache(_baseRef handle) {
 }
 smoke_Errors_methodWithErrors_result smoke_Errors_methodWithErrors() {
     auto&& ERROR_VALUE = ::smoke::Errors::method_with_errors().value();
-    return {ERROR_VALUE == 0, static_cast< smoke_Errors_InternalErrorCode >(ERROR_VALUE)};
+    return {ERROR_VALUE == 0, static_cast< uint32_t >(ERROR_VALUE)};
 }
 smoke_Errors_methodWithExternalErrors_result smoke_Errors_methodWithExternalErrors() {
     auto&& ERROR_VALUE = ::smoke::Errors::method_with_external_errors().value();
-    return {ERROR_VALUE == 0, static_cast< smoke_Errors_ExternalErrors >(ERROR_VALUE)};
+    return {ERROR_VALUE == 0, static_cast< uint32_t >(ERROR_VALUE)};
 }
 smoke_Errors_methodWithErrorsAndReturnValue_result smoke_Errors_methodWithErrorsAndReturnValue() {
     auto&& RESULT = ::smoke::Errors::method_with_errors_and_return_value();
     if (RESULT.has_value()) {
         return {.has_value = true, .returned_value = Conversion<::std::string>::toBaseRef(RESULT.unsafe_value())};
     } else {
-        return {.has_value = false, .error_value = static_cast< smoke_Errors_InternalErrorCode >(RESULT.error().value())};
+        return {.has_value = false, .error_value = static_cast< uint32_t >(RESULT.error().value())};
     }
 }
 smoke_Errors_methodWithPayloadError_result smoke_Errors_methodWithPayloadError() {
