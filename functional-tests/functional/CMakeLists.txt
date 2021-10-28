@@ -463,6 +463,7 @@ feature(Locales cpp android swift dart SOURCES
 feature(CrossPackageNameClash cpp android swift dart SOURCES
     input/lime/CrossPackageNameClashA.lime
     input/lime/CrossPackageNameClashB.lime
+    input/lime/CrossPackageNameClashC.lime
 )
 
 # OBJECT suits all test variants except swift for linux,

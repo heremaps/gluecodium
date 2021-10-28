@@ -60,8 +60,17 @@ internal class JavaNameResolver(
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
 
     private val valueResolver = JavaValueResolver(this)
-    private val duplicateNames = buildDuplicateNames()
-    private val limeToJavaNames = buildPathMap()
+    private val duplicateNames: Set<String>
+    private val limeToJavaNames: Map<String, String>
+
+    val typesWithDuplicateNames: Set<String>
+
+    init {
+        val duplicateNamesMap = buildDuplicateNames()
+        duplicateNames = duplicateNamesMap.keys
+        typesWithDuplicateNames = duplicateNamesMap.values.flatten().map { it.fullName }.toSet()
+        limeToJavaNames = buildPathMap()
+    }
 
     override fun resolveName(element: Any): String =
         when (element) {
@@ -260,7 +269,6 @@ internal class JavaNameResolver(
             .filter { it.external?.java == null }
             .groupBy { resolveNestedNames(it).joinToString(".") }
             .filterValues { it.size > 1 }
-            .keys
 
     companion object {
         fun normalizePackageName(name: String) = name.replace("_", "")
