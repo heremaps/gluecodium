@@ -3,7 +3,6 @@
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
-import com.example.smoke.foo.Alphabet;
 public final class LearnToRead {
     @NonNull
     public com.example.smoke.Alphabet fieldA;

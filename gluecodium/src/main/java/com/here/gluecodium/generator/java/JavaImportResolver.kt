@@ -134,7 +134,7 @@ internal class JavaImportResolver(
             limeType is LimeSet -> resolveTypeRefImports(limeType.elementType, ignoreNullability = true) + setImport
             limeType is LimeMap -> resolveTypeRefImports(limeType.keyType, ignoreNullability = true) +
                 resolveTypeRefImports(limeType.valueType, ignoreNullability = true) + mapImport
-            else -> listOf(createTopElementImport(limeType))
+            else -> listOfNotNull(createTopElementImport(limeType))
         }
         val nullabilityImport = when {
             ignoreNullability -> null
@@ -145,7 +145,8 @@ internal class JavaImportResolver(
         return imports + listOfNotNull(nullabilityImport)
     }
 
-    fun createTopElementImport(limeType: LimeType): JavaImport {
+    fun createTopElementImport(limeType: LimeType): JavaImport? {
+        if (nameResolver.typesWithDuplicateNames.contains(limeType.fullName)) return null
         val topElement = generateSequence(limeType) {
             val parentType = limeReferenceMap[it.path.parent.toString()] as? LimeType
             if (parentType is LimeTypesCollection) null else parentType

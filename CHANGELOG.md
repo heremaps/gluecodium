@@ -5,9 +5,12 @@
   * Platform skip attributes (`@Skip(Java)`, `@Java(Skip)`, same for Swift and Dart) are now supported for fields of
     mutable structs.
   * Added support for `internal` visibility of "field constructors".
+### Bug fixes:
+  * Fixed a compilation issue in Java when two types from different foreign packages have the same name.
 
 ## 10.1.7
 Release date: 2021-10-27
+### Bug fixes:
   * Fixed compilation issue in Dart for fields marked with `@Dart(EnableIf)`.
   * Fixed compilation issue in Swift when a function/property referring to an enum is skipped in an interface.
 

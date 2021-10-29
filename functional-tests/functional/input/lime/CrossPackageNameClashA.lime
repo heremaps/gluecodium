@@ -27,3 +27,8 @@ struct LearnToRead {
     fieldA: test.Alphabet = test.Alphabet.A
     fieldB: test.foo.Alphabet = test.foo.Alphabet.BETA
 }
+
+struct LearnToReadAgain {
+    fieldB: test.foo.Alphabet = test.foo.Alphabet.BETA
+    fieldC: test.bar.Alphabet = test.bar.Alphabet.gimel
+}
