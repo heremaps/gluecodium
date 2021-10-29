@@ -17,8 +17,22 @@
 
 package unit.test
 
-class CommonMainFoo {
+open enum MainEnum {
+    VALUE1,
+    VALUE2
+}
+
+open class CommonMainFoo {
     constructor make()
 
+    # Converters for primitive types must be copied
     fun get_map () : Map<String, String>
+
+    # PrimitiveHolder<T> must be exposed
+    fun get_enum() : MainEnum
+}
+
+# Converters for internal must NOT be exposed
+internal class CommonMainInternal {
+    internal fun do_internal()
 }
