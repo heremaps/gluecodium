@@ -18,10 +18,10 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{conversionVisibility}} func {{resolveName "mangled"}}copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
+{{>swift/ConversionVisibility}} func {{resolveName "mangled"}}copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
     return {{resolveName "mangled"}}moveFromCType({{resolveName "CBridge"}}_copy_handle(handle))
 }
-{{conversionVisibility}} func {{resolveName "mangled"}}moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
+{{>swift/ConversionVisibility}} func {{resolveName "mangled"}}moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
     let refHolder = RefHolder(ref: handle, release: {{resolveName "CBridge"}}_release_handle)
     return { ({{#parameters}}p{{iter.position}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
     }} -> {{resolveName returnType}} in
@@ -33,20 +33,20 @@
     }
 }
 
-{{conversionVisibility}} func {{resolveName "mangled"}}copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
+{{>swift/ConversionVisibility}} func {{resolveName "mangled"}}copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
     guard handle != 0 else {
         return nil
     }
     return {{resolveName "mangled"}}copyFromCType(handle) as {{resolveName this "" "ref"}}
 }
-{{conversionVisibility}} func {{resolveName "mangled"}}moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
+{{>swift/ConversionVisibility}} func {{resolveName "mangled"}}moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
     guard handle != 0 else {
         return nil
     }
     return {{resolveName "mangled"}}moveFromCType(handle) as {{resolveName this "" "ref"}}
 }
 
-{{conversionVisibility}} func {{resolveName "mangled"}}createFunctionalTable(_ swiftType: @escaping {{resolveName this "" "ref"}}) -> {{resolveName "CBridge"}}_FunctionTable {
+{{>swift/ConversionVisibility}} func {{resolveName "mangled"}}createFunctionalTable(_ swiftType: @escaping {{resolveName this "" "ref"}}) -> {{resolveName "CBridge"}}_FunctionTable {
     class {{resolveName "CBridge"}}_Holder {
         let closure: {{resolveName this "" "ref"}}
         init(_ closure: @escaping {{resolveName this "" "ref"}}) {
@@ -70,16 +70,16 @@
     return functions
 }
 
-{{conversionVisibility}} func {{resolveName "mangled"}}copyToCType(_ swiftType: @escaping {{resolveName this "" "ref"}}) -> RefHolder {
+{{>swift/ConversionVisibility}} func {{resolveName "mangled"}}copyToCType(_ swiftType: @escaping {{resolveName this "" "ref"}}) -> RefHolder {
     let handle = {{resolveName "CBridge"}}_create_proxy({{resolveName "mangled"}}createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-{{conversionVisibility}} func {{resolveName "mangled"}}moveToCType(_ swiftType: @escaping {{resolveName this "" "ref"}}) -> RefHolder {
+{{>swift/ConversionVisibility}} func {{resolveName "mangled"}}moveToCType(_ swiftType: @escaping {{resolveName this "" "ref"}}) -> RefHolder {
     let handle = {{resolveName "CBridge"}}_create_proxy({{resolveName "mangled"}}createFunctionalTable(swiftType))
     return RefHolder(ref: handle, release: {{resolveName "CBridge"}}_release_handle)
 }
 
-{{conversionVisibility}} func {{resolveName "mangled"}}copyToCType(_ swiftType: {{resolveName this "" "ref"}}?) -> RefHolder {
+{{>swift/ConversionVisibility}} func {{resolveName "mangled"}}copyToCType(_ swiftType: {{resolveName this "" "ref"}}?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
@@ -87,7 +87,7 @@
     let handle = {{resolveName "CBridge"}}_create_optional_proxy({{resolveName "mangled"}}createFunctionalTable(swiftType))
     return RefHolder(handle)
 }
-{{conversionVisibility}} func {{resolveName "mangled"}}moveToCType(_ swiftType: {{resolveName this "" "ref"}}?) -> RefHolder {
+{{>swift/ConversionVisibility}} func {{resolveName "mangled"}}moveToCType(_ swiftType: {{resolveName this "" "ref"}}?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }

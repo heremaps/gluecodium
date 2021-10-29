@@ -18,37 +18,4 @@
   ! License-Filename: LICENSE
   !
   !}}
-//
-{{#if copyrightHeader}}{{prefix copyrightHeader "// "}}{{/if}}
-//
-
-{{conversionVisibility}} class RefHolder {
-    public let ref: _baseRef
-    private let release: ((_baseRef) -> Void)?
-
-    init(_ ref: _baseRef) {
-        self.ref = ref
-        release = nil
-    }
-
-    init(ref: _baseRef, release: @escaping (_baseRef) -> Void) {
-        self.ref = ref
-        self.release = release
-    }
-
-    deinit {
-        if let fun = release {
-            fun(ref)
-        }
-    }
-}
-
-{{conversionVisibility}} typealias _baseRef = Int64
-
-{{conversionVisibility}} struct PrimitiveHolder<T> {
-    public let ref: T
-
-    init(_ ref: T) {
-        self.ref = ref
-    }
-}
+{{#if this.visibility.isInternal}}internal{{/if}}{{#unless this.visibility.isInternal}}{{conversionVisibility}}{{/unless}}

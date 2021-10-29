@@ -24,3 +24,11 @@ interface ExposeInterface {}
 struct ExposeStruct { `field`: String }
 
 enum ExposeEnum { foo }
+
+internal class ExposeInternalClass {}
+
+internal interface ExposeInternalInterface {}
+
+internal struct ExposeInternalStruct { `field`: String }
+
+internal enum ExposeInternalEnum { foo }
