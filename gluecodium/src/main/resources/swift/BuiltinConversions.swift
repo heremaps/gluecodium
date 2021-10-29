@@ -20,14 +20,6 @@
 
 import Foundation
 
-struct PrimitiveHolder<T> {
-    let ref: T
-
-    init(_ ref: T) {
-        self.ref = ref
-    }
-}
-
 extension String {
     internal func convertToCType() -> _baseRef {
         let result = std_string_create_handle(self)

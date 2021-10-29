@@ -18,3 +18,9 @@ internal class RefHolder {
     }
 }
 internal typealias _baseRef = Int64
+internal struct PrimitiveHolder<T> {
+    public let ref: T
+    init(_ ref: T) {
+        self.ref = ref
+    }
+}

@@ -19,7 +19,7 @@
   !
   !}}
 {{#ifPredicate "hasWeakSupport"}}
-{{conversionVisibility}} class {{resolveName}}_WeakHolder {
+{{>swift/ConversionVisibility}} class {{resolveName}}_WeakHolder {
     weak var value: {{resolveName}}?
 
     init(_ value: {{resolveName}}) {
@@ -28,7 +28,7 @@
 }
 
 {{/ifPredicate}}
-{{conversionVisibility}} func getRef(_ ref: {{resolveName this "" "ref"}}?, owning: Bool = true{{!!
+{{>swift/ConversionVisibility}} func getRef(_ ref: {{resolveName this "" "ref"}}?, owning: Bool = true{{!!
 }}{{#ifPredicate "hasWeakSupport"}}, isWeak: Bool = false{{/ifPredicate}}) -> RefHolder {
 
     guard let reference = ref else {
@@ -71,7 +71,7 @@
 {{/class}}{{/set}}
 {{#ifPredicate "hasWeakSupport"}}
 
-{{conversionVisibility}} func weakToCType(_ swiftClass: {{resolveName}}?) -> RefHolder {
+{{>swift/ConversionVisibility}} func weakToCType(_ swiftClass: {{resolveName}}?) -> RefHolder {
     return getRef(swiftClass, owning: true, isWeak: true)
 }
 {{/ifPredicate}}{{!!

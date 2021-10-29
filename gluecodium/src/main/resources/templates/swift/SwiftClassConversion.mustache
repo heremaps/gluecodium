@@ -28,7 +28,7 @@ internal func _CBridgeInit{{resolveName "CBridge"}}(handle: _baseRef) -> UnsafeM
 {{/ifPredicate}}
 {{#instanceOf this "LimeInterface"}}{{>swift/GetReference}}{{/instanceOf}}{{!!
 }}{{#notInstanceOf this "LimeInterface"}}
-{{conversionVisibility}} func getRef(_ ref: {{resolveName this "" "ref"}}?, owning: Bool = true) -> RefHolder {
+{{>swift/ConversionVisibility}} func getRef(_ ref: {{resolveName this "" "ref"}}?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
     }
@@ -84,7 +84,7 @@ extension {{>implName}}: Hashable {
 {{/unless}}{{/instanceOf}}
 {{/unless}}
 
-{{conversionVisibility}} func {{resolveName this "mangled"}}copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
+{{>swift/ConversionVisibility}} func {{resolveName this "mangled"}}copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
 {{#instanceOf this "LimeInterface"}}
     if let swift_pointer = {{resolveName "CBridge"}}_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? {{resolveName this "" "ref"}} {
@@ -109,7 +109,7 @@ extension {{>implName}}: Hashable {
 {{/unlessPredicate}}
 }
 
-{{conversionVisibility}} func {{resolveName "mangled"}}moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
+{{>swift/ConversionVisibility}} func {{resolveName "mangled"}}moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
 {{#instanceOf this "LimeInterface"}}{{#unlessPredicate "hasWeakSupport"}}
     if let swift_pointer = {{resolveName "CBridge"}}_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? {{resolveName this "" "ref"}} {
@@ -148,32 +148,32 @@ extension {{>implName}}: Hashable {
 {{/unlessPredicate}}
 }
 
-{{conversionVisibility}} func {{resolveName "mangled"}}copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
+{{>swift/ConversionVisibility}} func {{resolveName "mangled"}}copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
     guard handle != 0 else {
         return nil
     }
     return {{resolveName "mangled"}}moveFromCType(handle) as {{resolveName this "" "ref"}}
 }
-{{conversionVisibility}} func {{resolveName "mangled"}}moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
+{{>swift/ConversionVisibility}} func {{resolveName "mangled"}}moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {
     guard handle != 0 else {
         return nil
     }
     return {{resolveName "mangled"}}moveFromCType(handle) as {{resolveName this "" "ref"}}
 }
 
-{{conversionVisibility}} func copyToCType(_ swiftClass: {{resolveName this "" "ref"}}) -> RefHolder {
+{{>swift/ConversionVisibility}} func copyToCType(_ swiftClass: {{resolveName this "" "ref"}}) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
 
-{{conversionVisibility}} func moveToCType(_ swiftClass: {{resolveName this "" "ref"}}) -> RefHolder {
+{{>swift/ConversionVisibility}} func moveToCType(_ swiftClass: {{resolveName this "" "ref"}}) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
 
-{{conversionVisibility}} func copyToCType(_ swiftClass: {{resolveName this "" "ref"}}?) -> RefHolder {
+{{>swift/ConversionVisibility}} func copyToCType(_ swiftClass: {{resolveName this "" "ref"}}?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
 
-{{conversionVisibility}} func moveToCType(_ swiftClass: {{resolveName this "" "ref"}}?) -> RefHolder {
+{{>swift/ConversionVisibility}} func moveToCType(_ swiftClass: {{resolveName this "" "ref"}}?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
 
