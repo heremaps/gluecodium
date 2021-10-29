@@ -108,7 +108,11 @@ internal class JavaNameResolver(
         return when {
             externalName != null -> externalName
             limeType is LimeGenericType -> resolveGenericTypeRef(limeType)
-            limeType !is LimeBasicType -> resolveNestedNames(limeType).joinToString(".")
+            limeType !is LimeBasicType -> {
+                val nestedName = resolveNestedNames(limeType).joinToString(".")
+                if (duplicateNames.contains(nestedName)) (resolvePackageNames(limeType) + nestedName).joinToString(".")
+                else nestedName
+            }
             needsBoxing || limeTypeRef.isNullable -> resolveBoxedBasicType(limeType.typeId)
             else -> resolveBasicType(limeType.typeId)
         }
@@ -154,7 +158,6 @@ internal class JavaNameResolver(
         return when {
             parentElement != null && parentElement !is LimeTypesCollection ->
                 resolveNestedNames(parentElement) + elementName
-            duplicateNames.contains(elementName) -> resolvePackageNames(limeElement) + elementName
             else -> listOf(elementName)
         }
     }
@@ -254,8 +257,8 @@ internal class JavaNameResolver(
         limeReferenceMap.values
             .filterIsInstance<LimeType>()
             .filterNot { it is LimeTypesCollection || it is LimeTypeAlias }
-            .map { javaNameRules.getName(it) }
-            .groupBy { it }
+            .filter { it.external?.java == null }
+            .groupBy { resolveNestedNames(it).joinToString(".") }
             .filterValues { it.size > 1 }
             .keys
 
