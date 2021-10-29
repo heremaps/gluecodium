@@ -4,6 +4,7 @@
 ### Features:
   * Platform skip attributes (`@Skip(Java)`, `@Java(Skip)`, same for Swift and Dart) are now supported for fields of
     mutable structs.
+  * Added support for `internal` visibility of "field constructors".
 
 ## 10.1.7
 Release date: 2021-10-27

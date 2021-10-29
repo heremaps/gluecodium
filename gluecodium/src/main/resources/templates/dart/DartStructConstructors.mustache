@@ -74,7 +74,7 @@
 {{/if}}{{!!
 }}{{#if this.attributes.deprecated}}
   @Deprecated("{{#resolveName this.attributes.deprecated.message}}{{escape this}}{{/resolveName}}")
-{{/if}}{{>dart/DartAttributes}}{{!!
+{{/if}}{{prefixPartial "dart/DartAttributes" "  "}}{{!!
 }}  {{#if struct.attributes.immutable}}const {{/if}}{{resolveName struct}}{{#if external.dart.converter}}Internal{{/if}}{{!!
 }}{{>dart/DartConstructorName}}({{>thisDotFields}}){{#if omittedFields}}
       : {{#omittedFields}}{{resolveName visibility}}{{resolveName}} = {{resolveName defaultValue}}{{#if iter.hasNext}}, {{/if}}{{/omittedFields}}{{/if}};
