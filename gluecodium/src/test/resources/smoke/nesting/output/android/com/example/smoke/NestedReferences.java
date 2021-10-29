@@ -26,5 +26,5 @@ public final class NestedReferences extends NativeBase {
     }
     private static native void disposeNativeHandle(long nativeHandle);
     @NonNull
-    public native com.example.smoke.NestedReferences insideOut(@NonNull final com.example.smoke.NestedReferences.NestedReferences struct1, @NonNull final com.example.smoke.NestedReferences.NestedReferences struct2);
+    public native NestedReferences insideOut(@NonNull final NestedReferences.NestedReferences struct1, @NonNull final NestedReferences.NestedReferences struct2);
 }

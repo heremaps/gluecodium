@@ -9,5 +9,5 @@ public final class Constants {
     public static final float FLOAT_CONSTANT = 2.71f;
     public static final double DOUBLE_CONSTANT = -3.14;
     public static final String STRING_CONSTANT = "Foo bar";
-    public static final com.example.smoke.StateEnum ENUM_CONSTANT = com.example.smoke.StateEnum.ON;
+    public static final StateEnum ENUM_CONSTANT = StateEnum.ON;
 }
