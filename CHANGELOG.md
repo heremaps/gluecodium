@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 10.2.0
+Release date: 2021-10-29
 ### Features:
   * Platform skip attributes (`@Skip(Java)`, `@Java(Skip)`, same for Swift and Dart) are now supported for fields of
     mutable structs.
