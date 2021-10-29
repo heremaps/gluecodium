@@ -20,3 +20,10 @@ public class RefHolder {
 }
 /// :nodoc:
 public typealias _baseRef = Int64
+/// :nodoc:
+public struct PrimitiveHolder<T> {
+    public let ref: T
+    init(_ ref: T) {
+        self.ref = ref
+    }
+}
