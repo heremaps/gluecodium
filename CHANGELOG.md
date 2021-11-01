@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 10.2.1
+Release date: 2021-11-01
 ### Features:
   * Added support for `@Dart(FullName)` attribute.
 ### Bug fixes:
