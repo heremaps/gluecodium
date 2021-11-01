@@ -127,7 +127,7 @@ void main(List<String> arguments) {
 
   __lib.LibraryContext.init(__lib.IsolateOrigin.main, nativeLibraryPath: libraryName);
   _allTests.forEach((testCase) => testCase());
-  __lib.LibraryContext.release();
+//  __lib.LibraryContext.release();
 
   CallbacksMultithreadedTests.main([libraryName]);
 }

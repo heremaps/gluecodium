@@ -45,30 +45,31 @@ class ThreadedListenerImpl implements ThreadedListener {
 }
 
 void main(List<String> args) {
-  setUp(() {
+  _testSuite.test("Listener notifier on different C++ thread", () {
     LibraryContext.init(IsolateOrigin.main, nativeLibraryPath: args[0]);
-  });
-  tearDown(() {
+    () async {
+      final notifier = new ThreadedNotifier();
+      final listener = new ThreadedListenerImpl();
+
+      notifier.notifyOnDetached(listener, "foo");
+      final result = await completer.future;
+
+      expect(result, "foo");
+    }();
     LibraryContext.release();
   });
+  _testSuite.test("Lambda notifier on different C++ thread", () {
+    LibraryContext.init(IsolateOrigin.main, nativeLibraryPath: args[0]);
+    () async {
+      final notifier = new ThreadedNotifier();
+      final listener = new ThreadedListenerImpl();
 
-  _testSuite.test("Listener notifier on different C++ thread", () async {
-    final notifier = new ThreadedNotifier();
-    final listener = new ThreadedListenerImpl();
+      notifier.notifyLambdaOnDetached(
+              (String message) { completer.complete(message); }, "foo");
+      final result = await completer.future;
 
-    notifier.notifyOnDetached(listener, "foo");
-    final result = await completer.future;
-
-    expect(result, "foo");
-  });
-  _testSuite.test("Lambda notifier on different C++ thread", () async {
-    final notifier = new ThreadedNotifier();
-    final listener = new ThreadedListenerImpl();
-
-    notifier.notifyLambdaOnDetached(
-            (String message) { completer.complete(message); }, "foo");
-    final result = await completer.future;
-
-    expect(result, "foo");
+      expect(result, "foo");
+    }();
+    LibraryContext.release();
   });
 }

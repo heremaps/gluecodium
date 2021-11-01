@@ -22,6 +22,30 @@
 
 #include "IsolateContext.h"
 
+#include "CallbacksHandle.h"
+#include <new>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void
+{{libraryName}}_execute_context_guard_finalizer(void*, void* data) {
+    int32_t* p_isolate_id = reinterpret_cast<int32_t*>(data);
+    {{libraryName}}_library_callbacks_queue_release(*p_isolate_id);
+    delete p_isolate_id;
+}
+
+void
+{{libraryName}}_register_context_guard_finalizer(Dart_Handle dart_handle, int32_t isolate_id) {
+    int32_t* p_isolate_id = new (std::nothrow) int32_t(isolate_id);
+    Dart_NewFinalizableHandle_DL(dart_handle, p_isolate_id, sizeof(int32_t), &{{libraryName}}_execute_context_guard_finalizer);
+}
+
+#ifdef __cplusplus
+}
+#endif
+
 {{#internalNamespace}}
 namespace {{.}}
 {

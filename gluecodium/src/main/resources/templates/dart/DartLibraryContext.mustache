@@ -90,6 +90,7 @@ class LibraryContext {
 
   static int _isolateId = -1;
   static late StreamSubscription _callbackStream;
+  static late _ContextGuard _contextGuard;
 
   /// [nativeLibraryPath] is an optional parameter specifying a path to native shared library
   /// binary. If omitted (null) automatic library loading is attempted as a fallback. If loading
@@ -101,7 +102,18 @@ class LibraryContext {
 
     final receivePort = ReceivePort();
     Isolate.spawn(_sentryIsolate, _SentryIsolateMessage(receivePort.sendPort, isolateId, nativeLibraryPath));
-    _callbackStream = receivePort.listen((dynamic _) { _libraryExecuteCallbacks(isolateId); });
+    _callbackStream = receivePort.listen((dynamic status) {
+      switch (status) {
+        case WaitCallbackResult.hasIncoming:
+          _libraryExecuteCallbacks(isolateId);
+          break;
+        case WaitCallbackResult.stopped:
+          receivePort.close();
+          break;
+      }
+    });
+
+    _contextGuard = _ContextGuard(_isolateId);
   }
 
   static void release() {
@@ -116,10 +128,10 @@ class LibraryContext {
     do {
       waitResult = WaitCallbackResult.values[_libraryWaitForCallbacks(message.isolateId)];
       if (waitResult == WaitCallbackResult.hasIncoming) {
-        message.port.send(1);
+        message.port.send(WaitCallbackResult.hasIncoming);
       }
     } while (waitResult != WaitCallbackResult.stopped);
-    message.port.send(0);
+    message.port.send(WaitCallbackResult.stopped);
   }
 
   static void _loadCustomLibrary(String? nativeLibraryPath) {
@@ -135,5 +147,20 @@ class LibraryContext {
     if (_libraryDartDlInit(NativeApi.initializeApiDLData) != 1) {
       throw UnsupportedError("Unsupported version of Dart DL API. FFI 1.0 (Dart 2.12) or newer is required.");
     }
+  }
+}
+
+// ContextGuard
+
+int fooBar() { return 0; }
+
+class _ContextGuard {
+  _ContextGuard(int isolateId) {
+    final _registerContextGuardFinalizer = catchArgumentError(() => nativeLibrary.lookupFunction<
+        Void Function(Handle, Int32),
+        void Function(Object, int)
+      >('{{libraryName}}_register_context_guard_finalizer'));
+
+    _registerContextGuardFinalizer(this, isolateId);
   }
 }
