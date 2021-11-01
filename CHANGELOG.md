@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed linking issues in Dart when building it with Xcode.
+
 ## 10.2.0
 Release date: 2021-10-29
 ### Features:

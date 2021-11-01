@@ -35,7 +35,7 @@ struct FinalizerData {
     void (*finalizer)(FfiOpaqueHandle, int32_t);
 };
 
-void {{libraryName}}_execute_finalizer(void*, void* data);
+_GLUECODIUM_FFI_EXPORT void {{libraryName}}_execute_finalizer(void*, void* data);
 
 #ifdef __cplusplus
 }
