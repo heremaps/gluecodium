@@ -178,6 +178,9 @@ internal class DartNameResolver(
         }
 
     private fun resolveTypeName(limeType: LimeType): String {
+        val enforcedFullName = limeType.attributes.get(LimeAttributeType.DART, LimeAttributeValueType.FULL_NAME)
+        if (enforcedFullName != null) return enforcedFullName
+
         val typeName = getPlatformName(limeType)
         val parentType = if (limeType.path.hasParent) getParentElement(limeType) as? LimeType else null
         return when (parentType) {

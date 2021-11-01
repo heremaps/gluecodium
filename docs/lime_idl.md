@@ -574,8 +574,11 @@ element is skipped (not generated). Custom tags are case-insensitive.
   `@Swift(Attribute="available(*, deprecated, message: \"It's deprecated.\")")`. If some of the parameters are string
   literals, their enclosing quotes need to be backslash-escaped, as in the example.
 * **@Dart**: marks an element with Dart-specific behaviors:
-  * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Dart.
-  This is the default specification for this attribute.
+  * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Dart. This is the default
+  specification for this attribute.
+  * **FullName** **=** **"**_ElementName_**"**: marks an element to have a distinct full name in Dart. Normally full
+  name is the name of the element itself, prefixed by the name of its nesting parents. But this attribute overrides this
+  name concatenation. This attribute is only meaningful for nested type declarations.
   * **Default**: marks a constructor as a "default" (nameless) in Dart.
   * **Skip** \[**=** **"**_CustomTag_**"** \]: marks an element to be skipped (not generated) in Dart. Can be applied to
   any element except for enumerators and fields of `@Immutable` structs. Optionally, if custom tag is specified, the

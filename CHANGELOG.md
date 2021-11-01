@@ -1,6 +1,8 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Features:
+  * Added support for `@Dart(FullName)` attribute.
 ### Bug fixes:
   * Fixed linking issues in Dart when building it with Xcode.
 

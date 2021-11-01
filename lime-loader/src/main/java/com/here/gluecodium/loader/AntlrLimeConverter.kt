@@ -189,6 +189,7 @@ internal object AntlrLimeConverter {
             "Default" -> LimeAttributeValueType.DEFAULT
             "EnableIf" -> LimeAttributeValueType.ENABLE_IF
             "Extension" -> LimeAttributeValueType.EXTENSION
+            "FullName" -> LimeAttributeValueType.FULL_NAME
             "FunctionName" -> LimeAttributeValueType.FUNCTION_NAME
             "Label" -> LimeAttributeValueType.LABEL
             "Message" -> LimeAttributeValueType.MESSAGE
