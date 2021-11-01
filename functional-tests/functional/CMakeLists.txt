@@ -403,6 +403,10 @@ feature(EscapedNames cpp android swift dart SOURCES
     input/lime/KeywordNames.lime
 )
 
+feature(FullName dart SOURCES
+    input/lime/FullName.lime
+)
+
 feature(Nesting cpp android swift dart SOURCES
     input/src/cpp/TopLevelTypes.cpp
     input/src/cpp/NestedContainers.cpp
