@@ -175,7 +175,7 @@ function(_find_build_utility_in_android_ndk result name)
     endif()
 
     # Order is important to pickup names with suffixes first
-    list (APPEND _possible_names "${program_name}")
+    list (APPEND _possible_names "${program_name}" "llvm-${program_name}")
 
     find_program (
         _ndk_utility_path
