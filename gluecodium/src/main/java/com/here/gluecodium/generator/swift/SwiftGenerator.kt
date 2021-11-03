@@ -24,7 +24,6 @@ import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.common.LimeModelFilter
 import com.here.gluecodium.common.LimeModelSkipPredicates
 import com.here.gluecodium.generator.cbridge.CBridgeGenerator
-import com.here.gluecodium.generator.cbridge.CBridgeGenerator.Companion.getAllParentTypes
 import com.here.gluecodium.generator.cbridge.CBridgeNameResolver
 import com.here.gluecodium.generator.common.CommentsProcessor
 import com.here.gluecodium.generator.common.GeneratedFile
@@ -184,7 +183,7 @@ internal class SwiftGenerator : Generator {
     ): List<GeneratedFile> {
 
         val allTypes = limeModel.flatMap { LimeTypeHelper.getAllTypes(it) }
-        val allParentTypes = getAllParentTypes(allTypes)
+        val allParentTypes = LimeTypeHelper.getAllParentTypes(allTypes)
         val genericTypes = genericTypesCollector.getAllGenericTypes(allTypes + allParentTypes)
 
         val listsFile = generateCollectionsFile(

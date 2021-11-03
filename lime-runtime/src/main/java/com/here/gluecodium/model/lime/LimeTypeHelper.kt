@@ -59,6 +59,12 @@ object LimeTypeHelper {
             else -> identifier
         }
 
+    fun getAllParentTypes(allTypes: List<LimeType>): List<LimeType> {
+        if (allTypes.isEmpty()) return emptyList()
+        val parents = allTypes.filterIsInstance<LimeContainerWithInheritance>().flatMap { it.parents }.map { it.type }
+        return parents + getAllParentTypes(parents)
+    }
+
     private val limeKeywords = setOf(
         "class", "const", "constructor", "enum", "exception", "external", "field", "fun",
         "get", "import", "interface", "internal", "lambda", "narrow", "open", "package", "property", "public",

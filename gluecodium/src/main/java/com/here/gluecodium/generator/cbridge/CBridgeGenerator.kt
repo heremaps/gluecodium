@@ -37,7 +37,6 @@ import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeContainer
-import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
@@ -125,7 +124,7 @@ internal class CBridgeGenerator(
 
     fun generateCollections(limeModel: List<LimeNamedElement>): List<GeneratedFile> {
         val allTypes = limeModel.flatMap { LimeTypeHelper.getAllTypes(it) }
-        val allParentTypes = getAllParentTypes(allTypes)
+        val allParentTypes = LimeTypeHelper.getAllParentTypes(allTypes)
         val genericTypes = genericTypesCollector.getAllGenericTypes(allTypes + allParentTypes)
         val templateData = mutableMapOf<String, Any>(
             "lists" to genericTypes.filterIsInstance<LimeList>(),
@@ -317,12 +316,6 @@ internal class CBridgeGenerator(
                 Generator.copyCommonFile(Paths.get(CBRIDGE_PUBLIC, INCLUDE_DIR, "LocaleHandle.h").toString(), ""),
                 Generator.copyCommonFile(PROXY_CACHE_FILENAME, "")
             )
-        }
-
-        fun getAllParentTypes(allTypes: List<LimeType>): List<LimeType> {
-            if (allTypes.isEmpty()) return emptyList()
-            val parents = allTypes.filterIsInstance<LimeContainerWithInheritance>().flatMap { it.parents }.map { it.type }
-            return parents + getAllParentTypes(parents)
         }
     }
 }
