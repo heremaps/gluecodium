@@ -132,7 +132,10 @@ internal class SwiftGenerator : Generator {
         val nameResolvers =
             mapOf("" to swiftNameResolver, "CBridge" to cbridgeNameResolver, "mangled" to mangledNameResolver)
         val predicates = SwiftGeneratorPredicates(limeModel.referenceMap, nameRules, swiftSignatureResolver)
-        val swiftFiles = swiftFilteredModel.topElements.map { generateSwiftFile(it, nameResolvers, predicates) }
+        val descendantInterfaces = LimeTypeHelper.collectDescendantInterfaces(swiftFilteredModel.topElements)
+        val swiftFiles = swiftFilteredModel.topElements.map {
+            generateSwiftFile(it, nameResolvers, predicates, descendantInterfaces)
+        }
         if (commentsProcessor.hasError) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
@@ -154,7 +157,8 @@ internal class SwiftGenerator : Generator {
     private fun generateSwiftFile(
         limeElement: LimeNamedElement,
         nameResolvers: Map<String, NameResolver>,
-        predicates: SwiftGeneratorPredicates
+        predicates: SwiftGeneratorPredicates,
+        descendantInterfaces: Map<String, List<LimeInterface>>
     ): GeneratedFile {
 
         val imports = importsCollector.collectImports(limeElement)
@@ -166,7 +170,8 @@ internal class SwiftGenerator : Generator {
             "allExceptions" to allExceptions,
             "definitionTemplate" to selectDefinitionTemplate(limeElement),
             "conversionTemplate" to selectConversionTemplate(limeElement),
-            "conversionVisibility" to conversionVisibility
+            "conversionVisibility" to conversionVisibility,
+            "descendantInterfaces" to descendantInterfaces
         )
         return GeneratedFile(
             TemplateEngine.render("swift/SwiftFile", templateData, nameResolvers, predicates.predicates),

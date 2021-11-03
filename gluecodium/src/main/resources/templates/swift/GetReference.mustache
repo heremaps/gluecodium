@@ -34,14 +34,20 @@
     guard let reference = ref else {
         return RefHolder(0)
     }
-
 {{#unless isNarrow}}
+
     if let instanceReference = reference as? NativeBase {
         let handle_copy = {{resolveName "CBridge"}}_copy_handle(instanceReference.c_handle)
         return owning
             ? RefHolder(ref: handle_copy, release: {{resolveName "CBridge"}}_release_handle)
             : RefHolder(handle_copy)
     }
+{{#eval "descendantInterfaces" fullName}}
+
+    if let descendantResult = tryDescendantGetRef(reference, owning{{#ifPredicate "hasWeakSupport"}}, isWeak{{/ifPredicate}}) {
+        return descendantResult
+    }
+{{/eval}}
 {{/unless}}
 
     var functions = {{resolveName "CBridge"}}_FunctionTable()
@@ -67,14 +73,26 @@
 {{/unless}}{{/each}}
     let proxy = {{resolveName "CBridge"}}_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: {{resolveName "CBridge"}}_release_handle) : RefHolder(proxy)
-}
 {{/class}}{{/set}}
+}
 {{#ifPredicate "hasWeakSupport"}}
 
 {{>swift/ConversionVisibility}} func weakToCType(_ swiftClass: {{resolveName}}?) -> RefHolder {
     return getRef(swiftClass, owning: true, isWeak: true)
 }
-{{/ifPredicate}}{{!!
+{{/ifPredicate}}
+{{#unless isNarrow}}{{#set interface=this}}{{#eval "descendantInterfaces" fullName}}
+
+func tryDescendantGetRef(_ reference: {{resolveName interface "" "ref"}}, _ owning: Bool{{!!
+}}{{#ifPredicate interface "hasWeakSupport"}}, _ isWeak: Bool{{/ifPredicate}}) -> RefHolder? {
+{{#this}}{{!! pre-sorted, most distant descendants are prioritized }}
+    if reference is {{resolveName}} {
+        return getRef(reference as? {{resolveName}}, owning: owning{{#ifPredicate interface "hasWeakSupport"}}, isWeak: isWeak{{/ifPredicate}})
+    }
+{{/this}}
+    return nil
+}
+{{/eval}}{{/set}}{{/unless}}{{!!
 
 }}{{+functionTableEntry}}
     functions.{{resolveName function "CBridge"}} = {(swift_class_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}) in
