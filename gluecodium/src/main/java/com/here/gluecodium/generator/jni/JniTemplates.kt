@@ -53,7 +53,8 @@ internal class JniTemplates(
     private val internalNamespace: List<String>,
     cppNameRules: CppNameRules,
     nameCache: CppNameCache,
-    activeTags: Set<String>
+    activeTags: Set<String>,
+    private val descendantInterfaces: Map<String, List<LimeInterface>>
 ) {
     private val jniNameResolver = JniNameResolver(limeReferenceMap, basePackages, javaNameRules)
     private val cppNameResolver = CppNameResolver(limeReferenceMap, internalNamespace, nameCache)
@@ -252,7 +253,7 @@ internal class JniTemplates(
     private fun generateInstanceConversionFiles(limeElement: LimeNamedElement): List<GeneratedFile> {
         val fileName = fileNameRules.getConversionFileName(limeElement)
         val selfInclude = Include.createInternalInclude("$fileName.h")
-        // Conversion includes need to be be added to the header file instead of the impl file, for unity builds.
+        // Conversion includes need to be added to the header file instead of the impl file, for unity builds.
         val headerIncludes = cppIncludeResolver.resolveElementImports(limeElement).distinct().sorted() +
             jniIncludeCollector.collectImports(limeElement).distinct().minus(selfInclude).sorted()
 
@@ -261,7 +262,8 @@ internal class JniTemplates(
             "includes" to headerIncludes,
             "basePackages" to basePackages,
             "internalPackages" to basePackages + internalPackages,
-            "internalNamespace" to internalNamespace
+            "internalNamespace" to internalNamespace,
+            "descendantInterfaces" to descendantInterfaces
         )
         val headerFile = GeneratedFile(
             TemplateEngine.render(

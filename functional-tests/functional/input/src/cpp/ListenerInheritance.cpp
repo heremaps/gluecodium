@@ -18,14 +18,34 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "another/AdditionalErrors.h"
-#include "another/TypeCollectionWithEnums.h"
 #include "test/ChildListener.h"
 #include "test/ParentListener.h"
+#include "test/Broadcaster.h"
 #include "test/Talker.h"
+#include <unordered_set>
 
 namespace test
 {
+namespace {
+class BroadcasterImpl : public Broadcaster {
+public:
+    void add_parent_listener(const std::shared_ptr<ParentListener>& listener) override {
+        m_listeners.insert(listener);
+    }
+
+    void add_child_listener(const std::shared_ptr<ChildListener>& listener) override {
+        m_listeners.insert(listener);
+    }
+
+    bool remove_listener(const std::shared_ptr<ParentListener>& listener) override {
+        return m_listeners.erase(listener) == 1;
+    }
+
+private:
+    std::unordered_set<std::shared_ptr<ParentListener>> m_listeners;
+};
+}
+
 void
 Talker::talk_to_parent( const std::shared_ptr< ParentListener >& listener )
 {
@@ -37,4 +57,10 @@ Talker::talk_to_child( const std::shared_ptr< ChildListener >& listener )
 {
     listener->listen( );
 }
-}  // namespace test
+
+std::shared_ptr<Broadcaster>
+Broadcaster::create() {
+    return std::make_shared<BroadcasterImpl>();
+}
+
+}

@@ -267,7 +267,7 @@ feature(Inheritance cpp android swift dart SOURCES
     input/src/cpp/ChildClassImpl.h
     input/src/cpp/GrandchildClassImpl.cpp
     input/src/cpp/GrandchildClassImpl.h
-    input/src/cpp/Talker.cpp
+    input/src/cpp/ListenerInheritance.cpp
     input/src/cpp/Teacher.cpp
     input/src/cpp/Inheritance.cpp
     input/src/cpp/CrossPackageInheritance.cpp

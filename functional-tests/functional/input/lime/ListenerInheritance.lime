@@ -31,3 +31,10 @@ class Talker {
         listener: ChildListener
     )
 }
+
+class Broadcaster {
+    constructor create()
+    fun addParentListener(listener: ParentListener)
+    fun addChildListener(listener: ChildListener)
+    fun removeListener(listener: ParentListener): Boolean
+}

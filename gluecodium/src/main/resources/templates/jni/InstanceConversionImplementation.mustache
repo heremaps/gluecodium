@@ -43,7 +43,9 @@ REGISTER_JNI_CLASS_CACHE_INHERITANCE("{{resolveName}}{{#notInstanceOf this "Lime
 {{/ifPredicate}}{{#unlessPredicate "hasTypeRepository"}}
 REGISTER_JNI_CLASS_CACHE("{{resolveName}}{{#notInstanceOf this "LimeClass"}}Impl{{/notInstanceOf}}", {{!!
 }}{{resolveName "mangled"}}, {{resolveName "C++ FQN"}})
-{{/unlessPredicate}}
+{{/unlessPredicate}}{{#unless isNarrow}}{{#instanceOf this "LimeInterface"}}{{#if this.parents}}
+REGISTER_JNI_CLASS_CACHE_INTERFACE("{{resolveName}}", {{resolveName "mangled"}}__interface, {{resolveName "C++ FQN"}})
+{{/if}}{{/instanceOf}}{{/unless}}
 
 {{#notInstanceOf this "LimeClass"}}{{#instanceOf this "LimeLambda"}}
 void {{>conversionPrefix}}createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, {{resolveName "C++ FQN"}}& result)
@@ -62,6 +64,18 @@ void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared
     }}env, obj, "{{resolveName "mangled"}}", result);
 }
 {{/notInstanceOf}}{{/notInstanceOf}}
+
+{{#unless isNarrow}}{{#instanceOf this "LimeInterface"}}{{#set interface=this}}{{#eval "descendantInterfaces" fullName}}
+{{#interface}}{{>cppTypeName}}{{/interface}} try_descendant_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, {{#interface}}{{>cppTypeName}}{{/interface}}*) {
+{{#this}}{{!! pre-sorted, most distant descendants are prioritized }}
+    if (_env->IsInstanceOf(_jobj.get(), CachedJavaInterface<{{resolveName "C++ FQN"}}>::java_class.get())) {
+        return {{>conversionPrefix}}convert_from_jni(_env, _jobj, ({{>cppTypeName}}*)nullptr);
+    }
+{{/this}}
+    return {};
+}
+
+{{/eval}}{{/set}}{{/instanceOf}}{{/unless}}
 
 {{>cppTypeName}} {{>conversionPrefix}}convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, {{>cppTypeName}}*)
 {
@@ -84,6 +98,10 @@ void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared
     }
     else
     {
+{{#instanceOf this "LimeInterface"}}{{#set interface=this}}{{#eval "descendantInterfaces" fullName}}
+        _nresult = try_descendant_from_jni(_env, _jobj, ({{#interface}}{{>cppTypeName}}{{/interface}}*)nullptr);
+        if (_nresult) return _nresult;
+{{/eval}}{{/set}}{{/instanceOf}}
         {{>conversionPrefix}}createCppProxy(_env, _jobj, _nresult);
     }
 {{/unless}}
