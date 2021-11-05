@@ -72,8 +72,27 @@ private:
     }
 };
 
+template <class ... CppTypes>
+class CachedJavaInterface : public CachedJavaClassBase
+{
+public:
+    using CachedJavaClassBase::CachedJavaClassBase;
+
+    static JniReference<jclass> java_class;
+
+private:
+    JniReference<jclass>* set_java_class(JniReference<jclass> java_class_reference) override
+    {
+        java_class = std::move(java_class_reference);
+        return &java_class;
+    }
+};
+
 template<class ... CppTypes>
 JniReference<jclass> CachedJavaClass<CppTypes...>::java_class;
+
+template<class ... CppTypes>
+JniReference<jclass> CachedJavaInterface<CppTypes...>::java_class;
 
 #define REGISTER_JNI_CLASS_CACHE(name, register_name, ...) \
   namespace { \
@@ -84,6 +103,12 @@ JniReference<jclass> CachedJavaClass<CppTypes...>::java_class;
   namespace { \
   CachedJavaClass<__VA_ARGS__> register_name(name, cpp_name); \
   }
+
+#define REGISTER_JNI_CLASS_CACHE_INTERFACE(name, register_name, ...) \
+  namespace { \
+  CachedJavaInterface<__VA_ARGS__> register_name(name); \
+  }
+
 
 JNIEXPORT JniReference<jclass>& get_cached_native_base_class();
 

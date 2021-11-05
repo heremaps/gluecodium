@@ -65,6 +65,29 @@ object LimeTypeHelper {
         return parents + getAllParentTypes(parents)
     }
 
+    fun collectDescendantInterfaces(elements: List<LimeNamedElement>): Map<String, List<LimeInterface>> {
+        val allInterfaces = elements.flatMap { getAllTypes(it) }.filterIsInstance<LimeInterface>()
+        val result = mutableMapOf<String, MutableList<LimeInterface>>()
+        for (limeInterface in allInterfaces) {
+            getAllParentTypes(listOf(limeInterface)).forEach {
+                result.getOrPut(it.fullName) { mutableListOf() } += limeInterface
+            }
+        }
+        for (entry in result) {
+            entry.value.sortByDescending { computeInheritanceDistance(it, entry.key) ?: Int.MIN_VALUE }
+        }
+        return result
+    }
+
+    private fun computeInheritanceDistance(limeContainer: LimeContainerWithInheritance, parentFullName: String): Int? {
+        if (limeContainer.parents.isEmpty()) return null
+        val parentTypes = limeContainer.parents.map { it.type.actualType }
+        if (parentTypes.any { it.fullName == parentFullName }) return 1
+        val parentDistances = parentTypes.filterIsInstance<LimeContainerWithInheritance>()
+            .mapNotNull { computeInheritanceDistance(it, parentFullName) }
+        return parentDistances.minOrNull()?.let { it + 1 }
+    }
+
     private val limeKeywords = setOf(
         "class", "const", "constructor", "enum", "exception", "external", "field", "fun",
         "get", "import", "interface", "internal", "lambda", "narrow", "open", "package", "property", "public",

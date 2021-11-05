@@ -26,6 +26,10 @@ interface ChildInterface : ParentInterface {
     fun childMethod()
 }
 
+interface GrandChildInterface : ChildInterface {
+    fun grandChildMethod()
+}
+
 class ChildClassFromInterface : ParentInterface {
     fun childClassMethod()
 }

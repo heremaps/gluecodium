@@ -133,6 +133,7 @@ internal class JavaGenerator : Generator {
             GeneratedFile.SourceSet.COMMON
         )
 
+        val descendantInterfaces = LimeTypeHelper.collectDescendantInterfaces(jniFilteredModel.topElements)
         val jniTemplates = JniTemplates(
             limeReferenceMap = jniFilteredModel.referenceMap,
             javaNameRules = javaNameRules,
@@ -141,7 +142,8 @@ internal class JavaGenerator : Generator {
             internalNamespace = internalNamespace,
             cppNameRules = cppNameRules,
             nameCache = cachingNameResolver,
-            activeTags = activeTags
+            activeTags = activeTags,
+            descendantInterfaces = descendantInterfaces
         )
         for (fileName in UTILS_FILES) {
             resultFiles += jniTemplates.generateConversionUtilsHeaderFile(fileName)

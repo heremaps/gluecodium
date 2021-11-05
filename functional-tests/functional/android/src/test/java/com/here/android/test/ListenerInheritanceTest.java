@@ -69,4 +69,24 @@ public class ListenerInheritanceTest {
 
     assertTrue(called);
   }
+
+  @Test
+  public void addRemoveParentListener() {
+    Broadcaster caster = new Broadcaster();
+    caster.addParentListener(fakeParentListener);
+
+    boolean result = caster.removeListener(fakeParentListener);
+
+    assertTrue(result);
+  }
+
+  @Test
+  public void addRemoveChildListener() {
+    Broadcaster caster = new Broadcaster();
+    caster.addChildListener(fakeChildListener);
+
+    boolean result = caster.removeListener(fakeChildListener);
+
+    assertTrue(result);
+  }
 }

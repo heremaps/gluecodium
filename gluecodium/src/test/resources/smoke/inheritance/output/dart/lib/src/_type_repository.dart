@@ -4,6 +4,7 @@ import 'package:library/src/smoke/child_class_with_imports.dart';
 import 'package:library/src/smoke/child_class_with_lambda.dart';
 import 'package:library/src/smoke/child_interface.dart';
 import 'package:library/src/smoke/child_with_parent_class_references.dart';
+import 'package:library/src/smoke/grand_child_interface.dart';
 import 'package:library/src/smoke/interface_with_lambda.dart';
 import 'package:library/src/smoke/internal_child.dart';
 import 'package:library/src/smoke/internal_parent.dart';
@@ -18,6 +19,7 @@ final Map<String, Function> typeRepository = {
   "smoke_ChildClassWithLambda": (handle) => ChildClassWithLambda$Impl(handle),
   "smoke_ChildInterface": (handle) => ChildInterface$Impl(handle),
   "smoke_ChildWithParentClassReferences": (handle) => ChildWithParentClassReferences$Impl(handle),
+  "smoke_GrandChildInterface": (handle) => GrandChildInterface$Impl(handle),
   "smoke_InterfaceWithLambda": (handle) => InterfaceWithLambda$Impl(handle),
   "smoke_InternalChild": (handle) => InternalChild$Impl(handle),
   "smoke_InternalParent": (handle) => InternalParent$Impl(handle),
