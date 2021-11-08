@@ -1,11 +1,12 @@
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:library/src/smoke/date_alias.dart';
 class DateDefaultsAliased {
-  DateTime dateTime;
-  DateTime dateTimeUtc;
-  DateTime beforeEpoch;
-  DateTime exactlyEpoch;
+  DateAlias dateTime;
+  DateAlias dateTimeUtc;
+  DateAlias beforeEpoch;
+  DateAlias exactlyEpoch;
   DateDefaultsAliased._(this.dateTime, this.dateTimeUtc, this.beforeEpoch, this.exactlyEpoch);
   DateDefaultsAliased()
     : dateTime = DateTime.fromMillisecondsSinceEpoch(1643966117000), dateTimeUtc = DateTime.fromMillisecondsSinceEpoch(1643966117000), beforeEpoch = DateTime.fromMillisecondsSinceEpoch(-1511793883000), exactlyEpoch = DateTime.fromMillisecondsSinceEpoch(0);

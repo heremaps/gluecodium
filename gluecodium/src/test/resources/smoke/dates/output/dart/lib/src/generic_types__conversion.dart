@@ -1,4 +1,5 @@
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:library/src/smoke/dates_steady.dart';
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 final _foobarListofDateCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -118,7 +119,7 @@ final _foobarListofDateStd2chrono2steady1clock2time1pointIteratorGet = __lib.cat
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
 >('library_foobar_ListOf_Date_std_2chrono_2steady_1clock_2time_1point_iterator_get'));
-Pointer<Void> foobarListofDateStd2chrono2steady1clock2time1pointToFfi(List<DateTime> value) {
+Pointer<Void> foobarListofDateStd2chrono2steady1clock2time1pointToFfi(List<DatesSteady_MonotonicDate> value) {
   final _result = _foobarListofDateStd2chrono2steady1clock2time1pointCreateHandle();
   for (final element in value) {
     final _elementHandle = dateToFfi(element);
@@ -127,8 +128,8 @@ Pointer<Void> foobarListofDateStd2chrono2steady1clock2time1pointToFfi(List<DateT
   }
   return _result;
 }
-List<DateTime> foobarListofDateStd2chrono2steady1clock2time1pointFromFfi(Pointer<Void> handle) {
-  final result = List<DateTime>.empty(growable: true);
+List<DatesSteady_MonotonicDate> foobarListofDateStd2chrono2steady1clock2time1pointFromFfi(Pointer<Void> handle) {
+  final result = List<DatesSteady_MonotonicDate>.empty(growable: true);
   final _iteratorHandle = _foobarListofDateStd2chrono2steady1clock2time1pointIterator(handle);
   while (_foobarListofDateStd2chrono2steady1clock2time1pointIteratorIsValid(handle, _iteratorHandle) != 0) {
     final _elementHandle = _foobarListofDateStd2chrono2steady1clock2time1pointIteratorGet(_iteratorHandle);
@@ -155,14 +156,14 @@ final _foobarListofDateStd2chrono2steady1clock2time1pointGetValueNullable = __li
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_ListOf_Date_std_2chrono_2steady_1clock_2time_1point_get_value_nullable'));
-Pointer<Void> foobarListofDateStd2chrono2steady1clock2time1pointToFfiNullable(List<DateTime>? value) {
+Pointer<Void> foobarListofDateStd2chrono2steady1clock2time1pointToFfiNullable(List<DatesSteady_MonotonicDate>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobarListofDateStd2chrono2steady1clock2time1pointToFfi(value);
   final result = _foobarListofDateStd2chrono2steady1clock2time1pointCreateHandleNullable(_handle);
   foobarListofDateStd2chrono2steady1clock2time1pointReleaseFfiHandle(_handle);
   return result;
 }
-List<DateTime>? foobarListofDateStd2chrono2steady1clock2time1pointFromFfiNullable(Pointer<Void> handle) {
+List<DatesSteady_MonotonicDate>? foobarListofDateStd2chrono2steady1clock2time1pointFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobarListofDateStd2chrono2steady1clock2time1pointGetValueNullable(handle);
   final result = foobarListofDateStd2chrono2steady1clock2time1pointFromFfi(_handle);
@@ -207,7 +208,7 @@ final _foobarMapofDateStd2chrono2steady1clock2time1pointToStringIteratorGetValue
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
 >('library_foobar_MapOf_Date_std_2chrono_2steady_1clock_2time_1point_to_String_iterator_get_value'));
-Pointer<Void> foobarMapofDateStd2chrono2steady1clock2time1pointToStringToFfi(Map<DateTime, String> value) {
+Pointer<Void> foobarMapofDateStd2chrono2steady1clock2time1pointToStringToFfi(Map<DatesSteady_MonotonicDate, String> value) {
   final _result = _foobarMapofDateStd2chrono2steady1clock2time1pointToStringCreateHandle();
   for (final entry in value.entries) {
     final _keyHandle = dateToFfi(entry.key);
@@ -218,8 +219,8 @@ Pointer<Void> foobarMapofDateStd2chrono2steady1clock2time1pointToStringToFfi(Map
   }
   return _result;
 }
-Map<DateTime, String> foobarMapofDateStd2chrono2steady1clock2time1pointToStringFromFfi(Pointer<Void> handle) {
-  final result = Map<DateTime, String>();
+Map<DatesSteady_MonotonicDate, String> foobarMapofDateStd2chrono2steady1clock2time1pointToStringFromFfi(Pointer<Void> handle) {
+  final result = Map<DatesSteady_MonotonicDate, String>();
   final _iteratorHandle = _foobarMapofDateStd2chrono2steady1clock2time1pointToStringIterator(handle);
   while (_foobarMapofDateStd2chrono2steady1clock2time1pointToStringIteratorIsValid(handle, _iteratorHandle) != 0) {
     final _keyHandle = _foobarMapofDateStd2chrono2steady1clock2time1pointToStringIteratorGetKey(_iteratorHandle);
@@ -249,14 +250,14 @@ final _foobarMapofDateStd2chrono2steady1clock2time1pointToStringGetValueNullable
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_foobar_MapOf_Date_std_2chrono_2steady_1clock_2time_1point_to_String_get_value_nullable'));
-Pointer<Void> foobarMapofDateStd2chrono2steady1clock2time1pointToStringToFfiNullable(Map<DateTime, String>? value) {
+Pointer<Void> foobarMapofDateStd2chrono2steady1clock2time1pointToStringToFfiNullable(Map<DatesSteady_MonotonicDate, String>? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = foobarMapofDateStd2chrono2steady1clock2time1pointToStringToFfi(value);
   final result = _foobarMapofDateStd2chrono2steady1clock2time1pointToStringCreateHandleNullable(_handle);
   foobarMapofDateStd2chrono2steady1clock2time1pointToStringReleaseFfiHandle(_handle);
   return result;
 }
-Map<DateTime, String>? foobarMapofDateStd2chrono2steady1clock2time1pointToStringFromFfiNullable(Pointer<Void> handle) {
+Map<DatesSteady_MonotonicDate, String>? foobarMapofDateStd2chrono2steady1clock2time1pointToStringFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _foobarMapofDateStd2chrono2steady1clock2time1pointToStringGetValueNullable(handle);
   final result = foobarMapofDateStd2chrono2steady1clock2time1pointToStringFromFfi(_handle);

@@ -10,7 +10,7 @@ import 'package:library/src/package/types.dart';
 import 'package:meta/meta.dart';
 abstract class Class implements Interface {
   factory Class() => $prototype.constructor();
-  Types_Struct fun(List<Types_Struct> double);
+  Types_Struct fun(Types_ULong double);
   Types_Enum get property;
   set property(Types_Enum value);
   /// @nodoc
@@ -67,7 +67,7 @@ class Class$Impl extends __lib.NativeBase implements Class {
     return __resultHandle;
   }
   @override
-  Types_Struct fun(List<Types_Struct> double) {
+  Types_Struct fun(Types_ULong double) {
     final _funFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_package_Class_fun__ListOf_package_Types_Struct'));
     final _doubleHandle = foobarListofPackageTypesStructToFfi(double);
     final _handle = this.handle;

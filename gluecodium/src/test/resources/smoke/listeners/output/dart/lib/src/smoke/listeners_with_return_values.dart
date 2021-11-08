@@ -13,7 +13,7 @@ abstract class ListenersWithReturnValues {
     ListenersWithReturnValues_ResultStruct Function() fetchDataStructLambda,
     ListenersWithReturnValues_ResultEnum Function() fetchDataEnumLambda,
     List<double> Function() fetchDataArrayLambda,
-    Map<String, double> Function() fetchDataMapLambda,
+    ListenersWithReturnValues_StringToDouble Function() fetchDataMapLambda,
     CalculationResult Function() fetchDataInstanceLambda,
   ) => ListenersWithReturnValues$Lambdas(
     fetchDataDoubleLambda,
@@ -30,9 +30,10 @@ abstract class ListenersWithReturnValues {
   ListenersWithReturnValues_ResultStruct fetchDataStruct();
   ListenersWithReturnValues_ResultEnum fetchDataEnum();
   List<double> fetchDataArray();
-  Map<String, double> fetchDataMap();
+  ListenersWithReturnValues_StringToDouble fetchDataMap();
   CalculationResult fetchDataInstance();
 }
+typedef ListenersWithReturnValues_StringToDouble = Map<String, double>;
 enum ListenersWithReturnValues_ResultEnum {
     none,
     result
@@ -177,7 +178,7 @@ class ListenersWithReturnValues$Lambdas implements ListenersWithReturnValues {
   ListenersWithReturnValues_ResultStruct Function() fetchDataStructLambda;
   ListenersWithReturnValues_ResultEnum Function() fetchDataEnumLambda;
   List<double> Function() fetchDataArrayLambda;
-  Map<String, double> Function() fetchDataMapLambda;
+  ListenersWithReturnValues_StringToDouble Function() fetchDataMapLambda;
   CalculationResult Function() fetchDataInstanceLambda;
   ListenersWithReturnValues$Lambdas(
     this.fetchDataDoubleLambda,
@@ -205,7 +206,7 @@ class ListenersWithReturnValues$Lambdas implements ListenersWithReturnValues {
   List<double> fetchDataArray() =>
     fetchDataArrayLambda();
   @override
-  Map<String, double> fetchDataMap() =>
+  ListenersWithReturnValues_StringToDouble fetchDataMap() =>
     fetchDataMapLambda();
   @override
   CalculationResult fetchDataInstance() =>
@@ -269,7 +270,7 @@ class ListenersWithReturnValues$Impl extends __lib.NativeBase implements Listene
     }
   }
   @override
-  Map<String, double> fetchDataMap() {
+  ListenersWithReturnValues_StringToDouble fetchDataMap() {
     final _fetchDataMapFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ListenersWithReturnValues_fetchDataMap'));
     final _handle = this.handle;
     final __resultHandle = _fetchDataMapFfi(_handle, __lib.LibraryContext.isolateId);
@@ -337,7 +338,7 @@ int _smokeListenerswithreturnvaluesfetchDataArrayStatic(Object _obj, Pointer<Poi
   return 0;
 }
 int _smokeListenerswithreturnvaluesfetchDataMapStatic(Object _obj, Pointer<Pointer<Void>> _result) {
-  Map<String, double>? _resultObject;
+  ListenersWithReturnValues_StringToDouble? _resultObject;
   try {
     _resultObject = (_obj as ListenersWithReturnValues).fetchDataMap();
     _result.value = foobarMapofStringToDoubleToFfi(_resultObject);

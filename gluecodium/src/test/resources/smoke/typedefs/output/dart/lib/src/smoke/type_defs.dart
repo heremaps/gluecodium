@@ -12,7 +12,7 @@ abstract class TypeDefs {
   static TypeDefs_NestedIntTypeDef returnNestedIntTypeDef(TypeDefs_NestedIntTypeDef input) => $prototype.returnNestedIntTypeDef(input);
   static TypeDefs_TestStructTypeDef returnTestStructTypeDef(TypeDefs_TestStructTypeDef input) => $prototype.returnTestStructTypeDef(input);
   static TypeDefs_NestedStructTypeDef returnNestedStructTypeDef(TypeDefs_NestedStructTypeDef input) => $prototype.returnNestedStructTypeDef(input);
-  static PointTypeDef returnTypeDefPointFromTypeCollection(PointTypeDef input) => $prototype.returnTypeDefPointFromTypeCollection(input);
+  static TypeCollection_PointTypeDef returnTypeDefPointFromTypeCollection(TypeCollection_PointTypeDef input) => $prototype.returnTypeDefPointFromTypeCollection(input);
   List<TypeDefs_PrimitiveTypeDef> get primitiveTypeProperty;
   set primitiveTypeProperty(List<TypeDefs_PrimitiveTypeDef> value);
   /// @nodoc
@@ -219,7 +219,7 @@ class TypeDefs$Impl extends __lib.NativeBase implements TypeDefs {
       smokeTypedefsTeststructReleaseFfiHandle(__resultHandle);
     }
   }
-  PointTypeDef returnTypeDefPointFromTypeCollection(PointTypeDef input) {
+  TypeCollection_PointTypeDef returnTypeDefPointFromTypeCollection(TypeCollection_PointTypeDef input) {
     final _returnTypeDefPointFromTypeCollectionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_TypeDefs_returnTypeDefPointFromTypeCollection__Point'));
     final _inputHandle = smokeTypecollectionPointToFfi(input);
     final __resultHandle = _returnTypeDefPointFromTypeCollectionFfi(__lib.LibraryContext.isolateId, _inputHandle);

@@ -3,6 +3,7 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:library/src/generic_types__conversion.dart';
 abstract class DurationMilliseconds {
 
   Duration durationFunction(Duration input);
@@ -10,6 +11,11 @@ abstract class DurationMilliseconds {
   Duration get durationProperty;
   set durationProperty(Duration value);
 }
+typedef DurationMilliseconds_DurationTypeAlias = Duration;
+typedef DurationMilliseconds_DurationList = List<Duration>;
+typedef DurationMilliseconds_DurationSet = Set<Duration>;
+typedef DurationMilliseconds_DurationMap = Map<String, Duration>;
+typedef DurationMilliseconds_DurationKeyMap = Map<Duration, String>;
 class DurationMilliseconds_DurationStruct {
   Duration durationField;
   DurationMilliseconds_DurationStruct(this.durationField);

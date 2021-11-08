@@ -12,6 +12,7 @@ import 'package:library/src/fire/external_enum3.dart';
 import 'package:library/src/smoke/enum_wrapper.dart';
 abstract class EnumDefaultsExternal {
 }
+typedef EnumDefaultsExternal_EnumAlias = alien_enum3.ExternalEnum3;
 class EnumDefaultsExternal_SimpleEnum {
   alien_enum1.ExternalEnum1 enumField;
   EnumDefaultsExternal_SimpleEnum._(this.enumField);
@@ -155,7 +156,7 @@ void smokeEnumdefaultsexternalNullableenumReleaseFfiHandleNullable(Pointer<Void>
   _smokeEnumdefaultsexternalNullableenumReleaseHandleNullable(handle);
 // End of EnumDefaultsExternal_NullableEnum "private" section.
 class EnumDefaultsExternal_AliasEnum {
-  alien_enum3.alien_enum3.ExternalEnum3 enumField;
+  EnumDefaultsExternal_EnumAlias enumField;
   EnumDefaultsExternal_AliasEnum._(this.enumField);
   EnumDefaultsExternal_AliasEnum()
     : enumField = alien_enum3.ExternalEnum3.disabled;

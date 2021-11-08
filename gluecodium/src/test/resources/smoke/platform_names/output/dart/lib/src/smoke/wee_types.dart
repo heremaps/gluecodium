@@ -4,6 +4,7 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 class weeTypes {
 }
+typedef weeTypes_BasicTypedef = double;
 enum weeTypes_werrEnum {
     WEE_ITEM
 }

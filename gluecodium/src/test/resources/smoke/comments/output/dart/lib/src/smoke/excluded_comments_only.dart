@@ -7,16 +7,18 @@ import 'package:library/src/builtin_types__conversion.dart';
 abstract class ExcludedCommentsOnly {
 
   /// @nodoc
-  static final bool veryUseful = true;
+  static final ExcludedCommentsOnly_Usefulness veryUseful = true;
   /// @nodoc
-  bool someMethodWithAllComments(String inputParameter);
+  ExcludedCommentsOnly_Usefulness someMethodWithAllComments(String inputParameter);
   /// @nodoc
   void someMethodWithoutReturnTypeOrInputParameters();
   /// @nodoc
-  bool get isSomeProperty;
+  ExcludedCommentsOnly_Usefulness get isSomeProperty;
   /// @nodoc
-  set isSomeProperty(bool value);
+  set isSomeProperty(ExcludedCommentsOnly_Usefulness value);
 }
+/// @nodoc
+typedef ExcludedCommentsOnly_Usefulness = bool;
 /// @nodoc
 enum ExcludedCommentsOnly_SomeEnum {
     /// @nodoc
@@ -77,7 +79,7 @@ class ExcludedCommentsOnly_SomethingWrongException implements Exception {
 /// @nodoc
 class ExcludedCommentsOnly_SomeStruct {
   /// @nodoc
-  bool someField;
+  ExcludedCommentsOnly_Usefulness someField;
   ExcludedCommentsOnly_SomeStruct(this.someField);
 }
 // ExcludedCommentsOnly_SomeStruct "private" section, not exported.
@@ -264,7 +266,7 @@ class ExcludedCommentsOnly$Impl extends __lib.NativeBase implements ExcludedComm
   ExcludedCommentsOnly$Impl(Pointer<Void> handle) : super(handle);
 
   @override
-  bool someMethodWithAllComments(String inputParameter) {
+  ExcludedCommentsOnly_Usefulness someMethodWithAllComments(String inputParameter) {
     final _someMethodWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ExcludedCommentsOnly_someMethodWithAllComments__String'));
     final _inputParameterHandle = stringToFfi(inputParameter);
     final _handle = this.handle;
@@ -294,7 +296,7 @@ class ExcludedCommentsOnly$Impl extends __lib.NativeBase implements ExcludedComm
     _someMethodWithoutReturnTypeOrInputParametersFfi(_handle, __lib.LibraryContext.isolateId);
   }
   @override
-  bool get isSomeProperty {
+  ExcludedCommentsOnly_Usefulness get isSomeProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_ExcludedCommentsOnly_isSomeProperty_get'));
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
@@ -305,7 +307,7 @@ class ExcludedCommentsOnly$Impl extends __lib.NativeBase implements ExcludedComm
     }
   }
   @override
-  set isSomeProperty(bool value) {
+  set isSomeProperty(ExcludedCommentsOnly_Usefulness value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_ExcludedCommentsOnly_isSomeProperty_set__Boolean'));
     final _valueHandle = booleanToFfi(value);
     final _handle = this.handle;

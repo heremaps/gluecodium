@@ -10,11 +10,11 @@ abstract class UnicodeComments {
   ///
   /// [input] שלום
   ///
-  /// Returns [bool]. товарищ
+  /// Returns [Comments_Usefulness]. товарищ
   ///
   /// Throws [Comments_SomethingWrongException]. ネコ
   ///
-  bool someMethodWithAllComments(String input);
+  Comments_Usefulness someMethodWithAllComments(String input);
 }
 // UnicodeComments "private" section, not exported.
 final _smokeUnicodecommentsRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -49,7 +49,7 @@ class UnicodeComments$Impl extends __lib.NativeBase implements UnicodeComments {
   UnicodeComments$Impl(Pointer<Void> handle) : super(handle);
 
   @override
-  bool someMethodWithAllComments(String input) {
+  Comments_Usefulness someMethodWithAllComments(String input) {
     final _someMethodWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_UnicodeComments_someMethodWithAllComments__String'));
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;

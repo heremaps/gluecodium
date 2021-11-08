@@ -8,9 +8,9 @@ abstract class GenericTypesWithBasicTypes {
   List<int> methodWithList(List<int> input);
   Map<int, bool> methodWithMap(Map<int, bool> input);
   Set<int> methodWithSet(Set<int> input);
-  List<String> methodWithListTypeAlias(List<String> input);
-  Map<String, String> methodWithMapTypeAlias(Map<String, String> input);
-  Set<String> methodWithSetTypeAlias(Set<String> input);
+  GenericTypesWithBasicTypes_BasicList methodWithListTypeAlias(GenericTypesWithBasicTypes_BasicList input);
+  GenericTypesWithBasicTypes_BasicMap methodWithMapTypeAlias(GenericTypesWithBasicTypes_BasicMap input);
+  GenericTypesWithBasicTypes_BasicSet methodWithSetTypeAlias(GenericTypesWithBasicTypes_BasicSet input);
   List<double> get listProperty;
   set listProperty(List<double> value);
   Map<double, double> get mapProperty;
@@ -18,6 +18,9 @@ abstract class GenericTypesWithBasicTypes {
   Set<double> get setProperty;
   set setProperty(Set<double> value);
 }
+typedef GenericTypesWithBasicTypes_BasicList = List<String>;
+typedef GenericTypesWithBasicTypes_BasicMap = Map<String, String>;
+typedef GenericTypesWithBasicTypes_BasicSet = Set<String>;
 class GenericTypesWithBasicTypes_StructWithGenerics {
   List<int> numbersList;
   Map<int, String> numbersMap;
@@ -158,7 +161,7 @@ class GenericTypesWithBasicTypes$Impl extends __lib.NativeBase implements Generi
     }
   }
   @override
-  List<String> methodWithListTypeAlias(List<String> input) {
+  GenericTypesWithBasicTypes_BasicList methodWithListTypeAlias(GenericTypesWithBasicTypes_BasicList input) {
     final _methodWithListTypeAliasFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithBasicTypes_methodWithListTypeAlias__ListOf_String'));
     final _inputHandle = foobarListofStringToFfi(input);
     final _handle = this.handle;
@@ -171,7 +174,7 @@ class GenericTypesWithBasicTypes$Impl extends __lib.NativeBase implements Generi
     }
   }
   @override
-  Map<String, String> methodWithMapTypeAlias(Map<String, String> input) {
+  GenericTypesWithBasicTypes_BasicMap methodWithMapTypeAlias(GenericTypesWithBasicTypes_BasicMap input) {
     final _methodWithMapTypeAliasFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithBasicTypes_methodWithMapTypeAlias__MapOf_String_to_String'));
     final _inputHandle = foobarMapofStringToStringToFfi(input);
     final _handle = this.handle;
@@ -184,7 +187,7 @@ class GenericTypesWithBasicTypes$Impl extends __lib.NativeBase implements Generi
     }
   }
   @override
-  Set<String> methodWithSetTypeAlias(Set<String> input) {
+  GenericTypesWithBasicTypes_BasicSet methodWithSetTypeAlias(GenericTypesWithBasicTypes_BasicSet input) {
     final _methodWithSetTypeAliasFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithBasicTypes_methodWithSetTypeAlias__SetOf_String'));
     final _inputHandle = foobarSetofStringToFfi(input);
     final _handle = this.handle;

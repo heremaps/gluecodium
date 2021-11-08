@@ -6,9 +6,9 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/free_enum.dart';
 import 'package:library/src/smoke/free_exception.dart';
 import 'package:library/src/smoke/free_point.dart';
+import 'package:library/src/smoke/free_type_def.dart';
 abstract class UseFreeTypes {
-
-  DateTime doStuff(FreePoint point, FreeEnum mode);
+  FreeTypeDef doStuff(FreePoint point, FreeEnum mode);
 }
 // UseFreeTypes "private" section, not exported.
 final _smokeUsefreetypesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -41,9 +41,8 @@ final _doStuffReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrar
   >('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum_return_has_error'));
 class UseFreeTypes$Impl extends __lib.NativeBase implements UseFreeTypes {
   UseFreeTypes$Impl(Pointer<Void> handle) : super(handle);
-
   @override
-  DateTime doStuff(FreePoint point, FreeEnum mode) {
+  FreeTypeDef doStuff(FreePoint point, FreeEnum mode) {
     final _doStuffFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>, Uint32), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>, int)>('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum'));
     final _pointHandle = smokeFreepointToFfi(point);
     final _modeHandle = smokeFreeenumToFfi(mode);

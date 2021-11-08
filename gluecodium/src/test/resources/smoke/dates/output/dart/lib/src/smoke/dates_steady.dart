@@ -5,15 +5,18 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 abstract class DatesSteady {
-  DateTime dateMethod(DateTime input);
-  DateTime? nullableDateMethod(DateTime? input);
-  List<DateTime> dateListMethod(List<DateTime> input);
+  DatesSteady_MonotonicDate dateMethod(DatesSteady_MonotonicDate input);
+  DatesSteady_MonotonicDate? nullableDateMethod(DatesSteady_MonotonicDate? input);
+  DatesSteady_DateList dateListMethod(DatesSteady_DateList input);
 }
+typedef DatesSteady_MonotonicDate = DateTime;
+typedef DatesSteady_DateList = List<DatesSteady_MonotonicDate>;
+typedef DatesSteady_DateMap = Map<DatesSteady_MonotonicDate, String>;
 class DatesSteady_DateStruct {
-  DateTime dateField;
-  DateTime? nullableDateField;
+  DatesSteady_MonotonicDate dateField;
+  DatesSteady_MonotonicDate? nullableDateField;
   DatesSteady_DateStruct._(this.dateField, this.nullableDateField);
-  DatesSteady_DateStruct(DateTime dateField)
+  DatesSteady_DateStruct(DatesSteady_MonotonicDate dateField)
     : dateField = dateField, nullableDateField = null;
 }
 // DatesSteady_DateStruct "private" section, not exported.
@@ -101,7 +104,7 @@ final _smokeDatessteadyReleaseHandle = __lib.catchArgumentError(() => __lib.nati
 class DatesSteady$Impl extends __lib.NativeBase implements DatesSteady {
   DatesSteady$Impl(Pointer<Void> handle) : super(handle);
   @override
-  DateTime dateMethod(DateTime input) {
+  DatesSteady_MonotonicDate dateMethod(DatesSteady_MonotonicDate input) {
     final _dateMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32, Uint64), int Function(Pointer<Void>, int, int)>('library_smoke_DatesSteady_dateMethod__Date'));
     final _inputHandle = dateToFfi(input);
     final _handle = this.handle;
@@ -114,7 +117,7 @@ class DatesSteady$Impl extends __lib.NativeBase implements DatesSteady {
     }
   }
   @override
-  DateTime? nullableDateMethod(DateTime? input) {
+  DatesSteady_MonotonicDate? nullableDateMethod(DatesSteady_MonotonicDate? input) {
     final _nullableDateMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DatesSteady_nullableDateMethod__Date_'));
     final _inputHandle = dateToFfiNullable(input);
     final _handle = this.handle;
@@ -127,7 +130,7 @@ class DatesSteady$Impl extends __lib.NativeBase implements DatesSteady {
     }
   }
   @override
-  List<DateTime> dateListMethod(List<DateTime> input) {
+  DatesSteady_DateList dateListMethod(DatesSteady_DateList input) {
     final _dateListMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DatesSteady_dateListMethod__ListOf_Date_std_2chrono_2steady_1clock_2time_1point'));
     final _inputHandle = foobarListofDateStd2chrono2steady1clock2time1pointToFfi(input);
     final _handle = this.handle;
