@@ -148,20 +148,20 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#i
     return {{external.dart.converter}}.convertFromInternal(resultInternal);
 {{/if}}{{#unless external.dart.converter}}
     return {{resolveName this "" "ref"}}{{#set container=this}}{{!!
-    }}{{#if allFieldsConstructor}}{{#allFieldsConstructor}}{{>dart/DartConstructorName}}{{/allFieldsConstructor}}{{/if}}{{!!
-    }}{{#unless allfieldsConstructor}}{{#container}}{{>allFieldsConstructorName}}{{/container}}{{/unless}}(
+    }}{{#if container.allFieldsConstructor}}{{#allFieldsConstructor}}{{>dart/DartConstructorName}}{{/allFieldsConstructor}}{{/if}}{{!!
+    }}{{#unless container.allfieldsConstructor}}{{#container}}{{>allFieldsConstructorName}}{{/container}}{{/unless}}(
 {{#if attributes.dart.positionalDefaults initializedFields}}
 {{#each uninitializedFields initializedFields}}
 {{>fromFfiFieldInit}}
 {{/each}}
 {{/if}}{{!!
 }}{{#unless attributes.dart.positionalDefaults initializedFields}}{{!!
-}}{{#if allFieldsConstructor}}{{#allFieldsConstructor}}
+}}{{#if container.allFieldsConstructor}}{{#allFieldsConstructor}}
 {{#fields}}
 {{>fromFfiFieldInit}}
 {{/fields}}
 {{/allFieldsConstructor}}{{/if}}{{!!
-}}{{#unless allFieldsConstructor}}
+}}{{#unless container.allFieldsConstructor}}
 {{#fields}}
 {{>fromFfiFieldInit}}
 {{/fields}}
@@ -209,7 +209,7 @@ void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) => _{{resolveNa
 }}{{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}Handle){{/unless}}{{#if iter.hasNext}}, {{/if}}
 {{/fromFfiFieldInit}}{{!!
 
-}}{{+allFieldsConstructorName}}{{#unless allFieldsConstructor}}{{!!
+}}{{+allFieldsConstructorName}}{{#unless this.allFieldsConstructor}}{{!!
 }}{{#ifPredicate "needsPrivateAllFieldsCtor"}}._{{/ifPredicate}}{{!!
 }}{{#unlessPredicate "needsPrivateAllFieldsCtor"}}{{#ifPredicate "needsPublicFieldsConstructor"}}.allFields{{/ifPredicate}}{{/unlessPredicate}}{{!!
 }}{{/unless}}{{/allFieldsConstructorName}}
