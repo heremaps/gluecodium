@@ -136,7 +136,11 @@ internal class DartGenerator : Generator {
 
         val importResolver =
             DartImportResolver(dartFilteredModel.referenceMap, dartNameResolver, "$libraryName/$SRC_DIR_SUFFIX")
-        val declarationImportResolver = DartDeclarationImportResolver("$libraryName/$SRC_DIR_SUFFIX")
+        val declarationImportResolver = DartDeclarationImportResolver(
+            dartFilteredModel.referenceMap,
+            dartNameResolver,
+            "$libraryName/$SRC_DIR_SUFFIX"
+        )
         val importsCollector = DartImportsCollector(importResolver)
         val declarationImportsCollector = GenericImportsCollector(declarationImportResolver, collectOwnImports = true)
 

@@ -36,7 +36,11 @@ import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypesCollection
 
-internal class DartDeclarationImportResolver(srcPath: String) : DartImportResolverBase() {
+internal class DartDeclarationImportResolver(
+    limeReferenceMap: Map<String, LimeElement>,
+    nameResolver: DartNameResolver,
+    srcPath: String
+) : DartImportResolverBase(limeReferenceMap, nameResolver, srcPath) {
 
     private val builtInTypesConversionImport = DartImport("$srcPath/${"builtin_types"}__conversion")
     private val typeRepositoryImport = DartImport("$srcPath/_type_repository", "__lib")

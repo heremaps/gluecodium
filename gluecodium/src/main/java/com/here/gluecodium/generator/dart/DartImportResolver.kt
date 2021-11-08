@@ -35,10 +35,10 @@ import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class DartImportResolver(
-    private val limeReferenceMap: Map<String, LimeElement>,
-    private val nameResolver: DartNameResolver,
+    limeReferenceMap: Map<String, LimeElement>,
+    nameResolver: DartNameResolver,
     private val srcPath: String
-) : DartImportResolverBase() {
+) : DartImportResolverBase(limeReferenceMap, nameResolver, srcPath) {
     private val builtInTypesConversionImport = createConversionImport("builtin_types")
     private val lazyListImport = DartImport("$srcPath/_lazy_list", "__lib")
 
@@ -78,18 +78,6 @@ internal class DartImportResolver(
                 listOf(builtInTypesConversionImport)
             else emptyList()
 
-    private fun createImport(limeElement: LimeNamedElement): DartImport {
-        val filePath = limeElement.path.head.joinToString("/")
-        val fileName = nameResolver.resolveFileName(getTopElement(limeElement))
-        val alias = when {
-            limeElement !is LimeType -> null
-            nameResolver.typesWithDuplicateNames.contains(limeElement.fullName) ->
-                limeElement.path.head.joinToString("_")
-            else -> null
-        }
-        return DartImport("$srcPath/$filePath/$fileName", asAlias = alias)
-    }
-
     private fun resolveBasicTypeImports(limeType: LimeBasicType) =
         when (limeType.typeId) {
             LimeBasicType.TypeId.BLOB ->
@@ -105,11 +93,6 @@ internal class DartImportResolver(
             is LimeMap -> resolveTypeImports(limeType.keyType.type) + resolveTypeImports(limeType.valueType.type)
             else -> emptyList()
         }
-
-    private fun getTopElement(limeElement: LimeNamedElement) =
-        generateSequence(limeElement) {
-            limeReferenceMap[it.path.parent.toString()] as? LimeNamedElement
-        }.last()
 
     private fun createConversionImport(filePath: String) =
         DartImport("$srcPath/${filePath}__conversion")
