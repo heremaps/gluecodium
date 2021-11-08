@@ -35,7 +35,7 @@ public class Class: Interface {
         let c_result_handle = package_Class_constructor()
         return moveFromCType(c_result_handle)
     }
-    public func fun(double: List) throws -> Struct {
+    public func fun(double: ULong) throws -> Struct {
         let c_double = foobar_moveToCType(double)
         let RESULT = package_Class_fun(self.c_instance, c_double.ref)
         if (!RESULT.has_value) {

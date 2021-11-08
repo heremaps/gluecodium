@@ -29,7 +29,7 @@ types `types` {
 
     exception `exception`(`enum`)
 
-    typealias `List` = List<`struct`>
+    typealias `ULong` = List<`struct`>
 
     @Dart("Const")
     const `const`: `enum` = `enum`.`NaN`
@@ -40,7 +40,7 @@ class `class`: `interface` {
     constructor `constructor`()
 
     fun `fun`(
-        `Double`: `types`.`List`
+        `Double`: `types`.`ULong`
     ): `types`.`struct` throws `types`.`exception`
 
     property `property`: `types`.`enum`
