@@ -23,8 +23,14 @@ import com.here.gluecodium.generator.common.ImportsResolver
 import com.here.gluecodium.generator.dart.DartImport.ImportType
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeType
 
-internal abstract class DartImportResolverBase : ImportsResolver<DartImport> {
+internal abstract class DartImportResolverBase(
+    private val limeReferenceMap: Map<String, LimeElement>,
+    private val nameResolver: DartNameResolver,
+    private val srcPath: String
+) : ImportsResolver<DartImport> {
+
     protected fun resolveExternalImport(
         limeElement: LimeElement,
         key: String,
@@ -43,4 +49,21 @@ internal abstract class DartImportResolverBase : ImportsResolver<DartImport> {
             )
         }
     }
+
+    protected fun createImport(limeElement: LimeNamedElement): DartImport {
+        val filePath = limeElement.path.head.joinToString("/")
+        val fileName = nameResolver.resolveFileName(getTopElement(limeElement))
+        val alias = when {
+            limeElement !is LimeType -> null
+            nameResolver.typesWithDuplicateNames.contains(limeElement.fullName) ->
+                limeElement.path.head.joinToString("_")
+            else -> null
+        }
+        return DartImport("$srcPath/$filePath/$fileName", asAlias = alias)
+    }
+
+    private fun getTopElement(limeElement: LimeNamedElement) =
+        generateSequence(limeElement) {
+            limeReferenceMap[it.path.parent.toString()] as? LimeNamedElement
+        }.last()
 }
