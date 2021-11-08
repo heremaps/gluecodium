@@ -4,6 +4,7 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:library/src/smoke/inherit_from_skipped.dart';
 abstract class SkipProxy {
   factory SkipProxy(
     String Function(String) notInJavaLambda,
@@ -196,6 +197,10 @@ int _smokeSkipproxyisSkippedInSwiftSetStatic(Object _obj, int _value) {
 }
 Pointer<Void> smokeSkipproxyToFfi(SkipProxy value) {
   if (value is __lib.NativeBase) return _smokeSkipproxyCopyHandle((value as __lib.NativeBase).handle);
+  final descendantResult = tryDescendantToFfi(value);
+  if (descendantResult != null) {
+    return descendantResult;
+  }
   final result = _smokeSkipproxyCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
@@ -231,4 +236,8 @@ SkipProxy? smokeSkipproxyFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeSkipproxyFromFfi(handle) : null;
 void smokeSkipproxyReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeSkipproxyReleaseHandle(handle);
+Pointer<Void>? tryDescendantToFfi(SkipProxy value) {
+  if (value is InheritFromSkipped) return smokeInheritfromskippedToFfi(value);
+  return null;
+}
 // End of SkipProxy "private" section.

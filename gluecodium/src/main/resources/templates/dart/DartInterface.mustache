@@ -230,6 +230,13 @@ int _{{resolveName parent "Ffi"}}{{resolveName}}SetStatic(Object _obj, {{resolve
 Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
 {{#unless isNarrow}}
   if (value is __lib.NativeBase) return _{{resolveName "Ffi"}}CopyHandle((value as __lib.NativeBase).handle);
+{{#eval "descendantInterfaces" fullName}}
+
+  final descendantResult = tryDescendantToFfi(value);
+  if (descendantResult != null) {
+    return descendantResult;
+  }
+{{/eval}}
 {{/unless}}
 
   final result = _{{resolveName "Ffi"}}CreateProxy(
@@ -275,6 +282,15 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfiNullable({{resolveName}}? value) =>
 void {{resolveName "Ffi"}}ReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _{{resolveName "Ffi"}}ReleaseHandle(handle);
 
+{{#unless isNarrow}}{{#set interface=this}}{{#eval "descendantInterfaces" fullName}}
+Pointer<Void>? tryDescendantToFfi({{resolveName interface}} value) {
+{{#this}}{{!! pre-sorted, most distant descendants are prioritized }}
+  if (value is {{resolveName}}) return {{resolveName "Ffi"}}ToFfi(value);
+{{/this}}
+  return null;
+}
+
+{{/eval}}{{/set}}{{/unless}}
 // End of {{resolveName}} "private" section.{{!!
 
 }}{{+ffiApi}}Uint8 Function(Handle{{#if parameters}}, {{/if}}{{!!

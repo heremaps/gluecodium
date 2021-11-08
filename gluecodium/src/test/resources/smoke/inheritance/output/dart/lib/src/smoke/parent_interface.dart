@@ -4,6 +4,8 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:library/src/smoke/child_interface.dart';
+import 'package:library/src/smoke/grand_child_interface.dart';
 abstract class ParentInterface {
   factory ParentInterface(
     void Function() rootMethodLambda,
@@ -111,6 +113,10 @@ int _smokeParentinterfacerootPropertySetStatic(Object _obj, Pointer<Void> _value
 }
 Pointer<Void> smokeParentinterfaceToFfi(ParentInterface value) {
   if (value is __lib.NativeBase) return _smokeParentinterfaceCopyHandle((value as __lib.NativeBase).handle);
+  final descendantResult = tryDescendantToFfi(value);
+  if (descendantResult != null) {
+    return descendantResult;
+  }
   final result = _smokeParentinterfaceCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
@@ -143,4 +149,9 @@ ParentInterface? smokeParentinterfaceFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeParentinterfaceFromFfi(handle) : null;
 void smokeParentinterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeParentinterfaceReleaseHandle(handle);
+Pointer<Void>? tryDescendantToFfi(ParentInterface value) {
+  if (value is GrandChildInterface) return smokeGrandchildinterfaceToFfi(value);
+  if (value is ChildInterface) return smokeChildinterfaceToFfi(value);
+  return null;
+}
 // End of ParentInterface "private" section.

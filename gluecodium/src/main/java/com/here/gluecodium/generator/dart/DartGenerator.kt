@@ -134,12 +134,14 @@ internal class DartGenerator : Generator {
             "C++ return type" to FfiCppReturnTypeNameResolver(internalNamespace, ffiCppNameResolver)
         )
 
+        val descendantInterfaces = LimeTypeHelper.collectDescendantInterfaces(dartFilteredModel.topElements)
         val importResolver =
             DartImportResolver(dartFilteredModel.referenceMap, dartNameResolver, "$libraryName/$SRC_DIR_SUFFIX")
         val declarationImportResolver = DartDeclarationImportResolver(
             dartFilteredModel.referenceMap,
             dartNameResolver,
-            "$libraryName/$SRC_DIR_SUFFIX"
+            "$libraryName/$SRC_DIR_SUFFIX",
+            descendantInterfaces
         )
         val importsCollector = DartImportsCollector(importResolver)
         val declarationImportsCollector = GenericImportsCollector(declarationImportResolver, collectOwnImports = true)
@@ -166,7 +168,7 @@ internal class DartGenerator : Generator {
             listOfNotNull(
                 generateDart(
                     it, dartResolvers, dartNameResolver, listOf(importsCollector, declarationImportsCollector),
-                    exportsCollector, typeRepositoriesCollector, generatorPredicates.predicates
+                    exportsCollector, typeRepositoriesCollector, generatorPredicates.predicates, descendantInterfaces
                 )
             )
         } + ffiFilteredModel.topElements.flatMap {
@@ -191,7 +193,8 @@ internal class DartGenerator : Generator {
         importCollectors: List<ImportsCollector<DartImport>>,
         exportsCollector: MutableMap<List<String>, MutableList<DartExport>>,
         typeRepositoriesCollector: MutableList<LimeContainerWithInheritance>,
-        predicates: Map<String, (Any) -> Boolean>
+        predicates: Map<String, (Any) -> Boolean>,
+        descendantInterfaces: Map<String, List<LimeInterface>>
     ): GeneratedFile? {
         val contentTemplateName = selectTemplate(rootElement) ?: return null
 
@@ -225,7 +228,8 @@ internal class DartGenerator : Generator {
                 "model" to rootElement,
                 "contentTemplate" to contentTemplateName,
                 "libraryName" to libraryName,
-                "optimizedLists" to optimizedLists
+                "optimizedLists" to optimizedLists,
+                "descendantInterfaces" to descendantInterfaces
             ),
             nameResolvers,
             predicates
