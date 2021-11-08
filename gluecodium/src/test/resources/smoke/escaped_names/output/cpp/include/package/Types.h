@@ -17,7 +17,7 @@ struct _GLUECODIUM_CPP_EXPORT Struct {
     Struct( );
     Struct( ::package::Enum null );
 };
-using List = ::std::vector< ::package::Struct >;
+using ULong = ::std::vector< ::package::Struct >;
 _GLUECODIUM_CPP_EXPORT extern const ::package::Enum CONST;
 _GLUECODIUM_CPP_EXPORT ::std::error_code make_error_code( ::package::Enum value ) noexcept;
 }

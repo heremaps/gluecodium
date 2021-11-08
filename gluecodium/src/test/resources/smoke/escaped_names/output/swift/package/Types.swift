@@ -1,7 +1,7 @@
 //
 //
 import Foundation
-public typealias List = [Struct]
+public typealias ULong = [Struct]
 public typealias ExceptionError = Enum
 public enum Enum : UInt32, CaseIterable, Codable {
     case naN

@@ -1,6 +1,6 @@
 package `package`
 types `types` {
-    typealias `List` = List<`struct`>
+    typealias `ULong` = List<`struct`>
     enum `enum` {
         `NaN`
     }

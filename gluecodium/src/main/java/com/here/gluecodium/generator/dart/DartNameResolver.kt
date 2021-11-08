@@ -258,7 +258,7 @@ internal class DartNameResolver(
     private fun buildDuplicateNames() =
         limeReferenceMap.values
             .filterIsInstance<LimeType>()
-            .filterNot { it is LimeTypesCollection || it is LimeTypeAlias }
+            .filterNot { it is LimeTypesCollection || it is LimeTypeAlias || it is LimeGenericType || it is LimeBasicType }
             .filter { it.external?.dart == null }
             .groupBy { resolveTypeName(it) }
             .filterValues { it.size > 1 }
