@@ -65,6 +65,9 @@ internal func getRef(_ ref: SkipProxy?, owning: Bool = true) -> RefHolder {
             ? RefHolder(ref: handle_copy, release: smoke_SkipProxy_release_handle)
             : RefHolder(handle_copy)
     }
+    if let descendantResult = tryDescendantGetRef(reference, owning) {
+        return descendantResult
+    }
     var functions = smoke_SkipProxy_FunctionTable()
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()
     functions.release = {swift_class_pointer in
@@ -98,6 +101,12 @@ internal func getRef(_ ref: SkipProxy?, owning: Bool = true) -> RefHolder {
     }
     let proxy = smoke_SkipProxy_create_proxy(functions)
     return owning ? RefHolder(ref: proxy, release: smoke_SkipProxy_release_handle) : RefHolder(proxy)
+}
+func tryDescendantGetRef(_ reference: SkipProxy, _ owning: Bool) -> RefHolder? {
+    if reference is InheritFromSkipped {
+        return getRef(reference as? InheritFromSkipped, owning: owning)
+    }
+    return nil
 }
 extension _SkipProxy: NativeBase {
     /// :nodoc:
