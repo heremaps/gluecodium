@@ -1,12 +1,12 @@
 package `package`
-import `package`.`types`.`List`
+import `package`.`types`.`ULong`
 import `package`.`types`.`enum`
 import `package`.`types`.`exception`
 import `package`.`types`.`struct`
 class `class` : interface {
     constructor `constructor`()
     fun `fun`(
-        `Double`: `List`
+        `Double`: `ULong`
     ): `struct` throws `exception`
     property `property`: `enum`
 }
