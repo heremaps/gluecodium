@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 10.2.3
+Release date: 2021-11-10
 ### Bug fixes:
   * Fixed unstable ordering of checks in some generated code related to interface inheritance.
 
