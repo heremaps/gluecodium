@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 10.2.2
+Release date: 2021-11-10
 ### Bug fixes:
   * Fixed violation of referential equality invariant for some cases of interface inheritance.
   * Fixed compilation issue in Dart for some combinations of type nesting and field constructors.
