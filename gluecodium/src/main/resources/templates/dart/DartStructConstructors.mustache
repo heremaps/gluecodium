@@ -42,7 +42,7 @@
 }}{{#internalFields}}{{resolveName visibility}}{{resolveName}} = {{resolveName defaultValue}}{{#if iter.hasNext}}, {{/if}}{{/internalFields}};
 {{/ifPredicate}}{{/unless}}{{!!
 
-}}{{#unless allFieldsConstructor}}{{!!
+}}{{#unless this.allFieldsConstructor}}{{!!
 }}{{>constructorComment}}{{!!
 }}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{!!
 }}{{#ifPredicate "needsPrivateAllFieldsCtor"}}._{{/ifPredicate}}{{!!
