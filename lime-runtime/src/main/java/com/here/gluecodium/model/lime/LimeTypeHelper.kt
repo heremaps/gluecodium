@@ -74,6 +74,8 @@ object LimeTypeHelper {
             }
         }
         for (entry in result) {
+            // Pre-sort by name to have a stable ordering of elements which have the same inheritance distance.
+            entry.value.sortBy { it.fullName }
             entry.value.sortByDescending { computeInheritanceDistance(it, entry.key) ?: Int.MIN_VALUE }
         }
         return result
