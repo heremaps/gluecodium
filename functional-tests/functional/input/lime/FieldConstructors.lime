@@ -54,7 +54,7 @@ struct ImmutableStructNoClash {
     stringField: String = "nonsense"
     intField: Int = 42
     boolField: Boolean = true
-    @Dart("withAll")
+    @Dart("withDefaults")
     field constructor()
 }
 
@@ -67,6 +67,13 @@ struct ImmutableStructWithClash {
     field constructor()
     @Dart(Default)
     field constructor(boolField, intField, stringField)
+}
+
+struct MutableStructImmutableFields {
+    structField: ImmutableStructNoClash = {}
+    intField: Int = 42
+    boolField: Boolean = true
+    field constructor()
 }
 
 struct FieldCustomConstructorsMix {
