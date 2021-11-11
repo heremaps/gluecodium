@@ -2,6 +2,9 @@
  *
  */
 #include "com_example_smoke_ParentInterface__Conversion.h"
+#include "com_example_foobar_CrossPackageChildInterface__Conversion.h"
+#include "com_example_smoke_ChildInterface__Conversion.h"
+#include "com_example_smoke_GrandChildInterface__Conversion.h"
 #include "com_example_smoke_ParentInterfaceImplCppProxy.h"
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"

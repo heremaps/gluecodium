@@ -24,16 +24,21 @@ import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
+import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypedElement
 
-internal class JniIncludeResolver(private val fileNameRules: JniFileNameRules) : ImportsResolver<Include> {
+internal class JniIncludeResolver(
+    private val fileNameRules: JniFileNameRules,
+    private val descendantInterfaces: Map<String, List<LimeInterface>>
+) : ImportsResolver<Include> {
 
     override fun resolveElementImports(limeElement: LimeElement): List<Include> =
         when (limeElement) {
@@ -47,6 +52,18 @@ internal class JniIncludeResolver(private val fileNameRules: JniFileNameRules) :
                 listOf(createConversionInclude(limeElement))
             else -> emptyList()
         }
+
+    fun resolveInstanceConversionIncludes(limeElement: LimeNamedElement): List<Include> {
+        val proxyFileName = fileNameRules.getElementFileName(limeElement) + "CppProxy"
+        val result = mutableListOf(Include.createInternalInclude("$proxyFileName.h"))
+        if (limeElement is LimeInterface && !limeElement.isNarrow) {
+            val descendants = descendantInterfaces[limeElement.fullName]
+            if (descendants != null) {
+                result += descendants.map { createConversionInclude(it) }
+            }
+        }
+        return result
+    }
 
     private fun createConversionInclude(limeType: LimeType): Include {
         val fileName = fileNameRules.getConversionFileName(limeType)

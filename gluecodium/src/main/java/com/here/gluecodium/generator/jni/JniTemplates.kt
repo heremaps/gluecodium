@@ -70,7 +70,7 @@ internal class JniTemplates(
         JniGeneratorPredicates(limeReferenceMap, javaNameRules, nameCache.nameRules, cppNameResolver, activeTags)
 
     private val cppIncludeResolver = CppIncludeResolver(limeReferenceMap, cppNameRules, internalNamespace)
-    private val jniIncludeResolver = JniIncludeResolver(fileNameRules)
+    private val jniIncludeResolver = JniIncludeResolver(fileNameRules, descendantInterfaces)
     private val jniIncludeCollector = JniIncludeCollector(jniIncludeResolver) { generatorPredicates.shouldRetain(it) }
 
     fun generateFiles(limeElement: LimeNamedElement): List<GeneratedFile> {
@@ -276,10 +276,11 @@ internal class JniTemplates(
         )
 
         mustacheData["includes"] = listOf(selfInclude) +
-            if (limeElement is LimeInterface || limeElement is LimeLambda) {
-                val proxyFileName = fileNameRules.getElementFileName(limeElement) + "CppProxy"
-                listOf(Include.createInternalInclude("$proxyFileName.h"))
-            } else emptyList()
+            when (limeElement) {
+                is LimeInterface, is LimeLambda ->
+                    jniIncludeResolver.resolveInstanceConversionIncludes(limeElement).sorted()
+                else -> emptyList()
+            }
         val implFile = GeneratedFile(
             TemplateEngine.render(
                 "jni/InstanceConversionImplementation",
