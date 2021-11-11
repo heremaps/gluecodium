@@ -83,7 +83,12 @@ internal object CppGeneratorPredicates {
             }
         },
         "needsAllFieldsConstructor" to { limeStruct: Any ->
-            limeStruct is LimeStruct && limeStruct.allFieldsConstructor == null
+            when {
+                limeStruct !is LimeStruct -> false
+                limeStruct.fieldConstructors.isEmpty() -> true
+                CommonGeneratorPredicates.hasImmutableFields(limeStruct) -> limeStruct.allFieldsConstructor == null
+                else -> false
+            }
         },
         "needsPointerValueEqual" to fun(limeField: Any): Boolean {
             if (limeField !is LimeField) return false

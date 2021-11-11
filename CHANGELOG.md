@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Removed unnecessary automatic all-fields constructor for structs with "field constructors" in C++.
+
 ## 10.2.3
 Release date: 2021-11-10
 ### Bug fixes:

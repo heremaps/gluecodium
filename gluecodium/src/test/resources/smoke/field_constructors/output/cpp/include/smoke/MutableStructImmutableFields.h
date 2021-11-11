@@ -4,15 +4,14 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "gluecodium/ExportGluecodiumCpp.h"
+#include "smoke/ImmutableStructNoClash.h"
 #include <cstdint>
-#include <string>
 namespace smoke {
-struct _GLUECODIUM_CPP_EXPORT FieldCustomConstructorsMix {
-    ::std::string string_field = "nonsense";
+struct _GLUECODIUM_CPP_EXPORT MutableStructImmutableFields {
+    ::smoke::ImmutableStructNoClash struct_field = {};
     int32_t int_field = 42;
     bool bool_field = true;
-    FieldCustomConstructorsMix( );
-    FieldCustomConstructorsMix( int32_t int_field );
-    static ::smoke::FieldCustomConstructorsMix create_me( const int32_t int_value, const double dummy );
+    MutableStructImmutableFields(  );
+    MutableStructImmutableFields( ::smoke::ImmutableStructNoClash struct_field, int32_t int_field, bool bool_field );
 };
 }
