@@ -67,4 +67,7 @@ class LimeStruct(
 
     val allFieldsConstructor
         get() = fieldConstructors.firstOrNull { it.fieldRefs.size == fields.size }
+
+    val noFieldsConstructor
+        get() = fieldConstructors.firstOrNull { it.fieldRefs.isEmpty() }
 }

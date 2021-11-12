@@ -54,7 +54,7 @@ struct ImmutableStructNoClash {
     stringField: String = "nonsense"
     intField: Int = 42
     boolField: Boolean = true
-    @Dart("withDefaults")
+    @Dart("withAll")
     field constructor()
 }
 

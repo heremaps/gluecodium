@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed Dart compilation issue when using a struct with `field constructor()` to initialize a field of another struct.
+
 ## 10.2.4
 Release date: 2021-11-12
 ### Bug fixes:
