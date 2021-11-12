@@ -3,6 +3,7 @@
 ## Unreleased
 ### Bug fixes:
   * Removed unnecessary automatic all-fields constructor for structs with "field constructors" in C++.
+  * Fixed missing includes in JNI for some cases of interface inheritance.
 
 ## 10.2.3
 Release date: 2021-11-10

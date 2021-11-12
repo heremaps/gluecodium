@@ -3,6 +3,7 @@
  */
 #include "com_example_smoke_ChildInterface__Conversion.h"
 #include "com_example_smoke_ChildInterfaceImplCppProxy.h"
+#include "com_example_smoke_GrandChildInterface__Conversion.h"
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
 #include "JniClassCache.h"
