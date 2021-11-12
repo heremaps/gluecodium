@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 10.2.4
+Release date: 2021-11-12
 ### Bug fixes:
   * Removed unnecessary automatic all-fields constructor for structs with "field constructors" in C++.
   * Fixed missing includes in JNI for some cases of interface inheritance.
