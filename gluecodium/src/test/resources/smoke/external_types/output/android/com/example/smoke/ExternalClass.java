@@ -22,7 +22,7 @@ public final class ExternalClass extends NativeBase {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected ExternalClass(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

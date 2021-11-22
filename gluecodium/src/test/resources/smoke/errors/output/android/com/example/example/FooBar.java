@@ -8,7 +8,7 @@ import com.example.smoke.SomeException;
 public final class FooBar extends NativeBase {
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected FooBar(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

@@ -20,7 +20,7 @@ public final class CollectionConstants extends NativeBase {
     public static final Map<List<String>, Set<String>> MIXED_CONSTANT = new HashMap<>(Stream.of(new AbstractMap.SimpleEntry<>(new ArrayList<>(Arrays.asList("foo")), new HashSet<>(Arrays.asList("bar")))).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected CollectionConstants(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

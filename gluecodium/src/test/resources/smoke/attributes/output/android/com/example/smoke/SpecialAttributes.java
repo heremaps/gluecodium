@@ -6,7 +6,7 @@ import com.example.NativeBase;
 public final class SpecialAttributes extends NativeBase {
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected SpecialAttributes(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

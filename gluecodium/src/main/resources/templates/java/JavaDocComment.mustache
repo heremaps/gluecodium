@@ -21,7 +21,7 @@
 {{#ifPredicate "hasAnyComment"}}
 /**
 {{#resolveName comment}}{{#unless this.isEmpty}}{{prefix this " * "}}{{/unless}}{{/resolveName}}{{#if comment.isExcluded}}
- * @exclude{{/if}}{{#if attributes.deprecated}}
+ * @hidden{{/if}}{{#if attributes.deprecated}}
  * @deprecated {{#resolveName attributes.deprecated.message}}{{prefix this " * " skipFirstLine=true}}{{/resolveName}}{{/if}}
  */{{#if attributes.deprecated}}
 @Deprecated{{/if}}

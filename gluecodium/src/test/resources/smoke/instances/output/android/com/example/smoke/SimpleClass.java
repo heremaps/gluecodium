@@ -7,7 +7,7 @@ import com.example.NativeBase;
 public final class SimpleClass extends NativeBase {
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected SimpleClass(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

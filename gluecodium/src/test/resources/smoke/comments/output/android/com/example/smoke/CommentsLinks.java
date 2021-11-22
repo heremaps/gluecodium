@@ -30,7 +30,7 @@ public final class CommentsLinks extends NativeBase {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected CommentsLinks(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

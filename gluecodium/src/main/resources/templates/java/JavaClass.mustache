@@ -38,7 +38,7 @@
 {{#unless visibility.isInternal}}
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */{{/unless}}
     protected {{resolveName}}(final long nativeHandle, final Object dummy) {
         super(nativeHandle, {{#ifPredicate "needsDisposer"}}new Disposer() {

@@ -8,7 +8,7 @@ import java.util.Date;
 public final class UseFreeTypes extends NativeBase {
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected UseFreeTypes(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

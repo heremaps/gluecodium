@@ -6,7 +6,7 @@ import com.example.NativeBase;
 public final class EnableIfEnabled extends NativeBase {
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected EnableIfEnabled(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

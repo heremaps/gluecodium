@@ -21,7 +21,7 @@ import com.example.NativeBase;
 public final class MultiLineComments extends NativeBase {
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected MultiLineComments(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

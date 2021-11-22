@@ -164,7 +164,7 @@ public final class DefaultValues extends NativeBase {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected DefaultValues(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

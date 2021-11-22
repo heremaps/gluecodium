@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 public final class FirstParentIsClassClass extends ParentClass implements ParentNarrowOne {
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected FirstParentIsClassClass(final long nativeHandle, final Object dummy) {
         super(nativeHandle, dummy);

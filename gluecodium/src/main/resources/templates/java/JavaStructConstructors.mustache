@@ -82,7 +82,7 @@
 }}{{#if comment.isEmpty}}{{#resolveName constructorComment}}{{#unless this.isEmpty}}{{prefix this "     * "}}
 {{/unless}}{{/resolveName}}{{/if}}{{!!
 }}{{#if comment.isExcluded}}
-     * @exclude
+     * @hidden
 {{/if}}{{!!
 }}{{#if attributes.deprecated}}
      * @deprecated {{resolveName attributes.deprecated.message}}

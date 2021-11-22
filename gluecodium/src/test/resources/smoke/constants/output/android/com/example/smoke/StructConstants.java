@@ -26,7 +26,7 @@ public final class StructConstants extends NativeBase {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected StructConstants(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

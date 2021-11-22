@@ -11,7 +11,7 @@ import java.util.Set;
 public final class GenericTypesWithGenericTypes extends NativeBase {
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected GenericTypesWithGenericTypes(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

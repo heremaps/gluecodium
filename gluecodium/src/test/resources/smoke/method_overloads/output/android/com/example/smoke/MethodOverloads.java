@@ -17,7 +17,7 @@ public final class MethodOverloads extends NativeBase {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected MethodOverloads(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

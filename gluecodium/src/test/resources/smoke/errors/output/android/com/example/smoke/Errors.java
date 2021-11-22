@@ -38,7 +38,7 @@ public final class Errors extends NativeBase {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected Errors(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

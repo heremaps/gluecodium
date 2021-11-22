@@ -15,7 +15,7 @@ public final class UseOptimizedListStruct {
         this.classes = classes;
     }
     /**
-     * @exclude
+     * @hidden
      */
     private final static class VeryBigStructLazyNativeList extends AbstractNativeList<VeryBigStruct> {
         private VeryBigStructLazyNativeList(final long nativeHandle, Object dummy) {
@@ -33,7 +33,7 @@ public final class UseOptimizedListStruct {
         public native VeryBigStruct get(int index);
     }
     /**
-     * @exclude
+     * @hidden
      */
     private final static class UnreasonablyLazyClassLazyNativeList extends AbstractNativeList<UnreasonablyLazyClass> {
         private UnreasonablyLazyClassLazyNativeList(final long nativeHandle, Object dummy) {

@@ -8,7 +8,7 @@ import com.example.smoke.ParentInterface;
 public final class CrossPackageChildClass extends NativeBase implements ParentInterface {
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected CrossPackageChildClass(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

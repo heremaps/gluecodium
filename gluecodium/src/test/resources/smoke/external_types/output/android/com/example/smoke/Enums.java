@@ -23,7 +23,7 @@ public final class Enums extends NativeBase {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected Enums(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

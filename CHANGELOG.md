@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * JavaDoc comments in the generated Java code now use `@hidden` JDK11 tag instead of `@exclude` custom tag.
+
 ## 10.2.6
 Release date: 2021-11-22
 ### Bug fixes:

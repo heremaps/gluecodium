@@ -34,7 +34,7 @@ public final class NAME_RULES_DROID extends NativeBase {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected NAME_RULES_DROID(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

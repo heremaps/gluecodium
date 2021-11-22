@@ -12,7 +12,7 @@ public final class Class extends NativeBase implements Interface {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected Class(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

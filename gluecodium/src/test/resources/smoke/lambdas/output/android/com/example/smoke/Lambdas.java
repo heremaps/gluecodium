@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 public final class Lambdas extends NativeBase {
     /**
-     * @exclude
+     * @hidden
      */
     static class ProducerImpl extends NativeBase implements Producer {
         protected ProducerImpl(final long nativeHandle, final Object dummy) {
@@ -25,7 +25,7 @@ public final class Lambdas extends NativeBase {
         public native String apply();
     }
     /**
-     * @exclude
+     * @hidden
      */
     static class ConfounderImpl extends NativeBase implements Confounder {
         protected ConfounderImpl(final long nativeHandle, final Object dummy) {
@@ -46,7 +46,7 @@ public final class Lambdas extends NativeBase {
         public native Lambdas.Producer confuse(@NonNull final String p0);
     }
     /**
-     * @exclude
+     * @hidden
      */
     static class ConsumerImpl extends NativeBase implements Consumer {
         protected ConsumerImpl(final long nativeHandle, final Object dummy) {
@@ -61,7 +61,7 @@ public final class Lambdas extends NativeBase {
         public native void apply(@NonNull final String p0);
     }
     /**
-     * @exclude
+     * @hidden
      */
     static class IndexerImpl extends NativeBase implements Indexer {
         protected IndexerImpl(final long nativeHandle, final Object dummy) {
@@ -76,7 +76,7 @@ public final class Lambdas extends NativeBase {
         public native int apply(@NonNull final String p0, final float index);
     }
     /**
-     * @exclude
+     * @hidden
      */
     static class NullableConfuserImpl extends NativeBase implements NullableConfuser {
         protected NullableConfuserImpl(final long nativeHandle, final Object dummy) {
@@ -124,7 +124,7 @@ public final class Lambdas extends NativeBase {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected Lambdas(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

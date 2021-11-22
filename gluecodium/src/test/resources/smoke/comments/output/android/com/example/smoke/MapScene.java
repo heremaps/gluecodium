@@ -10,7 +10,7 @@ import com.example.NativeBase;
  */
 public final class MapScene extends NativeBase {
     /**
-     * @exclude
+     * @hidden
      */
     static class LoadSceneCallbackImpl extends NativeBase implements LoadSceneCallback {
         protected LoadSceneCallbackImpl(final long nativeHandle, final Object dummy) {
@@ -30,7 +30,7 @@ public final class MapScene extends NativeBase {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected MapScene(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

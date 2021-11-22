@@ -11,7 +11,7 @@ public final class FieldConstructorWithExcluded {
     public String stringField;
     /**
      * <p>Some field constructor</p>
-     * @exclude
+     * @hidden
      * @param stringField <p>Some field</p>
      */
     public FieldConstructorWithExcluded(@NonNull final String stringField) {

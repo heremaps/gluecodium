@@ -27,11 +27,11 @@ import java.util.Objects;
 /**
  * <p>Internal base abstract class for List implementations backed by a native object.</p>
  *
- * @exclude
+ * @hidden
  */
 public abstract class AbstractNativeList<T> extends NativeBase implements List<T> {
     /**
-     * @exclude
+     * @hidden
      */
     private final class NativeIterator implements ListIterator<T> {
         private int index = 0;

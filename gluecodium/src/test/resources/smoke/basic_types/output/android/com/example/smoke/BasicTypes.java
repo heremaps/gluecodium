@@ -7,7 +7,7 @@ import com.example.NativeBase;
 public final class BasicTypes extends NativeBase {
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected BasicTypes(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

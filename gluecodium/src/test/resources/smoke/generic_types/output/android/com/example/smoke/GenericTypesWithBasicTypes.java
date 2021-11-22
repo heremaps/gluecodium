@@ -24,7 +24,7 @@ public final class GenericTypesWithBasicTypes extends NativeBase {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected GenericTypesWithBasicTypes(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

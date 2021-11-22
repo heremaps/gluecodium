@@ -10,7 +10,7 @@ import com.example.NativeBase;
 public final class EnumsInTypeCollectionInterface extends NativeBase {
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected EnumsInTypeCollectionInterface(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
