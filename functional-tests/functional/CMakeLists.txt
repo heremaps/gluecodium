@@ -153,6 +153,7 @@ feature(FieldConstructors cpp android swift dart SOURCES
     input/src/cpp/FieldConstructors.cpp
 
     input/lime/FieldConstructors.lime
+    input/lime/FieldConstructorsInit.lime
     input/lime/FieldConstructorsNesting.lime
 )
 

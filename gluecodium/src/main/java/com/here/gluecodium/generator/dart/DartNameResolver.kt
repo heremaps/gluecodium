@@ -155,10 +155,12 @@ internal class DartNameResolver(
                     throw GluecodiumExecutionException("Unsupported type ${actualType.javaClass.name} for struct initializer")
                 }
                 val useDefaultsConstructor = actualType.fields.isNotEmpty() && limeValue.values.isEmpty()
+                val noFieldsConstructor = actualType.noFieldsConstructor
                 val constructorName = when {
-                    useDefaultsConstructor ->
-                        actualType.noFieldsConstructor?.let { ".${resolveName(it)}" } ?: ".withDefaults"
-                    else -> ""
+                    !useDefaultsConstructor -> ""
+                    noFieldsConstructor != null ->
+                        resolveName(noFieldsConstructor).let { if (it.isEmpty()) "" else ".$it" }
+                    else -> ".withDefaults"
                 }
                 limeValue.values.joinToString(
                     prefix = "${resolveName(limeValue.typeRef)}$constructorName(",
