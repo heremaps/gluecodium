@@ -69,13 +69,6 @@ struct ImmutableStructWithClash {
     field constructor(boolField, intField, stringField)
 }
 
-struct MutableStructImmutableFields {
-    structField: ImmutableStructNoClash = {}
-    intField: Int = 42
-    boolField: Boolean = true
-    field constructor()
-}
-
 struct FieldCustomConstructorsMix {
     stringField: String = "nonsense"
     intField: Int = 42
