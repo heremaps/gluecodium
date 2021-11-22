@@ -8,7 +8,7 @@ import com.example.NativeBase;
 public final class UnderscorePackage extends NativeBase {
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected UnderscorePackage(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

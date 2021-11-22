@@ -6,7 +6,7 @@ import com.example.NativeBase;
 public final class MultipleAttributesJava extends NativeBase {
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected MultipleAttributesJava(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

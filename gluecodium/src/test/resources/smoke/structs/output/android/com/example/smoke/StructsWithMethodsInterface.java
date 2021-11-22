@@ -33,7 +33,7 @@ public final class StructsWithMethodsInterface extends NativeBase {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected StructsWithMethodsInterface(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

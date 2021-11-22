@@ -27,7 +27,7 @@ public final class AttributesWithComments extends NativeBase {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected AttributesWithComments(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

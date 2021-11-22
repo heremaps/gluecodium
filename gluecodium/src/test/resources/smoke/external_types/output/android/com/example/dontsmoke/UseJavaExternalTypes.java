@@ -8,7 +8,7 @@ import com.example.smoke.JavaExternalTypesStruct;
 public final class UseJavaExternalTypes extends NativeBase {
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected UseJavaExternalTypes(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

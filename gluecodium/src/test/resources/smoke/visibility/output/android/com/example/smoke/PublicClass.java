@@ -43,7 +43,7 @@ public final class PublicClass extends NativeBase {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected PublicClass(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

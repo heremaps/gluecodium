@@ -8,7 +8,7 @@ public final class OuterClass extends NativeBase {
     public static final class InnerClass extends NativeBase {
         /**
          * For internal use only.
-         * @exclude
+         * @hidden
          */
         protected InnerClass(final long nativeHandle, final Object dummy) {
             super(nativeHandle, new Disposer() {
@@ -23,7 +23,7 @@ public final class OuterClass extends NativeBase {
         public native String foo(@NonNull final String input);
     }
     /**
-     * @exclude
+     * @hidden
      */
     static class InnerInterfaceImpl extends NativeBase implements InnerInterface {
         protected InnerInterfaceImpl(final long nativeHandle, final Object dummy) {
@@ -44,7 +44,7 @@ public final class OuterClass extends NativeBase {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected OuterClass(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

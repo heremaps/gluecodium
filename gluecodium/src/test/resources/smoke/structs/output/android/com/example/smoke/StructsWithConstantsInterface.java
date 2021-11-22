@@ -24,7 +24,7 @@ public final class StructsWithConstantsInterface extends NativeBase {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected StructsWithConstantsInterface(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

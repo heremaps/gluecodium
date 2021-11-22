@@ -22,7 +22,7 @@ public final class TypeDefs extends NativeBase {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected TypeDefs(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

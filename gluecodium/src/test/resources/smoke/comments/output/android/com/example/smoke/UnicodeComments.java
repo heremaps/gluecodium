@@ -7,7 +7,7 @@ import com.example.NativeBase;
 public final class UnicodeComments extends NativeBase {
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected UnicodeComments(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

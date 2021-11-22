@@ -9,7 +9,7 @@ import java.util.List;
 public final class UseOptimizedList extends NativeBase {
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected UseOptimizedList(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
@@ -25,7 +25,7 @@ public final class UseOptimizedList extends NativeBase {
     @NonNull
     public static native List<UnreasonablyLazyClass> getLazyOnes();
     /**
-     * @exclude
+     * @hidden
      */
     private final static class UnreasonablyLazyClassLazyNativeList extends AbstractNativeList<UnreasonablyLazyClass> {
         private UnreasonablyLazyClassLazyNativeList(final long nativeHandle, Object dummy) {
@@ -43,7 +43,7 @@ public final class UseOptimizedList extends NativeBase {
         public native UnreasonablyLazyClass get(int index);
     }
     /**
-     * @exclude
+     * @hidden
      */
     private final static class VeryBigStructLazyNativeList extends AbstractNativeList<VeryBigStruct> {
         private VeryBigStructLazyNativeList(final long nativeHandle, Object dummy) {

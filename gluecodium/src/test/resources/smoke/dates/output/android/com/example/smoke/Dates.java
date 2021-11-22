@@ -20,7 +20,7 @@ public final class Dates extends NativeBase {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected Dates(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

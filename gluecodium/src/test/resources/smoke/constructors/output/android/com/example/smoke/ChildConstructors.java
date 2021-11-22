@@ -14,7 +14,7 @@ public final class ChildConstructors extends Constructors {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected ChildConstructors(final long nativeHandle, final Object dummy) {
         super(nativeHandle, dummy);

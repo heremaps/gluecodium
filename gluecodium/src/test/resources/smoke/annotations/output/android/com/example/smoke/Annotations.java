@@ -9,7 +9,7 @@ import my.other.annotations.Optional;
 public final class Annotations extends NativeBase {
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected Annotations(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

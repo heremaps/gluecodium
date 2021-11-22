@@ -26,7 +26,7 @@ public final class LevelOne extends NativeBase {
             }
             /**
              * For internal use only.
-             * @exclude
+             * @hidden
              */
             protected LevelThree(final long nativeHandle, final Object dummy) {
                 super(nativeHandle, new Disposer() {
@@ -42,7 +42,7 @@ public final class LevelOne extends NativeBase {
         }
         /**
          * For internal use only.
-         * @exclude
+         * @hidden
          */
         protected LevelTwo(final long nativeHandle, final Object dummy) {
             super(nativeHandle, new Disposer() {
@@ -56,7 +56,7 @@ public final class LevelOne extends NativeBase {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected LevelOne(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

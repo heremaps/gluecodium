@@ -6,22 +6,22 @@ import android.support.annotation.NonNull;
 import com.example.NativeBase;
 /**
  * <p>This is some very useful class.</p>
- * @exclude
+ * @hidden
  */
 public final class ExcludedComments extends NativeBase {
     /**
      * <p>This is some very useful constant.</p>
-     * @exclude
+     * @hidden
      */
     public static final boolean VERY_USEFUL = true;
     /**
      * <p>This is some very useful enum.</p>
-     * @exclude
+     * @hidden
      */
     public enum SomeEnum {
         /**
          * <p>Not quite useful</p>
-         * @exclude
+         * @hidden
          */
         USELESS(0);
         public final int value;
@@ -31,7 +31,7 @@ public final class ExcludedComments extends NativeBase {
     }
     /**
      * <p>This is some very useful exception.</p>
-     * @exclude
+     * @hidden
      */
     public static final class SomethingWrongException extends Exception {
         public SomethingWrongException(final ExcludedComments.SomeEnum error) {
@@ -42,13 +42,13 @@ public final class ExcludedComments extends NativeBase {
     }
     /**
      * <p>This is some very useful struct.</p>
-     * @exclude
+     * @hidden
      */
     public static final class SomeStruct {
         /**
          * <p>How useful this struct is
          * remains to be seen</p>
-         * @exclude
+         * @hidden
          */
         public boolean someField;
         /**
@@ -61,7 +61,7 @@ public final class ExcludedComments extends NativeBase {
         }
     }
     /**
-     * @exclude
+     * @hidden
      */
     static class SomeLambdaImpl extends NativeBase implements SomeLambda {
         protected SomeLambdaImpl(final long nativeHandle, final Object dummy) {
@@ -75,7 +75,7 @@ public final class ExcludedComments extends NativeBase {
         private static native void disposeNativeHandle(long nativeHandle);
         /**
          * <p>This is some very useful lambda that does it.</p>
-         * @exclude
+         * @hidden
          * @param p0 <p>Very useful input parameter</p>
          * @param index <p>Slightly less useful input parameter</p>
          * @return <p>Usefulness of the input</p>
@@ -84,13 +84,13 @@ public final class ExcludedComments extends NativeBase {
     }
     /**
      * <p>This is some very useful lambda that does it.</p>
-     * @exclude
+     * @hidden
      */
     @FunctionalInterface
     public interface SomeLambda {
         /**
          * <p>This is some very useful lambda that does it.</p>
-         * @exclude
+         * @hidden
          * @param p0 <p>Very useful input parameter</p>
          * @param index <p>Slightly less useful input parameter</p>
          * @return <p>Usefulness of the input</p>
@@ -99,7 +99,7 @@ public final class ExcludedComments extends NativeBase {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected ExcludedComments(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
@@ -112,7 +112,7 @@ public final class ExcludedComments extends NativeBase {
     private static native void disposeNativeHandle(long nativeHandle);
     /**
      * <p>This is some very useful method that measures the usefulness of its input.</p>
-     * @exclude
+     * @hidden
      * @param inputParameter <p>Very useful input parameter</p>
      * @return <p>Usefulness of the input</p>
      * @throws ExcludedComments.SomethingWrongException <p>Sometimes it happens.</p>
@@ -120,17 +120,17 @@ public final class ExcludedComments extends NativeBase {
     public native boolean someMethodWithAllComments(@NonNull final String inputParameter) throws ExcludedComments.SomethingWrongException;
     /**
      * <p>This is some very useful method that does nothing.</p>
-     * @exclude
+     * @hidden
      */
     public native void someMethodWithoutReturnTypeOrInputParameters();
     /**
      * <p>Gets some very useful property.</p>
-     * @exclude
+     * @hidden
      */
     public native boolean isSomeProperty();
     /**
      * <p>Sets some very useful property.</p>
-     * @exclude
+     * @hidden
      * @param value <p>Some very useful property.</p>
      */
     public native void setSomeProperty(final boolean value);

@@ -8,7 +8,7 @@ import com.example.dont.smoke.DontSmokeEnum;
 public final class SomeSkippedClass extends NativeBase {
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected SomeSkippedClass(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

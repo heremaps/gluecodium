@@ -7,7 +7,7 @@ public final class FieldConstructorWithExcludedOnly {
     @NonNull
     public String stringField;
     /**
-     * @exclude
+     * @hidden
      * @param stringField
      */
     public FieldConstructorWithExcludedOnly(@NonNull final String stringField) {

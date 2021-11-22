@@ -10,7 +10,7 @@ public final class AttributesClass extends NativeBase {
     public static final boolean PI = false;
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected AttributesClass(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

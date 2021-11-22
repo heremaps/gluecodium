@@ -6,7 +6,7 @@ import com.example.NativeBase;
 public final class SkipFunctions extends NativeBase {
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected SkipFunctions(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

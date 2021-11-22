@@ -25,7 +25,7 @@
 @Deprecated{{/if}}{{/ifPredicate}}{{!!
 
 }}{{+combinedComment}}{{resolveName comment}}{{#if comment.isExcluded}}
-@exclude{{/if}}{{#if attributes.deprecated}}
+@hidden{{/if}}{{#if attributes.deprecated}}
 @deprecated {{resolveName attributes.deprecated.message}}{{/if}}{{!!
 }}{{#parameters}}
 @param {{resolveName}} {{#resolveName comment}}{{prefix this "    " skipFirstLine=true}}{{/resolveName}}{{/parameters}}{{!!

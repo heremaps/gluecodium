@@ -38,7 +38,7 @@ public final class OuterStruct {
     public static final class InnerClass extends NativeBase {
         /**
          * For internal use only.
-         * @exclude
+         * @hidden
          */
         protected InnerClass(final long nativeHandle, final Object dummy) {
             super(nativeHandle, new Disposer() {
@@ -59,7 +59,7 @@ public final class OuterStruct {
         }
         /**
          * For internal use only.
-         * @exclude
+         * @hidden
          */
         protected Builder(final long nativeHandle, final Object dummy) {
             super(nativeHandle, new Disposer() {
@@ -78,7 +78,7 @@ public final class OuterStruct {
         public native OuterStruct build();
     }
     /**
-     * @exclude
+     * @hidden
      */
     static class InnerInterfaceImpl extends NativeBase implements InnerInterface {
         protected InnerInterfaceImpl(final long nativeHandle, final Object dummy) {

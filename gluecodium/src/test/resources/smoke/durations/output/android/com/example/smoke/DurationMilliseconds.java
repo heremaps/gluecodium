@@ -16,7 +16,7 @@ public final class DurationMilliseconds extends NativeBase {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected DurationMilliseconds(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

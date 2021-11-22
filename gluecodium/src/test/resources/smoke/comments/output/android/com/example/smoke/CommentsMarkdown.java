@@ -29,7 +29,7 @@ import com.example.NativeBase;
 public final class CommentsMarkdown extends NativeBase {
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected CommentsMarkdown(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

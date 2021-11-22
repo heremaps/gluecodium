@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import com.example.NativeBase;
 public interface LambdasInterface {
     /**
-     * @exclude
+     * @hidden
      */
     static class TakeScreenshotCallbackImpl extends NativeBase implements TakeScreenshotCallback {
         protected TakeScreenshotCallbackImpl(final long nativeHandle, final Object dummy) {

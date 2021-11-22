@@ -22,7 +22,7 @@ public final class Properties extends NativeBase {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected Properties(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

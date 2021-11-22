@@ -8,7 +8,7 @@ import java.util.List;
 public final class CachedProperties extends NativeBase {
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected CachedProperties(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

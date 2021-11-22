@@ -5,19 +5,19 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 /**
- * @exclude
+ * @hidden
  */
 public final class ExcludedCommentsOnly extends NativeBase {
     /**
-     * @exclude
+     * @hidden
      */
     public static final boolean VERY_USEFUL = true;
     /**
-     * @exclude
+     * @hidden
      */
     public enum SomeEnum {
         /**
-         * @exclude
+         * @hidden
          */
         USELESS(0);
         public final int value;
@@ -26,7 +26,7 @@ public final class ExcludedCommentsOnly extends NativeBase {
         }
     }
     /**
-     * @exclude
+     * @hidden
      */
     public static final class SomethingWrongException extends Exception {
         public SomethingWrongException(final ExcludedCommentsOnly.SomeEnum error) {
@@ -36,11 +36,11 @@ public final class ExcludedCommentsOnly extends NativeBase {
         public final ExcludedCommentsOnly.SomeEnum error;
     }
     /**
-     * @exclude
+     * @hidden
      */
     public static final class SomeStruct {
         /**
-         * @exclude
+         * @hidden
          */
         public boolean someField;
         public SomeStruct(final boolean someField) {
@@ -48,7 +48,7 @@ public final class ExcludedCommentsOnly extends NativeBase {
         }
     }
     /**
-     * @exclude
+     * @hidden
      */
     static class SomeLambdaImpl extends NativeBase implements SomeLambda {
         protected SomeLambdaImpl(final long nativeHandle, final Object dummy) {
@@ -62,7 +62,7 @@ public final class ExcludedCommentsOnly extends NativeBase {
         private static native void disposeNativeHandle(long nativeHandle);
         /**
          *
-         * @exclude
+         * @hidden
          * @param p0
          * @param index
          * @return
@@ -70,13 +70,13 @@ public final class ExcludedCommentsOnly extends NativeBase {
         public native double doIt(@NonNull final String p0, final int index);
     }
     /**
-     * @exclude
+     * @hidden
      */
     @FunctionalInterface
     public interface SomeLambda {
         /**
          *
-         * @exclude
+         * @hidden
          * @param p0
          * @param index
          * @return
@@ -85,7 +85,7 @@ public final class ExcludedCommentsOnly extends NativeBase {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected ExcludedCommentsOnly(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
@@ -98,7 +98,7 @@ public final class ExcludedCommentsOnly extends NativeBase {
     private static native void disposeNativeHandle(long nativeHandle);
     /**
      *
-     * @exclude
+     * @hidden
      * @param inputParameter
      * @return
      * @throws ExcludedCommentsOnly.SomethingWrongException
@@ -106,17 +106,17 @@ public final class ExcludedCommentsOnly extends NativeBase {
     public native boolean someMethodWithAllComments(@NonNull final String inputParameter) throws ExcludedCommentsOnly.SomethingWrongException;
     /**
      *
-     * @exclude
+     * @hidden
      */
     public native void someMethodWithoutReturnTypeOrInputParameters();
     /**
      *
-     * @exclude
+     * @hidden
      */
     public native boolean isSomeProperty();
     /**
      *
-     * @exclude
+     * @hidden
      * @param value
      */
     public native void setSomeProperty(final boolean value);

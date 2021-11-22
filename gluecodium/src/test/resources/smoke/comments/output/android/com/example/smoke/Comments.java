@@ -74,7 +74,7 @@ public final class Comments extends NativeBase {
         public static native void someStaticStructMethod();
     }
     /**
-     * @exclude
+     * @hidden
      */
     static class SomeLambdaImpl extends NativeBase implements SomeLambda {
         protected SomeLambdaImpl(final long nativeHandle, final Object dummy) {
@@ -109,7 +109,7 @@ public final class Comments extends NativeBase {
     }
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected Comments(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

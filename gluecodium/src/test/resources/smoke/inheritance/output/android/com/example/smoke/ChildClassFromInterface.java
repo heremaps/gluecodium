@@ -7,7 +7,7 @@ import com.example.NativeBase;
 public final class ChildClassFromInterface extends NativeBase implements ParentInterface {
     /**
      * For internal use only.
-     * @exclude
+     * @hidden
      */
     protected ChildClassFromInterface(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
