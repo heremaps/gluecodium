@@ -26,7 +26,7 @@ repositories {
 apply plugin: 'application'
 
 dependencies {
-    runtime "com.github.heremaps.gluecodium:gluecodium:${version}"
+    runtimeOnly "com.github.heremaps.gluecodium:gluecodium:${version}"
 }
 
 mainClassName = 'com.here.gluecodium.Gluecodium'
