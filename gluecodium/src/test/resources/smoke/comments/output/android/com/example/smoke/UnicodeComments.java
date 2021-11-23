@@ -19,10 +19,10 @@ public final class UnicodeComments extends NativeBase {
     }
     private static native void disposeNativeHandle(long nativeHandle);
     /**
-     * <p>Süßölgefäß</p>
-     * @param input <p>שלום</p>
-     * @return <p>товарищ</p>
-     * @throws Comments.SomethingWrongException <p>ネコ</p>
+     * <p>Süßölgefäß
+     * @param input <p>שלום
+     * @return <p>товарищ
+     * @throws Comments.SomethingWrongException <p>ネコ
      */
     public native boolean someMethodWithAllComments(@NonNull final String input) throws Comments.SomethingWrongException;
 }

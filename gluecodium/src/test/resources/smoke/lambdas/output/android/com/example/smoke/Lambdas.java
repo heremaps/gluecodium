@@ -38,7 +38,7 @@ public final class Lambdas extends NativeBase {
         }
         private static native void disposeNativeHandle(long nativeHandle);
         /**
-         * <p>Should confuse everyone thoroughly</p>
+         * <p>Should confuse everyone thoroughly
          * @param p0
          * @return
          */
@@ -97,12 +97,12 @@ public final class Lambdas extends NativeBase {
         String apply();
     }
     /**
-     * <p>Should confuse everyone thoroughly</p>
+     * <p>Should confuse everyone thoroughly
      */
     @FunctionalInterface
     public interface Confounder {
         /**
-         * <p>Should confuse everyone thoroughly</p>
+         * <p>Should confuse everyone thoroughly
          * @param p0
          * @return
          */

@@ -7,8 +7,8 @@ public final class FieldConstructorWithDeprecationAndComment {
     @NonNull
     public String stringField;
     /**
-     * <p>Some field constructor</p>
-     * @deprecated <p>Shouldn't really use it</p>
+     * <p>Some field constructor
+     * @deprecated <p>Shouldn't really use it
      * @param stringField
      */
     @Deprecated

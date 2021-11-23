@@ -51,13 +51,13 @@ import java.util.logging.Logger;
 /**
  * <p>Internal base class for public non-POD objects to manage the lifecycle of underlying C++ objects.
  * While the class is public for technical reasons, but should be considered <b>internal</b> and not
- * part of the public API and thus not used directly.</p>
+ * part of the public API and thus not used directly.
  *
  * <p>Java classes which wrap C++ objects inherit from NativeBase to
  * <ol>
  * <li>reference the C++ object</li>
  * <li>manage the lifecycle of C++ object</li>
- * </ol></p>
+ * </ol>
  *
  * <p>Cleanup of C++ objects is done automatically as long as there are new subclasses of NativeBase
  * created. Currently there is no explicit way to destroy the underlying C++ object of a Java
@@ -65,7 +65,7 @@ import java.util.logging.Logger;
  * client of the Java wrapper would need additional knowledge of the underlying implementation to
  * be able to decide whether or not cleanup is necessary. It is not clear for the client which
  * object needs cleanup and which doesn't if all objects have auto-generated cleanup functions.
- * So instead API designers should manually define methods if resource cleanup is necessary.</p>
+ * So instead API designers should manually define methods if resource cleanup is necessary.
  */
 public abstract class NativeBase {
 

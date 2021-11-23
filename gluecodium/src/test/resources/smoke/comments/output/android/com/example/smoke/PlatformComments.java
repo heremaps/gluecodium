@@ -7,7 +7,7 @@ import com.example.NativeBase;
 public final class PlatformComments extends NativeBase {
     public enum SomeEnum {
         /**
-         * <p>Maybe useful.</p>
+         * <p>Maybe useful.
          */
         USELESS(0),
         USEFUL(1);
@@ -17,7 +17,7 @@ public final class PlatformComments extends NativeBase {
         }
     }
     /**
-     * <p>An exception when something goes wrong.</p>
+     * <p>An exception when something goes wrong.
      */
     public static final class SomethingWrongException extends Exception {
         public SomethingWrongException(final PlatformComments.SomeEnum error) {
@@ -27,7 +27,7 @@ public final class PlatformComments extends NativeBase {
         public final PlatformComments.SomeEnum error;
     }
     /**
-     * <p>This is a very super struct.</p>
+     * <p>This is a very super struct.
      */
     public static final class Something {
         @NonNull
@@ -50,23 +50,23 @@ public final class PlatformComments extends NativeBase {
     }
     private static native void disposeNativeHandle(long nativeHandle);
     /**
-     * <p>This is some very useless method that makes some coffee.</p>
+     * <p>This is some very useless method that makes some coffee.
      */
     public native void doNothing();
     /**
-     * <p>Makes some coffee.</p>
+     * <p>Makes some coffee.
      */
     public native void doMagic();
     /**
-     * <p>This is some very useful method that measures the usefulness of its input or \esc@pe{s}.</p>
-     * @param input <p>Very useful parameter that [\esc@pe{s}]</p>
-     * @return <p>Uselessness {@link com.example.smoke.PlatformComments.SomeEnum} of the input</p>
-     * @throws PlatformComments.SomethingWrongException <p>Sometimes it happens.</p>
+     * <p>This is some very useful method that measures the usefulness of its input or \esc@pe{s}.
+     * @param input <p>Very useful parameter that [\esc@pe{s}]
+     * @return <p>Uselessness {@link com.example.smoke.PlatformComments.SomeEnum} of the input
+     * @throws PlatformComments.SomethingWrongException <p>Sometimes it happens.
      */
     public native boolean someMethodWithAllComments(@NonNull final String input) throws PlatformComments.SomethingWrongException;
     /**
      *
-     * @deprecated <p>A very useless method that is deprecated.</p>
+     * @deprecated <p>A very useless method that is deprecated.
      */
     @Deprecated
     public native void someDeprecatedMethod();

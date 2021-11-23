@@ -4,27 +4,27 @@
 package com.example.smoke;
 import android.support.annotation.NonNull;
 /**
- * <p>This is some very useful interface.</p>
- * @deprecated <p>Unfortunately, this interface is deprecated. Use {@link com.example.smoke.Comments} instead.</p>
+ * <p>This is some very useful interface.
+ * @deprecated <p>Unfortunately, this interface is deprecated. Use {@link com.example.smoke.Comments} instead.
  */
 @Deprecated
 public interface DeprecationComments {
     /**
-     * <p>This is some very useful constant.</p>
-     * @deprecated <p>Unfortunately, this constant is deprecated. Use {@link com.example.smoke.Comments#VERY_USEFUL} instead.</p>
+     * <p>This is some very useful constant.
+     * @deprecated <p>Unfortunately, this constant is deprecated. Use {@link com.example.smoke.Comments#VERY_USEFUL} instead.
      */
     @Deprecated
     public static final boolean VERY_USEFUL = true;
     /**
-     * <p>This is some very useful enum.</p>
-     * @deprecated <p>Unfortunately, this enum is deprecated. Use {@link com.example.smoke.Comments.SomeEnum} instead.</p>
+     * <p>This is some very useful enum.
+     * @deprecated <p>Unfortunately, this enum is deprecated. Use {@link com.example.smoke.Comments.SomeEnum} instead.
      */
     @Deprecated
     public enum SomeEnum {
         /**
-         * <p>Not quite useful</p>
+         * <p>Not quite useful
          * @deprecated <p>Unfortunately, this item is deprecated.
-         * Use {@link com.example.smoke.Comments.SomeEnum#USELESS} instead.</p>
+         * Use {@link com.example.smoke.Comments.SomeEnum#USELESS} instead.
          */
         @Deprecated
         USELESS(0);
@@ -34,7 +34,7 @@ public interface DeprecationComments {
         }
     }
     /**
-     * @deprecated <p>Unfortunately, this exception is deprecated, please use {@link com.example.smoke.Comments.SomethingWrongException} instead.</p>
+     * @deprecated <p>Unfortunately, this exception is deprecated, please use {@link com.example.smoke.Comments.SomethingWrongException} instead.
      */
     @Deprecated
     public static final class SomethingWrongException extends Exception {
@@ -45,15 +45,15 @@ public interface DeprecationComments {
         public final DeprecationComments.SomeEnum error;
     }
     /**
-     * <p>This is some very useful struct.</p>
-     * @deprecated <p>Unfortunately, this struct is deprecated. Use {@link com.example.smoke.Comments.SomeStruct} instead.</p>
+     * <p>This is some very useful struct.
+     * @deprecated <p>Unfortunately, this struct is deprecated. Use {@link com.example.smoke.Comments.SomeStruct} instead.
      */
     @Deprecated
     public static final class SomeStruct {
         /**
-         * <p>How useful this struct is.</p>
+         * <p>How useful this struct is.
          * @deprecated <p>Unfortunately, this field is deprecated.
-         * Use {@link com.example.smoke.Comments.SomeStruct#someField} instead.</p>
+         * Use {@link com.example.smoke.Comments.SomeStruct#someField} instead.
          */
         @Deprecated
         public boolean someField;
@@ -62,40 +62,40 @@ public interface DeprecationComments {
         }
     }
     /**
-     * <p>This is some very useful method that measures the usefulness of its input.</p>
+     * <p>This is some very useful method that measures the usefulness of its input.
      * @deprecated <p>Unfortunately, this method is deprecated.
-     * Use {@link com.example.smoke.Comments#someMethodWithAllComments} instead.</p>
-     * @param input <p>Very useful input parameter</p>
-     * @return <p>Usefulness of the input</p>
+     * Use {@link com.example.smoke.Comments#someMethodWithAllComments} instead.
+     * @param input <p>Very useful input parameter
+     * @return <p>Usefulness of the input
      */
     @Deprecated
     boolean someMethodWithAllComments(@NonNull final String input);
     /**
-     * <p>Gets some very useful property.</p>
+     * <p>Gets some very useful property.
      * @deprecated <p>Unfortunately, this property's getter is deprecated.
-     * Use {@link com.example.smoke.Comments#isSomeProperty} instead.</p>
+     * Use {@link com.example.smoke.Comments#isSomeProperty} instead.
      */
     @Deprecated
     boolean isSomeProperty();
     /**
-     * <p>Sets some very useful property.</p>
+     * <p>Sets some very useful property.
      * @deprecated <p>Unfortunately, this property's setter is deprecated.
-     * Use {@link com.example.smoke.Comments#setSomeProperty} instead.</p>
-     * @param value <p>Some very useful property.</p>
+     * Use {@link com.example.smoke.Comments#setSomeProperty} instead.
+     * @param value <p>Some very useful property.
      */
     @Deprecated
     void setSomeProperty(final boolean value);
     /**
-     * <p>Gets the property but not accessors.</p>
-     * @deprecated <p>Will be removed in v3.2.1.</p>
+     * <p>Gets the property but not accessors.
+     * @deprecated <p>Will be removed in v3.2.1.
      */
     @Deprecated
     @NonNull
     String getPropertyButNotAccessors();
     /**
      *
-     * @deprecated <p>Will be removed in v3.2.1.</p>
-     * @param value <p>Describes the property but not accessors.</p>
+     * @deprecated <p>Will be removed in v3.2.1.
+     * @param value <p>Describes the property but not accessors.
      */
     @Deprecated
     void setPropertyButNotAccessors(@NonNull final String value);

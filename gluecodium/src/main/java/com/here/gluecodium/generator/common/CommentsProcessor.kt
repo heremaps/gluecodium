@@ -80,7 +80,8 @@ abstract class CommentsProcessor(private val renderer: IRender, private val werr
         val autoLinkHandler = VisitHandler(AutoLink::class.java) { processAutoLink(it) }
         NodeVisitor(linkRefHandler, codeBlockHandler, autoLinkHandler).visit(document)
 
-        return renderer.render(document).trim()
+        val renderedDocument = renderer.render(document)
+        return postRenderDocument(renderedDocument).trim()
     }
 
     // Normalize element reference to ensure a name match:
@@ -98,6 +99,8 @@ abstract class CommentsProcessor(private val renderer: IRender, private val werr
 
     abstract fun processLink(linkNode: LinkRef, linkReference: String, limeFullName: String)
     open fun processAutoLink(linkNode: AutoLink) {}
+    open fun postRenderDocument(renderedDocument: String): String = renderedDocument
+
     open val nullReference = standardNullReference
 
     companion object {

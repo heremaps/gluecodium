@@ -7,22 +7,22 @@ import com.example.NativeBase;
 /**
  * <p>The nested types like {@link com.example.smoke.CommentsLinks#randomMethod(String, boolean)} don't need full name prefix, but it's
  * possible to references other interfaces like {@link com.example.smoke.CommentsInterface} or other members
- * {@link com.example.smoke.Comments#someMethodWithAllComments}.</p>
- * <p>Weblinks are not modified like this <a href="http://example.com/1">example1</a>, <a href="http://www.example.com/2">example2</a> or <a href="https://www.example.com/3">https://www.example.com/3</a>.</p>
+ * {@link com.example.smoke.Comments#someMethodWithAllComments}.
+ * <p>Weblinks are not modified like this <a href="http://example.com/1">example1</a>, <a href="http://www.example.com/2">example2</a> or <a href="https://www.example.com/3">https://www.example.com/3</a>.
  */
 public final class CommentsLinks extends NativeBase {
     /**
-     * <p>Links also work in:</p>
+     * <p>Links also work in:
      */
     public static final class RandomStruct {
         /**
-         * <p>Some random field {@link com.example.smoke.Comments.SomeStruct}</p>
+         * <p>Some random field {@link com.example.smoke.Comments.SomeStruct}
          */
         @NonNull
         public Comments.SomeStruct randomField;
         /**
-         * <p>constructor comments {@link com.example.smoke.Comments.SomeStruct}</p>
-         * @param randomField <p>Some random field {@link com.example.smoke.Comments.SomeStruct}</p>
+         * <p>constructor comments {@link com.example.smoke.Comments.SomeStruct}
+         * @param randomField <p>Some random field {@link com.example.smoke.Comments.SomeStruct}
          */
         public RandomStruct(@NonNull final Comments.SomeStruct randomField) {
             this.randomField = randomField;
@@ -42,7 +42,7 @@ public final class CommentsLinks extends NativeBase {
     }
     private static native void disposeNativeHandle(long nativeHandle);
     /**
-     * <p>Link types:</p>
+     * <p>Link types:
      * <ul>
      * <li>constant: {@link com.example.smoke.Comments#VERY_USEFUL}</li>
      * <li>struct: {@link com.example.smoke.Comments.SomeStruct}</li>
@@ -71,23 +71,23 @@ public final class CommentsLinks extends NativeBase {
      * </ul>
      * </li>
      * </ul>
-     * <p>Not working for Java:</p>
+     * <p>Not working for Java:
      * <ul>
      * <li>typedef: [comments.Usefulness]</li>
      * <li>top level typedef: [CommentsTypeCollection.TypeCollectionTypedef]</li>
      * </ul>
-     * <p>Not working for Swift:</p>
+     * <p>Not working for Swift:
      * <ul>
      * <li>named comment: {@link com.example.smoke.Comments#VERY_USEFUL}</li>
      * </ul>
-     * @param inputParameter <p>Sometimes takes {@link com.example.smoke.Comments.SomeEnum#USEFUL}</p>
-     * @return <p>Sometimes returns {@link com.example.smoke.Comments.SomeEnum#USEFUL}</p>
-     * @throws Comments.SomethingWrongException <p>May or may not throw {@link com.example.smoke.Comments.SomethingWrongException}</p>
+     * @param inputParameter <p>Sometimes takes {@link com.example.smoke.Comments.SomeEnum#USEFUL}
+     * @return <p>Sometimes returns {@link com.example.smoke.Comments.SomeEnum#USEFUL}
+     * @throws Comments.SomethingWrongException <p>May or may not throw {@link com.example.smoke.Comments.SomethingWrongException}
      */
     @NonNull
     public native Comments.SomeEnum randomMethod(@NonNull final Comments.SomeEnum inputParameter) throws Comments.SomethingWrongException;
     /**
-     * <p>Links to method overloads:</p>
+     * <p>Links to method overloads:
      * <ul>
      * <li>other one: {@link com.example.smoke.CommentsLinks#randomMethod(Comments.SomeEnum)}</li>
      * <li>this one: {@link com.example.smoke.CommentsLinks#randomMethod(String, boolean)}</li>

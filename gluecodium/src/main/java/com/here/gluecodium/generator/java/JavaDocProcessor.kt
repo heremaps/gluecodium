@@ -44,6 +44,8 @@ internal class JavaDocProcessor(werror: Boolean, private val referenceMap: Map<S
         linkNode.firstChild?.unlink()
     }
 
+    override fun postRenderDocument(renderedDocument: String) = renderedDocument.replace("</p>", "")
+
     /** For `LimeParameter` the position of the disambiguator suffix differs between "full path" and "full name". */
     private fun fullNameToPathKey(fullName: String): String {
         if (!fullName.contains(":")) return fullName

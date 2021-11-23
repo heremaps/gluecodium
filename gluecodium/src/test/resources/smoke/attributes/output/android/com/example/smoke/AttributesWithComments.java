@@ -5,18 +5,18 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 /**
- * <p>Class comment</p>
+ * <p>Class comment
  */
 @OnClass
 public final class AttributesWithComments extends NativeBase {
     /**
-     * <p>Const comment</p>
+     * <p>Const comment
      */
     @OnConstInClass
     public static final boolean PI = false;
     public static final class SomeStruct {
         /**
-         * <p>Field comment</p>
+         * <p>Field comment
          */
         @OnField
         @NonNull
@@ -39,19 +39,19 @@ public final class AttributesWithComments extends NativeBase {
     }
     private static native void disposeNativeHandle(long nativeHandle);
     /**
-     * <p>Function comment</p>
+     * <p>Function comment
      */
     @OnFunctionInClass
     public native void veryFun();
     /**
-     * <p>Getter comment</p>
+     * <p>Getter comment
      */
     @OnPropertyInClass
     @NonNull
     public native String getProp();
     /**
-     * <p>Setter comment</p>
-     * @param value <p>Property comment</p>
+     * <p>Setter comment
+     * @param value <p>Property comment
      */
     @OnPropertyInClass
     public native void setProp(@NonNull final String value);
