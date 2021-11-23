@@ -22,10 +22,15 @@ types ComplexListenerTypes {
         x: Double = 0.0
         y: Double = 0.0
         z: Double = 0.0
+        @Dart("withDefaults")
+        field constructor()
+        @Dart(Default)
+        field constructor(x, y, z)
     }
     struct NamedPoint3D {
         name: String
         pt: Point3D
+        field constructor(name, pt)
     }
     enum TrajectoryQuality {
         TRAJECTORY_POOR,

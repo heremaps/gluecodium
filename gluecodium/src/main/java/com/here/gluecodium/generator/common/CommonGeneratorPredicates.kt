@@ -87,14 +87,6 @@ internal object CommonGeneratorPredicates {
             else -> false
         }
 
-    fun needsAllFieldsConstructor(limeStruct: Any) =
-        when {
-            limeStruct !is LimeStruct -> false
-            limeStruct.fieldConstructors.isEmpty() -> true
-            limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) -> limeStruct.allFieldsConstructor == null
-            else -> false
-        }
-
     fun needsPublicFieldsConstructor(limeStruct: Any, platformAttribute: LimeAttributeType) =
         limeStruct is LimeStruct &&
             !limeStruct.attributes.have(platformAttribute, LimeAttributeValueType.POSITIONAL_DEFAULTS) &&
