@@ -65,7 +65,7 @@ abstract class CommentsProcessor(private val renderer: IRender, private val werr
                 val child = (path.take(i) + normalizedReference).joinToString(".")
                 val element = limeToLanguage[child]
                 if (element != null) {
-                    processLink(it, element)
+                    processLink(it, element, child)
                     return@VisitHandler
                 }
             }
@@ -96,7 +96,7 @@ abstract class CommentsProcessor(private val renderer: IRender, private val werr
         return name + "(" + signature.split(",").joinToString(",") { it.split('.').last() }
     }
 
-    abstract fun processLink(linkNode: LinkRef, linkReference: String)
+    abstract fun processLink(linkNode: LinkRef, linkReference: String, limeFullName: String)
     open fun processAutoLink(linkNode: AutoLink) {}
     open val nullReference = standardNullReference
 

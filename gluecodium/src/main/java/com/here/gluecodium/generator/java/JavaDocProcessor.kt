@@ -31,7 +31,7 @@ import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
 internal class JavaDocProcessor(werror: Boolean) :
     CommentsProcessor(HtmlRenderer.builder().build(), werror) {
 
-    override fun processLink(linkNode: LinkRef, linkReference: String) {
+    override fun processLink(linkNode: LinkRef, linkReference: String, limeFullName: String) {
         linkNode.chars = BasedSequenceImpl.of("{@link $linkReference}")
         linkNode.firstChild?.unlink()
     }

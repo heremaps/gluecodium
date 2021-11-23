@@ -34,7 +34,7 @@ import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
 class SwiftCommentsProcessor(werror: Boolean) :
     CommentsProcessor(Formatter.builder(FORMATTER_OPTIONS).build(), werror) {
 
-    override fun processLink(linkNode: LinkRef, linkReference: String) {
+    override fun processLink(linkNode: LinkRef, linkReference: String, limeFullName: String) {
         linkNode.reference = BasedSequenceImpl.of(linkReference)
         linkNode.referenceOpeningMarker = BasedSequenceImpl.of("`")
         linkNode.referenceClosingMarker = BasedSequenceImpl.of("`")
