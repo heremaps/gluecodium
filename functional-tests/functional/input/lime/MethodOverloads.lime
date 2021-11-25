@@ -72,7 +72,6 @@ class MethodOverloads {
 
 interface SpecialNames {
     fun create()
-    @Dart("reallyRelease")
     fun release()
     fun createProxy()
 }
