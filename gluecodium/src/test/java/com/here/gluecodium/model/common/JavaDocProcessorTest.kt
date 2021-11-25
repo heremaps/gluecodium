@@ -31,7 +31,7 @@ import java.util.logging.Logger
 class JavaDocProcessorTest {
     private val limeLogger =
         LimeLogger(Logger.getLogger(JavaDocProcessorTest::class.java.name), emptyMap())
-    private val commentsProcessor = JavaDocProcessor(false)
+    private val commentsProcessor = JavaDocProcessor(false, emptyMap())
 
     @Test
     fun simple() {

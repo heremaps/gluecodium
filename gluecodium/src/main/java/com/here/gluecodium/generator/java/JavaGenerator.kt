@@ -23,7 +23,6 @@ import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.common.LimeModelFilter
 import com.here.gluecodium.common.LimeModelSkipPredicates
-import com.here.gluecodium.generator.common.CommentsProcessor
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.GeneratorOptions
@@ -59,7 +58,7 @@ internal class JavaGenerator : Generator {
     private lateinit var internalPackage: List<String>
     private lateinit var internalNamespace: List<String>
     private lateinit var rootNamespace: List<String>
-    private lateinit var commentsProcessor: CommentsProcessor
+    private lateinit var werror: Set<String>
     private lateinit var cppNameRules: CppNameRules
     private lateinit var javaNameRules: JavaNameRules
     private lateinit var basePackages: List<String>
@@ -74,7 +73,7 @@ internal class JavaGenerator : Generator {
         internalPackage = options.javaInternalPackages
         internalNamespace = options.cppInternalNamespace
         rootNamespace = options.cppRootNamespace
-        commentsProcessor = JavaDocProcessor(options.werror.contains(GeneratorOptions.WARNING_DOC_LINKS))
+        werror = options.werror
         cppNameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))
         javaNameRules = JavaNameRules(nameRuleSetFromConfig(options.javaNameRules))
         nonNullAnnotation = annotationFromOption(options.javaNonNullAnnotation)
@@ -99,6 +98,8 @@ internal class JavaGenerator : Generator {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
 
+        val commentsProcessor =
+            JavaDocProcessor(werror.contains(GeneratorOptions.WARNING_DOC_LINKS), javaFilteredModel.referenceMap)
         val nameResolver = JavaNameResolver(
             limeReferenceMap = limeModel.referenceMap,
             basePackages = basePackages,

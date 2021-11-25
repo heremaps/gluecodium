@@ -20,6 +20,8 @@
 package com.here.gluecodium.generator.java
 
 import com.here.gluecodium.generator.common.CommentsProcessor
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeParameter
 import com.vladsch.flexmark.ast.LinkRef
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
@@ -28,11 +30,29 @@ import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
  * Parse Markdown comments and output JavaDoc
  */
 @Suppress("DEPRECATION")
-internal class JavaDocProcessor(werror: Boolean) :
+internal class JavaDocProcessor(werror: Boolean, private val referenceMap: Map<String, LimeElement>) :
     CommentsProcessor(HtmlRenderer.builder().build(), werror) {
 
     override fun processLink(linkNode: LinkRef, linkReference: String, limeFullName: String) {
-        linkNode.chars = BasedSequenceImpl.of("{@link $linkReference}")
+        val limeElement = referenceMap[fullNameToPathKey(limeFullName)]
+        linkNode.chars = if (limeElement is LimeParameter) {
+            val shortReference = linkReference.split("#").last()
+            BasedSequenceImpl.of("{@code $shortReference}")
+        } else {
+            BasedSequenceImpl.of("{@link $linkReference}")
+        }
         linkNode.firstChild?.unlink()
+    }
+
+    /** For `LimeParameter` the position of the disambiguator suffix differs between "full path" and "full name". */
+    private fun fullNameToPathKey(fullName: String): String {
+        if (!fullName.contains(":")) return fullName
+
+        val nameComponents = fullName.split(":")
+        val suffix = nameComponents.last()
+        if (!suffix.contains(".")) return fullName
+
+        val suffixComponents = suffix.split(".")
+        return nameComponents.first() + "." + suffixComponents.last() + ":" + suffixComponents.first()
     }
 }
