@@ -302,6 +302,7 @@ feature(ExternalTypes cpp android swift dart SOURCES
     input/src/cpp/UseExternalTypes.cpp
     input/src/cpp/UseMyClass.cpp
 
+    input/lime/ExternalImmutable.lime
     input/lime/ExternalTypes.lime
     input/lime/ExternalClassAsInterface.lime
     input/lime/UseExternalTypes.lime

@@ -56,14 +56,14 @@ _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_create_pr
 }}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{/ifPredicate}}{{/unless}}{{/each}});
 {{/each}}
 
-{{#each nonExternalStructs externalStructs}}
+{{#structs}}
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_create_handle({{#fields}}{{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
 _GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_release_handle(FfiOpaqueHandle handle);
 {{#set parent=this}}{{#fields}}
 _GLUECODIUM_FFI_EXPORT {{resolveName typeRef}} {{libraryName}}_{{resolveName parent}}_get_field_{{resolveName}}(FfiOpaqueHandle handle);
 {{/fields}}{{/set}}
 {{#set type=this handleType="FfiOpaqueHandle"}}{{>ffi/FfiNullableDeclaration}}{{/set}}
-{{/each}}
+{{/structs}}
 
 {{#enums}}
 {{#set type=this handleType="uint32_t"}}{{>ffi/FfiNullableDeclaration}}{{/set}}

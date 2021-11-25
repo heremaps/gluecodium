@@ -134,7 +134,7 @@ FfiOpaqueHandle
 
 {{/lambdas}}
 
-{{#nonExternalStructs}}
+{{#structs}}
 FfiOpaqueHandle
 {{libraryName}}_{{resolveName}}_create_handle({{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
 {{#ifPredicate "hasImmutableFields"}}
@@ -150,17 +150,7 @@ FfiOpaqueHandle
 }
 
 {{>ffiStructReleaseAndGetters}}
-{{/nonExternalStructs}}
-{{#externalStructs}}
-FfiOpaqueHandle
-{{libraryName}}_{{resolveName}}_create_handle({{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
-    auto _result = new (std::nothrow) {{resolveName "C++"}}();
-{{#set struct=this}}{{#fields}}{{>ffiSetCppField}}{{/fields}}{{/set}}
-    return reinterpret_cast<FfiOpaqueHandle>(_result);
-}
-
-{{>ffiStructReleaseAndGetters}}
-{{/externalStructs}}
+{{/structs}}
 
 {{#enums}}
 {{#set type=this handleType="uint32_t"}}{{>ffi/FfiNullableImpl}}{{/set}}

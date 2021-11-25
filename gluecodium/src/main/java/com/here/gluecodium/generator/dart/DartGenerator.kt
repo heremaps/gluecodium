@@ -51,7 +51,6 @@ import com.here.gluecodium.model.lime.LimeAttributeType.DART
 import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeClass
-import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
@@ -258,12 +257,7 @@ internal class DartGenerator : Generator {
         val interfaces = types.filterIsInstance<LimeInterface>()
         val classes = types.filterIsInstance<LimeClass>() + interfaces
         val enums = types.filterIsInstance<LimeEnumeration>()
-
         val structs = types.filterIsInstance<LimeStruct>()
-        val externalTypes = types.filter { it.external?.cpp != null }
-        val externalStructs = externalTypes.filterIsInstance<LimeStruct>() +
-            externalTypes.filterIsInstance<LimeContainer>().flatMap { it.structs }
-        val nonExternalStructs = structs - externalStructs
 
         val packagePath = rootElement.path.head.joinToString(separator = "_")
         val fileName = "ffi_${packagePath}_${nameRules.getName(rootElement)}"
@@ -275,8 +269,7 @@ internal class DartGenerator : Generator {
             "interfaces" to interfaces,
             "lambdas" to lambdas,
             "typeRepositories" to getTypeRepositories(types),
-            "externalStructs" to externalStructs,
-            "nonExternalStructs" to nonExternalStructs,
+            "structs" to structs,
             "internalNamespace" to internalNamespace,
             "headerName" to fileName,
             "includes" to includeCollector.collectImports(limeType).distinct().sorted()
