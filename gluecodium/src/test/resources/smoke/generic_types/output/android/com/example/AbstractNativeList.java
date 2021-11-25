@@ -25,7 +25,7 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 /**
- * <p>Internal base abstract class for List implementations backed by a native object.</p>
+ * <p>Internal base abstract class for List implementations backed by a native object.
  *
  * @hidden
  */

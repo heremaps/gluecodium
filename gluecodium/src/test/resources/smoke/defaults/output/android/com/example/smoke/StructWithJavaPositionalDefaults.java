@@ -4,35 +4,35 @@
 package com.example.smoke;
 import android.support.annotation.NonNull;
 /**
- * <p>Foo Bar this is a comment</p>
+ * <p>Foo Bar this is a comment
  */
 public final class StructWithJavaPositionalDefaults {
     /**
-     * <p>first init!</p>
+     * <p>first init!
      */
     public int firstInitField;
     /**
-     * <p>first free!</p>
+     * <p>first free!
      */
     @NonNull
     public String firstFreeField;
     /**
-     * <p>second init yeah!</p>
+     * <p>second init yeah!
      */
     public float secondInitField;
     /**
-     * <p>second free here!</p>
+     * <p>second free here!
      */
     public boolean secondFreeField;
     /**
-     * <p>third should be last!</p>
+     * <p>third should be last!
      */
     @NonNull
     public String thirdInitField;
     /**
-     * <p>buzz fizz</p>
-     * @param firstFreeField <p>first free!</p>
-     * @param secondFreeField <p>second free here!</p>
+     * <p>buzz fizz
+     * @param firstFreeField <p>first free!
+     * @param secondFreeField <p>second free here!
      */
     public StructWithJavaPositionalDefaults(@NonNull final String firstFreeField, final boolean secondFreeField) {
         this.firstInitField = 42;
@@ -42,10 +42,10 @@ public final class StructWithJavaPositionalDefaults {
         this.thirdInitField = "\\Jonny \"Magic\" Smith\n";
     }
     /**
-     * <p>buzz fizz</p>
-     * @param firstFreeField <p>first free!</p>
-     * @param secondFreeField <p>second free here!</p>
-     * @param firstInitField <p>first init!</p>
+     * <p>buzz fizz
+     * @param firstFreeField <p>first free!
+     * @param secondFreeField <p>second free here!
+     * @param firstInitField <p>first init!
      */
     public StructWithJavaPositionalDefaults(@NonNull final String firstFreeField, final boolean secondFreeField, final int firstInitField) {
         this.firstFreeField = firstFreeField;
@@ -55,11 +55,11 @@ public final class StructWithJavaPositionalDefaults {
         this.thirdInitField = "\\Jonny \"Magic\" Smith\n";
     }
     /**
-     * <p>buzz fizz</p>
-     * @param firstFreeField <p>first free!</p>
-     * @param secondFreeField <p>second free here!</p>
-     * @param firstInitField <p>first init!</p>
-     * @param secondInitField <p>second init yeah!</p>
+     * <p>buzz fizz
+     * @param firstFreeField <p>first free!
+     * @param secondFreeField <p>second free here!
+     * @param firstInitField <p>first init!
+     * @param secondInitField <p>second init yeah!
      */
     public StructWithJavaPositionalDefaults(@NonNull final String firstFreeField, final boolean secondFreeField, final int firstInitField, final float secondInitField) {
         this.firstFreeField = firstFreeField;
@@ -69,12 +69,12 @@ public final class StructWithJavaPositionalDefaults {
         this.thirdInitField = "\\Jonny \"Magic\" Smith\n";
     }
     /**
-     * <p>buzz fizz</p>
-     * @param firstFreeField <p>first free!</p>
-     * @param secondFreeField <p>second free here!</p>
-     * @param firstInitField <p>first init!</p>
-     * @param secondInitField <p>second init yeah!</p>
-     * @param thirdInitField <p>third should be last!</p>
+     * <p>buzz fizz
+     * @param firstFreeField <p>first free!
+     * @param secondFreeField <p>second free here!
+     * @param firstInitField <p>first init!
+     * @param secondInitField <p>second init yeah!
+     * @param thirdInitField <p>third should be last!
      */
     public StructWithJavaPositionalDefaults(@NonNull final String firstFreeField, final boolean secondFreeField, final int firstInitField, final float secondInitField, @NonNull final String thirdInitField) {
         this.firstFreeField = firstFreeField;

@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import com.example.NativeBase;
 /**
- * <p>Referencing some type {@link com.example.smoke.MapScene#loadScene(int, MapScene.LoadSceneCallback)}.</p>
+ * <p>Referencing some type {@link com.example.smoke.MapScene#loadScene(int, MapScene.LoadSceneCallback)}.
  */
 public final class MapScene extends NativeBase {
     /**

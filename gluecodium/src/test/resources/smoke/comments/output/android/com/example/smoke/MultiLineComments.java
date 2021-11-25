@@ -8,15 +8,15 @@ import com.example.NativeBase;
 /**
  * <p>This is some very useful interface.
  * There is a lot to say about this interface.
- * at least it has multiline comments.</p>
+ * at least it has multiline comments.
  * <h2>I am a heading</h2>
- * <p>And now comes a list:</p>
+ * <p>And now comes a list:
  * <ul>
  * <li>asterisk</li>
  * <li>needs</li>
  * <li>escaping</li>
  * </ul>
- * <p><code>Some example code;</code></p>
+ * <p><code>Some example code;</code>
  */
 public final class MultiLineComments extends NativeBase {
     /**
@@ -35,17 +35,17 @@ public final class MultiLineComments extends NativeBase {
     /**
      * <p>This is very important method.
      * It has very important parameters.
-     * It has side effects.</p>
+     * It has side effects.
      * @param input <p>Very useful input parameter.
      *     You must not confuse it with the second parameter.
-     *     But they are similar.</p>
+     *     But they are similar.
      * @param ratio <p>Not as useful as the first parameter.
      *     But still useful.
-     *     use a positive value for more happiness.</p>
+     *     use a positive value for more happiness.
      * @return <p>If you provide a useful input,
      *     and a useful ratio you can expect a useful output.
      *     Just kidding do not expect anything from a method until
-     *     you see its body.</p>
+     *     you see its body.
      */
     public native float someMethodWithLongComment(@NonNull final String input, final double ratio);
 }
