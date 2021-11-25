@@ -6,9 +6,7 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/some_interface.dart';
 abstract class Nullable {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   String? methodWithString(String? input);
   bool? methodWithBoolean(bool? input);
   double? methodWithDouble(double? input);
@@ -452,8 +450,7 @@ final _smokeNullableReleaseHandle = __lib.catchArgumentError(() => __lib.nativeL
   >('library_smoke_Nullable_release_handle'));
 class Nullable$Impl extends __lib.NativeBase implements Nullable {
   Nullable$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   String? methodWithString(String? input) {
     final _methodWithStringFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithString__String_'));

@@ -7,9 +7,7 @@ import 'package:library/src/builtin_types__conversion.dart';
 /// This is some very useful interface.
 /// @nodoc
 abstract class ExcludedCommentsInterface {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release() {}
+
 }
 // ExcludedCommentsInterface "private" section, not exported.
 final _smokeExcludedcommentsinterfaceRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -34,8 +32,7 @@ final _smokeExcludedcommentsinterfaceGetTypeId = __lib.catchArgumentError(() => 
   >('library_smoke_ExcludedCommentsInterface_get_type_id'));
 class ExcludedCommentsInterface$Impl extends __lib.NativeBase implements ExcludedCommentsInterface {
   ExcludedCommentsInterface$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
 }
 Pointer<Void> smokeExcludedcommentsinterfaceToFfi(ExcludedCommentsInterface value) {
   if (value is __lib.NativeBase) return _smokeExcludedcommentsinterfaceCopyHandle((value as __lib.NativeBase).handle);

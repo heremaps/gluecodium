@@ -14,9 +14,7 @@ abstract class ParentNarrowOne {
     parentPropertyOneGetLambda,
     parentPropertyOneSetLambda
   );
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release() {}
+
   void parentFunctionOne();
   String get parentPropertyOne;
   set parentPropertyOne(String value);
@@ -51,8 +49,7 @@ class ParentNarrowOne$Lambdas implements ParentNarrowOne {
     this.parentPropertyOneGetLambda,
     this.parentPropertyOneSetLambda
   );
-  @override
-  void release() {}
+
   @override
   void parentFunctionOne() =>
     parentFunctionOneLambda();
@@ -63,8 +60,7 @@ class ParentNarrowOne$Lambdas implements ParentNarrowOne {
 }
 class ParentNarrowOne$Impl extends __lib.NativeBase implements ParentNarrowOne {
   ParentNarrowOne$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   void parentFunctionOne() {
     final _parentFunctionOneFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentNarrowOne_parentFunctionOne'));

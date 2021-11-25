@@ -5,9 +5,7 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 abstract class PublicClass {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   /// @nodoc
   PublicClass_InternalStruct internal_internalMethod(PublicClass_InternalStruct input);
   /// @nodoc
@@ -303,8 +301,7 @@ final _smokePublicclassReleaseHandle = __lib.catchArgumentError(() => __lib.nati
   >('library_smoke_PublicClass_release_handle'));
 class PublicClass$Impl extends __lib.NativeBase implements PublicClass {
   PublicClass$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   PublicClass_InternalStruct internal_internalMethod(PublicClass_InternalStruct input) {
     final _internalMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PublicClass_internalMethod__InternalStruct'));

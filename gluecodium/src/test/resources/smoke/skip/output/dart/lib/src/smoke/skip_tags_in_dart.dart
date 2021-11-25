@@ -10,9 +10,7 @@ abstract class SkipTagsInDart {
   ) => SkipTagsInDart$Lambdas(
     dontSkipTaggedLambda,
   );
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release() {}
+
   void dontSkipTagged();
 }
 // SkipTagsInDart "private" section, not exported.
@@ -41,16 +39,14 @@ class SkipTagsInDart$Lambdas implements SkipTagsInDart {
   SkipTagsInDart$Lambdas(
     this.dontSkipTaggedLambda,
   );
-  @override
-  void release() {}
+
   @override
   void dontSkipTagged() =>
     dontSkipTaggedLambda();
 }
 class SkipTagsInDart$Impl extends __lib.NativeBase implements SkipTagsInDart {
   SkipTagsInDart$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   void dontSkipTagged() {
     final _dontSkipTaggedFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SkipTagsInDart_dontSkipTagged'));

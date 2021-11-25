@@ -17,9 +17,7 @@ abstract class ErrorsInterface {
     methodWithExternalErrorsLambda,
     methodWithErrorsAndReturnValueLambda,
   );
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release() {}
+
   void methodWithErrors();
   void methodWithExternalErrors();
   String methodWithErrorsAndReturnValue();
@@ -250,8 +248,7 @@ class ErrorsInterface$Lambdas implements ErrorsInterface {
     this.methodWithExternalErrorsLambda,
     this.methodWithErrorsAndReturnValueLambda,
   );
-  @override
-  void release() {}
+
   @override
   void methodWithErrors() =>
     methodWithErrorsLambda();
@@ -266,8 +263,7 @@ class ErrorsInterface$Lambdas implements ErrorsInterface {
 @visibleForTesting
 class ErrorsInterface$Impl extends __lib.NativeBase implements ErrorsInterface {
   ErrorsInterface$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   void methodWithErrors() {
     final _methodWithErrorsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ErrorsInterface_methodWithErrors'));

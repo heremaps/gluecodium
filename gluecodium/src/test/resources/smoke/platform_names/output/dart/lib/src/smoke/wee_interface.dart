@@ -7,9 +7,7 @@ import 'package:library/src/smoke/wee_types.dart';
 import 'package:meta/meta.dart';
 abstract class weeInterface {
   factory weeInterface.make(String makeParameter) => $prototype.make(makeParameter);
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   weeStruct WeeMethod(String WeeParameter);
   int get WEE_PROPERTY;
   set WEE_PROPERTY(int value);
@@ -34,8 +32,7 @@ final _smokePlatformnamesinterfaceReleaseHandle = __lib.catchArgumentError(() =>
 @visibleForTesting
 class weeInterface$Impl extends __lib.NativeBase implements weeInterface {
   weeInterface$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   weeInterface make(String makeParameter) {
     final _result_handle = _make(makeParameter);
     final _result = weeInterface$Impl(_result_handle);

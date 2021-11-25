@@ -4,9 +4,7 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 abstract class DurationSeconds {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   Duration durationFunction(Duration input);
   Duration? nullableDurationFunction(Duration? input);
   Duration get durationProperty;
@@ -91,8 +89,7 @@ final _smokeDurationsecondsReleaseHandle = __lib.catchArgumentError(() => __lib.
   >('library_smoke_DurationSeconds_release_handle'));
 class DurationSeconds$Impl extends __lib.NativeBase implements DurationSeconds {
   DurationSeconds$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   Duration durationFunction(Duration input) {
     final _durationFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32, Uint64), int Function(Pointer<Void>, int, int)>('library_smoke_DurationSeconds_durationFunction__Duration'));

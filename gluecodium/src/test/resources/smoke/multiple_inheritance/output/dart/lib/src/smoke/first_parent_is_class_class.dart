@@ -7,9 +7,7 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/parent_class.dart';
 import 'package:library/src/smoke/parent_narrow_one.dart';
 abstract class FirstParentIsClassClass implements ParentClass, ParentNarrowOne {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   void childFunction();
   String get childProperty;
   set childProperty(String value);
@@ -33,8 +31,7 @@ final _smokeFirstparentisclassclassGetTypeId = __lib.catchArgumentError(() => __
   >('library_smoke_FirstParentIsClassClass_get_type_id'));
 class FirstParentIsClassClass$Impl extends ParentClass$Impl implements FirstParentIsClassClass {
   FirstParentIsClassClass$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   void childFunction() {
     final _childFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_FirstParentIsClassClass_childFunction'));

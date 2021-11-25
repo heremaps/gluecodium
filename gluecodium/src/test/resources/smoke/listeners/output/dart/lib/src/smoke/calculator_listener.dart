@@ -22,9 +22,7 @@ abstract class CalculatorListener {
     onCalculationResultMapLambda,
     onCalculationResultInstanceLambda,
   );
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release() {}
+
   void onCalculationResult(double calculationResult);
   void onCalculationResultConst(double calculationResult);
   void onCalculationResultStruct(CalculatorListener_ResultStruct calculationResult);
@@ -130,8 +128,7 @@ class CalculatorListener$Lambdas implements CalculatorListener {
     this.onCalculationResultMapLambda,
     this.onCalculationResultInstanceLambda,
   );
-  @override
-  void release() {}
+
   @override
   void onCalculationResult(double calculationResult) =>
     onCalculationResultLambda(calculationResult);
@@ -153,8 +150,7 @@ class CalculatorListener$Lambdas implements CalculatorListener {
 }
 class CalculatorListener$Impl extends __lib.NativeBase implements CalculatorListener {
   CalculatorListener$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   void onCalculationResult(double calculationResult) {
     final _onCalculationResultFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Double), void Function(Pointer<Void>, int, double)>('library_smoke_CalculatorListener_onCalculationResult__Double'));

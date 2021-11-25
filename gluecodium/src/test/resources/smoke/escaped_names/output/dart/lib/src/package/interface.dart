@@ -5,9 +5,7 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 abstract class Interface {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release() {}
+
 }
 // Interface "private" section, not exported.
 final _packageInterfaceRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -32,8 +30,7 @@ final _packageInterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativeLi
   >('library_package_Interface_get_type_id'));
 class Interface$Impl extends __lib.NativeBase implements Interface {
   Interface$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
 }
 Pointer<Void> packageInterfaceToFfi(Interface value) {
   if (value is __lib.NativeBase) return _packageInterfaceCopyHandle((value as __lib.NativeBase).handle);

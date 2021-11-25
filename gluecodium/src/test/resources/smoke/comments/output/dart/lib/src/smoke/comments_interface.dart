@@ -34,9 +34,7 @@ abstract class CommentsInterface {
     isSomePropertyGetLambda,
     isSomePropertySetLambda
   );
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release() {}
+
   /// This is some very useful constant.
   static final bool veryUseful = true;
   /// This is some very useful method that measures the usefulness of its input.
@@ -256,8 +254,7 @@ class CommentsInterface$Lambdas implements CommentsInterface {
     this.isSomePropertyGetLambda,
     this.isSomePropertySetLambda
   );
-  @override
-  void release() {}
+
   @override
   bool someMethodWithAllComments(String input) =>
     someMethodWithAllCommentsLambda(input);
@@ -295,8 +292,7 @@ class CommentsInterface$Lambdas implements CommentsInterface {
 }
 class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterface {
   CommentsInterface$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   bool someMethodWithAllComments(String input) {
     final _someMethodWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CommentsInterface_someMethodWithAllComments__String'));

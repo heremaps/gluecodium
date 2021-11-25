@@ -5,9 +5,7 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 abstract class DatesSteady {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   DateTime dateMethod(DateTime input);
   DateTime? nullableDateMethod(DateTime? input);
   List<DateTime> dateListMethod(List<DateTime> input);
@@ -101,8 +99,7 @@ final _smokeDatessteadyReleaseHandle = __lib.catchArgumentError(() => __lib.nati
   >('library_smoke_DatesSteady_release_handle'));
 class DatesSteady$Impl extends __lib.NativeBase implements DatesSteady {
   DatesSteady$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   DateTime dateMethod(DateTime input) {
     final _dateMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32, Uint64), int Function(Pointer<Void>, int, int)>('library_smoke_DatesSteady_dateMethod__Date'));

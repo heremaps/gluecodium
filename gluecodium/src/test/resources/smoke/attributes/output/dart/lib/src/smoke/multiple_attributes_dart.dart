@@ -3,9 +3,7 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 abstract class MultipleAttributesDart {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   @Foo
   @Bar
   void noLists2();
@@ -42,8 +40,7 @@ final _smokeMultipleattributesdartReleaseHandle = __lib.catchArgumentError(() =>
   >('library_smoke_MultipleAttributesDart_release_handle'));
 class MultipleAttributesDart$Impl extends __lib.NativeBase implements MultipleAttributesDart {
   MultipleAttributesDart$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   void noLists2() {
     final _noLists2Ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_MultipleAttributesDart_noLists2'));
