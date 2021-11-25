@@ -30,16 +30,22 @@ import com.here.gluecodium.model.lime.LimeStruct
  * Validates equatable structs to ensure their fields have equatable types. Validates structs with
  * instance functions to ensure they have fields.
  */
-internal class LimeStructsValidator(private val logger: LimeLogger) {
+internal class LimeStructsValidator(private val logger: LimeLogger, private val strictMode: Boolean) {
 
     fun validate(limeModel: LimeModel): Boolean {
         val allStructs = limeModel.referenceMap.values.filterIsInstance<LimeStruct>()
-        val validationResults = allStructs
+        val equatableValidationResults = allStructs
             .filter { it.attributes.have(LimeAttributeType.EQUATABLE) }
-            .map { validateEquatable(it) } +
-            allStructs.map { validateConstructability(it) }
+            .map { validateEquatable(it) }
+        val constrValidationResults = allStructs.map { validateConstructability(it) }
+        val strictValidationResults =
+            when {
+                strictMode ->
+                    allStructs.filter { it.attributes.have(LimeAttributeType.IMMUTABLE) }.map { validateImmutable(it) }
+                else -> emptyList()
+            }
 
-        return !validationResults.contains(false)
+        return !(equatableValidationResults + constrValidationResults + strictValidationResults).contains(false)
     }
 
     private fun validateEquatable(limeStruct: LimeStruct): Boolean {
@@ -77,4 +83,16 @@ internal class LimeStructsValidator(private val logger: LimeLogger) {
             else -> true
         }
     }
+
+    private fun validateImmutable(limeStruct: LimeStruct) =
+        when {
+            limeStruct.fieldConstructors.isEmpty() && limeStruct.constructors.isEmpty() -> {
+                logger.error(
+                    limeStruct,
+                    "an immutable struct should have at least one explicit constructor"
+                )
+                false
+            }
+            else -> true
+        }
 }

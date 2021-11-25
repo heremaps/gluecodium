@@ -167,7 +167,7 @@ class Gluecodium(
         listOf<(LimeModel) -> Boolean>(
             { LimeTypeRefTargetValidator(limeLogger).validate(it) },
             { LimeGenericTypesValidator(limeLogger).validate(it) },
-            { LimeStructsValidator(limeLogger).validate(it) },
+            { LimeStructsValidator(limeLogger, gluecodiumOptions.isStrictMode).validate(it) },
             { LimeSerializableStructsValidator(limeLogger).validate(it) },
             { LimeInheritanceValidator(limeLogger).validate(it) },
             { LimeFunctionsValidator(limeLogger).validate(it) },
