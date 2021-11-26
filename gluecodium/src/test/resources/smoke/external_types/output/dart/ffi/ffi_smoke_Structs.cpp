@@ -97,7 +97,7 @@ library_smoke_Structs_ExternalStruct_create_handle_nullable(FfiOpaqueHandle valu
 {
     return reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) gluecodium::optional<smoke::Structs::ExternalStruct>(
-            gluecodium::ffi::Conversion<smoke::Structs::ExternalStruct>::toCpp(value)
+            *reinterpret_cast<smoke::Structs::ExternalStruct*>(value)
         )
     );
 }
@@ -109,9 +109,9 @@ library_smoke_Structs_ExternalStruct_release_handle_nullable(FfiOpaqueHandle han
 FfiOpaqueHandle
 library_smoke_Structs_ExternalStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
-    return gluecodium::ffi::Conversion<smoke::Structs::ExternalStruct>::toFfi(
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) smoke::Structs::ExternalStruct(
         **reinterpret_cast<gluecodium::optional<smoke::Structs::ExternalStruct>*>(handle)
-    );
+    ));
 }
 FfiOpaqueHandle
 library_smoke_Structs_AnotherExternalStruct_create_handle(int8_t intField) {
@@ -134,7 +134,7 @@ library_smoke_Structs_AnotherExternalStruct_create_handle_nullable(FfiOpaqueHand
 {
     return reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) gluecodium::optional<fire::SomeVeryExternalStruct>(
-            gluecodium::ffi::Conversion<fire::SomeVeryExternalStruct>::toCpp(value)
+            *reinterpret_cast<fire::SomeVeryExternalStruct*>(value)
         )
     );
 }
@@ -146,9 +146,9 @@ library_smoke_Structs_AnotherExternalStruct_release_handle_nullable(FfiOpaqueHan
 FfiOpaqueHandle
 library_smoke_Structs_AnotherExternalStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
-    return gluecodium::ffi::Conversion<fire::SomeVeryExternalStruct>::toFfi(
+    return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) fire::SomeVeryExternalStruct(
         **reinterpret_cast<gluecodium::optional<fire::SomeVeryExternalStruct>*>(handle)
-    );
+    ));
 }
 #ifdef __cplusplus
 }
