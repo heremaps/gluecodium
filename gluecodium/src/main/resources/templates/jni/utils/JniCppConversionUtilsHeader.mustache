@@ -25,10 +25,10 @@
 #include <jni.h>
 
 #include "JniCallJavaMethod.h"
+#include "JniClassCache.h"
 #include "JniReference.h"
 #include "{{>common/InternalInclude}}Locale.h"
 #include "{{>common/InternalInclude}}Optional.h"
-#include "JniCallJavaMethod.h"
 
 #include <chrono>
 #include <cstdint>
@@ -113,7 +113,7 @@ convert_from_jni(JNIEnv* env, const JniReference<jobject>& jvalue, std::chrono::
         return {};
     }
 
-    auto javaDurationClass = find_class(env, "java/time/Duration");
+    auto& javaDurationClass = get_cached_duration_class();
     auto getSecondsMethodId = env->GetMethodID(javaDurationClass.get(), "getSeconds", "()J");
     jlong seconds_value = call_java_method<jlong>(env, jvalue, getSecondsMethodId);
     auto getNanoMethodId = env->GetMethodID(javaDurationClass.get(), "getNano", "()I");
@@ -199,8 +199,8 @@ convert_to_jni(JNIEnv* env, const {{>common/InternalNamespace}}optional<std::chr
 template<class Rep, class Period>
 JniReference<jobject>
 convert_to_jni(JNIEnv* env, const std::chrono::duration<Rep, Period>& nvalue) {
-    auto javaDurationClass = find_class(env, "java/time/Duration");
-    auto factoryMethodId = env->GetStaticMethodID(javaDurationClass.get(), "ofSeconds", "(JJ)Ljava/time/Duration;");
+    auto& javaDurationClass = get_cached_duration_class();
+    auto factoryMethodId = env->GetStaticMethodID(javaDurationClass.get(), "ofSeconds", "(JJ)L{{durationPackage}}/Duration;");
 
     using namespace std::chrono;
     auto seconds_duration = duration_cast<seconds>(nvalue);

@@ -133,6 +133,11 @@ internal class JavaGenerator : Generator {
             "$nativeBasePath/AbstractNativeList.java",
             GeneratedFile.SourceSet.COMMON
         )
+        resultFiles += GeneratedFile(
+            TemplateEngine.render("java/Duration", internalPackageList),
+            "$nativeBasePath/Duration.java",
+            GeneratedFile.SourceSet.COMMON
+        )
 
         val descendantInterfaces = LimeTypeHelper.collectDescendantInterfaces(jniFilteredModel.topElements)
         val jniTemplates = JniTemplates(

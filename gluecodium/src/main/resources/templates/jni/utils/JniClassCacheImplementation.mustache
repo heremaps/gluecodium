@@ -94,13 +94,20 @@ CachedJavaClassBase::do_init(JNIEnv* env)
 namespace
 {
 struct DummyNativeBaseType {};
+struct DummyDurationType {};
 }
 
 REGISTER_JNI_CLASS_CACHE("{{join internalPackages delimiter="/"}}/NativeBase", {{join internalPackages delimiter="_"}}_DummyNativeBaseType, DummyNativeBaseType)
+REGISTER_JNI_CLASS_CACHE("{{durationPackage}}/Duration", {{join internalPackages delimiter="_"}}_time_DummyDurationType, DummyDurationType)
 
 JniReference<jclass>& get_cached_native_base_class()
 {
     return CachedJavaClass<DummyNativeBaseType>::java_class;
+}
+
+JniReference<jclass>& get_cached_duration_class()
+{
+    return CachedJavaClass<DummyDurationType>::java_class;
 }
 
 }
