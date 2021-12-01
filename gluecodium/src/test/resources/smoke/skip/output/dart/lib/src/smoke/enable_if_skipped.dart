@@ -3,9 +3,7 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 abstract class EnableIfSkipped {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
 }
 // EnableIfSkipped "private" section, not exported.
 final _smokeEnableifskippedRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -22,8 +20,7 @@ final _smokeEnableifskippedReleaseHandle = __lib.catchArgumentError(() => __lib.
   >('library_smoke_EnableIfSkipped_release_handle'));
 class EnableIfSkipped$Impl extends __lib.NativeBase implements EnableIfSkipped {
   EnableIfSkipped$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
 }
 Pointer<Void> smokeEnableifskippedToFfi(EnableIfSkipped value) =>
   _smokeEnableifskippedCopyHandle((value as __lib.NativeBase).handle);

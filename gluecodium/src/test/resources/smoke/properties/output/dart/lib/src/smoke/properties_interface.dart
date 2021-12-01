@@ -12,9 +12,7 @@ abstract class PropertiesInterface {
     structPropertyGetLambda,
     structPropertySetLambda
   );
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release() {}
+
   PropertiesInterface_ExampleStruct get structProperty;
   set structProperty(PropertiesInterface_ExampleStruct value);
 }
@@ -108,8 +106,7 @@ class PropertiesInterface$Lambdas implements PropertiesInterface {
     this.structPropertyGetLambda,
     this.structPropertySetLambda
   );
-  @override
-  void release() {}
+
   @override
   PropertiesInterface_ExampleStruct get structProperty => structPropertyGetLambda();
   @override
@@ -117,8 +114,7 @@ class PropertiesInterface$Lambdas implements PropertiesInterface {
 }
 class PropertiesInterface$Impl extends __lib.NativeBase implements PropertiesInterface {
   PropertiesInterface$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   PropertiesInterface_ExampleStruct get structProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_PropertiesInterface_structProperty_get'));
     final _handle = this.handle;

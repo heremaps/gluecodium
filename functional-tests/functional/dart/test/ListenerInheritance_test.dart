@@ -27,17 +27,11 @@ final _testSuite = TestSuite("Listener inheritance");
 class ParentListenerImpl implements ParentListener {
   @override
   void listen() { }
-
-  @override
-  release() {}
 }
 
 class ChildListenerImpl implements ChildListener {
   @override
   void listen() { }
-
-  @override
-  release() {}
 }
 
 void main() {

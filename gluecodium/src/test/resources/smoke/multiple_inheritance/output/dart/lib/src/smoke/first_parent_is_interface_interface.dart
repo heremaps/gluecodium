@@ -28,9 +28,7 @@ abstract class FirstParentIsInterfaceInterface implements ParentInterface, Paren
     childPropertyGetLambda,
     childPropertySetLambda
   );
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release() {}
+
   void childFunction();
   String get childProperty;
   set childProperty(String value);
@@ -77,8 +75,7 @@ class FirstParentIsInterfaceInterface$Lambdas implements FirstParentIsInterfaceI
     this.childPropertyGetLambda,
     this.childPropertySetLambda
   );
-  @override
-  void release() {}
+
   @override
   void parentFunction() =>
     parentFunctionLambda();
@@ -103,8 +100,7 @@ class FirstParentIsInterfaceInterface$Lambdas implements FirstParentIsInterfaceI
 }
 class FirstParentIsInterfaceInterface$Impl extends __lib.NativeBase implements FirstParentIsInterfaceInterface {
   FirstParentIsInterfaceInterface$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   void parentFunction() {
     final _parentFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentInterface_parentFunction'));

@@ -29,9 +29,6 @@ final _testSuite = TestSuite("ListenersWithAttributes");
 class TestMessagePackage implements MessagePackage {
   @override
   String unpackMessage() => "Works";
-
-  @override
-  release() {}
 }
 
 class TestListener implements ListenerWithAttributes {
@@ -58,9 +55,6 @@ class TestListener implements ListenerWithAttributes {
 
   @override
   Uint8List bufferedMessage = Uint8List.fromList(utf8.encode("Doesn't work"));
-
-  @override
-  void release() {}
 }
 
 void main() {

@@ -42,9 +42,6 @@ class ThreadedListenerImpl implements ThreadedListener {
     // Do nothing, no related Dart functionality.
     return 0;
   }
-
-  @override
-  void release() {}
 }
 
 void main(List<String> args) {

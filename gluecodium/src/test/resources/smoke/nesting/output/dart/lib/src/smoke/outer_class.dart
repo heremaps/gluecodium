@@ -5,15 +5,11 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 abstract class OuterClass {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   String foo(String input);
 }
 abstract class OuterClass_InnerClass {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   String foo(String input);
 }
 // OuterClass_InnerClass "private" section, not exported.
@@ -31,8 +27,7 @@ final _smokeOuterclassInnerclassReleaseHandle = __lib.catchArgumentError(() => _
   >('library_smoke_OuterClass_InnerClass_release_handle'));
 class OuterClass_InnerClass$Impl extends __lib.NativeBase implements OuterClass_InnerClass {
   OuterClass_InnerClass$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   String foo(String input) {
     final _fooFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterClass_InnerClass_foo__String'));
@@ -73,9 +68,7 @@ abstract class OuterClass_InnerInterface {
   ) => OuterClass_InnerInterface$Lambdas(
     fooLambda,
   );
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release() {}
+
   String foo(String input);
 }
 // OuterClass_InnerInterface "private" section, not exported.
@@ -104,16 +97,14 @@ class OuterClass_InnerInterface$Lambdas implements OuterClass_InnerInterface {
   OuterClass_InnerInterface$Lambdas(
     this.fooLambda,
   );
-  @override
-  void release() {}
+
   @override
   String foo(String input) =>
     fooLambda(input);
 }
 class OuterClass_InnerInterface$Impl extends __lib.NativeBase implements OuterClass_InnerInterface {
   OuterClass_InnerInterface$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   String foo(String input) {
     final _fooFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterClass_InnerInterface_foo__String'));
@@ -186,8 +177,7 @@ final _smokeOuterclassReleaseHandle = __lib.catchArgumentError(() => __lib.nativ
   >('library_smoke_OuterClass_release_handle'));
 class OuterClass$Impl extends __lib.NativeBase implements OuterClass {
   OuterClass$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   String foo(String input) {
     final _fooFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterClass_foo__String'));
