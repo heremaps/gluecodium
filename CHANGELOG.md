@@ -4,6 +4,8 @@
 ### Bug fixes:
   * Fixed an issue where a line break was not allowed in documentation comment inline tags if placed immediately after
     the `@Platform` tag itself.
+  * Fixed Dart compilation issue when a struct with `@Dart(Default) field constructor()` is used to initialize the value
+    of a field in another struct.
 ### Removed:
   * Removed deprecated `release()` methods in Dart.
 

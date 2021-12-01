@@ -158,9 +158,9 @@ internal class DartNameResolver(
                 val noFieldsConstructor = actualType.noFieldsConstructor
                 val constructorName = when {
                     !useDefaultsConstructor -> ""
-                    noFieldsConstructor != null ->
-                        resolveName(noFieldsConstructor).let { if (it.isEmpty()) "" else ".$it" }
-                    else -> ".withDefaults"
+                    noFieldsConstructor == null -> ".withDefaults"
+                    noFieldsConstructor.attributes.have(LimeAttributeType.DART, LimeAttributeValueType.DEFAULT) -> ""
+                    else -> resolveName(noFieldsConstructor).let { if (it.isEmpty()) "" else ".$it" }
                 }
                 limeValue.values.joinToString(
                     prefix = "${resolveName(limeValue.typeRef)}$constructorName(",
