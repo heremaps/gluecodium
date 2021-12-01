@@ -44,6 +44,9 @@ class LimeAmbiguousTypeRef(
     override fun asNullable() =
         when {
             isNullable -> this
-            else -> LimeAmbiguousTypeRef(relativePath, parentPaths, imports, referenceMap, true)
+            else -> LimeAmbiguousTypeRef(relativePath, parentPaths, imports, referenceMap, true, attributes)
         }
+
+    override fun remap(referenceMap: Map<String, LimeElement>) =
+        LimeAmbiguousTypeRef(relativePath, parentPaths, imports, referenceMap, isNullable, attributes)
 }

@@ -26,12 +26,13 @@ import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeField
+import com.here.gluecodium.model.lime.LimeFieldConstructor
 import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeLazyFieldRef
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimePositionalEnumeratorRef
 import com.here.gluecodium.model.lime.LimeStruct
-import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.lime.LimeValue
 
@@ -61,7 +62,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
         val auxiliaryElements = limeModel.auxiliaryElements.filter(predicate).map { filterTopElement(it) }
 
         // Has to be filtered last, when [droppedElements] is already filled.
-        val referenceMap = referenceMap.filterValues { refMapPredicate(it) }.toMutableMap()
+        referenceMap.entries.retainAll { refMapPredicate(it.value) }
         // Restore ambiguous keys if some of the non-ambiguous entries are still present.
         referenceMap.entries
             .filter { it.key.contains(":") }
@@ -114,7 +115,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
                 classes = classes.filter(predicate).map { filterClass(it) },
                 interfaces = interfaces.filter(predicate).map { filterInterface(it) },
                 lambdas = lambdas.filter(predicate),
-                parents = parents.map { LimeDirectTypeRef(filterTopElement(it.type.actualType) as LimeType) }
+                parents = parents.map { it.remap(referenceMap) }
             )
         }.also { remap(it) }
 
@@ -136,7 +137,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
                 classes = classes.filter(predicate).map { filterClass(it) },
                 interfaces = interfaces.filter(predicate).map { filterInterface(it) },
                 lambdas = lambdas.filter(predicate),
-                parents = parents.map { LimeDirectTypeRef(filterTopElement(it.type.actualType) as LimeType) },
+                parents = parents.map { it.remap(referenceMap) },
                 isNarrow = isNarrow
             )
         }.also { remap(it) }
@@ -156,7 +157,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
             )
         }.also { remap(it) }
 
-    private fun filterStruct(limeStruct: LimeStruct) =
+    private fun filterStruct(limeStruct: LimeStruct): LimeStruct =
         limeStruct.run {
             LimeStruct(
                 path = path,
@@ -169,11 +170,11 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
                 constants = constants.filter(predicate).map { filterConstant(it) },
                 fields = fields.filter(predicate).map { filterField(it) },
                 constructorComment = constructorComment,
-                structs = structs.filter(predicate),
-                classes = classes.filter(predicate),
-                interfaces = interfaces.filter(predicate),
-                enumerations = enumerations.filter(predicate),
-                fieldConstructors = fieldConstructors.filter(predicate)
+                structs = structs.filter(predicate).map { filterStruct(it) },
+                classes = classes.filter(predicate).map { filterClass(it) },
+                interfaces = interfaces.filter(predicate).map { filterInterface(it) },
+                enumerations = enumerations.filter(predicate).map { filterEnum(it) },
+                fieldConstructors = fieldConstructors.filter(predicate).map { filterFieldConstructor(it) }
             )
         }.also { remap(it) }
 
@@ -225,11 +226,24 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
             )
         }.also { remap(it) }
 
+    private fun filterFieldConstructor(limeFieldConstructor: LimeFieldConstructor) =
+        limeFieldConstructor.run {
+            val remappedStructRef = structRef.remap(referenceMap)
+            LimeFieldConstructor(
+                path = path,
+                visibility = visibility,
+                comment = comment,
+                attributes = attributes,
+                structRef = remappedStructRef,
+                fieldRefs = fieldRefs.map { LimeLazyFieldRef(remappedStructRef, it.field.name) }
+            )
+        }.also { remap(it) }
+
     private fun filterValue(limeValue: LimeValue): LimeValue {
         if (limeValue !is LimeValue.Enumerator || limeValue.valueRef !is LimePositionalEnumeratorRef) return limeValue
         val limeEnumeration = limeValue.typeRef.type.actualType as? LimeEnumeration ?: return limeValue
 
         val filteredTypeRef = LimeDirectTypeRef(filterEnum(limeEnumeration))
-        return LimeValue.Enumerator(filteredTypeRef, limeValue.valueRef.remap(filteredTypeRef))
+        return LimeValue.Enumerator(filteredTypeRef, limeValue.valueRef.remap(referenceMap))
     }
 }

@@ -42,4 +42,7 @@ class LimePositionalTypeRef(
     }
 
     override fun asNullable() = if (isNullable) this else LimePositionalTypeRef(parentTypeRef, index, true)
+
+    override fun remap(referenceMap: Map<String, LimeElement>) =
+        LimePositionalTypeRef(parentTypeRef.remap(referenceMap), index, isNullable)
 }

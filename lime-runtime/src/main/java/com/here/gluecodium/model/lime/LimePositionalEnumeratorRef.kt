@@ -39,5 +39,6 @@ class LimePositionalEnumeratorRef(
 
     override val elementFullName by lazy { enumerator.path.toString() }
 
-    internal fun remap(parentTypeRef: LimeTypeRef) = LimePositionalEnumeratorRef(parentTypeRef, index)
+    override fun remap(referenceMap: Map<String, LimeElement>) =
+        LimePositionalEnumeratorRef(parentTypeRef.remap(referenceMap), index)
 }
