@@ -259,6 +259,7 @@ feature(Defaults cpp android swift dart SOURCES
     input/src/cpp/Defaults.cpp
 
     input/lime/Defaults.lime
+    input/lime/DefaultsWithFcStruct.lime
     input/lime/PositionalDefaults.lime
     input/lime/PositionalEnumerators.lime
     input/lime/InternalEnumDefaults.lime
