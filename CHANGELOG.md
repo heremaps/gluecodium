@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 10.3.0
+Release date: 2021-12-01
 ### Bug fixes:
   * Fixed Dart compilation issue for `@Immutable` structs with `external.cpp` descriptor.
 ### Breaking changes:
