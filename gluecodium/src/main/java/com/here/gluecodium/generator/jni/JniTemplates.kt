@@ -172,7 +172,11 @@ internal class JniTemplates(
         GeneratedFile(
             TemplateEngine.render(
                 "jni/utils/${fileName}Header",
-                mapOf("internalNamespace" to internalNamespace)
+                mapOf(
+                    "internalNamespace" to internalNamespace,
+                    "internalPackages" to basePackages + internalPackages,
+                    "durationPackage" to (basePackages + internalPackages + "time").joinToString("/")
+                )
             ),
             fileNameRules.getHeaderFilePath(fileName),
             GeneratedFile.SourceSet.COMMON
@@ -184,7 +188,8 @@ internal class JniTemplates(
                 "jni/utils/${fileName}Implementation",
                 mapOf(
                     "internalNamespace" to internalNamespace,
-                    "internalPackages" to basePackages + internalPackages
+                    "internalPackages" to basePackages + internalPackages,
+                    "durationPackage" to (basePackages + internalPackages + "time").joinToString("/")
                 )
             ),
             fileNameRules.getImplementationFilePath(fileName),

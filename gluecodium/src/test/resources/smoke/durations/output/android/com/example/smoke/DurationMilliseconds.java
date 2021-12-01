@@ -5,7 +5,7 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import com.example.NativeBase;
-import java.time.Duration;
+import com.example.time.Duration;
 public final class DurationMilliseconds extends NativeBase {
     public static final class DurationStruct {
         @NonNull

@@ -3,6 +3,9 @@
 ## Unreleased
 ### Bug fixes:
   * Fixed Dart compilation issue for `@Immutable` structs with `external.cpp` descriptor.
+### Breaking changes:
+  * Java representation of `Duration` type is now a custom class following the API of `java.time.Duration`, instead of
+    `java.time.Duration` itself. This makes the generated Java code with Android API 21.
 
 ## 10.2.7
 Release date: 2021-11-25

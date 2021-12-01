@@ -55,6 +55,7 @@ internal class JavaImportResolver(
 ) : ImportsResolver<JavaImport> {
     val nativeBaseImport = JavaImport(internalPackages, "NativeBase")
     private val abstractNativeListImport = JavaImport(internalPackages, "AbstractNativeList")
+    private val durationImport = JavaImport(internalPackages + "time", "Duration")
 
     override fun resolveElementImports(limeElement: LimeElement): List<JavaImport> =
         when (limeElement) {
@@ -164,7 +165,7 @@ internal class JavaImportResolver(
     private fun resolveBasicTypeImport(typeId: TypeId) =
         when (typeId) {
             TypeId.DATE -> JavaImport(javaUtilPackage, "Date")
-            TypeId.DURATION -> JavaImport(listOf("java", "time"), "Duration")
+            TypeId.DURATION -> durationImport
             TypeId.LOCALE -> JavaImport(javaUtilPackage, "Locale")
             else -> null
         }

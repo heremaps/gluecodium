@@ -305,7 +305,7 @@ JNIEXPORT ::std::chrono::duration<Rep, Period> get_field_value(
     const char* fieldName,
     ::std::chrono::duration<Rep, Period>* ) {
 
-    auto fieldValue = get_object_field_value(env, object, fieldName, "Ljava/time/Duration;");
+    auto fieldValue = get_object_field_value(env, object, fieldName, "L{{durationPackage}}/Duration;");
 
     return {{>common/InternalNamespace}}jni::{{>jni/JniConversionPrefix}}convert_from_jni(env, fieldValue, (::std::chrono::duration<Rep, Period>*)nullptr);
 }
@@ -317,7 +317,7 @@ JNIEXPORT {{>common/InternalNamespace}}optional<::std::chrono::duration<Rep, Per
     const char* fieldName,
     {{>common/InternalNamespace}}optional<::std::chrono::duration<Rep, Period>>* ) {
 
-    auto fieldValue = get_object_field_value(env, object, fieldName, "Ljava/time/Duration;");
+    auto fieldValue = get_object_field_value(env, object, fieldName, "L{{durationPackage}}/Duration;");
 
     return {{>common/InternalNamespace}}jni::{{>jni/JniConversionPrefix}}convert_from_jni(
         env, fieldValue, ({{>common/InternalNamespace}}optional<::std::chrono::duration<Rep, Period>>*)nullptr);
@@ -330,7 +330,7 @@ JNIEXPORT void set_field_value(
     const char* fieldName,
     const ::std::chrono::duration<Rep, Period>& fieldValue ) {
 
-    auto fieldId = env->GetFieldID(get_object_class(env, object).get(), fieldName, "Ljava/time/Duration;");
+    auto fieldId = env->GetFieldID(get_object_class(env, object).get(), fieldName, "L{{durationPackage}}/Duration;");
     auto jValue = {{>common/InternalNamespace}}jni::{{>jni/JniConversionPrefix}}convert_to_jni(env, fieldValue);
     env->SetObjectField(object.get(), fieldId, jValue.get());
 }
@@ -342,7 +342,7 @@ JNIEXPORT void set_field_value(
     const char* fieldName,
     {{>common/InternalNamespace}}optional<::std::chrono::duration<Rep, Period>> fieldValue ) {
 
-    auto fieldId = env->GetFieldID(get_object_class(env, object).get(), fieldName, "Ljava/time/Duration;");
+    auto fieldId = env->GetFieldID(get_object_class(env, object).get(), fieldName, "L{{durationPackage}}/Duration;");
     auto jValue = {{>common/InternalNamespace}}jni::{{>jni/JniConversionPrefix}}convert_to_jni(env, fieldValue);
     env->SetObjectField(object.get(), fieldId, jValue.get());
 }

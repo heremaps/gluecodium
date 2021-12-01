@@ -22,8 +22,8 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 
 import android.os.Build;
+import com.here.android.lorem.ipsum.time.Duration;
 import com.here.android.RobolectricApplication;
-import java.time.Duration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
