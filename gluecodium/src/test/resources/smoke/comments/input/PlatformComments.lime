@@ -48,3 +48,10 @@ class PlatformComments {
         nothing: String
     }
 }
+
+// Text {@Java middle
+// line break}{@Swift trailing line break
+// }{@Dart
+// leading line break}
+class PlatformCommentsLineBreaks {
+}

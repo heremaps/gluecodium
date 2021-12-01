@@ -1,6 +1,9 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Bug fixes:
+  * Fixed an issue where a line break was not allowed in documentation comment inline tags if placed immediately after
+    the `@Platform` tag itself.
 ### Removed:
   * Removed deprecated `release()` methods in Dart.
 
