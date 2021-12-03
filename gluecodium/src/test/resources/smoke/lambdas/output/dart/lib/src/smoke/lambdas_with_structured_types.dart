@@ -5,9 +5,7 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/smoke/lambdas_declaration_order.dart';
 import 'package:library/src/smoke/lambdas_interface.dart';
 abstract class LambdasWithStructuredTypes {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   void doClassStuff(LambdasWithStructuredTypes_ClassCallback callback);
   void doStructStuff(LambdasWithStructuredTypes_StructCallback callback);
 }
@@ -192,8 +190,7 @@ final _smokeLambdaswithstructuredtypesReleaseHandle = __lib.catchArgumentError((
   >('library_smoke_LambdasWithStructuredTypes_release_handle'));
 class LambdasWithStructuredTypes$Impl extends __lib.NativeBase implements LambdasWithStructuredTypes {
   LambdasWithStructuredTypes$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   void doClassStuff(LambdasWithStructuredTypes_ClassCallback callback) {
     final _doClassStuffFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_LambdasWithStructuredTypes_doClassStuff__ClassCallback'));

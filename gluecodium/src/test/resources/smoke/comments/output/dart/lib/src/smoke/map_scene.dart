@@ -5,9 +5,7 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 /// Referencing some type [MapScene.loadSceneWithInt].
 abstract class MapScene {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   void loadSceneWithInt(int mapScheme, MapScene_LoadSceneCallback? callback);
   void loadSceneWithString(String configurationFile, MapScene_LoadSceneCallback? callback);
 }
@@ -109,8 +107,7 @@ final _smokeMapsceneReleaseHandle = __lib.catchArgumentError(() => __lib.nativeL
   >('library_smoke_MapScene_release_handle'));
 class MapScene$Impl extends __lib.NativeBase implements MapScene {
   MapScene$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   void loadSceneWithInt(int mapScheme, MapScene_LoadSceneCallback? callback) {
     final _loadSceneWithIntFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Int32, Pointer<Void>), void Function(Pointer<Void>, int, int, Pointer<Void>)>('library_smoke_MapScene_loadScene__Int_LoadSceneCallback_'));

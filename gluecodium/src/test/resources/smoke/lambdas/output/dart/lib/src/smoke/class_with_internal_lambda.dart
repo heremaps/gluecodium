@@ -5,9 +5,7 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 abstract class ClassWithInternalLambda {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   static bool invokeInternalLambda(ClassWithInternalLambda_InternalLambda lambda, String value) => $prototype.invokeInternalLambda(lambda, value);
   /// @nodoc
   @visibleForTesting
@@ -122,8 +120,7 @@ final _smokeClasswithinternallambdaReleaseHandle = __lib.catchArgumentError(() =
 @visibleForTesting
 class ClassWithInternalLambda$Impl extends __lib.NativeBase implements ClassWithInternalLambda {
   ClassWithInternalLambda$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   bool invokeInternalLambda(ClassWithInternalLambda_InternalLambda lambda, String value) {
     final _invokeInternalLambdaFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Pointer<Void>, Pointer<Void>), int Function(int, Pointer<Void>, Pointer<Void>)>('library_smoke_ClassWithInternalLambda_invokeInternalLambda__InternalLambda_String'));
     final _lambdaHandle = smokeClasswithinternallambdaInternallambdaToFfi(lambda);

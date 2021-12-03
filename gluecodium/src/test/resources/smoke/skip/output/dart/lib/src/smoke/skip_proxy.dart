@@ -21,9 +21,7 @@ abstract class SkipProxy {
     isSkippedInSwiftGetLambda,
     isSkippedInSwiftSetLambda
   );
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release() {}
+
   String notInJava(String input);
   bool notInSwift(bool input);
   String get skippedInJava;
@@ -67,8 +65,7 @@ class SkipProxy$Lambdas implements SkipProxy {
     this.isSkippedInSwiftGetLambda,
     this.isSkippedInSwiftSetLambda
   );
-  @override
-  void release() {}
+
   @override
   String notInJava(String input) =>
     notInJavaLambda(input);
@@ -86,8 +83,7 @@ class SkipProxy$Lambdas implements SkipProxy {
 }
 class SkipProxy$Impl extends __lib.NativeBase implements SkipProxy {
   SkipProxy$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   String notInJava(String input) {
     final _notInJavaFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_SkipProxy_notInJava__String'));

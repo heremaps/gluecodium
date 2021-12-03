@@ -18,9 +18,7 @@ abstract class ChildInterface implements ParentInterface {
     rootPropertyGetLambda,
     rootPropertySetLambda
   );
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release() {}
+
   void childMethod();
 }
 // ChildInterface "private" section, not exported.
@@ -55,8 +53,7 @@ class ChildInterface$Lambdas implements ChildInterface {
     this.rootPropertyGetLambda,
     this.rootPropertySetLambda
   );
-  @override
-  void release() {}
+
   @override
   void rootMethod() =>
     rootMethodLambda();
@@ -70,8 +67,7 @@ class ChildInterface$Lambdas implements ChildInterface {
 }
 class ChildInterface$Impl extends __lib.NativeBase implements ChildInterface {
   ChildInterface$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   void rootMethod() {
     final _rootMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentInterface_rootMethod'));

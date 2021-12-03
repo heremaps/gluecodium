@@ -5,9 +5,7 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 abstract class BasicTypes {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   static String stringFunction(String input) => $prototype.stringFunction(input);
   static bool boolFunction(bool input) => $prototype.boolFunction(input);
   static double floatFunction(double input) => $prototype.floatFunction(input);
@@ -41,8 +39,7 @@ final _smokeBasictypesReleaseHandle = __lib.catchArgumentError(() => __lib.nativ
 @visibleForTesting
 class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
   BasicTypes$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   String stringFunction(String input) {
     final _stringFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_BasicTypes_stringFunction__String'));
     final _inputHandle = stringToFfi(input);

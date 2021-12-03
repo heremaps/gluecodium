@@ -29,9 +29,6 @@ final _testSuite = TestSuite("ListenersWithReturnValues");
 class TestMessagePackage implements MessagePackage {
   @override
   String unpackMessage() => "Works";
-
-  @override
-  release() {}
 }
 
 class TestListener implements ListenerWithReturn {
@@ -60,9 +57,6 @@ class TestListener implements ListenerWithReturn {
 
   @override
   Uint8List getBufferedMessage() => Uint8List.fromList(utf8.encode("Works"));
-
-  @override
-  release() {}
 }
 
 void main() {

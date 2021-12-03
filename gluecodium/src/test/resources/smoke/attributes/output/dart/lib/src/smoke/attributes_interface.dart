@@ -15,9 +15,7 @@ abstract class AttributesInterface {
     propGetLambda,
     propSetLambda
   );
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release() {}
+
   @OnConstInInterface
   static final bool pi = false;
   @OnFunctionInInterface
@@ -57,8 +55,7 @@ class AttributesInterface$Lambdas implements AttributesInterface {
     this.propGetLambda,
     this.propSetLambda
   );
-  @override
-  void release() {}
+
   @override
   void veryFun(@OnParameterInInterface String param) =>
     veryFunLambda(param);
@@ -69,8 +66,7 @@ class AttributesInterface$Lambdas implements AttributesInterface {
 }
 class AttributesInterface$Impl extends __lib.NativeBase implements AttributesInterface {
   AttributesInterface$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   void veryFun(@OnParameterInInterface String param) {
     final _veryFunFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AttributesInterface_veryFun__String'));

@@ -30,9 +30,6 @@ final _testSuite = TestSuite("ExternalTypes");
 class MyDartClass implements MyClass {
   @override
   int foo() => 77;
-
-  @override
-  release() {}
 }
 
 void main() {

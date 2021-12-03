@@ -21,9 +21,7 @@ abstract class InheritFromSkipped implements SkipProxy {
     isSkippedInSwiftGetLambda,
     isSkippedInSwiftSetLambda
   );
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release() {}
+
 }
 // InheritFromSkipped "private" section, not exported.
 final _smokeInheritfromskippedRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -61,8 +59,7 @@ class InheritFromSkipped$Lambdas implements InheritFromSkipped {
     this.isSkippedInSwiftGetLambda,
     this.isSkippedInSwiftSetLambda
   );
-  @override
-  void release() {}
+
   @override
   String notInJava(String input) =>
     notInJavaLambda(input);
@@ -80,8 +77,7 @@ class InheritFromSkipped$Lambdas implements InheritFromSkipped {
 }
 class InheritFromSkipped$Impl extends __lib.NativeBase implements InheritFromSkipped {
   InheritFromSkipped$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   String notInJava(String input) {
     final _notInJavaFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_SkipProxy_notInJava__String'));

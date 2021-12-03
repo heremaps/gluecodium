@@ -7,9 +7,7 @@ import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/dummy_class.dart';
 import 'package:library/src/smoke/dummy_interface.dart';
 abstract class GenericTypesWithCompoundTypes {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   List<GenericTypesWithCompoundTypes_ExternalStruct> methodWithStructList(List<GenericTypesWithCompoundTypes_BasicStruct> input);
   Map<String, GenericTypesWithCompoundTypes_ExternalStruct> methodWithStructMap(Map<String, GenericTypesWithCompoundTypes_BasicStruct> input);
   List<GenericTypesWithCompoundTypes_ExternalEnum> methodWithEnumList(List<GenericTypesWithCompoundTypes_SomeEnum> input);
@@ -270,8 +268,7 @@ final _smokeGenerictypeswithcompoundtypesReleaseHandle = __lib.catchArgumentErro
   >('library_smoke_GenericTypesWithCompoundTypes_release_handle'));
 class GenericTypesWithCompoundTypes$Impl extends __lib.NativeBase implements GenericTypesWithCompoundTypes {
   GenericTypesWithCompoundTypes$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   List<GenericTypesWithCompoundTypes_ExternalStruct> methodWithStructList(List<GenericTypesWithCompoundTypes_BasicStruct> input) {
     final _methodWithStructListFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithCompoundTypes_methodWithStructList__ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct'));

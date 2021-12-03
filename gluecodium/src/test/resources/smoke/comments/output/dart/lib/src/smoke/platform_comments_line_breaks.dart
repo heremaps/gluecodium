@@ -4,9 +4,6 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 /// Text leading line break
 abstract class PlatformCommentsLineBreaks {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
 }
 // PlatformCommentsLineBreaks "private" section, not exported.
 final _smokePlatformcommentslinebreaksRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -23,8 +20,6 @@ final _smokePlatformcommentslinebreaksReleaseHandle = __lib.catchArgumentError((
   >('library_smoke_PlatformCommentsLineBreaks_release_handle'));
 class PlatformCommentsLineBreaks$Impl extends __lib.NativeBase implements PlatformCommentsLineBreaks {
   PlatformCommentsLineBreaks$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
 }
 Pointer<Void> smokePlatformcommentslinebreaksToFfi(PlatformCommentsLineBreaks value) =>
   _smokePlatformcommentslinebreaksCopyHandle((value as __lib.NativeBase).handle);

@@ -11,9 +11,7 @@ abstract class InternalClassWithFunctions {
   factory InternalClassWithFunctions.make() => $prototype.internal_make();
   /// @nodoc
   factory InternalClassWithFunctions.remake(String foo) => $prototype.internal_remake(foo);
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   /// @nodoc
   void internal_fooBar();
   /// @nodoc
@@ -37,8 +35,7 @@ final _smokeInternalclasswithfunctionsReleaseHandle = __lib.catchArgumentError((
 @visibleForTesting
 class InternalClassWithFunctions$Impl extends __lib.NativeBase implements InternalClassWithFunctions {
   InternalClassWithFunctions$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   InternalClassWithFunctions internal_make() {
     final _result_handle = _make();
     final _result = InternalClassWithFunctions$Impl(_result_handle);

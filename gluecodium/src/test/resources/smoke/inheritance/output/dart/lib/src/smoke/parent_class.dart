@@ -5,9 +5,7 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 abstract class ParentClass {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   void rootMethod();
   String get rootProperty;
   set rootProperty(String value);
@@ -31,8 +29,7 @@ final _smokeParentclassGetTypeId = __lib.catchArgumentError(() => __lib.nativeLi
   >('library_smoke_ParentClass_get_type_id'));
 class ParentClass$Impl extends __lib.NativeBase implements ParentClass {
   ParentClass$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   void rootMethod() {
     final _rootMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentClass_rootMethod'));

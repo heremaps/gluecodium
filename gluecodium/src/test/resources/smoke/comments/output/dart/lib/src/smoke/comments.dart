@@ -6,9 +6,7 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 /// This is some very useful interface.
 abstract class Comments {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   /// This is some very useful constant.
   static final bool veryUseful = true;
   /// This is some very useful method that measures the usefulness of its input.
@@ -354,8 +352,7 @@ final _someMethodWithAllCommentsReturnHasError = __lib.catchArgumentError(() => 
   >('library_smoke_Comments_someMethodWithAllComments__String_return_has_error'));
 class Comments$Impl extends __lib.NativeBase implements Comments {
   Comments$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   bool someMethodWithAllComments(String inputParameter) {
     final _someMethodWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Comments_someMethodWithAllComments__String'));
