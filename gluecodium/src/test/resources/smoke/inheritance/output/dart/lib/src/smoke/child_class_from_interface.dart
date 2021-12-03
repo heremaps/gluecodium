@@ -6,7 +6,9 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/parent_interface.dart';
 abstract class ChildClassFromInterface implements ParentInterface {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   void childClassMethod();
 }
 // ChildClassFromInterface "private" section, not exported.
@@ -28,7 +30,8 @@ final _smokeChildclassfrominterfaceGetTypeId = __lib.catchArgumentError(() => __
   >('library_smoke_ChildClassFromInterface_get_type_id'));
 class ChildClassFromInterface$Impl extends __lib.NativeBase implements ChildClassFromInterface {
   ChildClassFromInterface$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   void childClassMethod() {
     final _childClassMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ChildClassFromInterface_childClassMethod'));

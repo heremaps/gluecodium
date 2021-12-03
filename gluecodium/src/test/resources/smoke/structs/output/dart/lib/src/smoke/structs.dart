@@ -8,7 +8,9 @@ import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/type_collection.dart';
 import 'package:meta/meta.dart';
 abstract class Structs {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   static Structs_Point swapPointCoordinates(Structs_Point input) => $prototype.swapPointCoordinates(input);
   static Structs_AllTypesStruct returnAllTypesStruct(Structs_AllTypesStruct input) => $prototype.returnAllTypesStruct(input);
   static Point createPoint(double x, double y) => $prototype.createPoint(x, y);
@@ -729,7 +731,8 @@ final _smokeStructsReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLi
 @visibleForTesting
 class Structs$Impl extends __lib.NativeBase implements Structs {
   Structs$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   Structs_Point swapPointCoordinates(Structs_Point input) {
     final _swapPointCoordinatesFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_swapPointCoordinates__Point'));
     final _inputHandle = smokeStructsPointToFfi(input);

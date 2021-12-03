@@ -6,7 +6,9 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:meta/meta.dart';
 abstract class Structs {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   static Structs_ExternalStruct getExternalStruct() => $prototype.getExternalStruct();
   static Structs_AnotherExternalStruct getAnotherExternalStruct() => $prototype.getAnotherExternalStruct();
   /// @nodoc
@@ -186,7 +188,8 @@ final _smokeStructsReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLi
 @visibleForTesting
 class Structs$Impl extends __lib.NativeBase implements Structs {
   Structs$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   Structs_ExternalStruct getExternalStruct() {
     final _getExternalStructFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Structs_getExternalStruct'));
     final __resultHandle = _getExternalStructFfi(__lib.LibraryContext.isolateId);

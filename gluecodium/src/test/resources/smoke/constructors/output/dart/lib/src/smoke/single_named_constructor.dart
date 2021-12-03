@@ -5,7 +5,9 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:meta/meta.dart';
 abstract class SingleNamedConstructor {
   factory SingleNamedConstructor.fooBar() => $prototype.fooBar();
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   /// @nodoc
   @visibleForTesting
   static dynamic $prototype = SingleNamedConstructor$Impl(Pointer<Void>.fromAddress(0));
@@ -27,7 +29,8 @@ final _smokeSinglenamedconstructorReleaseHandle = __lib.catchArgumentError(() =>
 @visibleForTesting
 class SingleNamedConstructor$Impl extends __lib.NativeBase implements SingleNamedConstructor {
   SingleNamedConstructor$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   SingleNamedConstructor fooBar() {
     final _result_handle = _fooBar();
     final _result = SingleNamedConstructor$Impl(_result_handle);

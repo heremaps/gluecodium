@@ -35,9 +35,15 @@ class MessageListener implements StringListener {
 
   @override
   void onStructMessage(StringListenerStringStruct message) {}
+
+  @override
+  release() {}
 }
 
-class RouteImpl implements Route {}
+class RouteImpl implements Route {
+  @override
+  release() {}
+}
 
 class RouteProviderImpl implements RouteProvider {
   static bool setRouteWasRun = false;
@@ -48,6 +54,9 @@ class RouteProviderImpl implements RouteProvider {
     setRouteWasRun = true;
     setRouteCouldCast = route is RouteImpl;
   }
+
+  @override
+  release() {}
 }
 
 void main() {

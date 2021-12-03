@@ -4,7 +4,9 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 abstract class StructConstants {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   static final StructConstants_SomeStruct structConstant = StructConstants_SomeStruct("bar Buzz", 1.41);
   static final StructConstants_NestingStruct nestingStructConstant = StructConstants_NestingStruct(StructConstants_SomeStruct("nonsense", -2.82));
 }
@@ -159,7 +161,8 @@ final _smokeStructconstantsReleaseHandle = __lib.catchArgumentError(() => __lib.
   >('library_smoke_StructConstants_release_handle'));
 class StructConstants$Impl extends __lib.NativeBase implements StructConstants {
   StructConstants$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
 }
 Pointer<Void> smokeStructconstantsToFfi(StructConstants value) =>
   _smokeStructconstantsCopyHandle((value as __lib.NativeBase).handle);

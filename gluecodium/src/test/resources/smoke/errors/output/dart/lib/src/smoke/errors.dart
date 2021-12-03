@@ -7,7 +7,9 @@ import 'package:library/src/smoke/payload.dart';
 import 'package:library/src/smoke/with_payload_exception.dart';
 import 'package:meta/meta.dart';
 abstract class Errors {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   static void methodWithErrors() => $prototype.methodWithErrors();
   static void methodWithExternalErrors() => $prototype.methodWithExternalErrors();
   static String methodWithErrorsAndReturnValue() => $prototype.methodWithErrorsAndReturnValue();
@@ -225,7 +227,8 @@ final _methodWithPayloadErrorAndReturnValueReturnHasError = __lib.catchArgumentE
 @visibleForTesting
 class Errors$Impl extends __lib.NativeBase implements Errors {
   Errors$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   void methodWithErrors() {
     final _methodWithErrorsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithErrors'));
     final __callResultHandle = _methodWithErrorsFfi(__lib.LibraryContext.isolateId);

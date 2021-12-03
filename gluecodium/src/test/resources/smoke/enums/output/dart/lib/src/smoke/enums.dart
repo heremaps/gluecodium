@@ -5,7 +5,9 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 abstract class Enums {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   static Enums_SimpleEnum methodWithEnumeration(Enums_SimpleEnum input) => $prototype.methodWithEnumeration(input);
   static Enums_InternalErrorCode flipEnumValue(Enums_InternalErrorCode input) => $prototype.flipEnumValue(input);
   static Enums_InternalErrorCode extractEnumFromStruct(Enums_ErrorStruct input) => $prototype.extractEnumFromStruct(input);
@@ -215,7 +217,8 @@ final _smokeEnumsReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibr
 @visibleForTesting
 class Enums$Impl extends __lib.NativeBase implements Enums {
   Enums$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   Enums_SimpleEnum methodWithEnumeration(Enums_SimpleEnum input) {
     final _methodWithEnumerationFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint32 Function(Int32, Uint32), int Function(int, int)>('library_smoke_Enums_methodWithEnumeration__SimpleEnum'));
     final _inputHandle = smokeEnumsSimpleenumToFfi(input);

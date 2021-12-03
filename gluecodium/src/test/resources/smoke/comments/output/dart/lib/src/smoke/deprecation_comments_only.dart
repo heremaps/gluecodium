@@ -16,7 +16,9 @@ abstract class DeprecationCommentsOnly {
     isSomePropertyGetLambda,
     isSomePropertySetLambda
   );
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release() {}
   @Deprecated("Unfortunately, this constant is deprecated.")
   static final bool veryUseful = true;
   /// [input] Very useful input parameter
@@ -178,7 +180,8 @@ class DeprecationCommentsOnly$Lambdas implements DeprecationCommentsOnly {
     this.isSomePropertyGetLambda,
     this.isSomePropertySetLambda
   );
-
+  @override
+  void release() {}
   @override
   bool someMethodWithAllComments(String input) =>
     someMethodWithAllCommentsLambda(input);
@@ -189,7 +192,8 @@ class DeprecationCommentsOnly$Lambdas implements DeprecationCommentsOnly {
 }
 class DeprecationCommentsOnly$Impl extends __lib.NativeBase implements DeprecationCommentsOnly {
   DeprecationCommentsOnly$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   bool someMethodWithAllComments(String input) {
     final _someMethodWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DeprecationCommentsOnly_someMethodWithAllComments__String'));

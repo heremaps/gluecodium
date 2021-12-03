@@ -39,7 +39,9 @@ abstract class ListenerWithProperties {
     bufferedMessageGetLambda,
     bufferedMessageSetLambda
   );
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release() {}
   String get message;
   set message(String value);
   CalculationResult get packedMessage;
@@ -224,7 +226,8 @@ class ListenerWithProperties$Lambdas implements ListenerWithProperties {
     this.bufferedMessageGetLambda,
     this.bufferedMessageSetLambda
   );
-
+  @override
+  void release() {}
   @override
   String get message => messageGetLambda();
   @override
@@ -256,7 +259,8 @@ class ListenerWithProperties$Lambdas implements ListenerWithProperties {
 }
 class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWithProperties {
   ListenerWithProperties$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   String get message {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ListenerWithProperties_message_get'));
     final _handle = this.handle;

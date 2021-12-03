@@ -10,11 +10,15 @@ abstract class OuterInterface {
   ) => OuterInterface$Lambdas(
     fooLambda,
   );
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release() {}
   String foo(String input);
 }
 abstract class OuterInterface_InnerClass {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   String foo(String input);
 }
 // OuterInterface_InnerClass "private" section, not exported.
@@ -32,7 +36,8 @@ final _smokeOuterinterfaceInnerclassReleaseHandle = __lib.catchArgumentError(() 
   >('library_smoke_OuterInterface_InnerClass_release_handle'));
 class OuterInterface_InnerClass$Impl extends __lib.NativeBase implements OuterInterface_InnerClass {
   OuterInterface_InnerClass$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   String foo(String input) {
     final _fooFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterInterface_InnerClass_foo__String'));
@@ -73,7 +78,9 @@ abstract class OuterInterface_InnerInterface {
   ) => OuterInterface_InnerInterface$Lambdas(
     fooLambda,
   );
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release() {}
   String foo(String input);
 }
 // OuterInterface_InnerInterface "private" section, not exported.
@@ -102,14 +109,16 @@ class OuterInterface_InnerInterface$Lambdas implements OuterInterface_InnerInter
   OuterInterface_InnerInterface$Lambdas(
     this.fooLambda,
   );
-
+  @override
+  void release() {}
   @override
   String foo(String input) =>
     fooLambda(input);
 }
 class OuterInterface_InnerInterface$Impl extends __lib.NativeBase implements OuterInterface_InnerInterface {
   OuterInterface_InnerInterface$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   String foo(String input) {
     final _fooFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterInterface_InnerInterface_foo__String'));
@@ -193,14 +202,16 @@ class OuterInterface$Lambdas implements OuterInterface {
   OuterInterface$Lambdas(
     this.fooLambda,
   );
-
+  @override
+  void release() {}
   @override
   String foo(String input) =>
     fooLambda(input);
 }
 class OuterInterface$Impl extends __lib.NativeBase implements OuterInterface {
   OuterInterface$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   String foo(String input) {
     final _fooFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterInterface_foo__String'));

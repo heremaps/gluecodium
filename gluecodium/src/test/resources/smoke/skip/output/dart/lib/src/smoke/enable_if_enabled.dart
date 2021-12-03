@@ -4,7 +4,9 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:meta/meta.dart';
 abstract class EnableIfEnabled {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   static void enableIfUnquoted() => $prototype.enableIfUnquoted();
   static void enableIfUnquotedList() => $prototype.enableIfUnquotedList();
   static void enableIfQuoted() => $prototype.enableIfQuoted();
@@ -33,7 +35,8 @@ final _smokeEnableifenabledReleaseHandle = __lib.catchArgumentError(() => __lib.
 @visibleForTesting
 class EnableIfEnabled$Impl extends __lib.NativeBase implements EnableIfEnabled {
   EnableIfEnabled$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   void enableIfUnquoted() {
     final _enableIfUnquotedFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfUnquoted'));
     _enableIfUnquotedFfi(__lib.LibraryContext.isolateId);

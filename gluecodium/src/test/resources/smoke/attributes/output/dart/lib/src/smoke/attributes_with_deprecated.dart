@@ -6,7 +6,9 @@ import 'package:library/src/builtin_types__conversion.dart';
 @Deprecated("")
 @OnClass
 abstract class AttributesWithDeprecated {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   @Deprecated("")
   @OnConstInClass
   static final bool pi = false;
@@ -101,7 +103,8 @@ final _smokeAttributeswithdeprecatedReleaseHandle = __lib.catchArgumentError(() 
   >('library_smoke_AttributesWithDeprecated_release_handle'));
 class AttributesWithDeprecated$Impl extends __lib.NativeBase implements AttributesWithDeprecated {
   AttributesWithDeprecated$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   void veryFun() {
     final _veryFunFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_AttributesWithDeprecated_veryFun'));

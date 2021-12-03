@@ -166,7 +166,9 @@ void smokeOuterstructInnerstructReleaseFfiHandleNullable(Pointer<Void> handle) =
   _smokeOuterstructInnerstructReleaseHandleNullable(handle);
 // End of OuterStruct_InnerStruct "private" section.
 abstract class OuterStruct_InnerClass {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   Set<Locale> fooBar();
 }
 // OuterStruct_InnerClass "private" section, not exported.
@@ -184,7 +186,8 @@ final _smokeOuterstructInnerclassReleaseHandle = __lib.catchArgumentError(() => 
   >('library_smoke_OuterStruct_InnerClass_release_handle'));
 class OuterStruct_InnerClass$Impl extends __lib.NativeBase implements OuterStruct_InnerClass {
   OuterStruct_InnerClass$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   Set<Locale> fooBar() {
     final _fooBarFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_OuterStruct_InnerClass_fooBar'));
@@ -223,7 +226,9 @@ abstract class OuterStruct_InnerInterface {
   ) => OuterStruct_InnerInterface$Lambdas(
     barBazLambda,
   );
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release() {}
   Map<String, Uint8List> barBaz();
 }
 // OuterStruct_InnerInterface "private" section, not exported.
@@ -252,14 +257,16 @@ class OuterStruct_InnerInterface$Lambdas implements OuterStruct_InnerInterface {
   OuterStruct_InnerInterface$Lambdas(
     this.barBazLambda,
   );
-
+  @override
+  void release() {}
   @override
   Map<String, Uint8List> barBaz() =>
     barBazLambda();
 }
 class OuterStruct_InnerInterface$Impl extends __lib.NativeBase implements OuterStruct_InnerInterface {
   OuterStruct_InnerInterface$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   Map<String, Uint8List> barBaz() {
     final _barBazFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_OuterStruct_InnerInterface_barBaz'));

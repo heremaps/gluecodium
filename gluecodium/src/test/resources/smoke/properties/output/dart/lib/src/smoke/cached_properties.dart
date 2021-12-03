@@ -7,7 +7,9 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:meta/meta.dart';
 abstract class CachedProperties {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   List<String> get cachedProperty;
   static Uint8List get staticCachedProperty => $prototype.staticCachedProperty;
   /// @nodoc
@@ -31,7 +33,8 @@ final _smokeCachedpropertiesReleaseHandle = __lib.catchArgumentError(() => __lib
 @visibleForTesting
 class CachedProperties$Impl extends __lib.NativeBase implements CachedProperties {
   CachedProperties$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   late List<String> _cachedPropertyCache;
   bool _cachedPropertyIsCached = false;
   @override

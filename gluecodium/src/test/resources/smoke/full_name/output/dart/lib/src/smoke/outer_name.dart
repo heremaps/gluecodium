@@ -4,7 +4,9 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 abstract class OuterName {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
 }
 class Futhark {
   String stringField;
@@ -85,7 +87,8 @@ final _smokeOuternameReleaseHandle = __lib.catchArgumentError(() => __lib.native
   >('library_smoke_OuterName_release_handle'));
 class OuterName$Impl extends __lib.NativeBase implements OuterName {
   OuterName$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
 }
 Pointer<Void> smokeOuternameToFfi(OuterName value) =>
   _smokeOuternameCopyHandle((value as __lib.NativeBase).handle);

@@ -6,7 +6,9 @@ import 'package:library/src/builtin_types__conversion.dart';
 /// Class comment
 @OnClass
 abstract class AttributesWithComments {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   /// Const comment
   @OnConstInClass
   static final bool pi = false;
@@ -102,7 +104,8 @@ final _smokeAttributeswithcommentsReleaseHandle = __lib.catchArgumentError(() =>
   >('library_smoke_AttributesWithComments_release_handle'));
 class AttributesWithComments$Impl extends __lib.NativeBase implements AttributesWithComments {
   AttributesWithComments$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   void veryFun() {
     final _veryFunFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_AttributesWithComments_veryFun'));

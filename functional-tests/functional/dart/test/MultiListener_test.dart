@@ -36,6 +36,9 @@ class MultiReceiver implements ReceiverA, ReceiverB {
   void receiveB(String message) {
     log.add("ReceiverB: received from Sender: " + message);
   }
+
+  @override
+  void release() {}
 }
 
 void main() {

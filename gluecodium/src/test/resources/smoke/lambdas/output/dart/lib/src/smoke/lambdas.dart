@@ -6,7 +6,9 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:meta/meta.dart';
 abstract class Lambdas {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   Lambdas_Producer deconfuse(String value, Lambdas_Confuser confuser);
   static Map<int, String> fuse(List<String> items, Lambdas_Indexer callback) => $prototype.fuse(items, callback);
   /// @nodoc
@@ -471,7 +473,8 @@ final _smokeLambdasReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLi
 @visibleForTesting
 class Lambdas$Impl extends __lib.NativeBase implements Lambdas {
   Lambdas$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   Lambdas_Producer deconfuse(String value, Lambdas_Confuser confuser) {
     final _deconfuseFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>, Pointer<Void>)>('library_smoke_Lambdas_deconfuse__String_Confuser'));

@@ -28,7 +28,9 @@ import 'package:library/src/_token_cache.dart' as __lib;
 ///
 /// [title](https://www.markdownguide.org/cheat-sheet/)
 abstract class CommentsMarkdown {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
 }
 // CommentsMarkdown "private" section, not exported.
 final _smokeCommentsmarkdownRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -45,7 +47,8 @@ final _smokeCommentsmarkdownReleaseHandle = __lib.catchArgumentError(() => __lib
   >('library_smoke_CommentsMarkdown_release_handle'));
 class CommentsMarkdown$Impl extends __lib.NativeBase implements CommentsMarkdown {
   CommentsMarkdown$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
 }
 Pointer<Void> smokeCommentsmarkdownToFfi(CommentsMarkdown value) =>
   _smokeCommentsmarkdownCopyHandle((value as __lib.NativeBase).handle);

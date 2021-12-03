@@ -4,7 +4,9 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:meta/meta.dart';
 abstract class Enums {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   static void methodWithExternalEnum(Enums_ExternalEnum input) => $prototype.methodWithExternalEnum(input);
   /// @nodoc
   @visibleForTesting
@@ -137,7 +139,8 @@ final _smokeEnumsReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibr
 @visibleForTesting
 class Enums$Impl extends __lib.NativeBase implements Enums {
   Enums$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   void methodWithExternalEnum(Enums_ExternalEnum input) {
     final _methodWithExternalEnumFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32, Uint32), void Function(int, int)>('library_smoke_Enums_methodWithExternalEnum__External_Enum'));
     final _inputHandle = smokeEnumsExternalenumToFfi(input);

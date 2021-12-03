@@ -5,7 +5,9 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 abstract class InternalPropertyOnly {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   /// @nodoc
   @internal
   String get internal_foo;
@@ -28,7 +30,8 @@ final _smokeInternalpropertyonlyReleaseHandle = __lib.catchArgumentError(() => _
   >('library_smoke_InternalPropertyOnly_release_handle'));
 class InternalPropertyOnly$Impl extends __lib.NativeBase implements InternalPropertyOnly {
   InternalPropertyOnly$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @internal
   @override
   String get internal_foo {

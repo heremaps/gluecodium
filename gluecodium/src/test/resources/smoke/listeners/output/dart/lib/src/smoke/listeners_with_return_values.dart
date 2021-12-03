@@ -24,7 +24,9 @@ abstract class ListenersWithReturnValues {
     fetchDataMapLambda,
     fetchDataInstanceLambda,
   );
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release() {}
   double fetchDataDouble();
   String fetchDataString();
   ListenersWithReturnValues_ResultStruct fetchDataStruct();
@@ -188,7 +190,8 @@ class ListenersWithReturnValues$Lambdas implements ListenersWithReturnValues {
     this.fetchDataMapLambda,
     this.fetchDataInstanceLambda,
   );
-
+  @override
+  void release() {}
   @override
   double fetchDataDouble() =>
     fetchDataDoubleLambda();
@@ -213,7 +216,8 @@ class ListenersWithReturnValues$Lambdas implements ListenersWithReturnValues {
 }
 class ListenersWithReturnValues$Impl extends __lib.NativeBase implements ListenersWithReturnValues {
   ListenersWithReturnValues$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   double fetchDataDouble() {
     final _fetchDataDoubleFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Double Function(Pointer<Void>, Int32), double Function(Pointer<Void>, int)>('library_smoke_ListenersWithReturnValues_fetchDataDouble'));

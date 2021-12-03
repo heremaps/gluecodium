@@ -12,7 +12,9 @@ abstract class ExternalInterface {
     someMethodLambda,
     somePropertyGetLambda
   );
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release() {}
   void someMethod(int someParameter);
   String get someProperty;
 }
@@ -158,7 +160,8 @@ class ExternalInterface$Lambdas implements ExternalInterface {
     this.someMethodLambda,
     this.somePropertyGetLambda
   );
-
+  @override
+  void release() {}
   @override
   void someMethod(int someParameter) =>
     someMethodLambda(someParameter);
@@ -167,7 +170,8 @@ class ExternalInterface$Lambdas implements ExternalInterface {
 }
 class ExternalInterface$Impl extends __lib.NativeBase implements ExternalInterface {
   ExternalInterface$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   void someMethod(int someParameter) {
     final _someMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Int8), void Function(Pointer<Void>, int, int)>('library_smoke_ExternalInterface_someMethod__Byte'));

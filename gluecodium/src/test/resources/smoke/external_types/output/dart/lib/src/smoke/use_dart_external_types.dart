@@ -10,7 +10,9 @@ import 'package:library/src/smoke/rectangle_int_.dart';
 import 'package:library/src/smoke/string.dart';
 import 'package:meta/meta.dart';
 abstract class UseDartExternalTypes {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   static math.Rectangle<int> rectangleRoundTrip(math.Rectangle<int> input) => $prototype.rectangleRoundTrip(input);
   static bar.HttpClientResponseCompressionState compressionStateRoundTrip(bar.HttpClientResponseCompressionState input) => $prototype.compressionStateRoundTrip(input);
   static int colorRoundTrip(int input) => $prototype.colorRoundTrip(input);
@@ -36,7 +38,8 @@ final _smokeUsedartexternaltypesReleaseHandle = __lib.catchArgumentError(() => _
 @visibleForTesting
 class UseDartExternalTypes$Impl extends __lib.NativeBase implements UseDartExternalTypes {
   UseDartExternalTypes$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   math.Rectangle<int> rectangleRoundTrip(math.Rectangle<int> input) {
     final _rectangleRoundTripFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_UseDartExternalTypes_rectangleRoundTrip__Rectangle'));
     final _inputHandle = smokeRectangleToFfi(input);

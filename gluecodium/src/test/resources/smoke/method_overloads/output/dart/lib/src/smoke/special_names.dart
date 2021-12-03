@@ -6,7 +6,9 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 abstract class SpecialNames {
   factory SpecialNames(String result) => $prototype.make(result);
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   void create();
   void reallyRelease();
   void createProxy();
@@ -32,7 +34,8 @@ final _smokeSpecialnamesReleaseHandle = __lib.catchArgumentError(() => __lib.nat
 @visibleForTesting
 class SpecialNames$Impl extends __lib.NativeBase implements SpecialNames {
   SpecialNames$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   SpecialNames make(String result) {
     final _result_handle = _make(result);
     final _result = SpecialNames$Impl(_result_handle);

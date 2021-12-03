@@ -4,7 +4,9 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/smoke/outer_name.dart';
 abstract class UseInnerName {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   Futhark doFoo();
 }
 // UseInnerName "private" section, not exported.
@@ -22,7 +24,8 @@ final _smokeUseinnernameReleaseHandle = __lib.catchArgumentError(() => __lib.nat
   >('library_smoke_UseInnerName_release_handle'));
 class UseInnerName$Impl extends __lib.NativeBase implements UseInnerName {
   UseInnerName$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   Futhark doFoo() {
     final _doFooFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_UseInnerName_doFoo'));
