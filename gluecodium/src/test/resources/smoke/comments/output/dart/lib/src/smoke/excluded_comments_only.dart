@@ -5,7 +5,9 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 /// @nodoc
 abstract class ExcludedCommentsOnly {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   /// @nodoc
   static final bool veryUseful = true;
   /// @nodoc
@@ -262,7 +264,8 @@ final _someMethodWithAllCommentsReturnHasError = __lib.catchArgumentError(() => 
   >('library_smoke_ExcludedCommentsOnly_someMethodWithAllComments__String_return_has_error'));
 class ExcludedCommentsOnly$Impl extends __lib.NativeBase implements ExcludedCommentsOnly {
   ExcludedCommentsOnly$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   bool someMethodWithAllComments(String inputParameter) {
     final _someMethodWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ExcludedCommentsOnly_someMethodWithAllComments__String'));

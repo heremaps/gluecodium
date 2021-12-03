@@ -4,7 +4,9 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 abstract class SimpleClass {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   String getStringValue();
   SimpleClass useSimpleClass(SimpleClass input);
 }
@@ -23,7 +25,8 @@ final _smokeSimpleclassReleaseHandle = __lib.catchArgumentError(() => __lib.nati
   >('library_smoke_SimpleClass_release_handle'));
 class SimpleClass$Impl extends __lib.NativeBase implements SimpleClass {
   SimpleClass$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   String getStringValue() {
     final _getStringValueFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_SimpleClass_getStringValue'));

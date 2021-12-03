@@ -5,7 +5,9 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 abstract class Dates {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   DateTime dateMethod(DateTime input);
   DateTime? nullableDateMethod(DateTime? input);
   DateTime get dateProperty;
@@ -102,7 +104,8 @@ final _smokeDatesReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibr
   >('library_smoke_Dates_release_handle'));
 class Dates$Impl extends __lib.NativeBase implements Dates {
   Dates$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   DateTime dateMethod(DateTime input) {
     final _dateMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32, Uint64), int Function(Pointer<Void>, int, int)>('library_smoke_Dates_dateMethod__Date'));

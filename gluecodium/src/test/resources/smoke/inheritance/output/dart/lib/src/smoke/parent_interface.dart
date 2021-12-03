@@ -16,7 +16,9 @@ abstract class ParentInterface {
     rootPropertyGetLambda,
     rootPropertySetLambda
   );
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release() {}
   void rootMethod();
   String get rootProperty;
   set rootProperty(String value);
@@ -51,7 +53,8 @@ class ParentInterface$Lambdas implements ParentInterface {
     this.rootPropertyGetLambda,
     this.rootPropertySetLambda
   );
-
+  @override
+  void release() {}
   @override
   void rootMethod() =>
     rootMethodLambda();
@@ -62,7 +65,8 @@ class ParentInterface$Lambdas implements ParentInterface {
 }
 class ParentInterface$Impl extends __lib.NativeBase implements ParentInterface {
   ParentInterface$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   void rootMethod() {
     final _rootMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentInterface_rootMethod'));

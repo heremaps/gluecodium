@@ -7,7 +7,9 @@ import 'package:meta/meta.dart';
 /// @nodoc
 @internal
 abstract class InternalClassWithComments {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   /// This is definitely internal
   ///
   /// @nodoc
@@ -28,7 +30,8 @@ final _smokeInternalclasswithcommentsReleaseHandle = __lib.catchArgumentError(()
   >('library_smoke_InternalClassWithComments_release_handle'));
 class InternalClassWithComments$Impl extends __lib.NativeBase implements InternalClassWithComments {
   InternalClassWithComments$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   void internal_doNothing() {
     final _doNothingFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalClassWithComments_doNothing'));

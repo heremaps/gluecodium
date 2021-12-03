@@ -4,7 +4,9 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 abstract class SkipTypes {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
 }
 class SkipTypes_NotInJava {
   String fooField;
@@ -149,7 +151,8 @@ final _smokeSkiptypesReleaseHandle = __lib.catchArgumentError(() => __lib.native
   >('library_smoke_SkipTypes_release_handle'));
 class SkipTypes$Impl extends __lib.NativeBase implements SkipTypes {
   SkipTypes$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
 }
 Pointer<Void> smokeSkiptypesToFfi(SkipTypes value) =>
   _smokeSkiptypesCopyHandle((value as __lib.NativeBase).handle);

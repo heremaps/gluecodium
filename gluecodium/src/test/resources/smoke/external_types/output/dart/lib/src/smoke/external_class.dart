@@ -4,7 +4,9 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 abstract class ExternalClass {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   void someMethod(int someParameter);
   String get someProperty;
 }
@@ -137,7 +139,8 @@ final _smokeExternalclassReleaseHandle = __lib.catchArgumentError(() => __lib.na
   >('library_smoke_ExternalClass_release_handle'));
 class ExternalClass$Impl extends __lib.NativeBase implements ExternalClass {
   ExternalClass$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   void someMethod(int someParameter) {
     final _someMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Int8), void Function(Pointer<Void>, int, int)>('library_smoke_ExternalClass_someMethod__Byte'));

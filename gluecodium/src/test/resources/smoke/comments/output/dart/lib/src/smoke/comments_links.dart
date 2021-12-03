@@ -12,7 +12,9 @@ import 'package:library/src/smoke/comments.dart';
 ///
 /// [example1]: http://example.com/1
 abstract class CommentsLinks {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   /// Link types:
   /// * constant: [Comments.veryUseful]
   /// * struct: [Comments_SomeStruct]
@@ -158,7 +160,8 @@ final _randomMethodReturnHasError = __lib.catchArgumentError(() => __lib.nativeL
   >('library_smoke_CommentsLinks_randomMethod__SomeEnum_return_has_error'));
 class CommentsLinks$Impl extends __lib.NativeBase implements CommentsLinks {
   CommentsLinks$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   Comments_SomeEnum randomMethod(Comments_SomeEnum inputParameter) {
     final _randomMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Uint32), Pointer<Void> Function(Pointer<Void>, int, int)>('library_smoke_CommentsLinks_randomMethod__SomeEnum'));

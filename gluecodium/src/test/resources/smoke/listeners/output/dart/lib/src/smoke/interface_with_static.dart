@@ -15,7 +15,9 @@ abstract class InterfaceWithStatic {
     regularPropertyGetLambda,
     regularPropertySetLambda,
   );
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release() {}
   String regularFunction();
   static String staticFunction() => $prototype.staticFunction();
   String get regularProperty;
@@ -56,7 +58,8 @@ class InterfaceWithStatic$Lambdas implements InterfaceWithStatic {
     this.regularPropertyGetLambda,
     this.regularPropertySetLambda,
   );
-
+  @override
+  void release() {}
   @override
   String regularFunction() =>
     regularFunctionLambda();
@@ -69,7 +72,8 @@ class InterfaceWithStatic$Lambdas implements InterfaceWithStatic {
 @visibleForTesting
 class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWithStatic {
   InterfaceWithStatic$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   String regularFunction() {
     final _regularFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_InterfaceWithStatic_regularFunction'));

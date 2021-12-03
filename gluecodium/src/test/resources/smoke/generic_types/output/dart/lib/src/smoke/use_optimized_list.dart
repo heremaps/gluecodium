@@ -8,7 +8,9 @@ import 'package:library/src/smoke/unreasonably_lazy_class.dart';
 import 'package:library/src/smoke/very_big_struct.dart';
 import 'package:meta/meta.dart';
 abstract class UseOptimizedList {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   static List<VeryBigStruct> fetchTheBigOnes() => $prototype.fetchTheBigOnes();
   static List<UnreasonablyLazyClass> get lazyOnes => $prototype.lazyOnes;
   /// @nodoc
@@ -56,7 +58,8 @@ final _smokeUseoptimizedlistsmokeVerybigstructLazyListRegisterFinalizer = __lib.
 @visibleForTesting
 class UseOptimizedList$Impl extends __lib.NativeBase implements UseOptimizedList {
   UseOptimizedList$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   List<VeryBigStruct> fetchTheBigOnes() {
     final _fetchTheBigOnesFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_UseOptimizedList_fetchTheBigOnes'));
     final __resultHandle = _fetchTheBigOnesFfi(__lib.LibraryContext.isolateId);

@@ -8,7 +8,9 @@ import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/properties_interface.dart';
 import 'package:meta/meta.dart';
 abstract class Properties {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   int get builtInTypeProperty;
   set builtInTypeProperty(int value);
   double get readonlyProperty;
@@ -165,7 +167,8 @@ final _smokePropertiesReleaseHandle = __lib.catchArgumentError(() => __lib.nativ
 @visibleForTesting
 class Properties$Impl extends __lib.NativeBase implements Properties {
   Properties$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   int get builtInTypeProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint32 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_Properties_builtInTypeProperty_get'));

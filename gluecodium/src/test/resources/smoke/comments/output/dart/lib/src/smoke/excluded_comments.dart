@@ -6,7 +6,9 @@ import 'package:library/src/builtin_types__conversion.dart';
 /// This is some very useful class.
 /// @nodoc
 abstract class ExcludedComments {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   /// This is some very useful constant.
   /// @nodoc
   static final bool veryUseful = true;
@@ -286,7 +288,8 @@ final _someMethodWithAllCommentsReturnHasError = __lib.catchArgumentError(() => 
   >('library_smoke_ExcludedComments_someMethodWithAllComments__String_return_has_error'));
 class ExcludedComments$Impl extends __lib.NativeBase implements ExcludedComments {
   ExcludedComments$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   bool someMethodWithAllComments(String inputParameter) {
     final _someMethodWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ExcludedComments_someMethodWithAllComments__String'));

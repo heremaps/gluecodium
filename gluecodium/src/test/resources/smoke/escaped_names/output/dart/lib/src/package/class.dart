@@ -10,7 +10,9 @@ import 'package:library/src/package/types.dart';
 import 'package:meta/meta.dart';
 abstract class Class implements Interface {
   factory Class() => $prototype.constructor();
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   Struct fun(List<Struct> double);
   Enum get property;
   set property(Enum value);
@@ -55,7 +57,8 @@ final _funReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lo
 @visibleForTesting
 class Class$Impl extends __lib.NativeBase implements Class {
   Class$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   Class constructor() {
     final _result_handle = _constructor();
     final _result = Class$Impl(_result_handle);

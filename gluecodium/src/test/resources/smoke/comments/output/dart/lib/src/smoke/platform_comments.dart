@@ -4,7 +4,9 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 abstract class PlatformComments {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   /// This is some very useless method that cannot have overloads.
   ///
   void doNothing();
@@ -179,7 +181,8 @@ final _someMethodWithAllCommentsReturnHasError = __lib.catchArgumentError(() => 
   >('library_smoke_PlatformComments_someMethodWithAllComments__String_return_has_error'));
 class PlatformComments$Impl extends __lib.NativeBase implements PlatformComments {
   PlatformComments$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   void doNothing() {
     final _doNothingFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PlatformComments_doNothing'));

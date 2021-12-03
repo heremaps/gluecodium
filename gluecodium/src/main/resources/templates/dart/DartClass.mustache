@@ -28,6 +28,9 @@ abstract class {{resolveName}}{{!!
   }}) => $prototype.{{resolveName visibility}}{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
 {{/constructors}}{{/set}}
 
+{{prefixPartial "dart/DartReleaseDocs" "  "}}
+  void release();
+
 {{#set isInClass=true}}{{#constants}}
 {{prefixPartial "dart/DartConstant" "  "}}
 {{/constants}}{{/set}}
@@ -101,6 +104,9 @@ class {{resolveName}}$Impl extends {{#if this.parentClass}}{{resolveName this.pa
 }}{{#unless this.parentClass}}__lib.NativeBase{{/unless}} implements {{resolveName}} {
 
   {{resolveName}}$Impl(Pointer<Void> handle) : super(handle);
+
+  @override
+  void release() {}
 
 {{#set parent=this container=this ignoreStatic=true}}{{#constructors}}
 {{prefixPartial "dartConstructor" "  "}}

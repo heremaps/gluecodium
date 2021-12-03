@@ -28,6 +28,9 @@ final _testSuite = TestSuite("SkipElement");
 class SkipTagsInDartImpl implements SkipTagsInDart {
   @override
   void dontSkipTagged() {}
+
+  @override
+  void release() {}
 }
 
 void main() {

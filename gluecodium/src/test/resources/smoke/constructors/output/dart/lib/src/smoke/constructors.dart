@@ -13,7 +13,9 @@ abstract class Constructors {
   factory Constructors.fromString(String input) => $prototype.fromString(input);
   factory Constructors.fromList(List<double> input) => $prototype.fromList(input);
   factory Constructors.create(int input) => $prototype.create(input);
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   /// @nodoc
   @visibleForTesting
   static dynamic $prototype = Constructors$Impl(Pointer<Void>.fromAddress(0));
@@ -114,7 +116,8 @@ final _fromStringReturnHasError = __lib.catchArgumentError(() => __lib.nativeLib
 @visibleForTesting
 class Constructors$Impl extends __lib.NativeBase implements Constructors {
   Constructors$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   Constructors $init() {
     final _result_handle = _$init();
     final _result = Constructors$Impl(_result_handle);

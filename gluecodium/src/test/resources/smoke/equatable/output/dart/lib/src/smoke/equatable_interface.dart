@@ -5,7 +5,9 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 abstract class EquatableInterface {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release() {}
 }
 // EquatableInterface "private" section, not exported.
 final _smokeEquatableinterfaceRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -33,7 +35,8 @@ final __areEqual = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunc
   >('library_smoke_EquatableInterface_get_type_id'));
 class EquatableInterface$Impl extends __lib.NativeBase implements EquatableInterface {
   EquatableInterface$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;

@@ -30,6 +30,9 @@ class InterfaceWithStaticImpl implements InterfaceWithStatic {
 
   @override
   String regularProperty = "buzz2";
+
+  @override
+  release() {}
 }
 
 void main() {

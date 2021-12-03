@@ -43,6 +43,9 @@ class TestListener implements ErrorsInInterface {
   void setMessageWithPayload(String value) {
     _message = value;
   }
+
+  @override
+  release() {}
 }
 
 class ThrowingListener implements ErrorsInInterface {
@@ -67,6 +70,9 @@ class ThrowingListener implements ErrorsInInterface {
   void setMessageWithPayload(String value) {
     throw WithPayloadException(Payload(42, "foo"));
   }
+
+  @override
+  release() {}
 }
 
 void main() {

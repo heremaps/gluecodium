@@ -8,7 +8,9 @@ import 'package:library/src/smoke/child_class_from_class.dart';
 import 'package:library/src/smoke/parent_class.dart';
 import 'package:library/src/smoke/parent_with_class_references.dart';
 abstract class ChildWithParentClassReferences implements ParentWithClassReferences {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
 }
 // ChildWithParentClassReferences "private" section, not exported.
 final _smokeChildwithparentclassreferencesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -29,7 +31,8 @@ final _smokeChildwithparentclassreferencesGetTypeId = __lib.catchArgumentError((
   >('library_smoke_ChildWithParentClassReferences_get_type_id'));
 class ChildWithParentClassReferences$Impl extends __lib.NativeBase implements ChildWithParentClassReferences {
   ChildWithParentClassReferences$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   @override
   ChildClassFromClass classFunction() {
     final _classFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ParentWithClassReferences_classFunction'));

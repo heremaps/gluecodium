@@ -7,7 +7,9 @@ import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/type_collection.dart';
 import 'package:meta/meta.dart';
 abstract class TypeDefs {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   static double methodWithPrimitiveTypeDef(double input) => $prototype.methodWithPrimitiveTypeDef(input);
   static List<TypeDefs_TestStruct> methodWithComplexTypeDef(List<TypeDefs_TestStruct> input) => $prototype.methodWithComplexTypeDef(input);
   static double returnNestedIntTypeDef(double input) => $prototype.returnNestedIntTypeDef(input);
@@ -163,7 +165,8 @@ final _smokeTypedefsReleaseHandle = __lib.catchArgumentError(() => __lib.nativeL
 @visibleForTesting
 class TypeDefs$Impl extends __lib.NativeBase implements TypeDefs {
   TypeDefs$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   double methodWithPrimitiveTypeDef(double input) {
     final _methodWithPrimitiveTypeDefFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Double Function(Int32, Double), double Function(int, double)>('library_smoke_TypeDefs_methodWithPrimitiveTypeDef__Double'));
     final _inputHandle = (input);

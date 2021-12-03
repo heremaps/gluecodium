@@ -5,7 +5,9 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 abstract class NestedPackages {
-
+  /// @nodoc
+  @Deprecated("Does nothing")
+  void release();
   static NestedPackages_SomeStruct basicMethod(NestedPackages_SomeStruct input) => $prototype.basicMethod(input);
   /// @nodoc
   @visibleForTesting
@@ -92,7 +94,8 @@ final _smokeOffNestedpackagesReleaseHandle = __lib.catchArgumentError(() => __li
 @visibleForTesting
 class NestedPackages$Impl extends __lib.NativeBase implements NestedPackages {
   NestedPackages$Impl(Pointer<Void> handle) : super(handle);
-
+  @override
+  void release() {}
   NestedPackages_SomeStruct basicMethod(NestedPackages_SomeStruct input) {
     final _basicMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_off_NestedPackages_basicMethod__SomeStruct'));
     final _inputHandle = smokeOffNestedpackagesSomestructToFfi(input);
