@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 10.3.1
+Release date: 2021-12-03
 ### Bug fixes:
   * Fixed an issue where a line break was not allowed in documentation comment inline tags if placed immediately after
     the `@Platform` tag itself.
