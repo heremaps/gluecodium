@@ -214,6 +214,10 @@ function(_generate)
   file(REMOVE_RECURSE ${GLUECODIUM_OUTPUT_MAIN})
   file(REMOVE_RECURSE ${GLUECODIUM_OUTPUT_COMMON})
 
+  if(JAVA_HOME)
+    set(ENV{JAVA_HOME} "${JAVA_HOME}")
+  endif()
+
   # Create output directories first, otherwise java.io.File won't have permissions to create files
   # at configure time. Those directories are not created with file(MAKE_DIRECTORY ...) because
   # gradle hangs by some reason at exit when it is ran from Xcode. TODO: Find the reason of hanging.
