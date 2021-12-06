@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed Java runtime issue caused by `Duration` class being placed into a directory not corresponding to its package.
+
 ## 10.3.1
 Release date: 2021-12-03
 ### Bug fixes:
