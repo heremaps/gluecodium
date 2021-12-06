@@ -20,6 +20,9 @@ package test
 class Arrays {
     struct BasicStruct {
         value: Double = 0.0
+        @Dart(Skip)
+        field constructor()
+        field constructor(value)
     }
     struct FancyStruct {
         messages: StringArray

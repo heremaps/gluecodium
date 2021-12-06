@@ -22,9 +22,15 @@ import test.SomePointerEquatableClass
 class Maps {
     struct SomeStruct {
         value: String = ""
+        @Dart(Skip)
+        field constructor()
+        field constructor(value)
     }
     struct StructWithMap {
         errorMapping: ErrorCodeToMessageMap = []
+        @Dart(Skip)
+        field constructor()
+        field constructor(errorMapping)
     }
     enum SomeEnum {
         FooValue,

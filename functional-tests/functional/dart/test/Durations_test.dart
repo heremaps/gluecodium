@@ -107,7 +107,7 @@ void main() {
     expect(result.durationField.inMicroseconds, 42042000);
   });
   _testSuite.test("Duration defaults", () {
-    final dartDefaults = DurationDefaults.withDefaults();
+    final dartDefaults = DurationDefaults();
     final cppDefaults = DurationDefaults.getCppDefaults();
 
     expect(dartDefaults.dayz, cppDefaults.dayz);

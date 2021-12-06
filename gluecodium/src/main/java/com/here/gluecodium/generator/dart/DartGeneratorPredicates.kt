@@ -23,6 +23,7 @@ import com.here.gluecodium.common.LimeModelSkipPredicates
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.model.lime.LimeAttributeType.DART
 import com.here.gluecodium.model.lime.LimeAttributeType.IMMUTABLE
+import com.here.gluecodium.model.lime.LimeAttributeValueType.POSITIONAL_DEFAULTS
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeExternalDescriptor
@@ -39,6 +40,9 @@ internal class DartGeneratorPredicates(
     dartNameResolver: DartNameResolver? = null
 ) {
     val predicates = mapOf(
+        "allFieldsCtorIsPublic" to { limeStruct: Any ->
+            limeStruct is LimeStruct && allFieldsCtorIsPublic(limeStruct)
+        },
         "hasAnyComment" to { CommonGeneratorPredicates.hasAnyComment(it, "Dart") },
         "hasImmutableFields" to { CommonGeneratorPredicates.hasImmutableFields(it) },
         "hasSingleConstructor" to { limeContainer: Any ->
@@ -56,16 +60,6 @@ internal class DartGeneratorPredicates(
                 else -> dartNameResolver.typesWithDuplicateNames.contains(limeType.fullName)
             }
         },
-        "needsPrivateAllFieldsCtor" to { limeStruct: Any ->
-            when {
-                limeStruct !is LimeStruct -> false
-                limeStruct.constructors.isNotEmpty() -> true
-                limeStruct.fieldConstructors.isEmpty() -> false
-                limeStruct.allFieldsConstructor != null -> false
-                else -> !limeStruct.attributes.have(IMMUTABLE)
-            }
-        },
-        "needsPublicFieldsConstructor" to { CommonGeneratorPredicates.needsPublicFieldsConstructor(it, DART) },
         "skipDeclaration" to { limeType: Any ->
             limeType is LimeType && limeType.external?.dart != null &&
                 limeType.external?.dart?.get(LimeExternalDescriptor.CONVERTER_NAME) == null
@@ -77,4 +71,16 @@ internal class DartGeneratorPredicates(
 
     fun shouldRetain(limeElement: LimeNamedElement) =
         LimeModelSkipPredicates.shouldRetainCheckParent(limeElement, activeTags, DART, limeReferenceMap)
+
+    companion object {
+        fun allFieldsCtorIsPublic(limeStruct: LimeStruct) =
+            when {
+                limeStruct.constructors.isNotEmpty() -> false
+                limeStruct.attributes.have(DART, POSITIONAL_DEFAULTS) -> false
+                limeStruct.external?.dart?.get(LimeExternalDescriptor.CONVERTER_NAME) != null -> true
+                limeStruct.attributes.have(IMMUTABLE) -> limeStruct.allFieldsConstructor == null
+                limeStruct.fieldConstructors.isEmpty() -> limeStruct.initializedFields.isEmpty()
+                else -> false
+            }
+    }
 }

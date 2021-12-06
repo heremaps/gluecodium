@@ -28,7 +28,6 @@ EquatableStruct createEquatableStruct() {
   return EquatableStruct(
       true, 65542, 2147484000, 1.0, 2.0, "nonsense",
       new NestedEquatableStruct("foo"),
-      new NestedImmutableStruct.withDefaults(),
       SomeSomeEnum.bar, {0: "one"}, ["two"]
   );
 }

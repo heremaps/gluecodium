@@ -26,7 +26,7 @@ final _testSuite = TestSuite("Defaults");
 
 void main() {
   _testSuite.test("Check defaults", () {
-    final result = new DefaultsStructWithDefaults.withDefaults();
+    final result = new DefaultsStructWithDefaults();
 
     expect(result.intField, 42);
     expect(result.uintField, 4294967295);
@@ -36,8 +36,7 @@ void main() {
     expect(result.enumField, DefaultsSomeEnum.barValue);
   });
   _testSuite.test("Check defaults immutable", () {
-    final result =
-        new DefaultsImmutableStructWithDefaults.withDefaults(77, true);
+    final result = new DefaultsImmutableStructWithDefaults.withDefaults(77, true);
 
     expect(result.intField, 42);
     expect(result.uintField, 77);
@@ -47,7 +46,7 @@ void main() {
     expect(result.enumField, DefaultsSomeEnum.barValue);
   });
   _testSuite.test("Check special defaults", () {
-    final result = new DefaultsStructWithSpecialDefaults.withDefaults();
+    final result = new DefaultsStructWithSpecialDefaults();
 
     expect(result.floatNanField, isNaN);
     expect(result.floatInfinityField, double.infinity);
@@ -57,7 +56,7 @@ void main() {
     expect(result.doubleNegativeInfinityField, double.negativeInfinity);
   });
   _testSuite.test("Check empty defaults", () {
-    final result = new DefaultsStructWithEmptyDefaults.withDefaults();
+    final result = new DefaultsStructWithEmptyDefaults();
 
     expect(result.intsField, isEmpty);
     expect(result.floatsField, isEmpty);
@@ -66,7 +65,7 @@ void main() {
     expect(result.setTypeField, isEmpty);
   });
   _testSuite.test("Check initializer defaults", () {
-    final result = new DefaultsStructWithInitializerDefaults.withDefaults();
+    final result = new DefaultsStructWithInitializerDefaults();
 
     expect(result.intsField, [4, -2, 42]);
     expect(result.floatsField, [3.14, double.negativeInfinity]);
