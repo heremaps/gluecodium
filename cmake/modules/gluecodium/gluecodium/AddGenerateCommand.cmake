@@ -211,6 +211,10 @@ function(gluecodium_add_generate_command _target)
     set(_command_dependencies $<TARGET_PROPERTY:${_target},LINK_LIBRARIES>)
   endif()
 
+  # Make live of devs easier and pick up JAVA_HOME during CMake configuration because Xcode doesn't
+  # process neither ~/.bash_profile nor ~/.zshrc
+  string(APPEND _configuration_content "set(JAVA_HOME \"$ENV{JAVA_HOME}\")\n")
+
   # Files with CMake options must not be in folder with generated sources to be able to remove
   # generated sources.
   _gluecodium_get_default_generator_folder(_default_generator_folder ${_args_GENERATORS})
