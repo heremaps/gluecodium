@@ -135,7 +135,7 @@ internal class JavaGenerator : Generator {
         )
         resultFiles += GeneratedFile(
             TemplateEngine.render("java/Duration", internalPackageList),
-            "$nativeBasePath/Duration.java",
+            "$nativeBasePath/time/Duration.java",
             GeneratedFile.SourceSet.COMMON
         )
 
