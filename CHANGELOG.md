@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed a validation issue where a `field constructor` can be erroneously flagged as having conflicting overloads when
+  `@Skip` attributes are used.
+
 ## 10.4.0
 Release date: 2021-12-08
 ### Removed:
