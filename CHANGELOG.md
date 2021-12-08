@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 10.4.0
+Release date: 2021-12-08
 ### Removed:
   * Removed deprecated `release()` methods in Dart.
 
