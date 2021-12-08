@@ -22,4 +22,5 @@ package com.here.gluecodium.model.lime
 abstract class LimeEnumeratorRef : LimeElement() {
     abstract val elementFullName: String
     abstract val enumerator: LimeEnumerator
+    internal open fun remap(referenceMap: Map<String, LimeElement>) = this
 }

@@ -27,9 +27,9 @@ package com.here.gluecodium.model.lime
  * stored result is used on subsequent calls instead.
  */
 class LimeAmbiguousEnumeratorRef(
-    relativePath: List<String>,
-    parentPaths: List<LimePath>,
-    imports: List<LimePath>,
+    private val relativePath: List<String>,
+    private val parentPaths: List<LimePath>,
+    private val imports: List<LimePath>,
     referenceMap: Map<String, LimeElement>
 ) : LimeEnumeratorRef() {
 
@@ -38,4 +38,7 @@ class LimeAmbiguousEnumeratorRef(
     override val enumerator by lazy {
         LimeAmbiguityResolver.resolve<LimeEnumerator>(relativePath, parentPaths, imports, referenceMap)
     }
+
+    override fun remap(referenceMap: Map<String, LimeElement>) =
+        LimeAmbiguousEnumeratorRef(relativePath, parentPaths, imports, referenceMap)
 }

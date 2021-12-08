@@ -25,6 +25,7 @@ abstract class LimeTypeRef(attributes: LimeAttributes? = null) : LimeElement(att
     abstract val isNullable: Boolean
 
     abstract fun asNullable(): LimeTypeRef
+    internal open fun remap(referenceMap: Map<String, LimeElement>) = this
 
     override fun toString() = type.name + if (isNullable) "?" else ""
 

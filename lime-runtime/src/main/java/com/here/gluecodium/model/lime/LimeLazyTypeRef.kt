@@ -38,4 +38,7 @@ class LimeLazyTypeRef(
 
     override fun asNullable() =
         if (isNullable) this else LimeLazyTypeRef(elementFullName, referenceMap, true)
+
+    override fun remap(referenceMap: Map<String, LimeElement>) =
+        LimeLazyTypeRef(elementFullName, referenceMap, isNullable)
 }
