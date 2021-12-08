@@ -3,9 +3,7 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 abstract class ConstantsInterface {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   static final bool boolConstant = true;
   static final int intConstant = -11;
   static final int uintConstant = 4294967295;
@@ -84,8 +82,7 @@ final _smokeConstantsinterfaceReleaseHandle = __lib.catchArgumentError(() => __l
   >('library_smoke_ConstantsInterface_release_handle'));
 class ConstantsInterface$Impl extends __lib.NativeBase implements ConstantsInterface {
   ConstantsInterface$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
 }
 Pointer<Void> smokeConstantsinterfaceToFfi(ConstantsInterface value) =>
   _smokeConstantsinterfaceCopyHandle((value as __lib.NativeBase).handle);

@@ -3,9 +3,7 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 abstract class SkipTagsOnly {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
 }
 // SkipTagsOnly "private" section, not exported.
 final _smokeSkiptagsonlyRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -22,8 +20,7 @@ final _smokeSkiptagsonlyReleaseHandle = __lib.catchArgumentError(() => __lib.nat
   >('library_smoke_SkipTagsOnly_release_handle'));
 class SkipTagsOnly$Impl extends __lib.NativeBase implements SkipTagsOnly {
   SkipTagsOnly$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
 }
 Pointer<Void> smokeSkiptagsonlyToFfi(SkipTagsOnly value) =>
   _smokeSkiptagsonlyCopyHandle((value as __lib.NativeBase).handle);

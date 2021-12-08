@@ -18,9 +18,7 @@ import 'package:library/src/builtin_types__conversion.dart';
 ///
 /// ```Some example code;```
 abstract class MultiLineComments {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   /// This is very important method.
   ///
   /// It has very important parameters.
@@ -56,8 +54,7 @@ final _smokeMultilinecommentsReleaseHandle = __lib.catchArgumentError(() => __li
   >('library_smoke_MultiLineComments_release_handle'));
 class MultiLineComments$Impl extends __lib.NativeBase implements MultiLineComments {
   MultiLineComments$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   double someMethodWithLongComment(String input, double ratio) {
     final _someMethodWithLongCommentFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Float Function(Pointer<Void>, Int32, Pointer<Void>, Double), double Function(Pointer<Void>, int, Pointer<Void>, double)>('library_smoke_MultiLineComments_someMethodWithLongComment__String_Double'));

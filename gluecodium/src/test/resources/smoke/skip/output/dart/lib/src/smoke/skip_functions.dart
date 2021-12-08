@@ -5,9 +5,7 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 abstract class SkipFunctions {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   static String notInJava(String input) => $prototype.notInJava(input);
   static bool notInSwift(bool input) => $prototype.notInSwift(input);
   /// @nodoc
@@ -31,8 +29,7 @@ final _smokeSkipfunctionsReleaseHandle = __lib.catchArgumentError(() => __lib.na
 @visibleForTesting
 class SkipFunctions$Impl extends __lib.NativeBase implements SkipFunctions {
   SkipFunctions$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   String notInJava(String input) {
     final _notInJavaFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_SkipFunctions_notInJava__String'));
     final _inputHandle = stringToFfi(input);

@@ -7,19 +7,13 @@ import 'package:library/src/smoke/outer_class.dart';
 import 'package:library/src/smoke/outer_interface.dart';
 import 'package:meta/meta.dart';
 abstract class LevelOne {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
 }
 abstract class LevelOne_LevelTwo {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
 }
 abstract class LevelOne_LevelTwo_LevelThree {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   OuterInterface_InnerClass foo(OuterClass_InnerInterface input);
 }
 enum LevelOne_LevelTwo_LevelThree_LevelFourEnum {
@@ -169,8 +163,7 @@ final _smokeLeveloneLeveltwoLevelthreeReleaseHandle = __lib.catchArgumentError((
   >('library_smoke_LevelOne_LevelTwo_LevelThree_release_handle'));
 class LevelOne_LevelTwo_LevelThree$Impl extends __lib.NativeBase implements LevelOne_LevelTwo_LevelThree {
   LevelOne_LevelTwo_LevelThree$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   OuterInterface_InnerClass foo(OuterClass_InnerInterface input) {
     final _fooFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_LevelOne_LevelTwo_LevelThree_foo__InnerInterface'));
@@ -220,8 +213,7 @@ final _smokeLeveloneLeveltwoReleaseHandle = __lib.catchArgumentError(() => __lib
   >('library_smoke_LevelOne_LevelTwo_release_handle'));
 class LevelOne_LevelTwo$Impl extends __lib.NativeBase implements LevelOne_LevelTwo {
   LevelOne_LevelTwo$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
 }
 Pointer<Void> smokeLeveloneLeveltwoToFfi(LevelOne_LevelTwo value) =>
   _smokeLeveloneLeveltwoCopyHandle((value as __lib.NativeBase).handle);
@@ -258,8 +250,7 @@ final _smokeLeveloneReleaseHandle = __lib.catchArgumentError(() => __lib.nativeL
   >('library_smoke_LevelOne_release_handle'));
 class LevelOne$Impl extends __lib.NativeBase implements LevelOne {
   LevelOne$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
 }
 Pointer<Void> smokeLeveloneToFfi(LevelOne value) =>
   _smokeLeveloneCopyHandle((value as __lib.NativeBase).handle);

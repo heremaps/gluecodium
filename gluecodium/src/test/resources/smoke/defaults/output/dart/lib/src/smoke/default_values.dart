@@ -6,9 +6,7 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:meta/meta.dart';
 abstract class DefaultValues {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   static DefaultValues_StructWithDefaults processStructWithDefaults(DefaultValues_StructWithDefaults input) => $prototype.processStructWithDefaults(input);
   /// @nodoc
   @visibleForTesting
@@ -689,8 +687,7 @@ final _smokeDefaultvaluesReleaseHandle = __lib.catchArgumentError(() => __lib.na
 @visibleForTesting
 class DefaultValues$Impl extends __lib.NativeBase implements DefaultValues {
   DefaultValues$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   DefaultValues_StructWithDefaults processStructWithDefaults(DefaultValues_StructWithDefaults input) {
     final _processStructWithDefaultsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_DefaultValues_processStructWithDefaults__StructWithDefaults'));
     final _inputHandle = smokeDefaultvaluesStructwithdefaultsToFfi(input);

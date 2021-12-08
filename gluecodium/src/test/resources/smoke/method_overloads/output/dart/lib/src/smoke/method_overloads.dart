@@ -5,9 +5,7 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 abstract class MethodOverloads {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   bool isBoolean(bool input);
   bool isBooleanByte(int input);
   bool isBooleanString(String input);
@@ -104,8 +102,7 @@ final _smokeMethodoverloadsReleaseHandle = __lib.catchArgumentError(() => __lib.
   >('library_smoke_MethodOverloads_release_handle'));
 class MethodOverloads$Impl extends __lib.NativeBase implements MethodOverloads {
   MethodOverloads$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   bool isBoolean(bool input) {
     final _isBooleanFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Uint8), int Function(Pointer<Void>, int, int)>('library_smoke_MethodOverloads_isBoolean__Boolean'));

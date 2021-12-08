@@ -3,9 +3,7 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 abstract class CollectionConstants {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   static final List<String> listConstant = ["foo", "bar"];
   static final Set<String> setConstant = {"foo", "bar"};
   static final Map<String, String> mapConstant = {"foo": "bar"};
@@ -26,8 +24,7 @@ final _smokeCollectionconstantsReleaseHandle = __lib.catchArgumentError(() => __
   >('library_smoke_CollectionConstants_release_handle'));
 class CollectionConstants$Impl extends __lib.NativeBase implements CollectionConstants {
   CollectionConstants$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
 }
 Pointer<Void> smokeCollectionconstantsToFfi(CollectionConstants value) =>
   _smokeCollectionconstantsCopyHandle((value as __lib.NativeBase).handle);

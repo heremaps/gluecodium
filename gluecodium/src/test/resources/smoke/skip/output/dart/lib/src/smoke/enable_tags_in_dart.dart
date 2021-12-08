@@ -12,9 +12,7 @@ abstract class EnableTagsInDart {
     enableTaggedLambda,
     enableTaggedListLambda,
   );
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release() {}
+
   void enableTagged();
   void enableTaggedList();
 }
@@ -46,8 +44,7 @@ class EnableTagsInDart$Lambdas implements EnableTagsInDart {
     this.enableTaggedLambda,
     this.enableTaggedListLambda,
   );
-  @override
-  void release() {}
+
   @override
   void enableTagged() =>
     enableTaggedLambda();
@@ -57,8 +54,7 @@ class EnableTagsInDart$Lambdas implements EnableTagsInDart {
 }
 class EnableTagsInDart$Impl extends __lib.NativeBase implements EnableTagsInDart {
   EnableTagsInDart$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   void enableTagged() {
     final _enableTaggedFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_EnableTagsInDart_enableTagged'));

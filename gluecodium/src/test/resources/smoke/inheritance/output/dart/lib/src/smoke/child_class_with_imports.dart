@@ -6,9 +6,7 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/parent_class_with_imports.dart';
 abstract class ChildClassWithImports implements ParentClassWithImports {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
 }
 // ChildClassWithImports "private" section, not exported.
 final _smokeChildclasswithimportsRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -29,8 +27,7 @@ final _smokeChildclasswithimportsGetTypeId = __lib.catchArgumentError(() => __li
   >('library_smoke_ChildClassWithImports_get_type_id'));
 class ChildClassWithImports$Impl extends ParentClassWithImports$Impl implements ChildClassWithImports {
   ChildClassWithImports$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
 }
 Pointer<Void> smokeChildclasswithimportsToFfi(ChildClassWithImports value) =>
   _smokeChildclasswithimportsCopyHandle((value as __lib.NativeBase).handle);

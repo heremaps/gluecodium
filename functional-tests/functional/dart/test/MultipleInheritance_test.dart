@@ -41,9 +41,6 @@ class MultiInterfaceImpl implements MultiInterface {
   String parentFunctionLight() => "dart face";
   @override
   String parentPropertyLight = "";
-
-  @override
-  release() {}
 }
 
 void main() {

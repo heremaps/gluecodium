@@ -4,9 +4,7 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/generic_types__conversion.dart';
 abstract class GenericTypesWithGenericTypes {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   List<List<int>> methodWithListOfLists(List<List<int>> input);
   Map<Map<int, bool>, bool> methodWithMapOfMaps(Map<int, Map<int, bool>> input);
   Set<Set<int>> methodWithSetOfSets(Set<Set<int>> input);
@@ -30,8 +28,7 @@ final _smokeGenerictypeswithgenerictypesReleaseHandle = __lib.catchArgumentError
   >('library_smoke_GenericTypesWithGenericTypes_release_handle'));
 class GenericTypesWithGenericTypes$Impl extends __lib.NativeBase implements GenericTypesWithGenericTypes {
   GenericTypesWithGenericTypes$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   List<List<int>> methodWithListOfLists(List<List<int>> input) {
     final _methodWithListOfListsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithListOfLists__ListOf_foobar_ListOf_Int'));

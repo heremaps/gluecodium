@@ -5,9 +5,7 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 @OnClass
 abstract class AttributesClass {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   @OnConstInClass
   static final bool pi = false;
   @OnFunctionInClass
@@ -32,8 +30,7 @@ final _smokeAttributesclassReleaseHandle = __lib.catchArgumentError(() => __lib.
   >('library_smoke_AttributesClass_release_handle'));
 class AttributesClass$Impl extends __lib.NativeBase implements AttributesClass {
   AttributesClass$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   void veryFun(@OnParameterInClass String param) {
     final _veryFunFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AttributesClass_veryFun__String'));

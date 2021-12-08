@@ -27,9 +27,6 @@ final _testSuite = TestSuite("CppConstMethods");
 class CppConstCallback implements CppConstInterface {
   @override
   String getFoo() => "FOO";
-
-  @override
-  release() {}
 }
 
 void main() {

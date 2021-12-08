@@ -12,9 +12,7 @@ abstract class SimpleInterface {
     getStringValueLambda,
     useSimpleInterfaceLambda,
   );
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release() {}
+
   String getStringValue();
   SimpleInterface useSimpleInterface(SimpleInterface input);
 }
@@ -46,8 +44,7 @@ class SimpleInterface$Lambdas implements SimpleInterface {
     this.getStringValueLambda,
     this.useSimpleInterfaceLambda,
   );
-  @override
-  void release() {}
+
   @override
   String getStringValue() =>
     getStringValueLambda();
@@ -57,8 +54,7 @@ class SimpleInterface$Lambdas implements SimpleInterface {
 }
 class SimpleInterface$Impl extends __lib.NativeBase implements SimpleInterface {
   SimpleInterface$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   String getStringValue() {
     final _getStringValueFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_SimpleInterface_getStringValue'));

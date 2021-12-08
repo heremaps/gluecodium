@@ -3,9 +3,7 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 abstract class SpecialAttributes {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   @Deprecated("foo\nbar")
   void withEscaping();
   @HackMerm -rf *
@@ -26,8 +24,7 @@ final _smokeSpecialattributesReleaseHandle = __lib.catchArgumentError(() => __li
   >('library_smoke_SpecialAttributes_release_handle'));
 class SpecialAttributes$Impl extends __lib.NativeBase implements SpecialAttributes {
   SpecialAttributes$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   void withEscaping() {
     final _withEscapingFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialAttributes_withEscaping'));

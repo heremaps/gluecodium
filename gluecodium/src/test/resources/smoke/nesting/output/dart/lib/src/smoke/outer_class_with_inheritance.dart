@@ -6,15 +6,11 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/parent_class.dart';
 abstract class OuterClassWithInheritance implements ParentClass {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   String foo(String input);
 }
 abstract class OuterClassWithInheritance_InnerClass {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   String bar(String input);
 }
 // OuterClassWithInheritance_InnerClass "private" section, not exported.
@@ -32,8 +28,7 @@ final _smokeOuterclasswithinheritanceInnerclassReleaseHandle = __lib.catchArgume
   >('library_smoke_OuterClassWithInheritance_InnerClass_release_handle'));
 class OuterClassWithInheritance_InnerClass$Impl extends __lib.NativeBase implements OuterClassWithInheritance_InnerClass {
   OuterClassWithInheritance_InnerClass$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   String bar(String input) {
     final _barFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterClassWithInheritance_InnerClass_bar__String'));
@@ -74,9 +69,7 @@ abstract class OuterClassWithInheritance_InnerInterface {
   ) => OuterClassWithInheritance_InnerInterface$Lambdas(
     bazLambda,
   );
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release() {}
+
   String baz(String input);
 }
 // OuterClassWithInheritance_InnerInterface "private" section, not exported.
@@ -105,16 +98,14 @@ class OuterClassWithInheritance_InnerInterface$Lambdas implements OuterClassWith
   OuterClassWithInheritance_InnerInterface$Lambdas(
     this.bazLambda,
   );
-  @override
-  void release() {}
+
   @override
   String baz(String input) =>
     bazLambda(input);
 }
 class OuterClassWithInheritance_InnerInterface$Impl extends __lib.NativeBase implements OuterClassWithInheritance_InnerInterface {
   OuterClassWithInheritance_InnerInterface$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   String baz(String input) {
     final _bazFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterClassWithInheritance_InnerInterface_baz__String'));
@@ -191,8 +182,7 @@ final _smokeOuterclasswithinheritanceGetTypeId = __lib.catchArgumentError(() => 
   >('library_smoke_OuterClassWithInheritance_get_type_id'));
 class OuterClassWithInheritance$Impl extends ParentClass$Impl implements OuterClassWithInheritance {
   OuterClassWithInheritance$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @override
   String foo(String input) {
     final _fooFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterClassWithInheritance_foo__String'));

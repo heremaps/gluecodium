@@ -7,9 +7,7 @@ import 'package:meta/meta.dart';
 /// @nodoc
 @internal
 abstract class InternalClassWithStaticProperty {
-  /// @nodoc
-  @Deprecated("Does nothing")
-  void release();
+
   /// @nodoc
   @internal
   static String get internal_fooBar => $prototype.internal_fooBar;
@@ -37,8 +35,7 @@ final _smokeInternalclasswithstaticpropertyReleaseHandle = __lib.catchArgumentEr
 @visibleForTesting
 class InternalClassWithStaticProperty$Impl extends __lib.NativeBase implements InternalClassWithStaticProperty {
   InternalClassWithStaticProperty$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  void release() {}
+
   @internal
   String get internal_fooBar {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InternalClassWithStaticProperty_fooBar_get'));
