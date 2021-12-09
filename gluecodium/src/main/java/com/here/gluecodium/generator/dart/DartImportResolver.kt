@@ -53,15 +53,20 @@ internal class DartImportResolver(
             else -> emptyList()
         }
 
-    private fun resolveTypeImports(limeType: LimeType): List<DartImport> =
-        when (val actualType = limeType.actualType) {
-            is LimeBasicType -> resolveBasicTypeImports(actualType)
-            is LimeGenericType -> resolveGenericTypeImports(actualType)
-            else -> listOfNotNull(
-                createImport(actualType),
-                resolveExternalImport(actualType, IMPORT_PATH_NAME, useAlias = true)
-            )
+    private fun resolveTypeImports(limeType: LimeType, skipHelpers: Boolean = false): List<DartImport> {
+        val actualType = limeType.actualType
+        when (actualType) {
+            is LimeBasicType -> return resolveBasicTypeImports(actualType)
+            is LimeGenericType -> return resolveGenericTypeImports(actualType)
         }
+
+        val externalImport = resolveExternalImport(actualType, IMPORT_PATH_NAME, useAlias = true)
+        return when {
+            externalImport == null -> listOf(createImport(actualType))
+            skipHelpers -> listOf(externalImport)
+            else -> listOf(createImport(actualType), externalImport)
+        }
+    }
 
     private fun resolveConversionImports(limeType: LimeType): List<DartImport> =
         when (val actualType = limeType.actualType) {
@@ -88,9 +93,10 @@ internal class DartImportResolver(
 
     private fun resolveGenericTypeImports(limeType: LimeGenericType) =
         when (limeType) {
-            is LimeList -> resolveTypeImports(limeType.elementType.type)
-            is LimeSet -> resolveTypeImports(limeType.elementType.type)
-            is LimeMap -> resolveTypeImports(limeType.keyType.type) + resolveTypeImports(limeType.valueType.type)
+            is LimeList -> resolveTypeImports(limeType.elementType.type, skipHelpers = true)
+            is LimeSet -> resolveTypeImports(limeType.elementType.type, skipHelpers = true)
+            is LimeMap -> resolveTypeImports(limeType.keyType.type, skipHelpers = true) +
+                resolveTypeImports(limeType.valueType.type, skipHelpers = true)
             else -> emptyList()
         }
 

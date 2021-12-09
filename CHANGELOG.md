@@ -4,6 +4,8 @@
 ### Bug fixes:
   * Fixed a validation issue where a `field constructor` can be erroneously flagged as having conflicting overloads when
   `@Skip` attributes are used.
+  * Fixed a redundant `import` statement in generated Dart code when a type with `external.dart` descriptor is used in a
+  collection type (`List<>`/`Set<>`/`Map<>`).
 
 ## 10.4.0
 Release date: 2021-12-08
