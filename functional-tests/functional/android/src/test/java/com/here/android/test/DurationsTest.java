@@ -149,4 +149,11 @@ public class DurationsTest {
     assertEquals(42, result.durationField.getSeconds());
     assertEquals(42000000, result.durationField.getNano());
   }
+
+  @Test
+  public void durationCallOverloadedFunction() {
+    String result = DurationOverloads.durationFunction(Duration.ofSeconds(42));
+
+    assertEquals("duration overload", result);
+  }
 }

@@ -58,3 +58,9 @@ class DurationMilliseconds {
 
     static fun durationStructRoundTrip(input: DurationStruct): DurationStruct
 }
+
+@Skip(Swift, Dart)
+class DurationOverloads {
+    static fun durationFunction(input: Duration): String
+    static fun durationFunction(input: String): String
+}
