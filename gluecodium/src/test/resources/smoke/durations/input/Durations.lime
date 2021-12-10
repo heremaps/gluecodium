@@ -50,3 +50,9 @@ class DurationMilliseconds {
 
     property durationProperty: @Cpp(Type="std::chrono::milliseconds") Duration
 }
+
+@Skip(Swift, Dart)
+class DurationOverloads {
+    fun durationFunction(input: Duration): String
+    fun durationFunction(input: String): String
+}

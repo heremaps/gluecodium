@@ -27,7 +27,10 @@ import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 
-internal class JniTypeSignatureNameResolver(private val baseNameResolver: JniNameResolver) : NameResolver {
+internal class JniTypeSignatureNameResolver(
+    private val baseNameResolver: JniNameResolver,
+    private val internalPackages: List<String>,
+) : NameResolver {
 
     override fun resolveName(element: Any) =
         when (element) {
@@ -64,7 +67,7 @@ internal class JniTypeSignatureNameResolver(private val baseNameResolver: JniNam
             TypeId.STRING -> "Ljava/lang/String;"
             TypeId.BLOB -> "[B"
             TypeId.DATE -> "Ljava/util/Date;"
-            TypeId.DURATION -> "Ljava/time/Duration;"
+            TypeId.DURATION -> "L" + internalPackages.joinToString("/") + "/time/Duration;"
             TypeId.LOCALE -> "Ljava/util/Locale;"
         }
 

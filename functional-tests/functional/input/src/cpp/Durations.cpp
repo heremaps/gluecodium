@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/DurationMilliseconds.h"
+#include "test/DurationOverloads.h"
 #include "test/DurationSeconds.h"
 
 namespace test
@@ -53,6 +54,16 @@ DurationMilliseconds::increase_duration_maybe(const lorem_ipsum::test::optional<
 DurationMilliseconds::DurationStruct
 DurationMilliseconds::duration_struct_round_trip(const DurationMilliseconds::DurationStruct& input) {
     return input;
+}
+
+std::string
+DurationOverloads::duration_function(const seconds input) {
+    return "duration overload";
+}
+
+std::string
+DurationOverloads::duration_function(const std::string& input) {
+    return "string overload";
 }
 
 }

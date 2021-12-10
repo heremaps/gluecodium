@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed a runtime issue in Java for overloaded functions with `Duration` type in the signature.
+
 ## 10.4.1
 Release date: 2021-12-09
 ### Bug fixes:

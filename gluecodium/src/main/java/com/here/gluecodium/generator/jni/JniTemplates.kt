@@ -49,7 +49,7 @@ internal class JniTemplates(
     private val limeReferenceMap: Map<String, LimeElement>,
     javaNameRules: JavaNameRules,
     private val basePackages: List<String>,
-    private val internalPackages: List<String>,
+    internalPackages: List<String>,
     private val internalNamespace: List<String>,
     cppNameRules: CppNameRules,
     nameCache: CppNameCache,
@@ -59,9 +59,10 @@ internal class JniTemplates(
     private val jniNameResolver = JniNameResolver(limeReferenceMap, basePackages, javaNameRules)
     private val cppNameResolver = CppNameResolver(limeReferenceMap, internalNamespace, nameCache)
     private val fileNameRules = JniFileNameRules(JavaGenerator.GENERATOR_NAME, jniNameResolver)
+    private val fullInternalPackages = basePackages + internalPackages
     private val nameResolvers = mapOf(
         "" to jniNameResolver,
-        "signature" to JniTypeSignatureNameResolver(jniNameResolver),
+        "signature" to JniTypeSignatureNameResolver(jniNameResolver, fullInternalPackages),
         "mangled" to JniMangledNameResolver(jniNameResolver),
         "C++" to cppNameResolver,
         "C++ FQN" to CppFullNameResolver(nameCache)
@@ -174,8 +175,8 @@ internal class JniTemplates(
                 "jni/utils/${fileName}Header",
                 mapOf(
                     "internalNamespace" to internalNamespace,
-                    "internalPackages" to basePackages + internalPackages,
-                    "durationPackage" to (basePackages + internalPackages + "time").joinToString("/")
+                    "internalPackages" to fullInternalPackages,
+                    "durationPackage" to (fullInternalPackages + "time").joinToString("/")
                 )
             ),
             fileNameRules.getHeaderFilePath(fileName),
@@ -188,8 +189,8 @@ internal class JniTemplates(
                 "jni/utils/${fileName}Implementation",
                 mapOf(
                     "internalNamespace" to internalNamespace,
-                    "internalPackages" to basePackages + internalPackages,
-                    "durationPackage" to (basePackages + internalPackages + "time").joinToString("/")
+                    "internalPackages" to fullInternalPackages,
+                    "durationPackage" to (fullInternalPackages + "time").joinToString("/")
                 )
             ),
             fileNameRules.getImplementationFilePath(fileName),
@@ -266,7 +267,7 @@ internal class JniTemplates(
             "model" to limeElement,
             "includes" to headerIncludes,
             "basePackages" to basePackages,
-            "internalPackages" to basePackages + internalPackages,
+            "internalPackages" to fullInternalPackages,
             "internalNamespace" to internalNamespace,
             "descendantInterfaces" to descendantInterfaces
         )
