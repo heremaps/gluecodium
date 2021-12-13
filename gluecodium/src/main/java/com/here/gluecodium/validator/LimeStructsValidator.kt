@@ -29,6 +29,10 @@ import com.here.gluecodium.model.lime.LimeStruct
 /**
  * Validates equatable structs to ensure their fields have equatable types. Validates structs with
  * instance functions to ensure they have fields.
+ *
+ * With [strictMode] enabled, there are additional validations: a struct must have explicit constructors defined if
+ * * either it is `@Immutable`,
+ * * or if it has any `internal` fields which don't have default values set.
  */
 internal class LimeStructsValidator(private val logger: LimeLogger, private val strictMode: Boolean) {
 
@@ -40,8 +44,7 @@ internal class LimeStructsValidator(private val logger: LimeLogger, private val 
         val constrValidationResults = allStructs.map { validateConstructability(it) }
         val strictValidationResults =
             when {
-                strictMode ->
-                    allStructs.filter { it.attributes.have(LimeAttributeType.IMMUTABLE) }.map { validateImmutable(it) }
+                strictMode -> allStructs.map { validateStrict(it) }
                 else -> emptyList()
             }
 
@@ -84,15 +87,22 @@ internal class LimeStructsValidator(private val logger: LimeLogger, private val 
         }
     }
 
-    private fun validateImmutable(limeStruct: LimeStruct) =
-        when {
-            limeStruct.fieldConstructors.isEmpty() && limeStruct.constructors.isEmpty() -> {
-                logger.error(
-                    limeStruct,
-                    "an immutable struct should have at least one explicit constructor"
-                )
-                false
-            }
-            else -> true
+    private fun validateStrict(limeStruct: LimeStruct): Boolean {
+        if (limeStruct.fieldConstructors.isNotEmpty() || limeStruct.constructors.isNotEmpty()) return true
+
+        var result = true
+        if (limeStruct.attributes.have(LimeAttributeType.IMMUTABLE)) {
+            logger.error(limeStruct, "an immutable struct should have at least one explicit constructor")
+            result = false
         }
+        if (limeStruct.internalFields.any { it.defaultValue == null }) {
+            logger.error(
+                limeStruct,
+                "if any internal field does not have a default value, " +
+                    "the struct should have at least one explicit constructor"
+            )
+            result = false
+        }
+        return result
+    }
 }

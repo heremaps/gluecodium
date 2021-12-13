@@ -17,28 +17,7 @@
 
 package smoke
 
-@Immutable
-struct ImmutableWithFieldConstructor {
-    stringField: String = ""
-    field constructor()
-}
-
-@Immutable
-struct ImmutableWithCustomConstructor {
-    stringField: String = ""
-    constructor create()
-}
-
-struct InternalFieldWithFieldConstructor {
+struct InternalFieldWithNoConstructors {
     internal stringField: String
-    field constructor(stringField)
 }
 
-struct InternalFieldWithCustomConstructor {
-    internal stringField: String
-    constructor create()
-}
-
-struct InternalFieldWithDefaultValue {
-    internal stringField: String = ""
-}

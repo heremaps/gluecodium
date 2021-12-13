@@ -29,6 +29,8 @@ import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeValue
+import com.here.gluecodium.model.lime.LimeVisibility
 import io.mockk.mockk
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -43,17 +45,15 @@ class LimeStructsValidatorStrictTest {
     private val limeModel = LimeModel(allElements, emptyList())
 
     private val limeField = LimeField(EMPTY_PATH, typeRef = LimeBasicTypeRef.INT)
+    private val internalField =
+        LimeField(EMPTY_PATH, typeRef = LimeBasicTypeRef.INT, visibility = LimeVisibility.INTERNAL)
     private val immutableAttributes =
         LimeAttributes.Builder().addAttribute(LimeAttributeType.IMMUTABLE).build()
+    private val fieldConstructor =
+        LimeFieldConstructor(EMPTY_PATH, structRef = LimeBasicTypeRef.INT, fieldRefs = emptyList())
+    private val customConstructor = LimeFunction(EMPTY_PATH, isConstructor = true)
 
     private val validator = LimeStructsValidator(mockk(relaxed = true), strictMode = true)
-
-    @Test
-    fun validateMutableStruct() {
-        allElements[""] = LimeStruct(EMPTY_PATH, fields = listOf(limeField))
-
-        assertTrue(validator.validate(limeModel))
-    }
 
     @Test
     fun validateImmutableStructWithNoConstructors() {
@@ -64,8 +64,6 @@ class LimeStructsValidatorStrictTest {
 
     @Test
     fun validateImmutableStructWithFieldConstructors() {
-        val fieldConstructor =
-            LimeFieldConstructor(EMPTY_PATH, structRef = LimeBasicTypeRef.INT, fieldRefs = emptyList())
         allElements[""] = LimeStruct(
             EMPTY_PATH,
             fields = listOf(limeField),
@@ -85,6 +83,69 @@ class LimeStructsValidatorStrictTest {
             attributes = immutableAttributes,
             functions = listOf(customConstructor)
         )
+
+        assertTrue(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateMutableStructWithNoConstructors() {
+        allElements[""] = LimeStruct(EMPTY_PATH, fields = listOf(limeField))
+
+        assertTrue(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateMutableStructWithFieldConstructors() {
+        allElements[""] = LimeStruct(
+            EMPTY_PATH,
+            fields = listOf(limeField),
+            fieldConstructors = listOf(fieldConstructor)
+        )
+
+        assertTrue(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateMutableStructWithCustomConstructors() {
+        allElements[""] = LimeStruct(EMPTY_PATH, fields = listOf(limeField), functions = listOf(customConstructor))
+
+        assertTrue(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateInternalFieldWithNoConstructors() {
+        allElements[""] = LimeStruct(EMPTY_PATH, fields = listOf(internalField))
+
+        assertFalse(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateInternalFieldWithFieldConstructors() {
+        allElements[""] = LimeStruct(
+            EMPTY_PATH,
+            fields = listOf(internalField),
+            fieldConstructors = listOf(fieldConstructor)
+        )
+
+        assertTrue(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateInternalFieldWithCustomConstructors() {
+        allElements[""] = LimeStruct(EMPTY_PATH, fields = listOf(internalField), functions = listOf(customConstructor))
+
+        assertTrue(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateInternalFieldWithDefaultValue() {
+        val internalFieldWithDefault = LimeField(
+            EMPTY_PATH,
+            typeRef = LimeBasicTypeRef.INT,
+            visibility = LimeVisibility.INTERNAL,
+            defaultValue = LimeValue.ZERO
+        )
+        allElements[""] = LimeStruct(EMPTY_PATH, fields = listOf(internalFieldWithDefault))
 
         assertTrue(validator.validate(limeModel))
     }
