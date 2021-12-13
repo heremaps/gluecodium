@@ -28,6 +28,7 @@ import com.here.gluecodium.test.NiceErrorCollector
 import io.mockk.every
 import io.mockk.spyk
 import junit.framework.TestCase
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
 import org.junit.Assume.assumeFalse
@@ -88,6 +89,7 @@ class SmokeTest(
         val inputDirectory = File(featureDirectory, FEATURE_INPUT_FOLDER)
         val auxDirectory = File(featureDirectory, FEATURE_AUX_FOLDER)
         val outputDirectory = File(featureDirectory, FEATURE_OUTPUT_FOLDER)
+        val validationShouldFail = File(inputDirectory, "validationfail.txt").exists()
 
         val generatorDirectories = listOf(generatorName) + (ADDITIONAL_GENERATOR_DIRS[generatorName] ?: emptyList())
         val referenceFiles = generatorDirectories
@@ -98,7 +100,13 @@ class SmokeTest(
         assumeFalse("No reference files were found", referenceFiles.isEmpty())
 
         val limeModel = LOADER.loadModel(listOf(inputDirectory.toString()), listOf(auxDirectory.toString()))
-        assertTrue(gluecodium.validateModel(limeModel))
+        val validationResult = gluecodium.validateModel(limeModel)
+        if (validationShouldFail) {
+            assertFalse(validationResult)
+            return
+        } else {
+            assertTrue(validationResult)
+        }
         assertTrue(gluecodium.executeGenerator(generatorName, limeModel, HashMap()))
 
         val generatedContents = results.associateBy({ it.targetFile.path }, { it.content })

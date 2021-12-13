@@ -175,6 +175,15 @@ _gluecodium_define_target_property(
 )
 
 _gluecodium_define_target_property(
+  GLUECODIUM_STRICT_VALIDATION
+  BRIEF_DOCS "Enables 'strict' mode for validation"
+  FULL_DOCS
+    "When validated in 'strict' mode, `@Immutable` structs must have at least one explicit constructor defined."
+    "An explicit constructor is either a `field constructor` or a custom `constructor`."
+    "This property is initialized by the value of the GLUECODIUM_SWIFT_EXPOSE_INTERNALS variable if it is set when the function gluecodium_add_generate_command is called."
+)
+
+_gluecodium_define_target_property(
   GLUECODIUM_DART_LIBRARY_NAME
   BRIEF_DOCS "Name of the generated library for Dart"
   FULL_DOCS

@@ -1,0 +1,6 @@
+package smoke
+@Immutable
+struct ImmutableWithFieldConstructor {
+    stringField: String = ""
+    field constructor()
+}

@@ -48,7 +48,7 @@ class LimeStructsValidatorTest {
     private val equatableAttributes =
         LimeAttributes.Builder().addAttribute(LimeAttributeType.EQUATABLE).build()
 
-    private val validator = LimeStructsValidator(mockk(relaxed = true))
+    private val validator = LimeStructsValidator(mockk(relaxed = true), strictMode = false)
 
     @Test
     fun validateEquatableWithBasicType() {

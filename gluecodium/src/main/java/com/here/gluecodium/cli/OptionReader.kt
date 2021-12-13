@@ -128,6 +128,7 @@ object OptionReader {
             false,
             "Expose `internal` Swift generated code as `public` for reuse across several frameworks."
         )
+        addOption("strict", "strict-mode", false, "Use 'strict' validation rules for `struct` declarations.")
         addOption("tag", true, "Add a custom tag for @Skip attributes.")
         addOption("cppnamerules", true, "C++ name rules property file.")
         addOption("javanamerules", true, "Java name rules property file.")
@@ -176,6 +177,7 @@ object OptionReader {
         gluecodiumOptions.generators = getStringListValue("generators")?.toSet() ?: emptySet()
         gluecodiumOptions.isValidatingOnly = getFlagValue("validate")
         gluecodiumOptions.isEnableCaching = getFlagValue("output") && getFlagValue("cache")
+        gluecodiumOptions.isStrictMode = getFlagValue("strict")
 
         val generatorOptions = GeneratorOptions()
 

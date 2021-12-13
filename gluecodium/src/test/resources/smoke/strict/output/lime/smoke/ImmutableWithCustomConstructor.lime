@@ -1,0 +1,6 @@
+package smoke
+@Immutable
+struct ImmutableWithCustomConstructor {
+    stringField: String = ""
+    constructor create()
+}
