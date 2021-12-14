@@ -123,6 +123,10 @@ IntegerLiteral
     | DecDigit
     ;
 
+DurationLiteral
+    : (DecDigitNoZero DecDigit* | DecDigit) TimeUnit
+    ;
+
 fragment DecDigitOrSeparator: DecDigit | '_';
 fragment DecDigits
     : DecDigit DecDigitOrSeparator* DecDigit
@@ -146,6 +150,10 @@ fragment Letter
 fragment DecimalDigit
     : [0-9]
     ;
+
+// Duration literal
+
+fragment TimeUnit: 'd' | 'h' | 'min' | 's' | 'ms' | 'us' | 'ns' ;
 
 // Modes
 

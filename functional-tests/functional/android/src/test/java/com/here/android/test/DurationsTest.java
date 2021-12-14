@@ -156,4 +156,18 @@ public class DurationsTest {
 
     assertEquals("duration overload", result);
   }
+
+  @Test
+  public void durationDefaults() {
+    DurationDefaults javaDefaults = new DurationDefaults();
+    DurationDefaults cppDefaults = DurationDefaults.getCppDefaults();
+
+    assertEquals(cppDefaults.dayz, javaDefaults.dayz);
+    assertEquals(cppDefaults.hourz, javaDefaults.hourz);
+    assertEquals(cppDefaults.minutez, javaDefaults.minutez);
+    assertEquals(cppDefaults.secondz, javaDefaults.secondz);
+    assertEquals(cppDefaults.milliz, javaDefaults.milliz);
+    assertEquals(cppDefaults.microz, javaDefaults.microz);
+    assertEquals(cppDefaults.nanoz, javaDefaults.nanoz);
+  }
 }

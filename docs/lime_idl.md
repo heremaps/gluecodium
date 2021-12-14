@@ -448,10 +448,12 @@ their `=` sign.
 
 #### Numeric literals
 
-Integer decimal literals are supported, e.g. `10`, `-42`. Floating-point literals are supported,
-both with and without the exponent, e.g. `3.14`, `1.41e-2`. No suffixes are currently supported for
-neither of those two literal kinds, the specific type of the literal is determined from the
-declaration of the field or the constant where the literal is used.
+Integer decimal literals are supported, e.g. `10`, `-42`. Floating-point literals are supported, both with and without
+the exponent, e.g. `3.14`, `1.41e-2`. The specific type of the literal is determined from the declaration of the field
+or the constant where the literal is used.
+
+An integer decimal literal followed by a time unit suffix (e.g. `500ms`) is recognized as a `Duration` type literal.
+Supported time unit suffixes are `d`, `h`, `min`, `s`, `ms`, `us`, and `ns`.
 
 Binary, octal or hexadecimal integer literals are currently not supported.
 

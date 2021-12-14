@@ -89,6 +89,26 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement() {
         override fun toString() = "$key: $value"
     }
 
+    class Duration(typeRef: LimeTypeRef, val value: String, val timeUnit: TimeUnit) : LimeValue(typeRef) {
+        enum class TimeUnit(private val suffix: String) {
+            DAY("d"),
+            HOUR("h"),
+            MINUTE("min"),
+            SECOND("s"),
+            MILLISECOND("ms"),
+            MICROSECOND("us"),
+            NANOSECOND("ns");
+
+            override fun toString() = suffix
+
+            companion object {
+                val fromString = values().associateBy { it.suffix }
+            }
+        }
+
+        override fun toString() = value + timeUnit
+    }
+
     open val escapedValue
         get() = toString()
 

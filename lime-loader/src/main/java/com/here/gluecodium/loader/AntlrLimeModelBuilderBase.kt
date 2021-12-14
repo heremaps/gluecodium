@@ -156,6 +156,10 @@ internal abstract class AntlrLimeModelBuilderBase(
 
     override fun exitKeyValuePair(ctx: LimeParser.KeyValuePairContext) {}
 
+    override fun enterDurationLiteral(ctx: LimeParser.DurationLiteralContext) {}
+
+    override fun exitDurationLiteral(ctx: LimeParser.DurationLiteralContext) {}
+
     override fun enterSimpleId(ctx: LimeParser.SimpleIdContext) {}
 
     override fun exitSimpleId(ctx: LimeParser.SimpleIdContext) {}

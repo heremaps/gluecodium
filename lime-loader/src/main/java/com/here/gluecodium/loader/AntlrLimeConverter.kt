@@ -33,6 +33,8 @@ import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.INCLUDE_N
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.NAME_NAME
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.SETTER_NAME_NAME
 import com.here.gluecodium.model.lime.LimePath
+import com.here.gluecodium.model.lime.LimeTypeRef
+import com.here.gluecodium.model.lime.LimeValue
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.tree.ParseTreeWalker
@@ -255,4 +257,18 @@ internal object AntlrLimeConverter {
     }
 
     private fun makeSafeString(str: String) = str.trim().replace("\n", "").replace("\r", "")
+
+    private val durationLiteralRegex = """(\d+)([dhimnsu]+)""".toRegex()
+
+    fun convertDurationLiteral(limeTypeRef: LimeTypeRef, isNegative: Boolean, literalText: String): LimeValue.Duration {
+        val match = durationLiteralRegex.matchEntire(literalText)
+        val valueText = match?.groups?.get(1)?.value
+            ?: throw LimeLoadingException("Invalid `Duration` literal: '$literalText'")
+        val timeUnitText = match.groups.get(2)?.value
+            ?: throw LimeLoadingException("Invalid `Duration` literal: '$literalText'")
+        val timeUnit = LimeValue.Duration.TimeUnit.fromString[timeUnitText]
+            ?: throw LimeLoadingException("Unsupported time unit: '$timeUnitText'")
+        val sign = if (isNegative) "-" else ""
+        return LimeValue.Duration(limeTypeRef, sign + valueText, timeUnit)
+    }
 }

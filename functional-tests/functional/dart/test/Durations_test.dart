@@ -106,4 +106,16 @@ void main() {
 
     expect(result.durationField.inMicroseconds, 42042000);
   });
+  _testSuite.test("Duration defaults", () {
+    final dartDefaults = DurationDefaults.withDefaults();
+    final cppDefaults = DurationDefaults.getCppDefaults();
+
+    expect(dartDefaults.dayz, cppDefaults.dayz);
+    expect(dartDefaults.hourz, cppDefaults.hourz);
+    expect(dartDefaults.minutez, cppDefaults.minutez);
+    expect(dartDefaults.secondz, cppDefaults.secondz);
+    expect(dartDefaults.milliz, cppDefaults.milliz);
+    expect(dartDefaults.microz, cppDefaults.microz);
+    expect(dartDefaults.nanoz, cppDefaults.nanoz);
+  });
 }
