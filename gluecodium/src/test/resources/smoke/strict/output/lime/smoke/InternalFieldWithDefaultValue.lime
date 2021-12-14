@@ -1,0 +1,4 @@
+package smoke
+struct InternalFieldWithDefaultValue {
+    internal stringField: String = ""
+}

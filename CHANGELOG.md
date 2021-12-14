@@ -2,7 +2,7 @@
 
 ## Unreleased
 ### Features:
-  * Added `-strict` command line parameter to enable "strict" validation mode for `@Immutable` structs.
+  * Added `-strict` command line parameter to enable "strict" validation mode for structs.
 
 ## 10.4.2
 Release date: 2021-12-10
