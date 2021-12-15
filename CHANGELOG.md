@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 10.5.0
+Release date: 2021-12-15
 ### Features:
   * Added `-strict` command line parameter to enable "strict" validation mode for structs.
   * Added support for `Duration` type literal values.
