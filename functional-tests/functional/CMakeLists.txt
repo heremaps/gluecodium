@@ -378,6 +378,7 @@ feature(Durations cpp android swift dart SOURCES
     input/src/cpp/Durations.cpp
 
     input/lime/Durations.lime
+    input/lime/DurationDefaults.lime
 )
 
 feature(StructsWithCompanion cpp android swift dart SOURCES

@@ -653,6 +653,11 @@ internal class AntlrLimeModelBuilder(
                 }
                 return LimeValue.InitializerList(limeTypeRef, values)
             }
+            ctx.durationLiteral() != null -> {
+                val isNegative = ctx.Minus() != null
+                val literalText = ctx.durationLiteral().DurationLiteral().text
+                return AntlrLimeConverter.convertDurationLiteral(limeTypeRef, isNegative, literalText)
+            }
             ctx.NullLiteral() != null -> return LimeValue.Null(limeTypeRef)
             ctx.NanLiteral() != null -> return LimeValue.Special(limeTypeRef, ValueId.NAN)
             ctx.InfinityLiteral() != null -> return LimeValue.Special(

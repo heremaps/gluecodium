@@ -28,6 +28,7 @@ import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeValue
+import com.here.gluecodium.model.lime.LimeValue.Duration.TimeUnit
 
 internal class JavaValueResolver(private val nameResolver: JavaNameResolver) {
 
@@ -61,6 +62,7 @@ internal class JavaValueResolver(private val nameResolver: JavaNameResolver) {
                 val valueValue = resolveValue(limeValue.value)
                 "new AbstractMap.SimpleEntry<>($keyValue, $valueValue)"
             }
+            is LimeValue.Duration -> mapDurationValue(limeValue)
         }
 
     private fun mapInitializerList(limeValue: LimeValue.InitializerList): String {
@@ -106,5 +108,21 @@ internal class JavaValueResolver(private val nameResolver: JavaNameResolver) {
             LimeValue.Special.ValueId.NEGATIVE_INFINITY -> "NEGATIVE_INFINITY"
         }
         return "$prefix.$value"
+    }
+
+    private fun mapDurationValue(limeValue: LimeValue.Duration): String {
+        val factoryMethod = when (limeValue.timeUnit) {
+            TimeUnit.DAY -> "ofDays"
+            TimeUnit.HOUR -> "ofHours"
+            TimeUnit.MINUTE -> "ofMinutes"
+            TimeUnit.SECOND -> "ofSeconds"
+            TimeUnit.MILLISECOND -> "ofMillis"
+            TimeUnit.MICROSECOND, TimeUnit.NANOSECOND -> "ofNanos"
+        }
+        val valueSuffix = when (limeValue.timeUnit) {
+            TimeUnit.MICROSECOND -> "000L"
+            else -> "L"
+        }
+        return "Duration.$factoryMethod(${limeValue.value}$valueSuffix)"
     }
 }

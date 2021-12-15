@@ -48,6 +48,7 @@ import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.lime.LimeValue
+import com.here.gluecodium.model.lime.LimeValue.Duration.TimeUnit
 import com.here.gluecodium.model.lime.LimeVisibility
 
 internal class DartNameResolver(
@@ -168,9 +169,25 @@ internal class DartNameResolver(
                     separator = ", "
                 ) { resolveValue(it) }
             }
-            is LimeValue.KeyValuePair ->
-                "${resolveValue(limeValue.key)}: ${resolveValue(limeValue.value)}"
+            is LimeValue.KeyValuePair -> "${resolveValue(limeValue.key)}: ${resolveValue(limeValue.value)}"
+            is LimeValue.Duration -> resolveDurationValue(limeValue)
         }
+
+    private fun resolveDurationValue(limeValue: LimeValue.Duration): String {
+        val parameterName: String = when (limeValue.timeUnit) {
+            TimeUnit.DAY -> "days"
+            TimeUnit.HOUR -> "hours"
+            TimeUnit.MINUTE -> "minutes"
+            TimeUnit.SECOND -> "seconds"
+            TimeUnit.MILLISECOND -> "milliseconds"
+            TimeUnit.MICROSECOND, TimeUnit.NANOSECOND -> "microseconds"
+        }
+        val valueLiteral = when (limeValue.timeUnit) {
+            TimeUnit.NANOSECOND -> "(${limeValue.value} / 1000.0).floor()"
+            else -> limeValue.value
+        }
+        return "Duration($parameterName: $valueLiteral)"
+    }
 
     private fun resolveGenericType(limeType: LimeGenericType) =
         when (limeType) {

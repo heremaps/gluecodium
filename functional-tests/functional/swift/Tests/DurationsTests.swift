@@ -87,6 +87,19 @@ class DurationsTests: XCTestCase {
         XCTAssertEqual(result.durationField, 42.042, accuracy: 1e-6)
     }
 
+    func testDurationDefaults() {
+        let swiftDefaults = DurationDefaults()
+        let cppDefaults = DurationDefaults.getCppDefaults()
+
+        XCTAssertEqual(swiftDefaults.dayz, cppDefaults.dayz)
+        XCTAssertEqual(swiftDefaults.hourz, cppDefaults.hourz)
+        XCTAssertEqual(swiftDefaults.minutez, cppDefaults.minutez)
+        XCTAssertEqual(swiftDefaults.secondz, cppDefaults.secondz)
+        XCTAssertEqual(swiftDefaults.milliz, cppDefaults.milliz)
+        XCTAssertEqual(swiftDefaults.microz, cppDefaults.microz)
+        XCTAssertEqual(swiftDefaults.nanoz, cppDefaults.nanoz)
+    }
+
     static var allTests = [
         ("testDurationSecondsRoundTrip", testDurationSecondsRoundTrip),
         ("testDurationSecondsRoundTripRoundedDown", testDurationSecondsRoundTripRoundedDown),
@@ -99,6 +112,7 @@ class DurationsTests: XCTestCase {
         ("testDurationMillisecondsRoundTripRoundedUp", testDurationMillisecondsRoundTripRoundedUp),
         ("testNullableDurationMillisecondsRoundTrip", testNullableDurationMillisecondsRoundTrip),
         ("testNullableDurationMillisecondsRoundTripNil", testNullableDurationMillisecondsRoundTripNil),
-        ("testDurationMillisecondsStructRoundTrip", testDurationMillisecondsStructRoundTrip)
+        ("testDurationMillisecondsStructRoundTrip", testDurationMillisecondsStructRoundTrip),
+        ("testDurationDefaults", testDurationDefaults)
     ]
 }

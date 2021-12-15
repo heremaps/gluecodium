@@ -18,6 +18,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+#include "test/DurationDefaults.h"
 #include "test/DurationMilliseconds.h"
 #include "test/DurationOverloads.h"
 #include "test/DurationSeconds.h"
@@ -64,6 +65,11 @@ DurationOverloads::duration_function(const seconds input) {
 std::string
 DurationOverloads::duration_function(const std::string& input) {
     return "string overload";
+}
+
+DurationDefaults
+DurationDefaults::get_cpp_defaults() {
+    return DurationDefaults();
 }
 
 }

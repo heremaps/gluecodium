@@ -51,6 +51,7 @@ import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeValue
+import com.here.gluecodium.model.lime.LimeValue.Duration.TimeUnit
 import com.here.gluecodium.model.lime.LimeVisibility
 
 internal class SwiftNameResolver(
@@ -145,7 +146,22 @@ internal class SwiftNameResolver(
                     .joinToString(prefix = "${resolveReferenceName(actualType)}(", postfix = ")", separator = ", ")
             }
             is LimeValue.KeyValuePair -> "${resolveValue(limeValue.key)}: ${resolveValue(limeValue.value)}"
+            is LimeValue.Duration -> resolveDurationValue(limeValue)
         }
+
+    private fun resolveDurationValue(limeValue: LimeValue.Duration): String {
+        val multiplier = when (limeValue.timeUnit) {
+            TimeUnit.DAY -> 3600 * 24
+            TimeUnit.HOUR -> 3600
+            TimeUnit.MINUTE -> 60
+            TimeUnit.SECOND -> null
+            TimeUnit.MILLISECOND -> 1e-3
+            TimeUnit.MICROSECOND -> 1e-6
+            TimeUnit.NANOSECOND -> 1e-9
+        }
+        val multiplierSuffix = multiplier?.let { " * $it" } ?: ""
+        return limeValue.value + multiplierSuffix
+    }
 
     private fun resolveGenericType(limeType: LimeGenericType) =
         when (limeType) {

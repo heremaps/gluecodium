@@ -52,6 +52,7 @@ import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeValue
+import com.here.gluecodium.model.lime.LimeValue.Duration.TimeUnit
 import com.here.gluecodium.model.lime.LimeValue.Special.ValueId
 
 /**
@@ -181,9 +182,26 @@ internal class CppNameResolver(
             is LimeValue.Null -> "${resolveName(limeValue.typeRef)}()"
             is LimeValue.InitializerList -> limeValue.values.joinToString(", ", "{", "}") { resolveValue(it) }
             is LimeValue.StructInitializer -> limeValue.values.joinToString(", ", "{", "}") { resolveValue(it) }
-            is LimeValue.KeyValuePair ->
-                "{${resolveValue(limeValue.key)}, ${resolveValue(limeValue.value)}}"
+            is LimeValue.KeyValuePair -> "{${resolveValue(limeValue.key)}, ${resolveValue(limeValue.value)}}"
+            is LimeValue.Duration -> resolveDurationValue(limeValue)
         }
+
+    private fun resolveDurationValue(limeValue: LimeValue.Duration): String {
+        val typeName = resolveBasicType(TypeId.DURATION, limeValue.typeRef.attributes)
+        val factoryMethod = when (limeValue.timeUnit) {
+            TimeUnit.DAY, TimeUnit.HOUR -> "::std::chrono::hours"
+            TimeUnit.MINUTE -> "::std::chrono::minutes"
+            TimeUnit.SECOND -> "::std::chrono::seconds"
+            TimeUnit.MILLISECOND -> "::std::chrono::milliseconds"
+            TimeUnit.MICROSECOND -> "::std::chrono::microseconds"
+            TimeUnit.NANOSECOND -> "::std::chrono::nanoseconds"
+        }
+        val multiplierSuffix = when (limeValue.timeUnit) {
+            TimeUnit.DAY -> " * 24"
+            else -> ""
+        }
+        return "::std::chrono::duration_cast<$typeName>($factoryMethod(${limeValue.value}$multiplierSuffix))"
+    }
 
     private fun resolveGenericType(limeType: LimeGenericType, attributes: LimeAttributes? = null) =
         when (limeType) {

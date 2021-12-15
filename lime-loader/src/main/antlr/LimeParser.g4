@@ -212,6 +212,7 @@ literalConstant
     | structInitializer
     | listInitializer
     | mapInitializer
+    | durationLiteral
     | BooleanLiteral
     | ('+' | '-')? IntegerLiteral
     | ('+' | '-')? DoubleLiteral
@@ -258,6 +259,10 @@ mapInitializer
 
 keyValuePair
     : literalConstant NewLine* ':' NewLine* literalConstant
+    ;
+
+durationLiteral
+    : ('+' | '-')? DurationLiteral
     ;
 
 // Identifiers
