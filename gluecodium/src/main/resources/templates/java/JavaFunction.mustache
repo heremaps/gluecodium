@@ -24,7 +24,8 @@ private {{#if isStatic}}static {{/if}}boolean is_cached_{{resolveName}} = false;
 
 {{>java/JavaMethodComment}}
 {{#returnType}}{{>java/NullabilityAnnotations}}{{/returnType}}
-{{resolveName visibility}}{{#if isStatic}}static {{/if}}{{resolveName returnType}} {{resolveName}}({{!!
+{{#if forcePublic}}public {{/if}}{{#unless forcePublic}}{{resolveName visibility}}{{/unless}}{{!!
+}}{{#if isStatic}}static {{/if}}{{resolveName returnType}} {{resolveName}}({{!!
 }}{{joinPartial parameters "java/JavaParameter" ", "}}) {
     if (!is_cached_{{resolveName}}) {
         cache_{{resolveName}} = {{resolveName}}_private({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});

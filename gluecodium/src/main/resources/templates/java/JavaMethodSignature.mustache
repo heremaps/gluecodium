@@ -25,7 +25,7 @@
 }}{{#if override}}
 @Override
 {{/if}}
-{{#unless isInterface}}{{#if isImpl}}public {{/if}}{{#unless isImpl}}{{resolveName visibility}}{{/unless}}{{/unless}}{{!!
+{{#unless isInterface}}{{#if forcePublic}}public {{/if}}{{#unless forcePublic}}{{resolveName visibility}}{{/unless}}{{/unless}}{{!!
 }}{{#if isStatic}}static {{/if}}{{#unless isInterface}}native {{/unless}}{{resolveName returnType}}{{/unless}}{{!!
 }} {{resolveName}}{{#if isCached}}_private{{/if}}{{!!
 }}({{joinPartial parameters "java/JavaParameter" ", "}}){{#thrownType}} throws {{resolveName typeRef}}{{/thrownType}}

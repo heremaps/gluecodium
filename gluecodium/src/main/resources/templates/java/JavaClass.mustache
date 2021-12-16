@@ -75,7 +75,7 @@
 {{/setter}}{{/set}}
 {{/properties}}
 
-{{#if this.parentInterfaces}}{{#set override=true classElement=this}}
+{{#if this.parentInterfaces}}{{#set override=true classElement=this forcePublic=true}}
 {{#set isClass=true}}{{#classElement.interfaceInheritedFunctions}}
 {{prefixPartial "java/JavaFunction" "    "}}
 {{/classElement.interfaceInheritedFunctions}}{{/set}}
