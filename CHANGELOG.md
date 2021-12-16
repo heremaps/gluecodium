@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 10.5.1
+Release date: 2021-12-16
 ### Bug fixes:
   * Fixed a compilation issue in Java when an `internal` class inherits from an `internal` interface.
 
