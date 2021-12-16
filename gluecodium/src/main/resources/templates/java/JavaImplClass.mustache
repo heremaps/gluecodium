@@ -43,7 +43,7 @@ static {{/if}}class {{resolveName}}Impl extends NativeBase implements {{resolveN
 
 {{/if}}
 
-{{#set isImpl=true interface=this}}{{#functions}}
+{{#set forcePublic=true interface=this}}{{#functions}}
 {{prefixPartial "java/JavaFunction" "    "}}
 {{/functions}}
 {{#interface.properties}}{{#set isCached=attributes.cached}}
