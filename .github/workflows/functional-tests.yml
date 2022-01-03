@@ -276,8 +276,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/dart_sdk
-          key: ${{ runner.os }}-dart-2.12.0-stable
-          restore-keys: ${{ runner.os }}-dart-2.12.0-stable
+          key: ${{ runner.os }}-dart-2.13.3-stable
+          restore-keys: ${{ runner.os }}-dart-2.13.3-stable
       - name: Install CMake
         uses: jwlawson/actions-setup-cmake@v1.7
         with:
@@ -289,7 +289,7 @@ jobs:
           export DART_ROOT=${HOME}/dart_sdk
           export DART_BIN=${DART_ROOT}/bin
           export PATH=${PATH}:${PWD}/depot_tools:${DART_BIN}
-          DART_VERSION=2.12.0
+          DART_VERSION=2.13.3
           if [ ! -d "${DART_ROOT}/bin" ]; then
             sudo apt install -y python2
             sudo update-alternatives --install /usr/bin/python python /usr/bin/python2 1
