@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 10.5.2
+Release date: 2022-01-04
 ### Bug fixes:
   * Fixed a compilation issue in Dart when combining `Duration` literals with `@Dart(PositionalDefaults)`.
 
