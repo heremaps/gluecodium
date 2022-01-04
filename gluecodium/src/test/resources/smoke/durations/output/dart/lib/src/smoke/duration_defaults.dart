@@ -11,7 +11,7 @@ class DurationDefaults {
   Duration nanoz;
   DurationDefaults(this.dayz, this.hourz, this.minutez, this.secondz, this.milliz, this.microz, this.nanoz);
   DurationDefaults.withDefaults()
-    : dayz = Duration(days: 28), hourz = Duration(hours: 22), minutez = Duration(minutes: 45), secondz = Duration(seconds: 42), milliz = Duration(milliseconds: 500), microz = Duration(microseconds: 665), nanoz = Duration(microseconds: (314635 / 1000.0).floor());
+    : dayz = const Duration(days: 28), hourz = const Duration(hours: 22), minutez = const Duration(minutes: 45), secondz = const Duration(seconds: 42), milliz = const Duration(milliseconds: 500), microz = const Duration(microseconds: 665), nanoz = const Duration(microseconds: 314);
 }
 // DurationDefaults "private" section, not exported.
 final _smokeDurationdefaultsCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<

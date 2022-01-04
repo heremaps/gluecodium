@@ -51,3 +51,10 @@ struct StructWithCollectionDefaults {
     mapField: Map<String, String> = ["foo": "bar"]
     setField: Set<String> = ["foo", "bar"]
 }
+
+@Dart(PositionalDefaults)
+@Java(Skip) @Swift(Skip)
+struct PosDefaultsWithDuration {
+    durationField: Duration = 42s
+    nanosField: Duration = 28567ns
+}

@@ -60,3 +60,10 @@ struct DartDeprecatedPosDefaultsCustom {
     stringField: String
     constructor custom()
 }
+
+@Dart(PositionalDefaults)
+@Java(Skip) @Swift(Skip)
+struct PosDefaultsWithDuration {
+    durationField: Duration = 42s
+    nanosField: Duration = 28567ns
+}

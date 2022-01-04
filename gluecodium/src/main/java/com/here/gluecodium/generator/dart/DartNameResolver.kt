@@ -183,10 +183,11 @@ internal class DartNameResolver(
             TimeUnit.MICROSECOND, TimeUnit.NANOSECOND -> "microseconds"
         }
         val valueLiteral = when (limeValue.timeUnit) {
-            TimeUnit.NANOSECOND -> "(${limeValue.value} / 1000.0).floor()"
+            // Convert to microseconds during generation to have a compile-time constant in Dart.
+            TimeUnit.NANOSECOND -> (limeValue.value.toDouble() / 1000.0).toInt().toString()
             else -> limeValue.value
         }
-        return "Duration($parameterName: $valueLiteral)"
+        return "const Duration($parameterName: $valueLiteral)"
     }
 
     private fun resolveGenericType(limeType: LimeGenericType) =
