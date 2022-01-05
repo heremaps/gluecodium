@@ -63,6 +63,9 @@ internal class CBridgeGeneratorPredicates(
                 else -> true
             }
         },
+        "needsRefSuffix" to { limeTypeRef: Any ->
+            limeTypeRef is LimeTypeRef && CppNameResolver.needsRefSuffix(limeTypeRef)
+        },
         "shouldRetain" to { limeElement: Any ->
             limeElement is LimeNamedElement && shouldRetain(limeElement)
         }

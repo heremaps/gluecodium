@@ -98,7 +98,8 @@ const void* {{resolveName}}_get_swift_object_from_cache(_baseRef handle) {
 }
 
 {{+cppParameter}}{{!!
-}}{{#ifPredicate typeRef "isComplexType"}}const {{resolveName typeRef "C++"}}&{{/ifPredicate}}{{!!
+}}{{#ifPredicate typeRef "isComplexType"}}{{!!
+}}const {{resolveName typeRef "C++"}}{{#ifPredicate typeRef "needsRefSuffix"}}&{{/ifPredicate}}{{/ifPredicate}}{{!!
 }}{{#unlessPredicate typeRef "isComplexType"}}{{!!
 }}{{#instanceOf typeRef.type.actualType "LimeEnumeration"}}const {{resolveName typeRef "C++"}}{{/instanceOf}}{{!!
 }}{{#notInstanceOf typeRef.type.actualType "LimeEnumeration"}}{{resolveName typeRef "C++"}}{{/notInstanceOf}}{{!!

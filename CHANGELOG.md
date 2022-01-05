@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed a compilation issue in Swift for interface function with `Duration` type parameter.
+
 ## 10.5.2
 Release date: 2022-01-04
 ### Bug fixes:

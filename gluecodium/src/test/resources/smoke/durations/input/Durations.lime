@@ -56,3 +56,7 @@ class DurationOverloads {
     fun durationFunction(input: Duration): String
     fun durationFunction(input: String): String
 }
+
+interface DurationInterface {
+    fun durationFunction(input: Duration): String
+}
