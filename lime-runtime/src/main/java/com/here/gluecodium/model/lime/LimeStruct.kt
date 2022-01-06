@@ -52,18 +52,26 @@ class LimeStruct(
     override val childTypes
         get() = fields.map { it.typeRef }
 
-    @Suppress("unused")
     val initializedFields
         get() = fields.filter { it.defaultValue != null }
 
     val uninitializedFields
         get() = fields.filter { it.defaultValue == null }
 
+    @Suppress("unused")
     val publicFields
         get() = fields.filter { !it.visibility.isInternal }
 
     val internalFields
         get() = fields.filter { it.visibility.isInternal }
+
+    @Suppress("unused")
+    val deprecatedFields
+        get() = fields.filter { it.attributes.have(LimeAttributeType.DEPRECATED) }
+
+    @Suppress("unused")
+    val availableFields
+        get() = fields.filter { !it.attributes.have(LimeAttributeType.DEPRECATED) }
 
     val allFieldsConstructor
         get() = fieldConstructors.firstOrNull { it.fieldRefs.size == fields.size }

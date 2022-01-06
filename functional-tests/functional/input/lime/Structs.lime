@@ -105,3 +105,11 @@ class PlainDataStructures {
     // Static test method which checks that all fields in the Point struct are initialized in C++
     static fun checkAllFieldsAreInitialized(): Boolean
 }
+
+@Skip(Java, Dart)
+struct DeprecatedFields {
+    normalField1: String
+    @Deprecated
+    deprecatedField: String = ""
+    normalField2: String
+}

@@ -70,13 +70,34 @@
 
 {{#resolveName constructorComment}}{{#unless this.isEmpty}}
 {{prefix this "    /// "}}
-{{#if publicFields}}
+{{#if availableFields}}
+    /// - Parameters
+{{#availableFields}}
+    ///   - {{resolveName}}: {{#resolveName comment}}{{#unless this.isEmpty}}{{prefix this "    ///       " skipFirstLine=true}}{{/unless}}{{/resolveName}}
+{{/availableFields}}
+{{/if}}
+{{/unless}}{{/resolveName}}
+    {{#ifPredicate "hasInternalAvailableFields"}}internal{{/ifPredicate}}{{!!
+    }}{{#unless internalFields}}{{>swift/TypeVisibility}}{{/unless}}{{!!
+    }} init({{joinPartial availableFields "initParameter" ", "}}) {
+{{#availableFields}}
+        self.{{resolveName}} = {{resolveName}}
+{{/availableFields}}
+{{#deprecatedFields}}
+        self.{{resolveName}} = {{resolveName defaultValue}}
+{{/deprecatedFields}}
+    }{{!!
+
+}}{{#if deprecatedFields}}
+
+{{#resolveName constructorComment}}{{#unless this.isEmpty}}
+{{prefix this "    /// "}}
     /// - Parameters
 {{#fields}}
     ///   - {{resolveName}}: {{#resolveName comment}}{{#unless this.isEmpty}}{{prefix this "    ///       " skipFirstLine=true}}{{/unless}}{{/resolveName}}
 {{/fields}}
-{{/if}}
 {{/unless}}{{/resolveName}}
+    @available(*, deprecated)
     {{#if internalFields}}internal{{/if}}{{!!
     }}{{#unless internalFields}}{{>swift/TypeVisibility}}{{/unless}}{{!!
     }} init({{joinPartial fields "initParameter" ", "}}) {
@@ -84,7 +105,7 @@
         self.{{resolveName}} = {{resolveName}}
 {{/fields}}
     }
-{{/ifPredicate}}{{!!
+{{/if}}{{/ifPredicate}}{{!!
 
 }}{{/unless}}{{!!
 

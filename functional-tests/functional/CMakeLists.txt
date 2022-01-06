@@ -133,7 +133,7 @@ feature(InstanceInStruct cpp android swift dart SOURCES
 feature(Structs cpp android swift dart SOURCES
     input/src/cpp/PlainDataStructures.cpp
 
-    input/lime/PlainDataStructures.lime
+    input/lime/Structs.lime
 )
 
 feature(StructsInTypes cpp android swift dart SOURCES

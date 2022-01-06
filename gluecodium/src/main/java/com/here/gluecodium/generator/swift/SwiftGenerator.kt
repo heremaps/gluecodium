@@ -104,9 +104,11 @@ internal class SwiftGenerator : Generator {
         val overloadsValidator =
             LimeOverloadsValidator(swiftSignatureResolver, limeLogger, validateCustomConstructors = true)
         val weakPropertiesValidator = SwiftWeakPropertiesValidator(limeLogger)
+        val fieldsValidator = SwiftFieldsValidator(limeLogger)
         val validationResults = listOf(
             overloadsValidator.validate(cbridgeFilteredModel.referenceMap.values),
-            weakPropertiesValidator.validate(cbridgeFilteredModel.referenceMap.values)
+            weakPropertiesValidator.validate(cbridgeFilteredModel.referenceMap.values),
+            fieldsValidator.validate(cbridgeFilteredModel.referenceMap.values)
         )
         if (validationResults.contains(false)) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
