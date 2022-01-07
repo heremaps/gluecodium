@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Deprecation message strings in Swift generated code are now properly escaped.
+
 ## 10.5.3
 Release date: 2022-01-05
 ### Bug fixes:

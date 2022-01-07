@@ -21,7 +21,7 @@
 {{#ifPredicate "hasAnyComment"}}
 {{prefixPartial "combinedComment" "/// "}}{{#if comment.isExcluded}}
 /// :nodoc:{{/if}}{{#attributes.deprecated}}
-@available(*, deprecated{{#if message}}, message: "{{resolveName message}}"{{/if}}){{/attributes.deprecated}}
+@available(*, deprecated{{#if message}}, message: "{{#resolveName message}}{{escape this}}{{/resolveName}}"{{/if}}){{/attributes.deprecated}}
 {{/ifPredicate}}{{!!
 
 }}{{+combinedComment}}{{resolveName comment}}{{!!
