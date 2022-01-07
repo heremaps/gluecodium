@@ -53,7 +53,7 @@
 }}{{#if this.comment.isExcluded}}    /// :nodoc:
 {{/if}}{{/ifPredicate}}{{!!
 }}{{#attributes.deprecated}}
-    @available(*, deprecated{{#if message}}, message: "{{resolveName message}}"{{/if}}){{/attributes.deprecated}}
+    @available(*, deprecated{{#if message}}, message: "{{#resolveName message}}{{escape this}}{{/resolveName}}"{{/if}}){{/attributes.deprecated}}
 {{prefixPartial "swift/SwiftAttributes" "    "}}
     {{>swift/TypeVisibility}} init({{!!
     }}{{#fields}}{{>ctorParameter}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {

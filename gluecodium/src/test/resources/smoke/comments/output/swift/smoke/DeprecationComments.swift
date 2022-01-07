@@ -10,8 +10,7 @@ public protocol DeprecationComments : AnyObject {
     @available(*, deprecated, message: "Unfortunately, this exception is deprecated, please use `Comments.SomethingWrongError` instead.")
     typealias SomethingWrongError = SomeEnum
     /// Some very useful property.
-    @available(*, deprecated, message: "Unfortunately, this property is deprecated.
-    Use `Comments.isSomeProperty` instead.")
+    @available(*, deprecated, message: "Unfortunately, this property is deprecated.\nUse `Comments.isSomeProperty` instead.")
     var isSomeProperty: DeprecationComments.Usefulness { get set }
     /// Describes the property but not accessors.
     @available(*, deprecated, message: "Will be removed in v3.2.1.")
@@ -19,8 +18,7 @@ public protocol DeprecationComments : AnyObject {
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter input: Very useful input parameter
     /// - Returns: Usefulness of the input
-    @available(*, deprecated, message: "Unfortunately, this method is deprecated.
-    Use `Comments.someMethodWithAllComments(...)` instead.")
+    @available(*, deprecated, message: "Unfortunately, this method is deprecated.\nUse `Comments.someMethodWithAllComments(...)` instead.")
     func someMethodWithAllComments(input: String) -> DeprecationComments.Usefulness
 }
 internal class _DeprecationComments: DeprecationComments {
@@ -28,8 +26,7 @@ internal class _DeprecationComments: DeprecationComments {
     @available(*, deprecated, message: "Unfortunately, this constant is deprecated. Use `Comments.veryUseful` instead.")
     public static let veryUseful: DeprecationComments.Usefulness = true
     /// Some very useful property.
-    @available(*, deprecated, message: "Unfortunately, this property is deprecated.
-    Use `Comments.isSomeProperty` instead.")
+    @available(*, deprecated, message: "Unfortunately, this property is deprecated.\nUse `Comments.isSomeProperty` instead.")
     var isSomeProperty: DeprecationComments.Usefulness {
         get {
             let c_result_handle = smoke_DeprecationComments_isSomeProperty_get(self.c_instance)
@@ -66,8 +63,7 @@ internal class _DeprecationComments: DeprecationComments {
     /// This is some very useful method that measures the usefulness of its input.
     /// - Parameter input: Very useful input parameter
     /// - Returns: Usefulness of the input
-    @available(*, deprecated, message: "Unfortunately, this method is deprecated.
-    Use `Comments.someMethodWithAllComments(...)` instead.")
+    @available(*, deprecated, message: "Unfortunately, this method is deprecated.\nUse `Comments.someMethodWithAllComments(...)` instead.")
     public func someMethodWithAllComments(input: String) -> DeprecationComments.Usefulness {
         let c_input = moveToCType(input)
         let c_result_handle = smoke_DeprecationComments_someMethodWithAllComments(self.c_instance, c_input.ref)
@@ -78,8 +74,7 @@ internal class _DeprecationComments: DeprecationComments {
 @available(*, deprecated, message: "Unfortunately, this enum is deprecated. Use `Comments.SomeEnum` instead.")
 public enum SomeEnum : UInt32, CaseIterable, Codable {
     /// Not quite useful
-    @available(*, deprecated, message: "Unfortunately, this item is deprecated.
-    Use `Comments.SomeEnum.useless` instead.")
+    @available(*, deprecated, message: "Unfortunately, this item is deprecated.\nUse `Comments.SomeEnum.useless` instead.")
     case useless
     public static var allCases: [SomeEnum] {
         return [.useless]
@@ -112,8 +107,7 @@ public enum SomeEnum : UInt32, CaseIterable, Codable {
 @available(*, deprecated, message: "Unfortunately, this struct is deprecated. Use `Comments.SomeStruct` instead.")
 public struct SomeStruct {
     /// How useful this struct is.
-    @available(*, deprecated, message: "Unfortunately, this field is deprecated.
-    Use `Comments.SomeStruct.someField` instead.")
+    @available(*, deprecated, message: "Unfortunately, this field is deprecated.\nUse `Comments.SomeStruct.someField` instead.")
     public var someField: DeprecationComments.Usefulness
     public init(someField: DeprecationComments.Usefulness) {
         self.someField = someField
