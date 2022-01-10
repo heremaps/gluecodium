@@ -15,7 +15,7 @@ enum class Enum {
 struct _GLUECODIUM_CPP_EXPORT Struct {
     ::package::Enum null = ::package::Enum::NA_N;
     Struct( );
-    Struct( ::package::Enum null );
+    explicit Struct( ::package::Enum null );
 };
 using ULong = ::std::vector< ::package::Struct >;
 _GLUECODIUM_CPP_EXPORT extern const ::package::Enum CONST;

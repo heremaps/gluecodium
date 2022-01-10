@@ -216,7 +216,7 @@ Arrays::create_fancy_struct( )
 std::vector< ArrayNameClash::StringArray >
 ArrayNameClash::double_speak( const std::vector< ArrayNameClash::CakeArray >& input )
 {
-    return std::vector< ArrayNameClash::StringArray >{input.size( ), {true}};
+    return std::vector< ArrayNameClash::StringArray >{input.size( ), ArrayNameClash::StringArray{true}};
 }
 
 std::vector<CountDispenser::Holder> CountDispenser::count_characters(const std::vector<NameDispenser::Holder>& input) {

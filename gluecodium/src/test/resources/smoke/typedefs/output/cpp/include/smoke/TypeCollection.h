@@ -17,7 +17,7 @@ using PointTypeDef = ::smoke::Point;
 struct _GLUECODIUM_CPP_EXPORT StructHavingAliasFieldDefinedBelow {
     ::smoke::StorageId field;
     StructHavingAliasFieldDefinedBelow( );
-    StructHavingAliasFieldDefinedBelow( ::smoke::StorageId field );
+    explicit StructHavingAliasFieldDefinedBelow( ::smoke::StorageId field );
 };
 _GLUECODIUM_CPP_EXPORT extern const ::smoke::StorageId INVALID_STORAGE_ID;
 }

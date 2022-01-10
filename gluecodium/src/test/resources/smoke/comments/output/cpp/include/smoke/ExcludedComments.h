@@ -60,7 +60,7 @@ public:
          * \param some_field How useful this struct is
          * remains to be seen
          */
-        SomeStruct( ::smoke::ExcludedComments::Usefulness some_field );
+        explicit SomeStruct( ::smoke::ExcludedComments::Usefulness some_field );
     };
     /**
      * This is some very useful constant.

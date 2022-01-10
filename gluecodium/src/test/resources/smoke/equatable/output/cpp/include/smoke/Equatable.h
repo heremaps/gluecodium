@@ -21,7 +21,7 @@ using ErrorCodeToMessageMap = ::std::unordered_map< int32_t, ::std::string >;
 struct _GLUECODIUM_CPP_EXPORT NestedEquatableStruct {
     ::std::string foo_field;
     NestedEquatableStruct( );
-    NestedEquatableStruct( ::std::string foo_field );
+    explicit NestedEquatableStruct( ::std::string foo_field );
     bool operator==( const NestedEquatableStruct& rhs ) const;
     bool operator!=( const NestedEquatableStruct& rhs ) const;
 };

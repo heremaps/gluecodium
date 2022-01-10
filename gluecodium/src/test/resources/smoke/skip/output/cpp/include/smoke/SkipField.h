@@ -9,6 +9,6 @@ namespace smoke {
 struct _GLUECODIUM_CPP_EXPORT SkipField {
     ::std::string field;
     SkipField( );
-    SkipField( ::std::string field );
+    explicit SkipField( ::std::string field );
 };
 }

@@ -68,7 +68,7 @@ public:
         ::std::vector< int32_t > ints_field = {};
         ::smoke::DefaultValues::FloatArray floats_field = {};
         ::smoke::DefaultValues::IdToStringMap map_field = {};
-        ::smoke::DefaultValues::StructWithDefaults struct_field = {};
+        ::smoke::DefaultValues::StructWithDefaults struct_field = ::smoke::DefaultValues::StructWithDefaults{};
         ::smoke::DefaultValues::StringSet set_type_field = {};
         StructWithEmptyDefaults( );
         StructWithEmptyDefaults( ::std::vector< int32_t > ints_field, ::smoke::DefaultValues::FloatArray floats_field, ::smoke::DefaultValues::IdToStringMap map_field, ::smoke::DefaultValues::StructWithDefaults struct_field, ::smoke::DefaultValues::StringSet set_type_field );

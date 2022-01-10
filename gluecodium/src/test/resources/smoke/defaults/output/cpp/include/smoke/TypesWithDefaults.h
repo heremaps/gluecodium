@@ -39,6 +39,6 @@ struct _GLUECODIUM_CPP_EXPORT ImmutableStructWithDefaults {
 struct _GLUECODIUM_CPP_EXPORT StructWithAnEnum {
     ::smoke::AnEnum config = ::smoke::AnEnum::ENABLED;
     StructWithAnEnum( );
-    StructWithAnEnum( ::smoke::AnEnum config );
+    explicit StructWithAnEnum( ::smoke::AnEnum config );
 };
 }

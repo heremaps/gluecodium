@@ -66,8 +66,8 @@ Lambdas::concatenate_list(const std::vector<std::string>& strings,
 Lambdas::LambdaHolder
 Lambdas::get_concatenator_in_struct(const std::string& delimiter)
 {
-    return {[delimiter](const std::string& string1,
-                        const std::string& string2){ return string1 + delimiter + string2; }};
+    return Lambdas::LambdaHolder{[delimiter](const std::string& string1,
+                                             const std::string& string2){ return string1 + delimiter + string2; }};
 }
 
 std::string

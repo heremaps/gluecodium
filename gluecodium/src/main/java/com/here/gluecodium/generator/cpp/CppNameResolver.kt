@@ -181,7 +181,8 @@ internal class CppNameResolver(
             }
             is LimeValue.Null -> "${resolveName(limeValue.typeRef)}()"
             is LimeValue.InitializerList -> limeValue.values.joinToString(", ", "{", "}") { resolveValue(it) }
-            is LimeValue.StructInitializer -> limeValue.values.joinToString(", ", "{", "}") { resolveValue(it) }
+            is LimeValue.StructInitializer ->
+                limeValue.values.joinToString(", ", "${resolveName(limeValue.typeRef)}{", "}") { resolveValue(it) }
             is LimeValue.KeyValuePair -> "{${resolveValue(limeValue.key)}, ${resolveValue(limeValue.value)}}"
             is LimeValue.Duration -> resolveDurationValue(limeValue)
         }

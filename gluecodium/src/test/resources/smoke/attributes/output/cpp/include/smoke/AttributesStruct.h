@@ -12,7 +12,7 @@ struct _GLUECODIUM_CPP_EXPORT [[OnStruct]] AttributesStruct {
     [[OnField]]
     ::std::string field;
     AttributesStruct( );
-    AttributesStruct( ::std::string field );
+    explicit AttributesStruct( ::std::string field );
     [[OnFunctionInStruct]]
     void very_fun( [[OnParameterInStruct]] const ::std::string& param ) const;
 };

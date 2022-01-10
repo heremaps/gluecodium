@@ -25,7 +25,7 @@ public:
     struct _GLUECODIUM_CPP_EXPORT ExampleStruct {
         double value;
         ExampleStruct( );
-        ExampleStruct( double value );
+        explicit ExampleStruct( double value );
     };
 public:
     virtual uint32_t get_built_in_type_property(  ) const = 0;

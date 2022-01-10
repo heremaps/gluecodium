@@ -38,7 +38,7 @@ public:
          */
         ::smoke::DeprecationCommentsOnly::Usefulness some_field;
         SomeStruct( );
-        SomeStruct( ::smoke::DeprecationCommentsOnly::Usefulness some_field );
+        explicit SomeStruct( ::smoke::DeprecationCommentsOnly::Usefulness some_field );
     };
     /**
      * \deprecated Unfortunately, this constant is deprecated.

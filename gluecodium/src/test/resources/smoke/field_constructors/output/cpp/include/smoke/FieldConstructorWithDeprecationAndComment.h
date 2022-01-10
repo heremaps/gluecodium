@@ -14,6 +14,6 @@ struct _GLUECODIUM_CPP_EXPORT FieldConstructorWithDeprecationAndComment {
      * \deprecated Shouldn't really use it
      * \param string_field
      */
-    FieldConstructorWithDeprecationAndComment( ::std::string string_field );
+    explicit FieldConstructorWithDeprecationAndComment( ::std::string string_field );
 };
 }

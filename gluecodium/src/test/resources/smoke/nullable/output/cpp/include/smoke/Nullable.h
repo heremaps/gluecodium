@@ -30,7 +30,7 @@ public:
     struct _GLUECODIUM_CPP_EXPORT SomeStruct {
         ::std::string string_field;
         SomeStruct( );
-        SomeStruct( ::std::string string_field );
+        explicit SomeStruct( ::std::string string_field );
     };
     struct _GLUECODIUM_CPP_EXPORT NullableStruct {
         ::gluecodium::optional< ::std::string > string_field;

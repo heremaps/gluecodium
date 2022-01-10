@@ -19,6 +19,6 @@ struct _GLUECODIUM_CPP_EXPORT FieldConstructorWithBothComments {
      * This comment takes precedence
      * \param string_field
      */
-    FieldConstructorWithBothComments( ::std::string string_field );
+    explicit FieldConstructorWithBothComments( ::std::string string_field );
 };
 }

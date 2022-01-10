@@ -21,7 +21,7 @@ public:
         [[OnField]]
         ::std::string field;
         SomeStruct( );
-        SomeStruct( ::std::string field );
+        explicit SomeStruct( ::std::string field );
     };
     /**
      * \deprecated

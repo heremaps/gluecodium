@@ -39,7 +39,7 @@ public:
          * constructor comments ::smoke::Comments::SomeStruct
          * \param random_field Some random field ::smoke::Comments::SomeStruct
          */
-        RandomStruct( ::smoke::Comments::SomeStruct random_field );
+        explicit RandomStruct( ::smoke::Comments::SomeStruct random_field );
     };
 public:
     /**

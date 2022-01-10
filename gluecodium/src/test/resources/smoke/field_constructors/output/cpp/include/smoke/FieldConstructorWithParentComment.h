@@ -19,6 +19,6 @@ struct _GLUECODIUM_CPP_EXPORT FieldConstructorWithParentComment {
      * There are constructors
      * \param string_field
      */
-    FieldConstructorWithParentComment( ::std::string string_field );
+    explicit FieldConstructorWithParentComment( ::std::string string_field );
 };
 }
