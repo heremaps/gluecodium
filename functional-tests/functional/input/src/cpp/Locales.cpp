@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/Locales.h"
+#include "test/LocaleDefaults.h"
 #include "test/LocaleGenerics.h"
 #include "test/LocalesStruct.h"
 
@@ -105,5 +106,10 @@ std::unordered_map<std::string, Locale>
 LocaleGenerics::locale_values_map_round_trip(const std::unordered_map<std::string, Locale>& input) {
     return input;
 }
+
+// LocaleDefaults
+
+LocaleDefaults
+LocaleDefaults::get_cpp_defaults() { return {}; }
 
 }

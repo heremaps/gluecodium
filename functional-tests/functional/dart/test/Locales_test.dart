@@ -82,4 +82,18 @@ void main() {
     expect(result, localesStruct);
     expect(result.hashCode == localesStruct.hashCode, isTrue);
   });
+  _testSuite.test("Locale defaults Traditional Chinese Taiwan", () {
+    final result = LocaleDefaults().traditionalChineseTaiwan;
+
+    expect(result.languageCode, "nan");
+    expect(result.scriptCode, "Hant");
+    expect(result.countryCode, "TW");
+  });
+  _testSuite.test("Locale defaults Traditional Chinese Taiwan from C++", () {
+    final result = LocaleDefaults.getCppDefaults().traditionalChineseTaiwan;
+
+    expect(result.languageCode, "nan");
+    expect(result.scriptCode, "Hant");
+    expect(result.countryCode, "TW");
+  });
 }

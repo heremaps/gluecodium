@@ -166,8 +166,7 @@ internal class CppNameResolver(
     private fun resolveValue(limeValue: LimeValue): String =
         when (limeValue) {
             is LimeValue.Literal -> resolveLiteralValue(limeValue)
-            is LimeValue.Enumerator ->
-                nameCache.getFullyQualifiedName(limeValue.valueRef.enumerator)
+            is LimeValue.Enumerator -> nameCache.getFullyQualifiedName(limeValue.valueRef.enumerator)
             is LimeValue.Special -> {
                 val valueType = limeValue.typeRef.type
                 val isFloat = valueType is LimeBasicType && valueType.typeId == TypeId.FLOAT
@@ -192,6 +191,10 @@ internal class CppNameResolver(
             TypeId.DATE -> {
                 val epochSeconds = LimeTypeHelper.dateLiteralEpochSeconds(limeValue.value)
                 "::std::chrono::system_clock::from_time_t($epochSeconds)"
+            }
+            TypeId.LOCALE -> {
+                val localeTag = LimeTypeHelper.normalizeLocaleTag(limeValue.value)
+                "$localeTypeName(std::string{\"$localeTag\"})"
             }
             else -> limeValue.toString()
         }

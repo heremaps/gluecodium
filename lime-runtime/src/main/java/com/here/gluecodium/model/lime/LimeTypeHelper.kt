@@ -22,6 +22,7 @@ package com.here.gluecodium.model.lime
 import java.time.DateTimeException
 import java.time.Instant
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 object LimeTypeHelper {
 
@@ -102,6 +103,16 @@ object LimeTypeHelper {
         }
         return epochSeconds
     }
+
+    fun normalizeLocaleTag(literalText: String): String? {
+        val originalTag = literalText.trim()
+        if (originalTag.toLowerCase() == LOCALE_UND) return LOCALE_UND
+
+        val normalizedTag = Locale.forLanguageTag(originalTag).toLanguageTag()
+        return if (normalizedTag.toLowerCase() != LOCALE_UND) normalizedTag else null
+    }
+
+    private val LOCALE_UND = Locale.forLanguageTag("").toLanguageTag().toLowerCase()
 
     private val limeKeywords = setOf(
         "class", "const", "constructor", "enum", "exception", "external", "field", "fun",

@@ -82,6 +82,9 @@ class LimeValuesValidatorTest(
                 true
             ),
             arrayOf(LimeBasicTypeRef(LimeBasicType.TypeId.DATE), LimeValue.Literal(fooTypeRef, "bar"), false),
+            arrayOf(LimeBasicTypeRef(LimeBasicType.TypeId.LOCALE), LimeValue.Literal(fooTypeRef, "en-US"), true),
+            arrayOf(LimeBasicTypeRef(LimeBasicType.TypeId.LOCALE), LimeValue.Literal(fooTypeRef, "und"), true),
+            arrayOf(LimeBasicTypeRef(LimeBasicType.TypeId.LOCALE), LimeValue.Literal(fooTypeRef, "42"), false),
             arrayOf(LimeBasicTypeRef(LimeBasicType.TypeId.BLOB), LimeValue.Literal(fooTypeRef, ""), false),
             arrayOf(fooTypeRef, LimeValue.Literal(fooTypeRef, ""), false),
             arrayOf(

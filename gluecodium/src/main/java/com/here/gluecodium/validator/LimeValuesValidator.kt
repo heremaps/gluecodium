@@ -93,7 +93,7 @@ internal class LimeValuesValidator(private val logger: LimeLogger) {
         if (nonLiteralTypes.contains(limeType.typeId)) {
             logger.error(
                 limeElement,
-                "string or numeric literal values cannot be assigned to `Blob`, `Duration`, or `Locale` types"
+                "string or numeric literal values cannot be assigned to `Blob` or `Duration` types"
             )
             return false
         }
@@ -101,10 +101,14 @@ internal class LimeValuesValidator(private val logger: LimeLogger) {
             logger.error(limeElement, "invalid `Date` literal:  '$limeValue'")
             return false
         }
+        if (limeType.typeId == TypeId.LOCALE && LimeTypeHelper.normalizeLocaleTag(limeValue.value) == null) {
+            logger.error(limeElement, "invalid `Locale` literal:  '$limeValue'")
+            return false
+        }
         return true
     }
 
     companion object {
-        private val nonLiteralTypes = setOf(TypeId.BLOB, TypeId.DURATION, TypeId.LOCALE)
+        private val nonLiteralTypes = setOf(TypeId.BLOB, TypeId.DURATION)
     }
 }

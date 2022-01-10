@@ -183,6 +183,10 @@ internal class DartNameResolver(
                 val epochSeconds = LimeTypeHelper.dateLiteralEpochSeconds(limeValue.value)?.let { it * 1000 }
                 "DateTime.fromMillisecondsSinceEpoch($epochSeconds)"
             }
+            TypeId.LOCALE -> {
+                val localeTag = LimeTypeHelper.normalizeLocaleTag(limeValue.value)
+                "Locale.parse(\"$localeTag\")"
+            }
             else -> limeValue.toString()
         }
     }
