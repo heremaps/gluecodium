@@ -23,7 +23,7 @@ struct _GLUECODIUM_CPP_EXPORT OuterStruct {
     struct _GLUECODIUM_CPP_EXPORT InnerStruct {
         ::std::vector< ::std::chrono::system_clock::time_point > other_field;
         InnerStruct( );
-        InnerStruct( ::std::vector< ::std::chrono::system_clock::time_point > other_field );
+        explicit InnerStruct( ::std::vector< ::std::chrono::system_clock::time_point > other_field );
         void do_something(  ) const;
     };
     enum class InnerEnum {
@@ -64,7 +64,7 @@ struct _GLUECODIUM_CPP_EXPORT OuterStruct {
     };
     ::std::string field;
     OuterStruct( );
-    OuterStruct( ::std::string field );
+    explicit OuterStruct( ::std::string field );
     ::std::error_code do_nothing(  ) const;
 };
 _GLUECODIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::OuterStruct::InnerEnum value ) noexcept;

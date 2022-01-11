@@ -28,7 +28,7 @@ public:
     struct _GLUECODIUM_CPP_EXPORT DurationStruct {
         ::std::chrono::seconds duration_field;
         DurationStruct( );
-        DurationStruct( ::std::chrono::seconds duration_field );
+        explicit DurationStruct( ::std::chrono::seconds duration_field );
     };
 public:
     virtual ::std::chrono::seconds duration_function( const ::std::chrono::seconds input ) = 0;

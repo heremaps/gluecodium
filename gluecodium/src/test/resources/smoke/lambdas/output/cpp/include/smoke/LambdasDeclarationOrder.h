@@ -15,7 +15,7 @@ public:
     struct _GLUECODIUM_CPP_EXPORT SomeStruct {
         ::std::string some_field;
         SomeStruct( );
-        SomeStruct( ::std::string some_field );
+        explicit SomeStruct( ::std::string some_field );
     };
     using SomeCallback = ::std::function<void(const ::smoke::LambdasDeclarationOrder::SomeStruct&)>;
 };

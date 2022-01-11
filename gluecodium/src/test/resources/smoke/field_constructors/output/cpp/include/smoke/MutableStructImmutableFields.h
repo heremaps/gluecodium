@@ -8,7 +8,7 @@
 #include <cstdint>
 namespace smoke {
 struct _GLUECODIUM_CPP_EXPORT MutableStructImmutableFields {
-    ::smoke::ImmutableStructNoClash struct_field = {};
+    ::smoke::ImmutableStructNoClash struct_field = ::smoke::ImmutableStructNoClash{};
     int32_t int_field = 42;
     bool bool_field = true;
     MutableStructImmutableFields(  );

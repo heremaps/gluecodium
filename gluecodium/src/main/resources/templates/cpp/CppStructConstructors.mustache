@@ -38,7 +38,7 @@
 {{/uninitializedFields}}
      */
 {{/unless}}{{/resolveName}}
-    {{resolveName}}( {{#uninitializedFields}}{{!!
+    {{#isEq uninitializedFields.size 1}}explicit {{/isEq}}{{resolveName}}( {{#uninitializedFields}}{{!!
     }}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}} );{{!!
 }}{{/ifPredicate}}{{!!
 
@@ -61,7 +61,7 @@
      */
 {{/ifPredicate}}
 {{prefixPartial "cpp/CppAttributes" "    "}}
-    {{resolveName struct}}( {{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}} );
+    {{#isEq fields.size 1}}explicit {{/isEq}}{{resolveName struct}}( {{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}} );
 {{/fieldConstructors}}{{/set}}{{!!
 
 }}{{#ifPredicate "needsAllFieldsConstructor"}}
@@ -74,7 +74,7 @@
 {{/fields}}
      */
 {{/unless}}{{/resolveName}}
-    {{resolveName}}( {{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}} );{{!!
+    {{#isEq fields.size 1}}explicit {{/isEq}}{{resolveName}}( {{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}} );{{!!
 }}{{/ifPredicate}}
 
 {{/if}}{{!!

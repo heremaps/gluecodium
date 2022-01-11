@@ -25,6 +25,6 @@ StructConstants::NestingStruct::NestingStruct( ::smoke::StructConstants::SomeStr
     : struct_field( std::move( struct_field ) )
 {
 }
-const ::smoke::StructConstants::SomeStruct StructConstants::STRUCT_CONSTANT = {"bar Buzz", 1.41f};
-const ::smoke::StructConstants::NestingStruct StructConstants::NESTING_STRUCT_CONSTANT = {{"nonsense", -2.82f}};
+const ::smoke::StructConstants::SomeStruct StructConstants::STRUCT_CONSTANT = ::smoke::StructConstants::SomeStruct{"bar Buzz", 1.41f};
+const ::smoke::StructConstants::NestingStruct StructConstants::NESTING_STRUCT_CONSTANT = ::smoke::StructConstants::NestingStruct{::smoke::StructConstants::SomeStruct{"nonsense", -2.82f}};
 }

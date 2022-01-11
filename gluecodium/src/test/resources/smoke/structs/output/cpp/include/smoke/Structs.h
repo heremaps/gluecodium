@@ -52,22 +52,22 @@ public:
     using ArrayOfImmutable = ::std::vector< ::smoke::Structs::AllTypesStruct >;
     struct _GLUECODIUM_CPP_EXPORT NestingImmutableStruct {
         ::smoke::Structs::AllTypesStruct struct_field;
-        NestingImmutableStruct( ::smoke::Structs::AllTypesStruct struct_field );
+        explicit NestingImmutableStruct( ::smoke::Structs::AllTypesStruct struct_field );
     };
     struct _GLUECODIUM_CPP_EXPORT DoubleNestingImmutableStruct {
         ::smoke::Structs::NestingImmutableStruct nesting_struct_field;
-        DoubleNestingImmutableStruct( ::smoke::Structs::NestingImmutableStruct nesting_struct_field );
+        explicit DoubleNestingImmutableStruct( ::smoke::Structs::NestingImmutableStruct nesting_struct_field );
     };
     struct _GLUECODIUM_CPP_EXPORT StructWithArrayOfImmutable {
         ::smoke::Structs::ArrayOfImmutable array_field;
         StructWithArrayOfImmutable( );
-        StructWithArrayOfImmutable( ::smoke::Structs::ArrayOfImmutable array_field );
+        explicit StructWithArrayOfImmutable( ::smoke::Structs::ArrayOfImmutable array_field );
     };
     struct _GLUECODIUM_CPP_EXPORT ImmutableStructWithCppAccessors {
     private:
         ::std::string string_field;
     public:
-        ImmutableStructWithCppAccessors( ::std::string string_field );
+        explicit ImmutableStructWithCppAccessors( ::std::string string_field );
         ::std::string get_string_field( ) const { return string_field; }
     };
     struct _GLUECODIUM_CPP_EXPORT MutableStructWithCppAccessors {
@@ -75,7 +75,7 @@ public:
         ::std::string string_field;
     public:
         MutableStructWithCppAccessors( );
-        MutableStructWithCppAccessors( ::std::string string_field );
+        explicit MutableStructWithCppAccessors( ::std::string string_field );
         ::std::string get_string_field( ) const { return string_field; }
         void set_string_field( ::std::string value_ ) { string_field = value_; }
     };

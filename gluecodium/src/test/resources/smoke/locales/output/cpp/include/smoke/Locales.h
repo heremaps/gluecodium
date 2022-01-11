@@ -26,7 +26,7 @@ public:
     struct _GLUECODIUM_CPP_EXPORT LocaleStruct {
         ::gluecodium::Locale locale_field;
         LocaleStruct( );
-        LocaleStruct( ::gluecodium::Locale locale_field );
+        explicit LocaleStruct( ::gluecodium::Locale locale_field );
     };
 public:
     virtual ::gluecodium::Locale locale_method( const ::gluecodium::Locale& input ) = 0;

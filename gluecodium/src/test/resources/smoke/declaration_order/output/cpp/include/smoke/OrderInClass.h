@@ -24,7 +24,7 @@ public:
     struct _GLUECODIUM_CPP_EXPORT NestedStruct {
         ::std::string some_field;
         NestedStruct( );
-        NestedStruct( ::std::string some_field );
+        explicit NestedStruct( ::std::string some_field );
     };
     using NestedStructArray = ::std::vector< ::smoke::OrderInClass::NestedStruct >;
     using ErrorCodeToMessageMap = ::std::unordered_map< int32_t, ::smoke::OrderInClass::NestedStructArray >;

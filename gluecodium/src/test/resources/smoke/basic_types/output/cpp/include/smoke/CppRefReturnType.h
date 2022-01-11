@@ -23,7 +23,7 @@ public:
     struct _GLUECODIUM_CPP_EXPORT SomeStruct {
         ::std::string field;
         SomeStruct( );
-        SomeStruct( ::std::string field );
+        explicit SomeStruct( ::std::string field );
     };
 public:
     static void void_ref(  );

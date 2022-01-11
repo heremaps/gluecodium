@@ -56,25 +56,25 @@ InstanceInStruct::create( )
 InstanceInStruct::SelfHolder
 InstanceInStruct::create_in_struct( )
 {
-    return {std::make_shared< InstanceInStructImpl >( "foo" )};
+    return InstanceInStruct::SelfHolder{std::make_shared< InstanceInStructImpl >( "foo" )};
 }
 
 InstanceInStruct::SelfHolder
 InstanceInStruct::create_null_in_struct( )
 {
-    return {std::shared_ptr< InstanceInStructImpl >( )};
+    return InstanceInStruct::SelfHolder{std::shared_ptr< InstanceInStructImpl >( )};
 }
 
 InstanceInStruct::NotNullSelfHolder
 InstanceInStruct::create_in_not_null_struct( )
 {
-    return {std::make_shared< InstanceInStructImpl >( "foo" )};
+    return InstanceInStruct::NotNullSelfHolder{std::make_shared< InstanceInStructImpl >( "foo" )};
 }
 
 InstanceInStruct::NotNullSelfHolder
 InstanceInStruct::create_in_empty_not_null_struct( )
 {
-    return {std::shared_ptr< InstanceInStructImpl >( )};
+    return InstanceInStruct::NotNullSelfHolder{std::shared_ptr< InstanceInStructImpl >( )};
 }
 
 }  // namespace test

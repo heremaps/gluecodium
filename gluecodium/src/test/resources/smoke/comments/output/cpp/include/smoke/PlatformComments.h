@@ -27,7 +27,7 @@ public:
     struct _GLUECODIUM_CPP_EXPORT Something {
         ::std::string nothing;
         Something( );
-        Something( ::std::string nothing );
+        explicit Something( ::std::string nothing );
     };
 public:
     /**

@@ -3,6 +3,7 @@
 ## Unreleased
 ### Bug fixes:
   * Deprecation message strings in Swift generated code are now properly escaped.
+  * Single-parameter struct constructors are now marked as `explicit` in C++.
 
 ## 10.5.3
 Release date: 2022-01-05

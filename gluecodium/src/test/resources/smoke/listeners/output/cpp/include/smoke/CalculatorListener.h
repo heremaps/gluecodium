@@ -24,7 +24,7 @@ public:
     struct _GLUECODIUM_CPP_EXPORT ResultStruct {
         double result;
         ResultStruct( );
-        ResultStruct( double result );
+        explicit ResultStruct( double result );
     };
 public:
     virtual void on_calculation_result( const double calculation_result ) = 0;

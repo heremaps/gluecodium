@@ -11,7 +11,7 @@ struct _GLUECODIUM_CPP_EXPORT OrderInStructWithFunctions {
     struct _GLUECODIUM_CPP_EXPORT NestedStruct {
         ::std::string some_field;
         NestedStruct( );
-        NestedStruct( ::std::string some_field );
+        explicit NestedStruct( ::std::string some_field );
     };
     enum class SomeEnum {
         FOO,
@@ -19,7 +19,7 @@ struct _GLUECODIUM_CPP_EXPORT OrderInStructWithFunctions {
     };
     ::std::string some_field;
     OrderInStructWithFunctions( );
-    OrderInStructWithFunctions( ::std::string some_field );
+    explicit OrderInStructWithFunctions( ::std::string some_field );
     ::smoke::OrderInStructWithFunctions::SomeEnum do_stuff( const ::smoke::OrderInStructWithFunctions::NestedStruct& struct_foo ) const;
 };
 }

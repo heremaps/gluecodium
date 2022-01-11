@@ -12,7 +12,7 @@ enum class EnableMe {
 struct _GLUECODIUM_CPP_EXPORT EnableMeToo {
     ::smoke::EnableMe field;
     EnableMeToo( );
-    EnableMeToo( ::smoke::EnableMe field );
+    explicit EnableMeToo( ::smoke::EnableMe field );
 };
 _GLUECODIUM_CPP_EXPORT extern const bool PLACE_HOLDER_ENABLED;
 }

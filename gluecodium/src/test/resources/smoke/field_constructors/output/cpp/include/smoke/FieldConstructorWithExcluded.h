@@ -17,6 +17,6 @@ struct _GLUECODIUM_CPP_EXPORT FieldConstructorWithExcluded {
      * \private
      * \param string_field Some field
      */
-    FieldConstructorWithExcluded( ::std::string string_field );
+    explicit FieldConstructorWithExcluded( ::std::string string_field );
 };
 }

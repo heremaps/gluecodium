@@ -13,6 +13,6 @@ struct _GLUECODIUM_CPP_EXPORT FieldConstructorWithDeprecationOnly {
      * \deprecated Shouldn't really use it
      * \param string_field
      */
-    FieldConstructorWithDeprecationOnly( ::std::string string_field );
+    explicit FieldConstructorWithDeprecationOnly( ::std::string string_field );
 };
 }

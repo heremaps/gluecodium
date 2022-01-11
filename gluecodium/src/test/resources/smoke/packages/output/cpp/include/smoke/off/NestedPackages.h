@@ -15,7 +15,7 @@ public:
     struct _GLUECODIUM_CPP_EXPORT SomeStruct {
         ::std::string some_field;
         SomeStruct( );
-        SomeStruct( ::std::string some_field );
+        explicit SomeStruct( ::std::string some_field );
     };
 public:
     static ::smoke::off::NestedPackages::SomeStruct basic_method( const ::smoke::off::NestedPackages::SomeStruct& input );

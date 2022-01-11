@@ -44,7 +44,7 @@ public:
          */
         ::smoke::ExcludedCommentsOnly::Usefulness some_field;
         SomeStruct( );
-        SomeStruct( ::smoke::ExcludedCommentsOnly::Usefulness some_field );
+        explicit SomeStruct( ::smoke::ExcludedCommentsOnly::Usefulness some_field );
     };
     /**
      * \private

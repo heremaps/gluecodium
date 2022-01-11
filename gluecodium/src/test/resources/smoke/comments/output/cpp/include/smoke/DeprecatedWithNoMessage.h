@@ -12,6 +12,6 @@ namespace smoke {
 struct _GLUECODIUM_CPP_EXPORT DeprecatedWithNoMessage {
     ::std::string field;
     DeprecatedWithNoMessage( );
-    DeprecatedWithNoMessage( ::std::string field );
+    explicit DeprecatedWithNoMessage( ::std::string field );
 };
 }

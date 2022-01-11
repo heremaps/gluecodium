@@ -25,7 +25,7 @@ namespace test
 fooStruct
 fooInterface::FooMethod( const std::string& FooParameter )
 {
-    return {FooParameter};
+    return fooStruct{FooParameter};
 }
 
 std::shared_ptr< fooInterface >

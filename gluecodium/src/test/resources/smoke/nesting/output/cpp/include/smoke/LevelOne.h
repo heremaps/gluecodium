@@ -32,7 +32,7 @@ public:
                 _GLUECODIUM_CPP_EXPORT static const bool FOO;
                 ::std::string string_field;
                 LevelFour( );
-                LevelFour( ::std::string string_field );
+                explicit LevelFour( ::std::string string_field );
                 static ::smoke::LevelOne::LevelTwo::LevelThree::LevelFour foo_factory(  );
             };
         public:
