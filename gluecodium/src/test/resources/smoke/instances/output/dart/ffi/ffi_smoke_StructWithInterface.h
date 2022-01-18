@@ -5,7 +5,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_StructWithInterface_create_handle(FfiOpaqueHandle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_StructWithInterface_create_handle(FfiOpaqueHandle interfaceInstance);
 _GLUECODIUM_FFI_EXPORT void library_smoke_StructWithInterface_release_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_StructWithInterface_get_field_interfaceInstance(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_StructWithInterface_create_handle_nullable(FfiOpaqueHandle value);

@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_FreePoint_flip(FfiOpaqueHandle _self, int32_t _isolate_id);
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_FreePoint_create_handle(double, double);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_FreePoint_create_handle(double x, double y);
 _GLUECODIUM_FFI_EXPORT void library_smoke_FreePoint_release_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT double library_smoke_FreePoint_get_field_x(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT double library_smoke_FreePoint_get_field_y(FfiOpaqueHandle handle);
