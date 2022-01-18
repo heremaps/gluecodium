@@ -29,7 +29,7 @@ import org.trimou.handlebars.Options
  * Usage: {{#ifPredicate \[element\] "predicateName"}}...{{/ifPredicate}}<br/>
  * Example: {{#ifPredicate "fooPredicate"}}...{{/ifPredicate}}<br/>
  * Example: {{#ifPredicate type "fooPredicate"}}...{{/ifPredicate}}<br/>
- * unlessPredicate: same as above, except the the section is executed only if the predicate
+ * unlessPredicate: same as above, except that the section is executed only if the predicate
  * evaluates to `false`.
  */
 internal class PredicateHelper(private val equality: Boolean) : BasicSectionHelper() {

@@ -26,7 +26,7 @@ import org.trimou.handlebars.Options
  * Section helper that concatenates the given collections and sorts the combined collection with the
  * given sorter (or the default sorter is none is specified). The section is then applied
  * sequentially to each element of the sorted combined collection, in order.<br/>
- * Usage: {{#sort collection1 collection2 ... \[sorter="sorterName"\]}}...{{/sort}}<br/>
+ * Usage: {{#sort collection1 \[collection2 ...\] \[sorter="sorterName"\]}}...{{/sort}}<br/>
  * Example: {{#sort classes structs}}...{{/sort}}
  * Example: {{#sort events sorter="sortByDate"}}...{{/sort}}
  */

@@ -58,6 +58,7 @@ object TemplateEngine {
             .registerHelper("ifPredicate", ifPredicateHelper)
             .registerHelper("unlessPredicate", unlessPredicateHelper)
             .registerHelper("sort", sortHelper)
+            .registerHelper("filter", FilterHelper(ifPredicateHelper.predicates))
             .registerHelpers(
                 HelpersBuilder.empty()
                     .addEval(EvalHelper.BracketDotNotation())
