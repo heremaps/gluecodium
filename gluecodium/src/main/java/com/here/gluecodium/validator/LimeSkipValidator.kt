@@ -21,9 +21,9 @@ package com.here.gluecodium.validator
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeLogger
+import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeType.DART
-import com.here.gluecodium.model.lime.LimeAttributeType.IMMUTABLE
 import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
 import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
@@ -55,13 +55,13 @@ internal class LimeSkipValidator(private val logger: LimeLogger) {
         }
 
     private fun validateFields(limeStruct: LimeStruct) =
-        !limeStruct.attributes.have(IMMUTABLE) ||
-            !limeStruct.fields.flatMap { validateSkipAttributes(it) }.contains(false)
+        !CommonGeneratorPredicates.hasImmutableFields(limeStruct) ||
+            !limeStruct.fields.filter { it.defaultValue == null }.flatMap { validateSkipAttributes(it) }.contains(false)
 
     companion object {
         private fun getErrorMessage(limeElement: LimeNamedElement, limeAttributeType: LimeAttributeType): String {
             val typePrefix = when (limeElement) {
-                is LimeField -> "field of `@Immutable` struct"
+                is LimeField -> "field of an immutable struct without a default value"
                 is LimeEnumerator -> "enumerator"
                 else -> throw GluecodiumExecutionException("Unsupported element type ${limeElement.javaClass.name}")
             }

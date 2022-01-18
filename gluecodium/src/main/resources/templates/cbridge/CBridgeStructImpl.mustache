@@ -20,13 +20,14 @@
   !}}
 {{#if fields}}
 _baseRef
-{{resolveName}}_create_handle( {{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}} )
+{{resolveName}}_create_handle( {{!!
+}}{{#filter fields predicate="shouldRetain"}}{{#this}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/this}}{{/filter}} )
 {
 {{#unlessPredicate "hasImmutableFields"}}{{!!
 }}    {{resolveName "C++"}}* _struct = new ( ::std::nothrow ) {{resolveName "C++"}}();{{/unlessPredicate}}
-{{#set cppStruct="_struct" structElement=this}}{{#fields}}
+{{#set cppStruct="_struct" structElement=this}}{{#fields}}{{#ifPredicate "shouldRetain"}}
 {{>setCppFieldValue}}
-{{/fields}}{{/set}}
+{{/ifPredicate}}{{/fields}}{{/set}}
 {{#ifPredicate "hasImmutableFields"}}{{!!
 }}    {{resolveName "C++"}}* _struct = new ( ::std::nothrow ) {{resolveName "C++"}}( {{>immutableFieldsInit}} );{{/ifPredicate}}
     return reinterpret_cast<_baseRef>( _struct );
@@ -39,13 +40,14 @@ void
 }
 
 _baseRef
-{{resolveName}}_create_optional_handle({{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}})
+{{resolveName}}_create_optional_handle({{!!
+}}{{#filter fields predicate="shouldRetain"}}{{#this}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/this}}{{/filter}})
 {
 {{#unlessPredicate "hasImmutableFields"}}{{!!
 }}    auto _struct = new ( ::std::nothrow ) {{>common/InternalNamespace}}optional<{{resolveName "C++"}}>( {{resolveName "C++"}}( ) );{{/unlessPredicate}}
-{{#set cppStruct="(*_struct)" structElement=this}}{{#fields}}
+{{#set cppStruct="(*_struct)" structElement=this}}{{#fields}}{{#ifPredicate "shouldRetain"}}
 {{>setCppFieldValue}}
-{{/fields}}{{/set}}
+{{/ifPredicate}}{{/fields}}{{/set}}
 {{#ifPredicate "hasImmutableFields"}}{{!!
 }}    auto _struct = new ( ::std::nothrow ) {{>common/InternalNamespace}}optional<{{resolveName "C++"}}>( {{!!
 }}{{resolveName "C++"}}( {{>immutableFieldsInit}} ) );{{/ifPredicate}}
@@ -63,7 +65,7 @@ void {{resolveName}}_release_optional_handle(_baseRef handle) {
 }
 
 {{#set structElement=this}}
-{{#fields}}
+{{#fields}}{{#ifPredicate "shouldRetain"}}
 {{resolveName typeRef}} {{resolveName structElement}}_{{resolveName}}_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const {{resolveName structElement "C++"}}>(handle);
     return {{#set field=this}}{{#if typeRef.attributes.optimized}}{{!!
@@ -79,7 +81,7 @@ void {{resolveName}}_release_optional_handle(_baseRef handle) {
 }}{{#notInstanceOf typeRef.type.actualType "LimeEnumeration"}}{{>getCppFieldValue}};{{/notInstanceOf}}{{!!
 }}{{/unlessPredicate}}{{/unless}}{{/set}}
 }
-{{/fields}}
+{{/ifPredicate}}{{/fields}}
 {{/set}}
 
 {{/if}}
@@ -113,9 +115,10 @@ void {{resolveName}}_release_optional_handle(_baseRef handle) {
 }}{{#unlessPredicate structElement "hasImmutableFields"}}{{#ifPredicate "hasCppSetter"}} ){{/ifPredicate}}{{/unlessPredicate}};
 {{/setCppFieldValue}}{{!!
 
-}}{{+immutableFieldsInit}}{{#if allFieldsConstructor}}{{!!
-}}{{#allFieldsConstructor}}{{#fields}}_{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}}{{/allFieldsConstructor}}{{!!
-}}{{/if}}{{!!
-}}{{#unless allFieldsConstructor}}{{!!
-}}{{#fields}}_{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}}{{!!
-}}{{/unless}}{{/immutableFieldsInit}}
+}}{{+immutableFieldsInit}}{{!!
+}}{{#if allFieldsConstructor}}{{#allFieldsConstructor}}{{>immutableFieldsParameters}}{{/allFieldsConstructor}}{{/if}}{{!!
+}}{{#unless allFieldsConstructor}}{{>immutableFieldsParameters}}{{/unless}}{{/immutableFieldsInit}}{{!!
+
+}}{{+immutableFieldsParameters}}{{#fields}}{{#ifPredicate "shouldRetain"}}_{{resolveName}}{{/ifPredicate}}{{!!
+}}{{#unlessPredicate "shouldRetain"}}{{resolveName defaultValue "C++"}}{{/unlessPredicate}}{{!!
+}}{{#if iter.hasNext}}, {{/if}}{{/fields}}{{/immutableFieldsParameters}}

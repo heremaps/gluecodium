@@ -47,7 +47,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput{{!!
 {{prefixPartial "jni/ExternalConversionFromJni" "    "}}
 {{/if}}
     {{#unlessPredicate "hasImmutableFields"}}{{resolveName "C++ FQN"}} _nout{};{{/unlessPredicate}}
-{{#fields}}{{#if external.java.getterName}}{{#unlessPredicate typeRef "isJniPrimitive"}}
+{{#fields}}{{#ifPredicate "shouldRetain"}}{{#if external.java.getterName}}{{#unlessPredicate typeRef "isJniPrimitive"}}
     auto j_{{resolveName "C++"}} = call_java_method<{{resolveName typeRef}}>(_jenv, _jinput, {{!!
     }}"{{external.java.getterName}}", "(){{resolveName typeRef "signature"}}");
     auto n_{{resolveName "C++"}} = {{>jni/JniConversionPrefix}}convert_from_jni(_jenv, j_{{resolveName "C++"}}, ({{resolveName typeRef "C++"}}*)nullptr);
@@ -78,11 +78,10 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput{{!!
     }}{{#ifPredicate "hasCppSetter"}}{{resolveName this "C++" "setter"}}(n_{{resolveName this "C++"}}){{/ifPredicate}}{{!!
     }}{{#unlessPredicate "hasCppSetter"}}{{resolveName this "C++"}} = n_{{resolveName this "C++"}}{{/unlessPredicate}}{{!!
     }};{{/unlessPredicate}}
-{{/fields}}
+{{/ifPredicate}}{{/fields}}
     {{#ifPredicate struct "hasImmutableFields"}}return {{resolveName "C++ FQN"}}({{!!
-    }}{{#if allFieldsConstructor}}{{#allFieldsConstructor}}{{!!
-    }}{{#fields}}std::move(n_{{resolveName "C++"}}){{#if iter.hasNext}}, {{/if}}{{/fields}}{{/allFieldsConstructor}}{{/if}}{{!!
-    }}{{#unless allFieldsConstructor}}{{#fields}}std::move(n_{{resolveName "C++"}}){{#if iter.hasNext}}, {{/if}}{{/fields}}{{/unless}}{{!!
+    }}{{#if allFieldsConstructor}}{{#allFieldsConstructor}}{{>immutableFieldsInit}}{{/allFieldsConstructor}}{{/if}}{{!!
+    }}{{#unless allFieldsConstructor}}{{>immutableFieldsInit}}{{/unless}}{{!!
     }});{{/ifPredicate}}{{!!
     }}{{#unlessPredicate struct "hasImmutableFields"}}return _nout;{{/unlessPredicate}}
 }
@@ -102,7 +101,7 @@ convert_to_jni(JNIEnv* _jenv, const {{resolveName "C++ FQN"}}& _ninput)
 {
     auto& javaClass = CachedJavaClass<{{resolveName "C++ FQN"}}>::java_class;
     auto _jresult = {{>common/InternalNamespace}}jni::alloc_object(_jenv, javaClass);
-{{#set struct=this}}{{#fields}}{{#if external.java.setterName}}{{#unlessPredicate typeRef "isJniPrimitive"}}
+{{#set struct=this}}{{#fields}}{{#ifPredicate "shouldRetain"}}{{#if external.java.setterName}}{{#unlessPredicate typeRef "isJniPrimitive"}}
     auto j{{resolveName "C++"}} = {{>jni/JniConversionPrefix}}convert_to_jni(_jenv, {{>getCppFieldValue}});
     call_java_method<void>(_jenv, _jresult, "{{external.java.setterName}}", {{!!
     }}"({{resolveName typeRef "signature"}})V", j{{cppField.name}});
@@ -118,7 +117,7 @@ convert_to_jni(JNIEnv* _jenv, const {{resolveName "C++ FQN"}}& _ninput)
     }}_jenv, _jresult, "{{resolveName}}", "L{{resolveName typeRef.type.actualType}};", j{{resolveName "C++"}});
 {{/notInstanceOf}}{{#instanceOf typeRef.type.actualType "LimeBasicType"}}
     {{>common/InternalNamespace}}jni::set_field_value(_jenv, _jresult, "{{resolveName}}", {{>getCppFieldValue}});
-{{/instanceOf}}{{/unless}}{{/fields}}{{/set}}
+{{/instanceOf}}{{/unless}}{{/ifPredicate}}{{/fields}}{{/set}}
 {{#if external.java.converter}}
 {{prefixPartial "jni/ExternalConversionToJni" "    "}}
 {{/if}}
@@ -141,4 +140,9 @@ convert_to_jni(JNIEnv* _jenv, const {{>common/InternalNamespace}}optional<{{reso
 }}{{+getCppFieldValue}}_ninput.{{!!
 }}{{#ifPredicate "hasCppGetter"}}{{resolveName this "C++" "getter"}}(){{/ifPredicate}}{{!!
 }}{{#unlessPredicate "hasCppGetter"}}{{resolveName this "C++"}}{{/unlessPredicate}}{{!!
-}}{{/getCppFieldValue}}
+}}{{/getCppFieldValue}}{{!!
+
+}}{{+immutableFieldsInit}}{{#fields}}{{!!
+}}{{#ifPredicate "shouldRetain"}}std::move(n_{{resolveName "C++"}}){{/ifPredicate}}{{!!
+}}{{#unlessPredicate "shouldRetain"}}{{resolveName defaultValue "C++"}}{{/unlessPredicate}}{{#if iter.hasNext}}, {{/if}}{{!!
+}}{{/fields}}{{/immutableFieldsInit}}

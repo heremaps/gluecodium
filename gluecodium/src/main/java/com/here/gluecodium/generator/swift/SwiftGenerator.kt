@@ -95,9 +95,9 @@ internal class SwiftGenerator : Generator {
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val cbridgeFilteredModel = LimeModelFilter
-            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, SWIFT, retainFunctions = true) }
+            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, SWIFT, retainFunctionsAndFields = true) }
         val swiftFilteredModel = LimeModelFilter
-            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, SWIFT, retainFunctions = false) }
+            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, SWIFT, retainFunctionsAndFields = false) }
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
 
         val swiftSignatureResolver = SwiftSignatureResolver(cbridgeFilteredModel.referenceMap, nameRules, activeTags)

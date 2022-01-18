@@ -73,10 +73,9 @@ internal open class GenericImportsCollector<T>(
         val lambdas = allTypes.filterIsInstance<LimeLambda>()
         val exceptions = allTypes.filterIsInstance<LimeException>()
         val structs = allTypes.filterIsInstance<LimeStruct>()
-        return structs.flatMap { it.fields }.map { it.typeRef } +
-            functions.flatMap { collectTypeRefs(it) } + properties.map { it.typeRef } +
-            lambdas.flatMap { collectTypeRefs(it.asFunction()) } +
-            exceptions.map { it.errorType }
+        val fields = structs.flatMap { it.fields }.filter { shouldRetain(it) }
+        return fields.map { it.typeRef } + functions.flatMap { collectTypeRefs(it) } + properties.map { it.typeRef } +
+            lambdas.flatMap { collectTypeRefs(it.asFunction()) } + exceptions.map { it.errorType }
     }
 
     protected fun collectTypeRefs(limeFunction: LimeFunction) =

@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Improved support for `@Platform(Skip)` attributes on struct fields. They are now almost always allowed, except for
+  some narrow corner cases.
+
 ## 10.5.4
 Release date: 2022-01-11
 ### Bug fixes:
