@@ -104,9 +104,9 @@ internal class DartGenerator : Generator {
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
 
         val ffiFilteredModel = LimeModelFilter
-            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, DART, retainFunctions = true) }
+            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, DART, retainFunctionsAndFields = true) }
         val dartFilteredModel = LimeModelFilter
-            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, DART, retainFunctions = false) }
+            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, DART, retainFunctionsAndFields = false) }
 
         val dartNameResolver = DartNameResolver(ffiFilteredModel.referenceMap, nameRules, limeLogger, commentsProcessor)
         val ffiNameResolver = FfiNameResolver(dartFilteredModel.referenceMap, nameRules, internalPrefix)
@@ -149,7 +149,10 @@ internal class DartGenerator : Generator {
         val includeResolver = FfiCppIncludeResolver(ffiFilteredModel.referenceMap, cppNameRules, internalNamespace)
         val includeCollector = GenericImportsCollector(
             includeResolver,
-            retainPredicate = { generatorPredicates.shouldRetain(it) },
+            retainPredicate = {
+                generatorPredicates.shouldRetain(it) ||
+                    CommonGeneratorPredicates.needsImportsForSkippedField(it, DART, ffiFilteredModel.referenceMap)
+            },
             collectTypeRefImports = true,
             collectOwnImports = true
         )

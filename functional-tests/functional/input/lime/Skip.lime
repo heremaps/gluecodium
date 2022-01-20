@@ -85,3 +85,15 @@ struct SkipFieldInPlatform {
     stringField: String
     boolField: Boolean
 }
+
+@Immutable
+struct SkipFieldInPlatformImmutable {
+    intField: Int
+    @Java(Skip) @Swift(Skip) @Dart(Skip)
+    stringField: DummyStruct = {}
+    boolField: Boolean
+}
+
+struct DummyStruct {
+    stringField: String = ""
+}

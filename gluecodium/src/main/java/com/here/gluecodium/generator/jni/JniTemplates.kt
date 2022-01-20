@@ -19,6 +19,7 @@
 
 package com.here.gluecodium.generator.jni
 
+import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.common.OptimizedListsCollector
@@ -200,8 +201,10 @@ internal class JniTemplates(
     private fun generateStructConversionFiles(limeStruct: LimeStruct): List<GeneratedFile> {
         val fileName = fileNameRules.getConversionFileName(limeStruct)
         val selfInclude = Include.createInternalInclude("$fileName.h")
-        val fieldConversionIncludes = limeStruct.fields.flatMap { jniIncludeResolver.resolveElementImports(it) }
-        // Conversion includes need to be be added to the header file instead of the impl file, for unity builds.
+        val fieldConversionIncludes = limeStruct.fields
+            .filter { generatorPredicates.shouldRetain(it) }
+            .flatMap { jniIncludeResolver.resolveElementImports(it) }
+        // Conversion includes need to be added to the header file instead of the impl file, for unity builds.
         val headerIncludes = cppIncludeResolver.resolveElementImports(limeStruct).distinct().sorted() +
             fieldConversionIncludes.distinct().minus(selfInclude).sorted()
 
@@ -215,7 +218,10 @@ internal class JniTemplates(
             fileNameRules.getHeaderFilePath(fileName)
         )
 
-        mustacheData["includes"] = listOf(selfInclude)
+        mustacheData["includes"] = listOf(selfInclude) +
+            limeStruct.fields.filter {
+                CommonGeneratorPredicates.needsImportsForSkippedField(it, LimeAttributeType.JAVA, limeReferenceMap)
+            }.flatMap { cppIncludeResolver.resolveElementImports(it.typeRef) }
         val implFile = GeneratedFile(
             TemplateEngine.render(
                 "jni/StructConversionImplementation",

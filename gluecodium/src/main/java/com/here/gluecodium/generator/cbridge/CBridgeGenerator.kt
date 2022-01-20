@@ -22,6 +22,7 @@ package com.here.gluecodium.generator.cbridge
 import com.here.gluecodium.common.LimeTypeRefsVisitor
 import com.here.gluecodium.generator.cbridge.CBridgeNameRules.CBRIDGE_INTERNAL
 import com.here.gluecodium.generator.cbridge.CBridgeNameRules.CBRIDGE_PUBLIC
+import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.GenericImportsCollector
@@ -70,7 +71,7 @@ internal class CBridgeGenerator(
     private val generatorPredicates = CBridgeGeneratorPredicates(cppNameResolver, limeReferenceMap, activeTags)
     private val headerIncludeCollector =
         GenericImportsCollector(
-            CBridgeHeaderIncludeResolver(limeReferenceMap, fileNames),
+            CBridgeHeaderIncludeResolver(limeReferenceMap),
             retainPredicate = { generatorPredicates.shouldRetain(it) },
             collectTypeRefImports = true,
             collectOwnImports = true
@@ -78,11 +79,15 @@ internal class CBridgeGenerator(
     private val implIncludeCollector =
         GenericImportsCollector(
             CBridgeImplIncludeResolver(cppIncludeResolver),
-            retainPredicate = { generatorPredicates.shouldRetain(it) },
+            retainPredicate = {
+                generatorPredicates.shouldRetain(it) ||
+                    CommonGeneratorPredicates.needsImportsForSkippedField(it, LimeAttributeType.SWIFT, limeReferenceMap)
+            },
             collectTypeRefImports = true,
             collectOwnImports = true,
             parentTypeFilter = { it is LimeInterface }
         )
+
     val genericTypesCollector = GenericTypesCollector(nameResolver)
 
     fun generate(rootElement: LimeNamedElement): List<GeneratedFile> {

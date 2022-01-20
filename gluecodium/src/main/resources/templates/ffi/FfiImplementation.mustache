@@ -136,15 +136,17 @@ FfiOpaqueHandle
 
 {{#structs}}
 FfiOpaqueHandle
-{{libraryName}}_{{resolveName}}_create_handle({{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
+{{libraryName}}_{{resolveName}}_create_handle({{!!
+}}{{#filter fields predicate="shouldRetain"}}{{#this}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/this}}{{/filter}}{{!!
+}}) {
 {{#ifPredicate "hasImmutableFields"}}
     auto _result = new (std::nothrow) {{resolveName "C++"}}({{!!
-    }}{{#if allFieldsConstructor}}{{#allFieldsConstructor}}{{joinPartial fields "ffiFieldToCpp" ", "}}{{/allFieldsConstructor}}{{/if}}{{!!
-    }}{{#unless allFieldsConstructor}}{{joinPartial fields "ffiFieldToCpp" ", "}}{{/unless}});
+    }}{{#if allFieldsConstructor}}{{#allFieldsConstructor}}{{>immutableFieldsParameters}}{{/allFieldsConstructor}}{{/if}}{{!!
+    }}{{#unless allFieldsConstructor}}{{>immutableFieldsParameters}}{{/unless}});
 {{/ifPredicate}}
 {{#unlessPredicate "hasImmutableFields"}}
     auto _result = new (std::nothrow) {{resolveName "C++"}}();
-{{#set struct=this}}{{#fields}}{{>ffiSetCppField}}{{/fields}}{{/set}}
+{{#set struct=this}}{{#fields}}{{#ifPredicate "shouldRetain"}}{{>ffiSetCppField}}{{/ifPredicate}}{{/fields}}{{/set}}
 {{/unlessPredicate}}
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
@@ -175,7 +177,7 @@ void
     delete reinterpret_cast<{{resolveName "C++"}}*>(handle);
 }
 
-{{#set parent=this}}{{#fields}}
+{{#set parent=this}}{{#fields}}{{#ifPredicate "shouldRetain"}}
 {{resolveName typeRef}}
 {{libraryName}}_{{resolveName parent}}_get_field_{{resolveName}}(FfiOpaqueHandle handle) {
     return {{#if typeRef.attributes.optimized}}{{!!
@@ -190,7 +192,7 @@ void
     );{{/unless}}
 }
 
-{{/fields}}{{/set}}
+{{/ifPredicate}}{{/fields}}{{/set}}
 
 {{#set type=this handleType="FfiOpaqueHandle"}}{{>ffi/FfiNullableImpl}}{{/set}}
 
@@ -281,6 +283,10 @@ FfiOpaqueHandle
 }}{{+ffiParameter}}            {{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toCpp({{resolveName}}){{/ffiParameter}}{{!!
 
 }}{{+ffiFieldToCpp}}{{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toCpp({{resolveName}}){{/ffiFieldToCpp}}{{!!
+
+}}{{+immutableFieldsParameters}}{{#fields}}{{#ifPredicate "shouldRetain"}}{{>ffiFieldToCpp}}{{/ifPredicate}}{{!!
+}}{{#unlessPredicate "shouldRetain"}}{{resolveName defaultValue "C++"}}{{/unlessPredicate}}{{!!
+}}{{#if iter.hasNext}}, {{/if}}{{/fields}}{{/immutableFieldsParameters}}{{!!
 
 }}{{+ffiCallCppFunction}}{{!!
 }}        {{#if isStatic}}{{resolveName parent "C++"}}::{{/if}}{{!!

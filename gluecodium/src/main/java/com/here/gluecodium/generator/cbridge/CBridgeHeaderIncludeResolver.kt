@@ -39,8 +39,7 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypedElement
 
 internal class CBridgeHeaderIncludeResolver(
-    limeReferenceMap: Map<String, LimeElement>,
-    private val fileNames: CBridgeFileNames
+    limeReferenceMap: Map<String, LimeElement>
 ) : ReferenceMapBasedResolver(limeReferenceMap), ImportsResolver<Include> {
 
     override fun resolveElementImports(limeElement: LimeElement) =

@@ -86,9 +86,9 @@ internal class JavaGenerator : Generator {
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val cachingNameResolver = CppNameCache(rootNamespace, limeModel.referenceMap, cppNameRules)
         val jniFilteredModel = LimeModelFilter
-            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, JAVA, retainFunctions = true) }
+            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, JAVA, retainFunctionsAndFields = true) }
         val javaFilteredModel = LimeModelFilter
-            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, JAVA, retainFunctions = false) }
+            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, JAVA, retainFunctionsAndFields = false) }
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
 
         val signatureResolver = JavaSignatureResolver(limeModel.referenceMap, javaNameRules, activeTags)

@@ -19,18 +19,18 @@
   !
   !}}
 _GLUECODIUM_C_EXPORT _baseRef {{resolveName}}_create_handle({{!!
-}}{{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
+}}{{#filter fields predicate="shouldRetain"}}{{#this}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/this}}{{/filter}});
 _GLUECODIUM_C_EXPORT void {{resolveName}}_release_handle(_baseRef handle);
 
 _GLUECODIUM_C_EXPORT _baseRef {{resolveName}}_create_optional_handle({{!!
-}}{{#fields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}});
+}}{{#filter fields predicate="shouldRetain"}}{{#this}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/this}}{{/filter}});
 _GLUECODIUM_C_EXPORT _baseRef {{resolveName}}_unwrap_optional_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT void {{resolveName}}_release_optional_handle(_baseRef handle);
 
 {{#resolveName}}{{#set structName=this}}
-{{#fields}}
+{{#fields}}{{#ifPredicate "shouldRetain"}}
 _GLUECODIUM_C_EXPORT {{resolveName typeRef}} {{structName}}_{{resolveName}}_get(_baseRef handle);
-{{/fields}}
+{{/ifPredicate}}{{/fields}}
 {{/set}}{{/resolveName}}
 
 {{#structs}}

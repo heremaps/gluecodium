@@ -25,6 +25,7 @@ import com.here.gluecodium.model.lime.LimeAttributeValueType.ENABLE_IF
 import com.here.gluecodium.model.lime.LimeAttributeValueType.SKIP
 import com.here.gluecodium.model.lime.LimeAttributeValueType.TAG
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeProperty
@@ -34,10 +35,11 @@ object LimeModelSkipPredicates {
         limeElement: LimeNamedElement,
         activeTags: Set<String>,
         platformAttribute: LimeAttributeType? = null,
-        retainFunctions: Boolean = false
+        retainFunctionsAndFields: Boolean = false
     ) = when {
         isSkippedByTags(limeElement, activeTags) -> false
-        retainFunctions && (limeElement is LimeFunction || limeElement is LimeProperty) -> true
+        retainFunctionsAndFields &&
+            (limeElement is LimeFunction || limeElement is LimeProperty || limeElement is LimeField) -> true
         platformAttribute == null -> true
         isSkippedByTagsOnPlatform(limeElement, activeTags, platformAttribute) -> false
         else -> true

@@ -23,6 +23,8 @@ import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFieldConstructor
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
@@ -98,6 +100,18 @@ internal object CommonGeneratorPredicates {
             !limeStruct.attributes.have(platformAttribute, LimeAttributeValueType.POSITIONAL_DEFAULTS) &&
             limeStruct.internalFields.isNotEmpty() && limeStruct.internalFields.all { it.defaultValue != null } &&
             limeStruct.publicFields.any { it.defaultValue != null }
+
+    fun needsImportsForSkippedField(
+        limeElement: LimeNamedElement,
+        platformAttribute: LimeAttributeType,
+        referenceMap: Map<String, LimeElement>
+    ): Boolean {
+        if (limeElement !is LimeField) return false
+        if (!limeElement.attributes.have(platformAttribute, LimeAttributeValueType.SKIP)) return false
+        val parentKey = limeElement.path.parent.toString()
+        val limeStruct = referenceMap[parentKey] as? LimeStruct ?: return false
+        return hasImmutableFields(limeStruct)
+    }
 
     private fun getAllFieldTypes(limeType: LimeType) = getAllFieldTypesRec(getLeafType(limeType), mutableSetOf())
 
