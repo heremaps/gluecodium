@@ -146,6 +146,7 @@ internal class DartGenerator : Generator {
         val declarationImportsCollector = GenericImportsCollector(declarationImportResolver, collectOwnImports = true)
 
         val generatorPredicates = DartGeneratorPredicates(dartFilteredModel.referenceMap, activeTags, dartNameResolver)
+        val predicatesMap = generatorPredicates.predicates
         val includeResolver = FfiCppIncludeResolver(ffiFilteredModel.referenceMap, cppNameRules, internalNamespace)
         val includeCollector = GenericImportsCollector(
             includeResolver,
@@ -170,13 +171,13 @@ internal class DartGenerator : Generator {
             listOfNotNull(
                 generateDart(
                     it, dartResolvers, dartNameResolver, listOf(importsCollector, declarationImportsCollector),
-                    exportsCollector, typeRepositoriesCollector, generatorPredicates.predicates, descendantInterfaces
+                    exportsCollector, typeRepositoriesCollector, predicatesMap, descendantInterfaces
                 )
             )
         } + ffiFilteredModel.topElements.flatMap {
             generateFfi(it, ffiResolvers, includeResolver, includeCollector, ffiFilteredModel.referenceMap, activeTags)
         } +
-            generateDartGenericTypesConversion(genericTypes, dartResolvers, importResolver) +
+            generateDartGenericTypesConversion(genericTypes, importResolver, dartResolvers, predicatesMap) +
             generateFfiGenericTypesConversion(genericTypes, ffiResolvers, includeResolver) +
             generateDartCommonFiles(exportsCollector, typeRepositoriesCollector, dartResolvers, importResolver) +
             generateFfiCommonFiles(ffiResolvers)
@@ -451,8 +452,9 @@ internal class DartGenerator : Generator {
 
     private fun generateDartGenericTypesConversion(
         genericTypes: List<LimeGenericType>,
+        importResolver: DartImportResolver,
         nameResolvers: Map<String, NameResolver>,
-        importResolver: DartImportResolver
+        predicates: Map<String, (Any) -> Boolean>
     ): GeneratedFile {
         val elementTypeRefs = genericTypes.filterIsInstance<LimeList>().map { it.elementType } +
             genericTypes.filterIsInstance<LimeSet>().map { it.elementType } +
@@ -468,7 +470,8 @@ internal class DartGenerator : Generator {
                 "imports" to imports.distinct().sorted().filterNot { it.filePath.endsWith(fileName) },
                 "genericTypes" to genericTypes
             ),
-            nameResolvers
+            nameResolvers,
+            predicates
         )
 
         return GeneratedFile(content, "$LIB_DIR/$fileName.dart")

@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed a compilation issue in Dart when two types in different packages have the same name and are used in a
+  collection type reference (i.e. `List<>`, `Set<>`, or `Map<>`).
+
 ## 10.6.0
 Release date: 2022-01-20
 ### Features:

@@ -32,3 +32,8 @@ struct LearnToReadAgain {
     fieldB: smoke.foo.Alphabet = smoke.foo.Alphabet.BETA
     fieldC: smoke.bar.Alphabet = smoke.bar.Alphabet.gimel
 }
+
+struct NameClashLists {
+    fieldA: List<smoke.Alphabet> = []
+    fieldB: List<smoke.foo.Alphabet> = []
+}
