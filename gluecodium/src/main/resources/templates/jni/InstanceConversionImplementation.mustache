@@ -60,8 +60,8 @@ void {{>conversionPrefix}}createCppProxy(JNIEnv* env, const JniReference<jobject
 template<>
 void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared_ptr<{{resolveName "C++ FQN"}}>& result)
 {
-    CppProxyBase::createProxy<{{resolveName "C++ FQN"}}, {{resolveName "mangled"}}_CppProxy>({{!!
-    }}env, obj, "{{resolveName "mangled"}}", result);
+    CppProxyBase::createProxy{{#if this.attributes.nocache}}NoCache{{/if}}{{!!
+    }}<{{resolveName "C++ FQN"}}, {{resolveName "mangled"}}_CppProxy>(env, obj, "{{resolveName "mangled"}}", result);
 }
 {{/notInstanceOf}}{{/notInstanceOf}}
 
@@ -118,13 +118,15 @@ JniReference<jobject>
 
 {{#instanceOf this "LimeLambda"}}
     JniReference<jobject> jResult;
-{{/instanceOf}}{{#notInstanceOf this "LimeLambda"}}
+{{/instanceOf}}{{#notInstanceOf this "LimeLambda"}}{{#if this.attributes.nocache}}
+    JniReference<jobject> jResult;
+{{/if}}{{#unless this.attributes.nocache}}
     auto jResult = {{>common/InternalNamespace}}jni::CppProxyBase::getJavaObject(_jenv, _ninput.get());
     if (jResult) return jResult;
 
     jResult = {{>common/InternalNamespace}}jni::JniWrapperCache::get_cached_wrapper(_jenv, _ninput);
     if (jResult) return jResult;
-{{/notInstanceOf}}
+{{/unless}}{{/notInstanceOf}}
 
 {{#ifPredicate "hasTypeRepository"}}
     const auto& id = {{>common/InternalNamespace}}get_type_repository().get_id(_ninput.get());
@@ -140,9 +142,9 @@ JniReference<jobject>
     }
     jResult = {{>common/InternalNamespace}}jni::create_instance_object(
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
-{{#notInstanceOf this "LimeLambda"}}
+{{#notInstanceOf this "LimeLambda"}}{{#unless this.attributes.nocache}}
     {{>common/InternalNamespace}}jni::JniWrapperCache::cache_wrapper(_jenv, _ninput, jResult);
-{{/notInstanceOf}}
+{{/unless}}{{/notInstanceOf}}
 
     return jResult;
 }

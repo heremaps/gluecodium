@@ -54,7 +54,9 @@ JNIEXPORT void JNICALL
 {
 {{#notInstanceOf container "LimeLambda"}}
     auto p_nobj = reinterpret_cast<std::shared_ptr<{{resolveName "C++ FQN"}}>*>(_jpointerRef);
+{{#unless this.attributes.nocache}}
     {{>common/InternalNamespace}}jni::JniWrapperCache::remove_cached_wrapper(_jenv, *p_nobj);
+{{/unless}}
     delete p_nobj;
 {{/notInstanceOf}}{{#instanceOf container "LimeLambda"}}
     delete reinterpret_cast<{{resolveName "C++ FQN"}}*>(_jpointerRef);
@@ -68,7 +70,9 @@ JNIEXPORT void JNICALL
     auto jobj = {{>common/InternalNamespace}}jni::make_non_releasing_ref(_jinstance);
     auto long_ptr = {{>common/InternalNamespace}}jni::get_field_value(_jenv, jobj, "nativeHandle", (int64_t*)nullptr);
     auto nobj = *reinterpret_cast<std::shared_ptr<{{resolveName "C++ FQN"}}>*>(long_ptr);
+{{#unless this.attributes.nocache}}
     {{>common/InternalNamespace}}jni::JniWrapperCache::cache_wrapper(_jenv, nobj, jobj);
+{{/unless}}
 }
 {{/ifPredicate}}
 {{/notInstanceOf}}
