@@ -61,6 +61,7 @@ func getAllTests() -> [XCTestCaseEntry] {
         testCase(MultiListenerTests.allTests),
         testCase(MultipleInheritanceTests.allTests),
         testCase(NestingTests.allTests),
+        testCase(NoCacheTests.allTests),
         testCase(NullableAttributesTests.allTests),
         testCase(NullableCollectionsTests.allTests),
         testCase(NullableInstancesTests.allTests),

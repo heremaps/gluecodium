@@ -133,8 +133,10 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) =>
   _{{resolveName "Ffi"}}CopyHandle((value as __lib.NativeBase).handle);
 
 {{resolveName}} {{resolveName "Ffi"}}FromFfi(Pointer<Void> handle) {
+{{#unless this.attributes.nocache}}
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is {{resolveName}}) return instance;
+{{/unless}}
 
 {{#if this.parents visibility.isOpen logic="or"}}
   final _typeIdHandle = _{{resolveName "Ffi"}}GetTypeId(handle);
@@ -146,7 +148,9 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) =>
   final result = {{#if this.parents visibility.isOpen logic="or"}}factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : {{/if}}{{resolveName}}$Impl(_copiedHandle);
+{{#unless this.attributes.nocache}}
   __lib.cacheInstance(_copiedHandle, result);
+{{/unless}}
   _{{resolveName "Ffi"}}RegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
@@ -170,7 +174,9 @@ void {{resolveName "Ffi"}}ReleaseFfiHandleNullable(Pointer<Void> handle) =>
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) {
   final _result_handle = _{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
   final _result = {{resolveName parent}}$Impl(_result_handle);
+{{#unless this.attributes.nocache}}
   __lib.cacheInstance(_result_handle, _result);
+{{/unless}}
   _{{resolveName parent "Ffi"}}RegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
   return _result;
 }

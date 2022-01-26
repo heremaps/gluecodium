@@ -82,6 +82,17 @@ public:
         return proxy;
     }
 
+    template <class FunctionTable>
+    static std::shared_ptr<ProxyType>
+    get_proxy_no_cache(FunctionTable&& function_table) {
+        auto proxy =
+            std::shared_ptr<ProxyType>(new (std::nothrow) ProxyType(std::move(function_table)));
+        if (proxy) {
+            proxy->m_key = function_table.swift_pointer;
+        }
+        return proxy;
+    }
+
     static const void*
     get_swift_object( const void* proxy )
     {

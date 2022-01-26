@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Added support for `@NoCache` attribute in Swift and Dart. This is an experimental feature.
+
 ## 10.6.2
 Release date: 2022-01-26
 ### Features:

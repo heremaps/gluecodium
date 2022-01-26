@@ -18,6 +18,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+#include "test/NoCacheClass.h"
 #include "test/NoCacheHelper.h"
 #include "test/NoCacheInterface.h"
 #include <memory>
@@ -31,11 +32,27 @@ public:
     void foo() override { }
 };
 
+class NoCacheClassImpl: public NoCacheClass {
+public:
+    void foo() override { }
+};
+
+}
+
+std::shared_ptr<NoCacheClass>
+NoCacheClass::make() {
+    return std::make_shared<NoCacheClassImpl>();
 }
 
 std::shared_ptr<NoCacheInterface>
 NoCacheHelper::get_no_cache_interface() {
     static std::shared_ptr<NoCacheInterface> s_instance = std::make_shared<NoCacheInterfaceImpl>();
+    return s_instance;
+}
+
+std::shared_ptr<NoCacheClass>
+NoCacheHelper::get_no_cache_class() {
+    static std::shared_ptr<NoCacheClass> s_instance = std::make_shared<NoCacheClassImpl>();
     return s_instance;
 }
 

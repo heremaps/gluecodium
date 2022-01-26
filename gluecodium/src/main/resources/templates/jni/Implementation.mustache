@@ -63,18 +63,18 @@ JNIEXPORT void JNICALL
 {{/instanceOf}}
 }
 
-{{#ifPredicate "hasConstructors"}}
+{{#ifPredicate "hasConstructors"}}{{#unless this.attributes.nocache}}
 JNIEXPORT void JNICALL
 {{>jni/FunctionSignaturePrefix}}_cacheThisInstance(JNIEnv* _jenv, jobject _jinstance)
 {
     auto jobj = {{>common/InternalNamespace}}jni::make_non_releasing_ref(_jinstance);
     auto long_ptr = {{>common/InternalNamespace}}jni::get_field_value(_jenv, jobj, "nativeHandle", (int64_t*)nullptr);
     auto nobj = *reinterpret_cast<std::shared_ptr<{{resolveName "C++ FQN"}}>*>(long_ptr);
-{{#unless this.attributes.nocache}}
+
     {{>common/InternalNamespace}}jni::JniWrapperCache::cache_wrapper(_jenv, nobj, jobj);
-{{/unless}}
+
 }
-{{/ifPredicate}}
+{{/unless}}{{/ifPredicate}}
 {{/notInstanceOf}}
 {{#if attributes.equatable attributes.pointerEquatable logic="or"}}
 jboolean

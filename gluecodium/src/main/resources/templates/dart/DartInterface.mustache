@@ -245,8 +245,10 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
 }
 
 {{resolveName}} {{resolveName "Ffi"}}FromFfi(Pointer<Void> handle) {
+{{#unless this.attributes.nocache}}
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is {{resolveName}}) return instance;
+{{/unless}}
 
   final _typeIdHandle = _{{resolveName "Ffi"}}GetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
@@ -256,7 +258,9 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : {{resolveName}}$Impl(_copiedHandle);
+{{#unless this.attributes.nocache}}
   __lib.cacheInstance(_copiedHandle, result);
+{{/unless}}
   _{{resolveName "Ffi"}}RegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }

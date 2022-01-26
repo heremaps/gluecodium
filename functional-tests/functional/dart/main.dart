@@ -51,6 +51,7 @@ import "test/MethodOverloads_test.dart" as MethodOverloadsTests;
 import "test/MultiListener_test.dart" as MultiListenerTests;
 import "test/MultipleInheritance_test.dart" as MultipleInheritanceTests;
 import "test/Nesting_test.dart" as NestingTests;
+import "test/NoCache_test.dart" as NoCacheTests;
 import "test/Nullable_test.dart" as NullableTests;
 import "test/OptimizedLists_test.dart" as OptimizedListsTests;
 import "test/PlainDataStructures_test.dart" as PlainDataStructuresTests;
@@ -98,6 +99,7 @@ final _allTests = [
   MultiListenerTests.main,
   MultipleInheritanceTests.main,
   NestingTests.main,
+  NoCacheTests.main,
   NullableTests.main,
   OptimizedListsTests.main,
   PlainDataStructuresTests.main,
