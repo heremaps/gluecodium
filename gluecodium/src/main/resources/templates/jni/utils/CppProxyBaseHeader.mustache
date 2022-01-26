@@ -43,12 +43,13 @@ namespace jni
 
 class JNIEXPORT CppProxyBase
 {
-public:
+private:
     template < typename ResultType, typename ImplType >
     static void
     createProxy( JNIEnv* jenv,
                  const JniReference<jobject>& jobj,
                  const ::std::string& type_key,
+                 bool do_cache,
                  ::std::shared_ptr< ResultType >& result )
     {
         JniReference<jobject> globalRef = new_global_ref( jenv, jobj.get() );
@@ -57,14 +58,17 @@ public:
 
         ::std::lock_guard< GlobalJniLock > lock( sGlobalJniLock );
         sGlobalJniLock.setJniEnvForCurrentThread( jenv );
-        auto iterator = sProxyCache.find( key );
-        if ( iterator != sProxyCache.end( ) )
-        {
-            auto cachedProxy = iterator->second.lock( );
-            if ( cachedProxy )
+
+        if (do_cache) {
+            auto iterator = sProxyCache.find( key );
+            if ( iterator != sProxyCache.end( ) )
             {
-                result = ::std::static_pointer_cast< ImplType >( cachedProxy );
-                return;
+                auto cachedProxy = iterator->second.lock( );
+                if ( cachedProxy )
+                {
+                    result = ::std::static_pointer_cast< ImplType >( cachedProxy );
+                    return;
+                }
             }
         }
 
@@ -76,8 +80,32 @@ public:
         }
         auto newProxy = ::std::shared_ptr< ImplType >( newProxyInstance );
         result = newProxy;
-        sProxyCache[ key ] = ::std::weak_ptr< ImplType >( newProxy );
-        registerInReverseCache(newProxyInstance, result.get(), key.jObject);
+
+        if (do_cache) {
+            sProxyCache[ key ] = ::std::weak_ptr< ImplType >( newProxy );
+            registerInReverseCache(newProxyInstance, result.get(), key.jObject);
+        }
+    }
+
+public:
+    template < typename ResultType, typename ImplType >
+    static void
+    createProxy( JNIEnv* jenv,
+                 const JniReference<jobject>& jobj,
+                 const ::std::string& type_key,
+                 ::std::shared_ptr< ResultType >& result )
+    {
+        createProxy<ResultType, ImplType>(jenv, jobj, type_key, true, result);
+    }
+
+    template < typename ResultType, typename ImplType >
+    static void
+    createProxyNoCache( JNIEnv* jenv,
+                 const JniReference<jobject>& jobj,
+                 const ::std::string& type_key,
+                 ::std::shared_ptr< ResultType >& result )
+    {
+        createProxy<ResultType, ImplType>(jenv, jobj, type_key, false, result);
     }
 
     template <class T>
