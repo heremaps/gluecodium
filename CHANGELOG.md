@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 10.6.2
+Release date: 2022-01-26
 ### Features:
   * Added support for `@NoCache` attribute in Java. This is an experimental feature.
 
