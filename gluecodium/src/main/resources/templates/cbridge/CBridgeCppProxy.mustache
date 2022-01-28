@@ -76,7 +76,7 @@ private:
 };
 
 _baseRef {{resolveName}}_create_proxy({{resolveName}}_FunctionTable functionTable) {
-    auto proxy = {{resolveName}}Proxy::get_proxy(::std::move(functionTable));
+    auto proxy = {{resolveName}}Proxy::get_proxy{{#if this.attributes.nocache}}_no_cache{{/if}}(::std::move(functionTable));
     return proxy ? reinterpret_cast<_baseRef>(new {{resolveName this "C++" "ref"}}({{!!
     }}{{#notInstanceOf this "LimeLambda"}}proxy{{/notInstanceOf}}{{!!
     }}{{#instanceOf this "LimeLambda"}}::std::bind(&{{resolveName}}Proxy::operator(), proxy{{!!
@@ -91,11 +91,13 @@ _baseRef {{resolveName}}_create_optional_proxy({{resolveName}}_FunctionTable fun
     }}{{#functions.0.parameters}}, ::std::placeholders::_{{iter.index}}{{/functions.0.parameters}}))) : 0;
 }
 {{/instanceOf}}
+{{#unless this.attributes.nocache}}
 
 const void* {{resolveName}}_get_swift_object_from_cache(_baseRef handle) {
     return handle ? {{resolveName}}Proxy::get_swift_object(get_pointer<{{resolveName this "C++" "ref"}}>(handle){{!!
     }}{{#notInstanceOf this "LimeLambda"}}->get(){{/notInstanceOf}}) : nullptr;
 }
+{{/unless}}
 
 {{+cppParameter}}{{!!
 }}{{#ifPredicate typeRef "isComplexType"}}{{!!

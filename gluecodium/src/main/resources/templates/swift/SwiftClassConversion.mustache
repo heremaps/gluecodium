@@ -85,6 +85,7 @@ extension {{>implName}}: Hashable {
 {{/unless}}
 
 {{>swift/ConversionVisibility}} func {{resolveName this "mangled"}}copyFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
+{{#unless this.attributes.nocache}}
 {{#instanceOf this "LimeInterface"}}
     if let swift_pointer = {{resolveName "CBridge"}}_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? {{resolveName this "" "ref"}} {
@@ -95,21 +96,27 @@ extension {{>implName}}: Hashable {
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? {{resolveName this "" "ref"}} {
         return re_constructed
     }
+{{/unless}}
 {{#ifPredicate "hasTypeRepository"}}
     if let swift_pointer = {{resolveName "CBridge"}}_get_typed({{resolveName "CBridge"}}_copy_handle(handle)),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? {{resolveName this "" "ref"}} {
+{{#unless this.attributes.nocache}}
         {{resolveName "CBridge"}}_cache_swift_object_wrapper(handle, swift_pointer)
+{{/unless}}
         return typed
     }
     fatalError("Failed to initialize Swift object")
 {{/ifPredicate}}{{#unlessPredicate "hasTypeRepository"}}
     let result = {{>implName}}(c{{resolveName}}: {{resolveName "CBridge"}}_copy_handle(handle))
+{{#unless this.attributes.nocache}}
     {{resolveName "CBridge"}}_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+{{/unless}}
     return result
 {{/unlessPredicate}}
 }
 
 {{>swift/ConversionVisibility}} func {{resolveName "mangled"}}moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}} {
+{{#unless this.attributes.nocache}}
 {{#instanceOf this "LimeInterface"}}{{#unlessPredicate "hasWeakSupport"}}
     if let swift_pointer = {{resolveName "CBridge"}}_get_swift_object_from_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? {{resolveName this "" "ref"}} {
@@ -134,16 +141,21 @@ extension {{>implName}}: Hashable {
         {{resolveName "CBridge"}}_release_handle(handle)
         return re_constructed
     }
+{{/unless}}
 {{#ifPredicate "hasTypeRepository"}}
     if let swift_pointer = {{resolveName "CBridge"}}_get_typed(handle),
         let typed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeRetainedValue() as? {{resolveName this "" "ref"}} {
+{{#unless this.attributes.nocache}}
         {{resolveName "CBridge"}}_cache_swift_object_wrapper(handle, swift_pointer)
+{{/unless}}
         return typed
     }
     fatalError("Failed to initialize Swift object")
 {{/ifPredicate}}{{#unlessPredicate "hasTypeRepository"}}
     let result = {{>implName}}(c{{resolveName}}: handle)
+{{#unless this.attributes.nocache}}
     {{resolveName "CBridge"}}_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+{{/unless}}
     return result
 {{/unlessPredicate}}
 }

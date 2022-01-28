@@ -54,4 +54,14 @@ public class NoCacheTest {
 
     assertFalse(result);
   }
+
+  @Test
+  public void noCacheClassFromCpp() {
+    NoCacheClass instance1 = NoCacheHelper.getNoCacheClass();
+    NoCacheClass instance2 = NoCacheHelper.getNoCacheClass();
+
+    boolean result = instance1 == instance2;
+
+    assertFalse(result);
+  }
 }

@@ -529,7 +529,7 @@ side on demand instead of a creating a full platform-side copy. C++ list is gene
   * type of a field in an `@Immutable` struct
 * **@NoCache**: *EXPERIMENTAL* marks a class or an interface to omit instance caching when crossing a language boundary.
 This breaks the referential equality invariant (see `Referential equality` below), but may save resources for use cases
-when a lot of small instances are sent over the language boundary repeatedly. Currently only works for Java.
+when a lot of small instances are sent over the language boundary repeatedly.
 * **@Skip(**\[**Tag** **=**\] **"**_CustomTag_**"**__)__ or **@Skip(**__CustomTag__**)**: marks an element to be skipped
 (not generated) if a custom tag with that name was defined through command-line parameters. Custom tags are
 case-insensitive. There are three predefined tags that do not need to be specified explicitly: "Java", "Swift", and

@@ -30,23 +30,27 @@ public:
         }}, f{{iter.position}}(f{{iter.position}}){{/ifPredicate}}{{/unless}}{{/each}}{{!!
         }}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}, p{{iter.position}}g(p{{iter.position}}g){{!!
         }}{{#if setter}}, p{{iter.position}}s(p{{iter.position}}s){{/if}}{{/ifPredicate}}{{/unless}}{{/each}} {
-{{#unless isLambda}}
+{{#unless isLambda}}{{#unless this.attributes.nocache}}
         {{libraryName}}_cache_dart_handle_by_raw_pointer(this, isolate_id, dart_handle);
-{{/unless}}
+{{/unless}}{{/unless}}
     }
 
     ~{{resolveName}}_Proxy() {
+{{#unless this.attributes.nocache}}
         {{>ffi/FfiInternal}}::remove_cached_proxy(token, isolate_id, "{{resolveName}}");
+{{/unless}}
 
 {{#unless isLambda}}
         auto raw_pointer_local = this;
         auto isolate_id_local = isolate_id;
 {{/unless}}
         auto dart_persistent_handle_local = dart_persistent_handle;
-        auto deleter = [{{#unless isLambda}}raw_pointer_local, isolate_id_local, {{/unless}}dart_persistent_handle_local]() {
-{{#unless isLambda}}
+        auto deleter = [{{!!
+        }}{{#unless isLambda}}{{#unless this.attributes.nocache}}raw_pointer_local, isolate_id_local, {{/unless}}{{/unless}}{{!!
+        }}dart_persistent_handle_local]() {
+{{#unless isLambda}}{{#unless this.attributes.nocache}}
             {{libraryName}}_uncache_dart_handle_by_raw_pointer(raw_pointer_local, isolate_id_local);
-{{/unless}}
+{{/unless}}{{/unless}}
             Dart_DeletePersistentHandle_DL(dart_persistent_handle_local);
         };
 

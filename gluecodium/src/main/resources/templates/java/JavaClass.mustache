@@ -32,7 +32,9 @@
     {{resolveName visibility}}{{resolveName classElement}}({{joinPartial parameters "java/JavaParameter" ", "}}){{!!
     }}{{#thrownType}} throws {{resolveName typeRef}}{{/thrownType}} {
         this({{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}), (Object)null);
+{{#unless classElement.attributes.nocache}}
         cacheThisInstance();
+{{/unless}}
     }
 {{/constructors}}{{/set}}
 {{#unless visibility.isInternal}}
@@ -50,9 +52,9 @@
     }{{#ifPredicate "needsDisposer"}}
 
     private static native void disposeNativeHandle(long nativeHandle);{{/ifPredicate}}
-{{#if constructors}}
+{{#if constructors}}{{#unless this.attributes.nocache}}
     private native void cacheThisInstance();
-{{/if}}
+{{/unless}}{{/if}}
 
 {{#if attributes.equatable attributes.pointerEquatable logic="or"}}
     @Override

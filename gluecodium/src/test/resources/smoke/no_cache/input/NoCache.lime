@@ -21,3 +21,9 @@ package smoke
 interface NoCacheInterface {
     fun foo()
 }
+
+@NoCache
+class NoCacheClass {
+    constructor make()
+    fun foo()
+}

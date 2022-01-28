@@ -29,7 +29,7 @@ _baseRef {{resolveName}}_copy_handle(_baseRef handle) {
         : 0;
 }
 
-{{#unless isFunctionalInterface}}
+{{#unless this.attributes.nocache}}
 const void* {{resolveName}}_get_swift_object_from_wrapper_cache(_baseRef handle) {
     return handle
         ? {{>common/InternalNamespace}}get_wrapper_cache().get_cached_wrapper(get_pointer<{{resolveName this "C++" "ref"}}>(handle)->get())

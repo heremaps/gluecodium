@@ -22,7 +22,14 @@ interface NoCacheInterface {
     fun foo()
 }
 
+@NoCache
+class NoCacheClass {
+    constructor make()
+    fun foo()
+}
+
 class NoCacheHelper {
     static fun getNoCacheInterface(): NoCacheInterface
+    static fun getNoCacheClass(): NoCacheClass
     static fun compareNoCacheInterface(instance1: NoCacheInterface, instance2: NoCacheInterface): Boolean
 }
