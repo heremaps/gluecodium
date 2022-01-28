@@ -13,7 +13,7 @@ public:
     virtual ~AttributesInterface() = 0;
 public:
     [[OnConstInInterface]]
-    _GLUECODIUM_CPP_EXPORT static const bool PI;
+    static const bool PI;
 public:
     [[OnFunctionInInterface]]
     virtual void very_fun( [[OnParameterInInterface]] const ::std::string& param ) = 0;

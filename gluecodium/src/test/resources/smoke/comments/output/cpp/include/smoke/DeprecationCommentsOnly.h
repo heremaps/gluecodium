@@ -43,7 +43,7 @@ public:
     /**
      * \deprecated Unfortunately, this constant is deprecated.
      */
-    _GLUECODIUM_CPP_EXPORT static const ::smoke::DeprecationCommentsOnly::Usefulness VERY_USEFUL;
+    static const ::smoke::DeprecationCommentsOnly::Usefulness VERY_USEFUL;
 public:
     /**
      *

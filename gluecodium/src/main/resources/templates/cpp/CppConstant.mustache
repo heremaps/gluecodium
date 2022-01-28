@@ -19,4 +19,4 @@
   !
   !}}
 {{>cpp/CppDocComment}}{{>cpp/CppAttributes}}
-{{>cpp/CppExportMacro}}{{storageQualifier}} const {{resolveName typeRef}} {{resolveName}};
+{{#if needsExport}}{{>cpp/CppExportMacro}}{{/if}}{{storageQualifier}} const {{resolveName typeRef}} {{resolveName}};

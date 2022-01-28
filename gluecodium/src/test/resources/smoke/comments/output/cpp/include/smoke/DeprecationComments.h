@@ -53,7 +53,7 @@ public:
      * This is some very useful constant.
      * \deprecated Unfortunately, this constant is deprecated. Use ::smoke::Comments::VERY_USEFUL instead.
      */
-    _GLUECODIUM_CPP_EXPORT static const ::smoke::DeprecationComments::Usefulness VERY_USEFUL;
+    static const ::smoke::DeprecationComments::Usefulness VERY_USEFUL;
 public:
     /**
      * This is some very useful method that measures the usefulness of its input.

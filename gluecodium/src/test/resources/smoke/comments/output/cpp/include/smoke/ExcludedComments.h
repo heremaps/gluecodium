@@ -66,7 +66,7 @@ public:
      * This is some very useful constant.
      * \private
      */
-    _GLUECODIUM_CPP_EXPORT static const ::smoke::ExcludedComments::Usefulness VERY_USEFUL;
+    static const ::smoke::ExcludedComments::Usefulness VERY_USEFUL;
 public:
     /**
      * This is some very useful method that measures the usefulness of its input.
