@@ -49,7 +49,7 @@ public:
     /**
      * \private
      */
-    _GLUECODIUM_CPP_EXPORT static const ::smoke::ExcludedCommentsOnly::Usefulness VERY_USEFUL;
+    static const ::smoke::ExcludedCommentsOnly::Usefulness VERY_USEFUL;
 public:
     /**
      *

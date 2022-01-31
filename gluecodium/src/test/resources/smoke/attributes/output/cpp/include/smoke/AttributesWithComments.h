@@ -27,7 +27,7 @@ public:
      * Const comment
      */
     [[OnConstInClass]]
-    _GLUECODIUM_CPP_EXPORT static const bool PI;
+    static const bool PI;
 public:
     /**
      * Function comment

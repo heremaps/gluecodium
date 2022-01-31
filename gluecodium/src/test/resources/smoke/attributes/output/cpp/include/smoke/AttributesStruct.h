@@ -8,7 +8,7 @@
 namespace smoke {
 struct _GLUECODIUM_CPP_EXPORT [[OnStruct]] AttributesStruct {
     [[OnConstInStruct]]
-    _GLUECODIUM_CPP_EXPORT static const bool PI;
+    static const bool PI;
     [[OnField]]
     ::std::string field;
     AttributesStruct( );

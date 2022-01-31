@@ -12,7 +12,7 @@ public:
     virtual ~AttributesClass() = 0;
 public:
     [[OnConstInClass]]
-    _GLUECODIUM_CPP_EXPORT static const bool PI;
+    static const bool PI;
 public:
     [[OnFunctionInClass]]
     virtual void very_fun( [[OnParameterInClass]] const ::std::string& param ) = 0;

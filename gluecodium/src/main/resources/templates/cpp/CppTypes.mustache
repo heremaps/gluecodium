@@ -23,6 +23,6 @@
 }}{{#instanceOf this "LimeLambda"}}{{>cpp/CppLambda}}{{/instanceOf}}{{!!
 }}{{#instanceOf this "LimeTypeAlias"}}{{>cpp/CppTypeAlias}}{{/instanceOf}}{{!!
 }}{{#instanceOf this "LimeStruct"}}{{>cpp/CppStruct}}{{/instanceOf}}{{!!
-}}{{#instanceOf this "LimeConstant"}}{{#set constant=this storageQualifier="extern"}}{{#constant}}{{!!
+}}{{#instanceOf this "LimeConstant"}}{{#set constant=this storageQualifier="extern" needsExport=true}}{{#constant}}{{!!
 }}{{>cpp/CppConstant}}{{/constant}}{{/set}}{{/instanceOf}}
 {{/sort}}

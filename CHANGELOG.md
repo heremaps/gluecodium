@@ -3,6 +3,8 @@
 ## Unreleased
 ### Features:
   * Added support for `@NoCache` attribute in Swift and Dart. This is an experimental feature.
+### Bug fixes:
+  * Fixed a Windows compilation issue in C++ for constants nested in classes/interfaces/structs.
 
 ## 10.6.2
 Release date: 2022-01-26

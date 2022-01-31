@@ -29,7 +29,7 @@ public:
                 NONE
             };
             struct _GLUECODIUM_CPP_EXPORT LevelFour {
-                _GLUECODIUM_CPP_EXPORT static const bool FOO;
+                static const bool FOO;
                 ::std::string string_field;
                 LevelFour( );
                 explicit LevelFour( ::std::string string_field );
