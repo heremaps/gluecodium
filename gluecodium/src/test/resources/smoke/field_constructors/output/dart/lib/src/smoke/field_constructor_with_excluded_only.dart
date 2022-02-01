@@ -3,7 +3,6 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 class FieldConstructorWithExcludedOnly {
   String stringField;
-  /// [stringField]
   /// @nodoc
   FieldConstructorWithExcludedOnly(this.stringField);
 }

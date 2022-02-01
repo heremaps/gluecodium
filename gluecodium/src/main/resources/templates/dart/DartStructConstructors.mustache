@@ -59,16 +59,18 @@
 {{/if}}{{/unless}}{{/unless}}{{/if}}{{!!
 
 }}{{#set struct=this container=this}}{{#fieldConstructors}}
-{{#unless comment.isEmpty}}{{#resolveName comment}}{{!!
-}}{{prefix this "  /// "}}{{/resolveName}}
-{{/unless}}{{!!
-}}{{#if comment.isEmpty}}{{#resolveName constructorComment}}{{#unless this.isEmpty}}{{!!
+{{#unless comment.isEmpty}}{{#resolveName comment}}{{#unless this.isEmpty}}{{!!
 }}{{prefix this "  /// "}}
-{{/unless}}{{/resolveName}}{{/if}}
-{{#ifPredicate "hasAnyComment"}}{{#fields}}
+{{#fields}}
   /// [{{resolveName}}] {{#resolveName comment}}{{#unless this.isEmpty}}{{!!
   }}{{prefix this "  /// " skipFirstLine=true}}{{/unless}}{{/resolveName}}
-{{/fields}}{{/ifPredicate}}{{!!
+{{/fields}}{{/unless}}{{/resolveName}}{{/unless}}{{!!
+}}{{#if comment.isEmpty}}{{#resolveName constructorComment}}{{#unless this.isEmpty}}{{!!
+}}{{prefix this "  /// "}}
+{{#fields}}
+  /// [{{resolveName}}] {{#resolveName comment}}{{#unless this.isEmpty}}{{!!
+  }}{{prefix this "  /// " skipFirstLine=true}}{{/unless}}{{/resolveName}}
+{{/fields}}{{/unless}}{{/resolveName}}{{/if}}{{!!
 }}{{#if this.comment.isExcluded}}
   /// @nodoc
 {{/if}}{{!!
