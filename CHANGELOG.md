@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 10.6.4
+Release date: 2022-02-01
 ### Bug fixes:
   * For the field constructors which have to documentation comment specified, parameters documentation is no longer
   erroneously generated in Dart.
