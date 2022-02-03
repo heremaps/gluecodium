@@ -22,4 +22,4 @@
 {{/unless}}{{!!
 }}{{#if attributes.toString}}{{attributes}}
 {{/if}}
-{{visibility}}field constructor({{#fields}}{{name}}{{#if iter.hasNext}}, {{/if}}{{/fields}})
+{{visibility}}field constructor({{#fields}}{{escapedName}}{{#if iter.hasNext}}, {{/if}}{{/fields}})

@@ -3,7 +3,7 @@ import `package`.`types`.`ULong`
 import `package`.`types`.`enum`
 import `package`.`types`.`exception`
 import `package`.`types`.`struct`
-class `class` : interface {
+class `class` : `interface` {
     constructor `constructor`()
     fun `fun`(
         `Double`: `ULong`

@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed LIME generator issues with backtick-escaping and list-values in attributes.
+
 ## 10.6.4
 Release date: 2022-02-01
 ### Bug fixes:

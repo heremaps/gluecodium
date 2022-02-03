@@ -90,7 +90,7 @@ class LimeAttributes private constructor(
         valueType: LimeAttributeValueType,
         literal: Any
     ): String {
-        val prefix = if (valueType != attributeType.defaultValueType) valueType.toString() else ""
+        val prefix = if (valueType != attributeType.defaultValueType || literal is List<*>) valueType.toString() else ""
         val suffix = createValueLiteral(literal)
         val infix = if (prefix.isNotEmpty() && suffix.isNotEmpty()) " = " else ""
         return "$prefix$infix$suffix"
