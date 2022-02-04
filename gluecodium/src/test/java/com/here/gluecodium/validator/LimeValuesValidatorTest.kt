@@ -76,7 +76,7 @@ class LimeValuesValidatorTest(
             arrayOf(LimeBasicTypeRef.FLOAT, LimeValue.Literal(fooTypeRef, ""), true),
             arrayOf(LimeBasicTypeRef(LimeBasicType.TypeId.BOOLEAN), LimeValue.Literal(fooTypeRef, ""), true),
             arrayOf(LimeBasicTypeRef(LimeBasicType.TypeId.STRING), LimeValue.Literal(fooTypeRef, ""), true),
-            arrayOf(LimeBasicTypeRef(LimeBasicType.TypeId.DATE), LimeValue.Literal(fooTypeRef, ""), false),
+            arrayOf(LimeBasicTypeRef(LimeBasicType.TypeId.DATE), LimeValue.Literal(fooTypeRef, ""), true),
             arrayOf(fooTypeRef, LimeValue.Literal(fooTypeRef, ""), false),
             arrayOf(
                 LimeDirectTypeRef(LimeEnumeration(EMPTY_PATH)),

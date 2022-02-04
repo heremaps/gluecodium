@@ -1,0 +1,6 @@
+package smoke
+struct DateDefaults {
+    dateTime: Date = "2022-02-04T09:15:17Z"
+    dateTimeUtc: Date = "2022-02-04T09:15:17Z"
+    beforeEpoch: Date = "1922-02-04T09:15:17Z"
+}

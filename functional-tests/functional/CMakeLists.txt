@@ -372,6 +372,7 @@ feature(Dates cpp android swift dart SOURCES
     input/src/cpp/Dates.cpp
 
     input/lime/Dates.lime
+    input/lime/DateDefaults.lime
 )
 
 feature(Durations cpp android swift dart SOURCES

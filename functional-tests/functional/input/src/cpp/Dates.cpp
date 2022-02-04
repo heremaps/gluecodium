@@ -18,6 +18,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+#include "test/DateDefaults.h"
 #include "test/Dates.h"
 #include "test/DatesSteady.h"
 
@@ -77,5 +78,8 @@ std::vector<steady_clock::time_point>
 DatesSteady::date_list_method(const std::vector<steady_clock::time_point>& input) {
     return input;
 }
+
+DateDefaults
+DateDefaults::get_cpp_defaults() { return {}; }
 
 }

@@ -462,6 +462,9 @@ Binary, octal or hexadecimal integer literals are currently not supported.
 String literals are enclosed in quotes `"`, e.g. `"hello"`. Unicode characters are supported. Also,
 a limited set of escaped characters is currently supported: `\\`, `\"`, `\n`, `\r`, `\t`.
 
+A string literal can be used to initialize a `Date` value. In this case it has to conform to ISO 8601 standard: e.g.
+`"2022-02-04T11:15:17+02:00"`, or `"2022-02-04T09:15:17Z"` for a UTC value.
+
 #### Special literals
 
 * `null`: "null" value for nullable types.

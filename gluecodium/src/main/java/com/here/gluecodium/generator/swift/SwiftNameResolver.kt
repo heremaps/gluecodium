@@ -147,6 +147,7 @@ internal class SwiftNameResolver(
             }
             is LimeValue.KeyValuePair -> "${resolveValue(limeValue.key)}: ${resolveValue(limeValue.value)}"
             is LimeValue.Duration -> resolveDurationValue(limeValue)
+            is LimeValue.Date -> "Date(timeIntervalSince1970: ${limeValue.epochSeconds})"
         }
 
     private fun resolveDurationValue(limeValue: LimeValue.Duration): String {

@@ -40,7 +40,7 @@ class LimeBasicType(val typeId: TypeId) : LimeType(path = LimePath.EMPTY_PATH) {
         BOOLEAN("Boolean", false, false, true),
         STRING("String", false, false, true),
         BLOB("Blob"),
-        DATE("Date"),
+        DATE("Date", false, false, true),
         DURATION("Duration"),
         LOCALE("Locale");
 

@@ -63,6 +63,7 @@ internal class JavaValueResolver(private val nameResolver: JavaNameResolver) {
                 "new AbstractMap.SimpleEntry<>($keyValue, $valueValue)"
             }
             is LimeValue.Duration -> mapDurationValue(limeValue)
+            is LimeValue.Date -> "new Date(${limeValue.epochSeconds}000L)"
         }
 
     private fun mapInitializerList(limeValue: LimeValue.InitializerList): String {

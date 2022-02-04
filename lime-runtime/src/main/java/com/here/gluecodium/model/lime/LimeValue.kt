@@ -20,6 +20,7 @@
 package com.here.gluecodium.model.lime
 
 import com.here.gluecodium.common.StringHelper
+import java.time.Instant
 
 /**
  * Represents a constant value on the right-hand side of an assignment (used in constants, field
@@ -107,6 +108,10 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement() {
         }
 
         override fun toString() = value + timeUnit
+    }
+
+    class Date(typeRef: LimeTypeRef, val epochSeconds: Long) : LimeValue(typeRef) {
+        override fun toString() = "\"${Instant.ofEpochSecond(epochSeconds)}\""
     }
 
     open val escapedValue
