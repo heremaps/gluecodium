@@ -41,7 +41,7 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
         functions: List<LimeFunction> = getAllOverloads(limeFunction)
     ): Boolean {
         val signature = getSignature(limeFunction)
-        return functions.map { getSignature(it) }.filter { it == signature }.count() > 1
+        return functions.map { getSignature(it) }.count { it == signature } > 1
     }
 
     fun hasConstructorSignatureClash(limeFunction: LimeFunction): Boolean {

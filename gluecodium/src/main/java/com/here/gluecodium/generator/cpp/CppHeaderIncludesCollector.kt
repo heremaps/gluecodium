@@ -55,7 +55,7 @@ internal class CppHeaderIncludesCollector(
             allTypeRefs.flatMap { includesResolver.resolveElementImports(it) } +
             allValues.flatMap { includesResolver.resolveElementImports(it) } +
             allTypes.flatMap { includesResolver.resolveElementImports(it) } +
-            additionalIncludes - forwardDeclaredTypes.flatMap { includesResolver.resolveElementImports(it) }
+            additionalIncludes - forwardDeclaredTypes.flatMap { includesResolver.resolveElementImports(it) }.toSet()
     }
 
     private fun collectAdditionalIncludes(

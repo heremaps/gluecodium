@@ -42,7 +42,4 @@ internal abstract class ReferenceMapBasedResolver(protected val limeReferenceMap
                 )
             )
     }
-
-    protected fun getTopElement(limeElement: LimeNamedElement) =
-        generateSequence(limeElement) { limeReferenceMap[it.path.parent.toString()] as? LimeNamedElement }.last()
 }

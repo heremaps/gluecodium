@@ -32,7 +32,7 @@ class LimeFieldConstructor(
     val fields
         get() = fieldRefs.map { it.field }
     val omittedFields
-        get() = struct.fields - fields
+        get() = struct.fields - fields.toSet()
 
     fun asFunction() = LimeFunction(
         path = path,
