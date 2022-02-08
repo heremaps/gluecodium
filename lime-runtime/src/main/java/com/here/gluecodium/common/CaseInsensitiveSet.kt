@@ -28,9 +28,9 @@ class CaseInsensitiveSet(elements: Collection<String> = emptySet()) :
 
     override fun remove(element: String) = super.remove(element.toLowerCase())
 
-    override fun removeAll(elements: Collection<String>) = super.removeAll(elements.map { it.toLowerCase() })
+    override fun removeAll(elements: Collection<String>) = super.removeAll(elements.map { it.toLowerCase() }.toSet())
 
-    override fun retainAll(elements: Collection<String>) = super.retainAll(elements.map { it.toLowerCase() })
+    override fun retainAll(elements: Collection<String>) = super.retainAll(elements.map { it.toLowerCase() }.toSet())
 
     override fun contains(element: String) = super.contains(element.toLowerCase())
 
