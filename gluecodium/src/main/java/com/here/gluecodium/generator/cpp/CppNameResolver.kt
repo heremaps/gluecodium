@@ -185,6 +185,7 @@ internal class CppNameResolver(
                 limeValue.values.joinToString(", ", "${resolveName(limeValue.typeRef)}{", "}") { resolveValue(it) }
             is LimeValue.KeyValuePair -> "{${resolveValue(limeValue.key)}, ${resolveValue(limeValue.value)}}"
             is LimeValue.Duration -> resolveDurationValue(limeValue)
+            is LimeValue.Date -> "::std::chrono::system_clock::from_time_t(${limeValue.epochSeconds})"
         }
 
     private fun resolveDurationValue(limeValue: LimeValue.Duration): String {

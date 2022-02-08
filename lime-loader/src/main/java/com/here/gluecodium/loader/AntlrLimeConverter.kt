@@ -38,6 +38,9 @@ import com.here.gluecodium.model.lime.LimeValue
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.tree.ParseTreeWalker
+import java.time.DateTimeException
+import java.time.Instant
+import java.time.format.DateTimeFormatter
 
 internal object AntlrLimeConverter {
 
@@ -271,5 +274,14 @@ internal object AntlrLimeConverter {
             ?: throw LimeLoadingException("Unsupported time unit: '$timeUnitText'")
         val sign = if (isNegative) "-" else ""
         return LimeValue.Duration(limeTypeRef, sign + valueText, timeUnit)
+    }
+
+    fun convertDateLiteral(limeTypeRef: LimeTypeRef, literalText: String): LimeValue.Date {
+        val epochSeconds = try {
+            Instant.from(DateTimeFormatter.ISO_DATE_TIME.parse(literalText)).epochSecond
+        } catch (e: DateTimeException) {
+            throw LimeLoadingException("Invalid `Date` literal: '$literalText'")
+        }
+        return LimeValue.Date(limeTypeRef, epochSeconds)
     }
 }

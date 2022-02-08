@@ -171,6 +171,7 @@ internal class DartNameResolver(
             }
             is LimeValue.KeyValuePair -> "${resolveValue(limeValue.key)}: ${resolveValue(limeValue.value)}"
             is LimeValue.Duration -> resolveDurationValue(limeValue)
+            is LimeValue.Date -> "DateTime.fromMillisecondsSinceEpoch(${limeValue.epochSeconds}000)"
         }
 
     private fun resolveDurationValue(limeValue: LimeValue.Duration): String {

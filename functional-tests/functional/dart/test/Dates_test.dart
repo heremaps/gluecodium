@@ -91,4 +91,52 @@ void main() {
     expect(result?.minute, 10);
     expect(result?.second, 12);
   });
+  _testSuite.test("Date literal CET", () {
+    final defaults = DateDefaults();
+
+    final result = defaults.dateTime;
+
+    expect(result.year, 2022);
+    expect(result.month, 2);
+    expect(result.day, 4);
+    expect(result.hour, 9);
+    expect(result.minute, 15);
+    expect(result.second, 17);
+  });
+  _testSuite.test("Date literal UTC", () {
+    final defaults = DateDefaults();
+
+    final result = defaults.dateTimeUtc;
+
+    expect(result.year, 2022);
+    expect(result.month, 2);
+    expect(result.day, 4);
+    expect(result.hour, 9);
+    expect(result.minute, 15);
+    expect(result.second, 17);
+  });
+  _testSuite.test("Date literal before epoch", () {
+    final defaults = DateDefaults();
+
+    final result = defaults.beforeEpoch;
+
+    expect(result.year, 1922);
+    expect(result.month, 2);
+    expect(result.day, 4);
+    expect(result.hour, 9);
+    expect(result.minute, 15);
+    expect(result.second, 17);
+  });
+  _testSuite.test("Date literal from C++", () {
+    final defaults = DateDefaults.getCppDefaults();
+
+    final result = defaults.dateTimeUtc;
+
+    expect(result.year, 2022);
+    expect(result.month, 2);
+    expect(result.day, 4);
+    expect(result.hour, 9);
+    expect(result.minute, 15);
+    expect(result.second, 17);
+  });
 }
