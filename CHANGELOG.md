@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed compilation issues in Java and Dart when a `Date` literal is exactly at 0 seconds since Unix "epoch".
+
 ## 10.7.0
 Release date: 2022-02-08
 ### Features:
