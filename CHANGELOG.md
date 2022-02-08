@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 10.7.0
+Release date: 2022-02-08
 ### Features:
   * Added support for `Date` type literal values.
 
