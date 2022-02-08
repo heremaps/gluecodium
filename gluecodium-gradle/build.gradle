@@ -15,8 +15,8 @@ dependencies {
     }
     implementation 'com.natpryce:konfig:1.6.10.0'
 
-    testImplementation 'io.mockk:mockk-dsl-jvm:1.12.0'
-    testImplementation 'io.mockk:mockk:1.12.0'
+    testImplementation 'io.mockk:mockk-dsl-jvm:1.12.2'
+    testImplementation 'io.mockk:mockk:1.12.2'
     testImplementation 'junit:junit:4.13.2'
 }
 
