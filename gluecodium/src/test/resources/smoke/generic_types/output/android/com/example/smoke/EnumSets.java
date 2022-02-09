@@ -13,7 +13,4 @@ public final class EnumSets {
     public EnumSets() {
         this.enumSetField = new EnumSet<>();
     }
-    public EnumSets(@NonNull final Set<GenericTypesWithCompoundTypes.SomeEnum> enumSetField) {
-        this.enumSetField = enumSetField;
-    }
 }

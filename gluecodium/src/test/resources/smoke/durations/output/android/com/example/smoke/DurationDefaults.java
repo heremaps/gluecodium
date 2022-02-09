@@ -28,13 +28,4 @@ public final class DurationDefaults {
         this.microz = Duration.ofNanos(665000L);
         this.nanoz = Duration.ofNanos(314635L);
     }
-    public DurationDefaults(@NonNull final Duration dayz, @NonNull final Duration hourz, @NonNull final Duration minutez, @NonNull final Duration secondz, @NonNull final Duration milliz, @NonNull final Duration microz, @NonNull final Duration nanoz) {
-        this.dayz = dayz;
-        this.hourz = hourz;
-        this.minutez = minutez;
-        this.secondz = secondz;
-        this.milliz = milliz;
-        this.microz = microz;
-        this.nanoz = nanoz;
-    }
 }

@@ -31,11 +31,4 @@ public final class StructWithInitializerDefaults {
         this.setTypeField = new HashSet<>(Arrays.asList("foo", "bar"));
         this.mapField = new HashMap<>(Stream.of(new AbstractMap.SimpleEntry<>(1L, "foo"), new AbstractMap.SimpleEntry<>(42L, "bar")).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
     }
-    public StructWithInitializerDefaults(@NonNull final List<Integer> intsField, @NonNull final List<Float> floatsField, @NonNull final StructWithAnEnum structField, @NonNull final Set<String> setTypeField, @NonNull final Map<Long, String> mapField) {
-        this.intsField = intsField;
-        this.floatsField = floatsField;
-        this.structField = structField;
-        this.setTypeField = setTypeField;
-        this.mapField = mapField;
-    }
 }

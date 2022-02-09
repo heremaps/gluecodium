@@ -16,9 +16,4 @@ public final class StructWithEnums {
         this.explicitField = SomethingEnum.EXPLICIT;
         this.lastField = SomethingEnum.LAST;
     }
-    public StructWithEnums(@NonNull final SomethingEnum firstField, @NonNull final SomethingEnum explicitField, @NonNull final SomethingEnum lastField) {
-        this.firstField = firstField;
-        this.explicitField = explicitField;
-        this.lastField = lastField;
-    }
 }

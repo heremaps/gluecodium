@@ -11,9 +11,6 @@ public final class OuterStructWithFieldConstructor {
         public InnerStructWithDefaults() {
             this.innerStructField = 1.0;
         }
-        public InnerStructWithDefaults(final double innerStructField) {
-            this.innerStructField = innerStructField;
-        }
     }
     public OuterStructWithFieldConstructor(@NonNull final OuterStructWithFieldConstructor.InnerStructWithDefaults outerStructField) {
         this.outerStructField = outerStructField;

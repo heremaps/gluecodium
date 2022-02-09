@@ -1,6 +1,5 @@
 /*
  *
-
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
@@ -34,10 +33,6 @@ public final class PublicClass extends NativeBase {
         public float publicField;
         public PublicStructWithInternalDefaults(final float publicField) {
             this.internalField = "foo";
-            this.publicField = publicField;
-        }
-        PublicStructWithInternalDefaults(@NonNull final String internalField, final float publicField) {
-            this.internalField = internalField;
             this.publicField = publicField;
         }
     }
