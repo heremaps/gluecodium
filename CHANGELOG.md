@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 10.7.2
+Release date: 2022-02-14
 ### Bug fixes:
   * Validation now takes `@Skip(Tag="TagName")` and `@EnableIf(Tag="TagName")` attributes into account. This fixes some
   validation issues when field constructors and/or fields are skipped/enabled by tags.
