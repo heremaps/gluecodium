@@ -23,8 +23,8 @@ class AttributesWithDeprecated_SomeStruct {
   @Deprecated("")
   @OnField
   String field;
-  AttributesWithDeprecated_SomeStruct(this.field);
-  AttributesWithDeprecated_SomeStruct.withDefaults()
+  AttributesWithDeprecated_SomeStruct._(this.field);
+  AttributesWithDeprecated_SomeStruct()
     : field = "";
 }
 // AttributesWithDeprecated_SomeStruct "private" section, not exported.
@@ -49,7 +49,7 @@ Pointer<Void> smokeAttributeswithdeprecatedSomestructToFfi(AttributesWithDepreca
 AttributesWithDeprecated_SomeStruct smokeAttributeswithdeprecatedSomestructFromFfi(Pointer<Void> handle) {
   final _fieldHandle = _smokeAttributeswithdeprecatedSomestructGetFieldfield(handle);
   try {
-    return AttributesWithDeprecated_SomeStruct(
+    return AttributesWithDeprecated_SomeStruct._(
       stringFromFfi(_fieldHandle)
     );
   } finally {

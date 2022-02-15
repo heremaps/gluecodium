@@ -6,8 +6,8 @@ class PublicFieldsNone {
   /// @nodoc
   @internal
   String internal_internalField;
-  PublicFieldsNone(this.internal_internalField);
-  PublicFieldsNone.withDefaults()
+  PublicFieldsNone._(this.internal_internalField);
+  PublicFieldsNone()
     : internal_internalField = "foo";
 }
 // PublicFieldsNone "private" section, not exported.
@@ -32,7 +32,7 @@ Pointer<Void> smokePublicfieldsnoneToFfi(PublicFieldsNone value) {
 PublicFieldsNone smokePublicfieldsnoneFromFfi(Pointer<Void> handle) {
   final _internalFieldHandle = _smokePublicfieldsnoneGetFieldinternalField(handle);
   try {
-    return PublicFieldsNone(
+    return PublicFieldsNone._(
       stringFromFfi(_internalFieldHandle)
     );
   } finally {

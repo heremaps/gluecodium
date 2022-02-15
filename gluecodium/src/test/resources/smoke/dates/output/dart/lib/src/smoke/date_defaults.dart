@@ -6,8 +6,8 @@ class DateDefaults {
   DateTime dateTimeUtc;
   DateTime beforeEpoch;
   DateTime exactlyEpoch;
-  DateDefaults(this.dateTime, this.dateTimeUtc, this.beforeEpoch, this.exactlyEpoch);
-  DateDefaults.withDefaults()
+  DateDefaults._(this.dateTime, this.dateTimeUtc, this.beforeEpoch, this.exactlyEpoch);
+  DateDefaults()
     : dateTime = DateTime.fromMillisecondsSinceEpoch(1643966117000), dateTimeUtc = DateTime.fromMillisecondsSinceEpoch(1643966117000), beforeEpoch = DateTime.fromMillisecondsSinceEpoch(-1511793883000), exactlyEpoch = DateTime.fromMillisecondsSinceEpoch(0);
 }
 // DateDefaults "private" section, not exported.
@@ -53,7 +53,7 @@ DateDefaults smokeDatedefaultsFromFfi(Pointer<Void> handle) {
   final _beforeEpochHandle = _smokeDatedefaultsGetFieldbeforeEpoch(handle);
   final _exactlyEpochHandle = _smokeDatedefaultsGetFieldexactlyEpoch(handle);
   try {
-    return DateDefaults(
+    return DateDefaults._(
       dateFromFfi(_dateTimeHandle),
       dateFromFfi(_dateTimeUtcHandle),
       dateFromFfi(_beforeEpochHandle),

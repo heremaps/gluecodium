@@ -67,8 +67,8 @@ class StructWithDefaults {
   bool boolField;
   String stringField;
   SomeEnum enumField;
-  StructWithDefaults(this.intField, this.uintField, this.floatField, this.doubleField, this.boolField, this.stringField, this.enumField);
-  StructWithDefaults.withDefaults()
+  StructWithDefaults._(this.intField, this.uintField, this.floatField, this.doubleField, this.boolField, this.stringField, this.enumField);
+  StructWithDefaults()
     : intField = 42, uintField = 4294967295, floatField = 3.14, doubleField = -1.4142, boolField = true, stringField = "\\Jonny \"Magic\" Smith\n", enumField = SomeEnum.barValue;
 }
 // StructWithDefaults "private" section, not exported.
@@ -131,7 +131,7 @@ StructWithDefaults smokeTypeswithdefaultsStructwithdefaultsFromFfi(Pointer<Void>
   final _stringFieldHandle = _smokeTypeswithdefaultsStructwithdefaultsGetFieldstringField(handle);
   final _enumFieldHandle = _smokeTypeswithdefaultsStructwithdefaultsGetFieldenumField(handle);
   try {
-    return StructWithDefaults(
+    return StructWithDefaults._(
       (_intFieldHandle),
       (_uintFieldHandle),
       (_floatFieldHandle),
@@ -308,8 +308,8 @@ void smokeTypeswithdefaultsImmutablestructwithdefaultsReleaseFfiHandleNullable(P
 // End of ImmutableStructWithDefaults "private" section.
 class StructWithAnEnum {
   AnEnum config;
-  StructWithAnEnum(this.config);
-  StructWithAnEnum.withDefaults()
+  StructWithAnEnum._(this.config);
+  StructWithAnEnum()
     : config = AnEnum.enabled;
 }
 // StructWithAnEnum "private" section, not exported.
@@ -334,7 +334,7 @@ Pointer<Void> smokeTypeswithdefaultsStructwithanenumToFfi(StructWithAnEnum value
 StructWithAnEnum smokeTypeswithdefaultsStructwithanenumFromFfi(Pointer<Void> handle) {
   final _configHandle = _smokeTypeswithdefaultsStructwithanenumGetFieldconfig(handle);
   try {
-    return StructWithAnEnum(
+    return StructWithAnEnum._(
       smokeAnenumAnenumFromFfi(_configHandle)
     );
   } finally {

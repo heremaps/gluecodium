@@ -6,7 +6,6 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:meta/meta.dart';
 abstract class DefaultValues {
-
   static DefaultValues_StructWithDefaults processStructWithDefaults(DefaultValues_StructWithDefaults input) => $prototype.processStructWithDefaults(input);
   /// @nodoc
   @visibleForTesting
@@ -131,8 +130,8 @@ class DefaultValues_StructWithDefaults {
   String stringField;
   DefaultValues_SomeEnum enumField;
   DefaultValues_ExternalEnum externalEnumField;
-  DefaultValues_StructWithDefaults(this.intField, this.uintField, this.floatField, this.doubleField, this.boolField, this.stringField, this.enumField, this.externalEnumField);
-  DefaultValues_StructWithDefaults.withDefaults()
+  DefaultValues_StructWithDefaults._(this.intField, this.uintField, this.floatField, this.doubleField, this.boolField, this.stringField, this.enumField, this.externalEnumField);
+  DefaultValues_StructWithDefaults()
     : intField = 42, uintField = 4294967295, floatField = 3.14, doubleField = -1.4142, boolField = true, stringField = "\\Jonny \"Magic\" Smith\n", enumField = DefaultValues_SomeEnum.barValue, externalEnumField = DefaultValues_ExternalEnum.anotherValue;
 }
 // DefaultValues_StructWithDefaults "private" section, not exported.
@@ -202,7 +201,7 @@ DefaultValues_StructWithDefaults smokeDefaultvaluesStructwithdefaultsFromFfi(Poi
   final _enumFieldHandle = _smokeDefaultvaluesStructwithdefaultsGetFieldenumField(handle);
   final _externalEnumFieldHandle = _smokeDefaultvaluesStructwithdefaultsGetFieldexternalEnumField(handle);
   try {
-    return DefaultValues_StructWithDefaults(
+    return DefaultValues_StructWithDefaults._(
       (_intFieldHandle),
       (_uintFieldHandle),
       (_floatFieldHandle),
@@ -257,8 +256,8 @@ class DefaultValues_NullableStructWithDefaults {
   bool? boolField;
   String? stringField;
   DefaultValues_SomeEnum? enumField;
-  DefaultValues_NullableStructWithDefaults(this.intField, this.uintField, this.floatField, this.boolField, this.stringField, this.enumField);
-  DefaultValues_NullableStructWithDefaults.withDefaults()
+  DefaultValues_NullableStructWithDefaults._(this.intField, this.uintField, this.floatField, this.boolField, this.stringField, this.enumField);
+  DefaultValues_NullableStructWithDefaults()
     : intField = null, uintField = null, floatField = null, boolField = null, stringField = null, enumField = null;
 }
 // DefaultValues_NullableStructWithDefaults "private" section, not exported.
@@ -318,7 +317,7 @@ DefaultValues_NullableStructWithDefaults smokeDefaultvaluesNullablestructwithdef
   final _stringFieldHandle = _smokeDefaultvaluesNullablestructwithdefaultsGetFieldstringField(handle);
   final _enumFieldHandle = _smokeDefaultvaluesNullablestructwithdefaultsGetFieldenumField(handle);
   try {
-    return DefaultValues_NullableStructWithDefaults(
+    return DefaultValues_NullableStructWithDefaults._(
       intFromFfiNullable(_intFieldHandle),
       uIntFromFfiNullable(_uintFieldHandle),
       floatFromFfiNullable(_floatFieldHandle),
@@ -373,8 +372,8 @@ class DefaultValues_StructWithSpecialDefaults {
   double doubleNanField;
   double doubleInfinityField;
   double doubleNegativeInfinityField;
-  DefaultValues_StructWithSpecialDefaults(this.floatNanField, this.floatInfinityField, this.floatNegativeInfinityField, this.doubleNanField, this.doubleInfinityField, this.doubleNegativeInfinityField);
-  DefaultValues_StructWithSpecialDefaults.withDefaults()
+  DefaultValues_StructWithSpecialDefaults._(this.floatNanField, this.floatInfinityField, this.floatNegativeInfinityField, this.doubleNanField, this.doubleInfinityField, this.doubleNegativeInfinityField);
+  DefaultValues_StructWithSpecialDefaults()
     : floatNanField = double.nan, floatInfinityField = double.infinity, floatNegativeInfinityField = double.negativeInfinity, doubleNanField = double.nan, doubleInfinityField = double.infinity, doubleNegativeInfinityField = double.negativeInfinity;
 }
 // DefaultValues_StructWithSpecialDefaults "private" section, not exported.
@@ -428,7 +427,7 @@ DefaultValues_StructWithSpecialDefaults smokeDefaultvaluesStructwithspecialdefau
   final _doubleInfinityFieldHandle = _smokeDefaultvaluesStructwithspecialdefaultsGetFielddoubleInfinityField(handle);
   final _doubleNegativeInfinityFieldHandle = _smokeDefaultvaluesStructwithspecialdefaultsGetFielddoubleNegativeInfinityField(handle);
   try {
-    return DefaultValues_StructWithSpecialDefaults(
+    return DefaultValues_StructWithSpecialDefaults._(
       (_floatNanFieldHandle),
       (_floatInfinityFieldHandle),
       (_floatNegativeInfinityFieldHandle),
@@ -476,9 +475,9 @@ class DefaultValues_StructWithEmptyDefaults {
   Map<int, String> mapField;
   DefaultValues_StructWithDefaults structField;
   Set<String> setTypeField;
-  DefaultValues_StructWithEmptyDefaults(this.intsField, this.floatsField, this.mapField, this.structField, this.setTypeField);
-  DefaultValues_StructWithEmptyDefaults.withDefaults()
-    : intsField = [], floatsField = [], mapField = {}, structField = DefaultValues_StructWithDefaults.withDefaults(), setTypeField = {};
+  DefaultValues_StructWithEmptyDefaults._(this.intsField, this.floatsField, this.mapField, this.structField, this.setTypeField);
+  DefaultValues_StructWithEmptyDefaults()
+    : intsField = [], floatsField = [], mapField = {}, structField = DefaultValues_StructWithDefaults(), setTypeField = {};
 }
 // DefaultValues_StructWithEmptyDefaults "private" section, not exported.
 final _smokeDefaultvaluesStructwithemptydefaultsCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -530,7 +529,7 @@ DefaultValues_StructWithEmptyDefaults smokeDefaultvaluesStructwithemptydefaultsF
   final _structFieldHandle = _smokeDefaultvaluesStructwithemptydefaultsGetFieldstructField(handle);
   final _setTypeFieldHandle = _smokeDefaultvaluesStructwithemptydefaultsGetFieldsetTypeField(handle);
   try {
-    return DefaultValues_StructWithEmptyDefaults(
+    return DefaultValues_StructWithEmptyDefaults._(
       listofIntFromFfi(_intsFieldHandle),
       listofFloatFromFfi(_floatsFieldHandle),
       mapofUintToStringFromFfi(_mapFieldHandle),
@@ -581,8 +580,8 @@ class DefaultValues_StructWithTypedefDefaults {
   bool boolField;
   String stringField;
   DefaultValues_SomeEnum enumField;
-  DefaultValues_StructWithTypedefDefaults(this.longField, this.boolField, this.stringField, this.enumField);
-  DefaultValues_StructWithTypedefDefaults.withDefaults()
+  DefaultValues_StructWithTypedefDefaults._(this.longField, this.boolField, this.stringField, this.enumField);
+  DefaultValues_StructWithTypedefDefaults()
     : longField = 42, boolField = true, stringField = "\\Jonny \"Magic\" Smith\n", enumField = DefaultValues_SomeEnum.barValue;
 }
 // DefaultValues_StructWithTypedefDefaults "private" section, not exported.
@@ -627,7 +626,7 @@ DefaultValues_StructWithTypedefDefaults smokeDefaultvaluesStructwithtypedefdefau
   final _stringFieldHandle = _smokeDefaultvaluesStructwithtypedefdefaultsGetFieldstringField(handle);
   final _enumFieldHandle = _smokeDefaultvaluesStructwithtypedefdefaultsGetFieldenumField(handle);
   try {
-    return DefaultValues_StructWithTypedefDefaults(
+    return DefaultValues_StructWithTypedefDefaults._(
       (_longFieldHandle),
       booleanFromFfi(_boolFieldHandle),
       stringFromFfi(_stringFieldHandle),
@@ -687,7 +686,6 @@ final _smokeDefaultvaluesReleaseHandle = __lib.catchArgumentError(() => __lib.na
 @visibleForTesting
 class DefaultValues$Impl extends __lib.NativeBase implements DefaultValues {
   DefaultValues$Impl(Pointer<Void> handle) : super(handle);
-
   DefaultValues_StructWithDefaults processStructWithDefaults(DefaultValues_StructWithDefaults input) {
     final _processStructWithDefaultsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_DefaultValues_processStructWithDefaults__StructWithDefaults'));
     final _inputHandle = smokeDefaultvaluesStructwithdefaultsToFfi(input);

@@ -6,8 +6,6 @@ class StructWithAllDefaults {
   String stringField;
   StructWithAllDefaults([int intField = 42, String stringField = "\\Jonny \"Magic\" Smith\n"])
     : intField = intField, stringField = stringField;
-  StructWithAllDefaults.withDefaults()
-    : intField = 42, stringField = "\\Jonny \"Magic\" Smith\n";
 }
 // StructWithAllDefaults "private" section, not exported.
 final _smokeStructwithalldefaultsCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<

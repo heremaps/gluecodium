@@ -58,7 +58,7 @@ DartDeprecatedPosDefaultsCustom smokeDartdeprecatedposdefaultscustomFromFfi(Poin
   final _intFieldHandle = _smokeDartdeprecatedposdefaultscustomGetFieldintField(handle);
   final _stringFieldHandle = _smokeDartdeprecatedposdefaultscustomGetFieldstringField(handle);
   try {
-    return DartDeprecatedPosDefaultsCustom._(
+    return DartDeprecatedPosDefaultsCustom(
       stringFromFfi(_stringFieldHandle),
       (_intFieldHandle)
     );

@@ -9,8 +9,6 @@ class PublicFieldsAllInitPosDefaults {
   String internal_internalField;
   PublicFieldsAllInitPosDefaults([String publicField = "bar", String internalField = "foo"])
     : publicField = publicField, internal_internalField = internalField;
-  PublicFieldsAllInitPosDefaults.withDefaults()
-    : publicField = "bar", internal_internalField = "foo";
 }
 // PublicFieldsAllInitPosDefaults "private" section, not exported.
 final _smokePublicfieldsallinitposdefaultsCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<

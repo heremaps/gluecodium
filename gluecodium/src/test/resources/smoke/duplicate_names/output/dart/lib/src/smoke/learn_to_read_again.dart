@@ -5,8 +5,8 @@ import 'package:library/src/smoke/foo/alphabet.dart' as smoke_foo;
 class LearnToReadAgain {
   smoke_foo.Alphabet fieldB;
   smoke_bar.Alphabet fieldC;
-  LearnToReadAgain(this.fieldB, this.fieldC);
-  LearnToReadAgain.withDefaults()
+  LearnToReadAgain._(this.fieldB, this.fieldC);
+  LearnToReadAgain()
     : fieldB = smoke_foo.Alphabet.beta, fieldC = smoke_bar.Alphabet.gimel;
 }
 // LearnToReadAgain "private" section, not exported.
@@ -38,7 +38,7 @@ LearnToReadAgain smokeLearntoreadagainFromFfi(Pointer<Void> handle) {
   final _fieldBHandle = _smokeLearntoreadagainGetFieldfieldB(handle);
   final _fieldCHandle = _smokeLearntoreadagainGetFieldfieldC(handle);
   try {
-    return LearnToReadAgain(
+    return LearnToReadAgain._(
       smoke_foo.smokeFooAlphabetFromFfi(_fieldBHandle),
       smoke_bar.smokeBarAlphabetFromFfi(_fieldCHandle)
     );

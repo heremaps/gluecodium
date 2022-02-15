@@ -7,8 +7,8 @@ class PublicFieldsNoInit {
   /// @nodoc
   @internal
   String internal_internalField;
-  PublicFieldsNoInit(this.publicField, this.internal_internalField);
-  PublicFieldsNoInit.withDefaults(String publicField)
+  PublicFieldsNoInit._(this.publicField, this.internal_internalField);
+  PublicFieldsNoInit(String publicField)
     : publicField = publicField, internal_internalField = "foo";
 }
 // PublicFieldsNoInit "private" section, not exported.
@@ -40,7 +40,7 @@ PublicFieldsNoInit smokePublicfieldsnoinitFromFfi(Pointer<Void> handle) {
   final _publicFieldHandle = _smokePublicfieldsnoinitGetFieldpublicField(handle);
   final _internalFieldHandle = _smokePublicfieldsnoinitGetFieldinternalField(handle);
   try {
-    return PublicFieldsNoInit(
+    return PublicFieldsNoInit._(
       stringFromFfi(_publicFieldHandle),
       stringFromFfi(_internalFieldHandle)
     );

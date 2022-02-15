@@ -6,8 +6,6 @@ class PosDefaultsWithDuration {
   Duration nanosField;
   PosDefaultsWithDuration([Duration durationField = const Duration(seconds: 42), Duration nanosField = const Duration(microseconds: 28)])
     : durationField = durationField, nanosField = nanosField;
-  PosDefaultsWithDuration.withDefaults()
-    : durationField = const Duration(seconds: 42), nanosField = const Duration(microseconds: 28);
 }
 // PosDefaultsWithDuration "private" section, not exported.
 final _smokePosdefaultswithdurationCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
