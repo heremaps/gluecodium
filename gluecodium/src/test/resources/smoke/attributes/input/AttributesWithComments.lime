@@ -50,7 +50,7 @@ class AttributesWithComments {
         @Java(Attribute = "OnField")
         @Swift(Attribute = "OnField")
         @Dart(Attribute = "OnField")
-        `field`: String
+        `field`: String = ""
     }
 }
 
@@ -85,6 +85,6 @@ class AttributesWithDeprecated {
         @Java(Attribute = "OnField")
         @Swift(Attribute = "OnField")
         @Dart(Attribute = "OnField")
-        `field`: String
+        `field`: String = ""
     }
 }

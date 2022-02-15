@@ -11,7 +11,7 @@ interface DeprecationCommentsOnly {
     @Deprecated("Unfortunately, this struct is deprecated.")
     struct SomeStruct {
         @Deprecated("Unfortunately, this field is deprecated.")
-        someField: Usefulness
+        someField: Usefulness = false
     }
     @Deprecated("Unfortunately, this constant is deprecated.")
     const VeryUseful: Usefulness = true

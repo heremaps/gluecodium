@@ -19,7 +19,7 @@ public:
          * Field comment
          */
         [[OnField]]
-        ::std::string field;
+        ::std::string field = "";
         SomeStruct( );
         explicit SomeStruct( ::std::string field );
     };

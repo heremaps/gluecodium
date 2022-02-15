@@ -1,6 +1,5 @@
 /*
  *
-
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
@@ -39,8 +38,8 @@ public interface DeprecationCommentsOnly {
          */
         @Deprecated
         public boolean someField;
-        public SomeStruct(@Deprecated final boolean someField) {
-            this.someField = someField;
+        public SomeStruct() {
+            this.someField = false;
         }
     }
     /**

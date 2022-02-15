@@ -5,6 +5,8 @@ import 'package:library/src/builtin_types__conversion.dart';
 class DeprecatedWithNoMessage {
   String field;
   DeprecatedWithNoMessage(this.field);
+  DeprecatedWithNoMessage.withDefaults()
+    : field = "";
 }
 // DeprecatedWithNoMessage "private" section, not exported.
 final _smokeDeprecatedwithnomessageCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
