@@ -8,9 +8,8 @@ class PublicFieldsMixedInit {
   /// @nodoc
   @internal
   String internal_internalField;
-  PublicFieldsMixedInit(this.publicField1, this.publicField2) : internal_internalField = "foo";
-  PublicFieldsMixedInit.allFields(this.publicField1, this.publicField2, this.internal_internalField);
-  PublicFieldsMixedInit.withDefaults(String publicField2)
+  PublicFieldsMixedInit._(this.publicField1, this.publicField2, this.internal_internalField);
+  PublicFieldsMixedInit(String publicField2)
     : publicField1 = "bar", publicField2 = publicField2, internal_internalField = "foo";
 }
 // PublicFieldsMixedInit "private" section, not exported.
@@ -49,7 +48,7 @@ PublicFieldsMixedInit smokePublicfieldsmixedinitFromFfi(Pointer<Void> handle) {
   final _publicField2Handle = _smokePublicfieldsmixedinitGetFieldpublicField2(handle);
   final _internalFieldHandle = _smokePublicfieldsmixedinitGetFieldinternalField(handle);
   try {
-    return PublicFieldsMixedInit.allFields(
+    return PublicFieldsMixedInit._(
       stringFromFfi(_publicField1Handle),
       stringFromFfi(_publicField2Handle),
       stringFromFfi(_internalFieldHandle)

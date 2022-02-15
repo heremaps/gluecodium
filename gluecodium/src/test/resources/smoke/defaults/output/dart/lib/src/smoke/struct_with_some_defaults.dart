@@ -6,8 +6,6 @@ class StructWithSomeDefaults {
   String stringField;
   StructWithSomeDefaults(String stringField, [int intField = 42])
     : intField = intField, stringField = stringField;
-  StructWithSomeDefaults.withDefaults(String stringField)
-    : intField = 42, stringField = stringField;
 }
 // StructWithSomeDefaults "private" section, not exported.
 final _smokeStructwithsomedefaultsCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<

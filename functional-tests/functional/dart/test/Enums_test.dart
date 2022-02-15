@@ -40,18 +40,19 @@ void main() {
     expect(result, equals(EnumsInternalError.errorFatal));
   });
   _testSuite.test("Extract enum from struct to zero", () {
-    final input = EnumsErrorStruct(EnumsInternalError.errorFatal, "");
+    final input = EnumsErrorStruct();
+    input.type = EnumsInternalError.errorFatal;
 
     final result = Enums.extractEnumFromStruct(input);
 
-    expect(result, equals(EnumsInternalError.errorNone));
+    expect(result, EnumsInternalError.errorNone);
   });
   _testSuite.test("Extract enum from struct from zero", () {
-    final input = EnumsErrorStruct(EnumsInternalError.errorNone, "");
+    final input = EnumsErrorStruct();
 
     final result = Enums.extractEnumFromStruct(input);
 
-    expect(result, equals(EnumsInternalError.errorFatal));
+    expect(result, EnumsInternalError.errorFatal);
   });
   _testSuite.test("Create struct with enum inside to zero", () {
     final result = Enums.createStructWithEnumInside(EnumsInternalError.errorFatal, "");

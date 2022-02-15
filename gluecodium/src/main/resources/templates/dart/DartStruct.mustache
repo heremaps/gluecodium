@@ -140,7 +140,7 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#i
 {{/fields}}{{/set}}
   try {
 {{#if external.dart.converter}}
-    final resultInternal = {{resolveName}}Internal{{>allFieldsConstructorName}}(
+    final resultInternal = {{resolveName}}Internal(
 {{#set container=this}}{{#fields}}
 {{>fromFfiFieldInit}}
 {{/fields}}{{/set}}
@@ -149,7 +149,8 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#i
 {{/if}}{{#unless external.dart.converter}}
     return {{resolveName this "" "ref"}}{{#set container=this}}{{!!
     }}{{#if container.allFieldsConstructor}}{{#allFieldsConstructor}}{{>dart/DartConstructorName}}{{/allFieldsConstructor}}{{/if}}{{!!
-    }}{{#unless container.allfieldsConstructor}}{{#container}}{{>allFieldsConstructorName}}{{/container}}{{/unless}}(
+    }}{{#unless container.allFieldsConstructor}}{{#unless container.attributes.dart.positionalDefaults}}{{!!
+    }}{{#unlessPredicate container "allFieldsCtorIsPublic"}}._{{/unlessPredicate}}{{/unless}}{{/unless}}(
 {{#if attributes.dart.positionalDefaults initializedFields}}
 {{#each uninitializedFields initializedFields}}
 {{>fromFfiFieldInit}}
@@ -207,9 +208,4 @@ void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) => _{{resolveNa
 }}{{prefixPartial "dart/InitLazyList" "      " skipFirstLine=true}}{{/set}}{{/setJoin}}{{/resolveName}}{{/if}}{{!!
 }}{{#unless typeRef.attributes.optimized}}{{!!
 }}{{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}Handle){{/unless}}{{#if iter.hasNext}}, {{/if}}
-{{/fromFfiFieldInit}}{{!!
-
-}}{{+allFieldsConstructorName}}{{#unless this.allFieldsConstructor}}{{!!
-}}{{#ifPredicate "needsPrivateAllFieldsCtor"}}._{{/ifPredicate}}{{!!
-}}{{#unlessPredicate "needsPrivateAllFieldsCtor"}}{{#ifPredicate "needsPublicFieldsConstructor"}}.allFields{{/ifPredicate}}{{/unlessPredicate}}{{!!
-}}{{/unless}}{{/allFieldsConstructorName}}
+{{/fromFfiFieldInit}}

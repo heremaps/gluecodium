@@ -11,8 +11,6 @@ class DartDeprecatedPosDefaults {
   @Deprecated("Sorry, this is deprecated.")
   DartDeprecatedPosDefaults(String stringField, [int intField = 42])
     : intField = intField, stringField = stringField;
-  DartDeprecatedPosDefaults.withDefaults(String stringField)
-    : intField = 42, stringField = stringField;
 }
 // DartDeprecatedPosDefaults "private" section, not exported.
 final _smokeDartdeprecatedposdefaultsCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<

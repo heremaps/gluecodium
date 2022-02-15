@@ -8,8 +8,8 @@ class StructWithInitializerDefaults {
   StructWithAnEnum structField;
   Set<String> setTypeField;
   Map<int, String> mapField;
-  StructWithInitializerDefaults(this.intsField, this.floatsField, this.structField, this.setTypeField, this.mapField);
-  StructWithInitializerDefaults.withDefaults()
+  StructWithInitializerDefaults._(this.intsField, this.floatsField, this.structField, this.setTypeField, this.mapField);
+  StructWithInitializerDefaults()
     : intsField = [4, -2, 42], floatsField = [3.14, double.negativeInfinity], structField = StructWithAnEnum(AnEnum.disabled), setTypeField = {"foo", "bar"}, mapField = {1: "foo", 42: "bar"};
 }
 // StructWithInitializerDefaults "private" section, not exported.
@@ -62,7 +62,7 @@ StructWithInitializerDefaults smokeStructwithinitializerdefaultsFromFfi(Pointer<
   final _setTypeFieldHandle = _smokeStructwithinitializerdefaultsGetFieldsetTypeField(handle);
   final _mapFieldHandle = _smokeStructwithinitializerdefaultsGetFieldmapField(handle);
   try {
-    return StructWithInitializerDefaults(
+    return StructWithInitializerDefaults._(
       listofIntFromFfi(_intsFieldHandle),
       listofFloatFromFfi(_floatsFieldHandle),
       smokeTypeswithdefaultsStructwithanenumFromFfi(_structFieldHandle),

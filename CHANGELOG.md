@@ -2,8 +2,8 @@
 
 ## Unreleased
 ### Breaking changes:
-  * All-fields constructors are no longer unconditionally generated for mutable structs in Java. They are now generated
-  only if there are no explicitly defined constructors and none of the fields have default values specified.
+  * All-fields constructors are no longer unconditionally generated for mutable structs in Java and Dart. They are now
+  generated only if there are no explicitly defined constructors and none of the fields have default values specified.
 
 ## 10.7.2
 Release date: 2022-02-14

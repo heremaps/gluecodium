@@ -159,7 +159,8 @@ internal class DartNameResolver(
                 val noFieldsConstructor = actualType.noFieldsConstructor
                 val constructorName = when {
                     !useDefaultsConstructor -> ""
-                    noFieldsConstructor == null -> ".withDefaults"
+                    noFieldsConstructor == null ->
+                        if (DartGeneratorPredicates.allFieldsCtorIsPublic(actualType)) ".withDefaults" else ""
                     noFieldsConstructor.attributes.have(LimeAttributeType.DART, LimeAttributeValueType.DEFAULT) -> ""
                     else -> resolveName(noFieldsConstructor).let { if (it.isEmpty()) "" else ".$it" }
                 }

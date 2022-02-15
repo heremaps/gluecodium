@@ -24,8 +24,8 @@ class AttributesWithComments_SomeStruct {
   /// Field comment
   @OnField
   String field;
-  AttributesWithComments_SomeStruct(this.field);
-  AttributesWithComments_SomeStruct.withDefaults()
+  AttributesWithComments_SomeStruct._(this.field);
+  AttributesWithComments_SomeStruct()
     : field = "";
 }
 // AttributesWithComments_SomeStruct "private" section, not exported.
@@ -50,7 +50,7 @@ Pointer<Void> smokeAttributeswithcommentsSomestructToFfi(AttributesWithComments_
 AttributesWithComments_SomeStruct smokeAttributeswithcommentsSomestructFromFfi(Pointer<Void> handle) {
   final _fieldHandle = _smokeAttributeswithcommentsSomestructGetFieldfield(handle);
   try {
-    return AttributesWithComments_SomeStruct(
+    return AttributesWithComments_SomeStruct._(
       stringFromFfi(_fieldHandle)
     );
   } finally {

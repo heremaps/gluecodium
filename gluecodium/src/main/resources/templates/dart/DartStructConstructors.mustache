@@ -19,6 +19,9 @@
   !
   !}}
 {{#if fields}}{{!!
+
+"Positional Defaults" constructor
+
 }}{{#if attributes.dart.positionalDefaults initializedFields}}{{>constructorComment}}{{!!
 }}{{#instanceOf attributes.dart.positionalDefaults "String"}}
   @Deprecated("{{attributes.dart.positionalDefaults}}")
@@ -29,34 +32,28 @@
     : {{#fields}}{{resolveName visibility}}{{resolveName}} = {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}};
 {{/if}}{{!!
 
-}}{{#unless attributes.dart.positionalDefaults initializedFields}}{{!!
+}}{{#unless attributes.dart.positionalDefaults}}{{!!
 
-}}{{#if constructors}}{{!!
-}}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}._({{>thisDotFields}});
-{{/if}}{{!!
+All fields constructor
 
-}}{{#unless constructors}}{{#unless fieldConstructors}}{{#ifPredicate "needsPublicFieldsConstructor"}}{{!!
-}}{{>constructorComment}}{{!!
-}}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}({{!!
-}}{{#publicFields}}this.{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/publicFields}}) : {{!!
-}}{{#internalFields}}{{resolveName visibility}}{{resolveName}} = {{resolveName defaultValue}}{{#if iter.hasNext}}, {{/if}}{{/internalFields}};
-{{/ifPredicate}}{{/unless}}{{!!
-
-}}{{#unless this.allFieldsConstructor}}{{!!
-}}{{>constructorComment}}{{!!
+}}{{#unless this.allFieldsConstructor}}{{>constructorComment}}{{!!
 }}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{!!
-}}{{#ifPredicate "needsPrivateAllFieldsCtor"}}._{{/ifPredicate}}{{!!
-}}{{#unlessPredicate "needsPrivateAllFieldsCtor"}}{{#ifPredicate "needsPublicFieldsConstructor"}}.allFields{{/ifPredicate}}{{/unlessPredicate}}{{!!
-}}({{>thisDotFields}});
-{{/unless}}{{/unless}}{{!!
+}}{{#unlessPredicate "allFieldsCtorIsPublic"}}._{{/unlessPredicate}}({{>thisDotFields}});
+{{/unless}}{{!!
 
-}}{{/unless}}
-{{#unless constructors}}{{#unless fieldConstructors}}{{#if initializedFields}}
+Initialized fields constructor
+
+}}{{#unless constructors}}{{#unless fieldConstructors}}{{#if initializedFields}}
   {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{!!
-  }}.withDefaults({{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}})
+}}{{#ifPredicate "allFieldsCtorIsPublic"}}.withDefaults{{/ifPredicate}}({{!!
+}}{{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}})
     : {{#fields}}{{resolveName visibility}}{{resolveName}} = {{#if defaultValue}}{{resolveName defaultValue}}{{/if}}{{!!
     }}{{#unless defaultValue}}{{resolveName}}{{/unless}}{{#if iter.hasNext}}, {{/if}}{{/fields}};
-{{/if}}{{/unless}}{{/unless}}{{/if}}{{!!
+{{/if}}{{/unless}}{{/unless}}{{!!
+
+}}{{/unless}}{{/if}}{{!!
+
+Explicit `field constructor` definitions
 
 }}{{#set struct=this container=this}}{{#fieldConstructors}}
 {{#unless comment.isEmpty}}{{#resolveName comment}}{{#unless this.isEmpty}}{{!!

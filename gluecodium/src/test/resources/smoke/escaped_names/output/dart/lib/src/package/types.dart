@@ -56,8 +56,8 @@ class ExceptionException implements Exception {
 }
 class Struct {
   Enum null;
-  Struct(this.null);
-  Struct.withDefaults()
+  Struct._(this.null);
+  Struct()
     : null = Enum.naN;
 }
 // Struct "private" section, not exported.
@@ -82,7 +82,7 @@ Pointer<Void> packageTypesStructToFfi(Struct value) {
 Struct packageTypesStructFromFfi(Pointer<Void> handle) {
   final _nullHandle = _packageTypesStructGetFieldnull(handle);
   try {
-    return Struct(
+    return Struct._(
       packageTypesEnumFromFfi(_nullHandle)
     );
   } finally {

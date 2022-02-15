@@ -8,8 +8,8 @@ class PublicStructWithNonDefaultInternalField {
   @internal
   String internal_internalField;
   bool publicField;
-  PublicStructWithNonDefaultInternalField(this.defaultedField, this.internal_internalField, this.publicField);
-  PublicStructWithNonDefaultInternalField.withDefaults(String internalField, bool publicField)
+  PublicStructWithNonDefaultInternalField._(this.defaultedField, this.internal_internalField, this.publicField);
+  PublicStructWithNonDefaultInternalField(String internalField, bool publicField)
     : defaultedField = 42, internal_internalField = internalField, publicField = publicField;
 }
 // PublicStructWithNonDefaultInternalField "private" section, not exported.
@@ -47,7 +47,7 @@ PublicStructWithNonDefaultInternalField smokePublicstructwithnondefaultinternalf
   final _internalFieldHandle = _smokePublicstructwithnondefaultinternalfieldGetFieldinternalField(handle);
   final _publicFieldHandle = _smokePublicstructwithnondefaultinternalfieldGetFieldpublicField(handle);
   try {
-    return PublicStructWithNonDefaultInternalField(
+    return PublicStructWithNonDefaultInternalField._(
       (_defaultedFieldHandle),
       stringFromFfi(_internalFieldHandle),
       booleanFromFfi(_publicFieldHandle)

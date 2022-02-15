@@ -5,8 +5,8 @@ class StructWithEnums {
   SomethingEnum firstField;
   SomethingEnum explicitField;
   SomethingEnum lastField;
-  StructWithEnums(this.firstField, this.explicitField, this.lastField);
-  StructWithEnums.withDefaults()
+  StructWithEnums._(this.firstField, this.explicitField, this.lastField);
+  StructWithEnums()
     : firstField = SomethingEnum.reallyFirst, explicitField = SomethingEnum.explicit, lastField = SomethingEnum.last;
   static final SomethingEnum firstConstant = SomethingEnum.reallyFirst;
 }
@@ -46,7 +46,7 @@ StructWithEnums smokeStructwithenumsFromFfi(Pointer<Void> handle) {
   final _explicitFieldHandle = _smokeStructwithenumsGetFieldexplicitField(handle);
   final _lastFieldHandle = _smokeStructwithenumsGetFieldlastField(handle);
   try {
-    return StructWithEnums(
+    return StructWithEnums._(
       smokeSomethingenumFromFfi(_firstFieldHandle),
       smokeSomethingenumFromFfi(_explicitFieldHandle),
       smokeSomethingenumFromFfi(_lastFieldHandle)

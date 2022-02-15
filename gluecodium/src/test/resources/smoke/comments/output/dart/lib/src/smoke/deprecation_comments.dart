@@ -110,8 +110,8 @@ class DeprecationComments_SomeStruct {
   /// How useful this struct is.
   @Deprecated("Unfortunately, this field is deprecated.\nUse [Comments_SomeStruct.someField] instead.")
   bool someField;
-  DeprecationComments_SomeStruct(this.someField);
-  DeprecationComments_SomeStruct.withDefaults()
+  DeprecationComments_SomeStruct._(this.someField);
+  DeprecationComments_SomeStruct()
     : someField = false;
 }
 // DeprecationComments_SomeStruct "private" section, not exported.
@@ -136,7 +136,7 @@ Pointer<Void> smokeDeprecationcommentsSomestructToFfi(DeprecationComments_SomeSt
 DeprecationComments_SomeStruct smokeDeprecationcommentsSomestructFromFfi(Pointer<Void> handle) {
   final _someFieldHandle = _smokeDeprecationcommentsSomestructGetFieldsomeField(handle);
   try {
-    return DeprecationComments_SomeStruct(
+    return DeprecationComments_SomeStruct._(
       booleanFromFfi(_someFieldHandle)
     );
   } finally {

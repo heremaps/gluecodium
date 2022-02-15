@@ -85,8 +85,8 @@ void smokeDeprecationcommentsonlySomeenumReleaseFfiHandleNullable(Pointer<Void> 
 class DeprecationCommentsOnly_SomeStruct {
   @Deprecated("Unfortunately, this field is deprecated.")
   bool someField;
-  DeprecationCommentsOnly_SomeStruct(this.someField);
-  DeprecationCommentsOnly_SomeStruct.withDefaults()
+  DeprecationCommentsOnly_SomeStruct._(this.someField);
+  DeprecationCommentsOnly_SomeStruct()
     : someField = false;
 }
 // DeprecationCommentsOnly_SomeStruct "private" section, not exported.
@@ -111,7 +111,7 @@ Pointer<Void> smokeDeprecationcommentsonlySomestructToFfi(DeprecationCommentsOnl
 DeprecationCommentsOnly_SomeStruct smokeDeprecationcommentsonlySomestructFromFfi(Pointer<Void> handle) {
   final _someFieldHandle = _smokeDeprecationcommentsonlySomestructGetFieldsomeField(handle);
   try {
-    return DeprecationCommentsOnly_SomeStruct(
+    return DeprecationCommentsOnly_SomeStruct._(
       booleanFromFfi(_someFieldHandle)
     );
   } finally {

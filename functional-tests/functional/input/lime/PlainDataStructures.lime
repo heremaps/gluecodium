@@ -22,6 +22,9 @@ class PlainDataStructures {
     struct Point {
         x: Double = 0.0
         y: Double = 0.0
+        @Dart(Skip)
+        field constructor()
+        field constructor(x, y)
     }
     // Basic struct type
     struct Color {
@@ -54,6 +57,12 @@ class PlainDataStructures {
         stringField: String = ""
         booleanField: Boolean = false
         pointField: Point
+        @Dart(Skip)
+        field constructor(pointField)
+        field constructor(
+            int8Field, uint8Field, int16Field, uint16Field, int32Field, uint32Field, int64Field, uint64Field,
+            floatField, doubleField, stringField, booleanField, pointField
+        )
     }
     @Cpp(Accessors)
     struct MutableStructWithCppAccessors {

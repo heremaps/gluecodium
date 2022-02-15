@@ -87,12 +87,6 @@ internal object CommonGeneratorPredicates {
             else -> false
         }
 
-    fun needsPublicFieldsConstructor(limeStruct: Any, platformAttribute: LimeAttributeType) =
-        limeStruct is LimeStruct &&
-            !limeStruct.attributes.have(platformAttribute, LimeAttributeValueType.POSITIONAL_DEFAULTS) &&
-            limeStruct.internalFields.isNotEmpty() && limeStruct.internalFields.all { it.defaultValue != null } &&
-            limeStruct.publicFields.any { it.defaultValue != null }
-
     fun needsImportsForSkippedField(
         limeElement: LimeNamedElement,
         platformAttribute: LimeAttributeType,

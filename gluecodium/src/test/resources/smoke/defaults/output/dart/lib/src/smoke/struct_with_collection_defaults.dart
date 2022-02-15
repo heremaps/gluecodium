@@ -10,8 +10,6 @@ class StructWithCollectionDefaults {
   Set<String> setField;
   StructWithCollectionDefaults([List<String> emptyListField = const [], Map<String, String> emptyMapField = const {}, Set<String> emptySetField = const {}, List<String> listField = const ["foo", "bar"], Map<String, String> mapField = const {"foo": "bar"}, Set<String> setField = const {"foo", "bar"}])
     : emptyListField = emptyListField, emptyMapField = emptyMapField, emptySetField = emptySetField, listField = listField, mapField = mapField, setField = setField;
-  StructWithCollectionDefaults.withDefaults()
-    : emptyListField = [], emptyMapField = {}, emptySetField = {}, listField = ["foo", "bar"], mapField = {"foo": "bar"}, setField = {"foo", "bar"};
 }
 // StructWithCollectionDefaults "private" section, not exported.
 final _smokeStructwithcollectiondefaultsCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
