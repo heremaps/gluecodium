@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
 public final class DeprecatedWithNoMessage {
     @NonNull
     public String field;
-    public DeprecatedWithNoMessage(@NonNull final String field) {
-        this.field = field;
+    public DeprecatedWithNoMessage() {
+        this.field = "";
     }
 }

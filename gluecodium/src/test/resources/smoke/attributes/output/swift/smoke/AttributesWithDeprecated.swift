@@ -34,7 +34,7 @@ public class AttributesWithDeprecated {
         @available(*, deprecated)
         @OnField
         public var field: String
-        public init(field: String) {
+        public init(field: String = "") {
             self.field = field
         }
         internal init(cHandle: _baseRef) {

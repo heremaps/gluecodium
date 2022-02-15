@@ -22,7 +22,6 @@ abstract class DeprecationComments {
     propertyButNotAccessorsGetLambda,
     propertyButNotAccessorsSetLambda
   );
-
   /// This is some very useful constant.
   @Deprecated("Unfortunately, this constant is deprecated. Use [Comments.veryUseful] instead.")
   static final bool veryUseful = true;
@@ -112,6 +111,8 @@ class DeprecationComments_SomeStruct {
   @Deprecated("Unfortunately, this field is deprecated.\nUse [Comments_SomeStruct.someField] instead.")
   bool someField;
   DeprecationComments_SomeStruct(this.someField);
+  DeprecationComments_SomeStruct.withDefaults()
+    : someField = false;
 }
 // DeprecationComments_SomeStruct "private" section, not exported.
 final _smokeDeprecationcommentsSomestructCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -207,7 +208,6 @@ class DeprecationComments$Lambdas implements DeprecationComments {
     this.propertyButNotAccessorsGetLambda,
     this.propertyButNotAccessorsSetLambda
   );
-
   @override
   bool someMethodWithAllComments(String input) =>
     someMethodWithAllCommentsLambda(input);
@@ -222,7 +222,6 @@ class DeprecationComments$Lambdas implements DeprecationComments {
 }
 class DeprecationComments$Impl extends __lib.NativeBase implements DeprecationComments {
   DeprecationComments$Impl(Pointer<Void> handle) : super(handle);
-
   @override
   bool someMethodWithAllComments(String input) {
     final _someMethodWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DeprecationComments_someMethodWithAllComments__String'));

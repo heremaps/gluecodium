@@ -25,7 +25,7 @@ interface DeprecationComments {
     struct SomeStruct {
         // How useful this struct is.
         @Deprecated("Unfortunately, this field is deprecated.\nUse [comments.SomeStruct.someField] instead.")
-        someField: Usefulness
+        someField: Usefulness = false
     }
     // This is some very useful enum.
     @Deprecated("Unfortunately, this enum is deprecated. Use [comments.SomeEnum] instead.")
@@ -69,7 +69,7 @@ interface DeprecationCommentsOnly {
     @Deprecated("Unfortunately, this struct is deprecated.")
     struct SomeStruct {
         @Deprecated("Unfortunately, this field is deprecated.")
-        someField: Usefulness
+        someField: Usefulness = false
     }
     @Deprecated("Unfortunately, this enum is deprecated.")
     enum SomeEnum {
@@ -96,5 +96,5 @@ interface DeprecationCommentsOnly {
 
 @Deprecated
 struct DeprecatedWithNoMessage {
-    `field`: String
+    `field`: String = ""
 }

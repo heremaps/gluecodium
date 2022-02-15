@@ -6,7 +6,6 @@ import 'package:library/src/builtin_types__conversion.dart';
 /// Class comment
 @OnClass
 abstract class AttributesWithComments {
-
   /// Const comment
   @OnConstInClass
   static final bool pi = false;
@@ -26,6 +25,8 @@ class AttributesWithComments_SomeStruct {
   @OnField
   String field;
   AttributesWithComments_SomeStruct(this.field);
+  AttributesWithComments_SomeStruct.withDefaults()
+    : field = "";
 }
 // AttributesWithComments_SomeStruct "private" section, not exported.
 final _smokeAttributeswithcommentsSomestructCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -102,7 +103,6 @@ final _smokeAttributeswithcommentsReleaseHandle = __lib.catchArgumentError(() =>
   >('library_smoke_AttributesWithComments_release_handle'));
 class AttributesWithComments$Impl extends __lib.NativeBase implements AttributesWithComments {
   AttributesWithComments$Impl(Pointer<Void> handle) : super(handle);
-
   @override
   void veryFun() {
     final _veryFunFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_AttributesWithComments_veryFun'));

@@ -6,7 +6,6 @@ import 'package:library/src/builtin_types__conversion.dart';
 @Deprecated("")
 @OnClass
 abstract class AttributesWithDeprecated {
-
   @Deprecated("")
   @OnConstInClass
   static final bool pi = false;
@@ -25,6 +24,8 @@ class AttributesWithDeprecated_SomeStruct {
   @OnField
   String field;
   AttributesWithDeprecated_SomeStruct(this.field);
+  AttributesWithDeprecated_SomeStruct.withDefaults()
+    : field = "";
 }
 // AttributesWithDeprecated_SomeStruct "private" section, not exported.
 final _smokeAttributeswithdeprecatedSomestructCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -101,7 +102,6 @@ final _smokeAttributeswithdeprecatedReleaseHandle = __lib.catchArgumentError(() 
   >('library_smoke_AttributesWithDeprecated_release_handle'));
 class AttributesWithDeprecated$Impl extends __lib.NativeBase implements AttributesWithDeprecated {
   AttributesWithDeprecated$Impl(Pointer<Void> handle) : super(handle);
-
   @override
   void veryFun() {
     final _veryFunFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_AttributesWithDeprecated_veryFun'));
