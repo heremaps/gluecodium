@@ -12,8 +12,4 @@ public final class LearnToReadAgain {
         this.fieldB = com.example.smoke.foo.Alphabet.BETA;
         this.fieldC = com.example.smoke.bar.Alphabet.GIMEL;
     }
-    public LearnToReadAgain(@NonNull final com.example.smoke.foo.Alphabet fieldB, @NonNull final com.example.smoke.bar.Alphabet fieldC) {
-        this.fieldB = fieldB;
-        this.fieldC = fieldC;
-    }
 }

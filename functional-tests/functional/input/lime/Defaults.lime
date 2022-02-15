@@ -29,6 +29,10 @@ class Defaults {
     }
     struct StructWithExternalDefaults {
         enumField: ExternalEnum = ExternalEnum.Another_Value
+        @Dart("withDefaults")
+        field constructor()
+        @Dart(Default)
+        field constructor(enumField)
     }
     @Immutable
     struct ImmutableStructWithDefaults {

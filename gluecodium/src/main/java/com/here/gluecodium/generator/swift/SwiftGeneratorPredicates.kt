@@ -88,7 +88,14 @@ internal class SwiftGeneratorPredicates(
         "isRefEquatable" to { limeField: Any ->
             limeField is LimeField && isRefEquatable(limeField)
         },
-        "needsAllFieldsConstructor" to { CommonGeneratorPredicates.needsAllFieldsConstructor(it) },
+        "needsAllFieldsConstructor" to { limeStruct: Any ->
+            when {
+                limeStruct !is LimeStruct -> false
+                limeStruct.fieldConstructors.isEmpty() -> true
+                limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) -> limeStruct.allFieldsConstructor == null
+                else -> false
+            }
+        },
         "needsExplicitHashable" to { limeStruct: Any ->
             limeStruct is LimeStruct && limeStruct.attributes.have(LimeAttributeType.EQUATABLE) &&
                 limeStruct.fields.any { isRefEquatable(it) }

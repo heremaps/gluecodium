@@ -44,6 +44,11 @@ types Equatable {
         enumField: SomeSomeEnum? = null
         mapField: SomeMap? = null
         arrayField: List<String>? = null
+
+        @Dart("withDefaults")
+        field constructor()
+        @Dart(Default)
+        field constructor(boolField, intField, uintField, floatField, stringField, structField, enumField, mapField, arrayField)
     }
 
     @Equatable

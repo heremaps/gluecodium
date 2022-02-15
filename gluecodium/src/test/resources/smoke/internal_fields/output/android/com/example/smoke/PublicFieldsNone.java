@@ -9,7 +9,4 @@ public final class PublicFieldsNone {
     public PublicFieldsNone() {
         this.internalField = "foo";
     }
-    PublicFieldsNone(@NonNull final String internalField) {
-        this.internalField = internalField;
-    }
 }

@@ -21,16 +21,4 @@ public final class InternalEnumDefaults {
         this.internalField = FooBarEnum.BAR;
         this.internalListField = new ArrayList<>(Arrays.asList(FooBarEnum.FOO, FooBarEnum.BAR, FooBarEnum.BAZ));
     }
-    public InternalEnumDefaults(@NonNull final FooBarEnum publicField, @NonNull final List<FooBarEnum> publicListField) {
-        this.publicField = publicField;
-        this.publicListField = publicListField;
-        this.internalField = FooBarEnum.BAR;
-        this.internalListField = new ArrayList<>(Arrays.asList(FooBarEnum.FOO, FooBarEnum.BAR, FooBarEnum.BAZ));
-    }
-    InternalEnumDefaults(@NonNull final FooBarEnum publicField, @NonNull final List<FooBarEnum> publicListField, @NonNull final FooBarEnum internalField, @NonNull final List<FooBarEnum> internalListField) {
-        this.publicField = publicField;
-        this.publicListField = publicListField;
-        this.internalField = internalField;
-        this.internalListField = internalListField;
-    }
 }

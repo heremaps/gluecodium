@@ -36,25 +36,7 @@
                    }}{{#unless defaultValue}}{{resolveName}}{{/unless}};
 {{/fields}}
     }
-{{/if}}{{!!
-
-}}{{#ifPredicate "needsPublicFieldsConstructor"}}
-
-{{#unless constructorComment.isEmpty}}
-    /**
-{{#resolveName constructorComment}}{{prefix this "     * "}}{{/resolveName}}
-{{#publicFields}}
-     * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
-{{/publicFields}}
-     */
-{{/unless}}
-    {{>structVisibility}}{{resolveName}}{{!!
-    }}({{#set noAttributes=true}}{{joinPartial publicFields "java/JavaParameter" ", "}}{{/set}}) {
-{{#fields}}        this.{{resolveName}} = {{#unless visibility.isInternal}}{{resolveName}}{{/unless}}{{!!
-                    }}{{#if visibility.isInternal}}{{resolveName defaultValue}}{{/if}};
-{{/fields}}
-    }
-{{/ifPredicate}}{{/unless}}{{!!
+{{/if}}{{/unless}}{{!!
 
 }}{{#ifPredicate "needsAllFieldsConstructor"}}
 

@@ -19,10 +19,4 @@ public final class DateDefaults {
         this.beforeEpoch = new Date(-1511793883000L);
         this.exactlyEpoch = new Date(0L);
     }
-    public DateDefaults(@NonNull final Date dateTime, @NonNull final Date dateTimeUtc, @NonNull final Date beforeEpoch, @NonNull final Date exactlyEpoch) {
-        this.dateTime = dateTime;
-        this.dateTimeUtc = dateTimeUtc;
-        this.beforeEpoch = beforeEpoch;
-        this.exactlyEpoch = exactlyEpoch;
-    }
 }
