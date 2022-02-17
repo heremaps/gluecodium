@@ -73,6 +73,10 @@ internal class SwiftGeneratorPredicates(
                 else -> false
             }
         },
+        "hasInternalAvailableFields" to { limeStruct: Any ->
+            limeStruct is LimeStruct && limeStruct.availableFields.isNotEmpty() &&
+                limeStruct.availableFields.any { it.visibility.isInternal }
+        },
         "hasTypeRepository" to { CommonGeneratorPredicates.hasTypeRepository(it) },
         "hasWeakSupport" to fun(limeInterface: Any): Boolean {
             if (limeInterface !is LimeInterface) return false

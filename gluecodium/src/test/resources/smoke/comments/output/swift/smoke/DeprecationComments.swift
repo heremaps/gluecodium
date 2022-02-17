@@ -109,6 +109,10 @@ public struct SomeStruct {
     /// How useful this struct is.
     @available(*, deprecated, message: "Unfortunately, this field is deprecated.\nUse `Comments.SomeStruct.someField` instead.")
     public var someField: DeprecationComments.Usefulness
+    public init() {
+        self.someField = false
+    }
+    @available(*, deprecated)
     public init(someField: DeprecationComments.Usefulness = false) {
         self.someField = someField
     }

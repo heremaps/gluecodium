@@ -1,9 +1,13 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Features:
+  * Structs with deprecated fields now have an additional "non-deprecated-fields" constructor generated in Swift. The
+  existing "all-fields" constructor is now marked as `@available(*, deprecated)` in Swift for such structs.
 ### Breaking changes:
   * All-fields constructors are no longer unconditionally generated for mutable structs in Java and Dart. They are now
   generated only if there are no explicitly defined constructors and none of the fields have default values specified.
+  * A deprecated field with no default value is now a validation error when Swift code is generated.
 
 ## 10.7.2
 Release date: 2022-02-14

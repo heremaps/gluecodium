@@ -112,3 +112,11 @@ types TypeCollection {
     }
     typealias PointTypedef = Point
 }
+
+@Skip(Java, Dart)
+struct DeprecatedFields {
+    normalField1: String
+    @Deprecated
+    deprecatedField: String = ""
+    normalField2: String
+}
