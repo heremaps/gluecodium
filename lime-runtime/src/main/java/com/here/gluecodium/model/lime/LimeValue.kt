@@ -20,7 +20,7 @@
 package com.here.gluecodium.model.lime
 
 import com.here.gluecodium.common.StringHelper
-import java.time.Instant
+import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 
 /**
  * Represents a constant value on the right-hand side of an assignment (used in constants, field
@@ -34,9 +34,9 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement() {
     class Literal(type: LimeTypeRef, val value: String) : LimeValue(type) {
         override fun toString(): String {
             val limeType = typeRef.type.actualType
-            return when {
-                limeType is LimeBasicType && limeType.typeId == LimeBasicType.TypeId.STRING ->
-                    StringHelper.escapeStringLiteral(value)
+            if (limeType !is LimeBasicType) return value
+            return when (limeType.typeId) {
+                TypeId.STRING, TypeId.DATE -> StringHelper.escapeStringLiteral(value)
                 else -> value
             }
         }
@@ -85,8 +85,7 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement() {
         override fun toString() = values.joinToString(separator = ", ", prefix = "{", postfix = "}")
     }
 
-    class KeyValuePair(val key: LimeValue, val value: LimeValue) :
-        LimeValue(LimeBasicTypeRef(LimeBasicType.TypeId.VOID)) {
+    class KeyValuePair(val key: LimeValue, val value: LimeValue) : LimeValue(LimeBasicTypeRef(TypeId.VOID)) {
         override fun toString() = "$key: $value"
     }
 
@@ -108,10 +107,6 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement() {
         }
 
         override fun toString() = value + timeUnit
-    }
-
-    class Date(typeRef: LimeTypeRef, val epochSeconds: Long) : LimeValue(typeRef) {
-        override fun toString() = "\"${Instant.ofEpochSecond(epochSeconds)}\""
     }
 
     open val escapedValue

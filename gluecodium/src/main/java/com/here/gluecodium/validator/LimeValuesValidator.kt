@@ -30,6 +30,7 @@ import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypedElement
 import com.here.gluecodium.model.lime.LimeValue
 
@@ -94,6 +95,10 @@ internal class LimeValuesValidator(private val logger: LimeLogger) {
                 limeElement,
                 "string or numeric literal values cannot be assigned to `Blob`, `Duration`, or `Locale` types"
             )
+            return false
+        }
+        if (limeType.typeId == TypeId.DATE && LimeTypeHelper.dateLiteralEpochSeconds(limeValue.value) == null) {
+            logger.error(limeElement, "invalid `Date` literal:  '$limeValue'")
             return false
         }
         return true
