@@ -21,12 +21,15 @@ package com.here.gluecodium.validator
 
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypedElement
 import com.here.gluecodium.model.lime.LimeValue
 
@@ -48,10 +51,7 @@ internal class LimeValuesValidator(private val logger: LimeLogger) {
     private fun validateValue(limeElement: LimeTypedElement, limeValue: LimeValue): Boolean {
         val actualType = limeElement.typeRef.type.actualType
         when (limeValue) {
-            is LimeValue.Literal -> if (actualType !is LimeBasicType || !actualType.typeId.isLiteralType) {
-                logger.error(limeElement, "literal values can only be assigned to numeric types, `Boolean`, or `String`")
-                return false
-            }
+            is LimeValue.Literal -> if (!validateLiteral(limeElement, actualType, limeValue)) return false
             is LimeValue.Enumerator -> if (actualType !is LimeEnumeration) {
                 logger.error(limeElement, "enumerator values can only be assigned to `enum` types")
                 return false
@@ -78,5 +78,28 @@ internal class LimeValuesValidator(private val logger: LimeLogger) {
             }
         }
         return true
+    }
+
+    private fun validateLiteral(
+        limeElement: LimeNamedElement,
+        limeType: LimeType,
+        limeValue: LimeValue.Literal
+    ): Boolean {
+        if (limeType !is LimeBasicType) {
+            logger.error(limeElement, "literal values cannot be assigned to non-basic types")
+            return false
+        }
+        if (nonLiteralTypes.contains(limeType.typeId)) {
+            logger.error(
+                limeElement,
+                "string or numeric literal values cannot be assigned to `Blob`, `Duration`, or `Locale` types"
+            )
+            return false
+        }
+        return true
+    }
+
+    companion object {
+        private val nonLiteralTypes = setOf(TypeId.BLOB, TypeId.DURATION, TypeId.LOCALE)
     }
 }
