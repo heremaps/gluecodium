@@ -27,6 +27,7 @@ import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.lime.LimeValue.Duration.TimeUnit
 
@@ -34,17 +35,7 @@ internal class JavaValueResolver(private val nameResolver: JavaNameResolver) {
 
     fun resolveValue(limeValue: LimeValue): String =
         when (limeValue) {
-            is LimeValue.Literal -> {
-                val limeType = limeValue.typeRef.type.actualType
-                val suffix = when {
-                    limeType !is LimeBasicType -> ""
-                    limeType.typeId == TypeId.FLOAT -> "f"
-                    limeType.typeId == TypeId.UINT32 || limeType.typeId == TypeId.UINT64 ||
-                        limeType.typeId == TypeId.INT64 -> "L"
-                    else -> ""
-                }
-                limeValue.toString() + suffix
-            }
+            is LimeValue.Literal -> mapLiteralValue(limeValue)
             is LimeValue.Enumerator -> {
                 val limeEnumerator = limeValue.valueRef.enumerator
                 val limeEnumeration = limeValue.typeRef.type.actualType
@@ -63,8 +54,21 @@ internal class JavaValueResolver(private val nameResolver: JavaNameResolver) {
                 "new AbstractMap.SimpleEntry<>($keyValue, $valueValue)"
             }
             is LimeValue.Duration -> mapDurationValue(limeValue)
-            is LimeValue.Date -> "new Date(${limeValue.epochSeconds * 1000}L)"
         }
+
+    private fun mapLiteralValue(limeValue: LimeValue.Literal): String {
+        val limeType = limeValue.typeRef.type.actualType
+        if (limeType !is LimeBasicType) return limeType.toString()
+        return when (limeType.typeId) {
+            TypeId.FLOAT -> "${limeValue}f"
+            TypeId.UINT32, TypeId.UINT64, TypeId.INT64 -> "${limeValue}L"
+            TypeId.DATE -> {
+                val epochSeconds = LimeTypeHelper.dateLiteralEpochSeconds(limeValue.value)?.let { it * 1000 }
+                "new Date(${epochSeconds}L)"
+            }
+            else -> limeValue.toString()
+        }
+    }
 
     private fun mapInitializerList(limeValue: LimeValue.InitializerList): String {
         val values = limeValue.values.joinToString(", ") { resolveValue(it) }

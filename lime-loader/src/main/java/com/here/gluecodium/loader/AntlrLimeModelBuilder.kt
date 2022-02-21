@@ -23,7 +23,6 @@ import com.here.gluecodium.antlr.LimeParser
 import com.here.gluecodium.common.ModelBuilderContextStack
 import com.here.gluecodium.model.lime.LimeAmbiguousEnumeratorRef
 import com.here.gluecodium.model.lime.LimeAmbiguousTypeRef
-import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicTypeRef
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeComment
@@ -677,11 +676,7 @@ internal class AntlrLimeModelBuilder(
             ctx.DoubleLiteral() != null -> ctx.DoubleLiteral().text
             else -> throw LimeLoadingException("Unsupported literal: '$ctx'")
         }
-        return if (limeTypeRef is LimeBasicTypeRef && limeTypeRef.type.typeId == LimeBasicType.TypeId.DATE) {
-            AntlrLimeConverter.convertDateLiteral(limeTypeRef, literalString)
-        } else {
-            LimeValue.Literal(limeTypeRef, if (ctx.Minus() != null) "-$literalString" else literalString)
-        }
+        return LimeValue.Literal(limeTypeRef, if (ctx.Minus() != null) "-$literalString" else literalString)
     }
 
     private fun convertSimpleId(simpleId: LimeParser.SimpleIdContext): String {

@@ -8,6 +8,8 @@
   * All-fields constructors are no longer unconditionally generated for mutable structs in Java and Dart. They are now
   generated only if there are no explicitly defined constructors and none of the fields have default values specified.
   * A deprecated field with no default value is now a validation error when Swift code is generated.
+### Bug fixes:
+  * Fixed compilation issues in all languages when a `Date` literal is used in combination with a type alias.
 
 ## 10.7.2
 Release date: 2022-02-14

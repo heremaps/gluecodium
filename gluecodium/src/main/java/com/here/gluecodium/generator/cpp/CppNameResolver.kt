@@ -50,6 +50,7 @@ import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.lime.LimeValue.Duration.TimeUnit
@@ -164,11 +165,7 @@ internal class CppNameResolver(
 
     private fun resolveValue(limeValue: LimeValue): String =
         when (limeValue) {
-            is LimeValue.Literal -> {
-                val valueType = limeValue.typeRef.type
-                val isFloat = valueType is LimeBasicType && valueType.typeId == TypeId.FLOAT
-                limeValue.toString() + if (isFloat) "f" else ""
-            }
+            is LimeValue.Literal -> resolveLiteralValue(limeValue)
             is LimeValue.Enumerator ->
                 nameCache.getFullyQualifiedName(limeValue.valueRef.enumerator)
             is LimeValue.Special -> {
@@ -185,8 +182,20 @@ internal class CppNameResolver(
                 limeValue.values.joinToString(", ", "${resolveName(limeValue.typeRef)}{", "}") { resolveValue(it) }
             is LimeValue.KeyValuePair -> "{${resolveValue(limeValue.key)}, ${resolveValue(limeValue.value)}}"
             is LimeValue.Duration -> resolveDurationValue(limeValue)
-            is LimeValue.Date -> "::std::chrono::system_clock::from_time_t(${limeValue.epochSeconds})"
         }
+
+    private fun resolveLiteralValue(limeValue: LimeValue.Literal): String {
+        val valueType = limeValue.typeRef.type.actualType
+        if (valueType !is LimeBasicType) return limeValue.toString()
+        return when (valueType.typeId) {
+            TypeId.FLOAT -> "${limeValue}f"
+            TypeId.DATE -> {
+                val epochSeconds = LimeTypeHelper.dateLiteralEpochSeconds(limeValue.value)
+                "::std::chrono::system_clock::from_time_t($epochSeconds)"
+            }
+            else -> limeValue.toString()
+        }
+    }
 
     private fun resolveDurationValue(limeValue: LimeValue.Duration): String {
         val typeName = resolveBasicType(TypeId.DURATION, limeValue.typeRef.attributes)

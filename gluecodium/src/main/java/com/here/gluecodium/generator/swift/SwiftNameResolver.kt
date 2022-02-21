@@ -49,6 +49,7 @@ import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.lime.LimeValue.Duration.TimeUnit
@@ -111,7 +112,7 @@ internal class SwiftNameResolver(
 
     private fun resolveValue(limeValue: LimeValue): String =
         when (limeValue) {
-            is LimeValue.Literal -> limeValue.toString()
+            is LimeValue.Literal -> resolveLiteralValue(limeValue)
             is LimeValue.Enumerator -> {
                 val enumerator = limeValue.valueRef.enumerator
                 val enumeration = getParentElement(enumerator)
@@ -147,8 +148,19 @@ internal class SwiftNameResolver(
             }
             is LimeValue.KeyValuePair -> "${resolveValue(limeValue.key)}: ${resolveValue(limeValue.value)}"
             is LimeValue.Duration -> resolveDurationValue(limeValue)
-            is LimeValue.Date -> "Date(timeIntervalSince1970: ${limeValue.epochSeconds})"
         }
+
+    private fun resolveLiteralValue(limeValue: LimeValue.Literal): String {
+        val limeType = limeValue.typeRef.type.actualType
+        if (limeType !is LimeBasicType) return limeType.toString()
+        return when (limeType.typeId) {
+            TypeId.DATE -> {
+                val epochSeconds = LimeTypeHelper.dateLiteralEpochSeconds(limeValue.value)
+                "Date(timeIntervalSince1970: $epochSeconds)"
+            }
+            else -> limeValue.toString()
+        }
+    }
 
     private fun resolveDurationValue(limeValue: LimeValue.Duration): String {
         val multiplier = when (limeValue.timeUnit) {

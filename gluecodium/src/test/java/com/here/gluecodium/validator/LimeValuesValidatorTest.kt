@@ -76,7 +76,13 @@ class LimeValuesValidatorTest(
             arrayOf(LimeBasicTypeRef.FLOAT, LimeValue.Literal(fooTypeRef, ""), true),
             arrayOf(LimeBasicTypeRef(LimeBasicType.TypeId.BOOLEAN), LimeValue.Literal(fooTypeRef, ""), true),
             arrayOf(LimeBasicTypeRef(LimeBasicType.TypeId.STRING), LimeValue.Literal(fooTypeRef, ""), true),
-            arrayOf(LimeBasicTypeRef(LimeBasicType.TypeId.DATE), LimeValue.Literal(fooTypeRef, ""), true),
+            arrayOf(
+                LimeBasicTypeRef(LimeBasicType.TypeId.DATE),
+                LimeValue.Literal(fooTypeRef, "2022-02-04T09:15:17Z"),
+                true
+            ),
+            arrayOf(LimeBasicTypeRef(LimeBasicType.TypeId.DATE), LimeValue.Literal(fooTypeRef, "bar"), false),
+            arrayOf(LimeBasicTypeRef(LimeBasicType.TypeId.BLOB), LimeValue.Literal(fooTypeRef, ""), false),
             arrayOf(fooTypeRef, LimeValue.Literal(fooTypeRef, ""), false),
             arrayOf(
                 LimeDirectTypeRef(LimeEnumeration(EMPTY_PATH)),

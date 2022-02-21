@@ -27,3 +27,12 @@ struct DateDefaults {
 
     static fun getCppDefaults(): DateDefaults
 }
+
+typealias DateAlias = Date
+
+struct DateDefaultsAliased {
+    dateTime: DateAlias = "2022-02-04T11:15:17+02:00"
+    dateTimeUtc: DateAlias = "2022-02-04T09:15:17Z"
+    beforeEpoch: DateAlias = "1922-02-04T09:15:17Z"
+    exactlyEpoch: DateAlias = "1970-01-01T00:00:00Z"
+}

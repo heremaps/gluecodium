@@ -19,6 +19,10 @@
 
 package com.here.gluecodium.model.lime
 
+import java.time.DateTimeException
+import java.time.Instant
+import java.time.format.DateTimeFormatter
+
 object LimeTypeHelper {
 
     fun getAllTypes(limeElement: LimeNamedElement): List<LimeType> {
@@ -88,6 +92,15 @@ object LimeTypeHelper {
         val parentDistances = parentTypes.filterIsInstance<LimeContainerWithInheritance>()
             .mapNotNull { computeInheritanceDistance(it, parentFullName) }
         return parentDistances.minOrNull()?.let { it + 1 }
+    }
+
+    fun dateLiteralEpochSeconds(literalText: String): Long? {
+        val epochSeconds = try {
+            Instant.from(DateTimeFormatter.ISO_DATE_TIME.parse(literalText)).epochSecond
+        } catch (e: DateTimeException) {
+            return null
+        }
+        return epochSeconds
     }
 
     private val limeKeywords = setOf(
