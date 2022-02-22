@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 11.0.1
+Release date: 2022-02-22
 ### Bug fixes:
   * Fixed a compilation issue for structs with `@Dart(PositionalDefaults)` when none of the fields have default values.
 
