@@ -32,7 +32,7 @@
     : {{#fields}}{{resolveName visibility}}{{resolveName}} = {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}};
 {{/if}}{{!!
 
-}}{{#unless attributes.dart.positionalDefaults}}{{!!
+}}{{#unless attributes.dart.positionalDefaults initializedFields}}{{!!
 
 All fields constructor
 
