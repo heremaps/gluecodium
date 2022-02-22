@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 11.0.0
+Release date: 2022-02-22
 ### Features:
   * Structs with deprecated fields now have an additional "non-deprecated-fields" constructor generated in Swift. The
   existing "all-fields" constructor is now marked as `@available(*, deprecated)` in Swift for such structs.
