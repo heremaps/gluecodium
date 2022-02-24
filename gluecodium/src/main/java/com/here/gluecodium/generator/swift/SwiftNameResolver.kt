@@ -158,6 +158,10 @@ internal class SwiftNameResolver(
                 val epochSeconds = LimeTypeHelper.dateLiteralEpochSeconds(limeValue.value)
                 "Date(timeIntervalSince1970: $epochSeconds)"
             }
+            TypeId.LOCALE -> {
+                val localeTag = LimeTypeHelper.normalizeLocaleTag(limeValue.value)
+                "Locale(identifier: \"$localeTag\")"
+            }
             else -> limeValue.toString()
         }
     }

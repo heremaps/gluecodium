@@ -66,6 +66,10 @@ internal class JavaValueResolver(private val nameResolver: JavaNameResolver) {
                 val epochSeconds = LimeTypeHelper.dateLiteralEpochSeconds(limeValue.value)?.let { it * 1000 }
                 "new Date(${epochSeconds}L)"
             }
+            TypeId.LOCALE -> {
+                val localeTag = LimeTypeHelper.normalizeLocaleTag(limeValue.value)
+                "Locale.forLanguageTag(\"$localeTag\")"
+            }
             else -> limeValue.toString()
         }
     }

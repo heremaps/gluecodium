@@ -120,4 +120,22 @@ public class LocalesTest {
     assertEquals(localesStruct, result);
     assertEquals(localesStruct.hashCode(), result.hashCode());
   }
+
+  @Test
+  public void localeDefaultsTct() {
+    Locale result = (new LocaleDefaults()).traditionalChineseTaiwan;
+
+    assertEquals("nan", result.getLanguage());
+    assertEquals("Hant", result.getScript());
+    assertEquals("TW", result.getCountry());
+  }
+
+  @Test
+  public void localeDefaultsTctFromCpp() {
+    Locale result = LocaleDefaults.getCppDefaults().traditionalChineseTaiwan;
+
+    assertEquals("nan", result.getLanguage());
+    assertEquals("Hant", result.getScript());
+    assertEquals("TW", result.getCountry());
+  }
 }

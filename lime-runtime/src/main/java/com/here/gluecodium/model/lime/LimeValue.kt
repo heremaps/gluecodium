@@ -36,7 +36,7 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement() {
             val limeType = typeRef.type.actualType
             if (limeType !is LimeBasicType) return value
             return when (limeType.typeId) {
-                TypeId.STRING, TypeId.DATE -> StringHelper.escapeStringLiteral(value)
+                TypeId.STRING, TypeId.DATE, TypeId.LOCALE -> StringHelper.escapeStringLiteral(value)
                 else -> value
             }
         }

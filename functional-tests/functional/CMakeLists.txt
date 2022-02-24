@@ -468,6 +468,7 @@ feature(Locales cpp android swift dart SOURCES
     input/src/cpp/Locales.cpp
 
     input/lime/Locales.lime
+    input/lime/LocaleDefaults.lime
 )
 
 feature(CrossPackageNameClash cpp android swift dart SOURCES

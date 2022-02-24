@@ -98,6 +98,22 @@ class LocalesTests: XCTestCase {
         XCTAssertEqual(hash(result), hash(localesStruct))
     }
 
+    func testLocaleDefaultsTct() {
+        let result = LocaleDefaults().traditionalChineseTaiwan
+
+        XCTAssertEqual(result.languageCode, "nan")
+        XCTAssertEqual(result.scriptCode, "Hant")
+        XCTAssertEqual(result.regionCode, "TW")
+    }
+
+    func testLocaleDefaultsTctFromCpp() {
+        let result = LocaleDefaults.getCppDefaults().traditionalChineseTaiwan
+
+        XCTAssertEqual(result.languageCode, "nan")
+        XCTAssertEqual(result.scriptCode, "Hant")
+        XCTAssertEqual(result.regionCode, "TW")
+    }
+
     func hash<H>(_ value: H) -> Int where H: Hashable {
         var hasher = Hasher()
         value.hash(into: &hasher)
@@ -114,6 +130,8 @@ class LocalesTests: XCTestCase {
         ("testLocaleWithMalformedLanguage", testLocaleWithMalformedLanguage),
         ("testLocaleWithMalformedCountry", testLocaleWithMalformedCountry),
         ("testLocaleWithMalformedScript", testLocaleWithMalformedScript),
-        ("testLocalesStructRoundTrip", testLocalesStructRoundTrip)
+        ("testLocalesStructRoundTrip", testLocalesStructRoundTrip),
+        ("testLocaleDefaultsTct", testLocaleDefaultsTct),
+        ("testLocaleDefaultsTctFromCpp", testLocaleDefaultsTctFromCpp)
     ]
 }

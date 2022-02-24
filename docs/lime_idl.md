@@ -465,6 +465,9 @@ a limited set of escaped characters is currently supported: `\\`, `\"`, `\n`, `\
 A string literal can be used to initialize a `Date` value. In this case it has to conform to ISO 8601 standard: e.g.
 `"2022-02-04T11:15:17+02:00"`, or `"2022-02-04T09:15:17Z"` for a UTC value.
 
+A string literal can also be used to initialize a `Locale` value. In this case it has to conform to BCP 47 standard: 
+e.g. `"en-US"`, `"nan-Hant-TW"`, etc.
+
 #### Special literals
 
 * `null`: "null" value for nullable types.
