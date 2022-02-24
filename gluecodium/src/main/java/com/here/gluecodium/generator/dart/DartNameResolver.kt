@@ -131,26 +131,7 @@ internal class DartNameResolver(
                 "double.$specialName"
             }
             is LimeValue.Null -> "null"
-            is LimeValue.InitializerList -> {
-                val actualType = limeValue.typeRef.type.actualType
-                val prefix: String
-                val postfix: String
-                when (actualType) {
-                    is LimeList -> {
-                        prefix = "["
-                        postfix = "]"
-                    }
-                    else -> {
-                        prefix = "{"
-                        postfix = "}"
-                    }
-                }
-                limeValue.values.joinToString(
-                    prefix = prefix,
-                    postfix = postfix,
-                    separator = ", "
-                ) { resolveValue(it) }
-            }
+            is LimeValue.InitializerList -> resolveListValue(limeValue)
             is LimeValue.StructInitializer -> {
                 val actualType = limeValue.typeRef.type.actualType
                 if (actualType !is LimeStruct) {
@@ -188,6 +169,16 @@ internal class DartNameResolver(
                 "Locale.parse(\"$localeTag\")"
             }
             else -> limeValue.toString()
+        }
+    }
+
+    private fun resolveListValue(limeValue: LimeValue.InitializerList): String {
+        val limeType = limeValue.typeRef.type.actualType
+        val values = limeValue.values.joinToString(separator = ", ") { resolveValue(it) }
+        return when {
+            limeType is LimeList -> "[$values]"
+            limeType is LimeBasicType && limeType.typeId == TypeId.BLOB -> "Uint8List.fromList([$values])"
+            else -> "{$values}"
         }
     }
 

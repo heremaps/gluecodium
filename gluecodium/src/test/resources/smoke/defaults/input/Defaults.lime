@@ -117,3 +117,8 @@ struct StructWithInitializerDefaults {
     setTypeField: DefaultValues.StringSet = ["foo", "bar"]
     mapField: DefaultValues.IdToStringMap = [1: "foo", 42: "bar"]
 }
+
+struct BlobDefaults {
+    emptyList: Blob = []
+    deadBeef: Blob = [222, 173, 190, 239]
+}

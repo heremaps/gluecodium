@@ -77,4 +77,19 @@ void main() {
     expect(exception, isNull);
     expect(result, Uint8List.fromList([0, 1, 2]));
   });
+  _testSuite.test("Blob defaults empty", () {
+    final result = BlobDefaults().emptyList;
+
+    expect(result, isEmpty);
+  });
+  _testSuite.test("Blob defaults DEAF BEEF", () {
+    final result = BlobDefaults().deadBeef;
+
+    expect(result, [0xDE, 0xAD, 0xBE, 0xEF]);
+  });
+  _testSuite.test("Blob defaults DEAF BEEF from C++", () {
+    final result = BlobDefaults.getCppDefaults().deadBeef;
+
+    expect(result, [0xDE, 0xAD, 0xBE, 0xEF]);
+  });
 }
