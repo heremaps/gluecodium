@@ -42,3 +42,7 @@ struct InternalFieldWithCustomConstructor {
 struct InternalFieldWithDefaultValue {
     internal stringField: String = ""
 }
+
+internal struct WholeStructInternal {
+    stringField: String
+}
