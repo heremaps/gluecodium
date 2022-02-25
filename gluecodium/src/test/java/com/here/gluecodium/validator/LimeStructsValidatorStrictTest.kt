@@ -149,4 +149,11 @@ class LimeStructsValidatorStrictTest {
 
         assertTrue(validator.validate(limeModel))
     }
+
+    @Test
+    fun validateInternalStructWithNoConstructors() {
+        allElements[""] = LimeStruct(EMPTY_PATH, fields = listOf(limeField), visibility = LimeVisibility.INTERNAL)
+
+        assertTrue(validator.validate(limeModel))
+    }
 }

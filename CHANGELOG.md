@@ -3,6 +3,8 @@
 ## Unreleased
 ### Features:
   * Added support for `Locale` type literal values.
+### Bug fixes:
+  * "Strict mode" validation no longer erroneously fails for structs that have `internal` visibility.
 
 ## 11.0.1
 Release date: 2022-02-22
