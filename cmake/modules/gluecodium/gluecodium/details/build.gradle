@@ -27,7 +27,7 @@ repositories {
 apply plugin: 'application'
 
 dependencies {
-    runtime "com.here.gluecodium:gluecodium:$version"
+    runtimeOnly "com.here.gluecodium:gluecodium:$version"
 }
 
 mainClassName = 'com.here.gluecodium.Gluecodium'
@@ -55,9 +55,6 @@ class TimingsListener implements TaskExecutionListener, BuildListener {
             printf "%7s ms  %s\n", timing
         }
     }
-
-    @Override
-    void buildStarted(Gradle gradle) {}
 
     @Override
     void projectsEvaluated(Gradle gradle) {}
