@@ -114,6 +114,11 @@ class LimeValuesValidatorTest(
                 LimeValue.InitializerList(fooTypeRef, emptyList()),
                 true
             ),
+            arrayOf(
+                LimeBasicTypeRef(LimeBasicType.TypeId.BLOB),
+                LimeValue.InitializerList(fooTypeRef, emptyList()),
+                true
+            ),
             arrayOf(fooTypeRef, LimeValue.InitializerList(fooTypeRef, emptyList()), false),
             arrayOf(fooTypeRef, LimeValue.KeyValuePair(LimeValue.ZERO, LimeValue.ZERO), false),
             arrayOf(

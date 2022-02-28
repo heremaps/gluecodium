@@ -75,8 +75,14 @@ internal class JavaValueResolver(private val nameResolver: JavaNameResolver) {
     }
 
     private fun mapInitializerList(limeValue: LimeValue.InitializerList): String {
+        val limeType = limeValue.typeRef.type.actualType
+        if (limeType is LimeBasicType && limeType.typeId == TypeId.BLOB) {
+            val values = limeValue.values.joinToString(", ") { "(byte) " + resolveValue(it) }
+            return "new byte[] { $values }"
+        }
+
         val values = limeValue.values.joinToString(", ") { resolveValue(it) }
-        return when (val limeType = limeValue.typeRef.type.actualType) {
+        return when (limeType) {
             is LimeList -> {
                 val valuesAsList = if (values.isEmpty()) "" else "Arrays.asList($values)"
                 "new ArrayList<>($valuesAsList)"

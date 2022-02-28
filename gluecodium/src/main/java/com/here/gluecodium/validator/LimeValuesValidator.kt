@@ -57,7 +57,7 @@ internal class LimeValuesValidator(private val logger: LimeLogger) {
                 logger.error(limeElement, "enumerator values can only be assigned to `enum` types")
                 return false
             }
-            is LimeValue.InitializerList -> if (actualType !is LimeGenericType) {
+            is LimeValue.InitializerList -> if (!isCollectionType(actualType)) {
                 logger.error(limeElement, "initializer list values can only be assigned to collection types")
                 return false
             }
@@ -90,7 +90,7 @@ internal class LimeValuesValidator(private val logger: LimeLogger) {
             logger.error(limeElement, "literal values cannot be assigned to non-basic types")
             return false
         }
-        if (nonLiteralTypes.contains(limeType.typeId)) {
+        if (limeType.typeId == TypeId.BLOB || limeType.typeId == TypeId.DURATION) {
             logger.error(
                 limeElement,
                 "string or numeric literal values cannot be assigned to `Blob` or `Duration` types"
@@ -108,7 +108,10 @@ internal class LimeValuesValidator(private val logger: LimeLogger) {
         return true
     }
 
-    companion object {
-        private val nonLiteralTypes = setOf(TypeId.BLOB, TypeId.DURATION)
+    private fun isCollectionType(limeType: LimeType) = when {
+        limeType is LimeGenericType -> true
+        limeType !is LimeBasicType -> false
+        limeType.typeId == TypeId.BLOB -> true
+        else -> false
     }
 }

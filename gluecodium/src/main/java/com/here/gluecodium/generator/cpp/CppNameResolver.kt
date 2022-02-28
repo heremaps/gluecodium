@@ -176,7 +176,7 @@ internal class CppNameResolver(
                 "${signPrefix}std::numeric_limits<$typeString>::$valueString()"
             }
             is LimeValue.Null -> "${resolveName(limeValue.typeRef)}()"
-            is LimeValue.InitializerList -> limeValue.values.joinToString(", ", "{", "}") { resolveValue(it) }
+            is LimeValue.InitializerList -> resolveListValue(limeValue)
             is LimeValue.StructInitializer ->
                 limeValue.values.joinToString(", ", "${resolveName(limeValue.typeRef)}{", "}") { resolveValue(it) }
             is LimeValue.KeyValuePair -> "{${resolveValue(limeValue.key)}, ${resolveValue(limeValue.value)}}"
@@ -197,6 +197,16 @@ internal class CppNameResolver(
                 "$localeTypeName(std::string{\"$localeTag\"})"
             }
             else -> limeValue.toString()
+        }
+    }
+
+    private fun resolveListValue(limeValue: LimeValue.InitializerList): String {
+        val limeType = limeValue.typeRef.type.actualType
+        val values = limeValue.values.joinToString(", ", "{", "}") { resolveValue(it) }
+        return when {
+            limeType is LimeBasicType && limeType.typeId == TypeId.BLOB ->
+                "::std::make_shared<::std::vector<uint8_t>>(::std::vector<uint8_t>($values))"
+            else -> values
         }
     }
 

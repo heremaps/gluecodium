@@ -18,6 +18,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+#include "test/BlobDefaults.h"
 #include "test/Defaults.h"
 #include <cmath>
 
@@ -89,4 +90,7 @@ Defaults::get_initializer_defaults( )
     return {};
 }
 
-}  // namespace test
+BlobDefaults
+BlobDefaults::get_cpp_defaults() { return {}; }
+
+}

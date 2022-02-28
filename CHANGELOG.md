@@ -3,6 +3,7 @@
 ## Unreleased
 ### Features:
   * Added support for `Locale` type literal values.
+  * Added support for `Blob` type collection initializers.
 ### Bug fixes:
   * "Strict mode" validation no longer erroneously fails for structs that have `internal` visibility.
 

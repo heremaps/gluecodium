@@ -126,17 +126,7 @@ internal class SwiftNameResolver(
                 "$signPrefix$typePrefix.$valueName"
             }
             is LimeValue.Null -> "nil"
-            is LimeValue.InitializerList -> {
-                val actualType = limeValue.typeRef.type.actualType
-                when {
-                    actualType is LimeMap && limeValue.values.isEmpty() -> "[:]"
-                    else -> limeValue.values.joinToString(
-                        prefix = "[",
-                        postfix = "]",
-                        separator = ", "
-                    ) { resolveValue(it) }
-                }
-            }
+            is LimeValue.InitializerList -> resolveListValue(limeValue)
             is LimeValue.StructInitializer -> {
                 val actualType = limeValue.typeRef.type.actualType
                 if (actualType !is LimeStruct) {
@@ -163,6 +153,17 @@ internal class SwiftNameResolver(
                 "Locale(identifier: \"$localeTag\")"
             }
             else -> limeValue.toString()
+        }
+    }
+
+    private fun resolveListValue(limeValue: LimeValue.InitializerList): String {
+        val limeType = limeValue.typeRef.type.actualType
+        if (limeType is LimeMap && limeValue.values.isEmpty()) return "[:]"
+
+        val values = limeValue.values.joinToString(prefix = "[", postfix = "]", separator = ", ") { resolveValue(it) }
+        return when {
+            limeType is LimeBasicType && limeType.typeId == TypeId.BLOB -> "Data($values)"
+            else -> values
         }
     }
 

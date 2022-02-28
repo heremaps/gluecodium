@@ -33,6 +33,7 @@ func getAllTests() -> [XCTestCaseEntry] {
         testCase(ArraysTests.allTests),
         testCase(AttributesInterfaceTests.allTests),
         testCase(AttributesTests.allTests),
+        testCase(BlobsTests.allTests),
         testCase(ConstantsTests.allTests),
         testCase(CppConstMethodsTests.allTests),
         testCase(DatesTests.allTests),

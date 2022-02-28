@@ -118,3 +118,12 @@ class Defaults {
     static fun getEmptyDefaults(): StructWithEmptyDefaults
     static fun getInitializerDefaults(): StructWithInitializerDefaults
 }
+
+struct BlobDefaults {
+    emptyList: Blob = []
+    deadBeef: Blob = [222, 173, 190, 239]
+
+    field constructor()
+
+    static fun getCppDefaults(): BlobDefaults
+}
