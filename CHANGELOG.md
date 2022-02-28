@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 11.1.0
+Release date: 2022-02-28
 ### Features:
   * Added support for `Locale` type literal values.
   * Added support for `Blob` type collection initializers.
