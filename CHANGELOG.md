@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 11.1.1
+Release date: 2022-03-16
+### Features:
+  * Upgraded Gradle version in CMake toolchain to Gradle 7.2.
+
 ## 11.1.0
 Release date: 2022-02-28
 ### Features:
