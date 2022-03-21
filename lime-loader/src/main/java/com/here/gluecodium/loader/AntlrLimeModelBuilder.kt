@@ -275,13 +275,17 @@ internal class AntlrLimeModelBuilder(
 
     override fun exitFieldConstructor(ctx: LimeParser.FieldConstructorContext) {
         val structTypeRef = LimeLazyTypeRef(currentPath.parent.toString(), referenceResolver.referenceMap)
+        val fieldRefs = ctx.fieldParameter().map {
+            val attributes = AntlrLimeConverter.convertAnnotations(currentPath, it.annotation())
+            LimeLazyFieldRef(structTypeRef, convertSimpleId(it.simpleId()), attributes)
+        }
         val limeElement = LimeFieldConstructor(
             path = currentPath,
             visibility = currentVisibility,
             comment = structuredCommentsStack.peek().description,
             attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation()),
             structRef = structTypeRef,
-            fieldRefs = ctx.simpleId().map { LimeLazyFieldRef(structTypeRef, convertSimpleId(it)) },
+            fieldRefs = fieldRefs,
         )
 
         storeResultAndPopStacks(limeElement)

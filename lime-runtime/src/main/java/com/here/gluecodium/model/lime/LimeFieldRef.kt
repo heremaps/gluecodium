@@ -19,6 +19,6 @@
 
 package com.here.gluecodium.model.lime
 
-abstract class LimeFieldRef : LimeElement() {
+abstract class LimeFieldRef(attributes: LimeAttributes? = null) : LimeElement(attributes) {
     abstract val field: LimeField
 }

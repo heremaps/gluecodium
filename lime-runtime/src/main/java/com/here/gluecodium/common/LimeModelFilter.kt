@@ -235,7 +235,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
                 comment = comment,
                 attributes = attributes,
                 structRef = remappedStructRef,
-                fieldRefs = fieldRefs.map { LimeLazyFieldRef(remappedStructRef, it.field.name) }
+                fieldRefs = fieldRefs.map { LimeLazyFieldRef(remappedStructRef, it.field.name, it.attributes) }
             )
         }.also { remap(it) }
 

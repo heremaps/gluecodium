@@ -56,7 +56,8 @@
     @available(*, deprecated{{#if message}}, message: "{{#resolveName message}}{{escape this}}{{/resolveName}}"{{/if}}){{/attributes.deprecated}}
 {{prefixPartial "swift/SwiftAttributes" "    "}}
     {{>swift/TypeVisibility}} init({{!!
-    }}{{#fields}}{{>ctorParameter}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
+    }}{{#fieldRefs}}{{#if attributes.swift.label}}{{attributes.swift.label}} {{/if}}{{!!
+    }}{{#field}}{{>ctorParameter}}{{#if iter.hasNext}}, {{/if}}{{/field}}{{/fieldRefs}}) {
 {{#fields}}
         self.{{resolveName}} = {{resolveName}}
 {{/fields}}
