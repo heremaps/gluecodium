@@ -71,12 +71,21 @@ class FieldConstructorsTests: XCTestCase {
         XCTAssertEqual(result.boolField, false)
     }
 
+    func testLabels() {
+        let result = FieldConstructorsWithLabels(stringField: "foo", value: 7, false)
+
+        XCTAssertEqual(result.stringField, "foo")
+        XCTAssertEqual(result.intField, 7)
+        XCTAssertEqual(result.boolField, false)
+    }
+
     static var allTests = [
         ("testPartialDefaults2", testPartialDefaults2),
         ("testPartialDefaults3", testPartialDefaults3),
         ("testAllDefaults0", testAllDefaults0),
         ("testAllDefaults1", testAllDefaults1),
         ("testImmutableNoClash", testImmutableNoClash),
-        ("testImmutableWithClash", testImmutableWithClash)
+        ("testImmutableWithClash", testImmutableWithClash),
+        ("testLabels", testLabels)
     ]
 }

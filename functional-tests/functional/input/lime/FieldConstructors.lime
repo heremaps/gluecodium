@@ -109,3 +109,12 @@ struct FieldConstructorsExposeInternal {
     @Dart(Default)
     field constructor(internalField)
 }
+
+@Skip(Java, Dart)
+struct FieldConstructorsWithLabels {
+    stringField: String = "nonsense"
+    intField: Int = 42
+    boolField: Boolean = true
+    field constructor(@Swift(Label="value") intField, @Swift(Label="_") boolField)
+    field constructor(stringField, @Swift(Label="value") intField, @Swift(Label="_") boolField)
+}

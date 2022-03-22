@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Added support for `@Swift(Label)` attribute on field constructor parameters.
+
 ## 11.1.1
 Release date: 2022-03-16
 ### Features:

@@ -48,6 +48,10 @@ internal abstract class AntlrLimeModelBuilderBase(
 
     override fun enterImportStatement(ctx: LimeParser.ImportStatementContext) {}
 
+    override fun enterFieldParameter(ctx: LimeParser.FieldParameterContext) {}
+
+    override fun exitFieldParameter(ctx: LimeParser.FieldParameterContext) {}
+
     override fun enterReturnType(ctx: LimeParser.ReturnTypeContext) {}
 
     override fun exitReturnType(ctx: LimeParser.ReturnTypeContext) {}

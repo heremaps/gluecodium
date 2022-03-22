@@ -566,7 +566,7 @@ element is skipped (not generated). Custom tags are case-insensitive.
 * **@Swift**: marks an element with Swift-specific behaviors:
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Swift.
   This is the default specification for this attribute.
-  * **Label** **=** **"**_LabelName_**"**: marks a function parameter to have a distinct argument
+  * **Label** **=** **"**_LabelName_**"**: marks a parameter of a function or a constructor to have a distinct argument
   label in Swift.
   * **Extension**: marks a type collection (`types`) to be generated as Swift extension. The primary
   use case for this is adding nested types into a pre-existing Swift type (i.e. non-generated).

@@ -56,18 +56,22 @@ parentTypes
 
 function
     : docComment* annotation* visibility? ('static' NewLine*)? 'fun' NewLine* simpleId NewLine*
-      '(' NewLine* (parameter NewLine* (',' NewLine* parameter NewLine*)*)?  ')' NewLine*
+      '(' NewLine* (parameter (',' NewLine* parameter)*)?  ')' NewLine*
       returnType? throwsClause? NewLine*
     ;
 
 constructor
     : docComment* annotation* visibility? 'constructor' NewLine* simpleId NewLine*
-      '(' NewLine* (parameter NewLine* (',' NewLine* parameter NewLine*)*)? ')' NewLine* throwsClause? NewLine*
+      '(' NewLine* (parameter (',' NewLine* parameter)*)? ')' NewLine* throwsClause? NewLine*
     ;
 
 fieldConstructor
     : docComment* annotation* visibility? 'field' NewLine* 'constructor' NewLine*
-      '(' NewLine* (simpleId NewLine* (',' NewLine* simpleId NewLine*)*)? ')' NewLine*
+      '(' NewLine* (fieldParameter (',' NewLine* fieldParameter)*)? ')' NewLine*
+    ;
+
+fieldParameter
+    : annotation* simpleId NewLine*
     ;
 
 parameter
