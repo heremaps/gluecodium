@@ -465,7 +465,7 @@ a limited set of escaped characters is currently supported: `\\`, `\"`, `\n`, `\
 A string literal can be used to initialize a `Date` value. In this case it has to conform to ISO 8601 standard: e.g.
 `"2022-02-04T11:15:17+02:00"`, or `"2022-02-04T09:15:17Z"` for a UTC value.
 
-A string literal can also be used to initialize a `Locale` value. In this case it has to conform to BCP 47 standard: 
+A string literal can also be used to initialize a `Locale` value. In this case it has to conform to BCP 47 standard:
 e.g. `"en-US"`, `"nan-Hant-TW"`, etc.
 
 #### Special literals
@@ -721,11 +721,16 @@ constructor. Example:
 // Stores various important options.
 // @constructor Creates a nice storage for your various very important options.
 struct Options {
+    // An optional flag to do something useful.
     flagOption: Boolean
+    // A uint option to specify something more useful.
     uintOption: UShort
+    // Additional options to add something more.
     additionalOptions: List<String> = []
 }
 ```
+
+The comment after the `@constructor` tag will be used for the documentation of the constructor. The line above will be used for the documentation of the struct itself. The parameter documentation of the constructor will use the same documentation as for the fields of the struct. A struct as shown in the example above will result in a parameter-less default constructor _and_ a constructor with three parameters.
 
 Structured comments for lambdas allow specifying comments for lambda parameters, even though they do not have explicit
 names. Implicit positional names should be used for parameters instead: `p0`, `p1`, and so on. Example:
