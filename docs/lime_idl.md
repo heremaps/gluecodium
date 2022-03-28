@@ -722,15 +722,15 @@ constructor. Example:
 // @constructor Creates a nice storage for your various very important options.
 struct Options {
     // An optional flag to do something useful.
-    flagOption: Boolean
+    flagOption: Boolean = false
     // A uint option to specify something more useful.
-    uintOption: UShort
+    uintOption: UShort = 1
     // Additional options to add something more.
     additionalOptions: List<String> = []
 }
 ```
 
-The comment after the `@constructor` tag will be used for the documentation of the constructor. The line above will be used for the documentation of the struct itself. The parameter documentation of the constructor will use the same documentation as for the fields of the struct. A struct as shown in the example above will result in a parameter-less default constructor _and_ a constructor with three parameters.
+The comment after the `@constructor` tag will be used for the documentation of the constructor. The line above will be used for the documentation of the struct itself. The parameter documentation of the constructor will use the same documentation as for the fields of the struct. A default value will make it possible to omit a field from a constructor.
 
 Structured comments for lambdas allow specifying comments for lambda parameters, even though they do not have explicit
 names. Implicit positional names should be used for parameters instead: `p0`, `p1`, and so on. Example:
