@@ -18,11 +18,11 @@
  */
 
 dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.31'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.6.10'
     compileOnly 'org.jetbrains:annotations:13.0'
 
-    testImplementation 'io.mockk:mockk-dsl-jvm:1.12.2'
-    testImplementation 'io.mockk:mockk:1.12.2'
+    testImplementation 'io.mockk:mockk-dsl-jvm:1.12.3'
+    testImplementation 'io.mockk:mockk:1.12.3'
     testImplementation 'junit:junit:4.13.2'
 }
 

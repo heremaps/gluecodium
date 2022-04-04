@@ -17,9 +17,6 @@
  * License-Filename: LICENSE
  */
 
-plugins {
-    id "com.lazan.dependency-export" version "0.5"
-}
 dependencies {
     api project(":lime-runtime")
     implementation project(":lime-loader")
@@ -31,16 +28,16 @@ dependencies {
     implementation 'com.vladsch.flexmark:flexmark:0.62.2'
     implementation 'commons-cli:commons-cli:1.4'
     implementation 'org.apache.logging.log4j:log4j-core:2.16.0'
-    implementation 'org.jetbrains.kotlin:kotlin-reflect:1.5.31'
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.31'
+    implementation 'org.jetbrains.kotlin:kotlin-reflect:1.6.10'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.6.10'
     implementation 'org.jetbrains:annotations:13.0'
     implementation 'org.slf4j:slf4j-api:1.7.31'
     implementation 'org.slf4j:slf4j-log4j12:1.7.31'
     implementation 'org.trimou:trimou-core:2.5.0.Final'
 
     testImplementation files({ project(":lime-runtime").sourceSets.test.output })
-    testImplementation 'io.mockk:mockk-dsl-jvm:1.12.2'
-    testImplementation 'io.mockk:mockk:1.12.2'
+    testImplementation 'io.mockk:mockk-dsl-jvm:1.12.3'
+    testImplementation 'io.mockk:mockk:1.12.3'
     testImplementation 'junit:junit:4.13.2'
 }
 
@@ -107,8 +104,3 @@ spotless {
 
 project.ext.longName = 'Gluecodium command-line tool'
 apply from: "$rootDir/gradle/publishing.gradle"
-
-apply plugin: "com.lazan.dependency-export"
-mavenDependencyExport {
-    configuration 'runtime'
-}

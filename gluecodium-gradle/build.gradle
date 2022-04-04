@@ -9,14 +9,14 @@ repositories {
 dependencies {
     implementation project(":gluecodium")
 
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.31'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.6.10'
     implementation('com.android.tools.build:gradle:4.1.2') {
         exclude group: 'net.sf.proguard', module: 'proguard-gradle'
     }
     implementation 'com.natpryce:konfig:1.6.10.0'
 
-    testImplementation 'io.mockk:mockk-dsl-jvm:1.12.2'
-    testImplementation 'io.mockk:mockk:1.12.2'
+    testImplementation 'io.mockk:mockk-dsl-jvm:1.12.3'
+    testImplementation 'io.mockk:mockk:1.12.3'
     testImplementation 'junit:junit:4.13.2'
 }
 

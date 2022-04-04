@@ -5,12 +5,12 @@ plugins {
 dependencies {
     antlr "org.antlr:antlr4:4.9.1"
     api project(":lime-runtime")
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.31'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.6.10'
     implementation "org.antlr:antlr4-runtime:4.9.1"
 
     testImplementation files({ project(":lime-runtime").sourceSets.test.output })
-    testImplementation 'io.mockk:mockk-dsl-jvm:1.12.2'
-    testImplementation 'io.mockk:mockk:1.12.2'
+    testImplementation 'io.mockk:mockk-dsl-jvm:1.12.3'
+    testImplementation 'io.mockk:mockk:1.12.3'
     testImplementation 'junit:junit:4.13.2'
 }
 
