@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------------------------------
-// Copyright (C) 2016-2020 HERE Europe B.V.
+// Copyright (C) 2016-2022 HERE Europe B.V.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,37 +18,12 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "test/SwiftExternalTypesStruct.h"
-#include "test/UseSwiftExternalTypes.h"
-#include "test/VeryBoolean.h"
+internal class BooleanConverter {
+    static func convertFromInternal(_ internalBool: PseudoBoolean_internal) -> PseudoBoolean {
+        return PseudoBoolean(internalBool.value)
+    }
 
-namespace test
-{
-DateInterval
-UseSwiftExternalTypes::date_interval_round_trip(const DateInterval& input) {
-    return input;
-}
-
-Persistence
-UseSwiftExternalTypes::persistence_round_trip(const Persistence input) {
-    return input;
-}
-
-SystemColor
-UseSwiftExternalTypes::color_round_trip(const SystemColor& input) {
-    return input;
-}
-
-Season
-UseSwiftExternalTypes::season_round_trip(const Season input) {
-    return input;
-}
-
-SwiftExternalTypesStruct
-UseSwiftExternalTypes::struct_round_trip(const SwiftExternalTypesStruct& input) {
-    return input;
-}
-
-VeryBoolean
-VeryBoolean::make(const bool value) { return VeryBoolean{value}; }
+    static func convertToInternal(_ systemBool: PseudoBoolean) -> PseudoBoolean_internal {
+        return PseudoBoolean_internal(value: systemBool.value)
+    }
 }

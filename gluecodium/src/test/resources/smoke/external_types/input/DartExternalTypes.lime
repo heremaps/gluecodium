@@ -44,8 +44,8 @@ enum CompressionState {
 @Equatable
 struct DartColor {
     external {
-       dart converterImport "../color_converter.dart"
-       dart converter "ColorConverter"
+        dart converterImport "../color_converter.dart"
+        dart converter "ColorConverter"
     }
 
     red: Float
@@ -57,8 +57,8 @@ struct DartColor {
 @Dart("String") @Java(Skip) @Swift(Skip)
 enum DartSeason {
     external {
-       dart converterImport "../season_converter.dart"
-       dart converter "SeasonConverter"
+        dart converterImport "../season_converter.dart"
+        dart converter "SeasonConverter"
     }
 
     WINTER,
@@ -78,4 +78,14 @@ class UseDartExternalTypes {
 @Java(Skip) @Swift(Skip)
 class UseDartExternalGenerics {
     fun useGenerics(list: List<Rectangle>, `set`: Set<CompressionState>): Map<CompressionState, Rectangle>
+}
+
+@Java(Skip) @Swift(Skip)
+struct DartExternalCtor {
+    external {
+        dart converterImport "../foo_converter.dart"
+        dart converter "FooConverter"
+    }
+    `field`: String
+    constructor make(`field`: String)
 }

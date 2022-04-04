@@ -541,7 +541,9 @@ if(swift IN_LIST GLUECODIUM_GENERATORS_DEFAULT)
         find_package(XCTest REQUIRED)
     else ()
         target_sources(functional PRIVATE
+            "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/BooleanConverter.swift"
             "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/ColorConverter.swift"
+            "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/PseudoBoolean.swift"
             "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/PseudoColor.swift"
             "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/Season.swift"
             "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/SeasonConverter.swift")

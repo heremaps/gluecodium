@@ -19,7 +19,7 @@
   !
   !}}
 {{#if isConstructor}}private static native {{!!
-}}{{#if isClass}}long{{/if}}{{#unless isClass}}{{resolveName returnType}}{{/unless}}{{/if}}{{!!
+}}{{#if isClass}}long{{/if}}{{#unless isClass}}{{resolveName returnType.typeRef.type}}{{/unless}}{{/if}}{{!!
 }}{{#unless isConstructor}}{{>java/JavaMethodComment}}{{>java/JavaAttributes}}{{!!
 }}{{#returnType}}{{>java/NullabilityAnnotations}}{{/returnType}}{{!!
 }}{{#if override}}

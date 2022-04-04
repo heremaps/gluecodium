@@ -49,7 +49,8 @@
 }}{{#set struct=this}}{{#constructors}}
 {{prefixPartial "swift/SwiftFunctionComment" "    "}}
     {{resolveName visibility}} {{#if overriding}}override {{/if}}init({{>swift/SwiftFunctionParameters}}){{#if thrownType}} throws{{/if}} {
-        let _result_handle = {{#if thrownType}}try {{/if}}{{resolveName struct "" "ref"}}.{{resolveName}}({{#parameters}}{{!!
+        let _result_handle = {{#if thrownType}}try {{/if}}{{!!
+        }}{{resolveName struct "" "ref"}}{{#if external.swift.converter}}_internal{{/if}}.{{resolveName}}({{#parameters}}{{!!
         }}{{#if attributes.swift.label}}{{#isNotEq attributes.swift.label "_"}}{{attributes.swift.label}}: {{/isNotEq}}{{/if}}{{!!
         }}{{#unless attributes.swift.label}}{{resolveName}}: {{/unless}}{{!!
         }}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})

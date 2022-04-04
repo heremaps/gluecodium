@@ -25,8 +25,8 @@ public final class StructsWithMethodsInterface extends NativeBase {
         @NonNull
         public native StructsWithMethodsInterface.Vector3 add(@NonNull final StructsWithMethodsInterface.Vector3 other);
         public static native boolean validate(final double x, final double y, final double z);
-        private static native StructsWithMethodsInterface.Vector3 create(@NonNull final String input);
-        private static native StructsWithMethodsInterface.Vector3 create(@NonNull final StructsWithMethodsInterface.Vector3 other) throws ValidationException;
+        private static native Vector3 create(@NonNull final String input);
+        private static native Vector3 create(@NonNull final StructsWithMethodsInterface.Vector3 other) throws ValidationException;
     }
     public static final class StructWithStaticMethodsOnly {
         public static native void doStuff();

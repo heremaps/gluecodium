@@ -80,3 +80,13 @@ typealias ExternalList = List<PseudoColor>
 typealias ExternalSet = Set<PseudoColor>
 @Java(Skip) @Dart(Skip)
 typealias ExternalMap = Map<Persistence, PseudoColor>
+
+@Java(Skip) @Dart(Skip)
+struct SwiftExternalCtor {
+    external {
+        swift framework ""
+        swift converter "FooConverter"
+    }
+    `field`: String
+    constructor make(`field`: String)
+}

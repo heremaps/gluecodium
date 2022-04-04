@@ -20,6 +20,7 @@
 
 #include "test/JavaExternalTypesStruct.h"
 #include "test/UseJavaExternalTypes.h"
+#include "test/VeryBoolean.h"
 
 namespace test
 {
@@ -52,4 +53,7 @@ JavaExternalTypesStruct
 UseJavaExternalTypes::struct_round_trip(const JavaExternalTypesStruct& input) {
     return input;
 }
+
+VeryBoolean
+VeryBoolean::make(const bool value) { return VeryBoolean{value}; }
 }
