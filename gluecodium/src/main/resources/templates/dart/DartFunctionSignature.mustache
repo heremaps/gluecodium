@@ -19,7 +19,8 @@
   !
   !}}
 {{#if isConstructor}}{{!!
-}}{{#if isStruct}}{{resolveName returnType}} {{/if}}{{#unless isStruct}}static Pointer<Void> _{{/unless}}{{resolveName}}({{!!
+}}{{#if isStruct}}{{resolveName returnType.typeRef.type}}{{#if external.dart.converter}}Internal{{/if}} {{/if}}{{!!
+}}{{#unless isStruct}}static Pointer<Void> _{{/unless}}{{resolveName}}({{!!
 }}{{/if}}{{!!
 
 }}{{#unless isConstructor}}{{!!

@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/UseDartExternalTypes.h"
+#include "test/VeryBoolean.h"
 
 namespace test
 {
@@ -46,4 +47,7 @@ DartExternalTypesStruct
 UseDartExternalTypes::struct_round_trip(const DartExternalTypesStruct& input) {
     return input;
 }
+
+VeryBoolean
+VeryBoolean::make(const bool value) { return VeryBoolean{value}; }
 }

@@ -81,3 +81,14 @@ struct DartExternalTypesStruct {
     color: SystemColor
     season: Season
 }
+
+@Dart("bool")
+struct VeryBoolean {
+    external {
+        dart converterImport "../boolean_converter.dart"
+        dart converter "BooleanConverter"
+    }
+
+    value: Boolean
+    constructor make(value: Boolean)
+}

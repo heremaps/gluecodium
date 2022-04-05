@@ -104,3 +104,13 @@ struct ExternalMarkedAsSerializable {
 struct SerializableStructWithExternalField {
     someStruct: ExternalMarkedAsSerializable
 }
+
+struct VeryBoolean {
+    external {
+        java name "java.lang.Boolean"
+        java converter "com.here.android.test.BooleanConverter"
+    }
+
+    value: Boolean
+    constructor make(value: Boolean)
+}

@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed compilation issues for "external" structs explicit constructors in Java, Swift, and Dart.
+
 ## 11.1.2
 Release date: 2022-03-22
 ### Features:
