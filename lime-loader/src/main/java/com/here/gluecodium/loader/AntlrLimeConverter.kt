@@ -196,6 +196,7 @@ internal object AntlrLimeConverter {
             "FunctionName" -> LimeAttributeValueType.FUNCTION_NAME
             "Label" -> LimeAttributeValueType.LABEL
             "Message" -> LimeAttributeValueType.MESSAGE
+            "ParameterDefaults" -> LimeAttributeValueType.PARAMETER_DEFAULTS
             "PositionalDefaults" -> LimeAttributeValueType.POSITIONAL_DEFAULTS
             "Ref" -> LimeAttributeValueType.REF
             "Skip" -> LimeAttributeValueType.SKIP

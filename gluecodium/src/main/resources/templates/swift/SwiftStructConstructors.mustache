@@ -56,8 +56,9 @@
     @available(*, deprecated{{#if message}}, message: "{{#resolveName message}}{{escape this}}{{/resolveName}}"{{/if}}){{/attributes.deprecated}}
 {{prefixPartial "swift/SwiftAttributes" "    "}}
     {{>swift/TypeVisibility}} init({{!!
-    }}{{#fieldRefs}}{{#if attributes.swift.label}}{{attributes.swift.label}} {{/if}}{{!!
-    }}{{#field}}{{>ctorParameter}}{{#if iter.hasNext}}, {{/if}}{{/field}}{{/fieldRefs}}) {
+    }}{{#set fieldCtor=this}}{{#fieldCtor}}{{#fieldRefs}}{{#if attributes.swift.label}}{{attributes.swift.label}} {{/if}}{{!!
+    }}{{#field}}{{>ctorParameter}}{{#if fieldCtor.attributes.swift.parameterDefaults defaultValue}} = {{resolveName defaultValue}}{{/if}}{{!!
+    }}{{#if iter.hasNext}}, {{/if}}{{/field}}{{/fieldRefs}}{{/fieldCtor}}{{/set}}) {
 {{#fields}}
         self.{{resolveName}} = {{resolveName}}
 {{/fields}}
