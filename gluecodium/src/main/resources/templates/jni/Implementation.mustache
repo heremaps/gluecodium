@@ -196,7 +196,9 @@ jint
 }}"{{resolveName container "" "ref"}}${{resolveName returnType.typeRef "" "ref"}}"{{!!
 }}).release(){{/if}}{{!!
 }}{{#unless returnType.typeRef.attributes.optimized}}{{!!
-}}{{>common/InternalNamespace}}jni::{{#returnType}}{{>jni/JniConversionPrefix}}{{/returnType}}convert_to_jni(_jenv, _result).release(){{/unless}}{{/unlessPredicate}}{{!!
+}}{{>common/InternalNamespace}}jni::{{#returnType}}{{>jni/JniConversionPrefix}}{{/returnType}}{{!!
+}}convert_to_jni{{#if isConstructor container.external.java.converter}}_internal{{/if}}{{!!
+}}(_jenv, _result).release(){{/unless}}{{/unlessPredicate}}{{!!
 }}{{#ifPredicate returnType.typeRef "isJniPrimitive"}}_result{{/ifPredicate}};{{/unlessPredicate}}{{/unless}}
 }
 {{/jniMethodBody}}{{!!

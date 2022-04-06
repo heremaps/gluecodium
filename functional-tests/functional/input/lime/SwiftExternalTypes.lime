@@ -69,6 +69,7 @@ class UseSwiftExternalTypes {
     static fun seasonRoundTrip(input: Season): Season
 
     static fun structRoundTrip(input: SwiftExternalTypesStruct): SwiftExternalTypesStruct
+    static fun veryBooleanUnbox(input: VeryBoolean): Boolean
 }
 
 struct SwiftExternalTypesStruct {

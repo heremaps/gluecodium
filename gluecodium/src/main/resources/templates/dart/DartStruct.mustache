@@ -176,6 +176,25 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#i
 {{/unless}}{{/fields}}
   }
 }
+{{#if external.dart.converter constructors}}
+
+{{resolveName}}Internal {{resolveName "Ffi"}}FromFfiInternal(Pointer<Void> handle) {
+{{#set parent=this}}{{#fields}}
+  final _{{resolveName}}Handle = _{{resolveName parent "Ffi"}}GetField{{resolveName "Ffi"}}(handle);
+{{/fields}}{{/set}}
+  try {
+    return {{resolveName}}Internal._(
+{{#set container=this}}{{#fields}}
+{{>fromFfiFieldInit}}
+{{/fields}}{{/set}}
+    );
+  } finally {
+{{#fields}}{{#unless typeRef.attributes.optimized}}
+    {{#resolveName}}{{#setJoin "varName" "_" this "Handle" delimiter=""}}{{>dart/DartFfiReleaseHandle}}{{/setJoin}}{{/resolveName}}
+{{/unless}}{{/fields}}
+  }
+}
+{{/if}}
 
 void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) => _{{resolveName "Ffi"}}ReleaseHandle(handle);
 

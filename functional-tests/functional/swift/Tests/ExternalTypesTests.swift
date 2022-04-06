@@ -119,6 +119,14 @@ class ExternalTypesTests: XCTestCase {
         XCTAssertEqual(result, 77)
     }
 
+    func testPseudoBoolean() {
+        let pseudoBoolean = PseudoBoolean(true)
+
+        let result = UseSwiftExternalTypes.veryBooleanUnbox(input: pseudoBoolean)
+
+        XCTAssertEqual(true, result)
+    }
+
     static var allTests = [
         ("testUseExternalTypesExternalStruct", testUseExternalTypesExternalStruct),
         ("testUseExternalTypesExternalEnum", testUseExternalTypesExternalEnum),
@@ -127,7 +135,8 @@ class ExternalTypesTests: XCTestCase {
         ("testSwiftExternalTypeColor", testSwiftExternalTypeColor),
         ("testSwiftExternalTypeSeason", testSwiftExternalTypeSeason),
         ("testSwiftExternalTypesInStruct", testSwiftExternalTypesInStruct),
-        ("testMyClass", testMyClass)
+        ("testMyClass", testMyClass),
+        ("testPseudoBoolean", testPseudoBoolean)
     ]
 }
 #endif

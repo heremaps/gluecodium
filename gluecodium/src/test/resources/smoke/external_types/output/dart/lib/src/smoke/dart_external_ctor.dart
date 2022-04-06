@@ -1,6 +1,7 @@
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:meta/meta.dart';
 import '../foo_converter.dart';
 class DartExternalCtorInternal {
   String field;
@@ -32,7 +33,7 @@ class DartExternalCtor$Impl {
     final __resultHandle = _makeFfi(__lib.LibraryContext.isolateId, _fieldHandle);
     stringReleaseFfiHandle(_fieldHandle);
     try {
-      return smokeDartexternalctorFromFfi(__resultHandle);
+      return smokeDartexternalctorFromFfiInternal(__resultHandle);
     } finally {
       smokeDartexternalctorReleaseFfiHandle(__resultHandle);
     }
@@ -52,6 +53,16 @@ DartExternalCtor smokeDartexternalctorFromFfi(Pointer<Void> handle) {
       stringFromFfi(_fieldHandle)
     );
     return FooConverter.convertFromInternal(resultInternal);
+  } finally {
+    stringReleaseFfiHandle(_fieldHandle);
+  }
+}
+DartExternalCtorInternal smokeDartexternalctorFromFfiInternal(Pointer<Void> handle) {
+  final _fieldHandle = _smokeDartexternalctorGetFieldfield(handle);
+  try {
+    return DartExternalCtorInternal._(
+      stringFromFfi(_fieldHandle)
+    );
   } finally {
     stringReleaseFfiHandle(_fieldHandle);
   }

@@ -106,4 +106,11 @@ void main() {
 
     expect(result, 77);
   });
+  _testSuite.test("Use MyClass", () {
+    final veryBool = true;
+
+    final result = UseDartExternalTypes.veryBooleanUnbox(veryBool);
+
+    expect(result, true);
+  });
 }

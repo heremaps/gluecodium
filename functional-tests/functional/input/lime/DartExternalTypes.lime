@@ -73,6 +73,7 @@ class UseDartExternalTypes {
     static fun seasonRoundTrip(input: Season): Season
 
     static fun structRoundTrip(input: DartExternalTypesStruct): DartExternalTypesStruct
+    static fun veryBooleanUnbox(input: VeryBoolean): Boolean
 }
 
 struct DartExternalTypesStruct {
