@@ -61,7 +61,8 @@ internal class DartDeclarationImportResolver(
 
         return when {
             limeElement is LimeLambda -> listOf(tokenCacheImport)
-            limeElement is LimeStruct && limeElement.external?.dart == null -> resolveStructImports(limeElement)
+            limeElement is LimeStruct && !DartGeneratorPredicates.skipDeclaration(limeElement) ->
+                resolveStructImports(limeElement)
             limeElement is LimeInterface -> resolveInterfaceImports(limeElement)
             limeElement is LimeClass -> resolveClassImports(limeElement)
             else -> emptyList()

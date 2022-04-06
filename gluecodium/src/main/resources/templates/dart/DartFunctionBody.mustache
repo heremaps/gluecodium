@@ -70,7 +70,9 @@
 }}{{#set elementType=typeRef.type.actualType.elementType.type.actualType typeRef=typeRef.type.actualType.elementType}}{{!!
     }}return {{#set varName="__resultHandle"}}{{prefixPartial "dart/InitLazyList" "    " skipFirstLine=true}}{{/set}};{{/set}}
 {{/if}}{{#unless typeRef.attributes.optimized}}try {
-    return {{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(__resultHandle);
+    return {{#if isConstructor parent.external.dart.converter}}{{#set call="FromFfiInternal"}}{{>dart/DartFfiConversionCall}}{{/set}}{{/if}}{{!!
+    }}{{#unless isConstructor parent.external.dart.converter}}{{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}{{/unless}}{{!!
+    }}(__resultHandle);
   } finally {
     {{#set varName="__resultHandle"}}{{>dart/DartFfiReleaseHandle}}{{/set}}
   }

@@ -48,6 +48,9 @@ UseDartExternalTypes::struct_round_trip(const DartExternalTypesStruct& input) {
     return input;
 }
 
+bool
+UseDartExternalTypes::very_boolean_unbox(const VeryBoolean& input) { return input.value; }
+
 VeryBoolean
 VeryBoolean::make(const bool value) { return VeryBoolean{value}; }
 }

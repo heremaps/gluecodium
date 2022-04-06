@@ -39,6 +39,9 @@ JNIEXPORT {{resolveName "C++ FQN"}} convert_from_jni(JNIEnv* _jenv, const JniRef
 JNIEXPORT {{>common/InternalNamespace}}optional<{{resolveName "C++ FQN"}}> convert_from_jni({{!!
 }}JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{>common/InternalNamespace}}optional<{{resolveName "C++ FQN"}}>*);
 JNIEXPORT JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{resolveName "C++ FQN"}}& _ninput);
+{{#if external.java.converter constructors}}
+JNIEXPORT JniReference<jobject> convert_to_jni_internal(JNIEnv* _jenv, const {{resolveName "C++ FQN"}}& _ninput);
+{{/if}}
 JNIEXPORT JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{>common/InternalNamespace}}optional<{{resolveName "C++ FQN"}}> _ninput);
 {{/struct}}
 }

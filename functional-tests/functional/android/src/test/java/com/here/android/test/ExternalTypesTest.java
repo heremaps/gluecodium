@@ -180,4 +180,13 @@ public final class ExternalTypesTest {
     assertTrue(android.os.Parcelable.class.isInstance(mainStruct));
     assertEquals(42, resultStruct.someStruct.mData);
   }
+
+  @Test
+  public void unboxVeryBoolean() {
+    Boolean veryBoolean = new Boolean(true);
+
+    boolean result = UseJavaExternalTypes.veryBooleanUnbox(veryBoolean);
+
+    assertEquals(result, true);
+  }
 }

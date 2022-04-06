@@ -54,6 +54,9 @@ UseJavaExternalTypes::struct_round_trip(const JavaExternalTypesStruct& input) {
     return input;
 }
 
+bool
+UseJavaExternalTypes::very_boolean_unbox(const VeryBoolean& input) { return input.value; }
+
 VeryBoolean
 VeryBoolean::make(const bool value) { return VeryBoolean{value}; }
 }

@@ -61,8 +61,7 @@ internal class DartGeneratorPredicates(
             }
         },
         "skipDeclaration" to { limeType: Any ->
-            limeType is LimeType && limeType.external?.dart != null &&
-                limeType.external?.dart?.get(LimeExternalDescriptor.CONVERTER_NAME) == null
+            limeType is LimeType && skipDeclaration(limeType)
         },
         "shouldRetain" to { limeElement: Any ->
             limeElement is LimeNamedElement && shouldRetain(limeElement)
@@ -83,5 +82,9 @@ internal class DartGeneratorPredicates(
                 limeStruct.fieldConstructors.isEmpty() -> limeStruct.initializedFields.isEmpty()
                 else -> false
             }
+
+        fun skipDeclaration(limeType: LimeType) =
+            limeType.external?.dart != null &&
+                limeType.external?.dart?.get(LimeExternalDescriptor.CONVERTER_NAME) == null
     }
 }

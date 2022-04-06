@@ -80,6 +80,7 @@ class UseJavaExternalTypes {
     static fun seasonRoundTrip(input: Season): Season
 
     static fun structRoundTrip(input: JavaExternalTypesStruct): JavaExternalTypesStruct
+    static fun veryBooleanUnbox(input: VeryBoolean): Boolean
 }
 
 struct JavaExternalTypesStruct {
