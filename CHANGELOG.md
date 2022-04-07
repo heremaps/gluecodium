@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 11.1.5
+Release date: 2022-04-07
 ### Features:
   * Added support for `@Swift(ParameterDefaults)` attribute on field constructors.
 
