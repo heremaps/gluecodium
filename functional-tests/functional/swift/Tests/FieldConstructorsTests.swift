@@ -79,6 +79,22 @@ class FieldConstructorsTests: XCTestCase {
         XCTAssertEqual(result.boolField, false)
     }
 
+    func testParameterDefaultsClash() {
+        let result = FieldConstructorsParameterDefaults(intField: 7)
+
+        XCTAssertEqual(result.stringField, "nonsense")
+        XCTAssertEqual(result.intField, 7)
+        XCTAssertEqual(result.boolField, true)
+    }
+
+    func testParameterDefaultsNoClash() {
+        let result = FieldConstructorsParameterDefaults(stringField: "foo", intField: 7)
+
+        XCTAssertEqual(result.stringField, "foo")
+        XCTAssertEqual(result.intField, 7)
+        XCTAssertEqual(result.boolField, true)
+    }
+
     static var allTests = [
         ("testPartialDefaults2", testPartialDefaults2),
         ("testPartialDefaults3", testPartialDefaults3),
@@ -86,6 +102,8 @@ class FieldConstructorsTests: XCTestCase {
         ("testAllDefaults1", testAllDefaults1),
         ("testImmutableNoClash", testImmutableNoClash),
         ("testImmutableWithClash", testImmutableWithClash),
-        ("testLabels", testLabels)
+        ("testLabels", testLabels),
+        ("testParameterDefaultsClash", testParameterDefaultsClash),
+        ("testParameterDefaultsNoClash", testParameterDefaultsNoClash)
     ]
 }

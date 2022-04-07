@@ -118,3 +118,17 @@ struct FieldConstructorsWithLabels {
     field constructor(@Swift(Label="value") intField, @Swift(Label="_") boolField)
     field constructor(stringField, @Swift(Label="value") intField, @Swift(Label="_") boolField)
 }
+
+@Skip(Java, Dart)
+struct FieldConstructorsParameterDefaults {
+    stringField: String = "nonsense"
+    intField: Int
+    boolField: Boolean = true
+
+    @Swift(ParameterDefaults)
+    field constructor(intField)
+    @Swift(ParameterDefaults)
+    field constructor(intField, boolField)
+    @Swift(ParameterDefaults)
+    field constructor(stringField, intField, boolField)
+}

@@ -32,6 +32,7 @@ enum class LimeAttributeValueType(private val tag: String) {
     FUNCTION_NAME("FunctionName"),
     LABEL("Label"),
     MESSAGE("Message"),
+    PARAMETER_DEFAULTS("ParameterDefaults"),
     POSITIONAL_DEFAULTS("PositionalDefaults"),
     REF("Ref"),
     SKIP("Skip"),
