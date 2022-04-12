@@ -115,3 +115,8 @@ struct VeryBoolean {
     value: Boolean
     constructor make(value: Boolean)
 }
+
+struct UseJavaExternalConst {
+    stringField: String
+    internal const defaultTruth: VeryBoolean = {true}
+}

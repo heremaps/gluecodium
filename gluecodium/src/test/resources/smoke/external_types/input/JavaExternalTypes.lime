@@ -96,3 +96,8 @@ struct JavaExternalCtor {
     `field`: String
     constructor make(`field`: String)
 }
+
+struct UseJavaExternalConst {
+    stringField: String
+    internal const defaultTruth: JavaExternalCtor = {"foo"}
+}
