@@ -187,6 +187,13 @@ public final class ExternalTypesTest {
 
     boolean result = UseJavaExternalTypes.veryBooleanUnbox(veryBoolean);
 
-    assertEquals(result, true);
+    assertEquals(true, result);
+  }
+
+  @Test
+  public void checkExternalConst() {
+    Boolean result = UseJavaExternalConst.DEFAULT_TRUTH;
+
+    assertEquals(true, result.booleanValue());
   }
 }
