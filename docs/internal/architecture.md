@@ -33,20 +33,34 @@ The loader produces a `LimeModel` as an output. The model consists of the LIME m
 
 The main class also discovers available generators (implementers of `Generator` interface) through the same
 ServiceLoader mechanism. From the list of the available generators it selects a subset based on the command line
-options. Each generator is initialized with generator options (part of command line options) and then it generated
+options. Each generator is initialized with generator options (part of command line options) and then it generates
 output code based on the options, and the in-memory LIME model. The contents of the generated files are also in-memory.
 The main class is responsible for taking this output and committing it to the file system.
 
 LIME IDL loader
 ---------------
 
-LIME IDL loader module is decoupled from the main Gluecodium code. The only point of communication between them is a
-single-function interface `LimeModelLoader`, implemented by LIME IDL loader and exposed (made discoverable) though Java
-Service Loader mechanism.
+[LIME IDL loader](lime_loader.md) module is decoupled from the main Gluecodium code. The only point of communication
+between them is a single-function interface `LimeModelLoader`, implemented by LIME IDL loader and exposed (made
+discoverable) though Java Service Loader mechanism.
 
 There is no manually-written code for parsing LIME IDL files. Instead, the parser is generated at compile time by ANTLR
-parser-generator library based on the grammar definition for LIME IDL language (`LimeParser.g4`). The output of the
-parser is an abstract syntax tree (AST) in ANTLR in-memory format. This syntax tree is converted to LIME model tree by
-`AntlrLimeModelBuilder` class.
+parser-generator library based on the grammar definition for LIME IDL language. The output of the parser is an abstract
+syntax tree (AST) in ANTLR in-memory format. This syntax tree is then converted to LIME model tree.
 
-There's also a secondary parser for parsing LIME IDL documentation comments ("LimeDoc", `LimedocParser.g4`).
+Code generators
+---------------
+
+Currently, Gluecodium can generate code for the following platforms and languages:
+* C++: mostly headers, with classes and interfaces both represented by abstract classes. Some minimal implementation
+files are generated too, where required for initialization. The generated abstract classes are designed to be manually
+implemented by concrete classes, providing the business logic.
+* Android: Java files with some elements from Android APIs, plus JNI C/C++ files as Java-to-C++ bindings. Not compilable
+for non-Android Java environment.
+* Swift: Swift files, plus Objective-C-compatible C/C++ bindings (nicknamed "CBridge" internally). Compilable both for
+iOS and as cross-platform Swift executable.
+* Dart: Dart files, plus Dart FFI C/C++ bindings. Compilable both for Flutter framework and as cross-platform Dart
+executable.
+* LIME IDL: generates LIME IDL files. Can be used to migrate IDL files from older LIME syntax to newer one, or to
+convert the definitions written in some other IDL to LIME, if a corresponding loader is provided. Currently, only used
+for testing purposes internally.
