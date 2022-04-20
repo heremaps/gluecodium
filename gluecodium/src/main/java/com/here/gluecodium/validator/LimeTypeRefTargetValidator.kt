@@ -31,7 +31,6 @@ import com.here.gluecodium.model.lime.LimeTypesCollection
 /**
  * Validate against:
  * * Referring to type collections directly.
- * * Referring to non-enum types from exception types.
  * * Referring to exception types from anywhere but the `throws` clause.
  */
 internal class LimeTypeRefTargetValidator(private val logger: LimeLogger) :
