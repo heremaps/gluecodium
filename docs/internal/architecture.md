@@ -52,15 +52,15 @@ Code generators
 ---------------
 
 Currently, Gluecodium can generate code for the following platforms and languages:
-* C++: mostly headers, with classes and interfaces both represented by abstract classes. Some minimal implementation
-files are generated too, where required for initialization. The generated abstract classes are designed to be manually
-implemented by concrete classes, providing the business logic.
-* Android: Java files with some elements from Android APIs, plus JNI C/C++ files as Java-to-C++ bindings. Not compilable
-for non-Android Java environment.
-* Swift: Swift files, plus Objective-C-compatible C/C++ bindings (nicknamed "CBridge" internally). Compilable both for
-iOS and as cross-platform Swift executable.
-* Dart: Dart files, plus Dart FFI C/C++ bindings. Compilable both for Flutter framework and as cross-platform Dart
-executable.
+* [C++](generators/cpp.md): mostly headers, with classes and interfaces both represented by abstract classes. Some
+minimal implementation files are generated too, where required for initialization. The generated abstract classes are
+designed to be manually implemented by concrete classes, providing the business logic.
+* [Android](generators/java.md): Java files with some elements from Android APIs, plus JNI C/C++ files as Java-to-C++
+bindings. Not compilable for non-Android Java environment.
+* [Swift](generators/swift.md): Swift files, plus Objective-C-compatible C/C++ bindings (nicknamed "CBridge"
+internally). Compilable both for iOS and as cross-platform Swift executable.
+* [Dart](generators/dart.md): Dart files, plus Dart FFI C/C++ bindings. Compilable both for Flutter framework and as
+cross-platform Dart executable.
 * LIME IDL: generates LIME IDL files. Can be used to migrate IDL files from older LIME syntax to newer one, or to
 convert the definitions written in some other IDL to LIME, if a corresponding loader is provided. Currently, only used
 for testing purposes internally.
