@@ -36,11 +36,26 @@ import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.lime.LimeValue
 
+/**
+ * Stateless LIME model filter. See below for the stateful private implementation.
+ */
 object LimeModelFilter {
     fun filter(limeModel: LimeModel, predicate: (LimeNamedElement) -> Boolean) =
         LimeModelFilterImpl(limeModel, predicate).filter()
 }
 
+/**
+ * Creates a new [LimeModel] by filtering the given [limeModel], retaining only the elements matching the [predicate].
+ * The filtering is applied both to [LimeModel.topElements] and [LimeModel.auxiliaryElements].
+ *
+ * [referenceMap] requires some additional post-processing, for multiple reasons:
+ * * multiple keys can refer to the same element, so may need to drop several map entries per element.
+ * * nested elements need to be dropped, if their outer element is filtered out. Happens naturally with the model tree,
+ * but has to be done explicitly for the map.
+ * * "ambiguous" keys might need to be restored: e.g. for two overloads of "Foo.doBar()" function, "Foo.doBar" and
+ * "Foo.doBar:0" pointed to the same element, which has been dropped; "Foo.doBar" needs to be "restored" to point to the
+ * remaining overload "Foo.doBar:1" now.
+ */
 private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (LimeNamedElement) -> Boolean) {
 
     private val referenceMap = limeModel.referenceMap.toMutableMap()
@@ -63,7 +78,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
 
         // Has to be filtered last, when [droppedElements] is already filled.
         referenceMap.entries.retainAll { refMapPredicate(it.value) }
-        // Restore ambiguous keys if some of the non-ambiguous entries are still present.
+        // Restore ambiguous keys if some non-ambiguous entries are still present.
         referenceMap.entries
             .filter { it.key.contains(":") }
             .sortedBy { it.key }

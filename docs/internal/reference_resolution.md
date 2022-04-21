@@ -67,6 +67,14 @@ member of an `enum` enumeration). Occurs in enumerator literals.
 in "raw" enumerator literals, e.g. `const myConst: MyEnum = MyEnum(2)`.
 * _Lazy field reference_: a simple late-bound reference to a struct field. Occurs in field constructor declarations.
 
+Nesting relationships
+---------------------
+The reference map is also used to resolve the nesting relationships in some algorithms. I.e. given an element with the
+"path" of "core.MyClass.doSomething" (with or without the disambiguation suffix), the "outer" element can be found by
+omitting the last section of the path ("core.MyClass") and then using that as a key for the reference map. Such
+"nesting parent" look-ups are used in various generator algorithms: import/include resolution, fully qualified name
+resolution, etc.
+
 Documentation references
 ------------------------
 Textual references to an element (e.g `[core.MyClass.NestedInterface]`) in LIME documentation comments are also resolved
@@ -75,19 +83,18 @@ explicitly disambiguate between different function overloads. Compared to numeri
 human-readable. It is also stable with regard to reordering, adding, or removing declarations in the IDL file (numerical
 suffixes don't need to be stable, only to be unique within a single Gluecodium execution).
 
-Nesting relationships
----------------------
-The reference map is also used to resolve the nesting relationships in some algorithms. I.e. in
+Ambiguous keys
+--------------
+According to documentation conventions of most target languages, referring to an overloaded function just by name,
+without any disambiguation, still has to produce a valid documentation reference. LIME model handles this by adding
+so-called "ambiguous keys" to the reference map. For example, given
 ```kotlin
-package core
-
 class MyClass {
-    interface NestedInterface {}
     fun doSomething(value: Int)
     fun doSomething(value: String): Boolean
 }
 ```
-given an element with the "path" of "core.MyClass.doSomething" (with or without the disambiguation suffix), another
-element can be found by omitting the last section of the path ("core.MyClass") and then using that as a key for the
-reference map. Such "nesting parent" look-ups are used in various generator algorithms: import/include resolution,
-fully qualified name resolution, etc.
+the reference map will have two keys "core.MyClass.doSomething" and "core.MyClass.doSomething:0", both pointing to the
+first overload. The former key is "ambiguous" in a sense that its disambiguation suffix is omitted. The downside is that
+this approach is not stable with regard to textual reordering of the overloads in the IDL file. The upside is the
+minimal amount of additional processing required.
