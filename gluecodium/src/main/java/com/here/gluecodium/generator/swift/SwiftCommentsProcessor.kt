@@ -24,7 +24,6 @@ import com.vladsch.flexmark.ast.AutoLink
 import com.vladsch.flexmark.ast.LinkRef
 import com.vladsch.flexmark.formatter.Formatter
 import com.vladsch.flexmark.parser.ParserEmulationProfile
-import com.vladsch.flexmark.util.data.MutableDataSet
 import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
 
 /**
@@ -32,7 +31,7 @@ import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
  */
 @Suppress("DEPRECATION")
 class SwiftCommentsProcessor(werror: Boolean) :
-    CommentsProcessor(Formatter.builder(FORMATTER_OPTIONS).build(), werror) {
+    CommentsProcessor(Formatter.builder(formatterOptions).build(), werror) {
 
     override fun processLink(linkNode: LinkRef, linkReference: String, limeFullName: String) {
         linkNode.reference = BasedSequenceImpl.of(linkReference)
@@ -48,7 +47,8 @@ class SwiftCommentsProcessor(werror: Boolean) :
     override val nullReference = "nil"
 
     companion object {
-        private val FORMATTER_OPTIONS = MutableDataSet()
+        private val formatterOptions = flexmarkOptions.toMutable()
             .set(Formatter.FORMATTER_EMULATION_PROFILE, ParserEmulationProfile.PEGDOWN)
+            .toImmutable()
     }
 }
