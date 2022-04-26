@@ -46,21 +46,20 @@ internal class CppHeaderIncludesCollector(
         val forwardDeclaredTypes = collectForwardDeclaredTypes(limeElement, allTypeRefs)
 
         val allValues = LimeTypeHelper.getAllValues(limeElement)
-        val equatableTypes = allTypes.filter { it.external?.cpp == null && it.attributes.have(LimeAttributeType.EQUATABLE) }
-        val additionalIncludes =
-            collectAdditionalIncludes(limeElement, allTypes, equatableTypes, errorEnums, typeRegisteredClasses)
+        val equatableTypes =
+            allTypes.filter { it.external?.cpp == null && it.attributes.have(LimeAttributeType.EQUATABLE) }
         return allTypes.filterIsInstance<LimeContainer>()
             .flatMap { it.functions }
             .flatMap { includesResolver.resolveElementImports(it) } +
             allTypeRefs.flatMap { includesResolver.resolveElementImports(it) } +
             allValues.flatMap { includesResolver.resolveElementImports(it) } +
             allTypes.flatMap { includesResolver.resolveElementImports(it) } +
-            additionalIncludes - forwardDeclaredTypes.flatMap { includesResolver.resolveElementImports(it) }.toSet()
+            allTypes.flatMap { collectAdditionalIncludes(it, equatableTypes, errorEnums, typeRegisteredClasses) } -
+            forwardDeclaredTypes.flatMap { includesResolver.resolveElementImports(it) }.toSet()
     }
 
     private fun collectAdditionalIncludes(
         limeElement: LimeNamedElement,
-        allTypes: List<LimeType>,
         equatableTypes: List<LimeType>,
         errorEnums: Set<LimeType>,
         typeRegisteredClasses: List<LimeContainerWithInheritance>
@@ -71,7 +70,7 @@ internal class CppHeaderIncludesCollector(
             else -> emptyList()
         }
         val additionalIncludes = parentIncludes.toMutableList()
-        if (allTypes.any { it is LimeEnumeration }) {
+        if (limeElement is LimeEnumeration) {
             additionalIncludes += CppLibraryIncludes.INT_TYPES
         }
         if (equatableTypes.isNotEmpty()) {
