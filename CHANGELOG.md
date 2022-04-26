@@ -3,6 +3,8 @@
 ## Unreleased
 ### Features:
   * Added support for Markdown tables in documentation comments.
+### Bug fixes:
+  * Fixed C++ compilation issue with missing includes for inheritance parents of nested types.
 
 ## 11.1.5
 Release date: 2022-04-07
