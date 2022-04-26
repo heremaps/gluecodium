@@ -31,7 +31,7 @@ import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
  */
 @Suppress("DEPRECATION")
 internal class JavaDocProcessor(werror: Boolean, private val referenceMap: Map<String, LimeElement>) :
-    CommentsProcessor(HtmlRenderer.builder().build(), werror) {
+    CommentsProcessor(HtmlRenderer.builder(flexmarkOptions).build(), werror) {
 
     override fun processLink(linkNode: LinkRef, linkReference: String, limeFullName: String) {
         val limeElement = referenceMap[fullNameToPathKey(limeFullName)]

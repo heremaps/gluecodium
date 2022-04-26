@@ -26,7 +26,7 @@ import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
 
 @Suppress("DEPRECATION")
 internal class DoxygenCommentsProcessor(werror: Boolean) :
-    CommentsProcessor(Formatter.builder().build(), werror) {
+    CommentsProcessor(Formatter.builder(flexmarkOptions).build(), werror) {
 
     override fun processLink(linkNode: LinkRef, linkReference: String, limeFullName: String) {
         linkNode.reference = BasedSequenceImpl.of(linkReference)
