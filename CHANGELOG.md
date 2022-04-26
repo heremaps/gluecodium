@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 11.1.6
+Release date: 2022-04-26
 ### Features:
   * Added support for Markdown tables in documentation comments.
 ### Bug fixes:
