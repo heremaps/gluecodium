@@ -29,7 +29,6 @@ class NoCacheClass$Impl extends __lib.NativeBase implements NoCacheClass {
   NoCacheClass make() {
     final _result_handle = _make();
     final _result = NoCacheClass$Impl(_result_handle);
-    __lib.cacheInstance(_result_handle, _result);
     _smokeNocacheclassRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
     return _result;
   }
