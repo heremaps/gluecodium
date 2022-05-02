@@ -24,9 +24,12 @@
 }}{{/if}}{{!!
 
 }}{{#unless isConstructor}}{{!!
-}}{{#if isStatic}}{{#unless ignoreStatic}}static {{/unless}}{{/if}}{{resolveName returnType}} {{resolveName visibility}}{{resolveName}}({{!!
+}}{{#if isStatic}}{{#unless ignoreStatic}}static {{/unless}}{{/if}}{{!!
+}}{{#if this.attributes.async}}Future<{{resolveName returnType}}>{{/if}}{{!!
+}}{{#unless this.attributes.async}}{{resolveName returnType}}{{/unless}} {{!!
+}}{{resolveName visibility}}{{resolveName}}({{!!
 }}{{#if addThat}}{{#unless isStatic}}{{resolveName parent}}{{#if parent.external.dart.converter}}Internal{{/if}} $that{{!!
 }}{{#if parameters}}, {{/if}}{{/unless}}{{/if}}{{!!
 }}{{/unless}}{{!!
 
-}}{{#parameters}}{{>dart/DartAttributesInline}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})
+}}{{>dart/DartFunctionParameters}})

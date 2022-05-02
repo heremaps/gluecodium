@@ -85,6 +85,9 @@ internal class DartDeclarationImportResolver(
         ) {
             result += metaPackageImport
         }
+        if (limeStruct.functions.any { it.attributes.have(LimeAttributeType.ASYNC) }) {
+            result += listOf(asyncImport, tokenCacheImport)
+        }
         return result
     }
 
@@ -113,12 +116,16 @@ internal class DartDeclarationImportResolver(
         if (limeClass.attributes.have(LimeAttributeType.NO_CACHE)) {
             result.remove(tokenCacheImport)
         }
+        if (limeClass.functions.any { it.attributes.have(LimeAttributeType.ASYNC) }) {
+            result += listOf(asyncImport, tokenCacheImport)
+        }
         return result
     }
 
     companion object {
+        private val asyncImport = DartImport("async", importType = ImportType.SYSTEM)
         private val collectionPackageImport = DartImport("collection/collection")
-        private val metaPackageImport = DartImport("meta/meta")
         private val ffiSystemImport = DartImport("ffi", importType = ImportType.SYSTEM)
+        private val metaPackageImport = DartImport("meta/meta")
     }
 }

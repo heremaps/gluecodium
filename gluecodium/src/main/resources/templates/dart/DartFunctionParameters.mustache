@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  ! Copyright (C) 2016-2022 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -18,16 +18,4 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if copyrightHeader}}{{prefix copyrightHeader "// "}}{{/if}}
-
-{{#imports}}
-{{>dart/DartImport}}
-{{/imports}}
-
-{{#model}}
-{{include contentTemplate}}
-{{/model}}
-
-{{#asyncHelpers.lambdas}}{{#set isAsyncLambda=true self=this}}{{#self}}
-{{>dart/DartLambda}}
-{{/self}}{{/set}}{{/asyncHelpers.lambdas}}
+{{#parameters}}{{>dart/DartAttributesInline}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}

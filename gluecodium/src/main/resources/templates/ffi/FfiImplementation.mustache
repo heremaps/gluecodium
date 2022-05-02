@@ -26,7 +26,7 @@
 {{#if classes}}
 #include "InstanceCache.h"
 {{/if}}
-{{#if classes lambdas logic="or"}}
+{{#if classes lambdas asyncHelpers.lambdas logic="or"}}
 #include "FinalizerData.h"
 {{/if}}
 {{#includes}}
@@ -39,10 +39,10 @@
 {{>ffi/FfiProxyDeclaration}}
 
 {{/interfaces}}
-{{#set isLambda=true}}{{#lambdas}}
+{{#set isLambda=true}}{{#each lambdas asyncHelpers.lambdas}}
 {{>ffi/FfiProxyDeclaration}}
 
-{{/lambdas}}{{/set}}
+{{/each}}{{/set}}
 
 #ifdef __cplusplus
 extern "C" {
@@ -89,6 +89,12 @@ void
 
 {{/instanceOf}}
 {{/each}}
+{{#asyncHelpers.lambdas}}
+void
+{{libraryName}}_{{resolveName}}_release_handle(FfiOpaqueHandle handle) {
+    delete reinterpret_cast<{{>cpp/CppLambdaType}}*>(handle);
+}
+{{/asyncHelpers.lambdas}}
 
 {{#interfaces}}
 FfiOpaqueHandle
@@ -122,7 +128,8 @@ FfiOpaqueHandle
 }
 
 {{/interfaces}}
-{{#lambdas}}
+
+{{+ffiLambdaProxy}}
 FfiOpaqueHandle
 {{libraryName}}_{{resolveName}}_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0) {
 {{#if this.attributes.nocache}}
@@ -136,13 +143,20 @@ FfiOpaqueHandle
 {{/unless}}
 
     return reinterpret_cast<FfiOpaqueHandle>(
-        new {{resolveName "C++"}}(
+        new {{#if isAsyncLambda}}{{>cpp/CppLambdaType}}{{/if}}{{#unless isAsyncLambda}}{{resolveName "C++"}}{{/unless}}(
             std::bind(&{{resolveName}}_Proxy::operator(), cached_proxy{{#parameters}}, std::placeholders::_{{iter.index}}{{/parameters}})
         )
     );
 }
 
+{{/ffiLambdaProxy}}{{!!
+
+}}{{#lambdas}}
+{{>ffiLambdaProxy}}
 {{/lambdas}}
+{{#asyncHelpers.lambdas}}{{#set isAsyncLambda=true self=this}}{{#self}}
+{{>ffiLambdaProxy}}
+{{/self}}{{/set}}{{/asyncHelpers.lambdas}}
 
 {{#structs}}
 FfiOpaqueHandle
@@ -208,7 +222,7 @@ void
 
 {{/ffiStructReleaseAndGetters}}{{!!
 
-}}{{+ffiFunctionBody}}{{#if thrownType}}
+}}{{+ffiFunctionBody}}{{#if this.thrownType}}
 void
 {{>ffi/FfiFunctionName}}_return_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<{{>ffiErrorReturnType}}*>(handle);
@@ -264,7 +278,7 @@ FfiOpaqueHandle
 }
 {{/if}}{{!!
 
-}}{{#unless thrownType}}
+}}{{#unless this.thrownType}}
 {{resolveName returnType.typeRef}}
 {{>ffi/FfiFunctionName}}({{#unless isStatic}}FfiOpaqueHandle _self, {{/unless}}int32_t _isolate_id{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) {
@@ -286,11 +300,15 @@ FfiOpaqueHandle
 
 }}{{+selfReferenceConversion}}{{#instanceOf parent "LimeStruct"}}{{!!
 }}{{>ffi/FfiInternal}}::Conversion<{{resolveName parent "C++"}}>::toCpp(_self){{/instanceOf}}{{#notInstanceOf parent "LimeStruct"}}{{!!
-}}{{#instanceOf parent "LimeLambda"}}{{>ffi/FfiInternal}}::Conversion<{{resolveName parent "C++"}}>::toCpp(_self){{/instanceOf}}{{!!
+}}{{#instanceOf parent "LimeLambda"}}{{>ffi/FfiInternal}}::Conversion<{{#if isAsyncLambda}}{{>cpp/CppLambdaType}}{{/if}}{{!!
+}}{{#unless isAsyncLambda}}{{resolveName parent "C++"}}{{/unless}}>::toCpp(_self){{/instanceOf}}{{!!
 }}{{#notInstanceOf parent "LimeLambda"}}(*{{>ffi/FfiInternal}}::Conversion<std::shared_ptr<{{resolveName parent "C++"}}>>::toCpp(_self)){{!!
 }}{{/notInstanceOf}}{{/notInstanceOf}}{{/selfReferenceConversion}}{{!!
 
-}}{{+ffiParameter}}    {{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toCpp({{resolveName}}){{/ffiParameter}}{{!!
+}}{{+ffiParameter}}    {{>ffi/FfiInternal}}::Conversion<{{!!
+}}{{#if isAsyncHelper}}{{#if iter.isFirst}}{{#original}}{{>cpp/CppCompleterCallback}}{{/original}}{{/if}}{{!!
+}}{{#unless iter.isFirst}}{{resolveName typeRef "C++"}}{{/unless}}{{/if}}{{!!
+}}{{#unless isAsyncHelper}}{{resolveName typeRef "C++"}}{{/unless}}>::toCpp({{resolveName}}){{/ffiParameter}}{{!!
 
 }}{{+ffiFieldToCpp}}{{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toCpp({{resolveName}}){{/ffiFieldToCpp}}{{!!
 
@@ -302,8 +320,8 @@ FfiOpaqueHandle
 }}{{#if isStatic}}{{resolveName parent "C++"}}::{{/if}}{{!!
 }}{{#unless isStatic}}{{>selfReferenceConversion}}.{{/unless}}{{!!
 }}{{resolveName "C++"}}({{#if parameters}}
-{{joinPartial parameters "ffiParameter" ",
-"}}
+{{#parameters}}{{>ffiParameter}}{{#if iter.hasNext}},
+{{/if}}{{/parameters}}
 {{/if}}){{!!
 }}{{/ffiCallCppFunction}}{{!!
 
@@ -334,9 +352,14 @@ bool
 {{#structs}}
 {{#set parent=this}}{{#functions}}{{>ffiFunction}}{{/functions}}{{/set}}
 {{/structs}}
+
 {{#this.lambdas}}{{#set parent=this}}{{#asFunction}}
 {{>ffiFunctionBody}}
 {{/asFunction}}{{/set}}{{/this.lambdas}}
+{{#asyncHelpers.lambdas}}{{#set parent=this isAsyncLambda=true}}{{#asFunction}}
+{{>ffiFunctionBody}}
+{{/asFunction}}{{/set}}{{/asyncHelpers.lambdas}}
+
 {{#each classes interfaces}}
 {{>ffiClassImpl}}
 {{/each}}
@@ -355,9 +378,11 @@ bool
 {{/unless}}{{/unless}}
 {{/ffiSetCppField}}{{!!
 
-}}{{+ffiFunction}}{{#ifPredicate "shouldRetain"}}
+}}{{+ffiFunction}}{{#ifPredicate "shouldRetain"}}{{#if attributes.async}}{{#set isAsyncHelper=true original=this}}
+{{#eval "asyncHelpers.helpers" fullName}}{{>ffiFunctionBody}}{{/eval}}
+{{/set}}{{/if}}{{#unless attributes.async}}
 {{>ffiFunctionBody}}
-{{/ifPredicate}}{{/ffiFunction}}{{!!
+{{/unless}}{{/ifPredicate}}{{/ffiFunction}}{{!!
 
 }}{{+ffiProperty}}{{#ifPredicate "shouldRetain"}}{{#getter}}
 {{>ffiFunctionBody}}

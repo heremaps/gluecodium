@@ -26,8 +26,8 @@
 {{/parameters}}{{#unless isStatic}}
   final _handle = {{#if isStruct}}{{resolveName parent "Ffi"}}ToFfi($that){{/if}}{{#unless isStruct}}this.handle{{/unless}};
 {{/unless}}
-  {{#if thrownType}}final __callResultHandle = {{/if}}{{!!
-  }}{{#unless thrownType returnType.isVoid logic="and"}}final __resultHandle = {{/unless}}{{!!
+  {{#if this.thrownType}}final __callResultHandle = {{/if}}{{!!
+  }}{{#unless this.thrownType returnType.isVoid logic="and"}}final __resultHandle = {{/unless}}{{!!
   }}_{{resolveName}}Ffi({{#unless isStatic}}_handle, {{/unless}}__lib.LibraryContext.isolateId{{#if parameters}}, {{/if}}{{!!
   }}{{#parameters}}_{{resolveName}}Handle{{#if iter.hasNext}}, {{/if}}{{/parameters}});
 {{#if isStruct}}{{#unless isStatic}}  {{resolveName parent "Ffi"}}ReleaseFfiHandle(_handle);
@@ -35,7 +35,7 @@
 }}{{#parameters}}
   {{#resolveName}}{{#setJoin "varName" "_" this "Handle" delimiter=""}}{{>dart/DartFfiReleaseHandle}}{{/setJoin}}{{/resolveName}}
 {{/parameters}}
-{{#if thrownType}}
+{{#if this.thrownType}}
   if (_{{resolveName}}ReturnHasError(__callResultHandle) != 0) {
       final __errorHandle = _{{resolveName}}ReturnGetError(__callResultHandle);
       _{{resolveName}}ReturnReleaseHandle(__callResultHandle);
@@ -55,12 +55,12 @@
 }}{{#unless isConstructor returnType.isVoid logic="and"}}{{>ffiReturnConversion}}{{/unless}}
 }{{!!
 
-}}{{+ffiApi}}{{#if thrownType}}Pointer<Void>{{/if}}{{#unless thrownType}}{{!!
+}}{{+ffiApi}}{{#if this.thrownType}}Pointer<Void>{{/if}}{{#unless this.thrownType}}{{!!
 }}{{resolveName returnType.typeRef "FfiApiTypes"}}{{/unless}} Function({{!!
 }}{{#unless isStatic}}Pointer<Void>, {{/unless}}Int32{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiApiTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{/ffiApi}}{{!!
 
-}}{{+ffiDart}}{{#if thrownType}}Pointer<Void>{{/if}}{{#unless thrownType}}{{!!
+}}{{+ffiDart}}{{#if this.thrownType}}Pointer<Void>{{/if}}{{#unless this.thrownType}}{{!!
 }}{{resolveName returnType.typeRef "FfiDartTypes"}}{{/unless}} Function({{!!
 }}{{#unless isStatic}}Pointer<Void>, {{/unless}}int{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{/ffiDart}}{{!!

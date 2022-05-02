@@ -23,6 +23,7 @@ typedef {{resolveName}} = {{>dart/DartLambdaType}};
 
 // {{resolveName}} "private" section, not exported.
 
+{{#unless isAsyncLambda}}
 final _{{resolveName "Ffi"}}RegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Int32, Handle),
     void Function(Pointer<Void>, int, Object)
@@ -31,6 +32,7 @@ final _{{resolveName "Ffi"}}CopyHandle = __lib.catchArgumentError(() => __lib.na
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_copy_handle'));
+{{/unless}}
 final _{{resolveName "Ffi"}}ReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -79,6 +81,7 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) =>
     Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName lambda "Ffi"}}{{resolveName}}Static, __lib.unknownError){{/asFunction}}{{/set}}
   );
 
+{{#unless isAsyncLambda}}
 {{resolveName}} {{resolveName "Ffi"}}FromFfi(Pointer<Void> handle) {
   final _copiedHandle = _{{resolveName "Ffi"}}CopyHandle(handle);
   final _impl = {{resolveName}}$Impl(_copiedHandle);
@@ -87,13 +90,16 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) =>
   _{{resolveName "Ffi"}}RegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
+{{/unless}}
 
 void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) =>
   _{{resolveName "Ffi"}}ReleaseHandle(handle);
 
+{{#unless isAsyncLambda}}
 // Nullable {{resolveName}}
 
 {{>dart/DartNullableTypeConversion}}
+{{/unless}}
 
 // End of {{resolveName}} "private" section.{{!!
 
