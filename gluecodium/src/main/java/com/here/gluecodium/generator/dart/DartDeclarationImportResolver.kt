@@ -110,6 +110,9 @@ internal class DartDeclarationImportResolver(
         if (hasStaticFunctions(limeClass) || limeClass.properties.any { it.visibility.isInternal }) {
             result += listOf(metaPackageImport)
         }
+        if (limeClass.attributes.have(LimeAttributeType.NO_CACHE)) {
+            result.remove(tokenCacheImport)
+        }
         return result
     }
 
