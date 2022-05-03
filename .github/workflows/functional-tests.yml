@@ -276,8 +276,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/dart_sdk
-          key: ${{ runner.os }}-dart-2.13.3-stable
-          restore-keys: ${{ runner.os }}-dart-2.13.3-stable
+          key: ${{ runner.os }}-dart-2.13.3-stable-full
+          restore-keys: ${{ runner.os }}-dart-2.13.3-stable-full
       - name: Install CMake
         uses: jwlawson/actions-setup-cmake@v1.7
         with:
@@ -305,15 +305,12 @@ jobs:
             mkdir -p ${DART_BIN}
             pushd out/ReleaseX64/dart-sdk
             pushd bin
-            mv dart dart2native dartaotruntime pub utils ${DART_BIN}
-            popd
-            pushd bin/snapshots
-            mkdir -p ${DART_BIN}/snapshots
-            mv dart2native.dart.snapshot gen_kernel.dart.snapshot pub.dart.snapshot ${DART_BIN}/snapshots
+            mv * ${DART_BIN}
             popd
             mv include ${DART_ROOT}
             mkdir -p ${DART_ROOT}/lib
             mv lib/_internal ${DART_ROOT}/lib
+            popd
           fi
       - name: Build and run functional tests
         run: |
