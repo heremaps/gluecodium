@@ -17,8 +17,15 @@
 
 package unit.test
 
+import unit.test.CommonMainBase
 import unit.test.CommonMainFoo
 
 class MainBar {
     constructor make(foo: CommonMainFoo)
+}
+
+class MainDerived : unit.test.CommonMainBase {
+    property id: Long {
+        get
+    }
 }
