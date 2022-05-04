@@ -208,14 +208,14 @@ void
 
 {{/ffiStructReleaseAndGetters}}{{!!
 
-}}{{+ffiFunction}}{{#if thrownType}}
+}}{{+ffiFunctionBody}}{{#if thrownType}}
 void
-{{libraryName}}_{{resolveName}}_return_release_handle(FfiOpaqueHandle handle) {
+{{>ffi/FfiFunctionName}}_return_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<{{>ffiErrorReturnType}}*>(handle);
 }
 
 {{#isNotEq returnType.typeRef.toString "Void"}}{{resolveName returnType.typeRef}}
-{{libraryName}}_{{resolveName}}_return_get_result(FfiOpaqueHandle handle) {
+{{>ffi/FfiFunctionName}}_return_get_result(FfiOpaqueHandle handle) {
     return {{>ffi/FfiInternal}}::Conversion<{{resolveName returnType.typeRef "C++"}}>::toFfi(
         reinterpret_cast<{{>ffiErrorReturnType}}*>(handle)->unsafe_value()
     );
@@ -223,19 +223,19 @@ void
 {{/isNotEq}}
 
 {{resolveName exception.errorType}}
-{{libraryName}}_{{resolveName}}_return_get_error(FfiOpaqueHandle handle) {
+{{>ffi/FfiFunctionName}}_return_get_error(FfiOpaqueHandle handle) {
     return {{>ffi/FfiInternal}}::Conversion<{{resolveName exception.errorType "C++"}}>::toFfi(
         reinterpret_cast<{{>ffiErrorReturnType}}*>(handle)->error()
     );
 }
 
 bool
-{{libraryName}}_{{resolveName}}_return_has_error(FfiOpaqueHandle handle) {
+{{>ffi/FfiFunctionName}}_return_has_error(FfiOpaqueHandle handle) {
     return !reinterpret_cast<{{>ffiErrorReturnType}}*>(handle)->has_value();
 }
 
 FfiOpaqueHandle
-{{libraryName}}_{{resolveName}}({{#unless isStatic}}FfiOpaqueHandle _self, {{/unless}}int32_t _isolate_id{{#if parameters}}, {{/if}}{{!!
+{{>ffi/FfiFunctionName}}({{#unless isStatic}}FfiOpaqueHandle _self, {{/unless}}int32_t _isolate_id{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) {
     {{>ffi/FfiInternal}}::IsolateContext _isolate_context(_isolate_id);
     auto&& _cpp_call_result = {{>ffiCallCppFunction}};
@@ -266,7 +266,7 @@ FfiOpaqueHandle
 
 }}{{#unless thrownType}}
 {{resolveName returnType.typeRef}}
-{{libraryName}}_{{resolveName}}({{#unless isStatic}}FfiOpaqueHandle _self, {{/unless}}int32_t _isolate_id{{#if parameters}}, {{/if}}{{!!
+{{>ffi/FfiFunctionName}}({{#unless isStatic}}FfiOpaqueHandle _self, {{/unless}}int32_t _isolate_id{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) {
     {{>ffi/FfiInternal}}::IsolateContext _isolate_context(_isolate_id);
     {{#isEq returnType.typeRef.toString "Void"}}{{>ffiCallCppFunction}};{{/isEq}}{{!!
@@ -282,7 +282,7 @@ FfiOpaqueHandle
 {{>ffiCallCppFunction}}
     );{{/unless}}{{/isNotEq}}
 }
-{{/unless}}{{/ffiFunction}}{{!!
+{{/unless}}{{/ffiFunctionBody}}{{!!
 
 }}{{+selfReferenceConversion}}{{#instanceOf parent "LimeStruct"}}{{!!
 }}{{>ffi/FfiInternal}}::Conversion<{{resolveName parent "C++"}}>::toCpp(_self){{/instanceOf}}{{#notInstanceOf parent "LimeStruct"}}{{!!
@@ -324,22 +324,18 @@ bool
 {{/ffiEqualityFunction}}{{!!
 
 }}{{+ffiClassImpl}}
-{{#set parent=this}}{{#functions}}{{#ifPredicate "shouldRetain"}}
-{{>ffiFunction}}
-{{/ifPredicate}}{{/functions}}
-{{#properties}}{{#ifPredicate "shouldRetain"}}{{#getter}}
-{{>ffiFunction}}
-{{/getter}}{{#setter}}
-{{>ffiFunction}}
-{{/setter}}
-{{/ifPredicate}}{{/properties}}{{/set}}
+{{#set parent=this container=this}}{{#functions}}{{>ffiFunction}}{{/functions}}
+{{#properties}}{{>ffiProperty}}{{/properties}}
+{{#set isInherited=true}}
+{{#container.interfaceInheritedFunctions}}{{>ffiFunction}}{{/container.interfaceInheritedFunctions}}
+{{#container.interfaceInheritedProperties}}{{>ffiProperty}}{{/container.interfaceInheritedProperties}}
+{{/set}}{{/set}}
+
 {{#structs}}
-{{#set parent=this}}{{#functions}}{{#ifPredicate "shouldRetain"}}
-{{>ffiFunction}}
-{{/ifPredicate}}{{/functions}}{{/set}}
+{{#set parent=this}}{{#functions}}{{>ffiFunction}}{{/functions}}{{/set}}
 {{/structs}}
 {{#this.lambdas}}{{#set parent=this}}{{#asFunction}}
-{{>ffiFunction}}
+{{>ffiFunctionBody}}
 {{/asFunction}}{{/set}}{{/this.lambdas}}
 {{#each classes interfaces}}
 {{>ffiClassImpl}}
@@ -357,4 +353,15 @@ bool
 {{/if}}{{#unless external.cpp.setterName}}
     _result->{{resolveName "C++"}} = {{>ffiFieldToCpp}};
 {{/unless}}{{/unless}}
-{{/ffiSetCppField}}
+{{/ffiSetCppField}}{{!!
+
+}}{{+ffiFunction}}{{#ifPredicate "shouldRetain"}}
+{{>ffiFunctionBody}}
+{{/ifPredicate}}{{/ffiFunction}}{{!!
+
+}}{{+ffiProperty}}{{#ifPredicate "shouldRetain"}}{{#getter}}
+{{>ffiFunctionBody}}
+{{/getter}}{{#setter}}
+{{>ffiFunctionBody}}
+{{/setter}}
+{{/ifPredicate}}{{/ffiProperty}}

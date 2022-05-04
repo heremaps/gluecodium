@@ -109,22 +109,21 @@ class {{resolveName}}$Impl extends {{#if this.parentClass}}{{resolveName this.pa
 {{#unless isStatic}}  @override
 {{/unless}}
 {{prefixPartial "dart/DartFunction" "  "}}
-{{/functions}}{{#if container.parentInterfaces}}
-{{#inheritedFunctions}}
+{{/functions}}
+{{#set isInherited=true}}{{#container.interfaceInheritedFunctions}}
 {{#unless isStatic}}  @override
 {{/unless}}
 {{prefixPartial "dart/DartFunction" "  "}}
-{{/inheritedFunctions}}{{/if}}
+{{/container.interfaceInheritedFunctions}}{{/set}}
 {{#set override=true skipDocs=true}}{{#properties}}{{#if attributes.cached}}
 {{prefixPartial "dartCachedProperty" "  "}}
 {{/if}}{{#unless attributes.cached}}
 {{prefixPartial "dart/DartProperty" "  "}}
 {{/unless}}{{/properties}}
-{{#if container.parentInterfaces}}
-{{#inheritedProperties}}
+{{#set isInherited=true}}{{#container.interfaceInheritedProperties}}
 {{prefixPartial "dart/DartProperty" "  "}}
-{{/inheritedProperties}}
-{{/if}}{{/set}}{{/set}}
+{{/container.interfaceInheritedProperties}}{{/set}}
+{{/set}}{{/set}}
 {{#if attributes.equatable}}{{prefixPartial "dart/DartEqualityOperator" "  "}}{{/if}}{{!!
 }}{{#if attributes.pointerEquatable}}{{prefixPartial "dart/DartEqualityOperator" "  "}}{{/if}}
 }

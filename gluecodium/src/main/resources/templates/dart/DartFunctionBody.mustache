@@ -20,7 +20,7 @@
   !}}
  {
   final _{{resolveName}}Ffi = __lib.catchArgumentError(() => {{!!
-  }}__lib.nativeLibrary.lookupFunction<{{>ffiApi}}, {{>ffiDart}}>('{{libraryName}}_{{resolveName "FfiSnakeCase"}}'));
+  }}__lib.nativeLibrary.lookupFunction<{{>ffiApi}}, {{>ffiDart}}>('{{>dart/DartFunctionFfiName}}'));
 {{#parameters}}
   final _{{resolveName}}Handle = {{#set call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}});
 {{/parameters}}{{#unless isStatic}}

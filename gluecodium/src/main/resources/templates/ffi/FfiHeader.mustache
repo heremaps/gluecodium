@@ -81,13 +81,13 @@ _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_get_type_
 
 }}{{+ffiFunctionDeclaration}}
 {{#if thrownType}}
-_GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_return_release_handle(FfiOpaqueHandle handle);{{#isNotEq returnType.typeRef.type.name "Void"}}
-_GLUECODIUM_FFI_EXPORT {{resolveName returnType.typeRef}} {{libraryName}}_{{resolveName}}_return_get_result(FfiOpaqueHandle handle);{{/isNotEq}}
-_GLUECODIUM_FFI_EXPORT {{resolveName exception.errorType}} {{libraryName}}_{{resolveName}}_return_get_error(FfiOpaqueHandle handle);
-_GLUECODIUM_FFI_EXPORT bool {{libraryName}}_{{resolveName}}_return_has_error(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT void {{>ffi/FfiFunctionName}}_return_release_handle(FfiOpaqueHandle handle);{{#isNotEq returnType.typeRef.type.name "Void"}}
+_GLUECODIUM_FFI_EXPORT {{resolveName returnType.typeRef}} {{>ffi/FfiFunctionName}}_return_get_result(FfiOpaqueHandle handle);{{/isNotEq}}
+_GLUECODIUM_FFI_EXPORT {{resolveName exception.errorType}} {{>ffi/FfiFunctionName}}_return_get_error(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT bool {{>ffi/FfiFunctionName}}_return_has_error(FfiOpaqueHandle handle);
 
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle{{/if}}{{!!
-}}{{#unless thrownType}}_GLUECODIUM_FFI_EXPORT {{resolveName returnType.typeRef}}{{/unless}} {{libraryName}}_{{resolveName}}({{!!
+}}{{#unless thrownType}}_GLUECODIUM_FFI_EXPORT {{resolveName returnType.typeRef}}{{/unless}} {{>ffi/FfiFunctionName}}({{!!
 }}{{#unless isStatic}}FfiOpaqueHandle _self, {{/unless}}int32_t _isolate_id{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
 {{/ffiFunctionDeclaration}}{{!!
@@ -97,19 +97,15 @@ _GLUECODIUM_FFI_EXPORT bool {{libraryName}}_{{resolveName}}_are_equal(FfiOpaqueH
 {{/ffiEqualityFunctionDeclaration}}{{!!
 
 }}{{+ffiClassHeader}}
-{{#functions}}{{#ifPredicate "shouldRetain"}}
-{{>ffiFunctionDeclaration}}
-{{/ifPredicate}}{{/functions}}
-{{#properties}}{{#ifPredicate "shouldRetain"}}{{#getter}}
-{{>ffiFunctionDeclaration}}
-{{/getter}}{{#setter}}
-{{>ffiFunctionDeclaration}}
-{{/setter}}
-{{/ifPredicate}}{{/properties}}
+{{#functions}}{{>ffiFunction}}{{/functions}}
+{{#properties}}{{>ffiProperty}}{{/properties}}
+{{#set isInherited=true container=this}}
+{{#container.interfaceInheritedFunctions}}{{>ffiFunction}}{{/container.interfaceInheritedFunctions}}
+{{#container.interfaceInheritedProperties}}{{>ffiProperty}}{{/container.interfaceInheritedProperties}}
+{{/set}}
+
 {{#structs}}
-{{#functions}}{{#ifPredicate "shouldRetain"}}
-{{>ffiFunctionDeclaration}}
-{{/ifPredicate}}{{/functions}}
+{{#functions}}{{>ffiFunction}}{{/functions}}
 {{/structs}}
 {{#this.lambdas}}{{#asFunction}}
 {{>ffiFunctionDeclaration}}
@@ -117,4 +113,15 @@ _GLUECODIUM_FFI_EXPORT bool {{libraryName}}_{{resolveName}}_are_equal(FfiOpaqueH
 {{#each classes interfaces}}
 {{>ffiClassHeader}}
 {{/each}}
-{{/ffiClassHeader}}
+{{/ffiClassHeader}}{{!!
+
+}}{{+ffiFunction}}{{#ifPredicate "shouldRetain"}}
+{{>ffiFunctionDeclaration}}
+{{/ifPredicate}}{{/ffiFunction}}{{!!
+
+}}{{+ffiProperty}}{{#ifPredicate "shouldRetain"}}{{#getter}}
+{{>ffiFunctionDeclaration}}
+{{/getter}}{{#setter}}
+{{>ffiFunctionDeclaration}}
+{{/setter}}
+{{/ifPredicate}}{{/ffiProperty}}
