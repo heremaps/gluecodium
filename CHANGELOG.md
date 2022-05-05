@@ -1,7 +1,10 @@
 # Gluecodium project Release Notes
 
+## Unreleased
 ### Bug fixes:
-  * Do not add unused import of cache for dart classes marked with NoCache tag.
+  * Removed unused import in Dart for `@NoCache` attribute.
+  * Fixed compilation issues in Swift and Dart when inheriting from an interface between separate libraries.
+
 ## 11.1.6
 Release date: 2022-04-26
 ### Features:
