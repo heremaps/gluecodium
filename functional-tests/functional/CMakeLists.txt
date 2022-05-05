@@ -276,6 +276,7 @@ feature(Inheritance cpp android swift dart SOURCES
     input/src/cpp/CrossPackageInheritance.cpp
 
     input/lime/Inheritance.lime
+    input/lime/InheritanceNameClash.lime
     input/lime/ListenerInheritance.lime
     input/lime/ListenerInheritanceArrays.lime
     input/lime/CrossPackageInheritance.lime

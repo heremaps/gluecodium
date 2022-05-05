@@ -66,10 +66,11 @@ internal class FfiNameResolver(
         if (element !is LimeFunction) return null
         val parentElement = getParentElement(element)
         val functionName = mangleName(nameRules.getName(element))
-        return when (parentElement) {
-            is LimeProperty -> mangleName(nameRules.getName(parentElement)) + "_$functionName"
-            else -> functionName
+        if (parentElement is LimeProperty) {
+            return mangleName(nameRules.getName(parentElement)) + "_$functionName"
         }
+        val mangledSignature = getMangledSignature(element)
+        return if (mangledSignature.isEmpty()) functionName else "${functionName}__$mangledSignature"
     }
 
     private fun getTypeRefName(limeTypeRef: LimeTypeRef): String {
@@ -153,13 +154,15 @@ internal class FfiNameResolver(
 
         return when (limeElement) {
             is LimeFunction -> {
-                val mangledSignature =
-                    signatureResolver.getSignature(limeElement).joinToString("_") { it.replace("?", "_") }
+                val mangledSignature = getMangledSignature(limeElement)
                 if (mangledSignature.isEmpty()) fullName else "${fullName}__$mangledSignature"
             }
             else -> fullName
         }
     }
+
+    private fun getMangledSignature(limeFunction: LimeFunction) =
+        signatureResolver.getSignature(limeFunction).joinToString("_") { it.replace("?", "_") }
 
     private fun mangleName(name: String) =
         name.replace(" ", "")
