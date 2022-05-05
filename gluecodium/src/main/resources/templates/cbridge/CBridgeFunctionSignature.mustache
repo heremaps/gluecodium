@@ -19,5 +19,6 @@
   !
   !}}
 {{#if thrownType}}{{resolveName}}_result{{/if}}{{#unless thrownType}}{{resolveName returnType}}{{/unless}} {{!!
-}}{{resolveName}}({{#unless isStatic}}_baseRef _instance{{#if parameters}}, {{/if}}{{/unless}}{{!!
+}}{{#if isInherited}}{{resolveName container}}_{{resolveName this "" "ref"}}{{/if}}{{!!
+}}{{#unless isInherited}}{{resolveName}}{{/unless}}({{#unless isStatic}}_baseRef _instance{{#if parameters}}, {{/if}}{{/unless}}{{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})

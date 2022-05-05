@@ -4,12 +4,12 @@ import Foundation
 public class ChildClassFromInterface: ParentInterface {
     public var rootProperty: String {
         get {
-            let c_result_handle = smoke_ParentInterface_rootProperty_get(self.c_instance)
+            let c_result_handle = smoke_ChildClassFromInterface_rootProperty_get(self.c_instance)
             return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            smoke_ParentInterface_rootProperty_set(self.c_instance, c_value.ref)
+            smoke_ChildClassFromInterface_rootProperty_set(self.c_instance, c_value.ref)
         }
     }
     let c_instance : _baseRef
@@ -24,7 +24,7 @@ public class ChildClassFromInterface: ParentInterface {
         smoke_ChildClassFromInterface_release_handle(c_instance)
     }
     public func rootMethod() -> Void {
-        smoke_ParentInterface_rootMethod(self.c_instance)
+        smoke_ChildClassFromInterface_rootMethod(self.c_instance)
     }
     public func childClassMethod() -> Void {
         smoke_ChildClassFromInterface_childClassMethod(self.c_instance)

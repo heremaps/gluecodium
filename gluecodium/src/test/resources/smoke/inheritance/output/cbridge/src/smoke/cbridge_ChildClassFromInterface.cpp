@@ -47,3 +47,12 @@ void* smoke_ChildClassFromInterface_get_typed(_baseRef handle) {
 void smoke_ChildClassFromInterface_childClassMethod(_baseRef _instance) {
     return get_pointer<::std::shared_ptr< ::smoke::ChildClassFromInterface >>(_instance)->get()->child_class_method();
 }
+void smoke_ChildClassFromInterface_rootMethod(_baseRef _instance) {
+    return get_pointer<::std::shared_ptr< ::smoke::ChildClassFromInterface >>(_instance)->get()->root_method();
+}
+_baseRef smoke_ChildClassFromInterface_rootProperty_get(_baseRef _instance) {
+    return Conversion<::std::string>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::ChildClassFromInterface >>(_instance)->get()->get_root_property());
+}
+void smoke_ChildClassFromInterface_rootProperty_set(_baseRef _instance, _baseRef value) {
+    return get_pointer<::std::shared_ptr< ::smoke::ChildClassFromInterface >>(_instance)->get()->set_root_property(Conversion<::std::string>::toCpp(value));
+}
