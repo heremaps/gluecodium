@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 11.1.7
+Release date: 2022-05-05
 ### Bug fixes:
   * Removed unused import in Dart for `@NoCache` attribute.
   * Fixed compilation issues in Swift and Dart when inheriting from an interface between separate libraries.
