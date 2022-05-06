@@ -280,22 +280,19 @@ internal class CppNameResolver(
         val result = limeReferenceMap.values
             .filterIsInstance<LimeNamedElement>()
             .filterNot { it is LimeProperty || it is LimeException || it is LimeBasicType || it is LimeParameter }
-            .associateBy({ it.fullName }, { getFullyQualifiedReference(it) })
+            .associateBy({ it.path.toAmbiguousString() }, { getFullyQualifiedReference(it) })
             .toMutableMap()
 
         result += limeReferenceMap.values.filterIsInstance<LimeException>()
-            .associateBy({ it.fullName }, { resolveName(it.errorType) })
+            .associateBy({ it.path.toAmbiguousString() }, { resolveName(it.errorType) })
         result += limeReferenceMap.values.filterIsInstance<LimeParameter>()
             .associateBy({ it.fullName }, { resolveName(it) })
 
         val functions = limeReferenceMap.values.filterIsInstance<LimeFunction>()
-        result += functions.associateBy(
-            { it.path.withSuffix("").toString() },
-            { getFullyQualifiedReference(it) }
-        )
+        result += functions.associateBy({ it.path.toAmbiguousString() }, { getFullyQualifiedReference(it) })
         result += functions.associateBy(
             { function ->
-                function.path.withSuffix("").toString() + function.parameters
+                function.path.toAmbiguousString() + function.parameters
                     .joinToString(prefix = "(", postfix = ")", separator = ",") { it.typeRef.toString() }
             },
             { getFullyQualifiedReference(it) }
@@ -303,15 +300,15 @@ internal class CppNameResolver(
 
         val properties = limeReferenceMap.values.filterIsInstance<LimeProperty>()
         result += properties.associateBy(
-            { it.fullName },
+            { it.path.toAmbiguousString() },
             { nameCache.getFullyQualifiedGetterName(it) }
         )
         result += properties.associateBy(
-            { it.fullName + ".get" },
+            { it.path.toAmbiguousString() + ".get" },
             { nameCache.getFullyQualifiedGetterName(it) }
         )
         result += properties.filter { it.setter != null }.associateBy(
-            { it.fullName + ".set" },
+            { it.path.toAmbiguousString() + ".set" },
             { nameCache.getFullyQualifiedSetterName(it) }
         )
 

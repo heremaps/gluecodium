@@ -585,7 +585,7 @@ internal class AntlrLimeModelBuilder(
     }
 
     private fun storeResultAndPopStacks(limeFunction: LimeFunction) {
-        val ambiguousKey = limeFunction.path.withSuffix("").toString()
+        val ambiguousKey = limeFunction.path.toAmbiguousString()
         referenceResolver.registerElement(ambiguousKey, limeFunction)
         storeResultAndPopStacks(limeFunction as LimeNamedElement)
     }

@@ -66,7 +66,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
             if (!result) {
                 droppedElements += it.fullName
                 if (it.path.disambiguator.isNotEmpty()) {
-                    droppedElements += it.path.withSuffix("").toString()
+                    droppedElements += it.path.toAmbiguousString()
                 }
             }
         }
@@ -108,7 +108,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
     private fun <T : LimeNamedElement> remap(element: T) {
         referenceMap[element.fullName] = element
         if (element.path.disambiguator.isNotEmpty()) {
-            referenceMap.replace(element.path.withSuffix("").toString(), element)
+            referenceMap.replace(element.path.toAmbiguousString(), element)
         }
     }
 
