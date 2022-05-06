@@ -17,9 +17,10 @@
 
 package unit.test
 
-open enum MainEnum {
-    VALUE1,
-    VALUE2
+enum CommonBaseEnum {
+    VALUE1 = 1,
+    VALUE2,
+    VALUE3
 }
 
 open class CommonMainFoo {
@@ -29,7 +30,22 @@ open class CommonMainFoo {
     fun get_map () : Map<String, String>
 
     # PrimitiveHolder<T> must be exposed
-    fun get_enum() : MainEnum
+    fun get_enum() : CommonBaseEnum
+}
+
+open interface CommonMainBase {
+    property common_base_id: Long
+    property common_base_enum: CommonBaseEnum
+    property common_base_type_foo: CommonMainFoo
+
+    fun get_base_id(): Long
+    fun set_base_id(value: Long)
+
+    fun get_base_enum(): CommonBaseEnum
+    fun set_base_enum(value: CommonBaseEnum)
+
+    fun get_base_type_foo(): CommonMainFoo
+    fun set_base_type_foo(value: CommonMainFoo)
 }
 
 # Converters for internal must NOT be exposed
