@@ -67,25 +67,28 @@ internal class CBridgeNameResolver(
         if (element !is LimeFunction) return null
         val parentElement = getParentElement(element)
         val functionName = CBridgeNameRules.mangleName(swiftNameRules.getName(element))
-        return when (parentElement) {
-            is LimeProperty -> CBridgeNameRules.mangleName(swiftNameRules.getName(parentElement)) + "_$functionName"
-            else -> functionName
+        if (parentElement is LimeProperty) {
+            return CBridgeNameRules.mangleName(swiftNameRules.getName(parentElement)) + "_$functionName"
         }
+        val overloadSuffix = getOverloadSuffix(element)
+        return if (overloadSuffix.isEmpty()) functionName else (listOf(functionName) + overloadSuffix).joinToString("_")
     }
 
     private fun resolveFunctionName(limeFunction: LimeFunction): String {
-        val suffix = when {
-            !signatureResolver.isOverloaded(limeFunction) -> emptyList()
-            limeFunction.parameters.isEmpty() -> listOf("")
-            else -> signatureResolver.getSignature(limeFunction).map { mangleSignature(it) }
-        }
         val parentElement = getParentElement(limeFunction)
         val functionName = when (parentElement) {
             is LimeLambda -> "call"
             else -> CBridgeNameRules.mangleName(swiftNameRules.getName(limeFunction))
         }
-        return (resolveNestedNames(parentElement) + functionName + suffix).joinToString("_")
+        return (resolveNestedNames(parentElement) + functionName + getOverloadSuffix(limeFunction)).joinToString("_")
     }
+
+    private fun getOverloadSuffix(limeFunction: LimeFunction) =
+        when {
+            !signatureResolver.isOverloaded(limeFunction) -> emptyList()
+            limeFunction.parameters.isEmpty() -> listOf("")
+            else -> signatureResolver.getSignature(limeFunction).map { mangleSignature(it) }
+        }
 
     private fun resolvePropertyName(limeProperty: LimeProperty): String {
         val propertyName = CBridgeNameRules.mangleName(swiftNameRules.getName(limeProperty))
