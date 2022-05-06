@@ -188,12 +188,7 @@ internal class AntlrLimeModelBuilder(
     }
 
     override fun enterFunction(ctx: LimeParser.FunctionContext) {
-        val idx = when (val ctxParent = ctx.parent) {
-            is LimeParser.ContainerContext -> ctxParent.function().indexOf(ctx)
-            is LimeParser.StructContext -> ctxParent.function().indexOf(ctx)
-            else -> throw LimeLoadingException("Invalid syntax context: '$ctx'")
-        }
-        pushPathAndVisibility(ctx.simpleId(), ctx.visibility(), idx.toString())
+        pushPathAndVisibility(ctx.simpleId(), ctx.visibility())
         structuredCommentsStack.push(parseStructuredComment(ctx.docComment(), ctx))
     }
 
@@ -228,12 +223,7 @@ internal class AntlrLimeModelBuilder(
     }
 
     override fun enterConstructor(ctx: LimeParser.ConstructorContext) {
-        val idx = when (val ctxParent = ctx.parent) {
-            is LimeParser.ContainerContext -> ctxParent.constructor().indexOf(ctx)
-            is LimeParser.StructContext -> ctxParent.constructor().indexOf(ctx)
-            else -> throw LimeLoadingException("Invalid syntax context: '$ctx'")
-        }
-        pushPathAndVisibility(ctx.simpleId(), ctx.visibility(), idx.toString())
+        pushPathAndVisibility(ctx.simpleId(), ctx.visibility())
         structuredCommentsStack.push(parseStructuredComment(ctx.docComment(), ctx))
     }
 
@@ -293,7 +283,10 @@ internal class AntlrLimeModelBuilder(
     }
 
     override fun enterParameter(ctx: LimeParser.ParameterContext) {
-        pushPathAndVisibility(ctx.simpleId(), null)
+        val newPath = currentPath.child(convertSimpleId(ctx.simpleId()))
+        // Parameters retain the disambiguation suffix of the function.
+        pathStack.push(newPath)
+        visibilityStack.push(convertVisibility(null, visibilityStack.peek()))
     }
 
     override fun exitParameter(ctx: LimeParser.ParameterContext) {
@@ -546,7 +539,10 @@ internal class AntlrLimeModelBuilder(
             LimeLambdaParameter(
                 typeRef = typeMapper.mapTypeRef(currentPath, it.typeRef()),
                 comment = getComment("param", "p$index", null, ctx),
-                attributes = AntlrLimeConverter.convertAnnotations(currentPath, it.typeRef().simpleTypeRef().annotation())
+                attributes = AntlrLimeConverter.convertAnnotations(
+                    currentPath,
+                    it.typeRef().simpleTypeRef().annotation()
+                )
             )
         }
         val limeElement = LimeLambda(
@@ -566,12 +562,9 @@ internal class AntlrLimeModelBuilder(
 
     // Private functions
 
-    private fun pushPathAndVisibility(
-        simpleId: LimeParser.SimpleIdContext,
-        visibility: LimeParser.VisibilityContext?,
-        suffix: String? = null
-    ) {
-        pathStack.push(currentPath.child(convertSimpleId(simpleId), suffix))
+    private fun pushPathAndVisibility(simpleId: LimeParser.SimpleIdContext, visibility: LimeParser.VisibilityContext?) {
+        val newPath = currentPath.child(convertSimpleId(simpleId))
+        pathStack.push(referenceResolver.computeUniquePath(newPath))
         visibilityStack.push(convertVisibility(visibility, visibilityStack.peek()))
     }
 
@@ -582,12 +575,6 @@ internal class AntlrLimeModelBuilder(
         }
         pathStack.pop()
         visibilityStack.pop()
-    }
-
-    private fun storeResultAndPopStacks(limeFunction: LimeFunction) {
-        val ambiguousKey = limeFunction.path.toAmbiguousString()
-        referenceResolver.registerElement(ambiguousKey, limeFunction)
-        storeResultAndPopStacks(limeFunction as LimeNamedElement)
     }
 
     private fun convertVisibility(
