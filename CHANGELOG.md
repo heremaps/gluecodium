@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 11.1.8
+Release date: 2022-05-06
 ### Bug fixes:
   * Fixed compilation issues in Swift and Dart when inheriting from an interface with overloaded functions.
 
