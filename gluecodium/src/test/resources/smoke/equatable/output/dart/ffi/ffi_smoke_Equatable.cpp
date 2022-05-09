@@ -5,6 +5,7 @@
 #include "gluecodium/VectorHash.h"
 #include "smoke/Equatable.h"
 #include <cstdint>
+#include <stdbool.h>
 #include <string>
 #include <unordered_map>
 #include <vector>

@@ -10,6 +10,7 @@
 #include "smoke/SomeInterface.h"
 #include <cstdint>
 #include <memory>
+#include <stdbool.h>
 #include <string>
 #include <unordered_map>
 #include <vector>

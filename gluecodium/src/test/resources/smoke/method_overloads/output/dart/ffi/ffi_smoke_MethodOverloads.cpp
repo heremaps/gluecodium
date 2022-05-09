@@ -7,6 +7,7 @@
 #include "smoke/MethodOverloads.h"
 #include <cstdint>
 #include <memory>
+#include <stdbool.h>
 #include <string>
 #include <vector>
 #include <memory>

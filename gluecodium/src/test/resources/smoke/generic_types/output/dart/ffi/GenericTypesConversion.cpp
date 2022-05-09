@@ -14,6 +14,7 @@
 #include "smoke/YetAnotherDummyClass.h"
 #include <cstdint>
 #include <memory>
+#include <stdbool.h>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>

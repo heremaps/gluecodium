@@ -3,6 +3,7 @@
 #include "smoke/DummyStruct.h"
 #include "smoke/SkipFieldInPlatformImmutable.h"
 #include <cstdint>
+#include <stdbool.h>
 #include <memory>
 #include <new>
 #ifdef __cplusplus

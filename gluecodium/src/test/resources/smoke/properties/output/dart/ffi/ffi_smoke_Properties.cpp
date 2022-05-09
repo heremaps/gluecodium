@@ -8,6 +8,7 @@
 #include "smoke/PropertiesInterface.h"
 #include <cstdint>
 #include <memory>
+#include <stdbool.h>
 #include <string>
 #include <vector>
 #include <memory>

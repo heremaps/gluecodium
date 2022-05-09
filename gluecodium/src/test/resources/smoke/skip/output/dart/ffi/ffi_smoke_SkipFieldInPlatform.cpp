@@ -2,6 +2,7 @@
 #include "ConversionBase.h"
 #include "smoke/SkipFieldInPlatform.h"
 #include <cstdint>
+#include <stdbool.h>
 #include <memory>
 #include <new>
 #ifdef __cplusplus

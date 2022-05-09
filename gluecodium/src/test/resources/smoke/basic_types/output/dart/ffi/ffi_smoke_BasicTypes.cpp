@@ -6,6 +6,7 @@
 #include "smoke/BasicTypes.h"
 #include <cstdint>
 #include <memory>
+#include <stdbool.h>
 #include <string>
 #include <memory>
 #include <new>

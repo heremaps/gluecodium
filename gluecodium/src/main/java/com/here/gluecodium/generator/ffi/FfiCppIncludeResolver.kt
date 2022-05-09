@@ -98,7 +98,8 @@ internal class FfiCppIncludeResolver(
 
     private fun getBasicTypeIncludes(limeType: LimeBasicType) =
         when (limeType.typeId) {
-            TypeId.VOID, TypeId.BOOLEAN, TypeId.FLOAT, TypeId.DOUBLE -> emptyList()
+            TypeId.BOOLEAN -> listOf(BOOL_INCLUDE)
+            TypeId.VOID, TypeId.FLOAT, TypeId.DOUBLE -> emptyList()
             TypeId.STRING -> listOf(CppLibraryIncludes.STRING)
             TypeId.BLOB -> listOf(CppLibraryIncludes.MEMORY, CppLibraryIncludes.VECTOR, CppLibraryIncludes.INT_TYPES)
             TypeId.DATE -> listOf(
@@ -130,6 +131,8 @@ internal class FfiCppIncludeResolver(
         )
 
     companion object {
+        private val BOOL_INCLUDE = Include.createSystemInclude("stdbool.h")
+
         private val isolateContextInclude = Include.createInternalInclude("IsolateContext.h")
         private val proxyIncludes = listOf(
             Include.createInternalInclude("CallbacksQueue.h"),
