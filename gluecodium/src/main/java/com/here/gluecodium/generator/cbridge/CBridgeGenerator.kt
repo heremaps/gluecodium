@@ -26,6 +26,7 @@ import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.GenericImportsCollector
+import com.here.gluecodium.generator.common.GenericIncludesCollector
 import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.OptimizedListsCollector
@@ -70,11 +71,9 @@ internal class CBridgeGenerator(
     private val fileNames = CBridgeFileNames(rootNamespace)
     private val generatorPredicates = CBridgeGeneratorPredicates(cppNameResolver, limeReferenceMap, activeTags)
     private val headerIncludeCollector =
-        GenericImportsCollector(
+        GenericIncludesCollector(
             CBridgeHeaderIncludeResolver(limeReferenceMap),
             retainPredicate = { generatorPredicates.shouldRetain(it) },
-            collectTypeRefImports = true,
-            collectOwnImports = true
         )
     private val implIncludeCollector =
         GenericImportsCollector(

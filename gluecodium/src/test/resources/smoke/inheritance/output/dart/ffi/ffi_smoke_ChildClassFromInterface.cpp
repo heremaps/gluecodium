@@ -6,6 +6,7 @@
 #include "gluecodium/TypeRepository.h"
 #include "smoke/ChildClassFromInterface.h"
 #include <memory>
+#include <string>
 #include <memory>
 #include <new>
 #ifdef __cplusplus

@@ -32,6 +32,7 @@ import com.here.gluecodium.generator.common.GeneratedFile.SourceSet.COMMON
 import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.GeneratorOptions
 import com.here.gluecodium.generator.common.GenericImportsCollector
+import com.here.gluecodium.generator.common.GenericIncludesCollector
 import com.here.gluecodium.generator.common.ImportsCollector
 import com.here.gluecodium.generator.common.ImportsResolver
 import com.here.gluecodium.generator.common.Include
@@ -148,14 +149,12 @@ internal class DartGenerator : Generator {
         val generatorPredicates = DartGeneratorPredicates(dartFilteredModel.referenceMap, activeTags, dartNameResolver)
         val predicatesMap = generatorPredicates.predicates
         val includeResolver = FfiCppIncludeResolver(ffiFilteredModel.referenceMap, cppNameRules, internalNamespace)
-        val includeCollector = GenericImportsCollector(
+        val includeCollector = GenericIncludesCollector(
             includeResolver,
             retainPredicate = {
                 generatorPredicates.shouldRetain(it) ||
                     CommonGeneratorPredicates.needsImportsForSkippedField(it, DART, ffiFilteredModel.referenceMap)
-            },
-            collectTypeRefImports = true,
-            collectOwnImports = true
+            }
         )
 
         val exportsCollector = mutableMapOf<List<String>, MutableList<DartExport>>()
