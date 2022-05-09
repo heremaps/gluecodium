@@ -2,6 +2,7 @@
 #include "ConversionBase.h"
 #include "smoke/ImmutableStructWithClash.h"
 #include <cstdint>
+#include <stdbool.h>
 #include <string>
 #include <memory>
 #include <new>

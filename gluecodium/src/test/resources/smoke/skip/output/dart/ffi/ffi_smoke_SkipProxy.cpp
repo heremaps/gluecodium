@@ -8,6 +8,7 @@
 #include "gluecodium/TypeRepository.h"
 #include "smoke/SkipProxy.h"
 #include <memory>
+#include <stdbool.h>
 #include <string>
 #include <memory>
 #include <new>

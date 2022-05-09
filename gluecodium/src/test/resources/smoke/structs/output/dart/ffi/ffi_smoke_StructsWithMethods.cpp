@@ -4,6 +4,7 @@
 #include "smoke/StructsWithMethods.h"
 #include "smoke/ValidationUtils.h"
 #include <cstdint>
+#include <stdbool.h>
 #include <memory>
 #include <new>
 #ifdef __cplusplus
