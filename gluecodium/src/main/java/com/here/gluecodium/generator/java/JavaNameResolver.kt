@@ -39,6 +39,7 @@ import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
@@ -203,12 +204,15 @@ internal class JavaNameResolver(
     private fun buildPathMap(): Map<String, String> {
         val result = limeReferenceMap.values
             .filterIsInstance<LimeNamedElement>()
-            .filterNot { it is LimeProperty || it is LimeFunction || it is LimeTypeAlias }
-            .associateBy({ it.fullName }, { resolveFullName(it) })
+            .filterNot { it is LimeProperty || it is LimeFunction || it is LimeTypeAlias || it is LimeParameter }
+            .associateBy({ it.path.toAmbiguousString() }, { resolveFullName(it) })
             .toMutableMap()
 
+        result += limeReferenceMap.values.filterIsInstance<LimeParameter>()
+            .associateBy({ it.fullName }, { resolveFullName(it) })
+
         limeReferenceMap.values.filterIsInstance<LimeFunction>().forEach {
-            val ambiguousKey = it.path.withSuffix("").toString()
+            val ambiguousKey = it.path.toAmbiguousString()
             val fullSignatureKey = ambiguousKey +
                 it.parameters.joinToString(prefix = "(", postfix = ")", separator = ",") {
                     parameter ->
@@ -222,7 +226,7 @@ internal class JavaNameResolver(
         }
 
         limeReferenceMap.values.filterIsInstance<LimeProperty>().forEach {
-            val pathKey = it.fullName
+            val pathKey = it.path.toAmbiguousString()
             val parentName = resolveFullName(getParentElement(it))
             val getterName = parentName + "#" + resolveGetterName(it)!!
 

@@ -233,11 +233,11 @@ internal class SwiftNameResolver(
         val result = limeReferenceMap.values
             .filterIsInstance<LimeNamedElement>()
             .filterNot { it is LimeParameter }
-            .associateBy({ it.fullName }, { resolveFullName(it) })
+            .associateBy({ it.path.toAmbiguousString() }, { resolveFullName(it) })
             .toMutableMap()
 
         limeReferenceMap.values.filterIsInstance<LimeFunction>().forEach { function ->
-            val ambiguousKey = function.path.withSuffix("").toString()
+            val ambiguousKey = function.path.toAmbiguousString()
             val functionCommentRef = resolveCommentRef(function, signatureResolver)
             result[ambiguousKey] = functionCommentRef
 
@@ -249,8 +249,9 @@ internal class SwiftNameResolver(
         }
 
         val properties = limeReferenceMap.values.filterIsInstance<LimeProperty>()
-        result += properties.associateBy({ it.fullName + ".get" }, { resolveFullName(it) })
-        result += properties.filter { it.setter != null }.associateBy({ it.fullName + ".set" }, { resolveFullName(it) })
+        result += properties.associateBy({ it.path.toAmbiguousString() + ".get" }, { resolveFullName(it) })
+        result += properties.filter { it.setter != null }
+            .associateBy({ it.path.toAmbiguousString() + ".set" }, { resolveFullName(it) })
 
         return result
     }

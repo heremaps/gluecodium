@@ -39,6 +39,7 @@ import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
@@ -268,22 +269,27 @@ internal class DartNameResolver(
     private fun buildPathMap(): Map<String, String> {
         val result = limeReferenceMap.values
             .filterIsInstance<LimeNamedElement>()
-            .associateBy({ it.fullName }, { resolveFullName(it) })
+            .filterNot { it is LimeParameter }
+            .associateBy({ it.path.toAmbiguousString() }, { resolveFullName(it) })
             .toMutableMap()
 
+        result += limeReferenceMap.values.filterIsInstance<LimeParameter>()
+            .associateBy({ it.fullName }, { resolveFullName(it) })
+
         val functions = limeReferenceMap.values.filterIsInstance<LimeFunction>()
-        result += functions.associateBy({ it.path.withSuffix("").toString() }, { resolveFullName(it) })
+        result += functions.associateBy({ it.path.toAmbiguousString() }, { resolveFullName(it) })
         result += functions.associateBy(
             { function ->
-                function.path.withSuffix("").toString() + function.parameters
+                function.path.toAmbiguousString() + function.parameters
                     .joinToString(prefix = "(", postfix = ")", separator = ",") { it.typeRef.toString() }
             },
             { resolveFullName(it) }
         )
 
         val properties = limeReferenceMap.values.filterIsInstance<LimeProperty>()
-        result += properties.associateBy({ it.fullName + ".get" }, { resolveFullName(it) })
-        result += properties.filter { it.setter != null }.associateBy({ it.fullName + ".set" }, { resolveFullName(it) })
+        result += properties.associateBy({ it.path.toAmbiguousString() + ".get" }, { resolveFullName(it) })
+        result += properties.filter { it.setter != null }
+            .associateBy({ it.path.toAmbiguousString() + ".set" }, { resolveFullName(it) })
 
         return result
     }
