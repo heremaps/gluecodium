@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 11.1.10
+Release date: 2022-05-11
 ### Bug fixes:
   * Fixed documentation reference resolution when referring to elements under `@Skip` or `@EnableIf` attributes.
 
