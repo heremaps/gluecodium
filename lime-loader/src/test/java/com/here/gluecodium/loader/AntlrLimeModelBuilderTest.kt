@@ -21,6 +21,7 @@ package com.here.gluecodium.loader
 
 import com.here.gluecodium.antlr.LimeParser
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.test.MockContextStack
 import io.mockk.MockKAnnotations
@@ -37,20 +38,25 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class AntlrLimeModelBuilderTest {
+    @MockK private lateinit var referenceResolver: AntlrLimeReferenceResolver
     @MockK private lateinit var packageHeaderContext: LimeParser.PackageHeaderContext
     @MockK private lateinit var propertyContext: LimeParser.PropertyContext
 
     private val contextStack = MockContextStack<LimeNamedElement>()
-    private val modelBuilder = AntlrLimeModelBuilder(mockk(relaxed = true), contextStack)
+    private lateinit var modelBuilder: AntlrLimeModelBuilder
+
+    private val barPath = LimePath(listOf("foo"), listOf("bar"))
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
+        modelBuilder = AntlrLimeModelBuilder(referenceResolver, contextStack)
 
         val simpleIdContext = mockk<LimeParser.SimpleIdContext>()
         every { simpleIdContext.text } returns "foo"
-        every { packageHeaderContext.identifier().simpleId() } returns listOf(simpleIdContext)
         every { propertyContext.simpleId().text } returns "bar"
+        every { referenceResolver.computeUniquePath(any()) } returns barPath
+        every { packageHeaderContext.identifier().simpleId() } returns listOf(simpleIdContext)
 
         modelBuilder.exitPackageHeader(packageHeaderContext)
     }

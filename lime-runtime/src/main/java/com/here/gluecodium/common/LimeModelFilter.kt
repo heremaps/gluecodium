@@ -31,6 +31,7 @@ import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLazyFieldRef
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimePositionalEnumeratorRef
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypesCollection
@@ -65,9 +66,6 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
         predicate(it).also { result ->
             if (!result) {
                 droppedElements += it.fullName
-                if (it.path.disambiguator.isNotEmpty()) {
-                    droppedElements += it.path.toAmbiguousString()
-                }
             }
         }
     }
@@ -82,7 +80,8 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
         referenceMap.entries
             .filter { it.key.contains(":") }
             .sortedBy { it.key }
-            .forEach { referenceMap.putIfAbsent(it.key.split(":").first(), it.value) }
+            .groupBy { it.key.split(":").first() }
+            .forEach { referenceMap.putIfAbsent(it.key, it.value.first().value) }
 
         return LimeModel(referenceMap, topElements, auxiliaryElements, limeModel.fileNameMap)
     }
@@ -92,6 +91,11 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
             limeElement !is LimeNamedElement -> true
             droppedElements.contains(limeElement.fullName) -> false
             limeElement.path.tailParents.any { droppedElements.contains(it.toString()) } -> false
+            limeElement is LimeParameter -> {
+                val elementPath = limeElement.path
+                val parentKey = elementPath.parent.withSuffix(elementPath.disambiguator).toString()
+                !droppedElements.contains(parentKey)
+            }
             else -> true
         }
 

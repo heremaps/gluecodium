@@ -23,11 +23,26 @@ import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimeReferenceResolver
 
 internal class AntlrLimeReferenceResolver : LimeReferenceResolver {
-    private val referenceCache: MutableMap<String, LimeElement> =
-        preCacheBasicTypes()
+    private val referenceCache: MutableMap<String, LimeElement> = preCacheBasicTypes()
+    private val pathCounts = mutableMapOf<String, Int>()
+
+    override val referenceMap: Map<String, LimeElement> = referenceCache
+
+    override fun computeUniquePath(limePath: LimePath): LimePath {
+        val pathKey = limePath.toAmbiguousString()
+        val count = pathCounts[pathKey]
+        if (count == null) {
+            pathCounts[pathKey] = 1
+            return limePath.withSuffix("")
+        } else {
+            pathCounts[pathKey] = count + 1
+            return limePath.withSuffix(count.toString())
+        }
+    }
 
     override fun registerElement(element: LimeNamedElement) =
         registerElement(element.path.toString(), element)
@@ -35,8 +50,6 @@ internal class AntlrLimeReferenceResolver : LimeReferenceResolver {
     override fun registerElement(key: String, element: LimeElement) {
         referenceCache[key] = element
     }
-
-    override val referenceMap: Map<String, LimeElement> = referenceCache
 
     companion object {
         private fun preCacheBasicTypes(): MutableMap<String, LimeElement> =
