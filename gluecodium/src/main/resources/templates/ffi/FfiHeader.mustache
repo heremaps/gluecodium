@@ -81,8 +81,8 @@ _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_get_type_
 
 }}{{+ffiFunctionDeclaration}}
 {{#if thrownType}}
-_GLUECODIUM_FFI_EXPORT void {{>ffi/FfiFunctionName}}_return_release_handle(FfiOpaqueHandle handle);{{#isNotEq returnType.typeRef.type.name "Void"}}
-_GLUECODIUM_FFI_EXPORT {{resolveName returnType.typeRef}} {{>ffi/FfiFunctionName}}_return_get_result(FfiOpaqueHandle handle);{{/isNotEq}}
+_GLUECODIUM_FFI_EXPORT void {{>ffi/FfiFunctionName}}_return_release_handle(FfiOpaqueHandle handle);{{#unless returnType.isVoid}}
+_GLUECODIUM_FFI_EXPORT {{resolveName returnType.typeRef}} {{>ffi/FfiFunctionName}}_return_get_result(FfiOpaqueHandle handle);{{/unless}}
 _GLUECODIUM_FFI_EXPORT {{resolveName exception.errorType}} {{>ffi/FfiFunctionName}}_return_get_error(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT bool {{>ffi/FfiFunctionName}}_return_has_error(FfiOpaqueHandle handle);
 

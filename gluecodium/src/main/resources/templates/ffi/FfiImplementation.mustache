@@ -214,13 +214,13 @@ void
     delete reinterpret_cast<{{>ffiErrorReturnType}}*>(handle);
 }
 
-{{#isNotEq returnType.typeRef.toString "Void"}}{{resolveName returnType.typeRef}}
+{{#unless returnType.isVoid}}{{resolveName returnType.typeRef}}
 {{>ffi/FfiFunctionName}}_return_get_result(FfiOpaqueHandle handle) {
     return {{>ffi/FfiInternal}}::Conversion<{{resolveName returnType.typeRef "C++"}}>::toFfi(
         reinterpret_cast<{{>ffiErrorReturnType}}*>(handle)->unsafe_value()
     );
 }
-{{/isNotEq}}
+{{/unless}}
 
 {{resolveName exception.errorType}}
 {{>ffi/FfiFunctionName}}_return_get_error(FfiOpaqueHandle handle) {
@@ -240,19 +240,19 @@ FfiOpaqueHandle
     {{>ffi/FfiInternal}}::IsolateContext _isolate_context(_isolate_id);
     auto&& _cpp_call_result = {{>ffiCallCppFunction}};
 {{#instanceOf exception.errorType.type.actualType "LimeEnumeration"}}{{!!
-}}{{#isEq returnType.typeRef.toString "Void"}}
+}}{{#if returnType.isVoid}}
     if (_cpp_call_result.value() == 0) {
         return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) {{>ffiErrorReturnType}}(true));
     }
     auto _error_code = _cpp_call_result;
-{{/isEq}}{{#isNotEq returnType.typeRef.toString "Void"}}
+{{/if}}{{#unless returnType.isVoid}}
     if (_cpp_call_result.has_value()) {
         return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) {{>ffiErrorReturnType}}(
             std::forward<{{resolveName returnType.typeRef "C++"}}>(_cpp_call_result.unsafe_value())
         ));
     }
     auto _error_code = _cpp_call_result.error();
-{{/isNotEq}}
+{{/unless}}
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) {{>ffiErrorReturnType}}(
         static_cast<{{resolveName exception.errorType "C++"}}>(_error_code.value())
     ));
@@ -269,8 +269,8 @@ FfiOpaqueHandle
 {{>ffi/FfiFunctionName}}({{#unless isStatic}}FfiOpaqueHandle _self, {{/unless}}int32_t _isolate_id{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) {
     {{>ffi/FfiInternal}}::IsolateContext _isolate_context(_isolate_id);
-    {{#isEq returnType.typeRef.toString "Void"}}{{>ffiCallCppFunction}};{{/isEq}}{{!!
-    }}{{#isNotEq returnType.typeRef.toString "Void"}}return {{#if returnType.typeRef.attributes.optimized}}{{!!
+    {{#if returnType.isVoid}}{{>ffiCallCppFunction}};{{/if}}{{!!
+    }}{{#unless returnType.isVoid}}return {{#if returnType.typeRef.attributes.optimized}}{{!!
     }}reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) std::shared_ptr<{{resolveName returnType.typeRef "C++"}}>(
             new (std::nothrow) {{resolveName returnType.typeRef "C++"}}(
@@ -280,7 +280,7 @@ FfiOpaqueHandle
     );{{/if}}{{#unless returnType.typeRef.attributes.optimized}}{{!!
     }}{{>ffi/FfiInternal}}::Conversion<{{resolveName returnType.typeRef "C++"}}>::toFfi(
 {{>ffiCallCppFunction}}
-    );{{/unless}}{{/isNotEq}}
+    );{{/unless}}{{/unless}}
 }
 {{/unless}}{{/ffiFunctionBody}}{{!!
 
