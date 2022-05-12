@@ -86,7 +86,7 @@ library_smoke_OuterStruct_doNothing_return_has_error(FfiOpaqueHandle handle) {
 FfiOpaqueHandle
 library_smoke_OuterStruct_doNothing(FfiOpaqueHandle _self, int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-    auto&& _cpp_call_result =         gluecodium::ffi::Conversion<smoke::OuterStruct>::toCpp(_self).do_nothing();
+    auto&& _cpp_call_result = gluecodium::ffi::Conversion<smoke::OuterStruct>::toCpp(_self).do_nothing();
     if (_cpp_call_result.value() == 0) {
         return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) gluecodium::Return<void, smoke::OuterStruct::InnerEnum>(true));
     }
@@ -98,7 +98,7 @@ library_smoke_OuterStruct_doNothing(FfiOpaqueHandle _self, int32_t _isolate_id) 
 void
 library_smoke_OuterStruct_InnerStruct_doSomething(FfiOpaqueHandle _self, int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            gluecodium::ffi::Conversion<smoke::OuterStruct::InnerStruct>::toCpp(_self).do_something();
+    gluecodium::ffi::Conversion<smoke::OuterStruct::InnerStruct>::toCpp(_self).do_something();
 }
 FfiOpaqueHandle
 library_smoke_OuterStruct_InnerClass_fooBar(FfiOpaqueHandle _self, int32_t _isolate_id) {

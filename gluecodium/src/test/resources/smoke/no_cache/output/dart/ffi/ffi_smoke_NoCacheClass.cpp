@@ -20,7 +20,7 @@ library_smoke_NoCacheClass_make(int32_t _isolate_id) {
 void
 library_smoke_NoCacheClass_foo(FfiOpaqueHandle _self, int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::NoCacheClass>>::toCpp(_self)).foo();
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::NoCacheClass>>::toCpp(_self)).foo();
 }
 // "Private" finalizer, not exposed to be callable from Dart.
 void

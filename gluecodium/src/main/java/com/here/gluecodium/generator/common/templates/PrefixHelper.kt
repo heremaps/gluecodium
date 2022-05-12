@@ -32,21 +32,21 @@ import org.trimou.util.ImmutableSet
 internal open class PrefixHelper : BasicHelper() {
     override fun execute(options: Options) {
         val parameters = options.parameters
-        if (parameters.isNotEmpty()) {
-            val prefix = parameters.getOrNull(1)?.toString() ?: ""
-            var skipFirstLine = options.hash["skipFirstLine"]?.toString()?.toBoolean() ?: false
-            val value = getValue(options, parameters[0])
-            options.append(
-                value.lineSequence().joinToString("\n") {
-                    if (skipFirstLine) {
-                        skipFirstLine = false
-                        it.trimEnd()
-                    } else {
-                        (prefix + it).trimEnd()
-                    }
+        if (parameters.isEmpty()) return
+
+        val prefix = parameters.getOrNull(1)?.toString() ?: ""
+        var skipFirstLine = options.hash["skipFirstLine"]?.toString()?.toBoolean() ?: false
+        val value = getValue(options, parameters[0])
+        options.append(
+            value.lineSequence().joinToString("\n") {
+                if (skipFirstLine) {
+                    skipFirstLine = false
+                    it.trimEnd()
+                } else {
+                    (prefix + it).trimEnd()
                 }
-            )
-        }
+            }
+        )
     }
 
     override fun getSupportedHashKeys(): MutableSet<String> {

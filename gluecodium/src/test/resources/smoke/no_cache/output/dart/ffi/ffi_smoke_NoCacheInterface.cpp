@@ -53,7 +53,7 @@ extern "C" {
 void
 library_smoke_NoCacheInterface_foo(FfiOpaqueHandle _self, int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::NoCacheInterface>>::toCpp(_self)).foo();
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::NoCacheInterface>>::toCpp(_self)).foo();
 }
 // "Private" finalizer, not exposed to be callable from Dart.
 void

@@ -94,14 +94,14 @@ extern "C" {
 void
 library_smoke_SpecialNamesInterface_dispatch__Callback(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle callback) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SpecialNamesInterface>>::toCpp(_self)).dispatch(
-            gluecodium::ffi::Conversion<smoke::SpecialNamesInterface::Callback>::toCpp(callback)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SpecialNamesInterface>>::toCpp(_self)).dispatch(
+        gluecodium::ffi::Conversion<smoke::SpecialNamesInterface::Callback>::toCpp(callback)
+    );
 }
 void
 library_smoke_SpecialNamesInterface_Callback_call(FfiOpaqueHandle _self, int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            gluecodium::ffi::Conversion<smoke::SpecialNamesInterface::Callback>::toCpp(_self).operator()();
+    gluecodium::ffi::Conversion<smoke::SpecialNamesInterface::Callback>::toCpp(_self).operator()();
 }
 // "Private" finalizer, not exposed to be callable from Dart.
 void

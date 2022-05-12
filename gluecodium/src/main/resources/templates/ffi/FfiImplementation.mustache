@@ -238,7 +238,7 @@ FfiOpaqueHandle
 {{>ffi/FfiFunctionName}}({{#unless isStatic}}FfiOpaqueHandle _self, {{/unless}}int32_t _isolate_id{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) {
     {{>ffi/FfiInternal}}::IsolateContext _isolate_context(_isolate_id);
-    auto&& _cpp_call_result = {{>ffiCallCppFunction}};
+    auto&& _cpp_call_result = {{prefixPartial "ffiCallCppFunction" "    " skipFirstLine=true}};
 {{#instanceOf exception.errorType.type.actualType "LimeEnumeration"}}{{!!
 }}{{#if returnType.isVoid}}
     if (_cpp_call_result.value() == 0) {
@@ -269,17 +269,17 @@ FfiOpaqueHandle
 {{>ffi/FfiFunctionName}}({{#unless isStatic}}FfiOpaqueHandle _self, {{/unless}}int32_t _isolate_id{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) {
     {{>ffi/FfiInternal}}::IsolateContext _isolate_context(_isolate_id);
-    {{#if returnType.isVoid}}{{>ffiCallCppFunction}};{{/if}}{{!!
-    }}{{#unless returnType.isVoid}}return {{#if returnType.typeRef.attributes.optimized}}{{!!
+{{#if returnType.isVoid}}{{prefixPartial "ffiCallCppFunction" "    "}};{{/if}}{{!!
+}}{{#unless returnType.isVoid}}    return {{#if returnType.typeRef.attributes.optimized}}{{!!
     }}reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) std::shared_ptr<{{resolveName returnType.typeRef "C++"}}>(
             new (std::nothrow) {{resolveName returnType.typeRef "C++"}}(
-        {{>ffiCallCppFunction}}
+{{prefixPartial "ffiCallCppFunction" "                "}}
             )
         )
     );{{/if}}{{#unless returnType.typeRef.attributes.optimized}}{{!!
     }}{{>ffi/FfiInternal}}::Conversion<{{resolveName returnType.typeRef "C++"}}>::toFfi(
-{{>ffiCallCppFunction}}
+{{prefixPartial "ffiCallCppFunction" "        "}}
     );{{/unless}}{{/unless}}
 }
 {{/unless}}{{/ffiFunctionBody}}{{!!
@@ -290,7 +290,7 @@ FfiOpaqueHandle
 }}{{#notInstanceOf parent "LimeLambda"}}(*{{>ffi/FfiInternal}}::Conversion<std::shared_ptr<{{resolveName parent "C++"}}>>::toCpp(_self)){{!!
 }}{{/notInstanceOf}}{{/notInstanceOf}}{{/selfReferenceConversion}}{{!!
 
-}}{{+ffiParameter}}            {{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toCpp({{resolveName}}){{/ffiParameter}}{{!!
+}}{{+ffiParameter}}    {{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toCpp({{resolveName}}){{/ffiParameter}}{{!!
 
 }}{{+ffiFieldToCpp}}{{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toCpp({{resolveName}}){{/ffiFieldToCpp}}{{!!
 
@@ -299,12 +299,12 @@ FfiOpaqueHandle
 }}{{#if iter.hasNext}}, {{/if}}{{/fields}}{{/immutableFieldsParameters}}{{!!
 
 }}{{+ffiCallCppFunction}}{{!!
-}}        {{#if isStatic}}{{resolveName parent "C++"}}::{{/if}}{{!!
-        }}{{#unless isStatic}}{{>selfReferenceConversion}}.{{/unless}}{{!!
-        }}{{resolveName "C++"}}({{#if parameters}}
+}}{{#if isStatic}}{{resolveName parent "C++"}}::{{/if}}{{!!
+}}{{#unless isStatic}}{{>selfReferenceConversion}}.{{/unless}}{{!!
+}}{{resolveName "C++"}}({{#if parameters}}
 {{joinPartial parameters "ffiParameter" ",
 "}}
-        {{/if}}){{!!
+{{/if}}){{!!
 }}{{/ffiCallCppFunction}}{{!!
 
 }}{{+ffiErrorReturnType}}{{#internalNamespace}}{{.}}::{{/internalNamespace}}Return<{{!!

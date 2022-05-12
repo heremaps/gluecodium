@@ -78,9 +78,9 @@ library_smoke_TypeDefs_primitiveTypeProperty_get(FfiOpaqueHandle _self, int32_t 
 void
 library_smoke_TypeDefs_primitiveTypeProperty_set__ListOf_Double(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::TypeDefs>>::toCpp(_self)).set_primitive_type_property(
-            gluecodium::ffi::Conversion<std::vector<double>>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::TypeDefs>>::toCpp(_self)).set_primitive_type_property(
+        gluecodium::ffi::Conversion<std::vector<double>>::toCpp(value)
+    );
 }
 // "Private" finalizer, not exposed to be callable from Dart.
 void

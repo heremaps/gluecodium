@@ -15,12 +15,12 @@ extern "C" {
 void
 library_smoke_ChildClassFromInterface_childClassMethod(FfiOpaqueHandle _self, int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::ChildClassFromInterface>>::toCpp(_self)).child_class_method();
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::ChildClassFromInterface>>::toCpp(_self)).child_class_method();
 }
 void
 library_smoke_ChildClassFromInterface_rootMethod(FfiOpaqueHandle _self, int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::ChildClassFromInterface>>::toCpp(_self)).root_method();
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::ChildClassFromInterface>>::toCpp(_self)).root_method();
 }
 FfiOpaqueHandle
 library_smoke_ChildClassFromInterface_rootProperty_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -32,9 +32,9 @@ library_smoke_ChildClassFromInterface_rootProperty_get(FfiOpaqueHandle _self, in
 void
 library_smoke_ChildClassFromInterface_rootProperty_set(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::ChildClassFromInterface>>::toCpp(_self)).set_root_property(
-            gluecodium::ffi::Conversion<std::string>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::ChildClassFromInterface>>::toCpp(_self)).set_root_property(
+        gluecodium::ffi::Conversion<std::string>::toCpp(value)
+    );
 }
 // "Private" finalizer, not exposed to be callable from Dart.
 void

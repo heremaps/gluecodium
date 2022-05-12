@@ -14,22 +14,22 @@ extern "C" {
 void
 library_smoke_SpecialNames_create(FfiOpaqueHandle _self, int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SpecialNames>>::toCpp(_self)).create();
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SpecialNames>>::toCpp(_self)).create();
 }
 void
 library_smoke_SpecialNames_release(FfiOpaqueHandle _self, int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SpecialNames>>::toCpp(_self)).release();
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SpecialNames>>::toCpp(_self)).release();
 }
 void
 library_smoke_SpecialNames_createProxy(FfiOpaqueHandle _self, int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SpecialNames>>::toCpp(_self)).create_proxy();
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SpecialNames>>::toCpp(_self)).create_proxy();
 }
 void
 library_smoke_SpecialNames_Uppercase(FfiOpaqueHandle _self, int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SpecialNames>>::toCpp(_self))._uppercase();
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SpecialNames>>::toCpp(_self))._uppercase();
 }
 FfiOpaqueHandle
 library_smoke_SpecialNames_make__String(int32_t _isolate_id, FfiOpaqueHandle result) {
