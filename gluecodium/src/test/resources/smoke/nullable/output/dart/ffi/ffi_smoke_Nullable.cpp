@@ -119,9 +119,9 @@ library_smoke_Nullable_stringProperty_get(FfiOpaqueHandle _self, int32_t _isolat
 void
 library_smoke_Nullable_stringProperty_set__String_(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).set_string_property(
-            gluecodium::ffi::Conversion<gluecodium::optional<std::string>>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).set_string_property(
+        gluecodium::ffi::Conversion<gluecodium::optional<std::string>>::toCpp(value)
+    );
 }
 FfiOpaqueHandle
 library_smoke_Nullable_isBoolProperty_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -133,9 +133,9 @@ library_smoke_Nullable_isBoolProperty_get(FfiOpaqueHandle _self, int32_t _isolat
 void
 library_smoke_Nullable_isBoolProperty_set__Boolean_(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).set_bool_property(
-            gluecodium::ffi::Conversion<gluecodium::optional<bool>>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).set_bool_property(
+        gluecodium::ffi::Conversion<gluecodium::optional<bool>>::toCpp(value)
+    );
 }
 FfiOpaqueHandle
 library_smoke_Nullable_doubleProperty_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -147,9 +147,9 @@ library_smoke_Nullable_doubleProperty_get(FfiOpaqueHandle _self, int32_t _isolat
 void
 library_smoke_Nullable_doubleProperty_set__Double_(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).set_double_property(
-            gluecodium::ffi::Conversion<gluecodium::optional<double>>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).set_double_property(
+        gluecodium::ffi::Conversion<gluecodium::optional<double>>::toCpp(value)
+    );
 }
 FfiOpaqueHandle
 library_smoke_Nullable_intProperty_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -161,9 +161,9 @@ library_smoke_Nullable_intProperty_get(FfiOpaqueHandle _self, int32_t _isolate_i
 void
 library_smoke_Nullable_intProperty_set__Long_(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).set_int_property(
-            gluecodium::ffi::Conversion<gluecodium::optional<int64_t>>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).set_int_property(
+        gluecodium::ffi::Conversion<gluecodium::optional<int64_t>>::toCpp(value)
+    );
 }
 FfiOpaqueHandle
 library_smoke_Nullable_structProperty_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -175,9 +175,9 @@ library_smoke_Nullable_structProperty_get(FfiOpaqueHandle _self, int32_t _isolat
 void
 library_smoke_Nullable_structProperty_set__SomeStruct_(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).set_struct_property(
-            gluecodium::ffi::Conversion<gluecodium::optional<smoke::Nullable::SomeStruct>>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).set_struct_property(
+        gluecodium::ffi::Conversion<gluecodium::optional<smoke::Nullable::SomeStruct>>::toCpp(value)
+    );
 }
 FfiOpaqueHandle
 library_smoke_Nullable_enumProperty_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -189,9 +189,9 @@ library_smoke_Nullable_enumProperty_get(FfiOpaqueHandle _self, int32_t _isolate_
 void
 library_smoke_Nullable_enumProperty_set__SomeEnum_(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).set_enum_property(
-            gluecodium::ffi::Conversion<gluecodium::optional<smoke::Nullable::SomeEnum>>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).set_enum_property(
+        gluecodium::ffi::Conversion<gluecodium::optional<smoke::Nullable::SomeEnum>>::toCpp(value)
+    );
 }
 FfiOpaqueHandle
 library_smoke_Nullable_arrayProperty_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -203,9 +203,9 @@ library_smoke_Nullable_arrayProperty_get(FfiOpaqueHandle _self, int32_t _isolate
 void
 library_smoke_Nullable_arrayProperty_set__ListOf_String_(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).set_array_property(
-            gluecodium::ffi::Conversion<gluecodium::optional<std::vector<std::string>>>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).set_array_property(
+        gluecodium::ffi::Conversion<gluecodium::optional<std::vector<std::string>>>::toCpp(value)
+    );
 }
 FfiOpaqueHandle
 library_smoke_Nullable_inlineArrayProperty_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -217,9 +217,9 @@ library_smoke_Nullable_inlineArrayProperty_get(FfiOpaqueHandle _self, int32_t _i
 void
 library_smoke_Nullable_inlineArrayProperty_set__ListOf_String_(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).set_inline_array_property(
-            gluecodium::ffi::Conversion<gluecodium::optional<std::vector<std::string>>>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).set_inline_array_property(
+        gluecodium::ffi::Conversion<gluecodium::optional<std::vector<std::string>>>::toCpp(value)
+    );
 }
 FfiOpaqueHandle
 library_smoke_Nullable_mapProperty_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -231,9 +231,9 @@ library_smoke_Nullable_mapProperty_get(FfiOpaqueHandle _self, int32_t _isolate_i
 void
 library_smoke_Nullable_mapProperty_set__MapOf_Long_to_String_(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).set_map_property(
-            gluecodium::ffi::Conversion<gluecodium::optional<std::unordered_map<int64_t, std::string>>>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).set_map_property(
+        gluecodium::ffi::Conversion<gluecodium::optional<std::unordered_map<int64_t, std::string>>>::toCpp(value)
+    );
 }
 FfiOpaqueHandle
 library_smoke_Nullable_instanceProperty_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -245,9 +245,9 @@ library_smoke_Nullable_instanceProperty_get(FfiOpaqueHandle _self, int32_t _isol
 void
 library_smoke_Nullable_instanceProperty_set__SomeInterface_(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).set_instance_property(
-            gluecodium::ffi::Conversion<std::shared_ptr<smoke::SomeInterface>>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Nullable>>::toCpp(_self)).set_instance_property(
+        gluecodium::ffi::Conversion<std::shared_ptr<smoke::SomeInterface>>::toCpp(value)
+    );
 }
 // "Private" finalizer, not exposed to be callable from Dart.
 void

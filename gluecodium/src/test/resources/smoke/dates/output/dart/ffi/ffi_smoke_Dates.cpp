@@ -43,9 +43,9 @@ library_smoke_Dates_dateProperty_get(FfiOpaqueHandle _self, int32_t _isolate_id)
 void
 library_smoke_Dates_dateProperty_set__Date(FfiOpaqueHandle _self, int32_t _isolate_id, uint64_t value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Dates>>::toCpp(_self)).set_date_property(
-            gluecodium::ffi::Conversion<std::chrono::system_clock::time_point>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Dates>>::toCpp(_self)).set_date_property(
+        gluecodium::ffi::Conversion<std::chrono::system_clock::time_point>::toCpp(value)
+    );
 }
 FfiOpaqueHandle
 library_smoke_Dates_dateSet_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -57,9 +57,9 @@ library_smoke_Dates_dateSet_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
 void
 library_smoke_Dates_dateSet_set__SetOf_Date(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Dates>>::toCpp(_self)).set_date_set(
-            gluecodium::ffi::Conversion<std::unordered_set<std::chrono::system_clock::time_point, gluecodium::hash<std::chrono::system_clock::time_point>>>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Dates>>::toCpp(_self)).set_date_set(
+        gluecodium::ffi::Conversion<std::unordered_set<std::chrono::system_clock::time_point, gluecodium::hash<std::chrono::system_clock::time_point>>>::toCpp(value)
+    );
 }
 // "Private" finalizer, not exposed to be callable from Dart.
 void

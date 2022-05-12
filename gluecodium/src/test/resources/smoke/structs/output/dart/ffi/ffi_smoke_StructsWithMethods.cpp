@@ -71,9 +71,9 @@ library_smoke_StructsWithMethods_Vector_create__Vector_return_has_error(FfiOpaqu
 FfiOpaqueHandle
 library_smoke_StructsWithMethods_Vector_create__Vector(int32_t _isolate_id, FfiOpaqueHandle other) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-    auto&& _cpp_call_result =         smoke::Vector::create(
-            gluecodium::ffi::Conversion<smoke::Vector>::toCpp(other)
-        );
+    auto&& _cpp_call_result = smoke::Vector::create(
+        gluecodium::ffi::Conversion<smoke::Vector>::toCpp(other)
+    );
     if (_cpp_call_result.has_value()) {
         return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) gluecodium::Return<smoke::Vector, smoke::ValidationErrorCode>(
             std::forward<smoke::Vector>(_cpp_call_result.unsafe_value())

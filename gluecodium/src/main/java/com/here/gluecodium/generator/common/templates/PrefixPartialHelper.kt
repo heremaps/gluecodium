@@ -23,7 +23,7 @@ import org.trimou.handlebars.Options
 
 /**
  * Prefix each line of a multi-line partial with a prefix. Trim each line at the end to avoid
- * trailing whitespace.<br></br>
+ * trailing whitespace. If skipFirstLine=true is set, the first line will not be prefixed.<br>
  * Usage: {{prefixPartial "partial-name" "prefix"}}<br></br>
  * Example: {{prefixPartial "common/CopyrightNotice" "// "}}
  */

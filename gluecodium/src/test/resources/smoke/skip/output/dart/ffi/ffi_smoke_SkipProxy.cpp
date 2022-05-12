@@ -160,9 +160,9 @@ library_smoke_SkipProxy_skippedInJava_get(FfiOpaqueHandle _self, int32_t _isolat
 void
 library_smoke_SkipProxy_skippedInJava_set__String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SkipProxy>>::toCpp(_self)).set_skipped_in_java(
-            gluecodium::ffi::Conversion<std::string>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SkipProxy>>::toCpp(_self)).set_skipped_in_java(
+        gluecodium::ffi::Conversion<std::string>::toCpp(value)
+    );
 }
 bool
 library_smoke_SkipProxy_isSkippedInSwift_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -174,9 +174,9 @@ library_smoke_SkipProxy_isSkippedInSwift_get(FfiOpaqueHandle _self, int32_t _iso
 void
 library_smoke_SkipProxy_isSkippedInSwift_set__Boolean(FfiOpaqueHandle _self, int32_t _isolate_id, bool value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SkipProxy>>::toCpp(_self)).set_skipped_in_swift(
-            gluecodium::ffi::Conversion<bool>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SkipProxy>>::toCpp(_self)).set_skipped_in_swift(
+        gluecodium::ffi::Conversion<bool>::toCpp(value)
+    );
 }
 // "Private" finalizer, not exposed to be callable from Dart.
 void

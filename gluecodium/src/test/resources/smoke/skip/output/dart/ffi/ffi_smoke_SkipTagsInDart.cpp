@@ -62,7 +62,7 @@ extern "C" {
 void
 library_smoke_SkipTagsInDart_dontSkipTagged(FfiOpaqueHandle _self, int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SkipTagsInDart>>::toCpp(_self)).dont_skip_tagged();
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::SkipTagsInDart>>::toCpp(_self)).dont_skip_tagged();
 }
 // "Private" finalizer, not exposed to be callable from Dart.
 void

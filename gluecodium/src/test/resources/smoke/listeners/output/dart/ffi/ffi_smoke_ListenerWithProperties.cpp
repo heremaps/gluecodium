@@ -183,9 +183,9 @@ library_smoke_ListenerWithProperties_message_get(FfiOpaqueHandle _self, int32_t 
 void
 library_smoke_ListenerWithProperties_message_set__String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::ListenerWithProperties>>::toCpp(_self)).set_message(
-            gluecodium::ffi::Conversion<std::string>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::ListenerWithProperties>>::toCpp(_self)).set_message(
+        gluecodium::ffi::Conversion<std::string>::toCpp(value)
+    );
 }
 FfiOpaqueHandle
 library_smoke_ListenerWithProperties_packedMessage_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -197,9 +197,9 @@ library_smoke_ListenerWithProperties_packedMessage_get(FfiOpaqueHandle _self, in
 void
 library_smoke_ListenerWithProperties_packedMessage_set__CalculationResult(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::ListenerWithProperties>>::toCpp(_self)).set_packed_message(
-            gluecodium::ffi::Conversion<std::shared_ptr<smoke::CalculationResult>>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::ListenerWithProperties>>::toCpp(_self)).set_packed_message(
+        gluecodium::ffi::Conversion<std::shared_ptr<smoke::CalculationResult>>::toCpp(value)
+    );
 }
 FfiOpaqueHandle
 library_smoke_ListenerWithProperties_structuredMessage_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -211,9 +211,9 @@ library_smoke_ListenerWithProperties_structuredMessage_get(FfiOpaqueHandle _self
 void
 library_smoke_ListenerWithProperties_structuredMessage_set__ResultStruct(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::ListenerWithProperties>>::toCpp(_self)).set_structured_message(
-            gluecodium::ffi::Conversion<smoke::ListenerWithProperties::ResultStruct>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::ListenerWithProperties>>::toCpp(_self)).set_structured_message(
+        gluecodium::ffi::Conversion<smoke::ListenerWithProperties::ResultStruct>::toCpp(value)
+    );
 }
 uint32_t
 library_smoke_ListenerWithProperties_enumeratedMessage_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -225,9 +225,9 @@ library_smoke_ListenerWithProperties_enumeratedMessage_get(FfiOpaqueHandle _self
 void
 library_smoke_ListenerWithProperties_enumeratedMessage_set__ResultEnum(FfiOpaqueHandle _self, int32_t _isolate_id, uint32_t value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::ListenerWithProperties>>::toCpp(_self)).set_enumerated_message(
-            gluecodium::ffi::Conversion<smoke::ListenerWithProperties::ResultEnum>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::ListenerWithProperties>>::toCpp(_self)).set_enumerated_message(
+        gluecodium::ffi::Conversion<smoke::ListenerWithProperties::ResultEnum>::toCpp(value)
+    );
 }
 FfiOpaqueHandle
 library_smoke_ListenerWithProperties_arrayedMessage_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -239,9 +239,9 @@ library_smoke_ListenerWithProperties_arrayedMessage_get(FfiOpaqueHandle _self, i
 void
 library_smoke_ListenerWithProperties_arrayedMessage_set__ListOf_String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::ListenerWithProperties>>::toCpp(_self)).set_arrayed_message(
-            gluecodium::ffi::Conversion<std::vector<std::string>>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::ListenerWithProperties>>::toCpp(_self)).set_arrayed_message(
+        gluecodium::ffi::Conversion<std::vector<std::string>>::toCpp(value)
+    );
 }
 FfiOpaqueHandle
 library_smoke_ListenerWithProperties_mappedMessage_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -253,9 +253,9 @@ library_smoke_ListenerWithProperties_mappedMessage_get(FfiOpaqueHandle _self, in
 void
 library_smoke_ListenerWithProperties_mappedMessage_set__MapOf_String_to_Double(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::ListenerWithProperties>>::toCpp(_self)).set_mapped_message(
-            gluecodium::ffi::Conversion<std::unordered_map<std::string, double>>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::ListenerWithProperties>>::toCpp(_self)).set_mapped_message(
+        gluecodium::ffi::Conversion<std::unordered_map<std::string, double>>::toCpp(value)
+    );
 }
 FfiOpaqueHandle
 library_smoke_ListenerWithProperties_bufferedMessage_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -267,9 +267,9 @@ library_smoke_ListenerWithProperties_bufferedMessage_get(FfiOpaqueHandle _self, 
 void
 library_smoke_ListenerWithProperties_bufferedMessage_set__Blob(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::ListenerWithProperties>>::toCpp(_self)).set_buffered_message(
-            gluecodium::ffi::Conversion<std::shared_ptr<std::vector<uint8_t>>>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::ListenerWithProperties>>::toCpp(_self)).set_buffered_message(
+        gluecodium::ffi::Conversion<std::shared_ptr<std::vector<uint8_t>>>::toCpp(value)
+    );
 }
 // "Private" finalizer, not exposed to be callable from Dart.
 void

@@ -100,9 +100,9 @@ library_smoke_InterfaceWithStatic_regularProperty_get(FfiOpaqueHandle _self, int
 void
 library_smoke_InterfaceWithStatic_regularProperty_set__String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::InterfaceWithStatic>>::toCpp(_self)).set_regular_property(
-            gluecodium::ffi::Conversion<std::string>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::InterfaceWithStatic>>::toCpp(_self)).set_regular_property(
+        gluecodium::ffi::Conversion<std::string>::toCpp(value)
+    );
 }
 FfiOpaqueHandle
 library_smoke_InterfaceWithStatic_staticProperty_get(int32_t _isolate_id) {
@@ -114,9 +114,9 @@ library_smoke_InterfaceWithStatic_staticProperty_get(int32_t _isolate_id) {
 void
 library_smoke_InterfaceWithStatic_staticProperty_set__String(int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            smoke::InterfaceWithStatic::set_static_property(
-            gluecodium::ffi::Conversion<std::string>::toCpp(value)
-        );
+    smoke::InterfaceWithStatic::set_static_property(
+        gluecodium::ffi::Conversion<std::string>::toCpp(value)
+    );
 }
 // "Private" finalizer, not exposed to be callable from Dart.
 void

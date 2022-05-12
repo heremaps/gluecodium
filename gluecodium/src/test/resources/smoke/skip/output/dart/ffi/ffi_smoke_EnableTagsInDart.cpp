@@ -65,12 +65,12 @@ extern "C" {
 void
 library_smoke_EnableTagsInDart_enableTagged(FfiOpaqueHandle _self, int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::EnableTagsInDart>>::toCpp(_self)).enable_tagged();
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::EnableTagsInDart>>::toCpp(_self)).enable_tagged();
 }
 void
 library_smoke_EnableTagsInDart_enableTaggedList(FfiOpaqueHandle _self, int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::EnableTagsInDart>>::toCpp(_self)).enable_tagged_list();
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::EnableTagsInDart>>::toCpp(_self)).enable_tagged_list();
 }
 // "Private" finalizer, not exposed to be callable from Dart.
 void

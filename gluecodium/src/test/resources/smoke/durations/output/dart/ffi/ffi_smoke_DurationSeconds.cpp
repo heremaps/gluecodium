@@ -41,9 +41,9 @@ library_smoke_DurationSeconds_durationProperty_get(FfiOpaqueHandle _self, int32_
 void
 library_smoke_DurationSeconds_durationProperty_set__Duration(FfiOpaqueHandle _self, int32_t _isolate_id, uint64_t value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::DurationSeconds>>::toCpp(_self)).set_duration_property(
-            gluecodium::ffi::Conversion<std::chrono::seconds>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::DurationSeconds>>::toCpp(_self)).set_duration_property(
+        gluecodium::ffi::Conversion<std::chrono::seconds>::toCpp(value)
+    );
 }
 // "Private" finalizer, not exposed to be callable from Dart.
 void

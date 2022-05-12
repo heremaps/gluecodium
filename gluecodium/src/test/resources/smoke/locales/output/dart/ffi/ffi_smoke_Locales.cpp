@@ -30,9 +30,9 @@ library_smoke_Locales_localeProperty_get(FfiOpaqueHandle _self, int32_t _isolate
 void
 library_smoke_Locales_localeProperty_set__Locale(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Locales>>::toCpp(_self)).set_locale_property(
-            gluecodium::ffi::Conversion<gluecodium::Locale>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Locales>>::toCpp(_self)).set_locale_property(
+        gluecodium::ffi::Conversion<gluecodium::Locale>::toCpp(value)
+    );
 }
 // "Private" finalizer, not exposed to be callable from Dart.
 void

@@ -64,9 +64,9 @@ library_smoke_Constructors_create__String_return_has_error(FfiOpaqueHandle handl
 FfiOpaqueHandle
 library_smoke_Constructors_create__String(int32_t _isolate_id, FfiOpaqueHandle input) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-    auto&& _cpp_call_result =         smoke::Constructors::create(
-            gluecodium::ffi::Conversion<std::string>::toCpp(input)
-        );
+    auto&& _cpp_call_result = smoke::Constructors::create(
+        gluecodium::ffi::Conversion<std::string>::toCpp(input)
+    );
     if (_cpp_call_result.has_value()) {
         return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) gluecodium::Return<std::shared_ptr<smoke::Constructors>, smoke::Constructors::ErrorEnum>(
             std::forward<std::shared_ptr<smoke::Constructors>>(_cpp_call_result.unsafe_value())

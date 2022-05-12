@@ -14,9 +14,9 @@ extern "C" {
 void
 library_smoke_ChildClassWithBool_rootMethod__Boolean(FfiOpaqueHandle _self, int32_t _isolate_id, bool input1) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::ChildClassWithBool>>::toCpp(_self)).root_method(
-            gluecodium::ffi::Conversion<bool>::toCpp(input1)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::ChildClassWithBool>>::toCpp(_self)).root_method(
+        gluecodium::ffi::Conversion<bool>::toCpp(input1)
+    );
 }
 // "Private" finalizer, not exposed to be callable from Dart.
 void
