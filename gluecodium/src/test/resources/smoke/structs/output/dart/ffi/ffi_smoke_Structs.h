@@ -10,8 +10,7 @@ _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Structs_swapPointCoordinate
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Structs_returnAllTypesStruct__AllTypesStruct(int32_t _isolate_id, FfiOpaqueHandle input);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Structs_createPoint__Double_Double(int32_t _isolate_id, double x, double y);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Structs_modifyAllTypesStruct__AllTypesStruct(int32_t _isolate_id, FfiOpaqueHandle input);
-_GLUECODIUM_FFI_EXPORT void library_smoke_Structs_register_finalizer(
-    FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle);
+_GLUECODIUM_FFI_EXPORT void library_smoke_Structs_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Structs_copy_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT void library_smoke_Structs_release_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Structs_Point_create_handle(double x, double y);

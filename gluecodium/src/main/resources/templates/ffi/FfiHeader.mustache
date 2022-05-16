@@ -38,8 +38,7 @@ extern "C" {
 {{/model}}
 
 {{#each classes lambdas}}
-_GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_register_finalizer(
-    FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle);
+_GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_copy_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_release_handle(FfiOpaqueHandle handle);
 {{#if attributes.equatable}}{{>ffiEqualityFunctionDeclaration}}{{/if}}{{!!
