@@ -43,7 +43,9 @@ _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_copy_hand
 _GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_release_handle(FfiOpaqueHandle handle);
 {{#if attributes.equatable}}{{>ffiEqualityFunctionDeclaration}}{{/if}}{{!!
 }}{{#if attributes.pointerEquatable}}{{>ffiEqualityFunctionDeclaration}}{{/if}}{{!!
-}}{{#instanceOf this "LimeLambda"}}{{#set type=this handleType="FfiOpaqueHandle"}}{{>ffi/FfiNullableDeclaration}}{{/set}}{{/instanceOf}}
+}}{{#instanceOf this "LimeLambda"}}{{#set type=this handleType="FfiOpaqueHandle"}}{{>ffi/FfiNullableDeclaration}}{{/set}}
+
+{{/instanceOf}}
 {{/each}}
 
 {{#each interfaces lambdas}}
