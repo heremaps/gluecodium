@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2020 HERE Europe B.V.
+  ! Copyright (C) 2016-2022 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -18,5 +18,11 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>cpp/CppDocComment}}{{>cpp/CppAttributes}}
-using {{resolveName}} = {{>cpp/CppLambdaType}};
+{{#functions}}{{#ifPredicate "hasCstringParameters"}}{{#set self=this useCstring=true}}{{#self}}
+{{prefixPartial "cpp/CppFunctionSignature" "    "}};
+{{/self}}{{/set}}{{/ifPredicate}}{{!!
+}}{{#if attributes.async}}{{#set self=this isAsyncHelper=true}}{{#self}}
+{{prefixPartial "cpp/CppFunctionSignature" "    "}};
+{{/self}}{{/set}}{{/if}}
+{{prefixPartial "cpp/CppFunctionSignature" "    "}};
+{{/functions}}

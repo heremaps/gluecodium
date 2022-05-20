@@ -60,9 +60,7 @@ public:
 
 {{/if}}
 {{#if functions}}
-{{#set isConst=true}}{{#functions}}
-{{prefixPartial "cpp/CppFunctionSignature" "    "}};
-{{/functions}}{{/set}}
+{{#set isConst=true}}{{>cpp/CppFunctions}}{{/set}}
 
 {{/if}}{{!!
 }}{{#if attributes.equatable}}

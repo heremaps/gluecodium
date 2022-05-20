@@ -21,6 +21,7 @@ package com.here.gluecodium.generator.cpp
 
 import com.here.gluecodium.generator.common.ImportsResolver
 import com.here.gluecodium.generator.common.Include
+import com.here.gluecodium.model.lime.LimeAttributeType.ASYNC
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeType.OPTIMIZED
 import com.here.gluecodium.model.lime.LimeAttributeValueType
@@ -68,7 +69,7 @@ internal class CppIncludeResolver(
             is LimeTypeRef -> resolveTypeRefIncludes(limeElement)
             is LimeBasicType -> resolveBasicTypeIncludes(limeElement)
             is LimeGenericType -> resolveGenericTypeIncludes(limeElement)
-            is LimeFunction -> resolveExceptionIncludes(limeElement)
+            is LimeFunction -> resolveFunctionIncludes(limeElement)
             is LimeLambda -> cppIncludesCache.resolveIncludes(limeElement) + CppLibraryIncludes.FUNCTIONAL
             is LimeNamedElement -> cppIncludesCache.resolveIncludes(limeElement) +
                 if (limeElement.attributes.have(CPP, LimeAttributeValueType.TO_STRING)) listOf(CppLibraryIncludes.STRING)
@@ -76,10 +77,16 @@ internal class CppIncludeResolver(
             else -> emptyList()
         }
 
+    private fun resolveFunctionIncludes(limeFunction: LimeFunction) =
+        resolveExceptionIncludes(limeFunction) +
+            if (limeFunction.attributes.have(ASYNC)) listOf(CppLibraryIncludes.FUNCTIONAL)
+            else emptyList()
+
     private fun resolveExceptionIncludes(limeFunction: LimeFunction): List<Include> {
         val payloadType = limeFunction.exception?.errorType?.type?.actualType ?: return emptyList()
         return when (payloadType) {
             is LimeEnumeration -> listOf(CppLibraryIncludes.SYSTEM_ERROR)
+            is LimeBasicType -> listOf(returnInclude)
             else -> cppIncludesCache.resolveIncludes(payloadType) + returnInclude
         } + when {
             limeFunction.returnType.isVoid -> emptyList()

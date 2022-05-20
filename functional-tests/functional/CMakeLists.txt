@@ -485,6 +485,12 @@ feature(NoCache android swift dart SOURCES
     input/lime/NoCache.lime
 )
 
+feature(Async cpp dart SOURCES
+    input/src/cpp/Async.cpp
+
+    input/lime/Async.lime
+)
+
 # OBJECT suits all test variants except swift for linux,
 # because build system can't mix Swift and C++ code in single target
 if (swift IN_LIST GLUECODIUM_GENERATORS_DEFAULT AND NOT CMAKE_GENERATOR STREQUAL "Xcode")
