@@ -26,4 +26,11 @@ class LimeEnumeration(
     attributes: LimeAttributes? = null,
     external: LimeExternalDescriptor? = null,
     val enumerators: List<LimeEnumerator> = emptyList()
-) : LimeType(path, visibility, comment, attributes, external)
+) : LimeType(path, visibility, comment, attributes, external) {
+
+    val aliasEnumerators
+        get() = enumerators.filter { it.isAlias }
+
+    val uniqueEnumerators
+        get() = enumerators.filter { !it.isAlias }
+}

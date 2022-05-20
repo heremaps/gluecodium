@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Added support for enumerator aliases.
+
 ## 11.2.0
 Release date: 2022-05-24
 ### Features:

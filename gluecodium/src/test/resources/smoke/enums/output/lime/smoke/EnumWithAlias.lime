@@ -1,0 +1,7 @@
+package smoke
+enum EnumWithAlias {
+    ONE = 2,
+    TWO,
+    THREE,
+    FIRST = EnumWithAlias.ONE
+}
