@@ -159,6 +159,7 @@ internal object AntlrLimeConverter {
 
     private fun convertAnnotationType(ctx: LimeParser.AnnotationContext) =
         when (val id = ctx.simpleId().text) {
+            "Async" -> LimeAttributeType.ASYNC
             "Cached" -> LimeAttributeType.CACHED
             "Cpp" -> LimeAttributeType.CPP
             "Dart" -> LimeAttributeType.DART

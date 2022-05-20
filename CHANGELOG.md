@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Added support for `@Async` attribute in Dart.
+
 ## 11.1.10
 Release date: 2022-05-11
 ### Bug fixes:
