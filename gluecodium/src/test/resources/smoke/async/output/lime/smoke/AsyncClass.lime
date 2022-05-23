@@ -1,0 +1,25 @@
+package smoke
+@Java(Skip)
+@Swift(Skip)
+class AsyncClass {
+    @Async
+    fun asyncVoid(
+        input: Boolean
+    )
+    @Async
+    fun asyncVoidThrows(
+        input: Boolean
+    ) throws ThrowMe
+    @Async
+    fun asyncInt(
+        input: Boolean
+    ): Int
+    @Async
+    fun asyncIntThrows(
+        input: Boolean
+    ): Int throws ThrowMe
+    @Async
+    static fun asyncStatic(
+        input: Boolean
+    )
+}

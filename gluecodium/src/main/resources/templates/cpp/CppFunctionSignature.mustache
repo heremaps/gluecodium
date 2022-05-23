@@ -20,8 +20,10 @@
   !}}
 {{>cpp/CppFunctionDoc}}{{>cpp/CppAttributes}}
 {{#if isStatic}}static {{/if}}{{#unless isStatic}}{{#if isVirtual}}virtual {{/if}}{{/unless}}{{!!
-}}{{>cpp/CppReturnType}} {{resolveName}}{{!!
-}}( {{#parameters}}{{>cpp/CppAttributesInline}}const {{>resolveTypeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}} ){{!!
+}}{{#if isAsyncHelper}}void{{/if}}{{#unless isAsyncHelper}}{{>cpp/CppReturnType}}{{/unless}} {{resolveName}}( {{!!
+}}{{#if isAsyncHelper}}{{>cpp/CppCompleterCallback}} _completer_callback{{!!
+}}{{#if parameters}}, {{/if}}{{/if}}{{!!
+}}{{#parameters}}{{>cpp/CppAttributesInline}}const {{>resolveTypeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}} ){{!!
 }}{{#unless isStatic}}{{#if isConst attributes.cpp.const logic="or"}} const{{/if}}{{!!
 }}{{#if isVirtual}} = 0{{/if}}{{/unless}}{{!!
 

@@ -42,11 +42,7 @@ public:
 {{/if}}
 {{#if functions properties logic="or"}}
 public:
-{{#set isVirtual=true}}{{#functions}}{{#ifPredicate "hasCstringParameters"}}{{#set self=this useCstring=true}}{{#self}}
-{{prefixPartial "cpp/CppFunctionSignature" "    "}};
-{{/self}}{{/set}}{{/ifPredicate}}
-{{prefixPartial "cpp/CppFunctionSignature" "    "}};
-{{/functions}}{{/set}}
+{{#set isVirtual=true}}{{>cpp/CppFunctions}}{{/set}}
 {{#properties}}
 {{prefixPartial "cpp/CppProperty" "    "}}
 {{/properties}}
