@@ -34,6 +34,7 @@ import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeModelLoader
 import com.here.gluecodium.model.lime.LimeModelLoaderException
+import com.here.gluecodium.validator.LimeAsyncValidator
 import com.here.gluecodium.validator.LimeEnumeratorRefsValidator
 import com.here.gluecodium.validator.LimeExternalTypesValidator
 import com.here.gluecodium.validator.LimeFieldConstructorsValidator
@@ -187,7 +188,8 @@ class Gluecodium(
             { LimeExternalTypesValidator(limeLogger).validate(it) },
             { LimePropertiesValidator(limeLogger).validate(it) },
             { LimeFunctionsValidator(limeLogger).validate(it) },
-            { LimeSkipValidator(limeLogger).validate(it) }
+            { LimeSkipValidator(limeLogger).validate(it) },
+            { LimeAsyncValidator(limeLogger).validate(it) }
         )
 
     companion object {

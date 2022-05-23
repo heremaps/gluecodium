@@ -526,7 +526,9 @@ Here's the list of currently supported attributes:
 deprecated, takes a string literal value as a deprecation message. Platform-specific inline tags are supported for
 deprecation messages (see `Platform-specific comments` below for syntax).
 * **@Cached**: marks a property to be cached on platform side (i.e. read from C++ only once on first
-access and cached in Java/Swift/Dart afterwards). Currently only supported for read-only properties.
+access and cached in Java/Swift/Dart afterwards). Currently, only supported for read-only properties.
+* **@Async**: *EXPERIMENTAL* marks a function to be generated with support for asynchronous invocation. Currently,
+only works in Dart. See [async.md](async.md) for details.
 * **@Optimized**: *EXPERIMENTAL* marks a type reference of `List<>` type to fetch list elements from C++ to platform
 side on demand instead of a creating a full platform-side copy. C++ list is generated as an
 `std::vector<std::shared_ptr<>>` in this case. This attribute can be applied only to:
