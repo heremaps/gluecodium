@@ -23,9 +23,8 @@
 {{joinPartial uniqueEnumerators "java/JavaEnumerator" ",
 "}}{{#if uniqueEnumerators}};{{/if}}{{#if aliasEnumerators}}
 
-{{#set enumeration=this}}{{#aliasEnumerators}}
-{{>java/JavaEnumerator}}
-{{/aliasEnumerators}}{{/set}}
+{{#set enumeration=this}}{{joinPartial aliasEnumerators "java/JavaEnumerator" "
+"}}{{/set}}
 {{/if}}
 
     {{resolveName visibility}}final int value;

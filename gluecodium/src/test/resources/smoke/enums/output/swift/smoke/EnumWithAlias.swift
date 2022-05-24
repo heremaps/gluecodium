@@ -6,6 +6,7 @@ public enum EnumWithAlias : UInt32, CaseIterable, Codable {
     case two
     case three
     public static let first = EnumWithAlias.one
+    public static let theBest = EnumWithAlias.first
 }
 internal func copyToCType(_ swiftEnum: EnumWithAlias) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)

@@ -8,6 +8,7 @@ class EnumWithAlias {
   static const two = EnumWithAlias._(1);
   static const three = EnumWithAlias._(2);
   static const first = EnumWithAlias.one;
+  static const theBest = EnumWithAlias.first;
 }
 // EnumWithAlias "private" section, not exported.
 int smokeEnumwithaliasToFfi(EnumWithAlias value) {

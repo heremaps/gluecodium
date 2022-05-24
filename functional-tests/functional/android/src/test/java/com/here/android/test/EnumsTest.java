@@ -89,6 +89,11 @@ public class EnumsTest {
   }
 
   @Test
+  public void compareDoubleAliasInJava() {
+    assertEquals(EnumWithAlias.ONE, EnumWithAlias.THE_BEST);
+  }
+
+  @Test
   public void compareAliasFromCpp() {
     EnumWithAlias value = UseEnumWithAlias.getFirst();
 

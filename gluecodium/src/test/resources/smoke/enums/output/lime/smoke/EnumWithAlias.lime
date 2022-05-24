@@ -3,5 +3,6 @@ enum EnumWithAlias {
     ONE = 2,
     TWO,
     THREE,
-    FIRST = EnumWithAlias.ONE
+    FIRST = EnumWithAlias.ONE,
+    THE_BEST = EnumWithAlias.FIRST
 }

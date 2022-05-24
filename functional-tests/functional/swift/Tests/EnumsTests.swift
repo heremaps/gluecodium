@@ -78,6 +78,10 @@ class EnumsTests: XCTestCase {
         XCTAssertEqual(EnumWithAlias.first, EnumWithAlias.one)
     }
 
+    func testDoubleAliasInSwift() {
+        XCTAssertEqual(EnumWithAlias.theBest, EnumWithAlias.one)
+    }
+
     func testAliasFromCpp() {
         let value = UseEnumWithAlias.getFirst()
 
@@ -108,6 +112,7 @@ class EnumsTests: XCTestCase {
         ("testCaseIterableWithDeprecated", testCaseIterableWithDeprecated),
         ("testCodableWithDeprecated", testCodableWithDeprecated),
         ("testAliasInSwift", testAliasInSwift),
+        ("testDoubleAliasInSwift", testDoubleAliasInSwift),
         ("testAliasFromCpp", testAliasFromCpp),
         ("testAliasToTargetCpp", testAliasToTargetCpp),
         ("testAliasToAlias", testAliasToAlias)
