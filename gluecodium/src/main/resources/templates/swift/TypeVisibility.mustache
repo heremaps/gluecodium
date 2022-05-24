@@ -18,4 +18,6 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if external.swift.converter}}internal{{/if}}{{#unless external.swift.converter}}{{resolveName visibility}}{{/unless}}
+{{#if external.swift.converter}}internal{{/if}}{{#unless external.swift.converter}}{{!!
+}}{{#if attributes.internal}}internal{{/if}}{{!!
+}}{{#unless attributes.internal}}{{resolveName visibility}}{{/unless}}{{/unless}}

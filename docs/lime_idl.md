@@ -550,6 +550,8 @@ only `const` and `field constructor` can be skipped in C++.
 * **@EnableIf(**\[**Tag** **=**\] **"**_CustomTag_**"**__)__ or **@EnableIf(**__CustomTag__**)**: marks an element to be
 enabled only if a custom tag with that name was defined through command-line parameters. If the tag is not present, the
 element is skipped (not generated). Custom tags are case-insensitive.
+* **Internal**: marks a type declaration to have "internal" visibility, where supported: "package-private" in Java,
+"internal" in Swift, and "not-exported" in Dart. This attribute has no effect in C++. 
 * **@Java**: marks an element with Java-specific behaviors:
   * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Java.
   This is the default specification for this attribute.

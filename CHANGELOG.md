@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Added preliminary support for `@Internal` attribute. It has the same effect as `internal` visibility currently does,
+  but only works on type declarations. The new attribute is intended for `internal` visibility phase-out.
+
 ## 11.3.0
 Release date: 2022-06-03
 ### Features:
