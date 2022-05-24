@@ -21,6 +21,7 @@
 import 'dart:io';
 import 'package:functional/src/_library_context.dart' as __lib;
 
+import "test/Async_test.dart" as AsyncTests;
 import "test/Blobs_test.dart" as BlobsTests;
 import "test/CallbacksMultithreaded_test.dart" as CallbacksMultithreadedTests;
 import "test/Classes_test.dart" as ClassesTests;
@@ -70,6 +71,7 @@ import "test/StructsWithConstants_test.dart" as StructsWithConstantsTests;
 import "test/StructsWithMethods_test.dart" as StructsWithMethodsTests;
 
 final _allTests = [
+  AsyncTests.main,
   BlobsTests.main,
   ClassesTests.main,
   ConstantsTests.main,

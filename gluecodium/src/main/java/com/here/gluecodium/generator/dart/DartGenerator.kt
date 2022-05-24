@@ -109,8 +109,9 @@ internal class DartGenerator : Generator {
         val dartFilteredModel = LimeModelFilter
             .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, DART, retainFunctionsAndFields = false) }
 
-        val dartNameResolver = DartNameResolver(ffiFilteredModel.referenceMap, nameRules, limeLogger, commentsProcessor)
-        val ffiNameResolver = FfiNameResolver(dartFilteredModel.referenceMap, nameRules, internalPrefix)
+        val ffiReferenceMap = ffiFilteredModel.referenceMap.toMutableMap()
+        val dartNameResolver = DartNameResolver(ffiReferenceMap, nameRules, limeLogger, commentsProcessor)
+        val ffiNameResolver = FfiNameResolver(ffiReferenceMap, nameRules, internalPrefix)
 
         val validationResult = DartOverloadsValidator(dartNameResolver, limeLogger, overloadsWerror)
             .validate(dartFilteredModel.referenceMap.values)
@@ -125,8 +126,7 @@ internal class DartGenerator : Generator {
             "FfiApiTypes" to FfiApiTypeNameResolver(),
             "FfiDartTypes" to FfiDartTypeNameResolver()
         )
-        val ffiCppNameResolver =
-            FfiCppNameResolver(ffiFilteredModel.referenceMap, cppNameRules, rootNamespace, internalNamespace)
+        val ffiCppNameResolver = FfiCppNameResolver(ffiReferenceMap, cppNameRules, rootNamespace, internalNamespace)
         val ffiResolvers = mapOf(
             "" to ffiNameResolver,
             "C++" to ffiCppNameResolver,
@@ -148,12 +148,12 @@ internal class DartGenerator : Generator {
 
         val generatorPredicates = DartGeneratorPredicates(dartFilteredModel.referenceMap, activeTags, dartNameResolver)
         val predicatesMap = generatorPredicates.predicates
-        val includeResolver = FfiCppIncludeResolver(ffiFilteredModel.referenceMap, cppNameRules, internalNamespace)
+        val includeResolver = FfiCppIncludeResolver(ffiReferenceMap, cppNameRules, internalNamespace)
         val includeCollector = GenericIncludesCollector(
             includeResolver,
             retainPredicate = {
                 generatorPredicates.shouldRetain(it) ||
-                    CommonGeneratorPredicates.needsImportsForSkippedField(it, DART, ffiFilteredModel.referenceMap)
+                    CommonGeneratorPredicates.needsImportsForSkippedField(it, DART, ffiReferenceMap)
             }
         )
 
@@ -166,15 +166,25 @@ internal class DartGenerator : Generator {
             .distinctBy { ffiNameResolver.resolveName(it) }
             .sortedBy { ffiNameResolver.resolveName(it) }
 
+        val asyncHelpers = dartFilteredModel.topElements
+            .flatMap { DartAsyncHelpers.createAsyncHelpers(it, dartNameResolver) }
+            .associateBy { it.pathKey }
+        ffiReferenceMap += asyncHelpers.values.map { it.lambdas }.flatten().associateBy { it.fullName }
+        ffiReferenceMap += asyncHelpers.values.map { it.helpers.values }.flatten().associateBy { it.fullName }
+
         val generatedFiles = dartFilteredModel.topElements.flatMap {
             listOfNotNull(
                 generateDart(
                     it, dartResolvers, dartNameResolver, listOf(importsCollector, declarationImportsCollector),
-                    exportsCollector, typeRepositoriesCollector, predicatesMap, descendantInterfaces
+                    exportsCollector, typeRepositoriesCollector, predicatesMap, descendantInterfaces,
+                    asyncHelpers[it.fullName]
                 )
             )
         } + ffiFilteredModel.topElements.flatMap {
-            generateFfi(it, ffiResolvers, includeResolver, includeCollector, ffiFilteredModel.referenceMap, activeTags)
+            generateFfi(
+                it, ffiResolvers, includeResolver, includeCollector, ffiReferenceMap, activeTags,
+                asyncHelpers[it.fullName]
+            )
         } +
             generateDartGenericTypesConversion(genericTypes, importResolver, dartResolvers, predicatesMap) +
             generateFfiGenericTypesConversion(genericTypes, ffiResolvers, includeResolver) +
@@ -196,7 +206,8 @@ internal class DartGenerator : Generator {
         exportsCollector: MutableMap<List<String>, MutableList<DartExport>>,
         typeRepositoriesCollector: MutableList<LimeContainerWithInheritance>,
         predicates: Map<String, (Any) -> Boolean>,
-        descendantInterfaces: Map<String, List<LimeInterface>>
+        descendantInterfaces: Map<String, List<LimeInterface>>,
+        asyncHelpers: DartAsyncHelpers.AsyncHelpersGroup?
     ): GeneratedFile? {
         val contentTemplateName = selectTemplate(rootElement) ?: return null
 
@@ -231,7 +242,8 @@ internal class DartGenerator : Generator {
                 "contentTemplate" to contentTemplateName,
                 "libraryName" to libraryName,
                 "optimizedLists" to optimizedLists,
-                "descendantInterfaces" to descendantInterfaces
+                "descendantInterfaces" to descendantInterfaces,
+                "asyncHelpers" to asyncHelpers
             ),
             nameResolvers,
             predicates
@@ -250,7 +262,8 @@ internal class DartGenerator : Generator {
         includeResolver: ImportsResolver<Include>,
         includeCollector: ImportsCollector<Include>,
         limeReferenceMap: Map<String, LimeElement>,
-        activeTags: Set<String>
+        activeTags: Set<String>,
+        asyncHelpers: DartAsyncHelpers.AsyncHelpersGroup?
     ): List<GeneratedFile> {
         val limeType = rootElement as? LimeType
         if (limeType == null || limeType is LimeException) return emptyList()
@@ -275,7 +288,8 @@ internal class DartGenerator : Generator {
             "structs" to structs,
             "internalNamespace" to internalNamespace,
             "headerName" to fileName,
-            "includes" to includeCollector.collectImports(limeType).distinct().sorted()
+            "includes" to includeCollector.collectImports(limeType).distinct().sorted(),
+            "asyncHelpers" to asyncHelpers
         )
         val predicates = DartGeneratorPredicates(limeReferenceMap, activeTags).predicates
         val headerContent = TemplateEngine.render("ffi/FfiHeader", data, nameResolvers, predicates)
