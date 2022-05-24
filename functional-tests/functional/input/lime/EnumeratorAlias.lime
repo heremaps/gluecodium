@@ -21,7 +21,8 @@ enum EnumWithAlias {
     ONE = 2,
     TWO,
     THREE,
-    FIRST = ONE
+    FIRST = ONE,
+    THE_BEST = FIRST
 }
 
 enum EnumWithAliasWithDeprecated {
