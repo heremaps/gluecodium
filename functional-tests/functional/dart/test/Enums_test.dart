@@ -71,4 +71,26 @@ void main() {
 
     expect(result, EnumStartsWithOne.first);
   });
+  _testSuite.test("Compare alias in Dart", () {
+    expect(EnumWithAlias.first, EnumWithAlias.one);
+  });
+  _testSuite.test("Compare alias from C++", () {
+    final value = UseEnumWithAlias.getFirst();
+
+    expect(value, EnumWithAlias.one);
+  });
+  _testSuite.test("Compare alias to target in C++", () {
+    final value = EnumWithAlias.first;
+
+    final result = UseEnumWithAlias.compareToOne(value);
+
+    expect(result, isTrue);
+  });
+  _testSuite.test("Compare alias to alias in C++", () {
+    final value = EnumWithAlias.first;
+
+    final result = UseEnumWithAlias.compareToFirst(value);
+
+    expect(result, isTrue);
+  });
 }

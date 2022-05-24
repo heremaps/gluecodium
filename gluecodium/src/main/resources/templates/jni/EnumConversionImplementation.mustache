@@ -77,11 +77,11 @@ convert_to_jni(JNIEnv* _jenv, const {{resolveName "C++ FQN"}} _ninput)
     auto& javaClass = CachedJavaClass<{{resolveName "C++ FQN"}}>::java_class;
     const char* enumeratorName = nullptr;
     switch(_ninput) {
-{{#enumerators}}
+{{#enumerators}}{{#unless isAlias}}
         case({{resolveName enum "C++ FQN"}}::{{resolveName "C++"}}):
             enumeratorName = "{{resolveName}}";
             break;
-{{/enumerators}}
+{{/unless}}{{/enumerators}}
     }
     jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName, "L{{resolveName this "" "ref"}};");
 {{#unless external.java.converter}}

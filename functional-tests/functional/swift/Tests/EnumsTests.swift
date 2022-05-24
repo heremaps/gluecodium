@@ -74,12 +74,42 @@ class EnumsTests: XCTestCase {
         XCTAssertEqual(result, value)
     }
 
+    func testAliasInSwift() {
+        XCTAssertEqual(EnumWithAlias.first, EnumWithAlias.one)
+    }
+
+    func testAliasFromCpp() {
+        let value = UseEnumWithAlias.getFirst()
+
+        XCTAssertEqual(value, EnumWithAlias.one)
+    }
+
+    func testAliasToTargetCpp() {
+        let value = EnumWithAlias.first
+
+        let result = UseEnumWithAlias.compareToOne(input: value)
+
+        XCTAssertTrue(result)
+    }
+
+    func testAliasToAlias() {
+        let value = EnumWithAlias.first
+
+        let result = UseEnumWithAlias.compareToFirst(input: value)
+
+        XCTAssertTrue(result)
+    }
+
     static var allTests = [
         ("testFlipEnumValue", testFlipEnumValue),
         ("testExtractEnumFromStruct", testExtractEnumFromStruct),
         ("testCreateStructWithEnumInside", testCreateStructWithEnumInside),
         ("testCaseIterable", testCaseIterable),
         ("testCaseIterableWithDeprecated", testCaseIterableWithDeprecated),
-        ("testCodableWithDeprecated", testCodableWithDeprecated)
+        ("testCodableWithDeprecated", testCodableWithDeprecated),
+        ("testAliasInSwift", testAliasInSwift),
+        ("testAliasFromCpp", testAliasFromCpp),
+        ("testAliasToTargetCpp", testAliasToTargetCpp),
+        ("testAliasToAlias", testAliasToAlias)
     ]
 }

@@ -168,6 +168,7 @@ feature(Enums cpp android swift dart SOURCES
     input/src/cpp/EnumsTypeCollection.cpp
 
     input/lime/Enums.lime
+    input/lime/EnumeratorAlias.lime
     input/lime/EnumsTypeCollection.lime
 )
 

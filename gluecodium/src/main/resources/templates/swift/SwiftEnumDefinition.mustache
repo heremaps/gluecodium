@@ -20,8 +20,11 @@
   !}}
 {{#unlessPredicate "skipDeclaration"}}{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}
 {{>swift/TypeVisibility}} enum {{resolveName}}{{#if external.swift.converter}}_internal{{/if}} : UInt32, CaseIterable, Codable {
-{{#enumerators}}{{prefixPartial "enumerator" "    "}}
-{{/enumerators}}{{!!
+{{#uniqueEnumerators}}{{prefixPartial "enumerator" "    "}}
+{{/uniqueEnumerators}}{{#if aliasEnumerators}}
+
+{{#aliasEnumerators}}{{prefixPartial "enumerator" "    "}}
+{{/aliasEnumerators}}{{/if}}{{!!
 }}{{#ifPredicate "hasDeprecatedEnumerators"}}
     {{resolveName visibility}} static var allCases: [{{resolveName}}] {
         return [{{#enumerators}}.{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/enumerators}}]
@@ -39,10 +42,10 @@
         let container = try decoder.container(keyedBy: Key.self)
         let rawValue = try container.decode(Int.self, forKey: .rawValue)
         switch rawValue {
-{{#enumerators}}
+{{#uniqueEnumerators}}
         case {{iter.position}}:
             self = .{{resolveName}} 
-{{/enumerators}}
+{{/uniqueEnumerators}}
         default:
             throw CodingError.unknownValue
         }
@@ -51,14 +54,15 @@
     {{resolveName visibility}} func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: Key.self)
         switch self {
-{{#enumerators}}
+{{#uniqueEnumerators}}
         case .{{resolveName}}:
             try container.encode({{iter.position}}, forKey: .rawValue)
-{{/enumerators}}
+{{/uniqueEnumerators}}
         }
     }
 {{/ifPredicate}}
 }
 {{/unlessPredicate}}{{!!
 }}{{+enumerator}}{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}
-case {{resolveName}}{{#if explicitValue}} = {{resolveName explicitValue}}{{/if}}{{/enumerator}}
+{{#if isAlias}}{{resolveName visibility}} static let {{resolveName}} = {{resolveName explicitValue}}{{/if}}{{!!
+}}{{#unless isAlias}}case {{resolveName}}{{#if explicitValue}} = {{resolveName explicitValue}}{{/if}}{{/unless}}{{/enumerator}}

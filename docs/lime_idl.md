@@ -284,8 +284,9 @@ struct Options {
 * Can be a free-standing element at file level or can be placed in: class, interface, types, struct.
 * Description: declares an enumeration type in the parent type:
   * an enumeration can have any number of enumerators, but at least one enumerator is required.
-  * an enumerator can have a default value associated with it (optionally). Only integer values are
-  currently supported. For more details on values and literals see `Values and Literals` below.
+  * an enumerator can have a value associated with it (optionally). The value can be either an integer or another
+  enumerator from the same enumeration (also known as "enumerator alias"). For more details on values and literals see
+  `Values and Literals` below.
 
 #### Exception
 

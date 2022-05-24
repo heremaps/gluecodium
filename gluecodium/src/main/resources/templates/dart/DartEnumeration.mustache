@@ -20,11 +20,23 @@
   !}}
 {{#unlessPredicate "skipDeclaration"}}
 {{>dart/DartDocumentation}}{{>dart/DartAttributes}}
-enum {{resolveName}}{{#if external.dart.converter}}Internal{{/if}} {
+{{#if aliasEnumerators}}
+class {{>enumName}} {
+  final int index;
+  const {{>enumName}}._(this.index);
+
+{{#set enumeration=this}}{{#enumerators}}
+{{prefixPartial "enhancedEnumerator" "  "}}
+{{/enumerators}}{{/set}}
+}
+{{/if}}{{!!
+}}{{#unless aliasEnumerators}}
+enum {{>enumName}} {
 {{#enumerators}}
 {{prefixPartial "dart/DartEnumerator" "    "}}
 {{/enumerators}}
 }
+{{/unless}}
 {{/unlessPredicate}}
 
 // {{resolveName}} "private" section, not exported.
@@ -34,10 +46,10 @@ int {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#if external
   final value = {{external.dart.converter}}.convertToInternal(valueExternal);
 {{/if}}
   switch (value) {
-{{#set parent=this}}{{#enumerators}}
+{{#set parent=this}}{{#uniqueEnumerators}}
   case {{resolveName parent "" "ref"}}{{#if external.dart.converter}}Internal{{/if}}.{{resolveName}}:
     return {{value}};
-{{/enumerators}}{{/set}}
+{{/uniqueEnumerators}}{{/set}}
   default:
     throw StateError("Invalid enum value $value for {{resolveName}} enum.");
   }
@@ -45,14 +57,14 @@ int {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#if external
 
 {{resolveName this "" "ref"}} {{resolveName "Ffi"}}FromFfi(int handle) {
   switch (handle) {
-{{#set parent=this}}{{#enumerators}}
+{{#set parent=this}}{{#uniqueEnumerators}}
   case {{value}}:
 {{#if external.dart.converter}}
     return {{external.dart.converter}}.convertFromInternal({{resolveName parent}}Internal.{{resolveName}});
 {{/if}}{{#unless external.dart.converter}}
     return {{resolveName parent "" "ref"}}.{{resolveName}};
 {{/unless}}
-{{/enumerators}}{{/set}}
+{{/uniqueEnumerators}}{{/set}}
   default:
     throw StateError("Invalid numeric value $handle for {{resolveName}} enum.");
   }
@@ -62,4 +74,11 @@ void {{resolveName "Ffi"}}ReleaseFfiHandle(int handle) {}
 
 {{>dart/DartNullableTypeConversion}}
 
-// End of {{resolveName}} "private" section.
+// End of {{resolveName}} "private" section.{{!!
+
+}}{{+enumName}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{/enumName}}{{!!
+
+}}{{+enhancedEnumerator}}{{!!
+}}{{>dart/DartDocumentation}}{{>dart/DartAttributes}}
+static const {{resolveName}} = {{#if isAlias}}{{resolveName explicitValue}}{{/if}}{{!!
+}}{{#unless isAlias}}{{#enumeration}}{{>enumName}}{{/enumeration}}._({{iter.position}}){{/unless}};{{/enhancedEnumerator}}

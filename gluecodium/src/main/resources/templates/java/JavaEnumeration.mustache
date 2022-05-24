@@ -20,8 +20,13 @@
   !}}
 {{>java/JavaDocComment}}{{>java/JavaAttributes}}
 {{resolveName visibility}}enum {{resolveName}} {
-{{joinPartial enumerators "java/JavaEnumerator" ",
-"}}{{#if enumerators}};{{/if}}
+{{joinPartial uniqueEnumerators "java/JavaEnumerator" ",
+"}}{{#if uniqueEnumerators}};{{/if}}{{#if aliasEnumerators}}
+
+{{#set enumeration=this}}{{#aliasEnumerators}}
+{{>java/JavaEnumerator}}
+{{/aliasEnumerators}}{{/set}}
+{{/if}}
 
     {{resolveName visibility}}final int value;
 

@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/Enums.h"
+#include "test/UseEnumWithAlias.h"
 
 namespace
 {
@@ -59,4 +60,20 @@ Enums::flip_enum_starts_with_one(const test::EnumStartsWithOne input)
         ? test::EnumStartsWithOne::SECOND
         : test::EnumStartsWithOne::FIRST;
 }
-}  // namespace test
+
+// UseEnumWithAlias
+
+bool
+UseEnumWithAlias::compare_to_one(const test::EnumWithAlias input) {
+    return input == test::EnumWithAlias::ONE;
+}
+
+bool
+UseEnumWithAlias::compare_to_first(const test::EnumWithAlias input) {
+    return input == test::EnumWithAlias::FIRST;
+}
+
+test::EnumWithAlias
+UseEnumWithAlias::get_first() { return test::EnumWithAlias::FIRST; }
+
+}

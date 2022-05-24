@@ -21,4 +21,6 @@
 {{#if comment}}
 {{prefixPartial "java/JavaDocComment" "    "}}{{/if}}{{!!
 }}{{prefixPartial "java/JavaAttributes" "    "}}{{!!
-}}    {{resolveName}}({{resolveName value}})
+}}{{#if isAlias}}    {{resolveName visibility}}final static {{resolveName enumeration}} {{resolveName}}{{!!
+}} = {{resolveName value}};{{/if}}{{!!
+}}{{#unless isAlias}}    {{resolveName}}({{resolveName value}}){{/unless}}
