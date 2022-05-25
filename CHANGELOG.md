@@ -3,6 +3,7 @@
 ## Unreleased
 ### Bug fixes:
   * Fixes compilation issue for the combination of `@Async` and `@Cpp(Name)` attributes.
+  * Fixed compilation issue for "external" enums in C++.
 
 ## 11.2.1
 Release date: 2022-05-24

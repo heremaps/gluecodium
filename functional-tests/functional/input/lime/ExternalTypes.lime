@@ -127,3 +127,9 @@ class VeryExternalInterface {
         set
     }
 }
+
+enum StandaloneExternalEnum {
+    external { cpp include "include/ExternalTypes.h" }
+
+    foo
+}
