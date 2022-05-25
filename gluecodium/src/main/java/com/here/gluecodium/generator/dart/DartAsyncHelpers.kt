@@ -20,6 +20,7 @@
 package com.here.gluecodium.generator.dart
 
 import com.here.gluecodium.model.lime.LimeAttributeType.ASYNC
+import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeType.DART
 import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
 import com.here.gluecodium.model.lime.LimeAttributes
@@ -33,7 +34,6 @@ import com.here.gluecodium.model.lime.LimeLambdaParameter
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimeTypeHelper
-import com.here.gluecodium.model.lime.LimeVisibility
 
 internal object DartAsyncHelpers {
     class AsyncHelpersGroup(
@@ -82,7 +82,6 @@ internal object DartAsyncHelpers {
 
         return LimeLambda(
             limeFunction.path.parent.child(limeFunction.name + COMPLETER_LAMBDA, limeFunction.path.disambiguator),
-            LimeVisibility.INTERNAL,
             attributes = LimeAttributes.Builder().addAttribute(DART, NAME, functionName + COMPLETER_LAMBDA).build(),
             parameters = parameters
         )
@@ -95,9 +94,11 @@ internal object DartAsyncHelpers {
             typeRef = LimeDirectTypeRef(asyncLambda),
             attributes = LimeAttributes.Builder().addAttribute(DART, NAME, "_completerLambda").build(),
         )
+        val attributes = LimeAttributes.Builder().addAttribute(DART, NAME, "_$functionName$ASYNC_FUNCTION")
+        limeFunction.attributes.get(CPP, NAME)?.let { attributes.addAttribute(CPP, NAME, it) }
         return LimeFunction(
             path,
-            attributes = LimeAttributes.Builder().addAttribute(DART, NAME, "_$functionName$ASYNC_FUNCTION").build(),
+            attributes = attributes.build(),
             parameters = listOf(lambdaParameter) + limeFunction.parameters,
             isStatic = limeFunction.isStatic
         )

@@ -49,3 +49,10 @@ struct AsyncStruct {
     @Async
     static fun asyncStatic(input: Boolean)
 }
+
+@Skip(Java, Swift)
+class AsyncRenamed {
+    @Async
+    @Cpp("callDispose")
+    fun dispose()
+}

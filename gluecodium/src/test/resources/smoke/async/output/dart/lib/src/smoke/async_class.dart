@@ -173,8 +173,6 @@ AsyncClass? smokeAsyncclassFromFfiNullable(Pointer<Void> handle) =>
 void smokeAsyncclassReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeAsyncclassReleaseHandle(handle);
 // End of AsyncClass "private" section.
-/// @nodoc
-@internal
 typedef AsyncClass_asyncVoid__completerLambda = void Function();
 // AsyncClass_asyncVoid__completerLambda "private" section, not exported.
 final _smokeAsyncclassAsyncvoidcompleterlambdaReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -188,7 +186,7 @@ final _smokeAsyncclassAsyncvoidcompleterlambdaCreateProxy = __lib.catchArgumentE
 class AsyncClass_asyncVoid__completerLambda$Impl {
   final Pointer<Void> handle;
   AsyncClass_asyncVoid__completerLambda$Impl(this.handle);
-  void internal_asyncVoid__completerLambda() {
+  void asyncVoid__completerLambda() {
     final _asyncVoid__completerLambdaFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_AsyncClass_AsyncvoidCompleterlambda_call'));
     final _handle = this.handle;
     _asyncVoid__completerLambdaFfi(_handle, __lib.LibraryContext.isolateId);
@@ -211,8 +209,6 @@ Pointer<Void> smokeAsyncclassAsyncvoidcompleterlambdaToFfi(AsyncClass_asyncVoid_
 void smokeAsyncclassAsyncvoidcompleterlambdaReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeAsyncclassAsyncvoidcompleterlambdaReleaseHandle(handle);
 // End of AsyncClass_asyncVoid__completerLambda "private" section.
-/// @nodoc
-@internal
 typedef AsyncClass_asyncVoidThrows__completerLambda = void Function(bool, String);
 // AsyncClass_asyncVoidThrows__completerLambda "private" section, not exported.
 final _smokeAsyncclassAsyncvoidthrowscompleterlambdaReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -226,7 +222,7 @@ final _smokeAsyncclassAsyncvoidthrowscompleterlambdaCreateProxy = __lib.catchArg
 class AsyncClass_asyncVoidThrows__completerLambda$Impl {
   final Pointer<Void> handle;
   AsyncClass_asyncVoidThrows__completerLambda$Impl(this.handle);
-  void internal_asyncVoidThrows__completerLambda(bool p0, String p1) {
+  void asyncVoidThrows__completerLambda(bool p0, String p1) {
     final _asyncVoidThrows__completerLambdaFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8, Pointer<Void>), void Function(Pointer<Void>, int, int, Pointer<Void>)>('library_smoke_AsyncClass_AsyncvoidthrowsCompleterlambda_call__Boolean_String'));
     final _p0Handle = booleanToFfi(p0);
     final _p1Handle = stringToFfi(p1);
@@ -255,8 +251,6 @@ Pointer<Void> smokeAsyncclassAsyncvoidthrowscompleterlambdaToFfi(AsyncClass_asyn
 void smokeAsyncclassAsyncvoidthrowscompleterlambdaReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeAsyncclassAsyncvoidthrowscompleterlambdaReleaseHandle(handle);
 // End of AsyncClass_asyncVoidThrows__completerLambda "private" section.
-/// @nodoc
-@internal
 typedef AsyncClass_asyncInt__completerLambda = void Function(int);
 // AsyncClass_asyncInt__completerLambda "private" section, not exported.
 final _smokeAsyncclassAsyncintcompleterlambdaReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -270,7 +264,7 @@ final _smokeAsyncclassAsyncintcompleterlambdaCreateProxy = __lib.catchArgumentEr
 class AsyncClass_asyncInt__completerLambda$Impl {
   final Pointer<Void> handle;
   AsyncClass_asyncInt__completerLambda$Impl(this.handle);
-  void internal_asyncInt__completerLambda(int p0) {
+  void asyncInt__completerLambda(int p0) {
     final _asyncInt__completerLambdaFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Int32), void Function(Pointer<Void>, int, int)>('library_smoke_AsyncClass_AsyncintCompleterlambda_call__Int'));
     final _p0Handle = (p0);
     final _handle = this.handle;
@@ -294,8 +288,6 @@ Pointer<Void> smokeAsyncclassAsyncintcompleterlambdaToFfi(AsyncClass_asyncInt__c
 void smokeAsyncclassAsyncintcompleterlambdaReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeAsyncclassAsyncintcompleterlambdaReleaseHandle(handle);
 // End of AsyncClass_asyncInt__completerLambda "private" section.
-/// @nodoc
-@internal
 typedef AsyncClass_asyncIntThrows__completerLambda = void Function(bool, int, String);
 // AsyncClass_asyncIntThrows__completerLambda "private" section, not exported.
 final _smokeAsyncclassAsyncintthrowscompleterlambdaReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -309,7 +301,7 @@ final _smokeAsyncclassAsyncintthrowscompleterlambdaCreateProxy = __lib.catchArgu
 class AsyncClass_asyncIntThrows__completerLambda$Impl {
   final Pointer<Void> handle;
   AsyncClass_asyncIntThrows__completerLambda$Impl(this.handle);
-  void internal_asyncIntThrows__completerLambda(bool p0, int p1, String p2) {
+  void asyncIntThrows__completerLambda(bool p0, int p1, String p2) {
     final _asyncIntThrows__completerLambdaFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8, Int32, Pointer<Void>), void Function(Pointer<Void>, int, int, int, Pointer<Void>)>('library_smoke_AsyncClass_AsyncintthrowsCompleterlambda_call__Boolean_Int_String'));
     final _p0Handle = booleanToFfi(p0);
     final _p1Handle = (p1);
@@ -339,8 +331,6 @@ Pointer<Void> smokeAsyncclassAsyncintthrowscompleterlambdaToFfi(AsyncClass_async
 void smokeAsyncclassAsyncintthrowscompleterlambdaReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeAsyncclassAsyncintthrowscompleterlambdaReleaseHandle(handle);
 // End of AsyncClass_asyncIntThrows__completerLambda "private" section.
-/// @nodoc
-@internal
 typedef AsyncClass_asyncStatic__completerLambda = void Function();
 // AsyncClass_asyncStatic__completerLambda "private" section, not exported.
 final _smokeAsyncclassAsyncstaticcompleterlambdaReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -354,7 +344,7 @@ final _smokeAsyncclassAsyncstaticcompleterlambdaCreateProxy = __lib.catchArgumen
 class AsyncClass_asyncStatic__completerLambda$Impl {
   final Pointer<Void> handle;
   AsyncClass_asyncStatic__completerLambda$Impl(this.handle);
-  void internal_asyncStatic__completerLambda() {
+  void asyncStatic__completerLambda() {
     final _asyncStatic__completerLambdaFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_AsyncClass_AsyncstaticCompleterlambda_call'));
     final _handle = this.handle;
     _asyncStatic__completerLambdaFfi(_handle, __lib.LibraryContext.isolateId);
