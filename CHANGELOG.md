@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixes compilation issue for the combination of `@Async` and `@Cpp(Name)` attributes.
+
 ## 11.2.1
 Release date: 2022-05-24
 ### Features:
