@@ -145,7 +145,11 @@ public:
 
     virtual void some_Method( uint8_t ) = 0;
 };
-}  // namespace test
+
+enum StandaloneExternalEnum {
+    foo
+};
+}
 
 namespace std
 {
@@ -153,4 +157,4 @@ template <>
 struct is_error_code_enum< external::even_more_external::AlienErrorCode > : public std::true_type
 {
 };
-}  // namespace std
+}

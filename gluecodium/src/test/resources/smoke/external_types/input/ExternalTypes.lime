@@ -144,3 +144,9 @@ interface ExternalWithNoFunctions {
         cpp name "::some::path::Bar"
     }
 }
+
+enum StandaloneExternalEnum {
+    external { cpp include "foo/Bar.h" }
+
+    foo
+}

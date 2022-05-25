@@ -40,6 +40,7 @@ import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeExternalDescriptor
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
@@ -158,8 +159,7 @@ internal class CppGenerator : Generator {
             else -> listOf(rootElement)
         }
         val hasConstants = limeElements.any { it is LimeConstant }
-        val needsHeader = hasConstants ||
-            limeElements.any { it !is LimeException && it.external?.cpp == null }
+        val needsHeader = hasConstants || limeElements.any { it !is LimeException && it.external?.cpp == null }
         val needsImplementation = hasConstants || errorEnums.isNotEmpty() ||
             limeElements.any { it is LimeContainer } || limeElements.any { it is LimeEnumeration }
         if (!needsHeader && !needsImplementation) {
@@ -189,7 +189,7 @@ internal class CppGenerator : Generator {
         if (needsImplementation) {
             val implIncludesCollector = CppImplIncludesCollector(includeResolver, allErrorEnums)
             val implementationIncludes = implIncludesCollector.collectImports(rootElement) +
-                if (needsHeader) listOf(Include.createInternalInclude("$fileName.h")) else emptyList()
+                createSelfInclude(rootElement, needsHeader, fileName)
             result += generateImplementation(rootElement, nameResolvers, implementationIncludes, templateData, fileName)
         }
 
@@ -271,6 +271,16 @@ internal class CppGenerator : Generator {
             is LimeTypeAlias -> "cpp/CppTypeAlias"
             else -> throw GluecodiumExecutionException("Unsupported top-level element: " + limeElement::class.java.name)
         }
+
+    private fun createSelfInclude(
+        rootElement: LimeNamedElement,
+        needsHeader: Boolean,
+        fileName: String
+    ): List<Include> {
+        if (needsHeader) return listOf(Include.createInternalInclude("$fileName.h"))
+        val externalInclude = rootElement.external?.cpp?.get(LimeExternalDescriptor.INCLUDE_NAME) ?: return emptyList()
+        return externalInclude.split(',').map { Include.createInternalInclude(it.trim()) }
+    }
 
     companion object {
         private const val GENERATOR_NAME = "cpp"
