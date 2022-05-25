@@ -1,8 +1,9 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 11.2.2
+Release date: 2022-05-25
 ### Bug fixes:
-  * Fixes compilation issue for the combination of `@Async` and `@Cpp(Name)` attributes.
+  * Fixed compilation issue for the combination of `@Async` and `@Cpp(Name)` attributes.
   * Fixed compilation issue for "external" enums in C++.
 
 ## 11.2.1
