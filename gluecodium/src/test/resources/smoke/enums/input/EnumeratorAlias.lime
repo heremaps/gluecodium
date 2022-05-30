@@ -32,3 +32,5 @@ enum EnumWithAliasWithDeprecated {
     THREE,
     FIRST = ONE
 }
+
+exception Alias(EnumWithAlias)

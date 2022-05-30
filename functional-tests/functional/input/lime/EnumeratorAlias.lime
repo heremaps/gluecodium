@@ -33,6 +33,8 @@ enum EnumWithAliasWithDeprecated {
     FIRST = ONE
 }
 
+exception Alias(EnumWithAlias)
+
 class UseEnumWithAlias {
     static fun compareToOne(input: EnumWithAlias): Boolean
     static fun compareToFirst(input: EnumWithAlias): Boolean
