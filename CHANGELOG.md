@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 11.2.3
+Release date: 2022-05-30
 ### Bug fixes:
   * Fixed compilation issue in C++ when throwing an exception with an enum which has an enumerator alias.
 
