@@ -19,12 +19,15 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/AsyncClass.h"
+#include "test/AsyncStruct.h"
 #include <memory>
 #include <string>
 
 namespace test
 {
 using namespace lorem_ipsum::test;
+
+// AsyncClass
 
 class AsyncClassImpl: public AsyncClass {
 public:
@@ -93,7 +96,7 @@ AsyncClassImpl::async_int_throws(
 Return<int32_t, std::string>
 AsyncClassImpl::async_int_throws(const bool) { return Return<int32_t, std::string>(0); }
 
-// Static functions
+// AsyncClass static functions
 
 std::shared_ptr<AsyncClass>
 AsyncClass::create() { return std::make_shared<AsyncClassImpl>(); }
@@ -105,5 +108,63 @@ AsyncClass::async_static(std::function<void()> completer_callback, const bool) {
 
 void
 AsyncClass::async_static(const bool) {}
+
+// AsyncStruct
+
+void
+AsyncStruct::async_void(std::function<void()> completer_callback, const bool) const {
+    completer_callback();
+}
+
+void
+AsyncStruct::async_void(const bool) const {}
+
+void
+AsyncStruct::async_void_throws(
+    std::function<void(bool, std::string)> completer_callback,
+    const bool should_throw
+) const {
+    if (should_throw) {
+        completer_callback(false, "boom");
+    } else {
+        completer_callback(true, "");
+    }
+}
+
+Return<void, std::string>
+AsyncStruct::async_void_throws(const bool) const { return Return<void, std::string>(false); }
+
+void
+AsyncStruct::async_int(std::function<void(int32_t)> completer_callback, const bool) const {
+    completer_callback(42);
+}
+
+int32_t
+AsyncStruct::async_int(const bool) const { return 0; }
+
+void
+AsyncStruct::async_int_throws(
+    std::function<void(bool, int32_t, std::string)> completer_callback,
+    const bool should_throw
+) const {
+    if (should_throw) {
+        completer_callback(false, 0, "boom");
+    } else {
+        completer_callback(true, 42, "");
+    }
+}
+
+Return<int32_t, std::string>
+AsyncStruct::async_int_throws(const bool) const { return Return<int32_t, std::string>(0); }
+
+// AsyncStruct static functions
+
+void
+AsyncStruct::async_static(std::function<void()> completer_callback, const bool) {
+    completer_callback();
+}
+
+void
+AsyncStruct::async_static(const bool) {}
 
 }
