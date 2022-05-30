@@ -48,10 +48,10 @@ make_error_code( {{resolveName "FQN"}} value ) noexcept
         {
             switch( {{resolveName "FQN"}}( condition ) )
             {
-            {{#enumerators}}
+            {{#uniqueEnumerators}}
             case( {{resolveName "FQN"}} ):
                 return "{{resolveName "FQN"}}";
-            {{/enumerators}}
+            {{/uniqueEnumerators}}
             }
             return "Unknown enum value";
         }

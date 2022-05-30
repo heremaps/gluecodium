@@ -28,9 +28,11 @@ class LimeEnumeration(
     val enumerators: List<LimeEnumerator> = emptyList()
 ) : LimeType(path, visibility, comment, attributes, external) {
 
+    @Suppress("unused")
     val aliasEnumerators
         get() = enumerators.filter { it.isAlias }
 
+    @Suppress("unused")
     val uniqueEnumerators
         get() = enumerators.filter { !it.isAlias }
 }
