@@ -31,7 +31,6 @@ def getCMakeCommonParameters() {
 android {
     ndkVersion rootProject.ndkVersion
     compileSdkVersion rootProject.compileSdkVersion
-    buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
@@ -105,11 +104,6 @@ task generateJavadoc(type: Javadoc) {
     classpath += files(android.getBootClasspath().join(File.pathSeparator))
     exclude '**/jni/**', '**.xml'
     options.encoding='UTF-8'
-    
-    options.doclet = 'ExcludeDoclet'
-    List<File> docletList = new ArrayList<File>()
-    docletList.add( file("${project.projectDir}/android/ExcludeDoclet/ExcludeDoclet.jar") )
-    options.docletpath = docletList
 
     doFirst {
         generateJavadoc.classpath += files(android.libraryVariants.collect { variant ->

@@ -26,7 +26,7 @@ jobs:
       - name: Install JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 8
+          java-version: 11
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
@@ -65,7 +65,7 @@ jobs:
       - name: Install JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 8
+          java-version: 11
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
@@ -85,21 +85,21 @@ jobs:
         run: |
           ANDROID_API_LEVEL=android-28
           ANDROID_BUILD_TOOLS_VERSION=28.0.3
-          ANDROID_CMAKE_VERSION=3.10.2.4988404
           ANDROID_HOME=${HOME}/android-sdk-linux
-          PATH=${PATH}:${ANDROID_HOME}/tools/bin
-          wget -q "https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip" -O android-sdk-tools.zip
-          unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}
+          PATH=${PATH}:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/cmdline-tools/latest/bin
+          mkdir -p "${ANDROID_HOME}/cmdline-tools"
+          wget -q "https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip" -O android-sdk-tools.zip
+          unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}/cmdline-tools
+          mv "${ANDROID_HOME}/cmdline-tools/cmdline-tools" "${ANDROID_HOME}/cmdline-tools/latest"
           mkdir -p ~/.android
           touch ~/.android/repositories.cfg
           yes | sdkmanager --licenses
           yes | sdkmanager "platforms;${ANDROID_API_LEVEL}" > /dev/null
           yes | sdkmanager "build-tools;${ANDROID_BUILD_TOOLS_VERSION}" > /dev/null
-          yes | sdkmanager "cmake;${ANDROID_CMAKE_VERSION}" > /dev/null
       - name: Build and run functional tests
         run: |
           export ANDROID_HOME=${HOME}/android-sdk-linux
-          export ANDROID_NDK_HOME=${ANDROID_HOME}/ndk-bundle
+          export ANDROID_SDK_ROOT=${ANDROID_HOME}
           export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
           ./scripts/build-android-functional --publish --hostOnly
         working-directory: functional-tests
@@ -109,7 +109,7 @@ jobs:
       - name: Build and run namerules tests
         run: |
           export ANDROID_HOME=${HOME}/android-sdk-linux
-          export ANDROID_NDK_HOME=${ANDROID_HOME}/ndk-bundle
+          export ANDROID_SDK_ROOT=${ANDROID_HOME}
           export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
           ./scripts/build-android-namerules --publish
         working-directory: functional-tests
@@ -123,7 +123,7 @@ jobs:
       - name: Install JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 8
+          java-version: 11
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
@@ -223,7 +223,7 @@ jobs:
       - name: Install JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 8
+          java-version: 11
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
@@ -262,7 +262,7 @@ jobs:
       - name: Install JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 8
+          java-version: 11
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
@@ -327,7 +327,7 @@ jobs:
       - name: Install JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 8
+          java-version: 11
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
@@ -347,17 +347,17 @@ jobs:
         run: |
           ANDROID_API_LEVEL=android-28
           ANDROID_BUILD_TOOLS_VERSION=28.0.3
-          ANDROID_CMAKE_VERSION=3.10.2.4988404
           ANDROID_HOME=${HOME}/android-sdk-linux
-          PATH=${PATH}:${ANDROID_HOME}/tools/bin
-          wget -q "https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip" -O android-sdk-tools.zip
-          unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}
+          PATH=${PATH}:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/cmdline-tools/latest/bin
+          mkdir -p "${ANDROID_HOME}/cmdline-tools"
+          wget -q "https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip" -O android-sdk-tools.zip
+          unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}/cmdline-tools
+          mv "${ANDROID_HOME}/cmdline-tools/cmdline-tools" "${ANDROID_HOME}/cmdline-tools/latest"
           mkdir -p ~/.android
           touch ~/.android/repositories.cfg
           yes | sdkmanager --licenses
           yes | sdkmanager "platforms;${ANDROID_API_LEVEL}" > /dev/null
           yes | sdkmanager "build-tools;${ANDROID_BUILD_TOOLS_VERSION}" > /dev/null
-          yes | sdkmanager "cmake;${ANDROID_CMAKE_VERSION}" > /dev/null
       - name: Install Dart SDK
         run: |
           DART_RELEASE_CHANNEL=stable
@@ -367,7 +367,6 @@ jobs:
       - name: Build and run functional tests
         run: |
           export ANDROID_HOME=${HOME}/android-sdk-linux
-          export ANDROID_NDK_HOME=${ANDROID_HOME}/ndk-bundle
           export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:/usr/lib/dart/bin
           ./gradlew publishToMavenLocal
           cd cmake

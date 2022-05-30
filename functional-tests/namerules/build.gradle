@@ -33,7 +33,6 @@ def getCMakeCommonParameters() {
 android {
     ndkVersion rootProject.ndkVersion
     compileSdkVersion rootProject.compileSdkVersion
-    buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
