@@ -541,9 +541,9 @@ This breaks the referential equality invariant (see `Referential equality` below
 when a lot of small instances are sent over the language boundary repeatedly.
 * **@Skip(**\[**Tag** **=**\] **"**_CustomTag_**"**__)__ or **@Skip(**__CustomTag__**)**: marks an element to be skipped
 (not generated) if a custom tag with that name was defined through command-line parameters. Custom tags are
-case-insensitive. There are three predefined tags that do not need to be specified explicitly: "Java", "Swift", and
-"Dart". They mark the element to be skipped in the generated code for the corresponding language. There is no skip tag
-for C++.
+case-insensitive. There are three predefined tags that do not need to be specified explicitly: "Java", "Swift", "Dart",
+and "Cpp". They mark the element to be skipped in the generated code for the corresponding language. Please note that
+only `const` and `field constructor` can be skipped in C++.
 * **@EnableIf(**\[**Tag** **=**\] **"**_CustomTag_**"**__)__ or **@EnableIf(**__CustomTag__**)**: marks an element to be
 enabled only if a custom tag with that name was defined through command-line parameters. If the tag is not present, the
 element is skipped (not generated). Custom tags are case-insensitive.
@@ -629,8 +629,8 @@ element is skipped (not generated). Custom tags are case-insensitive.
   point type, instead of the system clock time point type which is used by default.
   * **ToString**: marks an enumeration to have a helper `to_string()` function generated, mapping the enum to string.
   * **Skip** \[**=** **"**_CustomTag_**"** \]: marks an element to be skipped (not generated) in C++. Can be applied to
-  a `field constuctor` element only. Optionally, if custom tag is specified, the element is only skipped if that tag
-  was defined (see `@Skip` above).
+  `field constuctor` or `const` elements only. Optionally, if custom tag is specified, the element is only skipped if
+  that tag was defined (see `@Skip` above).
   * **EnableIf** **=** **"**_CustomTag_**"**: marks an element to be enabled in C++ only if a custom tag with that
   name was defined through command-line parameters. Can be applied to a `field constuctor` element only. If the tag is
   not present, the element is skipped (not generated).

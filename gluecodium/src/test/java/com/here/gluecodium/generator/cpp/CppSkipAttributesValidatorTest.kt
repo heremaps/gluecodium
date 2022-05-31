@@ -22,12 +22,15 @@ package com.here.gluecodium.generator.cpp
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributes
+import com.here.gluecodium.model.lime.LimeBasicTypeRef
+import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeFieldConstructor
 import com.here.gluecodium.model.lime.LimeLazyTypeRef
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
+import com.here.gluecodium.model.lime.LimeValue
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -60,6 +63,15 @@ class CppSkipAttributesValidatorTest(private val limeElement: LimeNamedElement, 
                 LimeFieldConstructor(
                     EMPTY_PATH,
                     structRef = LimeLazyTypeRef("", emptyMap()),
+                    attributes = cppSkipAttributes
+                ),
+                true
+            ),
+            arrayOf(
+                LimeConstant(
+                    EMPTY_PATH,
+                    typeRef = LimeBasicTypeRef.INT,
+                    value = LimeValue.ZERO,
                     attributes = cppSkipAttributes
                 ),
                 true

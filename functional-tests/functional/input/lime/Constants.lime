@@ -93,3 +93,10 @@ class CollectionConstants {
     const mapConstant: Map<String, String> = ["foo": "bar"]
     const mixedConstant: Map<List<String>, Set<String>> = [["foo"]: ["bar"]]
 }
+
+struct ConstantsSkipCpp {
+    @Skip(Cpp)
+    const boolConstant: Boolean = true
+    @Cpp(Skip)
+    const intConstant: Int = -11
+}

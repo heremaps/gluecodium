@@ -71,3 +71,10 @@ class CollectionConstants {
 types CrossFileConstants {
     const fooBar: Constants.StateEnum = Constants.StateEnum.ON
 }
+
+struct ConstantsSkipCpp {
+    @Skip(Cpp)
+    const boolConstant: Boolean = true
+    @Cpp(Skip)
+    const intConstant: Int = -11
+}
