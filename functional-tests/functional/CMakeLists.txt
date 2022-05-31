@@ -487,7 +487,9 @@ feature(NoCache android swift dart SOURCES
 )
 
 feature(Async cpp dart SOURCES
-    input/src/cpp/Async.cpp
+    input/src/cpp/AsyncClass.cpp
+    input/src/cpp/AsyncStruct.cpp
+    input/src/cpp/AsyncWithSkips.cpp
 
     input/lime/Async.lime
 )

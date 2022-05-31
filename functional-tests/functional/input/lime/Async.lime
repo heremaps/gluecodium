@@ -57,3 +57,11 @@ class AsyncRenamed {
     @Cpp("callDispose")
     fun dispose()
 }
+
+class AsyncWithSkips {
+    @Skip(Swift) @Skip(Dart)
+    static fun make_shared_instance(androidContext: String)
+
+    @Skip(Java) @Async
+    static fun make_shared_instance()
+}
