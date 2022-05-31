@@ -92,8 +92,8 @@ class LimeValuesValidatorTest(
                 LimeValue.Enumerator(
                     fooTypeRef,
                     object : LimeEnumeratorRef() {
-                        override val elementFullName = ""
                         override val enumerator = LimeEnumerator(EMPTY_PATH)
+                        override val enumRef = LimeBasicTypeRef.INT
                     }
                 ),
                 true
@@ -103,8 +103,8 @@ class LimeValuesValidatorTest(
                 LimeValue.Enumerator(
                     fooTypeRef,
                     object : LimeEnumeratorRef() {
-                        override val elementFullName = ""
                         override val enumerator = LimeEnumerator(EMPTY_PATH)
+                        override val enumRef = LimeBasicTypeRef.INT
                     }
                 ),
                 false

@@ -33,10 +33,12 @@ class LimeAmbiguousEnumeratorRef(
     referenceMap: Map<String, LimeElement>
 ) : LimeEnumeratorRef() {
 
-    override val elementFullName by lazy { enumerator.path.toString() }
-
     override val enumerator by lazy {
         LimeAmbiguityResolver.resolve<LimeEnumerator>(relativePath, parentPaths, imports, referenceMap)
+    }
+
+    override val enumRef by lazy {
+        LimeLazyTypeRef(enumerator.path.parent.toString(), referenceMap)
     }
 
     override fun remap(referenceMap: Map<String, LimeElement>) =
