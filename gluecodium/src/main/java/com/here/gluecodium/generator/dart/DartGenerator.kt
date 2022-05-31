@@ -169,8 +169,7 @@ internal class DartGenerator : Generator {
         val asyncHelpers = dartFilteredModel.topElements
             .flatMap { DartAsyncHelpers.createAsyncHelpers(it, dartNameResolver) }
             .associateBy { it.pathKey }
-        ffiReferenceMap += asyncHelpers.values.map { it.lambdas }.flatten().associateBy { it.fullName }
-        ffiReferenceMap += asyncHelpers.values.map { it.helpers.values }.flatten().associateBy { it.fullName }
+        injectAsyncHelpers(ffiReferenceMap, asyncHelpers)
 
         val generatedFiles = dartFilteredModel.topElements.flatMap {
             listOfNotNull(
@@ -530,6 +529,19 @@ internal class DartGenerator : Generator {
                     limeElement::class.java.name
             )
         }
+
+    private fun injectAsyncHelpers(
+        referenceMap: MutableMap<String, LimeElement>,
+        asyncHelpers: Map<String, DartAsyncHelpers.AsyncHelpersGroup>
+    ) {
+        val lambdas = asyncHelpers.values.map { it.lambdas }.flatten()
+        referenceMap += lambdas.associateBy { it.fullName }
+        referenceMap += lambdas.associateBy { it.path.toAmbiguousString() }
+
+        val helpers = asyncHelpers.values.map { it.helpers.values }.flatten()
+        referenceMap += helpers.associateBy { it.fullName }
+        referenceMap += helpers.associateBy { it.path.toAmbiguousString() }
+    }
 
     private object TypeRefsCollector : LimeTypeRefsVisitor<List<LimeTypeRef>>() {
         override fun visitTypeRef(
