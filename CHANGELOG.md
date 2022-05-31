@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 11.2.4
+Release date: 2022-05-31
 ### Bug fixes:
   * Fixed compilation issue in Dart when combining function overloads with `@Async` and `@Skip(Dart)`.
 
