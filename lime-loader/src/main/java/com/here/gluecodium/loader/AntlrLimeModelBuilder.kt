@@ -472,7 +472,7 @@ internal class AntlrLimeModelBuilder(
             path = currentPath,
             comment = parseStructuredComment(ctx.docComment(), ctx).description,
             attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation()),
-            explicitValue = ctx.literalConstant()?.let { convertEnumeratorValue(it) },
+            explicitValue = ctx.literalConstant()?.let { convertLiteralConstant(LimeBasicTypeRef.INT, it) },
             previous = siblings.lastOrNull()
         )
 
@@ -613,7 +613,7 @@ internal class AntlrLimeModelBuilder(
                     referenceMap = referenceResolver.referenceMap
                 )
                 val enumeratorRef = LimePositionalEnumeratorRef(
-                    parentTypeRef = enumerationRef,
+                    enumRef = enumerationRef,
                     index = ctx.positionalEnumeratorRef().IntegerLiteral().text.toInt()
                 )
                 return LimeValue.Enumerator(limeTypeRef, enumeratorRef)
@@ -676,15 +676,6 @@ internal class AntlrLimeModelBuilder(
             '`' -> text.drop(1).dropLast(1)
             else -> text
         }
-    }
-
-    private fun convertEnumeratorValue(ctx: LimeParser.LiteralConstantContext): LimeValue {
-        val typeRef = when {
-            ctx.enumeratorRef() != null ->
-                LimeLazyTypeRef(currentPath.parent.toString(), referenceResolver.referenceMap)
-            else -> LimeBasicTypeRef.INT
-        }
-        return convertLiteralConstant(typeRef, ctx)
     }
 
     private fun getComment(
