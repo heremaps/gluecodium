@@ -26,7 +26,7 @@ import com.here.gluecodium.model.lime.LimeBasicType.TypeId
  * Represents a constant value on the right-hand side of an assignment (used in constants, field
  * default values, and enumerator values).
  */
-sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement() {
+sealed class LimeValue(open val typeRef: LimeTypeRef) : LimeElement() {
     /**
      * Represents a literal value, i.e. a value that should be interpreted "literally", without any
      * additional processing or resolution.
@@ -47,6 +47,9 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement() {
      * from an enumeration).
      */
     class Enumerator(type: LimeTypeRef, val valueRef: LimeEnumeratorRef) : LimeValue(type) {
+        override val typeRef
+            get() = valueRef.enumRef
+
         override fun toString() = valueRef.enumerator.path.let { "${it.parent.name}.${it.name}" }
 
         override val escapedValue: String
