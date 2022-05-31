@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Added support for `@Skip(Cpp)` on constants.
+
 ## 11.2.4
 Release date: 2022-05-31
 ### Bug fixes:

@@ -1,0 +1,7 @@
+package smoke
+struct ConstantsSkipCpp {
+    @Cpp(Skip)
+    const boolConstant: Boolean = true
+    @Cpp(Skip)
+    const intConstant: Int = -11
+}
