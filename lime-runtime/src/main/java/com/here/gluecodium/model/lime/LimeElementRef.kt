@@ -25,4 +25,6 @@ abstract class LimeElementRef<T : LimeNamedElement>(attributes: LimeAttributes? 
     open val elementFullName by lazy { element.path.toString() }
 
     internal open fun remap(referenceMap: Map<String, LimeElement>) = this
+
+    override fun toString() = elementFullName
 }

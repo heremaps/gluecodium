@@ -43,20 +43,22 @@ sealed class LimeValue(open val typeRef: LimeTypeRef) : LimeElement() {
     }
 
     /**
-     * Represents a value that is a reference to a specific enumerator element (i.e. an single item
-     * from an enumeration).
+     * Represents a value that is a reference to a specific element, that is either an enumerator (i.e. a single item
+     * from an enumeration) or a named constant.
      */
-    class Enumerator(type: LimeTypeRef, val valueRef: LimeEnumeratorRef) : LimeValue(type) {
+    class Constant(type: LimeTypeRef, val valueRef: LimeConstantRef) : LimeValue(type) {
         override val typeRef
-            get() = valueRef.enumRef
+            get() = valueRef.typeRef
 
-        override fun toString() = valueRef.enumerator.path.let { "${it.parent.name}.${it.name}" }
+        override fun toString() = valueRef.element.path.let { "${it.parent.name}.${it.name}" }
 
         override val escapedValue: String
             get() {
-                val enumeratorPath = valueRef.enumerator.path
-                return LimeTypeHelper.escapeIdentifier(enumeratorPath.parent.name) + "." +
-                    LimeTypeHelper.escapeIdentifier(enumeratorPath.name)
+                val names = when (val limeElement = valueRef.element) {
+                    is LimeEnumerator -> listOf(limeElement.path.parent.name, limeElement.name)
+                    else -> limeElement.path.run { head + tail }
+                }
+                return names.joinToString(".") { LimeTypeHelper.escapeIdentifier(it) }
             }
     }
 

@@ -21,9 +21,9 @@ package com.here.gluecodium.validator
 
 import com.here.gluecodium.model.lime.LimeBasicTypeRef
 import com.here.gluecodium.model.lime.LimeConstant
+import com.here.gluecodium.model.lime.LimeConstantRef
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumerator
-import com.here.gluecodium.model.lime.LimeEnumeratorRef
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeModelLoaderException
@@ -41,14 +41,14 @@ class LimeEnumeratorRefsValidatorTest {
 
     private val allElements = mutableMapOf<String, LimeElement>()
     private val limeModel = LimeModel(allElements, emptyList())
-    private val dummyEnumeratorRef = object : LimeEnumeratorRef() {
-        override val enumerator = LimeEnumerator(EMPTY_PATH)
-        override val enumRef = LimeBasicTypeRef.INT
+    private val dummyEnumeratorRef = object : LimeConstantRef() {
+        override val element = LimeEnumerator(EMPTY_PATH)
+        override val typeRef = LimeBasicTypeRef.INT
     }
-    private val throwingEnumeratorRef = object : LimeEnumeratorRef() {
-        override val enumerator
+    private val throwingEnumeratorRef = object : LimeConstantRef() {
+        override val element
             get() = throw LimeModelLoaderException("")
-        override val enumRef = LimeBasicTypeRef.INT
+        override val typeRef = LimeBasicTypeRef.INT
     }
 
     private val validator = LimeEnumeratorRefsValidator(mockk(relaxed = true))
@@ -58,7 +58,7 @@ class LimeEnumeratorRefsValidatorTest {
         allElements[""] = LimeField(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.INT,
-            defaultValue = LimeValue.Enumerator(LimeBasicTypeRef.INT, dummyEnumeratorRef)
+            defaultValue = LimeValue.Constant(LimeBasicTypeRef.INT, dummyEnumeratorRef)
         )
 
         assertTrue(validator.validate(limeModel))
@@ -69,7 +69,7 @@ class LimeEnumeratorRefsValidatorTest {
         allElements[""] = LimeField(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.INT,
-            defaultValue = LimeValue.Enumerator(LimeBasicTypeRef.INT, throwingEnumeratorRef)
+            defaultValue = LimeValue.Constant(LimeBasicTypeRef.INT, throwingEnumeratorRef)
         )
 
         assertFalse(validator.validate(limeModel))
@@ -80,7 +80,7 @@ class LimeEnumeratorRefsValidatorTest {
         allElements[""] = LimeConstant(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.INT,
-            value = LimeValue.Enumerator(LimeBasicTypeRef.INT, dummyEnumeratorRef)
+            value = LimeValue.Constant(LimeBasicTypeRef.INT, dummyEnumeratorRef)
         )
 
         assertTrue(validator.validate(limeModel))
@@ -91,7 +91,7 @@ class LimeEnumeratorRefsValidatorTest {
         allElements[""] = LimeConstant(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.INT,
-            value = LimeValue.Enumerator(LimeBasicTypeRef.INT, throwingEnumeratorRef)
+            value = LimeValue.Constant(LimeBasicTypeRef.INT, throwingEnumeratorRef)
         )
 
         assertFalse(validator.validate(limeModel))

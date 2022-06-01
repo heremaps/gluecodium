@@ -20,27 +20,28 @@
 package com.here.gluecodium.model.lime
 
 /**
- * An ambiguous reference to an enumerator element, represented by `relativePath` constructor parameter. The ambiguity
- * is resolved through the [LimeAmbiguityResolver].
+ * An ambiguous reference to an element, either an enumerator or a constant, represented by `relativePath` constructor
+ * parameter. The ambiguity is resolved through the [LimeAmbiguityResolver].
  *
  * The resolution logic is "lazy": if it succeeds on the first call then the result is stored and the
  * stored result is used on subsequent calls instead.
  */
-class LimeAmbiguousEnumeratorRef(
+class LimeAmbiguousConstantRef(
     private val relativePath: List<String>,
     private val parentPaths: List<LimePath>,
     private val imports: List<LimePath>,
     referenceMap: Map<String, LimeElement>
-) : LimeEnumeratorRef() {
+) : LimeConstantRef() {
 
-    override val enumerator by lazy {
-        LimeAmbiguityResolver.resolve<LimeEnumerator>(relativePath, parentPaths, imports, referenceMap)
+    override val element by lazy {
+        LimeAmbiguityResolver.resolve<LimeNamedElement>(relativePath, parentPaths, imports, referenceMap)
     }
 
-    override val enumRef by lazy {
-        LimeLazyTypeRef(enumerator.path.parent.toString(), referenceMap)
+    override val typeRef by lazy {
+        // TODO: #1355: resolve differently for a constant
+        LimeLazyTypeRef(element.path.parent.toString(), referenceMap)
     }
 
     override fun remap(referenceMap: Map<String, LimeElement>) =
-        LimeAmbiguousEnumeratorRef(relativePath, parentPaths, imports, referenceMap)
+        LimeAmbiguousConstantRef(relativePath, parentPaths, imports, referenceMap)
 }

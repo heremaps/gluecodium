@@ -122,7 +122,7 @@ internal class DartNameResolver(
     private fun resolveValue(limeValue: LimeValue): String =
         when (limeValue) {
             is LimeValue.Literal -> resolveLiteralValue(limeValue)
-            is LimeValue.Enumerator -> "${resolveName(limeValue.typeRef)}.${resolveName(limeValue.valueRef.enumerator)}"
+            is LimeValue.Constant -> "${resolveName(limeValue.typeRef)}.${resolveName(limeValue.valueRef.element)}"
             is LimeValue.Special -> {
                 val specialName = when (limeValue.value) {
                     LimeValue.Special.ValueId.NAN -> "nan"

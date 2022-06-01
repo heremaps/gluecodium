@@ -166,7 +166,7 @@ internal class CppNameResolver(
     private fun resolveValue(limeValue: LimeValue): String =
         when (limeValue) {
             is LimeValue.Literal -> resolveLiteralValue(limeValue)
-            is LimeValue.Enumerator -> nameCache.getFullyQualifiedName(limeValue.valueRef.enumerator)
+            is LimeValue.Constant -> nameCache.getFullyQualifiedName(limeValue.valueRef.element)
             is LimeValue.Special -> {
                 val valueType = limeValue.typeRef.type
                 val isFloat = valueType is LimeBasicType && valueType.typeId == TypeId.FLOAT

@@ -21,7 +21,7 @@ package com.here.gluecodium.loader
 
 import com.here.gluecodium.antlr.LimeParser
 import com.here.gluecodium.common.ModelBuilderContextStack
-import com.here.gluecodium.model.lime.LimeAmbiguousEnumeratorRef
+import com.here.gluecodium.model.lime.LimeAmbiguousConstantRef
 import com.here.gluecodium.model.lime.LimeAmbiguousTypeRef
 import com.here.gluecodium.model.lime.LimeBasicTypeRef
 import com.here.gluecodium.model.lime.LimeClass
@@ -596,14 +596,14 @@ internal class AntlrLimeModelBuilder(
         ctx: LimeParser.LiteralConstantContext
     ): LimeValue {
         when {
-            ctx.enumeratorRef() != null -> {
-                val enumeratorRef = LimeAmbiguousEnumeratorRef(
-                    relativePath = ctx.enumeratorRef().identifier().simpleId().map { convertSimpleId(it) },
+            ctx.elementRef() != null -> {
+                val enumeratorRef = LimeAmbiguousConstantRef(
+                    relativePath = ctx.elementRef().identifier().simpleId().map { convertSimpleId(it) },
                     parentPaths = listOf(currentPath) + currentPath.allParents + imports,
                     imports = imports,
                     referenceMap = referenceResolver.referenceMap
                 )
-                return LimeValue.Enumerator(limeTypeRef, enumeratorRef)
+                return LimeValue.Constant(limeTypeRef, enumeratorRef)
             }
             ctx.positionalEnumeratorRef() != null -> {
                 val enumerationRef = LimeAmbiguousTypeRef(
@@ -613,10 +613,10 @@ internal class AntlrLimeModelBuilder(
                     referenceMap = referenceResolver.referenceMap
                 )
                 val enumeratorRef = LimePositionalEnumeratorRef(
-                    enumRef = enumerationRef,
+                    typeRef = enumerationRef,
                     index = ctx.positionalEnumeratorRef().IntegerLiteral().text.toInt()
                 )
-                return LimeValue.Enumerator(limeTypeRef, enumeratorRef)
+                return LimeValue.Constant(limeTypeRef, enumeratorRef)
             }
             ctx.structInitializer() != null -> {
                 val values = ctx.structInitializer().literalConstant()

@@ -113,8 +113,8 @@ internal class SwiftNameResolver(
     private fun resolveValue(limeValue: LimeValue): String =
         when (limeValue) {
             is LimeValue.Literal -> resolveLiteralValue(limeValue)
-            is LimeValue.Enumerator -> {
-                val enumerator = limeValue.valueRef.enumerator
+            is LimeValue.Constant -> {
+                val enumerator = limeValue.valueRef.element
                 val enumeration = getParentElement(enumerator)
                 "${resolveReferenceName(enumeration)}.${resolveName(enumerator)}"
             }

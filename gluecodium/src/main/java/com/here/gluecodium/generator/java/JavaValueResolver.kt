@@ -36,8 +36,8 @@ internal class JavaValueResolver(private val nameResolver: JavaNameResolver) {
     fun resolveValue(limeValue: LimeValue): String =
         when (limeValue) {
             is LimeValue.Literal -> mapLiteralValue(limeValue)
-            is LimeValue.Enumerator -> {
-                val limeEnumerator = limeValue.valueRef.enumerator
+            is LimeValue.Constant -> {
+                val limeEnumerator = limeValue.valueRef.element
                 val limeEnumeration = limeValue.typeRef.type.actualType
                 listOf(
                     nameResolver.resolveReferenceName(limeEnumeration),

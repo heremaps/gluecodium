@@ -35,12 +35,12 @@ internal class LimeEnumeratorRefsValidator(private val logger: LimeLogger) :
     fun validate(limeModel: LimeModel) = !traverseModel(limeModel).contains(false)
 
     override fun visitValue(parentElement: LimeNamedElement, limeValue: LimeValue?): Boolean {
-        if (limeValue !is LimeValue.Enumerator) {
+        if (limeValue !is LimeValue.Constant) {
             return true
         }
 
         return try {
-            limeValue.valueRef.enumerator
+            limeValue.valueRef.element
             true
         } catch (e: LimeModelLoaderException) {
             logger.error(parentElement, e.message ?: "")

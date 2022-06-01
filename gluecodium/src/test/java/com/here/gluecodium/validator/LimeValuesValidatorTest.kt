@@ -22,11 +22,11 @@ package com.here.gluecodium.validator
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicTypeRef
 import com.here.gluecodium.model.lime.LimeConstant
+import com.here.gluecodium.model.lime.LimeConstantRef
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeEnumerator
-import com.here.gluecodium.model.lime.LimeEnumeratorRef
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeModel
@@ -89,22 +89,22 @@ class LimeValuesValidatorTest(
             arrayOf(fooTypeRef, LimeValue.Literal(fooTypeRef, ""), false),
             arrayOf(
                 LimeDirectTypeRef(LimeEnumeration(EMPTY_PATH)),
-                LimeValue.Enumerator(
+                LimeValue.Constant(
                     fooTypeRef,
-                    object : LimeEnumeratorRef() {
-                        override val enumerator = LimeEnumerator(EMPTY_PATH)
-                        override val enumRef = LimeBasicTypeRef.INT
+                    object : LimeConstantRef() {
+                        override val element = LimeEnumerator(EMPTY_PATH)
+                        override val typeRef = LimeBasicTypeRef.INT
                     }
                 ),
                 true
             ),
             arrayOf(
                 fooTypeRef,
-                LimeValue.Enumerator(
+                LimeValue.Constant(
                     fooTypeRef,
-                    object : LimeEnumeratorRef() {
-                        override val enumerator = LimeEnumerator(EMPTY_PATH)
-                        override val enumRef = LimeBasicTypeRef.INT
+                    object : LimeConstantRef() {
+                        override val element = LimeEnumerator(EMPTY_PATH)
+                        override val typeRef = LimeBasicTypeRef.INT
                     }
                 ),
                 false
