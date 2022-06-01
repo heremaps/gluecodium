@@ -3,6 +3,8 @@
 ## Unreleased
 ### Features:
   * Added support for `@Skip(Cpp)` on constants.
+### Bug fixes:
+  * Fixed compilation issues for `@Async` functions with `throws` in C++.
 
 ## 11.2.4
 Release date: 2022-05-31
