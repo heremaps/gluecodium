@@ -19,6 +19,9 @@
 
 package com.here.gluecodium.model.lime
 
-abstract class LimeFieldRef(attributes: LimeAttributes? = null) : LimeElement(attributes) {
+abstract class LimeFieldRef(attributes: LimeAttributes? = null) : LimeElementRef<LimeField>(attributes) {
     abstract val field: LimeField
+
+    override val element
+        get() = field
 }

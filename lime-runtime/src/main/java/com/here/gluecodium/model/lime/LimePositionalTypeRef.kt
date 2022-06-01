@@ -31,8 +31,6 @@ class LimePositionalTypeRef(
     override val isNullable: Boolean = false
 ) : LimeTypeRef() {
 
-    override val elementFullName by lazy { type.path.toString() }
-
     override val type by lazy {
         val limeType = parentTypeRef.type.actualType
         limeType.childTypes.getOrNull(index)?.type

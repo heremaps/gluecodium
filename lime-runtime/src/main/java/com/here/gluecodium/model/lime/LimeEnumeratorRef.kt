@@ -19,10 +19,12 @@
 
 package com.here.gluecodium.model.lime
 
-abstract class LimeEnumeratorRef : LimeElement() {
+abstract class LimeEnumeratorRef : LimeElementRef<LimeEnumerator>() {
     abstract val enumerator: LimeEnumerator
     abstract val enumRef: LimeTypeRef
-    internal open fun remap(referenceMap: Map<String, LimeElement>) = this
 
-    val elementFullName by lazy { enumerator.path.toString() }
+    override fun remap(referenceMap: Map<String, LimeElement>): LimeEnumeratorRef = this
+
+    override val element
+        get() = enumerator
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2019 HERE Europe B.V.
+ * Copyright (C) 2016-2022 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,19 +19,10 @@
 
 package com.here.gluecodium.model.lime
 
-abstract class LimeTypeRef(attributes: LimeAttributes? = null) : LimeElementRef<LimeType>(attributes) {
-    abstract val type: LimeType
-    abstract val isNullable: Boolean
+abstract class LimeElementRef<T : LimeNamedElement>(attributes: LimeAttributes? = null) : LimeElement(attributes) {
+    abstract val element: T
 
-    abstract fun asNullable(): LimeTypeRef
+    open val elementFullName by lazy { element.path.toString() }
 
-    override fun remap(referenceMap: Map<String, LimeElement>): LimeTypeRef = this
-
-    override val element
-        get() = type
-
-    override fun toString() = type.name + if (isNullable) "?" else ""
-
-    val escapedName
-        get() = type.escapedName + if (isNullable) "?" else ""
+    internal open fun remap(referenceMap: Map<String, LimeElement>) = this
 }
