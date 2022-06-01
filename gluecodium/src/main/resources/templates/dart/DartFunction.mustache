@@ -30,7 +30,7 @@
     if ($hasValue) {
       $completer.complete({{#unless returnType.isVoid}}$result{{/unless}});
     } else {
-      $completer.completeError($error);
+      $completer.completeError({{resolveName exception}}($error));
     }
 {{/if}}{{#unless this.thrownType}}
     $completer.complete({{#unless returnType.isVoid}}$result{{/unless}});

@@ -32,7 +32,7 @@ void main() async {
     await expectLater(AsyncClass().asyncVoidThrows(false), completes);
   });
   _testSuite.test("Async throwing void with error", () async {
-    await expectLater(AsyncClass().asyncVoidThrows(true), throwsA("boom"));
+    await expectLater(AsyncClass().asyncVoidThrows(true), throwsA(isA<AsyncException>()));
   });
   _testSuite.test("Async int", () async {
     await expectLater(AsyncClass().asyncInt(false), completion(42));
@@ -41,7 +41,7 @@ void main() async {
     await expectLater(AsyncClass().asyncIntThrows(false), completion(42));
   });
   _testSuite.test("Async throwing int with error", () async {
-    await expectLater(AsyncClass().asyncIntThrows(true), throwsA("boom"));
+    await expectLater(AsyncClass().asyncIntThrows(true), throwsA(isA<AsyncException>()));
   });
   _testSuite.test("Async static", () async {
     await expectLater(AsyncClass.asyncStatic(false), completes);

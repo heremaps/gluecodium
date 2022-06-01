@@ -9,7 +9,7 @@ class AsyncClass {
     @Async
     fun asyncVoidThrows(
         input: Boolean
-    ) throws ThrowMe
+    ) throws Async
     @Async
     fun asyncInt(
         input: Boolean
@@ -17,7 +17,7 @@ class AsyncClass {
     @Async
     fun asyncIntThrows(
         input: Boolean
-    ): Int throws ThrowMe
+    ): Int throws Async
     @Async
     static fun asyncStatic(
         input: Boolean

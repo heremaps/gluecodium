@@ -85,7 +85,8 @@ internal class CppIncludeResolver(
     private fun resolveExceptionIncludes(limeFunction: LimeFunction): List<Include> {
         val payloadType = limeFunction.exception?.errorType?.type?.actualType ?: return emptyList()
         return when (payloadType) {
-            is LimeEnumeration -> listOf(CppLibraryIncludes.SYSTEM_ERROR)
+            is LimeEnumeration -> listOf(CppLibraryIncludes.SYSTEM_ERROR) +
+                if (limeFunction.attributes.have(ASYNC)) cppIncludesCache.resolveIncludes(payloadType) else emptyList()
             is LimeBasicType -> listOf(returnInclude)
             else -> cppIncludesCache.resolveIncludes(payloadType) + returnInclude
         } + when {

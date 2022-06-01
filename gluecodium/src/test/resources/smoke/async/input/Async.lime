@@ -18,6 +18,14 @@
 package smoke
 
 @Skip(Java, Swift)
+enum AsyncErrorCode {
+    VALUE1 = 1
+}
+
+@Skip(Java, Swift)
+exception Async(AsyncErrorCode)
+
+@Skip(Java, Swift)
 exception ThrowMe(String)
 
 @Skip(Java, Swift)
@@ -25,11 +33,11 @@ class AsyncClass {
     @Async
     fun asyncVoid(input: Boolean)
     @Async
-    fun asyncVoidThrows(input: Boolean) throws ThrowMe
+    fun asyncVoidThrows(input: Boolean) throws Async
     @Async
     fun asyncInt(input: Boolean): Int
     @Async
-    fun asyncIntThrows(input: Boolean): Int throws ThrowMe
+    fun asyncIntThrows(input: Boolean): Int throws Async
     @Async
     static fun asyncStatic(input: Boolean)
 }

@@ -18,6 +18,15 @@
 package test
 
 @Skip(Java, Swift)
+enum AsyncErrorCode {
+    NONE,
+    BOOM
+}
+
+@Skip(Java, Swift)
+exception Async(AsyncErrorCode)
+
+@Skip(Java, Swift)
 exception ThrowMe(String)
 
 @Skip(Java, Swift)
@@ -26,11 +35,11 @@ class AsyncClass {
     @Async
     fun asyncVoid(input: Boolean)
     @Async
-    fun asyncVoidThrows(shouldThrow: Boolean) throws ThrowMe
+    fun asyncVoidThrows(shouldThrow: Boolean) throws Async
     @Async
     fun asyncInt(input: Boolean): Int
     @Async
-    fun asyncIntThrows(shouldThrow: Boolean): Int throws ThrowMe
+    fun asyncIntThrows(shouldThrow: Boolean): Int throws Async
     @Async
     static fun asyncStatic(input: Boolean)
 }

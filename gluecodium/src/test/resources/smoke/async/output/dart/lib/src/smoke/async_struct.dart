@@ -84,7 +84,7 @@ class AsyncStruct$Impl {
       if ($hasValue) {
         $completer.complete();
       } else {
-        $completer.completeError($error);
+        $completer.completeError(ThrowMeException($error));
       }
     }, input);
     return $completer.future;
@@ -122,7 +122,7 @@ class AsyncStruct$Impl {
       if ($hasValue) {
         $completer.complete($result);
       } else {
-        $completer.completeError($error);
+        $completer.completeError(ThrowMeException($error));
       }
     }, input);
     return $completer.future;

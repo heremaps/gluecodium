@@ -4,10 +4,10 @@
 #include "FinalizerData.h"
 #include "IsolateContext.h"
 #include "smoke/AsyncClass.h"
+#include "smoke/AsyncErrorCode.h"
 #include <cstdint>
 #include <memory>
 #include <stdbool.h>
-#include <string>
 #include <memory>
 #include <new>
 class smoke_AsyncClass_AsyncvoidCompleterlambda_Proxy {
@@ -66,10 +66,10 @@ public:
     smoke_AsyncClass_AsyncvoidthrowsCompleterlambda_Proxy(const smoke_AsyncClass_AsyncvoidthrowsCompleterlambda_Proxy&) = delete;
     smoke_AsyncClass_AsyncvoidthrowsCompleterlambda_Proxy& operator=(const smoke_AsyncClass_AsyncvoidthrowsCompleterlambda_Proxy&) = delete;
     void
-    operator()(const bool p0, const std::string& p1) {
-        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, bool, FfiOpaqueHandle)>(f0))(Dart_HandleFromPersistent_DL(dart_persistent_handle),
+    operator()(const bool p0, const smoke::AsyncErrorCode p1) {
+        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, bool, uint32_t)>(f0))(Dart_HandleFromPersistent_DL(dart_persistent_handle),
             gluecodium::ffi::Conversion<bool>::toFfi(p0),
-            gluecodium::ffi::Conversion<std::string>::toFfi(p1)
+            gluecodium::ffi::Conversion<smoke::AsyncErrorCode>::toFfi(p1)
         ); });
     }
 private:
@@ -141,11 +141,11 @@ public:
     smoke_AsyncClass_AsyncintthrowsCompleterlambda_Proxy(const smoke_AsyncClass_AsyncintthrowsCompleterlambda_Proxy&) = delete;
     smoke_AsyncClass_AsyncintthrowsCompleterlambda_Proxy& operator=(const smoke_AsyncClass_AsyncintthrowsCompleterlambda_Proxy&) = delete;
     void
-    operator()(const bool p0, const int32_t p1, const std::string& p2) {
-        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, bool, int32_t, FfiOpaqueHandle)>(f0))(Dart_HandleFromPersistent_DL(dart_persistent_handle),
+    operator()(const bool p0, const int32_t p1, const smoke::AsyncErrorCode p2) {
+        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, bool, int32_t, uint32_t)>(f0))(Dart_HandleFromPersistent_DL(dart_persistent_handle),
             gluecodium::ffi::Conversion<bool>::toFfi(p0),
             gluecodium::ffi::Conversion<int32_t>::toFfi(p1),
-            gluecodium::ffi::Conversion<std::string>::toFfi(p2)
+            gluecodium::ffi::Conversion<smoke::AsyncErrorCode>::toFfi(p2)
         ); });
     }
 private:
@@ -211,7 +211,7 @@ void
 library_smoke_AsyncClass_asyncVoidThrows__asyncVoidThrows__completerLambda_Boolean(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle Completerlambda, bool input) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::AsyncClass>>::toCpp(_self)).async_void_throws(
-        gluecodium::ffi::Conversion<std::function<void(bool, std::string)>>::toCpp(Completerlambda),
+        gluecodium::ffi::Conversion<std::function<void(bool, smoke::AsyncErrorCode)>>::toCpp(Completerlambda),
         gluecodium::ffi::Conversion<bool>::toCpp(input)
     );
 }
@@ -227,7 +227,7 @@ void
 library_smoke_AsyncClass_asyncIntThrows__asyncIntThrows__completerLambda_Boolean(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle Completerlambda, bool input) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::AsyncClass>>::toCpp(_self)).async_int_throws(
-        gluecodium::ffi::Conversion<std::function<void(bool, int32_t, std::string)>>::toCpp(Completerlambda),
+        gluecodium::ffi::Conversion<std::function<void(bool, int32_t, smoke::AsyncErrorCode)>>::toCpp(Completerlambda),
         gluecodium::ffi::Conversion<bool>::toCpp(input)
     );
 }
@@ -245,11 +245,11 @@ library_smoke_AsyncClass_AsyncvoidCompleterlambda_call(FfiOpaqueHandle _self, in
     gluecodium::ffi::Conversion<::std::function<void()>>::toCpp(_self).operator()();
 }
 void
-library_smoke_AsyncClass_AsyncvoidthrowsCompleterlambda_call__Boolean_String(FfiOpaqueHandle _self, int32_t _isolate_id, bool p0, FfiOpaqueHandle p1) {
+library_smoke_AsyncClass_AsyncvoidthrowsCompleterlambda_call__Boolean_AsyncErrorCode(FfiOpaqueHandle _self, int32_t _isolate_id, bool p0, uint32_t p1) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-    gluecodium::ffi::Conversion<::std::function<void(const bool, const std::string)>>::toCpp(_self).operator()(
+    gluecodium::ffi::Conversion<::std::function<void(const bool, const smoke::AsyncErrorCode)>>::toCpp(_self).operator()(
         gluecodium::ffi::Conversion<bool>::toCpp(p0),
-        gluecodium::ffi::Conversion<std::string>::toCpp(p1)
+        gluecodium::ffi::Conversion<smoke::AsyncErrorCode>::toCpp(p1)
     );
 }
 void
@@ -260,12 +260,12 @@ library_smoke_AsyncClass_AsyncintCompleterlambda_call__Int(FfiOpaqueHandle _self
     );
 }
 void
-library_smoke_AsyncClass_AsyncintthrowsCompleterlambda_call__Boolean_Int_String(FfiOpaqueHandle _self, int32_t _isolate_id, bool p0, int32_t p1, FfiOpaqueHandle p2) {
+library_smoke_AsyncClass_AsyncintthrowsCompleterlambda_call__Boolean_Int_AsyncErrorCode(FfiOpaqueHandle _self, int32_t _isolate_id, bool p0, int32_t p1, uint32_t p2) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-    gluecodium::ffi::Conversion<::std::function<void(const bool, const int32_t, const std::string)>>::toCpp(_self).operator()(
+    gluecodium::ffi::Conversion<::std::function<void(const bool, const int32_t, const smoke::AsyncErrorCode)>>::toCpp(_self).operator()(
         gluecodium::ffi::Conversion<bool>::toCpp(p0),
         gluecodium::ffi::Conversion<int32_t>::toCpp(p1),
-        gluecodium::ffi::Conversion<std::string>::toCpp(p2)
+        gluecodium::ffi::Conversion<smoke::AsyncErrorCode>::toCpp(p2)
     );
 }
 void
@@ -303,7 +303,7 @@ library_smoke_AsyncClass_AsyncvoidCompleterlambda_release_handle(FfiOpaqueHandle
 }
 void
 library_smoke_AsyncClass_AsyncvoidthrowsCompleterlambda_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<::std::function<void(const bool, const std::string)>*>(handle);
+    delete reinterpret_cast<::std::function<void(const bool, const smoke::AsyncErrorCode)>*>(handle);
 }
 void
 library_smoke_AsyncClass_AsyncintCompleterlambda_release_handle(FfiOpaqueHandle handle) {
@@ -311,7 +311,7 @@ library_smoke_AsyncClass_AsyncintCompleterlambda_release_handle(FfiOpaqueHandle 
 }
 void
 library_smoke_AsyncClass_AsyncintthrowsCompleterlambda_release_handle(FfiOpaqueHandle handle) {
-    delete reinterpret_cast<::std::function<void(const bool, const int32_t, const std::string)>*>(handle);
+    delete reinterpret_cast<::std::function<void(const bool, const int32_t, const smoke::AsyncErrorCode)>*>(handle);
 }
 void
 library_smoke_AsyncClass_AsyncstaticCompleterlambda_release_handle(FfiOpaqueHandle handle) {
@@ -338,7 +338,7 @@ library_smoke_AsyncClass_AsyncvoidthrowsCompleterlambda_create_proxy(uint64_t to
         gluecodium::ffi::cache_proxy(token, isolate_id, "smoke_AsyncClass_AsyncvoidthrowsCompleterlambda", cached_proxy);
     }
     return reinterpret_cast<FfiOpaqueHandle>(
-        new ::std::function<void(const bool, const std::string)>(
+        new ::std::function<void(const bool, const smoke::AsyncErrorCode)>(
             std::bind(&smoke_AsyncClass_AsyncvoidthrowsCompleterlambda_Proxy::operator(), cached_proxy, std::placeholders::_1, std::placeholders::_2)
         )
     );
@@ -364,7 +364,7 @@ library_smoke_AsyncClass_AsyncintthrowsCompleterlambda_create_proxy(uint64_t tok
         gluecodium::ffi::cache_proxy(token, isolate_id, "smoke_AsyncClass_AsyncintthrowsCompleterlambda", cached_proxy);
     }
     return reinterpret_cast<FfiOpaqueHandle>(
-        new ::std::function<void(const bool, const int32_t, const std::string)>(
+        new ::std::function<void(const bool, const int32_t, const smoke::AsyncErrorCode)>(
             std::bind(&smoke_AsyncClass_AsyncintthrowsCompleterlambda_Proxy::operator(), cached_proxy, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)
         )
     );
