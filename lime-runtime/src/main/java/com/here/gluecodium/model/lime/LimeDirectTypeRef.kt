@@ -20,14 +20,12 @@
 package com.here.gluecodium.model.lime
 
 /**
- * An direct reference to a type that requires no ambiguity resolution or postponed resolution.
+ * A direct reference to a type that requires no ambiguity resolution or postponed resolution.
  */
 class LimeDirectTypeRef(
     override val type: LimeType,
     override val isNullable: Boolean = false,
     attributes: LimeAttributes? = null
 ) : LimeTypeRef(attributes) {
-    override val elementFullName = type.fullName
-
     override fun asNullable() = if (isNullable) this else LimeDirectTypeRef(type, true)
 }
