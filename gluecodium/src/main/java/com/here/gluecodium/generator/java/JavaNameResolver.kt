@@ -240,7 +240,7 @@ internal class JavaNameResolver(
         return result
     }
 
-    private fun resolveFullName(limeElement: LimeNamedElement): String {
+    fun resolveFullName(limeElement: LimeNamedElement, forceDelimiter: String? = null): String {
         if (!limeElement.path.hasParent) {
             return (resolvePackageNames(limeElement) + resolveName(limeElement)).joinToString(".")
         }
@@ -252,7 +252,11 @@ internal class JavaNameResolver(
             else -> resolveFullName(getParentElement(limeElement))
         }
 
-        val delimiter = if (limeElement is LimeType) "." else "#"
+        val delimiter = when {
+            forceDelimiter != null -> forceDelimiter
+            limeElement is LimeType -> "."
+            else -> "#"
+        }
         return prefix + delimiter + resolveName(limeElement)
     }
 

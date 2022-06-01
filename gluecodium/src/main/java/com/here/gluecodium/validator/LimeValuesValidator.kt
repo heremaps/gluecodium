@@ -23,7 +23,6 @@ import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeConstant
-import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeModel
@@ -53,9 +52,11 @@ internal class LimeValuesValidator(private val logger: LimeLogger) {
         val actualType = limeElement.typeRef.type.actualType
         when (limeValue) {
             is LimeValue.Literal -> if (!validateLiteral(limeElement, actualType, limeValue)) return false
-            is LimeValue.Constant -> if (actualType !is LimeEnumeration) {
-                logger.error(limeElement, "enumerator values can only be assigned to `enum` types")
-                return false
+            is LimeValue.Constant -> {
+                if (actualType.fullName != limeValue.valueRef.typeRef.type.fullName) {
+                    logger.error(limeElement, "constant value does not have a matching type")
+                    return false
+                }
             }
             is LimeValue.InitializerList -> if (!isCollectionType(actualType)) {
                 logger.error(limeElement, "initializer list values can only be assigned to collection types")

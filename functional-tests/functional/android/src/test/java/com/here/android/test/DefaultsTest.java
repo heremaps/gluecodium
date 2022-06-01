@@ -239,4 +239,12 @@ public final class DefaultsTest {
     assertEquals(true, result.secondFreeField);
     assertEquals("bar", result.thirdInitField);
   }
+
+  @Test
+  public void testConstantDefaults() {
+    ConstantDefaults result = new ConstantDefaults();
+
+    assertEquals(42, result.field1.intField);
+    assertEquals(-1, result.field2.intField);
+  }
 }

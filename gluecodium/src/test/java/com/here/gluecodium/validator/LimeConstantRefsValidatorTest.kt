@@ -37,7 +37,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
-class LimeEnumeratorRefsValidatorTest {
+class LimeConstantRefsValidatorTest {
 
     private val allElements = mutableMapOf<String, LimeElement>()
     private val limeModel = LimeModel(allElements, emptyList())
@@ -51,7 +51,7 @@ class LimeEnumeratorRefsValidatorTest {
         override val typeRef = LimeBasicTypeRef.INT
     }
 
-    private val validator = LimeEnumeratorRefsValidator(mockk(relaxed = true))
+    private val validator = LimeConstantRefsValidator(mockk(relaxed = true))
 
     @Test
     fun validateFieldWithValidRef() {

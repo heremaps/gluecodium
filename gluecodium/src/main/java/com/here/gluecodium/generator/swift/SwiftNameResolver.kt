@@ -114,9 +114,9 @@ internal class SwiftNameResolver(
         when (limeValue) {
             is LimeValue.Literal -> resolveLiteralValue(limeValue)
             is LimeValue.Constant -> {
-                val enumerator = limeValue.valueRef.element
-                val enumeration = getParentElement(enumerator)
-                "${resolveReferenceName(enumeration)}.${resolveName(enumerator)}"
+                val limeElement = limeValue.valueRef.element
+                val parentElement = getParentElement(limeElement)
+                "${resolveReferenceName(parentElement)}.${resolveName(limeElement)}"
             }
             is LimeValue.Special -> {
                 val signPrefix = if (limeValue.value == LimeValue.Special.ValueId.NEGATIVE_INFINITY) "-" else ""

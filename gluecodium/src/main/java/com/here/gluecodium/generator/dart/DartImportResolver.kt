@@ -107,7 +107,8 @@ internal class DartImportResolver(
             is LimeValue.KeyValuePair -> resolveValueImports(limeValue.key) + resolveValueImports(limeValue.value)
             is LimeValue.InitializerList -> limeValue.values.flatMap { resolveValueImports(it) }
             is LimeValue.StructInitializer -> limeValue.values.flatMap { resolveValueImports(it) }
-            is LimeValue.Constant -> resolveTypeImports(limeValue.valueRef.typeRef.type, skipHelpers = true)
+            is LimeValue.Constant ->
+                resolveTypeImports(getParentElement(limeValue.valueRef.element) as LimeType, skipHelpers = true)
             else -> emptyList()
         }
 

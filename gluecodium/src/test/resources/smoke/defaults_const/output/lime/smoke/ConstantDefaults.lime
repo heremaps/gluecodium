@@ -1,0 +1,6 @@
+package smoke
+import fire.SomeStruct
+struct ConstantDefaults {
+    field1: SomeStruct = fire.StructConstants.dummy
+    field2: SomeStruct = fire.StructConstants.dummy4
+}
