@@ -30,7 +30,7 @@ class LimeEnumerator(
         get() = explicitValue ?: computeValue()
 
     val isAlias
-        get() = explicitValue is LimeValue.Enumerator
+        get() = explicitValue is LimeValue.Constant
 
     private fun computeValue(): LimeValue =
         previous?.value?.toString()?.toIntOrNull()?.let {

@@ -136,9 +136,9 @@ internal abstract class AntlrLimeModelBuilderBase(
 
     override fun exitMultiLineStringContent(ctx: LimeParser.MultiLineStringContentContext) {}
 
-    override fun enterEnumeratorRef(ctx: LimeParser.EnumeratorRefContext) {}
+    override fun enterElementRef(ctx: LimeParser.ElementRefContext) {}
 
-    override fun exitEnumeratorRef(ctx: LimeParser.EnumeratorRefContext) {}
+    override fun exitElementRef(ctx: LimeParser.ElementRefContext) {}
 
     override fun enterPositionalEnumeratorRef(ctx: LimeParser.PositionalEnumeratorRefContext) {}
 

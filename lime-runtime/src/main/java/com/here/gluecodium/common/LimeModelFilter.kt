@@ -259,10 +259,10 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
         }.also { remap(it) }
 
     private fun filterValue(limeValue: LimeValue): LimeValue {
-        if (limeValue !is LimeValue.Enumerator || limeValue.valueRef !is LimePositionalEnumeratorRef) return limeValue
+        if (limeValue !is LimeValue.Constant || limeValue.valueRef !is LimePositionalEnumeratorRef) return limeValue
         val limeEnumeration = limeValue.typeRef.type.actualType as? LimeEnumeration ?: return limeValue
 
         val filteredTypeRef = LimeDirectTypeRef(filterEnum(limeEnumeration))
-        return LimeValue.Enumerator(filteredTypeRef, limeValue.valueRef.remap(referenceMap))
+        return LimeValue.Constant(filteredTypeRef, limeValue.valueRef.remap(referenceMap))
     }
 }

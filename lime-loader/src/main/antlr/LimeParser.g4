@@ -211,7 +211,7 @@ visibility
 literalConstant
     : singleLineStringLiteral
     | multiLineStringLiteral
-    | enumeratorRef
+    | elementRef
     | positionalEnumeratorRef
     | structInitializer
     | listInitializer
@@ -240,7 +240,7 @@ multiLineStringContent
     : MultiLineStrText | MultiLineStringQuote
     ;
 
-enumeratorRef
+elementRef
     : identifier NewLine*
     ;
 

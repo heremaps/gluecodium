@@ -53,7 +53,7 @@ internal class LimeValuesValidator(private val logger: LimeLogger) {
         val actualType = limeElement.typeRef.type.actualType
         when (limeValue) {
             is LimeValue.Literal -> if (!validateLiteral(limeElement, actualType, limeValue)) return false
-            is LimeValue.Enumerator -> if (actualType !is LimeEnumeration) {
+            is LimeValue.Constant -> if (actualType !is LimeEnumeration) {
                 logger.error(limeElement, "enumerator values can only be assigned to `enum` types")
                 return false
             }

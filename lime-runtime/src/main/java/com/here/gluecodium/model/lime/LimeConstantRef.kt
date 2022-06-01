@@ -19,12 +19,8 @@
 
 package com.here.gluecodium.model.lime
 
-abstract class LimeEnumeratorRef : LimeElementRef<LimeEnumerator>() {
-    abstract val enumerator: LimeEnumerator
-    abstract val enumRef: LimeTypeRef
+abstract class LimeConstantRef : LimeElementRef<LimeNamedElement>() {
+    abstract val typeRef: LimeTypeRef
 
-    override fun remap(referenceMap: Map<String, LimeElement>): LimeEnumeratorRef = this
-
-    override val element
-        get() = enumerator
+    override fun remap(referenceMap: Map<String, LimeElement>): LimeConstantRef = this
 }
