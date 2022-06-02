@@ -25,7 +25,12 @@ import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 
 internal class DartImportsCollector(importsResolver: ImportsResolver<DartImport>) :
-    GenericImportsCollector<DartImport>(importsResolver, collectTypeRefImports = true, parentTypeFilter = { true }) {
+    GenericImportsCollector<DartImport>(
+        importsResolver,
+        collectTypeRefImports = true,
+        collectValueImports = true,
+        parentTypeFilter = { true }
+    ) {
 
     override fun collectParentTypeRefs(limeContainer: LimeContainerWithInheritance) =
         when (limeContainer) {

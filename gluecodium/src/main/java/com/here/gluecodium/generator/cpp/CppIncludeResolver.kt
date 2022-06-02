@@ -101,6 +101,9 @@ internal class CppIncludeResolver(
             is LimeValue.KeyValuePair ->
                 resolveValueIncludes(limeValue.key) + resolveValueIncludes(limeValue.value)
             is LimeValue.InitializerList -> limeValue.values.flatMap { resolveValueIncludes(it) }
+            is LimeValue.StructInitializer -> resolveTypeRefIncludes(limeValue.typeRef) +
+                limeValue.values.flatMap { resolveValueIncludes(it) }
+            is LimeValue.Constant -> cppIncludesCache.resolveIncludes(limeValue.valueRef.element)
             else -> emptyList()
         }
 

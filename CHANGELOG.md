@@ -5,6 +5,7 @@
   * Added support for `@Skip(Cpp)` on constants.
 ### Bug fixes:
   * Fixed compilation issues for `@Async` functions with `throws` in C++.
+  * Added missing includes/imports for struct initializers and enumerator references in C++ and Java.
 
 ## 11.2.4
 Release date: 2022-05-31

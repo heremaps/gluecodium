@@ -28,12 +28,14 @@ import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
+import com.here.gluecodium.model.lime.LimeValue
 
 internal class LimeImportsResolver(private val path: LimePath) : ImportsResolver<LimePath> {
 
     override fun resolveElementImports(limeElement: LimeElement): List<LimePath> =
         when (limeElement) {
             is LimeTypeRef -> resolveTypeImports(limeElement.type)
+            is LimeValue -> resolveValueImports(limeElement)
             else -> emptyList()
         }
 
@@ -51,6 +53,15 @@ internal class LimeImportsResolver(private val path: LimePath) : ImportsResolver
             is LimeList -> resolveElementImports(limeType.elementType)
             is LimeSet -> resolveElementImports(limeType.elementType)
             is LimeMap -> resolveElementImports(limeType.keyType) + resolveElementImports(limeType.valueType)
+            else -> emptyList()
+        }
+
+    private fun resolveValueImports(limeValue: LimeValue): List<LimePath> =
+        when (limeValue) {
+            is LimeValue.KeyValuePair -> resolveValueImports(limeValue.key) + resolveValueImports(limeValue.value)
+            is LimeValue.Constant -> resolveTypeImports(limeValue.valueRef.typeRef.type)
+            is LimeValue.StructInitializer -> limeValue.values.flatMap { resolveValueImports(it) }
+            is LimeValue.InitializerList -> limeValue.values.flatMap { resolveValueImports(it) }
             else -> emptyList()
         }
 }

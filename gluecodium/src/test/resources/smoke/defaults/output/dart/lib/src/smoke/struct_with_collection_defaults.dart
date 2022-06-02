@@ -45,19 +45,19 @@ final _smokeStructwithcollectiondefaultsGetFieldsetField = __lib.catchArgumentEr
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithCollectionDefaults_get_field_setField'));
 Pointer<Void> smokeStructwithcollectiondefaultsToFfi(StructWithCollectionDefaults value) {
-  final _emptyListFieldHandle = listofStringToFfi(value.emptyListField);
-  final _emptyMapFieldHandle = mapofStringToStringToFfi(value.emptyMapField);
-  final _emptySetFieldHandle = setofStringToFfi(value.emptySetField);
-  final _listFieldHandle = listofStringToFfi(value.listField);
-  final _mapFieldHandle = mapofStringToStringToFfi(value.mapField);
-  final _setFieldHandle = setofStringToFfi(value.setField);
+  final _emptyListFieldHandle = foobarListofStringToFfi(value.emptyListField);
+  final _emptyMapFieldHandle = foobarMapofStringToStringToFfi(value.emptyMapField);
+  final _emptySetFieldHandle = foobarSetofStringToFfi(value.emptySetField);
+  final _listFieldHandle = foobarListofStringToFfi(value.listField);
+  final _mapFieldHandle = foobarMapofStringToStringToFfi(value.mapField);
+  final _setFieldHandle = foobarSetofStringToFfi(value.setField);
   final _result = _smokeStructwithcollectiondefaultsCreateHandle(_emptyListFieldHandle, _emptyMapFieldHandle, _emptySetFieldHandle, _listFieldHandle, _mapFieldHandle, _setFieldHandle);
-  listofStringReleaseFfiHandle(_emptyListFieldHandle);
-  mapofStringToStringReleaseFfiHandle(_emptyMapFieldHandle);
-  setofStringReleaseFfiHandle(_emptySetFieldHandle);
-  listofStringReleaseFfiHandle(_listFieldHandle);
-  mapofStringToStringReleaseFfiHandle(_mapFieldHandle);
-  setofStringReleaseFfiHandle(_setFieldHandle);
+  foobarListofStringReleaseFfiHandle(_emptyListFieldHandle);
+  foobarMapofStringToStringReleaseFfiHandle(_emptyMapFieldHandle);
+  foobarSetofStringReleaseFfiHandle(_emptySetFieldHandle);
+  foobarListofStringReleaseFfiHandle(_listFieldHandle);
+  foobarMapofStringToStringReleaseFfiHandle(_mapFieldHandle);
+  foobarSetofStringReleaseFfiHandle(_setFieldHandle);
   return _result;
 }
 StructWithCollectionDefaults smokeStructwithcollectiondefaultsFromFfi(Pointer<Void> handle) {
@@ -69,20 +69,20 @@ StructWithCollectionDefaults smokeStructwithcollectiondefaultsFromFfi(Pointer<Vo
   final _setFieldHandle = _smokeStructwithcollectiondefaultsGetFieldsetField(handle);
   try {
     return StructWithCollectionDefaults(
-      listofStringFromFfi(_emptyListFieldHandle),
-      mapofStringToStringFromFfi(_emptyMapFieldHandle),
-      setofStringFromFfi(_emptySetFieldHandle),
-      listofStringFromFfi(_listFieldHandle),
-      mapofStringToStringFromFfi(_mapFieldHandle),
-      setofStringFromFfi(_setFieldHandle)
+      foobarListofStringFromFfi(_emptyListFieldHandle),
+      foobarMapofStringToStringFromFfi(_emptyMapFieldHandle),
+      foobarSetofStringFromFfi(_emptySetFieldHandle),
+      foobarListofStringFromFfi(_listFieldHandle),
+      foobarMapofStringToStringFromFfi(_mapFieldHandle),
+      foobarSetofStringFromFfi(_setFieldHandle)
     );
   } finally {
-    listofStringReleaseFfiHandle(_emptyListFieldHandle);
-    mapofStringToStringReleaseFfiHandle(_emptyMapFieldHandle);
-    setofStringReleaseFfiHandle(_emptySetFieldHandle);
-    listofStringReleaseFfiHandle(_listFieldHandle);
-    mapofStringToStringReleaseFfiHandle(_mapFieldHandle);
-    setofStringReleaseFfiHandle(_setFieldHandle);
+    foobarListofStringReleaseFfiHandle(_emptyListFieldHandle);
+    foobarMapofStringToStringReleaseFfiHandle(_emptyMapFieldHandle);
+    foobarSetofStringReleaseFfiHandle(_emptySetFieldHandle);
+    foobarListofStringReleaseFfiHandle(_listFieldHandle);
+    foobarMapofStringToStringReleaseFfiHandle(_mapFieldHandle);
+    foobarSetofStringReleaseFfiHandle(_setFieldHandle);
   }
 }
 void smokeStructwithcollectiondefaultsReleaseFfiHandle(Pointer<Void> handle) => _smokeStructwithcollectiondefaultsReleaseHandle(handle);

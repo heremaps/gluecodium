@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2019 HERE Europe B.V.
+# Copyright (C) 2016-2021 HERE Europe B.V.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,9 +17,18 @@
 
 package smoke
 
-types AnEnum {
-    enum AnEnum {
-        ENABLED,
-        DISABLED
-    }
+enum SomethingEnum {
+  @Skip(Lite)
+  FIRST,
+  REALLY_FIRST,
+  EXPLICIT = 42,
+  LAST
+}
+
+struct StructWithPosEnums {
+  firstField: SomethingEnum = SomethingEnum(0)
+  explicitField: SomethingEnum = SomethingEnum(42)
+  lastField: SomethingEnum = SomethingEnum(43)
+
+  const firstConstant: SomethingEnum = SomethingEnum(0)
 }

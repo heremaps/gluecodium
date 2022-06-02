@@ -28,6 +28,7 @@ import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
+import com.here.gluecodium.model.lime.LimeValue
 
 internal class SwiftImportsResolver : ImportsResolver<String> {
 
@@ -35,6 +36,7 @@ internal class SwiftImportsResolver : ImportsResolver<String> {
         when (limeElement) {
             is LimeTypeRef -> resolveElementImports(limeElement.type)
             is LimeGenericType -> resolveGenericTypeImports(limeElement)
+            is LimeValue -> resolveValueImports(limeElement)
             is LimeType -> listOfNotNull(getFrameworkName(limeElement))
             else -> emptyList()
         }
@@ -49,6 +51,15 @@ internal class SwiftImportsResolver : ImportsResolver<String> {
             is LimeList -> resolveElementImports(limeType.elementType)
             is LimeSet -> resolveElementImports(limeType.elementType)
             is LimeMap -> resolveElementImports(limeType.keyType) + resolveElementImports(limeType.valueType)
+            else -> emptyList()
+        }
+
+    private fun resolveValueImports(limeValue: LimeValue): List<String> =
+        when (limeValue) {
+            is LimeValue.KeyValuePair -> resolveValueImports(limeValue.key) + resolveValueImports(limeValue.value)
+            is LimeValue.InitializerList -> limeValue.values.flatMap { resolveValueImports(it) }
+            is LimeValue.StructInitializer -> limeValue.values.flatMap { resolveValueImports(it) }
+            is LimeValue.Constant -> resolveElementImports(limeValue.valueRef.typeRef)
             else -> emptyList()
         }
 }

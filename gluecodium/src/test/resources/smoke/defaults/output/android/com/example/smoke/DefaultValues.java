@@ -12,22 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 public final class DefaultValues extends NativeBase {
-    public enum SomeEnum {
-        FOO_VALUE(0),
-        BAR_VALUE(1);
-        public final int value;
-        SomeEnum(final int value) {
-            this.value = value;
-        }
-    }
-    public enum ExternalEnum {
-        ONE_VALUE(0),
-        ANOTHER_VALUE(1);
-        public final int value;
-        ExternalEnum(final int value) {
-            this.value = value;
-        }
-    }
     public static final class StructWithDefaults {
         public int intField;
         public long uintField;
@@ -36,10 +20,6 @@ public final class DefaultValues extends NativeBase {
         public boolean boolField;
         @NonNull
         public String stringField;
-        @NonNull
-        public DefaultValues.SomeEnum enumField;
-        @NonNull
-        public DefaultValues.ExternalEnum externalEnumField;
         public StructWithDefaults() {
             this.intField = 42;
             this.uintField = 4294967295L;
@@ -47,8 +27,6 @@ public final class DefaultValues extends NativeBase {
             this.doubleField = -1.4142;
             this.boolField = true;
             this.stringField = "\\Jonny \"Magic\" Smith\n";
-            this.enumField = DefaultValues.SomeEnum.BAR_VALUE;
-            this.externalEnumField = DefaultValues.ExternalEnum.ANOTHER_VALUE;
         }
     }
     public static final class NullableStructWithDefaults {
@@ -62,15 +40,12 @@ public final class DefaultValues extends NativeBase {
         public Boolean boolField;
         @Nullable
         public String stringField;
-        @Nullable
-        public DefaultValues.SomeEnum enumField;
         public NullableStructWithDefaults() {
             this.intField = null;
             this.uintField = null;
             this.floatField = null;
             this.boolField = null;
             this.stringField = null;
-            this.enumField = null;
         }
     }
     public static final class StructWithSpecialDefaults {
@@ -113,13 +88,10 @@ public final class DefaultValues extends NativeBase {
         public boolean boolField;
         @NonNull
         public String stringField;
-        @NonNull
-        public DefaultValues.SomeEnum enumField;
         public StructWithTypedefDefaults() {
             this.longField = 42L;
             this.boolField = true;
             this.stringField = "\\Jonny \"Magic\" Smith\n";
-            this.enumField = DefaultValues.SomeEnum.BAR_VALUE;
         }
     }
     /**
