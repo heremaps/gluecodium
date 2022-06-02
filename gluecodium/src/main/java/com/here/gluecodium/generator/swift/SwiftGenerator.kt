@@ -76,7 +76,8 @@ internal class SwiftGenerator : Generator {
             collectTypeRefImports = true,
             collectOwnImports = true,
             parentTypeFilter = { true },
-            collectTypeAliasImports = true
+            collectTypeAliasImports = true,
+            collectValueImports = true
         )
 
     override val shortName = "swift"

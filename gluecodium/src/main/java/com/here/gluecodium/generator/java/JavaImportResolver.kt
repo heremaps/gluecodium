@@ -108,6 +108,8 @@ internal class JavaImportResolver(
                 resolveValueImports(limeValue.key) + resolveValueImports(limeValue.value) + abstractMapImport
             is LimeValue.InitializerList ->
                 limeValue.values.flatMap { resolveValueImports(it) } + resolveCollectionImplImports(limeValue)
+            is LimeValue.StructInitializer -> limeValue.values.flatMap { resolveValueImports(it) }
+            is LimeValue.Constant -> resolveTypeRefImports(limeValue.valueRef.typeRef, ignoreNullability = true)
             else -> emptyList()
         }
 
@@ -128,7 +130,7 @@ internal class JavaImportResolver(
         val limeType = limeTypeRef?.type?.actualType ?: return emptyList()
 
         val imports = when {
-            limeType.external?.java != null -> emptyList()
+            limeType.external?.java != null -> emptyList() // External types are referred by FQN, so no import needed.
             limeType is LimeBasicType -> listOfNotNull(resolveBasicTypeImport(limeType.typeId))
             limeType is LimeList -> resolveTypeRefImports(limeType.elementType, ignoreNullability = true) + listImport +
                 if (limeTypeRef.attributes.have(OPTIMIZED)) listOf(abstractNativeListImport) else emptyList()

@@ -50,6 +50,7 @@ internal class LimeGenerator : Generator {
             collectTypeRefImports = true,
             collectTypeAliasImports = true,
             collectFunctionErrorType = false,
+            collectValueImports = true,
             parentTypeFilter = { false },
         )
 

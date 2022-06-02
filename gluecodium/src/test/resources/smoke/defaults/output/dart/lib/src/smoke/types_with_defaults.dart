@@ -1,64 +1,7 @@
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'package:library/src/smoke/an_enum.dart';
-import 'package:library/src/smoke/default_values.dart';
 import 'package:meta/meta.dart';
-enum SomeEnum {
-    fooValue,
-    barValue
-}
-// SomeEnum "private" section, not exported.
-int smokeTypeswithdefaultsSomeenumToFfi(SomeEnum value) {
-  switch (value) {
-  case SomeEnum.fooValue:
-    return 0;
-  case SomeEnum.barValue:
-    return 1;
-  default:
-    throw StateError("Invalid enum value $value for SomeEnum enum.");
-  }
-}
-SomeEnum smokeTypeswithdefaultsSomeenumFromFfi(int handle) {
-  switch (handle) {
-  case 0:
-    return SomeEnum.fooValue;
-  case 1:
-    return SomeEnum.barValue;
-  default:
-    throw StateError("Invalid numeric value $handle for SomeEnum enum.");
-  }
-}
-void smokeTypeswithdefaultsSomeenumReleaseFfiHandle(int handle) {}
-final _smokeTypeswithdefaultsSomeenumCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint32),
-    Pointer<Void> Function(int)
-  >('library_smoke_TypesWithDefaults_SomeEnum_create_handle_nullable'));
-final _smokeTypeswithdefaultsSomeenumReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>),
-    void Function(Pointer<Void>)
-  >('library_smoke_TypesWithDefaults_SomeEnum_release_handle_nullable'));
-final _smokeTypeswithdefaultsSomeenumGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Uint32 Function(Pointer<Void>),
-    int Function(Pointer<Void>)
-  >('library_smoke_TypesWithDefaults_SomeEnum_get_value_nullable'));
-Pointer<Void> smokeTypeswithdefaultsSomeenumToFfiNullable(SomeEnum? value) {
-  if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smokeTypeswithdefaultsSomeenumToFfi(value);
-  final result = _smokeTypeswithdefaultsSomeenumCreateHandleNullable(_handle);
-  smokeTypeswithdefaultsSomeenumReleaseFfiHandle(_handle);
-  return result;
-}
-SomeEnum? smokeTypeswithdefaultsSomeenumFromFfiNullable(Pointer<Void> handle) {
-  if (handle.address == 0) return null;
-  final _handle = _smokeTypeswithdefaultsSomeenumGetValueNullable(handle);
-  final result = smokeTypeswithdefaultsSomeenumFromFfi(_handle);
-  smokeTypeswithdefaultsSomeenumReleaseFfiHandle(_handle);
-  return result;
-}
-void smokeTypeswithdefaultsSomeenumReleaseFfiHandleNullable(Pointer<Void> handle) =>
-  _smokeTypeswithdefaultsSomeenumReleaseHandleNullable(handle);
-// End of SomeEnum "private" section.
 class StructWithDefaults {
   int intField;
   int uintField;
@@ -66,15 +9,14 @@ class StructWithDefaults {
   double doubleField;
   bool boolField;
   String stringField;
-  SomeEnum enumField;
-  StructWithDefaults._(this.intField, this.uintField, this.floatField, this.doubleField, this.boolField, this.stringField, this.enumField);
+  StructWithDefaults._(this.intField, this.uintField, this.floatField, this.doubleField, this.boolField, this.stringField);
   StructWithDefaults()
-    : intField = 42, uintField = 4294967295, floatField = 3.14, doubleField = -1.4142, boolField = true, stringField = "\\Jonny \"Magic\" Smith\n", enumField = SomeEnum.barValue;
+    : intField = 42, uintField = 4294967295, floatField = 3.14, doubleField = -1.4142, boolField = true, stringField = "\\Jonny \"Magic\" Smith\n";
 }
 // StructWithDefaults "private" section, not exported.
 final _smokeTypeswithdefaultsStructwithdefaultsCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Int32, Uint32, Float, Double, Uint8, Pointer<Void>, Uint32),
-    Pointer<Void> Function(int, int, double, double, int, Pointer<Void>, int)
+    Pointer<Void> Function(Int32, Uint32, Float, Double, Uint8, Pointer<Void>),
+    Pointer<Void> Function(int, int, double, double, int, Pointer<Void>)
   >('library_smoke_TypesWithDefaults_StructWithDefaults_create_handle'));
 final _smokeTypeswithdefaultsStructwithdefaultsReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
@@ -104,10 +46,6 @@ final _smokeTypeswithdefaultsStructwithdefaultsGetFieldstringField = __lib.catch
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_TypesWithDefaults_StructWithDefaults_get_field_stringField'));
-final _smokeTypeswithdefaultsStructwithdefaultsGetFieldenumField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Uint32 Function(Pointer<Void>),
-    int Function(Pointer<Void>)
-  >('library_smoke_TypesWithDefaults_StructWithDefaults_get_field_enumField'));
 Pointer<Void> smokeTypeswithdefaultsStructwithdefaultsToFfi(StructWithDefaults value) {
   final _intFieldHandle = (value.intField);
   final _uintFieldHandle = (value.uintField);
@@ -115,11 +53,9 @@ Pointer<Void> smokeTypeswithdefaultsStructwithdefaultsToFfi(StructWithDefaults v
   final _doubleFieldHandle = (value.doubleField);
   final _boolFieldHandle = booleanToFfi(value.boolField);
   final _stringFieldHandle = stringToFfi(value.stringField);
-  final _enumFieldHandle = smokeTypeswithdefaultsSomeenumToFfi(value.enumField);
-  final _result = _smokeTypeswithdefaultsStructwithdefaultsCreateHandle(_intFieldHandle, _uintFieldHandle, _floatFieldHandle, _doubleFieldHandle, _boolFieldHandle, _stringFieldHandle, _enumFieldHandle);
+  final _result = _smokeTypeswithdefaultsStructwithdefaultsCreateHandle(_intFieldHandle, _uintFieldHandle, _floatFieldHandle, _doubleFieldHandle, _boolFieldHandle, _stringFieldHandle);
   booleanReleaseFfiHandle(_boolFieldHandle);
   stringReleaseFfiHandle(_stringFieldHandle);
-  smokeTypeswithdefaultsSomeenumReleaseFfiHandle(_enumFieldHandle);
   return _result;
 }
 StructWithDefaults smokeTypeswithdefaultsStructwithdefaultsFromFfi(Pointer<Void> handle) {
@@ -129,7 +65,6 @@ StructWithDefaults smokeTypeswithdefaultsStructwithdefaultsFromFfi(Pointer<Void>
   final _doubleFieldHandle = _smokeTypeswithdefaultsStructwithdefaultsGetFielddoubleField(handle);
   final _boolFieldHandle = _smokeTypeswithdefaultsStructwithdefaultsGetFieldboolField(handle);
   final _stringFieldHandle = _smokeTypeswithdefaultsStructwithdefaultsGetFieldstringField(handle);
-  final _enumFieldHandle = _smokeTypeswithdefaultsStructwithdefaultsGetFieldenumField(handle);
   try {
     return StructWithDefaults._(
       (_intFieldHandle),
@@ -137,13 +72,11 @@ StructWithDefaults smokeTypeswithdefaultsStructwithdefaultsFromFfi(Pointer<Void>
       (_floatFieldHandle),
       (_doubleFieldHandle),
       booleanFromFfi(_boolFieldHandle),
-      stringFromFfi(_stringFieldHandle),
-      smokeTypeswithdefaultsSomeenumFromFfi(_enumFieldHandle)
+      stringFromFfi(_stringFieldHandle)
     );
   } finally {
     booleanReleaseFfiHandle(_boolFieldHandle);
     stringReleaseFfiHandle(_stringFieldHandle);
-    smokeTypeswithdefaultsSomeenumReleaseFfiHandle(_enumFieldHandle);
   }
 }
 void smokeTypeswithdefaultsStructwithdefaultsReleaseFfiHandle(Pointer<Void> handle) => _smokeTypeswithdefaultsStructwithdefaultsReleaseHandle(handle);
@@ -185,16 +118,14 @@ class ImmutableStructWithDefaults {
   final double doubleField;
   final bool boolField;
   final String stringField;
-  final SomeEnum enumField;
-  final DefaultValues_ExternalEnum externalEnumField;
-  const ImmutableStructWithDefaults(this.intField, this.uintField, this.floatField, this.doubleField, this.boolField, this.stringField, this.enumField, this.externalEnumField);
+  const ImmutableStructWithDefaults(this.intField, this.uintField, this.floatField, this.doubleField, this.boolField, this.stringField);
   const ImmutableStructWithDefaults.withDefaults(int uintField, bool boolField)
-    : intField = 42, uintField = uintField, floatField = 3.14, doubleField = -1.4142, boolField = boolField, stringField = "\\Jonny \"Magic\" Smith\n", enumField = SomeEnum.barValue, externalEnumField = DefaultValues_ExternalEnum.anotherValue;
+    : intField = 42, uintField = uintField, floatField = 3.14, doubleField = -1.4142, boolField = boolField, stringField = "\\Jonny \"Magic\" Smith\n";
 }
 // ImmutableStructWithDefaults "private" section, not exported.
 final _smokeTypeswithdefaultsImmutablestructwithdefaultsCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Int32, Uint32, Float, Double, Uint8, Pointer<Void>, Uint32, Uint32),
-    Pointer<Void> Function(int, int, double, double, int, Pointer<Void>, int, int)
+    Pointer<Void> Function(Int32, Uint32, Float, Double, Uint8, Pointer<Void>),
+    Pointer<Void> Function(int, int, double, double, int, Pointer<Void>)
   >('library_smoke_TypesWithDefaults_ImmutableStructWithDefaults_create_handle'));
 final _smokeTypeswithdefaultsImmutablestructwithdefaultsReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
@@ -224,14 +155,6 @@ final _smokeTypeswithdefaultsImmutablestructwithdefaultsGetFieldstringField = __
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_TypesWithDefaults_ImmutableStructWithDefaults_get_field_stringField'));
-final _smokeTypeswithdefaultsImmutablestructwithdefaultsGetFieldenumField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Uint32 Function(Pointer<Void>),
-    int Function(Pointer<Void>)
-  >('library_smoke_TypesWithDefaults_ImmutableStructWithDefaults_get_field_enumField'));
-final _smokeTypeswithdefaultsImmutablestructwithdefaultsGetFieldexternalEnumField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Uint32 Function(Pointer<Void>),
-    int Function(Pointer<Void>)
-  >('library_smoke_TypesWithDefaults_ImmutableStructWithDefaults_get_field_externalEnumField'));
 Pointer<Void> smokeTypeswithdefaultsImmutablestructwithdefaultsToFfi(ImmutableStructWithDefaults value) {
   final _intFieldHandle = (value.intField);
   final _uintFieldHandle = (value.uintField);
@@ -239,13 +162,9 @@ Pointer<Void> smokeTypeswithdefaultsImmutablestructwithdefaultsToFfi(ImmutableSt
   final _doubleFieldHandle = (value.doubleField);
   final _boolFieldHandle = booleanToFfi(value.boolField);
   final _stringFieldHandle = stringToFfi(value.stringField);
-  final _enumFieldHandle = smokeTypeswithdefaultsSomeenumToFfi(value.enumField);
-  final _externalEnumFieldHandle = smokeDefaultvaluesExternalenumToFfi(value.externalEnumField);
-  final _result = _smokeTypeswithdefaultsImmutablestructwithdefaultsCreateHandle(_intFieldHandle, _uintFieldHandle, _floatFieldHandle, _doubleFieldHandle, _boolFieldHandle, _stringFieldHandle, _enumFieldHandle, _externalEnumFieldHandle);
+  final _result = _smokeTypeswithdefaultsImmutablestructwithdefaultsCreateHandle(_intFieldHandle, _uintFieldHandle, _floatFieldHandle, _doubleFieldHandle, _boolFieldHandle, _stringFieldHandle);
   booleanReleaseFfiHandle(_boolFieldHandle);
   stringReleaseFfiHandle(_stringFieldHandle);
-  smokeTypeswithdefaultsSomeenumReleaseFfiHandle(_enumFieldHandle);
-  smokeDefaultvaluesExternalenumReleaseFfiHandle(_externalEnumFieldHandle);
   return _result;
 }
 ImmutableStructWithDefaults smokeTypeswithdefaultsImmutablestructwithdefaultsFromFfi(Pointer<Void> handle) {
@@ -255,8 +174,6 @@ ImmutableStructWithDefaults smokeTypeswithdefaultsImmutablestructwithdefaultsFro
   final _doubleFieldHandle = _smokeTypeswithdefaultsImmutablestructwithdefaultsGetFielddoubleField(handle);
   final _boolFieldHandle = _smokeTypeswithdefaultsImmutablestructwithdefaultsGetFieldboolField(handle);
   final _stringFieldHandle = _smokeTypeswithdefaultsImmutablestructwithdefaultsGetFieldstringField(handle);
-  final _enumFieldHandle = _smokeTypeswithdefaultsImmutablestructwithdefaultsGetFieldenumField(handle);
-  final _externalEnumFieldHandle = _smokeTypeswithdefaultsImmutablestructwithdefaultsGetFieldexternalEnumField(handle);
   try {
     return ImmutableStructWithDefaults(
       (_intFieldHandle),
@@ -264,15 +181,11 @@ ImmutableStructWithDefaults smokeTypeswithdefaultsImmutablestructwithdefaultsFro
       (_floatFieldHandle),
       (_doubleFieldHandle),
       booleanFromFfi(_boolFieldHandle),
-      stringFromFfi(_stringFieldHandle),
-      smokeTypeswithdefaultsSomeenumFromFfi(_enumFieldHandle),
-      smokeDefaultvaluesExternalenumFromFfi(_externalEnumFieldHandle)
+      stringFromFfi(_stringFieldHandle)
     );
   } finally {
     booleanReleaseFfiHandle(_boolFieldHandle);
     stringReleaseFfiHandle(_stringFieldHandle);
-    smokeTypeswithdefaultsSomeenumReleaseFfiHandle(_enumFieldHandle);
-    smokeDefaultvaluesExternalenumReleaseFfiHandle(_externalEnumFieldHandle);
   }
 }
 void smokeTypeswithdefaultsImmutablestructwithdefaultsReleaseFfiHandle(Pointer<Void> handle) => _smokeTypeswithdefaultsImmutablestructwithdefaultsReleaseHandle(handle);
@@ -306,69 +219,3 @@ ImmutableStructWithDefaults? smokeTypeswithdefaultsImmutablestructwithdefaultsFr
 void smokeTypeswithdefaultsImmutablestructwithdefaultsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeTypeswithdefaultsImmutablestructwithdefaultsReleaseHandleNullable(handle);
 // End of ImmutableStructWithDefaults "private" section.
-class StructWithAnEnum {
-  AnEnum config;
-  StructWithAnEnum._(this.config);
-  StructWithAnEnum()
-    : config = AnEnum.enabled;
-}
-// StructWithAnEnum "private" section, not exported.
-final _smokeTypeswithdefaultsStructwithanenumCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint32),
-    Pointer<Void> Function(int)
-  >('library_smoke_TypesWithDefaults_StructWithAnEnum_create_handle'));
-final _smokeTypeswithdefaultsStructwithanenumReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>),
-    void Function(Pointer<Void>)
-  >('library_smoke_TypesWithDefaults_StructWithAnEnum_release_handle'));
-final _smokeTypeswithdefaultsStructwithanenumGetFieldconfig = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Uint32 Function(Pointer<Void>),
-    int Function(Pointer<Void>)
-  >('library_smoke_TypesWithDefaults_StructWithAnEnum_get_field_config'));
-Pointer<Void> smokeTypeswithdefaultsStructwithanenumToFfi(StructWithAnEnum value) {
-  final _configHandle = smokeAnenumAnenumToFfi(value.config);
-  final _result = _smokeTypeswithdefaultsStructwithanenumCreateHandle(_configHandle);
-  smokeAnenumAnenumReleaseFfiHandle(_configHandle);
-  return _result;
-}
-StructWithAnEnum smokeTypeswithdefaultsStructwithanenumFromFfi(Pointer<Void> handle) {
-  final _configHandle = _smokeTypeswithdefaultsStructwithanenumGetFieldconfig(handle);
-  try {
-    return StructWithAnEnum._(
-      smokeAnenumAnenumFromFfi(_configHandle)
-    );
-  } finally {
-    smokeAnenumAnenumReleaseFfiHandle(_configHandle);
-  }
-}
-void smokeTypeswithdefaultsStructwithanenumReleaseFfiHandle(Pointer<Void> handle) => _smokeTypeswithdefaultsStructwithanenumReleaseHandle(handle);
-// Nullable StructWithAnEnum
-final _smokeTypeswithdefaultsStructwithanenumCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Pointer<Void>),
-    Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_TypesWithDefaults_StructWithAnEnum_create_handle_nullable'));
-final _smokeTypeswithdefaultsStructwithanenumReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>),
-    void Function(Pointer<Void>)
-  >('library_smoke_TypesWithDefaults_StructWithAnEnum_release_handle_nullable'));
-final _smokeTypeswithdefaultsStructwithanenumGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Pointer<Void>),
-    Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_TypesWithDefaults_StructWithAnEnum_get_value_nullable'));
-Pointer<Void> smokeTypeswithdefaultsStructwithanenumToFfiNullable(StructWithAnEnum? value) {
-  if (value == null) return Pointer<Void>.fromAddress(0);
-  final _handle = smokeTypeswithdefaultsStructwithanenumToFfi(value);
-  final result = _smokeTypeswithdefaultsStructwithanenumCreateHandleNullable(_handle);
-  smokeTypeswithdefaultsStructwithanenumReleaseFfiHandle(_handle);
-  return result;
-}
-StructWithAnEnum? smokeTypeswithdefaultsStructwithanenumFromFfiNullable(Pointer<Void> handle) {
-  if (handle.address == 0) return null;
-  final _handle = _smokeTypeswithdefaultsStructwithanenumGetValueNullable(handle);
-  final result = smokeTypeswithdefaultsStructwithanenumFromFfi(_handle);
-  smokeTypeswithdefaultsStructwithanenumReleaseFfiHandle(_handle);
-  return result;
-}
-void smokeTypeswithdefaultsStructwithanenumReleaseFfiHandleNullable(Pointer<Void> handle) =>
-  _smokeTypeswithdefaultsStructwithanenumReleaseHandleNullable(handle);
-// End of StructWithAnEnum "private" section.

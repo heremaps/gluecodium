@@ -3,22 +3,9 @@ class DefaultValues {
     typealias LongTypedef = Long
     typealias BooleanTypedef = Boolean
     typealias StringTypedef = String
-    typealias EnumTypedef = SomeEnum
     typealias FloatArray = List<Float>
     typealias IdToStringMap = Map<UInt, String>
     typealias StringSet = Set<String>
-    enum SomeEnum {
-        FooValue,
-        BarValue
-    }
-    enum ExternalEnum {
-        external {
-            cpp include "foo/Bar.h"
-            cpp name "::fire::SomeVeryExternalEnum"
-        }
-        One_Value,
-        Another_Value
-    }
     struct StructWithDefaults {
         intField: Int = 42
         uintField: UInt = 4294967295
@@ -26,8 +13,6 @@ class DefaultValues {
         doubleField: Double = -1.4142
         boolField: Boolean = true
         stringField: String = "\\Jonny \"Magic\" Smith\n"
-        enumField: SomeEnum = SomeEnum.BarValue
-        externalEnumField: ExternalEnum = ExternalEnum.Another_Value
     }
     struct NullableStructWithDefaults {
         intField: Int? = null
@@ -35,7 +20,6 @@ class DefaultValues {
         floatField: Float? = null
         boolField: Boolean? = null
         stringField: String? = null
-        enumField: SomeEnum? = null
     }
     struct StructWithSpecialDefaults {
         floatNanField: Float = NaN
@@ -56,7 +40,6 @@ class DefaultValues {
         longField: LongTypedef = 42
         boolField: BooleanTypedef = true
         stringField: StringTypedef = "\\Jonny \"Magic\" Smith\n"
-        enumField: EnumTypedef = SomeEnum.BarValue
     }
     static fun processStructWithDefaults(
         input: StructWithDefaults
