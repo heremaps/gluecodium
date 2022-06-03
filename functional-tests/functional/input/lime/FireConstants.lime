@@ -23,14 +23,23 @@ struct SomeStruct {
 }
 
 @Swift("FireStructConstants")
-@Dart("FireStructConstants")
 class StructConstants {
     const dummy: SomeStruct = {42}
     const dummy2: SomeStruct = {11}
-    const dummy3: SomeStruct = dummy2
+    const dummy3: SomeStruct = {-28}
 
     @Skip(Swift, Dart)
     const dummy4: SomeStruct = {-1}
     @Skip(Cpp, Java)
     const dummy4: SomeStruct = {-2}
+}
+
+@Skip(Java, Swift)
+class AmbiguousConstants {
+    const dummy: SomeStruct = {42}
+}
+
+@Skip(Java, Swift)
+enum AmbiguousEnum {
+    DISABLED
 }

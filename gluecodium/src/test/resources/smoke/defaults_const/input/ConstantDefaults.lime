@@ -24,3 +24,17 @@ struct ConstantDefaults {
     field1: SomeStruct = StructConstants.dummy
     field2: SomeStruct = StructConstants.dummy4
 }
+
+@Skip(Java, Swift)
+enum AmbiguousEnum {
+    DISABLED
+}
+
+@Skip(Java, Swift)
+class AmbiguousConstants {}
+
+@Skip(Java, Swift)
+struct AmbiguousDefaults {
+    field1: fire.AmbiguousEnum = fire.AmbiguousEnum.DISABLED
+    field2: SomeStruct = fire.AmbiguousConstants.dummy
+}

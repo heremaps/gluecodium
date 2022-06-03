@@ -88,3 +88,8 @@ enum ExternalEnum4 {
     ENABLED,
     DISABLED
 }
+
+@Skip(Java, Swift)
+enum AmbiguousEnum {
+    DISABLED
+}
