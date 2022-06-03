@@ -31,3 +31,8 @@ class StructConstants {
     @Skip(Cpp, Java)
     const dummy4: SomeStruct = {-2}
 }
+
+@Skip(Java, Swift)
+class AmbiguousConstants {
+    const dummy: SomeStruct = {42}
+}

@@ -174,11 +174,14 @@ internal class DartNameResolver(
         }
     }
 
-    private fun resolveConstantValue(limeValue: LimeValue.Constant) =
-        when (val limeElement = limeValue.valueRef.element) {
-            is LimeEnumerator -> "${resolveName(limeValue.typeRef)}.${resolveName(limeElement)}"
-            else -> resolveFullName(limeElement)
+    private fun resolveConstantValue(limeValue: LimeValue.Constant): String {
+        val limeElement = limeValue.valueRef.element
+        val typeRef = when (limeElement) {
+            is LimeEnumerator -> limeValue.typeRef
+            else -> LimeDirectTypeRef(getParentElement(limeElement) as LimeType)
         }
+        return "${resolveName(typeRef)}.${resolveName(limeElement)}"
+    }
 
     private fun resolveListValue(limeValue: LimeValue.InitializerList): String {
         val limeType = limeValue.typeRef.type.actualType
