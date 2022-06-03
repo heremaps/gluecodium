@@ -75,7 +75,7 @@ internal object CommonGeneratorPredicates {
         when {
             limeContainer !is LimeContainerWithInheritance -> false
             limeContainer is LimeInterface -> !limeContainer.isNarrow
-            limeContainer.visibility.isOpen -> true
+            limeContainer.isOpen -> true
             else -> limeContainer.parents.isNotEmpty()
         }
 
