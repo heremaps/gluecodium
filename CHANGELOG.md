@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 11.3.0
+Release date: 2022-06-03
 ### Features:
   * Added support for `@Skip(Cpp)` on constants.
   * Added support for initializing struct fields with named constants.
