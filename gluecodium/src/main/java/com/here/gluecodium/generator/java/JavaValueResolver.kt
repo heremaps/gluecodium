@@ -23,6 +23,7 @@ import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeSet
@@ -36,14 +37,7 @@ internal class JavaValueResolver(private val nameResolver: JavaNameResolver) {
     fun resolveValue(limeValue: LimeValue): String =
         when (limeValue) {
             is LimeValue.Literal -> mapLiteralValue(limeValue)
-            is LimeValue.Constant -> {
-                val limeEnumerator = limeValue.valueRef.element
-                val limeEnumeration = limeValue.typeRef.type.actualType
-                listOf(
-                    nameResolver.resolveReferenceName(limeEnumeration),
-                    nameResolver.resolveName(limeEnumerator)
-                ).joinToString(".")
-            }
+            is LimeValue.Constant -> resolveConstantValue(limeValue)
             is LimeValue.Special -> mapSpecialValue(limeValue)
             is LimeValue.Null -> "null"
             is LimeValue.InitializerList -> mapInitializerList(limeValue)
@@ -73,6 +67,16 @@ internal class JavaValueResolver(private val nameResolver: JavaNameResolver) {
             else -> limeValue.toString()
         }
     }
+
+    private fun resolveConstantValue(limeValue: LimeValue.Constant) =
+        when (val limeElement = limeValue.valueRef.element) {
+            is LimeEnumerator -> {
+                val typeName = nameResolver.resolveReferenceName(limeValue.typeRef.type.actualType)
+                val elementName = nameResolver.resolveName(limeElement)
+                "$typeName.$elementName"
+            }
+            else -> nameResolver.resolveFullName(limeValue.valueRef.element, forceDelimiter = ".")
+        }
 
     private fun mapInitializerList(limeValue: LimeValue.InitializerList): String {
         val limeType = limeValue.typeRef.type.actualType

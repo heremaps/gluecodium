@@ -26,10 +26,11 @@ import com.here.gluecodium.model.lime.LimeModelLoaderException
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeValue
 
-/* Validates all enumerator references by trying to resolve each one and reporting any resulting
+/**
+ * Validates all enumerator references by trying to resolve each one and reporting any resulting
  * exceptions as validation failures.
  */
-internal class LimeEnumeratorRefsValidator(private val logger: LimeLogger) :
+internal class LimeConstantRefsValidator(private val logger: LimeLogger) :
     LimeValuesVisitor<Boolean>() {
 
     fun validate(limeModel: LimeModel) = !traverseModel(limeModel).contains(false)

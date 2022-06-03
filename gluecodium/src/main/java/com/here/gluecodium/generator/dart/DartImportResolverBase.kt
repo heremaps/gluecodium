@@ -20,16 +20,17 @@
 package com.here.gluecodium.generator.dart
 
 import com.here.gluecodium.generator.common.ImportsResolver
+import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.generator.dart.DartImport.ImportType
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeType
 
 internal abstract class DartImportResolverBase(
-    private val limeReferenceMap: Map<String, LimeElement>,
+    limeReferenceMap: Map<String, LimeElement>,
     private val nameResolver: DartNameResolver,
     private val srcPath: String
-) : ImportsResolver<DartImport> {
+) : ReferenceMapBasedResolver(limeReferenceMap), ImportsResolver<DartImport> {
 
     protected fun resolveExternalImport(
         limeElement: LimeElement,

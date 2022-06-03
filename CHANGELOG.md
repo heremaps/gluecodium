@@ -3,6 +3,7 @@
 ## Unreleased
 ### Features:
   * Added support for `@Skip(Cpp)` on constants.
+  * Added support for initializing struct fields with named constants.
 ### Bug fixes:
   * Fixed compilation issues for `@Async` functions with `throws` in C++.
   * Added missing includes/imports for struct initializers and enumerator references in C++ and Java.

@@ -25,11 +25,11 @@ import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeConstantRef
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
-import com.here.gluecodium.model.lime.LimeEnumeration
-import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
@@ -68,6 +68,7 @@ class LimeValuesValidatorTest(
 
     companion object {
         private val fooTypeRef = LimeDirectTypeRef(object : LimeType(EMPTY_PATH) {})
+        private val fooType = object : LimeType(LimePath(emptyList(), listOf("foo"))) {}
 
         @JvmStatic
         @Parameterized.Parameters
@@ -88,12 +89,12 @@ class LimeValuesValidatorTest(
             arrayOf(LimeBasicTypeRef(LimeBasicType.TypeId.BLOB), LimeValue.Literal(fooTypeRef, ""), false),
             arrayOf(fooTypeRef, LimeValue.Literal(fooTypeRef, ""), false),
             arrayOf(
-                LimeDirectTypeRef(LimeEnumeration(EMPTY_PATH)),
+                LimeDirectTypeRef(fooType),
                 LimeValue.Constant(
                     fooTypeRef,
                     object : LimeConstantRef() {
-                        override val element = LimeEnumerator(EMPTY_PATH)
-                        override val typeRef = LimeBasicTypeRef.INT
+                        override val element = object : LimeNamedElement(EMPTY_PATH) {}
+                        override val typeRef = LimeDirectTypeRef(fooType)
                     }
                 ),
                 true
@@ -103,7 +104,7 @@ class LimeValuesValidatorTest(
                 LimeValue.Constant(
                     fooTypeRef,
                     object : LimeConstantRef() {
-                        override val element = LimeEnumerator(EMPTY_PATH)
+                        override val element = object : LimeNamedElement(EMPTY_PATH) {}
                         override val typeRef = LimeBasicTypeRef.INT
                     }
                 ),

@@ -33,6 +33,7 @@ import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeComment
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.IMPORT_PATH_NAME
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
@@ -122,7 +123,7 @@ internal class DartNameResolver(
     private fun resolveValue(limeValue: LimeValue): String =
         when (limeValue) {
             is LimeValue.Literal -> resolveLiteralValue(limeValue)
-            is LimeValue.Constant -> "${resolveName(limeValue.typeRef)}.${resolveName(limeValue.valueRef.element)}"
+            is LimeValue.Constant -> resolveConstantValue(limeValue)
             is LimeValue.Special -> {
                 val specialName = when (limeValue.value) {
                     LimeValue.Special.ValueId.NAN -> "nan"
@@ -172,6 +173,12 @@ internal class DartNameResolver(
             else -> limeValue.toString()
         }
     }
+
+    private fun resolveConstantValue(limeValue: LimeValue.Constant) =
+        when (val limeElement = limeValue.valueRef.element) {
+            is LimeEnumerator -> "${resolveName(limeValue.typeRef)}.${resolveName(limeElement)}"
+            else -> resolveFullName(limeElement)
+        }
 
     private fun resolveListValue(limeValue: LimeValue.InitializerList): String {
         val limeType = limeValue.typeRef.type.actualType

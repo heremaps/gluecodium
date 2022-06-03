@@ -111,4 +111,10 @@ void main() {
     expect(result.lastField, SomethingEnum.last);
     expect(StructWithEnums.firstConstant, SomethingEnum.reallyFirst);
   });
+  _testSuite.test("Check constant defaults", () {
+    final result = ConstantDefaults();
+
+    expect(result.field1.intField, 42);
+    expect(result.field2.intField, -2);
+  });
 }

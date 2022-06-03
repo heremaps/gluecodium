@@ -38,8 +38,10 @@ class LimeAmbiguousConstantRef(
     }
 
     override val typeRef by lazy {
-        // TODO: #1355: resolve differently for a constant
-        LimeLazyTypeRef(element.path.parent.toString(), referenceMap)
+        when (val limeElement = element) {
+            is LimeConstant -> limeElement.typeRef
+            else -> LimeLazyTypeRef(limeElement.path.parent.toString(), referenceMap)
+        }
     }
 
     override fun remap(referenceMap: Map<String, LimeElement>) =

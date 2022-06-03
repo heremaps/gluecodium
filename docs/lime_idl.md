@@ -500,10 +500,13 @@ set.
 * Example: `const FieldNames: Map<Int, String> = [1: "name", 42: "address"]`
 * Description: initializes a `Map<>` with the given key-value pairs. `[]` initializes an empty map.
 
-#### Enumerator reference
+#### Constant reference
 
-Initializes an enumeration-type constant or field with the given enumerator value, e.g. `Mode.FAST`. An enumerators can
-also be referenced by its raw value, e.g. `Mode(0)`.
+There are two subtypes of constant references:
+* *Enumerator*: initializes an enumeration-type constant or field with the given enumerator value, e.g. `Mode.FAST`. 
+An enumerators can also be referenced by its raw value, e.g. `Mode(0)`.
+* *Named constant*: initializes a constant or field of any type with the named constant of matching type (see 
+`Constant` above).
 
 ### Attributes
 
