@@ -80,7 +80,7 @@ final _{{resolveName "Ffi"}}ReleaseHandle = __lib.catchArgumentError(() => __lib
   >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_release_handle'));
 {{#if attributes.equatable}}{{>dart/DartFfiEqualityFunction}}{{/if}}{{!!
 }}{{#if attributes.pointerEquatable}}{{>dart/DartFfiEqualityFunction}}{{/if}}
-{{#if this.parents visibility.isOpen logic="or"}}
+{{#if this.parents this.isOpen logic="or"}}
 final _{{resolveName "Ffi"}}GetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -137,14 +137,14 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) =>
   if (instance != null && instance is {{resolveName}}) return instance;
 {{/unless}}
 
-{{#if this.parents visibility.isOpen logic="or"}}
+{{#if this.parents this.isOpen logic="or"}}
   final _typeIdHandle = _{{resolveName "Ffi"}}GetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
 
 {{/if}}
   final _copiedHandle = _{{resolveName "Ffi"}}CopyHandle(handle);
-  final result = {{#if this.parents visibility.isOpen logic="or"}}factoryConstructor != null
+  final result = {{#if this.parents this.isOpen logic="or"}}factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : {{/if}}{{resolveName}}$Impl(_copiedHandle);
 {{#unless this.attributes.nocache}}

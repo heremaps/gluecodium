@@ -253,7 +253,7 @@ internal class DartGenerator : Generator {
 
     private fun getTypeRepositories(allTypes: List<LimeType>) =
         allTypes.filterIsInstance<LimeInterface>() +
-            allTypes.filterIsInstance<LimeClass>().filter { it.parents.isNotEmpty() || it.visibility.isOpen }
+            allTypes.filterIsInstance<LimeClass>().filter { it.parents.isNotEmpty() || it.isOpen }
 
     private fun generateFfi(
         rootElement: LimeNamedElement,

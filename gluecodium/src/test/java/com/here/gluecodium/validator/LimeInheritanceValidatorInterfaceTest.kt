@@ -28,7 +28,6 @@ import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.gluecodium.model.lime.LimeStruct
-import com.here.gluecodium.model.lime.LimeVisibility
 import io.mockk.mockk
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -79,7 +78,7 @@ class LimeInheritanceValidatorInterfaceTest {
 
     @Test
     fun validateInterfaceWithOpenClassParent() {
-        val anotherClass = LimeClass(fooPath, visibility = LimeVisibility.OPEN)
+        val anotherClass = LimeClass(fooPath, isOpen = true)
         allElements[""] = LimeInterface(EMPTY_PATH, parents = listOf(LimeDirectTypeRef(anotherClass)))
 
         assertFalse(validator.validate(limeModel))

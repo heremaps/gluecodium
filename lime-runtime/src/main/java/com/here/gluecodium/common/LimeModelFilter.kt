@@ -134,7 +134,8 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
                 classes = classes.filter(predicate).map { filterClass(it) },
                 interfaces = interfaces.filter(predicate).map { filterInterface(it) },
                 lambdas = lambdas.filter(predicate),
-                parents = parents.map { it.remap(referenceMap) }
+                parents = parents.map { it.remap(referenceMap) },
+                isOpen = isOpen
             )
         }.also { remap(it) }
 

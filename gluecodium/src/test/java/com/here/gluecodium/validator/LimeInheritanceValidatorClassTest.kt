@@ -28,7 +28,6 @@ import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.gluecodium.model.lime.LimeStruct
-import com.here.gluecodium.model.lime.LimeVisibility
 import io.mockk.mockk
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -87,7 +86,7 @@ class LimeInheritanceValidatorClassTest {
 
     @Test
     fun validateClassWithOpenClassParent() {
-        val anotherClass = LimeClass(fooPath, visibility = LimeVisibility.OPEN)
+        val anotherClass = LimeClass(fooPath, isOpen = true)
         allElements[""] = LimeClass(EMPTY_PATH, parents = listOf(LimeDirectTypeRef(anotherClass)))
 
         assertTrue(validator.validate(limeModel))
@@ -103,8 +102,8 @@ class LimeInheritanceValidatorClassTest {
 
     @Test
     fun validateClassWithTwoOpenClassParents() {
-        val anotherClass = LimeClass(fooPath, visibility = LimeVisibility.OPEN)
-        val yetAnotherClass = LimeClass(barPath, visibility = LimeVisibility.OPEN)
+        val anotherClass = LimeClass(fooPath, isOpen = true)
+        val yetAnotherClass = LimeClass(barPath, isOpen = true)
         allElements[""] =
             LimeClass(EMPTY_PATH, parents = listOf(LimeDirectTypeRef(anotherClass), LimeDirectTypeRef(yetAnotherClass)))
 
@@ -113,7 +112,7 @@ class LimeInheritanceValidatorClassTest {
 
     @Test
     fun validateClassWithClassAndNarrowParents() {
-        val anotherClass = LimeClass(fooPath, visibility = LimeVisibility.OPEN)
+        val anotherClass = LimeClass(fooPath, isOpen = true)
         val narrowInterface = LimeInterface(barPath, isNarrow = true)
         allElements[""] = LimeClass(
             EMPTY_PATH,

@@ -40,7 +40,7 @@ internal class CppHeaderIncludesCollector(
 
         val typeRegisteredClasses = allTypes.filterIsInstance<LimeContainerWithInheritance>()
             .filter {
-                it.external?.cpp == null && it.parents.isEmpty() && (it is LimeInterface || it.visibility.isOpen)
+                it.external?.cpp == null && it.parents.isEmpty() && (it is LimeInterface || it.isOpen)
             }
         val allTypeRefs = collectTypeRefs(allTypes)
         val forwardDeclaredTypes = collectForwardDeclaredTypes(limeElement, allTypeRefs)

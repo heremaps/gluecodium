@@ -39,8 +39,8 @@ importStatement
     ;
 
 container
-    : docComment* annotation* visibility? ('class' | 'narrow'? 'interface') NewLine* simpleId NewLine*
-      parentTypes? '{' NewLine* externalDescriptor?
+    : docComment* annotation* 'open'? visibility? ('class' | 'narrow'? 'interface') NewLine*
+      simpleId NewLine* parentTypes? '{' NewLine* externalDescriptor?
       ((function | constructor | property | struct | enumeration | constant | typealias |
       exception | lambda | container) NewLine*)* '}' NewLine+
     ;
@@ -205,7 +205,7 @@ setType
 // Literals
 
 visibility
-    : ('internal' | 'public' | 'open' | 'open' 'internal') NewLine*
+    : ('internal' | 'public') NewLine*
     ;
 
 literalConstant

@@ -140,7 +140,8 @@ internal class AntlrLimeModelBuilder(
                 exceptions = getPreviousResults(LimeException::class.java),
                 classes = getPreviousResults(LimeClass::class.java),
                 interfaces = getPreviousResults(LimeInterface::class.java),
-                lambdas = getPreviousResults(LimeLambda::class.java)
+                lambdas = getPreviousResults(LimeLambda::class.java),
+                isOpen = ctx.Open() != null
             )
         } else {
             LimeInterface(
@@ -582,13 +583,7 @@ internal class AntlrLimeModelBuilder(
         parentVisibility: LimeVisibility?
     ): LimeVisibility {
         val isInternal = parentVisibility == LimeVisibility.INTERNAL || ctx?.Internal() != null
-        val isOpen = ctx?.Open() != null
-        return when {
-            isOpen && isInternal -> LimeVisibility.OPEN_INTERNAL
-            isOpen -> LimeVisibility.OPEN
-            isInternal -> LimeVisibility.INTERNAL
-            else -> LimeVisibility.PUBLIC
-        }
+        return if (isInternal) LimeVisibility.INTERNAL else LimeVisibility.PUBLIC
     }
 
     private fun convertLiteralConstant(

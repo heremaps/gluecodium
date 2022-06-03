@@ -53,5 +53,6 @@ class LimeInterface(
     classes = classes,
     interfaces = interfaces,
     lambdas = lambdas,
-    parents = parents
+    parents = parents,
+    isOpen = true
 )

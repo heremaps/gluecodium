@@ -20,7 +20,7 @@
   !}}
 {{>java/JavaDocComment}}{{>java/JavaAttributes}}
 {{resolveName visibility}}{{#if forceStatic}}static {{/if}}{{!!
-}}{{#unless visibility.isOpen visibility.isInternal logic="and"}}final {{/unless}}{{!!
+}}{{#unless this.isOpen visibility.isInternal logic="and"}}final {{/unless}}{{!!
 }}class {{resolveName}} extends {{#if this.parentClass}}{{resolveName this.parentClass "" "ref"}}{{/if}}{{!!
 }}{{#unless this.parentClass}}NativeBase{{/unless}}{{#if this.parentInterfaces}} implements {{!!
 }}{{#this.parentInterfaces}}{{resolveName this "" "ref"}}{{#if iter.hasNext}}, {{/if}}{{/this.parentInterfaces}}{{/if}} {

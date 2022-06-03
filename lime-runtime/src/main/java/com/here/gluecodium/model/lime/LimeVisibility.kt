@@ -21,13 +21,10 @@ package com.here.gluecodium.model.lime
 
 enum class LimeVisibility(
     private val tag: String,
-    val isOpen: Boolean = false,
     val isInternal: Boolean = false
 ) {
     PUBLIC(""),
-    OPEN("open ", isOpen = true),
-    INTERNAL("internal ", isInternal = true),
-    OPEN_INTERNAL("open internal ", isOpen = true, isInternal = true);
+    INTERNAL("internal ", isInternal = true);
 
     override fun toString() = tag
 }

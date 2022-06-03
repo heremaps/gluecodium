@@ -107,7 +107,7 @@ internal class DartDeclarationImportResolver(
 
     private fun resolveClassImports(limeClass: LimeClass): List<DartImport> {
         val result = when {
-            limeClass.parents.isNotEmpty() || limeClass.visibility.isOpen -> classInterfaceImports
+            limeClass.parents.isNotEmpty() || limeClass.isOpen -> classInterfaceImports
             else -> listOf(tokenCacheImport, nativeBaseImport)
         }.toMutableList()
         if (hasStaticFunctions(limeClass) || limeClass.properties.any { it.visibility.isInternal }) {

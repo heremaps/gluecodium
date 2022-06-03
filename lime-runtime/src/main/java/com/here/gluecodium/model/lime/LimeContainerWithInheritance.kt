@@ -35,7 +35,8 @@ abstract class LimeContainerWithInheritance(
     classes: List<LimeClass> = emptyList(),
     interfaces: List<LimeInterface> = emptyList(),
     lambdas: List<LimeLambda> = emptyList(),
-    val parents: List<LimeTypeRef> = emptyList()
+    val parents: List<LimeTypeRef> = emptyList(),
+    val isOpen: Boolean = false
 ) : LimeContainer(
     path = path,
     visibility = visibility,
