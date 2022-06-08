@@ -22,9 +22,13 @@
 }}{{resolveName visibility}} protocol {{resolveName}} : {{!!
 }}{{#if this.parents}}{{#this.parents}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/this.parents}}{{/if}}{{!!
 }}{{#unless this.parents}}AnyObject{{/unless}} {
-{{#set isInterface=true interface=this}}{{#each typeAliases exceptions}}
+{{#set isInterface=true interface=this}}
+{{#typeAliases}}
 {{prefixPartial "swift/SwiftTypeAlias" "    "}}
-{{/each}}
+{{/typeAliases}}
+{{#exceptions}}
+{{prefixPartial "swift/SwiftException" "    "}}
+{{/exceptions}}
 {{#lambdas}}
 {{prefixPartial "swift/SwiftLambdaDefinition" "    "}}
 {{/lambdas}}{{/set}}

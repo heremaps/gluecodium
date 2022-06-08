@@ -22,9 +22,12 @@
 }}{{resolveName visibility}} class {{resolveName}}{{!!
 }}{{#if this.parents}}: {{#this.parents}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/this.parents}}{{/if}} {
 
-{{#each typeAliases exceptions}}
+{{#typeAliases}}
 {{prefixPartial "swift/SwiftTypeAlias" "    "}}
-{{/each}}
+{{/typeAliases}}
+{{#exceptions}}
+{{prefixPartial "swift/SwiftException" "    "}}
+{{/exceptions}}
 {{#lambdas}}
 {{prefixPartial "swift/SwiftLambdaDefinition" "    "}}
 {{/lambdas}}

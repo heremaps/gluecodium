@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  ! Copyright (C) 2016-2022 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -18,5 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}
-{{#unless isInterface}}{{resolveName visibility}} {{/unless}}typealias {{resolveName}} = {{resolveName typeRef}}
+{{#unlessPredicate "skipTypeAlias"}}{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}
+{{#unless isInterface}}{{#if attributes.internal}}internal{{/if}}{{!!
+}}{{#unless attributes.internal}}{{resolveName visibility}}{{/unless}} {{/unless}}{{!!
+}}typealias {{resolveName}} = {{resolveName errorType}}{{/unlessPredicate}}

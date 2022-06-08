@@ -24,9 +24,12 @@ extension {{resolveName}} {
 {{prefixPartial "swift/SwiftConstant" "    "}}
 {{/constants}}
 
-{{#each typeAliases exceptions}}
+{{#typeAliases}}
 {{prefixPartial "swift/SwiftTypeAlias" "    "}}
-{{/each}}
+{{/typeAliases}}
+{{#exceptions}}
+{{prefixPartial "swift/SwiftException" "    "}}
+{{/exceptions}}
 
 {{#lambdas}}
 {{prefixPartial "swift/SwiftLambdaDefinition" "    "}}
@@ -55,9 +58,12 @@ extension {{resolveName}} {
 {{/if}}{{!!
 
 }}{{#unless attributes.swift.extension}}
-{{#each typeAliases exceptions}}
+{{#typeAliases}}
 {{>swift/SwiftTypeAlias}}
-{{/each}}
+{{/typeAliases}}
+{{#exceptions}}
+{{>swift/SwiftException}}
+{{/exceptions}}
 
 {{#lambdas}}
 {{>swift/SwiftLambdaDefinition}}
