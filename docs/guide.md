@@ -111,6 +111,9 @@ types can be added in the form `[package.Interface.method]`. For properties the 
 explicitly. Without suffix the reference will link to the getter in languages which have
 getters and setters.
 
+**Note:** Although, gluecodium supports Markdown tables, but the rendered view of the tables are 
+different from normal Markdown tables. Hence, adding Markdown tables is not recommend.
+
 
 Annotations
 -----------
