@@ -258,7 +258,8 @@ internal class SwiftGenerator : Generator {
 
     private fun selectDefinitionTemplate(limeElement: LimeNamedElement) =
         when (limeElement) {
-            is LimeException, is LimeTypeAlias -> "swift/SwiftTypeAlias"
+            is LimeTypeAlias -> "swift/SwiftTypeAlias"
+            is LimeException -> "swift/SwiftException"
             is LimeLambda -> "swift/SwiftLambdaDefinition"
             is LimeEnumeration -> "swift/SwiftEnumDefinition"
             is LimeStruct -> "swift/SwiftStructDefinition"
