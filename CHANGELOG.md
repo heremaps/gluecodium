@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed an issue of documentation references being unprocessed inside Markdown table cells for C++, Swift, and Dart.
+
 ## 11.3.1
 Release date: 2022-06-07
 ### Features:
