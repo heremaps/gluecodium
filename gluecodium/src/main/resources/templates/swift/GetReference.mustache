@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#ifPredicate "hasWeakSupport"}}
+{{#if attributes.swift.weak}}
 {{>swift/ConversionVisibility}} class {{resolveName}}_WeakHolder {
     weak var value: {{resolveName}}?
 
@@ -27,9 +27,9 @@
     }
 }
 
-{{/ifPredicate}}
+{{/if}}
 {{>swift/ConversionVisibility}} func getRef(_ ref: {{resolveName this "" "ref"}}?, owning: Bool = true{{!!
-}}{{#ifPredicate "hasWeakSupport"}}, isWeak: Bool = false{{/ifPredicate}}) -> RefHolder {
+}}{{#if attributes.swift.weak}}, isWeak: Bool = false{{/if}}) -> RefHolder {
 
     guard let reference = ref else {
         return RefHolder(0)
@@ -44,19 +44,19 @@
     }
 {{#eval "descendantInterfaces" fullName}}
 
-    if let descendantResult = tryDescendantGetRef(reference, owning{{#ifPredicate "hasWeakSupport"}}, isWeak{{/ifPredicate}}) {
+    if let descendantResult = tryDescendantGetRef(reference, owning{{#if attributes.swift.weak}}, isWeak{{/if}}) {
         return descendantResult
     }
 {{/eval}}
 {{/unless}}
 
     var functions = {{resolveName "CBridge"}}_FunctionTable()
-{{#ifPredicate "hasWeakSupport"}}
+{{#if attributes.swift.weak}}
     let strongRef: AnyObject = isWeak ? {{resolveName}}_WeakHolder(reference) : reference
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(strongRef).toOpaque()
-{{/ifPredicate}}{{#unlessPredicate "hasWeakSupport"}}
+{{/if}}{{#unless attributes.swift.weak}}
     functions.swift_pointer = Unmanaged<AnyObject>.passRetained(reference).toOpaque()
-{{/unlessPredicate}}
+{{/unless}}
     functions.release = {swift_class_pointer in
         if let swift_class = swift_class_pointer {
             Unmanaged<AnyObject>.fromOpaque(swift_class).release()
@@ -75,19 +75,19 @@
     return owning ? RefHolder(ref: proxy, release: {{resolveName "CBridge"}}_release_handle) : RefHolder(proxy)
 {{/class}}{{/set}}
 }
-{{#ifPredicate "hasWeakSupport"}}
+{{#if attributes.swift.weak}}
 
 {{>swift/ConversionVisibility}} func weakToCType(_ swiftClass: {{resolveName}}?) -> RefHolder {
     return getRef(swiftClass, owning: true, isWeak: true)
 }
-{{/ifPredicate}}
+{{/if}}
 {{#unless isNarrow}}{{#set interface=this}}{{#eval "descendantInterfaces" fullName}}
 
 func tryDescendantGetRef(_ reference: {{resolveName interface "" "ref"}}, _ owning: Bool{{!!
-}}{{#ifPredicate interface "hasWeakSupport"}}, _ isWeak: Bool{{/ifPredicate}}) -> RefHolder? {
+}}{{#if attributes.swift.weak}}, _ isWeak: Bool{{/if}}) -> RefHolder? {
 {{#this}}{{!! pre-sorted, most distant descendants are prioritized }}
     if reference is {{resolveName}} {
-        return getRef(reference as? {{resolveName}}, owning: owning{{#ifPredicate interface "hasWeakSupport"}}, isWeak: isWeak{{/ifPredicate}})
+        return getRef(reference as? {{resolveName}}, owning: owning{{#if interface.attributes.swift.weak}}, isWeak: isWeak{{/if}})
     }
 {{/this}}
     return nil
@@ -96,7 +96,7 @@ func tryDescendantGetRef(_ reference: {{resolveName interface "" "ref"}}, _ owni
 
 }}{{+functionTableEntry}}
     functions.{{resolveName function "CBridge"}} = {(swift_class_pointer{{#if parameters}}, {{/if}}{{joinPartial parameters "swiftParameter" ", "}}) in
-{{#ifPredicate class "hasWeakSupport"}}
+{{#if class.attributes.swift.weak}}
         let unretained_value = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue()
         let swift_class: {{resolveName class}}
         if (unretained_value is {{resolveName class}}_WeakHolder) {
@@ -116,9 +116,9 @@ func tryDescendantGetRef(_ reference: {{resolveName interface "" "ref"}}, _ owni
         } else {
             swift_class = unretained_value as! {{resolveName class}}
         }
-{{/ifPredicate}}{{#unlessPredicate class "hasWeakSupport"}}
+{{/if}}{{#unless class.attributes.swift.weak}}
         let swift_class = Unmanaged<AnyObject>.fromOpaque(swift_class_pointer!).takeUnretainedValue() as! {{resolveName class}}
-{{/unlessPredicate}}
+{{/unless}}
         {{#if thrownType}}do { {{#if returnType.isVoid}}
             try {{include delegateToCall}}
             return {{resolveName function "CBridge"}}_result(has_value: true, error_value: 0)

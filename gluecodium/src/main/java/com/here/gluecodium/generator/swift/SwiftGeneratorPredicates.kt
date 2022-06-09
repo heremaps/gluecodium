@@ -30,10 +30,8 @@ import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeExternalDescriptor
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
-import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
-import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
@@ -78,13 +76,6 @@ internal class SwiftGeneratorPredicates(
                 limeStruct.availableFields.any { it.visibility.isInternal }
         },
         "hasTypeRepository" to { CommonGeneratorPredicates.hasTypeRepository(it) },
-        "hasWeakSupport" to fun(limeInterface: Any): Boolean {
-            if (limeInterface !is LimeInterface) return false
-            val interfacePathKey = limeInterface.path.toString()
-            return limeReferenceMap.values.filterIsInstance<LimeProperty>()
-                .filter { it.attributes.have(LimeAttributeType.SWIFT, LimeAttributeValueType.WEAK) }
-                .any { it.typeRef.type.actualType.path.toString() == interfacePathKey }
-        },
         "isOverriding" to { limeFunction: Any ->
             limeFunction is LimeFunction && limeFunction.isConstructor &&
                 signatureResolver.isOverloadingConstructor(limeFunction)
