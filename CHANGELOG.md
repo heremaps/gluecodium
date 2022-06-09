@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 11.3.2
+Release date: 2022-06-09
 ### Features:
   * Added support for `@Swift(Weak)` on interfaces, marking them for explicit "weak" usage.
 ### Bug fixes:
