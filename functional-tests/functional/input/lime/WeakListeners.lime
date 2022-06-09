@@ -17,6 +17,7 @@
 
 package test
 
+@Swift(Weak)
 interface ListenerInterface {
     fun notify()
     fun notifyMaybe(): Boolean?

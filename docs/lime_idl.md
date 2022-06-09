@@ -588,6 +588,7 @@ element is skipped (not generated). Custom tags are case-insensitive.
   * **Weak**: marks a property in an interface as `weak` in Swift. Property should have a nullable type. Please note
   that `weak` properties are still represented with "strong" pointers on C++ side. Due to this limitation, if an
   interface type is used for such property, that interface can only have methods that return nullable values or `void`.
+  The interface also should be marked with the same `@Swift(Weak)` attribute. Non-interface types could be used freely.
   * **Attribute** **=** **"**_Attribute_**"**: marks an element to be marked with the given attribute in Swift
   generated code. _Attribute_ does not need to be prepended with `@`. _Attribute_ can contain parameters, e.g.
   `@Swift(Attribute="available(*, deprecated, message: \"It's deprecated.\")")`. If some of the parameters are string

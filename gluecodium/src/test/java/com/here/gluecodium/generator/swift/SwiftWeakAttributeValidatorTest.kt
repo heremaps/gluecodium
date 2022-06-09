@@ -43,7 +43,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
-class SwiftWeakPropertiesValidatorTest {
+class SwiftWeakAttributeValidatorTest {
 
     private val barPath = LimePath(emptyList(), listOf("Bar"))
     private val fooPath = barPath.child("foo")
@@ -53,12 +53,12 @@ class SwiftWeakPropertiesValidatorTest {
 
     private val limeReferenceMap = mutableMapOf<String, LimeElement>()
 
-    private lateinit var validator: SwiftWeakPropertiesValidator
+    private lateinit var validator: SwiftWeakAttributeValidator
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-        validator = SwiftWeakPropertiesValidator(mockk(relaxed = true))
+        validator = SwiftWeakAttributeValidator(mockk(relaxed = true))
     }
 
     @Test
@@ -108,8 +108,23 @@ class SwiftWeakPropertiesValidatorTest {
     }
 
     @Test
-    fun validatePropertyValidInterfaceVoid() {
+    fun validatePropertyInvalidInterfaceVoid() {
         val limeInterface = LimeInterface(EMPTY_PATH, functions = listOf(LimeFunction(EMPTY_PATH)))
+        val limeProperty = LimeProperty(
+            fooPath,
+            typeRef = LimeDirectTypeRef(limeInterface, isNullable = true),
+            getter = dummyFunction,
+            attributes = weakAttributes
+        )
+        limeReferenceMap[barPath.toString()] = LimeInterface(barPath)
+
+        assertFalse(validator.validate(listOf(limeProperty)))
+    }
+
+    @Test
+    fun validatePropertyValidInterfaceVoid() {
+        val limeInterface =
+            LimeInterface(EMPTY_PATH, functions = listOf(LimeFunction(EMPTY_PATH)), attributes = weakAttributes)
         val limeProperty = LimeProperty(
             fooPath,
             typeRef = LimeDirectTypeRef(limeInterface, isNullable = true),
@@ -124,7 +139,7 @@ class SwiftWeakPropertiesValidatorTest {
     @Test
     fun validatePropertyValidInterfaceNullable() {
         val limeFunction = LimeFunction(EMPTY_PATH, returnType = LimeReturnType(nullableBool))
-        val limeInterface = LimeInterface(EMPTY_PATH, functions = listOf(limeFunction))
+        val limeInterface = LimeInterface(EMPTY_PATH, functions = listOf(limeFunction), attributes = weakAttributes)
         val limeProperty = LimeProperty(
             fooPath,
             typeRef = LimeDirectTypeRef(limeInterface, isNullable = true),
@@ -140,7 +155,7 @@ class SwiftWeakPropertiesValidatorTest {
     fun validatePropertyInvalidInterface() {
         val limeFunction =
             LimeFunction(EMPTY_PATH, returnType = LimeReturnType(LimeBasicTypeRef(LimeBasicType.TypeId.BOOLEAN)))
-        val limeInterface = LimeInterface(EMPTY_PATH, functions = listOf(limeFunction))
+        val limeInterface = LimeInterface(EMPTY_PATH, functions = listOf(limeFunction), attributes = weakAttributes)
         val limeProperty = LimeProperty(
             fooPath,
             typeRef = LimeDirectTypeRef(limeInterface, isNullable = true),
@@ -150,5 +165,39 @@ class SwiftWeakPropertiesValidatorTest {
         limeReferenceMap[barPath.toString()] = LimeInterface(barPath)
 
         assertFalse(validator.validate(listOf(limeProperty)))
+    }
+
+    @Test
+    fun validateInterfaceVoid() {
+        val limeInterface =
+            LimeInterface(EMPTY_PATH, functions = listOf(LimeFunction(EMPTY_PATH)), attributes = weakAttributes)
+
+        assertTrue(validator.validate(listOf(limeInterface)))
+    }
+
+    @Test
+    fun validateInterfaceNullable() {
+        val limeFunction = LimeFunction(EMPTY_PATH, returnType = LimeReturnType(nullableBool))
+        val limeInterface = LimeInterface(EMPTY_PATH, functions = listOf(limeFunction), attributes = weakAttributes)
+
+        assertTrue(validator.validate(listOf(limeInterface)))
+    }
+
+    @Test
+    fun validateInvalidInterface() {
+        val limeFunction =
+            LimeFunction(EMPTY_PATH, returnType = LimeReturnType(LimeBasicTypeRef(LimeBasicType.TypeId.BOOLEAN)))
+        val limeInterface = LimeInterface(EMPTY_PATH, functions = listOf(limeFunction), attributes = weakAttributes)
+
+        assertFalse(validator.validate(listOf(limeInterface)))
+    }
+
+    @Test
+    fun validateInterfaceNoWeak() {
+        val limeFunction =
+            LimeFunction(EMPTY_PATH, returnType = LimeReturnType(LimeBasicTypeRef(LimeBasicType.TypeId.BOOLEAN)))
+        val limeInterface = LimeInterface(EMPTY_PATH, functions = listOf(limeFunction))
+
+        assertTrue(validator.validate(listOf(limeInterface)))
     }
 }

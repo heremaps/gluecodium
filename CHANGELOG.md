@@ -1,11 +1,13 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Features:
+  * Added support for `@Swift(Weak)` on interfaces, marking them for explicit "weak" usage.
 ### Bug fixes:
   * Fixed an issue of documentation references being unprocessed inside Markdown table cells for C++, Swift, and Dart.
 
 ## 11.3.1
-Release date: 2022-06-07
+Release date: 2022-06-08
 ### Features:
   * Added preliminary support for `@Internal` attribute. It has the same effect as `internal` visibility currently does,
   but only works on type declarations. The new attribute is intended for `internal` visibility phase-out.
