@@ -10,13 +10,13 @@ namespace smoke {
  *
  * | Tables | Are | Cool |
  * |----------|:-------------:|------:|
- * | col 1 is |  left-aligned | $1600 |
- * | col 2 is |    centered   |   $12 |
- * | col 3 is | right-aligned |    $1 |
+ * | col 1 is |  ::smoke::CommentsTable | $1600 |
+ * | col 2 is |::smoke::Comments::SomeEnum|   $12 |
+ * | col 3 is |::smoke::Comments::SomeEnum::USEFUL|    $1 |
  */
-class _GLUECODIUM_CPP_EXPORT CommentsTable {
+class _GLUECODIUM_CPP_EXPORT CommentsTableLinks {
 public:
-    CommentsTable();
-    virtual ~CommentsTable() = 0;
+    CommentsTableLinks();
+    virtual ~CommentsTableLinks() = 0;
 };
 }

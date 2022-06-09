@@ -4,10 +4,10 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 /// Something lorem something ipsum.
 ///
-/// |  Tables  |      Are      |  Cool |
+/// | Tables | Are | Cool |
 /// |----------|:-------------:|------:|
-/// | col 1 is | left-aligned  | $1600 |
-/// | col 2 is |   centered    |   $12 |
+/// | col 1 is |  left-aligned | $1600 |
+/// | col 2 is |    centered   |   $12 |
 /// | col 3 is | right-aligned |    $1 |
 abstract class CommentsTable {
 }

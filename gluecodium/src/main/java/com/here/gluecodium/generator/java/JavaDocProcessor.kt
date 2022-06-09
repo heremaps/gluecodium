@@ -23,7 +23,11 @@ import com.here.gluecodium.generator.common.CommentsProcessor
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeParameter
 import com.vladsch.flexmark.ast.LinkRef
+import com.vladsch.flexmark.ext.tables.TablesExtension
 import com.vladsch.flexmark.html.HtmlRenderer
+import com.vladsch.flexmark.parser.Parser
+import com.vladsch.flexmark.util.data.DataHolder
+import com.vladsch.flexmark.util.data.MutableDataSet
 import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
 
 /**
@@ -31,7 +35,7 @@ import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
  */
 @Suppress("DEPRECATION")
 internal class JavaDocProcessor(werror: Boolean, private val referenceMap: Map<String, LimeElement>) :
-    CommentsProcessor(HtmlRenderer.builder(flexmarkOptions).build(), werror) {
+    CommentsProcessor(HtmlRenderer.builder(flexmarkOptions).build(), werror, flexmarkOptions) {
 
     override fun processLink(linkNode: LinkRef, linkReference: String, limeFullName: String) {
         val limeElement = referenceMap[fullNameToPathKey(limeFullName)]
@@ -56,5 +60,11 @@ internal class JavaDocProcessor(werror: Boolean, private val referenceMap: Map<S
 
         val suffixComponents = suffix.split(".")
         return nameComponents.first() + "." + suffixComponents.last() + ":" + suffixComponents.first()
+    }
+
+    companion object {
+        internal val flexmarkOptions: DataHolder = MutableDataSet()
+            .set(Parser.EXTENSIONS, listOf(TablesExtension.create()))
+            .toImmutable()
     }
 }

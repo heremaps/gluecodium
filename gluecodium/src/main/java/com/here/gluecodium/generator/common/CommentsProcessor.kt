@@ -23,25 +23,28 @@ import com.here.gluecodium.common.LimeLogger
 import com.vladsch.flexmark.ast.AutoLink
 import com.vladsch.flexmark.ast.Code
 import com.vladsch.flexmark.ast.LinkRef
-import com.vladsch.flexmark.ext.tables.TablesExtension
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.ast.IRender
 import com.vladsch.flexmark.util.ast.NodeVisitor
 import com.vladsch.flexmark.util.ast.VisitHandler
 import com.vladsch.flexmark.util.data.DataHolder
-import com.vladsch.flexmark.util.data.MutableDataSet
+import com.vladsch.flexmark.util.data.DataSet
 import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
 
 /**
  * Parse Markdown comments and process links.
  */
 @Suppress("DEPRECATION")
-abstract class CommentsProcessor(private val renderer: IRender, private val werror: Boolean) {
+abstract class CommentsProcessor(
+    private val renderer: IRender,
+    private val werror: Boolean,
+    parserOptions: DataHolder = DataSet()
+) {
     val hasError
         get() = werror && hasErrorFlag
     private var hasErrorFlag = false
 
-    private val parser = Parser.builder(flexmarkOptions).build()
+    private val parser = Parser.builder(parserOptions).build()
     private val logFunction: LimeLogger.(String, String) -> Unit =
         if (werror) { elementName: String, message: String ->
             this.error(elementName, message)
@@ -107,8 +110,5 @@ abstract class CommentsProcessor(private val renderer: IRender, private val werr
 
     companion object {
         private const val standardNullReference = "null"
-        internal val flexmarkOptions: DataHolder = MutableDataSet()
-            .set(Parser.EXTENSIONS, listOf(TablesExtension.create()))
-            .toImmutable()
     }
 }
