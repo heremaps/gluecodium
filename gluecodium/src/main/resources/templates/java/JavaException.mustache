@@ -19,7 +19,7 @@
   !
   !}}
 {{>java/JavaDocComment}}{{>java/JavaAttributes}}
-{{resolveName visibility}}{{#if forceStatic}}static {{/if}}{{!!
+{{#unless attributes.internal}}{{resolveName visibility}}{{/unless}}{{#if forceStatic}}static {{/if}}{{!!
 }}final class {{resolveName}} extends Exception {
     {{resolveName visibility}}{{resolveName}}(final {{resolveName errorType}} error) {
         super(error.toString());

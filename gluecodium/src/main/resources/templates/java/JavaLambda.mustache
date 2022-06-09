@@ -20,7 +20,7 @@
   !}}
 {{>java/JavaDocComment}}{{>java/JavaAttributes}}
 @FunctionalInterface
-{{resolveName visibility}}interface {{resolveName}} {
+{{#unless attributes.internal}}{{resolveName visibility}}{{/unless}}interface {{resolveName}} {
 {{#set isInterface=true noAttributes=true}}{{#asFunction}}
 {{prefixPartial "java/JavaMethodSignature" "    "}};
 {{/asFunction}}{{/set}}

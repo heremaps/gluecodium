@@ -167,6 +167,7 @@ internal object AntlrLimeConverter {
             "Equatable" -> LimeAttributeType.EQUATABLE
             "EnableIf" -> LimeAttributeType.ENABLE_IF
             "Immutable" -> LimeAttributeType.IMMUTABLE
+            "Internal" -> LimeAttributeType.INTERNAL
             "Java" -> LimeAttributeType.JAVA
             "NoCache" -> LimeAttributeType.NO_CACHE
             "Optimized" -> LimeAttributeType.OPTIMIZED

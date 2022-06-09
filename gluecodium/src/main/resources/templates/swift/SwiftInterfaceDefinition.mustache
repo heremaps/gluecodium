@@ -19,7 +19,8 @@
   !
   !}}
 {{>swift/SwiftComment}}{{>swift/SwiftAttributes}}{{!!
-}}{{resolveName visibility}} protocol {{resolveName}} : {{!!
+}}{{#if attributes.internal}}internal{{/if}}{{!!
+}}{{#unless attributes.internal}}{{resolveName visibility}}{{/unless}} protocol {{resolveName}} : {{!!
 }}{{#if this.parents}}{{#this.parents}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/this.parents}}{{/if}}{{!!
 }}{{#unless this.parents}}AnyObject{{/unless}} {
 {{#set isInterface=true interface=this}}
