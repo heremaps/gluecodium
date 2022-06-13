@@ -19,7 +19,6 @@
   !
   !}}
 {{>swift/SwiftComment}}{{>swift/SwiftAttributes}}
-{{#unless isInterface}}{{#if attributes.internal}}internal{{/if}}{{!!
-}}{{#unless attributes.internal}}{{resolveName visibility}}{{/unless}} {{/unless}}typealias {{resolveName}} = {{!!
+{{#unless isInterface}}{{resolveName visibility}} {{/unless}}typealias {{resolveName}} = {{!!
 }}({{#parameters}}{{#unless typeRef.isNullable}}{{#instanceOf typeRef.type.actualType "LimeLambda"}}@escaping {{/instanceOf}}{{/unless}}{{!!
 }}{{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) -> {{resolveName returnType}}

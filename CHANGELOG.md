@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Removed:
+  * Removed preliminary support for `@Internal` attribute.
+
 ## 11.3.2
 Release date: 2022-06-09
 ### Features:

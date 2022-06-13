@@ -19,7 +19,7 @@
   !
   !}}
 {{>java/JavaDocComment}}{{>java/JavaAttributes}}
-{{#unless attributes.internal}}{{resolveName visibility}}{{/unless}}enum {{resolveName}} {
+{{resolveName visibility}}enum {{resolveName}} {
 {{joinPartial uniqueEnumerators "java/JavaEnumerator" ",
 "}}{{#if uniqueEnumerators}};{{/if}}{{#if aliasEnumerators}}
 

@@ -19,8 +19,7 @@
   !
   !}}
 {{>swift/SwiftComment}}{{>swift/SwiftAttributes}}{{!!
-}}{{#if attributes.internal}}internal{{/if}}{{!!
-}}{{#unless attributes.internal}}{{resolveName visibility}}{{/unless}} class {{resolveName}}{{!!
+}}{{resolveName visibility}} class {{resolveName}}{{!!
 }}{{#if this.parents}}: {{#this.parents}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/this.parents}}{{/if}} {
 
 {{#typeAliases}}
