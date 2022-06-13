@@ -49,7 +49,6 @@ import com.here.gluecodium.generator.ffi.FfiCppReturnTypeNameResolver
 import com.here.gluecodium.generator.ffi.FfiNameResolver
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeType.DART
-import com.here.gluecodium.model.lime.LimeAttributeType.INTERNAL
 import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeClass
@@ -219,9 +218,8 @@ internal class DartGenerator : Generator {
         val allTypes = LimeTypeHelper.getAllTypes(rootElement).filterNot { it is LimeTypeAlias }
         val nonExternalTypes = allTypes.filter { it.external?.dart == null }
         val freeConstants = (rootElement as? LimeTypesCollection)?.constants ?: emptyList()
-        val allSymbols = (nonExternalTypes + freeConstants).filter {
-            it !is LimeTypesCollection && !it.visibility.isInternal && !it.attributes.have(INTERNAL)
-        }
+        val allSymbols =
+            (nonExternalTypes + freeConstants).filter { it !is LimeTypesCollection && !it.visibility.isInternal }
         if (allSymbols.isNotEmpty()) {
             val allNames = allSymbols.map { dartNameResolver.resolveName(it) }
             val testNames = allSymbols
