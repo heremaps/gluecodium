@@ -1,21 +1,12 @@
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'package:meta/meta.dart';
 class FieldConstructorsInternal {
   String publicField;
   double internalField;
-  @internal
-  FieldConstructorsInternal.withAll()
-      : publicField = "foo", internalField = 42;
-  @internal
-  FieldConstructorsInternal.withFortyTwo(this.publicField)
-      : internalField = 42;
-  @internal
-  FieldConstructorsInternal.withFoo(this.internalField)
-      : publicField = "foo";
-  @internal
-  FieldConstructorsInternal(this.internalField, this.publicField);
+  FieldConstructorsInternal._(this.publicField, this.internalField);
+  FieldConstructorsInternal()
+    : publicField = "foo", internalField = 42;
 }
 // FieldConstructorsInternal "private" section, not exported.
 final _smokeFieldconstructorsinternalCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -45,9 +36,9 @@ FieldConstructorsInternal smokeFieldconstructorsinternalFromFfi(Pointer<Void> ha
   final _publicFieldHandle = _smokeFieldconstructorsinternalGetFieldpublicField(handle);
   final _internalFieldHandle = _smokeFieldconstructorsinternalGetFieldinternalField(handle);
   try {
-    return FieldConstructorsInternal(
-      (_internalFieldHandle),
-      stringFromFfi(_publicFieldHandle)
+    return FieldConstructorsInternal._(
+      stringFromFfi(_publicFieldHandle),
+      (_internalFieldHandle)
     );
   } finally {
     stringReleaseFfiHandle(_publicFieldHandle);

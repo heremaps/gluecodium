@@ -8,12 +8,11 @@ import 'package:meta/meta.dart';
 @internal
 abstract class InternalClassWithFunctions {
   /// @nodoc
-  factory InternalClassWithFunctions.make() => $prototype.internal_make();
+  factory InternalClassWithFunctions.make() => $prototype.make();
   /// @nodoc
-  factory InternalClassWithFunctions.remake(String foo) => $prototype.internal_remake(foo);
-
+  factory InternalClassWithFunctions.remake(String foo) => $prototype.remake(foo);
   /// @nodoc
-  void internal_fooBar();
+  void fooBar();
   /// @nodoc
   @visibleForTesting
   static dynamic $prototype = InternalClassWithFunctions$Impl(Pointer<Void>.fromAddress(0));
@@ -35,15 +34,14 @@ final _smokeInternalclasswithfunctionsReleaseHandle = __lib.catchArgumentError((
 @visibleForTesting
 class InternalClassWithFunctions$Impl extends __lib.NativeBase implements InternalClassWithFunctions {
   InternalClassWithFunctions$Impl(Pointer<Void> handle) : super(handle);
-
-  InternalClassWithFunctions internal_make() {
+  InternalClassWithFunctions make() {
     final _result_handle = _make();
     final _result = InternalClassWithFunctions$Impl(_result_handle);
     __lib.cacheInstance(_result_handle, _result);
     _smokeInternalclasswithfunctionsRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
     return _result;
   }
-  InternalClassWithFunctions internal_remake(String foo) {
+  InternalClassWithFunctions remake(String foo) {
     final _result_handle = _remake(foo);
     final _result = InternalClassWithFunctions$Impl(_result_handle);
     __lib.cacheInstance(_result_handle, _result);
@@ -51,7 +49,7 @@ class InternalClassWithFunctions$Impl extends __lib.NativeBase implements Intern
     return _result;
   }
   @override
-  void internal_fooBar() {
+  void fooBar() {
     final _fooBarFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalClassWithFunctions_fooBar'));
     final _handle = this.handle;
     _fooBarFfi(_handle, __lib.LibraryContext.isolateId);

@@ -6,9 +6,8 @@ import 'package:meta/meta.dart';
 /// @nodoc
 @internal
 abstract class InternalClass {
-
   /// @nodoc
-  void internal_fooBar();
+  void fooBar();
 }
 // InternalClass "private" section, not exported.
 final _smokeInternalclassRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -25,9 +24,8 @@ final _smokeInternalclassReleaseHandle = __lib.catchArgumentError(() => __lib.na
   >('library_smoke_InternalClass_release_handle'));
 class InternalClass$Impl extends __lib.NativeBase implements InternalClass {
   InternalClass$Impl(Pointer<Void> handle) : super(handle);
-
   @override
-  void internal_fooBar() {
+  void fooBar() {
     final _fooBarFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalClass_fooBar'));
     final _handle = this.handle;
     _fooBarFfi(_handle, __lib.LibraryContext.isolateId);

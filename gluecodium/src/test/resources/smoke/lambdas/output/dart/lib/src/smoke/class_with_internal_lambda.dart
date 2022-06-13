@@ -33,7 +33,7 @@ final _smokeClasswithinternallambdaInternalnestedlambdaCreateProxy = __lib.catch
 class ClassWithInternalLambda_InternalNestedLambda$Impl {
   final Pointer<Void> handle;
   ClassWithInternalLambda_InternalNestedLambda$Impl(this.handle);
-  bool internal_call(String p0) {
+  bool call(String p0) {
     final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ClassWithInternalLambda_InternalNestedLambda_call__String'));
     final _p0Handle = stringToFfi(p0);
     final _handle = this.handle;
@@ -66,7 +66,7 @@ Pointer<Void> smokeClasswithinternallambdaInternalnestedlambdaToFfi(ClassWithInt
 ClassWithInternalLambda_InternalNestedLambda smokeClasswithinternallambdaInternalnestedlambdaFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeClasswithinternallambdaInternalnestedlambdaCopyHandle(handle);
   final _impl = ClassWithInternalLambda_InternalNestedLambda$Impl(_copiedHandle);
-  final result = (String p0) => _impl.internal_call(p0);
+  final result = (String p0) => _impl.call(p0);
   _smokeClasswithinternallambdaInternalnestedlambdaRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }

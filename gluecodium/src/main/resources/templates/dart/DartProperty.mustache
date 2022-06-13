@@ -24,7 +24,7 @@
 {{/unless}}{{>dart/DartAttributes}}
 {{#if override}}{{#unless isStatic}}@override
 {{/unless}}{{/if}}
-{{resolveName property.typeRef}} get {{resolveName visibility}}{{resolveName property}}{{!!
+{{resolveName property.typeRef}} get {{resolveName property}}{{!!
 }}{{>dart/DartFunctionBody}}
 {{/getter}}
 {{#setter}}
@@ -32,7 +32,7 @@
 {{/unless}}{{>dart/DartAttributes}}
 {{#if override}}{{#unless isStatic}}@override
 {{/unless}}{{/if}}
-set {{resolveName visibility}}{{resolveName property}}({{resolveName property.typeRef}} value){{!!
+set {{resolveName property}}({{resolveName property.typeRef}} value){{!!
 }}{{>dart/DartFunctionBody}}
 {{/setter}}
 {{/set}}
