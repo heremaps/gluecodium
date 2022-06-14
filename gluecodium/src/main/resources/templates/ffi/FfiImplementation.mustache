@@ -102,7 +102,8 @@ FfiOpaqueHandle
 }}{{#each inheritedFunctions functions}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}{{!!
 }}, FfiOpaqueHandle f{{iter.position}}{{/ifPredicate}}{{/unless}}{{/each}}{{!!
 }}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}, FfiOpaqueHandle p{{iter.position}}g{{!!
-}}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{/ifPredicate}}{{/unless}}{{/each}}) {
+}}{{#if setter}}{{#ifPredicate setter "shouldRetain"}}, FfiOpaqueHandle p{{iter.position}}s{{/ifPredicate}}{{/if}}{{!!
+}}{{/ifPredicate}}{{/unless}}{{/each}}) {
 {{#unless this.attributes.nocache}}
     auto cached_proxy = {{>ffi/FfiInternal}}::get_cached_proxy<{{resolveName}}_Proxy>(token, isolate_id, "{{resolveName}}");
 {{/unless}}
@@ -117,7 +118,7 @@ FfiOpaqueHandle
             }}{{#each inheritedFunctions functions}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}{{!!
             }}, f{{iter.position}}{{/ifPredicate}}{{/unless}}{{/each}}{{!!
             }}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}, p{{iter.position}}g{{!!
-            }}{{#if setter}}, p{{iter.position}}s{{/if}}{{/ifPredicate}}{{/unless}}{{/each}})
+            }}{{#if setter}}{{#ifPredicate setter "shouldRetain"}}, p{{iter.position}}s{{/ifPredicate}}{{/if}}{{/ifPredicate}}{{/unless}}{{/each}})
         );
 {{#unless this.attributes.nocache}}
         {{>ffi/FfiInternal}}::cache_proxy(token, isolate_id, "{{resolveName}}", *proxy_ptr);
@@ -386,7 +387,7 @@ bool
 
 }}{{+ffiProperty}}{{#ifPredicate "shouldRetain"}}{{#getter}}
 {{>ffiFunctionBody}}
-{{/getter}}{{#setter}}
+{{/getter}}{{#setter}}{{#ifPredicate "shouldRetain"}}
 {{>ffiFunctionBody}}
-{{/setter}}
+{{/ifPredicate}}{{/setter}}
 {{/ifPredicate}}{{/ffiProperty}}

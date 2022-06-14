@@ -33,6 +33,7 @@ import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimePositionalEnumeratorRef
+import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.lime.LimeValue
@@ -129,7 +130,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
                 constants = constants.filter(predicate).map { filterConstant(it) },
                 typeAliases = typeAliases.filter(predicate),
                 functions = functions.filter(predicate),
-                properties = properties.filter(predicate),
+                properties = properties.filter(predicate).map { filterProperty(it) },
                 exceptions = exceptions.filter(predicate),
                 classes = classes.filter(predicate).map { filterClass(it) },
                 interfaces = interfaces.filter(predicate).map { filterInterface(it) },
@@ -152,7 +153,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
                 constants = constants.filter(predicate).map { filterConstant(it) },
                 typeAliases = typeAliases.filter(predicate),
                 functions = functions.filter(predicate),
-                properties = properties.filter(predicate),
+                properties = properties.filter(predicate).map { filterProperty(it) },
                 exceptions = exceptions.filter(predicate),
                 classes = classes.filter(predicate).map { filterClass(it) },
                 interfaces = interfaces.filter(predicate).map { filterInterface(it) },
@@ -266,4 +267,18 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
         val filteredTypeRef = LimeDirectTypeRef(filterEnum(limeEnumeration))
         return LimeValue.Constant(filteredTypeRef, limeValue.valueRef.remap(referenceMap))
     }
+
+    private fun filterProperty(limeProperty: LimeProperty) =
+        limeProperty.run {
+            LimeProperty(
+                path = path,
+                visibility = visibility,
+                comment = comment,
+                attributes = attributes,
+                typeRef = typeRef,
+                getter = getter,
+                setter = setter?.takeIf(predicate),
+                isStatic = isStatic
+            )
+        }
 }

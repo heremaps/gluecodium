@@ -72,7 +72,7 @@ _GLUECODIUM_C_EXPORT {{>cbridge/CBridgeFunctionSignature}};
 {{#getter}}
 _GLUECODIUM_C_EXPORT {{>cbridge/CBridgeFunctionSignature}};
 {{/getter}}
-{{#setter}}
+{{#setter}}{{#ifPredicate "shouldRetain"}}
 _GLUECODIUM_C_EXPORT {{>cbridge/CBridgeFunctionSignature}};
-{{/setter}}
+{{/ifPredicate}}{{/setter}}
 {{/ifPredicate}}{{/cbridgeProperty}}

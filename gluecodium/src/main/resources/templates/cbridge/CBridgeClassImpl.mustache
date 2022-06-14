@@ -119,7 +119,7 @@ uint64_t {{resolveName}}_hash(_baseRef handle) {
 {{#getter}}
 {{>cbridge/CBridgeFunctionDefinition}}
 {{/getter}}
-{{#setter}}
+{{#setter}}{{#ifPredicate "shouldRetain"}}
 {{>cbridge/CBridgeFunctionDefinition}}
-{{/setter}}
+{{/ifPredicate}}{{/setter}}
 {{/ifPredicate}}{{/cbridgeProperty}}

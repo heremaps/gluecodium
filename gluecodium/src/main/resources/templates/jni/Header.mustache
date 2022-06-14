@@ -71,9 +71,9 @@ JNIEXPORT jint JNICALL
 }}{{#set property=this}}{{#getter}}
 JNIEXPORT {{resolveName returnType}} JNICALL
 {{>jni/FunctionSignaturePrefix}}_{{resolveName property "mangled" "getter"}}(JNIEnv* _jenv, jobject _jinstance);
-{{/getter}}{{#setter}}
+{{/getter}}{{#setter}}{{#ifPredicate "shouldRetain"}}
 JNIEXPORT void JNICALL
 {{>jni/FunctionSignaturePrefix}}_{{resolveName property "mangled" "setter"}}(JNIEnv* _jenv, jobject _jinstance{{!!
 }}{{#parameters}}, {{resolveName typeRef}} j{{resolveName}}{{/parameters}});
-{{/setter}}{{/set}}{{!!
+{{/ifPredicate}}{{/setter}}{{/set}}{{!!
 }}{{/jniPropertyHeader}}
