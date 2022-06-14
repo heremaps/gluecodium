@@ -63,7 +63,7 @@ public:
     }
 {{#if setter}}
     void {{resolveName this "C++" "setter"}}({{#setter.parameters.0}}{{>cppParameter}}{{/setter.parameters.0}}) override {
-{{#ifPredicate "shouldRetain"}}
+{{#ifPredicate setter "shouldRetain"}}
         mFunctions.{{resolveName setter}}({{!!
         }}mFunctions.swift_pointer, {{#setter.parameters.0}}{{>swiftParameter}}{{/setter.parameters.0}});
 {{/ifPredicate}}

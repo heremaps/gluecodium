@@ -1,0 +1,10 @@
+package smoke
+interface SkipSetter {
+    property foo: String {
+        get
+        @Java(Skip)
+        @Swift(Skip)
+        @Dart(Skip)
+        set
+    }
+}

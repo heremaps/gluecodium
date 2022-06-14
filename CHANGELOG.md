@@ -1,6 +1,8 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Features:
+  * Added support for `@Skip()`/`@EnableIf()` attributes on property setters.
 ### Removed:
   * Removed preliminary support for `@Internal` attribute.
 

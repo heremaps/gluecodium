@@ -57,7 +57,8 @@ _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_create_pr
 }}{{#each inheritedFunctions functions}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}{{!!
 }}, FfiOpaqueHandle f{{iter.position}}{{/ifPredicate}}{{/unless}}{{/each}}{{!!
 }}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}, FfiOpaqueHandle p{{iter.position}}g{{!!
-}}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{/ifPredicate}}{{/unless}}{{/each}});
+}}{{#if setter}}{{#ifPredicate setter "shouldRetain"}}, FfiOpaqueHandle p{{iter.position}}s{{/ifPredicate}}{{/if}}{{!!
+}}{{/ifPredicate}}{{/unless}}{{/each}});
 {{/each}}
 
 {{#structs}}
@@ -127,7 +128,7 @@ _GLUECODIUM_FFI_EXPORT bool {{libraryName}}_{{resolveName}}_are_equal(FfiOpaqueH
 
 }}{{+ffiProperty}}{{#ifPredicate "shouldRetain"}}{{#getter}}
 {{>ffiFunctionDeclaration}}
-{{/getter}}{{#setter}}
+{{/getter}}{{#setter}}{{#ifPredicate "shouldRetain"}}
 {{>ffiFunctionDeclaration}}
-{{/setter}}
+{{/ifPredicate}}{{/setter}}
 {{/ifPredicate}}{{/ffiProperty}}

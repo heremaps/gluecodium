@@ -227,12 +227,12 @@ jint
 {{#set function=this}}{{#resolveName property "C++" "getter"}}{{#set cppMethodName=this}}{{#function}}{{!!
 }}{{>jniMethodBody}}{{/function}}{{/set}}{{/resolveName}}{{/set}}
 
-{{/getter}}{{#setter}}
+{{/getter}}{{#setter}}{{#ifPredicate "shouldRetain"}}
 void
 {{>jni/FunctionSignaturePrefix}}_{{resolveName property "mangled" "setter"}}{{!!
 }}(JNIEnv* _jenv, jobject _jinstance{{#parameters}}, {{resolveName typeRef}} j{{resolveName}}{{/parameters}})
 {{#set function=this}}{{#resolveName property "C++" "setter"}}{{#set cppMethodName=this}}{{#function}}{{!!
 }}{{>jniMethodBody}}{{/function}}{{/set}}{{/resolveName}}{{/set}}
 
-{{/setter}}{{/set}}{{!!
+{{/ifPredicate}}{{/setter}}{{/set}}{{!!
 }}{{/jniPropertyImpl}}
