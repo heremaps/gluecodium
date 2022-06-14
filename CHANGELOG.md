@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 11.3.3
+Release date: 2022-06-14
 ### Features:
   * Added support for `@Skip()`/`@EnableIf()` attributes on property setters.
 ### Removed:
