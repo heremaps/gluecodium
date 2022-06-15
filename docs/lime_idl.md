@@ -106,7 +106,7 @@ the declaration.
 
 * Example: `internal static property secretDelegate: ProcessorDelegate? { get set }`
 * List of element kinds that can have a visibility prefix: class, interface, types, function,
-constructor, property, property accessor, struct, struct field, enumeration, exception, constant,
+constructor, property, property accessor, struct, struct field, enumeration, exception,
 type alias, lambda.
 * List of element kinds that cannot have a visibility prefix: package, import, function parameter,
 enumerator.

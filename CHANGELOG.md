@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Removed:
+  * Removed support for visibility modifiers on constants. The constants now always "public".
+
 ## 11.3.3
 Release date: 2022-06-14
 ### Features:
