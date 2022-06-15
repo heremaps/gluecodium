@@ -3,6 +3,8 @@
 ## Unreleased
 ### Removed:
   * Removed support for visibility modifiers on constants. The constants now always "public".
+  * Removed support for visibility modifiers on property accessors. The accessors now always have the same visibility as
+  the property itself.
 
 ## 11.3.3
 Release date: 2022-06-14

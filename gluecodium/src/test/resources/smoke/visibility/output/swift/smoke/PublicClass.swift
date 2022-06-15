@@ -15,16 +15,6 @@ public class PublicClass {
             smoke_PublicClass_internalStructProperty_set(self.c_instance, c_value.ref)
         }
     }
-    public internal(set) var internalSetterProperty: String {
-        get {
-            let c_result_handle = smoke_PublicClass_internalSetterProperty_get(self.c_instance)
-            return moveFromCType(c_result_handle)
-        }
-        set {
-            let c_value = moveToCType(newValue)
-            smoke_PublicClass_internalSetterProperty_set(self.c_instance, c_value.ref)
-        }
-    }
     let c_instance : _baseRef
     init(cPublicClass: _baseRef) {
         guard cPublicClass != 0 else {

@@ -29,10 +29,6 @@ class Attributes {
     property structAttribute: ExampleStruct
     property arrayAttribute: StringArray
     static property staticAttribute: String { get set }
-    property internalSetterAttribute: String {
-        get
-        internal set
-    }
 }
 
 class CachedProperties {

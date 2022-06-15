@@ -54,7 +54,4 @@ public final class PublicClass extends NativeBase {
     @NonNull
     native PublicClass.InternalStruct getInternalStructProperty();
     native void setInternalStructProperty(@NonNull final PublicClass.InternalStruct value);
-    @NonNull
-    public native String getInternalSetterProperty();
-    native void setInternalSetterProperty(@NonNull final String value);
 }

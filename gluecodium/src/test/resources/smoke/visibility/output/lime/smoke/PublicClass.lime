@@ -26,8 +26,4 @@ class PublicClass {
     ): InternalStructTypeDef
 
     internal property internalStructProperty: InternalStruct
-    property internalSetterProperty: String {
-        get
-        internal set
-    }
 }
