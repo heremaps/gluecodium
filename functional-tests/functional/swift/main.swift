@@ -86,6 +86,7 @@ func getAllTests() -> [XCTestCaseEntry] {
         testCase(StructsWithMethodsTests.allTests),
         testCase(StructWithInstanceTests.allTests),
         testCase(TypeDefTests.allTests),
+        testCase(VisibilityPrivateTests.allTests),
         testCase(WeakListenersTests.allTests)
     ]
     return allTests

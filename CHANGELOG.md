@@ -1,6 +1,8 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Features:
+  * Added support for "private" visibility on struct fields in Java, Swift, and Dart.
 ### Removed:
   * Removed all validation restrictions on `@Equatable` structs.
 

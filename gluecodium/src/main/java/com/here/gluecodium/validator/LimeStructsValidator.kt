@@ -25,7 +25,7 @@ import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeStruct
 
 /**
- * Validates structs with instance functions to ensure they have fields.
+ * Validates structs with instance functions to ensure they have fields. Validates structs with private fields.
  *
  * With [strictMode] enabled, there are additional validations: a struct must have explicit constructors defined if
  * * either it is `@Immutable`,
@@ -36,13 +36,14 @@ internal class LimeStructsValidator(private val logger: LimeLogger, private val 
     fun validate(limeModel: LimeModel): Boolean {
         val allStructs = limeModel.referenceMap.values.filterIsInstance<LimeStruct>()
         val constrValidationResults = allStructs.map { validateConstructability(it) }
+        val privateValidationResults = allStructs.map { validatePrivateFields(it) }
         val strictValidationResults =
             when {
                 strictMode -> allStructs.map { validateStrict(it) }
                 else -> emptyList()
             }
 
-        return !(constrValidationResults + strictValidationResults).contains(false)
+        return !(constrValidationResults + privateValidationResults + strictValidationResults).contains(false)
     }
 
     private fun validateConstructability(limeStruct: LimeStruct): Boolean {
@@ -57,6 +58,22 @@ internal class LimeStructsValidator(private val logger: LimeLogger, private val 
             }
             else -> true
         }
+    }
+
+    private fun validatePrivateFields(limeStruct: LimeStruct): Boolean {
+        val privateFields = limeStruct.fields.filter { it.visibility.isPrivate }
+        if (privateFields.isEmpty()) return true
+
+        var result = true
+        if (limeStruct.fieldConstructors.isEmpty() && limeStruct.constructors.isEmpty()) {
+            logger.error(limeStruct, "a struct with private fields should have at least one explicit constructor")
+            result = false
+        }
+        privateFields.filter { it.defaultValue == null }.forEach {
+            logger.error(it, "a private field should have a default value")
+            result = false
+        }
+        return result
     }
 
     private fun validateStrict(limeStruct: LimeStruct): Boolean {

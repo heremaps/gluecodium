@@ -433,7 +433,7 @@ internal class AntlrLimeModelBuilder(
         val limeTypeRef = typeMapper.mapTypeRef(currentPath, ctx.typeRef())
         val limeElement = LimeField(
             path = currentPath,
-            visibility = currentVisibility,
+            visibility = if (ctx.Private() != null) LimeVisibility.PRIVATE else currentVisibility,
             comment = parseStructuredComment(ctx.docComment(), ctx).description,
             attributes = attributes,
             external = externalDescriptor,
