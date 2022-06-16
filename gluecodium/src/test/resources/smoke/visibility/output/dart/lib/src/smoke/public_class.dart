@@ -13,10 +13,6 @@ abstract class PublicClass {
   /// @nodoc
   @internal
   set internal_internalStructProperty(PublicClass_InternalStruct value);
-  String get internalSetterProperty;
-  /// @nodoc
-  @internal
-  set internal_internalSetterProperty(String value);
 }
 /// @nodoc
 @internal
@@ -333,26 +329,6 @@ class PublicClass$Impl extends __lib.NativeBase implements PublicClass {
     final _handle = this.handle;
     _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     smokePublicclassInternalstructReleaseFfiHandle(_valueHandle);
-  }
-  @override
-  String get internalSetterProperty {
-    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_PublicClass_internalSetterProperty_get'));
-    final _handle = this.handle;
-    final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
-    try {
-      return stringFromFfi(__resultHandle);
-    } finally {
-      stringReleaseFfiHandle(__resultHandle);
-    }
-  }
-  @internal
-  @override
-  set internal_internalSetterProperty(String value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PublicClass_internalSetterProperty_set__String'));
-    final _valueHandle = stringToFfi(value);
-    final _handle = this.handle;
-    _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
-    stringReleaseFfiHandle(_valueHandle);
   }
 }
 Pointer<Void> smokePublicclassToFfi(PublicClass value) =>

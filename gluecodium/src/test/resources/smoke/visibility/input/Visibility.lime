@@ -55,14 +55,7 @@ class PublicClass {
     internal typealias StringToInternalStructMap = Map<String, InternalStruct>
 
     internal fun internalMethod(input: InternalStruct): InternalStructTypeDef
-    internal property internalStructProperty: InternalStruct {
-        internal get
-        internal set
-    }
-    property internalSetterProperty: String {
-        get
-        internal set
-    }
+    internal property internalStructProperty: InternalStruct
 }
 
 types PublicTypeCollection {

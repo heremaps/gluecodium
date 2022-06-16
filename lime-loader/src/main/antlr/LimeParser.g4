@@ -92,11 +92,11 @@ property
     ;
 
 getter
-    : docComment* annotation* visibility? 'get' NewLine* externalDescriptor?
+    : docComment* annotation* 'get' NewLine* externalDescriptor?
     ;
 
 setter
-    : docComment* annotation* visibility? 'set' NewLine* externalDescriptor?
+    : docComment* annotation* 'set' NewLine* externalDescriptor?
     ;
 
 struct

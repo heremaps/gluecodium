@@ -348,7 +348,7 @@ internal class AntlrLimeModelBuilder(
             val getterComment = getComment("get", getterContext.docComment(), getterContext)
             getter = LimeFunction(
                 path = getterPath,
-                visibility = convertVisibility(getterContext.visibility(), propertyVisibility),
+                visibility = propertyVisibility,
                 comment = getterComment.withExcluded(propertyComment.isExcluded),
                 attributes = getterAttributes,
                 external = getterExternalDescriptor,
@@ -363,7 +363,7 @@ internal class AntlrLimeModelBuilder(
                 val setterComment = getComment("set", it.docComment(), it)
                 LimeFunction(
                     path = currentPath.child("set"),
-                    visibility = convertVisibility(it.visibility(), propertyVisibility),
+                    visibility = propertyVisibility,
                     comment = setterComment.withExcluded(propertyComment.isExcluded),
                     attributes = setterAttributes,
                     external = setterExternalDescriptor,
