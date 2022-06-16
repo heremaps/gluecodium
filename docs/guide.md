@@ -111,6 +111,7 @@ types can be added in the form `[package.Interface.method]`. For properties the 
 explicitly. Without suffix the reference will link to the getter in languages which have
 getters and setters.
 
+**Note:** Gluecodium supports Markdown tables in Lime files. However, by default, tools like Jazzy, Dartdoc and Javadoc render these tables with invisible borders and without any padding. Therefore, we recommend to avoid using tables.
 
 Annotations
 -----------
