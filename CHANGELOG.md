@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 11.4.0
+Release date: 2022-06-16
 ### Removed:
   * Removed support for visibility modifiers on constants. The constants now always "public".
   * Removed support for visibility modifiers on property accessors. The accessors now always have the same visibility as
