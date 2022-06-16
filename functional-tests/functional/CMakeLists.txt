@@ -436,11 +436,11 @@ feature(Lambdas cpp android swift dart SOURCES
     input/src/cpp/Lambdas.cpp
 )
 
-feature(Visibility dart SOURCES
-    input/lime/Visibility.lime
+feature(VisibilityInternal dart SOURCES
+    input/lime/VisibilityInternal.lime
     input/lime/InternalFields.lime
 
-    input/src/cpp/Visibility.cpp
+    input/src/cpp/VisibilityInternal.cpp
 )
 
 feature(SkipAttribute cpp android swift dart SOURCES
