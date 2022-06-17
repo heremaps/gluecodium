@@ -1,12 +1,10 @@
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'package:meta/meta.dart';
 class PublicFieldsMixedInit {
   String publicField1;
   String publicField2;
   /// @nodoc
-  @internal
   String _internalField;
   PublicFieldsMixedInit._(this.publicField1, this.publicField2, this._internalField);
   PublicFieldsMixedInit(String publicField2)

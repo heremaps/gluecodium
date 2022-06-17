@@ -1,11 +1,9 @@
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'package:meta/meta.dart';
 class PublicStructWithNonDefaultInternalField {
   int defaultedField;
   /// @nodoc
-  @internal
   String _internalField;
   bool publicField;
   PublicStructWithNonDefaultInternalField._(this.defaultedField, this._internalField, this.publicField);

@@ -11,7 +11,6 @@ abstract class ClassWithInternalLambda {
   static dynamic $prototype = ClassWithInternalLambda$Impl(Pointer<Void>.fromAddress(0));
 }
 /// @nodoc
-@internal
 typedef ClassWithInternalLambda_InternalNestedLambda = bool Function(String);
 // ClassWithInternalLambda_InternalNestedLambda "private" section, not exported.
 final _smokeClasswithinternallambdaInternalnestedlambdaRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<

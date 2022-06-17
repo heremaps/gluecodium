@@ -3,10 +3,8 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 /// @nodoc
-@internal
 class InternalStruct {
   /// @nodoc
-  @internal
   String _stringField;
   InternalStruct(this._stringField);
   /// @nodoc

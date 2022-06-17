@@ -2,15 +2,12 @@ import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/foo_bar_enum.dart';
-import 'package:meta/meta.dart';
 class InternalEnumDefaults {
   FooBarEnum publicField;
   List<FooBarEnum> publicListField;
   /// @nodoc
-  @internal
   FooBarEnum _internalField;
   /// @nodoc
-  @internal
   List<FooBarEnum> _internalListField;
   InternalEnumDefaults._(this.publicField, this.publicListField, this._internalField, this._internalListField);
   InternalEnumDefaults()

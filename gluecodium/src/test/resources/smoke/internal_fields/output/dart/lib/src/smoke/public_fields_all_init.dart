@@ -1,11 +1,9 @@
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'package:meta/meta.dart';
 class PublicFieldsAllInit {
   String publicField;
   /// @nodoc
-  @internal
   String _internalField;
   PublicFieldsAllInit._(this.publicField, this._internalField);
   PublicFieldsAllInit()

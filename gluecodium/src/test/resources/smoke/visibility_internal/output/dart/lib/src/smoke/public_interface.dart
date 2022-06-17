@@ -5,15 +5,11 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/public_class.dart';
-import 'package:meta/meta.dart';
 abstract class PublicInterface {
-
 }
 /// @nodoc
-@internal
 class PublicInterface_InternalStruct {
   /// @nodoc
-  @internal
   PublicClass_InternalStruct _fieldOfInternalType;
   PublicInterface_InternalStruct(this._fieldOfInternalType);
 }
@@ -100,7 +96,6 @@ final _smokePublicinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nati
   >('library_smoke_PublicInterface_get_type_id'));
 class PublicInterface$Impl extends __lib.NativeBase implements PublicInterface {
   PublicInterface$Impl(Pointer<Void> handle) : super(handle);
-
 }
 Pointer<Void> smokePublicinterfaceToFfi(PublicInterface value) {
   if (value is __lib.NativeBase) return _smokePublicinterfaceCopyHandle((value as __lib.NativeBase).handle);

@@ -3,11 +3,9 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'package:meta/meta.dart';
 abstract class PublicClass {
 }
 /// @nodoc
-@internal
 enum PublicClass_InternalEnum {
     foo,
     bar
@@ -64,10 +62,8 @@ void smokePublicclassInternalenumReleaseFfiHandleNullable(Pointer<Void> handle) 
   _smokePublicclassInternalenumReleaseHandleNullable(handle);
 // End of PublicClass_InternalEnum "private" section.
 /// @nodoc
-@internal
 class PublicClass_InternalStruct {
   /// @nodoc
-  @internal
   String _stringField;
   PublicClass_InternalStruct(this._stringField);
 }
@@ -133,7 +129,6 @@ void smokePublicclassInternalstructReleaseFfiHandleNullable(Pointer<Void> handle
 // End of PublicClass_InternalStruct "private" section.
 class PublicClass_PublicStruct {
   /// @nodoc
-  @internal
   PublicClass_InternalStruct _internalField;
   PublicClass_PublicStruct(this._internalField);
 }
@@ -199,7 +194,6 @@ void smokePublicclassPublicstructReleaseFfiHandleNullable(Pointer<Void> handle) 
 // End of PublicClass_PublicStruct "private" section.
 class PublicClass_PublicStructWithInternalDefaults {
   /// @nodoc
-  @internal
   String _internalField;
   double publicField;
   PublicClass_PublicStructWithInternalDefaults._(this._internalField, this.publicField);

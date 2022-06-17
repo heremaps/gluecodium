@@ -3,6 +3,7 @@
 ## Unreleased
 ### Breaking changes:
   * Functions and properties with `internal` visibility are now unconditionally skipped in generated Dart code.
+  * Struct fields with `internal` visibility are now file-private in generated Dart code.
 
 ## 11.6.0
 Release date: 2022-06-23
