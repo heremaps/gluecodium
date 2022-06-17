@@ -87,7 +87,11 @@ internal class SwiftNameResolver(
         }
 
     private fun resolveVisibility(limeVisibility: LimeVisibility) =
-        if (limeVisibility.isInternal) "internal" else "public"
+        when (limeVisibility) {
+            LimeVisibility.PUBLIC -> "public"
+            LimeVisibility.INTERNAL -> "internal"
+            LimeVisibility.PRIVATE -> "fileprivate"
+        }
 
     private fun resolveBasicType(typeId: TypeId) =
         when (typeId) {

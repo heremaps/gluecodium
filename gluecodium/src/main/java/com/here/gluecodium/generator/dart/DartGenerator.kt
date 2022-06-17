@@ -219,7 +219,7 @@ internal class DartGenerator : Generator {
         val nonExternalTypes = allTypes.filter { it.external?.dart == null }
         val freeConstants = (rootElement as? LimeTypesCollection)?.constants ?: emptyList()
         val allSymbols =
-            (nonExternalTypes + freeConstants).filter { it !is LimeTypesCollection && !it.visibility.isInternal }
+            (nonExternalTypes + freeConstants).filter { it !is LimeTypesCollection && it.visibility.isPublic }
         if (allSymbols.isNotEmpty()) {
             val allNames = allSymbols.map { dartNameResolver.resolveName(it) }
             val testNames = allSymbols

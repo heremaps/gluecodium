@@ -102,8 +102,9 @@ internal class DartNameResolver(
 
     private fun resolveVisibility(limeVisibility: LimeVisibility) =
         when (limeVisibility) {
+            LimeVisibility.PUBLIC -> ""
             LimeVisibility.INTERNAL -> "internal$joinInfix"
-            else -> ""
+            LimeVisibility.PRIVATE -> "_"
         }
 
     private fun resolveBasicType(typeId: TypeId) =
