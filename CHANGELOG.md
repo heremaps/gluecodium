@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Removed:
+  * Removed all validation restrictions on `@Equatable` structs.
+
 ## 11.4.0
 Release date: 2022-06-16
 ### Removed:
