@@ -107,7 +107,12 @@ internal class JavaNameResolver(
         return commentsProcessor.process(commentedElement.fullName, commentText, limeToJavaNames, limeLogger)
     }
 
-    private fun resolveVisibility(limeVisibility: LimeVisibility) = if (limeVisibility.isInternal) "" else "public "
+    private fun resolveVisibility(limeVisibility: LimeVisibility) =
+        when (limeVisibility) {
+            LimeVisibility.PUBLIC -> "public "
+            LimeVisibility.INTERNAL -> ""
+            LimeVisibility.PRIVATE -> "private "
+        }
 
     private fun resolveAccessorName(element: Any, rule: JavaNameRules.(LimeTypedElement) -> String) =
         (element as? LimeTypedElement)?.let { javaNameRules.rule(it) }
