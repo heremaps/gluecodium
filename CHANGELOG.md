@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Breaking changes:
+  * Nullable fields in structs now implicitly have a default value of `null`, unless explicitly defined otherwise. This
+  also affects implicitly generated constructors for such structs (explicitly defined constructors are unaffected).
+
 ## 12.1.0
 Release date: 2022-06-29
 ### Features:

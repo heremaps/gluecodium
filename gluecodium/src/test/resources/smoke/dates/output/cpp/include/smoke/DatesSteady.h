@@ -23,8 +23,9 @@ public:
     using DateMap = ::std::unordered_map< ::smoke::DatesSteady::MonotonicDate, ::std::string, ::gluecodium::hash< ::smoke::DatesSteady::MonotonicDate > >;
     struct _GLUECODIUM_CPP_EXPORT DateStruct {
         ::smoke::DatesSteady::MonotonicDate date_field;
-        ::gluecodium::optional< ::smoke::DatesSteady::MonotonicDate > nullable_date_field;
+        ::gluecodium::optional< ::smoke::DatesSteady::MonotonicDate > nullable_date_field = ::gluecodium::optional< ::smoke::DatesSteady::MonotonicDate >();
         DateStruct( );
+        explicit DateStruct( ::smoke::DatesSteady::MonotonicDate date_field );
         DateStruct( ::smoke::DatesSteady::MonotonicDate date_field, ::gluecodium::optional< ::smoke::DatesSteady::MonotonicDate > nullable_date_field );
     };
 public:

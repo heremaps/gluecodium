@@ -34,4 +34,6 @@ struct SimpleEquatableStruct {
     interfaceField: NonEquatableInterface
     nullableClassField: NonEquatableClass?
     nullableInterfaceField: NonEquatableInterface?
+
+    field constructor(classField, interfaceField, nullableClassField, nullableInterfaceField)
 }
