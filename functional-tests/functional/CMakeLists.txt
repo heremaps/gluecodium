@@ -443,6 +443,12 @@ feature(VisibilityInternal dart SOURCES
     input/src/cpp/VisibilityInternal.cpp
 )
 
+feature(VisibilityPrivate android swift dart SOURCES
+    input/lime/VisibilityPrivate.lime
+
+    input/src/cpp/VisibilityPrivate.cpp
+)
+
 feature(SkipAttribute cpp android swift dart SOURCES
     input/lime/Skip.lime
     input/lime/SkipTags.lime
