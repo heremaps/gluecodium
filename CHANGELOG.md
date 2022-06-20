@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 11.5.0
+Release date: 2022-06-20
 ### Features:
   * Added support for "private" visibility on struct fields in Java, Swift, and Dart.
 ### Removed:
