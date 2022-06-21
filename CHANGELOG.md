@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed documentation references to constructors in Java, Swift, and Dart.
+
 ## 11.5.0
 Release date: 2022-06-20
 ### Features:

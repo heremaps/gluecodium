@@ -26,8 +26,10 @@ import com.here.gluecodium.generator.common.NameHelper
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
-import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeType.DART
 import com.here.gluecodium.model.lime.LimeAttributeValueType
+import com.here.gluecodium.model.lime.LimeAttributeValueType.DEFAULT
+import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeComment
@@ -146,7 +148,7 @@ internal class DartNameResolver(
                     !useDefaultsConstructor -> ""
                     noFieldsConstructor == null ->
                         if (DartGeneratorPredicates.allFieldsCtorIsPublic(actualType)) ".withDefaults" else ""
-                    noFieldsConstructor.attributes.have(LimeAttributeType.DART, LimeAttributeValueType.DEFAULT) -> ""
+                    noFieldsConstructor.attributes.have(DART, DEFAULT) -> ""
                     else -> resolveName(noFieldsConstructor).let { if (it.isEmpty()) "" else ".$it" }
                 }
                 limeValue.values.joinToString(
@@ -223,7 +225,7 @@ internal class DartNameResolver(
         }
 
     private fun resolveTypeName(limeType: LimeType): String {
-        val enforcedFullName = limeType.attributes.get(LimeAttributeType.DART, LimeAttributeValueType.FULL_NAME)
+        val enforcedFullName = limeType.attributes.get(DART, LimeAttributeValueType.FULL_NAME)
         if (enforcedFullName != null) return enforcedFullName
 
         val typeName = getPlatformName(limeType)
@@ -251,9 +253,8 @@ internal class DartNameResolver(
 
     private fun getPlatformName(element: LimeNamedElement) =
         when {
-            element.attributes.have(LimeAttributeType.DART, LimeAttributeValueType.DEFAULT) -> "\$init"
-            else -> element.attributes.get(LimeAttributeType.DART, LimeAttributeValueType.NAME)
-                ?: nameRules.getName(element)
+            element.attributes.have(DART, DEFAULT) -> "\$init"
+            else -> element.attributes.get(DART, NAME) ?: nameRules.getName(element)
         }
 
     private fun resolveFullName(limeElement: LimeNamedElement): String {
@@ -261,7 +262,12 @@ internal class DartNameResolver(
             return resolveName(limeElement)
         }
         val parentElement = getParentElement(limeElement)
-        return "${resolveFullName(parentElement)}.${resolveName(limeElement)}"
+        val ownName = when {
+            limeElement is LimeFunction && limeElement.isConstructor && !limeElement.attributes.have(DART, NAME) ->
+                "${resolveName(parentElement)}()"
+            else -> resolveName(limeElement)
+        }
+        return "${resolveFullName(parentElement)}.$ownName"
     }
 
     private fun resolveTypeRefName(limeTypeRef: LimeTypeRef, ignoreDuplicates: Boolean = false): String {

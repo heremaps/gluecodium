@@ -216,7 +216,7 @@ internal class SwiftNameResolver(
         val parentElement = limeReferenceMap.takeIf { limeElement.path.hasParent }
             ?.get(limeElement.path.parent.toString()) as? LimeNamedElement
 
-        val name = resolveName(limeElement)
+        val name = if (limeElement is LimeFunction && limeElement.isConstructor) "init" else resolveName(limeElement)
         return when {
             parentElement == null -> listOf(name)
             limeElement is LimeInterface -> listOf(name)
