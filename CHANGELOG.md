@@ -2,8 +2,8 @@
 
 ## Unreleased
 ### Bug fixes:
-  * Fixed documentation references to constructors in Java, Swift, and Dart.
-
+    * Fixed documentation references to constructors in Java, Swift, and Dart.
+* Fixed missing import for `internal field constructor` in Dart.    
 ## 11.5.0
 Release date: 2022-06-20
 ### Features:

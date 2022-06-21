@@ -91,7 +91,7 @@ struct FieldConstructorsInternalFields {
 
 struct FieldConstructorsInternal {
     publicField: String = "foo"
-    internal internalField: Double = 42
+    internalField: Double = 42
     @Dart("withAll")
     internal field constructor()
     @Dart("withFortyTwo")
