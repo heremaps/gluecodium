@@ -30,34 +30,6 @@ final _smokeAsyncclassReleaseHandle = __lib.catchArgumentError(() => __lib.nativ
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_AsyncClass_release_handle'));
-final _asyncVoidThrowsReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>),
-    void Function(Pointer<Void>)
-  >('library_smoke_AsyncClass_asyncVoidThrows__Boolean_return_release_handle'));
-final _asyncVoidThrowsReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Uint32 Function(Pointer<Void>),
-    int Function(Pointer<Void>)
-  >('library_smoke_AsyncClass_asyncVoidThrows__Boolean_return_get_error'));
-final _asyncVoidThrowsReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Uint8 Function(Pointer<Void>),
-    int Function(Pointer<Void>)
-  >('library_smoke_AsyncClass_asyncVoidThrows__Boolean_return_has_error'));
-final _asyncIntThrowsReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Void Function(Pointer<Void>),
-    void Function(Pointer<Void>)
-  >('library_smoke_AsyncClass_asyncIntThrows__Boolean_return_release_handle'));
-final _asyncIntThrowsReturnGetResult = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Int32 Function(Pointer<Void>),
-    int Function(Pointer<Void>)
-  >('library_smoke_AsyncClass_asyncIntThrows__Boolean_return_get_result'));
-final _asyncIntThrowsReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Uint32 Function(Pointer<Void>),
-    int Function(Pointer<Void>)
-  >('library_smoke_AsyncClass_asyncIntThrows__Boolean_return_get_error'));
-final _asyncIntThrowsReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Uint8 Function(Pointer<Void>),
-    int Function(Pointer<Void>)
-  >('library_smoke_AsyncClass_asyncIntThrows__Boolean_return_has_error'));
 /// @nodoc
 @visibleForTesting
 class AsyncClass$Impl extends __lib.NativeBase implements AsyncClass {
