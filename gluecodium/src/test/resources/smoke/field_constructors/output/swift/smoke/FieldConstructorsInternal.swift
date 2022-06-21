@@ -3,7 +3,7 @@
 import Foundation
 public struct FieldConstructorsInternal {
     public var publicField: String
-    internal var internalField: Double
+    public var internalField: Double
     internal init() {
         self.publicField = "foo"
         self.internalField = 42

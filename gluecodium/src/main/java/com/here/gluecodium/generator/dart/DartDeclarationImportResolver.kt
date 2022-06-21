@@ -81,7 +81,7 @@ internal class DartDeclarationImportResolver(
             result += collectionPackageImport
         }
         if (limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) || limeStruct.functions.isNotEmpty() ||
-            limeStruct.fields.any { it.visibility.isInternal }
+            (limeStruct.fields + limeStruct.fieldConstructors).any { it.visibility.isInternal }
         ) {
             result += metaPackageImport
         }

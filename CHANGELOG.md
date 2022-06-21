@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed missing import for `internal field constructor` in Dart.
+
 ## 11.5.0
 Release date: 2022-06-20
 ### Features:
