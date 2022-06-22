@@ -200,7 +200,9 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
       - name: Install ninja
-        run: brew install ninja
+        uses: seanmiddleditch/gha-setup-ninja@master
+        with:
+          version: 1.11.0
       - name: Build and run functional tests
         run: |
           ./scripts/build-swift-functional --buildGluecodium
