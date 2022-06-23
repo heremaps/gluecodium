@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 11.6.0
+Release date: 2022-06-23
 ### Features:
   * Reworked the C++ callbacks for `@Async` support.
 ### Removed:
