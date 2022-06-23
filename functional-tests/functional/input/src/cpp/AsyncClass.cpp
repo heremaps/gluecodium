@@ -31,25 +31,27 @@ public:
     AsyncClassImpl() = default;
     ~AsyncClassImpl() override = default;
 public:
-    void async_void(std::function<void()> completer_callback, const bool input) override;
+    void async_void(std::function<void()> result_callback, const bool input) override;
     void async_void(const bool input) override;
     void async_void_throws(
-        std::function<void(bool, AsyncErrorCode)> completer_callback,
+        std::function<void()> result_callback,
+        std::function<void(AsyncErrorCode)> error_callback,
         const bool should_throw
     ) override;
     std::error_code async_void_throws(const bool input) override;
-    void async_int(std::function<void(int32_t)> completer_callback, const bool input) override;
+    void async_int(std::function<void(int32_t)> result_callback, const bool input) override;
     int32_t async_int(const bool input) override;
     void async_int_throws(
-        std::function<void(bool, int32_t, AsyncErrorCode)> completer_callback,
+        std::function<void(int32_t)> result_callback,
+        std::function<void(AsyncErrorCode)> error_callback,
         const bool should_throw
     ) override;
     Return<int32_t, std::error_code> async_int_throws(const bool input) override;
 };
 
 void
-AsyncClassImpl::async_void(std::function<void()> completer_callback, const bool) {
-    completer_callback();
+AsyncClassImpl::async_void(std::function<void()> result_callback, const bool) {
+    result_callback();
 }
 
 void
@@ -57,13 +59,14 @@ AsyncClassImpl::async_void(const bool) {}
 
 void
 AsyncClassImpl::async_void_throws(
-    std::function<void(bool, AsyncErrorCode)> completer_callback,
+    std::function<void()> result_callback,
+    std::function<void(AsyncErrorCode)> error_callback,
     const bool should_throw
 ) {
     if (should_throw) {
-        completer_callback(false, AsyncErrorCode::BOOM);
+        error_callback(AsyncErrorCode::BOOM);
     } else {
-        completer_callback(true, AsyncErrorCode::NONE);
+        result_callback();
     }
 }
 
@@ -71,8 +74,8 @@ std::error_code
 AsyncClassImpl::async_void_throws(const bool) { return {}; }
 
 void
-AsyncClassImpl::async_int(std::function<void(int32_t)> completer_callback, const bool) {
-    completer_callback(42);
+AsyncClassImpl::async_int(std::function<void(int32_t)> result_callback, const bool) {
+    result_callback(42);
 }
 
 int32_t
@@ -80,13 +83,14 @@ AsyncClassImpl::async_int(const bool) { return 0; }
 
 void
 AsyncClassImpl::async_int_throws(
-    std::function<void(bool, int32_t, AsyncErrorCode)> completer_callback,
+    std::function<void(int32_t)> result_callback,
+    std::function<void(AsyncErrorCode)> error_callback,
     const bool should_throw
 ) {
     if (should_throw) {
-        completer_callback(false, 0, AsyncErrorCode::BOOM);
+        error_callback(AsyncErrorCode::BOOM);
     } else {
-        completer_callback(true, 42, AsyncErrorCode::NONE);
+        result_callback(42);
     }
 }
 
@@ -99,8 +103,8 @@ std::shared_ptr<AsyncClass>
 AsyncClass::create() { return std::make_shared<AsyncClassImpl>(); }
 
 void
-AsyncClass::async_static(std::function<void()> completer_callback, const bool) {
-    completer_callback();
+AsyncClass::async_static(std::function<void()> result_callback, const bool) {
+    result_callback();
 }
 
 void

@@ -52,21 +52,17 @@ This LIME IDL definition will result in the following C++ code being generated:
 ```
 class AsyncClass {
   ReturnType my_async_function(...);
-  void my_async_function(_completer_callback, ...);
+  void my_async_function(_result_callback, _error_callback, ...);
 }
 ```
 
 The first C++ overload is the same as without the `@Async` attribute. It still should be used for synchronous usages in
 Java, Swift, and C++ itself. The second overload is intended for the asynchronous use. This overload does not return any
-value. Instead, the return value should be passed to the "completer callback". Same applies to an error value if the
-function has a `throws` clause.
+value. Instead:
+* The return value should be passed to the "result callback".
+* If the return type is `Void`, the "result callback" still needs to be called.
+* If the function has a `throws` clause, the error value, if present, should be passed to the "error callback".
+* Calling *both* callbacks in the same code path is invalid and leads to an exception being thrown at the receiving side.
 
-The exact signature of the "completer callback" depends on the function's return value and `throws` clause:
-
-* `fun myAsyncFunction(...)` -> `std::function<void()>`
-* `fun myAsyncFunction(...): ReturnType` -> `std::function<void(ReturnType /*result*/)>`
-* `fun myAsyncFunction(...) throws MyException` -> `std::function<void(bool /*has_value*/, MyException /*error*/)>`
-* `fun myAsyncFunction(...): ReturnType throws MyException` -> `std::function<void(bool /*has_value*/, ReturnType /*result*/, MyException /*error*/)>`
-
-All parameters passed to the "completer callback" are transformed into the appropriate state of the `Future` object on
-Dart side, allowing for Dart-idiomatic asynchronous usage.
+All parameters passed to the "result callback" or "error callback" are transformed into the appropriate state of the
+`Future` object on Dart side, allowing for Dart-idiomatic asynchronous usage.

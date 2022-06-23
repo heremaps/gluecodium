@@ -24,10 +24,9 @@ import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeType.DART
 import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
 import com.here.gluecodium.model.lime.LimeAttributes
-import com.here.gluecodium.model.lime.LimeBasicType
-import com.here.gluecodium.model.lime.LimeBasicTypeRef
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
+import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeLambdaParameter
@@ -42,7 +41,8 @@ internal object DartAsyncHelpers {
         val helpers: Map<String, LimeFunction>
     )
 
-    private const val COMPLETER_LAMBDA = "__completerLambda"
+    private const val RESULT_LAMBDA = "__resultLambda"
+    private const val ERROR_LAMBDA = "__errorLambda"
     private const val ASYNC_FUNCTION = "__async"
 
     fun createAsyncHelpers(rootElement: LimeNamedElement, dartNameResolver: DartNameResolver) =
@@ -60,46 +60,62 @@ internal object DartAsyncHelpers {
         val asyncFunctions = limeContainer.functions.filter { it.attributes.have(ASYNC) }
         for (limeFunction in asyncFunctions) {
             val functionName = dartNameResolver.resolveName(limeFunction)
-            val asyncLambda = createAsyncLambda(limeFunction, functionName).also { lambdas += it }
-            helpers[limeFunction.fullName] = createAsyncHelper(limeFunction, functionName, asyncLambda)
+            val resultLambda = createResultLambda(limeFunction, functionName).also { lambdas += it }
+            val errorLambda = limeFunction.exception
+                ?.let { createErrorLambda(limeFunction, it, functionName) }
+                ?.also { lambdas += it }
+            helpers[limeFunction.fullName] = createAsyncHelper(limeFunction, functionName, resultLambda, errorLambda)
         }
 
         return AsyncHelpersGroup(limeContainer.fullName, lambdas, helpers)
     }
 
-    private fun createAsyncLambda(limeFunction: LimeFunction, functionName: String): LimeLambda {
-        val limeException = limeFunction.exception
-        val parameters = when {
-            limeException != null -> listOf(LimeLambdaParameter(LimeBasicTypeRef(LimeBasicType.TypeId.BOOLEAN)))
-            else -> emptyList()
-        } + when {
-            !limeFunction.returnType.isVoid -> listOf(LimeLambdaParameter(limeFunction.returnType.typeRef))
-            else -> emptyList()
-        } + when {
-            limeException != null -> listOf(LimeLambdaParameter(limeException.errorType))
-            else -> emptyList()
+    private fun createResultLambda(limeFunction: LimeFunction, functionName: String) =
+        LimeLambda(
+            limeFunction.path.parent.child(limeFunction.name + RESULT_LAMBDA, limeFunction.path.disambiguator),
+            attributes = LimeAttributes.Builder().addAttribute(DART, NAME, functionName + RESULT_LAMBDA).build(),
+            parameters = when {
+                limeFunction.returnType.isVoid -> emptyList()
+                else -> listOf(LimeLambdaParameter(limeFunction.returnType.typeRef))
+            }
+        )
+
+    private fun createErrorLambda(
+        limeFunction: LimeFunction,
+        limeException: LimeException,
+        functionName: String
+    ) = LimeLambda(
+        limeFunction.path.parent.child(limeFunction.name + ERROR_LAMBDA, limeFunction.path.disambiguator),
+        attributes = LimeAttributes.Builder().addAttribute(DART, NAME, functionName + ERROR_LAMBDA).build(),
+        parameters = listOf(LimeLambdaParameter(limeException.errorType))
+    )
+
+    private fun createAsyncHelper(
+        limeFunction: LimeFunction,
+        functionName: String,
+        resultLambda: LimeLambda,
+        errorLambda: LimeLambda?
+    ): LimeFunction {
+        val path = limeFunction.path.withSuffix(limeFunction.path.disambiguator + "async")
+        val resultLambdaParameter = LimeParameter(
+            path = path.child("_resultLambda"),
+            typeRef = LimeDirectTypeRef(resultLambda),
+            attributes = LimeAttributes.Builder().addAttribute(DART, NAME, "_resultLambda").build(),
+        )
+        val errorLambdaParameter = errorLambda?.let {
+            LimeParameter(
+                path = path.child("_errorLambda"),
+                typeRef = LimeDirectTypeRef(errorLambda),
+                attributes = LimeAttributes.Builder().addAttribute(DART, NAME, "_errorLambda").build(),
+            )
         }
 
-        return LimeLambda(
-            limeFunction.path.parent.child(limeFunction.name + COMPLETER_LAMBDA, limeFunction.path.disambiguator),
-            attributes = LimeAttributes.Builder().addAttribute(DART, NAME, functionName + COMPLETER_LAMBDA).build(),
-            parameters = parameters
-        )
-    }
-
-    private fun createAsyncHelper(limeFunction: LimeFunction, functionName: String, asyncLambda: LimeLambda): LimeFunction {
-        val path = limeFunction.path.withSuffix(limeFunction.path.disambiguator + "async")
-        val lambdaParameter = LimeParameter(
-            path.child("_completerLambda"),
-            typeRef = LimeDirectTypeRef(asyncLambda),
-            attributes = LimeAttributes.Builder().addAttribute(DART, NAME, "_completerLambda").build(),
-        )
         val attributes = LimeAttributes.Builder().addAttribute(DART, NAME, "_$functionName$ASYNC_FUNCTION")
         limeFunction.attributes.get(CPP, NAME)?.let { attributes.addAttribute(CPP, NAME, it) }
         return LimeFunction(
-            path,
+            path = path,
             attributes = attributes.build(),
-            parameters = listOf(lambdaParameter) + limeFunction.parameters,
+            parameters = listOfNotNull(resultLambdaParameter, errorLambdaParameter) + limeFunction.parameters,
             isStatic = limeFunction.isStatic
         )
     }

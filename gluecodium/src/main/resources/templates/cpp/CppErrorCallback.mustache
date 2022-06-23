@@ -18,8 +18,4 @@
   ! License-Filename: LICENSE
   !
   !}}
-std::function<void({{!!
-}}{{#if thrownType}}bool, {{/if}}{{!!
-}}{{#unless returnType.isVoid}}{{resolveName returnType "C++"}}{{/unless}}{{!!
-}}{{#if thrownType}}{{#unless returnType.isVoid}}, {{/unless}}{{resolveName exception.errorType "C++"}}{{/if}}{{!!
-}})>
+std::function<void({{resolveName exception.errorType "C++"}})>

@@ -26,8 +26,8 @@ namespace test
 {
 
 void
-AsyncWithSkips::make_shared_instance(std::function<void()> completer_callback) {
-    completer_callback();
+AsyncWithSkips::make_shared_instance(std::function<void()> result_callback) {
+    result_callback();
 }
 
 void

@@ -22,20 +22,12 @@
 
 }}{{#if this.attributes.async}} {
   final $completer = Completer<{{resolveName returnType}}>();
-  _{{resolveName}}__async({{#if addThat}}{{#unless isStatic}}$that, {{/unless}}{{/if}}{{!!
-  }}({{#if this.thrownType}}bool $hasValue, {{/if}}{{!!
-  }}{{#unless returnType.isVoid}}{{resolveName returnType}} $result{{/unless}}{{!!
-  }}{{#if this.thrownType}}{{#unless returnType.isVoid}}, {{/unless}}{{resolveName exception.errorType}} $error{{/if}}) {
-{{#if this.thrownType}}
-    if ($hasValue) {
-      $completer.complete({{#unless returnType.isVoid}}$result{{/unless}});
-    } else {
-      $completer.completeError({{resolveName exception}}($error));
-    }
-{{/if}}{{#unless this.thrownType}}
-    $completer.complete({{#unless returnType.isVoid}}$result{{/unless}});
-{{/unless}}
-  }{{#if parameters}}, {{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{/if}});
+  _{{resolveName}}__async({{#if addThat}}{{#unless isStatic}}$that, {{/unless}}{{/if}}
+    ({{#unless returnType.isVoid}}{{resolveName returnType}} $result{{/unless}}) {{!!
+    }}=> $completer.complete({{#unless returnType.isVoid}}$result{{/unless}}){{#if this.thrownType}},
+    ({{resolveName exception.errorType}} $error) => $completer.completeError({{resolveName exception}}($error)){{/if}}{{#if parameters}},
+    {{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{/if}}
+  );
   return $completer.future;
 }
 

@@ -11,7 +11,7 @@ public:
     AsyncRenamed();
     virtual ~AsyncRenamed() = 0;
 public:
-    virtual void callDispose( std::function<void()> _completer_callback ) = 0;
+    virtual void callDispose( std::function<void()> _result_callback ) = 0;
     virtual void callDispose(  ) = 0;
 };
 }
