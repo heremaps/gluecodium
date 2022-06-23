@@ -2,16 +2,7 @@ import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
-import 'package:library/src/builtin_types__conversion.dart';
-import 'package:meta/meta.dart';
 abstract class InternalPropertyOnly {
-
-  /// @nodoc
-  @internal
-  String get internal_foo;
-  /// @nodoc
-  @internal
-  set internal_foo(String value);
 }
 // InternalPropertyOnly "private" section, not exported.
 final _smokeInternalpropertyonlyRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -28,28 +19,6 @@ final _smokeInternalpropertyonlyReleaseHandle = __lib.catchArgumentError(() => _
   >('library_smoke_InternalPropertyOnly_release_handle'));
 class InternalPropertyOnly$Impl extends __lib.NativeBase implements InternalPropertyOnly {
   InternalPropertyOnly$Impl(Pointer<Void> handle) : super(handle);
-
-  @internal
-  @override
-  String get internal_foo {
-    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_InternalPropertyOnly_foo_get'));
-    final _handle = this.handle;
-    final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
-    try {
-      return stringFromFfi(__resultHandle);
-    } finally {
-      stringReleaseFfiHandle(__resultHandle);
-    }
-  }
-  @internal
-  @override
-  set internal_foo(String value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_InternalPropertyOnly_foo_set__String'));
-    final _valueHandle = stringToFfi(value);
-    final _handle = this.handle;
-    _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
-    stringReleaseFfiHandle(_valueHandle);
-  }
 }
 Pointer<Void> smokeInternalpropertyonlyToFfi(InternalPropertyOnly value) =>
   _smokeInternalpropertyonlyCopyHandle((value as __lib.NativeBase).handle);

@@ -86,7 +86,7 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) =>
   final _copiedHandle = _{{resolveName "Ffi"}}CopyHandle(handle);
   final _impl = {{resolveName}}$Impl(_copiedHandle);
   final result = {{#asFunction}}({{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) => {{!!
-  }}_impl.{{resolveName visibility}}{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{/asFunction}};
+  }}_impl.{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{/asFunction}};
   _{{resolveName "Ffi"}}RegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }

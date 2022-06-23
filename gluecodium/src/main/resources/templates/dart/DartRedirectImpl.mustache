@@ -19,5 +19,5 @@
   !
   !}}
  => {{#if isConstructor}}{{resolveName parent}}$Impl{{/if}}{{#unless isConstructor}}$prototype{{/unless}}{{!!
- }}.{{resolveName visibility}}{{resolveName}}({{#if isStruct}}{{#unless isStatic}}this{{#if parameters}}, {{/if}}{{/unless}}{{/if}}{{!!
+ }}.{{resolveName}}({{#if isStruct}}{{#unless isStatic}}this{{#if parameters}}, {{/if}}{{/unless}}{{/if}}{{!!
  }}{{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})

@@ -5,14 +5,6 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 abstract class PublicClass {
-  /// @nodoc
-  PublicClass_InternalStruct internal_internalMethod(PublicClass_InternalStruct input);
-  /// @nodoc
-  @internal
-  PublicClass_InternalStruct get internal_internalStructProperty;
-  /// @nodoc
-  @internal
-  set internal_internalStructProperty(PublicClass_InternalStruct value);
 }
 /// @nodoc
 @internal
@@ -296,40 +288,6 @@ final _smokePublicclassReleaseHandle = __lib.catchArgumentError(() => __lib.nati
   >('library_smoke_PublicClass_release_handle'));
 class PublicClass$Impl extends __lib.NativeBase implements PublicClass {
   PublicClass$Impl(Pointer<Void> handle) : super(handle);
-  @override
-  PublicClass_InternalStruct internal_internalMethod(PublicClass_InternalStruct input) {
-    final _internalMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PublicClass_internalMethod__InternalStruct'));
-    final _inputHandle = smokePublicclassInternalstructToFfi(input);
-    final _handle = this.handle;
-    final __resultHandle = _internalMethodFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
-    smokePublicclassInternalstructReleaseFfiHandle(_inputHandle);
-    try {
-      return smokePublicclassInternalstructFromFfi(__resultHandle);
-    } finally {
-      smokePublicclassInternalstructReleaseFfiHandle(__resultHandle);
-    }
-  }
-  @internal
-  @override
-  PublicClass_InternalStruct get internal_internalStructProperty {
-    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_PublicClass_internalStructProperty_get'));
-    final _handle = this.handle;
-    final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
-    try {
-      return smokePublicclassInternalstructFromFfi(__resultHandle);
-    } finally {
-      smokePublicclassInternalstructReleaseFfiHandle(__resultHandle);
-    }
-  }
-  @internal
-  @override
-  set internal_internalStructProperty(PublicClass_InternalStruct value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PublicClass_internalStructProperty_set__InternalStruct'));
-    final _valueHandle = smokePublicclassInternalstructToFfi(value);
-    final _handle = this.handle;
-    _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
-    smokePublicclassInternalstructReleaseFfiHandle(_valueHandle);
-  }
 }
 Pointer<Void> smokePublicclassToFfi(PublicClass value) =>
   _smokePublicclassCopyHandle((value as __lib.NativeBase).handle);

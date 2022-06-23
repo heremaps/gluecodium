@@ -39,6 +39,7 @@ import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
 import com.here.gluecodium.generator.common.OptimizedListsCollector
+import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.CppNameRules
@@ -57,6 +58,8 @@ import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeFieldConstructor
+import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
@@ -64,6 +67,7 @@ import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
@@ -104,10 +108,14 @@ internal class DartGenerator : Generator {
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
 
-        val ffiFilteredModel = LimeModelFilter
-            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, DART, retainFunctionsAndFields = true) }
-        val dartFilteredModel = LimeModelFilter
-            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, DART, retainFunctionsAndFields = false) }
+        val ffiFilteredModel = LimeModelFilter.filter(limeModel) {
+            LimeModelSkipPredicates.shouldRetainElement(it, activeTags, DART, retainFunctionsAndFields = true)
+        }
+        val visibilityResolver = VisibilityResolver(limeModel.referenceMap)
+        val dartFilteredModel = LimeModelFilter.filter(limeModel) {
+            !visibilityResolver.isSkippedByVisibility(it) &&
+                LimeModelSkipPredicates.shouldRetainElement(it, activeTags, DART, retainFunctionsAndFields = false)
+        }
 
         val ffiReferenceMap = ffiFilteredModel.referenceMap.toMutableMap()
         val dartNameResolver = DartNameResolver(ffiReferenceMap, nameRules, limeLogger, commentsProcessor)
@@ -560,6 +568,17 @@ internal class DartGenerator : Generator {
             val allElements = limeModel.referenceMap.values.filterIsInstance<LimeNamedElement>()
             return traverseModel(allElements).flatten()
         }
+    }
+
+    private class VisibilityResolver(referenceMap: Map<String, LimeElement>) : ReferenceMapBasedResolver(referenceMap) {
+        fun isSkippedByVisibility(limeElement: LimeNamedElement) =
+            when {
+                !limeElement.visibility.isInternal -> false
+                limeElement !is LimeFunction && limeElement !is LimeProperty && limeElement !is LimeFieldConstructor ->
+                    false
+                getParentElement(limeElement).visibility.isInternal -> false
+                else -> true
+            }
     }
 
     companion object {

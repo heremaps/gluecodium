@@ -7,13 +7,12 @@ import 'package:meta/meta.dart';
 /// @nodoc
 @internal
 abstract class InternalClassWithStaticProperty {
-
   /// @nodoc
   @internal
-  static String get internal_fooBar => $prototype.internal_fooBar;
+  static String get fooBar => $prototype.fooBar;
   /// @nodoc
   @internal
-  static set internal_fooBar(String value) { $prototype.internal_fooBar = value; }
+  static set fooBar(String value) { $prototype.fooBar = value; }
   /// @nodoc
   @visibleForTesting
   static dynamic $prototype = InternalClassWithStaticProperty$Impl(Pointer<Void>.fromAddress(0));
@@ -35,9 +34,8 @@ final _smokeInternalclasswithstaticpropertyReleaseHandle = __lib.catchArgumentEr
 @visibleForTesting
 class InternalClassWithStaticProperty$Impl extends __lib.NativeBase implements InternalClassWithStaticProperty {
   InternalClassWithStaticProperty$Impl(Pointer<Void> handle) : super(handle);
-
   @internal
-  String get internal_fooBar {
+  String get fooBar {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InternalClassWithStaticProperty_fooBar_get'));
     final __resultHandle = _getFfi(__lib.LibraryContext.isolateId);
     try {
@@ -47,7 +45,7 @@ class InternalClassWithStaticProperty$Impl extends __lib.NativeBase implements I
     }
   }
   @internal
-  set internal_fooBar(String value) {
+  set fooBar(String value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32, Pointer<Void>), void Function(int, Pointer<Void>)>('library_smoke_InternalClassWithStaticProperty_fooBar_set__String'));
     final _valueHandle = stringToFfi(value);
     _setFfi(__lib.LibraryContext.isolateId, _valueHandle);

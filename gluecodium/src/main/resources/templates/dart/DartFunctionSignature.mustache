@@ -26,8 +26,7 @@
 }}{{#unless isConstructor}}{{!!
 }}{{#if isStatic}}{{#unless ignoreStatic}}static {{/unless}}{{/if}}{{!!
 }}{{#if this.attributes.async}}Future<{{resolveName returnType}}>{{/if}}{{!!
-}}{{#unless this.attributes.async}}{{resolveName returnType}}{{/unless}} {{!!
-}}{{resolveName visibility}}{{resolveName}}({{!!
+}}{{#unless this.attributes.async}}{{resolveName returnType}}{{/unless}} {{resolveName}}({{!!
 }}{{#if addThat}}{{#unless isStatic}}{{resolveName parent}}{{#if parent.external.dart.converter}}Internal{{/if}} $that{{!!
 }}{{#if parameters}}, {{/if}}{{/unless}}{{/if}}{{!!
 }}{{/unless}}{{!!

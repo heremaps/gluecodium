@@ -25,7 +25,7 @@ abstract class {{resolveName}}{{!!
 {{prefixPartial "dart/DartFunctionDocs" "  "}}
   factory {{resolveName parent}}{{>dart/DartConstructorName}}({{!!
   }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
-  }}) => $prototype.{{resolveName visibility}}{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
+  }}) => $prototype.{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
 {{/constructors}}{{/set}}
 
 {{#set isInClass=true}}{{#constants}}
@@ -169,7 +169,7 @@ void {{resolveName "Ffi"}}ReleaseFfiHandleNullable(Pointer<Void> handle) =>
 // End of {{resolveName}} "private" section.{{!!
 
 }}{{+dartConstructor}}
-{{resolveName parent}} {{resolveName visibility}}{{resolveName}}({{!!
+{{resolveName parent}} {{resolveName}}({{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) {
   final _result_handle = _{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
   final _result = {{resolveName parent}}$Impl(_result_handle);
@@ -186,7 +186,7 @@ late {{resolveName typeRef}} _{{resolveName}}Cache;
 bool _{{resolveName}}IsCached = false;
 {{#unless isStatic}}@override
 {{/unless}}
-{{resolveName typeRef}} get {{resolveName visibility}}{{resolveName}} {
+{{resolveName typeRef}} get {{resolveName}} {
   if (!_{{resolveName}}IsCached) {
     final _{{resolveName getter}}Ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<{{!!
     }}{{resolveName typeRef "FfiApiTypes"}} Function({{#unless isStatic}}Pointer<Void>, {{/unless}}Int32), {{!!

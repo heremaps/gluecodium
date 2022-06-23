@@ -10,7 +10,7 @@ class InternalStruct {
   String internal_stringField;
   InternalStruct(this.internal_stringField);
   /// @nodoc
-  void internal_fooBar() => $prototype.internal_fooBar(this);
+  void fooBar() => $prototype.fooBar(this);
   /// @nodoc
   @visibleForTesting
   static dynamic $prototype = InternalStruct$Impl();
@@ -31,7 +31,7 @@ final _smokePublictypecollectionInternalstructGetFieldstringField = __lib.catchA
 /// @nodoc
 @visibleForTesting
 class InternalStruct$Impl {
-  void internal_fooBar(InternalStruct $that) {
+  void fooBar(InternalStruct $that) {
     final _fooBarFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PublicTypeCollection_InternalStruct_fooBar'));
     final _handle = smokePublictypecollectionInternalstructToFfi($that);
     _fooBarFfi(_handle, __lib.LibraryContext.isolateId);
