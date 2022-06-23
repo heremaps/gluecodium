@@ -62,7 +62,7 @@ value. Instead:
 * The return value should be passed to the "result callback".
 * If the return type is `Void`, the "result callback" still needs to be called.
 * If the function has a `throws` clause, the error value, if present, should be passed to the "error callback".
-* Calling *both* callbacks in the same code path is invalid and leads to an undefined behavior.
+* Calling *both* callbacks in the same code path is invalid and leads to an exception being thrown at the receiving side.
 
 All parameters passed to the "result callback" or "error callback" are transformed into the appropriate state of the
 `Future` object on Dart side, allowing for Dart-idiomatic asynchronous usage.
