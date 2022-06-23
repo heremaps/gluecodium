@@ -6,9 +6,9 @@ class PublicFieldsAllInitPosDefaults {
   String publicField;
   /// @nodoc
   @internal
-  String internal_internalField;
+  String _internalField;
   PublicFieldsAllInitPosDefaults([String publicField = "bar", String internalField = "foo"])
-    : publicField = publicField, internal_internalField = internalField;
+    : publicField = publicField, _internalField = internalField;
 }
 // PublicFieldsAllInitPosDefaults "private" section, not exported.
 final _smokePublicfieldsallinitposdefaultsCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -29,7 +29,7 @@ final _smokePublicfieldsallinitposdefaultsGetFieldinternalField = __lib.catchArg
   >('library_smoke_PublicFieldsAllInitPosDefaults_get_field_internalField'));
 Pointer<Void> smokePublicfieldsallinitposdefaultsToFfi(PublicFieldsAllInitPosDefaults value) {
   final _publicFieldHandle = stringToFfi(value.publicField);
-  final _internalFieldHandle = stringToFfi(value.internal_internalField);
+  final _internalFieldHandle = stringToFfi(value._internalField);
   final _result = _smokePublicfieldsallinitposdefaultsCreateHandle(_publicFieldHandle, _internalFieldHandle);
   stringReleaseFfiHandle(_publicFieldHandle);
   stringReleaseFfiHandle(_internalFieldHandle);

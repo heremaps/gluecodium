@@ -6,11 +6,11 @@ class PublicStructWithNonDefaultInternalField {
   int defaultedField;
   /// @nodoc
   @internal
-  String internal_internalField;
+  String _internalField;
   bool publicField;
-  PublicStructWithNonDefaultInternalField._(this.defaultedField, this.internal_internalField, this.publicField);
+  PublicStructWithNonDefaultInternalField._(this.defaultedField, this._internalField, this.publicField);
   PublicStructWithNonDefaultInternalField(String internalField, bool publicField)
-    : defaultedField = 42, internal_internalField = internalField, publicField = publicField;
+    : defaultedField = 42, _internalField = internalField, publicField = publicField;
 }
 // PublicStructWithNonDefaultInternalField "private" section, not exported.
 final _smokePublicstructwithnondefaultinternalfieldCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -35,7 +35,7 @@ final _smokePublicstructwithnondefaultinternalfieldGetFieldpublicField = __lib.c
   >('library_smoke_PublicStructWithNonDefaultInternalField_get_field_publicField'));
 Pointer<Void> smokePublicstructwithnondefaultinternalfieldToFfi(PublicStructWithNonDefaultInternalField value) {
   final _defaultedFieldHandle = (value.defaultedField);
-  final _internalFieldHandle = stringToFfi(value.internal_internalField);
+  final _internalFieldHandle = stringToFfi(value._internalField);
   final _publicFieldHandle = booleanToFfi(value.publicField);
   final _result = _smokePublicstructwithnondefaultinternalfieldCreateHandle(_defaultedFieldHandle, _internalFieldHandle, _publicFieldHandle);
   stringReleaseFfiHandle(_internalFieldHandle);

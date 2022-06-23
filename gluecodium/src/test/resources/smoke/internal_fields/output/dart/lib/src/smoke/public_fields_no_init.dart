@@ -6,10 +6,10 @@ class PublicFieldsNoInit {
   String publicField;
   /// @nodoc
   @internal
-  String internal_internalField;
-  PublicFieldsNoInit._(this.publicField, this.internal_internalField);
+  String _internalField;
+  PublicFieldsNoInit._(this.publicField, this._internalField);
   PublicFieldsNoInit(String publicField)
-    : publicField = publicField, internal_internalField = "foo";
+    : publicField = publicField, _internalField = "foo";
 }
 // PublicFieldsNoInit "private" section, not exported.
 final _smokePublicfieldsnoinitCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -30,7 +30,7 @@ final _smokePublicfieldsnoinitGetFieldinternalField = __lib.catchArgumentError((
   >('library_smoke_PublicFieldsNoInit_get_field_internalField'));
 Pointer<Void> smokePublicfieldsnoinitToFfi(PublicFieldsNoInit value) {
   final _publicFieldHandle = stringToFfi(value.publicField);
-  final _internalFieldHandle = stringToFfi(value.internal_internalField);
+  final _internalFieldHandle = stringToFfi(value._internalField);
   final _result = _smokePublicfieldsnoinitCreateHandle(_publicFieldHandle, _internalFieldHandle);
   stringReleaseFfiHandle(_publicFieldHandle);
   stringReleaseFfiHandle(_internalFieldHandle);

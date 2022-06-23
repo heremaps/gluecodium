@@ -7,10 +7,10 @@ class PublicFieldsMixedInit {
   String publicField2;
   /// @nodoc
   @internal
-  String internal_internalField;
-  PublicFieldsMixedInit._(this.publicField1, this.publicField2, this.internal_internalField);
+  String _internalField;
+  PublicFieldsMixedInit._(this.publicField1, this.publicField2, this._internalField);
   PublicFieldsMixedInit(String publicField2)
-    : publicField1 = "bar", publicField2 = publicField2, internal_internalField = "foo";
+    : publicField1 = "bar", publicField2 = publicField2, _internalField = "foo";
 }
 // PublicFieldsMixedInit "private" section, not exported.
 final _smokePublicfieldsmixedinitCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -36,7 +36,7 @@ final _smokePublicfieldsmixedinitGetFieldinternalField = __lib.catchArgumentErro
 Pointer<Void> smokePublicfieldsmixedinitToFfi(PublicFieldsMixedInit value) {
   final _publicField1Handle = stringToFfi(value.publicField1);
   final _publicField2Handle = stringToFfi(value.publicField2);
-  final _internalFieldHandle = stringToFfi(value.internal_internalField);
+  final _internalFieldHandle = stringToFfi(value._internalField);
   final _result = _smokePublicfieldsmixedinitCreateHandle(_publicField1Handle, _publicField2Handle, _internalFieldHandle);
   stringReleaseFfiHandle(_publicField1Handle);
   stringReleaseFfiHandle(_publicField2Handle);

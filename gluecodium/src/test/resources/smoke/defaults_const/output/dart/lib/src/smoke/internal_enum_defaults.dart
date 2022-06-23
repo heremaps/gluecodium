@@ -8,13 +8,13 @@ class InternalEnumDefaults {
   List<FooBarEnum> publicListField;
   /// @nodoc
   @internal
-  FooBarEnum internal_internalField;
+  FooBarEnum _internalField;
   /// @nodoc
   @internal
-  List<FooBarEnum> internal_internalListField;
-  InternalEnumDefaults._(this.publicField, this.publicListField, this.internal_internalField, this.internal_internalListField);
+  List<FooBarEnum> _internalListField;
+  InternalEnumDefaults._(this.publicField, this.publicListField, this._internalField, this._internalListField);
   InternalEnumDefaults()
-    : publicField = FooBarEnum.foo, publicListField = [FooBarEnum.foo, FooBarEnum.bar, FooBarEnum.baz], internal_internalField = FooBarEnum.bar, internal_internalListField = [FooBarEnum.foo, FooBarEnum.bar, FooBarEnum.baz];
+    : publicField = FooBarEnum.foo, publicListField = [FooBarEnum.foo, FooBarEnum.bar, FooBarEnum.baz], _internalField = FooBarEnum.bar, _internalListField = [FooBarEnum.foo, FooBarEnum.bar, FooBarEnum.baz];
 }
 // InternalEnumDefaults "private" section, not exported.
 final _smokeInternalenumdefaultsCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -44,8 +44,8 @@ final _smokeInternalenumdefaultsGetFieldinternalListField = __lib.catchArgumentE
 Pointer<Void> smokeInternalenumdefaultsToFfi(InternalEnumDefaults value) {
   final _publicFieldHandle = smokeFoobarenumToFfi(value.publicField);
   final _publicListFieldHandle = listofSmokeFoobarenumToFfi(value.publicListField);
-  final _internalFieldHandle = smokeFoobarenumToFfi(value.internal_internalField);
-  final _internalListFieldHandle = listofSmokeFoobarenumToFfi(value.internal_internalListField);
+  final _internalFieldHandle = smokeFoobarenumToFfi(value._internalField);
+  final _internalListFieldHandle = listofSmokeFoobarenumToFfi(value._internalListField);
   final _result = _smokeInternalenumdefaultsCreateHandle(_publicFieldHandle, _publicListFieldHandle, _internalFieldHandle, _internalListFieldHandle);
   smokeFoobarenumReleaseFfiHandle(_publicFieldHandle);
   listofSmokeFoobarenumReleaseFfiHandle(_publicListFieldHandle);

@@ -6,10 +6,10 @@ class PublicFieldsAllInit {
   String publicField;
   /// @nodoc
   @internal
-  String internal_internalField;
-  PublicFieldsAllInit._(this.publicField, this.internal_internalField);
+  String _internalField;
+  PublicFieldsAllInit._(this.publicField, this._internalField);
   PublicFieldsAllInit()
-    : publicField = "bar", internal_internalField = "foo";
+    : publicField = "bar", _internalField = "foo";
 }
 // PublicFieldsAllInit "private" section, not exported.
 final _smokePublicfieldsallinitCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -30,7 +30,7 @@ final _smokePublicfieldsallinitGetFieldinternalField = __lib.catchArgumentError(
   >('library_smoke_PublicFieldsAllInit_get_field_internalField'));
 Pointer<Void> smokePublicfieldsallinitToFfi(PublicFieldsAllInit value) {
   final _publicFieldHandle = stringToFfi(value.publicField);
-  final _internalFieldHandle = stringToFfi(value.internal_internalField);
+  final _internalFieldHandle = stringToFfi(value._internalField);
   final _result = _smokePublicfieldsallinitCreateHandle(_publicFieldHandle, _internalFieldHandle);
   stringReleaseFfiHandle(_publicFieldHandle);
   stringReleaseFfiHandle(_internalFieldHandle);
