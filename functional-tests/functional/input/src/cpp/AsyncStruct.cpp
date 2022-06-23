@@ -27,8 +27,8 @@ namespace test
 using namespace lorem_ipsum::test;
 
 void
-AsyncStruct::async_void(std::function<void()> completer_callback, const bool) const {
-    completer_callback();
+AsyncStruct::async_void(std::function<void()> result_callback, const bool) const {
+    result_callback();
 }
 
 void
@@ -36,13 +36,14 @@ AsyncStruct::async_void(const bool) const {}
 
 void
 AsyncStruct::async_void_throws(
-    std::function<void(bool, std::string)> completer_callback,
+    std::function<void()> result_callback,
+    std::function<void(std::string)> error_callback,
     const bool should_throw
 ) const {
     if (should_throw) {
-        completer_callback(false, "boom");
+        error_callback("boom");
     } else {
-        completer_callback(true, "");
+        result_callback();
     }
 }
 
@@ -50,8 +51,8 @@ Return<void, std::string>
 AsyncStruct::async_void_throws(const bool) const { return Return<void, std::string>(false); }
 
 void
-AsyncStruct::async_int(std::function<void(int32_t)> completer_callback, const bool) const {
-    completer_callback(42);
+AsyncStruct::async_int(std::function<void(int32_t)> result_callback, const bool) const {
+    result_callback(42);
 }
 
 int32_t
@@ -59,13 +60,14 @@ AsyncStruct::async_int(const bool) const { return 0; }
 
 void
 AsyncStruct::async_int_throws(
-    std::function<void(bool, int32_t, std::string)> completer_callback,
+    std::function<void(int32_t)> result_callback,
+    std::function<void(std::string)> error_callback,
     const bool should_throw
 ) const {
     if (should_throw) {
-        completer_callback(false, 0, "boom");
+        error_callback("boom");
     } else {
-        completer_callback(true, 42, "");
+        result_callback(42);
     }
 }
 
@@ -75,8 +77,8 @@ AsyncStruct::async_int_throws(const bool) const { return Return<int32_t, std::st
 // Static functions
 
 void
-AsyncStruct::async_static(std::function<void()> completer_callback, const bool) {
-    completer_callback();
+AsyncStruct::async_static(std::function<void()> result_callback, const bool) {
+    result_callback();
 }
 
 void

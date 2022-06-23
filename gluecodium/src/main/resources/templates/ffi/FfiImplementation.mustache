@@ -307,8 +307,11 @@ FfiOpaqueHandle
 }}{{/notInstanceOf}}{{/notInstanceOf}}{{/selfReferenceConversion}}{{!!
 
 }}{{+ffiParameter}}    {{>ffi/FfiInternal}}::Conversion<{{!!
-}}{{#if isAsyncHelper}}{{#if iter.isFirst}}{{#original}}{{>cpp/CppCompleterCallback}}{{/original}}{{/if}}{{!!
-}}{{#unless iter.isFirst}}{{resolveName typeRef "C++"}}{{/unless}}{{/if}}{{!!
+}}{{#if isAsyncHelper}}{{#if iter.isFirst}}{{#original}}{{>cpp/CppResultCallback}}{{/original}}{{/if}}{{!!
+}}{{#isEq iter.index 2}}{{#if original.thrownType}}{{>cpp/CppErrorCallback}}{{/if}}{{!!
+}}{{#unless original.thrownType}}{{resolveName typeRef "C++"}}{{/unless}}{{/isEq}}{{!!
+}}{{#numExpr iter.index 2 op="gt"}}{{resolveName typeRef "C++"}}{{/numExpr}}{{/if}}{{!!
+
 }}{{#unless isAsyncHelper}}{{resolveName typeRef "C++"}}{{/unless}}>::toCpp({{resolveName}}){{/ffiParameter}}{{!!
 
 }}{{+ffiFieldToCpp}}{{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toCpp({{resolveName}}){{/ffiFieldToCpp}}{{!!

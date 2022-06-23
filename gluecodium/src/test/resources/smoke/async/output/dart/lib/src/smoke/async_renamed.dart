@@ -24,17 +24,17 @@ class AsyncRenamed$Impl extends __lib.NativeBase implements AsyncRenamed {
   @override
   Future<void> dispose() {
     final $completer = Completer<void>();
-    _dispose__async(() {
-      $completer.complete();
-    });
+    _dispose__async(
+      () => $completer.complete()
+    );
     return $completer.future;
   }
-  void _dispose__async(AsyncRenamed_dispose__completerLambda _completerLambda) {
-    final __dispose__asyncFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AsyncRenamed_dispose__dispose__completerLambda'));
-    final __completerLambdaHandle = smokeAsyncrenamedDisposecompleterlambdaToFfi(_completerLambda);
+  void _dispose__async(AsyncRenamed_dispose__resultLambda _resultLambda) {
+    final __dispose__asyncFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AsyncRenamed_dispose__dispose__resultLambda'));
+    final __resultLambdaHandle = smokeAsyncrenamedDisposeresultlambdaToFfi(_resultLambda);
     final _handle = this.handle;
-    __dispose__asyncFfi(_handle, __lib.LibraryContext.isolateId, __completerLambdaHandle);
-    smokeAsyncrenamedDisposecompleterlambdaReleaseFfiHandle(__completerLambdaHandle);
+    __dispose__asyncFfi(_handle, __lib.LibraryContext.isolateId, __resultLambdaHandle);
+    smokeAsyncrenamedDisposeresultlambdaReleaseFfiHandle(__resultLambdaHandle);
   }
 }
 Pointer<Void> smokeAsyncrenamedToFfi(AsyncRenamed value) =>
@@ -57,39 +57,39 @@ AsyncRenamed? smokeAsyncrenamedFromFfiNullable(Pointer<Void> handle) =>
 void smokeAsyncrenamedReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeAsyncrenamedReleaseHandle(handle);
 // End of AsyncRenamed "private" section.
-typedef AsyncRenamed_dispose__completerLambda = void Function();
-// AsyncRenamed_dispose__completerLambda "private" section, not exported.
-final _smokeAsyncrenamedDisposecompleterlambdaReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+typedef AsyncRenamed_dispose__resultLambda = void Function();
+// AsyncRenamed_dispose__resultLambda "private" section, not exported.
+final _smokeAsyncrenamedDisposeresultlambdaReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
-  >('library_smoke_AsyncRenamed_DisposeCompleterlambda_release_handle'));
-final _smokeAsyncrenamedDisposecompleterlambdaCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+  >('library_smoke_AsyncRenamed_DisposeResultlambda_release_handle'));
+final _smokeAsyncrenamedDisposeresultlambdaCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
     Pointer<Void> Function(int, int, Object, Pointer)
-  >('library_smoke_AsyncRenamed_DisposeCompleterlambda_create_proxy'));
-class AsyncRenamed_dispose__completerLambda$Impl {
+  >('library_smoke_AsyncRenamed_DisposeResultlambda_create_proxy'));
+class AsyncRenamed_dispose__resultLambda$Impl {
   final Pointer<Void> handle;
-  AsyncRenamed_dispose__completerLambda$Impl(this.handle);
-  void dispose__completerLambda() {
-    final _dispose__completerLambdaFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_AsyncRenamed_DisposeCompleterlambda_call'));
+  AsyncRenamed_dispose__resultLambda$Impl(this.handle);
+  void dispose__resultLambda() {
+    final _dispose__resultLambdaFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_AsyncRenamed_DisposeResultlambda_call'));
     final _handle = this.handle;
-    _dispose__completerLambdaFfi(_handle, __lib.LibraryContext.isolateId);
+    _dispose__resultLambdaFfi(_handle, __lib.LibraryContext.isolateId);
   }
 }
-int _smokeAsyncrenamedDisposecompleterlambdadispose__completerLambdaStatic(Object _obj) {
+int _smokeAsyncrenamedDisposeresultlambdadispose__resultLambdaStatic(Object _obj) {
   try {
-    (_obj as AsyncRenamed_dispose__completerLambda)();
+    (_obj as AsyncRenamed_dispose__resultLambda)();
   } finally {
   }
   return 0;
 }
-Pointer<Void> smokeAsyncrenamedDisposecompleterlambdaToFfi(AsyncRenamed_dispose__completerLambda value) =>
-  _smokeAsyncrenamedDisposecompleterlambdaCreateProxy(
+Pointer<Void> smokeAsyncrenamedDisposeresultlambdaToFfi(AsyncRenamed_dispose__resultLambda value) =>
+  _smokeAsyncrenamedDisposeresultlambdaCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Int64 Function(Handle)>(_smokeAsyncrenamedDisposecompleterlambdadispose__completerLambdaStatic, __lib.unknownError)
+    Pointer.fromFunction<Int64 Function(Handle)>(_smokeAsyncrenamedDisposeresultlambdadispose__resultLambdaStatic, __lib.unknownError)
   );
-void smokeAsyncrenamedDisposecompleterlambdaReleaseFfiHandle(Pointer<Void> handle) =>
-  _smokeAsyncrenamedDisposecompleterlambdaReleaseHandle(handle);
-// End of AsyncRenamed_dispose__completerLambda "private" section.
+void smokeAsyncrenamedDisposeresultlambdaReleaseFfiHandle(Pointer<Void> handle) =>
+  _smokeAsyncrenamedDisposeresultlambdaReleaseHandle(handle);
+// End of AsyncRenamed_dispose__resultLambda "private" section.

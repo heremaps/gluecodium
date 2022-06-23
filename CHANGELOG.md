@@ -1,5 +1,8 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Reworked the C++ callbacks for `@Async` support.
 ### Removed:
   * Removed support for `private` visibility.
 
