@@ -22,13 +22,10 @@ package com.here.gluecodium.validator
 import com.here.gluecodium.model.lime.LimeBasicTypeRef
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeField
-import com.here.gluecodium.model.lime.LimeFieldConstructor
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.gluecodium.model.lime.LimeStruct
-import com.here.gluecodium.model.lime.LimeValue
-import com.here.gluecodium.model.lime.LimeVisibility
 import io.mockk.mockk
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -81,60 +78,6 @@ class LimeStructsValidatorTest {
         val limeFunction = LimeFunction(EMPTY_PATH)
         allElements[""] =
             LimeStruct(EMPTY_PATH, fields = listOf(limeField), functions = listOf(limeFunction))
-
-        assertTrue(validator.validate(limeModel))
-    }
-
-    @Test
-    fun validateWithPublicField() {
-        val limeField = LimeField(EMPTY_PATH, typeRef = LimeBasicTypeRef.INT)
-        allElements[""] = LimeStruct(EMPTY_PATH, fields = listOf(limeField))
-
-        assertTrue(validator.validate(limeModel))
-    }
-
-    @Test
-    fun validateWithPrivateField() {
-        val limeField = LimeField(EMPTY_PATH, typeRef = LimeBasicTypeRef.INT, visibility = LimeVisibility.PRIVATE)
-        allElements[""] = LimeStruct(EMPTY_PATH, fields = listOf(limeField))
-
-        assertFalse(validator.validate(limeModel))
-    }
-
-    @Test
-    fun validateWithPrivateFieldNoDefaultValue() {
-        val limeField = LimeField(EMPTY_PATH, typeRef = LimeBasicTypeRef.INT, visibility = LimeVisibility.PRIVATE)
-        val fieldConstructor = LimeFieldConstructor(EMPTY_PATH, structRef = LimeBasicTypeRef.INT)
-        allElements[""] =
-            LimeStruct(EMPTY_PATH, fields = listOf(limeField), fieldConstructors = listOf(fieldConstructor))
-
-        assertFalse(validator.validate(limeModel))
-    }
-
-    @Test
-    fun validateWithPrivateFieldNoConstructors() {
-        val limeField = LimeField(
-            EMPTY_PATH,
-            typeRef = LimeBasicTypeRef.INT,
-            visibility = LimeVisibility.PRIVATE,
-            defaultValue = LimeValue.ZERO
-        )
-        allElements[""] = LimeStruct(EMPTY_PATH, fields = listOf(limeField))
-
-        assertFalse(validator.validate(limeModel))
-    }
-
-    @Test
-    fun validateWithPrivateFieldValid() {
-        val limeField = LimeField(
-            EMPTY_PATH,
-            typeRef = LimeBasicTypeRef.INT,
-            visibility = LimeVisibility.PRIVATE,
-            defaultValue = LimeValue.ZERO
-        )
-        val fieldConstructor = LimeFieldConstructor(EMPTY_PATH, structRef = LimeBasicTypeRef.INT)
-        allElements[""] =
-            LimeStruct(EMPTY_PATH, fields = listOf(limeField), fieldConstructors = listOf(fieldConstructor))
 
         assertTrue(validator.validate(limeModel))
     }

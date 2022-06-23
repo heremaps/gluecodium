@@ -69,7 +69,6 @@ import "test/StaticIntMethods_test.dart" as StaticIntMethodsTests;
 import "test/StaticStringMethods_test.dart" as StaticStringMethodsTests;
 import "test/StructsWithConstants_test.dart" as StructsWithConstantsTests;
 import "test/StructsWithMethods_test.dart" as StructsWithMethodsTests;
-import "test/VisibilityPrivate_test.dart" as VisibilityPrivateTests;
 
 final _allTests = [
   AsyncTests.main,
@@ -118,8 +117,7 @@ final _allTests = [
   StaticIntMethodsTests.main,
   StaticStringMethodsTests.main,
   StructsWithConstantsTests.main,
-  StructsWithMethodsTests.main,
-  VisibilityPrivateTests.main
+  StructsWithMethodsTests.main
 ];
 
 String _getLibraryPath(String nativeLibraryName) {

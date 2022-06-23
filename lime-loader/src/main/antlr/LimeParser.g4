@@ -107,7 +107,7 @@ struct
     ;
 
 field
-    : docComment* annotation* ('private' | visibility)? NewLine* simpleId NewLine* ':' NewLine* typeRef NewLine*
+    : docComment* annotation* visibility? NewLine* simpleId NewLine* ':' NewLine* typeRef NewLine*
       ('=' NewLine* literalConstant NewLine*)? (externalDescriptor? | NewLine+)
     ;
 

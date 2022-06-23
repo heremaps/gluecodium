@@ -1,9 +1,0 @@
-package smoke
-struct PrivateFields {
-    publicField: String
-    private privateField: String = "nonsense"
-    @Dart(Default)
-    field constructor(publicField)
-    @Dart("withPrivate")
-    field constructor(publicField, privateField)
-}

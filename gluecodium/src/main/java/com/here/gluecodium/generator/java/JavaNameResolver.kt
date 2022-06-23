@@ -111,7 +111,6 @@ internal class JavaNameResolver(
         when (limeVisibility) {
             LimeVisibility.PUBLIC -> "public "
             LimeVisibility.INTERNAL -> ""
-            LimeVisibility.PRIVATE -> "private "
         }
 
     private fun resolveAccessorName(element: Any, rule: JavaNameRules.(LimeTypedElement) -> String) =

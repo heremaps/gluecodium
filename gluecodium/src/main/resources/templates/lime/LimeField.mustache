@@ -20,6 +20,5 @@
   !}}
 {{>lime/LimeDocumentation}}
 {{#if visibility.isInternal}}{{#unless parentVisibility.isInternal}}internal {{/unless}}{{/if}}{{!!
-}}{{#if visibility.isPrivate}}private {{/if}}{{!!
 }}{{escapedName}}: {{>lime/LimeTypeRef}}{{#defaultValue}} = {{escapedValue}}{{/defaultValue}}{{!!
 }}{{#if this.external}} {{>lime/LimeExternalDescriptor}}{{/if}}
