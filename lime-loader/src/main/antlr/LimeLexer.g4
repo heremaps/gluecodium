@@ -73,7 +73,6 @@ Lambda: 'lambda' ;
 Narrow: 'narrow' ;
 Open: 'open' ;
 Package: 'package' ;
-Private: 'private' ;
 Property: 'property' ;
 Public: 'public' ;
 Set: 'set' ;

@@ -1,5 +1,8 @@
 # Gluecodium project Release Notes
 
+### Removed:
+  * Removed support for `private` visibility.
+
 ## 11.5.1
 Release date: 2022-06-21
 ### Bug fixes:

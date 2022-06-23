@@ -100,7 +100,7 @@ might vary per compiler implementation.
 #### Visibility
 
 Most elements can be prefixed with a visibility prefix. Possible visibility prefixes are currently
-`public`, `internal`, `private`, `open` and `open internal`. Visibility prefix is optional, an element without
+`public`, `internal`, `open` and `open internal`. Visibility prefix is optional, an element without
 such a prefix is considered `public`. The visibility prefix, if present, should precede the rest of the declaration.
 
 * Example: `internal static property secretDelegate: ProcessorDelegate? { get set }`
@@ -109,7 +109,6 @@ constructor, property, struct, struct field, enumeration, exception, type alias,
 * Visibility prefix has no effect on C++ generated code.
 * `open` and `open internal` are currently only supported for classes. Both mean the class can be
 inherited from (see `Inheritance` below).
-* `private` visibility is currently only supported for struct fields (see `Struct` below).
 
 #### Line breaks
 
