@@ -7,8 +7,8 @@ import 'package:meta/meta.dart';
 class InternalStruct {
   /// @nodoc
   @internal
-  String internal_stringField;
-  InternalStruct(this.internal_stringField);
+  String _stringField;
+  InternalStruct(this._stringField);
   /// @nodoc
   void fooBar() => $prototype.fooBar(this);
   /// @nodoc
@@ -39,7 +39,7 @@ class InternalStruct$Impl {
   }
 }
 Pointer<Void> smokePublictypecollectionInternalstructToFfi(InternalStruct value) {
-  final _stringFieldHandle = stringToFfi(value.internal_stringField);
+  final _stringFieldHandle = stringToFfi(value._stringField);
   final _result = _smokePublictypecollectionInternalstructCreateHandle(_stringFieldHandle);
   stringReleaseFfiHandle(_stringFieldHandle);
   return _result;
