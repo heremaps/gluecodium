@@ -25,8 +25,6 @@ import com.here.gluecodium.generator.common.CommentsProcessor
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.model.lime.LimeAttributeType.OPTIMIZED
-import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
-import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTENSION
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeClass
@@ -221,7 +219,6 @@ internal class SwiftNameResolver(
             limeElement is LimeInterface -> listOf(name)
             limeElement is LimeConstant -> getNestedNames(parentElement) + name
             parentElement !is LimeContainer -> getNestedNames(parentElement) + name
-            parentElement.attributes.have(SWIFT, EXTENSION) -> getNestedNames(parentElement) + name
             parentElement is LimeClass || parentElement is LimeStruct -> getNestedNames(parentElement) + name
             parentElement is LimeInterface && (limeElement is LimeTypeAlias || limeElement is LimeLambda) ->
                 getNestedNames(parentElement) + name

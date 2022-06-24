@@ -458,11 +458,6 @@ feature(SkipAttribute cpp android swift dart SOURCES
     input/src/cpp/EnableIfEnabled.cpp
 )
 
-# This feature is intended for Swift only.
-feature(Extensions swift SOURCES
-    input/lime/Extensions.lime
-)
-
 feature(CppConst cpp android swift dart SOURCES
     input/lime/CppConstMethods.lime
 

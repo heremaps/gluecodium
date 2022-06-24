@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Breaking changes:
+  * Support for `@Swift(Extension)` attribute was removed.
+
 ## 12.0.0
 Release date: 2022-06-24
 ### Breaking changes:
