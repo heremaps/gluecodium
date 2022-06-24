@@ -1,11 +1,9 @@
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'package:meta/meta.dart';
 class PublicFieldsAllInitPosDefaults {
   String publicField;
   /// @nodoc
-  @internal
   String _internalField;
   PublicFieldsAllInitPosDefaults([String publicField = "bar", String internalField = "foo"])
     : publicField = publicField, _internalField = internalField;

@@ -69,8 +69,7 @@ internal class DartDeclarationImportResolver(
         } + listOfNotNull(
             resolveExternalImport(limeElement, IMPORT_PATH_NAME, useAlias = true),
             resolveExternalImport(limeElement, CONVERTER_IMPORT_NAME, useAlias = false)
-        ) + listOf(ffiSystemImport, libraryContextImport) +
-            if (limeElement.visibility.isInternal) listOf(metaPackageImport) else emptyList()
+        ) + listOf(ffiSystemImport, libraryContextImport)
     }
 
     private fun resolveStructImports(limeStruct: LimeStruct): List<DartImport> {
@@ -80,9 +79,7 @@ internal class DartDeclarationImportResolver(
         ) {
             result += collectionPackageImport
         }
-        if (limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) || limeStruct.functions.isNotEmpty() ||
-            (limeStruct.fields + limeStruct.fieldConstructors).any { it.visibility.isInternal }
-        ) {
+        if (limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) || limeStruct.functions.isNotEmpty()) {
             result += metaPackageImport
         }
         if (limeStruct.functions.any { it.attributes.have(LimeAttributeType.ASYNC) }) {
@@ -93,7 +90,7 @@ internal class DartDeclarationImportResolver(
 
     private fun resolveInterfaceImports(limeInterface: LimeInterface): List<DartImport> {
         val result = classInterfaceImports.toMutableList()
-        if (hasStaticFunctions(limeInterface) || limeInterface.properties.any { it.visibility.isInternal }) {
+        if (hasStaticFunctions(limeInterface)) {
             result += metaPackageImport
         }
         if (!limeInterface.isNarrow) {
@@ -110,7 +107,7 @@ internal class DartDeclarationImportResolver(
             limeClass.parents.isNotEmpty() || limeClass.isOpen -> classInterfaceImports
             else -> listOf(tokenCacheImport, nativeBaseImport)
         }.toMutableList()
-        if (hasStaticFunctions(limeClass) || limeClass.properties.any { it.visibility.isInternal }) {
+        if (hasStaticFunctions(limeClass)) {
             result += listOf(metaPackageImport)
         }
         if (limeClass.attributes.have(LimeAttributeType.NO_CACHE)) {

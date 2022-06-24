@@ -2,9 +2,7 @@ import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
-import 'package:meta/meta.dart';
 /// @nodoc
-@internal
 abstract class InternalClass {
   /// @nodoc
   void fooBar();

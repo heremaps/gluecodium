@@ -5,7 +5,6 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 /// @nodoc
-@internal
 abstract class InternalClassWithFunctions {
   /// @nodoc
   factory InternalClassWithFunctions.make() => $prototype.make();

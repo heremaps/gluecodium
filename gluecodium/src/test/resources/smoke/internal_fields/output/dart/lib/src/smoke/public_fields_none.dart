@@ -1,10 +1,8 @@
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'package:meta/meta.dart';
 class PublicFieldsNone {
   /// @nodoc
-  @internal
   String _internalField;
   PublicFieldsNone._(this._internalField);
   PublicFieldsNone()
