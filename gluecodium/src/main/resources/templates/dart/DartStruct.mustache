@@ -85,6 +85,9 @@ class {{resolveName}}{{#if external.dart.converter}}Internal{{/if}} {
 {{#interfaces}}
 {{>dart/DartInterface}}
 {{/interfaces}}
+{{#lambdas}}
+{{>dart/DartLambda}}
+{{/lambdas}}
 
 // {{resolveName}} "private" section, not exported.
 

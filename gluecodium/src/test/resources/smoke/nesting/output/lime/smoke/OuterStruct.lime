@@ -1,12 +1,14 @@
 package smoke
 struct OuterStruct {
     `field`: String
+    typealias TypeAlias = InnerEnum
+    lambda InnerLambda = () -> Void
     enum InnerEnum {
         FOO,
         BAR
     }
     @Java("InstantiationException")
-    exception Instantiation(InnerEnum)
+    exception Instantiation(TypeAlias)
     class InnerClass {
         fun fooBar(): Set<Locale>
     }

@@ -25,13 +25,15 @@ class LimeStruct(
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     external: LimeExternalDescriptor? = null,
+    structs: List<LimeStruct> = emptyList(),
+    enumerations: List<LimeEnumeration> = emptyList(),
+    constants: List<LimeConstant> = emptyList(),
+    typeAliases: List<LimeTypeAlias> = emptyList(),
     functions: List<LimeFunction> = emptyList(),
     exceptions: List<LimeException> = emptyList(),
-    constants: List<LimeConstant> = emptyList(),
-    structs: List<LimeStruct> = emptyList(),
     classes: List<LimeClass> = emptyList(),
     interfaces: List<LimeInterface> = emptyList(),
-    enumerations: List<LimeEnumeration> = emptyList(),
+    lambdas: List<LimeLambda> = emptyList(),
     val fields: List<LimeField> = emptyList(),
     val constructorComment: LimeComment = LimeComment(),
     val fieldConstructors: List<LimeFieldConstructor> = emptyList()
@@ -41,13 +43,15 @@ class LimeStruct(
     comment = comment,
     attributes = attributes,
     external = external,
+    structs = structs,
+    enumerations = enumerations,
+    constants = constants,
+    typeAliases = typeAliases,
     functions = functions,
     exceptions = exceptions,
-    constants = constants,
-    structs = structs,
     classes = classes,
     interfaces = interfaces,
-    enumerations = enumerations
+    lambdas = lambdas
 ) {
     override val childTypes
         get() = fields.map { it.typeRef }

@@ -186,6 +186,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
                 comment = comment,
                 attributes = attributes,
                 external = external,
+                typeAliases = typeAliases.filter(predicate),
                 functions = functions.filter(predicate),
                 exceptions = exceptions.filter(predicate),
                 constants = constants.filter(predicate).map { filterConstant(it) },
@@ -195,6 +196,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
                 classes = classes.filter(predicate).map { filterClass(it) },
                 interfaces = interfaces.filter(predicate).map { filterInterface(it) },
                 enumerations = enumerations.filter(predicate).map { filterEnum(it) },
+                lambdas = lambdas.filter(predicate),
                 fieldConstructors = fieldConstructors.filter(predicate).map { filterFieldConstructor(it) }
             )
         }.also { remap(it) }

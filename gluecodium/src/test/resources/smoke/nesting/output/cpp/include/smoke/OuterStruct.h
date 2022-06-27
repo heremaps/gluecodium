@@ -12,6 +12,7 @@
 #include "gluecodium/VectorHash.h"
 #include <chrono>
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <string>
 #include <system_error>
@@ -30,6 +31,8 @@ struct _GLUECODIUM_CPP_EXPORT OuterStruct {
         FOO,
         BAR
     };
+    using InnerLambda = ::std::function<void()>;
+    using TypeAlias = ::smoke::OuterStruct::InnerEnum;
     class _GLUECODIUM_CPP_EXPORT InnerClass {
     public:
         InnerClass();
@@ -67,10 +70,4 @@ struct _GLUECODIUM_CPP_EXPORT OuterStruct {
     explicit OuterStruct( ::std::string field );
     ::std::error_code do_nothing(  ) const;
 };
-_GLUECODIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::OuterStruct::InnerEnum value ) noexcept;
-}
-namespace std
-{
-template <>
-struct is_error_code_enum< ::smoke::OuterStruct::InnerEnum > : public std::true_type { };
 }

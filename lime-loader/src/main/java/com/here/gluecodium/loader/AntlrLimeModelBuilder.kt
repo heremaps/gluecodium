@@ -408,6 +408,7 @@ internal class AntlrLimeModelBuilder(
             attributes = attributes,
             external = externalDescriptor,
             fields = getPreviousResults(LimeField::class.java),
+            typeAliases = getPreviousResults(LimeTypeAlias::class.java),
             functions = getPreviousResults(LimeFunction::class.java),
             exceptions = getPreviousResults(LimeException::class.java),
             constants = getPreviousResults(LimeConstant::class.java),
@@ -416,6 +417,7 @@ internal class AntlrLimeModelBuilder(
             classes = getPreviousResults(LimeClass::class.java),
             interfaces = getPreviousResults(LimeInterface::class.java),
             enumerations = getPreviousResults(LimeEnumeration::class.java),
+            lambdas = getPreviousResults(LimeLambda::class.java),
             fieldConstructors = getPreviousResults(LimeFieldConstructor::class.java)
         )
 
