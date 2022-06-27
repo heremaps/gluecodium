@@ -18,46 +18,6 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if attributes.swift.extension}}
-extension {{resolveName}} {
-{{#constants}}
-{{prefixPartial "swift/SwiftConstant" "    "}}
-{{/constants}}
-
-{{#typeAliases}}
-{{prefixPartial "swift/SwiftTypeAlias" "    "}}
-{{/typeAliases}}
-{{#exceptions}}
-{{prefixPartial "swift/SwiftException" "    "}}
-{{/exceptions}}
-
-{{#lambdas}}
-{{prefixPartial "swift/SwiftLambdaDefinition" "    "}}
-{{/lambdas}}
-
-{{#enumerations}}
-{{prefixPartial "swift/SwiftEnumDefinition" "    "}}
-{{/enumerations}}
-
-{{#structs}}
-{{prefixPartial "swift/SwiftStructDefinition" "    "}}
-{{/structs}}
-}
-
-{{#lambdas}}
-{{>swift/SwiftLambdaConversion}}
-{{/lambdas}}
-
-{{#enumerations}}
-{{>swift/SwiftEnumConversion}}
-{{/enumerations}}
-
-{{#structs}}
-{{>swift/SwiftStructConversion}}
-{{/structs}}
-{{/if}}{{!!
-
-}}{{#unless attributes.swift.extension}}
 {{#typeAliases}}
 {{>swift/SwiftTypeAlias}}
 {{/typeAliases}}
@@ -90,4 +50,3 @@ extension {{resolveName}} {
 {{/constants}}
 }
 {{/if}}
-{{/unless}}

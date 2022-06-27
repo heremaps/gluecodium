@@ -192,7 +192,6 @@ internal object AntlrLimeConverter {
             "CString" -> LimeAttributeValueType.CSTRING
             "Default" -> LimeAttributeValueType.DEFAULT
             "EnableIf" -> LimeAttributeValueType.ENABLE_IF
-            "Extension" -> LimeAttributeValueType.EXTENSION
             "FullName" -> LimeAttributeValueType.FULL_NAME
             "FunctionName" -> LimeAttributeValueType.FUNCTION_NAME
             "Label" -> LimeAttributeValueType.LABEL

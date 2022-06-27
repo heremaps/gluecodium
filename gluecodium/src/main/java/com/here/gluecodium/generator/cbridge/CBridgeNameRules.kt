@@ -21,7 +21,6 @@ package com.here.gluecodium.generator.cbridge
 
 import com.here.gluecodium.generator.common.NameHelper
 import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
-import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
 import com.here.gluecodium.model.lime.LimeNamedElement
 import java.io.File
@@ -42,7 +41,7 @@ internal object CBridgeNameRules {
         rootNamespace: List<String>,
         subfolder: String,
         suffix: String,
-        infix: String = if (limeElement.attributes.have(SWIFT, LimeAttributeValueType.EXTENSION)) "__extension" else ""
+        infix: String = ""
     ): String {
         val fileName = "cbridge_" + getName(limeElement) + infix + suffix
         return (
