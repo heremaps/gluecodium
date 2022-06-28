@@ -30,10 +30,11 @@ internal class SwiftSignatureResolver(
     nameRules: SwiftNameRules,
     activeTags: Set<String>
 ) : PlatformSignatureResolver(limeReferenceMap, LimeAttributeType.SWIFT, nameRules, activeTags) {
+
     fun isOverloadingConstructor(limeFunction: LimeFunction): Boolean {
         val container = getContainer(limeFunction) ?: return false
-        val overloads = getOwnAndParentFunctions(container).filter { it.isConstructor }
-        return hasSignatureClash(limeFunction, overloads)
+        val allFunctions = getOwnFunctions(container) + getParentFunctions(container)
+        return hasSignatureClash(limeFunction, allFunctions.filter { it.isConstructor })
     }
 
     override fun getParameterSignature(limeParameter: LimeParameter) =

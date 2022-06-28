@@ -59,11 +59,10 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
         return getOwnFunctions(parentElement).filter { getFunctionName(it) == functionName }
     }
 
-    protected fun getOwnAndParentFunctions(limeContainer: LimeContainer): List<LimeFunction> {
+    protected fun getParentFunctions(limeContainer: LimeContainer): List<LimeFunction> {
         val parentTypes = (limeContainer as? LimeContainerWithInheritance)?.parents ?: emptyList()
-        val parentFunctions =
-            parentTypes.mapNotNull { it.type.actualType as? LimeContainer }.flatMap { getOwnAndParentFunctions(it) }
-        return parentFunctions + getOwnFunctions(limeContainer)
+        return parentTypes.mapNotNull { it.type.actualType as? LimeContainer }
+            .flatMap { getOwnFunctions(it) + getParentFunctions(it) }
     }
 
     protected open fun getOwnFunctions(limeContainer: LimeContainer) =
