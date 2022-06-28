@@ -105,7 +105,7 @@ such a prefix is considered `public`. The visibility prefix, if present, should 
 
 * Example: `internal static property secretDelegate: ProcessorDelegate? { get set }`
 * List of element kinds that can have a visibility prefix: class, interface, types, function, constructor, property, 
-struct, struct field, enumeration, exception, type alias, lambda, consstant.
+struct, struct field, enumeration, exception, type alias, lambda, constant.
 * Visibility prefix has no effect on C++ generated code.
 * `open` and `open internal` are currently only supported for classes. Both mean the class can be
 inherited from (see `Inheritance` below).
