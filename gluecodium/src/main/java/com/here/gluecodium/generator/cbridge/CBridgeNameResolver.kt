@@ -21,6 +21,7 @@ package com.here.gluecodium.generator.cbridge
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.NameResolver
+import com.here.gluecodium.generator.common.PlatformSignatureResolver
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.generator.swift.SwiftNameRules
 import com.here.gluecodium.model.lime.LimeAttributeType
@@ -38,7 +39,6 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
-import com.here.gluecodium.model.lime.LimeSignatureResolver
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
@@ -47,7 +47,7 @@ internal class CBridgeNameResolver(
     limeReferenceMap: Map<String, LimeElement>,
     private val swiftNameRules: SwiftNameRules,
     private val internalPrefix: String,
-    private val signatureResolver: LimeSignatureResolver
+    private val signatureResolver: PlatformSignatureResolver
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
 
     override fun resolveName(element: Any): String =
@@ -85,7 +85,7 @@ internal class CBridgeNameResolver(
 
     private fun getOverloadSuffix(limeFunction: LimeFunction) =
         when {
-            !signatureResolver.isOverloaded(limeFunction) -> emptyList()
+            !signatureResolver.isOverloadedInBindings(limeFunction) -> emptyList()
             limeFunction.parameters.isEmpty() -> listOf("")
             else -> signatureResolver.getSignature(limeFunction).map { mangleSignature(it) }
         }

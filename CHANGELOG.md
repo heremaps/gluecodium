@@ -4,7 +4,10 @@
 ### Features:
   * Added support for declaring `typealias` and `lambda` elements inside a `struct`.
   * Restored support for `internal const`.
-### Breaking changes:
+### Bug fixes:
+  * Fixed compilation issues in C++, JNI, and CBridge when "overloading over inheritance", i.e. both the child and the
+    parent types have functions with the same name (but of different signature).
+### Removed:
   * Support for `@Swift(Extension)` attribute was removed.
 
 ## 12.0.0

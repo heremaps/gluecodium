@@ -23,6 +23,7 @@ import com.here.gluecodium.generator.common.PlatformSignatureResolver
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class CppSignatureResolver(
@@ -36,4 +37,10 @@ internal class CppSignatureResolver(
             limeTypeRef.type.actualType is LimeContainerWithInheritance -> ""
             else -> "?"
         }
+
+    fun getInheritedOverloads(limeFunction: LimeFunction): List<LimeFunction> {
+        val container = getContainer(limeFunction) as? LimeContainerWithInheritance ?: return emptyList()
+        val functionName = getFunctionName(limeFunction)
+        return container.inheritedFunctions.filter { !it.isStatic }.filter { getFunctionName(it) == functionName }
+    }
 }
