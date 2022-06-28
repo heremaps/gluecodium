@@ -21,8 +21,9 @@ package com.here.gluecodium.model.lime
 
 class LimeConstant(
     path: LimePath,
+    visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     typeRef: LimeTypeRef,
     val value: LimeValue
-) : LimeTypedElement(path, LimeVisibility.PUBLIC, comment, attributes, typeRef = typeRef)
+) : LimeTypedElement(path, visibility, comment, attributes, typeRef = typeRef)

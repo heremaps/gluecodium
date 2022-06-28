@@ -19,4 +19,4 @@
   !
   !}}
 {{>dart/DartDocumentation}}{{>dart/DartAttributes}}
-{{#if isInClass}}static {{/if}}final {{resolveName typeRef}} {{resolveName}} = {{resolveName value}};
+{{#if isInClass}}static {{/if}}final {{resolveName typeRef}} {{resolveName visibility}}{{resolveName}} = {{resolveName value}};
