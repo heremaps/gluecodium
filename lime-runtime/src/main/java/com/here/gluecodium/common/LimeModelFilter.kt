@@ -228,6 +228,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
         limeConstant.run {
             LimeConstant(
                 path = path,
+                visibility = visibility,
                 comment = comment,
                 attributes = attributes,
                 typeRef = typeRef,

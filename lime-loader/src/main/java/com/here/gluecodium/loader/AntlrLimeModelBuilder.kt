@@ -483,7 +483,7 @@ internal class AntlrLimeModelBuilder(
     }
 
     override fun enterConstant(ctx: LimeParser.ConstantContext) {
-        pushPathAndVisibility(ctx.simpleId(), null)
+        pushPathAndVisibility(ctx.simpleId(), ctx.visibility())
     }
 
     override fun exitConstant(ctx: LimeParser.ConstantContext) {
@@ -491,6 +491,7 @@ internal class AntlrLimeModelBuilder(
         val limeElement = LimeConstant(
             path = currentPath,
             comment = parseStructuredComment(ctx.docComment(), ctx).description,
+            visibility = currentVisibility,
             attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation()),
             typeRef = limeTypeRef,
             value = convertLiteralConstant(limeTypeRef, ctx.literalConstant())

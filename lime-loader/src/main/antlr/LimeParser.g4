@@ -122,7 +122,7 @@ enumerator
     ;
 
 constant
-    : docComment* annotation* 'const' NewLine* simpleId NewLine* ':' NewLine* typeRef NewLine*
+    : docComment* annotation* visibility? 'const' NewLine* simpleId NewLine* ':' NewLine* typeRef NewLine*
       '=' NewLine* literalConstant NewLine+
     ;
 

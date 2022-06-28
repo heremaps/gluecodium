@@ -3,6 +3,7 @@
 ## Unreleased
 ### Features:
   * Added support for declaring `typealias` and `lambda` elements inside a `struct`.
+  * Restored support for `internal const`.
 ### Breaking changes:
   * Support for `@Swift(Extension)` attribute was removed.
 
