@@ -27,7 +27,7 @@ struct OuterStruct {
     }
 
     class InnerClass {
-        static fun fooBar(): Set<Int>
+        static fun fooBar(): Set<TypeAlias>
     }
 
     interface InnerInterfaceInStruct {
@@ -48,6 +48,10 @@ struct OuterStruct {
         fun `field`(value: String): Builder
         fun build(): OuterStruct
     }
+
+    typealias TypeAlias = Int
+
+    lambda InnerLambda = () -> Void
 }
 
 struct OrderInStruct {

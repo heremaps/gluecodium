@@ -269,7 +269,7 @@ struct Options {
   * a struct can have any number of fields, but at least one field is required.
   * a struct field can have a default value associated with it (optionally). For more details on
   values and literals see `Values and Literals` below.
-  * in addition to fields, a struct can have member functions, constructors, and constants declared
+  * in addition to fields, a struct can have member functions, constructors, constants, and other types declared
   inside it.
 
 #### Enumeration
@@ -307,14 +307,14 @@ struct Options {
 
 * Syntax: **typealias** *AliasName* **=** *AliasType*
 * Example: `typealias Timestamp = Date`
-* Can be a free-standing element at file level or can be placed in: class, interface
+* Can be a free-standing element at file level or can be placed in: class, interface, struct
 * Description: declares a type alias (typedef) in the parent type.
 
 #### Lambda
 
 * Syntax: **lambda** *LambdaName* **=** *AliasType* **=** __(__*parameter-list*__)__ **->** *ReturnType*
 * Example: `lambda TimestampCallback = (Date) -> Void`
-* Can be a free-standing element at file level or can be placed in: class, interface.
+* Can be a free-standing element at file level or can be placed in: class, interface, struct.
 * Description: declares a lambda type (a functional reference). Unlike the functions, specifying a
 return type for a lambda is required. For declaring lambdas with no return type, `Void` type should
 be used (like in the example above).

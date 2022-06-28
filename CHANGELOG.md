@@ -1,6 +1,8 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Features:
+  * Added support for declaring `typealias` and `lambda` elements inside a `struct`.
 ### Breaking changes:
   * Support for `@Swift(Extension)` attribute was removed.
 

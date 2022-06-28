@@ -21,7 +21,7 @@ Java_com_example_smoke_OuterStruct_doNothing(JNIEnv* _jenv, jobject _jinstance)
     auto errorCode = nativeCallResult;
     if (errorCode)
     {
-        auto nErrorValue = static_cast<::smoke::OuterStruct::InnerEnum>(errorCode.value());
+        auto nErrorValue = static_cast<::smoke::OuterStruct::TypeAlias>(errorCode.value());
         auto jErrorValue = ::gluecodium::jni::convert_to_jni(_jenv, nErrorValue);
         auto exceptionClass = ::gluecodium::jni::find_class(_jenv, "com/example/smoke/OuterStruct$InstantiationException");
         auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/smoke/OuterStruct$InnerEnum;)V");

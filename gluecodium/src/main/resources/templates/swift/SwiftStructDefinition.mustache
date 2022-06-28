@@ -67,9 +67,15 @@
 {{#enumerations}}
 {{prefixPartial "swift/SwiftEnumDefinition" "    "}}
 {{/enumerations}}
+{{#typeAliases}}
+{{prefixPartial "swift/SwiftTypeAlias" "    "}}
+{{/typeAliases}}
 {{#exceptions}}
 {{prefixPartial "swift/SwiftException" "    "}}
 {{/exceptions}}
+{{#lambdas}}
+{{prefixPartial "swift/SwiftLambdaDefinition" "    "}}
+{{/lambdas}}
 {{#structs}}
 {{prefixPartial "swift/SwiftStructDefinition" "    "}}
 {{/structs}}

@@ -93,9 +93,28 @@ public final class OuterStruct {
         @NonNull
         public native Map<String, byte[]> barBaz();
     }
+    /**
+     * @hidden
+     */
+    static class InnerLambdaImpl extends NativeBase implements InnerLambda {
+        protected InnerLambdaImpl(final long nativeHandle, final Object dummy) {
+            super(nativeHandle, new Disposer() {
+                @Override
+                public void disposeNative(long handle) {
+                    disposeNativeHandle(handle);
+                }
+            });
+        }
+        private static native void disposeNativeHandle(long nativeHandle);
+        public native void apply();
+    }
     public interface InnerInterface {
         @NonNull
         Map<String, byte[]> barBaz();
+    }
+    @FunctionalInterface
+    public interface InnerLambda {
+        void apply();
     }
     public OuterStruct(@NonNull final String field) {
         this.field = field;

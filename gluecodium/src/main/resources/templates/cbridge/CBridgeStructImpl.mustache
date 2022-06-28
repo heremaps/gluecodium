@@ -93,7 +93,11 @@ void {{resolveName}}_release_optional_handle(_baseRef handle) {
 {{>cbridge/CBridgeClassImpl}}
 {{/each}}
 
-{{#set selfType=this}}{{#functions}}{{#ifPredicate "shouldRetain"}}
+{{#lambdas}}
+{{>cbridge/CBridgeLambdaImpl}}
+{{/lambdas}}{{!!
+
+}}{{#set selfType=this}}{{#functions}}{{#ifPredicate "shouldRetain"}}
 {{>cbridge/CBridgeFunctionDefinition}}
 {{/ifPredicate}}{{/functions}}{{/set}}{{!!
 

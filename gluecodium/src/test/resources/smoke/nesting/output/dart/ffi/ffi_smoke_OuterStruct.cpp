@@ -14,6 +14,7 @@
 #include "smoke/OuterStruct.h"
 #include <chrono>
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -66,6 +67,42 @@ private:
             : gluecodium::ffi::cbqm.enqueueCallback(isolate_id, std::move(callback)).wait();
     }
 };
+class smoke_OuterStruct_InnerLambda_Proxy {
+public:
+    smoke_OuterStruct_InnerLambda_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0)
+        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f0(f0) {
+    }
+    ~smoke_OuterStruct_InnerLambda_Proxy() {
+        gluecodium::ffi::remove_cached_proxy(token, isolate_id, "smoke_OuterStruct_InnerLambda");
+        auto dart_persistent_handle_local = dart_persistent_handle;
+        auto deleter = [dart_persistent_handle_local]() {
+            Dart_DeletePersistentHandle_DL(dart_persistent_handle_local);
+        };
+        if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
+            deleter();
+        } else {
+            gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
+        }
+    }
+    smoke_OuterStruct_InnerLambda_Proxy(const smoke_OuterStruct_InnerLambda_Proxy&) = delete;
+    smoke_OuterStruct_InnerLambda_Proxy& operator=(const smoke_OuterStruct_InnerLambda_Proxy&) = delete;
+    void
+    operator()() {
+        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle)>(f0))(Dart_HandleFromPersistent_DL(dart_persistent_handle)
+        ); });
+    }
+private:
+    const uint64_t token;
+    const int32_t isolate_id;
+    const Dart_PersistentHandle dart_persistent_handle;
+    const FfiOpaqueHandle f0;
+    inline void dispatch(std::function<void()>&& callback) const
+    {
+        gluecodium::ffi::IsolateContext::is_current(isolate_id)
+            ? callback()
+            : gluecodium::ffi::cbqm.enqueueCallback(isolate_id, std::move(callback)).wait();
+    }
+};
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -99,6 +136,11 @@ void
 library_smoke_OuterStruct_InnerStruct_doSomething(FfiOpaqueHandle _self, int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
     gluecodium::ffi::Conversion<smoke::OuterStruct::InnerStruct>::toCpp(_self).do_something();
+}
+void
+library_smoke_OuterStruct_InnerLambda_call(FfiOpaqueHandle _self, int32_t _isolate_id) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
+    gluecodium::ffi::Conversion<smoke::OuterStruct::InnerLambda>::toCpp(_self).operator()();
 }
 FfiOpaqueHandle
 library_smoke_OuterStruct_InnerClass_fooBar(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -162,6 +204,49 @@ void
 library_smoke_OuterStruct_InnerInterface_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::shared_ptr<smoke::OuterStruct::InnerInterface>*>(handle);
 }
+// "Private" finalizer, not exposed to be callable from Dart.
+void
+library_smoke_OuterStruct_InnerLambda_finalizer(FfiOpaqueHandle handle, int32_t isolate_id) {
+    library_smoke_OuterStruct_InnerLambda_release_handle(handle);
+}
+void
+library_smoke_OuterStruct_InnerLambda_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle) {
+    FinalizerData* data = new (std::nothrow) FinalizerData{ffi_handle, isolate_id, &library_smoke_OuterStruct_InnerLambda_finalizer};
+    Dart_NewFinalizableHandle_DL(dart_handle, data, sizeof data, &library_execute_finalizer);
+}
+FfiOpaqueHandle
+library_smoke_OuterStruct_InnerLambda_copy_handle(FfiOpaqueHandle handle) {
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) smoke::OuterStruct::InnerLambda(
+            *reinterpret_cast<smoke::OuterStruct::InnerLambda*>(handle)
+        )
+    );
+}
+void
+library_smoke_OuterStruct_InnerLambda_release_handle(FfiOpaqueHandle handle) {
+    delete reinterpret_cast<smoke::OuterStruct::InnerLambda*>(handle);
+}
+FfiOpaqueHandle
+library_smoke_OuterStruct_InnerLambda_create_handle_nullable(FfiOpaqueHandle value)
+{
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new (std::nothrow) gluecodium::optional<smoke::OuterStruct::InnerLambda>(
+            gluecodium::ffi::Conversion<smoke::OuterStruct::InnerLambda>::toCpp(value)
+        )
+    );
+}
+void
+library_smoke_OuterStruct_InnerLambda_release_handle_nullable(FfiOpaqueHandle handle)
+{
+    delete reinterpret_cast<gluecodium::optional<smoke::OuterStruct::InnerLambda>*>(handle);
+}
+FfiOpaqueHandle
+library_smoke_OuterStruct_InnerLambda_get_value_nullable(FfiOpaqueHandle handle)
+{
+    return gluecodium::ffi::Conversion<smoke::OuterStruct::InnerLambda>::toFfi(
+        **reinterpret_cast<gluecodium::optional<smoke::OuterStruct::InnerLambda>*>(handle)
+    );
+}
 FfiOpaqueHandle
 library_smoke_OuterStruct_InnerInterface_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0) {
     auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_OuterStruct_InnerInterface_Proxy>(token, isolate_id, "smoke_OuterStruct_InnerInterface");
@@ -175,6 +260,19 @@ library_smoke_OuterStruct_InnerInterface_create_proxy(uint64_t token, int32_t is
         gluecodium::ffi::cache_proxy(token, isolate_id, "smoke_OuterStruct_InnerInterface", *proxy_ptr);
     }
     return reinterpret_cast<FfiOpaqueHandle>(proxy_ptr);
+}
+FfiOpaqueHandle
+library_smoke_OuterStruct_InnerLambda_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0) {
+    auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_OuterStruct_InnerLambda_Proxy>(token, isolate_id, "smoke_OuterStruct_InnerLambda");
+    if (!cached_proxy) {
+        cached_proxy = std::make_shared<smoke_OuterStruct_InnerLambda_Proxy>(token, isolate_id, dart_handle, f0);
+        gluecodium::ffi::cache_proxy(token, isolate_id, "smoke_OuterStruct_InnerLambda", cached_proxy);
+    }
+    return reinterpret_cast<FfiOpaqueHandle>(
+        new smoke::OuterStruct::InnerLambda(
+            std::bind(&smoke_OuterStruct_InnerLambda_Proxy::operator(), cached_proxy)
+        )
+    );
 }
 FfiOpaqueHandle
 library_smoke_OuterStruct_create_handle(FfiOpaqueHandle field) {

@@ -21,11 +21,13 @@
 {{#unless external.cpp}}
 {{>cpp/CppDocComment}}
 struct {{>cpp/CppExportMacro}}{{>cpp/CppAttributesInline}}{{resolveName}} {
-{{#sort structs constants enumerations}}
-{{#instanceOf this "LimeStruct"}}{{prefixPartial "cpp/CppStruct" "    "}}{{/instanceOf}}{{!!
+{{#sort structs constants enumerations lambdas typeAliases}}
+{{#instanceOf this "LimeEnumeration"}}{{prefixPartial "cpp/CppEnumeration" "    "}}{{/instanceOf}}{{!!
+}}{{#instanceOf this "LimeLambda"}}{{prefixPartial "cpp/CppLambda" "    "}}{{/instanceOf}}{{!!
+}}{{#instanceOf this "LimeTypeAlias"}}{{prefixPartial "cpp/CppTypeAlias" "    "}}{{/instanceOf}}{{!!
+}}{{#instanceOf this "LimeStruct"}}{{prefixPartial "cpp/CppStruct" "    "}}{{/instanceOf}}{{!!
 }}{{#instanceOf this "LimeConstant"}}{{#set constant=this storageQualifier="static"}}{{#constant}}{{!!
-}}{{prefixPartial "cpp/CppConstant" "    "}}{{/constant}}{{/set}}{{/instanceOf}}{{!!
-}}{{#instanceOf this "LimeEnumeration"}}{{prefixPartial "cpp/CppEnumeration" "    "}}{{/instanceOf}}
+}}{{prefixPartial "cpp/CppConstant" "    "}}{{/constant}}{{/set}}{{/instanceOf}}
 {{/sort}}
 {{#each classes interfaces}}
 {{prefixPartial "cpp/CppClass" "    "}}
