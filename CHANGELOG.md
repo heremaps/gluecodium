@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 12.1.0
+Release date: 2022-06-29
 ### Features:
   * Added support for declaring `typealias` and `lambda` elements inside a `struct`.
   * Restored support for `internal const`.
