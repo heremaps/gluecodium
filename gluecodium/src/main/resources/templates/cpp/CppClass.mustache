@@ -46,7 +46,13 @@ public:
 {{#properties}}
 {{prefixPartial "cpp/CppProperty" "    "}}
 {{/properties}}
+{{#eval "functionUsings" fullName}}{{#if this}}
 
+{{#this}}
+    using {{resolveName "FQN"}};
+{{/this}}
+{{/if}}
+{{/eval}}
 {{/if}}
 {{#if attributes.equatable}}
 public:

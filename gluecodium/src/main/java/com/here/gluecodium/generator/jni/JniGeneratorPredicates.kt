@@ -89,7 +89,7 @@ internal class JniGeneratorPredicates(
             return typeId.isNumericType || typeId == VOID || typeId == BOOLEAN
         },
         "isOverloaded" to { limeFunction: Any ->
-            limeFunction is LimeFunction && javaSignatureResolver.isOverloaded(limeFunction)
+            limeFunction is LimeFunction && javaSignatureResolver.isOverloadedInBindings(limeFunction)
         },
         "needsOrdinalConversion" to fun(limeEnumeration: Any): Boolean {
             if (limeEnumeration !is LimeEnumeration) return false

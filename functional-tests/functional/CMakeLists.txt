@@ -88,6 +88,7 @@ feature(MethodOverloading cpp android swift dart SOURCES
     input/src/cpp/MethodOverloads.cpp
 
     input/lime/MethodOverloads.lime
+    input/lime/InheritanceOverloads.lime
 )
 
 feature(Blob cpp android swift dart SOURCES

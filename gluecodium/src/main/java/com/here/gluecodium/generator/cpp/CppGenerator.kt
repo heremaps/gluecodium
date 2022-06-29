@@ -127,7 +127,7 @@ internal class CppGenerator : Generator {
 
         val generatedFiles = filteredModel.topElements.flatMap {
             val fileName = nameRules.getOutputFilePath(it)
-            generateCode(it, fileName, includeResolver, nameResolver, fullNameResolver, allErrorEnums)
+            generateCode(it, fileName, includeResolver, nameResolver, fullNameResolver, signatureResolver, allErrorEnums)
         } + COMMON_HEADERS.map { generateHelperFile(it, "include", ".h") } +
             COMMON_IMPLS.map { generateHelperFile(it, "src", ".cpp") } +
             generateExportHelperFile(exportCommonName, "Common", GeneratedFile.SourceSet.COMMON) +
@@ -146,6 +146,7 @@ internal class CppGenerator : Generator {
         includeResolver: CppIncludeResolver,
         nameResolver: CppNameResolver,
         fullNameResolver: CppFullNameResolver,
+        signatureResolver: CppSignatureResolver,
         allErrorEnums: Set<String>
     ): List<GeneratedFile> {
 
@@ -184,6 +185,7 @@ internal class CppGenerator : Generator {
         if (needsHeader) {
             val headerIncludesCollector = CppHeaderIncludesCollector(includeResolver, allErrorEnums)
             val headerIncludes = headerIncludesCollector.collectImports(rootElement) + exportInclude
+            templateData["functionUsings"] = collectFunctionUsings(rootElement, signatureResolver)
             result += generateHeader(rootElement, nameResolvers, fileName, templateData, headerIncludes)
         }
         if (needsImplementation) {
@@ -195,6 +197,15 @@ internal class CppGenerator : Generator {
 
         return result
     }
+
+    private fun collectFunctionUsings(rootElement: LimeNamedElement, signatureResolver: CppSignatureResolver) =
+        LimeTypeHelper.getAllTypes(rootElement)
+            .filterIsInstance<LimeContainerWithInheritance>()
+            .filter { it.parents.isNotEmpty() }
+            .associateBy({ it.fullName }, { getFunctionUsing(it, signatureResolver) })
+
+    private fun getFunctionUsing(limeContainer: LimeContainerWithInheritance, signatureResolver: CppSignatureResolver) =
+        limeContainer.functions.mapNotNull { signatureResolver.getInheritedOverloads(it).firstOrNull() }
 
     private fun generateImplementation(
         rootElement: LimeNamedElement,
