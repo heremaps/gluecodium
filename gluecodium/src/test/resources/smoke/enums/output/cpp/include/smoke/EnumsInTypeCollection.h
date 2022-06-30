@@ -6,8 +6,10 @@
 #include "gluecodium/ExportGluecodiumCpp.h"
 #include <cstdint>
 namespace smoke {
-enum class TCEnum {
-    FIRST,
-    SECOND
+struct _GLUECODIUM_CPP_EXPORT EnumsInTypeCollection {
+    enum class TCEnum {
+        FIRST,
+        SECOND
+    };
 };
 }

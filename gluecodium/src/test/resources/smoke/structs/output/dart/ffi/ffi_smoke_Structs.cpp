@@ -37,7 +37,7 @@ library_smoke_Structs_returnAllTypesStruct__AllTypesStruct(int32_t _isolate_id, 
 FfiOpaqueHandle
 library_smoke_Structs_createPoint__Double_Double(int32_t _isolate_id, double x, double y) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-    return gluecodium::ffi::Conversion<smoke::Point>::toFfi(
+    return gluecodium::ffi::Conversion<smoke::TypeCollection::Point>::toFfi(
         smoke::Structs::create_point(
             gluecodium::ffi::Conversion<double>::toCpp(x),
             gluecodium::ffi::Conversion<double>::toCpp(y)
@@ -47,9 +47,9 @@ library_smoke_Structs_createPoint__Double_Double(int32_t _isolate_id, double x, 
 FfiOpaqueHandle
 library_smoke_Structs_modifyAllTypesStruct__AllTypesStruct(int32_t _isolate_id, FfiOpaqueHandle input) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-    return gluecodium::ffi::Conversion<smoke::AllTypesStruct>::toFfi(
+    return gluecodium::ffi::Conversion<smoke::TypeCollection::AllTypesStruct>::toFfi(
         smoke::Structs::modify_all_types_struct(
-            gluecodium::ffi::Conversion<smoke::AllTypesStruct>::toCpp(input)
+            gluecodium::ffi::Conversion<smoke::TypeCollection::AllTypesStruct>::toCpp(input)
         )
     );
 }

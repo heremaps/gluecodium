@@ -1,6 +1,6 @@
 package smoke
 
-types EnumsInTypeCollection {
+struct EnumsInTypeCollection {
     enum TCEnum {
         FIRST,
         SECOND

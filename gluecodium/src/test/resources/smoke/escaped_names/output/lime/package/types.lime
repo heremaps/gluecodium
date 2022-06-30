@@ -1,5 +1,5 @@
 package `package`
-types `types` {
+struct `types` {
     typealias `ULong` = List<`struct`>
     enum `enum` {
         `NaN`

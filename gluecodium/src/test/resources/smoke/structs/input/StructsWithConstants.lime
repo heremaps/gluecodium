@@ -19,7 +19,7 @@ package smoke
 
 import smoke.RouteUtils.RouteType
 
-types RouteUtils {
+struct RouteUtils {
     enum RouteType {
         NONE,
         CAR,
@@ -28,7 +28,7 @@ types RouteUtils {
     }
 }
 
-types StructsWithConstants {
+struct StructsWithConstants {
     struct Route {
         description: String
         type: RouteUtils.RouteType

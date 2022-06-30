@@ -57,10 +57,10 @@ public final class CommentsLinks extends NativeBase {
      * <li>method with signature with no spaces: {@link com.example.smoke.Comments#oneParameterCommentOnly}</li>
      * <li>parameter: {@code inputParameter}</li>
      * <li>top level constant: {@link com.example.smoke.CommentsTypeCollection#TYPE_COLLECTION_CONSTANT}</li>
-     * <li>top level struct: {@link com.example.smoke.TypeCollectionStruct}</li>
-     * <li>top level struct field: {@link com.example.smoke.TypeCollectionStruct#field}</li>
-     * <li>top level enum: {@link com.example.smoke.TypeCollectionEnum}</li>
-     * <li>top level enum item: {@link com.example.smoke.TypeCollectionEnum#ITEM}</li>
+     * <li>top level struct: {@link com.example.smoke.CommentsTypeCollection.TypeCollectionStruct}</li>
+     * <li>top level struct field: {@link com.example.smoke.CommentsTypeCollection.TypeCollectionStruct#field}</li>
+     * <li>top level enum: {@link com.example.smoke.CommentsTypeCollection.TypeCollectionEnum}</li>
+     * <li>top level enum item: {@link com.example.smoke.CommentsTypeCollection.TypeCollectionEnum#ITEM}</li>
      * <li>error: {@link com.example.smoke.Comments.SomethingWrongException}</li>
      * <li>lambda: {@link com.example.smoke.Comments.SomeLambda}</li>
      * <li>type from aux sources, same package: {@link com.example.smoke.AuxClass}</li>

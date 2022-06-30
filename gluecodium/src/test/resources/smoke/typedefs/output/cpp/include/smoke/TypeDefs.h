@@ -36,7 +36,7 @@ public:
     static ::smoke::TypeDefs::NestedIntTypeDef return_nested_int_type_def( const ::smoke::TypeDefs::NestedIntTypeDef input );
     static ::smoke::TypeDefs::TestStructTypeDef return_test_struct_type_def( const ::smoke::TypeDefs::TestStructTypeDef& input );
     static ::smoke::TypeDefs::NestedStructTypeDef return_nested_struct_type_def( const ::smoke::TypeDefs::NestedStructTypeDef& input );
-    static ::smoke::PointTypeDef return_type_def_point_from_type_collection( const ::smoke::PointTypeDef& input );
+    static ::smoke::TypeCollection::PointTypeDef return_type_def_point_from_type_collection( const ::smoke::TypeCollection::PointTypeDef& input );
     virtual ::std::vector< ::smoke::TypeDefs::PrimitiveTypeDef > get_primitive_type_property(  ) const = 0;
     virtual void set_primitive_type_property( const ::std::vector< ::smoke::TypeDefs::PrimitiveTypeDef >& value ) = 0;
 };

@@ -54,7 +54,7 @@ class TypeDefs {
     property primitiveTypeProperty: List<PrimitiveTypeDef>
 }
 
-types TypeCollection {
+struct TypeCollection {
     struct Point {
         x: Double
         y: Double

@@ -1,8 +1,9 @@
 package smoke
 @Cpp("fooTypes")
+@Java("barTypes")
 @Swift("bazTypes")
 @Dart("weeTypes")
-types PlatformNames {
+struct PlatformNames {
     @Cpp("fooTypedef")
     @Swift("bazTypedef")
     typealias BasicTypedef = Double

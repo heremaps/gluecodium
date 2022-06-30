@@ -15,10 +15,10 @@ public class StructsWithConstantsInterface {
     }
     public struct MultiRoute {
         public static let defaultDescription: String = "Foo"
-        public static let defaultType: RouteType = RouteType.none
+        public static let defaultType: RouteUtils.RouteType = RouteUtils.RouteType.none
         public var descriptions: [String]
-        public var type: RouteType
-        public init(descriptions: [String], type: RouteType) {
+        public var type: RouteUtils.RouteType
+        public init(descriptions: [String], type: RouteUtils.RouteType) {
             self.descriptions = descriptions
             self.type = type
         }

@@ -1,12 +1,9 @@
 /*
  *
-
  */
 package com.example.smoke;
-
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-
 public final class EnumsInTypeCollectionInterface extends NativeBase {
     /**
      * For internal use only.
@@ -22,5 +19,5 @@ public final class EnumsInTypeCollectionInterface extends NativeBase {
     }
     private static native void disposeNativeHandle(long nativeHandle);
     @NonNull
-    public static native TCEnum flipEnumValue(@NonNull final TCEnum input);
+    public static native EnumsInTypeCollection.TCEnum flipEnumValue(@NonNull final EnumsInTypeCollection.TCEnum input);
 }

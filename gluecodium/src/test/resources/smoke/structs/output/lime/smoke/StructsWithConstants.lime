@@ -2,7 +2,7 @@ package smoke
 
 import smoke.RouteUtils.RouteType
 
-types StructsWithConstants {
+struct StructsWithConstants {
     struct Route {
         description: String
         type: RouteType

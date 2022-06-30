@@ -68,7 +68,7 @@ interface ErrorsInterface {
     exception External(ExternalErrors)
 }
 
-types SomeTypeCollection {
+struct SomeTypeCollection {
     enum SomeTypeCollectionError {
         ERROR_A,
         ERROR_B

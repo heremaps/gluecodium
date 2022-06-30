@@ -8,11 +8,10 @@ import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/type_collection.dart';
 import 'package:meta/meta.dart';
 abstract class Structs {
-
   static Structs_Point swapPointCoordinates(Structs_Point input) => $prototype.swapPointCoordinates(input);
   static Structs_AllTypesStruct returnAllTypesStruct(Structs_AllTypesStruct input) => $prototype.returnAllTypesStruct(input);
-  static Point createPoint(double x, double y) => $prototype.createPoint(x, y);
-  static AllTypesStruct modifyAllTypesStruct(AllTypesStruct input) => $prototype.modifyAllTypesStruct(input);
+  static TypeCollection_Point createPoint(double x, double y) => $prototype.createPoint(x, y);
+  static TypeCollection_AllTypesStruct modifyAllTypesStruct(TypeCollection_AllTypesStruct input) => $prototype.modifyAllTypesStruct(input);
   /// @nodoc
   @visibleForTesting
   static dynamic $prototype = Structs$Impl(Pointer<Void>.fromAddress(0));
@@ -729,7 +728,6 @@ final _smokeStructsReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLi
 @visibleForTesting
 class Structs$Impl extends __lib.NativeBase implements Structs {
   Structs$Impl(Pointer<Void> handle) : super(handle);
-
   Structs_Point swapPointCoordinates(Structs_Point input) {
     final _swapPointCoordinatesFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_swapPointCoordinates__Point'));
     final _inputHandle = smokeStructsPointToFfi(input);
@@ -752,7 +750,7 @@ class Structs$Impl extends __lib.NativeBase implements Structs {
       smokeStructsAlltypesstructReleaseFfiHandle(__resultHandle);
     }
   }
-  Point createPoint(double x, double y) {
+  TypeCollection_Point createPoint(double x, double y) {
     final _createPointFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Double, Double), Pointer<Void> Function(int, double, double)>('library_smoke_Structs_createPoint__Double_Double'));
     final _xHandle = (x);
     final _yHandle = (y);
@@ -763,7 +761,7 @@ class Structs$Impl extends __lib.NativeBase implements Structs {
       smokeTypecollectionPointReleaseFfiHandle(__resultHandle);
     }
   }
-  AllTypesStruct modifyAllTypesStruct(AllTypesStruct input) {
+  TypeCollection_AllTypesStruct modifyAllTypesStruct(TypeCollection_AllTypesStruct input) {
     final _modifyAllTypesStructFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_modifyAllTypesStruct__AllTypesStruct'));
     final _inputHandle = smokeTypecollectionAlltypesstructToFfi(input);
     final __resultHandle = _modifyAllTypesStructFfi(__lib.LibraryContext.isolateId, _inputHandle);

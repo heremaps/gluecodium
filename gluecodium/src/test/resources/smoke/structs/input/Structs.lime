@@ -85,7 +85,7 @@ class Structs {
 
 class StructsInstance {}
 
-types TypeCollection {
+struct TypeCollection {
     struct Point {
         x: Double
         y: Double

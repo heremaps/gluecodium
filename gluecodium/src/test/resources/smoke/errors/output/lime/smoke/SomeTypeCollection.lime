@@ -1,5 +1,5 @@
 package smoke
-types SomeTypeCollection {
+struct SomeTypeCollection {
     enum SomeTypeCollectionError {
         ERROR_A,
         ERROR_B

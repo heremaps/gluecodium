@@ -1,6 +1,6 @@
 package smoke
 
-types TypeCollection {
+struct TypeCollection {
     typealias PointTypeDef = Point
     typealias StorageId = ULong
 

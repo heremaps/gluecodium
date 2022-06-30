@@ -1,6 +1,6 @@
 package smoke
 
-types DeclarationOrder {
+struct DeclarationOrder {
     typealias SomeTypeDef = Int
     typealias ErrorCodeToMessageMap = Map<Int, NestedStructArray>
     typealias NestedStructArray = List<NestedStruct>

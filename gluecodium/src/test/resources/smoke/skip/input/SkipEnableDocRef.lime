@@ -17,7 +17,7 @@
 
 package smoke
 
-types SkipEnableConstants {
+struct SkipEnableConstants {
     @Skip("Lite")
     const someConstant: Double = 1
 

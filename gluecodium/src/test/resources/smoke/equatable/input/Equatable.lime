@@ -17,7 +17,7 @@
 
 package smoke
 
-types Equatable {
+struct Equatable {
     @Equatable
     struct EquatableStruct {
         boolField: Boolean

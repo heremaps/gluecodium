@@ -1,6 +1,5 @@
 /*
  *
-
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
@@ -42,7 +41,7 @@ public final class TypeDefs extends NativeBase {
     @NonNull
     public static native TypeDefs.TestStruct returnNestedStructTypeDef(@NonNull final TypeDefs.TestStruct input);
     @NonNull
-    public static native Point returnTypeDefPointFromTypeCollection(@NonNull final Point input);
+    public static native TypeCollection.Point returnTypeDefPointFromTypeCollection(@NonNull final TypeCollection.Point input);
     @NonNull
     public native List<Double> getPrimitiveTypeProperty();
     public native void setPrimitiveTypeProperty(@NonNull final List<Double> value);

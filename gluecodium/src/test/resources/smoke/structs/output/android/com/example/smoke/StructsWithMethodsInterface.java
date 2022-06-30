@@ -15,7 +15,7 @@ public final class StructsWithMethodsInterface extends NativeBase {
             this.y = _other.y;
             this.z = _other.z;
         }
-        public Vector3(@NonNull final StructsWithMethodsInterface.Vector3 other) throws ValidationException {
+        public Vector3(@NonNull final StructsWithMethodsInterface.Vector3 other) throws ValidationUtils.ValidationException {
             Vector3 _other = create(other);
             this.x = _other.x;
             this.y = _other.y;
@@ -26,7 +26,7 @@ public final class StructsWithMethodsInterface extends NativeBase {
         public native StructsWithMethodsInterface.Vector3 add(@NonNull final StructsWithMethodsInterface.Vector3 other);
         public static native boolean validate(final double x, final double y, final double z);
         private static native Vector3 create(@NonNull final String input);
-        private static native Vector3 create(@NonNull final StructsWithMethodsInterface.Vector3 other) throws ValidationException;
+        private static native Vector3 create(@NonNull final StructsWithMethodsInterface.Vector3 other) throws ValidationUtils.ValidationException;
     }
     public static final class StructWithStaticMethodsOnly {
         public static native void doStuff();

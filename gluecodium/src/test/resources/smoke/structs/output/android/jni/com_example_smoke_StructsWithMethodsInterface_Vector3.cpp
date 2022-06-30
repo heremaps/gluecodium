@@ -3,7 +3,7 @@
  */
 #include "com_example_smoke_StructsWithMethodsInterface_Vector3.h"
 #include "com_example_smoke_StructsWithMethodsInterface_Vector3__Conversion.h"
-#include "com_example_smoke_ValidationErrorCode__Conversion.h"
+#include "com_example_smoke_ValidationUtils_ValidationErrorCode__Conversion.h"
 #include "JniExceptionThrower.h"
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
@@ -63,10 +63,10 @@ Java_com_example_smoke_StructsWithMethodsInterface_00024Vector3_create__Lcom_exa
     auto errorCode = nativeCallResult.error();
     if (!nativeCallResult.has_value())
     {
-        auto nErrorValue = static_cast<::smoke::ValidationErrorCode>(errorCode.value());
+        auto nErrorValue = static_cast<::smoke::ValidationUtils::ValidationErrorCode>(errorCode.value());
         auto jErrorValue = ::gluecodium::jni::convert_to_jni(_jenv, nErrorValue);
-        auto exceptionClass = ::gluecodium::jni::find_class(_jenv, "com/example/smoke/ValidationException");
-        auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/smoke/ValidationErrorCode;)V");
+        auto exceptionClass = ::gluecodium::jni::find_class(_jenv, "com/example/smoke/ValidationUtils$ValidationException");
+        auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Lcom/example/smoke/ValidationUtils$ValidationErrorCode;)V");
         auto exception = ::gluecodium::jni::new_object(_jenv, exceptionClass, theConstructor, jErrorValue);
         _throw_exception.register_exception(std::move(exception));
         return nullptr;

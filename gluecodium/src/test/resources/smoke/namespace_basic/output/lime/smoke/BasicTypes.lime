@@ -1,6 +1,6 @@
 package smoke
 
-types BasicTypes {
+struct BasicTypes {
     struct SomeStruct {
         someField: String
     }

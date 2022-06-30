@@ -20,8 +20,8 @@ public:
      * \return @NotNull
      */
     static ::std::shared_ptr< ::package::Class > constructor(  );
-    virtual ::gluecodium::Return< ::package::Struct, ::std::error_code > fun( const ::package::ULong& double ) = 0;
-    virtual ::package::Enum get_property(  ) const = 0;
-    virtual void set_property( const ::package::Enum value ) = 0;
+    virtual ::gluecodium::Return< ::package::Types::Struct, ::std::error_code > fun( const ::package::Types::ULong& double ) = 0;
+    virtual ::package::Types::Enum get_property(  ) const = 0;
+    virtual void set_property( const ::package::Types::Enum value ) = 0;
 };
 }

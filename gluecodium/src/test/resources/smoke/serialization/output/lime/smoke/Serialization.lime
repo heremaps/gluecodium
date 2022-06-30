@@ -1,5 +1,5 @@
 package smoke
-types Serialization {
+struct Serialization {
     typealias NestedStructArray = List<NestedSerializableStruct>
     typealias ErrorCodeToMessageMap = Map<Int, String>
     enum SomeEnum {

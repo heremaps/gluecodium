@@ -4,10 +4,15 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include "cbridge/include/BaseHandle.h"
-#include "cbridge/include/Export.h"
+#include "cbridge\include\BaseHandle.h"
+#include "cbridge\include\Export.h"
 #include <stdbool.h>
 #include <stdint.h>
+_GLUECODIUM_C_EXPORT _baseRef smoke_StructsWithMethods_create_handle();
+_GLUECODIUM_C_EXPORT void smoke_StructsWithMethods_release_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT _baseRef smoke_StructsWithMethods_create_optional_handle();
+_GLUECODIUM_C_EXPORT _baseRef smoke_StructsWithMethods_unwrap_optional_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT void smoke_StructsWithMethods_release_optional_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef smoke_StructsWithMethods_Vector_create_handle(double x, double y);
 _GLUECODIUM_C_EXPORT void smoke_StructsWithMethods_Vector_release_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef smoke_StructsWithMethods_Vector_create_optional_handle(double x, double y);
