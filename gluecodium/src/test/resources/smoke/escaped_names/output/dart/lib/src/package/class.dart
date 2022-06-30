@@ -10,10 +10,9 @@ import 'package:library/src/package/types.dart';
 import 'package:meta/meta.dart';
 abstract class Class implements Interface {
   factory Class() => $prototype.constructor();
-
-  Struct fun(List<Struct> double);
-  Enum get property;
-  set property(Enum value);
+  Types_Struct fun(List<Types_Struct> double);
+  Types_Enum get property;
+  set property(Types_Enum value);
   /// @nodoc
   @visibleForTesting
   static dynamic $prototype = Class$Impl(Pointer<Void>.fromAddress(0));
@@ -55,7 +54,6 @@ final _funReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lo
 @visibleForTesting
 class Class$Impl extends __lib.NativeBase implements Class {
   Class$Impl(Pointer<Void> handle) : super(handle);
-
   Class constructor() {
     final _result_handle = _constructor();
     final _result = Class$Impl(_result_handle);
@@ -69,7 +67,7 @@ class Class$Impl extends __lib.NativeBase implements Class {
     return __resultHandle;
   }
   @override
-  Struct fun(List<Struct> double) {
+  Types_Struct fun(List<Types_Struct> double) {
     final _funFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_package_Class_fun__ListOf_package_Types_Struct'));
     final _doubleHandle = foobarListofPackageTypesStructToFfi(double);
     final _handle = this.handle;
@@ -79,7 +77,7 @@ class Class$Impl extends __lib.NativeBase implements Class {
         final __errorHandle = _funReturnGetError(__callResultHandle);
         _funReturnReleaseHandle(__callResultHandle);
         try {
-          throw ExceptionException(packageTypesEnumFromFfi(__errorHandle));
+          throw Types_ExceptionException(packageTypesEnumFromFfi(__errorHandle));
         } finally {
           packageTypesEnumReleaseFfiHandle(__errorHandle);
         }
@@ -93,7 +91,7 @@ class Class$Impl extends __lib.NativeBase implements Class {
     }
   }
   @override
-  Enum get property {
+  Types_Enum get property {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint32 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_package_Class_property_get'));
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
@@ -104,7 +102,7 @@ class Class$Impl extends __lib.NativeBase implements Class {
     }
   }
   @override
-  set property(Enum value) {
+  set property(Types_Enum value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint32), void Function(Pointer<Void>, int, int)>('library_package_Class_property_set__enum'));
     final _valueHandle = packageTypesEnumToFfi(value);
     final _handle = this.handle;

@@ -56,11 +56,11 @@ public:
      * * method with signature: ::smoke::Comments::one_parameter_comment_only
      * * method with signature with no spaces: ::smoke::Comments::one_parameter_comment_only
      * * parameter: input_parameter
-     * * top level constant: ::smoke::TYPE_COLLECTION_CONSTANT
-     * * top level struct: ::smoke::TypeCollectionStruct
-     * * top level struct field: ::smoke::TypeCollectionStruct::field
-     * * top level enum: ::smoke::TypeCollectionEnum
-     * * top level enum item: ::smoke::TypeCollectionEnum::ITEM
+     * * top level constant: ::smoke::CommentsTypeCollection::TYPE_COLLECTION_CONSTANT
+     * * top level struct: ::smoke::CommentsTypeCollection::TypeCollectionStruct
+     * * top level struct field: ::smoke::CommentsTypeCollection::TypeCollectionStruct::field
+     * * top level enum: ::smoke::CommentsTypeCollection::TypeCollectionEnum
+     * * top level enum item: ::smoke::CommentsTypeCollection::TypeCollectionEnum::ITEM
      * * error: ::smoke::Comments::SomeEnum
      * * lambda: ::smoke::Comments::SomeLambda
      * * type from aux sources, same package: ::smoke::AuxClass
@@ -70,7 +70,7 @@ public:
      *
      * Not working for Java:
      * * typedef: ::smoke::Comments::Usefulness
-     * * top level typedef: ::smoke::TypeCollectionTypedef
+     * * top level typedef: ::smoke::CommentsTypeCollection::TypeCollectionTypedef
      *
      * Not working for Swift:
      * * named comment: [Alternative name for the link, stripped for Swift]::smoke::Comments::VERY_USEFUL

@@ -4,7 +4,7 @@
 package com.example.example;
 import com.example.NativeBase;
 import com.example.smoke.Errors;
-import com.example.smoke.SomeException;
+import com.example.smoke.SomeTypeCollection;
 public final class FooBar extends NativeBase {
     /**
      * For internal use only.
@@ -20,5 +20,5 @@ public final class FooBar extends NativeBase {
     }
     private static native void disposeNativeHandle(long nativeHandle);
     public static native void methodWithInternalError() throws Errors.InternalException;
-    public static native void methodWithTypeCollectionError() throws SomeException;
+    public static native void methodWithTypeCollectionError() throws SomeTypeCollection.SomeException;
 }

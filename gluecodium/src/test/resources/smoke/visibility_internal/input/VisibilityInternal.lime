@@ -58,7 +58,7 @@ class PublicClass {
     internal property internalStructProperty: InternalStruct
 }
 
-types PublicTypeCollection {
+struct PublicTypeCollection {
     internal struct InternalStruct {
         internal stringField: String
         fun fooBar()
@@ -83,7 +83,7 @@ internal class InternalClassWithStaticProperty {
 }
 
 @Skip(Java, Swift)
-types DontExportInDart {
+struct DontExportInDart {
     struct DoExportInDart {
         stringField: String
     }

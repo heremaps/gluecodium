@@ -16,11 +16,11 @@ public:
 public:
     struct _GLUECODIUM_CPP_EXPORT MultiRoute {
         static const ::std::string DEFAULT_DESCRIPTION;
-        static const ::smoke::RouteType DEFAULT_TYPE;
+        static const ::smoke::RouteUtils::RouteType DEFAULT_TYPE;
         ::std::vector< ::std::string > descriptions;
-        ::smoke::RouteType type;
+        ::smoke::RouteUtils::RouteType type;
         MultiRoute( );
-        MultiRoute( ::std::vector< ::std::string > descriptions, ::smoke::RouteType type );
+        MultiRoute( ::std::vector< ::std::string > descriptions, ::smoke::RouteUtils::RouteType type );
     };
     struct _GLUECODIUM_CPP_EXPORT StructWithConstantsOnly {
         static const ::std::string DEFAULT_DESCRIPTION;

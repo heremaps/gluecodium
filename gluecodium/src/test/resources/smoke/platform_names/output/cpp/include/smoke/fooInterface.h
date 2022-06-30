@@ -14,7 +14,7 @@ public:
     fooInterface();
     virtual ~fooInterface() = 0;
 public:
-    virtual ::smoke::fooStruct FooMethod( const ::std::string& FooParameter ) = 0;
+    virtual ::smoke::fooTypes::fooStruct FooMethod( const ::std::string& FooParameter ) = 0;
     /**
      *
      * \param[in] makeParameter

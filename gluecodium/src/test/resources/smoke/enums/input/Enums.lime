@@ -47,7 +47,7 @@ class EnumsInTypeCollectionInterface {
     static fun flipEnumValue(input: EnumsInTypeCollection.TCEnum): EnumsInTypeCollection.TCEnum
 }
 
-types EnumsInTypeCollection {
+struct EnumsInTypeCollection {
     enum TCEnum {
         FIRST,
         SECOND

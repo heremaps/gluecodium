@@ -17,7 +17,7 @@
 
 package smoke
 
-types ValidationUtils {
+struct ValidationUtils {
     enum ValidationErrorCode {
         NONE,
         VALIDATION_FAILED
@@ -26,7 +26,7 @@ types ValidationUtils {
     exception Validation(ValidationErrorCode)
 }
 
-types StructsWithMethods {
+struct StructsWithMethods {
     struct Vector {
         x: Double
         y: Double

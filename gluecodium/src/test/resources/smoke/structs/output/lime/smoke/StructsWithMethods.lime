@@ -1,6 +1,6 @@
 package smoke
 import smoke.ValidationUtils.Validation
-types StructsWithMethods {
+struct StructsWithMethods {
     struct Vector {
         x: Double
         y: Double

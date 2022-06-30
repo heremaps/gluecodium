@@ -6,7 +6,7 @@
 #include "gluecodium/ExportGluecodiumCpp.h"
 namespace smoke {
 /**
- * ::smoke::SOME_CONSTANT
+ * ::smoke::SkipEnableConstants::SOME_CONSTANT
  */
 class _GLUECODIUM_CPP_EXPORT ClassWithDocRef {
 public:

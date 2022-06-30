@@ -2,18 +2,20 @@ import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
-class StructWithDefaults {
+class TypesWithDefaults {
+}
+class TypesWithDefaults_StructWithDefaults {
   int intField;
   int uintField;
   double floatField;
   double doubleField;
   bool boolField;
   String stringField;
-  StructWithDefaults._(this.intField, this.uintField, this.floatField, this.doubleField, this.boolField, this.stringField);
-  StructWithDefaults()
+  TypesWithDefaults_StructWithDefaults._(this.intField, this.uintField, this.floatField, this.doubleField, this.boolField, this.stringField);
+  TypesWithDefaults_StructWithDefaults()
     : intField = 42, uintField = 4294967295, floatField = 3.14, doubleField = -1.4142, boolField = true, stringField = "\\Jonny \"Magic\" Smith\n";
 }
-// StructWithDefaults "private" section, not exported.
+// TypesWithDefaults_StructWithDefaults "private" section, not exported.
 final _smokeTypeswithdefaultsStructwithdefaultsCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Int32, Uint32, Float, Double, Uint8, Pointer<Void>),
     Pointer<Void> Function(int, int, double, double, int, Pointer<Void>)
@@ -46,7 +48,7 @@ final _smokeTypeswithdefaultsStructwithdefaultsGetFieldstringField = __lib.catch
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_TypesWithDefaults_StructWithDefaults_get_field_stringField'));
-Pointer<Void> smokeTypeswithdefaultsStructwithdefaultsToFfi(StructWithDefaults value) {
+Pointer<Void> smokeTypeswithdefaultsStructwithdefaultsToFfi(TypesWithDefaults_StructWithDefaults value) {
   final _intFieldHandle = (value.intField);
   final _uintFieldHandle = (value.uintField);
   final _floatFieldHandle = (value.floatField);
@@ -58,7 +60,7 @@ Pointer<Void> smokeTypeswithdefaultsStructwithdefaultsToFfi(StructWithDefaults v
   stringReleaseFfiHandle(_stringFieldHandle);
   return _result;
 }
-StructWithDefaults smokeTypeswithdefaultsStructwithdefaultsFromFfi(Pointer<Void> handle) {
+TypesWithDefaults_StructWithDefaults smokeTypeswithdefaultsStructwithdefaultsFromFfi(Pointer<Void> handle) {
   final _intFieldHandle = _smokeTypeswithdefaultsStructwithdefaultsGetFieldintField(handle);
   final _uintFieldHandle = _smokeTypeswithdefaultsStructwithdefaultsGetFielduintField(handle);
   final _floatFieldHandle = _smokeTypeswithdefaultsStructwithdefaultsGetFieldfloatField(handle);
@@ -66,7 +68,7 @@ StructWithDefaults smokeTypeswithdefaultsStructwithdefaultsFromFfi(Pointer<Void>
   final _boolFieldHandle = _smokeTypeswithdefaultsStructwithdefaultsGetFieldboolField(handle);
   final _stringFieldHandle = _smokeTypeswithdefaultsStructwithdefaultsGetFieldstringField(handle);
   try {
-    return StructWithDefaults._(
+    return TypesWithDefaults_StructWithDefaults._(
       (_intFieldHandle),
       (_uintFieldHandle),
       (_floatFieldHandle),
@@ -80,7 +82,7 @@ StructWithDefaults smokeTypeswithdefaultsStructwithdefaultsFromFfi(Pointer<Void>
   }
 }
 void smokeTypeswithdefaultsStructwithdefaultsReleaseFfiHandle(Pointer<Void> handle) => _smokeTypeswithdefaultsStructwithdefaultsReleaseHandle(handle);
-// Nullable StructWithDefaults
+// Nullable TypesWithDefaults_StructWithDefaults
 final _smokeTypeswithdefaultsStructwithdefaultsCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -93,14 +95,14 @@ final _smokeTypeswithdefaultsStructwithdefaultsGetValueNullable = __lib.catchArg
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_TypesWithDefaults_StructWithDefaults_get_value_nullable'));
-Pointer<Void> smokeTypeswithdefaultsStructwithdefaultsToFfiNullable(StructWithDefaults? value) {
+Pointer<Void> smokeTypeswithdefaultsStructwithdefaultsToFfiNullable(TypesWithDefaults_StructWithDefaults? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeTypeswithdefaultsStructwithdefaultsToFfi(value);
   final result = _smokeTypeswithdefaultsStructwithdefaultsCreateHandleNullable(_handle);
   smokeTypeswithdefaultsStructwithdefaultsReleaseFfiHandle(_handle);
   return result;
 }
-StructWithDefaults? smokeTypeswithdefaultsStructwithdefaultsFromFfiNullable(Pointer<Void> handle) {
+TypesWithDefaults_StructWithDefaults? smokeTypeswithdefaultsStructwithdefaultsFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeTypeswithdefaultsStructwithdefaultsGetValueNullable(handle);
   final result = smokeTypeswithdefaultsStructwithdefaultsFromFfi(_handle);
@@ -109,20 +111,20 @@ StructWithDefaults? smokeTypeswithdefaultsStructwithdefaultsFromFfiNullable(Poin
 }
 void smokeTypeswithdefaultsStructwithdefaultsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeTypeswithdefaultsStructwithdefaultsReleaseHandleNullable(handle);
-// End of StructWithDefaults "private" section.
+// End of TypesWithDefaults_StructWithDefaults "private" section.
 @immutable
-class ImmutableStructWithDefaults {
+class TypesWithDefaults_ImmutableStructWithDefaults {
   final int intField;
   final int uintField;
   final double floatField;
   final double doubleField;
   final bool boolField;
   final String stringField;
-  const ImmutableStructWithDefaults(this.intField, this.uintField, this.floatField, this.doubleField, this.boolField, this.stringField);
-  const ImmutableStructWithDefaults.withDefaults(int uintField, bool boolField)
+  const TypesWithDefaults_ImmutableStructWithDefaults(this.intField, this.uintField, this.floatField, this.doubleField, this.boolField, this.stringField);
+  const TypesWithDefaults_ImmutableStructWithDefaults.withDefaults(int uintField, bool boolField)
     : intField = 42, uintField = uintField, floatField = 3.14, doubleField = -1.4142, boolField = boolField, stringField = "\\Jonny \"Magic\" Smith\n";
 }
-// ImmutableStructWithDefaults "private" section, not exported.
+// TypesWithDefaults_ImmutableStructWithDefaults "private" section, not exported.
 final _smokeTypeswithdefaultsImmutablestructwithdefaultsCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Int32, Uint32, Float, Double, Uint8, Pointer<Void>),
     Pointer<Void> Function(int, int, double, double, int, Pointer<Void>)
@@ -155,7 +157,7 @@ final _smokeTypeswithdefaultsImmutablestructwithdefaultsGetFieldstringField = __
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_TypesWithDefaults_ImmutableStructWithDefaults_get_field_stringField'));
-Pointer<Void> smokeTypeswithdefaultsImmutablestructwithdefaultsToFfi(ImmutableStructWithDefaults value) {
+Pointer<Void> smokeTypeswithdefaultsImmutablestructwithdefaultsToFfi(TypesWithDefaults_ImmutableStructWithDefaults value) {
   final _intFieldHandle = (value.intField);
   final _uintFieldHandle = (value.uintField);
   final _floatFieldHandle = (value.floatField);
@@ -167,7 +169,7 @@ Pointer<Void> smokeTypeswithdefaultsImmutablestructwithdefaultsToFfi(ImmutableSt
   stringReleaseFfiHandle(_stringFieldHandle);
   return _result;
 }
-ImmutableStructWithDefaults smokeTypeswithdefaultsImmutablestructwithdefaultsFromFfi(Pointer<Void> handle) {
+TypesWithDefaults_ImmutableStructWithDefaults smokeTypeswithdefaultsImmutablestructwithdefaultsFromFfi(Pointer<Void> handle) {
   final _intFieldHandle = _smokeTypeswithdefaultsImmutablestructwithdefaultsGetFieldintField(handle);
   final _uintFieldHandle = _smokeTypeswithdefaultsImmutablestructwithdefaultsGetFielduintField(handle);
   final _floatFieldHandle = _smokeTypeswithdefaultsImmutablestructwithdefaultsGetFieldfloatField(handle);
@@ -175,7 +177,7 @@ ImmutableStructWithDefaults smokeTypeswithdefaultsImmutablestructwithdefaultsFro
   final _boolFieldHandle = _smokeTypeswithdefaultsImmutablestructwithdefaultsGetFieldboolField(handle);
   final _stringFieldHandle = _smokeTypeswithdefaultsImmutablestructwithdefaultsGetFieldstringField(handle);
   try {
-    return ImmutableStructWithDefaults(
+    return TypesWithDefaults_ImmutableStructWithDefaults(
       (_intFieldHandle),
       (_uintFieldHandle),
       (_floatFieldHandle),
@@ -189,7 +191,7 @@ ImmutableStructWithDefaults smokeTypeswithdefaultsImmutablestructwithdefaultsFro
   }
 }
 void smokeTypeswithdefaultsImmutablestructwithdefaultsReleaseFfiHandle(Pointer<Void> handle) => _smokeTypeswithdefaultsImmutablestructwithdefaultsReleaseHandle(handle);
-// Nullable ImmutableStructWithDefaults
+// Nullable TypesWithDefaults_ImmutableStructWithDefaults
 final _smokeTypeswithdefaultsImmutablestructwithdefaultsCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -202,14 +204,14 @@ final _smokeTypeswithdefaultsImmutablestructwithdefaultsGetValueNullable = __lib
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_TypesWithDefaults_ImmutableStructWithDefaults_get_value_nullable'));
-Pointer<Void> smokeTypeswithdefaultsImmutablestructwithdefaultsToFfiNullable(ImmutableStructWithDefaults? value) {
+Pointer<Void> smokeTypeswithdefaultsImmutablestructwithdefaultsToFfiNullable(TypesWithDefaults_ImmutableStructWithDefaults? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeTypeswithdefaultsImmutablestructwithdefaultsToFfi(value);
   final result = _smokeTypeswithdefaultsImmutablestructwithdefaultsCreateHandleNullable(_handle);
   smokeTypeswithdefaultsImmutablestructwithdefaultsReleaseFfiHandle(_handle);
   return result;
 }
-ImmutableStructWithDefaults? smokeTypeswithdefaultsImmutablestructwithdefaultsFromFfiNullable(Pointer<Void> handle) {
+TypesWithDefaults_ImmutableStructWithDefaults? smokeTypeswithdefaultsImmutablestructwithdefaultsFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeTypeswithdefaultsImmutablestructwithdefaultsGetValueNullable(handle);
   final result = smokeTypeswithdefaultsImmutablestructwithdefaultsFromFfi(_handle);
@@ -218,4 +220,55 @@ ImmutableStructWithDefaults? smokeTypeswithdefaultsImmutablestructwithdefaultsFr
 }
 void smokeTypeswithdefaultsImmutablestructwithdefaultsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeTypeswithdefaultsImmutablestructwithdefaultsReleaseHandleNullable(handle);
-// End of ImmutableStructWithDefaults "private" section.
+// End of TypesWithDefaults_ImmutableStructWithDefaults "private" section.
+// TypesWithDefaults "private" section, not exported.
+final _smokeTypeswithdefaultsCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(),
+    Pointer<Void> Function()
+  >('library_smoke_TypesWithDefaults_create_handle'));
+final _smokeTypeswithdefaultsReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_smoke_TypesWithDefaults_release_handle'));
+Pointer<Void> smokeTypeswithdefaultsToFfi(TypesWithDefaults value) {
+  final _result = _smokeTypeswithdefaultsCreateHandle();
+  return _result;
+}
+TypesWithDefaults smokeTypeswithdefaultsFromFfi(Pointer<Void> handle) {
+  try {
+    return TypesWithDefaults(
+    );
+  } finally {
+  }
+}
+void smokeTypeswithdefaultsReleaseFfiHandle(Pointer<Void> handle) => _smokeTypeswithdefaultsReleaseHandle(handle);
+// Nullable TypesWithDefaults
+final _smokeTypeswithdefaultsCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_TypesWithDefaults_create_handle_nullable'));
+final _smokeTypeswithdefaultsReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_smoke_TypesWithDefaults_release_handle_nullable'));
+final _smokeTypeswithdefaultsGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_TypesWithDefaults_get_value_nullable'));
+Pointer<Void> smokeTypeswithdefaultsToFfiNullable(TypesWithDefaults? value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smokeTypeswithdefaultsToFfi(value);
+  final result = _smokeTypeswithdefaultsCreateHandleNullable(_handle);
+  smokeTypeswithdefaultsReleaseFfiHandle(_handle);
+  return result;
+}
+TypesWithDefaults? smokeTypeswithdefaultsFromFfiNullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smokeTypeswithdefaultsGetValueNullable(handle);
+  final result = smokeTypeswithdefaultsFromFfi(_handle);
+  smokeTypeswithdefaultsReleaseFfiHandle(_handle);
+  return result;
+}
+void smokeTypeswithdefaultsReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeTypeswithdefaultsReleaseHandleNullable(handle);
+// End of TypesWithDefaults "private" section.

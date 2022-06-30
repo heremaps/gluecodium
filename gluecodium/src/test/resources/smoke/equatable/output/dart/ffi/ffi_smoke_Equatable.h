@@ -5,6 +5,11 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Equatable_create_handle();
+_GLUECODIUM_FFI_EXPORT void library_smoke_Equatable_release_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Equatable_create_handle_nullable(FfiOpaqueHandle value);
+_GLUECODIUM_FFI_EXPORT void library_smoke_Equatable_release_handle_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Equatable_get_value_nullable(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Equatable_EquatableStruct_create_handle(bool boolField, int32_t intField, int64_t longField, float floatField, double doubleField, FfiOpaqueHandle stringField, FfiOpaqueHandle structField, uint32_t enumField, FfiOpaqueHandle arrayField, FfiOpaqueHandle mapField);
 _GLUECODIUM_FFI_EXPORT void library_smoke_Equatable_EquatableStruct_release_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT bool library_smoke_Equatable_EquatableStruct_get_field_boolField(FfiOpaqueHandle handle);

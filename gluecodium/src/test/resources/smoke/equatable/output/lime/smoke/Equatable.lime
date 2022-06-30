@@ -1,6 +1,6 @@
 package smoke
 
-types Equatable {
+struct Equatable {
     typealias ErrorCodeToMessageMap = Map<Int, String>
 
     enum SomeEnum {

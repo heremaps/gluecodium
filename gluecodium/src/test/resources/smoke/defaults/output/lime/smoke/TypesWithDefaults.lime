@@ -1,5 +1,5 @@
 package smoke
-types TypesWithDefaults {
+struct TypesWithDefaults {
     struct StructWithDefaults {
         intField: Int = 42
         uintField: UInt = 4294967295

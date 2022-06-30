@@ -133,7 +133,7 @@ class LongComments {
     fun someMethodWithLongComment(input: String, ratio: Double): Float
 }
 
-types CommentsTypeCollection {
+struct CommentsTypeCollection {
     struct TypeCollectionStruct {
         `field`: Int
     }

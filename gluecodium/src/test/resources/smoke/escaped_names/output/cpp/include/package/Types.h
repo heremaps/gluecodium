@@ -9,20 +9,22 @@
 #include <system_error>
 #include <vector>
 namespace package {
-enum class Enum {
-    NA_N
+struct _GLUECODIUM_CPP_EXPORT Types {
+    enum class Enum {
+        NA_N
+    };
+    struct _GLUECODIUM_CPP_EXPORT Struct {
+        ::package::Types::Enum null = ::package::Types::Enum::NA_N;
+        Struct( );
+        explicit Struct( ::package::Types::Enum null );
+    };
+    static const ::package::Types::Enum CONST;
+    using ULong = ::std::vector< ::package::Types::Struct >;
 };
-struct _GLUECODIUM_CPP_EXPORT Struct {
-    ::package::Enum null = ::package::Enum::NA_N;
-    Struct( );
-    explicit Struct( ::package::Enum null );
-};
-using ULong = ::std::vector< ::package::Struct >;
-_GLUECODIUM_CPP_EXPORT extern const ::package::Enum CONST;
-_GLUECODIUM_CPP_EXPORT ::std::error_code make_error_code( ::package::Enum value ) noexcept;
+_GLUECODIUM_CPP_EXPORT ::std::error_code make_error_code( ::package::Types::Enum value ) noexcept;
 }
 namespace std
 {
 template <>
-struct is_error_code_enum< ::package::Enum > : public std::true_type { };
+struct is_error_code_enum< ::package::Types::Enum > : public std::true_type { };
 }

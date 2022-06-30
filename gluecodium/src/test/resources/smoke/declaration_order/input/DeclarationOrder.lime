@@ -17,7 +17,7 @@
 
 package smoke
 
-types DeclarationOrder {
+struct DeclarationOrder {
     struct MainStruct {
         structField: NestedStruct
         typeDefField: SomeTypeDef
@@ -39,7 +39,7 @@ types DeclarationOrder {
     typealias NestedStructArray = List<NestedStruct>
 }
 
-types DeclarationOrderWithFunctions {
+struct DeclarationOrderWithFunctions {
     struct MainStructWithFunctions {
         structField: FieldStruct
         fun withParameter(input: ParameterStruct)

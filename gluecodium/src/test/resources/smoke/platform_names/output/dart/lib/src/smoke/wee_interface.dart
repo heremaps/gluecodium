@@ -7,8 +7,7 @@ import 'package:library/src/smoke/wee_types.dart';
 import 'package:meta/meta.dart';
 abstract class weeInterface {
   factory weeInterface.make(String makeParameter) => $prototype.make(makeParameter);
-
-  weeStruct WeeMethod(String WeeParameter);
+  weeTypes_weeStruct WeeMethod(String WeeParameter);
   int get WEE_PROPERTY;
   set WEE_PROPERTY(int value);
   /// @nodoc
@@ -32,7 +31,6 @@ final _smokePlatformnamesinterfaceReleaseHandle = __lib.catchArgumentError(() =>
 @visibleForTesting
 class weeInterface$Impl extends __lib.NativeBase implements weeInterface {
   weeInterface$Impl(Pointer<Void> handle) : super(handle);
-
   weeInterface make(String makeParameter) {
     final _result_handle = _make(makeParameter);
     final _result = weeInterface$Impl(_result_handle);
@@ -41,7 +39,7 @@ class weeInterface$Impl extends __lib.NativeBase implements weeInterface {
     return _result;
   }
   @override
-  weeStruct WeeMethod(String WeeParameter) {
+  weeTypes_weeStruct WeeMethod(String WeeParameter) {
     final _WeeMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PlatformNamesInterface_basicMethod__String'));
     final _WeeParameterHandle = stringToFfi(WeeParameter);
     final _handle = this.handle;

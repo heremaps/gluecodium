@@ -10,7 +10,7 @@ public class Class: Interface {
         c_instance = _result
         package_Class_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
     }
-    public var property: Enum {
+    public var property: Types.Enum {
         get {
             let c_result_handle = package_Class_property_get(self.c_instance)
             return moveFromCType(c_result_handle)
@@ -35,11 +35,11 @@ public class Class: Interface {
         let c_result_handle = package_Class_constructor()
         return moveFromCType(c_result_handle)
     }
-    public func fun(double: ULong) throws -> Struct {
+    public func fun(double: Types.ULong) throws -> Types.Struct {
         let c_double = foobar_moveToCType(double)
         let RESULT = package_Class_fun(self.c_instance, c_double.ref)
         if (!RESULT.has_value) {
-            throw moveFromCType(RESULT.error_value) as ExceptionError
+            throw moveFromCType(RESULT.error_value) as Types.ExceptionError
         }
         let c_result_handle = RESULT.returned_value
         return moveFromCType(c_result_handle)

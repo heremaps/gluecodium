@@ -24,7 +24,7 @@ public final class barInterface extends NativeBase {
     private static native void disposeNativeHandle(long nativeHandle);
     private native void cacheThisInstance();
     @NonNull
-    public native barStruct BarMethod(@NonNull final String BarParameter);
+    public native barTypes.barStruct BarMethod(@NonNull final String BarParameter);
     private static native long make(@NonNull final String makeParameter);
     public native long GET_BAR_PROPERTY();
     public native void SET_BAR_PROPERTY(final long value);

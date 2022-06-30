@@ -43,10 +43,10 @@ _baseRef smoke_Structs_returnAllTypesStruct(_baseRef input) {
     return Conversion<::smoke::Structs::AllTypesStruct>::toBaseRef(::smoke::Structs::return_all_types_struct(Conversion<::smoke::Structs::AllTypesStruct>::toCpp(input)));
 }
 _baseRef smoke_Structs_createPoint(double x, double y) {
-    return Conversion<::smoke::Point>::toBaseRef(::smoke::Structs::create_point(x, y));
+    return Conversion<::smoke::TypeCollection::Point>::toBaseRef(::smoke::Structs::create_point(x, y));
 }
 _baseRef smoke_Structs_modifyAllTypesStruct(_baseRef input) {
-    return Conversion<::smoke::AllTypesStruct>::toBaseRef(::smoke::Structs::modify_all_types_struct(Conversion<::smoke::AllTypesStruct>::toCpp(input)));
+    return Conversion<::smoke::TypeCollection::AllTypesStruct>::toBaseRef(::smoke::Structs::modify_all_types_struct(Conversion<::smoke::TypeCollection::AllTypesStruct>::toCpp(input)));
 }
 _baseRef
 smoke_Structs_Point_create_handle( double x, double y )

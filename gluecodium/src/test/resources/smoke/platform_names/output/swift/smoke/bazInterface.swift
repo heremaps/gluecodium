@@ -31,7 +31,7 @@ public class bazInterface {
         smoke_bazInterface_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_bazInterface_release_handle(c_instance)
     }
-    public func BazMethod(_ BazParameter: String) -> bazStruct {
+    public func BazMethod(_ BazParameter: String) -> bazTypes.bazStruct {
         let c_BazParameter = moveToCType(BazParameter)
         let c_result_handle = smoke_bazInterface_BazMethod(self.c_instance, c_BazParameter.ref)
         return moveFromCType(c_result_handle)

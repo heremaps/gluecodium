@@ -1,5 +1,5 @@
 package smoke
-types PublicTypeCollection {
+struct PublicTypeCollection {
     internal struct InternalStruct {
         stringField: String
         internal fun fooBar()

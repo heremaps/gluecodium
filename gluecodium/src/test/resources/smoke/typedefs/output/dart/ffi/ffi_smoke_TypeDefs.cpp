@@ -62,9 +62,9 @@ library_smoke_TypeDefs_returnNestedStructTypeDef__TestStruct(int32_t _isolate_id
 FfiOpaqueHandle
 library_smoke_TypeDefs_returnTypeDefPointFromTypeCollection__Point(int32_t _isolate_id, FfiOpaqueHandle input) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-    return gluecodium::ffi::Conversion<smoke::Point>::toFfi(
+    return gluecodium::ffi::Conversion<smoke::TypeCollection::Point>::toFfi(
         smoke::TypeDefs::return_type_def_point_from_type_collection(
-            gluecodium::ffi::Conversion<smoke::Point>::toCpp(input)
+            gluecodium::ffi::Conversion<smoke::TypeCollection::Point>::toCpp(input)
         )
     );
 }

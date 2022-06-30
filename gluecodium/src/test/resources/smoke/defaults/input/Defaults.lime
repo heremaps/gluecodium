@@ -64,7 +64,7 @@ class DefaultValues {
     static fun processStructWithDefaults(input: StructWithDefaults): StructWithDefaults
 }
 
-types TypesWithDefaults {
+struct TypesWithDefaults {
     struct StructWithDefaults {
         intField: Int = 42
         uintField: UInt = 4294967295

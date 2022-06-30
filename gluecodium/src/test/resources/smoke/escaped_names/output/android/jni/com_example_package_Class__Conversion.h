@@ -3,8 +3,8 @@
  */
 #pragma once
 #include "package/Class.h"
-#include "com_example_package_Enum__Conversion.h"
-#include "com_example_package_Struct__Conversion.h"
+#include "com_example_package_Types_Enum__Conversion.h"
+#include "com_example_package_Types_Struct__Conversion.h"
 #include "JniReference.h"
 #include "gluecodium/Optional.h"
 #include <memory>

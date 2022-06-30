@@ -26,8 +26,8 @@ public final class Class extends NativeBase implements Interface {
     private native void cacheThisInstance();
     private static native long constructor();
     @NonNull
-    public native Struct fun(@NonNull final List<Struct> double) throws ExceptionException;
+    public native Types.Struct fun(@NonNull final List<Types.Struct> double) throws Types.ExceptionException;
     @NonNull
-    public native Enum getProperty();
-    public native void setProperty(@NonNull final Enum value);
+    public native Types.Enum getProperty();
+    public native void setProperty(@NonNull final Types.Enum value);
 }

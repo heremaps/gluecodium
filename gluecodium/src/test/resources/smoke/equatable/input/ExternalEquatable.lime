@@ -17,7 +17,7 @@
 
 package smoke
 
-types ExternalEquatable {
+struct ExternalEquatable {
     @Cpp(ExternalType = "foo/Bar.h")
     @Equatable
     struct ExternalEquatableStruct {

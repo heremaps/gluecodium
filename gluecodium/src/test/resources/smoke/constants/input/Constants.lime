@@ -17,7 +17,7 @@
 
 package smoke
 
-types Constants {
+struct Constants {
     enum StateEnum {
         OFF,
         ON
@@ -68,7 +68,7 @@ class CollectionConstants {
 }
 
 @Java(Skip) @Swift(Skip)
-types CrossFileConstants {
+struct CrossFileConstants {
     const fooBar: Constants.StateEnum = Constants.StateEnum.ON
 }
 

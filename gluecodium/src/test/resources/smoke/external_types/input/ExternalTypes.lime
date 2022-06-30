@@ -128,7 +128,7 @@ struct StructWithOverloads {
     fun overloadedMethod(inputString: String, inputBool: Boolean): String
 }
 
-types ExternalTypeInTypesCollection {
+struct ExternalTypeInTypesCollection {
     @Cpp(
         ExternalType = "include/ExternalTypeInTypesCollection.h",
         ExternalName = "::external::IntStruct"

@@ -45,7 +45,7 @@ class EnableIfSkipped {
     static fun skipTaggedList()
 }
 
-types EnableIfTypesEnabled {
+struct EnableIfTypesEnabled {
   @EnableIf(ExperimentalFoo)
   enum EnableMe {
       NOPE
@@ -59,7 +59,7 @@ types EnableIfTypesEnabled {
   const PlaceHolderEnabled: Boolean = true
 }
 
-types EnableIfTypesSkipped {
+struct EnableIfTypesSkipped {
   @EnableIf(ExperimentalBar)
   enum DontEnableMe {
       NOPE

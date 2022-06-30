@@ -17,7 +17,7 @@
 
 package `package`
 
-types `types` {
+struct `types` {
 
     struct `struct` {
         `null`: `enum` = `enum`.`NaN`

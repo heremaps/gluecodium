@@ -1,5 +1,5 @@
 package smoke
-types ExternalEquatable {
+struct ExternalEquatable {
     @Equatable
     struct ExternalEquatableStruct {
         external {

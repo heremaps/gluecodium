@@ -1,5 +1,5 @@
 package smoke
-types TypeCollection {
+struct TypeCollection {
     typealias PointTypedef = Point
     struct Point {
         x: Double

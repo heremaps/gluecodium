@@ -17,7 +17,7 @@
 
 package smoke
 
-types Serialization {
+struct Serialization {
     @Serializable
     struct SerializableStruct {
         boolField: Boolean

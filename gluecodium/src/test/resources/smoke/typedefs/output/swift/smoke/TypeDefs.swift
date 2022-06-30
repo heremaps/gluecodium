@@ -72,7 +72,7 @@ public class TypeDefs {
         let c_result_handle = smoke_TypeDefs_returnNestedStructTypeDef(c_input.ref)
         return moveFromCType(c_result_handle)
     }
-    public static func returnTypeDefPointFromTypeCollection(input: PointTypeDef) -> PointTypeDef {
+    public static func returnTypeDefPointFromTypeCollection(input: TypeCollection.PointTypeDef) -> TypeCollection.PointTypeDef {
         let c_input = moveToCType(input)
         let c_result_handle = smoke_TypeDefs_returnTypeDefPointFromTypeCollection(c_input.ref)
         return moveFromCType(c_result_handle)
