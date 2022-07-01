@@ -24,7 +24,6 @@ import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
-import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeExternalDescriptor
@@ -42,7 +41,6 @@ import com.here.gluecodium.model.lime.LimeTypeRef
  * List of predicates used by `ifPredicate`/`unlessPredicate` template helpers in Swift generator.
  */
 internal class SwiftGeneratorPredicates(
-    limeReferenceMap: Map<String, LimeElement>,
     nameRules: SwiftNameRules,
     private val signatureResolver: SwiftSignatureResolver
 ) {

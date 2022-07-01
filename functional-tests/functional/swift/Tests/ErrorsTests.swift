@@ -45,7 +45,7 @@ class ErrorsTests: XCTestCase {
 
     func testMethodThatExplodesThrows() {
       XCTAssertThrowsError(try ArraysByteBuffer.methodThatExplodes(errorFlag: true)) { error in
-        XCTAssertEqual(error as? ExplosiveError, ExplosiveError.exploded)
+        XCTAssertEqual(error as? TypeCollectionWithEnums.ExplosiveError, TypeCollectionWithEnums.ExplosiveError.exploded)
       }
     }
 
@@ -55,12 +55,12 @@ class ErrorsTests: XCTestCase {
 
     func testMethodWithGoodAndBadThrows() {
       XCTAssertThrowsError(try Errors.methodWithGoodAndBad(errorFlag: true)) { error in
-        XCTAssertEqual(error as? YetAnotherError, YetAnotherError.bad)
+        XCTAssertEqual(error as? TypeCollectionWithEnums.YetAnotherError, TypeCollectionWithEnums.YetAnotherError.bad)
       }
     }
 
     func testMethodWithGoodAndBadFinishes() {
-      XCTAssertEqual(try Errors.methodWithGoodAndBad(errorFlag: false), SomeEnum.anotherResult)
+      XCTAssertEqual(try Errors.methodWithGoodAndBad(errorFlag: false), TypeCollectionWithEnums.SomeEnum.anotherResult)
     }
 
     func testMethodWithExternalErrorThrows() {

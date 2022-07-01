@@ -76,7 +76,7 @@ ArraysByteBuffer::method_that_explodes( const bool error_flag )
 {
     if ( error_flag )
     {
-        return std::error_code( another::ExplosiveErrorCode::EXPLODED );
+        return std::error_code( another::TypeCollectionWithEnums::ExplosiveErrorCode::EXPLODED );
     }
     else
     {

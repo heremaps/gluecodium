@@ -22,6 +22,12 @@
 
 namespace test
 {
+using Point = ::test::TypeCollection::Point;
+using Line = ::test::TypeCollection::Line;
+using Color = ::test::TypeCollection::Color;
+using ColoredLine = ::test::TypeCollection::ColoredLine;
+using AllTypesStruct = ::test::TypeCollection::AllTypesStruct;
+
 Point
 PlainDataStructuresFromTypeCollection::create_point( const double x, const double y )
 {

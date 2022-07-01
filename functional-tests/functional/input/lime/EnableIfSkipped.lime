@@ -24,7 +24,7 @@ class EnableIfSkipped {
     static property skipQuoted: String
 }
 
-types EnableIfTypesSkipped {
+struct EnableIfTypesSkipped {
   @EnableIf(ExperimentalBar)
   enum SkippedMe {
       NOPE

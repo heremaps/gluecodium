@@ -17,13 +17,12 @@
 
 package test
 
-types Forecast {
-    struct ForecastData {
-        lowestDegree: Int
-        highestDegree: Int
-    }
-    typealias CityDataMap = Map<String, ForecastData>
+struct ForecastData {
+    lowestDegree: Int
+    highestDegree: Int
 }
+
+typealias CityDataMap = Map<String, ForecastData>
 
 class ForecastFactory {
     static fun createProvider(): ForecastProvider
@@ -39,6 +38,6 @@ class ForecastProvider {
 
 interface ForecastListener {
     fun onForecastDataProvided(
-        data: Forecast.CityDataMap
+        data: CityDataMap
     )
 }

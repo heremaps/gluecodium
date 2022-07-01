@@ -56,9 +56,10 @@ StaticTypedef::return_example_struct_typedef(
     return result;
 }
 
-::test::PointTypedef
-StaticTypedef::return_typedef_point_from_type_collection( const ::test::PointTypedef& input )
-{
+::test::TypeCollection::PointTypedef
+StaticTypedef::return_typedef_point_from_type_collection(
+    const ::test::TypeCollection::PointTypedef& input
+) {
     return input;
 }
 
@@ -71,4 +72,4 @@ StaticTypedef::return_nested_struct_typedef(
     return result;
 }
 
-}  // namespace test
+}

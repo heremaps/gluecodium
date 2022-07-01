@@ -17,38 +17,33 @@
 
 package test
 
-types Serialization {
-    @Serializable
-    struct SerializableStruct {
-        boolField: Boolean
-        byteField: Byte
-        shortField: Short
-        intField: Int
-        longField: UInt
-        floatField: Float
-        doubleField: Double
-        stringField: String
-        structField: NestedSerializableStruct
-        byteBufferField: Blob
-        arrayField: List<String>
-        structArrayField: NestedStructArray
-        mapField: ErrorCodeToMessageMap
-        setField: Set<String>
-        enumSetField: Set<FooEnum>
-        enumField: FooEnum
-    }
+@Serializable
+struct SerializableStruct {
+    boolField: Boolean
+    byteField: Byte
+    shortField: Short
+    intField: Int
+    longField: UInt
+    floatField: Float
+    doubleField: Double
+    stringField: String
+    structField: NestedSerializableStruct
+    byteBufferField: Blob
+    arrayField: List<String>
+    structArrayField: List<NestedSerializableStruct>
+    mapField: Map<Int, String>
+    setField: Set<String>
+    enumSetField: Set<FooEnum>
+    enumField: FooEnum
+}
 
-    enum FooEnum {
-        FOO,
-        BAR = 7
-    }
+enum FooEnum {
+    FOO,
+    BAR = 7
+}
 
-    @Serializable
-    @Equatable
-    struct NestedSerializableStruct {
-        someField: String
-    }
-
-    typealias NestedStructArray = List<NestedSerializableStruct>
-    typealias ErrorCodeToMessageMap = Map<Int, String>
+@Serializable
+@Equatable
+struct NestedSerializableStruct {
+    someField: String
 }

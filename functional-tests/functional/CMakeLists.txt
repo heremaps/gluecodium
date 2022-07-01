@@ -138,9 +138,9 @@ feature(Structs cpp android swift dart SOURCES
 )
 
 feature(StructsInTypes cpp android swift dart SOURCES
-    input/src/cpp/PlainDataStructuresFromTypeCollection.cpp
+    input/src/cpp/StructsFromTypeCollection.cpp
 
-    input/lime/PlainDataStructuresFromTypeCollection.lime
+    input/lime/StructsFromTypeCollection.lime
     input/lime/TypeCollection.lime
 )
 

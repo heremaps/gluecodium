@@ -17,54 +17,52 @@
 
 package `external`
 
-types ExternalTypes {
-    @Cpp(ExternalType = "include/ExternalTypes.h")
-    struct ExternalStruct {
-        string_field: String
-        @Cpp(ExternalGetter = "get_some_string", ExternalSetter = "set_some_string")
-        externalStringField: String
-        @Cpp(ExternalGetter = "getSomeArray", ExternalSetter = "setSomeArray")
-        externalArrayField: List<Int>
-        @Cpp(ExternalGetter = "aStruct", ExternalSetter = "_set_aStruct")
-        externalStructField: AnotherExternalStruct
-    }
-    @Cpp(
-        ExternalType = "include/ExternalTypes.h",
-        ExternalName = "::external::even_more_external::AlienStructure"
-    )
-    struct AnotherExternalStruct {
-        int_field: Int
-    }
-    @Cpp(ExternalType = "include/ExternalTypes.h")
-    struct Yet_Another_External_Struct {
-        string_Field: String
-    }
-    @Cpp(
-        ExternalType = ["string", "utility"],
-        ExternalName = "::std::pair< ::std::string, ::std::string >"
-    )
-    struct ExternalStringPair {
-        first: String
-        second: String
-    }
-    @Cpp(
-        ExternalType = "include/ExternalTypes.h",
-        ExternalName = "::external::even_more_external::AlienEnum"
-    )
-    enum ExternalEnum {
-        Foo,
-        Bar
-    }
-    @Cpp(ExternalType = "include/ExternalTypes.h")
-    enum Very_External_Enum {
-        FOO,
-        BAR
-    }
-    typealias ExternalStructArray = List<ExternalStruct>
-    typealias ExternalEnumArray = List<ExternalEnum>
+@Cpp(ExternalType = "include/ExternalTypes.h")
+struct ExternalStruct {
+    string_field: String
+    @Cpp(ExternalGetter = "get_some_string", ExternalSetter = "set_some_string")
+    externalStringField: String
+    @Cpp(ExternalGetter = "getSomeArray", ExternalSetter = "setSomeArray")
+    externalArrayField: List<Int>
+    @Cpp(ExternalGetter = "aStruct", ExternalSetter = "_set_aStruct")
+    externalStructField: AnotherExternalStruct
 }
+@Cpp(
+    ExternalType = "include/ExternalTypes.h",
+    ExternalName = "::external::even_more_external::AlienStructure"
+)
+struct AnotherExternalStruct {
+    int_field: Int
+}
+@Cpp(ExternalType = "include/ExternalTypes.h")
+struct Yet_Another_External_Struct {
+    string_Field: String
+}
+@Cpp(
+    ExternalType = ["string", "utility"],
+    ExternalName = "::std::pair< ::std::string, ::std::string >"
+)
+struct ExternalStringPair {
+    first: String
+    second: String
+}
+@Cpp(
+    ExternalType = "include/ExternalTypes.h",
+    ExternalName = "::external::even_more_external::AlienEnum"
+)
+enum ExternalEnum {
+    Foo,
+    Bar
+}
+@Cpp(ExternalType = "include/ExternalTypes.h")
+enum Very_External_Enum {
+    FOO,
+    BAR
+}
+typealias ExternalStructArray = List<ExternalStruct>
+typealias ExternalEnumArray = List<ExternalEnum>
 
-types ExternalTypesWithoutTypeTraits {
+struct ExternalTypesWithoutTypeTraits {
     @Cpp(
         ExternalType = "include/ExternalTypesWithoutTypeTraits.h",
         ExternalName = "::external::IntStruct"

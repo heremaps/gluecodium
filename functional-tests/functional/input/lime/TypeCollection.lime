@@ -17,7 +17,7 @@
 
 package test
 
-types TypeCollection {
+struct TypeCollection {
     // Basic struct type
     struct Point {
         x: Double = 0.0

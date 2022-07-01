@@ -17,7 +17,7 @@
 
 package test
 
-types Constants {
+struct Constants {
     enum StateEnum {
         OFF,
         ON
