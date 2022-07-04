@@ -23,7 +23,7 @@ options { tokenVocab = LimeLexer; }
 
 limeFile
     : NewLine* packageHeader importHeader
-      (container | types | struct | enumeration | typealias | exception | lambda)+ EOF
+      (container |  struct | enumeration | typealias | exception | lambda)+ EOF
     ;
 
 packageHeader
@@ -43,11 +43,6 @@ container
       simpleId NewLine* parentTypes? '{' NewLine* externalDescriptor?
       ((function | constructor | property | struct | enumeration | constant | typealias |
       exception | lambda | container) NewLine*)* '}' NewLine+
-    ;
-
-types
-    : docComment* annotation* visibility? 'types' NewLine* simpleId NewLine*
-      '{' NewLine* ((struct | enumeration | constant | typealias | exception) NewLine*)* '}' NewLine+
     ;
 
 parentTypes

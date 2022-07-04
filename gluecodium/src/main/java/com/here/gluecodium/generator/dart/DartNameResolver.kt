@@ -51,7 +51,6 @@ import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
-import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.lime.LimeValue.Duration.TimeUnit
 import com.here.gluecodium.model.lime.LimeVisibility
@@ -231,7 +230,6 @@ internal class DartNameResolver(
         val parentType = if (limeType.path.hasParent) getParentElement(limeType) as? LimeType else null
         return when (parentType) {
             null -> listOf(typeName)
-            is LimeTypesCollection -> listOf(typeName)
             else -> listOf(resolveTypeName(parentType), typeName)
         }.joinToString(joinInfix)
     }
@@ -313,7 +311,7 @@ internal class DartNameResolver(
     private fun buildDuplicateNames() =
         limeReferenceMap.values
             .filterIsInstance<LimeType>()
-            .filterNot { it is LimeTypesCollection || it is LimeTypeAlias || it is LimeGenericType || it is LimeBasicType }
+            .filterNot { it is LimeTypeAlias || it is LimeGenericType || it is LimeBasicType }
             .filter { it.external?.dart == null }
             .groupBy { resolveTypeName(it) }
             .filterValues { it.size > 1 }

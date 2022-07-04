@@ -80,7 +80,6 @@ Static: 'static' ;
 Struct: 'struct' ;
 Throws: 'throws' ;
 TypeAlias: 'typealias' ;
-Types: 'types' ;
 
 // Predefined types
 
