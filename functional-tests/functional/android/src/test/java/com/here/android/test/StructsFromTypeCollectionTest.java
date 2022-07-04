@@ -30,11 +30,11 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class)
-public class PlainDataStructuresTypeCollectionTest {
+public class StructsFromTypeCollectionTest {
 
   @Test
   public void returnSimpleDataStructure() {
-    Point point = PlainDataStructuresFromTypeCollection.createPoint(1.0, 2.0);
+    TypeCollection.Point point = PlainDataStructuresFromTypeCollection.createPoint(1.0, 2.0);
 
     assertNotNull(point);
     assertEquals(1.0, point.x);
@@ -43,9 +43,9 @@ public class PlainDataStructuresTypeCollectionTest {
 
   @Test
   public void manipulateSimpleDataStructure() {
-    Point point = new Point(1.0, 2.0);
+    TypeCollection.Point point = new TypeCollection.Point(1.0, 2.0);
 
-    Point result = PlainDataStructuresFromTypeCollection.swapPointCoordinates(point);
+    TypeCollection.Point result = PlainDataStructuresFromTypeCollection.swapPointCoordinates(point);
 
     assertNotNull(point);
     assertEquals(2.0, result.x);
@@ -54,10 +54,10 @@ public class PlainDataStructuresTypeCollectionTest {
 
   @Test
   public void createNestedDataStructureWithMultipleParams() {
-    Point point1 = PlainDataStructuresFromTypeCollection.createPoint(1.0, 2.0);
-    Point point2 = new Point(3.0, 4.0);
+    TypeCollection.Point point1 = PlainDataStructuresFromTypeCollection.createPoint(1.0, 2.0);
+    TypeCollection.Point point2 = new TypeCollection.Point(3.0, 4.0);
 
-    Line line = PlainDataStructuresFromTypeCollection.createLine(point1, point2);
+    TypeCollection.Line line = PlainDataStructuresFromTypeCollection.createLine(point1, point2);
 
     assertNotNull(line);
     assertEquals(1.0, line.a.x);
@@ -68,15 +68,15 @@ public class PlainDataStructuresTypeCollectionTest {
 
   @Test
   public void manifoldNestedDataStructure() {
-    Point point1 = PlainDataStructuresFromTypeCollection.createPoint(1.0, 2.0);
-    Point point2 = PlainDataStructuresFromTypeCollection.createPoint(3.0, 4.0);
-    Line line = PlainDataStructuresFromTypeCollection.createLine(point1, point2);
-    Color color = new Color();
+    TypeCollection.Point point1 = PlainDataStructuresFromTypeCollection.createPoint(1.0, 2.0);
+    TypeCollection.Point point2 = PlainDataStructuresFromTypeCollection.createPoint(3.0, 4.0);
+    TypeCollection.Line line = PlainDataStructuresFromTypeCollection.createLine(point1, point2);
+    TypeCollection.Color color = new TypeCollection.Color();
     color.red = 10;
     color.green = 20;
     color.blue = 30;
 
-    ColoredLine coloredLine = PlainDataStructuresFromTypeCollection.createColoredLine(line, color);
+    TypeCollection.ColoredLine coloredLine = PlainDataStructuresFromTypeCollection.createColoredLine(line, color);
 
     assertNotNull(coloredLine);
     assertEquals(1.0, coloredLine.line.a.x);
@@ -90,8 +90,8 @@ public class PlainDataStructuresTypeCollectionTest {
 
   @Test
   public void modifyAllBuiltInAndCustomTypesDataStructure() {
-    AllTypesStruct allTypesStruct =
-        new AllTypesStruct(PlainDataStructuresFromTypeCollection.createPoint(11.0, 12.0));
+    TypeCollection.AllTypesStruct allTypesStruct =
+        new TypeCollection.AllTypesStruct(PlainDataStructuresFromTypeCollection.createPoint(11.0, 12.0));
     allTypesStruct.booleanField = true;
     allTypesStruct.doubleField = 1.0;
     allTypesStruct.floatField = 2.0f;
@@ -105,7 +105,7 @@ public class PlainDataStructuresTypeCollectionTest {
     allTypesStruct.uint64Field = 10;
     allTypesStruct.stringField = "test string";
 
-    AllTypesStruct result =
+    TypeCollection.AllTypesStruct result =
         PlainDataStructuresFromTypeCollection.modifyAllTypesStruct(allTypesStruct);
 
     assertNotNull(result);

@@ -53,24 +53,24 @@ void main() {
   });
   _testSuite.test("methodThatExplodes() throws", () {
     Uint8List? result = null;
-    ExplosiveException? exception = null;
+    TypeCollectionWithEnumsExplosiveException? exception = null;
 
     try {
       result = ArraysByteBuffer.methodThatExplodes(true);
-    } on ExplosiveException catch(e) {
+    } on TypeCollectionWithEnumsExplosiveException catch(e) {
       exception = e;
     }
 
     expect(result, isNull);
-    expect(exception?.error, ExplosiveErrorCode.exploded);
+    expect(exception?.error, TypeCollectionWithEnumsExplosiveErrorCode.exploded);
   });
   _testSuite.test("methodThatExplodes() does not throw", () {
     Uint8List? result = null;
-    ExplosiveException? exception = null;
+    TypeCollectionWithEnumsExplosiveException? exception = null;
 
     try {
       result = ArraysByteBuffer.methodThatExplodes(false);
-    } on ExplosiveException catch(e) {
+    } on TypeCollectionWithEnumsExplosiveException catch(e) {
       exception = e;
     }
 

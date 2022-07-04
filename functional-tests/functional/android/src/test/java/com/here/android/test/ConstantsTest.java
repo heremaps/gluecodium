@@ -73,7 +73,7 @@ public final class ConstantsTest {
 
   @Test
   public void enumConstantFromTypeCollection() {
-    StateEnum result = UseTypeCollectionConstants.getEnumConstant();
+    Constants.StateEnum result = UseTypeCollectionConstants.getEnumConstant();
 
     assertEquals(Constants.ENUM_CONSTANT, result);
   }

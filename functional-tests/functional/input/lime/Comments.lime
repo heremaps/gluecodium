@@ -149,7 +149,7 @@ class CommentsInstantiable {
     )
 }
 
-types CommentsTypeCollection {
+struct CommentsTypeCollection {
     struct TypeCollectionStruct {
         `field`: Int
     }

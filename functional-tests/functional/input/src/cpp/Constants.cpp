@@ -29,37 +29,37 @@ namespace test
 int32_t
 UseTypeCollectionConstants::get_int_constant( )
 {
-    return test::INT_CONSTANT;
+    return test::Constants::INT_CONSTANT;
 }
 
 uint32_t
 UseTypeCollectionConstants::get_uint_constant( )
 {
-    return test::UINT_CONSTANT;
+    return test::Constants::UINT_CONSTANT;
 }
 
 float
 UseTypeCollectionConstants::get_float_constant( )
 {
-    return test::FLOAT_CONSTANT;
+    return test::Constants::FLOAT_CONSTANT;
 }
 
 double
 UseTypeCollectionConstants::get_double_constant( )
 {
-    return test::DOUBLE_CONSTANT;
+    return test::Constants::DOUBLE_CONSTANT;
 }
 
 std::string
 UseTypeCollectionConstants::get_string_constant( )
 {
-    return test::STRING_CONSTANT;
+    return test::Constants::STRING_CONSTANT;
 }
 
-test::StateEnum
+test::Constants::StateEnum
 UseTypeCollectionConstants::get_enum_constant( )
 {
-    return test::ENUM_CONSTANT;
+    return test::Constants::ENUM_CONSTANT;
 }
 
 // UseInterfaceConstants

@@ -67,16 +67,16 @@ Errors::method_with_error_and_string( const bool error_flag )
     }
 }
 
-lorem_ipsum::test::Return< another::SomeEnum, std::error_code >
+lorem_ipsum::test::Return< another::TypeCollectionWithEnums::SomeEnum, std::error_code >
 Errors::method_with_good_and_bad( const bool error_flag )
 {
     if ( error_flag )
     {
-        return std::error_code( another::YetAnotherErrorCode::BAD );
+        return std::error_code( another::TypeCollectionWithEnums::YetAnotherErrorCode::BAD );
     }
     else
     {
-        return another::SomeEnum::ANOTHER_RESULT;
+        return another::TypeCollectionWithEnums::SomeEnum::ANOTHER_RESULT;
     }
 }
 

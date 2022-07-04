@@ -19,13 +19,14 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/fooInterface.h"
+#include "test/fooTypes.h"
 
 namespace test
 {
-fooStruct
+fooTypes::fooStruct
 fooInterface::FooMethod( const std::string& FooParameter )
 {
-    return fooStruct{FooParameter};
+    return fooTypes::fooStruct{FooParameter};
 }
 
 std::shared_ptr< fooInterface >
@@ -34,10 +35,10 @@ fooInterface::make( const std::string& makeParameter )
     return {};
 }
 
-fooStruct
-fooStruct::create( const std::string& FooParameter )
+fooTypes::fooStruct
+fooTypes::fooStruct::create( const std::string& FooParameter )
 {
     return {};
 }
 
-}  // namespace test
+}

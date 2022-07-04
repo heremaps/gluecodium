@@ -18,7 +18,8 @@
 package test
 
 import test_off.OffInterface
-import test_off.OffTypeCollection.OffStruct
+import test_off.OffStruct
+
 class UseUnderscorePackage {
     static fun methodWithUnderscoreInstance(
         input: OffInterface

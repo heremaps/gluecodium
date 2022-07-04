@@ -53,12 +53,12 @@ class TypeDefTests: XCTestCase {
     }
 
     func testTypeDefDefinedOutsideClass() {
-        let typeCollectionTypeDef: PointTypedef = Point(x: 1.0, y: 1.0)
+        let typeCollectionTypeDef: TypeCollection.PointTypedef = TypeCollection.Point(x: 1.0, y: 1.0)
         let returnValue = StaticTypedef.returnTypedefPointFromTypeCollection(input: typeCollectionTypeDef)
         let returnMirror = Mirror(reflecting: returnValue)
         XCTAssertEqual(returnValue.x, Optional(1.0))
         XCTAssertEqual(returnValue.y, Optional(1.0))
-        XCTAssertTrue(returnMirror.subjectType == Point.self)
+        XCTAssertTrue(returnMirror.subjectType == TypeCollection.Point.self)
     }
 
     func testStringTypedef() {

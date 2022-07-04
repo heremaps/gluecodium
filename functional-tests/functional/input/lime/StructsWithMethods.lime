@@ -17,7 +17,7 @@
 
 package test
 
-types ValidationUtils {
+struct ValidationUtils {
     enum ValidationErrorCode {
         NONE,
         VALIDATION_FAILED
@@ -25,32 +25,30 @@ types ValidationUtils {
     exception Validation(ValidationErrorCode)
 }
 
-types StructsWithMethods {
-    @Equatable
-    struct Vector {
-        x: Double
+@Equatable
+struct Vector {
+    x: Double
+    y: Double
+    fun distanceTo(
+        other: Vector
+    ): Double
+    fun add(
+        other: Vector
+    ): Vector
+    static fun validate(
+        x: Double,
+
         y: Double
-        fun distanceTo(
-            other: Vector
-        ): Double
-        fun add(
-            other: Vector
-        ): Vector
-        static fun validate(
-            x: Double,
-    
-            y: Double
-        ): Boolean
-        constructor create(
-            x: Double,
-    
-            y: Double
-        )
-        @Dart("createCopy")
-        constructor create(
-            other: Vector
-        ) throws ValidationUtils.Validation
-    }
+    ): Boolean
+    constructor create(
+        x: Double,
+
+        y: Double
+    )
+    @Dart("createCopy")
+    constructor create(
+        other: Vector
+    ) throws ValidationUtils.Validation
 }
 
 class StructsWithMethodsInterface {

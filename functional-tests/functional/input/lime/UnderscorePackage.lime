@@ -19,8 +19,6 @@ package test_off
 
 class OffInterface {}
 
-types OffTypeCollection {
-    struct OffStruct {
-        structField: String
-    }
+struct OffStruct {
+    structField: String
 }

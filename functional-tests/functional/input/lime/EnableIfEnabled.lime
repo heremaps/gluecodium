@@ -24,7 +24,7 @@ class EnableIfEnabled {
     static property enableQuoted: String
 }
 
-types EnableIfTypesEnabled {
+struct EnableIfTypesEnabled {
   @EnableIf(ExperimentalFoo)
   enum EnableMe {
       NOPE

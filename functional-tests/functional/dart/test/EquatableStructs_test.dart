@@ -24,16 +24,16 @@ import "../test_suite.dart";
 
 final _testSuite = TestSuite("EquatableStructs");
 
-EquatableStruct createEquatableStruct() {
-  return EquatableStruct(
+EquatableEquatableStruct createEquatableStruct() {
+  return EquatableEquatableStruct(
       true, 65542, 2147484000, 1.0, 2.0, "nonsense",
-      new NestedEquatableStruct("foo"),
-      SomeSomeEnum.bar, {0: "one"}, ["two"]
+      new EquatableNestedEquatableStruct("foo"),
+      EquatableSomeSomeEnum.bar, {0: "one"}, ["two"]
   );
 }
 
 void main() {
-  late EquatableStruct struct;
+  late EquatableEquatableStruct struct;
   setUp(() {
     struct = createEquatableStruct();
   });
@@ -85,7 +85,7 @@ void main() {
   });
   _testSuite.test("Equatable struct not equals Enum field", () {
     final otherStruct = createEquatableStruct();
-    otherStruct.enumField = SomeSomeEnum.foo;
+    otherStruct.enumField = EquatableSomeSomeEnum.foo;
 
     expect(struct == otherStruct, isFalse);
     expect(struct.hashCode == otherStruct.hashCode, isFalse);

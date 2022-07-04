@@ -31,7 +31,7 @@ public:
     void
     SetUp( ) override
     {
-        point_memory = new Point{-1, -1};
+        point_memory = new TypeCollection::Point{-1, -1};
     }
 
     void
@@ -41,12 +41,12 @@ public:
     }
 
     // memory to construct tested points into, explicitly initialized non-zero
-    Point* point_memory;
+    TypeCollection::Point* point_memory;
 };
 
 TEST_F( StructConstructorTest, default_constructor )
 {
-    auto point = new ( point_memory ) Point( );
+    auto point = new ( point_memory ) TypeCollection::Point( );
 
     EXPECT_EQ( point->x, 0.0 );
     EXPECT_EQ( point->y, 0.0 );
@@ -54,7 +54,7 @@ TEST_F( StructConstructorTest, default_constructor )
 
 TEST_F( StructConstructorTest, value_construction )
 {
-    auto point = new ( point_memory ) Point;
+    auto point = new ( point_memory ) TypeCollection::Point;
 
     EXPECT_EQ( point->x, 0.0 );
     EXPECT_EQ( point->y, 0.0 );
@@ -62,10 +62,10 @@ TEST_F( StructConstructorTest, value_construction )
 
 TEST_F( StructConstructorTest, brace_initialization )
 {
-    auto point = new ( point_memory ) Point{};
+    auto point = new ( point_memory ) TypeCollection::Point{};
 
     EXPECT_EQ( point->x, 0.0 );
     EXPECT_EQ( point->y, 0.0 );
 }
 
-}  // test
+}

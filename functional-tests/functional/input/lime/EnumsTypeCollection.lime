@@ -17,18 +17,14 @@
 
 package test
 
-import test.EnumsTypeCollection.InternalErrorTypeCollection
-import test.EnumsTypeCollection.ErrorStructTypeCollection
+struct ErrorStructTypeCollection {
+    type: InternalErrorTypeCollection = InternalErrorTypeCollection.ERROR_NONE
+    message: String = ""
+}
 
-types EnumsTypeCollection {
-    struct ErrorStructTypeCollection {
-        type: InternalErrorTypeCollection = InternalErrorTypeCollection.ERROR_NONE
-        message: String = ""
-    }
-    enum InternalErrorTypeCollection {
-        ERROR_NONE,
-        ERROR_FATAL = 999
-    }
+enum InternalErrorTypeCollection {
+    ERROR_NONE,
+    ERROR_FATAL = 999
 }
 
 class EnumsTypeCollectionMethods {

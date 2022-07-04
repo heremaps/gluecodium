@@ -22,7 +22,7 @@ import "package:test/test.dart";
 import "package:functional/test.dart";
 import "../test_suite.dart";
 
-final _testSuite = TestSuite("PlainDataStructuresFromTypeCollection");
+final _testSuite = TestSuite("StructsFromTypeCollection");
 
 void main() {
   _testSuite.test("Return simple data structure", () {
@@ -32,7 +32,7 @@ void main() {
     expect(result.y, equals(2.0));
   });
   _testSuite.test("Manipulate simple data structure", () {
-    final input = Point(1.0, 2.0);
+    final input = TypeCollectionPoint(1.0, 2.0);
 
     final result = PlainDataStructuresFromTypeCollection.swapPointCoordinates(input);
 
@@ -40,8 +40,8 @@ void main() {
     expect(result.y, equals(1.0));
   });
   _testSuite.test("Create nested data structure with multiple params", () {
-    final input1 = Point(1.0, 2.0);
-    final input2 = Point(3.0, 4.0);
+    final input1 = TypeCollectionPoint(1.0, 2.0);
+    final input2 = TypeCollectionPoint(3.0, 4.0);
 
     final result = PlainDataStructuresFromTypeCollection.createLine(input1, input2);
 
@@ -51,8 +51,8 @@ void main() {
     expect(result.b.y, equals(4.0));
   });
   _testSuite.test("All types non-zeros round trip", () {
-    final input = AllTypesStruct(-1, 2, -3, 4, -5,
-        6, -7, 8, -9, 10, "foo", true, Point(-11, 12));
+    final input = TypeCollectionAllTypesStruct(-1, 2, -3, 4, -5,
+        6, -7, 8, -9, 10, "foo", true, TypeCollectionPoint(-11, 12));
 
     final result = PlainDataStructuresFromTypeCollection.modifyAllTypesStruct(input);
 

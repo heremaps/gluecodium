@@ -57,7 +57,7 @@ import "test/Nullable_test.dart" as NullableTests;
 import "test/OptimizedLists_test.dart" as OptimizedListsTests;
 import "test/PlainDataStructures_test.dart" as PlainDataStructuresTests;
 import "test/PlainDataStructuresImmutable_test.dart" as PlainDataStructuresImmutableTests;
-import "test/PlainDataStructuresTypeCollection_test.dart" as PlainDataStructuresTypeCollectionTests;
+import "test/StructsFromTypeCollection_test.dart" as StructsFromTypeCollectionTests;
 import "test/Properties_test.dart" as PropertiesTests;
 import "test/RefEquality_test.dart" as RefEqualityTests;
 import "test/Sets_test.dart" as SetsTests;
@@ -106,7 +106,7 @@ final _allTests = [
   OptimizedListsTests.main,
   PlainDataStructuresTests.main,
   PlainDataStructuresImmutableTests.main,
-  PlainDataStructuresTypeCollectionTests.main,
+  StructsFromTypeCollectionTests.main,
   PropertiesTests.main,
   RefEqualityTests.main,
   SetsTests.main,

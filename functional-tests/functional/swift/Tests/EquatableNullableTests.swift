@@ -102,10 +102,10 @@ class EquatableNullableTests: XCTestCase {
     }
 
     func testStructEqualsCppWithNulls() {
-        XCTAssertTrue(EquatableClass.areEqual(lhs: EquatableNullableStruct(),
-                                                  rhs: EquatableNullableStruct()))
-        XCTAssertTrue(EquatableClass.haveSameHash(lhs: EquatableNullableStruct(),
-                                                      rhs: EquatableNullableStruct()))
+        XCTAssertTrue(EquatableClass.areEqual(lhs: Equatable.EquatableNullableStruct(),
+                                                  rhs: Equatable.EquatableNullableStruct()))
+        XCTAssertTrue(EquatableClass.haveSameHash(lhs: Equatable.EquatableNullableStruct(),
+                                                      rhs: Equatable.EquatableNullableStruct()))
     }
 
     func testStructNotEqualsCpp() {
@@ -116,10 +116,10 @@ class EquatableNullableTests: XCTestCase {
         XCTAssertFalse(EquatableClass.haveSameHash(lhs: otherStruct, rhs: mainStruct))
     }
 
-    static func createEquatableNullableStruct() -> EquatableNullableStruct {
-        return EquatableNullableStruct(boolField: true, intField: -42, uintField: 6542,
+    static func createEquatableNullableStruct() -> Equatable.EquatableNullableStruct {
+        return Equatable.EquatableNullableStruct(boolField: true, intField: -42, uintField: 6542,
             floatField: 1.0, stringField: "nonsense",
-            structField: NestedEquatableStruct(fooField: "foo"), enumField: .bar,
+            structField: Equatable.NestedEquatableStruct(fooField: "foo"), enumField: .bar,
             mapField: [0: "one", 1: "two"], arrayField: ["one", "two"])
     }
 

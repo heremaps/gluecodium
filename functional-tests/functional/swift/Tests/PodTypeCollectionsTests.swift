@@ -29,15 +29,15 @@ class PodTypeCollectionTests: XCTestCase {
     }
 
     func testCreatePassAndReturnStruct() {
-        let point = Point(x: 5.6, y: 7.8)
+        let point = TypeCollection.Point(x: 5.6, y: 7.8)
         let swappedPoint = PlainDataStructuresFromTypeCollection.swapPointCoordinates(input: point)
         XCTAssertEqual(swappedPoint.x, 7.8)
         XCTAssertEqual(swappedPoint.y, 5.6)
     }
 
     func testReturnNestedStruct() {
-        let begin = Point(x: 1, y: 2)
-        let end = Point(x: 3, y: 4)
+        let begin = TypeCollection.Point(x: 1, y: 2)
+        let end = TypeCollection.Point(x: 3, y: 4)
         let line = PlainDataStructuresFromTypeCollection.createLine(pointA: begin, pointB: end)
         XCTAssertEqual(line.a.x, begin.x)
         XCTAssertEqual(line.a.y, begin.y)
@@ -46,7 +46,7 @@ class PodTypeCollectionTests: XCTestCase {
     }
 
     func testAllBasicTypesCanBePassedInStruct() {
-        let allTypes = AllTypesStruct(
+        let allTypes = TypeCollection.AllTypesStruct(
             int8Field: 0,
             uint8Field: 1,
             int16Field: 2,
@@ -59,7 +59,7 @@ class PodTypeCollectionTests: XCTestCase {
             doubleField: 9,
             stringField: "You",
             booleanField: true,
-            pointField: Point(x: 13, y: 14))
+            pointField: TypeCollection.Point(x: 13, y: 14))
         let result = PlainDataStructuresFromTypeCollection.modifyAllTypesStruct(input: allTypes)
         XCTAssertEqual(result.int8Field, 1)
         XCTAssertEqual(result.uint8Field, 2)

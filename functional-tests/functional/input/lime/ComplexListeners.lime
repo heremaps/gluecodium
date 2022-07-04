@@ -17,48 +17,49 @@
 
 package test
 
-types ComplexListenerTypes {
-    struct Point3D {
-        x: Double = 0.0
-        y: Double = 0.0
-        z: Double = 0.0
-        @Dart("withDefaults")
-        field constructor()
-        @Dart(Default)
-        field constructor(x, y, z)
-    }
-    struct NamedPoint3D {
-        name: String
-        pt: Point3D
-        field constructor(name, pt)
-    }
-    enum TrajectoryQuality {
-        TRAJECTORY_POOR,
-        TRAJECTORY_AVERAGE,
-        TRAJECTORY_GOOD = 999
-    }
-    typealias Trajectory = List<NamedPoint3D>
+struct Point3D {
+    x: Double = 0.0
+    y: Double = 0.0
+    z: Double = 0.0
+    @Dart("withDefaults")
+    field constructor()
+    @Dart(Default)
+    field constructor(x, y, z)
 }
+
+struct NamedPoint3D {
+    name: String
+    pt: Point3D
+    field constructor(name, pt)
+}
+
+enum TrajectoryQuality {
+    TRAJECTORY_POOR,
+    TRAJECTORY_AVERAGE,
+    TRAJECTORY_GOOD = 999
+}
+
+typealias Trajectory = List<NamedPoint3D>
 
 class DistanceMetric {
     fun getLength(
-        input: ComplexListenerTypes.Trajectory
+        input: Trajectory
     ): Double
 }
 
 interface ComplexListener {
     fun onTrajectoryCompleted(
         distanceMetric: DistanceMetric,
-        trajectory: ComplexListenerTypes.Trajectory,
-        quality: ComplexListenerTypes.TrajectoryQuality,
+        trajectory: Trajectory,
+        quality: TrajectoryQuality,
         image: Blob
     )
 }
 
 class ComplexNotifier {
     fun trajectoryCompleted(
-        trajectory: ComplexListenerTypes.Trajectory,
-        quality: ComplexListenerTypes.TrajectoryQuality,
+        trajectory: Trajectory,
+        quality: TrajectoryQuality,
         image: Blob,
         listener: ComplexListener
     )

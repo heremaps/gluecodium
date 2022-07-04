@@ -25,7 +25,7 @@ class AdditionalErrors {
     exception External(ExternalErrorCode)
 }
 
-types TypeCollectionWithEnums {
+struct TypeCollectionWithEnums {
     enum ExplosiveErrorCode {
         NONE,
         EXPLODED

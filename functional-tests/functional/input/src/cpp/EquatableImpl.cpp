@@ -82,64 +82,64 @@ PointerEquatableClass::return_last() {
 
 bool
 EquatableClass::are_equal( const EquatableClass::AnotherEquatableStruct& lhs,
-                               const EquatableClass::AnotherEquatableStruct& rhs )
+                           const EquatableClass::AnotherEquatableStruct& rhs )
 {
     return lhs == rhs;
 }
 
 bool
-EquatableClass::are_equal( const EquatableStruct& lhs, const EquatableStruct& rhs )
+EquatableClass::are_equal( const Equatable::EquatableStruct& lhs, const Equatable::EquatableStruct& rhs )
 {
     return lhs == rhs;
 }
 
 bool
-EquatableClass::are_equal( const EquatableNullableStruct& lhs,
-                               const EquatableNullableStruct& rhs )
+EquatableClass::are_equal( const Equatable::EquatableNullableStruct& lhs,
+                           const Equatable::EquatableNullableStruct& rhs )
 {
     return lhs == rhs;
 }
 
 bool
 PointerEquatableClass::are_equal( const PointerEquatableClass::EquatableStruct& lhs,
-                                      const PointerEquatableClass::EquatableStruct& rhs )
+                                  const PointerEquatableClass::EquatableStruct& rhs )
 {
     return lhs == rhs;
 }
 
 bool
 PointerEquatableClass::are_equal( const PointerEquatableClass::OptionalEquatableStruct& lhs,
-                                      const PointerEquatableClass::OptionalEquatableStruct& rhs )
+                                  const PointerEquatableClass::OptionalEquatableStruct& rhs )
 {
     return lhs == rhs;
 }
 
 bool
 EquatableClass::have_same_hash( const EquatableClass::AnotherEquatableStruct& lhs,
-                                    const EquatableClass::AnotherEquatableStruct& rhs )
+                                const EquatableClass::AnotherEquatableStruct& rhs )
 {
     auto hasher = lorem_ipsum::test::hash< EquatableClass::AnotherEquatableStruct >( );
     return hasher( lhs ) == hasher( rhs );
 }
 
 bool
-EquatableClass::have_same_hash( const EquatableStruct& lhs, const EquatableStruct& rhs )
+EquatableClass::have_same_hash( const Equatable::EquatableStruct& lhs, const Equatable::EquatableStruct& rhs )
 {
-    auto hasher = lorem_ipsum::test::hash< EquatableStruct >( );
+    auto hasher = lorem_ipsum::test::hash< Equatable::EquatableStruct >( );
     return hasher( lhs ) == hasher( rhs );
 }
 
 bool
-EquatableClass::have_same_hash( const EquatableNullableStruct& lhs,
-                                    const EquatableNullableStruct& rhs )
+EquatableClass::have_same_hash( const Equatable::EquatableNullableStruct& lhs,
+                                const Equatable::EquatableNullableStruct& rhs )
 {
-    auto hasher = lorem_ipsum::test::hash< EquatableNullableStruct >( );
+    auto hasher = lorem_ipsum::test::hash< Equatable::EquatableNullableStruct >( );
     return hasher( lhs ) == hasher( rhs );
 }
 
 bool
 PointerEquatableClass::have_same_hash( const PointerEquatableClass::EquatableStruct& lhs,
-                                           const PointerEquatableClass::EquatableStruct& rhs )
+                                       const PointerEquatableClass::EquatableStruct& rhs )
 {
     auto hasher = lorem_ipsum::test::hash< PointerEquatableClass::EquatableStruct >( );
     return hasher( lhs ) == hasher( rhs );
@@ -147,7 +147,7 @@ PointerEquatableClass::have_same_hash( const PointerEquatableClass::EquatableStr
 
 bool
 PointerEquatableClass::have_same_hash( const PointerEquatableClass::OptionalEquatableStruct& lhs,
-                                           const PointerEquatableClass::OptionalEquatableStruct& rhs )
+                                       const PointerEquatableClass::OptionalEquatableStruct& rhs )
 {
     auto hasher = lorem_ipsum::test::hash< PointerEquatableClass::OptionalEquatableStruct >( );
     return hasher( lhs ) == hasher( rhs );
