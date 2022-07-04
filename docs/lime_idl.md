@@ -59,7 +59,7 @@ interface ProcessorDelegate: com.example.utils.GenericDelegate {
     fun onProcessorEvent(message: String)
 }
 
-types ProcessorHelperTypes {
+struct ProcessorHelperTypes {
     typealias Timestamp = Date
 
     const DefaultOptions: SomeImportantProcessor.Options = {flagOption = true, uintOption = 42, {}}
@@ -104,7 +104,7 @@ Most elements can be prefixed with a visibility prefix. Possible visibility pref
 such a prefix is considered `public`. The visibility prefix, if present, should precede the rest of the declaration.
 
 * Example: `internal static property secretDelegate: ProcessorDelegate? { get set }`
-* List of element kinds that can have a visibility prefix: class, interface, types, function, constructor, property, 
+* List of element kinds that can have a visibility prefix: class, interface, function, constructor, property, 
 struct, struct field, enumeration, exception, type alias, lambda, constant.
 * Visibility prefix has no effect on C++ generated code.
 * `open` and `open internal` are currently only supported for classes. Both mean the class can be
@@ -122,7 +122,7 @@ attribute name that follows.
 ### File-level declarations
 
 There are three kinds of file-level declarations: package, import or element declaration. The
-following element types can be placed at the top level: `class`, `interface`, `types`, `struct`,
+following element types can be placed at the top level: `class`, `interface`, `struct`,
 `enum`, `exception`, `typealias`, `lambda`. All other declarations can only be placed as child elements to
 some other element.
 
@@ -144,17 +144,16 @@ immediately after the package declaration.
 
 #### Container-type elements
 
-* Syntax: (**class** | **interface** | **types**) *ElementName*\[**:** *ParentName*\] **{**
+* Syntax: (**class** | **interface**) *ElementName*\[**:** *ParentName*\] **{**
 *child-elements-declarations...* **}**
 * Example: `class SomeImportantProcessor { ... }`
 * Example: `interface ProcessorDelegate: GenericDelegate { ... }`
 * Description: declares a container-type language element:
   * **class** corresponds to a class declaration in the output languages.
   * **interface** corresponds to an interface (protocol) declaration in the output languages.
-  * **types** declares a loose collection of elements, most of which become free-standing elements
   in the output languages.
 * Classes and interfaces can be free-standing elements at file level or can be placed in another
-class, interface, or struct. `types` declaration can be only placed at file level.
+class, interface, or struct.
 
 #### Inheritance
 
@@ -264,7 +263,7 @@ struct Options {
     additionalOptions: List<String> = {}
 }
 ```
-* Can be a free-standing element at file level or can be placed in: class, interface, types, struct.
+* Can be a free-standing element at file level or can be placed in: class, interface, struct.
 * Description: declares a struct type (data type) in the parent type:
   * a struct can have any number of fields, but at least one field is required.
   * a struct field can have a default value associated with it (optionally). For more details on
@@ -278,7 +277,7 @@ struct Options {
 * where *enumerators-list* is a comma-separated list of enumerators, each enumerator declared as
 *EnumeratorName* \[**=** *EnumeratorValue*\]
 * Example: `enum Mode { SLOW, FAST, CHEAP }`
-* Can be a free-standing element at file level or can be placed in: class, interface, types, struct.
+* Can be a free-standing element at file level or can be placed in: class, interface, struct.
 * Description: declares an enumeration type in the parent type:
   * an enumeration can have any number of enumerators, but at least one enumerator is required.
   * an enumerator can have a value associated with it (optionally). The value can be either an integer or another
@@ -289,7 +288,7 @@ struct Options {
 
 * Syntax: **exception** *ExceptionName*__(__*ErrorTypeName*__)__
 * Example: `exception SomethingWrong(ErrorType)`
-* Can be a free-standing element at file level or can be placed in: class, interface, types, struct.
+* Can be a free-standing element at file level or can be placed in: class, interface, struct.
 * Description: declares an exception (error) type in the parent type:
   * an exception has an error-value type associated with it.
   * an exception type cannot be used as a regular type, it can only be used in a `throws` clause of
@@ -299,7 +298,7 @@ struct Options {
 
 * Syntax: **const** *ConstantName*__:__ *ConstantType* **=** *ValueLiteral*
 * Example: `const DefaultOptions: Options = {true, 42, {}}`
-* Can be placed in: class, types, struct
+* Can be placed in: class, struct
 * Description: declares a constant in the parent type. For more details on values and literals see
 `Values and Literals` below.
 
@@ -571,10 +570,6 @@ element is skipped (not generated). Custom tags are case-insensitive.
   This is the default specification for this attribute.
   * **Label** **=** **"**_LabelName_**"**: marks a parameter of a function or a constructor to have a distinct argument
   label in Swift.
-  * **Extension**: marks a type collection (`types`) to be generated as Swift extension. The primary
-  use case for this is adding nested types into a pre-existing Swift type (i.e. non-generated).
-  Extending a generated type is also possible, but requires usage of `Name` attribute to avoid name
-  clashes on other platforms.
   * **Skip** \[**=** **"**_CustomTag_**"** \]: marks an element to be skipped (not generated) in Swift. Can be applied to
   any element except for enumerators. Optionally, if custom tag is specified, the element is only skipped if that tag
   was defined (see `@Skip` above).

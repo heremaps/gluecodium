@@ -44,8 +44,6 @@ object LimeTypeHelper {
                 limeElement.constants + limeElement.structs +
                     limeElement.classes + limeElement.interfaces
                 ).flatMap { getAllValues(it) }
-            is LimeTypesCollection ->
-                (limeElement.constants + limeElement.structs).flatMap { getAllValues(it) }
             is LimeStruct ->
                 (limeElement.constants + limeElement.fields).flatMap { getAllValues(it) }
             else -> emptyList()
