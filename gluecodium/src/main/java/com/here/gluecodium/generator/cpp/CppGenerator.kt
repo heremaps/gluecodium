@@ -47,7 +47,6 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeHelper
-import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.validator.LimeOverloadsValidator
 import java.io.File
 import java.nio.file.Paths
@@ -153,12 +152,7 @@ internal class CppGenerator : Generator {
         val allTypes = LimeTypeHelper.getAllTypes(rootElement)
         val errorEnums = allTypes.filter { allErrorEnums.contains(it.fullName) }.toSet()
 
-        val limeElements = when (rootElement) {
-            is LimeTypesCollection ->
-                rootElement.structs + rootElement.enumerations +
-                    rootElement.constants + rootElement.typeAliases
-            else -> listOf(rootElement)
-        }
+        val limeElements = listOf(rootElement) // TODO
         val hasConstants = limeElements.any { it is LimeConstant }
         val needsHeader = hasConstants || limeElements.any { it !is LimeException && it.external?.cpp == null }
         val needsImplementation = hasConstants || errorEnums.isNotEmpty() ||
@@ -273,7 +267,6 @@ internal class CppGenerator : Generator {
 
     private fun selectTemplate(limeElement: LimeNamedElement) =
         when (limeElement) {
-            is LimeTypesCollection -> "cpp/CppTypes"
             is LimeContainerWithInheritance -> "cpp/CppClass"
             is LimeStruct -> "cpp/CppStruct"
             is LimeEnumeration -> "cpp/CppEnumeration"

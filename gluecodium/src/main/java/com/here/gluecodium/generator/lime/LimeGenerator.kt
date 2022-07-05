@@ -35,7 +35,6 @@ import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeHelper
-import com.here.gluecodium.model.lime.LimeTypesCollection
 
 internal class LimeGenerator : Generator {
 
@@ -75,7 +74,6 @@ internal class LimeGenerator : Generator {
         when (limeElement) {
             is LimeClass -> "lime/LimeClass"
             is LimeInterface -> "lime/LimeInterface"
-            is LimeTypesCollection -> "lime/LimeTypesCollection"
             is LimeStruct -> "lime/LimeStruct"
             is LimeEnumeration -> "lime/LimeEnumeration"
             is LimeTypeAlias -> "lime/LimeTypeAlias"
