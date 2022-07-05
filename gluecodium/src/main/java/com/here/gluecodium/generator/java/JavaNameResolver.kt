@@ -29,6 +29,7 @@ import com.here.gluecodium.model.lime.LimeAttributeValueType.FUNCTION_NAME
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeComment
+import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.NAME_NAME
@@ -46,6 +47,7 @@ import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypedElement
+import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.lime.LimeVisibility
 
@@ -168,7 +170,8 @@ internal class JavaNameResolver(
         val elementName = javaNameRules.getName(limeElement)
         val parentElement = if (limeElement.path.hasParent) getParentElement(limeElement) else null
         return when {
-            parentElement != null -> resolveNestedNames(parentElement) + elementName
+            parentElement != null && parentElement !is LimeTypesCollection ->
+                resolveNestedNames(parentElement) + elementName
             else -> listOf(elementName)
         }
     }
@@ -249,7 +252,11 @@ internal class JavaNameResolver(
         }
 
         val parentElement = getParentElement(limeElement)
-        val prefix = resolveFullName(parentElement)
+        val prefix = when {
+            parentElement is LimeTypesCollection && limeElement !is LimeConstant ->
+                resolvePackageNames(limeElement).joinToString(".")
+            else -> resolveFullName(parentElement)
+        }
 
         val delimiter = when {
             forceDelimiter != null -> forceDelimiter
@@ -275,7 +282,7 @@ internal class JavaNameResolver(
     private fun buildDuplicateNames() =
         limeReferenceMap.values
             .filterIsInstance<LimeType>()
-            .filterNot { it is LimeTypeAlias }
+            .filterNot { it is LimeTypesCollection || it is LimeTypeAlias }
             .filter { it.external?.java == null }
             .groupBy { resolveNestedNames(it).joinToString(".") }
             .filterValues { it.size > 1 }

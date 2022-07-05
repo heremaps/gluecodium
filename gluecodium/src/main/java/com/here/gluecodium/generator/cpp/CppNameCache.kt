@@ -28,6 +28,7 @@ import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.SETTER_NA
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeProperty
+import com.here.gluecodium.model.lime.LimeTypesCollection
 import java.util.HashMap
 
 internal class CppNameCache(
@@ -80,8 +81,14 @@ internal class CppNameCache(
     }
 
     private fun resolveNames(limeElement: LimeNamedElement): NamesCacheEntry {
-        val parentPath = limeElement.path.parent
-        val parentElement = limeReferenceMap[parentPath.toString()] as? LimeNamedElement
+        var parentPath = limeElement.path.parent
+        var parentElement = limeReferenceMap[parentPath.toString()] as? LimeNamedElement
+        if (parentElement is LimeTypesCollection) {
+            // A type collection doesn't correspond to any named entity in C++ generated code.
+            // So skip it and use the parent namespace instead.
+            parentPath = parentPath.parent
+            parentElement = null
+        }
 
         val parentFullName: String
         var parentIsExternal = false

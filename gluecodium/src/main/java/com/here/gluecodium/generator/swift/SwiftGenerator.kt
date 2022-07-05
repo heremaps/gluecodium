@@ -52,6 +52,7 @@ import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeHelper
+import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.validator.LimeOverloadsValidator
 import java.util.logging.Logger
 
@@ -264,6 +265,7 @@ internal class SwiftGenerator : Generator {
             is LimeStruct -> "swift/SwiftStructDefinition"
             is LimeClass -> "swift/SwiftClassDefinition"
             is LimeInterface -> "swift/SwiftInterfaceDefinition"
+            is LimeTypesCollection -> "swift/SwiftTypesDefinition"
             else -> null
         }
 
@@ -275,6 +277,7 @@ internal class SwiftGenerator : Generator {
             is LimeStruct -> "swift/SwiftStructConversion"
             is LimeClass -> "swift/SwiftClassConversion"
             is LimeInterface -> "swift/SwiftClassConversion"
+            is LimeTypesCollection -> null
             else -> null
         }
 

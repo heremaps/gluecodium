@@ -34,6 +34,7 @@ import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeTypesCollection
 
 internal class DartDeclarationImportResolver(
     limeReferenceMap: Map<String, LimeElement>,
@@ -54,7 +55,9 @@ internal class DartDeclarationImportResolver(
     override fun resolveElementImports(limeElement: LimeElement): List<DartImport> {
         if (limeElement !is LimeNamedElement) return emptyList()
 
-        if (limeElement is LimeException || limeElement is LimeTypeAlias || limeElement is LimeConstant) return emptyList()
+        if (limeElement is LimeTypesCollection || limeElement is LimeException || limeElement is LimeTypeAlias ||
+            limeElement is LimeConstant
+        ) return emptyList()
 
         return when {
             limeElement is LimeLambda -> listOf(tokenCacheImport)
