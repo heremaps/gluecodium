@@ -247,7 +247,9 @@ class Equatable_EquatableNullableStruct {
   Equatable_SomeEnum? enumField;
   List<String>? arrayField;
   Map<int, String>? mapField;
-  Equatable_EquatableNullableStruct(this.boolField, this.intField, this.uintField, this.floatField, this.stringField, this.structField, this.enumField, this.arrayField, this.mapField);
+  Equatable_EquatableNullableStruct._(this.boolField, this.intField, this.uintField, this.floatField, this.stringField, this.structField, this.enumField, this.arrayField, this.mapField);
+  Equatable_EquatableNullableStruct()
+    : boolField = null, intField = null, uintField = null, floatField = null, stringField = null, structField = null, enumField = null, arrayField = null, mapField = null;
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
@@ -356,7 +358,7 @@ Equatable_EquatableNullableStruct smokeEquatableEquatablenullablestructFromFfi(P
   final _arrayFieldHandle = _smokeEquatableEquatablenullablestructGetFieldarrayField(handle);
   final _mapFieldHandle = _smokeEquatableEquatablenullablestructGetFieldmapField(handle);
   try {
-    return Equatable_EquatableNullableStruct(
+    return Equatable_EquatableNullableStruct._(
       booleanFromFfiNullable(_boolFieldHandle),
       intFromFfiNullable(_intFieldHandle),
       uShortFromFfiNullable(_uintFieldHandle),

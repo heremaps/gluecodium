@@ -31,7 +31,6 @@ bool Equatable::EquatableStruct::operator!=( const EquatableStruct& rhs ) const
     return !( *this == rhs );
 }
 Equatable::EquatableNullableStruct::EquatableNullableStruct( )
-    : bool_field{ }, int_field{ }, uint_field{ }, float_field{ }, string_field{ }, struct_field{ }, enum_field{ }, array_field{ }, map_field{ }
 {
 }
 Equatable::EquatableNullableStruct::EquatableNullableStruct( ::gluecodium::optional< bool > bool_field, ::gluecodium::optional< int32_t > int_field, ::gluecodium::optional< uint16_t > uint_field, ::gluecodium::optional< float > float_field, ::gluecodium::optional< ::std::string > string_field, ::gluecodium::optional< ::smoke::Equatable::NestedEquatableStruct > struct_field, ::gluecodium::optional< ::smoke::Equatable::SomeEnum > enum_field, ::gluecodium::optional< ::std::vector< ::std::string > > array_field, ::gluecodium::optional< ::smoke::Equatable::ErrorCodeToMessageMap > map_field )

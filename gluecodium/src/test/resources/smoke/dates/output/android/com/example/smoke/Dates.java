@@ -13,9 +13,9 @@ public final class Dates extends NativeBase {
         public Date dateField;
         @Nullable
         public Date nullableDateField;
-        public DateStruct(@NonNull final Date dateField, @Nullable final Date nullableDateField) {
+        public DateStruct(@NonNull final Date dateField) {
             this.dateField = dateField;
-            this.nullableDateField = nullableDateField;
+            this.nullableDateField = null;
         }
     }
     /**

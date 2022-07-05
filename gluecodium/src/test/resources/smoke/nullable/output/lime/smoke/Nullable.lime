@@ -1,39 +1,35 @@
 package smoke
-
 class Nullable {
     typealias SomeArray = List<String>
     typealias SomeMap = Map<Long, String>
-
     enum SomeEnum {
         ON,
         OFF
     }
-
     struct SomeStruct {
         stringField: String
     }
     struct NullableStruct {
-        stringField: String?
-        boolField: Boolean?
-        doubleField: Double?
-        structField: SomeStruct?
-        enumField: SomeEnum?
-        arrayField: SomeArray?
-        inlineArrayField: List<String>?
-        mapField: SomeMap?
-        instanceField: SomeInterface?
+        stringField: String? = null
+        boolField: Boolean? = null
+        doubleField: Double? = null
+        structField: SomeStruct? = null
+        enumField: SomeEnum? = null
+        arrayField: SomeArray? = null
+        inlineArrayField: List<String>? = null
+        mapField: SomeMap? = null
+        instanceField: SomeInterface? = null
     }
     struct NullableIntsStruct {
-        int8Field: Byte?
-        int16Field: Short?
-        int32Field: Int?
-        int64Field: Long?
-        uint8Field: UByte?
-        uint16Field: UShort?
-        uint32Field: UInt?
-        uint64Field: ULong?
+        int8Field: Byte? = null
+        int16Field: Short? = null
+        int32Field: Int? = null
+        int64Field: Long? = null
+        uint8Field: UByte? = null
+        uint16Field: UShort? = null
+        uint32Field: UInt? = null
+        uint64Field: ULong? = null
     }
-
     fun methodWithString(
         input: String?
     ): String?
@@ -64,7 +60,6 @@ class Nullable {
     fun methodWithInstance(
         input: SomeInterface?
     ): SomeInterface?
-
     property stringProperty: String?
     property boolProperty: Boolean?
     property doubleProperty: Double?

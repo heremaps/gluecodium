@@ -52,11 +52,17 @@ public:
         /**
          * Can be `null`
          */
-        ::gluecodium::optional< ::std::string > nullable_field;
+        ::gluecodium::optional< ::std::string > nullable_field = ::gluecodium::optional< ::std::string >();
         /**
          * This is how easy it is to construct.
          */
         SomeStruct( );
+        /**
+         * This is how easy it is to construct.
+         * \param some_field How useful this struct is
+         * remains to be seen
+         */
+        explicit SomeStruct( ::smoke::Comments::Usefulness some_field );
         /**
          * This is how easy it is to construct.
          * \param some_field How useful this struct is

@@ -43,15 +43,15 @@ struct _GLUECODIUM_CPP_EXPORT Equatable {
         bool operator!=( const EquatableStruct& rhs ) const;
     };
     struct _GLUECODIUM_CPP_EXPORT EquatableNullableStruct {
-        ::gluecodium::optional< bool > bool_field;
-        ::gluecodium::optional< int32_t > int_field;
-        ::gluecodium::optional< uint16_t > uint_field;
-        ::gluecodium::optional< float > float_field;
-        ::gluecodium::optional< ::std::string > string_field;
-        ::gluecodium::optional< ::smoke::Equatable::NestedEquatableStruct > struct_field;
-        ::gluecodium::optional< ::smoke::Equatable::SomeEnum > enum_field;
-        ::gluecodium::optional< ::std::vector< ::std::string > > array_field;
-        ::gluecodium::optional< ::smoke::Equatable::ErrorCodeToMessageMap > map_field;
+        ::gluecodium::optional< bool > bool_field = ::gluecodium::optional< bool >();
+        ::gluecodium::optional< int32_t > int_field = ::gluecodium::optional< int32_t >();
+        ::gluecodium::optional< uint16_t > uint_field = ::gluecodium::optional< uint16_t >();
+        ::gluecodium::optional< float > float_field = ::gluecodium::optional< float >();
+        ::gluecodium::optional< ::std::string > string_field = ::gluecodium::optional< ::std::string >();
+        ::gluecodium::optional< ::smoke::Equatable::NestedEquatableStruct > struct_field = ::gluecodium::optional< ::smoke::Equatable::NestedEquatableStruct >();
+        ::gluecodium::optional< ::smoke::Equatable::SomeEnum > enum_field = ::gluecodium::optional< ::smoke::Equatable::SomeEnum >();
+        ::gluecodium::optional< ::std::vector< ::std::string > > array_field = ::gluecodium::optional< ::std::vector< ::std::string > >();
+        ::gluecodium::optional< ::smoke::Equatable::ErrorCodeToMessageMap > map_field = ::gluecodium::optional< ::smoke::Equatable::ErrorCodeToMessageMap >();
         EquatableNullableStruct( );
         EquatableNullableStruct( ::gluecodium::optional< bool > bool_field, ::gluecodium::optional< int32_t > int_field, ::gluecodium::optional< uint16_t > uint_field, ::gluecodium::optional< float > float_field, ::gluecodium::optional< ::std::string > string_field, ::gluecodium::optional< ::smoke::Equatable::NestedEquatableStruct > struct_field, ::gluecodium::optional< ::smoke::Equatable::SomeEnum > enum_field, ::gluecodium::optional< ::std::vector< ::std::string > > array_field, ::gluecodium::optional< ::smoke::Equatable::ErrorCodeToMessageMap > map_field );
         bool operator==( const EquatableNullableStruct& rhs ) const;
