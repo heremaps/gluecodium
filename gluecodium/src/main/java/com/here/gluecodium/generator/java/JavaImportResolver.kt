@@ -43,7 +43,6 @@ import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
-import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.lime.LimeValue
 
 internal class JavaImportResolver(
@@ -80,12 +79,9 @@ internal class JavaImportResolver(
                 else -> emptyList()
             }
 
-    private fun resolveLambdaImports(limeLambda: LimeLambda): List<JavaImport> {
-        val isNestedDeclaration =
-            limeLambda.path.hasParent && limeReferenceMap[limeLambda.path.parent.toString()] !is LimeTypesCollection
-        return resolveFunctionImports(limeLambda.asFunction()) +
-            listOfNotNull(nativeBaseImport.takeIf { isNestedDeclaration })
-    }
+    private fun resolveLambdaImports(limeLambda: LimeLambda) =
+        resolveFunctionImports(limeLambda.asFunction()) +
+            listOfNotNull(nativeBaseImport.takeIf { limeLambda.path.hasParent })
 
     private fun resolveStructImports(limeStruct: LimeStruct) =
         when {
@@ -151,8 +147,7 @@ internal class JavaImportResolver(
     fun createTopElementImport(limeType: LimeType): JavaImport? {
         if (nameResolver.typesWithDuplicateNames.contains(limeType.fullName)) return null
         val topElement = generateSequence(limeType) {
-            val parentType = limeReferenceMap[it.path.parent.toString()] as? LimeType
-            if (parentType is LimeTypesCollection) null else parentType
+            limeReferenceMap[it.path.parent.toString()] as? LimeType
         }.last()
         return JavaImport(nameResolver.resolvePackageNames(topElement), nameResolver.resolveName(topElement))
     }

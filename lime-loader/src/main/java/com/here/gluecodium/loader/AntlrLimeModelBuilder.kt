@@ -51,7 +51,6 @@ import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeThrownType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
-import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.lime.LimeValue.Special.ValueId
 import com.here.gluecodium.model.lime.LimeVisibility
@@ -164,26 +163,6 @@ internal class AntlrLimeModelBuilder(
                 isNarrow = ctx.Narrow() != null
             )
         }
-
-        storeResultAndPopStacks(limeElement)
-    }
-
-    override fun enterTypes(ctx: LimeParser.TypesContext) {
-        pushPathAndVisibility(ctx.simpleId(), ctx.visibility())
-    }
-
-    override fun exitTypes(ctx: LimeParser.TypesContext) {
-        val limeElement = LimeTypesCollection(
-            path = currentPath,
-            visibility = currentVisibility,
-            comment = parseStructuredComment(ctx.docComment(), ctx).description,
-            attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation()),
-            structs = getPreviousResults(LimeStruct::class.java),
-            enumerations = getPreviousResults(LimeEnumeration::class.java),
-            constants = getPreviousResults(LimeConstant::class.java),
-            typeAliases = getPreviousResults(LimeTypeAlias::class.java),
-            exceptions = getPreviousResults(LimeException::class.java)
-        )
 
         storeResultAndPopStacks(limeElement)
     }
