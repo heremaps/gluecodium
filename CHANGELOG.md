@@ -1,9 +1,5 @@
 # Gluecodium project Release Notes
 
-## Unreleased
-### Removed:
-  * Support for `types` declaration was removed.
-
 ## 12.1.0
 Release date: 2022-06-29
 ### Features:

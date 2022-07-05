@@ -42,6 +42,7 @@ import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypedElement
+import com.here.gluecodium.model.lime.LimeTypesCollection
 import java.io.File
 
 internal class CBridgeImplIncludeResolver(private val cppIncludeResolver: CppIncludeResolver) :
@@ -49,7 +50,7 @@ internal class CBridgeImplIncludeResolver(private val cppIncludeResolver: CppInc
 
     override fun resolveElementImports(limeElement: LimeElement) =
         when (limeElement) {
-            is LimeConstant -> emptyList()
+            is LimeTypesCollection, is LimeConstant -> emptyList()
             is LimeTypeRef -> resolveTypeRefIncludes(limeElement)
             is LimeReturnType -> resolveTypeRefIncludes(limeElement.typeRef)
             is LimeLambdaParameter -> resolveTypeRefIncludes(limeElement.typeRef)

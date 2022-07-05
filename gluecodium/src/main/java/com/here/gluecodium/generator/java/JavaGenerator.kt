@@ -45,6 +45,7 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeHelper
+import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.validator.LimeOverloadsValidator
 import java.io.File
 import java.util.logging.Logger
@@ -117,7 +118,7 @@ internal class JavaGenerator : Generator {
         val importCollector = JavaImportCollector(importResolver) {
             LimeModelSkipPredicates.shouldRetainCheckParent(it, activeTags, JAVA, limeModel.referenceMap)
         }
-        val resultFiles = javaFilteredModel.topElements
+        val resultFiles = flattenTypeCollections(javaFilteredModel.topElements)
             .flatMap { generateJavaFiles(it, nameResolver, importResolver, importCollector) }
             .toMutableList()
 
@@ -168,6 +169,16 @@ internal class JavaGenerator : Generator {
 
         return resultFiles
     }
+
+    private fun flattenTypeCollections(limeElements: List<LimeNamedElement>) =
+        limeElements.flatMap {
+            when (it) {
+                is LimeTypesCollection ->
+                    it.structs + it.enumerations + it.exceptions +
+                        if (it.constants.isNotEmpty()) listOf(it) else emptyList()
+                else -> listOf(it)
+            }
+        }
 
     private fun generateJavaFiles(
         limeElement: LimeNamedElement,
@@ -231,6 +242,7 @@ internal class JavaGenerator : Generator {
 
     private fun selectTemplate(limeElement: LimeNamedElement) =
         when (limeElement) {
+            is LimeTypesCollection -> "java/JavaConstantsWrapper"
             is LimeClass -> "java/JavaClass"
             is LimeInterface -> "java/JavaInterface"
             is LimeStruct -> "java/JavaStruct"

@@ -74,6 +74,7 @@ import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
+import com.here.gluecodium.model.lime.LimeTypesCollection
 import java.util.logging.Logger
 
 internal class DartGenerator : Generator {
@@ -224,7 +225,9 @@ internal class DartGenerator : Generator {
 
         val allTypes = LimeTypeHelper.getAllTypes(rootElement).filterNot { it is LimeTypeAlias }
         val nonExternalTypes = allTypes.filter { it.external?.dart == null }
-        val allSymbols = nonExternalTypes.filter { it.visibility.isPublic }
+        val freeConstants = (rootElement as? LimeTypesCollection)?.constants ?: emptyList()
+        val allSymbols =
+            (nonExternalTypes + freeConstants).filter { it !is LimeTypesCollection && it.visibility.isPublic }
         if (allSymbols.isNotEmpty()) {
             val allNames = allSymbols.map { dartNameResolver.resolveName(it) }
             val testNames = allSymbols
@@ -521,6 +524,7 @@ internal class DartGenerator : Generator {
 
     private fun selectTemplate(limeElement: LimeNamedElement) =
         when (limeElement) {
+            is LimeTypesCollection -> "dart/DartTypes"
             is LimeClass -> "dart/DartClass"
             is LimeInterface -> "dart/DartInterface"
             is LimeStruct -> "dart/DartStruct"

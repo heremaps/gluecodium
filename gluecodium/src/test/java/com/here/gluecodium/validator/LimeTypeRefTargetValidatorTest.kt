@@ -31,6 +31,7 @@ import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeThrownType
 import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeTypesCollection
 import io.mockk.mockk
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -52,6 +53,14 @@ class LimeTypeRefTargetValidatorTest {
         allElements[""] = LimeField(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeClass))
 
         assertTrue(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateTypesReference() {
+        val limeTypesCollection = LimeTypesCollection(EMPTY_PATH)
+        allElements[""] = LimeField(EMPTY_PATH, typeRef = LimeDirectTypeRef(limeTypesCollection))
+
+        assertFalse(validator.validate(limeModel))
     }
 
     @Test

@@ -43,6 +43,7 @@ import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypedElement
+import com.here.gluecodium.model.lime.LimeTypesCollection
 
 internal class JniNameResolver(
     limeReferenceMap: Map<String, LimeElement>,
@@ -124,7 +125,7 @@ internal class JniNameResolver(
         val elementName = javaNameRules.getName(limeElement)
         val parentElement = if (limeElement.path.hasParent) getParentElement(limeElement) else null
         return when (parentElement) {
-            null -> listOf(elementName)
+            null, is LimeTypesCollection -> listOf(elementName)
             else -> resolveNestedNames(parentElement) + elementName
         }
     }

@@ -35,6 +35,7 @@ import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimePositionalEnumeratorRef
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.lime.LimeValue
 
 /**
@@ -103,6 +104,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
         when (element) {
             is LimeClass -> filterClass(element)
             is LimeInterface -> filterInterface(element)
+            is LimeTypesCollection -> filterTypesCollection(element)
             is LimeStruct -> filterStruct(element)
             is LimeEnumeration -> filterEnum(element)
             else -> element
@@ -158,6 +160,21 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
                 lambdas = lambdas.filter(predicate),
                 parents = parents.map { it.remap(referenceMap) },
                 isNarrow = isNarrow
+            )
+        }.also { remap(it) }
+
+    private fun filterTypesCollection(limeTypes: LimeTypesCollection) =
+        limeTypes.run {
+            LimeTypesCollection(
+                path = path,
+                visibility = visibility,
+                comment = comment,
+                attributes = attributes,
+                structs = structs.filter(predicate).map { filterStruct(it) },
+                enumerations = enumerations.filter(predicate).map { filterEnum(it) },
+                constants = constants.filter(predicate).map { filterConstant(it) },
+                typeAliases = typeAliases.filter(predicate),
+                exceptions = exceptions.filter(predicate)
             )
         }.also { remap(it) }
 
