@@ -120,7 +120,7 @@ internal class AntlrLimeModelBuilder(
         } ?: emptyList()
         val comment = parseStructuredComment(ctx.docComment(), ctx).description
         val attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation())
-        val externalDescriptor = parseExternalDescriptor(ctx.externalDescriptor(), ctx.annotation())
+        val externalDescriptor = parseExternalDescriptor(ctx.externalDescriptor())
 
         val limeElement = if (ctx.Interface() == null) {
             LimeClass(
@@ -323,7 +323,7 @@ internal class AntlrLimeModelBuilder(
             val getterAttributes =
                 AntlrLimeConverter.convertAnnotations(currentPath, getterContext.annotation(), propertyAttributes)
             val getterExternalDescriptor =
-                parseExternalDescriptor(getterContext.externalDescriptor(), getterContext.annotation())
+                parseExternalDescriptor(getterContext.externalDescriptor())
             val getterComment = getComment("get", getterContext.docComment(), getterContext)
             getter = LimeFunction(
                 path = getterPath,
@@ -338,7 +338,7 @@ internal class AntlrLimeModelBuilder(
                 val setterAttributes =
                     AntlrLimeConverter.convertAnnotations(currentPath, it.annotation(), propertyAttributes)
                 val setterExternalDescriptor =
-                    parseExternalDescriptor(it.externalDescriptor(), it.annotation())
+                    parseExternalDescriptor(it.externalDescriptor())
                 val setterComment = getComment("set", it.docComment(), it)
                 LimeFunction(
                     path = currentPath.child("set"),
@@ -379,7 +379,7 @@ internal class AntlrLimeModelBuilder(
 
     override fun exitStruct(ctx: LimeParser.StructContext) {
         val attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation())
-        val externalDescriptor = parseExternalDescriptor(ctx.externalDescriptor(), ctx.annotation())
+        val externalDescriptor = parseExternalDescriptor(ctx.externalDescriptor())
         val limeElement = LimeStruct(
             path = currentPath,
             visibility = currentVisibility,
@@ -410,7 +410,7 @@ internal class AntlrLimeModelBuilder(
 
     override fun exitField(ctx: LimeParser.FieldContext) {
         val attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation())
-        val externalDescriptor = parseExternalDescriptor(ctx.externalDescriptor(), ctx.annotation())
+        val externalDescriptor = parseExternalDescriptor(ctx.externalDescriptor())
         val limeTypeRef = typeMapper.mapTypeRef(currentPath, ctx.typeRef())
 
         val defaultValueCtx = ctx.literalConstant()
@@ -439,7 +439,7 @@ internal class AntlrLimeModelBuilder(
 
     override fun exitEnumeration(ctx: LimeParser.EnumerationContext) {
         val attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation())
-        val externalDescriptor = parseExternalDescriptor(ctx.externalDescriptor(), ctx.annotation())
+        val externalDescriptor = parseExternalDescriptor(ctx.externalDescriptor())
         val limeElement = LimeEnumeration(
             path = currentPath,
             visibility = currentVisibility,
@@ -712,12 +712,8 @@ internal class AntlrLimeModelBuilder(
         return AntlrLimeConverter.parseStructuredComment(commentString, ctx.getStart().line, currentPath)
     }
 
-    private fun parseExternalDescriptor(
-        ctx: LimeParser.ExternalDescriptorContext?,
-        annotations: List<LimeParser.AnnotationContext>
-    ): LimeExternalDescriptor? {
-        val legacyDescriptor = AntlrLimeConverter.convertExternalDescriptor(annotations)
-        if (ctx == null) return legacyDescriptor
+    private fun parseExternalDescriptor(ctx: LimeParser.ExternalDescriptorContext?): LimeExternalDescriptor? {
+        if (ctx == null) return null
 
         val builder = LimeExternalDescriptor.Builder()
         ctx.externalDescriptorValue().forEach {
@@ -727,9 +723,7 @@ internal class AntlrLimeModelBuilder(
                 AntlrLimeConverter.convertSingleLineStringLiteral(it.singleLineStringLiteral())
             )
         }
-        val descriptor = builder.build()
 
-        // Order of descriptor addition matters. Matching keys from right-hand side take precedence.
-        return legacyDescriptor?.let { it + descriptor } ?: descriptor
+        return builder.build()
     }
 }

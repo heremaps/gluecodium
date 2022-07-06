@@ -17,45 +17,58 @@
 
 package `external`
 
-@Cpp(ExternalType = "include/ExternalTypes.h")
 struct ExternalStruct {
+    external {
+        cpp include "include/ExternalTypes.h"
+    }
+
     string_field: String
-    @Cpp(ExternalGetter = "get_some_string", ExternalSetter = "set_some_string")
-    externalStringField: String
-    @Cpp(ExternalGetter = "getSomeArray", ExternalSetter = "setSomeArray")
-    externalArrayField: List<Int>
-    @Cpp(ExternalGetter = "aStruct", ExternalSetter = "_set_aStruct")
-    externalStructField: AnotherExternalStruct
+    externalStringField: String external {
+        cpp getterName "get_some_string"
+        cpp setterName "set_some_string"
+    }
+    externalArrayField: List<Int> external {
+        cpp getterName "getSomeArray"
+        cpp setterName "setSomeArray"
+    }
+    externalStructField: AnotherExternalStruct external {
+        cpp getterName "aStruct"
+        cpp setterName "_set_aStruct"
+    }
 }
-@Cpp(
-    ExternalType = "include/ExternalTypes.h",
-    ExternalName = "::external::even_more_external::AlienStructure"
-)
 struct AnotherExternalStruct {
+    external {
+        cpp include "include/ExternalTypes.h"
+        cpp name "::external::even_more_external::AlienStructure"
+    }
     int_field: Int
 }
-@Cpp(ExternalType = "include/ExternalTypes.h")
 struct Yet_Another_External_Struct {
+    external {
+        cpp include "include/ExternalTypes.h"
+    }
     string_Field: String
 }
-@Cpp(
-    ExternalType = ["string", "utility"],
-    ExternalName = "::std::pair< ::std::string, ::std::string >"
-)
 struct ExternalStringPair {
+    external {
+        cpp include "string, utility"
+        cpp name "::std::pair< ::std::string, ::std::string >"
+    }
     first: String
     second: String
 }
-@Cpp(
-    ExternalType = "include/ExternalTypes.h",
-    ExternalName = "::external::even_more_external::AlienEnum"
-)
 enum ExternalEnum {
+    external {
+        cpp include "include/ExternalTypes.h"
+        cpp name "::external::even_more_external::AlienEnum"
+    }
     Foo,
     Bar
 }
-@Cpp(ExternalType = "include/ExternalTypes.h")
 enum Very_External_Enum {
+    external {
+        cpp include "include/ExternalTypes.h"
+    }
     FOO,
     BAR
 }
@@ -63,17 +76,19 @@ typealias ExternalStructArray = List<ExternalStruct>
 typealias ExternalEnumArray = List<ExternalEnum>
 
 struct ExternalTypesWithoutTypeTraits {
-    @Cpp(
-        ExternalType = "include/ExternalTypesWithoutTypeTraits.h",
-        ExternalName = "::external::IntStruct"
-    )
     struct IntStruct {
+        external {
+            cpp include "include/ExternalTypesWithoutTypeTraits.h"
+            cpp name "::external::IntStruct"
+        }
         int_field: Int
     }
 }
 
-@Cpp(ExternalType = "include/ExternalTypes.h")
 class ClassWithOverloads {
+    external {
+        cpp include "include/ExternalTypes.h"
+    }
     fun oneOverloadNotExposed(): String
     fun allOverloadsExposed(input: String): String
     @Dart("allOverloadsExposedList")
@@ -82,16 +97,18 @@ class ClassWithOverloads {
     fun allOverloadsExposed(inputString: String, inputBool: Boolean): String
 }
 
-@Cpp(
-    ExternalType = "external/StandaloneExternalType.h",
-    ExternalName = "::external::StandaloneExternalType"
-)
 class StandaloneExternalType {
+    external {
+        cpp include "external/StandaloneExternalType.h"
+        cpp name "::external::StandaloneExternalType"
+    }
     fun foo()
 }
 
-@Cpp(ExternalType = "include/ExternalTypes.h")
 class external_Interface {
+    external {
+        cpp include "include/ExternalTypes.h"
+    }
     struct some_Struct {
         some_Field: String
     }
@@ -102,13 +119,15 @@ class external_Interface {
         some_Parameter: Byte
     )
     property some_Attribute: String {
-        @Cpp(ExternalName = "get_Me")
-        get
+        get external { cpp name "get_Me" }
     }
 }
 
-@Cpp(ExternalType = "include/ExternalTypes.h", ExternalName = "::external::fOo_iTnerface")
 class VeryExternalInterface {
+    external {
+        cpp include "include/ExternalTypes.h"
+        cpp name "::external::fOo_iTnerface"
+    }
     struct some_Struct {
         some_Field: String
     }
@@ -119,10 +138,8 @@ class VeryExternalInterface {
         some_Parameter: Byte
     )
     property some_Attribute: String {
-        @Cpp(ExternalName = "get_Me")
-        get
-        @Cpp(ExternalName = "set_Me")
-        set
+        get external { cpp name "get_Me" }
+        set external { cpp name "set_Me" }
     }
 }
 

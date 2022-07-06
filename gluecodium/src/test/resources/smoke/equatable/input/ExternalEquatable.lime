@@ -18,9 +18,12 @@
 package smoke
 
 struct ExternalEquatable {
-    @Cpp(ExternalType = "foo/Bar.h")
     @Equatable
     struct ExternalEquatableStruct {
+        external {
+            cpp include "foo/Bar.h"
+        }
+
         fooField: String
     }
 }

@@ -129,11 +129,11 @@ struct StructWithOverloads {
 }
 
 struct ExternalTypeInTypesCollection {
-    @Cpp(
-        ExternalType = "include/ExternalTypeInTypesCollection.h",
-        ExternalName = "::external::IntStruct"
-    )
     struct IntStruct {
+        external {
+            cpp include "include/ExternalTypeInTypesCollection.h"
+            cpp name "::external::IntStruct"
+        }
         int_field: Int
     }
 }
