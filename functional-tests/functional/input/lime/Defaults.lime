@@ -75,11 +75,11 @@ class Defaults {
         FooValue,
         BarValue
     }
-    @Cpp(
-        ExternalType = "include/ExternalTypes.h",
-        ExternalName = "::external::even_more_external::VeryAlienEnum"
-    )
     enum ExternalEnum {
+        external {
+            cpp include "include/ExternalTypes.h"
+            cpp name "::external::even_more_external::VeryAlienEnum"
+        }
         One_Value,
         Another_Value
     }

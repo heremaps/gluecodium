@@ -3,6 +3,7 @@
 ## Unreleased
 ### Removed:
   * Support for `types` declaration was removed.
+  * Support for `@Cpp(External*)` attributes was removed.
 
 ## 12.2.0
 Release date: 2022-07-05

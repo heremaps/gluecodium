@@ -37,11 +37,11 @@ class Errors {
         NONE,
         CRASHED
     }
-    @Cpp(
-        ExternalType = "include/ExternalTypes.h",
-        ExternalName = "::external::even_more_external::AlienErrorCode"
-    )
     enum ExternalErrorCode {
+        external {
+            cpp include "include/ExternalTypes.h"
+            cpp name "::external::even_more_external::AlienErrorCode"
+        }
         NONE,
         BOOM
     }

@@ -55,8 +55,11 @@ class GenericTypesWithCompoundTypes {
     struct BasicStruct {
         value: Double
     }
-    @Cpp(ExternalType = "alien/FooStruct.h", ExternalName = "::alien::FooStruct")
     struct ExternalStruct {
+        external {
+            cpp include "alien/FooStruct.h"
+            cpp name "::alien::FooStruct"
+        }
         string: String
     }
 
@@ -64,8 +67,12 @@ class GenericTypesWithCompoundTypes {
         FOO,
         BAR
     }
-    @Cpp(ExternalType = "alien/FooEnum.h", ExternalName = "::alien::FooEnum")
     enum ExternalEnum {
+        external {
+            cpp include "alien/FooEnum.h"
+            cpp name "::alien::FooEnum"
+        }
+
         ON,
         OFF
     }
