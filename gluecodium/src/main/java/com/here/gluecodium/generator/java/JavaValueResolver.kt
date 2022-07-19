@@ -42,11 +42,7 @@ internal class JavaValueResolver(private val nameResolver: JavaNameResolver) {
             is LimeValue.Null -> "null"
             is LimeValue.InitializerList -> mapInitializerList(limeValue)
             is LimeValue.StructInitializer -> mapStructInitializer(limeValue)
-            is LimeValue.KeyValuePair -> {
-                val keyValue = resolveValue(limeValue.key)
-                val valueValue = resolveValue(limeValue.value)
-                "new AbstractMap.SimpleEntry<>($keyValue, $valueValue)"
-            }
+            is LimeValue.KeyValuePair -> "put(${resolveValue(limeValue.key)}, ${resolveValue(limeValue.value)})"
             is LimeValue.Duration -> mapDurationValue(limeValue)
         }
 
@@ -85,23 +81,26 @@ internal class JavaValueResolver(private val nameResolver: JavaNameResolver) {
             return "new byte[] { $values }"
         }
 
-        val values = limeValue.values.joinToString(", ") { resolveValue(it) }
         return when (limeType) {
             is LimeList -> {
+                val values = limeValue.values.joinToString(", ") { resolveValue(it) }
                 val valuesAsList = if (values.isEmpty()) "" else "Arrays.asList($values)"
                 "new ArrayList<>($valuesAsList)"
             }
             is LimeSet -> {
+                val values = limeValue.values.joinToString(", ") { resolveValue(it) }
                 val implName = if (limeType.elementType.type.actualType is LimeEnumeration) "EnumSet" else "HashSet"
                 val valuesAsList = if (values.isEmpty()) "" else "Arrays.asList($values)"
                 "new $implName<>($valuesAsList)"
             }
-            is LimeMap -> {
-                val valuesAsList = when {
-                    values.isEmpty() -> ""
-                    else -> "Stream.of($values).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))"
+            is LimeMap -> when {
+                limeValue.values.isEmpty() -> "new HashMap<>()"
+                else -> {
+                    val keyType = nameResolver.resolveTypeRef(limeType.keyType, needsBoxing = true)
+                    val valueType = nameResolver.resolveTypeRef(limeType.valueType, needsBoxing = true)
+                    val values = limeValue.values.joinToString(".") { resolveValue(it) }
+                    "new HashMapBuilder<$keyType, $valueType>().$values.build()"
                 }
-                "new HashMap<>($valuesAsList)"
             }
             else -> throw GluecodiumExecutionException("Unsupported type ${limeType.javaClass.name} for initializer list")
         }

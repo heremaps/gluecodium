@@ -114,7 +114,7 @@ internal class JavaNameResolver(
     private fun resolveAccessorName(element: Any, rule: JavaNameRules.(LimeTypedElement) -> String) =
         (element as? LimeTypedElement)?.let { javaNameRules.rule(it) }
 
-    private fun resolveTypeRef(limeTypeRef: LimeTypeRef, needsBoxing: Boolean = false): String {
+    internal fun resolveTypeRef(limeTypeRef: LimeTypeRef, needsBoxing: Boolean = false): String {
         val limeType = limeTypeRef.type.actualType
         val externalName = limeType.external?.java?.get(NAME_NAME)
         return when {
