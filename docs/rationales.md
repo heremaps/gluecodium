@@ -35,15 +35,6 @@ for struct-type classes in Java, unless every field has an explicit default spec
 the situation where some fields are initialized with some implicit default values which were either
 unintended by the API designer or unexpected by the user of the API, or both.
 
-### Builder pattern for structs
-To ensure that all fields without specified default are initialized by a builder, a pattern called
-builder chaining is applied. For each mandatory field, i.e. one without a default value, a separate
-builder is generated returning a different builder which allows the next field to be set. Only when
-all mandatory fields were set this way, a builder with an actual `build` method is returned.
-
-Without this mechanism it was possible to initialize structs with invalid values, e.g. a null value
-in a non-null field which led to problems.
-
 Hash functions in C++
 ---------------------
 

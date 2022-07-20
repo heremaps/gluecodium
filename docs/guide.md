@@ -39,13 +39,17 @@ platform objects).
 Structs
 -------
 
-Similar to a `class` but considered a value type. It is generated as `struct` in Swift and C++
-and as `class` in Java and Dart. Structs are passed by value and since they are value types, all methods
-are const. Structs have by default constructors generated in all languages.
+Mostly similar to a `class`, with three key differences:
+* a `struct` is considered a value type, so it is passed across any language boundaries by copy.
+* type inheritance is not supported for structs (a technical limitation imposed by Swift language).
+* in additional to any capabilities a `class` has, a `struct` can have data fields.
 
-**Note:** Although in Java and Dart everything is a reference type, modifications on a struct are
-not reflected in C++ unless it is passed to C++ explicitly as a parameter or similar. If
-changes need to be propagated a class with properties should be used.
+A `struct` is generated as `struct` in Swift and C++ and as `class` in Java and Dart. Structs have by default
+constructors generated in all languages.
+
+**Note:** Although in Java and Dart everything is a reference type, a struct is still a copy, so any modifications on a
+struct are not propagated to the "original", unless passed across the language boundary explicitly as a parameter or
+similar. If change-propagating behavior is desired, a class with properties can be used instead.
 
 Interfaces
 ----------
