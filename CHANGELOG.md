@@ -1,6 +1,8 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Bug fixes:
+  * Fixed Java compilation issue for non-empty `Map<>` initializers under Android API level 21.
 ### Removed:
   * Support for `types` declaration was removed.
   * Support for `@Cpp(External*)` attributes was removed.

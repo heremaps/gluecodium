@@ -54,6 +54,7 @@ internal class JavaImportResolver(
 ) : ImportsResolver<JavaImport> {
     val nativeBaseImport = JavaImport(internalPackages, "NativeBase")
     private val abstractNativeListImport = JavaImport(internalPackages, "AbstractNativeList")
+    private val hashMapBuilderImport = JavaImport(internalPackages, "HashMapBuilder")
     private val durationImport = JavaImport(internalPackages + "time", "Duration")
 
     override fun resolveElementImports(limeElement: LimeElement): List<JavaImport> =
@@ -116,8 +117,7 @@ internal class JavaImportResolver(
             is LimeList -> listOfNotNull(arrayListImport, arraysImport.takeIf { hasValues })
             is LimeSet -> listOfNotNull(arraysImport.takeIf { hasValues }) +
                 if (limeType.elementType.type.actualType is LimeEnumeration) enumSetImport else hashSetImport
-            is LimeMap ->
-                listOfNotNull(hashMapImport, streamImport.takeIf { hasValues }, collectorsImport.takeIf { hasValues })
+            is LimeMap -> listOfNotNull(hashMapImport, hashMapBuilderImport.takeIf { hasValues })
             else -> emptyList()
         }
     }
@@ -169,7 +169,6 @@ internal class JavaImportResolver(
 
     companion object {
         private val javaUtilPackage = listOf("java", "util")
-        private val javaUtilStreamPackage = javaUtilPackage + "stream"
         private val androidOsPackage = listOf("android", "os")
 
         private val listImport = JavaImport(javaUtilPackage, "List")
@@ -181,9 +180,6 @@ internal class JavaImportResolver(
         private val enumSetImport = JavaImport(javaUtilPackage, "EnumSet")
         private val hashMapImport = JavaImport(javaUtilPackage, "HashMap")
         private val arraysImport = JavaImport(javaUtilPackage, "Arrays")
-
-        private val streamImport = JavaImport(javaUtilStreamPackage, "Stream")
-        private val collectorsImport = JavaImport(javaUtilStreamPackage, "Collectors")
 
         private val parcelableImport = JavaImport(androidOsPackage, "Parcelable")
         private val parcelImport = JavaImport(androidOsPackage, "Parcel")

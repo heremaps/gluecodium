@@ -133,6 +133,11 @@ internal class JavaGenerator : Generator {
             GeneratedFile.SourceSet.COMMON
         )
         resultFiles += GeneratedFile(
+            TemplateEngine.render("java/HashMapBuilder", internalPackageList),
+            "$nativeBasePath/HashMapBuilder.java",
+            GeneratedFile.SourceSet.COMMON
+        )
+        resultFiles += GeneratedFile(
             TemplateEngine.render("java/Duration", internalPackageList),
             "$nativeBasePath/time/Duration.java",
             GeneratedFile.SourceSet.COMMON
