@@ -8,11 +8,7 @@
 #include <utility>
 namespace smoke {
 SimpleEquatableStruct::SimpleEquatableStruct( )
-    : class_field{ }, interface_field{ }
-{
-}
-SimpleEquatableStruct::SimpleEquatableStruct( ::std::shared_ptr< ::smoke::NonEquatableClass > class_field, ::std::shared_ptr< ::smoke::NonEquatableInterface > interface_field )
-    : class_field( std::move( class_field ) ), interface_field( std::move( interface_field ) )
+    : class_field{ }, interface_field{ }, nullable_class_field{ }, nullable_interface_field{ }
 {
 }
 SimpleEquatableStruct::SimpleEquatableStruct( ::std::shared_ptr< ::smoke::NonEquatableClass > class_field, ::std::shared_ptr< ::smoke::NonEquatableInterface > interface_field, ::std::shared_ptr< ::smoke::NonEquatableClass > nullable_class_field, ::std::shared_ptr< ::smoke::NonEquatableInterface > nullable_interface_field )

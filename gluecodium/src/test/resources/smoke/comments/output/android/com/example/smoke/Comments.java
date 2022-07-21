@@ -58,10 +58,11 @@ public final class Comments extends NativeBase {
          * <p>This is how easy it is to construct.
          * @param someField <p>How useful this struct is
          * remains to be seen
+         * @param nullableField <p>Can be <code>null</code>
          */
-        public SomeStruct(final boolean someField) {
+        public SomeStruct(final boolean someField, @Nullable final String nullableField) {
             this.someField = someField;
-            this.nullableField = null;
+            this.nullableField = nullableField;
         }
         /**
          * <p>This is some struct method that does nothing.

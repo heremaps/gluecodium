@@ -35,8 +35,6 @@ struct LocalesStruct {
     secondaryLocale: Locale?
 
     static fun localesStructRoundTrip(input: LocalesStruct): LocalesStruct
-
-    field constructor(primaryLocale, secondaryLocale)
 }
 
 class LocaleGenerics {

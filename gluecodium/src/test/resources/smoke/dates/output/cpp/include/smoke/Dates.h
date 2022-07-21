@@ -25,9 +25,8 @@ public:
     using DateMap = ::std::unordered_map< ::std::string, ::std::chrono::system_clock::time_point >;
     struct _GLUECODIUM_CPP_EXPORT DateStruct {
         ::std::chrono::system_clock::time_point date_field;
-        ::gluecodium::optional< ::std::chrono::system_clock::time_point > nullable_date_field = ::gluecodium::optional< ::std::chrono::system_clock::time_point >();
+        ::gluecodium::optional< ::std::chrono::system_clock::time_point > nullable_date_field;
         DateStruct( );
-        explicit DateStruct( ::std::chrono::system_clock::time_point date_field );
         DateStruct( ::std::chrono::system_clock::time_point date_field, ::gluecodium::optional< ::std::chrono::system_clock::time_point > nullable_date_field );
     };
 public:

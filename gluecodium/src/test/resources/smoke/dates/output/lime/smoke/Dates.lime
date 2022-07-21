@@ -5,7 +5,7 @@ class Dates {
     typealias DateMap = Map<String, Date>
     struct DateStruct {
         dateField: Date
-        nullableDateField: Date? = null
+        nullableDateField: Date?
     }
     fun dateMethod(
         input: Date
