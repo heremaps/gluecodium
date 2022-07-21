@@ -22,7 +22,7 @@ class comments {
         // remains to be seen
         someField: Usefulness
         // Can be `null`
-        nullableField: String?
+        nullableField: String? = null
         // This is some struct method that does nothing.
         fun someStructMethod()
         // This is some static struct method that does nothing.

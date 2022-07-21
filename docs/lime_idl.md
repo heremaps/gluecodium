@@ -267,7 +267,8 @@ struct Options {
 * Description: declares a struct type (data type) in the parent type:
   * a struct can have any number of fields, but at least one field is required.
   * a struct field can have a default value associated with it (optionally). For more details on
-  values and literals see `Values and Literals` below.
+  values and literals see `Values and Literals` below. A field of a nullable type (i.e. with a `?` suffix) implicitly
+  has a default value of `null`, unless explicitly defined otherwise.
   * in addition to fields, a struct can have member functions, constructors, constants, and other types declared
   inside it.
 
