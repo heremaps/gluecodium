@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 12.2.1
+Release date: 2022-07-21
 ### Bug fixes:
   * Fixed Java compilation issue for non-empty `Map<>` initializers under Android API level 21.
 ### Removed:
