@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Breaking changes:
+  * Restored automatic `null` defaults.
+
 ## 12.2.1
 Release date: 2022-07-21
 ### Bug fixes:
