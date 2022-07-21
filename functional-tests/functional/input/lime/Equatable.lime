@@ -138,8 +138,6 @@ class PointerEquatableClass {
     struct OptionalEquatableStruct {
         equatable: EquatableClass?
         pointerEquatable: PointerEquatableClass?
-
-        field constructor(equatable, pointerEquatable)
     }
     static fun createNew(): PointerEquatableClass
     // Returns the last created instance again

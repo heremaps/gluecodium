@@ -412,14 +412,6 @@ internal class AntlrLimeModelBuilder(
         val attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation())
         val externalDescriptor = parseExternalDescriptor(ctx.externalDescriptor())
         val limeTypeRef = typeMapper.mapTypeRef(currentPath, ctx.typeRef())
-
-        val defaultValueCtx = ctx.literalConstant()
-        val defaultValue = when {
-            defaultValueCtx != null -> convertLiteralConstant(limeTypeRef, defaultValueCtx)
-            limeTypeRef.isNullable -> LimeValue.Null(limeTypeRef)
-            else -> null
-        }
-
         val limeElement = LimeField(
             path = currentPath,
             visibility = currentVisibility,
@@ -427,7 +419,7 @@ internal class AntlrLimeModelBuilder(
             attributes = attributes,
             external = externalDescriptor,
             typeRef = limeTypeRef,
-            defaultValue = defaultValue
+            defaultValue = ctx.literalConstant()?.let { convertLiteralConstant(limeTypeRef, it) }
         )
 
         storeResultAndPopStacks(limeElement)

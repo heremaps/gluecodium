@@ -7,9 +7,7 @@ class SimpleEquatableStruct {
   NonEquatableInterface interfaceField;
   NonEquatableClass? nullableClassField;
   NonEquatableInterface? nullableInterfaceField;
-  SimpleEquatableStruct._(this.classField, this.interfaceField, this.nullableClassField, this.nullableInterfaceField);
-  SimpleEquatableStruct(NonEquatableClass classField, NonEquatableInterface interfaceField)
-    : classField = classField, interfaceField = interfaceField, nullableClassField = null, nullableInterfaceField = null;
+  SimpleEquatableStruct(this.classField, this.interfaceField, this.nullableClassField, this.nullableInterfaceField);
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
@@ -73,7 +71,7 @@ SimpleEquatableStruct smokeSimpleequatablestructFromFfi(Pointer<Void> handle) {
   final _nullableClassFieldHandle = _smokeSimpleequatablestructGetFieldnullableClassField(handle);
   final _nullableInterfaceFieldHandle = _smokeSimpleequatablestructGetFieldnullableInterfaceField(handle);
   try {
-    return SimpleEquatableStruct._(
+    return SimpleEquatableStruct(
       smokeNonequatableclassFromFfi(_classFieldHandle),
       smokeNonequatableinterfaceFromFfi(_interfaceFieldHandle),
       smokeNonequatableclassFromFfiNullable(_nullableClassFieldHandle),

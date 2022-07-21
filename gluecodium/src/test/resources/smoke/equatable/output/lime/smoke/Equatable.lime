@@ -2,10 +2,12 @@ package smoke
 
 struct Equatable {
     typealias ErrorCodeToMessageMap = Map<Int, String>
+
     enum SomeEnum {
         FOO,
         BAR
     }
+
     @Equatable
     struct EquatableStruct {
         boolField: Boolean
@@ -21,15 +23,15 @@ struct Equatable {
     }
     @Equatable
     struct EquatableNullableStruct {
-        boolField: Boolean? = null
-        intField: Int? = null
-        uintField: UShort? = null
-        floatField: Float? = null
-        stringField: String? = null
-        structField: NestedEquatableStruct? = null
-        enumField: SomeEnum? = null
-        arrayField: List<String>? = null
-        mapField: ErrorCodeToMessageMap? = null
+        boolField: Boolean?
+        intField: Int?
+        uintField: UShort?
+        floatField: Float?
+        stringField: String?
+        structField: NestedEquatableStruct?
+        enumField: SomeEnum?
+        arrayField: List<String>?
+        mapField: ErrorCodeToMessageMap?
     }
     @Equatable
     struct NestedEquatableStruct {

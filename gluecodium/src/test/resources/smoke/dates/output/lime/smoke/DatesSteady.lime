@@ -5,7 +5,7 @@ class DatesSteady {
     typealias DateMap = Map<MonotonicDate, String>
     struct DateStruct {
         dateField: MonotonicDate
-        nullableDateField: MonotonicDate? = null
+        nullableDateField: MonotonicDate?
     }
     fun dateMethod(
         input: MonotonicDate

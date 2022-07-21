@@ -94,16 +94,16 @@ public final class Equatable {
         public List<String> arrayField;
         @Nullable
         public Map<Integer, String> mapField;
-        public EquatableNullableStruct() {
-            this.boolField = null;
-            this.intField = null;
-            this.uintField = null;
-            this.floatField = null;
-            this.stringField = null;
-            this.structField = null;
-            this.enumField = null;
-            this.arrayField = null;
-            this.mapField = null;
+        public EquatableNullableStruct(@Nullable final Boolean boolField, @Nullable final Integer intField, @Nullable final Integer uintField, @Nullable final Float floatField, @Nullable final String stringField, @Nullable final Equatable.NestedEquatableStruct structField, @Nullable final Equatable.SomeEnum enumField, @Nullable final List<String> arrayField, @Nullable final Map<Integer, String> mapField) {
+            this.boolField = boolField;
+            this.intField = intField;
+            this.uintField = uintField;
+            this.floatField = floatField;
+            this.stringField = stringField;
+            this.structField = structField;
+            this.enumField = enumField;
+            this.arrayField = arrayField;
+            this.mapField = mapField;
         }
         @Override
         public boolean equals(Object obj) {

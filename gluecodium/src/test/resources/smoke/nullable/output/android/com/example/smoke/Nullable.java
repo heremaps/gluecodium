@@ -1,5 +1,6 @@
 /*
  *
+
  */
 package com.example.smoke;
 import android.support.annotation.NonNull;
@@ -42,16 +43,16 @@ public final class Nullable extends NativeBase {
         public Map<Long, String> mapField;
         @Nullable
         public SomeInterface instanceField;
-        public NullableStruct() {
-            this.stringField = null;
-            this.boolField = null;
-            this.doubleField = null;
-            this.structField = null;
-            this.enumField = null;
-            this.arrayField = null;
-            this.inlineArrayField = null;
-            this.mapField = null;
-            this.instanceField = null;
+        public NullableStruct(@Nullable final String stringField, @Nullable final Boolean boolField, @Nullable final Double doubleField, @Nullable final Nullable.SomeStruct structField, @Nullable final Nullable.SomeEnum enumField, @Nullable final List<String> arrayField, @Nullable final List<String> inlineArrayField, @Nullable final Map<Long, String> mapField, @Nullable final SomeInterface instanceField) {
+            this.stringField = stringField;
+            this.boolField = boolField;
+            this.doubleField = doubleField;
+            this.structField = structField;
+            this.enumField = enumField;
+            this.arrayField = arrayField;
+            this.inlineArrayField = inlineArrayField;
+            this.mapField = mapField;
+            this.instanceField = instanceField;
         }
     }
     public static final class NullableIntsStruct {
@@ -71,15 +72,15 @@ public final class Nullable extends NativeBase {
         public Long uint32Field;
         @Nullable
         public Long uint64Field;
-        public NullableIntsStruct() {
-            this.int8Field = null;
-            this.int16Field = null;
-            this.int32Field = null;
-            this.int64Field = null;
-            this.uint8Field = null;
-            this.uint16Field = null;
-            this.uint32Field = null;
-            this.uint64Field = null;
+        public NullableIntsStruct(@Nullable final Byte int8Field, @Nullable final Short int16Field, @Nullable final Integer int32Field, @Nullable final Long int64Field, @Nullable final Short uint8Field, @Nullable final Integer uint16Field, @Nullable final Long uint32Field, @Nullable final Long uint64Field) {
+            this.int8Field = int8Field;
+            this.int16Field = int16Field;
+            this.int32Field = int32Field;
+            this.int64Field = int64Field;
+            this.uint8Field = uint8Field;
+            this.uint16Field = uint16Field;
+            this.uint32Field = uint32Field;
+            this.uint64Field = uint64Field;
         }
     }
     /**
