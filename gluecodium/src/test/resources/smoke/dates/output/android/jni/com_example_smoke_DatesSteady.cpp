@@ -26,9 +26,9 @@ Java_com_example_smoke_DatesSteady_dateMethod(JNIEnv* _jenv, jobject _jinstance,
 jobject
 Java_com_example_smoke_DatesSteady_nullableDateMethod(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
 {
-    ::gluecodium::optional< ::smoke::DatesSteady::MonotonicDate > input = ::gluecodium::jni::convert_from_jni(_jenv,
+    std::optional< ::smoke::DatesSteady::MonotonicDate > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::gluecodium::optional< ::smoke::DatesSteady::MonotonicDate >*)nullptr);
+            (std::optional< ::smoke::DatesSteady::MonotonicDate >*)nullptr);
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::DatesSteady>*> (
         ::gluecodium::jni::get_field_value(
             _jenv,

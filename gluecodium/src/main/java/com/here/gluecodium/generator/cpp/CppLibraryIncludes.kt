@@ -36,6 +36,7 @@ object CppLibraryIncludes {
     val CHRONO = Include.createSystemInclude("chrono")
     val SET = Include.createSystemInclude("unordered_set")
     val FUNCTIONAL = Include.createSystemInclude("functional")
+    val OPTIONAL = Include.createSystemInclude("optional")
     val TYPE_TRAITS = Include.createSystemInclude("type_traits")
     val UTILITY = Include.createSystemInclude("utility")
 

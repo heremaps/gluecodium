@@ -19,12 +19,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::S
         (::smoke::Structs::AllTypesStruct*)nullptr );
     return ::smoke::Structs::NestingImmutableStruct(std::move(n_struct_field));
 }
-::gluecodium::optional<::smoke::Structs::NestingImmutableStruct>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::Structs::NestingImmutableStruct>*)
+std::optional<::smoke::Structs::NestingImmutableStruct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::optional<::smoke::Structs::NestingImmutableStruct>*)
 {
     return _jinput
-        ? ::gluecodium::optional<::smoke::Structs::NestingImmutableStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::NestingImmutableStruct*)nullptr))
-        : ::gluecodium::optional<::smoke::Structs::NestingImmutableStruct>{};
+        ? std::optional<::smoke::Structs::NestingImmutableStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::NestingImmutableStruct*)nullptr))
+        : std::optional<::smoke::Structs::NestingImmutableStruct>{};
 }
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/Structs$NestingImmutableStruct", com_example_smoke_Structs_00024NestingImmutableStruct, ::smoke::Structs::NestingImmutableStruct)
 JniReference<jobject>
@@ -37,7 +37,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::NestingImmutableStruct& _n
     return _jresult;
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::smoke::Structs::NestingImmutableStruct> _ninput)
+convert_to_jni(JNIEnv* _jenv, const std::optional<::smoke::Structs::NestingImmutableStruct> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

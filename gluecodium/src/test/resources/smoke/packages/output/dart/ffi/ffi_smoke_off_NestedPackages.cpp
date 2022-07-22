@@ -64,7 +64,7 @@ FfiOpaqueHandle
 library_smoke_off_NestedPackages_SomeStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<smoke::off::NestedPackages::SomeStruct>(
+        new (std::nothrow) std::optional<smoke::off::NestedPackages::SomeStruct>(
             gluecodium::ffi::Conversion<smoke::off::NestedPackages::SomeStruct>::toCpp(value)
         )
     );
@@ -72,13 +72,13 @@ library_smoke_off_NestedPackages_SomeStruct_create_handle_nullable(FfiOpaqueHand
 void
 library_smoke_off_NestedPackages_SomeStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<smoke::off::NestedPackages::SomeStruct>*>(handle);
+    delete reinterpret_cast<std::optional<smoke::off::NestedPackages::SomeStruct>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_off_NestedPackages_SomeStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::off::NestedPackages::SomeStruct>::toFfi(
-        **reinterpret_cast<gluecodium::optional<smoke::off::NestedPackages::SomeStruct>*>(handle)
+        **reinterpret_cast<std::optional<smoke::off::NestedPackages::SomeStruct>*>(handle)
     );
 }
 #ifdef __cplusplus

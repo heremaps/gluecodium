@@ -22,12 +22,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::L
     _nout.string_field = n_string_field;
     return _nout;
 }
-::gluecodium::optional<::smoke::LevelOne::LevelTwo::LevelThree::LevelFour>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::LevelOne::LevelTwo::LevelThree::LevelFour>*)
+std::optional<::smoke::LevelOne::LevelTwo::LevelThree::LevelFour>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::optional<::smoke::LevelOne::LevelTwo::LevelThree::LevelFour>*)
 {
     return _jinput
-        ? ::gluecodium::optional<::smoke::LevelOne::LevelTwo::LevelThree::LevelFour>(convert_from_jni(_jenv, _jinput, (::smoke::LevelOne::LevelTwo::LevelThree::LevelFour*)nullptr))
-        : ::gluecodium::optional<::smoke::LevelOne::LevelTwo::LevelThree::LevelFour>{};
+        ? std::optional<::smoke::LevelOne::LevelTwo::LevelThree::LevelFour>(convert_from_jni(_jenv, _jinput, (::smoke::LevelOne::LevelTwo::LevelThree::LevelFour*)nullptr))
+        : std::optional<::smoke::LevelOne::LevelTwo::LevelThree::LevelFour>{};
 }
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/LevelOne$LevelTwo$LevelThree$LevelFour", com_example_smoke_LevelOne_00024LevelTwo_00024LevelThree_00024LevelFour, ::smoke::LevelOne::LevelTwo::LevelThree::LevelFour)
 JniReference<jobject>
@@ -39,7 +39,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::LevelOne::LevelTwo::LevelThree::Lev
     return _jresult;
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::smoke::LevelOne::LevelTwo::LevelThree::LevelFour> _ninput)
+convert_to_jni(JNIEnv* _jenv, const std::optional<::smoke::LevelOne::LevelTwo::LevelThree::LevelFour> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

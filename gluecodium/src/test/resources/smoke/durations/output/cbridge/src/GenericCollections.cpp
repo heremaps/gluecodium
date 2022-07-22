@@ -4,11 +4,11 @@
 #include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "gluecodium/DurationHash.h"
-#include "gluecodium/Optional.h"
 #include "gluecodium/UnorderedMapHash.h"
 #include "gluecodium/UnorderedSetHash.h"
 #include "gluecodium/VectorHash.h"
 #include <chrono>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -34,13 +34,13 @@ void foobar_ArrayOf__Duration_append( _baseRef handle, double item )
     Conversion<::std::vector< ::std::chrono::seconds >>::toCpp(handle).push_back(Conversion<::std::chrono::seconds>::toCpp(item));
 }
 _baseRef foobar_ArrayOf__Duration_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::std::chrono::seconds >>( ::std::vector< ::std::chrono::seconds >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::vector< ::std::chrono::seconds >>( ::std::vector< ::std::chrono::seconds >( ) ) );
 }
 void foobar_ArrayOf__Duration_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::std::chrono::seconds >>*>( handle );
+    delete reinterpret_cast<std::optional<::std::vector< ::std::chrono::seconds >>*>( handle );
 }
 _baseRef foobar_ArrayOf__Duration_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::std::chrono::seconds >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::vector< ::std::chrono::seconds >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf__Duration_std_2_2chrono_2_2milliseconds_create_handle() {
     return reinterpret_cast<_baseRef>( new ::std::vector< std::chrono::milliseconds >( ) );
@@ -62,13 +62,13 @@ void foobar_ArrayOf__Duration_std_2_2chrono_2_2milliseconds_append( _baseRef han
     Conversion<::std::vector< std::chrono::milliseconds >>::toCpp(handle).push_back(Conversion<std::chrono::milliseconds>::toCpp(item));
 }
 _baseRef foobar_ArrayOf__Duration_std_2_2chrono_2_2milliseconds_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< std::chrono::milliseconds >>( ::std::vector< std::chrono::milliseconds >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::vector< std::chrono::milliseconds >>( ::std::vector< std::chrono::milliseconds >( ) ) );
 }
 void foobar_ArrayOf__Duration_std_2_2chrono_2_2milliseconds_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::vector< std::chrono::milliseconds >>*>( handle );
+    delete reinterpret_cast<std::optional<::std::vector< std::chrono::milliseconds >>*>( handle );
 }
 _baseRef foobar_ArrayOf__Duration_std_2_2chrono_2_2milliseconds_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< std::chrono::milliseconds >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::vector< std::chrono::milliseconds >>*>( handle ) );
 }
 _baseRef foobar_MapOf__Duration_To__String_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< ::std::chrono::seconds, ::std::string, ::gluecodium::hash< ::std::chrono::seconds > >() );
@@ -100,13 +100,13 @@ _baseRef foobar_MapOf__Duration_To__String_iterator_value(_baseRef iterator_hand
     return Conversion<::std::string>::toBaseRef(value);
 }
 _baseRef foobar_MapOf__Duration_To__String_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< ::std::chrono::seconds, ::std::string, ::gluecodium::hash< ::std::chrono::seconds > >>( ::std::unordered_map< ::std::chrono::seconds, ::std::string, ::gluecodium::hash< ::std::chrono::seconds > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< ::std::chrono::seconds, ::std::string, ::gluecodium::hash< ::std::chrono::seconds > >>( ::std::unordered_map< ::std::chrono::seconds, ::std::string, ::gluecodium::hash< ::std::chrono::seconds > >( ) ) );
 }
 void foobar_MapOf__Duration_To__String_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::chrono::seconds, ::std::string, ::gluecodium::hash< ::std::chrono::seconds > >>*>( handle );
+    delete reinterpret_cast<std::optional<::std::unordered_map< ::std::chrono::seconds, ::std::string, ::gluecodium::hash< ::std::chrono::seconds > >>*>( handle );
 }
 _baseRef foobar_MapOf__Duration_To__String_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::chrono::seconds, ::std::string, ::gluecodium::hash< ::std::chrono::seconds > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< ::std::chrono::seconds, ::std::string, ::gluecodium::hash< ::std::chrono::seconds > >>*>( handle ) );
 }
 _baseRef foobar_MapOf__Duration_std_2_2chrono_2_2milliseconds_To__String_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< std::chrono::milliseconds, ::std::string, ::gluecodium::hash< std::chrono::milliseconds > >() );
@@ -138,13 +138,13 @@ _baseRef foobar_MapOf__Duration_std_2_2chrono_2_2milliseconds_To__String_iterato
     return Conversion<::std::string>::toBaseRef(value);
 }
 _baseRef foobar_MapOf__Duration_std_2_2chrono_2_2milliseconds_To__String_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< std::chrono::milliseconds, ::std::string, ::gluecodium::hash< std::chrono::milliseconds > >>( ::std::unordered_map< std::chrono::milliseconds, ::std::string, ::gluecodium::hash< std::chrono::milliseconds > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< std::chrono::milliseconds, ::std::string, ::gluecodium::hash< std::chrono::milliseconds > >>( ::std::unordered_map< std::chrono::milliseconds, ::std::string, ::gluecodium::hash< std::chrono::milliseconds > >( ) ) );
 }
 void foobar_MapOf__Duration_std_2_2chrono_2_2milliseconds_To__String_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< std::chrono::milliseconds, ::std::string, ::gluecodium::hash< std::chrono::milliseconds > >>*>( handle );
+    delete reinterpret_cast<std::optional<::std::unordered_map< std::chrono::milliseconds, ::std::string, ::gluecodium::hash< std::chrono::milliseconds > >>*>( handle );
 }
 _baseRef foobar_MapOf__Duration_std_2_2chrono_2_2milliseconds_To__String_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< std::chrono::milliseconds, ::std::string, ::gluecodium::hash< std::chrono::milliseconds > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< std::chrono::milliseconds, ::std::string, ::gluecodium::hash< std::chrono::milliseconds > >>*>( handle ) );
 }
 _baseRef foobar_MapOf__String_To__Duration_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< ::std::string, ::std::chrono::seconds >() );
@@ -176,13 +176,13 @@ double foobar_MapOf__String_To__Duration_iterator_value(_baseRef iterator_handle
     return Conversion<::std::chrono::seconds>::toBaseRef(value);
 }
 _baseRef foobar_MapOf__String_To__Duration_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< ::std::string, ::std::chrono::seconds >>( ::std::unordered_map< ::std::string, ::std::chrono::seconds >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< ::std::string, ::std::chrono::seconds >>( ::std::unordered_map< ::std::string, ::std::chrono::seconds >( ) ) );
 }
 void foobar_MapOf__String_To__Duration_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::string, ::std::chrono::seconds >>*>( handle );
+    delete reinterpret_cast<std::optional<::std::unordered_map< ::std::string, ::std::chrono::seconds >>*>( handle );
 }
 _baseRef foobar_MapOf__String_To__Duration_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::string, ::std::chrono::seconds >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< ::std::string, ::std::chrono::seconds >>*>( handle ) );
 }
 _baseRef foobar_MapOf__String_To__Duration_std_2_2chrono_2_2milliseconds_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< ::std::string, std::chrono::milliseconds >() );
@@ -214,13 +214,13 @@ double foobar_MapOf__String_To__Duration_std_2_2chrono_2_2milliseconds_iterator_
     return Conversion<std::chrono::milliseconds>::toBaseRef(value);
 }
 _baseRef foobar_MapOf__String_To__Duration_std_2_2chrono_2_2milliseconds_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< ::std::string, std::chrono::milliseconds >>( ::std::unordered_map< ::std::string, std::chrono::milliseconds >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< ::std::string, std::chrono::milliseconds >>( ::std::unordered_map< ::std::string, std::chrono::milliseconds >( ) ) );
 }
 void foobar_MapOf__String_To__Duration_std_2_2chrono_2_2milliseconds_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::string, std::chrono::milliseconds >>*>( handle );
+    delete reinterpret_cast<std::optional<::std::unordered_map< ::std::string, std::chrono::milliseconds >>*>( handle );
 }
 _baseRef foobar_MapOf__String_To__Duration_std_2_2chrono_2_2milliseconds_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::string, std::chrono::milliseconds >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< ::std::string, std::chrono::milliseconds >>*>( handle ) );
 }
 _baseRef foobar_SetOf__Duration_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set< ::std::chrono::seconds, ::gluecodium::hash< ::std::chrono::seconds > >() );
@@ -248,13 +248,13 @@ double foobar_SetOf__Duration_iterator_get(_baseRef iterator_handle) {
     return Conversion<::std::chrono::seconds>::referenceBaseRef(value);
 }
 _baseRef foobar_SetOf__Duration_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_set< ::std::chrono::seconds, ::gluecodium::hash< ::std::chrono::seconds > >>( ::std::unordered_set< ::std::chrono::seconds, ::gluecodium::hash< ::std::chrono::seconds > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_set< ::std::chrono::seconds, ::gluecodium::hash< ::std::chrono::seconds > >>( ::std::unordered_set< ::std::chrono::seconds, ::gluecodium::hash< ::std::chrono::seconds > >( ) ) );
 }
 void foobar_SetOf__Duration_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::unordered_set< ::std::chrono::seconds, ::gluecodium::hash< ::std::chrono::seconds > >>*>( handle );
+    delete reinterpret_cast<std::optional<::std::unordered_set< ::std::chrono::seconds, ::gluecodium::hash< ::std::chrono::seconds > >>*>( handle );
 }
 _baseRef foobar_SetOf__Duration_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_set< ::std::chrono::seconds, ::gluecodium::hash< ::std::chrono::seconds > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_set< ::std::chrono::seconds, ::gluecodium::hash< ::std::chrono::seconds > >>*>( handle ) );
 }
 _baseRef foobar_SetOf__Duration_std_2_2chrono_2_2milliseconds_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set< std::chrono::milliseconds, ::gluecodium::hash< std::chrono::milliseconds > >() );
@@ -282,11 +282,11 @@ double foobar_SetOf__Duration_std_2_2chrono_2_2milliseconds_iterator_get(_baseRe
     return Conversion<std::chrono::milliseconds>::referenceBaseRef(value);
 }
 _baseRef foobar_SetOf__Duration_std_2_2chrono_2_2milliseconds_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_set< std::chrono::milliseconds, ::gluecodium::hash< std::chrono::milliseconds > >>( ::std::unordered_set< std::chrono::milliseconds, ::gluecodium::hash< std::chrono::milliseconds > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_set< std::chrono::milliseconds, ::gluecodium::hash< std::chrono::milliseconds > >>( ::std::unordered_set< std::chrono::milliseconds, ::gluecodium::hash< std::chrono::milliseconds > >( ) ) );
 }
 void foobar_SetOf__Duration_std_2_2chrono_2_2milliseconds_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::unordered_set< std::chrono::milliseconds, ::gluecodium::hash< std::chrono::milliseconds > >>*>( handle );
+    delete reinterpret_cast<std::optional<::std::unordered_set< std::chrono::milliseconds, ::gluecodium::hash< std::chrono::milliseconds > >>*>( handle );
 }
 _baseRef foobar_SetOf__Duration_std_2_2chrono_2_2milliseconds_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_set< std::chrono::milliseconds, ::gluecodium::hash< std::chrono::milliseconds > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_set< std::chrono::milliseconds, ::gluecodium::hash< std::chrono::milliseconds > >>*>( handle ) );
 }

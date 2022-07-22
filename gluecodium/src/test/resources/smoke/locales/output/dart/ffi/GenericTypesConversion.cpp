@@ -56,7 +56,7 @@ FfiOpaqueHandle
 library_foobar_ListOf_Locale_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<std::vector<gluecodium::Locale>>(
+        new (std::nothrow) std::optional<std::vector<gluecodium::Locale>>(
             gluecodium::ffi::Conversion<std::vector<gluecodium::Locale>>::toCpp(value)
         )
     );
@@ -64,13 +64,13 @@ library_foobar_ListOf_Locale_create_handle_nullable(FfiOpaqueHandle value)
 void
 library_foobar_ListOf_Locale_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<std::vector<gluecodium::Locale>>*>(handle);
+    delete reinterpret_cast<std::optional<std::vector<gluecodium::Locale>>*>(handle);
 }
 FfiOpaqueHandle
 library_foobar_ListOf_Locale_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::vector<gluecodium::Locale>>::toFfi(
-        **reinterpret_cast<gluecodium::optional<std::vector<gluecodium::Locale>>*>(handle)
+        **reinterpret_cast<std::optional<std::vector<gluecodium::Locale>>*>(handle)
     );
 }
 FfiOpaqueHandle
@@ -123,7 +123,7 @@ FfiOpaqueHandle
 library_foobar_MapOf_Locale_to_String_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<std::unordered_map<gluecodium::Locale, std::string, gluecodium::hash<gluecodium::Locale>>>(
+        new (std::nothrow) std::optional<std::unordered_map<gluecodium::Locale, std::string, gluecodium::hash<gluecodium::Locale>>>(
             gluecodium::ffi::Conversion<std::unordered_map<gluecodium::Locale, std::string, gluecodium::hash<gluecodium::Locale>>>::toCpp(value)
         )
     );
@@ -131,13 +131,13 @@ library_foobar_MapOf_Locale_to_String_create_handle_nullable(FfiOpaqueHandle val
 void
 library_foobar_MapOf_Locale_to_String_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<std::unordered_map<gluecodium::Locale, std::string, gluecodium::hash<gluecodium::Locale>>>*>(handle);
+    delete reinterpret_cast<std::optional<std::unordered_map<gluecodium::Locale, std::string, gluecodium::hash<gluecodium::Locale>>>*>(handle);
 }
 FfiOpaqueHandle
 library_foobar_MapOf_Locale_to_String_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_map<gluecodium::Locale, std::string, gluecodium::hash<gluecodium::Locale>>>::toFfi(
-        **reinterpret_cast<gluecodium::optional<std::unordered_map<gluecodium::Locale, std::string, gluecodium::hash<gluecodium::Locale>>>*>(handle)
+        **reinterpret_cast<std::optional<std::unordered_map<gluecodium::Locale, std::string, gluecodium::hash<gluecodium::Locale>>>*>(handle)
     );
 }
 FfiOpaqueHandle
@@ -190,7 +190,7 @@ FfiOpaqueHandle
 library_foobar_MapOf_String_to_Locale_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<std::unordered_map<std::string, gluecodium::Locale>>(
+        new (std::nothrow) std::optional<std::unordered_map<std::string, gluecodium::Locale>>(
             gluecodium::ffi::Conversion<std::unordered_map<std::string, gluecodium::Locale>>::toCpp(value)
         )
     );
@@ -198,13 +198,13 @@ library_foobar_MapOf_String_to_Locale_create_handle_nullable(FfiOpaqueHandle val
 void
 library_foobar_MapOf_String_to_Locale_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<std::unordered_map<std::string, gluecodium::Locale>>*>(handle);
+    delete reinterpret_cast<std::optional<std::unordered_map<std::string, gluecodium::Locale>>*>(handle);
 }
 FfiOpaqueHandle
 library_foobar_MapOf_String_to_Locale_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_map<std::string, gluecodium::Locale>>::toFfi(
-        **reinterpret_cast<gluecodium::optional<std::unordered_map<std::string, gluecodium::Locale>>*>(handle)
+        **reinterpret_cast<std::optional<std::unordered_map<std::string, gluecodium::Locale>>*>(handle)
     );
 }
 FfiOpaqueHandle
@@ -250,7 +250,7 @@ FfiOpaqueHandle
 library_foobar_SetOf_Locale_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<std::unordered_set<gluecodium::Locale, gluecodium::hash<gluecodium::Locale>>>(
+        new (std::nothrow) std::optional<std::unordered_set<gluecodium::Locale, gluecodium::hash<gluecodium::Locale>>>(
             gluecodium::ffi::Conversion<std::unordered_set<gluecodium::Locale, gluecodium::hash<gluecodium::Locale>>>::toCpp(value)
         )
     );
@@ -258,13 +258,13 @@ library_foobar_SetOf_Locale_create_handle_nullable(FfiOpaqueHandle value)
 void
 library_foobar_SetOf_Locale_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<std::unordered_set<gluecodium::Locale, gluecodium::hash<gluecodium::Locale>>>*>(handle);
+    delete reinterpret_cast<std::optional<std::unordered_set<gluecodium::Locale, gluecodium::hash<gluecodium::Locale>>>*>(handle);
 }
 FfiOpaqueHandle
 library_foobar_SetOf_Locale_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_set<gluecodium::Locale, gluecodium::hash<gluecodium::Locale>>>::toFfi(
-        **reinterpret_cast<gluecodium::optional<std::unordered_set<gluecodium::Locale, gluecodium::hash<gluecodium::Locale>>>*>(handle)
+        **reinterpret_cast<std::optional<std::unordered_set<gluecodium::Locale, gluecodium::hash<gluecodium::Locale>>>*>(handle)
     );
 }
 #ifdef __cplusplus

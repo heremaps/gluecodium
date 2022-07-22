@@ -28,7 +28,7 @@ FfiOpaqueHandle
 library_smoke_StructWithClass_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<smoke::StructWithClass>(
+        new (std::nothrow) std::optional<smoke::StructWithClass>(
             gluecodium::ffi::Conversion<smoke::StructWithClass>::toCpp(value)
         )
     );
@@ -36,13 +36,13 @@ library_smoke_StructWithClass_create_handle_nullable(FfiOpaqueHandle value)
 void
 library_smoke_StructWithClass_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<smoke::StructWithClass>*>(handle);
+    delete reinterpret_cast<std::optional<smoke::StructWithClass>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_StructWithClass_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::StructWithClass>::toFfi(
-        **reinterpret_cast<gluecodium::optional<smoke::StructWithClass>*>(handle)
+        **reinterpret_cast<std::optional<smoke::StructWithClass>*>(handle)
     );
 }
 #ifdef __cplusplus

@@ -23,12 +23,12 @@
 #pragma once
 
 #include "OpaqueHandle.h"
-#include "{{>common/InternalInclude}}Optional.h"
 #include <chrono>
 #include <cstdlib>
 #include <functional>
 #include <memory>
 #include <new>
+#include <optional>
 #include <type_traits>
 
 {{#internalNamespace}}
@@ -93,19 +93,19 @@ struct Conversion<std::shared_ptr<T>, typename std::enable_if<std::is_class<std:
 };
 
 template<typename T>
-struct Conversion<{{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<T>, typename std::enable_if<std::is_class<{{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<T>>::value>::type> {
+struct Conversion<std::optional<T>, typename std::enable_if<std::is_class<std::optional<T>>::value>::type> {
     static FfiOpaqueHandle
-    toFfi({{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<T> t) {
+    toFfi(std::optional<T> t) {
         return t
-            ? reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<T>(std::move(t)))
+            ? reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::optional<T>(std::move(t)))
             : 0;
     }
 
-    static {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<T>
+    static std::optional<T>
     toCpp(const FfiOpaqueHandle& handle) {
         return handle
-            ? *reinterpret_cast<{{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<T>*>(handle)
-            : {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<T>{};
+            ? *reinterpret_cast<std::optional<T>*>(handle)
+            : std::optional<T>{};
     }
 };
 
@@ -153,27 +153,27 @@ struct Conversion<
 
 template<class Clock, class Duration>
 struct Conversion<
-    {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::time_point<Clock, Duration>>,
-    typename std::enable_if<std::is_class<{{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::time_point<Clock, Duration>>>::value>::type
+    std::optional<std::chrono::time_point<Clock, Duration>>,
+    typename std::enable_if<std::is_class<std::optional<std::chrono::time_point<Clock, Duration>>>::value>::type
 > {
     static FfiOpaqueHandle
-    toFfi({{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::time_point<Clock, Duration>> t) {
+    toFfi(std::optional<std::chrono::time_point<Clock, Duration>> t) {
         return t
             ? reinterpret_cast<FfiOpaqueHandle>(
-                new (std::nothrow) {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<uint64_t>(
+                new (std::nothrow) std::optional<uint64_t>(
                     Conversion<std::chrono::time_point<Clock, Duration>>::toFfi(*t)
                 )
             ) : 0;
     }
 
-    static {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::time_point<Clock, Duration>>
+    static std::optional<std::chrono::time_point<Clock, Duration>>
     toCpp(const FfiOpaqueHandle& handle) {
         return handle
-            ? {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::time_point<Clock, Duration>>(
+            ? std::optional<std::chrono::time_point<Clock, Duration>>(
                 Conversion<std::chrono::time_point<Clock, Duration>>::toCpp(
-                    **reinterpret_cast<{{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<uint64_t>*>(handle)
+                    **reinterpret_cast<std::optional<uint64_t>*>(handle)
                 )
-            ) : {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::time_point<Clock, Duration>>{};
+            ) : std::optional<std::chrono::time_point<Clock, Duration>>{};
     }
 };
 
@@ -208,27 +208,27 @@ struct Conversion<std::chrono::duration<Rep, Period>, typename std::enable_if<st
 
 template<class Rep, class Period>
 struct Conversion<
-    {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::duration<Rep, Period>>,
-    typename std::enable_if<std::is_class<{{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::duration<Rep, Period>>>::value>::type
+    std::optional<std::chrono::duration<Rep, Period>>,
+    typename std::enable_if<std::is_class<std::optional<std::chrono::duration<Rep, Period>>>::value>::type
 > {
     static FfiOpaqueHandle
-    toFfi({{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::duration<Rep, Period>> t) {
+    toFfi(std::optional<std::chrono::duration<Rep, Period>> t) {
         return t
             ? reinterpret_cast<FfiOpaqueHandle>(
-                new (std::nothrow) {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<uint64_t>(
+                new (std::nothrow) std::optional<uint64_t>(
                     Conversion<std::chrono::duration<Rep, Period>>::toFfi(*t)
                 )
             ) : 0;
     }
 
-    static {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::duration<Rep, Period>>
+    static std::optional<std::chrono::duration<Rep, Period>>
     toCpp(const FfiOpaqueHandle& handle) {
         return handle
-            ? {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::duration<Rep, Period>>(
+            ? std::optional<std::chrono::duration<Rep, Period>>(
                 Conversion<std::chrono::duration<Rep, Period>>::toCpp(
-                    **reinterpret_cast<{{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<uint64_t>*>(handle)
+                    **reinterpret_cast<std::optional<uint64_t>*>(handle)
                 )
-            ) : {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<std::chrono::duration<Rep, Period>>{};
+            ) : std::optional<std::chrono::duration<Rep, Period>>{};
     }
 };
 
