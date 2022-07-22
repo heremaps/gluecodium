@@ -60,14 +60,6 @@ set(SOURCES
   tests/RuntimeTypeInformationTest.cpp
   tests/StructConstructorTest.cpp)
 
-if(TEST_CPP_VERSION LESS 17)
-  list(APPEND SOURCES
-    tests/OptionalTestCxx11.cpp)
-else()
-  list(APPEND SOURCES
-    tests/OptionalTestCxx17.cpp)
-endif()
-
 # Set search path for libfunctional.so so it's easier to run the test
 set(CMAKE_INSTALL_RPATH $ORIGIN/../lib)
 
