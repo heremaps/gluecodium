@@ -65,16 +65,11 @@
 #endif
 
 #if !defined(GLUECODIUM_OPTIONAL_HEADER) && !defined(GLUECODIUM_OPTIONAL_TYPE)
-#  if (defined(_MSC_VER) && _MSC_VER >= 1911 && _MSVC_LANG >= 201703L) || __cplusplus >= 201703L
 #    define GLUECODIUM_OPTIONAL_HEADER <optional>
 #    define GLUECODIUM_OPTIONAL_TYPE std::optional
 #    define GLUECODIUM_OPTIONAL_HELPER_TYPES using std::nullopt; \
                                              using std::in_place; \
                                              using std::bad_optional_access;
-#  else
-#    define GLUECODIUM_OPTIONAL_HEADER "OptionalImpl.h"
-#    define GLUECODIUM_OPTIONAL_TYPE {{>common/InternalNamespace}}Optional
-#  endif
 #endif // !defined(GLUECODIUM_OPTIONAL_HEADER) && !defined(GLUECODIUM_OPTIONAL_TYPE)
 
 #include GLUECODIUM_OPTIONAL_HEADER

@@ -295,7 +295,6 @@ internal class CppGenerator : Generator {
             "Hash",
             "Locale",
             "Optional",
-            "OptionalImpl", // This is a header file, despite the "Impl" suffix.
             "Return",
             "TimePointHash",
             "TypeRepository",

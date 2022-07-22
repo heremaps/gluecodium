@@ -101,10 +101,8 @@ generated code for Interfaces the nullability is expressed as a documentation co
 
 **Note:** Java annotations are only generated if these are specified via command line parameter.
 
-**Note:** The C++ generated code will use `optional` to express nullability for non-Interface types.
-Which implementation is used depends on the compiler version: Gluecodium uses `std::optional` if available,
-but falls back to a custom implementation of it otherwise. This behavior can be overwritten with defines,
-see generated `Optional.h` header.
+**Note:** The C++ generated code will use `std::optional` to express nullability for non-Interface types.
+This behavior can be overwritten with defines, see generated `Optional.h` header.
 
 Documentation comments
 ----------------------
