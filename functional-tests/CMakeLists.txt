@@ -32,7 +32,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../cmake/modules/")
 
 # Allow testing with different C++ standard versions
 if(NOT DEFINED TEST_CPP_VERSION)
-  set(TEST_CPP_VERSION 11)
+  set(TEST_CPP_VERSION 17)
 endif()
 set(CMAKE_CXX_STANDARD ${TEST_CPP_VERSION})
 

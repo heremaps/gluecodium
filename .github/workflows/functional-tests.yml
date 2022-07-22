@@ -75,6 +75,10 @@ jobs:
             !*lime-*
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
+      - name: Install GCC
+        uses: egor-tensin/setup-gcc@v1
+        with:
+          version: 8
       - name: Install CMake
         uses: jwlawson/actions-setup-cmake@v1.7
         with:

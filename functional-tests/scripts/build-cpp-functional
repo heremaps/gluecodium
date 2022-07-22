@@ -30,7 +30,7 @@ $0 [options]
     --cmakeGenerator [NAME]   Overrides default cmake generator. Default are Xcode on Darwin and Ninja on Linux
     --valgrind                Run with valgrind
     --junit                   Generate junit xml test report
-    --cpp <standard>          Build with C++<standard> standard, defaults to 11.
+    --cpp <standard>          Build with C++<standard> standard, defaults to 17.
     --cmake <parameter>       Pass additional parameter to cmake
     --help                    Print this message
 EOF
@@ -38,7 +38,7 @@ EOF
 
 BUILD_LOCAL_GLUECODIUM=false
 CMAKE_EXTRA_PARAMETERS=()
-CPP_VERSION=11
+CPP_VERSION=17
 CMAKE_GENERATOR=
 
 while [[ $# -gt 0 ]]; do
