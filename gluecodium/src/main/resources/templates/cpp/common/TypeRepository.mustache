@@ -40,13 +40,13 @@
 
 #pragma once
 #include "{{exportFileName}}.h"
-#include <string>
+#include <string_view>
 
 {{#internalNamespace}}
 namespace {{.}} {
 {{/internalNamespace}}
 
-using TypeId = std::string;
+using TypeId = std::string_view;
 
 class {{>cpp/CppExportMacro}}TypeRepository
 {
@@ -55,7 +55,7 @@ public:
     ~TypeRepository();
 
     void add_type(const void* instance, const TypeId& id);
-    std::string get_id(const void* instance) const;
+    TypeId get_id(const void* instance) const;
     void remove_type(const void* instance);
 
 private:

@@ -63,13 +63,13 @@ TypeRepository::~TypeRepository()
 }
 
 void
-TypeRepository::add_type(const void* instance, const std::string& id)
+TypeRepository::add_type(const void* instance, const TypeId& id)
 {
     std::lock_guard<std::mutex> lock(pimpl->m_mutex);
     pimpl->m_repo[instance] = id;
 }
 
-std::string
+TypeId
 TypeRepository::get_id(const void* instance) const
 {
     std::lock_guard<std::mutex> lock(pimpl->m_mutex);

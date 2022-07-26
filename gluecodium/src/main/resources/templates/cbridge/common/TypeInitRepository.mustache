@@ -42,7 +42,9 @@
 
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/Export.h"
-#include <string>
+#include <string_view>
+
+using TypeId = std::string_view;
 
 /**
  * Stores links to Swift init functions.
@@ -54,8 +56,8 @@ public:
     ~TypeInitRepository();
 
     using InitFunction = void*(_baseRef);
-    void add_init(const ::std::string& id, InitFunction* init);
-    InitFunction* get_init(const ::std::string& id) const;
+    void add_init(const TypeId& id, InitFunction* init);
+    InitFunction* get_init(const TypeId& id) const;
 
 private:
     struct Impl;

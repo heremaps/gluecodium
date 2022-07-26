@@ -44,7 +44,7 @@
 
 struct TypeInitRepository::Impl
 {
-    ::std::unordered_map<std::string, InitFunction*> m_init;
+    ::std::unordered_map<TypeId, InitFunction*> m_init;
     std::mutex m_mutex;
 };
 
@@ -59,13 +59,13 @@ TypeInitRepository::~TypeInitRepository()
 }
 
 void
-TypeInitRepository::add_init(const ::std::string& id, TypeInitRepository::InitFunction* init) {
+TypeInitRepository::add_init(const TypeId& id, TypeInitRepository::InitFunction* init) {
     std::lock_guard<std::mutex> lock(pimpl->m_mutex);
     pimpl->m_init[id] = init;
 }
 
 TypeInitRepository::InitFunction*
-TypeInitRepository::get_init(const ::std::string& id) const {
+TypeInitRepository::get_init(const TypeId& id) const {
     std::lock_guard<std::mutex> lock(pimpl->m_mutex);
     const auto& found = pimpl->m_init.find(id);
     return found != pimpl->m_init.end() ? found->second : nullptr;
