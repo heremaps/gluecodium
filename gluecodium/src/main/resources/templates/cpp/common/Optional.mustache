@@ -43,9 +43,8 @@
 
 /*
  * This header is used to define the optional type used by Gluecodium. If nothing else is defined
- * it will use std::optional if available and fallback to a built-in optional implementation
- * otherwise. To use custom optional implementation, GLUECODIUM_OPTIONAL_HEADER and GLUECODIUM_OPTIONAL_TYPE
- * need to be defined. The optional will be used in the internal namespace.
+ * it will use std::optional. To use custom optional implementation, GLUECODIUM_OPTIONAL_HEADER and 
+ * GLUECODIUM_OPTIONAL_TYPE need to be defined. The optional will be used in the internal namespace.
  *
  * For example, to use optional from experimental define the following macros
  *
@@ -65,16 +64,11 @@
 #endif
 
 #if !defined(GLUECODIUM_OPTIONAL_HEADER) && !defined(GLUECODIUM_OPTIONAL_TYPE)
-#  if (defined(_MSC_VER) && _MSC_VER >= 1911 && _MSVC_LANG >= 201703L) || __cplusplus >= 201703L
 #    define GLUECODIUM_OPTIONAL_HEADER <optional>
 #    define GLUECODIUM_OPTIONAL_TYPE std::optional
 #    define GLUECODIUM_OPTIONAL_HELPER_TYPES using std::nullopt; \
                                              using std::in_place; \
                                              using std::bad_optional_access;
-#  else
-#    define GLUECODIUM_OPTIONAL_HEADER "OptionalImpl.h"
-#    define GLUECODIUM_OPTIONAL_TYPE {{>common/InternalNamespace}}Optional
-#  endif
 #endif // !defined(GLUECODIUM_OPTIONAL_HEADER) && !defined(GLUECODIUM_OPTIONAL_TYPE)
 
 #include GLUECODIUM_OPTIONAL_HEADER
