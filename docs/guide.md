@@ -102,7 +102,6 @@ generated code for Interfaces the nullability is expressed as a documentation co
 **Note:** Java annotations are only generated if these are specified via command line parameter.
 
 **Note:** The C++ generated code will use `std::optional` to express nullability for non-Interface types.
-This behavior can be overwritten with defines, see generated `Optional.h` header.
 
 Documentation comments
 ----------------------
