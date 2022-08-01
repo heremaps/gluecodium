@@ -1,4 +1,0 @@
-package smoke
-internal struct WholeStructInternal {
-    stringField: String
-}

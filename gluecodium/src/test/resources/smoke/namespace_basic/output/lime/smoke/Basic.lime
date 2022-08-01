@@ -1,7 +1,0 @@
-package smoke
-
-class Basic {
-    static fun basicMethod(
-        inputString: String
-    ): String
-}

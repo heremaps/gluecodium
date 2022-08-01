@@ -1,5 +1,0 @@
-package smoke
-struct BlobDefaults {
-    emptyList: Blob = []
-    deadBeef: Blob = [222, 173, 190, 239]
-}

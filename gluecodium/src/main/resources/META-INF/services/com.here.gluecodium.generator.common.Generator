@@ -2,4 +2,3 @@ com.here.gluecodium.generator.cpp.CppGenerator
 com.here.gluecodium.generator.java.JavaGenerator
 com.here.gluecodium.generator.swift.SwiftGenerator
 com.here.gluecodium.generator.dart.DartGenerator
-com.here.gluecodium.generator.lime.LimeGenerator

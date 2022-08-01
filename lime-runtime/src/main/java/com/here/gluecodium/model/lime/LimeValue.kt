@@ -51,15 +51,6 @@ sealed class LimeValue(open val typeRef: LimeTypeRef) : LimeElement() {
             get() = valueRef.typeRef
 
         override fun toString() = valueRef.element.path.let { "${it.parent.name}.${it.name}" }
-
-        override val escapedValue: String
-            get() {
-                val names = when (val limeElement = valueRef.element) {
-                    is LimeEnumerator -> listOf(limeElement.path.parent.name, limeElement.name)
-                    else -> limeElement.path.run { head + tail }
-                }
-                return names.joinToString(".") { LimeTypeHelper.escapeIdentifier(it) }
-            }
     }
 
     /**
@@ -113,9 +104,6 @@ sealed class LimeValue(open val typeRef: LimeTypeRef) : LimeElement() {
 
         override fun toString() = value + timeUnit
     }
-
-    open val escapedValue
-        get() = toString()
 
     companion object {
         val ZERO = Literal(LimeBasicTypeRef.INT, "0")

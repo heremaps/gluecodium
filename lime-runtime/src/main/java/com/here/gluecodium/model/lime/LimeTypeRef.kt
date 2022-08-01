@@ -31,7 +31,4 @@ abstract class LimeTypeRef(attributes: LimeAttributes? = null) : LimeElementRef<
         get() = type
 
     override fun toString() = type.name + if (isNullable) "?" else ""
-
-    val escapedName
-        get() = type.escapedName + if (isNullable) "?" else ""
 }

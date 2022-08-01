@@ -49,19 +49,6 @@ object LimeTypeHelper {
             else -> emptyList()
         }
 
-    /**
-     * Backtick-escape the given identifier if at least one of the following is true:
-     * * identifier exactly matches a LimeIDL keyword
-     * * identifier contains a non-alphanumeric character that is not underscore
-     * * identifier starts with a digit
-     */
-    fun escapeIdentifier(identifier: String) =
-        when {
-            limeKeywords.contains(identifier) || identifier.contains(Regex("\\W")) ||
-                identifier.first().isDigit() -> "`$identifier`"
-            else -> identifier
-        }
-
     fun getAllParentTypes(allTypes: List<LimeType>): List<LimeType> {
         if (allTypes.isEmpty()) return emptyList()
         val parents = allTypes.filterIsInstance<LimeContainerWithInheritance>().flatMap { it.parents }.map { it.type }
@@ -111,12 +98,4 @@ object LimeTypeHelper {
     }
 
     private val LOCALE_UND = Locale.forLanguageTag("").toLanguageTag().toLowerCase()
-
-    private val limeKeywords = setOf(
-        "class", "const", "constructor", "enum", "exception", "external", "field", "fun",
-        "get", "import", "interface", "internal", "lambda", "narrow", "open", "package", "property", "public",
-        "set", "static", "struct", "throws", "typealias", "types", "Void", "Boolean", "Float",
-        "Double", "Byte", "Short", "Int", "Long", "UByte", "UShort", "UInt", "ULong", "String",
-        "Blob", "Date", "Duration", "Locale", "List", "Map", "Set", "true", "false", "null", "NaN", "Infinity"
-    )
 }

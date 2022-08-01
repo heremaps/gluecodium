@@ -1,9 +1,0 @@
-package smoke
-
-import smoke.EnumsInTypeCollection.TCEnum
-
-class EnumsInTypeCollectionInterface {
-    static fun flipEnumValue(
-        input: TCEnum
-    ): TCEnum
-}

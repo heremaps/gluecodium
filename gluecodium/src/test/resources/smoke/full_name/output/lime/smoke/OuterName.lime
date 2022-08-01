@@ -1,7 +1,0 @@
-package smoke
-class OuterName {
-    @Dart(FullName = "Futhark")
-    struct InnerName {
-        stringField: String
-    }
-}

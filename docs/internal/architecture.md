@@ -61,6 +61,3 @@ bindings. Not compilable for non-Android Java environment.
 internally). Compilable both for iOS and as cross-platform Swift executable.
 * [Dart](generators/dart.md): Dart files, plus Dart FFI C/C++ bindings. Compilable both for Flutter framework and as
 cross-platform Dart executable.
-* LIME IDL: generates LIME IDL files. Can be used to migrate IDL files from older LIME syntax to newer one, or to
-convert the definitions written in some other IDL to LIME, if a corresponding loader is provided. Currently, only used
-for testing purposes internally.

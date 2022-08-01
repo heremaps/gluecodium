@@ -1,7 +1,0 @@
-package example
-import smoke.Errors.Internal
-import smoke.SomeTypeCollection.Some
-class FooBar {
-    static fun methodWithInternalError() throws Internal
-    static fun methodWithTypeCollectionError() throws Some
-}

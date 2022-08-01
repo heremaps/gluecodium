@@ -1,6 +1,0 @@
-package smoke
-
-enum FreeEnum {
-    FOO,
-    BAR
-}

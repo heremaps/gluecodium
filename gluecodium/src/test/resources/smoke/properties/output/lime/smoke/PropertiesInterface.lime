@@ -1,9 +1,0 @@
-package smoke
-
-interface PropertiesInterface {
-    struct ExampleStruct {
-        value: Double
-    }
-
-    property structProperty: ExampleStruct
-}

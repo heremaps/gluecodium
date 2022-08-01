@@ -23,13 +23,6 @@ class LimeSet(val elementType: LimeTypeRef) : LimeGenericType() {
     override val name
         get() = "Set<$elementType>"
 
-    override val escapedName: String
-        get() {
-            val typeRefAttributes = elementType.attributes
-            val attributesString = if (typeRefAttributes.isEmpty()) "" else "$typeRefAttributes "
-            return "Set<$attributesString${elementType.escapedName}>"
-        }
-
     override val childTypes
         get() = listOf(elementType)
 }

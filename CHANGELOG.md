@@ -3,6 +3,8 @@
 ## Unreleased
 ### Features:
   * Added support for per-platform visibility attributes (e.g. `@Java(Internal)`, etc.).
+### Removed:
+  * The LIME generator was removed. 
 
 ## 13.1.1
 Release date: 2022-08-08

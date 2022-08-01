@@ -1,9 +1,0 @@
-package smoke
-struct LocaleDefaults {
-    english: Locale = "en"
-    latAmSpanish: Locale = "es-419"
-    romanshSursilvan: Locale = "rm-sursilv"
-    serbianCyrillic: Locale = "sr-Cyrl"
-    traditionalChineseTaiwan: Locale = "nan-Hant-TW"
-    zuerichGerman: Locale = "gsw-u-sd-chzh"
-}
