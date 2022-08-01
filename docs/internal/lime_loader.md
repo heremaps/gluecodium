@@ -19,8 +19,8 @@ LimeModel class
 * a name-to-element "[reference map](reference_resolution.md)", that is used in the resolution of late-bound references,
 as well as of documentation references, and of nesting relationships.
 * a list of individual model trees, each corresponding to a model element declared in the top scope of an IDL file.
-* a list of auxiliary model tree. No code is generated for auxiliary elements themselves, but they still can be referred
-to by the "normal" elements.
+* a list of auxiliary model trees. No code is generated for auxiliary elements themselves, but they still can be
+referred to by the "normal" elements.
 * a map of element-to-file names, used exclusively for error reporting.
 
 File parsing
@@ -37,7 +37,7 @@ The output of the (auto-generated) LIME parser is an abstract syntax tree (AST) 
 corresponding to each model element. The AST is walked "down" first (from root to leaves), setting up the context where
 needed, and then "up", creating LIME model elements on the way.
 
-Any documentation comments encountered by this process are treated as plain string at first. They are parsed separately
+Any documentation comments encountered by this process are treated as plain strings at first. They are parsed separately
 by a similar, if smaller, process with `AntlrLimedocBuilder` class.
 
 Syntax errors

@@ -15,18 +15,18 @@ Required tools for Gluecodium itself
 Required tools for Gluecodium functional tests
 ----------------------------------------------
 
-* [Java JDK](https://openjdk.java.net/install/index.html) - Android functional tests require Java 8 exactly. Functional
-  tests for other platforms (Swift, Dart, C++) need Java only for running Gluecodium itself (see above).
+* [Java JDK](https://openjdk.java.net/install/index.html) - for running Gluecodium itself (see above).
 * [CMake](https://cmake.org/install/) - minimum required CMake version is 3.19.3.
 * [ninja](https://github.com/ninja-build/ninja/wiki/Pre-built-Ninja-packages)
 * [Android SDK](https://developer.android.com/about/versions/11/setup-sdk) - required for running Android functional
   tests. Can be installed either through *Android Studio* or through the command line. For command line installation
-  instructions see "Install Android SDK" section in [Travis CI config](../../.github/workflows/functional-tests.yml).
+  instructions see "Install Android SDK" section in 
+  [GitHub Actions CI config](../../.github/workflows/functional-tests.yml).
 * [Swift SDK](https://swift.org/download/#releases) - required for running Swift functional tests.
 * [Dart SDK](https://dart.dev/get-dart) - required for running Dart functional tests. For running Dart tests without
   memory checks a pre-built Dart SDK binary is sufficient. For running them with memory checks, the Dart SDK needs to be
   built from source with "tcmalloc" library disabled. See "Compile Dart SDK without tcmalloc" section in
-  [Travis CI config](../../.github/workflows/functional-tests.yml) for instructions.
+  [GitHub Actions CI config](../../.github/workflows/functional-tests.yml) for instructions.
 
 Recommended tools
 -----------------

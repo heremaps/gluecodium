@@ -1,34 +1,35 @@
 Reference resolution
 ====================
 
-This document describes the details of resolving of different kinds references that are found in the LIME model.
+This document describes the details of resolving different kinds of references that are found in the LIME model.
 
 Why references?
 ---------------
-LIME model represents all declarations from the IDL files as elements in the model tree. These elements are immutable
-and thus have to contain all related data at the moment of creation. However, the order of creation of these elements is
-not guaranteed. So when a function parameter (or return value, or a struct field, etc.) refers to a type, the element
-representing that type might not be created yet. Or, worse yet, there might be a cyclic reference of some kind, i.e.
-A refers to B, while B refers to A. Therefore, resolving a (textual) reference to an element has to be postponed until
-after the whole model tree is created.
+LIME model represents all definitions from the IDL files as elements in the model tree. These tree elements are
+immutable and thus have to contain all related data at the moment of creation. However, the order of creation of these
+elements is not guaranteed. So when a function parameter (or return value, or a struct field, etc.) refers to a type,
+the element representing that type might not be created yet. Or, worse still, there might be a cyclic reference of some
+kind, i.e. A refers to B, while B refers to A. Therefore, resolving a (textual) reference to an element has to be
+postponed until after the whole model tree is created.
 
 In the model tree itself this is represented by element references. Mostly these are descendants of the `LimeTypeRef`
-abstract class. There are also `LimeEnumeratorRef` and `LimeFieldRef`.
+abstract class. There are also other descendants of the `LimeElementRef` class.
 
 Direct references
 -----------------
 Some type references do not require any delayed-resolution handling. These are references to basic (built-in) type, like
-`String`, `Int`, or `Date`. References to generic types(`List`, `Set`, and `Map`)  themselves could also be resolved
-directly. However, the generic types also contain at least one nested type reference, representing the type parameter of
-the generic. These nested references are normal type references, and thus could also be either direct, or late-bound.
+`String`, `Int`, or `Date`. References to generic types (`List`, `Set`, and `Map`) themselves could be resolved 
+directly too. However, the generic types also contain at least one nested type reference, representing the type
+parameter(s) of the generic. These nested references are normal type references, and thus could also be either direct
+or late-bound.
 
 Reference map
 -------------
-Resolution of all late-bound references is done through a simple mechanism called "reference map". The map itself is a
-simple Kotlin `Map<String, LimeElement>`. Each key is a "full path": a dot-concatenated list of nested declarations,
-uniquely identifying the element that is the mapped value. For situations where some ambiguity can be expected (e.g.
-functions overloading), an additional "disambiguation suffix" is appended to the path. For example, given the following
-declaration
+Resolution of all late-bound references is done through a straightforward mechanism called "reference map". The map
+itself is a simple Kotlin `Map<String, LimeElement>`. Each key is a "full path": a dot-concatenated list of nested
+declarations, uniquely identifying the element that is the mapped value. For situations where some ambiguity can be
+expected (e.g. functions overloading), an additional "disambiguation suffix" is appended to the path. For example, given
+the following declaration
 ```kotlin
 package core
 
@@ -41,8 +42,7 @@ class MyClass {
 the full path of "core.MyClass.NestedInterface" uniquely identifies the interface element in the declaration. And the
 full path "core.MyClass.doSomething.value:1" uniquely identifies the parameter of the second overload of the function.
 Notably, even if the possible ambiguity is at the "core.MyClass.doSomething" level, the ":1" suffix is still added at
-the very end. This works, because there can be no more than one ambiguity per path, and it allows for a uniform string
-representation of paths.
+the very end. This allows for a uniform string representation of paths.
 
 The reference map is mutable (appendable) for the whole duration of model tree creation. It becomes immutable when the
 tree is fully created.
@@ -61,8 +61,8 @@ types of constructor declarations.
 * _Positional type reference_: a late-bound reference where the name of the type is not known, but the type needs to be
 computed by the position of the reference in the list of its siblings. Occurs in struct initializer literals, or in 
 collection initializer literals.
-* _Ambiguous enumerator reference_: same as "ambiguous type reference" above, but referring to an enumerator (a single
-member of an `enum` enumeration). Occurs in enumerator literals.
+* _Ambiguous constant reference_: same as "ambiguous type reference" above, but referring either to an enumerator (a 
+single member of an `enum` enumeration) or to a named constant. Occurs in constant literals.
 * _Positional enumerator reference_: same as "positional type reference" above, but referring to an enumerator. Occurs
 in "raw" enumerator literals, e.g. `const myConst: MyEnum = MyEnum(2)`.
 * _Lazy field reference_: a simple late-bound reference to a struct field. Occurs in field constructor declarations.
