@@ -39,7 +39,5 @@ Each release raises the current Gluecodium version in a dedicated commit. The sa
 `Unreleased` section of the changelog converted into the `Release MAJOR.MINOR.PATCH` (also have a "release date" line
 added there).
 
-After the version change is committed, a release tag needs to be created manually on the
-[Releases](https://github.com/heremaps/gluecodium/releases) page. The convention is to copy-paste the current release
-section from the changelog into the "description" field: this way the users of Gluecodium, who subscribed to release
-notifications, also get the release notes for this release.
+After the version change is committed, a release tag is created automatically by a dedicated trigger of the GitHub
+Actions CI.

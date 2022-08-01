@@ -28,7 +28,7 @@ Main class
 `Gluecodium.kt` class serves as an entry point for Gluecodium's execution. It parses command line options through
 `OptionReader` class. It discovers available model loaders (implementers of `LimeModelLoader` interface) through Java's
 ServiceLoader mechanism. The main class collects the list of input source from the options and passes it to the loader.
-The loader produces a `LimeModel` as an output. The model consists of the LIME model tree, as well as some hashtables
+The loader produces a `LimeModel` as an output. The model consists of the LIME model tree, as well as some mappings
 (that are used for documentation reference parsing and error reporting).
 
 The main class also discovers available generators (implementers of `Generator` interface) through the same
