@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 13.0.0
+Release date: 2022-08-01
 ### Breaking changes:
   * The minimum supported C++ version for C++ generated code is now C++17 (up from C++11).
 
