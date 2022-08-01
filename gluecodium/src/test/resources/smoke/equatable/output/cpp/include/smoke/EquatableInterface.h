@@ -21,6 +21,10 @@ template<>
 struct hash< ::smoke::EquatableInterface > {
     _GLUECODIUM_CPP_EXPORT std::size_t operator( )( const ::smoke::EquatableInterface& t ) const;
 };
+/**
+ * Specialization of the hash-like function object for `std::shared_ptr`, comparing the contained
+ * class instead of the pointer value.
+ */
 template <>
 struct EqualityHash< std::shared_ptr< ::smoke::EquatableInterface > >
 {

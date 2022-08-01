@@ -18,6 +18,10 @@
   ! License-Filename: LICENSE
   !
   !}}
+/**
+ * Specialization of the hash-like function object for `std::shared_ptr`, comparing the contained
+ * class instead of the pointer value.
+ */
 std::size_t
 EqualityHash< std::shared_ptr< {{resolveName "FQN"}} > >::operator( )( const std::shared_ptr< {{resolveName "FQN"}} >& t ) const
 {

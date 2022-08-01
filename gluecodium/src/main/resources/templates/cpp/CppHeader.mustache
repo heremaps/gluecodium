@@ -74,6 +74,10 @@ struct hash< {{resolveName "FQN"}} > {
     {{>cpp/CppExportMacro}}std::size_t operator( )( const {{resolveName "FQN"}}& t ) const;
 };
 {{#notInstanceOf this "LimeStruct"}}
+/**
+ * Specialization of the hash-like function object for `std::shared_ptr`, comparing the contained
+ * class instead of the pointer value.
+ */
 template <>
 struct EqualityHash< std::shared_ptr< {{resolveName "FQN"}} > >
 {

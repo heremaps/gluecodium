@@ -37,6 +37,10 @@ bool EquatableClass::EquatableStruct::operator!=( const EquatableStruct& rhs ) c
 }
 }
 namespace gluecodium {
+/**
+ * Specialization of the hash-like function object for `std::shared_ptr`, comparing the contained
+ * class instead of the pointer value.
+ */
 std::size_t
 EqualityHash< std::shared_ptr< ::smoke::EquatableClass > >::operator( )( const std::shared_ptr< ::smoke::EquatableClass >& t ) const
 {
