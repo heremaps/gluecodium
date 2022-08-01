@@ -5,22 +5,22 @@ This document discusses the transformations applied to entity names in the gener
 naming conventions governing these transformations.
 
 LimeIDL names
--------------------
+-------------
 
-### Entity names
-Entity names supplied in the LimeIDL definitions are used as a source for the entity names in the
+### Element names
+Element names supplied in the LimeIDL definitions are used as a source for the element names in the
 generated code. Both snake_case and camelCase naming conventions are recognized in the LimeIDL
 definitions (both conventions with both lowercase and UPPERCASE variations).
 
 ### Circumventing LimeIDL reserved words
 LimeIDL has some reserved words that are not reserved in target languages (e.g. "exception"). Using
-these words as identifiers in a LimeIDL file results in validation failures during code generation.
+these words as identifiers in a LimeIDL file results in syntax errors during LimeIDL parsing.
 To get around this limitation, the identifier can be put in \`backticks\` (e.g. \`exception\`).
 
 Custom name rules
 -----------------
 
-The default name rules for C++, Java, Swift and Dart can be customized by providing the path to a name rules
+The default name rules for C++, Java, Swift, and Dart can be customized by providing the path to a name rules
 properties file. These can be passed via `-cppnamerules`, `-javanamerules`, `-swiftnamerules`, or `-dartnamerules`
 command line parameters.
 
@@ -35,10 +35,11 @@ type=UpperCamelCase
 ```
 
 Each of the name types accepts one of the basic formats `lower_snake_case`, `UPPER_SNAKE_CASE`,
-`lowerCamelCase` or `UpperCamelCase`. Each of those name types (except for `method`) can have a
-fixed `prefix` and/or `suffix`. Additionally for `getter` a special `prefix.boolean` for Boolean
+`lowerCamelCase`, or `UpperCamelCase`. Each of those name types (except for `method`) can have a
+fixed `prefix` and/or `suffix`. Additionally, for `getter` a special `prefix.boolean` for Boolean
 properties is possible. The prefixes and suffixes are added to the main name according to the
 specified format.
+
 These are all supported name types in the name config file are:
 
 | Name Type     | Description
@@ -86,7 +87,7 @@ type=UpperCamelCase
 ```
 
 Default Java names
-----------
+------------------
 
 ### General naming conventions
 * Type names are in UpperCamelCase.
@@ -99,7 +100,7 @@ Default Java names
 * Property setter names are prefixed with `set`.
 
 ### Method overloads ambiguity resolution
-Arrays and Maps defined in IDL definition are generated as List<> and Map<> generics in Java
+Lists, Maps, and Sets defined in LimeIDL are generated as `List<>`, `Map<>`, and `Set<>` generics in Java
 respectively. Since Java language applies type erasure to its generics, declaring two method
 overloads that differ only in the parameters of the generic (e.g. element type of the array) leads
 to a compile-time error. This can be resolved manually at LimeIDL level by specifying alternative
@@ -125,7 +126,7 @@ error.suffix=Exception
 ```
 
 Default Swift names
------------
+-------------------
 
 ### General naming conventions
 * Type names are in UpperCamelCase.
@@ -153,7 +154,7 @@ error.suffix=Error
 ```
 
 Default Dart names
-----------
+------------------
 
 ### General naming conventions
 * Type names are in UpperCamelCase.
@@ -173,9 +174,9 @@ specifying alternative names for these conflicting methods through marking them 
 
 ### Nested types
 Since Dart language has no concept of nested type declarations, the types that are declared nested
-in IDL have compound names in Dart. The infix used to concatenate the names of the outer type and
+in IDL will have compound names in Dart generated code. The infix used to concatenate the names of the outer type and
 the inner type to form the compound name is controlled through `join.infix` name rule. The default
-infix is `_`. An empty infix is considered valid, if specified.
+infix is `_`. An empty infix is considered valid, if specified explicitly (i.e. `join.infix=`).
 
 ### Default namerules/dart.properties
 ```

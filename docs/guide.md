@@ -1,16 +1,15 @@
 User guide
 ==========
 
-This guide's goal is to give you, as the user of Gluecodium code generation tool, an overview
-which language features Gluecodium offers and how to use them. It also gives you clues where
-you need to add your own implementation to the generated code. For a complete syntax
+This guide's goal is to give an overview which language features Gluecodium offers and how to use them. It also gives
+hints on where to add manually written implementation to the generated code. For a complete syntax
 description of LimeIDL please refer to the [LimeIDL description](lime_idl.md).
 
 Overview
 --------
 
 Gluecodium generates a C++ API with language bindings for Java, Swift, or Dart. For C++ it will
-generate declarations only. These need to be implemented by you to provide application logic.
+generate declarations only. These need to be implemented manually to provide application logic.
 Java, Swift, and Dart bindings are completely generated and forward all calls to C++.
 
 Crossing the language boundary
@@ -27,14 +26,10 @@ Classes
 -------
 
 Classes are generated as an abstract class in C++ and as wrapper classes containing all the
-conversion and glue code in platform code. These classes have their logic always on C++ side.
-New instances can only be created if it is the return value of a function and it is up to
-the users C++ implementation which subclass is returned. When the function is called from
+conversion and bindings code in platform code. These classes have all of their logic on C++ side.
+New instances can only be created if it is the return value of a function, and it is up to
+the manual C++ implementation which subclass is returned. When the function is called from
 platform code the instance will be automatically wrapped.
-
-**Note:** As of now, there is no guarantee of pointer equality on transition from C++ to platform
-(i.e. the same C++ object returned twice to the platform side may be represented with different
-platform objects).
 
 Structs
 -------
@@ -55,14 +50,13 @@ Interfaces
 ----------
 
 An interface is generated as interface/protocol/abstract-class in Java/Swift/Dart. For C++ the same abstract
-class and glue is generated as it would be for classes. Unlike classes, interfaces can also be
+class and bindings is generated as it would be for classes. Unlike classes, interfaces can also be
 implemented in platform code allowing to use platform logic.
-When an instance implementing the interface is passed to C++, a proxy
-object is instantiated. For the receiver of said object it is transparent whether the
-implementation is in platform code or C++.
-Although the same wrapper objects as for classes are generated, allowing to implement the
-interface also in C++, the main use case is to use services provided by the target platform,
-e.g. positioning, notifications, threading etc.
+
+When an instance implementing the interface is passed to C++, a proxy object is instantiated. For the receiver of said
+object it is transparent whether the implementation is in platform code or C++. Although the same wrapper objects as for
+classes are generated, allowing to implement the interface also in C++, the main use case is to use services provided by
+the target platform, e.g. positioning, notifications, threading, etc.
 
 **Note** It is safe to do comparison on the `std::shared_ptr` in C++ to check if it's the same
 platform object as passed before. This is not true if C++ doesn't hold a shared pointer
@@ -71,45 +65,42 @@ anymore and the proxy is released.
 **Note** Holding `std::shared_ptr` of the proxy object in C++ will extend the lifetime of the
 object on platform side.
 
-**Note** Interfaces cannot have static methods since not all output languages (and/or their variants)
-support such language feature.
-
 Constructors
 ------------
 
 Constructors are special methods for structs and classes which return a new instance of that type.
-Constructors are generated as static method declarations in C++ and can do initialization,
-validation and return errors. In platform code these are generated as constructors/initializers to
+Constructors are generated as static method declarations in C++ and can do initialization and/or
+validation, as well as return error states. In platform code these are generated as constructors/initializers to
 provide native feel.
 
 **Note:** Having custom constructors on structs disables generation of the default ones in platform code.
 
-**Note:** Constructors are not supported for interfaces.
-
 **Note:** Method overloading generally works for constructors. One notable exception is that a pair
-of constructors overloaded on an Array or Map parameter (i.e. having signatures that differ only in
-array/map element types) will generate uncompilable code in Java (Swift and C++ will still compile).
+of constructors overloaded on an collection type parameter (i.e. having signatures that differ only in
+collection element types) will generate uncompilable code in Java (other languages will still compile).
 
 Nullable type references
 ------------------------
 
 You can append a `?` to a type reference, i.e. the usage of a type, to mark it as nullable. In
-generated Swift code this property controls whether the type is "optional" or not, therefore
+generated Swift and Dart code this property controls whether the type is "optional"/"nullable" or not, therefore
 enforcing nullability at compile time. For Java generated code the nullability is expressed through
-a @Nullable annotation, enabling compile time enforcing when used with Kotlin language. For C++
-generated code for Interfaces the nullability is expressed as a documentation comment.
+a `@Nullable` annotation, enabling compile time enforcing when used with Kotlin language. For C++
+generated code for classes and interfaces the nullability is expressed as a documentation comment.
 
 **Note:** Java annotations are only generated if these are specified via command line parameter.
 
-**Note:** The C++ generated code will use `std::optional` to express nullability for non-Interface types.
+**Note:** The C++ generated code will use `std::optional` to express nullability for types other than class or
+interface.
 
 Documentation comments
 ----------------------
 
 Comments can be formatted in [Markdown](https://spec.commonmark.org/0.28/) and links to other
-types can be added in the form `[package.Interface.method]`. For properties the syntax
-`[PropertyName.set]` and `[PropertyName.get]` can be used to refer to setters/getters
-explicitly. Without suffix the reference will link to the getter in languages which have
+types can be added in the form `[package.Interface.method]`.
+
+For properties the syntax `[PropertyName.set]` and `[PropertyName.get]` can be used to refer to setters/getters
+explicitly. Without the suffix, the reference will link to the getter in languages which have
 getters and setters.
 
 
@@ -118,20 +109,13 @@ Annotations
 
 ### Language annotations: @Cpp, @Swift, @Java, @Dart
 
-Language annotations allow to set attributes specific to a generated language. All of them support
+Language annotations allow setting attributes specific to a generated language. All of them support
 setting a custom name for the annotated element which will be used for generation.
-
-#### `@Cpp(ExternalName=..., ExternalType=...)`
-
-`@ExternalType` and `@ExternalName` can be used to skip generating C++ code but only generate
-Java/Swift and glue code. This is useful when exposing already existing C++ APIs.
-For external structs which fields have getters and setters instead of direct field access,
-`@ExternalGetter` and `@ExternalSetter` can be used to declare those.
 
 ### `@Equatable`
 
-Classes and structs marked like this are equal comparable. For structs comparison and hash functions
-are auto-generated. For classes only the declaration is generated which needs to be implemented in C++
+Classes and structs marked like this are equal-comparable. For structs, comparison and hash functions
+are auto-generated. For classes, only the declaration is generated, which needs to be implemented in C++
 or otherwise results in linking errors.
 
 Exception types
