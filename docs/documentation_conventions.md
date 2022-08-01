@@ -21,7 +21,7 @@ Method comment is collated from, in that order:
   the argument and (if applicable) `@NotNull` tag.
 * Documentation comment for the method return value (if present), prefixed with `\return` and (if
   applicable) `@NotNull` tag.
-* Name of the error enum type (if present), prefixed with `\retval`.
+* Name of the error type (if present), prefixed with `\retval`.
 
 ### Deprecation message
 Deprecation message is added with `\deprecated` Doxygen tag.
@@ -68,3 +68,8 @@ Method comment is collated from, in that order:
 
 ### Deprecation message
 Deprecation message is added as `@available(*, deprecated, message)` attribute.
+
+Dart documentation comments
+---------------------------
+
+TODO
