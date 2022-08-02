@@ -41,9 +41,9 @@
 #include "cbridge/include/LocaleHandle.h"
 
 #include "{{>common/InternalInclude}}/Locale.h"
-#include "{{>common/InternalInclude}}/Optional.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include <new>
+#include <optional>
 #include <string>
 
 _baseRef
@@ -54,9 +54,9 @@ locale_create_handle(_baseRef language_code_handle,
 {
     return reinterpret_cast<_baseRef>(
         new (::std::nothrow) {{>common/InternalNamespace}}Locale(
-            Conversion<{{>common/InternalNamespace}}optional<std::string>>::toCpp(language_code_handle),
-            Conversion<{{>common/InternalNamespace}}optional<std::string>>::toCpp(country_code_handle),
-            Conversion<{{>common/InternalNamespace}}optional<std::string>>::toCpp(script_code_handle),
+            Conversion<std::optional<std::string>>::toCpp(language_code_handle),
+            Conversion<std::optional<std::string>>::toCpp(country_code_handle),
+            Conversion<std::optional<std::string>>::toCpp(script_code_handle),
             Conversion<std::string>::toCpp(language_tag_handle)
         )
     );
@@ -71,7 +71,7 @@ locale_release_handle(_baseRef handle)
 _baseRef
 locale_get_language_code(_baseRef handle)
 {
-    return Conversion<{{>common/InternalNamespace}}optional<std::string>>::toBaseRef(
+    return Conversion<std::optional<std::string>>::toBaseRef(
         get_pointer<{{>common/InternalNamespace}}Locale>(handle)->language_code
     );
 }
@@ -79,7 +79,7 @@ locale_get_language_code(_baseRef handle)
 _baseRef
 locale_get_country_code(_baseRef handle)
 {
-    return Conversion<{{>common/InternalNamespace}}optional<std::string>>::toBaseRef(
+    return Conversion<std::optional<std::string>>::toBaseRef(
         get_pointer<{{>common/InternalNamespace}}Locale>(handle)->country_code
     );
 }
@@ -87,7 +87,7 @@ locale_get_country_code(_baseRef handle)
 _baseRef
 locale_get_script_code(_baseRef handle)
 {
-    return Conversion<{{>common/InternalNamespace}}optional<std::string>>::toBaseRef(
+    return Conversion<std::optional<std::string>>::toBaseRef(
         get_pointer<{{>common/InternalNamespace}}Locale>(handle)->script_code
     );
 }
@@ -95,7 +95,7 @@ locale_get_script_code(_baseRef handle)
 _baseRef
 locale_get_language_tag(_baseRef handle)
 {
-    return Conversion<{{>common/InternalNamespace}}optional<std::string>>::toBaseRef(
+    return Conversion<std::optional<std::string>>::toBaseRef(
         get_pointer<{{>common/InternalNamespace}}Locale>(handle)->language_tag
     );
 }
@@ -104,7 +104,7 @@ _baseRef
 locale_create_optional_handle(_baseRef locale_handle)
 {
     return reinterpret_cast<_baseRef>(
-        new (::std::nothrow) {{>common/InternalNamespace}}optional<{{>common/InternalNamespace}}Locale>(
+        new (::std::nothrow) std::optional<{{>common/InternalNamespace}}Locale>(
             *get_pointer<{{>common/InternalNamespace}}Locale>(locale_handle)
         )
     );
@@ -113,13 +113,13 @@ locale_create_optional_handle(_baseRef locale_handle)
 void
 locale_release_optional_handle(_baseRef handle)
 {
-    delete reinterpret_cast<{{>common/InternalNamespace}}optional<{{>common/InternalNamespace}}Locale>*>(handle);
+    delete reinterpret_cast<std::optional<{{>common/InternalNamespace}}Locale>*>(handle);
 }
 
 _baseRef
 locale_unwrap_optional_handle(_baseRef handle)
 {
     return reinterpret_cast<_baseRef>(
-        &**reinterpret_cast<{{>common/InternalNamespace}}optional<{{>common/InternalNamespace}}Locale>*>(handle)
+        &**reinterpret_cast<std::optional<{{>common/InternalNamespace}}Locale>*>(handle)
     );
 }

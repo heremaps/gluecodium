@@ -18,12 +18,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::C
     auto n_numeric_code = call_java_method<jint>(_jenv, _jinput, "getNumericCode", "()I");
     return ::smoke::Currency(std::move(n_currency_code), std::move(n_numeric_code));
 }
-::gluecodium::optional<::smoke::Currency>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::Currency>*)
+std::optional<::smoke::Currency>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::optional<::smoke::Currency>*)
 {
     return _jinput
-        ? ::gluecodium::optional<::smoke::Currency>(convert_from_jni(_jenv, _jinput, (::smoke::Currency*)nullptr))
-        : ::gluecodium::optional<::smoke::Currency>{};
+        ? std::optional<::smoke::Currency>(convert_from_jni(_jenv, _jinput, (::smoke::Currency*)nullptr))
+        : std::optional<::smoke::Currency>{};
 }
 REGISTER_JNI_CLASS_CACHE("java/util/Currency", java_util_Currency, ::smoke::Currency)
 JniReference<jobject>
@@ -36,7 +36,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Currency& _ninput)
     return _jresult;
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::smoke::Currency> _ninput)
+convert_to_jni(JNIEnv* _jenv, const std::optional<::smoke::Currency> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

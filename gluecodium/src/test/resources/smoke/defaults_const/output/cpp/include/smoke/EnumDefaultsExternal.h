@@ -8,8 +8,8 @@
 #include "foo/AlienEnum3.h"
 #include "foo/AlienEnum4.h"
 #include "gluecodium/ExportGluecodiumCpp.h"
-#include "gluecodium/Optional.h"
 #include "smoke/EnumWrapper.h"
+#include <optional>
 namespace smoke {
 class _GLUECODIUM_CPP_EXPORT EnumDefaultsExternal {
 public:
@@ -23,10 +23,10 @@ public:
         explicit SimpleEnum( foo::AlienEnum1 enum_field );
     };
     struct _GLUECODIUM_CPP_EXPORT NullableEnum {
-        ::gluecodium::optional< foo::AlienEnum2 > enum_field1 = ::gluecodium::optional< foo::AlienEnum2 >();
-        ::gluecodium::optional< foo::AlienEnum2 > enum_field1 = foo::AlienEnum2::DISABLED;
+        std::optional< foo::AlienEnum2 > enum_field1 = std::optional< foo::AlienEnum2 >();
+        std::optional< foo::AlienEnum2 > enum_field1 = foo::AlienEnum2::DISABLED;
         NullableEnum( );
-        NullableEnum( ::gluecodium::optional< foo::AlienEnum2 > enum_field1, ::gluecodium::optional< foo::AlienEnum2 > enum_field1 );
+        NullableEnum( std::optional< foo::AlienEnum2 > enum_field1, std::optional< foo::AlienEnum2 > enum_field1 );
     };
     struct _GLUECODIUM_CPP_EXPORT AliasEnum {
         ::smoke::EnumDefaultsExternal::EnumAlias enum_field = foo::AlienEnum3::DISABLED;

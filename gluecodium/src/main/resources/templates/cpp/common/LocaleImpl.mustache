@@ -46,50 +46,50 @@ namespace {{.}} {
 
 Locale::Locale() {}
 
-Locale::Locale(optional<std::string> language_tag) : language_tag(std::move(language_tag)) {}
+Locale::Locale(std::optional<std::string> language_tag) : language_tag(std::move(language_tag)) {}
 
-Locale::Locale(optional<std::string> language_code, optional<std::string> country_code)
+Locale::Locale(std::optional<std::string> language_code, std::optional<std::string> country_code)
     : language_code(std::move(language_code)),
       country_code(std::move(country_code)) {}
 
-Locale::Locale(optional<std::string> language_code,
-               optional<std::string> country_code,
-               optional<std::string> script_code)
+Locale::Locale(std::optional<std::string> language_code,
+               std::optional<std::string> country_code,
+               std::optional<std::string> script_code)
     : language_code(std::move(language_code)),
       country_code(std::move(country_code)),
       script_code(std::move(script_code)) {}
 
-Locale::Locale(optional<std::string> language_code,
-               optional<std::string> country_code,
-               optional<std::string> script_code,
-               optional<std::string> language_tag)
+Locale::Locale(std::optional<std::string> language_code,
+               std::optional<std::string> country_code,
+               std::optional<std::string> script_code,
+               std::optional<std::string> language_tag)
     : language_code(std::move(language_code)),
       country_code(std::move(country_code)),
       script_code(std::move(script_code)),
       language_tag(std::move(language_tag)) {}
 
 Locale::Locale(std::string language_tag)
-    : language_tag(optional<std::string>(std::move(language_tag))) {}
+    : language_tag(std::optional<std::string>(std::move(language_tag))) {}
 
 Locale::Locale(std::string language_code, std::string country_code)
-    : language_code(optional<std::string>(std::move(language_code))),
-      country_code(optional<std::string>(std::move(country_code))) {}
+    : language_code(std::optional<std::string>(std::move(language_code))),
+      country_code(std::optional<std::string>(std::move(country_code))) {}
 
 Locale::Locale(std::string language_code,
                std::string country_code,
                std::string script_code)
-    : language_code(optional<std::string>(std::move(language_code))),
-      country_code(optional<std::string>(std::move(country_code))),
-      script_code(optional<std::string>(std::move(script_code))) {}
+    : language_code(std::optional<std::string>(std::move(language_code))),
+      country_code(std::optional<std::string>(std::move(country_code))),
+      script_code(std::optional<std::string>(std::move(script_code))) {}
 
 Locale::Locale(std::string language_code,
                std::string country_code,
                std::string script_code,
                std::string language_tag)
-    : language_code(optional<std::string>(std::move(language_code))),
-      country_code(optional<std::string>(std::move(country_code))),
-      script_code(optional<std::string>(std::move(script_code))),
-      language_tag(optional<std::string>(std::move(language_tag))) {}
+    : language_code(std::optional<std::string>(std::move(language_code))),
+      country_code(std::optional<std::string>(std::move(country_code))),
+      script_code(std::optional<std::string>(std::move(script_code))),
+      language_tag(std::optional<std::string>(std::move(language_tag))) {}
 
 bool
 Locale::operator==(const Locale& rhs) const
@@ -118,10 +118,10 @@ Locale::operator!=(const Locale& rhs) const
 std::size_t
 hash<Locale>::operator()(const Locale& t) const noexcept {
     size_t hash_value = 43;
-    hash_value = (hash_value ^ hash<optional<std::string>>()(t.language_code)) << 1;
-    hash_value = (hash_value ^ hash<optional<std::string>>()(t.country_code)) << 1;
-    hash_value = (hash_value ^ hash<optional<std::string>>()(t.script_code)) << 1;
-    hash_value = (hash_value ^ hash<optional<std::string>>()(t.language_tag)) << 1;
+    hash_value = (hash_value ^ hash<std::optional<std::string>>()(t.language_code)) << 1;
+    hash_value = (hash_value ^ hash<std::optional<std::string>>()(t.country_code)) << 1;
+    hash_value = (hash_value ^ hash<std::optional<std::string>>()(t.script_code)) << 1;
+    hash_value = (hash_value ^ hash<std::optional<std::string>>()(t.language_tag)) << 1;
     return hash_value;
 }
 

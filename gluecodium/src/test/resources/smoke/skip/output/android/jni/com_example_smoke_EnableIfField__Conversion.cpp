@@ -28,12 +28,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::E
     _nout.bool_field = n_bool_field;
     return _nout;
 }
-::gluecodium::optional<::smoke::EnableIfField>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::EnableIfField>*)
+std::optional<::smoke::EnableIfField>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::optional<::smoke::EnableIfField>*)
 {
     return _jinput
-        ? ::gluecodium::optional<::smoke::EnableIfField>(convert_from_jni(_jenv, _jinput, (::smoke::EnableIfField*)nullptr))
-        : ::gluecodium::optional<::smoke::EnableIfField>{};
+        ? std::optional<::smoke::EnableIfField>(convert_from_jni(_jenv, _jinput, (::smoke::EnableIfField*)nullptr))
+        : std::optional<::smoke::EnableIfField>{};
 }
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/EnableIfField", com_example_smoke_EnableIfField, ::smoke::EnableIfField)
 JniReference<jobject>
@@ -46,7 +46,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::EnableIfField& _ninput)
     return _jresult;
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::smoke::EnableIfField> _ninput)
+convert_to_jni(JNIEnv* _jenv, const std::optional<::smoke::EnableIfField> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

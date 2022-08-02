@@ -86,7 +86,7 @@ FfiOpaqueHandle
 library_smoke_StandaloneProducer_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<smoke::StandaloneProducer>(
+        new (std::nothrow) std::optional<smoke::StandaloneProducer>(
             gluecodium::ffi::Conversion<smoke::StandaloneProducer>::toCpp(value)
         )
     );
@@ -94,13 +94,13 @@ library_smoke_StandaloneProducer_create_handle_nullable(FfiOpaqueHandle value)
 void
 library_smoke_StandaloneProducer_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<smoke::StandaloneProducer>*>(handle);
+    delete reinterpret_cast<std::optional<smoke::StandaloneProducer>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_StandaloneProducer_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::StandaloneProducer>::toFfi(
-        **reinterpret_cast<gluecodium::optional<smoke::StandaloneProducer>*>(handle)
+        **reinterpret_cast<std::optional<smoke::StandaloneProducer>*>(handle)
     );
 }
 FfiOpaqueHandle

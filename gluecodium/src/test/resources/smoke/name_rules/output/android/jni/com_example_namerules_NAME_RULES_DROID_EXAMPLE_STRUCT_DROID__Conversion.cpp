@@ -25,12 +25,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::namerule
     _nout.m_int_value = n_m_int_value;
     return _nout;
 }
-::optional<::namerules::NameRules::ExampleStruct>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::optional<::namerules::NameRules::ExampleStruct>*)
+std::optional<::namerules::NameRules::ExampleStruct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::optional<::namerules::NameRules::ExampleStruct>*)
 {
     return _jinput
-        ? ::optional<::namerules::NameRules::ExampleStruct>(convert_from_jni(_jenv, _jinput, (::namerules::NameRules::ExampleStruct*)nullptr))
-        : ::optional<::namerules::NameRules::ExampleStruct>{};
+        ? std::optional<::namerules::NameRules::ExampleStruct>(convert_from_jni(_jenv, _jinput, (::namerules::NameRules::ExampleStruct*)nullptr))
+        : std::optional<::namerules::NameRules::ExampleStruct>{};
 }
 REGISTER_JNI_CLASS_CACHE("com/example/namerules/NAME_RULES_DROID$EXAMPLE_STRUCT_DROID", com_example_namerules_NAME_1RULES_1DROID_00024EXAMPLE_1STRUCT_1DROID, ::namerules::NameRules::ExampleStruct)
 JniReference<jobject>
@@ -44,7 +44,7 @@ convert_to_jni(JNIEnv* _jenv, const ::namerules::NameRules::ExampleStruct& _ninp
     return _jresult;
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::optional<::namerules::NameRules::ExampleStruct> _ninput)
+convert_to_jni(JNIEnv* _jenv, const std::optional<::namerules::NameRules::ExampleStruct> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

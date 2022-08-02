@@ -4,8 +4,8 @@
 #pragma once
 #include "foo/Bar.h"
 #include "JniReference.h"
-#include "gluecodium/Optional.h"
 #include <memory>
+#include <optional>
 namespace gluecodium
 {
 namespace jni

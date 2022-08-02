@@ -28,12 +28,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::S
     _nout.bool_field = n_bool_field;
     return _nout;
 }
-::gluecodium::optional<::smoke::SkipFieldInPlatform>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::SkipFieldInPlatform>*)
+std::optional<::smoke::SkipFieldInPlatform>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::optional<::smoke::SkipFieldInPlatform>*)
 {
     return _jinput
-        ? ::gluecodium::optional<::smoke::SkipFieldInPlatform>(convert_from_jni(_jenv, _jinput, (::smoke::SkipFieldInPlatform*)nullptr))
-        : ::gluecodium::optional<::smoke::SkipFieldInPlatform>{};
+        ? std::optional<::smoke::SkipFieldInPlatform>(convert_from_jni(_jenv, _jinput, (::smoke::SkipFieldInPlatform*)nullptr))
+        : std::optional<::smoke::SkipFieldInPlatform>{};
 }
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/SkipFieldInPlatform", com_example_smoke_SkipFieldInPlatform, ::smoke::SkipFieldInPlatform)
 JniReference<jobject>
@@ -46,7 +46,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::SkipFieldInPlatform& _ninput)
     return _jresult;
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::smoke::SkipFieldInPlatform> _ninput)
+convert_to_jni(JNIEnv* _jenv, const std::optional<::smoke::SkipFieldInPlatform> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

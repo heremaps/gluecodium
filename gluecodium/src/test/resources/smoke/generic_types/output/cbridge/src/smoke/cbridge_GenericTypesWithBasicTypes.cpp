@@ -5,7 +5,6 @@
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
-#include "gluecodium/Optional.h"
 #include "gluecodium/UnorderedMapHash.h"
 #include "gluecodium/UnorderedSetHash.h"
 #include "gluecodium/VectorHash.h"
@@ -13,6 +12,7 @@
 #include <cstdint>
 #include <memory>
 #include <new>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -91,7 +91,7 @@ smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_handle( _baseRef han
 _baseRef
 smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_optional_handle(_baseRef numbersList, _baseRef numbersMap, _baseRef numbersSet)
 {
-    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::GenericTypesWithBasicTypes::StructWithGenerics>( ::smoke::GenericTypesWithBasicTypes::StructWithGenerics( ) );
+    auto _struct = new ( ::std::nothrow ) std::optional<::smoke::GenericTypesWithBasicTypes::StructWithGenerics>( ::smoke::GenericTypesWithBasicTypes::StructWithGenerics( ) );
     (*_struct)->numbers_list = Conversion<::std::vector< uint8_t >>::toCpp( numbersList );
     (*_struct)->numbers_map = Conversion<::std::unordered_map< uint8_t, ::std::string >>::toCpp( numbersMap );
     (*_struct)->numbers_set = Conversion<::std::unordered_set< uint8_t >>::toCpp( numbersSet );
@@ -100,10 +100,10 @@ smoke_GenericTypesWithBasicTypes_StructWithGenerics_create_optional_handle(_base
 _baseRef
 smoke_GenericTypesWithBasicTypes_StructWithGenerics_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::GenericTypesWithBasicTypes::StructWithGenerics>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::smoke::GenericTypesWithBasicTypes::StructWithGenerics>*>( handle ) );
 }
 void smoke_GenericTypesWithBasicTypes_StructWithGenerics_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::smoke::GenericTypesWithBasicTypes::StructWithGenerics>*>( handle );
+    delete reinterpret_cast<std::optional<::smoke::GenericTypesWithBasicTypes::StructWithGenerics>*>( handle );
 }
 _baseRef smoke_GenericTypesWithBasicTypes_StructWithGenerics_numbersList_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::GenericTypesWithBasicTypes::StructWithGenerics>(handle);

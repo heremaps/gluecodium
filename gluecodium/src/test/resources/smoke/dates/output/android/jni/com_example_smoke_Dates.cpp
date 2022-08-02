@@ -26,9 +26,9 @@ Java_com_example_smoke_Dates_dateMethod(JNIEnv* _jenv, jobject _jinstance, jobje
 jobject
 Java_com_example_smoke_Dates_nullableDateMethod(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
 {
-    ::gluecodium::optional< ::std::chrono::system_clock::time_point > input = ::gluecodium::jni::convert_from_jni(_jenv,
+    std::optional< ::std::chrono::system_clock::time_point > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::gluecodium::optional< ::std::chrono::system_clock::time_point >*)nullptr);
+            (std::optional< ::std::chrono::system_clock::time_point >*)nullptr);
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Dates>*> (
         ::gluecodium::jni::get_field_value(
             _jenv,
