@@ -27,13 +27,13 @@ namespace test
 std::string
 SimpleRoute::get_default_description( )
 {
-    return SimpleRoute::DEFAULT_DESCRIPTION;
+    return std::string{SimpleRoute::DEFAULT_DESCRIPTION};
 }
 
 std::string
 StructsWithConstantsInterface::MultiRoute::get_default_description( )
 {
-    return StructsWithConstantsInterface::MultiRoute::DEFAULT_DESCRIPTION;
+    return std::string{StructsWithConstantsInterface::MultiRoute::DEFAULT_DESCRIPTION};
 }
 
 }

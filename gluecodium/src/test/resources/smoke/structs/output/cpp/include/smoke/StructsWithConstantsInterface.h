@@ -7,6 +7,7 @@
 #include "gluecodium/VectorHash.h"
 #include "smoke/RouteUtils.h"
 #include <string>
+#include <string_view>
 #include <vector>
 namespace smoke {
 class _GLUECODIUM_CPP_EXPORT StructsWithConstantsInterface {
@@ -15,7 +16,7 @@ public:
     virtual ~StructsWithConstantsInterface() = 0;
 public:
     struct _GLUECODIUM_CPP_EXPORT MultiRoute {
-        static const ::std::string DEFAULT_DESCRIPTION;
+        static constexpr std::string_view DEFAULT_DESCRIPTION = "Foo";
         static const ::smoke::RouteUtils::RouteType DEFAULT_TYPE;
         ::std::vector< ::std::string > descriptions;
         ::smoke::RouteUtils::RouteType type;
@@ -23,7 +24,7 @@ public:
         MultiRoute( ::std::vector< ::std::string > descriptions, ::smoke::RouteUtils::RouteType type );
     };
     struct _GLUECODIUM_CPP_EXPORT StructWithConstantsOnly {
-        static const ::std::string DEFAULT_DESCRIPTION;
+        static constexpr std::string_view DEFAULT_DESCRIPTION = "Foo";
     };
 };
 }

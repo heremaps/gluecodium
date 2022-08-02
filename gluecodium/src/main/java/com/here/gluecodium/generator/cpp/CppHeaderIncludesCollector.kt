@@ -48,9 +48,8 @@ internal class CppHeaderIncludesCollector(
         val allValues = LimeTypeHelper.getAllValues(limeElement)
         val equatableTypes =
             allTypes.filter { it.external?.cpp == null && it.attributes.have(LimeAttributeType.EQUATABLE) }
-        return allTypes.filterIsInstance<LimeContainer>()
-            .flatMap { it.functions }
-            .flatMap { includesResolver.resolveElementImports(it) } +
+        val containers = allTypes.filterIsInstance<LimeContainer>()
+        return containers.flatMap { it.functions }.flatMap { includesResolver.resolveElementImports(it) } +
             allTypeRefs.flatMap { includesResolver.resolveElementImports(it) } +
             allValues.flatMap { includesResolver.resolveElementImports(it) } +
             allTypes.flatMap { includesResolver.resolveElementImports(it) } +
@@ -81,6 +80,9 @@ internal class CppHeaderIncludesCollector(
         }
         if (typeRegisteredClasses.isNotEmpty()) {
             additionalIncludes += includesResolver.typeRepositoryInclude
+        }
+        if (limeElement is LimeContainer && limeElement.constants.any { CppGeneratorPredicates.isStringConstant(it) }) {
+            additionalIncludes += CppLibraryIncludes.STRING_VIEW
         }
         return additionalIncludes
     }

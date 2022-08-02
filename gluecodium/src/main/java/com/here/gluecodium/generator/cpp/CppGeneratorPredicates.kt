@@ -23,6 +23,7 @@ import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeBasicType
+import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
@@ -82,6 +83,7 @@ internal object CppGeneratorPredicates {
                     it.attributes.have(LimeAttributeType.CPP, LimeAttributeValueType.CSTRING)
             }
         },
+        "isStringConstant" to { limeConstant: Any -> limeConstant is LimeConstant && isStringConstant(limeConstant) },
         "needsAllFieldsConstructor" to { limeStruct: Any ->
             when {
                 limeStruct !is LimeStruct -> false
@@ -111,6 +113,11 @@ internal object CppGeneratorPredicates {
             }
         }
     )
+
+    fun isStringConstant(limeConstant: LimeConstant): Boolean {
+        val actualType = limeConstant.typeRef.type.actualType
+        return actualType is LimeBasicType && actualType.typeId == LimeBasicType.TypeId.STRING
+    }
 
     private fun needsNotNullComment(limeTypeRef: LimeTypeRef) =
         !limeTypeRef.isNullable && limeTypeRef.type.actualType is LimeContainerWithInheritance

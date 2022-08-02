@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2020 HERE Europe B.V.
+  ! Copyright (C) 2016-2022 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -18,7 +18,5 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>cpp/CppDocComment}}{{>cpp/CppAttributes}}
-{{#if needsExport}}{{>cpp/CppExportMacro}}{{/if}}{{storageQualifier}} {{!!
-}}{{#ifPredicate "isStringConstant"}}constexpr std::string_view {{resolveName}} = {{resolveName value}}{{/ifPredicate}}{{!!
-}}{{#unlessPredicate "isStringConstant"}}const {{resolveName typeRef}} {{resolveName}}{{/unlessPredicate}};
+{{#unlessPredicate "isStringConstant"}}const {{resolveName typeRef}} {{parentName}}::{{resolveName}} = {{resolveName value}};
+{{/unlessPredicate}}
