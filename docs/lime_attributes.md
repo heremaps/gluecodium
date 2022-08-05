@@ -94,6 +94,9 @@ generated code. _Attribute_ does not need to be prepended with `@`. _Attribute_ 
 literals, their enclosing quotes need to be backslash-escaped, as in the example.
 * **ParameterDefaults**: marks a "field constructor" of a struct to have field default values as parameter defaults
 in Swift, for those fields that are listed in the "filed constructor's" signature.
+* **OptionSet**: marks an enumeration to be generated in Swift as a `struct` implementing the `OptionSet` protocol.
+Additionally, for each enum `MyEnum` marked as such, any usage of `Set<MyEnum>` will be replaced by `MyEnum` itself in
+Swift, per the `OptionSet` usage pattern.
 * **Public** or **Internal**: marks an element to have the corresponding visibility in Swift, disregarding any "global"
 visibility modifiers the element might have.
 

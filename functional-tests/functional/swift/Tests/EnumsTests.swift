@@ -104,6 +104,26 @@ class EnumsTests: XCTestCase {
         XCTAssertTrue(result)
     }
 
+    func testEnumOptionSet() {
+        let value: EnumOptionSet = [.one, .three]
+
+        XCTAssertEqual(value.rawValue, 5)
+    }
+
+    func testEnumOptionSetDefault() {
+        let value = UseEnumOptionSet(setField: []).setFieldValue
+
+        XCTAssertEqual(value.rawValue, 5)
+    }
+
+    func testEnumOptionSetRoundTrip() {
+        let value: EnumOptionSet = [.one, .three]
+
+        let result = UseEnumOptionSet.roundTrip(input: value)
+
+        XCTAssertEqual(result.rawValue, 5)
+    }
+
     static var allTests = [
         ("testFlipEnumValue", testFlipEnumValue),
         ("testExtractEnumFromStruct", testExtractEnumFromStruct),
@@ -115,6 +135,9 @@ class EnumsTests: XCTestCase {
         ("testDoubleAliasInSwift", testDoubleAliasInSwift),
         ("testAliasFromCpp", testAliasFromCpp),
         ("testAliasToTargetCpp", testAliasToTargetCpp),
-        ("testAliasToAlias", testAliasToAlias)
+        ("testAliasToAlias", testAliasToAlias),
+        ("testEnumOptionSet", testEnumOptionSet),
+        ("testEnumOptionSetDefault", testEnumOptionSetDefault),
+        ("testEnumOptionSetRoundTrip", testEnumOptionSetRoundTrip)
     ]
 }

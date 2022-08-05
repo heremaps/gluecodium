@@ -32,6 +32,7 @@ enum class LimeAttributeValueType(private val tag: String) {
     INTERNAL("Internal"),
     LABEL("Label"),
     MESSAGE("Message"),
+    OPTION_SET("OptionSet"),
     PARAMETER_DEFAULTS("ParameterDefaults"),
     POSITIONAL_DEFAULTS("PositionalDefaults"),
     PUBLIC("Public"),
