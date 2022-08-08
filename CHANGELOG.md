@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed Dart FFI compilation issue for MSVC compiler.
+
 ## 13.1.0
 Release date: 2022-08-02
 ### Breaking changes:
