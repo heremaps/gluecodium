@@ -126,9 +126,9 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#i
   final value = {{external.dart.converter}}.convertToInternal(valueExternal);
 {{/if}}
 {{#fields}}{{#if typeRef.attributes.optimized}}
-  final _{{resolveName}}Handle = (value.{{resolveName visibility}}{{resolveName}} as __lib.LazyList).handle;
+  final _{{resolveName}}Handle = (value.{{resolveName "visibility"}}{{resolveName}} as __lib.LazyList).handle;
 {{/if}}{{#unless typeRef.attributes.optimized}}
-  final _{{resolveName}}Handle = {{#set call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(value.{{resolveName visibility}}{{resolveName}});
+  final _{{resolveName}}Handle = {{#set call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(value.{{resolveName "visibility"}}{{resolveName}});
 {{/unless}}{{/fields}}
   final _result = _{{resolveName "Ffi"}}CreateHandle({{#fields}}_{{resolveName}}Handle{{#if iter.hasNext}}, {{/if}}{{/fields}});
 {{#fields}}{{#unless typeRef.attributes.optimized}}
@@ -208,19 +208,19 @@ void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) => _{{resolveNa
 // End of {{resolveName}} "private" section.{{!!
 
 }}{{+dartFieldEq}}{{!!
-}}{{#instanceOf typeRef.type.actualType "LimeList"}}DeepCollectionEquality().equals({{resolveName visibility}}{{resolveName}}, _other.{{resolveName visibility}}{{resolveName}}){{/instanceOf}}{{!!
-}}{{#instanceOf typeRef.type.actualType "LimeSet"}}DeepCollectionEquality().equals({{resolveName visibility}}{{resolveName}}, _other.{{resolveName visibility}}{{resolveName}}){{/instanceOf}}{{!!
-}}{{#instanceOf typeRef.type.actualType "LimeMap"}}DeepCollectionEquality().equals({{resolveName visibility}}{{resolveName}}, _other.{{resolveName visibility}}{{resolveName}}){{/instanceOf}}{{!!
+}}{{#instanceOf typeRef.type.actualType "LimeList"}}DeepCollectionEquality().equals({{resolveName "visibility"}}{{resolveName}}, _other.{{resolveName "visibility"}}{{resolveName}}){{/instanceOf}}{{!!
+}}{{#instanceOf typeRef.type.actualType "LimeSet"}}DeepCollectionEquality().equals({{resolveName "visibility"}}{{resolveName}}, _other.{{resolveName "visibility"}}{{resolveName}}){{/instanceOf}}{{!!
+}}{{#instanceOf typeRef.type.actualType "LimeMap"}}DeepCollectionEquality().equals({{resolveName "visibility"}}{{resolveName}}, _other.{{resolveName "visibility"}}{{resolveName}}){{/instanceOf}}{{!!
 }}{{#notInstanceOf typeRef.type.actualType "LimeList"}}{{#notInstanceOf typeRef.type.actualType "LimeSet"}}{{#notInstanceOf typeRef.type.actualType "LimeMap"}}{{!!
-}}{{resolveName visibility}}{{resolveName}} == _other.{{resolveName visibility}}{{resolveName}}{{/notInstanceOf}}{{/notInstanceOf}}{{/notInstanceOf}}{{!!
+}}{{resolveName "visibility"}}{{resolveName}} == _other.{{resolveName "visibility"}}{{resolveName}}{{/notInstanceOf}}{{/notInstanceOf}}{{/notInstanceOf}}{{!!
 }}{{/dartFieldEq}}{{!!
 
 }}{{+dartFieldHash}}{{!!
-}}{{#instanceOf typeRef.type.actualType "LimeList"}}DeepCollectionEquality().hash({{resolveName visibility}}{{resolveName}}){{/instanceOf}}{{!!
-}}{{#instanceOf typeRef.type.actualType "LimeSet"}}DeepCollectionEquality().hash({{resolveName visibility}}{{resolveName}}){{/instanceOf}}{{!!
-}}{{#instanceOf typeRef.type.actualType "LimeMap"}}DeepCollectionEquality().hash({{resolveName visibility}}{{resolveName}}){{/instanceOf}}{{!!
+}}{{#instanceOf typeRef.type.actualType "LimeList"}}DeepCollectionEquality().hash({{resolveName "visibility"}}{{resolveName}}){{/instanceOf}}{{!!
+}}{{#instanceOf typeRef.type.actualType "LimeSet"}}DeepCollectionEquality().hash({{resolveName "visibility"}}{{resolveName}}){{/instanceOf}}{{!!
+}}{{#instanceOf typeRef.type.actualType "LimeMap"}}DeepCollectionEquality().hash({{resolveName "visibility"}}{{resolveName}}){{/instanceOf}}{{!!
 }}{{#notInstanceOf typeRef.type.actualType "LimeList"}}{{#notInstanceOf typeRef.type.actualType "LimeSet"}}{{#notInstanceOf typeRef.type.actualType "LimeMap"}}{{!!
-}}{{resolveName visibility}}{{resolveName}}.hashCode{{/notInstanceOf}}{{/notInstanceOf}}{{/notInstanceOf}}{{!!
+}}{{resolveName "visibility"}}{{resolveName}}.hashCode{{/notInstanceOf}}{{/notInstanceOf}}{{/notInstanceOf}}{{!!
 }}{{/dartFieldHash}}{{!!
 
 }}{{+fromFfiFieldInit}}{{!!

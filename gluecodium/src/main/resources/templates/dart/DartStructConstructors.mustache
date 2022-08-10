@@ -29,7 +29,7 @@
 }}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}({{!!
   }}{{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}, {{/uninitializedFields}}{{!!
   }}[{{#initializedFields}}{{resolveName typeRef}} {{resolveName}} = {{>constPrefix}}{{resolveName defaultValue}}{{#if iter.hasNext}}, {{/if}}{{/initializedFields}}])
-    : {{#fields}}{{resolveName visibility}}{{resolveName}} = {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}};
+    : {{#fields}}{{resolveName "visibility"}}{{resolveName}} = {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}};
 {{/if}}{{!!
 
 }}{{#unless attributes.dart.positionalDefaults initializedFields}}{{!!
@@ -47,7 +47,7 @@ Initialized fields constructor
   {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{!!
 }}{{#ifPredicate "allFieldsCtorIsPublic"}}.withDefaults{{/ifPredicate}}({{!!
 }}{{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}})
-    : {{#fields}}{{resolveName visibility}}{{resolveName}} = {{#if defaultValue}}{{resolveName defaultValue}}{{/if}}{{!!
+    : {{#fields}}{{resolveName "visibility"}}{{resolveName}} = {{#if defaultValue}}{{resolveName defaultValue}}{{/if}}{{!!
     }}{{#unless defaultValue}}{{resolveName}}{{/unless}}{{#if iter.hasNext}}, {{/if}}{{/fields}};
 {{/if}}{{/unless}}{{/unless}}{{!!
 
@@ -76,7 +76,7 @@ Explicit `field constructor` definitions
 {{/if}}{{prefixPartial "dart/DartAttributes" "  "}}{{!!
 }}  {{#if struct.attributes.immutable}}const {{/if}}{{resolveName struct}}{{#if external.dart.converter}}Internal{{/if}}{{!!
 }}{{>dart/DartConstructorName}}({{>thisDotFields}}){{#if omittedFields}}
-      : {{#omittedFields}}{{resolveName visibility}}{{resolveName}} = {{resolveName defaultValue}}{{#if iter.hasNext}}, {{/if}}{{/omittedFields}}{{/if}};
+      : {{#omittedFields}}{{resolveName "visibility"}}{{resolveName}} = {{resolveName defaultValue}}{{#if iter.hasNext}}, {{/if}}{{/omittedFields}}{{/if}};
 {{/fieldConstructors}}{{/set}}{{!!
 
 }}{{+constPrefix}}{{#set type=typeRef.type.actualType}}{{!!
@@ -93,4 +93,4 @@ Explicit `field constructor` definitions
 {{/fields}}
 {{/unless}}{{/resolveName}}{{/constructorComment}}{{!!
 
-}}{{+thisDotFields}}{{#fields}}this.{{resolveName visibility}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}}{{/thisDotFields}}
+}}{{+thisDotFields}}{{#fields}}this.{{resolveName "visibility"}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}}{{/thisDotFields}}

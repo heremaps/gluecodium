@@ -131,7 +131,8 @@ internal class DartGenerator : Generator {
             "Ffi" to CamelCaseNameResolver(ffiNameResolver),
             "FfiSnakeCase" to ffiNameResolver,
             "FfiApiTypes" to FfiApiTypeNameResolver(),
-            "FfiDartTypes" to FfiDartTypeNameResolver()
+            "FfiDartTypes" to FfiDartTypeNameResolver(),
+            "visibility" to DartVisibilityResolver()
         )
         val ffiCppNameResolver = FfiCppNameResolver(ffiReferenceMap, cppNameRules, rootNamespace, internalNamespace)
         val ffiResolvers = mapOf(
