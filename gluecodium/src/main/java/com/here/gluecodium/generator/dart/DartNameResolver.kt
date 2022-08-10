@@ -53,7 +53,6 @@ import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.lime.LimeValue.Duration.TimeUnit
-import com.here.gluecodium.model.lime.LimeVisibility
 
 internal class DartNameResolver(
     limeReferenceMap: Map<String, LimeElement>,
@@ -79,7 +78,6 @@ internal class DartNameResolver(
         when (element) {
             is LimeComment -> resolveComment(element)
             is TypeId -> resolveBasicType(element)
-            is LimeVisibility -> resolveVisibility(element)
             is LimeReturnType -> resolveName(element.typeRef)
             is LimeBasicType -> resolveBasicType(element.typeId)
             is LimeValue -> resolveValue(element)
@@ -100,12 +98,6 @@ internal class DartNameResolver(
 
     fun resolveFileName(limeElement: LimeNamedElement) =
         NameHelper.toLowerSnakeCase(resolveName(limeElement)).replace('<', '_').replace('>', '_')
-
-    private fun resolveVisibility(limeVisibility: LimeVisibility) =
-        when (limeVisibility) {
-            LimeVisibility.PUBLIC -> ""
-            LimeVisibility.INTERNAL -> "_"
-        }
 
     private fun resolveBasicType(typeId: TypeId) =
         when (typeId) {
