@@ -30,7 +30,7 @@
 {{#if this.comment}}
 {{prefixPartial "swift/SwiftComment" "    "}}{{prefixPartial "swift/SwiftAttributes" "    "}}
 {{/if}}
-    {{resolveName visibility}} {{#if isImmutable}}let{{/if}}{{#unless isImmutable}}var{{/unless}} {{resolveName}}: {{resolveName typeRef}}
+    {{resolveName "visibility"}} {{#if isImmutable}}let{{/if}}{{#unless isImmutable}}var{{/unless}} {{resolveName}}: {{resolveName typeRef}}
 {{/fields}}{{/set}}{{!!
 
 }}{{>swift/SwiftStructConstructors}}
@@ -48,7 +48,7 @@
 {{/if}}{{!!
 }}{{#set struct=this}}{{#constructors}}
 {{prefixPartial "swift/SwiftFunctionComment" "    "}}
-    {{resolveName visibility}} {{#if overriding}}override {{/if}}init({{>swift/SwiftFunctionParameters}}){{#if thrownType}} throws{{/if}} {
+    {{resolveName "visibility"}} {{#if overriding}}override {{/if}}init({{>swift/SwiftFunctionParameters}}){{#if thrownType}} throws{{/if}} {
         let _result_handle = {{#if thrownType}}try {{/if}}{{!!
         }}{{resolveName struct "" "ref"}}{{#if external.swift.converter}}_internal{{/if}}.{{resolveName}}({{#parameters}}{{!!
         }}{{#if attributes.swift.label}}{{#isNotEq attributes.swift.label "_"}}{{attributes.swift.label}}: {{/isNotEq}}{{/if}}{{!!

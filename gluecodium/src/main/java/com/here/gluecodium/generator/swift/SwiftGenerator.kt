@@ -130,9 +130,12 @@ internal class SwiftGenerator : Generator {
 
         val swiftNameResolver =
             SwiftNameResolver(limeModel.referenceMap, nameRules, limeLogger, commentsProcessor, swiftSignatureResolver)
-        val mangledNameResolver = SwiftMangledNameResolver(swiftNameResolver)
-        val nameResolvers =
-            mapOf("" to swiftNameResolver, "CBridge" to cbridgeNameResolver, "mangled" to mangledNameResolver)
+        val nameResolvers = mapOf(
+            "" to swiftNameResolver,
+            "CBridge" to cbridgeNameResolver,
+            "mangled" to SwiftMangledNameResolver(swiftNameResolver),
+            "visibility" to SwiftVisibilityResolver()
+        )
         val predicates = SwiftGeneratorPredicates(nameRules, swiftSignatureResolver)
         val descendantInterfaces = LimeTypeHelper.collectDescendantInterfaces(swiftFilteredModel.topElements)
         val swiftFiles = swiftFilteredModel.topElements.map {

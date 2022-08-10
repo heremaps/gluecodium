@@ -51,7 +51,6 @@ import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.lime.LimeValue.Duration.TimeUnit
-import com.here.gluecodium.model.lime.LimeVisibility
 
 internal class SwiftNameResolver(
     limeReferenceMap: Map<String, LimeElement>,
@@ -67,7 +66,6 @@ internal class SwiftNameResolver(
         when (element) {
             is TypeId -> resolveBasicType(element)
             is LimeComment -> resolveComment(element)
-            is LimeVisibility -> resolveVisibility(element)
             is LimeBasicType -> resolveBasicType(element.typeId)
             is LimeValue -> resolveValue(element)
             is LimeGenericType -> resolveGenericType(element)
@@ -82,12 +80,6 @@ internal class SwiftNameResolver(
             is LimeTypeRef -> resolveReferenceName(element.type.actualType)
             is LimeType -> resolveFullName(element)
             else -> null
-        }
-
-    private fun resolveVisibility(limeVisibility: LimeVisibility) =
-        when (limeVisibility) {
-            LimeVisibility.PUBLIC -> "public"
-            LimeVisibility.INTERNAL -> "internal"
         }
 
     private fun resolveBasicType(typeId: TypeId) =
