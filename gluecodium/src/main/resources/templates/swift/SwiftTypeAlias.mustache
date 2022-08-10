@@ -19,4 +19,4 @@
   !
   !}}
 {{>swift/SwiftComment}}{{>swift/SwiftAttributes}}
-{{#unless isInterface}}{{resolveName visibility}} {{/unless}}typealias {{resolveName}} = {{resolveName typeRef}}
+{{#unless isInterface}}{{resolveName "visibility"}} {{/unless}}typealias {{resolveName}} = {{resolveName typeRef}}

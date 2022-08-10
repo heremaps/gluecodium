@@ -19,6 +19,5 @@
   !
   !}}
 {{#unlessPredicate "skipTypeAlias"}}{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}
-{{#unless isInterface}}{{#if attributes.internal}}internal{{/if}}{{!!
-}}{{#unless attributes.internal}}{{resolveName visibility}}{{/unless}} {{/unless}}{{!!
+{{#unless isInterface}}{{resolveName "visibility"}} {{/unless}}{{!!
 }}typealias {{resolveName}} = {{resolveName errorType}}{{/unlessPredicate}}
