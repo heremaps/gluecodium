@@ -19,7 +19,7 @@
   !
   !}}
 {{>java/JavaDocComment}}{{>java/JavaAttributes}}
-{{resolveName visibility}}enum {{resolveName}} {
+{{resolveName "visibility"}}enum {{resolveName}} {
 {{joinPartial uniqueEnumerators "java/JavaEnumerator" ",
 "}}{{#if uniqueEnumerators}};{{/if}}{{#if aliasEnumerators}}
 
@@ -27,7 +27,7 @@
 "}}{{/set}}
 {{/if}}
 
-    {{resolveName visibility}}final int value;
+    {{resolveName "visibility"}}final int value;
 
     {{resolveName}}(final int value) {
         this.value = value;

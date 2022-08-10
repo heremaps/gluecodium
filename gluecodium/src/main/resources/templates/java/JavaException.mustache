@@ -19,12 +19,12 @@
   !
   !}}
 {{>java/JavaDocComment}}{{>java/JavaAttributes}}
-{{resolveName visibility}}{{#if forceStatic}}static {{/if}}{{!!
+{{resolveName "visibility"}}{{#if forceStatic}}static {{/if}}{{!!
 }}final class {{resolveName}} extends Exception {
-    {{resolveName visibility}}{{resolveName}}(final {{resolveName errorType}} error) {
+    {{resolveName "visibility"}}{{resolveName}}(final {{resolveName errorType}} error) {
         super(error.toString());
         this.error = error;
     }
 
-    {{resolveName visibility}}final {{resolveName errorType}} error;
+    {{resolveName "visibility"}}final {{resolveName errorType}} error;
 }

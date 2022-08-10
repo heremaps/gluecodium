@@ -201,12 +201,13 @@ internal class JavaGenerator : Generator {
             "optimizedLists" to optimizedLists
         )
 
-        val mainContent = TemplateEngine.render(
-            "java/JavaFile",
-            templateData,
-            mapOf("" to nameResolver, "empty" to JavaEmptyValueResolver(nameResolver)),
-            JavaGeneratorPredicates.predicates
+        val nameResolvers = mapOf(
+            "" to nameResolver,
+            "empty" to JavaEmptyValueResolver(nameResolver),
+            "visibility" to JavaVisibilityResolver()
         )
+        val mainContent =
+            TemplateEngine.render("java/JavaFile", templateData, nameResolvers, JavaGeneratorPredicates.predicates)
         val name = nameResolver.resolveName(limeElement)
         val mainFileName = (listOf(GENERATOR_NAME) + packages + "$name.java").joinToString(File.separator)
         val mainFile = GeneratedFile(mainContent, mainFileName)
@@ -222,12 +223,8 @@ internal class JavaGenerator : Generator {
         templateData["imports"] = implImports.distinct().sorted()
         templateData["contentTemplate"] = "java/JavaImplClass"
 
-        val implContent = TemplateEngine.render(
-            "java/JavaFile",
-            templateData,
-            mapOf("" to nameResolver, "empty" to JavaEmptyValueResolver(nameResolver)),
-            JavaGeneratorPredicates.predicates
-        )
+        val implContent =
+            TemplateEngine.render("java/JavaFile", templateData, nameResolvers, JavaGeneratorPredicates.predicates)
         val implFileName = (listOf(GENERATOR_NAME) + packages + "${name}Impl.java").joinToString(File.separator)
         val implFile = GeneratedFile(implContent, implFileName)
 

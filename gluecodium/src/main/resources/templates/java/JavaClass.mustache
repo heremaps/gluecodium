@@ -19,7 +19,7 @@
   !
   !}}
 {{>java/JavaDocComment}}{{>java/JavaAttributes}}
-{{resolveName visibility}}{{#if forceStatic}}static {{/if}}{{!!
+{{resolveName "visibility"}}{{#if forceStatic}}static {{/if}}{{!!
 }}{{#unless this.isOpen visibility.isInternal logic="and"}}final {{/unless}}{{!!
 }}class {{resolveName}} extends {{#if this.parentClass}}{{resolveName this.parentClass "" "ref"}}{{/if}}{{!!
 }}{{#unless this.parentClass}}NativeBase{{/unless}}{{#if this.parentInterfaces}} implements {{!!
@@ -29,7 +29,7 @@
 {{>java/JavaContainerContents}}
 {{#set classElement=this}}{{#constructors}}
 {{prefixPartial "java/JavaMethodComment" "    "}}
-    {{resolveName visibility}}{{resolveName classElement}}({{joinPartial parameters "java/JavaParameter" ", "}}){{!!
+    {{resolveName "visibility"}}{{resolveName classElement}}({{joinPartial parameters "java/JavaParameter" ", "}}){{!!
     }}{{#thrownType}} throws {{resolveName typeRef}}{{/thrownType}} {
         this({{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}), (Object)null);
 {{#unless classElement.attributes.nocache}}

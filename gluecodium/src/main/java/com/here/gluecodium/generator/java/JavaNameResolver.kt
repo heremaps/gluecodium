@@ -47,7 +47,6 @@ import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypedElement
 import com.here.gluecodium.model.lime.LimeValue
-import com.here.gluecodium.model.lime.LimeVisibility
 
 internal class JavaNameResolver(
     limeReferenceMap: Map<String, LimeElement>,
@@ -74,7 +73,6 @@ internal class JavaNameResolver(
     override fun resolveName(element: Any): String =
         when (element) {
             is LimeComment -> resolveComment(element)
-            is LimeVisibility -> resolveVisibility(element)
             is LimeValue -> valueResolver.resolveValue(element)
             is LimeType -> resolveTypeName(element)
             is LimeTypeRef -> resolveTypeRef(element)
@@ -104,12 +102,6 @@ internal class JavaNameResolver(
         val commentedElement = exactElement ?: getParentElement(limeComment.path, withSuffix = true)
         return commentsProcessor.process(commentedElement.fullName, commentText, limeToJavaNames, limeLogger)
     }
-
-    private fun resolveVisibility(limeVisibility: LimeVisibility) =
-        when (limeVisibility) {
-            LimeVisibility.PUBLIC -> "public "
-            LimeVisibility.INTERNAL -> ""
-        }
 
     private fun resolveAccessorName(element: Any, rule: JavaNameRules.(LimeTypedElement) -> String) =
         (element as? LimeTypedElement)?.let { javaNameRules.rule(it) }

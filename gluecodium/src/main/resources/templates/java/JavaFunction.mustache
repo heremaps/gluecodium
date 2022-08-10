@@ -24,7 +24,7 @@ private {{#if isStatic}}static {{/if}}boolean is_cached_{{resolveName}} = false;
 
 {{>java/JavaMethodComment}}
 {{#returnType}}{{>java/NullabilityAnnotations}}{{/returnType}}
-{{#if forcePublic}}public {{/if}}{{#unless forcePublic}}{{resolveName visibility}}{{/unless}}{{!!
+{{#if forcePublic}}public {{/if}}{{#unless forcePublic}}{{resolveName "visibility"}}{{/unless}}{{!!
 }}{{#if isStatic}}static {{/if}}{{resolveName returnType}} {{resolveName}}({{!!
 }}{{joinPartial parameters "java/JavaParameter" ", "}}) {
     if (!is_cached_{{resolveName}}) {
