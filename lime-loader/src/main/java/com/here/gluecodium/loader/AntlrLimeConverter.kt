@@ -174,10 +174,12 @@ internal object AntlrLimeConverter {
             "EnableIf" -> LimeAttributeValueType.ENABLE_IF
             "FullName" -> LimeAttributeValueType.FULL_NAME
             "FunctionName" -> LimeAttributeValueType.FUNCTION_NAME
+            "Internal" -> LimeAttributeValueType.INTERNAL
             "Label" -> LimeAttributeValueType.LABEL
             "Message" -> LimeAttributeValueType.MESSAGE
             "ParameterDefaults" -> LimeAttributeValueType.PARAMETER_DEFAULTS
             "PositionalDefaults" -> LimeAttributeValueType.POSITIONAL_DEFAULTS
+            "Public" -> LimeAttributeValueType.PUBLIC
             "Ref" -> LimeAttributeValueType.REF
             "Skip" -> LimeAttributeValueType.SKIP
             "Tag" -> LimeAttributeValueType.TAG

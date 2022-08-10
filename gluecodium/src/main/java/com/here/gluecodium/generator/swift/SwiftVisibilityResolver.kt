@@ -20,14 +20,16 @@
 package com.here.gluecodium.generator.swift
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
+import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.NameResolver
+import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeNamedElement
 
 internal class SwiftVisibilityResolver : NameResolver {
 
     override fun resolveName(element: Any): String =
         when (element) {
-            is LimeNamedElement -> if (element.visibility.isPublic) "public" else "internal"
+            is LimeNamedElement -> if (CommonGeneratorPredicates.isInternal(element, SWIFT)) "internal" else "public"
             else -> throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }
 }

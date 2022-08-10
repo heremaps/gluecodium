@@ -99,6 +99,13 @@ internal object CommonGeneratorPredicates {
         return hasImmutableFields(limeStruct)
     }
 
+    fun isInternal(limeElement: LimeNamedElement, platformAttribute: LimeAttributeType) =
+        when {
+            limeElement.attributes.have(platformAttribute, LimeAttributeValueType.PUBLIC) -> false
+            limeElement.attributes.have(platformAttribute, LimeAttributeValueType.INTERNAL) -> true
+            else -> limeElement.visibility.isInternal
+        }
+
     private fun getAllFieldTypes(limeType: LimeType) = getAllFieldTypesRec(getLeafType(limeType), mutableSetOf())
 
     private fun getAllFieldTypesRec(leafType: LimeType, visitedTypes: MutableSet<LimeType>): List<LimeType> {

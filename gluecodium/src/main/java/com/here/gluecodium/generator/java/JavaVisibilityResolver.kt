@@ -20,14 +20,16 @@
 package com.here.gluecodium.generator.java
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
+import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.NameResolver
+import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
 import com.here.gluecodium.model.lime.LimeNamedElement
 
 internal class JavaVisibilityResolver : NameResolver {
 
     override fun resolveName(element: Any): String =
         when (element) {
-            is LimeNamedElement -> if (element.visibility.isPublic) "public " else ""
+            is LimeNamedElement -> if (CommonGeneratorPredicates.isInternal(element, JAVA)) "" else "public "
             else -> throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }
 }

@@ -3,7 +3,11 @@
  */
 package com.example.smoke;
 import com.example.NativeBase;
-class InternalClass extends NativeBase {
+final class InternalClass extends NativeBase {
+    /**
+     * For internal use only.
+     * @hidden
+     */
     protected InternalClass(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override

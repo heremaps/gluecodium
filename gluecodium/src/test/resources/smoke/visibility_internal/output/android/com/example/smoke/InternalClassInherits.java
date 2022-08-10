@@ -4,7 +4,11 @@
 package com.example.smoke;
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
-class InternalClassInherits extends NativeBase implements InternalInterfaceParent {
+final class InternalClassInherits extends NativeBase implements InternalInterfaceParent {
+    /**
+     * For internal use only.
+     * @hidden
+     */
     protected InternalClassInherits(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override

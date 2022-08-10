@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Added support for per-platform visibility attributes (e.g. `@Java(Internal)`, etc.).
+
 ## 13.1.1
 Release date: 2022-08-08
 ### Bug fixes:

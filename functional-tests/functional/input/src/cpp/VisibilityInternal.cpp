@@ -18,6 +18,8 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+#include "test/DartInternalElements.h"
+#include "test/DartPublicElements.h"
 #include "test/InternalClassWithFunctions.h"
 #include "test/InternalClassWithStaticProperty.h"
 
@@ -41,4 +43,8 @@ InternalClassWithStaticProperty::get_foo_bar() {
 void
 InternalClassWithStaticProperty::set_foo_bar(const std::string& value) {
 }
-}  // namespace test
+
+void DartPublicElements::foo() {}
+void DartInternalElements::foo() {}
+
+}

@@ -20,9 +20,9 @@
   !}}
 {{#resolveName comment}}{{#unless this.isEmpty}}{{prefix this "/// "}}
 {{/unless}}{{/resolveName}}{{!!
-}}{{#if visibility.isInternal comment.isExcluded logic="or"}}
+}}{{#ifPredicate "needsNoDoc"}}
 /// @nodoc
-{{/if}}{{!!
+{{/ifPredicate}}{{!!
 }}{{#if attributes.deprecated}}
 @Deprecated("{{#resolveName attributes.deprecated.message}}{{escape this}}{{/resolveName}}")
 {{/if}}

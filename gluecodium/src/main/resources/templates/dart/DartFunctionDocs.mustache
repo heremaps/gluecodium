@@ -29,8 +29,8 @@
 }}{{#if thrownType}}{{#resolveName thrownType.comment}}{{#unless this.isEmpty}}
 /// Throws [{{resolveName exception}}]. {{prefix this "/// " skipFirstLine=true}}
 ///{{/unless}}{{/resolveName}}{{/if}}{{!!
-}}{{#if visibility.isInternal comment.isExcluded logic="or"}}
-/// @nodoc{{/if}}{{!!
+}}{{#ifPredicate "needsNoDoc"}}
+/// @nodoc{{/ifPredicate}}{{!!
 }}{{#if attributes.deprecated}}
 @Deprecated("{{#resolveName attributes.deprecated.message}}{{escape this}}{{/resolveName}}")
 {{/if}}{{!!
