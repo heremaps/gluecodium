@@ -327,54 +327,7 @@ Child element declarations can only be placed inside the declaration of another 
 * Description: describes "external" behavior for the element. "External type" is a type that does
 not use generated code for the specified output language, but uses a pre-existing type instead
 (manually written, from a system library, or from a third-party library). Platform tags and value
-names are case-insensitive. Supported platform tags:
-  * **cpp**: describes "external" behavior for C++. Supported value names:
-    * **include**: *mandatory value*. Specifies include path(s) for the pre-existing type. Can be
-    either a single path or a comma-separated list of paths.
-    * **name**: specifies a distinct C++ name (i.e. to have a name that is not derived automatically
-    from the element's name declared in IDL declaration). For types the name should be fully
-    qualified. This value is also supported for property accessors (within a type already marked as
-    "external"). For accessors the name does not have to be fully-qualified. Please note that only
-    one-to-one correspondence between IDL types and "external" C++ types is supported.
-    * **getterName**, **setterName**: marks a field in a struct type that is already marked as
-    external to be accessed through given getter/setter functions instead of directly in C++.
-  * **java**: describes "external" behavior for Java. Supported value names:
-    * **name**: *mandatory value*. Specifies a full Java name for the pre-existing type (i.e.
-    including package names and names of outer classes, as it would appear in an `import`
-    statement).
-    * **getterName**, **setterName**: marks a field in a struct type that is already marked as
-    external to be accessed through given getter/setter functions instead of directly in Java.
-    * **converter**: specifies a pre-existing converter class (by its full Java name). A converter
-    class should have two static functions named `convertToInternal` and `convertFromInternal`,
-    providing conversion between the "external" type and the generated "internal" type (which has
-    package-private visibility).
-  * **swift**: describes "external" behavior for Swift. Supported value names:
-    * **framework**: *mandatory value*. Specifies a name of a Swift framework that needs to be
-    imported for the pre-existing type. The value can be an empty string `""` if the type resides
-    in the current framework or in the "Foundation" framework.
-    * **converter**: specifies a pre-existing converter class. A converter class should have two
-    static functions named `convertToInternal` and `convertFromInternal`, providing conversion
-    between the "external" type and the generated "internal" type. The argument of each conversion
-    function has to be anonymous (i.e. with `_` argument label).
-  * **dart**: describes "external" behavior for Dart. Supported value names:
-    * **importPath**: *mandatory value*. Specifies a full import path for a Dart `import` directive
-    needed for the pre-existing type (i.e. either `"dart:<library_name>"` or
-    `"package:<path>/<file_name>.dart"`).
-    * **converter**: specifies a pre-existing converter class. A converter class should have two
-    static functions named `convertToInternal` and `convertFromInternal`, providing conversion
-    between the "external" type and the generated "internal" type.
-    * **converterImport**: specifies a relative import path for a Dart `import` directive
-    needed for the pre-existing converter class (i.e. `"<path>/<file_name>.dart"`).
-* **Note:** the following features of struct types cannot be combined with "external" behavior:
-custom constructors, field default values.
-* **Note:** the way of specifying the name of the external type to use varies slightly between
-output languages. For C++ and Java it needs to be a fully-qualified name, and it is specified through
-`cpp name "..."` and `java name "..."` values of the external descriptor. For Swift and Dart a
-regular short name is enough, so it can be specified through `@Swift("...")` and `@Dart("...")`
-attributes (or omitted if the name is the name of the type in IDL declaration).
-* **Note:** due to specifics of external type naming mentioned just above, the intermediate internal
-type which is generated when a converter is specified has an additional `_internal` suffix to its
-name in Swift and Dart.
+names are case-insensitive. Please refer to [external_types.md](external_types.md) for detailed explanation.
 
 ### Type references
 
