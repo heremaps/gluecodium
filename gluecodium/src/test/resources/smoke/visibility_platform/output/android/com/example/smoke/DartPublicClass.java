@@ -3,12 +3,12 @@
  */
 package com.example.smoke;
 import com.example.NativeBase;
-final class InternalClass extends NativeBase {
+final class DartPublicClass extends NativeBase {
     /**
      * For internal use only.
      * @hidden
      */
-    protected InternalClass(final long nativeHandle, final Object dummy) {
+    protected DartPublicClass(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
             @Override
             public void disposeNative(long handle) {
@@ -17,5 +17,4 @@ final class InternalClass extends NativeBase {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
-    native void fooBar();
 }

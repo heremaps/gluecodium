@@ -67,6 +67,8 @@ simulating optional positional parameters in Java. Can only be applied to a stru
 default value. Please note that combining this attribute with internal (see `Visibility` above) fields is not
 supported. The positional defaults constructors will be generated with a `@Deprecated` annotation, if
 _DeprecationMessage_ is specified.
+* **Public** or **Internal**: marks an element to have the corresponding visibility in Java, disregarding any "global"
+visibility modifiers the element might have.
 
 Swift-specific attributes
 -------------------------
@@ -92,6 +94,8 @@ generated code. _Attribute_ does not need to be prepended with `@`. _Attribute_ 
 literals, their enclosing quotes need to be backslash-escaped, as in the example.
 * **ParameterDefaults**: marks a "field constructor" of a struct to have field default values as parameter defaults
 in Swift, for those fields that are listed in the "filed constructor's" signature.
+* **Public** or **Internal**: marks an element to have the corresponding visibility in Swift, disregarding any "global"
+visibility modifiers the element might have.
 
 Dart-specific attributes
 ------------------------
@@ -117,6 +121,8 @@ specified.
 generated code. _Annotation_ does not need to be prepended with `@`. _Annotation_ can contain parameters, e.g.
 `@Dart(Attribute="Deprecated(\"It's deprecated.\")")`. If some of the parameters are string literals, their enclosing
 quotes need to be backslash-escaped, as in the example.
+* **Public** or **Internal**: marks an element to have the corresponding visibility in Dart, disregarding any "global"
+visibility modifiers the element might have.
 
 C++-specific attributes
 -----------------------

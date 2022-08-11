@@ -60,6 +60,13 @@ internal class DartGeneratorPredicates(
                 else -> dartNameResolver.typesWithDuplicateNames.contains(limeType.fullName)
             }
         },
+        "needsNoDoc" to { limeElement: Any ->
+            when {
+                limeElement !is LimeNamedElement -> false
+                CommonGeneratorPredicates.isInternal(limeElement, DART) -> true
+                else -> limeElement.comment.isExcluded
+            }
+        },
         "skipDeclaration" to { limeType: Any ->
             limeType is LimeType && skipDeclaration(limeType)
         },

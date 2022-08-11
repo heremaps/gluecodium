@@ -20,14 +20,16 @@
 package com.here.gluecodium.generator.dart
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
+import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.NameResolver
+import com.here.gluecodium.model.lime.LimeAttributeType.DART
 import com.here.gluecodium.model.lime.LimeNamedElement
 
 internal class DartVisibilityResolver : NameResolver {
 
     override fun resolveName(element: Any): String =
         when (element) {
-            is LimeNamedElement -> if (element.visibility.isPublic) "" else "_"
+            is LimeNamedElement -> if (CommonGeneratorPredicates.isInternal(element, DART)) "_" else ""
             else -> throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }
 }

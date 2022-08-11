@@ -21,6 +21,7 @@ package com.here.gluecodium.generator.swift
 
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
@@ -31,6 +32,7 @@ import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
+import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
@@ -74,6 +76,7 @@ internal class SwiftGeneratorPredicates(
                 limeStruct.availableFields.any { it.visibility.isInternal }
         },
         "hasTypeRepository" to { CommonGeneratorPredicates.hasTypeRepository(it) },
+        "isInternal" to { it is LimeNamedElement && CommonGeneratorPredicates.isInternal(it, SWIFT) },
         "isOverriding" to { limeFunction: Any ->
             limeFunction is LimeFunction && limeFunction.isConstructor &&
                 signatureResolver.isOverloadingConstructor(limeFunction)

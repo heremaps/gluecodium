@@ -50,6 +50,7 @@ import com.here.gluecodium.generator.ffi.FfiCppReturnTypeNameResolver
 import com.here.gluecodium.generator.ffi.FfiNameResolver
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeType.DART
+import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeClass
@@ -225,7 +226,7 @@ internal class DartGenerator : Generator {
 
         val allTypes = LimeTypeHelper.getAllTypes(rootElement).filterNot { it is LimeTypeAlias }
         val nonExternalTypes = allTypes.filter { it.external?.dart == null }
-        val allSymbols = nonExternalTypes.filter { it.visibility.isPublic }
+        val allSymbols = nonExternalTypes.filterNot { CommonGeneratorPredicates.isInternal(it, DART) }
         if (allSymbols.isNotEmpty()) {
             val allNames = allSymbols.map { dartNameResolver.resolveName(it) }
             val testNames = allSymbols
@@ -570,11 +571,11 @@ internal class DartGenerator : Generator {
     private class VisibilityResolver(referenceMap: Map<String, LimeElement>) : ReferenceMapBasedResolver(referenceMap) {
         fun isSkippedByVisibility(limeElement: LimeNamedElement) =
             when {
-                !limeElement.visibility.isInternal -> false
                 limeElement !is LimeFunction && limeElement !is LimeProperty && limeElement !is LimeFieldConstructor ->
                     false
-                getParentElement(limeElement).visibility.isInternal -> false
-                else -> true
+                limeElement.attributes.have(DART, LimeAttributeValueType.PUBLIC) -> false
+                CommonGeneratorPredicates.isInternal(getParentElement(limeElement), DART) -> false
+                else -> CommonGeneratorPredicates.isInternal(limeElement, DART)
             }
     }
 
