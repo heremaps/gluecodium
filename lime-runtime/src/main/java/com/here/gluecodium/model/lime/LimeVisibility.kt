@@ -23,9 +23,6 @@ enum class LimeVisibility(private val tag: String) {
     PUBLIC(""),
     INTERNAL("internal ");
 
-    val isPublic
-        get() = this == PUBLIC
-
     val isInternal
         get() = this == INTERNAL
 
