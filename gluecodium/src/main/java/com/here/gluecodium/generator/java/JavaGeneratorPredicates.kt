@@ -36,10 +36,11 @@ internal object JavaGeneratorPredicates {
     val predicates = mapOf(
         "hasAnyComment" to { CommonGeneratorPredicates.hasAnyComment(it, "Java") },
         "hasInternalAllArgsConstructor" to { limeStruct: Any ->
-            limeStruct is LimeStruct && limeStruct.fields.any { it.visibility.isInternal }
+            limeStruct is LimeStruct && limeStruct.fields.any { CommonGeneratorPredicates.isInternal(it, JAVA) }
         },
         "hasInternalFreeArgsConstructor" to { limeStruct: Any ->
-            limeStruct is LimeStruct && limeStruct.uninitializedFields.any { it.visibility.isInternal }
+            limeStruct is LimeStruct &&
+                limeStruct.uninitializedFields.any { CommonGeneratorPredicates.isInternal(it, JAVA) }
         },
         "hasOwnEqualsAndHashCode" to { limeTypeRef ->
             when {

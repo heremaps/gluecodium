@@ -73,7 +73,11 @@ internal class SwiftGeneratorPredicates(
         },
         "hasInternalAvailableFields" to { limeStruct: Any ->
             limeStruct is LimeStruct && limeStruct.availableFields.isNotEmpty() &&
-                limeStruct.availableFields.any { it.visibility.isInternal }
+                limeStruct.availableFields.any { CommonGeneratorPredicates.isInternal(it, SWIFT) }
+        },
+        "hasInternalFields" to { limeStruct: Any ->
+            limeStruct is LimeStruct && limeStruct.fields.isNotEmpty() &&
+                limeStruct.fields.any { CommonGeneratorPredicates.isInternal(it, SWIFT) }
         },
         "hasTypeRepository" to { CommonGeneratorPredicates.hasTypeRepository(it) },
         "isInternal" to { it is LimeNamedElement && CommonGeneratorPredicates.isInternal(it, SWIFT) },
@@ -81,6 +85,7 @@ internal class SwiftGeneratorPredicates(
             limeFunction is LimeFunction && limeFunction.isConstructor &&
                 signatureResolver.isOverloadingConstructor(limeFunction)
         },
+        "isPublic" to { it is LimeNamedElement && !CommonGeneratorPredicates.isInternal(it, SWIFT) },
         "isRefEquatable" to { limeField: Any ->
             limeField is LimeField && isRefEquatable(limeField)
         },
@@ -96,9 +101,10 @@ internal class SwiftGeneratorPredicates(
             limeStruct is LimeStruct && limeStruct.attributes.have(LimeAttributeType.EQUATABLE) &&
                 limeStruct.fields.any { isRefEquatable(it) }
         },
-        "needsReducedConstructor" to { limeStruct: Any ->
-            limeStruct is LimeStruct && limeStruct.internalFields.isNotEmpty() &&
-                limeStruct.internalFields.all { it.defaultValue != null }
+        "needsReducedConstructor" to fun(limeStruct: Any): Boolean {
+            if (limeStruct !is LimeStruct) return false
+            val internalFields = limeStruct.fields.filter { CommonGeneratorPredicates.isInternal(it, SWIFT) }
+            return internalFields.isNotEmpty() && internalFields.all { it.defaultValue != null }
         },
         "skipDeclaration" to fun(limeType: Any): Boolean {
             if (limeType !is LimeType) return false

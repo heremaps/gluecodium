@@ -18,7 +18,8 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless constructors}}{{#unless fieldConstructors}}{{#ifPredicate "needsReducedConstructor"}}
+{{#unless constructors}}{{#unless fieldConstructors}}{{#ifPredicate "needsReducedConstructor"}}{{!!
+}}{{#set struct=this}}{{#filter fields predicate="isPublic"}}{{#set publicFields=this}}{{#struct}}
 
 {{#resolveName constructorComment}}{{#unless this.isEmpty}}
 {{prefix this "    /// "}}
@@ -33,11 +34,12 @@
 {{#publicFields}}
         self.{{resolveName}} = {{resolveName}}
 {{/publicFields}}
-{{#internalFields}}
+{{#filter fields predicate="isInternal"}}{{#this}}
         self.{{resolveName}} = {{resolveName defaultValue}}
-{{/internalFields}}
+{{/this}}{{/filter}}
     }
-{{/ifPredicate}}{{/unless}}{{!!
+{{/struct}}{{/set}}{{/filter}}{{/set}}{{!!
+}}{{/ifPredicate}}{{/unless}}{{!!
 
 }}{{#fieldConstructors}}
 {{#ifPredicate "hasAnyComment"}}{{!!
@@ -80,7 +82,7 @@
 {{/if}}
 {{/unless}}{{/resolveName}}
     {{#ifPredicate "hasInternalAvailableFields"}}internal{{/ifPredicate}}{{!!
-    }}{{#unless internalFields}}{{>swift/TypeVisibility}}{{/unless}}{{!!
+    }}{{#unlessPredicate "hasInternalAvailableFields"}}{{>swift/TypeVisibility}}{{/unlessPredicate}}{{!!
     }} init({{joinPartial availableFields "initParameter" ", "}}) {
 {{#availableFields}}
         self.{{resolveName}} = {{resolveName}}
@@ -100,8 +102,8 @@
 {{/fields}}
 {{/unless}}{{/resolveName}}
     @available(*, deprecated)
-    {{#if internalFields}}internal{{/if}}{{!!
-    }}{{#unless internalFields}}{{>swift/TypeVisibility}}{{/unless}}{{!!
+    {{#ifPredicate "hasInternalFields"}}internal{{/ifPredicate}}{{!!
+    }}{{#unlessPredicate "hasInternalFields"}}{{>swift/TypeVisibility}}{{/unlessPredicate}}{{!!
     }} init({{joinPartial fields "initParameter" ", "}}) {
 {{#fields}}
         self.{{resolveName}} = {{resolveName}}

@@ -67,7 +67,9 @@ internal class LimeStructsValidator(private val logger: LimeLogger, private val 
             logger.error(limeStruct, "an immutable struct should have at least one explicit constructor")
             result = false
         }
-        if (!limeStruct.visibility.isInternal && limeStruct.internalFields.any { it.defaultValue == null }) {
+        if (!limeStruct.visibility.isInternal &&
+            limeStruct.fields.filter { it.visibility.isInternal }.any { it.defaultValue == null }
+        ) {
             logger.error(
                 limeStruct,
                 "if any internal field does not have a default value, " +

@@ -63,13 +63,6 @@ class LimeStruct(
         get() = fields.filter { it.defaultValue == null }
 
     @Suppress("unused")
-    val publicFields
-        get() = fields.filterNot { it.visibility.isInternal }
-
-    val internalFields
-        get() = fields.filter { it.visibility.isInternal }
-
-    @Suppress("unused")
     val deprecatedFields
         get() = fields.filter { it.attributes.have(LimeAttributeType.DEPRECATED) }
 
