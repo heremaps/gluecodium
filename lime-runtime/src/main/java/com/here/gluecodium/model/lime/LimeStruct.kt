@@ -64,7 +64,7 @@ class LimeStruct(
 
     @Suppress("unused")
     val publicFields
-        get() = fields.filter { it.visibility.isPublic }
+        get() = fields.filterNot { it.visibility.isInternal }
 
     val internalFields
         get() = fields.filter { it.visibility.isInternal }
