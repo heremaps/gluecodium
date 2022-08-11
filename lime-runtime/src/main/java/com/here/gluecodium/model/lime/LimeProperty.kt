@@ -28,10 +28,4 @@ class LimeProperty(
     val getter: LimeFunction,
     val setter: LimeFunction? = null,
     val isStatic: Boolean = false
-) : LimeTypedElement(path, visibility, comment, attributes, typeRef = typeRef) {
-
-    @Suppress("unused")
-    val needsAccessorsSection = setter == null ||
-        getter.visibility != visibility || setter.visibility != visibility ||
-        !getter.attributes.isEmpty() || !setter.attributes.isEmpty()
-}
+) : LimeTypedElement(path, visibility, comment, attributes, typeRef = typeRef)

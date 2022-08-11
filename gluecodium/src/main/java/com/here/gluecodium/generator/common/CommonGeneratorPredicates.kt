@@ -35,6 +35,7 @@ import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeVisibility.INTERNAL
 
 /**
  * Predicates used by `ifPredicate`/`unlessPredicate` template helpers in several generators.
@@ -103,7 +104,7 @@ internal object CommonGeneratorPredicates {
         when {
             limeElement.attributes.have(platformAttribute, LimeAttributeValueType.PUBLIC) -> false
             limeElement.attributes.have(platformAttribute, LimeAttributeValueType.INTERNAL) -> true
-            else -> limeElement.visibility.isInternal
+            else -> limeElement.visibility == INTERNAL || limeElement.attributes.have(LimeAttributeType.INTERNAL)
         }
 
     private fun getAllFieldTypes(limeType: LimeType) = getAllFieldTypesRec(getLeafType(limeType), mutableSetOf())

@@ -22,7 +22,9 @@ package com.here.gluecodium.validator
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeVisibility.INTERNAL
 
 /**
  * Validates structs with instance functions to ensure they have fields.
@@ -67,8 +69,7 @@ internal class LimeStructsValidator(private val logger: LimeLogger, private val 
             logger.error(limeStruct, "an immutable struct should have at least one explicit constructor")
             result = false
         }
-        if (!limeStruct.visibility.isInternal &&
-            limeStruct.fields.filter { it.visibility.isInternal }.any { it.defaultValue == null }
+        if (!isInternal(limeStruct) && limeStruct.fields.filter { isInternal(it) }.any { it.defaultValue == null }
         ) {
             logger.error(
                 limeStruct,
@@ -79,4 +80,7 @@ internal class LimeStructsValidator(private val logger: LimeLogger, private val 
         }
         return result
     }
+
+    private fun isInternal(limeElement: LimeNamedElement) =
+        limeElement.visibility == INTERNAL || limeElement.attributes.have(LimeAttributeType.INTERNAL)
 }

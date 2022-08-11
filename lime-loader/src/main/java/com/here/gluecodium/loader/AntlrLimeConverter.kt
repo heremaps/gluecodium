@@ -48,6 +48,10 @@ internal object AntlrLimeConverter {
             ?.get(LimeAttributeType.DEPRECATED, LimeAttributeValueType.MESSAGE, LimeComment::class.java)
             ?.let { attributes.addAttributeIfAbsent(LimeAttributeType.DEPRECATED, LimeAttributeValueType.MESSAGE, it) }
 
+        if (parentAttributes != null && parentAttributes.have(LimeAttributeType.INTERNAL)) {
+            attributes.addAttribute(LimeAttributeType.INTERNAL)
+        }
+
         return attributes.build()
     }
 
@@ -148,6 +152,7 @@ internal object AntlrLimeConverter {
             "Equatable" -> LimeAttributeType.EQUATABLE
             "EnableIf" -> LimeAttributeType.ENABLE_IF
             "Immutable" -> LimeAttributeType.IMMUTABLE
+            "Internal" -> LimeAttributeType.INTERNAL
             "Java" -> LimeAttributeType.JAVA
             "NoCache" -> LimeAttributeType.NO_CACHE
             "Optimized" -> LimeAttributeType.OPTIMIZED
