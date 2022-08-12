@@ -1,9 +1,0 @@
-package smoke
-
-import smoke.PublicClass.InternalStruct
-
-interface PublicInterface {
-    internal struct InternalStruct {
-        fieldOfInternalType: InternalStruct
-    }
-}

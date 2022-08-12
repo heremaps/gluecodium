@@ -1,7 +1,0 @@
-package smoke_off
-
-class UnderscorePackage {
-    static fun basicMethod(
-        inputString: String
-    ): String
-}

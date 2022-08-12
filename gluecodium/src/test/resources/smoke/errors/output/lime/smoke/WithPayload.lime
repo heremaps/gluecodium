@@ -1,2 +1,0 @@
-package smoke
-exception WithPayload(Payload)

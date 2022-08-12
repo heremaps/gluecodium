@@ -1,5 +1,0 @@
-package smoke
-struct InternalFieldWithFieldConstructor {
-    internal stringField: String
-    field constructor(stringField)
-}

@@ -1,6 +1,0 @@
-package smoke
-@Immutable
-struct UseOptimizedListStruct {
-    structs: @Optimized List<VeryBigStruct>
-    classes: @Optimized List<UnreasonablyLazyClass>
-}

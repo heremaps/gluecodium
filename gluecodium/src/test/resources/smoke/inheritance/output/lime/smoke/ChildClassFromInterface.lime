@@ -1,4 +1,0 @@
-package smoke
-class ChildClassFromInterface : ParentInterface {
-    fun childClassMethod()
-}

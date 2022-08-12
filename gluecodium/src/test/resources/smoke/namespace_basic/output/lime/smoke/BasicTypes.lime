@@ -1,7 +1,0 @@
-package smoke
-
-struct BasicTypes {
-    struct SomeStruct {
-        someField: String
-    }
-}

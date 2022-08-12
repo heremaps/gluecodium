@@ -1,5 +1,0 @@
-package smoke
-class FirstParentIsClassClass : ParentClass, ParentNarrowOne {
-    fun childFunction()
-    property childProperty: String
-}

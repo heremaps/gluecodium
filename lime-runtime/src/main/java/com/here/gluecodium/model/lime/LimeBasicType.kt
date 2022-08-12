@@ -52,9 +52,6 @@ class LimeBasicType(val typeId: TypeId) : LimeType(path = LimePath.EMPTY_PATH) {
     override val fullName: String
         get() = name
 
-    override val escapedName
-        get() = name
-
     override val childTypes: List<LimeTypeRef>
         get() = if (typeId == TypeId.BLOB) listOf(LimeBasicTypeRef(TypeId.UINT8)) else emptyList()
 }
