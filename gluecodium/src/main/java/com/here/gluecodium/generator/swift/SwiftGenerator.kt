@@ -134,7 +134,7 @@ internal class SwiftGenerator : Generator {
             "" to swiftNameResolver,
             "CBridge" to cbridgeNameResolver,
             "mangled" to SwiftMangledNameResolver(swiftNameResolver),
-            "visibility" to SwiftVisibilityResolver()
+            "visibility" to SwiftVisibilityResolver(swiftFilteredModel.referenceMap)
         )
         val predicates = SwiftGeneratorPredicates(nameRules, swiftSignatureResolver)
         val descendantInterfaces = LimeTypeHelper.collectDescendantInterfaces(swiftFilteredModel.topElements)

@@ -6,11 +6,8 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 /// @nodoc
 abstract class InternalClassWithFunctions {
-  /// @nodoc
   factory InternalClassWithFunctions.make() => $prototype.make();
-  /// @nodoc
   factory InternalClassWithFunctions.remake(String foo) => $prototype.remake(foo);
-  /// @nodoc
   void fooBar();
   /// @nodoc
   @visibleForTesting

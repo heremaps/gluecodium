@@ -7,7 +7,6 @@ import 'package:library/src/_token_cache.dart' as __lib;
 abstract class InternalClassWithComments {
   /// This is definitely internal
   ///
-  /// @nodoc
   void doNothing();
 }
 // InternalClassWithComments "private" section, not exported.

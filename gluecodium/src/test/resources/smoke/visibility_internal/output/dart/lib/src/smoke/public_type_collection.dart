@@ -9,7 +9,6 @@ class PublicTypeCollection_InternalStruct {
   /// @nodoc
   String _stringField;
   PublicTypeCollection_InternalStruct(this._stringField);
-  /// @nodoc
   void fooBar() => $prototype.fooBar(this);
   /// @nodoc
   @visibleForTesting

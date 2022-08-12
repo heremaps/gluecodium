@@ -133,7 +133,7 @@ internal class DartGenerator : Generator {
             "FfiSnakeCase" to ffiNameResolver,
             "FfiApiTypes" to FfiApiTypeNameResolver(),
             "FfiDartTypes" to FfiDartTypeNameResolver(),
-            "visibility" to DartVisibilityResolver()
+            "visibility" to DartVisibilityResolver(dartFilteredModel.referenceMap)
         )
         val ffiCppNameResolver = FfiCppNameResolver(ffiReferenceMap, cppNameRules, rootNamespace, internalNamespace)
         val ffiResolvers = mapOf(
@@ -574,7 +574,6 @@ internal class DartGenerator : Generator {
                 limeElement !is LimeFunction && limeElement !is LimeProperty && limeElement !is LimeFieldConstructor ->
                     false
                 limeElement.attributes.have(DART, LimeAttributeValueType.PUBLIC) -> false
-                CommonGeneratorPredicates.isInternal(getParentElement(limeElement), DART) -> false
                 else -> CommonGeneratorPredicates.isInternal(limeElement, DART)
             }
     }

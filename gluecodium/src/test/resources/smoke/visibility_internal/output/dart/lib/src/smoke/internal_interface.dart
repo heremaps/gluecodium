@@ -12,7 +12,6 @@ abstract class InternalInterface {
   ) => InternalInterface$Lambdas(
     fooBarLambda,
   );
-  /// @nodoc
   void fooBar();
 }
 // InternalInterface "private" section, not exported.
