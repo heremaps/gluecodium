@@ -32,6 +32,7 @@ class InternalClass$Impl extends __lib.NativeBase implements InternalClass {
 Pointer<Void> smokeInternalclassToFfi(InternalClass value) =>
   _smokeInternalclassCopyHandle((value as __lib.NativeBase).handle);
 InternalClass smokeInternalclassFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is InternalClass) return instance;
   final _copiedHandle = _smokeInternalclassCopyHandle(handle);

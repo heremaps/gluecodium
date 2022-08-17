@@ -328,6 +328,7 @@ Pointer<Void> smokeDeprecationcommentsToFfi(DeprecationComments value) {
   return result;
 }
 DeprecationComments smokeDeprecationcommentsFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is DeprecationComments) return instance;
   final _typeIdHandle = _smokeDeprecationcommentsGetTypeId(handle);

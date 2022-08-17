@@ -29,6 +29,7 @@ class CollectionConstants$Impl extends __lib.NativeBase implements CollectionCon
 Pointer<Void> smokeCollectionconstantsToFfi(CollectionConstants value) =>
   _smokeCollectionconstantsCopyHandle((value as __lib.NativeBase).handle);
 CollectionConstants smokeCollectionconstantsFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is CollectionConstants) return instance;
   final _copiedHandle = _smokeCollectionconstantsCopyHandle(handle);

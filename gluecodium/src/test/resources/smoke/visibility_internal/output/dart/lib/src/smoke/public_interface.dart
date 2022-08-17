@@ -107,6 +107,7 @@ Pointer<Void> smokePublicinterfaceToFfi(PublicInterface value) {
   return result;
 }
 PublicInterface smokePublicinterfaceFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is PublicInterface) return instance;
   final _typeIdHandle = _smokePublicinterfaceGetTypeId(handle);

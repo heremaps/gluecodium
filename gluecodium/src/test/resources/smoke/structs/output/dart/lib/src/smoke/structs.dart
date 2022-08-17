@@ -776,6 +776,7 @@ class Structs$Impl extends __lib.NativeBase implements Structs {
 Pointer<Void> smokeStructsToFfi(Structs value) =>
   _smokeStructsCopyHandle((value as __lib.NativeBase).handle);
 Structs smokeStructsFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is Structs) return instance;
   final _copiedHandle = _smokeStructsCopyHandle(handle);

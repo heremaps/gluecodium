@@ -23,6 +23,7 @@ class InternalPropertyOnly$Impl extends __lib.NativeBase implements InternalProp
 Pointer<Void> smokeInternalpropertyonlyToFfi(InternalPropertyOnly value) =>
   _smokeInternalpropertyonlyCopyHandle((value as __lib.NativeBase).handle);
 InternalPropertyOnly smokeInternalpropertyonlyFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is InternalPropertyOnly) return instance;
   final _copiedHandle = _smokeInternalpropertyonlyCopyHandle(handle);

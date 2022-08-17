@@ -50,6 +50,7 @@ class InternalClassWithStaticProperty$Impl extends __lib.NativeBase implements I
 Pointer<Void> smokeInternalclasswithstaticpropertyToFfi(InternalClassWithStaticProperty value) =>
   _smokeInternalclasswithstaticpropertyCopyHandle((value as __lib.NativeBase).handle);
 InternalClassWithStaticProperty smokeInternalclasswithstaticpropertyFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is InternalClassWithStaticProperty) return instance;
   final _copiedHandle = _smokeInternalclasswithstaticpropertyCopyHandle(handle);

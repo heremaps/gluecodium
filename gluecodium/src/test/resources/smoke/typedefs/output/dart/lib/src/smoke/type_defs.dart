@@ -247,6 +247,7 @@ class TypeDefs$Impl extends __lib.NativeBase implements TypeDefs {
 Pointer<Void> smokeTypedefsToFfi(TypeDefs value) =>
   _smokeTypedefsCopyHandle((value as __lib.NativeBase).handle);
 TypeDefs smokeTypedefsFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is TypeDefs) return instance;
   final _copiedHandle = _smokeTypedefsCopyHandle(handle);

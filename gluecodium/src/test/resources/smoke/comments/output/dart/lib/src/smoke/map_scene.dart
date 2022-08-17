@@ -131,6 +131,7 @@ class MapScene$Impl extends __lib.NativeBase implements MapScene {
 Pointer<Void> smokeMapsceneToFfi(MapScene value) =>
   _smokeMapsceneCopyHandle((value as __lib.NativeBase).handle);
 MapScene smokeMapsceneFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is MapScene) return instance;
   final _copiedHandle = _smokeMapsceneCopyHandle(handle);

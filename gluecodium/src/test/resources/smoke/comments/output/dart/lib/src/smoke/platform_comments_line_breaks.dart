@@ -24,6 +24,7 @@ class PlatformCommentsLineBreaks$Impl extends __lib.NativeBase implements Platfo
 Pointer<Void> smokePlatformcommentslinebreaksToFfi(PlatformCommentsLineBreaks value) =>
   _smokePlatformcommentslinebreaksCopyHandle((value as __lib.NativeBase).handle);
 PlatformCommentsLineBreaks smokePlatformcommentslinebreaksFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is PlatformCommentsLineBreaks) return instance;
   final _copiedHandle = _smokePlatformcommentslinebreaksCopyHandle(handle);

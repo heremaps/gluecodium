@@ -305,6 +305,7 @@ class EnumDefaultsExternal$Impl extends __lib.NativeBase implements EnumDefaults
 Pointer<Void> smokeEnumdefaultsexternalToFfi(EnumDefaultsExternal value) =>
   _smokeEnumdefaultsexternalCopyHandle((value as __lib.NativeBase).handle);
 EnumDefaultsExternal smokeEnumdefaultsexternalFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is EnumDefaultsExternal) return instance;
   final _copiedHandle = _smokeEnumdefaultsexternalCopyHandle(handle);

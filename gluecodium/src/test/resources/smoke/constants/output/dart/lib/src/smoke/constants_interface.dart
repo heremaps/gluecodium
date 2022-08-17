@@ -87,6 +87,7 @@ class ConstantsInterface$Impl extends __lib.NativeBase implements ConstantsInter
 Pointer<Void> smokeConstantsinterfaceToFfi(ConstantsInterface value) =>
   _smokeConstantsinterfaceCopyHandle((value as __lib.NativeBase).handle);
 ConstantsInterface smokeConstantsinterfaceFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is ConstantsInterface) return instance;
   final _copiedHandle = _smokeConstantsinterfaceCopyHandle(handle);

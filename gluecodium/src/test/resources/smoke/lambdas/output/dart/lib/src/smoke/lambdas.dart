@@ -504,6 +504,7 @@ class Lambdas$Impl extends __lib.NativeBase implements Lambdas {
 Pointer<Void> smokeLambdasToFfi(Lambdas value) =>
   _smokeLambdasCopyHandle((value as __lib.NativeBase).handle);
 Lambdas smokeLambdasFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is Lambdas) return instance;
   final _copiedHandle = _smokeLambdasCopyHandle(handle);

@@ -67,6 +67,7 @@ class CachedProperties$Impl extends __lib.NativeBase implements CachedProperties
 Pointer<Void> smokeCachedpropertiesToFfi(CachedProperties value) =>
   _smokeCachedpropertiesCopyHandle((value as __lib.NativeBase).handle);
 CachedProperties smokeCachedpropertiesFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is CachedProperties) return instance;
   final _copiedHandle = _smokeCachedpropertiesCopyHandle(handle);

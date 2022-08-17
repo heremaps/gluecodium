@@ -62,6 +62,7 @@ class ChildWithParentClassReferences$Impl extends __lib.NativeBase implements Ch
 Pointer<Void> smokeChildwithparentclassreferencesToFfi(ChildWithParentClassReferences value) =>
   _smokeChildwithparentclassreferencesCopyHandle((value as __lib.NativeBase).handle);
 ChildWithParentClassReferences smokeChildwithparentclassreferencesFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is ChildWithParentClassReferences) return instance;
   final _typeIdHandle = _smokeChildwithparentclassreferencesGetTypeId(handle);

@@ -777,6 +777,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
 Pointer<Void> smokeNullableToFfi(Nullable value) =>
   _smokeNullableCopyHandle((value as __lib.NativeBase).handle);
 Nullable smokeNullableFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is Nullable) return instance;
   final _copiedHandle = _smokeNullableCopyHandle(handle);

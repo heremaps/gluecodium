@@ -39,6 +39,7 @@ class ChildClassFromClass$Impl extends ParentClass$Impl implements ChildClassFro
 Pointer<Void> smokeChildclassfromclassToFfi(ChildClassFromClass value) =>
   _smokeChildclassfromclassCopyHandle((value as __lib.NativeBase).handle);
 ChildClassFromClass smokeChildclassfromclassFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is ChildClassFromClass) return instance;
   final _typeIdHandle = _smokeChildclassfromclassGetTypeId(handle);

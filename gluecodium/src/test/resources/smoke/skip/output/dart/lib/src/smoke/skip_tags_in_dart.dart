@@ -72,6 +72,7 @@ Pointer<Void> smokeSkiptagsindartToFfi(SkipTagsInDart value) {
   return result;
 }
 SkipTagsInDart smokeSkiptagsindartFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is SkipTagsInDart) return instance;
   final _typeIdHandle = _smokeSkiptagsindartGetTypeId(handle);

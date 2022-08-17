@@ -51,6 +51,7 @@ Pointer<Void> smokeEquatableinterfaceToFfi(EquatableInterface value) {
   return result;
 }
 EquatableInterface smokeEquatableinterfaceFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is EquatableInterface) return instance;
   final _typeIdHandle = _smokeEquatableinterfaceGetTypeId(handle);

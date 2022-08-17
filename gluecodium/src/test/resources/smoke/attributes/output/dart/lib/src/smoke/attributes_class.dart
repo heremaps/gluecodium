@@ -64,6 +64,7 @@ class AttributesClass$Impl extends __lib.NativeBase implements AttributesClass {
 Pointer<Void> smokeAttributesclassToFfi(AttributesClass value) =>
   _smokeAttributesclassCopyHandle((value as __lib.NativeBase).handle);
 AttributesClass smokeAttributesclassFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is AttributesClass) return instance;
   final _copiedHandle = _smokeAttributesclassCopyHandle(handle);

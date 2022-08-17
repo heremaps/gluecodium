@@ -47,6 +47,7 @@ class NoCacheClass$Impl extends __lib.NativeBase implements NoCacheClass {
 Pointer<Void> smokeNocacheclassToFfi(NoCacheClass value) =>
   _smokeNocacheclassCopyHandle((value as __lib.NativeBase).handle);
 NoCacheClass smokeNocacheclassFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final _copiedHandle = _smokeNocacheclassCopyHandle(handle);
   final result = NoCacheClass$Impl(_copiedHandle);
   _smokeNocacheclassRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);

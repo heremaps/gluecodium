@@ -132,6 +132,7 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) =>
   _{{resolveName "Ffi"}}CopyHandle((value as __lib.NativeBase).handle);
 
 {{resolveName}} {{resolveName "Ffi"}}FromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
 {{#unless this.attributes.nocache}}
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is {{resolveName}}) return instance;

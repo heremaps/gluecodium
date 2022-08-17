@@ -132,6 +132,7 @@ class AsyncClass$Impl extends __lib.NativeBase implements AsyncClass {
 Pointer<Void> smokeAsyncclassToFfi(AsyncClass value) =>
   _smokeAsyncclassCopyHandle((value as __lib.NativeBase).handle);
 AsyncClass smokeAsyncclassFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is AsyncClass) return instance;
   final _copiedHandle = _smokeAsyncclassCopyHandle(handle);

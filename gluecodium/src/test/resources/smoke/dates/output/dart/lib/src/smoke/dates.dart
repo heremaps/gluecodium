@@ -171,6 +171,7 @@ class Dates$Impl extends __lib.NativeBase implements Dates {
 Pointer<Void> smokeDatesToFfi(Dates value) =>
   _smokeDatesCopyHandle((value as __lib.NativeBase).handle);
 Dates smokeDatesFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is Dates) return instance;
   final _copiedHandle = _smokeDatesCopyHandle(handle);

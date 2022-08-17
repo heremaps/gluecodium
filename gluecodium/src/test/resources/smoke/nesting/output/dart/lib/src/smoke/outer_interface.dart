@@ -50,6 +50,7 @@ class OuterInterface_InnerClass$Impl extends __lib.NativeBase implements OuterIn
 Pointer<Void> smokeOuterinterfaceInnerclassToFfi(OuterInterface_InnerClass value) =>
   _smokeOuterinterfaceInnerclassCopyHandle((value as __lib.NativeBase).handle);
 OuterInterface_InnerClass smokeOuterinterfaceInnerclassFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is OuterInterface_InnerClass) return instance;
   final _copiedHandle = _smokeOuterinterfaceInnerclassCopyHandle(handle);
@@ -145,6 +146,7 @@ Pointer<Void> smokeOuterinterfaceInnerinterfaceToFfi(OuterInterface_InnerInterfa
   return result;
 }
 OuterInterface_InnerInterface smokeOuterinterfaceInnerinterfaceFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is OuterInterface_InnerInterface) return instance;
   final _typeIdHandle = _smokeOuterinterfaceInnerinterfaceGetTypeId(handle);
@@ -236,6 +238,7 @@ Pointer<Void> smokeOuterinterfaceToFfi(OuterInterface value) {
   return result;
 }
 OuterInterface smokeOuterinterfaceFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is OuterInterface) return instance;
   final _typeIdHandle = _smokeOuterinterfaceGetTypeId(handle);

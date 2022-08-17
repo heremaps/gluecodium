@@ -25,6 +25,7 @@ class SkipTagsOnly$Impl extends __lib.NativeBase implements SkipTagsOnly {
 Pointer<Void> smokeSkiptagsonlyToFfi(SkipTagsOnly value) =>
   _smokeSkiptagsonlyCopyHandle((value as __lib.NativeBase).handle);
 SkipTagsOnly smokeSkiptagsonlyFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is SkipTagsOnly) return instance;
   final _copiedHandle = _smokeSkiptagsonlyCopyHandle(handle);

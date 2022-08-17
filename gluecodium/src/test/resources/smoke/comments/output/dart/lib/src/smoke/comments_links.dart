@@ -195,6 +195,7 @@ class CommentsLinks$Impl extends __lib.NativeBase implements CommentsLinks {
 Pointer<Void> smokeCommentslinksToFfi(CommentsLinks value) =>
   _smokeCommentslinksCopyHandle((value as __lib.NativeBase).handle);
 CommentsLinks smokeCommentslinksFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is CommentsLinks) return instance;
   final _copiedHandle = _smokeCommentslinksCopyHandle(handle);

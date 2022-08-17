@@ -59,6 +59,7 @@ class ParentClass$Impl extends __lib.NativeBase implements ParentClass {
 Pointer<Void> smokeParentclassToFfi(ParentClass value) =>
   _smokeParentclassCopyHandle((value as __lib.NativeBase).handle);
 ParentClass smokeParentclassFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is ParentClass) return instance;
   final _typeIdHandle = _smokeParentclassGetTypeId(handle);

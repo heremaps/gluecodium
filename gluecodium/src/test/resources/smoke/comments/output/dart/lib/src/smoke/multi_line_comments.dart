@@ -72,6 +72,7 @@ class MultiLineComments$Impl extends __lib.NativeBase implements MultiLineCommen
 Pointer<Void> smokeMultilinecommentsToFfi(MultiLineComments value) =>
   _smokeMultilinecommentsCopyHandle((value as __lib.NativeBase).handle);
 MultiLineComments smokeMultilinecommentsFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is MultiLineComments) return instance;
   final _copiedHandle = _smokeMultilinecommentsCopyHandle(handle);

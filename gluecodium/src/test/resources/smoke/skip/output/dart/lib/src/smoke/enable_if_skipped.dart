@@ -25,6 +25,7 @@ class EnableIfSkipped$Impl extends __lib.NativeBase implements EnableIfSkipped {
 Pointer<Void> smokeEnableifskippedToFfi(EnableIfSkipped value) =>
   _smokeEnableifskippedCopyHandle((value as __lib.NativeBase).handle);
 EnableIfSkipped smokeEnableifskippedFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is EnableIfSkipped) return instance;
   final _copiedHandle = _smokeEnableifskippedCopyHandle(handle);

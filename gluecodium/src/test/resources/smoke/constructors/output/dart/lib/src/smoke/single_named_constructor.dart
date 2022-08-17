@@ -44,6 +44,7 @@ class SingleNamedConstructor$Impl extends __lib.NativeBase implements SingleName
 Pointer<Void> smokeSinglenamedconstructorToFfi(SingleNamedConstructor value) =>
   _smokeSinglenamedconstructorCopyHandle((value as __lib.NativeBase).handle);
 SingleNamedConstructor smokeSinglenamedconstructorFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is SingleNamedConstructor) return instance;
   final _copiedHandle = _smokeSinglenamedconstructorCopyHandle(handle);

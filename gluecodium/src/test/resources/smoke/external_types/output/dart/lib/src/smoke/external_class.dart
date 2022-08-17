@@ -160,6 +160,7 @@ class ExternalClass$Impl extends __lib.NativeBase implements ExternalClass {
 Pointer<Void> smokeExternalclassToFfi(ExternalClass value) =>
   _smokeExternalclassCopyHandle((value as __lib.NativeBase).handle);
 ExternalClass smokeExternalclassFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is ExternalClass) return instance;
   final _copiedHandle = _smokeExternalclassCopyHandle(handle);

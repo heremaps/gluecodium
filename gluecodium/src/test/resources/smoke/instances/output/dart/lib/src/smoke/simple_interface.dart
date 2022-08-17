@@ -111,6 +111,7 @@ Pointer<Void> smokeSimpleinterfaceToFfi(SimpleInterface value) {
   return result;
 }
 SimpleInterface smokeSimpleinterfaceFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is SimpleInterface) return instance;
   final _typeIdHandle = _smokeSimpleinterfaceGetTypeId(handle);
