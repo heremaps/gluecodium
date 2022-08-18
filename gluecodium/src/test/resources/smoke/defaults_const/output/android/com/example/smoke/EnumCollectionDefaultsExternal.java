@@ -21,7 +21,7 @@ public final class EnumCollectionDefaultsExternal {
     public Map<foo.AlienEnum3, foo.AlienEnum4> mapField;
     public EnumCollectionDefaultsExternal() {
         this.listField = new ArrayList<>(Arrays.asList(foo.AlienEnum1.DISABLED));
-        this.setField = new EnumSet<>(Arrays.asList(foo.AlienEnum2.DISABLED));
+        this.setField = EnumSet.of(foo.AlienEnum2.DISABLED);
         this.mapField = new HashMapBuilder<foo.AlienEnum3, foo.AlienEnum4>().put(foo.AlienEnum3.DISABLED, foo.AlienEnum4.DISABLED).build();
     }
 }

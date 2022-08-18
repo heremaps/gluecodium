@@ -89,9 +89,18 @@ internal class JavaValueResolver(private val nameResolver: JavaNameResolver) {
             }
             is LimeSet -> {
                 val values = limeValue.values.joinToString(", ") { resolveValue(it) }
-                val implName = if (limeType.elementType.type.actualType is LimeEnumeration) "EnumSet" else "HashSet"
-                val valuesAsList = if (values.isEmpty()) "" else "Arrays.asList($values)"
-                "new $implName<>($valuesAsList)"
+                if (limeType.elementType.type.actualType is LimeEnumeration) {
+                    when {
+                        values.isEmpty() -> {
+                            val typeName = nameResolver.resolveTypeRef(limeType.elementType, needsBoxing = true)
+                            "EnumSet.noneOf($typeName.class)"
+                        }
+                        else -> "EnumSet.of($values)"
+                    }
+                } else {
+                    val valuesAsList = if (values.isEmpty()) "" else "Arrays.asList($values)"
+                    "new HashSet<>($valuesAsList)"
+                }
             }
             is LimeMap -> when {
                 limeValue.values.isEmpty() -> "new HashMap<>()"

@@ -25,7 +25,7 @@ public final class EnumCollectionDefaults {
     public Map<Enum3, Enum4> mapField;
     public EnumCollectionDefaults() {
         this.listField = new ArrayList<>(Arrays.asList(Enum1.DISABLED));
-        this.setField = new EnumSet<>(Arrays.asList(Enum2.DISABLED));
+        this.setField = EnumSet.of(Enum2.DISABLED);
         this.mapField = new HashMapBuilder<Enum3, Enum4>().put(Enum3.DISABLED, Enum4.DISABLED).build();
     }
 }
