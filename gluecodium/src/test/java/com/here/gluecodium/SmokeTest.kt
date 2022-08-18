@@ -40,6 +40,7 @@ import org.junit.runners.Parameterized
 import java.io.File
 import java.net.URISyntaxException
 import java.util.HashMap
+import java.util.Locale
 
 @RunWith(Parameterized::class)
 class SmokeTest(
@@ -95,7 +96,7 @@ class SmokeTest(
         val referenceFiles = generatorDirectories
             .map { generatorDirectoryName -> File(outputDirectory, generatorDirectoryName) }
             .flatMap { listFilesRecursively(it) }
-            .filterNot { it.name.toLowerCase().startsWith(IGNORE_PREFIX) }
+            .filterNot { it.name.lowercase(Locale.getDefault()).startsWith(IGNORE_PREFIX) }
 
         assumeFalse("No reference files were found", referenceFiles.isEmpty())
 

@@ -44,8 +44,10 @@ object LimeTypeHelper {
                 limeElement.constants + limeElement.structs +
                     limeElement.classes + limeElement.interfaces
                 ).flatMap { getAllValues(it) }
+
             is LimeStruct ->
                 (limeElement.constants + limeElement.fields).flatMap { getAllValues(it) }
+
             else -> emptyList()
         }
 
@@ -91,11 +93,11 @@ object LimeTypeHelper {
 
     fun normalizeLocaleTag(literalText: String): String? {
         val originalTag = literalText.trim()
-        if (originalTag.toLowerCase() == LOCALE_UND) return LOCALE_UND
+        if (originalTag.lowercase(Locale.getDefault()) == LOCALE_UND) return LOCALE_UND
 
         val normalizedTag = Locale.forLanguageTag(originalTag).toLanguageTag()
-        return if (normalizedTag.toLowerCase() != LOCALE_UND) normalizedTag else null
+        return if (normalizedTag.lowercase(Locale.getDefault()) != LOCALE_UND) normalizedTag else null
     }
 
-    private val LOCALE_UND = Locale.forLanguageTag("").toLanguageTag().toLowerCase()
+    private val LOCALE_UND = Locale.forLanguageTag("").toLanguageTag().lowercase(Locale.getDefault())
 }

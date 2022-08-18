@@ -25,6 +25,7 @@ import com.natpryce.konfig.Configuration
 import com.natpryce.konfig.Key
 import com.natpryce.konfig.enumType
 import com.natpryce.konfig.stringType
+import java.util.Locale
 
 private object NameRuleSetLoader {
     fun getNameRuleSet(config: Configuration) = NameRuleSet(
@@ -64,7 +65,7 @@ private object NameRuleSetLoader {
     }
 
     private fun getNameRuleBooleanPrefix(config: Configuration, nameType: NameTypes): (String, Boolean) -> String {
-        val key = nameType.toString().toLowerCase()
+        val key = nameType.toString().lowercase(Locale.getDefault())
         val formattingKey = Key(key, enumType<NameFormat>())
         val prefixKey = Key("$key.prefix", stringType)
         val booleanPrefixKey = Key("$key.prefix.boolean", stringType)
@@ -88,7 +89,7 @@ private object NameRuleSetLoader {
     }
 
     private fun getNameRule(config: Configuration, nameType: NameTypes): (String) -> String {
-        val key = nameType.toString().toLowerCase()
+        val key = nameType.toString().lowercase(Locale.getDefault())
         val formattingKey = Key(key, enumType<NameFormat>())
         val prefixKey = Key("$key.prefix", stringType)
         val suffixKey = Key("$key.suffix", stringType)
@@ -107,7 +108,7 @@ private object NameRuleSetLoader {
 
     @Suppress("SameParameterValue")
     private fun getInfix(config: Configuration, nameType: NameTypes): String? {
-        val key = nameType.toString().toLowerCase()
+        val key = nameType.toString().lowercase(Locale.getDefault())
         val infixKey = Key("$key.infix", stringType)
         return config.getOrNull(infixKey)
     }
