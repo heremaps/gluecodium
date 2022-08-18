@@ -25,23 +25,23 @@ dependencies {
     implementation project(":lime-loader")
 
     compileOnly 'com.android.tools:annotations:25.3.0'
-    implementation 'com.google.guava:guava:29.0-jre'
+    implementation 'com.google.guava:guava:31.1-jre'
     implementation 'com.natpryce:konfig:1.6.10.0'
-    implementation 'com.vladsch.flexmark:flexmark:0.62.2'
-    implementation 'com.vladsch.flexmark:flexmark-ext-tables:0.62.2'
-    implementation 'com.vladsch.flexmark:flexmark-util:0.62.2'
-    implementation 'commons-cli:commons-cli:1.4'
-    implementation 'org.apache.logging.log4j:log4j-core:2.16.0'
+    implementation 'com.vladsch.flexmark:flexmark:0.64.0'
+    implementation 'com.vladsch.flexmark:flexmark-ext-tables:0.64.0'
+    implementation 'com.vladsch.flexmark:flexmark-util:0.64.0'
+    implementation 'commons-cli:commons-cli:1.5.0'
+    implementation 'org.apache.logging.log4j:log4j-core:2.18.0'
     implementation 'org.jetbrains.kotlin:kotlin-reflect:1.6.21'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.6.21'
-    implementation 'org.jetbrains:annotations:13.0'
-    implementation 'org.slf4j:slf4j-api:1.7.31'
-    implementation 'org.slf4j:slf4j-log4j12:1.7.31'
-    implementation 'org.trimou:trimou-core:2.5.0.Final'
+    implementation 'org.jetbrains:annotations:23.0.0'
+    implementation 'org.slf4j:slf4j-api:1.7.36'
+    implementation 'org.slf4j:slf4j-log4j12:1.7.36'
+    implementation 'org.trimou:trimou-core:2.5.1.Final'
 
     testImplementation files({ project(":lime-runtime").sourceSets.test.output })
-    testImplementation 'io.mockk:mockk-dsl-jvm:1.12.2'
-    testImplementation 'io.mockk:mockk:1.12.2'
+    testImplementation 'io.mockk:mockk-dsl-jvm:1.12.5'
+    testImplementation 'io.mockk:mockk:1.12.5'
     testImplementation 'junit:junit:4.13.2'
 }
 

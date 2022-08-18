@@ -22,15 +22,14 @@ package com.here.gluecodium.generator.dart
 import com.here.gluecodium.generator.common.CommentsProcessor
 import com.vladsch.flexmark.ast.LinkRef
 import com.vladsch.flexmark.formatter.Formatter
-import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
+import com.vladsch.flexmark.util.sequence.CharSubSequence
 
-@Suppress("DEPRECATION")
 internal class DartCommentsProcessor(werror: Boolean) : CommentsProcessor(Formatter.builder().build(), werror) {
 
     override fun processLink(linkNode: LinkRef, linkReference: String, limeFullName: String) {
-        linkNode.reference = BasedSequenceImpl.of(linkReference)
-        linkNode.referenceOpeningMarker = BasedSequenceImpl.of("[")
-        linkNode.referenceClosingMarker = BasedSequenceImpl.of("]")
+        linkNode.reference = CharSubSequence.of(linkReference)
+        linkNode.referenceOpeningMarker = CharSubSequence.of("[")
+        linkNode.referenceClosingMarker = CharSubSequence.of("]")
         linkNode.firstChild?.unlink()
     }
 }

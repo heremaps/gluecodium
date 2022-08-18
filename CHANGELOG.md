@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Breaking changes:
+  * Minimum Java version for running Gluecodium is now Java 11.
+
 ## 13.2.1
 Release date: 2022-08-22
 ### Bug fixes:
