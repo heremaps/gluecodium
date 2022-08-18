@@ -83,7 +83,7 @@ internal object AntlrLimeConverter {
         }
 
         annotationValues.forEach {
-            val valueType = convertAnnotationValueType(it, attributeType) ?: return@forEach
+            val valueType = convertAnnotationValueType(it, attributeType)
             val rawValue = convertAnnotationValue(it)
             val value = when {
                 attributeType == LimeAttributeType.DEPRECATED -> {
@@ -159,7 +159,7 @@ internal object AntlrLimeConverter {
     private fun convertAnnotationValueType(
         ctx: LimeParser.AnnotationValueContext,
         attributeType: LimeAttributeType
-    ): LimeAttributeValueType? {
+    ): LimeAttributeValueType {
         val id = ctx.simpleId()?.text ?: return (
             attributeType.defaultValueType
                 ?: throw LimeLoadingException("Attribute type $attributeType does not support values")
@@ -177,6 +177,7 @@ internal object AntlrLimeConverter {
             "Internal" -> LimeAttributeValueType.INTERNAL
             "Label" -> LimeAttributeValueType.LABEL
             "Message" -> LimeAttributeValueType.MESSAGE
+            "OptionSet" -> LimeAttributeValueType.OPTION_SET
             "ParameterDefaults" -> LimeAttributeValueType.PARAMETER_DEFAULTS
             "PositionalDefaults" -> LimeAttributeValueType.POSITIONAL_DEFAULTS
             "Public" -> LimeAttributeValueType.PUBLIC

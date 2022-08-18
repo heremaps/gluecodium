@@ -4,6 +4,7 @@
 ### Features:
   * Added support for per-platform visibility attributes (e.g. `@Java(Internal)`, etc.).
   * Added a `null` check in Dart for non-nullable class and interface usages.
+  * Added support for `@Swift(OptionSet)` attribute.
 ### Bug fixes:
   * Fixed Java compilation issue for enum set literals.
 ### Removed:

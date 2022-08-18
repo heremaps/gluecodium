@@ -18,7 +18,10 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unlessPredicate "skipDeclaration"}}{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}
+{{#unlessPredicate "skipDeclaration"}}{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}{{#if attributes.swift.optionSet}}
+{{>swift/EnumOptionSetDefinition}}
+{{/if}}{{!!
+}}{{#unless attributes.swift.optionSet}}
 {{>swift/TypeVisibility}} enum {{resolveName}}{{#if external.swift.converter}}_internal{{/if}} : UInt32, CaseIterable, Codable {
 {{#uniqueEnumerators}}{{prefixPartial "enumerator" "    "}}
 {{/uniqueEnumerators}}{{#if aliasEnumerators}}
@@ -62,7 +65,9 @@
     }
 {{/ifPredicate}}
 }
+{{/unless}}
 {{/unlessPredicate}}{{!!
+
 }}{{+enumerator}}{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}
 {{#if isAlias}}{{resolveName "visibility"}} static let {{resolveName}} = {{resolveName explicitValue}}{{/if}}{{!!
 }}{{#unless isAlias}}case {{resolveName}}{{#if explicitValue}} = {{resolveName explicitValue}}{{/if}}{{/unless}}{{/enumerator}}

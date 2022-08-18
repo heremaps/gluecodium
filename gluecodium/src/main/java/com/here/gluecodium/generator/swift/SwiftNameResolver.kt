@@ -25,6 +25,8 @@ import com.here.gluecodium.generator.common.CommentsProcessor
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.model.lime.LimeAttributeType.OPTIMIZED
+import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
+import com.here.gluecodium.model.lime.LimeAttributeValueType.OPTION_SET
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeClass
@@ -32,6 +34,7 @@ import com.here.gluecodium.model.lime.LimeComment
 import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
@@ -178,7 +181,14 @@ internal class SwiftNameResolver(
         when (limeType) {
             is LimeList -> "[${resolveName(limeType.elementType)}]"
             is LimeMap -> "[${resolveName(limeType.keyType)}: ${resolveName(limeType.valueType)}]"
-            is LimeSet -> "Set<${resolveName(limeType.elementType)}>"
+            is LimeSet -> {
+                val actualType = limeType.elementType.type.actualType
+                val elementTypeName = resolveName(limeType.elementType)
+                when {
+                    actualType is LimeEnumeration && actualType.attributes.have(SWIFT, OPTION_SET) -> elementTypeName
+                    else -> "Set<$elementTypeName>"
+                }
+            }
             else -> throw GluecodiumExecutionException("Unsupported element type ${limeType.javaClass.name}")
         }
 
