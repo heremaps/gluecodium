@@ -78,6 +78,7 @@ internal class LimeValuesValidator(private val logger: LimeLogger) {
                 logger.error(limeElement, "struct initializer values can only be assigned to `struct` types")
                 return false
             }
+            else -> {}
         }
         return true
     }

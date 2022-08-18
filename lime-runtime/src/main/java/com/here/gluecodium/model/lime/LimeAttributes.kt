@@ -22,6 +22,7 @@ package com.here.gluecodium.model.lime
 import com.here.gluecodium.common.CaseInsensitiveMap
 import com.here.gluecodium.common.StringHelper
 import java.lang.UnsupportedOperationException
+import java.util.Locale
 
 class LimeAttributes private constructor(
     private val attributes: Map<LimeAttributeType, Map<LimeAttributeValueType, Any>>
@@ -62,7 +63,7 @@ class LimeAttributes private constructor(
         get() = throw UnsupportedOperationException()
 
     override val keys
-        get() = attributes.keys.map { it.toString().toLowerCase() }.toSet()
+        get() = attributes.keys.map { it.toString().lowercase(Locale.getDefault()) }.toSet()
 
     override val size
         get() = attributes.size

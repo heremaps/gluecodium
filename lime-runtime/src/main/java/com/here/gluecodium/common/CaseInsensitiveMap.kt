@@ -19,44 +19,45 @@
 
 package com.here.gluecodium.common
 
+import java.util.Locale
 import java.util.function.BiFunction
 import java.util.function.Function
 
 class CaseInsensitiveMap<V : Any /* mark as non-nullable */> : HashMap<String, V>() {
     override fun compute(key: String, remappingFunction: BiFunction<in String, in V?, out V?>) =
-        super.compute(key.toLowerCase(), remappingFunction)
+        super.compute(key.lowercase(Locale.getDefault()), remappingFunction)
 
     override fun computeIfAbsent(key: String, mappingFunction: Function<in String, out V>) =
-        super.computeIfAbsent(key.toLowerCase(), mappingFunction)
+        super.computeIfAbsent(key.lowercase(Locale.getDefault()), mappingFunction)
 
     override fun computeIfPresent(
         key: String,
         remappingFunction: BiFunction<in String, in V, out V?>
-    ) = super.computeIfPresent(key.toLowerCase(), remappingFunction)
+    ) = super.computeIfPresent(key.lowercase(Locale.getDefault()), remappingFunction)
 
-    override fun containsKey(key: String) = super.containsKey(key.toLowerCase())
+    override fun containsKey(key: String) = super.containsKey(key.lowercase(Locale.getDefault()))
 
-    override fun get(key: String) = super.get(key.toLowerCase())
+    override fun get(key: String) = super.get(key.lowercase(Locale.getDefault()))
 
     override fun getOrDefault(key: String, defaultValue: V) =
-        super.getOrDefault(key.toLowerCase(), defaultValue)
+        super.getOrDefault(key.lowercase(Locale.getDefault()), defaultValue)
 
     override fun merge(key: String, value: V, remappingFunction: BiFunction<in V, in V, out V?>) =
-        super.merge(key.toLowerCase(), value, remappingFunction)
+        super.merge(key.lowercase(Locale.getDefault()), value, remappingFunction)
 
-    override fun put(key: String, value: V) = super.put(key.toLowerCase(), value)
+    override fun put(key: String, value: V) = super.put(key.lowercase(Locale.getDefault()), value)
 
     override fun putAll(from: Map<out String, V>) =
-        super.putAll(from.mapKeys { it.key.toLowerCase() })
+        super.putAll(from.mapKeys { it.key.lowercase(Locale.getDefault()) })
 
-    override fun putIfAbsent(key: String, value: V) = super.putIfAbsent(key.toLowerCase(), value)
+    override fun putIfAbsent(key: String, value: V) = super.putIfAbsent(key.lowercase(Locale.getDefault()), value)
 
-    override fun remove(key: String) = super.remove(key.toLowerCase())
+    override fun remove(key: String) = super.remove(key.lowercase(Locale.getDefault()))
 
-    override fun remove(key: String, value: V) = super.remove(key.toLowerCase(), value)
+    override fun remove(key: String, value: V) = super.remove(key.lowercase(Locale.getDefault()), value)
 
-    override fun replace(key: String, value: V) = super.replace(key.toLowerCase(), value)
+    override fun replace(key: String, value: V) = super.replace(key.lowercase(Locale.getDefault()), value)
 
     override fun replace(key: String, oldValue: V, newValue: V) =
-        super.replace(key.toLowerCase(), oldValue, newValue)
+        super.replace(key.lowercase(Locale.getDefault()), oldValue, newValue)
 }

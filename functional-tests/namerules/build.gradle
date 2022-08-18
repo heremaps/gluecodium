@@ -113,8 +113,8 @@ tasks.configureEach { task ->
 dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'
 
-    implementation "org.jetbrains.kotlin:kotlin-reflect:1.5.31"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.31"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.6.21"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.6.21"
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation "org.powermock:powermock-reflect:2.0.9"

@@ -21,6 +21,7 @@ package com.here.gluecodium.generator.common
 
 import com.google.common.base.CaseFormat
 import com.google.common.base.CharMatcher
+import java.util.Locale
 
 @Suppress("UnstableApiUsage", "DEPRECATION")
 object NameHelper {
@@ -45,10 +46,12 @@ object NameHelper {
             input == null -> ""
             input.contains(UNDERSCORE) ->
                 CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_UNDERSCORE, input)
+
             CharMatcher.javaLowerCase().matchesAnyOf(input) &&
                 CharMatcher.javaUpperCase().matchesAnyOf(input) ->
                 CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, input)
-            else -> input.toLowerCase()
+
+            else -> input.lowercase(Locale.getDefault())
         }
 
     fun joinToLowerSnakeCase(inputs: List<String?>) =
@@ -59,10 +62,12 @@ object NameHelper {
             input == null -> ""
             input.contains(UNDERSCORE) ->
                 CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, input)
+
             CharMatcher.javaLowerCase().matchesAnyOf(input) &&
                 CharMatcher.javaUpperCase().matchesAnyOf(input) ->
                 CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, input)
-            else -> input.toLowerCase().capitalize()
+
+            else -> input.lowercase(Locale.getDefault()).capitalize()
         }
 
     fun joinToUpperCamelCase(inputs: List<String?>) =
@@ -73,10 +78,12 @@ object NameHelper {
             input == null -> ""
             input.contains(UNDERSCORE) ->
                 CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, input)
+
             CharMatcher.javaLowerCase().matchesAnyOf(input) &&
                 CharMatcher.javaUpperCase().matchesAnyOf(input) ->
                 CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, input)
-            else -> input.toLowerCase()
+
+            else -> input.lowercase(Locale.getDefault())
         }
 
     fun joinToLowerCamelCase(inputs: List<String?>): String {

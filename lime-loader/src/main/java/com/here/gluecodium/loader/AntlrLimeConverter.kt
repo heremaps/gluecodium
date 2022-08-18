@@ -32,6 +32,7 @@ import com.here.gluecodium.model.lime.LimeValue
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.tree.ParseTreeWalker
+import java.util.Locale
 
 internal object AntlrLimeConverter {
 
@@ -107,7 +108,7 @@ internal object AntlrLimeConverter {
         valueContext: LimeParser.AnnotationValueContext
     ) {
         val valueTypeText = valueContext.simpleId()?.text
-        val value = when (valueTypeText?.toLowerCase()) {
+        val value = when (valueTypeText?.lowercase(Locale.getDefault())) {
             null, "tag" -> convertAnnotationValue(valueContext)
             else -> valueTypeText
         }
@@ -126,7 +127,7 @@ internal object AntlrLimeConverter {
         valueContext: LimeParser.AnnotationValueContext
     ) {
         val valueTypeText = valueContext.simpleId()?.text
-        val value = when (valueTypeText?.toLowerCase()) {
+        val value = when (valueTypeText?.lowercase(Locale.getDefault())) {
             null, "tag" -> convertAnnotationValue(valueContext)
             else -> valueTypeText
         }
