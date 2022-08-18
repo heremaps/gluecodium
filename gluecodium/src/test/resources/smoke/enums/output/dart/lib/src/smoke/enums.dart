@@ -266,6 +266,7 @@ class Enums$Impl extends __lib.NativeBase implements Enums {
 Pointer<Void> smokeEnumsToFfi(Enums value) =>
   _smokeEnumsCopyHandle((value as __lib.NativeBase).handle);
 Enums smokeEnumsFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is Enums) return instance;
   final _copiedHandle = _smokeEnumsCopyHandle(handle);

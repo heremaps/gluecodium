@@ -117,6 +117,7 @@ Pointer<Void> smokeParentnarrowoneToFfi(ParentNarrowOne value) {
   return result;
 }
 ParentNarrowOne smokeParentnarrowoneFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is ParentNarrowOne) return instance;
   final _typeIdHandle = _smokeParentnarrowoneGetTypeId(handle);

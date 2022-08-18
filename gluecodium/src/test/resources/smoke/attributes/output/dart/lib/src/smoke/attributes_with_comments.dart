@@ -134,6 +134,7 @@ class AttributesWithComments$Impl extends __lib.NativeBase implements Attributes
 Pointer<Void> smokeAttributeswithcommentsToFfi(AttributesWithComments value) =>
   _smokeAttributeswithcommentsCopyHandle((value as __lib.NativeBase).handle);
 AttributesWithComments smokeAttributeswithcommentsFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is AttributesWithComments) return instance;
   final _copiedHandle = _smokeAttributeswithcommentsCopyHandle(handle);

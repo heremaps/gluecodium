@@ -538,6 +538,7 @@ Pointer<Void> smokeCommentsinterfaceToFfi(CommentsInterface value) {
   return result;
 }
 CommentsInterface smokeCommentsinterfaceFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is CommentsInterface) return instance;
   final _typeIdHandle = _smokeCommentsinterfaceGetTypeId(handle);

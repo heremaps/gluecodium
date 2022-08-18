@@ -133,6 +133,7 @@ class AttributesWithDeprecated$Impl extends __lib.NativeBase implements Attribut
 Pointer<Void> smokeAttributeswithdeprecatedToFfi(AttributesWithDeprecated value) =>
   _smokeAttributeswithdeprecatedCopyHandle((value as __lib.NativeBase).handle);
 AttributesWithDeprecated smokeAttributeswithdeprecatedFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is AttributesWithDeprecated) return instance;
   final _copiedHandle = _smokeAttributeswithdeprecatedCopyHandle(handle);

@@ -84,6 +84,7 @@ class FirstParentIsClassClass$Impl extends ParentClass$Impl implements FirstPare
 Pointer<Void> smokeFirstparentisclassclassToFfi(FirstParentIsClassClass value) =>
   _smokeFirstparentisclassclassCopyHandle((value as __lib.NativeBase).handle);
 FirstParentIsClassClass smokeFirstparentisclassclassFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is FirstParentIsClassClass) return instance;
   final _typeIdHandle = _smokeFirstparentisclassclassGetTypeId(handle);

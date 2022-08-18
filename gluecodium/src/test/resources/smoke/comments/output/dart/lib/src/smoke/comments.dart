@@ -517,6 +517,7 @@ class Comments$Impl extends __lib.NativeBase implements Comments {
 Pointer<Void> smokeCommentsToFfi(Comments value) =>
   _smokeCommentsCopyHandle((value as __lib.NativeBase).handle);
 Comments smokeCommentsFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is Comments) return instance;
   final _copiedHandle = _smokeCommentsCopyHandle(handle);

@@ -201,6 +201,7 @@ Pointer<Void> smokeInheritfromskippedToFfi(InheritFromSkipped value) {
   return result;
 }
 InheritFromSkipped smokeInheritfromskippedFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is InheritFromSkipped) return instance;
   final _typeIdHandle = _smokeInheritfromskippedGetTypeId(handle);

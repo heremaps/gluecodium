@@ -113,6 +113,7 @@ class Class$Impl extends __lib.NativeBase implements Class {
 Pointer<Void> packageClassToFfi(Class value) =>
   _packageClassCopyHandle((value as __lib.NativeBase).handle);
 Class packageClassFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is Class) return instance;
   final _typeIdHandle = _packageClassGetTypeId(handle);

@@ -377,6 +377,7 @@ class GenericTypesWithCompoundTypes$Impl extends __lib.NativeBase implements Gen
 Pointer<Void> smokeGenerictypeswithcompoundtypesToFfi(GenericTypesWithCompoundTypes value) =>
   _smokeGenerictypeswithcompoundtypesCopyHandle((value as __lib.NativeBase).handle);
 GenericTypesWithCompoundTypes smokeGenerictypeswithcompoundtypesFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is GenericTypesWithCompoundTypes) return instance;
   final _copiedHandle = _smokeGenerictypeswithcompoundtypesCopyHandle(handle);

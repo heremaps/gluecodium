@@ -212,6 +212,7 @@ class Constructors$Impl extends __lib.NativeBase implements Constructors {
 Pointer<Void> smokeConstructorsToFfi(Constructors value) =>
   _smokeConstructorsCopyHandle((value as __lib.NativeBase).handle);
 Constructors smokeConstructorsFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is Constructors) return instance;
   final _typeIdHandle = _smokeConstructorsGetTypeId(handle);

@@ -154,6 +154,7 @@ class SkipTypes$Impl extends __lib.NativeBase implements SkipTypes {
 Pointer<Void> smokeSkiptypesToFfi(SkipTypes value) =>
   _smokeSkiptypesCopyHandle((value as __lib.NativeBase).handle);
 SkipTypes smokeSkiptypesFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is SkipTypes) return instance;
   final _copiedHandle = _smokeSkiptypesCopyHandle(handle);

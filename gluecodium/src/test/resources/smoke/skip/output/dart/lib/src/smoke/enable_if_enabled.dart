@@ -66,6 +66,7 @@ class EnableIfEnabled$Impl extends __lib.NativeBase implements EnableIfEnabled {
 Pointer<Void> smokeEnableifenabledToFfi(EnableIfEnabled value) =>
   _smokeEnableifenabledCopyHandle((value as __lib.NativeBase).handle);
 EnableIfEnabled smokeEnableifenabledFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is EnableIfEnabled) return instance;
   final _copiedHandle = _smokeEnableifenabledCopyHandle(handle);

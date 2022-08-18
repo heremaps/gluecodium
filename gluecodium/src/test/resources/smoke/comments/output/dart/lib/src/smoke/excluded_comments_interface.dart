@@ -44,6 +44,7 @@ Pointer<Void> smokeExcludedcommentsinterfaceToFfi(ExcludedCommentsInterface valu
   return result;
 }
 ExcludedCommentsInterface smokeExcludedcommentsinterfaceFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is ExcludedCommentsInterface) return instance;
   final _typeIdHandle = _smokeExcludedcommentsinterfaceGetTypeId(handle);

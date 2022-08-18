@@ -135,6 +135,7 @@ class ClassWithInternalLambda$Impl extends __lib.NativeBase implements ClassWith
 Pointer<Void> smokeClasswithinternallambdaToFfi(ClassWithInternalLambda value) =>
   _smokeClasswithinternallambdaCopyHandle((value as __lib.NativeBase).handle);
 ClassWithInternalLambda smokeClasswithinternallambdaFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is ClassWithInternalLambda) return instance;
   final _copiedHandle = _smokeClasswithinternallambdaCopyHandle(handle);

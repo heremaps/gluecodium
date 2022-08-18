@@ -198,6 +198,7 @@ class OuterStruct_InnerClass$Impl extends __lib.NativeBase implements OuterStruc
 Pointer<Void> smokeOuterstructInnerclassToFfi(OuterStruct_InnerClass value) =>
   _smokeOuterstructInnerclassCopyHandle((value as __lib.NativeBase).handle);
 OuterStruct_InnerClass smokeOuterstructInnerclassFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is OuterStruct_InnerClass) return instance;
   final _copiedHandle = _smokeOuterstructInnerclassCopyHandle(handle);
@@ -287,6 +288,7 @@ Pointer<Void> smokeOuterstructInnerinterfaceToFfi(OuterStruct_InnerInterface val
   return result;
 }
 OuterStruct_InnerInterface smokeOuterstructInnerinterfaceFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is OuterStruct_InnerInterface) return instance;
   final _typeIdHandle = _smokeOuterstructInnerinterfaceGetTypeId(handle);

@@ -79,6 +79,7 @@ class weeInterface$Impl extends __lib.NativeBase implements weeInterface {
 Pointer<Void> smokePlatformnamesinterfaceToFfi(weeInterface value) =>
   _smokePlatformnamesinterfaceCopyHandle((value as __lib.NativeBase).handle);
 weeInterface smokePlatformnamesinterfaceFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is weeInterface) return instance;
   final _copiedHandle = _smokePlatformnamesinterfaceCopyHandle(handle);

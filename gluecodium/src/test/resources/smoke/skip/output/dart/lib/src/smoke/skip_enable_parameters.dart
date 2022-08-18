@@ -33,6 +33,7 @@ class SkipEnableParameters$Impl extends __lib.NativeBase implements SkipEnablePa
 Pointer<Void> smokeSkipenableparametersToFfi(SkipEnableParameters value) =>
   _smokeSkipenableparametersCopyHandle((value as __lib.NativeBase).handle);
 SkipEnableParameters smokeSkipenableparametersFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is SkipEnableParameters) return instance;
   final _copiedHandle = _smokeSkipenableparametersCopyHandle(handle);

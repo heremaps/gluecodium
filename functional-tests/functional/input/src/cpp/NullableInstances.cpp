@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "NullablePayloadImpl.h"
+#include "test/NonNullConstraintBroken.h"
 #include "test/NullableInstanceListener.h"
 #include "test/NullableStatic.h"
 
@@ -73,4 +74,8 @@ NullablePayload::create( )
 {
     return std::make_shared< NullablePayloadImpl >( );
 }
-}  // namespace test
+
+std::shared_ptr<NullablePayload>
+NonNullConstraintBroken::get_null() { return {}; }
+
+}

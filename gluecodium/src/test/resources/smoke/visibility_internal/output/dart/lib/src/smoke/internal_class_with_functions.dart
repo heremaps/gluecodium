@@ -69,6 +69,7 @@ class InternalClassWithFunctions$Impl extends __lib.NativeBase implements Intern
 Pointer<Void> smokeInternalclasswithfunctionsToFfi(InternalClassWithFunctions value) =>
   _smokeInternalclasswithfunctionsCopyHandle((value as __lib.NativeBase).handle);
 InternalClassWithFunctions smokeInternalclasswithfunctionsFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is InternalClassWithFunctions) return instance;
   final _copiedHandle = _smokeInternalclasswithfunctionsCopyHandle(handle);

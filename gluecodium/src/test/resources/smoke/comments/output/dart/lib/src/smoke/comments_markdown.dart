@@ -50,6 +50,7 @@ class CommentsMarkdown$Impl extends __lib.NativeBase implements CommentsMarkdown
 Pointer<Void> smokeCommentsmarkdownToFfi(CommentsMarkdown value) =>
   _smokeCommentsmarkdownCopyHandle((value as __lib.NativeBase).handle);
 CommentsMarkdown smokeCommentsmarkdownFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is CommentsMarkdown) return instance;
   final _copiedHandle = _smokeCommentsmarkdownCopyHandle(handle);

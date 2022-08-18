@@ -41,6 +41,7 @@ class SpecialAttributes$Impl extends __lib.NativeBase implements SpecialAttribut
 Pointer<Void> smokeSpecialattributesToFfi(SpecialAttributes value) =>
   _smokeSpecialattributesCopyHandle((value as __lib.NativeBase).handle);
 SpecialAttributes smokeSpecialattributesFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is SpecialAttributes) return instance;
   final _copiedHandle = _smokeSpecialattributesCopyHandle(handle);

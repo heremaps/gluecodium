@@ -46,6 +46,7 @@ class CtorLinks_SingleCtor$Impl extends __lib.NativeBase implements CtorLinks_Si
 Pointer<Void> smokeCtorlinksSinglectorToFfi(CtorLinks_SingleCtor value) =>
   _smokeCtorlinksSinglectorCopyHandle((value as __lib.NativeBase).handle);
 CtorLinks_SingleCtor smokeCtorlinksSinglectorFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is CtorLinks_SingleCtor) return instance;
   final _copiedHandle = _smokeCtorlinksSinglectorCopyHandle(handle);
@@ -122,6 +123,7 @@ class CtorLinks_OverloadedCtors$Impl extends __lib.NativeBase implements CtorLin
 Pointer<Void> smokeCtorlinksOverloadedctorsToFfi(CtorLinks_OverloadedCtors value) =>
   _smokeCtorlinksOverloadedctorsCopyHandle((value as __lib.NativeBase).handle);
 CtorLinks_OverloadedCtors smokeCtorlinksOverloadedctorsFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is CtorLinks_OverloadedCtors) return instance;
   final _copiedHandle = _smokeCtorlinksOverloadedctorsCopyHandle(handle);
@@ -158,6 +160,7 @@ class CtorLinks$Impl extends __lib.NativeBase implements CtorLinks {
 Pointer<Void> smokeCtorlinksToFfi(CtorLinks value) =>
   _smokeCtorlinksCopyHandle((value as __lib.NativeBase).handle);
 CtorLinks smokeCtorlinksFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is CtorLinks) return instance;
   final _copiedHandle = _smokeCtorlinksCopyHandle(handle);

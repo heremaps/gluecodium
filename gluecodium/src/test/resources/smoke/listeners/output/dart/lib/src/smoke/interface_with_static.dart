@@ -159,6 +159,7 @@ Pointer<Void> smokeInterfacewithstaticToFfi(InterfaceWithStatic value) {
   return result;
 }
 InterfaceWithStatic smokeInterfacewithstaticFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is InterfaceWithStatic) return instance;
   final _typeIdHandle = _smokeInterfacewithstaticGetTypeId(handle);

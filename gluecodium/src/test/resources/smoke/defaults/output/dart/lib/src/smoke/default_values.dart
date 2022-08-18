@@ -551,6 +551,7 @@ class DefaultValues$Impl extends __lib.NativeBase implements DefaultValues {
 Pointer<Void> smokeDefaultvaluesToFfi(DefaultValues value) =>
   _smokeDefaultvaluesCopyHandle((value as __lib.NativeBase).handle);
 DefaultValues smokeDefaultvaluesFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is DefaultValues) return instance;
   final _copiedHandle = _smokeDefaultvaluesCopyHandle(handle);

@@ -30,6 +30,7 @@ class CommentsTable$Impl extends __lib.NativeBase implements CommentsTable {
 Pointer<Void> smokeCommentstableToFfi(CommentsTable value) =>
   _smokeCommentstableCopyHandle((value as __lib.NativeBase).handle);
 CommentsTable smokeCommentstableFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is CommentsTable) return instance;
   final _copiedHandle = _smokeCommentstableCopyHandle(handle);

@@ -62,6 +62,7 @@ class ChildClassFromInterface$Impl extends __lib.NativeBase implements ChildClas
 Pointer<Void> smokeChildclassfrominterfaceToFfi(ChildClassFromInterface value) =>
   _smokeChildclassfrominterfaceCopyHandle((value as __lib.NativeBase).handle);
 ChildClassFromInterface smokeChildclassfrominterfaceFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is ChildClassFromInterface) return instance;
   final _typeIdHandle = _smokeChildclassfrominterfaceGetTypeId(handle);

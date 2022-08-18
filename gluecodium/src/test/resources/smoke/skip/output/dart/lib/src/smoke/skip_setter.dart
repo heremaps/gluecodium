@@ -69,6 +69,7 @@ Pointer<Void> smokeSkipsetterToFfi(SkipSetter value) {
   return result;
 }
 SkipSetter smokeSkipsetterFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is SkipSetter) return instance;
   final _typeIdHandle = _smokeSkipsetterGetTypeId(handle);

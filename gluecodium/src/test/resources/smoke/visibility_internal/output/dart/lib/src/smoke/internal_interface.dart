@@ -72,6 +72,7 @@ Pointer<Void> smokeInternalinterfaceToFfi(InternalInterface value) {
   return result;
 }
 InternalInterface smokeInternalinterfaceFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is InternalInterface) return instance;
   final _typeIdHandle = _smokeInternalinterfaceGetTypeId(handle);

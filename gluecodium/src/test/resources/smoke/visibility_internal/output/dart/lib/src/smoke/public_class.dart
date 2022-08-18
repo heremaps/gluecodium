@@ -286,6 +286,7 @@ class PublicClass$Impl extends __lib.NativeBase implements PublicClass {
 Pointer<Void> smokePublicclassToFfi(PublicClass value) =>
   _smokePublicclassCopyHandle((value as __lib.NativeBase).handle);
 PublicClass smokePublicclassFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is PublicClass) return instance;
   final _copiedHandle = _smokePublicclassCopyHandle(handle);

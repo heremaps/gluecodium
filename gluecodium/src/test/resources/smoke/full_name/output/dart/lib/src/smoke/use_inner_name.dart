@@ -38,6 +38,7 @@ class UseInnerName$Impl extends __lib.NativeBase implements UseInnerName {
 Pointer<Void> smokeUseinnernameToFfi(UseInnerName value) =>
   _smokeUseinnernameCopyHandle((value as __lib.NativeBase).handle);
 UseInnerName smokeUseinnernameFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is UseInnerName) return instance;
   final _copiedHandle = _smokeUseinnernameCopyHandle(handle);

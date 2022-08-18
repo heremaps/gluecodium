@@ -85,6 +85,7 @@ class UseDartExternalTypes$Impl extends __lib.NativeBase implements UseDartExter
 Pointer<Void> smokeUsedartexternaltypesToFfi(UseDartExternalTypes value) =>
   _smokeUsedartexternaltypesCopyHandle((value as __lib.NativeBase).handle);
 UseDartExternalTypes smokeUsedartexternaltypesFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is UseDartExternalTypes) return instance;
   final _copiedHandle = _smokeUsedartexternaltypesCopyHandle(handle);
