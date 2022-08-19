@@ -25,18 +25,20 @@ namespace test
 {
 using namespace lorem_ipsum::test;
 
-optional<std::vector<std::string>>
-UseNullableCollections::nullable_list_round_trip(const optional<std::vector<std::string>>& input) {
+std::optional<std::vector<std::string>>
+UseNullableCollections::nullable_list_round_trip(const std::optional<std::vector<std::string>>& input) {
     return input;
 }
 
-optional<std::unordered_set<std::string>>
-UseNullableCollections::nullable_set_round_trip(const optional<std::unordered_set<std::string>>& input) {
+std::optional<std::unordered_set<std::string>>
+UseNullableCollections::nullable_set_round_trip(const std::optional<std::unordered_set<std::string>>& input) {
     return input;
 }
 
-optional<std::unordered_map<std::string, std::string>>
-UseNullableCollections::nullable_map_round_trip(const optional<std::unordered_map<std::string, std::string>>& input) {
+std::optional<std::unordered_map<std::string, std::string>>
+UseNullableCollections::nullable_map_round_trip(
+    const std::optional<std::unordered_map<std::string, std::string>>& input
+) {
     return input;
 }
 
@@ -44,4 +46,5 @@ NullableCollections
 UseNullableCollections::nullable_collections_round_trip(const NullableCollections& input) {
     return input;
 }
+
 }

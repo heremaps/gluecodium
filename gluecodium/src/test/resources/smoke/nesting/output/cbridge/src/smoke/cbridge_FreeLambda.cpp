@@ -3,13 +3,13 @@
 #include "cbridge/include/smoke/cbridge_FreeLambda.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/CachedProxyBase.h"
-#include "gluecodium/Optional.h"
 #include "gluecodium/TimePointHash.h"
 #include "smoke/FreeEnum.h"
 #include "smoke/FreeLambda.h"
 #include <chrono>
 #include <functional>
 #include <new>
+#include <optional>
 void smoke_FreeLambda_release_handle(_baseRef handle) {
     delete get_pointer<::smoke::FreeLambda>(handle);
 }
@@ -45,7 +45,7 @@ _baseRef smoke_FreeLambda_create_proxy(smoke_FreeLambda_FunctionTable functionTa
 }
 _baseRef smoke_FreeLambda_create_optional_proxy(smoke_FreeLambda_FunctionTable functionTable) {
     auto proxy = smoke_FreeLambdaProxy::get_proxy(::std::move(functionTable));
-    return proxy ? reinterpret_cast<_baseRef>(new (::std::nothrow) ::gluecodium::optional<::smoke::FreeLambda>(::std::bind(&smoke_FreeLambdaProxy::operator(), proxy, ::std::placeholders::_1))) : 0;
+    return proxy ? reinterpret_cast<_baseRef>(new (::std::nothrow) std::optional<::smoke::FreeLambda>(::std::bind(&smoke_FreeLambdaProxy::operator(), proxy, ::std::placeholders::_1))) : 0;
 }
 const void* smoke_FreeLambda_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_FreeLambdaProxy::get_swift_object(get_pointer<::smoke::FreeLambda>(handle)) : nullptr;

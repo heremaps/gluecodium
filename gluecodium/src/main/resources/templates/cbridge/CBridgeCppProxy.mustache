@@ -86,7 +86,7 @@ _baseRef {{resolveName}}_create_proxy({{resolveName}}_FunctionTable functionTabl
 
 _baseRef {{resolveName}}_create_optional_proxy({{resolveName}}_FunctionTable functionTable) {
     auto proxy = {{resolveName}}Proxy::get_proxy(::std::move(functionTable));
-    return proxy ? reinterpret_cast<_baseRef>(new (::std::nothrow) {{>common/InternalNamespace}}optional<{{resolveName this "C++"}}>({{!!
+    return proxy ? reinterpret_cast<_baseRef>(new (::std::nothrow) std::optional<{{resolveName this "C++"}}>({{!!
     }}::std::bind(&{{resolveName}}Proxy::operator(), proxy{{!!
     }}{{#functions.0.parameters}}, ::std::placeholders::_{{iter.index}}{{/functions.0.parameters}}))) : 0;
 }

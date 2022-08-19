@@ -22,7 +22,7 @@
 
 namespace custom::common::unit::test {
 std::shared_ptr<Foo>
-Foo::make_foo(const ::gluecodium::optional< double >& parameter)
+Foo::make_foo(const ::std::optional< double >& parameter)
 {
     return nullptr;
 }

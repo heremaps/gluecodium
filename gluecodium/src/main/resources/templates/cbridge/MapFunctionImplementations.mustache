@@ -59,15 +59,15 @@ void {{resolveName}}_iterator_increment(_baseRef iterator_handle) {
 }
 
 _baseRef {{resolveName}}_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) {{>common/InternalNamespace}}optional<{{resolveName "C++"}}>( {{resolveName "C++"}}( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<{{resolveName "C++"}}>( {{resolveName "C++"}}( ) ) );
 }
 
 void {{resolveName}}_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<{{>common/InternalNamespace}}optional<{{resolveName "C++"}}>*>( handle );
+    delete reinterpret_cast<std::optional<{{resolveName "C++"}}>*>( handle );
 }
 
 _baseRef {{resolveName}}_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<{{>common/InternalNamespace}}optional<{{resolveName "C++"}}>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<{{resolveName "C++"}}>*>( handle ) );
 }{{!!
 
 }}{{+ConvertToCpp}}{{!!

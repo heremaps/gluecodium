@@ -35,7 +35,7 @@ FfiOpaqueHandle
 library_smoke_EnableIfField_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<smoke::EnableIfField>(
+        new (std::nothrow) std::optional<smoke::EnableIfField>(
             gluecodium::ffi::Conversion<smoke::EnableIfField>::toCpp(value)
         )
     );
@@ -43,13 +43,13 @@ library_smoke_EnableIfField_create_handle_nullable(FfiOpaqueHandle value)
 void
 library_smoke_EnableIfField_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<smoke::EnableIfField>*>(handle);
+    delete reinterpret_cast<std::optional<smoke::EnableIfField>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_EnableIfField_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::EnableIfField>::toFfi(
-        **reinterpret_cast<gluecodium::optional<smoke::EnableIfField>*>(handle)
+        **reinterpret_cast<std::optional<smoke::EnableIfField>*>(handle)
     );
 }
 #ifdef __cplusplus

@@ -8,7 +8,6 @@
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
 #include "gluecodium/Hash.h"
-#include "gluecodium/Optional.h"
 #include "gluecodium/UnorderedMapHash.h"
 #include "gluecodium/UnorderedSetHash.h"
 #include "gluecodium/VectorHash.h"
@@ -18,6 +17,7 @@
 #include <cstdint>
 #include <memory>
 #include <new>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -82,17 +82,17 @@ smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle( _baseRef handle 
 _baseRef
 smoke_GenericTypesWithCompoundTypes_BasicStruct_create_optional_handle(double value)
 {
-    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::GenericTypesWithCompoundTypes::BasicStruct>( ::smoke::GenericTypesWithCompoundTypes::BasicStruct( ) );
+    auto _struct = new ( ::std::nothrow ) std::optional<::smoke::GenericTypesWithCompoundTypes::BasicStruct>( ::smoke::GenericTypesWithCompoundTypes::BasicStruct( ) );
     (*_struct)->value = value;
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_GenericTypesWithCompoundTypes_BasicStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::GenericTypesWithCompoundTypes::BasicStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::smoke::GenericTypesWithCompoundTypes::BasicStruct>*>( handle ) );
 }
 void smoke_GenericTypesWithCompoundTypes_BasicStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::smoke::GenericTypesWithCompoundTypes::BasicStruct>*>( handle );
+    delete reinterpret_cast<std::optional<::smoke::GenericTypesWithCompoundTypes::BasicStruct>*>( handle );
 }
 double smoke_GenericTypesWithCompoundTypes_BasicStruct_value_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::GenericTypesWithCompoundTypes::BasicStruct>(handle);
@@ -113,17 +113,17 @@ smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle( _baseRef hand
 _baseRef
 smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_optional_handle(_baseRef string)
 {
-    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::alien::FooStruct>( ::alien::FooStruct( ) );
+    auto _struct = new ( ::std::nothrow ) std::optional<::alien::FooStruct>( ::alien::FooStruct( ) );
     (*_struct)->string = Conversion<::std::string>::toCpp( string );
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_GenericTypesWithCompoundTypes_ExternalStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::alien::FooStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::alien::FooStruct>*>( handle ) );
 }
 void smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::alien::FooStruct>*>( handle );
+    delete reinterpret_cast<std::optional<::alien::FooStruct>*>( handle );
 }
 _baseRef smoke_GenericTypesWithCompoundTypes_ExternalStruct_string_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::alien::FooStruct>(handle);

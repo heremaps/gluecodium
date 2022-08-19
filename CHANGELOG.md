@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Breaking changes:
+  * The `gluecodium::optional` type alias to `std::optional` was removed from C++ generated code.
+
 ## 13.4.0
 Release date: 2022-08-29
 ### Features:

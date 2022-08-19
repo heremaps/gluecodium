@@ -1,14 +1,14 @@
 //
 //
-#include "cbridge\include\smoke\cbridge_UseOptimizedListStruct.h"
-#include "cbridge_internal\include\BaseHandleImpl.h"
-#include "gluecodium\Optional.h"
-#include "gluecodium\VectorHash.h"
-#include "smoke\UnreasonablyLazyClass.h"
-#include "smoke\UseOptimizedListStruct.h"
-#include "smoke\VeryBigStruct.h"
+#include "cbridge/include/smoke/cbridge_UseOptimizedListStruct.h"
+#include "cbridge_internal/include/BaseHandleImpl.h"
+#include "gluecodium/VectorHash.h"
+#include "smoke/UnreasonablyLazyClass.h"
+#include "smoke/UseOptimizedListStruct.h"
+#include "smoke/VeryBigStruct.h"
 #include <memory>
 #include <new>
+#include <optional>
 #include <vector>
 _baseRef
 smoke_UseOptimizedListStruct_create_handle( _baseRef structs, _baseRef classes )
@@ -28,16 +28,16 @@ smoke_UseOptimizedListStruct_create_optional_handle(_baseRef structs, _baseRef c
 {
     auto _structs = Conversion<::std::vector< ::std::shared_ptr< ::smoke::VeryBigStruct > >>::toCpp( structs );
     auto _classes = Conversion<::std::vector< ::std::shared_ptr< ::smoke::UnreasonablyLazyClass > >>::toCpp( classes );
-    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::UseOptimizedListStruct>( ::smoke::UseOptimizedListStruct( _structs, _classes ) );
+    auto _struct = new ( ::std::nothrow ) std::optional<::smoke::UseOptimizedListStruct>( ::smoke::UseOptimizedListStruct( _structs, _classes ) );
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_UseOptimizedListStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::UseOptimizedListStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::smoke::UseOptimizedListStruct>*>( handle ) );
 }
 void smoke_UseOptimizedListStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::smoke::UseOptimizedListStruct>*>( handle );
+    delete reinterpret_cast<std::optional<::smoke::UseOptimizedListStruct>*>( handle );
 }
 _baseRef smoke_UseOptimizedListStruct_structs_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::UseOptimizedListStruct>(handle);

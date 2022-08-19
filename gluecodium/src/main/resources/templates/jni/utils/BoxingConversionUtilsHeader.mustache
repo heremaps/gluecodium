@@ -23,9 +23,9 @@
 #pragma once
 
 #include "JniReference.h"
-#include "{{>common/InternalInclude}}Optional.h"
 
 #include <jni.h>
+#include <optional>
 
 {{#internalNamespace}}
 namespace {{.}}
@@ -63,40 +63,40 @@ JNIEXPORT uint64_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& j
 
 // Boxing/unboxing conversion functions for nullable types
 
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, {{>common/InternalNamespace}}optional<bool> nvalue );
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, {{>common/InternalNamespace}}optional<float> nvalue );
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, {{>common/InternalNamespace}}optional<double> nvalue );
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, {{>common/InternalNamespace}}optional<int8_t> nvalue );
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, {{>common/InternalNamespace}}optional<int16_t> nvalue );
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, {{>common/InternalNamespace}}optional<int32_t> nvalue );
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, {{>common/InternalNamespace}}optional<int64_t> nvalue );
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, {{>common/InternalNamespace}}optional<uint8_t> nvalue );
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, {{>common/InternalNamespace}}optional<uint16_t> nvalue );
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, {{>common/InternalNamespace}}optional<uint32_t> nvalue );
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, {{>common/InternalNamespace}}optional<uint64_t> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<bool> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<float> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<double> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<int8_t> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<int16_t> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<int32_t> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<int64_t> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<uint8_t> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<uint16_t> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<uint32_t> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<uint64_t> nvalue );
 
-JNIEXPORT {{>common/InternalNamespace}}optional<bool> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<bool>* );
-JNIEXPORT {{>common/InternalNamespace}}optional<float> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<float>* );
-JNIEXPORT {{>common/InternalNamespace}}optional<double> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<double>* );
-JNIEXPORT {{>common/InternalNamespace}}optional<int8_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<int8_t>* );
-JNIEXPORT {{>common/InternalNamespace}}optional<int16_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<int16_t>* );
-JNIEXPORT {{>common/InternalNamespace}}optional<int32_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<int32_t>* );
-JNIEXPORT {{>common/InternalNamespace}}optional<int64_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<int64_t>* );
-JNIEXPORT {{>common/InternalNamespace}}optional<uint8_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<uint8_t>* );
-JNIEXPORT {{>common/InternalNamespace}}optional<uint16_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<uint16_t>* );
-JNIEXPORT {{>common/InternalNamespace}}optional<uint32_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<uint32_t>* );
-JNIEXPORT {{>common/InternalNamespace}}optional<uint64_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}optional<uint64_t>* );
+JNIEXPORT std::optional<bool> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<bool>* );
+JNIEXPORT std::optional<float> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<float>* );
+JNIEXPORT std::optional<double> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<double>* );
+JNIEXPORT std::optional<int8_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<int8_t>* );
+JNIEXPORT std::optional<int16_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<int16_t>* );
+JNIEXPORT std::optional<int32_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<int32_t>* );
+JNIEXPORT std::optional<int64_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<int64_t>* );
+JNIEXPORT std::optional<uint8_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<uint8_t>* );
+JNIEXPORT std::optional<uint16_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<uint16_t>* );
+JNIEXPORT std::optional<uint32_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<uint32_t>* );
+JNIEXPORT std::optional<uint64_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<uint64_t>* );
 
 }
 {{#internalNamespace}}

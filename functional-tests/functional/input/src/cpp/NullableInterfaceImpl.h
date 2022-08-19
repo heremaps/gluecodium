@@ -26,7 +26,7 @@ namespace test
 {
 
 template< typename T >
-using Optional = lorem_ipsum::test::optional< T >;
+using Optional = std::optional< T >;
 
 class NullableInterfaceImpl : public NullableInterface
 {

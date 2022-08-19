@@ -78,18 +78,18 @@ Lambdas::concatenate_in_struct(const std::string& string1,
     return concatenator.concatenator(string1, string2);
 }
 
-lorem_ipsum::test::optional<Lambdas::Concatenator>
-Lambdas::get_concatenator_or_null(const lorem_ipsum::test::optional<std::string>& delimiter)
+std::optional<Lambdas::Concatenator>
+Lambdas::get_concatenator_or_null(const std::optional<std::string>& delimiter)
 {
     if (!delimiter) return {};
     return {[delimiter](const std::string& string1,
                         const std::string& string2){ return string1 + *delimiter + string2; }};
 }
 
-lorem_ipsum::test::optional<std::string>
+std::optional<std::string>
 Lambdas::concatenate_or_not(const std::string& string1,
                             const std::string& string2,
-                            const lorem_ipsum::test::optional<Lambdas::Concatenator>& concatenator)
+                            const std::optional<Lambdas::Concatenator>& concatenator)
 {
     if (!concatenator) return {};
     return (*concatenator)(string1, string2);
@@ -121,8 +121,8 @@ Lambdas::reset_real_concatenator()
 Lambdas::NullableConfuser
 Lambdas::get_nullable_confuser()
 {
-    return [](const lorem_ipsum::test::optional<std::string>& value) ->
-        lorem_ipsum::test::optional<StandaloneProducer>
+    return [](const std::optional<std::string>& value) ->
+        std::optional<StandaloneProducer>
         {
             if (value) {
                 return { [value] { return *value; } };
@@ -132,9 +132,9 @@ Lambdas::get_nullable_confuser()
         };
 }
 
-lorem_ipsum::test::optional<StandaloneProducer>
+std::optional<StandaloneProducer>
 Lambdas::apply_nullable_confuser(const Lambdas::NullableConfuser& confuser,
-                                 const lorem_ipsum::test::optional<std::string>& value)
+                                 const std::optional<std::string>& value)
 {
     return confuser(value);
 }

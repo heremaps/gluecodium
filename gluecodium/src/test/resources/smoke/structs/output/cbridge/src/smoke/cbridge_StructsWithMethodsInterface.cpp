@@ -5,11 +5,11 @@
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
-#include "gluecodium/Optional.h"
 #include "smoke/StructsWithMethodsInterface.h"
 #include "smoke/ValidationUtils.h"
 #include <memory>
 #include <new>
+#include <optional>
 #include <string>
 void smoke_StructsWithMethodsInterface_release_handle(_baseRef handle) {
     delete get_pointer<::std::shared_ptr< ::smoke::StructsWithMethodsInterface >>(handle);
@@ -49,7 +49,7 @@ smoke_StructsWithMethodsInterface_Vector3_release_handle( _baseRef handle )
 _baseRef
 smoke_StructsWithMethodsInterface_Vector3_create_optional_handle(double x, double y, double z)
 {
-    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::StructsWithMethodsInterface::Vector3>( ::smoke::StructsWithMethodsInterface::Vector3( ) );
+    auto _struct = new ( ::std::nothrow ) std::optional<::smoke::StructsWithMethodsInterface::Vector3>( ::smoke::StructsWithMethodsInterface::Vector3( ) );
     (*_struct)->x = x;
     (*_struct)->y = y;
     (*_struct)->z = z;
@@ -58,10 +58,10 @@ smoke_StructsWithMethodsInterface_Vector3_create_optional_handle(double x, doubl
 _baseRef
 smoke_StructsWithMethodsInterface_Vector3_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::StructsWithMethodsInterface::Vector3>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::smoke::StructsWithMethodsInterface::Vector3>*>( handle ) );
 }
 void smoke_StructsWithMethodsInterface_Vector3_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::smoke::StructsWithMethodsInterface::Vector3>*>( handle );
+    delete reinterpret_cast<std::optional<::smoke::StructsWithMethodsInterface::Vector3>*>( handle );
 }
 double smoke_StructsWithMethodsInterface_Vector3_x_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::StructsWithMethodsInterface::Vector3>(handle);

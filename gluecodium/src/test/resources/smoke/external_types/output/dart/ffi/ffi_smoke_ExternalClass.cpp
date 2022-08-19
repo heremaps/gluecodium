@@ -70,7 +70,7 @@ FfiOpaqueHandle
 library_smoke_ExternalClass_SomeStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<fire::Baz::some_Struct>(
+        new (std::nothrow) std::optional<fire::Baz::some_Struct>(
             gluecodium::ffi::Conversion<fire::Baz::some_Struct>::toCpp(value)
         )
     );
@@ -78,20 +78,20 @@ library_smoke_ExternalClass_SomeStruct_create_handle_nullable(FfiOpaqueHandle va
 void
 library_smoke_ExternalClass_SomeStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<fire::Baz::some_Struct>*>(handle);
+    delete reinterpret_cast<std::optional<fire::Baz::some_Struct>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_ExternalClass_SomeStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<fire::Baz::some_Struct>::toFfi(
-        **reinterpret_cast<gluecodium::optional<fire::Baz::some_Struct>*>(handle)
+        **reinterpret_cast<std::optional<fire::Baz::some_Struct>*>(handle)
     );
 }
 FfiOpaqueHandle
 library_smoke_ExternalClass_SomeEnum_create_handle_nullable(uint32_t value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<fire::Baz::some_Enum>(
+        new (std::nothrow) std::optional<fire::Baz::some_Enum>(
             gluecodium::ffi::Conversion<fire::Baz::some_Enum>::toCpp(value)
         )
     );
@@ -99,13 +99,13 @@ library_smoke_ExternalClass_SomeEnum_create_handle_nullable(uint32_t value)
 void
 library_smoke_ExternalClass_SomeEnum_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<fire::Baz::some_Enum>*>(handle);
+    delete reinterpret_cast<std::optional<fire::Baz::some_Enum>*>(handle);
 }
 uint32_t
 library_smoke_ExternalClass_SomeEnum_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<fire::Baz::some_Enum>::toFfi(
-        **reinterpret_cast<gluecodium::optional<fire::Baz::some_Enum>*>(handle)
+        **reinterpret_cast<std::optional<fire::Baz::some_Enum>*>(handle)
     );
 }
 #ifdef __cplusplus

@@ -57,7 +57,7 @@ FfiOpaqueHandle
 library_foobar_ListOf_Date_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<std::vector<std::chrono::system_clock::time_point>>(
+        new (std::nothrow) std::optional<std::vector<std::chrono::system_clock::time_point>>(
             gluecodium::ffi::Conversion<std::vector<std::chrono::system_clock::time_point>>::toCpp(value)
         )
     );
@@ -65,13 +65,13 @@ library_foobar_ListOf_Date_create_handle_nullable(FfiOpaqueHandle value)
 void
 library_foobar_ListOf_Date_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<std::vector<std::chrono::system_clock::time_point>>*>(handle);
+    delete reinterpret_cast<std::optional<std::vector<std::chrono::system_clock::time_point>>*>(handle);
 }
 FfiOpaqueHandle
 library_foobar_ListOf_Date_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::vector<std::chrono::system_clock::time_point>>::toFfi(
-        **reinterpret_cast<gluecodium::optional<std::vector<std::chrono::system_clock::time_point>>*>(handle)
+        **reinterpret_cast<std::optional<std::vector<std::chrono::system_clock::time_point>>*>(handle)
     );
 }
 FfiOpaqueHandle
@@ -117,7 +117,7 @@ FfiOpaqueHandle
 library_foobar_ListOf_Date_std_2chrono_2steady_1clock_2time_1point_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<std::vector<std::chrono::steady_clock::time_point>>(
+        new (std::nothrow) std::optional<std::vector<std::chrono::steady_clock::time_point>>(
             gluecodium::ffi::Conversion<std::vector<std::chrono::steady_clock::time_point>>::toCpp(value)
         )
     );
@@ -125,13 +125,13 @@ library_foobar_ListOf_Date_std_2chrono_2steady_1clock_2time_1point_create_handle
 void
 library_foobar_ListOf_Date_std_2chrono_2steady_1clock_2time_1point_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<std::vector<std::chrono::steady_clock::time_point>>*>(handle);
+    delete reinterpret_cast<std::optional<std::vector<std::chrono::steady_clock::time_point>>*>(handle);
 }
 FfiOpaqueHandle
 library_foobar_ListOf_Date_std_2chrono_2steady_1clock_2time_1point_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::vector<std::chrono::steady_clock::time_point>>::toFfi(
-        **reinterpret_cast<gluecodium::optional<std::vector<std::chrono::steady_clock::time_point>>*>(handle)
+        **reinterpret_cast<std::optional<std::vector<std::chrono::steady_clock::time_point>>*>(handle)
     );
 }
 FfiOpaqueHandle
@@ -184,7 +184,7 @@ FfiOpaqueHandle
 library_foobar_MapOf_Date_std_2chrono_2steady_1clock_2time_1point_to_String_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<std::unordered_map<std::chrono::steady_clock::time_point, std::string, gluecodium::hash<std::chrono::steady_clock::time_point>>>(
+        new (std::nothrow) std::optional<std::unordered_map<std::chrono::steady_clock::time_point, std::string, gluecodium::hash<std::chrono::steady_clock::time_point>>>(
             gluecodium::ffi::Conversion<std::unordered_map<std::chrono::steady_clock::time_point, std::string, gluecodium::hash<std::chrono::steady_clock::time_point>>>::toCpp(value)
         )
     );
@@ -192,13 +192,13 @@ library_foobar_MapOf_Date_std_2chrono_2steady_1clock_2time_1point_to_String_crea
 void
 library_foobar_MapOf_Date_std_2chrono_2steady_1clock_2time_1point_to_String_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<std::unordered_map<std::chrono::steady_clock::time_point, std::string, gluecodium::hash<std::chrono::steady_clock::time_point>>>*>(handle);
+    delete reinterpret_cast<std::optional<std::unordered_map<std::chrono::steady_clock::time_point, std::string, gluecodium::hash<std::chrono::steady_clock::time_point>>>*>(handle);
 }
 FfiOpaqueHandle
 library_foobar_MapOf_Date_std_2chrono_2steady_1clock_2time_1point_to_String_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_map<std::chrono::steady_clock::time_point, std::string, gluecodium::hash<std::chrono::steady_clock::time_point>>>::toFfi(
-        **reinterpret_cast<gluecodium::optional<std::unordered_map<std::chrono::steady_clock::time_point, std::string, gluecodium::hash<std::chrono::steady_clock::time_point>>>*>(handle)
+        **reinterpret_cast<std::optional<std::unordered_map<std::chrono::steady_clock::time_point, std::string, gluecodium::hash<std::chrono::steady_clock::time_point>>>*>(handle)
     );
 }
 FfiOpaqueHandle
@@ -251,7 +251,7 @@ FfiOpaqueHandle
 library_foobar_MapOf_String_to_Date_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<std::unordered_map<std::string, std::chrono::system_clock::time_point>>(
+        new (std::nothrow) std::optional<std::unordered_map<std::string, std::chrono::system_clock::time_point>>(
             gluecodium::ffi::Conversion<std::unordered_map<std::string, std::chrono::system_clock::time_point>>::toCpp(value)
         )
     );
@@ -259,13 +259,13 @@ library_foobar_MapOf_String_to_Date_create_handle_nullable(FfiOpaqueHandle value
 void
 library_foobar_MapOf_String_to_Date_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<std::unordered_map<std::string, std::chrono::system_clock::time_point>>*>(handle);
+    delete reinterpret_cast<std::optional<std::unordered_map<std::string, std::chrono::system_clock::time_point>>*>(handle);
 }
 FfiOpaqueHandle
 library_foobar_MapOf_String_to_Date_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_map<std::string, std::chrono::system_clock::time_point>>::toFfi(
-        **reinterpret_cast<gluecodium::optional<std::unordered_map<std::string, std::chrono::system_clock::time_point>>*>(handle)
+        **reinterpret_cast<std::optional<std::unordered_map<std::string, std::chrono::system_clock::time_point>>*>(handle)
     );
 }
 FfiOpaqueHandle
@@ -311,7 +311,7 @@ FfiOpaqueHandle
 library_foobar_SetOf_Date_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<std::unordered_set<std::chrono::system_clock::time_point, gluecodium::hash<std::chrono::system_clock::time_point>>>(
+        new (std::nothrow) std::optional<std::unordered_set<std::chrono::system_clock::time_point, gluecodium::hash<std::chrono::system_clock::time_point>>>(
             gluecodium::ffi::Conversion<std::unordered_set<std::chrono::system_clock::time_point, gluecodium::hash<std::chrono::system_clock::time_point>>>::toCpp(value)
         )
     );
@@ -319,13 +319,13 @@ library_foobar_SetOf_Date_create_handle_nullable(FfiOpaqueHandle value)
 void
 library_foobar_SetOf_Date_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<std::unordered_set<std::chrono::system_clock::time_point, gluecodium::hash<std::chrono::system_clock::time_point>>>*>(handle);
+    delete reinterpret_cast<std::optional<std::unordered_set<std::chrono::system_clock::time_point, gluecodium::hash<std::chrono::system_clock::time_point>>>*>(handle);
 }
 FfiOpaqueHandle
 library_foobar_SetOf_Date_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_set<std::chrono::system_clock::time_point, gluecodium::hash<std::chrono::system_clock::time_point>>>::toFfi(
-        **reinterpret_cast<gluecodium::optional<std::unordered_set<std::chrono::system_clock::time_point, gluecodium::hash<std::chrono::system_clock::time_point>>>*>(handle)
+        **reinterpret_cast<std::optional<std::unordered_set<std::chrono::system_clock::time_point, gluecodium::hash<std::chrono::system_clock::time_point>>>*>(handle)
     );
 }
 #ifdef __cplusplus

@@ -5,10 +5,10 @@
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
 #include "gluecodium/Locale.h"
-#include "gluecodium/Optional.h"
 #include "smoke/Locales.h"
 #include <memory>
 #include <new>
+#include <optional>
 void smoke_Locales_release_handle(_baseRef handle) {
     delete get_pointer<::std::shared_ptr< ::smoke::Locales >>(handle);
 }
@@ -54,17 +54,17 @@ smoke_Locales_LocaleStruct_release_handle( _baseRef handle )
 _baseRef
 smoke_Locales_LocaleStruct_create_optional_handle(_baseRef localeField)
 {
-    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::Locales::LocaleStruct>( ::smoke::Locales::LocaleStruct( ) );
+    auto _struct = new ( ::std::nothrow ) std::optional<::smoke::Locales::LocaleStruct>( ::smoke::Locales::LocaleStruct( ) );
     (*_struct)->locale_field = Conversion<::gluecodium::Locale>::toCpp( localeField );
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_Locales_LocaleStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::Locales::LocaleStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::smoke::Locales::LocaleStruct>*>( handle ) );
 }
 void smoke_Locales_LocaleStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::smoke::Locales::LocaleStruct>*>( handle );
+    delete reinterpret_cast<std::optional<::smoke::Locales::LocaleStruct>*>( handle );
 }
 _baseRef smoke_Locales_LocaleStruct_localeField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::Locales::LocaleStruct>(handle);

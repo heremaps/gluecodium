@@ -96,7 +96,7 @@ FfiOpaqueHandle
 library_smoke_Structs_ExternalStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<smoke::Structs::ExternalStruct>(
+        new (std::nothrow) std::optional<smoke::Structs::ExternalStruct>(
             *reinterpret_cast<smoke::Structs::ExternalStruct*>(value)
         )
     );
@@ -104,13 +104,13 @@ library_smoke_Structs_ExternalStruct_create_handle_nullable(FfiOpaqueHandle valu
 void
 library_smoke_Structs_ExternalStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<smoke::Structs::ExternalStruct>*>(handle);
+    delete reinterpret_cast<std::optional<smoke::Structs::ExternalStruct>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_Structs_ExternalStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) smoke::Structs::ExternalStruct(
-        **reinterpret_cast<gluecodium::optional<smoke::Structs::ExternalStruct>*>(handle)
+        **reinterpret_cast<std::optional<smoke::Structs::ExternalStruct>*>(handle)
     ));
 }
 FfiOpaqueHandle
@@ -133,7 +133,7 @@ FfiOpaqueHandle
 library_smoke_Structs_AnotherExternalStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<fire::SomeVeryExternalStruct>(
+        new (std::nothrow) std::optional<fire::SomeVeryExternalStruct>(
             *reinterpret_cast<fire::SomeVeryExternalStruct*>(value)
         )
     );
@@ -141,13 +141,13 @@ library_smoke_Structs_AnotherExternalStruct_create_handle_nullable(FfiOpaqueHand
 void
 library_smoke_Structs_AnotherExternalStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<fire::SomeVeryExternalStruct>*>(handle);
+    delete reinterpret_cast<std::optional<fire::SomeVeryExternalStruct>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_Structs_AnotherExternalStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) fire::SomeVeryExternalStruct(
-        **reinterpret_cast<gluecodium::optional<fire::SomeVeryExternalStruct>*>(handle)
+        **reinterpret_cast<std::optional<fire::SomeVeryExternalStruct>*>(handle)
     ));
 }
 #ifdef __cplusplus
