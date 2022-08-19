@@ -84,12 +84,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::S
         (::smoke::Structs::Point*)nullptr );
     return ::smoke::Structs::AllTypesStruct(std::move(n_int8_field), std::move(n_uint8_field), std::move(n_int16_field), std::move(n_uint16_field), std::move(n_int32_field), std::move(n_uint32_field), std::move(n_int64_field), std::move(n_uint64_field), std::move(n_float_field), std::move(n_double_field), std::move(n_string_field), std::move(n_boolean_field), std::move(n_bytes_field), std::move(n_point_field));
 }
-std::optional<::smoke::Structs::AllTypesStruct>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::optional<::smoke::Structs::AllTypesStruct>*)
+::gluecodium::optional<::smoke::Structs::AllTypesStruct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::Structs::AllTypesStruct>*)
 {
     return _jinput
-        ? std::optional<::smoke::Structs::AllTypesStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::AllTypesStruct*)nullptr))
-        : std::optional<::smoke::Structs::AllTypesStruct>{};
+        ? ::gluecodium::optional<::smoke::Structs::AllTypesStruct>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::AllTypesStruct*)nullptr))
+        : ::gluecodium::optional<::smoke::Structs::AllTypesStruct>{};
 }
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/Structs$AllTypesStruct", com_example_smoke_Structs_00024AllTypesStruct, ::smoke::Structs::AllTypesStruct)
 JniReference<jobject>
@@ -115,7 +115,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::AllTypesStruct& _ninput)
     return _jresult;
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::optional<::smoke::Structs::AllTypesStruct> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::smoke::Structs::AllTypesStruct> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

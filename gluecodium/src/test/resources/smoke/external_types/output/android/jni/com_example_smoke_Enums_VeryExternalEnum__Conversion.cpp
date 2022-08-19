@@ -15,12 +15,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::fire::So
     return ::fire::SomeVeryExternalEnum(
         ::gluecodium::jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
 }
-std::optional<::fire::SomeVeryExternalEnum>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::optional<::fire::SomeVeryExternalEnum>*)
+::gluecodium::optional<::fire::SomeVeryExternalEnum>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::fire::SomeVeryExternalEnum>*)
 {
     return _jinput
-        ? std::optional<::fire::SomeVeryExternalEnum>(convert_from_jni(_jenv, _jinput, (::fire::SomeVeryExternalEnum*)nullptr))
-        : std::optional<::fire::SomeVeryExternalEnum>{};
+        ? ::gluecodium::optional<::fire::SomeVeryExternalEnum>(convert_from_jni(_jenv, _jinput, (::fire::SomeVeryExternalEnum*)nullptr))
+        : ::gluecodium::optional<::fire::SomeVeryExternalEnum>{};
 }
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/Enums$VeryExternalEnum", com_example_smoke_Enums_00024VeryExternalEnum, ::fire::SomeVeryExternalEnum)
 JniReference<jobject>
@@ -40,7 +40,7 @@ convert_to_jni(JNIEnv* _jenv, const ::fire::SomeVeryExternalEnum _ninput)
     return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::optional<::fire::SomeVeryExternalEnum> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::fire::SomeVeryExternalEnum> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

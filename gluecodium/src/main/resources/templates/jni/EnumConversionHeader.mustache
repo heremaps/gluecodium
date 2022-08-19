@@ -26,7 +26,7 @@
 {{>common/Include}}
 {{/includes}}
 #include "JniReference.h"
-#include <optional>
+#include "{{>common/InternalInclude}}Optional.h"
 
 {{#internalNamespace}}
 namespace {{.}}
@@ -36,9 +36,9 @@ namespace jni
 {
 {{#enum}}
 JNIEXPORT {{resolveName "C++ FQN"}} convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{resolveName "C++ FQN"}}*);
-JNIEXPORT std::optional<{{resolveName "C++ FQN"}}> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::optional<{{resolveName "C++ FQN"}}>*);
+JNIEXPORT {{>common/InternalNamespace}}optional<{{resolveName "C++ FQN"}}> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{>common/InternalNamespace}}optional<{{resolveName "C++ FQN"}}>*);
 JNIEXPORT JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{resolveName "C++ FQN"}} _ninput);
-JNIEXPORT JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const std::optional<{{resolveName "C++ FQN"}}> _ninput);
+JNIEXPORT JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{>common/InternalNamespace}}optional<{{resolveName "C++ FQN"}}> _ninput);
 {{/enum}}
 }
 {{#internalNamespace}}

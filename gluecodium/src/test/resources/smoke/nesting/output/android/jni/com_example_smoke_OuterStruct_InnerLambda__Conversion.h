@@ -5,8 +5,8 @@
 #include "smoke/OuterStruct.h"
 #include <functional>
 #include "JniReference.h"
+#include "gluecodium/Optional.h"
 #include <memory>
-#include <optional>
 namespace gluecodium
 {
 namespace jni

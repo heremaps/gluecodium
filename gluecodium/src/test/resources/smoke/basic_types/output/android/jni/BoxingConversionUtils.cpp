@@ -185,180 +185,180 @@ convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint64_t* )
     return unbox_long_value( env, jvalue );
 }
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::optional<bool> nvalue )
+convert_to_jni( JNIEnv* env, ::gluecodium::optional<bool> nvalue )
 {
     return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
 }
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::optional<float> nvalue )
+convert_to_jni( JNIEnv* env, ::gluecodium::optional<float> nvalue )
 {
     return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
 }
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::optional<double> nvalue )
+convert_to_jni( JNIEnv* env, ::gluecodium::optional<double> nvalue )
 {
     return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
 }
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::optional<int8_t> nvalue )
+convert_to_jni( JNIEnv* env, ::gluecodium::optional<int8_t> nvalue )
 {
     return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
 }
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::optional<int16_t> nvalue )
+convert_to_jni( JNIEnv* env, ::gluecodium::optional<int16_t> nvalue )
 {
     return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
 }
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::optional<int32_t> nvalue )
+convert_to_jni( JNIEnv* env, ::gluecodium::optional<int32_t> nvalue )
 {
     return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
 }
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::optional<int64_t> nvalue )
+convert_to_jni( JNIEnv* env, ::gluecodium::optional<int64_t> nvalue )
 {
     return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
 }
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::optional<uint8_t> nvalue )
+convert_to_jni( JNIEnv* env, ::gluecodium::optional<uint8_t> nvalue )
 {
     return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
 }
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::optional<uint16_t> nvalue )
+convert_to_jni( JNIEnv* env, ::gluecodium::optional<uint16_t> nvalue )
 {
     return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
 }
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::optional<uint32_t> nvalue )
+convert_to_jni( JNIEnv* env, ::gluecodium::optional<uint32_t> nvalue )
 {
     return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
 }
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::optional<uint64_t> nvalue )
+convert_to_jni( JNIEnv* env, ::gluecodium::optional<uint64_t> nvalue )
 {
     return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
 }
-std::optional<bool>
+::gluecodium::optional<bool>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<bool>* )
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::gluecodium::optional<bool>* )
 {
     if ( !jvalue )
     {
         return {};
     }
     auto unboxedValue = call_java_method<jboolean>( env, jvalue, "booleanValue", "()Z" );
-    return std::optional<bool>( unboxedValue );
+    return ::gluecodium::optional<bool>( unboxedValue );
 }
-std::optional<float>
+::gluecodium::optional<float>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<float>* )
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::gluecodium::optional<float>* )
 {
     if ( !jvalue )
     {
         return {};
     }
     auto unboxedValue = call_java_method<jfloat>( env, jvalue, "floatValue", "()F" );
-    return std::optional<float>( unboxedValue );
+    return ::gluecodium::optional<float>( unboxedValue );
 }
-std::optional<double>
+::gluecodium::optional<double>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<double>* )
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::gluecodium::optional<double>* )
 {
     if ( !jvalue )
     {
         return {};
     }
     auto unboxedValue = call_java_method<jdouble>( env, jvalue, "doubleValue", "()D" );
-    return std::optional<double>( unboxedValue );
+    return ::gluecodium::optional<double>( unboxedValue );
 }
-std::optional<int8_t>
+::gluecodium::optional<int8_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<int8_t>* )
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::gluecodium::optional<int8_t>* )
 {
     if ( !jvalue )
     {
         return {};
     }
     auto unboxedValue = call_java_method<int8_t>( env, jvalue, "byteValue", "()B" );
-    return std::optional<int8_t>( unboxedValue );
+    return ::gluecodium::optional<int8_t>( unboxedValue );
 }
-std::optional<int16_t>
+::gluecodium::optional<int16_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<int16_t>* )
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::gluecodium::optional<int16_t>* )
 {
     if ( !jvalue )
     {
         return {};
     }
     auto unboxedValue = call_java_method<int16_t>( env, jvalue, "shortValue", "()S" );
-    return std::optional<int16_t>( unboxedValue );
+    return ::gluecodium::optional<int16_t>( unboxedValue );
 }
-std::optional<int32_t>
+::gluecodium::optional<int32_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<int32_t>* )
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::gluecodium::optional<int32_t>* )
 {
     if ( !jvalue )
     {
         return {};
     }
     auto unboxedValue = call_java_method<int32_t>( env, jvalue, "intValue", "()I" );
-    return std::optional<int32_t>( unboxedValue );
+    return ::gluecodium::optional<int32_t>( unboxedValue );
 }
-std::optional<int64_t>
+::gluecodium::optional<int64_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<int64_t>* )
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::gluecodium::optional<int64_t>* )
 {
     if ( !jvalue )
     {
         return {};
     }
     auto unboxedValue = call_java_method<int64_t>( env, jvalue, "longValue", "()J" );
-    return std::optional<int64_t>( unboxedValue );
+    return ::gluecodium::optional<int64_t>( unboxedValue );
 }
-std::optional<uint8_t>
+::gluecodium::optional<uint8_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<uint8_t>* )
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::gluecodium::optional<uint8_t>* )
 {
     if ( !jvalue )
     {
         return {};
     }
     auto unboxedValue = call_java_method<int16_t>( env, jvalue, "shortValue", "()S" );
-    return std::optional<uint8_t>( static_cast<uint8_t>( unboxedValue ) );
+    return ::gluecodium::optional<uint8_t>( static_cast<uint8_t>( unboxedValue ) );
 }
-std::optional<uint16_t>
+::gluecodium::optional<uint16_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<uint16_t>* )
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::gluecodium::optional<uint16_t>* )
 {
     if ( !jvalue )
     {
         return {};
     }
     auto unboxedValue = call_java_method<int32_t>( env, jvalue, "intValue", "()I" );
-    return std::optional<uint16_t>( static_cast<uint16_t>( unboxedValue ) );
+    return ::gluecodium::optional<uint16_t>( static_cast<uint16_t>( unboxedValue ) );
 }
-std::optional<uint32_t>
+::gluecodium::optional<uint32_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<uint32_t>* )
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::gluecodium::optional<uint32_t>* )
 {
     if ( !jvalue )
     {
         return {};
     }
     auto unboxedValue = call_java_method<int64_t>( env, jvalue, "longValue", "()J" );
-    return std::optional<uint32_t>( static_cast<uint32_t>( unboxedValue ) );
+    return ::gluecodium::optional<uint32_t>( static_cast<uint32_t>( unboxedValue ) );
 }
-std::optional<uint64_t>
+::gluecodium::optional<uint64_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<uint64_t>* )
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::gluecodium::optional<uint64_t>* )
 {
     if ( !jvalue )
     {
         return {};
     }
     auto unboxedValue = call_java_method<int64_t>( env, jvalue, "longValue", "()J" );
-    return std::optional<uint64_t>( static_cast<uint64_t>( unboxedValue ) );
+    return ::gluecodium::optional<uint64_t>( static_cast<uint64_t>( unboxedValue ) );
 }
 }
 }

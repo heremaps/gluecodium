@@ -186,7 +186,7 @@ FfiOpaqueHandle
 library_smoke_Properties_ExampleStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::Properties::ExampleStruct>(
+        new (std::nothrow) gluecodium::optional<smoke::Properties::ExampleStruct>(
             gluecodium::ffi::Conversion<smoke::Properties::ExampleStruct>::toCpp(value)
         )
     );
@@ -194,20 +194,20 @@ library_smoke_Properties_ExampleStruct_create_handle_nullable(FfiOpaqueHandle va
 void
 library_smoke_Properties_ExampleStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::Properties::ExampleStruct>*>(handle);
+    delete reinterpret_cast<gluecodium::optional<smoke::Properties::ExampleStruct>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_Properties_ExampleStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::Properties::ExampleStruct>::toFfi(
-        **reinterpret_cast<std::optional<smoke::Properties::ExampleStruct>*>(handle)
+        **reinterpret_cast<gluecodium::optional<smoke::Properties::ExampleStruct>*>(handle)
     );
 }
 FfiOpaqueHandle
 library_smoke_Properties_InternalErrorCode_create_handle_nullable(uint32_t value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::Properties::InternalErrorCode>(
+        new (std::nothrow) gluecodium::optional<smoke::Properties::InternalErrorCode>(
             gluecodium::ffi::Conversion<smoke::Properties::InternalErrorCode>::toCpp(value)
         )
     );
@@ -215,13 +215,13 @@ library_smoke_Properties_InternalErrorCode_create_handle_nullable(uint32_t value
 void
 library_smoke_Properties_InternalErrorCode_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::Properties::InternalErrorCode>*>(handle);
+    delete reinterpret_cast<gluecodium::optional<smoke::Properties::InternalErrorCode>*>(handle);
 }
 uint32_t
 library_smoke_Properties_InternalErrorCode_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::Properties::InternalErrorCode>::toFfi(
-        **reinterpret_cast<std::optional<smoke::Properties::InternalErrorCode>*>(handle)
+        **reinterpret_cast<gluecodium::optional<smoke::Properties::InternalErrorCode>*>(handle)
     );
 }
 #ifdef __cplusplus

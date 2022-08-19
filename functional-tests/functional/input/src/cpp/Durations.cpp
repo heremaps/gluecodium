@@ -32,8 +32,8 @@ DurationSeconds::increase_duration(const seconds input) {
     return input + seconds(1);
 }
 
-std::optional<seconds>
-DurationSeconds::increase_duration_maybe(const std::optional<seconds>& input) {
+lorem_ipsum::test::optional<seconds>
+DurationSeconds::increase_duration_maybe(const lorem_ipsum::test::optional<seconds>& input) {
     return input ? *input + seconds(1) : input;
 }
 
@@ -47,8 +47,8 @@ DurationMilliseconds::increase_duration(const milliseconds input) {
     return input + seconds(1);
 }
 
-std::optional<milliseconds>
-DurationMilliseconds::increase_duration_maybe(const std::optional<milliseconds>& input) {
+lorem_ipsum::test::optional<milliseconds>
+DurationMilliseconds::increase_duration_maybe(const lorem_ipsum::test::optional<milliseconds>& input) {
     return input ? *input + seconds(1) : input;
 }
 

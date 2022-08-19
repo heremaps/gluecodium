@@ -29,8 +29,8 @@
 #include "JniCallJavaMethod.h"
 {{/ifPredicate}}
 #include "JniReference.h"
+#include "{{>common/InternalInclude}}Optional.h"
 #include <memory>
-#include <optional>
 {{#ifPredicate model "hasOverloadedLambda"}}
 #include <unordered_map>
 #include <vector>

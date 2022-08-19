@@ -20,12 +20,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::S
         (::std::string*)nullptr );
     return ::smoke::Structs::ImmutableStructWithCppAccessors(std::move(n_string_field));
 }
-std::optional<::smoke::Structs::ImmutableStructWithCppAccessors>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::optional<::smoke::Structs::ImmutableStructWithCppAccessors>*)
+::gluecodium::optional<::smoke::Structs::ImmutableStructWithCppAccessors>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::Structs::ImmutableStructWithCppAccessors>*)
 {
     return _jinput
-        ? std::optional<::smoke::Structs::ImmutableStructWithCppAccessors>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::ImmutableStructWithCppAccessors*)nullptr))
-        : std::optional<::smoke::Structs::ImmutableStructWithCppAccessors>{};
+        ? ::gluecodium::optional<::smoke::Structs::ImmutableStructWithCppAccessors>(convert_from_jni(_jenv, _jinput, (::smoke::Structs::ImmutableStructWithCppAccessors*)nullptr))
+        : ::gluecodium::optional<::smoke::Structs::ImmutableStructWithCppAccessors>{};
 }
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/Structs$ImmutableStructWithCppAccessors", com_example_smoke_Structs_00024ImmutableStructWithCppAccessors, ::smoke::Structs::ImmutableStructWithCppAccessors)
 JniReference<jobject>
@@ -37,7 +37,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::ImmutableStructWithCppAcce
     return _jresult;
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::optional<::smoke::Structs::ImmutableStructWithCppAccessors> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::smoke::Structs::ImmutableStructWithCppAccessors> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

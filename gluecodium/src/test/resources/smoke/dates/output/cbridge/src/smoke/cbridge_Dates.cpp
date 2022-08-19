@@ -4,13 +4,13 @@
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
+#include "gluecodium/Optional.h"
 #include "gluecodium/TimePointHash.h"
 #include "gluecodium/UnorderedSetHash.h"
 #include "smoke/Dates.h"
 #include <chrono>
 #include <memory>
 #include <new>
-#include <optional>
 #include <unordered_set>
 void smoke_Dates_release_handle(_baseRef handle) {
     delete get_pointer<::std::shared_ptr< ::smoke::Dates >>(handle);
@@ -37,7 +37,7 @@ double smoke_Dates_dateMethod(_baseRef _instance, double input) {
     return Conversion<::std::chrono::system_clock::time_point>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::Dates >>(_instance)->get()->date_method(Conversion<::std::chrono::system_clock::time_point>::toCpp(input)));
 }
 _baseRef smoke_Dates_nullableDateMethod(_baseRef _instance, _baseRef input) {
-    return Conversion<std::optional< ::std::chrono::system_clock::time_point >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::Dates >>(_instance)->get()->nullable_date_method(Conversion<std::optional< ::std::chrono::system_clock::time_point >>::toCpp(input)));
+    return Conversion<::gluecodium::optional< ::std::chrono::system_clock::time_point >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::Dates >>(_instance)->get()->nullable_date_method(Conversion<::gluecodium::optional< ::std::chrono::system_clock::time_point >>::toCpp(input)));
 }
 double smoke_Dates_dateProperty_get(_baseRef _instance) {
     return Conversion<::std::chrono::system_clock::time_point>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::Dates >>(_instance)->get()->get_date_property());
@@ -56,7 +56,7 @@ smoke_Dates_DateStruct_create_handle( double dateField, _baseRef nullableDateFie
 {
     ::smoke::Dates::DateStruct* _struct = new ( ::std::nothrow ) ::smoke::Dates::DateStruct();
     _struct->date_field = Conversion<::std::chrono::system_clock::time_point>::toCpp( dateField );
-    _struct->nullable_date_field = Conversion<std::optional< ::std::chrono::system_clock::time_point >>::toCpp( nullableDateField );
+    _struct->nullable_date_field = Conversion<::gluecodium::optional< ::std::chrono::system_clock::time_point >>::toCpp( nullableDateField );
     return reinterpret_cast<_baseRef>( _struct );
 }
 void
@@ -67,18 +67,18 @@ smoke_Dates_DateStruct_release_handle( _baseRef handle )
 _baseRef
 smoke_Dates_DateStruct_create_optional_handle(double dateField, _baseRef nullableDateField)
 {
-    auto _struct = new ( ::std::nothrow ) std::optional<::smoke::Dates::DateStruct>( ::smoke::Dates::DateStruct( ) );
+    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::Dates::DateStruct>( ::smoke::Dates::DateStruct( ) );
     (*_struct)->date_field = Conversion<::std::chrono::system_clock::time_point>::toCpp( dateField );
-    (*_struct)->nullable_date_field = Conversion<std::optional< ::std::chrono::system_clock::time_point >>::toCpp( nullableDateField );
+    (*_struct)->nullable_date_field = Conversion<::gluecodium::optional< ::std::chrono::system_clock::time_point >>::toCpp( nullableDateField );
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_Dates_DateStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::smoke::Dates::DateStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::Dates::DateStruct>*>( handle ) );
 }
 void smoke_Dates_DateStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::smoke::Dates::DateStruct>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::smoke::Dates::DateStruct>*>( handle );
 }
 double smoke_Dates_DateStruct_dateField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::Dates::DateStruct>(handle);
@@ -86,5 +86,5 @@ double smoke_Dates_DateStruct_dateField_get(_baseRef handle) {
 }
 _baseRef smoke_Dates_DateStruct_nullableDateField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::Dates::DateStruct>(handle);
-    return Conversion<std::optional< ::std::chrono::system_clock::time_point >>::toBaseRef(struct_pointer->nullable_date_field);
+    return Conversion<::gluecodium::optional< ::std::chrono::system_clock::time_point >>::toBaseRef(struct_pointer->nullable_date_field);
 }

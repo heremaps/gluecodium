@@ -34,7 +34,7 @@ FfiOpaqueHandle
 library_smoke_SkipFieldInPlatformImmutable_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::SkipFieldInPlatformImmutable>(
+        new (std::nothrow) gluecodium::optional<smoke::SkipFieldInPlatformImmutable>(
             gluecodium::ffi::Conversion<smoke::SkipFieldInPlatformImmutable>::toCpp(value)
         )
     );
@@ -42,13 +42,13 @@ library_smoke_SkipFieldInPlatformImmutable_create_handle_nullable(FfiOpaqueHandl
 void
 library_smoke_SkipFieldInPlatformImmutable_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::SkipFieldInPlatformImmutable>*>(handle);
+    delete reinterpret_cast<gluecodium::optional<smoke::SkipFieldInPlatformImmutable>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_SkipFieldInPlatformImmutable_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::SkipFieldInPlatformImmutable>::toFfi(
-        **reinterpret_cast<std::optional<smoke::SkipFieldInPlatformImmutable>*>(handle)
+        **reinterpret_cast<gluecodium::optional<smoke::SkipFieldInPlatformImmutable>*>(handle)
     );
 }
 #ifdef __cplusplus

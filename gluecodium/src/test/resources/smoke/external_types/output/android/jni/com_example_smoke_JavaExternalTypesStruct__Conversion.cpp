@@ -35,12 +35,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::J
         (::smoke::Season*)nullptr );
     return ::smoke::JavaExternalTypesStruct(std::move(n_currency), std::move(n_time_zone), std::move(n_month), std::move(n_color), std::move(n_season));
 }
-std::optional<::smoke::JavaExternalTypesStruct>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::optional<::smoke::JavaExternalTypesStruct>*)
+::gluecodium::optional<::smoke::JavaExternalTypesStruct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::JavaExternalTypesStruct>*)
 {
     return _jinput
-        ? std::optional<::smoke::JavaExternalTypesStruct>(convert_from_jni(_jenv, _jinput, (::smoke::JavaExternalTypesStruct*)nullptr))
-        : std::optional<::smoke::JavaExternalTypesStruct>{};
+        ? ::gluecodium::optional<::smoke::JavaExternalTypesStruct>(convert_from_jni(_jenv, _jinput, (::smoke::JavaExternalTypesStruct*)nullptr))
+        : ::gluecodium::optional<::smoke::JavaExternalTypesStruct>{};
 }
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/JavaExternalTypesStruct", com_example_smoke_JavaExternalTypesStruct, ::smoke::JavaExternalTypesStruct)
 JniReference<jobject>
@@ -61,7 +61,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::JavaExternalTypesStruct& _ninput)
     return _jresult;
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::optional<::smoke::JavaExternalTypesStruct> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::smoke::JavaExternalTypesStruct> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

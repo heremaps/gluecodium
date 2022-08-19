@@ -6,10 +6,10 @@
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
 #include "foo/Bar.h"
+#include "gluecodium/Optional.h"
 #include <cstdint>
 #include <memory>
 #include <new>
-#include <optional>
 #include <string>
 void smoke_ExternalClass_release_handle(_baseRef handle) {
     delete get_pointer<::std::shared_ptr< ::fire::Baz >>(handle);
@@ -53,17 +53,17 @@ smoke_ExternalClass_SomeStruct_release_handle( _baseRef handle )
 _baseRef
 smoke_ExternalClass_SomeStruct_create_optional_handle(_baseRef someField)
 {
-    auto _struct = new ( ::std::nothrow ) std::optional<::fire::Baz::some_Struct>( ::fire::Baz::some_Struct( ) );
+    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::fire::Baz::some_Struct>( ::fire::Baz::some_Struct( ) );
     (*_struct)->some_Field = Conversion<::std::string>::toCpp( someField );
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_ExternalClass_SomeStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::fire::Baz::some_Struct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::fire::Baz::some_Struct>*>( handle ) );
 }
 void smoke_ExternalClass_SomeStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::fire::Baz::some_Struct>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::fire::Baz::some_Struct>*>( handle );
 }
 _baseRef smoke_ExternalClass_SomeStruct_someField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::fire::Baz::some_Struct>(handle);

@@ -18,15 +18,15 @@
   ! License-Filename: LICENSE
   !
   !}}
-JNIEXPORT std::optional<{{resolveName "C++ FQN"}}> {{resolveName "mangled"}}_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::optional<{{resolveName "C++ FQN"}}>*);
-JNIEXPORT JniReference<jobject> {{resolveName "mangled"}}_convert_to_jni(JNIEnv* _env, const std::optional<{{resolveName "C++ FQN"}}>& _ninput);
+JNIEXPORT optional<{{resolveName "C++ FQN"}}> {{resolveName "mangled"}}_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, optional<{{resolveName "C++ FQN"}}>*);
+JNIEXPORT JniReference<jobject> {{resolveName "mangled"}}_convert_to_jni(JNIEnv* _env, const optional<{{resolveName "C++ FQN"}}>& _ninput);
 
 // Functions to create ArrayLists from C++ vectors and vice versa, for overloaded lambdas.
 
 JNIEXPORT JniReference<jobject> {{resolveName "mangled"}}_convert_to_jni(JNIEnv* _env, const std::vector<{{resolveName "C++ FQN"}}>& _ninput);
-JNIEXPORT JniReference<jobject> {{resolveName "mangled"}}_convert_to_jni(JNIEnv* _env, const std::optional<std::vector<{{resolveName "C++ FQN"}}>>& _ninput);
+JNIEXPORT JniReference<jobject> {{resolveName "mangled"}}_convert_to_jni(JNIEnv* _env, const optional<std::vector<{{resolveName "C++ FQN"}}>>& _ninput);
 JNIEXPORT std::vector<{{resolveName "C++ FQN"}}> {{resolveName "mangled"}}_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, std::vector<{{resolveName "C++ FQN"}}>*);
-JNIEXPORT std::optional<std::vector<{{resolveName "C++ FQN"}}>> {{resolveName "mangled"}}_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, std::optional<std::vector<{{resolveName "C++ FQN"}}>>*);
+JNIEXPORT optional<std::vector<{{resolveName "C++ FQN"}}>> {{resolveName "mangled"}}_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, optional<std::vector<{{resolveName "C++ FQN"}}>>*);
 
 // Templated functions to create HashMaps from C++ unordered_maps and vice versa, for overloaded lambdas as values.
 
@@ -48,7 +48,7 @@ JniReference<jobject>
 
 template <typename K, typename Hash>
 JniReference<jobject>
-{{resolveName "mangled"}}_convert_to_jni(JNIEnv* _env, const std::optional<std::unordered_map<K, {{resolveName "C++ FQN"}}, Hash>>& _ninput) {
+{{resolveName "mangled"}}_convert_to_jni(JNIEnv* _env, const optional<std::unordered_map<K, {{resolveName "C++ FQN"}}, Hash>>& _ninput) {
     return _ninput ? {{resolveName "mangled"}}_convert_to_jni(_env, *_ninput) : JniReference<jobject>{};
 }
 
@@ -94,13 +94,13 @@ std::unordered_map<K, {{resolveName "C++ FQN"}}, Hash>
 }
 
 template<typename K, typename Hash>
-std::optional<std::unordered_map<K, {{resolveName "C++ FQN"}}, Hash>>
+optional<std::unordered_map<K, {{resolveName "C++ FQN"}}, Hash>>
 {{resolveName "mangled"}}_convert_from_jni(JNIEnv* _env,
                  const JniReference<jobject>& _jMap,
-                 std::optional<std::unordered_map<K, {{resolveName "C++ FQN"}}, Hash>>*)
+                 optional<std::unordered_map<K, {{resolveName "C++ FQN"}}, Hash>>*)
 {
     return _jMap
-        ? std::optional<std::unordered_map<K, {{resolveName "C++ FQN"}}, Hash>>(
+        ? optional<std::unordered_map<K, {{resolveName "C++ FQN"}}, Hash>>(
             {{resolveName "mangled"}}_convert_from_jni(_env, _jMap, (std::unordered_map<K, {{resolveName "C++ FQN"}}, Hash>*)nullptr)
-        ) : std::optional<std::unordered_map<K, {{resolveName "C++ FQN"}}, Hash>>{};
+        ) : optional<std::unordered_map<K, {{resolveName "C++ FQN"}}, Hash>>{};
 }

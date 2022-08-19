@@ -78,7 +78,7 @@ FfiOpaqueHandle
 library_smoke_Locales_LocaleStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::Locales::LocaleStruct>(
+        new (std::nothrow) gluecodium::optional<smoke::Locales::LocaleStruct>(
             gluecodium::ffi::Conversion<smoke::Locales::LocaleStruct>::toCpp(value)
         )
     );
@@ -86,13 +86,13 @@ library_smoke_Locales_LocaleStruct_create_handle_nullable(FfiOpaqueHandle value)
 void
 library_smoke_Locales_LocaleStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::Locales::LocaleStruct>*>(handle);
+    delete reinterpret_cast<gluecodium::optional<smoke::Locales::LocaleStruct>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_Locales_LocaleStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::Locales::LocaleStruct>::toFfi(
-        **reinterpret_cast<std::optional<smoke::Locales::LocaleStruct>*>(handle)
+        **reinterpret_cast<gluecodium::optional<smoke::Locales::LocaleStruct>*>(handle)
     );
 }
 #ifdef __cplusplus

@@ -3,10 +3,10 @@
 #include "cbridge/include/GenericCollections.h"
 #include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
+#include "gluecodium/Optional.h"
 #include "gluecodium/UnorderedMapHash.h"
 #include "gluecodium/UnorderedSetHash.h"
 #include "gluecodium/VectorHash.h"
-#include <optional>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -32,13 +32,13 @@ void foobar_ArrayOf__String_append( _baseRef handle, _baseRef item )
     Conversion<::std::vector< ::std::string >>::toCpp(handle).push_back(Conversion<::std::string>::toCpp(item));
 }
 _baseRef foobar_ArrayOf__String_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::vector< ::std::string >>( ::std::vector< ::std::string >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::std::string >>( ::std::vector< ::std::string >( ) ) );
 }
 void foobar_ArrayOf__String_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::vector< ::std::string >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::std::string >>*>( handle );
 }
 _baseRef foobar_ArrayOf__String_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::vector< ::std::string >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::std::string >>*>( handle ) );
 }
 _baseRef foobar_MapOf__String_To__String_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< ::std::string, ::std::string >() );
@@ -70,13 +70,13 @@ _baseRef foobar_MapOf__String_To__String_iterator_value(_baseRef iterator_handle
     return Conversion<::std::string>::toBaseRef(value);
 }
 _baseRef foobar_MapOf__String_To__String_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< ::std::string, ::std::string >>( ::std::unordered_map< ::std::string, ::std::string >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< ::std::string, ::std::string >>( ::std::unordered_map< ::std::string, ::std::string >( ) ) );
 }
 void foobar_MapOf__String_To__String_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_map< ::std::string, ::std::string >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::string, ::std::string >>*>( handle );
 }
 _baseRef foobar_MapOf__String_To__String_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< ::std::string, ::std::string >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::string, ::std::string >>*>( handle ) );
 }
 _baseRef foobar_MapOf_foobar_ArrayOf__String_To_foobar_SetOf__String_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< ::std::vector< ::std::string >, ::std::unordered_set< ::std::string >, ::gluecodium::hash< ::std::vector< ::std::string > > >() );
@@ -108,13 +108,13 @@ _baseRef foobar_MapOf_foobar_ArrayOf__String_To_foobar_SetOf__String_iterator_va
     return Conversion<::std::unordered_set< ::std::string >>::toBaseRef(value);
 }
 _baseRef foobar_MapOf_foobar_ArrayOf__String_To_foobar_SetOf__String_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< ::std::vector< ::std::string >, ::std::unordered_set< ::std::string >, ::gluecodium::hash< ::std::vector< ::std::string > > >>( ::std::unordered_map< ::std::vector< ::std::string >, ::std::unordered_set< ::std::string >, ::gluecodium::hash< ::std::vector< ::std::string > > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< ::std::vector< ::std::string >, ::std::unordered_set< ::std::string >, ::gluecodium::hash< ::std::vector< ::std::string > > >>( ::std::unordered_map< ::std::vector< ::std::string >, ::std::unordered_set< ::std::string >, ::gluecodium::hash< ::std::vector< ::std::string > > >( ) ) );
 }
 void foobar_MapOf_foobar_ArrayOf__String_To_foobar_SetOf__String_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_map< ::std::vector< ::std::string >, ::std::unordered_set< ::std::string >, ::gluecodium::hash< ::std::vector< ::std::string > > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::vector< ::std::string >, ::std::unordered_set< ::std::string >, ::gluecodium::hash< ::std::vector< ::std::string > > >>*>( handle );
 }
 _baseRef foobar_MapOf_foobar_ArrayOf__String_To_foobar_SetOf__String_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< ::std::vector< ::std::string >, ::std::unordered_set< ::std::string >, ::gluecodium::hash< ::std::vector< ::std::string > > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::vector< ::std::string >, ::std::unordered_set< ::std::string >, ::gluecodium::hash< ::std::vector< ::std::string > > >>*>( handle ) );
 }
 _baseRef foobar_SetOf__String_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set< ::std::string >() );
@@ -142,11 +142,11 @@ _baseRef foobar_SetOf__String_iterator_get(_baseRef iterator_handle) {
     return Conversion<::std::string>::referenceBaseRef(value);
 }
 _baseRef foobar_SetOf__String_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_set< ::std::string >>( ::std::unordered_set< ::std::string >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_set< ::std::string >>( ::std::unordered_set< ::std::string >( ) ) );
 }
 void foobar_SetOf__String_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_set< ::std::string >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_set< ::std::string >>*>( handle );
 }
 _baseRef foobar_SetOf__String_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_set< ::std::string >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_set< ::std::string >>*>( handle ) );
 }

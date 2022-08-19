@@ -86,12 +86,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput{{!!
     }}{{#unlessPredicate struct "hasImmutableFields"}}return _nout;{{/unlessPredicate}}
 }
 
-std::optional<{{resolveName "C++ FQN"}}>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::optional<{{resolveName "C++ FQN"}}>*)
+{{>common/InternalNamespace}}optional<{{resolveName "C++ FQN"}}>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, {{>common/InternalNamespace}}optional<{{resolveName "C++ FQN"}}>*)
 {
     return _jinput
-        ? std::optional<{{resolveName "C++ FQN"}}>(convert_from_jni(_jenv, _jinput, ({{resolveName "C++ FQN"}}*)nullptr))
-        : std::optional<{{resolveName "C++ FQN"}}>{};
+        ? {{>common/InternalNamespace}}optional<{{resolveName "C++ FQN"}}>(convert_from_jni(_jenv, _jinput, ({{resolveName "C++ FQN"}}*)nullptr))
+        : {{>common/InternalNamespace}}optional<{{resolveName "C++ FQN"}}>{};
 }
 
 REGISTER_JNI_CLASS_CACHE("{{resolveName this "" "ref"}}", {{resolveName this "mangled" "ref"}}, {{resolveName "C++ FQN"}})
@@ -116,7 +116,7 @@ convert_to_jni_internal(JNIEnv* _jenv, const {{resolveName "C++ FQN"}}& _ninput)
 {{/if}}
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::optional<{{resolveName "C++ FQN"}}> _ninput)
+convert_to_jni(JNIEnv* _jenv, const {{>common/InternalNamespace}}optional<{{resolveName "C++ FQN"}}> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

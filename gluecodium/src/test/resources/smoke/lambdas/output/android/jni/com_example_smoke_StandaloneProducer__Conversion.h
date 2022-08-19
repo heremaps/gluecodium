@@ -6,8 +6,8 @@
 #include <functional>
 #include "JniCallJavaMethod.h"
 #include "JniReference.h"
+#include "gluecodium/Optional.h"
 #include <memory>
-#include <optional>
 #include <unordered_map>
 #include <vector>
 namespace gluecodium
@@ -16,13 +16,13 @@ namespace jni
 {
 JNIEXPORT ::smoke::StandaloneProducer com_example_smoke_StandaloneProducer_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, ::smoke::StandaloneProducer*);
 JNIEXPORT JniReference<jobject> com_example_smoke_StandaloneProducer_convert_to_jni(JNIEnv* _jenv, const ::smoke::StandaloneProducer& _ninput);
-JNIEXPORT std::optional<::smoke::StandaloneProducer> com_example_smoke_StandaloneProducer_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::optional<::smoke::StandaloneProducer>*);
-JNIEXPORT JniReference<jobject> com_example_smoke_StandaloneProducer_convert_to_jni(JNIEnv* _env, const std::optional<::smoke::StandaloneProducer>& _ninput);
+JNIEXPORT optional<::smoke::StandaloneProducer> com_example_smoke_StandaloneProducer_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, optional<::smoke::StandaloneProducer>*);
+JNIEXPORT JniReference<jobject> com_example_smoke_StandaloneProducer_convert_to_jni(JNIEnv* _env, const optional<::smoke::StandaloneProducer>& _ninput);
 // Functions to create ArrayLists from C++ vectors and vice versa, for overloaded lambdas.
 JNIEXPORT JniReference<jobject> com_example_smoke_StandaloneProducer_convert_to_jni(JNIEnv* _env, const std::vector<::smoke::StandaloneProducer>& _ninput);
-JNIEXPORT JniReference<jobject> com_example_smoke_StandaloneProducer_convert_to_jni(JNIEnv* _env, const std::optional<std::vector<::smoke::StandaloneProducer>>& _ninput);
+JNIEXPORT JniReference<jobject> com_example_smoke_StandaloneProducer_convert_to_jni(JNIEnv* _env, const optional<std::vector<::smoke::StandaloneProducer>>& _ninput);
 JNIEXPORT std::vector<::smoke::StandaloneProducer> com_example_smoke_StandaloneProducer_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, std::vector<::smoke::StandaloneProducer>*);
-JNIEXPORT std::optional<std::vector<::smoke::StandaloneProducer>> com_example_smoke_StandaloneProducer_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, std::optional<std::vector<::smoke::StandaloneProducer>>*);
+JNIEXPORT optional<std::vector<::smoke::StandaloneProducer>> com_example_smoke_StandaloneProducer_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, optional<std::vector<::smoke::StandaloneProducer>>*);
 // Templated functions to create HashMaps from C++ unordered_maps and vice versa, for overloaded lambdas as values.
 template <typename K, typename Hash>
 JniReference<jobject>
@@ -39,7 +39,7 @@ com_example_smoke_StandaloneProducer_convert_to_jni(JNIEnv* _env, const std::uno
 }
 template <typename K, typename Hash>
 JniReference<jobject>
-com_example_smoke_StandaloneProducer_convert_to_jni(JNIEnv* _env, const std::optional<std::unordered_map<K, ::smoke::StandaloneProducer, Hash>>& _ninput) {
+com_example_smoke_StandaloneProducer_convert_to_jni(JNIEnv* _env, const optional<std::unordered_map<K, ::smoke::StandaloneProducer, Hash>>& _ninput) {
     return _ninput ? com_example_smoke_StandaloneProducer_convert_to_jni(_env, *_ninput) : JniReference<jobject>{};
 }
 template <typename K, typename Hash>
@@ -74,15 +74,15 @@ com_example_smoke_StandaloneProducer_convert_from_jni(
     return _nresult;
 }
 template<typename K, typename Hash>
-std::optional<std::unordered_map<K, ::smoke::StandaloneProducer, Hash>>
+optional<std::unordered_map<K, ::smoke::StandaloneProducer, Hash>>
 com_example_smoke_StandaloneProducer_convert_from_jni(JNIEnv* _env,
                  const JniReference<jobject>& _jMap,
-                 std::optional<std::unordered_map<K, ::smoke::StandaloneProducer, Hash>>*)
+                 optional<std::unordered_map<K, ::smoke::StandaloneProducer, Hash>>*)
 {
     return _jMap
-        ? std::optional<std::unordered_map<K, ::smoke::StandaloneProducer, Hash>>(
+        ? optional<std::unordered_map<K, ::smoke::StandaloneProducer, Hash>>(
             com_example_smoke_StandaloneProducer_convert_from_jni(_env, _jMap, (std::unordered_map<K, ::smoke::StandaloneProducer, Hash>*)nullptr)
-        ) : std::optional<std::unordered_map<K, ::smoke::StandaloneProducer, Hash>>{};
+        ) : optional<std::unordered_map<K, ::smoke::StandaloneProducer, Hash>>{};
 }
 }
 }

@@ -81,7 +81,7 @@ internal class CBridgeImplIncludeResolver(private val cppIncludeResolver: CppInc
     }
 
     private fun resolveStructIncludes(limeStruct: LimeStruct) =
-        resolveContainerIncludes(limeStruct) + listOf(CppLibraryIncludes.OPTIONAL)
+        resolveContainerIncludes(limeStruct) + listOf(cppIncludeResolver.optionalInclude)
 
     private fun resolveContainerIncludes(limeContainer: LimeContainer) =
         cppIncludeResolver.resolveElementImports(limeContainer) +
@@ -117,7 +117,7 @@ internal class CBridgeImplIncludeResolver(private val cppIncludeResolver: CppInc
             CppLibraryIncludes.NEW,
             BASE_HANDLE_IMPL_INCLUDE,
             CACHED_PROXY_BASE_INCLUDE,
-            CppLibraryIncludes.OPTIONAL
+            cppIncludeResolver.optionalInclude
         )
 
     companion object {

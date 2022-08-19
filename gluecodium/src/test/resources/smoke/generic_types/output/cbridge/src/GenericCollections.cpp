@@ -1,25 +1,25 @@
 //
 //
-#include "cbridge/include/GenericCollections.h"
-#include "alien/FooEnum.h"
-#include "alien/FooStruct.h"
-#include "cbridge/include/StringHandle.h"
-#include "cbridge_internal/include/BaseHandleImpl.h"
-#include "gluecodium/Hash.h"
-#include "gluecodium/UnorderedMapHash.h"
-#include "gluecodium/UnorderedSetHash.h"
-#include "gluecodium/VectorHash.h"
-#include "smoke/AnotherDummyClass.h"
-#include "smoke/AuxStruct.h"
-#include "smoke/DummyClass.h"
-#include "smoke/DummyInterface.h"
-#include "smoke/GenericTypesWithCompoundTypes.h"
-#include "smoke/UnreasonablyLazyClass.h"
-#include "smoke/VeryBigStruct.h"
-#include "smoke/YetAnotherDummyClass.h"
+#include "cbridge\include\GenericCollections.h"
+#include "alien\FooEnum.h"
+#include "alien\FooStruct.h"
+#include "cbridge\include\StringHandle.h"
+#include "cbridge_internal\include\BaseHandleImpl.h"
+#include "gluecodium\Hash.h"
+#include "gluecodium\Optional.h"
+#include "gluecodium\UnorderedMapHash.h"
+#include "gluecodium\UnorderedSetHash.h"
+#include "gluecodium\VectorHash.h"
+#include "smoke\AnotherDummyClass.h"
+#include "smoke\AuxStruct.h"
+#include "smoke\DummyClass.h"
+#include "smoke\DummyInterface.h"
+#include "smoke\GenericTypesWithCompoundTypes.h"
+#include "smoke\UnreasonablyLazyClass.h"
+#include "smoke\VeryBigStruct.h"
+#include "smoke\YetAnotherDummyClass.h"
 #include <cstdint>
 #include <memory>
-#include <optional>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -45,13 +45,13 @@ void foobar_ArrayOf__Float_append( _baseRef handle, float item )
     Conversion<::std::vector< float >>::toCpp(handle).push_back( item );
 }
 _baseRef foobar_ArrayOf__Float_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::vector< float >>( ::std::vector< float >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< float >>( ::std::vector< float >( ) ) );
 }
 void foobar_ArrayOf__Float_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::vector< float >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< float >>*>( handle );
 }
 _baseRef foobar_ArrayOf__Float_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::vector< float >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< float >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf__Int_create_handle() {
     return reinterpret_cast<_baseRef>( new ::std::vector< int32_t >( ) );
@@ -73,13 +73,13 @@ void foobar_ArrayOf__Int_append( _baseRef handle, int32_t item )
     Conversion<::std::vector< int32_t >>::toCpp(handle).push_back( item );
 }
 _baseRef foobar_ArrayOf__Int_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::vector< int32_t >>( ::std::vector< int32_t >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< int32_t >>( ::std::vector< int32_t >( ) ) );
 }
 void foobar_ArrayOf__Int_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::vector< int32_t >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< int32_t >>*>( handle );
 }
 _baseRef foobar_ArrayOf__Int_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::vector< int32_t >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< int32_t >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf__String_create_handle() {
     return reinterpret_cast<_baseRef>( new ::std::vector< ::std::string >( ) );
@@ -101,13 +101,13 @@ void foobar_ArrayOf__String_append( _baseRef handle, _baseRef item )
     Conversion<::std::vector< ::std::string >>::toCpp(handle).push_back(Conversion<::std::string>::toCpp(item));
 }
 _baseRef foobar_ArrayOf__String_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::vector< ::std::string >>( ::std::vector< ::std::string >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::std::string >>( ::std::vector< ::std::string >( ) ) );
 }
 void foobar_ArrayOf__String_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::vector< ::std::string >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::std::string >>*>( handle );
 }
 _baseRef foobar_ArrayOf__String_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::vector< ::std::string >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::std::string >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf__UByte_create_handle() {
     return reinterpret_cast<_baseRef>( new ::std::vector< uint8_t >( ) );
@@ -129,13 +129,13 @@ void foobar_ArrayOf__UByte_append( _baseRef handle, uint8_t item )
     Conversion<::std::vector< uint8_t >>::toCpp(handle).push_back( item );
 }
 _baseRef foobar_ArrayOf__UByte_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::vector< uint8_t >>( ::std::vector< uint8_t >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< uint8_t >>( ::std::vector< uint8_t >( ) ) );
 }
 void foobar_ArrayOf__UByte_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::vector< uint8_t >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< uint8_t >>*>( handle );
 }
 _baseRef foobar_ArrayOf__UByte_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::vector< uint8_t >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< uint8_t >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_foobar_ArrayOf__Int_create_handle() {
     return reinterpret_cast<_baseRef>( new ::std::vector< ::std::vector< int32_t > >( ) );
@@ -157,13 +157,13 @@ void foobar_ArrayOf_foobar_ArrayOf__Int_append( _baseRef handle, _baseRef item )
     Conversion<::std::vector< ::std::vector< int32_t > >>::toCpp(handle).push_back(Conversion<::std::vector< int32_t >>::toCpp(item));
 }
 _baseRef foobar_ArrayOf_foobar_ArrayOf__Int_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::vector< ::std::vector< int32_t > >>( ::std::vector< ::std::vector< int32_t > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::std::vector< int32_t > >>( ::std::vector< ::std::vector< int32_t > >( ) ) );
 }
 void foobar_ArrayOf_foobar_ArrayOf__Int_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::vector< ::std::vector< int32_t > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::std::vector< int32_t > >>*>( handle );
 }
 _baseRef foobar_ArrayOf_foobar_ArrayOf__Int_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::vector< ::std::vector< int32_t > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::std::vector< int32_t > >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_foobar_MapOf__Int_To__Boolean_create_handle() {
     return reinterpret_cast<_baseRef>( new ::std::vector< ::std::unordered_map< int32_t, bool > >( ) );
@@ -185,13 +185,13 @@ void foobar_ArrayOf_foobar_MapOf__Int_To__Boolean_append( _baseRef handle, _base
     Conversion<::std::vector< ::std::unordered_map< int32_t, bool > >>::toCpp(handle).push_back(Conversion<::std::unordered_map< int32_t, bool >>::toCpp(item));
 }
 _baseRef foobar_ArrayOf_foobar_MapOf__Int_To__Boolean_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::vector< ::std::unordered_map< int32_t, bool > >>( ::std::vector< ::std::unordered_map< int32_t, bool > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::std::unordered_map< int32_t, bool > >>( ::std::vector< ::std::unordered_map< int32_t, bool > >( ) ) );
 }
 void foobar_ArrayOf_foobar_MapOf__Int_To__Boolean_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::vector< ::std::unordered_map< int32_t, bool > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::std::unordered_map< int32_t, bool > >>*>( handle );
 }
 _baseRef foobar_ArrayOf_foobar_MapOf__Int_To__Boolean_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::vector< ::std::unordered_map< int32_t, bool > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::std::unordered_map< int32_t, bool > >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_foobar_SetOf__Int_create_handle() {
     return reinterpret_cast<_baseRef>( new ::std::vector< ::std::unordered_set< int32_t > >( ) );
@@ -213,13 +213,13 @@ void foobar_ArrayOf_foobar_SetOf__Int_append( _baseRef handle, _baseRef item )
     Conversion<::std::vector< ::std::unordered_set< int32_t > >>::toCpp(handle).push_back(Conversion<::std::unordered_set< int32_t >>::toCpp(item));
 }
 _baseRef foobar_ArrayOf_foobar_SetOf__Int_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::vector< ::std::unordered_set< int32_t > >>( ::std::vector< ::std::unordered_set< int32_t > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::std::unordered_set< int32_t > >>( ::std::vector< ::std::unordered_set< int32_t > >( ) ) );
 }
 void foobar_ArrayOf_foobar_SetOf__Int_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::vector< ::std::unordered_set< int32_t > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::std::unordered_set< int32_t > >>*>( handle );
 }
 _baseRef foobar_ArrayOf_foobar_SetOf__Int_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::vector< ::std::unordered_set< int32_t > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::std::unordered_set< int32_t > >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_smoke_AnotherDummyClass_create_handle() {
     return reinterpret_cast<_baseRef>( new ::std::vector< ::std::shared_ptr< ::smoke::AnotherDummyClass > >( ) );
@@ -241,13 +241,13 @@ void foobar_ArrayOf_smoke_AnotherDummyClass_append( _baseRef handle, _baseRef it
     Conversion<::std::vector< ::std::shared_ptr< ::smoke::AnotherDummyClass > >>::toCpp(handle).push_back(Conversion<::std::shared_ptr< ::smoke::AnotherDummyClass >>::toCpp(item));
 }
 _baseRef foobar_ArrayOf_smoke_AnotherDummyClass_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::vector< ::std::shared_ptr< ::smoke::AnotherDummyClass > >>( ::std::vector< ::std::shared_ptr< ::smoke::AnotherDummyClass > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::AnotherDummyClass > >>( ::std::vector< ::std::shared_ptr< ::smoke::AnotherDummyClass > >( ) ) );
 }
 void foobar_ArrayOf_smoke_AnotherDummyClass_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::vector< ::std::shared_ptr< ::smoke::AnotherDummyClass > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::AnotherDummyClass > >>*>( handle );
 }
 _baseRef foobar_ArrayOf_smoke_AnotherDummyClass_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::vector< ::std::shared_ptr< ::smoke::AnotherDummyClass > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::AnotherDummyClass > >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_smoke_AuxStruct_create_handle() {
     return reinterpret_cast<_baseRef>( new ::std::vector< ::smoke::AuxStruct >( ) );
@@ -269,13 +269,13 @@ void foobar_ArrayOf_smoke_AuxStruct_append( _baseRef handle, _baseRef item )
     Conversion<::std::vector< ::smoke::AuxStruct >>::toCpp(handle).push_back(Conversion<::smoke::AuxStruct>::toCpp(item));
 }
 _baseRef foobar_ArrayOf_smoke_AuxStruct_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::vector< ::smoke::AuxStruct >>( ::std::vector< ::smoke::AuxStruct >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::smoke::AuxStruct >>( ::std::vector< ::smoke::AuxStruct >( ) ) );
 }
 void foobar_ArrayOf_smoke_AuxStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::vector< ::smoke::AuxStruct >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::smoke::AuxStruct >>*>( handle );
 }
 _baseRef foobar_ArrayOf_smoke_AuxStruct_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::vector< ::smoke::AuxStruct >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::smoke::AuxStruct >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_smoke_DummyClass_create_handle() {
     return reinterpret_cast<_baseRef>( new ::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >( ) );
@@ -297,13 +297,13 @@ void foobar_ArrayOf_smoke_DummyClass_append( _baseRef handle, _baseRef item )
     Conversion<::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >>::toCpp(handle).push_back(Conversion<::std::shared_ptr< ::smoke::DummyClass >>::toCpp(item));
 }
 _baseRef foobar_ArrayOf_smoke_DummyClass_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >>( ::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >>( ::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >( ) ) );
 }
 void foobar_ArrayOf_smoke_DummyClass_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >>*>( handle );
 }
 _baseRef foobar_ArrayOf_smoke_DummyClass_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_smoke_DummyInterface_create_handle() {
     return reinterpret_cast<_baseRef>( new ::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > >( ) );
@@ -325,13 +325,13 @@ void foobar_ArrayOf_smoke_DummyInterface_append( _baseRef handle, _baseRef item 
     Conversion<::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > >>::toCpp(handle).push_back(Conversion<::std::shared_ptr< ::smoke::DummyInterface >>::toCpp(item));
 }
 _baseRef foobar_ArrayOf_smoke_DummyInterface_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > >>( ::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > >>( ::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > >( ) ) );
 }
 void foobar_ArrayOf_smoke_DummyInterface_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > >>*>( handle );
 }
 _baseRef foobar_ArrayOf_smoke_DummyInterface_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle() {
     return reinterpret_cast<_baseRef>( new ::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >( ) );
@@ -353,13 +353,13 @@ void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_append( _bas
     Conversion<::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >>::toCpp(handle).push_back(Conversion<::smoke::GenericTypesWithCompoundTypes::BasicStruct>::toCpp(item));
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >>( ::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >>( ::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >( ) ) );
 }
 void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >>*>( handle );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle() {
     return reinterpret_cast<_baseRef>( new ::std::vector< ::alien::FooEnum >( ) );
@@ -381,13 +381,13 @@ void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_append( _ba
     Conversion<::std::vector< ::alien::FooEnum >>::toCpp(handle).push_back( static_cast<::alien::FooEnum>( item ) );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::vector< ::alien::FooEnum >>( ::std::vector< ::alien::FooEnum >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::alien::FooEnum >>( ::std::vector< ::alien::FooEnum >( ) ) );
 }
 void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::vector< ::alien::FooEnum >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::alien::FooEnum >>*>( handle );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::vector< ::alien::FooEnum >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::alien::FooEnum >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle() {
     return reinterpret_cast<_baseRef>( new ::std::vector< ::alien::FooStruct >( ) );
@@ -409,13 +409,13 @@ void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_append( _
     Conversion<::std::vector< ::alien::FooStruct >>::toCpp(handle).push_back(Conversion<::alien::FooStruct>::toCpp(item));
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::vector< ::alien::FooStruct >>( ::std::vector< ::alien::FooStruct >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::alien::FooStruct >>( ::std::vector< ::alien::FooStruct >( ) ) );
 }
 void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::vector< ::alien::FooStruct >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::alien::FooStruct >>*>( handle );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::vector< ::alien::FooStruct >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::alien::FooStruct >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle() {
     return reinterpret_cast<_baseRef>( new ::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >( ) );
@@ -437,13 +437,13 @@ void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_append( _baseRe
     Conversion<::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>::toCpp(handle).push_back( static_cast<::smoke::GenericTypesWithCompoundTypes::SomeEnum>( item ) );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>( ::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>( ::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >( ) ) );
 }
 void foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>*>( handle );
 }
 _baseRef foobar_ArrayOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_smoke_UnreasonablyLazyClass_create_handle() {
     return reinterpret_cast<_baseRef>( new ::std::vector< ::std::shared_ptr< ::smoke::UnreasonablyLazyClass > >( ) );
@@ -465,13 +465,13 @@ void foobar_ArrayOf_smoke_UnreasonablyLazyClass_append( _baseRef handle, _baseRe
     Conversion<::std::vector< ::std::shared_ptr< ::smoke::UnreasonablyLazyClass > >>::toCpp(handle).push_back(Conversion<::std::shared_ptr< ::smoke::UnreasonablyLazyClass >>::toCpp(item));
 }
 _baseRef foobar_ArrayOf_smoke_UnreasonablyLazyClass_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::vector< ::std::shared_ptr< ::smoke::UnreasonablyLazyClass > >>( ::std::vector< ::std::shared_ptr< ::smoke::UnreasonablyLazyClass > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::UnreasonablyLazyClass > >>( ::std::vector< ::std::shared_ptr< ::smoke::UnreasonablyLazyClass > >( ) ) );
 }
 void foobar_ArrayOf_smoke_UnreasonablyLazyClass_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::vector< ::std::shared_ptr< ::smoke::UnreasonablyLazyClass > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::UnreasonablyLazyClass > >>*>( handle );
 }
 _baseRef foobar_ArrayOf_smoke_UnreasonablyLazyClass_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::vector< ::std::shared_ptr< ::smoke::UnreasonablyLazyClass > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::UnreasonablyLazyClass > >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_smoke_VeryBigStruct_create_handle() {
     return reinterpret_cast<_baseRef>( new ::std::vector< ::smoke::VeryBigStruct >( ) );
@@ -493,13 +493,13 @@ void foobar_ArrayOf_smoke_VeryBigStruct_append( _baseRef handle, _baseRef item )
     Conversion<::std::vector< ::smoke::VeryBigStruct >>::toCpp(handle).push_back(Conversion<::smoke::VeryBigStruct>::toCpp(item));
 }
 _baseRef foobar_ArrayOf_smoke_VeryBigStruct_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::vector< ::smoke::VeryBigStruct >>( ::std::vector< ::smoke::VeryBigStruct >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::smoke::VeryBigStruct >>( ::std::vector< ::smoke::VeryBigStruct >( ) ) );
 }
 void foobar_ArrayOf_smoke_VeryBigStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::vector< ::smoke::VeryBigStruct >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::smoke::VeryBigStruct >>*>( handle );
 }
 _baseRef foobar_ArrayOf_smoke_VeryBigStruct_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::vector< ::smoke::VeryBigStruct >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::smoke::VeryBigStruct >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf_smoke_YetAnotherDummyClass_create_handle() {
     return reinterpret_cast<_baseRef>( new ::std::vector< ::std::shared_ptr< ::smoke::YetAnotherDummyClass > >( ) );
@@ -521,13 +521,13 @@ void foobar_ArrayOf_smoke_YetAnotherDummyClass_append( _baseRef handle, _baseRef
     Conversion<::std::vector< ::std::shared_ptr< ::smoke::YetAnotherDummyClass > >>::toCpp(handle).push_back(Conversion<::std::shared_ptr< ::smoke::YetAnotherDummyClass >>::toCpp(item));
 }
 _baseRef foobar_ArrayOf_smoke_YetAnotherDummyClass_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::vector< ::std::shared_ptr< ::smoke::YetAnotherDummyClass > >>( ::std::vector< ::std::shared_ptr< ::smoke::YetAnotherDummyClass > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::YetAnotherDummyClass > >>( ::std::vector< ::std::shared_ptr< ::smoke::YetAnotherDummyClass > >( ) ) );
 }
 void foobar_ArrayOf_smoke_YetAnotherDummyClass_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::vector< ::std::shared_ptr< ::smoke::YetAnotherDummyClass > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::YetAnotherDummyClass > >>*>( handle );
 }
 _baseRef foobar_ArrayOf_smoke_YetAnotherDummyClass_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::vector< ::std::shared_ptr< ::smoke::YetAnotherDummyClass > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::std::shared_ptr< ::smoke::YetAnotherDummyClass > >>*>( handle ) );
 }
 _baseRef foobar_MapOf__Float_To__Double_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< float, double >() );
@@ -559,13 +559,13 @@ double foobar_MapOf__Float_To__Double_iterator_value(_baseRef iterator_handle) {
     return value;
 }
 _baseRef foobar_MapOf__Float_To__Double_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< float, double >>( ::std::unordered_map< float, double >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< float, double >>( ::std::unordered_map< float, double >( ) ) );
 }
 void foobar_MapOf__Float_To__Double_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_map< float, double >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< float, double >>*>( handle );
 }
 _baseRef foobar_MapOf__Float_To__Double_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< float, double >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< float, double >>*>( handle ) );
 }
 _baseRef foobar_MapOf__Int_To__Boolean_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< int32_t, bool >() );
@@ -597,13 +597,13 @@ bool foobar_MapOf__Int_To__Boolean_iterator_value(_baseRef iterator_handle) {
     return value;
 }
 _baseRef foobar_MapOf__Int_To__Boolean_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< int32_t, bool >>( ::std::unordered_map< int32_t, bool >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< int32_t, bool >>( ::std::unordered_map< int32_t, bool >( ) ) );
 }
 void foobar_MapOf__Int_To__Boolean_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_map< int32_t, bool >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< int32_t, bool >>*>( handle );
 }
 _baseRef foobar_MapOf__Int_To__Boolean_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< int32_t, bool >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< int32_t, bool >>*>( handle ) );
 }
 _baseRef foobar_MapOf__Int_To_foobar_ArrayOf__Int_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< int32_t, ::std::vector< int32_t > >() );
@@ -635,13 +635,13 @@ _baseRef foobar_MapOf__Int_To_foobar_ArrayOf__Int_iterator_value(_baseRef iterat
     return Conversion<::std::vector< int32_t >>::toBaseRef(value);
 }
 _baseRef foobar_MapOf__Int_To_foobar_ArrayOf__Int_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< int32_t, ::std::vector< int32_t > >>( ::std::unordered_map< int32_t, ::std::vector< int32_t > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< int32_t, ::std::vector< int32_t > >>( ::std::unordered_map< int32_t, ::std::vector< int32_t > >( ) ) );
 }
 void foobar_MapOf__Int_To_foobar_ArrayOf__Int_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_map< int32_t, ::std::vector< int32_t > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< int32_t, ::std::vector< int32_t > >>*>( handle );
 }
 _baseRef foobar_MapOf__Int_To_foobar_ArrayOf__Int_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< int32_t, ::std::vector< int32_t > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< int32_t, ::std::vector< int32_t > >>*>( handle ) );
 }
 _baseRef foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< int32_t, ::std::unordered_map< int32_t, bool > >() );
@@ -673,13 +673,13 @@ _baseRef foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_iterator_value(_base
     return Conversion<::std::unordered_map< int32_t, bool >>::toBaseRef(value);
 }
 _baseRef foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< int32_t, ::std::unordered_map< int32_t, bool > >>( ::std::unordered_map< int32_t, ::std::unordered_map< int32_t, bool > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< int32_t, ::std::unordered_map< int32_t, bool > >>( ::std::unordered_map< int32_t, ::std::unordered_map< int32_t, bool > >( ) ) );
 }
 void foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_map< int32_t, ::std::unordered_map< int32_t, bool > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< int32_t, ::std::unordered_map< int32_t, bool > >>*>( handle );
 }
 _baseRef foobar_MapOf__Int_To_foobar_MapOf__Int_To__Boolean_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< int32_t, ::std::unordered_map< int32_t, bool > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< int32_t, ::std::unordered_map< int32_t, bool > >>*>( handle ) );
 }
 _baseRef foobar_MapOf__Int_To_foobar_SetOf__Int_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< int32_t, ::std::unordered_set< int32_t > >() );
@@ -711,13 +711,13 @@ _baseRef foobar_MapOf__Int_To_foobar_SetOf__Int_iterator_value(_baseRef iterator
     return Conversion<::std::unordered_set< int32_t >>::toBaseRef(value);
 }
 _baseRef foobar_MapOf__Int_To_foobar_SetOf__Int_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< int32_t, ::std::unordered_set< int32_t > >>( ::std::unordered_map< int32_t, ::std::unordered_set< int32_t > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< int32_t, ::std::unordered_set< int32_t > >>( ::std::unordered_map< int32_t, ::std::unordered_set< int32_t > >( ) ) );
 }
 void foobar_MapOf__Int_To_foobar_SetOf__Int_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_map< int32_t, ::std::unordered_set< int32_t > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< int32_t, ::std::unordered_set< int32_t > >>*>( handle );
 }
 _baseRef foobar_MapOf__Int_To_foobar_SetOf__Int_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< int32_t, ::std::unordered_set< int32_t > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< int32_t, ::std::unordered_set< int32_t > >>*>( handle ) );
 }
 _baseRef foobar_MapOf__Int_To_smoke_DummyClass_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyClass > >() );
@@ -749,13 +749,13 @@ _baseRef foobar_MapOf__Int_To_smoke_DummyClass_iterator_value(_baseRef iterator_
     return Conversion<::std::shared_ptr< ::smoke::DummyClass >>::toBaseRef(value);
 }
 _baseRef foobar_MapOf__Int_To_smoke_DummyClass_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyClass > >>( ::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyClass > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyClass > >>( ::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyClass > >( ) ) );
 }
 void foobar_MapOf__Int_To_smoke_DummyClass_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyClass > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyClass > >>*>( handle );
 }
 _baseRef foobar_MapOf__Int_To_smoke_DummyClass_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyClass > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyClass > >>*>( handle ) );
 }
 _baseRef foobar_MapOf__Int_To_smoke_DummyInterface_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyInterface > >() );
@@ -787,13 +787,13 @@ _baseRef foobar_MapOf__Int_To_smoke_DummyInterface_iterator_value(_baseRef itera
     return Conversion<::std::shared_ptr< ::smoke::DummyInterface >>::toBaseRef(value);
 }
 _baseRef foobar_MapOf__Int_To_smoke_DummyInterface_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyInterface > >>( ::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyInterface > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyInterface > >>( ::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyInterface > >( ) ) );
 }
 void foobar_MapOf__Int_To_smoke_DummyInterface_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyInterface > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyInterface > >>*>( handle );
 }
 _baseRef foobar_MapOf__Int_To_smoke_DummyInterface_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyInterface > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyInterface > >>*>( handle ) );
 }
 _baseRef foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< int32_t, ::alien::FooEnum >() );
@@ -825,13 +825,13 @@ uint32_t foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_i
     return static_cast<uint32_t>(value);
 }
 _baseRef foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< int32_t, ::alien::FooEnum >>( ::std::unordered_map< int32_t, ::alien::FooEnum >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< int32_t, ::alien::FooEnum >>( ::std::unordered_map< int32_t, ::alien::FooEnum >( ) ) );
 }
 void foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_map< int32_t, ::alien::FooEnum >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< int32_t, ::alien::FooEnum >>*>( handle );
 }
 _baseRef foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_ExternalEnum_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< int32_t, ::alien::FooEnum >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< int32_t, ::alien::FooEnum >>*>( handle ) );
 }
 _baseRef foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum >() );
@@ -863,13 +863,13 @@ uint32_t foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_itera
     return static_cast<uint32_t>(value);
 }
 _baseRef foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>( ::std::unordered_map< int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>( ::std::unordered_map< int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum >( ) ) );
 }
 void foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_map< int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>*>( handle );
 }
 _baseRef foobar_MapOf__Int_To_smoke_GenericTypesWithCompoundTypes_SomeEnum_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>*>( handle ) );
 }
 _baseRef foobar_MapOf__String_To__String_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< ::std::string, ::std::string >() );
@@ -901,13 +901,13 @@ _baseRef foobar_MapOf__String_To__String_iterator_value(_baseRef iterator_handle
     return Conversion<::std::string>::toBaseRef(value);
 }
 _baseRef foobar_MapOf__String_To__String_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< ::std::string, ::std::string >>( ::std::unordered_map< ::std::string, ::std::string >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< ::std::string, ::std::string >>( ::std::unordered_map< ::std::string, ::std::string >( ) ) );
 }
 void foobar_MapOf__String_To__String_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_map< ::std::string, ::std::string >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::string, ::std::string >>*>( handle );
 }
 _baseRef foobar_MapOf__String_To__String_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< ::std::string, ::std::string >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::string, ::std::string >>*>( handle ) );
 }
 _baseRef foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< ::std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct >() );
@@ -939,13 +939,13 @@ _baseRef foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_BasicStruct
     return Conversion<::smoke::GenericTypesWithCompoundTypes::BasicStruct>::toBaseRef(value);
 }
 _baseRef foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< ::std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct >>( ::std::unordered_map< ::std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< ::std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct >>( ::std::unordered_map< ::std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct >( ) ) );
 }
 void foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_map< ::std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct >>*>( handle );
 }
 _baseRef foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_BasicStruct_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< ::std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct >>*>( handle ) );
 }
 _baseRef foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< ::std::string, ::alien::FooStruct >() );
@@ -977,13 +977,13 @@ _baseRef foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_ExternalStr
     return Conversion<::alien::FooStruct>::toBaseRef(value);
 }
 _baseRef foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< ::std::string, ::alien::FooStruct >>( ::std::unordered_map< ::std::string, ::alien::FooStruct >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< ::std::string, ::alien::FooStruct >>( ::std::unordered_map< ::std::string, ::alien::FooStruct >( ) ) );
 }
 void foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_map< ::std::string, ::alien::FooStruct >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::string, ::alien::FooStruct >>*>( handle );
 }
 _baseRef foobar_MapOf__String_To_smoke_GenericTypesWithCompoundTypes_ExternalStruct_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< ::std::string, ::alien::FooStruct >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::string, ::alien::FooStruct >>*>( handle ) );
 }
 _baseRef foobar_MapOf__UByte_To__String_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< uint8_t, ::std::string >() );
@@ -1015,13 +1015,13 @@ _baseRef foobar_MapOf__UByte_To__String_iterator_value(_baseRef iterator_handle)
     return Conversion<::std::string>::toBaseRef(value);
 }
 _baseRef foobar_MapOf__UByte_To__String_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< uint8_t, ::std::string >>( ::std::unordered_map< uint8_t, ::std::string >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< uint8_t, ::std::string >>( ::std::unordered_map< uint8_t, ::std::string >( ) ) );
 }
 void foobar_MapOf__UByte_To__String_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_map< uint8_t, ::std::string >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< uint8_t, ::std::string >>*>( handle );
 }
 _baseRef foobar_MapOf__UByte_To__String_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< uint8_t, ::std::string >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< uint8_t, ::std::string >>*>( handle ) );
 }
 _baseRef foobar_MapOf_foobar_ArrayOf__Int_To__Boolean_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< ::std::vector< int32_t >, bool, ::gluecodium::hash< ::std::vector< int32_t > > >() );
@@ -1053,13 +1053,13 @@ bool foobar_MapOf_foobar_ArrayOf__Int_To__Boolean_iterator_value(_baseRef iterat
     return value;
 }
 _baseRef foobar_MapOf_foobar_ArrayOf__Int_To__Boolean_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< ::std::vector< int32_t >, bool, ::gluecodium::hash< ::std::vector< int32_t > > >>( ::std::unordered_map< ::std::vector< int32_t >, bool, ::gluecodium::hash< ::std::vector< int32_t > > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< ::std::vector< int32_t >, bool, ::gluecodium::hash< ::std::vector< int32_t > > >>( ::std::unordered_map< ::std::vector< int32_t >, bool, ::gluecodium::hash< ::std::vector< int32_t > > >( ) ) );
 }
 void foobar_MapOf_foobar_ArrayOf__Int_To__Boolean_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_map< ::std::vector< int32_t >, bool, ::gluecodium::hash< ::std::vector< int32_t > > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::vector< int32_t >, bool, ::gluecodium::hash< ::std::vector< int32_t > > >>*>( handle );
 }
 _baseRef foobar_MapOf_foobar_ArrayOf__Int_To__Boolean_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< ::std::vector< int32_t >, bool, ::gluecodium::hash< ::std::vector< int32_t > > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::vector< int32_t >, bool, ::gluecodium::hash< ::std::vector< int32_t > > >>*>( handle ) );
 }
 _baseRef foobar_MapOf_foobar_MapOf__Int_To__Boolean_To__Boolean_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< ::std::unordered_map< int32_t, bool >, bool, ::gluecodium::hash< ::std::unordered_map< int32_t, bool > > >() );
@@ -1091,13 +1091,13 @@ bool foobar_MapOf_foobar_MapOf__Int_To__Boolean_To__Boolean_iterator_value(_base
     return value;
 }
 _baseRef foobar_MapOf_foobar_MapOf__Int_To__Boolean_To__Boolean_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< ::std::unordered_map< int32_t, bool >, bool, ::gluecodium::hash< ::std::unordered_map< int32_t, bool > > >>( ::std::unordered_map< ::std::unordered_map< int32_t, bool >, bool, ::gluecodium::hash< ::std::unordered_map< int32_t, bool > > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< ::std::unordered_map< int32_t, bool >, bool, ::gluecodium::hash< ::std::unordered_map< int32_t, bool > > >>( ::std::unordered_map< ::std::unordered_map< int32_t, bool >, bool, ::gluecodium::hash< ::std::unordered_map< int32_t, bool > > >( ) ) );
 }
 void foobar_MapOf_foobar_MapOf__Int_To__Boolean_To__Boolean_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_map< ::std::unordered_map< int32_t, bool >, bool, ::gluecodium::hash< ::std::unordered_map< int32_t, bool > > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::unordered_map< int32_t, bool >, bool, ::gluecodium::hash< ::std::unordered_map< int32_t, bool > > >>*>( handle );
 }
 _baseRef foobar_MapOf_foobar_MapOf__Int_To__Boolean_To__Boolean_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< ::std::unordered_map< int32_t, bool >, bool, ::gluecodium::hash< ::std::unordered_map< int32_t, bool > > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::unordered_map< int32_t, bool >, bool, ::gluecodium::hash< ::std::unordered_map< int32_t, bool > > >>*>( handle ) );
 }
 _baseRef foobar_MapOf_foobar_SetOf__Int_To__Boolean_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< ::std::unordered_set< int32_t >, bool, ::gluecodium::hash< ::std::unordered_set< int32_t > > >() );
@@ -1129,13 +1129,13 @@ bool foobar_MapOf_foobar_SetOf__Int_To__Boolean_iterator_value(_baseRef iterator
     return value;
 }
 _baseRef foobar_MapOf_foobar_SetOf__Int_To__Boolean_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< ::std::unordered_set< int32_t >, bool, ::gluecodium::hash< ::std::unordered_set< int32_t > > >>( ::std::unordered_map< ::std::unordered_set< int32_t >, bool, ::gluecodium::hash< ::std::unordered_set< int32_t > > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< ::std::unordered_set< int32_t >, bool, ::gluecodium::hash< ::std::unordered_set< int32_t > > >>( ::std::unordered_map< ::std::unordered_set< int32_t >, bool, ::gluecodium::hash< ::std::unordered_set< int32_t > > >( ) ) );
 }
 void foobar_MapOf_foobar_SetOf__Int_To__Boolean_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_map< ::std::unordered_set< int32_t >, bool, ::gluecodium::hash< ::std::unordered_set< int32_t > > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::unordered_set< int32_t >, bool, ::gluecodium::hash< ::std::unordered_set< int32_t > > >>*>( handle );
 }
 _baseRef foobar_MapOf_foobar_SetOf__Int_To__Boolean_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< ::std::unordered_set< int32_t >, bool, ::gluecodium::hash< ::std::unordered_set< int32_t > > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::unordered_set< int32_t >, bool, ::gluecodium::hash< ::std::unordered_set< int32_t > > >>*>( handle ) );
 }
 _baseRef foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< ::alien::FooEnum, bool, ::gluecodium::hash< ::alien::FooEnum > >() );
@@ -1167,13 +1167,13 @@ bool foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_i
     return value;
 }
 _baseRef foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< ::alien::FooEnum, bool, ::gluecodium::hash< ::alien::FooEnum > >>( ::std::unordered_map< ::alien::FooEnum, bool, ::gluecodium::hash< ::alien::FooEnum > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< ::alien::FooEnum, bool, ::gluecodium::hash< ::alien::FooEnum > >>( ::std::unordered_map< ::alien::FooEnum, bool, ::gluecodium::hash< ::alien::FooEnum > >( ) ) );
 }
 void foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_map< ::alien::FooEnum, bool, ::gluecodium::hash< ::alien::FooEnum > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::alien::FooEnum, bool, ::gluecodium::hash< ::alien::FooEnum > >>*>( handle );
 }
 _baseRef foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_To__Boolean_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< ::alien::FooEnum, bool, ::gluecodium::hash< ::alien::FooEnum > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::alien::FooEnum, bool, ::gluecodium::hash< ::alien::FooEnum > >>*>( handle ) );
 }
 _baseRef foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >() );
@@ -1205,13 +1205,13 @@ bool foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_itera
     return value;
 }
 _baseRef foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >>( ::std::unordered_map< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >>( ::std::unordered_map< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >( ) ) );
 }
 void foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_map< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >>*>( handle );
 }
 _baseRef foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_To__Boolean_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >>*>( handle ) );
 }
 _baseRef foobar_SetOf__Float_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set< float >() );
@@ -1239,13 +1239,13 @@ float foobar_SetOf__Float_iterator_get(_baseRef iterator_handle) {
     return value;
 }
 _baseRef foobar_SetOf__Float_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_set< float >>( ::std::unordered_set< float >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_set< float >>( ::std::unordered_set< float >( ) ) );
 }
 void foobar_SetOf__Float_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_set< float >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_set< float >>*>( handle );
 }
 _baseRef foobar_SetOf__Float_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_set< float >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_set< float >>*>( handle ) );
 }
 _baseRef foobar_SetOf__Int_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set< int32_t >() );
@@ -1273,13 +1273,13 @@ int32_t foobar_SetOf__Int_iterator_get(_baseRef iterator_handle) {
     return value;
 }
 _baseRef foobar_SetOf__Int_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_set< int32_t >>( ::std::unordered_set< int32_t >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_set< int32_t >>( ::std::unordered_set< int32_t >( ) ) );
 }
 void foobar_SetOf__Int_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_set< int32_t >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_set< int32_t >>*>( handle );
 }
 _baseRef foobar_SetOf__Int_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_set< int32_t >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_set< int32_t >>*>( handle ) );
 }
 _baseRef foobar_SetOf__String_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set< ::std::string >() );
@@ -1307,13 +1307,13 @@ _baseRef foobar_SetOf__String_iterator_get(_baseRef iterator_handle) {
     return Conversion<::std::string>::referenceBaseRef(value);
 }
 _baseRef foobar_SetOf__String_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_set< ::std::string >>( ::std::unordered_set< ::std::string >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_set< ::std::string >>( ::std::unordered_set< ::std::string >( ) ) );
 }
 void foobar_SetOf__String_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_set< ::std::string >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_set< ::std::string >>*>( handle );
 }
 _baseRef foobar_SetOf__String_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_set< ::std::string >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_set< ::std::string >>*>( handle ) );
 }
 _baseRef foobar_SetOf__UByte_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set< uint8_t >() );
@@ -1341,13 +1341,13 @@ uint8_t foobar_SetOf__UByte_iterator_get(_baseRef iterator_handle) {
     return value;
 }
 _baseRef foobar_SetOf__UByte_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_set< uint8_t >>( ::std::unordered_set< uint8_t >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_set< uint8_t >>( ::std::unordered_set< uint8_t >( ) ) );
 }
 void foobar_SetOf__UByte_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_set< uint8_t >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_set< uint8_t >>*>( handle );
 }
 _baseRef foobar_SetOf__UByte_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_set< uint8_t >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_set< uint8_t >>*>( handle ) );
 }
 _baseRef foobar_SetOf_foobar_ArrayOf__Int_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set< ::std::vector< int32_t >, ::gluecodium::hash< ::std::vector< int32_t > > >() );
@@ -1375,13 +1375,13 @@ _baseRef foobar_SetOf_foobar_ArrayOf__Int_iterator_get(_baseRef iterator_handle)
     return Conversion<::std::vector< int32_t >>::referenceBaseRef(value);
 }
 _baseRef foobar_SetOf_foobar_ArrayOf__Int_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_set< ::std::vector< int32_t >, ::gluecodium::hash< ::std::vector< int32_t > > >>( ::std::unordered_set< ::std::vector< int32_t >, ::gluecodium::hash< ::std::vector< int32_t > > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_set< ::std::vector< int32_t >, ::gluecodium::hash< ::std::vector< int32_t > > >>( ::std::unordered_set< ::std::vector< int32_t >, ::gluecodium::hash< ::std::vector< int32_t > > >( ) ) );
 }
 void foobar_SetOf_foobar_ArrayOf__Int_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_set< ::std::vector< int32_t >, ::gluecodium::hash< ::std::vector< int32_t > > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_set< ::std::vector< int32_t >, ::gluecodium::hash< ::std::vector< int32_t > > >>*>( handle );
 }
 _baseRef foobar_SetOf_foobar_ArrayOf__Int_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_set< ::std::vector< int32_t >, ::gluecodium::hash< ::std::vector< int32_t > > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_set< ::std::vector< int32_t >, ::gluecodium::hash< ::std::vector< int32_t > > >>*>( handle ) );
 }
 _baseRef foobar_SetOf_foobar_MapOf__Int_To__Boolean_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set< ::std::unordered_map< int32_t, bool >, ::gluecodium::hash< ::std::unordered_map< int32_t, bool > > >() );
@@ -1409,13 +1409,13 @@ _baseRef foobar_SetOf_foobar_MapOf__Int_To__Boolean_iterator_get(_baseRef iterat
     return Conversion<::std::unordered_map< int32_t, bool >>::referenceBaseRef(value);
 }
 _baseRef foobar_SetOf_foobar_MapOf__Int_To__Boolean_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_set< ::std::unordered_map< int32_t, bool >, ::gluecodium::hash< ::std::unordered_map< int32_t, bool > > >>( ::std::unordered_set< ::std::unordered_map< int32_t, bool >, ::gluecodium::hash< ::std::unordered_map< int32_t, bool > > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_set< ::std::unordered_map< int32_t, bool >, ::gluecodium::hash< ::std::unordered_map< int32_t, bool > > >>( ::std::unordered_set< ::std::unordered_map< int32_t, bool >, ::gluecodium::hash< ::std::unordered_map< int32_t, bool > > >( ) ) );
 }
 void foobar_SetOf_foobar_MapOf__Int_To__Boolean_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_set< ::std::unordered_map< int32_t, bool >, ::gluecodium::hash< ::std::unordered_map< int32_t, bool > > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_set< ::std::unordered_map< int32_t, bool >, ::gluecodium::hash< ::std::unordered_map< int32_t, bool > > >>*>( handle );
 }
 _baseRef foobar_SetOf_foobar_MapOf__Int_To__Boolean_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_set< ::std::unordered_map< int32_t, bool >, ::gluecodium::hash< ::std::unordered_map< int32_t, bool > > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_set< ::std::unordered_map< int32_t, bool >, ::gluecodium::hash< ::std::unordered_map< int32_t, bool > > >>*>( handle ) );
 }
 _baseRef foobar_SetOf_foobar_SetOf__Int_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set< ::std::unordered_set< int32_t >, ::gluecodium::hash< ::std::unordered_set< int32_t > > >() );
@@ -1443,13 +1443,13 @@ _baseRef foobar_SetOf_foobar_SetOf__Int_iterator_get(_baseRef iterator_handle) {
     return Conversion<::std::unordered_set< int32_t >>::referenceBaseRef(value);
 }
 _baseRef foobar_SetOf_foobar_SetOf__Int_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_set< ::std::unordered_set< int32_t >, ::gluecodium::hash< ::std::unordered_set< int32_t > > >>( ::std::unordered_set< ::std::unordered_set< int32_t >, ::gluecodium::hash< ::std::unordered_set< int32_t > > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_set< ::std::unordered_set< int32_t >, ::gluecodium::hash< ::std::unordered_set< int32_t > > >>( ::std::unordered_set< ::std::unordered_set< int32_t >, ::gluecodium::hash< ::std::unordered_set< int32_t > > >( ) ) );
 }
 void foobar_SetOf_foobar_SetOf__Int_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_set< ::std::unordered_set< int32_t >, ::gluecodium::hash< ::std::unordered_set< int32_t > > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_set< ::std::unordered_set< int32_t >, ::gluecodium::hash< ::std::unordered_set< int32_t > > >>*>( handle );
 }
 _baseRef foobar_SetOf_foobar_SetOf__Int_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_set< ::std::unordered_set< int32_t >, ::gluecodium::hash< ::std::unordered_set< int32_t > > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_set< ::std::unordered_set< int32_t >, ::gluecodium::hash< ::std::unordered_set< int32_t > > >>*>( handle ) );
 }
 _baseRef foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set< ::alien::FooEnum, ::gluecodium::hash< ::alien::FooEnum > >() );
@@ -1477,13 +1477,13 @@ uint32_t foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_
     return static_cast<uint32_t>(value);
 }
 _baseRef foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_set< ::alien::FooEnum, ::gluecodium::hash< ::alien::FooEnum > >>( ::std::unordered_set< ::alien::FooEnum, ::gluecodium::hash< ::alien::FooEnum > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_set< ::alien::FooEnum, ::gluecodium::hash< ::alien::FooEnum > >>( ::std::unordered_set< ::alien::FooEnum, ::gluecodium::hash< ::alien::FooEnum > >( ) ) );
 }
 void foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_set< ::alien::FooEnum, ::gluecodium::hash< ::alien::FooEnum > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_set< ::alien::FooEnum, ::gluecodium::hash< ::alien::FooEnum > >>*>( handle );
 }
 _baseRef foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_set< ::alien::FooEnum, ::gluecodium::hash< ::alien::FooEnum > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_set< ::alien::FooEnum, ::gluecodium::hash< ::alien::FooEnum > >>*>( handle ) );
 }
 _baseRef foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >() );
@@ -1511,11 +1511,11 @@ uint32_t foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get(
     return static_cast<uint32_t>(value);
 }
 _baseRef foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_set< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >>( ::std::unordered_set< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_set< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >>( ::std::unordered_set< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >( ) ) );
 }
 void foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_set< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_set< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >>*>( handle );
 }
 _baseRef foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_set< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_set< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >>*>( handle ) );
 }

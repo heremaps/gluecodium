@@ -46,7 +46,7 @@ FfiOpaqueHandle
 library_smoke_Enums_ExternalEnum_create_handle_nullable(uint32_t value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::Enums::External_Enum>(
+        new (std::nothrow) gluecodium::optional<smoke::Enums::External_Enum>(
             gluecodium::ffi::Conversion<smoke::Enums::External_Enum>::toCpp(value)
         )
     );
@@ -54,20 +54,20 @@ library_smoke_Enums_ExternalEnum_create_handle_nullable(uint32_t value)
 void
 library_smoke_Enums_ExternalEnum_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::Enums::External_Enum>*>(handle);
+    delete reinterpret_cast<gluecodium::optional<smoke::Enums::External_Enum>*>(handle);
 }
 uint32_t
 library_smoke_Enums_ExternalEnum_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::Enums::External_Enum>::toFfi(
-        **reinterpret_cast<std::optional<smoke::Enums::External_Enum>*>(handle)
+        **reinterpret_cast<gluecodium::optional<smoke::Enums::External_Enum>*>(handle)
     );
 }
 FfiOpaqueHandle
 library_smoke_Enums_VeryExternalEnum_create_handle_nullable(uint32_t value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<fire::SomeVeryExternalEnum>(
+        new (std::nothrow) gluecodium::optional<fire::SomeVeryExternalEnum>(
             gluecodium::ffi::Conversion<fire::SomeVeryExternalEnum>::toCpp(value)
         )
     );
@@ -75,13 +75,13 @@ library_smoke_Enums_VeryExternalEnum_create_handle_nullable(uint32_t value)
 void
 library_smoke_Enums_VeryExternalEnum_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<fire::SomeVeryExternalEnum>*>(handle);
+    delete reinterpret_cast<gluecodium::optional<fire::SomeVeryExternalEnum>*>(handle);
 }
 uint32_t
 library_smoke_Enums_VeryExternalEnum_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<fire::SomeVeryExternalEnum>::toFfi(
-        **reinterpret_cast<std::optional<fire::SomeVeryExternalEnum>*>(handle)
+        **reinterpret_cast<gluecodium::optional<fire::SomeVeryExternalEnum>*>(handle)
     );
 }
 #ifdef __cplusplus

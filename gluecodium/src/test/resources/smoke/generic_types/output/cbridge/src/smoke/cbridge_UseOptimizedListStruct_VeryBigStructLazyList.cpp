@@ -3,10 +3,10 @@
 #include "cbridge/include/StringHandle.h"
 #include "cbridge/include/smoke/cbridge_UseOptimizedListStruct_VeryBigStructLazyList.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
+#include "gluecodium/Optional.h"
 #include "smoke/VeryBigStruct.h"
 #include <memory>
 #include <new>
-#include <optional>
 #include <string>
 #ifdef __cplusplus
 extern "C" {

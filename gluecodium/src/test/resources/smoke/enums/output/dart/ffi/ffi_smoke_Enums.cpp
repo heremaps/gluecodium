@@ -99,7 +99,7 @@ FfiOpaqueHandle
 library_smoke_Enums_ErrorStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::Enums::ErrorStruct>(
+        new (std::nothrow) gluecodium::optional<smoke::Enums::ErrorStruct>(
             gluecodium::ffi::Conversion<smoke::Enums::ErrorStruct>::toCpp(value)
         )
     );
@@ -107,20 +107,20 @@ library_smoke_Enums_ErrorStruct_create_handle_nullable(FfiOpaqueHandle value)
 void
 library_smoke_Enums_ErrorStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::Enums::ErrorStruct>*>(handle);
+    delete reinterpret_cast<gluecodium::optional<smoke::Enums::ErrorStruct>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_Enums_ErrorStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::Enums::ErrorStruct>::toFfi(
-        **reinterpret_cast<std::optional<smoke::Enums::ErrorStruct>*>(handle)
+        **reinterpret_cast<gluecodium::optional<smoke::Enums::ErrorStruct>*>(handle)
     );
 }
 FfiOpaqueHandle
 library_smoke_Enums_SimpleEnum_create_handle_nullable(uint32_t value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::Enums::SimpleEnum>(
+        new (std::nothrow) gluecodium::optional<smoke::Enums::SimpleEnum>(
             gluecodium::ffi::Conversion<smoke::Enums::SimpleEnum>::toCpp(value)
         )
     );
@@ -128,20 +128,20 @@ library_smoke_Enums_SimpleEnum_create_handle_nullable(uint32_t value)
 void
 library_smoke_Enums_SimpleEnum_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::Enums::SimpleEnum>*>(handle);
+    delete reinterpret_cast<gluecodium::optional<smoke::Enums::SimpleEnum>*>(handle);
 }
 uint32_t
 library_smoke_Enums_SimpleEnum_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::Enums::SimpleEnum>::toFfi(
-        **reinterpret_cast<std::optional<smoke::Enums::SimpleEnum>*>(handle)
+        **reinterpret_cast<gluecodium::optional<smoke::Enums::SimpleEnum>*>(handle)
     );
 }
 FfiOpaqueHandle
 library_smoke_Enums_InternalErrorCode_create_handle_nullable(uint32_t value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::Enums::InternalErrorCode>(
+        new (std::nothrow) gluecodium::optional<smoke::Enums::InternalErrorCode>(
             gluecodium::ffi::Conversion<smoke::Enums::InternalErrorCode>::toCpp(value)
         )
     );
@@ -149,13 +149,13 @@ library_smoke_Enums_InternalErrorCode_create_handle_nullable(uint32_t value)
 void
 library_smoke_Enums_InternalErrorCode_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::Enums::InternalErrorCode>*>(handle);
+    delete reinterpret_cast<gluecodium::optional<smoke::Enums::InternalErrorCode>*>(handle);
 }
 uint32_t
 library_smoke_Enums_InternalErrorCode_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::Enums::InternalErrorCode>::toFfi(
-        **reinterpret_cast<std::optional<smoke::Enums::InternalErrorCode>*>(handle)
+        **reinterpret_cast<gluecodium::optional<smoke::Enums::InternalErrorCode>*>(handle)
     );
 }
 #ifdef __cplusplus

@@ -32,6 +32,7 @@ internal class CppIncludesCache(
 ) {
     private val resolvedIncludes = mutableMapOf<String, List<Include>>()
 
+    val optionalInclude = createInternalNamespaceInclude("Optional.h")
     val typeRepositoryInclude = createInternalNamespaceInclude("TypeRepository.h")
 
     fun createInternalNamespaceInclude(fileName: String) =

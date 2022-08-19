@@ -26,9 +26,9 @@ Java_com_example_smoke_DurationMilliseconds_durationFunction(JNIEnv* _jenv, jobj
 jobject
 Java_com_example_smoke_DurationMilliseconds_nullableDurationFunction(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
 {
-    std::optional< std::chrono::milliseconds > input = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::gluecodium::optional< std::chrono::milliseconds > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (std::optional< std::chrono::milliseconds >*)nullptr);
+            (::gluecodium::optional< std::chrono::milliseconds >*)nullptr);
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::DurationMilliseconds>*> (
         ::gluecodium::jni::get_field_value(
             _jenv,
