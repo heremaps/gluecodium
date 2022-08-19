@@ -40,7 +40,7 @@ FfiOpaqueHandle
 library_smoke_ImmutableStructWithClash_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::ImmutableStructWithClash>(
+        new (std::nothrow) gluecodium::optional<smoke::ImmutableStructWithClash>(
             gluecodium::ffi::Conversion<smoke::ImmutableStructWithClash>::toCpp(value)
         )
     );
@@ -48,13 +48,13 @@ library_smoke_ImmutableStructWithClash_create_handle_nullable(FfiOpaqueHandle va
 void
 library_smoke_ImmutableStructWithClash_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::ImmutableStructWithClash>*>(handle);
+    delete reinterpret_cast<gluecodium::optional<smoke::ImmutableStructWithClash>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_ImmutableStructWithClash_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::ImmutableStructWithClash>::toFfi(
-        **reinterpret_cast<std::optional<smoke::ImmutableStructWithClash>*>(handle)
+        **reinterpret_cast<gluecodium::optional<smoke::ImmutableStructWithClash>*>(handle)
     );
 }
 #ifdef __cplusplus

@@ -6,6 +6,7 @@
 #include "cbridge_internal/include/CachedProxyBase.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
+#include "gluecodium/Optional.h"
 #include "gluecodium/TypeRepository.h"
 #include "gluecodium/UnorderedMapHash.h"
 #include "gluecodium/VectorHash.h"
@@ -13,7 +14,6 @@
 #include "smoke/ListenersWithReturnValues.h"
 #include <memory>
 #include <new>
-#include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -138,17 +138,17 @@ smoke_ListenersWithReturnValues_ResultStruct_release_handle( _baseRef handle )
 _baseRef
 smoke_ListenersWithReturnValues_ResultStruct_create_optional_handle(double result)
 {
-    auto _struct = new ( ::std::nothrow ) std::optional<::smoke::ListenersWithReturnValues::ResultStruct>( ::smoke::ListenersWithReturnValues::ResultStruct( ) );
+    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::ListenersWithReturnValues::ResultStruct>( ::smoke::ListenersWithReturnValues::ResultStruct( ) );
     (*_struct)->result = result;
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_ListenersWithReturnValues_ResultStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::smoke::ListenersWithReturnValues::ResultStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::ListenersWithReturnValues::ResultStruct>*>( handle ) );
 }
 void smoke_ListenersWithReturnValues_ResultStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::smoke::ListenersWithReturnValues::ResultStruct>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::smoke::ListenersWithReturnValues::ResultStruct>*>( handle );
 }
 double smoke_ListenersWithReturnValues_ResultStruct_result_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::ListenersWithReturnValues::ResultStruct>(handle);

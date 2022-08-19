@@ -121,7 +121,7 @@ FfiOpaqueHandle
 library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::LevelOne::LevelTwo::LevelThree::LevelFour>(
+        new (std::nothrow) gluecodium::optional<smoke::LevelOne::LevelTwo::LevelThree::LevelFour>(
             gluecodium::ffi::Conversion<smoke::LevelOne::LevelTwo::LevelThree::LevelFour>::toCpp(value)
         )
     );
@@ -129,20 +129,20 @@ library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_create_handle_nullable(FfiO
 void
 library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::LevelOne::LevelTwo::LevelThree::LevelFour>*>(handle);
+    delete reinterpret_cast<gluecodium::optional<smoke::LevelOne::LevelTwo::LevelThree::LevelFour>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::LevelOne::LevelTwo::LevelThree::LevelFour>::toFfi(
-        **reinterpret_cast<std::optional<smoke::LevelOne::LevelTwo::LevelThree::LevelFour>*>(handle)
+        **reinterpret_cast<gluecodium::optional<smoke::LevelOne::LevelTwo::LevelThree::LevelFour>*>(handle)
     );
 }
 FfiOpaqueHandle
 library_smoke_LevelOne_LevelTwo_LevelThree_LevelFourEnum_create_handle_nullable(uint32_t value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum>(
+        new (std::nothrow) gluecodium::optional<smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum>(
             gluecodium::ffi::Conversion<smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum>::toCpp(value)
         )
     );
@@ -150,13 +150,13 @@ library_smoke_LevelOne_LevelTwo_LevelThree_LevelFourEnum_create_handle_nullable(
 void
 library_smoke_LevelOne_LevelTwo_LevelThree_LevelFourEnum_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum>*>(handle);
+    delete reinterpret_cast<gluecodium::optional<smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum>*>(handle);
 }
 uint32_t
 library_smoke_LevelOne_LevelTwo_LevelThree_LevelFourEnum_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum>::toFfi(
-        **reinterpret_cast<std::optional<smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum>*>(handle)
+        **reinterpret_cast<gluecodium::optional<smoke::LevelOne::LevelTwo::LevelThree::LevelFourEnum>*>(handle)
     );
 }
 #ifdef __cplusplus

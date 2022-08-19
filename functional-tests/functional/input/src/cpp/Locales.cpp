@@ -42,8 +42,8 @@ Locales::locale_round_trip_strip_tag(const Locale& input) {
     return Locale(input.language_code, input.country_code, input.script_code);
 }
 
-std::optional<Locale>
-Locales::locale_round_trip_nullable(const std::optional<Locale>& input) {
+optional<Locale>
+Locales::locale_round_trip_nullable(const optional<Locale>& input) {
     return input;
 }
 

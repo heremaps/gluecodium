@@ -5,10 +5,10 @@
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
+#include "gluecodium/Optional.h"
 #include "smoke/Enums.h"
 #include <memory>
 #include <new>
-#include <optional>
 #include <string>
 void smoke_Enums_release_handle(_baseRef handle) {
     delete get_pointer<::std::shared_ptr< ::smoke::Enums >>(handle);
@@ -59,7 +59,7 @@ smoke_Enums_ErrorStruct_release_handle( _baseRef handle )
 _baseRef
 smoke_Enums_ErrorStruct_create_optional_handle(uint32_t type, _baseRef message)
 {
-    auto _struct = new ( ::std::nothrow ) std::optional<::smoke::Enums::ErrorStruct>( ::smoke::Enums::ErrorStruct( ) );
+    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::Enums::ErrorStruct>( ::smoke::Enums::ErrorStruct( ) );
     (*_struct)->type = static_cast<::smoke::Enums::InternalErrorCode>( type );
     (*_struct)->message = Conversion<::std::string>::toCpp( message );
     return reinterpret_cast<_baseRef>( _struct );
@@ -67,10 +67,10 @@ smoke_Enums_ErrorStruct_create_optional_handle(uint32_t type, _baseRef message)
 _baseRef
 smoke_Enums_ErrorStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::smoke::Enums::ErrorStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::Enums::ErrorStruct>*>( handle ) );
 }
 void smoke_Enums_ErrorStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::smoke::Enums::ErrorStruct>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::smoke::Enums::ErrorStruct>*>( handle );
 }
 uint32_t smoke_Enums_ErrorStruct_type_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::Enums::ErrorStruct>(handle);

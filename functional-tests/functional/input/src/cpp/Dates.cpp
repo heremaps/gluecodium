@@ -35,8 +35,8 @@ Dates::increase_date( const system_clock::time_point& input )
     return input + hours(24) + hours(1) + minutes(1) + seconds(1);
 }
 
-std::optional< system_clock::time_point >
-Dates::increase_date_maybe( const std::optional< system_clock::time_point >& input )
+lorem_ipsum::test::optional< system_clock::time_point >
+Dates::increase_date_maybe( const lorem_ipsum::test::optional< system_clock::time_point >& input )
 {
     return input ? *input + hours(24) + hours(1) + minutes(1) + seconds(1) : input;
 }
@@ -69,8 +69,8 @@ DatesSteady::increase_date(const steady_clock::time_point& input) {
     return input + hours(24) + hours(1) + minutes(1) + seconds(1);
 }
 
-std::optional<steady_clock::time_point>
-DatesSteady::increase_date_maybe(const std::optional<steady_clock::time_point>& input) {
+lorem_ipsum::test::optional<steady_clock::time_point>
+DatesSteady::increase_date_maybe(const lorem_ipsum::test::optional<steady_clock::time_point>& input) {
     return input ? *input + hours(24) + hours(1) + minutes(1) + seconds(1) : input;
 }
 

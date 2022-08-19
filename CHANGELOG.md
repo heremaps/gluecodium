@@ -8,7 +8,8 @@
 ### Bug fixes:
   * Fixed Java compilation issue for enum set literals.
 ### Removed:
-  * The LIME generator was removed. 
+  * The LIME generator was removed.
+  * Temporarily restored the `gluecodium::optional` type alias.
 
 ## 13.1.1
 Release date: 2022-08-08

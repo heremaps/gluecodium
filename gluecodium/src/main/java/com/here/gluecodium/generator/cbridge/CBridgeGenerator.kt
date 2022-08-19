@@ -33,7 +33,6 @@ import com.here.gluecodium.generator.common.OptimizedListsCollector
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.CppFullNameResolver
 import com.here.gluecodium.generator.cpp.CppIncludeResolver
-import com.here.gluecodium.generator.cpp.CppLibraryIncludes
 import com.here.gluecodium.generator.cpp.CppNameCache
 import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
@@ -156,7 +155,7 @@ internal class CBridgeGenerator(
 
         val implIncludes = genericTypes.flatMap { implIncludeCollector.collectImports(it) } +
             CBridgeImplIncludeResolver.BASE_HANDLE_IMPL_INCLUDE +
-            CppLibraryIncludes.OPTIONAL
+            cppIncludeResolver.optionalInclude
         templateData["includes"] =
             listOf(Include.createInternalInclude(CBRIDGE_COLLECTIONS_HEADER)) + implIncludes.distinct().sorted()
         val implFileContent =

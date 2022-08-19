@@ -106,7 +106,7 @@ FfiOpaqueHandle
 library_smoke_StructsWithMethods_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::StructsWithMethods>(
+        new (std::nothrow) gluecodium::optional<smoke::StructsWithMethods>(
             gluecodium::ffi::Conversion<smoke::StructsWithMethods>::toCpp(value)
         )
     );
@@ -114,13 +114,13 @@ library_smoke_StructsWithMethods_create_handle_nullable(FfiOpaqueHandle value)
 void
 library_smoke_StructsWithMethods_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::StructsWithMethods>*>(handle);
+    delete reinterpret_cast<gluecodium::optional<smoke::StructsWithMethods>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_StructsWithMethods_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::StructsWithMethods>::toFfi(
-        **reinterpret_cast<std::optional<smoke::StructsWithMethods>*>(handle)
+        **reinterpret_cast<gluecodium::optional<smoke::StructsWithMethods>*>(handle)
     );
 }
 FfiOpaqueHandle
@@ -150,7 +150,7 @@ FfiOpaqueHandle
 library_smoke_StructsWithMethods_Vector_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::StructsWithMethods::Vector>(
+        new (std::nothrow) gluecodium::optional<smoke::StructsWithMethods::Vector>(
             gluecodium::ffi::Conversion<smoke::StructsWithMethods::Vector>::toCpp(value)
         )
     );
@@ -158,13 +158,13 @@ library_smoke_StructsWithMethods_Vector_create_handle_nullable(FfiOpaqueHandle v
 void
 library_smoke_StructsWithMethods_Vector_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::StructsWithMethods::Vector>*>(handle);
+    delete reinterpret_cast<gluecodium::optional<smoke::StructsWithMethods::Vector>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_StructsWithMethods_Vector_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::StructsWithMethods::Vector>::toFfi(
-        **reinterpret_cast<std::optional<smoke::StructsWithMethods::Vector>*>(handle)
+        **reinterpret_cast<gluecodium::optional<smoke::StructsWithMethods::Vector>*>(handle)
     );
 }
 #ifdef __cplusplus

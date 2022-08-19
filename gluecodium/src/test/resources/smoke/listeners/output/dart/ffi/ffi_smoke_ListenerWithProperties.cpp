@@ -329,7 +329,7 @@ FfiOpaqueHandle
 library_smoke_ListenerWithProperties_ResultStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::ListenerWithProperties::ResultStruct>(
+        new (std::nothrow) gluecodium::optional<smoke::ListenerWithProperties::ResultStruct>(
             gluecodium::ffi::Conversion<smoke::ListenerWithProperties::ResultStruct>::toCpp(value)
         )
     );
@@ -337,20 +337,20 @@ library_smoke_ListenerWithProperties_ResultStruct_create_handle_nullable(FfiOpaq
 void
 library_smoke_ListenerWithProperties_ResultStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::ListenerWithProperties::ResultStruct>*>(handle);
+    delete reinterpret_cast<gluecodium::optional<smoke::ListenerWithProperties::ResultStruct>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_ListenerWithProperties_ResultStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::ListenerWithProperties::ResultStruct>::toFfi(
-        **reinterpret_cast<std::optional<smoke::ListenerWithProperties::ResultStruct>*>(handle)
+        **reinterpret_cast<gluecodium::optional<smoke::ListenerWithProperties::ResultStruct>*>(handle)
     );
 }
 FfiOpaqueHandle
 library_smoke_ListenerWithProperties_ResultEnum_create_handle_nullable(uint32_t value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::ListenerWithProperties::ResultEnum>(
+        new (std::nothrow) gluecodium::optional<smoke::ListenerWithProperties::ResultEnum>(
             gluecodium::ffi::Conversion<smoke::ListenerWithProperties::ResultEnum>::toCpp(value)
         )
     );
@@ -358,13 +358,13 @@ library_smoke_ListenerWithProperties_ResultEnum_create_handle_nullable(uint32_t 
 void
 library_smoke_ListenerWithProperties_ResultEnum_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::ListenerWithProperties::ResultEnum>*>(handle);
+    delete reinterpret_cast<gluecodium::optional<smoke::ListenerWithProperties::ResultEnum>*>(handle);
 }
 uint32_t
 library_smoke_ListenerWithProperties_ResultEnum_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::ListenerWithProperties::ResultEnum>::toFfi(
-        **reinterpret_cast<std::optional<smoke::ListenerWithProperties::ResultEnum>*>(handle)
+        **reinterpret_cast<gluecodium::optional<smoke::ListenerWithProperties::ResultEnum>*>(handle)
     );
 }
 FfiOpaqueHandle

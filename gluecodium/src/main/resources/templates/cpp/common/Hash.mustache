@@ -25,7 +25,6 @@
 #include <cstddef>
 #include <functional>
 #include <memory>
-#include <optional>
 #include <type_traits>
 
 {{#internalNamespace}}
@@ -105,15 +104,6 @@ struct hash<const T>
     size_t operator( )( const T& t ) const noexcept
     {
         return hash<T>( )( t );
-    }
-};
-
-template <class T>
-struct hash<std::optional<T>>
-{
-    size_t operator( )( const std::optional<T>& t ) const noexcept
-    {
-        return t.has_value( ) ? hash<T>( )( *t ) : 0;
     }
 };
 

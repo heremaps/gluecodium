@@ -22,7 +22,7 @@ FfiOpaqueHandle
 {{libraryName}}_{{internalPrefix}}{{resolveName type}}_create_handle_nullable({{handleType}} value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<{{resolveName type "C++"}}>(
+        new (std::nothrow) {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<{{resolveName type "C++"}}>(
 {{#instanceOf type "LimeStruct"}}{{#if type.external.cpp}}
             *reinterpret_cast<{{resolveName type "C++"}}*>(value)
 {{/if}}{{#unless type.external.cpp}}
@@ -37,7 +37,7 @@ FfiOpaqueHandle
 void
 {{libraryName}}_{{internalPrefix}}{{resolveName type}}_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<{{resolveName type "C++"}}>*>(handle);
+    delete reinterpret_cast<{{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<{{resolveName type "C++"}}>*>(handle);
 }
 
 {{handleType}}
@@ -45,15 +45,15 @@ void
 {
 {{#instanceOf type "LimeStruct"}}{{#if type.external.cpp}}
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) {{resolveName type "C++"}}(
-        **reinterpret_cast<std::optional<{{resolveName type "C++"}}>*>(handle)
+        **reinterpret_cast<{{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<{{resolveName type "C++"}}>*>(handle)
     ));
 {{/if}}{{#unless type.external.cpp}}
     return {{>ffi/FfiInternal}}::Conversion<{{resolveName type "C++"}}>::toFfi(
-        **reinterpret_cast<std::optional<{{resolveName type "C++"}}>*>(handle)
+        **reinterpret_cast<{{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<{{resolveName type "C++"}}>*>(handle)
     );
 {{/unless}}{{/instanceOf}}{{#notInstanceOf type "LimeStruct"}}
     return {{>ffi/FfiInternal}}::Conversion<{{resolveName type "C++"}}>::toFfi(
-        **reinterpret_cast<std::optional<{{resolveName type "C++"}}>*>(handle)
+        **reinterpret_cast<{{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<{{resolveName type "C++"}}>*>(handle)
     );
 {{/notInstanceOf}}
 }

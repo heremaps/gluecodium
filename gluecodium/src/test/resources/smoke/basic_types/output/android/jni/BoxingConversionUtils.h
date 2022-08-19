@@ -3,8 +3,8 @@
  */
 #pragma once
 #include "JniReference.h"
+#include "gluecodium/Optional.h"
 #include <jni.h>
-#include <optional>
 namespace gluecodium
 {
 namespace jni
@@ -34,38 +34,38 @@ JNIEXPORT uint16_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& j
 JNIEXPORT uint32_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint32_t* );
 JNIEXPORT uint64_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, uint64_t* );
 // Boxing/unboxing conversion functions for nullable types
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<bool> nvalue );
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<float> nvalue );
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<double> nvalue );
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<int8_t> nvalue );
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<int16_t> nvalue );
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<int32_t> nvalue );
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<int64_t> nvalue );
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<uint8_t> nvalue );
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<uint16_t> nvalue );
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<uint32_t> nvalue );
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<uint64_t> nvalue );
-JNIEXPORT std::optional<bool> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<bool>* );
-JNIEXPORT std::optional<float> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<float>* );
-JNIEXPORT std::optional<double> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<double>* );
-JNIEXPORT std::optional<int8_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<int8_t>* );
-JNIEXPORT std::optional<int16_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<int16_t>* );
-JNIEXPORT std::optional<int32_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<int32_t>* );
-JNIEXPORT std::optional<int64_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<int64_t>* );
-JNIEXPORT std::optional<uint8_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<uint8_t>* );
-JNIEXPORT std::optional<uint16_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<uint16_t>* );
-JNIEXPORT std::optional<uint32_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<uint32_t>* );
-JNIEXPORT std::optional<uint64_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<uint64_t>* );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, ::gluecodium::optional<bool> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, ::gluecodium::optional<float> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, ::gluecodium::optional<double> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, ::gluecodium::optional<int8_t> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, ::gluecodium::optional<int16_t> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, ::gluecodium::optional<int32_t> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, ::gluecodium::optional<int64_t> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, ::gluecodium::optional<uint8_t> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, ::gluecodium::optional<uint16_t> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, ::gluecodium::optional<uint32_t> nvalue );
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, ::gluecodium::optional<uint64_t> nvalue );
+JNIEXPORT ::gluecodium::optional<bool> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::gluecodium::optional<bool>* );
+JNIEXPORT ::gluecodium::optional<float> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::gluecodium::optional<float>* );
+JNIEXPORT ::gluecodium::optional<double> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::gluecodium::optional<double>* );
+JNIEXPORT ::gluecodium::optional<int8_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::gluecodium::optional<int8_t>* );
+JNIEXPORT ::gluecodium::optional<int16_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::gluecodium::optional<int16_t>* );
+JNIEXPORT ::gluecodium::optional<int32_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::gluecodium::optional<int32_t>* );
+JNIEXPORT ::gluecodium::optional<int64_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::gluecodium::optional<int64_t>* );
+JNIEXPORT ::gluecodium::optional<uint8_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::gluecodium::optional<uint8_t>* );
+JNIEXPORT ::gluecodium::optional<uint16_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::gluecodium::optional<uint16_t>* );
+JNIEXPORT ::gluecodium::optional<uint32_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::gluecodium::optional<uint32_t>* );
+JNIEXPORT ::gluecodium::optional<uint64_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, ::gluecodium::optional<uint64_t>* );
 }
 }

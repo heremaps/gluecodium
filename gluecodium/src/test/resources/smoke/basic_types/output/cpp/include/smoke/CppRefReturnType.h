@@ -4,10 +4,10 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "gluecodium/ExportGluecodiumCpp.h"
+#include "gluecodium/Optional.h"
 #include "gluecodium/Return.h"
 #include <cstdint>
 #include <memory>
-#include <optional>
 #include <string>
 #include <system_error>
 namespace smoke {
@@ -35,7 +35,7 @@ public:
      * \return @NotNull
      */
     static const ::std::shared_ptr< ::smoke::CppRefReturnType >& class_ref(  );
-    static const std::optional< ::std::string >& nullable_ref(  );
+    static const ::gluecodium::optional< ::std::string >& nullable_ref(  );
     static ::std::error_code throwing_enum_with_void(  );
     static ::gluecodium::Return< const ::std::string&, ::std::error_code > throwing_enum_with_string(  );
     static ::gluecodium::Return< void, ::smoke::CppRefReturnType::SomeStruct > throwing_struct_with_void(  );

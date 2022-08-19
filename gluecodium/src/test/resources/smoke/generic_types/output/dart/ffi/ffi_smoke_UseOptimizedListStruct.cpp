@@ -44,7 +44,7 @@ FfiOpaqueHandle
 library_smoke_UseOptimizedListStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::UseOptimizedListStruct>(
+        new (std::nothrow) gluecodium::optional<smoke::UseOptimizedListStruct>(
             gluecodium::ffi::Conversion<smoke::UseOptimizedListStruct>::toCpp(value)
         )
     );
@@ -52,13 +52,13 @@ library_smoke_UseOptimizedListStruct_create_handle_nullable(FfiOpaqueHandle valu
 void
 library_smoke_UseOptimizedListStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::UseOptimizedListStruct>*>(handle);
+    delete reinterpret_cast<gluecodium::optional<smoke::UseOptimizedListStruct>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_UseOptimizedListStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::UseOptimizedListStruct>::toFfi(
-        **reinterpret_cast<std::optional<smoke::UseOptimizedListStruct>*>(handle)
+        **reinterpret_cast<gluecodium::optional<smoke::UseOptimizedListStruct>*>(handle)
     );
 }
 #ifdef __cplusplus

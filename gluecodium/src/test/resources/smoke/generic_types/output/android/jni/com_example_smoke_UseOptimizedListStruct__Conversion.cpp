@@ -21,12 +21,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::U
     auto& n_classes = **reinterpret_cast<std::shared_ptr<::std::vector< ::std::shared_ptr< ::smoke::UnreasonablyLazyClass > >>*>(classes_handle);
     return ::smoke::UseOptimizedListStruct(std::move(n_structs), std::move(n_classes));
 }
-std::optional<::smoke::UseOptimizedListStruct>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::optional<::smoke::UseOptimizedListStruct>*)
+::gluecodium::optional<::smoke::UseOptimizedListStruct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::UseOptimizedListStruct>*)
 {
     return _jinput
-        ? std::optional<::smoke::UseOptimizedListStruct>(convert_from_jni(_jenv, _jinput, (::smoke::UseOptimizedListStruct*)nullptr))
-        : std::optional<::smoke::UseOptimizedListStruct>{};
+        ? ::gluecodium::optional<::smoke::UseOptimizedListStruct>(convert_from_jni(_jenv, _jinput, (::smoke::UseOptimizedListStruct*)nullptr))
+        : ::gluecodium::optional<::smoke::UseOptimizedListStruct>{};
 }
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/UseOptimizedListStruct", com_example_smoke_UseOptimizedListStruct, ::smoke::UseOptimizedListStruct)
 JniReference<jobject>
@@ -41,7 +41,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::UseOptimizedListStruct& _ninput)
     return _jresult;
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::optional<::smoke::UseOptimizedListStruct> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::smoke::UseOptimizedListStruct> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

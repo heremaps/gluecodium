@@ -2,11 +2,11 @@
 //
 #include "cbridge/include/smoke/cbridge_SkipFieldInPlatform.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
+#include "gluecodium/Optional.h"
 #include "smoke/SkipFieldInPlatform.h"
 #include <cstdint>
 #include <memory>
 #include <new>
-#include <optional>
 _baseRef
 smoke_SkipFieldInPlatform_create_handle( int32_t intField, bool boolField )
 {
@@ -23,7 +23,7 @@ smoke_SkipFieldInPlatform_release_handle( _baseRef handle )
 _baseRef
 smoke_SkipFieldInPlatform_create_optional_handle(int32_t intField, bool boolField)
 {
-    auto _struct = new ( ::std::nothrow ) std::optional<::smoke::SkipFieldInPlatform>( ::smoke::SkipFieldInPlatform( ) );
+    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::SkipFieldInPlatform>( ::smoke::SkipFieldInPlatform( ) );
     (*_struct)->int_field = intField;
     (*_struct)->bool_field = boolField;
     return reinterpret_cast<_baseRef>( _struct );
@@ -31,10 +31,10 @@ smoke_SkipFieldInPlatform_create_optional_handle(int32_t intField, bool boolFiel
 _baseRef
 smoke_SkipFieldInPlatform_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::smoke::SkipFieldInPlatform>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::SkipFieldInPlatform>*>( handle ) );
 }
 void smoke_SkipFieldInPlatform_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::smoke::SkipFieldInPlatform>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::smoke::SkipFieldInPlatform>*>( handle );
 }
 int32_t smoke_SkipFieldInPlatform_intField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::SkipFieldInPlatform>(handle);

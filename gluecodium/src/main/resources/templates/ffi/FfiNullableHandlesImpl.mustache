@@ -24,10 +24,10 @@
 
 #include "ConversionBase.h"
 #include "{{>common/InternalInclude}}Locale.h"
+#include "{{>common/InternalInclude}}Optional.h"
 #include <chrono>
 #include <memory>
 #include <new>
-#include <optional>
 #include <string>
 #include <vector>
 
@@ -40,7 +40,7 @@ FfiOpaqueHandle
 {{libraryName}}_{{resolveName toString ""}}_create_handle_nullable({{resolveName}} value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<{{resolveName "C++"}}>(
+        new (std::nothrow) {{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<{{resolveName "C++"}}>(
             {{#unless isNumericType}}{{#isNotEq toString "Boolean"}}{{!!
             }}{{>ffi/FfiInternal}}::Conversion<{{resolveName "C++"}}>::toCpp{{/isNotEq}}{{/unless}}(value)
         )
@@ -50,7 +50,7 @@ FfiOpaqueHandle
 void
 {{libraryName}}_{{resolveName toString ""}}_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<{{resolveName "C++"}}>*>(handle);
+    delete reinterpret_cast<{{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<{{resolveName "C++"}}>*>(handle);
 }
 
 {{resolveName}}
@@ -58,7 +58,7 @@ void
 {
     return {{#unless isNumericType}}{{#isNotEq toString "Boolean"}}{{!!
     }}{{>ffi/FfiInternal}}::Conversion<{{resolveName "C++"}}>::toFfi{{/isNotEq}}{{/unless}}(
-        **reinterpret_cast<std::optional<{{resolveName "C++"}}>*>(handle)
+        **reinterpret_cast<{{#internalNamespace}}{{.}}::{{/internalNamespace}}optional<{{resolveName "C++"}}>*>(handle)
     );
 }
 {{/builtInTypes}}

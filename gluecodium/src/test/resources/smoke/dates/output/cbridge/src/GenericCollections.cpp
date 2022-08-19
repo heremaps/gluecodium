@@ -3,14 +3,13 @@
 #include "cbridge/include/GenericCollections.h"
 #include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
-
+#include "gluecodium/Optional.h"
 #include "gluecodium/TimePointHash.h"
 #include "gluecodium/UnorderedMapHash.h"
 #include "gluecodium/UnorderedSetHash.h"
 #include "gluecodium/VectorHash.h"
 #include "smoke/DatesSteady.h"
 #include <chrono>
-#include <optional>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -36,13 +35,13 @@ void foobar_ArrayOf__Date_append( _baseRef handle, double item )
     Conversion<::std::vector< ::std::chrono::system_clock::time_point >>::toCpp(handle).push_back(Conversion<::std::chrono::system_clock::time_point>::toCpp(item));
 }
 _baseRef foobar_ArrayOf__Date_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::vector< ::std::chrono::system_clock::time_point >>( ::std::vector< ::std::chrono::system_clock::time_point >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::std::chrono::system_clock::time_point >>( ::std::vector< ::std::chrono::system_clock::time_point >( ) ) );
 }
 void foobar_ArrayOf__Date_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::vector< ::std::chrono::system_clock::time_point >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::std::chrono::system_clock::time_point >>*>( handle );
 }
 _baseRef foobar_ArrayOf__Date_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::vector< ::std::chrono::system_clock::time_point >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::std::chrono::system_clock::time_point >>*>( handle ) );
 }
 _baseRef foobar_ArrayOf__Date_std_2_2chrono_2_2steady_1clock_2_2time_1point_create_handle() {
     return reinterpret_cast<_baseRef>( new ::std::vector< std::chrono::steady_clock::time_point >( ) );
@@ -64,13 +63,13 @@ void foobar_ArrayOf__Date_std_2_2chrono_2_2steady_1clock_2_2time_1point_append( 
     Conversion<::std::vector< std::chrono::steady_clock::time_point >>::toCpp(handle).push_back(Conversion<std::chrono::steady_clock::time_point>::toCpp(item));
 }
 _baseRef foobar_ArrayOf__Date_std_2_2chrono_2_2steady_1clock_2_2time_1point_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::vector< std::chrono::steady_clock::time_point >>( ::std::vector< std::chrono::steady_clock::time_point >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< std::chrono::steady_clock::time_point >>( ::std::vector< std::chrono::steady_clock::time_point >( ) ) );
 }
 void foobar_ArrayOf__Date_std_2_2chrono_2_2steady_1clock_2_2time_1point_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::vector< std::chrono::steady_clock::time_point >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::vector< std::chrono::steady_clock::time_point >>*>( handle );
 }
 _baseRef foobar_ArrayOf__Date_std_2_2chrono_2_2steady_1clock_2_2time_1point_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::vector< std::chrono::steady_clock::time_point >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< std::chrono::steady_clock::time_point >>*>( handle ) );
 }
 _baseRef foobar_MapOf__Date_std_2_2chrono_2_2steady_1clock_2_2time_1point_To__String_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< std::chrono::steady_clock::time_point, ::std::string, ::gluecodium::hash< std::chrono::steady_clock::time_point > >() );
@@ -102,13 +101,13 @@ _baseRef foobar_MapOf__Date_std_2_2chrono_2_2steady_1clock_2_2time_1point_To__St
     return Conversion<::std::string>::toBaseRef(value);
 }
 _baseRef foobar_MapOf__Date_std_2_2chrono_2_2steady_1clock_2_2time_1point_To__String_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< std::chrono::steady_clock::time_point, ::std::string, ::gluecodium::hash< std::chrono::steady_clock::time_point > >>( ::std::unordered_map< std::chrono::steady_clock::time_point, ::std::string, ::gluecodium::hash< std::chrono::steady_clock::time_point > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< std::chrono::steady_clock::time_point, ::std::string, ::gluecodium::hash< std::chrono::steady_clock::time_point > >>( ::std::unordered_map< std::chrono::steady_clock::time_point, ::std::string, ::gluecodium::hash< std::chrono::steady_clock::time_point > >( ) ) );
 }
 void foobar_MapOf__Date_std_2_2chrono_2_2steady_1clock_2_2time_1point_To__String_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_map< std::chrono::steady_clock::time_point, ::std::string, ::gluecodium::hash< std::chrono::steady_clock::time_point > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< std::chrono::steady_clock::time_point, ::std::string, ::gluecodium::hash< std::chrono::steady_clock::time_point > >>*>( handle );
 }
 _baseRef foobar_MapOf__Date_std_2_2chrono_2_2steady_1clock_2_2time_1point_To__String_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< std::chrono::steady_clock::time_point, ::std::string, ::gluecodium::hash< std::chrono::steady_clock::time_point > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< std::chrono::steady_clock::time_point, ::std::string, ::gluecodium::hash< std::chrono::steady_clock::time_point > >>*>( handle ) );
 }
 _baseRef foobar_MapOf__String_To__Date_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< ::std::string, ::std::chrono::system_clock::time_point >() );
@@ -140,13 +139,13 @@ double foobar_MapOf__String_To__Date_iterator_value(_baseRef iterator_handle) {
     return Conversion<::std::chrono::system_clock::time_point>::toBaseRef(value);
 }
 _baseRef foobar_MapOf__String_To__Date_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< ::std::string, ::std::chrono::system_clock::time_point >>( ::std::unordered_map< ::std::string, ::std::chrono::system_clock::time_point >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< ::std::string, ::std::chrono::system_clock::time_point >>( ::std::unordered_map< ::std::string, ::std::chrono::system_clock::time_point >( ) ) );
 }
 void foobar_MapOf__String_To__Date_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_map< ::std::string, ::std::chrono::system_clock::time_point >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::string, ::std::chrono::system_clock::time_point >>*>( handle );
 }
 _baseRef foobar_MapOf__String_To__Date_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< ::std::string, ::std::chrono::system_clock::time_point >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::string, ::std::chrono::system_clock::time_point >>*>( handle ) );
 }
 _baseRef foobar_SetOf__Date_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set< ::std::chrono::system_clock::time_point, ::gluecodium::hash< ::std::chrono::system_clock::time_point > >() );
@@ -174,11 +173,11 @@ double foobar_SetOf__Date_iterator_get(_baseRef iterator_handle) {
     return Conversion<::std::chrono::system_clock::time_point>::referenceBaseRef(value);
 }
 _baseRef foobar_SetOf__Date_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_set< ::std::chrono::system_clock::time_point, ::gluecodium::hash< ::std::chrono::system_clock::time_point > >>( ::std::unordered_set< ::std::chrono::system_clock::time_point, ::gluecodium::hash< ::std::chrono::system_clock::time_point > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_set< ::std::chrono::system_clock::time_point, ::gluecodium::hash< ::std::chrono::system_clock::time_point > >>( ::std::unordered_set< ::std::chrono::system_clock::time_point, ::gluecodium::hash< ::std::chrono::system_clock::time_point > >( ) ) );
 }
 void foobar_SetOf__Date_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::std::unordered_set< ::std::chrono::system_clock::time_point, ::gluecodium::hash< ::std::chrono::system_clock::time_point > >>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::std::unordered_set< ::std::chrono::system_clock::time_point, ::gluecodium::hash< ::std::chrono::system_clock::time_point > >>*>( handle );
 }
 _baseRef foobar_SetOf__Date_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_set< ::std::chrono::system_clock::time_point, ::gluecodium::hash< ::std::chrono::system_clock::time_point > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_set< ::std::chrono::system_clock::time_point, ::gluecodium::hash< ::std::chrono::system_clock::time_point > >>*>( handle ) );
 }

@@ -294,6 +294,7 @@ internal class CppGenerator : Generator {
             "DurationHash",
             "Hash",
             "Locale",
+            "Optional",
             "Return",
             "TimePointHash",
             "TypeRepository",

@@ -53,6 +53,7 @@ internal class CppIncludeResolver(
 
     val hashInclude = cppIncludesCache.createInternalNamespaceInclude("Hash.h")
     val typeRepositoryInclude = cppIncludesCache.createInternalNamespaceInclude("TypeRepository.h")
+    val optionalInclude = cppIncludesCache.createInternalNamespaceInclude("Optional.h")
 
     private val returnInclude = cppIncludesCache.createInternalNamespaceInclude("Return.h")
     private val timePointHashInclude = cppIncludesCache.createInternalNamespaceInclude("TimePointHash.h")
@@ -111,7 +112,7 @@ internal class CppIncludeResolver(
             listOfNotNull(CppLibraryIncludes.MEMORY.takeIf { limeTypeRef.attributes.have(OPTIMIZED) }) +
             when {
                 limeTypeRef.type.actualType is LimeContainerWithInheritance -> listOf(CppLibraryIncludes.MEMORY)
-                limeTypeRef.isNullable -> listOf(CppLibraryIncludes.OPTIONAL)
+                limeTypeRef.isNullable -> listOf(optionalInclude)
                 else -> emptyList()
             }
 

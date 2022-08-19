@@ -65,7 +65,7 @@ WeaklingNotifier::push_notifications(const std::shared_ptr<test::Weakling>& whom
     }
 }
 
-std::optional<bool>
+lorem_ipsum::test::optional<bool>
 WeaklingNotifier::push_notification_maybe(const std::shared_ptr<test::Weakling>& whom) {
     return whom->get_weak_listener()->notify_maybe();
 }
