@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 13.2.0
+Release date: 2022-08-19
 ### Features:
   * Added support for per-platform visibility attributes (e.g. `@Java(Internal)`, etc.).
   * Added a `null` check in Dart for non-nullable class and interface usages.
