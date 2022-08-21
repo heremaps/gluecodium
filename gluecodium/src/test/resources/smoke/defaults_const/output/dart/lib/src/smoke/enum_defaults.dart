@@ -9,6 +9,7 @@ import 'package:library/src/fire/enum4.dart';
 import 'package:library/src/smoke/enum_wrapper.dart';
 abstract class EnumDefaults {
 }
+typedef EnumDefaults_EnumAlias = Enum3;
 class EnumDefaults_SimpleEnum {
   Enum1 enumField;
   EnumDefaults_SimpleEnum._(this.enumField);
@@ -152,7 +153,7 @@ void smokeEnumdefaultsNullableenumReleaseFfiHandleNullable(Pointer<Void> handle)
   _smokeEnumdefaultsNullableenumReleaseHandleNullable(handle);
 // End of EnumDefaults_NullableEnum "private" section.
 class EnumDefaults_AliasEnum {
-  Enum3 enumField;
+  EnumDefaults_EnumAlias enumField;
   EnumDefaults_AliasEnum._(this.enumField);
   EnumDefaults_AliasEnum()
     : enumField = Enum3.disabled;

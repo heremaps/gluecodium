@@ -12,7 +12,7 @@ abstract class CalculatorListener {
     void Function(double) onCalculationResultConstLambda,
     void Function(CalculatorListener_ResultStruct) onCalculationResultStructLambda,
     void Function(List<double>) onCalculationResultArrayLambda,
-    void Function(Map<String, double>) onCalculationResultMapLambda,
+    void Function(CalculatorListener_NamedCalculationResults) onCalculationResultMapLambda,
     void Function(CalculationResult) onCalculationResultInstanceLambda,
   ) => CalculatorListener$Lambdas(
     onCalculationResultLambda,
@@ -27,9 +27,10 @@ abstract class CalculatorListener {
   void onCalculationResultConst(double calculationResult);
   void onCalculationResultStruct(CalculatorListener_ResultStruct calculationResult);
   void onCalculationResultArray(List<double> calculationResult);
-  void onCalculationResultMap(Map<String, double> calculationResults);
+  void onCalculationResultMap(CalculatorListener_NamedCalculationResults calculationResults);
   void onCalculationResultInstance(CalculationResult calculationResult);
 }
+typedef CalculatorListener_NamedCalculationResults = Map<String, double>;
 class CalculatorListener_ResultStruct {
   double result;
   CalculatorListener_ResultStruct(this.result);
@@ -118,7 +119,7 @@ class CalculatorListener$Lambdas implements CalculatorListener {
   void Function(double) onCalculationResultConstLambda;
   void Function(CalculatorListener_ResultStruct) onCalculationResultStructLambda;
   void Function(List<double>) onCalculationResultArrayLambda;
-  void Function(Map<String, double>) onCalculationResultMapLambda;
+  void Function(CalculatorListener_NamedCalculationResults) onCalculationResultMapLambda;
   void Function(CalculationResult) onCalculationResultInstanceLambda;
   CalculatorListener$Lambdas(
     this.onCalculationResultLambda,
@@ -142,7 +143,7 @@ class CalculatorListener$Lambdas implements CalculatorListener {
   void onCalculationResultArray(List<double> calculationResult) =>
     onCalculationResultArrayLambda(calculationResult);
   @override
-  void onCalculationResultMap(Map<String, double> calculationResults) =>
+  void onCalculationResultMap(CalculatorListener_NamedCalculationResults calculationResults) =>
     onCalculationResultMapLambda(calculationResults);
   @override
   void onCalculationResultInstance(CalculationResult calculationResult) =>
@@ -182,7 +183,7 @@ class CalculatorListener$Impl extends __lib.NativeBase implements CalculatorList
     foobarListofDoubleReleaseFfiHandle(_calculationResultHandle);
   }
   @override
-  void onCalculationResultMap(Map<String, double> calculationResults) {
+  void onCalculationResultMap(CalculatorListener_NamedCalculationResults calculationResults) {
     final _onCalculationResultMapFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CalculatorListener_onCalculationResultMap__MapOf_String_to_Double'));
     final _calculationResultsHandle = foobarMapofStringToDoubleToFfi(calculationResults);
     final _handle = this.handle;

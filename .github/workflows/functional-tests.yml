@@ -248,7 +248,7 @@ jobs:
       - name: Install Dart SDK
         run: |
           DART_RELEASE_CHANNEL=stable
-          DART_VERSION=2.12.0
+          DART_VERSION=2.13.3
           wget -nv https://storage.googleapis.com/dart-archive/channels/${DART_RELEASE_CHANNEL}/release/${DART_VERSION}/linux_packages/dart_${DART_VERSION}-1_amd64.deb
           sudo apt -y install ./dart_${DART_VERSION}-1_amd64.deb
       - name: Build and run functional tests
@@ -365,7 +365,7 @@ jobs:
       - name: Install Dart SDK
         run: |
           DART_RELEASE_CHANNEL=stable
-          DART_VERSION=2.12.0
+          DART_VERSION=2.13.3
           wget -nv https://storage.googleapis.com/dart-archive/channels/${DART_RELEASE_CHANNEL}/release/${DART_VERSION}/linux_packages/dart_${DART_VERSION}-1_amd64.deb
           sudo apt -y install ./dart_${DART_VERSION}-1_amd64.deb
       - name: Build and run functional tests

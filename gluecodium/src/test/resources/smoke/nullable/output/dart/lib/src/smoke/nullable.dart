@@ -12,9 +12,9 @@ abstract class Nullable {
   int? methodWithInt(int? input);
   Nullable_SomeStruct? methodWithSomeStruct(Nullable_SomeStruct? input);
   Nullable_SomeEnum? methodWithSomeEnum(Nullable_SomeEnum? input);
-  List<String>? methodWithSomeArray(List<String>? input);
+  Nullable_SomeArray? methodWithSomeArray(Nullable_SomeArray? input);
   List<String>? methodWithInlineArray(List<String>? input);
-  Map<int, String>? methodWithSomeMap(Map<int, String>? input);
+  Nullable_SomeMap? methodWithSomeMap(Nullable_SomeMap? input);
   SomeInterface? methodWithInstance(SomeInterface? input);
   String? get stringProperty;
   set stringProperty(String? value);
@@ -28,15 +28,17 @@ abstract class Nullable {
   set structProperty(Nullable_SomeStruct? value);
   Nullable_SomeEnum? get enumProperty;
   set enumProperty(Nullable_SomeEnum? value);
-  List<String>? get arrayProperty;
-  set arrayProperty(List<String>? value);
+  Nullable_SomeArray? get arrayProperty;
+  set arrayProperty(Nullable_SomeArray? value);
   List<String>? get inlineArrayProperty;
   set inlineArrayProperty(List<String>? value);
-  Map<int, String>? get mapProperty;
-  set mapProperty(Map<int, String>? value);
+  Nullable_SomeMap? get mapProperty;
+  set mapProperty(Nullable_SomeMap? value);
   SomeInterface? get instanceProperty;
   set instanceProperty(SomeInterface? value);
 }
+typedef Nullable_SomeArray = List<String>;
+typedef Nullable_SomeMap = Map<int, String>;
 enum Nullable_SomeEnum {
     on,
     off
@@ -162,9 +164,9 @@ class Nullable_NullableStruct {
   double? doubleField;
   Nullable_SomeStruct? structField;
   Nullable_SomeEnum? enumField;
-  List<String>? arrayField;
+  Nullable_SomeArray? arrayField;
   List<String>? inlineArrayField;
-  Map<int, String>? mapField;
+  Nullable_SomeMap? mapField;
   SomeInterface? instanceField;
   Nullable_NullableStruct._(this.stringField, this.boolField, this.doubleField, this.structField, this.enumField, this.arrayField, this.inlineArrayField, this.mapField, this.instanceField);
   Nullable_NullableStruct()
@@ -532,7 +534,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  List<String>? methodWithSomeArray(List<String>? input) {
+  Nullable_SomeArray? methodWithSomeArray(Nullable_SomeArray? input) {
     final _methodWithSomeArrayFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithSomeArray__ListOf_String_'));
     final _inputHandle = foobarListofStringToFfiNullable(input);
     final _handle = this.handle;
@@ -558,7 +560,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  Map<int, String>? methodWithSomeMap(Map<int, String>? input) {
+  Nullable_SomeMap? methodWithSomeMap(Nullable_SomeMap? input) {
     final _methodWithSomeMapFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithSomeMap__MapOf_Long_to_String_'));
     final _inputHandle = foobarMapofLongToStringToFfiNullable(input);
     final _handle = this.handle;
@@ -698,7 +700,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     smokeNullableSomeenumReleaseFfiHandleNullable(_valueHandle);
   }
   @override
-  List<String>? get arrayProperty {
+  Nullable_SomeArray? get arrayProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Nullable_arrayProperty_get'));
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
@@ -709,7 +711,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  set arrayProperty(List<String>? value) {
+  set arrayProperty(Nullable_SomeArray? value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_arrayProperty_set__ListOf_String_'));
     final _valueHandle = foobarListofStringToFfiNullable(value);
     final _handle = this.handle;
@@ -736,7 +738,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     foobarListofStringReleaseFfiHandleNullable(_valueHandle);
   }
   @override
-  Map<int, String>? get mapProperty {
+  Nullable_SomeMap? get mapProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Nullable_mapProperty_get'));
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
@@ -747,7 +749,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
     }
   }
   @override
-  set mapProperty(Map<int, String>? value) {
+  set mapProperty(Nullable_SomeMap? value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_mapProperty_set__MapOf_Long_to_String_'));
     final _valueHandle = foobarMapofLongToStringToFfiNullable(value);
     final _handle = this.handle;

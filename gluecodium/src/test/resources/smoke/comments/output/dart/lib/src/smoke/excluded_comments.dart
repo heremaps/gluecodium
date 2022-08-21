@@ -9,28 +9,31 @@ abstract class ExcludedComments {
 
   /// This is some very useful constant.
   /// @nodoc
-  static final bool veryUseful = true;
+  static final ExcludedComments_Usefulness veryUseful = true;
   /// This is some very useful method that measures the usefulness of its input.
   ///
   /// [inputParameter] Very useful input parameter
   ///
-  /// Returns [bool]. Usefulness of the input
+  /// Returns [ExcludedComments_Usefulness]. Usefulness of the input
   ///
   /// Throws [ExcludedComments_SomethingWrongException]. Sometimes it happens.
   ///
   /// @nodoc
-  bool someMethodWithAllComments(String inputParameter);
+  ExcludedComments_Usefulness someMethodWithAllComments(String inputParameter);
   /// This is some very useful method that does nothing.
   ///
   /// @nodoc
   void someMethodWithoutReturnTypeOrInputParameters();
   /// Gets some very useful property.
   /// @nodoc
-  bool get isSomeProperty;
+  ExcludedComments_Usefulness get isSomeProperty;
   /// Sets some very useful property.
   /// @nodoc
-  set isSomeProperty(bool value);
+  set isSomeProperty(ExcludedComments_Usefulness value);
 }
+/// This is some very useful typealias.
+/// @nodoc
+typedef ExcludedComments_Usefulness = bool;
 /// This is some very useful enum.
 /// @nodoc
 enum ExcludedComments_SomeEnum {
@@ -97,7 +100,7 @@ class ExcludedComments_SomeStruct {
   /// How useful this struct is
   /// remains to be seen
   /// @nodoc
-  bool someField;
+  ExcludedComments_Usefulness someField;
   /// This is how easy it is to construct.
   /// [someField] How useful this struct is
   /// remains to be seen
@@ -288,7 +291,7 @@ class ExcludedComments$Impl extends __lib.NativeBase implements ExcludedComments
   ExcludedComments$Impl(Pointer<Void> handle) : super(handle);
 
   @override
-  bool someMethodWithAllComments(String inputParameter) {
+  ExcludedComments_Usefulness someMethodWithAllComments(String inputParameter) {
     final _someMethodWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ExcludedComments_someMethodWithAllComments__String'));
     final _inputParameterHandle = stringToFfi(inputParameter);
     final _handle = this.handle;
@@ -318,7 +321,7 @@ class ExcludedComments$Impl extends __lib.NativeBase implements ExcludedComments
     _someMethodWithoutReturnTypeOrInputParametersFfi(_handle, __lib.LibraryContext.isolateId);
   }
   @override
-  bool get isSomeProperty {
+  ExcludedComments_Usefulness get isSomeProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_ExcludedComments_isSomeProperty_get'));
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
@@ -329,7 +332,7 @@ class ExcludedComments$Impl extends __lib.NativeBase implements ExcludedComments
     }
   }
   @override
-  set isSomeProperty(bool value) {
+  set isSomeProperty(ExcludedComments_Usefulness value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_ExcludedComments_isSomeProperty_set__Boolean'));
     final _valueHandle = booleanToFfi(value);
     final _handle = this.handle;

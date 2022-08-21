@@ -11,12 +11,14 @@ abstract class MethodOverloads {
   bool isBooleanString(String input);
   bool isBooleanPoint(MethodOverloads_Point input);
   bool isBooleanMulti(bool input1, int input2, String input3, MethodOverloads_Point input4);
-  bool isBooleanStringArray(List<String> input);
-  bool isBooleanIntArray(List<int> input);
+  bool isBooleanStringArray(MethodOverloads_StringArray input);
+  bool isBooleanIntArray(MethodOverloads_IntArray input);
   bool isBooleanConst();
   bool isFloatString(String input);
-  bool isFloatList(List<int> input);
+  bool isFloatList(MethodOverloads_IntArray input);
 }
+typedef MethodOverloads_StringArray = List<String>;
+typedef MethodOverloads_IntArray = List<int>;
 class MethodOverloads_Point {
   double x;
   double y;
@@ -173,7 +175,7 @@ class MethodOverloads$Impl extends __lib.NativeBase implements MethodOverloads {
     }
   }
   @override
-  bool isBooleanStringArray(List<String> input) {
+  bool isBooleanStringArray(MethodOverloads_StringArray input) {
     final _isBooleanStringArrayFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MethodOverloads_isBoolean__ListOf_String'));
     final _inputHandle = foobarListofStringToFfi(input);
     final _handle = this.handle;
@@ -186,7 +188,7 @@ class MethodOverloads$Impl extends __lib.NativeBase implements MethodOverloads {
     }
   }
   @override
-  bool isBooleanIntArray(List<int> input) {
+  bool isBooleanIntArray(MethodOverloads_IntArray input) {
     final _isBooleanIntArrayFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MethodOverloads_isBoolean__ListOf_Byte'));
     final _inputHandle = foobarListofByteToFfi(input);
     final _handle = this.handle;
@@ -223,7 +225,7 @@ class MethodOverloads$Impl extends __lib.NativeBase implements MethodOverloads {
     }
   }
   @override
-  bool isFloatList(List<int> input) {
+  bool isFloatList(MethodOverloads_IntArray input) {
     final _isFloatListFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MethodOverloads_isFloat__ListOf_Byte'));
     final _inputHandle = foobarListofByteToFfi(input);
     final _handle = this.handle;

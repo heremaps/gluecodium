@@ -70,6 +70,9 @@ class {{resolveName}}{{#if external.dart.converter}}Internal{{/if}} {
 }
 {{/unlessPredicate}}
 
+{{#typeAliases}}
+{{>dart/DartTypeAlias}}
+{{/typeAliases}}
 {{#enumerations}}
 {{>dart/DartEnumeration}}
 {{/enumerations}}

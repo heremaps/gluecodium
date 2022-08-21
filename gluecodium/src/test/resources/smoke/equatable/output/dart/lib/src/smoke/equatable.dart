@@ -5,6 +5,7 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 class Equatable {
 }
+typedef Equatable_ErrorCodeToMessageMap = Map<int, String>;
 enum Equatable_SomeEnum {
     foo,
     bar
@@ -70,7 +71,7 @@ class Equatable_EquatableStruct {
   Equatable_NestedEquatableStruct structField;
   Equatable_SomeEnum enumField;
   List<String> arrayField;
-  Map<int, String> mapField;
+  Equatable_ErrorCodeToMessageMap mapField;
   Equatable_EquatableStruct(this.boolField, this.intField, this.longField, this.floatField, this.doubleField, this.stringField, this.structField, this.enumField, this.arrayField, this.mapField);
   @override
   bool operator ==(Object other) {
@@ -246,7 +247,7 @@ class Equatable_EquatableNullableStruct {
   Equatable_NestedEquatableStruct? structField;
   Equatable_SomeEnum? enumField;
   List<String>? arrayField;
-  Map<int, String>? mapField;
+  Equatable_ErrorCodeToMessageMap? mapField;
   Equatable_EquatableNullableStruct._(this.boolField, this.intField, this.uintField, this.floatField, this.stringField, this.structField, this.enumField, this.arrayField, this.mapField);
   Equatable_EquatableNullableStruct()
     : boolField = null, intField = null, uintField = null, floatField = null, stringField = null, structField = null, enumField = null, arrayField = null, mapField = null;

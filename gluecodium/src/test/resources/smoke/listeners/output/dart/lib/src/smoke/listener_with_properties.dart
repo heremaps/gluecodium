@@ -19,8 +19,8 @@ abstract class ListenerWithProperties {
     void Function(ListenerWithProperties_ResultEnum) enumeratedMessageSetLambda,
     List<String> Function() arrayedMessageGetLambda,
     void Function(List<String>) arrayedMessageSetLambda,
-    Map<String, double> Function() mappedMessageGetLambda,
-    void Function(Map<String, double>) mappedMessageSetLambda,
+    ListenerWithProperties_StringToDouble Function() mappedMessageGetLambda,
+    void Function(ListenerWithProperties_StringToDouble) mappedMessageSetLambda,
     Uint8List Function() bufferedMessageGetLambda,
     void Function(Uint8List) bufferedMessageSetLambda
   ) => ListenerWithProperties$Lambdas(
@@ -50,11 +50,12 @@ abstract class ListenerWithProperties {
   set enumeratedMessage(ListenerWithProperties_ResultEnum value);
   List<String> get arrayedMessage;
   set arrayedMessage(List<String> value);
-  Map<String, double> get mappedMessage;
-  set mappedMessage(Map<String, double> value);
+  ListenerWithProperties_StringToDouble get mappedMessage;
+  set mappedMessage(ListenerWithProperties_StringToDouble value);
   Uint8List get bufferedMessage;
   set bufferedMessage(Uint8List value);
 }
+typedef ListenerWithProperties_StringToDouble = Map<String, double>;
 enum ListenerWithProperties_ResultEnum {
     none,
     result
@@ -204,8 +205,8 @@ class ListenerWithProperties$Lambdas implements ListenerWithProperties {
   void Function(ListenerWithProperties_ResultEnum) enumeratedMessageSetLambda;
   List<String> Function() arrayedMessageGetLambda;
   void Function(List<String>) arrayedMessageSetLambda;
-  Map<String, double> Function() mappedMessageGetLambda;
-  void Function(Map<String, double>) mappedMessageSetLambda;
+  ListenerWithProperties_StringToDouble Function() mappedMessageGetLambda;
+  void Function(ListenerWithProperties_StringToDouble) mappedMessageSetLambda;
   Uint8List Function() bufferedMessageGetLambda;
   void Function(Uint8List) bufferedMessageSetLambda;
   ListenerWithProperties$Lambdas(
@@ -246,9 +247,9 @@ class ListenerWithProperties$Lambdas implements ListenerWithProperties {
   @override
   set arrayedMessage(List<String> value) => arrayedMessageSetLambda(value);
   @override
-  Map<String, double> get mappedMessage => mappedMessageGetLambda();
+  ListenerWithProperties_StringToDouble get mappedMessage => mappedMessageGetLambda();
   @override
-  set mappedMessage(Map<String, double> value) => mappedMessageSetLambda(value);
+  set mappedMessage(ListenerWithProperties_StringToDouble value) => mappedMessageSetLambda(value);
   @override
   Uint8List get bufferedMessage => bufferedMessageGetLambda();
   @override
@@ -342,7 +343,7 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
     _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     foobarListofStringReleaseFfiHandle(_valueHandle);
   }
-  Map<String, double> get mappedMessage {
+  ListenerWithProperties_StringToDouble get mappedMessage {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ListenerWithProperties_mappedMessage_get'));
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
@@ -352,7 +353,7 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
       foobarMapofStringToDoubleReleaseFfiHandle(__resultHandle);
     }
   }
-  set mappedMessage(Map<String, double> value) {
+  set mappedMessage(ListenerWithProperties_StringToDouble value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ListenerWithProperties_mappedMessage_set__MapOf_String_to_Double'));
     final _valueHandle = foobarMapofStringToDoubleToFfi(value);
     final _handle = this.handle;

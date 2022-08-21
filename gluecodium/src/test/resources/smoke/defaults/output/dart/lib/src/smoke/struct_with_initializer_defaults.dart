@@ -1,11 +1,12 @@
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/generic_types__conversion.dart';
+import 'package:library/src/smoke/default_values.dart';
 class StructWithInitializerDefaults {
   List<int> intsField;
-  List<double> floatsField;
-  Set<String> setTypeField;
-  Map<int, String> mapField;
+  DefaultValues_FloatArray floatsField;
+  DefaultValues_StringSet setTypeField;
+  DefaultValues_IdToStringMap mapField;
   StructWithInitializerDefaults._(this.intsField, this.floatsField, this.setTypeField, this.mapField);
   StructWithInitializerDefaults()
     : intsField = [4, -2, 42], floatsField = [3.14, double.negativeInfinity], setTypeField = {"foo", "bar"}, mapField = {1: "foo", 42: "bar"};
