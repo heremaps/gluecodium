@@ -54,8 +54,7 @@ internal class TopologicalSort(private val elements: List<LimeNamedElement>) {
 
             sortedElements.add(nextElement)
 
-            // As dependency to "nextElement" is now fulfilled we must remove it from elements
-            // dependencies.
+            // As dependency to "nextElement" is now fulfilled we must remove it from elements dependencies.
             for (name in fullNames) {
                 dependencies[name]?.remove(nextElement.fullName)
             }
