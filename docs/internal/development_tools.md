@@ -9,7 +9,7 @@ Required tools for Gluecodium itself
 * [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) - for downloading Gluecodium repository source
   code and for committing the changes to the repository.
 * [Java JDK](https://openjdk.java.net/install/index.html) - for running Gluecodium itself, as well as its unit and
-  integration tests. Java 8 is guaranteed to work, regardless of the JDK vendor. Any version above that may or may not
+  integration tests. Java 11 is guaranteed to work, regardless of the JDK vendor. Any version above that may or may not
   have issues.
 
 Required tools for Gluecodium functional tests

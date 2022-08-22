@@ -28,12 +28,11 @@ import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.data.DataHolder
 import com.vladsch.flexmark.util.data.MutableDataSet
-import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
+import com.vladsch.flexmark.util.sequence.CharSubSequence
 
 /**
  * Parse Markdown comments and output JavaDoc
  */
-@Suppress("DEPRECATION")
 internal class JavaDocProcessor(werror: Boolean, private val referenceMap: Map<String, LimeElement>) :
     CommentsProcessor(HtmlRenderer.builder(flexmarkOptions).build(), werror, flexmarkOptions) {
 
@@ -41,9 +40,9 @@ internal class JavaDocProcessor(werror: Boolean, private val referenceMap: Map<S
         val limeElement = referenceMap[fullNameToPathKey(limeFullName)]
         linkNode.chars = if (limeElement is LimeParameter) {
             val shortReference = linkReference.split("#").last()
-            BasedSequenceImpl.of("{@code $shortReference}")
+            CharSubSequence.of("{@code $shortReference}")
         } else {
-            BasedSequenceImpl.of("{@link $linkReference}")
+            CharSubSequence.of("{@link $linkReference}")
         }
         linkNode.firstChild?.unlink()
     }
