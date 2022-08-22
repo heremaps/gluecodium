@@ -22,14 +22,27 @@ package com.here.gluecodium.generator.dart
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.NameResolver
+import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.model.lime.LimeAttributeType.DART
+import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeType
 
-internal class DartVisibilityResolver : NameResolver {
+internal class DartVisibilityResolver(limeReferenceMap: Map<String, LimeElement>) :
+    ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
 
     override fun resolveName(element: Any): String =
         when (element) {
-            is LimeNamedElement -> if (CommonGeneratorPredicates.isInternal(element, DART)) "_" else ""
+            // Dart has no type nesting, so all types are "outside" and have to check for an internal outer type.
+            is LimeType -> {
+                val isInternal = generateSequence(element) {
+                    limeReferenceMap[it.path.parent.toString()] as? LimeType
+                }.any { CommonGeneratorPredicates.isInternal(it, DART) }
+                getVisibilityPrefix(isInternal)
+            }
+            is LimeNamedElement -> getVisibilityPrefix(CommonGeneratorPredicates.isInternal(element, DART))
             else -> throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }
+
+    private fun getVisibilityPrefix(isInternal: Boolean) = if (isInternal) "_" else ""
 }

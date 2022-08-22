@@ -31,7 +31,7 @@ public class PublicClass {
         case bar
     }
     internal struct InternalStruct {
-        internal var stringField: String
+        public var stringField: String
         internal init(stringField: String) {
             self.stringField = stringField
         }

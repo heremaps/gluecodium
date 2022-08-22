@@ -15,7 +15,7 @@ public final class PublicClass extends NativeBase {
     }
     static final class InternalStruct {
         @NonNull
-        String stringField;
+        public String stringField;
         InternalStruct(@NonNull final String stringField) {
             this.stringField = stringField;
         }

@@ -83,13 +83,6 @@ internal class InternalClassWithStaticProperty {
 }
 
 @Skip(Java, Swift)
-struct DontExportInDart {
-    struct DoExportInDart {
-        stringField: String
-    }
-}
-
-@Skip(Java, Swift)
 class InternalPropertyOnly {
     internal property foo: String
 }

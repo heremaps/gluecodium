@@ -22,14 +22,34 @@ package com.here.gluecodium.generator.swift
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.NameResolver
+import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
+import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
+import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeType
 
-internal class SwiftVisibilityResolver : NameResolver {
+internal class SwiftVisibilityResolver(limeReferenceMap: Map<String, LimeElement>) :
+    ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
 
     override fun resolveName(element: Any): String =
         when (element) {
-            is LimeNamedElement -> if (CommonGeneratorPredicates.isInternal(element, SWIFT)) "internal" else "public"
+            // Swift protocols have no type nesting, so all their types are "outside".
+            // So if at least one outer type is a protocol, the inner type checks for an internal outer type.
+            is LimeType -> {
+                val nestedTypes =
+                    generateSequence(element) { limeReferenceMap[it.path.parent.toString()] as? LimeType }.toList()
+                val isInternal = when {
+                    nestedTypes.any { it is LimeInterface } ->
+                        nestedTypes.any { CommonGeneratorPredicates.isInternal(it, LimeAttributeType.DART) }
+                    else -> CommonGeneratorPredicates.isInternal(element, SWIFT)
+                }
+                getVisibilityPrefix(isInternal)
+            }
+            is LimeNamedElement -> getVisibilityPrefix(CommonGeneratorPredicates.isInternal(element, SWIFT))
             else -> throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }
+
+    private fun getVisibilityPrefix(isInternal: Boolean) = if (isInternal) "internal" else "public"
 }

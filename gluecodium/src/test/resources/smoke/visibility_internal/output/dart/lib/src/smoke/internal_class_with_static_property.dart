@@ -6,9 +6,7 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 /// @nodoc
 abstract class InternalClassWithStaticProperty {
-  /// @nodoc
   static String get fooBar => $prototype.fooBar;
-  /// @nodoc
   static set fooBar(String value) { $prototype.fooBar = value; }
   /// @nodoc
   @visibleForTesting

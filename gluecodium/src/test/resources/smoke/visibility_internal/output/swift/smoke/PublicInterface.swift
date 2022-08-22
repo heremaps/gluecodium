@@ -17,7 +17,7 @@ internal class _PublicInterface: PublicInterface {
     }
 }
 internal struct InternalStruct {
-    internal var fieldOfInternalType: PublicClass.InternalStruct
+    public var fieldOfInternalType: PublicClass.InternalStruct
     internal init(fieldOfInternalType: PublicClass.InternalStruct) {
         self.fieldOfInternalType = fieldOfInternalType
     }

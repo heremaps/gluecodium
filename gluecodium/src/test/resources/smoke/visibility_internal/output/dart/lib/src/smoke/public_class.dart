@@ -63,9 +63,8 @@ void smokePublicclassInternalenumReleaseFfiHandleNullable(Pointer<Void> handle) 
 // End of PublicClass_InternalEnum "private" section.
 /// @nodoc
 class PublicClass_InternalStruct {
-  /// @nodoc
-  String _stringField;
-  PublicClass_InternalStruct(this._stringField);
+  String stringField;
+  PublicClass_InternalStruct(this.stringField);
 }
 // PublicClass_InternalStruct "private" section, not exported.
 final _smokePublicclassInternalstructCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -81,7 +80,7 @@ final _smokePublicclassInternalstructGetFieldstringField = __lib.catchArgumentEr
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PublicClass_InternalStruct_get_field_stringField'));
 Pointer<Void> smokePublicclassInternalstructToFfi(PublicClass_InternalStruct value) {
-  final _stringFieldHandle = stringToFfi(value._stringField);
+  final _stringFieldHandle = stringToFfi(value.stringField);
   final _result = _smokePublicclassInternalstructCreateHandle(_stringFieldHandle);
   stringReleaseFfiHandle(_stringFieldHandle);
   return _result;

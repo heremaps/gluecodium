@@ -17,5 +17,5 @@ final class InternalClass extends NativeBase {
         });
     }
     private static native void disposeNativeHandle(long nativeHandle);
-    native void fooBar();
+    public native void fooBar();
 }

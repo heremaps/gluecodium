@@ -10,6 +10,6 @@ public final class PublicTypeCollection {
         InternalStruct(@NonNull final String stringField) {
             this.stringField = stringField;
         }
-        native void fooBar();
+        public native void fooBar();
     }
 }

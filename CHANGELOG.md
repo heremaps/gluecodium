@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Removed redundant visibility propagation for nested elements, except where required by language specifics.
+
 ## 13.2.0
 Release date: 2022-08-19
 ### Features:

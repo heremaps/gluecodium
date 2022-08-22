@@ -10,7 +10,7 @@ public struct PublicTypeCollection {
         internal init(cHandle: _baseRef) {
             stringField = moveFromCType(smoke_PublicTypeCollection_InternalStruct_stringField_get(cHandle))
         }
-        internal func fooBar() -> Void {
+        public func fooBar() -> Void {
             let c_self_handle = moveToCType(self)
             smoke_PublicTypeCollection_InternalStruct_fooBar(c_self_handle.ref)
         }
