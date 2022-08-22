@@ -3,6 +3,7 @@
 ## Unreleased
 ### Bug fixes:
   * Removed redundant visibility propagation for nested elements, except where required by language specifics.
+  * Fixed declaration ordering for lambdas in C++.
 
 ## 13.2.0
 Release date: 2022-08-19

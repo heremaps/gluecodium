@@ -391,10 +391,15 @@ feature(Durations cpp android swift dart SOURCES
 feature(StructsWithCompanion cpp android swift dart SOURCES
     input/src/cpp/StructsWithMethods.cpp
     input/src/cpp/StructsWithConstants.cpp
-    input/src/cpp/StructsWithMethodsDeclarationOrder.cpp
 
     input/lime/StructsWithMethods.lime
     input/lime/StructsWithConstants.lime
+)
+
+feature(DeclarationOrder cpp android swift dart SOURCES
+    input/src/cpp/StructsWithMethodsDeclarationOrder.cpp
+
+    input/lime/OrderWithInterface.lime
     input/lime/StructsWithMethodsDeclarationOrder.lime
 )
 
