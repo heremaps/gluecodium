@@ -24,8 +24,9 @@ deprecated, takes a string literal value as a deprecation message. Platform-spec
 deprecation messages (see `Platform-specific comments` below for syntax).
 * **@Cached**: marks a property to be cached on platform side (i.e. read from C++ only once on first
 access and cached in Java/Swift/Dart afterwards). Currently, only supported for read-only properties.
-* **@Internal**: marks an element to have "internal" visibility. Currently, this is equivalent to the `internal`
-visibility modifier.
+* **@Internal**\[**(**__PlatformTag__**)**\]: marks an element to have "internal" visibility. Currently, this is
+equivalent to the `internal` visibility modifier. Additionally, a platform tag(s) ("Java", "Swift", or "Dart") could be
+specified. This will make the visibility apply on the selected platform(s).
 * **@Async**: *EXPERIMENTAL* marks a function to be generated with support for asynchronous invocation. Currently,
 only works in Dart. See [async.md](async.md) for details.
 * **@Optimized**: *EXPERIMENTAL* marks a type reference of `List<>` type to fetch list elements from C++ to platform

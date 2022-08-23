@@ -1,5 +1,6 @@
 export 'src/smoke/dart_internal_elements.dart' show DartInternalElements;
 export 'src/smoke/dart_internal_elements_enabled.dart' show DartInternalElementsEnabled;
+export 'src/smoke/dart_internal_elements_rev.dart' show DartInternalElementsRev;
 export 'src/smoke/dart_internal_elements_skipped.dart' show DartInternalElementsSkipped;
 export 'src/smoke/dart_public_class.dart' show DartPublicClass;
 export 'src/smoke/dart_public_class_enabled.dart' show DartPublicClassEnabled;

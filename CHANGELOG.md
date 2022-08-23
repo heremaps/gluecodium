@@ -3,6 +3,7 @@
 ## Unreleased
 ### Features:
   * Added support for `@Internal` attribute.
+  * Added support for reverse syntax for platform visibility attributes (e.g. `@Internal(Java)`, etc.).
 ### Bug fixes:
   * Removed redundant `@override` in Dart for static functions in interfaces.
 ### Breaking changes:
