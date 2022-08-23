@@ -3,6 +3,8 @@
 ## Unreleased
 ### Features:
   * Added support for `@Internal` attribute.
+### Bug fixes:
+  * Removed redundant `@override` in Dart for static functions in interfaces.
 ### Breaking changes:
   * Minimum Java version for running Gluecodium is now Java 11.
 

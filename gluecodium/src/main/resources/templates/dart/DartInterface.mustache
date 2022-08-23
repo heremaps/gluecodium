@@ -156,8 +156,8 @@ class {{resolveName}}$Impl extends __lib.NativeBase implements {{resolveName}} {
   {{resolveName}}$Impl(Pointer<Void> handle) : super(handle);
 
 {{#set ignoreStatic=true}}{{#set parent=this}}{{#each inheritedFunctions functions}}
-  @override
-{{prefixPartial "dart/DartFunction" "  "}}
+{{#unless isStatic}}  @override
+{{/unless}}{{prefixPartial "dart/DartFunction" "  "}}
 {{/each}}{{/set}}
 {{#each inheritedProperties properties}}
 {{prefixPartial "dart/DartProperty" "  "}}
