@@ -19,12 +19,7 @@
 
 package com.here.gluecodium.model.lime
 
-enum class LimeVisibility(private val tag: String) {
-    PUBLIC(""),
-    INTERNAL("internal ");
-
-    val isInternal
-        get() = this == INTERNAL
-
-    override fun toString() = tag
+enum class LimeVisibility {
+    PUBLIC,
+    INTERNAL;
 }

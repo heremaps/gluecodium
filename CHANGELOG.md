@@ -1,6 +1,8 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Features:
+  * Added support for `@Internal` attribute.
 ### Breaking changes:
   * Minimum Java version for running Gluecodium is now Java 11.
 
