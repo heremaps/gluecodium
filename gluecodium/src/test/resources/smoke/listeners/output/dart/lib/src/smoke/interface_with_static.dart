@@ -81,7 +81,6 @@ class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWith
       stringReleaseFfiHandle(__resultHandle);
     }
   }
-  @override
   String staticFunction() {
     final _staticFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InterfaceWithStatic_staticFunction'));
     final __resultHandle = _staticFunctionFfi(__lib.LibraryContext.isolateId);
