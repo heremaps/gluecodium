@@ -86,6 +86,10 @@ internal object AntlrLimeConverter {
             annotationValues.forEach { addEnableIfAttribute(attributes, it) }
             return
         }
+        if (attributeType == LimeAttributeType.INTERNAL) {
+            annotationValues.forEach { addVisibilityAttribute(attributes, it) }
+            return
+        }
 
         annotationValues.forEach {
             val valueType = convertAnnotationValueType(it, attributeType)
@@ -139,6 +143,22 @@ internal object AntlrLimeConverter {
         val valueList = if (value is List<*>) value else listOf(value)
         valueList.filterIsInstance<String>().forEach {
             attributes.addAttribute(LimeAttributeType.ENABLE_IF, LimeAttributeValueType.TAG, it)
+        }
+    }
+
+    private fun addVisibilityAttribute(
+        attributes: LimeAttributes.Builder,
+        valueContext: LimeParser.AnnotationValueContext
+    ) {
+        val value = convertAnnotationValue(valueContext)
+        if (value == true) {
+            attributes.addAttribute(LimeAttributeType.INTERNAL)
+            return
+        }
+
+        val valueList = if (value is List<*>) value else listOf(value)
+        valueList.filterIsInstance<String>().mapNotNull { LimeAttributeType.fromString[it] }.forEach {
+            attributes.addAttribute(it, LimeAttributeValueType.INTERNAL)
         }
     }
 
