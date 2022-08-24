@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 13.3.0
+Release date: 2022-08-24
 ### Features:
   * Added support for `@Internal` attribute.
   * Added support for reverse syntax for platform visibility attributes (e.g. `@Internal(Java)`, etc.).
