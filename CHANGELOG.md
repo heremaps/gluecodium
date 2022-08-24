@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 13.3.1
+Release date: 2022-08-24
+### Removed:
+  * Reverted the change to minimum Java version, now it's Java 8 again.
+
 ## 13.3.0
 Release date: 2022-08-24
 ### Features:
