@@ -24,7 +24,7 @@ import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.model.lime.LimeAttributeType.ASYNC
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeType.OPTIMIZED
-import com.here.gluecodium.model.lime.LimeAttributeValueType
+import com.here.gluecodium.model.lime.LimeAttributeValueType.TO_STRING
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
@@ -72,15 +72,13 @@ internal class CppIncludeResolver(
             is LimeFunction -> resolveFunctionIncludes(limeElement)
             is LimeLambda -> cppIncludesCache.resolveIncludes(limeElement) + CppLibraryIncludes.FUNCTIONAL
             is LimeNamedElement -> cppIncludesCache.resolveIncludes(limeElement) +
-                if (limeElement.attributes.have(CPP, LimeAttributeValueType.TO_STRING)) listOf(CppLibraryIncludes.STRING)
-                else emptyList()
+                listOfNotNull(CppLibraryIncludes.STRING_VIEW.takeIf { limeElement.attributes.have(CPP, TO_STRING) })
             else -> emptyList()
         }
 
     private fun resolveFunctionIncludes(limeFunction: LimeFunction) =
         resolveExceptionIncludes(limeFunction) +
-            if (limeFunction.attributes.have(ASYNC)) listOf(CppLibraryIncludes.FUNCTIONAL)
-            else emptyList()
+            listOfNotNull(CppLibraryIncludes.FUNCTIONAL.takeIf { limeFunction.attributes.have(ASYNC) })
 
     private fun resolveExceptionIncludes(limeFunction: LimeFunction): List<Include> {
         val payloadType = limeFunction.exception?.errorType?.type?.actualType ?: return emptyList()
@@ -89,10 +87,7 @@ internal class CppIncludeResolver(
                 if (limeFunction.attributes.have(ASYNC)) cppIncludesCache.resolveIncludes(payloadType) else emptyList()
             is LimeBasicType -> listOf(returnInclude)
             else -> cppIncludesCache.resolveIncludes(payloadType) + returnInclude
-        } + when {
-            limeFunction.returnType.isVoid -> emptyList()
-            else -> listOf(returnInclude)
-        }
+        } + listOfNotNull(returnInclude.takeIf { !limeFunction.returnType.isVoid })
     }
 
     private fun resolveValueIncludes(limeValue: LimeValue): List<Include> =
@@ -123,11 +118,7 @@ internal class CppIncludeResolver(
             TypeId.DATE -> listOf(CppLibraryIncludes.CHRONO, timePointHashInclude)
             TypeId.DURATION -> listOf(CppLibraryIncludes.CHRONO, durationHashInclude)
             TypeId.LOCALE -> listOf(localeInclude)
-            TypeId.BLOB -> listOf(
-                CppLibraryIncludes.MEMORY,
-                CppLibraryIncludes.VECTOR,
-                CppLibraryIncludes.INT_TYPES
-            )
+            TypeId.BLOB -> listOf(CppLibraryIncludes.MEMORY, CppLibraryIncludes.VECTOR, CppLibraryIncludes.INT_TYPES)
             else -> emptyList()
         }
     }

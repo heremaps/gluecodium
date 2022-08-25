@@ -28,7 +28,7 @@ enum class {{>cpp/CppAttributesInline}}{{resolveName}} {
 };
 
 {{#if attributes.cpp.tostring}}
-std::string
+std::string_view
 {{>cpp/CppExportMacro}}to_string({{resolveName}} enumeration);
 {{/if}}
 {{/unless}}
