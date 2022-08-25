@@ -35,3 +35,9 @@ struct DartInternalElementsRev {
 
 @Internal(Java, Swift)
 class JavaSwiftInternalClass {}
+
+@Skip(Swift, Dart)
+class JavaInternalPropertyRev {
+    @Internal(Java)
+    property appContext: String?
+}

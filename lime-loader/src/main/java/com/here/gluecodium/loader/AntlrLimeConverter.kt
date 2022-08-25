@@ -23,6 +23,9 @@ import com.here.gluecodium.antlr.LimeParser
 import com.here.gluecodium.antlr.LimedocLexer
 import com.here.gluecodium.antlr.LimedocParser
 import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeType.DART
+import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
+import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeComment
@@ -44,15 +47,33 @@ internal object AntlrLimeConverter {
         val attributes = LimeAttributes.Builder()
         annotations.forEach { convertAnnotation(it, attributes, limePath) }
 
-        parentAttributes
-            ?.get(LimeAttributeType.DEPRECATED, LimeAttributeValueType.MESSAGE, LimeComment::class.java)
-            ?.let { attributes.addAttributeIfAbsent(LimeAttributeType.DEPRECATED, LimeAttributeValueType.MESSAGE, it) }
-
-        if (parentAttributes != null && parentAttributes.have(LimeAttributeType.INTERNAL)) {
-            attributes.addAttribute(LimeAttributeType.INTERNAL)
+        if (parentAttributes != null) {
+            propagateParentAttributes(parentAttributes, attributes)
         }
 
         return attributes.build()
+    }
+
+    private fun propagateParentAttributes(
+        parentAttributes: LimeAttributes,
+        attributes: LimeAttributes.Builder
+    ) {
+        parentAttributes
+            .get(LimeAttributeType.DEPRECATED, LimeAttributeValueType.MESSAGE, LimeComment::class.java)
+            ?.let { attributes.addAttributeIfAbsent(LimeAttributeType.DEPRECATED, LimeAttributeValueType.MESSAGE, it) }
+
+        if (parentAttributes.have(LimeAttributeType.INTERNAL)) {
+            attributes.addAttribute(LimeAttributeType.INTERNAL)
+        }
+
+        listOf(JAVA, SWIFT, DART).forEach {
+            if (parentAttributes.have(it, LimeAttributeValueType.INTERNAL)) {
+                attributes.addAttribute(it, LimeAttributeValueType.INTERNAL)
+            }
+            if (parentAttributes.have(it, LimeAttributeValueType.PUBLIC)) {
+                attributes.addAttribute(it, LimeAttributeValueType.PUBLIC)
+            }
+        }
     }
 
     fun parseStructuredComment(commentString: String, lineNumber: Int, limePath: LimePath): LimeStructuredComment {

@@ -48,3 +48,9 @@ struct DartInternalElements {
     @Dart(Internal)
     fun foo()
 }
+
+@Skip(Swift, Dart)
+class JavaInternalProperty {
+    @Java(Internal)
+    property appContext: String?
+}
