@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 13.3.2
+Release date: 2022-08-25
 ### Bug fixes:
   * Fixed an issue where `@Java(Internal)` attribute on a property had no effect.
 
