@@ -29,6 +29,7 @@ object CppLibraryIncludes {
     val MAP = Include.createSystemInclude("unordered_map")
     val MEMORY = Include.createSystemInclude("memory")
     val STRING = Include.createSystemInclude("string")
+    val STRING_VIEW = Include.createSystemInclude("string_view")
     val VECTOR = Include.createSystemInclude("vector")
     val NEW = Include.createSystemInclude("new")
     val SYSTEM_ERROR = Include.createSystemInclude("system_error")
