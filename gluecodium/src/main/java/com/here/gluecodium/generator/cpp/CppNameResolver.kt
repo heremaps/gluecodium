@@ -57,7 +57,7 @@ import com.here.gluecodium.model.lime.LimeValue.Duration.TimeUnit
 import com.here.gluecodium.model.lime.LimeValue.Special.ValueId
 
 /**
- * Main name resolver for the C++ generator. Resolves names for types, type references and comments.
+ * Main name resolver for the C++ generator. It resolves names for types, type references and comments.
  * Type names are resolved as own names (unqualified names, without namespaces or outer types).
  */
 internal class CppNameResolver(
@@ -156,7 +156,7 @@ internal class CppNameResolver(
             TypeId.BOOLEAN -> "bool"
             TypeId.FLOAT -> "float"
             TypeId.DOUBLE -> "double"
-            TypeId.STRING -> "::std::string"
+            TypeId.STRING -> attributes?.get(CPP, TYPE) ?: "::std::string"
             TypeId.BLOB -> "::std::shared_ptr< ::std::vector< uint8_t > >"
             TypeId.DATE -> attributes?.get(CPP, TYPE) ?: "::std::chrono::system_clock::time_point"
             TypeId.DURATION -> attributes?.get(CPP, TYPE) ?: "::std::chrono::seconds"
@@ -322,7 +322,7 @@ internal class CppNameResolver(
             if (limeTypeRef.isNullable) return true
             return when (val actualType = limeTypeRef.type.actualType) {
                 is LimeBasicType -> when (actualType.typeId) {
-                    TypeId.STRING -> true
+                    TypeId.STRING -> !limeTypeRef.attributes.have(CPP, TYPE)
                     TypeId.BLOB -> true
                     TypeId.DATE -> true
                     TypeId.LOCALE -> true
