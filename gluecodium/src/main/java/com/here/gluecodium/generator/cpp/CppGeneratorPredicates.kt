@@ -21,8 +21,6 @@ package com.here.gluecodium.generator.cpp
 
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.model.lime.LimeAttributeType
-import com.here.gluecodium.model.lime.LimeAttributeValueType
-import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
@@ -72,14 +70,6 @@ internal object CppGeneratorPredicates {
                 limeStruct.uninitializedFields.isEmpty() -> false
                 limeStruct.fieldConstructors.isNotEmpty() -> false
                 else -> limeStruct.uninitializedFields.size < limeStruct.fields.size
-            }
-        },
-        "hasCstringParameters" to { limeFunction: Any ->
-            limeFunction is LimeFunction && limeFunction.parameters.any {
-                val actualType = it.typeRef.type.actualType
-                actualType is LimeBasicType &&
-                    actualType.typeId == LimeBasicType.TypeId.STRING &&
-                    it.attributes.have(LimeAttributeType.CPP, LimeAttributeValueType.CSTRING)
             }
         },
         "needsAllFieldsConstructor" to { limeStruct: Any ->

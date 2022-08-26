@@ -28,6 +28,4 @@
 }}{{#unless isStatic}}{{#if isConst attributes.cpp.const logic="or"}} const{{/if}}{{!!
 }}{{#if isVirtual}} = 0{{/if}}{{/unless}}{{!!
 
-}}{{+resolveTypeRef}}{{#if useCstring}}{{#if attributes.cpp.cstring}}char*{{/if}}{{!!
-}}{{#unless attributes.cpp.cstring}}{{resolveName typeRef}}{{#ifPredicate typeRef "needsRefSuffix"}}&{{/ifPredicate}}{{/unless}}{{/if}}{{!!
-}}{{#unless useCstring}}{{resolveName typeRef}}{{#ifPredicate typeRef "needsRefSuffix"}}&{{/ifPredicate}}{{/unless}}{{/resolveTypeRef}}
+}}{{+resolveTypeRef}}{{resolveName typeRef}}{{#ifPredicate typeRef "needsRefSuffix"}}&{{/ifPredicate}}{{/resolveTypeRef}}
