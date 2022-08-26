@@ -17,8 +17,11 @@
 
 package smoke
 
-@Java(Skip) @Swift(Skip) @Dart(Skip)
+@Skip(Java, Swift, Dart)
 class StringsWithCstring {
     // Method that takes a C string as input and returns an std::string it as output.
-    static fun returnInputString(@Cpp(CString) inputString: String): String
+    @Cpp("return_input_string")
+    static fun returnInputStringType(inputString: @Cpp(Type="char*") String): String
+    // Method that takes a C string as input and returns an std::string it as output.
+    static fun returnInputString(inputString: String): String
 }

@@ -138,8 +138,9 @@ C++-specific attributes
 * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in C++.
 This is the default specification for this attribute.
 * **Const**: marks a function with a `const` qualifier in C++ generated code.
-* **CString**: marks a function parameter of `String` type to accept `const char*` in C++ (in
-addition to usual `std::string`). This produces one additional overload for the function.
+* ~~**CString**~~ *DEPRECATED*: marks a function parameter of `String` type to accept `const char*` in C++ (in
+addition to usual `std::string`). This produces one additional overload for the function. This attribute is deprecated,
+`@Cpp(Type="char*") String` should be used instead.
 * **Accessors**: marks a struct to have accessor functions generated for fields and to generate
 struct fields as "private" in C++ generated code. Intended for use with `@Immutable` attribute.
 * **Ref**: marks a function or a property to return their value by const reference in C++
@@ -149,9 +150,9 @@ classes or structs. Currently not supported inside interfaces.
 generated code. _Attribute_ does not need to be enclosed in `[[]]`. _Attribute_ can contain parameters, e.g.
 `@Cpp(Attribute="deprecated(\"It's deprecated.\")")`. If some of the parameters are string literals, their enclosing
 quotes need to be backslash-escaped, as in the example.
-* **Type** **=** **"**_TypeName_**"**: marks a `Date` or a `Duration` type reference to use an alternative type in C++
-generated code. For example, `@Cpp(Type="std::chrono::steady_clock::time_point") Date` will use monotonic clock time
-point type, instead of the system clock time point type which is used by default.
+* **Type** **=** **"**_TypeName_**"**: marks a `Date`, `Duration`, or `String` type reference to use an alternative type
+in C++ generated code. For example, `@Cpp(Type="std::chrono::steady_clock::time_point") Date` will use monotonic clock
+time point type, instead of the system clock time point type which is used by default.
 * **ToString**: marks an enumeration to have a helper `to_string()` function generated, mapping the enum to string.
 * **Skip** \[**=** **"**_CustomTag_**"** \]: marks an element to be skipped (not generated) in C++. Can be applied to
 `field constuctor` or `const` elements only. Optionally, if custom tag is specified, the element is only skipped if

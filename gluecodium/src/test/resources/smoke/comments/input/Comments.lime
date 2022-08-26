@@ -147,12 +147,6 @@ struct CommentsTypeCollection {
     const TypeCollectionConstant: Boolean = true
 }
 
-class CommentsOnCstring {
-    // Method that takes a C string as input and returns an std::string it as output.
-    // @param[inputString] May or may not be a C string.
-    static fun returnInputString(@Cpp(CString) inputString: String): String
-}
-
 // This looks internal
 internal class InternalClassWithComments {
     // This is definitely internal
