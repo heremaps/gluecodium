@@ -54,3 +54,8 @@ class JavaInternalProperty {
     @Java(Internal)
     property appContext: String?
 }
+
+@Java(Internal)
+@Swift(Internal)
+@Dart(Internal)
+interface PlatformInternalInterface {}
