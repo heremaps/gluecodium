@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 13.4.0
+Release date: 2022-08-29
 ### Features:
   * Added support for `@Cpp(Type)` attribute on `String` type references.
 ### Bug fixes:
