@@ -365,6 +365,9 @@ Container types:
 **Note**: Since the `Locale` type is based on ISO-compliant identifiers (as described above), any platform-specific
 properties of `Locale` type (e.g. `calendarIdentifier` for Swift) are not preserved on language boundary transition.
 
+**Note**: When converting `Locale` from C++ representation to a platform type, the BCP 47 language tag takes precedence.
+I.e. if the tag is present, the ISO codes are ignored during conversion; if the tag is absent, the ISO codes are used.
+
 #### User-defined types
 
 User-defined types are types declared in the same or in another LimeIDL file. There are several ways
