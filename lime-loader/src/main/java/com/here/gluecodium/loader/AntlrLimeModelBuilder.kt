@@ -53,7 +53,6 @@ import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.lime.LimeValue.Special.ValueId
-import com.here.gluecodium.model.lime.LimeVisibility
 import org.antlr.v4.runtime.ParserRuleContext
 import org.antlr.v4.runtime.misc.ParseCancellationException
 import java.util.LinkedList
@@ -122,7 +121,6 @@ internal class AntlrLimeModelBuilder(
         val limeElement = if (ctx.Interface() == null) {
             LimeClass(
                 path = currentPath,
-                visibility = convertVisibility(ctx.visibility()),
                 comment = comment,
                 attributes = attributes,
                 external = externalDescriptor,
@@ -142,7 +140,6 @@ internal class AntlrLimeModelBuilder(
         } else {
             LimeInterface(
                 path = currentPath,
-                visibility = convertVisibility(ctx.visibility()),
                 comment = comment,
                 attributes = attributes,
                 external = externalDescriptor,
@@ -186,7 +183,6 @@ internal class AntlrLimeModelBuilder(
             }
         val limeElement = LimeFunction(
             path = currentPath,
-            visibility = convertVisibility(ctx.visibility()),
             comment = structuredCommentsStack.peek().description,
             attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation()),
             returnType = returnType,
@@ -216,7 +212,6 @@ internal class AntlrLimeModelBuilder(
             }
         val limeElement = LimeFunction(
             path = currentPath,
-            visibility = convertVisibility(ctx.visibility()),
             comment = structuredCommentsStack.peek().description,
             attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation()),
             returnType = LimeReturnType(classTypeRef),
@@ -247,7 +242,6 @@ internal class AntlrLimeModelBuilder(
         }
         val limeElement = LimeFieldConstructor(
             path = currentPath,
-            visibility = convertVisibility(ctx.visibility()),
             comment = structuredCommentsStack.peek().description,
             attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation()),
             structRef = structTypeRef,
@@ -282,7 +276,6 @@ internal class AntlrLimeModelBuilder(
 
     override fun exitProperty(ctx: LimeParser.PropertyContext) {
         val propertyType = typeMapper.mapTypeRef(currentPath, ctx.typeRef())
-        val propertyVisibility = convertVisibility(ctx.visibility())
         val propertyIsStatic = ctx.Static() != null
         val propertyComment = structuredCommentsStack.peek().description
         val propertyAttributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation())
@@ -296,7 +289,6 @@ internal class AntlrLimeModelBuilder(
                 path = getterPath,
                 comment = getComment("get", emptyList(), ctx).withExcluded(propertyComment.isExcluded),
                 attributes = AntlrLimeConverter.convertAnnotations(currentPath, emptyList(), propertyAttributes),
-                visibility = propertyVisibility,
                 returnType = LimeReturnType(propertyType, propertyComment),
                 isStatic = propertyIsStatic
             )
@@ -304,7 +296,6 @@ internal class AntlrLimeModelBuilder(
                 path = currentPath.child("set"),
                 comment = getComment("set", emptyList(), ctx).withExcluded(propertyComment.isExcluded),
                 attributes = AntlrLimeConverter.convertAnnotations(currentPath, emptyList(), propertyAttributes),
-                visibility = propertyVisibility,
                 parameters = listOf(
                     LimeParameter(
                         getterPath.child("value"),
@@ -322,7 +313,6 @@ internal class AntlrLimeModelBuilder(
             val getterComment = getComment("get", getterContext.docComment(), getterContext)
             getter = LimeFunction(
                 path = getterPath,
-                visibility = propertyVisibility,
                 comment = getterComment.withExcluded(propertyComment.isExcluded),
                 attributes = getterAttributes,
                 external = getterExternalDescriptor,
@@ -337,7 +327,6 @@ internal class AntlrLimeModelBuilder(
                 val setterComment = getComment("set", it.docComment(), it)
                 LimeFunction(
                     path = currentPath.child("set"),
-                    visibility = propertyVisibility,
                     comment = setterComment.withExcluded(propertyComment.isExcluded),
                     attributes = setterAttributes,
                     external = setterExternalDescriptor,
@@ -355,7 +344,6 @@ internal class AntlrLimeModelBuilder(
 
         val limeElement = LimeProperty(
             path = currentPath,
-            visibility = propertyVisibility,
             comment = propertyComment,
             attributes = propertyAttributes,
             typeRef = propertyType,
@@ -377,7 +365,6 @@ internal class AntlrLimeModelBuilder(
         val externalDescriptor = parseExternalDescriptor(ctx.externalDescriptor())
         val limeElement = LimeStruct(
             path = currentPath,
-            visibility = convertVisibility(ctx.visibility()),
             comment = structuredCommentsStack.peek().description,
             attributes = attributes,
             external = externalDescriptor,
@@ -417,7 +404,6 @@ internal class AntlrLimeModelBuilder(
 
         val limeElement = LimeField(
             path = currentPath,
-            visibility = convertVisibility(ctx.visibility()),
             comment = parseStructuredComment(ctx.docComment(), ctx).description,
             attributes = attributes,
             external = externalDescriptor,
@@ -437,7 +423,6 @@ internal class AntlrLimeModelBuilder(
         val externalDescriptor = parseExternalDescriptor(ctx.externalDescriptor())
         val limeElement = LimeEnumeration(
             path = currentPath,
-            visibility = convertVisibility(ctx.visibility()),
             comment = parseStructuredComment(ctx.docComment(), ctx).description,
             attributes = attributes,
             external = externalDescriptor,
@@ -473,7 +458,6 @@ internal class AntlrLimeModelBuilder(
         val limeElement = LimeConstant(
             path = currentPath,
             comment = parseStructuredComment(ctx.docComment(), ctx).description,
-            visibility = convertVisibility(ctx.visibility()),
             attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation()),
             typeRef = limeTypeRef,
             value = convertLiteralConstant(limeTypeRef, ctx.literalConstant())
@@ -489,7 +473,6 @@ internal class AntlrLimeModelBuilder(
     override fun exitTypealias(ctx: LimeParser.TypealiasContext) {
         val limeElement = LimeTypeAlias(
             path = currentPath,
-            visibility = convertVisibility(ctx.visibility()),
             comment = parseStructuredComment(ctx.docComment(), ctx).description,
             attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation()),
             typeRef = typeMapper.mapTypeRef(currentPath, ctx.typeRef())
@@ -505,7 +488,6 @@ internal class AntlrLimeModelBuilder(
     override fun exitException(ctx: LimeParser.ExceptionContext) {
         val limeElement = LimeException(
             path = currentPath,
-            visibility = convertVisibility(ctx.visibility()),
             comment = parseStructuredComment(ctx.docComment(), ctx).description,
             attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation()),
             errorType = typeMapper.mapSimpleTypeRef(currentPath, ctx.simpleTypeRef())
@@ -532,7 +514,6 @@ internal class AntlrLimeModelBuilder(
         }
         val limeElement = LimeLambda(
             path = currentPath,
-            visibility = convertVisibility(ctx.visibility()),
             comment = parseStructuredComment(ctx.docComment(), ctx).description,
             attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation()),
             parameters = parameters,
@@ -559,9 +540,6 @@ internal class AntlrLimeModelBuilder(
         }
         pathStack.pop()
     }
-
-    private fun convertVisibility(ctx: LimeParser.VisibilityContext?) =
-        if (ctx?.Internal() != null) LimeVisibility.INTERNAL else LimeVisibility.PUBLIC
 
     private fun convertLiteralConstant(
         limeTypeRef: LimeTypeRef,

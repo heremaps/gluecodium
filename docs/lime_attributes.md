@@ -24,9 +24,9 @@ deprecated, takes a string literal value as a deprecation message. Platform-spec
 deprecation messages (see `Platform-specific comments` below for syntax).
 * **@Cached**: marks a property to be cached on platform side (i.e. read from C++ only once on first
 access and cached in Java/Swift/Dart afterwards). Currently, only supported for read-only properties.
-* **@Internal**\[**(**__PlatformTag__**)**\]: marks an element to have "internal" visibility. Currently, this is
-equivalent to the `internal` visibility modifier. Additionally, a platform tag(s) ("Java", "Swift", or "Dart") could be
-specified. This will make the visibility apply on the selected platform(s).
+* **@Internal**\[**(**__PlatformTag__**)**\]: marks an element to have "internal" visibility. Additionally, platform
+tag(s) ("Java", "Swift", or "Dart") could be specified. This will make the internal visibility apply on the selected
+platform(s).
 * **@Async**: *EXPERIMENTAL* marks a function to be generated with support for asynchronous invocation. Currently,
 only works in Dart. See [async.md](async.md) for details.
 * **@Optimized**: *EXPERIMENTAL* marks a type reference of `List<>` type to fetch list elements from C++ to platform
@@ -67,11 +67,10 @@ generated code. _Annotation_ does not need to be prepended with `@`. _Annotation
 quotes need to be backslash-escaped, as in the example.
 * **PositionalDefaults** \[**=** **"**_DeprecationMessage_**"** \]: marks a struct to have additional constructors
 simulating optional positional parameters in Java. Can only be applied to a struct that has at least one field with a
-default value. Please note that combining this attribute with internal (see `Visibility` above) fields is not
-supported. The positional defaults constructors will be generated with a `@Deprecated` annotation, if
-_DeprecationMessage_ is specified.
+default value. Please note that combining this attribute with `@Internal` fields is not supported. The positional
+defaults constructors will be generated with a `@Deprecated` annotation, if _DeprecationMessage_ is specified.
 * **Public** or **Internal**: marks an element to have the corresponding visibility in Java, disregarding any "global"
-visibility modifiers the element might have.
+visibility attributes the element might have.
 
 Swift-specific attributes
 -------------------------
@@ -101,7 +100,7 @@ in Swift, for those fields that are listed in the "filed constructor's" signatur
 Additionally, for each enum `MyEnum` marked as such, any usage of `Set<MyEnum>` will be replaced by `MyEnum` itself in
 Swift, per the `OptionSet` usage pattern.
 * **Public** or **Internal**: marks an element to have the corresponding visibility in Swift, disregarding any "global"
-visibility modifiers the element might have.
+visibility attributes the element might have.
 
 Dart-specific attributes
 ------------------------
@@ -128,7 +127,7 @@ generated code. _Annotation_ does not need to be prepended with `@`. _Annotation
 `@Dart(Attribute="Deprecated(\"It's deprecated.\")")`. If some of the parameters are string literals, their enclosing
 quotes need to be backslash-escaped, as in the example.
 * **Public** or **Internal**: marks an element to have the corresponding visibility in Dart, disregarding any "global"
-visibility modifiers the element might have.
+visibility attributes the element might have.
 
 C++-specific attributes
 -----------------------

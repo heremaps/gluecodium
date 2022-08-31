@@ -21,7 +21,6 @@ package com.here.gluecodium.model.lime
 
 class LimeClass(
     path: LimePath,
-    visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     external: LimeExternalDescriptor? = null,
@@ -39,7 +38,6 @@ class LimeClass(
     isOpen: Boolean = false
 ) : LimeContainerWithInheritance(
     path = path,
-    visibility = visibility,
     comment = comment,
     attributes = attributes,
     external = external,

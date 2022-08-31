@@ -37,7 +37,8 @@ class SomeImportantProcessor {
 
     property processingTime: ProcessorHelperTypes.Timestamp { get }
 
-    internal static property secretDelegate: ProcessorDelegate?
+    @Internal
+    static property secretDelegate: ProcessorDelegate?
 
     enum Mode {
         SLOW,
@@ -97,19 +98,6 @@ issues in the generated code, depending on the file system and/or operating syst
 **Note:** Unicode characters in C++ identifiers are supported by C++ standard, but the actual support
 might vary per compiler implementation.
 
-#### Visibility
-
-Most elements can be prefixed with a visibility prefix. Possible visibility prefixes are currently
-`public`, `internal`, `open` and `open internal`. Visibility prefix is optional, an element without
-such a prefix is considered `public`. The visibility prefix, if present, should precede the rest of the declaration.
-
-* Example: `internal static property secretDelegate: ProcessorDelegate? { get set }`
-* List of element kinds that can have a visibility prefix: class, interface, function, constructor, property, 
-struct, struct field, field constructor, enumeration, exception, type alias, lambda, constant.
-* Visibility prefix has no effect on C++ generated code.
-* `open` and `open internal` are currently only supported for classes. Both mean the class can be
-inherited from (see `Inheritance` below).
-
 #### Line breaks
 
 Most declarations are allowed to have an arbitrary (zero or more) number of line breaks between any
@@ -159,10 +147,8 @@ class, interface, or struct.
 Classes and interfaces support inheritance (optionally, see *ParentName* in the syntax above).
 There are some restrictions on inheritance:
 * an interface cannot inherit from a class.
-* a class can only inherit from another ("parent") class if the parent class has "open" visibility
-(see `Visibility` above).
-* a class or an interface with "public" visibility cannot inherit from a class or an interface with
-"internal" visibility (see `Visibility` above).
+* a class can only inherit from another ("parent") class if the parent class has an `open` modifier, e.g.
+`open class MyClass`.
 * multiple inheritance is supported with limitations (see `Multiple inheritance` below).
 
 Contrary to the usual practice encountered in programming languages, in LimeIDL it is not necessary

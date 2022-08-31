@@ -33,7 +33,6 @@ import com.here.gluecodium.model.lime.LimeThrownType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypedElement
-import com.here.gluecodium.model.lime.LimeVisibility
 import io.mockk.mockk
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -64,7 +63,6 @@ class LimeTypeRefsValidatorTest(private val createElement: (LimeTypeRef) -> Lime
 
     class DummyTypedElement(limeTypeRef: LimeTypeRef) : LimeTypedElement(
         path = EMPTY_PATH,
-        visibility = LimeVisibility.PUBLIC,
         comment = LimeComment(),
         attributes = null,
         typeRef = limeTypeRef
@@ -85,7 +83,6 @@ class LimeTypeRefsValidatorTest(private val createElement: (LimeTypeRef) -> Lime
     }
 
     companion object {
-        @Suppress("RemoveExplicitTypeArguments")
         @JvmStatic
         @Parameterized.Parameters
         fun testData() = listOf(

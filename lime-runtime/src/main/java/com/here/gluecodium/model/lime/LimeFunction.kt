@@ -21,7 +21,6 @@ package com.here.gluecodium.model.lime
 
 class LimeFunction(
     path: LimePath,
-    visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     external: LimeExternalDescriptor? = null,
@@ -30,7 +29,7 @@ class LimeFunction(
     val thrownType: LimeThrownType? = null,
     val isStatic: Boolean = false,
     val isConstructor: Boolean = false
-) : LimeNamedElement(path, visibility, comment, attributes, external) {
+) : LimeNamedElement(path, comment, attributes, external) {
     val exception: LimeException?
         get() = thrownType?.typeRef?.type?.let { it.actualType as? LimeException }
 }

@@ -24,7 +24,6 @@ package com.here.gluecodium.model.lime
  */
 abstract class LimeContainer(
     path: LimePath,
-    visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     external: LimeExternalDescriptor? = null,
@@ -38,7 +37,7 @@ abstract class LimeContainer(
     val classes: List<LimeClass> = emptyList(),
     val interfaces: List<LimeInterface> = emptyList(),
     val lambdas: List<LimeLambda> = emptyList()
-) : LimeType(path, visibility, comment, attributes, external) {
+) : LimeType(path, comment, attributes, external) {
 
     val constructors
         get() = functions.filter { it.isConstructor }
