@@ -32,3 +32,8 @@ internal interface ExposeInternalInterface {}
 internal struct ExposeInternalStruct { `field`: String }
 
 internal enum ExposeInternalEnum { foo }
+
+internal class ExposeInternalNested {
+    interface InternalInterface {}
+}
+

@@ -42,7 +42,7 @@ internal class SwiftVisibilityResolver(limeReferenceMap: Map<String, LimeElement
                 } else {
                     val nestedTypes = generateSequence(element) {
                         limeReferenceMap[it.path.parent.toString()] as? LimeType
-                    }.toList().drop(1)
+                    }.toList()
                     val isInternal = nestedTypes.any { it is LimeInterface } &&
                         nestedTypes.any { CommonGeneratorPredicates.isInternal(it, SWIFT) }
                     getVisibilityPrefix(isInternal)
