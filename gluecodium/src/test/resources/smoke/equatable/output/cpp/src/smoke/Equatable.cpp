@@ -33,7 +33,7 @@ bool Equatable::EquatableStruct::operator!=( const EquatableStruct& rhs ) const
 Equatable::EquatableNullableStruct::EquatableNullableStruct( )
 {
 }
-Equatable::EquatableNullableStruct::EquatableNullableStruct( ::gluecodium::optional< bool > bool_field, ::gluecodium::optional< int32_t > int_field, ::gluecodium::optional< uint16_t > uint_field, ::gluecodium::optional< float > float_field, ::gluecodium::optional< ::std::string > string_field, ::gluecodium::optional< ::smoke::Equatable::NestedEquatableStruct > struct_field, ::gluecodium::optional< ::smoke::Equatable::SomeEnum > enum_field, ::gluecodium::optional< ::std::vector< ::std::string > > array_field, ::gluecodium::optional< ::smoke::Equatable::ErrorCodeToMessageMap > map_field )
+Equatable::EquatableNullableStruct::EquatableNullableStruct( std::optional< bool > bool_field, std::optional< int32_t > int_field, std::optional< uint16_t > uint_field, std::optional< float > float_field, std::optional< ::std::string > string_field, std::optional< ::smoke::Equatable::NestedEquatableStruct > struct_field, std::optional< ::smoke::Equatable::SomeEnum > enum_field, std::optional< ::std::vector< ::std::string > > array_field, std::optional< ::smoke::Equatable::ErrorCodeToMessageMap > map_field )
     : bool_field( std::move( bool_field ) ), int_field( std::move( int_field ) ), uint_field( std::move( uint_field ) ), float_field( std::move( float_field ) ), string_field( std::move( string_field ) ), struct_field( std::move( struct_field ) ), enum_field( std::move( enum_field ) ), array_field( std::move( array_field ) ), map_field( std::move( map_field ) )
 {
 }

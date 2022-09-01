@@ -23,8 +23,8 @@
 #include "LocaleHandle.h"
 
 #include "{{>common/InternalInclude}}Locale.h"
-#include "{{>common/InternalInclude}}Optional.h"
 #include <new>
+#include <optional>
 #include <string>
 
 #ifdef __cplusplus
@@ -37,17 +37,17 @@ FfiOpaqueHandle
                                      const char* script_code,
                                      const char* language_tag) {
     auto language_code_optional = language_code != nullptr
-        ? {{>common/InternalNamespace}}optional<std::string>(std::string(language_code))
-        : {{>common/InternalNamespace}}optional<std::string>();
+        ? std::optional<std::string>(std::string(language_code))
+        : std::optional<std::string>();
     auto country_code_optional = country_code != nullptr
-        ? {{>common/InternalNamespace}}optional<std::string>(std::string(country_code))
-        : {{>common/InternalNamespace}}optional<std::string>();
+        ? std::optional<std::string>(std::string(country_code))
+        : std::optional<std::string>();
     auto script_code_optional = script_code != nullptr
-        ? {{>common/InternalNamespace}}optional<std::string>(std::string(script_code))
-        : {{>common/InternalNamespace}}optional<std::string>();
+        ? std::optional<std::string>(std::string(script_code))
+        : std::optional<std::string>();
     auto language_tag_optional = language_tag != nullptr
-        ? {{>common/InternalNamespace}}optional<std::string>(std::string(language_tag))
-        : {{>common/InternalNamespace}}optional<std::string>();
+        ? std::optional<std::string>(std::string(language_tag))
+        : std::optional<std::string>();
     return reinterpret_cast<FfiOpaqueHandle>(
         new (std::nothrow) {{>common/InternalNamespace}}Locale(language_code_optional,
                                                                country_code_optional,

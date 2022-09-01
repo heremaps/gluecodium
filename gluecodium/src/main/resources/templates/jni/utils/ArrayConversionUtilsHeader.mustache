@@ -29,8 +29,8 @@
 #include "JniCppConversionUtils.h"
 #include "JniReference.h"
 
-#include "{{>common/InternalInclude}}Optional.h"
 #include <memory>
+#include <optional>
 #include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
@@ -49,10 +49,10 @@ std::unordered_map< K, V, Hash >
 convert_from_jni( JNIEnv* _env, const JniReference<jobject>& _jMap, std::unordered_map< K, V, Hash >* );
 
 template<typename K, typename V, typename Hash>
-optional<std::unordered_map<K, V, Hash>>
+std::optional<std::unordered_map<K, V, Hash>>
 convert_from_jni(JNIEnv* _env,
                  const JniReference<jobject>& _jMap,
-                 optional<std::unordered_map<K, V, Hash>>*);
+                 std::optional<std::unordered_map<K, V, Hash>>*);
 
 template < typename K, typename V, typename Hash >
 JniReference<jobject>
@@ -60,7 +60,7 @@ convert_to_jni( JNIEnv* _env, const std::unordered_map< K, V, Hash >& _ninput );
 
 template<typename K, typename V, typename Hash>
 JniReference<jobject>
-convert_to_jni(JNIEnv* _env, const optional<std::unordered_map<K, V, Hash>>& _ninput);
+convert_to_jni(JNIEnv* _env, const std::optional<std::unordered_map<K, V, Hash>>& _ninput);
 
 // Forward declare set conversion routines
 
@@ -74,17 +74,17 @@ convert_to_jni(JNIEnv* _env, const std::unordered_set<T, Hash>& _ninput);
 
 template<typename T, typename Hash>
 JniReference<jobject>
-convert_to_jni(JNIEnv* _env, const optional<std::unordered_set<T, Hash>>& _ninput);
+convert_to_jni(JNIEnv* _env, const std::optional<std::unordered_set<T, Hash>>& _ninput);
 
 template <typename T, typename Hash>
 std::unordered_set<T, Hash>
 convert_from_jni( JNIEnv* _env, const JniReference<jobject>& jSet, std::unordered_set<T, Hash>* );
 
 template<typename T, typename Hash>
-optional<std::unordered_set<T, Hash>>
+std::optional<std::unordered_set<T, Hash>>
 convert_from_jni(JNIEnv* _env,
                  const JniReference<jobject>& jSet,
-                 optional<std::unordered_set<T, Hash>>*);
+                 std::optional<std::unordered_set<T, Hash>>*);
 
 // Templated functions to create ArrayLists from C++ vectors and vice versa
 
@@ -107,7 +107,7 @@ convert_to_jni( JNIEnv* _env, const std::vector< T >& _ninput )
 
 template<typename T>
 JniReference<jobject>
-convert_to_jni(JNIEnv* _env, const optional<std::vector<T>>& _ninput)
+convert_to_jni(JNIEnv* _env, const std::optional<std::vector<T>>& _ninput)
 {
     return _ninput ? convert_to_jni(_env, *_ninput) : JniReference<jobject>{};
 }
@@ -139,14 +139,14 @@ convert_from_jni( JNIEnv* _env, const JniReference<jobject>& _arrayList, std::ve
 }
 
 template<typename T>
-optional<std::vector<T>>
+std::optional<std::vector<T>>
 convert_from_jni(JNIEnv* _env,
                  const JniReference<jobject>& _arrayList,
-                 optional<std::vector<T>>*)
+                 std::optional<std::vector<T>>*)
 {
     return _arrayList
-        ? optional<std::vector<T>>(convert_from_jni(_env, _arrayList, (std::vector<T>*)nullptr))
-        : optional<std::vector<T>>{};
+        ? std::optional<std::vector<T>>(convert_from_jni(_env, _arrayList, (std::vector<T>*)nullptr))
+        : std::optional<std::vector<T>>{};
 }
 
 template <typename T>
@@ -181,7 +181,7 @@ convert_to_jni( JNIEnv* _env, const std::unordered_map< K, V, Hash >& _ninput )
 
 template<typename K, typename V, typename Hash>
 JniReference<jobject>
-convert_to_jni(JNIEnv* _env, const optional<std::unordered_map<K, V, Hash>>& _ninput)
+convert_to_jni(JNIEnv* _env, const std::optional<std::unordered_map<K, V, Hash>>& _ninput)
 {
     return _ninput ? convert_to_jni(_env, *_ninput) : JniReference<jobject>{};
 }
@@ -230,14 +230,14 @@ convert_from_jni( JNIEnv* _env, const JniReference<jobject>& _jMap, ::std::unord
 }
 
 template<typename K, typename V, typename Hash>
-optional<std::unordered_map<K, V, Hash>>
+std::optional<std::unordered_map<K, V, Hash>>
 convert_from_jni(JNIEnv* _env,
                  const JniReference<jobject>& _jMap,
-                 optional<std::unordered_map<K, V, Hash>>*)
+                 std::optional<std::unordered_map<K, V, Hash>>*)
 {
     return _jMap
-        ? optional<std::unordered_map<K, V, Hash>>(convert_from_jni(_env, _jMap, (std::unordered_map<K, V, Hash>*)nullptr))
-        : optional<std::unordered_map<K, V, Hash>>{};
+        ? std::optional<std::unordered_map<K, V, Hash>>(convert_from_jni(_env, _jMap, (std::unordered_map<K, V, Hash>*)nullptr))
+        : std::optional<std::unordered_map<K, V, Hash>>{};
 }
 
 // Templated functions to create HashSet from C++ unordered_set and vice versa
@@ -282,7 +282,7 @@ convert_to_jni(JNIEnv* _env, const std::unordered_set<T, Hash>& _ninput)
 
 template<typename T, typename Hash >
 JniReference<jobject>
-convert_to_jni(JNIEnv* _env, const optional<std::unordered_set<T, Hash>>& _ninput)
+convert_to_jni(JNIEnv* _env, const std::optional<std::unordered_set<T, Hash>>& _ninput)
 {
     return _ninput ? convert_to_jni(_env, *_ninput) : JniReference<jobject>{};
 }
@@ -317,14 +317,14 @@ convert_from_jni( JNIEnv* _env, const JniReference<jobject>& jSet, std::unordere
 }
 
 template<typename T, typename Hash>
-optional<std::unordered_set<T, Hash>>
+std::optional<std::unordered_set<T, Hash>>
 convert_from_jni(JNIEnv* _env,
                  const JniReference<jobject>& jSet,
-                 optional<std::unordered_set<T, Hash>>*)
+                 std::optional<std::unordered_set<T, Hash>>*)
 {
     return jSet
-        ? optional<std::unordered_set<T, Hash>>(convert_from_jni(_env, jSet, (std::unordered_set<T, Hash>*)nullptr))
-        : optional<std::unordered_set<T, Hash>>{};
+        ? std::optional<std::unordered_set<T, Hash>>(convert_from_jni(_env, jSet, (std::unordered_set<T, Hash>*)nullptr))
+        : std::optional<std::unordered_set<T, Hash>>{};
 }
 
 

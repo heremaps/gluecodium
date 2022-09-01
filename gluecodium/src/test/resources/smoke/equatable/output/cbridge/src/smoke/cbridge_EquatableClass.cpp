@@ -5,12 +5,12 @@
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
-#include "gluecodium/Optional.h"
 #include "smoke/EquatableClass.h"
 #include "smoke/PointerEquatableClass.h"
 #include <cstdint>
 #include <memory>
 #include <new>
+#include <optional>
 #include <string>
 void smoke_EquatableClass_release_handle(_baseRef handle) {
     delete get_pointer<::std::shared_ptr< ::smoke::EquatableClass >>(handle);
@@ -57,7 +57,7 @@ smoke_EquatableClass_EquatableStruct_release_handle( _baseRef handle )
 _baseRef
 smoke_EquatableClass_EquatableStruct_create_optional_handle(int32_t intField, _baseRef stringField, _baseRef nestedEquatableInstance, _baseRef nestedPointerEquatableInstance)
 {
-    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::EquatableClass::EquatableStruct>( ::smoke::EquatableClass::EquatableStruct( ) );
+    auto _struct = new ( ::std::nothrow ) std::optional<::smoke::EquatableClass::EquatableStruct>( ::smoke::EquatableClass::EquatableStruct( ) );
     (*_struct)->int_field = intField;
     (*_struct)->string_field = Conversion<::std::string>::toCpp( stringField );
     (*_struct)->nested_equatable_instance = Conversion<::std::shared_ptr< ::smoke::EquatableClass >>::toCpp( nestedEquatableInstance );
@@ -67,10 +67,10 @@ smoke_EquatableClass_EquatableStruct_create_optional_handle(int32_t intField, _b
 _baseRef
 smoke_EquatableClass_EquatableStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::EquatableClass::EquatableStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::smoke::EquatableClass::EquatableStruct>*>( handle ) );
 }
 void smoke_EquatableClass_EquatableStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::smoke::EquatableClass::EquatableStruct>*>( handle );
+    delete reinterpret_cast<std::optional<::smoke::EquatableClass::EquatableStruct>*>( handle );
 }
 int32_t smoke_EquatableClass_EquatableStruct_intField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::EquatableClass::EquatableStruct>(handle);

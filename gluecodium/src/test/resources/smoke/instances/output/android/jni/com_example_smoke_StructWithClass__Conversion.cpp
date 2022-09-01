@@ -21,12 +21,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::S
     _nout.class_instance = n_class_instance;
     return _nout;
 }
-::gluecodium::optional<::smoke::StructWithClass>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::StructWithClass>*)
+std::optional<::smoke::StructWithClass>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::optional<::smoke::StructWithClass>*)
 {
     return _jinput
-        ? ::gluecodium::optional<::smoke::StructWithClass>(convert_from_jni(_jenv, _jinput, (::smoke::StructWithClass*)nullptr))
-        : ::gluecodium::optional<::smoke::StructWithClass>{};
+        ? std::optional<::smoke::StructWithClass>(convert_from_jni(_jenv, _jinput, (::smoke::StructWithClass*)nullptr))
+        : std::optional<::smoke::StructWithClass>{};
 }
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/StructWithClass", com_example_smoke_StructWithClass, ::smoke::StructWithClass)
 JniReference<jobject>
@@ -39,7 +39,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::StructWithClass& _ninput)
     return _jresult;
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::smoke::StructWithClass> _ninput)
+convert_to_jni(JNIEnv* _jenv, const std::optional<::smoke::StructWithClass> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

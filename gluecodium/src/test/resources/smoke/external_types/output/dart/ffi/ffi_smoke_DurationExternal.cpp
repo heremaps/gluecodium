@@ -26,7 +26,7 @@ FfiOpaqueHandle
 library_smoke_DurationExternal_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<std::chrono::duration<uint64_t, std::ratio<1,1000>>>(
+        new (std::nothrow) std::optional<std::chrono::duration<uint64_t, std::ratio<1,1000>>>(
             *reinterpret_cast<std::chrono::duration<uint64_t, std::ratio<1,1000>>*>(value)
         )
     );
@@ -34,13 +34,13 @@ library_smoke_DurationExternal_create_handle_nullable(FfiOpaqueHandle value)
 void
 library_smoke_DurationExternal_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<std::chrono::duration<uint64_t, std::ratio<1,1000>>>*>(handle);
+    delete reinterpret_cast<std::optional<std::chrono::duration<uint64_t, std::ratio<1,1000>>>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_DurationExternal_get_value_nullable(FfiOpaqueHandle handle)
 {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::chrono::duration<uint64_t, std::ratio<1,1000>>(
-        **reinterpret_cast<gluecodium::optional<std::chrono::duration<uint64_t, std::ratio<1,1000>>>*>(handle)
+        **reinterpret_cast<std::optional<std::chrono::duration<uint64_t, std::ratio<1,1000>>>*>(handle)
     ));
 }
 #ifdef __cplusplus

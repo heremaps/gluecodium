@@ -5,11 +5,11 @@
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
 #include "gluecodium/DurationHash.h"
-#include "gluecodium/Optional.h"
 #include "smoke/DurationSeconds.h"
 #include <chrono>
 #include <memory>
 #include <new>
+#include <optional>
 void smoke_DurationSeconds_release_handle(_baseRef handle) {
     delete get_pointer<::std::shared_ptr< ::smoke::DurationSeconds >>(handle);
 }
@@ -35,7 +35,7 @@ double smoke_DurationSeconds_durationFunction(_baseRef _instance, double input) 
     return Conversion<::std::chrono::seconds>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::DurationSeconds >>(_instance)->get()->duration_function(Conversion<::std::chrono::seconds>::toCpp(input)));
 }
 _baseRef smoke_DurationSeconds_nullableDurationFunction(_baseRef _instance, _baseRef input) {
-    return Conversion<::gluecodium::optional< ::std::chrono::seconds >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::DurationSeconds >>(_instance)->get()->nullable_duration_function(Conversion<::gluecodium::optional< ::std::chrono::seconds >>::toCpp(input)));
+    return Conversion<std::optional< ::std::chrono::seconds >>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::DurationSeconds >>(_instance)->get()->nullable_duration_function(Conversion<std::optional< ::std::chrono::seconds >>::toCpp(input)));
 }
 double smoke_DurationSeconds_durationProperty_get(_baseRef _instance) {
     return Conversion<::std::chrono::seconds>::toBaseRef(get_pointer<::std::shared_ptr< ::smoke::DurationSeconds >>(_instance)->get()->get_duration_property());
@@ -58,17 +58,17 @@ smoke_DurationSeconds_DurationStruct_release_handle( _baseRef handle )
 _baseRef
 smoke_DurationSeconds_DurationStruct_create_optional_handle(double durationField)
 {
-    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::DurationSeconds::DurationStruct>( ::smoke::DurationSeconds::DurationStruct( ) );
+    auto _struct = new ( ::std::nothrow ) std::optional<::smoke::DurationSeconds::DurationStruct>( ::smoke::DurationSeconds::DurationStruct( ) );
     (*_struct)->duration_field = Conversion<::std::chrono::seconds>::toCpp( durationField );
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_DurationSeconds_DurationStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::DurationSeconds::DurationStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::smoke::DurationSeconds::DurationStruct>*>( handle ) );
 }
 void smoke_DurationSeconds_DurationStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::smoke::DurationSeconds::DurationStruct>*>( handle );
+    delete reinterpret_cast<std::optional<::smoke::DurationSeconds::DurationStruct>*>( handle );
 }
 double smoke_DurationSeconds_DurationStruct_durationField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::DurationSeconds::DurationStruct>(handle);

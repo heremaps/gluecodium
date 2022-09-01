@@ -20,10 +20,13 @@
 
 #include "unit/test/Foo.h"
 
+#include "unit/test/Bar.h"
+#include <optional>
+
 namespace unit::test {
-std::shared_ptr<Foo>
-Foo::make_foo(const ::gluecodium::optional< double >& parameter)
+::gluecodium::Return< std::shared_ptr<Foo>, std::error_code >
+Foo::make_foo(const ::std::optional< double >& parameter)
 {
-    return nullptr;
+    return {std::shared_ptr<Foo>{}};
 }
 } // namespace unit::test

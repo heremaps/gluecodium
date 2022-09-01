@@ -41,13 +41,14 @@
 #pragma once
 
 #include "cbridge/include/BaseHandle.h"
-#include "{{>common/InternalInclude}}Optional.h"
 
 #include <chrono>
 #include <cinttypes>
 #include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <memory>
+#include <optional>
 
 template < typename T >
 inline static T*
@@ -184,41 +185,41 @@ seconds_double_to_duration(double seconds_double) {
 }
 
 template < class T >
-struct Conversion< {{>common/InternalNamespace}}optional< T > >
+struct Conversion< std::optional< T > >
 {
     static _baseRef
-    toBaseRef( {{>common/InternalNamespace}}optional< T > ptr )
+    toBaseRef( std::optional< T > ptr )
     {
         return !ptr ? 0
                     : reinterpret_cast< _baseRef >(
-                          new {{>common/InternalNamespace}}optional< T >( ::std::move( ptr ) ) );
+                          new std::optional< T >( ::std::move( ptr ) ) );
     }
 
     static _baseRef
-    referenceBaseRef( const {{>common/InternalNamespace}}optional< T >& t )
+    referenceBaseRef( const std::optional< T >& t )
     {
         return reinterpret_cast< _baseRef >( &t );
     }
 
-    static {{>common/InternalNamespace}}optional< T >
+    static std::optional< T >
     toCpp( _baseRef ref )
     {
         if ( ref == 0 )
         {
             return {};
         }
-        return *reinterpret_cast< {{>common/InternalNamespace}}optional< T >* >( ref );
+        return *reinterpret_cast< std::optional< T >* >( ref );
     }
 
-    static {{>common/InternalNamespace}}optional< T >
+    static std::optional< T >
     toCppReturn( _baseRef ref )
     {
         if ( ref == 0 )
         {
             return {};
         }
-        auto ptr_ptr = reinterpret_cast< {{>common/InternalNamespace}}optional< T >* >( ref );
-        {{>common/InternalNamespace}}optional< T > ptr( ::std::move( *ptr_ptr ) );
+        auto ptr_ptr = reinterpret_cast< std::optional< T >* >( ref );
+        std::optional< T > ptr( ::std::move( *ptr_ptr ) );
         delete ptr_ptr;
         return ptr;
     }
@@ -259,39 +260,39 @@ struct Conversion<std::chrono::time_point<Clock, Duration>> {
 };
 
 template<class Clock, class Duration>
-struct Conversion<{{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>> {
+struct Conversion<std::optional<std::chrono::time_point<Clock, Duration>>> {
     static _baseRef
-    toBaseRef({{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>> ptr) {
+    toBaseRef(std::optional<std::chrono::time_point<Clock, Duration>> ptr) {
         if (!ptr) return 0;
         return reinterpret_cast<_baseRef>(
-            new {{>common/InternalNamespace}}optional<double>(duration_to_seconds_double(ptr->time_since_epoch()))
+            new std::optional<double>(duration_to_seconds_double(ptr->time_since_epoch()))
         );
     }
 
     static _baseRef
-    referenceBaseRef(const {{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>& ptr) {
+    referenceBaseRef(const std::optional<std::chrono::time_point<Clock, Duration>>& ptr) {
         return toBaseRef(ptr);
     }
 
-    static {{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>
+    static std::optional<std::chrono::time_point<Clock, Duration>>
     toCpp(_baseRef ref) {
         if (ref == 0) return {};
-        auto optional_double = *reinterpret_cast<{{>common/InternalNamespace}}optional<double>*>(ref);
+        auto optional_double = *reinterpret_cast<std::optional<double>*>(ref);
         if (!optional_double) return {};
-        return {{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>(
+        return std::optional<std::chrono::time_point<Clock, Duration>>(
             std::chrono::time_point<Clock, Duration>(
                 seconds_double_to_duration<typename Duration::rep, typename Duration::period>(*optional_double)
             )
         );
     }
 
-    static {{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>
+    static std::optional<std::chrono::time_point<Clock, Duration>>
     toCppReturn(_baseRef ref) {
         if (ref == 0) return {};
-        auto optional_ptr = reinterpret_cast<{{>common/InternalNamespace}}optional<double>*>(ref);
+        auto optional_ptr = reinterpret_cast<std::optional<double>*>(ref);
         auto result = !*optional_ptr
-            ? {{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>{}
-            : {{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>(
+            ? std::optional<std::chrono::time_point<Clock, Duration>>{}
+            : std::optional<std::chrono::time_point<Clock, Duration>>(
                 std::chrono::time_point<Clock, Duration>(
                     seconds_double_to_duration<typename Duration::rep, typename Duration::period>(**optional_ptr)
                 )
@@ -331,37 +332,37 @@ struct Conversion<std::chrono::duration<Rep, Period>>
 };
 
 template<class Rep, class Period>
-struct Conversion<{{>common/InternalNamespace}}optional<std::chrono::duration<Rep, Period>>> {
+struct Conversion<std::optional<std::chrono::duration<Rep, Period>>> {
     static _baseRef
-    toBaseRef({{>common/InternalNamespace}}optional<std::chrono::duration<Rep, Period>> ptr) {
+    toBaseRef(std::optional<std::chrono::duration<Rep, Period>> ptr) {
         if (!ptr) return 0;
         return reinterpret_cast<_baseRef>(
-            new {{>common/InternalNamespace}}optional<double>(duration_to_seconds_double(*ptr))
+            new std::optional<double>(duration_to_seconds_double(*ptr))
         );
     }
 
     static _baseRef
-    referenceBaseRef(const {{>common/InternalNamespace}}optional<std::chrono::duration<Rep, Period>>& ptr) {
+    referenceBaseRef(const std::optional<std::chrono::duration<Rep, Period>>& ptr) {
         return toBaseRef(ptr);
     }
 
-    static {{>common/InternalNamespace}}optional<std::chrono::duration<Rep, Period>>
+    static std::optional<std::chrono::duration<Rep, Period>>
     toCpp(_baseRef ref) {
         if (ref == 0) return {};
-        auto optional_double = *reinterpret_cast<{{>common/InternalNamespace}}optional<double>*>(ref);
+        auto optional_double = *reinterpret_cast<std::optional<double>*>(ref);
         if (!optional_double) return {};
-        return {{>common/InternalNamespace}}optional<std::chrono::duration<Rep, Period>>(
+        return std::optional<std::chrono::duration<Rep, Period>>(
             seconds_double_to_duration<Rep, Period>(*optional_double)
         );
     }
 
-    static {{>common/InternalNamespace}}optional<std::chrono::duration<Rep, Period>>
+    static std::optional<std::chrono::duration<Rep, Period>>
     toCppReturn(_baseRef ref) {
         if (ref == 0) return {};
-        auto optional_ptr = reinterpret_cast<{{>common/InternalNamespace}}optional<double>*>(ref);
+        auto optional_ptr = reinterpret_cast<std::optional<double>*>(ref);
         auto result = !*optional_ptr
-            ? {{>common/InternalNamespace}}optional<std::chrono::duration<Rep, Period>>{}
-            : {{>common/InternalNamespace}}optional<std::chrono::duration<Rep, Period>>(
+            ? std::optional<std::chrono::duration<Rep, Period>>{}
+            : std::optional<std::chrono::duration<Rep, Period>>(
                 seconds_double_to_duration<Rep, Period>(**optional_ptr)
             );
         delete optional_ptr;

@@ -20,7 +20,7 @@
 #pragma once
 #include "ExportCommonGluecodiumCpp.h"
 #include "Hash.h"
-#include "Optional.h"
+#include <optional>
 #include <string>
 namespace gluecodium {
 /**
@@ -28,15 +28,15 @@ namespace gluecodium {
  */
 struct _GLUECODIUM_CPP_EXPORT Locale {
     Locale();
-    explicit Locale(optional<std::string> language_tag);
-    Locale(optional<std::string> language_code, optional<std::string> country_code);
-    Locale(optional<std::string> language_code,
-           optional<std::string> country_code,
-           optional<std::string> script_code);
-    Locale(optional<std::string> language_code,
-           optional<std::string> country_code,
-           optional<std::string> script_code,
-           optional<std::string> language_tag);
+    explicit Locale(std::optional<std::string> language_tag);
+    Locale(std::optional<std::string> language_code, std::optional<std::string> country_code);
+    Locale(std::optional<std::string> language_code,
+           std::optional<std::string> country_code,
+           std::optional<std::string> script_code);
+    Locale(std::optional<std::string> language_code,
+           std::optional<std::string> country_code,
+           std::optional<std::string> script_code,
+           std::optional<std::string> language_tag);
     explicit Locale(std::string language_tag);
     Locale(std::string language_code, std::string country_code);
     Locale(std::string language_code,
@@ -47,13 +47,13 @@ struct _GLUECODIUM_CPP_EXPORT Locale {
            std::string script_code,
            std::string language_tag);
     /// ISO 639-1 language code (2-letter)
-    optional<std::string> language_code;
+    std::optional<std::string> language_code;
     /// ISO 3166-1 alpha-2 country code (2-letter)
-    optional<std::string> country_code;
+    std::optional<std::string> country_code;
     /// ISO 15924 script code (4-letter)
-    optional<std::string> script_code;
+    std::optional<std::string> script_code;
     /// BCP 47 language tag
-    optional<std::string> language_tag;
+    std::optional<std::string> language_tag;
     bool operator==(const Locale& rhs) const;
     bool operator!=(const Locale& rhs) const;
 };

@@ -18,5 +18,9 @@
 package unit.test
 
 class Foo {
-    constructor make_foo(parameter: Double?)
+    constructor make_foo(parameter: Double?) throws Buz
 }
+
+enum Bar { ONE, TWO }
+
+exception Buz(Bar)

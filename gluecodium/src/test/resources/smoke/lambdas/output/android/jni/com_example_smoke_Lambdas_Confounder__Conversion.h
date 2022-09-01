@@ -6,8 +6,8 @@
 #include <functional>
 #include "com_example_smoke_Lambdas_Producer__Conversion.h"
 #include "JniReference.h"
-#include "gluecodium/Optional.h"
 #include <memory>
+#include <optional>
 namespace gluecodium
 {
 namespace jni
