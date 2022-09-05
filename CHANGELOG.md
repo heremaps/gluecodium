@@ -1,6 +1,8 @@
 # Gluecodium project Release Notes
 
 ## Unreleased
+### Bug fixes:
+  * Fixed a Swift compilation issue for nested internal types when using "-swiftexpose" mode.
 ### Breaking changes:
   * The `gluecodium::optional` type alias to `std::optional` was removed from C++ generated code.
 

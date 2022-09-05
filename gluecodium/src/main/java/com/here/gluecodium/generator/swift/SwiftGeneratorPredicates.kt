@@ -25,6 +25,7 @@ import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
+import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeExternalDescriptor
@@ -44,7 +45,8 @@ import com.here.gluecodium.model.lime.LimeTypeRef
  */
 internal class SwiftGeneratorPredicates(
     nameRules: SwiftNameRules,
-    private val signatureResolver: SwiftSignatureResolver
+    private val signatureResolver: SwiftSignatureResolver,
+    private val limeReferenceMap: Map<String, LimeElement>
 ) {
     val predicates = mapOf(
         "hasAnyComment" to { limeElement: Any ->
@@ -81,6 +83,11 @@ internal class SwiftGeneratorPredicates(
         },
         "hasTypeRepository" to { CommonGeneratorPredicates.hasTypeRepository(it) },
         "isInternal" to { it is LimeNamedElement && CommonGeneratorPredicates.isInternal(it, SWIFT) },
+        "isNestedInternal" to { limeElement: Any ->
+            limeElement is LimeNamedElement && generateSequence(limeElement) {
+                limeReferenceMap[it.path.parent.toString()] as? LimeNamedElement
+            }.any { CommonGeneratorPredicates.isInternal(it, SWIFT) }
+        },
         "isOverriding" to { limeFunction: Any ->
             limeFunction is LimeFunction && limeFunction.isConstructor &&
                 signatureResolver.isOverloadingConstructor(limeFunction)
