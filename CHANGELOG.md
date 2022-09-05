@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 13.4.1
+Release date: 2022-00-05
 ### Bug fixes:
   * Fixed a Swift compilation issue for nested internal types when using "-swiftexpose" mode.
 ### Breaking changes:
