@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Constants of `String` type are now generated as `std::string_view` in C++ code.
+
 ## 13.4.1
 Release date: 2022-00-05
 ### Bug fixes:

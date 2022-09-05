@@ -27,7 +27,7 @@
 {{>cpp/CppStructImpl}}
 {{/structs}}
 {{#constants}}
-const {{resolveName typeRef}} {{parentName}}::{{resolveName}} = {{resolveName value}};
+{{>cpp/CppConstantImpl}}
 {{/constants}}
 {{#each classes interfaces}}
 {{>cpp/CppClassImpl}}

@@ -53,7 +53,7 @@ UseTypeCollectionConstants::get_double_constant( )
 std::string
 UseTypeCollectionConstants::get_string_constant( )
 {
-    return test::Constants::STRING_CONSTANT;
+    return std::string{test::Constants::STRING_CONSTANT};
 }
 
 test::Constants::StateEnum
@@ -91,7 +91,7 @@ UseInterfaceConstants::get_double_constant( )
 std::string
 UseInterfaceConstants::get_string_constant( )
 {
-    return ConstantsInterface::STRING_CONSTANT;
+    return std::string{ConstantsInterface::STRING_CONSTANT};
 }
 
 ConstantsInterface::StateEnum

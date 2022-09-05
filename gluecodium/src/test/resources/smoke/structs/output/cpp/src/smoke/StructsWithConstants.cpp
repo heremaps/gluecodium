@@ -5,7 +5,6 @@
 #include "smoke/StructsWithConstants.h"
 #include <utility>
 namespace smoke {
-const ::std::string StructsWithConstants::Route::DEFAULT_DESCRIPTION = "Nonsense";
 const ::smoke::RouteUtils::RouteType StructsWithConstants::Route::DEFAULT_TYPE = ::smoke::RouteUtils::RouteType::EQUESTRIAN;
 StructsWithConstants::Route::Route( )
     : description{ }, type{ }
