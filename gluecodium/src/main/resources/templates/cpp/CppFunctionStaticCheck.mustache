@@ -23,7 +23,7 @@ static_assert(
         {{resolveName returnType.typeRef}},
         std::remove_cv<std::remove_reference<decltype({{!!
 }}{{#if isStatic}}{{className}}::{{resolveName}}({{/if}}{{!!
-}}{{#unless isStatic}}(({{className}}*)nullptr)->{{resolveName}}({{/unless}}{{!!
+}}{{#unless isStatic}}std::declval<{{className}}>().{{resolveName}}({{/unless}}{{!!
 }}{{#parameters}}
             *(({{resolveName typeRef}}*)nullptr){{#if iter.hasNext}}, {{/if}}{{/parameters}}))>::type>::type
     >::value,

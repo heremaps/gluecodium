@@ -54,7 +54,7 @@ bool {{parentName}}::operator!=( const {{resolveName}}& rhs ) const
 static_assert(
     std::is_same<
         {{resolveName typeRef}},
-        std::remove_cv<std::remove_reference<decltype(((const {{structName}}*)nullptr)->{{this}}())>::type>::type
+        std::remove_cv<std::remove_reference<decltype(std::declval<{{structName}}>().{{this}}())>::type>::type
     >::value,
     "Expected '{{resolveName typeRef}}' return type for '{{structName}}::{{this}}'."
 );
@@ -63,7 +63,7 @@ static_assert(
 static_assert(
     std::is_same<
         void,
-        decltype((({{structName}}*)nullptr)->{{this}}(*(({{resolveName typeRef}}*)nullptr)))
+        decltype(std::declval<{{structName}}>().{{this}}(*(({{resolveName typeRef}}*)nullptr)))
     >::value,
     "Expected 'void' return type for '{{structName}}::{{this}}'."
 );

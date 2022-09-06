@@ -23,8 +23,8 @@ hash< {{resolveName "FQN"}} >::operator( )( const {{resolveName "FQN"}}& t ) con
 {
     size_t hash_value = 43;
 {{#if attributes.cpp.accessors}}
-    {{#resolveName "FQN"}}{{#set structName=this}}{{#fields}}hash_value = ( hash_value ^ {{>common/InternalNamespace}}hash< decltype{{!!
-    }}( ( ( const {{structName}}* )nullptr )->{{resolveName this "" "getter"}}( ) ) >( )( t.{{resolveName this "" "getter"}}( ) ) ) << 1;
+    {{#resolveName "FQN"}}{{#set structName=this}}{{#fields}}hash_value = (hash_value ^ {{>common/InternalNamespace}}hash< decltype({{!!
+    }}std::declval<{{structName}}>().{{resolveName this "" "getter"}}()) >()(t.{{resolveName this "" "getter"}}())) << 1;
     {{/fields}}{{/set}}{{/resolveName}}
 {{/if}}{{#unless attributes.cpp.accessors}}
 {{#fields}}
