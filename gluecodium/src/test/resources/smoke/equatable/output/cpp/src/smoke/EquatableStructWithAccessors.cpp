@@ -27,7 +27,7 @@ std::size_t
 hash< ::smoke::EquatableStructWithAccessors >::operator( )( const ::smoke::EquatableStructWithAccessors& t ) const
 {
     size_t hash_value = 43;
-    hash_value = ( hash_value ^ ::gluecodium::hash< decltype( ( ( const ::smoke::EquatableStructWithAccessors* )nullptr )->get_foo_field( ) ) >( )( t.get_foo_field( ) ) ) << 1;
+    hash_value = (hash_value ^ ::gluecodium::hash< decltype(std::declval<::smoke::EquatableStructWithAccessors>().get_foo_field()) >()(t.get_foo_field())) << 1;
     return hash_value;
 }
 }
