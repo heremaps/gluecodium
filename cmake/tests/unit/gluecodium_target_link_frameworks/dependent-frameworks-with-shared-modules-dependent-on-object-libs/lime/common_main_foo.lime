@@ -49,6 +49,7 @@ open interface CommonMainBase {
 }
 
 # Converters for internal must NOT be exposed
-internal class CommonMainInternal {
-    internal fun do_internal()
+@Internal
+class CommonMainInternal {
+    fun do_internal()
 }
