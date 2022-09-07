@@ -21,16 +21,14 @@ package com.here.gluecodium.model.lime
 
 class LimeLambda(
     path: LimePath,
-    visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     val parameters: List<LimeLambdaParameter> = emptyList(),
     val returnType: LimeReturnType = LimeReturnType.VOID
-) : LimeType(path, visibility, comment, attributes) {
+) : LimeType(path, comment, attributes) {
 
     fun asFunction() = LimeFunction(
         path = path.child("call"),
-        visibility = visibility,
         comment = comment,
         attributes = attributes,
         returnType = returnType,

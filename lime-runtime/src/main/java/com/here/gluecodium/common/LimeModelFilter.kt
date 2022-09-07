@@ -119,7 +119,6 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
         limeClass.run {
             LimeClass(
                 path = path,
-                visibility = visibility,
                 comment = comment,
                 attributes = attributes,
                 external = external,
@@ -142,7 +141,6 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
         limeInterface.run {
             LimeInterface(
                 path = path,
-                visibility = visibility,
                 comment = comment,
                 attributes = attributes,
                 external = external,
@@ -165,7 +163,6 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
         limeStruct.run {
             LimeStruct(
                 path = path,
-                visibility = visibility,
                 comment = comment,
                 attributes = attributes,
                 external = external,
@@ -199,7 +196,6 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
 
             LimeEnumeration(
                 path = path,
-                visibility = visibility,
                 comment = comment,
                 attributes = attributes,
                 external = external,
@@ -211,7 +207,6 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
         limeConstant.run {
             LimeConstant(
                 path = path,
-                visibility = visibility,
                 comment = comment,
                 attributes = attributes,
                 typeRef = typeRef,
@@ -223,7 +218,6 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
         limeField.run {
             LimeField(
                 path = path,
-                visibility = visibility,
                 comment = comment,
                 attributes = attributes,
                 external = external,
@@ -237,7 +231,6 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
             val remappedStructRef = structRef.remap(referenceMap)
             LimeFieldConstructor(
                 path = path,
-                visibility = visibility,
                 comment = comment,
                 attributes = attributes,
                 structRef = remappedStructRef,
@@ -257,7 +250,6 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
         limeProperty.run {
             LimeProperty(
                 path = path,
-                visibility = visibility,
                 comment = comment,
                 attributes = attributes,
                 typeRef = typeRef,

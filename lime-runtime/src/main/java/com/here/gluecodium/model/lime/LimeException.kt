@@ -21,8 +21,7 @@ package com.here.gluecodium.model.lime
 
 class LimeException(
     path: LimePath,
-    visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     val errorType: LimeTypeRef
-) : LimeType(path, visibility, comment, attributes)
+) : LimeType(path, comment, attributes)

@@ -21,12 +21,11 @@ package com.here.gluecodium.model.lime
 
 class LimeEnumeration(
     path: LimePath,
-    visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     external: LimeExternalDescriptor? = null,
     val enumerators: List<LimeEnumerator> = emptyList()
-) : LimeType(path, visibility, comment, attributes, external) {
+) : LimeType(path, comment, attributes, external) {
 
     @Suppress("unused")
     val aliasEnumerators

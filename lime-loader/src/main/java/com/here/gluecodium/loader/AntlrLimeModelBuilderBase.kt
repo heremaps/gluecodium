@@ -112,10 +112,6 @@ internal abstract class AntlrLimeModelBuilderBase(
 
     override fun exitSetType(ctx: LimeParser.SetTypeContext) {}
 
-    override fun enterVisibility(ctx: LimeParser.VisibilityContext) {}
-
-    override fun exitVisibility(ctx: LimeParser.VisibilityContext) {}
-
     override fun enterLiteralConstant(ctx: LimeParser.LiteralConstantContext) {}
 
     override fun exitLiteralConstant(ctx: LimeParser.LiteralConstantContext) {}

@@ -3,6 +3,7 @@
 ## Unreleased
 ### Breaking changes:
   * Removed support for `@Cpp(CString)` attribute.
+  * Removed support for `internal` modifier. `@Internal` attributes should be used instead.
 
 ## 13.4.2
 Release date: 2022-08-06

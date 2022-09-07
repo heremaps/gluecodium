@@ -21,10 +21,9 @@ package com.here.gluecodium.model.lime
 
 class LimeField(
     path: LimePath,
-    visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     external: LimeExternalDescriptor? = null,
     typeRef: LimeTypeRef,
     val defaultValue: LimeValue? = null
-) : LimeTypedElement(path, visibility, comment, attributes, external, typeRef)
+) : LimeTypedElement(path, comment, attributes, external, typeRef)

@@ -21,11 +21,10 @@ package com.here.gluecodium.model.lime
 
 class LimeProperty(
     path: LimePath,
-    visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     typeRef: LimeTypeRef,
     val getter: LimeFunction,
     val setter: LimeFunction? = null,
     val isStatic: Boolean = false
-) : LimeTypedElement(path, visibility, comment, attributes, typeRef = typeRef)
+) : LimeTypedElement(path, comment, attributes, typeRef = typeRef)
