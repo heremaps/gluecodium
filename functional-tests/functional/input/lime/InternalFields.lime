@@ -18,23 +18,27 @@
 package test
 
 struct PublicFieldsNone {
-    internal internalField: String = "foo"
+    @Internal
+    internalField: String = "foo"
 }
 
 struct PublicFieldsNoInit {
     publicField: String
-    internal internalField: String = "foo"
+    @Internal
+    internalField: String = "foo"
 }
 
 struct PublicFieldsAllInit {
     publicField: String = "bar"
-    internal internalField: String = "foo"
+    @Internal
+    internalField: String = "foo"
 }
 
 struct PublicFieldsMixedInit {
     publicField1: String = "bar"
     publicField2: String
-    internal internalField: String = "foo"
+    @Internal
+    internalField: String = "foo"
 }
 
 @Java(PositionalDefaults)
@@ -42,5 +46,6 @@ struct PublicFieldsMixedInit {
 @Swift(Skip)
 struct PublicFieldsAllInitPosDefaults {
     publicField: String = "bar"
-    internal internalField: String = "foo"
+    @Internal
+    internalField: String = "foo"
 }

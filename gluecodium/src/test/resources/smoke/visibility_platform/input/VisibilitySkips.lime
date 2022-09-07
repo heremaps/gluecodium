@@ -19,11 +19,13 @@ package smoke
 
 @Dart(EnableIf="Lite")
 @Dart(Public)
-internal class DartPublicClassEnabled {}
+@Internal
+class DartPublicClassEnabled {}
 
 @Dart(EnableIf="Pro")
 @Dart(Public)
-internal class DartPublicClassSkipped {}
+@Internal
+class DartPublicClassSkipped {}
 
 @Dart(EnableIf="Lite")
 @Dart(Internal)
@@ -37,20 +39,24 @@ struct DartPublicElementsEnabled {
     boolField: Boolean
     @Dart(EnableIf="Lite")
     @Dart(Public)
-    internal stringField: String
+    @Internal
+    stringField: String
     @Dart(EnableIf="Lite")
     @Dart(Public)
-    internal fun foo()
+    @Internal
+    fun foo()
 }
 
 struct DartPublicElementsSkipped {
     boolField: Boolean
     @Dart(EnableIf="Pro")
     @Dart(Public)
-    internal stringField: String
+    @Internal
+    stringField: String
     @Dart(EnableIf="Pro")
     @Dart(Public)
-    internal fun foo()
+    @Internal
+    fun foo()
 }
 
 struct DartInternalElementsEnabled {

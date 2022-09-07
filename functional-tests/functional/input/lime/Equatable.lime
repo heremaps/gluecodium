@@ -173,10 +173,14 @@ struct EquatableStructWithAccessors {
 @Equatable
 struct EquatableStructWithInternalFields {
     publicField: String
-    internal internalField: String
-    internal internalListField: List<String>
-    internal internalMapField: Map<String, String>
-    internal internalSetField: Set<String>
+    @Internal
+    internalField: String
+    @Internal
+    internalListField: List<String>
+    @Internal
+    internalMapField: Map<String, String>
+    @Internal
+    internalSetField: Set<String>
 }
 
 @Equatable

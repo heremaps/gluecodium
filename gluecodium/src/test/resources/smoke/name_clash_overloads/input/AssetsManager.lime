@@ -14,8 +14,8 @@ class Image {}
 
 @Skip(Java, Swift, Dart)
 @Cpp("AssetsManagerInternal")
-internal class AssetsManager {
-}
+@Internal
+class AssetsManager {}
 
 @Skip(Java, Swift, Dart)
 class AssetsManager {

@@ -25,15 +25,19 @@ struct ExposeStruct { `field`: String }
 
 enum ExposeEnum { foo }
 
-internal class ExposeInternalClass {}
+@Internal
+class ExposeInternalClass {}
 
-internal interface ExposeInternalInterface {}
+@Internal
+interface ExposeInternalInterface {}
 
-internal struct ExposeInternalStruct { `field`: String }
+@Internal
+struct ExposeInternalStruct { `field`: String }
 
-internal enum ExposeInternalEnum { foo }
+@Internal
+enum ExposeInternalEnum { foo }
 
-internal class ExposeInternalNested {
+@Internal
+class ExposeInternalNested {
     interface InternalInterface {}
 }
-

@@ -118,5 +118,6 @@ struct VeryBoolean {
 
 struct UseJavaExternalConst {
     stringField: String
-    internal const defaultTruth: VeryBoolean = {true}
+    @Internal
+    const defaultTruth: VeryBoolean = {true}
 }

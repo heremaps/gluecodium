@@ -99,5 +99,6 @@ struct JavaExternalCtor {
 
 struct UseJavaExternalConst {
     stringField: String
-    internal const defaultTruth: JavaExternalCtor = {"foo"}
+    @Internal
+    const defaultTruth: JavaExternalCtor = {"foo"}
 }

@@ -17,7 +17,8 @@
 
 package test
 
-internal class InternalClassWithFunctions {
+@Internal
+class InternalClassWithFunctions {
     fun fooBar()
     constructor make()
     @Dart("remake")
@@ -26,22 +27,27 @@ internal class InternalClassWithFunctions {
 
 struct PublicStructWithNonDefaultInternalField {
     defaultedField: Int = 42
-    internal internalField: String
+    @Internal
+    internalField: String
     publicField: Boolean
 }
 
-internal class InternalClassWithStaticProperty {
+@Internal
+class InternalClassWithStaticProperty {
     static property fooBar: String
 }
 
 interface WithInternalProperty {
-    internal property foo: String
+    @Internal
+    property foo: String
 }
 
-internal interface InternalInterfaceParent {
+@Internal
+interface InternalInterfaceParent {
     fun fooBar()
     property prop: String
 }
 
-internal class InternalClassInherits: InternalInterfaceParent {
+@Internal
+class InternalClassInherits: InternalInterfaceParent {
 }

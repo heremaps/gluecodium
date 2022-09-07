@@ -26,6 +26,8 @@ enum FooBarBazEnum {
 struct InternalEnumDefaults {
     publicField: FooBarBazEnum = FooBarBazEnum.FOO
     publicListField: List<FooBarBazEnum> = [FooBarBazEnum.FOO, FooBarBazEnum.BAR, FooBarBazEnum.baz]
-    internal internalField: FooBarBazEnum = FooBarBazEnum.BAR
-    internal internalListField: List<FooBarBazEnum> = [FooBarBazEnum.FOO, FooBarBazEnum.BAR, FooBarBazEnum.baz]
+    @Internal
+    internalField: FooBarBazEnum = FooBarBazEnum.BAR
+    @Internal
+    internalListField: List<FooBarBazEnum> = [FooBarBazEnum.FOO, FooBarBazEnum.BAR, FooBarBazEnum.baz]
 }
