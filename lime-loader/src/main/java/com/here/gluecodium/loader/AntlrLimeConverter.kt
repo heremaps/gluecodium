@@ -216,7 +216,6 @@ internal object AntlrLimeConverter {
             "Accessors" -> LimeAttributeValueType.ACCESSORS
             "Attribute" -> LimeAttributeValueType.ATTRIBUTE
             "Const" -> LimeAttributeValueType.CONST
-            "CString" -> LimeAttributeValueType.CSTRING
             "Default" -> LimeAttributeValueType.DEFAULT
             "EnableIf" -> LimeAttributeValueType.ENABLE_IF
             "FullName" -> LimeAttributeValueType.FULL_NAME

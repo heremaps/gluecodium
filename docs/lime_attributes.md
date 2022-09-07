@@ -138,9 +138,6 @@ C++-specific attributes
 * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in C++.
 This is the default specification for this attribute.
 * **Const**: marks a function with a `const` qualifier in C++ generated code.
-* ~~**CString**~~ *DEPRECATED*: marks a function parameter of `String` type to accept `const char*` in C++ (in
-addition to usual `std::string`). This produces one additional overload for the function. This attribute is deprecated,
-`@Cpp(Type="char*") String` should be used instead.
 * **Accessors**: marks a struct to have accessor functions generated for fields and to generate
 struct fields as "private" in C++ generated code. Intended for use with `@Immutable` attribute.
 * **Ref**: marks a function or a property to return their value by const reference in C++

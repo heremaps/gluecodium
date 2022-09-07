@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Breaking changes:
+  * Removed support for `@Cpp(CString)` attribute.
+
 ## 13.4.2
 Release date: 2022-08-06
 ### Bug fixes:
@@ -13,7 +17,6 @@ Release date: 2022-08-05
   * The `gluecodium::optional` type alias to `std::optional` was removed from C++ generated code.
 
 ## 13.4.0
-Release date: 2022-08-29
 ### Features:
   * Added support for `@Cpp(Type)` attribute on `String` type references.
 ### Bug fixes:

@@ -18,10 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#functions}}{{#ifPredicate "hasCstringParameters"}}{{#set self=this useCstring=true}}{{#self}}
-{{prefixPartial "cpp/CppFunctionSignature" "    "}};
-{{/self}}{{/set}}{{/ifPredicate}}{{!!
-}}{{#if attributes.async}}{{#set self=this isAsyncHelper=true}}{{#self}}
+{{#functions}}{{#if attributes.async}}{{#set self=this isAsyncHelper=true}}{{#self}}
 {{prefixPartial "cpp/CppFunctionSignature" "    "}};
 {{/self}}{{/set}}{{/if}}
 {{prefixPartial "cpp/CppFunctionSignature" "    "}};
