@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 13.5.0
+Release date: 2022-08-07
 ### Breaking changes:
   * Removed support for `@Cpp(CString)` attribute.
   * Removed support for `internal` modifier. `@Internal` attributes should be used instead.
