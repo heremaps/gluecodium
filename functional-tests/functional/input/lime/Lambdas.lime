@@ -72,8 +72,10 @@ class LambdasWithStructuredTypes {
 }
 
 class ClassWithInternalLambda {
-    internal lambda InternalLambda = (String) -> Boolean
-    internal static fun invokeInternalLambda(`lambda`: InternalLambda, value: String): Boolean
+    @Internal
+    lambda InternalLambda = (String) -> Boolean
+    @Internal
+    static fun invokeInternalLambda(`lambda`: InternalLambda, value: String): Boolean
 }
 
 lambda SignatureClashLambda = () -> String

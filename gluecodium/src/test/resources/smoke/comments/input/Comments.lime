@@ -148,7 +148,8 @@ struct CommentsTypeCollection {
 }
 
 // This looks internal
-internal class InternalClassWithComments {
+@Internal
+class InternalClassWithComments {
     // This is definitely internal
     fun doNothing()
 }

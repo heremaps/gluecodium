@@ -82,7 +82,8 @@ struct FieldCustomConstructorsMix {
 struct FieldConstructorsInternalFields {
     stringField: String = "nonsense"
     intField: Int = 42
-    internal boolField: Boolean = true
+    @Internal
+    boolField: Boolean = true
     @Dart(Default)
     field constructor()
     @Dart("withTrue")
@@ -93,19 +94,25 @@ struct FieldConstructorsInternal {
     publicField: String = "foo"
     internalField: Double = 42
     @Dart("withAll")
-    internal field constructor()
+    @Internal
+    field constructor()
     @Dart("withFortyTwo")
-    internal field constructor(publicField)
+    @Internal
+    field constructor(publicField)
     @Dart("withFoo")
-    internal field constructor(internalField)
+    @Internal
+    field constructor(internalField)
     @Dart(Default)
-    internal field constructor(internalField, publicField)
+    @Internal
+    field constructor(internalField, publicField)
 }
 
 struct FieldConstructorsExposeInternal {
-    internal internalField: String = "bar"
+    @Internal
+    internalField: String = "bar"
     @Dart("withAll")
-    internal field constructor()
+    @Internal
+    field constructor()
     @Dart(Default)
     field constructor(internalField)
 }

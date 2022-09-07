@@ -43,9 +43,11 @@ class ChildClassFromClass : ParentClass {
     fun childClassMethod()
 }
 
-open internal class InternalParent {}
+@Internal
+open class InternalParent {}
 
-internal class InternalChild : InternalParent {}
+@Internal
+class InternalChild : InternalParent {}
 
 interface ParentWithClassReferences {
     fun classFunction(): ChildClassFromClass

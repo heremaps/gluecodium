@@ -18,6 +18,8 @@
 package test
 
 // Compile test for listener impl visibility
-internal interface InternalListener {
-    internal fun onEvent()
+@Internal
+interface InternalListener {
+    @Internal
+    fun onEvent()
 }

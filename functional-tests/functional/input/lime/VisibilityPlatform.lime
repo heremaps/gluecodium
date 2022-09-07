@@ -18,28 +18,33 @@
 package test
 
 @Java(Public)
-internal class JavaPublicClass {}
+@Internal
+class JavaPublicClass {}
 
 @Java(Internal)
 class JavaInternalClass {}
 
 @Swift(Public)
-internal class SwiftPublicClass {}
+@Internal
+class SwiftPublicClass {}
 
 @Swift(Internal)
 class SwiftInternalClass {}
 
 @Dart(Public)
-internal class DartPublicClass {}
+@Internal
+class DartPublicClass {}
 
 @Dart(Internal)
 class DartInternalClass {}
 
 struct DartPublicElements {
     @Dart(Public)
-    internal stringField: String
+    @Internal
+    stringField: String
     @Dart(Public)
-    internal static fun foo()
+    @Internal
+    static fun foo()
 }
 
 struct DartInternalElements {
