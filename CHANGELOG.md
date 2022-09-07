@@ -4,8 +4,13 @@
 ### Breaking changes:
   * Removed support for `@Cpp(CString)` attribute.
 
+## 13.4.2
+Release date: 2022-08-06
+### Bug fixes:
+  * Fixed C++ warnings for external types and structs with `@Cpp(Accessors)`.
+
 ## 13.4.1
-Release date: 2022-00-05
+Release date: 2022-08-05
 ### Bug fixes:
   * Fixed a Swift compilation issue for nested internal types when using "-swiftexpose" mode.
 ### Breaking changes:

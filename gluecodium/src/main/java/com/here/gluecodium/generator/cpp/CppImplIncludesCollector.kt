@@ -42,7 +42,7 @@ internal class CppImplIncludesCollector(
 
         val externalContainers = allTypes.filter { it is LimeContainer && it.external?.cpp != null }
         if (externalContainers.isNotEmpty()) {
-            result += CppLibraryIncludes.TYPE_TRAITS
+            result += listOf(CppLibraryIncludes.TYPE_TRAITS, CppLibraryIncludes.UTILITY)
             result += externalContainers.flatMap { includesResolver.resolveElementImports(it) }
         }
         if (allTypes.any { it is LimeStruct }) {
