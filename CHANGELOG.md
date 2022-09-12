@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 13.5.1
+Release date: 2022-08-12
+### Features:
+  * Updated Gradle version in the CMake toolchain.
+
 ## 13.5.0
 Release date: 2022-08-07
 ### Breaking changes:
