@@ -28,7 +28,8 @@
 }}{{>dart/DartFunctionBody}}
 {{/getter}}
 {{#setter}}
-{{#unless skipDocs}}{{>dart/DartDocumentation}}
+{{#unless skipDocs}}{{>dart/DartFunctionDocs}}
+
 {{/unless}}{{>dart/DartAttributes}}
 {{#if override}}{{#unless isStatic}}@override
 {{/unless}}{{/if}}

@@ -248,6 +248,9 @@ class DeprecationComments$Impl extends __lib.NativeBase implements DeprecationCo
     }
   }
   /// Sets some very useful property.
+  ///
+  /// [value] Some very useful property.
+  ///
   @Deprecated("Unfortunately, this property's setter is deprecated.\nUse [Comments.isSomeProperty] instead.")
   set isSomeProperty(bool value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_DeprecationComments_isSomeProperty_set__Boolean'));
@@ -268,6 +271,8 @@ class DeprecationComments$Impl extends __lib.NativeBase implements DeprecationCo
       stringReleaseFfiHandle(__resultHandle);
     }
   }
+  /// [value] Describes the property but not accessors.
+  ///
   @Deprecated("Will be removed in v3.2.1.")
   set propertyButNotAccessors(String value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DeprecationComments_propertyButNotAccessors_set__String'));
