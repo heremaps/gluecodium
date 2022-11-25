@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 13.5.2
+Release date: 2022-11-25
+### Bug fixes:
+  * Fixed setter parameter documentation in Dart
+
 ## 13.5.1
 Release date: 2022-08-12
 ### Features:
