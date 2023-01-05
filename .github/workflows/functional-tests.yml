@@ -19,7 +19,7 @@ on:
 jobs:
   cpp:
     name: C++
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v2
@@ -56,7 +56,7 @@ jobs:
 
   android:
     name: Android
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v2
@@ -118,7 +118,7 @@ jobs:
 
   swift:
     name: Swift on Linux
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v2
@@ -139,8 +139,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/swift-sdk
-          key: ${{ runner.os }}-swift-5.4.3-release
-          restore-keys: ${{ runner.os }}-swift-5.4.3-release
+          key: ${{ runner.os }}-swift-5.4-release
+          restore-keys: ${{ runner.os }}-swift-5.4-release
       - name: Install CMake
         uses: jwlawson/actions-setup-cmake@v1.7
         with:
@@ -157,7 +157,7 @@ jobs:
         run: |
           SWIFT_BRANCH=swift-5.4.3-release
           SWIFT_VERSION=swift-5.4.3-RELEASE
-          SWIFT_PLATFORM=ubuntu18.04
+          SWIFT_PLATFORM=ubuntu20.04
           SWIFT_ARCHIVE_NAME=${SWIFT_VERSION}-${SWIFT_PLATFORM}.tar.gz
           if [ ! -d "${HOME}/swift-sdk" ]; then
             mkdir ~/swift-sdk
@@ -327,7 +327,7 @@ jobs:
 
   cmake-tests:
     name: CMake toolchain tests
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v2
