@@ -49,6 +49,10 @@ class Lambdas {
 
 lambda StandaloneProducer = () -> String
 
+@Overloaded
+@Skip(Swift, Dart)
+lambda OverloadedLambda = (Int) -> String
+
 class LambdasDeclarationOrder {
     lambda SomeCallback = (SomeStruct) -> Void
 
@@ -79,3 +83,8 @@ class ClassWithInternalLambda {
 }
 
 lambda SignatureClashLambda = () -> String
+
+@Skip(Swift, Dart)
+class CallOverloadedLambda {
+    static fun invokeOverloadedLambda(`lambda`: OverloadedLambda, value: Int): String
+}

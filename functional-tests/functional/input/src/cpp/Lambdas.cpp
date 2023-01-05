@@ -18,6 +18,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+#include "test/CallOverloadedLambda.h"
 #include "test/ClassWithInternalLambda.h"
 #include "test/Lambdas.h"
 
@@ -142,6 +143,12 @@ Lambdas::apply_nullable_confuser(const Lambdas::NullableConfuser& confuser,
 bool
 ClassWithInternalLambda::invoke_internal_lambda(const InternalLambda& lambda,
                                                 const std::string& value) {
+    return lambda(value);
+}
+
+std::string
+CallOverloadedLambda::invoke_overloaded_lambda(const OverloadedLambda& lambda,
+                                               const int32_t value) {
     return lambda(value);
 }
 

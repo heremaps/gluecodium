@@ -26,6 +26,7 @@ import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.cpp.CppSignatureResolver
 import com.here.gluecodium.generator.java.JavaNameRules
 import com.here.gluecodium.generator.java.JavaSignatureResolver
+import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId.BOOLEAN
@@ -114,7 +115,9 @@ internal class JniGeneratorPredicates(
     private fun collectOverloadedLambdas(): Set<String> {
         val lambdas = limeReferenceMap.values.filterIsInstance<LimeLambda>()
         val signatureMap = lambdas.groupBy { cppSignatureResolver.getSignature(it) }
-        return signatureMap.values.filter { it.size > 1 }.flatten().map { it.path.toString() }.toSet()
+        val overloadedLambdas = signatureMap.values.filter { it.size > 1 }.flatten()
+        val attributeLambdas = lambdas.filter { it.attributes.have(LimeAttributeType.OVERLOADED) }
+        return (overloadedLambdas + attributeLambdas).map { it.path.toString() }.toSet()
     }
 
     private fun isOverloadedLambda(limeType: LimeType) =
