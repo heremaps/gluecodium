@@ -33,6 +33,10 @@ class Lambdas {
 
 lambda StandaloneProducer = () -> String
 
+@Overloaded
+@Skip(Swift, Dart)
+lambda OverloadedLambda = (Int) -> String
+
 class LambdasDeclarationOrder {
     lambda SomeCallback = (SomeStruct) -> Void
 

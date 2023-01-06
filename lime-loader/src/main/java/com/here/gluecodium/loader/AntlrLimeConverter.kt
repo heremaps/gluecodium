@@ -197,6 +197,7 @@ internal object AntlrLimeConverter {
             "Java" -> LimeAttributeType.JAVA
             "NoCache" -> LimeAttributeType.NO_CACHE
             "Optimized" -> LimeAttributeType.OPTIMIZED
+            "Overloaded" -> LimeAttributeType.OVERLOADED
             "Swift" -> LimeAttributeType.SWIFT
             "Serializable" -> LimeAttributeType.SERIALIZABLE
             "Skip" -> LimeAttributeType.SKIP

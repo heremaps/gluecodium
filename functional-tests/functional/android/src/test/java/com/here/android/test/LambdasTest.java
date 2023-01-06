@@ -152,4 +152,12 @@ public class LambdasTest {
 
     assertNull(result);
   }
+
+  @Test
+  public void callJavaOverloadedLambdaInCpp() {
+    OverloadedLambda lambda = (int value) -> Integer.toString(value);
+    String result = CallOverloadedLambda.invokeOverloadedLambda(lambda, 42);
+
+    assertEquals("42", result);
+  }
 }

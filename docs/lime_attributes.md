@@ -27,6 +27,9 @@ access and cached in Java/Swift/Dart afterwards). Currently, only supported for 
 * **@Internal**\[**(**__PlatformTag__**)**\]: marks an element to have "internal" visibility. Additionally, platform
 tag(s) ("Java", "Swift", or "Dart") could be specified. This will make the internal visibility apply on the selected
 platform(s).
+* **@Overloaded**: marks a lambda element to behave as if it were overloaded (i.e. as if there is another lambda with
+the same parameter and return types). This can be used in scenarios of multiple separate generation runs with disjoint
+LIME model trees.
 * **@Async**: *EXPERIMENTAL* marks a function to be generated with support for asynchronous invocation. Currently,
 only works in Dart. See [async.md](async.md) for details.
 * **@Optimized**: *EXPERIMENTAL* marks a type reference of `List<>` type to fetch list elements from C++ to platform
