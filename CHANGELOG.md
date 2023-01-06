@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 13.5.3
+Release date: 2023-01-06
+### Features:
+  * Added support for `@Overloaded` attribute in Java.
+
 ## 13.5.2
 Release date: 2022-11-25
 ### Bug fixes:
