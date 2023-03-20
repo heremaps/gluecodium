@@ -62,7 +62,7 @@ namespace jni
 }}{{#unless cppName}}{{#instanceOf container "LimeLambda"}}operator(){{/instanceOf}}{{!!
 }}{{#notInstanceOf container "LimeLambda"}}{{resolveName "C++"}}{{/notInstanceOf}}{{/unless}}( {{!!
 }}{{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} {{!!
-}}){{#if attributes.cpp.const isConst logic="or"}} const{{/if}} {
+}}){{#if attributes.cpp.const isConst logic="or"}} const{{/if}}{{#if attributes.cpp.noexcept}} noexcept{{/if}} {
 {{#unlessPredicate "shouldRetain"}}
     {{#unless returnType.isVoid}}return {};{{/unless}}
 {{/unlessPredicate}}{{#ifPredicate "shouldRetain"}}

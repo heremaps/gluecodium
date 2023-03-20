@@ -224,6 +224,7 @@ internal object AntlrLimeConverter {
             "Internal" -> LimeAttributeValueType.INTERNAL
             "Label" -> LimeAttributeValueType.LABEL
             "Message" -> LimeAttributeValueType.MESSAGE
+            "Noexcept" -> LimeAttributeValueType.NOEXCEPT
             "OptionSet" -> LimeAttributeValueType.OPTION_SET
             "ParameterDefaults" -> LimeAttributeValueType.PARAMETER_DEFAULTS
             "PositionalDefaults" -> LimeAttributeValueType.POSITIONAL_DEFAULTS

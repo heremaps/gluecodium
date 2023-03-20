@@ -66,6 +66,7 @@ public:
     }}{{#notInstanceOf container "LimeLambda"}}{{resolveName "C++"}}{{/notInstanceOf}}( {{!!
     }}{{joinPartial parameters "jni/CppProxyMethodParameter" ", "}} ){{!!
     }}{{#if attributes.cpp.const}} const{{/if}}{{!!
+    }}{{#if attributes.cpp.noexcept}} noexcept{{/if}}{{!!
 }}{{/proxyMethodHeader}}{{!!
 
 }}{{+proxyPropertyHeader}}
