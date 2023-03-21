@@ -69,7 +69,7 @@ public:
 {{#each inheritedFunctions functions}}{{#unless isStatic}}
     {{resolveName "C++ return type"}}
     {{resolveName "C++"}}({{#parameters}}const {{resolveName typeRef "C++ parameter"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
-    }}{{#if attributes.cpp.const}} const{{/if}}{{#unless isLambda}} override{{/unless}} {
+    }}{{#if attributes.cpp.const}} const{{/if}}{{#if attributes.cpp.noexcept}} noexcept{{/if}}{{#unless isLambda}} override{{/unless}} {
 {{#unlessPredicate "shouldRetain"}}
 {{#unless returnType.isVoid}}         return {};{{/unless}}
 {{/unlessPredicate}}{{#ifPredicate "shouldRetain"}}

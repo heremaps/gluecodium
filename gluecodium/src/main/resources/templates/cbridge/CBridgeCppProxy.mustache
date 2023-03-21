@@ -35,7 +35,7 @@ public:
 
 {{#each this.inheritedFunctions this.functions}}{{#unless isStatic}}
     {{>cpp/CppReturnType}} {{resolveName "C++"}}({{joinPartial parameters "cppParameter" ", "}}){{!!
-    }}{{#if attributes.cpp.const}} const{{/if}}{{#unless isLambda}} override{{/unless}} {
+    }}{{#if attributes.cpp.const}} const{{/if}}{{#if attributes.cpp.noexcept}} noexcept{{/if}}{{#unless isLambda}} override{{/unless}} {
 {{#unlessPredicate "shouldRetain"}}
         {{#if returnType.isVoid error}}return {};{{/if}}{{#unless returnType.isVoid}}return {};{{/unless}}
 {{/unlessPredicate}}{{#ifPredicate "shouldRetain"}}{{#if thrownType}}

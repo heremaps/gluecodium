@@ -475,6 +475,12 @@ feature(CppConst cpp android swift dart SOURCES
     input/src/cpp/CppConstMethods.cpp
 )
 
+feature(CppNoexcept cpp android swift dart SOURCES
+    input/lime/CppNoexceptMethods.lime
+
+    input/src/cpp/CppNoexceptMethods.cpp
+)
+
 feature(Locales cpp android swift dart SOURCES
     input/src/cpp/Locales.cpp
 
