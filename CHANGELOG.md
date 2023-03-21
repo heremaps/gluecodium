@@ -1,6 +1,6 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 13.5.4
 ### Features:
   * Added support for `@Cpp(Noexcept)` attribute in C++.
 
