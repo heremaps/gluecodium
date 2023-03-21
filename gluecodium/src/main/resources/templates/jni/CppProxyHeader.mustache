@@ -70,10 +70,10 @@ public:
 }}{{/proxyMethodHeader}}{{!!
 
 }}{{+proxyPropertyHeader}}
-{{#set property=this}}{{#getter}}
-    {{>cpp/CppReturnType}} {{resolveName property "C++" "getter"}}(  ) const override;
+{{#set property=this cppNoexcept=attributes.cpp.noexcept}}{{#getter}}
+    {{>cpp/CppReturnType}} {{resolveName property "C++" "getter"}}(  ) const{{#if cppNoexcept}} noexcept{{/if}} override;
 {{/getter}}{{#setter}}
     void {{resolveName property "C++" "setter"}}( {{!!
-    }}{{#parameters}}{{>jni/CppProxyMethodParameter}}{{/parameters}} ) override;
+    }}{{#parameters}}{{>jni/CppProxyMethodParameter}}{{/parameters}} ){{#if cppNoexcept}} noexcept{{/if}} override;
 {{/setter}}{{/set}}
 {{/proxyPropertyHeader}}

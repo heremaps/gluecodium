@@ -23,6 +23,9 @@ open class CppNoexceptClass {
 
     @Cpp(Noexcept)
     fun getFoo(): String
+
+    @Cpp(Noexcept)
+    property stringProperty: String
 }
 
 class CppNoexceptClassInherited: CppNoexceptClass {
@@ -36,6 +39,9 @@ class CppNoexceptClassInherited: CppNoexceptClass {
 interface CppNoexceptInterface {
     @Cpp(Noexcept)
     fun getFoo(): String
+
+    @Cpp(Noexcept)
+    property stringProperty: String
 }
 
 interface CppNoexceptInterfaceInherited: CppNoexceptInterface {
@@ -52,4 +58,7 @@ class CppNoexceptInterfaceFactory {
 
     @Cpp(Noexcept)
     static fun callGetFoo(callback: CppNoexceptInterface): String
+
+    @Cpp(Noexcept)
+    static property stringProperty: String
 }

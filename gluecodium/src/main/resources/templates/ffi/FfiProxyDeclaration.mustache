@@ -101,9 +101,9 @@ public:
 {{/unless}}{{/each}}
 
 {{#each inheritedProperties properties}}{{#unless isStatic}}
-{{#getter}}
+{{#set hasNoexcept=attributes.cpp.noexcept}}{{#getter}}
     {{resolveName returnType.typeRef "C++"}}
-    {{resolveName "C++"}}() const override {
+    {{resolveName "C++"}}() const{{#if hasNoexcept}} noexcept{{/if}} override {
 {{#unlessPredicate "shouldRetain"}}
         return {};
 {{/unlessPredicate}}{{#ifPredicate "shouldRetain"}}
@@ -115,10 +115,11 @@ public:
         return _result;
 {{/ifPredicate}}
     }
-{{/getter}}
-{{#setter}}
+{{/getter}}{{/set}}
+
+{{#set hasNoexcept=attributes.cpp.noexcept}}{{#setter}}
     void
-    {{resolveName "C++"}}(const {{resolveName typeRef "C++ parameter"}} value) override {
+    {{resolveName "C++"}}(const {{resolveName typeRef "C++ parameter"}} value){{#if hasNoexcept}} noexcept{{/if}} override {
 {{#ifPredicate "shouldRetain"}}
         dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, {{resolveName typeRef}})>(p{{iter.position}}s))(
             Dart_HandleFromPersistent_DL(dart_persistent_handle),
@@ -126,7 +127,7 @@ public:
         ); });
 {{/ifPredicate}}
     }
-{{/setter}}
+{{/setter}}{{/set}}
 {{/unless}}{{/each}}
 
 private:

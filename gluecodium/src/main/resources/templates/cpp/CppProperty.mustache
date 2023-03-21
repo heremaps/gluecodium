@@ -18,15 +18,16 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#set propertyElement=this cppRef=attributes.cpp.ref}}{{#getter}}
+{{#set propertyElement=this cppRef=attributes.cpp.ref cppNoexcept=attributes.cpp.noexcept}}{{#getter}}
 {{>cpp/CppFunctionDoc}}{{>cpp/CppAttributes}}
 {{#if isStatic}}static {{/if}}{{#unless isStatic}}virtual {{/unless}}{{!!
 }}{{#if cppRef}}const {{/if}}{{resolveName returnType.typeRef}}{{#if cppRef}}&{{/if}} {{!!
-}}{{resolveName propertyElement "" "getter"}}(  ){{#unless isStatic}} const = 0{{/unless}};
+}}{{resolveName propertyElement "" "getter"}}(  ){{#unless isStatic}} const{{/unless}}{{!!
+}}{{#if cppNoexcept}} noexcept{{/if}}{{#unless isStatic}} = 0{{/unless}};
 {{/getter}}
 {{#setter}}
 {{>cpp/CppFunctionDoc}}{{>cpp/CppAttributes}}
 {{#if isStatic}}static {{/if}}{{#unless isStatic}}virtual {{/unless}}void {{resolveName propertyElement "" "setter"}}{{!!
 }}( const {{#propertyElement}}{{resolveName typeRef}}{{#ifPredicate typeRef "needsRefSuffix"}}&{{/ifPredicate}}{{/propertyElement}} value ){{!!
-}}{{#unless isStatic}} = 0{{/unless}};
+}}{{#if cppNoexcept}} noexcept{{/if}}{{#unless isStatic}} = 0{{/unless}};
 {{/setter}}{{/set}}

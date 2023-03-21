@@ -35,6 +35,12 @@ public:
       static_assert(noexcept(CppNoexceptClass::get_foo()));
       return "foo";
     }
+
+    ::std::string get_string_property(  ) const noexcept override {
+      static_assert(noexcept(CppNoexceptClass::get_string_property()));
+      return "foo";
+    }
+    void set_string_property( const ::std::string& )noexcept override {}
 };
 
 class CppNoexceptClassInheritedImpl final : public CppNoexceptClassInherited {
@@ -48,6 +54,12 @@ public:
       static_assert(noexcept(CppNoexceptClassInherited::get_bar()));
       return "bar";
     }
+
+    ::std::string get_string_property(  ) const noexcept override {
+      static_assert(noexcept(CppNoexceptClassInherited::get_string_property()));
+      return "foo";
+    }
+    void set_string_property( const ::std::string& )noexcept override {}
 };
 
 class CppNoexceptInterfaceImpl final : public CppNoexceptInterface {
@@ -56,6 +68,12 @@ public:
       static_assert(noexcept(CppNoexceptInterface::get_foo()));
       return "foo";
     }
+
+    ::std::string get_string_property(  ) const noexcept override {
+      static_assert(noexcept(CppNoexceptInterface::get_string_property()));
+      return "foo";
+    }
+    void set_string_property( const ::std::string& )noexcept override {}
 };
 
 class CppNoexceptInterfaceInheritedImpl final : public CppNoexceptInterfaceInherited {
@@ -69,6 +87,12 @@ public:
       static_assert(noexcept(CppNoexceptInterfaceInherited::get_bar()));
       return "bar";
     }
+
+    ::std::string get_string_property(  ) const noexcept override {
+      static_assert(noexcept(CppNoexceptInterfaceInherited::get_string_property()));
+      return "foo";
+    }
+    void set_string_property( const ::std::string& )noexcept override {}
 };
 }
 
@@ -95,6 +119,16 @@ CppNoexceptInterfaceFactory::create_cpp_noexcept_inherited_interface() noexcept 
 std::string
 CppNoexceptInterfaceFactory::call_get_foo(const std::shared_ptr<CppNoexceptInterface>& callback) noexcept {
     return callback->get_foo();
+}
+
+::std::string
+CppNoexceptInterfaceFactory::get_string_property() noexcept {
+  return "foo";
+}
+
+void
+CppNoexceptInterfaceFactory::set_string_property(const ::std::string&) noexcept {
+
 }
 
 }
