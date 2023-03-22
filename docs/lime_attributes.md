@@ -140,7 +140,7 @@ C++-specific attributes
 * \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in C++.
 This is the default specification for this attribute.
 * **Const**: marks a function with a `const` qualifier in C++ generated code.
-* **Noexcept**: marks a function with a `noexcept` qualifier in C++ generated code. Can be applied to functions.
+* **Noexcept**: marks a function with a `noexcept` qualifier in C++ generated code. Can be applied to functions and properties.
 * **Accessors**: marks a struct to have accessor functions generated for fields and to generate
 struct fields as "private" in C++ generated code. Intended for use with `@Immutable` attribute.
 * **Ref**: marks a function or a property to return their value by const reference in C++

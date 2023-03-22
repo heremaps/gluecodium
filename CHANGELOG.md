@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+
+## Unreleased
+### Features:
+  * `@Cpp(Noexcept)` works for properties in C++.
+
 ## 13.5.4
 ### Features:
   * Added support for `@Cpp(Noexcept)` attribute in C++.
