@@ -26,6 +26,9 @@ public final class HashMapBuilder<K, V> {
     private Map<K, V> map = new HashMap<>();
     /**
      * @hidden
+     * @return The reference to self for chaining.
+     * @param key The key with which the specified value is to be associated.
+     * @param value The value to be associated with the specified key.
      */
     public HashMapBuilder<K, V> put(K key, V value) {
         map.put(key, value);
@@ -33,6 +36,7 @@ public final class HashMapBuilder<K, V> {
     }
     /**
      * @hidden
+     * @return The built map.
      */
     public Map<K, V> build() {
         return map;

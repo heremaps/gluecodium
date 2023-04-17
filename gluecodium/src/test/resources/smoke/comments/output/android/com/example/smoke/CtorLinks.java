@@ -16,6 +16,8 @@ public final class CtorLinks extends NativeBase {
         /**
          * For internal use only.
          * @hidden
+         * @param nativeHandle The SDK nativeHandle instance.
+         * @param dummy The SDK dummy instance.
          */
         protected SingleCtor(final long nativeHandle, final Object dummy) {
             super(nativeHandle, new Disposer() {
@@ -48,6 +50,8 @@ public final class CtorLinks extends NativeBase {
         /**
          * For internal use only.
          * @hidden
+         * @param nativeHandle The SDK nativeHandle instance.
+         * @param dummy The SDK dummy instance.
          */
         protected OverloadedCtors(final long nativeHandle, final Object dummy) {
             super(nativeHandle, new Disposer() {
@@ -65,6 +69,8 @@ public final class CtorLinks extends NativeBase {
     /**
      * For internal use only.
      * @hidden
+     * @param nativeHandle The SDK nativeHandle instance.
+     * @param dummy The SDK dummy instance.
      */
     protected CtorLinks(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

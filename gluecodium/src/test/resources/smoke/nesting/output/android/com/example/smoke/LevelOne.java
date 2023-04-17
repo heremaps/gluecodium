@@ -27,6 +27,8 @@ public final class LevelOne extends NativeBase {
             /**
              * For internal use only.
              * @hidden
+             * @param nativeHandle The SDK nativeHandle instance.
+             * @param dummy The SDK dummy instance.
              */
             protected LevelThree(final long nativeHandle, final Object dummy) {
                 super(nativeHandle, new Disposer() {
@@ -43,6 +45,8 @@ public final class LevelOne extends NativeBase {
         /**
          * For internal use only.
          * @hidden
+         * @param nativeHandle The SDK nativeHandle instance.
+         * @param dummy The SDK dummy instance.
          */
         protected LevelTwo(final long nativeHandle, final Object dummy) {
             super(nativeHandle, new Disposer() {
@@ -57,6 +61,8 @@ public final class LevelOne extends NativeBase {
     /**
      * For internal use only.
      * @hidden
+     * @param nativeHandle The SDK nativeHandle instance.
+     * @param dummy The SDK dummy instance.
      */
     protected LevelOne(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
