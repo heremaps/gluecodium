@@ -26,3 +26,16 @@ pass command line parameters to Gluecodium, execute `gradle run --args="..."`. F
 the version number of Gluecodium you're running, execute `gradle run --args="-version"`. To run a
 non-latest version of Gluecodium, execute `gradle run -Pversion=N.N.N`, for example
 `gradle run -Pversion=6.3.0 --args="-help"`.
+
+## Gluecodium diff script
+
+_What does it do_: provides a simple means for generating code from two LIME IDL files and comparing
+the results with a diff tool.
+
+_How to install_: copy the "launcher" directory locally and "gluediff.sh" file locally, both into the
+ same local directory.
+
+_How to run_: from command line, execute `<PATH_TO_GLUEDIFF>/gluediff.sh FILE1 FILE2 DIFF_TOOL`.
+`FILE1` and `FILE2` should paths to the two input LIME IDL files. `DIFF_TOOL` should the command to
+run a diff tool. Optionally, any additional parameters added are passed verbatim to Gluecodium
+execution, e.g `./gluediff.sh FILE1 FILE2 DIFF_TOOL -generators swift` will generate only Swift files.
