@@ -1,6 +1,10 @@
 # Gluecodium project Release Notes
 
 
+## 13.5.6
+### Bug fixes:
+  * Reduces count of warnings which Javadoc shows during parsing of generated Java code.
+
 ## 13.5.5
 ### Features:
   * `@Cpp(Noexcept)` works for properties in C++.
