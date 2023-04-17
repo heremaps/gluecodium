@@ -8,6 +8,8 @@ public final class ChildClassFromInterface extends NativeBase implements ParentI
     /**
      * For internal use only.
      * @hidden
+     * @param nativeHandle The SDK nativeHandle instance.
+     * @param dummy The SDK dummy instance.
      */
     protected ChildClassFromInterface(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {

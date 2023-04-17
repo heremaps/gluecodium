@@ -35,6 +35,8 @@ public final class NAME_RULES_DROID extends NativeBase {
     /**
      * For internal use only.
      * @hidden
+     * @param nativeHandle The SDK nativeHandle instance.
+     * @param dummy The SDK dummy instance.
      */
     protected NAME_RULES_DROID(final long nativeHandle, final Object dummy) {
         super(nativeHandle, new Disposer() {
