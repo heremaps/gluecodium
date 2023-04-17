@@ -19,6 +19,9 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/Enums.h"
+#include "test/UseEnumOptionSet.h"
+#include "test/UseEnumWithAlias.h"
+#include <unordered_set>
 
 namespace
 {
@@ -29,7 +32,7 @@ flip_enum( const ::test::Enums::InternalError val )
                ? ::test::Enums::InternalError::ERROR_FATAL
                : ::test::Enums::InternalError::ERROR_NONE;
 }
-}  // namespace
+}
 
 namespace test
 {
@@ -59,4 +62,29 @@ Enums::flip_enum_starts_with_one(const test::EnumStartsWithOne input)
         ? test::EnumStartsWithOne::SECOND
         : test::EnumStartsWithOne::FIRST;
 }
-}  // namespace test
+
+// UseEnumWithAlias
+
+bool
+UseEnumWithAlias::compare_to_one(const test::EnumWithAlias input) {
+    return input == test::EnumWithAlias::ONE;
+}
+
+bool
+UseEnumWithAlias::compare_to_first(const test::EnumWithAlias input) {
+    return input == test::EnumWithAlias::FIRST;
+}
+
+test::EnumWithAlias
+UseEnumWithAlias::get_first() { return test::EnumWithAlias::FIRST; }
+
+// UseEnumOptionSet
+
+std::unordered_set<test::EnumOptionSet, lorem_ipsum::test::hash<test::EnumOptionSet>>
+UseEnumOptionSet::round_trip(
+    const std::unordered_set<test::EnumOptionSet, lorem_ipsum::test::hash<test::EnumOptionSet>>& input
+) {
+    return input;
+}
+
+}

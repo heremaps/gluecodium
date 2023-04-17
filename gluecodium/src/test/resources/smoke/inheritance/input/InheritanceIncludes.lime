@@ -55,3 +55,9 @@ open class ParentClassWithImports {
 @Skip(Java, Swift)
 class ChildClassWithImports: ParentClassWithImports {}
 
+interface ParentInterfaceWithBool {
+    fun rootMethod(input1: Boolean)
+}
+
+class ChildClassWithBool: ParentInterfaceWithBool {}
+

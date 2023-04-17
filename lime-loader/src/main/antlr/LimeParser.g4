@@ -23,7 +23,7 @@ options { tokenVocab = LimeLexer; }
 
 limeFile
     : NewLine* packageHeader importHeader
-      (container | types | struct | enumeration | typealias | exception | lambda)+ EOF
+      (container |  struct | enumeration | typealias | exception | lambda)+ EOF
     ;
 
 packageHeader
@@ -39,15 +39,10 @@ importStatement
     ;
 
 container
-    : docComment* annotation* visibility? ('class' | 'narrow'? 'interface') NewLine* simpleId NewLine*
-      parentTypes? '{' NewLine* externalDescriptor?
+    : docComment* annotation* 'open'? ('class' | 'narrow'? 'interface') NewLine*
+      simpleId NewLine* parentTypes? '{' NewLine* externalDescriptor?
       ((function | constructor | property | struct | enumeration | constant | typealias |
       exception | lambda | container) NewLine*)* '}' NewLine+
-    ;
-
-types
-    : docComment* annotation* visibility? 'types' NewLine* simpleId NewLine*
-      '{' NewLine* ((struct | enumeration | constant | typealias | exception) NewLine*)* '}' NewLine+
     ;
 
 parentTypes
@@ -55,19 +50,23 @@ parentTypes
     ;
 
 function
-    : docComment* annotation* visibility? ('static' NewLine*)? 'fun' NewLine* simpleId NewLine*
-      '(' NewLine* (parameter NewLine* (',' NewLine* parameter NewLine*)*)?  ')' NewLine*
+    : docComment* annotation* ('static' NewLine*)? 'fun' NewLine* simpleId NewLine*
+      '(' NewLine* (parameter (',' NewLine* parameter)*)?  ')' NewLine*
       returnType? throwsClause? NewLine*
     ;
 
 constructor
-    : docComment* annotation* visibility? 'constructor' NewLine* simpleId NewLine*
-      '(' NewLine* (parameter NewLine* (',' NewLine* parameter NewLine*)*)? ')' NewLine* throwsClause? NewLine*
+    : docComment* annotation* 'constructor' NewLine* simpleId NewLine*
+      '(' NewLine* (parameter (',' NewLine* parameter)*)? ')' NewLine* throwsClause? NewLine*
     ;
 
 fieldConstructor
-    : docComment* annotation* visibility? 'field' NewLine* 'constructor' NewLine*
-      '(' NewLine* (simpleId NewLine* (',' NewLine* simpleId NewLine*)*)? ')' NewLine*
+    : docComment* annotation* 'field' NewLine* 'constructor' NewLine*
+      '(' NewLine* (fieldParameter (',' NewLine* fieldParameter)*)? ')' NewLine*
+    ;
+
+fieldParameter
+    : annotation* simpleId NewLine*
     ;
 
 parameter
@@ -83,32 +82,33 @@ throwsClause
     ;
 
 property
-    : docComment* annotation* visibility? ('static' NewLine*)? 'property' NewLine* simpleId NewLine*
+    : docComment* annotation* ('static' NewLine*)? 'property' NewLine* simpleId NewLine*
       ':' NewLine* typeRef NewLine* ('{' NewLine* getter (setter)? '}' )? NewLine+
     ;
 
 getter
-    : docComment* annotation* visibility? 'get' NewLine* externalDescriptor?
+    : docComment* annotation* 'get' NewLine* externalDescriptor?
     ;
 
 setter
-    : docComment* annotation* visibility? 'set' NewLine* externalDescriptor?
+    : docComment* annotation* 'set' NewLine* externalDescriptor?
     ;
 
 struct
-    : docComment* annotation* visibility? 'struct' NewLine* simpleId NewLine*
+    : docComment* annotation* 'struct' NewLine* simpleId NewLine*
       '{' NewLine* externalDescriptor?
-      ((field | function | constructor | fieldConstructor | constant | container | struct | enumeration | exception) NewLine*)+
+      ((field | function | constructor | fieldConstructor | constant | container | struct |
+      enumeration | typealias | exception | lambda) NewLine*)+
       '}' NewLine+
     ;
 
 field
-    : docComment* annotation* visibility? NewLine* simpleId NewLine* ':' NewLine* typeRef NewLine*
+    : docComment* annotation* NewLine* simpleId NewLine* ':' NewLine* typeRef NewLine*
       ('=' NewLine* literalConstant NewLine*)? (externalDescriptor? | NewLine+)
     ;
 
 enumeration
-    : docComment* annotation* visibility? 'enum' NewLine* simpleId NewLine*
+    : docComment* annotation* 'enum' NewLine* simpleId NewLine*
       '{' NewLine* externalDescriptor? enumerator NewLine* (',' NewLine* enumerator NewLine*)* '}' NewLine+
     ;
 
@@ -117,21 +117,21 @@ enumerator
     ;
 
 constant
-    : docComment* annotation* visibility? 'const' NewLine* simpleId NewLine* ':' NewLine* typeRef NewLine*
+    : docComment* annotation* 'const' NewLine* simpleId NewLine* ':' NewLine* typeRef NewLine*
       '=' NewLine* literalConstant NewLine+
     ;
 
 typealias
-    : docComment* annotation* visibility? 'typealias' NewLine* simpleId NewLine* '=' NewLine* typeRef NewLine+
+    : docComment* annotation* 'typealias' NewLine* simpleId NewLine* '=' NewLine* typeRef NewLine+
     ;
 
 exception
-    : docComment* annotation* visibility? 'exception' NewLine* simpleId NewLine*
+    : docComment* annotation* 'exception' NewLine* simpleId NewLine*
       '(' NewLine* simpleTypeRef NewLine* ')' NewLine+
     ;
 
 lambda
-    : docComment* annotation* visibility? 'lambda' NewLine* simpleId NewLine* '=' NewLine*
+    : docComment* annotation* 'lambda' NewLine* simpleId NewLine* '=' NewLine*
       '(' NewLine* (lambdaParameter (',' NewLine* lambdaParameter)*)? ')' NewLine*
       '->' NewLine* typeRef NewLine+
     ;
@@ -200,14 +200,10 @@ setType
 
 // Literals
 
-visibility
-    : ('internal' | 'public' | 'open' | 'open' 'internal') NewLine*
-    ;
-
 literalConstant
     : singleLineStringLiteral
     | multiLineStringLiteral
-    | enumeratorRef
+    | elementRef
     | positionalEnumeratorRef
     | structInitializer
     | listInitializer
@@ -236,7 +232,7 @@ multiLineStringContent
     : MultiLineStrText | MultiLineStringQuote
     ;
 
-enumeratorRef
+elementRef
     : identifier NewLine*
     ;
 

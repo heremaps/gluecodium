@@ -24,12 +24,14 @@ public:
     }}{{#each inheritedFunctions functions}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}{{!!
     }}, FfiOpaqueHandle f{{iter.position}}{{/ifPredicate}}{{/unless}}{{/each}}{{!!
     }}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}, FfiOpaqueHandle p{{iter.position}}g{{!!
-    }}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{/ifPredicate}}{{/unless}}{{/each}})
+    }}{{#if setter}}{{#ifPredicate setter "shouldRetain"}}, FfiOpaqueHandle p{{iter.position}}s{{/ifPredicate}}{{/if}}{{!!
+    }}{{/ifPredicate}}{{/unless}}{{/each}})
         : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)){{!!
         }}{{#each inheritedFunctions functions}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}{{!!
         }}, f{{iter.position}}(f{{iter.position}}){{/ifPredicate}}{{/unless}}{{/each}}{{!!
         }}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}, p{{iter.position}}g(p{{iter.position}}g){{!!
-        }}{{#if setter}}, p{{iter.position}}s(p{{iter.position}}s){{/if}}{{/ifPredicate}}{{/unless}}{{/each}} {
+        }}{{#if setter}}{{#ifPredicate setter "shouldRetain"}}, p{{iter.position}}s(p{{iter.position}}s){{/ifPredicate}}{{/if}}{{!!
+        }}{{/ifPredicate}}{{/unless}}{{/each}} {
 {{#unless isLambda}}{{#unless this.attributes.nocache}}
         {{libraryName}}_cache_dart_handle_by_raw_pointer(this, isolate_id, dart_handle);
 {{/unless}}{{/unless}}
@@ -67,7 +69,7 @@ public:
 {{#each inheritedFunctions functions}}{{#unless isStatic}}
     {{resolveName "C++ return type"}}
     {{resolveName "C++"}}({{#parameters}}const {{resolveName typeRef "C++ parameter"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
-    }}{{#if attributes.cpp.const}} const{{/if}}{{#unless isLambda}} override{{/unless}} {
+    }}{{#if attributes.cpp.const}} const{{/if}}{{#if attributes.cpp.noexcept}} noexcept{{/if}}{{#unless isLambda}} override{{/unless}} {
 {{#unlessPredicate "shouldRetain"}}
 {{#unless returnType.isVoid}}         return {};{{/unless}}
 {{/unlessPredicate}}{{#ifPredicate "shouldRetain"}}
@@ -99,9 +101,9 @@ public:
 {{/unless}}{{/each}}
 
 {{#each inheritedProperties properties}}{{#unless isStatic}}
-{{#getter}}
+{{#set hasNoexcept=attributes.cpp.noexcept}}{{#getter}}
     {{resolveName returnType.typeRef "C++"}}
-    {{resolveName "C++"}}() const override {
+    {{resolveName "C++"}}() const{{#if hasNoexcept}} noexcept{{/if}} override {
 {{#unlessPredicate "shouldRetain"}}
         return {};
 {{/unlessPredicate}}{{#ifPredicate "shouldRetain"}}
@@ -113,10 +115,11 @@ public:
         return _result;
 {{/ifPredicate}}
     }
-{{/getter}}
-{{#setter}}
+{{/getter}}{{/set}}
+
+{{#set hasNoexcept=attributes.cpp.noexcept}}{{#setter}}
     void
-    {{resolveName "C++"}}(const {{resolveName typeRef "C++ parameter"}} value) override {
+    {{resolveName "C++"}}(const {{resolveName typeRef "C++ parameter"}} value){{#if hasNoexcept}} noexcept{{/if}} override {
 {{#ifPredicate "shouldRetain"}}
         dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, {{resolveName typeRef}})>(p{{iter.position}}s))(
             Dart_HandleFromPersistent_DL(dart_persistent_handle),
@@ -124,7 +127,7 @@ public:
         ); });
 {{/ifPredicate}}
     }
-{{/setter}}
+{{/setter}}{{/set}}
 {{/unless}}{{/each}}
 
 private:
@@ -135,9 +138,9 @@ private:
     const FfiOpaqueHandle f{{iter.position}};
 {{/ifPredicate}}{{/unless}}{{/each}}
 {{#each inheritedProperties properties}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}
-    const FfiOpaqueHandle p{{iter.position}}g;{{#if setter}}
+    const FfiOpaqueHandle p{{iter.position}}g;{{#if setter}}{{#ifPredicate setter "shouldRetain"}}
     const FfiOpaqueHandle p{{iter.position}}s;
-{{/if}}
+{{/ifPredicate}}{{/if}}
 {{/ifPredicate}}{{/unless}}{{/each}}
 {{#if inheritedFunctions functions inheritedProperties properties logic="or"}}
 

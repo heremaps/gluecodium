@@ -3,12 +3,13 @@
 //
 // -------------------------------------------------------------------------------------------------
 #include "smoke/Constants.h"
+#include <utility>
 namespace smoke {
-const bool BOOL_CONSTANT = true;
-const int32_t INT_CONSTANT = -11;
-const uint32_t UINT_CONSTANT = 4294967295;
-const float FLOAT_CONSTANT = 2.71f;
-const double DOUBLE_CONSTANT = -3.14;
-const ::std::string STRING_CONSTANT = "Foo bar";
-const ::smoke::StateEnum ENUM_CONSTANT = ::smoke::StateEnum::ON;
+const bool Constants::BOOL_CONSTANT = true;
+const int32_t Constants::INT_CONSTANT = -11;
+const uint32_t Constants::UINT_CONSTANT = 4294967295;
+const float Constants::FLOAT_CONSTANT = 2.71f;
+const double Constants::DOUBLE_CONSTANT = -3.14;
+const ::std::string Constants::STRING_CONSTANT = "Foo bar";
+const ::smoke::Constants::StateEnum Constants::ENUM_CONSTANT = ::smoke::Constants::StateEnum::ON;
 }

@@ -21,7 +21,7 @@ package com.here.gluecodium.model.lime
 
 object LimeAmbiguityResolver {
     /**
-     * Resolves an ambiguous reference to a type, represented by [relativePath]. The ambiguity is
+     * Resolves an ambiguous reference to an element, represented by [relativePath]. The ambiguity is
      * resolved with the following logic:
      * * for each import in [imports], try to match the last component of the import to the first
      * component of the [relativePath]. If it matches, try to resolve it into an actual element
@@ -29,8 +29,7 @@ object LimeAmbiguityResolver {
      * * if import resolution fails, try appending [relativePath] to each parent path in
      * [parentPaths] and try resolving the combined path to an actual element through [referenceMap].
      * * if both approaches fail, the reference is invalid: a [LimeModelLoaderException] is thrown.
-     * * if more than one type is found, the reference is ambiguous: a [LimeModelLoaderException] is
-     * thrown.
+     * * if more than one match is found, the reference is ambiguous: a [LimeModelLoaderException] is thrown.
      */
     inline fun <reified T : LimeNamedElement> resolve(
         relativePath: List<String>,

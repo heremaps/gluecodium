@@ -19,13 +19,13 @@
   !
   !}}
 {{#if isConstructor}}private static native {{!!
-}}{{#if isClass}}long{{/if}}{{#unless isClass}}{{resolveName returnType}}{{/unless}}{{/if}}{{!!
+}}{{#if isClass}}long{{/if}}{{#unless isClass}}{{resolveName returnType.typeRef.type}}{{/unless}}{{/if}}{{!!
 }}{{#unless isConstructor}}{{>java/JavaMethodComment}}{{>java/JavaAttributes}}{{!!
 }}{{#returnType}}{{>java/NullabilityAnnotations}}{{/returnType}}{{!!
 }}{{#if override}}
 @Override
 {{/if}}
-{{#unless isInterface}}{{#if forcePublic}}public {{/if}}{{#unless forcePublic}}{{resolveName visibility}}{{/unless}}{{/unless}}{{!!
+{{#unless isInterface}}{{#if forcePublic}}public {{/if}}{{#unless forcePublic}}{{resolveName "visibility"}}{{/unless}}{{/unless}}{{!!
 }}{{#if isStatic}}static {{/if}}{{#unless isInterface}}native {{/unless}}{{resolveName returnType}}{{/unless}}{{!!
 }} {{resolveName}}{{#if isCached}}_private{{/if}}{{!!
 }}({{joinPartial parameters "java/JavaParameter" ", "}}){{#thrownType}} throws {{resolveName typeRef}}{{/thrownType}}

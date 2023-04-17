@@ -45,6 +45,7 @@ class OuterClass_InnerClass$Impl extends __lib.NativeBase implements OuterClass_
 Pointer<Void> smokeOuterclassInnerclassToFfi(OuterClass_InnerClass value) =>
   _smokeOuterclassInnerclassCopyHandle((value as __lib.NativeBase).handle);
 OuterClass_InnerClass smokeOuterclassInnerclassFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is OuterClass_InnerClass) return instance;
   final _copiedHandle = _smokeOuterclassInnerclassCopyHandle(handle);
@@ -140,6 +141,7 @@ Pointer<Void> smokeOuterclassInnerinterfaceToFfi(OuterClass_InnerInterface value
   return result;
 }
 OuterClass_InnerInterface smokeOuterclassInnerinterfaceFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is OuterClass_InnerInterface) return instance;
   final _typeIdHandle = _smokeOuterclassInnerinterfaceGetTypeId(handle);
@@ -195,6 +197,7 @@ class OuterClass$Impl extends __lib.NativeBase implements OuterClass {
 Pointer<Void> smokeOuterclassToFfi(OuterClass value) =>
   _smokeOuterclassCopyHandle((value as __lib.NativeBase).handle);
 OuterClass smokeOuterclassFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is OuterClass) return instance;
   final _copiedHandle = _smokeOuterclassCopyHandle(handle);

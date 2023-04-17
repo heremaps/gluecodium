@@ -2,7 +2,7 @@
 //
 import Foundation
 internal struct ExposeInternalStruct {
-    internal var field: String
+    public var field: String
     internal init(field: String) {
         self.field = field
     }

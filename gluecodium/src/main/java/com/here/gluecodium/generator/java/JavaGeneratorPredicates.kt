@@ -20,9 +20,11 @@
 package com.here.gluecodium.generator.java
 
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
+import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeClass
+import com.here.gluecodium.model.lime.LimeExternalDescriptor
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeRef
@@ -34,10 +36,11 @@ internal object JavaGeneratorPredicates {
     val predicates = mapOf(
         "hasAnyComment" to { CommonGeneratorPredicates.hasAnyComment(it, "Java") },
         "hasInternalAllArgsConstructor" to { limeStruct: Any ->
-            limeStruct is LimeStruct && limeStruct.fields.any { it.visibility.isInternal }
+            limeStruct is LimeStruct && limeStruct.fields.any { CommonGeneratorPredicates.isInternal(it, JAVA) }
         },
         "hasInternalFreeArgsConstructor" to { limeStruct: Any ->
-            limeStruct is LimeStruct && limeStruct.uninitializedFields.any { it.visibility.isInternal }
+            limeStruct is LimeStruct &&
+                limeStruct.uninitializedFields.any { CommonGeneratorPredicates.isInternal(it, JAVA) }
         },
         "hasOwnEqualsAndHashCode" to { limeTypeRef ->
             when {
@@ -56,9 +59,14 @@ internal object JavaGeneratorPredicates {
             }
         },
         "needsAllFieldsConstructor" to { limeStruct: Any ->
-            limeStruct is LimeStruct &&
-                !limeStruct.attributes.have(JAVA, LimeAttributeValueType.POSITIONAL_DEFAULTS) &&
-                CommonGeneratorPredicates.needsAllFieldsConstructor(limeStruct)
+            when {
+                limeStruct !is LimeStruct -> false
+                limeStruct.external?.java?.get(LimeExternalDescriptor.CONVERTER_NAME) != null -> true
+                limeStruct.attributes.have(JAVA, LimeAttributeValueType.POSITIONAL_DEFAULTS) -> false
+                limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) -> limeStruct.allFieldsConstructor == null
+                limeStruct.fieldConstructors.isEmpty() -> limeStruct.initializedFields.isEmpty()
+                else -> false
+            }
         },
         "needsDisposer" to { limeClass: Any ->
             limeClass is LimeClass && limeClass.parentClass == null
@@ -66,7 +74,6 @@ internal object JavaGeneratorPredicates {
         "needsNonNullAnnotation" to { limeTypeRef ->
             limeTypeRef is LimeTypeRef && !limeTypeRef.isNullable &&
                 JavaImportResolver.needsNonNullAnnotation(limeTypeRef.type.actualType)
-        },
-        "needsPublicFieldsConstructor" to { CommonGeneratorPredicates.needsPublicFieldsConstructor(it, JAVA) },
+        }
     )
 }

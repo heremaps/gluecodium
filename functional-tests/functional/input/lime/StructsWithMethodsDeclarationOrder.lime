@@ -17,7 +17,7 @@
 
 package test
 
-types DeclarationOrderWithFunctions {
+struct DeclarationOrderWithFunctions {
     struct MainStructWithFunctions {
         structField: FieldStruct
         fun withParameter(input: ParameterStruct)

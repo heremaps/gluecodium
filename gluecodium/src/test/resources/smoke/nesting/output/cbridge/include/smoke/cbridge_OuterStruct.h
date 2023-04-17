@@ -41,6 +41,17 @@ typedef struct {
 _GLUECODIUM_C_EXPORT _baseRef smoke_OuterStruct_InnerInterface_create_proxy(smoke_OuterStruct_InnerInterface_FunctionTable functionTable);
 _GLUECODIUM_C_EXPORT const void* smoke_OuterStruct_InnerInterface_get_swift_object_from_cache(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef smoke_OuterStruct_InnerInterface_barBaz(_baseRef _instance);
+_GLUECODIUM_C_EXPORT void smoke_OuterStruct_InnerLambda_release_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT _baseRef smoke_OuterStruct_InnerLambda_copy_handle(_baseRef handle);
+typedef struct {
+    void* swift_pointer;
+    void(*release)(void* swift_pointer);
+    void(*smoke_OuterStruct_InnerLambda_call)(void* swift_pointer);
+} smoke_OuterStruct_InnerLambda_FunctionTable;
+_GLUECODIUM_C_EXPORT _baseRef smoke_OuterStruct_InnerLambda_create_proxy(smoke_OuterStruct_InnerLambda_FunctionTable functionTable);
+_GLUECODIUM_C_EXPORT _baseRef smoke_OuterStruct_InnerLambda_create_optional_proxy(smoke_OuterStruct_InnerLambda_FunctionTable functionTable);
+_GLUECODIUM_C_EXPORT const void* smoke_OuterStruct_InnerLambda_get_swift_object_from_cache(_baseRef handle);
+_GLUECODIUM_C_EXPORT void smoke_OuterStruct_InnerLambda_call(_baseRef _instance);
 typedef struct {
     bool has_value;
     uint32_t error_value;

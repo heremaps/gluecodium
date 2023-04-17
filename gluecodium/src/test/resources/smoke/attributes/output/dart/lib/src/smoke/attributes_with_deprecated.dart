@@ -6,7 +6,6 @@ import 'package:library/src/builtin_types__conversion.dart';
 @Deprecated("")
 @OnClass
 abstract class AttributesWithDeprecated {
-
   @Deprecated("")
   @OnConstInClass
   static final bool pi = false;
@@ -24,7 +23,9 @@ class AttributesWithDeprecated_SomeStruct {
   @Deprecated("")
   @OnField
   String field;
-  AttributesWithDeprecated_SomeStruct(this.field);
+  AttributesWithDeprecated_SomeStruct._(this.field);
+  AttributesWithDeprecated_SomeStruct()
+    : field = "";
 }
 // AttributesWithDeprecated_SomeStruct "private" section, not exported.
 final _smokeAttributeswithdeprecatedSomestructCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -48,7 +49,7 @@ Pointer<Void> smokeAttributeswithdeprecatedSomestructToFfi(AttributesWithDepreca
 AttributesWithDeprecated_SomeStruct smokeAttributeswithdeprecatedSomestructFromFfi(Pointer<Void> handle) {
   final _fieldHandle = _smokeAttributeswithdeprecatedSomestructGetFieldfield(handle);
   try {
-    return AttributesWithDeprecated_SomeStruct(
+    return AttributesWithDeprecated_SomeStruct._(
       stringFromFfi(_fieldHandle)
     );
   } finally {
@@ -101,7 +102,6 @@ final _smokeAttributeswithdeprecatedReleaseHandle = __lib.catchArgumentError(() 
   >('library_smoke_AttributesWithDeprecated_release_handle'));
 class AttributesWithDeprecated$Impl extends __lib.NativeBase implements AttributesWithDeprecated {
   AttributesWithDeprecated$Impl(Pointer<Void> handle) : super(handle);
-
   @override
   void veryFun() {
     final _veryFunFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_AttributesWithDeprecated_veryFun'));
@@ -133,6 +133,7 @@ class AttributesWithDeprecated$Impl extends __lib.NativeBase implements Attribut
 Pointer<Void> smokeAttributeswithdeprecatedToFfi(AttributesWithDeprecated value) =>
   _smokeAttributeswithdeprecatedCopyHandle((value as __lib.NativeBase).handle);
 AttributesWithDeprecated smokeAttributeswithdeprecatedFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is AttributesWithDeprecated) return instance;
   final _copiedHandle = _smokeAttributeswithdeprecatedCopyHandle(handle);

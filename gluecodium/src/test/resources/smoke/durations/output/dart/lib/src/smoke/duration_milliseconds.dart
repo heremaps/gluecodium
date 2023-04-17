@@ -139,6 +139,7 @@ class DurationMilliseconds$Impl extends __lib.NativeBase implements DurationMill
 Pointer<Void> smokeDurationmillisecondsToFfi(DurationMilliseconds value) =>
   _smokeDurationmillisecondsCopyHandle((value as __lib.NativeBase).handle);
 DurationMilliseconds smokeDurationmillisecondsFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is DurationMilliseconds) return instance;
   final _copiedHandle = _smokeDurationmillisecondsCopyHandle(handle);

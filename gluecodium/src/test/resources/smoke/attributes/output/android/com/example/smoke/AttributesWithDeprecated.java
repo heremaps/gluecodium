@@ -24,8 +24,8 @@ public final class AttributesWithDeprecated extends NativeBase {
         @OnField
         @NonNull
         public String field;
-        public SomeStruct(@Deprecated @NonNull final String field) {
-            this.field = field;
+        public SomeStruct() {
+            this.field = "";
         }
     }
     /**

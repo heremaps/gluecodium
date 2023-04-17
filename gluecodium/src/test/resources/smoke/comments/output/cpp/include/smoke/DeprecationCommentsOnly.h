@@ -36,7 +36,7 @@ public:
         /**
          * \deprecated Unfortunately, this field is deprecated.
          */
-        ::smoke::DeprecationCommentsOnly::Usefulness some_field;
+        ::smoke::DeprecationCommentsOnly::Usefulness some_field = false;
         SomeStruct( );
         explicit SomeStruct( ::smoke::DeprecationCommentsOnly::Usefulness some_field );
     };

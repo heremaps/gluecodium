@@ -19,10 +19,10 @@
   !
   !}}
 {{>swift/SwiftComment}}{{>swift/SwiftAttributes}}{{#if attributes.cached}}{{!!
-}}{{resolveName visibility}} private(set) {{#if isStatic}}static {{/if}}{{#unless isStatic}}lazy {{/unless}}{{!!
+}}{{resolveName "visibility"}} private(set) {{#if isStatic}}static {{/if}}{{#unless isStatic}}lazy {{/unless}}{{!!
 }}var {{resolveName}}: {{resolveName typeRef}} = {{#getter}}{{>swift/SwiftFunctionBody}}{{/getter}}(){{!!
 }}{{/if}}{{#unless attributes.cached}}{{!!
-}}{{#unless isInterface}}{{resolveName visibility}} {{/unless}}{{>setterVisibility}}{{#if isStatic}}static {{/if}}{{!!
+}}{{#unless isInterface}}{{resolveName "visibility"}} {{/unless}}{{#if isStatic}}static {{/if}}{{!!
 }}{{#if attributes.swift.weak}}weak {{/if}}var {{resolveName}}: {{resolveName typeRef}} {
 {{#set isWeak=attributes.swift.weak isProperty=true}}{{#getter}}
     get {{prefixPartial "swift/SwiftFunctionBody" "    " skipFirstLine=true}}
@@ -30,6 +30,4 @@
 {{#setter}}
     set {{prefixPartial "swift/SwiftFunctionBody" "    " skipFirstLine=true}}
 {{/setter}}{{/set}}
-}{{/unless}}{{!!
-
-}}{{+setterVisibility}}{{#if setter}}{{#isNotEq visibility setter.visibility}}{{resolveName setter.visibility}}(set) {{/isNotEq}}{{/if}}{{/setterVisibility}}
+}{{/unless}}

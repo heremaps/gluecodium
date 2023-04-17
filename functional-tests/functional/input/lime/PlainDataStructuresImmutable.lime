@@ -21,6 +21,9 @@ class PlainDataStructuresImmutable {
     struct Point {
         x: Double = 0.0
         y: Double = 0.0
+        @Dart(Skip)
+        field constructor()
+        field constructor(x, y)
     }
     // Immutable struct type containing all builtin and a custom data type
     @Immutable

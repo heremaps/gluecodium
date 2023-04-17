@@ -21,6 +21,7 @@ package com.here.gluecodium.generator.cbridge
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.NameResolver
+import com.here.gluecodium.generator.common.PlatformSignatureResolver
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.generator.swift.SwiftNameRules
 import com.here.gluecodium.model.lime.LimeAttributeType
@@ -35,9 +36,9 @@ import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
-import com.here.gluecodium.model.lime.LimeSignatureResolver
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
@@ -46,7 +47,7 @@ internal class CBridgeNameResolver(
     limeReferenceMap: Map<String, LimeElement>,
     private val swiftNameRules: SwiftNameRules,
     private val internalPrefix: String,
-    private val signatureResolver: LimeSignatureResolver
+    private val signatureResolver: PlatformSignatureResolver
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
 
     override fun resolveName(element: Any): String =
@@ -54,24 +55,44 @@ internal class CBridgeNameResolver(
             is LimeGenericType -> resolveGenericTypeName(element)
             is LimeType -> resolveNestedNames(element).joinToString("_")
             is LimeFunction -> resolveFunctionName(element)
+            is LimeProperty -> resolvePropertyName(element)
             is LimeReturnType -> resolveTypeRef(element.typeRef)
             is LimeTypeRef -> resolveTypeRef(element)
             is LimeNamedElement -> swiftNameRules.getName(element)
             else -> throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }
 
-    private fun resolveFunctionName(limeFunction: LimeFunction): String {
-        val suffix = when {
-            !signatureResolver.isOverloaded(limeFunction) -> emptyList()
-            limeFunction.parameters.isEmpty() -> listOf("")
-            else -> signatureResolver.getSignature(limeFunction).map { mangleSignature(it) }
+    // Narrow usage: for the short name of a function in a class/interface
+    override fun resolveReferenceName(element: Any): String? {
+        if (element !is LimeFunction) return null
+        val parentElement = getParentElement(element)
+        val functionName = CBridgeNameRules.mangleName(swiftNameRules.getName(element))
+        if (parentElement is LimeProperty) {
+            return CBridgeNameRules.mangleName(swiftNameRules.getName(parentElement)) + "_$functionName"
         }
+        val overloadSuffix = getOverloadSuffix(element)
+        return if (overloadSuffix.isEmpty()) functionName else (listOf(functionName) + overloadSuffix).joinToString("_")
+    }
+
+    private fun resolveFunctionName(limeFunction: LimeFunction): String {
         val parentElement = getParentElement(limeFunction)
         val functionName = when (parentElement) {
             is LimeLambda -> "call"
             else -> CBridgeNameRules.mangleName(swiftNameRules.getName(limeFunction))
         }
-        return (resolveNestedNames(parentElement) + functionName + suffix).joinToString("_")
+        return (resolveNestedNames(parentElement) + functionName + getOverloadSuffix(limeFunction)).joinToString("_")
+    }
+
+    private fun getOverloadSuffix(limeFunction: LimeFunction) =
+        when {
+            !signatureResolver.isOverloadedInBindings(limeFunction) -> emptyList()
+            limeFunction.parameters.isEmpty() -> listOf("")
+            else -> signatureResolver.getSignature(limeFunction).map { mangleSignature(it) }
+        }
+
+    private fun resolvePropertyName(limeProperty: LimeProperty): String {
+        val propertyName = CBridgeNameRules.mangleName(swiftNameRules.getName(limeProperty))
+        return (resolveNestedNames(limeProperty) + propertyName).joinToString("_")
     }
 
     private fun resolveNestedNames(limeElement: LimeNamedElement): List<String> =

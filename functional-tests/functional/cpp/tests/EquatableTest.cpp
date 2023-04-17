@@ -33,14 +33,14 @@ using namespace ::testing;
 
 TEST( EquatableTest, equal_structs )
 {
-    test::EquatableStruct some_struct;
+    test::Equatable::EquatableStruct some_struct;
     some_struct.int_field = 7;
     some_struct.array_field = {"Hello", "World", "!"};
-    test::EquatableStruct another_struct;
+    test::Equatable::EquatableStruct another_struct;
     another_struct.int_field = 7;
     another_struct.array_field = {"Hello", "World", "!"};
 
-    lorem_ipsum::test::hash<test::EquatableStruct> hasher;
+    lorem_ipsum::test::hash<test::Equatable::EquatableStruct> hasher;
 
     EXPECT_EQ(some_struct, another_struct);
     EXPECT_EQ(hasher(some_struct), hasher(another_struct));
@@ -48,14 +48,14 @@ TEST( EquatableTest, equal_structs )
 
 TEST( EquatableTest, unequal_structs )
 {
-    test::EquatableStruct some_struct;
+    test::Equatable::EquatableStruct some_struct;
     some_struct.int_field = 7;
     some_struct.array_field = {"Hello", "World", "!"};
-    test::EquatableStruct another_struct;
+    test::Equatable::EquatableStruct another_struct;
     another_struct.int_field = 7;
     another_struct.array_field = {"Bye", "World", "!"};
 
-    lorem_ipsum::test::hash<test::EquatableStruct> hasher;
+    lorem_ipsum::test::hash<test::Equatable::EquatableStruct> hasher;
 
     EXPECT_NE(some_struct, another_struct);
     EXPECT_NE(hasher(some_struct), hasher(another_struct));

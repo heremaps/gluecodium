@@ -335,6 +335,7 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
 Pointer<Void> smokePropertiesToFfi(Properties value) =>
   _smokePropertiesCopyHandle((value as __lib.NativeBase).handle);
 Properties smokePropertiesFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is Properties) return instance;
   final _copiedHandle = _smokePropertiesCopyHandle(handle);

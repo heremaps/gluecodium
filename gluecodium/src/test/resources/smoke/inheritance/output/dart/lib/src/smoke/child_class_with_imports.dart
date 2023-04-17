@@ -32,6 +32,7 @@ class ChildClassWithImports$Impl extends ParentClassWithImports$Impl implements 
 Pointer<Void> smokeChildclasswithimportsToFfi(ChildClassWithImports value) =>
   _smokeChildclasswithimportsCopyHandle((value as __lib.NativeBase).handle);
 ChildClassWithImports smokeChildclasswithimportsFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is ChildClassWithImports) return instance;
   final _typeIdHandle = _smokeChildclasswithimportsGetTypeId(handle);

@@ -8,6 +8,7 @@
 #include "smoke/PropertiesInterface.h"
 #include <cstdint>
 #include <memory>
+#include <stdbool.h>
 #include <string>
 #include <vector>
 #include <memory>
@@ -25,9 +26,9 @@ library_smoke_Properties_builtInTypeProperty_get(FfiOpaqueHandle _self, int32_t 
 void
 library_smoke_Properties_builtInTypeProperty_set__UInt(FfiOpaqueHandle _self, int32_t _isolate_id, uint32_t value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Properties>>::toCpp(_self)).set_built_in_type_property(
-            gluecodium::ffi::Conversion<uint32_t>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Properties>>::toCpp(_self)).set_built_in_type_property(
+        gluecodium::ffi::Conversion<uint32_t>::toCpp(value)
+    );
 }
 float
 library_smoke_Properties_readonlyProperty_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -46,9 +47,9 @@ library_smoke_Properties_structProperty_get(FfiOpaqueHandle _self, int32_t _isol
 void
 library_smoke_Properties_structProperty_set__ExampleStruct(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Properties>>::toCpp(_self)).set_struct_property(
-            gluecodium::ffi::Conversion<smoke::Properties::ExampleStruct>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Properties>>::toCpp(_self)).set_struct_property(
+        gluecodium::ffi::Conversion<smoke::Properties::ExampleStruct>::toCpp(value)
+    );
 }
 FfiOpaqueHandle
 library_smoke_Properties_arrayProperty_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -60,9 +61,9 @@ library_smoke_Properties_arrayProperty_get(FfiOpaqueHandle _self, int32_t _isola
 void
 library_smoke_Properties_arrayProperty_set__ListOf_String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Properties>>::toCpp(_self)).set_array_property(
-            gluecodium::ffi::Conversion<std::vector<std::string>>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Properties>>::toCpp(_self)).set_array_property(
+        gluecodium::ffi::Conversion<std::vector<std::string>>::toCpp(value)
+    );
 }
 uint32_t
 library_smoke_Properties_complexTypeProperty_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -74,9 +75,9 @@ library_smoke_Properties_complexTypeProperty_get(FfiOpaqueHandle _self, int32_t 
 void
 library_smoke_Properties_complexTypeProperty_set__InternalErrorCode(FfiOpaqueHandle _self, int32_t _isolate_id, uint32_t value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Properties>>::toCpp(_self)).set_complex_type_property(
-            gluecodium::ffi::Conversion<smoke::Properties::InternalErrorCode>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Properties>>::toCpp(_self)).set_complex_type_property(
+        gluecodium::ffi::Conversion<smoke::Properties::InternalErrorCode>::toCpp(value)
+    );
 }
 FfiOpaqueHandle
 library_smoke_Properties_byteBufferProperty_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -88,9 +89,9 @@ library_smoke_Properties_byteBufferProperty_get(FfiOpaqueHandle _self, int32_t _
 void
 library_smoke_Properties_byteBufferProperty_set__Blob(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Properties>>::toCpp(_self)).set_byte_buffer_property(
-            gluecodium::ffi::Conversion<std::shared_ptr<std::vector<uint8_t>>>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Properties>>::toCpp(_self)).set_byte_buffer_property(
+        gluecodium::ffi::Conversion<std::shared_ptr<std::vector<uint8_t>>>::toCpp(value)
+    );
 }
 FfiOpaqueHandle
 library_smoke_Properties_instanceProperty_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -102,9 +103,9 @@ library_smoke_Properties_instanceProperty_get(FfiOpaqueHandle _self, int32_t _is
 void
 library_smoke_Properties_instanceProperty_set__PropertiesInterface(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Properties>>::toCpp(_self)).set_instance_property(
-            gluecodium::ffi::Conversion<std::shared_ptr<smoke::PropertiesInterface>>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Properties>>::toCpp(_self)).set_instance_property(
+        gluecodium::ffi::Conversion<std::shared_ptr<smoke::PropertiesInterface>>::toCpp(value)
+    );
 }
 bool
 library_smoke_Properties_isBooleanProperty_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -116,9 +117,9 @@ library_smoke_Properties_isBooleanProperty_get(FfiOpaqueHandle _self, int32_t _i
 void
 library_smoke_Properties_isBooleanProperty_set__Boolean(FfiOpaqueHandle _self, int32_t _isolate_id, bool value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Properties>>::toCpp(_self)).set_boolean_property(
-            gluecodium::ffi::Conversion<bool>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::Properties>>::toCpp(_self)).set_boolean_property(
+        gluecodium::ffi::Conversion<bool>::toCpp(value)
+    );
 }
 FfiOpaqueHandle
 library_smoke_Properties_staticProperty_get(int32_t _isolate_id) {
@@ -130,9 +131,9 @@ library_smoke_Properties_staticProperty_get(int32_t _isolate_id) {
 void
 library_smoke_Properties_staticProperty_set__String(int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            smoke::Properties::set_static_property(
-            gluecodium::ffi::Conversion<std::string>::toCpp(value)
-        );
+    smoke::Properties::set_static_property(
+        gluecodium::ffi::Conversion<std::string>::toCpp(value)
+    );
 }
 FfiOpaqueHandle
 library_smoke_Properties_staticReadonlyProperty_get(int32_t _isolate_id) {
@@ -185,7 +186,7 @@ FfiOpaqueHandle
 library_smoke_Properties_ExampleStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<smoke::Properties::ExampleStruct>(
+        new (std::nothrow) std::optional<smoke::Properties::ExampleStruct>(
             gluecodium::ffi::Conversion<smoke::Properties::ExampleStruct>::toCpp(value)
         )
     );
@@ -193,20 +194,20 @@ library_smoke_Properties_ExampleStruct_create_handle_nullable(FfiOpaqueHandle va
 void
 library_smoke_Properties_ExampleStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<smoke::Properties::ExampleStruct>*>(handle);
+    delete reinterpret_cast<std::optional<smoke::Properties::ExampleStruct>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_Properties_ExampleStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::Properties::ExampleStruct>::toFfi(
-        **reinterpret_cast<gluecodium::optional<smoke::Properties::ExampleStruct>*>(handle)
+        **reinterpret_cast<std::optional<smoke::Properties::ExampleStruct>*>(handle)
     );
 }
 FfiOpaqueHandle
 library_smoke_Properties_InternalErrorCode_create_handle_nullable(uint32_t value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<smoke::Properties::InternalErrorCode>(
+        new (std::nothrow) std::optional<smoke::Properties::InternalErrorCode>(
             gluecodium::ffi::Conversion<smoke::Properties::InternalErrorCode>::toCpp(value)
         )
     );
@@ -214,13 +215,13 @@ library_smoke_Properties_InternalErrorCode_create_handle_nullable(uint32_t value
 void
 library_smoke_Properties_InternalErrorCode_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<smoke::Properties::InternalErrorCode>*>(handle);
+    delete reinterpret_cast<std::optional<smoke::Properties::InternalErrorCode>*>(handle);
 }
 uint32_t
 library_smoke_Properties_InternalErrorCode_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::Properties::InternalErrorCode>::toFfi(
-        **reinterpret_cast<gluecodium::optional<smoke::Properties::InternalErrorCode>*>(handle)
+        **reinterpret_cast<std::optional<smoke::Properties::InternalErrorCode>*>(handle)
     );
 }
 #ifdef __cplusplus

@@ -82,7 +82,8 @@ struct FieldCustomConstructorsMix {
 struct FieldConstructorsInternalFields {
     stringField: String = "nonsense"
     intField: Int = 42
-    internal boolField: Boolean = true
+    @Internal
+    boolField: Boolean = true
     @Dart("withAll")
     field constructor()
     @Dart("withTrue")
@@ -93,13 +94,40 @@ struct FieldConstructorsInternalFields {
 
 struct FieldConstructorsInternal {
     publicField: String = "foo"
-    internal internalField: Double = 42
+    internalField: Double = 42
     @Dart("withAll")
-    internal field constructor()
+    @Internal
+    field constructor()
     @Dart("withFortyTwo")
-    internal field constructor(publicField)
+    @Internal
+    field constructor(publicField)
     @Dart("withFoo")
-    internal field constructor(internalField)
+    @Internal
+    field constructor(internalField)
     @Dart(Default)
-    internal field constructor(internalField, publicField)
+    @Internal
+    field constructor(internalField, publicField)
+}
+
+@Skip(Java, Dart)
+struct FieldConstructorsWithLabels {
+    stringField: String = "nonsense"
+    intField: Int = 42
+    boolField: Boolean = true
+    field constructor(@Swift(Label="value") intField, @Swift(Label="_") boolField)
+    field constructor(stringField, @Swift(Label="value") intField, @Swift(Label="_") boolField)
+}
+
+@Skip(Java, Dart)
+struct FieldConstructorsParameterDefaults {
+    stringField: String = "nonsense"
+    intField: Int
+    boolField: Boolean = true
+
+    @Swift(ParameterDefaults)
+    field constructor(intField)
+    @Swift(ParameterDefaults)
+    field constructor(intField, boolField)
+    @Swift(ParameterDefaults)
+    field constructor(stringField, intField, boolField)
 }

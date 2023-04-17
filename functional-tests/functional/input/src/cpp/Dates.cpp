@@ -18,6 +18,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+#include "test/DateDefaults.h"
 #include "test/Dates.h"
 #include "test/DatesSteady.h"
 
@@ -34,8 +35,8 @@ Dates::increase_date( const system_clock::time_point& input )
     return input + hours(24) + hours(1) + minutes(1) + seconds(1);
 }
 
-lorem_ipsum::test::optional< system_clock::time_point >
-Dates::increase_date_maybe( const lorem_ipsum::test::optional< system_clock::time_point >& input )
+std::optional< system_clock::time_point >
+Dates::increase_date_maybe( const std::optional< system_clock::time_point >& input )
 {
     return input ? *input + hours(24) + hours(1) + minutes(1) + seconds(1) : input;
 }
@@ -68,8 +69,8 @@ DatesSteady::increase_date(const steady_clock::time_point& input) {
     return input + hours(24) + hours(1) + minutes(1) + seconds(1);
 }
 
-lorem_ipsum::test::optional<steady_clock::time_point>
-DatesSteady::increase_date_maybe(const lorem_ipsum::test::optional<steady_clock::time_point>& input) {
+std::optional<steady_clock::time_point>
+DatesSteady::increase_date_maybe(const std::optional<steady_clock::time_point>& input) {
     return input ? *input + hours(24) + hours(1) + minutes(1) + seconds(1) : input;
 }
 
@@ -77,5 +78,8 @@ std::vector<steady_clock::time_point>
 DatesSteady::date_list_method(const std::vector<steady_clock::time_point>& input) {
     return input;
 }
+
+DateDefaults
+DateDefaults::get_cpp_defaults() { return {}; }
 
 }

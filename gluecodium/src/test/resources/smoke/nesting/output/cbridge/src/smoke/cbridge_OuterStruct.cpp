@@ -8,7 +8,6 @@
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
 #include "gluecodium/Locale.h"
-#include "gluecodium/Optional.h"
 #include "gluecodium/TimePointHash.h"
 #include "gluecodium/TypeRepository.h"
 #include "gluecodium/UnorderedMapHash.h"
@@ -17,8 +16,10 @@
 #include "smoke/OuterStruct.h"
 #include <chrono>
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <new>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -38,17 +39,17 @@ smoke_OuterStruct_release_handle( _baseRef handle )
 _baseRef
 smoke_OuterStruct_create_optional_handle(_baseRef field)
 {
-    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::OuterStruct>( ::smoke::OuterStruct( ) );
+    auto _struct = new ( ::std::nothrow ) std::optional<::smoke::OuterStruct>( ::smoke::OuterStruct( ) );
     (*_struct)->field = Conversion<::std::string>::toCpp( field );
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_OuterStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::OuterStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::smoke::OuterStruct>*>( handle ) );
 }
 void smoke_OuterStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::smoke::OuterStruct>*>( handle );
+    delete reinterpret_cast<std::optional<::smoke::OuterStruct>*>( handle );
 }
 _baseRef smoke_OuterStruct_field_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::OuterStruct>(handle);
@@ -69,17 +70,17 @@ smoke_OuterStruct_InnerStruct_release_handle( _baseRef handle )
 _baseRef
 smoke_OuterStruct_InnerStruct_create_optional_handle(_baseRef otherField)
 {
-    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::OuterStruct::InnerStruct>( ::smoke::OuterStruct::InnerStruct( ) );
+    auto _struct = new ( ::std::nothrow ) std::optional<::smoke::OuterStruct::InnerStruct>( ::smoke::OuterStruct::InnerStruct( ) );
     (*_struct)->other_field = Conversion<::std::vector< ::std::chrono::system_clock::time_point >>::toCpp( otherField );
     return reinterpret_cast<_baseRef>( _struct );
 }
 _baseRef
 smoke_OuterStruct_InnerStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::OuterStruct::InnerStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::smoke::OuterStruct::InnerStruct>*>( handle ) );
 }
 void smoke_OuterStruct_InnerStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::smoke::OuterStruct::InnerStruct>*>( handle );
+    delete reinterpret_cast<std::optional<::smoke::OuterStruct::InnerStruct>*>( handle );
 }
 _baseRef smoke_OuterStruct_InnerStruct_otherField_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::OuterStruct::InnerStruct>(handle);
@@ -175,6 +176,45 @@ _baseRef smoke_OuterStruct_InnerInterface_create_proxy(smoke_OuterStruct_InnerIn
 }
 const void* smoke_OuterStruct_InnerInterface_get_swift_object_from_cache(_baseRef handle) {
     return handle ? smoke_OuterStruct_InnerInterfaceProxy::get_swift_object(get_pointer<::std::shared_ptr< ::smoke::OuterStruct::InnerInterface >>(handle)->get()) : nullptr;
+}
+void smoke_OuterStruct_InnerLambda_release_handle(_baseRef handle) {
+    delete get_pointer<::smoke::OuterStruct::InnerLambda>(handle);
+}
+_baseRef smoke_OuterStruct_InnerLambda_copy_handle(_baseRef handle) {
+    return handle
+        ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<::smoke::OuterStruct::InnerLambda>(handle)))
+        : 0;
+}
+void smoke_OuterStruct_InnerLambda_call(_baseRef _instance) {
+    return get_pointer<::smoke::OuterStruct::InnerLambda>(_instance)->operator()();
+}
+class smoke_OuterStruct_InnerLambdaProxy : public CachedProxyBase<smoke_OuterStruct_InnerLambdaProxy> {
+public:
+    smoke_OuterStruct_InnerLambdaProxy(smoke_OuterStruct_InnerLambda_FunctionTable&& functions)
+     : mFunctions(::std::move(functions))
+    {
+    }
+    virtual ~smoke_OuterStruct_InnerLambdaProxy() {
+        mFunctions.release(mFunctions.swift_pointer);
+    }
+    smoke_OuterStruct_InnerLambdaProxy(const smoke_OuterStruct_InnerLambdaProxy&) = delete;
+    smoke_OuterStruct_InnerLambdaProxy& operator=(const smoke_OuterStruct_InnerLambdaProxy&) = delete;
+    void operator()() {
+        mFunctions.smoke_OuterStruct_InnerLambda_call(mFunctions.swift_pointer);
+    }
+private:
+    smoke_OuterStruct_InnerLambda_FunctionTable mFunctions;
+};
+_baseRef smoke_OuterStruct_InnerLambda_create_proxy(smoke_OuterStruct_InnerLambda_FunctionTable functionTable) {
+    auto proxy = smoke_OuterStruct_InnerLambdaProxy::get_proxy(::std::move(functionTable));
+    return proxy ? reinterpret_cast<_baseRef>(new ::smoke::OuterStruct::InnerLambda(::std::bind(&smoke_OuterStruct_InnerLambdaProxy::operator(), proxy))) : 0;
+}
+_baseRef smoke_OuterStruct_InnerLambda_create_optional_proxy(smoke_OuterStruct_InnerLambda_FunctionTable functionTable) {
+    auto proxy = smoke_OuterStruct_InnerLambdaProxy::get_proxy(::std::move(functionTable));
+    return proxy ? reinterpret_cast<_baseRef>(new (::std::nothrow) std::optional<::smoke::OuterStruct::InnerLambda>(::std::bind(&smoke_OuterStruct_InnerLambdaProxy::operator(), proxy))) : 0;
+}
+const void* smoke_OuterStruct_InnerLambda_get_swift_object_from_cache(_baseRef handle) {
+    return handle ? smoke_OuterStruct_InnerLambdaProxy::get_swift_object(get_pointer<::smoke::OuterStruct::InnerLambda>(handle)) : nullptr;
 }
 smoke_OuterStruct_doNothing_result smoke_OuterStruct_doNothing(_baseRef _instance) {
     auto&& ERROR_VALUE = get_pointer<::smoke::OuterStruct>(_instance)->do_nothing().value();

@@ -55,9 +55,9 @@ internal class JavaImportCollector(
 
     fun collectImplImports(limeInterface: LimeInterface, defImports: List<JavaImport>): List<JavaImport> {
         if (limeInterface.parents.isEmpty()) return defImports
-        val parentImport =
+        val parentImports =
             limeInterface.parents.mapNotNull { importsResolver.createTopElementImport(it.type.actualType) }
-        return defImports - parentImport +
+        return defImports - parentImports.toSet() +
             (limeInterface.inheritedFunctions + limeInterface.inheritedProperties).flatMap { collectImports(it) }
     }
 

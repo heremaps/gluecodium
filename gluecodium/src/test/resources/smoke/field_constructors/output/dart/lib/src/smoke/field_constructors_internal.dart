@@ -1,23 +1,12 @@
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'package:meta/meta.dart';
 class FieldConstructorsInternal {
   String publicField;
-  /// @nodoc
-  @internal
-  double internal_internalField;
-  @internal
-  FieldConstructorsInternal.withAll()
-      : publicField = "foo", internal_internalField = 42;
-  @internal
-  FieldConstructorsInternal.withFortyTwo(this.publicField)
-      : internal_internalField = 42;
-  @internal
-  FieldConstructorsInternal.withFoo(this.internal_internalField)
-      : publicField = "foo";
-  @internal
-  FieldConstructorsInternal(this.internal_internalField, this.publicField);
+  double internalField;
+  FieldConstructorsInternal._(this.publicField, this.internalField);
+  FieldConstructorsInternal()
+    : publicField = "foo", internalField = 42;
 }
 // FieldConstructorsInternal "private" section, not exported.
 final _smokeFieldconstructorsinternalCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -38,7 +27,7 @@ final _smokeFieldconstructorsinternalGetFieldinternalField = __lib.catchArgument
   >('library_smoke_FieldConstructorsInternal_get_field_internalField'));
 Pointer<Void> smokeFieldconstructorsinternalToFfi(FieldConstructorsInternal value) {
   final _publicFieldHandle = stringToFfi(value.publicField);
-  final _internalFieldHandle = (value.internal_internalField);
+  final _internalFieldHandle = (value.internalField);
   final _result = _smokeFieldconstructorsinternalCreateHandle(_publicFieldHandle, _internalFieldHandle);
   stringReleaseFfiHandle(_publicFieldHandle);
   return _result;
@@ -47,9 +36,9 @@ FieldConstructorsInternal smokeFieldconstructorsinternalFromFfi(Pointer<Void> ha
   final _publicFieldHandle = _smokeFieldconstructorsinternalGetFieldpublicField(handle);
   final _internalFieldHandle = _smokeFieldconstructorsinternalGetFieldinternalField(handle);
   try {
-    return FieldConstructorsInternal(
-      (_internalFieldHandle),
-      stringFromFfi(_publicFieldHandle)
+    return FieldConstructorsInternal._(
+      stringFromFfi(_publicFieldHandle),
+      (_internalFieldHandle)
     );
   } finally {
     stringReleaseFfiHandle(_publicFieldHandle);

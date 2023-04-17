@@ -42,6 +42,7 @@ Pointer<Void> packageInterfaceToFfi(Interface value) {
   return result;
 }
 Interface packageInterfaceFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is Interface) return instance;
   final _typeIdHandle = _packageInterfaceGetTypeId(handle);

@@ -68,3 +68,14 @@ class SomePointerEquatableClass {
     )
     property id: String { get }
 }
+
+struct EnumSetDefaults {
+    enum TriState {
+        OFF,
+        ON,
+        BROKEN
+    }
+
+    emptyDefault: Set<TriState> = []
+    nonEmptyDefault: Set<TriState> = [TriState.OFF, TriState.BROKEN]
+}

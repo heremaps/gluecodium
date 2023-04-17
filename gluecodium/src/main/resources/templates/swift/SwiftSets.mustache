@@ -27,7 +27,8 @@ import Foundation
 import {{this}}
 {{/imports}}
 
-{{#collections}}
+{{#collections}}{{!!
+}}{{#set isOptionSet=elementType.type.actualType.attributes.swift.optionSet collection=this}}{{#collection}}
 internal func {{>functionPrefix}}copyFromCType(_ handle: _baseRef) -> {{resolveName}} {
     var result: {{resolveName}} = []
     let iterator_handle = {{resolveName "CBridge"}}_iterator(handle)
@@ -48,7 +49,11 @@ internal func {{>functionPrefix}}moveFromCType(_ handle: _baseRef) -> {{resolveN
 
 internal func {{>functionPrefix}}copyToCType(_ swiftSet: {{resolveName}}) -> RefHolder {
     let handle = {{resolveName "CBridge"}}_create_handle()
+{{#if isOptionSet}}
+    for item in {{elementType}}.allCases.filter({ swiftSet.contains($0) }) {
+{{/if}}{{#unless isOptionSet}}
     for item in swiftSet {
+{{/unless}}
         let _item = {{#set typeRef=elementType}}{{>swift/ConversionPrefixTo}}{{/set}}moveToCType(item)
         {{resolveName "CBridge"}}_insert(handle, _item.ref)
     }
@@ -68,7 +73,11 @@ internal func {{>functionPrefix}}copyToCType(_ swiftSet: {{resolveName}}?) -> Re
     }
     let optionalHandle = {{resolveName "CBridge"}}_create_optional_handle()
     let handle = {{resolveName "CBridge"}}_unwrap_optional_handle(optionalHandle)
+{{#if isOptionSet}}
+    for item in {{elementType}}.allCases.filter({ swiftSet.contains($0) }) {
+{{/if}}{{#unless isOptionSet}}
     for item in swiftSet {
+{{/unless}}
         let _item = {{#set typeRef=elementType}}{{>swift/ConversionPrefixTo}}{{/set}}moveToCType(item)
         {{resolveName "CBridge"}}_insert(handle, _item.ref)
     }
@@ -94,7 +103,7 @@ internal func {{>functionPrefix}}moveFromCType(_ handle: _baseRef) -> {{resolveN
     return {{>functionPrefix}}copyFromCType(handle)
 }
 
-{{/collections}}{{!!
+{{/collection}}{{/set}}{{/collections}}{{!!
 
 }}{{+functionPrefix}}{{#ifPredicate "hasCppTypeAttribute"}}{{resolveName "CBridge"}}{{/ifPredicate}}{{!!
 }}{{#unlessPredicate "hasCppTypeAttribute"}}{{internalPrefix}}{{!!

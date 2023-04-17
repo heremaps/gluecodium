@@ -30,7 +30,6 @@ import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeValue
-import com.here.gluecodium.model.lime.LimeVisibility
 import io.mockk.mockk
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -45,10 +44,9 @@ class LimeStructsValidatorStrictTest {
     private val limeModel = LimeModel(allElements, emptyList())
 
     private val limeField = LimeField(EMPTY_PATH, typeRef = LimeBasicTypeRef.INT)
-    private val internalField =
-        LimeField(EMPTY_PATH, typeRef = LimeBasicTypeRef.INT, visibility = LimeVisibility.INTERNAL)
-    private val immutableAttributes =
-        LimeAttributes.Builder().addAttribute(LimeAttributeType.IMMUTABLE).build()
+    private val internalAttributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.INTERNAL).build()
+    private val internalField = LimeField(EMPTY_PATH, typeRef = LimeBasicTypeRef.INT, attributes = internalAttributes)
+    private val immutableAttributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.IMMUTABLE).build()
     private val fieldConstructor =
         LimeFieldConstructor(EMPTY_PATH, structRef = LimeBasicTypeRef.INT, fieldRefs = emptyList())
     private val customConstructor = LimeFunction(EMPTY_PATH, isConstructor = true)
@@ -142,10 +140,17 @@ class LimeStructsValidatorStrictTest {
         val internalFieldWithDefault = LimeField(
             EMPTY_PATH,
             typeRef = LimeBasicTypeRef.INT,
-            visibility = LimeVisibility.INTERNAL,
+            attributes = internalAttributes,
             defaultValue = LimeValue.ZERO
         )
         allElements[""] = LimeStruct(EMPTY_PATH, fields = listOf(internalFieldWithDefault))
+
+        assertTrue(validator.validate(limeModel))
+    }
+
+    @Test
+    fun validateInternalStructWithNoConstructors() {
+        allElements[""] = LimeStruct(EMPTY_PATH, fields = listOf(limeField), attributes = internalAttributes)
 
         assertTrue(validator.validate(limeModel))
     }

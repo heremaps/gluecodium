@@ -85,7 +85,7 @@ class Structs {
 
 class StructsInstance {}
 
-types TypeCollection {
+struct TypeCollection {
     struct Point {
         x: Double
         y: Double
@@ -111,4 +111,12 @@ types TypeCollection {
         pointField: Point
     }
     typealias PointTypedef = Point
+}
+
+@Skip(Java, Dart)
+struct DeprecatedFields {
+    normalField1: String
+    @Deprecated
+    deprecatedField: String = ""
+    normalField2: String
 }

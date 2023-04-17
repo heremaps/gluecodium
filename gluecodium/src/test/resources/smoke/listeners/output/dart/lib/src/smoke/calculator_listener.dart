@@ -260,6 +260,7 @@ Pointer<Void> smokeCalculatorlistenerToFfi(CalculatorListener value) {
   return result;
 }
 CalculatorListener smokeCalculatorlistenerFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is CalculatorListener) return instance;
   final _typeIdHandle = _smokeCalculatorlistenerGetTypeId(handle);

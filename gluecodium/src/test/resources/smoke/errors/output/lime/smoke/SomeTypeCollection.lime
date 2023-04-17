@@ -1,8 +1,0 @@
-package smoke
-types SomeTypeCollection {
-    enum SomeTypeCollectionError {
-        ERROR_A,
-        ERROR_B
-    }
-    exception Some(SomeTypeCollectionError)
-}

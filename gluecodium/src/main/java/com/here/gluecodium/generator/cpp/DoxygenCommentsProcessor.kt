@@ -22,19 +22,17 @@ package com.here.gluecodium.generator.cpp
 import com.here.gluecodium.generator.common.CommentsProcessor
 import com.vladsch.flexmark.ast.LinkRef
 import com.vladsch.flexmark.formatter.Formatter
-import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
+import com.vladsch.flexmark.util.sequence.CharSubSequence
 
-@Suppress("DEPRECATION")
-internal class DoxygenCommentsProcessor(werror: Boolean) :
-    CommentsProcessor(Formatter.builder().build(), werror) {
+internal class DoxygenCommentsProcessor(werror: Boolean) : CommentsProcessor(Formatter.builder().build(), werror) {
 
     override fun processLink(linkNode: LinkRef, linkReference: String, limeFullName: String) {
-        linkNode.reference = BasedSequenceImpl.of(linkReference)
+        linkNode.reference = CharSubSequence.of(linkReference)
         // Doxygen documentation claims that \link classname Alternative title \endlink is the
         // correct way to have a link with alternative title, however it only works for a small
         // subset of possible link types. Rely on autolinking instead and just remove the link
         // markers.
-        linkNode.referenceOpeningMarker = BasedSequenceImpl.of("")
-        linkNode.referenceClosingMarker = BasedSequenceImpl.of("")
+        linkNode.referenceOpeningMarker = CharSubSequence.of("")
+        linkNode.referenceClosingMarker = CharSubSequence.of("")
     }
 }

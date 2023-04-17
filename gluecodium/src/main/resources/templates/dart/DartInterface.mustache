@@ -138,10 +138,10 @@ class {{resolveName}}$Lambdas implements {{resolveName}} {
 {{/unless}}{{/each}}
 {{#each inheritedProperties properties}}{{#unless isStatic}}
   @override
-  {{resolveName typeRef}} get {{resolveName visibility}}{{resolveName}} => {{resolveName}}GetLambda();
+  {{resolveName typeRef}} get {{resolveName}} => {{resolveName}}GetLambda();
 {{#if setter}}
   @override
-  set {{resolveName visibility}}{{resolveName}}({{resolveName typeRef}} value) => {{resolveName}}SetLambda(value);
+  set {{resolveName}}({{resolveName typeRef}} value) => {{resolveName}}SetLambda(value);
 {{/if}}
 {{/unless}}{{/each}}
 }
@@ -156,8 +156,8 @@ class {{resolveName}}$Impl extends __lib.NativeBase implements {{resolveName}} {
   {{resolveName}}$Impl(Pointer<Void> handle) : super(handle);
 
 {{#set ignoreStatic=true}}{{#set parent=this}}{{#each inheritedFunctions functions}}
-  @override
-{{prefixPartial "dart/DartFunction" "  "}}
+{{#unless isStatic}}  @override
+{{/unless}}{{prefixPartial "dart/DartFunction" "  "}}
 {{/each}}{{/set}}
 {{#each inheritedProperties properties}}
 {{prefixPartial "dart/DartProperty" "  "}}
@@ -179,7 +179,7 @@ int _{{resolveName parent "Ffi"}}{{resolveName}}Static({{!!
   {{resolveName returnType.typeRef}}{{#unless returnType.typeRef.isNullable}}?{{/unless}} _resultObject;{{/unless}}
   try {
     {{#unless returnType.isVoid}}_resultObject = {{/unless}}{{!!
-  }}(_obj as {{resolveName parent}}).{{resolveName visibility}}{{resolveName}}({{#parameters}}{{!!
+  }}(_obj as {{resolveName parent}}).{{resolveName}}({{#parameters}}{{!!
   }}{{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}}){{#if iter.hasNext}}, {{/if}}{{!!
   }}{{/parameters}});{{#unless returnType.isVoid}}
     _result.value = {{#returnType}}{{#set call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}{{/returnType}}(_resultObject);{{/unless}}
@@ -201,14 +201,14 @@ int _{{resolveName parent "Ffi"}}{{resolveName}}Static({{!!
 {{#each inheritedProperties properties}}{{#unless isStatic}}
 int _{{resolveName parent "Ffi"}}{{resolveName}}GetStatic(Object _obj, Pointer<{{resolveName typeRef "FfiApiTypes"}}> _result) {
   _result.value = {{#set call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{!!
-  }}(_obj as {{resolveName parent}}).{{resolveName visibility}}{{resolveName}});
+  }}(_obj as {{resolveName parent}}).{{resolveName}});
   return 0;
 }
 {{#if setter}}
 
 int _{{resolveName parent "Ffi"}}{{resolveName}}SetStatic(Object _obj, {{resolveName typeRef "FfiDartTypes"}} _value) {
   try {
-    (_obj as {{resolveName parent}}).{{resolveName visibility}}{{resolveName}} =
+    (_obj as {{resolveName parent}}).{{resolveName}} =
       {{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_value);
   } finally {
     {{#set varName="_value"}}{{>dart/DartFfiReleaseHandle}}{{/set}}
@@ -245,6 +245,7 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
 }
 
 {{resolveName}} {{resolveName "Ffi"}}FromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
 {{#unless this.attributes.nocache}}
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is {{resolveName}}) return instance;

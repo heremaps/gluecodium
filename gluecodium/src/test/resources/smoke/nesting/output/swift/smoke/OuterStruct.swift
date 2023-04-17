@@ -13,7 +13,9 @@ public struct OuterStruct {
         case foo
         case bar
     }
-    public typealias InstantiationError = OuterStruct.InnerEnum
+    public typealias TypeAlias = OuterStruct.InnerEnum
+    public typealias InstantiationError = OuterStruct.TypeAlias
+    public typealias InnerLambda = () -> Void
     public struct InnerStruct {
         public var otherField: [Date]
         public init(otherField: [Date]) {

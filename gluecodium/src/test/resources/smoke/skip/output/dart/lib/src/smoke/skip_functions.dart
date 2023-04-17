@@ -56,6 +56,7 @@ class SkipFunctions$Impl extends __lib.NativeBase implements SkipFunctions {
 Pointer<Void> smokeSkipfunctionsToFfi(SkipFunctions value) =>
   _smokeSkipfunctionsCopyHandle((value as __lib.NativeBase).handle);
 SkipFunctions smokeSkipfunctionsFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is SkipFunctions) return instance;
   final _copiedHandle = _smokeSkipfunctionsCopyHandle(handle);

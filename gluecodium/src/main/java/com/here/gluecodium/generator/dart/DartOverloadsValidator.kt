@@ -50,7 +50,7 @@ internal class DartOverloadsValidator(
             ((limeContainer as? LimeContainerWithInheritance)?.inheritedFunctions ?: emptyList())
         val constructors = allFunctions.filter { it.isConstructor }
 
-        val overloadedFunctions = (allFunctions - constructors)
+        val overloadedFunctions = (allFunctions - constructors.toSet())
             .groupBy { nameResolver.resolveName(it) }
             .filter { it.value.size > 1 }
         overloadedFunctions.forEach { entry ->

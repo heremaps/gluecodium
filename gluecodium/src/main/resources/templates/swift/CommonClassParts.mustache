@@ -22,11 +22,11 @@
 {{>swift/SwiftConstant}}
 {{/constants}}
 {{#if this.parentInterfaces}}
-{{#if this.interfaceInheritedProperties}}
-{{#this.interfaceInheritedProperties}}
+{{#if this.interfaceInheritedProperties}}{{#set isInherited=true container=this}}
+{{#container.interfaceInheritedProperties}}
 {{>swift/SwiftProperty}}
-{{/this.interfaceInheritedProperties}}
-{{/if}}{{#unless this.interfaceInheritedProperties}}
+{{/container.interfaceInheritedProperties}}
+{{/set}}{{/if}}{{#unless this.interfaceInheritedProperties}}
 {{#inheritedProperties}}
 {{>swift/SwiftProperty}}
 {{/inheritedProperties}}
@@ -70,11 +70,11 @@ deinit {
 {{/structs}}{{/unless}}{{!!
 
 }}{{#if this.parentInterfaces}}
-{{#if this.interfaceInheritedFunctions}}
-{{#this.interfaceInheritedFunctions}}
+{{#if this.interfaceInheritedFunctions}}{{#set isInherited=true container=this}}
+{{#container.interfaceInheritedFunctions}}
 {{>swift/SwiftFunctionSignature}} {{prefixPartial "swift/SwiftFunctionBody" "" skipFirstLine=true}}
-{{/this.interfaceInheritedFunctions}}
-{{/if}}{{#unless this.interfaceInheritedFunctions}}
+{{/container.interfaceInheritedFunctions}}
+{{/set}}{{/if}}{{#unless this.interfaceInheritedFunctions}}
 {{#inheritedFunctions}}
 {{>swift/SwiftFunctionSignature}} {{prefixPartial "swift/SwiftFunctionBody" "" skipFirstLine=true}}
 {{/inheritedFunctions}}

@@ -33,6 +33,7 @@ import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
+import com.here.gluecodium.model.lime.LimeValue
 
 internal class DartImportResolver(
     limeReferenceMap: Map<String, LimeElement>,
@@ -49,6 +50,7 @@ internal class DartImportResolver(
                 listOfNotNull(lazyListImport.takeIf { limeElement.attributes.have(LimeAttributeType.OPTIMIZED) })
             is LimeType -> resolveTypeImports(limeElement) + resolveConversionImports(limeElement)
             is LimeConstant -> resolveTypeImports(limeElement.typeRef.type)
+            is LimeValue -> resolveValueImports(limeElement)
             is LimeNamedElement -> listOf(createImport(limeElement))
             else -> emptyList()
         }
@@ -100,6 +102,15 @@ internal class DartImportResolver(
             else -> emptyList()
         }
 
-    private fun createConversionImport(filePath: String) =
-        DartImport("$srcPath/${filePath}__conversion")
+    private fun resolveValueImports(limeValue: LimeValue): List<DartImport> =
+        when (limeValue) {
+            is LimeValue.KeyValuePair -> resolveValueImports(limeValue.key) + resolveValueImports(limeValue.value)
+            is LimeValue.InitializerList -> limeValue.values.flatMap { resolveValueImports(it) }
+            is LimeValue.StructInitializer -> limeValue.values.flatMap { resolveValueImports(it) }
+            is LimeValue.Constant ->
+                resolveTypeImports(getParentElement(limeValue.valueRef.element) as LimeType, skipHelpers = true)
+            else -> emptyList()
+        }
+
+    private fun createConversionImport(filePath: String) = DartImport("$srcPath/${filePath}__conversion")
 }

@@ -25,6 +25,8 @@ import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.cli.OptionReader
 import com.here.gluecodium.cli.OptionReaderException
 import com.here.gluecodium.common.LimeLogger
+import com.here.gluecodium.common.LimeModelFilter
+import com.here.gluecodium.common.LimeModelSkipPredicates
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.GeneratorOptions
@@ -32,7 +34,8 @@ import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeModelLoader
 import com.here.gluecodium.model.lime.LimeModelLoaderException
-import com.here.gluecodium.validator.LimeEnumeratorRefsValidator
+import com.here.gluecodium.validator.LimeAsyncValidator
+import com.here.gluecodium.validator.LimeConstantRefsValidator
 import com.here.gluecodium.validator.LimeExternalTypesValidator
 import com.here.gluecodium.validator.LimeFieldConstructorsValidator
 import com.here.gluecodium.validator.LimeFunctionsValidator
@@ -151,15 +154,18 @@ class Gluecodium(
         val mainFiles = filesToBeWritten.filter { it.sourceSet == GeneratedFile.SourceSet.MAIN }
         val commonFiles = filesToBeWritten.filter { it.sourceSet == GeneratedFile.SourceSet.COMMON }
 
-        return saveToDirectory(gluecodiumOptions.outputDir, mainFiles) && saveToDirectory(gluecodiumOptions.commonOutputDir, commonFiles)
+        return saveToDirectory(gluecodiumOptions.outputDir, mainFiles) &&
+            saveToDirectory(gluecodiumOptions.commonOutputDir, commonFiles)
     }
 
     internal fun validateModel(limeModel: LimeModel): Boolean {
-        val limeLogger = LimeLogger(LOGGER, limeModel.fileNameMap)
-        val typeRefsValidationResult = LimeTypeRefsValidator(limeLogger).validate(limeModel)
+        val filteredModel =
+            LimeModelFilter.filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, generatorOptions.tags) }
+        val limeLogger = LimeLogger(LOGGER, filteredModel.fileNameMap)
+        val typeRefsValidationResult = LimeTypeRefsValidator(limeLogger).validate(filteredModel)
         val validators = getIndependentValidators(limeLogger) +
             if (typeRefsValidationResult) getTypeRefDependentValidators(limeLogger) else emptyList()
-        val validationResults = validators.map { it.invoke(limeModel) }
+        val validationResults = validators.map { it.invoke(filteredModel) }
         return typeRefsValidationResult && !validationResults.contains(false)
     }
 
@@ -178,11 +184,12 @@ class Gluecodium(
 
     private fun getIndependentValidators(limeLogger: LimeLogger) =
         listOf<(LimeModel) -> Boolean>(
-            { LimeEnumeratorRefsValidator(limeLogger).validate(it) },
+            { LimeConstantRefsValidator(limeLogger).validate(it) },
             { LimeExternalTypesValidator(limeLogger).validate(it) },
             { LimePropertiesValidator(limeLogger).validate(it) },
             { LimeFunctionsValidator(limeLogger).validate(it) },
-            { LimeSkipValidator(limeLogger).validate(it) }
+            { LimeSkipValidator(limeLogger).validate(it) },
+            { LimeAsyncValidator(limeLogger).validate(it) }
         )
 
     companion object {

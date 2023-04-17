@@ -21,49 +21,52 @@ package com.here.gluecodium.model.lime
 
 class LimeStruct(
     path: LimePath,
-    visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     external: LimeExternalDescriptor? = null,
+    structs: List<LimeStruct> = emptyList(),
+    enumerations: List<LimeEnumeration> = emptyList(),
+    constants: List<LimeConstant> = emptyList(),
+    typeAliases: List<LimeTypeAlias> = emptyList(),
     functions: List<LimeFunction> = emptyList(),
     exceptions: List<LimeException> = emptyList(),
-    constants: List<LimeConstant> = emptyList(),
-    structs: List<LimeStruct> = emptyList(),
     classes: List<LimeClass> = emptyList(),
     interfaces: List<LimeInterface> = emptyList(),
-    enumerations: List<LimeEnumeration> = emptyList(),
+    lambdas: List<LimeLambda> = emptyList(),
     val fields: List<LimeField> = emptyList(),
     val constructorComment: LimeComment = LimeComment(),
     val fieldConstructors: List<LimeFieldConstructor> = emptyList()
 ) : LimeContainer(
     path = path,
-    visibility = visibility,
     comment = comment,
     attributes = attributes,
     external = external,
+    structs = structs,
+    enumerations = enumerations,
+    constants = constants,
+    typeAliases = typeAliases,
     functions = functions,
     exceptions = exceptions,
-    constants = constants,
-    structs = structs,
     classes = classes,
     interfaces = interfaces,
-    enumerations = enumerations
+    lambdas = lambdas
 ) {
     override val childTypes
         get() = fields.map { it.typeRef }
 
-    @Suppress("unused")
     val initializedFields
         get() = fields.filter { it.defaultValue != null }
 
     val uninitializedFields
         get() = fields.filter { it.defaultValue == null }
 
-    val publicFields
-        get() = fields.filter { !it.visibility.isInternal }
+    @Suppress("unused")
+    val deprecatedFields
+        get() = fields.filter { it.attributes.have(LimeAttributeType.DEPRECATED) }
 
-    val internalFields
-        get() = fields.filter { it.visibility.isInternal }
+    @Suppress("unused")
+    val availableFields
+        get() = fields.filter { !it.attributes.have(LimeAttributeType.DEPRECATED) }
 
     val allFieldsConstructor
         get() = fieldConstructors.firstOrNull { it.fieldRefs.size == fields.size }

@@ -74,12 +74,70 @@ class EnumsTests: XCTestCase {
         XCTAssertEqual(result, value)
     }
 
+    func testAliasInSwift() {
+        XCTAssertEqual(EnumWithAlias.first, EnumWithAlias.one)
+    }
+
+    func testDoubleAliasInSwift() {
+        XCTAssertEqual(EnumWithAlias.theBest, EnumWithAlias.one)
+    }
+
+    func testAliasFromCpp() {
+        let value = UseEnumWithAlias.getFirst()
+
+        XCTAssertEqual(value, EnumWithAlias.one)
+    }
+
+    func testAliasToTargetCpp() {
+        let value = EnumWithAlias.first
+
+        let result = UseEnumWithAlias.compareToOne(input: value)
+
+        XCTAssertTrue(result)
+    }
+
+    func testAliasToAlias() {
+        let value = EnumWithAlias.first
+
+        let result = UseEnumWithAlias.compareToFirst(input: value)
+
+        XCTAssertTrue(result)
+    }
+
+    func testEnumOptionSet() {
+        let value: EnumOptionSet = [.one, .three]
+
+        XCTAssertEqual(value.rawValue, 5)
+    }
+
+    func testEnumOptionSetDefault() {
+        let value = UseEnumOptionSet(setField: []).setFieldValue
+
+        XCTAssertEqual(value.rawValue, 5)
+    }
+
+    func testEnumOptionSetRoundTrip() {
+        let value: EnumOptionSet = [.one, .three]
+
+        let result = UseEnumOptionSet.roundTrip(input: value)
+
+        XCTAssertEqual(result.rawValue, 5)
+    }
+
     static var allTests = [
         ("testFlipEnumValue", testFlipEnumValue),
         ("testExtractEnumFromStruct", testExtractEnumFromStruct),
         ("testCreateStructWithEnumInside", testCreateStructWithEnumInside),
         ("testCaseIterable", testCaseIterable),
         ("testCaseIterableWithDeprecated", testCaseIterableWithDeprecated),
-        ("testCodableWithDeprecated", testCodableWithDeprecated)
+        ("testCodableWithDeprecated", testCodableWithDeprecated),
+        ("testAliasInSwift", testAliasInSwift),
+        ("testDoubleAliasInSwift", testDoubleAliasInSwift),
+        ("testAliasFromCpp", testAliasFromCpp),
+        ("testAliasToTargetCpp", testAliasToTargetCpp),
+        ("testAliasToAlias", testAliasToAlias),
+        ("testEnumOptionSet", testEnumOptionSet),
+        ("testEnumOptionSetDefault", testEnumOptionSetDefault),
+        ("testEnumOptionSetRoundTrip", testEnumOptionSetRoundTrip)
     ]
 }

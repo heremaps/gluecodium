@@ -26,37 +26,37 @@ final _testSuite = TestSuite("Constants");
 
 void main() {
   _testSuite.test("Int constant", () {
-    final result = intConstant;
+    final result = Constants.intConstant;
 
     expect(result, equals(-11));
   });
   _testSuite.test("Double constant", () {
-    final result = floatConstant;
+    final result = Constants.floatConstant;
 
     expect(result, equals(2.71));
   });
   _testSuite.test("String constant", () {
-    final result = stringConstant;
+    final result = Constants.stringConstant;
 
     expect(result, equals("Foo bar"));
   });
   _testSuite.test("Enum constant", () {
-    final result = enumConstant;
+    final result = Constants.enumConstant;
 
-    expect(result, equals(StateEnum.on));
+    expect(result, equals(ConstantsStateEnum.on));
   });
   _testSuite.test("NaN constant", () {
-    final result = floatNan;
+    final result = Constants.floatNan;
 
     expect(result, isNaN);
   });
   _testSuite.test("Infinity constant", () {
-    final result = doubleInfinity;
+    final result = Constants.doubleInfinity;
 
     expect(result, equals(double.infinity));
   });
   _testSuite.test("Negative infinity constant", () {
-    final result = floatNegativeInfinity;
+    final result = Constants.floatNegativeInfinity;
 
     expect(result, equals(double.negativeInfinity));
   });

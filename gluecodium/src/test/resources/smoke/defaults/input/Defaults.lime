@@ -25,8 +25,6 @@ class DefaultValues {
         doubleField: Double = -1.4142
         boolField: Boolean = true
         stringField: String = "\\Jonny \"Magic\" Smith\n"
-        enumField: SomeEnum = SomeEnum.BarValue
-        externalEnumField: ExternalEnum = ExternalEnum.Another_Value
     }
     struct NullableStructWithDefaults {
         intField: Int? = null
@@ -34,7 +32,6 @@ class DefaultValues {
         floatField: Float? = null
         boolField: Boolean? = null
         stringField: String? = null
-        enumField: SomeEnum? = null
     }
     struct StructWithSpecialDefaults {
         floatNanField: Float = NaN
@@ -55,23 +52,11 @@ class DefaultValues {
         longField: LongTypedef = 42
         boolField: BooleanTypedef = true
         stringField: StringTypedef = "\\Jonny \"Magic\" Smith\n"
-        enumField: EnumTypedef = SomeEnum.BarValue
-    }
-
-    enum SomeEnum {
-        FooValue,
-        BarValue
-    }
-    @Cpp(ExternalType = "foo/Bar.h", ExternalName = "::fire::SomeVeryExternalEnum")
-    enum ExternalEnum {
-        One_Value,
-        Another_Value
     }
 
     typealias LongTypedef = Long
     typealias BooleanTypedef = Boolean
     typealias StringTypedef = String
-    typealias EnumTypedef = SomeEnum
     typealias FloatArray = List<Float>
     typealias IdToStringMap = Map<UInt, String>
     typealias StringSet = Set<String>
@@ -79,7 +64,7 @@ class DefaultValues {
     static fun processStructWithDefaults(input: StructWithDefaults): StructWithDefaults
 }
 
-types TypesWithDefaults {
+struct TypesWithDefaults {
     struct StructWithDefaults {
         intField: Int = 42
         uintField: UInt = 4294967295
@@ -87,7 +72,6 @@ types TypesWithDefaults {
         doubleField: Double = -1.4142
         boolField: Boolean = true
         stringField: String = "\\Jonny \"Magic\" Smith\n"
-        enumField: SomeEnum = SomeEnum.BarValue
     }
     @Immutable
     struct ImmutableStructWithDefaults {
@@ -97,23 +81,17 @@ types TypesWithDefaults {
         doubleField: Double = -1.4142
         boolField: Boolean
         stringField: String = "\\Jonny \"Magic\" Smith\n"
-        enumField: SomeEnum = SomeEnum.BarValue
-        externalEnumField: DefaultValues.ExternalEnum = DefaultValues.ExternalEnum.Another_Value
-    }
-    struct StructWithAnEnum {
-        config: AnEnum.AnEnum = AnEnum.AnEnum.ENABLED
-    }
-
-    enum SomeEnum {
-        FooValue,
-        BarValue
     }
 }
 
 struct StructWithInitializerDefaults {
     intsField: List<Int> = [4, -2, 42]
     floatsField: DefaultValues.FloatArray = [3.14, -Infinity]
-    structField: TypesWithDefaults.StructWithAnEnum = {config = AnEnum.AnEnum.DISABLED}
     setTypeField: DefaultValues.StringSet = ["foo", "bar"]
     mapField: DefaultValues.IdToStringMap = [1: "foo", 42: "bar"]
+}
+
+struct BlobDefaults {
+    emptyList: Blob = []
+    deadBeef: Blob = [222, 173, 190, 239]
 }

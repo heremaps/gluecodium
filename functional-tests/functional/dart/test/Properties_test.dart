@@ -21,7 +21,6 @@
 import "dart:typed_data";
 import "package:test/test.dart";
 import "package:functional/test.dart";
-import "package:functional/src/test/internal_class_with_static_property.dart";
 import "../test_suite.dart";
 
 final _testSuite = TestSuite("Properties");
@@ -85,11 +84,6 @@ void main() {
 
     expect(CachedProperties.staticCallCount, 1);
     expect(result1, Uint8List.fromList([0, 1, 2]));
-  });
-  _testSuite.test("Static internal property", () {
-    final result = InternalClassWithStaticProperty.internalfooBar;
-
-    expect(result, "foo");
   });
   _testSuite.test("Property in a nested class", () {
     final geometry = VenueGeometry();

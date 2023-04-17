@@ -18,9 +18,10 @@
 package smoke
 
 @Cpp("fooTypes")
+@Java("barTypes")
 @Swift("bazTypes")
 @Dart("weeTypes")
-types PlatformNames {
+struct PlatformNames {
 
     @Cpp("fooStruct")
     @Java("barStruct")

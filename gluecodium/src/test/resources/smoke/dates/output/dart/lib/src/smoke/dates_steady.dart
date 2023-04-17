@@ -5,7 +5,6 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 abstract class DatesSteady {
-
   DateTime dateMethod(DateTime input);
   DateTime? nullableDateMethod(DateTime? input);
   List<DateTime> dateListMethod(List<DateTime> input);
@@ -13,7 +12,9 @@ abstract class DatesSteady {
 class DatesSteady_DateStruct {
   DateTime dateField;
   DateTime? nullableDateField;
-  DatesSteady_DateStruct(this.dateField, this.nullableDateField);
+  DatesSteady_DateStruct._(this.dateField, this.nullableDateField);
+  DatesSteady_DateStruct(DateTime dateField)
+    : dateField = dateField, nullableDateField = null;
 }
 // DatesSteady_DateStruct "private" section, not exported.
 final _smokeDatessteadyDatestructCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -44,7 +45,7 @@ DatesSteady_DateStruct smokeDatessteadyDatestructFromFfi(Pointer<Void> handle) {
   final _dateFieldHandle = _smokeDatessteadyDatestructGetFielddateField(handle);
   final _nullableDateFieldHandle = _smokeDatessteadyDatestructGetFieldnullableDateField(handle);
   try {
-    return DatesSteady_DateStruct(
+    return DatesSteady_DateStruct._(
       dateFromFfi(_dateFieldHandle),
       dateFromFfiNullable(_nullableDateFieldHandle)
     );
@@ -99,7 +100,6 @@ final _smokeDatessteadyReleaseHandle = __lib.catchArgumentError(() => __lib.nati
   >('library_smoke_DatesSteady_release_handle'));
 class DatesSteady$Impl extends __lib.NativeBase implements DatesSteady {
   DatesSteady$Impl(Pointer<Void> handle) : super(handle);
-
   @override
   DateTime dateMethod(DateTime input) {
     final _dateMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32, Uint64), int Function(Pointer<Void>, int, int)>('library_smoke_DatesSteady_dateMethod__Date'));
@@ -143,6 +143,7 @@ class DatesSteady$Impl extends __lib.NativeBase implements DatesSteady {
 Pointer<Void> smokeDatessteadyToFfi(DatesSteady value) =>
   _smokeDatessteadyCopyHandle((value as __lib.NativeBase).handle);
 DatesSteady smokeDatessteadyFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is DatesSteady) return instance;
   final _copiedHandle = _smokeDatessteadyCopyHandle(handle);

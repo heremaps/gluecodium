@@ -90,6 +90,7 @@ class OuterName$Impl extends __lib.NativeBase implements OuterName {
 Pointer<Void> smokeOuternameToFfi(OuterName value) =>
   _smokeOuternameCopyHandle((value as __lib.NativeBase).handle);
 OuterName smokeOuternameFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is OuterName) return instance;
   final _copiedHandle = _smokeOuternameCopyHandle(handle);

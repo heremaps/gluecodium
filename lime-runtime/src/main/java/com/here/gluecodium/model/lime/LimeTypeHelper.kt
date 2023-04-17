@@ -19,6 +19,11 @@
 
 package com.here.gluecodium.model.lime
 
+import java.time.DateTimeException
+import java.time.Instant
+import java.time.format.DateTimeFormatter
+import java.util.Locale
+
 object LimeTypeHelper {
 
     fun getAllTypes(limeElement: LimeNamedElement): List<LimeType> {
@@ -39,24 +44,11 @@ object LimeTypeHelper {
                 limeElement.constants + limeElement.structs +
                     limeElement.classes + limeElement.interfaces
                 ).flatMap { getAllValues(it) }
-            is LimeTypesCollection ->
-                (limeElement.constants + limeElement.structs).flatMap { getAllValues(it) }
+
             is LimeStruct ->
                 (limeElement.constants + limeElement.fields).flatMap { getAllValues(it) }
-            else -> emptyList()
-        }
 
-    /**
-     * Backtick-escape the given identifier if at least one of the following is true:
-     * * identifier exactly matches a LimeIDL keyword
-     * * identifier contains a non-alphanumeric character that is not underscore
-     * * identifier starts with a digit
-     */
-    fun escapeIdentifier(identifier: String) =
-        when {
-            limeKeywords.contains(identifier) || identifier.contains(Regex("\\W")) ||
-                identifier.first().isDigit() -> "`$identifier`"
-            else -> identifier
+            else -> emptyList()
         }
 
     fun getAllParentTypes(allTypes: List<LimeType>): List<LimeType> {
@@ -90,11 +82,22 @@ object LimeTypeHelper {
         return parentDistances.minOrNull()?.let { it + 1 }
     }
 
-    private val limeKeywords = setOf(
-        "class", "const", "constructor", "enum", "exception", "external", "field", "fun",
-        "get", "import", "interface", "internal", "lambda", "narrow", "open", "package", "property", "public",
-        "set", "static", "struct", "throws", "typealias", "types", "Void", "Boolean", "Float",
-        "Double", "Byte", "Short", "Int", "Long", "UByte", "UShort", "UInt", "ULong", "String",
-        "Blob", "Date", "Duration", "Locale", "List", "Map", "Set", "true", "false", "null", "NaN", "Infinity"
-    )
+    fun dateLiteralEpochSeconds(literalText: String): Long? {
+        val epochSeconds = try {
+            Instant.from(DateTimeFormatter.ISO_DATE_TIME.parse(literalText)).epochSecond
+        } catch (e: DateTimeException) {
+            return null
+        }
+        return epochSeconds
+    }
+
+    fun normalizeLocaleTag(literalText: String): String? {
+        val originalTag = literalText.trim()
+        if (originalTag.lowercase(Locale.getDefault()) == LOCALE_UND) return LOCALE_UND
+
+        val normalizedTag = Locale.forLanguageTag(originalTag).toLanguageTag()
+        return if (normalizedTag.lowercase(Locale.getDefault()) != LOCALE_UND) normalizedTag else null
+    }
+
+    private val LOCALE_UND = Locale.forLanguageTag("").toLanguageTag().lowercase(Locale.getDefault())
 }

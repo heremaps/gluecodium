@@ -1,15 +1,13 @@
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'package:meta/meta.dart';
 class PublicFieldsNoInit {
   String publicField;
   /// @nodoc
-  @internal
-  String internal_internalField;
-  PublicFieldsNoInit(this.publicField, this.internal_internalField);
-  PublicFieldsNoInit.withDefaults(String publicField)
-    : publicField = publicField, internal_internalField = "foo";
+  String _internalField;
+  PublicFieldsNoInit._(this.publicField, this._internalField);
+  PublicFieldsNoInit(String publicField)
+    : publicField = publicField, _internalField = "foo";
 }
 // PublicFieldsNoInit "private" section, not exported.
 final _smokePublicfieldsnoinitCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -30,7 +28,7 @@ final _smokePublicfieldsnoinitGetFieldinternalField = __lib.catchArgumentError((
   >('library_smoke_PublicFieldsNoInit_get_field_internalField'));
 Pointer<Void> smokePublicfieldsnoinitToFfi(PublicFieldsNoInit value) {
   final _publicFieldHandle = stringToFfi(value.publicField);
-  final _internalFieldHandle = stringToFfi(value.internal_internalField);
+  final _internalFieldHandle = stringToFfi(value._internalField);
   final _result = _smokePublicfieldsnoinitCreateHandle(_publicFieldHandle, _internalFieldHandle);
   stringReleaseFfiHandle(_publicFieldHandle);
   stringReleaseFfiHandle(_internalFieldHandle);
@@ -40,7 +38,7 @@ PublicFieldsNoInit smokePublicfieldsnoinitFromFfi(Pointer<Void> handle) {
   final _publicFieldHandle = _smokePublicfieldsnoinitGetFieldpublicField(handle);
   final _internalFieldHandle = _smokePublicfieldsnoinitGetFieldinternalField(handle);
   try {
-    return PublicFieldsNoInit(
+    return PublicFieldsNoInit._(
       stringFromFfi(_publicFieldHandle),
       stringFromFfi(_internalFieldHandle)
     );

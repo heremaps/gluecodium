@@ -22,6 +22,7 @@ package com.here.gluecodium.generator.cpp
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
+import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeFieldConstructor
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
@@ -40,9 +41,12 @@ internal class CppSkipAttributesValidator(private val logger: LimeLogger) {
 
     private fun validateElement(limeElement: LimeNamedElement) =
         when {
-            limeElement is LimeFieldConstructor -> true
+            limeElement is LimeFieldConstructor || limeElement is LimeConstant -> true
             limeElement.attributes.have(LimeAttributeType.CPP, LimeAttributeValueType.SKIP) -> {
-                logger.error(limeElement, "`@Cpp(Skip)` attribute can only be used on a field constructor")
+                logger.error(
+                    limeElement,
+                    "`@Cpp(Skip)` attribute can only be used on a field constructor or a constant"
+                )
                 false
             }
             else -> true

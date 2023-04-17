@@ -146,6 +146,13 @@ class DefaultsTests: XCTestCase {
       XCTAssertEqual(StructWithEnums.firstConstant, SomethingEnum.reallyFirst)
     }
 
+    func testConstantDefaults() {
+      let result = ConstantDefaults()
+
+      XCTAssertEqual(result.field1.intField, 42)
+      XCTAssertEqual(result.field2.intField, -2)
+    }
+
     static var allTests = [
         ("testGetDefault", testGetDefault),
         ("testWithAllButOneDefaultFields", testWithAllButOneDefaultFields),
@@ -158,6 +165,7 @@ class DefaultsTests: XCTestCase {
         ("testCppEmptyDefaults", testCppEmptyDefaults),
         ("testSwiftInitializerDefaults", testSwiftInitializerDefaults),
         ("testCppInitializerDefaults", testCppInitializerDefaults),
-        ("testPositionalEnumeratorDefaults", testPositionalEnumeratorDefaults)
+        ("testPositionalEnumeratorDefaults", testPositionalEnumeratorDefaults),
+        ("testConstantDefaults", testConstantDefaults)
     ]
 }

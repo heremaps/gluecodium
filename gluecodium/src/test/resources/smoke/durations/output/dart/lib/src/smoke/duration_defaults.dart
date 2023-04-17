@@ -9,8 +9,8 @@ class DurationDefaults {
   Duration milliz;
   Duration microz;
   Duration nanoz;
-  DurationDefaults(this.dayz, this.hourz, this.minutez, this.secondz, this.milliz, this.microz, this.nanoz);
-  DurationDefaults.withDefaults()
+  DurationDefaults._(this.dayz, this.hourz, this.minutez, this.secondz, this.milliz, this.microz, this.nanoz);
+  DurationDefaults()
     : dayz = const Duration(days: 28), hourz = const Duration(hours: 22), minutez = const Duration(minutes: 45), secondz = const Duration(seconds: 42), milliz = const Duration(milliseconds: 500), microz = const Duration(microseconds: 665), nanoz = const Duration(microseconds: 314);
 }
 // DurationDefaults "private" section, not exported.
@@ -77,7 +77,7 @@ DurationDefaults smokeDurationdefaultsFromFfi(Pointer<Void> handle) {
   final _microzHandle = _smokeDurationdefaultsGetFieldmicroz(handle);
   final _nanozHandle = _smokeDurationdefaultsGetFieldnanoz(handle);
   try {
-    return DurationDefaults(
+    return DurationDefaults._(
       durationFromFfi(_dayzHandle),
       durationFromFfi(_hourzHandle),
       durationFromFfi(_minutezHandle),

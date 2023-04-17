@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 public final class FieldConstructorsInternal {
     @NonNull
     public String publicField;
-    double internalField;
+    public double internalField;
     FieldConstructorsInternal() {
         this.publicField = "foo";
         this.internalField = 42;

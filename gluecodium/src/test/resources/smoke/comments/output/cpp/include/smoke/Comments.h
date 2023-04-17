@@ -4,10 +4,10 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "gluecodium/ExportGluecodiumCpp.h"
-#include "gluecodium/Optional.h"
 #include "gluecodium/Return.h"
 #include <cstdint>
 #include <functional>
+#include <optional>
 #include <string>
 #include <system_error>
 namespace smoke {
@@ -52,7 +52,7 @@ public:
         /**
          * Can be `null`
          */
-        ::gluecodium::optional< ::std::string > nullable_field;
+        std::optional< ::std::string > nullable_field = std::optional< ::std::string >();
         /**
          * This is how easy it is to construct.
          */
@@ -61,9 +61,15 @@ public:
          * This is how easy it is to construct.
          * \param some_field How useful this struct is
          * remains to be seen
+         */
+        explicit SomeStruct( ::smoke::Comments::Usefulness some_field );
+        /**
+         * This is how easy it is to construct.
+         * \param some_field How useful this struct is
+         * remains to be seen
          * \param nullable_field Can be `null`
          */
-        SomeStruct( ::smoke::Comments::Usefulness some_field, ::gluecodium::optional< ::std::string > nullable_field );
+        SomeStruct( ::smoke::Comments::Usefulness some_field, std::optional< ::std::string > nullable_field );
         /**
          * This is some struct method that does nothing.
          */

@@ -67,3 +67,9 @@ struct PosDefaultsWithDuration {
     durationField: Duration = 42s
     nanosField: Duration = 28567ns
 }
+
+@Dart(PositionalDefaults)
+@Java(Skip) @Swift(Skip)
+struct PosDefaultsWithoutDefaults {
+    stringField: String
+}

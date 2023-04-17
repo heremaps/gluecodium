@@ -34,7 +34,6 @@ import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeAlias
-import com.here.gluecodium.model.lime.LimeTypesCollection
 
 internal class DartDeclarationImportResolver(
     limeReferenceMap: Map<String, LimeElement>,
@@ -55,21 +54,19 @@ internal class DartDeclarationImportResolver(
     override fun resolveElementImports(limeElement: LimeElement): List<DartImport> {
         if (limeElement !is LimeNamedElement) return emptyList()
 
-        if (limeElement is LimeTypesCollection || limeElement is LimeException || limeElement is LimeTypeAlias ||
-            limeElement is LimeConstant
-        ) return emptyList()
+        if (limeElement is LimeException || limeElement is LimeTypeAlias || limeElement is LimeConstant) return emptyList()
 
         return when {
             limeElement is LimeLambda -> listOf(tokenCacheImport)
-            limeElement is LimeStruct && limeElement.external?.dart == null -> resolveStructImports(limeElement)
+            limeElement is LimeStruct && !DartGeneratorPredicates.skipDeclaration(limeElement) ->
+                resolveStructImports(limeElement)
             limeElement is LimeInterface -> resolveInterfaceImports(limeElement)
             limeElement is LimeClass -> resolveClassImports(limeElement)
             else -> emptyList()
         } + listOfNotNull(
             resolveExternalImport(limeElement, IMPORT_PATH_NAME, useAlias = true),
             resolveExternalImport(limeElement, CONVERTER_IMPORT_NAME, useAlias = false)
-        ) + listOf(ffiSystemImport, libraryContextImport) +
-            if (limeElement.visibility.isInternal) listOf(metaPackageImport) else emptyList()
+        ) + listOf(ffiSystemImport, libraryContextImport)
     }
 
     private fun resolveStructImports(limeStruct: LimeStruct): List<DartImport> {
@@ -79,17 +76,18 @@ internal class DartDeclarationImportResolver(
         ) {
             result += collectionPackageImport
         }
-        if (limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) || limeStruct.functions.isNotEmpty() ||
-            limeStruct.fields.any { it.visibility.isInternal }
-        ) {
+        if (limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) || limeStruct.functions.isNotEmpty()) {
             result += metaPackageImport
+        }
+        if (limeStruct.functions.any { it.attributes.have(LimeAttributeType.ASYNC) }) {
+            result += listOf(asyncImport, tokenCacheImport)
         }
         return result
     }
 
     private fun resolveInterfaceImports(limeInterface: LimeInterface): List<DartImport> {
         val result = classInterfaceImports.toMutableList()
-        if (hasStaticFunctions(limeInterface) || limeInterface.properties.any { it.visibility.isInternal }) {
+        if (hasStaticFunctions(limeInterface)) {
             result += metaPackageImport
         }
         if (!limeInterface.isNarrow) {
@@ -103,18 +101,25 @@ internal class DartDeclarationImportResolver(
 
     private fun resolveClassImports(limeClass: LimeClass): List<DartImport> {
         val result = when {
-            limeClass.parents.isNotEmpty() || limeClass.visibility.isOpen -> classInterfaceImports
+            limeClass.parents.isNotEmpty() || limeClass.isOpen -> classInterfaceImports
             else -> listOf(tokenCacheImport, nativeBaseImport)
         }.toMutableList()
-        if (hasStaticFunctions(limeClass) || limeClass.properties.any { it.visibility.isInternal }) {
+        if (hasStaticFunctions(limeClass)) {
             result += listOf(metaPackageImport)
+        }
+        if (limeClass.attributes.have(LimeAttributeType.NO_CACHE)) {
+            result.remove(tokenCacheImport)
+        }
+        if (limeClass.functions.any { it.attributes.have(LimeAttributeType.ASYNC) }) {
+            result += listOf(asyncImport, tokenCacheImport)
         }
         return result
     }
 
     companion object {
+        private val asyncImport = DartImport("async", importType = ImportType.SYSTEM)
         private val collectionPackageImport = DartImport("collection/collection")
-        private val metaPackageImport = DartImport("meta/meta")
         private val ffiSystemImport = DartImport("ffi", importType = ImportType.SYSTEM)
+        private val metaPackageImport = DartImport("meta/meta")
     }
 }

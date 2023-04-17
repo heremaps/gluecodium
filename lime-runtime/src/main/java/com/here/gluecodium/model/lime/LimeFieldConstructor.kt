@@ -21,18 +21,17 @@ package com.here.gluecodium.model.lime
 
 class LimeFieldConstructor(
     path: LimePath,
-    visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     val structRef: LimeTypeRef,
     val fieldRefs: List<LimeFieldRef> = emptyList()
-) : LimeNamedElement(path, visibility, comment, attributes) {
+) : LimeNamedElement(path, comment, attributes) {
     val struct
         get() = structRef.type as LimeStruct
     val fields
         get() = fieldRefs.map { it.field }
     val omittedFields
-        get() = struct.fields - fields
+        get() = struct.fields - fields.toSet()
 
     fun asFunction() = LimeFunction(
         path = path,

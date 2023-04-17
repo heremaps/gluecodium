@@ -7,7 +7,6 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/parent_class.dart';
 import 'package:library/src/smoke/parent_narrow_one.dart';
 abstract class FirstParentIsClassClass implements ParentClass, ParentNarrowOne {
-
   void childFunction();
   String get childProperty;
   set childProperty(String value);
@@ -31,7 +30,6 @@ final _smokeFirstparentisclassclassGetTypeId = __lib.catchArgumentError(() => __
   >('library_smoke_FirstParentIsClassClass_get_type_id'));
 class FirstParentIsClassClass$Impl extends ParentClass$Impl implements FirstParentIsClassClass {
   FirstParentIsClassClass$Impl(Pointer<Void> handle) : super(handle);
-
   @override
   void childFunction() {
     final _childFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_FirstParentIsClassClass_childFunction'));
@@ -39,14 +37,8 @@ class FirstParentIsClassClass$Impl extends ParentClass$Impl implements FirstPare
     _childFunctionFfi(_handle, __lib.LibraryContext.isolateId);
   }
   @override
-  void parentFunction() {
-    final _parentFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentClass_parentFunction'));
-    final _handle = this.handle;
-    _parentFunctionFfi(_handle, __lib.LibraryContext.isolateId);
-  }
-  @override
   void parentFunctionOne() {
-    final _parentFunctionOneFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentNarrowOne_parentFunctionOne'));
+    final _parentFunctionOneFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_FirstParentIsClassClass_parentFunctionOne'));
     final _handle = this.handle;
     _parentFunctionOneFfi(_handle, __lib.LibraryContext.isolateId);
   }
@@ -70,27 +62,8 @@ class FirstParentIsClassClass$Impl extends ParentClass$Impl implements FirstPare
     stringReleaseFfiHandle(_valueHandle);
   }
   @override
-  String get parentProperty {
-    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ParentClass_parentProperty_get'));
-    final _handle = this.handle;
-    final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
-    try {
-      return stringFromFfi(__resultHandle);
-    } finally {
-      stringReleaseFfiHandle(__resultHandle);
-    }
-  }
-  @override
-  set parentProperty(String value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ParentClass_parentProperty_set__String'));
-    final _valueHandle = stringToFfi(value);
-    final _handle = this.handle;
-    _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
-    stringReleaseFfiHandle(_valueHandle);
-  }
-  @override
   String get parentPropertyOne {
-    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ParentNarrowOne_parentPropertyOne_get'));
+    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_FirstParentIsClassClass_parentPropertyOne_get'));
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -101,7 +74,7 @@ class FirstParentIsClassClass$Impl extends ParentClass$Impl implements FirstPare
   }
   @override
   set parentPropertyOne(String value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ParentNarrowOne_parentPropertyOne_set__String'));
+    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_FirstParentIsClassClass_parentPropertyOne_set'));
     final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
     _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
@@ -111,6 +84,7 @@ class FirstParentIsClassClass$Impl extends ParentClass$Impl implements FirstPare
 Pointer<Void> smokeFirstparentisclassclassToFfi(FirstParentIsClassClass value) =>
   _smokeFirstparentisclassclassCopyHandle((value as __lib.NativeBase).handle);
 FirstParentIsClassClass smokeFirstparentisclassclassFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is FirstParentIsClassClass) return instance;
   final _typeIdHandle = _smokeFirstparentisclassclassGetTypeId(handle);

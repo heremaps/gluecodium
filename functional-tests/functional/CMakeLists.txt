@@ -88,6 +88,7 @@ feature(MethodOverloading cpp android swift dart SOURCES
     input/src/cpp/MethodOverloads.cpp
 
     input/lime/MethodOverloads.lime
+    input/lime/InheritanceOverloads.lime
 )
 
 feature(Blob cpp android swift dart SOURCES
@@ -133,13 +134,13 @@ feature(InstanceInStruct cpp android swift dart SOURCES
 feature(Structs cpp android swift dart SOURCES
     input/src/cpp/PlainDataStructures.cpp
 
-    input/lime/PlainDataStructures.lime
+    input/lime/Structs.lime
 )
 
 feature(StructsInTypes cpp android swift dart SOURCES
-    input/src/cpp/PlainDataStructuresFromTypeCollection.cpp
+    input/src/cpp/StructsFromTypeCollection.cpp
 
-    input/lime/PlainDataStructuresFromTypeCollection.lime
+    input/lime/StructsFromTypeCollection.lime
     input/lime/TypeCollection.lime
 )
 
@@ -168,6 +169,8 @@ feature(Enums cpp android swift dart SOURCES
     input/src/cpp/EnumsTypeCollection.cpp
 
     input/lime/Enums.lime
+    input/lime/EnumeratorAlias.lime
+    input/lime/EnumOptionSet.lime
     input/lime/EnumsTypeCollection.lime
 )
 
@@ -263,6 +266,8 @@ feature(Defaults cpp android swift dart SOURCES
     input/lime/PositionalDefaults.lime
     input/lime/PositionalEnumerators.lime
     input/lime/InternalEnumDefaults.lime
+    input/lime/FireConstants.lime
+    input/lime/ConstantDefaults.lime
 )
 
 feature(Inheritance cpp android swift dart SOURCES
@@ -276,6 +281,7 @@ feature(Inheritance cpp android swift dart SOURCES
     input/src/cpp/CrossPackageInheritance.cpp
 
     input/lime/Inheritance.lime
+    input/lime/InheritanceNameClash.lime
     input/lime/ListenerInheritance.lime
     input/lime/ListenerInheritanceArrays.lime
     input/lime/CrossPackageInheritance.lime
@@ -372,6 +378,7 @@ feature(Dates cpp android swift dart SOURCES
     input/src/cpp/Dates.cpp
 
     input/lime/Dates.lime
+    input/lime/DateDefaults.lime
 )
 
 feature(Durations cpp android swift dart SOURCES
@@ -384,10 +391,15 @@ feature(Durations cpp android swift dart SOURCES
 feature(StructsWithCompanion cpp android swift dart SOURCES
     input/src/cpp/StructsWithMethods.cpp
     input/src/cpp/StructsWithConstants.cpp
-    input/src/cpp/StructsWithMethodsDeclarationOrder.cpp
 
     input/lime/StructsWithMethods.lime
     input/lime/StructsWithConstants.lime
+)
+
+feature(DeclarationOrder cpp android swift dart SOURCES
+    input/src/cpp/StructsWithMethodsDeclarationOrder.cpp
+
+    input/lime/OrderWithInterface.lime
     input/lime/StructsWithMethodsDeclarationOrder.lime
 )
 
@@ -422,6 +434,7 @@ feature(Nesting cpp android swift dart SOURCES
     input/lime/NestedContainers.lime
     input/lime/NestedClassWithProperty.lime
     input/lime/NestingInStruct.lime
+    input/lime/NestedInheritance.lime
 )
 
 feature(Lambdas cpp android swift dart SOURCES
@@ -430,11 +443,15 @@ feature(Lambdas cpp android swift dart SOURCES
     input/src/cpp/Lambdas.cpp
 )
 
-feature(Visibility dart SOURCES
-    input/lime/Visibility.lime
+feature(Visibility android swift dart SOURCES
+    input/lime/VisibilityAttribute.lime
+    input/lime/VisibilityInternal.lime
+    input/lime/VisibilityPlatform.lime
+    input/lime/VisibilityPlatformReverse.lime
     input/lime/InternalFields.lime
 
-    input/src/cpp/Visibility.cpp
+    input/src/cpp/VisibilityAttribute.cpp
+    input/src/cpp/VisibilityInternal.cpp
 )
 
 feature(SkipAttribute cpp android swift dart SOURCES
@@ -452,21 +469,23 @@ feature(SkipAttribute cpp android swift dart SOURCES
     input/src/cpp/EnableIfEnabled.cpp
 )
 
-# This feature is intended for Swift only.
-feature(Extensions swift SOURCES
-    input/lime/Extensions.lime
-)
-
 feature(CppConst cpp android swift dart SOURCES
     input/lime/CppConstMethods.lime
 
     input/src/cpp/CppConstMethods.cpp
 )
 
+feature(CppNoexcept cpp android swift dart SOURCES
+    input/lime/CppNoexceptMethods.lime
+
+    input/src/cpp/CppNoexceptMethods.cpp
+)
+
 feature(Locales cpp android swift dart SOURCES
     input/src/cpp/Locales.cpp
 
     input/lime/Locales.lime
+    input/lime/LocaleDefaults.lime
 )
 
 feature(CrossPackageNameClash cpp android swift dart SOURCES
@@ -479,6 +498,14 @@ feature(NoCache android swift dart SOURCES
     input/src/cpp/NoCache.cpp
 
     input/lime/NoCache.lime
+)
+
+feature(Async cpp dart SOURCES
+    input/src/cpp/AsyncClass.cpp
+    input/src/cpp/AsyncStruct.cpp
+    input/src/cpp/AsyncWithSkips.cpp
+
+    input/lime/Async.lime
 )
 
 # OBJECT suits all test variants except swift for linux,
@@ -539,7 +566,9 @@ if(swift IN_LIST GLUECODIUM_GENERATORS_DEFAULT)
         find_package(XCTest REQUIRED)
     else ()
         target_sources(functional PRIVATE
+            "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/BooleanConverter.swift"
             "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/ColorConverter.swift"
+            "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/PseudoBoolean.swift"
             "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/PseudoColor.swift"
             "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/Season.swift"
             "${CMAKE_CURRENT_SOURCE_DIR}/input/src/swift/SeasonConverter.swift")

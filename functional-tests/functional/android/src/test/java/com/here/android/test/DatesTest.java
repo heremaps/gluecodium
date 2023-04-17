@@ -26,6 +26,7 @@ import com.here.android.RobolectricApplication;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -129,5 +130,65 @@ public class DatesTest {
     assertEquals(dateCalendar.get(Calendar.HOUR) + 1, resultCalendar.get(Calendar.HOUR));
     assertEquals(dateCalendar.get(Calendar.MINUTE) + 1, resultCalendar.get(Calendar.MINUTE));
     assertEquals(dateCalendar.get(Calendar.SECOND) + 1, resultCalendar.get(Calendar.SECOND));
+  }
+
+  @Test
+  public void dateDefaultsCet() {
+    DateDefaults defaults = new DateDefaults();
+    Date date = defaults.dateTime;
+
+    Calendar resultCalendar = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+    resultCalendar.setTime(date);
+    assertEquals(2022, resultCalendar.get(Calendar.YEAR));
+    assertEquals(GregorianCalendar.FEBRUARY, resultCalendar.get(Calendar.MONTH));
+    assertEquals(4, resultCalendar.get(Calendar.DATE));
+    assertEquals(9, resultCalendar.get(Calendar.HOUR));
+    assertEquals(15, resultCalendar.get(Calendar.MINUTE));
+    assertEquals(17, resultCalendar.get(Calendar.SECOND));
+  }
+
+  @Test
+  public void dateDefaultsUtc() {
+    DateDefaults defaults = new DateDefaults();
+    Date date = defaults.dateTimeUtc;
+
+    Calendar resultCalendar = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+    resultCalendar.setTime(date);
+    assertEquals(2022, resultCalendar.get(Calendar.YEAR));
+    assertEquals(GregorianCalendar.FEBRUARY, resultCalendar.get(Calendar.MONTH));
+    assertEquals(4, resultCalendar.get(Calendar.DATE));
+    assertEquals(9, resultCalendar.get(Calendar.HOUR));
+    assertEquals(15, resultCalendar.get(Calendar.MINUTE));
+    assertEquals(17, resultCalendar.get(Calendar.SECOND));
+  }
+
+  @Test
+  public void dateDefaultsBefore() {
+    DateDefaults defaults = new DateDefaults();
+    Date date = defaults.beforeEpoch;
+
+    Calendar resultCalendar = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+    resultCalendar.setTime(date);
+    assertEquals(1922, resultCalendar.get(Calendar.YEAR));
+    assertEquals(GregorianCalendar.FEBRUARY, resultCalendar.get(Calendar.MONTH));
+    assertEquals(4, resultCalendar.get(Calendar.DATE));
+    assertEquals(9, resultCalendar.get(Calendar.HOUR));
+    assertEquals(15, resultCalendar.get(Calendar.MINUTE));
+    assertEquals(17, resultCalendar.get(Calendar.SECOND));
+  }
+
+  @Test
+  public void dateDefaultsCpp() {
+    DateDefaults defaults = DateDefaults.getCppDefaults();
+    Date date = defaults.dateTimeUtc;
+
+    Calendar resultCalendar = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+    resultCalendar.setTime(date);
+    assertEquals(2022, resultCalendar.get(Calendar.YEAR));
+    assertEquals(GregorianCalendar.FEBRUARY, resultCalendar.get(Calendar.MONTH));
+    assertEquals(4, resultCalendar.get(Calendar.DATE));
+    assertEquals(9, resultCalendar.get(Calendar.HOUR));
+    assertEquals(15, resultCalendar.get(Calendar.MINUTE));
+    assertEquals(17, resultCalendar.get(Calendar.SECOND));
   }
 }

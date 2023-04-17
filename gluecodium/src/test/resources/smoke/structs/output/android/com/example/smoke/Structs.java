@@ -120,7 +120,7 @@ public final class Structs extends NativeBase {
     @NonNull
     public static native Structs.AllTypesStruct returnAllTypesStruct(@NonNull final Structs.AllTypesStruct input);
     @NonNull
-    public static native Point createPoint(final double x, final double y);
+    public static native TypeCollection.Point createPoint(final double x, final double y);
     @NonNull
-    public static native AllTypesStruct modifyAllTypesStruct(@NonNull final AllTypesStruct input);
+    public static native TypeCollection.AllTypesStruct modifyAllTypesStruct(@NonNull final TypeCollection.AllTypesStruct input);
 }

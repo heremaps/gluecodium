@@ -8,7 +8,6 @@ import 'package:library/src/smoke/child_class_from_class.dart';
 import 'package:library/src/smoke/parent_class.dart';
 import 'package:library/src/smoke/parent_with_class_references.dart';
 abstract class ChildWithParentClassReferences implements ParentWithClassReferences {
-
 }
 // ChildWithParentClassReferences "private" section, not exported.
 final _smokeChildwithparentclassreferencesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -29,10 +28,9 @@ final _smokeChildwithparentclassreferencesGetTypeId = __lib.catchArgumentError((
   >('library_smoke_ChildWithParentClassReferences_get_type_id'));
 class ChildWithParentClassReferences$Impl extends __lib.NativeBase implements ChildWithParentClassReferences {
   ChildWithParentClassReferences$Impl(Pointer<Void> handle) : super(handle);
-
   @override
   ChildClassFromClass classFunction() {
-    final _classFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ParentWithClassReferences_classFunction'));
+    final _classFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ChildWithParentClassReferences_classFunction'));
     final _handle = this.handle;
     final __resultHandle = _classFunctionFfi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -43,7 +41,7 @@ class ChildWithParentClassReferences$Impl extends __lib.NativeBase implements Ch
   }
   @override
   ParentClass get classProperty {
-    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ParentWithClassReferences_classProperty_get'));
+    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ChildWithParentClassReferences_classProperty_get'));
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
     try {
@@ -54,7 +52,7 @@ class ChildWithParentClassReferences$Impl extends __lib.NativeBase implements Ch
   }
   @override
   set classProperty(ParentClass value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ParentWithClassReferences_classProperty_set__ParentClass'));
+    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ChildWithParentClassReferences_classProperty_set'));
     final _valueHandle = smokeParentclassToFfi(value);
     final _handle = this.handle;
     _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
@@ -64,6 +62,7 @@ class ChildWithParentClassReferences$Impl extends __lib.NativeBase implements Ch
 Pointer<Void> smokeChildwithparentclassreferencesToFfi(ChildWithParentClassReferences value) =>
   _smokeChildwithparentclassreferencesCopyHandle((value as __lib.NativeBase).handle);
 ChildWithParentClassReferences smokeChildwithparentclassreferencesFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is ChildWithParentClassReferences) return instance;
   final _typeIdHandle = _smokeChildwithparentclassreferencesGetTypeId(handle);

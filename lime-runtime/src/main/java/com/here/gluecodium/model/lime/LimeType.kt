@@ -21,11 +21,10 @@ package com.here.gluecodium.model.lime
 
 abstract class LimeType protected constructor(
     path: LimePath,
-    visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     external: LimeExternalDescriptor? = null
-) : LimeNamedElement(path, visibility, comment, attributes, external) {
+) : LimeNamedElement(path, comment, attributes, external) {
     open val childTypes = emptyList<LimeTypeRef>()
 
     open val actualType

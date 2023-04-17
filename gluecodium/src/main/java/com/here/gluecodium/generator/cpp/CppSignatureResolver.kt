@@ -20,15 +20,18 @@
 package com.here.gluecodium.generator.cpp
 
 import com.here.gluecodium.generator.common.PlatformSignatureResolver
-import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeType.CPP
+import com.here.gluecodium.model.lime.LimeAttributeValueType.TYPE
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class CppSignatureResolver(
     limeReferenceMap: Map<String, LimeElement>,
     nameRules: CppNameRules
-) : PlatformSignatureResolver(limeReferenceMap, LimeAttributeType.CPP, nameRules, emptySet()) {
+) : PlatformSignatureResolver(limeReferenceMap, CPP, nameRules, emptySet()) {
 
     override fun getNullableSuffix(limeTypeRef: LimeTypeRef) =
         when {
@@ -36,4 +39,13 @@ internal class CppSignatureResolver(
             limeTypeRef.type.actualType is LimeContainerWithInheritance -> ""
             else -> "?"
         }
+
+    override fun getParameterSignature(limeParameter: LimeParameter) =
+        limeParameter.typeRef.attributes.get(CPP, TYPE) ?: super.getParameterSignature(limeParameter)
+
+    fun getInheritedOverloads(limeFunction: LimeFunction): List<LimeFunction> {
+        val container = getContainer(limeFunction) as? LimeContainerWithInheritance ?: return emptyList()
+        val functionName = getFunctionName(limeFunction)
+        return container.inheritedFunctions.filter { !it.isStatic }.filter { getFunctionName(it) == functionName }
+    }
 }

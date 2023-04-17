@@ -196,7 +196,9 @@ jint
 }}"{{resolveName container "" "ref"}}${{resolveName returnType.typeRef "" "ref"}}"{{!!
 }}).release(){{/if}}{{!!
 }}{{#unless returnType.typeRef.attributes.optimized}}{{!!
-}}{{>common/InternalNamespace}}jni::{{#returnType}}{{>jni/JniConversionPrefix}}{{/returnType}}convert_to_jni(_jenv, _result).release(){{/unless}}{{/unlessPredicate}}{{!!
+}}{{>common/InternalNamespace}}jni::{{#returnType}}{{>jni/JniConversionPrefix}}{{/returnType}}{{!!
+}}convert_to_jni{{#if isConstructor container.external.java.converter}}_internal{{/if}}{{!!
+}}(_jenv, _result).release(){{/unless}}{{/unlessPredicate}}{{!!
 }}{{#ifPredicate returnType.typeRef "isJniPrimitive"}}_result{{/ifPredicate}};{{/unlessPredicate}}{{/unless}}
 }
 {{/jniMethodBody}}{{!!
@@ -225,12 +227,12 @@ jint
 {{#set function=this}}{{#resolveName property "C++" "getter"}}{{#set cppMethodName=this}}{{#function}}{{!!
 }}{{>jniMethodBody}}{{/function}}{{/set}}{{/resolveName}}{{/set}}
 
-{{/getter}}{{#setter}}
+{{/getter}}{{#setter}}{{#ifPredicate "shouldRetain"}}
 void
 {{>jni/FunctionSignaturePrefix}}_{{resolveName property "mangled" "setter"}}{{!!
 }}(JNIEnv* _jenv, jobject _jinstance{{#parameters}}, {{resolveName typeRef}} j{{resolveName}}{{/parameters}})
 {{#set function=this}}{{#resolveName property "C++" "setter"}}{{#set cppMethodName=this}}{{#function}}{{!!
 }}{{>jniMethodBody}}{{/function}}{{/set}}{{/resolveName}}{{/set}}
 
-{{/setter}}{{/set}}{{!!
+{{/ifPredicate}}{{/setter}}{{/set}}{{!!
 }}{{/jniPropertyImpl}}

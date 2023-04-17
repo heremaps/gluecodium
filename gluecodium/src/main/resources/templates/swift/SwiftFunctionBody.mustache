@@ -44,7 +44,9 @@
 }{{!!
 
 }}{{+delegateCall}}{{!!
-}}{{resolveName "CBridge"}}({{#unless isStatic}}{{#if selfIsStruct}}c_self_handle.ref{{#if parameters}}, {{/if}}{{/if}}{{!!
+}}{{#if isInherited}}{{resolveName container "CBridge"}}_{{resolveName this "CBridge" "ref"}}{{/if}}{{!!
+}}{{#unless isInherited}}{{resolveName "CBridge"}}{{/unless}}{{!!
+}}({{#unless isStatic}}{{#if selfIsStruct}}c_self_handle.ref{{#if parameters}}, {{/if}}{{/if}}{{!!
 }}{{#unless selfIsStruct}}self.c_instance{{#if parameters}}, {{/if}}{{/unless}}{{/unless}}{{!!
 }}{{#parameters}}c_{{resolveName}}.ref{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{!!
 }}{{/delegateCall}}{{!!

@@ -19,6 +19,6 @@
   !
   !}}
 {{#unless isConstructor}}{{>swift/SwiftFunctionComment}}{{>swift/SwiftAttributes}}{{/unless}}
-{{#if isConstructor}}private {{/if}}{{#unless isConstructor}}{{resolveName visibility}} {{/unless}}{{!!
+{{#if isConstructor}}private {{/if}}{{#unless isConstructor}}{{resolveName "visibility"}} {{/unless}}{{!!
 }}{{#if isStatic}}static {{/if}}func {{resolveName}}({{>swift/SwiftFunctionParameters}}){{!!
 }}{{#if thrownType}} throws{{/if}} -> {{#unless isConstructor}}{{resolveName returnType}}{{/unless}}{{#if isConstructor}}_baseRef{{/if}}

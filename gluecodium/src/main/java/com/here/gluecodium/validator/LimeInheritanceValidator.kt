@@ -58,7 +58,7 @@ internal class LimeInheritanceValidator(private val logger: LimeLogger) {
                 logger.error(limeClass, CLASS_INHERITANCE_MESSAGE)
                 false
             }
-            parentType is LimeClass && !parentType.visibility.isOpen -> {
+            parentType is LimeClass && !parentType.isOpen -> {
                 logger.error(limeClass, CLASS_INHERITANCE_MESSAGE)
                 false
             }

@@ -40,7 +40,7 @@ struct OuterStruct {
     }
 
     @Java("InstantiationException")
-    exception Instantiation(InnerEnum)
+    exception Instantiation(TypeAlias)
 
     @Swift(Skip) @Dart(Skip)
     class Builder {
@@ -48,4 +48,8 @@ struct OuterStruct {
         fun `field`(value: String): Builder
         fun build(): OuterStruct
     }
+
+    typealias TypeAlias = InnerEnum
+
+    lambda InnerLambda = () -> Void
 }

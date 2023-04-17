@@ -7,13 +7,12 @@ import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/type_collection.dart';
 import 'package:meta/meta.dart';
 abstract class TypeDefs {
-
   static double methodWithPrimitiveTypeDef(double input) => $prototype.methodWithPrimitiveTypeDef(input);
   static List<TypeDefs_TestStruct> methodWithComplexTypeDef(List<TypeDefs_TestStruct> input) => $prototype.methodWithComplexTypeDef(input);
   static double returnNestedIntTypeDef(double input) => $prototype.returnNestedIntTypeDef(input);
   static TypeDefs_TestStruct returnTestStructTypeDef(TypeDefs_TestStruct input) => $prototype.returnTestStructTypeDef(input);
   static TypeDefs_TestStruct returnNestedStructTypeDef(TypeDefs_TestStruct input) => $prototype.returnNestedStructTypeDef(input);
-  static Point returnTypeDefPointFromTypeCollection(Point input) => $prototype.returnTypeDefPointFromTypeCollection(input);
+  static TypeCollection_Point returnTypeDefPointFromTypeCollection(TypeCollection_Point input) => $prototype.returnTypeDefPointFromTypeCollection(input);
   List<double> get primitiveTypeProperty;
   set primitiveTypeProperty(List<double> value);
   /// @nodoc
@@ -163,7 +162,6 @@ final _smokeTypedefsReleaseHandle = __lib.catchArgumentError(() => __lib.nativeL
 @visibleForTesting
 class TypeDefs$Impl extends __lib.NativeBase implements TypeDefs {
   TypeDefs$Impl(Pointer<Void> handle) : super(handle);
-
   double methodWithPrimitiveTypeDef(double input) {
     final _methodWithPrimitiveTypeDefFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Double Function(Int32, Double), double Function(int, double)>('library_smoke_TypeDefs_methodWithPrimitiveTypeDef__Double'));
     final _inputHandle = (input);
@@ -215,7 +213,7 @@ class TypeDefs$Impl extends __lib.NativeBase implements TypeDefs {
       smokeTypedefsTeststructReleaseFfiHandle(__resultHandle);
     }
   }
-  Point returnTypeDefPointFromTypeCollection(Point input) {
+  TypeCollection_Point returnTypeDefPointFromTypeCollection(TypeCollection_Point input) {
     final _returnTypeDefPointFromTypeCollectionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_TypeDefs_returnTypeDefPointFromTypeCollection__Point'));
     final _inputHandle = smokeTypecollectionPointToFfi(input);
     final __resultHandle = _returnTypeDefPointFromTypeCollectionFfi(__lib.LibraryContext.isolateId, _inputHandle);
@@ -249,6 +247,7 @@ class TypeDefs$Impl extends __lib.NativeBase implements TypeDefs {
 Pointer<Void> smokeTypedefsToFfi(TypeDefs value) =>
   _smokeTypedefsCopyHandle((value as __lib.NativeBase).handle);
 TypeDefs smokeTypedefsFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is TypeDefs) return instance;
   final _copiedHandle = _smokeTypedefsCopyHandle(handle);

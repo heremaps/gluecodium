@@ -18,7 +18,8 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless constructors}}{{#unless fieldConstructors}}{{#ifPredicate "needsReducedConstructor"}}
+{{#unless constructors}}{{#unless fieldConstructors}}{{#ifPredicate "needsReducedConstructor"}}{{!!
+}}{{#set struct=this}}{{#filter fields predicate="isPublic"}}{{#set publicFields=this}}{{#struct}}
 
 {{#resolveName constructorComment}}{{#unless this.isEmpty}}
 {{prefix this "    /// "}}
@@ -33,11 +34,12 @@
 {{#publicFields}}
         self.{{resolveName}} = {{resolveName}}
 {{/publicFields}}
-{{#internalFields}}
+{{#filter fields predicate="isInternal"}}{{#this}}
         self.{{resolveName}} = {{resolveName defaultValue}}
-{{/internalFields}}
+{{/this}}{{/filter}}
     }
-{{/ifPredicate}}{{/unless}}{{!!
+{{/struct}}{{/set}}{{/filter}}{{/set}}{{!!
+}}{{/ifPredicate}}{{/unless}}{{!!
 
 }}{{#fieldConstructors}}
 {{#ifPredicate "hasAnyComment"}}{{!!
@@ -56,7 +58,9 @@
     @available(*, deprecated{{#if message}}, message: "{{#resolveName message}}{{escape this}}{{/resolveName}}"{{/if}}){{/attributes.deprecated}}
 {{prefixPartial "swift/SwiftAttributes" "    "}}
     {{>swift/TypeVisibility}} init({{!!
-    }}{{#fields}}{{>ctorParameter}}{{#if iter.hasNext}}, {{/if}}{{/fields}}) {
+    }}{{#set fieldCtor=this}}{{#fieldCtor}}{{#fieldRefs}}{{#if attributes.swift.label}}{{attributes.swift.label}} {{/if}}{{!!
+    }}{{#field}}{{>ctorParameter}}{{#if fieldCtor.attributes.swift.parameterDefaults defaultValue}} = {{resolveName defaultValue}}{{/if}}{{!!
+    }}{{#if iter.hasNext}}, {{/if}}{{/field}}{{/fieldRefs}}{{/fieldCtor}}{{/set}}) {
 {{#fields}}
         self.{{resolveName}} = {{resolveName}}
 {{/fields}}
@@ -70,21 +74,42 @@
 
 {{#resolveName constructorComment}}{{#unless this.isEmpty}}
 {{prefix this "    /// "}}
-{{#if publicFields}}
+{{#if availableFields}}
+    /// - Parameters
+{{#availableFields}}
+    ///   - {{resolveName}}: {{#resolveName comment}}{{#unless this.isEmpty}}{{prefix this "    ///       " skipFirstLine=true}}{{/unless}}{{/resolveName}}
+{{/availableFields}}
+{{/if}}
+{{/unless}}{{/resolveName}}
+    {{#ifPredicate "hasInternalAvailableFields"}}internal{{/ifPredicate}}{{!!
+    }}{{#unlessPredicate "hasInternalAvailableFields"}}{{>swift/TypeVisibility}}{{/unlessPredicate}}{{!!
+    }} init({{joinPartial availableFields "initParameter" ", "}}) {
+{{#availableFields}}
+        self.{{resolveName}} = {{resolveName}}
+{{/availableFields}}
+{{#deprecatedFields}}
+        self.{{resolveName}} = {{resolveName defaultValue}}
+{{/deprecatedFields}}
+    }{{!!
+
+}}{{#if deprecatedFields}}
+
+{{#resolveName constructorComment}}{{#unless this.isEmpty}}
+{{prefix this "    /// "}}
     /// - Parameters
 {{#fields}}
     ///   - {{resolveName}}: {{#resolveName comment}}{{#unless this.isEmpty}}{{prefix this "    ///       " skipFirstLine=true}}{{/unless}}{{/resolveName}}
 {{/fields}}
-{{/if}}
 {{/unless}}{{/resolveName}}
-    {{#if internalFields}}internal{{/if}}{{!!
-    }}{{#unless internalFields}}{{>swift/TypeVisibility}}{{/unless}}{{!!
+    @available(*, deprecated)
+    {{#ifPredicate "hasInternalFields"}}internal{{/ifPredicate}}{{!!
+    }}{{#unlessPredicate "hasInternalFields"}}{{>swift/TypeVisibility}}{{/unlessPredicate}}{{!!
     }} init({{joinPartial fields "initParameter" ", "}}) {
 {{#fields}}
         self.{{resolveName}} = {{resolveName}}
 {{/fields}}
     }
-{{/ifPredicate}}{{!!
+{{/if}}{{/ifPredicate}}{{!!
 
 }}{{/unless}}{{!!
 

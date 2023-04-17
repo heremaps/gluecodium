@@ -20,11 +20,12 @@
   !}}
 {{>cpp/CppFunctionDoc}}{{>cpp/CppAttributes}}
 {{#if isStatic}}static {{/if}}{{#unless isStatic}}{{#if isVirtual}}virtual {{/if}}{{/unless}}{{!!
-}}{{>cpp/CppReturnType}} {{resolveName}}{{!!
-}}( {{#parameters}}{{>cpp/CppAttributesInline}}const {{>resolveTypeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}} ){{!!
-}}{{#unless isStatic}}{{#if isConst attributes.cpp.const logic="or"}} const{{/if}}{{!!
-}}{{#if isVirtual}} = 0{{/if}}{{/unless}}{{!!
+}}{{#if isAsyncHelper}}void{{/if}}{{#unless isAsyncHelper}}{{>cpp/CppReturnType}}{{/unless}} {{resolveName}}( {{!!
+}}{{#if isAsyncHelper}}{{>cpp/CppResultCallback}} _result_callback{{!!
+}}{{#if thrownType}}, {{>cpp/CppErrorCallback}} _error_callback{{/if}}{{!!
+}}{{#if parameters}}, {{/if}}{{/if}}{{!!
+}}{{#parameters}}{{>cpp/CppAttributesInline}}const {{>resolveTypeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}} ){{!!
+}}{{#unless isStatic}}{{#if isConst attributes.cpp.const logic="or"}} const{{/if}}{{#if attributes.cpp.noexcept}} noexcept{{/if}}{{!!
+}}{{#if isVirtual}} = 0{{/if}}{{/unless}}{{#if isStatic attributes.cpp.noexcept}} noexcept{{/if}}{{!!
 
-}}{{+resolveTypeRef}}{{#if useCstring}}{{#if attributes.cpp.cstring}}char*{{/if}}{{!!
-}}{{#unless attributes.cpp.cstring}}{{resolveName typeRef}}{{#ifPredicate typeRef "needsRefSuffix"}}&{{/ifPredicate}}{{/unless}}{{/if}}{{!!
-}}{{#unless useCstring}}{{resolveName typeRef}}{{#ifPredicate typeRef "needsRefSuffix"}}&{{/ifPredicate}}{{/unless}}{{/resolveTypeRef}}
+}}{{+resolveTypeRef}}{{resolveName typeRef}}{{#ifPredicate typeRef "needsRefSuffix"}}&{{/ifPredicate}}{{/resolveTypeRef}}

@@ -1,17 +1,14 @@
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'package:meta/meta.dart';
 class PublicFieldsMixedInit {
   String publicField1;
   String publicField2;
   /// @nodoc
-  @internal
-  String internal_internalField;
-  PublicFieldsMixedInit(this.publicField1, this.publicField2) : internal_internalField = "foo";
-  PublicFieldsMixedInit.allFields(this.publicField1, this.publicField2, this.internal_internalField);
-  PublicFieldsMixedInit.withDefaults(String publicField2)
-    : publicField1 = "bar", publicField2 = publicField2, internal_internalField = "foo";
+  String _internalField;
+  PublicFieldsMixedInit._(this.publicField1, this.publicField2, this._internalField);
+  PublicFieldsMixedInit(String publicField2)
+    : publicField1 = "bar", publicField2 = publicField2, _internalField = "foo";
 }
 // PublicFieldsMixedInit "private" section, not exported.
 final _smokePublicfieldsmixedinitCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -37,7 +34,7 @@ final _smokePublicfieldsmixedinitGetFieldinternalField = __lib.catchArgumentErro
 Pointer<Void> smokePublicfieldsmixedinitToFfi(PublicFieldsMixedInit value) {
   final _publicField1Handle = stringToFfi(value.publicField1);
   final _publicField2Handle = stringToFfi(value.publicField2);
-  final _internalFieldHandle = stringToFfi(value.internal_internalField);
+  final _internalFieldHandle = stringToFfi(value._internalField);
   final _result = _smokePublicfieldsmixedinitCreateHandle(_publicField1Handle, _publicField2Handle, _internalFieldHandle);
   stringReleaseFfiHandle(_publicField1Handle);
   stringReleaseFfiHandle(_publicField2Handle);
@@ -49,7 +46,7 @@ PublicFieldsMixedInit smokePublicfieldsmixedinitFromFfi(Pointer<Void> handle) {
   final _publicField2Handle = _smokePublicfieldsmixedinitGetFieldpublicField2(handle);
   final _internalFieldHandle = _smokePublicfieldsmixedinitGetFieldinternalField(handle);
   try {
-    return PublicFieldsMixedInit.allFields(
+    return PublicFieldsMixedInit._(
       stringFromFfi(_publicField1Handle),
       stringFromFfi(_publicField2Handle),
       stringFromFfi(_internalFieldHandle)

@@ -40,13 +40,13 @@ import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeExternalDescriptor
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeHelper
-import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.validator.LimeOverloadsValidator
 import java.io.File
 import java.nio.file.Paths
@@ -126,7 +126,7 @@ internal class CppGenerator : Generator {
 
         val generatedFiles = filteredModel.topElements.flatMap {
             val fileName = nameRules.getOutputFilePath(it)
-            generateCode(it, fileName, includeResolver, nameResolver, fullNameResolver, allErrorEnums)
+            generateCode(it, fileName, includeResolver, nameResolver, fullNameResolver, signatureResolver, allErrorEnums)
         } + COMMON_HEADERS.map { generateHelperFile(it, "include", ".h") } +
             COMMON_IMPLS.map { generateHelperFile(it, "src", ".cpp") } +
             generateExportHelperFile(exportCommonName, "Common", GeneratedFile.SourceSet.COMMON) +
@@ -145,21 +145,16 @@ internal class CppGenerator : Generator {
         includeResolver: CppIncludeResolver,
         nameResolver: CppNameResolver,
         fullNameResolver: CppFullNameResolver,
+        signatureResolver: CppSignatureResolver,
         allErrorEnums: Set<String>
     ): List<GeneratedFile> {
 
         val allTypes = LimeTypeHelper.getAllTypes(rootElement)
         val errorEnums = allTypes.filter { allErrorEnums.contains(it.fullName) }.toSet()
 
-        val limeElements = when (rootElement) {
-            is LimeTypesCollection ->
-                rootElement.structs + rootElement.enumerations +
-                    rootElement.constants + rootElement.typeAliases
-            else -> listOf(rootElement)
-        }
+        val limeElements = listOf(rootElement) // TODO
         val hasConstants = limeElements.any { it is LimeConstant }
-        val needsHeader = hasConstants ||
-            limeElements.any { it !is LimeException && it.external?.cpp == null }
+        val needsHeader = hasConstants || limeElements.any { it !is LimeException && it.external?.cpp == null }
         val needsImplementation = hasConstants || errorEnums.isNotEmpty() ||
             limeElements.any { it is LimeContainer } || limeElements.any { it is LimeEnumeration }
         if (!needsHeader && !needsImplementation) {
@@ -184,17 +179,27 @@ internal class CppGenerator : Generator {
         if (needsHeader) {
             val headerIncludesCollector = CppHeaderIncludesCollector(includeResolver, allErrorEnums)
             val headerIncludes = headerIncludesCollector.collectImports(rootElement) + exportInclude
+            templateData["functionUsings"] = collectFunctionUsings(rootElement, signatureResolver)
             result += generateHeader(rootElement, nameResolvers, fileName, templateData, headerIncludes)
         }
         if (needsImplementation) {
             val implIncludesCollector = CppImplIncludesCollector(includeResolver, allErrorEnums)
             val implementationIncludes = implIncludesCollector.collectImports(rootElement) +
-                if (needsHeader) listOf(Include.createInternalInclude("$fileName.h")) else emptyList()
+                createSelfInclude(rootElement, needsHeader, fileName)
             result += generateImplementation(rootElement, nameResolvers, implementationIncludes, templateData, fileName)
         }
 
         return result
     }
+
+    private fun collectFunctionUsings(rootElement: LimeNamedElement, signatureResolver: CppSignatureResolver) =
+        LimeTypeHelper.getAllTypes(rootElement)
+            .filterIsInstance<LimeContainerWithInheritance>()
+            .filter { it.parents.isNotEmpty() }
+            .associateBy({ it.fullName }, { getFunctionUsing(it, signatureResolver) })
+
+    private fun getFunctionUsing(limeContainer: LimeContainerWithInheritance, signatureResolver: CppSignatureResolver) =
+        limeContainer.functions.mapNotNull { signatureResolver.getInheritedOverloads(it).firstOrNull() }
 
     private fun generateImplementation(
         rootElement: LimeNamedElement,
@@ -262,7 +267,6 @@ internal class CppGenerator : Generator {
 
     private fun selectTemplate(limeElement: LimeNamedElement) =
         when (limeElement) {
-            is LimeTypesCollection -> "cpp/CppTypes"
             is LimeContainerWithInheritance -> "cpp/CppClass"
             is LimeStruct -> "cpp/CppStruct"
             is LimeEnumeration -> "cpp/CppEnumeration"
@@ -272,6 +276,16 @@ internal class CppGenerator : Generator {
             else -> throw GluecodiumExecutionException("Unsupported top-level element: " + limeElement::class.java.name)
         }
 
+    private fun createSelfInclude(
+        rootElement: LimeNamedElement,
+        needsHeader: Boolean,
+        fileName: String
+    ): List<Include> {
+        if (needsHeader) return listOf(Include.createInternalInclude("$fileName.h"))
+        val externalInclude = rootElement.external?.cpp?.get(LimeExternalDescriptor.INCLUDE_NAME) ?: return emptyList()
+        return externalInclude.split(',').map { Include.createInternalInclude(it.trim()) }
+    }
+
     companion object {
         private const val GENERATOR_NAME = "cpp"
 
@@ -280,8 +294,6 @@ internal class CppGenerator : Generator {
             "DurationHash",
             "Hash",
             "Locale",
-            "Optional",
-            "OptionalImpl", // This is a header file, despite the "Impl" suffix.
             "Return",
             "TimePointHash",
             "TypeRepository",

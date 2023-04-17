@@ -20,12 +20,13 @@
 package com.here.gluecodium.model.lime
 
 import com.here.gluecodium.common.StringHelper
+import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 
 /**
  * Represents a constant value on the right-hand side of an assignment (used in constants, field
  * default values, and enumerator values).
  */
-sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement() {
+sealed class LimeValue(open val typeRef: LimeTypeRef) : LimeElement() {
     /**
      * Represents a literal value, i.e. a value that should be interpreted "literally", without any
      * additional processing or resolution.
@@ -33,27 +34,23 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement() {
     class Literal(type: LimeTypeRef, val value: String) : LimeValue(type) {
         override fun toString(): String {
             val limeType = typeRef.type.actualType
-            return when {
-                limeType is LimeBasicType && limeType.typeId == LimeBasicType.TypeId.STRING ->
-                    StringHelper.escapeStringLiteral(value)
+            if (limeType !is LimeBasicType) return value
+            return when (limeType.typeId) {
+                TypeId.STRING, TypeId.DATE, TypeId.LOCALE -> StringHelper.escapeStringLiteral(value)
                 else -> value
             }
         }
     }
 
     /**
-     * Represents a value that is a reference to a specific enumerator element (i.e. an single item
-     * from an enumeration).
+     * Represents a value that is a reference to a specific element, that is either an enumerator (i.e. a single item
+     * from an enumeration) or a named constant.
      */
-    class Enumerator(type: LimeTypeRef, val valueRef: LimeEnumeratorRef) : LimeValue(type) {
-        override fun toString() = valueRef.enumerator.path.let { "${it.parent.name}.${it.name}" }
+    class Constant(type: LimeTypeRef, val valueRef: LimeConstantRef) : LimeValue(type) {
+        override val typeRef
+            get() = valueRef.typeRef
 
-        override val escapedValue: String
-            get() {
-                val enumeratorPath = valueRef.enumerator.path
-                return LimeTypeHelper.escapeIdentifier(enumeratorPath.parent.name) + "." +
-                    LimeTypeHelper.escapeIdentifier(enumeratorPath.name)
-            }
+        override fun toString() = valueRef.element.path.let { "${it.parent.name}.${it.name}" }
     }
 
     /**
@@ -84,8 +81,7 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement() {
         override fun toString() = values.joinToString(separator = ", ", prefix = "{", postfix = "}")
     }
 
-    class KeyValuePair(val key: LimeValue, val value: LimeValue) :
-        LimeValue(LimeBasicTypeRef(LimeBasicType.TypeId.VOID)) {
+    class KeyValuePair(val key: LimeValue, val value: LimeValue) : LimeValue(LimeBasicTypeRef(TypeId.VOID)) {
         override fun toString() = "$key: $value"
     }
 
@@ -108,9 +104,6 @@ sealed class LimeValue(val typeRef: LimeTypeRef) : LimeElement() {
 
         override fun toString() = value + timeUnit
     }
-
-    open val escapedValue
-        get() = toString()
 
     companion object {
         val ZERO = Literal(LimeBasicTypeRef.INT, "0")

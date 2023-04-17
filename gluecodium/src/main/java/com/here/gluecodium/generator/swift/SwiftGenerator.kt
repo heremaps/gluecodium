@@ -52,7 +52,6 @@ import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeHelper
-import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.validator.LimeOverloadsValidator
 import java.util.logging.Logger
 
@@ -76,7 +75,8 @@ internal class SwiftGenerator : Generator {
             collectTypeRefImports = true,
             collectOwnImports = true,
             parentTypeFilter = { true },
-            collectTypeAliasImports = true
+            collectTypeAliasImports = true,
+            collectValueImports = true
         )
 
     override val shortName = "swift"
@@ -103,10 +103,12 @@ internal class SwiftGenerator : Generator {
         val swiftSignatureResolver = SwiftSignatureResolver(cbridgeFilteredModel.referenceMap, nameRules, activeTags)
         val overloadsValidator =
             LimeOverloadsValidator(swiftSignatureResolver, limeLogger, validateCustomConstructors = true)
-        val weakPropertiesValidator = SwiftWeakPropertiesValidator(limeLogger)
+        val weakPropertiesValidator = SwiftWeakAttributeValidator(limeLogger)
+        val fieldsValidator = SwiftFieldsValidator(limeLogger)
         val validationResults = listOf(
             overloadsValidator.validate(cbridgeFilteredModel.referenceMap.values),
-            weakPropertiesValidator.validate(cbridgeFilteredModel.referenceMap.values)
+            weakPropertiesValidator.validate(cbridgeFilteredModel.referenceMap.values),
+            fieldsValidator.validate(cbridgeFilteredModel.referenceMap.values)
         )
         if (validationResults.contains(false)) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
@@ -128,10 +130,13 @@ internal class SwiftGenerator : Generator {
 
         val swiftNameResolver =
             SwiftNameResolver(limeModel.referenceMap, nameRules, limeLogger, commentsProcessor, swiftSignatureResolver)
-        val mangledNameResolver = SwiftMangledNameResolver(swiftNameResolver)
-        val nameResolvers =
-            mapOf("" to swiftNameResolver, "CBridge" to cbridgeNameResolver, "mangled" to mangledNameResolver)
-        val predicates = SwiftGeneratorPredicates(limeModel.referenceMap, nameRules, swiftSignatureResolver)
+        val nameResolvers = mapOf(
+            "" to swiftNameResolver,
+            "CBridge" to cbridgeNameResolver,
+            "mangled" to SwiftMangledNameResolver(swiftNameResolver),
+            "visibility" to SwiftVisibilityResolver(swiftFilteredModel.referenceMap)
+        )
+        val predicates = SwiftGeneratorPredicates(nameRules, swiftSignatureResolver, swiftFilteredModel.referenceMap)
         val descendantInterfaces = LimeTypeHelper.collectDescendantInterfaces(swiftFilteredModel.topElements)
         val swiftFiles = swiftFilteredModel.topElements.map {
             generateSwiftFile(it, nameResolvers, predicates, descendantInterfaces)
@@ -255,13 +260,13 @@ internal class SwiftGenerator : Generator {
 
     private fun selectDefinitionTemplate(limeElement: LimeNamedElement) =
         when (limeElement) {
-            is LimeException, is LimeTypeAlias -> "swift/SwiftTypeAlias"
+            is LimeTypeAlias -> "swift/SwiftTypeAlias"
+            is LimeException -> "swift/SwiftException"
             is LimeLambda -> "swift/SwiftLambdaDefinition"
             is LimeEnumeration -> "swift/SwiftEnumDefinition"
             is LimeStruct -> "swift/SwiftStructDefinition"
             is LimeClass -> "swift/SwiftClassDefinition"
             is LimeInterface -> "swift/SwiftInterfaceDefinition"
-            is LimeTypesCollection -> "swift/SwiftTypesDefinition"
             else -> null
         }
 
@@ -273,7 +278,6 @@ internal class SwiftGenerator : Generator {
             is LimeStruct -> "swift/SwiftStructConversion"
             is LimeClass -> "swift/SwiftClassConversion"
             is LimeInterface -> "swift/SwiftClassConversion"
-            is LimeTypesCollection -> null
             else -> null
         }
 

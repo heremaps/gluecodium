@@ -38,7 +38,8 @@ internal open class GenericImportsCollector<T>(
     private val collectOwnImports: Boolean = false,
     private val parentTypeFilter: (LimeContainerWithInheritance) -> Boolean = { false },
     private val collectTypeAliasImports: Boolean = false,
-    private val collectFunctionErrorType: Boolean = true
+    private val collectFunctionErrorType: Boolean = true,
+    private val collectValueImports: Boolean = false
 ) : ImportsCollector<T> {
 
     override fun collectImports(limeElement: LimeNamedElement): List<T> {
@@ -59,8 +60,12 @@ internal open class GenericImportsCollector<T>(
             else emptyList()
         val constantImports = allTypes.filterIsInstance<LimeContainer>().flatMap { it.constants }
             .flatMap { importsResolver.resolveElementImports(it) }
+        val valueImports =
+            if (collectValueImports)
+                LimeTypeHelper.getAllValues(limeElement).flatMap { importsResolver.resolveElementImports(it) }
+            else emptyList()
 
-        return typeRefImports + ownImports + parentImports + typeAliasImports + constantImports
+        return typeRefImports + ownImports + parentImports + typeAliasImports + constantImports + valueImports
     }
 
     private fun shouldRetain(limeElement: LimeNamedElement) =

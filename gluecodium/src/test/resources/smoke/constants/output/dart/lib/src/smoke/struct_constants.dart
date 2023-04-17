@@ -164,6 +164,7 @@ class StructConstants$Impl extends __lib.NativeBase implements StructConstants {
 Pointer<Void> smokeStructconstantsToFfi(StructConstants value) =>
   _smokeStructconstantsCopyHandle((value as __lib.NativeBase).handle);
 StructConstants smokeStructconstantsFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is StructConstants) return instance;
   final _copiedHandle = _smokeStructconstantsCopyHandle(handle);

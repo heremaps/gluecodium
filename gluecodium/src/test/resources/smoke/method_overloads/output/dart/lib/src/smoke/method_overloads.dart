@@ -239,6 +239,7 @@ class MethodOverloads$Impl extends __lib.NativeBase implements MethodOverloads {
 Pointer<Void> smokeMethodoverloadsToFfi(MethodOverloads value) =>
   _smokeMethodoverloadsCopyHandle((value as __lib.NativeBase).handle);
 MethodOverloads smokeMethodoverloadsFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is MethodOverloads) return instance;
   final _copiedHandle = _smokeMethodoverloadsCopyHandle(handle);

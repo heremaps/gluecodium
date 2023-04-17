@@ -83,7 +83,11 @@ public enum SomeEnum : UInt32, CaseIterable, Codable {
 public struct SomeStruct {
     @available(*, deprecated, message: "Unfortunately, this field is deprecated.")
     public var someField: DeprecationCommentsOnly.Usefulness
-    public init(someField: DeprecationCommentsOnly.Usefulness) {
+    public init() {
+        self.someField = false
+    }
+    @available(*, deprecated)
+    public init(someField: DeprecationCommentsOnly.Usefulness = false) {
         self.someField = someField
     }
     internal init(cHandle: _baseRef) {

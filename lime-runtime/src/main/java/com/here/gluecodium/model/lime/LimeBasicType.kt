@@ -23,8 +23,7 @@ class LimeBasicType(val typeId: TypeId) : LimeType(path = LimePath.EMPTY_PATH) {
     enum class TypeId(
         private val tag: String,
         val isIntegerType: Boolean = false,
-        val isNumericType: Boolean = isIntegerType,
-        val isLiteralType: Boolean = isNumericType
+        val isNumericType: Boolean = isIntegerType
     ) {
         VOID("Void"),
         INT8("Byte", true),
@@ -37,8 +36,8 @@ class LimeBasicType(val typeId: TypeId) : LimeType(path = LimePath.EMPTY_PATH) {
         UINT64("ULong", true),
         FLOAT("Float", false, true),
         DOUBLE("Double", false, true),
-        BOOLEAN("Boolean", false, false, true),
-        STRING("String", false, false, true),
+        BOOLEAN("Boolean"),
+        STRING("String"),
         BLOB("Blob"),
         DATE("Date"),
         DURATION("Duration"),
@@ -53,6 +52,6 @@ class LimeBasicType(val typeId: TypeId) : LimeType(path = LimePath.EMPTY_PATH) {
     override val fullName: String
         get() = name
 
-    override val escapedName
-        get() = name
+    override val childTypes: List<LimeTypeRef>
+        get() = if (typeId == TypeId.BLOB) listOf(LimeBasicTypeRef(TypeId.UINT8)) else emptyList()
 }

@@ -23,10 +23,12 @@ import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.lime.LimeValue.Duration.TimeUnit
 
@@ -34,55 +36,80 @@ internal class JavaValueResolver(private val nameResolver: JavaNameResolver) {
 
     fun resolveValue(limeValue: LimeValue): String =
         when (limeValue) {
-            is LimeValue.Literal -> {
-                val limeType = limeValue.typeRef.type.actualType
-                val suffix = when {
-                    limeType !is LimeBasicType -> ""
-                    limeType.typeId == TypeId.FLOAT -> "f"
-                    limeType.typeId == TypeId.UINT32 || limeType.typeId == TypeId.UINT64 ||
-                        limeType.typeId == TypeId.INT64 -> "L"
-                    else -> ""
-                }
-                limeValue.toString() + suffix
-            }
-            is LimeValue.Enumerator -> {
-                val limeEnumerator = limeValue.valueRef.enumerator
-                val limeEnumeration = limeValue.typeRef.type.actualType
-                listOf(
-                    nameResolver.resolveReferenceName(limeEnumeration),
-                    nameResolver.resolveName(limeEnumerator)
-                ).joinToString(".")
-            }
+            is LimeValue.Literal -> mapLiteralValue(limeValue)
+            is LimeValue.Constant -> resolveConstantValue(limeValue)
             is LimeValue.Special -> mapSpecialValue(limeValue)
             is LimeValue.Null -> "null"
             is LimeValue.InitializerList -> mapInitializerList(limeValue)
             is LimeValue.StructInitializer -> mapStructInitializer(limeValue)
-            is LimeValue.KeyValuePair -> {
-                val keyValue = resolveValue(limeValue.key)
-                val valueValue = resolveValue(limeValue.value)
-                "new AbstractMap.SimpleEntry<>($keyValue, $valueValue)"
-            }
+            is LimeValue.KeyValuePair -> "put(${resolveValue(limeValue.key)}, ${resolveValue(limeValue.value)})"
             is LimeValue.Duration -> mapDurationValue(limeValue)
         }
 
+    private fun mapLiteralValue(limeValue: LimeValue.Literal): String {
+        val limeType = limeValue.typeRef.type.actualType
+        if (limeType !is LimeBasicType) return limeType.toString()
+        return when (limeType.typeId) {
+            TypeId.FLOAT -> "${limeValue}f"
+            TypeId.UINT32, TypeId.UINT64, TypeId.INT64 -> "${limeValue}L"
+            TypeId.DATE -> {
+                val epochSeconds = LimeTypeHelper.dateLiteralEpochSeconds(limeValue.value)?.let { it * 1000 }
+                "new Date(${epochSeconds}L)"
+            }
+            TypeId.LOCALE -> {
+                val localeTag = LimeTypeHelper.normalizeLocaleTag(limeValue.value)
+                "Locale.forLanguageTag(\"$localeTag\")"
+            }
+            else -> limeValue.toString()
+        }
+    }
+
+    private fun resolveConstantValue(limeValue: LimeValue.Constant) =
+        when (val limeElement = limeValue.valueRef.element) {
+            is LimeEnumerator -> {
+                val typeName = nameResolver.resolveReferenceName(limeValue.typeRef.type.actualType)
+                val elementName = nameResolver.resolveName(limeElement)
+                "$typeName.$elementName"
+            }
+            else -> nameResolver.resolveFullName(limeValue.valueRef.element, forceDelimiter = ".")
+        }
+
     private fun mapInitializerList(limeValue: LimeValue.InitializerList): String {
-        val values = limeValue.values.joinToString(", ") { resolveValue(it) }
-        return when (val limeType = limeValue.typeRef.type.actualType) {
+        val limeType = limeValue.typeRef.type.actualType
+        if (limeType is LimeBasicType && limeType.typeId == TypeId.BLOB) {
+            val values = limeValue.values.joinToString(", ") { "(byte) " + resolveValue(it) }
+            return "new byte[] { $values }"
+        }
+
+        return when (limeType) {
             is LimeList -> {
+                val values = limeValue.values.joinToString(", ") { resolveValue(it) }
                 val valuesAsList = if (values.isEmpty()) "" else "Arrays.asList($values)"
                 "new ArrayList<>($valuesAsList)"
             }
             is LimeSet -> {
-                val implName = if (limeType.elementType.type.actualType is LimeEnumeration) "EnumSet" else "HashSet"
-                val valuesAsList = if (values.isEmpty()) "" else "Arrays.asList($values)"
-                "new $implName<>($valuesAsList)"
-            }
-            is LimeMap -> {
-                val valuesAsList = when {
-                    values.isEmpty() -> ""
-                    else -> "Stream.of($values).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))"
+                val values = limeValue.values.joinToString(", ") { resolveValue(it) }
+                if (limeType.elementType.type.actualType is LimeEnumeration) {
+                    when {
+                        values.isEmpty() -> {
+                            val typeName = nameResolver.resolveTypeRef(limeType.elementType, needsBoxing = true)
+                            "EnumSet.noneOf($typeName.class)"
+                        }
+                        else -> "EnumSet.of($values)"
+                    }
+                } else {
+                    val valuesAsList = if (values.isEmpty()) "" else "Arrays.asList($values)"
+                    "new HashSet<>($valuesAsList)"
                 }
-                "new HashMap<>($valuesAsList)"
+            }
+            is LimeMap -> when {
+                limeValue.values.isEmpty() -> "new HashMap<>()"
+                else -> {
+                    val keyType = nameResolver.resolveTypeRef(limeType.keyType, needsBoxing = true)
+                    val valueType = nameResolver.resolveTypeRef(limeType.valueType, needsBoxing = true)
+                    val values = limeValue.values.joinToString(".") { resolveValue(it) }
+                    "new HashMapBuilder<$keyType, $valueType>().$values.build()"
+                }
             }
             else -> throw GluecodiumExecutionException("Unsupported type ${limeType.javaClass.name} for initializer list")
         }

@@ -492,6 +492,7 @@ Pointer<Void> smokeListenerwithpropertiesToFfi(ListenerWithProperties value) {
   return result;
 }
 ListenerWithProperties smokeListenerwithpropertiesFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is ListenerWithProperties) return instance;
   final _typeIdHandle = _smokeListenerwithpropertiesGetTypeId(handle);

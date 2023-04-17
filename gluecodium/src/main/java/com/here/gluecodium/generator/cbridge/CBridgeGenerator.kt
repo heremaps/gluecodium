@@ -26,12 +26,14 @@ import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.GenericImportsCollector
+import com.here.gluecodium.generator.common.GenericIncludesCollector
 import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.OptimizedListsCollector
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.CppFullNameResolver
 import com.here.gluecodium.generator.cpp.CppIncludeResolver
+import com.here.gluecodium.generator.cpp.CppLibraryIncludes
 import com.here.gluecodium.generator.cpp.CppNameCache
 import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
@@ -70,11 +72,9 @@ internal class CBridgeGenerator(
     private val fileNames = CBridgeFileNames(rootNamespace)
     private val generatorPredicates = CBridgeGeneratorPredicates(cppNameResolver, limeReferenceMap, activeTags)
     private val headerIncludeCollector =
-        GenericImportsCollector(
+        GenericIncludesCollector(
             CBridgeHeaderIncludeResolver(limeReferenceMap),
             retainPredicate = { generatorPredicates.shouldRetain(it) },
-            collectTypeRefImports = true,
-            collectOwnImports = true
         )
     private val implIncludeCollector =
         GenericImportsCollector(
@@ -156,7 +156,7 @@ internal class CBridgeGenerator(
 
         val implIncludes = genericTypes.flatMap { implIncludeCollector.collectImports(it) } +
             CBridgeImplIncludeResolver.BASE_HANDLE_IMPL_INCLUDE +
-            cppIncludeResolver.optionalInclude
+            CppLibraryIncludes.OPTIONAL
         templateData["includes"] =
             listOf(Include.createInternalInclude(CBRIDGE_COLLECTIONS_HEADER)) + implIncludes.distinct().sorted()
         val implFileContent =

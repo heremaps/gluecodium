@@ -41,7 +41,7 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
         functions: List<LimeFunction> = getAllOverloads(limeFunction)
     ): Boolean {
         val signature = getSignature(limeFunction)
-        return functions.map { getSignature(it) }.filter { it == signature }.count() > 1
+        return functions.map { getSignature(it) }.count { it == signature } > 1
     }
 
     fun hasConstructorSignatureClash(limeFunction: LimeFunction): Boolean {
@@ -59,11 +59,10 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
         return getOwnFunctions(parentElement).filter { getFunctionName(it) == functionName }
     }
 
-    protected fun getOwnAndParentFunctions(limeContainer: LimeContainer): List<LimeFunction> {
+    protected fun getParentFunctions(limeContainer: LimeContainer): List<LimeFunction> {
         val parentTypes = (limeContainer as? LimeContainerWithInheritance)?.parents ?: emptyList()
-        val parentFunctions =
-            parentTypes.mapNotNull { it.type.actualType as? LimeContainer }.flatMap { getOwnAndParentFunctions(it) }
-        return parentFunctions + getOwnFunctions(limeContainer)
+        return parentTypes.mapNotNull { it.type.actualType as? LimeContainer }
+            .flatMap { getOwnFunctions(it) + getParentFunctions(it) }
     }
 
     protected open fun getOwnFunctions(limeContainer: LimeContainer) =

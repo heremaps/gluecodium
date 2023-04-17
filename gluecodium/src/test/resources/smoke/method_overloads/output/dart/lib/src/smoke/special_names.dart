@@ -75,6 +75,7 @@ class SpecialNames$Impl extends __lib.NativeBase implements SpecialNames {
 Pointer<Void> smokeSpecialnamesToFfi(SpecialNames value) =>
   _smokeSpecialnamesCopyHandle((value as __lib.NativeBase).handle);
 SpecialNames smokeSpecialnamesFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is SpecialNames) return instance;
   final _copiedHandle = _smokeSpecialnamesCopyHandle(handle);

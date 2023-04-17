@@ -27,3 +27,7 @@
 {{#model}}
 {{include contentTemplate}}
 {{/model}}
+
+{{#asyncHelpers.lambdas}}{{#set isAsyncLambda=true self=this}}{{#self}}
+{{>dart/DartLambda}}
+{{/self}}{{/set}}{{/asyncHelpers.lambdas}}

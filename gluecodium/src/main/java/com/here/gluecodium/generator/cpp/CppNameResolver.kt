@@ -50,13 +50,14 @@ import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.lime.LimeValue.Duration.TimeUnit
 import com.here.gluecodium.model.lime.LimeValue.Special.ValueId
 
 /**
- * Main name resolver for the C++ generator. Resolves names for types, type references and comments.
+ * Main name resolver for the C++ generator. It resolves names for types, type references and comments.
  * Type names are resolved as own names (unqualified names, without namespaces or outer types).
  */
 internal class CppNameResolver(
@@ -70,7 +71,6 @@ internal class CppNameResolver(
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
 
     private val hashTypeName = (listOf("") + internalNamespace + "hash").joinToString("::")
-    private val optionalTypeName = (listOf("") + internalNamespace + "optional").joinToString("::")
     private val localeTypeName = (listOf("") + internalNamespace + "Locale").joinToString("::")
 
     private val signatureResolver = CppSignatureResolver(limeReferenceMap, nameCache.nameRules)
@@ -120,7 +120,7 @@ internal class CppNameResolver(
         val typeName = resolveTypeName(limeTypeRef.type, isFullName = true, limeTypeRef.attributes)
         return when {
             limeTypeRef.isNullable && limeTypeRef.type.actualType !is LimeContainerWithInheritance ->
-                "$optionalTypeName< $typeName >"
+                "std::optional< $typeName >"
             else -> typeName
         }
     }
@@ -155,7 +155,7 @@ internal class CppNameResolver(
             TypeId.BOOLEAN -> "bool"
             TypeId.FLOAT -> "float"
             TypeId.DOUBLE -> "double"
-            TypeId.STRING -> "::std::string"
+            TypeId.STRING -> attributes?.get(CPP, TYPE) ?: "::std::string"
             TypeId.BLOB -> "::std::shared_ptr< ::std::vector< uint8_t > >"
             TypeId.DATE -> attributes?.get(CPP, TYPE) ?: "::std::chrono::system_clock::time_point"
             TypeId.DURATION -> attributes?.get(CPP, TYPE) ?: "::std::chrono::seconds"
@@ -164,13 +164,8 @@ internal class CppNameResolver(
 
     private fun resolveValue(limeValue: LimeValue): String =
         when (limeValue) {
-            is LimeValue.Literal -> {
-                val valueType = limeValue.typeRef.type
-                val isFloat = valueType is LimeBasicType && valueType.typeId == TypeId.FLOAT
-                limeValue.toString() + if (isFloat) "f" else ""
-            }
-            is LimeValue.Enumerator ->
-                nameCache.getFullyQualifiedName(limeValue.valueRef.enumerator)
+            is LimeValue.Literal -> resolveLiteralValue(limeValue)
+            is LimeValue.Constant -> nameCache.getFullyQualifiedName(limeValue.valueRef.element)
             is LimeValue.Special -> {
                 val valueType = limeValue.typeRef.type
                 val isFloat = valueType is LimeBasicType && valueType.typeId == TypeId.FLOAT
@@ -180,12 +175,39 @@ internal class CppNameResolver(
                 "${signPrefix}std::numeric_limits<$typeString>::$valueString()"
             }
             is LimeValue.Null -> "${resolveName(limeValue.typeRef)}()"
-            is LimeValue.InitializerList -> limeValue.values.joinToString(", ", "{", "}") { resolveValue(it) }
+            is LimeValue.InitializerList -> resolveListValue(limeValue)
             is LimeValue.StructInitializer ->
                 limeValue.values.joinToString(", ", "${resolveName(limeValue.typeRef)}{", "}") { resolveValue(it) }
             is LimeValue.KeyValuePair -> "{${resolveValue(limeValue.key)}, ${resolveValue(limeValue.value)}}"
             is LimeValue.Duration -> resolveDurationValue(limeValue)
         }
+
+    private fun resolveLiteralValue(limeValue: LimeValue.Literal): String {
+        val valueType = limeValue.typeRef.type.actualType
+        if (valueType !is LimeBasicType) return limeValue.toString()
+        return when (valueType.typeId) {
+            TypeId.FLOAT -> "${limeValue}f"
+            TypeId.DATE -> {
+                val epochSeconds = LimeTypeHelper.dateLiteralEpochSeconds(limeValue.value)
+                "::std::chrono::system_clock::from_time_t($epochSeconds)"
+            }
+            TypeId.LOCALE -> {
+                val localeTag = LimeTypeHelper.normalizeLocaleTag(limeValue.value)
+                "$localeTypeName(std::string{\"$localeTag\"})"
+            }
+            else -> limeValue.toString()
+        }
+    }
+
+    private fun resolveListValue(limeValue: LimeValue.InitializerList): String {
+        val limeType = limeValue.typeRef.type.actualType
+        val values = limeValue.values.joinToString(", ", "{", "}") { resolveValue(it) }
+        return when {
+            limeType is LimeBasicType && limeType.typeId == TypeId.BLOB ->
+                "::std::make_shared<::std::vector<uint8_t>>(::std::vector<uint8_t>($values))"
+            else -> values
+        }
+    }
 
     private fun resolveDurationValue(limeValue: LimeValue.Duration): String {
         val typeName = resolveBasicType(TypeId.DURATION, limeValue.typeRef.attributes)
@@ -257,22 +279,19 @@ internal class CppNameResolver(
         val result = limeReferenceMap.values
             .filterIsInstance<LimeNamedElement>()
             .filterNot { it is LimeProperty || it is LimeException || it is LimeBasicType || it is LimeParameter }
-            .associateBy({ it.fullName }, { getFullyQualifiedReference(it) })
+            .associateBy({ it.path.toAmbiguousString() }, { getFullyQualifiedReference(it) })
             .toMutableMap()
 
         result += limeReferenceMap.values.filterIsInstance<LimeException>()
-            .associateBy({ it.fullName }, { resolveName(it.errorType) })
+            .associateBy({ it.path.toAmbiguousString() }, { resolveName(it.errorType) })
         result += limeReferenceMap.values.filterIsInstance<LimeParameter>()
             .associateBy({ it.fullName }, { resolveName(it) })
 
         val functions = limeReferenceMap.values.filterIsInstance<LimeFunction>()
-        result += functions.associateBy(
-            { it.path.withSuffix("").toString() },
-            { getFullyQualifiedReference(it) }
-        )
+        result += functions.associateBy({ it.path.toAmbiguousString() }, { getFullyQualifiedReference(it) })
         result += functions.associateBy(
             { function ->
-                function.path.withSuffix("").toString() + function.parameters
+                function.path.toAmbiguousString() + function.parameters
                     .joinToString(prefix = "(", postfix = ")", separator = ",") { it.typeRef.toString() }
             },
             { getFullyQualifiedReference(it) }
@@ -280,15 +299,15 @@ internal class CppNameResolver(
 
         val properties = limeReferenceMap.values.filterIsInstance<LimeProperty>()
         result += properties.associateBy(
-            { it.fullName },
+            { it.path.toAmbiguousString() },
             { nameCache.getFullyQualifiedGetterName(it) }
         )
         result += properties.associateBy(
-            { it.fullName + ".get" },
+            { it.path.toAmbiguousString() + ".get" },
             { nameCache.getFullyQualifiedGetterName(it) }
         )
         result += properties.filter { it.setter != null }.associateBy(
-            { it.fullName + ".set" },
+            { it.path.toAmbiguousString() + ".set" },
             { nameCache.getFullyQualifiedSetterName(it) }
         )
 
@@ -302,7 +321,7 @@ internal class CppNameResolver(
             if (limeTypeRef.isNullable) return true
             return when (val actualType = limeTypeRef.type.actualType) {
                 is LimeBasicType -> when (actualType.typeId) {
-                    TypeId.STRING -> true
+                    TypeId.STRING -> !limeTypeRef.attributes.have(CPP, TYPE)
                     TypeId.BLOB -> true
                     TypeId.DATE -> true
                     TypeId.LOCALE -> true

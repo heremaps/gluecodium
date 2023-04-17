@@ -17,6 +17,7 @@
 
 package smoke
 
+@Swift(Weak)
 interface ListenerInterface {
     fun notify()
 }

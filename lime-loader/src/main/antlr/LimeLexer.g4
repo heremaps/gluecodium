@@ -68,19 +68,16 @@ External: 'external' ;
 Get: 'get' ;
 Import: 'import' ;
 Interface: 'interface' ;
-Internal: 'internal' ;
 Lambda: 'lambda' ;
 Narrow: 'narrow' ;
 Open: 'open' ;
 Package: 'package' ;
 Property: 'property' ;
-Public: 'public' ;
 Set: 'set' ;
 Static: 'static' ;
 Struct: 'struct' ;
 Throws: 'throws' ;
 TypeAlias: 'typealias' ;
-Types: 'types' ;
 
 // Predefined types
 

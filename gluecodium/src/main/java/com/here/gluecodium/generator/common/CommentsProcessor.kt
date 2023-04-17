@@ -27,19 +27,23 @@ import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.ast.IRender
 import com.vladsch.flexmark.util.ast.NodeVisitor
 import com.vladsch.flexmark.util.ast.VisitHandler
+import com.vladsch.flexmark.util.data.DataHolder
 import com.vladsch.flexmark.util.data.DataSet
-import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
+import com.vladsch.flexmark.util.sequence.CharSubSequence
 
 /**
  * Parse Markdown comments and process links.
  */
-@Suppress("DEPRECATION")
-abstract class CommentsProcessor(private val renderer: IRender, private val werror: Boolean) {
+abstract class CommentsProcessor(
+    private val renderer: IRender,
+    private val werror: Boolean,
+    parserOptions: DataHolder = DataSet()
+) {
     val hasError
         get() = werror && hasErrorFlag
     private var hasErrorFlag = false
 
-    private val parser = Parser.builder(DataSet()).build()
+    private val parser = Parser.builder(parserOptions).build()
     private val logFunction: LimeLogger.(String, String) -> Unit =
         if (werror) { elementName: String, message: String ->
             this.error(elementName, message)
@@ -74,7 +78,7 @@ abstract class CommentsProcessor(private val renderer: IRender, private val werr
         }
         val codeBlockHandler = VisitHandler(Code::class.java) {
             if (it.text.toString() == standardNullReference) {
-                it.text = BasedSequenceImpl.of(nullReference)
+                it.text = CharSubSequence.of(nullReference)
             }
         }
         val autoLinkHandler = VisitHandler(AutoLink::class.java) { processAutoLink(it) }

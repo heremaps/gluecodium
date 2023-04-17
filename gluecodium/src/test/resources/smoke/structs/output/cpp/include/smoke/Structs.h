@@ -3,9 +3,9 @@
 //
 // -------------------------------------------------------------------------------------------------
 #pragma once
-#include "gluecodium/ExportGluecodiumCpp.h"
-#include "gluecodium/VectorHash.h"
-#include "smoke/TypeCollection.h"
+#include "gluecodium\ExportGluecodiumCpp.h"
+#include "gluecodium\VectorHash.h"
+#include "smoke\TypeCollection.h"
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -82,7 +82,7 @@ public:
 public:
     static ::smoke::Structs::Point swap_point_coordinates( const ::smoke::Structs::Point& input );
     static ::smoke::Structs::AllTypesStruct return_all_types_struct( const ::smoke::Structs::AllTypesStruct& input );
-    static ::smoke::Point create_point( const double x, const double y );
-    static ::smoke::AllTypesStruct modify_all_types_struct( const ::smoke::AllTypesStruct& input );
+    static ::smoke::TypeCollection::Point create_point( const double x, const double y );
+    static ::smoke::TypeCollection::AllTypesStruct modify_all_types_struct( const ::smoke::TypeCollection::AllTypesStruct& input );
 };
 }

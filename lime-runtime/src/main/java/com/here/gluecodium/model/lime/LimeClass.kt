@@ -21,7 +21,6 @@ package com.here.gluecodium.model.lime
 
 class LimeClass(
     path: LimePath,
-    visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     external: LimeExternalDescriptor? = null,
@@ -35,10 +34,10 @@ class LimeClass(
     classes: List<LimeClass> = emptyList(),
     interfaces: List<LimeInterface> = emptyList(),
     lambdas: List<LimeLambda> = emptyList(),
-    parents: List<LimeTypeRef> = emptyList()
+    parents: List<LimeTypeRef> = emptyList(),
+    isOpen: Boolean = false
 ) : LimeContainerWithInheritance(
     path = path,
-    visibility = visibility,
     comment = comment,
     attributes = attributes,
     external = external,
@@ -52,7 +51,8 @@ class LimeClass(
     classes = classes,
     interfaces = interfaces,
     lambdas = lambdas,
-    parents = parents
+    parents = parents,
+    isOpen = isOpen
 ) {
     val parentClass
         get() = parents.map { it.type.actualType }.firstOrNull { it is LimeClass }

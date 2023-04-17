@@ -21,24 +21,22 @@ package com.here.gluecodium.model.lime
 
 /**
  * A delayed-resolution reference to an enumerator, represented by the enumerator's positional [index] in the
- * list of its siblings (i.e. enumerators in the parent enumeration [parentTypeRef]). The index is resolved into an
+ * list of its siblings (i.e. enumerators in the parent enumeration [typeRef]). The index is resolved into an
  * actual enumerator on the first call. The resolution logic is "lazy": if it succeeds on the first call then the result
  * is stored and the stored result is used on subsequent calls instead.
  */
 class LimePositionalEnumeratorRef(
-    private val parentTypeRef: LimeTypeRef,
+    override val typeRef: LimeTypeRef,
     private val index: Int
-) : LimeEnumeratorRef() {
+) : LimeConstantRef() {
 
-    override val enumerator by lazy {
-        val limeType = parentTypeRef.type.actualType as? LimeEnumeration
+    override val element by lazy {
+        val limeType = typeRef.type.actualType as? LimeEnumeration
         val stringIndex = index.toString()
         limeType?.enumerators?.find { it.value.toString() == stringIndex }
-            ?: throw LimeModelLoaderException("Enumerator ${parentTypeRef.elementFullName}($index) was not found")
+            ?: throw LimeModelLoaderException("Enumerator ${typeRef.elementFullName}($index) was not found")
     }
 
-    override val elementFullName by lazy { enumerator.path.toString() }
-
     override fun remap(referenceMap: Map<String, LimeElement>) =
-        LimePositionalEnumeratorRef(parentTypeRef.remap(referenceMap), index)
+        LimePositionalEnumeratorRef(typeRef.remap(referenceMap), index)
 }

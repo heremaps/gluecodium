@@ -371,6 +371,7 @@ Pointer<Void> smokeListenerswithreturnvaluesToFfi(ListenersWithReturnValues valu
   return result;
 }
 ListenersWithReturnValues smokeListenerswithreturnvaluesFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is ListenersWithReturnValues) return instance;
   final _typeIdHandle = _smokeListenerswithreturnvaluesGetTypeId(handle);

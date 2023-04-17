@@ -17,7 +17,7 @@
 
 package test
 
-types Equatable {
+struct Equatable {
     @Equatable
     struct EquatableStruct {
         boolField: Boolean
@@ -44,6 +44,11 @@ types Equatable {
         enumField: SomeSomeEnum? = null
         mapField: SomeMap? = null
         arrayField: List<String>? = null
+
+        @Dart("withDefaults")
+        field constructor()
+        @Dart(Default)
+        field constructor(boolField, intField, uintField, floatField, stringField, structField, enumField, mapField, arrayField)
     }
 
     @Equatable
@@ -133,6 +138,8 @@ class PointerEquatableClass {
     struct OptionalEquatableStruct {
         equatable: EquatableClass?
         pointerEquatable: PointerEquatableClass?
+
+        field constructor(equatable, pointerEquatable)
     }
     static fun createNew(): PointerEquatableClass
     // Returns the last created instance again
@@ -166,10 +173,14 @@ struct EquatableStructWithAccessors {
 @Equatable
 struct EquatableStructWithInternalFields {
     publicField: String
-    internal internalField: String
-    internal internalListField: List<String>
-    internal internalMapField: Map<String, String>
-    internal internalSetField: Set<String>
+    @Internal
+    internalField: String
+    @Internal
+    internalListField: List<String>
+    @Internal
+    internalMapField: Map<String, String>
+    @Internal
+    internalSetField: Set<String>
 }
 
 @Equatable

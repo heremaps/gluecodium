@@ -29,6 +29,10 @@ class Defaults {
     }
     struct StructWithExternalDefaults {
         enumField: ExternalEnum = ExternalEnum.Another_Value
+        @Dart("withDefaults")
+        field constructor()
+        @Dart(Default)
+        field constructor(enumField)
     }
     @Immutable
     struct ImmutableStructWithDefaults {
@@ -71,11 +75,11 @@ class Defaults {
         FooValue,
         BarValue
     }
-    @Cpp(
-        ExternalType = "include/ExternalTypes.h",
-        ExternalName = "::external::even_more_external::VeryAlienEnum"
-    )
     enum ExternalEnum {
+        external {
+            cpp include "include/ExternalTypes.h"
+            cpp name "::external::even_more_external::VeryAlienEnum"
+        }
         One_Value,
         Another_Value
     }
@@ -113,4 +117,13 @@ class Defaults {
     static fun createSpecial(): StructWithSpecialDefaults
     static fun getEmptyDefaults(): StructWithEmptyDefaults
     static fun getInitializerDefaults(): StructWithInitializerDefaults
+}
+
+struct BlobDefaults {
+    emptyList: Blob = []
+    deadBeef: Blob = [222, 173, 190, 239]
+
+    field constructor()
+
+    static fun getCppDefaults(): BlobDefaults
 }

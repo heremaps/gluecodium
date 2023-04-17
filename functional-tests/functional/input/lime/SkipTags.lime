@@ -24,7 +24,7 @@ class SkipTagsOnly {
     static property skipQuoted: String
 }
 
-types SkipTypesTags {
+struct SkipTypesTags {
   @Skip(Lite)
   enum SkipMe {
       NOPE

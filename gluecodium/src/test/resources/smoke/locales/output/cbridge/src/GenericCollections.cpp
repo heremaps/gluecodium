@@ -1,13 +1,13 @@
 //
 //
-#include "cbridge/include/GenericCollections.h"
-#include "cbridge/include/StringHandle.h"
-#include "cbridge_internal/include/BaseHandleImpl.h"
-#include "gluecodium/Locale.h"
-#include "gluecodium/Optional.h"
-#include "gluecodium/UnorderedMapHash.h"
-#include "gluecodium/UnorderedSetHash.h"
-#include "gluecodium/VectorHash.h"
+#include "cbridge\include\GenericCollections.h"
+#include "cbridge\include\StringHandle.h"
+#include "cbridge_internal\include\BaseHandleImpl.h"
+#include "gluecodium\Locale.h"
+#include "gluecodium\UnorderedMapHash.h"
+#include "gluecodium\UnorderedSetHash.h"
+#include "gluecodium\VectorHash.h"
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -33,13 +33,13 @@ void foobar_ArrayOf__Locale_append( _baseRef handle, _baseRef item )
     Conversion<::std::vector< ::gluecodium::Locale >>::toCpp(handle).push_back(Conversion<::gluecodium::Locale>::toCpp(item));
 }
 _baseRef foobar_ArrayOf__Locale_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::vector< ::gluecodium::Locale >>( ::std::vector< ::gluecodium::Locale >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::vector< ::gluecodium::Locale >>( ::std::vector< ::gluecodium::Locale >( ) ) );
 }
 void foobar_ArrayOf__Locale_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::vector< ::gluecodium::Locale >>*>( handle );
+    delete reinterpret_cast<std::optional<::std::vector< ::gluecodium::Locale >>*>( handle );
 }
 _baseRef foobar_ArrayOf__Locale_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::vector< ::gluecodium::Locale >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::vector< ::gluecodium::Locale >>*>( handle ) );
 }
 _baseRef foobar_MapOf__Locale_To__String_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< ::gluecodium::Locale, ::std::string, ::gluecodium::hash< ::gluecodium::Locale > >() );
@@ -71,13 +71,13 @@ _baseRef foobar_MapOf__Locale_To__String_iterator_value(_baseRef iterator_handle
     return Conversion<::std::string>::toBaseRef(value);
 }
 _baseRef foobar_MapOf__Locale_To__String_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< ::gluecodium::Locale, ::std::string, ::gluecodium::hash< ::gluecodium::Locale > >>( ::std::unordered_map< ::gluecodium::Locale, ::std::string, ::gluecodium::hash< ::gluecodium::Locale > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< ::gluecodium::Locale, ::std::string, ::gluecodium::hash< ::gluecodium::Locale > >>( ::std::unordered_map< ::gluecodium::Locale, ::std::string, ::gluecodium::hash< ::gluecodium::Locale > >( ) ) );
 }
 void foobar_MapOf__Locale_To__String_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::gluecodium::Locale, ::std::string, ::gluecodium::hash< ::gluecodium::Locale > >>*>( handle );
+    delete reinterpret_cast<std::optional<::std::unordered_map< ::gluecodium::Locale, ::std::string, ::gluecodium::hash< ::gluecodium::Locale > >>*>( handle );
 }
 _baseRef foobar_MapOf__Locale_To__String_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::gluecodium::Locale, ::std::string, ::gluecodium::hash< ::gluecodium::Locale > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< ::gluecodium::Locale, ::std::string, ::gluecodium::hash< ::gluecodium::Locale > >>*>( handle ) );
 }
 _baseRef foobar_MapOf__String_To__Locale_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_map< ::std::string, ::gluecodium::Locale >() );
@@ -109,13 +109,13 @@ _baseRef foobar_MapOf__String_To__Locale_iterator_value(_baseRef iterator_handle
     return Conversion<::gluecodium::Locale>::toBaseRef(value);
 }
 _baseRef foobar_MapOf__String_To__Locale_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_map< ::std::string, ::gluecodium::Locale >>( ::std::unordered_map< ::std::string, ::gluecodium::Locale >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_map< ::std::string, ::gluecodium::Locale >>( ::std::unordered_map< ::std::string, ::gluecodium::Locale >( ) ) );
 }
 void foobar_MapOf__String_To__Locale_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::string, ::gluecodium::Locale >>*>( handle );
+    delete reinterpret_cast<std::optional<::std::unordered_map< ::std::string, ::gluecodium::Locale >>*>( handle );
 }
 _baseRef foobar_MapOf__String_To__Locale_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_map< ::std::string, ::gluecodium::Locale >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_map< ::std::string, ::gluecodium::Locale >>*>( handle ) );
 }
 _baseRef foobar_SetOf__Locale_create_handle() {
     return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::std::unordered_set< ::gluecodium::Locale, ::gluecodium::hash< ::gluecodium::Locale > >() );
@@ -143,11 +143,11 @@ _baseRef foobar_SetOf__Locale_iterator_get(_baseRef iterator_handle) {
     return Conversion<::gluecodium::Locale>::referenceBaseRef(value);
 }
 _baseRef foobar_SetOf__Locale_create_optional_handle() {
-    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) ::gluecodium::optional<::std::unordered_set< ::gluecodium::Locale, ::gluecodium::hash< ::gluecodium::Locale > >>( ::std::unordered_set< ::gluecodium::Locale, ::gluecodium::hash< ::gluecodium::Locale > >( ) ) );
+    return reinterpret_cast<_baseRef>( new ( ::std::nothrow ) std::optional<::std::unordered_set< ::gluecodium::Locale, ::gluecodium::hash< ::gluecodium::Locale > >>( ::std::unordered_set< ::gluecodium::Locale, ::gluecodium::hash< ::gluecodium::Locale > >( ) ) );
 }
 void foobar_SetOf__Locale_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::gluecodium::optional<::std::unordered_set< ::gluecodium::Locale, ::gluecodium::hash< ::gluecodium::Locale > >>*>( handle );
+    delete reinterpret_cast<std::optional<::std::unordered_set< ::gluecodium::Locale, ::gluecodium::hash< ::gluecodium::Locale > >>*>( handle );
 }
 _baseRef foobar_SetOf__Locale_unwrap_optional_handle(_baseRef handle) {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::std::unordered_set< ::gluecodium::Locale, ::gluecodium::hash< ::gluecodium::Locale > >>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::std::unordered_set< ::gluecodium::Locale, ::gluecodium::hash< ::gluecodium::Locale > >>*>( handle ) );
 }

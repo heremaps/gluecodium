@@ -26,7 +26,7 @@ import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.model.lime.LimeAttributeType.OPTIMIZED
 import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
-import com.here.gluecodium.model.lime.LimeAttributeValueType.EXTENSION
+import com.here.gluecodium.model.lime.LimeAttributeValueType.OPTION_SET
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeClass
@@ -34,6 +34,7 @@ import com.here.gluecodium.model.lime.LimeComment
 import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
@@ -49,10 +50,10 @@ import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.lime.LimeValue.Duration.TimeUnit
-import com.here.gluecodium.model.lime.LimeVisibility
 
 internal class SwiftNameResolver(
     limeReferenceMap: Map<String, LimeElement>,
@@ -68,7 +69,6 @@ internal class SwiftNameResolver(
         when (element) {
             is TypeId -> resolveBasicType(element)
             is LimeComment -> resolveComment(element)
-            is LimeVisibility -> resolveVisibility(element)
             is LimeBasicType -> resolveBasicType(element.typeId)
             is LimeValue -> resolveValue(element)
             is LimeGenericType -> resolveGenericType(element)
@@ -84,9 +84,6 @@ internal class SwiftNameResolver(
             is LimeType -> resolveFullName(element)
             else -> null
         }
-
-    private fun resolveVisibility(limeVisibility: LimeVisibility) =
-        if (limeVisibility.isInternal) "internal" else "public"
 
     private fun resolveBasicType(typeId: TypeId) =
         when (typeId) {
@@ -111,11 +108,11 @@ internal class SwiftNameResolver(
 
     private fun resolveValue(limeValue: LimeValue): String =
         when (limeValue) {
-            is LimeValue.Literal -> limeValue.toString()
-            is LimeValue.Enumerator -> {
-                val enumerator = limeValue.valueRef.enumerator
-                val enumeration = getParentElement(enumerator)
-                "${resolveReferenceName(enumeration)}.${resolveName(enumerator)}"
+            is LimeValue.Literal -> resolveLiteralValue(limeValue)
+            is LimeValue.Constant -> {
+                val limeElement = limeValue.valueRef.element
+                val parentElement = getParentElement(limeElement)
+                "${resolveReferenceName(parentElement)}.${resolveName(limeElement)}"
             }
             is LimeValue.Special -> {
                 val signPrefix = if (limeValue.value == LimeValue.Special.ValueId.NEGATIVE_INFINITY) "-" else ""
@@ -125,17 +122,7 @@ internal class SwiftNameResolver(
                 "$signPrefix$typePrefix.$valueName"
             }
             is LimeValue.Null -> "nil"
-            is LimeValue.InitializerList -> {
-                val actualType = limeValue.typeRef.type.actualType
-                when {
-                    actualType is LimeMap && limeValue.values.isEmpty() -> "[:]"
-                    else -> limeValue.values.joinToString(
-                        prefix = "[",
-                        postfix = "]",
-                        separator = ", "
-                    ) { resolveValue(it) }
-                }
-            }
+            is LimeValue.InitializerList -> resolveListValue(limeValue)
             is LimeValue.StructInitializer -> {
                 val actualType = limeValue.typeRef.type.actualType
                 if (actualType !is LimeStruct) {
@@ -148,6 +135,33 @@ internal class SwiftNameResolver(
             is LimeValue.KeyValuePair -> "${resolveValue(limeValue.key)}: ${resolveValue(limeValue.value)}"
             is LimeValue.Duration -> resolveDurationValue(limeValue)
         }
+
+    private fun resolveLiteralValue(limeValue: LimeValue.Literal): String {
+        val limeType = limeValue.typeRef.type.actualType
+        if (limeType !is LimeBasicType) return limeType.toString()
+        return when (limeType.typeId) {
+            TypeId.DATE -> {
+                val epochSeconds = LimeTypeHelper.dateLiteralEpochSeconds(limeValue.value)
+                "Date(timeIntervalSince1970: $epochSeconds)"
+            }
+            TypeId.LOCALE -> {
+                val localeTag = LimeTypeHelper.normalizeLocaleTag(limeValue.value)
+                "Locale(identifier: \"$localeTag\")"
+            }
+            else -> limeValue.toString()
+        }
+    }
+
+    private fun resolveListValue(limeValue: LimeValue.InitializerList): String {
+        val limeType = limeValue.typeRef.type.actualType
+        if (limeType is LimeMap && limeValue.values.isEmpty()) return "[:]"
+
+        val values = limeValue.values.joinToString(prefix = "[", postfix = "]", separator = ", ") { resolveValue(it) }
+        return when {
+            limeType is LimeBasicType && limeType.typeId == TypeId.BLOB -> "Data($values)"
+            else -> values
+        }
+    }
 
     private fun resolveDurationValue(limeValue: LimeValue.Duration): String {
         val multiplier = when (limeValue.timeUnit) {
@@ -167,7 +181,14 @@ internal class SwiftNameResolver(
         when (limeType) {
             is LimeList -> "[${resolveName(limeType.elementType)}]"
             is LimeMap -> "[${resolveName(limeType.keyType)}: ${resolveName(limeType.valueType)}]"
-            is LimeSet -> "Set<${resolveName(limeType.elementType)}>"
+            is LimeSet -> {
+                val actualType = limeType.elementType.type.actualType
+                val elementTypeName = resolveName(limeType.elementType)
+                when {
+                    actualType is LimeEnumeration && actualType.attributes.have(SWIFT, OPTION_SET) -> elementTypeName
+                    else -> "Set<$elementTypeName>"
+                }
+            }
             else -> throw GluecodiumExecutionException("Unsupported element type ${limeType.javaClass.name}")
         }
 
@@ -194,13 +215,12 @@ internal class SwiftNameResolver(
         val parentElement = limeReferenceMap.takeIf { limeElement.path.hasParent }
             ?.get(limeElement.path.parent.toString()) as? LimeNamedElement
 
-        val name = resolveName(limeElement)
+        val name = if (limeElement is LimeFunction && limeElement.isConstructor) "init" else resolveName(limeElement)
         return when {
             parentElement == null -> listOf(name)
             limeElement is LimeInterface -> listOf(name)
             limeElement is LimeConstant -> getNestedNames(parentElement) + name
             parentElement !is LimeContainer -> getNestedNames(parentElement) + name
-            parentElement.attributes.have(SWIFT, EXTENSION) -> getNestedNames(parentElement) + name
             parentElement is LimeClass || parentElement is LimeStruct -> getNestedNames(parentElement) + name
             parentElement is LimeInterface && (limeElement is LimeTypeAlias || limeElement is LimeLambda) ->
                 getNestedNames(parentElement) + name
@@ -215,11 +235,11 @@ internal class SwiftNameResolver(
         val result = limeReferenceMap.values
             .filterIsInstance<LimeNamedElement>()
             .filterNot { it is LimeParameter }
-            .associateBy({ it.fullName }, { resolveFullName(it) })
+            .associateBy({ it.path.toAmbiguousString() }, { resolveFullName(it) })
             .toMutableMap()
 
         limeReferenceMap.values.filterIsInstance<LimeFunction>().forEach { function ->
-            val ambiguousKey = function.path.withSuffix("").toString()
+            val ambiguousKey = function.path.toAmbiguousString()
             val functionCommentRef = resolveCommentRef(function, signatureResolver)
             result[ambiguousKey] = functionCommentRef
 
@@ -231,8 +251,9 @@ internal class SwiftNameResolver(
         }
 
         val properties = limeReferenceMap.values.filterIsInstance<LimeProperty>()
-        result += properties.associateBy({ it.fullName + ".get" }, { resolveFullName(it) })
-        result += properties.filter { it.setter != null }.associateBy({ it.fullName + ".set" }, { resolveFullName(it) })
+        result += properties.associateBy({ it.path.toAmbiguousString() + ".get" }, { resolveFullName(it) })
+        result += properties.filter { it.setter != null }
+            .associateBy({ it.path.toAmbiguousString() + ".set" }, { resolveFullName(it) })
 
         return result
     }

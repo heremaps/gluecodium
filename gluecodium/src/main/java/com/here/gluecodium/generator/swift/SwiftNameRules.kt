@@ -22,7 +22,6 @@ package com.here.gluecodium.generator.swift
 import com.here.gluecodium.generator.common.NameRuleSet
 import com.here.gluecodium.generator.common.NameRules
 import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
-import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeNamedElement
@@ -37,16 +36,8 @@ class SwiftNameRules(nameRuleSet: NameRuleSet) : NameRules(nameRuleSet) {
         getPlatformName(limeProperty) ?: super.getPropertyName(limeProperty)
 
     fun getImplementationFileName(limeElement: LimeNamedElement): String {
-        val isSwiftExtension = limeElement.attributes.have(SWIFT, LimeAttributeValueType.EXTENSION)
-        val suffix = if (isSwiftExtension) "__extension" else ""
-        return (
-            TARGET_DIRECTORY +
-                limeElement.path.head.joinToString(File.separator) +
-                File.separator +
-                getName(limeElement) +
-                suffix +
-                ".swift"
-            )
+        return TARGET_DIRECTORY + limeElement.path.head.joinToString(File.separator) + File.separator +
+            getName(limeElement) + ".swift"
     }
 
     private fun getPlatformName(limeElement: LimeNamedElement?) =

@@ -62,9 +62,9 @@ library_smoke_TypeDefs_returnNestedStructTypeDef__TestStruct(int32_t _isolate_id
 FfiOpaqueHandle
 library_smoke_TypeDefs_returnTypeDefPointFromTypeCollection__Point(int32_t _isolate_id, FfiOpaqueHandle input) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-    return gluecodium::ffi::Conversion<smoke::Point>::toFfi(
+    return gluecodium::ffi::Conversion<smoke::TypeCollection::Point>::toFfi(
         smoke::TypeDefs::return_type_def_point_from_type_collection(
-            gluecodium::ffi::Conversion<smoke::Point>::toCpp(input)
+            gluecodium::ffi::Conversion<smoke::TypeCollection::Point>::toCpp(input)
         )
     );
 }
@@ -78,9 +78,9 @@ library_smoke_TypeDefs_primitiveTypeProperty_get(FfiOpaqueHandle _self, int32_t 
 void
 library_smoke_TypeDefs_primitiveTypeProperty_set__ListOf_Double(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::TypeDefs>>::toCpp(_self)).set_primitive_type_property(
-            gluecodium::ffi::Conversion<std::vector<double>>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::TypeDefs>>::toCpp(_self)).set_primitive_type_property(
+        gluecodium::ffi::Conversion<std::vector<double>>::toCpp(value)
+    );
 }
 // "Private" finalizer, not exposed to be callable from Dart.
 void
@@ -126,7 +126,7 @@ FfiOpaqueHandle
 library_smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<smoke::TypeDefs::StructHavingAliasFieldDefinedBelow>(
+        new (std::nothrow) std::optional<smoke::TypeDefs::StructHavingAliasFieldDefinedBelow>(
             gluecodium::ffi::Conversion<smoke::TypeDefs::StructHavingAliasFieldDefinedBelow>::toCpp(value)
         )
     );
@@ -134,13 +134,13 @@ library_smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_create_handle_nullable
 void
 library_smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<smoke::TypeDefs::StructHavingAliasFieldDefinedBelow>*>(handle);
+    delete reinterpret_cast<std::optional<smoke::TypeDefs::StructHavingAliasFieldDefinedBelow>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_TypeDefs_StructHavingAliasFieldDefinedBelow_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::TypeDefs::StructHavingAliasFieldDefinedBelow>::toFfi(
-        **reinterpret_cast<gluecodium::optional<smoke::TypeDefs::StructHavingAliasFieldDefinedBelow>*>(handle)
+        **reinterpret_cast<std::optional<smoke::TypeDefs::StructHavingAliasFieldDefinedBelow>*>(handle)
     );
 }
 FfiOpaqueHandle
@@ -163,7 +163,7 @@ FfiOpaqueHandle
 library_smoke_TypeDefs_TestStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<smoke::TypeDefs::TestStruct>(
+        new (std::nothrow) std::optional<smoke::TypeDefs::TestStruct>(
             gluecodium::ffi::Conversion<smoke::TypeDefs::TestStruct>::toCpp(value)
         )
     );
@@ -171,13 +171,13 @@ library_smoke_TypeDefs_TestStruct_create_handle_nullable(FfiOpaqueHandle value)
 void
 library_smoke_TypeDefs_TestStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<smoke::TypeDefs::TestStruct>*>(handle);
+    delete reinterpret_cast<std::optional<smoke::TypeDefs::TestStruct>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_TypeDefs_TestStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::TypeDefs::TestStruct>::toFfi(
-        **reinterpret_cast<gluecodium::optional<smoke::TypeDefs::TestStruct>*>(handle)
+        **reinterpret_cast<std::optional<smoke::TypeDefs::TestStruct>*>(handle)
     );
 }
 #ifdef __cplusplus

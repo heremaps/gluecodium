@@ -22,11 +22,12 @@
 namespace test
 {
 void
-MainStructWithFunctions::with_parameter(const ParameterStruct& input) const { }
+DeclarationOrderWithFunctions::MainStructWithFunctions::with_parameter(
+    const DeclarationOrderWithFunctions::ParameterStruct& input) const { }
 
-ReturnStruct
-MainStructWithFunctions::with_return() const { return {}; }
+DeclarationOrderWithFunctions::ReturnStruct
+DeclarationOrderWithFunctions::MainStructWithFunctions::with_return() const { return {}; }
 
-lorem_ipsum::test::Return<void, ThrownStruct>
-MainStructWithFunctions::with_thrown() const { return {}; }
+lorem_ipsum::test::Return<void, DeclarationOrderWithFunctions::ThrownStruct>
+DeclarationOrderWithFunctions::MainStructWithFunctions::with_thrown() const { return {}; }
 }  // namespace test

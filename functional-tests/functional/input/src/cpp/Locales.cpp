@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/Locales.h"
+#include "test/LocaleDefaults.h"
 #include "test/LocaleGenerics.h"
 #include "test/LocalesStruct.h"
 
@@ -41,8 +42,8 @@ Locales::locale_round_trip_strip_tag(const Locale& input) {
     return Locale(input.language_code, input.country_code, input.script_code);
 }
 
-optional<Locale>
-Locales::locale_round_trip_nullable(const optional<Locale>& input) {
+std::optional<Locale>
+Locales::locale_round_trip_nullable(const std::optional<Locale>& input) {
     return input;
 }
 
@@ -105,5 +106,10 @@ std::unordered_map<std::string, Locale>
 LocaleGenerics::locale_values_map_round_trip(const std::unordered_map<std::string, Locale>& input) {
     return input;
 }
+
+// LocaleDefaults
+
+LocaleDefaults
+LocaleDefaults::get_cpp_defaults() { return {}; }
 
 }

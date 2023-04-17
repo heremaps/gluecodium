@@ -29,6 +29,9 @@ class LimeEnumerator(
     val value
         get() = explicitValue ?: computeValue()
 
+    val isAlias
+        get() = explicitValue is LimeValue.Constant
+
     private fun computeValue(): LimeValue =
         previous?.value?.toString()?.toIntOrNull()?.let {
             LimeValue.Literal(LimeBasicTypeRef.INT, (it + 1).toString())

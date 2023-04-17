@@ -132,11 +132,11 @@ class EquatableTests: XCTestCase {
         XCTAssertNotEqual(hash(otherArray), hash(array))
     }
 
-    static func createEquatableStruct() -> EquatableStruct {
+    static func createEquatableStruct() -> Equatable.EquatableStruct {
 
-        return EquatableStruct(boolField: true, intField: 65542, longField: 2147484000,
+        return Equatable.EquatableStruct(boolField: true, intField: 65542, longField: 2147484000,
             floatField: 1.0, doubleField: 2.0, stringField: "nonsense",
-            structField: NestedEquatableStruct(fooField: "foo"), enumField: .bar,
+            structField: Equatable.NestedEquatableStruct(fooField: "foo"), enumField: .bar,
             mapField: [0: "one", 1: "two"], arrayField: ["one", "two"])
     }
 

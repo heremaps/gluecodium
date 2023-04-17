@@ -21,6 +21,9 @@ class MethodOverloads {
     struct Point {
         x: Double = 0.0
         y: Double = 0.0
+        @Dart(Skip)
+        field constructor()
+        field constructor(x, y)
     }
     typealias StringArray = List<String>
     typealias IntArray = List<Byte>

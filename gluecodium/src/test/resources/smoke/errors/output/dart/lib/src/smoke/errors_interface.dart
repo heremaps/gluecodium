@@ -318,7 +318,6 @@ class ErrorsInterface$Impl extends __lib.NativeBase implements ErrorsInterface {
       stringReleaseFfiHandle(__resultHandle);
     }
   }
-  @override
   void methodWithPayloadError() {
     final _methodWithPayloadErrorFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_ErrorsInterface_methodWithPayloadError'));
     final __callResultHandle = _methodWithPayloadErrorFfi(__lib.LibraryContext.isolateId);
@@ -333,7 +332,6 @@ class ErrorsInterface$Impl extends __lib.NativeBase implements ErrorsInterface {
     }
     _methodWithPayloadErrorReturnReleaseHandle(__callResultHandle);
   }
-  @override
   String methodWithPayloadErrorAndReturnValue() {
     final _methodWithPayloadErrorAndReturnValueFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_ErrorsInterface_methodWithPayloadErrorAndReturnValue'));
     final __callResultHandle = _methodWithPayloadErrorAndReturnValueFfi(__lib.LibraryContext.isolateId);
@@ -406,6 +404,7 @@ Pointer<Void> smokeErrorsinterfaceToFfi(ErrorsInterface value) {
   return result;
 }
 ErrorsInterface smokeErrorsinterfaceFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is ErrorsInterface) return instance;
   final _typeIdHandle = _smokeErrorsinterfaceGetTypeId(handle);

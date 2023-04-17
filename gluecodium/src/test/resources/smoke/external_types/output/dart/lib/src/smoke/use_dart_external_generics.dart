@@ -42,6 +42,7 @@ class UseDartExternalGenerics$Impl extends __lib.NativeBase implements UseDartEx
 Pointer<Void> smokeUsedartexternalgenericsToFfi(UseDartExternalGenerics value) =>
   _smokeUsedartexternalgenericsCopyHandle((value as __lib.NativeBase).handle);
 UseDartExternalGenerics smokeUsedartexternalgenericsFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is UseDartExternalGenerics) return instance;
   final _copiedHandle = _smokeUsedartexternalgenericsCopyHandle(handle);

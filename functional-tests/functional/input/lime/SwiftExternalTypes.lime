@@ -69,6 +69,7 @@ class UseSwiftExternalTypes {
     static fun seasonRoundTrip(input: Season): Season
 
     static fun structRoundTrip(input: SwiftExternalTypesStruct): SwiftExternalTypesStruct
+    static fun veryBooleanUnbox(input: VeryBoolean): Boolean
 }
 
 struct SwiftExternalTypesStruct {
@@ -76,4 +77,15 @@ struct SwiftExternalTypesStruct {
     persistence: Persistence
     color: SystemColor
     season: Season
+}
+
+@Swift("PseudoBoolean")
+struct VeryBoolean {
+    external {
+        swift framework ""
+        swift converter "BooleanConverter"
+    }
+
+    value: Boolean
+    constructor make(value: Boolean)
 }

@@ -24,7 +24,7 @@ class LimeParameter(
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     typeRef: LimeTypeRef
-) : LimeTypedElement(path, LimeVisibility.PUBLIC, comment, attributes, typeRef = typeRef) {
+) : LimeTypedElement(path, comment, attributes, typeRef = typeRef) {
     override val fullName: String
         get() = "${path.parent.withSuffix(path.disambiguator)}.${path.name}"
 }

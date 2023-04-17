@@ -6,8 +6,8 @@
 #include "com_example_smoke_CalculationResult__Conversion.h"
 #include "com_example_smoke_CalculatorListener_ResultStruct__Conversion.h"
 #include "JniReference.h"
-#include "gluecodium/Optional.h"
 #include <memory>
+#include <optional>
 namespace gluecodium
 {
 namespace jni

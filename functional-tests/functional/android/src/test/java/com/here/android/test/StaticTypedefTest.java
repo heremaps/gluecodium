@@ -76,9 +76,9 @@ public final class StaticTypedefTest {
 
   @Test
   public void returnTypedefPointFromTypeCollection() {
-    Point point = new Point(VALUE_X, VALUE_Y);
+    TypeCollection.Point point = new TypeCollection.Point(VALUE_X, VALUE_Y);
 
-    Point result = StaticTypedef.returnTypedefPointFromTypeCollection(point);
+    TypeCollection.Point result = StaticTypedef.returnTypedefPointFromTypeCollection(point);
 
     assertEquals(VALUE_X, result.x);
     assertEquals(VALUE_Y, result.y);

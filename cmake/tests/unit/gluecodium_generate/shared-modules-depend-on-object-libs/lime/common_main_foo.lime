@@ -17,8 +17,13 @@
 
 package unit.test
 
+@Skip(Dart) @Overloaded
+lambda OverloadedLambdaCommon = (Int) -> String
+
 class CommonMainFoo {
     constructor make()
 
     fun get_map () : Map<String, String>
+
+    fun run_lambda_common(callback: OverloadedLambdaCommon)
 }

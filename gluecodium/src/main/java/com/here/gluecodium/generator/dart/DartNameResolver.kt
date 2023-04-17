@@ -26,30 +26,33 @@ import com.here.gluecodium.generator.common.NameHelper
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
-import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeType.DART
 import com.here.gluecodium.model.lime.LimeAttributeValueType
+import com.here.gluecodium.model.lime.LimeAttributeValueType.DEFAULT
+import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeComment
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.IMPORT_PATH_NAME
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
+import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
-import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.lime.LimeValue.Duration.TimeUnit
-import com.here.gluecodium.model.lime.LimeVisibility
 
 internal class DartNameResolver(
     limeReferenceMap: Map<String, LimeElement>,
@@ -75,7 +78,6 @@ internal class DartNameResolver(
         when (element) {
             is LimeComment -> resolveComment(element)
             is TypeId -> resolveBasicType(element)
-            is LimeVisibility -> resolveVisibility(element)
             is LimeReturnType -> resolveName(element.typeRef)
             is LimeBasicType -> resolveBasicType(element.typeId)
             is LimeValue -> resolveValue(element)
@@ -97,12 +99,6 @@ internal class DartNameResolver(
     fun resolveFileName(limeElement: LimeNamedElement) =
         NameHelper.toLowerSnakeCase(resolveName(limeElement)).replace('<', '_').replace('>', '_')
 
-    private fun resolveVisibility(limeVisibility: LimeVisibility) =
-        when (limeVisibility) {
-            LimeVisibility.INTERNAL -> "internal$joinInfix"
-            else -> ""
-        }
-
     private fun resolveBasicType(typeId: TypeId) =
         when (typeId) {
             TypeId.VOID -> "void"
@@ -119,8 +115,8 @@ internal class DartNameResolver(
 
     private fun resolveValue(limeValue: LimeValue): String =
         when (limeValue) {
-            is LimeValue.Literal -> limeValue.toString()
-            is LimeValue.Enumerator -> "${resolveName(limeValue.typeRef)}.${resolveName(limeValue.valueRef.enumerator)}"
+            is LimeValue.Literal -> resolveLiteralValue(limeValue)
+            is LimeValue.Constant -> resolveConstantValue(limeValue)
             is LimeValue.Special -> {
                 val specialName = when (limeValue.value) {
                     LimeValue.Special.ValueId.NAN -> "nan"
@@ -130,26 +126,7 @@ internal class DartNameResolver(
                 "double.$specialName"
             }
             is LimeValue.Null -> "null"
-            is LimeValue.InitializerList -> {
-                val actualType = limeValue.typeRef.type.actualType
-                val prefix: String
-                val postfix: String
-                when (actualType) {
-                    is LimeList -> {
-                        prefix = "["
-                        postfix = "]"
-                    }
-                    else -> {
-                        prefix = "{"
-                        postfix = "}"
-                    }
-                }
-                limeValue.values.joinToString(
-                    prefix = prefix,
-                    postfix = postfix,
-                    separator = ", "
-                ) { resolveValue(it) }
-            }
+            is LimeValue.InitializerList -> resolveListValue(limeValue)
             is LimeValue.StructInitializer -> {
                 val actualType = limeValue.typeRef.type.actualType
                 if (actualType !is LimeStruct) {
@@ -159,8 +136,9 @@ internal class DartNameResolver(
                 val noFieldsConstructor = actualType.noFieldsConstructor
                 val constructorName = when {
                     !useDefaultsConstructor -> ""
-                    noFieldsConstructor == null -> ".withDefaults"
-                    noFieldsConstructor.attributes.have(LimeAttributeType.DART, LimeAttributeValueType.DEFAULT) -> ""
+                    noFieldsConstructor == null ->
+                        if (DartGeneratorPredicates.allFieldsCtorIsPublic(actualType)) ".withDefaults" else ""
+                    noFieldsConstructor.attributes.have(DART, DEFAULT) -> ""
                     else -> resolveName(noFieldsConstructor).let { if (it.isEmpty()) "" else ".$it" }
                 }
                 limeValue.values.joinToString(
@@ -172,6 +150,41 @@ internal class DartNameResolver(
             is LimeValue.KeyValuePair -> "${resolveValue(limeValue.key)}: ${resolveValue(limeValue.value)}"
             is LimeValue.Duration -> resolveDurationValue(limeValue)
         }
+
+    private fun resolveLiteralValue(limeValue: LimeValue.Literal): String {
+        val limeType = limeValue.typeRef.type.actualType
+        if (limeType !is LimeBasicType) return limeType.toString()
+        return when (limeType.typeId) {
+            TypeId.DATE -> {
+                val epochSeconds = LimeTypeHelper.dateLiteralEpochSeconds(limeValue.value)?.let { it * 1000 }
+                "DateTime.fromMillisecondsSinceEpoch($epochSeconds)"
+            }
+            TypeId.LOCALE -> {
+                val localeTag = LimeTypeHelper.normalizeLocaleTag(limeValue.value)
+                "Locale.parse(\"$localeTag\")"
+            }
+            else -> limeValue.toString()
+        }
+    }
+
+    private fun resolveConstantValue(limeValue: LimeValue.Constant): String {
+        val limeElement = limeValue.valueRef.element
+        val typeRef = when (limeElement) {
+            is LimeEnumerator -> limeValue.typeRef
+            else -> LimeDirectTypeRef(getParentElement(limeElement) as LimeType)
+        }
+        return "${resolveName(typeRef)}.${resolveName(limeElement)}"
+    }
+
+    private fun resolveListValue(limeValue: LimeValue.InitializerList): String {
+        val limeType = limeValue.typeRef.type.actualType
+        val values = limeValue.values.joinToString(separator = ", ") { resolveValue(it) }
+        return when {
+            limeType is LimeList -> "[$values]"
+            limeType is LimeBasicType && limeType.typeId == TypeId.BLOB -> "Uint8List.fromList([$values])"
+            else -> "{$values}"
+        }
+    }
 
     private fun resolveDurationValue(limeValue: LimeValue.Duration): String {
         val parameterName: String = when (limeValue.timeUnit) {
@@ -202,14 +215,13 @@ internal class DartNameResolver(
         }
 
     private fun resolveTypeName(limeType: LimeType): String {
-        val enforcedFullName = limeType.attributes.get(LimeAttributeType.DART, LimeAttributeValueType.FULL_NAME)
+        val enforcedFullName = limeType.attributes.get(DART, LimeAttributeValueType.FULL_NAME)
         if (enforcedFullName != null) return enforcedFullName
 
         val typeName = getPlatformName(limeType)
         val parentType = if (limeType.path.hasParent) getParentElement(limeType) as? LimeType else null
         return when (parentType) {
             null -> listOf(typeName)
-            is LimeTypesCollection -> listOf(typeName)
             else -> listOf(resolveTypeName(parentType), typeName)
         }.joinToString(joinInfix)
     }
@@ -230,9 +242,8 @@ internal class DartNameResolver(
 
     private fun getPlatformName(element: LimeNamedElement) =
         when {
-            element.attributes.have(LimeAttributeType.DART, LimeAttributeValueType.DEFAULT) -> "\$init"
-            else -> element.attributes.get(LimeAttributeType.DART, LimeAttributeValueType.NAME)
-                ?: nameRules.getName(element)
+            element.attributes.have(DART, DEFAULT) -> "\$init"
+            else -> element.attributes.get(DART, NAME) ?: nameRules.getName(element)
         }
 
     private fun resolveFullName(limeElement: LimeNamedElement): String {
@@ -240,7 +251,12 @@ internal class DartNameResolver(
             return resolveName(limeElement)
         }
         val parentElement = getParentElement(limeElement)
-        return "${resolveFullName(parentElement)}.${resolveName(limeElement)}"
+        val ownName = when {
+            limeElement is LimeFunction && limeElement.isConstructor && !limeElement.attributes.have(DART, NAME) ->
+                "${resolveName(parentElement)}()"
+            else -> resolveName(limeElement)
+        }
+        return "${resolveFullName(parentElement)}.$ownName"
     }
 
     private fun resolveTypeRefName(limeTypeRef: LimeTypeRef, ignoreDuplicates: Boolean = false): String {
@@ -259,22 +275,27 @@ internal class DartNameResolver(
     private fun buildPathMap(): Map<String, String> {
         val result = limeReferenceMap.values
             .filterIsInstance<LimeNamedElement>()
-            .associateBy({ it.fullName }, { resolveFullName(it) })
+            .filterNot { it is LimeParameter }
+            .associateBy({ it.path.toAmbiguousString() }, { resolveFullName(it) })
             .toMutableMap()
 
+        result += limeReferenceMap.values.filterIsInstance<LimeParameter>()
+            .associateBy({ it.fullName }, { resolveFullName(it) })
+
         val functions = limeReferenceMap.values.filterIsInstance<LimeFunction>()
-        result += functions.associateBy({ it.path.withSuffix("").toString() }, { resolveFullName(it) })
+        result += functions.associateBy({ it.path.toAmbiguousString() }, { resolveFullName(it) })
         result += functions.associateBy(
             { function ->
-                function.path.withSuffix("").toString() + function.parameters
+                function.path.toAmbiguousString() + function.parameters
                     .joinToString(prefix = "(", postfix = ")", separator = ",") { it.typeRef.toString() }
             },
             { resolveFullName(it) }
         )
 
         val properties = limeReferenceMap.values.filterIsInstance<LimeProperty>()
-        result += properties.associateBy({ it.fullName + ".get" }, { resolveFullName(it) })
-        result += properties.filter { it.setter != null }.associateBy({ it.fullName + ".set" }, { resolveFullName(it) })
+        result += properties.associateBy({ it.path.toAmbiguousString() + ".get" }, { resolveFullName(it) })
+        result += properties.filter { it.setter != null }
+            .associateBy({ it.path.toAmbiguousString() + ".set" }, { resolveFullName(it) })
 
         return result
     }
@@ -282,7 +303,7 @@ internal class DartNameResolver(
     private fun buildDuplicateNames() =
         limeReferenceMap.values
             .filterIsInstance<LimeType>()
-            .filterNot { it is LimeTypesCollection || it is LimeTypeAlias || it is LimeGenericType || it is LimeBasicType }
+            .filterNot { it is LimeTypeAlias || it is LimeGenericType || it is LimeBasicType }
             .filter { it.external?.dart == null }
             .groupBy { resolveTypeName(it) }
             .filterValues { it.size > 1 }

@@ -26,12 +26,10 @@ import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeTypeRef
-import com.here.gluecodium.model.lime.LimeTypesCollection
 
 /**
  * Validate against:
  * * Referring to type collections directly.
- * * Referring to non-enum types from exception types.
  * * Referring to exception types from anywhere but the `throws` clause.
  */
 internal class LimeTypeRefTargetValidator(private val logger: LimeLogger) :
@@ -42,14 +40,6 @@ internal class LimeTypeRefTargetValidator(private val logger: LimeLogger) :
     override fun visitTypeRef(parentElement: LimeNamedElement, limeTypeRef: LimeTypeRef?): Boolean {
         val referredType = limeTypeRef?.type?.actualType
         return when {
-            referredType is LimeTypesCollection -> {
-                logger.error(
-                    parentElement,
-                    "refers to `types` container ${referredType.fullName} " +
-                        "which cannot be used as a type itself."
-                )
-                false
-            }
             referredType is LimeException &&
                 (
                     parentElement !is LimeFunction ||

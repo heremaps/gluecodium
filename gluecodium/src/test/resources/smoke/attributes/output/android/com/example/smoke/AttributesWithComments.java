@@ -21,8 +21,8 @@ public final class AttributesWithComments extends NativeBase {
         @OnField
         @NonNull
         public String field;
-        public SomeStruct(@NonNull final String field) {
-            this.field = field;
+        public SomeStruct() {
+            this.field = "";
         }
     }
     /**

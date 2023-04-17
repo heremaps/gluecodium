@@ -81,7 +81,6 @@ class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWith
       stringReleaseFfiHandle(__resultHandle);
     }
   }
-  @override
   String staticFunction() {
     final _staticFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InterfaceWithStatic_staticFunction'));
     final __resultHandle = _staticFunctionFfi(__lib.LibraryContext.isolateId);
@@ -159,6 +158,7 @@ Pointer<Void> smokeInterfacewithstaticToFfi(InterfaceWithStatic value) {
   return result;
 }
 InterfaceWithStatic smokeInterfacewithstaticFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is InterfaceWithStatic) return instance;
   final _typeIdHandle = _smokeInterfacewithstaticGetTypeId(handle);

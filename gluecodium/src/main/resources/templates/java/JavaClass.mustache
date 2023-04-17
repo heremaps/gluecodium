@@ -19,8 +19,8 @@
   !
   !}}
 {{>java/JavaDocComment}}{{>java/JavaAttributes}}
-{{resolveName visibility}}{{#if forceStatic}}static {{/if}}{{!!
-}}{{#unless visibility.isOpen visibility.isInternal logic="and"}}final {{/unless}}{{!!
+{{resolveName "visibility"}}{{#if forceStatic}}static {{/if}}{{!!
+}}{{#unless this.isOpen logic="and"}}final {{/unless}}{{!!
 }}class {{resolveName}} extends {{#if this.parentClass}}{{resolveName this.parentClass "" "ref"}}{{/if}}{{!!
 }}{{#unless this.parentClass}}NativeBase{{/unless}}{{#if this.parentInterfaces}} implements {{!!
 }}{{#this.parentInterfaces}}{{resolveName this "" "ref"}}{{#if iter.hasNext}}, {{/if}}{{/this.parentInterfaces}}{{/if}} {
@@ -29,7 +29,7 @@
 {{>java/JavaContainerContents}}
 {{#set classElement=this}}{{#constructors}}
 {{prefixPartial "java/JavaMethodComment" "    "}}
-    {{resolveName visibility}}{{resolveName classElement}}({{joinPartial parameters "java/JavaParameter" ", "}}){{!!
+    {{resolveName "visibility"}}{{resolveName classElement}}({{joinPartial parameters "java/JavaParameter" ", "}}){{!!
     }}{{#thrownType}} throws {{resolveName typeRef}}{{/thrownType}} {
         this({{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}), (Object)null);
 {{#unless classElement.attributes.nocache}}
@@ -37,11 +37,11 @@
 {{/unless}}
     }
 {{/constructors}}{{/set}}
-{{#unless visibility.isInternal}}
+
     /**
      * For internal use only.
      * @hidden
-     */{{/unless}}
+     */
     protected {{resolveName}}(final long nativeHandle, final Object dummy) {
         super(nativeHandle, {{#ifPredicate "needsDisposer"}}new Disposer() {
             @Override

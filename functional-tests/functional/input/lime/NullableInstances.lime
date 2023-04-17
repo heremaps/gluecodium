@@ -49,3 +49,8 @@ class NullablePayload {
     fun poke(): Boolean
     constructor create()
 }
+
+class NonNullConstraintBroken {
+    // Returns a `null` value even though the return type is explicitly non-nullable.
+    static fun getNull(): NullablePayload
+}

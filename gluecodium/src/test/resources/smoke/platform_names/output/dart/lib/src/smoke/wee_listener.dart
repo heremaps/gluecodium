@@ -75,6 +75,7 @@ Pointer<Void> smokePlatformnameslistenerToFfi(weeListener value) {
   return result;
 }
 weeListener smokePlatformnameslistenerFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is weeListener) return instance;
   final _typeIdHandle = _smokePlatformnameslistenerGetTypeId(handle);

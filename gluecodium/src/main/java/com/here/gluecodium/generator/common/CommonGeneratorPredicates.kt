@@ -75,7 +75,7 @@ internal object CommonGeneratorPredicates {
         when {
             limeContainer !is LimeContainerWithInheritance -> false
             limeContainer is LimeInterface -> !limeContainer.isNarrow
-            limeContainer.visibility.isOpen -> true
+            limeContainer.isOpen -> true
             else -> limeContainer.parents.isNotEmpty()
         }
 
@@ -86,20 +86,6 @@ internal object CommonGeneratorPredicates {
             limeContainer.properties.any { it.isStatic } -> true
             else -> false
         }
-
-    fun needsAllFieldsConstructor(limeStruct: Any) =
-        when {
-            limeStruct !is LimeStruct -> false
-            limeStruct.fieldConstructors.isEmpty() -> true
-            limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) -> limeStruct.allFieldsConstructor == null
-            else -> false
-        }
-
-    fun needsPublicFieldsConstructor(limeStruct: Any, platformAttribute: LimeAttributeType) =
-        limeStruct is LimeStruct &&
-            !limeStruct.attributes.have(platformAttribute, LimeAttributeValueType.POSITIONAL_DEFAULTS) &&
-            limeStruct.internalFields.isNotEmpty() && limeStruct.internalFields.all { it.defaultValue != null } &&
-            limeStruct.publicFields.any { it.defaultValue != null }
 
     fun needsImportsForSkippedField(
         limeElement: LimeNamedElement,
@@ -112,6 +98,13 @@ internal object CommonGeneratorPredicates {
         val limeStruct = referenceMap[parentKey] as? LimeStruct ?: return false
         return hasImmutableFields(limeStruct)
     }
+
+    fun isInternal(limeElement: LimeNamedElement, platformAttribute: LimeAttributeType) =
+        when {
+            limeElement.attributes.have(platformAttribute, LimeAttributeValueType.PUBLIC) -> false
+            limeElement.attributes.have(platformAttribute, LimeAttributeValueType.INTERNAL) -> true
+            else -> limeElement.attributes.have(LimeAttributeType.INTERNAL)
+        }
 
     private fun getAllFieldTypes(limeType: LimeType) = getAllFieldTypesRec(getLeafType(limeType), mutableSetOf())
 

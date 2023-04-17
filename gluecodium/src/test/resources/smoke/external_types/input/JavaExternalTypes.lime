@@ -86,3 +86,19 @@ struct JavaExternalTypesStruct {
     color: SystemColor
     season: Season
 }
+
+@Swift(Skip) @Dart(Skip)
+struct JavaExternalCtor {
+    external {
+        java name "com.example.Foo"
+        java converter "com.example.FooConverter"
+    }
+    `field`: String
+    constructor make(`field`: String)
+}
+
+struct UseJavaExternalConst {
+    stringField: String
+    @Internal
+    const defaultTruth: JavaExternalCtor = {"foo"}
+}

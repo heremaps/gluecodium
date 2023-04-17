@@ -108,6 +108,7 @@ class NestedPackages$Impl extends __lib.NativeBase implements NestedPackages {
 Pointer<Void> smokeOffNestedpackagesToFfi(NestedPackages value) =>
   _smokeOffNestedpackagesCopyHandle((value as __lib.NativeBase).handle);
 NestedPackages smokeOffNestedpackagesFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is NestedPackages) return instance;
   final _copiedHandle = _smokeOffNestedpackagesCopyHandle(handle);

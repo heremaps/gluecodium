@@ -49,6 +49,14 @@
    fun:*
 }
 {
+   instantiateGenericMetadata 2
+
+   Memcheck:Leak
+   match-leak-kinds: possible
+   ...
+   fun:__swift_instantiateGenericMetadata
+}
+{
    allocateGenericValueMetadata
 
    Memcheck:Leak
@@ -312,4 +320,3 @@
    fun:__swift_instantiateConcreteTypeFromMangledName
    fun:*
 }
-

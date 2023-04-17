@@ -18,8 +18,10 @@
 package test
 
 @Cpp("fooTypes")
+@Java("barTypes")
 @Swift("bazTypes")
-types PlatformNames {
+@Dart("weeTypes")
+struct PlatformNames {
     @Cpp("fooStruct")
     @Java("barStruct")
     @Swift("bazStruct")

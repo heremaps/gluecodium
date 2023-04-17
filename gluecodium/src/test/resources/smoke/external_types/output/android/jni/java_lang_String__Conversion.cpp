@@ -29,12 +29,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput_ext, ::smok
     return ::smoke::Season(
         ::gluecodium::jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
 }
-::gluecodium::optional<::smoke::Season>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::Season>*)
+std::optional<::smoke::Season>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::optional<::smoke::Season>*)
 {
     return _jinput
-        ? ::gluecodium::optional<::smoke::Season>(convert_from_jni(_jenv, _jinput, (::smoke::Season*)nullptr))
-        : ::gluecodium::optional<::smoke::Season>{};
+        ? std::optional<::smoke::Season>(convert_from_jni(_jenv, _jinput, (::smoke::Season*)nullptr))
+        : std::optional<::smoke::Season>{};
 }
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/Season", com_example_smoke_Season, ::smoke::Season)
 JniReference<jobject>
@@ -69,7 +69,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Season _ninput)
     return _jresult;
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::smoke::Season> _ninput)
+convert_to_jni(JNIEnv* _jenv, const std::optional<::smoke::Season> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

@@ -67,11 +67,11 @@ void main() {
   });
   _testSuite.test("Vector copy constructor does not throw", () {
     Vector? result = null;
-    ValidationException? exception = null;
+    ValidationUtilsValidationException? exception = null;
 
     try {
       result = new Vector.createCopy(vector);
-    } on ValidationException catch(e) {
+    } on ValidationUtilsValidationException catch(e) {
       exception = e;
     }
 
@@ -81,16 +81,16 @@ void main() {
   });
   _testSuite.test("Vector copy constructor throws", () {
     Vector? result = null;
-    ValidationException? exception = null;
+    ValidationUtilsValidationException? exception = null;
 
     try {
       result = new Vector.createCopy(new Vector.create(1, double.nan));
-    } on ValidationException catch(e) {
+    } on ValidationUtilsValidationException catch(e) {
       exception = e;
     }
 
     expect(result, isNull);
-    expect(exception?.error, ValidationErrorCode.validationFailed);
+    expect(exception?.error, ValidationUtilsValidationErrorCode.validationFailed);
   });
   _testSuite.test("Vector3 distance to self", () {
     final result = vector3.distanceTo(vector3);
@@ -134,11 +134,11 @@ void main() {
   });
   _testSuite.test("Vector3 copy constructor does not throw", () {
     StructsWithMethodsInterfaceVector3? result = null;
-    ValidationException? exception = null;
+    ValidationUtilsValidationException? exception = null;
 
     try {
       result = new StructsWithMethodsInterfaceVector3.createCopy(vector3);
-    } on ValidationException catch(e) {
+    } on ValidationUtilsValidationException catch(e) {
       exception = e;
     }
 
@@ -149,17 +149,17 @@ void main() {
   });
   _testSuite.test("Vector3 copy constructor throws", () {
     StructsWithMethodsInterfaceVector3? result = null;
-    ValidationException? exception = null;
+    ValidationUtilsValidationException? exception = null;
 
     try {
       result = new StructsWithMethodsInterfaceVector3.createCopy(
           new StructsWithMethodsInterfaceVector3.create(1, double.nan, 3)
       );
-    } on ValidationException catch(e) {
+    } on ValidationUtilsValidationException catch(e) {
       exception = e;
     }
 
     expect(result, isNull);
-    expect(exception?.error, ValidationErrorCode.validationFailed);
+    expect(exception?.error, ValidationUtilsValidationErrorCode.validationFailed);
   });
 }

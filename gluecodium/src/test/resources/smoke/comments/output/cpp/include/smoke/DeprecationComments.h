@@ -45,7 +45,7 @@ public:
          * \deprecated Unfortunately, this field is deprecated.
          * Use ::smoke::Comments::SomeStruct::some_field instead.
          */
-        ::smoke::DeprecationComments::Usefulness some_field;
+        ::smoke::DeprecationComments::Usefulness some_field = false;
         SomeStruct( );
         explicit SomeStruct( ::smoke::DeprecationComments::Usefulness some_field );
     };

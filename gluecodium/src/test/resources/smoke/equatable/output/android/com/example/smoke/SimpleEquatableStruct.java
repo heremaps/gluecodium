@@ -13,11 +13,11 @@ public final class SimpleEquatableStruct {
     public NonEquatableClass nullableClassField;
     @Nullable
     public NonEquatableInterface nullableInterfaceField;
-    public SimpleEquatableStruct(@NonNull final NonEquatableClass classField, @NonNull final NonEquatableInterface interfaceField, @Nullable final NonEquatableClass nullableClassField, @Nullable final NonEquatableInterface nullableInterfaceField) {
+    public SimpleEquatableStruct(@NonNull final NonEquatableClass classField, @NonNull final NonEquatableInterface interfaceField) {
         this.classField = classField;
         this.interfaceField = interfaceField;
-        this.nullableClassField = nullableClassField;
-        this.nullableInterfaceField = nullableInterfaceField;
+        this.nullableClassField = null;
+        this.nullableInterfaceField = null;
     }
     @Override
     public boolean equals(Object obj) {

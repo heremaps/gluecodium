@@ -19,14 +19,14 @@ on:
 jobs:
   cpp:
     name: C++
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v2
       - name: Install JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 8
+          java-version: 11
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
@@ -49,8 +49,6 @@ jobs:
       - name: Build and run functional tests
         run: |
           scripts/build-cpp-functional --valgrind --buildGluecodium
-          scripts/build-cpp-functional --cpp 14 --buildGluecodium
-          scripts/build-cpp-functional --cpp 17 --buildGluecodium
         working-directory: functional-tests
       - name: Print Valgrind results
         if: ${{ always() }}
@@ -58,14 +56,14 @@ jobs:
 
   android:
     name: Android
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v2
       - name: Install JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 8
+          java-version: 11
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
@@ -75,6 +73,10 @@ jobs:
             !*lime-*
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
+      - name: Install GCC
+        uses: egor-tensin/setup-gcc@v1
+        with:
+          version: 8
       - name: Install CMake
         uses: jwlawson/actions-setup-cmake@v1.7
         with:
@@ -85,21 +87,21 @@ jobs:
         run: |
           ANDROID_API_LEVEL=android-28
           ANDROID_BUILD_TOOLS_VERSION=28.0.3
-          ANDROID_CMAKE_VERSION=3.10.2.4988404
           ANDROID_HOME=${HOME}/android-sdk-linux
-          PATH=${PATH}:${ANDROID_HOME}/tools/bin
-          wget -q "https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip" -O android-sdk-tools.zip
-          unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}
+          PATH=${PATH}:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/cmdline-tools/latest/bin
+          mkdir -p "${ANDROID_HOME}/cmdline-tools"
+          wget -q "https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip" -O android-sdk-tools.zip
+          unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}/cmdline-tools
+          mv "${ANDROID_HOME}/cmdline-tools/cmdline-tools" "${ANDROID_HOME}/cmdline-tools/latest"
           mkdir -p ~/.android
           touch ~/.android/repositories.cfg
           yes | sdkmanager --licenses
           yes | sdkmanager "platforms;${ANDROID_API_LEVEL}" > /dev/null
           yes | sdkmanager "build-tools;${ANDROID_BUILD_TOOLS_VERSION}" > /dev/null
-          yes | sdkmanager "cmake;${ANDROID_CMAKE_VERSION}" > /dev/null
       - name: Build and run functional tests
         run: |
           export ANDROID_HOME=${HOME}/android-sdk-linux
-          export ANDROID_NDK_HOME=${ANDROID_HOME}/ndk-bundle
+          export ANDROID_SDK_ROOT=${ANDROID_HOME}
           export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
           ./scripts/build-android-functional --publish --hostOnly
         working-directory: functional-tests
@@ -109,21 +111,21 @@ jobs:
       - name: Build and run namerules tests
         run: |
           export ANDROID_HOME=${HOME}/android-sdk-linux
-          export ANDROID_NDK_HOME=${ANDROID_HOME}/ndk-bundle
+          export ANDROID_SDK_ROOT=${ANDROID_HOME}
           export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
           ./scripts/build-android-namerules --publish
         working-directory: functional-tests
 
   swift:
     name: Swift on Linux
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v2
       - name: Install JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 8
+          java-version: 11
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
@@ -137,8 +139,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/swift-sdk
-          key: ${{ runner.os }}-swift-5.4.3-release
-          restore-keys: ${{ runner.os }}-swift-5.4.3-release
+          key: ${{ runner.os }}-swift-5.4-release
+          restore-keys: ${{ runner.os }}-swift-5.4-release
       - name: Install CMake
         uses: jwlawson/actions-setup-cmake@v1.7
         with:
@@ -155,7 +157,7 @@ jobs:
         run: |
           SWIFT_BRANCH=swift-5.4.3-release
           SWIFT_VERSION=swift-5.4.3-RELEASE
-          SWIFT_PLATFORM=ubuntu18.04
+          SWIFT_PLATFORM=ubuntu20.04
           SWIFT_ARCHIVE_NAME=${SWIFT_VERSION}-${SWIFT_PLATFORM}.tar.gz
           if [ ! -d "${HOME}/swift-sdk" ]; then
             mkdir ~/swift-sdk
@@ -186,10 +188,14 @@ jobs:
 
   swift-mac:
     name: Swift on MacOS
-    runs-on: macos-10.15
+    runs-on: macos-11
 
     steps:
       - uses: actions/checkout@v2
+      - name: Install JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
@@ -200,7 +206,9 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
       - name: Install ninja
-        run: brew install ninja
+        uses: seanmiddleditch/gha-setup-ninja@master
+        with:
+          version: 1.11.0
       - name: Build and run functional tests
         run: |
           ./scripts/build-swift-functional --buildGluecodium
@@ -223,7 +231,7 @@ jobs:
       - name: Install JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 8
+          java-version: 11
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
@@ -262,7 +270,7 @@ jobs:
       - name: Install JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 8
+          java-version: 11
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
@@ -276,8 +284,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/dart_sdk
-          key: ${{ runner.os }}-dart-2.13.3-stable
-          restore-keys: ${{ runner.os }}-dart-2.13.3-stable
+          key: ${{ runner.os }}-dart-2.18.1-stable-full
+          restore-keys: ${{ runner.os }}-dart-2.18.1-stable-full
       - name: Install CMake
         uses: jwlawson/actions-setup-cmake@v1.7
         with:
@@ -289,10 +297,9 @@ jobs:
           export DART_ROOT=${HOME}/dart_sdk
           export DART_BIN=${DART_ROOT}/bin
           export PATH=${PATH}:${PWD}/depot_tools:${DART_BIN}
-          DART_VERSION=2.13.3
+          DART_VERSION=2.18.1
           if [ ! -d "${DART_ROOT}/bin" ]; then
-            sudo apt install -y python2
-            sudo update-alternatives --install /usr/bin/python python /usr/bin/python2 1
+            sudo apt install -y python3
             git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
             mkdir dart-sdk
             pushd dart-sdk
@@ -305,15 +312,12 @@ jobs:
             mkdir -p ${DART_BIN}
             pushd out/ReleaseX64/dart-sdk
             pushd bin
-            mv dart dart2native dartaotruntime pub utils ${DART_BIN}
-            popd
-            pushd bin/snapshots
-            mkdir -p ${DART_BIN}/snapshots
-            mv dart2native.dart.snapshot gen_kernel.dart.snapshot pub.dart.snapshot ${DART_BIN}/snapshots
+            mv * ${DART_BIN}
             popd
             mv include ${DART_ROOT}
             mkdir -p ${DART_ROOT}/lib
             mv lib/_internal ${DART_ROOT}/lib
+            popd
           fi
       - name: Build and run functional tests
         run: |
@@ -323,14 +327,14 @@ jobs:
 
   cmake-tests:
     name: CMake toolchain tests
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v2
       - name: Install JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 8
+          java-version: 11
       - name: Cache Gradle packages
         uses: actions/cache@v2
         with:
@@ -350,17 +354,17 @@ jobs:
         run: |
           ANDROID_API_LEVEL=android-28
           ANDROID_BUILD_TOOLS_VERSION=28.0.3
-          ANDROID_CMAKE_VERSION=3.10.2.4988404
           ANDROID_HOME=${HOME}/android-sdk-linux
-          PATH=${PATH}:${ANDROID_HOME}/tools/bin
-          wget -q "https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip" -O android-sdk-tools.zip
-          unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}
+          PATH=${PATH}:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/cmdline-tools/latest/bin
+          mkdir -p "${ANDROID_HOME}/cmdline-tools"
+          wget -q "https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip" -O android-sdk-tools.zip
+          unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}/cmdline-tools
+          mv "${ANDROID_HOME}/cmdline-tools/cmdline-tools" "${ANDROID_HOME}/cmdline-tools/latest"
           mkdir -p ~/.android
           touch ~/.android/repositories.cfg
           yes | sdkmanager --licenses
           yes | sdkmanager "platforms;${ANDROID_API_LEVEL}" > /dev/null
           yes | sdkmanager "build-tools;${ANDROID_BUILD_TOOLS_VERSION}" > /dev/null
-          yes | sdkmanager "cmake;${ANDROID_CMAKE_VERSION}" > /dev/null
       - name: Install Dart SDK
         run: |
           DART_RELEASE_CHANNEL=stable
@@ -370,7 +374,6 @@ jobs:
       - name: Build and run functional tests
         run: |
           export ANDROID_HOME=${HOME}/android-sdk-linux
-          export ANDROID_NDK_HOME=${ANDROID_HOME}/ndk-bundle
           export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:/usr/lib/dart/bin
           ./gradlew publishToMavenLocal
           cd cmake

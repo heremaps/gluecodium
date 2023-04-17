@@ -25,30 +25,29 @@ import com.vladsch.flexmark.ast.LinkRef
 import com.vladsch.flexmark.formatter.Formatter
 import com.vladsch.flexmark.parser.ParserEmulationProfile
 import com.vladsch.flexmark.util.data.MutableDataSet
-import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
+import com.vladsch.flexmark.util.sequence.CharSubSequence
 
 /**
  * Parse markdown comments and process links
  */
-@Suppress("DEPRECATION")
-class SwiftCommentsProcessor(werror: Boolean) :
-    CommentsProcessor(Formatter.builder(FORMATTER_OPTIONS).build(), werror) {
+class SwiftCommentsProcessor(werror: Boolean) : CommentsProcessor(Formatter.builder(formatterOptions).build(), werror) {
 
     override fun processLink(linkNode: LinkRef, linkReference: String, limeFullName: String) {
-        linkNode.reference = BasedSequenceImpl.of(linkReference)
-        linkNode.referenceOpeningMarker = BasedSequenceImpl.of("`")
-        linkNode.referenceClosingMarker = BasedSequenceImpl.of("`")
+        linkNode.reference = CharSubSequence.of(linkReference)
+        linkNode.referenceOpeningMarker = CharSubSequence.of("`")
+        linkNode.referenceClosingMarker = CharSubSequence.of("`")
         linkNode.firstChild?.unlink()
     }
 
     override fun processAutoLink(linkNode: AutoLink) {
-        linkNode.chars = BasedSequenceImpl.of(linkNode.chars.trim('<', '>'))
+        linkNode.chars = CharSubSequence.of(linkNode.chars.trim('<', '>'))
     }
 
     override val nullReference = "nil"
 
     companion object {
-        private val FORMATTER_OPTIONS = MutableDataSet()
+        private val formatterOptions = MutableDataSet()
             .set(Formatter.FORMATTER_EMULATION_PROFILE, ParserEmulationProfile.PEGDOWN)
+            .toImmutable()
     }
 }

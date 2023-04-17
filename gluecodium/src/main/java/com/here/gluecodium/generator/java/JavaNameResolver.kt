@@ -29,7 +29,6 @@ import com.here.gluecodium.model.lime.LimeAttributeValueType.FUNCTION_NAME
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeComment
-import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.NAME_NAME
@@ -39,6 +38,7 @@ import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
@@ -46,9 +46,7 @@ import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypedElement
-import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.lime.LimeValue
-import com.here.gluecodium.model.lime.LimeVisibility
 
 internal class JavaNameResolver(
     limeReferenceMap: Map<String, LimeElement>,
@@ -75,7 +73,6 @@ internal class JavaNameResolver(
     override fun resolveName(element: Any): String =
         when (element) {
             is LimeComment -> resolveComment(element)
-            is LimeVisibility -> resolveVisibility(element)
             is LimeValue -> valueResolver.resolveValue(element)
             is LimeType -> resolveTypeName(element)
             is LimeTypeRef -> resolveTypeRef(element)
@@ -106,12 +103,10 @@ internal class JavaNameResolver(
         return commentsProcessor.process(commentedElement.fullName, commentText, limeToJavaNames, limeLogger)
     }
 
-    private fun resolveVisibility(limeVisibility: LimeVisibility) = if (limeVisibility.isInternal) "" else "public "
-
     private fun resolveAccessorName(element: Any, rule: JavaNameRules.(LimeTypedElement) -> String) =
         (element as? LimeTypedElement)?.let { javaNameRules.rule(it) }
 
-    private fun resolveTypeRef(limeTypeRef: LimeTypeRef, needsBoxing: Boolean = false): String {
+    internal fun resolveTypeRef(limeTypeRef: LimeTypeRef, needsBoxing: Boolean = false): String {
         val limeType = limeTypeRef.type.actualType
         val externalName = limeType.external?.java?.get(NAME_NAME)
         return when {
@@ -165,8 +160,7 @@ internal class JavaNameResolver(
         val elementName = javaNameRules.getName(limeElement)
         val parentElement = if (limeElement.path.hasParent) getParentElement(limeElement) else null
         return when {
-            parentElement != null && parentElement !is LimeTypesCollection ->
-                resolveNestedNames(parentElement) + elementName
+            parentElement != null -> resolveNestedNames(parentElement) + elementName
             else -> listOf(elementName)
         }
     }
@@ -203,12 +197,15 @@ internal class JavaNameResolver(
     private fun buildPathMap(): Map<String, String> {
         val result = limeReferenceMap.values
             .filterIsInstance<LimeNamedElement>()
-            .filterNot { it is LimeProperty || it is LimeFunction || it is LimeTypeAlias }
-            .associateBy({ it.fullName }, { resolveFullName(it) })
+            .filterNot { it is LimeProperty || it is LimeFunction || it is LimeTypeAlias || it is LimeParameter }
+            .associateBy({ it.path.toAmbiguousString() }, { resolveFullName(it) })
             .toMutableMap()
 
+        result += limeReferenceMap.values.filterIsInstance<LimeParameter>()
+            .associateBy({ it.fullName }, { resolveFullName(it) })
+
         limeReferenceMap.values.filterIsInstance<LimeFunction>().forEach {
-            val ambiguousKey = it.path.withSuffix("").toString()
+            val ambiguousKey = it.path.toAmbiguousString()
             val fullSignatureKey = ambiguousKey +
                 it.parameters.joinToString(prefix = "(", postfix = ")", separator = ",") {
                     parameter ->
@@ -222,7 +219,7 @@ internal class JavaNameResolver(
         }
 
         limeReferenceMap.values.filterIsInstance<LimeProperty>().forEach {
-            val pathKey = it.fullName
+            val pathKey = it.path.toAmbiguousString()
             val parentName = resolveFullName(getParentElement(it))
             val getterName = parentName + "#" + resolveGetterName(it)!!
 
@@ -236,20 +233,24 @@ internal class JavaNameResolver(
         return result
     }
 
-    private fun resolveFullName(limeElement: LimeNamedElement): String {
+    fun resolveFullName(limeElement: LimeNamedElement, forceDelimiter: String? = null): String {
+        val elementName = resolveName(limeElement)
+
         if (!limeElement.path.hasParent) {
-            return (resolvePackageNames(limeElement) + resolveName(limeElement)).joinToString(".")
+            return (resolvePackageNames(limeElement) + elementName).joinToString(".")
         }
 
         val parentElement = getParentElement(limeElement)
-        val prefix = when {
-            parentElement is LimeTypesCollection && limeElement !is LimeConstant ->
-                resolvePackageNames(limeElement).joinToString(".")
-            else -> resolveFullName(getParentElement(limeElement))
-        }
+        val prefix = resolveFullName(parentElement)
 
-        val delimiter = if (limeElement is LimeType) "." else "#"
-        return prefix + delimiter + resolveName(limeElement)
+        val delimiter = when {
+            forceDelimiter != null -> forceDelimiter
+            limeElement is LimeType -> "."
+            else -> "#"
+        }
+        val ownName =
+            if (limeElement is LimeFunction && limeElement.isConstructor) resolveName(parentElement) else elementName
+        return prefix + delimiter + ownName
     }
 
     fun resolvePackageNames(limeElement: LimeNamedElement) =
@@ -259,13 +260,14 @@ internal class JavaNameResolver(
         when {
             signatureResolver.isOverloaded(limeFunction) ->
                 limeFunction.parameters.joinToString(prefix = "(", postfix = ")") { resolveName(it.typeRef) }
+            limeFunction.isConstructor -> "()"
             else -> ""
         }
 
     private fun buildDuplicateNames() =
         limeReferenceMap.values
             .filterIsInstance<LimeType>()
-            .filterNot { it is LimeTypesCollection || it is LimeTypeAlias }
+            .filterNot { it is LimeTypeAlias }
             .filter { it.external?.java == null }
             .groupBy { resolveNestedNames(it).joinToString(".") }
             .filterValues { it.size > 1 }

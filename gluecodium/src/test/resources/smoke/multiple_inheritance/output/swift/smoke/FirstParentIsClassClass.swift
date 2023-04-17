@@ -4,12 +4,12 @@ import Foundation
 public class FirstParentIsClassClass: ParentClass, ParentNarrowOne {
     public var parentPropertyOne: String {
         get {
-            let c_result_handle = smoke_ParentNarrowOne_parentPropertyOne_get(self.c_instance)
+            let c_result_handle = smoke_FirstParentIsClassClass_parentPropertyOne_get(self.c_instance)
             return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            smoke_ParentNarrowOne_parentPropertyOne_set(self.c_instance, c_value.ref)
+            smoke_FirstParentIsClassClass_parentPropertyOne_set(self.c_instance, c_value.ref)
         }
     }
     public var childProperty: String {
@@ -26,7 +26,7 @@ public class FirstParentIsClassClass: ParentClass, ParentNarrowOne {
         super.init(cParentClass: cFirstParentIsClassClass)
     }
     public func parentFunctionOne() -> Void {
-        smoke_ParentNarrowOne_parentFunctionOne(self.c_instance)
+        smoke_FirstParentIsClassClass_parentFunctionOne(self.c_instance)
     }
     public func childFunction() -> Void {
         smoke_FirstParentIsClassClass_childFunction(self.c_instance)

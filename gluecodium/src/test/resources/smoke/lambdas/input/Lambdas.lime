@@ -33,6 +33,10 @@ class Lambdas {
 
 lambda StandaloneProducer = () -> String
 
+@Overloaded
+@Skip(Swift, Dart)
+lambda OverloadedLambda = (Int) -> String
+
 class LambdasDeclarationOrder {
     lambda SomeCallback = (SomeStruct) -> Void
 
@@ -56,6 +60,7 @@ class LambdasWithStructuredTypes {
 }
 
 class ClassWithInternalLambda {
-    internal lambda InternalNestedLambda = (String) -> Boolean
+    @Internal
+    lambda InternalNestedLambda = (String) -> Boolean
     static fun invokeInternalLambda(`lambda`: InternalNestedLambda, value: String): Boolean
 }

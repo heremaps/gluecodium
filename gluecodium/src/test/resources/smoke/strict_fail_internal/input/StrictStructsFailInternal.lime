@@ -18,6 +18,7 @@
 package smoke
 
 struct InternalFieldWithNoConstructors {
-    internal stringField: String
+    @Internal
+    stringField: String
 }
 

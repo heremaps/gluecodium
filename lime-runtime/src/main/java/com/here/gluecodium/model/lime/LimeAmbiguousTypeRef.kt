@@ -23,7 +23,7 @@ package com.here.gluecodium.model.lime
  * An ambiguous reference to a type, represented by [relativePath]. The ambiguity is resolved
  * through the [LimeAmbiguityResolver].
  *
- * The resolution logic is "lazy": if it succeed on the first call then the result is stored and the
+ * The resolution logic is "lazy": if it succeeds on the first call then the result is stored and the
  * stored result is used on subsequent calls instead.
  */
 class LimeAmbiguousTypeRef(
@@ -34,8 +34,6 @@ class LimeAmbiguousTypeRef(
     override val isNullable: Boolean = false,
     attributes: LimeAttributes? = null
 ) : LimeTypeRef(attributes) {
-
-    override val elementFullName by lazy { type.path.toString() }
 
     override val type by lazy {
         LimeAmbiguityResolver.resolve<LimeType>(relativePath, parentPaths, imports, referenceMap)

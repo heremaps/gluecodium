@@ -73,6 +73,7 @@ class UseDartExternalTypes {
     static fun seasonRoundTrip(input: Season): Season
 
     static fun structRoundTrip(input: DartExternalTypesStruct): DartExternalTypesStruct
+    static fun veryBooleanUnbox(input: VeryBoolean): Boolean
 }
 
 struct DartExternalTypesStruct {
@@ -80,4 +81,15 @@ struct DartExternalTypesStruct {
     compressionState: CompressionState
     color: SystemColor
     season: Season
+}
+
+@Dart("bool")
+struct VeryBoolean {
+    external {
+        dart converterImport "../boolean_converter.dart"
+        dart converter "BooleanConverter"
+    }
+
+    value: Boolean
+    constructor make(value: Boolean)
 }

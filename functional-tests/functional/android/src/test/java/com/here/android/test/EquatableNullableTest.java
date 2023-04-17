@@ -35,11 +35,11 @@ import org.robolectric.annotation.Config;
 @Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class)
 public final class EquatableNullableTest {
 
-  private final EquatableNullableStruct mainStruct = createEquatableNullableStruct();
+  private final Equatable.EquatableNullableStruct mainStruct = createEquatableNullableStruct();
 
   @Test
   public void equatableNullableStructEquals() {
-    EquatableNullableStruct otherStruct = createEquatableNullableStruct();
+    Equatable.EquatableNullableStruct otherStruct = createEquatableNullableStruct();
 
     assertEquals(mainStruct, otherStruct);
     assertEquals(mainStruct.hashCode(), otherStruct.hashCode());
@@ -47,7 +47,7 @@ public final class EquatableNullableTest {
 
   @Test
   public void equatableNullableStructNotEqualsBooleanField() {
-    EquatableNullableStruct otherStruct = createEquatableNullableStruct();
+    Equatable.EquatableNullableStruct otherStruct = createEquatableNullableStruct();
     otherStruct.boolField = !otherStruct.boolField;
 
     assertNotEquals(mainStruct, otherStruct);
@@ -56,7 +56,7 @@ public final class EquatableNullableTest {
 
   @Test
   public void equatableNullableStructNotEqualsIntField() {
-    EquatableNullableStruct otherStruct = createEquatableNullableStruct();
+    Equatable.EquatableNullableStruct otherStruct = createEquatableNullableStruct();
     otherStruct.intField += 1;
 
     assertNotEquals(mainStruct, otherStruct);
@@ -65,7 +65,7 @@ public final class EquatableNullableTest {
 
   @Test
   public void equatableNullableStructNotEqualsUintField() {
-    EquatableNullableStruct otherStruct = createEquatableNullableStruct();
+    Equatable.EquatableNullableStruct otherStruct = createEquatableNullableStruct();
     otherStruct.uintField += 1;
 
     assertNotEquals(mainStruct, otherStruct);
@@ -74,7 +74,7 @@ public final class EquatableNullableTest {
 
   @Test
   public void equatableNullableStructNotEqualsFloatField() {
-    EquatableNullableStruct otherStruct = createEquatableNullableStruct();
+    Equatable.EquatableNullableStruct otherStruct = createEquatableNullableStruct();
     otherStruct.floatField += 1;
 
     assertNotEquals(mainStruct, otherStruct);
@@ -83,7 +83,7 @@ public final class EquatableNullableTest {
 
   @Test
   public void equatableNullableStructNotEqualsStringField() {
-    EquatableNullableStruct otherStruct = createEquatableNullableStruct();
+    Equatable.EquatableNullableStruct otherStruct = createEquatableNullableStruct();
     otherStruct.stringField += "foo";
 
     assertNotEquals(mainStruct, otherStruct);
@@ -92,7 +92,7 @@ public final class EquatableNullableTest {
 
   @Test
   public void equatableNullableStructNotEqualsStructField() {
-    EquatableNullableStruct otherStruct = createEquatableNullableStruct();
+    Equatable.EquatableNullableStruct otherStruct = createEquatableNullableStruct();
     otherStruct.structField.fooField += "bar";
 
     assertNotEquals(mainStruct, otherStruct);
@@ -101,8 +101,8 @@ public final class EquatableNullableTest {
 
   @Test
   public void equatableNullableStructNotEqualsEnumField() {
-    EquatableNullableStruct otherStruct = createEquatableNullableStruct();
-    otherStruct.enumField = SomeSomeEnum.FOO;
+    Equatable.EquatableNullableStruct otherStruct = createEquatableNullableStruct();
+    otherStruct.enumField = Equatable.SomeSomeEnum.FOO;
 
     assertNotEquals(mainStruct, otherStruct);
     assertNotEquals(mainStruct.hashCode(), otherStruct.hashCode());
@@ -110,7 +110,7 @@ public final class EquatableNullableTest {
 
   @Test
   public void equatableNullableStructNotEqualsMapField() {
-    EquatableNullableStruct otherStruct = createEquatableNullableStruct();
+    Equatable.EquatableNullableStruct otherStruct = createEquatableNullableStruct();
     otherStruct.mapField.put(2, "foo");
 
     assertNotEquals(mainStruct, otherStruct);
@@ -119,7 +119,7 @@ public final class EquatableNullableTest {
 
   @Test
   public void equatableNullableStructNotEqualsArrayField() {
-    EquatableNullableStruct otherStruct = createEquatableNullableStruct();
+    Equatable.EquatableNullableStruct otherStruct = createEquatableNullableStruct();
     otherStruct.arrayField.add("foo");
 
     assertNotEquals(mainStruct, otherStruct);
@@ -128,7 +128,7 @@ public final class EquatableNullableTest {
 
   @Test
   public void equatableNullableStructEqualsCpp() {
-    EquatableNullableStruct otherStruct = createEquatableNullableStruct();
+    Equatable.EquatableNullableStruct otherStruct = createEquatableNullableStruct();
 
     assertTrue(EquatableClass.areEqual(mainStruct, otherStruct));
   }
@@ -136,18 +136,18 @@ public final class EquatableNullableTest {
   @Test
   public void equatableNullableStructEqualsCppWithNulls() {
     assertTrue(
-        EquatableClass.areEqual(new EquatableNullableStruct(), new EquatableNullableStruct()));
+        EquatableClass.areEqual(new Equatable.EquatableNullableStruct(), new Equatable.EquatableNullableStruct()));
   }
 
   @Test
   public void equatableNullableStructNotEqualsCpp() {
-    EquatableNullableStruct otherStruct = createEquatableNullableStruct();
+    Equatable.EquatableNullableStruct otherStruct = createEquatableNullableStruct();
     otherStruct.arrayField.add("foo");
 
     assertFalse(EquatableClass.areEqual(mainStruct, otherStruct));
   }
 
-  private static EquatableNullableStruct createEquatableNullableStruct() {
+  private static Equatable.EquatableNullableStruct createEquatableNullableStruct() {
 
     Map<Integer, String> someMap = new HashMap<>();
     someMap.put(0, "one");
@@ -157,8 +157,8 @@ public final class EquatableNullableTest {
     someArray.add("one");
     someArray.add("two");
 
-    return new EquatableNullableStruct(
-        true, -42, 6542, 3.14f, "nonsense", new NestedEquatableStruct("foo"), SomeSomeEnum.BAR,
-        someMap, someArray);
+    return new Equatable.EquatableNullableStruct(
+        true, -42, 6542, 3.14f, "nonsense", new Equatable.NestedEquatableStruct("foo"),
+        Equatable.SomeSomeEnum.BAR, someMap, someArray);
   }
 }

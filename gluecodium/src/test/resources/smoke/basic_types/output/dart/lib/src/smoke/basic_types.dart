@@ -156,6 +156,7 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
 Pointer<Void> smokeBasictypesToFfi(BasicTypes value) =>
   _smokeBasictypesCopyHandle((value as __lib.NativeBase).handle);
 BasicTypes smokeBasictypesFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is BasicTypes) return instance;
   final _copiedHandle = _smokeBasictypesCopyHandle(handle);

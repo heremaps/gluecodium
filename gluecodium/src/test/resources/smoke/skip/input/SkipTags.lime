@@ -52,7 +52,7 @@ class SkipMixed {
     static fun notInDart(input: Float): Float
 }
 
-types SkipTypesTags {
+struct SkipTypesTags {
   @Skip(Lite)
   enum SkipMe {
       NOPE

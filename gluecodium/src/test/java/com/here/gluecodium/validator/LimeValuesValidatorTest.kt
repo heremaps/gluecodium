@@ -22,14 +22,14 @@ package com.here.gluecodium.validator
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicTypeRef
 import com.here.gluecodium.model.lime.LimeConstant
+import com.here.gluecodium.model.lime.LimeConstantRef
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
-import com.here.gluecodium.model.lime.LimeEnumeration
-import com.here.gluecodium.model.lime.LimeEnumerator
-import com.here.gluecodium.model.lime.LimeEnumeratorRef
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
@@ -68,6 +68,7 @@ class LimeValuesValidatorTest(
 
     companion object {
         private val fooTypeRef = LimeDirectTypeRef(object : LimeType(EMPTY_PATH) {})
+        private val fooType = object : LimeType(LimePath(emptyList(), listOf("foo"))) {}
 
         @JvmStatic
         @Parameterized.Parameters
@@ -76,32 +77,46 @@ class LimeValuesValidatorTest(
             arrayOf(LimeBasicTypeRef.FLOAT, LimeValue.Literal(fooTypeRef, ""), true),
             arrayOf(LimeBasicTypeRef(LimeBasicType.TypeId.BOOLEAN), LimeValue.Literal(fooTypeRef, ""), true),
             arrayOf(LimeBasicTypeRef(LimeBasicType.TypeId.STRING), LimeValue.Literal(fooTypeRef, ""), true),
-            arrayOf(LimeBasicTypeRef(LimeBasicType.TypeId.DATE), LimeValue.Literal(fooTypeRef, ""), false),
+            arrayOf(
+                LimeBasicTypeRef(LimeBasicType.TypeId.DATE),
+                LimeValue.Literal(fooTypeRef, "2022-02-04T09:15:17Z"),
+                true
+            ),
+            arrayOf(LimeBasicTypeRef(LimeBasicType.TypeId.DATE), LimeValue.Literal(fooTypeRef, "bar"), false),
+            arrayOf(LimeBasicTypeRef(LimeBasicType.TypeId.LOCALE), LimeValue.Literal(fooTypeRef, "en-US"), true),
+            arrayOf(LimeBasicTypeRef(LimeBasicType.TypeId.LOCALE), LimeValue.Literal(fooTypeRef, "und"), true),
+            arrayOf(LimeBasicTypeRef(LimeBasicType.TypeId.LOCALE), LimeValue.Literal(fooTypeRef, "42"), false),
+            arrayOf(LimeBasicTypeRef(LimeBasicType.TypeId.BLOB), LimeValue.Literal(fooTypeRef, ""), false),
             arrayOf(fooTypeRef, LimeValue.Literal(fooTypeRef, ""), false),
             arrayOf(
-                LimeDirectTypeRef(LimeEnumeration(EMPTY_PATH)),
-                LimeValue.Enumerator(
+                LimeDirectTypeRef(fooType),
+                LimeValue.Constant(
                     fooTypeRef,
-                    object : LimeEnumeratorRef() {
-                        override val elementFullName = ""
-                        override val enumerator = LimeEnumerator(EMPTY_PATH)
+                    object : LimeConstantRef() {
+                        override val element = object : LimeNamedElement(EMPTY_PATH) {}
+                        override val typeRef = LimeDirectTypeRef(fooType)
                     }
                 ),
                 true
             ),
             arrayOf(
                 fooTypeRef,
-                LimeValue.Enumerator(
+                LimeValue.Constant(
                     fooTypeRef,
-                    object : LimeEnumeratorRef() {
-                        override val elementFullName = ""
-                        override val enumerator = LimeEnumerator(EMPTY_PATH)
+                    object : LimeConstantRef() {
+                        override val element = object : LimeNamedElement(EMPTY_PATH) {}
+                        override val typeRef = LimeBasicTypeRef.INT
                     }
                 ),
                 false
             ),
             arrayOf(
                 LimeDirectTypeRef(object : LimeGenericType() {}),
+                LimeValue.InitializerList(fooTypeRef, emptyList()),
+                true
+            ),
+            arrayOf(
+                LimeBasicTypeRef(LimeBasicType.TypeId.BLOB),
                 LimeValue.InitializerList(fooTypeRef, emptyList()),
                 true
             ),

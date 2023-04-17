@@ -30,8 +30,8 @@ typedef struct {
 {{#getter}}
     {{resolveName typeRef}}(*{{resolveName}})(void* swift_pointer);
 {{/getter}}
-{{#setter}}
+{{#setter}}{{#ifPredicate "shouldRetain"}}
     void(*{{resolveName}})(void* swift_pointer, {{resolveName typeRef}} value);
-{{/setter}}
+{{/ifPredicate}}{{/setter}}
 {{/ifPredicate}}{{/unless}}{{/each}}
 } {{resolveName}}_FunctionTable;

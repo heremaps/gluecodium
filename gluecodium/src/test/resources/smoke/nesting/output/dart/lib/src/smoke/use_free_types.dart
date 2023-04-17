@@ -72,6 +72,7 @@ class UseFreeTypes$Impl extends __lib.NativeBase implements UseFreeTypes {
 Pointer<Void> smokeUsefreetypesToFfi(UseFreeTypes value) =>
   _smokeUsefreetypesCopyHandle((value as __lib.NativeBase).handle);
 UseFreeTypes smokeUsefreetypesFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is UseFreeTypes) return instance;
   final _copiedHandle = _smokeUsefreetypesCopyHandle(handle);

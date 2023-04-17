@@ -18,6 +18,5 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unlessPredicate "skipTypeAlias"}}{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}
-{{#unless isInterface}}{{resolveName visibility}} {{/unless}}typealias {{resolveName}} = {{!!
-}}{{#if errorType}}{{resolveName errorType}}{{/if}}{{#unless errorType}}{{resolveName typeRef}}{{/unless}}{{/unlessPredicate}}
+{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}
+{{#unless isInterface}}{{resolveName "visibility"}} {{/unless}}typealias {{resolveName}} = {{resolveName typeRef}}

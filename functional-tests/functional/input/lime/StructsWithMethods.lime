@@ -17,7 +17,7 @@
 
 package test
 
-types ValidationUtils {
+struct ValidationUtils {
     enum ValidationErrorCode {
         NONE,
         VALIDATION_FAILED
@@ -25,32 +25,30 @@ types ValidationUtils {
     exception Validation(ValidationErrorCode)
 }
 
-types StructsWithMethods {
-    @Equatable
-    struct Vector {
-        x: Double
+@Equatable
+struct Vector {
+    x: Double
+    y: Double
+    fun distanceTo(
+        other: Vector
+    ): Double
+    fun add(
+        other: Vector
+    ): Vector
+    static fun validate(
+        x: Double,
+
         y: Double
-        fun distanceTo(
-            other: Vector
-        ): Double
-        fun add(
-            other: Vector
-        ): Vector
-        static fun validate(
-            x: Double,
-    
-            y: Double
-        ): Boolean
-        constructor create(
-            x: Double,
-    
-            y: Double
-        )
-        @Dart("createCopy")
-        constructor create(
-            other: Vector
-        ) throws ValidationUtils.Validation
-    }
+    ): Boolean
+    constructor create(
+        x: Double,
+
+        y: Double
+    )
+    @Dart("createCopy")
+    constructor create(
+        other: Vector
+    ) throws ValidationUtils.Validation
 }
 
 class StructsWithMethodsInterface {
@@ -94,17 +92,19 @@ struct StructWithConstMethod {
     fun doubleConst(): Double
 }
 
-@Cpp(
-    ExternalType = "include/ExternalTypes.h",
-    ExternalName = "external::ClassWithOverloads::StructWithOverloads"
-)
 struct StructWithOverloads {
+    external {
+        cpp include "include/ExternalTypes.h"
+        cpp name "external::ClassWithOverloads::StructWithOverloads"
+    }
     fun overloadedMethod(): String
     @Dart("overloadedMethodString")
     fun overloadedMethod(input: String): String
     @Dart("overloadedMethodTwo")
     fun overloadedMethod(inputString: String, inputBool: Boolean): String
 
-    @Cpp(ExternalGetter = "overloadedAccessors", ExternalSetter = "overloadedAccessors")
-    overloadedAccessors: Int
+    overloadedAccessors: Int external {
+        cpp getterName "overloadedAccessors"
+        cpp setterName "overloadedAccessors"
+    }
 }

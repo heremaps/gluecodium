@@ -1,7 +1,6 @@
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
-import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:meta/meta.dart';
 abstract class NoCacheClass {
   factory NoCacheClass() => $prototype.make();
@@ -30,7 +29,6 @@ class NoCacheClass$Impl extends __lib.NativeBase implements NoCacheClass {
   NoCacheClass make() {
     final _result_handle = _make();
     final _result = NoCacheClass$Impl(_result_handle);
-    __lib.cacheInstance(_result_handle, _result);
     _smokeNocacheclassRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
     return _result;
   }
@@ -49,6 +47,7 @@ class NoCacheClass$Impl extends __lib.NativeBase implements NoCacheClass {
 Pointer<Void> smokeNocacheclassToFfi(NoCacheClass value) =>
   _smokeNocacheclassCopyHandle((value as __lib.NativeBase).handle);
 NoCacheClass smokeNocacheclassFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final _copiedHandle = _smokeNocacheclassCopyHandle(handle);
   final result = NoCacheClass$Impl(_copiedHandle);
   _smokeNocacheclassRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);

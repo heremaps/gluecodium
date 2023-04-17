@@ -5,7 +5,6 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 abstract class Dates {
-
   DateTime dateMethod(DateTime input);
   DateTime? nullableDateMethod(DateTime? input);
   DateTime get dateProperty;
@@ -16,7 +15,9 @@ abstract class Dates {
 class Dates_DateStruct {
   DateTime dateField;
   DateTime? nullableDateField;
-  Dates_DateStruct(this.dateField, this.nullableDateField);
+  Dates_DateStruct._(this.dateField, this.nullableDateField);
+  Dates_DateStruct(DateTime dateField)
+    : dateField = dateField, nullableDateField = null;
 }
 // Dates_DateStruct "private" section, not exported.
 final _smokeDatesDatestructCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -47,7 +48,7 @@ Dates_DateStruct smokeDatesDatestructFromFfi(Pointer<Void> handle) {
   final _dateFieldHandle = _smokeDatesDatestructGetFielddateField(handle);
   final _nullableDateFieldHandle = _smokeDatesDatestructGetFieldnullableDateField(handle);
   try {
-    return Dates_DateStruct(
+    return Dates_DateStruct._(
       dateFromFfi(_dateFieldHandle),
       dateFromFfiNullable(_nullableDateFieldHandle)
     );
@@ -102,7 +103,6 @@ final _smokeDatesReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibr
   >('library_smoke_Dates_release_handle'));
 class Dates$Impl extends __lib.NativeBase implements Dates {
   Dates$Impl(Pointer<Void> handle) : super(handle);
-
   @override
   DateTime dateMethod(DateTime input) {
     final _dateMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32, Uint64), int Function(Pointer<Void>, int, int)>('library_smoke_Dates_dateMethod__Date'));
@@ -171,6 +171,7 @@ class Dates$Impl extends __lib.NativeBase implements Dates {
 Pointer<Void> smokeDatesToFfi(Dates value) =>
   _smokeDatesCopyHandle((value as __lib.NativeBase).handle);
 Dates smokeDatesFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is Dates) return instance;
   final _copiedHandle = _smokeDatesCopyHandle(handle);

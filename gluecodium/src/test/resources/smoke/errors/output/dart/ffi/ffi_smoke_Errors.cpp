@@ -30,7 +30,7 @@ library_smoke_Errors_methodWithErrors_return_has_error(FfiOpaqueHandle handle) {
 FfiOpaqueHandle
 library_smoke_Errors_methodWithErrors(int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-    auto&& _cpp_call_result =         smoke::Errors::method_with_errors();
+    auto&& _cpp_call_result = smoke::Errors::method_with_errors();
     if (_cpp_call_result.value() == 0) {
         return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) gluecodium::Return<void, smoke::Errors::InternalErrorCode>(true));
     }
@@ -56,7 +56,7 @@ library_smoke_Errors_methodWithExternalErrors_return_has_error(FfiOpaqueHandle h
 FfiOpaqueHandle
 library_smoke_Errors_methodWithExternalErrors(int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-    auto&& _cpp_call_result =         smoke::Errors::method_with_external_errors();
+    auto&& _cpp_call_result = smoke::Errors::method_with_external_errors();
     if (_cpp_call_result.value() == 0) {
         return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) gluecodium::Return<void, fire::SomeEnum>(true));
     }
@@ -88,7 +88,7 @@ library_smoke_Errors_methodWithErrorsAndReturnValue_return_has_error(FfiOpaqueHa
 FfiOpaqueHandle
 library_smoke_Errors_methodWithErrorsAndReturnValue(int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-    auto&& _cpp_call_result =         smoke::Errors::method_with_errors_and_return_value();
+    auto&& _cpp_call_result = smoke::Errors::method_with_errors_and_return_value();
     if (_cpp_call_result.has_value()) {
         return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) gluecodium::Return<std::string, smoke::Errors::InternalErrorCode>(
             std::forward<std::string>(_cpp_call_result.unsafe_value())
@@ -116,7 +116,7 @@ library_smoke_Errors_methodWithPayloadError_return_has_error(FfiOpaqueHandle han
 FfiOpaqueHandle
 library_smoke_Errors_methodWithPayloadError(int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-    auto&& _cpp_call_result =         smoke::Errors::method_with_payload_error();
+    auto&& _cpp_call_result = smoke::Errors::method_with_payload_error();
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) gluecodium::Return<void, smoke::Payload>(
         std::forward<gluecodium::Return<void, smoke::Payload>>(_cpp_call_result)
     ));
@@ -144,7 +144,7 @@ library_smoke_Errors_methodWithPayloadErrorAndReturnValue_return_has_error(FfiOp
 FfiOpaqueHandle
 library_smoke_Errors_methodWithPayloadErrorAndReturnValue(int32_t _isolate_id) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-    auto&& _cpp_call_result =         smoke::Errors::method_with_payload_error_and_return_value();
+    auto&& _cpp_call_result = smoke::Errors::method_with_payload_error_and_return_value();
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) gluecodium::Return<std::string, smoke::Payload>(
         std::forward<gluecodium::Return<std::string, smoke::Payload>>(_cpp_call_result)
     ));
@@ -177,7 +177,7 @@ FfiOpaqueHandle
 library_smoke_Errors_InternalErrorCode_create_handle_nullable(uint32_t value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<smoke::Errors::InternalErrorCode>(
+        new (std::nothrow) std::optional<smoke::Errors::InternalErrorCode>(
             gluecodium::ffi::Conversion<smoke::Errors::InternalErrorCode>::toCpp(value)
         )
     );
@@ -185,20 +185,20 @@ library_smoke_Errors_InternalErrorCode_create_handle_nullable(uint32_t value)
 void
 library_smoke_Errors_InternalErrorCode_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<smoke::Errors::InternalErrorCode>*>(handle);
+    delete reinterpret_cast<std::optional<smoke::Errors::InternalErrorCode>*>(handle);
 }
 uint32_t
 library_smoke_Errors_InternalErrorCode_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::Errors::InternalErrorCode>::toFfi(
-        **reinterpret_cast<gluecodium::optional<smoke::Errors::InternalErrorCode>*>(handle)
+        **reinterpret_cast<std::optional<smoke::Errors::InternalErrorCode>*>(handle)
     );
 }
 FfiOpaqueHandle
 library_smoke_Errors_ExternalErrors_create_handle_nullable(uint32_t value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<fire::SomeEnum>(
+        new (std::nothrow) std::optional<fire::SomeEnum>(
             gluecodium::ffi::Conversion<fire::SomeEnum>::toCpp(value)
         )
     );
@@ -206,13 +206,13 @@ library_smoke_Errors_ExternalErrors_create_handle_nullable(uint32_t value)
 void
 library_smoke_Errors_ExternalErrors_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<fire::SomeEnum>*>(handle);
+    delete reinterpret_cast<std::optional<fire::SomeEnum>*>(handle);
 }
 uint32_t
 library_smoke_Errors_ExternalErrors_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<fire::SomeEnum>::toFfi(
-        **reinterpret_cast<gluecodium::optional<fire::SomeEnum>*>(handle)
+        **reinterpret_cast<std::optional<fire::SomeEnum>*>(handle)
     );
 }
 #ifdef __cplusplus

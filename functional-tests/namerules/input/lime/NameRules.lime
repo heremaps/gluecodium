@@ -17,23 +17,21 @@
 
 package namerules
 
-types HelloWorldParcelable {
-    @Serializable
-    struct State {
-        dimension: Dimension
-        orientation: Orientation
-    }
+@Serializable
+struct State {
+    dimension: Dimension
+    orientation: Orientation
+}
 
-    @Serializable
-    struct Dimension {
-        width: Int
-        height: Int
-    }
+@Serializable
+struct Dimension {
+    width: Int
+    height: Int
+}
 
-    enum Orientation {
-        PORTRAIT,
-        LANDSCAPE
-    }
+enum Orientation {
+    PORTRAIT,
+    LANDSCAPE
 }
 
 class CustomNameRules {

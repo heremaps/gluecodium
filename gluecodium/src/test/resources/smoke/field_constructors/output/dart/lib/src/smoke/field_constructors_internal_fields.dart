@@ -1,18 +1,16 @@
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'package:meta/meta.dart';
 class FieldConstructorsInternalFields {
   String stringField;
   int intField;
   /// @nodoc
-  @internal
-  bool internal_boolField;
+  bool _boolField;
   FieldConstructorsInternalFields.withAll()
-      : stringField = "nonsense", intField = 42, internal_boolField = true;
+      : stringField = "nonsense", intField = 42, _boolField = true;
   FieldConstructorsInternalFields.withTrue(this.intField, this.stringField)
-      : internal_boolField = true;
-  FieldConstructorsInternalFields(this.internal_boolField, this.intField, this.stringField);
+      : _boolField = true;
+  FieldConstructorsInternalFields(this._boolField, this.intField, this.stringField);
 }
 // FieldConstructorsInternalFields "private" section, not exported.
 final _smokeFieldconstructorsinternalfieldsCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -38,7 +36,7 @@ final _smokeFieldconstructorsinternalfieldsGetFieldboolField = __lib.catchArgume
 Pointer<Void> smokeFieldconstructorsinternalfieldsToFfi(FieldConstructorsInternalFields value) {
   final _stringFieldHandle = stringToFfi(value.stringField);
   final _intFieldHandle = (value.intField);
-  final _boolFieldHandle = booleanToFfi(value.internal_boolField);
+  final _boolFieldHandle = booleanToFfi(value._boolField);
   final _result = _smokeFieldconstructorsinternalfieldsCreateHandle(_stringFieldHandle, _intFieldHandle, _boolFieldHandle);
   stringReleaseFfiHandle(_stringFieldHandle);
   booleanReleaseFfiHandle(_boolFieldHandle);

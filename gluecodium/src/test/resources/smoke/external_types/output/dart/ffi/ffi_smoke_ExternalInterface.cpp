@@ -68,9 +68,9 @@ extern "C" {
 void
 library_smoke_ExternalInterface_someMethod__Byte(FfiOpaqueHandle _self, int32_t _isolate_id, int8_t someParameter) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::ExternalInterface>>::toCpp(_self)).some_Method(
-            gluecodium::ffi::Conversion<int8_t>::toCpp(someParameter)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::ExternalInterface>>::toCpp(_self)).some_Method(
+        gluecodium::ffi::Conversion<int8_t>::toCpp(someParameter)
+    );
 }
 FfiOpaqueHandle
 library_smoke_ExternalInterface_someProperty_get(FfiOpaqueHandle _self, int32_t _isolate_id) {
@@ -137,7 +137,7 @@ FfiOpaqueHandle
 library_smoke_ExternalInterface_SomeStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<smoke::ExternalInterface::some_Struct>(
+        new (std::nothrow) std::optional<smoke::ExternalInterface::some_Struct>(
             gluecodium::ffi::Conversion<smoke::ExternalInterface::some_Struct>::toCpp(value)
         )
     );
@@ -145,20 +145,20 @@ library_smoke_ExternalInterface_SomeStruct_create_handle_nullable(FfiOpaqueHandl
 void
 library_smoke_ExternalInterface_SomeStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<smoke::ExternalInterface::some_Struct>*>(handle);
+    delete reinterpret_cast<std::optional<smoke::ExternalInterface::some_Struct>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_ExternalInterface_SomeStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::ExternalInterface::some_Struct>::toFfi(
-        **reinterpret_cast<gluecodium::optional<smoke::ExternalInterface::some_Struct>*>(handle)
+        **reinterpret_cast<std::optional<smoke::ExternalInterface::some_Struct>*>(handle)
     );
 }
 FfiOpaqueHandle
 library_smoke_ExternalInterface_SomeEnum_create_handle_nullable(uint32_t value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<smoke::ExternalInterface::some_Enum>(
+        new (std::nothrow) std::optional<smoke::ExternalInterface::some_Enum>(
             gluecodium::ffi::Conversion<smoke::ExternalInterface::some_Enum>::toCpp(value)
         )
     );
@@ -166,13 +166,13 @@ library_smoke_ExternalInterface_SomeEnum_create_handle_nullable(uint32_t value)
 void
 library_smoke_ExternalInterface_SomeEnum_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<smoke::ExternalInterface::some_Enum>*>(handle);
+    delete reinterpret_cast<std::optional<smoke::ExternalInterface::some_Enum>*>(handle);
 }
 uint32_t
 library_smoke_ExternalInterface_SomeEnum_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::ExternalInterface::some_Enum>::toFfi(
-        **reinterpret_cast<gluecodium::optional<smoke::ExternalInterface::some_Enum>*>(handle)
+        **reinterpret_cast<std::optional<smoke::ExternalInterface::some_Enum>*>(handle)
     );
 }
 FfiOpaqueHandle

@@ -4,7 +4,9 @@ import 'package:library/src/builtin_types__conversion.dart';
 @Deprecated("")
 class DeprecatedWithNoMessage {
   String field;
-  DeprecatedWithNoMessage(this.field);
+  DeprecatedWithNoMessage._(this.field);
+  DeprecatedWithNoMessage()
+    : field = "";
 }
 // DeprecatedWithNoMessage "private" section, not exported.
 final _smokeDeprecatedwithnomessageCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -28,7 +30,7 @@ Pointer<Void> smokeDeprecatedwithnomessageToFfi(DeprecatedWithNoMessage value) {
 DeprecatedWithNoMessage smokeDeprecatedwithnomessageFromFfi(Pointer<Void> handle) {
   final _fieldHandle = _smokeDeprecatedwithnomessageGetFieldfield(handle);
   try {
-    return DeprecatedWithNoMessage(
+    return DeprecatedWithNoMessage._(
       stringFromFfi(_fieldHandle)
     );
   } finally {

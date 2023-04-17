@@ -67,7 +67,9 @@
 {{#if external.swift.converter}}
     return {{external.swift.converter}}.convertFromInternal({{resolveName this "" "ref"}}_internal(rawValue: cValue)!)
 {{/if}}{{#unless external.swift.converter}}
-    return {{resolveName this "" "ref"}}(rawValue: {{#ifPredicate "skipDeclaration"}}UInt({{/ifPredicate}}cValue{{#ifPredicate "skipDeclaration"}}){{/ifPredicate}})!
+    return {{resolveName this "" "ref"}}(rawValue: {{!!
+    }}{{#ifPredicate "skipDeclaration"}}UInt({{/ifPredicate}}cValue{{!!
+    }}{{#ifPredicate "skipDeclaration"}}){{/ifPredicate}}){{#unless attributes.swift.optionSet}}!{{/unless}}
 {{/unless}}
 }
 {{>swift/ConversionVisibility}} func moveFromCType(_ cValue: UInt32) -> {{resolveName this "" "ref"}} {
@@ -81,7 +83,9 @@
 {{#if external.swift.converter}}
     return {{external.swift.converter}}.convertFromInternal({{resolveName this "" "ref"}}_internal(rawValue: uint32_t_value_get(handle))!)
 {{/if}}{{#unless external.swift.converter}}
-    return {{resolveName this "" "ref"}}(rawValue: {{#ifPredicate "skipDeclaration"}}UInt({{/ifPredicate}}uint32_t_value_get(handle){{#ifPredicate "skipDeclaration"}}){{/ifPredicate}})!
+    return {{resolveName this "" "ref"}}(rawValue: {{!!
+    }}{{#ifPredicate "skipDeclaration"}}UInt({{/ifPredicate}}uint32_t_value_get(handle){{!!
+    }}{{#ifPredicate "skipDeclaration"}}){{/ifPredicate}}){{#unless attributes.swift.optionSet}}!{{/unless}}
 {{/unless}}
 }
 {{>swift/ConversionVisibility}} func moveFromCType(_ handle: _baseRef) -> {{resolveName this "" "ref"}}? {

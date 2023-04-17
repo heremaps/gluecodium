@@ -1,16 +1,13 @@
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'package:meta/meta.dart';
 class PublicFieldsAllInit {
   String publicField;
   /// @nodoc
-  @internal
-  String internal_internalField;
-  PublicFieldsAllInit(this.publicField) : internal_internalField = "foo";
-  PublicFieldsAllInit.allFields(this.publicField, this.internal_internalField);
-  PublicFieldsAllInit.withDefaults()
-    : publicField = "bar", internal_internalField = "foo";
+  String _internalField;
+  PublicFieldsAllInit._(this.publicField, this._internalField);
+  PublicFieldsAllInit()
+    : publicField = "bar", _internalField = "foo";
 }
 // PublicFieldsAllInit "private" section, not exported.
 final _smokePublicfieldsallinitCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -31,7 +28,7 @@ final _smokePublicfieldsallinitGetFieldinternalField = __lib.catchArgumentError(
   >('library_smoke_PublicFieldsAllInit_get_field_internalField'));
 Pointer<Void> smokePublicfieldsallinitToFfi(PublicFieldsAllInit value) {
   final _publicFieldHandle = stringToFfi(value.publicField);
-  final _internalFieldHandle = stringToFfi(value.internal_internalField);
+  final _internalFieldHandle = stringToFfi(value._internalField);
   final _result = _smokePublicfieldsallinitCreateHandle(_publicFieldHandle, _internalFieldHandle);
   stringReleaseFfiHandle(_publicFieldHandle);
   stringReleaseFfiHandle(_internalFieldHandle);
@@ -41,7 +38,7 @@ PublicFieldsAllInit smokePublicfieldsallinitFromFfi(Pointer<Void> handle) {
   final _publicFieldHandle = _smokePublicfieldsallinitGetFieldpublicField(handle);
   final _internalFieldHandle = _smokePublicfieldsallinitGetFieldinternalField(handle);
   try {
-    return PublicFieldsAllInit.allFields(
+    return PublicFieldsAllInit._(
       stringFromFfi(_publicFieldHandle),
       stringFromFfi(_internalFieldHandle)
     );

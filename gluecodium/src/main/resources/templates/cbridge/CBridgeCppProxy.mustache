@@ -35,7 +35,7 @@ public:
 
 {{#each this.inheritedFunctions this.functions}}{{#unless isStatic}}
     {{>cpp/CppReturnType}} {{resolveName "C++"}}({{joinPartial parameters "cppParameter" ", "}}){{!!
-    }}{{#if attributes.cpp.const}} const{{/if}}{{#unless isLambda}} override{{/unless}} {
+    }}{{#if attributes.cpp.const}} const{{/if}}{{#if attributes.cpp.noexcept}} noexcept{{/if}}{{#unless isLambda}} override{{/unless}} {
 {{#unlessPredicate "shouldRetain"}}
         {{#if returnType.isVoid error}}return {};{{/if}}{{#unless returnType.isVoid}}return {};{{/unless}}
 {{/unlessPredicate}}{{#ifPredicate "shouldRetain"}}{{#if thrownType}}
@@ -53,7 +53,7 @@ public:
     }
 {{/unless}}{{/each}}
 {{#each this.inheritedProperties this.properties}}{{#unless isStatic}}
-    {{resolveName typeRef "C++"}} {{resolveName this "C++" "getter"}}() const override {
+    {{resolveName typeRef "C++"}} {{resolveName this "C++" "getter"}}() const{{#if attributes.cpp.noexcept}} noexcept{{/if}} override {
 {{#unlessPredicate "shouldRetain"}}
         return {};
 {{/unlessPredicate}}{{#ifPredicate "shouldRetain"}}
@@ -62,8 +62,8 @@ public:
 {{/ifPredicate}}
     }
 {{#if setter}}
-    void {{resolveName this "C++" "setter"}}({{#setter.parameters.0}}{{>cppParameter}}{{/setter.parameters.0}}) override {
-{{#ifPredicate "shouldRetain"}}
+    void {{resolveName this "C++" "setter"}}({{#setter.parameters.0}}{{>cppParameter}}{{/setter.parameters.0}}){{#if attributes.cpp.noexcept}} noexcept{{/if}} override {
+{{#ifPredicate setter "shouldRetain"}}
         mFunctions.{{resolveName setter}}({{!!
         }}mFunctions.swift_pointer, {{#setter.parameters.0}}{{>swiftParameter}}{{/setter.parameters.0}});
 {{/ifPredicate}}
@@ -86,7 +86,7 @@ _baseRef {{resolveName}}_create_proxy({{resolveName}}_FunctionTable functionTabl
 
 _baseRef {{resolveName}}_create_optional_proxy({{resolveName}}_FunctionTable functionTable) {
     auto proxy = {{resolveName}}Proxy::get_proxy(::std::move(functionTable));
-    return proxy ? reinterpret_cast<_baseRef>(new (::std::nothrow) {{>common/InternalNamespace}}optional<{{resolveName this "C++"}}>({{!!
+    return proxy ? reinterpret_cast<_baseRef>(new (::std::nothrow) std::optional<{{resolveName this "C++"}}>({{!!
     }}::std::bind(&{{resolveName}}Proxy::operator(), proxy{{!!
     }}{{#functions.0.parameters}}, ::std::placeholders::_{{iter.index}}{{/functions.0.parameters}}))) : 0;
 }

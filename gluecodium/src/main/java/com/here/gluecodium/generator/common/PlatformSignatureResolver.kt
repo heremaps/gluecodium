@@ -22,7 +22,9 @@ package com.here.gluecodium.generator.common
 import com.here.gluecodium.common.LimeModelSkipPredicates
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
+import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainer
+import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeSignatureResolver
@@ -41,4 +43,16 @@ internal open class PlatformSignatureResolver(
     override fun getFunctionName(limeFunction: LimeFunction) =
         limeFunction.attributes.get(platformAttributeType, LimeAttributeValueType.NAME, String::class.java)
             ?: nameRules.getName(limeFunction)
+
+    fun isOverloadedInBindings(limeFunction: LimeFunction): Boolean {
+        if (isOverloaded(limeFunction)) return true
+
+        val container = getContainer(limeFunction) as? LimeContainerWithInheritance ?: return false
+        val inheritedFunctions =
+            if (container is LimeClass) container.interfaceInheritedFunctions else container.inheritedFunctions
+        if (inheritedFunctions.isEmpty()) return false
+
+        val functionName = getFunctionName(limeFunction)
+        return inheritedFunctions.any { getFunctionName(it) == functionName }
+    }
 }

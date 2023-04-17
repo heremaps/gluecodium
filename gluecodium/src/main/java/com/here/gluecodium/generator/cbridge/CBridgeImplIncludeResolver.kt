@@ -42,7 +42,6 @@ import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypedElement
-import com.here.gluecodium.model.lime.LimeTypesCollection
 import java.io.File
 
 internal class CBridgeImplIncludeResolver(private val cppIncludeResolver: CppIncludeResolver) :
@@ -50,7 +49,7 @@ internal class CBridgeImplIncludeResolver(private val cppIncludeResolver: CppInc
 
     override fun resolveElementImports(limeElement: LimeElement) =
         when (limeElement) {
-            is LimeTypesCollection, is LimeConstant -> emptyList()
+            is LimeConstant -> emptyList()
             is LimeTypeRef -> resolveTypeRefIncludes(limeElement)
             is LimeReturnType -> resolveTypeRefIncludes(limeElement.typeRef)
             is LimeLambdaParameter -> resolveTypeRefIncludes(limeElement.typeRef)
@@ -82,7 +81,7 @@ internal class CBridgeImplIncludeResolver(private val cppIncludeResolver: CppInc
     }
 
     private fun resolveStructIncludes(limeStruct: LimeStruct) =
-        resolveContainerIncludes(limeStruct) + listOf(cppIncludeResolver.optionalInclude)
+        resolveContainerIncludes(limeStruct) + listOf(CppLibraryIncludes.OPTIONAL)
 
     private fun resolveContainerIncludes(limeContainer: LimeContainer) =
         cppIncludeResolver.resolveElementImports(limeContainer) +
@@ -118,7 +117,7 @@ internal class CBridgeImplIncludeResolver(private val cppIncludeResolver: CppInc
             CppLibraryIncludes.NEW,
             BASE_HANDLE_IMPL_INCLUDE,
             CACHED_PROXY_BASE_INCLUDE,
-            cppIncludeResolver.optionalInclude
+            CppLibraryIncludes.OPTIONAL
         )
 
     companion object {

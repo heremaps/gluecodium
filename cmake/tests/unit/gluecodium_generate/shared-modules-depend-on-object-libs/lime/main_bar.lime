@@ -19,6 +19,12 @@ package unit.test
 
 import unit.test.CommonMainFoo
 
+@Skip(Dart)
+lambda OverloadedLambdaMain = (Int) -> String
+
 class MainBar {
     constructor make(foo: CommonMainFoo)
+
+    fun run_lambda_main(callback: OverloadedLambdaMain)
+    fun run_lambda_common(callback: OverloadedLambdaCommon)
 }

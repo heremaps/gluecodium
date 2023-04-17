@@ -19,16 +19,16 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "ExportCommonGluecodiumCpp.h"
-#include <string>
+#include <string_view>
 namespace gluecodium {
-using TypeId = std::string;
+using TypeId = std::string_view;
 class _GLUECODIUM_CPP_EXPORT TypeRepository
 {
 public:
     TypeRepository();
     ~TypeRepository();
     void add_type(const void* instance, const TypeId& id);
-    std::string get_id(const void* instance) const;
+    TypeId get_id(const void* instance) const;
     void remove_type(const void* instance);
 private:
     struct Impl;

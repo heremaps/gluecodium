@@ -22,6 +22,7 @@ package com.here.gluecodium.generator.ffi
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
+import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeBasicType
@@ -33,6 +34,7 @@ import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeSignatureResolver
 import com.here.gluecodium.model.lime.LimeType
@@ -40,10 +42,10 @@ import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class FfiNameResolver(
-    private val limeReferenceMap: Map<String, LimeElement>,
+    limeReferenceMap: Map<String, LimeElement>,
     private val nameRules: NameRules,
     private val internalPrefix: String
-) : NameResolver {
+) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
 
     private val signatureResolver = FfiSignatureResolver(limeReferenceMap, this)
 
@@ -58,6 +60,18 @@ internal class FfiNameResolver(
             else ->
                 throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }
+
+    // Narrow usage: for the short name of a function in a class/interface
+    override fun resolveReferenceName(element: Any): String? {
+        if (element !is LimeFunction) return null
+        val parentElement = getParentElement(element)
+        val functionName = mangleName(nameRules.getName(element))
+        if (parentElement is LimeProperty) {
+            return mangleName(nameRules.getName(parentElement)) + "_$functionName"
+        }
+        val mangledSignature = getMangledSignature(element)
+        return if (mangledSignature.isEmpty()) functionName else "${functionName}__$mangledSignature"
+    }
 
     private fun getTypeRefName(limeTypeRef: LimeTypeRef): String {
         val limeType = limeTypeRef.type.actualType
@@ -140,13 +154,15 @@ internal class FfiNameResolver(
 
         return when (limeElement) {
             is LimeFunction -> {
-                val mangledSignature =
-                    signatureResolver.getSignature(limeElement).joinToString("_") { it.replace("?", "_") }
+                val mangledSignature = getMangledSignature(limeElement)
                 if (mangledSignature.isEmpty()) fullName else "${fullName}__$mangledSignature"
             }
             else -> fullName
         }
     }
+
+    private fun getMangledSignature(limeFunction: LimeFunction) =
+        signatureResolver.getSignature(limeFunction).joinToString("_") { it.replace("?", "_") }
 
     private fun mangleName(name: String) =
         name.replace(" ", "")

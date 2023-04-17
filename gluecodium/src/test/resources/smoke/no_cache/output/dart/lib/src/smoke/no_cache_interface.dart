@@ -69,6 +69,7 @@ Pointer<Void> smokeNocacheinterfaceToFfi(NoCacheInterface value) {
   return result;
 }
 NoCacheInterface smokeNocacheinterfaceFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final _typeIdHandle = _smokeNocacheinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);

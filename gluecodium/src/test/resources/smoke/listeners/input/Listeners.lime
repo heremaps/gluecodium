@@ -40,8 +40,10 @@ class Calculator {
 
 interface CalculationResult {}
 
-internal interface InternalListener {
-    internal fun onEvent()
+@Internal
+interface InternalListener {
+    @Internal
+    fun onEvent()
 }
 
 interface ListenerWithNullable {

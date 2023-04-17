@@ -74,8 +74,10 @@ class ConcreteGrandChild : ConcreteChild {
 
 class AnotherConcreteGrandChild : AnotherConcreteChild {}
 
-open internal class InternalParent {}
-internal class InternalChild : InternalParent {}
+@Internal
+open class InternalParent {}
+@Internal
+class InternalChild : InternalParent {}
 
 class InheritanceTestHelper {
     static fun callRootMethod(

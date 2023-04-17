@@ -60,8 +60,9 @@ data class LimePath(
 
     fun withSuffix(disambiguator: String) = LimePath(head, tail, disambiguator)
 
-    override fun toString() = (head + tail).joinToString(separator = ".") +
-        if (disambiguator.isNotEmpty()) ":$disambiguator" else ""
+    fun toAmbiguousString() = (head + tail).joinToString(separator = ".")
+
+    override fun toString() = toAmbiguousString() + if (disambiguator.isNotEmpty()) ":$disambiguator" else ""
 
     override fun compareTo(other: LimePath) = toString().compareTo(other.toString())
 

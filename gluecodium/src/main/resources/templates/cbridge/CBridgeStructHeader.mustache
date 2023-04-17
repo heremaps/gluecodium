@@ -41,7 +41,11 @@ _GLUECODIUM_C_EXPORT {{resolveName typeRef}} {{structName}}_{{resolveName}}_get(
 {{>cbridge/CBridgeClassHeader}}
 {{/each}}
 
-{{#if functions}}
+{{#lambdas}}
+{{>cbridge/CBridgeLambdaHeader}}
+{{/lambdas}}{{!!
+
+}}{{#if functions}}
 
 {{#functions}}{{#if thrownType}}{{>cbridge/ThrowingFunctionReturnType}}
 {{/if}}{{/functions}}

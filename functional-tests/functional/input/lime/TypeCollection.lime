@@ -17,11 +17,12 @@
 
 package test
 
-types TypeCollection {
+struct TypeCollection {
     // Basic struct type
     struct Point {
         x: Double = 0.0
         y: Double = 0.0
+        field constructor(x, y)
     }
     // Basic struct type
     struct Color {
@@ -54,6 +55,12 @@ types TypeCollection {
         stringField: String = ""
         booleanField: Boolean = false
         pointField: Point
+        @Dart(Skip)
+        field constructor(pointField)
+        field constructor(
+            int8Field, uint8Field, int16Field, uint16Field, int32Field, uint32Field, int64Field, uint64Field,
+            floatField, doubleField, stringField, booleanField, pointField
+        )
     }
     // Typedef inside TypeCollection
     typealias PointTypedef = Point

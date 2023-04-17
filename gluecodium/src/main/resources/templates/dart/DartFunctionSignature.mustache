@@ -19,13 +19,16 @@
   !
   !}}
 {{#if isConstructor}}{{!!
-}}{{#if isStruct}}{{resolveName returnType}} {{/if}}{{#unless isStruct}}static Pointer<Void> _{{/unless}}{{resolveName}}({{!!
+}}{{#if isStruct}}{{resolveName returnType.typeRef.type}}{{#if external.dart.converter}}Internal{{/if}} {{/if}}{{!!
+}}{{#unless isStruct}}static Pointer<Void> _{{/unless}}{{resolveName}}({{!!
 }}{{/if}}{{!!
 
 }}{{#unless isConstructor}}{{!!
-}}{{#if isStatic}}{{#unless ignoreStatic}}static {{/unless}}{{/if}}{{resolveName returnType}} {{resolveName visibility}}{{resolveName}}({{!!
+}}{{#if isStatic}}{{#unless ignoreStatic}}static {{/unless}}{{/if}}{{!!
+}}{{#if this.attributes.async}}Future<{{resolveName returnType}}>{{/if}}{{!!
+}}{{#unless this.attributes.async}}{{resolveName returnType}}{{/unless}} {{resolveName}}({{!!
 }}{{#if addThat}}{{#unless isStatic}}{{resolveName parent}}{{#if parent.external.dart.converter}}Internal{{/if}} $that{{!!
 }}{{#if parameters}}, {{/if}}{{/unless}}{{/if}}{{!!
 }}{{/unless}}{{!!
 
-}}{{#parameters}}{{>dart/DartAttributesInline}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})
+}}{{>dart/DartFunctionParameters}})

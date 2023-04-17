@@ -88,18 +88,12 @@ uint64_t {{resolveName}}_hash(_baseRef handle) {
 {{/if}}
 
 {{#set selfType=this}}
-{{#functions}}{{#ifPredicate "shouldRetain"}}
-{{>cbridge/CBridgeFunctionDefinition}}
-{{/ifPredicate}}{{/functions}}
-{{#properties}}{{#ifPredicate "shouldRetain"}}
-{{#getter}}
-{{>cbridge/CBridgeFunctionDefinition}}
-{{/getter}}
-{{#setter}}
-{{>cbridge/CBridgeFunctionDefinition}}
-{{/setter}}
-{{/ifPredicate}}{{/properties}}
-{{/set}}
+{{#functions}}{{>cbridgeFunction}}{{/functions}}
+{{#properties}}{{>cbridgeProperty}}{{/properties}}
+{{#set isInherited=true container=selfType}}
+{{#container.interfaceInheritedFunctions}}{{>cbridgeFunction}}{{/container.interfaceInheritedFunctions}}
+{{#container.interfaceInheritedProperties}}{{>cbridgeProperty}}{{/container.interfaceInheritedProperties}}
+{{/set}}{{/set}}
 
 {{#instanceOf this "LimeInterface"}}
 {{>cbridge/CBridgeCppProxy}}
@@ -115,4 +109,17 @@ uint64_t {{resolveName}}_hash(_baseRef handle) {
 
 {{#lambdas}}
 {{>cbridge/CBridgeLambdaImpl}}
-{{/lambdas}}
+{{/lambdas}}{{!!
+
+}}{{+cbridgeFunction}}{{#ifPredicate "shouldRetain"}}
+{{>cbridge/CBridgeFunctionDefinition}}
+{{/ifPredicate}}{{/cbridgeFunction}}{{!!
+
+}}{{+cbridgeProperty}}{{#ifPredicate "shouldRetain"}}
+{{#getter}}
+{{>cbridge/CBridgeFunctionDefinition}}
+{{/getter}}
+{{#setter}}{{#ifPredicate "shouldRetain"}}
+{{>cbridge/CBridgeFunctionDefinition}}
+{{/ifPredicate}}{{/setter}}
+{{/ifPredicate}}{{/cbridgeProperty}}

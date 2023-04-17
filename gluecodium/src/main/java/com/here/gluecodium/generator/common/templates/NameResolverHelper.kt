@@ -22,6 +22,7 @@ package com.here.gluecodium.generator.common.templates
 import com.here.gluecodium.generator.common.NameResolver
 import org.trimou.handlebars.BasicHelper
 import org.trimou.handlebars.Options
+import java.util.Locale
 
 /**
  * Resolve the platform name for the given element through one of the name resolvers (looked up by a
@@ -69,7 +70,7 @@ internal class NameResolverHelper : BasicHelper() {
         }
 
         val resolver = nameResolvers[key] ?: return
-        val name = when (subKey?.toLowerCase()) {
+        val name = when (subKey?.lowercase(Locale.getDefault())) {
             "getter" -> resolver.resolveGetterName(element)
             "setter" -> resolver.resolveSetterName(element)
             "ref" -> resolver.resolveReferenceName(element)

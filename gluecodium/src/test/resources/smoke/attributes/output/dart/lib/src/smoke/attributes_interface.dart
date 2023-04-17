@@ -129,6 +129,7 @@ Pointer<Void> smokeAttributesinterfaceToFfi(AttributesInterface value) {
   return result;
 }
 AttributesInterface smokeAttributesinterfaceFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is AttributesInterface) return instance;
   final _typeIdHandle = _smokeAttributesinterfaceGetTypeId(handle);

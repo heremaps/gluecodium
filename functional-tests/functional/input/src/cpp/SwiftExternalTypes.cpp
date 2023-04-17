@@ -20,6 +20,7 @@
 
 #include "test/SwiftExternalTypesStruct.h"
 #include "test/UseSwiftExternalTypes.h"
+#include "test/VeryBoolean.h"
 
 namespace test
 {
@@ -47,4 +48,10 @@ SwiftExternalTypesStruct
 UseSwiftExternalTypes::struct_round_trip(const SwiftExternalTypesStruct& input) {
     return input;
 }
+
+bool
+UseSwiftExternalTypes::very_boolean_unbox(const VeryBoolean& input) { return input.value; }
+
+VeryBoolean
+VeryBoolean::make(const bool value) { return VeryBoolean{value}; }
 }

@@ -29,11 +29,10 @@ package com.here.gluecodium.model.lime
  */
 class LimeTypeAlias(
     path: LimePath,
-    visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     val typeRef: LimeTypeRef
-) : LimeType(path, visibility, comment, attributes) {
+) : LimeType(path, comment, attributes) {
     override val actualType
         get() = typeRef.type.actualType
 }

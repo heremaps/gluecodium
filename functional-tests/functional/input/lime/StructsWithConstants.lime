@@ -17,7 +17,7 @@
 
 package test
 
-types RouteUtils {
+struct RouteUtils {
     enum RouteType {
         NONE,
         CAR,
@@ -26,14 +26,12 @@ types RouteUtils {
     }
 }
 
-types StructsWithConstants {
-    struct SimpleRoute {
-        description: String
-        type: RouteUtils.RouteType
-        const DEFAULT_DESCRIPTION: String = "Nonsense"
-        const DEFAULT_TYPE: RouteUtils.RouteType = RouteUtils.RouteType.EQUESTRIAN
-        static fun getDefaultDescription(): String
-    }
+struct SimpleRoute {
+    description: String
+    type: RouteUtils.RouteType
+    const DEFAULT_DESCRIPTION: String = "Nonsense"
+    const DEFAULT_TYPE: RouteUtils.RouteType = RouteUtils.RouteType.EQUESTRIAN
+    static fun getDefaultDescription(): String
 }
 
 class StructsWithConstantsInterface {

@@ -19,6 +19,7 @@
 package com.here.android.test;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 
 import android.os.Build;
 import com.here.android.RobolectricApplication;
@@ -80,5 +81,40 @@ public class EnumsTest {
 
     assertEquals(InternalErrorTypeCollection.ERROR_NONE, result.type);
     assertEquals(message, result.message);
+  }
+
+  @Test
+  public void compareAliasInJava() {
+    assertEquals(EnumWithAlias.ONE, EnumWithAlias.FIRST);
+  }
+
+  @Test
+  public void compareDoubleAliasInJava() {
+    assertEquals(EnumWithAlias.ONE, EnumWithAlias.THE_BEST);
+  }
+
+  @Test
+  public void compareAliasFromCpp() {
+    EnumWithAlias value = UseEnumWithAlias.getFirst();
+
+    assertEquals(EnumWithAlias.ONE, value);
+  }
+
+  @Test
+  public void compareAliasToTargetCpp() {
+    EnumWithAlias value = EnumWithAlias.FIRST;
+
+    boolean result = UseEnumWithAlias.compareToOne(value);
+
+    assertTrue(result);
+  }
+
+  @Test
+  public void compareAliasToAliasCpp() {
+    EnumWithAlias value = EnumWithAlias.FIRST;
+
+    boolean result = UseEnumWithAlias.compareToFirst(value);
+
+    assertTrue(result);
   }
 }

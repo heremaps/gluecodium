@@ -76,7 +76,7 @@ ArraysByteBuffer::method_that_explodes( const bool error_flag )
 {
     if ( error_flag )
     {
-        return std::error_code( another::ExplosiveErrorCode::EXPLODED );
+        return std::error_code( another::TypeCollectionWithEnums::ExplosiveErrorCode::EXPLODED );
     }
     else
     {
@@ -90,7 +90,7 @@ BlobNulls::get_breaking_null() {
     return {};
 }
 
-lorem_ipsum::test::optional<std::shared_ptr<std::vector<uint8_t>>>
+std::optional<std::shared_ptr<std::vector<uint8_t>>>
 BlobNulls::get_valid_null() {
     return {};
 }

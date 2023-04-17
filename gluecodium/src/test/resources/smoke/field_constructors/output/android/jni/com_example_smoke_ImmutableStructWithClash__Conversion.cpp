@@ -30,12 +30,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::I
         (bool*)nullptr );
     return ::smoke::ImmutableStructWithClash(std::move(n_bool_field), std::move(n_int_field), std::move(n_string_field));
 }
-::gluecodium::optional<::smoke::ImmutableStructWithClash>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::gluecodium::optional<::smoke::ImmutableStructWithClash>*)
+std::optional<::smoke::ImmutableStructWithClash>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::optional<::smoke::ImmutableStructWithClash>*)
 {
     return _jinput
-        ? ::gluecodium::optional<::smoke::ImmutableStructWithClash>(convert_from_jni(_jenv, _jinput, (::smoke::ImmutableStructWithClash*)nullptr))
-        : ::gluecodium::optional<::smoke::ImmutableStructWithClash>{};
+        ? std::optional<::smoke::ImmutableStructWithClash>(convert_from_jni(_jenv, _jinput, (::smoke::ImmutableStructWithClash*)nullptr))
+        : std::optional<::smoke::ImmutableStructWithClash>{};
 }
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/ImmutableStructWithClash", com_example_smoke_ImmutableStructWithClash, ::smoke::ImmutableStructWithClash)
 JniReference<jobject>
@@ -49,7 +49,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::ImmutableStructWithClash& _ninput)
     return _jresult;
 }
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::smoke::ImmutableStructWithClash> _ninput)
+convert_to_jni(JNIEnv* _jenv, const std::optional<::smoke::ImmutableStructWithClash> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

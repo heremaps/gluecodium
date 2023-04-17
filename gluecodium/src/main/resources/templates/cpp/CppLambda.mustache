@@ -19,5 +19,4 @@
   !
   !}}
 {{>cpp/CppDocComment}}{{>cpp/CppAttributes}}
-using {{resolveName}} = ::std::function<{{resolveName returnType.typeRef}}({{#parameters}}{{!!
-}}const {{resolveName typeRef}}{{#ifPredicate typeRef "needsRefSuffix"}}&{{/ifPredicate}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})>;
+using {{resolveName}} = {{>cpp/CppLambdaType}};

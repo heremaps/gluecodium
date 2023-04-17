@@ -21,6 +21,9 @@ class NullableInterface {
     @Equatable
     struct SomeStruct {
         stringField: String = ""
+        @Dart(Skip)
+        field constructor()
+        field constructor(stringField)
     }
     struct NullableStruct {
         stringField: String? = null
@@ -32,6 +35,10 @@ class NullableInterface {
         inlineArrayField: List<String>? = null
         mapField: SomeMap? = null
         blobField: Blob? = null
+        @Dart("withDefaults")
+        field constructor()
+        @Dart(Default)
+        field constructor(stringField, boolField, doubleField, structField, enumField, arrayField, inlineArrayField, mapField, blobField)
     }
     struct NullableIntsStruct {
         int8Field: Byte? = null
@@ -42,6 +49,10 @@ class NullableInterface {
         uint16Field: UShort? = null
         uint32Field: UInt? = null
         uint64Field: ULong? = null
+        @Dart("withDefaults")
+        field constructor()
+        @Dart(Default)
+        field constructor(int8Field, int16Field, int32Field, int64Field, uint8Field, uint16Field, uint32Field, uint64Field)
     }
     struct StructWithSingleNullableField {
         nullableField: Int? = null

@@ -53,28 +53,43 @@ void main() {
   });
   _testSuite.test("methodThatExplodes() throws", () {
     Uint8List? result = null;
-    ExplosiveException? exception = null;
+    TypeCollectionWithEnumsExplosiveException? exception = null;
 
     try {
       result = ArraysByteBuffer.methodThatExplodes(true);
-    } on ExplosiveException catch(e) {
+    } on TypeCollectionWithEnumsExplosiveException catch(e) {
       exception = e;
     }
 
     expect(result, isNull);
-    expect(exception?.error, ExplosiveErrorCode.exploded);
+    expect(exception?.error, TypeCollectionWithEnumsExplosiveErrorCode.exploded);
   });
   _testSuite.test("methodThatExplodes() does not throw", () {
     Uint8List? result = null;
-    ExplosiveException? exception = null;
+    TypeCollectionWithEnumsExplosiveException? exception = null;
 
     try {
       result = ArraysByteBuffer.methodThatExplodes(false);
-    } on ExplosiveException catch(e) {
+    } on TypeCollectionWithEnumsExplosiveException catch(e) {
       exception = e;
     }
 
     expect(exception, isNull);
     expect(result, Uint8List.fromList([0, 1, 2]));
+  });
+  _testSuite.test("Blob defaults empty", () {
+    final result = BlobDefaults().emptyList;
+
+    expect(result, isEmpty);
+  });
+  _testSuite.test("Blob defaults DEAF BEEF", () {
+    final result = BlobDefaults().deadBeef;
+
+    expect(result, [0xDE, 0xAD, 0xBE, 0xEF]);
+  });
+  _testSuite.test("Blob defaults DEAF BEEF from C++", () {
+    final result = BlobDefaults.getCppDefaults().deadBeef;
+
+    expect(result, [0xDE, 0xAD, 0xBE, 0xEF]);
   });
 }

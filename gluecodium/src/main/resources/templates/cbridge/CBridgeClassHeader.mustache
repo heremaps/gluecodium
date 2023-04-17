@@ -49,17 +49,12 @@ _GLUECODIUM_C_EXPORT const void* {{resolveName}}_get_swift_object_from_cache(_ba
 {{/unless}}
 {{/instanceOf}}
 
-{{#functions}}{{#ifPredicate "shouldRetain"}}
-_GLUECODIUM_C_EXPORT {{>cbridge/CBridgeFunctionSignature}};
-{{/ifPredicate}}{{/functions}}
-{{#properties}}{{#ifPredicate "shouldRetain"}}
-{{#getter}}
-_GLUECODIUM_C_EXPORT {{>cbridge/CBridgeFunctionSignature}};
-{{/getter}}
-{{#setter}}
-_GLUECODIUM_C_EXPORT {{>cbridge/CBridgeFunctionSignature}};
-{{/setter}}
-{{/ifPredicate}}{{/properties}}
+{{#functions}}{{>cbridgeFunction}}{{/functions}}
+{{#properties}}{{>cbridgeProperty}}{{/properties}}
+{{#set isInherited=true container=this}}
+{{#container.interfaceInheritedFunctions}}{{>cbridgeFunction}}{{/container.interfaceInheritedFunctions}}
+{{#container.interfaceInheritedProperties}}{{>cbridgeProperty}}{{/container.interfaceInheritedProperties}}
+{{/set}}
 
 {{#each classes interfaces}}
 {{>cbridge/CBridgeClassHeader}}
@@ -67,4 +62,17 @@ _GLUECODIUM_C_EXPORT {{>cbridge/CBridgeFunctionSignature}};
 
 {{#lambdas}}
 {{>cbridge/CBridgeLambdaHeader}}
-{{/lambdas}}
+{{/lambdas}}{{!!
+
+}}{{+cbridgeFunction}}{{#ifPredicate "shouldRetain"}}
+_GLUECODIUM_C_EXPORT {{>cbridge/CBridgeFunctionSignature}};
+{{/ifPredicate}}{{/cbridgeFunction}}{{!!
+
+}}{{+cbridgeProperty}}{{#ifPredicate "shouldRetain"}}
+{{#getter}}
+_GLUECODIUM_C_EXPORT {{>cbridge/CBridgeFunctionSignature}};
+{{/getter}}
+{{#setter}}{{#ifPredicate "shouldRetain"}}
+_GLUECODIUM_C_EXPORT {{>cbridge/CBridgeFunctionSignature}};
+{{/ifPredicate}}{{/setter}}
+{{/ifPredicate}}{{/cbridgeProperty}}

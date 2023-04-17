@@ -23,21 +23,19 @@ import com.here.gluecodium.antlr.LimeParser
 import com.here.gluecodium.antlr.LimedocLexer
 import com.here.gluecodium.antlr.LimedocParser
 import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeType.DART
+import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
+import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeComment
-import com.here.gluecodium.model.lime.LimeExternalDescriptor
-import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CPP_TAG
-import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.GETTER_NAME_NAME
-import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.INCLUDE_NAME
-import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.NAME_NAME
-import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.SETTER_NAME_NAME
 import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeValue
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.tree.ParseTreeWalker
+import java.util.Locale
 
 internal object AntlrLimeConverter {
 
@@ -49,25 +47,33 @@ internal object AntlrLimeConverter {
         val attributes = LimeAttributes.Builder()
         annotations.forEach { convertAnnotation(it, attributes, limePath) }
 
-        parentAttributes
-            ?.get(LimeAttributeType.DEPRECATED, LimeAttributeValueType.MESSAGE, LimeComment::class.java)
-            ?.let { attributes.addAttributeIfAbsent(LimeAttributeType.DEPRECATED, LimeAttributeValueType.MESSAGE, it) }
+        if (parentAttributes != null) {
+            propagateParentAttributes(parentAttributes, attributes)
+        }
 
         return attributes.build()
     }
 
-    // Convert external descriptor from legacy attributes
-    fun convertExternalDescriptor(
-        annotations: List<LimeParser.AnnotationContext>
-    ): LimeExternalDescriptor? {
-        val values = annotations.filter { it.simpleId().text == "Cpp" }.flatMap { annotation ->
-            annotation.annotationValue().mapNotNull { convertDescriptorValue(it) }
-        }
-        if (values.isEmpty()) return null
+    private fun propagateParentAttributes(
+        parentAttributes: LimeAttributes,
+        attributes: LimeAttributes.Builder
+    ) {
+        parentAttributes
+            .get(LimeAttributeType.DEPRECATED, LimeAttributeValueType.MESSAGE, LimeComment::class.java)
+            ?.let { attributes.addAttributeIfAbsent(LimeAttributeType.DEPRECATED, LimeAttributeValueType.MESSAGE, it) }
 
-        val builder = LimeExternalDescriptor.Builder()
-        values.forEach { builder.addValue(CPP_TAG, it.first, it.second) }
-        return builder.build()
+        if (parentAttributes.have(LimeAttributeType.INTERNAL)) {
+            attributes.addAttribute(LimeAttributeType.INTERNAL)
+        }
+
+        listOf(JAVA, SWIFT, DART).forEach {
+            if (parentAttributes.have(it, LimeAttributeValueType.INTERNAL)) {
+                attributes.addAttribute(it, LimeAttributeValueType.INTERNAL)
+            }
+            if (parentAttributes.have(it, LimeAttributeValueType.PUBLIC)) {
+                attributes.addAttribute(it, LimeAttributeValueType.PUBLIC)
+            }
+        }
     }
 
     fun parseStructuredComment(commentString: String, lineNumber: Int, limePath: LimePath): LimeStructuredComment {
@@ -101,9 +107,13 @@ internal object AntlrLimeConverter {
             annotationValues.forEach { addEnableIfAttribute(attributes, it) }
             return
         }
+        if (attributeType == LimeAttributeType.INTERNAL) {
+            annotationValues.forEach { addVisibilityAttribute(attributes, it) }
+            return
+        }
 
         annotationValues.forEach {
-            val valueType = convertAnnotationValueType(it, attributeType) ?: return@forEach
+            val valueType = convertAnnotationValueType(it, attributeType)
             val rawValue = convertAnnotationValue(it)
             val value = when {
                 attributeType == LimeAttributeType.DEPRECATED -> {
@@ -127,7 +137,7 @@ internal object AntlrLimeConverter {
         valueContext: LimeParser.AnnotationValueContext
     ) {
         val valueTypeText = valueContext.simpleId()?.text
-        val value = when (valueTypeText?.toLowerCase()) {
+        val value = when (valueTypeText?.lowercase(Locale.getDefault())) {
             null, "tag" -> convertAnnotationValue(valueContext)
             else -> valueTypeText
         }
@@ -146,7 +156,7 @@ internal object AntlrLimeConverter {
         valueContext: LimeParser.AnnotationValueContext
     ) {
         val valueTypeText = valueContext.simpleId()?.text
-        val value = when (valueTypeText?.toLowerCase()) {
+        val value = when (valueTypeText?.lowercase(Locale.getDefault())) {
             null, "tag" -> convertAnnotationValue(valueContext)
             else -> valueTypeText
         }
@@ -157,8 +167,25 @@ internal object AntlrLimeConverter {
         }
     }
 
+    private fun addVisibilityAttribute(
+        attributes: LimeAttributes.Builder,
+        valueContext: LimeParser.AnnotationValueContext
+    ) {
+        val value = convertAnnotationValue(valueContext)
+        if (value == true) {
+            attributes.addAttribute(LimeAttributeType.INTERNAL)
+            return
+        }
+
+        val valueList = if (value is List<*>) value else listOf(value)
+        valueList.filterIsInstance<String>().mapNotNull { LimeAttributeType.fromString[it] }.forEach {
+            attributes.addAttribute(it, LimeAttributeValueType.INTERNAL)
+        }
+    }
+
     private fun convertAnnotationType(ctx: LimeParser.AnnotationContext) =
         when (val id = ctx.simpleId().text) {
+            "Async" -> LimeAttributeType.ASYNC
             "Cached" -> LimeAttributeType.CACHED
             "Cpp" -> LimeAttributeType.CPP
             "Dart" -> LimeAttributeType.DART
@@ -166,9 +193,11 @@ internal object AntlrLimeConverter {
             "Equatable" -> LimeAttributeType.EQUATABLE
             "EnableIf" -> LimeAttributeType.ENABLE_IF
             "Immutable" -> LimeAttributeType.IMMUTABLE
+            "Internal" -> LimeAttributeType.INTERNAL
             "Java" -> LimeAttributeType.JAVA
             "NoCache" -> LimeAttributeType.NO_CACHE
             "Optimized" -> LimeAttributeType.OPTIMIZED
+            "Overloaded" -> LimeAttributeType.OVERLOADED
             "Swift" -> LimeAttributeType.SWIFT
             "Serializable" -> LimeAttributeType.SERIALIZABLE
             "Skip" -> LimeAttributeType.SKIP
@@ -178,7 +207,7 @@ internal object AntlrLimeConverter {
     private fun convertAnnotationValueType(
         ctx: LimeParser.AnnotationValueContext,
         attributeType: LimeAttributeType
-    ): LimeAttributeValueType? {
+    ): LimeAttributeValueType {
         val id = ctx.simpleId()?.text ?: return (
             attributeType.defaultValueType
                 ?: throw LimeLoadingException("Attribute type $attributeType does not support values")
@@ -188,22 +217,24 @@ internal object AntlrLimeConverter {
             "Accessors" -> LimeAttributeValueType.ACCESSORS
             "Attribute" -> LimeAttributeValueType.ATTRIBUTE
             "Const" -> LimeAttributeValueType.CONST
-            "CString" -> LimeAttributeValueType.CSTRING
             "Default" -> LimeAttributeValueType.DEFAULT
             "EnableIf" -> LimeAttributeValueType.ENABLE_IF
-            "Extension" -> LimeAttributeValueType.EXTENSION
             "FullName" -> LimeAttributeValueType.FULL_NAME
             "FunctionName" -> LimeAttributeValueType.FUNCTION_NAME
+            "Internal" -> LimeAttributeValueType.INTERNAL
             "Label" -> LimeAttributeValueType.LABEL
             "Message" -> LimeAttributeValueType.MESSAGE
+            "Noexcept" -> LimeAttributeValueType.NOEXCEPT
+            "OptionSet" -> LimeAttributeValueType.OPTION_SET
+            "ParameterDefaults" -> LimeAttributeValueType.PARAMETER_DEFAULTS
             "PositionalDefaults" -> LimeAttributeValueType.POSITIONAL_DEFAULTS
+            "Public" -> LimeAttributeValueType.PUBLIC
             "Ref" -> LimeAttributeValueType.REF
             "Skip" -> LimeAttributeValueType.SKIP
             "Tag" -> LimeAttributeValueType.TAG
             "Type" -> LimeAttributeValueType.TYPE
             "ToString" -> LimeAttributeValueType.TO_STRING
             "Weak" -> LimeAttributeValueType.WEAK
-            "ExternalType", "ExternalName", "ExternalGetter", "ExternalSetter" -> null
             else -> throw LimeLoadingException("Unsupported attribute value: '$id'")
         }
     }
@@ -237,25 +268,6 @@ internal object AntlrLimeConverter {
         ctx.multiLineStringContent().joinToString(separator = "") {
             it.MultiLineStrText()?.text ?: it.MultiLineStringQuote().text
         }
-
-    private fun convertDescriptorValue(
-        annotationValue: LimeParser.AnnotationValueContext
-    ): Pair<String, String>? {
-        val valueName = when (annotationValue.simpleId()?.text) {
-            "ExternalType" -> INCLUDE_NAME
-            "ExternalName" -> NAME_NAME
-            "ExternalGetter" -> GETTER_NAME_NAME
-            "ExternalSetter" -> SETTER_NAME_NAME
-            else -> return null
-        }
-        val literals = annotationValue.singleLineStringLiteral()
-        val value = when (literals.size) {
-            0 -> ""
-            1 -> convertSingleLineStringLiteral(literals.first())
-            else -> literals.joinToString { convertSingleLineStringLiteral(it) }
-        }
-        return Pair(valueName, value)
-    }
 
     private fun makeSafeString(str: String) = str.trim().replace("\n", "").replace("\r", "")
 

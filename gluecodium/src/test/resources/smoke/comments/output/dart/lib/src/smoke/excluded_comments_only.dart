@@ -316,6 +316,7 @@ class ExcludedCommentsOnly$Impl extends __lib.NativeBase implements ExcludedComm
 Pointer<Void> smokeExcludedcommentsonlyToFfi(ExcludedCommentsOnly value) =>
   _smokeExcludedcommentsonlyCopyHandle((value as __lib.NativeBase).handle);
 ExcludedCommentsOnly smokeExcludedcommentsonlyFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is ExcludedCommentsOnly) return instance;
   final _copiedHandle = _smokeExcludedcommentsonlyCopyHandle(handle);

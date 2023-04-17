@@ -1,5 +1,0 @@
-package smoke
-
-internal interface InternalListener {
-    internal fun onEvent()
-}

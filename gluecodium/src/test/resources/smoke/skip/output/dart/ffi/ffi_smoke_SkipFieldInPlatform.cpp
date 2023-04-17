@@ -2,6 +2,7 @@
 #include "ConversionBase.h"
 #include "smoke/SkipFieldInPlatform.h"
 #include <cstdint>
+#include <stdbool.h>
 #include <memory>
 #include <new>
 #ifdef __cplusplus
@@ -34,7 +35,7 @@ FfiOpaqueHandle
 library_smoke_SkipFieldInPlatform_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<smoke::SkipFieldInPlatform>(
+        new (std::nothrow) std::optional<smoke::SkipFieldInPlatform>(
             gluecodium::ffi::Conversion<smoke::SkipFieldInPlatform>::toCpp(value)
         )
     );
@@ -42,13 +43,13 @@ library_smoke_SkipFieldInPlatform_create_handle_nullable(FfiOpaqueHandle value)
 void
 library_smoke_SkipFieldInPlatform_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<smoke::SkipFieldInPlatform>*>(handle);
+    delete reinterpret_cast<std::optional<smoke::SkipFieldInPlatform>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_SkipFieldInPlatform_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::SkipFieldInPlatform>::toFfi(
-        **reinterpret_cast<gluecodium::optional<smoke::SkipFieldInPlatform>*>(handle)
+        **reinterpret_cast<std::optional<smoke::SkipFieldInPlatform>*>(handle)
     );
 }
 #ifdef __cplusplus

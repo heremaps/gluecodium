@@ -43,7 +43,6 @@ import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
-import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.model.lime.LimeValue
 
 internal class JavaImportResolver(
@@ -55,6 +54,7 @@ internal class JavaImportResolver(
 ) : ImportsResolver<JavaImport> {
     val nativeBaseImport = JavaImport(internalPackages, "NativeBase")
     private val abstractNativeListImport = JavaImport(internalPackages, "AbstractNativeList")
+    private val hashMapBuilderImport = JavaImport(internalPackages, "HashMapBuilder")
     private val durationImport = JavaImport(internalPackages + "time", "Duration")
 
     override fun resolveElementImports(limeElement: LimeElement): List<JavaImport> =
@@ -80,12 +80,9 @@ internal class JavaImportResolver(
                 else -> emptyList()
             }
 
-    private fun resolveLambdaImports(limeLambda: LimeLambda): List<JavaImport> {
-        val isNestedDeclaration =
-            limeLambda.path.hasParent && limeReferenceMap[limeLambda.path.parent.toString()] !is LimeTypesCollection
-        return resolveFunctionImports(limeLambda.asFunction()) +
-            listOfNotNull(nativeBaseImport.takeIf { isNestedDeclaration })
-    }
+    private fun resolveLambdaImports(limeLambda: LimeLambda) =
+        resolveFunctionImports(limeLambda.asFunction()) +
+            listOfNotNull(nativeBaseImport.takeIf { limeLambda.path.hasParent })
 
     private fun resolveStructImports(limeStruct: LimeStruct) =
         when {
@@ -108,6 +105,8 @@ internal class JavaImportResolver(
                 resolveValueImports(limeValue.key) + resolveValueImports(limeValue.value) + abstractMapImport
             is LimeValue.InitializerList ->
                 limeValue.values.flatMap { resolveValueImports(it) } + resolveCollectionImplImports(limeValue)
+            is LimeValue.StructInitializer -> limeValue.values.flatMap { resolveValueImports(it) }
+            is LimeValue.Constant -> resolveTypeRefImports(limeValue.valueRef.typeRef, ignoreNullability = true)
             else -> emptyList()
         }
 
@@ -118,8 +117,7 @@ internal class JavaImportResolver(
             is LimeList -> listOfNotNull(arrayListImport, arraysImport.takeIf { hasValues })
             is LimeSet -> listOfNotNull(arraysImport.takeIf { hasValues }) +
                 if (limeType.elementType.type.actualType is LimeEnumeration) enumSetImport else hashSetImport
-            is LimeMap ->
-                listOfNotNull(hashMapImport, streamImport.takeIf { hasValues }, collectorsImport.takeIf { hasValues })
+            is LimeMap -> listOfNotNull(hashMapImport, hashMapBuilderImport.takeIf { hasValues })
             else -> emptyList()
         }
     }
@@ -128,7 +126,7 @@ internal class JavaImportResolver(
         val limeType = limeTypeRef?.type?.actualType ?: return emptyList()
 
         val imports = when {
-            limeType.external?.java != null -> emptyList()
+            limeType.external?.java != null -> emptyList() // External types are referred by FQN, so no import needed.
             limeType is LimeBasicType -> listOfNotNull(resolveBasicTypeImport(limeType.typeId))
             limeType is LimeList -> resolveTypeRefImports(limeType.elementType, ignoreNullability = true) + listImport +
                 if (limeTypeRef.attributes.have(OPTIMIZED)) listOf(abstractNativeListImport) else emptyList()
@@ -149,8 +147,7 @@ internal class JavaImportResolver(
     fun createTopElementImport(limeType: LimeType): JavaImport? {
         if (nameResolver.typesWithDuplicateNames.contains(limeType.fullName)) return null
         val topElement = generateSequence(limeType) {
-            val parentType = limeReferenceMap[it.path.parent.toString()] as? LimeType
-            if (parentType is LimeTypesCollection) null else parentType
+            limeReferenceMap[it.path.parent.toString()] as? LimeType
         }.last()
         return JavaImport(nameResolver.resolvePackageNames(topElement), nameResolver.resolveName(topElement))
     }
@@ -172,7 +169,6 @@ internal class JavaImportResolver(
 
     companion object {
         private val javaUtilPackage = listOf("java", "util")
-        private val javaUtilStreamPackage = javaUtilPackage + "stream"
         private val androidOsPackage = listOf("android", "os")
 
         private val listImport = JavaImport(javaUtilPackage, "List")
@@ -184,9 +180,6 @@ internal class JavaImportResolver(
         private val enumSetImport = JavaImport(javaUtilPackage, "EnumSet")
         private val hashMapImport = JavaImport(javaUtilPackage, "HashMap")
         private val arraysImport = JavaImport(javaUtilPackage, "Arrays")
-
-        private val streamImport = JavaImport(javaUtilStreamPackage, "Stream")
-        private val collectorsImport = JavaImport(javaUtilStreamPackage, "Collectors")
 
         private val parcelableImport = JavaImport(androidOsPackage, "Parcelable")
         private val parcelImport = JavaImport(androidOsPackage, "Parcel")

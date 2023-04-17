@@ -19,16 +19,16 @@
 
 package com.here.gluecodium.model.lime
 
-abstract class LimeTypeRef(attributes: LimeAttributes? = null) : LimeElement(attributes) {
-    abstract val elementFullName: String
+abstract class LimeTypeRef(attributes: LimeAttributes? = null) : LimeElementRef<LimeType>(attributes) {
     abstract val type: LimeType
     abstract val isNullable: Boolean
 
     abstract fun asNullable(): LimeTypeRef
-    internal open fun remap(referenceMap: Map<String, LimeElement>) = this
+
+    override fun remap(referenceMap: Map<String, LimeElement>): LimeTypeRef = this
+
+    override val element
+        get() = type
 
     override fun toString() = type.name + if (isNullable) "?" else ""
-
-    val escapedName
-        get() = type.escapedName + if (isNullable) "?" else ""
 }

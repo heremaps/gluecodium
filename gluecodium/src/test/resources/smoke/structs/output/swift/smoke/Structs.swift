@@ -145,13 +145,13 @@ public class Structs {
         let c_result_handle = smoke_Structs_returnAllTypesStruct(c_input.ref)
         return moveFromCType(c_result_handle)
     }
-    public static func createPoint(x: Double, y: Double) -> Point {
+    public static func createPoint(x: Double, y: Double) -> TypeCollection.Point {
         let c_x = moveToCType(x)
         let c_y = moveToCType(y)
         let c_result_handle = smoke_Structs_createPoint(c_x.ref, c_y.ref)
         return moveFromCType(c_result_handle)
     }
-    public static func modifyAllTypesStruct(input: AllTypesStruct) -> AllTypesStruct {
+    public static func modifyAllTypesStruct(input: TypeCollection.AllTypesStruct) -> TypeCollection.AllTypesStruct {
         let c_input = moveToCType(input)
         let c_result_handle = smoke_Structs_modifyAllTypesStruct(c_input.ref)
         return moveFromCType(c_result_handle)

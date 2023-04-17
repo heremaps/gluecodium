@@ -6,8 +6,8 @@ class OuterStructWithFieldConstructor {
 }
 class OuterStructWithFieldConstructor_InnerStructWithDefaults {
   double innerStructField;
-  OuterStructWithFieldConstructor_InnerStructWithDefaults(this.innerStructField);
-  OuterStructWithFieldConstructor_InnerStructWithDefaults.withDefaults()
+  OuterStructWithFieldConstructor_InnerStructWithDefaults._(this.innerStructField);
+  OuterStructWithFieldConstructor_InnerStructWithDefaults()
     : innerStructField = 1.0;
 }
 // OuterStructWithFieldConstructor_InnerStructWithDefaults "private" section, not exported.
@@ -31,7 +31,7 @@ Pointer<Void> smokeOuterstructwithfieldconstructorInnerstructwithdefaultsToFfi(O
 OuterStructWithFieldConstructor_InnerStructWithDefaults smokeOuterstructwithfieldconstructorInnerstructwithdefaultsFromFfi(Pointer<Void> handle) {
   final _innerStructFieldHandle = _smokeOuterstructwithfieldconstructorInnerstructwithdefaultsGetFieldinnerStructField(handle);
   try {
-    return OuterStructWithFieldConstructor_InnerStructWithDefaults(
+    return OuterStructWithFieldConstructor_InnerStructWithDefaults._(
       (_innerStructFieldHandle)
     );
   } finally {

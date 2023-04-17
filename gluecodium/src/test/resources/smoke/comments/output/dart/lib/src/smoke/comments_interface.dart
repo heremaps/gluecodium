@@ -407,6 +407,9 @@ class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterfa
     }
   }
   /// Sets some very useful property.
+  ///
+  /// [value] Some very useful property.
+  ///
   set isSomeProperty(bool value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_CommentsInterface_isSomeProperty_set__Boolean'));
     final _valueHandle = booleanToFfi(value);
@@ -538,6 +541,7 @@ Pointer<Void> smokeCommentsinterfaceToFfi(CommentsInterface value) {
   return result;
 }
 CommentsInterface smokeCommentsinterfaceFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is CommentsInterface) return instance;
   final _typeIdHandle = _smokeCommentsinterfaceGetTypeId(handle);

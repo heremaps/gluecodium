@@ -1,0 +1,107 @@
+# Copyright (C) 2016-2019 HERE Europe B.V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# License-Filename: LICENSE
+
+package smoke
+
+@Internal
+interface InternalInterface {
+    fun fooBar()
+}
+
+@Internal
+class InternalClass {
+    fun fooBar()
+}
+
+@Internal
+lambda InternalLambda = () -> Void
+
+interface PublicInterface {
+    @Internal
+    struct InternalStruct {
+        fieldOfInternalType: PublicClass.InternalStruct
+    }
+}
+
+class PublicClass {
+    @Internal
+    struct InternalStruct {
+        stringField: String
+    }
+    struct PublicStruct {
+        @Internal
+        internalField: InternalStruct
+    }
+    struct PublicStructWithInternalDefaults {
+        @Internal
+        internalField: String = "foo"
+        publicField: Float
+    }
+
+    @Internal
+    enum InternalEnum {
+        FOO,
+        BAR
+    }
+
+    @Internal
+    typealias InternalArray = List<InternalStruct>
+    @Internal
+    typealias InternalStructTypeDef = InternalStruct
+    @Internal
+    typealias StringToInternalStructMap = Map<String, InternalStruct>
+
+    @Internal
+    fun internalMethod(input: InternalStruct): InternalStructTypeDef
+    @Internal
+    property internalStructProperty: InternalStruct
+}
+
+struct PublicTypeCollection {
+    @Internal
+    struct InternalStruct {
+        @Internal
+        stringField: String
+        fun fooBar()
+    }
+}
+
+@Internal
+class InternalClassWithFunctions {
+    fun fooBar()
+    constructor make()
+    @Dart("remake")
+    constructor make(foo: String)
+}
+
+struct PublicStructWithNonDefaultInternalField {
+    defaultedField: Int = 42
+    @Internal
+    internalField: String
+    publicField: Boolean
+}
+
+@Internal
+class InternalClassWithStaticProperty {
+    static property fooBar: String
+}
+
+@Skip(Java, Swift)
+class InternalPropertyOnly {
+    @Internal
+    property foo: String
+}

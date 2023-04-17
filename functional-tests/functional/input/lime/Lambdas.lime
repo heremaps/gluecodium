@@ -49,6 +49,10 @@ class Lambdas {
 
 lambda StandaloneProducer = () -> String
 
+@Overloaded
+@Skip(Swift, Dart)
+lambda OverloadedLambda = (Int) -> String
+
 class LambdasDeclarationOrder {
     lambda SomeCallback = (SomeStruct) -> Void
 
@@ -72,8 +76,15 @@ class LambdasWithStructuredTypes {
 }
 
 class ClassWithInternalLambda {
-    internal lambda InternalLambda = (String) -> Boolean
-    internal static fun invokeInternalLambda(`lambda`: InternalLambda, value: String): Boolean
+    @Internal
+    lambda InternalLambda = (String) -> Boolean
+    @Internal
+    static fun invokeInternalLambda(`lambda`: InternalLambda, value: String): Boolean
 }
 
 lambda SignatureClashLambda = () -> String
+
+@Skip(Swift, Dart)
+class CallOverloadedLambda {
+    static fun invokeOverloadedLambda(`lambda`: OverloadedLambda, value: Int): String
+}

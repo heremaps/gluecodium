@@ -76,6 +76,7 @@ class UnicodeComments$Impl extends __lib.NativeBase implements UnicodeComments {
 Pointer<Void> smokeUnicodecommentsToFfi(UnicodeComments value) =>
   _smokeUnicodecommentsCopyHandle((value as __lib.NativeBase).handle);
 UnicodeComments smokeUnicodecommentsFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is UnicodeComments) return instance;
   final _copiedHandle = _smokeUnicodecommentsCopyHandle(handle);

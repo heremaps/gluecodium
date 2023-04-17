@@ -211,6 +211,7 @@ class LambdasWithStructuredTypes$Impl extends __lib.NativeBase implements Lambda
 Pointer<Void> smokeLambdaswithstructuredtypesToFfi(LambdasWithStructuredTypes value) =>
   _smokeLambdaswithstructuredtypesCopyHandle((value as __lib.NativeBase).handle);
 LambdasWithStructuredTypes smokeLambdaswithstructuredtypesFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is LambdasWithStructuredTypes) return instance;
   final _copiedHandle = _smokeLambdaswithstructuredtypesCopyHandle(handle);

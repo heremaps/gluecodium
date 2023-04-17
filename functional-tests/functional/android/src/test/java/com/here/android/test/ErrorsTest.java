@@ -82,15 +82,15 @@ public class ErrorsTest {
   }
 
   @Test
-  public void methodThatExplodes_throws() throws ExplosiveException {
-    expectedException.expect(ExplosiveException.class);
-    expectedException.expect(FieldMatcher.hasFieldWithValue("error", ExplosiveErrorCode.EXPLODED));
+  public void methodThatExplodes_throws() throws TypeCollectionWithEnums.ExplosiveException {
+    expectedException.expect(TypeCollectionWithEnums.ExplosiveException.class);
+    expectedException.expect(FieldMatcher.hasFieldWithValue("error", TypeCollectionWithEnums.ExplosiveErrorCode.EXPLODED));
 
     ArraysByteBuffer.methodThatExplodes(true);
   }
 
   @Test
-  public void methodThatExplodes_doesNotThrow() throws ExplosiveException {
+  public void methodThatExplodes_doesNotThrow() throws TypeCollectionWithEnums.ExplosiveException {
     byte[] result = ArraysByteBuffer.methodThatExplodes(false);
 
     assertEquals(0, result[0]);
@@ -99,18 +99,18 @@ public class ErrorsTest {
   }
 
   @Test
-  public void methodWithGoodAndBad_throws() throws YetAnotherException {
-    expectedException.expect(YetAnotherException.class);
-    expectedException.expect(FieldMatcher.hasFieldWithValue("error", YetAnotherErrorCode.BAD));
+  public void methodWithGoodAndBad_throws() throws TypeCollectionWithEnums.YetAnotherException {
+    expectedException.expect(TypeCollectionWithEnums.YetAnotherException.class);
+    expectedException.expect(FieldMatcher.hasFieldWithValue("error", TypeCollectionWithEnums.YetAnotherErrorCode.BAD));
 
     Errors.methodWithGoodAndBad(true);
   }
 
   @Test
-  public void methodWithGoodAndBad_doesNotThrow() throws YetAnotherException {
-    SomeEnum result = Errors.methodWithGoodAndBad(false);
+  public void methodWithGoodAndBad_doesNotThrow() throws TypeCollectionWithEnums.YetAnotherException {
+    TypeCollectionWithEnums.SomeEnum result = Errors.methodWithGoodAndBad(false);
 
-    assertEquals(SomeEnum.ANOTHER_RESULT, result);
+    assertEquals(TypeCollectionWithEnums.SomeEnum.ANOTHER_RESULT, result);
   }
 
   @Test

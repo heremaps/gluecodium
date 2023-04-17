@@ -25,7 +25,7 @@ abstract class {{resolveName}}{{!!
 {{prefixPartial "dart/DartFunctionDocs" "  "}}
   factory {{resolveName parent}}{{>dart/DartConstructorName}}({{!!
   }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
-  }}) => $prototype.{{resolveName visibility}}{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
+  }}) => $prototype.{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
 {{/constructors}}{{/set}}
 
 {{#set isInClass=true}}{{#constants}}
@@ -80,7 +80,7 @@ final _{{resolveName "Ffi"}}ReleaseHandle = __lib.catchArgumentError(() => __lib
   >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_release_handle'));
 {{#if attributes.equatable}}{{>dart/DartFfiEqualityFunction}}{{/if}}{{!!
 }}{{#if attributes.pointerEquatable}}{{>dart/DartFfiEqualityFunction}}{{/if}}
-{{#if this.parents visibility.isOpen logic="or"}}
+{{#if this.parents this.isOpen logic="or"}}
 final _{{resolveName "Ffi"}}GetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -109,22 +109,21 @@ class {{resolveName}}$Impl extends {{#if this.parentClass}}{{resolveName this.pa
 {{#unless isStatic}}  @override
 {{/unless}}
 {{prefixPartial "dart/DartFunction" "  "}}
-{{/functions}}{{#if container.parentInterfaces}}
-{{#inheritedFunctions}}
+{{/functions}}
+{{#set isInherited=true}}{{#container.interfaceInheritedFunctions}}
 {{#unless isStatic}}  @override
 {{/unless}}
 {{prefixPartial "dart/DartFunction" "  "}}
-{{/inheritedFunctions}}{{/if}}
+{{/container.interfaceInheritedFunctions}}{{/set}}
 {{#set override=true skipDocs=true}}{{#properties}}{{#if attributes.cached}}
 {{prefixPartial "dartCachedProperty" "  "}}
 {{/if}}{{#unless attributes.cached}}
 {{prefixPartial "dart/DartProperty" "  "}}
 {{/unless}}{{/properties}}
-{{#if container.parentInterfaces}}
-{{#inheritedProperties}}
+{{#set isInherited=true}}{{#container.interfaceInheritedProperties}}
 {{prefixPartial "dart/DartProperty" "  "}}
-{{/inheritedProperties}}
-{{/if}}{{/set}}{{/set}}
+{{/container.interfaceInheritedProperties}}{{/set}}
+{{/set}}{{/set}}
 {{#if attributes.equatable}}{{prefixPartial "dart/DartEqualityOperator" "  "}}{{/if}}{{!!
 }}{{#if attributes.pointerEquatable}}{{prefixPartial "dart/DartEqualityOperator" "  "}}{{/if}}
 }
@@ -133,19 +132,20 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) =>
   _{{resolveName "Ffi"}}CopyHandle((value as __lib.NativeBase).handle);
 
 {{resolveName}} {{resolveName "Ffi"}}FromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
 {{#unless this.attributes.nocache}}
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is {{resolveName}}) return instance;
 {{/unless}}
 
-{{#if this.parents visibility.isOpen logic="or"}}
+{{#if this.parents this.isOpen logic="or"}}
   final _typeIdHandle = _{{resolveName "Ffi"}}GetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
 
 {{/if}}
   final _copiedHandle = _{{resolveName "Ffi"}}CopyHandle(handle);
-  final result = {{#if this.parents visibility.isOpen logic="or"}}factoryConstructor != null
+  final result = {{#if this.parents this.isOpen logic="or"}}factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
     : {{/if}}{{resolveName}}$Impl(_copiedHandle);
 {{#unless this.attributes.nocache}}
@@ -170,11 +170,11 @@ void {{resolveName "Ffi"}}ReleaseFfiHandleNullable(Pointer<Void> handle) =>
 // End of {{resolveName}} "private" section.{{!!
 
 }}{{+dartConstructor}}
-{{resolveName parent}} {{resolveName visibility}}{{resolveName}}({{!!
+{{resolveName parent}} {{resolveName}}({{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) {
   final _result_handle = _{{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
   final _result = {{resolveName parent}}$Impl(_result_handle);
-{{#unless this.attributes.nocache}}
+{{#unless parent.attributes.nocache}}
   __lib.cacheInstance(_result_handle, _result);
 {{/unless}}
   _{{resolveName parent "Ffi"}}RegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
@@ -187,7 +187,7 @@ late {{resolveName typeRef}} _{{resolveName}}Cache;
 bool _{{resolveName}}IsCached = false;
 {{#unless isStatic}}@override
 {{/unless}}
-{{resolveName typeRef}} get {{resolveName visibility}}{{resolveName}} {
+{{resolveName typeRef}} get {{resolveName}} {
   if (!_{{resolveName}}IsCached) {
     final _{{resolveName getter}}Ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<{{!!
     }}{{resolveName typeRef "FfiApiTypes"}} Function({{#unless isStatic}}Pointer<Void>, {{/unless}}Int32), {{!!

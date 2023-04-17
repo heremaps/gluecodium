@@ -70,7 +70,7 @@ public class StructsWithMethodsInterface {
             let c_other = moveToCType(other)
             let RESULT = smoke_StructsWithMethodsInterface_Vector3_create_Vector3(c_other.ref)
             if (!RESULT.has_value) {
-                throw moveFromCType(RESULT.error_value) as ValidationError
+                throw moveFromCType(RESULT.error_value) as ValidationUtils.ValidationError
             }
             let c_result_handle = RESULT.returned_value
             return moveFromCType(c_result_handle)

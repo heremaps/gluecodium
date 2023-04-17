@@ -6,7 +6,6 @@ import 'package:library/src/builtin_types__conversion.dart';
 /// Class comment
 @OnClass
 abstract class AttributesWithComments {
-
   /// Const comment
   @OnConstInClass
   static final bool pi = false;
@@ -25,7 +24,9 @@ class AttributesWithComments_SomeStruct {
   /// Field comment
   @OnField
   String field;
-  AttributesWithComments_SomeStruct(this.field);
+  AttributesWithComments_SomeStruct._(this.field);
+  AttributesWithComments_SomeStruct()
+    : field = "";
 }
 // AttributesWithComments_SomeStruct "private" section, not exported.
 final _smokeAttributeswithcommentsSomestructCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -49,7 +50,7 @@ Pointer<Void> smokeAttributeswithcommentsSomestructToFfi(AttributesWithComments_
 AttributesWithComments_SomeStruct smokeAttributeswithcommentsSomestructFromFfi(Pointer<Void> handle) {
   final _fieldHandle = _smokeAttributeswithcommentsSomestructGetFieldfield(handle);
   try {
-    return AttributesWithComments_SomeStruct(
+    return AttributesWithComments_SomeStruct._(
       stringFromFfi(_fieldHandle)
     );
   } finally {
@@ -102,7 +103,6 @@ final _smokeAttributeswithcommentsReleaseHandle = __lib.catchArgumentError(() =>
   >('library_smoke_AttributesWithComments_release_handle'));
 class AttributesWithComments$Impl extends __lib.NativeBase implements AttributesWithComments {
   AttributesWithComments$Impl(Pointer<Void> handle) : super(handle);
-
   @override
   void veryFun() {
     final _veryFunFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_AttributesWithComments_veryFun'));
@@ -134,6 +134,7 @@ class AttributesWithComments$Impl extends __lib.NativeBase implements Attributes
 Pointer<Void> smokeAttributeswithcommentsToFfi(AttributesWithComments value) =>
   _smokeAttributeswithcommentsCopyHandle((value as __lib.NativeBase).handle);
 AttributesWithComments smokeAttributeswithcommentsFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is AttributesWithComments) return instance;
   final _copiedHandle = _smokeAttributeswithcommentsCopyHandle(handle);

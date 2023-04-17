@@ -21,7 +21,6 @@ package com.here.gluecodium.model.lime
 
 class LimeInterface(
     path: LimePath,
-    visibility: LimeVisibility = LimeVisibility.PUBLIC,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     external: LimeExternalDescriptor? = null,
@@ -39,7 +38,6 @@ class LimeInterface(
     val isNarrow: Boolean = false
 ) : LimeContainerWithInheritance(
     path = path,
-    visibility = visibility,
     comment = comment,
     attributes = attributes,
     external = external,
@@ -53,5 +51,6 @@ class LimeInterface(
     classes = classes,
     interfaces = interfaces,
     lambdas = lambdas,
-    parents = parents
+    parents = parents,
+    isOpen = true
 )

@@ -18,7 +18,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "test/StructsWithConstants.h"
+#include "test/SimpleRoute.h"
 #include "test/StructsWithConstantsInterface.h"
 #include "test/ValidationUtils.h"
 
@@ -36,4 +36,4 @@ StructsWithConstantsInterface::MultiRoute::get_default_description( )
     return StructsWithConstantsInterface::MultiRoute::DEFAULT_DESCRIPTION;
 }
 
-}  // namespace test
+}

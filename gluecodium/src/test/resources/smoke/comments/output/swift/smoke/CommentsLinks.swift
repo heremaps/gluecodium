@@ -48,10 +48,10 @@ public class CommentsLinks {
     /// * method with signature with no spaces: `Comments.oneParameterCommentOnly(...)`
     /// * parameter: `CommentsLinks.randomMethod(Comments.SomeEnum).inputParameter`
     /// * top level constant: `CommentsTypeCollection.typeCollectionConstant`
-    /// * top level struct: `TypeCollectionStruct`
-    /// * top level struct field: `TypeCollectionStruct.field`
-    /// * top level enum: `TypeCollectionEnum`
-    /// * top level enum item: `TypeCollectionEnum.item`
+    /// * top level struct: `CommentsTypeCollection.TypeCollectionStruct`
+    /// * top level struct field: `CommentsTypeCollection.TypeCollectionStruct.field`
+    /// * top level enum: `CommentsTypeCollection.TypeCollectionEnum`
+    /// * top level enum item: `CommentsTypeCollection.TypeCollectionEnum.item`
     /// * error: `Comments.SomethingWrongError`
     /// * lambda: `Comments.SomeLambda`
     /// * type from aux sources, same package: `AuxClass`
@@ -61,7 +61,7 @@ public class CommentsLinks {
     ///
     /// Not working for Java:
     /// * typedef: `Comments.Usefulness`
-    /// * top level typedef: `TypeCollectionTypedef`
+    /// * top level typedef: `CommentsTypeCollection.TypeCollectionTypedef`
     ///
     /// Not working for Swift:
     /// * named comment: []`Comments.veryUseful`

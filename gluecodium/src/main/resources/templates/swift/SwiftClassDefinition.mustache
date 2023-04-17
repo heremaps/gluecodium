@@ -19,18 +19,21 @@
   !
   !}}
 {{>swift/SwiftComment}}{{>swift/SwiftAttributes}}{{!!
-}}{{resolveName visibility}} class {{resolveName}}{{!!
+}}{{resolveName "visibility"}} class {{resolveName}}{{!!
 }}{{#if this.parents}}: {{#this.parents}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/this.parents}}{{/if}} {
 
-{{#each typeAliases exceptions}}
+{{#typeAliases}}
 {{prefixPartial "swift/SwiftTypeAlias" "    "}}
-{{/each}}
+{{/typeAliases}}
+{{#exceptions}}
+{{prefixPartial "swift/SwiftException" "    "}}
+{{/exceptions}}
 {{#lambdas}}
 {{prefixPartial "swift/SwiftLambdaDefinition" "    "}}
 {{/lambdas}}
 {{#set class=this}}{{#constructors}}
 {{prefixPartial "swift/SwiftFunctionComment" "    "}}
-    {{resolveName visibility}} {{#ifPredicate "isOverriding"}}override {{/ifPredicate}}{{!!
+    {{resolveName "visibility"}} {{#ifPredicate "isOverriding"}}override {{/ifPredicate}}{{!!
     }}init({{>swift/SwiftFunctionParameters}}){{#if thrownType}} throws{{/if}} {
         let _result = {{#if thrownType}}try {{/if}}{{resolveName class "" "ref"}}.{{resolveName}}({{#parameters}}{{!!
 }}{{#if attributes.swift.label}}{{#isNotEq attributes.swift.label "_"}}{{attributes.swift.label}}: {{/isNotEq}}{{/if}}{{!!

@@ -29,6 +29,7 @@ object CppLibraryIncludes {
     val MAP = Include.createSystemInclude("unordered_map")
     val MEMORY = Include.createSystemInclude("memory")
     val STRING = Include.createSystemInclude("string")
+    val STRING_VIEW = Include.createSystemInclude("string_view")
     val VECTOR = Include.createSystemInclude("vector")
     val NEW = Include.createSystemInclude("new")
     val SYSTEM_ERROR = Include.createSystemInclude("system_error")
@@ -36,6 +37,7 @@ object CppLibraryIncludes {
     val CHRONO = Include.createSystemInclude("chrono")
     val SET = Include.createSystemInclude("unordered_set")
     val FUNCTIONAL = Include.createSystemInclude("functional")
+    val OPTIONAL = Include.createSystemInclude("optional")
     val TYPE_TRAITS = Include.createSystemInclude("type_traits")
     val UTILITY = Include.createSystemInclude("utility")
 

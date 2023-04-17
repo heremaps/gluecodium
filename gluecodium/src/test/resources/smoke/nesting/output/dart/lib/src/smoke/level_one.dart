@@ -181,6 +181,7 @@ class LevelOne_LevelTwo_LevelThree$Impl extends __lib.NativeBase implements Leve
 Pointer<Void> smokeLeveloneLeveltwoLevelthreeToFfi(LevelOne_LevelTwo_LevelThree value) =>
   _smokeLeveloneLeveltwoLevelthreeCopyHandle((value as __lib.NativeBase).handle);
 LevelOne_LevelTwo_LevelThree smokeLeveloneLeveltwoLevelthreeFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is LevelOne_LevelTwo_LevelThree) return instance;
   final _copiedHandle = _smokeLeveloneLeveltwoLevelthreeCopyHandle(handle);
@@ -218,6 +219,7 @@ class LevelOne_LevelTwo$Impl extends __lib.NativeBase implements LevelOne_LevelT
 Pointer<Void> smokeLeveloneLeveltwoToFfi(LevelOne_LevelTwo value) =>
   _smokeLeveloneLeveltwoCopyHandle((value as __lib.NativeBase).handle);
 LevelOne_LevelTwo smokeLeveloneLeveltwoFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is LevelOne_LevelTwo) return instance;
   final _copiedHandle = _smokeLeveloneLeveltwoCopyHandle(handle);
@@ -255,6 +257,7 @@ class LevelOne$Impl extends __lib.NativeBase implements LevelOne {
 Pointer<Void> smokeLeveloneToFfi(LevelOne value) =>
   _smokeLeveloneCopyHandle((value as __lib.NativeBase).handle);
 LevelOne smokeLeveloneFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is LevelOne) return instance;
   final _copiedHandle = _smokeLeveloneCopyHandle(handle);

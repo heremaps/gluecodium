@@ -5,13 +5,13 @@
 #include "CallbacksQueue.h"
 #include "IsolateContext.h"
 #include "ProxyCache.h"
-#include "gluecodium/Optional.h"
 #include "gluecodium/UnorderedMapHash.h"
 #include "gluecodium/VectorHash.h"
 #include "smoke/Lambdas.h"
 #include <cstdint>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -199,15 +199,15 @@ public:
     }
     smoke_Lambdas_NullableConfuser_Proxy(const smoke_Lambdas_NullableConfuser_Proxy&) = delete;
     smoke_Lambdas_NullableConfuser_Proxy& operator=(const smoke_Lambdas_NullableConfuser_Proxy&) = delete;
-    gluecodium::optional<smoke::Lambdas::Producer>
-    operator()(const gluecodium::optional<std::string>& p0) {
+    std::optional<smoke::Lambdas::Producer>
+    operator()(const std::optional<std::string>& p0) {
         FfiOpaqueHandle _result_handle;
         dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, FfiOpaqueHandle, FfiOpaqueHandle*)>(f0))(Dart_HandleFromPersistent_DL(dart_persistent_handle),
-            gluecodium::ffi::Conversion<gluecodium::optional<std::string>>::toFfi(p0),
+            gluecodium::ffi::Conversion<std::optional<std::string>>::toFfi(p0),
             &_result_handle
         ); });
-        auto _result = gluecodium::ffi::Conversion<gluecodium::optional<smoke::Lambdas::Producer>>::toCpp(_result_handle);
-        delete reinterpret_cast<gluecodium::optional<smoke::Lambdas::Producer>*>(_result_handle);
+        auto _result = gluecodium::ffi::Conversion<std::optional<smoke::Lambdas::Producer>>::toCpp(_result_handle);
+        delete reinterpret_cast<std::optional<smoke::Lambdas::Producer>*>(_result_handle);
         return _result;
     }
 private:
@@ -264,9 +264,9 @@ library_smoke_Lambdas_Confuser_call__String(FfiOpaqueHandle _self, int32_t _isol
 void
 library_smoke_Lambdas_Consumer_call__String(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle p0) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            gluecodium::ffi::Conversion<smoke::Lambdas::Consumer>::toCpp(_self).operator()(
-            gluecodium::ffi::Conversion<std::string>::toCpp(p0)
-        );
+    gluecodium::ffi::Conversion<smoke::Lambdas::Consumer>::toCpp(_self).operator()(
+        gluecodium::ffi::Conversion<std::string>::toCpp(p0)
+    );
 }
 int32_t
 library_smoke_Lambdas_Indexer_call__String_Float(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle p0, float p1) {
@@ -281,9 +281,9 @@ library_smoke_Lambdas_Indexer_call__String_Float(FfiOpaqueHandle _self, int32_t 
 FfiOpaqueHandle
 library_smoke_Lambdas_NullableConfuser_call__String_(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle p0) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-    return gluecodium::ffi::Conversion<gluecodium::optional<smoke::Lambdas::Producer>>::toFfi(
+    return gluecodium::ffi::Conversion<std::optional<smoke::Lambdas::Producer>>::toFfi(
         gluecodium::ffi::Conversion<smoke::Lambdas::NullableConfuser>::toCpp(_self).operator()(
-            gluecodium::ffi::Conversion<gluecodium::optional<std::string>>::toCpp(p0)
+            gluecodium::ffi::Conversion<std::optional<std::string>>::toCpp(p0)
         )
     );
 }
@@ -337,7 +337,7 @@ FfiOpaqueHandle
 library_smoke_Lambdas_Producer_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<smoke::Lambdas::Producer>(
+        new (std::nothrow) std::optional<smoke::Lambdas::Producer>(
             gluecodium::ffi::Conversion<smoke::Lambdas::Producer>::toCpp(value)
         )
     );
@@ -345,13 +345,13 @@ library_smoke_Lambdas_Producer_create_handle_nullable(FfiOpaqueHandle value)
 void
 library_smoke_Lambdas_Producer_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<smoke::Lambdas::Producer>*>(handle);
+    delete reinterpret_cast<std::optional<smoke::Lambdas::Producer>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_Lambdas_Producer_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::Lambdas::Producer>::toFfi(
-        **reinterpret_cast<gluecodium::optional<smoke::Lambdas::Producer>*>(handle)
+        **reinterpret_cast<std::optional<smoke::Lambdas::Producer>*>(handle)
     );
 }
 // "Private" finalizer, not exposed to be callable from Dart.
@@ -380,7 +380,7 @@ FfiOpaqueHandle
 library_smoke_Lambdas_Confuser_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<smoke::Lambdas::Confuser>(
+        new (std::nothrow) std::optional<smoke::Lambdas::Confuser>(
             gluecodium::ffi::Conversion<smoke::Lambdas::Confuser>::toCpp(value)
         )
     );
@@ -388,13 +388,13 @@ library_smoke_Lambdas_Confuser_create_handle_nullable(FfiOpaqueHandle value)
 void
 library_smoke_Lambdas_Confuser_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<smoke::Lambdas::Confuser>*>(handle);
+    delete reinterpret_cast<std::optional<smoke::Lambdas::Confuser>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_Lambdas_Confuser_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::Lambdas::Confuser>::toFfi(
-        **reinterpret_cast<gluecodium::optional<smoke::Lambdas::Confuser>*>(handle)
+        **reinterpret_cast<std::optional<smoke::Lambdas::Confuser>*>(handle)
     );
 }
 // "Private" finalizer, not exposed to be callable from Dart.
@@ -423,7 +423,7 @@ FfiOpaqueHandle
 library_smoke_Lambdas_Consumer_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<smoke::Lambdas::Consumer>(
+        new (std::nothrow) std::optional<smoke::Lambdas::Consumer>(
             gluecodium::ffi::Conversion<smoke::Lambdas::Consumer>::toCpp(value)
         )
     );
@@ -431,13 +431,13 @@ library_smoke_Lambdas_Consumer_create_handle_nullable(FfiOpaqueHandle value)
 void
 library_smoke_Lambdas_Consumer_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<smoke::Lambdas::Consumer>*>(handle);
+    delete reinterpret_cast<std::optional<smoke::Lambdas::Consumer>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_Lambdas_Consumer_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::Lambdas::Consumer>::toFfi(
-        **reinterpret_cast<gluecodium::optional<smoke::Lambdas::Consumer>*>(handle)
+        **reinterpret_cast<std::optional<smoke::Lambdas::Consumer>*>(handle)
     );
 }
 // "Private" finalizer, not exposed to be callable from Dart.
@@ -466,7 +466,7 @@ FfiOpaqueHandle
 library_smoke_Lambdas_Indexer_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<smoke::Lambdas::Indexer>(
+        new (std::nothrow) std::optional<smoke::Lambdas::Indexer>(
             gluecodium::ffi::Conversion<smoke::Lambdas::Indexer>::toCpp(value)
         )
     );
@@ -474,13 +474,13 @@ library_smoke_Lambdas_Indexer_create_handle_nullable(FfiOpaqueHandle value)
 void
 library_smoke_Lambdas_Indexer_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<smoke::Lambdas::Indexer>*>(handle);
+    delete reinterpret_cast<std::optional<smoke::Lambdas::Indexer>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_Lambdas_Indexer_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::Lambdas::Indexer>::toFfi(
-        **reinterpret_cast<gluecodium::optional<smoke::Lambdas::Indexer>*>(handle)
+        **reinterpret_cast<std::optional<smoke::Lambdas::Indexer>*>(handle)
     );
 }
 // "Private" finalizer, not exposed to be callable from Dart.
@@ -509,7 +509,7 @@ FfiOpaqueHandle
 library_smoke_Lambdas_NullableConfuser_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<smoke::Lambdas::NullableConfuser>(
+        new (std::nothrow) std::optional<smoke::Lambdas::NullableConfuser>(
             gluecodium::ffi::Conversion<smoke::Lambdas::NullableConfuser>::toCpp(value)
         )
     );
@@ -517,13 +517,13 @@ library_smoke_Lambdas_NullableConfuser_create_handle_nullable(FfiOpaqueHandle va
 void
 library_smoke_Lambdas_NullableConfuser_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<smoke::Lambdas::NullableConfuser>*>(handle);
+    delete reinterpret_cast<std::optional<smoke::Lambdas::NullableConfuser>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_Lambdas_NullableConfuser_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::Lambdas::NullableConfuser>::toFfi(
-        **reinterpret_cast<gluecodium::optional<smoke::Lambdas::NullableConfuser>*>(handle)
+        **reinterpret_cast<std::optional<smoke::Lambdas::NullableConfuser>*>(handle)
     );
 }
 FfiOpaqueHandle

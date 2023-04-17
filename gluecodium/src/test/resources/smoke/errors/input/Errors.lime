@@ -30,8 +30,12 @@ class Errors {
         ERROR_NONE,
         ERROR_FATAL
     }
-    @Cpp(ExternalType = "foo/Bar.h", ExternalName = "::fire::SomeEnum")
     enum ExternalErrors {
+        external {
+            cpp include "foo/Bar.h"
+            cpp name "::fire::SomeEnum"
+        }
+
         NONE,
         BOOM,
         BUST
@@ -68,7 +72,7 @@ interface ErrorsInterface {
     exception External(ExternalErrors)
 }
 
-types SomeTypeCollection {
+struct SomeTypeCollection {
     enum SomeTypeCollectionError {
         ERROR_A,
         ERROR_B

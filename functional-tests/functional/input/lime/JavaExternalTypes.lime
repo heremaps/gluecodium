@@ -80,6 +80,7 @@ class UseJavaExternalTypes {
     static fun seasonRoundTrip(input: Season): Season
 
     static fun structRoundTrip(input: JavaExternalTypesStruct): JavaExternalTypesStruct
+    static fun veryBooleanUnbox(input: VeryBoolean): Boolean
 }
 
 struct JavaExternalTypesStruct {
@@ -103,4 +104,20 @@ struct ExternalMarkedAsSerializable {
 @Serializable
 struct SerializableStructWithExternalField {
     someStruct: ExternalMarkedAsSerializable
+}
+
+struct VeryBoolean {
+    external {
+        java name "java.lang.Boolean"
+        java converter "com.here.android.test.BooleanConverter"
+    }
+
+    value: Boolean
+    constructor make(value: Boolean)
+}
+
+struct UseJavaExternalConst {
+    stringField: String
+    @Internal
+    const defaultTruth: VeryBoolean = {true}
 }

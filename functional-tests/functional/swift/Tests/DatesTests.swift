@@ -119,6 +119,57 @@ class DatesTests: XCTestCase {
         XCTAssertEqual(calendar.component(.second, from: result!), dateComponents.second! + 1)
     }
 
+    func testDateDefaultsCet() {
+        let date = DateDefaults().dateTime
+        let dateComponents =
+            Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+
+        XCTAssertEqual(2022, dateComponents.year!)
+        XCTAssertEqual(2, dateComponents.month!)
+        XCTAssertEqual(4, dateComponents.day!)
+        XCTAssertEqual(9, dateComponents.hour!)
+        XCTAssertEqual(15, dateComponents.minute!)
+        XCTAssertEqual(17, dateComponents.second!)
+    }
+
+    func testDateDefaultsUtc() {
+        let date = DateDefaults().dateTimeUtc
+        let dateComponents =
+            Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+
+        XCTAssertEqual(2022, dateComponents.year!)
+        XCTAssertEqual(2, dateComponents.month!)
+        XCTAssertEqual(4, dateComponents.day!)
+        XCTAssertEqual(9, dateComponents.hour!)
+        XCTAssertEqual(15, dateComponents.minute!)
+        XCTAssertEqual(17, dateComponents.second!)
+    }
+
+    func testDateDefaultsBeforeEpoch() {
+        let date = DateDefaults().beforeEpoch
+        let dateComponents =
+            Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+
+        XCTAssertEqual(1922, dateComponents.year!)
+        XCTAssertEqual(2, dateComponents.month!)
+        XCTAssertEqual(4, dateComponents.day!)
+        XCTAssertEqual(9, dateComponents.hour!)
+        XCTAssertEqual(15, dateComponents.minute!)
+        XCTAssertEqual(17, dateComponents.second!)
+    }
+
+    func testDateDefaultsCpp() {
+        let date = DateDefaults.getCppDefaults().dateTimeUtc
+        let dateComponents =
+            Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+
+        XCTAssertEqual(2022, dateComponents.year!)
+        XCTAssertEqual(2, dateComponents.month!)
+        XCTAssertEqual(4, dateComponents.day!)
+        XCTAssertEqual(9, dateComponents.hour!)
+        XCTAssertEqual(15, dateComponents.minute!)
+        XCTAssertEqual(17, dateComponents.second!)
+    }
 
     static var allTests = [
         ("testDateAttributeRoundTrip", testDateAttributeRoundTrip),
@@ -128,6 +179,10 @@ class DatesTests: XCTestCase {
         ("testMethodNullableRoundTrip", testMethodNullableRoundTrip),
         ("testDatesSteadyMethodRoundTrip", testDatesSteadyMethodRoundTrip),
         ("testDatesSteadyMethodNullableNullRoundTrip", testDatesSteadyMethodNullableNullRoundTrip),
-        ("testDatesSteadyMethodNullableRoundTrip", testDatesSteadyMethodNullableRoundTrip)
+        ("testDatesSteadyMethodNullableRoundTrip", testDatesSteadyMethodNullableRoundTrip),
+        ("testDateDefaultsCet", testDateDefaultsCet),
+        ("testDateDefaultsUtc", testDateDefaultsUtc),
+        ("testDateDefaultsBeforeEpoch", testDateDefaultsBeforeEpoch),
+        ("testDateDefaultsCpp", testDateDefaultsCpp)
     ]
 }

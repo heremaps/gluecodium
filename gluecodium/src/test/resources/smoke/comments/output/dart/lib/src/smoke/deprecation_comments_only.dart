@@ -16,7 +16,6 @@ abstract class DeprecationCommentsOnly {
     isSomePropertyGetLambda,
     isSomePropertySetLambda
   );
-
   @Deprecated("Unfortunately, this constant is deprecated.")
   static final bool veryUseful = true;
   /// [input] Very useful input parameter
@@ -86,7 +85,9 @@ void smokeDeprecationcommentsonlySomeenumReleaseFfiHandleNullable(Pointer<Void> 
 class DeprecationCommentsOnly_SomeStruct {
   @Deprecated("Unfortunately, this field is deprecated.")
   bool someField;
-  DeprecationCommentsOnly_SomeStruct(this.someField);
+  DeprecationCommentsOnly_SomeStruct._(this.someField);
+  DeprecationCommentsOnly_SomeStruct()
+    : someField = false;
 }
 // DeprecationCommentsOnly_SomeStruct "private" section, not exported.
 final _smokeDeprecationcommentsonlySomestructCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -110,7 +111,7 @@ Pointer<Void> smokeDeprecationcommentsonlySomestructToFfi(DeprecationCommentsOnl
 DeprecationCommentsOnly_SomeStruct smokeDeprecationcommentsonlySomestructFromFfi(Pointer<Void> handle) {
   final _someFieldHandle = _smokeDeprecationcommentsonlySomestructGetFieldsomeField(handle);
   try {
-    return DeprecationCommentsOnly_SomeStruct(
+    return DeprecationCommentsOnly_SomeStruct._(
       booleanFromFfi(_someFieldHandle)
     );
   } finally {
@@ -178,7 +179,6 @@ class DeprecationCommentsOnly$Lambdas implements DeprecationCommentsOnly {
     this.isSomePropertyGetLambda,
     this.isSomePropertySetLambda
   );
-
   @override
   bool someMethodWithAllComments(String input) =>
     someMethodWithAllCommentsLambda(input);
@@ -189,7 +189,6 @@ class DeprecationCommentsOnly$Lambdas implements DeprecationCommentsOnly {
 }
 class DeprecationCommentsOnly$Impl extends __lib.NativeBase implements DeprecationCommentsOnly {
   DeprecationCommentsOnly$Impl(Pointer<Void> handle) : super(handle);
-
   @override
   bool someMethodWithAllComments(String input) {
     final _someMethodWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DeprecationCommentsOnly_someMethodWithAllComments__String'));
@@ -259,6 +258,7 @@ Pointer<Void> smokeDeprecationcommentsonlyToFfi(DeprecationCommentsOnly value) {
   return result;
 }
 DeprecationCommentsOnly smokeDeprecationcommentsonlyFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is DeprecationCommentsOnly) return instance;
   final _typeIdHandle = _smokeDeprecationcommentsonlyGetTypeId(handle);

@@ -24,7 +24,8 @@ package com.here.gluecodium.model.lime
  * into an actual field on the first call. The resolution logic is "lazy": if it succeeds on the first call then the
  * result is stored and the stored result is used on subsequent calls instead.
  */
-class LimeLazyFieldRef(structTypeRef: LimeTypeRef, fieldName: String) : LimeFieldRef() {
+class LimeLazyFieldRef(structTypeRef: LimeTypeRef, fieldName: String, attributes: LimeAttributes? = null) :
+    LimeFieldRef(attributes) {
 
     override val field by lazy {
         val limeStruct = structTypeRef.type.actualType as? LimeStruct

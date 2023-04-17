@@ -25,14 +25,15 @@
 #include <cstddef>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <type_traits>
 
 {{#internalNamespace}}
 namespace {{.}} {
 {{/internalNamespace}}
 /**
- * `std::hash` compliant function object for std::shared_ptr comparing the contained class instead
- * of the pointer value. This should be used for classes overloading operator==.
+ * Hash-like function object for `std::shared_ptr`, comparing the contained class instead
+ * of the pointer value. Specializations are generated for classes implementing `operator==`.
  */
 template<class T>
 struct EqualityHash
@@ -41,9 +42,8 @@ struct EqualityHash
 };
 
 /**
- * std::equal_to compliant comparison function object to be used in conjunction with EqualityHash
- * when using equatable classes stored in std::shared_ptr as keys of `std::unordered_map` or
- * `std::unordered_set`.
+ * Equality-like function object to be used in conjunction with `SharedPointerHash` above
+ * when using equatable classes as keys for `std::unordered_map` or `std::unordered_set`.
  */
 template<class T>
 struct EqualityEqualTo
@@ -87,7 +87,7 @@ struct SelectHash<T, typename std::enable_if<std::is_enum<T>::value>::type>
 };
 
 /*
- * Generic hash functional, it uses EqualityHash or EnumHash if possible and falls back to
+ * Generic hash functional, it uses SharedPointerHash or EnumHash if possible and falls back to
  * std::hash otherwise. Types for which hash is defined specialize this template.
  */
 template<class T>
@@ -105,6 +105,15 @@ struct hash<const T>
     size_t operator( )( const T& t ) const noexcept
     {
         return hash<T>( )( t );
+    }
+};
+
+template <class T>
+struct hash<std::optional<T>>
+{
+    size_t operator( )( const std::optional<T>& t ) const noexcept
+    {
+        return t.has_value( ) ? hash<T>( )( *t ) : 0;
     }
 };
 

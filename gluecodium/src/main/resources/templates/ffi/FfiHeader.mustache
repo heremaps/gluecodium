@@ -38,22 +38,27 @@ extern "C" {
 {{/model}}
 
 {{#each classes lambdas}}
-_GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_register_finalizer(
-    FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle);
+_GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_copy_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_release_handle(FfiOpaqueHandle handle);
 {{#if attributes.equatable}}{{>ffiEqualityFunctionDeclaration}}{{/if}}{{!!
 }}{{#if attributes.pointerEquatable}}{{>ffiEqualityFunctionDeclaration}}{{/if}}{{!!
-}}{{#instanceOf this "LimeLambda"}}{{#set type=this handleType="FfiOpaqueHandle"}}{{>ffi/FfiNullableDeclaration}}{{/set}}{{/instanceOf}}
-{{/each}}
+}}{{#instanceOf this "LimeLambda"}}{{#set type=this handleType="FfiOpaqueHandle"}}{{>ffi/FfiNullableDeclaration}}{{/set}}
 
-{{#each interfaces lambdas}}
+{{/instanceOf}}
+{{/each}}
+{{#asyncHelpers.lambdas}}
+_GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_release_handle(FfiOpaqueHandle handle);
+{{/asyncHelpers.lambdas}}
+
+{{#each interfaces lambdas asyncHelpers.lambdas}}
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_create_proxy({{!!
 }}uint64_t token, int32_t isolate_id, Dart_Handle dart_handle{{!!
 }}{{#each inheritedFunctions functions}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}{{!!
 }}, FfiOpaqueHandle f{{iter.position}}{{/ifPredicate}}{{/unless}}{{/each}}{{!!
 }}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}, FfiOpaqueHandle p{{iter.position}}g{{!!
-}}{{#if setter}}, FfiOpaqueHandle p{{iter.position}}s{{/if}}{{/ifPredicate}}{{/unless}}{{/each}});
+}}{{#if setter}}{{#ifPredicate setter "shouldRetain"}}, FfiOpaqueHandle p{{iter.position}}s{{/ifPredicate}}{{/if}}{{!!
+}}{{/ifPredicate}}{{/unless}}{{/each}});
 {{/each}}
 
 {{#structs}}
@@ -80,14 +85,14 @@ _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_get_type_
 #endif{{!!
 
 }}{{+ffiFunctionDeclaration}}
-{{#if thrownType}}
-_GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_return_release_handle(FfiOpaqueHandle handle);{{#isNotEq returnType.typeRef.type.name "Void"}}
-_GLUECODIUM_FFI_EXPORT {{resolveName returnType.typeRef}} {{libraryName}}_{{resolveName}}_return_get_result(FfiOpaqueHandle handle);{{/isNotEq}}
-_GLUECODIUM_FFI_EXPORT {{resolveName exception.errorType}} {{libraryName}}_{{resolveName}}_return_get_error(FfiOpaqueHandle handle);
-_GLUECODIUM_FFI_EXPORT bool {{libraryName}}_{{resolveName}}_return_has_error(FfiOpaqueHandle handle);
+{{#if this.thrownType}}
+_GLUECODIUM_FFI_EXPORT void {{>ffi/FfiFunctionName}}_return_release_handle(FfiOpaqueHandle handle);{{#unless returnType.isVoid}}
+_GLUECODIUM_FFI_EXPORT {{resolveName returnType.typeRef}} {{>ffi/FfiFunctionName}}_return_get_result(FfiOpaqueHandle handle);{{/unless}}
+_GLUECODIUM_FFI_EXPORT {{resolveName exception.errorType}} {{>ffi/FfiFunctionName}}_return_get_error(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT bool {{>ffi/FfiFunctionName}}_return_has_error(FfiOpaqueHandle handle);
 
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle{{/if}}{{!!
-}}{{#unless thrownType}}_GLUECODIUM_FFI_EXPORT {{resolveName returnType.typeRef}}{{/unless}} {{libraryName}}_{{resolveName}}({{!!
+}}{{#unless this.thrownType}}_GLUECODIUM_FFI_EXPORT {{resolveName returnType.typeRef}}{{/unless}} {{>ffi/FfiFunctionName}}({{!!
 }}{{#unless isStatic}}FfiOpaqueHandle _self, {{/unless}}int32_t _isolate_id{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}});
 {{/ffiFunctionDeclaration}}{{!!
@@ -97,24 +102,33 @@ _GLUECODIUM_FFI_EXPORT bool {{libraryName}}_{{resolveName}}_are_equal(FfiOpaqueH
 {{/ffiEqualityFunctionDeclaration}}{{!!
 
 }}{{+ffiClassHeader}}
-{{#functions}}{{#ifPredicate "shouldRetain"}}
-{{>ffiFunctionDeclaration}}
-{{/ifPredicate}}{{/functions}}
-{{#properties}}{{#ifPredicate "shouldRetain"}}{{#getter}}
-{{>ffiFunctionDeclaration}}
-{{/getter}}{{#setter}}
-{{>ffiFunctionDeclaration}}
-{{/setter}}
-{{/ifPredicate}}{{/properties}}
+{{#functions}}{{>ffiFunction}}{{/functions}}
+{{#properties}}{{>ffiProperty}}{{/properties}}
+{{#set isInherited=true container=this}}
+{{#container.interfaceInheritedFunctions}}{{>ffiFunction}}{{/container.interfaceInheritedFunctions}}
+{{#container.interfaceInheritedProperties}}{{>ffiProperty}}{{/container.interfaceInheritedProperties}}
+{{/set}}
+
 {{#structs}}
-{{#functions}}{{#ifPredicate "shouldRetain"}}
-{{>ffiFunctionDeclaration}}
-{{/ifPredicate}}{{/functions}}
+{{#functions}}{{>ffiFunction}}{{/functions}}
 {{/structs}}
-{{#this.lambdas}}{{#asFunction}}
+{{#each this.lambdas asyncHelpers.lambdas}}{{#asFunction}}
 {{>ffiFunctionDeclaration}}
-{{/asFunction}}{{/this.lambdas}}
+{{/asFunction}}{{/each}}
 {{#each classes interfaces}}
 {{>ffiClassHeader}}
 {{/each}}
-{{/ffiClassHeader}}
+{{/ffiClassHeader}}{{!!
+
+}}{{+ffiFunction}}{{#ifPredicate "shouldRetain"}}{{#if attributes.async}}
+{{#eval "asyncHelpers.helpers" fullName}}{{>ffiFunctionDeclaration}}{{/eval}}
+{{/if}}{{#unless attributes.async}}
+{{>ffiFunctionDeclaration}}
+{{/unless}}{{/ifPredicate}}{{/ffiFunction}}{{!!
+
+}}{{+ffiProperty}}{{#ifPredicate "shouldRetain"}}{{#getter}}
+{{>ffiFunctionDeclaration}}
+{{/getter}}{{#setter}}{{#ifPredicate "shouldRetain"}}
+{{>ffiFunctionDeclaration}}
+{{/ifPredicate}}{{/setter}}
+{{/ifPredicate}}{{/ffiProperty}}

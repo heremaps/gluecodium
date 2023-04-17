@@ -19,9 +19,9 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/StructWithConstMethod.h"
-#include "test/StructsWithMethods.h"
 #include "test/StructsWithMethodsInterface.h"
 #include "test/ValidationUtils.h"
+#include "test/Vector.h"
 
 #include <cmath>
 
@@ -58,7 +58,9 @@ Vector::create( const Vector& other )
 {
     return validate( other.x, other.y ) ?
         lorem_ipsum::test::Return< Vector, std::error_code >( Vector( other.x, other.y ) ) :
-        lorem_ipsum::test::Return< Vector, std::error_code >( ValidationErrorCode::VALIDATION_FAILED );
+        lorem_ipsum::test::Return< Vector, std::error_code >(
+            ValidationUtils::ValidationErrorCode::VALIDATION_FAILED
+        );
 }
 
 double
@@ -96,7 +98,8 @@ StructsWithMethodsInterface::Vector3::create( const StructsWithMethodsInterface:
         lorem_ipsum::test::Return< StructsWithMethodsInterface::Vector3, std::error_code >(
             StructsWithMethodsInterface::Vector3( other.x, other.y, other.z ) ) :
         lorem_ipsum::test::Return< StructsWithMethodsInterface::Vector3, std::error_code >(
-            ValidationErrorCode::VALIDATION_FAILED );
+            ValidationUtils::ValidationErrorCode::VALIDATION_FAILED
+         );
 }
 
 void
@@ -110,4 +113,4 @@ StructWithConstMethod::double_const( ) const
     return 0;
 }
 
-}  // namespace test
+}

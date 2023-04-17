@@ -28,29 +28,30 @@ public:
 
 {{#if enumerations typeAliases structs constants classes interfaces lambdas logic="or"}}
 public:
-{{#sort enumerations lambdas typeAliases structs constants}}
+{{#sort enumerations lambdas typeAliases structs constants classes interfaces}}
 {{#instanceOf this "LimeEnumeration"}}{{prefixPartial "cpp/CppEnumeration" "    "}}{{/instanceOf}}{{!!
 }}{{#instanceOf this "LimeLambda"}}{{prefixPartial "cpp/CppLambda" "    "}}{{/instanceOf}}{{!!
 }}{{#instanceOf this "LimeTypeAlias"}}{{prefixPartial "cpp/CppTypeAlias" "    "}}{{/instanceOf}}{{!!
 }}{{#instanceOf this "LimeStruct"}}{{prefixPartial "cpp/CppStruct" "    "}}{{/instanceOf}}{{!!
 }}{{#instanceOf this "LimeConstant"}}{{#set constant=this storageQualifier="static"}}{{#constant}}{{!!
-}}{{prefixPartial "cpp/CppConstant" "    "}}{{/constant}}{{/set}}{{/instanceOf}}
+}}{{prefixPartial "cpp/CppConstant" "    "}}{{/constant}}{{/set}}{{/instanceOf}}{{!!
+}}{{#instanceOf this "LimeClass"}}{{prefixPartial "cpp/CppClass" "    "}}{{/instanceOf}}{{!!
+}}{{#instanceOf this "LimeInterface"}}{{prefixPartial "cpp/CppClass" "    "}}{{/instanceOf}}
 {{/sort}}
-{{#each classes interfaces}}
-{{prefixPartial "cpp/CppClass" "    "}}
-{{/each}}
 {{/if}}
 {{#if functions properties logic="or"}}
 public:
-{{#set isVirtual=true}}{{#functions}}{{#ifPredicate "hasCstringParameters"}}{{#set self=this useCstring=true}}{{#self}}
-{{prefixPartial "cpp/CppFunctionSignature" "    "}};
-{{/self}}{{/set}}{{/ifPredicate}}
-{{prefixPartial "cpp/CppFunctionSignature" "    "}};
-{{/functions}}{{/set}}
+{{#set isVirtual=true}}{{>cpp/CppFunctions}}{{/set}}
 {{#properties}}
 {{prefixPartial "cpp/CppProperty" "    "}}
 {{/properties}}
+{{#eval "functionUsings" fullName}}{{#if this}}
 
+{{#this}}
+    using {{resolveName "FQN"}};
+{{/this}}
+{{/if}}
+{{/eval}}
 {{/if}}
 {{#if attributes.equatable}}
 public:

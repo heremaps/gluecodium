@@ -12,7 +12,6 @@ import 'package:library/src/smoke/comments.dart';
 ///
 /// [example1]: http://example.com/1
 abstract class CommentsLinks {
-
   /// Link types:
   /// * constant: [Comments.veryUseful]
   /// * struct: [Comments_SomeStruct]
@@ -27,10 +26,10 @@ abstract class CommentsLinks {
   /// * method with signature with no spaces: [Comments.oneParameterCommentOnly]
   /// * parameter: [CommentsLinks.randomMethod.inputParameter]
   /// * top level constant: [CommentsTypeCollection.typeCollectionConstant]
-  /// * top level struct: [TypeCollectionStruct]
-  /// * top level struct field: [TypeCollectionStruct.field]
-  /// * top level enum: [TypeCollectionEnum]
-  /// * top level enum item: [TypeCollectionEnum.item]
+  /// * top level struct: [CommentsTypeCollection_TypeCollectionStruct]
+  /// * top level struct field: [CommentsTypeCollection_TypeCollectionStruct.field]
+  /// * top level enum: [CommentsTypeCollection_TypeCollectionEnum]
+  /// * top level enum item: [CommentsTypeCollection_TypeCollectionEnum.item]
   /// * error: [Comments_SomethingWrongException]
   /// * lambda: [Comments_SomeLambda]
   /// * type from aux sources, same package: [AuxClass]
@@ -158,7 +157,6 @@ final _randomMethodReturnHasError = __lib.catchArgumentError(() => __lib.nativeL
   >('library_smoke_CommentsLinks_randomMethod__SomeEnum_return_has_error'));
 class CommentsLinks$Impl extends __lib.NativeBase implements CommentsLinks {
   CommentsLinks$Impl(Pointer<Void> handle) : super(handle);
-
   @override
   Comments_SomeEnum randomMethod(Comments_SomeEnum inputParameter) {
     final _randomMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Uint32), Pointer<Void> Function(Pointer<Void>, int, int)>('library_smoke_CommentsLinks_randomMethod__SomeEnum'));
@@ -197,6 +195,7 @@ class CommentsLinks$Impl extends __lib.NativeBase implements CommentsLinks {
 Pointer<Void> smokeCommentslinksToFfi(CommentsLinks value) =>
   _smokeCommentslinksCopyHandle((value as __lib.NativeBase).handle);
 CommentsLinks smokeCommentslinksFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is CommentsLinks) return instance;
   final _copiedHandle = _smokeCommentslinksCopyHandle(handle);

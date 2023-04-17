@@ -128,12 +128,12 @@ struct StructWithOverloads {
     fun overloadedMethod(inputString: String, inputBool: Boolean): String
 }
 
-types ExternalTypeInTypesCollection {
-    @Cpp(
-        ExternalType = "include/ExternalTypeInTypesCollection.h",
-        ExternalName = "::external::IntStruct"
-    )
+struct ExternalTypeInTypesCollection {
     struct IntStruct {
+        external {
+            cpp include "include/ExternalTypeInTypesCollection.h"
+            cpp name "::external::IntStruct"
+        }
         int_field: Int
     }
 }
@@ -143,4 +143,10 @@ interface ExternalWithNoFunctions {
         cpp include "some/path/Bar.h"
         cpp name "::some::path::Bar"
     }
+}
+
+enum StandaloneExternalEnum {
+    external { cpp include "foo/Bar.h" }
+
+    foo
 }

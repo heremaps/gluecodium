@@ -285,4 +285,7 @@ void main() {
 
     expect(result, {7: "Foo"});
   });
+  _testSuite.test("Non-null constraint broken", () {
+    expect(NonNullConstraintBroken.getNull, throwsStateError);
+  });
 }

@@ -21,7 +21,6 @@ package com.here.gluecodium.model.lime
 
 abstract class LimeNamedElement protected constructor(
     val path: LimePath,
-    val visibility: LimeVisibility = LimeVisibility.PUBLIC,
     val comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     val external: LimeExternalDescriptor? = null
@@ -32,11 +31,4 @@ abstract class LimeNamedElement protected constructor(
 
     open val fullName
         get() = path.toString()
-
-    open val escapedName
-        get() = LimeTypeHelper.escapeIdentifier(name)
-
-    @Suppress("unused")
-    val packageName
-        get() = path.head.joinToString(".") { LimeTypeHelper.escapeIdentifier(it) }
 }

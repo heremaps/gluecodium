@@ -1,14 +1,12 @@
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-import 'package:meta/meta.dart';
 class PublicFieldsNone {
   /// @nodoc
-  @internal
-  String internal_internalField;
-  PublicFieldsNone(this.internal_internalField);
-  PublicFieldsNone.withDefaults()
-    : internal_internalField = "foo";
+  String _internalField;
+  PublicFieldsNone._(this._internalField);
+  PublicFieldsNone()
+    : _internalField = "foo";
 }
 // PublicFieldsNone "private" section, not exported.
 final _smokePublicfieldsnoneCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -24,7 +22,7 @@ final _smokePublicfieldsnoneGetFieldinternalField = __lib.catchArgumentError(() 
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PublicFieldsNone_get_field_internalField'));
 Pointer<Void> smokePublicfieldsnoneToFfi(PublicFieldsNone value) {
-  final _internalFieldHandle = stringToFfi(value.internal_internalField);
+  final _internalFieldHandle = stringToFfi(value._internalField);
   final _result = _smokePublicfieldsnoneCreateHandle(_internalFieldHandle);
   stringReleaseFfiHandle(_internalFieldHandle);
   return _result;
@@ -32,7 +30,7 @@ Pointer<Void> smokePublicfieldsnoneToFfi(PublicFieldsNone value) {
 PublicFieldsNone smokePublicfieldsnoneFromFfi(Pointer<Void> handle) {
   final _internalFieldHandle = _smokePublicfieldsnoneGetFieldinternalField(handle);
   try {
-    return PublicFieldsNone(
+    return PublicFieldsNone._(
       stringFromFfi(_internalFieldHandle)
     );
   } finally {

@@ -12,8 +12,4 @@ public final class PublicFieldsNoInit {
         this.publicField = publicField;
         this.internalField = "foo";
     }
-    PublicFieldsNoInit(@NonNull final String publicField, @NonNull final String internalField) {
-        this.publicField = publicField;
-        this.internalField = internalField;
-    }
 }

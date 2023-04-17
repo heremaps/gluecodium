@@ -183,4 +183,31 @@ public class BlobsTest {
 
     assertNull(resultBuffer);
   }
+
+  @Test
+  public void blobDefaultsEmpty() {
+    byte[] result = (new BlobDefaults()).emptyList;
+
+    assertEquals(0, result.length);
+  }
+
+  @Test
+  public void blobDefaultsDeadBeef() {
+    byte[] result = (new BlobDefaults()).deadBeef;
+
+    assertEquals((byte) 0xDE, result[0]);
+    assertEquals((byte) 0xAD, result[1]);
+    assertEquals((byte) 0xBE, result[2]);
+    assertEquals((byte) 0xEF, result[3]);
+  }
+
+  @Test
+  public void blobDefaultsDeadBeefFromCpp() {
+    byte[] result = BlobDefaults.getCppDefaults().deadBeef;
+
+    assertEquals((byte) 0xDE, result[0]);
+    assertEquals((byte) 0xAD, result[1]);
+    assertEquals((byte) 0xBE, result[2]);
+    assertEquals((byte) 0xEF, result[3]);
+  }
 }

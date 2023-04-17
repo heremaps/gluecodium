@@ -1,15 +1,15 @@
 //
 //
-#include "cbridge/include/namerules/cbridge_NameRules.h"
-#include "Optional.h"
+#include "cbridge\include\namerules\cbridge_NameRules.h"
 #include "VectorHash.h"
-#include "cbridge_internal/include/BaseHandleImpl.h"
-#include "cbridge_internal/include/TypeInitRepository.h"
-#include "cbridge_internal/include/WrapperCache.h"
-#include "namerules/NameRules.h"
+#include "cbridge_internal\include\BaseHandleImpl.h"
+#include "cbridge_internal\include\TypeInitRepository.h"
+#include "cbridge_internal\include\WrapperCache.h"
+#include "namerules\NameRules.h"
 #include <cstdint>
 #include <memory>
 #include <new>
+#include <optional>
 #include <vector>
 void namerules_INameRules_release_handle(_baseRef handle) {
     delete get_pointer<::std::shared_ptr< ::namerules::NameRules >>(handle);
@@ -77,7 +77,7 @@ namerules_INameRules_IExampleStruct_release_handle( _baseRef handle )
 _baseRef
 namerules_INameRules_IExampleStruct_create_optional_handle(double iValue, _baseRef iIntValue)
 {
-    auto _struct = new ( ::std::nothrow ) ::optional<::namerules::NameRules::ExampleStruct>( ::namerules::NameRules::ExampleStruct( ) );
+    auto _struct = new ( ::std::nothrow ) std::optional<::namerules::NameRules::ExampleStruct>( ::namerules::NameRules::ExampleStruct( ) );
     (*_struct)->m_value = iValue;
     (*_struct)->m_int_value = Conversion<::std::vector< int64_t >>::toCpp( iIntValue );
     return reinterpret_cast<_baseRef>( _struct );
@@ -85,10 +85,10 @@ namerules_INameRules_IExampleStruct_create_optional_handle(double iValue, _baseR
 _baseRef
 namerules_INameRules_IExampleStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::optional<::namerules::NameRules::ExampleStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::namerules::NameRules::ExampleStruct>*>( handle ) );
 }
 void namerules_INameRules_IExampleStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<::optional<::namerules::NameRules::ExampleStruct>*>( handle );
+    delete reinterpret_cast<std::optional<::namerules::NameRules::ExampleStruct>*>( handle );
 }
 double namerules_INameRules_IExampleStruct_iValue_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::namerules::NameRules::ExampleStruct>(handle);

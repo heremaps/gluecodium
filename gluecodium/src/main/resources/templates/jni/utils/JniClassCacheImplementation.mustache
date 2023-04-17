@@ -24,7 +24,6 @@
 
 #include <functional>
 #include <list>
-#include <string>
 #include <unordered_map>
 
 {{#internalNamespace}}
@@ -42,9 +41,9 @@ std::list<{{>common/InternalNamespace}}jni::CachedJavaClassBase*>& get_registere
     return list;
 }
 
-std::unordered_map<std::string, jni::JniReference<jclass>*>& get_instance_class_map()
+std::unordered_map<TypeId, jni::JniReference<jclass>*>& get_instance_class_map()
 {
-    static std::unordered_map<std::string, jni::JniReference<jclass>*> classes;
+    static std::unordered_map<TypeId, jni::JniReference<jclass>*> classes;
     return classes;
 }
 
@@ -73,7 +72,7 @@ CachedJavaClassBase::CachedJavaClassBase(const char* name, const char* cpp_name)
 }
 
 jni::JniReference<jclass>*
-CachedJavaClassBase::get_java_class_for_instance(const std::string& id) {
+CachedJavaClassBase::get_java_class_for_instance(const TypeId& id) {
     const auto& classes = get_instance_class_map();
     const auto& found = classes.find(id);
     return found != classes.end() ? found->second : nullptr;

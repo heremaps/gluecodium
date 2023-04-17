@@ -40,18 +40,19 @@ void main() {
     expect(result, equals(EnumsInternalError.errorFatal));
   });
   _testSuite.test("Extract enum from struct to zero", () {
-    final input = EnumsErrorStruct(EnumsInternalError.errorFatal, "");
+    final input = EnumsErrorStruct();
+    input.type = EnumsInternalError.errorFatal;
 
     final result = Enums.extractEnumFromStruct(input);
 
-    expect(result, equals(EnumsInternalError.errorNone));
+    expect(result, EnumsInternalError.errorNone);
   });
   _testSuite.test("Extract enum from struct from zero", () {
-    final input = EnumsErrorStruct(EnumsInternalError.errorNone, "");
+    final input = EnumsErrorStruct();
 
     final result = Enums.extractEnumFromStruct(input);
 
-    expect(result, equals(EnumsInternalError.errorFatal));
+    expect(result, EnumsInternalError.errorFatal);
   });
   _testSuite.test("Create struct with enum inside to zero", () {
     final result = Enums.createStructWithEnumInside(EnumsInternalError.errorFatal, "");
@@ -69,5 +70,30 @@ void main() {
     final result = Enums.flipEnumStartsWithOne(input);
 
     expect(result, EnumStartsWithOne.first);
+  });
+  _testSuite.test("Compare alias in Dart", () {
+    expect(EnumWithAlias.first, EnumWithAlias.one);
+  });
+  _testSuite.test("Compare double alias in Dart", () {
+    expect(EnumWithAlias.theBest, EnumWithAlias.one);
+  });
+  _testSuite.test("Compare alias from C++", () {
+    final value = UseEnumWithAlias.getFirst();
+
+    expect(value, EnumWithAlias.one);
+  });
+  _testSuite.test("Compare alias to target in C++", () {
+    final value = EnumWithAlias.first;
+
+    final result = UseEnumWithAlias.compareToOne(value);
+
+    expect(result, isTrue);
+  });
+  _testSuite.test("Compare alias to alias in C++", () {
+    final value = EnumWithAlias.first;
+
+    final result = UseEnumWithAlias.compareToFirst(value);
+
+    expect(result, isTrue);
   });
 }

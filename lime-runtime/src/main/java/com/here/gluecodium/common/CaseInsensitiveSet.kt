@@ -19,20 +19,22 @@
 
 package com.here.gluecodium.common
 
+import java.util.Locale
+
 class CaseInsensitiveSet(elements: Collection<String> = emptySet()) :
-    HashSet<String>(elements.map { it.toLowerCase() }) {
+    HashSet<String>(elements.map { it.lowercase(Locale.getDefault()) }) {
 
-    override fun add(element: String) = super.add(element.toLowerCase())
+    override fun add(element: String) = super.add(element.lowercase(Locale.getDefault()))
 
-    override fun addAll(elements: Collection<String>) = super.addAll(elements.map { it.toLowerCase() })
+    override fun addAll(elements: Collection<String>) = super.addAll(elements.map { it.lowercase(Locale.getDefault()) })
 
-    override fun remove(element: String) = super.remove(element.toLowerCase())
+    override fun remove(element: String) = super.remove(element.lowercase(Locale.getDefault()))
 
-    override fun removeAll(elements: Collection<String>) = super.removeAll(elements.map { it.toLowerCase() })
+    override fun removeAll(elements: Collection<String>) = super.removeAll(elements.map { it.lowercase(Locale.getDefault()) }.toSet())
 
-    override fun retainAll(elements: Collection<String>) = super.retainAll(elements.map { it.toLowerCase() })
+    override fun retainAll(elements: Collection<String>) = super.retainAll(elements.map { it.lowercase(Locale.getDefault()) }.toSet())
 
-    override fun contains(element: String) = super.contains(element.toLowerCase())
+    override fun contains(element: String) = super.contains(element.lowercase(Locale.getDefault()))
 
-    override fun containsAll(elements: Collection<String>) = super.containsAll(elements.map { it.toLowerCase() })
+    override fun containsAll(elements: Collection<String>) = super.containsAll(elements.map { it.lowercase(Locale.getDefault()) })
 }

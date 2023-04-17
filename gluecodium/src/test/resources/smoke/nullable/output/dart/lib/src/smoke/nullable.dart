@@ -6,7 +6,6 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/some_interface.dart';
 abstract class Nullable {
-
   String? methodWithString(String? input);
   bool? methodWithBoolean(bool? input);
   double? methodWithDouble(double? input);
@@ -167,7 +166,9 @@ class Nullable_NullableStruct {
   List<String>? inlineArrayField;
   Map<int, String>? mapField;
   SomeInterface? instanceField;
-  Nullable_NullableStruct(this.stringField, this.boolField, this.doubleField, this.structField, this.enumField, this.arrayField, this.inlineArrayField, this.mapField, this.instanceField);
+  Nullable_NullableStruct._(this.stringField, this.boolField, this.doubleField, this.structField, this.enumField, this.arrayField, this.inlineArrayField, this.mapField, this.instanceField);
+  Nullable_NullableStruct()
+    : stringField = null, boolField = null, doubleField = null, structField = null, enumField = null, arrayField = null, inlineArrayField = null, mapField = null, instanceField = null;
 }
 // Nullable_NullableStruct "private" section, not exported.
 final _smokeNullableNullablestructCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -247,7 +248,7 @@ Nullable_NullableStruct smokeNullableNullablestructFromFfi(Pointer<Void> handle)
   final _mapFieldHandle = _smokeNullableNullablestructGetFieldmapField(handle);
   final _instanceFieldHandle = _smokeNullableNullablestructGetFieldinstanceField(handle);
   try {
-    return Nullable_NullableStruct(
+    return Nullable_NullableStruct._(
       stringFromFfiNullable(_stringFieldHandle),
       booleanFromFfiNullable(_boolFieldHandle),
       doubleFromFfiNullable(_doubleFieldHandle),
@@ -310,7 +311,9 @@ class Nullable_NullableIntsStruct {
   int? uint16Field;
   int? uint32Field;
   int? uint64Field;
-  Nullable_NullableIntsStruct(this.int8Field, this.int16Field, this.int32Field, this.int64Field, this.uint8Field, this.uint16Field, this.uint32Field, this.uint64Field);
+  Nullable_NullableIntsStruct._(this.int8Field, this.int16Field, this.int32Field, this.int64Field, this.uint8Field, this.uint16Field, this.uint32Field, this.uint64Field);
+  Nullable_NullableIntsStruct()
+    : int8Field = null, int16Field = null, int32Field = null, int64Field = null, uint8Field = null, uint16Field = null, uint32Field = null, uint64Field = null;
 }
 // Nullable_NullableIntsStruct "private" section, not exported.
 final _smokeNullableNullableintsstructCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -383,7 +386,7 @@ Nullable_NullableIntsStruct smokeNullableNullableintsstructFromFfi(Pointer<Void>
   final _uint32FieldHandle = _smokeNullableNullableintsstructGetFielduint32Field(handle);
   final _uint64FieldHandle = _smokeNullableNullableintsstructGetFielduint64Field(handle);
   try {
-    return Nullable_NullableIntsStruct(
+    return Nullable_NullableIntsStruct._(
       byteFromFfiNullable(_int8FieldHandle),
       shortFromFfiNullable(_int16FieldHandle),
       intFromFfiNullable(_int32FieldHandle),
@@ -450,7 +453,6 @@ final _smokeNullableReleaseHandle = __lib.catchArgumentError(() => __lib.nativeL
   >('library_smoke_Nullable_release_handle'));
 class Nullable$Impl extends __lib.NativeBase implements Nullable {
   Nullable$Impl(Pointer<Void> handle) : super(handle);
-
   @override
   String? methodWithString(String? input) {
     final _methodWithStringFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Nullable_methodWithString__String_'));
@@ -775,6 +777,7 @@ class Nullable$Impl extends __lib.NativeBase implements Nullable {
 Pointer<Void> smokeNullableToFfi(Nullable value) =>
   _smokeNullableCopyHandle((value as __lib.NativeBase).handle);
 Nullable smokeNullableFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is Nullable) return instance;
   final _copiedHandle = _smokeNullableCopyHandle(handle);

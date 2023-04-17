@@ -4,10 +4,10 @@
 #include "FinalizerData.h"
 #include "IsolateContext.h"
 #include "gluecodium/DurationHash.h"
-#include "gluecodium/Optional.h"
 #include "smoke/DurationSeconds.h"
 #include <chrono>
 #include <memory>
+#include <optional>
 #include <memory>
 #include <new>
 #ifdef __cplusplus
@@ -25,9 +25,9 @@ library_smoke_DurationSeconds_durationFunction__Duration(FfiOpaqueHandle _self, 
 FfiOpaqueHandle
 library_smoke_DurationSeconds_nullableDurationFunction__Duration_(FfiOpaqueHandle _self, int32_t _isolate_id, FfiOpaqueHandle input) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-    return gluecodium::ffi::Conversion<gluecodium::optional<std::chrono::seconds>>::toFfi(
+    return gluecodium::ffi::Conversion<std::optional<std::chrono::seconds>>::toFfi(
         (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::DurationSeconds>>::toCpp(_self)).nullable_duration_function(
-            gluecodium::ffi::Conversion<gluecodium::optional<std::chrono::seconds>>::toCpp(input)
+            gluecodium::ffi::Conversion<std::optional<std::chrono::seconds>>::toCpp(input)
         )
     );
 }
@@ -41,9 +41,9 @@ library_smoke_DurationSeconds_durationProperty_get(FfiOpaqueHandle _self, int32_
 void
 library_smoke_DurationSeconds_durationProperty_set__Duration(FfiOpaqueHandle _self, int32_t _isolate_id, uint64_t value) {
     gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
-            (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::DurationSeconds>>::toCpp(_self)).set_duration_property(
-            gluecodium::ffi::Conversion<std::chrono::seconds>::toCpp(value)
-        );
+    (*gluecodium::ffi::Conversion<std::shared_ptr<smoke::DurationSeconds>>::toCpp(_self)).set_duration_property(
+        gluecodium::ffi::Conversion<std::chrono::seconds>::toCpp(value)
+    );
 }
 // "Private" finalizer, not exposed to be callable from Dart.
 void
@@ -89,7 +89,7 @@ FfiOpaqueHandle
 library_smoke_DurationSeconds_DurationStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) gluecodium::optional<smoke::DurationSeconds::DurationStruct>(
+        new (std::nothrow) std::optional<smoke::DurationSeconds::DurationStruct>(
             gluecodium::ffi::Conversion<smoke::DurationSeconds::DurationStruct>::toCpp(value)
         )
     );
@@ -97,13 +97,13 @@ library_smoke_DurationSeconds_DurationStruct_create_handle_nullable(FfiOpaqueHan
 void
 library_smoke_DurationSeconds_DurationStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<gluecodium::optional<smoke::DurationSeconds::DurationStruct>*>(handle);
+    delete reinterpret_cast<std::optional<smoke::DurationSeconds::DurationStruct>*>(handle);
 }
 FfiOpaqueHandle
 library_smoke_DurationSeconds_DurationStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::DurationSeconds::DurationStruct>::toFfi(
-        **reinterpret_cast<gluecodium::optional<smoke::DurationSeconds::DurationStruct>*>(handle)
+        **reinterpret_cast<std::optional<smoke::DurationSeconds::DurationStruct>*>(handle)
     );
 }
 #ifdef __cplusplus

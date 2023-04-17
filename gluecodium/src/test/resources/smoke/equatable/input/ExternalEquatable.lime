@@ -17,10 +17,13 @@
 
 package smoke
 
-types ExternalEquatable {
-    @Cpp(ExternalType = "foo/Bar.h")
+struct ExternalEquatable {
     @Equatable
     struct ExternalEquatableStruct {
+        external {
+            cpp include "foo/Bar.h"
+        }
+
         fooField: String
     }
 }

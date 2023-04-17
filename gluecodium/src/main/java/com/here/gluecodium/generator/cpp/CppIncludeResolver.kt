@@ -21,9 +21,10 @@ package com.here.gluecodium.generator.cpp
 
 import com.here.gluecodium.generator.common.ImportsResolver
 import com.here.gluecodium.generator.common.Include
+import com.here.gluecodium.model.lime.LimeAttributeType.ASYNC
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeType.OPTIMIZED
-import com.here.gluecodium.model.lime.LimeAttributeValueType
+import com.here.gluecodium.model.lime.LimeAttributeValueType.TO_STRING
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
@@ -52,7 +53,6 @@ internal class CppIncludeResolver(
 
     val hashInclude = cppIncludesCache.createInternalNamespaceInclude("Hash.h")
     val typeRepositoryInclude = cppIncludesCache.createInternalNamespaceInclude("TypeRepository.h")
-    val optionalInclude = cppIncludesCache.createInternalNamespaceInclude("Optional.h")
 
     private val returnInclude = cppIncludesCache.createInternalNamespaceInclude("Return.h")
     private val timePointHashInclude = cppIncludesCache.createInternalNamespaceInclude("TimePointHash.h")
@@ -68,23 +68,25 @@ internal class CppIncludeResolver(
             is LimeTypeRef -> resolveTypeRefIncludes(limeElement)
             is LimeBasicType -> resolveBasicTypeIncludes(limeElement)
             is LimeGenericType -> resolveGenericTypeIncludes(limeElement)
-            is LimeFunction -> resolveExceptionIncludes(limeElement)
+            is LimeFunction -> resolveFunctionIncludes(limeElement)
             is LimeLambda -> cppIncludesCache.resolveIncludes(limeElement) + CppLibraryIncludes.FUNCTIONAL
             is LimeNamedElement -> cppIncludesCache.resolveIncludes(limeElement) +
-                if (limeElement.attributes.have(CPP, LimeAttributeValueType.TO_STRING)) listOf(CppLibraryIncludes.STRING)
-                else emptyList()
+                listOfNotNull(CppLibraryIncludes.STRING_VIEW.takeIf { limeElement.attributes.have(CPP, TO_STRING) })
             else -> emptyList()
         }
+
+    private fun resolveFunctionIncludes(limeFunction: LimeFunction) =
+        resolveExceptionIncludes(limeFunction) +
+            listOfNotNull(CppLibraryIncludes.FUNCTIONAL.takeIf { limeFunction.attributes.have(ASYNC) })
 
     private fun resolveExceptionIncludes(limeFunction: LimeFunction): List<Include> {
         val payloadType = limeFunction.exception?.errorType?.type?.actualType ?: return emptyList()
         return when (payloadType) {
-            is LimeEnumeration -> listOf(CppLibraryIncludes.SYSTEM_ERROR)
+            is LimeEnumeration -> listOf(CppLibraryIncludes.SYSTEM_ERROR) +
+                if (limeFunction.attributes.have(ASYNC)) cppIncludesCache.resolveIncludes(payloadType) else emptyList()
+            is LimeBasicType -> listOf(returnInclude)
             else -> cppIncludesCache.resolveIncludes(payloadType) + returnInclude
-        } + when {
-            limeFunction.returnType.isVoid -> emptyList()
-            else -> listOf(returnInclude)
-        }
+        } + listOfNotNull(returnInclude.takeIf { !limeFunction.returnType.isVoid })
     }
 
     private fun resolveValueIncludes(limeValue: LimeValue): List<Include> =
@@ -93,6 +95,9 @@ internal class CppIncludeResolver(
             is LimeValue.KeyValuePair ->
                 resolveValueIncludes(limeValue.key) + resolveValueIncludes(limeValue.value)
             is LimeValue.InitializerList -> limeValue.values.flatMap { resolveValueIncludes(it) }
+            is LimeValue.StructInitializer -> resolveTypeRefIncludes(limeValue.typeRef) +
+                limeValue.values.flatMap { resolveValueIncludes(it) }
+            is LimeValue.Constant -> cppIncludesCache.resolveIncludes(limeValue.valueRef.element)
             else -> emptyList()
         }
 
@@ -101,7 +106,7 @@ internal class CppIncludeResolver(
             listOfNotNull(CppLibraryIncludes.MEMORY.takeIf { limeTypeRef.attributes.have(OPTIMIZED) }) +
             when {
                 limeTypeRef.type.actualType is LimeContainerWithInheritance -> listOf(CppLibraryIncludes.MEMORY)
-                limeTypeRef.isNullable -> listOf(optionalInclude)
+                limeTypeRef.isNullable -> listOf(CppLibraryIncludes.OPTIONAL)
                 else -> emptyList()
             }
 
@@ -112,11 +117,7 @@ internal class CppIncludeResolver(
             TypeId.DATE -> listOf(CppLibraryIncludes.CHRONO, timePointHashInclude)
             TypeId.DURATION -> listOf(CppLibraryIncludes.CHRONO, durationHashInclude)
             TypeId.LOCALE -> listOf(localeInclude)
-            TypeId.BLOB -> listOf(
-                CppLibraryIncludes.MEMORY,
-                CppLibraryIncludes.VECTOR,
-                CppLibraryIncludes.INT_TYPES
-            )
+            TypeId.BLOB -> listOf(CppLibraryIncludes.MEMORY, CppLibraryIncludes.VECTOR, CppLibraryIncludes.INT_TYPES)
             else -> emptyList()
         }
     }

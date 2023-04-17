@@ -48,6 +48,10 @@ internal abstract class AntlrLimeModelBuilderBase(
 
     override fun enterImportStatement(ctx: LimeParser.ImportStatementContext) {}
 
+    override fun enterFieldParameter(ctx: LimeParser.FieldParameterContext) {}
+
+    override fun exitFieldParameter(ctx: LimeParser.FieldParameterContext) {}
+
     override fun enterReturnType(ctx: LimeParser.ReturnTypeContext) {}
 
     override fun exitReturnType(ctx: LimeParser.ReturnTypeContext) {}
@@ -108,10 +112,6 @@ internal abstract class AntlrLimeModelBuilderBase(
 
     override fun exitSetType(ctx: LimeParser.SetTypeContext) {}
 
-    override fun enterVisibility(ctx: LimeParser.VisibilityContext) {}
-
-    override fun exitVisibility(ctx: LimeParser.VisibilityContext) {}
-
     override fun enterLiteralConstant(ctx: LimeParser.LiteralConstantContext) {}
 
     override fun exitLiteralConstant(ctx: LimeParser.LiteralConstantContext) {}
@@ -132,9 +132,9 @@ internal abstract class AntlrLimeModelBuilderBase(
 
     override fun exitMultiLineStringContent(ctx: LimeParser.MultiLineStringContentContext) {}
 
-    override fun enterEnumeratorRef(ctx: LimeParser.EnumeratorRefContext) {}
+    override fun enterElementRef(ctx: LimeParser.ElementRefContext) {}
 
-    override fun exitEnumeratorRef(ctx: LimeParser.EnumeratorRefContext) {}
+    override fun exitElementRef(ctx: LimeParser.ElementRefContext) {}
 
     override fun enterPositionalEnumeratorRef(ctx: LimeParser.PositionalEnumeratorRefContext) {}
 

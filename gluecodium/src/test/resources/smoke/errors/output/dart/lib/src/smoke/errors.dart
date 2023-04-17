@@ -312,6 +312,7 @@ class Errors$Impl extends __lib.NativeBase implements Errors {
 Pointer<Void> smokeErrorsToFfi(Errors value) =>
   _smokeErrorsCopyHandle((value as __lib.NativeBase).handle);
 Errors smokeErrorsFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is Errors) return instance;
   final _copiedHandle = _smokeErrorsCopyHandle(handle);

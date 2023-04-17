@@ -45,7 +45,6 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeHelper
-import com.here.gluecodium.model.lime.LimeTypesCollection
 import com.here.gluecodium.validator.LimeOverloadsValidator
 import java.io.File
 import java.util.logging.Logger
@@ -118,7 +117,7 @@ internal class JavaGenerator : Generator {
         val importCollector = JavaImportCollector(importResolver) {
             LimeModelSkipPredicates.shouldRetainCheckParent(it, activeTags, JAVA, limeModel.referenceMap)
         }
-        val resultFiles = flattenTypeCollections(javaFilteredModel.topElements)
+        val resultFiles = javaFilteredModel.topElements
             .flatMap { generateJavaFiles(it, nameResolver, importResolver, importCollector) }
             .toMutableList()
 
@@ -131,6 +130,11 @@ internal class JavaGenerator : Generator {
         resultFiles += GeneratedFile(
             TemplateEngine.render("java/AbstractNativeList", internalPackageList),
             "$nativeBasePath/AbstractNativeList.java",
+            GeneratedFile.SourceSet.COMMON
+        )
+        resultFiles += GeneratedFile(
+            TemplateEngine.render("java/HashMapBuilder", internalPackageList),
+            "$nativeBasePath/HashMapBuilder.java",
             GeneratedFile.SourceSet.COMMON
         )
         resultFiles += GeneratedFile(
@@ -170,16 +174,6 @@ internal class JavaGenerator : Generator {
         return resultFiles
     }
 
-    private fun flattenTypeCollections(limeElements: List<LimeNamedElement>) =
-        limeElements.flatMap {
-            when (it) {
-                is LimeTypesCollection ->
-                    it.structs + it.enumerations + it.exceptions +
-                        if (it.constants.isNotEmpty()) listOf(it) else emptyList()
-                else -> listOf(it)
-            }
-        }
-
     private fun generateJavaFiles(
         limeElement: LimeNamedElement,
         nameResolver: JavaNameResolver,
@@ -207,12 +201,13 @@ internal class JavaGenerator : Generator {
             "optimizedLists" to optimizedLists
         )
 
-        val mainContent = TemplateEngine.render(
-            "java/JavaFile",
-            templateData,
-            mapOf("" to nameResolver, "empty" to JavaEmptyValueResolver(nameResolver)),
-            JavaGeneratorPredicates.predicates
+        val nameResolvers = mapOf(
+            "" to nameResolver,
+            "empty" to JavaEmptyValueResolver(nameResolver),
+            "visibility" to JavaVisibilityResolver()
         )
+        val mainContent =
+            TemplateEngine.render("java/JavaFile", templateData, nameResolvers, JavaGeneratorPredicates.predicates)
         val name = nameResolver.resolveName(limeElement)
         val mainFileName = (listOf(GENERATOR_NAME) + packages + "$name.java").joinToString(File.separator)
         val mainFile = GeneratedFile(mainContent, mainFileName)
@@ -228,12 +223,8 @@ internal class JavaGenerator : Generator {
         templateData["imports"] = implImports.distinct().sorted()
         templateData["contentTemplate"] = "java/JavaImplClass"
 
-        val implContent = TemplateEngine.render(
-            "java/JavaFile",
-            templateData,
-            mapOf("" to nameResolver, "empty" to JavaEmptyValueResolver(nameResolver)),
-            JavaGeneratorPredicates.predicates
-        )
+        val implContent =
+            TemplateEngine.render("java/JavaFile", templateData, nameResolvers, JavaGeneratorPredicates.predicates)
         val implFileName = (listOf(GENERATOR_NAME) + packages + "${name}Impl.java").joinToString(File.separator)
         val implFile = GeneratedFile(implContent, implFileName)
 
@@ -242,7 +233,6 @@ internal class JavaGenerator : Generator {
 
     private fun selectTemplate(limeElement: LimeNamedElement) =
         when (limeElement) {
-            is LimeTypesCollection -> "java/JavaConstantsWrapper"
             is LimeClass -> "java/JavaClass"
             is LimeInterface -> "java/JavaInterface"
             is LimeStruct -> "java/JavaStruct"
