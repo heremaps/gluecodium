@@ -25,6 +25,12 @@ LimeIDL syntax
 
 ### Example
 
+This example only shows how syntax looks like, it's not ready to use out of the box.
+For working examples check lime files in [functional tests](https://github.com/heremaps/gluecodium/tree/master/functional-tests/functional/input/lime).
+Also [cmake tests](https://github.com/heremaps/gluecodium/tree/master/cmake/tests/unit) demonstrate how
+to integrate Gluecodium to CMake-based project and how to use it for more complex scenarios when you need
+multiple modules which interact with each other.
+
 ```
 package com.example
 
