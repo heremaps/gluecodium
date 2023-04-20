@@ -1,5 +1,8 @@
 # Gluecodium project Release Notes
 
+## 13.5.7
+### Maintenance:
+  * Migrates relese build job from Ubuntu 18.04 to 20.04.
 
 ## 13.5.6
 ### Bug fixes:
