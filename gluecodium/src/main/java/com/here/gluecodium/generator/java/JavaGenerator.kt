@@ -252,6 +252,7 @@ internal class JavaGenerator : Generator {
             "CppProxyBase",
             "FieldAccessMethods",
             "JniBase",
+            "JniCallbackErrorChecking",
             "JniCppConversionUtils",
             "BoxingConversionUtils",
             "JniClassCache",

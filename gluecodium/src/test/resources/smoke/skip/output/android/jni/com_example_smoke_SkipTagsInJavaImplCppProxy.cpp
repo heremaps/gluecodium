@@ -19,13 +19,7 @@ void
 com_example_smoke_SkipTagsInJava_CppProxy::dont_skip_tagged(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     callJavaMethod<void>( "dontSkipTagged", "()V", jniEnv  );
-    if ( jniEnv->ExceptionCheck( ) )
-    {
-        jniEnv->ExceptionDescribe( );
-        jniEnv->ExceptionClear( );
-        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
-            "See the log for more information about the exception (including Java stack trace)." );
-    }
+    checkExceptionAndReportIfAny(jniEnv);
 }
 void
 com_example_smoke_SkipTagsInJava_CppProxy::skip_tagged_list(  ) {

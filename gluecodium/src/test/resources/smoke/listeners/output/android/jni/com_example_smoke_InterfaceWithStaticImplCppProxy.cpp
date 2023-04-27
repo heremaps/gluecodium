@@ -16,26 +16,14 @@ com_example_smoke_InterfaceWithStatic_CppProxy::com_example_smoke_InterfaceWithS
 com_example_smoke_InterfaceWithStatic_CppProxy::regular_function(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto _result = callJavaMethod<jstring>( "regularFunction", "()Ljava/lang/String;", jniEnv  );
-    if ( jniEnv->ExceptionCheck( ) )
-    {
-        jniEnv->ExceptionDescribe( );
-        jniEnv->ExceptionClear( );
-        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
-            "See the log for more information about the exception (including Java stack trace)." );
-    }
+    checkExceptionAndReportIfAny(jniEnv);
     return convert_from_jni( jniEnv, _result, (::std::string*)nullptr );
 }
 ::std::string
 com_example_smoke_InterfaceWithStatic_CppProxy::get_regular_property(  ) const {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto _result = callJavaMethod<jstring>( "getRegularProperty", "()Ljava/lang/String;", jniEnv  );
-    if ( jniEnv->ExceptionCheck( ) )
-    {
-        jniEnv->ExceptionDescribe( );
-        jniEnv->ExceptionClear( );
-        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
-            "See the log for more information about the exception (including Java stack trace)." );
-    }
+    checkExceptionAndReportIfAny(jniEnv);
     return convert_from_jni( jniEnv, _result, (::std::string*)nullptr );
 }
 void
@@ -43,13 +31,7 @@ com_example_smoke_InterfaceWithStatic_CppProxy::set_regular_property( const ::st
     JNIEnv* jniEnv = getJniEnvironment( );
     auto jvalue = convert_to_jni( jniEnv, nvalue );
     callJavaMethod<void>( "setRegularProperty", "(Ljava/lang/String;)V", jniEnv , jvalue);
-    if ( jniEnv->ExceptionCheck( ) )
-    {
-        jniEnv->ExceptionDescribe( );
-        jniEnv->ExceptionClear( );
-        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
-            "See the log for more information about the exception (including Java stack trace)." );
-    }
+    checkExceptionAndReportIfAny(jniEnv);
 }
 }
 }

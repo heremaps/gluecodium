@@ -17,13 +17,7 @@ com_example_smoke_barListener_CppProxy::FooMethod( const ::std::string& nBarPara
     JNIEnv* jniEnv = getJniEnvironment( );
     auto jBarParameter = convert_to_jni( jniEnv, nBarParameter );
     callJavaMethod<void>( "BarMethod", "(Ljava/lang/String;)V", jniEnv , jBarParameter);
-    if ( jniEnv->ExceptionCheck( ) )
-    {
-        jniEnv->ExceptionDescribe( );
-        jniEnv->ExceptionClear( );
-        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
-            "See the log for more information about the exception (including Java stack trace)." );
-    }
+    checkExceptionAndReportIfAny(jniEnv);
 }
 }
 }

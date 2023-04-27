@@ -103,13 +103,7 @@ namespace jni
     else
     {
 {{/if}}{{#unless thrownType}}
-    if ( jniEnv->ExceptionCheck( ) )
-    {
-        jniEnv->ExceptionDescribe( );
-        jniEnv->ExceptionClear( );
-        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
-            "See the log for more information about the exception (including Java stack trace)." );
-    }
+    checkExceptionAndReportIfAny(jniEnv);
 {{/unless}}{{!!
 }}{{#unless returnType.isVoid}}
     return {{#unlessPredicate returnType.typeRef "isJniPrimitive"}}{{!!

@@ -16,13 +16,7 @@ void
 com_example_smoke_EnableTagsInJava_CppProxy::enable_tagged(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     callJavaMethod<void>( "enableTagged", "()V", jniEnv  );
-    if ( jniEnv->ExceptionCheck( ) )
-    {
-        jniEnv->ExceptionDescribe( );
-        jniEnv->ExceptionClear( );
-        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
-            "See the log for more information about the exception (including Java stack trace)." );
-    }
+    checkExceptionAndReportIfAny(jniEnv);
 }
 void
 com_example_smoke_EnableTagsInJava_CppProxy::dont_enable_tagged(  ) {
@@ -31,13 +25,7 @@ void
 com_example_smoke_EnableTagsInJava_CppProxy::enable_tagged_list(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     callJavaMethod<void>( "enableTaggedList", "()V", jniEnv  );
-    if ( jniEnv->ExceptionCheck( ) )
-    {
-        jniEnv->ExceptionDescribe( );
-        jniEnv->ExceptionClear( );
-        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
-            "See the log for more information about the exception (including Java stack trace)." );
-    }
+    checkExceptionAndReportIfAny(jniEnv);
 }
 }
 }

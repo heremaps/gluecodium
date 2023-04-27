@@ -16,13 +16,7 @@ void
 com_example_smoke_OuterStruct_00024InnerLambda_CppProxy::operator()(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     callJavaMethod<void>( "apply", "()V", jniEnv  );
-    if ( jniEnv->ExceptionCheck( ) )
-    {
-        jniEnv->ExceptionDescribe( );
-        jniEnv->ExceptionClear( );
-        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
-            "See the log for more information about the exception (including Java stack trace)." );
-    }
+    checkExceptionAndReportIfAny(jniEnv);
 }
 }
 }
