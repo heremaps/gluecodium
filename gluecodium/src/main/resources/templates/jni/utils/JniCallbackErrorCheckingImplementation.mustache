@@ -44,22 +44,19 @@ void checkExceptionAndReportIfAny(JNIEnv* env)
     env->ExceptionDescribe();
     env->ExceptionClear();
 
-    std::string error_msg = "REASON: ";
+    std::string errorMessage = "REASON: ";
+
+    auto exceptionToString = call_java_method<jstring>(env, exception, "toString", "()Ljava/lang/String;");
+    errorMessage += convert_from_jni(env, exceptionToString, (std::string*) nullptr);
 
     auto frames = call_java_method<jobjectArray>(env, exception, "getStackTrace", "()[Ljava/lang/StackTraceElement;");
     auto framesLength = static_cast<size_t>(env->GetArrayLength(frames.get()));
 
     if (0 == frames || 0 == framesLength) {
-        auto exceptionClass = get_object_class(env, exception);
-        auto exceptionClassName = call_java_method<jstring>(env, exceptionClass, "getName", "()Ljava/lang/String;");
-        error_msg += convert_from_jni(env, exceptionClassName, (std::string*) nullptr);
-        env->FatalError(error_msg.c_str());
+        env->FatalError(errorMessage.c_str());
     }
 
-    auto exceptionToString = call_java_method<jstring>(env, exception, "toString", "()Ljava/lang/String;");
-    error_msg += convert_from_jni(env, exceptionToString, (std::string*) nullptr);
-
-    jsize i = 0;
+    auto i = 0;
     for (i = 0; i < framesLength; i++) {
         auto stackFrame = make_local_ref(env, env->GetObjectArrayElement(frames.get(), i));
         auto stackFrameToString = call_java_method<jstring>(env, stackFrame.get(), "toString", "()Ljava/lang/String;");
@@ -67,13 +64,13 @@ void checkExceptionAndReportIfAny(JNIEnv* env)
 
         // This is done so that all stack frame messages will be on same line with actual exception message.
         if (i == 0) {
-            error_msg += " at " + functionCallStackLine;
+            errorMessage += " at " + functionCallStackLine;
         } else {
-            error_msg += " <- " + functionCallStackLine;
+            errorMessage += " <- " + functionCallStackLine;
         }
     }
 
-    env->FatalError(error_msg.c_str());
+    env->FatalError(errorMessage.c_str());
 }
 
 }
