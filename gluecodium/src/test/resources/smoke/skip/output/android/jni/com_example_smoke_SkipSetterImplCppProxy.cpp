@@ -16,13 +16,7 @@ com_example_smoke_SkipSetter_CppProxy::com_example_smoke_SkipSetter_CppProxy( JN
 com_example_smoke_SkipSetter_CppProxy::get_foo(  ) const {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto _result = callJavaMethod<jstring>( "getFoo", "()Ljava/lang/String;", jniEnv  );
-    if ( jniEnv->ExceptionCheck( ) )
-    {
-        jniEnv->ExceptionDescribe( );
-        jniEnv->ExceptionClear( );
-        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
-            "See the log for more information about the exception (including Java stack trace)." );
-    }
+    checkExceptionAndReportIfAny(jniEnv);
     return convert_from_jni( jniEnv, _result, (::std::string*)nullptr );
 }
 void

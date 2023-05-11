@@ -16,25 +16,13 @@ void
 com_example_smoke_ChildInterface_CppProxy::root_method(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     callJavaMethod<void>( "rootMethod", "()V", jniEnv  );
-    if ( jniEnv->ExceptionCheck( ) )
-    {
-        jniEnv->ExceptionDescribe( );
-        jniEnv->ExceptionClear( );
-        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
-            "See the log for more information about the exception (including Java stack trace)." );
-    }
+    checkExceptionAndReportIfAny(jniEnv);
 }
 ::std::string
 com_example_smoke_ChildInterface_CppProxy::get_root_property(  ) const {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto _result = callJavaMethod<jstring>( "getRootProperty", "()Ljava/lang/String;", jniEnv  );
-    if ( jniEnv->ExceptionCheck( ) )
-    {
-        jniEnv->ExceptionDescribe( );
-        jniEnv->ExceptionClear( );
-        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
-            "See the log for more information about the exception (including Java stack trace)." );
-    }
+    checkExceptionAndReportIfAny(jniEnv);
     return convert_from_jni( jniEnv, _result, (::std::string*)nullptr );
 }
 void
@@ -42,25 +30,13 @@ com_example_smoke_ChildInterface_CppProxy::set_root_property( const ::std::strin
     JNIEnv* jniEnv = getJniEnvironment( );
     auto jvalue = convert_to_jni( jniEnv, nvalue );
     callJavaMethod<void>( "setRootProperty", "(Ljava/lang/String;)V", jniEnv , jvalue);
-    if ( jniEnv->ExceptionCheck( ) )
-    {
-        jniEnv->ExceptionDescribe( );
-        jniEnv->ExceptionClear( );
-        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
-            "See the log for more information about the exception (including Java stack trace)." );
-    }
+    checkExceptionAndReportIfAny(jniEnv);
 }
 void
 com_example_smoke_ChildInterface_CppProxy::child_method(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     callJavaMethod<void>( "childMethod", "()V", jniEnv  );
-    if ( jniEnv->ExceptionCheck( ) )
-    {
-        jniEnv->ExceptionDescribe( );
-        jniEnv->ExceptionClear( );
-        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
-            "See the log for more information about the exception (including Java stack trace)." );
-    }
+    checkExceptionAndReportIfAny(jniEnv);
 }
 }
 }

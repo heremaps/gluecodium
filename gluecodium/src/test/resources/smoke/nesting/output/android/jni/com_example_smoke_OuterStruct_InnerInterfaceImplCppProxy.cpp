@@ -16,13 +16,7 @@ com_example_smoke_OuterStruct_00024InnerInterface_CppProxy::com_example_smoke_Ou
 com_example_smoke_OuterStruct_00024InnerInterface_CppProxy::bar_baz(  ) {
     JNIEnv* jniEnv = getJniEnvironment( );
     auto _result = callJavaMethod<jobject>( "barBaz", "()Ljava/util/Map;", jniEnv  );
-    if ( jniEnv->ExceptionCheck( ) )
-    {
-        jniEnv->ExceptionDescribe( );
-        jniEnv->ExceptionClear( );
-        jniEnv->FatalError( "Exception was thrown in Java and it was not handled.\n"
-            "See the log for more information about the exception (including Java stack trace)." );
-    }
+    checkExceptionAndReportIfAny(jniEnv);
     return convert_from_jni( jniEnv, _result, (::std::unordered_map< ::std::string, ::std::shared_ptr< ::std::vector< uint8_t > > >*)nullptr );
 }
 }
