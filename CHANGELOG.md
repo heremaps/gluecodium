@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## 13.6.0
+### Features:
+  * More information is printed at fatal error in JNI when there is a pending exception in Java.
+
 ## 13.5.7
 ### Maintenance:
   * Migrates relese build job from Ubuntu 18.04 to 20.04.
