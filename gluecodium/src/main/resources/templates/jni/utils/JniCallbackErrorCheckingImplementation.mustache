@@ -56,8 +56,7 @@ void checkExceptionAndReportIfAny(JNIEnv* env)
         env->FatalError(errorMessage.c_str());
     }
 
-    auto i = 0;
-    for (i = 0; i < framesLength; i++) {
+    for (auto i = 0; i < framesLength; ++i) {
         auto stackFrame = make_local_ref(env, env->GetObjectArrayElement(frames.get(), i));
         auto stackFrameToString = call_java_method<jstring>(env, stackFrame.get(), "toString", "()Ljava/lang/String;");
         const auto functionCallStackLine = convert_from_jni(env, stackFrameToString, (std::string*) nullptr);
