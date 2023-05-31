@@ -86,6 +86,21 @@ struct SkipFieldInPlatform {
     boolField: Boolean
 }
 
+class ClassWithStructWithSkipLambdaInPlatform {
+    struct SkipLambdaInPlatform {
+        intField: Int
+
+        @Skip(Java, Dart, Swift)
+        lambda SomeLambda = () -> Int
+
+        @Skip(Java, Dart, Swift)
+        someLambda: SomeLambda
+
+        @Skip(Java, Dart, Swift)
+        fun useLambda(someLambda: SomeLambda): SomeLambda
+    }
+}
+
 @Immutable
 struct SkipFieldInPlatformImmutable {
     intField: Int

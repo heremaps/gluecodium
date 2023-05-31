@@ -1,0 +1,43 @@
+
+#pragma once
+
+#include "Export.h"
+#include "OpaqueHandle.h"
+#include "dart_api_dl.h"
+#include <stdint.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+_GLUECODIUM_FFI_EXPORT void library_smoke_ClassWithStructWithSkipLambdaInPlatform_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_ClassWithStructWithSkipLambdaInPlatform_copy_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT void library_smoke_ClassWithStructWithSkipLambdaInPlatform_release_handle(FfiOpaqueHandle handle);
+
+
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_ClassWithStructWithSkipLambdaInPlatform_SkipLambdaInPlatform_create_handle(int32_t intField);
+_GLUECODIUM_FFI_EXPORT void library_smoke_ClassWithStructWithSkipLambdaInPlatform_SkipLambdaInPlatform_release_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT int32_t library_smoke_ClassWithStructWithSkipLambdaInPlatform_SkipLambdaInPlatform_get_field_intField(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_ClassWithStructWithSkipLambdaInPlatform_SkipLambdaInPlatform_create_handle_nullable(FfiOpaqueHandle value);
+_GLUECODIUM_FFI_EXPORT void library_smoke_ClassWithStructWithSkipLambdaInPlatform_SkipLambdaInPlatform_release_handle_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_ClassWithStructWithSkipLambdaInPlatform_SkipLambdaInPlatform_get_value_nullable(FfiOpaqueHandle handle);
+
+
+
+#ifdef __cplusplus
+}
+#endif
