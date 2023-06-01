@@ -65,8 +65,8 @@ internal class JniIncludeCollector(
             includeResolver.resolveElementImports(limeContainer)
 
     private fun collectStructImplIncludes(limeStruct: LimeStruct): List<Include> {
-        val functionTypes = limeStruct.functions.flatMap { collectFunctionTypes(it) }
-        val fieldTypes = limeStruct.fields.map { it.typeRef }
+        val functionTypes = limeStruct.functions.filter(retainPredicate).flatMap { collectFunctionTypes(it) }
+        val fieldTypes = limeStruct.fields.filter(retainPredicate).map { it.typeRef }
         return (functionTypes + fieldTypes).flatMap { includeResolver.resolveElementImports(it) }
     }
 }

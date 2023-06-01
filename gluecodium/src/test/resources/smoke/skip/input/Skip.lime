@@ -26,6 +26,21 @@ class SkipFunctions {
     static fun notInDart(input: Float): Float
 }
 
+class ClassWithStructWithSkipLambdaInPlatform {
+    struct SkipLambdaInPlatform {
+        intField: Int
+
+        @Skip(Java, Dart, Swift)
+        lambda SomeLambda = () -> Int
+
+        @Skip(Java, Dart, Swift)
+        someLambda: SomeLambda
+
+        @Skip(Java, Dart, Swift)
+        fun useLambda(someLambda: SomeLambda): SomeLambda
+    }
+}
+
 class SkipTypes {
     @Java(Skip)
     struct NotInJava {
