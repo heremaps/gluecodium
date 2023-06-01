@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## 13.6.1
+### Bug fixes:
+  * Fixes compilation on Android when inner struct has skipped fields.
+
 ## 13.6.0
 ### Features:
   * More information is printed at fatal error in JNI when there is a pending exception in Java.
