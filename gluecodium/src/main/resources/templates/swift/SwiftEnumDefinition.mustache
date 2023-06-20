@@ -33,14 +33,17 @@
         return [{{#enumerators}}.{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/enumerators}}]
     }
 
+    /// A type that can be used as a key for encoding and decoding.
     {{resolveName "visibility"}} enum Key: CodingKey {
         case rawValue
     }
 
+    /// The error which is thrown if initialisation with decoder has failed
     {{resolveName "visibility"}} enum CodingError: Error {
         case unknownValue
     }
 
+    /// Creates a new instance by decoding from the given decoder
     {{resolveName "visibility"}} init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: Key.self)
         let rawValue = try container.decode(Int.self, forKey: .rawValue)
@@ -54,6 +57,7 @@
         }
     }
 
+    /// Encodes this value into the given encoder
     {{resolveName "visibility"}} func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: Key.self)
         switch self {
