@@ -79,12 +79,15 @@ public enum SomeEnum : UInt32, CaseIterable, Codable {
     public static var allCases: [SomeEnum] {
         return [.useless]
     }
+    /// A type that can be used as a key for encoding and decoding.
     public enum Key: CodingKey {
         case rawValue
     }
+    /// The error which is thrown if initialisation with decoder has failed
     public enum CodingError: Error {
         case unknownValue
     }
+    /// Creates a new instance by decoding from the given decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: Key.self)
         let rawValue = try container.decode(Int.self, forKey: .rawValue)
@@ -95,6 +98,7 @@ public enum SomeEnum : UInt32, CaseIterable, Codable {
             throw CodingError.unknownValue
         }
     }
+    /// Encodes this value into the given encoder
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: Key.self)
         switch self {
