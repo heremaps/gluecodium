@@ -31,6 +31,65 @@ public final class CtorLinks extends NativeBase {
         private native void cacheThisInstance();
         private static native long create();
     }
+
+    /**
+     * <p>This class has just one constructor with one argument {@link com.example.smoke.CtorLinks.SingleCtorWithOneArgument#SingleCtorWithOneArgument(int)}.
+     */
+    public static final class SingleCtorWithOneArgument extends NativeBase {
+        public SingleCtorWithOneArgument(final int arg) {
+            this(create(arg), (Object)null);
+            cacheThisInstance();
+        }
+
+        /**
+         * For internal use only.
+         * @hidden
+         * @param nativeHandle The SDK nativeHandle instance.
+         * @param dummy The SDK dummy instance.
+         */
+        protected SingleCtorWithOneArgument(final long nativeHandle, final Object dummy) {
+            super(nativeHandle, new Disposer() {
+                @Override
+                public void disposeNative(long handle) {
+                    disposeNativeHandle(handle);
+                }
+            });
+        }
+
+        private static native void disposeNativeHandle(long nativeHandle);
+        private native void cacheThisInstance();
+        private static native long create(final int arg);
+    }
+
+    /**
+     * <p>This class has just one constructor with two argument {@link com.example.smoke.CtorLinks.SingleCtorWithTwoArgument#SingleCtorWithTwoArgument(int, String)}.
+     */
+    public static final class SingleCtorWithTwoArgument extends NativeBase {
+        public SingleCtorWithTwoArgument(final int arg, @NonNull final String arg2) {
+            this(create(arg, arg2), (Object)null);
+            cacheThisInstance();
+        }
+
+        /**
+         * For internal use only.
+         * @hidden
+         * @param nativeHandle The SDK nativeHandle instance.
+         * @param dummy The SDK dummy instance.
+         */
+        protected SingleCtorWithTwoArgument(final long nativeHandle, final Object dummy) {
+            super(nativeHandle, new Disposer() {
+                @Override
+                public void disposeNative(long handle) {
+                    disposeNativeHandle(handle);
+                }
+            });
+        }
+
+        private static native void disposeNativeHandle(long nativeHandle);
+        private native void cacheThisInstance();
+        private static native long create(final int arg, @NonNull final String arg2);
+    }
+
     public static final class OverloadedCtors extends NativeBase {
         public OverloadedCtors(@NonNull final String input) {
             this(create(input), (Object)null);

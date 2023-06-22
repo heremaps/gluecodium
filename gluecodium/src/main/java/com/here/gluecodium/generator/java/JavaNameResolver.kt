@@ -258,11 +258,14 @@ internal class JavaNameResolver(
 
     private fun getSignatureSuffix(limeFunction: LimeFunction) =
         when {
-            signatureResolver.isOverloaded(limeFunction) ->
+            shouldGenerateSignatureWithArguments(limeFunction) ->
                 limeFunction.parameters.joinToString(prefix = "(", postfix = ")") { resolveName(it.typeRef) }
-            limeFunction.isConstructor -> "()"
+
             else -> ""
         }
+
+    private fun shouldGenerateSignatureWithArguments(limeFunction: LimeFunction) =
+        signatureResolver.isOverloaded(limeFunction) || limeFunction.isConstructor
 
     private fun buildDuplicateNames() =
         limeReferenceMap.values

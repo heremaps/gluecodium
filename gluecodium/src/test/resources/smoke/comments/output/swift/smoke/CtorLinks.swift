@@ -39,6 +39,73 @@ public class CtorLinks {
             return moveFromCType(c_result_handle)
         }
     }
+
+    /// This class has just one constructor with one argument `CtorLinks.SingleCtorWithOneArgument.init(...)`.
+    public class SingleCtorWithOneArgument {
+        public init(arg: Int32) {
+            let _result = CtorLinks.SingleCtorWithOneArgument.create(arg: arg)
+            guard _result != 0 else {
+                fatalError("Nullptr value is not supported for initializers")
+            }
+            c_instance = _result
+            smoke_CtorLinks_SingleCtorWithOneArgument_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
+        }
+
+        let c_instance : _baseRef
+
+        init(cSingleCtorWithOneArgument: _baseRef) {
+            guard cSingleCtorWithOneArgument != 0 else {
+                fatalError("Nullptr value is not supported for initializers")
+            }
+            c_instance = cSingleCtorWithOneArgument
+        }
+
+        deinit {
+            smoke_CtorLinks_SingleCtorWithOneArgument_remove_swift_object_from_wrapper_cache(c_instance)
+            smoke_CtorLinks_SingleCtorWithOneArgument_release_handle(c_instance)
+        }
+
+        private static func create(arg: Int32) -> _baseRef {
+            let c_arg = moveToCType(arg)
+            let c_result_handle = smoke_CtorLinks_SingleCtorWithOneArgument_create(c_arg.ref)
+            return moveFromCType(c_result_handle)
+        }
+
+    }
+
+    /// This class has just one constructor with two argument `CtorLinks.SingleCtorWithTwoArgument.init(...)`.
+    public class SingleCtorWithTwoArgument {
+        public init(arg: Int32, arg2: String) {
+            let _result = CtorLinks.SingleCtorWithTwoArgument.create(arg: arg, arg2: arg2)
+            guard _result != 0 else {
+                fatalError("Nullptr value is not supported for initializers")
+            }
+            c_instance = _result
+            smoke_CtorLinks_SingleCtorWithTwoArgument_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
+        }
+
+        let c_instance : _baseRef
+
+        init(cSingleCtorWithTwoArgument: _baseRef) {
+            guard cSingleCtorWithTwoArgument != 0 else {
+                fatalError("Nullptr value is not supported for initializers")
+            }
+            c_instance = cSingleCtorWithTwoArgument
+        }
+
+        deinit {
+            smoke_CtorLinks_SingleCtorWithTwoArgument_remove_swift_object_from_wrapper_cache(c_instance)
+            smoke_CtorLinks_SingleCtorWithTwoArgument_release_handle(c_instance)
+        }
+
+        private static func create(arg: Int32, arg2: String) -> _baseRef {
+            let c_arg = moveToCType(arg)
+            let c_arg2 = moveToCType(arg2)
+            let c_result_handle = smoke_CtorLinks_SingleCtorWithTwoArgument_create(c_arg.ref, c_arg2.ref)
+            return moveFromCType(c_result_handle)
+        }
+    }
+
     public class OverloadedCtors {
         public init(input: String) {
             let _result = CtorLinks.OverloadedCtors.create(input: input)
@@ -217,6 +284,159 @@ internal func copyToCType(_ swiftClass: CtorLinks.SingleCtor?) -> RefHolder {
 internal func moveToCType(_ swiftClass: CtorLinks.SingleCtor?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
+
+internal func getRef(_ ref: CtorLinks.SingleCtorWithOneArgument?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_CtorLinks_SingleCtorWithOneArgument_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_CtorLinks_SingleCtorWithOneArgument_release_handle)
+        : RefHolder(handle_copy)
+}
+
+extension CtorLinks.SingleCtorWithOneArgument: NativeBase {
+    /// :nodoc:
+    var c_handle: _baseRef { return c_instance }
+}
+extension CtorLinks.SingleCtorWithOneArgument: Hashable {
+    /// :nodoc:
+    public static func == (lhs: CtorLinks.SingleCtorWithOneArgument, rhs: CtorLinks.SingleCtorWithOneArgument) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+
+    /// :nodoc:
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
+
+internal func CtorLinks_SingleCtorWithOneArgument_copyFromCType(_ handle: _baseRef) -> CtorLinks.SingleCtorWithOneArgument {
+    if let swift_pointer = smoke_CtorLinks_SingleCtorWithOneArgument_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CtorLinks.SingleCtorWithOneArgument {
+        return re_constructed
+    }
+    let result = CtorLinks.SingleCtorWithOneArgument(cSingleCtorWithOneArgument: smoke_CtorLinks_SingleCtorWithOneArgument_copy_handle(handle))
+    smoke_CtorLinks_SingleCtorWithOneArgument_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
+}
+
+internal func CtorLinks_SingleCtorWithOneArgument_moveFromCType(_ handle: _baseRef) -> CtorLinks.SingleCtorWithOneArgument {
+    if let swift_pointer = smoke_CtorLinks_SingleCtorWithOneArgument_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CtorLinks.SingleCtorWithOneArgument {
+        smoke_CtorLinks_SingleCtorWithOneArgument_release_handle(handle)
+        return re_constructed
+    }
+    let result = CtorLinks.SingleCtorWithOneArgument(cSingleCtorWithOneArgument: handle)
+    smoke_CtorLinks_SingleCtorWithOneArgument_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
+}
+
+internal func CtorLinks_SingleCtorWithOneArgument_copyFromCType(_ handle: _baseRef) -> CtorLinks.SingleCtorWithOneArgument? {
+    guard handle != 0 else {
+        return nil
+    }
+    return CtorLinks_SingleCtorWithOneArgument_moveFromCType(handle) as CtorLinks.SingleCtorWithOneArgument
+}
+internal func CtorLinks_SingleCtorWithOneArgument_moveFromCType(_ handle: _baseRef) -> CtorLinks.SingleCtorWithOneArgument? {
+    guard handle != 0 else {
+        return nil
+    }
+    return CtorLinks_SingleCtorWithOneArgument_moveFromCType(handle) as CtorLinks.SingleCtorWithOneArgument
+}
+
+internal func copyToCType(_ swiftClass: CtorLinks.SingleCtorWithOneArgument) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+
+internal func moveToCType(_ swiftClass: CtorLinks.SingleCtorWithOneArgument) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+
+internal func copyToCType(_ swiftClass: CtorLinks.SingleCtorWithOneArgument?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+
+internal func moveToCType(_ swiftClass: CtorLinks.SingleCtorWithOneArgument?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+
+internal func getRef(_ ref: CtorLinks.SingleCtorWithTwoArgument?, owning: Bool = true) -> RefHolder {
+    guard let c_handle = ref?.c_instance else {
+        return RefHolder(0)
+    }
+    let handle_copy = smoke_CtorLinks_SingleCtorWithTwoArgument_copy_handle(c_handle)
+    return owning
+        ? RefHolder(ref: handle_copy, release: smoke_CtorLinks_SingleCtorWithTwoArgument_release_handle)
+        : RefHolder(handle_copy)
+}
+
+extension CtorLinks.SingleCtorWithTwoArgument: NativeBase {
+    /// :nodoc:
+    var c_handle: _baseRef { return c_instance }
+}
+extension CtorLinks.SingleCtorWithTwoArgument: Hashable {
+    /// :nodoc:
+    public static func == (lhs: CtorLinks.SingleCtorWithTwoArgument, rhs: CtorLinks.SingleCtorWithTwoArgument) -> Bool {
+        return lhs.c_handle == rhs.c_handle
+    }
+
+    /// :nodoc:
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(c_handle)
+    }
+}
+
+internal func CtorLinks_SingleCtorWithTwoArgument_copyFromCType(_ handle: _baseRef) -> CtorLinks.SingleCtorWithTwoArgument {
+    if let swift_pointer = smoke_CtorLinks_SingleCtorWithTwoArgument_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CtorLinks.SingleCtorWithTwoArgument {
+        return re_constructed
+    }
+    let result = CtorLinks.SingleCtorWithTwoArgument(cSingleCtorWithTwoArgument: smoke_CtorLinks_SingleCtorWithTwoArgument_copy_handle(handle))
+    smoke_CtorLinks_SingleCtorWithTwoArgument_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
+}
+
+internal func CtorLinks_SingleCtorWithTwoArgument_moveFromCType(_ handle: _baseRef) -> CtorLinks.SingleCtorWithTwoArgument {
+    if let swift_pointer = smoke_CtorLinks_SingleCtorWithTwoArgument_get_swift_object_from_wrapper_cache(handle),
+        let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? CtorLinks.SingleCtorWithTwoArgument {
+        smoke_CtorLinks_SingleCtorWithTwoArgument_release_handle(handle)
+        return re_constructed
+    }
+    let result = CtorLinks.SingleCtorWithTwoArgument(cSingleCtorWithTwoArgument: handle)
+    smoke_CtorLinks_SingleCtorWithTwoArgument_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
+    return result
+}
+
+internal func CtorLinks_SingleCtorWithTwoArgument_copyFromCType(_ handle: _baseRef) -> CtorLinks.SingleCtorWithTwoArgument? {
+    guard handle != 0 else {
+        return nil
+    }
+    return CtorLinks_SingleCtorWithTwoArgument_moveFromCType(handle) as CtorLinks.SingleCtorWithTwoArgument
+}
+internal func CtorLinks_SingleCtorWithTwoArgument_moveFromCType(_ handle: _baseRef) -> CtorLinks.SingleCtorWithTwoArgument? {
+    guard handle != 0 else {
+        return nil
+    }
+    return CtorLinks_SingleCtorWithTwoArgument_moveFromCType(handle) as CtorLinks.SingleCtorWithTwoArgument
+}
+
+internal func copyToCType(_ swiftClass: CtorLinks.SingleCtorWithTwoArgument) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+
+internal func moveToCType(_ swiftClass: CtorLinks.SingleCtorWithTwoArgument) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+
+internal func copyToCType(_ swiftClass: CtorLinks.SingleCtorWithTwoArgument?) -> RefHolder {
+    return getRef(swiftClass, owning: false)
+}
+
+internal func moveToCType(_ swiftClass: CtorLinks.SingleCtorWithTwoArgument?) -> RefHolder {
+    return getRef(swiftClass, owning: true)
+}
+
 internal func getRef(_ ref: CtorLinks.OverloadedCtors?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)

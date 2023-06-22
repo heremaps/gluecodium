@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+  * Fixed documentation references to constructors in Java.
+
 ## 13.6.1
 ### Bug fixes:
   * Fixes compilation on Android when inner struct has skipped fields.
