@@ -19,6 +19,9 @@ package test
 
 // This is some very useful interface.
 class comments {
+    // Some constructor
+    constructor make(p1: Int)
+
     // This is some very useful struct.
     struct SomeStruct {
         // How useful this struct is
@@ -182,6 +185,7 @@ class CommentsLinks {
     // * top level enum: [CommentsTypeCollection.TypeCollectionEnum]
     // * top level enum item: [CommentsTypeCollection.TypeCollectionEnum.item]
     // * error: [TooUseful]
+    // * overloaded constructor [comments.make]
     //
     //
     // Not working for Java:

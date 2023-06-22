@@ -29,4 +29,9 @@ CommentsInstantiable::create(const std::string& input) {
     return {};
 }
 
+std::shared_ptr<Comments>
+Comments::make(int) {
+    return nullptr;
+}
+
 }
