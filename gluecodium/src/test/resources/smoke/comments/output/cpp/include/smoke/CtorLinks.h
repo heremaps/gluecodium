@@ -4,6 +4,7 @@
 // -------------------------------------------------------------------------------------------------
 #pragma once
 #include "gluecodium/ExportGluecodiumCpp.h"
+#include <cstdint>
 #include <memory>
 #include <string>
 namespace smoke {
@@ -26,6 +27,42 @@ public:
          */
         static ::std::shared_ptr< ::smoke::CtorLinks::SingleCtor > create(  );
     };
+
+    /**
+     * This class has just one constructor with one argument ::smoke::CtorLinks::SingleCtorWithOneArgument::create.
+     */
+    class _GLUECODIUM_CPP_EXPORT SingleCtorWithOneArgument {
+    public:
+        SingleCtorWithOneArgument();
+        virtual ~SingleCtorWithOneArgument() = 0;
+
+    public:
+        /**
+         *
+         * \param[in] arg
+         * \return @NotNull
+         */
+        static ::std::shared_ptr< ::smoke::CtorLinks::SingleCtorWithOneArgument > create( const int32_t arg );
+    };
+
+    /**
+     * This class has just one constructor with two argument ::smoke::CtorLinks::SingleCtorWithTwoArgument::create.
+     */
+    class _GLUECODIUM_CPP_EXPORT SingleCtorWithTwoArgument {
+    public:
+        SingleCtorWithTwoArgument();
+        virtual ~SingleCtorWithTwoArgument() = 0;
+
+    public:
+        /**
+         *
+         * \param[in] arg
+         * \param[in] arg2
+         * \return @NotNull
+         */
+        static ::std::shared_ptr< ::smoke::CtorLinks::SingleCtorWithTwoArgument > create( const int32_t arg, const ::std::string& arg2 );
+    };
+
     class _GLUECODIUM_CPP_EXPORT OverloadedCtors {
     public:
         OverloadedCtors();

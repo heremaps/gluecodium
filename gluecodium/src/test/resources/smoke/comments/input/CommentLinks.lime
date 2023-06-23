@@ -84,6 +84,16 @@ class CtorLinks {
         constructor create()
     }
 
+    // This class has just one constructor with one argument [create(Int)].
+    class SingleCtorWithOneArgument {
+        constructor create(arg: Int)
+    }
+
+    // This class has just one constructor with two argument [create(Int, String)].
+    class SingleCtorWithTwoArgument {
+        constructor create(arg: Int, arg2: String)
+    }
+
     class OverloadedCtors {
         @Dart("withString")
         constructor create(input: String)

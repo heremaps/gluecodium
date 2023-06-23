@@ -64,6 +64,160 @@ CtorLinks_SingleCtor? smokeCtorlinksSinglectorFromFfiNullable(Pointer<Void> hand
 void smokeCtorlinksSinglectorReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeCtorlinksSinglectorReleaseHandle(handle);
 // End of CtorLinks_SingleCtor "private" section.
+/// This class has just one constructor with one argument [CtorLinks_SingleCtorWithOneArgument.CtorLinks_SingleCtorWithOneArgument()].
+abstract class CtorLinks_SingleCtorWithOneArgument {
+  factory CtorLinks_SingleCtorWithOneArgument(int arg) => $prototype.create(arg);
+
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = CtorLinks_SingleCtorWithOneArgument$Impl(Pointer<Void>.fromAddress(0));
+}
+
+// CtorLinks_SingleCtorWithOneArgument "private" section, not exported.
+final _smokeCtorlinksSinglectorwithoneargumentRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_CtorLinks_SingleCtorWithOneArgument_register_finalizer'));
+final _smokeCtorlinksSinglectorwithoneargumentCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_CtorLinks_SingleCtorWithOneArgument_copy_handle'));
+final _smokeCtorlinksSinglectorwithoneargumentReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_smoke_CtorLinks_SingleCtorWithOneArgument_release_handle'));
+
+/// @nodoc
+@visibleForTesting
+class CtorLinks_SingleCtorWithOneArgument$Impl extends __lib.NativeBase implements CtorLinks_SingleCtorWithOneArgument {
+
+  CtorLinks_SingleCtorWithOneArgument$Impl(Pointer<Void> handle) : super(handle);
+
+  CtorLinks_SingleCtorWithOneArgument create(int arg) {
+    final _result_handle = _create(arg);
+    final _result = CtorLinks_SingleCtorWithOneArgument$Impl(_result_handle);
+
+    __lib.cacheInstance(_result_handle, _result);
+
+    _smokeCtorlinksSinglectorwithoneargumentRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+    return _result;
+  }
+
+  static Pointer<Void> _create(int arg) {
+    final _createFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Int32), Pointer<Void> Function(int, int)>('library_smoke_CtorLinks_SingleCtorWithOneArgument_create__Int'));
+    final _argHandle = (arg);
+    final __resultHandle = _createFfi(__lib.LibraryContext.isolateId, _argHandle);
+
+    return __resultHandle;
+  }
+}
+
+Pointer<Void> smokeCtorlinksSinglectorwithoneargumentToFfi(CtorLinks_SingleCtorWithOneArgument value) =>
+  _smokeCtorlinksSinglectorwithoneargumentCopyHandle((value as __lib.NativeBase).handle);
+
+CtorLinks_SingleCtorWithOneArgument smokeCtorlinksSinglectorwithoneargumentFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is CtorLinks_SingleCtorWithOneArgument) return instance;
+
+  final _copiedHandle = _smokeCtorlinksSinglectorwithoneargumentCopyHandle(handle);
+  final result = CtorLinks_SingleCtorWithOneArgument$Impl(_copiedHandle);
+  __lib.cacheInstance(_copiedHandle, result);
+  _smokeCtorlinksSinglectorwithoneargumentRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
+  return result;
+}
+
+void smokeCtorlinksSinglectorwithoneargumentReleaseFfiHandle(Pointer<Void> handle) =>
+  _smokeCtorlinksSinglectorwithoneargumentReleaseHandle(handle);
+
+Pointer<Void> smokeCtorlinksSinglectorwithoneargumentToFfiNullable(CtorLinks_SingleCtorWithOneArgument? value) =>
+  value != null ? smokeCtorlinksSinglectorwithoneargumentToFfi(value) : Pointer<Void>.fromAddress(0);
+
+CtorLinks_SingleCtorWithOneArgument? smokeCtorlinksSinglectorwithoneargumentFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeCtorlinksSinglectorwithoneargumentFromFfi(handle) : null;
+
+void smokeCtorlinksSinglectorwithoneargumentReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeCtorlinksSinglectorwithoneargumentReleaseHandle(handle);
+
+// End of CtorLinks_SingleCtorWithOneArgument "private" section.
+/// This class has just one constructor with two argument [CtorLinks_SingleCtorWithTwoArgument.CtorLinks_SingleCtorWithTwoArgument()].
+abstract class CtorLinks_SingleCtorWithTwoArgument {
+  factory CtorLinks_SingleCtorWithTwoArgument(int arg, String arg2) => $prototype.create(arg, arg2);
+
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = CtorLinks_SingleCtorWithTwoArgument$Impl(Pointer<Void>.fromAddress(0));
+}
+
+// CtorLinks_SingleCtorWithTwoArgument "private" section, not exported.
+final _smokeCtorlinksSinglectorwithtwoargumentRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>, Int32, Handle),
+    void Function(Pointer<Void>, int, Object)
+  >('library_smoke_CtorLinks_SingleCtorWithTwoArgument_register_finalizer'));
+final _smokeCtorlinksSinglectorwithtwoargumentCopyHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_CtorLinks_SingleCtorWithTwoArgument_copy_handle'));
+final _smokeCtorlinksSinglectorwithtwoargumentReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_smoke_CtorLinks_SingleCtorWithTwoArgument_release_handle'));
+
+/// @nodoc
+@visibleForTesting
+class CtorLinks_SingleCtorWithTwoArgument$Impl extends __lib.NativeBase implements CtorLinks_SingleCtorWithTwoArgument {
+
+  CtorLinks_SingleCtorWithTwoArgument$Impl(Pointer<Void> handle) : super(handle);
+
+  CtorLinks_SingleCtorWithTwoArgument create(int arg, String arg2) {
+    final _result_handle = _create(arg, arg2);
+    final _result = CtorLinks_SingleCtorWithTwoArgument$Impl(_result_handle);
+
+    __lib.cacheInstance(_result_handle, _result);
+
+    _smokeCtorlinksSinglectorwithtwoargumentRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+    return _result;
+  }
+
+  static Pointer<Void> _create(int arg, String arg2) {
+    final _createFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Int32, Pointer<Void>), Pointer<Void> Function(int, int, Pointer<Void>)>('library_smoke_CtorLinks_SingleCtorWithTwoArgument_create__Int_String'));
+    final _argHandle = (arg);
+    final _arg2Handle = stringToFfi(arg2);
+    final __resultHandle = _createFfi(__lib.LibraryContext.isolateId, _argHandle, _arg2Handle);
+
+    stringReleaseFfiHandle(_arg2Handle);
+    return __resultHandle;
+  }
+}
+
+Pointer<Void> smokeCtorlinksSinglectorwithtwoargumentToFfi(CtorLinks_SingleCtorWithTwoArgument value) =>
+  _smokeCtorlinksSinglectorwithtwoargumentCopyHandle((value as __lib.NativeBase).handle);
+
+CtorLinks_SingleCtorWithTwoArgument smokeCtorlinksSinglectorwithtwoargumentFromFfi(Pointer<Void> handle) {
+  if (handle.address == 0) throw StateError("Expected non-null value.");
+  final instance = __lib.getCachedInstance(handle);
+  if (instance != null && instance is CtorLinks_SingleCtorWithTwoArgument) return instance;
+
+  final _copiedHandle = _smokeCtorlinksSinglectorwithtwoargumentCopyHandle(handle);
+  final result = CtorLinks_SingleCtorWithTwoArgument$Impl(_copiedHandle);
+  __lib.cacheInstance(_copiedHandle, result);
+  _smokeCtorlinksSinglectorwithtwoargumentRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
+  return result;
+}
+
+void smokeCtorlinksSinglectorwithtwoargumentReleaseFfiHandle(Pointer<Void> handle) =>
+  _smokeCtorlinksSinglectorwithtwoargumentReleaseHandle(handle);
+
+Pointer<Void> smokeCtorlinksSinglectorwithtwoargumentToFfiNullable(CtorLinks_SingleCtorWithTwoArgument? value) =>
+  value != null ? smokeCtorlinksSinglectorwithtwoargumentToFfi(value) : Pointer<Void>.fromAddress(0);
+
+CtorLinks_SingleCtorWithTwoArgument? smokeCtorlinksSinglectorwithtwoargumentFromFfiNullable(Pointer<Void> handle) =>
+  handle.address != 0 ? smokeCtorlinksSinglectorwithtwoargumentFromFfi(handle) : null;
+
+void smokeCtorlinksSinglectorwithtwoargumentReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeCtorlinksSinglectorwithtwoargumentReleaseHandle(handle);
+
+// End of CtorLinks_SingleCtorWithTwoArgument "private" section.
 abstract class CtorLinks_OverloadedCtors {
   factory CtorLinks_OverloadedCtors.withString(String input) => $prototype.withString(input);
   @Deprecated("Use [CtorLinks_OverloadedCtors.withString] instead.")
