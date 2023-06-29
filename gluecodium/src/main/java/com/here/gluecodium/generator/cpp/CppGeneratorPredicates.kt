@@ -21,6 +21,7 @@ package com.here.gluecodium.generator.cpp
 
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
@@ -99,7 +100,11 @@ internal object CppGeneratorPredicates {
                 limeType.attributes.have(LimeAttributeType.EQUATABLE) -> false
                 else -> true
             }
-        }
+        },
+        "needsInnerForwardDeclarations" to fun(limeField: Any): Boolean {
+            if (limeField !is LimeContainer) return false
+            return limeField.classes.size + limeField.interfaces.size > 0
+        },
     )
 
     private fun needsNotNullComment(limeTypeRef: LimeTypeRef) =
