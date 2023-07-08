@@ -29,10 +29,14 @@ public:
 {{#ifPredicate "needsInnerForwardDeclarations"}}
 public:
 {{#this.classes}}
+{{#ifPredicate "isUsedInAnotherInnerClasses"}}
     class {{this.name}};
+{{/ifPredicate}}
 {{/this.classes}}
 {{#this.interfaces}}
+{{#ifPredicate "isUsedInAnotherInnerClasses"}}
     class {{this.name}};
+{{/ifPredicate}}
 {{/this.interfaces}}
 {{/ifPredicate}}
 

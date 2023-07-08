@@ -17,11 +17,27 @@ package smoke.forward
 
 class InnerClassForwardDeclarations {
     @Internal
-    interface InnerInterface {
+    interface InnerInterface1 {
     }
 
-    open class InnerClass {
+    interface InnerInterface2 {
+    }
+
+    interface InnerInterface3 {
+    }
+
+    open class InnerClass1 {
         @Internal
-         fun getInnerInterface() : InnerInterface
+        fun getInnerInterface() : InnerInterface1
+    }
+
+    class InnerClass2 {
+        class InnerInnerClass1 {
+            fun foo() : InnerInnerClass2
+        }
+
+        class InnerInnerClass2 {
+            fun bar(arg: InnerInterface2)
+        }
     }
 }

@@ -32,7 +32,6 @@ import com.here.gluecodium.generator.common.NameHelper
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.common.templates.TemplateEngine
-import com.here.gluecodium.generator.cpp.CppGeneratorPredicates.predicates
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeType.EQUATABLE
 import com.here.gluecodium.model.lime.LimeConstant
@@ -123,10 +122,11 @@ internal class CppGenerator : Generator {
             .filter { it.external?.cpp == null }
             .map { it.fullName }
             .toSet()
+        val predicates = CppGeneratorPredicates(filteredModel.referenceMap).predicates
 
         val generatedFiles = filteredModel.topElements.flatMap {
             val fileName = nameRules.getOutputFilePath(it)
-            generateCode(it, fileName, includeResolver, nameResolver, fullNameResolver, signatureResolver, allErrorEnums)
+            generateCode(it, fileName, includeResolver, nameResolver, fullNameResolver, signatureResolver, allErrorEnums, predicates)
         } + COMMON_HEADERS.map { generateHelperFile(it, "include", ".h") } +
             COMMON_IMPLS.map { generateHelperFile(it, "src", ".cpp") } +
             generateExportHelperFile(exportCommonName, "Common", GeneratedFile.SourceSet.COMMON) +
@@ -146,7 +146,8 @@ internal class CppGenerator : Generator {
         nameResolver: CppNameResolver,
         fullNameResolver: CppFullNameResolver,
         signatureResolver: CppSignatureResolver,
-        allErrorEnums: Set<String>
+        allErrorEnums: Set<String>,
+        predicates: Map<String, (Any)-> Boolean>
     ): List<GeneratedFile> {
 
         val allTypes = LimeTypeHelper.getAllTypes(rootElement)
@@ -180,13 +181,13 @@ internal class CppGenerator : Generator {
             val headerIncludesCollector = CppHeaderIncludesCollector(includeResolver, allErrorEnums)
             val headerIncludes = headerIncludesCollector.collectImports(rootElement) + exportInclude
             templateData["functionUsings"] = collectFunctionUsings(rootElement, signatureResolver)
-            result += generateHeader(rootElement, nameResolvers, fileName, templateData, headerIncludes)
+            result += generateHeader(rootElement, nameResolvers, fileName, templateData, headerIncludes, predicates)
         }
         if (needsImplementation) {
             val implIncludesCollector = CppImplIncludesCollector(includeResolver, allErrorEnums)
             val implementationIncludes = implIncludesCollector.collectImports(rootElement) +
                 createSelfInclude(rootElement, needsHeader, fileName)
-            result += generateImplementation(rootElement, nameResolvers, implementationIncludes, templateData, fileName)
+            result += generateImplementation(rootElement, nameResolvers, implementationIncludes, templateData, fileName, predicates)
         }
 
         return result
@@ -206,7 +207,8 @@ internal class CppGenerator : Generator {
         nameResolvers: Map<String, NameResolver>,
         implementationIncludes: List<Include>,
         generalData: Map<String, Any>,
-        fileName: String
+        fileName: String,
+        predicates: Map<String, (Any)-> Boolean>
     ): GeneratedFile {
         val templateData = generalData + mapOf(
             "includes" to implementationIncludes.distinct().sorted(),
@@ -223,7 +225,8 @@ internal class CppGenerator : Generator {
         nameResolvers: Map<String, NameResolver>,
         fileName: String,
         generalData: Map<String, Any>,
-        headerIncludes: List<Include>
+        headerIncludes: List<Include>,
+        predicates: Map<String, (Any)-> Boolean>
     ): GeneratedFile {
         val absolutePath = Paths.get(GENERATOR_NAME, "include", fileName)
         val headerFileName = "$absolutePath.h"
