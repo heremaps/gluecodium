@@ -3,6 +3,7 @@
 ## Unreleased
 ### Bug fixes:
   * Fixed documentation references to constructors in Java.
+  * Added forward declaration for inner interfaces and classes.
 
 ## 13.6.1
 ### Bug fixes:

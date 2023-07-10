@@ -26,6 +26,20 @@ public:
     {{resolveName}}();
     virtual ~{{resolveName}}() = 0;
 
+{{#ifPredicate "needsInnerForwardDeclarations"}}
+public:
+{{#this.classes}}
+{{#ifPredicate "isUsedInAnotherInnerClasses"}}
+    class {{this.name}};
+{{/ifPredicate}}
+{{/this.classes}}
+{{#this.interfaces}}
+{{#ifPredicate "isUsedInAnotherInnerClasses"}}
+    class {{this.name}};
+{{/ifPredicate}}
+{{/this.interfaces}}
+{{/ifPredicate}}
+
 {{#if enumerations typeAliases structs constants classes interfaces lambdas logic="or"}}
 public:
 {{#sort enumerations lambdas typeAliases structs constants classes interfaces}}

@@ -22,7 +22,7 @@ package com.here.gluecodium.model.lime
 /**
  * An object of this class represents a "path" in the LIME model tree from the root to some specific
  * element (not necessary a tree leaf). A given path fully identifies the element, there are no two
- * elements with identical paths in the whole model (please not that the model is not a single tree,
+ * elements with identical paths in the whole model (please note that the model is not a single tree,
  * but several disjoint trees).
  *
  * [tail] represents the traversable portion of the path, i.e. the hierarchy of elements nested in

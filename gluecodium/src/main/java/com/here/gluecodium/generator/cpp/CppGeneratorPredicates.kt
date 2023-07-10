@@ -21,17 +21,21 @@ package com.here.gluecodium.generator.cpp
 
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
+import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 /**
  * List of predicates used by `ifPredicate`/`unlessPredicate` template helpers in C++ generator.
  */
-internal object CppGeneratorPredicates {
+internal class CppGeneratorPredicates(private val referenceMap: Map<String, LimeElement>) {
     val predicates = mapOf(
         "needsRefSuffix" to { limeTypeRef: Any ->
             limeTypeRef is LimeTypeRef && CppNameResolver.needsRefSuffix(limeTypeRef)
@@ -99,6 +103,27 @@ internal object CppGeneratorPredicates {
                 limeType.attributes.have(LimeAttributeType.EQUATABLE) -> false
                 else -> true
             }
+        },
+        "isUsedInAnotherInnerClasses" to fun(limeField: Any): Boolean {
+            if (limeField !is LimeContainer || !limeField.path.hasParent) return false
+            val parent = referenceMap[limeField.path.parent.toAmbiguousString()]
+            if (parent !is LimeContainerWithInheritance) return false
+
+            return (parent.interfaces + parent.classes)
+                .filter { it != limeField }
+                .map { InnerClassForwardDeclarationCollection.collectImports(it) }
+                .any { it.contains(limeField.fullName) }
+        },
+        "needsInnerForwardDeclarations" to fun(limeField: Any): Boolean {
+            if (limeField !is LimeContainer) return false
+
+            val containers = limeField.interfaces + limeField.classes
+            val typesUsedInTheClass = containers
+                .associateWith { InnerClassForwardDeclarationCollection.collectImports(it) }
+
+            return containers.any { container ->
+                typesUsedInTheClass.filterKeys { it != container }.values.flatten().contains(container.fullName)
+            }
         }
     )
 
@@ -113,5 +138,12 @@ internal object CppGeneratorPredicates {
         visitedTypes += leafType
         val typesToVisit = leafType.fields.map { it.typeRef.type.actualType }.distinct() - visitedTypes
         return typesToVisit.flatMap { getAllFieldTypesRec(it, visitedTypes) } + leafType
+    }
+
+    private object InnerClassForwardDeclarationCollection : CppImportsCollector<String>() {
+        override fun collectImports(limeElement: LimeNamedElement): List<String> {
+            val allTypes = LimeTypeHelper.getAllTypes(limeElement)
+            return collectTypeRefs(allTypes).map { it.elementFullName }
+        }
     }
 }
