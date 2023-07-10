@@ -260,7 +260,8 @@ internal class DartNameResolver(
     }
 
     private fun resolveTypeRefName(
-        limeTypeRef: LimeTypeRef, ignoreDuplicates: Boolean = false,
+        limeTypeRef: LimeTypeRef,
+        ignoreDuplicates: Boolean = false,
         ignoreNullability: Boolean = false
     ): String {
         val typeName = resolveName(limeTypeRef.type)
