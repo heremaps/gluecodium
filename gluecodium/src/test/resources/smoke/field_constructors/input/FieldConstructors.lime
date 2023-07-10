@@ -131,3 +131,20 @@ struct FieldConstructorsParameterDefaults {
     @Swift(ParameterDefaults)
     field constructor(stringField, intField, boolField)
 }
+
+@Skip(Java, Swift)
+struct FieldConstructorsNullableTypes {
+    enum FoodType {
+        VEGETABLES,
+        FRUITS
+    }
+
+    struct StructWithParameters {
+        foodType: FoodType = FoodType.FRUITS
+
+        @Skip(Java, Swift)
+        field constructor(foodType)
+    }
+
+    nullableField: StructWithParameters? = {FoodType.FRUITS}
+}
