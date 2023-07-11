@@ -4,6 +4,7 @@
 ### Bug fixes:
   * Fixed documentation references to constructors in Java.
   * Added forward declaration for inner interfaces and classes.
+  * Fixed Dart code generation for struct initialization.
 
 ## 13.6.1
 ### Bug fixes:

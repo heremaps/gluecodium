@@ -142,7 +142,7 @@ internal class DartNameResolver(
                     else -> resolveName(noFieldsConstructor).let { if (it.isEmpty()) "" else ".$it" }
                 }
                 limeValue.values.joinToString(
-                    prefix = "${resolveName(limeValue.typeRef)}$constructorName(",
+                    prefix = "${resolveTypeRefName(limeValue.typeRef, ignoreNullability = true)}$constructorName(",
                     postfix = ")",
                     separator = ", "
                 ) { resolveValue(it) }
@@ -259,7 +259,11 @@ internal class DartNameResolver(
         return "${resolveFullName(parentElement)}.$ownName"
     }
 
-    private fun resolveTypeRefName(limeTypeRef: LimeTypeRef, ignoreDuplicates: Boolean = false): String {
+    private fun resolveTypeRefName(
+        limeTypeRef: LimeTypeRef,
+        ignoreDuplicates: Boolean = false,
+        ignoreNullability: Boolean = false
+    ): String {
         val typeName = resolveName(limeTypeRef.type)
         val importPath = limeTypeRef.type.actualType.external?.dart?.get(IMPORT_PATH_NAME)
         val alias = when {
@@ -268,7 +272,7 @@ internal class DartNameResolver(
             duplicateNames.contains(typeName) -> limeTypeRef.type.actualType.path.head.joinToString("_")
             else -> null
         }
-        val suffix = if (limeTypeRef.isNullable) "?" else ""
+        val suffix = if (limeTypeRef.isNullable && !ignoreNullability) "?" else ""
         return listOfNotNull(alias, typeName).joinToString(".") + suffix
     }
 
