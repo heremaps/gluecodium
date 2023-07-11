@@ -1,10 +1,11 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 13.6.2
 ### Bug fixes:
   * Fixed documentation references to constructors in Java.
   * Added forward declaration for inner interfaces and classes.
   * Fixed Dart code generation for struct initialization.
+  * Adds comments on undocumented fields in iOS
 
 ## 13.6.1
 ### Bug fixes:
