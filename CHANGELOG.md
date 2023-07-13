@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## 13.6.3
+### Bug fixes:
+  * Updates proper file to iterate version
+
 ## 13.6.2
 ### Bug fixes:
   * Fixed documentation references to constructors in Java.
