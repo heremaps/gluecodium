@@ -114,6 +114,7 @@ public final class ExcludedCommentsOnly extends NativeBase {
     /**
      *
      * @hidden
+     * @return
      */
     public native boolean isSomeProperty();
     /**

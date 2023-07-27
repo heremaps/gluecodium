@@ -53,6 +53,7 @@ public final class AttributesWithDeprecated extends NativeBase {
     /**
      *
      * @deprecated
+     * @return
      */
     @Deprecated
     @OnPropertyInClass

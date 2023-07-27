@@ -74,6 +74,7 @@ public interface DeprecationComments {
      * <p>Gets some very useful property.
      * @deprecated <p>Unfortunately, this property's getter is deprecated.
      * Use {@link com.example.smoke.Comments#isSomeProperty} instead.
+     * @return <p>Some very useful property.
      */
     @Deprecated
     boolean isSomeProperty();
@@ -88,6 +89,7 @@ public interface DeprecationComments {
     /**
      * <p>Gets the property but not accessors.
      * @deprecated <p>Will be removed in v3.2.1.
+     * @return <p>Describes the property but not accessors.
      */
     @Deprecated
     @NonNull

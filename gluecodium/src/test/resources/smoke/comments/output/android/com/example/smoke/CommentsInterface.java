@@ -92,6 +92,7 @@ public interface CommentsInterface {
     void someMethodWithoutReturnTypeOrInputParameters();
     /**
      * <p>Gets some very useful property.
+     * @return <p>Some very useful property.
      */
     boolean isSomeProperty();
     /**

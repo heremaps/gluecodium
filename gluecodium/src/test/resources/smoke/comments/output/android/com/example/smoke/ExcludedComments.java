@@ -128,6 +128,7 @@ public final class ExcludedComments extends NativeBase {
     /**
      * <p>Gets some very useful property.
      * @hidden
+     * @return <p>Some very useful property.
      */
     public native boolean isSomeProperty();
     /**
