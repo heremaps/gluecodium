@@ -36,8 +36,8 @@
 }}{{#parameters}}
 {{!!}}@param {{resolveName}} {{#resolveName comment}}{{prefix this "    " skipFirstLine=true}}{{/resolveName}}{{!!
 }}{{/parameters}}{{!!
-}}{{!! document the return value if it's neither a constructor nor returning void nor a getter}}{{!!
-}}{{#unless isConstructor returnType.isVoid isGetter logic="and"}}
+}}{{!! document the return value if it's neither a constructor nor returning void }}{{!!
+}}{{#unless isConstructor returnType.isVoid logic="and"}}
 {{!!}}@return {{#resolveName returnType.comment}}{{prefix this "    " skipFirstLine=true}}{{/resolveName}}{{!!
 }}{{/unless}}{{!!
 }}{{#if thrownType}}
