@@ -188,6 +188,7 @@ public final class Comments extends NativeBase {
     public native String returnCommentOnly(@NonNull final String undocumented);
     /**
      * <p>Gets some very useful property.
+     * @return <p>Some very useful property.
      */
     public native boolean isSomeProperty();
     /**

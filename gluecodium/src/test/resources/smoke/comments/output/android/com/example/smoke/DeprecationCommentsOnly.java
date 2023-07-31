@@ -53,6 +53,7 @@ public interface DeprecationCommentsOnly {
     /**
      *
      * @deprecated <p>Unfortunately, this property's getter is deprecated.
+     * @return
      */
     @Deprecated
     boolean isSomeProperty();

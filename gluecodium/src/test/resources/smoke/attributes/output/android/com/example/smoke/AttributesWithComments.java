@@ -47,6 +47,7 @@ public final class AttributesWithComments extends NativeBase {
     public native void veryFun();
     /**
      * <p>Getter comment
+     * @return <p>Property comment
      */
     @OnPropertyInClass
     @NonNull
