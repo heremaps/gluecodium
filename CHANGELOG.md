@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 13.6.4
+### Features:
+  * Java: Documentation for generated property's getters contains tag @return from the first part
+    of documentation in the same way as setter contains @value.
+
 ## 13.6.3
 ### Bug fixes:
   * Updates proper file to iterate version
