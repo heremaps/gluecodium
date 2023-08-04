@@ -52,7 +52,7 @@ parentTypes
 function
     : docComment* annotation* ('static' NewLine*)? 'fun' NewLine* simpleId NewLine*
       '(' NewLine* (parameter (',' NewLine* parameter)*)?  ')' NewLine*
-      returnType? throwsClause? NewLine*
+      (':' returnType)? throwsClause? NewLine*
     ;
 
 constructor
@@ -74,7 +74,7 @@ parameter
     ;
 
 returnType
-    : ':' NewLine* docComment* typeRef NewLine*
+    : NewLine* docComment* typeRef NewLine*
     ;
 
 throwsClause
@@ -133,7 +133,7 @@ exception
 lambda
     : docComment* annotation* 'lambda' NewLine* simpleId NewLine* '=' NewLine*
       '(' NewLine* (lambdaParameter (',' NewLine* lambdaParameter)*)? ')' NewLine*
-      '->' NewLine* typeRef NewLine+
+      '->' returnType
     ;
 
 lambdaParameter

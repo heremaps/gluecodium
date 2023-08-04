@@ -39,6 +39,7 @@ import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.IMPORT_PATH_NAME
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
+import com.here.gluecodium.model.lime.LimeLambdaParameter
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
@@ -86,6 +87,7 @@ internal class DartNameResolver(
             is LimeTypeAlias -> resolveName(element.typeRef)
             is LimeType -> resolveTypeName(element)
             is LimeNamedElement -> getPlatformName(element)
+            is LimeLambdaParameter -> resolveTypeRefName(element.typeRef)
             else ->
                 throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }

@@ -41,6 +41,7 @@ import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.SETTER_NA
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
+import com.here.gluecodium.model.lime.LimeLambdaParameter
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
@@ -84,6 +85,7 @@ internal class CppNameResolver(
             is LimeType -> resolveTypeName(element, isFullName = false)
             is LimeTypeRef -> resolveTypeRef(element)
             is LimeReturnType -> resolveTypeRef(element.typeRef)
+            is LimeLambdaParameter -> resolveTypeRef(element.typeRef)
             is LimeNamedElement -> nameCache.getName(element)
             else -> throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }

@@ -40,6 +40,7 @@ import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
+import com.here.gluecodium.model.lime.LimeLambdaParameter
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
@@ -75,6 +76,7 @@ internal class SwiftNameResolver(
             is LimeTypeRef -> resolveTypeRefName(element)
             is LimeReturnType -> resolveTypeRefName(element.typeRef)
             is LimeNamedElement -> nameRules.getName(element)
+            is LimeLambdaParameter -> resolveTypeRefName(element.typeRef)
             else -> throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }
 

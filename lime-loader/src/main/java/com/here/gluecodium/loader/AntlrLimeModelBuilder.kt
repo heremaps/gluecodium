@@ -512,15 +512,19 @@ internal class AntlrLimeModelBuilder(
                 )
             )
         }
+        val returnType = ctx.returnType()
+            ?.let {
+                LimeReturnType(
+                    typeMapper.mapTypeRef(currentPath, it.typeRef()),
+                    getComment("return", it.docComment(), it)
+                )
+            } ?: LimeReturnType.VOID
         val limeElement = LimeLambda(
             path = currentPath,
             comment = parseStructuredComment(ctx.docComment(), ctx).description,
             attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation()),
             parameters = parameters,
-            returnType = LimeReturnType(
-                typeMapper.mapTypeRef(currentPath, ctx.typeRef()),
-                getComment("return", null, ctx)
-            )
+            returnType = returnType
         )
 
         storeResultAndPopStacks(limeElement)

@@ -1,0 +1,9 @@
+package test
+
+class CommentsLambda {
+    // This is a comment for lambda 
+    // @param[p0] This is the comment for the first parameter of the lambda.
+    // @param[p1] This is the comment for the second parameter of the lambda.
+    lambda MyCallback = (@Java("param1_name") Int?, @Java("param2_name") String) 
+        ->  /*Comment for return value*/ Int
+} 
