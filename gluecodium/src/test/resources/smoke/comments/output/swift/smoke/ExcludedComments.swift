@@ -11,6 +11,10 @@ public class ExcludedComments {
     /// :nodoc:
     public typealias SomethingWrongError = ExcludedComments.SomeEnum
     /// This is some very useful lambda that does it.
+    /// - Parameters:
+    ///   - String: Very useful input parameter
+    ///   - Int32: Slightly less useful input parameter
+    /// - Returns: Usefulness of the input
     /// :nodoc:
     public typealias SomeLambda = (String, Int32) -> Double
     /// This is some very useful constant.

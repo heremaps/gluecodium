@@ -101,6 +101,7 @@ void smokeLambdasProducerReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeLambdasProducerReleaseHandleNullable(handle);
 // End of Lambdas_Producer "private" section.
 /// Should confuse everyone thoroughly
+///
 typedef Lambdas_Confuser = Lambdas_Producer Function(String);
 // Lambdas_Confuser "private" section, not exported.
 final _smokeLambdasConfuserRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<

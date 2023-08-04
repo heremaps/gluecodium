@@ -164,6 +164,13 @@ void smokeExcludedcommentsSomestructReleaseFfiHandleNullable(Pointer<Void> handl
   _smokeExcludedcommentsSomestructReleaseHandleNullable(handle);
 // End of ExcludedComments_SomeStruct "private" section.
 /// This is some very useful lambda that does it.
+///
+/// [String] Very useful input parameter
+///
+/// [int] Slightly less useful input parameter
+///
+/// Returns [double]. Usefulness of the input
+///
 /// @nodoc
 typedef ExcludedComments_SomeLambda = double Function(String, int);
 // ExcludedComments_SomeLambda "private" section, not exported.

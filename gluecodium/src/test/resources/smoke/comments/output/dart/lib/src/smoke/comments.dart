@@ -232,6 +232,13 @@ void smokeCommentsSomestructReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeCommentsSomestructReleaseHandleNullable(handle);
 // End of Comments_SomeStruct "private" section.
 /// This is some very useful lambda that does it.
+///
+/// [String] Very useful input parameter
+///
+/// [int] Slightly less useful input parameter
+///
+/// Returns [double]. Usefulness of the input
+///
 typedef Comments_SomeLambda = double Function(String, int);
 // Comments_SomeLambda "private" section, not exported.
 final _smokeCommentsSomelambdaRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<

@@ -7,6 +7,11 @@ public class ExcludedCommentsOnly {
     public typealias Usefulness = Bool
     /// :nodoc:
     public typealias SomethingWrongError = ExcludedCommentsOnly.SomeEnum
+    ///
+    /// - Parameters:
+    ///   - String:
+    ///   - Int32:
+    /// - Returns:
     /// :nodoc:
     public typealias SomeLambda = (String, Int32) -> Double
     /// :nodoc:

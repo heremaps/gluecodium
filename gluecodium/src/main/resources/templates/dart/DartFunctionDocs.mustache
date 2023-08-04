@@ -18,23 +18,8 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#resolveName comment}}{{#unless this.isEmpty}}{{prefix this "/// "}}
-///{{/unless}}{{/resolveName}}{{!!
-}}{{#parameters}}{{#set self=this}}{{#resolveName comment}}{{#unless this.isEmpty}}
-/// [{{resolveName self}}] {{prefix this "/// " skipFirstLine=true}}
-///{{/unless}}{{/resolveName}}{{/set}}{{/parameters}}{{!!
-}}{{#resolveName returnType.comment}}{{#unless this.isEmpty}}
-/// Returns [{{resolveName returnType.typeRef}}]. {{prefix this "/// " skipFirstLine=true}}
-///{{/unless}}{{/resolveName}}{{!!
-}}{{#if thrownType}}{{#resolveName thrownType.comment}}{{#unless this.isEmpty}}
-/// Throws [{{resolveName exception}}]. {{prefix this "/// " skipFirstLine=true}}
-///{{/unless}}{{/resolveName}}{{/if}}{{!!
-}}{{#ifPredicate "needsNoDoc"}}
-/// @nodoc{{/ifPredicate}}{{!!
-}}{{#if attributes.deprecated}}
-@Deprecated("{{#resolveName attributes.deprecated.message}}{{escape this}}{{/resolveName}}")
-{{/if}}{{!!
-}}{{#if attributes.dart.attribute}}
+{{>dart/DartLambdaDocs}}
+{{#if attributes.dart.attribute}}
 
 {{#attributes.dart.attribute}}
 @{{this}}{{#if iter.hasNext}}

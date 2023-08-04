@@ -4,6 +4,8 @@ import Foundation
 public class Lambdas {
     public typealias Producer = () -> String
     /// Should confuse everyone thoroughly
+    /// - Parameter String:
+    /// - Returns:
     public typealias Convoluter = (String) -> Lambdas.Producer
     public typealias Consumer = (String) -> Void
     public typealias Indexer = (String, Float) -> Int32

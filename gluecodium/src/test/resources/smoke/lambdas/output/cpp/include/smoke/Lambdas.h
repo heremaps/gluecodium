@@ -21,6 +21,8 @@ public:
     using Producer = ::std::function<::std::string()>;
     /**
      * Should confuse everyone thoroughly
+     * \param[in] ::std::string
+     * \return
      */
     using Confuser = ::std::function<::smoke::Lambdas::Producer(const ::std::string&)>;
     using Consumer = ::std::function<void(const ::std::string&)>;

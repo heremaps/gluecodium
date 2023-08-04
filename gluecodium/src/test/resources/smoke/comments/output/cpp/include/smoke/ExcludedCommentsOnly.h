@@ -28,7 +28,11 @@ public:
         USELESS
     };
     /**
+     *
      * \private
+     * \param[in] ::std::string
+     * \param[in] int32_t
+     * \return
      */
     using SomeLambda = ::std::function<double(const ::std::string&, const int32_t)>;
     /**
