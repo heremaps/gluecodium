@@ -85,8 +85,8 @@ internal class CppNameResolver(
             is LimeType -> resolveTypeName(element, isFullName = false)
             is LimeTypeRef -> resolveTypeRef(element)
             is LimeReturnType -> resolveTypeRef(element.typeRef)
-            is LimeLambdaParameter -> resolveTypeRef(element.typeRef)
             is LimeNamedElement -> nameCache.getName(element)
+            is LimeLambdaParameter -> resolveTypeRef(element.typeRef)
             else -> throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }
 
