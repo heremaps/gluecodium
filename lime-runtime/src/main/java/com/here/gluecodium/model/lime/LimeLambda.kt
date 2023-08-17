@@ -32,7 +32,7 @@ class LimeLambda(
         comment = comment,
         attributes = attributes,
         returnType = returnType,
-        parameters = parameters.mapIndexed { idx, it -> it.asParameter(path.child("p$idx")) }
+        parameters = parameters.map { it.asLimeParameter() }
     )
 
     val functions

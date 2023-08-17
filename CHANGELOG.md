@@ -1,5 +1,11 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+  * Added new lambda syntax that allows to specify parameter name.
+### Bug fixes:
+  * Fixed documentation generation for lambdas.
+
 ## 13.6.4
 ### Features:
   * Java: Documentation for generated property's getters contains tag @return from the first part

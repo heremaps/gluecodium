@@ -503,9 +503,19 @@ internal class AntlrLimeModelBuilder(
 
     override fun exitLambda(ctx: LimeParser.LambdaContext) {
         val parameters = ctx.lambdaParameter().mapIndexed { index, it ->
+            val simpleId = it.simpleId()
+            val isNamedParameter = simpleId != null
+            val path = if (isNamedParameter) {
+                currentPath.child(convertSimpleId(simpleId))
+            } else {
+                currentPath.child("p$index")
+            }
+
             LimeLambdaParameter(
                 typeRef = typeMapper.mapTypeRef(currentPath, it.typeRef()),
-                comment = getComment("param", "p$index", null, ctx),
+                path = path,
+                isNamedParameter = isNamedParameter,
+                comment = getComment("param", path.name, null, ctx),
                 attributes = AntlrLimeConverter.convertAnnotations(
                     currentPath,
                     it.typeRef().simpleTypeRef().annotation()

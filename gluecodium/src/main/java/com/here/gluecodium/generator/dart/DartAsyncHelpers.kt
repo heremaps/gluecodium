@@ -41,6 +41,7 @@ internal object DartAsyncHelpers {
         val helpers: Map<String, LimeFunction>
     )
 
+    private const val FIRST_PARAMETER_NAME = "p0"
     private const val RESULT_LAMBDA = "__resultLambda"
     private const val ERROR_LAMBDA = "__errorLambda"
     private const val ASYNC_FUNCTION = "__async"
@@ -70,25 +71,38 @@ internal object DartAsyncHelpers {
         return AsyncHelpersGroup(limeContainer.fullName, lambdas, helpers)
     }
 
-    private fun createResultLambda(limeFunction: LimeFunction, functionName: String) =
-        LimeLambda(
-            limeFunction.path.parent.child(limeFunction.name + RESULT_LAMBDA, limeFunction.path.disambiguator),
+    private fun createResultLambda(limeFunction: LimeFunction, functionName: String): LimeLambda {
+        val path = limeFunction.path.parent.child(limeFunction.name + RESULT_LAMBDA, limeFunction.path.disambiguator)
+        return LimeLambda(
+            path,
             attributes = LimeAttributes.Builder().addAttribute(DART, NAME, functionName + RESULT_LAMBDA).build(),
             parameters = when {
                 limeFunction.returnType.isVoid -> emptyList()
-                else -> listOf(LimeLambdaParameter(limeFunction.returnType.typeRef))
+                else -> listOf(
+                    LimeLambdaParameter(
+                        limeFunction.returnType.typeRef, path.child(FIRST_PARAMETER_NAME)
+                    )
+                )
             }
         )
+    }
 
     private fun createErrorLambda(
         limeFunction: LimeFunction,
         limeException: LimeException,
         functionName: String
-    ) = LimeLambda(
-        limeFunction.path.parent.child(limeFunction.name + ERROR_LAMBDA, limeFunction.path.disambiguator),
-        attributes = LimeAttributes.Builder().addAttribute(DART, NAME, functionName + ERROR_LAMBDA).build(),
-        parameters = listOf(LimeLambdaParameter(limeException.errorType))
-    )
+    ): LimeLambda {
+        val path = limeFunction.path.parent.child(limeFunction.name + ERROR_LAMBDA, limeFunction.path.disambiguator)
+        return LimeLambda(
+            path,
+            attributes = LimeAttributes.Builder().addAttribute(DART, NAME, functionName + ERROR_LAMBDA).build(),
+            parameters = listOf(
+                LimeLambdaParameter(
+                    limeException.errorType, path.child(FIRST_PARAMETER_NAME)
+                )
+            )
+        )
+    }
 
     private fun createAsyncHelper(
         limeFunction: LimeFunction,

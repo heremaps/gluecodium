@@ -77,14 +77,23 @@ The comment after the `@constructor` tag will be used for the documentation of t
 used for the documentation of the struct itself. The parameter documentation of the constructor will use the same
 documentation as for the fields of the struct. A default value will make it possible to omit a field from a constructor.
 
-Structured comments for lambdas allow specifying comments for lambda parameters, even though they do not have explicit
-names. Implicit positional names should be used for parameters instead: `p0`, `p1`, and so on. Example:
+Structured comments for lambdas allow specifying comments for lambda parameters. 
+For unnamed parameters that have only types specified, positional names can be used to document parameters: `p0`, `p1`,
+and so on. For example:
 ```
 // Communicate the date and the message.
 // @param[p0] the current date.
 // @param[p1] the new message.
 // @return whether the operation succeeded.
 lambda TimestampCallback = (Date, String) -> Boolean
+```
+For named parameters use the same syntax as for functions. For example:
+```
+// Communicate the date and the message.
+// @param[currentDate] the current date.
+// @param[newMessage] the new message.
+// @return whether the operation succeeded.
+lambda TimestampCallback = (currentDate: Date, newMessage: String) -> Boolean
 ```
 
 Formatting in documentation comments

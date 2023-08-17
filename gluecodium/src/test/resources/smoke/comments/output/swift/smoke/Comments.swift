@@ -8,6 +8,9 @@ public class Comments {
     /// This is some very useful exception.
     public typealias SomethingWrongError = Comments.SomeEnum
     /// This is some very useful lambda that does it.
+    /// - Parameter p0: Very useful input parameter
+    /// - Parameter p1: Slightly less useful input parameter
+    /// - Returns: Usefulness of the input
     public typealias SomeLambda = (String, Int32) -> Double
     /// This is some very useful constant.
     public static let veryUseful: Comments.Usefulness = true

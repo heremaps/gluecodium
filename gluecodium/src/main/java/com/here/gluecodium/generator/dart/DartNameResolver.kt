@@ -39,6 +39,7 @@ import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.IMPORT_PATH_NAME
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
+import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
@@ -229,15 +230,30 @@ internal class DartNameResolver(
     private fun resolveComment(limeComment: LimeComment): String {
         var commentText = limeComment.getFor("Dart")
         if (commentText.isBlank()) return ""
+        val limeElement = limeReferenceMap[limeComment.path.toString()] as? LimeNamedElement
 
-        val exactElement = limeReferenceMap[limeComment.path.toString()] as? LimeNamedElement
-        if (exactElement is LimeType || exactElement is LimeFunction) {
-            // For functions and types, separate first sentence with double line break.
+        if (isNeededToSeparateFirstLine(limeElement, limeComment)) {
             commentText = commentText.replaceFirst(END_OF_SENTENCE, ".\n\n")
         }
 
-        val commentedElement = exactElement ?: getParentElement(limeComment.path)
+        val commentedElement = limeElement ?: getParentElement(limeComment.path)
         return commentsProcessor.process(commentedElement.fullName, commentText, limeToDartNames, limeLogger)
+    }
+
+    private fun isNeededToSeparateFirstLine(limeElement: LimeNamedElement?, limeComment: LimeComment): Boolean {
+        val isParameterComment = limeElement is LimeLambda &&
+            limeElement.parameters.any { it.comment === limeComment }
+
+        if (isParameterComment) {
+            return false
+        }
+
+        // For functions and types, separate first sentence with double line break.
+        return when (limeElement) {
+            is LimeType -> true
+            is LimeFunction -> true
+            else -> false
+        }
     }
 
     private fun getPlatformName(element: LimeNamedElement) =
