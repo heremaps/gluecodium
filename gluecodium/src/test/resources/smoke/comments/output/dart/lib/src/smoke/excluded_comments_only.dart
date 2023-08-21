@@ -5,7 +5,6 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 /// @nodoc
 abstract class ExcludedCommentsOnly {
-
   /// @nodoc
   static final bool veryUseful = true;
   /// @nodoc
@@ -244,25 +243,24 @@ final _smokeExcludedcommentsonlyReleaseHandle = __lib.catchArgumentError(() => _
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_release_handle'));
-final _someMethodWithAllCommentsReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _someMethodWithAllCommentssmokeExcludedcommentsonlySomemethodwithallcommentsStringReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_someMethodWithAllComments__String_return_release_handle'));
-final _someMethodWithAllCommentsReturnGetResult = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _someMethodWithAllCommentssmokeExcludedcommentsonlySomemethodwithallcommentsStringReturnGetResult = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_someMethodWithAllComments__String_return_get_result'));
-final _someMethodWithAllCommentsReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _someMethodWithAllCommentssmokeExcludedcommentsonlySomemethodwithallcommentsStringReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_someMethodWithAllComments__String_return_get_error'));
-final _someMethodWithAllCommentsReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _someMethodWithAllCommentssmokeExcludedcommentsonlySomemethodwithallcommentsStringReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_someMethodWithAllComments__String_return_has_error'));
 class ExcludedCommentsOnly$Impl extends __lib.NativeBase implements ExcludedCommentsOnly {
   ExcludedCommentsOnly$Impl(Pointer<Void> handle) : super(handle);
-
   @override
   bool someMethodWithAllComments(String inputParameter) {
     final _someMethodWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ExcludedCommentsOnly_someMethodWithAllComments__String'));
@@ -270,17 +268,17 @@ class ExcludedCommentsOnly$Impl extends __lib.NativeBase implements ExcludedComm
     final _handle = this.handle;
     final __callResultHandle = _someMethodWithAllCommentsFfi(_handle, __lib.LibraryContext.isolateId, _inputParameterHandle);
     stringReleaseFfiHandle(_inputParameterHandle);
-    if (_someMethodWithAllCommentsReturnHasError(__callResultHandle) != 0) {
-        final __errorHandle = _someMethodWithAllCommentsReturnGetError(__callResultHandle);
-        _someMethodWithAllCommentsReturnReleaseHandle(__callResultHandle);
+    if (_someMethodWithAllCommentssmokeExcludedcommentsonlySomemethodwithallcommentsStringReturnHasError(__callResultHandle) != 0) {
+        final __errorHandle = _someMethodWithAllCommentssmokeExcludedcommentsonlySomemethodwithallcommentsStringReturnGetError(__callResultHandle);
+        _someMethodWithAllCommentssmokeExcludedcommentsonlySomemethodwithallcommentsStringReturnReleaseHandle(__callResultHandle);
         try {
           throw ExcludedCommentsOnly_SomethingWrongException(smokeExcludedcommentsonlySomeenumFromFfi(__errorHandle));
         } finally {
           smokeExcludedcommentsonlySomeenumReleaseFfiHandle(__errorHandle);
         }
     }
-    final __resultHandle = _someMethodWithAllCommentsReturnGetResult(__callResultHandle);
-    _someMethodWithAllCommentsReturnReleaseHandle(__callResultHandle);
+    final __resultHandle = _someMethodWithAllCommentssmokeExcludedcommentsonlySomemethodwithallcommentsStringReturnGetResult(__callResultHandle);
+    _someMethodWithAllCommentssmokeExcludedcommentsonlySomemethodwithallcommentsStringReturnReleaseHandle(__callResultHandle);
     try {
       return booleanFromFfi(__resultHandle);
     } finally {

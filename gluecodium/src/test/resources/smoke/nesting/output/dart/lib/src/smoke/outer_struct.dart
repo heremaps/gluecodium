@@ -8,15 +8,15 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:meta/meta.dart';
-final _doNothingReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _doNothingsmokeOuterstructDonothingReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_OuterStruct_doNothing_return_release_handle'));
-final _doNothingReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _doNothingsmokeOuterstructDonothingReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_OuterStruct_doNothing_return_get_error'));
-final _doNothingReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _doNothingsmokeOuterstructDonothingReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_OuterStruct_doNothing_return_has_error'));
@@ -412,16 +412,16 @@ class OuterStruct$Impl {
     final _handle = smokeOuterstructToFfi($that);
     final __callResultHandle = _doNothingFfi(_handle, __lib.LibraryContext.isolateId);
     smokeOuterstructReleaseFfiHandle(_handle);
-    if (_doNothingReturnHasError(__callResultHandle) != 0) {
-        final __errorHandle = _doNothingReturnGetError(__callResultHandle);
-        _doNothingReturnReleaseHandle(__callResultHandle);
+    if (_doNothingsmokeOuterstructDonothingReturnHasError(__callResultHandle) != 0) {
+        final __errorHandle = _doNothingsmokeOuterstructDonothingReturnGetError(__callResultHandle);
+        _doNothingsmokeOuterstructDonothingReturnReleaseHandle(__callResultHandle);
         try {
           throw OuterStruct_InstantiationException(smokeOuterstructInnerenumFromFfi(__errorHandle));
         } finally {
           smokeOuterstructInnerenumReleaseFfiHandle(__errorHandle);
         }
     }
-    _doNothingReturnReleaseHandle(__callResultHandle);
+    _doNothingsmokeOuterstructDonothingReturnReleaseHandle(__callResultHandle);
   }
 }
 Pointer<Void> smokeOuterstructToFfi(OuterStruct value) {

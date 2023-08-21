@@ -13,7 +13,6 @@ abstract class Constructors {
   factory Constructors.fromString(String input) => $prototype.fromString(input);
   factory Constructors.fromList(List<double> input) => $prototype.fromList(input);
   factory Constructors.create(int input) => $prototype.create(input);
-
   /// @nodoc
   @visibleForTesting
   static dynamic $prototype = Constructors$Impl(Pointer<Void>.fromAddress(0));
@@ -94,19 +93,19 @@ final _smokeConstructorsGetTypeId = __lib.catchArgumentError(() => __lib.nativeL
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Constructors_get_type_id'));
-final _fromStringReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _fromStringsmokeConstructorsCreateStringReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Constructors_create__String_return_release_handle'));
-final _fromStringReturnGetResult = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _fromStringsmokeConstructorsCreateStringReturnGetResult = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Constructors_create__String_return_get_result'));
-final _fromStringReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _fromStringsmokeConstructorsCreateStringReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Constructors_create__String_return_get_error'));
-final _fromStringReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _fromStringsmokeConstructorsCreateStringReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Constructors_create__String_return_has_error'));
@@ -114,7 +113,6 @@ final _fromStringReturnHasError = __lib.catchArgumentError(() => __lib.nativeLib
 @visibleForTesting
 class Constructors$Impl extends __lib.NativeBase implements Constructors {
   Constructors$Impl(Pointer<Void> handle) : super(handle);
-
   Constructors $init() {
     final _result_handle = _$init();
     final _result = Constructors$Impl(_result_handle);
@@ -182,17 +180,17 @@ class Constructors$Impl extends __lib.NativeBase implements Constructors {
     final _inputHandle = stringToFfi(input);
     final __callResultHandle = _fromStringFfi(__lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
-    if (_fromStringReturnHasError(__callResultHandle) != 0) {
-        final __errorHandle = _fromStringReturnGetError(__callResultHandle);
-        _fromStringReturnReleaseHandle(__callResultHandle);
+    if (_fromStringsmokeConstructorsCreateStringReturnHasError(__callResultHandle) != 0) {
+        final __errorHandle = _fromStringsmokeConstructorsCreateStringReturnGetError(__callResultHandle);
+        _fromStringsmokeConstructorsCreateStringReturnReleaseHandle(__callResultHandle);
         try {
           throw Constructors_ConstructorExplodedException(smokeConstructorsErrorenumFromFfi(__errorHandle));
         } finally {
           smokeConstructorsErrorenumReleaseFfiHandle(__errorHandle);
         }
     }
-    final __resultHandle = _fromStringReturnGetResult(__callResultHandle);
-    _fromStringReturnReleaseHandle(__callResultHandle);
+    final __resultHandle = _fromStringsmokeConstructorsCreateStringReturnGetResult(__callResultHandle);
+    _fromStringsmokeConstructorsCreateStringReturnReleaseHandle(__callResultHandle);
     return __resultHandle;
   }
   static Pointer<Void> _fromList(List<double> input) {

@@ -5,19 +5,19 @@ import 'package:library/src/smoke/validation_utils.dart';
 import 'package:meta/meta.dart';
 class StructsWithMethods {
 }
-final _copyReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _copysmokeStructswithmethodsVectorCreateVectorReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_StructsWithMethods_Vector_create__Vector_return_release_handle'));
-final _copyReturnGetResult = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _copysmokeStructswithmethodsVectorCreateVectorReturnGetResult = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructsWithMethods_Vector_create__Vector_return_get_result'));
-final _copyReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _copysmokeStructswithmethodsVectorCreateVectorReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_StructsWithMethods_Vector_create__Vector_return_get_error'));
-final _copyReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _copysmokeStructswithmethodsVectorCreateVectorReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_StructsWithMethods_Vector_create__Vector_return_has_error'));
@@ -107,17 +107,17 @@ class StructsWithMethods_Vector$Impl {
     final _otherHandle = smokeStructswithmethodsVectorToFfi(other);
     final __callResultHandle = _copyFfi(__lib.LibraryContext.isolateId, _otherHandle);
     smokeStructswithmethodsVectorReleaseFfiHandle(_otherHandle);
-    if (_copyReturnHasError(__callResultHandle) != 0) {
-        final __errorHandle = _copyReturnGetError(__callResultHandle);
-        _copyReturnReleaseHandle(__callResultHandle);
+    if (_copysmokeStructswithmethodsVectorCreateVectorReturnHasError(__callResultHandle) != 0) {
+        final __errorHandle = _copysmokeStructswithmethodsVectorCreateVectorReturnGetError(__callResultHandle);
+        _copysmokeStructswithmethodsVectorCreateVectorReturnReleaseHandle(__callResultHandle);
         try {
           throw ValidationUtils_ValidationException(smokeValidationutilsValidationerrorcodeFromFfi(__errorHandle));
         } finally {
           smokeValidationutilsValidationerrorcodeReleaseFfiHandle(__errorHandle);
         }
     }
-    final __resultHandle = _copyReturnGetResult(__callResultHandle);
-    _copyReturnReleaseHandle(__callResultHandle);
+    final __resultHandle = _copysmokeStructswithmethodsVectorCreateVectorReturnGetResult(__callResultHandle);
+    _copysmokeStructswithmethodsVectorCreateVectorReturnReleaseHandle(__callResultHandle);
     try {
       return smokeStructswithmethodsVectorFromFfi(__resultHandle);
     } finally {

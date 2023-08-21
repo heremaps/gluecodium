@@ -5,6 +5,9 @@
   * Added new lambda syntax that allows to specify parameter name.
 ### Bug fixes:
   * Fixed documentation generation for lambdas.
+  * Fixed name clash and compilation errors for internally generated dart functions in case lime file contains
+   internal classes/structs with throwing functions/constructors that have the same name and classes/structs are contained
+   in the same external class.
 
 ## 13.6.4
 ### Features:

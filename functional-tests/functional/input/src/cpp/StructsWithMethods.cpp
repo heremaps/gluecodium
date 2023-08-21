@@ -102,6 +102,20 @@ StructsWithMethodsInterface::Vector3::create( const StructsWithMethodsInterface:
          );
 }
 
+lorem_ipsum::test::Return< StructsWithMethodsInterface::Vector4, std::error_code >
+StructsWithMethodsInterface::Vector4::create( )
+{
+    return lorem_ipsum::test::Return< StructsWithMethodsInterface::Vector4, std::error_code >(
+        StructsWithMethodsInterface::Vector4( ) );
+}
+
+lorem_ipsum::test::Return< StructsWithMethodsInterface::Vector5, std::error_code >
+StructsWithMethodsInterface::Vector5::create( )
+{
+    return lorem_ipsum::test::Return< StructsWithMethodsInterface::Vector5, std::error_code >(
+        StructsWithMethodsInterface::Vector5( ) );
+}
+
 void
 StructsWithMethodsInterface::StructWithStaticMethodsOnly::do_stuff( )
 {
