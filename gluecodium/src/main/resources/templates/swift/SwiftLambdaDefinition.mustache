@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}
+{{>swift/SwiftLambdaComment}}{{>swift/SwiftAttributes}}
 {{#unless isInterface}}{{resolveName "visibility"}} {{/unless}}typealias {{resolveName}} = {{!!
 }}({{#parameters}}{{#unless typeRef.isNullable}}{{#instanceOf typeRef.type.actualType "LimeLambda"}}@escaping {{/instanceOf}}{{/unless}}{{!!
-}}{{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) -> {{resolveName returnType}}
+}}{{#if this.isNamedParameter}}_ {{this.parameterName}}: {{/if}}{{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}) -> {{resolveName returnType}}

@@ -19,4 +19,6 @@
   !
   !}}
 ::std::function<{{resolveName returnType.typeRef "C++"}}({{#parameters}}{{!!
-}}const {{resolveName typeRef "C++"}}{{#ifPredicate typeRef "needsRefSuffix"}}&{{/ifPredicate}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})>
+}}const {{resolveName typeRef "C++"}}{{#ifPredicate typeRef "needsRefSuffix"}}&{{/ifPredicate}}{{!!
+}}{{#if this.isNamedParameter}} {{this.parameterName}}{{/if}}{{!!
+}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})>

@@ -34,6 +34,9 @@ public:
     };
     /**
      * This is some very useful lambda that does it.
+     * \param[in] p0 Very useful input parameter
+     * \param[in] p1 Slightly less useful input parameter
+     * \return Usefulness of the input
      */
     using SomeLambda = ::std::function<double(const ::std::string&, const int32_t)>;
     /**

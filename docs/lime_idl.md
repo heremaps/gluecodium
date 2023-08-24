@@ -240,7 +240,8 @@ struct Options {
 * Can be a free-standing element at file level or can be placed in: class, interface, struct.
 * Description: declares a lambda type (a functional reference). Unlike the functions, specifying a
 return type for a lambda is required. For declaring lambdas with no return type, `Void` type should
-be used (like in the example above).
+be used (like in the example above). When clarity is needed, it is possible to use lambda syntax with named
+parameters, for example: `lambda TimestampCallback = (currentDate: Date) -> Void`
 
 ### Child element declarations
 

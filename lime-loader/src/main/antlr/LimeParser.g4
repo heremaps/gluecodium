@@ -137,7 +137,7 @@ lambda
     ;
 
 lambdaParameter
-    : typeRef NewLine*
+    : (simpleId ':')? typeRef NewLine*
     ;
 
 // Comments, annotations, and descriptors

@@ -165,6 +165,12 @@ void smokeExcludedcommentsSomestructReleaseFfiHandleNullable(Pointer<Void> handl
 // End of ExcludedComments_SomeStruct "private" section.
 /// This is some very useful lambda that does it.
 /// @nodoc
+///
+/// [p0] Very useful input parameter
+///
+/// [p1] Slightly less useful input parameter
+///
+/// Returns Usefulness of the input
 typedef ExcludedComments_SomeLambda = double Function(String, int);
 // ExcludedComments_SomeLambda "private" section, not exported.
 final _smokeExcludedcommentsSomelambdaRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<

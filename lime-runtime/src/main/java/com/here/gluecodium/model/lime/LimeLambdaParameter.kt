@@ -20,10 +20,16 @@
 package com.here.gluecodium.model.lime
 
 class LimeLambdaParameter(
-    val typeRef: LimeTypeRef,
-    val comment: LimeComment = LimeComment(),
-    attributes: LimeAttributes? = null
-) : LimeElement(attributes) {
-    fun asParameter(path: LimePath) =
+    typeRef: LimeTypeRef,
+    path: LimePath,
+    comment: LimeComment = LimeComment(),
+    attributes: LimeAttributes? = null,
+    @Suppress("unused") val isNamedParameter: Boolean = false
+) : LimeTypedElement(path, comment, attributes, typeRef = typeRef) {
+
+    fun asLimeParameter() =
         LimeParameter(path = path, comment = comment, attributes = attributes, typeRef = typeRef)
+
+    @Suppress("unused")
+    fun parameterName() = path.name
 }
