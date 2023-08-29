@@ -34,19 +34,19 @@ final _packageClassGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrar
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_package_Class_get_type_id'));
-final _funReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _funpackageClassFunListofPackageTypesStructReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_package_Class_fun__ListOf_package_Types_Struct_return_release_handle'));
-final _funReturnGetResult = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _funpackageClassFunListofPackageTypesStructReturnGetResult = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_package_Class_fun__ListOf_package_Types_Struct_return_get_result'));
-final _funReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _funpackageClassFunListofPackageTypesStructReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_package_Class_fun__ListOf_package_Types_Struct_return_get_error'));
-final _funReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _funpackageClassFunListofPackageTypesStructReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_package_Class_fun__ListOf_package_Types_Struct_return_has_error'));
@@ -73,17 +73,17 @@ class Class$Impl extends __lib.NativeBase implements Class {
     final _handle = this.handle;
     final __callResultHandle = _funFfi(_handle, __lib.LibraryContext.isolateId, _doubleHandle);
     foobarListofPackageTypesStructReleaseFfiHandle(_doubleHandle);
-    if (_funReturnHasError(__callResultHandle) != 0) {
-        final __errorHandle = _funReturnGetError(__callResultHandle);
-        _funReturnReleaseHandle(__callResultHandle);
+    if (_funpackageClassFunListofPackageTypesStructReturnHasError(__callResultHandle) != 0) {
+        final __errorHandle = _funpackageClassFunListofPackageTypesStructReturnGetError(__callResultHandle);
+        _funpackageClassFunListofPackageTypesStructReturnReleaseHandle(__callResultHandle);
         try {
           throw Types_ExceptionException(packageTypesEnumFromFfi(__errorHandle));
         } finally {
           packageTypesEnumReleaseFfiHandle(__errorHandle);
         }
     }
-    final __resultHandle = _funReturnGetResult(__callResultHandle);
-    _funReturnReleaseHandle(__callResultHandle);
+    final __resultHandle = _funpackageClassFunListofPackageTypesStructReturnGetResult(__callResultHandle);
+    _funpackageClassFunListofPackageTypesStructReturnReleaseHandle(__callResultHandle);
     try {
       return packageTypesStructFromFfi(__resultHandle);
     } finally {

@@ -5,7 +5,6 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/comments.dart';
 abstract class UnicodeComments {
-
   /// Süßölgefäß
   ///
   /// [input] שלום
@@ -29,25 +28,24 @@ final _smokeUnicodecommentsReleaseHandle = __lib.catchArgumentError(() => __lib.
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_UnicodeComments_release_handle'));
-final _someMethodWithAllCommentsReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _someMethodWithAllCommentssmokeUnicodecommentsSomemethodwithallcommentsStringReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_UnicodeComments_someMethodWithAllComments__String_return_release_handle'));
-final _someMethodWithAllCommentsReturnGetResult = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _someMethodWithAllCommentssmokeUnicodecommentsSomemethodwithallcommentsStringReturnGetResult = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_UnicodeComments_someMethodWithAllComments__String_return_get_result'));
-final _someMethodWithAllCommentsReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _someMethodWithAllCommentssmokeUnicodecommentsSomemethodwithallcommentsStringReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_UnicodeComments_someMethodWithAllComments__String_return_get_error'));
-final _someMethodWithAllCommentsReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _someMethodWithAllCommentssmokeUnicodecommentsSomemethodwithallcommentsStringReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_UnicodeComments_someMethodWithAllComments__String_return_has_error'));
 class UnicodeComments$Impl extends __lib.NativeBase implements UnicodeComments {
   UnicodeComments$Impl(Pointer<Void> handle) : super(handle);
-
   @override
   bool someMethodWithAllComments(String input) {
     final _someMethodWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_UnicodeComments_someMethodWithAllComments__String'));
@@ -55,17 +53,17 @@ class UnicodeComments$Impl extends __lib.NativeBase implements UnicodeComments {
     final _handle = this.handle;
     final __callResultHandle = _someMethodWithAllCommentsFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
-    if (_someMethodWithAllCommentsReturnHasError(__callResultHandle) != 0) {
-        final __errorHandle = _someMethodWithAllCommentsReturnGetError(__callResultHandle);
-        _someMethodWithAllCommentsReturnReleaseHandle(__callResultHandle);
+    if (_someMethodWithAllCommentssmokeUnicodecommentsSomemethodwithallcommentsStringReturnHasError(__callResultHandle) != 0) {
+        final __errorHandle = _someMethodWithAllCommentssmokeUnicodecommentsSomemethodwithallcommentsStringReturnGetError(__callResultHandle);
+        _someMethodWithAllCommentssmokeUnicodecommentsSomemethodwithallcommentsStringReturnReleaseHandle(__callResultHandle);
         try {
           throw Comments_SomethingWrongException(smokeCommentsSomeenumFromFfi(__errorHandle));
         } finally {
           smokeCommentsSomeenumReleaseFfiHandle(__errorHandle);
         }
     }
-    final __resultHandle = _someMethodWithAllCommentsReturnGetResult(__callResultHandle);
-    _someMethodWithAllCommentsReturnReleaseHandle(__callResultHandle);
+    final __resultHandle = _someMethodWithAllCommentssmokeUnicodecommentsSomemethodwithallcommentsStringReturnGetResult(__callResultHandle);
+    _someMethodWithAllCommentssmokeUnicodecommentsSomemethodwithallcommentsStringReturnReleaseHandle(__callResultHandle);
     try {
       return booleanFromFfi(__resultHandle);
     } finally {

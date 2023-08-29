@@ -139,19 +139,19 @@ final _smokeCommentslinksReleaseHandle = __lib.catchArgumentError(() => __lib.na
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_CommentsLinks_release_handle'));
-final _randomMethodReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _randomMethodsmokeCommentslinksRandommethodSomeenumReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_CommentsLinks_randomMethod__SomeEnum_return_release_handle'));
-final _randomMethodReturnGetResult = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _randomMethodsmokeCommentslinksRandommethodSomeenumReturnGetResult = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_CommentsLinks_randomMethod__SomeEnum_return_get_result'));
-final _randomMethodReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _randomMethodsmokeCommentslinksRandommethodSomeenumReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_CommentsLinks_randomMethod__SomeEnum_return_get_error'));
-final _randomMethodReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _randomMethodsmokeCommentslinksRandommethodSomeenumReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_CommentsLinks_randomMethod__SomeEnum_return_has_error'));
@@ -164,17 +164,17 @@ class CommentsLinks$Impl extends __lib.NativeBase implements CommentsLinks {
     final _handle = this.handle;
     final __callResultHandle = _randomMethodFfi(_handle, __lib.LibraryContext.isolateId, _inputParameterHandle);
     smokeCommentsSomeenumReleaseFfiHandle(_inputParameterHandle);
-    if (_randomMethodReturnHasError(__callResultHandle) != 0) {
-        final __errorHandle = _randomMethodReturnGetError(__callResultHandle);
-        _randomMethodReturnReleaseHandle(__callResultHandle);
+    if (_randomMethodsmokeCommentslinksRandommethodSomeenumReturnHasError(__callResultHandle) != 0) {
+        final __errorHandle = _randomMethodsmokeCommentslinksRandommethodSomeenumReturnGetError(__callResultHandle);
+        _randomMethodsmokeCommentslinksRandommethodSomeenumReturnReleaseHandle(__callResultHandle);
         try {
           throw Comments_SomethingWrongException(smokeCommentsSomeenumFromFfi(__errorHandle));
         } finally {
           smokeCommentsSomeenumReleaseFfiHandle(__errorHandle);
         }
     }
-    final __resultHandle = _randomMethodReturnGetResult(__callResultHandle);
-    _randomMethodReturnReleaseHandle(__callResultHandle);
+    final __resultHandle = _randomMethodsmokeCommentslinksRandommethodSomeenumReturnGetResult(__callResultHandle);
+    _randomMethodsmokeCommentslinksRandommethodSomeenumReturnReleaseHandle(__callResultHandle);
     try {
       return smokeCommentsSomeenumFromFfi(__resultHandle);
     } finally {

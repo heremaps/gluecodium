@@ -81,6 +81,20 @@ class StructsWithMethodsInterface {
         ) throws ValidationUtils.Validation
     }
 
+    struct Vector4 {
+        x: Double = 2.0
+        @Dart(Default)
+        constructor create(
+        ) throws ValidationUtils.Validation
+    }
+
+    struct Vector5 {
+        y: Double = 7.0
+        @Dart(Default)
+        constructor create(
+        ) throws ValidationUtils.Validation
+    }
+
     struct StructWithStaticMethodsOnly {
         static fun doStuff()
     }

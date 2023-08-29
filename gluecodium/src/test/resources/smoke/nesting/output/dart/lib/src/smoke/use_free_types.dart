@@ -7,7 +7,6 @@ import 'package:library/src/smoke/free_enum.dart';
 import 'package:library/src/smoke/free_exception.dart';
 import 'package:library/src/smoke/free_point.dart';
 abstract class UseFreeTypes {
-
   DateTime doStuff(FreePoint point, FreeEnum mode);
 }
 // UseFreeTypes "private" section, not exported.
@@ -23,25 +22,24 @@ final _smokeUsefreetypesReleaseHandle = __lib.catchArgumentError(() => __lib.nat
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_UseFreeTypes_release_handle'));
-final _doStuffReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _doStuffsmokeUsefreetypesDostuffFreepointFreeenumReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum_return_release_handle'));
-final _doStuffReturnGetResult = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _doStuffsmokeUsefreetypesDostuffFreepointFreeenumReturnGetResult = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum_return_get_result'));
-final _doStuffReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _doStuffsmokeUsefreetypesDostuffFreepointFreeenumReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum_return_get_error'));
-final _doStuffReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _doStuffsmokeUsefreetypesDostuffFreepointFreeenumReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum_return_has_error'));
 class UseFreeTypes$Impl extends __lib.NativeBase implements UseFreeTypes {
   UseFreeTypes$Impl(Pointer<Void> handle) : super(handle);
-
   @override
   DateTime doStuff(FreePoint point, FreeEnum mode) {
     final _doStuffFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>, Uint32), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>, int)>('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum'));
@@ -51,17 +49,17 @@ class UseFreeTypes$Impl extends __lib.NativeBase implements UseFreeTypes {
     final __callResultHandle = _doStuffFfi(_handle, __lib.LibraryContext.isolateId, _pointHandle, _modeHandle);
     smokeFreepointReleaseFfiHandle(_pointHandle);
     smokeFreeenumReleaseFfiHandle(_modeHandle);
-    if (_doStuffReturnHasError(__callResultHandle) != 0) {
-        final __errorHandle = _doStuffReturnGetError(__callResultHandle);
-        _doStuffReturnReleaseHandle(__callResultHandle);
+    if (_doStuffsmokeUsefreetypesDostuffFreepointFreeenumReturnHasError(__callResultHandle) != 0) {
+        final __errorHandle = _doStuffsmokeUsefreetypesDostuffFreepointFreeenumReturnGetError(__callResultHandle);
+        _doStuffsmokeUsefreetypesDostuffFreepointFreeenumReturnReleaseHandle(__callResultHandle);
         try {
           throw FreeException(smokeFreeenumFromFfi(__errorHandle));
         } finally {
           smokeFreeenumReleaseFfiHandle(__errorHandle);
         }
     }
-    final __resultHandle = _doStuffReturnGetResult(__callResultHandle);
-    _doStuffReturnReleaseHandle(__callResultHandle);
+    final __resultHandle = _doStuffsmokeUsefreetypesDostuffFreepointFreeenumReturnGetResult(__callResultHandle);
+    _doStuffsmokeUsefreetypesDostuffFreepointFreeenumReturnReleaseHandle(__callResultHandle);
     try {
       return dateFromFfi(__resultHandle);
     } finally {

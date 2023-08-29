@@ -4,7 +4,6 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 abstract class PlatformComments {
-
   /// This is some very useless method that cannot have overloads.
   ///
   void doNothing();
@@ -161,25 +160,24 @@ final _smokePlatformcommentsReleaseHandle = __lib.catchArgumentError(() => __lib
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_PlatformComments_release_handle'));
-final _someMethodWithAllCommentsReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _someMethodWithAllCommentssmokePlatformcommentsSomemethodwithallcommentsStringReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_PlatformComments_someMethodWithAllComments__String_return_release_handle'));
-final _someMethodWithAllCommentsReturnGetResult = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _someMethodWithAllCommentssmokePlatformcommentsSomemethodwithallcommentsStringReturnGetResult = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_PlatformComments_someMethodWithAllComments__String_return_get_result'));
-final _someMethodWithAllCommentsReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _someMethodWithAllCommentssmokePlatformcommentsSomemethodwithallcommentsStringReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_PlatformComments_someMethodWithAllComments__String_return_get_error'));
-final _someMethodWithAllCommentsReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _someMethodWithAllCommentssmokePlatformcommentsSomemethodwithallcommentsStringReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_PlatformComments_someMethodWithAllComments__String_return_has_error'));
 class PlatformComments$Impl extends __lib.NativeBase implements PlatformComments {
   PlatformComments$Impl(Pointer<Void> handle) : super(handle);
-
   @override
   void doNothing() {
     final _doNothingFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PlatformComments_doNothing'));
@@ -199,17 +197,17 @@ class PlatformComments$Impl extends __lib.NativeBase implements PlatformComments
     final _handle = this.handle;
     final __callResultHandle = _someMethodWithAllCommentsFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
-    if (_someMethodWithAllCommentsReturnHasError(__callResultHandle) != 0) {
-        final __errorHandle = _someMethodWithAllCommentsReturnGetError(__callResultHandle);
-        _someMethodWithAllCommentsReturnReleaseHandle(__callResultHandle);
+    if (_someMethodWithAllCommentssmokePlatformcommentsSomemethodwithallcommentsStringReturnHasError(__callResultHandle) != 0) {
+        final __errorHandle = _someMethodWithAllCommentssmokePlatformcommentsSomemethodwithallcommentsStringReturnGetError(__callResultHandle);
+        _someMethodWithAllCommentssmokePlatformcommentsSomemethodwithallcommentsStringReturnReleaseHandle(__callResultHandle);
         try {
           throw PlatformComments_SomethingWrongException(smokePlatformcommentsSomeenumFromFfi(__errorHandle));
         } finally {
           smokePlatformcommentsSomeenumReleaseFfiHandle(__errorHandle);
         }
     }
-    final __resultHandle = _someMethodWithAllCommentsReturnGetResult(__callResultHandle);
-    _someMethodWithAllCommentsReturnReleaseHandle(__callResultHandle);
+    final __resultHandle = _someMethodWithAllCommentssmokePlatformcommentsSomemethodwithallcommentsStringReturnGetResult(__callResultHandle);
+    _someMethodWithAllCommentssmokePlatformcommentsSomemethodwithallcommentsStringReturnReleaseHandle(__callResultHandle);
     try {
       return booleanFromFfi(__resultHandle);
     } finally {

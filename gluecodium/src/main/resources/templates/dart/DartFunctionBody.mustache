@@ -36,9 +36,9 @@
   {{#resolveName}}{{#setJoin "varName" "_" this "Handle" delimiter=""}}{{>dart/DartFfiReleaseHandle}}{{/setJoin}}{{/resolveName}}
 {{/parameters}}
 {{#if this.thrownType}}
-  if (_{{resolveName}}ReturnHasError(__callResultHandle) != 0) {
-      final __errorHandle = _{{resolveName}}ReturnGetError(__callResultHandle);
-      _{{resolveName}}ReturnReleaseHandle(__callResultHandle);
+  if (_{{resolveName}}{{resolveName "Ffi"}}ReturnHasError(__callResultHandle) != 0) {
+      final __errorHandle = _{{resolveName}}{{resolveName "Ffi"}}ReturnGetError(__callResultHandle);
+      _{{resolveName}}{{resolveName "Ffi"}}ReturnReleaseHandle(__callResultHandle);
       try {
         throw {{resolveName exception}}({{#set call="FromFfi" typeRef=exception.errorType}}{{>dart/DartFfiConversionCall}}{{/set}}(__errorHandle));
       } finally {
@@ -46,9 +46,9 @@
       }
   }
 {{#unless returnType.isVoid}}
-  final __resultHandle = _{{resolveName}}ReturnGetResult(__callResultHandle);
+  final __resultHandle = _{{resolveName}}{{resolveName "Ffi"}}ReturnGetResult(__callResultHandle);
 {{/unless}}
-  _{{resolveName}}ReturnReleaseHandle(__callResultHandle);
+  _{{resolveName}}{{resolveName "Ffi"}}ReturnReleaseHandle(__callResultHandle);
 {{/if}}
 {{#if isConstructor}}{{#if isStruct}}{{>ffiReturnConversion}}{{/if}}{{!!
 }}{{#unless isStruct}}  return __resultHandle;{{/unless}}{{/if}}{{!!

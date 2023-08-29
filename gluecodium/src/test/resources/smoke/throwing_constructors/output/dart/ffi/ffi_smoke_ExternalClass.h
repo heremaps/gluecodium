@@ -1,0 +1,110 @@
+
+#pragma once
+
+#include "Export.h"
+#include "OpaqueHandle.h"
+#include "dart_api_dl.h"
+#include <stdint.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+
+
+
+_GLUECODIUM_FFI_EXPORT void library_smoke_ExternalClass_create_return_release_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_ExternalClass_create_return_get_result(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT uint32_t library_smoke_ExternalClass_create_return_get_error(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT bool library_smoke_ExternalClass_create_return_has_error(FfiOpaqueHandle handle);
+
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_ExternalClass_create(int32_t _isolate_id);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+_GLUECODIUM_FFI_EXPORT void library_smoke_ExternalClass_InternalOne_create_return_release_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_ExternalClass_InternalOne_create_return_get_result(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT uint32_t library_smoke_ExternalClass_InternalOne_create_return_get_error(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT bool library_smoke_ExternalClass_InternalOne_create_return_has_error(FfiOpaqueHandle handle);
+
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_ExternalClass_InternalOne_create(int32_t _isolate_id);
+
+
+
+
+_GLUECODIUM_FFI_EXPORT void library_smoke_ExternalClass_InternalOne_create__ULong_return_release_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_ExternalClass_InternalOne_create__ULong_return_get_result(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT uint32_t library_smoke_ExternalClass_InternalOne_create__ULong_return_get_error(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT bool library_smoke_ExternalClass_InternalOne_create__ULong_return_has_error(FfiOpaqueHandle handle);
+
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_ExternalClass_InternalOne_create__ULong(int32_t _isolate_id, uint64_t value);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+_GLUECODIUM_FFI_EXPORT void library_smoke_ExternalClass_InternalTwo_create_return_release_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_ExternalClass_InternalTwo_create_return_get_result(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT uint32_t library_smoke_ExternalClass_InternalTwo_create_return_get_error(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT bool library_smoke_ExternalClass_InternalTwo_create_return_has_error(FfiOpaqueHandle handle);
+
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_ExternalClass_InternalTwo_create(int32_t _isolate_id);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+_GLUECODIUM_FFI_EXPORT void library_smoke_ExternalClass_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_ExternalClass_copy_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT void library_smoke_ExternalClass_release_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT void library_smoke_ExternalClass_InternalOne_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_ExternalClass_InternalOne_copy_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT void library_smoke_ExternalClass_InternalOne_release_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT void library_smoke_ExternalClass_InternalTwo_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_ExternalClass_InternalTwo_copy_handle(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT void library_smoke_ExternalClass_InternalTwo_release_handle(FfiOpaqueHandle handle);
+
+
+
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_ExternalClass_ErrorEnum_create_handle_nullable(uint32_t value);
+_GLUECODIUM_FFI_EXPORT void library_smoke_ExternalClass_ErrorEnum_release_handle_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT uint32_t library_smoke_ExternalClass_ErrorEnum_get_value_nullable(FfiOpaqueHandle handle);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_ExternalClass_get_type_id(FfiOpaqueHandle handle);
+
+#ifdef __cplusplus
+}
+#endif

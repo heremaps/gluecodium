@@ -341,19 +341,19 @@ final _smokeCommentsReleaseHandle = __lib.catchArgumentError(() => __lib.nativeL
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Comments_release_handle'));
-final _someMethodWithAllCommentsReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _someMethodWithAllCommentssmokeCommentsSomemethodwithallcommentsStringReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Comments_someMethodWithAllComments__String_return_release_handle'));
-final _someMethodWithAllCommentsReturnGetResult = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _someMethodWithAllCommentssmokeCommentsSomemethodwithallcommentsStringReturnGetResult = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Comments_someMethodWithAllComments__String_return_get_result'));
-final _someMethodWithAllCommentsReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _someMethodWithAllCommentssmokeCommentsSomemethodwithallcommentsStringReturnGetError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Comments_someMethodWithAllComments__String_return_get_error'));
-final _someMethodWithAllCommentsReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _someMethodWithAllCommentssmokeCommentsSomemethodwithallcommentsStringReturnHasError = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Comments_someMethodWithAllComments__String_return_has_error'));
@@ -366,17 +366,17 @@ class Comments$Impl extends __lib.NativeBase implements Comments {
     final _handle = this.handle;
     final __callResultHandle = _someMethodWithAllCommentsFfi(_handle, __lib.LibraryContext.isolateId, _inputParameterHandle);
     stringReleaseFfiHandle(_inputParameterHandle);
-    if (_someMethodWithAllCommentsReturnHasError(__callResultHandle) != 0) {
-        final __errorHandle = _someMethodWithAllCommentsReturnGetError(__callResultHandle);
-        _someMethodWithAllCommentsReturnReleaseHandle(__callResultHandle);
+    if (_someMethodWithAllCommentssmokeCommentsSomemethodwithallcommentsStringReturnHasError(__callResultHandle) != 0) {
+        final __errorHandle = _someMethodWithAllCommentssmokeCommentsSomemethodwithallcommentsStringReturnGetError(__callResultHandle);
+        _someMethodWithAllCommentssmokeCommentsSomemethodwithallcommentsStringReturnReleaseHandle(__callResultHandle);
         try {
           throw Comments_SomethingWrongException(smokeCommentsSomeenumFromFfi(__errorHandle));
         } finally {
           smokeCommentsSomeenumReleaseFfiHandle(__errorHandle);
         }
     }
-    final __resultHandle = _someMethodWithAllCommentsReturnGetResult(__callResultHandle);
-    _someMethodWithAllCommentsReturnReleaseHandle(__callResultHandle);
+    final __resultHandle = _someMethodWithAllCommentssmokeCommentsSomemethodwithallcommentsStringReturnGetResult(__callResultHandle);
+    _someMethodWithAllCommentssmokeCommentsSomemethodwithallcommentsStringReturnReleaseHandle(__callResultHandle);
     try {
       return booleanFromFfi(__resultHandle);
     } finally {
