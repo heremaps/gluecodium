@@ -1,13 +1,13 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 13.7.0
+Release date: 2023-09-01
 ### Features:
   * Added new lambda syntax that allows to specify parameter name.
 ### Bug fixes:
   * Fixed documentation generation for lambdas.
-  * Fixed name clash and compilation errors for internally generated dart functions in case lime file contains
-   internal classes/structs with throwing functions/constructors that have the same name and classes/structs are contained
-   in the same external class.
+  * Fixed the name clash issue for Dart which occurs when two different internal classes have functions
+    with the same name that throws exceptions.
 
 ## 13.6.4
 ### Features:
