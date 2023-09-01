@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 13.7.0
+Release date: 2023-09-01
 ### Features:
   * Added new lambda syntax that allows to specify parameter name.
 ### Bug fixes:
