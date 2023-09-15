@@ -24,8 +24,8 @@
 
 {{#unless constructorComment.isEmpty}}
     /**
-{{#resolveName constructorComment}}{{prefix this "     * "}}{{/resolveName}}
-{{#uninitializedFields}}
+{{#resolveName constructorComment}}{{prefix this "     * "}}{{/resolveName}}{{!!
+}}{{#uninitializedFields}}
      * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
 {{/uninitializedFields}}
      */
@@ -58,7 +58,6 @@
 }}{{#set struct=this}}{{#fieldConstructors}}
 {{#ifPredicate "hasAnyComment"}}
     /**
-
 {{#unless comment.isEmpty}}{{#resolveName comment}}{{prefix this "     * "}}
 {{/resolveName}}{{/unless}}{{!!
 }}{{#if comment.isEmpty}}{{#resolveName constructorComment}}{{#unless this.isEmpty}}{{prefix this "     * "}}
