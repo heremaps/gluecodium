@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+* Cleaned up the generated code for java: removed blank lines.
+
 ## 13.7.0
 Release date: 2023-09-01
 ### Features:
