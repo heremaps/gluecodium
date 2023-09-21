@@ -23,7 +23,7 @@
 import 'dart:ffi';
 import 'dart:math';
 
-class _LazyIterator<E> extends Iterator<E> {
+class _LazyIterator<E> implements Iterator<E> {
   final List<E> list;
   final int step;
   final int length;
