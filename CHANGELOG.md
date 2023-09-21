@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 13.7.1
+Release date: 2023-09-21
+### Bug fixes:
+  * Fixed invalid_use_of_type_outside_library error related to dart Iterator class.
+
 ## 13.7.0
 Release date: 2023-09-01
 ### Features:
@@ -192,7 +197,7 @@ Release date: 2022-06-23
 Release date: 2022-06-21
 ### Bug fixes:
   * Fixed documentation references to constructors in Java, Swift, and Dart.
-  * Fixed missing import for `internal field constructor` in Dart.    
+  * Fixed missing import for `internal field constructor` in Dart.
   * Removed redundant private variables for throwing `@Async` functions in Dart.
 
 ## 11.5.0
@@ -704,7 +709,7 @@ Release date: 2021-06-22
 Release date: 2021-06-02
 ### Bug fixes:
   * Fixed runtime issues in Java when a `null` is returned from C++ for a non-nullable `Blob`.
-  * Updated Dart generator to generate `void` function return type explicitly.  
+  * Updated Dart generator to generate `void` function return type explicitly.
   * Fixed compilation issues in Dart generated for testable "stubs" mode.
   * Updated Dart SDK discovery mechanism in CMake toolchain to be aware of the new Flutter SDK path.
 
