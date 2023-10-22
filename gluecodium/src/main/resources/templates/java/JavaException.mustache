@@ -21,10 +21,17 @@
 {{>java/JavaDocComment}}{{>java/JavaAttributes}}
 {{resolveName "visibility"}}{{#if forceStatic}}static {{/if}}{{!!
 }}final class {{resolveName}} extends Exception {
+    /**
+     * @hidden
+     * @param error The error.
+     */
     {{resolveName "visibility"}}{{resolveName}}(final {{resolveName errorType}} error) {
         super(error.toString());
         this.error = error;
     }
 
+    /**
+     * @hidden
+     */
     {{resolveName "visibility"}}final {{resolveName errorType}} error;
 }

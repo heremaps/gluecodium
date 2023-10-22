@@ -1,7 +1,10 @@
 /*
+
  *
  */
+
 package com.example.smoke;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -12,24 +15,32 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 public final class Serialization {
     public enum SomeEnum {
         FOO(0),
         BAR(7);
+        /**
+         * @hidden
+         */
         public final int value;
+
         SomeEnum(final int value) {
             this.value = value;
         }
     }
     public static final class SerializableStruct implements Parcelable {
         public static final Parcelable.Creator<SerializableStruct> CREATOR = new Parcelable.Creator<SerializableStruct>() {
+
             public SerializableStruct createFromParcel(final Parcel in_parcel) {
                 return new SerializableStruct(in_parcel);
             }
+
             public SerializableStruct[] newArray(final int size) {
                 return new SerializableStruct[size];
             }
         };
+
         public boolean boolField;
         public byte byteField;
         public short shortField;
@@ -55,6 +66,7 @@ public final class Serialization {
         public Set<Serialization.SomeEnum> enumSetField;
         @NonNull
         public Serialization.SomeEnum enumField;
+
         public SerializableStruct(final boolean boolField, final byte byteField, final short shortField, final int intField, final long longField, final float floatField, final double doubleField, @NonNull final String stringField, @NonNull final Serialization.NestedSerializableStruct structField, @NonNull final byte[] byteBufferField, @NonNull final List<String> arrayField, @NonNull final List<Serialization.NestedSerializableStruct> structArrayField, @NonNull final Map<Integer, String> mapField, @NonNull final Set<String> setField, @NonNull final Set<Serialization.SomeEnum> enumSetField, @NonNull final Serialization.SomeEnum enumField) {
             this.boolField = boolField;
             this.byteField = byteField;
@@ -98,10 +110,12 @@ public final class Serialization {
             this.enumSetField = EnumSet.copyOf(__enumSetField);
             this.enumField = Serialization.SomeEnum.values()[in_parcel.readInt()];
         }
+
         @Override
         public int describeContents() {
             return 0;
         }
+
         @Override
         public void writeToParcel(final Parcel out_parcel, final int flags) {
             out_parcel.writeByte((byte)(boolField ? 1 : 0));
@@ -121,31 +135,50 @@ public final class Serialization {
             out_parcel.writeList(java.util.Arrays.asList(enumSetField.toArray()));
             out_parcel.writeInt(enumField.ordinal());
         }
+
+
+
+
     }
+
     public static final class NestedSerializableStruct implements Parcelable {
         public static final Parcelable.Creator<NestedSerializableStruct> CREATOR = new Parcelable.Creator<NestedSerializableStruct>() {
+
             public NestedSerializableStruct createFromParcel(final Parcel in_parcel) {
                 return new NestedSerializableStruct(in_parcel);
             }
+
             public NestedSerializableStruct[] newArray(final int size) {
                 return new NestedSerializableStruct[size];
             }
         };
+
         @NonNull
         public String someField;
+
         public NestedSerializableStruct(@NonNull final String someField) {
             this.someField = someField;
         }
         private NestedSerializableStruct(final Parcel in_parcel) {
             this.someField = in_parcel.readString();
         }
+
         @Override
         public int describeContents() {
             return 0;
         }
+
         @Override
         public void writeToParcel(final Parcel out_parcel, final int flags) {
             out_parcel.writeString(someField);
         }
+
+
+
+
     }
+
+
+
 }
+

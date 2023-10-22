@@ -1,14 +1,22 @@
 /*
+
  *
  */
+
 package com.example.smoke;
+
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
+
 public final class Enums extends NativeBase {
     public enum SimpleEnum {
         FIRST(0),
         SECOND(1);
+        /**
+         * @hidden
+         */
         public final int value;
+
         SimpleEnum(final int value) {
             this.value = value;
         }
@@ -16,7 +24,11 @@ public final class Enums extends NativeBase {
     public enum InternalErrorCode {
         ERROR_NONE(0),
         ERROR_FATAL(999);
+        /**
+         * @hidden
+         */
         public final int value;
+
         InternalErrorCode(final int value) {
             this.value = value;
         }
@@ -26,11 +38,16 @@ public final class Enums extends NativeBase {
         public Enums.InternalErrorCode type;
         @NonNull
         public String message;
+
         public ErrorStruct(@NonNull final Enums.InternalErrorCode type, @NonNull final String message) {
             this.type = type;
             this.message = message;
         }
+
+
     }
+
+
     /**
      * For internal use only.
      * @hidden
@@ -45,13 +62,31 @@ public final class Enums extends NativeBase {
             }
         });
     }
+
     private static native void disposeNativeHandle(long nativeHandle);
+
+
+
+
     @NonNull
     public static native Enums.SimpleEnum methodWithEnumeration(@NonNull final Enums.SimpleEnum input);
+
+
+
     @NonNull
     public static native Enums.InternalErrorCode flipEnumValue(@NonNull final Enums.InternalErrorCode input);
+
+
+
     @NonNull
     public static native Enums.InternalErrorCode extractEnumFromStruct(@NonNull final Enums.ErrorStruct input);
+
+
+
     @NonNull
     public static native Enums.ErrorStruct createStructWithEnumInside(@NonNull final Enums.InternalErrorCode type, @NonNull final String message);
+
+
+
 }
+

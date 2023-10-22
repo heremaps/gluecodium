@@ -108,6 +108,11 @@ public abstract class NativeBase {
     }
   }
 
+  /**
+   * @hidden
+   * @param nativeHandle The native handle
+   * @param disposer The disposer
+   */
   protected NativeBase(final long nativeHandle, final Disposer disposer) {
     this.nativeHandle = nativeHandle;
     REFERENCES.add(new DisposableReference(this, nativeHandle, disposer));

@@ -1,46 +1,78 @@
 /*
+
  *
  */
+
 package com.example.smoke;
+
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.List;
+
 public class Constructors extends NativeBase {
     public enum ErrorEnum {
         NONE(0),
         CRASHED(1);
+        /**
+         * @hidden
+         */
         public final int value;
+
         ErrorEnum(final int value) {
             this.value = value;
         }
     }
     public static final class ConstructorExplodedException extends Exception {
+        /**
+         * @hidden
+         * @param error The error.
+         */
         public ConstructorExplodedException(final Constructors.ErrorEnum error) {
             super(error.toString());
             this.error = error;
         }
+
+        /**
+         * @hidden
+         */
         public final Constructors.ErrorEnum error;
     }
+
+
+
     public Constructors() {
         this(create(), (Object)null);
         cacheThisInstance();
     }
+
+
+
     public Constructors(@NonNull final Constructors other) {
         this(create(other), (Object)null);
         cacheThisInstance();
     }
+
+
+
     public Constructors(@NonNull final String foo, final long bar) {
         this(create(foo, bar), (Object)null);
         cacheThisInstance();
     }
+
+
+
     public Constructors(@NonNull final String input) throws Constructors.ConstructorExplodedException {
         this(create(input), (Object)null);
         cacheThisInstance();
     }
+
+
+
     public Constructors(@NonNull final List<Double> input) {
         this(create(input), (Object)null);
         cacheThisInstance();
     }
+
     /**
      * For internal use only.
      * @hidden
@@ -55,11 +87,22 @@ public class Constructors extends NativeBase {
             }
         });
     }
+
     private static native void disposeNativeHandle(long nativeHandle);
     private native void cacheThisInstance();
+
+
     private static native long create();
+
     private static native long create(@NonNull final Constructors other);
+
     private static native long create(@NonNull final String foo, final long bar);
+
     private static native long create(@NonNull final String input) throws Constructors.ConstructorExplodedException;
+
     private static native long create(@NonNull final List<Double> input);
+
+
+
 }
+

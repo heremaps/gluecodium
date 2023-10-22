@@ -1,16 +1,24 @@
 /*
+
  *
  */
+
 package com.example.smoke;
+
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
+
 public final class Equatable {
     public enum SomeEnum {
         FOO(0),
         BAR(1);
+        /**
+         * @hidden
+         */
         public final int value;
+
         SomeEnum(final int value) {
             this.value = value;
         }
@@ -31,6 +39,7 @@ public final class Equatable {
         public List<String> arrayField;
         @NonNull
         public Map<Integer, String> mapField;
+
         public EquatableStruct(final boolean boolField, final int intField, final long longField, final float floatField, final double doubleField, @NonNull final String stringField, @NonNull final Equatable.NestedEquatableStruct structField, @NonNull final Equatable.SomeEnum enumField, @NonNull final List<String> arrayField, @NonNull final Map<Integer, String> mapField) {
             this.boolField = boolField;
             this.intField = intField;
@@ -59,6 +68,7 @@ public final class Equatable {
                     java.util.Objects.equals(this.arrayField, other.arrayField) &&
                     java.util.Objects.equals(this.mapField, other.mapField);
         }
+
         @Override
         public int hashCode() {
             int hash = 7;
@@ -74,7 +84,11 @@ public final class Equatable {
             hash = 31 * hash + (this.mapField != null ? this.mapField.hashCode() : 0);
             return hash;
         }
+
+
+
     }
+
     public static final class EquatableNullableStruct {
         @Nullable
         public Boolean boolField;
@@ -94,6 +108,7 @@ public final class Equatable {
         public List<String> arrayField;
         @Nullable
         public Map<Integer, String> mapField;
+
         public EquatableNullableStruct() {
             this.boolField = null;
             this.intField = null;
@@ -120,6 +135,7 @@ public final class Equatable {
                     java.util.Objects.equals(this.arrayField, other.arrayField) &&
                     java.util.Objects.equals(this.mapField, other.mapField);
         }
+
         @Override
         public int hashCode() {
             int hash = 7;
@@ -134,10 +150,15 @@ public final class Equatable {
             hash = 31 * hash + (this.mapField != null ? this.mapField.hashCode() : 0);
             return hash;
         }
+
+
+
     }
+
     public static final class NestedEquatableStruct {
         @NonNull
         public String fooField;
+
         public NestedEquatableStruct(@NonNull final String fooField) {
             this.fooField = fooField;
         }
@@ -148,11 +169,19 @@ public final class Equatable {
             final NestedEquatableStruct other = (NestedEquatableStruct) obj;
             return java.util.Objects.equals(this.fooField, other.fooField);
         }
+
         @Override
         public int hashCode() {
             int hash = 7;
             hash = 31 * hash + (this.fooField != null ? this.fooField.hashCode() : 0);
             return hash;
         }
+
+
+
     }
+
+
+
 }
+

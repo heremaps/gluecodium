@@ -1,9 +1,12 @@
 /*
- *
 
+ *
  */
+
 package com.example.smoke;
+
 import com.example.NativeBase;
+
 public final class ConstantsInterface extends NativeBase {
     public static final boolean BOOL_CONSTANT = true;
     public static final int INT_CONSTANT = -11;
@@ -15,11 +18,16 @@ public final class ConstantsInterface extends NativeBase {
     public enum StateEnum {
         OFF(0),
         ON(1);
+        /**
+         * @hidden
+         */
         public final int value;
+
         StateEnum(final int value) {
             this.value = value;
         }
     }
+
     /**
      * For internal use only.
      * @hidden
@@ -34,5 +42,11 @@ public final class ConstantsInterface extends NativeBase {
             }
         });
     }
+
     private static native void disposeNativeHandle(long nativeHandle);
+
+
+
+
 }
+

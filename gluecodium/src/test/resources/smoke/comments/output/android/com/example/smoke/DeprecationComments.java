@@ -1,8 +1,12 @@
 /*
+
  *
  */
+
 package com.example.smoke;
+
 import android.support.annotation.NonNull;
+
 /**
  * <p>This is some very useful interface.
  * @deprecated <p>Unfortunately, this interface is deprecated. Use {@link com.example.smoke.Comments} instead.
@@ -28,20 +32,33 @@ public interface DeprecationComments {
          */
         @Deprecated
         USELESS(0);
+        /**
+         * @hidden
+         */
         public final int value;
+
         SomeEnum(final int value) {
             this.value = value;
         }
     }
     /**
+
      * @deprecated <p>Unfortunately, this exception is deprecated, please use {@link com.example.smoke.Comments.SomethingWrongException} instead.
      */
     @Deprecated
     public static final class SomethingWrongException extends Exception {
+        /**
+         * @hidden
+         * @param error The error.
+         */
         public SomethingWrongException(final DeprecationComments.SomeEnum error) {
             super(error.toString());
             this.error = error;
         }
+
+        /**
+         * @hidden
+         */
         public final DeprecationComments.SomeEnum error;
     }
     /**
@@ -57,10 +74,14 @@ public interface DeprecationComments {
          */
         @Deprecated
         public boolean someField;
+
         public SomeStruct() {
             this.someField = false;
         }
+
+
     }
+
     /**
      * <p>This is some very useful method that measures the usefulness of its input.
      * @deprecated <p>Unfortunately, this method is deprecated.
@@ -69,6 +90,8 @@ public interface DeprecationComments {
      * @return <p>Usefulness of the input
      */
     @Deprecated
+
+
     boolean someMethodWithAllComments(@NonNull final String input);
     /**
      * <p>Gets some very useful property.
@@ -77,6 +100,8 @@ public interface DeprecationComments {
      * @return <p>Some very useful property.
      */
     @Deprecated
+
+
     boolean isSomeProperty();
     /**
      * <p>Sets some very useful property.
@@ -85,6 +110,8 @@ public interface DeprecationComments {
      * @param value <p>Some very useful property.
      */
     @Deprecated
+
+
     void setSomeProperty(final boolean value);
     /**
      * <p>Gets the property but not accessors.
@@ -92,6 +119,8 @@ public interface DeprecationComments {
      * @return <p>Describes the property but not accessors.
      */
     @Deprecated
+
+
     @NonNull
     String getPropertyButNotAccessors();
     /**
@@ -100,5 +129,8 @@ public interface DeprecationComments {
      * @param value <p>Describes the property but not accessors.
      */
     @Deprecated
+
+
     void setPropertyButNotAccessors(@NonNull final String value);
 }
+

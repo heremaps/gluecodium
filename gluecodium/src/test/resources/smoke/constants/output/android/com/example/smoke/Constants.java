@@ -1,7 +1,11 @@
 /*
+
  *
  */
+
 package com.example.smoke;
+
+
 public final class Constants {
     public static final boolean BOOL_CONSTANT = true;
     public static final int INT_CONSTANT = -11;
@@ -13,9 +17,16 @@ public final class Constants {
     public enum StateEnum {
         OFF(0),
         ON(1);
+        /**
+         * @hidden
+         */
         public final int value;
+
         StateEnum(final int value) {
             this.value = value;
         }
     }
+
+
 }
+

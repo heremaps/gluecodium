@@ -1,7 +1,10 @@
 /*
+
  *
  */
+
 package com.example.smoke;
+
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.Date;
@@ -9,33 +12,54 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+
 public final class OuterStruct {
     @NonNull
     public String field;
     public enum InnerEnum {
         FOO(0),
         BAR(1);
+        /**
+         * @hidden
+         */
         public final int value;
+
         InnerEnum(final int value) {
             this.value = value;
         }
     }
     public static final class InstantiationException extends Exception {
+        /**
+         * @hidden
+         * @param error The error.
+         */
         public InstantiationException(final OuterStruct.InnerEnum error) {
             super(error.toString());
             this.error = error;
         }
+
+        /**
+         * @hidden
+         */
         public final OuterStruct.InnerEnum error;
     }
     public static final class InnerStruct {
         @NonNull
         public List<Date> otherField;
+
         public InnerStruct(@NonNull final List<Date> otherField) {
             this.otherField = otherField;
         }
+
+
+
         public native void doSomething();
+
+
     }
+
     public static final class InnerClass extends NativeBase {
+
         /**
          * For internal use only.
          * @hidden
@@ -50,15 +74,28 @@ public final class OuterStruct {
                 }
             });
         }
+
         private static native void disposeNativeHandle(long nativeHandle);
+
+
+
+
         @NonNull
         public native Set<Locale> fooBar();
+
+
+
     }
+
     public static final class Builder extends NativeBase {
+
+
+
         public Builder() {
             this(create(), (Object)null);
             cacheThisInstance();
         }
+
         /**
          * For internal use only.
          * @hidden
@@ -73,14 +110,27 @@ public final class OuterStruct {
                 }
             });
         }
+
         private static native void disposeNativeHandle(long nativeHandle);
         private native void cacheThisInstance();
+
+
         private static native long create();
+
+
+
         @NonNull
         public native OuterStruct.Builder field(@NonNull final String value);
+
+
+
         @NonNull
         public native OuterStruct build();
+
+
+
     }
+
     /**
      * @hidden
      */
@@ -93,10 +143,18 @@ public final class OuterStruct {
                 }
             });
         }
+
         private static native void disposeNativeHandle(long nativeHandle);
+
+
+
+
         @NonNull
         public native Map<String, byte[]> barBaz();
+
+
     }
+
     /**
      * @hidden
      */
@@ -109,19 +167,40 @@ public final class OuterStruct {
                 }
             });
         }
+
         private static native void disposeNativeHandle(long nativeHandle);
+
+
+
+
         public native void apply();
+
+
     }
+
     public interface InnerInterface {
+
+
         @NonNull
         Map<String, byte[]> barBaz();
     }
+
     @FunctionalInterface
     public interface InnerLambda {
+
+
         void apply();
     }
+
+
     public OuterStruct(@NonNull final String field) {
         this.field = field;
     }
+
+
+
     public native void doNothing() throws OuterStruct.InstantiationException;
+
+
 }
+

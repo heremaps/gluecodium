@@ -1,15 +1,23 @@
 /*
+
  *
  */
+
 package com.example.smoke;
+
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
 import java.util.List;
+
 public final class Structs extends NativeBase {
     public enum FooBar {
         FOO(0),
         BAR(1);
+        /**
+         * @hidden
+         */
         public final int value;
+
         FooBar(final int value) {
             this.value = value;
         }
@@ -17,21 +25,29 @@ public final class Structs extends NativeBase {
     public static final class Point {
         public double x;
         public double y;
+
         public Point(final double x, final double y) {
             this.x = x;
             this.y = y;
         }
+
+
     }
+
     public static final class Line {
         @NonNull
         public Structs.Point a;
         @NonNull
         public Structs.Point b;
+
         public Line(@NonNull final Structs.Point a, @NonNull final Structs.Point b) {
             this.a = a;
             this.b = b;
         }
+
+
     }
+
     public static final class AllTypesStruct {
         public final byte int8Field;
         public final short uint8Field;
@@ -50,6 +66,7 @@ public final class Structs extends NativeBase {
         public final byte[] bytesField;
         @NonNull
         public final Structs.Point pointField;
+
         public AllTypesStruct(final byte int8Field, final short uint8Field, final short int16Field, final int uint16Field, final int int32Field, final long uint32Field, final long int64Field, final long uint64Field, final float floatField, final double doubleField, @NonNull final String stringField, final boolean booleanField, @NonNull final byte[] bytesField, @NonNull final Structs.Point pointField) {
             this.int8Field = int8Field;
             this.uint8Field = uint8Field;
@@ -66,42 +83,66 @@ public final class Structs extends NativeBase {
             this.bytesField = bytesField;
             this.pointField = pointField;
         }
+
+
     }
+
     public static final class NestingImmutableStruct {
         @NonNull
         public Structs.AllTypesStruct structField;
+
         public NestingImmutableStruct(@NonNull final Structs.AllTypesStruct structField) {
             this.structField = structField;
         }
+
+
     }
+
     public static final class DoubleNestingImmutableStruct {
         @NonNull
         public Structs.NestingImmutableStruct nestingStructField;
+
         public DoubleNestingImmutableStruct(@NonNull final Structs.NestingImmutableStruct nestingStructField) {
             this.nestingStructField = nestingStructField;
         }
+
+
     }
+
     public static final class StructWithArrayOfImmutable {
         @NonNull
         public List<Structs.AllTypesStruct> arrayField;
+
         public StructWithArrayOfImmutable(@NonNull final List<Structs.AllTypesStruct> arrayField) {
             this.arrayField = arrayField;
         }
+
+
     }
+
     public static final class ImmutableStructWithCppAccessors {
         @NonNull
         public final String stringField;
+
         public ImmutableStructWithCppAccessors(@NonNull final String stringField) {
             this.stringField = stringField;
         }
+
+
     }
+
     public static final class MutableStructWithCppAccessors {
         @NonNull
         public String stringField;
+
         public MutableStructWithCppAccessors(@NonNull final String stringField) {
             this.stringField = stringField;
         }
+
+
     }
+
+
     /**
      * For internal use only.
      * @hidden
@@ -116,13 +157,31 @@ public final class Structs extends NativeBase {
             }
         });
     }
+
     private static native void disposeNativeHandle(long nativeHandle);
+
+
+
+
     @NonNull
     public static native Structs.Point swapPointCoordinates(@NonNull final Structs.Point input);
+
+
+
     @NonNull
     public static native Structs.AllTypesStruct returnAllTypesStruct(@NonNull final Structs.AllTypesStruct input);
+
+
+
     @NonNull
     public static native TypeCollection.Point createPoint(final double x, final double y);
+
+
+
     @NonNull
     public static native TypeCollection.AllTypesStruct modifyAllTypesStruct(@NonNull final TypeCollection.AllTypesStruct input);
+
+
+
 }
+
