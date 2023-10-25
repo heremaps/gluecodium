@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 13.7.2
+Release date: 2023-10-25
+### Bug fixes:
+  * Marks internals as `@hidden` in generated Java code to hide them from Javadoc (OpenJDK 17).
+
 ## 13.7.1
 Release date: 2023-09-21
 ### Bug fixes:
