@@ -35,6 +35,8 @@ failure.
 Changes affecting generated code require updating existing "reference" files, even if no new "smoke" tests are created.
 This ensures "smoke" tests are passing, and also demonstrates the changes to "real" code to the reviewers of the change.
 
+To update smoke tests automatically with new generated files the following command can be run: `DUMP_ACTUAL_DIR=$(pwd)/gluecodium/src/test/resources/smoke ./gradlew test`.
+
 Functional tests
 ----------------
 

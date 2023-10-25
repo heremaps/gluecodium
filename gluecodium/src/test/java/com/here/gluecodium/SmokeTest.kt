@@ -45,6 +45,7 @@ import java.util.Locale
 @RunWith(Parameterized::class)
 class SmokeTest(
     private val featureDirectory: File,
+    private val dumpDirectory: File,
     private val generatorName: String,
     @Suppress("UNUSED_PARAMETER") featureName: String
 ) {
@@ -90,6 +91,7 @@ class SmokeTest(
         val inputDirectory = File(featureDirectory, FEATURE_INPUT_FOLDER)
         val auxDirectory = File(featureDirectory, FEATURE_AUX_FOLDER)
         val outputDirectory = File(featureDirectory, FEATURE_OUTPUT_FOLDER)
+        val dumpDirectoryOutput = File(dumpDirectory, FEATURE_OUTPUT_FOLDER)
         val validationShouldFail = File(inputDirectory, "validationfail.txt").exists()
 
         val generatorDirectories = listOf(generatorName) + (ADDITIONAL_GENERATOR_DIRS[generatorName] ?: emptyList())
@@ -122,11 +124,21 @@ class SmokeTest(
 
             if (generatedContent != null) {
                 val expected = it.readText()
+                val expectedWithImportantDifferences = ignoreUnimportantDifferences(expected)
+                val generatedWithImportantDifferences = ignoreUnimportantDifferences(generatedContent)
+
                 errorCollector.checkEquals(
                     "File content differs for file: $relativePath",
-                    ignoreUnimportantDifferences(expected),
-                    ignoreUnimportantDifferences(generatedContent)
+                    expectedWithImportantDifferences,
+                    generatedWithImportantDifferences
                 )
+
+                if (expectedWithImportantDifferences != generatedWithImportantDifferences) {
+                    val dumpFile = File(dumpDirectoryOutput, relativePath)
+                    if (dumpFile.canonicalFile != it.canonicalFile) {
+                        dumpFile.writeText(generatedContent)
+                    }
+                }
             }
         }
     }
@@ -166,6 +178,9 @@ class SmokeTest(
                 return emptyList()
             }
 
+            val dumpActualDirEnv = System.getenv("DUMP_ACTUAL_DIR")
+            val dumpActualDir = dumpActualDirEnv?.let { File(dumpActualDirEnv) } ?: testResourcesDirectory
+
             val featureDirectoryResources = testResourcesDirectory.listFiles()
             if (featureDirectoryResources == null) {
                 fail("No test features were found")
@@ -177,6 +192,7 @@ class SmokeTest(
                     generatorNames.map { generatorName ->
                         arrayOf(
                             directory,
+                            File(dumpActualDir, directory.name),
                             generatorName,
                             getFeatureName(testResourcesDirectory, directory)
                         )
