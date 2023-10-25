@@ -1,14 +1,22 @@
 /*
+
  *
  */
+
 package com.example.smoke;
+
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
+
 public final class Errors extends NativeBase {
     public enum InternalErrorCode {
         ERROR_NONE(0),
         ERROR_FATAL(1);
+        /**
+         * @hidden
+         */
         public final int value;
+
         InternalErrorCode(final int value) {
             this.value = value;
         }
@@ -17,25 +25,46 @@ public final class Errors extends NativeBase {
         NONE(0),
         BOOM(1),
         BUST(2);
+        /**
+         * @hidden
+         */
         public final int value;
+
         ExternalErrors(final int value) {
             this.value = value;
         }
     }
     public static final class InternalException extends Exception {
+        /**
+         * @hidden
+         * @param error The error.
+         */
         public InternalException(final Errors.InternalErrorCode error) {
             super(error.toString());
             this.error = error;
         }
+
+        /**
+         * @hidden
+         */
         public final Errors.InternalErrorCode error;
     }
     public static final class ExternalException extends Exception {
+        /**
+         * @hidden
+         * @param error The error.
+         */
         public ExternalException(final Errors.ExternalErrors error) {
             super(error.toString());
             this.error = error;
         }
+
+        /**
+         * @hidden
+         */
         public final Errors.ExternalErrors error;
     }
+
     /**
      * For internal use only.
      * @hidden
@@ -50,12 +79,33 @@ public final class Errors extends NativeBase {
             }
         });
     }
+
     private static native void disposeNativeHandle(long nativeHandle);
+
+
+
+
     public static native void methodWithErrors() throws Errors.InternalException;
+
+
+
     public static native void methodWithExternalErrors() throws Errors.ExternalException;
+
+
+
     @NonNull
     public static native String methodWithErrorsAndReturnValue() throws Errors.InternalException;
+
+
+
     public static native void methodWithPayloadError() throws WithPayloadException;
+
+
+
     @NonNull
     public static native String methodWithPayloadErrorAndReturnValue() throws WithPayloadException;
+
+
+
 }
+

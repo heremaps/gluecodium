@@ -1,9 +1,13 @@
 /*
+
  *
  */
+
 package com.example.smoke;
+
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
+
 /**
  * <p>This is some very useful class.
  * @hidden
@@ -24,7 +28,11 @@ public final class ExcludedComments extends NativeBase {
          * @hidden
          */
         USELESS(0);
+        /**
+         * @hidden
+         */
         public final int value;
+
         SomeEnum(final int value) {
             this.value = value;
         }
@@ -34,10 +42,18 @@ public final class ExcludedComments extends NativeBase {
      * @hidden
      */
     public static final class SomethingWrongException extends Exception {
+        /**
+         * @hidden
+         * @param error The error.
+         */
         public SomethingWrongException(final ExcludedComments.SomeEnum error) {
             super(error.toString());
             this.error = error;
         }
+
+        /**
+         * @hidden
+         */
         public final ExcludedComments.SomeEnum error;
     }
     /**
@@ -51,6 +67,7 @@ public final class ExcludedComments extends NativeBase {
          * @hidden
          */
         public boolean someField;
+
         /**
          * <p>This is how easy it is to construct.
          * @param someField <p>How useful this struct is
@@ -59,7 +76,10 @@ public final class ExcludedComments extends NativeBase {
         public SomeStruct(final boolean someField) {
             this.someField = someField;
         }
+
+
     }
+
     /**
      * @hidden
      */
@@ -72,7 +92,10 @@ public final class ExcludedComments extends NativeBase {
                 }
             });
         }
+
         private static native void disposeNativeHandle(long nativeHandle);
+
+
         /**
          * <p>This is some very useful lambda that does it.
          * @hidden
@@ -80,8 +103,14 @@ public final class ExcludedComments extends NativeBase {
          * @param index <p>Slightly less useful input parameter
          * @return <p>Usefulness of the input
          */
+
+
+
         public native double doIt(@NonNull final String p0, final int index);
+
+
     }
+
     /**
      * <p>This is some very useful lambda that does it.
      * @hidden
@@ -95,8 +124,13 @@ public final class ExcludedComments extends NativeBase {
          * @param index <p>Slightly less useful input parameter
          * @return <p>Usefulness of the input
          */
+
+
+
         double doIt(@NonNull final String p0, final int index);
     }
+
+
     /**
      * For internal use only.
      * @hidden
@@ -111,7 +145,10 @@ public final class ExcludedComments extends NativeBase {
             }
         });
     }
+
     private static native void disposeNativeHandle(long nativeHandle);
+
+
     /**
      * <p>This is some very useful method that measures the usefulness of its input.
      * @hidden
@@ -119,22 +156,41 @@ public final class ExcludedComments extends NativeBase {
      * @return <p>Usefulness of the input
      * @throws ExcludedComments.SomethingWrongException <p>Sometimes it happens.
      */
+
+
+
     public native boolean someMethodWithAllComments(@NonNull final String inputParameter) throws ExcludedComments.SomethingWrongException;
+
     /**
      * <p>This is some very useful method that does nothing.
      * @hidden
      */
+
+
+
     public native void someMethodWithoutReturnTypeOrInputParameters();
+
     /**
      * <p>Gets some very useful property.
      * @hidden
      * @return <p>Some very useful property.
      */
+
+
+
     public native boolean isSomeProperty();
+
     /**
      * <p>Sets some very useful property.
      * @hidden
      * @param value <p>Some very useful property.
      */
+
+
+
     public native void setSomeProperty(final boolean value);
+
+
+
 }
+

@@ -1,52 +1,79 @@
 /*
+
  *
  */
+
 package com.example.smoke;
+
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
+
 /**
+
  * @hidden
  */
 public final class ExcludedCommentsOnly extends NativeBase {
     /**
+
      * @hidden
      */
     public static final boolean VERY_USEFUL = true;
     /**
+
      * @hidden
      */
     public enum SomeEnum {
         /**
+
          * @hidden
          */
         USELESS(0);
+        /**
+         * @hidden
+         */
         public final int value;
+
         SomeEnum(final int value) {
             this.value = value;
         }
     }
     /**
+
      * @hidden
      */
     public static final class SomethingWrongException extends Exception {
+        /**
+         * @hidden
+         * @param error The error.
+         */
         public SomethingWrongException(final ExcludedCommentsOnly.SomeEnum error) {
             super(error.toString());
             this.error = error;
         }
+
+        /**
+         * @hidden
+         */
         public final ExcludedCommentsOnly.SomeEnum error;
     }
     /**
+
      * @hidden
      */
     public static final class SomeStruct {
         /**
+
          * @hidden
          */
         public boolean someField;
+
         public SomeStruct(final boolean someField) {
             this.someField = someField;
         }
+
+
     }
+
     /**
      * @hidden
      */
@@ -59,7 +86,10 @@ public final class ExcludedCommentsOnly extends NativeBase {
                 }
             });
         }
+
         private static native void disposeNativeHandle(long nativeHandle);
+
+
         /**
          *
          * @hidden
@@ -67,9 +97,16 @@ public final class ExcludedCommentsOnly extends NativeBase {
          * @param index
          * @return
          */
+
+
+
         public native double doIt(@NonNull final String p0, final int index);
+
+
     }
+
     /**
+
      * @hidden
      */
     @FunctionalInterface
@@ -81,8 +118,13 @@ public final class ExcludedCommentsOnly extends NativeBase {
          * @param index
          * @return
          */
+
+
+
         double doIt(@NonNull final String p0, final int index);
     }
+
+
     /**
      * For internal use only.
      * @hidden
@@ -97,7 +139,10 @@ public final class ExcludedCommentsOnly extends NativeBase {
             }
         });
     }
+
     private static native void disposeNativeHandle(long nativeHandle);
+
+
     /**
      *
      * @hidden
@@ -105,22 +150,41 @@ public final class ExcludedCommentsOnly extends NativeBase {
      * @return
      * @throws ExcludedCommentsOnly.SomethingWrongException
      */
+
+
+
     public native boolean someMethodWithAllComments(@NonNull final String inputParameter) throws ExcludedCommentsOnly.SomethingWrongException;
+
     /**
      *
      * @hidden
      */
+
+
+
     public native void someMethodWithoutReturnTypeOrInputParameters();
+
     /**
      *
      * @hidden
      * @return
      */
+
+
+
     public native boolean isSomeProperty();
+
     /**
      *
      * @hidden
      * @param value
      */
+
+
+
     public native void setSomeProperty(final boolean value);
+
+
+
 }
+

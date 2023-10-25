@@ -1,14 +1,22 @@
 /*
+
  *
  */
+
 package com.example.smoke;
+
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
+
 public final class Enums extends NativeBase {
     public enum ExternalEnum {
         FOO_VALUE(0),
         BAR_VALUE(1);
+        /**
+         * @hidden
+         */
         public final int value;
+
         ExternalEnum(final int value) {
             this.value = value;
         }
@@ -16,11 +24,16 @@ public final class Enums extends NativeBase {
     public enum VeryExternalEnum {
         FOO(0),
         BAR(1);
+        /**
+         * @hidden
+         */
         public final int value;
+
         VeryExternalEnum(final int value) {
             this.value = value;
         }
     }
+
     /**
      * For internal use only.
      * @hidden
@@ -35,6 +48,15 @@ public final class Enums extends NativeBase {
             }
         });
     }
+
     private static native void disposeNativeHandle(long nativeHandle);
+
+
+
+
     public static native void methodWithExternalEnum(@NonNull final Enums.ExternalEnum input);
+
+
+
 }
+
