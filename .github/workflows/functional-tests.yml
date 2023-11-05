@@ -188,7 +188,7 @@ jobs:
 
   swift-mac:
     name: Swift on MacOS
-    runs-on: macos-11
+    runs-on: macos-12
 
     steps:
       - uses: actions/checkout@v2
@@ -221,6 +221,11 @@ jobs:
         run: |
           ./scripts/build-swift-namerules --publish
         working-directory: functional-tests
+      - name: Build examples
+        run: |
+          mkdir build_example_calculator
+          cmake -B build_example_calculator examples/calculator -GXcode -DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_SYSROOT=iphonesimulator -DCMAKE_SYSTEM_NAME=iOS
+          cmake --build build_example_calculator
 
   dart:
     name: Dart

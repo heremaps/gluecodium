@@ -1,0 +1,77 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.gluecodium.calculator'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.gluecodium.calculator"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        externalNativeBuild {
+            cmake {
+                // Put generated sources outside of default build directory because Android Gradle Plugin
+                // makes build directory for C++ using some unpredictable random-like path.
+                // Generated Java sources should be added to `sourceSet` below, so it's better to specify
+                // and know where code is generated.
+                arguments "-DGLUECODIUM_BASE_OUTPUT_DIR_DEFAULT=${project.buildDir}/generated/gluecodium"
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main {
+            // Add generated Java code.
+            java.srcDirs += ["${project.buildDir}/generated/gluecodium/mylibrary/android-cpp/common/android",
+                             "${project.buildDir}/generated/gluecodium/mylibrary/android-cpp/main/android"]
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    externalNativeBuild {
+        cmake {
+            // Path to root `CMakeLists.txt`
+            path file('../../CMakeLists.txt')
+            version '3.22.1+'
+        }
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+tasks.configureEach { task ->
+    // Java compilation depends on .java created by Gluecodium,
+    // so depend Java compilation task on build C++ task.
+    if (task.name == 'javaPreCompileDebug') {
+        task.dependsOn 'externalNativeBuildDebug'
+    }
+    if (task.name == 'javaPreCompileRelease') {
+        task.dependsOn 'externalNativeBuildRelease'
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
