@@ -41,6 +41,11 @@ function(_gluecodium_define_target_property property_name)
     FULL_DOCS ${_args_FULL_DOCS})
 
   set_property(GLOBAL APPEND PROPERTY GLUECODIUM_KNOWN_OPTIONAL_PROPERTIES ${property_name})
+
+  if (GLUECODIUM_PRINT_KNOWN_PROPERTIES)
+    message("\nGluecodium property: ${property_name} - ${_args_BRIEF_DOCS}\n"
+            "${_args_FULL_DOCS}")    
+  endif ()
 endfunction()
 
 set(_gluecodium_namerules_doc
