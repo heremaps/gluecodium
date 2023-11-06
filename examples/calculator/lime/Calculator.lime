@@ -1,0 +1,201 @@
+# Copyright (C) 2016-2023 HERE Europe B.V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# License-Filename: LICENSE
+
+package gluecodium.calculator
+
+# This is just local comment which is not taken into account by Gluecodium. It starts with #
+# Following class has several methods which represent 
+
+// This is comment which will be generated as part of code. It can be then processed by
+// Javadoc for Java, Jazzy for Swift or Doxygen for C++. 
+class Calculator {
+
+    ###################################################
+    # Constructors like functions might have          #
+    # parameters. While in Java/Swift and Flutter     #
+    # normal constructor is generated in C++ it's     #
+    # static function which needs to be implemented.  #
+    ###################################################
+
+    // Construct a new instance.
+    constructor make()
+
+    ###################################################
+    # 1. Function with exception.                     #
+    #                                                 #
+    # Function `summorize` demonstrates how to        #
+    # declare a function which throws an exception.   #
+    # Also link is demonstrated, it's between [ and ] #
+    ###################################################
+
+    // Possible errors during calculation.
+    enum CalculatorError {
+        // Result is out of int32 bounds.
+        RESULT_OUT_OF_BOUNDS,
+        // Divider is zero.
+        DIVIDE_BY_ZERO
+    }
+
+    # Note: exception can also be based on String or any other type
+
+    // Exception to be thrown on calculation error.
+    exception CalculatorException(CalculatorError)
+
+    // Calculates sum of the given values.
+    fun summarize(
+        // The first value.
+        first: Int,
+        // The second value.
+        second: Int
+    ): Int throws
+    // [CalculatorError.RESULT_OUT_OF_BOUNDS] is thrown if result if out of int32 bounds.
+    // For example 2000000000 + 2000000000
+    CalculatorException
+
+    ###################################################
+    # 2. Lambda function as callback.                 #
+    #                                                 #
+    # Function `subtract` accepts lambda function as  #
+    # parameter and it's invoked in C++.              #
+    ###################################################
+
+    // Lambda which receives `error` or `result`.
+    // @param[p0] The error.
+    // @param[p1] The result.
+    lambda SubtructCallback = (@Java("error") CalculatorError?, @Java("result") Int?) -> Void
+
+    // Calculates difference of the given values. Implemented using [Calculator.summarize].
+    fun subtract(
+        // The minuend.
+        minuend: Int,
+        // The subtrahend.
+        subtrahend: Int,
+        // The callback which retrieves the result or [CalculatorError.RESULT_OUT_OF_BOUNDS] error.
+        callback: SubtructCallback
+    )
+
+    ###################################################
+    # 3. Interface implemented in Java/Swift          #
+    #                                                 #
+    # Function `multiply` accepts interface which is  #
+    # implemented in Java/Swift as parameter and its  #
+    # methods are invoked in C++.                     #
+    ###################################################
+
+    // Interface with two callbacks to retrieve result or error.
+    interface MultiplyCallback {
+        // The callback to be called on error.
+        fun onError(
+            // The error.
+            error: CalculatorError)
+        // The callback to be called on result.
+        fun onResult(
+            // The result.
+            result: Int)
+    }
+
+    // Calculates multiplication of the given values.
+    fun multiply(
+        // The first value.
+        first: Int,
+        // The second value.
+        second: Int,
+        // The interface which implements result and error callbacks.
+        multiplyCallback: MultiplyCallback
+    )
+
+    ###################################################
+    # 4. Struct as parameter and return type.         #
+    #                                                 #
+    # Function `divide` accepts struct as parameter   #
+    # and returns another struct.                     #
+    ###################################################
+
+    // Arguments for division.
+    // @constructor Creates a new instance.
+    struct DivideArguments {
+        // Divident
+        dividend: Int
+        // Divider
+        divider: Int
+    }
+
+    // Result of division.
+    // @constructor Creates a new instance.
+    struct DivideResult {
+        // The error.
+        error: CalculatorError?
+        // The result.
+        result: Double?
+    }
+
+    // Calculates division of the given values.
+    fun divide(
+        // The arguments for division
+        divideArguments: DivideArguments
+    ):
+    // The result of division.
+    DivideResult
+
+    ###################################################
+    # 5. Interface implemented in C++.                #
+    #                                                 #
+    # Function `min` returns interface which is       #
+    # implemented in C++ and its methods are called   #
+    # in Java/Swift.                                  #
+    ###################################################
+
+    // Result retriever for function.
+    interface MinResultRetriever {
+        // Returns minimum of the given values.
+        fun get_result():
+        // The minimum.
+        Int
+    }
+
+    // Finds minimum of the given values.
+    fun min(
+        // The first value
+        first: Int,
+        // The seond value
+        second: Int
+    ):
+    // The result retriever
+    MinResultRetriever
+
+    ###################################################
+    # 6. Optional parameters and return type.         #
+    #                                                 #
+    # Function `max` has optional parameters and      #
+    # return type is also optional.                   #
+    # text in {@Lang ...} where Lang is Java, Swift,  #
+    # Cpp or Dart is generated only on mentioned      #
+    # platform.                                       #
+    ###################################################
+
+    // Finds maximum of the given values. If any parameter is
+    // {@Java `null`}{@Swift `nil`}{@Cpp `std::nullopt`} then
+    // another parameter is returned.
+    fun max(
+        // The optional first value.
+        first: Int?,
+        // The optional second value.
+        second: Int?
+    ):
+    // The maximum of the given values or {@Java `null`}{@Swift `nil`}{@Cpp `std::nullopt`}.
+    Int?
+}

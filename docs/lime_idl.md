@@ -25,54 +25,11 @@ LimeIDL syntax
 
 ### Example
 
-This example only shows how syntax looks like, it's not ready to use out of the box.
-For working examples check lime files in [functional tests](https://github.com/heremaps/gluecodium/tree/master/functional-tests/functional/input/lime).
-Also [cmake tests](https://github.com/heremaps/gluecodium/tree/master/cmake/tests/unit) demonstrate how
-to integrate Gluecodium to CMake-based project and how to use it for more complex scenarios when you need
-multiple modules which interact with each other.
+Start with [examples](../examples/README.md).
 
-```
-package com.example
+For more advanced lime examples check [functional tests](https://github.com/heremaps/gluecodium/tree/master/functional-tests/functional/input/lime).
 
-import com.example.utils.GenericResult
-
-class SomeImportantProcessor {
-    constructor create(options: Options?) throws SomethingWrongException
-
-    fun process(mode: Mode, input: String): GenericResult
-
-    property processingTime: ProcessorHelperTypes.Timestamp { get }
-
-    @Internal
-    static property secretDelegate: ProcessorDelegate?
-
-    enum Mode {
-        SLOW,
-        FAST,
-        CHEAP
-    }
-
-    @Immutable
-    struct Options {
-        flagOption: Boolean
-        uintOption: UShort
-        additionalOptions: List<String> = {}
-    }
-
-    exception SomethingWrongException(String)
-}
-
-interface ProcessorDelegate: com.example.utils.GenericDelegate {
-    fun onProcessorEvent(message: String)
-}
-
-struct ProcessorHelperTypes {
-    typealias Timestamp = Date
-
-    const DefaultOptions: SomeImportantProcessor.Options = {flagOption = true, uintOption = 42, {}}
-}
-
-```
+Also [cmake tests](https://github.com/heremaps/gluecodium/tree/master/cmake/tests/unit) demonstrate how to use CMake scripts for more complex scenarios when you need multiple modules which interact with each other.
 
 ### General remarks on syntax
 
