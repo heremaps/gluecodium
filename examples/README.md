@@ -4,6 +4,15 @@
 It's simplier to keep C++ code in shared library when binding is necessary for Java and for Swift.
 In examples simpliest configuration is used. For more advanced check `cmake/tests/unit` tests.
 
+
+## Build and publish gluecodium
+
+Gluecodium must be built and published to local maven repository. To do so run from the root:
+
+```
+./gradlew publishToMavenLocal
+```
+
 ## CMake Gluecodium wraper.
 
 This is a set of CMake functions which provide the following functionality:
