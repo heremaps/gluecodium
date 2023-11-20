@@ -6,6 +6,7 @@ This simple application demonstrates how to use basic entities like `struct`, `c
 
 * For Apple: Xcode, CMake the newer the better.
 * For Android: CMake, Android SDK, optionally Android Studio
+* [Gluecodium must be built and published to the local maven repository](../README.md#build-and-publish-gluecodium).
 
 # How to build
 
