@@ -267,7 +267,11 @@ function(_concatenate_swift_files)
 
   list(REMOVE_DUPLICATES GLUECODIUM_IMPORT_FRAMEWORKS)
   foreach(_import_framework IN LISTS GLUECODIUM_IMPORT_FRAMEWORKS)
+    string(TOUPPER "${_import_framework}" _framework_name_upper)
+
+    string(APPEND _swift_source_header_main "#if !DONT_IMPORT_${_framework_name_upper}\n")
     string(APPEND _swift_source_header_main "import ${_import_framework}\n")
+    string(APPEND _swift_source_header_main "#endif\n")
   endforeach()
 
   foreach(_source_set ${GLUECODIUM_SOURCE_SETS})

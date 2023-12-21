@@ -23,7 +23,7 @@ enum CommonBaseEnum {
     VALUE3
 }
 
-open class CommonMainFoo {
+class CommonMainFoo {
     constructor make()
 
     # Converters for primitive types must be copied
@@ -33,7 +33,7 @@ open class CommonMainFoo {
     fun get_enum() : CommonBaseEnum
 }
 
-open interface CommonMainBase {
+interface CommonMainBase {
     property common_base_id: Long
     property common_base_enum: CommonBaseEnum
     property common_base_type_foo: CommonMainFoo

@@ -84,9 +84,22 @@ function(gluecodium_target_link_frameworks _target)
 
 endfunction()
 
-function(_gluecodium_target_link_framework target_dst target_framework)
+function(_gluecodium_get_linked_static_targets_with_generated_sources out_variable _target)
   gluecodium_get_linked_targets_with_generated_sources(_targets_with_generated_sources
-                                                       ${target_dst} ONLY_STATIC)
+                                                       ${_target} ONLY_STATIC)
+  unset (_result)
+  foreach(_target_with_generated_sources IN LISTS _targets_with_generated_sources)
+    gluecodium_resolve_possible_alias(_target_with_generated_source_aliased
+                                      ${_target_with_generated_sources})
+    list(APPEND _result ${_target_with_generated_source_aliased})
+  endforeach()
+  set (${out_variable} "${_result}" PARENT_SCOPE)
+endfunction()
+
+function(_gluecodium_target_link_framework target_dst target_framework)
+  _gluecodium_get_linked_static_targets_with_generated_sources(_targets_with_generated_sources ${target_dst})
+  _gluecodium_get_linked_static_targets_with_generated_sources(_exclude_targets_with_generated_sources_alias
+                                                               ${target_framework})
 
   gluecodium_resolve_possible_alias(target_framework_aliased ${target_framework})
   if(CMAKE_VERSION GREATER_EQUAL 3.12 AND NOT GLUECODIUM_DONT_USE_TARGET_GENEX_EVAL)
@@ -99,9 +112,10 @@ function(_gluecodium_target_link_framework target_dst target_framework)
   endif()
 
   foreach(_target_with_generated_sources IN LISTS _targets_with_generated_sources)
-    gluecodium_resolve_possible_alias(_target_with_generated_source_aliased
-                                      ${_target_with_generated_sources})
-    set_property(TARGET ${_target_with_generated_source_aliased} APPEND
+    if(_target_with_generated_sources IN_LIST _exclude_targets_with_generated_sources_alias)
+      continue()
+    endif()
+    set_property(TARGET ${_target_with_generated_sources} APPEND
                  PROPERTY GLUECODIUM_IMPORT_FRAMEWORKS ${_framework_name})
   endforeach()
 
