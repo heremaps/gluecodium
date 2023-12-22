@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2019 HERE Europe B.V.
+# Copyright (C) 2023 HERE Europe B.V.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,23 +17,6 @@
 
 package unit.test
 
-enum MainEnum {
-    VALUE1,
-    VALUE2
-}
-
 class CommonMainFoo {
     constructor make()
-
-    # Converters for primitive types must be copied
-    fun get_map () : Map<String, String>
-
-    # PrimitiveHolder<T> must be exposed
-    fun get_enum() : MainEnum
-}
-
-# Converters for internal must NOT be exposed
-@Internal
-class CommonMainInternal {
-    fun do_internal()
 }
