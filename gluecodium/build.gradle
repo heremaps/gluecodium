@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2019 HERE Europe B.V.
+ * Copyright (C) 2016-2024 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,31 +18,27 @@
  */
 
 plugins {
-    id "com.lazan.dependency-export" version "0.5"
+    alias libs.plugins.lazan.dependency.export
 }
 dependencies {
     api project(":lime-runtime")
     implementation project(":lime-loader")
 
-    compileOnly 'com.android.tools:annotations:25.3.0'
-    implementation 'com.google.guava:guava:31.1-jre'
-    implementation 'com.natpryce:konfig:1.6.10.0'
-    implementation 'com.vladsch.flexmark:flexmark:0.64.0'
-    implementation 'com.vladsch.flexmark:flexmark-ext-tables:0.64.0'
-    implementation 'com.vladsch.flexmark:flexmark-util:0.64.0'
-    implementation 'commons-cli:commons-cli:1.5.0'
-    implementation 'org.apache.logging.log4j:log4j-core:2.18.0'
-    implementation 'org.jetbrains.kotlin:kotlin-reflect:1.6.21'
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.6.21'
-    implementation 'org.jetbrains:annotations:23.0.0'
-    implementation 'org.slf4j:slf4j-api:1.7.36'
-    implementation 'org.slf4j:slf4j-log4j12:1.7.36'
-    implementation 'org.trimou:trimou-core:2.5.1.Final'
+    compileOnly libs.android.annotations
+    implementation libs.guava
+    implementation libs.natpryce.konfig
+    implementation libs.bundles.flexmark
+    implementation libs.commons.cli
+    implementation libs.apache.log4j.core
+    implementation libs.bundles.kotlin
+    implementation libs.jetbrains.annotations
+    implementation libs.slf4j.api
+    implementation libs.slf4j.log4j12
+    implementation libs.trimou.core
 
     testImplementation files({ project(":lime-runtime").sourceSets.test.output })
-    testImplementation 'io.mockk:mockk-dsl-jvm:1.12.5'
-    testImplementation 'io.mockk:mockk:1.12.5'
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation libs.bundles.mockk
+    testImplementation libs.junit
 }
 
 apply plugin: 'application'
@@ -57,7 +53,7 @@ jar {
 
 apply plugin: 'jacoco'
 jacoco {
-    toolVersion = '0.8.4'
+    toolVersion = libs.versions.jacoco.get()
 }
 jacocoTestCoverageVerification {
     violationRules {
@@ -72,9 +68,9 @@ jacocoTestCoverageVerification {
 }
 jacocoTestReport {
     reports {
-        csv.enabled true
-        html.enabled true
-        xml.enabled true
+        csv.required = true
+        html.required = true
+        xml.required = true
 
         csv.destination file("${buildDir}/reports/coverage/coverageReport.csv")
         html.destination file("${buildDir}/reports/coverage/html")

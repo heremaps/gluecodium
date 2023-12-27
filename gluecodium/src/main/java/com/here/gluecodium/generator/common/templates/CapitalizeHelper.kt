@@ -29,7 +29,7 @@ import org.trimou.handlebars.Options
 internal class CapitalizeHelper : BasicHelper() {
     override fun execute(options: Options) {
         if (options.parameters.isNotEmpty()) {
-            options.append((options.parameters[0].toString()).capitalize())
+            options.append((options.parameters[0].toString()).replaceFirstChar(Char::titlecase))
         }
     }
 }

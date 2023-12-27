@@ -1,0 +1,65 @@
+[versions]
+junit = "4.13.2"
+androidx-annotation = "1.7.1"
+android-annotations = "31.2.0"
+jetbrains-annotations = "24.1.0"
+guava = "33.0.0-jre"
+mockk = "1.13.8"
+hamcrest = "2.2"
+powermock-reflect = "2.0.9"
+robolectric = "4.11.1"
+natpryce-konfig = "1.6.10.0"
+kotlin = "1.9.22"
+build-info-extractor-gradle = "5.1.13"
+spotless-plugin-gradle = "6.23.3"
+android-tools-build-gradle = "8.2.0"
+antlr4 = "4.13.1"
+nebula-lint = "19.0.1"
+flexmark = "0.64.8"
+commons-cli = "1.6.0"
+apache-log4j-core = "2.22.1"
+trimou = "2.5.1.Final"
+lazan-dependency-export = "0.5"
+jacoco = "0.8.11"
+slf4j = "2.0.10"
+
+[libraries]
+junit = { module = "junit:junit", version.ref = "junit" }
+androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" }
+android-annotations = { module = "com.android.tools:annotations", version.ref = "android-annotations" }
+jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains-annotations" }
+guava = { module = "com.google.guava:guava", version.ref = "guava" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+mockk-dsl-jvm = { module = "io.mockk:mockk-dsl-jvm", version.ref = "mockk" }
+hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
+hamcrest-library = { module = "org.hamcrest:hamcrest-library", version.ref = "hamcrest" }
+powermock-reflect = { module = "org.powermock:powermock-reflect", version.ref = "powermock-reflect" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+natpryce-konfig = { module = "com.natpryce:konfig", version.ref = "natpryce-konfig" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+build-info-extractor-gradle = { module = "org.jfrog.buildinfo:build-info-extractor-gradle", version.ref = "build-info-extractor-gradle" }
+spotless-plugin-gradle = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless-plugin-gradle" }
+android-tools-build-gradle = { module = "com.android.tools.build:gradle", version.ref = "android-tools-build-gradle" }
+antlr = { module = "org.antlr:antlr4", version.ref = "antlr4" }
+antlr-runtime = { module = "org.antlr:antlr4-runtime", version.ref = "antlr4" }
+flexmark = { module = "com.vladsch.flexmark:flexmark", version.ref = "flexmark" }
+flexmark-ext-tables = { module = "com.vladsch.flexmark:flexmark-ext-tables", version.ref = "flexmark" }
+flexmark-util = { module = "com.vladsch.flexmark:flexmark-util", version.ref = "flexmark" }
+commons-cli = { module = "commons-cli:commons-cli", version.ref = "commons-cli" }
+apache-log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "apache-log4j-core" }
+trimou-core = { module = "org.trimou:trimou-core", version.ref = "trimou" }
+slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+slf4j-log4j12 = { module = "org.slf4j:slf4j-log4j12", version.ref = "slf4j" }
+
+[plugins]
+nebula-lint = { id = "nebula.lint", version.ref = "nebula-lint" }
+lazan-dependency-export = { id = "com.lazan.dependency-export", version.ref = "lazan-dependency-export" }
+
+[bundles]
+mockk = ["mockk", "mockk-dsl-jvm"]
+kotlin = ["kotlin-reflect", "kotlin-stdlib"]
+hamcrest = ["hamcrest", "hamcrest-library"]
+flexmark = ["flexmark", "flexmark-ext-tables", "flexmark-util"]

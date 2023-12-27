@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2019 HERE Europe B.V.
+ * Copyright (C) 2016-2024 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,9 +23,9 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21"
-        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.13.0"
-        classpath "com.diffplug.spotless:spotless-plugin-gradle:5.10.2"
+        classpath libs.kotlin.gradle.plugin
+        classpath libs.build.info.extractor.gradle
+        classpath libs.spotless.plugin.gradle
 
         modules {
             module("org.jetbrains.trove4j:trove4j") {
@@ -35,12 +35,13 @@ buildscript {
     }
 }
 plugins {
-    id 'nebula.lint' version '16.9.0'
+    alias libs.plugins.nebula.lint
 }
 
 allprojects {
     repositories {
         mavenCentral()
+        google()
     }
 
     configurations.all {
@@ -58,15 +59,22 @@ allprojects {
 
     compileJava {
         options.encoding = "UTF-8"
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+    compileTestJava {
+        options.encoding = "UTF-8"
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     compileKotlin {
         kotlinOptions {
-            jvmTarget = "1.8"
+            jvmTarget = JavaVersion.VERSION_11.toString()
         }
     }
     compileTestKotlin {
         kotlinOptions {
-            jvmTarget = "1.8"
+            jvmTarget = JavaVersion.VERSION_11.toString()
         }
     }
 

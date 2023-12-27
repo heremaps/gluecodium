@@ -1,3 +1,11 @@
 include ':functional', ':namerules'
 project(':functional').projectDir=new File(rootProject.projectDir, 'functional')
 project(':namerules').projectDir=new File(rootProject.projectDir, 'namerules')
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        libs {
+            from(files("../gradle/libs.versions.toml"))
+        }
+    }
+}

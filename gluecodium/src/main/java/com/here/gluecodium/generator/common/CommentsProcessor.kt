@@ -77,7 +77,7 @@ abstract class CommentsProcessor(
             hasErrorFlag = true
         }
         val codeBlockHandler = VisitHandler(Code::class.java) {
-            if (it.text.toString() == standardNullReference) {
+            if (it.text.toString() == STANDART_NULL_REFERENCE) {
                 it.text = CharSubSequence.of(nullReference)
             }
         }
@@ -105,9 +105,9 @@ abstract class CommentsProcessor(
     open fun processAutoLink(linkNode: AutoLink) {}
     open fun postRenderDocument(renderedDocument: String): String = renderedDocument
 
-    open val nullReference = standardNullReference
+    open val nullReference = STANDART_NULL_REFERENCE
 
     companion object {
-        private const val standardNullReference = "null"
+        private const val STANDART_NULL_REFERENCE = "null"
     }
 }

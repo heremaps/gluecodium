@@ -30,7 +30,7 @@ spotless {
         endWithNewline()
     }
     kotlin {
-        ktlint("0.40.0")
+        ktlint("1.1.0")
         licenseHeaderFile rootProject.file('config/spotless/here_java.license')
     }
     format 'misc', {
@@ -44,6 +44,7 @@ spotless {
     format 'mustache', {
         target project.fileTree(project.projectDir) {
             include '**/*.mustache'
+            exclude '**/build*'
         }
         licenseHeaderFile rootProject.file('config/spotless/here_mustache.license'), /(?!\{\{!!$|  !).*/
     }

@@ -23,7 +23,8 @@ import java.util.Locale
 import java.util.function.BiFunction
 import java.util.function.Function
 
-class CaseInsensitiveMap<V : Any /* mark as non-nullable */> : HashMap<String, V>() {
+// Mark `Any` as non-nullable
+class CaseInsensitiveMap<V : Any> : HashMap<String, V>() {
     override fun compute(key: String, remappingFunction: BiFunction<in String, in V?, out V?>) =
         super.compute(key.lowercase(Locale.getDefault()), remappingFunction)
 
