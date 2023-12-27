@@ -31,7 +31,7 @@ class LimeTypeAlias(
     path: LimePath,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
-    val typeRef: LimeTypeRef
+    val typeRef: LimeTypeRef,
 ) : LimeType(path, comment, attributes) {
     override val actualType
         get() = typeRef.type.actualType

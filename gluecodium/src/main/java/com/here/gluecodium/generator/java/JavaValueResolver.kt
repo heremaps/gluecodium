@@ -33,7 +33,6 @@ import com.here.gluecodium.model.lime.LimeValue
 import com.here.gluecodium.model.lime.LimeValue.Duration.TimeUnit
 
 internal class JavaValueResolver(private val nameResolver: JavaNameResolver) {
-
     fun resolveValue(limeValue: LimeValue): String =
         when (limeValue) {
             is LimeValue.Literal -> mapLiteralValue(limeValue)
@@ -102,15 +101,16 @@ internal class JavaValueResolver(private val nameResolver: JavaNameResolver) {
                     "new HashSet<>($valuesAsList)"
                 }
             }
-            is LimeMap -> when {
-                limeValue.values.isEmpty() -> "new HashMap<>()"
-                else -> {
-                    val keyType = nameResolver.resolveTypeRef(limeType.keyType, needsBoxing = true)
-                    val valueType = nameResolver.resolveTypeRef(limeType.valueType, needsBoxing = true)
-                    val values = limeValue.values.joinToString(".") { resolveValue(it) }
-                    "new HashMapBuilder<$keyType, $valueType>().$values.build()"
+            is LimeMap ->
+                when {
+                    limeValue.values.isEmpty() -> "new HashMap<>()"
+                    else -> {
+                        val keyType = nameResolver.resolveTypeRef(limeType.keyType, needsBoxing = true)
+                        val valueType = nameResolver.resolveTypeRef(limeType.valueType, needsBoxing = true)
+                        val values = limeValue.values.joinToString(".") { resolveValue(it) }
+                        "new HashMapBuilder<$keyType, $valueType>().$values.build()"
+                    }
                 }
-            }
             else -> throw GluecodiumExecutionException("Unsupported type ${limeType.javaClass.name} for initializer list")
         }
     }
@@ -125,31 +125,35 @@ internal class JavaValueResolver(private val nameResolver: JavaNameResolver) {
     }
 
     private fun mapSpecialValue(limeValue: LimeValue.Special): String {
-        val prefix = when ((limeValue.typeRef.type as LimeBasicType).typeId) {
-            TypeId.FLOAT -> "Float"
-            else -> "Double"
-        }
-        val value = when (limeValue.value) {
-            LimeValue.Special.ValueId.NAN -> "NaN"
-            LimeValue.Special.ValueId.INFINITY -> "POSITIVE_INFINITY"
-            LimeValue.Special.ValueId.NEGATIVE_INFINITY -> "NEGATIVE_INFINITY"
-        }
+        val prefix =
+            when ((limeValue.typeRef.type as LimeBasicType).typeId) {
+                TypeId.FLOAT -> "Float"
+                else -> "Double"
+            }
+        val value =
+            when (limeValue.value) {
+                LimeValue.Special.ValueId.NAN -> "NaN"
+                LimeValue.Special.ValueId.INFINITY -> "POSITIVE_INFINITY"
+                LimeValue.Special.ValueId.NEGATIVE_INFINITY -> "NEGATIVE_INFINITY"
+            }
         return "$prefix.$value"
     }
 
     private fun mapDurationValue(limeValue: LimeValue.Duration): String {
-        val factoryMethod = when (limeValue.timeUnit) {
-            TimeUnit.DAY -> "ofDays"
-            TimeUnit.HOUR -> "ofHours"
-            TimeUnit.MINUTE -> "ofMinutes"
-            TimeUnit.SECOND -> "ofSeconds"
-            TimeUnit.MILLISECOND -> "ofMillis"
-            TimeUnit.MICROSECOND, TimeUnit.NANOSECOND -> "ofNanos"
-        }
-        val valueSuffix = when (limeValue.timeUnit) {
-            TimeUnit.MICROSECOND -> "000L"
-            else -> "L"
-        }
+        val factoryMethod =
+            when (limeValue.timeUnit) {
+                TimeUnit.DAY -> "ofDays"
+                TimeUnit.HOUR -> "ofHours"
+                TimeUnit.MINUTE -> "ofMinutes"
+                TimeUnit.SECOND -> "ofSeconds"
+                TimeUnit.MILLISECOND -> "ofMillis"
+                TimeUnit.MICROSECOND, TimeUnit.NANOSECOND -> "ofNanos"
+            }
+        val valueSuffix =
+            when (limeValue.timeUnit) {
+                TimeUnit.MICROSECOND -> "000L"
+                else -> "L"
+            }
         return "Duration.$factoryMethod(${limeValue.value}$valueSuffix)"
     }
 }

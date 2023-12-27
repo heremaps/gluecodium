@@ -33,9 +33,8 @@ internal open class PlatformSignatureResolver(
     limeReferenceMap: Map<String, LimeElement>,
     private val platformAttributeType: LimeAttributeType,
     protected val nameRules: NameRules,
-    private val activeTags: Set<String>
+    private val activeTags: Set<String>,
 ) : LimeSignatureResolver(limeReferenceMap) {
-
     override fun getOwnFunctions(limeContainer: LimeContainer) =
         super.getOwnFunctions(limeContainer)
             .filter { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, platformAttributeType) }

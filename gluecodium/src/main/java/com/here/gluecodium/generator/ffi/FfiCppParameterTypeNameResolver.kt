@@ -27,11 +27,9 @@ import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class FfiCppParameterTypeNameResolver(
-    private val ffiCppNameResolver: FfiCppNameResolver
+    private val ffiCppNameResolver: FfiCppNameResolver,
 ) : NameResolver {
-
-    override fun resolveName(element: Any): String =
-        ffiCppNameResolver.resolveName(element) + resolveSuffix(element)
+    override fun resolveName(element: Any): String = ffiCppNameResolver.resolveName(element) + resolveSuffix(element)
 
     private fun resolveSuffix(element: Any) =
         when (element) {
@@ -44,10 +42,11 @@ internal class FfiCppParameterTypeNameResolver(
     private fun resolveTypeSuffix(limeType: LimeType) =
         when (val actualType = limeType.actualType) {
             is LimeEnumeration -> ""
-            is LimeBasicType -> when (actualType.typeId) {
-                TypeId.STRING, TypeId.BLOB, TypeId.DATE -> REFERENCE_SUFFIX
-                else -> ""
-            }
+            is LimeBasicType ->
+                when (actualType.typeId) {
+                    TypeId.STRING, TypeId.BLOB, TypeId.DATE -> REFERENCE_SUFFIX
+                    else -> ""
+                }
             else -> REFERENCE_SUFFIX
         }
 

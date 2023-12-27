@@ -28,7 +28,7 @@ class LimeFunction(
     val parameters: List<LimeParameter> = emptyList(),
     val thrownType: LimeThrownType? = null,
     val isStatic: Boolean = false,
-    val isConstructor: Boolean = false
+    val isConstructor: Boolean = false,
 ) : LimeNamedElement(path, comment, attributes, external) {
     val exception: LimeException?
         get() = thrownType?.typeRef?.type?.let { it.actualType as? LimeException }

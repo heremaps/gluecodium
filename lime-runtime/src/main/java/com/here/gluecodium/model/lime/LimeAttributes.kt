@@ -25,39 +25,45 @@ import java.lang.UnsupportedOperationException
 import java.util.Locale
 
 class LimeAttributes private constructor(
-    private val attributes: Map<LimeAttributeType, Map<LimeAttributeValueType, Any>>
+    private val attributes: Map<LimeAttributeType, Map<LimeAttributeValueType, Any>>,
 ) : Map<String, Any> {
     fun have(type: LimeAttributeType) = attributes[type] != null
 
-    fun have(attributeType: LimeAttributeType, valueType: LimeAttributeValueType) =
-        when (val value = attributes[attributeType]?.get(valueType)) {
-            is Boolean -> value
-            null -> false
-            else -> true
-        }
+    fun have(
+        attributeType: LimeAttributeType,
+        valueType: LimeAttributeValueType,
+    ) = when (val value = attributes[attributeType]?.get(valueType)) {
+        is Boolean -> value
+        null -> false
+        else -> true
+    }
 
     fun <T> get(
         attributeType: LimeAttributeType,
         valueType: LimeAttributeValueType,
-        clazz: Class<T>
+        clazz: Class<T>,
     ): T? {
         val value = attributes[attributeType]?.get(valueType)
         return if (clazz.isInstance(value)) clazz.cast(value) else null
     }
 
-    fun get(attributeType: LimeAttributeType, valueType: LimeAttributeValueType) =
-        get(attributeType, valueType, String::class.java)
+    fun get(
+        attributeType: LimeAttributeType,
+        valueType: LimeAttributeValueType,
+    ) = get(attributeType, valueType, String::class.java)
 
-    override fun toString() = attributes.entries.sortedBy { it.key }.joinToString("\n") {
-        val attributeType = it.key
-        if (it.value.isEmpty()) {
-            return@joinToString "@$attributeType"
+    override fun toString() =
+        attributes.entries.sortedBy { it.key }.joinToString("\n") {
+            val attributeType = it.key
+            if (it.value.isEmpty()) {
+                return@joinToString "@$attributeType"
+            }
+            val valuesString =
+                it.value.entries.joinToString(", ") { nameValue ->
+                    createValueString(attributeType, nameValue.key, nameValue.value)
+                }
+            "@$attributeType($valuesString)"
         }
-        val valuesString = it.value.entries.joinToString(", ") { nameValue ->
-            createValueString(attributeType, nameValue.key, nameValue.value)
-        }
-        "@$attributeType($valuesString)"
-    }
 
     override val entries
         get() = throw UnsupportedOperationException()
@@ -89,7 +95,7 @@ class LimeAttributes private constructor(
     private fun createValueString(
         attributeType: LimeAttributeType,
         valueType: LimeAttributeValueType,
-        literal: Any
+        literal: Any,
     ): String {
         val prefix = if (valueType != attributeType.defaultValueType || literal is List<*>) valueType.toString() else ""
         val suffix = createValueLiteral(literal)
@@ -120,7 +126,7 @@ class LimeAttributes private constructor(
         fun addAttribute(
             attributeType: LimeAttributeType,
             valueType: LimeAttributeValueType,
-            newValue: Any? = true
+            newValue: Any? = true,
         ): Builder {
             if (newValue == null) return this
             attributes.getOrPut(attributeType, { mutableMapOf() }).compute(valueType) { _, oldValue ->
@@ -139,7 +145,7 @@ class LimeAttributes private constructor(
         fun addAttributeIfAbsent(
             attributeType: LimeAttributeType,
             valueType: LimeAttributeValueType,
-            newValue: Any? = true
+            newValue: Any? = true,
         ): Builder {
             if (attributes[attributeType]?.get(valueType) == null) {
                 addAttribute(attributeType, valueType, newValue)

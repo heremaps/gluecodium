@@ -42,39 +42,43 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class LimePropertiesValidatorTest {
-
     private val allElements = mutableMapOf<String, LimeElement>()
     private val fooPath = LimePath(emptyList(), listOf("foo"))
     private val limeModel = LimeModel(allElements, emptyList())
     private val limeFunction = LimeFunction(EMPTY_PATH)
-    private val limePropertyFoo = LimeProperty(
-        fooPath,
-        typeRef = LimeBasicTypeRef.INT,
-        getter = limeFunction
-    )
-    private val limePropertyBar = LimeProperty(
-        LimePath(emptyList(), listOf("bar")),
-        typeRef = LimeBasicTypeRef.INT,
-        getter = limeFunction
-    )
-    private val limePropertyFoo2 = LimeProperty(
-        LimePath(listOf("baz"), listOf("foo")),
-        typeRef = LimeBasicTypeRef.INT,
-        getter = limeFunction
-    )
-    private val limeContainerDoubleFoo = object : LimeContainerWithInheritance(
-        EMPTY_PATH,
-        properties = listOf(limePropertyFoo, limePropertyFoo2)
-    ) {}
+    private val limePropertyFoo =
+        LimeProperty(
+            fooPath,
+            typeRef = LimeBasicTypeRef.INT,
+            getter = limeFunction,
+        )
+    private val limePropertyBar =
+        LimeProperty(
+            LimePath(emptyList(), listOf("bar")),
+            typeRef = LimeBasicTypeRef.INT,
+            getter = limeFunction,
+        )
+    private val limePropertyFoo2 =
+        LimeProperty(
+            LimePath(listOf("baz"), listOf("foo")),
+            typeRef = LimeBasicTypeRef.INT,
+            getter = limeFunction,
+        )
+    private val limeContainerDoubleFoo =
+        object : LimeContainerWithInheritance(
+            EMPTY_PATH,
+            properties = listOf(limePropertyFoo, limePropertyFoo2),
+        ) {}
     private val cachedAttributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.CACHED).build()
     private val cppRefAttributes =
         LimeAttributes.Builder().addAttribute(LimeAttributeType.CPP, LimeAttributeValueType.REF).build()
-    private val cppRefProperty = LimeProperty(
-        fooPath.child("bar"),
-        typeRef = LimeBasicTypeRef.INT,
-        getter = limeFunction,
-        attributes = cppRefAttributes
-    )
+    private val cppRefProperty =
+        LimeProperty(
+            fooPath.child("bar"),
+            typeRef = LimeBasicTypeRef.INT,
+            getter = limeFunction,
+            attributes = cppRefAttributes,
+        )
 
     private val validator = LimePropertiesValidator(mockk(relaxed = true))
 
@@ -87,10 +91,11 @@ class LimePropertiesValidatorTest {
 
     @Test
     fun validatePropertiesNoNameClash() {
-        allElements[""] = object : LimeContainerWithInheritance(
-            EMPTY_PATH,
-            properties = listOf(limePropertyFoo, limePropertyBar)
-        ) {}
+        allElements[""] =
+            object : LimeContainerWithInheritance(
+                EMPTY_PATH,
+                properties = listOf(limePropertyFoo, limePropertyBar),
+            ) {}
 
         assertTrue(validator.validate(limeModel))
     }
@@ -104,44 +109,48 @@ class LimePropertiesValidatorTest {
 
     @Test
     fun validateInheritanceNoOwnProperties() {
-        allElements[""] = object : LimeContainerWithInheritance(
-            EMPTY_PATH,
-            parents = listOf(LimeDirectTypeRef(limeContainerDoubleFoo))
-        ) {}
+        allElements[""] =
+            object : LimeContainerWithInheritance(
+                EMPTY_PATH,
+                parents = listOf(LimeDirectTypeRef(limeContainerDoubleFoo)),
+            ) {}
 
         assertTrue(validator.validate(limeModel))
     }
 
     @Test
     fun validatePropertiesInheritanceNoNameClash() {
-        allElements[""] = object : LimeContainerWithInheritance(
-            EMPTY_PATH,
-            parents = listOf(LimeDirectTypeRef(limeContainerDoubleFoo)),
-            properties = listOf(limePropertyBar)
-        ) {}
+        allElements[""] =
+            object : LimeContainerWithInheritance(
+                EMPTY_PATH,
+                parents = listOf(LimeDirectTypeRef(limeContainerDoubleFoo)),
+                properties = listOf(limePropertyBar),
+            ) {}
 
         assertTrue(validator.validate(limeModel))
     }
 
     @Test
     fun validatePropertiesInheritanceWithNameClash() {
-        allElements[""] = object : LimeContainerWithInheritance(
-            EMPTY_PATH,
-            parents = listOf(LimeDirectTypeRef(limeContainerDoubleFoo)),
-            properties = listOf(limePropertyFoo)
-        ) {}
+        allElements[""] =
+            object : LimeContainerWithInheritance(
+                EMPTY_PATH,
+                parents = listOf(LimeDirectTypeRef(limeContainerDoubleFoo)),
+                properties = listOf(limePropertyFoo),
+            ) {}
 
         assertFalse(validator.validate(limeModel))
     }
 
     @Test
     fun validateCachedReadOnlyProperty() {
-        val limeProperty = LimeProperty(
-            path = fooPath,
-            typeRef = LimeBasicTypeRef.INT,
-            getter = limeFunction,
-            attributes = cachedAttributes
-        )
+        val limeProperty =
+            LimeProperty(
+                path = fooPath,
+                typeRef = LimeBasicTypeRef.INT,
+                getter = limeFunction,
+                attributes = cachedAttributes,
+            )
         allElements[""] =
             object : LimeContainerWithInheritance(EMPTY_PATH, properties = listOf(limeProperty)) {}
 
@@ -150,13 +159,14 @@ class LimePropertiesValidatorTest {
 
     @Test
     fun validateCachedReadWriteProperty() {
-        val limeProperty = LimeProperty(
-            path = fooPath,
-            typeRef = LimeBasicTypeRef.INT,
-            getter = limeFunction,
-            setter = limeFunction,
-            attributes = cachedAttributes
-        )
+        val limeProperty =
+            LimeProperty(
+                path = fooPath,
+                typeRef = LimeBasicTypeRef.INT,
+                getter = limeFunction,
+                setter = limeFunction,
+                attributes = cachedAttributes,
+            )
         allElements[""] =
             object : LimeContainerWithInheritance(EMPTY_PATH, properties = listOf(limeProperty)) {}
 

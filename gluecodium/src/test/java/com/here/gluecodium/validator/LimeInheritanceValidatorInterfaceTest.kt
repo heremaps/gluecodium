@@ -37,7 +37,6 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class LimeInheritanceValidatorInterfaceTest {
-
     private val allElements = mutableMapOf<String, LimeElement>()
     private val limeModel = LimeModel(allElements, emptyList())
 
@@ -96,10 +95,11 @@ class LimeInheritanceValidatorInterfaceTest {
     fun validateInterfaceWithTwoInterfaceParents() {
         val anotherInterface = LimeInterface(fooPath)
         val yetAnotherInterface = LimeInterface(barPath)
-        allElements[""] = LimeInterface(
-            EMPTY_PATH,
-            parents = listOf(LimeDirectTypeRef(anotherInterface), LimeDirectTypeRef(yetAnotherInterface))
-        )
+        allElements[""] =
+            LimeInterface(
+                EMPTY_PATH,
+                parents = listOf(LimeDirectTypeRef(anotherInterface), LimeDirectTypeRef(yetAnotherInterface)),
+            )
 
         assertFalse(validator.validate(limeModel))
     }
@@ -108,10 +108,11 @@ class LimeInheritanceValidatorInterfaceTest {
     fun validateInterfaceWithInterfaceAndNarrowParents() {
         val anotherInterface = LimeInterface(fooPath)
         val narrowInterface = LimeInterface(barPath, isNarrow = true)
-        allElements[""] = LimeInterface(
-            EMPTY_PATH,
-            parents = listOf(LimeDirectTypeRef(anotherInterface), LimeDirectTypeRef(narrowInterface))
-        )
+        allElements[""] =
+            LimeInterface(
+                EMPTY_PATH,
+                parents = listOf(LimeDirectTypeRef(anotherInterface), LimeDirectTypeRef(narrowInterface)),
+            )
 
         assertTrue(validator.validate(limeModel))
     }
@@ -122,10 +123,11 @@ class LimeInheritanceValidatorInterfaceTest {
         val anotherInterface = LimeInterface(fooPath, parents = listOf(LimeDirectTypeRef(grandparentInterface)))
         val narrowInterface =
             LimeInterface(barPath, isNarrow = true, parents = listOf(LimeDirectTypeRef(grandparentInterface)))
-        allElements[""] = LimeInterface(
-            EMPTY_PATH,
-            parents = listOf(LimeDirectTypeRef(anotherInterface), LimeDirectTypeRef(narrowInterface))
-        )
+        allElements[""] =
+            LimeInterface(
+                EMPTY_PATH,
+                parents = listOf(LimeDirectTypeRef(anotherInterface), LimeDirectTypeRef(narrowInterface)),
+            )
 
         assertFalse(validator.validate(limeModel))
     }

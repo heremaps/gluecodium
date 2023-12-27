@@ -27,13 +27,13 @@ import com.here.gluecodium.model.lime.LimeStruct
 
 // Validate serializable structs to ensure their fields have serializable types.
 internal class LimeSerializableStructsValidator(private val logger: LimeLogger) {
-
     fun validate(limeModel: LimeModel): Boolean {
         val allElements = limeModel.referenceMap.values
-        val validationResults = allElements
-            .filterIsInstance<LimeStruct>()
-            .filter { it.attributes.have(LimeAttributeType.SERIALIZABLE) }
-            .map { validateStruct(it) }
+        val validationResults =
+            allElements
+                .filterIsInstance<LimeStruct>()
+                .filter { it.attributes.have(LimeAttributeType.SERIALIZABLE) }
+                .map { validateStruct(it) }
 
         return !validationResults.contains(false)
     }

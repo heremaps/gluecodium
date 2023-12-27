@@ -28,7 +28,7 @@ import java.io.File
 internal class CppIncludesCache(
     private val limeReferenceMap: Map<String, LimeElement>,
     private val nameRules: CppNameRules,
-    private val internalNamespace: List<String>
+    private val internalNamespace: List<String>,
 ) {
     private val resolvedIncludes = mutableMapOf<String, List<Include>>()
 
@@ -43,11 +43,12 @@ internal class CppIncludesCache(
             when {
                 externalType != null ->
                     externalType.split(',').map { Include.createInternalInclude(it.trim()) }
-                !limeNamedElement.path.hasParent -> listOf(
-                    Include.createInternalInclude(
-                        nameRules.getOutputFilePath(limeNamedElement) + ".h"
+                !limeNamedElement.path.hasParent ->
+                    listOf(
+                        Include.createInternalInclude(
+                            nameRules.getOutputFilePath(limeNamedElement) + ".h",
+                        ),
                     )
-                )
                 else -> {
                     val parentElementKey = limeNamedElement.path.parent.toString()
                     resolveIncludes(limeReferenceMap[parentElementKey] as LimeNamedElement)

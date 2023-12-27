@@ -27,9 +27,8 @@ package com.here.gluecodium.model.lime
  */
 class LimePositionalEnumeratorRef(
     override val typeRef: LimeTypeRef,
-    private val index: Int
+    private val index: Int,
 ) : LimeConstantRef() {
-
     override val element by lazy {
         val limeType = typeRef.type.actualType as? LimeEnumeration
         val stringIndex = index.toString()
@@ -37,6 +36,5 @@ class LimePositionalEnumeratorRef(
             ?: throw LimeModelLoaderException("Enumerator ${typeRef.elementFullName}($index) was not found")
     }
 
-    override fun remap(referenceMap: Map<String, LimeElement>) =
-        LimePositionalEnumeratorRef(typeRef.remap(referenceMap), index)
+    override fun remap(referenceMap: Map<String, LimeElement>) = LimePositionalEnumeratorRef(typeRef.remap(referenceMap), index)
 }

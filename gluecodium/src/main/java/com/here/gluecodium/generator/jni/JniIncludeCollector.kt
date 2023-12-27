@@ -31,14 +31,14 @@ import com.here.gluecodium.model.lime.LimeStruct
 
 internal class JniIncludeCollector(
     private val includeResolver: JniIncludeResolver,
-    private val retainPredicate: (LimeNamedElement) -> Boolean
+    private val retainPredicate: (LimeNamedElement) -> Boolean,
 ) : ImportsCollector<Include> {
-
     override fun collectImports(limeElement: LimeNamedElement) =
         when (limeElement) {
             is LimeLambda -> collectImplIncludes(limeElement)
-            is LimeContainerWithInheritance -> collectImplIncludes(limeElement) +
-                collectImplIncludes(limeElement.inheritedFunctions, limeElement.inheritedProperties)
+            is LimeContainerWithInheritance ->
+                collectImplIncludes(limeElement) +
+                    collectImplIncludes(limeElement.inheritedFunctions, limeElement.inheritedProperties)
             is LimeContainer -> collectImplIncludes(limeElement)
             else -> emptyList()
         }
@@ -47,9 +47,13 @@ internal class JniIncludeCollector(
         limeFunction.parameters.map { it.typeRef } + limeFunction.returnType.typeRef +
             listOfNotNull(limeFunction.exception?.errorType)
 
-    private fun collectImplIncludes(functions: List<LimeFunction>, properties: List<LimeProperty>): List<Include> {
-        val allFunctions = functions +
-            properties.filter(retainPredicate).flatMap { listOfNotNull(it.getter, it.setter) }
+    private fun collectImplIncludes(
+        functions: List<LimeFunction>,
+        properties: List<LimeProperty>,
+    ): List<Include> {
+        val allFunctions =
+            functions +
+                properties.filter(retainPredicate).flatMap { listOfNotNull(it.getter, it.setter) }
         return allFunctions.filter(retainPredicate)
             .flatMap { collectFunctionTypes(it) }
             .flatMap { includeResolver.resolveElementImports(it) }

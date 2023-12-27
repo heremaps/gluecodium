@@ -37,7 +37,7 @@ import com.vladsch.flexmark.util.sequence.CharSubSequence
 abstract class CommentsProcessor(
     private val renderer: IRender,
     private val werror: Boolean,
-    parserOptions: DataHolder = DataSet()
+    parserOptions: DataHolder = DataSet(),
 ) {
     val hasError
         get() = werror && hasErrorFlag
@@ -45,42 +45,48 @@ abstract class CommentsProcessor(
 
     private val parser = Parser.builder(parserOptions).build()
     private val logFunction: LimeLogger.(String, String) -> Unit =
-        if (werror) { elementName: String, message: String ->
-            this.error(elementName, message)
-        } else { elementName: String, message: String ->
-            this.warning(elementName, message)
+        if (werror) {
+            { elementName: String, message: String ->
+                this.error(elementName, message)
+            }
+        } else {
+            { elementName: String, message: String ->
+                this.warning(elementName, message)
+            }
         }
 
     fun process(
         limeFullName: String,
         comment: String,
         limeToLanguage: Map<String, String>,
-        logger: LimeLogger?
+        logger: LimeLogger?,
     ): String {
         val document = parser.parse(comment.trim())
         val path = limeFullName.split(".")
 
-        val linkRefHandler = VisitHandler(LinkRef::class.java) {
-            if (it.isDefined) return@VisitHandler
+        val linkRefHandler =
+            VisitHandler(LinkRef::class.java) {
+                if (it.isDefined) return@VisitHandler
 
-            val rawReference = it.reference.toString()
-            val normalizedReference = normalizeReference(rawReference)
-            for (i in path.size downTo 0) {
-                val child = (path.take(i) + normalizedReference).joinToString(".")
-                val element = limeToLanguage[child]
-                if (element != null) {
-                    processLink(it, element, child)
-                    return@VisitHandler
+                val rawReference = it.reference.toString()
+                val normalizedReference = normalizeReference(rawReference)
+                for (i in path.size downTo 0) {
+                    val child = (path.take(i) + normalizedReference).joinToString(".")
+                    val element = limeToLanguage[child]
+                    if (element != null) {
+                        processLink(it, element, child)
+                        return@VisitHandler
+                    }
+                }
+                logger?.logFunction(limeFullName, "Failed to resolve documentation reference [$rawReference]")
+                hasErrorFlag = true
+            }
+        val codeBlockHandler =
+            VisitHandler(Code::class.java) {
+                if (it.text.toString() == STANDART_NULL_REFERENCE) {
+                    it.text = CharSubSequence.of(nullReference)
                 }
             }
-            logger?.logFunction(limeFullName, "Failed to resolve documentation reference [$rawReference]")
-            hasErrorFlag = true
-        }
-        val codeBlockHandler = VisitHandler(Code::class.java) {
-            if (it.text.toString() == STANDART_NULL_REFERENCE) {
-                it.text = CharSubSequence.of(nullReference)
-            }
-        }
         val autoLinkHandler = VisitHandler(AutoLink::class.java) { processAutoLink(it) }
         NodeVisitor(linkRefHandler, codeBlockHandler, autoLinkHandler).visit(document)
 
@@ -101,8 +107,14 @@ abstract class CommentsProcessor(
         return name + "(" + signature.split(",").joinToString(",") { it.split('.').last() }
     }
 
-    abstract fun processLink(linkNode: LinkRef, linkReference: String, limeFullName: String)
+    abstract fun processLink(
+        linkNode: LinkRef,
+        linkReference: String,
+        limeFullName: String,
+    )
+
     open fun processAutoLink(linkNode: AutoLink) {}
+
     open fun postRenderDocument(renderedDocument: String): String = renderedDocument
 
     open val nullReference = STANDART_NULL_REFERENCE

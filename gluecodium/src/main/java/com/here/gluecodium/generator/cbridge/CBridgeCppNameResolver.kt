@@ -36,9 +36,8 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 internal class CBridgeCppNameResolver(
     limeReferenceMap: Map<String, LimeElement>,
     private val cppFullNameResolver: CppFullNameResolver,
-    private val cppShortNameResolver: CppNameResolver
+    private val cppShortNameResolver: CppNameResolver,
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
-
     override fun resolveName(element: Any): String =
         when (element) {
             is LimeTypeRef, is LimeBasicType, is LimeGenericType -> cppShortNameResolver.resolveName(element)

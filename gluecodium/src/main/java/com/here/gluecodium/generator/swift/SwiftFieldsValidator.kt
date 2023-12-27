@@ -28,7 +28,6 @@ import com.here.gluecodium.model.lime.LimeField
  * Validate that all deprecated fields have default values.
  */
 internal class SwiftFieldsValidator(private val logger: LimeLogger) {
-
     fun validate(limeElements: Collection<LimeElement>): Boolean {
         val validationResults = limeElements.filterIsInstance<LimeField>().map { validateField(it) }
         return !validationResults.contains(false)

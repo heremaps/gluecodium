@@ -29,13 +29,12 @@ import com.here.gluecodium.model.lime.LimeType
 internal abstract class DartImportResolverBase(
     limeReferenceMap: Map<String, LimeElement>,
     private val nameResolver: DartNameResolver,
-    private val srcPath: String
+    private val srcPath: String,
 ) : ReferenceMapBasedResolver(limeReferenceMap), ImportsResolver<DartImport> {
-
     protected fun resolveExternalImport(
         limeElement: LimeElement,
         key: String,
-        useAlias: Boolean
+        useAlias: Boolean,
     ): DartImport? {
         val importPath = (limeElement as? LimeNamedElement)?.external?.dart?.get(key) ?: return null
         val components = importPath.split(':')
@@ -43,23 +42,25 @@ internal abstract class DartImportResolverBase(
         return when (components.first()) {
             "dart" -> DartImport(components.last(), importType = ImportType.SYSTEM, asAlias = alias)
             "package" -> DartImport(components.last().removeSuffix(".dart"), asAlias = alias)
-            else -> DartImport(
-                components.last().removeSuffix(".dart"),
-                importType = ImportType.RELATIVE,
-                asAlias = alias
-            )
+            else ->
+                DartImport(
+                    components.last().removeSuffix(".dart"),
+                    importType = ImportType.RELATIVE,
+                    asAlias = alias,
+                )
         }
     }
 
     protected fun createImport(limeElement: LimeNamedElement): DartImport {
         val filePath = limeElement.path.head.joinToString("/")
         val fileName = nameResolver.resolveFileName(getTopElement(limeElement))
-        val alias = when {
-            limeElement !is LimeType -> null
-            nameResolver.typesWithDuplicateNames.contains(limeElement.fullName) ->
-                limeElement.path.head.joinToString("_")
-            else -> null
-        }
+        val alias =
+            when {
+                limeElement !is LimeType -> null
+                nameResolver.typesWithDuplicateNames.contains(limeElement.fullName) ->
+                    limeElement.path.head.joinToString("_")
+                else -> null
+            }
         return DartImport("$srcPath/$filePath/$fileName", asAlias = alias)
     }
 

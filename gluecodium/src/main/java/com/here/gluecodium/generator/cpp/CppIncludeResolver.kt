@@ -47,7 +47,7 @@ import com.here.gluecodium.model.lime.LimeValue
 internal class CppIncludeResolver(
     limeReferenceMap: Map<String, LimeElement>,
     nameRules: CppNameRules,
-    internalNamespace: List<String>
+    internalNamespace: List<String>,
 ) : ImportsResolver<Include> {
     private val cppIncludesCache = CppIncludesCache(limeReferenceMap, nameRules, internalNamespace)
 
@@ -70,8 +70,9 @@ internal class CppIncludeResolver(
             is LimeGenericType -> resolveGenericTypeIncludes(limeElement)
             is LimeFunction -> resolveFunctionIncludes(limeElement)
             is LimeLambda -> cppIncludesCache.resolveIncludes(limeElement) + CppLibraryIncludes.FUNCTIONAL
-            is LimeNamedElement -> cppIncludesCache.resolveIncludes(limeElement) +
-                listOfNotNull(CppLibraryIncludes.STRING_VIEW.takeIf { limeElement.attributes.have(CPP, TO_STRING) })
+            is LimeNamedElement ->
+                cppIncludesCache.resolveIncludes(limeElement) +
+                    listOfNotNull(CppLibraryIncludes.STRING_VIEW.takeIf { limeElement.attributes.have(CPP, TO_STRING) })
             else -> emptyList()
         }
 
@@ -82,8 +83,9 @@ internal class CppIncludeResolver(
     private fun resolveExceptionIncludes(limeFunction: LimeFunction): List<Include> {
         val payloadType = limeFunction.exception?.errorType?.type?.actualType ?: return emptyList()
         return when (payloadType) {
-            is LimeEnumeration -> listOf(CppLibraryIncludes.SYSTEM_ERROR) +
-                if (limeFunction.attributes.have(ASYNC)) cppIncludesCache.resolveIncludes(payloadType) else emptyList()
+            is LimeEnumeration ->
+                listOf(CppLibraryIncludes.SYSTEM_ERROR) +
+                    if (limeFunction.attributes.have(ASYNC)) cppIncludesCache.resolveIncludes(payloadType) else emptyList()
             is LimeBasicType -> listOf(returnInclude)
             else -> cppIncludesCache.resolveIncludes(payloadType) + returnInclude
         } + listOfNotNull(returnInclude.takeIf { !limeFunction.returnType.isVoid })
@@ -95,8 +97,9 @@ internal class CppIncludeResolver(
             is LimeValue.KeyValuePair ->
                 resolveValueIncludes(limeValue.key) + resolveValueIncludes(limeValue.value)
             is LimeValue.InitializerList -> limeValue.values.flatMap { resolveValueIncludes(it) }
-            is LimeValue.StructInitializer -> resolveTypeRefIncludes(limeValue.typeRef) +
-                limeValue.values.flatMap { resolveValueIncludes(it) }
+            is LimeValue.StructInitializer ->
+                resolveTypeRefIncludes(limeValue.typeRef) +
+                    limeValue.values.flatMap { resolveValueIncludes(it) }
             is LimeValue.Constant -> cppIncludesCache.resolveIncludes(limeValue.valueRef.element)
             else -> emptyList()
         }
@@ -129,9 +132,10 @@ internal class CppIncludeResolver(
             is LimeSet ->
                 limeType.elementType.let { resolveElementImports(it) + resolveHashIncludes(it) } +
                     CppLibraryIncludes.SET + unorderedSetHashInclude
-            is LimeMap -> resolveElementImports(limeType.valueType) +
-                limeType.keyType.let { resolveElementImports(it) + resolveHashIncludes(it) } +
-                CppLibraryIncludes.MAP + unorderedMapHashInclude
+            is LimeMap ->
+                resolveElementImports(limeType.valueType) +
+                    limeType.keyType.let { resolveElementImports(it) + resolveHashIncludes(it) } +
+                    CppLibraryIncludes.MAP + unorderedMapHashInclude
             else -> emptyList()
         }
 

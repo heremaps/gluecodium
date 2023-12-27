@@ -61,7 +61,8 @@ sealed class LimeValue(open val typeRef: LimeTypeRef) : LimeElement() {
         enum class ValueId(private val tag: String) {
             NAN("NaN"),
             INFINITY("Infinity"),
-            NEGATIVE_INFINITY("-Infinity");
+            NEGATIVE_INFINITY("-Infinity"),
+            ;
 
             override fun toString() = tag
         }
@@ -93,7 +94,8 @@ sealed class LimeValue(open val typeRef: LimeTypeRef) : LimeElement() {
             SECOND("s"),
             MILLISECOND("ms"),
             MICROSECOND("us"),
-            NANOSECOND("ns");
+            NANOSECOND("ns"),
+            ;
 
             override fun toString() = suffix
 

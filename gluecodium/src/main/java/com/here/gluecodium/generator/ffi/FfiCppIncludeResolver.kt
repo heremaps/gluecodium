@@ -47,7 +47,7 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 internal class FfiCppIncludeResolver(
     limeReferenceMap: Map<String, LimeElement>,
     nameRules: CppNameRules,
-    internalNamespace: List<String>
+    internalNamespace: List<String>,
 ) : ImportsResolver<Include> {
     private val cppIncludesCache = CppIncludesCache(limeReferenceMap, nameRules, internalNamespace)
 
@@ -55,8 +55,9 @@ internal class FfiCppIncludeResolver(
         when (limeElement) {
             is LimeTypeRef -> getTypeRefIncludes(limeElement)
             is LimeException, is LimeTypeAlias, is LimeConstant -> emptyList()
-            is LimeInterface -> getTypeIncludes(limeElement) + getThrownTypeIncludes(limeElement) +
-                getContainerIncludes(limeElement) + proxyIncludes
+            is LimeInterface ->
+                getTypeIncludes(limeElement) + getThrownTypeIncludes(limeElement) +
+                    getContainerIncludes(limeElement) + proxyIncludes
             is LimeContainer -> getTypeIncludes(limeElement) + getContainerIncludes(limeElement)
             is LimeLambda -> getTypeIncludes(limeElement) + proxyIncludes + isolateContextInclude
             is LimeType -> getTypeIncludes(limeElement)
@@ -73,25 +74,33 @@ internal class FfiCppIncludeResolver(
         when (limeType) {
             is LimeException -> emptyList()
             is LimeBasicType -> getBasicTypeIncludes(limeType)
-            is LimeList -> getTypeRefIncludes(limeType.elementType) + listOf(
-                CppLibraryIncludes.VECTOR,
-                cppIncludesCache.createInternalNamespaceInclude("VectorHash.h")
-            )
-            is LimeSet -> getTypeRefIncludes(limeType.elementType) + listOf(
-                CppLibraryIncludes.SET,
-                cppIncludesCache.createInternalNamespaceInclude("UnorderedSetHash.h")
-            )
-            is LimeMap -> getTypeRefIncludes(limeType.keyType) +
-                getTypeRefIncludes(limeType.valueType) + listOf(
-                CppLibraryIncludes.MAP,
-                cppIncludesCache.createInternalNamespaceInclude("UnorderedMapHash.h")
-            )
-            is LimeLambda -> cppIncludesCache.resolveIncludes(limeType) +
-                getTypeRefIncludes(limeType.returnType.typeRef) +
-                limeType.parameters.flatMap { getTypeRefIncludes(it.typeRef) } +
-                CppLibraryIncludes.FUNCTIONAL
-            is LimeContainerWithInheritance -> cppIncludesCache.resolveIncludes(limeType) +
-                CppLibraryIncludes.MEMORY
+            is LimeList ->
+                getTypeRefIncludes(limeType.elementType) +
+                    listOf(
+                        CppLibraryIncludes.VECTOR,
+                        cppIncludesCache.createInternalNamespaceInclude("VectorHash.h"),
+                    )
+            is LimeSet ->
+                getTypeRefIncludes(limeType.elementType) +
+                    listOf(
+                        CppLibraryIncludes.SET,
+                        cppIncludesCache.createInternalNamespaceInclude("UnorderedSetHash.h"),
+                    )
+            is LimeMap ->
+                getTypeRefIncludes(limeType.keyType) +
+                    getTypeRefIncludes(limeType.valueType) +
+                    listOf(
+                        CppLibraryIncludes.MAP,
+                        cppIncludesCache.createInternalNamespaceInclude("UnorderedMapHash.h"),
+                    )
+            is LimeLambda ->
+                cppIncludesCache.resolveIncludes(limeType) +
+                    getTypeRefIncludes(limeType.returnType.typeRef) +
+                    limeType.parameters.flatMap { getTypeRefIncludes(it.typeRef) } +
+                    CppLibraryIncludes.FUNCTIONAL
+            is LimeContainerWithInheritance ->
+                cppIncludesCache.resolveIncludes(limeType) +
+                    CppLibraryIncludes.MEMORY
             else -> cppIncludesCache.resolveIncludes(limeType)
         }
 
@@ -101,22 +110,25 @@ internal class FfiCppIncludeResolver(
             TypeId.VOID, TypeId.FLOAT, TypeId.DOUBLE -> emptyList()
             TypeId.STRING -> listOf(CppLibraryIncludes.STRING)
             TypeId.BLOB -> listOf(CppLibraryIncludes.MEMORY, CppLibraryIncludes.VECTOR, CppLibraryIncludes.INT_TYPES)
-            TypeId.DATE -> listOf(
-                CppLibraryIncludes.CHRONO,
-                cppIncludesCache.createInternalNamespaceInclude("TimePointHash.h")
-            )
-            TypeId.DURATION -> listOf(
-                CppLibraryIncludes.CHRONO,
-                cppIncludesCache.createInternalNamespaceInclude("DurationHash.h")
-            )
+            TypeId.DATE ->
+                listOf(
+                    CppLibraryIncludes.CHRONO,
+                    cppIncludesCache.createInternalNamespaceInclude("TimePointHash.h"),
+                )
+            TypeId.DURATION ->
+                listOf(
+                    CppLibraryIncludes.CHRONO,
+                    cppIncludesCache.createInternalNamespaceInclude("DurationHash.h"),
+                )
             TypeId.LOCALE -> listOf(cppIncludesCache.createInternalNamespaceInclude("Locale.h"))
             else -> listOf(CppLibraryIncludes.INT_TYPES)
         }
 
     private fun getThrownTypeIncludes(limeInterface: LimeInterface): List<Include> {
-        val exceptionEnums = limeInterface.functions
-            .mapNotNull { it.exception?.errorType?.type?.actualType }
-            .filterIsInstance<LimeEnumeration>()
+        val exceptionEnums =
+            limeInterface.functions
+                .mapNotNull { it.exception?.errorType?.type?.actualType }
+                .filterIsInstance<LimeEnumeration>()
         return when {
             exceptionEnums.isNotEmpty() -> listOf(CppLibraryIncludes.SYSTEM_ERROR)
             else -> emptyList()
@@ -126,16 +138,17 @@ internal class FfiCppIncludeResolver(
     private fun getContainerIncludes(limeContainer: LimeContainer): List<Include> =
         listOfNotNull(
             isolateContextInclude.takeIf { limeContainer.functions.isNotEmpty() || limeContainer.properties.isNotEmpty() },
-            cppIncludesCache.typeRepositoryInclude.takeIf { CommonGeneratorPredicates.hasTypeRepository(limeContainer) }
+            cppIncludesCache.typeRepositoryInclude.takeIf { CommonGeneratorPredicates.hasTypeRepository(limeContainer) },
         )
 
     companion object {
         private val BOOL_INCLUDE = Include.createSystemInclude("stdbool.h")
 
         private val isolateContextInclude = Include.createInternalInclude("IsolateContext.h")
-        private val proxyIncludes = listOf(
-            Include.createInternalInclude("CallbacksQueue.h"),
-            Include.createInternalInclude("ProxyCache.h")
-        )
+        private val proxyIncludes =
+            listOf(
+                Include.createInternalInclude("CallbacksQueue.h"),
+                Include.createInternalInclude("ProxyCache.h"),
+            )
     }
 }

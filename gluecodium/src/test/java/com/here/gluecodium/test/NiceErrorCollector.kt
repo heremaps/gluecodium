@@ -31,7 +31,10 @@ class NiceErrorCollector : ErrorCollector() {
      * Adds a failure with the given `message` to the table if `actualValue` is not null.
      * Execution continues, but the test will fail at the end if the match fails.
      */
-    fun <T> checkNotNull(message: String, value: T?) {
+    fun <T> checkNotNull(
+        message: String,
+        value: T?,
+    ) {
         checkSucceeds {
             assertNotNull(message, value)
             value
@@ -47,7 +50,11 @@ class NiceErrorCollector : ErrorCollector() {
      * ComparisonFailure object. This allows IntelliJ to format the message nicely with a link to
      * a diff of the values.
      */
-    fun <T> checkEquals(message: String, expectedValue: T, actualValue: T) {
+    fun <T> checkEquals(
+        message: String,
+        expectedValue: T,
+        actualValue: T,
+    ) {
         checkSucceeds {
             assertEquals(message, expectedValue, actualValue)
             actualValue

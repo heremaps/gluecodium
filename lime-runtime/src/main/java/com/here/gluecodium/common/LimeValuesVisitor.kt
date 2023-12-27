@@ -32,5 +32,8 @@ abstract class LimeValuesVisitor<T> {
             allElements.filterIsInstance<LimeConstant>().map { visitValue(it, it.value) }
     }
 
-    abstract fun visitValue(parentElement: LimeNamedElement, limeValue: LimeValue?): T
+    abstract fun visitValue(
+        parentElement: LimeNamedElement,
+        limeValue: LimeValue?,
+    ): T
 }

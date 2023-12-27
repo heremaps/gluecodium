@@ -38,7 +38,7 @@ internal object DartAsyncHelpers {
     class AsyncHelpersGroup(
         val pathKey: String,
         val lambdas: List<LimeLambda>,
-        val helpers: Map<String, LimeFunction>
+        val helpers: Map<String, LimeFunction>,
     )
 
     private const val FIRST_PARAMETER_NAME = "p0"
@@ -46,14 +46,16 @@ internal object DartAsyncHelpers {
     private const val ERROR_LAMBDA = "__errorLambda"
     private const val ASYNC_FUNCTION = "__async"
 
-    fun createAsyncHelpers(rootElement: LimeNamedElement, dartNameResolver: DartNameResolver) =
-        LimeTypeHelper.getAllTypes(rootElement)
-            .filterIsInstance<LimeContainer>()
-            .map { createAsyncHelpersGroup(it, dartNameResolver) }
+    fun createAsyncHelpers(
+        rootElement: LimeNamedElement,
+        dartNameResolver: DartNameResolver,
+    ) = LimeTypeHelper.getAllTypes(rootElement)
+        .filterIsInstance<LimeContainer>()
+        .map { createAsyncHelpersGroup(it, dartNameResolver) }
 
     private fun createAsyncHelpersGroup(
         limeContainer: LimeContainer,
-        dartNameResolver: DartNameResolver
+        dartNameResolver: DartNameResolver,
     ): AsyncHelpersGroup {
         val lambdas = mutableListOf<LimeLambda>()
         val helpers = mutableMapOf<String, LimeFunction>()
@@ -62,45 +64,54 @@ internal object DartAsyncHelpers {
         for (limeFunction in asyncFunctions) {
             val functionName = dartNameResolver.resolveName(limeFunction)
             val resultLambda = createResultLambda(limeFunction, functionName).also { lambdas += it }
-            val errorLambda = limeFunction.exception
-                ?.let { createErrorLambda(limeFunction, it, functionName) }
-                ?.also { lambdas += it }
+            val errorLambda =
+                limeFunction.exception
+                    ?.let { createErrorLambda(limeFunction, it, functionName) }
+                    ?.also { lambdas += it }
             helpers[limeFunction.fullName] = createAsyncHelper(limeFunction, functionName, resultLambda, errorLambda)
         }
 
         return AsyncHelpersGroup(limeContainer.fullName, lambdas, helpers)
     }
 
-    private fun createResultLambda(limeFunction: LimeFunction, functionName: String): LimeLambda {
+    private fun createResultLambda(
+        limeFunction: LimeFunction,
+        functionName: String,
+    ): LimeLambda {
         val path = limeFunction.path.parent.child(limeFunction.name + RESULT_LAMBDA, limeFunction.path.disambiguator)
         return LimeLambda(
             path,
             attributes = LimeAttributes.Builder().addAttribute(DART, NAME, functionName + RESULT_LAMBDA).build(),
-            parameters = when {
-                limeFunction.returnType.isVoid -> emptyList()
-                else -> listOf(
-                    LimeLambdaParameter(
-                        limeFunction.returnType.typeRef, path.child(FIRST_PARAMETER_NAME)
-                    )
-                )
-            }
+            parameters =
+                when {
+                    limeFunction.returnType.isVoid -> emptyList()
+                    else ->
+                        listOf(
+                            LimeLambdaParameter(
+                                limeFunction.returnType.typeRef,
+                                path.child(FIRST_PARAMETER_NAME),
+                            ),
+                        )
+                },
         )
     }
 
     private fun createErrorLambda(
         limeFunction: LimeFunction,
         limeException: LimeException,
-        functionName: String
+        functionName: String,
     ): LimeLambda {
         val path = limeFunction.path.parent.child(limeFunction.name + ERROR_LAMBDA, limeFunction.path.disambiguator)
         return LimeLambda(
             path,
             attributes = LimeAttributes.Builder().addAttribute(DART, NAME, functionName + ERROR_LAMBDA).build(),
-            parameters = listOf(
-                LimeLambdaParameter(
-                    limeException.errorType, path.child(FIRST_PARAMETER_NAME)
-                )
-            )
+            parameters =
+                listOf(
+                    LimeLambdaParameter(
+                        limeException.errorType,
+                        path.child(FIRST_PARAMETER_NAME),
+                    ),
+                ),
         )
     }
 
@@ -108,21 +119,23 @@ internal object DartAsyncHelpers {
         limeFunction: LimeFunction,
         functionName: String,
         resultLambda: LimeLambda,
-        errorLambda: LimeLambda?
+        errorLambda: LimeLambda?,
     ): LimeFunction {
         val path = limeFunction.path.withSuffix(limeFunction.path.disambiguator + "async")
-        val resultLambdaParameter = LimeParameter(
-            path = path.child("_resultLambda"),
-            typeRef = LimeDirectTypeRef(resultLambda),
-            attributes = LimeAttributes.Builder().addAttribute(DART, NAME, "_resultLambda").build(),
-        )
-        val errorLambdaParameter = errorLambda?.let {
+        val resultLambdaParameter =
             LimeParameter(
-                path = path.child("_errorLambda"),
-                typeRef = LimeDirectTypeRef(errorLambda),
-                attributes = LimeAttributes.Builder().addAttribute(DART, NAME, "_errorLambda").build(),
+                path = path.child("_resultLambda"),
+                typeRef = LimeDirectTypeRef(resultLambda),
+                attributes = LimeAttributes.Builder().addAttribute(DART, NAME, "_resultLambda").build(),
             )
-        }
+        val errorLambdaParameter =
+            errorLambda?.let {
+                LimeParameter(
+                    path = path.child("_errorLambda"),
+                    typeRef = LimeDirectTypeRef(errorLambda),
+                    attributes = LimeAttributes.Builder().addAttribute(DART, NAME, "_errorLambda").build(),
+                )
+            }
 
         val attributes = LimeAttributes.Builder().addAttribute(DART, NAME, "_$functionName$ASYNC_FUNCTION")
         limeFunction.attributes.get(CPP, NAME)?.let { attributes.addAttribute(CPP, NAME, it) }
@@ -130,7 +143,7 @@ internal object DartAsyncHelpers {
             path = path,
             attributes = attributes.build(),
             parameters = listOfNotNull(resultLambdaParameter, errorLambdaParameter) + limeFunction.parameters,
-            isStatic = limeFunction.isStatic
+            isStatic = limeFunction.isStatic,
         )
     }
 }

@@ -28,7 +28,7 @@ import com.here.gluecodium.model.lime.LimeSignatureResolver
 internal class LimeOverloadsValidator(
     private val signatureResolver: LimeSignatureResolver,
     private val logger: LimeLogger,
-    private val validateCustomConstructors: Boolean = false
+    private val validateCustomConstructors: Boolean = false,
 ) {
     fun validate(limeModel: Collection<LimeElement>): Boolean {
         val validationResults =
@@ -37,22 +37,24 @@ internal class LimeOverloadsValidator(
         return !validationResults.contains(false)
     }
 
-    private fun validateFunction(limeFunction: LimeFunction, signatureResolver: LimeSignatureResolver) =
-        when {
-            signatureResolver.hasSignatureClash(limeFunction) -> {
-                logger.error(limeFunction, "function has conflicting overloads")
-                false
-            }
-            validateCustomConstructors && signatureResolver.hasConstructorSignatureClash(limeFunction) -> {
-                logger.error(limeFunction, "constructor has conflicting overloads")
-                false
-            }
-            else -> true
+    private fun validateFunction(
+        limeFunction: LimeFunction,
+        signatureResolver: LimeSignatureResolver,
+    ) = when {
+        signatureResolver.hasSignatureClash(limeFunction) -> {
+            logger.error(limeFunction, "function has conflicting overloads")
+            false
         }
+        validateCustomConstructors && signatureResolver.hasConstructorSignatureClash(limeFunction) -> {
+            logger.error(limeFunction, "constructor has conflicting overloads")
+            false
+        }
+        else -> true
+    }
 
     private fun validateFieldConstructor(
         limeFieldConstructor: LimeFieldConstructor,
-        signatureResolver: LimeSignatureResolver
+        signatureResolver: LimeSignatureResolver,
     ): Boolean {
         if (validateCustomConstructors) {
             if (signatureResolver.hasConstructorSignatureClash(limeFieldConstructor.asFunction())) {

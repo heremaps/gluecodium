@@ -26,9 +26,8 @@ import com.here.gluecodium.model.lime.LimeFunction
 
 internal class FfiCppReturnTypeNameResolver(
     private val internalNamespace: List<String>,
-    private val ffiCppNameResolver: FfiCppNameResolver
+    private val ffiCppNameResolver: FfiCppNameResolver,
 ) : NameResolver {
-
     override fun resolveName(element: Any): String =
         when (element) {
             is LimeFunction -> resolveReturnTypeName(element)

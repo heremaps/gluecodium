@@ -27,5 +27,5 @@ data class GluecodiumOptions(
     var generators: Set<String> = setOf(),
     var isValidatingOnly: Boolean = false,
     var isEnableCaching: Boolean = false,
-    var isStrictMode: Boolean = false
+    var isStrictMode: Boolean = false,
 )

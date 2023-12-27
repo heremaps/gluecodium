@@ -24,7 +24,7 @@ class LimeFieldConstructor(
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     val structRef: LimeTypeRef,
-    val fieldRefs: List<LimeFieldRef> = emptyList()
+    val fieldRefs: List<LimeFieldRef> = emptyList(),
 ) : LimeNamedElement(path, comment, attributes) {
     val struct
         get() = structRef.type as LimeStruct
@@ -33,13 +33,14 @@ class LimeFieldConstructor(
     val omittedFields
         get() = struct.fields - fields.toSet()
 
-    fun asFunction() = LimeFunction(
-        path = path,
-        comment = comment,
-        attributes = attributes,
-        returnType = LimeReturnType(structRef),
-        parameters = fields.map { LimeParameter(path.child(it.name), typeRef = it.typeRef) },
-        isStatic = true,
-        isConstructor = true
-    )
+    fun asFunction() =
+        LimeFunction(
+            path = path,
+            comment = comment,
+            attributes = attributes,
+            returnType = LimeReturnType(structRef),
+            parameters = fields.map { LimeParameter(path.child(it.name), typeRef = it.typeRef) },
+            isStatic = true,
+            isConstructor = true,
+        )
 }

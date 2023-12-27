@@ -30,9 +30,8 @@ class LimeAmbiguousConstantRef(
     private val relativePath: List<String>,
     private val parentPaths: List<LimePath>,
     private val imports: List<LimePath>,
-    referenceMap: Map<String, LimeElement>
+    referenceMap: Map<String, LimeElement>,
 ) : LimeConstantRef() {
-
     override val element by lazy {
         LimeAmbiguityResolver.resolve<LimeNamedElement>(relativePath, parentPaths, imports, referenceMap)
     }
@@ -44,6 +43,5 @@ class LimeAmbiguousConstantRef(
         }
     }
 
-    override fun remap(referenceMap: Map<String, LimeElement>) =
-        LimeAmbiguousConstantRef(relativePath, parentPaths, imports, referenceMap)
+    override fun remap(referenceMap: Map<String, LimeElement>) = LimeAmbiguousConstantRef(relativePath, parentPaths, imports, referenceMap)
 }

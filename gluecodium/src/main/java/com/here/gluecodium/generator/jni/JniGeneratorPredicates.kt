@@ -54,60 +54,65 @@ internal class JniGeneratorPredicates(
     javaNameRules: JavaNameRules,
     cppNameRules: CppNameRules,
     cppNameResolver: CppNameResolver,
-    private val activeTags: Set<String>
+    private val activeTags: Set<String>,
 ) {
     private val javaSignatureResolver = JavaSignatureResolver(limeReferenceMap, javaNameRules, activeTags)
     private val cppSignatureResolver = CppSignatureResolver(limeReferenceMap, cppNameRules)
     private val overloadedLambdas = collectOverloadedLambdas()
 
-    val predicates = mapOf(
-        "hasConstructors" to { limeContainer: Any ->
-            limeContainer is LimeContainer && limeContainer.functions.any { it.isConstructor }
-        },
-        "hasCppGetter" to { limeField: Any ->
-            limeField is LimeField && cppNameResolver.resolveGetterName(limeField) != null
-        },
-        "hasCppSetter" to { limeField: Any ->
-            limeField is LimeField && cppNameResolver.resolveSetterName(limeField) != null
-        },
-        "hasImmutableFields" to { CommonGeneratorPredicates.hasImmutableFields(it) },
-        "hasOverloadedLambda" to { limeType: Any ->
-            when (limeType) {
-                is LimeLambda -> isOverloadedLambda(limeType)
-                is LimeList -> isOverloadedLambda(limeType.elementType.type.actualType)
-                is LimeMap -> isOverloadedLambda(limeType.valueType.type.actualType)
-                else -> false
-            }
-        },
-        "hasTypeRepository" to { CommonGeneratorPredicates.hasTypeRepository(it) },
-        "isJniPrimitive" to fun(limeTypeRef: Any): Boolean {
-            if (limeTypeRef !is LimeTypeRef || limeTypeRef.isNullable) return false
+    val predicates =
+        mapOf(
+            "hasConstructors" to { limeContainer: Any ->
+                limeContainer is LimeContainer && limeContainer.functions.any { it.isConstructor }
+            },
+            "hasCppGetter" to { limeField: Any ->
+                limeField is LimeField && cppNameResolver.resolveGetterName(limeField) != null
+            },
+            "hasCppSetter" to { limeField: Any ->
+                limeField is LimeField && cppNameResolver.resolveSetterName(limeField) != null
+            },
+            "hasImmutableFields" to { CommonGeneratorPredicates.hasImmutableFields(it) },
+            "hasOverloadedLambda" to { limeType: Any ->
+                when (limeType) {
+                    is LimeLambda -> isOverloadedLambda(limeType)
+                    is LimeList -> isOverloadedLambda(limeType.elementType.type.actualType)
+                    is LimeMap -> isOverloadedLambda(limeType.valueType.type.actualType)
+                    else -> false
+                }
+            },
+            "hasTypeRepository" to { CommonGeneratorPredicates.hasTypeRepository(it) },
+            "isJniPrimitive" to
 
-            val limeType = limeTypeRef.type.actualType
-            if (limeType !is LimeBasicType) return false
+                fun(limeTypeRef: Any): Boolean {
+                    if (limeTypeRef !is LimeTypeRef || limeTypeRef.isNullable) return false
 
-            val typeId = limeType.typeId
-            return typeId.isNumericType || typeId == VOID || typeId == BOOLEAN
-        },
-        "isOverloaded" to { limeFunction: Any ->
-            limeFunction is LimeFunction && javaSignatureResolver.isOverloadedInBindings(limeFunction)
-        },
-        "needsOrdinalConversion" to fun(limeEnumeration: Any): Boolean {
-            if (limeEnumeration !is LimeEnumeration) return false
-            val descriptor = limeEnumeration.external?.java ?: return false
-            return !descriptor.containsKey(CONVERTER_NAME)
-        },
-        "needsRefSuffix" to { limeTypeRef: Any ->
-            limeTypeRef is LimeTypeRef && CppNameResolver.needsRefSuffix(limeTypeRef)
-        },
-        "returnsOpaqueHandle" to { limeFunction: Any ->
-            limeFunction is LimeFunction && limeFunction.isConstructor &&
-                limeFunction.returnType.typeRef.type is LimeClass
-        },
-        "shouldRetain" to { limeElement: Any ->
-            limeElement is LimeNamedElement && shouldRetain(limeElement)
-        }
-    )
+                    val limeType = limeTypeRef.type.actualType
+                    if (limeType !is LimeBasicType) return false
+
+                    val typeId = limeType.typeId
+                    return typeId.isNumericType || typeId == VOID || typeId == BOOLEAN
+                },
+            "isOverloaded" to { limeFunction: Any ->
+                limeFunction is LimeFunction && javaSignatureResolver.isOverloadedInBindings(limeFunction)
+            },
+            "needsOrdinalConversion" to
+
+                fun(limeEnumeration: Any): Boolean {
+                    if (limeEnumeration !is LimeEnumeration) return false
+                    val descriptor = limeEnumeration.external?.java ?: return false
+                    return !descriptor.containsKey(CONVERTER_NAME)
+                },
+            "needsRefSuffix" to { limeTypeRef: Any ->
+                limeTypeRef is LimeTypeRef && CppNameResolver.needsRefSuffix(limeTypeRef)
+            },
+            "returnsOpaqueHandle" to { limeFunction: Any ->
+                limeFunction is LimeFunction && limeFunction.isConstructor &&
+                    limeFunction.returnType.typeRef.type is LimeClass
+            },
+            "shouldRetain" to { limeElement: Any ->
+                limeElement is LimeNamedElement && shouldRetain(limeElement)
+            },
+        )
 
     fun shouldRetain(limeElement: LimeNamedElement) =
         LimeModelSkipPredicates.shouldRetainCheckParent(limeElement, activeTags, JAVA, limeReferenceMap)
@@ -120,8 +125,7 @@ internal class JniGeneratorPredicates(
         return (overloadedLambdas + attributeLambdas).map { it.path.toString() }.toSet()
     }
 
-    private fun isOverloadedLambda(limeType: LimeType) =
-        limeType is LimeLambda && overloadedLambdas.contains(limeType.path.toString())
+    private fun isOverloadedLambda(limeType: LimeType) = limeType is LimeLambda && overloadedLambdas.contains(limeType.path.toString())
 
     companion object {
         fun hasThrowingFunctions(limeElement: LimeNamedElement) =

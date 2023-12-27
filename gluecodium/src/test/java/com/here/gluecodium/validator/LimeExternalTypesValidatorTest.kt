@@ -40,7 +40,6 @@ import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
 class LimeExternalTypesValidatorTest(private val valueName: String) {
-
     private val allElements = mutableMapOf<String, LimeElement>()
     private val limeModel = LimeModel(allElements, emptyList())
 
@@ -48,27 +47,31 @@ class LimeExternalTypesValidatorTest(private val valueName: String) {
 
     @Test
     fun validateAsExternalType() {
-        allElements[""] = object : LimeType(
-            EMPTY_PATH,
-            external = LimeExternalDescriptor.Builder()
-                .addValue(CPP_TAG, INCLUDE_NAME, "")
-                .addValue(CPP_TAG, valueName, "")
-                .build()
-        ) {}
+        allElements[""] =
+            object : LimeType(
+                EMPTY_PATH,
+                external =
+                    LimeExternalDescriptor.Builder()
+                        .addValue(CPP_TAG, INCLUDE_NAME, "")
+                        .addValue(CPP_TAG, valueName, "")
+                        .build(),
+            ) {}
 
         assertTrue(validator.validate(limeModel))
     }
 
     @Test
     fun validateInExternalType() {
-        allElements[""] = object : LimeType(
-            EMPTY_PATH,
-            external = LimeExternalDescriptor.Builder().addValue(CPP_TAG, INCLUDE_NAME, "").build()
-        ) {}
-        allElements["foo"] = object : LimeNamedElement(
-            LimePath(emptyList(), listOf("foo")),
-            external = LimeExternalDescriptor.Builder().addValue(CPP_TAG, valueName, "").build()
-        ) {}
+        allElements[""] =
+            object : LimeType(
+                EMPTY_PATH,
+                external = LimeExternalDescriptor.Builder().addValue(CPP_TAG, INCLUDE_NAME, "").build(),
+            ) {}
+        allElements["foo"] =
+            object : LimeNamedElement(
+                LimePath(emptyList(), listOf("foo")),
+                external = LimeExternalDescriptor.Builder().addValue(CPP_TAG, valueName, "").build(),
+            ) {}
 
         assertTrue(validator.validate(limeModel))
     }
@@ -76,10 +79,11 @@ class LimeExternalTypesValidatorTest(private val valueName: String) {
     @Test
     fun validateWithoutExternalType() {
         allElements[""] = object : LimeType(EMPTY_PATH) {}
-        allElements["foo"] = object : LimeNamedElement(
-            LimePath(emptyList(), listOf("foo")),
-            external = LimeExternalDescriptor.Builder().addValue(CPP_TAG, valueName, "").build()
-        ) {}
+        allElements["foo"] =
+            object : LimeNamedElement(
+                LimePath(emptyList(), listOf("foo")),
+                external = LimeExternalDescriptor.Builder().addValue(CPP_TAG, valueName, "").build(),
+            ) {}
 
         assertFalse(validator.validate(limeModel))
     }
@@ -87,10 +91,11 @@ class LimeExternalTypesValidatorTest(private val valueName: String) {
     companion object {
         @JvmStatic
         @Parameterized.Parameters
-        fun testData() = listOf(
-            arrayOf(NAME_NAME),
-            arrayOf(GETTER_NAME_NAME),
-            arrayOf(SETTER_NAME_NAME)
-        )
+        fun testData() =
+            listOf(
+                arrayOf(NAME_NAME),
+                arrayOf(GETTER_NAME_NAME),
+                arrayOf(SETTER_NAME_NAME),
+            )
     }
 }

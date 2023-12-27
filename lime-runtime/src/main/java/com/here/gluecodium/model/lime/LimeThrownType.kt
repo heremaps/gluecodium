@@ -24,5 +24,5 @@ package com.here.gluecodium.model.lime
  */
 class LimeThrownType(
     val typeRef: LimeTypeRef,
-    val comment: LimeComment = LimeComment()
+    val comment: LimeComment = LimeComment(),
 )

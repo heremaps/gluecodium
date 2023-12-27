@@ -24,16 +24,16 @@ class LimeLambda(
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     val parameters: List<LimeLambdaParameter> = emptyList(),
-    val returnType: LimeReturnType = LimeReturnType.VOID
+    val returnType: LimeReturnType = LimeReturnType.VOID,
 ) : LimeType(path, comment, attributes) {
-
-    fun asFunction() = LimeFunction(
-        path = path.child("call"),
-        comment = comment,
-        attributes = attributes,
-        returnType = returnType,
-        parameters = parameters.map { it.asLimeParameter() }
-    )
+    fun asFunction() =
+        LimeFunction(
+            path = path.child("call"),
+            comment = comment,
+            attributes = attributes,
+            returnType = returnType,
+            parameters = parameters.map { it.asLimeParameter() },
+        )
 
     val functions
         get() = listOf(asFunction())

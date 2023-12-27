@@ -25,18 +25,19 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 
 internal class GenericIncludesCollector(
     includesResolver: ImportsResolver<Include>,
-    retainPredicate: ((LimeNamedElement) -> Boolean)
+    retainPredicate: ((LimeNamedElement) -> Boolean),
 ) : GenericImportsCollector<Include>(
-    includesResolver,
-    retainPredicate = retainPredicate,
-    collectTypeRefImports = true,
-    collectOwnImports = true,
-    parentTypeFilter = { it is LimeClass }
-) {
+        includesResolver,
+        retainPredicate = retainPredicate,
+        collectTypeRefImports = true,
+        collectOwnImports = true,
+        parentTypeFilter = { it is LimeClass },
+    ) {
     override fun collectParentTypeRefs(limeContainer: LimeContainerWithInheritance) =
         when (limeContainer) {
-            is LimeClass -> limeContainer.interfaceInheritedFunctions.flatMap { collectTypeRefs(it) } +
-                limeContainer.interfaceInheritedProperties.map { it.typeRef }
+            is LimeClass ->
+                limeContainer.interfaceInheritedFunctions.flatMap { collectTypeRefs(it) } +
+                    limeContainer.interfaceInheritedProperties.map { it.typeRef }
             else -> emptyList()
         }
 }

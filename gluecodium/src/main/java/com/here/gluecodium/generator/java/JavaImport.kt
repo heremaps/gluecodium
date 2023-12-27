@@ -22,7 +22,6 @@ package com.here.gluecodium.generator.java
 import kotlin.math.min
 
 internal data class JavaImport(val packageNames: List<String>, val className: String) : Comparable<JavaImport> {
-
     override fun compareTo(other: JavaImport): Int {
         val minimumNameCount = min(packageNames.size, other.packageNames.size)
         for (i in 0 until minimumNameCount) {

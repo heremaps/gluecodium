@@ -25,8 +25,11 @@ import com.vladsch.flexmark.formatter.Formatter
 import com.vladsch.flexmark.util.sequence.CharSubSequence
 
 internal class DoxygenCommentsProcessor(werror: Boolean) : CommentsProcessor(Formatter.builder().build(), werror) {
-
-    override fun processLink(linkNode: LinkRef, linkReference: String, limeFullName: String) {
+    override fun processLink(
+        linkNode: LinkRef,
+        linkReference: String,
+        limeFullName: String,
+    ) {
         linkNode.reference = CharSubSequence.of(linkReference)
         // Doxygen documentation claims that \link classname Alternative title \endlink is the
         // correct way to have a link with alternative title, however it only works for a small

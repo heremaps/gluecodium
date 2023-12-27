@@ -31,7 +31,6 @@ internal class JniTypeSignatureNameResolver(
     private val baseNameResolver: JniNameResolver,
     private val internalPackages: List<String>,
 ) : NameResolver {
-
     override fun resolveName(element: Any) =
         when (element) {
             is LimeType -> resolveTypeSignature(element)

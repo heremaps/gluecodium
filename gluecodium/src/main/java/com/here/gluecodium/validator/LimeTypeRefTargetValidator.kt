@@ -34,21 +34,23 @@ import com.here.gluecodium.model.lime.LimeTypeRef
  */
 internal class LimeTypeRefTargetValidator(private val logger: LimeLogger) :
     LimeTypeRefsVisitor<Boolean>() {
-
     fun validate(limeModel: LimeModel) = !traverseModel(limeModel).contains(false)
 
-    override fun visitTypeRef(parentElement: LimeNamedElement, limeTypeRef: LimeTypeRef?): Boolean {
+    override fun visitTypeRef(
+        parentElement: LimeNamedElement,
+        limeTypeRef: LimeTypeRef?,
+    ): Boolean {
         val referredType = limeTypeRef?.type?.actualType
         return when {
             referredType is LimeException &&
                 (
                     parentElement !is LimeFunction ||
                         parentElement.thrownType?.typeRef?.type !== referredType
-                    ) -> {
+                ) -> {
                 logger.error(
                     parentElement,
                     "refers to an exception type ${referredType.fullName} " +
-                        "which cannot be used outside of a `throws` clause."
+                        "which cannot be used outside of a `throws` clause.",
                 )
                 false
             }

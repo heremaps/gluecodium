@@ -32,7 +32,6 @@ import com.here.gluecodium.model.lime.LimeStruct
  * * Validates that all omitted fields have default values.
  */
 internal class LimeFieldConstructorsValidator(private val logger: LimeLogger) {
-
     fun validate(limeModel: LimeModel): Boolean {
         val allFieldConstructors = limeModel.referenceMap.values.filterIsInstance<LimeFieldConstructor>()
         val validationResults = allFieldConstructors.map { validateFieldConstructor(it) }
@@ -52,19 +51,21 @@ internal class LimeFieldConstructorsValidator(private val logger: LimeLogger) {
         if (fieldConstructor.omittedFields.any { it.defaultValue == null }) {
             logger.error(
                 fieldConstructor.struct,
-                "all fields omitted by a field constructor should have default values"
+                "all fields omitted by a field constructor should have default values",
             )
             return false
         }
         return true
     }
 
-    private fun validateRef(limeStruct: LimeStruct, limeFieldRef: LimeFieldRef) =
-        try {
-            limeFieldRef.field
-            true
-        } catch (e: LimeModelLoaderException) {
-            logger.error(limeStruct, e.message ?: "")
-            false
-        }
+    private fun validateRef(
+        limeStruct: LimeStruct,
+        limeFieldRef: LimeFieldRef,
+    ) = try {
+        limeFieldRef.field
+        true
+    } catch (e: LimeModelLoaderException) {
+        logger.error(limeStruct, e.message ?: "")
+        false
+    }
 }

@@ -31,10 +31,10 @@ import com.here.gluecodium.model.lime.LimeProperty
  * nature of C++ representation of such properties, there are additional restrictions on the types used.
  */
 internal class SwiftWeakAttributeValidator(private val logger: LimeLogger) {
-
     fun validate(limeElements: Collection<LimeElement>): Boolean {
-        val validationResults = limeElements.filterIsInstance<LimeProperty>().map { validateProperty(it) } +
-            limeElements.filterIsInstance<LimeInterface>().map { validateInterface(it) }
+        val validationResults =
+            limeElements.filterIsInstance<LimeProperty>().map { validateProperty(it) } +
+                limeElements.filterIsInstance<LimeInterface>().map { validateInterface(it) }
         return !validationResults.contains(false)
     }
 
@@ -50,7 +50,7 @@ internal class SwiftWeakAttributeValidator(private val logger: LimeLogger) {
             !actualType.attributes.have(SWIFT, WEAK) -> {
                 logger.error(
                     limeProperty,
-                    "An interface type held by `@Swift(Weak)` property should be marked with `@Swift(Weak) as well."
+                    "An interface type held by `@Swift(Weak)` property should be marked with `@Swift(Weak) as well.",
                 )
                 false
             }
@@ -58,7 +58,7 @@ internal class SwiftWeakAttributeValidator(private val logger: LimeLogger) {
                 logger.error(
                     limeProperty,
                     "An interface type held by `@Swift(Weak)` property can only have function or properties " +
-                        "that return nullable values (or `void`)."
+                        "that return nullable values (or `void`).",
                 )
                 false
             }
@@ -73,7 +73,7 @@ internal class SwiftWeakAttributeValidator(private val logger: LimeLogger) {
                 logger.error(
                     limeInterface,
                     "An interface marked as `@Swift(Weak)` can only have function or properties " +
-                        "that return nullable values (or `void`)."
+                        "that return nullable values (or `void`).",
                 )
                 false
             }

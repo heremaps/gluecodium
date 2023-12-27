@@ -33,9 +33,12 @@ internal class GluecodiumRunner(
     private val gluecodiumFactory: (GluecodiumOptions, GeneratorOptions) -> Gluecodium =
         { gluecodiumOptions: GluecodiumOptions, generatorOptions: GeneratorOptions ->
             Gluecodium(gluecodiumOptions, generatorOptions)
-        }
+        },
 ) {
-    fun run(gluecodiumOptions: GluecodiumOptions, generatorOptions: GeneratorOptions) {
+    fun run(
+        gluecodiumOptions: GluecodiumOptions,
+        generatorOptions: GeneratorOptions,
+    ) {
         val executionResult = gluecodiumFactory(gluecodiumOptions, generatorOptions).execute()
         if (!executionResult) {
             throw GradleException("Gluecodium code generation failed. See log for details.")

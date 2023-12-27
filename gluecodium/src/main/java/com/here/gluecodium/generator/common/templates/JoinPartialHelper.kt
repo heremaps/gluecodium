@@ -52,10 +52,13 @@ internal class JoinPartialHelper : BasicHelper() {
         }
     }
 
-    private fun applyPartial(options: Options, partialName: String, dataObject: Any) =
-        options.apply {
-            push(dataObject)
-            partial(partialName)
-            pop()
-        }
+    private fun applyPartial(
+        options: Options,
+        partialName: String,
+        dataObject: Any,
+    ) = options.apply {
+        push(dataObject)
+        partial(partialName)
+        pop()
+    }
 }

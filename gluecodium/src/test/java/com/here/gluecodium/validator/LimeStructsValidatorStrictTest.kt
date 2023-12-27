@@ -39,7 +39,6 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class LimeStructsValidatorStrictTest {
-
     private val allElements = mutableMapOf<String, LimeElement>()
     private val limeModel = LimeModel(allElements, emptyList())
 
@@ -62,12 +61,13 @@ class LimeStructsValidatorStrictTest {
 
     @Test
     fun validateImmutableStructWithFieldConstructors() {
-        allElements[""] = LimeStruct(
-            EMPTY_PATH,
-            fields = listOf(limeField),
-            attributes = immutableAttributes,
-            fieldConstructors = listOf(fieldConstructor)
-        )
+        allElements[""] =
+            LimeStruct(
+                EMPTY_PATH,
+                fields = listOf(limeField),
+                attributes = immutableAttributes,
+                fieldConstructors = listOf(fieldConstructor),
+            )
 
         assertTrue(validator.validate(limeModel))
     }
@@ -75,12 +75,13 @@ class LimeStructsValidatorStrictTest {
     @Test
     fun validateImmutableStructWithCustomConstructors() {
         val customConstructor = LimeFunction(EMPTY_PATH, isConstructor = true)
-        allElements[""] = LimeStruct(
-            EMPTY_PATH,
-            fields = listOf(limeField),
-            attributes = immutableAttributes,
-            functions = listOf(customConstructor)
-        )
+        allElements[""] =
+            LimeStruct(
+                EMPTY_PATH,
+                fields = listOf(limeField),
+                attributes = immutableAttributes,
+                functions = listOf(customConstructor),
+            )
 
         assertTrue(validator.validate(limeModel))
     }
@@ -94,11 +95,12 @@ class LimeStructsValidatorStrictTest {
 
     @Test
     fun validateMutableStructWithFieldConstructors() {
-        allElements[""] = LimeStruct(
-            EMPTY_PATH,
-            fields = listOf(limeField),
-            fieldConstructors = listOf(fieldConstructor)
-        )
+        allElements[""] =
+            LimeStruct(
+                EMPTY_PATH,
+                fields = listOf(limeField),
+                fieldConstructors = listOf(fieldConstructor),
+            )
 
         assertTrue(validator.validate(limeModel))
     }
@@ -119,11 +121,12 @@ class LimeStructsValidatorStrictTest {
 
     @Test
     fun validateInternalFieldWithFieldConstructors() {
-        allElements[""] = LimeStruct(
-            EMPTY_PATH,
-            fields = listOf(internalField),
-            fieldConstructors = listOf(fieldConstructor)
-        )
+        allElements[""] =
+            LimeStruct(
+                EMPTY_PATH,
+                fields = listOf(internalField),
+                fieldConstructors = listOf(fieldConstructor),
+            )
 
         assertTrue(validator.validate(limeModel))
     }
@@ -137,12 +140,13 @@ class LimeStructsValidatorStrictTest {
 
     @Test
     fun validateInternalFieldWithDefaultValue() {
-        val internalFieldWithDefault = LimeField(
-            EMPTY_PATH,
-            typeRef = LimeBasicTypeRef.INT,
-            attributes = internalAttributes,
-            defaultValue = LimeValue.ZERO
-        )
+        val internalFieldWithDefault =
+            LimeField(
+                EMPTY_PATH,
+                typeRef = LimeBasicTypeRef.INT,
+                attributes = internalAttributes,
+                defaultValue = LimeValue.ZERO,
+            )
         allElements[""] = LimeStruct(EMPTY_PATH, fields = listOf(internalFieldWithDefault))
 
         assertTrue(validator.validate(limeModel))

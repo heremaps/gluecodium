@@ -45,9 +45,8 @@ import org.junit.runners.Parameterized
 class TopologicalSortTest(
     @Suppress("UNUSED_PARAMETER") testName: String,
     private val elements: List<LimeNamedElement>,
-    private val expectedOrder: List<Int>
+    private val expectedOrder: List<Int>,
 ) {
-
     @Test
     fun checkOrder() {
         val sortedElements = TopologicalSort(elements).sort()
@@ -73,12 +72,13 @@ class TopologicalSortTest(
 
         private val LIME_ENUM = LimeEnumeration(createPath(ENUM_NAME))
 
-        private val LIME_ALIAS = createTypeAlias(
-            TYPE_DEF_NAME,
-            createTypeRef(
-                TYPE_A
+        private val LIME_ALIAS =
+            createTypeAlias(
+                TYPE_DEF_NAME,
+                createTypeRef(
+                    TYPE_A,
+                ),
             )
-        )
 
         @JvmStatic
         @Parameterized.Parameters(name = "{0}")
@@ -88,224 +88,231 @@ class TopologicalSortTest(
                     "sortIndependentStructsKeepsSameOrder",
                     listOf(
                         createStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B),
-                        createStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C)
+                        createStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C),
                     ),
-                    listOf(0, 1)
+                    listOf(0, 1),
                 ),
                 arrayOf(
                     "sortDependentStructs",
                     listOf(
                         createStruct(FIRST_STRUCT_NAME, TYPE_A, SECOND_STRUCT_NAME),
-                        createStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C)
+                        createStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C),
                     ),
-                    listOf(1, 0)
+                    listOf(1, 0),
                 ),
                 arrayOf(
                     "sortSortedDependentStructsKeepsSameOrder",
                     listOf(
                         createStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B),
-                        createStruct(SECOND_STRUCT_NAME, TYPE_B, FIRST_STRUCT_NAME)
+                        createStruct(SECOND_STRUCT_NAME, TYPE_B, FIRST_STRUCT_NAME),
                     ),
-                    listOf(0, 1)
+                    listOf(0, 1),
                 ),
                 arrayOf(
                     "sortMultipleStructsWithDependencies",
                     listOf(
                         createStruct(FIRST_STRUCT_NAME, SECOND_STRUCT_NAME, THIRD_STRUCT_NAME),
                         createStruct(SECOND_STRUCT_NAME, TYPE_B, THIRD_STRUCT_NAME),
-                        createStruct(THIRD_STRUCT_NAME, TYPE_A, TYPE_B)
+                        createStruct(THIRD_STRUCT_NAME, TYPE_A, TYPE_B),
                     ),
-                    listOf(2, 1, 0)
+                    listOf(2, 1, 0),
                 ),
                 arrayOf(
                     "sortEnumWithStructDependingOnIt",
                     listOf(createStruct(FIRST_STRUCT_NAME, TYPE_A, ENUM_NAME), LIME_ENUM),
-                    listOf(1, 0)
+                    listOf(1, 0),
                 ),
                 arrayOf(
                     "enumWithStructNotDependingOnItKeepsSameOrder",
                     listOf(createStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B), LIME_ENUM),
-                    listOf(0, 1)
+                    listOf(0, 1),
                 ),
                 arrayOf(
                     "enumWithUsingDependingOnIt",
                     listOf(createTypeAlias(TYPE_DEF_NAME, createTypeRef(ENUM_NAME)), LIME_ENUM),
-                    listOf(1, 0)
+                    listOf(1, 0),
                 ),
                 arrayOf(
                     "enumWithUsingNotDependingOnItKeepsSameOrder",
                     listOf(LIME_ALIAS, LIME_ENUM),
-                    listOf(0, 1)
+                    listOf(0, 1),
                 ),
                 arrayOf(
                     "enumWithConstantDependingOnIt",
                     listOf(createConstant(ENUM_NAME), LIME_ENUM),
-                    listOf(1, 0)
+                    listOf(1, 0),
                 ),
                 arrayOf(
                     "enumWithConstantNotDependingOnItKeepsSameOrder",
                     listOf(createConstant(TYPE_A), LIME_ENUM),
-                    listOf(0, 1)
+                    listOf(0, 1),
                 ),
                 arrayOf(
                     "constantDependingOnStruct",
                     listOf(
                         createConstant(FIRST_STRUCT_NAME),
-                        createStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)
+                        createStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B),
                     ),
-                    listOf(1, 0)
+                    listOf(1, 0),
                 ),
                 arrayOf(
                     "constantNotDependingOnStructKeepsSameOrder",
                     listOf(
                         createConstant(TYPE_A),
-                        createStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)
+                        createStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B),
                     ),
-                    listOf(0, 1)
+                    listOf(0, 1),
                 ),
                 arrayOf(
                     "constantDependingOnDefinition",
                     listOf(createConstantWithAliasType(), LIME_ALIAS),
-                    listOf(1, 0)
+                    listOf(1, 0),
                 ),
                 arrayOf(
                     "constantNotDependingOnDefinitionKeepsSameOrder",
                     listOf(createConstant(TYPE_B), LIME_ALIAS),
-                    listOf(0, 1)
+                    listOf(0, 1),
                 ),
                 arrayOf(
                     "usingDependingOnUsing",
                     listOf(
                         createTypeAlias(
                             "anotherShortcut",
-                            LimeDirectTypeRef(createTypeAlias(TYPE_DEF_NAME, createTypeRef(TYPE_A)))
+                            LimeDirectTypeRef(createTypeAlias(TYPE_DEF_NAME, createTypeRef(TYPE_A))),
                         ),
-                        LIME_ALIAS
+                        LIME_ALIAS,
                     ),
-                    listOf(1, 0)
+                    listOf(1, 0),
                 ),
                 arrayOf(
                     "usingNotDependingOnUsingKeepsSameOrder",
                     listOf(LIME_ALIAS, createTypeAlias("anotherShortcut", createTypeRef(TYPE_B))),
-                    listOf(0, 1)
+                    listOf(0, 1),
                 ),
                 arrayOf(
                     "usingDependingOnStruct",
                     listOf(
                         createTypeAlias(TYPE_DEF_NAME, createTypeRef(FIRST_STRUCT_NAME)),
-                        createStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)
+                        createStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B),
                     ),
-                    listOf(1, 0)
+                    listOf(1, 0),
                 ),
                 arrayOf(
                     "usingNotDependingOnStructKeepsSameOrder",
                     listOf(
                         createTypeAlias(TYPE_DEF_NAME, createTypeRef(TYPE_C)),
-                        createStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)
+                        createStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B),
                     ),
-                    listOf(0, 1)
+                    listOf(0, 1),
                 ),
                 arrayOf(
                     "usingFunctionTypeRefDependingOnStruct",
                     listOf(
                         createTypeAlias(
                             TYPE_DEF_NAME,
-                            LimeDirectTypeRef(LimeLambda(createPath(FIRST_STRUCT_NAME)))
+                            LimeDirectTypeRef(LimeLambda(createPath(FIRST_STRUCT_NAME))),
                         ),
-                        createStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B)
+                        createStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B),
                     ),
-                    listOf(1, 0)
+                    listOf(1, 0),
                 ),
                 arrayOf(
                     "structDependingOnDefinition",
                     listOf(
                         createStruct(FIRST_STRUCT_NAME, TYPE_DEF_NAME, TYPE_B),
-                        LIME_ALIAS
+                        LIME_ALIAS,
                     ),
-                    listOf(1, 0)
+                    listOf(1, 0),
                 ),
                 arrayOf(
                     "structNotDependingOnDefinitionKeepsSameOrder",
                     listOf(
                         createStruct(FIRST_STRUCT_NAME, TYPE_A, TYPE_B),
-                        createTypeAlias(TYPE_DEF_NAME, createTypeRef(TYPE_C))
+                        createTypeAlias(TYPE_DEF_NAME, createTypeRef(TYPE_C)),
                     ),
-                    listOf(0, 1)
+                    listOf(0, 1),
                 ),
                 arrayOf(
                     "sortStructsDependentThroughMethodReturnType",
                     listOf(
                         LimeStruct(
                             path = createPath(FIRST_STRUCT_NAME),
-                            functions = listOf(
-                                LimeFunction(
-                                    createPath("x"),
-                                    returnType = LimeReturnType(createTypeRef(SECOND_STRUCT_NAME))
-                                )
-                            )
+                            functions =
+                                listOf(
+                                    LimeFunction(
+                                        createPath("x"),
+                                        returnType = LimeReturnType(createTypeRef(SECOND_STRUCT_NAME)),
+                                    ),
+                                ),
                         ),
-                        createStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C)
+                        createStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C),
                     ),
-                    listOf(1, 0)
+                    listOf(1, 0),
                 ),
                 arrayOf(
                     "sortStructsDependentThroughMethodParameter",
                     listOf(
                         LimeStruct(
                             path = createPath(FIRST_STRUCT_NAME),
-                            functions = listOf(
-                                LimeFunction(
-                                    createPath("x"),
-                                    parameters = listOf(
-                                        LimeParameter(
-                                            createPath("x"),
-                                            typeRef = createTypeRef(SECOND_STRUCT_NAME)
-                                        )
-                                    )
-                                )
-                            )
+                            functions =
+                                listOf(
+                                    LimeFunction(
+                                        createPath("x"),
+                                        parameters =
+                                            listOf(
+                                                LimeParameter(
+                                                    createPath("x"),
+                                                    typeRef = createTypeRef(SECOND_STRUCT_NAME),
+                                                ),
+                                            ),
+                                    ),
+                                ),
                         ),
-                        createStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C)
+                        createStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C),
                     ),
-                    listOf(1, 0)
+                    listOf(1, 0),
                 ),
                 arrayOf(
                     "sortStructsDependentThroughMethodThrownType",
                     listOf(
                         LimeStruct(
                             path = createPath(FIRST_STRUCT_NAME),
-                            functions = listOf(
-                                LimeFunction(
-                                    createPath("x"),
-                                    thrownType = LimeThrownType(
-                                        LimeDirectTypeRef(
-                                            LimeException(
-                                                LimePath.EMPTY_PATH, errorType = createTypeRef(SECOND_STRUCT_NAME)
-                                            )
-                                        )
-                                    )
-                                )
-                            )
+                            functions =
+                                listOf(
+                                    LimeFunction(
+                                        createPath("x"),
+                                        thrownType =
+                                            LimeThrownType(
+                                                LimeDirectTypeRef(
+                                                    LimeException(
+                                                        LimePath.EMPTY_PATH,
+                                                        errorType = createTypeRef(SECOND_STRUCT_NAME),
+                                                    ),
+                                                ),
+                                            ),
+                                    ),
+                                ),
                         ),
-                        createStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C)
+                        createStruct(SECOND_STRUCT_NAME, TYPE_B, TYPE_C),
                     ),
-                    listOf(1, 0)
+                    listOf(1, 0),
                 ),
                 arrayOf(
                     "sortStructDependentOnSelfDoesNotCrash",
                     listOf(
                         LimeStruct(
                             path = createPath(FIRST_STRUCT_NAME),
-                            functions = listOf(
-                                LimeFunction(
-                                    createPath("x"),
-                                    returnType = LimeReturnType(createTypeRef(FIRST_STRUCT_NAME))
-                                )
-                            )
-                        )
+                            functions =
+                                listOf(
+                                    LimeFunction(
+                                        createPath("x"),
+                                        returnType = LimeReturnType(createTypeRef(FIRST_STRUCT_NAME)),
+                                    ),
+                                ),
+                        ),
                     ),
-                    listOf(0)
-                )
+                    listOf(0),
+                ),
             )
     }
 }

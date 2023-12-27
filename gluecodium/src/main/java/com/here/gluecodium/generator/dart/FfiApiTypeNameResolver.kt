@@ -28,7 +28,6 @@ import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class FfiApiTypeNameResolver : NameResolver {
-
     override fun resolveName(element: Any): String =
         when (element) {
             is TypeId -> getBasicTypeName(element)

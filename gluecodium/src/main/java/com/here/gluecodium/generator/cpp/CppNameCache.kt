@@ -33,7 +33,7 @@ import java.util.HashMap
 internal class CppNameCache(
     rootNamespace: List<String>,
     private val limeReferenceMap: Map<String, LimeElement>,
-    val nameRules: CppNameRules
+    val nameRules: CppNameRules,
 ) {
     private val rootNamespace: String = rootNamespace.joinToString("::")
     private val namesCache = HashMap<String, NamesCacheEntry>()
@@ -41,7 +41,7 @@ internal class CppNameCache(
     private class NamesCacheEntry(
         val isExternal: Boolean,
         val shortName: String,
-        val fullName: String
+        val fullName: String,
     )
 
     fun getName(limeElement: LimeNamedElement) = getCachedEntry(limeElement).shortName
@@ -58,20 +58,15 @@ internal class CppNameCache(
             ?: limeProperty.setter?.attributes?.get(CPP, NAME)
             ?: nameRules.getSetterName(limeProperty)
 
-    fun getGetterName(limeField: LimeField) =
-        limeField.external?.cpp?.get(GETTER_NAME_NAME) ?: nameRules.getGetterName(limeField)
+    fun getGetterName(limeField: LimeField) = limeField.external?.cpp?.get(GETTER_NAME_NAME) ?: nameRules.getGetterName(limeField)
 
-    fun getSetterName(limeField: LimeField) =
-        limeField.external?.cpp?.get(SETTER_NAME_NAME) ?: nameRules.getSetterName(limeField)
+    fun getSetterName(limeField: LimeField) = limeField.external?.cpp?.get(SETTER_NAME_NAME) ?: nameRules.getSetterName(limeField)
 
-    fun getFullyQualifiedGetterName(limeProperty: LimeProperty) =
-        getParentFullName(limeProperty) + "::" + getGetterName(limeProperty)
+    fun getFullyQualifiedGetterName(limeProperty: LimeProperty) = getParentFullName(limeProperty) + "::" + getGetterName(limeProperty)
 
-    fun getFullyQualifiedSetterName(limeProperty: LimeProperty) =
-        getParentFullName(limeProperty) + "::" + getSetterName(limeProperty)
+    fun getFullyQualifiedSetterName(limeProperty: LimeProperty) = getParentFullName(limeProperty) + "::" + getSetterName(limeProperty)
 
-    private fun getCachedEntry(limeElement: LimeNamedElement) =
-        namesCache.getOrPut(limeElement.fullName) { resolveNames(limeElement) }
+    private fun getCachedEntry(limeElement: LimeNamedElement) = namesCache.getOrPut(limeElement.fullName) { resolveNames(limeElement) }
 
     private fun getParentFullName(limeElement: LimeNamedElement): String {
         val parentPath = limeElement.path.parent.toString()
@@ -98,16 +93,18 @@ internal class CppNameCache(
         val externalName = limeElement.external?.cpp?.get(NAME_NAME)
         val platformName = limeElement.attributes.get(CPP, NAME)
 
-        val name = when {
-            externalName != null -> externalName
-            platformName != null -> platformName
-            isExternal -> limeElement.name
-            else -> nameRules.getName(limeElement)
-        }
-        val fullName = when {
-            externalName != null -> externalName
-            else -> "$parentFullName::$name"
-        }
+        val name =
+            when {
+                externalName != null -> externalName
+                platformName != null -> platformName
+                isExternal -> limeElement.name
+                else -> nameRules.getName(limeElement)
+            }
+        val fullName =
+            when {
+                externalName != null -> externalName
+                else -> "$parentFullName::$name"
+            }
 
         return NamesCacheEntry(isExternal, name, fullName)
     }

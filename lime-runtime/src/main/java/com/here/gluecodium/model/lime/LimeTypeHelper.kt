@@ -25,13 +25,13 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 object LimeTypeHelper {
-
     fun getAllTypes(limeElement: LimeNamedElement): List<LimeType> {
         val limeType = limeElement as? LimeType ?: return emptyList()
 
-        val nestedContainerTypes = (limeType as? LimeContainer)?.let {
-            it.structs + it.enumerations + it.exceptions + it.typeAliases + it.classes + it.interfaces + it.lambdas
-        } ?: emptyList()
+        val nestedContainerTypes =
+            (limeType as? LimeContainer)?.let {
+                it.structs + it.enumerations + it.exceptions + it.typeAliases + it.classes + it.interfaces + it.lambdas
+            } ?: emptyList()
 
         return listOf(limeType) + nestedContainerTypes.flatMap { getAllTypes(it) }
     }
@@ -40,9 +40,10 @@ object LimeTypeHelper {
         when (limeElement) {
             is LimeConstant -> listOf(limeElement.value)
             is LimeField -> listOfNotNull(limeElement.defaultValue)
-            is LimeContainerWithInheritance -> (
-                limeElement.constants + limeElement.structs +
-                    limeElement.classes + limeElement.interfaces
+            is LimeContainerWithInheritance ->
+                (
+                    limeElement.constants + limeElement.structs +
+                        limeElement.classes + limeElement.interfaces
                 ).flatMap { getAllValues(it) }
 
             is LimeStruct ->
@@ -73,21 +74,26 @@ object LimeTypeHelper {
         return result
     }
 
-    private fun computeInheritanceDistance(limeContainer: LimeContainerWithInheritance, parentFullName: String): Int? {
+    private fun computeInheritanceDistance(
+        limeContainer: LimeContainerWithInheritance,
+        parentFullName: String,
+    ): Int? {
         if (limeContainer.parents.isEmpty()) return null
         val parentTypes = limeContainer.parents.map { it.type.actualType }
         if (parentTypes.any { it.fullName == parentFullName }) return 1
-        val parentDistances = parentTypes.filterIsInstance<LimeContainerWithInheritance>()
-            .mapNotNull { computeInheritanceDistance(it, parentFullName) }
+        val parentDistances =
+            parentTypes.filterIsInstance<LimeContainerWithInheritance>()
+                .mapNotNull { computeInheritanceDistance(it, parentFullName) }
         return parentDistances.minOrNull()?.let { it + 1 }
     }
 
     fun dateLiteralEpochSeconds(literalText: String): Long? {
-        val epochSeconds = try {
-            Instant.from(DateTimeFormatter.ISO_DATE_TIME.parse(literalText)).epochSecond
-        } catch (e: DateTimeException) {
-            return null
-        }
+        val epochSeconds =
+            try {
+                Instant.from(DateTimeFormatter.ISO_DATE_TIME.parse(literalText)).epochSecond
+            } catch (e: DateTimeException) {
+                return null
+            }
         return epochSeconds
     }
 

@@ -31,7 +31,6 @@ import com.here.gluecodium.model.lime.LimeType
 
 internal class SwiftVisibilityResolver(limeReferenceMap: Map<String, LimeElement>) :
     ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
-
     override fun resolveName(element: Any): String =
         when (element) {
             // Swift protocols have no type nesting, so all their types are "outside".
@@ -40,11 +39,13 @@ internal class SwiftVisibilityResolver(limeReferenceMap: Map<String, LimeElement
                 if (CommonGeneratorPredicates.isInternal(element, SWIFT)) {
                     getVisibilityPrefix(isInternal = true)
                 } else {
-                    val nestedTypes = generateSequence(element) {
-                        limeReferenceMap[it.path.parent.toString()] as? LimeType
-                    }.toList()
-                    val isInternal = nestedTypes.any { it is LimeInterface } &&
-                        nestedTypes.any { CommonGeneratorPredicates.isInternal(it, SWIFT) }
+                    val nestedTypes =
+                        generateSequence(element) {
+                            limeReferenceMap[it.path.parent.toString()] as? LimeType
+                        }.toList()
+                    val isInternal =
+                        nestedTypes.any { it is LimeInterface } &&
+                            nestedTypes.any { CommonGeneratorPredicates.isInternal(it, SWIFT) }
                     getVisibilityPrefix(isInternal)
                 }
             }

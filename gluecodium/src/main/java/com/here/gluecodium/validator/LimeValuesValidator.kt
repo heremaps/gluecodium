@@ -37,7 +37,6 @@ import com.here.gluecodium.model.lime.LimeValue
  * Validates values assigned to constants and fields for correctness.
  */
 internal class LimeValuesValidator(private val logger: LimeLogger) {
-
     fun validate(limeModel: LimeModel): Boolean {
         val allFields = limeModel.referenceMap.values.filterIsInstance<LimeField>()
         val allConstants = limeModel.referenceMap.values.filterIsInstance<LimeConstant>()
@@ -45,10 +44,12 @@ internal class LimeValuesValidator(private val logger: LimeLogger) {
         return !validationResults.contains(false)
     }
 
-    private fun validateField(limeField: LimeField) =
-        limeField.defaultValue?.let { validateValue(limeField, it) } ?: true
+    private fun validateField(limeField: LimeField) = limeField.defaultValue?.let { validateValue(limeField, it) } ?: true
 
-    private fun validateValue(limeElement: LimeTypedElement, limeValue: LimeValue): Boolean {
+    private fun validateValue(
+        limeElement: LimeTypedElement,
+        limeValue: LimeValue,
+    ): Boolean {
         val actualType = limeElement.typeRef.type.actualType
         when (limeValue) {
             is LimeValue.Literal -> if (!validateLiteral(limeElement, actualType, limeValue)) return false
@@ -58,26 +59,30 @@ internal class LimeValuesValidator(private val logger: LimeLogger) {
                     return false
                 }
             }
-            is LimeValue.InitializerList -> if (!isCollectionType(actualType)) {
-                logger.error(limeElement, "initializer list values can only be assigned to collection types")
-                return false
-            }
+            is LimeValue.InitializerList ->
+                if (!isCollectionType(actualType)) {
+                    logger.error(limeElement, "initializer list values can only be assigned to collection types")
+                    return false
+                }
             is LimeValue.KeyValuePair -> {
                 logger.error(limeElement, "key-value pair values can only be used inside initializer lists")
                 return false
             }
-            is LimeValue.Null -> if (!limeElement.typeRef.isNullable) {
-                logger.error(limeElement, "`null` value can only be assigned to a nullable type")
-                return false
-            }
-            is LimeValue.Special -> if (actualType !is LimeBasicType || !actualType.typeId.isNumericType) {
-                logger.error(limeElement, "special numeric values can only be assigned to numeric types")
-                return false
-            }
-            is LimeValue.StructInitializer -> if (actualType !is LimeStruct) {
-                logger.error(limeElement, "struct initializer values can only be assigned to `struct` types")
-                return false
-            }
+            is LimeValue.Null ->
+                if (!limeElement.typeRef.isNullable) {
+                    logger.error(limeElement, "`null` value can only be assigned to a nullable type")
+                    return false
+                }
+            is LimeValue.Special ->
+                if (actualType !is LimeBasicType || !actualType.typeId.isNumericType) {
+                    logger.error(limeElement, "special numeric values can only be assigned to numeric types")
+                    return false
+                }
+            is LimeValue.StructInitializer ->
+                if (actualType !is LimeStruct) {
+                    logger.error(limeElement, "struct initializer values can only be assigned to `struct` types")
+                    return false
+                }
             else -> {}
         }
         return true
@@ -86,7 +91,7 @@ internal class LimeValuesValidator(private val logger: LimeLogger) {
     private fun validateLiteral(
         limeElement: LimeNamedElement,
         limeType: LimeType,
-        limeValue: LimeValue.Literal
+        limeValue: LimeValue.Literal,
     ): Boolean {
         if (limeType !is LimeBasicType) {
             logger.error(limeElement, "literal values cannot be assigned to non-basic types")
@@ -95,7 +100,7 @@ internal class LimeValuesValidator(private val logger: LimeLogger) {
         if (limeType.typeId == TypeId.BLOB || limeType.typeId == TypeId.DURATION) {
             logger.error(
                 limeElement,
-                "string or numeric literal values cannot be assigned to `Blob` or `Duration` types"
+                "string or numeric literal values cannot be assigned to `Blob` or `Duration` types",
             )
             return false
         }
@@ -110,10 +115,11 @@ internal class LimeValuesValidator(private val logger: LimeLogger) {
         return true
     }
 
-    private fun isCollectionType(limeType: LimeType) = when {
-        limeType is LimeGenericType -> true
-        limeType !is LimeBasicType -> false
-        limeType.typeId == TypeId.BLOB -> true
-        else -> false
-    }
+    private fun isCollectionType(limeType: LimeType) =
+        when {
+            limeType is LimeGenericType -> true
+            limeType !is LimeBasicType -> false
+            limeType.typeId == TypeId.BLOB -> true
+            else -> false
+        }
 }

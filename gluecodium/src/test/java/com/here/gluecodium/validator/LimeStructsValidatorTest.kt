@@ -35,7 +35,6 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class LimeStructsValidatorTest {
-
     private val allElements = mutableMapOf<String, LimeElement>()
     private val limeModel = LimeModel(allElements, emptyList())
 

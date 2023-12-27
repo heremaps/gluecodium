@@ -30,9 +30,8 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class CppSignatureResolver(
     limeReferenceMap: Map<String, LimeElement>,
-    nameRules: CppNameRules
+    nameRules: CppNameRules,
 ) : PlatformSignatureResolver(limeReferenceMap, CPP, nameRules, emptySet()) {
-
     override fun getNullableSuffix(limeTypeRef: LimeTypeRef) =
         when {
             !limeTypeRef.isNullable -> ""

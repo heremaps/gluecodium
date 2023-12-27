@@ -36,7 +36,6 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class SplitSourceSetCacheTest {
-
     private val mainFile = GeneratedFile("I'm a main file", "main", GeneratedFile.SourceSet.MAIN)
     private val commonFile = GeneratedFile("I'm a common file", "common", GeneratedFile.SourceSet.COMMON)
 

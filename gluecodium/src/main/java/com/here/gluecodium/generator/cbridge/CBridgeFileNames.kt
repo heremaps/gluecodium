@@ -22,9 +22,7 @@ package com.here.gluecodium.generator.cbridge
 import com.here.gluecodium.model.lime.LimeNamedElement
 
 internal class CBridgeFileNames(private val rootNamespace: List<String>) {
-    fun getHeaderFilePath(limeElement: LimeNamedElement) =
-        CBridgeNameRules.createPath(limeElement, rootNamespace, "include", ".h")
+    fun getHeaderFilePath(limeElement: LimeNamedElement) = CBridgeNameRules.createPath(limeElement, rootNamespace, "include", ".h")
 
-    fun getImplFilePath(limeElement: LimeNamedElement) =
-        CBridgeNameRules.createPath(limeElement, rootNamespace, "src", ".cpp")
+    fun getImplFilePath(limeElement: LimeNamedElement) = CBridgeNameRules.createPath(limeElement, rootNamespace, "src", ".cpp")
 }

@@ -21,7 +21,13 @@ package com.here.gluecodium.model.lime
 
 interface LimeReferenceResolver {
     val referenceMap: Map<String, LimeElement>
+
     fun computeUniquePath(limePath: LimePath): LimePath
+
     fun registerElement(element: LimeNamedElement)
-    fun registerElement(key: String, element: LimeElement)
+
+    fun registerElement(
+        key: String,
+        element: LimeElement,
+    )
 }

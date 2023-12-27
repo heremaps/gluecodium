@@ -39,9 +39,8 @@ internal class DartDeclarationImportResolver(
     limeReferenceMap: Map<String, LimeElement>,
     nameResolver: DartNameResolver,
     srcPath: String,
-    private val descendantInterfaces: Map<String, List<LimeInterface>>
+    private val descendantInterfaces: Map<String, List<LimeInterface>>,
 ) : DartImportResolverBase(limeReferenceMap, nameResolver, srcPath) {
-
     private val builtInTypesConversionImport = DartImport("$srcPath/${"builtin_types"}__conversion")
     private val typeRepositoryImport = DartImport("$srcPath/_type_repository", "__lib")
     private val tokenCacheImport = DartImport("$srcPath/_token_cache", "__lib")
@@ -63,10 +62,11 @@ internal class DartDeclarationImportResolver(
             limeElement is LimeInterface -> resolveInterfaceImports(limeElement)
             limeElement is LimeClass -> resolveClassImports(limeElement)
             else -> emptyList()
-        } + listOfNotNull(
-            resolveExternalImport(limeElement, IMPORT_PATH_NAME, useAlias = true),
-            resolveExternalImport(limeElement, CONVERTER_IMPORT_NAME, useAlias = false)
-        ) + listOf(ffiSystemImport, libraryContextImport)
+        } +
+            listOfNotNull(
+                resolveExternalImport(limeElement, IMPORT_PATH_NAME, useAlias = true),
+                resolveExternalImport(limeElement, CONVERTER_IMPORT_NAME, useAlias = false),
+            ) + listOf(ffiSystemImport, libraryContextImport)
     }
 
     private fun resolveStructImports(limeStruct: LimeStruct): List<DartImport> {
@@ -100,10 +100,11 @@ internal class DartDeclarationImportResolver(
     }
 
     private fun resolveClassImports(limeClass: LimeClass): List<DartImport> {
-        val result = when {
-            limeClass.parents.isNotEmpty() || limeClass.isOpen -> classInterfaceImports
-            else -> listOf(tokenCacheImport, nativeBaseImport)
-        }.toMutableList()
+        val result =
+            when {
+                limeClass.parents.isNotEmpty() || limeClass.isOpen -> classInterfaceImports
+                else -> listOf(tokenCacheImport, nativeBaseImport)
+            }.toMutableList()
         if (hasStaticFunctions(limeClass)) {
             result += listOf(metaPackageImport)
         }

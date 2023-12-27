@@ -40,10 +40,10 @@ class NameResolverHelperTest {
 
     @Before
     fun setUp() {
-        helper.nameResolvers[""] = object : NameResolver {
-            override fun resolveName(element: Any) =
-                if (element === genericElement) "foo" else "bar"
-        }
+        helper.nameResolvers[""] =
+            object : NameResolver {
+                override fun resolveName(element: Any) = if (element === genericElement) "foo" else "bar"
+            }
         every { options.parameters } returns parameters
         every { options.tagInfo.type } returns MustacheTagType.VARIABLE
     }
@@ -81,10 +81,10 @@ class NameResolverHelperTest {
     fun executeStringParameter() {
         every { options.peek() } returns genericElement
         parameters.add("nonsense")
-        helper.nameResolvers["nonsense"] = object : NameResolver {
-            override fun resolveName(element: Any) =
-                if (element === genericElement) "baz" else "fizz"
-        }
+        helper.nameResolvers["nonsense"] =
+            object : NameResolver {
+                override fun resolveName(element: Any) = if (element === genericElement) "baz" else "fizz"
+            }
 
         helper.execute(options)
 
@@ -114,10 +114,10 @@ class NameResolverHelperTest {
     fun executeTwoParameters() {
         parameters.add(genericElement)
         parameters.add("nonsense")
-        helper.nameResolvers["nonsense"] = object : NameResolver {
-            override fun resolveName(element: Any) =
-                if (element === genericElement) "baz" else "fizz"
-        }
+        helper.nameResolvers["nonsense"] =
+            object : NameResolver {
+                override fun resolveName(element: Any) = if (element === genericElement) "baz" else "fizz"
+            }
 
         helper.execute(options)
 
@@ -139,10 +139,10 @@ class NameResolverHelperTest {
         parameters.add(genericElement)
         parameters.add("nonsense")
         parameters.add("foo")
-        helper.nameResolvers["nonsense"] = object : NameResolver {
-            override fun resolveName(element: Any) =
-                if (element === genericElement) "baz" else "fizz"
-        }
+        helper.nameResolvers["nonsense"] =
+            object : NameResolver {
+                override fun resolveName(element: Any) = if (element === genericElement) "baz" else "fizz"
+            }
 
         helper.execute(options)
 
@@ -154,11 +154,12 @@ class NameResolverHelperTest {
         parameters.add(genericElement)
         parameters.add("nonsense")
         parameters.add("getter")
-        helper.nameResolvers["nonsense"] = object : NameResolver {
-            override fun resolveName(element: Any) = throw IllegalArgumentException()
-            override fun resolveGetterName(element: Any) =
-                if (element === genericElement) "baz" else "fizz"
-        }
+        helper.nameResolvers["nonsense"] =
+            object : NameResolver {
+                override fun resolveName(element: Any) = throw IllegalArgumentException()
+
+                override fun resolveGetterName(element: Any) = if (element === genericElement) "baz" else "fizz"
+            }
 
         helper.execute(options)
 
@@ -170,11 +171,12 @@ class NameResolverHelperTest {
         parameters.add(genericElement)
         parameters.add("nonsense")
         parameters.add("setter")
-        helper.nameResolvers["nonsense"] = object : NameResolver {
-            override fun resolveName(element: Any) = throw IllegalArgumentException()
-            override fun resolveSetterName(element: Any) =
-                if (element === genericElement) "baz" else "fizz"
-        }
+        helper.nameResolvers["nonsense"] =
+            object : NameResolver {
+                override fun resolveName(element: Any) = throw IllegalArgumentException()
+
+                override fun resolveSetterName(element: Any) = if (element === genericElement) "baz" else "fizz"
+            }
 
         helper.execute(options)
 
@@ -186,10 +188,12 @@ class NameResolverHelperTest {
         parameters.add(genericElement)
         parameters.add("nonsense")
         parameters.add("getter")
-        helper.nameResolvers["nonsense"] = object : NameResolver {
-            override fun resolveName(element: Any) = throw IllegalArgumentException()
-            override fun resolveGetterName(element: Any): String? = null
-        }
+        helper.nameResolvers["nonsense"] =
+            object : NameResolver {
+                override fun resolveName(element: Any) = throw IllegalArgumentException()
+
+                override fun resolveGetterName(element: Any): String? = null
+            }
 
         helper.execute(options)
 
@@ -201,10 +205,12 @@ class NameResolverHelperTest {
         parameters.add(genericElement)
         parameters.add("nonsense")
         parameters.add("setter")
-        helper.nameResolvers["nonsense"] = object : NameResolver {
-            override fun resolveName(element: Any) = throw IllegalArgumentException()
-            override fun resolveSetterName(element: Any): String? = null
-        }
+        helper.nameResolvers["nonsense"] =
+            object : NameResolver {
+                override fun resolveName(element: Any) = throw IllegalArgumentException()
+
+                override fun resolveSetterName(element: Any): String? = null
+            }
 
         helper.execute(options)
 
@@ -216,11 +222,12 @@ class NameResolverHelperTest {
         parameters.add(genericElement)
         parameters.add("nonsense")
         parameters.add("ref")
-        helper.nameResolvers["nonsense"] = object : NameResolver {
-            override fun resolveName(element: Any) = throw IllegalArgumentException()
-            override fun resolveReferenceName(element: Any) =
-                if (element === genericElement) "baz" else "fizz"
-        }
+        helper.nameResolvers["nonsense"] =
+            object : NameResolver {
+                override fun resolveName(element: Any) = throw IllegalArgumentException()
+
+                override fun resolveReferenceName(element: Any) = if (element === genericElement) "baz" else "fizz"
+            }
 
         helper.execute(options)
 
@@ -232,10 +239,12 @@ class NameResolverHelperTest {
         parameters.add(genericElement)
         parameters.add("nonsense")
         parameters.add("ref")
-        helper.nameResolvers["nonsense"] = object : NameResolver {
-            override fun resolveName(element: Any) = throw IllegalArgumentException()
-            override fun resolveReferenceName(element: Any): String? = null
-        }
+        helper.nameResolvers["nonsense"] =
+            object : NameResolver {
+                override fun resolveName(element: Any) = throw IllegalArgumentException()
+
+                override fun resolveReferenceName(element: Any): String? = null
+            }
 
         helper.execute(options)
 

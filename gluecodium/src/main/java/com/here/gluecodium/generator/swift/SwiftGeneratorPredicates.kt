@@ -46,83 +46,89 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 internal class SwiftGeneratorPredicates(
     nameRules: SwiftNameRules,
     private val signatureResolver: SwiftSignatureResolver,
-    private val limeReferenceMap: Map<String, LimeElement>
+    private val limeReferenceMap: Map<String, LimeElement>,
 ) {
-    val predicates = mapOf(
-        "hasAnyComment" to { limeElement: Any ->
-            CommonGeneratorPredicates.hasAnyComment(limeElement, "Swift")
-        },
-        "hasCppTypeAttribute" to { limeGenericType: Any ->
-            when (limeGenericType) {
-                is LimeList -> hasCppTypeAttribute(limeGenericType.elementType)
-                is LimeSet -> hasCppTypeAttribute(limeGenericType.elementType)
-                is LimeMap ->
-                    hasCppTypeAttribute(limeGenericType.keyType) || hasCppTypeAttribute(limeGenericType.valueType)
-                else -> false
-            }
-        },
-        "hasDeprecatedEnumerators" to { limeEnumeration: Any ->
-            limeEnumeration is LimeEnumeration &&
-                limeEnumeration.enumerators.any { it.attributes.have(LimeAttributeType.DEPRECATED) }
-        },
-        "hasDurationType" to { limeGenericType: Any ->
-            when (limeGenericType) {
-                is LimeList -> hasDurationType(limeGenericType.elementType)
-                is LimeSet -> hasDurationType(limeGenericType.elementType)
-                is LimeMap -> hasDurationType(limeGenericType.keyType) || hasDurationType(limeGenericType.valueType)
-                else -> false
-            }
-        },
-        "hasInternalAvailableFields" to { limeStruct: Any ->
-            limeStruct is LimeStruct && limeStruct.availableFields.isNotEmpty() &&
-                limeStruct.availableFields.any { CommonGeneratorPredicates.isInternal(it, SWIFT) }
-        },
-        "hasInternalFields" to { limeStruct: Any ->
-            limeStruct is LimeStruct && limeStruct.fields.isNotEmpty() &&
-                limeStruct.fields.any { CommonGeneratorPredicates.isInternal(it, SWIFT) }
-        },
-        "hasTypeRepository" to { CommonGeneratorPredicates.hasTypeRepository(it) },
-        "isInternal" to { it is LimeNamedElement && CommonGeneratorPredicates.isInternal(it, SWIFT) },
-        "isNestedInternal" to { limeElement: Any ->
-            limeElement is LimeNamedElement && generateSequence(limeElement) {
-                limeReferenceMap[it.path.parent.toString()] as? LimeNamedElement
-            }.any { CommonGeneratorPredicates.isInternal(it, SWIFT) }
-        },
-        "isOverriding" to { limeFunction: Any ->
-            limeFunction is LimeFunction && limeFunction.isConstructor &&
-                signatureResolver.isOverloadingConstructor(limeFunction)
-        },
-        "isPublic" to { it is LimeNamedElement && !CommonGeneratorPredicates.isInternal(it, SWIFT) },
-        "isRefEquatable" to { limeField: Any ->
-            limeField is LimeField && isRefEquatable(limeField)
-        },
-        "needsAllFieldsConstructor" to { limeStruct: Any ->
-            when {
-                limeStruct !is LimeStruct -> false
-                limeStruct.fieldConstructors.isEmpty() -> true
-                limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) -> limeStruct.allFieldsConstructor == null
-                else -> false
-            }
-        },
-        "needsExplicitHashable" to { limeStruct: Any ->
-            limeStruct is LimeStruct && limeStruct.attributes.have(LimeAttributeType.EQUATABLE) &&
-                limeStruct.fields.any { isRefEquatable(it) }
-        },
-        "needsReducedConstructor" to fun(limeStruct: Any): Boolean {
-            if (limeStruct !is LimeStruct) return false
-            val internalFields = limeStruct.fields.filter { CommonGeneratorPredicates.isInternal(it, SWIFT) }
-            return internalFields.isNotEmpty() && internalFields.all { it.defaultValue != null }
-        },
-        "skipDeclaration" to fun(limeType: Any): Boolean {
-            if (limeType !is LimeType) return false
-            val externalDescriptor = limeType.external?.swift
-            return externalDescriptor != null && externalDescriptor[LimeExternalDescriptor.CONVERTER_NAME] == null
-        },
-        "skipTypeAlias" to { limeException: Any ->
-            limeException is LimeException &&
-                nameRules.getName(limeException) == nameRules.getName(limeException.errorType.type)
-        }
-    )
+    val predicates =
+        mapOf(
+            "hasAnyComment" to { limeElement: Any ->
+                CommonGeneratorPredicates.hasAnyComment(limeElement, "Swift")
+            },
+            "hasCppTypeAttribute" to { limeGenericType: Any ->
+                when (limeGenericType) {
+                    is LimeList -> hasCppTypeAttribute(limeGenericType.elementType)
+                    is LimeSet -> hasCppTypeAttribute(limeGenericType.elementType)
+                    is LimeMap ->
+                        hasCppTypeAttribute(limeGenericType.keyType) || hasCppTypeAttribute(limeGenericType.valueType)
+                    else -> false
+                }
+            },
+            "hasDeprecatedEnumerators" to { limeEnumeration: Any ->
+                limeEnumeration is LimeEnumeration &&
+                    limeEnumeration.enumerators.any { it.attributes.have(LimeAttributeType.DEPRECATED) }
+            },
+            "hasDurationType" to { limeGenericType: Any ->
+                when (limeGenericType) {
+                    is LimeList -> hasDurationType(limeGenericType.elementType)
+                    is LimeSet -> hasDurationType(limeGenericType.elementType)
+                    is LimeMap -> hasDurationType(limeGenericType.keyType) || hasDurationType(limeGenericType.valueType)
+                    else -> false
+                }
+            },
+            "hasInternalAvailableFields" to { limeStruct: Any ->
+                limeStruct is LimeStruct && limeStruct.availableFields.isNotEmpty() &&
+                    limeStruct.availableFields.any { CommonGeneratorPredicates.isInternal(it, SWIFT) }
+            },
+            "hasInternalFields" to { limeStruct: Any ->
+                limeStruct is LimeStruct && limeStruct.fields.isNotEmpty() &&
+                    limeStruct.fields.any { CommonGeneratorPredicates.isInternal(it, SWIFT) }
+            },
+            "hasTypeRepository" to { CommonGeneratorPredicates.hasTypeRepository(it) },
+            "isInternal" to { it is LimeNamedElement && CommonGeneratorPredicates.isInternal(it, SWIFT) },
+            "isNestedInternal" to { limeElement: Any ->
+                limeElement is LimeNamedElement &&
+                    generateSequence(limeElement) {
+                        limeReferenceMap[it.path.parent.toString()] as? LimeNamedElement
+                    }.any { CommonGeneratorPredicates.isInternal(it, SWIFT) }
+            },
+            "isOverriding" to { limeFunction: Any ->
+                limeFunction is LimeFunction && limeFunction.isConstructor &&
+                    signatureResolver.isOverloadingConstructor(limeFunction)
+            },
+            "isPublic" to { it is LimeNamedElement && !CommonGeneratorPredicates.isInternal(it, SWIFT) },
+            "isRefEquatable" to { limeField: Any ->
+                limeField is LimeField && isRefEquatable(limeField)
+            },
+            "needsAllFieldsConstructor" to { limeStruct: Any ->
+                when {
+                    limeStruct !is LimeStruct -> false
+                    limeStruct.fieldConstructors.isEmpty() -> true
+                    limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) -> limeStruct.allFieldsConstructor == null
+                    else -> false
+                }
+            },
+            "needsExplicitHashable" to { limeStruct: Any ->
+                limeStruct is LimeStruct && limeStruct.attributes.have(LimeAttributeType.EQUATABLE) &&
+                    limeStruct.fields.any { isRefEquatable(it) }
+            },
+            "needsReducedConstructor" to
+
+                fun(limeStruct: Any): Boolean {
+                    if (limeStruct !is LimeStruct) return false
+                    val internalFields = limeStruct.fields.filter { CommonGeneratorPredicates.isInternal(it, SWIFT) }
+                    return internalFields.isNotEmpty() && internalFields.all { it.defaultValue != null }
+                },
+            "skipDeclaration" to
+
+                fun(limeType: Any): Boolean {
+                    if (limeType !is LimeType) return false
+                    val externalDescriptor = limeType.external?.swift
+                    return externalDescriptor != null && externalDescriptor[LimeExternalDescriptor.CONVERTER_NAME] == null
+                },
+            "skipTypeAlias" to { limeException: Any ->
+                limeException is LimeException &&
+                    nameRules.getName(limeException) == nameRules.getName(limeException.errorType.type)
+            },
+        )
 
     private fun isRefEquatable(limeField: LimeField): Boolean {
         val limeType = limeField.typeRef.type.actualType

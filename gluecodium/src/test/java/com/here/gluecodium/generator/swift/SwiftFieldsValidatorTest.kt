@@ -36,7 +36,6 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class SwiftFieldsValidatorTest {
-
     private lateinit var validator: SwiftFieldsValidator
 
     @Before
@@ -54,34 +53,37 @@ class SwiftFieldsValidatorTest {
 
     @Test
     fun validateFieldWithDeprecatedOnly() {
-        val limeField = LimeField(
-            EMPTY_PATH,
-            typeRef = LimeBasicTypeRef.INT,
-            attributes = LimeAttributes.Builder().addAttribute(DEPRECATED).build()
-        )
+        val limeField =
+            LimeField(
+                EMPTY_PATH,
+                typeRef = LimeBasicTypeRef.INT,
+                attributes = LimeAttributes.Builder().addAttribute(DEPRECATED).build(),
+            )
 
         assertFalse(validator.validate(listOf(limeField)))
     }
 
     @Test
     fun validateFieldWithDefaultValueOnly() {
-        val limeField = LimeField(
-            EMPTY_PATH,
-            typeRef = LimeBasicTypeRef.INT,
-            defaultValue = LimeValue.ZERO
-        )
+        val limeField =
+            LimeField(
+                EMPTY_PATH,
+                typeRef = LimeBasicTypeRef.INT,
+                defaultValue = LimeValue.ZERO,
+            )
 
         assertTrue(validator.validate(listOf(limeField)))
     }
 
     @Test
     fun validateFieldWithDeprecatedAndDefaultValue() {
-        val limeField = LimeField(
-            EMPTY_PATH,
-            typeRef = LimeBasicTypeRef.INT,
-            attributes = LimeAttributes.Builder().addAttribute(DEPRECATED).build(),
-            defaultValue = LimeValue.ZERO
-        )
+        val limeField =
+            LimeField(
+                EMPTY_PATH,
+                typeRef = LimeBasicTypeRef.INT,
+                attributes = LimeAttributes.Builder().addAttribute(DEPRECATED).build(),
+                defaultValue = LimeValue.ZERO,
+            )
 
         assertTrue(validator.validate(listOf(limeField)))
     }

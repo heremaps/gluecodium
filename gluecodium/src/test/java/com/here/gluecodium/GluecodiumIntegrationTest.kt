@@ -32,17 +32,17 @@ import java.io.File
 
 @RunWith(JUnit4::class)
 class GluecodiumIntegrationTest {
-
     @Rule
     @JvmField
     val outputFolder = TemporaryFolder()
 
     private val mainFile = GeneratedFile("I'm a main file", "mainsubdir/mainfile", GeneratedFile.SourceSet.MAIN)
-    private val commonFile = GeneratedFile(
-        "I'm a common file",
-        "commonsubdir/commonfile",
-        GeneratedFile.SourceSet.COMMON
-    )
+    private val commonFile =
+        GeneratedFile(
+            "I'm a common file",
+            "commonsubdir/commonfile",
+            GeneratedFile.SourceSet.COMMON,
+        )
 
     @Test
     fun `output with common code in subdirectory writes all files`() {
@@ -51,16 +51,18 @@ class GluecodiumIntegrationTest {
         val expectedMainFile = File("$mainDir/${mainFile.targetFile}")
         val expectedCommonFile = File("$commonDir/${commonFile.targetFile}")
 
-        val gluecodiumOptions = GluecodiumOptions(
-            outputDir = mainDir,
-            commonOutputDir = commonDir,
-            isEnableCaching = true
-        )
-        val generatorOptions = GeneratorOptions(
-            cppInternalNamespace = listOf("gluecodium"),
-            javaNonNullAnnotation = Pair("NonNull", listOf("android", "support", "annotation")),
-            javaNullableAnnotation = Pair("Nullable", listOf("android", "support", "annotation"))
-        )
+        val gluecodiumOptions =
+            GluecodiumOptions(
+                outputDir = mainDir,
+                commonOutputDir = commonDir,
+                isEnableCaching = true,
+            )
+        val generatorOptions =
+            GeneratorOptions(
+                cppInternalNamespace = listOf("gluecodium"),
+                javaNonNullAnnotation = Pair("NonNull", listOf("android", "support", "annotation")),
+                javaNullableAnnotation = Pair("Nullable", listOf("android", "support", "annotation")),
+            )
         val gluecodium = Gluecodium(gluecodiumOptions, generatorOptions)
 
         gluecodium.output("cpp", listOf(mainFile, commonFile))

@@ -47,9 +47,8 @@ internal class CBridgeNameResolver(
     limeReferenceMap: Map<String, LimeElement>,
     private val swiftNameRules: SwiftNameRules,
     private val internalPrefix: String,
-    private val signatureResolver: PlatformSignatureResolver
+    private val signatureResolver: PlatformSignatureResolver,
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
-
     override fun resolveName(element: Any): String =
         when (element) {
             is LimeGenericType -> resolveGenericTypeName(element)
@@ -76,10 +75,11 @@ internal class CBridgeNameResolver(
 
     private fun resolveFunctionName(limeFunction: LimeFunction): String {
         val parentElement = getParentElement(limeFunction)
-        val functionName = when (parentElement) {
-            is LimeLambda -> "call"
-            else -> CBridgeNameRules.mangleName(swiftNameRules.getName(limeFunction))
-        }
+        val functionName =
+            when (parentElement) {
+                is LimeLambda -> "call"
+                else -> CBridgeNameRules.mangleName(swiftNameRules.getName(limeFunction))
+            }
         return (resolveNestedNames(parentElement) + functionName + getOverloadSuffix(limeFunction)).joinToString("_")
     }
 
@@ -144,11 +144,12 @@ internal class CBridgeNameResolver(
         val limeType = limeTypeRef.type
         if (limeType is LimeTypeAlias) return resolveElementTypeName(limeType.typeRef)
 
-        val prefix = when {
-            limeTypeRef.isNullable -> "nullable_"
-            limeType is LimeBasicType -> "_"
-            else -> ""
-        }
+        val prefix =
+            when {
+                limeTypeRef.isNullable -> "nullable_"
+                limeType is LimeBasicType -> "_"
+                else -> ""
+            }
         val cppType = limeTypeRef.attributes.get(LimeAttributeType.CPP, LimeAttributeValueType.TYPE, String::class.java)
         val suffix = cppType?.let { "_" + mangleSignature(it) } ?: ""
         return prefix + resolveName(limeType) + suffix

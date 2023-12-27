@@ -25,8 +25,11 @@ import com.vladsch.flexmark.formatter.Formatter
 import com.vladsch.flexmark.util.sequence.CharSubSequence
 
 internal class DartCommentsProcessor(werror: Boolean) : CommentsProcessor(Formatter.builder().build(), werror) {
-
-    override fun processLink(linkNode: LinkRef, linkReference: String, limeFullName: String) {
+    override fun processLink(
+        linkNode: LinkRef,
+        linkReference: String,
+        limeFullName: String,
+    ) {
         linkNode.reference = CharSubSequence.of(linkReference)
         linkNode.referenceOpeningMarker = CharSubSequence.of("[")
         linkNode.referenceClosingMarker = CharSubSequence.of("]")

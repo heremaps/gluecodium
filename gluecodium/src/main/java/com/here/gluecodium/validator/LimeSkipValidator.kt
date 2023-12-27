@@ -37,7 +37,6 @@ import com.here.gluecodium.model.lime.LimeStruct
  * Validate fields and enumerators against having a platform-skip attribute.
  */
 internal class LimeSkipValidator(private val logger: LimeLogger) {
-
     fun validate(limeModel: LimeModel): Boolean {
         val enumerators = limeModel.referenceMap.values.filterIsInstance<LimeEnumerator>()
         val structs = limeModel.referenceMap.values.filterIsInstance<LimeStruct>()
@@ -51,7 +50,9 @@ internal class LimeSkipValidator(private val logger: LimeLogger) {
             return@map if (limeElement.attributes.have(it, SKIP)) {
                 logger.error(limeElement, getErrorMessage(limeElement, it))
                 false
-            } else true
+            } else {
+                true
+            }
         }
 
     private fun validateFields(limeStruct: LimeStruct) =
@@ -59,12 +60,16 @@ internal class LimeSkipValidator(private val logger: LimeLogger) {
             !limeStruct.fields.filter { it.defaultValue == null }.flatMap { validateSkipAttributes(it) }.contains(false)
 
     companion object {
-        private fun getErrorMessage(limeElement: LimeNamedElement, limeAttributeType: LimeAttributeType): String {
-            val typePrefix = when (limeElement) {
-                is LimeField -> "field of an immutable struct without a default value"
-                is LimeEnumerator -> "enumerator"
-                else -> throw GluecodiumExecutionException("Unsupported element type ${limeElement.javaClass.name}")
-            }
+        private fun getErrorMessage(
+            limeElement: LimeNamedElement,
+            limeAttributeType: LimeAttributeType,
+        ): String {
+            val typePrefix =
+                when (limeElement) {
+                    is LimeField -> "field of an immutable struct without a default value"
+                    is LimeEnumerator -> "enumerator"
+                    else -> throw GluecodiumExecutionException("Unsupported element type ${limeElement.javaClass.name}")
+                }
             return "$typePrefix cannot be marked with a `@$limeAttributeType(Skip)` attribute"
         }
     }

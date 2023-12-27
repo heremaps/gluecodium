@@ -30,7 +30,6 @@ import com.here.gluecodium.model.lime.LimeType
  * Resolves strings for "empty" default values of struct fields in Java.
  */
 internal class JavaEmptyValueResolver(private val javaNameResolver: JavaNameResolver) : NameResolver {
-
     override fun resolveName(element: Any): String =
         when (element) {
             is LimeField -> resolveEmptyValue(element)

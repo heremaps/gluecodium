@@ -40,17 +40,17 @@ import com.here.gluecodium.model.lime.LimeTypeRef
  * * type of a field in an `@Immutable` struct
  */
 internal class LimeOptimizedListsValidator(private val logger: LimeLogger) {
-
     fun validate(limeModel: LimeModel): Boolean {
         val allElements = limeModel.referenceMap.values
-        val validationResults = allElements.filterIsInstance<LimeConstant>().map { validateConstant(it) } +
-            allElements.filterIsInstance<LimeTypeAlias>().map { validateTypeAlias(it) } +
-            allElements.filterIsInstance<LimeException>().map { validateException(it) } +
-            allElements.filterIsInstance<LimeContainerWithInheritance>().map { validateParent(it) } +
-            allElements.filterIsInstance<LimeLambda>().map { validateLambda(it) } +
-            allElements.filterIsInstance<LimeFunction>().map { validateFunction(it) } +
-            allElements.filterIsInstance<LimeProperty>().map { validateProperty(it) } +
-            allElements.filterIsInstance<LimeStruct>().map { validateStruct(it) }
+        val validationResults =
+            allElements.filterIsInstance<LimeConstant>().map { validateConstant(it) } +
+                allElements.filterIsInstance<LimeTypeAlias>().map { validateTypeAlias(it) } +
+                allElements.filterIsInstance<LimeException>().map { validateException(it) } +
+                allElements.filterIsInstance<LimeContainerWithInheritance>().map { validateParent(it) } +
+                allElements.filterIsInstance<LimeLambda>().map { validateLambda(it) } +
+                allElements.filterIsInstance<LimeFunction>().map { validateFunction(it) } +
+                allElements.filterIsInstance<LimeProperty>().map { validateProperty(it) } +
+                allElements.filterIsInstance<LimeStruct>().map { validateStruct(it) }
 
         return !validationResults.contains(false)
     }
@@ -143,7 +143,6 @@ internal class LimeOptimizedListsValidator(private val logger: LimeLogger) {
     companion object {
         private const val LIST_TYPE_MESSAGE = "`@Optimized` attribute can only be used with `List<>` type"
 
-        private fun isOptimized(limeTypeRef: LimeTypeRef?) =
-            limeTypeRef?.attributes?.have(LimeAttributeType.OPTIMIZED) ?: false
+        private fun isOptimized(limeTypeRef: LimeTypeRef?) = limeTypeRef?.attributes?.have(LimeAttributeType.OPTIMIZED) ?: false
     }
 }

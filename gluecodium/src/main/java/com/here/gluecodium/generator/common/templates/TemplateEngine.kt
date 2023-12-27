@@ -39,39 +39,40 @@ object TemplateEngine {
     private val sortHelper = SortHelper()
 
     init {
-        engine = MustacheEngineBuilder.newBuilder()
-            .addTemplateLocator(ClassPathTemplateLocator(1, "templates", "mustache"))
-            .setProperty("org.trimou.engine.config.skipValueEscaping", true)
-            .setKeySplitter(BracketDotKeySplitter())
-            .registerHelper("prefix", PrefixHelper())
-            .registerHelper("prefixPartial", PrefixPartialHelper())
-            .registerHelper("joinPartial", JoinPartialHelper())
-            .registerHelper("instanceOf", InstanceOfHelper(true))
-            .registerHelper("notInstanceOf", InstanceOfHelper(false))
-            .registerHelper("capitalize", CapitalizeHelper())
-            .registerHelper("escape", EscapeHelper())
-            .registerHelper("switch", NiceSwitchHelper())
-            .registerHelper("case", SwitchHelper.CaseHelper(true))
-            .registerHelper("default", SwitchHelper.DefaultHelper())
-            .registerHelper("setJoin", SetJoinHelper())
-            .registerHelper("resolveName", nameResolverHelper)
-            .registerHelper("ifPredicate", ifPredicateHelper)
-            .registerHelper("unlessPredicate", unlessPredicateHelper)
-            .registerHelper("sort", sortHelper)
-            .registerHelper("filter", FilterHelper(ifPredicateHelper.predicates))
-            .registerHelpers(
-                HelpersBuilder.empty()
-                    .addEval(EvalHelper.BracketDotNotation())
-                    .addIsEqual()
-                    .addIsNotEqual()
-                    .addInclude()
-                    .addJoin()
-                    .addNumExpr()
-                    .addSet()
-                    .build()
-            )
-            .addResolver(copyrightHeaderResolver)
-            .build()
+        engine =
+            MustacheEngineBuilder.newBuilder()
+                .addTemplateLocator(ClassPathTemplateLocator(1, "templates", "mustache"))
+                .setProperty("org.trimou.engine.config.skipValueEscaping", true)
+                .setKeySplitter(BracketDotKeySplitter())
+                .registerHelper("prefix", PrefixHelper())
+                .registerHelper("prefixPartial", PrefixPartialHelper())
+                .registerHelper("joinPartial", JoinPartialHelper())
+                .registerHelper("instanceOf", InstanceOfHelper(true))
+                .registerHelper("notInstanceOf", InstanceOfHelper(false))
+                .registerHelper("capitalize", CapitalizeHelper())
+                .registerHelper("escape", EscapeHelper())
+                .registerHelper("switch", NiceSwitchHelper())
+                .registerHelper("case", SwitchHelper.CaseHelper(true))
+                .registerHelper("default", SwitchHelper.DefaultHelper())
+                .registerHelper("setJoin", SetJoinHelper())
+                .registerHelper("resolveName", nameResolverHelper)
+                .registerHelper("ifPredicate", ifPredicateHelper)
+                .registerHelper("unlessPredicate", unlessPredicateHelper)
+                .registerHelper("sort", sortHelper)
+                .registerHelper("filter", FilterHelper(ifPredicateHelper.predicates))
+                .registerHelpers(
+                    HelpersBuilder.empty()
+                        .addEval(EvalHelper.BracketDotNotation())
+                        .addIsEqual()
+                        .addIsNotEqual()
+                        .addInclude()
+                        .addJoin()
+                        .addNumExpr()
+                        .addSet()
+                        .build(),
+                )
+                .addResolver(copyrightHeaderResolver)
+                .build()
     }
 
     fun initCopyrightHeaderContents(contents: String?) {
@@ -85,8 +86,8 @@ object TemplateEngine {
         templateName: String,
         data: Any,
         nameResolvers: Map<String, NameResolver> = emptyMap(),
-        predicates: Map<String, (Any)-> Boolean> = emptyMap(),
-        sorters: Map<String, (List<Any>)-> List<Any>> = emptyMap()
+        predicates: Map<String, (Any) -> Boolean> = emptyMap(),
+        sorters: Map<String, (List<Any>) -> List<Any>> = emptyMap(),
     ): String {
         nameResolverHelper.nameResolvers += nameResolvers
         ifPredicateHelper.predicates += predicates

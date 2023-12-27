@@ -34,7 +34,7 @@ import com.here.gluecodium.model.lime.LimeStruct
 internal class DartOverloadsValidator(
     private val nameResolver: DartNameResolver,
     private val logger: LimeLogger,
-    private val werror: Boolean
+    private val werror: Boolean,
 ) {
     private val logFunction: LimeLogger.(LimeNamedElement, String) -> Unit =
         if (werror) LimeLogger::error else LimeLogger::warning
@@ -46,19 +46,21 @@ internal class DartOverloadsValidator(
     }
 
     private fun validateContainer(limeContainer: LimeContainer): Boolean {
-        val allFunctions = limeContainer.functions +
-            ((limeContainer as? LimeContainerWithInheritance)?.inheritedFunctions ?: emptyList())
+        val allFunctions =
+            limeContainer.functions +
+                ((limeContainer as? LimeContainerWithInheritance)?.inheritedFunctions ?: emptyList())
         val constructors = allFunctions.filter { it.isConstructor }
 
-        val overloadedFunctions = (allFunctions - constructors.toSet())
-            .groupBy { nameResolver.resolveName(it) }
-            .filter { it.value.size > 1 }
+        val overloadedFunctions =
+            (allFunctions - constructors.toSet())
+                .groupBy { nameResolver.resolveName(it) }
+                .filter { it.value.size > 1 }
         overloadedFunctions.forEach { entry ->
             val pathsString = entry.value.map { it.path.toString() }.sorted().joinToString()
             logger.logFunction(
                 entry.value.first(),
                 "there is more than one function with '${entry.key}' name: $pathsString. " +
-                    "Dart language does not support function overloading."
+                    "Dart language does not support function overloading.",
             )
         }
 
@@ -67,11 +69,12 @@ internal class DartOverloadsValidator(
             (constructors + fieldConstructors).groupBy { getConstructorName(it) }.filter { it.value.size > 1 }
         overloadedConstructors.forEach { entry ->
             val pathsString = entry.value.map { it.path.toString() }.sorted().joinToString()
-            val warningText = if (entry.key.isEmpty()) {
-                "there is more than one default constructor: $pathsString. "
-            } else {
-                "there is more than one constructor with '${entry.key}' name: $pathsString. "
-            } + "Dart language does not support constructor overloading."
+            val warningText =
+                if (entry.key.isEmpty()) {
+                    "there is more than one default constructor: $pathsString. "
+                } else {
+                    "there is more than one constructor with '${entry.key}' name: $pathsString. "
+                } + "Dart language does not support constructor overloading."
             logger.logFunction(entry.value.first(), warningText)
         }
 

@@ -60,9 +60,8 @@ internal class SwiftNameResolver(
     private val nameRules: SwiftNameRules,
     private val limeLogger: LimeLogger,
     private val commentsProcessor: CommentsProcessor,
-    private val signatureResolver: SwiftSignatureResolver
+    private val signatureResolver: SwiftSignatureResolver,
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
-
     private val limeToSwiftNames = buildPathMap()
 
     override fun resolveName(element: Any): String =
@@ -164,15 +163,16 @@ internal class SwiftNameResolver(
     }
 
     private fun resolveDurationValue(limeValue: LimeValue.Duration): String {
-        val multiplier = when (limeValue.timeUnit) {
-            TimeUnit.DAY -> 3600 * 24
-            TimeUnit.HOUR -> 3600
-            TimeUnit.MINUTE -> 60
-            TimeUnit.SECOND -> null
-            TimeUnit.MILLISECOND -> 1e-3
-            TimeUnit.MICROSECOND -> 1e-6
-            TimeUnit.NANOSECOND -> 1e-9
-        }
+        val multiplier =
+            when (limeValue.timeUnit) {
+                TimeUnit.DAY -> 3600 * 24
+                TimeUnit.HOUR -> 3600
+                TimeUnit.MINUTE -> 60
+                TimeUnit.SECOND -> null
+                TimeUnit.MILLISECOND -> 1e-3
+                TimeUnit.MICROSECOND -> 1e-6
+                TimeUnit.NANOSECOND -> 1e-9
+            }
         val multiplierSuffix = multiplier?.let { " * $it" } ?: ""
         return limeValue.value + multiplierSuffix
     }
@@ -212,8 +212,9 @@ internal class SwiftNameResolver(
     private fun resolveFullName(limeElement: LimeNamedElement) = getNestedNames(limeElement).joinToString(".")
 
     private fun getNestedNames(limeElement: LimeNamedElement): List<String> {
-        val parentElement = limeReferenceMap.takeIf { limeElement.path.hasParent }
-            ?.get(limeElement.path.parent.toString()) as? LimeNamedElement
+        val parentElement =
+            limeReferenceMap.takeIf { limeElement.path.hasParent }
+                ?.get(limeElement.path.parent.toString()) as? LimeNamedElement
 
         val name = if (limeElement is LimeFunction && limeElement.isConstructor) "init" else resolveName(limeElement)
         return when {
@@ -232,19 +233,21 @@ internal class SwiftNameResolver(
     }
 
     private fun buildPathMap(): Map<String, String> {
-        val result = limeReferenceMap.values
-            .filterIsInstance<LimeNamedElement>()
-            .filterNot { it is LimeParameter }
-            .associateBy({ it.path.toAmbiguousString() }, { resolveFullName(it) })
-            .toMutableMap()
+        val result =
+            limeReferenceMap.values
+                .filterIsInstance<LimeNamedElement>()
+                .filterNot { it is LimeParameter }
+                .associateBy({ it.path.toAmbiguousString() }, { resolveFullName(it) })
+                .toMutableMap()
 
         limeReferenceMap.values.filterIsInstance<LimeFunction>().forEach { function ->
             val ambiguousKey = function.path.toAmbiguousString()
             val functionCommentRef = resolveCommentRef(function, signatureResolver)
             result[ambiguousKey] = functionCommentRef
 
-            val unambiguousKey = ambiguousKey +
-                function.parameters.joinToString(prefix = "(", postfix = ")", separator = ",") { it.typeRef.toString() }
+            val unambiguousKey =
+                ambiguousKey +
+                    function.parameters.joinToString(prefix = "(", postfix = ")", separator = ",") { it.typeRef.toString() }
             result[unambiguousKey] = functionCommentRef
 
             result += function.parameters.associateBy({ it.fullName }, { "$functionCommentRef.${resolveName(it)}" })
@@ -252,18 +255,23 @@ internal class SwiftNameResolver(
 
         val properties = limeReferenceMap.values.filterIsInstance<LimeProperty>()
         result += properties.associateBy({ it.path.toAmbiguousString() + ".get" }, { resolveFullName(it) })
-        result += properties.filter { it.setter != null }
-            .associateBy({ it.path.toAmbiguousString() + ".set" }, { resolveFullName(it) })
+        result +=
+            properties.filter { it.setter != null }
+                .associateBy({ it.path.toAmbiguousString() + ".set" }, { resolveFullName(it) })
 
         return result
     }
 
-    private fun resolveCommentRef(limeFunction: LimeFunction, signatureResolver: SwiftSignatureResolver): String {
+    private fun resolveCommentRef(
+        limeFunction: LimeFunction,
+        signatureResolver: SwiftSignatureResolver,
+    ): String {
         val fullName = resolveFullName(limeFunction)
-        return fullName + when {
-            signatureResolver.isOverloaded(limeFunction) ->
-                limeFunction.parameters.joinToString(prefix = "(", postfix = ")") { resolveTypeRefName(it.typeRef) }
-            else -> "(...)"
-        }
+        return fullName +
+            when {
+                signatureResolver.isOverloaded(limeFunction) ->
+                    limeFunction.parameters.joinToString(prefix = "(", postfix = ")") { resolveTypeRefName(it.typeRef) }
+                else -> "(...)"
+            }
     }
 }

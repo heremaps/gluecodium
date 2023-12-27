@@ -158,13 +158,18 @@ open class GluecodiumTask : SourceTask() {
         logProperty("cppNamespace", cppNamespace)
         logProperty("cppInternalNamespace", cppInternalNamespace)
         logProperty(
-            "cppExportMacroName", cppExportMacroName,
-            DEFAULT_VALUE_STRING + " " + GeneratorOptions.DEFAULT_CPP_EXPORT_MACRO_NAME
+            "cppExportMacroName",
+            cppExportMacroName,
+            DEFAULT_VALUE_STRING + " " + GeneratorOptions.DEFAULT_CPP_EXPORT_MACRO_NAME,
         )
         logProperty("cppNameRules", cppNameRules, DEFAULT_VALUE_STRING)
     }
 
-    private fun logProperty(optionName: String, property: Property<*>, defaultValue: String = "") {
+    private fun logProperty(
+        optionName: String,
+        property: Property<*>,
+        defaultValue: String = "",
+    ) {
         logger.debug(GLUECODIUM_OPTIONS_FORMAT, optionName, property.orNull ?: defaultValue)
     }
 

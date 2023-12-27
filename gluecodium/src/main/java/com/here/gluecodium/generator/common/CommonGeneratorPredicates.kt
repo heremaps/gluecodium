@@ -40,26 +40,31 @@ import com.here.gluecodium.model.lime.LimeTypeAlias
  * Predicates used by `ifPredicate`/`unlessPredicate` template helpers in several generators.
  */
 internal object CommonGeneratorPredicates {
-    fun hasAnyComment(limeElement: Any, platformTag: String) =
-        when (limeElement) {
-            is LimeFunction -> limeElement.run {
+    fun hasAnyComment(
+        limeElement: Any,
+        platformTag: String,
+    ) = when (limeElement) {
+        is LimeFunction ->
+            limeElement.run {
                 comment.getFor(platformTag).isNotBlank() || comment.isExcluded ||
                     returnType.comment.getFor(platformTag).isNotBlank() ||
                     (thrownType?.comment?.getFor(platformTag)?.isEmpty() == false) ||
                     attributes.have(LimeAttributeType.DEPRECATED) ||
                     parameters.any { it.comment.getFor(platformTag).isNotBlank() }
             }
-            is LimeFieldConstructor -> limeElement.run {
+        is LimeFieldConstructor ->
+            limeElement.run {
                 comment.getFor(platformTag).isNotBlank() || comment.isExcluded ||
                     attributes.have(LimeAttributeType.DEPRECATED) ||
                     struct.constructorComment.getFor(platformTag).isNotBlank()
             }
-            is LimeNamedElement -> limeElement.run {
+        is LimeNamedElement ->
+            limeElement.run {
                 comment.getFor(platformTag).isNotBlank() || comment.isExcluded ||
                     attributes.have(LimeAttributeType.DEPRECATED)
             }
-            else -> false
-        }
+        else -> false
+    }
 
     fun hasImmutableFields(limeStruct: Any) =
         when {
@@ -90,7 +95,7 @@ internal object CommonGeneratorPredicates {
     fun needsImportsForSkippedField(
         limeElement: LimeNamedElement,
         platformAttribute: LimeAttributeType,
-        referenceMap: Map<String, LimeElement>
+        referenceMap: Map<String, LimeElement>,
     ): Boolean {
         if (limeElement !is LimeField) return false
         if (!limeElement.attributes.have(platformAttribute, LimeAttributeValueType.SKIP)) return false
@@ -99,16 +104,21 @@ internal object CommonGeneratorPredicates {
         return hasImmutableFields(limeStruct)
     }
 
-    fun isInternal(limeElement: LimeNamedElement, platformAttribute: LimeAttributeType) =
-        when {
-            limeElement.attributes.have(platformAttribute, LimeAttributeValueType.PUBLIC) -> false
-            limeElement.attributes.have(platformAttribute, LimeAttributeValueType.INTERNAL) -> true
-            else -> limeElement.attributes.have(LimeAttributeType.INTERNAL)
-        }
+    fun isInternal(
+        limeElement: LimeNamedElement,
+        platformAttribute: LimeAttributeType,
+    ) = when {
+        limeElement.attributes.have(platformAttribute, LimeAttributeValueType.PUBLIC) -> false
+        limeElement.attributes.have(platformAttribute, LimeAttributeValueType.INTERNAL) -> true
+        else -> limeElement.attributes.have(LimeAttributeType.INTERNAL)
+    }
 
     private fun getAllFieldTypes(limeType: LimeType) = getAllFieldTypesRec(getLeafType(limeType), mutableSetOf())
 
-    private fun getAllFieldTypesRec(leafType: LimeType, visitedTypes: MutableSet<LimeType>): List<LimeType> {
+    private fun getAllFieldTypesRec(
+        leafType: LimeType,
+        visitedTypes: MutableSet<LimeType>,
+    ): List<LimeType> {
         if (leafType !is LimeStruct) return listOf(leafType)
 
         visitedTypes += leafType

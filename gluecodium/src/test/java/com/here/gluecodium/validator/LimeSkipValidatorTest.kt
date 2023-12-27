@@ -44,7 +44,6 @@ import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
 class LimeSkipValidatorTest(private val platformAttribute: LimeAttributeType?) {
-
     private val allElements = mutableMapOf<String, LimeElement>()
     private val limeModel = LimeModel(allElements, emptyList())
 
@@ -65,11 +64,12 @@ class LimeSkipValidatorTest(private val platformAttribute: LimeAttributeType?) {
         val attributesBuilder = LimeAttributes.Builder()
         if (platformAttribute != null) attributesBuilder.addAttribute(platformAttribute, SKIP)
         val limeField = LimeField(EMPTY_PATH, typeRef = LimeBasicTypeRef.INT, attributes = attributesBuilder.build())
-        allElements[""] = LimeStruct(
-            EMPTY_PATH,
-            fields = listOf(limeField),
-            attributes = LimeAttributes.Builder().addAttribute(IMMUTABLE).build()
-        )
+        allElements[""] =
+            LimeStruct(
+                EMPTY_PATH,
+                fields = listOf(limeField),
+                attributes = LimeAttributes.Builder().addAttribute(IMMUTABLE).build(),
+            )
 
         val expectedResult = platformAttribute == null
         assertEquals(expectedResult, validator.validate(limeModel))
@@ -77,10 +77,11 @@ class LimeSkipValidatorTest(private val platformAttribute: LimeAttributeType?) {
 
     @Test
     fun validateStructWithImmutableFields() {
-        val immutableStruct = LimeStruct(
-            EMPTY_PATH,
-            attributes = LimeAttributes.Builder().addAttribute(IMMUTABLE).build()
-        )
+        val immutableStruct =
+            LimeStruct(
+                EMPTY_PATH,
+                attributes = LimeAttributes.Builder().addAttribute(IMMUTABLE).build(),
+            )
         val attributesBuilder = LimeAttributes.Builder()
         if (platformAttribute != null) attributesBuilder.addAttribute(platformAttribute, SKIP)
         val limeField =
@@ -95,35 +96,39 @@ class LimeSkipValidatorTest(private val platformAttribute: LimeAttributeType?) {
     fun validateImmutableStructWithDefaultValue() {
         val attributesBuilder = LimeAttributes.Builder()
         if (platformAttribute != null) attributesBuilder.addAttribute(platformAttribute, SKIP)
-        val limeField = LimeField(
-            EMPTY_PATH,
-            typeRef = LimeBasicTypeRef.INT,
-            attributes = attributesBuilder.build(),
-            defaultValue = LimeValue.ZERO
-        )
-        allElements[""] = LimeStruct(
-            EMPTY_PATH,
-            fields = listOf(limeField),
-            attributes = LimeAttributes.Builder().addAttribute(IMMUTABLE).build()
-        )
+        val limeField =
+            LimeField(
+                EMPTY_PATH,
+                typeRef = LimeBasicTypeRef.INT,
+                attributes = attributesBuilder.build(),
+                defaultValue = LimeValue.ZERO,
+            )
+        allElements[""] =
+            LimeStruct(
+                EMPTY_PATH,
+                fields = listOf(limeField),
+                attributes = LimeAttributes.Builder().addAttribute(IMMUTABLE).build(),
+            )
 
         assertTrue(validator.validate(limeModel))
     }
 
     @Test
     fun validateStructWithImmutableFieldsWithDefaultValue() {
-        val immutableStruct = LimeStruct(
-            EMPTY_PATH,
-            attributes = LimeAttributes.Builder().addAttribute(IMMUTABLE).build()
-        )
+        val immutableStruct =
+            LimeStruct(
+                EMPTY_PATH,
+                attributes = LimeAttributes.Builder().addAttribute(IMMUTABLE).build(),
+            )
         val attributesBuilder = LimeAttributes.Builder()
         if (platformAttribute != null) attributesBuilder.addAttribute(platformAttribute, SKIP)
-        val limeField = LimeField(
-            EMPTY_PATH,
-            typeRef = LimeDirectTypeRef(immutableStruct),
-            attributes = attributesBuilder.build(),
-            defaultValue = LimeValue.ZERO
-        )
+        val limeField =
+            LimeField(
+                EMPTY_PATH,
+                typeRef = LimeDirectTypeRef(immutableStruct),
+                attributes = attributesBuilder.build(),
+                defaultValue = LimeValue.ZERO,
+            )
         allElements[""] = LimeStruct(EMPTY_PATH, fields = listOf(limeField))
 
         assertTrue(validator.validate(limeModel))

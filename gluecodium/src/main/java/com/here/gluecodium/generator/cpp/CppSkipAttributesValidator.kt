@@ -31,7 +31,6 @@ import com.here.gluecodium.model.lime.LimeNamedElement
  * Validate that `@Cpp(Skip)` attribute is only used on field constructors of structs.
  */
 internal class CppSkipAttributesValidator(private val logger: LimeLogger) {
-
     fun validate(limeModel: LimeModel): Boolean {
         val allElements = limeModel.referenceMap.values
         val validationResults = allElements.filterIsInstance<LimeNamedElement>().map { validateElement(it) }
@@ -45,7 +44,7 @@ internal class CppSkipAttributesValidator(private val logger: LimeLogger) {
             limeElement.attributes.have(LimeAttributeType.CPP, LimeAttributeValueType.SKIP) -> {
                 logger.error(
                     limeElement,
-                    "`@Cpp(Skip)` attribute can only be used on a field constructor or a constant"
+                    "`@Cpp(Skip)` attribute can only be used on a field constructor or a constant",
                 )
                 false
             }

@@ -32,7 +32,6 @@ import com.here.gluecodium.model.lime.LimeStruct
  * * or if it has any `internal` fields which don't have default values set.
  */
 internal class LimeStructsValidator(private val logger: LimeLogger, private val strictMode: Boolean) {
-
     fun validate(limeModel: LimeModel): Boolean {
         val allStructs = limeModel.referenceMap.values.filterIsInstance<LimeStruct>()
         val constrValidationResults = allStructs.map { validateConstructability(it) }
@@ -51,7 +50,7 @@ internal class LimeStructsValidator(private val logger: LimeLogger, private val 
             instanceFunctions.isNotEmpty() && limeStruct.fields.isEmpty() -> {
                 logger.error(
                     limeStruct,
-                    "instance functions are not supported for structs without fields"
+                    "instance functions are not supported for structs without fields",
                 )
                 false
             }
@@ -73,7 +72,7 @@ internal class LimeStructsValidator(private val logger: LimeLogger, private val 
             logger.error(
                 limeStruct,
                 "if any internal field does not have a default value, " +
-                    "the struct should have at least one explicit constructor"
+                    "the struct should have at least one explicit constructor",
             )
             result = false
         }

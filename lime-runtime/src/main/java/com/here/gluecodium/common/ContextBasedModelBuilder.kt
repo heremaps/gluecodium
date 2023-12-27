@@ -47,8 +47,7 @@ abstract class ContextBasedModelBuilder<E>(private val contextStack: ModelBuilde
      * @param clazz Class object representing the type of the result to get
      * @return A list of items
      */
-    protected fun <T : E> getPreviousResults(clazz: Class<T>) =
-        previousResults.filterIsInstance(clazz)
+    protected fun <T : E> getPreviousResults(clazz: Class<T>) = previousResults.filterIsInstance(clazz)
 
     protected fun openContext() = contextStack.openContext()
 
@@ -58,6 +57,5 @@ abstract class ContextBasedModelBuilder<E>(private val contextStack: ModelBuilde
         contextStack.closeContext()
     }
 
-    protected fun storeResult(element: E) =
-        contextStack.currentContext.currentResults.add(element)
+    protected fun storeResult(element: E) = contextStack.currentContext.currentResults.add(element)
 }

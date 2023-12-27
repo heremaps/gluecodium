@@ -37,9 +37,8 @@ import com.here.gluecodium.model.lime.LimeTypedElement
 
 internal class JniIncludeResolver(
     private val fileNameRules: JniFileNameRules,
-    private val descendantInterfaces: Map<String, List<LimeInterface>>
+    private val descendantInterfaces: Map<String, List<LimeInterface>>,
 ) : ImportsResolver<Include> {
-
     override fun resolveElementImports(limeElement: LimeElement): List<Include> =
         when (limeElement) {
             is LimeTypeRef -> resolveElementImports(limeElement.type.actualType)

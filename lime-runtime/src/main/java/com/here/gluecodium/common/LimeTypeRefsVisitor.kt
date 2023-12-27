@@ -39,8 +39,9 @@ abstract class LimeTypeRefsVisitor<T> {
     protected fun traverseModel(allElements: Collection<LimeElement>): List<T> {
         val allLambdasAsFunctions = allElements.filterIsInstance<LimeLambda>().map { it.asFunction() }
         val allFunctions = allElements.filterIsInstance<LimeFunction>() + allLambdasAsFunctions
-        val allTypedElements = allElements.filterIsInstance<LimeTypedElement>() +
-            allLambdasAsFunctions.flatMap { it.parameters }
+        val allTypedElements =
+            allElements.filterIsInstance<LimeTypedElement>() +
+                allLambdasAsFunctions.flatMap { it.parameters }
         val allContainers = allElements.filterIsInstance<LimeContainerWithInheritance>()
 
         return allTypedElements.map { visitTypeRef(it, it.typeRef) } +
@@ -54,11 +55,15 @@ abstract class LimeTypeRefsVisitor<T> {
 
     protected fun traverseTypes(allTypes: Collection<LimeType>): List<T> {
         val allFunctions = allTypes.filterIsInstance<LimeContainer>().flatMap { it.functions }
-        val allElements = allTypes + allFunctions + allFunctions.flatMap { it.parameters } +
-            allTypes.filterIsInstance<LimeContainer>().flatMap { it.properties + it.constants } +
-            allTypes.filterIsInstance<LimeStruct>().flatMap { it.fields }
+        val allElements =
+            allTypes + allFunctions + allFunctions.flatMap { it.parameters } +
+                allTypes.filterIsInstance<LimeContainer>().flatMap { it.properties + it.constants } +
+                allTypes.filterIsInstance<LimeStruct>().flatMap { it.fields }
         return traverseModel(allElements)
     }
 
-    abstract fun visitTypeRef(parentElement: LimeNamedElement, limeTypeRef: LimeTypeRef?): T
+    abstract fun visitTypeRef(
+        parentElement: LimeNamedElement,
+        limeTypeRef: LimeTypeRef?,
+    ): T
 }

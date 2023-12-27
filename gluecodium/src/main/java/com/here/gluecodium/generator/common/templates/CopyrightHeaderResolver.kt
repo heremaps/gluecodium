@@ -31,11 +31,14 @@ import org.trimou.engine.resolver.Resolver
 internal class CopyrightHeaderResolver : AbstractResolver(Resolver.DEFAULT_PRIORITY) {
     var copyrightHeaderContent: String? = null
 
-    override fun resolve(contextObject: Any?, name: String, context: ResolutionContext) =
-        when (TAG_COPYRIGHT_HEADER) {
-            name -> copyrightHeaderContent
-            else -> null
-        }
+    override fun resolve(
+        contextObject: Any?,
+        name: String,
+        context: ResolutionContext,
+    ) = when (TAG_COPYRIGHT_HEADER) {
+        name -> copyrightHeaderContent
+        else -> null
+    }
 
     companion object {
         const val TAG_COPYRIGHT_HEADER = "copyrightHeader"

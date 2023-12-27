@@ -42,15 +42,15 @@ import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
 class DartOverloadsValidatorTest(factory: (List<LimeFunction>) -> LimeContainer, private val hasConstructors: Boolean) {
-
     private val fooFunction = LimeFunction(LimePath.EMPTY_PATH)
     private val barFunction = LimeFunction(LimePath.EMPTY_PATH)
     private val fooConstructor = LimeFunction(LimePath.EMPTY_PATH, isConstructor = true)
     private val barConstructor = LimeFunction(LimePath.EMPTY_PATH, isConstructor = true)
     private val functions = mutableListOf<LimeFunction>()
-    private val dartDefaultAttributes = LimeAttributes.Builder()
-        .addAttribute(LimeAttributeType.DART, LimeAttributeValueType.DEFAULT)
-        .build()
+    private val dartDefaultAttributes =
+        LimeAttributes.Builder()
+            .addAttribute(LimeAttributeType.DART, LimeAttributeValueType.DEFAULT)
+            .build()
 
     private val allElements = listOf(factory(functions))
 
@@ -112,11 +112,12 @@ class DartOverloadsValidatorTest(factory: (List<LimeFunction>) -> LimeContainer,
     fun validateDefaultConstructorsNoOverloads() {
         assumeTrue(hasConstructors)
 
-        val fooDefaultConstructor = LimeFunction(
-            LimePath.EMPTY_PATH,
-            isConstructor = true,
-            attributes = dartDefaultAttributes
-        )
+        val fooDefaultConstructor =
+            LimeFunction(
+                LimePath.EMPTY_PATH,
+                isConstructor = true,
+                attributes = dartDefaultAttributes,
+            )
         every { nameResolver.resolveName(fooDefaultConstructor) } returns "foo"
         every { nameResolver.resolveName(barConstructor) } returns "foo"
         functions += fooDefaultConstructor
@@ -129,16 +130,18 @@ class DartOverloadsValidatorTest(factory: (List<LimeFunction>) -> LimeContainer,
     fun validateDefaultConstructorsWithOverloads() {
         assumeTrue(hasConstructors)
 
-        val fooDefaultConstructor = LimeFunction(
-            LimePath.EMPTY_PATH,
-            isConstructor = true,
-            attributes = dartDefaultAttributes
-        )
-        val barDefaultConstructor = LimeFunction(
-            LimePath.EMPTY_PATH,
-            isConstructor = true,
-            attributes = dartDefaultAttributes
-        )
+        val fooDefaultConstructor =
+            LimeFunction(
+                LimePath.EMPTY_PATH,
+                isConstructor = true,
+                attributes = dartDefaultAttributes,
+            )
+        val barDefaultConstructor =
+            LimeFunction(
+                LimePath.EMPTY_PATH,
+                isConstructor = true,
+                attributes = dartDefaultAttributes,
+            )
         every { nameResolver.resolveName(fooDefaultConstructor) } returns "foo"
         every { nameResolver.resolveName(barDefaultConstructor) } returns "bar"
         functions += fooDefaultConstructor
@@ -150,10 +153,11 @@ class DartOverloadsValidatorTest(factory: (List<LimeFunction>) -> LimeContainer,
     companion object {
         @JvmStatic
         @Parameterized.Parameters(name = "{0}")
-        fun testData(): Collection<Array<Any>> = listOf(
-            arrayOf({ functions: List<LimeFunction> -> LimeClass(LimePath.EMPTY_PATH, functions = functions) }, true),
-            arrayOf({ functions: List<LimeFunction> -> LimeInterface(LimePath.EMPTY_PATH, functions = functions) }, false),
-            arrayOf({ functions: List<LimeFunction> -> LimeStruct(LimePath.EMPTY_PATH, functions = functions) }, true)
-        )
+        fun testData(): Collection<Array<Any>> =
+            listOf(
+                arrayOf({ functions: List<LimeFunction> -> LimeClass(LimePath.EMPTY_PATH, functions = functions) }, true),
+                arrayOf({ functions: List<LimeFunction> -> LimeInterface(LimePath.EMPTY_PATH, functions = functions) }, false),
+                arrayOf({ functions: List<LimeFunction> -> LimeStruct(LimePath.EMPTY_PATH, functions = functions) }, true),
+            )
     }
 }

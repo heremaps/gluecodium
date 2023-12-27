@@ -30,7 +30,6 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypedElement
 
 internal class TopologicalSort(private val elements: List<LimeNamedElement>) {
-
     private val fullNames = elements.map { it.fullName }.toSet()
 
     /**
@@ -39,18 +38,20 @@ internal class TopologicalSort(private val elements: List<LimeNamedElement>) {
      * to structs so the most-basic structs are defined first to avoid compilation errors on C++.
      */
     fun sort(): List<LimeNamedElement> {
-        val dependencies = elements.associateBy(
-            { it.fullName },
-            { getElementDependencies(it).toMutableSet() }
-        )
+        val dependencies =
+            elements.associateBy(
+                { it.fullName },
+                { getElementDependencies(it).toMutableSet() },
+            )
 
         val sortedElements = mutableListOf<LimeNamedElement>()
         while (sortedElements.size < elements.size) {
             // Find the first element with no dependency needed which is not in the sorted elements.
-            val nextElement = elements.firstOrNull {
-                val dependencySet = dependencies[it.fullName]
-                dependencySet != null && dependencySet.isEmpty() && !sortedElements.contains(it)
-            } ?: throw GluecodiumExecutionException("Cycle detected in C++ elements dependencies.")
+            val nextElement =
+                elements.firstOrNull {
+                    val dependencySet = dependencies[it.fullName]
+                    dependencySet != null && dependencySet.isEmpty() && !sortedElements.contains(it)
+                } ?: throw GluecodiumExecutionException("Cycle detected in C++ elements dependencies.")
 
             sortedElements.add(nextElement)
 
@@ -72,16 +73,19 @@ internal class TopologicalSort(private val elements: List<LimeNamedElement>) {
     private fun getElementDependencies(limeElement: LimeNamedElement): Set<String> =
         when (limeElement) {
             is LimeTypedElement -> getTypeRefDependencies(limeElement.typeRef)
-            is LimeStruct -> (limeElement.fields + limeElement.functions + limeElement.constants)
-                .flatMap { getElementDependencies(it) }
+            is LimeStruct ->
+                (limeElement.fields + limeElement.functions + limeElement.constants)
+                    .flatMap { getElementDependencies(it) }
             is LimeTypeAlias -> getTypeRefDependencies(limeElement.typeRef)
-            is LimeFunction -> (
-                limeElement.parameters.map { it.typeRef } +
-                    listOfNotNull(limeElement.returnType.typeRef, limeElement.exception?.errorType)
+            is LimeFunction ->
+                (
+                    limeElement.parameters.map { it.typeRef } +
+                        listOfNotNull(limeElement.returnType.typeRef, limeElement.exception?.errorType)
                 )
-                .flatMap { getTypeRefDependencies(it) }
-            is LimeLambda -> (limeElement.parameters.map { it.typeRef } + limeElement.returnType.typeRef)
-                .flatMap { getTypeRefDependencies(it) }
+                    .flatMap { getTypeRefDependencies(it) }
+            is LimeLambda ->
+                (limeElement.parameters.map { it.typeRef } + limeElement.returnType.typeRef)
+                    .flatMap { getTypeRefDependencies(it) }
             else -> emptyList()
         }.toSet() - limeElement.fullName
 }

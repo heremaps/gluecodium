@@ -23,5 +23,5 @@ class LimeException(
     path: LimePath,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
-    val errorType: LimeTypeRef
+    val errorType: LimeTypeRef,
 ) : LimeType(path, comment, attributes)

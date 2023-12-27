@@ -32,28 +32,34 @@ import com.here.gluecodium.model.lime.LimeValue
 internal object TopologicalSortTestHelper {
     fun createPath(name: String) = LimePath(emptyList(), listOf(name))
 
-    fun createTypeRef(typeName: String) =
-        LimeDirectTypeRef(object : LimeType(createPath(typeName)) {})
+    fun createTypeRef(typeName: String) = LimeDirectTypeRef(object : LimeType(createPath(typeName)) {})
 
-    fun createStruct(name: String, firstType: String, secondType: String): LimeStruct {
+    fun createStruct(
+        name: String,
+        firstType: String,
+        secondType: String,
+    ): LimeStruct {
         val path = createPath(name)
         return LimeStruct(
             path = path,
-            fields = listOf(
-                LimeField(path.child("x"), typeRef = createTypeRef(firstType)),
-                LimeField(path.child("y"), typeRef = createTypeRef(secondType))
-            )
+            fields =
+                listOf(
+                    LimeField(path.child("x"), typeRef = createTypeRef(firstType)),
+                    LimeField(path.child("y"), typeRef = createTypeRef(secondType)),
+                ),
         )
     }
 
-    fun createTypeAlias(name: String, typeRef: LimeTypeRef) =
-        LimeTypeAlias(path = createPath(name), typeRef = typeRef)
+    fun createTypeAlias(
+        name: String,
+        typeRef: LimeTypeRef,
+    ) = LimeTypeAlias(path = createPath(name), typeRef = typeRef)
 
     fun createConstant(typeName: String) =
         LimeConstant(
             path = createPath("fixed"),
             typeRef = createTypeRef(typeName),
-            value = LimeValue.ZERO
+            value = LimeValue.ZERO,
         )
 
     fun createConstantWithAliasType(): LimeConstant {
@@ -61,7 +67,7 @@ internal object TopologicalSortTestHelper {
         return LimeConstant(
             path = createPath("fixed"),
             typeRef = LimeDirectTypeRef(typeAlias),
-            value = LimeValue.ZERO
+            value = LimeValue.ZERO,
         )
     }
 }

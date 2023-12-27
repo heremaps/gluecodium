@@ -25,20 +25,17 @@ package com.here.gluecodium.model.lime
  * be overridden if needed (e.g. to account for type-erased generics in Java, etc.).
  */
 open class LimeSignatureResolver(private val referenceMap: Map<String, LimeElement>) {
-
     private val signatureCache = hashMapOf<String, List<String>>()
 
-    fun getSignature(limeFunction: LimeFunction) =
-        signatureCache.getOrPut(limeFunction.path.toString()) { computeSignature(limeFunction) }
+    fun getSignature(limeFunction: LimeFunction) = signatureCache.getOrPut(limeFunction.path.toString()) { computeSignature(limeFunction) }
 
-    fun getSignature(limeLambda: LimeLambda) =
-        limeLambda.asFunction().let { getSignature(it) + getTypeName(it.returnType.typeRef) }
+    fun getSignature(limeLambda: LimeLambda) = limeLambda.asFunction().let { getSignature(it) + getTypeName(it.returnType.typeRef) }
 
     fun isOverloaded(limeFunction: LimeFunction) = getAllOverloads(limeFunction).count() > 1
 
     fun hasSignatureClash(
         limeFunction: LimeFunction,
-        functions: List<LimeFunction> = getAllOverloads(limeFunction)
+        functions: List<LimeFunction> = getAllOverloads(limeFunction),
     ): Boolean {
         val signature = getSignature(limeFunction)
         return functions.map { getSignature(it) }.count { it == signature } > 1
@@ -50,8 +47,7 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
         return hasSignatureClash(limeFunction, overloads)
     }
 
-    protected fun getContainer(limeFunction: LimeFunction) =
-        referenceMap[limeFunction.path.parent.toString()] as? LimeContainer
+    protected fun getContainer(limeFunction: LimeFunction) = referenceMap[limeFunction.path.parent.toString()] as? LimeContainer
 
     private fun getAllOverloads(limeFunction: LimeFunction): List<LimeFunction> {
         val parentElement = getContainer(limeFunction) ?: return listOf(limeFunction)
@@ -73,8 +69,10 @@ open class LimeSignatureResolver(private val referenceMap: Map<String, LimeEleme
 
     protected open fun getArrayName(elementType: LimeTypeRef) = "[${getTypeName(elementType)}]"
 
-    protected open fun getMapName(keyType: LimeTypeRef, valueType: LimeTypeRef) =
-        "[${getTypeName(keyType)}:${getTypeName(valueType)}]"
+    protected open fun getMapName(
+        keyType: LimeTypeRef,
+        valueType: LimeTypeRef,
+    ) = "[${getTypeName(keyType)}:${getTypeName(valueType)}]"
 
     protected open fun getSetName(elementType: LimeTypeRef) = "[${getTypeName(elementType)}:]"
 

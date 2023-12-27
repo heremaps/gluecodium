@@ -39,7 +39,6 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class LimeAsyncValidatorTest {
-
     private val allElements = mutableMapOf<String, LimeElement>()
     private val limeModel = LimeModel(allElements, emptyList())
 
@@ -111,12 +110,13 @@ class LimeAsyncValidatorTest {
 
     @Test
     fun validateAsyncProperty() {
-        allElements[""] = LimeProperty(
-            EMPTY_PATH,
-            typeRef = LimeBasicTypeRef.INT,
-            getter = LimeFunction(EMPTY_PATH),
-            attributes = asyncAttributes
-        )
+        allElements[""] =
+            LimeProperty(
+                EMPTY_PATH,
+                typeRef = LimeBasicTypeRef.INT,
+                getter = LimeFunction(EMPTY_PATH),
+                attributes = asyncAttributes,
+            )
 
         assertFalse(validator.validate(limeModel))
     }

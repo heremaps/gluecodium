@@ -28,7 +28,10 @@ import org.trimou.handlebars.Options
  * Example: {{prefixPartial "common/CopyrightNotice" "// "}}
  */
 internal class PrefixPartialHelper : PrefixHelper() {
-    override fun getValue(options: Options, dataObject: Any?): String {
+    override fun getValue(
+        options: Options,
+        dataObject: Any?,
+    ): String {
         val builder = StringBuilder()
         options.partial(dataObject.toString(), builder)
         return builder.toString()

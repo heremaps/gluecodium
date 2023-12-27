@@ -38,27 +38,28 @@ import com.here.gluecodium.model.lime.LimeTypeRef
  */
 internal class LimeGenericTypesValidator(private val logger: LimeLogger) :
     LimeTypeRefsVisitor<Boolean>() {
-
     fun validate(limeModel: LimeModel) = !traverseModel(limeModel).contains(false)
 
-    override fun visitTypeRef(parentElement: LimeNamedElement, limeTypeRef: LimeTypeRef?) =
-        when (val referredType = limeTypeRef?.type) {
-            is LimeSet ->
-                validateGenericType(parentElement, referredType.elementType, "set element")
-            is LimeMap -> validateGenericType(parentElement, referredType.keyType, "map key")
-            else -> true
-        }
+    override fun visitTypeRef(
+        parentElement: LimeNamedElement,
+        limeTypeRef: LimeTypeRef?,
+    ) = when (val referredType = limeTypeRef?.type) {
+        is LimeSet ->
+            validateGenericType(parentElement, referredType.elementType, "set element")
+        is LimeMap -> validateGenericType(parentElement, referredType.keyType, "map key")
+        else -> true
+    }
 
     private fun validateGenericType(
         parentElement: LimeNamedElement,
         elementTypeRef: LimeTypeRef,
-        elementDescription: String
+        elementDescription: String,
     ): Boolean {
         val result = isHashable(elementTypeRef)
         if (!result) {
             logger.error(
                 parentElement,
-                "$elementDescription type ${elementTypeRef.type.fullName} is not hashable"
+                "$elementDescription type ${elementTypeRef.type.fullName} is not hashable",
             )
         }
         return result

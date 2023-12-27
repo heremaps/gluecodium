@@ -41,11 +41,11 @@ internal object CBridgeNameRules {
         rootNamespace: List<String>,
         subfolder: String,
         suffix: String,
-        infix: String = ""
+        infix: String = "",
     ): String {
         val fileName = "cbridge_" + getName(limeElement) + infix + suffix
         return (
             listOf(CBRIDGE_PUBLIC, subfolder) + rootNamespace + limeElement.path.head + fileName
-            ).joinToString(File.separator)
+        ).joinToString(File.separator)
     }
 }

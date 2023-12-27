@@ -23,7 +23,7 @@ class LimeBasicType(val typeId: TypeId) : LimeType(path = LimePath.EMPTY_PATH) {
     enum class TypeId(
         private val tag: String,
         val isIntegerType: Boolean = false,
-        val isNumericType: Boolean = isIntegerType
+        val isNumericType: Boolean = isIntegerType,
     ) {
         VOID("Void"),
         INT8("Byte", true),
@@ -41,7 +41,8 @@ class LimeBasicType(val typeId: TypeId) : LimeType(path = LimePath.EMPTY_PATH) {
         BLOB("Blob"),
         DATE("Date"),
         DURATION("Duration"),
-        LOCALE("Locale");
+        LOCALE("Locale"),
+        ;
 
         override fun toString() = tag
     }

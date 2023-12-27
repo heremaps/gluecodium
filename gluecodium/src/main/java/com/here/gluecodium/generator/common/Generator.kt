@@ -27,7 +27,6 @@ import java.util.ServiceLoader
 
 /** The base interface for all the generators.  */
 interface Generator {
-
     /** Short name of the generator. */
     val shortName: String
 
@@ -43,24 +42,31 @@ interface Generator {
     fun generate(limeModel: LimeModel): List<GeneratedFile>
 
     companion object {
-        private val allGenerators = ServiceLoader.load(Generator::class.java).iterator().asSequence()
-            .sortedBy { it.shortName }.associateByTo(LinkedHashMap()) { it.shortName }
+        private val allGenerators =
+            ServiceLoader.load(Generator::class.java).iterator().asSequence()
+                .sortedBy { it.shortName }.associateByTo(LinkedHashMap()) { it.shortName }
 
         val allGeneratorShortNames
             get() = allGenerators.keys
 
-        fun initializeGenerator(shortName: String, options: GeneratorOptions) =
-            allGenerators[shortName]?.also { it.initialize(options) }
+        fun initializeGenerator(
+            shortName: String,
+            options: GeneratorOptions,
+        ) = allGenerators[shortName]?.also { it.initialize(options) }
 
-        fun copyCommonFile(fileName: String, targetDir: String): GeneratedFile {
-            val stream = Generator::class.java.classLoader.getResourceAsStream(fileName)
-                ?: throw GluecodiumExecutionException(String.format("Failed loading resource %s.", fileName))
+        fun copyCommonFile(
+            fileName: String,
+            targetDir: String,
+        ): GeneratedFile {
+            val stream =
+                Generator::class.java.classLoader.getResourceAsStream(fileName)
+                    ?: throw GluecodiumExecutionException(String.format("Failed loading resource %s.", fileName))
 
             return try {
                 GeneratedFile(
                     stream.bufferedReader().use { it.readText() },
                     if (targetDir.isNotEmpty()) targetDir + File.separator + fileName else fileName,
-                    GeneratedFile.SourceSet.COMMON
+                    GeneratedFile.SourceSet.COMMON,
                 )
             } catch (e: IOException) {
                 throw GluecodiumExecutionException("Copying resource file failed with error:", e)

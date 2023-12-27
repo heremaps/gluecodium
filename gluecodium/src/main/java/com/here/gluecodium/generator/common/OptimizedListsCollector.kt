@@ -27,8 +27,10 @@ import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class OptimizedListsCollector : LimeTypeRefsVisitor<Map<String, LimeList>>() {
-
-    override fun visitTypeRef(parentElement: LimeNamedElement, limeTypeRef: LimeTypeRef?): Map<String, LimeList> {
+    override fun visitTypeRef(
+        parentElement: LimeNamedElement,
+        limeTypeRef: LimeTypeRef?,
+    ): Map<String, LimeList> {
         val limeType = limeTypeRef?.type?.actualType
         return when {
             limeType !is LimeList -> emptyMap()

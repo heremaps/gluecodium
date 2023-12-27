@@ -28,26 +28,27 @@ import com.natpryce.konfig.stringType
 import java.util.Locale
 
 private object NameRuleSetLoader {
-    fun getNameRuleSet(config: Configuration) = NameRuleSet(
-        getFieldName = getNameRule(config, NameTypes.Field),
-        getParameterName = getNameRule(config, NameTypes.Parameter),
-        getConstantName = getNameRule(config, NameTypes.Constant),
-        getEnumeratorName = getNameRule(config, NameTypes.Enumerator),
-        getMethodName = getNameRule(config, NameTypes.Method),
-        getTypeName = getNameRule(config, NameTypes.Type),
-        getPropertyName = getNameRuleBooleanPrefix(config, NameTypes.Property),
-        getSetterName = getNameRule(config, NameTypes.Setter),
-        getGetterName = getNameRuleBooleanPrefix(config, NameTypes.Getter),
-        getErrorName = getNameRule(config, NameTypes.Error),
-        joinInfix = getInfix(config, NameTypes.Join)
-    )
+    fun getNameRuleSet(config: Configuration) =
+        NameRuleSet(
+            getFieldName = getNameRule(config, NameTypes.Field),
+            getParameterName = getNameRule(config, NameTypes.Parameter),
+            getConstantName = getNameRule(config, NameTypes.Constant),
+            getEnumeratorName = getNameRule(config, NameTypes.Enumerator),
+            getMethodName = getNameRule(config, NameTypes.Method),
+            getTypeName = getNameRule(config, NameTypes.Type),
+            getPropertyName = getNameRuleBooleanPrefix(config, NameTypes.Property),
+            getSetterName = getNameRule(config, NameTypes.Setter),
+            getGetterName = getNameRuleBooleanPrefix(config, NameTypes.Getter),
+            getErrorName = getNameRule(config, NameTypes.Error),
+            joinInfix = getInfix(config, NameTypes.Join),
+        )
 
     @Suppress("EnumEntryName", "unused")
     enum class NameFormat(val apply: (String) -> String, val joinApply: (List<String?>) -> String) {
         UPPER_SNAKE_CASE({ NameHelper.toUpperSnakeCase(it) }, { NameHelper.joinToUpperSnakeCase(it) }),
         lower_snake_case({ NameHelper.toLowerSnakeCase(it) }, { NameHelper.joinToLowerSnakeCase(it) }),
         UpperCamelCase({ NameHelper.toUpperCamelCase(it) }, { NameHelper.joinToUpperCamelCase(it) }),
-        lowerCamelCase({ NameHelper.toLowerCamelCase(it) }, { NameHelper.joinToLowerCamelCase(it) })
+        lowerCamelCase({ NameHelper.toLowerCamelCase(it) }, { NameHelper.joinToLowerCamelCase(it) }),
     }
 
     enum class NameTypes {
@@ -61,10 +62,13 @@ private object NameRuleSetLoader {
         Setter,
         Getter,
         Error,
-        Join
+        Join,
     }
 
-    private fun getNameRuleBooleanPrefix(config: Configuration, nameType: NameTypes): (String, Boolean) -> String {
+    private fun getNameRuleBooleanPrefix(
+        config: Configuration,
+        nameType: NameTypes,
+    ): (String, Boolean) -> String {
         val key = nameType.toString().lowercase(Locale.getDefault())
         val formattingKey = Key(key, enumType<NameFormat>())
         val prefixKey = Key("$key.prefix", stringType)
@@ -88,7 +92,10 @@ private object NameRuleSetLoader {
         }
     }
 
-    private fun getNameRule(config: Configuration, nameType: NameTypes): (String) -> String {
+    private fun getNameRule(
+        config: Configuration,
+        nameType: NameTypes,
+    ): (String) -> String {
         val key = nameType.toString().lowercase(Locale.getDefault())
         val formattingKey = Key(key, enumType<NameFormat>())
         val prefixKey = Key("$key.prefix", stringType)
@@ -103,11 +110,16 @@ private object NameRuleSetLoader {
             val suffix = config.getOrNull(suffixKey)
             val formatting = config[formattingKey]
             return { formatting.joinApply(listOf(prefix, it, suffix)) }
-        } else return config[formattingKey].apply
+        } else {
+            return config[formattingKey].apply
+        }
     }
 
     @Suppress("SameParameterValue")
-    private fun getInfix(config: Configuration, nameType: NameTypes): String? {
+    private fun getInfix(
+        config: Configuration,
+        nameType: NameTypes,
+    ): String? {
         val key = nameType.toString().lowercase(Locale.getDefault())
         val infixKey = Key("$key.infix", stringType)
         return config.getOrNull(infixKey)

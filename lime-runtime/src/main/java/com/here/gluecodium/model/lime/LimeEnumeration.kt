@@ -24,9 +24,8 @@ class LimeEnumeration(
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     external: LimeExternalDescriptor? = null,
-    val enumerators: List<LimeEnumerator> = emptyList()
+    val enumerators: List<LimeEnumerator> = emptyList(),
 ) : LimeType(path, comment, attributes, external) {
-
     @Suppress("unused")
     val aliasEnumerators
         get() = enumerators.filter { it.isAlias }

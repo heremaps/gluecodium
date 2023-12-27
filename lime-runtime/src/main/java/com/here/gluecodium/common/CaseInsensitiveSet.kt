@@ -23,7 +23,6 @@ import java.util.Locale
 
 class CaseInsensitiveSet(elements: Collection<String> = emptySet()) :
     HashSet<String>(elements.map { it.lowercase(Locale.getDefault()) }) {
-
     override fun add(element: String) = super.add(element.lowercase(Locale.getDefault()))
 
     override fun addAll(elements: Collection<String>) = super.addAll(elements.map { it.lowercase(Locale.getDefault()) })

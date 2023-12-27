@@ -59,7 +59,6 @@ import java.util.logging.Logger
  * Generates Swift bindings on top of C++ API.
  */
 internal class SwiftGenerator : Generator {
-
     private lateinit var internalNamespace: List<String>
     private lateinit var rootNamespace: List<String>
     private lateinit var commentsProcessor: CommentsProcessor
@@ -76,7 +75,7 @@ internal class SwiftGenerator : Generator {
             collectOwnImports = true,
             parentTypeFilter = { true },
             collectTypeAliasImports = true,
-            collectValueImports = true
+            collectValueImports = true,
         )
 
     override val shortName = "swift"
@@ -94,10 +93,12 @@ internal class SwiftGenerator : Generator {
     }
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
-        val cbridgeFilteredModel = LimeModelFilter
-            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, SWIFT, retainFunctionsAndFields = true) }
-        val swiftFilteredModel = LimeModelFilter
-            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, SWIFT, retainFunctionsAndFields = false) }
+        val cbridgeFilteredModel =
+            LimeModelFilter
+                .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, SWIFT, retainFunctionsAndFields = true) }
+        val swiftFilteredModel =
+            LimeModelFilter
+                .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, SWIFT, retainFunctionsAndFields = false) }
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
 
         val swiftSignatureResolver = SwiftSignatureResolver(cbridgeFilteredModel.referenceMap, nameRules, activeTags)
@@ -105,11 +106,12 @@ internal class SwiftGenerator : Generator {
             LimeOverloadsValidator(swiftSignatureResolver, limeLogger, validateCustomConstructors = true)
         val weakPropertiesValidator = SwiftWeakAttributeValidator(limeLogger)
         val fieldsValidator = SwiftFieldsValidator(limeLogger)
-        val validationResults = listOf(
-            overloadsValidator.validate(cbridgeFilteredModel.referenceMap.values),
-            weakPropertiesValidator.validate(cbridgeFilteredModel.referenceMap.values),
-            fieldsValidator.validate(cbridgeFilteredModel.referenceMap.values)
-        )
+        val validationResults =
+            listOf(
+                overloadsValidator.validate(cbridgeFilteredModel.referenceMap.values),
+                weakPropertiesValidator.validate(cbridgeFilteredModel.referenceMap.values),
+                fieldsValidator.validate(cbridgeFilteredModel.referenceMap.values),
+            )
         if (validationResults.contains(false)) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
@@ -118,29 +120,32 @@ internal class SwiftGenerator : Generator {
             PlatformSignatureResolver(cbridgeFilteredModel.referenceMap, SWIFT, nameRules, activeTags)
         val cbridgeNameResolver =
             CBridgeNameResolver(cbridgeFilteredModel.referenceMap, nameRules, internalPrefix ?: "", cbridgeSignatureResolver)
-        val cBridgeGenerator = CBridgeGenerator(
-            limeReferenceMap = cbridgeFilteredModel.referenceMap,
-            rootNamespace = rootNamespace,
-            nameCache = CppNameCache(rootNamespace, cbridgeFilteredModel.referenceMap, cppNameRules),
-            internalNamespace = internalNamespace,
-            cppNameRules = cppNameRules,
-            nameResolver = cbridgeNameResolver,
-            activeTags = activeTags
-        )
+        val cBridgeGenerator =
+            CBridgeGenerator(
+                limeReferenceMap = cbridgeFilteredModel.referenceMap,
+                rootNamespace = rootNamespace,
+                nameCache = CppNameCache(rootNamespace, cbridgeFilteredModel.referenceMap, cppNameRules),
+                internalNamespace = internalNamespace,
+                cppNameRules = cppNameRules,
+                nameResolver = cbridgeNameResolver,
+                activeTags = activeTags,
+            )
 
         val swiftNameResolver =
             SwiftNameResolver(limeModel.referenceMap, nameRules, limeLogger, commentsProcessor, swiftSignatureResolver)
-        val nameResolvers = mapOf(
-            "" to swiftNameResolver,
-            "CBridge" to cbridgeNameResolver,
-            "mangled" to SwiftMangledNameResolver(swiftNameResolver),
-            "visibility" to SwiftVisibilityResolver(swiftFilteredModel.referenceMap)
-        )
+        val nameResolvers =
+            mapOf(
+                "" to swiftNameResolver,
+                "CBridge" to cbridgeNameResolver,
+                "mangled" to SwiftMangledNameResolver(swiftNameResolver),
+                "visibility" to SwiftVisibilityResolver(swiftFilteredModel.referenceMap),
+            )
         val predicates = SwiftGeneratorPredicates(nameRules, swiftSignatureResolver, swiftFilteredModel.referenceMap)
         val descendantInterfaces = LimeTypeHelper.collectDescendantInterfaces(swiftFilteredModel.topElements)
-        val swiftFiles = swiftFilteredModel.topElements.map {
-            generateSwiftFile(it, nameResolvers, predicates, descendantInterfaces)
-        }
+        val swiftFiles =
+            swiftFilteredModel.topElements.map {
+                generateSwiftFile(it, nameResolvers, predicates, descendantInterfaces)
+            }
         if (commentsProcessor.hasError) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
@@ -153,7 +158,7 @@ internal class SwiftGenerator : Generator {
                 cBridgeGenerator.genericTypesCollector,
                 swiftNameResolver,
                 nameResolvers,
-                predicates
+                predicates,
             ) +
             generateBuiltinOptionals(nameResolvers + ("C++" to cBridgeGenerator.cppNameResolver)) +
             cBridgeGenerator.generateHelpers() + generateRefHolder()
@@ -163,24 +168,24 @@ internal class SwiftGenerator : Generator {
         limeElement: LimeNamedElement,
         nameResolvers: Map<String, NameResolver>,
         predicates: SwiftGeneratorPredicates,
-        descendantInterfaces: Map<String, List<LimeInterface>>
+        descendantInterfaces: Map<String, List<LimeInterface>>,
     ): GeneratedFile {
-
         val imports = importsCollector.collectImports(limeElement)
         val allExceptions = LimeTypeHelper.getAllTypes(limeElement).filterIsInstance<LimeException>()
-        val templateData = mapOf(
-            "model" to limeElement,
-            "internalPrefix" to internalPrefix,
-            "imports" to imports.distinct().sorted() - FOUNDATION,
-            "allExceptions" to allExceptions,
-            "definitionTemplate" to selectDefinitionTemplate(limeElement),
-            "conversionTemplate" to selectConversionTemplate(limeElement),
-            "conversionVisibility" to conversionVisibility,
-            "descendantInterfaces" to descendantInterfaces
-        )
+        val templateData =
+            mapOf(
+                "model" to limeElement,
+                "internalPrefix" to internalPrefix,
+                "imports" to imports.distinct().sorted() - FOUNDATION,
+                "allExceptions" to allExceptions,
+                "definitionTemplate" to selectDefinitionTemplate(limeElement),
+                "conversionTemplate" to selectConversionTemplate(limeElement),
+                "conversionVisibility" to conversionVisibility,
+                "descendantInterfaces" to descendantInterfaces,
+            )
         return GeneratedFile(
             TemplateEngine.render("swift/SwiftFile", templateData, nameResolvers, predicates.predicates),
-            nameRules.getImplementationFileName(limeElement)
+            nameRules.getImplementationFileName(limeElement),
         )
     }
 
@@ -189,37 +194,39 @@ internal class SwiftGenerator : Generator {
         genericTypesCollector: CBridgeGenerator.GenericTypesCollector,
         swiftNameResolver: SwiftNameResolver,
         nameResolvers: Map<String, NameResolver>,
-        predicates: SwiftGeneratorPredicates
+        predicates: SwiftGeneratorPredicates,
     ): List<GeneratedFile> {
-
         val allTypes = limeModel.flatMap { LimeTypeHelper.getAllTypes(it) }
         val allParentTypes = LimeTypeHelper.getAllParentTypes(allTypes)
         val genericTypes = genericTypesCollector.getAllGenericTypes(allTypes + allParentTypes)
 
-        val listsFile = generateCollectionsFile(
-            genericTypes.filterIsInstance<LimeList>(),
-            "swift/SwiftLists",
-            "swift/Collections.swift",
-            swiftNameResolver,
-            nameResolvers,
-            predicates
-        )
-        val mapsFile = generateCollectionsFile(
-            genericTypes.filterIsInstance<LimeMap>(),
-            "swift/SwiftMaps",
-            "swift/Dictionaries.swift",
-            swiftNameResolver,
-            nameResolvers,
-            predicates
-        )
-        val setsFile = generateCollectionsFile(
-            genericTypes.filterIsInstance<LimeSet>(),
-            "swift/SwiftSets",
-            "swift/Sets.swift",
-            swiftNameResolver,
-            nameResolvers,
-            predicates
-        )
+        val listsFile =
+            generateCollectionsFile(
+                genericTypes.filterIsInstance<LimeList>(),
+                "swift/SwiftLists",
+                "swift/Collections.swift",
+                swiftNameResolver,
+                nameResolvers,
+                predicates,
+            )
+        val mapsFile =
+            generateCollectionsFile(
+                genericTypes.filterIsInstance<LimeMap>(),
+                "swift/SwiftMaps",
+                "swift/Dictionaries.swift",
+                swiftNameResolver,
+                nameResolvers,
+                predicates,
+            )
+        val setsFile =
+            generateCollectionsFile(
+                genericTypes.filterIsInstance<LimeSet>(),
+                "swift/SwiftSets",
+                "swift/Sets.swift",
+                swiftNameResolver,
+                nameResolvers,
+                predicates,
+            )
 
         return listOf(listsFile, mapsFile, setsFile)
     }
@@ -230,24 +237,26 @@ internal class SwiftGenerator : Generator {
         fileName: String,
         swiftNameResolver: SwiftNameResolver,
         nameResolvers: Map<String, NameResolver>,
-        predicates: SwiftGeneratorPredicates
+        predicates: SwiftGeneratorPredicates,
     ): GeneratedFile {
         val imports = collections.flatMap { importsCollector.collectImports(it) }
-        val templateData = mapOf(
-            "imports" to imports.sorted().distinct() - FOUNDATION,
-            "internalPrefix" to internalPrefix,
-            "collections" to collections.sortedBy { swiftNameResolver.resolveName(it) }
-        )
+        val templateData =
+            mapOf(
+                "imports" to imports.sorted().distinct() - FOUNDATION,
+                "internalPrefix" to internalPrefix,
+                "collections" to collections.sortedBy { swiftNameResolver.resolveName(it) },
+            )
         val content = TemplateEngine.render(templateName, templateData, nameResolvers, predicates.predicates)
         return GeneratedFile(content, fileName)
     }
 
     private fun generateBuiltinOptionals(nameResolvers: Map<String, NameResolver>): GeneratedFile {
-        val types = listOf(
-            TypeId.BOOLEAN, TypeId.FLOAT, TypeId.DOUBLE,
-            TypeId.INT8, TypeId.UINT8, TypeId.INT16, TypeId.UINT16,
-            TypeId.INT32, TypeId.UINT32, TypeId.INT64, TypeId.UINT64
-        )
+        val types =
+            listOf(
+                TypeId.BOOLEAN, TypeId.FLOAT, TypeId.DOUBLE,
+                TypeId.INT8, TypeId.UINT8, TypeId.INT16, TypeId.UINT16,
+                TypeId.INT32, TypeId.UINT32, TypeId.INT64, TypeId.UINT64,
+            )
 
         val content = TemplateEngine.render("swift/BuiltinOptionals", types, nameResolvers)
         return GeneratedFile(content, "swift/BuiltinOptionals.swift", GeneratedFile.SourceSet.COMMON)
@@ -291,7 +300,7 @@ internal class SwiftGenerator : Generator {
             listOf(
                 Generator.copyCommonFile("swift/BuiltinConversions.swift", ""),
                 Generator.copyCommonFile("swift/CollectionOf.swift", ""),
-                Generator.copyCommonFile("swift/NativeBase.swift", "")
+                Generator.copyCommonFile("swift/NativeBase.swift", ""),
             )
         }
     }

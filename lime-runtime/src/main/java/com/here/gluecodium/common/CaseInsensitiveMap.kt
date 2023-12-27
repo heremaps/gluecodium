@@ -25,40 +25,63 @@ import java.util.function.Function
 
 // Mark `Any` as non-nullable
 class CaseInsensitiveMap<V : Any> : HashMap<String, V>() {
-    override fun compute(key: String, remappingFunction: BiFunction<in String, in V?, out V?>) =
-        super.compute(key.lowercase(Locale.getDefault()), remappingFunction)
+    override fun compute(
+        key: String,
+        remappingFunction: BiFunction<in String, in V?, out V?>,
+    ) = super.compute(key.lowercase(Locale.getDefault()), remappingFunction)
 
-    override fun computeIfAbsent(key: String, mappingFunction: Function<in String, out V>) =
-        super.computeIfAbsent(key.lowercase(Locale.getDefault()), mappingFunction)
+    override fun computeIfAbsent(
+        key: String,
+        mappingFunction: Function<in String, out V>,
+    ) = super.computeIfAbsent(key.lowercase(Locale.getDefault()), mappingFunction)
 
     override fun computeIfPresent(
         key: String,
-        remappingFunction: BiFunction<in String, in V, out V?>
+        remappingFunction: BiFunction<in String, in V, out V?>,
     ) = super.computeIfPresent(key.lowercase(Locale.getDefault()), remappingFunction)
 
     override fun containsKey(key: String) = super.containsKey(key.lowercase(Locale.getDefault()))
 
     override fun get(key: String) = super.get(key.lowercase(Locale.getDefault()))
 
-    override fun getOrDefault(key: String, defaultValue: V) =
-        super.getOrDefault(key.lowercase(Locale.getDefault()), defaultValue)
+    override fun getOrDefault(
+        key: String,
+        defaultValue: V,
+    ) = super.getOrDefault(key.lowercase(Locale.getDefault()), defaultValue)
 
-    override fun merge(key: String, value: V, remappingFunction: BiFunction<in V, in V, out V?>) =
-        super.merge(key.lowercase(Locale.getDefault()), value, remappingFunction)
+    override fun merge(
+        key: String,
+        value: V,
+        remappingFunction: BiFunction<in V, in V, out V?>,
+    ) = super.merge(key.lowercase(Locale.getDefault()), value, remappingFunction)
 
-    override fun put(key: String, value: V) = super.put(key.lowercase(Locale.getDefault()), value)
+    override fun put(
+        key: String,
+        value: V,
+    ) = super.put(key.lowercase(Locale.getDefault()), value)
 
-    override fun putAll(from: Map<out String, V>) =
-        super.putAll(from.mapKeys { it.key.lowercase(Locale.getDefault()) })
+    override fun putAll(from: Map<out String, V>) = super.putAll(from.mapKeys { it.key.lowercase(Locale.getDefault()) })
 
-    override fun putIfAbsent(key: String, value: V) = super.putIfAbsent(key.lowercase(Locale.getDefault()), value)
+    override fun putIfAbsent(
+        key: String,
+        value: V,
+    ) = super.putIfAbsent(key.lowercase(Locale.getDefault()), value)
 
     override fun remove(key: String) = super.remove(key.lowercase(Locale.getDefault()))
 
-    override fun remove(key: String, value: V) = super.remove(key.lowercase(Locale.getDefault()), value)
+    override fun remove(
+        key: String,
+        value: V,
+    ) = super.remove(key.lowercase(Locale.getDefault()), value)
 
-    override fun replace(key: String, value: V) = super.replace(key.lowercase(Locale.getDefault()), value)
+    override fun replace(
+        key: String,
+        value: V,
+    ) = super.replace(key.lowercase(Locale.getDefault()), value)
 
-    override fun replace(key: String, oldValue: V, newValue: V) =
-        super.replace(key.lowercase(Locale.getDefault()), oldValue, newValue)
+    override fun replace(
+        key: String,
+        oldValue: V,
+        newValue: V,
+    ) = super.replace(key.lowercase(Locale.getDefault()), oldValue, newValue)
 }

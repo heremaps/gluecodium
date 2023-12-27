@@ -28,17 +28,14 @@ package com.here.gluecodium.model.lime
 class LimeLazyTypeRef(
     override val elementFullName: String,
     private val referenceMap: Map<String, LimeElement>,
-    override val isNullable: Boolean = false
+    override val isNullable: Boolean = false,
 ) : LimeTypeRef() {
-
     override val type by lazy {
         referenceMap[elementFullName] as? LimeType
             ?: throw LimeModelLoaderException("Type $elementFullName was not found")
     }
 
-    override fun asNullable() =
-        if (isNullable) this else LimeLazyTypeRef(elementFullName, referenceMap, true)
+    override fun asNullable() = if (isNullable) this else LimeLazyTypeRef(elementFullName, referenceMap, true)
 
-    override fun remap(referenceMap: Map<String, LimeElement>) =
-        LimeLazyTypeRef(elementFullName, referenceMap, isNullable)
+    override fun remap(referenceMap: Map<String, LimeElement>) = LimeLazyTypeRef(elementFullName, referenceMap, isNullable)
 }

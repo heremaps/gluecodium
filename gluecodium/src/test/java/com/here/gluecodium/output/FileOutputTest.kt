@@ -63,10 +63,11 @@ class FileOutputTest {
     }
 
     companion object {
-        private val FILES = listOf(
-            GeneratedFile("CONTENT1", "PATH1_1/PATH1_2/FILE1"),
-            GeneratedFile("", "PATH2/FILE2"),
-            GeneratedFile("CONTENT3", "FILE3")
-        )
+        private val FILES =
+            listOf(
+                GeneratedFile("CONTENT1", "PATH1_1/PATH1_2/FILE1"),
+                GeneratedFile("", "PATH2/FILE2"),
+                GeneratedFile("CONTENT3", "FILE3"),
+            )
     }
 }

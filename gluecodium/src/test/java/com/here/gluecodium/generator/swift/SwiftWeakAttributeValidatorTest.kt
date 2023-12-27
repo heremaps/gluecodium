@@ -44,7 +44,6 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class SwiftWeakAttributeValidatorTest {
-
     private val barPath = LimePath(emptyList(), listOf("Bar"))
     private val fooPath = barPath.child("foo")
     private val nullableBool = LimeBasicTypeRef(LimeBasicType.TypeId.BOOLEAN, isNullable = true)
@@ -70,12 +69,13 @@ class SwiftWeakAttributeValidatorTest {
 
     @Test
     fun validatePropertyInClass() {
-        val limeProperty = LimeProperty(
-            fooPath,
-            typeRef = nullableBool,
-            getter = dummyFunction,
-            attributes = weakAttributes
-        )
+        val limeProperty =
+            LimeProperty(
+                fooPath,
+                typeRef = nullableBool,
+                getter = dummyFunction,
+                attributes = weakAttributes,
+            )
         limeReferenceMap[barPath.toString()] = LimeClass(barPath)
 
         assertTrue(validator.validate(listOf(limeProperty)))
@@ -83,12 +83,13 @@ class SwiftWeakAttributeValidatorTest {
 
     @Test
     fun validatePropertyNonNullable() {
-        val limeProperty = LimeProperty(
-            fooPath,
-            typeRef = LimeBasicTypeRef.DOUBLE,
-            getter = dummyFunction,
-            attributes = weakAttributes
-        )
+        val limeProperty =
+            LimeProperty(
+                fooPath,
+                typeRef = LimeBasicTypeRef.DOUBLE,
+                getter = dummyFunction,
+                attributes = weakAttributes,
+            )
         limeReferenceMap[barPath.toString()] = LimeInterface(barPath)
 
         assertFalse(validator.validate(listOf(limeProperty)))
@@ -96,12 +97,13 @@ class SwiftWeakAttributeValidatorTest {
 
     @Test
     fun validatePropertyValidNonInterface() {
-        val limeProperty = LimeProperty(
-            fooPath,
-            typeRef = nullableBool,
-            getter = dummyFunction,
-            attributes = weakAttributes
-        )
+        val limeProperty =
+            LimeProperty(
+                fooPath,
+                typeRef = nullableBool,
+                getter = dummyFunction,
+                attributes = weakAttributes,
+            )
         limeReferenceMap[barPath.toString()] = LimeInterface(barPath)
 
         assertTrue(validator.validate(listOf(limeProperty)))
@@ -110,12 +112,13 @@ class SwiftWeakAttributeValidatorTest {
     @Test
     fun validatePropertyInvalidInterfaceVoid() {
         val limeInterface = LimeInterface(EMPTY_PATH, functions = listOf(LimeFunction(EMPTY_PATH)))
-        val limeProperty = LimeProperty(
-            fooPath,
-            typeRef = LimeDirectTypeRef(limeInterface, isNullable = true),
-            getter = dummyFunction,
-            attributes = weakAttributes
-        )
+        val limeProperty =
+            LimeProperty(
+                fooPath,
+                typeRef = LimeDirectTypeRef(limeInterface, isNullable = true),
+                getter = dummyFunction,
+                attributes = weakAttributes,
+            )
         limeReferenceMap[barPath.toString()] = LimeInterface(barPath)
 
         assertFalse(validator.validate(listOf(limeProperty)))
@@ -125,12 +128,13 @@ class SwiftWeakAttributeValidatorTest {
     fun validatePropertyValidInterfaceVoid() {
         val limeInterface =
             LimeInterface(EMPTY_PATH, functions = listOf(LimeFunction(EMPTY_PATH)), attributes = weakAttributes)
-        val limeProperty = LimeProperty(
-            fooPath,
-            typeRef = LimeDirectTypeRef(limeInterface, isNullable = true),
-            getter = dummyFunction,
-            attributes = weakAttributes
-        )
+        val limeProperty =
+            LimeProperty(
+                fooPath,
+                typeRef = LimeDirectTypeRef(limeInterface, isNullable = true),
+                getter = dummyFunction,
+                attributes = weakAttributes,
+            )
         limeReferenceMap[barPath.toString()] = LimeInterface(barPath)
 
         assertTrue(validator.validate(listOf(limeProperty)))
@@ -140,12 +144,13 @@ class SwiftWeakAttributeValidatorTest {
     fun validatePropertyValidInterfaceNullable() {
         val limeFunction = LimeFunction(EMPTY_PATH, returnType = LimeReturnType(nullableBool))
         val limeInterface = LimeInterface(EMPTY_PATH, functions = listOf(limeFunction), attributes = weakAttributes)
-        val limeProperty = LimeProperty(
-            fooPath,
-            typeRef = LimeDirectTypeRef(limeInterface, isNullable = true),
-            getter = dummyFunction,
-            attributes = weakAttributes
-        )
+        val limeProperty =
+            LimeProperty(
+                fooPath,
+                typeRef = LimeDirectTypeRef(limeInterface, isNullable = true),
+                getter = dummyFunction,
+                attributes = weakAttributes,
+            )
         limeReferenceMap[barPath.toString()] = LimeInterface(barPath)
 
         assertTrue(validator.validate(listOf(limeProperty)))
@@ -156,12 +161,13 @@ class SwiftWeakAttributeValidatorTest {
         val limeFunction =
             LimeFunction(EMPTY_PATH, returnType = LimeReturnType(LimeBasicTypeRef(LimeBasicType.TypeId.BOOLEAN)))
         val limeInterface = LimeInterface(EMPTY_PATH, functions = listOf(limeFunction), attributes = weakAttributes)
-        val limeProperty = LimeProperty(
-            fooPath,
-            typeRef = LimeDirectTypeRef(limeInterface, isNullable = true),
-            getter = dummyFunction,
-            attributes = weakAttributes
-        )
+        val limeProperty =
+            LimeProperty(
+                fooPath,
+                typeRef = LimeDirectTypeRef(limeInterface, isNullable = true),
+                getter = dummyFunction,
+                attributes = weakAttributes,
+            )
         limeReferenceMap[barPath.toString()] = LimeInterface(barPath)
 
         assertFalse(validator.validate(listOf(limeProperty)))

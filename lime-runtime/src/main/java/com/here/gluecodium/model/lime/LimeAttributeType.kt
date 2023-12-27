@@ -23,7 +23,7 @@ import com.here.gluecodium.common.CaseInsensitiveMap
 
 enum class LimeAttributeType(
     private val tag: String,
-    val defaultValueType: LimeAttributeValueType? = null
+    val defaultValueType: LimeAttributeValueType? = null,
 ) {
     CPP("Cpp", LimeAttributeValueType.NAME),
     JAVA("Java", LimeAttributeValueType.NAME),
@@ -40,7 +40,8 @@ enum class LimeAttributeType(
     OPTIMIZED("Optimized"),
     OVERLOADED("Overloaded"),
     SERIALIZABLE("Serializable"),
-    SKIP("Skip", LimeAttributeValueType.TAG);
+    SKIP("Skip", LimeAttributeValueType.TAG),
+    ;
 
     override fun toString() = tag
 

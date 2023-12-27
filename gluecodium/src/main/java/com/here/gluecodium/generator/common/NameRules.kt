@@ -50,17 +50,18 @@ open class NameRules(val ruleSet: NameRuleSet) {
     open fun getPropertyName(limeProperty: LimeProperty): String {
         val type = limeProperty.typeRef.type.actualType
         return ruleSet.getPropertyName(
-            limeProperty.name, type is LimeBasicType && type.typeId == LimeBasicType.TypeId.BOOLEAN
+            limeProperty.name,
+            type is LimeBasicType && type.typeId == LimeBasicType.TypeId.BOOLEAN,
         )
     }
 
     open fun getGetterName(limeElement: LimeTypedElement): String {
         val type = limeElement.typeRef.type.actualType
         return ruleSet.getGetterName(
-            limeElement.name, type is LimeBasicType && type.typeId == LimeBasicType.TypeId.BOOLEAN
+            limeElement.name,
+            type is LimeBasicType && type.typeId == LimeBasicType.TypeId.BOOLEAN,
         )
     }
 
-    open fun getSetterName(limeElement: LimeTypedElement) =
-        ruleSet.getSetterName(limeElement.name)
+    open fun getSetterName(limeElement: LimeTypedElement) = ruleSet.getSetterName(limeElement.name)
 }

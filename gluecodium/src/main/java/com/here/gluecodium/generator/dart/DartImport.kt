@@ -22,9 +22,8 @@ package com.here.gluecodium.generator.dart
 data class DartImport(
     val filePath: String,
     val asAlias: String? = null,
-    val importType: ImportType = ImportType.PACKAGE
+    val importType: ImportType = ImportType.PACKAGE,
 ) : Comparable<DartImport> {
-
     // According to Dart style guide, system imports should precede package imports.
     enum class ImportType {
         SYSTEM,

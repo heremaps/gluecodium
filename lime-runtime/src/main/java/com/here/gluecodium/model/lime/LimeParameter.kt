@@ -23,7 +23,7 @@ class LimeParameter(
     path: LimePath,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
-    typeRef: LimeTypeRef
+    typeRef: LimeTypeRef,
 ) : LimeTypedElement(path, comment, attributes, typeRef = typeRef) {
     override val fullName: String
         get() = "${path.parent.withSuffix(path.disambiguator)}.${path.name}"

@@ -38,7 +38,7 @@ import com.here.gluecodium.model.lime.LimeValue
 internal class DartImportResolver(
     limeReferenceMap: Map<String, LimeElement>,
     nameResolver: DartNameResolver,
-    private val srcPath: String
+    private val srcPath: String,
 ) : DartImportResolverBase(limeReferenceMap, nameResolver, srcPath) {
     private val builtInTypesConversionImport = createConversionImport("builtin_types")
     private val lazyListImport = DartImport("$srcPath/_lazy_list", "__lib")
@@ -46,8 +46,9 @@ internal class DartImportResolver(
     override fun resolveElementImports(limeElement: LimeElement): List<DartImport> =
         when (limeElement) {
             is LimeTypeAlias -> emptyList()
-            is LimeTypeRef -> resolveTypeImports(limeElement.type) + resolveConversionImports(limeElement) +
-                listOfNotNull(lazyListImport.takeIf { limeElement.attributes.have(LimeAttributeType.OPTIMIZED) })
+            is LimeTypeRef ->
+                resolveTypeImports(limeElement.type) + resolveConversionImports(limeElement) +
+                    listOfNotNull(lazyListImport.takeIf { limeElement.attributes.have(LimeAttributeType.OPTIMIZED) })
             is LimeType -> resolveTypeImports(limeElement) + resolveConversionImports(limeElement)
             is LimeConstant -> resolveTypeImports(limeElement.typeRef.type)
             is LimeValue -> resolveValueImports(limeElement)
@@ -55,7 +56,10 @@ internal class DartImportResolver(
             else -> emptyList()
         }
 
-    private fun resolveTypeImports(limeType: LimeType, skipHelpers: Boolean = false): List<DartImport> {
+    private fun resolveTypeImports(
+        limeType: LimeType,
+        skipHelpers: Boolean = false,
+    ): List<DartImport> {
         val actualType = limeType.actualType
         when (actualType) {
             is LimeBasicType -> return resolveBasicTypeImports(actualType)
@@ -73,17 +77,22 @@ internal class DartImportResolver(
     private fun resolveConversionImports(limeType: LimeType): List<DartImport> =
         when (val actualType = limeType.actualType) {
             is LimeBasicType ->
-                if (actualType.typeId.isNumericType || actualType.typeId == LimeBasicType.TypeId.VOID) emptyList()
-                else listOf(builtInTypesConversionImport)
+                if (actualType.typeId.isNumericType || actualType.typeId == LimeBasicType.TypeId.VOID) {
+                    emptyList()
+                } else {
+                    listOf(builtInTypesConversionImport)
+                }
             is LimeGenericType -> listOf(createConversionImport("generic_types"))
             else -> emptyList()
         }
 
     private fun resolveConversionImports(limeTypeRef: LimeTypeRef): List<DartImport> =
         resolveConversionImports(limeTypeRef.type) +
-            if (limeTypeRef.isNullable && limeTypeRef.type.actualType is LimeBasicType)
+            if (limeTypeRef.isNullable && limeTypeRef.type.actualType is LimeBasicType) {
                 listOf(builtInTypesConversionImport)
-            else emptyList()
+            } else {
+                emptyList()
+            }
 
     private fun resolveBasicTypeImports(limeType: LimeBasicType) =
         when (limeType.typeId) {
@@ -97,8 +106,9 @@ internal class DartImportResolver(
         when (limeType) {
             is LimeList -> resolveTypeImports(limeType.elementType.type, skipHelpers = true)
             is LimeSet -> resolveTypeImports(limeType.elementType.type, skipHelpers = true)
-            is LimeMap -> resolveTypeImports(limeType.keyType.type, skipHelpers = true) +
-                resolveTypeImports(limeType.valueType.type, skipHelpers = true)
+            is LimeMap ->
+                resolveTypeImports(limeType.keyType.type, skipHelpers = true) +
+                    resolveTypeImports(limeType.valueType.type, skipHelpers = true)
             else -> emptyList()
         }
 
