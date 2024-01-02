@@ -1,9 +1,11 @@
 # Gluecodium project Release Notes
 
-## Unreleased
 ## 13.7.3
 ### Features:
  * Swift crashes with more clear error in case when UTF-8 string can't be decoded.
+### Bug fixes:
+ * CMake script to link Swift frameworks doesn't link a framework to itself.
+ * Adds preprocessor checks on frameworks imports in Swift to skip an import if necessary.
 
 ## 13.7.2
 Release date: 2023-10-25
