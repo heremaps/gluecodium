@@ -31,8 +31,13 @@ extension String {
 // String
 
 internal func copyFromCType(_ handle: _baseRef) -> String {
-    return String(data: Data(bytes: std_string_data_get(handle),
-                  count: Int(std_string_size_get(handle))), encoding: .utf8)!
+    if let convertedString = String(data: Data(bytes: std_string_data_get(handle),
+                                    count: Int(std_string_size_get(handle))),
+                                    encoding: .utf8) {
+        return convertedString
+    }
+
+    fatalError("Failed to decode character buffer as UTF-8 string")
 }
 
 internal func moveFromCType(_ handle: _baseRef) -> String {
