@@ -67,9 +67,8 @@ internal class CppNameResolver(
     private val limeLogger: LimeLogger? = null,
     private val commentsProcessor: CommentsProcessor? = null,
     private val forceFullNames: Boolean = false,
-    private val forceFollowThrough: Boolean = false
+    private val forceFollowThrough: Boolean = false,
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
-
     private val hashTypeName = (listOf("") + internalNamespace + "hash").joinToString("::")
     private val localeTypeName = (listOf("") + internalNamespace + "Locale").joinToString("::")
 
@@ -91,13 +90,14 @@ internal class CppNameResolver(
     override fun resolveGetterName(element: Any) =
         when (element) {
             is LimeProperty -> nameCache.getGetterName(element)
-            is LimeField -> when {
-                element.external?.cpp?.get(GETTER_NAME_NAME) != null ->
-                    nameCache.getGetterName(element)
-                getParentElement(element).attributes.have(CPP, ACCESSORS) ->
-                    nameCache.getGetterName(element)
-                else -> null
-            }
+            is LimeField ->
+                when {
+                    element.external?.cpp?.get(GETTER_NAME_NAME) != null ->
+                        nameCache.getGetterName(element)
+                    getParentElement(element).attributes.have(CPP, ACCESSORS) ->
+                        nameCache.getGetterName(element)
+                    else -> null
+                }
             else ->
                 throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }
@@ -105,13 +105,14 @@ internal class CppNameResolver(
     override fun resolveSetterName(element: Any) =
         when (element) {
             is LimeProperty -> nameCache.getSetterName(element)
-            is LimeField -> when {
-                element.external?.cpp?.get(SETTER_NAME_NAME) != null ->
-                    nameCache.getSetterName(element)
-                getParentElement(element).attributes.have(CPP, ACCESSORS) ->
-                    nameCache.getSetterName(element)
-                else -> null
-            }
+            is LimeField ->
+                when {
+                    element.external?.cpp?.get(SETTER_NAME_NAME) != null ->
+                        nameCache.getSetterName(element)
+                    getParentElement(element).attributes.have(CPP, ACCESSORS) ->
+                        nameCache.getSetterName(element)
+                    else -> null
+                }
             else ->
                 throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }
@@ -125,42 +126,49 @@ internal class CppNameResolver(
         }
     }
 
-    private fun resolveTypeName(limeType: LimeType, isFullName: Boolean, attributes: LimeAttributes? = null): String =
+    private fun resolveTypeName(
+        limeType: LimeType,
+        isFullName: Boolean,
+        attributes: LimeAttributes? = null,
+    ): String =
         when {
             forceFollowThrough && limeType is LimeTypeAlias ->
                 resolveTypeName(limeType.typeRef.type, isFullName, limeType.typeRef.attributes)
             limeType is LimeBasicType -> resolveBasicType(limeType.typeId, attributes)
             limeType is LimeGenericType -> resolveGenericType(limeType, attributes)
             limeType is LimeException -> "::std::error_code"
-            isFullName -> when (limeType.actualType) {
-                is LimeContainerWithInheritance ->
-                    "::std::shared_ptr< ${nameCache.getFullyQualifiedName(limeType)} >"
-                else -> nameCache.getFullyQualifiedName(limeType)
-            }
+            isFullName ->
+                when (limeType.actualType) {
+                    is LimeContainerWithInheritance ->
+                        "::std::shared_ptr< ${nameCache.getFullyQualifiedName(limeType)} >"
+                    else -> nameCache.getFullyQualifiedName(limeType)
+                }
             forceFullNames -> nameCache.getFullyQualifiedName(limeType)
             else -> nameCache.getName(limeType)
         }
 
-    private fun resolveBasicType(typeId: TypeId, attributes: LimeAttributes? = null) =
-        when (typeId) {
-            TypeId.VOID -> "void"
-            TypeId.INT8 -> "int8_t"
-            TypeId.UINT8 -> "uint8_t"
-            TypeId.INT16 -> "int16_t"
-            TypeId.UINT16 -> "uint16_t"
-            TypeId.INT32 -> "int32_t"
-            TypeId.UINT32 -> "uint32_t"
-            TypeId.INT64 -> "int64_t"
-            TypeId.UINT64 -> "uint64_t"
-            TypeId.BOOLEAN -> "bool"
-            TypeId.FLOAT -> "float"
-            TypeId.DOUBLE -> "double"
-            TypeId.STRING -> attributes?.get(CPP, TYPE) ?: "::std::string"
-            TypeId.BLOB -> "::std::shared_ptr< ::std::vector< uint8_t > >"
-            TypeId.DATE -> attributes?.get(CPP, TYPE) ?: "::std::chrono::system_clock::time_point"
-            TypeId.DURATION -> attributes?.get(CPP, TYPE) ?: "::std::chrono::seconds"
-            TypeId.LOCALE -> localeTypeName
-        }
+    private fun resolveBasicType(
+        typeId: TypeId,
+        attributes: LimeAttributes? = null,
+    ) = when (typeId) {
+        TypeId.VOID -> "void"
+        TypeId.INT8 -> "int8_t"
+        TypeId.UINT8 -> "uint8_t"
+        TypeId.INT16 -> "int16_t"
+        TypeId.UINT16 -> "uint16_t"
+        TypeId.INT32 -> "int32_t"
+        TypeId.UINT32 -> "uint32_t"
+        TypeId.INT64 -> "int64_t"
+        TypeId.UINT64 -> "uint64_t"
+        TypeId.BOOLEAN -> "bool"
+        TypeId.FLOAT -> "float"
+        TypeId.DOUBLE -> "double"
+        TypeId.STRING -> attributes?.get(CPP, TYPE) ?: "::std::string"
+        TypeId.BLOB -> "::std::shared_ptr< ::std::vector< uint8_t > >"
+        TypeId.DATE -> attributes?.get(CPP, TYPE) ?: "::std::chrono::system_clock::time_point"
+        TypeId.DURATION -> attributes?.get(CPP, TYPE) ?: "::std::chrono::seconds"
+        TypeId.LOCALE -> localeTypeName
+    }
 
     private fun resolveValue(limeValue: LimeValue): String =
         when (limeValue) {
@@ -211,58 +219,65 @@ internal class CppNameResolver(
 
     private fun resolveDurationValue(limeValue: LimeValue.Duration): String {
         val typeName = resolveBasicType(TypeId.DURATION, limeValue.typeRef.attributes)
-        val factoryMethod = when (limeValue.timeUnit) {
-            TimeUnit.DAY, TimeUnit.HOUR -> "::std::chrono::hours"
-            TimeUnit.MINUTE -> "::std::chrono::minutes"
-            TimeUnit.SECOND -> "::std::chrono::seconds"
-            TimeUnit.MILLISECOND -> "::std::chrono::milliseconds"
-            TimeUnit.MICROSECOND -> "::std::chrono::microseconds"
-            TimeUnit.NANOSECOND -> "::std::chrono::nanoseconds"
-        }
-        val multiplierSuffix = when (limeValue.timeUnit) {
-            TimeUnit.DAY -> " * 24"
-            else -> ""
-        }
+        val factoryMethod =
+            when (limeValue.timeUnit) {
+                TimeUnit.DAY, TimeUnit.HOUR -> "::std::chrono::hours"
+                TimeUnit.MINUTE -> "::std::chrono::minutes"
+                TimeUnit.SECOND -> "::std::chrono::seconds"
+                TimeUnit.MILLISECOND -> "::std::chrono::milliseconds"
+                TimeUnit.MICROSECOND -> "::std::chrono::microseconds"
+                TimeUnit.NANOSECOND -> "::std::chrono::nanoseconds"
+            }
+        val multiplierSuffix =
+            when (limeValue.timeUnit) {
+                TimeUnit.DAY -> " * 24"
+                else -> ""
+            }
         return "::std::chrono::duration_cast<$typeName>($factoryMethod(${limeValue.value}$multiplierSuffix))"
     }
 
-    private fun resolveGenericType(limeType: LimeGenericType, attributes: LimeAttributes? = null) =
-        when (limeType) {
-            is LimeList -> {
-                val elementType = limeType.elementType
-                val elementName = when {
+    private fun resolveGenericType(
+        limeType: LimeGenericType,
+        attributes: LimeAttributes? = null,
+    ) = when (limeType) {
+        is LimeList -> {
+            val elementType = limeType.elementType
+            val elementName =
+                when {
                     (attributes?.have(OPTIMIZED) == true) &&
                         elementType.type.actualType !is LimeContainerWithInheritance ->
                         "::std::shared_ptr< ${resolveName(elementType)} >"
                     else -> resolveName(elementType)
                 }
-                "::std::vector< $elementName >"
-            }
-            is LimeMap -> {
-                val keyName = resolveName(limeType.keyType)
-                val valueName = resolveName(limeType.valueType)
-                val hashInfix = resolveHashInfix(limeType.keyType, keyName)
-                "::std::unordered_map< $keyName, $valueName$hashInfix >"
-            }
-            is LimeSet -> {
-                val elementName = resolveName(limeType.elementType)
-                val hashInfix = resolveHashInfix(limeType.elementType, elementName)
-                "::std::unordered_set< $elementName$hashInfix >"
-            }
-            else -> throw GluecodiumExecutionException(
-                "Unsupported element type ${limeType.javaClass.name}"
-            )
+            "::std::vector< $elementName >"
         }
+        is LimeMap -> {
+            val keyName = resolveName(limeType.keyType)
+            val valueName = resolveName(limeType.valueType)
+            val hashInfix = resolveHashInfix(limeType.keyType, keyName)
+            "::std::unordered_map< $keyName, $valueName$hashInfix >"
+        }
+        is LimeSet -> {
+            val elementName = resolveName(limeType.elementType)
+            val hashInfix = resolveHashInfix(limeType.elementType, elementName)
+            "::std::unordered_set< $elementName$hashInfix >"
+        }
+        else -> throw GluecodiumExecutionException(
+            "Unsupported element type ${limeType.javaClass.name}",
+        )
+    }
 
-    private fun resolveHashInfix(limeTypeRef: LimeTypeRef, resolvedName: String) =
-        if (CppLibraryIncludes.hasStdHash(limeTypeRef)) "" else ", $hashTypeName< $resolvedName >"
+    private fun resolveHashInfix(
+        limeTypeRef: LimeTypeRef,
+        resolvedName: String,
+    ) = if (CppLibraryIncludes.hasStdHash(limeTypeRef)) "" else ", $hashTypeName< $resolvedName >"
 
     private fun resolveComment(limeComment: LimeComment) =
         commentsProcessor?.process(
             limeComment.path.toString(),
             limeComment.getFor("Cpp"),
             limeToCppNames,
-            limeLogger
+            limeLogger,
         ) ?: ""
 
     private fun getFullyQualifiedReference(limeElement: LimeNamedElement) =
@@ -276,40 +291,48 @@ internal class CppNameResolver(
             }
 
     private fun buildPathMap(): Map<String, String> {
-        val result = limeReferenceMap.values
-            .filterIsInstance<LimeNamedElement>()
-            .filterNot { it is LimeProperty || it is LimeException || it is LimeBasicType || it is LimeParameter }
-            .associateBy({ it.path.toAmbiguousString() }, { getFullyQualifiedReference(it) })
-            .toMutableMap()
+        val result =
+            limeReferenceMap.values
+                .filterIsInstance<LimeNamedElement>()
+                .filterNot { it is LimeProperty || it is LimeException || it is LimeBasicType || it is LimeParameter }
+                .associateBy({ it.path.toAmbiguousString() }, { getFullyQualifiedReference(it) })
+                .toMutableMap()
 
-        result += limeReferenceMap.values.filterIsInstance<LimeException>()
-            .associateBy({ it.path.toAmbiguousString() }, { resolveName(it.errorType) })
-        result += limeReferenceMap.values.filterIsInstance<LimeParameter>()
-            .associateBy({ it.fullName }, { resolveName(it) })
+        result +=
+            limeReferenceMap.values.filterIsInstance<LimeException>()
+                .associateBy({ it.path.toAmbiguousString() }, { resolveName(it.errorType) })
+        result +=
+            limeReferenceMap.values.filterIsInstance<LimeParameter>()
+                .associateBy({ it.fullName }, { resolveName(it) })
 
         val functions = limeReferenceMap.values.filterIsInstance<LimeFunction>()
         result += functions.associateBy({ it.path.toAmbiguousString() }, { getFullyQualifiedReference(it) })
-        result += functions.associateBy(
-            { function ->
-                function.path.toAmbiguousString() + function.parameters
-                    .joinToString(prefix = "(", postfix = ")", separator = ",") { it.typeRef.toString() }
-            },
-            { getFullyQualifiedReference(it) }
-        )
+        result +=
+            functions.associateBy(
+                { function ->
+                    function.path.toAmbiguousString() +
+                        function.parameters
+                            .joinToString(prefix = "(", postfix = ")", separator = ",") { it.typeRef.toString() }
+                },
+                { getFullyQualifiedReference(it) },
+            )
 
         val properties = limeReferenceMap.values.filterIsInstance<LimeProperty>()
-        result += properties.associateBy(
-            { it.path.toAmbiguousString() },
-            { nameCache.getFullyQualifiedGetterName(it) }
-        )
-        result += properties.associateBy(
-            { it.path.toAmbiguousString() + ".get" },
-            { nameCache.getFullyQualifiedGetterName(it) }
-        )
-        result += properties.filter { it.setter != null }.associateBy(
-            { it.path.toAmbiguousString() + ".set" },
-            { nameCache.getFullyQualifiedSetterName(it) }
-        )
+        result +=
+            properties.associateBy(
+                { it.path.toAmbiguousString() },
+                { nameCache.getFullyQualifiedGetterName(it) },
+            )
+        result +=
+            properties.associateBy(
+                { it.path.toAmbiguousString() + ".get" },
+                { nameCache.getFullyQualifiedGetterName(it) },
+            )
+        result +=
+            properties.filter { it.setter != null }.associateBy(
+                { it.path.toAmbiguousString() + ".set" },
+                { nameCache.getFullyQualifiedSetterName(it) },
+            )
 
         return result
     }
@@ -320,13 +343,14 @@ internal class CppNameResolver(
         fun needsRefSuffix(limeTypeRef: LimeTypeRef): Boolean {
             if (limeTypeRef.isNullable) return true
             return when (val actualType = limeTypeRef.type.actualType) {
-                is LimeBasicType -> when (actualType.typeId) {
-                    TypeId.STRING -> !limeTypeRef.attributes.have(CPP, TYPE)
-                    TypeId.BLOB -> true
-                    TypeId.DATE -> true
-                    TypeId.LOCALE -> true
-                    else -> false
-                }
+                is LimeBasicType ->
+                    when (actualType.typeId) {
+                        TypeId.STRING -> !limeTypeRef.attributes.have(CPP, TYPE)
+                        TypeId.BLOB -> true
+                        TypeId.DATE -> true
+                        TypeId.LOCALE -> true
+                        else -> false
+                    }
                 is LimeEnumeration -> false
                 else -> true
             }

@@ -39,16 +39,16 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class LimeOverloadsValidatorFieldConstructorsTest {
-
     private val allElements = mutableMapOf<String, LimeElement>()
     private val fooPath = LimePath(emptyList(), listOf("foo"))
     private val fooRef = LimeLazyTypeRef("foo", allElements)
     private val fcPath1 = fooPath.child("", "1")
     private val fcPath2 = fooPath.child("", "2")
     private val weePath = fooPath.child("wee")
-    private val limeFieldRef = object : LimeFieldRef() {
-        override val field = LimeField(fooPath.child("bar"), typeRef = LimeBasicTypeRef.INT)
-    }
+    private val limeFieldRef =
+        object : LimeFieldRef() {
+            override val field = LimeField(fooPath.child("bar"), typeRef = LimeBasicTypeRef.INT)
+        }
 
     private val validatorNoCustomConstructors =
         LimeOverloadsValidator(LimeSignatureResolver(allElements), mockk(relaxed = true), false)
@@ -104,11 +104,12 @@ class LimeOverloadsValidatorFieldConstructorsTest {
     @Test
     fun validateFieldCustomConstructorsInvalid() {
         val fieldConstructor = LimeFieldConstructor(fcPath1, structRef = fooRef, fieldRefs = listOf(limeFieldRef))
-        val customConstructor = LimeFunction(
-            weePath,
-            isConstructor = true,
-            parameters = listOf(LimeParameter(weePath.child("baz"), typeRef = LimeBasicTypeRef.INT))
-        )
+        val customConstructor =
+            LimeFunction(
+                weePath,
+                isConstructor = true,
+                parameters = listOf(LimeParameter(weePath.child("baz"), typeRef = LimeBasicTypeRef.INT)),
+            )
         allElements[fcPath1.toString()] = fieldConstructor
         allElements[weePath.toString()] = customConstructor
         allElements[fooPath.toString()] =

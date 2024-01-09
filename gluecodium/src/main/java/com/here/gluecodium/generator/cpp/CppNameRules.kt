@@ -28,9 +28,8 @@ import java.io.File
 
 internal class CppNameRules(
     private val rootNamespace: List<String>,
-    nameRuleSet: NameRuleSet
+    nameRuleSet: NameRuleSet,
 ) : NameRules(nameRuleSet) {
-
     fun getOutputFilePath(limeElement: LimeNamedElement): String {
         val fileName =
             limeElement.attributes.get(CPP, NAME) ?: ruleSet.getTypeName(limeElement.path.container)

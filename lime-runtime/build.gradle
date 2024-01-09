@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2019 HERE Europe B.V.
+ * Copyright (C) 2016-2024 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,12 +18,11 @@
  */
 
 dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.6.21'
-    compileOnly 'org.jetbrains:annotations:23.0.0'
+    implementation libs.kotlin.stdlib
+    compileOnly libs.jetbrains.annotations
 
-    testImplementation 'io.mockk:mockk-dsl-jvm:1.12.5'
-    testImplementation 'io.mockk:mockk:1.12.5'
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation libs.bundles.mockk
+    testImplementation libs.junit
 }
 
 javadoc.enabled = false

@@ -24,5 +24,5 @@ abstract class LimeTypedElement protected constructor(
     comment: LimeComment,
     attributes: LimeAttributes?,
     external: LimeExternalDescriptor? = null,
-    val typeRef: LimeTypeRef
+    val typeRef: LimeTypeRef,
 ) : LimeNamedElement(path, comment, attributes, external)

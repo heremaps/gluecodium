@@ -40,7 +40,6 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class LimeFieldConstructorsValidatorTest {
-
     private val allElements = mutableMapOf<String, LimeElement>()
     private val limeModel = LimeModel(allElements, emptyList())
 
@@ -49,16 +48,20 @@ class LimeFieldConstructorsValidatorTest {
         LimeField(LimePath(emptyList(), listOf("bar")), typeRef = LimeBasicTypeRef.INT, defaultValue = LimeValue.ZERO)
     private val limeStruct = LimeStruct(EMPTY_PATH, fields = listOf(fooField, barField))
     private val structTypeRef = LimeDirectTypeRef(limeStruct)
-    private val fooFieldRef = object : LimeFieldRef() { override val field = fooField }
+    private val fooFieldRef =
+        object : LimeFieldRef() {
+            override val field = fooField
+        }
 
     private val validator = LimeFieldConstructorsValidator(mockk(relaxed = true))
 
     @Test
     fun validateThrowingFieldRef() {
-        val throwingFieldRef = object : LimeFieldRef() {
-            override val field
-                get() = throw LimeModelLoaderException("")
-        }
+        val throwingFieldRef =
+            object : LimeFieldRef() {
+                override val field
+                    get() = throw LimeModelLoaderException("")
+            }
         allElements[""] = LimeFieldConstructor(EMPTY_PATH, structRef = structTypeRef, fieldRefs = listOf(throwingFieldRef))
 
         assertFalse(validator.validate(limeModel))
@@ -66,11 +69,12 @@ class LimeFieldConstructorsValidatorTest {
 
     @Test
     fun validateDuplicateEntries() {
-        allElements[""] = LimeFieldConstructor(
-            EMPTY_PATH,
-            structRef = structTypeRef,
-            fieldRefs = listOf(fooFieldRef, fooFieldRef)
-        )
+        allElements[""] =
+            LimeFieldConstructor(
+                EMPTY_PATH,
+                structRef = structTypeRef,
+                fieldRefs = listOf(fooFieldRef, fooFieldRef),
+            )
 
         assertFalse(validator.validate(limeModel))
     }
@@ -84,11 +88,17 @@ class LimeFieldConstructorsValidatorTest {
 
     @Test
     fun validateNonDefaultedOmitted() {
-        allElements[""] = LimeFieldConstructor(
-            EMPTY_PATH,
-            structRef = structTypeRef,
-            fieldRefs = listOf(object : LimeFieldRef() { override val field = barField })
-        )
+        allElements[""] =
+            LimeFieldConstructor(
+                EMPTY_PATH,
+                structRef = structTypeRef,
+                fieldRefs =
+                    listOf(
+                        object : LimeFieldRef() {
+                            override val field = barField
+                        },
+                    ),
+            )
 
         assertFalse(validator.validate(limeModel))
     }

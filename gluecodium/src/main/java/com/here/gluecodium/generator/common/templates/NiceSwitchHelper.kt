@@ -54,13 +54,16 @@ internal class NiceSwitchHelper : SwitchHelper() {
                     "Invalid content detected {}. " +
                         "This helper should only contain case, default and comment sections. " +
                         "Other types of segments are always rendered.",
-                    info
+                    info,
                 )
             }
         }
     }
 
-    private fun isValid(info: MustacheTagInfo, validNames: Set<String>): Boolean {
+    private fun isValid(
+        info: MustacheTagInfo,
+        validNames: Set<String>,
+    ): Boolean {
         // Accept "comment" sections as valid
         if (info.type == MustacheTagType.COMMENT) {
             return true

@@ -28,7 +28,7 @@ package com.here.gluecodium.model.lime
 class LimeComment(
     val path: LimePath = LimePath.EMPTY_PATH,
     private val taggedSections: List<Pair<String, String>> = emptyList(),
-    val isExcluded: Boolean = false
+    val isExcluded: Boolean = false,
 ) {
     constructor(comment: String, path: LimePath = LimePath.EMPTY_PATH) : this(path, listOf("" to comment))
 
@@ -42,15 +42,15 @@ class LimeComment(
 
     fun withPath(newPath: LimePath) = LimeComment(newPath, taggedSections, isExcluded)
 
-    fun withExcluded(newExcluded: Boolean) =
-        if (newExcluded != isExcluded) LimeComment(path, taggedSections, newExcluded) else this
+    fun withExcluded(newExcluded: Boolean) = if (newExcluded != isExcluded) LimeComment(path, taggedSections, newExcluded) else this
 
-    override fun toString() = taggedSections.joinToString("") {
-        when (it.first) {
-            "" -> escapeText(it.second)
-            else -> "{@${it.first} ${escapeText(it.second)}}"
-        }
-    }.trim()
+    override fun toString() =
+        taggedSections.joinToString("") {
+            when (it.first) {
+                "" -> escapeText(it.second)
+                else -> "{@${it.first} ${escapeText(it.second)}}"
+            }
+        }.trim()
 
     private fun escapeText(text: String) = text.replace("""[@{}\\]""".toRegex()) { "\\${it.value}" }
 }

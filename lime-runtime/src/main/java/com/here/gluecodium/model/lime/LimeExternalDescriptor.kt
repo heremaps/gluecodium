@@ -22,7 +22,7 @@ package com.here.gluecodium.model.lime
 import com.here.gluecodium.common.CaseInsensitiveMap
 
 class LimeExternalDescriptor private constructor(
-    private val descriptors: Map<String, Map<String, String>>
+    private val descriptors: Map<String, Map<String, String>>,
 ) {
     val cpp
         get() = descriptors[CPP_TAG]
@@ -33,8 +33,7 @@ class LimeExternalDescriptor private constructor(
     val dart
         get() = descriptors[DART_TAG]
 
-    operator fun plus(other: LimeExternalDescriptor) =
-        LimeExternalDescriptor(descriptors + other.descriptors)
+    operator fun plus(other: LimeExternalDescriptor) = LimeExternalDescriptor(descriptors + other.descriptors)
 
     override fun toString() =
         descriptors.entries.flatMap { entry ->
@@ -44,7 +43,11 @@ class LimeExternalDescriptor private constructor(
     class Builder {
         private val descriptors = CaseInsensitiveMap<CaseInsensitiveMap<String>>()
 
-        fun addValue(tag: String, name: String, value: String): Builder {
+        fun addValue(
+            tag: String,
+            name: String,
+            value: String,
+        ): Builder {
             descriptors.getOrPut(tag, { CaseInsensitiveMap() })[name] = value
             return this
         }

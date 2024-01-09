@@ -39,7 +39,6 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class LimeFunctionsValidatorRefsTest {
-
     private val allElements = mutableMapOf<String, LimeElement>()
     private val barPath = LimePath(emptyList(), listOf("foo", "bar"))
 

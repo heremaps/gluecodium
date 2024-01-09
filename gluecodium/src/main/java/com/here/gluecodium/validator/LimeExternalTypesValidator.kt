@@ -34,7 +34,6 @@ import com.here.gluecodium.model.lime.LimeNamedElement
  *  * Should not have "@Cpp(Name)" attribute.
  */
 internal class LimeExternalTypesValidator(private val logger: LimeLogger) {
-
     fun validate(limeModel: LimeModel): Boolean {
         val allElements = limeModel.referenceMap.values.filterIsInstance<LimeNamedElement>()
         val validationResults =
@@ -48,7 +47,7 @@ internal class LimeExternalTypesValidator(private val logger: LimeLogger) {
     private fun validateExternalNames(
         allElements: List<LimeNamedElement>,
         referenceMap: Map<String, LimeElement>,
-        valueName: String
+        valueName: String,
     ) = allElements
         .filter { it.external?.cpp?.get(valueName) != null }
         .map { validateExternalElement(it, referenceMap, valueName) }
@@ -56,13 +55,13 @@ internal class LimeExternalTypesValidator(private val logger: LimeLogger) {
     private fun validateExternalElement(
         limeElement: LimeNamedElement,
         referenceMap: Map<String, LimeElement>,
-        propertyName: String
+        propertyName: String,
     ) = when {
         !isInExternalType(limeElement, referenceMap) -> {
             logger.error(
                 limeElement,
                 "an element with '$propertyName' also" +
-                    " needs to have 'cpp: externalType' set for itself or one of its enclosing elements"
+                    " needs to have 'cpp: externalType' set for itself or one of its enclosing elements",
             )
             false
         }
@@ -70,7 +69,7 @@ internal class LimeExternalTypesValidator(private val logger: LimeLogger) {
             logger.error(
                 limeElement,
                 "an element with 'cpp: $propertyName' cannot" +
-                    " have '@Cpp(Name)' set at the same time"
+                    " have '@Cpp(Name)' set at the same time",
             )
             false
         }
@@ -79,7 +78,7 @@ internal class LimeExternalTypesValidator(private val logger: LimeLogger) {
 
     private fun isInExternalType(
         limeElement: LimeNamedElement,
-        referenceMap: Map<String, LimeElement>
+        referenceMap: Map<String, LimeElement>,
     ) = generateSequence(limeElement) {
         when {
             it.path.tail.isNotEmpty() -> referenceMap[it.path.parent.toString()] as? LimeNamedElement

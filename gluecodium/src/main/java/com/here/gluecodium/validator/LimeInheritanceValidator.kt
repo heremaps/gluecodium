@@ -32,7 +32,6 @@ import com.here.gluecodium.model.lime.LimePath
  * interfaces.
  */
 internal class LimeInheritanceValidator(private val logger: LimeLogger) {
-
     fun validate(limeModel: LimeModel): Boolean {
         val allElements = limeModel.referenceMap.values
         val validationResults =
@@ -64,7 +63,6 @@ internal class LimeInheritanceValidator(private val logger: LimeLogger) {
             }
             limeClass.parents.drop(1).map { it.type.actualType }
                 .any { it !is LimeInterface || !it.isNarrow } -> {
-
                 logger.error(limeClass, MULTIPLE_INHERITANCE_MESSAGE)
                 false
             }
@@ -90,7 +88,6 @@ internal class LimeInheritanceValidator(private val logger: LimeLogger) {
             }
             limeInterface.parents.drop(1).map { it.type.actualType }
                 .any { it !is LimeInterface || !it.isNarrow } -> {
-
                 logger.error(limeInterface, MULTIPLE_INHERITANCE_MESSAGE)
                 false
             }
@@ -100,7 +97,7 @@ internal class LimeInheritanceValidator(private val logger: LimeLogger) {
 
     private fun hasInheritanceLoop(
         limeContainer: LimeContainerWithInheritance,
-        visitedPaths: Set<LimePath> = emptySet()
+        visitedPaths: Set<LimePath> = emptySet(),
     ): Boolean {
         val containerPath = limeContainer.path
         if (visitedPaths.contains(containerPath)) return true

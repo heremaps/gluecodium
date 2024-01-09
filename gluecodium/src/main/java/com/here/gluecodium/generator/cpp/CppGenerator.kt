@@ -56,7 +56,6 @@ import java.util.logging.Logger
  * templates to it and returns the list of generated files.
  */
 internal class CppGenerator : Generator {
-
     private lateinit var nameRules: CppNameRules
     private lateinit var rootNamespace: List<String>
     private lateinit var internalNamespace: List<String>
@@ -75,12 +74,13 @@ internal class CppGenerator : Generator {
         commentsProcessor = DoxygenCommentsProcessor(options.werror.contains(GeneratorOptions.WARNING_DOC_LINKS))
         exportName = options.cppExport
         exportCommonName = options.cppExportCommon ?: options.cppExport
-        exportInclude = Include.createInternalInclude(
-            Paths.get(
-                internalNamespace.joinToString(File.separator),
-                getExportFileName(exportName) + ".h"
-            ).toString()
-        )
+        exportInclude =
+            Include.createInternalInclude(
+                Paths.get(
+                    internalNamespace.joinToString(File.separator),
+                    getExportFileName(exportName) + ".h",
+                ).toString(),
+            )
         activeTags = options.tags
     }
 
@@ -104,33 +104,36 @@ internal class CppGenerator : Generator {
 
         val includeResolver = CppIncludeResolver(filteredModel.referenceMap, nameRules, internalNamespace)
         val cachingNameResolver = CppNameCache(rootNamespace, filteredModel.referenceMap, nameRules)
-        val nameResolver = CppNameResolver(
-            filteredModel.referenceMap,
-            internalNamespace,
-            cachingNameResolver,
-            limeLogger,
-            commentsProcessor
-        )
+        val nameResolver =
+            CppNameResolver(
+                filteredModel.referenceMap,
+                internalNamespace,
+                cachingNameResolver,
+                limeLogger,
+                commentsProcessor,
+            )
         val fullNameResolver = CppFullNameResolver(cachingNameResolver)
 
-        val allErrorEnums = filteredModel.topElements
-            .flatMap { LimeTypeHelper.getAllTypes(it) }
-            .asSequence()
-            .filterIsInstance<LimeException>()
-            .map { it.errorType.type }
-            .filterIsInstance<LimeEnumeration>()
-            .filter { it.external?.cpp == null }
-            .map { it.fullName }
-            .toSet()
+        val allErrorEnums =
+            filteredModel.topElements
+                .flatMap { LimeTypeHelper.getAllTypes(it) }
+                .asSequence()
+                .filterIsInstance<LimeException>()
+                .map { it.errorType.type }
+                .filterIsInstance<LimeEnumeration>()
+                .filter { it.external?.cpp == null }
+                .map { it.fullName }
+                .toSet()
         val predicates = CppGeneratorPredicates(filteredModel.referenceMap).predicates
 
-        val generatedFiles = filteredModel.topElements.flatMap {
-            val fileName = nameRules.getOutputFilePath(it)
-            generateCode(it, fileName, includeResolver, nameResolver, fullNameResolver, signatureResolver, allErrorEnums, predicates)
-        } + COMMON_HEADERS.map { generateHelperFile(it, "include", ".h") } +
-            COMMON_IMPLS.map { generateHelperFile(it, "src", ".cpp") } +
-            generateExportHelperFile(exportCommonName, "Common", GeneratedFile.SourceSet.COMMON) +
-            generateExportHelperFile(exportName, "", GeneratedFile.SourceSet.MAIN)
+        val generatedFiles =
+            filteredModel.topElements.flatMap {
+                val fileName = nameRules.getOutputFilePath(it)
+                generateCode(it, fileName, includeResolver, nameResolver, fullNameResolver, signatureResolver, allErrorEnums, predicates)
+            } + COMMON_HEADERS.map { generateHelperFile(it, "include", ".h") } +
+                COMMON_IMPLS.map { generateHelperFile(it, "src", ".cpp") } +
+                generateExportHelperFile(exportCommonName, "Common", GeneratedFile.SourceSet.COMMON) +
+                generateExportHelperFile(exportName, "", GeneratedFile.SourceSet.MAIN)
 
         if (commentsProcessor.hasError) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
@@ -147,33 +150,34 @@ internal class CppGenerator : Generator {
         fullNameResolver: CppFullNameResolver,
         signatureResolver: CppSignatureResolver,
         allErrorEnums: Set<String>,
-        predicates: Map<String, (Any)-> Boolean>
+        predicates: Map<String, (Any) -> Boolean>,
     ): List<GeneratedFile> {
-
         val allTypes = LimeTypeHelper.getAllTypes(rootElement)
         val errorEnums = allTypes.filter { allErrorEnums.contains(it.fullName) }.toSet()
 
         val limeElements = listOf(rootElement) // TODO
         val hasConstants = limeElements.any { it is LimeConstant }
         val needsHeader = hasConstants || limeElements.any { it !is LimeException && it.external?.cpp == null }
-        val needsImplementation = hasConstants || errorEnums.isNotEmpty() ||
-            limeElements.any { it is LimeContainer } || limeElements.any { it is LimeEnumeration }
+        val needsImplementation =
+            hasConstants || errorEnums.isNotEmpty() ||
+                limeElements.any { it is LimeContainer } || limeElements.any { it is LimeEnumeration }
         if (!needsHeader && !needsImplementation) {
             return emptyList()
         }
 
         val equatableTypes = allTypes.filter { it.external?.cpp == null && it.attributes.have(EQUATABLE) }
         val forwardDeclarations = CppForwardDeclarationsCollector(nameResolver).collectImports(rootElement)
-        val templateData = mutableMapOf(
-            "internalNamespace" to internalNamespace,
-            "namespace" to rootNamespace + rootElement.path.head,
-            "rootNamespace" to rootNamespace,
-            "exportName" to exportName,
-            "model" to rootElement,
-            "equatables" to equatableTypes,
-            "errorEnums" to errorEnums,
-            "forwardDeclarations" to forwardDeclarations
-        )
+        val templateData =
+            mutableMapOf(
+                "internalNamespace" to internalNamespace,
+                "namespace" to rootNamespace + rootElement.path.head,
+                "rootNamespace" to rootNamespace,
+                "exportName" to exportName,
+                "model" to rootElement,
+                "equatables" to equatableTypes,
+                "errorEnums" to errorEnums,
+                "forwardDeclarations" to forwardDeclarations,
+            )
 
         val nameResolvers = mapOf("" to nameResolver, "FQN" to fullNameResolver, "C++" to nameResolver)
         val result = mutableListOf<GeneratedFile>()
@@ -185,22 +189,27 @@ internal class CppGenerator : Generator {
         }
         if (needsImplementation) {
             val implIncludesCollector = CppImplIncludesCollector(includeResolver, allErrorEnums)
-            val implementationIncludes = implIncludesCollector.collectImports(rootElement) +
-                createSelfInclude(rootElement, needsHeader, fileName)
+            val implementationIncludes =
+                implIncludesCollector.collectImports(rootElement) +
+                    createSelfInclude(rootElement, needsHeader, fileName)
             result += generateImplementation(rootElement, nameResolvers, implementationIncludes, templateData, fileName, predicates)
         }
 
         return result
     }
 
-    private fun collectFunctionUsings(rootElement: LimeNamedElement, signatureResolver: CppSignatureResolver) =
-        LimeTypeHelper.getAllTypes(rootElement)
-            .filterIsInstance<LimeContainerWithInheritance>()
-            .filter { it.parents.isNotEmpty() }
-            .associateBy({ it.fullName }, { getFunctionUsing(it, signatureResolver) })
+    private fun collectFunctionUsings(
+        rootElement: LimeNamedElement,
+        signatureResolver: CppSignatureResolver,
+    ) = LimeTypeHelper.getAllTypes(rootElement)
+        .filterIsInstance<LimeContainerWithInheritance>()
+        .filter { it.parents.isNotEmpty() }
+        .associateBy({ it.fullName }, { getFunctionUsing(it, signatureResolver) })
 
-    private fun getFunctionUsing(limeContainer: LimeContainerWithInheritance, signatureResolver: CppSignatureResolver) =
-        limeContainer.functions.mapNotNull { signatureResolver.getInheritedOverloads(it).firstOrNull() }
+    private fun getFunctionUsing(
+        limeContainer: LimeContainerWithInheritance,
+        signatureResolver: CppSignatureResolver,
+    ) = limeContainer.functions.mapNotNull { signatureResolver.getInheritedOverloads(it).firstOrNull() }
 
     private fun generateImplementation(
         rootElement: LimeNamedElement,
@@ -208,12 +217,14 @@ internal class CppGenerator : Generator {
         implementationIncludes: List<Include>,
         generalData: Map<String, Any>,
         fileName: String,
-        predicates: Map<String, (Any)-> Boolean>
+        predicates: Map<String, (Any) -> Boolean>,
     ): GeneratedFile {
-        val templateData = generalData + mapOf(
-            "includes" to implementationIncludes.distinct().sorted(),
-            "contentTemplate" to selectTemplate(rootElement) + "Impl"
-        )
+        val templateData =
+            generalData +
+                mapOf(
+                    "includes" to implementationIncludes.distinct().sorted(),
+                    "contentTemplate" to selectTemplate(rootElement) + "Impl",
+                )
         val implementationContent =
             TemplateEngine.render("cpp/CppImplementation", templateData, nameResolvers, predicates)
         val absolutePath = Paths.get(GENERATOR_NAME, "src", fileName)
@@ -226,26 +237,32 @@ internal class CppGenerator : Generator {
         fileName: String,
         generalData: Map<String, Any>,
         headerIncludes: List<Include>,
-        predicates: Map<String, (Any)-> Boolean>
+        predicates: Map<String, (Any) -> Boolean>,
     ): GeneratedFile {
         val absolutePath = Paths.get(GENERATOR_NAME, "include", fileName)
         val headerFileName = "$absolutePath.h"
 
         val sortedIncludes =
             headerIncludes.distinct().sorted().filterNot { headerFileName.endsWith(it.fileName) }
-        val templateData = generalData +
-            mapOf("includes" to sortedIncludes, "contentTemplate" to selectTemplate(rootElement))
+        val templateData =
+            generalData +
+                mapOf("includes" to sortedIncludes, "contentTemplate" to selectTemplate(rootElement))
         val headerContent =
             TemplateEngine.render("cpp/CppHeader", templateData, nameResolvers, predicates, sorters)
         return GeneratedFile(headerContent, headerFileName)
     }
 
-    private fun generateHelperFile(fileName: String, subDir: String, suffix: String): GeneratedFile {
-        val templateData = mapOf(
-            "internalNamespace" to internalNamespace,
-            "exportName" to exportCommonName,
-            "exportFileName" to getExportFileName(exportCommonName, "Common")
-        )
+    private fun generateHelperFile(
+        fileName: String,
+        subDir: String,
+        suffix: String,
+    ): GeneratedFile {
+        val templateData =
+            mapOf(
+                "internalNamespace" to internalNamespace,
+                "exportName" to exportCommonName,
+                "exportFileName" to getExportFileName(exportCommonName, "Common"),
+            )
         val content = TemplateEngine.render("cpp/common/$fileName", templateData)
 
         val namePrefix = Paths.get(GENERATOR_NAME, subDir, internalNamespace.joinToString("/"), fileName).toString()
@@ -255,7 +272,7 @@ internal class CppGenerator : Generator {
     private fun generateExportHelperFile(
         exportName: String,
         infix: String,
-        sourceSet: GeneratedFile.SourceSet
+        sourceSet: GeneratedFile.SourceSet,
     ): GeneratedFile {
         val templateData = mapOf("internalNamespace" to internalNamespace, "exportName" to exportName)
         val content = TemplateEngine.render("cpp/common/Export", templateData)
@@ -265,8 +282,10 @@ internal class CppGenerator : Generator {
         return GeneratedFile(content, "$namePrefix.h", sourceSet)
     }
 
-    private fun getExportFileName(exportName: String, infix: String = "") =
-        "Export" + infix + NameHelper.toUpperCamelCase(exportName)
+    private fun getExportFileName(
+        exportName: String,
+        infix: String = "",
+    ) = "Export" + infix + NameHelper.toUpperCamelCase(exportName)
 
     private fun selectTemplate(limeElement: LimeNamedElement) =
         when (limeElement) {
@@ -282,7 +301,7 @@ internal class CppGenerator : Generator {
     private fun createSelfInclude(
         rootElement: LimeNamedElement,
         needsHeader: Boolean,
-        fileName: String
+        fileName: String,
     ): List<Include> {
         if (needsHeader) return listOf(Include.createInternalInclude("$fileName.h"))
         val externalInclude = rootElement.external?.cpp?.get(LimeExternalDescriptor.INCLUDE_NAME) ?: return emptyList()
@@ -293,23 +312,25 @@ internal class CppGenerator : Generator {
         private const val GENERATOR_NAME = "cpp"
 
         private val logger = Logger.getLogger(CppGenerator::class.java.name)
-        private val COMMON_HEADERS = listOf(
-            "DurationHash",
-            "Hash",
-            "Locale",
-            "Return",
-            "TimePointHash",
-            "TypeRepository",
-            "UnorderedMapHash",
-            "UnorderedSetHash",
-            "VectorHash"
-        )
+        private val COMMON_HEADERS =
+            listOf(
+                "DurationHash",
+                "Hash",
+                "Locale",
+                "Return",
+                "TimePointHash",
+                "TypeRepository",
+                "UnorderedMapHash",
+                "UnorderedSetHash",
+                "VectorHash",
+            )
         private val COMMON_IMPLS = listOf("LocaleImpl", "TypeRepositoryImpl")
 
-        private val sorters = mapOf(
-            "" to { elements: List<Any> ->
-                TopologicalSort(elements.filterIsInstance<LimeNamedElement>()).sort()
-            }
-        )
+        private val sorters =
+            mapOf(
+                "" to { elements: List<Any> ->
+                    TopologicalSort(elements.filterIsInstance<LimeNamedElement>()).sort()
+                },
+            )
     }
 }

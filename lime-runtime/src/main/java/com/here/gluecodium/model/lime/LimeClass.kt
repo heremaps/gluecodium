@@ -35,25 +35,25 @@ class LimeClass(
     interfaces: List<LimeInterface> = emptyList(),
     lambdas: List<LimeLambda> = emptyList(),
     parents: List<LimeTypeRef> = emptyList(),
-    isOpen: Boolean = false
+    isOpen: Boolean = false,
 ) : LimeContainerWithInheritance(
-    path = path,
-    comment = comment,
-    attributes = attributes,
-    external = external,
-    structs = structs,
-    enumerations = enumerations,
-    constants = constants,
-    typeAliases = typeAliases,
-    functions = functions,
-    properties = properties,
-    exceptions = exceptions,
-    classes = classes,
-    interfaces = interfaces,
-    lambdas = lambdas,
-    parents = parents,
-    isOpen = isOpen
-) {
+        path = path,
+        comment = comment,
+        attributes = attributes,
+        external = external,
+        structs = structs,
+        enumerations = enumerations,
+        constants = constants,
+        typeAliases = typeAliases,
+        functions = functions,
+        properties = properties,
+        exceptions = exceptions,
+        classes = classes,
+        interfaces = interfaces,
+        lambdas = lambdas,
+        parents = parents,
+        isOpen = isOpen,
+    ) {
     val parentClass
         get() = parents.map { it.type.actualType }.firstOrNull { it is LimeClass }
 

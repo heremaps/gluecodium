@@ -24,11 +24,9 @@ class LimeLambdaParameter(
     path: LimePath,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
-    @Suppress("unused") val isNamedParameter: Boolean = false
+    @Suppress("unused") val isNamedParameter: Boolean = false,
 ) : LimeTypedElement(path, comment, attributes, typeRef = typeRef) {
-
-    fun asLimeParameter() =
-        LimeParameter(path = path, comment = comment, attributes = attributes, typeRef = typeRef)
+    fun asLimeParameter() = LimeParameter(path = path, comment = comment, attributes = attributes, typeRef = typeRef)
 
     @Suppress("unused")
     fun parameterName() = path.name

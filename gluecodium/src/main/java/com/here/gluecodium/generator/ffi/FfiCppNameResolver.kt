@@ -35,17 +35,17 @@ internal class FfiCppNameResolver(
     limeReferenceMap: Map<String, LimeElement>,
     nameRules: CppNameRules,
     rootNamespace: List<String>,
-    internalNamespace: List<String>
+    internalNamespace: List<String>,
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
-
     private val cppNameCache = CppNameCache(rootNamespace, limeReferenceMap, nameRules)
-    private val cppNameResolver = CppNameResolver(
-        limeReferenceMap,
-        internalNamespace,
-        cppNameCache,
-        forceFullNames = true,
-        forceFollowThrough = true
-    )
+    private val cppNameResolver =
+        CppNameResolver(
+            limeReferenceMap,
+            internalNamespace,
+            cppNameCache,
+            forceFullNames = true,
+            forceFollowThrough = true,
+        )
 
     override fun resolveName(element: Any): String =
         when (element) {

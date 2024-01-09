@@ -22,5 +22,5 @@ package com.here.gluecodium.generator.cpp
 internal class CppForwardDeclarationGroup(
     val namespace: String,
     @Suppress("unused") val types: List<String>,
-    @Suppress("unused") val subGroups: List<CppForwardDeclarationGroup>
+    @Suppress("unused") val subGroups: List<CppForwardDeclarationGroup>,
 )

@@ -35,37 +35,41 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 internal class AntlrTypeMapper(
     private val imports: List<LimePath>,
     private val referenceMap: Map<String, LimeElement>,
-    private val identifierConverter: (LimeParser.SimpleIdContext) -> String
+    private val identifierConverter: (LimeParser.SimpleIdContext) -> String,
 ) {
-
-    fun mapTypeRef(currentPath: LimePath, typeRef: LimeParser.TypeRefContext) =
-        mapSimpleTypeRef(currentPath, typeRef.simpleTypeRef(), typeRef.Quest() != null)
+    fun mapTypeRef(
+        currentPath: LimePath,
+        typeRef: LimeParser.TypeRefContext,
+    ) = mapSimpleTypeRef(currentPath, typeRef.simpleTypeRef(), typeRef.Quest() != null)
 
     fun mapSimpleTypeRef(
         currentPath: LimePath,
         typeRef: LimeParser.SimpleTypeRefContext,
-        isOptional: Boolean = false
+        isOptional: Boolean = false,
     ): LimeTypeRef {
         val attributes = AntlrLimeConverter.convertAnnotations(currentPath, typeRef.annotation())
         return when {
-            typeRef.predefinedType() != null -> LimeBasicTypeRef(
-                mapPredefinedType(typeRef.predefinedType()),
-                isOptional,
-                attributes
-            )
-            typeRef.genericType() != null -> LimeDirectTypeRef(
-                mapGenericType(currentPath, typeRef.genericType()),
-                isOptional,
-                attributes
-            )
-            else -> LimeAmbiguousTypeRef(
-                relativePath = typeRef.identifier().simpleId().map { identifierConverter(it) },
-                parentPaths = listOf(currentPath) + currentPath.allParents,
-                imports = imports,
-                referenceMap = referenceMap,
-                isNullable = isOptional,
-                attributes = attributes
-            )
+            typeRef.predefinedType() != null ->
+                LimeBasicTypeRef(
+                    mapPredefinedType(typeRef.predefinedType()),
+                    isOptional,
+                    attributes,
+                )
+            typeRef.genericType() != null ->
+                LimeDirectTypeRef(
+                    mapGenericType(currentPath, typeRef.genericType()),
+                    isOptional,
+                    attributes,
+                )
+            else ->
+                LimeAmbiguousTypeRef(
+                    relativePath = typeRef.identifier().simpleId().map { identifierConverter(it) },
+                    parentPaths = listOf(currentPath) + currentPath.allParents,
+                    imports = imports,
+                    referenceMap = referenceMap,
+                    isNullable = isOptional,
+                    attributes = attributes,
+                )
         }
     }
 
@@ -93,7 +97,7 @@ internal class AntlrTypeMapper(
 
     private fun mapGenericType(
         currentPath: LimePath,
-        genericType: LimeParser.GenericTypeContext
+        genericType: LimeParser.GenericTypeContext,
     ): LimeType =
         when {
             genericType.listType() != null ->
@@ -103,7 +107,7 @@ internal class AntlrTypeMapper(
             genericType.mapType() != null ->
                 LimeMap(
                     mapTypeRef(currentPath, genericType.mapType().typeRef().first()),
-                    mapTypeRef(currentPath, genericType.mapType().typeRef().last())
+                    mapTypeRef(currentPath, genericType.mapType().typeRef().last()),
                 )
             else -> throw LimeLoadingException("Unrecognized generic type: $genericType")
         }

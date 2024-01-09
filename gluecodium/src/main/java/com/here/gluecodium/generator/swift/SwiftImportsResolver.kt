@@ -31,7 +31,6 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeValue
 
 internal class SwiftImportsResolver : ImportsResolver<String> {
-
     override fun resolveElementImports(limeElement: LimeElement): List<String> =
         when (limeElement) {
             is LimeTypeRef -> resolveElementImports(limeElement.type)

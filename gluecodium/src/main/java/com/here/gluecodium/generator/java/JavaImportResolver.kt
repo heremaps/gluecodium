@@ -50,7 +50,7 @@ internal class JavaImportResolver(
     private val nameResolver: JavaNameResolver,
     internalPackages: List<String>,
     private val nonNullAnnotation: JavaImport?,
-    private val nullableAnnotation: JavaImport?
+    private val nullableAnnotation: JavaImport?,
 ) : ImportsResolver<JavaImport> {
     val nativeBaseImport = JavaImport(internalPackages, "NativeBase")
     private val abstractNativeListImport = JavaImport(internalPackages, "AbstractNativeList")
@@ -86,8 +86,9 @@ internal class JavaImportResolver(
 
     private fun resolveStructImports(limeStruct: LimeStruct) =
         when {
-            limeStruct.attributes.have(SERIALIZABLE) -> listOf(parcelImport, parcelableImport) +
-                limeStruct.fields.mapNotNull { resolveSerializationImport(it.typeRef.type.actualType) }
+            limeStruct.attributes.have(SERIALIZABLE) ->
+                listOf(parcelImport, parcelableImport) +
+                    limeStruct.fields.mapNotNull { resolveSerializationImport(it.typeRef.type.actualType) }
             else -> emptyList()
         }
 
@@ -115,40 +116,49 @@ internal class JavaImportResolver(
         val hasValues = limeInitializerList.values.isNotEmpty()
         return when (limeType) {
             is LimeList -> listOfNotNull(arrayListImport, arraysImport.takeIf { hasValues })
-            is LimeSet -> listOfNotNull(arraysImport.takeIf { hasValues }) +
-                if (limeType.elementType.type.actualType is LimeEnumeration) enumSetImport else hashSetImport
+            is LimeSet ->
+                listOfNotNull(arraysImport.takeIf { hasValues }) +
+                    if (limeType.elementType.type.actualType is LimeEnumeration) enumSetImport else hashSetImport
             is LimeMap -> listOfNotNull(hashMapImport, hashMapBuilderImport.takeIf { hasValues })
             else -> emptyList()
         }
     }
 
-    private fun resolveTypeRefImports(limeTypeRef: LimeTypeRef?, ignoreNullability: Boolean = false): List<JavaImport> {
+    private fun resolveTypeRefImports(
+        limeTypeRef: LimeTypeRef?,
+        ignoreNullability: Boolean = false,
+    ): List<JavaImport> {
         val limeType = limeTypeRef?.type?.actualType ?: return emptyList()
 
-        val imports = when {
-            limeType.external?.java != null -> emptyList() // External types are referred by FQN, so no import needed.
-            limeType is LimeBasicType -> listOfNotNull(resolveBasicTypeImport(limeType.typeId))
-            limeType is LimeList -> resolveTypeRefImports(limeType.elementType, ignoreNullability = true) + listImport +
-                if (limeTypeRef.attributes.have(OPTIMIZED)) listOf(abstractNativeListImport) else emptyList()
-            limeType is LimeSet -> resolveTypeRefImports(limeType.elementType, ignoreNullability = true) + setImport
-            limeType is LimeMap -> resolveTypeRefImports(limeType.keyType, ignoreNullability = true) +
-                resolveTypeRefImports(limeType.valueType, ignoreNullability = true) + mapImport
-            else -> listOfNotNull(createTopElementImport(limeType))
-        }
-        val nullabilityImport = when {
-            ignoreNullability -> null
-            limeTypeRef.isNullable -> nullableAnnotation
-            needsNonNullAnnotation(limeType) -> nonNullAnnotation
-            else -> null
-        }
+        val imports =
+            when {
+                limeType.external?.java != null -> emptyList() // External types are referred by FQN, so no import needed.
+                limeType is LimeBasicType -> listOfNotNull(resolveBasicTypeImport(limeType.typeId))
+                limeType is LimeList ->
+                    resolveTypeRefImports(limeType.elementType, ignoreNullability = true) + listImport +
+                        if (limeTypeRef.attributes.have(OPTIMIZED)) listOf(abstractNativeListImport) else emptyList()
+                limeType is LimeSet -> resolveTypeRefImports(limeType.elementType, ignoreNullability = true) + setImport
+                limeType is LimeMap ->
+                    resolveTypeRefImports(limeType.keyType, ignoreNullability = true) +
+                        resolveTypeRefImports(limeType.valueType, ignoreNullability = true) + mapImport
+                else -> listOfNotNull(createTopElementImport(limeType))
+            }
+        val nullabilityImport =
+            when {
+                ignoreNullability -> null
+                limeTypeRef.isNullable -> nullableAnnotation
+                needsNonNullAnnotation(limeType) -> nonNullAnnotation
+                else -> null
+            }
         return imports + listOfNotNull(nullabilityImport)
     }
 
     fun createTopElementImport(limeType: LimeType): JavaImport? {
         if (nameResolver.typesWithDuplicateNames.contains(limeType.fullName)) return null
-        val topElement = generateSequence(limeType) {
-            limeReferenceMap[it.path.parent.toString()] as? LimeType
-        }.last()
+        val topElement =
+            generateSequence(limeType) {
+                limeReferenceMap[it.path.parent.toString()] as? LimeType
+            }.last()
         return JavaImport(nameResolver.resolvePackageNames(topElement), nameResolver.resolveName(topElement))
     }
 

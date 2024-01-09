@@ -26,28 +26,38 @@ import java.util.logging.Logger
 
 class LimeLogger(
     private val logger: Logger,
-    private val elementNameToFileName: Map<String, String>
+    private val elementNameToFileName: Map<String, String>,
 ) {
-    fun error(limeElement: LimeNamedElement, message: String) =
-        log(Level.SEVERE, getFileName(limeElement), limeElement.fullName, message)
+    fun error(
+        limeElement: LimeNamedElement,
+        message: String,
+    ) = log(Level.SEVERE, getFileName(limeElement), limeElement.fullName, message)
 
-    fun error(elementName: String, message: String) =
-        log(Level.SEVERE, getFileName(elementName), elementName, message)
+    fun error(
+        elementName: String,
+        message: String,
+    ) = log(Level.SEVERE, getFileName(elementName), elementName, message)
 
-    fun errorWithFileName(fileName: String, message: String) =
-        log(Level.SEVERE, fileName, null, message)
+    fun errorWithFileName(
+        fileName: String,
+        message: String,
+    ) = log(Level.SEVERE, fileName, null, message)
 
-    fun warning(limeElement: LimeNamedElement, message: String) =
-        log(Level.WARNING, getFileName(limeElement), limeElement.fullName, message)
+    fun warning(
+        limeElement: LimeNamedElement,
+        message: String,
+    ) = log(Level.WARNING, getFileName(limeElement), limeElement.fullName, message)
 
-    fun warning(elementName: String, message: String) =
-        log(Level.WARNING, getFileName(elementName), elementName, message)
+    fun warning(
+        elementName: String,
+        message: String,
+    ) = log(Level.WARNING, getFileName(elementName), elementName, message)
 
     private fun log(
         logLevel: Level,
         fileName: String,
         elementName: String?,
-        message: String
+        message: String,
     ) {
         val elementInfix = elementName?.let { ", element $it" } ?: ""
         logger.log(logLevel, "File $fileName$elementInfix: $message")
@@ -57,7 +67,7 @@ class LimeLogger(
         val containerKey = (limeElement.path.head + limeElement.path.container).joinToString(".")
         return elementNameToFileName[containerKey]
             ?: throw LimeModelLoaderException(
-                "Failed to resolve file name for ${limeElement.fullName} element"
+                "Failed to resolve file name for ${limeElement.fullName} element",
             )
     }
 

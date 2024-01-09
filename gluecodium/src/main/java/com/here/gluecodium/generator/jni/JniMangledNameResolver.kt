@@ -26,18 +26,15 @@ import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class JniMangledNameResolver(private val baseNameResolver: JniNameResolver) : NameResolver {
-
     override fun resolveName(element: Any) =
         when (element) {
             is LimeElement -> mangleName(baseNameResolver.resolveName(element))
             else -> mangleName(element.toString())
         }
 
-    override fun resolveGetterName(element: Any) =
-        baseNameResolver.resolveGetterName(element)?.let { mangleName(it) }
+    override fun resolveGetterName(element: Any) = baseNameResolver.resolveGetterName(element)?.let { mangleName(it) }
 
-    override fun resolveSetterName(element: Any) =
-        baseNameResolver.resolveSetterName(element)?.let { mangleName(it) }
+    override fun resolveSetterName(element: Any) = baseNameResolver.resolveSetterName(element)?.let { mangleName(it) }
 
     // Narrow usage:
     // * for intermediate types for "external" types with converters

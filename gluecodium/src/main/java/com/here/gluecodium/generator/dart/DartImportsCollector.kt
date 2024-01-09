@@ -29,13 +29,13 @@ internal class DartImportsCollector(importsResolver: ImportsResolver<DartImport>
         importsResolver,
         collectTypeRefImports = true,
         collectValueImports = true,
-        parentTypeFilter = { true }
+        parentTypeFilter = { true },
     ) {
-
     override fun collectParentTypeRefs(limeContainer: LimeContainerWithInheritance) =
         when (limeContainer) {
-            is LimeClass -> limeContainer.interfaceInheritedFunctions.flatMap { collectTypeRefs(it) } +
-                limeContainer.interfaceInheritedProperties.map { it.typeRef } + limeContainer.parents
+            is LimeClass ->
+                limeContainer.interfaceInheritedFunctions.flatMap { collectTypeRefs(it) } +
+                    limeContainer.interfaceInheritedProperties.map { it.typeRef } + limeContainer.parents
             else -> super.collectParentTypeRefs(limeContainer)
         }
 }

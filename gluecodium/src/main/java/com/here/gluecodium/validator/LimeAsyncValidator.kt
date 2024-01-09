@@ -33,7 +33,6 @@ import com.here.gluecodium.model.lime.LimeProperty
  * Validates the correct usage of `@Async` attribute.
  */
 internal class LimeAsyncValidator(private val logger: LimeLogger) {
-
     fun validate(limeModel: LimeModel): Boolean {
         val allElements = limeModel.referenceMap.values
         val containers = allElements.filterIsInstance<LimeContainer>()
@@ -45,26 +44,29 @@ internal class LimeAsyncValidator(private val logger: LimeLogger) {
         return !validationResults.contains(false)
     }
 
-    private fun validateContainer(limeContainer: LimeContainer) =
-        limeContainer.functions.map { validateFunction(it, limeContainer) }
+    private fun validateContainer(limeContainer: LimeContainer) = limeContainer.functions.map { validateFunction(it, limeContainer) }
 
-    private fun validateFunction(limeFunction: LimeFunction, limeContainer: LimeContainer) =
-        when {
-            !limeFunction.attributes.have(ASYNC) -> true
-            limeContainer is LimeInterface -> {
-                logger.error(limeFunction, "`@Async` attribute cannot be used in interfaces")
-                false
-            }
-            limeFunction.isConstructor -> {
-                logger.error(limeFunction, "`@Async` attribute cannot be used on constructors")
-                false
-            }
-            else -> true
+    private fun validateFunction(
+        limeFunction: LimeFunction,
+        limeContainer: LimeContainer,
+    ) = when {
+        !limeFunction.attributes.have(ASYNC) -> true
+        limeContainer is LimeInterface -> {
+            logger.error(limeFunction, "`@Async` attribute cannot be used in interfaces")
+            false
         }
+        limeFunction.isConstructor -> {
+            logger.error(limeFunction, "`@Async` attribute cannot be used on constructors")
+            false
+        }
+        else -> true
+    }
 
     private fun validateNonFunction(limeElement: LimeNamedElement) =
         if (limeElement.attributes.have(ASYNC)) {
             logger.error(limeElement, "`@Async` attribute can only be used on functions")
             false
-        } else true
+        } else {
+            true
+        }
 }

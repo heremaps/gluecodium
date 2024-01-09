@@ -38,11 +38,10 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker
 import java.util.Locale
 
 internal object AntlrLimeConverter {
-
     fun convertAnnotations(
         limePath: LimePath,
         annotations: List<LimeParser.AnnotationContext>,
-        parentAttributes: LimeAttributes? = null
+        parentAttributes: LimeAttributes? = null,
     ): LimeAttributes {
         val attributes = LimeAttributes.Builder()
         annotations.forEach { convertAnnotation(it, attributes, limePath) }
@@ -56,7 +55,7 @@ internal object AntlrLimeConverter {
 
     private fun propagateParentAttributes(
         parentAttributes: LimeAttributes,
-        attributes: LimeAttributes.Builder
+        attributes: LimeAttributes.Builder,
     ) {
         parentAttributes
             .get(LimeAttributeType.DEPRECATED, LimeAttributeValueType.MESSAGE, LimeComment::class.java)
@@ -76,7 +75,11 @@ internal object AntlrLimeConverter {
         }
     }
 
-    fun parseStructuredComment(commentString: String, lineNumber: Int, limePath: LimePath): LimeStructuredComment {
+    fun parseStructuredComment(
+        commentString: String,
+        lineNumber: Int,
+        limePath: LimePath,
+    ): LimeStructuredComment {
         val lexer = LimedocLexer(CharStreams.fromString(commentString))
         val parser = LimedocParser(CommonTokenStream(lexer))
         parser.removeErrorListeners()
@@ -91,7 +94,7 @@ internal object AntlrLimeConverter {
     private fun convertAnnotation(
         annotationContext: LimeParser.AnnotationContext,
         attributes: LimeAttributes.Builder,
-        limePath: LimePath
+        limePath: LimePath,
     ) {
         val attributeType = convertAnnotationType(annotationContext)
         val annotationValues = annotationContext.annotationValue()
@@ -115,32 +118,35 @@ internal object AntlrLimeConverter {
         annotationValues.forEach {
             val valueType = convertAnnotationValueType(it, attributeType)
             val rawValue = convertAnnotationValue(it)
-            val value = when {
-                attributeType == LimeAttributeType.DEPRECATED -> {
-                    val stringValue = rawValue as? String
-                        ?: throw LimeLoadingException("Unsupported attribute value: '$rawValue'")
-                    parseStructuredComment(
-                        stringValue,
-                        annotationContext.getStart().line,
-                        limePath.child("@deprecated")
-                    ).description
+            val value =
+                when {
+                    attributeType == LimeAttributeType.DEPRECATED -> {
+                        val stringValue =
+                            rawValue as? String
+                                ?: throw LimeLoadingException("Unsupported attribute value: '$rawValue'")
+                        parseStructuredComment(
+                            stringValue,
+                            annotationContext.getStart().line,
+                            limePath.child("@deprecated"),
+                        ).description
+                    }
+                    rawValue is String -> makeSafeString(rawValue)
+                    else -> rawValue
                 }
-                rawValue is String -> makeSafeString(rawValue)
-                else -> rawValue
-            }
             attributes.addAttribute(attributeType, valueType, value)
         }
     }
 
     private fun addSkipAttribute(
         attributes: LimeAttributes.Builder,
-        valueContext: LimeParser.AnnotationValueContext
+        valueContext: LimeParser.AnnotationValueContext,
     ) {
         val valueTypeText = valueContext.simpleId()?.text
-        val value = when (valueTypeText?.lowercase(Locale.getDefault())) {
-            null, "tag" -> convertAnnotationValue(valueContext)
-            else -> valueTypeText
-        }
+        val value =
+            when (valueTypeText?.lowercase(Locale.getDefault())) {
+                null, "tag" -> convertAnnotationValue(valueContext)
+                else -> valueTypeText
+            }
 
         val valueList = if (value is List<*>) value else listOf(value)
         valueList.filterIsInstance<String>().forEach {
@@ -153,13 +159,14 @@ internal object AntlrLimeConverter {
 
     private fun addEnableIfAttribute(
         attributes: LimeAttributes.Builder,
-        valueContext: LimeParser.AnnotationValueContext
+        valueContext: LimeParser.AnnotationValueContext,
     ) {
         val valueTypeText = valueContext.simpleId()?.text
-        val value = when (valueTypeText?.lowercase(Locale.getDefault())) {
-            null, "tag" -> convertAnnotationValue(valueContext)
-            else -> valueTypeText
-        }
+        val value =
+            when (valueTypeText?.lowercase(Locale.getDefault())) {
+                null, "tag" -> convertAnnotationValue(valueContext)
+                else -> valueTypeText
+            }
 
         val valueList = if (value is List<*>) value else listOf(value)
         valueList.filterIsInstance<String>().forEach {
@@ -169,7 +176,7 @@ internal object AntlrLimeConverter {
 
     private fun addVisibilityAttribute(
         attributes: LimeAttributes.Builder,
-        valueContext: LimeParser.AnnotationValueContext
+        valueContext: LimeParser.AnnotationValueContext,
     ) {
         val value = convertAnnotationValue(valueContext)
         if (value == true) {
@@ -206,11 +213,12 @@ internal object AntlrLimeConverter {
 
     private fun convertAnnotationValueType(
         ctx: LimeParser.AnnotationValueContext,
-        attributeType: LimeAttributeType
+        attributeType: LimeAttributeType,
     ): LimeAttributeValueType {
-        val id = ctx.simpleId()?.text ?: return (
-            attributeType.defaultValueType
-                ?: throw LimeLoadingException("Attribute type $attributeType does not support values")
+        val id =
+            ctx.simpleId()?.text ?: return (
+                attributeType.defaultValueType
+                    ?: throw LimeLoadingException("Attribute type $attributeType does not support values")
             )
         return when (id) {
             "Name" -> LimeAttributeValueType.NAME
@@ -273,14 +281,21 @@ internal object AntlrLimeConverter {
 
     private val durationLiteralRegex = """(\d+)([dhimnsu]+)""".toRegex()
 
-    fun convertDurationLiteral(limeTypeRef: LimeTypeRef, isNegative: Boolean, literalText: String): LimeValue.Duration {
+    fun convertDurationLiteral(
+        limeTypeRef: LimeTypeRef,
+        isNegative: Boolean,
+        literalText: String,
+    ): LimeValue.Duration {
         val match = durationLiteralRegex.matchEntire(literalText)
-        val valueText = match?.groups?.get(1)?.value
-            ?: throw LimeLoadingException("Invalid `Duration` literal: '$literalText'")
-        val timeUnitText = match.groups.get(2)?.value
-            ?: throw LimeLoadingException("Invalid `Duration` literal: '$literalText'")
-        val timeUnit = LimeValue.Duration.TimeUnit.fromString[timeUnitText]
-            ?: throw LimeLoadingException("Unsupported time unit: '$timeUnitText'")
+        val valueText =
+            match?.groups?.get(1)?.value
+                ?: throw LimeLoadingException("Invalid `Duration` literal: '$literalText'")
+        val timeUnitText =
+            match.groups.get(2)?.value
+                ?: throw LimeLoadingException("Invalid `Duration` literal: '$literalText'")
+        val timeUnit =
+            LimeValue.Duration.TimeUnit.fromString[timeUnitText]
+                ?: throw LimeLoadingException("Unsupported time unit: '$timeUnitText'")
         val sign = if (isNegative) "-" else ""
         return LimeValue.Duration(limeTypeRef, sign + valueText, timeUnit)
     }

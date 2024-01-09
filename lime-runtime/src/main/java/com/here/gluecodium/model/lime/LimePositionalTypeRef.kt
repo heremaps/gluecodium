@@ -28,19 +28,17 @@ package com.here.gluecodium.model.lime
 class LimePositionalTypeRef(
     private val parentTypeRef: LimeTypeRef,
     private val index: Int,
-    override val isNullable: Boolean = false
+    override val isNullable: Boolean = false,
 ) : LimeTypeRef() {
-
     override val type by lazy {
         val limeType = parentTypeRef.type.actualType
         limeType.childTypes.getOrNull(index)?.type
             ?: throw LimeModelLoaderException(
-                "Type ${parentTypeRef.elementFullName}[$index] was not found"
+                "Type ${parentTypeRef.elementFullName}[$index] was not found",
             )
     }
 
     override fun asNullable() = if (isNullable) this else LimePositionalTypeRef(parentTypeRef, index, true)
 
-    override fun remap(referenceMap: Map<String, LimeElement>) =
-        LimePositionalTypeRef(parentTypeRef.remap(referenceMap), index, isNullable)
+    override fun remap(referenceMap: Map<String, LimeElement>) = LimePositionalTypeRef(parentTypeRef.remap(referenceMap), index, isNullable)
 }

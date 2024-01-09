@@ -23,8 +23,10 @@ import com.here.gluecodium.model.lime.LimeComment
 
 internal class LimeStructuredComment(
     val description: LimeComment,
-    private val tagBlocks: Map<Pair<String, String>, LimeComment>
+    private val tagBlocks: Map<Pair<String, String>, LimeComment>,
 ) {
-    fun getTagBlock(tag: String, parameter: String = "") =
-        tagBlocks[Pair(tag, parameter)] ?: LimeComment()
+    fun getTagBlock(
+        tag: String,
+        parameter: String = "",
+    ) = tagBlocks[Pair(tag, parameter)] ?: LimeComment()
 }

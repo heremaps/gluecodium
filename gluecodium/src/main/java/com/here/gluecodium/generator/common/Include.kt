@@ -21,16 +21,18 @@ package com.here.gluecodium.generator.common
 
 data class Include(
     val fileName: String,
-    val isSystem: Boolean
+    val isSystem: Boolean,
 ) : Comparable<Include> {
-    override fun compareTo(other: Include) = when {
-        isSystem && !other.isSystem -> 1
-        !isSystem && other.isSystem -> -1
-        else -> fileName.compareTo(other.fileName)
-    }
+    override fun compareTo(other: Include) =
+        when {
+            isSystem && !other.isSystem -> 1
+            !isSystem && other.isSystem -> -1
+            else -> fileName.compareTo(other.fileName)
+        }
 
     companion object {
         fun createInternalInclude(fileName: String) = Include(fileName, false)
+
         fun createSystemInclude(fileName: String) = Include(fileName, true)
     }
 }

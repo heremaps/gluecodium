@@ -25,7 +25,6 @@ import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal class SwiftMangledNameResolver(private val baseNameResolver: SwiftNameResolver) : NameResolver {
-
     override fun resolveName(element: Any): String =
         when (element) {
             is LimeTypeRef -> resolveTypeName(element.type.actualType)

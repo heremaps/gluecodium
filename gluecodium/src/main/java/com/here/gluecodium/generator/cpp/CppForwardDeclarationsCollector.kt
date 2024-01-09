@@ -25,7 +25,6 @@ import com.here.gluecodium.model.lime.LimeTypeHelper
 
 internal class CppForwardDeclarationsCollector(private val nameResolver: CppNameResolver) :
     CppImportsCollector<CppForwardDeclarationGroup>() {
-
     override fun collectImports(limeElement: LimeNamedElement): List<CppForwardDeclarationGroup> {
         val allTypeRefs = collectTypeRefs(LimeTypeHelper.getAllTypes(limeElement))
         val forwardDeclaredTypes =
@@ -37,13 +36,13 @@ internal class CppForwardDeclarationsCollector(private val nameResolver: CppName
         name: String,
         paths: List<LimeNamedElement>,
         level: Int,
-        nameResolver: NameResolver
+        nameResolver: NameResolver,
     ): CppForwardDeclarationGroup =
         CppForwardDeclarationGroup(
             name,
             paths.filter { level == it.path.head.size }.map { nameResolver.resolveName(it) },
             paths.filter { level < it.path.head.size }
                 .groupBy { it.path.head[level] }
-                .map { createForwardDeclarationGroup(it.key, it.value, level + 1, nameResolver) }
+                .map { createForwardDeclarationGroup(it.key, it.value, level + 1, nameResolver) },
         )
 }

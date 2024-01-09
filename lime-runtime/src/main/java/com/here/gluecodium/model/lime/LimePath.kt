@@ -32,7 +32,7 @@ package com.here.gluecodium.model.lime
 data class LimePath(
     val head: List<String>,
     val tail: List<String>,
-    val disambiguator: String = ""
+    val disambiguator: String = "",
 ) : Comparable<LimePath> {
     val container
         get() = tail.first()
@@ -52,11 +52,15 @@ data class LimePath(
     val hasParent
         get() = tail.size > 1
 
-    fun child(childName: String, disambiguator: String? = null) =
-        LimePath(head, tail + childName, disambiguator ?: this.disambiguator)
+    fun child(
+        childName: String,
+        disambiguator: String? = null,
+    ) = LimePath(head, tail + childName, disambiguator ?: this.disambiguator)
 
-    fun child(childNames: List<String>, disambiguator: String? = null) =
-        LimePath(head, tail + childNames, disambiguator ?: this.disambiguator)
+    fun child(
+        childNames: List<String>,
+        disambiguator: String? = null,
+    ) = LimePath(head, tail + childNames, disambiguator ?: this.disambiguator)
 
     fun withSuffix(disambiguator: String) = LimePath(head, tail, disambiguator)
 

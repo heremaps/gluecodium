@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2019 HERE Europe B.V.
+ * Copyright (C) 2016-2024 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,8 @@ def getCMakeCommonParameters() {
 android {
     ndkVersion rootProject.ndkVersion
     compileSdkVersion rootProject.compileSdkVersion
+
+    namespace 'com.here.gluecodium.test.functional'
 
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
@@ -87,19 +89,20 @@ android {
         def typeName = variant.name
         def typeCapitalised = typeName.capitalize()
 
-        def buildNativeProject = task("build${typeCapitalised}NativeHost", type: BuildCMakeNativeHost) {
+        tasks.register("build${typeCapitalised}NativeHost", BuildCMakeNativeHost) {
             projectDir = rootProject.projectDir
             buildDir = file(buildNativeHostDir('functional', typeName))
             cmakeParameters = getCMakeCommonParameters()
             target = 'functional'
             buildType = variant.buildType.name
+            dependsOn("generate${typeCapitalised}BuildConfig")
         }
 
         buildConfigField "String", "NATIVE_LIB_HOST_DIR", "\"${buildNativeHostDir('functional', typeName)}/functional\""
     }
 }
 
-task generateJavadoc(type: Javadoc) {
+tasks.register('generateJavadoc', Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += files(android.getBootClasspath().join(File.pathSeparator))
     exclude '**/jni/**', '**.xml'
@@ -112,34 +115,21 @@ task generateJavadoc(type: Javadoc) {
     }
 }
 
-tasks.configureEach { task ->
-    // Java compilation depends on .java/.jar files created by CMake
-    if (task.name == 'javaPreCompileDebug' || task.name == 'compileDebugUnitTestJavaWithJavac') {
-        if (!rootProject.isHostOnly()) {
-            task.dependsOn 'externalNativeBuildDebug'
-        }
-        task.dependsOn 'buildDebugNativeHost'
-    }
-    if (task.name == 'javaPreCompileRelease' || task.name == 'compileReleaseUnitTestJavaWithJavac') {
-        if (!rootProject.isHostOnly()) {
-            task.dependsOn 'externalNativeBuildRelease'
-        }
-        task.dependsOn 'buildReleaseNativeHost'
-    }
+dependJavaTasksOnNativeBuild(tasks, rootProject.isHostOnly())
 
+tasks.configureEach { task ->
     if (task.name == 'generateJavadoc') {
         task.mustRunAfter 'buildDebugNativeHost', 'buildReleaseNativeHost', 'externalNativeBuildDebug', 'externalNativeBuildRelease'
     }
 }
 
 dependencies {
-    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation libs.androidx.annotation
 
-    testImplementation 'junit:junit:4.13.2'
-    testImplementation "org.powermock:powermock-reflect:2.0.9"
-    testImplementation 'org.robolectric:robolectric:4.5.1'
-    testImplementation 'org.hamcrest:hamcrest:2.2'
-    testImplementation 'org.hamcrest:hamcrest-library:2.2'
+    testImplementation libs.junit
+    testImplementation libs.powermock.reflect
+    testImplementation libs.robolectric
+    testImplementation libs.bundles.hamcrest
 }
 
 apply plugin: 'com.diffplug.spotless'

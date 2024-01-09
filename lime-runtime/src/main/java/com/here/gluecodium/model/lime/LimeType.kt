@@ -23,7 +23,7 @@ abstract class LimeType protected constructor(
     path: LimePath,
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
-    external: LimeExternalDescriptor? = null
+    external: LimeExternalDescriptor? = null,
 ) : LimeNamedElement(path, comment, attributes, external) {
     open val childTypes = emptyList<LimeTypeRef>()
 

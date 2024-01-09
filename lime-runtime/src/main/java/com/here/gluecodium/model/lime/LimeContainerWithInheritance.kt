@@ -35,31 +35,33 @@ abstract class LimeContainerWithInheritance(
     interfaces: List<LimeInterface> = emptyList(),
     lambdas: List<LimeLambda> = emptyList(),
     val parents: List<LimeTypeRef> = emptyList(),
-    val isOpen: Boolean = false
+    val isOpen: Boolean = false,
 ) : LimeContainer(
-    path = path,
-    comment = comment,
-    attributes = attributes,
-    external = external,
-    structs = structs,
-    enumerations = enumerations,
-    constants = constants,
-    typeAliases = typeAliases,
-    functions = functions,
-    properties = properties,
-    exceptions = exceptions,
-    classes = classes,
-    interfaces = interfaces,
-    lambdas = lambdas
-) {
+        path = path,
+        comment = comment,
+        attributes = attributes,
+        external = external,
+        structs = structs,
+        enumerations = enumerations,
+        constants = constants,
+        typeAliases = typeAliases,
+        functions = functions,
+        properties = properties,
+        exceptions = exceptions,
+        classes = classes,
+        interfaces = interfaces,
+        lambdas = lambdas,
+    ) {
     val parentInterfaces
         get() = parents.map { it.type.actualType }.filterIsInstance<LimeInterface>()
 
     val inheritedFunctions: List<LimeFunction>
-        get() = parents.mapNotNull { it.type.actualType as? LimeContainerWithInheritance }
-            .flatMap { it.functions + it.inheritedFunctions }
+        get() =
+            parents.mapNotNull { it.type.actualType as? LimeContainerWithInheritance }
+                .flatMap { it.functions + it.inheritedFunctions }
 
     val inheritedProperties: List<LimeProperty>
-        get() = parents.mapNotNull { it.type.actualType as? LimeContainerWithInheritance }
-            .flatMap { it.properties + it.inheritedProperties }
+        get() =
+            parents.mapNotNull { it.type.actualType as? LimeContainerWithInheritance }
+                .flatMap { it.properties + it.inheritedProperties }
 }

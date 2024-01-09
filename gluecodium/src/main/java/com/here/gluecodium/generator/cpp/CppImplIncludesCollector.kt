@@ -28,17 +28,17 @@ import com.here.gluecodium.model.lime.LimeTypeHelper
 
 internal class CppImplIncludesCollector(
     private val includesResolver: CppIncludeResolver,
-    private val allErrorEnums: Set<String>
+    private val allErrorEnums: Set<String>,
 ) : CppImportsCollector<Include>() {
-
     override fun collectImports(limeElement: LimeNamedElement): List<Include> {
         val allTypes = LimeTypeHelper.getAllTypes(limeElement)
 
-        val result = collectTypeRefs(allTypes).map { it.type }
-            .filterIsInstance<LimeContainerWithInheritance>()
-            .filter { !it.path.hasParent && it.external?.cpp == null }
-            .flatMap { includesResolver.resolveElementImports(it) }
-            .toMutableList()
+        val result =
+            collectTypeRefs(allTypes).map { it.type }
+                .filterIsInstance<LimeContainerWithInheritance>()
+                .filter { !it.path.hasParent && it.external?.cpp == null }
+                .flatMap { includesResolver.resolveElementImports(it) }
+                .toMutableList()
 
         val externalContainers = allTypes.filter { it is LimeContainer && it.external?.cpp != null }
         if (externalContainers.isNotEmpty()) {

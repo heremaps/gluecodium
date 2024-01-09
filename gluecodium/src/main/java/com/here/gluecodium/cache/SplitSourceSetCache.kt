@@ -31,12 +31,14 @@ import java.io.File
 class SplitSourceSetCache(
     private val outputDir: String,
     private val commonOutputDir: String,
-    private val isEnableCaching: Boolean
+    private val isEnableCaching: Boolean,
 ) {
     // Cache for the main source set, can be null if main directory is nested inside common
     private var mainCacheStrategy: CachingStrategy? = null
+
     // Cache for common code, can be null if common code resides inside main directory
     private var commonCacheStrategy: CachingStrategy? = null
+
     // Subdirectory of the nested source set in case it is nested
     private var prefix: String = ""
 
@@ -62,19 +64,21 @@ class SplitSourceSetCache(
     }
 
     private fun initMain() {
-        mainCacheStrategy = CachingStrategyCreator.initializeCaching(
-            isEnableCaching,
-            outputDir,
-            Generator.allGeneratorShortNames
-        )
+        mainCacheStrategy =
+            CachingStrategyCreator.initializeCaching(
+                isEnableCaching,
+                outputDir,
+                Generator.allGeneratorShortNames,
+            )
     }
 
     private fun initCommon() {
-        commonCacheStrategy = CachingStrategyCreator.initializeCaching(
-            isEnableCaching,
-            commonOutputDir,
-            Generator.allGeneratorShortNames
-        )
+        commonCacheStrategy =
+            CachingStrategyCreator.initializeCaching(
+                isEnableCaching,
+                commonOutputDir,
+                Generator.allGeneratorShortNames,
+            )
     }
 
     fun write(executionSucceeded: Boolean): Boolean {
@@ -82,46 +86,58 @@ class SplitSourceSetCache(
         return commonCacheStrategy?.write(executionSucceeded) ?: true && success
     }
 
-    fun updateCache(generatorName: String, files: List<GeneratedFile>) =
-        when {
-            mainCacheStrategy == null -> unprefix(
+    fun updateCache(
+        generatorName: String,
+        files: List<GeneratedFile>,
+    ) = when {
+        mainCacheStrategy == null ->
+            unprefix(
                 commonCacheStrategy?.updateCache(
                     generatorName,
-                    prefix(files, MAIN)
+                    prefix(files, MAIN),
                 ),
-                MAIN
+                MAIN,
             )
-            commonCacheStrategy == null -> unprefix(
+        commonCacheStrategy == null ->
+            unprefix(
                 mainCacheStrategy?.updateCache(
                     generatorName,
-                    prefix(files, COMMON)
+                    prefix(files, COMMON),
                 ),
-                COMMON
+                COMMON,
             )
-            else -> {
-                val mainFiles = files.filter { it.sourceSet == MAIN }
-                val commonFiles = files.filter { it.sourceSet == COMMON }
-                (
-                    commonCacheStrategy?.updateCache(generatorName, commonFiles)
-                        ?: emptyList()
-                    ) + (
-                    mainCacheStrategy?.updateCache(generatorName, mainFiles)
-                        ?: emptyList()
-                    )
-            }
-        } ?: emptyList()
-
-    private fun prefix(files: List<GeneratedFile>, sourceSet: GeneratedFile.SourceSet) =
-        files.map {
-            if (it.sourceSet == sourceSet)
-                GeneratedFile(it.content, prefix + it.targetFile, it.sourceSet)
-            else it
+        else -> {
+            val mainFiles = files.filter { it.sourceSet == MAIN }
+            val commonFiles = files.filter { it.sourceSet == COMMON }
+            (
+                commonCacheStrategy?.updateCache(generatorName, commonFiles)
+                    ?: emptyList()
+            ) + (
+                mainCacheStrategy?.updateCache(generatorName, mainFiles)
+                    ?: emptyList()
+            )
         }
+    } ?: emptyList()
 
-    private fun unprefix(files: List<GeneratedFile>?, sourceSet: GeneratedFile.SourceSet) =
-        files?.map {
-            if (it.sourceSet == sourceSet)
-                GeneratedFile(it.content, it.targetFile.path.removePrefix(prefix), it.sourceSet)
-            else it
+    private fun prefix(
+        files: List<GeneratedFile>,
+        sourceSet: GeneratedFile.SourceSet,
+    ) = files.map {
+        if (it.sourceSet == sourceSet) {
+            GeneratedFile(it.content, prefix + it.targetFile, it.sourceSet)
+        } else {
+            it
         }
+    }
+
+    private fun unprefix(
+        files: List<GeneratedFile>?,
+        sourceSet: GeneratedFile.SourceSet,
+    ) = files?.map {
+        if (it.sourceSet == sourceSet) {
+            GeneratedFile(it.content, it.targetFile.path.removePrefix(prefix), it.sourceSet)
+        } else {
+            it
+        }
+    }
 }

@@ -30,33 +30,35 @@ import java.nio.file.Paths
 import java.util.logging.Logger
 
 /** Write the generated files to disk. */
-internal class FileOutput @Throws(IOException::class) constructor(private val rootPath: File) {
-    init {
-        if (!rootPath.exists() && !rootPath.mkdir()) {
-            throw FileNotFoundException(rootPath.path + " (Can't create output directory)")
-        }
-    }
-
+internal class FileOutput
     @Throws(IOException::class)
-    fun output(files: List<GeneratedFile>) = files.forEach { output(it) }
-
-    @Throws(IOException::class)
-    fun output(file: GeneratedFile) {
-        val targetFile = File(rootPath, file.targetFile.path)
-        LOGGER.fine("Writing $targetFile")
-
-        val path = Paths.get(targetFile.parent)
-        if (Files.notExists(path)) {
-            Files.createDirectories(path)
+    constructor(private val rootPath: File) {
+        init {
+            if (!rootPath.exists() && !rootPath.mkdir()) {
+                throw FileNotFoundException(rootPath.path + " (Can't create output directory)")
+            }
         }
 
-        BufferedWriter(FileWriter(targetFile)).apply {
-            write(file.content)
-            close()
+        @Throws(IOException::class)
+        fun output(files: List<GeneratedFile>) = files.forEach { output(it) }
+
+        @Throws(IOException::class)
+        fun output(file: GeneratedFile) {
+            val targetFile = File(rootPath, file.targetFile.path)
+            LOGGER.fine("Writing $targetFile")
+
+            val path = Paths.get(targetFile.parent)
+            if (Files.notExists(path)) {
+                Files.createDirectories(path)
+            }
+
+            BufferedWriter(FileWriter(targetFile)).apply {
+                write(file.content)
+                close()
+            }
+        }
+
+        companion object {
+            private val LOGGER = Logger.getLogger(FileOutput::class.java.name)
         }
     }
-
-    companion object {
-        private val LOGGER = Logger.getLogger(FileOutput::class.java.name)
-    }
-}

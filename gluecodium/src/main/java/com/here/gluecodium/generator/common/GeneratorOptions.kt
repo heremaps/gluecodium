@@ -39,23 +39,27 @@ data class GeneratorOptions(
     var dartLookupErrorMessage: String =
         "Failed to resolve an FFI function. Perhaps `LibraryContext.init()` was not called.",
     var swiftExposeInternals: Boolean = false,
-    var cppNameRules: Configuration = ConfigurationProperties.fromResource(
-        Gluecodium::class.java,
-        "/namerules/cpp.properties"
-    ),
-    var javaNameRules: Configuration = ConfigurationProperties.fromResource(
-        Gluecodium::class.java,
-        "/namerules/java.properties"
-    ),
-    var swiftNameRules: Configuration = ConfigurationProperties.fromResource(
-        Gluecodium::class.java,
-        "/namerules/swift.properties"
-    ),
-    var dartNameRules: Configuration = ConfigurationProperties.fromResource(
-        Gluecodium::class.java,
-        "/namerules/dart.properties"
-    ),
-    var tags: Set<String> = emptySet()
+    var cppNameRules: Configuration =
+        ConfigurationProperties.fromResource(
+            Gluecodium::class.java,
+            "/namerules/cpp.properties",
+        ),
+    var javaNameRules: Configuration =
+        ConfigurationProperties.fromResource(
+            Gluecodium::class.java,
+            "/namerules/java.properties",
+        ),
+    var swiftNameRules: Configuration =
+        ConfigurationProperties.fromResource(
+            Gluecodium::class.java,
+            "/namerules/swift.properties",
+        ),
+    var dartNameRules: Configuration =
+        ConfigurationProperties.fromResource(
+            Gluecodium::class.java,
+            "/namerules/dart.properties",
+        ),
+    var tags: Set<String> = emptySet(),
 ) {
     companion object {
         const val WARNING_DOC_LINKS = "DocLinks"

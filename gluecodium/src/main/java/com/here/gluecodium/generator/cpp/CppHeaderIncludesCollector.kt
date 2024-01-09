@@ -31,17 +31,17 @@ import com.here.gluecodium.model.lime.LimeTypeHelper
 
 internal class CppHeaderIncludesCollector(
     private val includesResolver: CppIncludeResolver,
-    private val allErrorEnums: Set<String>
+    private val allErrorEnums: Set<String>,
 ) : CppImportsCollector<Include>() {
-
     override fun collectImports(limeElement: LimeNamedElement): List<Include> {
         val allTypes = LimeTypeHelper.getAllTypes(limeElement)
         val errorEnums = allTypes.filter { allErrorEnums.contains(it.fullName) }.toSet()
 
-        val typeRegisteredClasses = allTypes.filterIsInstance<LimeContainerWithInheritance>()
-            .filter {
-                it.external?.cpp == null && it.parents.isEmpty() && (it is LimeInterface || it.isOpen)
-            }
+        val typeRegisteredClasses =
+            allTypes.filterIsInstance<LimeContainerWithInheritance>()
+                .filter {
+                    it.external?.cpp == null && it.parents.isEmpty() && (it is LimeInterface || it.isOpen)
+                }
         val allTypeRefs = collectTypeRefs(allTypes)
         val forwardDeclaredTypes = collectForwardDeclaredTypes(limeElement, allTypeRefs)
 
@@ -62,13 +62,14 @@ internal class CppHeaderIncludesCollector(
         limeElement: LimeNamedElement,
         equatableTypes: List<LimeType>,
         errorEnums: Set<LimeType>,
-        typeRegisteredClasses: List<LimeContainerWithInheritance>
+        typeRegisteredClasses: List<LimeContainerWithInheritance>,
     ): List<Include> {
-        val parentIncludes = when (limeElement) {
-            is LimeContainerWithInheritance ->
-                limeElement.parents.flatMap { includesResolver.resolveElementImports(it.type) }
-            else -> emptyList()
-        }
+        val parentIncludes =
+            when (limeElement) {
+                is LimeContainerWithInheritance ->
+                    limeElement.parents.flatMap { includesResolver.resolveElementImports(it.type) }
+                else -> emptyList()
+            }
         val additionalIncludes = parentIncludes.toMutableList()
         if (limeElement is LimeEnumeration) {
             additionalIncludes += CppLibraryIncludes.INT_TYPES

@@ -38,7 +38,6 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class DartOverloadsValidatorFieldConstructorsTest {
-
     private val allElements = mutableMapOf<String, LimeElement>()
     private val fc1 = LimeFieldConstructor(EMPTY_PATH, structRef = LimeLazyTypeRef("", allElements))
     private val fc2 = LimeFieldConstructor(EMPTY_PATH, structRef = LimeLazyTypeRef("", allElements))

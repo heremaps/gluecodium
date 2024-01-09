@@ -27,12 +27,14 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 internal class JavaSignatureResolver(
     limeReferenceMap: Map<String, LimeElement>,
     nameRules: JavaNameRules,
-    activeTags: Set<String>
+    activeTags: Set<String>,
 ) : PlatformSignatureResolver(limeReferenceMap, LimeAttributeType.JAVA, nameRules, activeTags) {
-
     override fun getArrayName(elementType: LimeTypeRef) = TYPE_ERASED_ARRAY
 
-    override fun getMapName(keyType: LimeTypeRef, valueType: LimeTypeRef) = TYPE_ERASED_MAP
+    override fun getMapName(
+        keyType: LimeTypeRef,
+        valueType: LimeTypeRef,
+    ) = TYPE_ERASED_MAP
 
     override fun getSetName(elementType: LimeTypeRef) = TYPE_ERASED_SET
 

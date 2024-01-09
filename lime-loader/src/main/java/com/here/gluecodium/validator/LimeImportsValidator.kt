@@ -25,16 +25,17 @@ import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimePath
 
 internal class LimeImportsValidator(private val logger: LimeLogger) {
-
-    fun validate(limeModel: LimeModel, fileNameToImports: Map<String, List<LimePath>>) =
-        !fileNameToImports.entries.map {
-            validateFileImports(it.key, it.value, limeModel.referenceMap)
-        }.contains(false)
+    fun validate(
+        limeModel: LimeModel,
+        fileNameToImports: Map<String, List<LimePath>>,
+    ) = !fileNameToImports.entries.map {
+        validateFileImports(it.key, it.value, limeModel.referenceMap)
+    }.contains(false)
 
     private fun validateFileImports(
         fileName: String,
         imports: List<LimePath>,
-        referenceMap: Map<String, LimeElement>
+        referenceMap: Map<String, LimeElement>,
     ): Boolean {
         val unresolvedImports = imports.filterNot { referenceMap.containsKey(it.toString()) }
         unresolvedImports.forEach { logger.errorWithFileName(fileName, "import '$it' cannot be resolved") }

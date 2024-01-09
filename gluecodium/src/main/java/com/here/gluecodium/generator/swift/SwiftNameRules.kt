@@ -29,19 +29,16 @@ import com.here.gluecodium.model.lime.LimeProperty
 import java.io.File
 
 class SwiftNameRules(nameRuleSet: NameRuleSet) : NameRules(nameRuleSet) {
-    override fun getName(limeElement: LimeElement) =
-        getPlatformName(limeElement as? LimeNamedElement) ?: super.getName(limeElement)
+    override fun getName(limeElement: LimeElement) = getPlatformName(limeElement as? LimeNamedElement) ?: super.getName(limeElement)
 
-    override fun getPropertyName(limeProperty: LimeProperty) =
-        getPlatformName(limeProperty) ?: super.getPropertyName(limeProperty)
+    override fun getPropertyName(limeProperty: LimeProperty) = getPlatformName(limeProperty) ?: super.getPropertyName(limeProperty)
 
     fun getImplementationFileName(limeElement: LimeNamedElement): String {
         return TARGET_DIRECTORY + limeElement.path.head.joinToString(File.separator) + File.separator +
             getName(limeElement) + ".swift"
     }
 
-    private fun getPlatformName(limeElement: LimeNamedElement?) =
-        limeElement?.attributes?.get(SWIFT, NAME)
+    private fun getPlatformName(limeElement: LimeNamedElement?) = limeElement?.attributes?.get(SWIFT, NAME)
 
     companion object {
         val TARGET_DIRECTORY = "swift" + File.separator

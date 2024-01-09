@@ -35,22 +35,22 @@ class LimeStruct(
     lambdas: List<LimeLambda> = emptyList(),
     val fields: List<LimeField> = emptyList(),
     val constructorComment: LimeComment = LimeComment(),
-    val fieldConstructors: List<LimeFieldConstructor> = emptyList()
+    val fieldConstructors: List<LimeFieldConstructor> = emptyList(),
 ) : LimeContainer(
-    path = path,
-    comment = comment,
-    attributes = attributes,
-    external = external,
-    structs = structs,
-    enumerations = enumerations,
-    constants = constants,
-    typeAliases = typeAliases,
-    functions = functions,
-    exceptions = exceptions,
-    classes = classes,
-    interfaces = interfaces,
-    lambdas = lambdas
-) {
+        path = path,
+        comment = comment,
+        attributes = attributes,
+        external = external,
+        structs = structs,
+        enumerations = enumerations,
+        constants = constants,
+        typeAliases = typeAliases,
+        functions = functions,
+        exceptions = exceptions,
+        classes = classes,
+        interfaces = interfaces,
+        lambdas = lambdas,
+    ) {
     override val childTypes
         get() = fields.map { it.typeRef }
 

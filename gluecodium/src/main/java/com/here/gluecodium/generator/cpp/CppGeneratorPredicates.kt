@@ -36,103 +36,117 @@ import com.here.gluecodium.model.lime.LimeTypeRef
  * List of predicates used by `ifPredicate`/`unlessPredicate` template helpers in C++ generator.
  */
 internal class CppGeneratorPredicates(private val referenceMap: Map<String, LimeElement>) {
-    val predicates = mapOf(
-        "needsRefSuffix" to { limeTypeRef: Any ->
-            limeTypeRef is LimeTypeRef && CppNameResolver.needsRefSuffix(limeTypeRef)
-        },
-        "needsNotNullComment" to { limeTypeRef: Any ->
-            limeTypeRef is LimeTypeRef && needsNotNullComment(limeTypeRef)
-        },
-        "hasAnyComment" to { limeElement: Any ->
-            when (limeElement) {
-                is LimeFunction -> limeElement.run {
-                    comment.getFor("Cpp").isNotBlank() || comment.isExcluded ||
-                        returnType.comment.getFor("Cpp").isNotBlank() ||
-                        needsNotNullComment(returnType.typeRef) ||
-                        (thrownType?.comment?.getFor("Cpp")?.isBlank() == false) ||
-                        attributes.have(LimeAttributeType.DEPRECATED) ||
-                        parameters.any { it.comment.getFor("Cpp").isNotBlank() || needsNotNullComment(it.typeRef) }
+    val predicates =
+        mapOf(
+            "needsRefSuffix" to { limeTypeRef: Any ->
+                limeTypeRef is LimeTypeRef && CppNameResolver.needsRefSuffix(limeTypeRef)
+            },
+            "needsNotNullComment" to { limeTypeRef: Any ->
+                limeTypeRef is LimeTypeRef && needsNotNullComment(limeTypeRef)
+            },
+            "hasAnyComment" to { limeElement: Any ->
+                when (limeElement) {
+                    is LimeFunction ->
+                        limeElement.run {
+                            comment.getFor("Cpp").isNotBlank() || comment.isExcluded ||
+                                returnType.comment.getFor("Cpp").isNotBlank() ||
+                                needsNotNullComment(returnType.typeRef) ||
+                                (thrownType?.comment?.getFor("Cpp")?.isBlank() == false) ||
+                                attributes.have(LimeAttributeType.DEPRECATED) ||
+                                parameters.any { it.comment.getFor("Cpp").isNotBlank() || needsNotNullComment(it.typeRef) }
+                        }
+                    else -> CommonGeneratorPredicates.hasAnyComment(limeElement, "Cpp")
                 }
-                else -> CommonGeneratorPredicates.hasAnyComment(limeElement, "Cpp")
-            }
-        },
-        "hasDefaultConstructor" to { limeStruct: Any ->
-            when {
-                limeStruct !is LimeStruct -> false
-                limeStruct.fieldConstructors.map { it.fields.size }.contains(0) -> false
-                limeStruct.uninitializedFields.isEmpty() -> true
-                limeStruct.uninitializedFields
-                    .flatMap { getAllFieldTypes(it.typeRef.type) }
-                    .any { it.attributes.have(LimeAttributeType.IMMUTABLE) } -> false
-                !limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) -> true
-                else -> false
-            }
-        },
-        "hasPartialDefaults" to { limeStruct: Any ->
-            when {
-                limeStruct !is LimeStruct -> false
-                limeStruct.uninitializedFields.isEmpty() -> false
-                limeStruct.fieldConstructors.isNotEmpty() -> false
-                else -> limeStruct.uninitializedFields.size < limeStruct.fields.size
-            }
-        },
-        "needsAllFieldsConstructor" to { limeStruct: Any ->
-            when {
-                limeStruct !is LimeStruct -> false
-                limeStruct.fieldConstructors.isEmpty() -> true
-                CommonGeneratorPredicates.hasImmutableFields(limeStruct) -> limeStruct.allFieldsConstructor == null
-                else -> false
-            }
-        },
-        "needsPointerValueEqual" to fun(limeField: Any): Boolean {
-            if (limeField !is LimeField) return false
-            val limeType = limeField.typeRef.type.actualType
-            return when {
-                limeType is LimeContainerWithInheritance &&
-                    limeType.attributes.have(LimeAttributeType.EQUATABLE) -> true
-                !limeField.typeRef.isNullable -> false
-                else -> true
-            }
-        },
-        "needsRawPointerEqual" to fun(limeField: Any): Boolean {
-            if (limeField !is LimeField) return false
-            val limeType = limeField.typeRef.type.actualType
-            return when {
-                !limeField.typeRef.isNullable -> false
-                limeType !is LimeContainerWithInheritance -> false
-                limeType.attributes.have(LimeAttributeType.EQUATABLE) -> false
-                else -> true
-            }
-        },
-        "isUsedInAnotherInnerClasses" to fun(limeField: Any): Boolean {
-            if (limeField !is LimeContainer || !limeField.path.hasParent) return false
-            val parent = referenceMap[limeField.path.parent.toAmbiguousString()]
-            if (parent !is LimeContainerWithInheritance) return false
+            },
+            "hasDefaultConstructor" to { limeStruct: Any ->
+                when {
+                    limeStruct !is LimeStruct -> false
+                    limeStruct.fieldConstructors.map { it.fields.size }.contains(0) -> false
+                    limeStruct.uninitializedFields.isEmpty() -> true
+                    limeStruct.uninitializedFields
+                        .flatMap { getAllFieldTypes(it.typeRef.type) }
+                        .any { it.attributes.have(LimeAttributeType.IMMUTABLE) } -> false
+                    !limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) -> true
+                    else -> false
+                }
+            },
+            "hasPartialDefaults" to { limeStruct: Any ->
+                when {
+                    limeStruct !is LimeStruct -> false
+                    limeStruct.uninitializedFields.isEmpty() -> false
+                    limeStruct.fieldConstructors.isNotEmpty() -> false
+                    else -> limeStruct.uninitializedFields.size < limeStruct.fields.size
+                }
+            },
+            "needsAllFieldsConstructor" to { limeStruct: Any ->
+                when {
+                    limeStruct !is LimeStruct -> false
+                    limeStruct.fieldConstructors.isEmpty() -> true
+                    CommonGeneratorPredicates.hasImmutableFields(limeStruct) -> limeStruct.allFieldsConstructor == null
+                    else -> false
+                }
+            },
+            "needsPointerValueEqual" to
 
-            return (parent.interfaces + parent.classes)
-                .filter { it != limeField }
-                .map { InnerClassForwardDeclarationCollection.collectImports(it) }
-                .any { it.contains(limeField.fullName) }
-        },
-        "needsInnerForwardDeclarations" to fun(limeField: Any): Boolean {
-            if (limeField !is LimeContainer) return false
+                fun(limeField: Any): Boolean {
+                    if (limeField !is LimeField) return false
+                    val limeType = limeField.typeRef.type.actualType
+                    return when {
+                        limeType is LimeContainerWithInheritance &&
+                            limeType.attributes.have(LimeAttributeType.EQUATABLE) -> true
+                        !limeField.typeRef.isNullable -> false
+                        else -> true
+                    }
+                },
+            "needsRawPointerEqual" to
 
-            val containers = limeField.interfaces + limeField.classes
-            val typesUsedInTheClass = containers
-                .associateWith { InnerClassForwardDeclarationCollection.collectImports(it) }
+                fun(limeField: Any): Boolean {
+                    if (limeField !is LimeField) return false
+                    val limeType = limeField.typeRef.type.actualType
+                    return when {
+                        !limeField.typeRef.isNullable -> false
+                        limeType !is LimeContainerWithInheritance -> false
+                        limeType.attributes.have(LimeAttributeType.EQUATABLE) -> false
+                        else -> true
+                    }
+                },
+            "isUsedInAnotherInnerClasses" to
 
-            return containers.any { container ->
-                typesUsedInTheClass.filterKeys { it != container }.values.flatten().contains(container.fullName)
-            }
-        }
-    )
+                fun(limeField: Any): Boolean {
+                    if (limeField !is LimeContainer || !limeField.path.hasParent) return false
+                    val parent = referenceMap[limeField.path.parent.toAmbiguousString()]
+                    if (parent !is LimeContainerWithInheritance) return false
+
+                    return (parent.interfaces + parent.classes)
+                        .filter { it != limeField }
+                        .map { InnerClassForwardDeclarationCollection.collectImports(it) }
+                        .any { it.contains(limeField.fullName) }
+                },
+            "needsInnerForwardDeclarations" to
+
+                fun(limeField: Any): Boolean {
+                    if (limeField !is LimeContainer) return false
+
+                    val containers = limeField.interfaces + limeField.classes
+                    val typesUsedInTheClass =
+                        containers
+                            .associateWith { InnerClassForwardDeclarationCollection.collectImports(it) }
+
+                    return containers.any { container ->
+                        typesUsedInTheClass.filterKeys { it != container }.values.flatten().contains(container.fullName)
+                    }
+                },
+        )
 
     private fun needsNotNullComment(limeTypeRef: LimeTypeRef) =
         !limeTypeRef.isNullable && limeTypeRef.type.actualType is LimeContainerWithInheritance
 
     private fun getAllFieldTypes(limeType: LimeType) = getAllFieldTypesRec(limeType.actualType, mutableSetOf())
 
-    private fun getAllFieldTypesRec(leafType: LimeType, visitedTypes: MutableSet<LimeType>): List<LimeType> {
+    private fun getAllFieldTypesRec(
+        leafType: LimeType,
+        visitedTypes: MutableSet<LimeType>,
+    ): List<LimeType> {
         if (leafType !is LimeStruct) return listOf(leafType)
 
         visitedTypes += leafType

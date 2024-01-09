@@ -39,14 +39,16 @@ internal open class GenericImportsCollector<T>(
     private val parentTypeFilter: (LimeContainerWithInheritance) -> Boolean = { false },
     private val collectTypeAliasImports: Boolean = false,
     private val collectFunctionErrorType: Boolean = true,
-    private val collectValueImports: Boolean = false
+    private val collectValueImports: Boolean = false,
 ) : ImportsCollector<T> {
-
     override fun collectImports(limeElement: LimeNamedElement): List<T> {
         val allTypes = LimeTypeHelper.getAllTypes(limeElement)
         val typeRefImports =
-            if (collectTypeRefImports) collectTypeRefs(allTypes).flatMap { importsResolver.resolveElementImports(it) }
-            else emptyList()
+            if (collectTypeRefImports) {
+                collectTypeRefs(allTypes).flatMap { importsResolver.resolveElementImports(it) }
+            } else {
+                emptyList()
+            }
         val ownImports =
             if (collectOwnImports) allTypes.flatMap { importsResolver.resolveElementImports(it) } else emptyList()
         val parentImports =
@@ -55,21 +57,25 @@ internal open class GenericImportsCollector<T>(
                 .flatMap { collectParentTypeRefs(it) }
                 .flatMap { importsResolver.resolveElementImports(it) }
         val typeAliasImports =
-            if (collectTypeAliasImports)
+            if (collectTypeAliasImports) {
                 allTypes.filterIsInstance<LimeTypeAlias>().flatMap { importsResolver.resolveElementImports(it.typeRef) }
-            else emptyList()
-        val constantImports = allTypes.filterIsInstance<LimeContainer>().flatMap { it.constants }
-            .flatMap { importsResolver.resolveElementImports(it) }
+            } else {
+                emptyList()
+            }
+        val constantImports =
+            allTypes.filterIsInstance<LimeContainer>().flatMap { it.constants }
+                .flatMap { importsResolver.resolveElementImports(it) }
         val valueImports =
-            if (collectValueImports)
+            if (collectValueImports) {
                 LimeTypeHelper.getAllValues(limeElement).flatMap { importsResolver.resolveElementImports(it) }
-            else emptyList()
+            } else {
+                emptyList()
+            }
 
         return typeRefImports + ownImports + parentImports + typeAliasImports + constantImports + valueImports
     }
 
-    private fun shouldRetain(limeElement: LimeNamedElement) =
-        retainPredicate == null || retainPredicate.invoke(limeElement)
+    private fun shouldRetain(limeElement: LimeNamedElement) = retainPredicate == null || retainPredicate.invoke(limeElement)
 
     private fun collectTypeRefs(allTypes: List<LimeType>): List<LimeTypeRef> {
         val containers = allTypes.filterIsInstance<LimeContainer>()

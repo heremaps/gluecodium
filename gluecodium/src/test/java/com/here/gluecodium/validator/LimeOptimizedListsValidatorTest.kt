@@ -51,7 +51,6 @@ import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
 class LimeOptimizedListsValidatorTest(private val limeElement: LimeNamedElement, private val expectedResult: Boolean) {
-
     private val allElements = mutableMapOf<String, LimeElement>()
     private val limeModel = LimeModel(allElements, emptyList())
 
@@ -73,66 +72,67 @@ class LimeOptimizedListsValidatorTest(private val limeElement: LimeNamedElement,
 
         @JvmStatic
         @Parameterized.Parameters
-        fun testData() = listOf(
-            arrayOf(LimeConstant(EMPTY_PATH, typeRef = typeRef, value = LimeValue.ZERO), true),
-            arrayOf(LimeConstant(EMPTY_PATH, typeRef = optimizedListTypeRef, value = LimeValue.ZERO), false),
-            arrayOf(LimeTypeAlias(EMPTY_PATH, typeRef = typeRef), true),
-            arrayOf(LimeTypeAlias(EMPTY_PATH, typeRef = optimizedListTypeRef), false),
-            arrayOf(LimeException(EMPTY_PATH, errorType = typeRef), true),
-            arrayOf(LimeException(EMPTY_PATH, errorType = optimizedListTypeRef), false),
-            arrayOf(object : LimeContainerWithInheritance(EMPTY_PATH) {}, true),
-            arrayOf(object : LimeContainerWithInheritance(EMPTY_PATH, parents = listOf(typeRef)) {}, true),
-            arrayOf(object : LimeContainerWithInheritance(EMPTY_PATH, parents = listOf(optimizedListTypeRef)) {}, false),
-            arrayOf(LimeLambda(EMPTY_PATH), true),
-            arrayOf(LimeLambda(EMPTY_PATH, returnType = LimeReturnType(typeRef)), true),
-            arrayOf(LimeLambda(EMPTY_PATH, returnType = LimeReturnType(optimizedListTypeRef)), false),
-            arrayOf(LimeLambda(EMPTY_PATH, parameters = listOf(LimeLambdaParameter(typeRef, EMPTY_PATH))), true),
-            arrayOf(LimeLambda(EMPTY_PATH, parameters = listOf(LimeLambdaParameter(optimizedListTypeRef, EMPTY_PATH))), false),
-            arrayOf(LimeFunction(EMPTY_PATH), true),
-            arrayOf(LimeFunction(EMPTY_PATH, parameters = listOf(LimeParameter(EMPTY_PATH, typeRef = typeRef))), true),
-            arrayOf(
-                LimeFunction(
-                    EMPTY_PATH,
-                    parameters = listOf(LimeParameter(EMPTY_PATH, typeRef = optimizedListTypeRef))
+        fun testData() =
+            listOf(
+                arrayOf(LimeConstant(EMPTY_PATH, typeRef = typeRef, value = LimeValue.ZERO), true),
+                arrayOf(LimeConstant(EMPTY_PATH, typeRef = optimizedListTypeRef, value = LimeValue.ZERO), false),
+                arrayOf(LimeTypeAlias(EMPTY_PATH, typeRef = typeRef), true),
+                arrayOf(LimeTypeAlias(EMPTY_PATH, typeRef = optimizedListTypeRef), false),
+                arrayOf(LimeException(EMPTY_PATH, errorType = typeRef), true),
+                arrayOf(LimeException(EMPTY_PATH, errorType = optimizedListTypeRef), false),
+                arrayOf(object : LimeContainerWithInheritance(EMPTY_PATH) {}, true),
+                arrayOf(object : LimeContainerWithInheritance(EMPTY_PATH, parents = listOf(typeRef)) {}, true),
+                arrayOf(object : LimeContainerWithInheritance(EMPTY_PATH, parents = listOf(optimizedListTypeRef)) {}, false),
+                arrayOf(LimeLambda(EMPTY_PATH), true),
+                arrayOf(LimeLambda(EMPTY_PATH, returnType = LimeReturnType(typeRef)), true),
+                arrayOf(LimeLambda(EMPTY_PATH, returnType = LimeReturnType(optimizedListTypeRef)), false),
+                arrayOf(LimeLambda(EMPTY_PATH, parameters = listOf(LimeLambdaParameter(typeRef, EMPTY_PATH))), true),
+                arrayOf(LimeLambda(EMPTY_PATH, parameters = listOf(LimeLambdaParameter(optimizedListTypeRef, EMPTY_PATH))), false),
+                arrayOf(LimeFunction(EMPTY_PATH), true),
+                arrayOf(LimeFunction(EMPTY_PATH, parameters = listOf(LimeParameter(EMPTY_PATH, typeRef = typeRef))), true),
+                arrayOf(
+                    LimeFunction(
+                        EMPTY_PATH,
+                        parameters = listOf(LimeParameter(EMPTY_PATH, typeRef = optimizedListTypeRef)),
+                    ),
+                    false,
                 ),
-                false
-            ),
-            arrayOf(LimeFunction(EMPTY_PATH, thrownType = LimeThrownType(typeRef)), true),
-            arrayOf(LimeFunction(EMPTY_PATH, thrownType = LimeThrownType(optimizedListTypeRef)), false),
-            arrayOf(LimeFunction(EMPTY_PATH, returnType = LimeReturnType(typeRef)), true),
-            arrayOf(LimeFunction(EMPTY_PATH, returnType = LimeReturnType(optimizedTypeRef)), false),
-            arrayOf(LimeFunction(EMPTY_PATH, returnType = LimeReturnType(optimizedListTypeRef)), true),
-            arrayOf(LimeProperty(EMPTY_PATH, typeRef = typeRef, getter = LimeFunction(EMPTY_PATH)), true),
-            arrayOf(LimeProperty(EMPTY_PATH, typeRef = optimizedTypeRef, getter = LimeFunction(EMPTY_PATH)), false),
-            arrayOf(LimeProperty(EMPTY_PATH, typeRef = optimizedListTypeRef, getter = LimeFunction(EMPTY_PATH)), true),
-            arrayOf(
-                LimeProperty(
-                    EMPTY_PATH,
-                    typeRef = optimizedListTypeRef,
-                    getter = LimeFunction(EMPTY_PATH),
-                    setter = LimeFunction(EMPTY_PATH)
+                arrayOf(LimeFunction(EMPTY_PATH, thrownType = LimeThrownType(typeRef)), true),
+                arrayOf(LimeFunction(EMPTY_PATH, thrownType = LimeThrownType(optimizedListTypeRef)), false),
+                arrayOf(LimeFunction(EMPTY_PATH, returnType = LimeReturnType(typeRef)), true),
+                arrayOf(LimeFunction(EMPTY_PATH, returnType = LimeReturnType(optimizedTypeRef)), false),
+                arrayOf(LimeFunction(EMPTY_PATH, returnType = LimeReturnType(optimizedListTypeRef)), true),
+                arrayOf(LimeProperty(EMPTY_PATH, typeRef = typeRef, getter = LimeFunction(EMPTY_PATH)), true),
+                arrayOf(LimeProperty(EMPTY_PATH, typeRef = optimizedTypeRef, getter = LimeFunction(EMPTY_PATH)), false),
+                arrayOf(LimeProperty(EMPTY_PATH, typeRef = optimizedListTypeRef, getter = LimeFunction(EMPTY_PATH)), true),
+                arrayOf(
+                    LimeProperty(
+                        EMPTY_PATH,
+                        typeRef = optimizedListTypeRef,
+                        getter = LimeFunction(EMPTY_PATH),
+                        setter = LimeFunction(EMPTY_PATH),
+                    ),
+                    false,
                 ),
-                false
-            ),
-            arrayOf(LimeStruct(EMPTY_PATH), true),
-            arrayOf(LimeStruct(EMPTY_PATH, fields = listOf(LimeField(EMPTY_PATH, typeRef = typeRef))), true),
-            arrayOf(LimeStruct(EMPTY_PATH, fields = listOf(LimeField(EMPTY_PATH, typeRef = optimizedListTypeRef))), false),
-            arrayOf(
-                LimeStruct(
-                    EMPTY_PATH,
-                    fields = listOf(LimeField(EMPTY_PATH, typeRef = optimizedTypeRef)),
-                    attributes = immutableAttributes
+                arrayOf(LimeStruct(EMPTY_PATH), true),
+                arrayOf(LimeStruct(EMPTY_PATH, fields = listOf(LimeField(EMPTY_PATH, typeRef = typeRef))), true),
+                arrayOf(LimeStruct(EMPTY_PATH, fields = listOf(LimeField(EMPTY_PATH, typeRef = optimizedListTypeRef))), false),
+                arrayOf(
+                    LimeStruct(
+                        EMPTY_PATH,
+                        fields = listOf(LimeField(EMPTY_PATH, typeRef = optimizedTypeRef)),
+                        attributes = immutableAttributes,
+                    ),
+                    false,
                 ),
-                false
-            ),
-            arrayOf(
-                LimeStruct(
-                    EMPTY_PATH,
-                    fields = listOf(LimeField(EMPTY_PATH, typeRef = optimizedListTypeRef)),
-                    attributes = immutableAttributes
+                arrayOf(
+                    LimeStruct(
+                        EMPTY_PATH,
+                        fields = listOf(LimeField(EMPTY_PATH, typeRef = optimizedListTypeRef)),
+                        attributes = immutableAttributes,
+                    ),
+                    true,
                 ),
-                true
-            ),
-        )
+            )
     }
 }

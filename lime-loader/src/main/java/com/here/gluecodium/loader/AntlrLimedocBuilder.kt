@@ -25,7 +25,6 @@ import com.here.gluecodium.model.lime.LimeComment
 import com.here.gluecodium.model.lime.LimePath
 
 internal class AntlrLimedocBuilder(private val currentPath: LimePath) : LimedocParserBaseListener() {
-
     private val commentsCollector = mutableMapOf<Pair<String, String>, LimeComment>()
     private val contentCollector = mutableListOf<Pair<String, String>>()
 
@@ -52,17 +51,19 @@ internal class AntlrLimedocBuilder(private val currentPath: LimePath) : LimedocP
     }
 
     override fun exitDecriptionFirstWord(ctx: LimedocParser.DecriptionFirstWordContext) {
-        contentCollector += when {
-            ctx.inlineTag() != null -> convertInlineTag(ctx.inlineTag())
-            else -> listOf("" to ctx.text)
-        }
+        contentCollector +=
+            when {
+                ctx.inlineTag() != null -> convertInlineTag(ctx.inlineTag())
+                else -> listOf("" to ctx.text)
+            }
     }
 
     override fun exitDescriptionContent(ctx: LimedocParser.DescriptionContentContext) {
-        contentCollector += when {
-            ctx.inlineTag() != null -> convertInlineTag(ctx.inlineTag())
-            else -> listOf("" to unescapeText(ctx.text))
-        }
+        contentCollector +=
+            when {
+                ctx.inlineTag() != null -> convertInlineTag(ctx.inlineTag())
+                else -> listOf("" to unescapeText(ctx.text))
+            }
     }
 
     override fun exitBlockTag(ctx: LimedocParser.BlockTagContext) {
@@ -74,10 +75,11 @@ internal class AntlrLimedocBuilder(private val currentPath: LimePath) : LimedocP
     }
 
     override fun exitBlockTagContent(ctx: LimedocParser.BlockTagContentContext) {
-        contentCollector += when {
-            ctx.inlineTag() != null -> convertInlineTag(ctx.inlineTag())
-            else -> listOf("" to unescapeText(ctx.text))
-        }
+        contentCollector +=
+            when {
+                ctx.inlineTag() != null -> convertInlineTag(ctx.inlineTag())
+                else -> listOf("" to unescapeText(ctx.text))
+            }
     }
 
     // Private functions

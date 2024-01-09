@@ -37,43 +37,44 @@ import com.here.gluecodium.model.lime.LimeType
 internal class DartGeneratorPredicates(
     private val limeReferenceMap: Map<String, LimeElement>,
     private val activeTags: Set<String>,
-    dartNameResolver: DartNameResolver? = null
+    dartNameResolver: DartNameResolver? = null,
 ) {
-    val predicates = mapOf(
-        "allFieldsCtorIsPublic" to { limeStruct: Any ->
-            limeStruct is LimeStruct && allFieldsCtorIsPublic(limeStruct)
-        },
-        "hasAnyComment" to { CommonGeneratorPredicates.hasAnyComment(it, "Dart") },
-        "hasImmutableFields" to { CommonGeneratorPredicates.hasImmutableFields(it) },
-        "hasSingleConstructor" to { limeContainer: Any ->
-            when (limeContainer) {
-                !is LimeContainer -> false
-                is LimeStruct -> limeContainer.constructors.size + limeContainer.fieldConstructors.size == 1
-                else -> limeContainer.constructors.size == 1
-            }
-        },
-        "hasStaticFunctions" to { CommonGeneratorPredicates.hasStaticFunctions(it) },
-        "needsAliasPrefix" to { limeType: Any ->
-            when {
-                limeType !is LimeType -> false
-                dartNameResolver == null -> false
-                else -> dartNameResolver.typesWithDuplicateNames.contains(limeType.fullName)
-            }
-        },
-        "needsNoDoc" to { limeElement: Any ->
-            when {
-                limeElement !is LimeNamedElement -> false
-                CommonGeneratorPredicates.isInternal(limeElement, DART) -> true
-                else -> limeElement.comment.isExcluded
-            }
-        },
-        "skipDeclaration" to { limeType: Any ->
-            limeType is LimeType && skipDeclaration(limeType)
-        },
-        "shouldRetain" to { limeElement: Any ->
-            limeElement is LimeNamedElement && shouldRetain(limeElement)
-        }
-    )
+    val predicates =
+        mapOf(
+            "allFieldsCtorIsPublic" to { limeStruct: Any ->
+                limeStruct is LimeStruct && allFieldsCtorIsPublic(limeStruct)
+            },
+            "hasAnyComment" to { CommonGeneratorPredicates.hasAnyComment(it, "Dart") },
+            "hasImmutableFields" to { CommonGeneratorPredicates.hasImmutableFields(it) },
+            "hasSingleConstructor" to { limeContainer: Any ->
+                when (limeContainer) {
+                    !is LimeContainer -> false
+                    is LimeStruct -> limeContainer.constructors.size + limeContainer.fieldConstructors.size == 1
+                    else -> limeContainer.constructors.size == 1
+                }
+            },
+            "hasStaticFunctions" to { CommonGeneratorPredicates.hasStaticFunctions(it) },
+            "needsAliasPrefix" to { limeType: Any ->
+                when {
+                    limeType !is LimeType -> false
+                    dartNameResolver == null -> false
+                    else -> dartNameResolver.typesWithDuplicateNames.contains(limeType.fullName)
+                }
+            },
+            "needsNoDoc" to { limeElement: Any ->
+                when {
+                    limeElement !is LimeNamedElement -> false
+                    CommonGeneratorPredicates.isInternal(limeElement, DART) -> true
+                    else -> limeElement.comment.isExcluded
+                }
+            },
+            "skipDeclaration" to { limeType: Any ->
+                limeType is LimeType && skipDeclaration(limeType)
+            },
+            "shouldRetain" to { limeElement: Any ->
+                limeElement is LimeNamedElement && shouldRetain(limeElement)
+            },
+        )
 
     fun shouldRetain(limeElement: LimeNamedElement) =
         LimeModelSkipPredicates.shouldRetainCheckParent(limeElement, activeTags, DART, limeReferenceMap)

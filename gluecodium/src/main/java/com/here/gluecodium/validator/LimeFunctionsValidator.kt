@@ -29,17 +29,19 @@ import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeModel
 
 internal class LimeFunctionsValidator(private val logger: LimeLogger) {
-
     fun validate(limeModel: LimeModel): Boolean {
-        val validationResults = limeModel.referenceMap.values
-            .filterIsInstance<LimeFunction>()
-            .map { validateFunction(it, limeModel.referenceMap) }
+        val validationResults =
+            limeModel.referenceMap.values
+                .filterIsInstance<LimeFunction>()
+                .map { validateFunction(it, limeModel.referenceMap) }
 
         return !validationResults.contains(false)
     }
 
-    private fun validateFunction(limeFunction: LimeFunction, referenceMap: Map<String, LimeElement>): Boolean {
-
+    private fun validateFunction(
+        limeFunction: LimeFunction,
+        referenceMap: Map<String, LimeElement>,
+    ): Boolean {
         var result = true
 
         val thrownType = limeFunction.thrownType?.typeRef?.type?.actualType

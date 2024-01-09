@@ -26,10 +26,10 @@ package com.here.gluecodium.model.lime
  */
 class LimeLazyFieldRef(structTypeRef: LimeTypeRef, fieldName: String, attributes: LimeAttributes? = null) :
     LimeFieldRef(attributes) {
-
     override val field by lazy {
-        val limeStruct = structTypeRef.type.actualType as? LimeStruct
-            ?: throw LimeModelLoaderException("Type ${structTypeRef.elementFullName} is not a struct")
+        val limeStruct =
+            structTypeRef.type.actualType as? LimeStruct
+                ?: throw LimeModelLoaderException("Type ${structTypeRef.elementFullName} is not a struct")
         limeStruct.fields.find { it.name == fieldName }
             ?: throw LimeModelLoaderException("Field ${structTypeRef.elementFullName}.$fieldName was not found")
     }

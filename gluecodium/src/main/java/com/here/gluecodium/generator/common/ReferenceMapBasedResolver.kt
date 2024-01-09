@@ -26,20 +26,23 @@ import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimePath
 
 internal abstract class ReferenceMapBasedResolver(protected val limeReferenceMap: Map<String, LimeElement>) {
-
     protected fun getParentElement(limeElement: LimeNamedElement): LimeNamedElement =
         getParentElement(limeElement.path, limeElement is LimeParameter)
 
-    protected fun getParentElement(limePath: LimePath, withSuffix: Boolean = false): LimeNamedElement {
-        val parentPath = when {
-            withSuffix -> limePath.parent.withSuffix(limePath.disambiguator)
-            else -> limePath.parent
-        }
+    protected fun getParentElement(
+        limePath: LimePath,
+        withSuffix: Boolean = false,
+    ): LimeNamedElement {
+        val parentPath =
+            when {
+                withSuffix -> limePath.parent.withSuffix(limePath.disambiguator)
+                else -> limePath.parent
+            }
         return (
             limeReferenceMap[parentPath.toString()] as? LimeNamedElement
                 ?: throw GluecodiumExecutionException(
-                    "Failed to resolve parent for element $limePath"
+                    "Failed to resolve parent for element $limePath",
                 )
-            )
+        )
     }
 }

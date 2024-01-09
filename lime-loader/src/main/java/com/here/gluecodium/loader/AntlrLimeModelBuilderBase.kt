@@ -29,9 +29,8 @@ import org.antlr.v4.runtime.tree.ErrorNode
 import org.antlr.v4.runtime.tree.TerminalNode
 
 internal abstract class AntlrLimeModelBuilderBase(
-    contextStack: ModelBuilderContextStack<LimeNamedElement>
+    contextStack: ModelBuilderContextStack<LimeNamedElement>,
 ) : ContextBasedModelBuilder<LimeNamedElement>(contextStack), LimeParserListener {
-
     // Context handling
 
     override fun enterEveryRule(ctx: ParserRuleContext) = openContext()

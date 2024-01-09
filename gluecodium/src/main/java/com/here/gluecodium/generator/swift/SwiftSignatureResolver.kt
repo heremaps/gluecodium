@@ -28,9 +28,8 @@ import com.here.gluecodium.model.lime.LimeParameter
 internal class SwiftSignatureResolver(
     limeReferenceMap: Map<String, LimeElement>,
     nameRules: SwiftNameRules,
-    activeTags: Set<String>
+    activeTags: Set<String>,
 ) : PlatformSignatureResolver(limeReferenceMap, LimeAttributeType.SWIFT, nameRules, activeTags) {
-
     fun isOverloadingConstructor(limeFunction: LimeFunction): Boolean {
         val container = getContainer(limeFunction) ?: return false
         val allFunctions = getOwnFunctions(container) + getParentFunctions(container)

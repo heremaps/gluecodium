@@ -39,7 +39,6 @@ import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
 class CppSkipAttributesValidatorTest(private val limeElement: LimeNamedElement, private val expectedResult: Boolean) {
-
     private val allElements = mutableMapOf<String, LimeElement>()
     private val limeModel = LimeModel(allElements, emptyList())
 
@@ -58,26 +57,27 @@ class CppSkipAttributesValidatorTest(private val limeElement: LimeNamedElement, 
 
         @JvmStatic
         @Parameterized.Parameters
-        fun testData() = listOf(
-            arrayOf(
-                LimeFieldConstructor(
-                    EMPTY_PATH,
-                    structRef = LimeLazyTypeRef("", emptyMap()),
-                    attributes = cppSkipAttributes
+        fun testData() =
+            listOf(
+                arrayOf(
+                    LimeFieldConstructor(
+                        EMPTY_PATH,
+                        structRef = LimeLazyTypeRef("", emptyMap()),
+                        attributes = cppSkipAttributes,
+                    ),
+                    true,
                 ),
-                true
-            ),
-            arrayOf(
-                LimeConstant(
-                    EMPTY_PATH,
-                    typeRef = LimeBasicTypeRef.INT,
-                    value = LimeValue.ZERO,
-                    attributes = cppSkipAttributes
+                arrayOf(
+                    LimeConstant(
+                        EMPTY_PATH,
+                        typeRef = LimeBasicTypeRef.INT,
+                        value = LimeValue.ZERO,
+                        attributes = cppSkipAttributes,
+                    ),
+                    true,
                 ),
-                true
-            ),
-            arrayOf(object : LimeNamedElement(EMPTY_PATH) {}, true),
-            arrayOf(object : LimeNamedElement(EMPTY_PATH, attributes = cppSkipAttributes) {}, false),
-        )
+                arrayOf(object : LimeNamedElement(EMPTY_PATH) {}, true),
+                arrayOf(object : LimeNamedElement(EMPTY_PATH, attributes = cppSkipAttributes) {}, false),
+            )
     }
 }

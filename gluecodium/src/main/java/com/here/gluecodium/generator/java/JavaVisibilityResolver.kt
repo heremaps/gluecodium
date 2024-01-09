@@ -26,7 +26,6 @@ import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
 import com.here.gluecodium.model.lime.LimeNamedElement
 
 internal class JavaVisibilityResolver : NameResolver {
-
     override fun resolveName(element: Any): String =
         when (element) {
             is LimeNamedElement -> if (CommonGeneratorPredicates.isInternal(element, JAVA)) "" else "public "

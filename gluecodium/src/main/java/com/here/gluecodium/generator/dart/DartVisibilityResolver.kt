@@ -30,14 +30,14 @@ import com.here.gluecodium.model.lime.LimeType
 
 internal class DartVisibilityResolver(limeReferenceMap: Map<String, LimeElement>) :
     ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
-
     override fun resolveName(element: Any): String =
         when (element) {
             // Dart has no type nesting, so all types are "outside" and have to check for an internal outer type.
             is LimeType -> {
-                val isInternal = generateSequence(element) {
-                    limeReferenceMap[it.path.parent.toString()] as? LimeType
-                }.any { CommonGeneratorPredicates.isInternal(it, DART) }
+                val isInternal =
+                    generateSequence(element) {
+                        limeReferenceMap[it.path.parent.toString()] as? LimeType
+                    }.any { CommonGeneratorPredicates.isInternal(it, DART) }
                 getVisibilityPrefix(isInternal)
             }
             is LimeNamedElement -> getVisibilityPrefix(CommonGeneratorPredicates.isInternal(element, DART))

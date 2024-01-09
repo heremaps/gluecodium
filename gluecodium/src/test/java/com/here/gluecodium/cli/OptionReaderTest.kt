@@ -85,9 +85,10 @@ class OptionReaderTest {
     @Throws(OptionReaderException::class)
     fun inputOptionTwoFolders() {
         // Arrange, Act
-        val options = OptionReader.read(
-            arrayOf("-input", TEST_INPUT_TWO_FOLDERS[0], "-input", TEST_INPUT_TWO_FOLDERS[1])
-        )
+        val options =
+            OptionReader.read(
+                arrayOf("-input", TEST_INPUT_TWO_FOLDERS[0], "-input", TEST_INPUT_TWO_FOLDERS[1]),
+            )
 
         // Assert
         assertNotNull(options!!.first.idlSources)
@@ -162,8 +163,10 @@ class OptionReaderTest {
         assertEquals("", options!!.second.copyrightHeaderContents)
     }
 
-    private fun prepareToRead(optionName: String, optionValue: String): Array<String> =
-        arrayOf("-input", TEST_INPUT_SINGLE_FOLDER[0], optionName, optionValue)
+    private fun prepareToRead(
+        optionName: String,
+        optionValue: String,
+    ): Array<String> = arrayOf("-input", TEST_INPUT_SINGLE_FOLDER[0], optionName, optionValue)
 
     companion object {
         private val TEST_INPUT_SINGLE_FOLDER = arrayOf("dirA")

@@ -45,7 +45,7 @@ class LimeAmbiguityResolverTest {
             relativePath,
             parentPaths,
             imports,
-            referenceMap
+            referenceMap,
         )
     }
 

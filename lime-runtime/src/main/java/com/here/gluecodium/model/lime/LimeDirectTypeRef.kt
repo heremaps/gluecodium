@@ -25,7 +25,7 @@ package com.here.gluecodium.model.lime
 class LimeDirectTypeRef(
     override val type: LimeType,
     override val isNullable: Boolean = false,
-    attributes: LimeAttributes? = null
+    attributes: LimeAttributes? = null,
 ) : LimeTypeRef(attributes) {
     override fun asNullable() = if (isNullable) this else LimeDirectTypeRef(type, true)
 }

@@ -27,7 +27,6 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 import java.io.File
 
 internal class JniFileNameRules(generatorName: String, private val nameResolver: JniNameResolver) {
-
     private val jniPathPrefix = generatorName + File.separator + "jni" + File.separator
 
     fun getHeaderFilePath(fileName: String) = "$jniPathPrefix$fileName.h"

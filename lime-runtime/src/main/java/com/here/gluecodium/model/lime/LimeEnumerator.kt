@@ -24,7 +24,7 @@ class LimeEnumerator(
     comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     val explicitValue: LimeValue? = null,
-    private val previous: LimeEnumerator? = null
+    private val previous: LimeEnumerator? = null,
 ) : LimeNamedElement(path = path, comment = comment, attributes = attributes) {
     val value
         get() = explicitValue ?: computeValue()

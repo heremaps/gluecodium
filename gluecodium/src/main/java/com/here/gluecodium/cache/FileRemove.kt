@@ -27,20 +27,20 @@ import java.nio.file.Path
 import java.util.logging.Logger
 
 internal class FileRemove(private val rootDir: File?) {
-
     @Throws(FileNotFoundException::class)
     fun removeFiles(absolutePaths: List<Path>?): Boolean {
         if (rootDir?.exists() == false || rootDir?.isDirectory == false) {
             throw FileNotFoundException(
-                "Accessing root directory '" + rootDir.path + "' failed"
+                "Accessing root directory '" + rootDir.path + "' failed",
             )
         }
 
         absolutePaths?.forEach {
             try {
                 // only remove regular files located below root dir
-                if (Files.isRegularFile(it) && it.toFile().canonicalPath
-                    .startsWith(rootDir?.canonicalPath + File.separator)
+                if (Files.isRegularFile(it) &&
+                    it.toFile().canonicalPath
+                        .startsWith(rootDir?.canonicalPath + File.separator)
                 ) {
                     Files.delete(it)
                 }

@@ -27,7 +27,6 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class ContextBasedModelBuilderTest {
-
     private val resultObject = Any()
 
     private val contextStack = MockContextStack<Any>()
@@ -35,7 +34,6 @@ class ContextBasedModelBuilderTest {
 
     private class TestableModelBuilder(contextStack: ModelBuilderContextStack<Any>) :
         ContextBasedModelBuilder<Any>(contextStack) {
-
         fun doCloseContext() {
             super.closeContext()
         }

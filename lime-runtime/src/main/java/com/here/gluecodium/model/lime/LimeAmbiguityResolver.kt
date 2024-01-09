@@ -35,10 +35,11 @@ object LimeAmbiguityResolver {
         relativePath: List<String>,
         parentPaths: List<LimePath>,
         imports: List<LimePath>,
-        referenceMap: Map<String, LimeElement>
+        referenceMap: Map<String, LimeElement>,
     ): T {
-        val importedKeys = imports.filter { it.name == relativePath.first() }
-            .map { it.child(relativePath.drop(1)).toString() }
+        val importedKeys =
+            imports.filter { it.name == relativePath.first() }
+                .map { it.child(relativePath.drop(1)).toString() }
         val localKeys = parentPaths.map { it.child(relativePath).toString() }
         val resolvedTypes =
             (importedKeys + localKeys).distinct().mapNotNull { referenceMap[it] as? T }

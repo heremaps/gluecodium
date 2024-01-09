@@ -33,27 +33,30 @@ import com.here.gluecodium.model.lime.LimeStruct
 
 internal class JavaImportCollector(
     private val importsResolver: JavaImportResolver,
-    private val retainPredicate: (LimeNamedElement) -> Boolean
+    private val retainPredicate: (LimeNamedElement) -> Boolean,
 ) : ImportsCollector<JavaImport> {
-
     override fun collectImports(limeElement: LimeNamedElement): List<JavaImport> {
         if (!retainPredicate(limeElement)) return emptyList()
 
-        val nestedImports = when (limeElement) {
-            is LimeStruct ->
-                collectContainerImports(limeElement) + limeElement.fields.flatMap { collectImports(it) }
-            is LimeContainer -> collectContainerImports(limeElement)
-            is LimeFunction -> collectFunctionImports(limeElement)
-            is LimeLambda -> collectFunctionImports(limeElement.asFunction())
-            is LimeConstant -> importsResolver.resolveElementImports(limeElement.value)
-            is LimeField ->
-                limeElement.defaultValue?.let { importsResolver.resolveElementImports(it) } ?: emptyList()
-            else -> emptyList()
-        }
+        val nestedImports =
+            when (limeElement) {
+                is LimeStruct ->
+                    collectContainerImports(limeElement) + limeElement.fields.flatMap { collectImports(it) }
+                is LimeContainer -> collectContainerImports(limeElement)
+                is LimeFunction -> collectFunctionImports(limeElement)
+                is LimeLambda -> collectFunctionImports(limeElement.asFunction())
+                is LimeConstant -> importsResolver.resolveElementImports(limeElement.value)
+                is LimeField ->
+                    limeElement.defaultValue?.let { importsResolver.resolveElementImports(it) } ?: emptyList()
+                else -> emptyList()
+            }
         return importsResolver.resolveElementImports(limeElement) + nestedImports
     }
 
-    fun collectImplImports(limeInterface: LimeInterface, defImports: List<JavaImport>): List<JavaImport> {
+    fun collectImplImports(
+        limeInterface: LimeInterface,
+        defImports: List<JavaImport>,
+    ): List<JavaImport> {
         if (limeInterface.parents.isEmpty()) return defImports
         val parentImports =
             limeInterface.parents.mapNotNull { importsResolver.createTopElementImport(it.type.actualType) }
@@ -62,9 +65,10 @@ internal class JavaImportCollector(
     }
 
     private fun collectContainerImports(limeContainer: LimeContainer): List<JavaImport> {
-        val nestedElements = limeContainer.functions + limeContainer.properties + limeContainer.structs +
-            limeContainer.classes + limeContainer.interfaces + limeContainer.exceptions + limeContainer.lambdas +
-            limeContainer.constants
+        val nestedElements =
+            limeContainer.functions + limeContainer.properties + limeContainer.structs +
+                limeContainer.classes + limeContainer.interfaces + limeContainer.exceptions + limeContainer.lambdas +
+                limeContainer.constants
         val inheritedElements =
             when {
                 limeContainer !is LimeContainerWithInheritance -> emptyList()

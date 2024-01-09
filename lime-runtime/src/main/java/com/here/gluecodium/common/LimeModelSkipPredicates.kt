@@ -35,7 +35,7 @@ object LimeModelSkipPredicates {
         limeElement: LimeNamedElement,
         activeTags: Set<String>,
         platformAttribute: LimeAttributeType? = null,
-        retainFunctionsAndFields: Boolean = false
+        retainFunctionsAndFields: Boolean = false,
     ) = when {
         isSkippedByTags(limeElement, activeTags) -> false
         retainFunctionsAndFields &&
@@ -49,7 +49,7 @@ object LimeModelSkipPredicates {
         limeElement: LimeNamedElement,
         activeTags: Set<String>,
         platformAttribute: LimeAttributeType,
-        limeReferenceMap: Map<String, LimeElement>
+        limeReferenceMap: Map<String, LimeElement>,
     ) = when {
         !shouldRetainElement(limeElement, activeTags, platformAttribute) -> false
         !limeElement.path.hasParent -> true
@@ -59,7 +59,10 @@ object LimeModelSkipPredicates {
         }
     }
 
-    private fun isSkippedByTags(limeElement: LimeNamedElement, activeTags: Set<String>): Boolean {
+    private fun isSkippedByTags(
+        limeElement: LimeNamedElement,
+        activeTags: Set<String>,
+    ): Boolean {
         val isEnabled = hasTagsMatch(limeElement, LimeAttributeType.ENABLE_IF, TAG, activeTags)
         if (isEnabled == false) return true
 
@@ -70,7 +73,7 @@ object LimeModelSkipPredicates {
     private fun isSkippedByTagsOnPlatform(
         limeElement: LimeNamedElement,
         activeTags: Set<String>,
-        platformAttribute: LimeAttributeType
+        platformAttribute: LimeAttributeType,
     ): Boolean {
         val isEnabled = hasTagsMatch(limeElement, platformAttribute, ENABLE_IF, activeTags)
         if (isEnabled == false) return true
@@ -83,7 +86,7 @@ object LimeModelSkipPredicates {
         limeElement: LimeNamedElement,
         attributeType: LimeAttributeType,
         attributeValueType: LimeAttributeValueType,
-        activeTags: Set<String>
+        activeTags: Set<String>,
     ): Boolean? =
         when (val attributeTags = limeElement.attributes.get(attributeType, attributeValueType, Any::class.java)) {
             true -> true

@@ -34,7 +34,6 @@ import java.util.logging.Logger
 
 @RunWith(JUnit4::class)
 class LimeLoggerTest {
-
     @MockK private lateinit var javaLogger: Logger
     private val namesMap = mapOf("mo.del.foo" to "FooFile.lime")
 

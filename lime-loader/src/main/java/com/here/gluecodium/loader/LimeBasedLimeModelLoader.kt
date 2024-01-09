@@ -38,32 +38,38 @@ import java.util.logging.Logger
 class LimeBasedLimeModelLoader : LimeModelLoader {
     private val logger = Logger.getLogger(LimeBasedLimeModelLoader::class.java.name)
 
-    override fun loadModel(idlSources: List<String>, auxiliaryIdlSources: List<String>): LimeModel {
+    override fun loadModel(
+        idlSources: List<String>,
+        auxiliaryIdlSources: List<String>,
+    ): LimeModel {
         val resolvedIdlSources = idlSources.flatMap { listFilesRecursively(it) }.toSet()
         val resolvedAuxSources = auxiliaryIdlSources.flatMap { listFilesRecursively(it) }.toSet()
 
         val referenceResolver = AntlrLimeReferenceResolver()
         val elementNameToFileName = mutableMapOf<String, String>()
         val fileNameToImports = mutableMapOf<String, List<LimePath>>()
-        val loadedElements = (resolvedIdlSources + resolvedAuxSources)
-            .map { fileName ->
-                loadFile(fileName, referenceResolver, fileNameToImports)
-                    ?.onEach { elementNameToFileName[it.fullName] = fileName }
-            }
+        val loadedElements =
+            (resolvedIdlSources + resolvedAuxSources)
+                .map { fileName ->
+                    loadFile(fileName, referenceResolver, fileNameToImports)
+                        ?.onEach { elementNameToFileName[it.fullName] = fileName }
+                }
 
         if (loadedElements.any { it == null }) {
             throw LimeLoadingException("Syntax errors found, see log for details.")
         }
 
         val excludedIdlFiles = resolvedAuxSources - resolvedIdlSources
-        val filteredElements = loadedElements.filterNotNull().flatten()
-            .groupBy { excludedIdlFiles.contains(elementNameToFileName[it.fullName]) }
-        val limeModel = LimeModel(
-            referenceResolver.referenceMap,
-            filteredElements[false] ?: emptyList(),
-            filteredElements[true] ?: emptyList(),
-            elementNameToFileName
-        )
+        val filteredElements =
+            loadedElements.filterNotNull().flatten()
+                .groupBy { excludedIdlFiles.contains(elementNameToFileName[it.fullName]) }
+        val limeModel =
+            LimeModel(
+                referenceResolver.referenceMap,
+                filteredElements[false] ?: emptyList(),
+                filteredElements[true] ?: emptyList(),
+                elementNameToFileName,
+            )
         validateModel(limeModel, fileNameToImports)
 
         return limeModel
@@ -71,7 +77,7 @@ class LimeBasedLimeModelLoader : LimeModelLoader {
 
     private fun validateModel(
         limeModel: LimeModel,
-        fileNameToImports: Map<String, List<LimePath>>
+        fileNameToImports: Map<String, List<LimePath>>,
     ) {
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
         val validationResult =
@@ -84,7 +90,7 @@ class LimeBasedLimeModelLoader : LimeModelLoader {
     private fun loadFile(
         fileName: String,
         referenceResolver: LimeReferenceResolver,
-        fileNameToImports: MutableMap<String, List<LimePath>>
+        fileNameToImports: MutableMap<String, List<LimePath>>,
     ): List<LimeNamedElement>? {
         val errorListener = ThrowingErrorListener()
 

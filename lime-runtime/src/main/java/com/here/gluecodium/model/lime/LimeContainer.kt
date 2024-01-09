@@ -36,9 +36,8 @@ abstract class LimeContainer(
     val exceptions: List<LimeException> = emptyList(),
     val classes: List<LimeClass> = emptyList(),
     val interfaces: List<LimeInterface> = emptyList(),
-    val lambdas: List<LimeLambda> = emptyList()
+    val lambdas: List<LimeLambda> = emptyList(),
 ) : LimeType(path, comment, attributes, external) {
-
     val constructors
         get() = functions.filter { it.isConstructor }
 }

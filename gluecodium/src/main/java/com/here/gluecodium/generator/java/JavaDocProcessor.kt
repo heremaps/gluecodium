@@ -35,15 +35,19 @@ import com.vladsch.flexmark.util.sequence.CharSubSequence
  */
 internal class JavaDocProcessor(werror: Boolean, private val referenceMap: Map<String, LimeElement>) :
     CommentsProcessor(HtmlRenderer.builder(flexmarkOptions).build(), werror, flexmarkOptions) {
-
-    override fun processLink(linkNode: LinkRef, linkReference: String, limeFullName: String) {
+    override fun processLink(
+        linkNode: LinkRef,
+        linkReference: String,
+        limeFullName: String,
+    ) {
         val limeElement = referenceMap[fullNameToPathKey(limeFullName)]
-        linkNode.chars = if (limeElement is LimeParameter) {
-            val shortReference = linkReference.split("#").last()
-            CharSubSequence.of("{@code $shortReference}")
-        } else {
-            CharSubSequence.of("{@link $linkReference}")
-        }
+        linkNode.chars =
+            if (limeElement is LimeParameter) {
+                val shortReference = linkReference.split("#").last()
+                CharSubSequence.of("{@code $shortReference}")
+            } else {
+                CharSubSequence.of("{@link $linkReference}")
+            }
         linkNode.firstChild?.unlink()
     }
 
@@ -62,8 +66,9 @@ internal class JavaDocProcessor(werror: Boolean, private val referenceMap: Map<S
     }
 
     companion object {
-        internal val flexmarkOptions: DataHolder = MutableDataSet()
-            .set(Parser.EXTENSIONS, listOf(TablesExtension.create()))
-            .toImmutable()
+        internal val flexmarkOptions: DataHolder =
+            MutableDataSet()
+                .set(Parser.EXTENSIONS, listOf(TablesExtension.create()))
+                .toImmutable()
     }
 }

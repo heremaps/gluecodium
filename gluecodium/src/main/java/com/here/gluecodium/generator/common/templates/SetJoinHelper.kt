@@ -30,7 +30,6 @@ import org.trimou.handlebars.SetHelper
  * Example: {{#setJoin "parentName" parentName name delimiter="::"}}...{{/setJoin}}
  */
 class SetJoinHelper : BasicSectionHelper() {
-
     override fun execute(options: Options) {
         val delimiter = convertValue(options.hash[DELIMITER])
         val key = convertValue(options.parameters.first())

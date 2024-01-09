@@ -36,10 +36,9 @@ import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 internal abstract class CppImportsCollector<T> : ImportsCollector<T> {
-
     protected fun collectForwardDeclaredTypes(
         limeElement: LimeNamedElement,
-        allTypeRefs: List<LimeTypeRef>
+        allTypeRefs: List<LimeTypeRef>,
     ): List<LimeContainerWithInheritance> {
         val parentPaths =
             if (limeElement is LimeContainerWithInheritance) limeElement.parents.map { it.type.path } else emptyList()
@@ -52,13 +51,14 @@ internal abstract class CppImportsCollector<T> : ImportsCollector<T> {
     protected fun collectTypeRefs(allTypes: List<LimeType>): List<LimeTypeRef> {
         val containers = allTypes.filterIsInstance<LimeContainer>()
         val classes = containers.filterIsInstance<LimeContainerWithInheritance>()
-        val typeRefs = containers.flatMap { it.constants }.map { it.typeRef } +
-            containers.filterIsInstance<LimeStruct>().flatMap { it.fields }.map { it.typeRef } +
-            containers.flatMap { it.functions }.flatMap { collectTypeRefs(it) } +
-            classes.flatMap { it.properties }.map { it.typeRef } +
-            allTypes.filterIsInstance<LimeTypeAlias>().map { it.typeRef } +
-            allTypes.filterIsInstance<LimeLambda>().flatMap { collectTypeRefs(it.asFunction()) } +
-            allTypes.filterIsInstance<LimeException>().map { it.errorType }
+        val typeRefs =
+            containers.flatMap { it.constants }.map { it.typeRef } +
+                containers.filterIsInstance<LimeStruct>().flatMap { it.fields }.map { it.typeRef } +
+                containers.flatMap { it.functions }.flatMap { collectTypeRefs(it) } +
+                classes.flatMap { it.properties }.map { it.typeRef } +
+                allTypes.filterIsInstance<LimeTypeAlias>().map { it.typeRef } +
+                allTypes.filterIsInstance<LimeLambda>().flatMap { collectTypeRefs(it.asFunction()) } +
+                allTypes.filterIsInstance<LimeException>().map { it.errorType }
 
         return typeRefs + typeRefs.flatMap { collectTypeRefs(it) }
     }
@@ -67,15 +67,16 @@ internal abstract class CppImportsCollector<T> : ImportsCollector<T> {
         limeFunction.parameters.map { it.typeRef } +
             limeFunction.returnType.typeRef +
             listOfNotNull(
-                limeFunction.exception?.errorType?.takeIf { it.type.actualType !is LimeEnumeration }
+                limeFunction.exception?.errorType?.takeIf { it.type.actualType !is LimeEnumeration },
             )
 
     private fun collectTypeRefs(limeTypeRef: LimeTypeRef): List<LimeTypeRef> =
         when (val limeType = limeTypeRef.type) {
             is LimeList -> collectTypeRefs(limeType.elementType) + limeType.elementType
             is LimeSet -> collectTypeRefs(limeType.elementType) + limeType.elementType
-            is LimeMap -> collectTypeRefs(limeType.keyType) + collectTypeRefs(limeType.valueType) +
-                limeType.keyType + limeType.valueType
+            is LimeMap ->
+                collectTypeRefs(limeType.keyType) + collectTypeRefs(limeType.valueType) +
+                    limeType.keyType + limeType.valueType
             else -> emptyList()
         }
 }

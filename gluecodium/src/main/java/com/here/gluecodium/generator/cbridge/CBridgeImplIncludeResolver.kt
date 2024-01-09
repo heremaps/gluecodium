@@ -46,7 +46,6 @@ import java.io.File
 
 internal class CBridgeImplIncludeResolver(private val cppIncludeResolver: CppIncludeResolver) :
     ImportsResolver<Include> {
-
     override fun resolveElementImports(limeElement: LimeElement) =
         when (limeElement) {
             is LimeConstant -> emptyList()
@@ -65,12 +64,13 @@ internal class CBridgeImplIncludeResolver(private val cppIncludeResolver: CppInc
 
     private fun resolveClassInterfaceIncludes(limeContainer: LimeContainerWithInheritance): List<Include> {
         val containerIncludes = resolveContainerIncludes(limeContainer)
-        val ownIncludes = listOfNotNull(
-            TYPE_INIT_REPOSITORY_INCLUDE,
-            WRAPPER_CACHE_INCLUDE,
-            CACHED_PROXY_BASE_INCLUDE.takeIf { limeContainer is LimeInterface },
-            cppIncludeResolver.typeRepositoryInclude.takeIf { CommonGeneratorPredicates.hasTypeRepository(limeContainer) }
-        )
+        val ownIncludes =
+            listOfNotNull(
+                TYPE_INIT_REPOSITORY_INCLUDE,
+                WRAPPER_CACHE_INCLUDE,
+                CACHED_PROXY_BASE_INCLUDE.takeIf { limeContainer is LimeInterface },
+                cppIncludeResolver.typeRepositoryInclude.takeIf { CommonGeneratorPredicates.hasTypeRepository(limeContainer) },
+            )
         val parentIncludes = resolveParentIncludes(limeContainer)
         return containerIncludes + ownIncludes + parentIncludes
     }
@@ -80,8 +80,7 @@ internal class CBridgeImplIncludeResolver(private val cppIncludeResolver: CppInc
         return limeInterface.parents.flatMap { cppIncludeResolver.resolveElementImports(it.type.actualType) }
     }
 
-    private fun resolveStructIncludes(limeStruct: LimeStruct) =
-        resolveContainerIncludes(limeStruct) + listOf(CppLibraryIncludes.OPTIONAL)
+    private fun resolveStructIncludes(limeStruct: LimeStruct) = resolveContainerIncludes(limeStruct) + listOf(CppLibraryIncludes.OPTIONAL)
 
     private fun resolveContainerIncludes(limeContainer: LimeContainer) =
         cppIncludeResolver.resolveElementImports(limeContainer) +
@@ -107,18 +106,20 @@ internal class CBridgeImplIncludeResolver(private val cppIncludeResolver: CppInc
         when (limeType) {
             is LimeList -> cppIncludeResolver.resolveElementImports(limeType) + resolveTypeRefIncludes(limeType.elementType)
             is LimeSet -> cppIncludeResolver.resolveElementImports(limeType) + resolveTypeRefIncludes(limeType.elementType)
-            is LimeMap -> cppIncludeResolver.resolveElementImports(limeType) + resolveTypeRefIncludes(limeType.keyType) +
-                resolveTypeRefIncludes(limeType.valueType)
+            is LimeMap ->
+                cppIncludeResolver.resolveElementImports(limeType) + resolveTypeRefIncludes(limeType.keyType) +
+                    resolveTypeRefIncludes(limeType.valueType)
             else -> emptyList()
         }
 
-    private fun resolveLambdaIncludes(limeLambda: LimeLambda) = cppIncludeResolver.resolveElementImports(limeLambda) +
-        listOf(
-            CppLibraryIncludes.NEW,
-            BASE_HANDLE_IMPL_INCLUDE,
-            CACHED_PROXY_BASE_INCLUDE,
-            CppLibraryIncludes.OPTIONAL
-        )
+    private fun resolveLambdaIncludes(limeLambda: LimeLambda) =
+        cppIncludeResolver.resolveElementImports(limeLambda) +
+            listOf(
+                CppLibraryIncludes.NEW,
+                BASE_HANDLE_IMPL_INCLUDE,
+                CACHED_PROXY_BASE_INCLUDE,
+                CppLibraryIncludes.OPTIONAL,
+            )
 
     companion object {
         val BASE_HANDLE_IMPL_INCLUDE = Include.createInternalInclude(createInternalHeaderPath("BaseHandleImpl.h"))

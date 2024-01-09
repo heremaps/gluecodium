@@ -42,22 +42,25 @@ import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
 class LimeTypeRefsValidatorTest(private val createElement: (LimeTypeRef) -> LimeElement) {
-
     private val allElements = mutableMapOf<String, LimeElement>()
     private val limeModel = LimeModel(allElements, emptyList())
-    private val dummyTypeRef = object : LimeTypeRef() {
-        override val elementFullName = ""
-        override val type = LimeBasicType(LimeBasicType.TypeId.VOID)
-        override val isNullable = false
-        override fun asNullable() = this
-    }
-    private val throwingTypeRef = object : LimeTypeRef() {
-        override val elementFullName = ""
-        override val type
-            get() = throw LimeModelLoaderException("")
-        override val isNullable = false
-        override fun asNullable() = this
-    }
+    private val dummyTypeRef =
+        object : LimeTypeRef() {
+            override val elementFullName = ""
+            override val type = LimeBasicType(LimeBasicType.TypeId.VOID)
+            override val isNullable = false
+
+            override fun asNullable() = this
+        }
+    private val throwingTypeRef =
+        object : LimeTypeRef() {
+            override val elementFullName = ""
+            override val type
+                get() = throw LimeModelLoaderException("")
+            override val isNullable = false
+
+            override fun asNullable() = this
+        }
 
     private val validator = LimeTypeRefsValidator(mockk(relaxed = true))
 
@@ -65,7 +68,7 @@ class LimeTypeRefsValidatorTest(private val createElement: (LimeTypeRef) -> Lime
         path = EMPTY_PATH,
         comment = LimeComment(),
         attributes = null,
-        typeRef = limeTypeRef
+        typeRef = limeTypeRef,
     )
 
     @Test
@@ -85,20 +88,21 @@ class LimeTypeRefsValidatorTest(private val createElement: (LimeTypeRef) -> Lime
     companion object {
         @JvmStatic
         @Parameterized.Parameters
-        fun testData() = listOf(
-            arrayOf<(LimeTypeRef) -> LimeElement>({ DummyTypedElement(it) }),
-            arrayOf<(LimeTypeRef) -> LimeElement>(
-                { LimeFunction(EMPTY_PATH, returnType = LimeReturnType(it)) }
-            ),
-            arrayOf<(LimeTypeRef) -> LimeElement>({
-                LimeFunction(
-                    EMPTY_PATH,
-                    thrownType = LimeThrownType(it)
-                )
-            }),
-            arrayOf<(LimeTypeRef) -> LimeElement>({ LimeClass(EMPTY_PATH, parents = listOf(it)) }),
-            arrayOf<(LimeTypeRef) -> LimeElement>({ LimeTypeAlias(EMPTY_PATH, typeRef = it) }),
-            arrayOf<(LimeTypeRef) -> LimeElement>({ LimeException(EMPTY_PATH, errorType = it) })
-        )
+        fun testData() =
+            listOf(
+                arrayOf<(LimeTypeRef) -> LimeElement>({ DummyTypedElement(it) }),
+                arrayOf<(LimeTypeRef) -> LimeElement>(
+                    { LimeFunction(EMPTY_PATH, returnType = LimeReturnType(it)) },
+                ),
+                arrayOf<(LimeTypeRef) -> LimeElement>({
+                    LimeFunction(
+                        EMPTY_PATH,
+                        thrownType = LimeThrownType(it),
+                    )
+                }),
+                arrayOf<(LimeTypeRef) -> LimeElement>({ LimeClass(EMPTY_PATH, parents = listOf(it)) }),
+                arrayOf<(LimeTypeRef) -> LimeElement>({ LimeTypeAlias(EMPTY_PATH, typeRef = it) }),
+                arrayOf<(LimeTypeRef) -> LimeElement>({ LimeException(EMPTY_PATH, errorType = it) }),
+            )
     }
 }

@@ -27,7 +27,10 @@ import java.util.ServiceLoader
  * rest of the binary to an absolute minimum.
  */
 interface LimeModelLoader {
-    fun loadModel(idlSources: List<String>, auxiliaryIdlSources: List<String>): LimeModel
+    fun loadModel(
+        idlSources: List<String>,
+        auxiliaryIdlSources: List<String>,
+    ): LimeModel
 
     companion object {
         fun getLoaders() = ServiceLoader.load(LimeModelLoader::class.java).iterator().asSequence()

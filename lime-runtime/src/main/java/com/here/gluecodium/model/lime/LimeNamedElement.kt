@@ -23,9 +23,8 @@ abstract class LimeNamedElement protected constructor(
     val path: LimePath,
     val comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
-    val external: LimeExternalDescriptor? = null
+    val external: LimeExternalDescriptor? = null,
 ) : LimeElement(attributes) {
-
     open val name
         get() = path.name
 

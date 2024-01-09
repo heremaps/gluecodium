@@ -44,9 +44,8 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 internal class FfiNameResolver(
     limeReferenceMap: Map<String, LimeElement>,
     private val nameRules: NameRules,
-    private val internalPrefix: String
+    private val internalPrefix: String,
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
-
     private val signatureResolver = FfiSignatureResolver(limeReferenceMap, this)
 
     override fun resolveName(element: Any): String =
@@ -100,13 +99,14 @@ internal class FfiNameResolver(
         }
 
     private fun getGenericTypeName(limeType: LimeType) =
-        internalPrefix + when (val actualType = limeType.actualType) {
-            is LimeList -> getListName(actualType.elementType)
-            is LimeSet -> getSetName(actualType.elementType)
-            is LimeMap -> getMapName(actualType.keyType, actualType.valueType)
-            else ->
-                throw GluecodiumExecutionException("Unsupported element type ${actualType.javaClass.name}")
-        }
+        internalPrefix +
+            when (val actualType = limeType.actualType) {
+                is LimeList -> getListName(actualType.elementType)
+                is LimeSet -> getSetName(actualType.elementType)
+                is LimeMap -> getMapName(actualType.keyType, actualType.valueType)
+                else ->
+                    throw GluecodiumExecutionException("Unsupported element type ${actualType.javaClass.name}")
+            }
 
     private fun getBasicTypeName(typeId: TypeId) =
         when (typeId) {
@@ -126,28 +126,29 @@ internal class FfiNameResolver(
             TypeId.STRING, TypeId.BLOB, TypeId.LOCALE -> OPAQUE_HANDLE_TYPE
         }
 
-    private fun getListName(elementType: LimeTypeRef) =
-        "ListOf_${getNestedTypeRefName(elementType)}"
+    private fun getListName(elementType: LimeTypeRef) = "ListOf_${getNestedTypeRefName(elementType)}"
 
-    private fun getSetName(elementType: LimeTypeRef) =
-        "SetOf_${getNestedTypeRefName(elementType)}"
+    private fun getSetName(elementType: LimeTypeRef) = "SetOf_${getNestedTypeRefName(elementType)}"
 
-    private fun getMapName(keyType: LimeTypeRef, valueType: LimeTypeRef) =
-        "MapOf_${getNestedTypeRefName(keyType)}_to_${getNestedTypeRefName(valueType)}"
+    private fun getMapName(
+        keyType: LimeTypeRef,
+        valueType: LimeTypeRef,
+    ) = "MapOf_${getNestedTypeRefName(keyType)}_to_${getNestedTypeRefName(valueType)}"
 
     private fun getMangledFullName(limeElement: LimeNamedElement): String {
-        val prefix = when {
-            limeElement.path.hasParent -> {
-                val parentElement =
-                    limeReferenceMap[limeElement.path.parent.toString()] as? LimeNamedElement
-                        ?: throw GluecodiumExecutionException(
-                            "Failed to resolve parent for element ${limeElement.fullName}"
-                        )
-                getMangledFullName(parentElement)
+        val prefix =
+            when {
+                limeElement.path.hasParent -> {
+                    val parentElement =
+                        limeReferenceMap[limeElement.path.parent.toString()] as? LimeNamedElement
+                            ?: throw GluecodiumExecutionException(
+                                "Failed to resolve parent for element ${limeElement.fullName}",
+                            )
+                    getMangledFullName(parentElement)
+                }
+                limeElement.path.head.isEmpty() -> null
+                else -> limeElement.path.head.joinToString("_")
             }
-            limeElement.path.head.isEmpty() -> null
-            else -> limeElement.path.head.joinToString("_")
-        }
 
         val mangledName = mangleName(nameRules.getName(limeElement))
         val fullName = listOfNotNull(prefix, mangledName).joinToString("_")
@@ -174,18 +175,18 @@ internal class FfiNameResolver(
 
     private class FfiSignatureResolver(
         limeReferenceMap: Map<String, LimeElement>,
-        private val nameResolver: FfiNameResolver
+        private val nameResolver: FfiNameResolver,
     ) : LimeSignatureResolver(limeReferenceMap) {
-
-        override fun getFunctionName(limeFunction: LimeFunction) =
-            nameResolver.nameRules.getName(limeFunction)
+        override fun getFunctionName(limeFunction: LimeFunction) = nameResolver.nameRules.getName(limeFunction)
 
         override fun getArrayName(elementType: LimeTypeRef) = nameResolver.getListName(elementType)
 
         override fun getSetName(elementType: LimeTypeRef) = nameResolver.getSetName(elementType)
 
-        override fun getMapName(keyType: LimeTypeRef, valueType: LimeTypeRef) =
-            nameResolver.getMapName(keyType, valueType)
+        override fun getMapName(
+            keyType: LimeTypeRef,
+            valueType: LimeTypeRef,
+        ) = nameResolver.getMapName(keyType, valueType)
     }
 
     companion object {

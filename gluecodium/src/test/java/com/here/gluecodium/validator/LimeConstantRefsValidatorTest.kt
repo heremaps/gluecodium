@@ -38,61 +38,66 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class LimeConstantRefsValidatorTest {
-
     private val allElements = mutableMapOf<String, LimeElement>()
     private val limeModel = LimeModel(allElements, emptyList())
-    private val dummyEnumeratorRef = object : LimeConstantRef() {
-        override val element = LimeEnumerator(EMPTY_PATH)
-        override val typeRef = LimeBasicTypeRef.INT
-    }
-    private val throwingEnumeratorRef = object : LimeConstantRef() {
-        override val element
-            get() = throw LimeModelLoaderException("")
-        override val typeRef = LimeBasicTypeRef.INT
-    }
+    private val dummyEnumeratorRef =
+        object : LimeConstantRef() {
+            override val element = LimeEnumerator(EMPTY_PATH)
+            override val typeRef = LimeBasicTypeRef.INT
+        }
+    private val throwingEnumeratorRef =
+        object : LimeConstantRef() {
+            override val element
+                get() = throw LimeModelLoaderException("")
+            override val typeRef = LimeBasicTypeRef.INT
+        }
 
     private val validator = LimeConstantRefsValidator(mockk(relaxed = true))
 
     @Test
     fun validateFieldWithValidRef() {
-        allElements[""] = LimeField(
-            EMPTY_PATH,
-            typeRef = LimeBasicTypeRef.INT,
-            defaultValue = LimeValue.Constant(LimeBasicTypeRef.INT, dummyEnumeratorRef)
-        )
+        allElements[""] =
+            LimeField(
+                EMPTY_PATH,
+                typeRef = LimeBasicTypeRef.INT,
+                defaultValue = LimeValue.Constant(LimeBasicTypeRef.INT, dummyEnumeratorRef),
+            )
 
         assertTrue(validator.validate(limeModel))
     }
 
     @Test
     fun validateFieldWithInvalidRef() {
-        allElements[""] = LimeField(
-            EMPTY_PATH,
-            typeRef = LimeBasicTypeRef.INT,
-            defaultValue = LimeValue.Constant(LimeBasicTypeRef.INT, throwingEnumeratorRef)
-        )
+        allElements[""] =
+            LimeField(
+                EMPTY_PATH,
+                typeRef = LimeBasicTypeRef.INT,
+                defaultValue = LimeValue.Constant(LimeBasicTypeRef.INT, throwingEnumeratorRef),
+            )
 
         assertFalse(validator.validate(limeModel))
     }
 
     @Test
     fun validateConstantWithValidRef() {
-        allElements[""] = LimeConstant(
-            EMPTY_PATH,
-            typeRef = LimeBasicTypeRef.INT,
-            value = LimeValue.Constant(LimeBasicTypeRef.INT, dummyEnumeratorRef)
-        )
+        allElements[""] =
+            LimeConstant(
+                EMPTY_PATH,
+                typeRef = LimeBasicTypeRef.INT,
+                value = LimeValue.Constant(LimeBasicTypeRef.INT, dummyEnumeratorRef),
+            )
 
         assertTrue(validator.validate(limeModel))
     }
 
     @Test
     fun validateConstantWithInvalidRef() {
-        allElements[""] = LimeConstant(
-            EMPTY_PATH,
-            typeRef = LimeBasicTypeRef.INT,
-            value = LimeValue.Constant(LimeBasicTypeRef.INT, throwingEnumeratorRef)
-        )
+        allElements[""] =
+            LimeConstant(
+                EMPTY_PATH,
+                typeRef = LimeBasicTypeRef.INT,
+                value = LimeValue.Constant(LimeBasicTypeRef.INT, throwingEnumeratorRef),
+            )
 
         assertFalse(validator.validate(limeModel))
     }

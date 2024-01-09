@@ -22,7 +22,10 @@ package com.here.gluecodium.test
 import org.junit.Assert.assertTrue
 
 object AssertHelpers {
-    fun <T> assertContains(expected: T, actual: Collection<T>) {
+    fun <T> assertContains(
+        expected: T,
+        actual: Collection<T>,
+    ) {
         assertTrue(actual.contains(expected))
     }
 }

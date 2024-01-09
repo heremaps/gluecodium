@@ -39,7 +39,7 @@ class LimeOverloadsValidatorTest(
     private val limeMethod1: LimeFunction,
     private val limeMethod2: LimeFunction,
     private val expectedResultNoConstructors: Boolean,
-    private val expectedResultWithConstructors: Boolean
+    private val expectedResultWithConstructors: Boolean,
 ) {
     private val allElements = mutableMapOf<String, LimeElement>()
 
@@ -73,49 +73,50 @@ class LimeOverloadsValidatorTest(
 
         @JvmStatic
         @Parameterized.Parameters
-        fun testData() = listOf(
-            arrayOf(
-                LimeFunction(barPath.withSuffix("0")),
-                LimeFunction(barPath.withSuffix("1"), parameters = listOf(limeParameter)),
-                true,
-                true
-            ),
-            arrayOf(
-                LimeFunction(barPath.withSuffix("0"), parameters = listOf(limeParameter)),
-                LimeFunction(barPath.withSuffix("1"), parameters = listOf(limeParameter)),
-                false,
-                false
-            ),
-            arrayOf(
-                LimeFunction(barPath.withSuffix("0"), isConstructor = true),
-                LimeFunction(barPath.withSuffix("1"), isConstructor = true, parameters = listOf(limeParameter)),
-                true,
-                true
-            ),
-            arrayOf(
-                LimeFunction(barPath.withSuffix("0"), isConstructor = true, parameters = listOf(limeParameter)),
-                LimeFunction(barPath.withSuffix("1"), isConstructor = true, parameters = listOf(limeParameter)),
-                false,
-                false
-            ),
-            arrayOf(
-                LimeFunction(barPath.withSuffix("0")),
-                LimeFunction(barPath.withSuffix("1"), isConstructor = true, parameters = listOf(limeParameter)),
-                true,
-                true
-            ),
-            arrayOf(
-                LimeFunction(barPath.withSuffix("0"), parameters = listOf(limeParameter)),
-                LimeFunction(barPath.withSuffix("1"), isConstructor = true, parameters = listOf(limeParameter)),
-                false,
-                false
-            ),
-            arrayOf(
-                LimeFunction(barPath, isConstructor = true, parameters = listOf(limeParameter)),
-                LimeFunction(fooPath.child("wee"), isConstructor = true, parameters = listOf(limeParameter)),
-                true,
-                false
+        fun testData() =
+            listOf(
+                arrayOf(
+                    LimeFunction(barPath.withSuffix("0")),
+                    LimeFunction(barPath.withSuffix("1"), parameters = listOf(limeParameter)),
+                    true,
+                    true,
+                ),
+                arrayOf(
+                    LimeFunction(barPath.withSuffix("0"), parameters = listOf(limeParameter)),
+                    LimeFunction(barPath.withSuffix("1"), parameters = listOf(limeParameter)),
+                    false,
+                    false,
+                ),
+                arrayOf(
+                    LimeFunction(barPath.withSuffix("0"), isConstructor = true),
+                    LimeFunction(barPath.withSuffix("1"), isConstructor = true, parameters = listOf(limeParameter)),
+                    true,
+                    true,
+                ),
+                arrayOf(
+                    LimeFunction(barPath.withSuffix("0"), isConstructor = true, parameters = listOf(limeParameter)),
+                    LimeFunction(barPath.withSuffix("1"), isConstructor = true, parameters = listOf(limeParameter)),
+                    false,
+                    false,
+                ),
+                arrayOf(
+                    LimeFunction(barPath.withSuffix("0")),
+                    LimeFunction(barPath.withSuffix("1"), isConstructor = true, parameters = listOf(limeParameter)),
+                    true,
+                    true,
+                ),
+                arrayOf(
+                    LimeFunction(barPath.withSuffix("0"), parameters = listOf(limeParameter)),
+                    LimeFunction(barPath.withSuffix("1"), isConstructor = true, parameters = listOf(limeParameter)),
+                    false,
+                    false,
+                ),
+                arrayOf(
+                    LimeFunction(barPath, isConstructor = true, parameters = listOf(limeParameter)),
+                    LimeFunction(fooPath.child("wee"), isConstructor = true, parameters = listOf(limeParameter)),
+                    true,
+                    false,
+                ),
             )
-        )
     }
 }

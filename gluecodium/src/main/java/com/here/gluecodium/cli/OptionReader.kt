@@ -39,110 +39,112 @@ import java.io.File
 import java.nio.file.Paths
 
 object OptionReader {
-    private val options: Options = Options().run {
-        addOption("input", true, "The path or the file to use for generation")
-        addOption("output", true, "Generated files output directory")
-        addOption(
-            "commonoutput",
-            "common-output-dir",
-            true,
-            "Common generated files output directory, defaults to be the same as output"
-        )
-        addOption("options", true, "Options file to load options from")
-        addOption("auxinput", true, "Auxiliary IDL sources that are loaded but not generated from")
-        addOption("javapackage", true, "Java package name")
-        addOption(
-            "javanonnullannotation",
-            true,
-            "Java @NonNull annotation full name including package"
-        )
-        addOption(
-            "javanullableannotation",
-            true,
-            "Java @Nullable annotation full name including package"
-        )
-        addOption(
-            "intpackage",
-            "java-internal-package",
-            true,
-            "Java package name to append to 'javapackage' for internal types."
-        )
-        addOption("help", false, "Shows this help and exits.")
-        addOption("version", false, "Prints version info and exits.")
-        addOption(
-            "validate",
-            "validate-only",
-            false,
-            "Perform validation of input files without generating any code."
-        )
-        addOption(
-            "cache",
-            "enable-caching",
-            false,
-            "enable caching of output files, only available if output destination is set"
-        )
-        addOption(
-            Option(
-                "generators",
+    private val options: Options =
+        Options().run {
+            addOption("input", true, "The path or the file to use for generation")
+            addOption("output", true, "Generated files output directory")
+            addOption(
+                "commonoutput",
+                "common-output-dir",
                 true,
-                "List of generators to use, separated by comma. If empty, all available generators are used. Available generators: " +
-                    Generator.allGeneratorShortNames.joinToString(", ") + "\n"
-            ).apply {
-                valueSeparator = ','
-                setOptionalArg(true)
-                args = Option.UNLIMITED_VALUES
-            }
-        )
-        addOption(
-            "copyright",
-            "copyright-header",
-            true,
-            "Specify the path for the file containing the copyright header that will be appended to all the generated files."
-        )
-        addOption(
-            "intnamespace",
-            "cpp-internal-namespace",
-            true,
-            "C++ namespace for internal (non-API) headers. Multiple namespace levels may be separated with '.'."
-        )
-        addOption("cppnamespace", true, "C++ namespace for public (API) headers.")
-        addOption("cppexport", true, "C++ export macro name for explicit symbols exporting.")
-        addOption("cppexportcommon", true, "C++ export macro name for exporting explicit symbols from `common` dir.")
-        addOption("internalprefix", true, "Name prefix for internal conversion functions in Swift.")
-        addOption("libraryname", true, "Name of the generated library for some generators (e.g. Dart).")
-        addOption("dartlookuperrormessage", true, "Custom error message for when Dart FFI function lookup fails.")
-        addOption(
-            "werror",
-            "warning-as-error",
-            true,
-            "Treat the specified validation warning type as an error. Possible values: " +
-                listOf(
-                    GeneratorOptions.WARNING_DOC_LINKS,
-                    GeneratorOptions.WARNING_DEPRECATED_ATTRIBUTES,
-                    GeneratorOptions.WARNING_DART_OVERLOADS
-                ).joinToString()
-        )
-        addOption(
-            "swiftexpose",
-            "swift-expose-internals",
-            false,
-            "Expose `internal` Swift generated code as `public` for reuse across several frameworks."
-        )
-        addOption("strict", "strict-mode", false, "Use 'strict' validation rules for `struct` declarations.")
-        addOption("tag", true, "Add a custom tag for @Skip attributes.")
-        addOption("cppnamerules", true, "C++ name rules property file.")
-        addOption("javanamerules", true, "Java name rules property file.")
-        addOption("swiftnamerules", true, "Swift name rules property file.")
-        addOption("dartnamerules", true, "Dart name rules property file.")
-    }
+                "Common generated files output directory, defaults to be the same as output",
+            )
+            addOption("options", true, "Options file to load options from")
+            addOption("auxinput", true, "Auxiliary IDL sources that are loaded but not generated from")
+            addOption("javapackage", true, "Java package name")
+            addOption(
+                "javanonnullannotation",
+                true,
+                "Java @NonNull annotation full name including package",
+            )
+            addOption(
+                "javanullableannotation",
+                true,
+                "Java @Nullable annotation full name including package",
+            )
+            addOption(
+                "intpackage",
+                "java-internal-package",
+                true,
+                "Java package name to append to 'javapackage' for internal types.",
+            )
+            addOption("help", false, "Shows this help and exits.")
+            addOption("version", false, "Prints version info and exits.")
+            addOption(
+                "validate",
+                "validate-only",
+                false,
+                "Perform validation of input files without generating any code.",
+            )
+            addOption(
+                "cache",
+                "enable-caching",
+                false,
+                "enable caching of output files, only available if output destination is set",
+            )
+            addOption(
+                Option(
+                    "generators",
+                    true,
+                    "List of generators to use, separated by comma. If empty, all available generators are used. Available generators: " +
+                        Generator.allGeneratorShortNames.joinToString(", ") + "\n",
+                ).apply {
+                    valueSeparator = ','
+                    setOptionalArg(true)
+                    args = Option.UNLIMITED_VALUES
+                },
+            )
+            addOption(
+                "copyright",
+                "copyright-header",
+                true,
+                "Specify the path for the file containing the copyright header that will be appended to all the generated files.",
+            )
+            addOption(
+                "intnamespace",
+                "cpp-internal-namespace",
+                true,
+                "C++ namespace for internal (non-API) headers. Multiple namespace levels may be separated with '.'.",
+            )
+            addOption("cppnamespace", true, "C++ namespace for public (API) headers.")
+            addOption("cppexport", true, "C++ export macro name for explicit symbols exporting.")
+            addOption("cppexportcommon", true, "C++ export macro name for exporting explicit symbols from `common` dir.")
+            addOption("internalprefix", true, "Name prefix for internal conversion functions in Swift.")
+            addOption("libraryname", true, "Name of the generated library for some generators (e.g. Dart).")
+            addOption("dartlookuperrormessage", true, "Custom error message for when Dart FFI function lookup fails.")
+            addOption(
+                "werror",
+                "warning-as-error",
+                true,
+                "Treat the specified validation warning type as an error. Possible values: " +
+                    listOf(
+                        GeneratorOptions.WARNING_DOC_LINKS,
+                        GeneratorOptions.WARNING_DEPRECATED_ATTRIBUTES,
+                        GeneratorOptions.WARNING_DART_OVERLOADS,
+                    ).joinToString(),
+            )
+            addOption(
+                "swiftexpose",
+                "swift-expose-internals",
+                false,
+                "Expose `internal` Swift generated code as `public` for reuse across several frameworks.",
+            )
+            addOption("strict", "strict-mode", false, "Use 'strict' validation rules for `struct` declarations.")
+            addOption("tag", true, "Add a custom tag for @Skip attributes.")
+            addOption("cppnamerules", true, "C++ name rules property file.")
+            addOption("javanamerules", true, "Java name rules property file.")
+            addOption("swiftnamerules", true, "Swift name rules property file.")
+            addOption("dartnamerules", true, "Dart name rules property file.")
+        }
 
     @Throws(OptionReaderException::class)
     fun read(args: Array<String>): Pair<GluecodiumOptions, GeneratorOptions>? {
-        val cmd = try {
-            DefaultParser().parse(this.options, args)
-        } catch (e: ParseException) {
-            throw OptionReaderException(e)
-        }
+        val cmd =
+            try {
+                DefaultParser().parse(this.options, args)
+            } catch (e: ParseException) {
+                throw OptionReaderException(e)
+            }
 
         if (cmd.hasOption("help")) {
             printUsage()
@@ -152,21 +154,24 @@ object OptionReader {
             return null
         }
 
-        val optionsConfig = when {
-            cmd.hasOption("options") -> readConfigFile(cmd.getOptionValue("options"))
-            else -> null
-        }
+        val optionsConfig =
+            when {
+                cmd.hasOption("options") -> readConfigFile(cmd.getOptionValue("options"))
+                else -> null
+            }
+
         fun getStringListValue(key: String) =
             cmd.getOptionValues(key)?.toList()
                 ?: optionsConfig?.getOrNull(Key(key, listType(stringType)))
+
         fun getStringValue(key: String) =
             cmd.getOptionValues(key)?.also {
                 if (it.size > 1) {
                     throw OptionReaderException("multiple values for option: $key")
                 }
             }?.get(0) ?: optionsConfig?.getOrNull(Key(key, stringType))
-        fun getFlagValue(key: String) =
-            cmd.hasOption(key) || optionsConfig?.getOrNull(Key(key, booleanType)) == true
+
+        fun getFlagValue(key: String) = cmd.hasOption(key) || optionsConfig?.getOrNull(Key(key, booleanType)) == true
 
         val gluecodiumOptions = GluecodiumOptions()
 
@@ -228,9 +233,10 @@ object OptionReader {
     }
 
     @Throws(OptionReaderException::class)
-    fun readConfigFile(configFilePath: String?, defaultConfig: Configuration) =
-        configFilePath?.let { readConfigFile(it) overriding defaultConfig } ?: defaultConfig
+    fun readConfigFile(
+        configFilePath: String?,
+        defaultConfig: Configuration,
+    ) = configFilePath?.let { readConfigFile(it) overriding defaultConfig } ?: defaultConfig
 
-    fun parseAnnotation(argument: String?) =
-        argument?.split('.')?.let { Pair(it.last(), it.dropLast(1)) }
+    fun parseAnnotation(argument: String?) = argument?.split('.')?.let { Pair(it.last(), it.dropLast(1)) }
 }

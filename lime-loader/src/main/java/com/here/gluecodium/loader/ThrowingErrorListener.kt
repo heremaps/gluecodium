@@ -32,7 +32,7 @@ internal class ThrowingErrorListener(private val lineOffset: Int = 0) : BaseErro
         line: Int,
         charPositionInLine: Int,
         msg: String,
-        e: RecognitionException?
+        e: RecognitionException?,
     ) {
         throw ParseCancellationException("line ${line + lineOffset}:$charPositionInLine, $msg")
     }

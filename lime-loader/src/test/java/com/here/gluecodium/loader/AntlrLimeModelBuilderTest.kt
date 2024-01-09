@@ -39,7 +39,9 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class AntlrLimeModelBuilderTest {
     @MockK private lateinit var referenceResolver: AntlrLimeReferenceResolver
+
     @MockK private lateinit var packageHeaderContext: LimeParser.PackageHeaderContext
+
     @MockK private lateinit var propertyContext: LimeParser.PropertyContext
 
     private val contextStack = MockContextStack<LimeNamedElement>()

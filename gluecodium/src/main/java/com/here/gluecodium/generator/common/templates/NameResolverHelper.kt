@@ -70,12 +70,13 @@ internal class NameResolverHelper : BasicHelper() {
         }
 
         val resolver = nameResolvers[key] ?: return
-        val name = when (subKey?.lowercase(Locale.getDefault())) {
-            "getter" -> resolver.resolveGetterName(element)
-            "setter" -> resolver.resolveSetterName(element)
-            "ref" -> resolver.resolveReferenceName(element)
-            else -> resolver.resolveName(element)
-        } ?: return
+        val name =
+            when (subKey?.lowercase(Locale.getDefault())) {
+                "getter" -> resolver.resolveGetterName(element)
+                "setter" -> resolver.resolveSetterName(element)
+                "ref" -> resolver.resolveReferenceName(element)
+                else -> resolver.resolveName(element)
+            } ?: return
 
         if (isSection(options)) {
             options.push(name)

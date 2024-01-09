@@ -30,10 +30,9 @@ class NameRuleSet(
     val getSetterName: (name: String) -> String = { illegal(it) },
     val getGetterName: (name: String, Boolean) -> String = ignore2 { illegal(it) },
     val getErrorName: (name: String) -> String = { illegal(it) },
-    val joinInfix: String? = null
+    val joinInfix: String? = null,
 ) {
     companion object {
-
         @Suppress("UNUSED_PARAMETER")
         fun illegal(name: String): String {
             throw IllegalArgumentException()

@@ -44,10 +44,12 @@ internal class AntlrLimeReferenceResolver : LimeReferenceResolver {
         }
     }
 
-    override fun registerElement(element: LimeNamedElement) =
-        registerElement(element.path.toString(), element)
+    override fun registerElement(element: LimeNamedElement) = registerElement(element.path.toString(), element)
 
-    override fun registerElement(key: String, element: LimeElement) {
+    override fun registerElement(
+        key: String,
+        element: LimeElement,
+    ) {
         referenceCache[key] = element
     }
 

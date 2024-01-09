@@ -60,18 +60,19 @@ import kotlin.system.exitProcess
 class Gluecodium(
     private val gluecodiumOptions: GluecodiumOptions,
     private val generatorOptions: GeneratorOptions,
-    private val modelLoader: LimeModelLoader = LimeModelLoader.getLoaders().first()
+    private val modelLoader: LimeModelLoader = LimeModelLoader.getLoaders().first(),
 ) {
-    internal val cache = SplitSourceSetCache(
-        gluecodiumOptions.outputDir,
-        gluecodiumOptions.commonOutputDir,
-        gluecodiumOptions.isEnableCaching
-    )
+    internal val cache =
+        SplitSourceSetCache(
+            gluecodiumOptions.outputDir,
+            gluecodiumOptions.commonOutputDir,
+            gluecodiumOptions.isEnableCaching,
+        )
 
     init {
         try {
             LogManager.getLogManager().readConfiguration(
-                Gluecodium::class.java.classLoader.getResourceAsStream("logging.properties")
+                Gluecodium::class.java.classLoader.getResourceAsStream("logging.properties"),
             )
         } catch (e: IOException) {
             e.printStackTrace()
@@ -115,7 +116,7 @@ class Gluecodium(
     internal fun executeGenerator(
         generatorName: String,
         limeModel: LimeModel,
-        fileNamesCache: MutableMap<String, String>
+        fileNamesCache: MutableMap<String, String>,
     ): Boolean {
         LOGGER.fine("Using generator '$generatorName'")
         val generator = Generator.initializeGenerator(generatorName, generatorOptions)
@@ -125,12 +126,13 @@ class Gluecodium(
         }
         LOGGER.fine("Initialized generator '$generatorName'")
 
-        val outputFiles = try {
-            generator.generate(limeModel)
-        } catch (e: LimeModelLoaderException) {
-            LOGGER.severe(e.message)
-            return false
-        }
+        val outputFiles =
+            try {
+                generator.generate(limeModel)
+            } catch (e: LimeModelLoaderException) {
+                LOGGER.severe(e.message)
+                return false
+            }
 
         val outputSuccessful = output(generatorName, outputFiles)
         val processedWithoutCollisions = checkForFileNameCollisions(fileNamesCache, outputFiles, generatorName)
@@ -149,7 +151,10 @@ class Gluecodium(
         return generators
     }
 
-    internal fun output(generatorName: String, files: List<GeneratedFile>): Boolean {
+    internal fun output(
+        generatorName: String,
+        files: List<GeneratedFile>,
+    ): Boolean {
         val filesToBeWritten = cache.updateCache(generatorName, files)
         val mainFiles = filesToBeWritten.filter { it.sourceSet == GeneratedFile.SourceSet.MAIN }
         val commonFiles = filesToBeWritten.filter { it.sourceSet == GeneratedFile.SourceSet.COMMON }
@@ -163,8 +168,9 @@ class Gluecodium(
             LimeModelFilter.filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, generatorOptions.tags) }
         val limeLogger = LimeLogger(LOGGER, filteredModel.fileNameMap)
         val typeRefsValidationResult = LimeTypeRefsValidator(limeLogger).validate(filteredModel)
-        val validators = getIndependentValidators(limeLogger) +
-            if (typeRefsValidationResult) getTypeRefDependentValidators(limeLogger) else emptyList()
+        val validators =
+            getIndependentValidators(limeLogger) +
+                if (typeRefsValidationResult) getTypeRefDependentValidators(limeLogger) else emptyList()
         val validationResults = validators.map { it.invoke(filteredModel) }
         return typeRefsValidationResult && !validationResults.contains(false)
     }
@@ -179,7 +185,7 @@ class Gluecodium(
             { LimeFunctionsValidator(limeLogger).validate(it) },
             { LimeOptimizedListsValidator(limeLogger).validate(it) },
             { LimeFieldConstructorsValidator(limeLogger).validate(it) },
-            { LimeValuesValidator(limeLogger).validate(it) }
+            { LimeValuesValidator(limeLogger).validate(it) },
         )
 
     private fun getIndependentValidators(limeLogger: LimeLogger) =
@@ -189,7 +195,7 @@ class Gluecodium(
             { LimePropertiesValidator(limeLogger).validate(it) },
             { LimeFunctionsValidator(limeLogger).validate(it) },
             { LimeSkipValidator(limeLogger).validate(it) },
-            { LimeAsyncValidator(limeLogger).validate(it) }
+            { LimeAsyncValidator(limeLogger).validate(it) },
         )
 
     companion object {
@@ -210,7 +216,7 @@ class Gluecodium(
         private fun checkForFileNameCollisions(
             fileNamesCache: MutableMap<String, String>,
             files: List<GeneratedFile>,
-            generatorName: String
+            generatorName: String,
         ): Boolean {
             var succeeded = true
             for (file in files) {
@@ -222,8 +228,10 @@ class Gluecodium(
                     LOGGER.severe(
                         String.format(
                             "Generator '%s' is overwriting file %s created already by '%s' ",
-                            generatorName, path, previousEntry
-                        )
+                            generatorName,
+                            path,
+                            previousEntry,
+                        ),
                     )
                     succeeded = false
                 }
@@ -231,7 +239,10 @@ class Gluecodium(
             return succeeded
         }
 
-        private fun saveToDirectory(outputDir: String, files: List<GeneratedFile>): Boolean {
+        private fun saveToDirectory(
+            outputDir: String,
+            files: List<GeneratedFile>,
+        ): Boolean {
             try {
                 FileOutput(File(outputDir)).output(files)
             } catch (ignored: IOException) {

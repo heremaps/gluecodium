@@ -29,11 +29,11 @@ import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeProperty
 
 internal class LimePropertiesValidator(private val logger: LimeLogger) {
-
     fun validate(limeModel: LimeModel): Boolean {
-        val validationResults = limeModel.referenceMap.values
-            .filterIsInstance<LimeContainerWithInheritance>()
-            .map { validateProperties(it) }
+        val validationResults =
+            limeModel.referenceMap.values
+                .filterIsInstance<LimeContainerWithInheritance>()
+                .map { validateProperties(it) }
 
         return !validationResults.contains(false)
     }
@@ -48,7 +48,7 @@ internal class LimePropertiesValidator(private val logger: LimeLogger) {
     private fun validateProperty(
         limeProperty: LimeProperty,
         allPropertyNames: List<String>,
-        parentElement: LimeContainerWithInheritance
+        parentElement: LimeContainerWithInheritance,
     ): Boolean {
         var result = true
         if (allPropertyNames.filter { it == limeProperty.name }.size > 1) {

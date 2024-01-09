@@ -25,5 +25,5 @@ class LimeField(
     attributes: LimeAttributes? = null,
     external: LimeExternalDescriptor? = null,
     typeRef: LimeTypeRef,
-    val defaultValue: LimeValue? = null
+    val defaultValue: LimeValue? = null,
 ) : LimeTypedElement(path, comment, attributes, external, typeRef)

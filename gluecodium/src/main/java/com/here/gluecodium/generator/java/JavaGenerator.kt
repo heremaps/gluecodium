@@ -53,7 +53,6 @@ import java.util.logging.Logger
  * Combines Java and JNI templates to generate Java code and bindings to C++ layer for Java.
  */
 internal class JavaGenerator : Generator {
-
     private lateinit var internalPackage: List<String>
     private lateinit var internalNamespace: List<String>
     private lateinit var rootNamespace: List<String>
@@ -84,10 +83,12 @@ internal class JavaGenerator : Generator {
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
         val cachingNameResolver = CppNameCache(rootNamespace, limeModel.referenceMap, cppNameRules)
-        val jniFilteredModel = LimeModelFilter
-            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, JAVA, retainFunctionsAndFields = true) }
-        val javaFilteredModel = LimeModelFilter
-            .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, JAVA, retainFunctionsAndFields = false) }
+        val jniFilteredModel =
+            LimeModelFilter
+                .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, JAVA, retainFunctionsAndFields = true) }
+        val javaFilteredModel =
+            LimeModelFilter
+                .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, JAVA, retainFunctionsAndFields = false) }
         val limeLogger = LimeLogger(logger, limeModel.fileNameMap)
 
         val signatureResolver = JavaSignatureResolver(limeModel.referenceMap, javaNameRules, activeTags)
@@ -99,62 +100,71 @@ internal class JavaGenerator : Generator {
 
         val commentsProcessor =
             JavaDocProcessor(werror.contains(GeneratorOptions.WARNING_DOC_LINKS), javaFilteredModel.referenceMap)
-        val nameResolver = JavaNameResolver(
-            limeReferenceMap = limeModel.referenceMap,
-            basePackages = basePackages,
-            javaNameRules = javaNameRules,
-            limeLogger = limeLogger,
-            commentsProcessor = commentsProcessor,
-            signatureResolver = signatureResolver
-        )
-        val importResolver = JavaImportResolver(
-            limeReferenceMap = limeModel.referenceMap,
-            nameResolver = nameResolver,
-            internalPackages = internalPackageList,
-            nonNullAnnotation = nonNullAnnotation,
-            nullableAnnotation = nullableAnnotation
-        )
-        val importCollector = JavaImportCollector(importResolver) {
-            LimeModelSkipPredicates.shouldRetainCheckParent(it, activeTags, JAVA, limeModel.referenceMap)
-        }
-        val resultFiles = javaFilteredModel.topElements
-            .flatMap { generateJavaFiles(it, nameResolver, importResolver, importCollector) }
-            .toMutableList()
+        val nameResolver =
+            JavaNameResolver(
+                limeReferenceMap = limeModel.referenceMap,
+                basePackages = basePackages,
+                javaNameRules = javaNameRules,
+                limeLogger = limeLogger,
+                commentsProcessor = commentsProcessor,
+                signatureResolver = signatureResolver,
+            )
+        val importResolver =
+            JavaImportResolver(
+                limeReferenceMap = limeModel.referenceMap,
+                nameResolver = nameResolver,
+                internalPackages = internalPackageList,
+                nonNullAnnotation = nonNullAnnotation,
+                nullableAnnotation = nullableAnnotation,
+            )
+        val importCollector =
+            JavaImportCollector(importResolver) {
+                LimeModelSkipPredicates.shouldRetainCheckParent(it, activeTags, JAVA, limeModel.referenceMap)
+            }
+        val resultFiles =
+            javaFilteredModel.topElements
+                .flatMap { generateJavaFiles(it, nameResolver, importResolver, importCollector) }
+                .toMutableList()
 
         val nativeBasePath = (listOf(GENERATOR_NAME) + internalPackageList).joinToString("/")
-        resultFiles += GeneratedFile(
-            TemplateEngine.render("java/NativeBase", internalPackageList),
-            "$nativeBasePath/NativeBase.java",
-            GeneratedFile.SourceSet.COMMON
-        )
-        resultFiles += GeneratedFile(
-            TemplateEngine.render("java/AbstractNativeList", internalPackageList),
-            "$nativeBasePath/AbstractNativeList.java",
-            GeneratedFile.SourceSet.COMMON
-        )
-        resultFiles += GeneratedFile(
-            TemplateEngine.render("java/HashMapBuilder", internalPackageList),
-            "$nativeBasePath/HashMapBuilder.java",
-            GeneratedFile.SourceSet.COMMON
-        )
-        resultFiles += GeneratedFile(
-            TemplateEngine.render("java/Duration", internalPackageList),
-            "$nativeBasePath/time/Duration.java",
-            GeneratedFile.SourceSet.COMMON
-        )
+        resultFiles +=
+            GeneratedFile(
+                TemplateEngine.render("java/NativeBase", internalPackageList),
+                "$nativeBasePath/NativeBase.java",
+                GeneratedFile.SourceSet.COMMON,
+            )
+        resultFiles +=
+            GeneratedFile(
+                TemplateEngine.render("java/AbstractNativeList", internalPackageList),
+                "$nativeBasePath/AbstractNativeList.java",
+                GeneratedFile.SourceSet.COMMON,
+            )
+        resultFiles +=
+            GeneratedFile(
+                TemplateEngine.render("java/HashMapBuilder", internalPackageList),
+                "$nativeBasePath/HashMapBuilder.java",
+                GeneratedFile.SourceSet.COMMON,
+            )
+        resultFiles +=
+            GeneratedFile(
+                TemplateEngine.render("java/Duration", internalPackageList),
+                "$nativeBasePath/time/Duration.java",
+                GeneratedFile.SourceSet.COMMON,
+            )
 
         val descendantInterfaces = LimeTypeHelper.collectDescendantInterfaces(jniFilteredModel.topElements)
-        val jniTemplates = JniTemplates(
-            limeReferenceMap = jniFilteredModel.referenceMap,
-            javaNameRules = javaNameRules,
-            basePackages = basePackages,
-            internalPackages = internalPackage,
-            internalNamespace = internalNamespace,
-            cppNameRules = cppNameRules,
-            nameCache = cachingNameResolver,
-            activeTags = activeTags,
-            descendantInterfaces = descendantInterfaces
-        )
+        val jniTemplates =
+            JniTemplates(
+                limeReferenceMap = jniFilteredModel.referenceMap,
+                javaNameRules = javaNameRules,
+                basePackages = basePackages,
+                internalPackages = internalPackage,
+                internalNamespace = internalNamespace,
+                cppNameRules = cppNameRules,
+                nameCache = cachingNameResolver,
+                activeTags = activeTags,
+                descendantInterfaces = descendantInterfaces,
+            )
         for (fileName in UTILS_FILES) {
             resultFiles += jniTemplates.generateConversionUtilsHeaderFile(fileName)
             resultFiles += jniTemplates.generateConversionUtilsImplementationFile(fileName)
@@ -178,7 +188,7 @@ internal class JavaGenerator : Generator {
         limeElement: LimeNamedElement,
         nameResolver: JavaNameResolver,
         importResolver: JavaImportResolver,
-        importCollector: JavaImportCollector
+        importCollector: JavaImportCollector,
     ): List<GeneratedFile> {
         if (limeElement.external?.java?.get(NAME_NAME) != null &&
             limeElement.external?.java?.get(CONVERTER_NAME) == null
@@ -191,21 +201,23 @@ internal class JavaGenerator : Generator {
         val imports = importCollector.collectImports(limeElement).filterNot { it.packageNames == packages }
         val optimizedLists = OptimizedListsCollector().getAllOptimizedLists(limeElement)
 
-        val templateData = mutableMapOf(
-            "model" to limeElement,
-            "contentTemplate" to contentTemplateName,
-            "package" to packages,
-            "imports" to imports.distinct().sorted(),
-            "nonNullAnnotation" to nonNullAnnotation,
-            "nullableAnnotation" to nullableAnnotation,
-            "optimizedLists" to optimizedLists
-        )
+        val templateData =
+            mutableMapOf(
+                "model" to limeElement,
+                "contentTemplate" to contentTemplateName,
+                "package" to packages,
+                "imports" to imports.distinct().sorted(),
+                "nonNullAnnotation" to nonNullAnnotation,
+                "nullableAnnotation" to nullableAnnotation,
+                "optimizedLists" to optimizedLists,
+            )
 
-        val nameResolvers = mapOf(
-            "" to nameResolver,
-            "empty" to JavaEmptyValueResolver(nameResolver),
-            "visibility" to JavaVisibilityResolver()
-        )
+        val nameResolvers =
+            mapOf(
+                "" to nameResolver,
+                "empty" to JavaEmptyValueResolver(nameResolver),
+                "visibility" to JavaVisibilityResolver(),
+            )
         val mainContent =
             TemplateEngine.render("java/JavaFile", templateData, nameResolvers, JavaGeneratorPredicates.predicates)
         val name = nameResolver.resolveName(limeElement)
@@ -216,10 +228,11 @@ internal class JavaGenerator : Generator {
             return listOf(mainFile)
         }
 
-        val implImports = when (limeElement) {
-            is LimeInterface -> importCollector.collectImplImports(limeElement, imports)
-            else -> imports
-        } + importResolver.nativeBaseImport
+        val implImports =
+            when (limeElement) {
+                is LimeInterface -> importCollector.collectImplImports(limeElement, imports)
+                else -> imports
+            } + importResolver.nativeBaseImport
         templateData["imports"] = implImports.distinct().sorted()
         templateData["contentTemplate"] = "java/JavaImplClass"
 
@@ -248,21 +261,21 @@ internal class JavaGenerator : Generator {
 
         private val logger = Logger.getLogger(JavaGenerator::class.java.name)
 
-        private val UTILS_FILES = listOf(
-            "CppProxyBase",
-            "FieldAccessMethods",
-            "JniBase",
-            "JniCallbackErrorChecking",
-            "JniCppConversionUtils",
-            "BoxingConversionUtils",
-            "JniClassCache",
-            "JniWrapperCache",
-            "JniCallJavaMethod"
-        )
+        private val UTILS_FILES =
+            listOf(
+                "CppProxyBase",
+                "FieldAccessMethods",
+                "JniBase",
+                "JniCallbackErrorChecking",
+                "JniCppConversionUtils",
+                "BoxingConversionUtils",
+                "JniClassCache",
+                "JniWrapperCache",
+                "JniCallJavaMethod",
+            )
         private val UTILS_FILES_HEADER_ONLY =
             listOf("ArrayConversionUtils", "JniExceptionThrower", "JniReference", "JniTemplateMetainfo")
 
-        private fun annotationFromOption(option: Pair<String, List<String>>?) =
-            option?.let { JavaImport(option.second, option.first) }
+        private fun annotationFromOption(option: Pair<String, List<String>>?) = option?.let { JavaImport(option.second, option.first) }
     }
 }

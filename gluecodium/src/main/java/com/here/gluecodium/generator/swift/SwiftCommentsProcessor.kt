@@ -31,8 +31,11 @@ import com.vladsch.flexmark.util.sequence.CharSubSequence
  * Parse markdown comments and process links
  */
 class SwiftCommentsProcessor(werror: Boolean) : CommentsProcessor(Formatter.builder(formatterOptions).build(), werror) {
-
-    override fun processLink(linkNode: LinkRef, linkReference: String, limeFullName: String) {
+    override fun processLink(
+        linkNode: LinkRef,
+        linkReference: String,
+        limeFullName: String,
+    ) {
         linkNode.reference = CharSubSequence.of(linkReference)
         linkNode.referenceOpeningMarker = CharSubSequence.of("`")
         linkNode.referenceClosingMarker = CharSubSequence.of("`")
@@ -46,8 +49,9 @@ class SwiftCommentsProcessor(werror: Boolean) : CommentsProcessor(Formatter.buil
     override val nullReference = "nil"
 
     companion object {
-        private val formatterOptions = MutableDataSet()
-            .set(Formatter.FORMATTER_EMULATION_PROFILE, ParserEmulationProfile.PEGDOWN)
-            .toImmutable()
+        private val formatterOptions =
+            MutableDataSet()
+                .set(Formatter.FORMATTER_EMULATION_PROFILE, ParserEmulationProfile.PEGDOWN)
+                .toImmutable()
     }
 }

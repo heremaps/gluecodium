@@ -32,10 +32,12 @@ import com.here.gluecodium.model.lime.LimeTypeRef
  */
 internal class LimeTypeRefsValidator(private val logger: LimeLogger) :
     LimeTypeRefsVisitor<Boolean>() {
-
     fun validate(limeModel: LimeModel) = !traverseModel(limeModel).contains(false)
 
-    override fun visitTypeRef(parentElement: LimeNamedElement, limeTypeRef: LimeTypeRef?): Boolean {
+    override fun visitTypeRef(
+        parentElement: LimeNamedElement,
+        limeTypeRef: LimeTypeRef?,
+    ): Boolean {
         if (limeTypeRef == null) {
             return true
         }
@@ -49,11 +51,13 @@ internal class LimeTypeRefsValidator(private val logger: LimeLogger) :
         }
     }
 
-    private fun validateTypeRef(parentElement: LimeNamedElement, limeTypeRef: LimeTypeRef) =
-        try {
-            limeTypeRef.type
-        } catch (e: LimeModelLoaderException) {
-            logger.error(parentElement, e.message ?: "")
-            null
-        }
+    private fun validateTypeRef(
+        parentElement: LimeNamedElement,
+        limeTypeRef: LimeTypeRef,
+    ) = try {
+        limeTypeRef.type
+    } catch (e: LimeModelLoaderException) {
+        logger.error(parentElement, e.message ?: "")
+        null
+    }
 }

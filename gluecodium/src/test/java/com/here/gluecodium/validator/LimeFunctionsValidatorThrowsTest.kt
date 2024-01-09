@@ -40,7 +40,6 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class LimeFunctionsValidatorThrowsTest {
-
     private val fooPath = LimePath(emptyList(), listOf("foo"))
     private val barPath = fooPath.child("bar")
 

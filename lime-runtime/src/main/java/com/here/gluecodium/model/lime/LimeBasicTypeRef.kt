@@ -22,7 +22,7 @@ package com.here.gluecodium.model.lime
 class LimeBasicTypeRef(
     typeId: LimeBasicType.TypeId,
     override val isNullable: Boolean = false,
-    attributes: LimeAttributes? = null
+    attributes: LimeAttributes? = null,
 ) : LimeTypeRef(attributes) {
     override val elementFullName = typeId.name
     override val type = LimeBasicType(typeId)

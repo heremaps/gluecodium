@@ -47,9 +47,8 @@ import com.here.gluecodium.model.lime.LimeTypedElement
 internal class JniNameResolver(
     limeReferenceMap: Map<String, LimeElement>,
     private val basePackages: List<String>,
-    private val javaNameRules: JavaNameRules
+    private val javaNameRules: JavaNameRules,
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
-
     override fun resolveName(element: Any): String =
         when (element) {
             is String -> createJavaTypePath(element)
@@ -79,7 +78,10 @@ internal class JniNameResolver(
             else -> createJavaTypePath(basePackages + element.path.head, resolveNestedNames(element))
         }
 
-    private fun resolveAccessorName(element: Any, rule: JavaNameRules.(LimeTypedElement) -> String): String? {
+    private fun resolveAccessorName(
+        element: Any,
+        rule: JavaNameRules.(LimeTypedElement) -> String,
+    ): String? {
         val limeTypedElement = element as? LimeTypedElement ?: return null
         return javaNameRules.rule(limeTypedElement) +
             if (limeTypedElement.attributes.have(CACHED)) "_private" else ""
@@ -100,17 +102,21 @@ internal class JniNameResolver(
             is LimeList -> "java/util/List"
             is LimeSet -> "java/util/Set"
             is LimeMap -> "java/util/Map"
-            else -> limeType.external?.java?.get(LimeExternalDescriptor.NAME_NAME)?.let { createJavaTypePath(it) }
-                ?: createJavaTypePath(basePackages + actualType.path.head, resolveNestedNames(actualType))
+            else ->
+                limeType.external?.java?.get(LimeExternalDescriptor.NAME_NAME)?.let { createJavaTypePath(it) }
+                    ?: createJavaTypePath(basePackages + actualType.path.head, resolveNestedNames(actualType))
         }
 
     private fun createJavaTypePath(importString: String) =
         createJavaTypePath(
             JavaNameRules.getPackageFromImportString(importString),
-            JavaNameRules.getClassNamesFromImportString(importString)
+            JavaNameRules.getClassNamesFromImportString(importString),
         )
 
-    private fun createJavaTypePath(packageNames: List<String>, classNames: List<String>): String {
+    private fun createJavaTypePath(
+        packageNames: List<String>,
+        classNames: List<String>,
+    ): String {
         val fixedPackageNames = packageNames.map { it.replace("_", "") }
         return (fixedPackageNames + classNames.joinToString("$")).joinToString("/")
     }

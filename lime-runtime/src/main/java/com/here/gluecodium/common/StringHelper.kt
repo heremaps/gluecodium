@@ -20,8 +20,9 @@
 package com.here.gluecodium.common
 
 object StringHelper {
-    fun escapeString(value: String) = value.replace("\\", "\\\\").replace("\"", "\\\"")
-        .replace("\n", "\\n").replace("\r", "\\r").replace("\t", "\\t").replace("\b", "\\b")
+    fun escapeString(value: String) =
+        value.replace("\\", "\\\\").replace("\"", "\\\"")
+            .replace("\n", "\\n").replace("\r", "\\r").replace("\t", "\\t").replace("\b", "\\b")
 
     fun escapeStringLiteral(literal: String) = "\"${escapeString(literal)}\""
 }

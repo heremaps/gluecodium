@@ -32,10 +32,12 @@ import com.here.gluecodium.model.lime.LimeValue
  */
 internal class LimeConstantRefsValidator(private val logger: LimeLogger) :
     LimeValuesVisitor<Boolean>() {
-
     fun validate(limeModel: LimeModel) = !traverseModel(limeModel).contains(false)
 
-    override fun visitValue(parentElement: LimeNamedElement, limeValue: LimeValue?): Boolean {
+    override fun visitValue(
+        parentElement: LimeNamedElement,
+        limeValue: LimeValue?,
+    ): Boolean {
         if (limeValue !is LimeValue.Constant) {
             return true
         }

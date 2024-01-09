@@ -54,9 +54,8 @@ internal class JavaNameResolver(
     private val javaNameRules: JavaNameRules,
     private val limeLogger: LimeLogger,
     private val commentsProcessor: CommentsProcessor,
-    private val signatureResolver: JavaSignatureResolver
+    private val signatureResolver: JavaSignatureResolver,
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
-
     private val valueResolver = JavaValueResolver(this)
     private val duplicateNames: Set<String>
     private val limeToJavaNames: Map<String, String>
@@ -103,10 +102,15 @@ internal class JavaNameResolver(
         return commentsProcessor.process(commentedElement.fullName, commentText, limeToJavaNames, limeLogger)
     }
 
-    private fun resolveAccessorName(element: Any, rule: JavaNameRules.(LimeTypedElement) -> String) =
-        (element as? LimeTypedElement)?.let { javaNameRules.rule(it) }
+    private fun resolveAccessorName(
+        element: Any,
+        rule: JavaNameRules.(LimeTypedElement) -> String,
+    ) = (element as? LimeTypedElement)?.let { javaNameRules.rule(it) }
 
-    internal fun resolveTypeRef(limeTypeRef: LimeTypeRef, needsBoxing: Boolean = false): String {
+    internal fun resolveTypeRef(
+        limeTypeRef: LimeTypeRef,
+        needsBoxing: Boolean = false,
+    ): String {
         val limeType = limeTypeRef.type.actualType
         val externalName = limeType.external?.java?.get(NAME_NAME)
         return when {
@@ -114,8 +118,11 @@ internal class JavaNameResolver(
             limeType is LimeGenericType -> resolveGenericTypeRef(limeType)
             limeType !is LimeBasicType -> {
                 val nestedName = resolveNestedNames(limeType).joinToString(".")
-                if (duplicateNames.contains(nestedName)) (resolvePackageNames(limeType) + nestedName).joinToString(".")
-                else nestedName
+                if (duplicateNames.contains(nestedName)) {
+                    (resolvePackageNames(limeType) + nestedName).joinToString(".")
+                } else {
+                    nestedName
+                }
             }
             needsBoxing || limeTypeRef.isNullable -> resolveBoxedBasicType(limeType.typeId)
             else -> resolveBasicType(limeType.typeId)
@@ -195,22 +202,25 @@ internal class JavaNameResolver(
         }
 
     private fun buildPathMap(): Map<String, String> {
-        val result = limeReferenceMap.values
-            .filterIsInstance<LimeNamedElement>()
-            .filterNot { it is LimeProperty || it is LimeFunction || it is LimeTypeAlias || it is LimeParameter }
-            .associateBy({ it.path.toAmbiguousString() }, { resolveFullName(it) })
-            .toMutableMap()
+        val result =
+            limeReferenceMap.values
+                .filterIsInstance<LimeNamedElement>()
+                .filterNot { it is LimeProperty || it is LimeFunction || it is LimeTypeAlias || it is LimeParameter }
+                .associateBy({ it.path.toAmbiguousString() }, { resolveFullName(it) })
+                .toMutableMap()
 
-        result += limeReferenceMap.values.filterIsInstance<LimeParameter>()
-            .associateBy({ it.fullName }, { resolveFullName(it) })
+        result +=
+            limeReferenceMap.values.filterIsInstance<LimeParameter>()
+                .associateBy({ it.fullName }, { resolveFullName(it) })
 
         limeReferenceMap.values.filterIsInstance<LimeFunction>().forEach {
             val ambiguousKey = it.path.toAmbiguousString()
-            val fullSignatureKey = ambiguousKey +
-                it.parameters.joinToString(prefix = "(", postfix = ")", separator = ",") {
-                    parameter ->
-                    parameter.typeRef.toString()
-                }
+            val fullSignatureKey =
+                ambiguousKey +
+                    it.parameters.joinToString(prefix = "(", postfix = ")", separator = ",") {
+                            parameter ->
+                        parameter.typeRef.toString()
+                    }
             val fullName = resolveFullName(it) + getSignatureSuffix(it)
 
             result[it.fullName] = fullName
@@ -233,7 +243,10 @@ internal class JavaNameResolver(
         return result
     }
 
-    fun resolveFullName(limeElement: LimeNamedElement, forceDelimiter: String? = null): String {
+    fun resolveFullName(
+        limeElement: LimeNamedElement,
+        forceDelimiter: String? = null,
+    ): String {
         val elementName = resolveName(limeElement)
 
         if (!limeElement.path.hasParent) {
@@ -243,18 +256,18 @@ internal class JavaNameResolver(
         val parentElement = getParentElement(limeElement)
         val prefix = resolveFullName(parentElement)
 
-        val delimiter = when {
-            forceDelimiter != null -> forceDelimiter
-            limeElement is LimeType -> "."
-            else -> "#"
-        }
+        val delimiter =
+            when {
+                forceDelimiter != null -> forceDelimiter
+                limeElement is LimeType -> "."
+                else -> "#"
+            }
         val ownName =
             if (limeElement is LimeFunction && limeElement.isConstructor) resolveName(parentElement) else elementName
         return prefix + delimiter + ownName
     }
 
-    fun resolvePackageNames(limeElement: LimeNamedElement) =
-        (basePackages + limeElement.path.head).map { normalizePackageName(it) }
+    fun resolvePackageNames(limeElement: LimeNamedElement) = (basePackages + limeElement.path.head).map { normalizePackageName(it) }
 
     private fun getSignatureSuffix(limeFunction: LimeFunction) =
         when {

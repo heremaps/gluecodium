@@ -27,11 +27,12 @@ import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 class LimeReturnType(
     val typeRef: LimeTypeRef,
     val comment: LimeComment = LimeComment(),
-    attributes: LimeAttributes? = null
+    attributes: LimeAttributes? = null,
 ) : LimeElement(attributes) {
     val isVoid
-        get() = !typeRef.isNullable &&
-            typeRef.type.actualType.let { it is LimeBasicType && it.typeId == TypeId.VOID }
+        get() =
+            !typeRef.isNullable &&
+                typeRef.type.actualType.let { it is LimeBasicType && it.typeId == TypeId.VOID }
 
     companion object {
         val VOID = LimeReturnType(LimeBasicTypeRef(TypeId.VOID))

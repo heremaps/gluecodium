@@ -20,7 +20,6 @@
 package com.here.gluecodium.generator.common
 
 internal class CamelCaseNameResolver(private val mainResolver: NameResolver, upper: Boolean = false) : NameResolver {
-
     val camelCase = if (upper) NameHelper::toUpperCamelCase else NameHelper::toLowerCamelCase
 
     override fun resolveName(element: Any) = camelCase(mainResolver.resolveName(element))

@@ -47,7 +47,7 @@ class SmokeTest(
     private val featureDirectory: File,
     private val dumpDirectory: File,
     private val generatorName: String,
-    @Suppress("UNUSED_PARAMETER") featureName: String
+    @Suppress("UNUSED_PARAMETER") featureName: String,
 ) {
     @JvmField
     @Rule
@@ -63,10 +63,11 @@ class SmokeTest(
         val commandLineOptions = File(inputDirectory, "commandlineoptions.txt")
         if (commandLineOptions.exists()) {
             // read command line options and replace INPUT_FOLDER with absolute input path from test
-            val commands = commandLineOptions.readText()
-                .replace("\$INPUT_FOLDER", inputDirectory.toString())
-                .replace("\$AUX_FOLDER", auxDirectory.toString())
-                .split("\\s".toRegex())
+            val commands =
+                commandLineOptions.readText()
+                    .replace("\$INPUT_FOLDER", inputDirectory.toString())
+                    .replace("\$AUX_FOLDER", auxDirectory.toString())
+                    .split("\\s".toRegex())
             val options = OptionReader.read(commands.toTypedArray())
             TestCase.assertNotNull("Failed to read commandlineoptions.txt", options)
             return options!!
@@ -95,10 +96,11 @@ class SmokeTest(
         val validationShouldFail = File(inputDirectory, "validationfail.txt").exists()
 
         val generatorDirectories = listOf(generatorName) + (ADDITIONAL_GENERATOR_DIRS[generatorName] ?: emptyList())
-        val referenceFiles = generatorDirectories
-            .map { generatorDirectoryName -> File(outputDirectory, generatorDirectoryName) }
-            .flatMap { listFilesRecursively(it) }
-            .filterNot { it.name.lowercase(Locale.getDefault()).startsWith(IGNORE_PREFIX) }
+        val referenceFiles =
+            generatorDirectories
+                .map { generatorDirectoryName -> File(outputDirectory, generatorDirectoryName) }
+                .flatMap { listFilesRecursively(it) }
+                .filterNot { it.name.lowercase(Locale.getDefault()).startsWith(IGNORE_PREFIX) }
 
         assumeFalse("No reference files were found", referenceFiles.isEmpty())
 
@@ -119,7 +121,7 @@ class SmokeTest(
             val generatedContent = generatedContents[relativePath]
             errorCollector.checkNotNull(
                 "File was not generated: $relativePath, generated files:\n${generatedContents.keys.joinToString("\n")}",
-                generatedContent
+                generatedContent,
             )
 
             if (generatedContent != null) {
@@ -130,7 +132,7 @@ class SmokeTest(
                 errorCollector.checkEquals(
                     "File content differs for file: $relativePath",
                     expectedWithImportantDifferences,
-                    generatedWithImportantDifferences
+                    generatedWithImportantDifferences,
                 )
 
                 if (expectedWithImportantDifferences != generatedWithImportantDifferences) {
@@ -144,12 +146,13 @@ class SmokeTest(
     }
 
     companion object {
-        private val TEST_OPTIONS = GeneratorOptions(
-            cppInternalNamespace = listOf("gluecodium"),
-            internalPrefix = "foobar_",
-            javaNonNullAnnotation = Pair("NonNull", listOf("android", "support", "annotation")),
-            javaNullableAnnotation = Pair("Nullable", listOf("android", "support", "annotation"))
-        )
+        private val TEST_OPTIONS =
+            GeneratorOptions(
+                cppInternalNamespace = listOf("gluecodium"),
+                internalPrefix = "foobar_",
+                javaNonNullAnnotation = Pair("NonNull", listOf("android", "support", "annotation")),
+                javaNullableAnnotation = Pair("Nullable", listOf("android", "support", "annotation")),
+            )
 
         private const val FEATURE_INPUT_FOLDER = "input"
         private const val FEATURE_AUX_FOLDER = "auxiliary"
@@ -194,7 +197,7 @@ class SmokeTest(
                             directory,
                             File(dumpActualDir, directory.name),
                             generatorName,
-                            getFeatureName(testResourcesDirectory, directory)
+                            getFeatureName(testResourcesDirectory, directory),
                         )
                     }
                 }
@@ -213,8 +216,10 @@ class SmokeTest(
             return result
         }
 
-        private fun getRelativePath(directory: File, file: File) =
-            directory.toPath().relativize(file.toPath()).toString()
+        private fun getRelativePath(
+            directory: File,
+            file: File,
+        ) = directory.toPath().relativize(file.toPath()).toString()
 
         private fun ignoreUnimportantDifferences(text: String) =
             text
@@ -223,7 +228,9 @@ class SmokeTest(
                 // treat Windows path separators as if they were Unix ones
                 .split('\n').joinToString("\n") { if (it.startsWith("#include")) it.replace('/', '\\') else it }
 
-        private fun getFeatureName(parentDirectory: File, featureDirectory: File) =
-            getRelativePath(parentDirectory, featureDirectory).replace("/", "")
+        private fun getFeatureName(
+            parentDirectory: File,
+            featureDirectory: File,
+        ) = getRelativePath(parentDirectory, featureDirectory).replace("/", "")
     }
 }

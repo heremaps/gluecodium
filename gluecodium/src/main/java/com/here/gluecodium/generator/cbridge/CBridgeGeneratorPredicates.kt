@@ -38,38 +38,41 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 internal class CBridgeGeneratorPredicates(
     cppNameResolver: CppNameResolver,
     private val limeReferenceMap: Map<String, LimeElement>,
-    private val activeTags: Set<String>
+    private val activeTags: Set<String>,
 ) {
-    val predicates = mapOf(
-        "hasCppGetter" to { limeField: Any ->
-            limeField is LimeField && cppNameResolver.resolveGetterName(limeField) != null
-        },
-        "hasCppSetter" to { limeField: Any ->
-            limeField is LimeField && cppNameResolver.resolveSetterName(limeField) != null
-        },
-        "hasImmutableFields" to { CommonGeneratorPredicates.hasImmutableFields(it) },
-        "hasTypeRepository" to { CommonGeneratorPredicates.hasTypeRepository(it) },
-        "isNonNullableEnum" to { limeTypeRef: Any ->
-            limeTypeRef is LimeTypeRef && !limeTypeRef.isNullable && limeTypeRef.type.actualType is LimeEnumeration
-        },
-        "isComplexType" to fun(limeTypeRef: Any): Boolean {
-            if (limeTypeRef !is LimeTypeRef) return false
-            val limeType = limeTypeRef.type.actualType
-            return when {
-                limeTypeRef.isNullable -> true
-                limeType is LimeEnumeration -> false
-                limeType is LimeBasicType ->
-                    !(limeType.typeId.isNumericType || limeType.typeId == BOOLEAN || limeType.typeId == VOID)
-                else -> true
-            }
-        },
-        "needsRefSuffix" to { limeTypeRef: Any ->
-            limeTypeRef is LimeTypeRef && CppNameResolver.needsRefSuffix(limeTypeRef)
-        },
-        "shouldRetain" to { limeElement: Any ->
-            limeElement is LimeNamedElement && shouldRetain(limeElement)
-        }
-    )
+    val predicates =
+        mapOf(
+            "hasCppGetter" to { limeField: Any ->
+                limeField is LimeField && cppNameResolver.resolveGetterName(limeField) != null
+            },
+            "hasCppSetter" to { limeField: Any ->
+                limeField is LimeField && cppNameResolver.resolveSetterName(limeField) != null
+            },
+            "hasImmutableFields" to { CommonGeneratorPredicates.hasImmutableFields(it) },
+            "hasTypeRepository" to { CommonGeneratorPredicates.hasTypeRepository(it) },
+            "isNonNullableEnum" to { limeTypeRef: Any ->
+                limeTypeRef is LimeTypeRef && !limeTypeRef.isNullable && limeTypeRef.type.actualType is LimeEnumeration
+            },
+            "isComplexType" to
+
+                fun(limeTypeRef: Any): Boolean {
+                    if (limeTypeRef !is LimeTypeRef) return false
+                    val limeType = limeTypeRef.type.actualType
+                    return when {
+                        limeTypeRef.isNullable -> true
+                        limeType is LimeEnumeration -> false
+                        limeType is LimeBasicType ->
+                            !(limeType.typeId.isNumericType || limeType.typeId == BOOLEAN || limeType.typeId == VOID)
+                        else -> true
+                    }
+                },
+            "needsRefSuffix" to { limeTypeRef: Any ->
+                limeTypeRef is LimeTypeRef && CppNameResolver.needsRefSuffix(limeTypeRef)
+            },
+            "shouldRetain" to { limeElement: Any ->
+                limeElement is LimeNamedElement && shouldRetain(limeElement)
+            },
+        )
 
     fun shouldRetain(limeElement: LimeNamedElement) =
         LimeModelSkipPredicates.shouldRetainCheckParent(limeElement, activeTags, SWIFT, limeReferenceMap)

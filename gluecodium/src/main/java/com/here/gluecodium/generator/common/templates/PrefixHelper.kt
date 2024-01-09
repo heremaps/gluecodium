@@ -45,7 +45,7 @@ internal open class PrefixHelper : BasicHelper() {
                 } else {
                     (prefix + it).trimEnd()
                 }
-            }
+            },
         )
     }
 
@@ -53,6 +53,8 @@ internal open class PrefixHelper : BasicHelper() {
         return ImmutableSet.of("skipFirstLine")
     }
 
-    protected open operator fun getValue(options: Options, dataObject: Any?) =
-        dataObject?.toString() ?: ""
+    protected open operator fun getValue(
+        options: Options,
+        dataObject: Any?,
+    ) = dataObject?.toString() ?: ""
 }

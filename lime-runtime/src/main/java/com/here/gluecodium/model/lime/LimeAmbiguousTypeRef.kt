@@ -32,9 +32,8 @@ class LimeAmbiguousTypeRef(
     private val imports: List<LimePath>,
     private val referenceMap: Map<String, LimeElement>,
     override val isNullable: Boolean = false,
-    attributes: LimeAttributes? = null
+    attributes: LimeAttributes? = null,
 ) : LimeTypeRef(attributes) {
-
     override val type by lazy {
         LimeAmbiguityResolver.resolve<LimeType>(relativePath, parentPaths, imports, referenceMap)
     }

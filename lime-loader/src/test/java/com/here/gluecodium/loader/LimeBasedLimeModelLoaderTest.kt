@@ -45,7 +45,7 @@ class LimeBasedLimeModelLoaderTest {
             modelLoader["loadFile"](
                 any<String>(),
                 any<LimeReferenceResolver>(),
-                any<MutableMap<String, List<LimePath>>>()
+                any<MutableMap<String, List<LimePath>>>(),
             )
         } answers {
             listOf(object : LimeNamedElement(LimePath(listOf(firstArg()), emptyList())) {})
@@ -71,7 +71,7 @@ class LimeBasedLimeModelLoaderTest {
             modelLoader["loadFile"](
                 match<String> { it.endsWith("bar.lime") },
                 any<LimeReferenceResolver>(),
-                any<MutableMap<String, List<LimePath>>>()
+                any<MutableMap<String, List<LimePath>>>(),
             )
         }
     }
@@ -86,7 +86,7 @@ class LimeBasedLimeModelLoaderTest {
             modelLoader["loadFile"](
                 match<String> { it.endsWith("bar.lime") },
                 any<LimeReferenceResolver>(),
-                any<MutableMap<String, List<LimePath>>>()
+                any<MutableMap<String, List<LimePath>>>(),
             )
         }
     }
@@ -104,7 +104,7 @@ class LimeBasedLimeModelLoaderTest {
             modelLoader["loadFile"](
                 match<String> { it.endsWith("bar.lime") },
                 any<LimeReferenceResolver>(),
-                any<MutableMap<String, List<LimePath>>>()
+                any<MutableMap<String, List<LimePath>>>(),
             )
         }
     }
