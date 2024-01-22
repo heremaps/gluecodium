@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 13.8.0
+Release date: 2024-01-22
+### Features:
+ * Gradle is updated to 8.2. Java 17 is now required to build Gluecodium.
+
 ## 13.7.3
 ### Features:
  * Swift crashes with more clear error in case when UTF-8 string can't be decoded.
