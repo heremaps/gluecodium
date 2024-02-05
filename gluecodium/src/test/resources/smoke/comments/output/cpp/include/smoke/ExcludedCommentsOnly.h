@@ -1,55 +1,78 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
+
 #include "gluecodium/ExportGluecodiumCpp.h"
 #include "gluecodium/Return.h"
 #include <cstdint>
 #include <functional>
 #include <string>
 #include <system_error>
+
 namespace smoke {
 /**
  * \private
+
  */
 class _GLUECODIUM_CPP_EXPORT ExcludedCommentsOnly {
 public:
     ExcludedCommentsOnly();
-    virtual ~ExcludedCommentsOnly() = 0;
+    virtual ~ExcludedCommentsOnly();
+
+
 public:
     /**
      * \private
+
      */
     enum class SomeEnum {
         /**
          * \private
+
          */
         USELESS
     };
+
+
     /**
+
      * \private
+
      */
     using SomeLambda = ::std::function<double(const ::std::string&, const int32_t)>;
+
     /**
      * \private
+
      */
     using Usefulness = bool;
+
     /**
      * \private
+
      */
     struct _GLUECODIUM_CPP_EXPORT SomeStruct {
         /**
          * \private
+
          */
         ::smoke::ExcludedCommentsOnly::Usefulness some_field;
+
         SomeStruct( );
         explicit SomeStruct( ::smoke::ExcludedCommentsOnly::Usefulness some_field );
+
     };
+
     /**
      * \private
+
      */
     static const ::smoke::ExcludedCommentsOnly::Usefulness VERY_USEFUL;
+
 public:
     /**
      *
@@ -76,9 +99,13 @@ public:
      * \param[in] value
      */
     virtual void set_some_property( const ::smoke::ExcludedCommentsOnly::Usefulness value ) = 0;
+
 };
+
+
 _GLUECODIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::ExcludedCommentsOnly::SomeEnum value ) noexcept;
 }
+
 namespace std
 {
 template <>

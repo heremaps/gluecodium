@@ -1,13 +1,17 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
+
 #include "gluecodium/ExportGluecodiumCpp.h"
 #include "gluecodium/TypeRepository.h"
 #include <cstdint>
 #include <string>
 #include <system_error>
+
 namespace smoke {
 /**
  * This is some very useful interface.
@@ -16,7 +20,9 @@ namespace smoke {
 class _GLUECODIUM_CPP_EXPORT DeprecationComments {
 public:
     DeprecationComments();
-    virtual ~DeprecationComments() = 0;
+    virtual ~DeprecationComments();
+
+
 public:
     /**
      * This is some very useful enum.
@@ -30,11 +36,14 @@ public:
          */
         USELESS
     };
+
+
     /**
      * This is some very useful typedef.
      * \deprecated Unfortunately, this typedef is deprecated. Use ::smoke::Comments::Usefulness instead.
      */
     using Usefulness = bool;
+
     /**
      * This is some very useful struct.
      * \deprecated Unfortunately, this struct is deprecated. Use ::smoke::Comments::SomeStruct instead.
@@ -46,14 +55,18 @@ public:
          * Use ::smoke::Comments::SomeStruct::some_field instead.
          */
         ::smoke::DeprecationComments::Usefulness some_field = false;
+
         SomeStruct( );
         explicit SomeStruct( ::smoke::DeprecationComments::Usefulness some_field );
+
     };
+
     /**
      * This is some very useful constant.
      * \deprecated Unfortunately, this constant is deprecated. Use ::smoke::Comments::VERY_USEFUL instead.
      */
     static const ::smoke::DeprecationComments::Usefulness VERY_USEFUL;
+
 public:
     /**
      * This is some very useful method that measures the usefulness of its input.
@@ -77,6 +90,7 @@ public:
      * \param[in] value Some very useful property.
      */
     virtual void set_some_property( const ::smoke::DeprecationComments::Usefulness value ) = 0;
+
     /**
      * Gets the property but not accessors.
      * \deprecated Will be removed in v3.2.1.
@@ -89,9 +103,13 @@ public:
      * \param[in] value Describes the property but not accessors.
      */
     virtual void set_property_but_not_accessors( const ::std::string& value ) = 0;
+
 };
+
+
 _GLUECODIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::DeprecationComments::SomeEnum value ) noexcept;
 }
+
 namespace std
 {
 template <>

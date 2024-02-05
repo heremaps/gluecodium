@@ -1,8 +1,11 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
+
 #include "gluecodium/ExportGluecodiumCpp.h"
 #include "gluecodium/TypeRepository.h"
 #include "gluecodium/UnorderedMapHash.h"
@@ -11,21 +14,33 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+
+
 namespace smoke {
+
     class CalculationResult;
+
+
 }
+
 namespace smoke {
 class _GLUECODIUM_CPP_EXPORT CalculatorListener {
 public:
     CalculatorListener();
-    virtual ~CalculatorListener() = 0;
+    virtual ~CalculatorListener();
+
+
 public:
     using NamedCalculationResults = ::std::unordered_map< ::std::string, double >;
+
     struct _GLUECODIUM_CPP_EXPORT ResultStruct {
         double result;
+
         ResultStruct( );
         explicit ResultStruct( double result );
+
     };
+
 public:
     virtual void on_calculation_result( const double calculation_result ) = 0;
     virtual void on_calculation_result_const( const double calculation_result ) const = 0;
@@ -38,4 +53,6 @@ public:
      */
     virtual void on_calculation_result_instance( const ::std::shared_ptr< ::smoke::CalculationResult >& calculation_result ) = 0;
 };
+
+
 }

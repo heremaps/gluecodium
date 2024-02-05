@@ -1,13 +1,17 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
+
 #include "gluecodium/ExportGluecodiumCpp.h"
 #include "gluecodium/Return.h"
 #include "smoke/Comments.h"
 #include <string>
 #include <system_error>
+
 namespace smoke {
 /**
  * The nested types like ::smoke::CommentsLinks::random_method(const ::std::string&, const bool) don't need full name prefix, but it's
@@ -17,30 +21,40 @@ namespace smoke {
  * Weblinks are not modified like this [example1], [example2](http://www.example.com/2) or <https://www.example.com/3>.
  *
  * [example1]: http://example.com/1
+
  */
 class _GLUECODIUM_CPP_EXPORT CommentsLinks {
 public:
     CommentsLinks();
-    virtual ~CommentsLinks() = 0;
+    virtual ~CommentsLinks();
+
+
 public:
     /**
      * Links also work in:
+
      */
     struct _GLUECODIUM_CPP_EXPORT RandomStruct {
         /**
          * Some random field ::smoke::Comments::SomeStruct
+
          */
         ::smoke::Comments::SomeStruct random_field;
+
         /**
          * constructor comments ::smoke::Comments::SomeStruct
          */
         RandomStruct( );
         /**
          * constructor comments ::smoke::Comments::SomeStruct
+
          * \param random_field Some random field ::smoke::Comments::SomeStruct
+
          */
         explicit RandomStruct( ::smoke::Comments::SomeStruct random_field );
+
     };
+
 public:
     /**
      * Link types:
@@ -89,4 +103,6 @@ public:
      */
     virtual void random_method( const ::std::string& text, const bool flag ) = 0;
 };
+
+
 }

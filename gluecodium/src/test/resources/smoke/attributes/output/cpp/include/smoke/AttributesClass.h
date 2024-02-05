@@ -1,18 +1,25 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
+
 #include "gluecodium/ExportGluecodiumCpp.h"
 #include <string>
+
 namespace smoke {
 class _GLUECODIUM_CPP_EXPORT [[OnClass]] AttributesClass {
 public:
     AttributesClass();
-    virtual ~AttributesClass() = 0;
+    virtual ~AttributesClass();
+
+
 public:
     [[OnConstInClass]]
     static const bool PI;
+
 public:
     [[OnFunctionInClass]]
     virtual void very_fun( [[OnParameterInClass]] const ::std::string& param ) = 0;
@@ -20,5 +27,8 @@ public:
     virtual ::std::string get_prop(  ) const = 0;
     [[OnPropertyInClass]]
     virtual void set_prop( const ::std::string& value ) = 0;
+
 };
+
+
 }

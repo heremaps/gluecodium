@@ -1,19 +1,25 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
+
 #include "gluecodium/ExportGluecodiumCpp.h"
 #include "gluecodium/Return.h"
 #include "smoke/AsyncErrorCode.h"
 #include <cstdint>
 #include <functional>
 #include <system_error>
+
 namespace smoke {
 class _GLUECODIUM_CPP_EXPORT AsyncClass {
 public:
     AsyncClass();
-    virtual ~AsyncClass() = 0;
+    virtual ~AsyncClass();
+
+
 public:
     virtual void async_void( std::function<void()> _result_callback, const bool input ) = 0;
     virtual void async_void( const bool input ) = 0;
@@ -26,4 +32,6 @@ public:
     static void async_static( std::function<void()> _result_callback, const bool input );
     static void async_static( const bool input );
 };
+
+
 }

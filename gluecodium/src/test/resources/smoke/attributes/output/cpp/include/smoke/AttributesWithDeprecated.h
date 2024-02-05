@@ -1,18 +1,24 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
+
 #include "gluecodium/ExportGluecodiumCpp.h"
 #include <string>
+
 namespace smoke {
 /**
- * \deprecated
+ * \deprecated 
  */
 class _GLUECODIUM_CPP_EXPORT [[OnClass]] AttributesWithDeprecated {
 public:
     AttributesWithDeprecated();
-    virtual ~AttributesWithDeprecated() = 0;
+    virtual ~AttributesWithDeprecated();
+
+
 public:
     struct _GLUECODIUM_CPP_EXPORT SomeStruct {
         /**
@@ -20,14 +26,18 @@ public:
          */
         [[OnField]]
         ::std::string field = "";
+
         SomeStruct( );
         explicit SomeStruct( ::std::string field );
+
     };
+
     /**
      * \deprecated
      */
     [[OnConstInClass]]
     static const bool PI;
+
 public:
     /**
      *
@@ -49,5 +59,8 @@ public:
      */
     [[OnPropertyInClass]]
     virtual void set_prop( const ::std::string& value ) = 0;
+
 };
+
+
 }

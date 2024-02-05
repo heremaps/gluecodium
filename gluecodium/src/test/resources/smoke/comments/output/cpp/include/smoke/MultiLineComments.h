@@ -1,10 +1,14 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
+
 #include "gluecodium/ExportGluecodiumCpp.h"
 #include <string>
+
 namespace smoke {
 /**
  * This is some very useful interface.
@@ -20,11 +24,14 @@ namespace smoke {
  * * escaping
  *
  * ```Some example code;```
+
  */
 class _GLUECODIUM_CPP_EXPORT MultiLineComments {
 public:
     MultiLineComments();
-    virtual ~MultiLineComments() = 0;
+    virtual ~MultiLineComments();
+
+
 public:
     /**
      * This is very important method.
@@ -43,4 +50,6 @@ public:
      */
     virtual float some_method_with_long_comment( const ::std::string& input, const double ratio ) = 0;
 };
+
+
 }

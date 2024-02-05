@@ -1,33 +1,46 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
+
 #include "gluecodium/ExportGluecodiumCpp.h"
 #include <string>
+
 namespace smoke {
 /**
  * Class comment
+
  */
 class _GLUECODIUM_CPP_EXPORT [[OnClass]] AttributesWithComments {
 public:
     AttributesWithComments();
-    virtual ~AttributesWithComments() = 0;
+    virtual ~AttributesWithComments();
+
+
 public:
     struct _GLUECODIUM_CPP_EXPORT SomeStruct {
         /**
          * Field comment
+
          */
         [[OnField]]
         ::std::string field = "";
+
         SomeStruct( );
         explicit SomeStruct( ::std::string field );
+
     };
+
     /**
      * Const comment
+
      */
     [[OnConstInClass]]
     static const bool PI;
+
 public:
     /**
      * Function comment
@@ -46,5 +59,8 @@ public:
      */
     [[OnPropertyInClass]]
     virtual void set_prop( const ::std::string& value ) = 0;
+
 };
+
+
 }

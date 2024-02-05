@@ -1,18 +1,29 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
+
 #include "gluecodium/ExportGluecodiumCpp.h"
 #include <memory>
+
+
 namespace smoke {
+
     class CalculatorListener;
+
+
 }
+
 namespace smoke {
 class _GLUECODIUM_CPP_EXPORT Calculator {
 public:
     Calculator();
-    virtual ~Calculator() = 0;
+    virtual ~Calculator();
+
+
 public:
     /**
      *
@@ -25,4 +36,6 @@ public:
      */
     static void unregister_listener( const ::std::shared_ptr< ::smoke::CalculatorListener >& listener );
 };
+
+
 }

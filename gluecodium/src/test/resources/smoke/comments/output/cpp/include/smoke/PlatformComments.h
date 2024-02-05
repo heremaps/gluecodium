@@ -1,34 +1,47 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
+
 #include "gluecodium/ExportGluecodiumCpp.h"
 #include "gluecodium/Return.h"
 #include <cstdint>
 #include <string>
 #include <system_error>
+
 namespace smoke {
 class _GLUECODIUM_CPP_EXPORT PlatformComments {
 public:
     PlatformComments();
-    virtual ~PlatformComments() = 0;
+    virtual ~PlatformComments();
+
+
 public:
     /**
      * An error code when something goes wrong.
+
      */
     enum class SomeEnum {
         USELESS,
         USEFUL
     };
+
+
     /**
      * This is a very useful struct.
+
      */
     struct _GLUECODIUM_CPP_EXPORT Something {
         ::std::string nothing;
+
         Something( );
         explicit Something( ::std::string nothing );
+
     };
+
 public:
     /**
      * This is some very useless method that does nothing.
@@ -51,8 +64,11 @@ public:
      */
     virtual void some_deprecated_method(  ) = 0;
 };
+
+
 _GLUECODIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::PlatformComments::SomeEnum value ) noexcept;
 }
+
 namespace std
 {
 template <>

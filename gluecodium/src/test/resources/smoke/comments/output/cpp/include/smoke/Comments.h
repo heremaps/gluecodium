@@ -1,8 +1,11 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
+
 #include "gluecodium/ExportGluecodiumCpp.h"
 #include "gluecodium/Return.h"
 #include <cstdint>
@@ -10,28 +13,37 @@
 #include <optional>
 #include <string>
 #include <system_error>
+
 namespace smoke {
 /**
  * This is some very useful interface.
+
  */
 class _GLUECODIUM_CPP_EXPORT Comments {
 public:
     Comments();
-    virtual ~Comments() = 0;
+    virtual ~Comments();
+
+
 public:
     /**
      * This is some very useful enum.
+
      */
     enum class SomeEnum {
         /**
          * Not quite useful
+
          */
         USELESS,
         /**
          * Somewhat useful
+
          */
         USEFUL
     };
+
+
     /**
      * This is some very useful lambda that does it.
      * \param[in] p0 Very useful input parameter
@@ -39,40 +51,54 @@ public:
      * \return Usefulness of the input
      */
     using SomeLambda = ::std::function<double(const ::std::string&, const int32_t)>;
+
     /**
      * This is some very useful typedef.
+
      */
     using Usefulness = bool;
+
     /**
      * This is some very useful struct.
+
      */
     struct _GLUECODIUM_CPP_EXPORT SomeStruct {
         /**
          * How useful this struct is
          * remains to be seen
+
          */
         ::smoke::Comments::Usefulness some_field;
         /**
          * Can be `null`
+
          */
         std::optional< ::std::string > nullable_field = std::optional< ::std::string >();
+
         /**
          * This is how easy it is to construct.
          */
         SomeStruct( );
         /**
          * This is how easy it is to construct.
+
          * \param some_field How useful this struct is
          * remains to be seen
+
          */
         explicit SomeStruct( ::smoke::Comments::Usefulness some_field );
         /**
          * This is how easy it is to construct.
+
          * \param some_field How useful this struct is
          * remains to be seen
+
+
          * \param nullable_field Can be `null`
+
          */
         SomeStruct( ::smoke::Comments::Usefulness some_field, std::optional< ::std::string > nullable_field );
+
         /**
          * This is some struct method that does nothing.
          */
@@ -81,11 +107,15 @@ public:
          * This is some static struct method that does nothing.
          */
         static void some_static_struct_method(  );
+
     };
+
     /**
      * This is some very useful constant.
+
      */
     static const ::smoke::Comments::Usefulness VERY_USEFUL;
+
 public:
     /**
      * This is some very useful method that measures the usefulness of its input.
@@ -160,9 +190,13 @@ public:
      * \param[in] value Some very useful property.
      */
     virtual void set_some_property( const ::smoke::Comments::Usefulness value ) = 0;
+
 };
+
+
 _GLUECODIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::Comments::SomeEnum value ) noexcept;
 }
+
 namespace std
 {
 template <>

@@ -1,8 +1,11 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
+
 #include "alien/FooEnum.h"
 #include "alien/FooStruct.h"
 #include "gluecodium/ExportGluecodiumCpp.h"
@@ -16,25 +19,41 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+
+
 namespace smoke {
+
     class DummyClass;
+
     class DummyInterface;
+
+
 }
+
 namespace smoke {
 class _GLUECODIUM_CPP_EXPORT GenericTypesWithCompoundTypes {
 public:
     GenericTypesWithCompoundTypes();
-    virtual ~GenericTypesWithCompoundTypes() = 0;
+    virtual ~GenericTypesWithCompoundTypes();
+
+
 public:
     enum class SomeEnum {
         FOO,
         BAR
     };
+
+
+
     struct _GLUECODIUM_CPP_EXPORT BasicStruct {
         double value;
+
         BasicStruct( );
         explicit BasicStruct( double value );
+
     };
+
+
 public:
     virtual ::std::vector< ::alien::FooStruct > method_with_struct_list( const ::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >& input ) = 0;
     virtual ::std::unordered_map< ::std::string, ::alien::FooStruct > method_with_struct_map( const ::std::unordered_map< ::std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct >& input ) = 0;
@@ -45,4 +64,6 @@ public:
     virtual ::std::vector< ::std::shared_ptr< ::smoke::DummyInterface > > method_with_instances_list( const ::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >& input ) = 0;
     virtual ::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyInterface > > method_with_instances_map( const ::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyClass > >& input ) = 0;
 };
+
+
 }
