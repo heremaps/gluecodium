@@ -308,11 +308,11 @@ jobs:
             git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
             mkdir dart-sdk
             pushd dart-sdk
-            fetch dart
-            pushd sdk
-            git fetch --tags
-            git checkout tags/${DART_VERSION}
+            gclient root
+            gclient config --spec 'solutions = [{"name": "sdk", "url": "https://dart.googlesource.com/sdk.git", "deps_file": "DEPS", "managed": False, "custom_deps": {},},]'
+            git clone --depth 1 --branch ${DART_VERSION} https://dart.googlesource.com/sdk.git
             gclient sync
+            pushd sdk
             ./tools/build.py --no-goma --mode release --arch x64 create_sdk --gn-args dart_use_tcmalloc=false
             mkdir -p ${DART_BIN}
             pushd out/ReleaseX64/dart-sdk
