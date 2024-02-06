@@ -24,7 +24,7 @@ class {{>cpp/CppExportMacro}}{{>cpp/CppAttributesInline}}{{resolveName}}{{!!
 }}{{#if this.parents}}: {{#this.parents}}public {{resolveName this.type "FQN"}}{{#if iter.hasNext}}, {{/if}}{{/this.parents}}{{/if}} {
 public:
     {{resolveName}}();
-    virtual ~{{resolveName}}() = 0;
+    virtual ~{{resolveName}}();
 
 {{#ifPredicate "needsInnerForwardDeclarations"}}
 public:

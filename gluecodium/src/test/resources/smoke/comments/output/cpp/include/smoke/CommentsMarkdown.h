@@ -1,9 +1,13 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
-#include "gluecodium\ExportGluecodiumCpp.h"
+
+#include "gluecodium/ExportGluecodiumCpp.h"
+
 namespace smoke {
 /**
  * First line.
@@ -30,10 +34,15 @@ namespace smoke {
  * ---
  *
  * [title](https://www.markdownguide.org/cheat-sheet/)
+
  */
 class _GLUECODIUM_CPP_EXPORT CommentsMarkdown {
 public:
     CommentsMarkdown();
-    virtual ~CommentsMarkdown() = 0;
+    virtual ~CommentsMarkdown();
+
+
 };
+
+
 }

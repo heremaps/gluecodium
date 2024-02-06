@@ -1,9 +1,13 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
+
 #include "gluecodium/ExportGluecodiumCpp.h"
+
 namespace smoke {
 /**
  * Something lorem something ipsum.
@@ -13,10 +17,15 @@ namespace smoke {
  * | col 1 is |  left-aligned | $1600 |
  * | col 2 is |    centered   |   $12 |
  * | col 3 is | right-aligned |    $1 |
+
  */
 class _GLUECODIUM_CPP_EXPORT CommentsTable {
 public:
     CommentsTable();
-    virtual ~CommentsTable() = 0;
+    virtual ~CommentsTable();
+
+
 };
+
+
 }

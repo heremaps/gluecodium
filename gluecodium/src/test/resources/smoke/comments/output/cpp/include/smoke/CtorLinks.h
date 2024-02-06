@@ -1,25 +1,34 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
+
 #include "gluecodium/ExportGluecodiumCpp.h"
 #include <cstdint>
 #include <memory>
 #include <string>
+
 namespace smoke {
 class _GLUECODIUM_CPP_EXPORT CtorLinks {
 public:
     CtorLinks();
-    virtual ~CtorLinks() = 0;
+    virtual ~CtorLinks();
+
+
 public:
     /**
      * This class has just one constructor ::smoke::CtorLinks::SingleCtor::create.
+
      */
     class _GLUECODIUM_CPP_EXPORT SingleCtor {
     public:
         SingleCtor();
-        virtual ~SingleCtor() = 0;
+        virtual ~SingleCtor();
+
+
     public:
         /**
          *
@@ -30,11 +39,13 @@ public:
 
     /**
      * This class has just one constructor with one argument ::smoke::CtorLinks::SingleCtorWithOneArgument::create.
+
      */
     class _GLUECODIUM_CPP_EXPORT SingleCtorWithOneArgument {
     public:
         SingleCtorWithOneArgument();
-        virtual ~SingleCtorWithOneArgument() = 0;
+        virtual ~SingleCtorWithOneArgument();
+
 
     public:
         /**
@@ -47,11 +58,13 @@ public:
 
     /**
      * This class has just one constructor with two argument ::smoke::CtorLinks::SingleCtorWithTwoArgument::create.
+
      */
     class _GLUECODIUM_CPP_EXPORT SingleCtorWithTwoArgument {
     public:
         SingleCtorWithTwoArgument();
-        virtual ~SingleCtorWithTwoArgument() = 0;
+        virtual ~SingleCtorWithTwoArgument();
+
 
     public:
         /**
@@ -66,7 +79,9 @@ public:
     class _GLUECODIUM_CPP_EXPORT OverloadedCtors {
     public:
         OverloadedCtors();
-        virtual ~OverloadedCtors() = 0;
+        virtual ~OverloadedCtors();
+
+
     public:
         /**
          *
@@ -83,5 +98,8 @@ public:
          */
         static ::std::shared_ptr< ::smoke::CtorLinks::OverloadedCtors > create( const ::std::string& input, const bool flag );
     };
+
 };
+
+
 }

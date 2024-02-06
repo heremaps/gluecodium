@@ -1,8 +1,11 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
+
 #include "gluecodium/ExportGluecodiumCpp.h"
 #include "gluecodium/Return.h"
 #include "gluecodium/TypeRepository.h"
@@ -12,16 +15,21 @@
 #include <string>
 #include <system_error>
 #include <vector>
+
 namespace smoke {
 class _GLUECODIUM_CPP_EXPORT Constructors {
 public:
     Constructors();
-    virtual ~Constructors() = 0;
+    virtual ~Constructors();
+
+
 public:
     enum class ErrorEnum {
         NONE,
         CRASHED
     };
+
+
 public:
     /**
      *
@@ -61,8 +69,11 @@ public:
      */
     static ::std::shared_ptr< ::smoke::Constructors > create( const uint64_t input );
 };
+
+
 _GLUECODIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::Constructors::ErrorEnum value ) noexcept;
 }
+
 namespace std
 {
 template <>

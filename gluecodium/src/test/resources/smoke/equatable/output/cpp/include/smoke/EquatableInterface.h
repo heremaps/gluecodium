@@ -1,21 +1,30 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
+
 #include "gluecodium/ExportGluecodiumCpp.h"
 #include "gluecodium/Hash.h"
 #include "gluecodium/TypeRepository.h"
+
 namespace smoke {
 class _GLUECODIUM_CPP_EXPORT EquatableInterface {
 public:
     EquatableInterface();
-    virtual ~EquatableInterface() = 0;
+    virtual ~EquatableInterface();
+
+
 public:
     bool operator==( const EquatableInterface& rhs );
     bool operator!=( const EquatableInterface& rhs );
 };
+
+
 }
+
 namespace gluecodium {
 template<>
 struct hash< ::smoke::EquatableInterface > {

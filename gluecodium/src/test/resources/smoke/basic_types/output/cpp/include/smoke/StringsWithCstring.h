@@ -1,15 +1,21 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
+
 #include "gluecodium/ExportGluecodiumCpp.h"
 #include <string>
+
 namespace smoke {
 class _GLUECODIUM_CPP_EXPORT StringsWithCstring {
 public:
     StringsWithCstring();
-    virtual ~StringsWithCstring() = 0;
+    virtual ~StringsWithCstring();
+
+
 public:
     /**
      * Method that takes a C string as input and returns an std::string it as output.
@@ -24,4 +30,6 @@ public:
      */
     static ::std::string return_input_string( const ::std::string& input_string );
 };
+
+
 }

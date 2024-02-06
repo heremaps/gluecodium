@@ -1,16 +1,22 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
+
 #include "gluecodium/ExportGluecodiumCpp.h"
 #include <memory>
 #include <string>
+
 namespace smoke {
 class _GLUECODIUM_CPP_EXPORT SpecialNames {
 public:
     SpecialNames();
-    virtual ~SpecialNames() = 0;
+    virtual ~SpecialNames();
+
+
 public:
     virtual void create(  ) = 0;
     virtual void release(  ) = 0;
@@ -23,4 +29,6 @@ public:
      */
     static ::std::shared_ptr< ::smoke::SpecialNames > make( const ::std::string& result );
 };
+
+
 }

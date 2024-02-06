@@ -1,14 +1,20 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
+
 #include "gluecodium/ExportGluecodiumCpp.h"
+
 namespace smoke {
 class _GLUECODIUM_CPP_EXPORT MultipleAttributesCpp {
 public:
     MultipleAttributesCpp();
-    virtual ~MultipleAttributesCpp() = 0;
+    virtual ~MultipleAttributesCpp();
+
+
 public:
     [[Foo, Bar]]
     virtual void no_lists2(  ) = 0;
@@ -21,4 +27,6 @@ public:
     [[Foo, Bar, Baz, Fizz]]
     virtual void two_lists(  ) = 0;
 };
+
+
 }

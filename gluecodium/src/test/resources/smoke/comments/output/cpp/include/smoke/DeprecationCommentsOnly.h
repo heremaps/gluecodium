@@ -1,12 +1,16 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
+
 #include "gluecodium/ExportGluecodiumCpp.h"
 #include "gluecodium/TypeRepository.h"
 #include <cstdint>
 #include <string>
+
 namespace smoke {
 /**
  * \deprecated Unfortunately, this interface is deprecated.
@@ -14,7 +18,9 @@ namespace smoke {
 class _GLUECODIUM_CPP_EXPORT DeprecationCommentsOnly {
 public:
     DeprecationCommentsOnly();
-    virtual ~DeprecationCommentsOnly() = 0;
+    virtual ~DeprecationCommentsOnly();
+
+
 public:
     /**
      * \deprecated Unfortunately, this enum is deprecated.
@@ -25,10 +31,13 @@ public:
          */
         USELESS
     };
+
+
     /**
      * \deprecated Unfortunately, this typedef is deprecated.
      */
     using Usefulness = bool;
+
     /**
      * \deprecated Unfortunately, this struct is deprecated.
      */
@@ -37,13 +46,17 @@ public:
          * \deprecated Unfortunately, this field is deprecated.
          */
         ::smoke::DeprecationCommentsOnly::Usefulness some_field = false;
+
         SomeStruct( );
         explicit SomeStruct( ::smoke::DeprecationCommentsOnly::Usefulness some_field );
+
     };
+
     /**
      * \deprecated Unfortunately, this constant is deprecated.
      */
     static const ::smoke::DeprecationCommentsOnly::Usefulness VERY_USEFUL;
+
 public:
     /**
      *
@@ -64,5 +77,8 @@ public:
      * \param[in] value
      */
     virtual void set_some_property( const ::smoke::DeprecationCommentsOnly::Usefulness value ) = 0;
+
 };
+
+
 }

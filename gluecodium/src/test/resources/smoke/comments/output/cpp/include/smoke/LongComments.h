@@ -1,18 +1,25 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
+
 #include "gluecodium/ExportGluecodiumCpp.h"
 #include <string>
+
 namespace smoke {
 /**
  * This is some very useful interface. There is a lot to say about this interface. at least it has a long comment.
+
  */
 class _GLUECODIUM_CPP_EXPORT LongComments {
 public:
     LongComments();
-    virtual ~LongComments() = 0;
+    virtual ~LongComments();
+
+
 public:
     /**
      * This is very important method. It has very important parameters. It has side effects.
@@ -22,4 +29,6 @@ public:
      */
     virtual float some_method_with_long_comment( const ::std::string& input, const double ratio ) = 0;
 };
+
+
 }

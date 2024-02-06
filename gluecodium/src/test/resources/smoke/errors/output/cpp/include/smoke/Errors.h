@@ -1,8 +1,11 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
+
 #include "foo/Bar.h"
 #include "gluecodium/ExportGluecodiumCpp.h"
 #include "gluecodium/Return.h"
@@ -10,16 +13,22 @@
 #include <cstdint>
 #include <string>
 #include <system_error>
+
 namespace smoke {
 class _GLUECODIUM_CPP_EXPORT Errors {
 public:
     Errors();
-    virtual ~Errors() = 0;
+    virtual ~Errors();
+
+
 public:
     enum class InternalErrorCode {
         ERROR_NONE,
         ERROR_FATAL
     };
+
+
+
 public:
     static ::std::error_code method_with_errors(  );
     static ::std::error_code method_with_external_errors(  );
@@ -27,8 +36,11 @@ public:
     static ::gluecodium::Return< void, ::smoke::Payload > method_with_payload_error(  );
     static ::gluecodium::Return< ::std::string, ::smoke::Payload > method_with_payload_error_and_return_value(  );
 };
+
+
 _GLUECODIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::Errors::InternalErrorCode value ) noexcept;
 }
+
 namespace std
 {
 template <>

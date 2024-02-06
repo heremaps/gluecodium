@@ -15,7 +15,7 @@ namespace forward {
 class _GLUECODIUM_CPP_EXPORT InnerClassForwardDeclarations {
 public:
     InnerClassForwardDeclarations();
-    virtual ~InnerClassForwardDeclarations() = 0;
+    virtual ~InnerClassForwardDeclarations();
 
 public:
     class InnerInterface1;
@@ -25,7 +25,8 @@ public:
     class _GLUECODIUM_CPP_EXPORT InnerClass1 {
     public:
         InnerClass1();
-        virtual ~InnerClass1() = 0;
+        virtual ~InnerClass1();
+
 
     public:
         /**
@@ -38,7 +39,7 @@ public:
     class _GLUECODIUM_CPP_EXPORT InnerClass2 {
     public:
         InnerClass2();
-        virtual ~InnerClass2() = 0;
+        virtual ~InnerClass2();
 
     public:
         class InnerInnerClass2;
@@ -47,7 +48,8 @@ public:
         class _GLUECODIUM_CPP_EXPORT InnerInnerClass1 {
         public:
             InnerInnerClass1();
-            virtual ~InnerInnerClass1() = 0;
+            virtual ~InnerInnerClass1();
+
 
         public:
             /**
@@ -60,7 +62,8 @@ public:
         class _GLUECODIUM_CPP_EXPORT InnerInnerClass2 {
         public:
             InnerInnerClass2();
-            virtual ~InnerInnerClass2() = 0;
+            virtual ~InnerInnerClass2();
+
 
         public:
             /**
@@ -75,22 +78,29 @@ public:
     class _GLUECODIUM_CPP_EXPORT InnerInterface1 {
     public:
         InnerInterface1();
-        virtual ~InnerInterface1() = 0;
+        virtual ~InnerInterface1();
+
+
     };
 
     class _GLUECODIUM_CPP_EXPORT InnerInterface2 {
     public:
         InnerInterface2();
-        virtual ~InnerInterface2() = 0;
+        virtual ~InnerInterface2();
+
+
     };
 
     class _GLUECODIUM_CPP_EXPORT InnerInterface3 {
     public:
         InnerInterface3();
-        virtual ~InnerInterface3() = 0;
+        virtual ~InnerInterface3();
+
+
     };
 
 };
+
 
 }
 }

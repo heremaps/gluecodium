@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "gluecodium\ExportGluecodiumCpp.h"
+#include "gluecodium/ExportGluecodiumCpp.h"
 #include <cstdint>
 #include <functional>
 
@@ -14,7 +14,8 @@ namespace smoke {
 class _GLUECODIUM_CPP_EXPORT ClassWithStructWithSkipLambdaInPlatform {
 public:
     ClassWithStructWithSkipLambdaInPlatform();
-    virtual ~ClassWithStructWithSkipLambdaInPlatform() = 0;
+    virtual ~ClassWithStructWithSkipLambdaInPlatform();
+
 
 public:
     struct _GLUECODIUM_CPP_EXPORT SkipLambdaInPlatform {
