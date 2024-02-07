@@ -129,6 +129,7 @@ test_expect_strequal_lists(
 if(APPLE AND CMAKE_GENERATOR STREQUAL "Xcode")
   # cmake-format: off
   # (G) - target with generated code
+  # (F) - framework
   #
   # SHARED1(G) -> STATIC1(G) -> SHARED2(G)
   #     |-------> STATIC2 -> OBJECT1(G)
@@ -150,3 +151,38 @@ if(APPLE AND CMAKE_GENERATOR STREQUAL "Xcode")
   test_expect_strequal_lists(EXPECTED shared1.generated.code static1.generated.code
                                       object1.generated.code ACTUAL ${_targets})
 endif()
+
+# cmake-format: off
+# (G) - target with generated code
+# (F) - framework
+#
+# SHARED1(G) -> STATIC1(G) -> SHARED2(G)
+#     |-------> STATIC2 -> OBJECT1(G) -> OBJECT4(G)
+#     |-------> OBJECT3 -> SHARED1(G) - loop
+#     |-------> STATIC3(GF)
+# cmake-format: on
+
+add_library(object4.generated.code OBJECT EXCLUDE_FROM_ALL "cpp/FooImpl.cpp" "lime/foo.lime")
+gluecodium_generate(object4.generated.code GENERATORS ${_gluecodium_generators})
+target_link_libraries(object1.generated.code PRIVATE object4.generated.code)
+
+gluecodium_get_linked_targets_with_generated_sources(_targets shared1.generated.code ONLY_STATIC)
+test_expect_strequal_lists(EXPECTED shared1.generated.code static1.generated.code
+                                    object1.generated.code ACTUAL ${_targets})
+
+# cmake-format: off
+# (G) - target with generated code
+# (F) - framework
+#
+# SHARED1(G) -> STATIC1(G) -> SHARED2(G)
+#     |-------> STATIC2 -> OBJECT1(G) -> OBJECT4(G)
+#     |-------> OBJECT3 -> SHARED1(G) - loop
+#     |-------> STATIC3(GF)
+#     |-------> OBJECT4(G)
+# cmake-format: on
+
+target_link_libraries(shared1.generated.code PRIVATE object4.generated.code)
+gluecodium_get_linked_targets_with_generated_sources(_targets shared1.generated.code ONLY_STATIC)
+test_expect_strequal_lists(
+  EXPECTED shared1.generated.code static1.generated.code object1.generated.code
+           object4.generated.code ACTUAL ${_targets})
