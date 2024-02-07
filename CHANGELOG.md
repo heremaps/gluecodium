@@ -1,5 +1,11 @@
 # Gluecodium project Release Notes
 
+## 13.8.1
+Release date: 2024-02-07
+### Bug fixes:
+ * RTTI for generated classes is fixed because pure dtor is removed and dtor from cpp is used now.
+ * Fixes dependency discovery in CMake to not include not directly linked OBJECT library.
+
 ## 13.8.0
 Release date: 2024-01-22
 ### Features:
