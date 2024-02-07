@@ -60,7 +60,18 @@ function(gluecodium_get_linked_targets_rec result visited_targets _target only_s
       elseif(NOT _linked_type STREQUAL "INTERFACE_LIBRARY")
         get_target_property(_framework ${_linked_lib} FRAMEWORK)
         # Framework can be static, but it's still final target
-        if(_linked_type STREQUAL "SHARED_LIBRARY" OR _framework)
+        if(_framework)
+          continue()
+        endif()
+
+        # According to documentation object files only from directly linked OBJECT libraries are
+        # used. This check processes this variant.
+        if(_linked_type STREQUAL "OBJECT_LIBRARY"
+           AND (_target_type STREQUAL "OBJECT_LIBRARY" OR _target_type STREQUAL "INTERFACE_LIBRARY"
+               ))
+          # Remove this OBJECT library from visited because it still can be directly linked in
+          # another place.
+          list(POP_BACK ${visited_targets})
           continue()
         endif()
       endif()
