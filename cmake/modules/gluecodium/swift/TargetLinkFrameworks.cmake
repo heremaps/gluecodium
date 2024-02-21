@@ -126,6 +126,11 @@ function(_gluecodium_target_link_framework target_dst target_framework)
   set_property(
     TARGET ${target_dst} APPEND_STRING
     PROPERTY XCODE_ATTRIBUTE_OTHER_SWIFT_FLAGS " -framework ${_framework_name} -F${framework_dir} ")
+
+  # In some cases bridging headers from dependencies are necessary. For example when one interface
+  # inherits (i.e. extends) another.
+  get_target_property(_bridging_headers ${target_framework} GLUECODIUM_BRIDGING_HEADERS)
+  set_property(TARGET ${_target} APPEND PROPERTY GLUECODIUM_BRIDGING_HEADERS "${_bridging_headers}")
 endfunction()
 
 function(_gluecodium_find_common_target_in_framework result target_framework)

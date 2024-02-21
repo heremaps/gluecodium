@@ -24,8 +24,15 @@ class MainBar {
     constructor make(foo: CommonMainFoo)
 }
 
+interface MainExtendBaseInterface: CommonMainBase {
+    fun extended_fun()
+}
+
 class MainDerived : unit.test.CommonMainBase {
     property id: Long {
         get
     }
+}
+
+class MainDerivedExtendednInterface: MainExtendBaseInterface {
 }
