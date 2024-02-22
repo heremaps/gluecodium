@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unpublished:
+### Bug fixes:
+ * Bridging headers from linked frameworks are used. It solves problem with some cases, for example when interface inherts (extends) another one in lime.
+
 ## 13.8.1
 Release date: 2024-02-07
 ### Bug fixes:
