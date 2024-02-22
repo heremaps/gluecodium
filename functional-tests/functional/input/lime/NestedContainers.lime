@@ -32,11 +32,46 @@ class OuterClass {
     class InnerClass {
         fun foo(input: String): String
     }
+    struct InnerStruct {
+        foo: Int
+    }
     interface InnerInterfaceInClass {
         fun foo(input: String): String
     }
+    enum InnerEnum {
+        FOO,
+        BAR
+    }
 
     fun foo(input: String): String
+
+    typealias InnerTypedef = UByte
+    lambda InnerLambda = () -> Void
+}
+
+interface InterfaceRefersNestedEnumAsReturnValue {
+    fun foo(): OuterClass.InnerEnum
+    fun bar(): OuterClass
+}
+
+interface InterfaceRefersNestedClassAsReturnValue {
+    fun foo(): OuterClass.InnerClass
+    fun bar(): OuterClass
+}
+
+interface InterfaceRefersNestedStructAsReturnValue {
+    fun foo(): OuterClass.InnerStruct
+    fun bar(): OuterClass
+}
+
+interface InterfaceRefersNestedTypedefAsReturnValue {
+    fun foo(): OuterClass.InnerTypedef
+    fun bar(): OuterClass
+}
+
+interface InterfaceRefersNestedLambdaAsReturnValue {
+    fun foo(): OuterClass.InnerLambda
+    fun bar(): OuterClass
 }
 
 class LevelOne {
