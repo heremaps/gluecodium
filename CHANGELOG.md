@@ -1,6 +1,6 @@
 # Gluecodium project Release Notes
 
-## Unpublished:
+## 13.8.2
 ### Bug fixes:
  * Bridging headers from linked frameworks are used. It solves problem with some cases, for example when interface inherts (extends) another one in lime.
  * Fixes forward declaration in C++ for types when contain nested types and both type and nested type are referred.
