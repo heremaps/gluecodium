@@ -429,6 +429,11 @@ feature(Nesting cpp android swift dart SOURCES
     input/src/cpp/NestedContainers.cpp
     input/src/cpp/NestedClassWithProperty.cpp
     input/src/cpp/NestingInStruct.cpp
+    input/src/cpp/InterfaceRefersNestedClassAsReturnValue.cpp
+    input/src/cpp/InterfaceRefersNestedEnumAsReturnValue.cpp
+    input/src/cpp/InterfaceRefersNestedLambdaAsReturnValue.cpp
+    input/src/cpp/InterfaceRefersNestedStructAsReturnValue.cpp
+    input/src/cpp/InterfaceRefersNestedTypedefAsReturnValue.cpp
 
     input/lime/TopLevelTypes.lime
     input/lime/NestedContainers.lime

@@ -42,9 +42,21 @@ internal abstract class CppImportsCollector<T> : ImportsCollector<T> {
     ): List<LimeContainerWithInheritance> {
         val parentPaths =
             if (limeElement is LimeContainerWithInheritance) limeElement.parents.map { it.type.path } else emptyList()
-        val filteredPaths = setOf(limeElement.path) + parentPaths
-        return allTypeRefs.map { it.type }
-            .filterIsInstance<LimeContainerWithInheritance>()
+        val allTypes = allTypeRefs.map { it.type }
+
+        // classes, enums, type alias and structs can be nested. If such type is nested then nesting type can't be
+        // forward declared.
+        val allContainersWithInheritance = allTypes.filterIsInstance<LimeContainerWithInheritance>()
+        val canBeNestedTypes =
+            allContainersWithInheritance +
+                allTypes.filterIsInstance<LimeEnumeration>() +
+                allTypes.filterIsInstance<LimeStruct>() +
+                allTypes.filterIsInstance<LimeTypeAlias>() +
+                allTypes.filterIsInstance<LimeLambda>()
+        val nestingTypePaths = canBeNestedTypes.filter { it.path.hasParent }.map { it.path.parent }
+
+        val filteredPaths = setOf(limeElement.path) + parentPaths + nestingTypePaths
+        return allContainersWithInheritance
             .filter { !it.path.hasParent && it.external?.cpp == null && !filteredPaths.contains(it.path) }
     }
 
