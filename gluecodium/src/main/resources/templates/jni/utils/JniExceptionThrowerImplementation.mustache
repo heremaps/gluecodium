@@ -20,9 +20,7 @@
   !}}
 {{>java/CopyrightHeader}}
 
-#pragma once
-
-#include "JniReference.h"
+#include "JniExceptionThrower.h"
 
 {{#internalNamespace}}
 namespace {{.}}
@@ -30,19 +28,26 @@ namespace {{.}}
 {{/internalNamespace}}
 namespace jni
 {
-    class JniExceptionThrower final
+
+JniExceptionThrower::JniExceptionThrower(JNIEnv* jni_env) noexcept : m_jni_env(jni_env)
+{
+}
+
+JniExceptionThrower::~JniExceptionThrower()
+{
+    if (m_exception)
     {
-    public:
-        explicit JniExceptionThrower(JNIEnv* jni_env) noexcept;
-
-        ~JniExceptionThrower();
-
-        void register_exception(JniReference<jobject> exception) noexcept;
-    private:
-        JNIEnv* const m_jni_env;
-        JniReference<jobject> m_exception;
-    };
+        m_jni_env->Throw(static_cast<jthrowable>(m_exception.release()));
+    }
 }
+
+void JniExceptionThrower::register_exception(JniReference<jobject> exception) noexcept
+{
+    m_exception = std::move(exception);
+}
+
+} // namespace jni
+
 {{#internalNamespace}}
-}
+} // namespace {{.}}
 {{/internalNamespace}}
