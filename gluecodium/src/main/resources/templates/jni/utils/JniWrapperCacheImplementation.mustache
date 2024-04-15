@@ -22,15 +22,51 @@
 
 #include "JniWrapperCache.h"
 
+#include <mutex>
+#include <unordered_map>
+
 {{#internalNamespace}}
 namespace {{.}}
 {
 {{/internalNamespace}}
 namespace jni
 {
-std::mutex JniWrapperCache::s_mutex{};
-std::unordered_map<const void*, jobject> JniWrapperCache::s_wrapper_cache{};
+
+static std::mutex s_mutex;
+static std::unordered_map<const void*, jobject> s_wrapper_cache;
+
+void JniWrapperCache::cache_wrapper_impl(JNIEnv* jenv, const void* obj_ptr, const JniReference<jobject>& jobj) {
+    std::lock_guard<std::mutex> lock(s_mutex);
+    s_wrapper_cache[obj_ptr] = jenv->NewWeakGlobalRef(jobj.get());
 }
+
+JniReference<jobject> JniWrapperCache::get_cached_wrapper_impl(JNIEnv* jenv, const void* obj_ptr) {
+    std::lock_guard<std::mutex> lock(s_mutex);
+
+    auto iter = s_wrapper_cache.find(obj_ptr);
+    if (iter == s_wrapper_cache.end())
+        return {};
+
+    auto jobj = jenv->NewLocalRef(iter->second);
+    if (jenv->IsSameObject(jobj, NULL)) {
+        jenv->DeleteLocalRef(jobj);
+        return {};
+    } else {
+        return make_local_ref(jenv, jobj);
+    }
+}
+
+void JniWrapperCache::remove_cached_wrapper_impl(JNIEnv* jenv, const void* obj_ptr) {
+    std::lock_guard<std::mutex> lock(s_mutex);
+
+    auto iter = s_wrapper_cache.find(obj_ptr);
+    if (iter != s_wrapper_cache.end()) {
+        jenv->DeleteWeakGlobalRef(iter->second);
+        s_wrapper_cache.erase(iter);
+    }
+}
+
+} // namespace jni
 {{#internalNamespace}}
-}
+} // namespace {{.}}
 {{/internalNamespace}}
