@@ -30,7 +30,7 @@ namespace {{.}}
 {{/internalNamespace}}
 namespace jni
 {
-    class JniExceptionThrower final
+    class JNIEXPORT JniExceptionThrower final
     {
     public:
         explicit JniExceptionThrower(JNIEnv* jni_env) noexcept;
