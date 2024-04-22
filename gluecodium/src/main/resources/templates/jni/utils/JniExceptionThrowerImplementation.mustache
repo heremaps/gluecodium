@@ -33,7 +33,7 @@ JniExceptionThrower::JniExceptionThrower(JNIEnv* jni_env) noexcept : m_jni_env(j
 {
 }
 
-JniExceptionThrower::~JniExceptionThrower()
+JniExceptionThrower::~JniExceptionThrower() noexcept
 {
     if (m_exception)
     {

@@ -52,26 +52,26 @@ namespace {{.}} {
 /**
  * Represents an ISO locale, optionally with a corresponding BCP 47 language tag.
  */
-struct {{>cpp/CppExportMacro}}Locale {
-    Locale();
-    explicit Locale(std::optional<std::string> language_tag);
-    Locale(std::optional<std::string> language_code, std::optional<std::string> country_code);
+struct {{>cpp/CppExportMacro}}Locale final {
+    Locale() noexcept;
+    explicit Locale(std::optional<std::string> language_tag) noexcept;
+    Locale(std::optional<std::string> language_code, std::optional<std::string> country_code) noexcept;
     Locale(std::optional<std::string> language_code,
            std::optional<std::string> country_code,
-           std::optional<std::string> script_code);
+           std::optional<std::string> script_code) noexcept;
     Locale(std::optional<std::string> language_code,
            std::optional<std::string> country_code,
            std::optional<std::string> script_code,
-           std::optional<std::string> language_tag);
-    explicit Locale(std::string language_tag);
-    Locale(std::string language_code, std::string country_code);
+           std::optional<std::string> language_tag) noexcept;
+    explicit Locale(std::string language_tag) noexcept;
+    Locale(std::string language_code, std::string country_code) noexcept;
     Locale(std::string language_code,
            std::string country_code,
-           std::string script_code);
+           std::string script_code) noexcept;
     Locale(std::string language_code,
            std::string country_code,
            std::string script_code,
-           std::string language_tag);
+           std::string language_tag) noexcept;
 
     /// ISO 639-1 language code (2-letter)
     std::optional<std::string> language_code;

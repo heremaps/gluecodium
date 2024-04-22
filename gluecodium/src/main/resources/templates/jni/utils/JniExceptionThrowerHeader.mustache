@@ -35,7 +35,7 @@ namespace jni
     public:
         explicit JniExceptionThrower(JNIEnv* jni_env) noexcept;
 
-        ~JniExceptionThrower();
+        ~JniExceptionThrower() noexcept;
 
         void register_exception(JniReference<jobject> exception) noexcept;
     private:
