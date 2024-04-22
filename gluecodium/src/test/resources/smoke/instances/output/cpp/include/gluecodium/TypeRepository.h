@@ -17,22 +17,30 @@
 // License-Filename: LICENSE
 //
 // -------------------------------------------------------------------------------------------------
+
 #pragma once
 #include "ExportCommonGluecodiumCpp.h"
 #include <string_view>
+
 namespace gluecodium {
+
 using TypeId = std::string_view;
-class _GLUECODIUM_CPP_EXPORT TypeRepository
+
+class _GLUECODIUM_CPP_EXPORT TypeRepository final
 {
 public:
     TypeRepository();
     ~TypeRepository();
+
     void add_type(const void* instance, const TypeId& id);
     TypeId get_id(const void* instance) const;
     void remove_type(const void* instance);
+
 private:
     struct Impl;
     Impl* pimpl;
 };
+
 _GLUECODIUM_CPP_EXPORT TypeRepository& get_type_repository();
+
 }

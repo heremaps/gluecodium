@@ -89,13 +89,13 @@ namespace jni
 {
 
 JavaVM*
-get_java_vm( )
+get_java_vm( ) noexcept
 {
     return jvm;
 }
 
 
-JNIEnv* getJniEnvironmentForCurrentThread( )
+JNIEnv* getJniEnvironmentForCurrentThread( ) noexcept
 {
     // Add cleanup callback to current thread when called the first time
     static pthread_once_t s_key_once = PTHREAD_ONCE_INIT;
