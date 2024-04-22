@@ -35,10 +35,10 @@ namespace {{.}}
 namespace jni
 {
 
-class {{resolveName "mangled"}}_CppProxy : public CppProxyBase{{!!
+class {{resolveName "mangled"}}_CppProxy final : public CppProxyBase{{!!
 }}{{#instanceOf this "LimeInterface"}}, public {{resolveName "C++ FQN"}}{{/instanceOf}} {
 public:
-    {{resolveName "mangled"}}_CppProxy( JNIEnv* _jenv, JniReference<jobject> globalRef, jint _jHashCode );
+    {{resolveName "mangled"}}_CppProxy( JniReference<jobject> globalRef, jint _jHashCode ) noexcept;
     {{resolveName "mangled"}}_CppProxy( const {{resolveName "mangled"}}_CppProxy& ) = delete;
     {{resolveName "mangled"}}_CppProxy& operator=( const {{resolveName "mangled"}}_CppProxy& ) = delete;
 
