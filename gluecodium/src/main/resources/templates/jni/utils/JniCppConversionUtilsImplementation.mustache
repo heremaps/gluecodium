@@ -46,8 +46,7 @@ convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, std::string*
 {
     if ( !jvalue )
     {
-        auto exceptionClass = {{>common/InternalNamespace}}jni::find_class(env, "java/lang/NullPointerException");
-        env->ThrowNew(exceptionClass.get(), "");
+        {{>common/InternalNamespace}}jni::throw_new_null_pointer_exception(env);
         return {};
     }
 
@@ -59,8 +58,7 @@ convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, std::string*
 {
     if ( !jvalue )
     {
-        auto exceptionClass = {{>common/InternalNamespace}}jni::find_class(env, "java/lang/NullPointerException");
-        env->ThrowNew(exceptionClass.get(), "");
+        {{>common/InternalNamespace}}jni::throw_new_null_pointer_exception(env);
         return {};
     }
 
@@ -89,8 +87,7 @@ convert_from_jni( JNIEnv* env, const JniReference<jbyteArray>& jvalue,
 {
     if ( !jvalue )
     {
-        auto exceptionClass = {{>common/InternalNamespace}}jni::find_class(env, "java/lang/NullPointerException");
-        env->ThrowNew(exceptionClass.get(), "");
+        {{>common/InternalNamespace}}jni::throw_new_null_pointer_exception(env);
         return {};
     }
 
@@ -115,8 +112,7 @@ convert_from_jni( JNIEnv* env,
 {{>common/InternalNamespace}}Locale
 convert_from_jni(JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}Locale*) {
     if (!jvalue) {
-        auto exceptionClass = {{>common/InternalNamespace}}jni::find_class(env, "java/lang/NullPointerException");
-        env->ThrowNew(exceptionClass.get(), "");
+        {{>common/InternalNamespace}}jni::throw_new_null_pointer_exception(env);
         return {{>common/InternalNamespace}}Locale();
     }
 

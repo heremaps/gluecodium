@@ -24,6 +24,7 @@
 {{>common/Include}}
 {{/includes}}
 #include "JniReference.h"
+#include "JniThrowNewException.h"
 #include <memory>
 #include <vector>
 
@@ -48,8 +49,7 @@ JNIEXPORT jobject JNICALL
     auto handle = {{>getNativeHandle}};
     auto& vector = *reinterpret_cast<std::shared_ptr<{{resolveName listType "C++"}}>*>(handle);
     if (index < 0 || index >= vector->size()) {
-        auto exceptionClass = {{>common/InternalNamespace}}jni::find_class(_jenv, "java/lang/IndexOutOfBoundsException");
-        _jenv->ThrowNew(exceptionClass.get(), "List index out of bounds.");
+        {{>common/InternalNamespace}}jni::throw_new_index_out_of_bounds_exception(_jenv);
         return {};
     } else {
         auto& result = {{>typeDereference}}vector->operator[](index);

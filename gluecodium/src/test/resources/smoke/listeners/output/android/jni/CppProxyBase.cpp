@@ -5,6 +5,7 @@
 
 #include "CppProxyBase.h"
 #include "JniBase.h"
+#include "JniThrowNewException.h"
 
 #include <mutex>
 #include <unordered_map>
@@ -138,7 +139,7 @@ CppProxyBase::createProxyImpl( JNIEnv* const jenv,
     auto [newProxy, reverseCacheKey] = factory(std::move(globalRef), jHashCode);
 
     if (newProxy == nullptr) {
-        throw_runtime_exception(jenv, "Cannot allocate native memory.");
+        throw_new_runtime_exception(jenv, "Cannot allocate native memory.");
     } else if (do_cache) {
         sProxyCache[key] = ::std::weak_ptr<CppProxyBase>(newProxy);
         registerInReverseCache(newProxy.get(), reverseCacheKey, key.jObject);
