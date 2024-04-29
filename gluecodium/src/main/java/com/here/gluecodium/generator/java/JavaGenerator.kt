@@ -271,12 +271,12 @@ internal class JavaGenerator : Generator {
                 "BoxingConversionUtils",
                 "JniClassCache",
                 "JniWrapperCache",
-                "JniCallJavaMethod",
                 "JniExceptionThrower",
                 "JniReference",
+                "JniThrowNewException",
             )
         private val UTILS_FILES_HEADER_ONLY =
-            listOf("ArrayConversionUtils", "JniTemplateMetainfo")
+            listOf("ArrayConversionUtils", "JniCallJavaMethod", "JniTemplateMetainfo")
 
         private fun annotationFromOption(option: Pair<String, List<String>>?) = option?.let { JavaImport(option.second, option.first) }
     }

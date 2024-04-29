@@ -1,17 +1,25 @@
 /*
+
  *
  */
+
 #include "com_example_smoke_SimpleClass__Conversion.h"
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
 #include "JniClassCache.h"
+#include "JniThrowNewException.h"
 #include "JniWrapperCache.h"
 #include <new>
+
 namespace gluecodium
 {
 namespace jni
 {
+
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/SimpleClass", com_example_smoke_SimpleClass, ::smoke::SimpleClass)
+
+
+
 std::shared_ptr<::smoke::SimpleClass> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::smoke::SimpleClass>*)
 {
     std::shared_ptr<::smoke::SimpleClass> _nresult{};
@@ -34,6 +42,7 @@ std::shared_ptr<::smoke::SimpleClass> convert_from_jni(JNIEnv* _env, const JniRe
     }
     return _nresult;
 }
+
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::SimpleClass>& _ninput)
 {
@@ -41,21 +50,25 @@ convert_to_jni(JNIEnv* _jenv, const std::shared_ptr<::smoke::SimpleClass>& _ninp
     {
         return {};
     }
+
     auto jResult = ::gluecodium::jni::CppProxyBase::getJavaObject(_jenv, _ninput.get());
     if (jResult) return jResult;
+
     jResult = ::gluecodium::jni::JniWrapperCache::get_cached_wrapper(_jenv, _ninput);
     if (jResult) return jResult;
+
     auto &javaClass = CachedJavaClass<::smoke::SimpleClass>::java_class;
     auto pInstanceSharedPointer = new (::std::nothrow) std::shared_ptr<::smoke::SimpleClass>(_ninput);
     if ( pInstanceSharedPointer == nullptr )
     {
-        auto exceptionClass = find_class(_jenv, "java/lang/OutOfMemoryError" );
-        _jenv->ThrowNew( exceptionClass.get(), "Cannot allocate native memory." );
+        throw_new_out_of_memory_exception(_jenv);
     }
     jResult = ::gluecodium::jni::create_instance_object(
         _jenv, javaClass, reinterpret_cast<jlong>( pInstanceSharedPointer ) );
     ::gluecodium::jni::JniWrapperCache::cache_wrapper(_jenv, _ninput, jResult);
+
     return jResult;
 }
+
 }
 }

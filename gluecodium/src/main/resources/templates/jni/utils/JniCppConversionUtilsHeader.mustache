@@ -27,6 +27,7 @@
 #include "JniCallJavaMethod.h"
 #include "JniClassCache.h"
 #include "JniReference.h"
+#include "JniThrowNewException.h"
 #include "{{>common/InternalInclude}}Locale.h"
 
 #include <chrono>
@@ -74,8 +75,7 @@ std::chrono::time_point<Clock, Duration>
 convert_from_jni(JNIEnv* env, const JniReference<jobject>& jvalue, std::chrono::time_point<Clock, Duration>*) {
     if (!jvalue)
     {
-        auto exceptionClass = {{>common/InternalNamespace}}jni::find_class(env, "java/lang/NullPointerException");
-        env->ThrowNew(exceptionClass.get(), "");
+        {{>common/InternalNamespace}}jni::throw_new_null_pointer_exception(env);
         return {};
     }
 
@@ -108,8 +108,7 @@ template<class Rep, class Period>
 std::chrono::duration<Rep, Period>
 convert_from_jni(JNIEnv* env, const JniReference<jobject>& jvalue, std::chrono::duration<Rep, Period>*) {
     if (!jvalue) {
-        auto exceptionClass = {{>common/InternalNamespace}}jni::find_class(env, "java/lang/NullPointerException");
-        env->ThrowNew(exceptionClass.get(), "");
+        {{>common/InternalNamespace}}jni::throw_new_null_pointer_exception(env);
         return {};
     }
 

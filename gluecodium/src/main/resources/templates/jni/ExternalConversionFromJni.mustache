@@ -24,7 +24,7 @@ auto& converterClass = CachedJavaClass<Dummy{{!!
 auto convertMethodId = _jenv->GetStaticMethodID(
     converterClass.get(), "convertToInternal", "(L{{resolveName external.java.name ""}};)L{{resolveName this "" "ref"}};");
 if (convertMethodId == NULL) {
-    throw_runtime_exception(_jenv, "Static method 'convertToInternal({{!!
+    throw_new_runtime_exception(_jenv, "Static method 'convertToInternal({{!!
     }}L{{resolveName external.java.name ""}};)L{{resolveName this "" "ref"}};' not found.");
     return {};
 }

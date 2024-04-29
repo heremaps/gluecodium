@@ -8,6 +8,7 @@
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
 #include "JniReference.h"
+#include "JniThrowNewException.h"
 #include "JniWrapperCache.h"
 
 extern "C" {
