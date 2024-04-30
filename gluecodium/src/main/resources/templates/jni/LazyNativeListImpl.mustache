@@ -25,6 +25,7 @@
 {{/includes}}
 #include "JniReference.h"
 #include "JniThrowNewException.h"
+#include "JniNativeHandle.h"
 #include <memory>
 #include <vector>
 
@@ -64,12 +65,7 @@ JNIEXPORT jobject JNICALL
 }}{{+lnlSignaturePrefix}}{{>jni/FunctionSignaturePrefix}}_00024{{resolveName listType "mangled" "ref"}}{{/lnlSignaturePrefix}}{{!!
 
 }}{{+getNativeHandle}}{{!!
-}}{{>common/InternalNamespace}}jni::get_field_value(
-        _jenv,
-        {{>common/InternalNamespace}}jni::make_non_releasing_ref(_jinstance),
-        "nativeHandle",
-        (int64_t*)nullptr
-    ){{!!
+}}{{>common/InternalNamespace}}jni::get_class_native_handle(_jenv, _jinstance){{!!
 }}{{/getNativeHandle}}{{!!
 
 }}{{+typeDereference}}{{!!

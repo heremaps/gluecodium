@@ -7,6 +7,7 @@
 #include "com_example_smoke_EquatableInterface__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
+#include "JniNativeHandle.h"
 #include "JniReference.h"
 #include "JniThrowNewException.h"
 #include "JniWrapperCache.h"
@@ -35,19 +36,11 @@ Java_com_example_smoke_EquatableInterfaceImpl_equals(JNIEnv* _jenv, jobject _jin
     }
     auto lhs = reinterpret_cast<std::shared_ptr<::smoke::EquatableInterface>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
     auto rhs = reinterpret_cast<std::shared_ptr<::smoke::EquatableInterface>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(jrhs),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,jrhs));
 
     return **lhs == **rhs;
 }
@@ -57,11 +50,7 @@ Java_com_example_smoke_EquatableInterfaceImpl_hashCode(JNIEnv* _jenv, jobject _j
 {
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::EquatableInterface>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
     return ::gluecodium::hash<std::shared_ptr<::smoke::EquatableInterface> >()(*pInstanceSharedPointer);
 }

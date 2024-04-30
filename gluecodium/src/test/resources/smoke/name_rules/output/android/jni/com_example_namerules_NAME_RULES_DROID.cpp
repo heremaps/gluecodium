@@ -10,6 +10,7 @@
 #include "JniExceptionThrower.h"
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
+#include "JniNativeHandle.h"
 #include "JniReference.h"
 #include "JniThrowNewException.h"
 #include "JniWrapperCache.h"
@@ -53,11 +54,7 @@ Java_com_example_namerules_NAME_1RULES_1DROID_some_1method(JNIEnv* _jenv, jobjec
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::namerules::NameRules>*> (
 
-        ::jni::get_field_value(
-            _jenv,
-            ::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -93,11 +90,7 @@ Java_com_example_namerules_NAME_1RULES_1DROID_loadIntProperty(JNIEnv* _jenv, job
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::namerules::NameRules>*> (
 
-        ::jni::get_field_value(
-            _jenv,
-            ::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -122,11 +115,7 @@ Java_com_example_namerules_NAME_1RULES_1DROID_STORE_1INT_1PROPERTY(JNIEnv* _jenv
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::namerules::NameRules>*> (
 
-        ::jni::get_field_value(
-            _jenv,
-            ::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -146,11 +135,7 @@ Java_com_example_namerules_NAME_1RULES_1DROID_loadBooleanProperty(JNIEnv* _jenv,
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::namerules::NameRules>*> (
 
-        ::jni::get_field_value(
-            _jenv,
-            ::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -175,11 +160,7 @@ Java_com_example_namerules_NAME_1RULES_1DROID_STORE_1BOOLEAN_1PROPERTY(JNIEnv* _
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::namerules::NameRules>*> (
 
-        ::jni::get_field_value(
-            _jenv,
-            ::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -199,11 +180,7 @@ Java_com_example_namerules_NAME_1RULES_1DROID_loadStructProperty(JNIEnv* _jenv, 
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::namerules::NameRules>*> (
 
-        ::jni::get_field_value(
-            _jenv,
-            ::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -230,11 +207,7 @@ Java_com_example_namerules_NAME_1RULES_1DROID_STORE_1STRUCT_1PROPERTY(JNIEnv* _j
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::namerules::NameRules>*> (
 
-        ::jni::get_field_value(
-            _jenv,
-            ::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -258,7 +231,7 @@ JNIEXPORT void JNICALL
 Java_com_example_namerules_NAME_1RULES_1DROID_cacheThisInstance(JNIEnv* _jenv, jobject _jinstance)
 {
     auto jobj = ::jni::make_non_releasing_ref(_jinstance);
-    auto long_ptr = ::jni::get_field_value(_jenv, jobj, "nativeHandle", (int64_t*)nullptr);
+    auto long_ptr = ::jni::get_class_native_handle(_jenv, jobj);
     auto nobj = *reinterpret_cast<std::shared_ptr<::namerules::NameRules>*>(long_ptr);
 
     ::jni::JniWrapperCache::cache_wrapper(_jenv, nobj, jobj);

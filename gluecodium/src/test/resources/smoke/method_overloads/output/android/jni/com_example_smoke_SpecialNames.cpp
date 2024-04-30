@@ -7,6 +7,7 @@
 #include "com_example_smoke_SpecialNames__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
+#include "JniNativeHandle.h"
 #include "JniReference.h"
 #include "JniThrowNewException.h"
 #include "JniWrapperCache.h"
@@ -22,11 +23,7 @@ Java_com_example_smoke_SpecialNames_create(JNIEnv* _jenv, jobject _jinstance)
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::SpecialNames>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -44,11 +41,7 @@ Java_com_example_smoke_SpecialNames_release(JNIEnv* _jenv, jobject _jinstance)
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::SpecialNames>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -66,11 +59,7 @@ Java_com_example_smoke_SpecialNames_createProxy(JNIEnv* _jenv, jobject _jinstanc
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::SpecialNames>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -88,11 +77,7 @@ Java_com_example_smoke_SpecialNames_Uppercase(JNIEnv* _jenv, jobject _jinstance)
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::SpecialNames>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -141,7 +126,7 @@ JNIEXPORT void JNICALL
 Java_com_example_smoke_SpecialNames_cacheThisInstance(JNIEnv* _jenv, jobject _jinstance)
 {
     auto jobj = ::gluecodium::jni::make_non_releasing_ref(_jinstance);
-    auto long_ptr = ::gluecodium::jni::get_field_value(_jenv, jobj, "nativeHandle", (int64_t*)nullptr);
+    auto long_ptr = ::gluecodium::jni::get_class_native_handle(_jenv, jobj);
     auto nobj = *reinterpret_cast<std::shared_ptr<::smoke::SpecialNames>*>(long_ptr);
 
     ::gluecodium::jni::JniWrapperCache::cache_wrapper(_jenv, nobj, jobj);

@@ -7,6 +7,7 @@
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
 #include "JniClassCache.h"
+#include "JniNativeHandle.h"
 #include "JniThrowNewException.h"
 #include "JniWrapperCache.h"
 #include <new>
@@ -28,11 +29,7 @@ std::shared_ptr<::smoke::NoCacheClass> convert_from_jni(JNIEnv* _env, const JniR
     {
         if (_jobj != nullptr)
         {
-            auto long_ptr = get_field_value(
-                _env,
-                _jobj,
-                "nativeHandle",
-                (int64_t*)nullptr);
+            auto long_ptr = get_class_native_handle(_env, _jobj);
             _nresult = *reinterpret_cast<std::shared_ptr<::smoke::NoCacheClass>*>(long_ptr);
         }
     }

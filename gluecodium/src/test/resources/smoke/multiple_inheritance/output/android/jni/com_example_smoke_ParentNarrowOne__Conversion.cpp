@@ -8,6 +8,7 @@
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
 #include "JniClassCache.h"
+#include "JniNativeHandle.h"
 #include "JniThrowNewException.h"
 #include "JniWrapperCache.h"
 #include <new>

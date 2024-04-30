@@ -7,6 +7,7 @@
 #include "com_example_smoke_SkipProxy__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
+#include "JniNativeHandle.h"
 #include "JniReference.h"
 #include "JniThrowNewException.h"
 #include "JniWrapperCache.h"
@@ -26,11 +27,7 @@ Java_com_example_smoke_SkipProxyImpl_notInSwift(JNIEnv* _jenv, jobject _jinstanc
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::SkipProxy>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -53,11 +50,7 @@ Java_com_example_smoke_SkipProxyImpl_notInDart(JNIEnv* _jenv, jobject _jinstance
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::SkipProxy>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -77,11 +70,7 @@ Java_com_example_smoke_SkipProxyImpl_isSkippedInSwift(JNIEnv* _jenv, jobject _ji
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::SkipProxy>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -106,11 +95,7 @@ Java_com_example_smoke_SkipProxyImpl_setSkippedInSwift(JNIEnv* _jenv, jobject _j
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::SkipProxy>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -130,11 +115,7 @@ Java_com_example_smoke_SkipProxyImpl_getSkippedInDart(JNIEnv* _jenv, jobject _ji
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::SkipProxy>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -159,11 +140,7 @@ Java_com_example_smoke_SkipProxyImpl_setSkippedInDart(JNIEnv* _jenv, jobject _ji
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::SkipProxy>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 

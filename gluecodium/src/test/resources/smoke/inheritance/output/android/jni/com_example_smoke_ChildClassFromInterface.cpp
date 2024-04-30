@@ -7,6 +7,7 @@
 #include "com_example_smoke_ChildClassFromInterface__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
+#include "JniNativeHandle.h"
 #include "JniReference.h"
 #include "JniThrowNewException.h"
 #include "JniWrapperCache.h"
@@ -22,11 +23,7 @@ Java_com_example_smoke_ChildClassFromInterface_childClassMethod(JNIEnv* _jenv, j
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::ChildClassFromInterface>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -45,11 +42,7 @@ Java_com_example_smoke_ChildClassFromInterface_rootMethod(JNIEnv* _jenv, jobject
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::ChildClassFromInterface>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -68,11 +61,7 @@ Java_com_example_smoke_ChildClassFromInterface_getRootProperty(JNIEnv* _jenv, jo
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::ChildClassFromInterface>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -99,11 +88,7 @@ Java_com_example_smoke_ChildClassFromInterface_setRootProperty(JNIEnv* _jenv, jo
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::ChildClassFromInterface>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 

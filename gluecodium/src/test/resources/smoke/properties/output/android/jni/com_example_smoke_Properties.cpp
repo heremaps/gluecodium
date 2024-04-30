@@ -10,6 +10,7 @@
 #include "com_example_smoke_Properties__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
+#include "JniNativeHandle.h"
 #include "JniReference.h"
 #include "JniThrowNewException.h"
 #include "JniWrapperCache.h"
@@ -26,11 +27,7 @@ Java_com_example_smoke_Properties_getBuiltInTypeProperty(JNIEnv* _jenv, jobject 
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Properties>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -55,11 +52,7 @@ Java_com_example_smoke_Properties_setBuiltInTypeProperty(JNIEnv* _jenv, jobject 
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Properties>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -79,11 +72,7 @@ Java_com_example_smoke_Properties_getReadonlyProperty(JNIEnv* _jenv, jobject _ji
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Properties>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -104,11 +93,7 @@ Java_com_example_smoke_Properties_getStructProperty(JNIEnv* _jenv, jobject _jins
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Properties>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -135,11 +120,7 @@ Java_com_example_smoke_Properties_setStructProperty(JNIEnv* _jenv, jobject _jins
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Properties>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -159,11 +140,7 @@ Java_com_example_smoke_Properties_getArrayProperty(JNIEnv* _jenv, jobject _jinst
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Properties>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -190,11 +167,7 @@ Java_com_example_smoke_Properties_setArrayProperty(JNIEnv* _jenv, jobject _jinst
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Properties>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -214,11 +187,7 @@ Java_com_example_smoke_Properties_getComplexTypeProperty(JNIEnv* _jenv, jobject 
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Properties>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -245,11 +214,7 @@ Java_com_example_smoke_Properties_setComplexTypeProperty(JNIEnv* _jenv, jobject 
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Properties>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -269,11 +234,7 @@ Java_com_example_smoke_Properties_getByteBufferProperty(JNIEnv* _jenv, jobject _
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Properties>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -300,11 +261,7 @@ Java_com_example_smoke_Properties_setByteBufferProperty(JNIEnv* _jenv, jobject _
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Properties>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -324,11 +281,7 @@ Java_com_example_smoke_Properties_getInstanceProperty(JNIEnv* _jenv, jobject _ji
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Properties>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -355,11 +308,7 @@ Java_com_example_smoke_Properties_setInstanceProperty(JNIEnv* _jenv, jobject _ji
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Properties>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -379,11 +328,7 @@ Java_com_example_smoke_Properties_isBooleanProperty(JNIEnv* _jenv, jobject _jins
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Properties>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -408,11 +353,7 @@ Java_com_example_smoke_Properties_setBooleanProperty(JNIEnv* _jenv, jobject _jin
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::Properties>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 

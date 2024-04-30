@@ -270,6 +270,7 @@ internal class JavaGenerator : Generator {
                 "JniCppConversionUtils",
                 "BoxingConversionUtils",
                 "JniClassCache",
+                "JniNativeHandle",
                 "JniWrapperCache",
                 "JniExceptionThrower",
                 "JniReference",

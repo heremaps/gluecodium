@@ -7,6 +7,7 @@
 #include "com_example_smoke_InterfaceWithStatic__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
+#include "JniNativeHandle.h"
 #include "JniReference.h"
 #include "JniThrowNewException.h"
 #include "JniWrapperCache.h"
@@ -22,11 +23,7 @@ Java_com_example_smoke_InterfaceWithStaticImpl_regularFunction(JNIEnv* _jenv, jo
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::InterfaceWithStatic>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -60,11 +57,7 @@ Java_com_example_smoke_InterfaceWithStaticImpl_getRegularProperty(JNIEnv* _jenv,
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::InterfaceWithStatic>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -91,11 +84,7 @@ Java_com_example_smoke_InterfaceWithStaticImpl_setRegularProperty(JNIEnv* _jenv,
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::InterfaceWithStatic>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 

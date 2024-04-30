@@ -11,6 +11,7 @@
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
 #include "JniClassCache.h"
+#include "JniNativeHandle.h"
 #include "JniThrowNewException.h"
 #include "JniWrapperCache.h"
 #include <new>
@@ -50,11 +51,7 @@ std::shared_ptr<::smoke::ParentInterface> convert_from_jni(JNIEnv* _env, const J
     {
         if (_jobj != nullptr)
         {
-            auto long_ptr = get_field_value(
-                _env,
-                _jobj,
-                "nativeHandle",
-                (int64_t*)nullptr);
+            auto long_ptr = get_class_native_handle(_env, _jobj);
             _nresult = *reinterpret_cast<std::shared_ptr<::smoke::ParentInterface>*>(long_ptr);
         }
     }
