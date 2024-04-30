@@ -7,6 +7,7 @@
 #include "com_example_smoke_DatesSteady__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
+#include "JniNativeHandle.h"
 #include "JniReference.h"
 #include "JniThrowNewException.h"
 #include "JniWrapperCache.h"
@@ -28,11 +29,7 @@ Java_com_example_smoke_DatesSteady_dateMethod(JNIEnv* _jenv, jobject _jinstance,
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::DatesSteady>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -57,11 +54,7 @@ Java_com_example_smoke_DatesSteady_nullableDateMethod(JNIEnv* _jenv, jobject _ji
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::DatesSteady>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -86,11 +79,7 @@ Java_com_example_smoke_DatesSteady_dateListMethod(JNIEnv* _jenv, jobject _jinsta
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::DatesSteady>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 

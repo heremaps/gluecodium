@@ -7,6 +7,7 @@
 #include "com_example_smoke_ExternalClass__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
+#include "JniNativeHandle.h"
 #include "JniReference.h"
 #include "JniThrowNewException.h"
 #include "JniWrapperCache.h"
@@ -26,11 +27,7 @@ Java_com_example_smoke_ExternalClass_someMethod(JNIEnv* _jenv, jobject _jinstanc
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::fire::Baz>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -49,11 +46,7 @@ Java_com_example_smoke_ExternalClass_getSomeProperty(JNIEnv* _jenv, jobject _jin
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::fire::Baz>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 

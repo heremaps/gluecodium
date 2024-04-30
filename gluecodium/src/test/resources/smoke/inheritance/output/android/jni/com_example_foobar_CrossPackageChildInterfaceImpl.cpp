@@ -7,6 +7,7 @@
 #include "com_example_foobar_CrossPackageChildInterface__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
+#include "JniNativeHandle.h"
 #include "JniReference.h"
 #include "JniThrowNewException.h"
 #include "JniWrapperCache.h"
@@ -23,11 +24,7 @@ Java_com_example_foobar_CrossPackageChildInterfaceImpl_rootMethod(JNIEnv* _jenv,
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::foobar::CrossPackageChildInterface>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -46,11 +43,7 @@ Java_com_example_foobar_CrossPackageChildInterfaceImpl_getRootProperty(JNIEnv* _
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::foobar::CrossPackageChildInterface>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -77,11 +70,7 @@ Java_com_example_foobar_CrossPackageChildInterfaceImpl_setRootProperty(JNIEnv* _
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::foobar::CrossPackageChildInterface>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 

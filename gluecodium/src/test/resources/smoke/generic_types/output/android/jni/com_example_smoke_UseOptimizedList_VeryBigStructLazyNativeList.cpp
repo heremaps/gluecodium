@@ -7,6 +7,7 @@
 #include "com_example_smoke_VeryBigStruct__Conversion.h"
 #include "JniReference.h"
 #include "JniThrowNewException.h"
+#include "JniNativeHandle.h"
 #include <memory>
 #include <vector>
 
@@ -21,24 +22,14 @@ Java_com_example_smoke_UseOptimizedList_00024VeryBigStructLazyNativeList_dispose
 
 JNIEXPORT jint JNICALL
 Java_com_example_smoke_UseOptimizedList_00024VeryBigStructLazyNativeList_getSize(JNIEnv* _jenv, jobject _jinstance) {
-    auto handle = ::gluecodium::jni::get_field_value(
-        _jenv,
-        ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-        "nativeHandle",
-        (int64_t*)nullptr
-    );
+    auto handle = ::gluecodium::jni::get_class_native_handle(_jenv, _jinstance);
     auto& vector = *reinterpret_cast<std::shared_ptr<::std::vector< ::std::shared_ptr< ::smoke::VeryBigStruct > >>*>(handle);
     return vector->size();
 }
 
 JNIEXPORT jobject JNICALL
 Java_com_example_smoke_UseOptimizedList_00024VeryBigStructLazyNativeList_get(JNIEnv* _jenv, jobject _jinstance, jint index) {
-    auto handle = ::gluecodium::jni::get_field_value(
-        _jenv,
-        ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-        "nativeHandle",
-        (int64_t*)nullptr
-    );
+    auto handle = ::gluecodium::jni::get_class_native_handle(_jenv, _jinstance);
     auto& vector = *reinterpret_cast<std::shared_ptr<::std::vector< ::std::shared_ptr< ::smoke::VeryBigStruct > >>*>(handle);
     if (index < 0 || index >= vector->size()) {
         ::gluecodium::jni::throw_new_index_out_of_bounds_exception(_jenv);

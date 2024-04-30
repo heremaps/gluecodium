@@ -58,7 +58,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput{{!!
 }}{{#unless external.java.getterName}}{{#notInstanceOf typeRef.type.actualType "LimeBasicType"}}
 {{#if typeRef.attributes.optimized}}
     auto j_{{resolveName "C++"}} = get_object_field_value(_jenv, _jinput, "{{resolveName}}", "L{{resolveName typeRef.type.actualType}};");
-    auto {{resolveName "C++"}}_handle = get_field_value(_jenv, j_{{resolveName "C++"}}, "nativeHandle", (int64_t*)nullptr);
+    auto {{resolveName "C++"}}_handle = get_class_native_handle(_jenv, j_{{resolveName "C++"}});
     auto& n_{{resolveName "C++"}} = **reinterpret_cast<std::shared_ptr<{{resolveName typeRef "C++"}}>*>({{resolveName "C++"}}_handle);
 {{/if}}{{#unless typeRef.attributes.optimized}}
     {{resolveName typeRef "C++"}} n_{{resolveName "C++"}} = {{>jni/JniConversionPrefix}}convert_from_jni(

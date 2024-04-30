@@ -9,6 +9,7 @@
 #include "com_example_smoke_Structs__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
+#include "JniNativeHandle.h"
 #include "JniReference.h"
 #include "JniThrowNewException.h"
 #include "JniWrapperCache.h"

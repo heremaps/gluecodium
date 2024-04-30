@@ -8,6 +8,7 @@
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
 #include "JniClassCache.h"
+#include "JniNativeHandle.h"
 #include "JniThrowNewException.h"
 #include "JniWrapperCache.h"
 #include <new>
@@ -35,11 +36,7 @@ void com_example_smoke_StandaloneProducer_createCppProxy(JNIEnv* env, const JniR
     {
         if (_jobj != nullptr)
         {
-            auto long_ptr = get_field_value(
-                _env,
-                _jobj,
-                "nativeHandle",
-                (int64_t*)nullptr);
+            auto long_ptr = get_class_native_handle(_env, _jobj);
             _nresult = *reinterpret_cast<::smoke::StandaloneProducer*>(long_ptr);
         }
     }

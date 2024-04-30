@@ -13,6 +13,7 @@
 #include "com_example_smoke_GenericTypesWithCompoundTypes__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
+#include "JniNativeHandle.h"
 #include "JniReference.h"
 #include "JniThrowNewException.h"
 #include "JniWrapperCache.h"
@@ -34,11 +35,7 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithStructList(JNIEnv
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -63,11 +60,7 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithStructMap(JNIEnv*
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -92,11 +85,7 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithEnumList(JNIEnv* 
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -121,11 +110,7 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithEnumMapKey(JNIEnv
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -150,11 +135,7 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithEnumMapValue(JNIE
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -179,11 +160,7 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithEnumSet(JNIEnv* _
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -208,11 +185,7 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithInstancesList(JNI
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -237,11 +210,7 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithInstancesMap(JNIE
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::GenericTypesWithCompoundTypes>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 

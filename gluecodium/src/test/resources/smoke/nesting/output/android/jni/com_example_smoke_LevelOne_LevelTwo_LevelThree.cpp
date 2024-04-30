@@ -10,6 +10,7 @@
 #include "com_example_smoke_OuterInterface_InnerClass__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
+#include "JniNativeHandle.h"
 #include "JniReference.h"
 #include "JniThrowNewException.h"
 #include "JniWrapperCache.h"
@@ -31,11 +32,7 @@ Java_com_example_smoke_LevelOne_00024LevelTwo_00024LevelThree_foo(JNIEnv* _jenv,
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::LevelOne::LevelTwo::LevelThree>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 

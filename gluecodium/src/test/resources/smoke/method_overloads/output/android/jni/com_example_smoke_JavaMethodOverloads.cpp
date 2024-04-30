@@ -7,6 +7,7 @@
 #include "com_example_smoke_JavaMethodOverloads__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
+#include "JniNativeHandle.h"
 #include "JniReference.h"
 #include "JniThrowNewException.h"
 #include "JniWrapperCache.h"
@@ -28,11 +29,7 @@ Java_com_example_smoke_JavaMethodOverloads_three__Ljava_lang_String_2(JNIEnv* _j
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::JavaMethodOverloads>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
@@ -56,11 +53,7 @@ Java_com_example_smoke_JavaMethodOverloads_three__Ljava_util_List_2(JNIEnv* _jen
 
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::JavaMethodOverloads>*> (
 
-        ::gluecodium::jni::get_field_value(
-            _jenv,
-            ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-            "nativeHandle",
-            (int64_t*)nullptr));
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
 
 
 
