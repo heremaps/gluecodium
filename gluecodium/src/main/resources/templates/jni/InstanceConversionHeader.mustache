@@ -29,6 +29,7 @@
 #include "JniCallJavaMethod.h"
 {{/ifPredicate}}
 #include "JniReference.h"
+#include "JniTypeId.h"
 #include <memory>
 #include <optional>
 {{#ifPredicate model "hasOverloadedLambda"}}
@@ -44,7 +45,7 @@ namespace jni
 {
 
 {{#model}}
-JNIEXPORT {{>cppTypeName}} {{>conversionPrefix}}convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, {{>cppTypeName}}*);
+JNIEXPORT {{>cppTypeName}} {{>conversionPrefix}}convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<{{>cppTypeName}}>);
 JNIEXPORT JniReference<jobject> {{>conversionPrefix}}convert_to_jni(JNIEnv* _jenv, const {{>cppTypeName}}& _ninput);
 {{#ifPredicate "hasOverloadedLambda"}}{{>jni/LambdaOverloadedConversionHeader}}{{/ifPredicate}}
 {{/model}}

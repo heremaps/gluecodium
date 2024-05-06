@@ -32,7 +32,7 @@ namespace jni
 
 std::int64_t get_class_native_handle(JNIEnv * const env, const JniReference<jobject>& jobj) noexcept
 {
-    return get_field_value(env, jobj, "nativeHandle", (int64_t*)nullptr);
+    return get_field_value(env, jobj, "nativeHandle", TypeId<int64_t>{});
 }
 
 std::int64_t get_class_native_handle(JNIEnv * const env, const jobject jobj) noexcept

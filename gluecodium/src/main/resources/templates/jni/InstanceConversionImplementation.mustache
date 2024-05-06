@@ -71,7 +71,7 @@ void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared
 {{#interface}}{{>cppTypeName}}{{/interface}} try_descendant_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, {{#interface}}{{>cppTypeName}}{{/interface}}*) {
 {{#this}}{{!! pre-sorted, most distant descendants are prioritized }}
     if (_env->IsInstanceOf(_jobj.get(), CachedJavaInterface<{{resolveName "C++ FQN"}}>::java_class.get())) {
-        return {{>conversionPrefix}}convert_from_jni(_env, _jobj, ({{>cppTypeName}}*)nullptr);
+        return {{>conversionPrefix}}convert_from_jni(_env, _jobj, TypeId<{{>cppTypeName}}>{});
     }
 {{/this}}
     return {};
@@ -79,7 +79,7 @@ void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared
 
 {{/eval}}{{/set}}{{/instanceOf}}{{/unless}}
 
-{{>cppTypeName}} {{>conversionPrefix}}convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, {{>cppTypeName}}*)
+{{>cppTypeName}} {{>conversionPrefix}}convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<{{>cppTypeName}}>)
 {
     {{>cppTypeName}} _nresult{};
 {{#if isNarrow}}

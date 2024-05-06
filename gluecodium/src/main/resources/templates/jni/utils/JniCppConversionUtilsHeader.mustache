@@ -28,6 +28,7 @@
 #include "JniClassCache.h"
 #include "JniReference.h"
 #include "JniThrowNewException.h"
+#include "JniTypeId.h"
 #include "{{>common/InternalInclude}}Locale.h"
 
 #include <chrono>
@@ -51,28 +52,28 @@ namespace jni
 /**
  * Converts a JNI jstring to an std::string.
  */
-JNIEXPORT std::string convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, std::string* );
-JNIEXPORT std::string convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, std::string* );
+JNIEXPORT std::string convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::string> );
+JNIEXPORT std::string convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, TypeId<std::string> );
 JNIEXPORT std::optional<std::string> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<std::string>* );
+    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<std::string>> );
 JNIEXPORT std::optional<std::string> convert_from_jni(
-    JNIEnv* env, const JniReference<jstring>& jvalue, std::optional<std::string>* );
+    JNIEnv* env, const JniReference<jstring>& jvalue, TypeId<std::optional<std::string>> );
 
 /**
  * Converts a jbyteArray to a byte buffer
  */
 JNIEXPORT std::shared_ptr< ::std::vector< uint8_t > > convert_from_jni(
-    JNIEnv* env, const JniReference<jbyteArray>& jvalue, std::shared_ptr< ::std::vector< uint8_t > >* );
-JNIEXPORT std::optional<std::shared_ptr< ::std::vector< uint8_t > > > convert_from_jni(
+    JNIEnv* env, const JniReference<jbyteArray>& jvalue, TypeId<std::shared_ptr<::std::vector<uint8_t>>> );
+JNIEXPORT std::optional<std::shared_ptr<::std::vector<uint8_t>>> convert_from_jni(
     JNIEnv* env, const JniReference<jbyteArray>& jvalue,
-    std::optional< std::shared_ptr< ::std::vector< uint8_t > > >* );
+    TypeId<std::optional<std::shared_ptr<::std::vector<uint8_t>>>> );
 
 /**
  * Converts a Java Date object to an std::chrono::time_point.
  */
 template<class Clock, class Duration>
 std::chrono::time_point<Clock, Duration>
-convert_from_jni(JNIEnv* env, const JniReference<jobject>& jvalue, std::chrono::time_point<Clock, Duration>*) {
+convert_from_jni(JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::chrono::time_point<Clock, Duration>>) {
     if (!jvalue)
     {
         {{>common/InternalNamespace}}jni::throw_new_null_pointer_exception(env);
@@ -92,11 +93,11 @@ std::optional<std::chrono::time_point<Clock, Duration>>
 convert_from_jni(
     JNIEnv* env,
     const JniReference<jobject>& jvalue,
-    std::optional<std::chrono::time_point<Clock, Duration>>*
+    TypeId<std::optional<std::chrono::time_point<Clock, Duration>>>
 ) {
     return jvalue
         ? std::optional<std::chrono::time_point<Clock, Duration>>(
-            convert_from_jni(env, jvalue, (std::chrono::time_point<Clock, Duration>*)nullptr)
+            convert_from_jni(env, jvalue, TypeId<std::chrono::time_point<Clock, Duration>>{})
         )
         : std::optional<std::chrono::time_point<Clock, Duration>>{};
 }
@@ -106,7 +107,7 @@ convert_from_jni(
  */
 template<class Rep, class Period>
 std::chrono::duration<Rep, Period>
-convert_from_jni(JNIEnv* env, const JniReference<jobject>& jvalue, std::chrono::duration<Rep, Period>*) {
+convert_from_jni(JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::chrono::duration<Rep, Period>>) {
     if (!jvalue) {
         {{>common/InternalNamespace}}jni::throw_new_null_pointer_exception(env);
         return {};
@@ -140,12 +141,12 @@ template<class Rep, class Period>
 std::optional<std::chrono::duration<Rep, Period>>
 convert_from_jni(
     JNIEnv* env, const JniReference<jobject>& jvalue,
-    std::optional<std::chrono::duration<Rep, Period>>*
+    TypeId<std::optional<std::chrono::duration<Rep, Period>>>
 ) {
 
     return jvalue
         ? std::optional<std::chrono::duration<Rep, Period>>(
-            convert_from_jni( env, jvalue, (std::chrono::duration<Rep, Period>*)nullptr))
+            convert_from_jni( env, jvalue, TypeId<std::chrono::duration<Rep, Period>>{}))
         : std::optional<std::chrono::duration<Rep, Period>>{};
 }
 
@@ -153,10 +154,10 @@ convert_from_jni(
  * Converts a Java Locale object to {{>common/InternalNamespace}}Locale.
  */
 JNIEXPORT {{>common/InternalNamespace}}Locale convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}Locale*);
+    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<{{>common/InternalNamespace}}Locale>);
 JNIEXPORT std::optional<{{>common/InternalNamespace}}Locale> convert_from_jni(
     JNIEnv* env, const JniReference<jobject>& jvalue,
-    std::optional<{{>common/InternalNamespace}}Locale>*);
+    TypeId<std::optional<{{>common/InternalNamespace}}Locale>>);
 
 // -------------------- C++ to JNI conversion functions --------------------------------------------
 
@@ -227,10 +228,10 @@ JNIEXPORT JniReference<jobject> convert_to_jni(
 
 template<class R, class... Args>
 std::optional<std::function<R(Args...)>>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::optional<std::function<R(Args...)>>*)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<std::function<R(Args...)>>>)
 {
     return _jinput
-        ? convert_from_jni(_jenv, _jinput, (std::function<R(Args...)>*)nullptr)
+        ? convert_from_jni(_jenv, _jinput, TypeId<std::function<R(Args...)>>{})
         : std::optional<std::function<R(Args...)>>{};
 }
 

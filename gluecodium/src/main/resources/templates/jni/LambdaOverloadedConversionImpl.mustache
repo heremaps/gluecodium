@@ -19,9 +19,9 @@
   !
   !}}
 std::optional<{{resolveName "C++ FQN"}}>
-{{resolveName "mangled"}}_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::optional<{{resolveName "C++ FQN"}}>*) {
+{{resolveName "mangled"}}_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<std::optional<{{resolveName "C++ FQN"}}>>) {
     return _jobj
-        ? std::optional<{{resolveName "C++ FQN"}}>({{resolveName "mangled"}}_convert_from_jni(_env, _jobj, ({{resolveName "C++ FQN"}}*)nullptr))
+        ? std::optional<{{resolveName "C++ FQN"}}>({{resolveName "mangled"}}_convert_from_jni(_env, _jobj, TypeId<{{resolveName "C++ FQN"}}>{}))
         : std::optional<{{resolveName "C++ FQN"}}>{};
 }
 
@@ -50,7 +50,7 @@ JniReference<jobject>
 }
 
 std::vector<{{resolveName "C++ FQN"}}>
-{{resolveName "mangled"}}_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, std::vector<{{resolveName "C++ FQN"}}>*) {
+{{resolveName "mangled"}}_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, TypeId<std::vector<{{resolveName "C++ FQN"}}>>) {
     std::vector<{{resolveName "C++ FQN"}}> _nresult{};
     if (_env->IsSameObject(_arrayList.get(), nullptr)) {
         return _nresult;
@@ -64,15 +64,15 @@ std::vector<{{resolveName "C++ FQN"}}>
     auto getMethodId = _env->GetMethodID(javaArrayListClass.get(), "get", "(I)Ljava/lang/Object;");
     for (jint i = 0; i < length; i++) {
         auto javaListItem = call_java_method<jobject>(_env, _arrayList, getMethodId, i);
-        _nresult.push_back({{resolveName "mangled"}}_convert_from_jni(_env, javaListItem, ({{resolveName "C++ FQN"}}*)nullptr));
+        _nresult.push_back({{resolveName "mangled"}}_convert_from_jni(_env, javaListItem, TypeId<{{resolveName "C++ FQN"}}>{}));
     }
 
     return _nresult;
 }
 
 std::optional<std::vector<{{resolveName "C++ FQN"}}>>
-{{resolveName "mangled"}}_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, std::optional<std::vector<{{resolveName "C++ FQN"}}>>*) {
+{{resolveName "mangled"}}_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, TypeId<std::optional<std::vector<{{resolveName "C++ FQN"}}>>>) {
     return _arrayList
-        ? std::optional<std::vector<{{resolveName "C++ FQN"}}>>({{resolveName "mangled"}}_convert_from_jni(_env, _arrayList, (std::vector<{{resolveName "C++ FQN"}}>*)nullptr))
+        ? std::optional<std::vector<{{resolveName "C++ FQN"}}>>({{resolveName "mangled"}}_convert_from_jni(_env, _arrayList, TypeId<std::vector<{{resolveName "C++ FQN"}}>>{}))
         : std::optional<std::vector<{{resolveName "C++ FQN"}}>>{};
 }

@@ -39,7 +39,7 @@ namespace jni
 {{/if}}
 
 {{resolveName "C++ FQN"}}
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput{{#if external.java.converter}}_ext{{/if}}, {{resolveName "C++ FQN"}}*)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput{{#if external.java.converter}}_ext{{/if}}, TypeId<{{resolveName "C++ FQN"}}>)
 {
 {{#if external.java.converter}}
 {{prefixPartial "jni/ExternalConversionFromJni" "    "}}
@@ -57,15 +57,15 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput{{#if extern
 {{/ifPredicate}}{{!!
 }}{{#unlessPredicate "needsOrdinalConversion"}}
     return {{resolveName "C++ FQN"}}(
-        {{>common/InternalNamespace}}jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
+        {{>common/InternalNamespace}}jni::get_field_value(_jenv, _jinput, "value", TypeId<int32_t>{}));
 {{/unlessPredicate}}
 }
 
 std::optional<{{resolveName "C++ FQN"}}>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::optional<{{resolveName "C++ FQN"}}>*)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<{{resolveName "C++ FQN"}}>>)
 {
     return _jinput
-        ? std::optional<{{resolveName "C++ FQN"}}>(convert_from_jni(_jenv, _jinput, ({{resolveName "C++ FQN"}}*)nullptr))
+        ? std::optional<{{resolveName "C++ FQN"}}>(convert_from_jni(_jenv, _jinput, TypeId<{{resolveName "C++ FQN"}}>{}))
         : std::optional<{{resolveName "C++ FQN"}}>{};
 }
 

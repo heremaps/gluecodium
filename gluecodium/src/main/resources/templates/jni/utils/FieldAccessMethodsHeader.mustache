@@ -26,6 +26,7 @@
 
 #include "JniCppConversionUtils.h"
 #include "JniReference.h"
+#include "JniTypeId.h"
 #include "{{>common/InternalInclude}}Locale.h"
 
 #include <chrono>
@@ -49,110 +50,110 @@ JNIEXPORT JniReference< jobject > get_object_field_value( JNIEnv* env,
                                        const char* fieldSignature );
 
 JNIEXPORT bool get_field_value(
-    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, bool* );
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, TypeId<bool> );
 JNIEXPORT int8_t get_field_value(
-    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, int8_t* );
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, TypeId<int8_t> );
 JNIEXPORT int16_t get_field_value(
-    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, int16_t* );
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, TypeId<int16_t> );
 JNIEXPORT int32_t get_field_value(
-    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, int32_t* );
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, TypeId<int32_t> );
 JNIEXPORT int64_t get_field_value(
-    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, int64_t* );
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, TypeId<int64_t> );
 JNIEXPORT uint8_t get_field_value(
-    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, uint8_t* );
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, TypeId<uint8_t> );
 JNIEXPORT uint16_t get_field_value(
-    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, uint16_t* );
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, TypeId<uint16_t> );
 JNIEXPORT uint32_t get_field_value(
-    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, uint32_t* );
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, TypeId<uint32_t> );
 JNIEXPORT uint64_t get_field_value(
-    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, uint64_t* );
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, TypeId<uint64_t> );
 JNIEXPORT float get_field_value(
-    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, float* );
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, TypeId<float> );
 JNIEXPORT double get_field_value(
-    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, double* );
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, TypeId<double> );
 JNIEXPORT ::std::string get_field_value(
-    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, ::std::string* );
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, TypeId<::std::string> );
 
 JNIEXPORT std::optional< bool > get_field_value( JNIEnv* env,
                                            const JniReference< jobject >& object,
                                            const char* fieldName,
-                                           std::optional< bool >* );
+                                           TypeId<std::optional< bool >> );
 JNIEXPORT std::optional< int8_t > get_field_value( JNIEnv* env,
                                              const JniReference< jobject >& object,
                                              const char* fieldName,
-                                             std::optional< int8_t >* );
+                                             TypeId<std::optional< int8_t >> );
 JNIEXPORT std::optional< int16_t > get_field_value( JNIEnv* env,
                                               const JniReference< jobject >& object,
                                               const char* fieldName,
-                                              std::optional< int16_t >* );
+                                              TypeId<std::optional< int16_t >> );
 JNIEXPORT std::optional< int32_t > get_field_value( JNIEnv* env,
                                               const JniReference< jobject >& object,
                                               const char* fieldName,
-                                              std::optional< int32_t >* );
+                                              TypeId<std::optional< int32_t >> );
 JNIEXPORT std::optional< int64_t > get_field_value( JNIEnv* env,
                                               const JniReference< jobject >& object,
                                               const char* fieldName,
-                                              std::optional< int64_t >* );
+                                              TypeId<std::optional< int64_t >> );
 JNIEXPORT std::optional< uint8_t > get_field_value( JNIEnv* env,
                                               const JniReference< jobject >& object,
                                               const char* fieldName,
-                                              std::optional< uint8_t >* );
+                                              TypeId<std::optional< uint8_t >> );
 JNIEXPORT std::optional< uint16_t > get_field_value( JNIEnv* env,
                                                const JniReference< jobject >& object,
                                                const char* fieldName,
-                                               std::optional< uint16_t >* );
+                                               TypeId<std::optional< uint16_t >> );
 JNIEXPORT std::optional< uint32_t > get_field_value( JNIEnv* env,
                                                const JniReference< jobject >& object,
                                                const char* fieldName,
-                                               std::optional< uint32_t >* );
+                                               TypeId<std::optional< uint32_t >> );
 JNIEXPORT std::optional< uint64_t > get_field_value( JNIEnv* env,
                                                const JniReference< jobject >& object,
                                                const char* fieldName,
-                                               std::optional< uint64_t >* );
+                                               TypeId<std::optional< uint64_t >> );
 JNIEXPORT std::optional< float > get_field_value( JNIEnv* env,
                                             const JniReference< jobject >& object,
                                             const char* fieldName,
-                                            std::optional< float >* );
+                                            TypeId<std::optional< float >> );
 JNIEXPORT std::optional< double > get_field_value( JNIEnv* env,
                                              const JniReference< jobject >& object,
                                              const char* fieldName,
-                                             std::optional< double >* );
+                                             TypeId<std::optional< double >> );
 JNIEXPORT std::optional< ::std::string > get_field_value( JNIEnv* env,
                                                     const JniReference< jobject >& object,
                                                     const char* fieldName,
-                                                    std::optional< ::std::string >* );
+                                                    TypeId<std::optional< ::std::string >> );
 
 JNIEXPORT ::std::shared_ptr< ::std::vector< uint8_t > > get_field_value(
     JNIEnv* env,
     const JniReference< jobject >& object,
     const char* fieldName,
-    ::std::shared_ptr< ::std::vector< uint8_t > >* );
+    TypeId<::std::shared_ptr< ::std::vector< uint8_t > >> );
 JNIEXPORT std::optional< ::std::shared_ptr< ::std::vector< uint8_t > > > get_field_value(
     JNIEnv* env,
     const JniReference< jobject >& object,
     const char* fieldName,
-    std::optional< ::std::shared_ptr< ::std::vector< uint8_t > > >* );
+    TypeId<std::optional< ::std::shared_ptr< ::std::vector< uint8_t > > >> );
 
 template<class Clock, class Duration>
 std::chrono::time_point<Clock, Duration>
 get_field_value(
-    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, std::chrono::time_point<Clock, Duration>*
+    JNIEnv* env, const JniReference<jobject>& object, const char* fieldName, TypeId<std::chrono::time_point<Clock, Duration>>
 ) {
     auto fieldValue = get_object_field_value(env, object, fieldName, "Ljava/util/Date;");
 
-    return {{>common/InternalNamespace}}jni::{{>jni/JniConversionPrefix}}convert_from_jni(env, fieldValue, (std::chrono::time_point<Clock, Duration>*)nullptr);
+    return {{>common/InternalNamespace}}jni::{{>jni/JniConversionPrefix}}convert_from_jni(env, fieldValue, TypeId<std::chrono::time_point<Clock, Duration>>{});
 }
 
 template<class Clock, class Duration>
 std::optional<std::chrono::time_point<Clock, Duration>>
 get_field_value(
     JNIEnv* env, const JniReference<jobject >& object, const char* fieldName,
-    std::optional<std::chrono::time_point<Clock, Duration>>*
+    TypeId<std::optional<std::chrono::time_point<Clock, Duration>>>
 ) {
     auto fieldValue = get_object_field_value(env, object, fieldName, "Ljava/util/Date;");
 
     return {{>common/InternalNamespace}}jni::{{>jni/JniConversionPrefix}}convert_from_jni(
-        env, fieldValue, (std::optional<std::chrono::time_point<Clock, Duration>>*)nullptr
+        env, fieldValue, TypeId<std::optional<std::chrono::time_point<Clock, Duration>>>{}
     );
 }
 
@@ -160,12 +161,12 @@ JNIEXPORT {{>common/InternalNamespace}}Locale get_field_value(
     JNIEnv* env,
     const JniReference< jobject >& object,
     const char* fieldName,
-    {{>common/InternalNamespace}}Locale* );
+    TypeId<{{>common/InternalNamespace}}Locale> );
 JNIEXPORT std::optional< {{>common/InternalNamespace}}Locale > get_field_value(
     JNIEnv* env,
     const JniReference< jobject >& object,
     const char* fieldName,
-    std::optional< {{>common/InternalNamespace}}Locale >* );
+    TypeId<std::optional< {{>common/InternalNamespace}}Locale >> );
 
 // -------------------- JNI object field setters --------------------------------------------------
 
@@ -303,11 +304,11 @@ JNIEXPORT ::std::chrono::duration<Rep, Period> get_field_value(
     JNIEnv* env,
     const JniReference<jobject>& object,
     const char* fieldName,
-    ::std::chrono::duration<Rep, Period>* ) {
+    TypeId<::std::chrono::duration<Rep, Period>> ) {
 
     auto fieldValue = get_object_field_value(env, object, fieldName, "L{{durationPackage}}/Duration;");
 
-    return {{>common/InternalNamespace}}jni::{{>jni/JniConversionPrefix}}convert_from_jni(env, fieldValue, (::std::chrono::duration<Rep, Period>*)nullptr);
+    return {{>common/InternalNamespace}}jni::{{>jni/JniConversionPrefix}}convert_from_jni(env, fieldValue, TypeId<::std::chrono::duration<Rep, Period>>{});
 }
 
 template<class Rep, class Period>
@@ -315,12 +316,12 @@ JNIEXPORT std::optional<::std::chrono::duration<Rep, Period>> get_field_value(
     JNIEnv* env,
     const JniReference<jobject>& object,
     const char* fieldName,
-    std::optional<::std::chrono::duration<Rep, Period>>* ) {
+    TypeId<std::optional<::std::chrono::duration<Rep, Period>>> ) {
 
     auto fieldValue = get_object_field_value(env, object, fieldName, "L{{durationPackage}}/Duration;");
 
     return {{>common/InternalNamespace}}jni::{{>jni/JniConversionPrefix}}convert_from_jni(
-        env, fieldValue, (std::optional<::std::chrono::duration<Rep, Period>>*)nullptr);
+        env, fieldValue, TypeId<::std::chrono::duration<Rep, Period>>{});
 }
 
 template<class Rep, class Period>
