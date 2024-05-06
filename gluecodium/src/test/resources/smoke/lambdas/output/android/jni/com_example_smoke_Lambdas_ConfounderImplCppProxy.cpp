@@ -27,7 +27,7 @@ com_example_smoke_Lambdas_00024Confounder_CppProxy::operator()( const ::std::str
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return com_example_smoke_Lambdas_00024Producer_convert_from_jni( jniEnv, _result, (::smoke::Lambdas::Producer*)nullptr );
+    return com_example_smoke_Lambdas_00024Producer_convert_from_jni( jniEnv, _result, TypeId<::smoke::Lambdas::Producer>{});
 
 
 

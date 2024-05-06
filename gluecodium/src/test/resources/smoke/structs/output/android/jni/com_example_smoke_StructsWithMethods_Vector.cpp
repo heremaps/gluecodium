@@ -25,13 +25,13 @@ Java_com_example_smoke_StructsWithMethods_00024Vector_distanceTo(JNIEnv* _jenv, 
 
     ::smoke::StructsWithMethods::Vector other = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jother),
-            (::smoke::StructsWithMethods::Vector*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::StructsWithMethods::Vector>{});
 
 
 
     auto _ninstance = ::gluecodium::jni::convert_from_jni(_jenv,
         ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-        (::smoke::StructsWithMethods::Vector*)nullptr);
+        ::gluecodium::jni::TypeId<::smoke::StructsWithMethods::Vector>{});
 
 
 
@@ -49,13 +49,13 @@ Java_com_example_smoke_StructsWithMethods_00024Vector_add(JNIEnv* _jenv, jobject
 
     ::smoke::StructsWithMethods::Vector other = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jother),
-            (::smoke::StructsWithMethods::Vector*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::StructsWithMethods::Vector>{});
 
 
 
     auto _ninstance = ::gluecodium::jni::convert_from_jni(_jenv,
         ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-        (::smoke::StructsWithMethods::Vector*)nullptr);
+        ::gluecodium::jni::TypeId<::smoke::StructsWithMethods::Vector>{});
 
 
 
@@ -119,7 +119,7 @@ Java_com_example_smoke_StructsWithMethods_00024Vector_create__Lcom_example_smoke
 
     ::smoke::StructsWithMethods::Vector other = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jother),
-            (::smoke::StructsWithMethods::Vector*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::StructsWithMethods::Vector>{});
 
 
 

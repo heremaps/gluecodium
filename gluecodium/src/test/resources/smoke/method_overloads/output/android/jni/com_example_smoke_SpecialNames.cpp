@@ -95,7 +95,7 @@ Java_com_example_smoke_SpecialNames_make(JNIEnv* _jenv, jobject _jinstance, jstr
 
     ::std::string result = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jresult),
-            (::std::string*)nullptr);
+            ::gluecodium::jni::TypeId<::std::string>{});
 
 
 

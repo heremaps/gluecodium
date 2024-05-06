@@ -21,7 +21,7 @@ REGISTER_JNI_CLASS_CACHE_INHERITANCE("com/example/smoke/ChildClassFromClass", co
 
 
 
-std::shared_ptr<::smoke::ChildClassFromClass> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::smoke::ChildClassFromClass>*)
+std::shared_ptr<::smoke::ChildClassFromClass> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<std::shared_ptr<::smoke::ChildClassFromClass>>)
 {
     std::shared_ptr<::smoke::ChildClassFromClass> _nresult{};
     auto& nativeBaseClass = get_cached_native_base_class();

@@ -29,7 +29,7 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithStructList(JNIEnv
 
     ::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::vector< ::smoke::GenericTypesWithCompoundTypes::BasicStruct >>{});
 
 
 
@@ -54,7 +54,7 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithStructMap(JNIEnv*
 
     ::std::unordered_map< ::std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::unordered_map< ::std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::unordered_map< ::std::string, ::smoke::GenericTypesWithCompoundTypes::BasicStruct >>{});
 
 
 
@@ -79,7 +79,7 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithEnumList(JNIEnv* 
 
     ::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::vector< ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>{});
 
 
 
@@ -104,7 +104,7 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithEnumMapKey(JNIEnv
 
     ::std::unordered_map< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::unordered_map< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::unordered_map< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >>{});
 
 
 
@@ -129,7 +129,7 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithEnumMapValue(JNIE
 
     ::std::unordered_map< int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::unordered_map< int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::unordered_map< int32_t, ::smoke::GenericTypesWithCompoundTypes::SomeEnum >>{});
 
 
 
@@ -154,7 +154,7 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithEnumSet(JNIEnv* _
 
     ::std::unordered_set< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::unordered_set< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::unordered_set< ::smoke::GenericTypesWithCompoundTypes::SomeEnum, ::gluecodium::hash< ::smoke::GenericTypesWithCompoundTypes::SomeEnum > >>{});
 
 
 
@@ -179,7 +179,7 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithInstancesList(JNI
 
     ::std::vector< ::std::shared_ptr< ::smoke::DummyClass > > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::vector< ::std::shared_ptr< ::smoke::DummyClass > >>{});
 
 
 
@@ -204,7 +204,7 @@ Java_com_example_smoke_GenericTypesWithCompoundTypes_methodWithInstancesMap(JNIE
 
     ::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyClass > > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyClass > >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::unordered_map< int32_t, ::std::shared_ptr< ::smoke::DummyClass > >>{});
 
 
 

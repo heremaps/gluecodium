@@ -20,7 +20,7 @@ struct Dummycom_here_android_test_SeasonConverterType {};
 REGISTER_JNI_CLASS_CACHE("com/here/android/test/SeasonConverter", com_here_android_test_SeasonConverter, Dummycom_here_android_test_SeasonConverterType)
 
 ::smoke::Season
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput_ext, ::smoke::Season*)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput_ext, TypeId<::smoke::Season>)
 {
     auto& converterClass = CachedJavaClass<Dummycom_here_android_test_SeasonConverterType>::java_class;
 
@@ -34,14 +34,14 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput_ext, ::smok
     auto _jinput = make_local_ref(
         _jenv, _jenv->CallStaticObjectMethod(converterClass.get(), convertMethodId, _jinput_ext.get()));
     return ::smoke::Season(
-        ::gluecodium::jni::get_field_value(_jenv, _jinput, "value", (int32_t*)nullptr));
+        ::gluecodium::jni::get_field_value(_jenv, _jinput, "value", TypeId<int32_t>{}));
 }
 
 std::optional<::smoke::Season>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::optional<::smoke::Season>*)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<::smoke::Season>>)
 {
     return _jinput
-        ? std::optional<::smoke::Season>(convert_from_jni(_jenv, _jinput, (::smoke::Season*)nullptr))
+        ? std::optional<::smoke::Season>(convert_from_jni(_jenv, _jinput, TypeId<::smoke::Season>{}))
         : std::optional<::smoke::Season>{};
 }
 

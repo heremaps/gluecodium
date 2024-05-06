@@ -24,7 +24,7 @@ Java_com_example_smoke_Enums_methodWithExternalEnum(JNIEnv* _jenv, jobject _jins
 
     ::smoke::Enums::External_Enum input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::smoke::Enums::External_Enum*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::Enums::External_Enum>{});
 
 
 

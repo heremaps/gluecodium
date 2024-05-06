@@ -29,7 +29,7 @@ com_example_smoke_ListenerWithProperties_CppProxy::get_message(  ) const {
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (::std::string*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<::std::string>{});
 
 
 
@@ -60,7 +60,7 @@ com_example_smoke_ListenerWithProperties_CppProxy::get_packed_message(  ) const 
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (::std::shared_ptr< ::smoke::CalculationResult >*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<::std::shared_ptr< ::smoke::CalculationResult >>{});
 
 
 
@@ -91,7 +91,7 @@ com_example_smoke_ListenerWithProperties_CppProxy::get_structured_message(  ) co
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (::smoke::ListenerWithProperties::ResultStruct*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<::smoke::ListenerWithProperties::ResultStruct>{});
 
 
 
@@ -122,7 +122,7 @@ com_example_smoke_ListenerWithProperties_CppProxy::get_enumerated_message(  ) co
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (::smoke::ListenerWithProperties::ResultEnum*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<::smoke::ListenerWithProperties::ResultEnum>{});
 
 
 
@@ -153,7 +153,7 @@ com_example_smoke_ListenerWithProperties_CppProxy::get_arrayed_message(  ) const
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (::std::vector< ::std::string >*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<::std::vector< ::std::string >>{});
 
 
 
@@ -184,7 +184,7 @@ com_example_smoke_ListenerWithProperties_CppProxy::get_mapped_message(  ) const 
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (::smoke::ListenerWithProperties::StringToDouble*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<::smoke::ListenerWithProperties::StringToDouble>{});
 
 
 
@@ -215,7 +215,7 @@ com_example_smoke_ListenerWithProperties_CppProxy::get_buffered_message(  ) cons
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (::std::shared_ptr< ::std::vector< uint8_t > >*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<::std::shared_ptr< ::std::vector< uint8_t > >>{});
 
 
 

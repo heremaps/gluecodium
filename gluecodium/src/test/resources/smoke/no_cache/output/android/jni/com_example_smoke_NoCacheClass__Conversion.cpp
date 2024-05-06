@@ -21,7 +21,7 @@ REGISTER_JNI_CLASS_CACHE("com/example/smoke/NoCacheClass", com_example_smoke_NoC
 
 
 
-std::shared_ptr<::smoke::NoCacheClass> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::smoke::NoCacheClass>*)
+std::shared_ptr<::smoke::NoCacheClass> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<std::shared_ptr<::smoke::NoCacheClass>>)
 {
     std::shared_ptr<::smoke::NoCacheClass> _nresult{};
     auto& nativeBaseClass = get_cached_native_base_class();

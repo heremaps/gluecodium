@@ -42,7 +42,7 @@ Java_com_example_smoke_SimpleInterfaceImpl_useSimpleInterface(JNIEnv* _jenv, job
 
     ::std::shared_ptr< ::smoke::SimpleInterface > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::shared_ptr< ::smoke::SimpleInterface >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::shared_ptr< ::smoke::SimpleInterface >>{});
 
 
 

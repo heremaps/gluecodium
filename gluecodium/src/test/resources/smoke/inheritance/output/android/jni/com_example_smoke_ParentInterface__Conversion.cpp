@@ -31,19 +31,19 @@ void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared
 
 std::shared_ptr<::smoke::ParentInterface> try_descendant_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::smoke::ParentInterface>*) {
     if (_env->IsInstanceOf(_jobj.get(), CachedJavaInterface<::smoke::GrandChildInterface>::java_class.get())) {
-        return convert_from_jni(_env, _jobj, (std::shared_ptr<::smoke::GrandChildInterface>*)nullptr);
+        return convert_from_jni(_env, _jobj, TypeId<std::shared_ptr<::smoke::GrandChildInterface>>{});
     }
     if (_env->IsInstanceOf(_jobj.get(), CachedJavaInterface<::foobar::CrossPackageChildInterface>::java_class.get())) {
-        return convert_from_jni(_env, _jobj, (std::shared_ptr<::foobar::CrossPackageChildInterface>*)nullptr);
+        return convert_from_jni(_env, _jobj, TypeId<std::shared_ptr<::foobar::CrossPackageChildInterface>>{});
     }
     if (_env->IsInstanceOf(_jobj.get(), CachedJavaInterface<::smoke::ChildInterface>::java_class.get())) {
-        return convert_from_jni(_env, _jobj, (std::shared_ptr<::smoke::ChildInterface>*)nullptr);
+        return convert_from_jni(_env, _jobj, TypeId<std::shared_ptr<::smoke::ChildInterface>>{});
     }
     return {};
 }
 
 
-std::shared_ptr<::smoke::ParentInterface> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::smoke::ParentInterface>*)
+std::shared_ptr<::smoke::ParentInterface> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<std::shared_ptr<::smoke::ParentInterface>>)
 {
     std::shared_ptr<::smoke::ParentInterface> _nresult{};
     auto& nativeBaseClass = get_cached_native_base_class();

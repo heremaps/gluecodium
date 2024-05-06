@@ -26,7 +26,7 @@ Java_com_example_smoke_LevelOne_00024LevelTwo_00024LevelThree_foo(JNIEnv* _jenv,
 
     ::std::shared_ptr< ::smoke::OuterClass::InnerInterface > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::shared_ptr< ::smoke::OuterClass::InnerInterface >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::shared_ptr< ::smoke::OuterClass::InnerInterface >>{});
 
 
 

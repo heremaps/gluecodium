@@ -114,7 +114,7 @@ Java_com_example_smoke_Properties_setStructProperty(JNIEnv* _jenv, jobject _jins
 
     ::smoke::Properties::ExampleStruct value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            (::smoke::Properties::ExampleStruct*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::Properties::ExampleStruct>{});
 
 
 
@@ -161,7 +161,7 @@ Java_com_example_smoke_Properties_setArrayProperty(JNIEnv* _jenv, jobject _jinst
 
     ::std::vector< ::std::string > value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            (::std::vector< ::std::string >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::vector< ::std::string >>{});
 
 
 
@@ -208,7 +208,7 @@ Java_com_example_smoke_Properties_setComplexTypeProperty(JNIEnv* _jenv, jobject 
 
     ::smoke::Properties::InternalErrorCode value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            (::smoke::Properties::InternalErrorCode*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::Properties::InternalErrorCode>{});
 
 
 
@@ -255,7 +255,7 @@ Java_com_example_smoke_Properties_setByteBufferProperty(JNIEnv* _jenv, jobject _
 
     ::std::shared_ptr< ::std::vector< uint8_t > > value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            (::std::shared_ptr< ::std::vector< uint8_t > >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::shared_ptr< ::std::vector< uint8_t > >>{});
 
 
 
@@ -302,7 +302,7 @@ Java_com_example_smoke_Properties_setInstanceProperty(JNIEnv* _jenv, jobject _ji
 
     ::std::shared_ptr< ::smoke::PropertiesInterface > value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            (::std::shared_ptr< ::smoke::PropertiesInterface >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::shared_ptr< ::smoke::PropertiesInterface >>{});
 
 
 
@@ -389,7 +389,7 @@ Java_com_example_smoke_Properties_setStaticProperty(JNIEnv* _jenv, jobject _jins
 
     ::std::string value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            (::std::string*)nullptr);
+            ::gluecodium::jni::TypeId<::std::string>{});
 
 
 

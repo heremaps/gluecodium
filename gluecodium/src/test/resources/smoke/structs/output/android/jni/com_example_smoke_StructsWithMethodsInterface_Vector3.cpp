@@ -25,13 +25,13 @@ Java_com_example_smoke_StructsWithMethodsInterface_00024Vector3_distanceTo(JNIEn
 
     ::smoke::StructsWithMethodsInterface::Vector3 other = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jother),
-            (::smoke::StructsWithMethodsInterface::Vector3*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::StructsWithMethodsInterface::Vector3>{});
 
 
 
     auto _ninstance = ::gluecodium::jni::convert_from_jni(_jenv,
         ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-        (::smoke::StructsWithMethodsInterface::Vector3*)nullptr);
+        ::gluecodium::jni::TypeId<::smoke::StructsWithMethodsInterface::Vector3>{});
 
 
 
@@ -49,13 +49,13 @@ Java_com_example_smoke_StructsWithMethodsInterface_00024Vector3_add(JNIEnv* _jen
 
     ::smoke::StructsWithMethodsInterface::Vector3 other = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jother),
-            (::smoke::StructsWithMethodsInterface::Vector3*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::StructsWithMethodsInterface::Vector3>{});
 
 
 
     auto _ninstance = ::gluecodium::jni::convert_from_jni(_jenv,
         ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-        (::smoke::StructsWithMethodsInterface::Vector3*)nullptr);
+        ::gluecodium::jni::TypeId<::smoke::StructsWithMethodsInterface::Vector3>{});
 
 
 
@@ -99,7 +99,7 @@ Java_com_example_smoke_StructsWithMethodsInterface_00024Vector3_create__Ljava_la
 
     ::std::string input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::string*)nullptr);
+            ::gluecodium::jni::TypeId<::std::string>{});
 
 
 
@@ -121,7 +121,7 @@ Java_com_example_smoke_StructsWithMethodsInterface_00024Vector3_create__Lcom_exa
 
     ::smoke::StructsWithMethodsInterface::Vector3 other = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jother),
-            (::smoke::StructsWithMethodsInterface::Vector3*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::StructsWithMethodsInterface::Vector3>{});
 
 
 

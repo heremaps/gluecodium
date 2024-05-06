@@ -23,7 +23,7 @@ Java_com_example_smokeoff_UnderscorePackage_basicMethod(JNIEnv* _jenv, jobject _
 
     ::std::string inputString = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinputString),
-            (::std::string*)nullptr);
+            ::gluecodium::jni::TypeId<::std::string>{});
 
 
 

@@ -45,7 +45,7 @@ Java_com_example_smoke_Constructors_create__Lcom_example_smoke_Constructors_2(JN
 
     ::std::shared_ptr< ::smoke::Constructors > other = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jother),
-            (::std::shared_ptr< ::smoke::Constructors >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::shared_ptr< ::smoke::Constructors >>{});
 
 
 
@@ -71,7 +71,7 @@ Java_com_example_smoke_Constructors_create__Ljava_lang_String_2J(JNIEnv* _jenv, 
 
     ::std::string foo = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jfoo),
-            (::std::string*)nullptr);
+            ::gluecodium::jni::TypeId<::std::string>{});
 
 
 
@@ -103,7 +103,7 @@ Java_com_example_smoke_Constructors_create__Ljava_lang_String_2(JNIEnv* _jenv, j
 
     ::std::string input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::string*)nullptr);
+            ::gluecodium::jni::TypeId<::std::string>{});
 
 
 
@@ -145,7 +145,7 @@ Java_com_example_smoke_Constructors_create__Ljava_util_List_2(JNIEnv* _jenv, job
 
     ::std::vector< double > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::vector< double >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::vector< double >>{});
 
 
 

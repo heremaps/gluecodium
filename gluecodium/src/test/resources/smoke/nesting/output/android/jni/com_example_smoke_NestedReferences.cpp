@@ -24,13 +24,13 @@ Java_com_example_smoke_NestedReferences_insideOut(JNIEnv* _jenv, jobject _jinsta
 
     ::smoke::NestedReferences::NestedReferences struct1 = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jstruct1),
-            (::smoke::NestedReferences::NestedReferences*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::NestedReferences::NestedReferences>{});
 
 
 
     ::smoke::NestedReferences::NestedReferences struct2 = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jstruct2),
-            (::smoke::NestedReferences::NestedReferences*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::NestedReferences::NestedReferences>{});
 
 
 

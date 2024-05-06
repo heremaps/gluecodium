@@ -23,7 +23,7 @@ Java_com_example_smoke_OuterStruct_00024InnerStruct_doSomething(JNIEnv* _jenv, j
 
     auto _ninstance = ::gluecodium::jni::convert_from_jni(_jenv,
         ::gluecodium::jni::make_non_releasing_ref(_jinstance),
-        (::smoke::OuterStruct::InnerStruct*)nullptr);
+        ::gluecodium::jni::TypeId<::smoke::OuterStruct::InnerStruct>{});
 
 
 

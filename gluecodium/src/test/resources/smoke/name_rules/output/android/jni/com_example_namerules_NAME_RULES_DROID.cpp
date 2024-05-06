@@ -48,7 +48,7 @@ Java_com_example_namerules_NAME_1RULES_1DROID_some_1method(JNIEnv* _jenv, jobjec
 
     ::namerules::NameRules::ExampleStruct some_argument = ::jni::convert_from_jni(_jenv,
             ::jni::make_non_releasing_ref(jsome_argument),
-            (::namerules::NameRules::ExampleStruct*)nullptr);
+            ::jni::TypeId<::namerules::NameRules::ExampleStruct>{});
 
 
 
@@ -201,7 +201,7 @@ Java_com_example_namerules_NAME_1RULES_1DROID_STORE_1STRUCT_1PROPERTY(JNIEnv* _j
 
     ::namerules::NameRules::ExampleStruct value = ::jni::convert_from_jni(_jenv,
             ::jni::make_non_releasing_ref(jvalue),
-            (::namerules::NameRules::ExampleStruct*)nullptr);
+            ::jni::TypeId<::namerules::NameRules::ExampleStruct>{});
 
 
 

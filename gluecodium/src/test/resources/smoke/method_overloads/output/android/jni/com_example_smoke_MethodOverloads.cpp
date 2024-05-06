@@ -70,7 +70,7 @@ Java_com_example_smoke_MethodOverloads_isBoolean__Ljava_lang_String_2(JNIEnv* _j
 
     ::std::string input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::string*)nullptr);
+            ::gluecodium::jni::TypeId<::std::string>{});
 
 
 
@@ -95,7 +95,7 @@ Java_com_example_smoke_MethodOverloads_isBoolean__Lcom_example_smoke_MethodOverl
 
     ::smoke::MethodOverloads::Point input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::smoke::MethodOverloads::Point*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::MethodOverloads::Point>{});
 
 
 
@@ -128,13 +128,13 @@ Java_com_example_smoke_MethodOverloads_isBoolean__ZBLjava_lang_String_2Lcom_exam
 
     ::std::string input3 = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput3),
-            (::std::string*)nullptr);
+            ::gluecodium::jni::TypeId<::std::string>{});
 
 
 
     ::smoke::MethodOverloads::Point input4 = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput4),
-            (::smoke::MethodOverloads::Point*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::MethodOverloads::Point>{});
 
 
 
@@ -159,7 +159,7 @@ Java_com_example_smoke_MethodOverloads_isBooleanStringArrayOverload(JNIEnv* _jen
 
     ::smoke::MethodOverloads::StringArray input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::smoke::MethodOverloads::StringArray*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::MethodOverloads::StringArray>{});
 
 
 
@@ -184,7 +184,7 @@ Java_com_example_smoke_MethodOverloads_isBooleanIntArrayOverload(JNIEnv* _jenv, 
 
     ::smoke::MethodOverloads::IntArray input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::smoke::MethodOverloads::IntArray*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::MethodOverloads::IntArray>{});
 
 
 
@@ -228,7 +228,7 @@ Java_com_example_smoke_MethodOverloads_isFloat__Ljava_lang_String_2(JNIEnv* _jen
 
     ::std::string input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::string*)nullptr);
+            ::gluecodium::jni::TypeId<::std::string>{});
 
 
 
@@ -253,7 +253,7 @@ Java_com_example_smoke_MethodOverloads_isFloat__Ljava_util_List_2(JNIEnv* _jenv,
 
     ::smoke::MethodOverloads::IntArray input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::smoke::MethodOverloads::IntArray*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::MethodOverloads::IntArray>{});
 
 
 

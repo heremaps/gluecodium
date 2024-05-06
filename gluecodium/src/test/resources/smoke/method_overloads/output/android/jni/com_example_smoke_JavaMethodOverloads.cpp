@@ -23,7 +23,7 @@ Java_com_example_smoke_JavaMethodOverloads_three__Ljava_lang_String_2(JNIEnv* _j
 
     ::std::string input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::string*)nullptr);
+            ::gluecodium::jni::TypeId<::std::string>{});
 
 
 
@@ -47,7 +47,7 @@ Java_com_example_smoke_JavaMethodOverloads_three__Ljava_util_List_2(JNIEnv* _jen
 
     ::std::vector< ::std::string > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::vector< ::std::string >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::vector< ::std::string >>{});
 
 
 

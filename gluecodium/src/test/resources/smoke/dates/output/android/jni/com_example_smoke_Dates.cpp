@@ -23,7 +23,7 @@ Java_com_example_smoke_Dates_dateMethod(JNIEnv* _jenv, jobject _jinstance, jobje
 
     ::std::chrono::system_clock::time_point input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::chrono::system_clock::time_point*)nullptr);
+            ::gluecodium::jni::TypeId<::std::chrono::system_clock::time_point>{});
 
 
 
@@ -48,7 +48,7 @@ Java_com_example_smoke_Dates_nullableDateMethod(JNIEnv* _jenv, jobject _jinstanc
 
     std::optional< ::std::chrono::system_clock::time_point > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (std::optional< ::std::chrono::system_clock::time_point >*)nullptr);
+            ::gluecodium::jni::TypeId<std::optional< ::std::chrono::system_clock::time_point >>{});
 
 
 
@@ -95,7 +95,7 @@ Java_com_example_smoke_Dates_setDateProperty(JNIEnv* _jenv, jobject _jinstance, 
 
     ::std::chrono::system_clock::time_point value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            (::std::chrono::system_clock::time_point*)nullptr);
+            ::gluecodium::jni::TypeId<::std::chrono::system_clock::time_point>{});
 
 
 
@@ -142,7 +142,7 @@ Java_com_example_smoke_Dates_setDateSet(JNIEnv* _jenv, jobject _jinstance, jobje
 
     ::std::unordered_set< ::std::chrono::system_clock::time_point, ::gluecodium::hash< ::std::chrono::system_clock::time_point > > value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            (::std::unordered_set< ::std::chrono::system_clock::time_point, ::gluecodium::hash< ::std::chrono::system_clock::time_point > >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::unordered_set< ::std::chrono::system_clock::time_point, ::gluecodium::hash< ::std::chrono::system_clock::time_point > >>{});
 
 
 

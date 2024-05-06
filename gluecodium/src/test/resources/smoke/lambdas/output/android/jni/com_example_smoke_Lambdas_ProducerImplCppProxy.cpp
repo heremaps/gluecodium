@@ -25,7 +25,7 @@ com_example_smoke_Lambdas_00024Producer_CppProxy::operator()(  ) {
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (::std::string*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<::std::string>{});
 
 
 

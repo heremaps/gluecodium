@@ -28,7 +28,7 @@ void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::smoke::Lamb
 }
 
 
-::smoke::Lambdas::Confuser convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, ::smoke::Lambdas::Confuser*)
+::smoke::Lambdas::Confuser convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<::smoke::Lambdas::Confuser>)
 {
     ::smoke::Lambdas::Confuser _nresult{};
     auto& nativeBaseClass = get_cached_native_base_class();

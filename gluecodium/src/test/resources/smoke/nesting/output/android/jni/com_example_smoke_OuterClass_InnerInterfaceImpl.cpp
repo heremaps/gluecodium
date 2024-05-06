@@ -23,7 +23,7 @@ Java_com_example_smoke_OuterClass_00024InnerInterfaceImpl_foo(JNIEnv* _jenv, job
 
     ::std::string input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::string*)nullptr);
+            ::gluecodium::jni::TypeId<::std::string>{});
 
 
 

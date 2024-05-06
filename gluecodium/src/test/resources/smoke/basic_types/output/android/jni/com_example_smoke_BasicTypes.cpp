@@ -23,7 +23,7 @@ Java_com_example_smoke_BasicTypes_stringFunction(JNIEnv* _jenv, jobject _jinstan
 
     ::std::string input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::string*)nullptr);
+            ::gluecodium::jni::TypeId<::std::string>{});
 
 
 

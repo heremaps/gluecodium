@@ -23,7 +23,7 @@ Java_com_example_smoke_GenericTypesWithBasicTypes_methodWithList(JNIEnv* _jenv, 
 
     ::std::vector< int32_t > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::vector< int32_t >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::vector< int32_t >>{});
 
 
 
@@ -48,7 +48,7 @@ Java_com_example_smoke_GenericTypesWithBasicTypes_methodWithMap(JNIEnv* _jenv, j
 
     ::std::unordered_map< int32_t, bool > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::unordered_map< int32_t, bool >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::unordered_map< int32_t, bool >>{});
 
 
 
@@ -73,7 +73,7 @@ Java_com_example_smoke_GenericTypesWithBasicTypes_methodWithSet(JNIEnv* _jenv, j
 
     ::std::unordered_set< int32_t > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::unordered_set< int32_t >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::unordered_set< int32_t >>{});
 
 
 
@@ -98,7 +98,7 @@ Java_com_example_smoke_GenericTypesWithBasicTypes_methodWithListTypeAlias(JNIEnv
 
     ::smoke::GenericTypesWithBasicTypes::BasicList input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::smoke::GenericTypesWithBasicTypes::BasicList*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::GenericTypesWithBasicTypes::BasicList>{});
 
 
 
@@ -123,7 +123,7 @@ Java_com_example_smoke_GenericTypesWithBasicTypes_methodWithMapTypeAlias(JNIEnv*
 
     ::smoke::GenericTypesWithBasicTypes::BasicMap input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::smoke::GenericTypesWithBasicTypes::BasicMap*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::GenericTypesWithBasicTypes::BasicMap>{});
 
 
 
@@ -148,7 +148,7 @@ Java_com_example_smoke_GenericTypesWithBasicTypes_methodWithSetTypeAlias(JNIEnv*
 
     ::smoke::GenericTypesWithBasicTypes::BasicSet input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::smoke::GenericTypesWithBasicTypes::BasicSet*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::GenericTypesWithBasicTypes::BasicSet>{});
 
 
 
@@ -195,7 +195,7 @@ Java_com_example_smoke_GenericTypesWithBasicTypes_setListProperty(JNIEnv* _jenv,
 
     ::std::vector< float > value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            (::std::vector< float >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::vector< float >>{});
 
 
 
@@ -242,7 +242,7 @@ Java_com_example_smoke_GenericTypesWithBasicTypes_setMapProperty(JNIEnv* _jenv, 
 
     ::std::unordered_map< float, double > value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            (::std::unordered_map< float, double >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::unordered_map< float, double >>{});
 
 
 
@@ -289,7 +289,7 @@ Java_com_example_smoke_GenericTypesWithBasicTypes_setSetProperty(JNIEnv* _jenv, 
 
     ::std::unordered_set< float > value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            (::std::unordered_set< float >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::unordered_set< float >>{});
 
 
 

@@ -28,13 +28,13 @@ Java_com_example_smoke_ChildClassWithIncludes_rootMethod(JNIEnv* _jenv, jobject 
 
     ::smoke::IncludableStruct input1 = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput1),
-            (::smoke::IncludableStruct*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::IncludableStruct>{});
 
 
 
     ::smoke::IncludableEnum input2 = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput2),
-            (::smoke::IncludableEnum*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::IncludableEnum>{});
 
 
 
@@ -81,7 +81,7 @@ Java_com_example_smoke_ChildClassWithIncludes_setRootProperty(JNIEnv* _jenv, job
 
     ::smoke::IncludableLambda value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            (::smoke::IncludableLambda*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::IncludableLambda>{});
 
 
 

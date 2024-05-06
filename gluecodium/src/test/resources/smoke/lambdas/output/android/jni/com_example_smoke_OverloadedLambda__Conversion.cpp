@@ -28,7 +28,7 @@ void com_example_smoke_OverloadedLambda_createCppProxy(JNIEnv* env, const JniRef
 }
 
 
-::smoke::OverloadedLambda com_example_smoke_OverloadedLambda_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, ::smoke::OverloadedLambda*)
+::smoke::OverloadedLambda com_example_smoke_OverloadedLambda_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<::smoke::OverloadedLambda>)
 {
     ::smoke::OverloadedLambda _nresult{};
     auto& nativeBaseClass = get_cached_native_base_class();
@@ -70,9 +70,9 @@ com_example_smoke_OverloadedLambda_convert_to_jni(JNIEnv* _jenv, const ::smoke::
 }
 
 std::optional<::smoke::OverloadedLambda>
-com_example_smoke_OverloadedLambda_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::optional<::smoke::OverloadedLambda>*) {
+com_example_smoke_OverloadedLambda_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<std::optional<::smoke::OverloadedLambda>>) {
     return _jobj
-        ? std::optional<::smoke::OverloadedLambda>(com_example_smoke_OverloadedLambda_convert_from_jni(_env, _jobj, (::smoke::OverloadedLambda*)nullptr))
+        ? std::optional<::smoke::OverloadedLambda>(com_example_smoke_OverloadedLambda_convert_from_jni(_env, _jobj, TypeId<::smoke::OverloadedLambda>{}))
         : std::optional<::smoke::OverloadedLambda>{};
 }
 
@@ -101,7 +101,7 @@ com_example_smoke_OverloadedLambda_convert_to_jni(JNIEnv* _env, const std::optio
 }
 
 std::vector<::smoke::OverloadedLambda>
-com_example_smoke_OverloadedLambda_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, std::vector<::smoke::OverloadedLambda>*) {
+com_example_smoke_OverloadedLambda_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, TypeId<std::vector<::smoke::OverloadedLambda>>) {
     std::vector<::smoke::OverloadedLambda> _nresult{};
     if (_env->IsSameObject(_arrayList.get(), nullptr)) {
         return _nresult;
@@ -115,16 +115,16 @@ com_example_smoke_OverloadedLambda_convert_from_jni(JNIEnv* _env, const JniRefer
     auto getMethodId = _env->GetMethodID(javaArrayListClass.get(), "get", "(I)Ljava/lang/Object;");
     for (jint i = 0; i < length; i++) {
         auto javaListItem = call_java_method<jobject>(_env, _arrayList, getMethodId, i);
-        _nresult.push_back(com_example_smoke_OverloadedLambda_convert_from_jni(_env, javaListItem, (::smoke::OverloadedLambda*)nullptr));
+        _nresult.push_back(com_example_smoke_OverloadedLambda_convert_from_jni(_env, javaListItem, TypeId<::smoke::OverloadedLambda>{}));
     }
 
     return _nresult;
 }
 
 std::optional<std::vector<::smoke::OverloadedLambda>>
-com_example_smoke_OverloadedLambda_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, std::optional<std::vector<::smoke::OverloadedLambda>>*) {
+com_example_smoke_OverloadedLambda_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, TypeId<std::optional<std::vector<::smoke::OverloadedLambda>>>) {
     return _arrayList
-        ? std::optional<std::vector<::smoke::OverloadedLambda>>(com_example_smoke_OverloadedLambda_convert_from_jni(_env, _arrayList, (std::vector<::smoke::OverloadedLambda>*)nullptr))
+        ? std::optional<std::vector<::smoke::OverloadedLambda>>(com_example_smoke_OverloadedLambda_convert_from_jni(_env, _arrayList, TypeId<std::vector<::smoke::OverloadedLambda>>{}))
         : std::optional<std::vector<::smoke::OverloadedLambda>>{};
 }
 }

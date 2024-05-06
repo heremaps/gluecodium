@@ -38,7 +38,7 @@ com_example_smoke_ErrorsInterface_CppProxy::method_with_errors(  ) {
         auto nErrorValue = convert_from_jni(
             jniEnv,
             jErrorValue,
-            (::smoke::ErrorsInterface::InternalError*)nullptr );
+            TypeId<::smoke::ErrorsInterface::InternalError>{});
 
 
         return ::std::error_code{nErrorValue};
@@ -73,7 +73,7 @@ com_example_smoke_ErrorsInterface_CppProxy::method_with_external_errors(  ) {
         auto nErrorValue = convert_from_jni(
             jniEnv,
             jErrorValue,
-            (::smoke::ErrorsInterface::ExternalErrors*)nullptr );
+            TypeId<::smoke::ErrorsInterface::ExternalErrors>{});
 
 
         return ::std::error_code{nErrorValue};
@@ -108,7 +108,7 @@ com_example_smoke_ErrorsInterface_CppProxy::method_with_errors_and_return_value(
         auto nErrorValue = convert_from_jni(
             jniEnv,
             jErrorValue,
-            (::smoke::ErrorsInterface::InternalError*)nullptr );
+            TypeId<::smoke::ErrorsInterface::InternalError>{});
 
 
         return ::std::error_code{nErrorValue};
@@ -117,7 +117,7 @@ com_example_smoke_ErrorsInterface_CppProxy::method_with_errors_and_return_value(
     else
     {
 
-    return convert_from_jni( jniEnv, _result, (::std::string*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<::std::string>{});
 
 
     }

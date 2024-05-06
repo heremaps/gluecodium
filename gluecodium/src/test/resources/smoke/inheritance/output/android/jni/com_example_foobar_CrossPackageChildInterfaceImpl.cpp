@@ -64,7 +64,7 @@ Java_com_example_foobar_CrossPackageChildInterfaceImpl_setRootProperty(JNIEnv* _
 
     ::std::string value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            (::std::string*)nullptr);
+            ::gluecodium::jni::TypeId<::std::string>{});
 
 
 

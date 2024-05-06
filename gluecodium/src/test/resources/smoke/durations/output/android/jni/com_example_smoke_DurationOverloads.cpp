@@ -23,7 +23,7 @@ Java_com_example_smoke_DurationOverloads_durationFunction__Lcom_example_time_Dur
 
     ::std::chrono::seconds input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::chrono::seconds*)nullptr);
+            ::gluecodium::jni::TypeId<::std::chrono::seconds>{});
 
 
 
@@ -48,7 +48,7 @@ Java_com_example_smoke_DurationOverloads_durationFunction__Ljava_lang_String_2(J
 
     ::std::string input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::string*)nullptr);
+            ::gluecodium::jni::TypeId<::std::string>{});
 
 
 
