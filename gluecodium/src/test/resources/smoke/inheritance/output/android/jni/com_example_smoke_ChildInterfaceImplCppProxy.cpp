@@ -38,7 +38,7 @@ com_example_smoke_ChildInterface_CppProxy::get_root_property(  ) const {
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (::std::string*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<::std::string>{});
 
 
 

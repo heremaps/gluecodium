@@ -25,7 +25,7 @@ com_example_smoke_OuterStruct_00024InnerInterface_CppProxy::bar_baz(  ) {
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (::std::unordered_map< ::std::string, ::std::shared_ptr< ::std::vector< uint8_t > > >*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<::std::unordered_map< ::std::string, ::std::shared_ptr< ::std::vector< uint8_t > > >>{});
 
 
 

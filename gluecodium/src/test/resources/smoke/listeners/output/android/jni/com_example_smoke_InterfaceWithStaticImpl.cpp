@@ -78,7 +78,7 @@ Java_com_example_smoke_InterfaceWithStaticImpl_setRegularProperty(JNIEnv* _jenv,
 
     ::std::string value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            (::std::string*)nullptr);
+            ::gluecodium::jni::TypeId<::std::string>{});
 
 
 
@@ -120,7 +120,7 @@ Java_com_example_smoke_InterfaceWithStaticImpl_setStaticProperty(JNIEnv* _jenv, 
 
     ::std::string value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            (::std::string*)nullptr);
+            ::gluecodium::jni::TypeId<::std::string>{});
 
 
 

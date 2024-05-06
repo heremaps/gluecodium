@@ -21,7 +21,7 @@ REGISTER_JNI_CLASS_CACHE("com/example/smoke/NestedReferences", com_example_smoke
 
 
 
-std::shared_ptr<::smoke::NestedReferences> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::smoke::NestedReferences>*)
+std::shared_ptr<::smoke::NestedReferences> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<std::shared_ptr<::smoke::NestedReferences>>)
 {
     std::shared_ptr<::smoke::NestedReferences> _nresult{};
     auto& nativeBaseClass = get_cached_native_base_class();

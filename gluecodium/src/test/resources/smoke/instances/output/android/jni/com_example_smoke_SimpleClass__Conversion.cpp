@@ -21,7 +21,7 @@ REGISTER_JNI_CLASS_CACHE("com/example/smoke/SimpleClass", com_example_smoke_Simp
 
 
 
-std::shared_ptr<::smoke::SimpleClass> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::smoke::SimpleClass>*)
+std::shared_ptr<::smoke::SimpleClass> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<std::shared_ptr<::smoke::SimpleClass>>)
 {
     std::shared_ptr<::smoke::SimpleClass> _nresult{};
     auto& nativeBaseClass = get_cached_native_base_class();

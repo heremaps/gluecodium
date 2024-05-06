@@ -30,13 +30,13 @@ void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared
 
 std::shared_ptr<::smoke::ChildInterface> try_descendant_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::smoke::ChildInterface>*) {
     if (_env->IsInstanceOf(_jobj.get(), CachedJavaInterface<::smoke::GrandChildInterface>::java_class.get())) {
-        return convert_from_jni(_env, _jobj, (std::shared_ptr<::smoke::GrandChildInterface>*)nullptr);
+        return convert_from_jni(_env, _jobj, TypeId<std::shared_ptr<::smoke::GrandChildInterface>>{});
     }
     return {};
 }
 
 
-std::shared_ptr<::smoke::ChildInterface> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::smoke::ChildInterface>*)
+std::shared_ptr<::smoke::ChildInterface> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<std::shared_ptr<::smoke::ChildInterface>>)
 {
     std::shared_ptr<::smoke::ChildInterface> _nresult{};
     auto& nativeBaseClass = get_cached_native_base_class();

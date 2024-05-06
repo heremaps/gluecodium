@@ -27,7 +27,7 @@ void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared
 }
 
 
-std::shared_ptr<::smoke::ParentNarrowOne> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::smoke::ParentNarrowOne>*)
+std::shared_ptr<::smoke::ParentNarrowOne> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<std::shared_ptr<::smoke::ParentNarrowOne>>)
 {
     std::shared_ptr<::smoke::ParentNarrowOne> _nresult{};
     createCppProxy(_env, _jobj, _nresult);

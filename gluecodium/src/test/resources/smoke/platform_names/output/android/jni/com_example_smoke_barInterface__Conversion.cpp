@@ -21,7 +21,7 @@ REGISTER_JNI_CLASS_CACHE("com/example/smoke/barInterface", com_example_smoke_bar
 
 
 
-std::shared_ptr<::smoke::fooInterface> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::smoke::fooInterface>*)
+std::shared_ptr<::smoke::fooInterface> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<std::shared_ptr<::smoke::fooInterface>>)
 {
     std::shared_ptr<::smoke::fooInterface> _nresult{};
     auto& nativeBaseClass = get_cached_native_base_class();

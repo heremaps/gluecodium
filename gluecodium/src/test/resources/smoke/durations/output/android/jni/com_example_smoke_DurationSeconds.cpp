@@ -23,7 +23,7 @@ Java_com_example_smoke_DurationSeconds_durationFunction(JNIEnv* _jenv, jobject _
 
     ::std::chrono::seconds input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::chrono::seconds*)nullptr);
+            ::gluecodium::jni::TypeId<::std::chrono::seconds>{});
 
 
 
@@ -48,7 +48,7 @@ Java_com_example_smoke_DurationSeconds_nullableDurationFunction(JNIEnv* _jenv, j
 
     std::optional< ::std::chrono::seconds > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (std::optional< ::std::chrono::seconds >*)nullptr);
+            ::gluecodium::jni::TypeId<std::optional< ::std::chrono::seconds >>{});
 
 
 
@@ -95,7 +95,7 @@ Java_com_example_smoke_DurationSeconds_setDurationProperty(JNIEnv* _jenv, jobjec
 
     ::std::chrono::seconds value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            (::std::chrono::seconds*)nullptr);
+            ::gluecodium::jni::TypeId<::std::chrono::seconds>{});
 
 
 

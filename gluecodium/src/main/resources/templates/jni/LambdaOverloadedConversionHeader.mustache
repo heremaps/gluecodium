@@ -18,15 +18,15 @@
   ! License-Filename: LICENSE
   !
   !}}
-JNIEXPORT std::optional<{{resolveName "C++ FQN"}}> {{resolveName "mangled"}}_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::optional<{{resolveName "C++ FQN"}}>*);
+JNIEXPORT std::optional<{{resolveName "C++ FQN"}}> {{resolveName "mangled"}}_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<std::optional<{{resolveName "C++ FQN"}}>>);
 JNIEXPORT JniReference<jobject> {{resolveName "mangled"}}_convert_to_jni(JNIEnv* _env, const std::optional<{{resolveName "C++ FQN"}}>& _ninput);
 
 // Functions to create ArrayLists from C++ vectors and vice versa, for overloaded lambdas.
 
 JNIEXPORT JniReference<jobject> {{resolveName "mangled"}}_convert_to_jni(JNIEnv* _env, const std::vector<{{resolveName "C++ FQN"}}>& _ninput);
 JNIEXPORT JniReference<jobject> {{resolveName "mangled"}}_convert_to_jni(JNIEnv* _env, const std::optional<std::vector<{{resolveName "C++ FQN"}}>>& _ninput);
-JNIEXPORT std::vector<{{resolveName "C++ FQN"}}> {{resolveName "mangled"}}_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, std::vector<{{resolveName "C++ FQN"}}>*);
-JNIEXPORT std::optional<std::vector<{{resolveName "C++ FQN"}}>> {{resolveName "mangled"}}_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, std::optional<std::vector<{{resolveName "C++ FQN"}}>>*);
+JNIEXPORT std::vector<{{resolveName "C++ FQN"}}> {{resolveName "mangled"}}_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, TypeId<std::vector<{{resolveName "C++ FQN"}}>>);
+JNIEXPORT std::optional<std::vector<{{resolveName "C++ FQN"}}>> {{resolveName "mangled"}}_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, TypeId<std::optional<std::vector<{{resolveName "C++ FQN"}}>>>);
 
 // Templated functions to create HashMaps from C++ unordered_maps and vice versa, for overloaded lambdas as values.
 
@@ -55,7 +55,7 @@ JniReference<jobject>
 template <typename K, typename Hash>
 std::unordered_map<K, {{resolveName "C++ FQN"}}, Hash>
 {{resolveName "mangled"}}_convert_from_jni(
-    JNIEnv* _env, const JniReference<jobject>& _jMap, std::unordered_map<K, {{resolveName "C++ FQN"}}, Hash>*
+    JNIEnv* _env, const JniReference<jobject>& _jMap, TypeId<std::unordered_map<K, {{resolveName "C++ FQN"}}, Hash>>
 ) {
     std::unordered_map<K, {{resolveName "C++ FQN"}}, Hash> _nresult{};
 
@@ -82,10 +82,10 @@ std::unordered_map<K, {{resolveName "C++ FQN"}}, Hash>
     while (call_java_method<jboolean>(_env, jIterator, hasNextMethodId)) {
         auto jEntry = call_java_method<jobject>(_env, jIterator, nextMethodId);
         auto jKey = call_java_method<jobject>(_env, jEntry, getKeyMethodId);
-        K nKey = convert_from_jni(_env, jKey, (K*)nullptr);
+        K nKey = convert_from_jni(_env, jKey, TypeId<K>{});
 
         auto jValue = call_java_method<jobject>(_env, jEntry, getValueMethodId);
-        auto nValue = {{resolveName "mangled"}}_convert_from_jni(_env, jValue, ({{resolveName "C++ FQN"}}*)nullptr);
+        auto nValue = {{resolveName "mangled"}}_convert_from_jni(_env, jValue, TypeId<{{resolveName "C++ FQN"}}>{});
 
         _nresult.emplace(std::move(nKey), std::move(nValue));
     }
@@ -97,10 +97,10 @@ template<typename K, typename Hash>
 std::optional<std::unordered_map<K, {{resolveName "C++ FQN"}}, Hash>>
 {{resolveName "mangled"}}_convert_from_jni(JNIEnv* _env,
                  const JniReference<jobject>& _jMap,
-                 std::optional<std::unordered_map<K, {{resolveName "C++ FQN"}}, Hash>>*)
+                 TypeId<std::optional<std::unordered_map<K, {{resolveName "C++ FQN"}}, Hash>>>)
 {
     return _jMap
         ? std::optional<std::unordered_map<K, {{resolveName "C++ FQN"}}, Hash>>(
-            {{resolveName "mangled"}}_convert_from_jni(_env, _jMap, (std::unordered_map<K, {{resolveName "C++ FQN"}}, Hash>*)nullptr)
+            {{resolveName "mangled"}}_convert_from_jni(_env, _jMap, TypeId<std::unordered_map<K, {{resolveName "C++ FQN"}}, Hash>>{})
         ) : std::optional<std::unordered_map<K, {{resolveName "C++ FQN"}}, Hash>>{};
 }

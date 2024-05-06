@@ -27,7 +27,7 @@ void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared
 }
 
 
-std::shared_ptr<::smoke::NoCacheInterface> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::smoke::NoCacheInterface>*)
+std::shared_ptr<::smoke::NoCacheInterface> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<std::shared_ptr<::smoke::NoCacheInterface>>)
 {
     std::shared_ptr<::smoke::NoCacheInterface> _nresult{};
     auto& nativeBaseClass = get_cached_native_base_class();

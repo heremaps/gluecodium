@@ -21,7 +21,7 @@ REGISTER_JNI_CLASS_CACHE("com/example/smoke/LevelOne$LevelTwo$LevelThree", com_e
 
 
 
-std::shared_ptr<::smoke::LevelOne::LevelTwo::LevelThree> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::smoke::LevelOne::LevelTwo::LevelThree>*)
+std::shared_ptr<::smoke::LevelOne::LevelTwo::LevelThree> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<std::shared_ptr<::smoke::LevelOne::LevelTwo::LevelThree>>)
 {
     std::shared_ptr<::smoke::LevelOne::LevelTwo::LevelThree> _nresult{};
     auto& nativeBaseClass = get_cached_native_base_class();

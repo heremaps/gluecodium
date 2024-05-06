@@ -1,16 +1,20 @@
 /*
+
  *
  */
+
 #include "java_time_Month__Conversion.h"
 #include "FieldAccessMethods.h"
 #include "JniCallJavaMethod.h"
 #include "JniClassCache.h"
+
 namespace gluecodium
 {
 namespace jni
 {
+
 ::smoke::Month
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::Month*)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::smoke::Month>)
 {
     auto ordinal = call_java_method<jint>(_jenv, _jinput, "ordinal", "()I");
     switch(ordinal) {
@@ -24,14 +28,17 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::M
             return {};
     }
 }
+
 std::optional<::smoke::Month>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::optional<::smoke::Month>*)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<::smoke::Month>>)
 {
     return _jinput
-        ? std::optional<::smoke::Month>(convert_from_jni(_jenv, _jinput, (::smoke::Month*)nullptr))
+        ? std::optional<::smoke::Month>(convert_from_jni(_jenv, _jinput, TypeId<::smoke::Month>{}))
         : std::optional<::smoke::Month>{};
 }
+
 REGISTER_JNI_CLASS_CACHE("java/time/Month", java_time_Month, ::smoke::Month)
+
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const ::smoke::Month _ninput)
 {
@@ -51,10 +58,12 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Month _ninput)
     jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName, "Ljava/time/Month;");
     return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
 }
+
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const std::optional<::smoke::Month> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }
+
 }
 }

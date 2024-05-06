@@ -26,13 +26,13 @@ Java_com_example_smoke_Lambdas_deconfuse(JNIEnv* _jenv, jobject _jinstance, jstr
 
     ::std::string value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            (::std::string*)nullptr);
+            ::gluecodium::jni::TypeId<::std::string>{});
 
 
 
     ::smoke::Lambdas::Confuser confuser = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jconfuser),
-            (::smoke::Lambdas::Confuser*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::Lambdas::Confuser>{});
 
 
 
@@ -57,13 +57,13 @@ Java_com_example_smoke_Lambdas_fuse(JNIEnv* _jenv, jobject _jinstance, jobject j
 
     ::std::vector< ::std::string > items = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jitems),
-            (::std::vector< ::std::string >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::vector< ::std::string >>{});
 
 
 
     ::smoke::Lambdas::Indexer callback = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jcallback),
-            (::smoke::Lambdas::Indexer*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::Lambdas::Indexer>{});
 
 
 

@@ -25,7 +25,7 @@ com_example_smoke_InterfaceWithStatic_CppProxy::regular_function(  ) {
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (::std::string*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<::std::string>{});
 
 
 
@@ -40,7 +40,7 @@ com_example_smoke_InterfaceWithStatic_CppProxy::get_regular_property(  ) const {
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (::std::string*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<::std::string>{});
 
 
 

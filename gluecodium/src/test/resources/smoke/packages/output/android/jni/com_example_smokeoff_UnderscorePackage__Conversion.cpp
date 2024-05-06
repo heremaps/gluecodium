@@ -21,7 +21,7 @@ REGISTER_JNI_CLASS_CACHE("com/example/smokeoff/UnderscorePackage", com_example_s
 
 
 
-std::shared_ptr<::smoke_off::UnderscorePackage> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::smoke_off::UnderscorePackage>*)
+std::shared_ptr<::smoke_off::UnderscorePackage> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<std::shared_ptr<::smoke_off::UnderscorePackage>>)
 {
     std::shared_ptr<::smoke_off::UnderscorePackage> _nresult{};
     auto& nativeBaseClass = get_cached_native_base_class();

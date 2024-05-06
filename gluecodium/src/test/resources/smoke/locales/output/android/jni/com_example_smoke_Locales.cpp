@@ -23,7 +23,7 @@ Java_com_example_smoke_Locales_localeMethod(JNIEnv* _jenv, jobject _jinstance, j
 
     ::gluecodium::Locale input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::gluecodium::Locale*)nullptr);
+            ::gluecodium::jni::TypeId<::gluecodium::Locale>{});
 
 
 
@@ -70,7 +70,7 @@ Java_com_example_smoke_Locales_setLocaleProperty(JNIEnv* _jenv, jobject _jinstan
 
     ::gluecodium::Locale value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            (::gluecodium::Locale*)nullptr);
+            ::gluecodium::jni::TypeId<::gluecodium::Locale>{});
 
 
 

@@ -21,7 +21,7 @@ struct Dummycom_example_FooConverterType {};
 REGISTER_JNI_CLASS_CACHE("com/example/FooConverter", com_example_FooConverter, Dummycom_example_FooConverterType)
 
 ::smoke::JavaExternalCtor
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput_ext, ::smoke::JavaExternalCtor*)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput_ext, TypeId<::smoke::JavaExternalCtor>)
 {
     auto& converterClass = CachedJavaClass<Dummycom_example_FooConverterType>::java_class;
 
@@ -39,16 +39,16 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput_ext, ::smok
         _jenv,
         _jinput,
         "field",
-        (::std::string*)nullptr );
+        TypeId<::std::string>{} );
     _nout.field = n_field;
     return _nout;
 }
 
 std::optional<::smoke::JavaExternalCtor>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::optional<::smoke::JavaExternalCtor>*)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<::smoke::JavaExternalCtor>>)
 {
     return _jinput
-        ? std::optional<::smoke::JavaExternalCtor>(convert_from_jni(_jenv, _jinput, (::smoke::JavaExternalCtor*)nullptr))
+        ? std::optional<::smoke::JavaExternalCtor>(convert_from_jni(_jenv, _jinput, TypeId<::smoke::JavaExternalCtor>{}))
         : std::optional<::smoke::JavaExternalCtor>{};
 }
 

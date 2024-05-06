@@ -21,7 +21,7 @@ REGISTER_JNI_CLASS_CACHE("com/example/smoke/ExternalClass", com_example_smoke_Ex
 
 
 
-std::shared_ptr<::fire::Baz> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, std::shared_ptr<::fire::Baz>*)
+std::shared_ptr<::fire::Baz> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<std::shared_ptr<::fire::Baz>>)
 {
     std::shared_ptr<::fire::Baz> _nresult{};
     auto& nativeBaseClass = get_cached_native_base_class();

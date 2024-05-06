@@ -42,7 +42,7 @@ convert_string_from_jni( JNIEnv* env, jstring java_string )
 }
 
 std::string
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, std::string* )
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::string> )
 {
     if ( !jvalue )
     {
@@ -54,7 +54,7 @@ convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, std::string*
 }
 
 std::string
-convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, std::string* )
+convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, TypeId<std::string> )
 {
     if ( !jvalue )
     {
@@ -66,7 +66,7 @@ convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, std::string*
 }
 
 std::optional<std::string>
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, std::optional<std::string>* )
+convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<std::string>> )
 {
     return jvalue
         ? std::optional<std::string>( convert_string_from_jni( env, static_cast<jstring>( jvalue.get( ) ) ) )
@@ -74,7 +74,7 @@ convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, std::optiona
 }
 
 std::optional<std::string>
-convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, std::optional<std::string>* )
+convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, TypeId<std::optional<std::string>> )
 {
     return jvalue
         ? std::optional<std::string>( convert_string_from_jni( env, jvalue.get( ) ) )
@@ -83,7 +83,7 @@ convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, std::optiona
 
 std::shared_ptr< std::vector< uint8_t > >
 convert_from_jni( JNIEnv* env, const JniReference<jbyteArray>& jvalue,
-                  std::shared_ptr< std::vector< uint8_t > >* )
+                  TypeId<std::shared_ptr<std::vector<uint8_t>>> )
 {
     if ( !jvalue )
     {
@@ -101,16 +101,16 @@ convert_from_jni( JNIEnv* env, const JniReference<jbyteArray>& jvalue,
 std::optional< std::shared_ptr< std::vector< uint8_t > > >
 convert_from_jni( JNIEnv* env,
                   const JniReference<jbyteArray>& jvalue,
-                  std::optional< std::shared_ptr< std::vector< uint8_t > > >* )
+                  TypeId<std::optional<std::shared_ptr<std::vector<uint8_t>>>> )
 {
     return jvalue
         ? std::optional< std::shared_ptr< std::vector< uint8_t > > >(
-            convert_from_jni( env, jvalue, (std::shared_ptr< std::vector< uint8_t > >*)nullptr ) )
+            convert_from_jni( env, jvalue, TypeId<std::shared_ptr<std::vector<uint8_t>>>{} ) )
         : std::optional< std::shared_ptr< std::vector< uint8_t > > >{};
 }
 
 {{>common/InternalNamespace}}Locale
-convert_from_jni(JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/InternalNamespace}}Locale*) {
+convert_from_jni(JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<{{>common/InternalNamespace}}Locale>) {
     if (!jvalue) {
         {{>common/InternalNamespace}}jni::throw_new_null_pointer_exception(env);
         return {{>common/InternalNamespace}}Locale();
@@ -122,20 +122,20 @@ convert_from_jni(JNIEnv* env, const JniReference<jobject>& jvalue, {{>common/Int
     auto languageTag = call_java_method<jstring>(env, jvalue, "toLanguageTag", "()Ljava/lang/String;");
 
     return {{>common/InternalNamespace}}Locale(
-        convert_from_jni(env, languageCode, (std::string*)nullptr),
-        convert_from_jni(env, countryCode, (std::string*)nullptr),
-        convert_from_jni(env, scriptCode, (std::string*)nullptr),
-        convert_from_jni(env, languageTag, (std::string*)nullptr)
+        convert_from_jni(env, languageCode, TypeId<std::string>{}),
+        convert_from_jni(env, countryCode, TypeId<std::string>{}),
+        convert_from_jni(env, scriptCode, TypeId<std::string>{}),
+        convert_from_jni(env, languageTag, TypeId<std::string>{})
     );
 }
 
 std::optional<{{>common/InternalNamespace}}Locale>
 convert_from_jni(JNIEnv* env, const JniReference<jobject>& jvalue,
-                 std::optional<{{>common/InternalNamespace}}Locale>*)
+                 TypeId<std::optional<{{>common/InternalNamespace}}Locale>>)
 {
     return jvalue
         ? std::optional<{{>common/InternalNamespace}}Locale>(
-            convert_from_jni(env, jvalue, ({{>common/InternalNamespace}}Locale*)nullptr))
+            convert_from_jni(env, jvalue, TypeId<{{>common/InternalNamespace}}Locale>{}))
         : std::optional<{{>common/InternalNamespace}}Locale>{};
 }
 

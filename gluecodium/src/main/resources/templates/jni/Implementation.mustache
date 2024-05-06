@@ -136,7 +136,7 @@ jint
 {{#unlessPredicate typeRef "isJniPrimitive"}}
     {{resolveName typeRef "C++"}} {{resolveName}} = {{>common/InternalNamespace}}jni::{{>jni/JniConversionPrefix}}convert_from_jni(_jenv,
             {{>common/InternalNamespace}}jni::make_non_releasing_ref(j{{resolveName}}),
-            ({{resolveName typeRef "C++"}}*)nullptr);
+            {{>common/InternalNamespace}}jni::TypeId<{{resolveName typeRef "C++"}}>{});
 {{/unlessPredicate}}{{#ifPredicate typeRef "isJniPrimitive"}}
     {{resolveName typeRef "C++"}} {{resolveName}} = j{{resolveName}};
 {{/ifPredicate}}
@@ -150,7 +150,7 @@ jint
 }}{{#instanceOf container "LimeStruct"}}
     auto _ninstance = {{>common/InternalNamespace}}jni::convert_from_jni(_jenv,
         {{>common/InternalNamespace}}jni::make_non_releasing_ref(_jinstance),
-        ({{resolveName container "C++ FQN"}}*)nullptr);
+        {{>common/InternalNamespace}}jni::TypeId<{{resolveName container "C++ FQN"}}>{});
 {{/instanceOf}}{{/unless}}
 
 {{#if thrownType}}

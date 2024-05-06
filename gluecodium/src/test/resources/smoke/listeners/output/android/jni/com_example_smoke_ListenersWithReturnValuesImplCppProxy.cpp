@@ -42,7 +42,7 @@ com_example_smoke_ListenersWithReturnValues_CppProxy::fetch_data_string(  ) {
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (::std::string*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<::std::string>{});
 
 
 
@@ -56,7 +56,7 @@ com_example_smoke_ListenersWithReturnValues_CppProxy::fetch_data_struct(  ) {
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (::smoke::ListenersWithReturnValues::ResultStruct*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<::smoke::ListenersWithReturnValues::ResultStruct>{});
 
 
 
@@ -70,7 +70,7 @@ com_example_smoke_ListenersWithReturnValues_CppProxy::fetch_data_enum(  ) {
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (::smoke::ListenersWithReturnValues::ResultEnum*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<::smoke::ListenersWithReturnValues::ResultEnum>{});
 
 
 
@@ -84,7 +84,7 @@ com_example_smoke_ListenersWithReturnValues_CppProxy::fetch_data_array(  ) {
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (::std::vector< double >*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<::std::vector< double >>{});
 
 
 
@@ -98,7 +98,7 @@ com_example_smoke_ListenersWithReturnValues_CppProxy::fetch_data_map(  ) {
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (::smoke::ListenersWithReturnValues::StringToDouble*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<::smoke::ListenersWithReturnValues::StringToDouble>{});
 
 
 
@@ -112,7 +112,7 @@ com_example_smoke_ListenersWithReturnValues_CppProxy::fetch_data_instance(  ) {
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (::std::shared_ptr< ::smoke::CalculationResult >*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<::std::shared_ptr< ::smoke::CalculationResult >>{});
 
 
 

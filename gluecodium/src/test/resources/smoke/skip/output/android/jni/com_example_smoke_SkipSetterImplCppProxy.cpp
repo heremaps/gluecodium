@@ -26,7 +26,7 @@ com_example_smoke_SkipSetter_CppProxy::get_foo(  ) const {
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (::std::string*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<::std::string>{});
 
 
 

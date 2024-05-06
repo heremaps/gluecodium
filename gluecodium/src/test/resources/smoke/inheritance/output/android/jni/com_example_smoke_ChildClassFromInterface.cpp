@@ -82,7 +82,7 @@ Java_com_example_smoke_ChildClassFromInterface_setRootProperty(JNIEnv* _jenv, jo
 
     ::std::string value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            (::std::string*)nullptr);
+            ::gluecodium::jni::TypeId<::std::string>{});
 
 
 

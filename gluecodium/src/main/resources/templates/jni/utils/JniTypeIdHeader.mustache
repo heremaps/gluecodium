@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  ! Copyright (C) 2016-2024 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -22,26 +22,17 @@
 
 #pragma once
 
-{{#includes}}
-{{>common/Include}}
-{{/includes}}
-#include "JniReference.h"
-#include "JniTypeId.h"
-#include <optional>
-
 {{#internalNamespace}}
 namespace {{.}}
 {
 {{/internalNamespace}}
 namespace jni
 {
-{{#enum}}
-JNIEXPORT {{resolveName "C++ FQN"}} convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<{{resolveName "C++ FQN"}}>);
-JNIEXPORT std::optional<{{resolveName "C++ FQN"}}> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<{{resolveName "C++ FQN"}}>>);
-JNIEXPORT JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const {{resolveName "C++ FQN"}} _ninput);
-JNIEXPORT JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const std::optional<{{resolveName "C++ FQN"}}> _ninput);
-{{/enum}}
-}
+
+template<typename T>
+struct TypeId final {};
+
+} // namespace jni
 {{#internalNamespace}}
-}
+} // namespace {{.}}
 {{/internalNamespace}}

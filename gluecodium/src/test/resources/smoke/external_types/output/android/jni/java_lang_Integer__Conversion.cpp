@@ -21,7 +21,7 @@ struct Dummycom_here_android_test_ColorConverterType {};
 REGISTER_JNI_CLASS_CACHE("com/here/android/test/ColorConverter", com_here_android_test_ColorConverter, Dummycom_here_android_test_ColorConverterType)
 
 ::smoke::SystemColor
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput_ext, ::smoke::SystemColor*)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput_ext, TypeId<::smoke::SystemColor>)
 {
     auto& converterClass = CachedJavaClass<Dummycom_here_android_test_ColorConverterType>::java_class;
 
@@ -39,34 +39,34 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput_ext, ::smok
         _jenv,
         _jinput,
         "red",
-        (float*)nullptr );
+        TypeId<float>{} );
     _nout.red = n_red;
     float n_green = ::gluecodium::jni::get_field_value(
         _jenv,
         _jinput,
         "green",
-        (float*)nullptr );
+        TypeId<float>{} );
     _nout.green = n_green;
     float n_blue = ::gluecodium::jni::get_field_value(
         _jenv,
         _jinput,
         "blue",
-        (float*)nullptr );
+        TypeId<float>{} );
     _nout.blue = n_blue;
     float n_alpha = ::gluecodium::jni::get_field_value(
         _jenv,
         _jinput,
         "alpha",
-        (float*)nullptr );
+        TypeId<float>{} );
     _nout.alpha = n_alpha;
     return _nout;
 }
 
 std::optional<::smoke::SystemColor>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::optional<::smoke::SystemColor>*)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<::smoke::SystemColor>>)
 {
     return _jinput
-        ? std::optional<::smoke::SystemColor>(convert_from_jni(_jenv, _jinput, (::smoke::SystemColor*)nullptr))
+        ? std::optional<::smoke::SystemColor>(convert_from_jni(_jenv, _jinput, TypeId<::smoke::SystemColor>{}))
         : std::optional<::smoke::SystemColor>{};
 }
 

@@ -23,7 +23,7 @@ Java_com_example_smoke_Basic_basicMethod(JNIEnv* _jenv, jobject _jinstance, jstr
 
     ::std::string inputString = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinputString),
-            (::std::string*)nullptr);
+            ::gluecodium::jni::TypeId<::std::string>{});
 
 
 

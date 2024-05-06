@@ -23,7 +23,7 @@ Java_com_example_smoke_DatesSteady_dateMethod(JNIEnv* _jenv, jobject _jinstance,
 
     ::smoke::DatesSteady::MonotonicDate input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::smoke::DatesSteady::MonotonicDate*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::DatesSteady::MonotonicDate>{});
 
 
 
@@ -48,7 +48,7 @@ Java_com_example_smoke_DatesSteady_nullableDateMethod(JNIEnv* _jenv, jobject _ji
 
     std::optional< ::smoke::DatesSteady::MonotonicDate > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (std::optional< ::smoke::DatesSteady::MonotonicDate >*)nullptr);
+            ::gluecodium::jni::TypeId<std::optional< ::smoke::DatesSteady::MonotonicDate >>{});
 
 
 
@@ -73,7 +73,7 @@ Java_com_example_smoke_DatesSteady_dateListMethod(JNIEnv* _jenv, jobject _jinsta
 
     ::smoke::DatesSteady::DateList input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::smoke::DatesSteady::DateList*)nullptr);
+            ::gluecodium::jni::TypeId<::smoke::DatesSteady::DateList>{});
 
 
 

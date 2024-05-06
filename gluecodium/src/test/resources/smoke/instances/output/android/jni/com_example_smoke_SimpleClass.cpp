@@ -42,7 +42,7 @@ Java_com_example_smoke_SimpleClass_useSimpleClass(JNIEnv* _jenv, jobject _jinsta
 
     ::std::shared_ptr< ::smoke::SimpleClass > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            (::std::shared_ptr< ::smoke::SimpleClass >*)nullptr);
+            ::gluecodium::jni::TypeId<::std::shared_ptr< ::smoke::SimpleClass >>{});
 
 
 

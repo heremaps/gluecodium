@@ -15,7 +15,7 @@ namespace jni
 {
 
 ::smoke::UseOptimizedListStruct
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::UseOptimizedListStruct*)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::smoke::UseOptimizedListStruct>)
 {
     
     auto j_structs = get_object_field_value(_jenv, _jinput, "structs", "Ljava/util/List;");
@@ -30,10 +30,10 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, ::smoke::U
 }
 
 std::optional<::smoke::UseOptimizedListStruct>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, std::optional<::smoke::UseOptimizedListStruct>*)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<::smoke::UseOptimizedListStruct>>)
 {
     return _jinput
-        ? std::optional<::smoke::UseOptimizedListStruct>(convert_from_jni(_jenv, _jinput, (::smoke::UseOptimizedListStruct*)nullptr))
+        ? std::optional<::smoke::UseOptimizedListStruct>(convert_from_jni(_jenv, _jinput, TypeId<::smoke::UseOptimizedListStruct>{}))
         : std::optional<::smoke::UseOptimizedListStruct>{};
 }
 

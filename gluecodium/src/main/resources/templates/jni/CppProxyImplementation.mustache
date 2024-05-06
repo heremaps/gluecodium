@@ -92,7 +92,7 @@ namespace jni
         auto nErrorValue = {{#set typeRef=exception.errorType}}{{>jni/JniConversionPrefix}}{{/set}}convert_from_jni(
             jniEnv,
             jErrorValue,
-            ({{resolveName exception.errorType "C++ FQN"}}*)nullptr );
+            TypeId<{{resolveName exception.errorType "C++ FQN"}}>{});
 
 {{#instanceOf exception.errorType.type.actualType "LimeEnumeration"}}
         return ::std::error_code{nErrorValue};
@@ -108,7 +108,7 @@ namespace jni
 }}{{#unless returnType.isVoid}}
     return {{#unlessPredicate returnType.typeRef "isJniPrimitive"}}{{!!
     }}{{#returnType}}{{>jni/JniConversionPrefix}}{{/returnType}}convert_from_jni( jniEnv, _result, {{!!
-    }}({{resolveName returnType "C++"}}*)nullptr ){{/unlessPredicate}}{{!!
+    }}TypeId<{{resolveName returnType "C++"}}>{}){{/unlessPredicate}}{{!!
     }}{{#ifPredicate returnType.typeRef "isJniPrimitive"}}_result{{/ifPredicate}};
 {{/unless}}
 {{#if thrownType}}{{#if returnType.isVoid}}{{#instanceOf exception.errorType.type.actualType "LimeEnumeration"}}

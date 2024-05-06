@@ -26,7 +26,7 @@ com_example_smoke_ListenerWithNullable_CppProxy::method_with_byte( const std::op
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (std::optional< int8_t >*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<std::optional< int8_t >>{});
 
 
 
@@ -41,7 +41,7 @@ com_example_smoke_ListenerWithNullable_CppProxy::method_with_u_byte( const std::
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (std::optional< uint8_t >*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<std::optional< uint8_t >>{});
 
 
 
@@ -56,7 +56,7 @@ com_example_smoke_ListenerWithNullable_CppProxy::method_with_short( const std::o
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (std::optional< int16_t >*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<std::optional< int16_t >>{});
 
 
 
@@ -71,7 +71,7 @@ com_example_smoke_ListenerWithNullable_CppProxy::method_with_u_short( const std:
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (std::optional< uint16_t >*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<std::optional< uint16_t >>{});
 
 
 
@@ -86,7 +86,7 @@ com_example_smoke_ListenerWithNullable_CppProxy::method_with_int( const std::opt
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (std::optional< int32_t >*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<std::optional< int32_t >>{});
 
 
 
@@ -101,7 +101,7 @@ com_example_smoke_ListenerWithNullable_CppProxy::method_with_u_int( const std::o
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (std::optional< uint32_t >*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<std::optional< uint32_t >>{});
 
 
 
@@ -116,7 +116,7 @@ com_example_smoke_ListenerWithNullable_CppProxy::method_with_long( const std::op
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (std::optional< int64_t >*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<std::optional< int64_t >>{});
 
 
 
@@ -131,7 +131,7 @@ com_example_smoke_ListenerWithNullable_CppProxy::method_with_u_long( const std::
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (std::optional< uint64_t >*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<std::optional< uint64_t >>{});
 
 
 
@@ -146,7 +146,7 @@ com_example_smoke_ListenerWithNullable_CppProxy::method_with_double( const std::
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (std::optional< bool >*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<std::optional< bool >>{});
 
 
 
@@ -161,7 +161,7 @@ com_example_smoke_ListenerWithNullable_CppProxy::method_with_float( const std::o
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (std::optional< float >*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<std::optional< float >>{});
 
 
 
@@ -176,7 +176,7 @@ com_example_smoke_ListenerWithNullable_CppProxy::method_with_double( const std::
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, (std::optional< double >*)nullptr );
+    return convert_from_jni( jniEnv, _result, TypeId<std::optional< double >>{});
 
 
 
