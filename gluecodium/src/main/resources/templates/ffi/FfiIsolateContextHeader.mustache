@@ -31,12 +31,12 @@ namespace {{.}}
 {{/internalNamespace}}
 namespace ffi
 {
-class _GLUECODIUM_FFI_EXPORT IsolateContext
+class _GLUECODIUM_FFI_EXPORT IsolateContext final
 {
 public:
-    explicit IsolateContext(int32_t isolate_id);
-    ~IsolateContext();
-    static bool is_current(int32_t isolate_id);
+    explicit IsolateContext(int32_t isolate_id) noexcept;
+    ~IsolateContext() noexcept;
+    static bool is_current(int32_t isolate_id) noexcept;
 
 private:
     const int32_t m_previous_id;

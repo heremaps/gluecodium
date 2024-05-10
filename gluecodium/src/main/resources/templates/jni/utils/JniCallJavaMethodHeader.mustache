@@ -39,7 +39,7 @@ ResultType
 call_java_method_impl( JNIEnv* jni_env,
                        jobject java_object,
                        jmethodID method_id,
-                       Args ... args )
+                       Args ... args ) noexcept
 {
     static_assert((JniMethodArgumentTypeChecker<Args...>::are_all_jni_types),
         "Detected attempt to pass to Java method non JNI type parameter");
@@ -62,7 +62,7 @@ struct ProcessJavaMethodCall<false, ResultType>
     static ResultType call( JNIEnv* jni_env,
                             jobject java_object,
                             jmethodID method_id,
-                            Args ... args )
+                            Args ... args ) noexcept
     {
         return call_java_method_impl<ResultType>(jni_env, java_object, method_id, args...);
     }
@@ -75,7 +75,7 @@ struct ProcessJavaMethodCall<true, ResultType>
     static JniReference<ResultType> call( JNIEnv* jni_env,
                                           jobject java_object,
                                           jmethodID method_id,
-                                          Args ... args )
+                                          Args ... args ) noexcept
     {
         return make_local_ref(jni_env,
             call_java_method_impl<ResultType>(jni_env, java_object, method_id, args...));
@@ -89,7 +89,7 @@ struct ProcessJavaMethodCall<false, void>
     static void call( JNIEnv* jni_env,
                       jobject java_object,
                       jmethodID method_id,
-                      Args ... args )
+                      Args ... args ) noexcept
     {
         call_java_method_impl<void>(jni_env, java_object, method_id, args...);
     }
@@ -100,7 +100,7 @@ typename std::conditional<IsDerivedFromJObject<ResultType>::value, JniReference<
 call_java_method( JNIEnv* jni_env,
                   const JavaObject& java_object,
                   jmethodID method_id,
-                  const Args& ... args )
+                  const Args& ... args ) noexcept
 {
     return ProcessJavaMethodCall<IsDerivedFromJObject<ResultType>::value, ResultType>::call(
         jni_env, jni_reference_unwrap(java_object), method_id, jni_reference_unwrap(args)...);
@@ -112,10 +112,10 @@ call_java_method( JNIEnv* jni_env,
                   const JavaObject& java_object,
                   const char* method_name,
                   const char* jni_signature,
-                  const Args& ... args )
+                  const Args& ... args ) noexcept
 {
-    auto jClass = get_object_class( jni_env, java_object );
-    jmethodID method_id = jni_env->GetMethodID( jClass.get( ), method_name, jni_signature );
+    const auto jclass = get_object_class( jni_env, java_object );
+    const jmethodID method_id = jni_env->GetMethodID( jclass.get( ), method_name, jni_signature );
     return call_java_method<ResultType>(jni_env, java_object, method_id, args...);
 }
 
