@@ -10,409 +10,364 @@
 
 namespace
 {
-template<typename T>
-::gluecodium::jni::JniReference<jobject>
-box_value_in_object( JNIEnv* env, const char* className, const char* signature, T param )
+
+template<typename Result>
+Result unbox_value(JNIEnv* const env,
+                   const ::gluecodium::jni::JniReference<jobject>& jvalue,
+                   const char* const class_name,
+                   const char* const method_name,
+                   const char* const method_signature) noexcept
 {
-    auto javaClass = ::gluecodium::jni::find_class(env, className );
-    auto theConstructor = env->GetMethodID( javaClass.get(), "<init>", signature );
-    return ::gluecodium::jni::new_object(env, javaClass, theConstructor, param );
+    const auto java_class = ::gluecodium::jni::find_class( env, class_name );
+    const auto method_id = env->GetMethodID( java_class.get(), method_name, method_signature );
+    return ::gluecodium::jni::call_java_method<Result>( env, jvalue, method_id );
 }
 
 jint
-unbox_short_value( JNIEnv* env, const ::gluecodium::jni::JniReference<jobject>& jvalue )
+unbox_int_value( JNIEnv* const env, const ::gluecodium::jni::JniReference<jobject>& jvalue ) noexcept
 {
-    auto javaIntegerClass = ::gluecodium::jni::find_class( env, "java/lang/Short" );
-    auto intValueMethodId = env->GetMethodID( javaIntegerClass.get(), "shortValue", "()S" );
-    return ::gluecodium::jni::call_java_method<jshort>( env, jvalue, intValueMethodId );
-}
-
-jint
-unbox_int_value( JNIEnv* env, const ::gluecodium::jni::JniReference<jobject>& jvalue )
-{
-    auto javaIntegerClass = ::gluecodium::jni::find_class( env, "java/lang/Integer" );
-    auto intValueMethodId = env->GetMethodID( javaIntegerClass.get(), "intValue", "()I" );
-    return ::gluecodium::jni::call_java_method<jint>( env, jvalue, intValueMethodId );
+    return unbox_value<jint>(env, jvalue, "java/lang/Integer", "intValue", "()I");
 }
 
 jlong
-unbox_long_value( JNIEnv* env, const ::gluecodium::jni::JniReference<jobject>& jvalue )
+unbox_long_value( JNIEnv* const env, const ::gluecodium::jni::JniReference<jobject>& jvalue ) noexcept
 {
-    auto javaLongClass = ::gluecodium::jni::find_class( env, "java/lang/Long" );
-    auto longValueMethodId = env->GetMethodID( javaLongClass.get(), "longValue", "()J" );
-    return ::gluecodium::jni::call_java_method<jlong>( env, jvalue, longValueMethodId );
+    return unbox_value<jlong>(env, jvalue, "java/lang/Long", "longValue", "()J");
 }
 
 template<typename T>
 ::gluecodium::jni::JniReference<jobject>
-box_uint_in_object( JNIEnv* env, T param )
+box_value_in_object( JNIEnv* const env,
+                     const char* const class_name,
+                     const char* const signature,
+                     const T param ) noexcept
 {
-    auto javaClass = ::gluecodium::jni::find_class(env, "java/lang/Long" );
-    auto theConstructor = env->GetMethodID( javaClass.get(), "<init>", "(J)V" );
-    return new_object(env, javaClass, theConstructor, static_cast< int64_t >( param ) );
+    const auto java_class = ::gluecodium::jni::find_class(env, class_name );
+    const auto constructor_id = env->GetMethodID( java_class.get(), "<init>", signature );
+    return ::gluecodium::jni::new_object(env, java_class, constructor_id, param );
+}
+
+template<typename T>
+::gluecodium::jni::JniReference<jobject>
+box_uint_in_object( JNIEnv* const env, const T param ) noexcept
+{
+    return box_value_in_object(env, "java/lang/Long", "(J)V", static_cast< int64_t >( param ));
 }
 
 template<>
 ::gluecodium::jni::JniReference<jobject>
-box_uint_in_object( JNIEnv* env, uint8_t param )
+box_uint_in_object( JNIEnv* const env, const uint8_t param ) noexcept
 {
-    auto javaClass = ::gluecodium::jni::find_class(env, "java/lang/Short" );
-    auto theConstructor = env->GetMethodID( javaClass.get(), "<init>", "(S)V" );
-    return new_object(env, javaClass, theConstructor, static_cast< int16_t >( param ) );
+    return box_value_in_object(env, "java/lang/Short", "(S)V", static_cast< int16_t >( param ));
 }
 
 template<>
 ::gluecodium::jni::JniReference<jobject>
-box_uint_in_object( JNIEnv* env, uint16_t param )
+box_uint_in_object( JNIEnv* const env, const uint16_t param ) noexcept
 {
-    auto javaClass = ::gluecodium::jni::find_class(env, "java/lang/Integer" );
-    auto theConstructor = env->GetMethodID( javaClass.get(), "<init>", "(I)V" );
-    return new_object(env, javaClass, theConstructor, static_cast< int32_t >( param ) );
+    return box_value_in_object(env, "java/lang/Integer", "(I)V", static_cast< int32_t >( param ));
 }
+
+template<typename T>
+::gluecodium::jni::JniReference<jobject>
+convert_optional_to_jni( JNIEnv* const env, const std::optional<T>& nvalue ) noexcept
+{
+    return nvalue ? ::gluecodium::jni::convert_to_jni( env, *nvalue ) : ::gluecodium::jni::JniReference<jobject>{};
 }
+
+template<typename Result, typename JResult>
+std::optional<Result>
+convert_optional_from_jni(JNIEnv* const env,
+                          const ::gluecodium::jni::JniReference<jobject>& jvalue,
+                          const char* const method_name,
+                          const char* const method_signature) noexcept
+{
+    if ( !jvalue )
+    {
+        return {};
+    }
+    const auto unboxed_value = ::gluecodium::jni::call_java_method<JResult>(env, jvalue, method_name, method_signature );
+    return std::optional<Result>(unboxed_value);
+}
+} // namespace
 
 namespace gluecodium
 {
 namespace jni
 {
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, const bool nvalue )
+convert_to_jni( JNIEnv* const env, const bool nvalue ) noexcept
 {
     return box_value_in_object<jboolean>( env, "java/lang/Boolean", "(Z)V", nvalue );
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, const double nvalue )
+convert_to_jni( JNIEnv* const env, const double nvalue ) noexcept
 {
     return box_value_in_object<jdouble>( env, "java/lang/Double", "(D)V", nvalue );
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, const float nvalue )
+convert_to_jni( JNIEnv* const env, const float nvalue ) noexcept
 {
     return box_value_in_object<jfloat>( env, "java/lang/Float", "(F)V", nvalue );
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, const int8_t nvalue )
+convert_to_jni( JNIEnv* const env, const int8_t nvalue ) noexcept
 {
     return box_value_in_object<jbyte>( env, "java/lang/Byte", "(B)V", nvalue );
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, const int16_t nvalue )
+convert_to_jni( JNIEnv* const  env, const int16_t nvalue ) noexcept
 {
     return box_value_in_object<jshort>( env, "java/lang/Short", "(S)V", nvalue );
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, const int32_t nvalue )
+convert_to_jni( JNIEnv* const env, const int32_t nvalue ) noexcept
 {
     return box_value_in_object<jint>( env, "java/lang/Integer", "(I)V", nvalue );
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, const int64_t nvalue )
+convert_to_jni( JNIEnv* const env, const int64_t nvalue ) noexcept
 {
     return box_value_in_object<jlong>( env, "java/lang/Long", "(J)V", nvalue );
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, const uint8_t nvalue )
+convert_to_jni( JNIEnv* const env, const uint8_t nvalue ) noexcept
 {
     return box_uint_in_object( env, nvalue );
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, const uint16_t nvalue )
+convert_to_jni( JNIEnv* const env, const uint16_t nvalue ) noexcept
 {
     return box_uint_in_object( env, nvalue );
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, const uint32_t nvalue )
+convert_to_jni( JNIEnv* const env, const uint32_t nvalue ) noexcept
 {
     return box_uint_in_object( env, nvalue );
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, const uint64_t nvalue )
+convert_to_jni( JNIEnv* const env, const uint64_t nvalue ) noexcept
 {
     return box_uint_in_object( env, nvalue );
 }
 
 bool
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<bool> )
+convert_from_jni( JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<bool> ) noexcept
 {
-    auto javaBooleanClass = find_class( env, "java/lang/Boolean" );
-    auto booleanValueMethodId = env->GetMethodID( javaBooleanClass.get(), "booleanValue", "()Z" );
-    return call_java_method<jboolean>( env, jvalue, booleanValueMethodId );
+    return unbox_value<jboolean>(env, jvalue, "java/lang/Boolean", "booleanValue", "()Z");
 }
 
 double
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<double> )
+convert_from_jni( JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<double> ) noexcept
 {
-    auto javaDoubleClass = find_class( env, "java/lang/Double" );
-    auto doubleValueMethodId = env->GetMethodID( javaDoubleClass.get(), "doubleValue", "()D" );
-    return call_java_method<jdouble>( env, jvalue, doubleValueMethodId );
+    return unbox_value<jdouble>(env, jvalue, "java/lang/Double", "doubleValue", "()D");
 }
 
 float
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<float> )
+convert_from_jni( JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<float> ) noexcept
 {
-    auto javaFloatClass = find_class( env, "java/lang/Float" );
-    auto floatValueMethodId = env->GetMethodID( javaFloatClass.get(), "floatValue", "()F" );
-    return call_java_method<jfloat>( env, jvalue, floatValueMethodId );
+    return unbox_value<jfloat>(env, jvalue, "java/lang/Float", "floatValue", "()F");
 }
 
 int8_t
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<int8_t> )
+convert_from_jni( JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<int8_t> ) noexcept
 {
-    auto javaByteClass = find_class( env, "java/lang/Byte" );
-    auto byteValueMethodId = env->GetMethodID( javaByteClass.get(), "byteValue", "()B" );
-    return call_java_method<jbyte>( env, jvalue, byteValueMethodId );
+    return unbox_value<jbyte>(env, jvalue, "java/lang/Byte", "byteValue", "()B");
 }
 
 int16_t
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<int16_t> )
+convert_from_jni( JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<int16_t> ) noexcept
 {
-    auto javaShortClass = find_class(env, "java/lang/Short" );
-    auto shortValueMethodId = env->GetMethodID( javaShortClass.get(), "shortValue", "()S" );
-    return call_java_method<jshort>( env, jvalue, shortValueMethodId );
+    return unbox_value<jshort>(env, jvalue, "java/lang/Short", "shortValue", "()S");
 }
 
 int32_t
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<int32_t> )
+convert_from_jni( JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<int32_t> ) noexcept
 {
     return unbox_int_value( env, jvalue );
 }
 
 int64_t
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<int64_t> )
+convert_from_jni( JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<int64_t> ) noexcept
 {
     return unbox_long_value( env, jvalue );
 }
 
 uint8_t
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<uint8_t> )
+convert_from_jni( JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<uint8_t> ) noexcept
 {
-    return unbox_short_value( env, jvalue );
+    return unbox_value<jshort>(env, jvalue, "java/lang/Short", "shortValue", "()S");
 }
 
 uint16_t
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<uint16_t> )
+convert_from_jni( JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<uint16_t> ) noexcept
 {
     return unbox_int_value( env, jvalue );
 }
 
 uint32_t
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<uint32_t> )
+convert_from_jni( JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<uint32_t> ) noexcept
 {
     return unbox_long_value( env, jvalue );
 }
 
 uint64_t
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<uint64_t> )
+convert_from_jni( JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<uint64_t> ) noexcept
 {
     return unbox_long_value( env, jvalue );
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::optional<bool> nvalue )
+convert_to_jni( JNIEnv* const env, std::optional<bool> nvalue ) noexcept
 {
-    return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
+    return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::optional<float> nvalue )
+convert_to_jni( JNIEnv* const env, std::optional<float> nvalue ) noexcept
 {
-    return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
+    return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::optional<double> nvalue )
+convert_to_jni( JNIEnv* const env, std::optional<double> nvalue ) noexcept
 {
-    return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
+    return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::optional<int8_t> nvalue )
+convert_to_jni( JNIEnv* const env, std::optional<int8_t> nvalue ) noexcept
 {
-    return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
+    return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::optional<int16_t> nvalue )
+convert_to_jni( JNIEnv* const env, std::optional<int16_t> nvalue ) noexcept
 {
-    return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
+    return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::optional<int32_t> nvalue )
+convert_to_jni( JNIEnv* const env, std::optional<int32_t> nvalue ) noexcept
 {
-    return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
+    return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::optional<int64_t> nvalue )
+convert_to_jni( JNIEnv* const env, std::optional<int64_t> nvalue ) noexcept
 {
-    return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
+    return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::optional<uint8_t> nvalue )
+convert_to_jni( JNIEnv* const env, std::optional<uint8_t> nvalue ) noexcept
 {
-    return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
+    return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::optional<uint16_t> nvalue )
+convert_to_jni( JNIEnv* const env, std::optional<uint16_t> nvalue ) noexcept
 {
-    return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
+    return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::optional<uint32_t> nvalue )
+convert_to_jni( JNIEnv* const env, std::optional<uint32_t> nvalue ) noexcept
 {
-    return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
+    return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* env, std::optional<uint64_t> nvalue )
+convert_to_jni( JNIEnv* const env, std::optional<uint64_t> nvalue ) noexcept
 {
-    return nvalue ? convert_to_jni( env, *nvalue ) : JniReference<jobject>{};
+    return convert_optional_to_jni(env, nvalue);
 }
 
 std::optional<bool>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<bool>> )
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<bool>> ) noexcept
 {
-    if ( !jvalue )
-    {
-        return {};
-    }
-    auto unboxedValue = call_java_method<jboolean>( env, jvalue, "booleanValue", "()Z" );
-    return std::optional<bool>( unboxedValue );
+    return convert_optional_from_jni<bool, jboolean>(env, jvalue, "booleanValue", "()Z");
 }
 
 std::optional<float>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<float>> )
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<float>> ) noexcept
 {
-    if ( !jvalue )
-    {
-        return {};
-    }
-    auto unboxedValue = call_java_method<jfloat>( env, jvalue, "floatValue", "()F" );
-    return std::optional<float>( unboxedValue );
+    return convert_optional_from_jni<float, jfloat>(env, jvalue, "floatValue", "()F");
 }
 
 std::optional<double>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<double>> )
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<double>> ) noexcept
 {
-    if ( !jvalue )
-    {
-        return {};
-    }
-    auto unboxedValue = call_java_method<jdouble>( env, jvalue, "doubleValue", "()D" );
-    return std::optional<double>( unboxedValue );
+    return convert_optional_from_jni<double, jdouble>(env, jvalue, "doubleValue", "()D");
 }
 
 std::optional<int8_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<int8_t>> )
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<int8_t>> ) noexcept
 {
-    if ( !jvalue )
-    {
-        return {};
-    }
-    auto unboxedValue = call_java_method<int8_t>( env, jvalue, "byteValue", "()B" );
-    return std::optional<int8_t>( unboxedValue );
+    return convert_optional_from_jni<int8_t, int8_t>(env, jvalue, "byteValue", "()B");
 }
 
 std::optional<int16_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<int16_t>> )
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<int16_t>> ) noexcept
 {
-    if ( !jvalue )
-    {
-        return {};
-    }
-    auto unboxedValue = call_java_method<int16_t>( env, jvalue, "shortValue", "()S" );
-    return std::optional<int16_t>( unboxedValue );
+    return convert_optional_from_jni<int16_t, int16_t>(env, jvalue, "shortValue", "()S");
 }
 
 std::optional<int32_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<int32_t>> )
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<int32_t>> ) noexcept
 {
-    if ( !jvalue )
-    {
-        return {};
-    }
-    auto unboxedValue = call_java_method<int32_t>( env, jvalue, "intValue", "()I" );
-    return std::optional<int32_t>( unboxedValue );
+    return convert_optional_from_jni<int32_t, int32_t>(env, jvalue, "intValue", "()I");
 }
 
 std::optional<int64_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<int64_t>> )
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<int64_t>> ) noexcept
 {
-    if ( !jvalue )
-    {
-        return {};
-    }
-    auto unboxedValue = call_java_method<int64_t>( env, jvalue, "longValue", "()J" );
-    return std::optional<int64_t>( unboxedValue );
+    return convert_optional_from_jni<int64_t, int64_t>(env, jvalue, "longValue", "()J");
 }
 
 std::optional<uint8_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<uint8_t>> )
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<uint8_t>> ) noexcept
 {
-    if ( !jvalue )
-    {
-        return {};
-    }
-    auto unboxedValue = call_java_method<int16_t>( env, jvalue, "shortValue", "()S" );
-    return std::optional<uint8_t>( static_cast<uint8_t>( unboxedValue ) );
+    return convert_optional_from_jni<uint8_t, int16_t>(env, jvalue, "shortValue", "()S");
 }
 
 std::optional<uint16_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<uint16_t>> )
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<uint16_t>> ) noexcept
 {
-    if ( !jvalue )
-    {
-        return {};
-    }
-    auto unboxedValue = call_java_method<int32_t>( env, jvalue, "intValue", "()I" );
-    return std::optional<uint16_t>( static_cast<uint16_t>( unboxedValue ) );
+    return convert_optional_from_jni<uint16_t, int32_t>(env, jvalue, "intValue", "()I");
 }
 
 std::optional<uint32_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<uint32_t>> )
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<uint32_t>> ) noexcept
 {
-    if ( !jvalue )
-    {
-        return {};
-    }
-    auto unboxedValue = call_java_method<int64_t>( env, jvalue, "longValue", "()J" );
-    return std::optional<uint32_t>( static_cast<uint32_t>( unboxedValue ) );
+    return convert_optional_from_jni<uint32_t, int64_t>(env, jvalue, "longValue", "()J");
 }
 
 std::optional<uint64_t>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<uint64_t>> )
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<uint64_t>> ) noexcept
 {
-    if ( !jvalue )
-    {
-        return {};
-    }
-    auto unboxedValue = call_java_method<int64_t>( env, jvalue, "longValue", "()J" );
-    return std::optional<uint64_t>( static_cast<uint64_t>( unboxedValue ) );
+    return convert_optional_from_jni<uint64_t, int64_t>(env, jvalue, "longValue", "()J");
 }
 
 }
