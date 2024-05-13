@@ -31,14 +31,14 @@ namespace {{.}}
 namespace jni
 {
 
-JavaContaner::JavaContaner(JNIEnv* const env, const char* class_name) noexcept
+JavaContainer::JavaContainer(JNIEnv* const env, const char* class_name) noexcept
     : env(env)
     , container_class(find_class(env, class_name))
     , instance(create_object(env, container_class))
 {
 }
 
-JavaContaner::JavaContaner(JNIEnv* const env, JniReference<jclass> container_class, JniReference<jobject> instance) noexcept
+JavaContainer::JavaContainer(JNIEnv* const env, JniReference<jclass> container_class, JniReference<jobject> instance) noexcept
     : env(env)
     , container_class(std::move(container_class))
     , instance(std::move(instance))

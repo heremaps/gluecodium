@@ -97,10 +97,10 @@ convert_optional_container_to_jni(JNIEnv* const env, const std::optional<Contain
 
 // Templated functions to create ArrayLists from C++ vectors and vice versa
 
-struct JavaContaner
+struct JavaContainer
 {
-    JavaContaner(JNIEnv* const env, const char* class_name) noexcept;
-    JavaContaner(JNIEnv* const env, JniReference<jclass> container_class, JniReference<jobject> instance) noexcept;
+    JavaContainer(JNIEnv* const env, const char* class_name) noexcept;
+    JavaContainer(JNIEnv* const env, JniReference<jclass> container_class, JniReference<jobject> instance) noexcept;
 
     JNIEnv* const env;
     const JniReference<jclass> container_class;
@@ -124,7 +124,7 @@ public:
     }
 
 private:
-    JavaContaner m_java_container;
+    JavaContainer m_java_container;
     const jmethodID m_add_method_id;
 };
 
@@ -211,7 +211,7 @@ public:
         return std::move(m_java_container.instance);
     }
 private:
-    JavaContaner m_java_container;
+    JavaContainer m_java_container;
     const jmethodID m_put_method_id;
 };
 
