@@ -23,8 +23,6 @@
 #pragma once
 
 #include "BoxingConversionUtils.h"
-#include "FieldAccessMethods.h"
-#include "JniCallJavaMethod.h"
 #include "JniClassCache.h"
 #include "JniCppConversionUtils.h"
 #include "JniReference.h"
@@ -47,285 +45,383 @@ namespace jni
 
 template < typename K, typename V, typename Hash >
 std::unordered_map< K, V, Hash >
-convert_from_jni( JNIEnv* _env, const JniReference<jobject>& _jMap, TypeId<std::unordered_map< K, V, Hash>> );
+convert_from_jni(JNIEnv* const env, const JniReference<jobject>& java_map, TypeId<std::unordered_map< K, V, Hash>>);
 
 template<typename K, typename V, typename Hash>
 std::optional<std::unordered_map<K, V, Hash>>
-convert_from_jni(JNIEnv* _env,
+convert_from_jni(JNIEnv* const env,
                  const JniReference<jobject>& _jMap,
                  TypeId<std::optional<std::unordered_map<K, V, Hash>>>);
 
 template < typename K, typename V, typename Hash >
 JniReference<jobject>
-convert_to_jni( JNIEnv* _env, const std::unordered_map< K, V, Hash >& _ninput );
+convert_to_jni(JNIEnv* const env, const std::unordered_map< K, V, Hash >& input);
 
 template<typename K, typename V, typename Hash>
 JniReference<jobject>
-convert_to_jni(JNIEnv* _env, const std::optional<std::unordered_map<K, V, Hash>>& _ninput);
+convert_to_jni(JNIEnv* const env, const std::optional<std::unordered_map<K, V, Hash>>& input);
 
 // Forward declare set conversion routines
 
 template <typename T, typename Hash, typename std::enable_if<!std::is_enum<T>::value, int>::type = 0>
 JniReference<jobject>
-convert_to_jni(JNIEnv* _env, const std::unordered_set<T, Hash>& _ninput);
+convert_to_jni(JNIEnv* const env, const std::unordered_set<T, Hash>& input);
 
 template <typename T, typename Hash, typename std::enable_if<std::is_enum<T>::value, int>::type = 0>
 JniReference<jobject>
-convert_to_jni(JNIEnv* _env, const std::unordered_set<T, Hash>& _ninput);
+convert_to_jni(JNIEnv* const env, const std::unordered_set<T, Hash>& input);
 
 template<typename T, typename Hash>
 JniReference<jobject>
-convert_to_jni(JNIEnv* _env, const std::optional<std::unordered_set<T, Hash>>& _ninput);
+convert_to_jni(JNIEnv* const env, const std::optional<std::unordered_set<T, Hash>>& input);
 
 template <typename T, typename Hash>
 std::unordered_set<T, Hash>
-convert_from_jni( JNIEnv* _env, const JniReference<jobject>& jSet, TypeId<std::unordered_set<T, Hash>> );
+convert_from_jni(JNIEnv* const env, const JniReference<jobject>& java_set, TypeId<std::unordered_set<T, Hash>>);
 
 template<typename T, typename Hash>
 std::optional<std::unordered_set<T, Hash>>
-convert_from_jni(JNIEnv* _env,
-                 const JniReference<jobject>& jSet,
+convert_from_jni(JNIEnv* const env,
+                 const JniReference<jobject>& java_set,
                  TypeId<std::optional<std::unordered_set<T, Hash>>>);
+
+template<typename Container>
+std::optional<Container>
+convert_optional_container_from_jni(JNIEnv* const env,
+                                    const JniReference<jobject>& java_container,
+                                    TypeId<std::optional<Container>>);
+
+template<typename Container>
+JniReference<jobject>
+convert_optional_container_to_jni(JNIEnv* const env, const std::optional<Container>& optional_container);
 
 // Templated functions to create ArrayLists from C++ vectors and vice versa
 
-template < typename T >
-JniReference<jobject>
-convert_to_jni( JNIEnv* _env, const std::vector< T >& _ninput )
+struct JavaContaner
 {
-    auto javaClass = find_class( _env, "java/util/ArrayList");
-    auto result = create_object( _env, javaClass );
-    jmethodID addMethodId = _env->GetMethodID( javaClass.get(), "add", "(Ljava/lang/Object;)Z" );
+    JavaContaner(JNIEnv* const env, const char* class_name) noexcept;
+    JavaContaner(JNIEnv* const env, JniReference<jclass> container_class, JniReference<jobject> instance) noexcept;
 
-    for ( const T& element : _ninput )
+    JNIEnv* const env;
+    const JniReference<jclass> container_class;
+    JniReference<jobject> instance;
+};
+
+class JavaContainerAdder
+{
+protected:
+    JavaContainerAdder(JNIEnv* const env,
+                       const char* class_name) noexcept;
+    JavaContainerAdder(JNIEnv* const env,
+                       JniReference<jclass> container_class,
+                       JniReference<jobject> instance) noexcept;
+
+public:
+    void add(const JniReference<jobject>& item) noexcept;
+    JniReference<jobject> fetch_container() noexcept
     {
-        auto jElement = convert_to_jni( _env, element );
-        call_java_method<jboolean>( _env, result, addMethodId, jElement );
+        return std::move(m_java_container.instance);
     }
 
-    return result;
+private:
+    JavaContaner m_java_container;
+    const jmethodID m_add_method_id;
+};
+
+class JavaArrayListAdder final : public JavaContainerAdder
+{
+public:
+    JavaArrayListAdder(JNIEnv* const env) noexcept;
+};
+
+template < typename T >
+JniReference<jobject>
+convert_to_jni(JNIEnv* const env, const std::vector< T >& input)
+{
+    JavaArrayListAdder list_appender{env};
+
+    for (const T& element : input)
+    {
+        list_appender.add(convert_to_jni(env, element));
+    }
+
+    return list_appender.fetch_container();
 }
 
-template<typename T>
-JniReference<jobject>
-convert_to_jni(JNIEnv* _env, const std::optional<std::vector<T>>& _ninput)
+class JavaListIterator final
 {
-    return _ninput ? convert_to_jni(_env, *_ninput) : JniReference<jobject>{};
-}
+public:
+    JavaListIterator(JNIEnv* const env, const JniReference<jobject>& array_list) noexcept;
+    JniReference<jobject> get(const JniReference<jobject>& array_list, jint index) const noexcept;
+    jint length() const noexcept
+    {
+        return m_length;
+    }
+
+private:
+    JNIEnv* const m_env;
+    const JniReference<jclass> m_list_class;
+    const jmethodID m_get_method_id;
+    jint m_length;
+};
 
 template < typename T >
 std::vector< T >
-convert_from_jni( JNIEnv* _env, const JniReference<jobject>& _arrayList, TypeId<std::vector< T >> )
+convert_from_jni(JNIEnv* const env, const JniReference<jobject>& array_list, TypeId<std::vector< T >>)
 {
-    std::vector< T > _nresult{};
+    std::vector< T > result;
 
-    if ( _env->IsSameObject( _arrayList.get(), nullptr ) )
+    if (env->IsSameObject(array_list.get(), nullptr))
     {
-        return _nresult;
+        return result;
     }
 
-    auto javaArrayListClass = find_class( _env, "java/util/List" );
-    auto sizeMethodId = _env->GetMethodID( javaArrayListClass.get(), "size", "()I" );
-    auto getMethodId = _env->GetMethodID( javaArrayListClass.get(), "get", "(I)Ljava/lang/Object;" );
-    jint length = call_java_method<jint>( _env, _arrayList, sizeMethodId );
-    _nresult.reserve( length );
+    const JavaListIterator list_iterator(env, array_list);
 
-    for ( jint i = 0; i < length; i++ )
+    const jint length = list_iterator.length();
+
+    result.reserve(length);
+
+    for (jint i = 0; i < length; i++)
     {
-        auto javaListItem = call_java_method<jobject>( _env, _arrayList, getMethodId, i );
-        _nresult.push_back( convert_from_jni( _env, javaListItem, TypeId<T>{} ) );
+        result.emplace_back(convert_from_jni(env, list_iterator.get(array_list, i), TypeId<T>{}));
     }
 
-    return _nresult;
-}
-
-template<typename T>
-std::optional<std::vector<T>>
-convert_from_jni(JNIEnv* _env,
-                 const JniReference<jobject>& _arrayList,
-                 TypeId<std::optional<std::vector<T>>>)
-{
-    return _arrayList
-        ? std::optional<std::vector<T>>(convert_from_jni(_env, _arrayList, TypeId<std::vector<T>>{}))
-        : std::optional<std::vector<T>>{};
+    return result;
 }
 
 template <typename T>
 JniReference<jobject>
-convert_to_jni_optimized(JNIEnv* _env, const std::vector<std::shared_ptr<T>>& _ninput, const char* _className) {
+convert_to_jni_optimized(JNIEnv* const env, const std::vector<std::shared_ptr<T>>& input, const char* class_name) {
     auto vector_ptr = new (std::nothrow) std::shared_ptr<std::vector<std::shared_ptr<T>>>(
-        new (std::nothrow) std::vector<std::shared_ptr<T>>(_ninput)
+        new (std::nothrow) std::vector<std::shared_ptr<T>>(input)
     );
-    return create_instance_object(_env, find_class(_env, _className), reinterpret_cast<jlong>(vector_ptr));
+    return create_instance_object(env, find_class(env, class_name), reinterpret_cast<jlong>(vector_ptr));
 }
 
 // Templated functions to create HashMaps from C++ unordered_maps and vice versa
 
+class JavaHashMapAdder final
+{
+public:
+    JavaHashMapAdder(JNIEnv* const env) noexcept;
+    void add(const JniReference<jobject>& key, const JniReference<jobject>& value) noexcept;
+    JniReference<jobject> fetch_hash_map() noexcept
+    {
+        return std::move(m_java_container.instance);
+    }
+private:
+    JavaContaner m_java_container;
+    const jmethodID m_put_method_id;
+};
+
 template < typename K, typename V, typename Hash >
 JniReference<jobject>
-convert_to_jni( JNIEnv* _env, const std::unordered_map< K, V, Hash >& _ninput )
+convert_to_jni(JNIEnv* const env, const std::unordered_map< K, V, Hash >& input)
 {
-    auto javaClass = find_class(_env, "java/util/HashMap" );
-    auto result = create_object( _env, javaClass );
-    jmethodID putMethodId = _env->GetMethodID(
-        javaClass.get(), "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;" );
+    JavaHashMapAdder map_adder{env};
 
-    for ( const auto& pair : _ninput )
+    for (const auto& pair : input)
     {
-        auto jKey = convert_to_jni( _env, pair.first );
-        auto jValue = convert_to_jni( _env, pair.second );
-        call_java_method<jobject>( _env, result, putMethodId, jKey, jValue );
+        map_adder.add(convert_to_jni(env, pair.first), convert_to_jni(env, pair.second));
     }
 
-    return result;
+    return map_adder.fetch_hash_map();
 }
 
-template<typename K, typename V, typename Hash>
-JniReference<jobject>
-convert_to_jni(JNIEnv* _env, const std::optional<std::unordered_map<K, V, Hash>>& _ninput)
+class JavaSetIterator final
 {
-    return _ninput ? convert_to_jni(_env, *_ninput) : JniReference<jobject>{};
-}
+public:
+    JavaSetIterator(JNIEnv* const env, const JniReference<jobject>& java_set) noexcept;
+
+    bool has_next() const noexcept;
+
+    JniReference<jobject> next() const noexcept;
+
+private:
+    JNIEnv* const m_env;
+    const JniReference<jclass> m_iterator_class;
+
+    JniReference<jobject> m_iterator;
+    jmethodID m_has_next_method_id;
+    jmethodID m_next_method_id;
+};
+
+class JavaMapIterator final
+{
+public:
+    JavaMapIterator(JNIEnv* const env, const JniReference<jobject>& java_map) noexcept;
+
+    bool has_next() const noexcept
+    {
+        return m_set_iterator.has_next();
+    }
+
+    std::pair<JniReference<jobject>, JniReference<jobject>> next() const noexcept;
+private:
+    JNIEnv* const m_env;
+    const JniReference<jclass> m_map_class;
+    const JniReference<jclass> m_map_entry_class;
+    const JavaSetIterator m_set_iterator;
+
+    jmethodID m_get_key_method_id;
+    jmethodID m_get_value_method_id;
+};
 
 template < typename K, typename V, typename Hash >
 ::std::unordered_map< K, V, Hash >
-convert_from_jni( JNIEnv* _env, const JniReference<jobject>& _jMap, TypeId<::std::unordered_map< K, V, Hash >> )
+convert_from_jni(JNIEnv* const env, const JniReference<jobject>& java_map, TypeId<::std::unordered_map< K, V, Hash >>)
 {
-    ::std::unordered_map< K, V, Hash > _nresult{};
+    ::std::unordered_map< K, V, Hash > result{};
 
-    if ( _env->IsSameObject( _jMap.get(), nullptr ) )
+    if (env->IsSameObject(java_map.get(), nullptr))
     {
-        return _nresult;
+        return result;
     }
 
-    auto javaMapClass = find_class(_env, "java/util/Map" );
-    auto entrySetMethodId = _env->GetMethodID( javaMapClass.get(), "entrySet", "()Ljava/util/Set;" );
-    auto jEntrySet = call_java_method<jobject>( _env, _jMap, entrySetMethodId );
+    const JavaMapIterator map_iterator(env, java_map);
 
-    auto javaSetClass = find_class(_env, "java/util/Set" );
-    auto iteratorMethodId = _env->GetMethodID( javaSetClass.get(), "iterator", "()Ljava/util/Iterator;" );
-    auto jIterator = call_java_method<jobject>( _env, jEntrySet, iteratorMethodId );
-
-    auto javaIteratorClass = find_class(_env, "java/util/Iterator" );
-    auto hasNextMethodId = _env->GetMethodID( javaIteratorClass.get(), "hasNext", "()Z" );
-    auto nextMethodId = _env->GetMethodID( javaIteratorClass.get(), "next", "()Ljava/lang/Object;" );
-
-    auto javaMapEntryClass = find_class(_env, "java/util/Map$Entry" );
-    auto getKeyMethodId = _env->GetMethodID( javaMapEntryClass.get(), "getKey", "()Ljava/lang/Object;" );
-    auto getValueMethodId
-        = _env->GetMethodID( javaMapEntryClass.get(), "getValue", "()Ljava/lang/Object;" );
-
-    while ( call_java_method<jboolean>( _env, jIterator, hasNextMethodId ) )
+    while(map_iterator.has_next())
     {
-        auto jEntry = call_java_method<jobject>( _env, jIterator, nextMethodId );
-        auto jKey = call_java_method<jobject>( _env, jEntry, getKeyMethodId );
-        K nKey = convert_from_jni( _env, jKey, TypeId<K>{} );
-
-        auto jValue = call_java_method<jobject>( _env, jEntry, getValueMethodId );
-        V nValue = convert_from_jni( _env, jValue, TypeId<V>{} );
-
-        _nresult.emplace( std::move( nKey ), std::move( nValue ) );
+        const auto& key_value = map_iterator.next();
+        result.emplace(convert_from_jni(env, key_value.first, TypeId<K>{}),
+                         convert_from_jni(env, key_value.second, TypeId<V>{}));
     }
 
-    return _nresult;
-}
-
-template<typename K, typename V, typename Hash>
-std::optional<std::unordered_map<K, V, Hash>>
-convert_from_jni(JNIEnv* _env,
-                 const JniReference<jobject>& _jMap,
-                 TypeId<std::optional<std::unordered_map<K, V, Hash>>>)
-{
-    return _jMap
-        ? std::optional<std::unordered_map<K, V, Hash>>(convert_from_jni(_env, _jMap, TypeId<std::unordered_map<K, V, Hash>>{}))
-        : std::optional<std::unordered_map<K, V, Hash>>{};
+    return result;
 }
 
 // Templated functions to create HashSet from C++ unordered_set and vice versa
 
+class JavaHashSetAdder final : public JavaContainerAdder
+{
+public:
+    JavaHashSetAdder(JNIEnv* const env) noexcept;
+};
+
 template <typename T, typename Hash, typename std::enable_if<!std::is_enum<T>::value, int>::type>
 JniReference<jobject>
-convert_to_jni(JNIEnv* _env, const std::unordered_set<T, Hash>& _ninput)
+convert_to_jni(JNIEnv* const env, const std::unordered_set<T, Hash>& input)
 {
-    auto javaClass = find_class(_env, "java/util/HashSet");
-    auto result = create_object( _env, javaClass);
-    jmethodID addMethodId = _env->GetMethodID(javaClass.get(), "add", "(Ljava/lang/Object;)Z");
+    JavaHashSetAdder set_adder{env};
 
-    for (const T& element : _ninput)
+    for (const T& element : input)
     {
-        auto jElement = convert_to_jni(_env, element);
-        call_java_method<jboolean>(_env, result, addMethodId, jElement);
+        set_adder.add(convert_to_jni(env, element));
     }
 
-    return result;
+    return set_adder.fetch_container();
 }
+
+class JavaEnumSetAdder final : public JavaContainerAdder
+{
+public:
+    JavaEnumSetAdder(JNIEnv* const env, const JniReference<jclass>& element_class) noexcept;
+
+private:
+    JavaEnumSetAdder(JNIEnv* const env,
+                     std::pair<JniReference<jclass>, JniReference<jobject>> class_and_object) noexcept;
+};
 
 template <typename T, typename Hash, typename std::enable_if<std::is_enum<T>::value, int>::type>
 JniReference<jobject>
-convert_to_jni(JNIEnv* _env, const std::unordered_set<T, Hash>& _ninput)
+convert_to_jni(JNIEnv* env, const std::unordered_set<T, Hash>& input)
 {
-    auto enumSetClass = find_class(_env, "java/util/EnumSet");
-    jmethodID noneOfMethodId = _env->GetStaticMethodID(
-        enumSetClass.get(), "noneOf", "(Ljava/lang/Class;)Ljava/util/EnumSet;");
-    auto& elementClass = CachedJavaClass<T>::java_class;
-    auto result = make_local_ref(_env, _env->CallStaticObjectMethod(
-        enumSetClass.get(), noneOfMethodId, elementClass.get()));
+    JavaEnumSetAdder set_adder{env, CachedJavaClass<T>::java_class};
 
-    jmethodID addMethodId = _env->GetMethodID(enumSetClass.get(), "add", "(Ljava/lang/Object;)Z");
-    for (const T& element : _ninput)
+    for (const T& element : input)
     {
-        auto jElement = convert_to_jni(_env, element);
-        call_java_method<jboolean>(_env, result, addMethodId, jElement);
+        set_adder.add(convert_to_jni(env, element));
     }
 
-    return result;
-}
-
-template<typename T, typename Hash >
-JniReference<jobject>
-convert_to_jni(JNIEnv* _env, const std::optional<std::unordered_set<T, Hash>>& _ninput)
-{
-    return _ninput ? convert_to_jni(_env, *_ninput) : JniReference<jobject>{};
+    return set_adder.fetch_container();
 }
 
 template <typename T, typename Hash >
 std::unordered_set<T, Hash>
-convert_from_jni( JNIEnv* _env, const JniReference<jobject>& jSet, TypeId<std::unordered_set<T, Hash>> )
+convert_from_jni(JNIEnv* const env, const JniReference<jobject>& java_set, TypeId<std::unordered_set<T, Hash>>)
 {
-    std::unordered_set<T, Hash> _nresult{};
+    std::unordered_set<T, Hash> result{};
 
-    if (_env->IsSameObject(jSet.get(), nullptr))
+    if (env->IsSameObject(java_set.get(), nullptr))
     {
-        return _nresult;
+        return result;
     }
 
-    auto javaSetClass = find_class(_env, "java/util/Set");
-    auto iteratorMethodId = _env->GetMethodID(javaSetClass.get(), "iterator", "()Ljava/util/Iterator;");
-    auto jIterator = call_java_method<jobject>(_env, jSet, iteratorMethodId);
+    const JavaSetIterator set_iterator(env, java_set);
 
-    auto javaIteratorClass = find_class(_env, "java/util/Iterator");
-    auto hasNextMethodId = _env->GetMethodID(javaIteratorClass.get(), "hasNext", "()Z");
-    auto nextMethodId = _env->GetMethodID(javaIteratorClass.get(), "next", "()Ljava/lang/Object;");
-
-    while (call_java_method<jboolean>(_env, jIterator, hasNextMethodId))
+    while (set_iterator.has_next())
     {
-        auto jElement = call_java_method<jobject>(_env, jIterator, nextMethodId);
-        T nElement = convert_from_jni(_env, jElement, TypeId<T>{});
-        _nresult.insert(std::move(nElement));
+        result.emplace(convert_from_jni(env, set_iterator.next(), TypeId<T>{}));
     }
 
-    return _nresult;
+    return result;
+}
+
+// Optionals
+
+template<typename K, typename V, typename Hash>
+std::optional<std::unordered_map<K, V, Hash>>
+convert_from_jni(JNIEnv* const env,
+                 const JniReference<jobject>& java_map,
+                 TypeId<std::optional<std::unordered_map<K, V, Hash>>>)
+{
+    return convert_optional_container_from_jni(env, java_map, TypeId<std::optional<std::unordered_map<K, V, Hash>>>{});
+}
+
+template<typename T>
+std::optional<std::vector<T>>
+convert_from_jni(JNIEnv* const env,
+                 const JniReference<jobject>& array_list,
+                 TypeId<std::optional<std::vector<T>>>)
+{
+    return convert_optional_container_from_jni(env, array_list, TypeId<std::optional<std::vector<T>>>{});
+}
+
+template<typename K, typename V, typename Hash>
+JniReference<jobject>
+convert_to_jni(JNIEnv* const env, const std::optional<std::unordered_map<K, V, Hash>>& input)
+{
+    return convert_optional_container_to_jni(env, input);
+}
+
+template<typename T>
+JniReference<jobject>
+convert_to_jni(JNIEnv* const env, const std::optional<std::vector<T>>& input)
+{
+    return convert_optional_container_to_jni(env, input);
+}
+
+template<typename T, typename Hash >
+JniReference<jobject>
+convert_to_jni(JNIEnv* const env, const std::optional<std::unordered_set<T, Hash>>& input)
+{
+    return convert_optional_container_to_jni(env, input);
 }
 
 template<typename T, typename Hash>
 std::optional<std::unordered_set<T, Hash>>
-convert_from_jni(JNIEnv* _env,
-                 const JniReference<jobject>& jSet,
+convert_from_jni(JNIEnv* const env,
+                 const JniReference<jobject>& java_set,
                  TypeId<std::optional<std::unordered_set<T, Hash>>>)
 {
-    return jSet
-        ? std::optional<std::unordered_set<T, Hash>>(convert_from_jni(_env, jSet, TypeId<std::unordered_set<T, Hash>>{}))
-        : std::optional<std::unordered_set<T, Hash>>{};
+    return convert_optional_container_from_jni(env, java_set, TypeId<std::optional<std::unordered_set<T, Hash>>>{});
+}
+
+template<typename Container>
+std::optional<Container>
+convert_optional_container_from_jni(JNIEnv* const env,
+                                    const JniReference<jobject>& java_container,
+                                    TypeId<std::optional<Container>>)
+{
+    return java_container ? convert_from_jni(env, java_container, TypeId<Container>{}) : std::optional<Container>{};
+}
+
+template<typename Container>
+JniReference<jobject>
+convert_optional_container_to_jni(JNIEnv* const env, const std::optional<Container>& optional_container)
+{
+    return optional_container ? convert_to_jni(env, *optional_container) : JniReference<jobject>{};
 }
 
 
