@@ -51,12 +51,12 @@ call_java_method_impl( JNIEnv* jni_env,
 }
 
 template< bool IsResultTypeDerivedFromJObject, class ResultType >
-struct ProcessJavaMethodCall
+struct ProcessJavaMethodCall final
 {
 };
 
 template<class ResultType>
-struct ProcessJavaMethodCall<false, ResultType>
+struct ProcessJavaMethodCall<false, ResultType> final
 {
     template <class ... Args>
     static ResultType call( JNIEnv* jni_env,
@@ -69,7 +69,7 @@ struct ProcessJavaMethodCall<false, ResultType>
 };
 
 template<class ResultType >
-struct ProcessJavaMethodCall<true, ResultType>
+struct ProcessJavaMethodCall<true, ResultType> final
 {
     template <class ... Args>
     static JniReference<ResultType> call( JNIEnv* jni_env,
@@ -83,7 +83,7 @@ struct ProcessJavaMethodCall<true, ResultType>
 };
 
 template<>
-struct ProcessJavaMethodCall<false, void>
+struct ProcessJavaMethodCall<false, void> final
 {
     template <class ... Args>
     static void call( JNIEnv* jni_env,

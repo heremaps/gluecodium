@@ -15,7 +15,7 @@ namespace jni
 {
 namespace
 {
-struct Dummycom_example_FooConverterType {};
+struct Dummycom_example_FooConverterType final {};
 }
 
 REGISTER_JNI_CLASS_CACHE("com/example/FooConverter", com_example_FooConverter, Dummycom_example_FooConverterType)

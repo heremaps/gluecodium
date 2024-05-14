@@ -14,7 +14,7 @@ namespace jni
 {
 namespace
 {
-struct Dummycom_here_android_test_SeasonConverterType {};
+struct Dummycom_here_android_test_SeasonConverterType final {};
 }
 
 REGISTER_JNI_CLASS_CACHE("com/here/android/test/SeasonConverter", com_here_android_test_SeasonConverter, Dummycom_here_android_test_SeasonConverterType)
