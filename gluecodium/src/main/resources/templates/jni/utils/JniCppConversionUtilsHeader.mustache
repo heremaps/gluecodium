@@ -52,37 +52,38 @@ namespace jni
 /**
  * Converts a JNI jstring to an std::string.
  */
-JNIEXPORT std::string convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::string> );
-JNIEXPORT std::string convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, TypeId<std::string> );
+JNIEXPORT std::string convert_from_jni( JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::string> );
+JNIEXPORT std::string convert_from_jni( JNIEnv* const env, const JniReference<jstring>& jvalue, TypeId<std::string> );
 JNIEXPORT std::optional<std::string> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<std::string>> );
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<std::string>> );
 JNIEXPORT std::optional<std::string> convert_from_jni(
-    JNIEnv* env, const JniReference<jstring>& jvalue, TypeId<std::optional<std::string>> );
+    JNIEnv* const env, const JniReference<jstring>& jvalue, TypeId<std::optional<std::string>> );
 
 /**
  * Converts a jbyteArray to a byte buffer
  */
-JNIEXPORT std::shared_ptr< ::std::vector< uint8_t > > convert_from_jni(
-    JNIEnv* env, const JniReference<jbyteArray>& jvalue, TypeId<std::shared_ptr<::std::vector<uint8_t>>> );
+JNIEXPORT std::shared_ptr<::std::vector<uint8_t>> convert_from_jni(
+    JNIEnv* const env, const JniReference<jbyteArray>& jvalue, TypeId<std::shared_ptr<::std::vector<uint8_t>>> );
 JNIEXPORT std::optional<std::shared_ptr<::std::vector<uint8_t>>> convert_from_jni(
-    JNIEnv* env, const JniReference<jbyteArray>& jvalue,
+    JNIEnv* const env, const JniReference<jbyteArray>& jvalue,
     TypeId<std::optional<std::shared_ptr<::std::vector<uint8_t>>>> );
 
 /**
  * Converts a Java Date object to an std::chrono::time_point.
  */
+
+jlong get_time_ms_epoch(JNIEnv* const env, const JniReference<jobject>& jvalue) noexcept;
+
 template<class Clock, class Duration>
 std::chrono::time_point<Clock, Duration>
-convert_from_jni(JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::chrono::time_point<Clock, Duration>>) {
+convert_from_jni(JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::chrono::time_point<Clock, Duration>>) {
     if (!jvalue)
     {
         {{>common/InternalNamespace}}jni::throw_new_null_pointer_exception(env);
         return {};
     }
 
-    auto javaDateClass = find_class(env, "java/util/Date");
-    auto getTimeMethodId = env->GetMethodID(javaDateClass.get(), "getTime", "()J");
-    jlong time_ms_epoch = call_java_method<jlong>(env, jvalue, getTimeMethodId);
+    const jlong time_ms_epoch = get_time_ms_epoch(env, jvalue);
 
     using namespace std::chrono;
     return time_point<Clock, Duration>(duration_cast<Duration>(milliseconds(time_ms_epoch)));
@@ -91,59 +92,45 @@ convert_from_jni(JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::c
 template<class Clock, class Duration>
 std::optional<std::chrono::time_point<Clock, Duration>>
 convert_from_jni(
-    JNIEnv* env,
+    JNIEnv* const env,
     const JniReference<jobject>& jvalue,
     TypeId<std::optional<std::chrono::time_point<Clock, Duration>>>
 ) {
     return jvalue
         ? std::optional<std::chrono::time_point<Clock, Duration>>(
-            convert_from_jni(env, jvalue, TypeId<std::chrono::time_point<Clock, Duration>>{})
-        )
+            convert_from_jni(env, jvalue, TypeId<std::chrono::time_point<Clock, Duration>>{}))
         : std::optional<std::chrono::time_point<Clock, Duration>>{};
 }
 
 /**
  * Converts a Java Duration object to an std::chrono::duration<>.
  */
+
+std::intmax_t get_duration_from_java_duration(JNIEnv* const env,
+                                              const JniReference<jobject>& jvalue,
+                                              std::intmax_t dest_den,
+                                              std::intmax_t dest_num);
+
 template<class Rep, class Period>
 std::chrono::duration<Rep, Period>
-convert_from_jni(JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::chrono::duration<Rep, Period>>) {
+convert_from_jni(JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::chrono::duration<Rep, Period>>)
+{
     if (!jvalue) {
         {{>common/InternalNamespace}}jni::throw_new_null_pointer_exception(env);
         return {};
     }
 
-    auto& javaDurationClass = get_cached_duration_class();
-    auto getSecondsMethodId = env->GetMethodID(javaDurationClass.get(), "getSeconds", "()J");
-    jlong seconds_value = call_java_method<jlong>(env, jvalue, getSecondsMethodId);
-    auto getNanoMethodId = env->GetMethodID(javaDurationClass.get(), "getNano", "()I");
-    jint nano_value = call_java_method<jint>(env, jvalue, getNanoMethodId);
+    const auto result_value = get_duration_from_java_duration(env, jvalue, Period::den, Period::num);
 
-    using namespace std::chrono;
-
-    auto seconds_division = std::lldiv(seconds_value * Period::den, Period::num);
-    auto combined_nano_value =
-        duration_cast<nanoseconds>(seconds(seconds_division.rem)).count() + nano_value;
-    auto num = Period::den * nanoseconds::period::num;
-    auto den = Period::num * nanoseconds::period::den;
-    auto nano_division = std::lldiv(combined_nano_value * num, den);
-    auto result_value = seconds_division.quot + nano_division.quot;
-
-    // Rounding
-    if (2 * nano_division.rem >= den) {
-        result_value += 1;
-    }
-
-    return duration<Rep, Period>(result_value);
+    return std::chrono::duration<Rep, Period>(result_value);
 }
 
 template<class Rep, class Period>
 std::optional<std::chrono::duration<Rep, Period>>
 convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue,
-    TypeId<std::optional<std::chrono::duration<Rep, Period>>>
-) {
-
+    JNIEnv* const env, const JniReference<jobject>& jvalue,
+    TypeId<std::optional<std::chrono::duration<Rep, Period>>>)
+{
     return jvalue
         ? std::optional<std::chrono::duration<Rep, Period>>(
             convert_from_jni( env, jvalue, TypeId<std::chrono::duration<Rep, Period>>{}))
@@ -154,9 +141,10 @@ convert_from_jni(
  * Converts a Java Locale object to {{>common/InternalNamespace}}Locale.
  */
 JNIEXPORT {{>common/InternalNamespace}}Locale convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<{{>common/InternalNamespace}}Locale>);
+    JNIEnv* const env, const JniReference<jobject>& jvalue,
+    TypeId<{{>common/InternalNamespace}}Locale>);
 JNIEXPORT std::optional<{{>common/InternalNamespace}}Locale> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue,
+    JNIEnv* const env, const JniReference<jobject>& jvalue,
     TypeId<std::optional<{{>common/InternalNamespace}}Locale>>);
 
 // -------------------- C++ to JNI conversion functions --------------------------------------------
@@ -164,62 +152,66 @@ JNIEXPORT std::optional<{{>common/InternalNamespace}}Locale> convert_from_jni(
 /**
  * Converts an std::string to a JNI jstring
  */
-JNIEXPORT JniReference<jstring> convert_to_jni( JNIEnv* env, const std::string& nvalue );
-JNIEXPORT JniReference<jstring> convert_to_jni( JNIEnv* env, const std::optional<std::string>& nvalue );
+JNIEXPORT JniReference<jstring> convert_to_jni( JNIEnv* const env, const std::string& nvalue ) noexcept;
+JNIEXPORT JniReference<jstring> convert_to_jni( JNIEnv* const env, const std::optional<std::string>& nvalue ) noexcept;
 
 /**
  * Converts a byte buffer to a jbyteArray
  */
-JNIEXPORT JniReference<jbyteArray> convert_to_jni( JNIEnv* env, const std::shared_ptr< ::std::vector< uint8_t > >& nvalue );
 JNIEXPORT JniReference<jbyteArray> convert_to_jni(
-    JNIEnv* env, const std::optional< std::shared_ptr< ::std::vector< uint8_t > > >& nvalue );
+    JNIEnv* const env, const std::shared_ptr< ::std::vector< uint8_t > >& nvalue ) noexcept;
+JNIEXPORT JniReference<jbyteArray> convert_to_jni(
+    JNIEnv* const env, const std::optional< std::shared_ptr< ::std::vector< uint8_t > > >& nvalue ) noexcept;
 
 /**
  * Converts an std::chrono::time_point to a Java Date object.
  */
+
+JniReference<jobject> create_date_new_object(JNIEnv* const env, const std::chrono::milliseconds& time_epoch);
+
 template<class Clock, class Duration>
 JniReference<jobject>
-convert_to_jni(JNIEnv* env, const std::chrono::time_point<Clock, Duration>& nvalue) {
-    auto javaDateClass = find_class(env, "java/util/Date");
-    jlong time_ms_epoch = std::chrono::duration_cast<std::chrono::milliseconds>(nvalue.time_since_epoch()).count();
-
-    auto constructorMethodId = env->GetMethodID(javaDateClass.get(), "<init>", "(J)V");
-    return new_object(env, javaDateClass, constructorMethodId, time_ms_epoch);
+convert_to_jni(JNIEnv* const env, const std::chrono::time_point<Clock, Duration>& nvalue)
+{
+    return create_date_new_object(env, std::chrono::duration_cast<std::chrono::milliseconds>(nvalue.time_since_epoch()));
 }
 
 template<class Clock, class Duration>
 JniReference<jobject>
-convert_to_jni(JNIEnv* env, const std::optional<std::chrono::time_point<Clock, Duration>>& nvalue) {
+convert_to_jni(JNIEnv* const env, const std::optional<std::chrono::time_point<Clock, Duration>>& nvalue)
+{
     return nvalue ? convert_to_jni(env, *nvalue) : JniReference<jobject>{};
 }
 
 /**
  * Converts an std::chrono::duration<> to a Java Duration object.
  */
+
+JniReference<jobject>
+create_duration_new_object(JNIEnv* const env, std::intmax_t seconds, std::intmax_t nanos) noexcept;
+
 template<class Rep, class Period>
 JniReference<jobject>
-convert_to_jni(JNIEnv* env, const std::chrono::duration<Rep, Period>& nvalue) {
-    auto& javaDurationClass = get_cached_duration_class();
-    auto factoryMethodId = env->GetStaticMethodID(javaDurationClass.get(), "ofSeconds", "(JJ)L{{durationPackage}}/Duration;");
-
+convert_to_jni(JNIEnv* const env, const std::chrono::duration<Rep, Period>& nvalue) {
     using namespace std::chrono;
-    auto seconds_duration = duration_cast<seconds>(nvalue);
-    auto seconds_value = duration_cast<seconds>(nvalue).count();
-    auto nanos_adjustment = duration_cast<nanoseconds>(nvalue - seconds_duration).count();
-    return make_local_ref(env, env->CallStaticObjectMethod(javaDurationClass.get(), factoryMethodId, seconds_value, nanos_adjustment));
+    const auto seconds_duration = duration_cast<seconds>(nvalue);
+    const auto seconds_value = duration_cast<seconds>(nvalue).count();
+    const auto nanos_adjustment = duration_cast<nanoseconds>(nvalue - seconds_duration).count();
+    return create_duration_new_object(env, seconds_value, nanos_adjustment);
 }
 
 /**
  * Converts {{>common/InternalNamespace}}Locale to a Java Locale object.
  */
-JNIEXPORT JniReference<jobject> convert_to_jni(JNIEnv* env, const {{>common/InternalNamespace}}Locale& nvalue);
 JNIEXPORT JniReference<jobject> convert_to_jni(
-    JNIEnv* env, const std::optional<{{>common/InternalNamespace}}Locale>& nvalue);
+    JNIEnv* const env, const {{>common/InternalNamespace}}Locale& nvalue) noexcept;
+JNIEXPORT JniReference<jobject> convert_to_jni(
+    JNIEnv* const env, const std::optional<{{>common/InternalNamespace}}Locale>& nvalue) noexcept;
 
 template<class Rep, class Period>
 JNIEXPORT JniReference<jobject> convert_to_jni(
-    JNIEnv* env, const std::optional<std::chrono::duration<Rep, Period>>& nvalue ) {
-
+    JNIEnv* const env, const std::optional<std::chrono::duration<Rep, Period>>& nvalue )
+{
     return nvalue ? convert_to_jni(env, *nvalue) : JniReference<jobject>{};
 }
 
