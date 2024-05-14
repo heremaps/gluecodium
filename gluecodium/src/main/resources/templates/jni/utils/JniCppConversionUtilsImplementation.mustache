@@ -111,23 +111,23 @@ convert_from_jni( JNIEnv* const env,
 
 jlong get_time_ms_epoch(JNIEnv* const env, const JniReference<jobject>& jvalue) noexcept
 {
-    const auto java_date_class = find_class(env, "java/util/Date");
-    const auto get_time_method_id = env->GetMethodID(java_date_class.get(), "getTime", "()J");
-    return call_java_method<jlong>(env, jvalue, get_time_method_id);
+    return call_java_method<jlong>(env, "java/util/Date", jvalue, "getTime", "()J");
 }
 
 {{>common/InternalNamespace}}Locale
 convert_from_jni(JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<{{>common/InternalNamespace}}Locale>)
 {
-    if (!jvalue) {
+    if (!jvalue)
+    {
         {{>common/InternalNamespace}}jni::throw_new_null_pointer_exception(env);
         return {{>common/InternalNamespace}}Locale();
     }
 
-    auto languageCode = call_java_method<jstring>(env, jvalue, "getLanguage", "()Ljava/lang/String;");
-    auto countryCode = call_java_method<jstring>(env, jvalue, "getCountry", "()Ljava/lang/String;");
-    auto scriptCode = call_java_method<jstring>(env, jvalue, "getScript", "()Ljava/lang/String;");
-    auto languageTag = call_java_method<jstring>(env, jvalue, "toLanguageTag", "()Ljava/lang/String;");
+    const auto& locale_class = get_object_class(env, jvalue);
+    const auto languageCode = call_java_method<jstring>(env, locale_class, jvalue, "getLanguage", "()Ljava/lang/String;");
+    const auto countryCode = call_java_method<jstring>(env, locale_class, jvalue, "getCountry", "()Ljava/lang/String;");
+    const auto scriptCode = call_java_method<jstring>(env, locale_class, jvalue, "getScript", "()Ljava/lang/String;");
+    const auto languageTag = call_java_method<jstring>(env, locale_class, jvalue, "toLanguageTag", "()Ljava/lang/String;");
 
     return {{>common/InternalNamespace}}Locale(
         convert_from_jni(env, languageCode, TypeId<std::string>{}),
@@ -199,10 +199,8 @@ std::intmax_t get_duration_from_java_duration(JNIEnv* const env,
                                               const std::intmax_t dest_num)
 {
     const auto& java_duration_class = get_cached_duration_class();
-    const auto get_seconds_method_id = env->GetMethodID(java_duration_class.get(), "getSeconds", "()J");
-    const jlong seconds_value = call_java_method<jlong>(env, jvalue, get_seconds_method_id);
-    const auto get_nano_method_id = env->GetMethodID(java_duration_class.get(), "getNano", "()I");
-    const jint nano_value = call_java_method<jint>(env, jvalue, get_nano_method_id);
+    const jlong seconds_value = call_java_method<jlong>(env, java_duration_class, jvalue, "getSeconds", "()J");
+    const jint nano_value = call_java_method<jint>(env, java_duration_class, jvalue, "getNano", "()I");
 
     using namespace std::chrono;
 
@@ -233,37 +231,38 @@ create_duration_new_object(JNIEnv* const env, std::intmax_t seconds, std::intmax
 
 JniReference<jobject>
 convert_to_jni(JNIEnv* const env, const {{>common/InternalNamespace}}Locale& nvalue) noexcept {
-    auto localeBuilderClass = find_class(env, "java/util/Locale$Builder");
-    auto builder = create_object(env, localeBuilderClass);
+    const auto locale_builder_class = find_class(env, "java/util/Locale$Builder");
+    const auto builder = create_object(env, locale_builder_class);
+    const char* const set_method_signature = "(Ljava/lang/String;)Ljava/util/Locale$Builder;";
     if (nvalue.language_tag) {
         // BCP 47 language tag takes precedence if present.
         call_java_method<jobject>(
-            env, builder, "setLanguageTag", "(Ljava/lang/String;)Ljava/util/Locale$Builder;",
-            convert_to_jni(env, nvalue.language_tag)
-        );
-        if (env->ExceptionOccurred()) return {};
+            env, locale_builder_class, builder, "setLanguageTag", set_method_signature,
+            convert_to_jni(env, nvalue.language_tag));
+        if (env->ExceptionOccurred())
+            return {};
     } else {
         // java.util.Locale has no constructor that takes "script" code,
         // so Locale.Builder has to be used instead to create a Locale from ISO codes.
         call_java_method<jobject>(
-            env, builder, "setLanguage", "(Ljava/lang/String;)Ljava/util/Locale$Builder;",
-            convert_to_jni(env, nvalue.language_code)
-        );
-        if (env->ExceptionOccurred()) return {};
+            env, locale_builder_class, builder, "setLanguage", set_method_signature,
+            convert_to_jni(env, nvalue.language_code));
+        if (env->ExceptionOccurred())
+            return {};
 
         call_java_method<jobject>(
-            env, builder, "setRegion", "(Ljava/lang/String;)Ljava/util/Locale$Builder;",
-            convert_to_jni(env, nvalue.country_code)
-        );
-        if (env->ExceptionOccurred()) return {};
+            env, locale_builder_class, builder, "setRegion", set_method_signature,
+            convert_to_jni(env, nvalue.country_code));
+        if (env->ExceptionOccurred())
+            return {};
 
         call_java_method<jobject>(
-            env, builder, "setScript", "(Ljava/lang/String;)Ljava/util/Locale$Builder;",
-            convert_to_jni(env, nvalue.script_code)
-        );
-        if (env->ExceptionOccurred()) return {};
+            env, locale_builder_class, builder, "setScript", set_method_signature,
+            convert_to_jni(env, nvalue.script_code));
+        if (env->ExceptionOccurred())
+            return {};
     }
-    return call_java_method<jobject>(env, builder, "build", "()Ljava/util/Locale;");
+    return call_java_method<jobject>(env, locale_builder_class, builder, "build", "()Ljava/util/Locale;");
 }
 
 JniReference<jobject>
