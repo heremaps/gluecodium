@@ -53,7 +53,7 @@ private:
 };
 
 template <class ... CppTypes>
-class CachedJavaClass : public CachedJavaClassBase
+class CachedJavaClass final : public CachedJavaClassBase
 {
 public:
     using CachedJavaClassBase::CachedJavaClassBase;
@@ -74,7 +74,7 @@ private:
 };
 
 template <class ... CppTypes>
-class CachedJavaInterface : public CachedJavaClassBase
+class CachedJavaInterface final : public CachedJavaClassBase
 {
 public:
     using CachedJavaClassBase::CachedJavaClassBase;

@@ -15,7 +15,7 @@ namespace jni
 {
 namespace
 {
-struct Dummycom_here_android_test_ColorConverterType {};
+struct Dummycom_here_android_test_ColorConverterType final {};
 }
 
 REGISTER_JNI_CLASS_CACHE("com/here/android/test/ColorConverter", com_here_android_test_ColorConverter, Dummycom_here_android_test_ColorConverterType)
