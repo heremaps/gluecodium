@@ -33,7 +33,7 @@ namespace jni
 // ------------------- JNI to C++ conversion functions ---------------------------------------------
 
 std::string
-convert_string_from_jni( JNIEnv* env, jstring java_string )
+convert_string_from_jni( JNIEnv* const env, jstring java_string )
 {
     const char* jbuffer = env->GetStringUTFChars( java_string, nullptr );
     auto nresult = std::string( jbuffer );
@@ -42,7 +42,7 @@ convert_string_from_jni( JNIEnv* env, jstring java_string )
 }
 
 std::string
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::string> )
+convert_from_jni( JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::string> )
 {
     if ( !jvalue )
     {
@@ -54,7 +54,7 @@ convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::
 }
 
 std::string
-convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, TypeId<std::string> )
+convert_from_jni( JNIEnv* const env, const JniReference<jstring>& jvalue, TypeId<std::string> )
 {
     if ( !jvalue )
     {
@@ -66,7 +66,7 @@ convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, TypeId<std::
 }
 
 std::optional<std::string>
-convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<std::string>> )
+convert_from_jni( JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<std::string>> )
 {
     return jvalue
         ? std::optional<std::string>( convert_string_from_jni( env, static_cast<jstring>( jvalue.get( ) ) ) )
@@ -74,7 +74,7 @@ convert_from_jni( JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::
 }
 
 std::optional<std::string>
-convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, TypeId<std::optional<std::string>> )
+convert_from_jni( JNIEnv* const env, const JniReference<jstring>& jvalue, TypeId<std::optional<std::string>> )
 {
     return jvalue
         ? std::optional<std::string>( convert_string_from_jni( env, jvalue.get( ) ) )
@@ -82,7 +82,7 @@ convert_from_jni( JNIEnv* env, const JniReference<jstring>& jvalue, TypeId<std::
 }
 
 std::shared_ptr< std::vector< uint8_t > >
-convert_from_jni( JNIEnv* env, const JniReference<jbyteArray>& jvalue,
+convert_from_jni( JNIEnv* const env, const JniReference<jbyteArray>& jvalue,
                   TypeId<std::shared_ptr<std::vector<uint8_t>>> )
 {
     if ( !jvalue )
@@ -91,15 +91,15 @@ convert_from_jni( JNIEnv* env, const JniReference<jbyteArray>& jvalue,
         return {};
     }
 
-    size_t size = static_cast< size_t >( env->GetArrayLength( jvalue.get() ) );
-    auto nresult = std::make_shared< std::vector< uint8_t > >( size );
-    jbyte* jbuffer = reinterpret_cast< jbyte* >( nresult->data( ) );
-    env->GetByteArrayRegion( jvalue.get(), 0, size, jbuffer );
+    size_t size = static_cast< size_t >(env->GetArrayLength(jvalue.get()));
+    auto nresult = std::make_shared<std::vector<uint8_t>>(size);
+    jbyte* jbuffer = reinterpret_cast<jbyte*>(nresult->data());
+    env->GetByteArrayRegion(jvalue.get(), 0, size, jbuffer);
     return nresult;
 }
 
 std::optional< std::shared_ptr< std::vector< uint8_t > > >
-convert_from_jni( JNIEnv* env,
+convert_from_jni( JNIEnv* const env,
                   const JniReference<jbyteArray>& jvalue,
                   TypeId<std::optional<std::shared_ptr<std::vector<uint8_t>>>> )
 {
@@ -109,8 +109,16 @@ convert_from_jni( JNIEnv* env,
         : std::optional< std::shared_ptr< std::vector< uint8_t > > >{};
 }
 
+jlong get_time_ms_epoch(JNIEnv* const env, const JniReference<jobject>& jvalue) noexcept
+{
+    const auto java_date_class = find_class(env, "java/util/Date");
+    const auto get_time_method_id = env->GetMethodID(java_date_class.get(), "getTime", "()J");
+    return call_java_method<jlong>(env, jvalue, get_time_method_id);
+}
+
 {{>common/InternalNamespace}}Locale
-convert_from_jni(JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<{{>common/InternalNamespace}}Locale>) {
+convert_from_jni(JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<{{>common/InternalNamespace}}Locale>)
+{
     if (!jvalue) {
         {{>common/InternalNamespace}}jni::throw_new_null_pointer_exception(env);
         return {{>common/InternalNamespace}}Locale();
@@ -130,8 +138,7 @@ convert_from_jni(JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<{{>com
 }
 
 std::optional<{{>common/InternalNamespace}}Locale>
-convert_from_jni(JNIEnv* env, const JniReference<jobject>& jvalue,
-                 TypeId<std::optional<{{>common/InternalNamespace}}Locale>>)
+convert_from_jni(JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<{{>common/InternalNamespace}}Locale>>)
 {
     return jvalue
         ? std::optional<{{>common/InternalNamespace}}Locale>(
@@ -142,13 +149,13 @@ convert_from_jni(JNIEnv* env, const JniReference<jobject>& jvalue,
 // -------------------- C++ to JNI conversion functions --------------------------------------------
 
 JniReference<jstring>
-convert_to_jni( JNIEnv* env, const std::string& nvalue )
+convert_to_jni( JNIEnv* const env, const std::string& nvalue ) noexcept
 {
     return make_local_ref(env, env->NewStringUTF( nvalue.c_str( ) ));
 }
 
 JniReference<jstring>
-convert_to_jni( JNIEnv* env, const std::optional<std::string>& nvalue )
+convert_to_jni( JNIEnv* const env, const std::optional<std::string>& nvalue ) noexcept
 {
     return nvalue
         ? make_local_ref(env, env->NewStringUTF( nvalue->c_str( ) ))
@@ -156,29 +163,76 @@ convert_to_jni( JNIEnv* env, const std::optional<std::string>& nvalue )
 }
 
 JniReference<jbyteArray>
-convert_to_jni( JNIEnv* env, const std::shared_ptr< std::vector< uint8_t > >& nvalue )
+convert_to_jni(JNIEnv* const env, const std::shared_ptr<std::vector<uint8_t> >& nvalue) noexcept
 {
-    if ( !nvalue )
+    if (!nvalue)
     {
         return make_local_ref(env, env->NewByteArray(0));
     }
 
-    jsize size = static_cast< jsize >( nvalue->size( ) );
+    const jsize size = static_cast< jsize >(nvalue->size());
     auto jresult = make_local_ref(env, env->NewByteArray( size ));
-    const jbyte* jbuffer = reinterpret_cast< const jbyte* >( nvalue->data( ) );
-    env->SetByteArrayRegion( jresult.get(), 0, size, jbuffer );
+    const jbyte* const jbuffer = reinterpret_cast< const jbyte* >( nvalue->data( ) );
+    env->SetByteArrayRegion(jresult.get(), 0, size, jbuffer);
 
     return jresult;
 }
 
-JniReference< jbyteArray >
-convert_to_jni( JNIEnv* env, const std::optional< std::shared_ptr< std::vector< uint8_t > > >& nvalue )
+JniReference<jbyteArray>
+convert_to_jni(JNIEnv* const env, const std::optional< std::shared_ptr<std::vector<uint8_t>> >& nvalue) noexcept
 {
     return nvalue ? convert_to_jni( env, *nvalue ) : JniReference< jbyteArray >{};
 }
 
+JniReference<jobject> create_date_new_object(JNIEnv* const env, const std::chrono::milliseconds& time_epoch)
+{
+    const auto java_date_class = find_class(env, "java/util/Date");
+    const jlong time_ms_epoch = time_epoch.count();
+
+    const auto constructor_method_id = env->GetMethodID(java_date_class.get(), "<init>", "(J)V");
+    return new_object(env, java_date_class, constructor_method_id, time_ms_epoch);
+}
+
+std::intmax_t get_duration_from_java_duration(JNIEnv* const env,
+                                              const JniReference<jobject>& jvalue,
+                                              const std::intmax_t dest_den,
+                                              const std::intmax_t dest_num)
+{
+    const auto& java_duration_class = get_cached_duration_class();
+    const auto get_seconds_method_id = env->GetMethodID(java_duration_class.get(), "getSeconds", "()J");
+    const jlong seconds_value = call_java_method<jlong>(env, jvalue, get_seconds_method_id);
+    const auto get_nano_method_id = env->GetMethodID(java_duration_class.get(), "getNano", "()I");
+    const jint nano_value = call_java_method<jint>(env, jvalue, get_nano_method_id);
+
+    using namespace std::chrono;
+
+    const auto seconds_division = std::lldiv(seconds_value * dest_den, dest_num);
+    const auto combined_nano_value =
+        duration_cast<nanoseconds>(seconds(seconds_division.rem)).count() + nano_value;
+    const auto num = dest_den * nanoseconds::period::num;
+    const auto den = dest_num * nanoseconds::period::den;
+    const auto nano_division = std::lldiv(combined_nano_value * num, den);
+    auto result_value = seconds_division.quot + nano_division.quot;
+
+    // Rounding
+    if (2 * nano_division.rem >= den)
+    {
+        result_value += 1;
+    }
+
+    return result_value;
+}
+
 JniReference<jobject>
-convert_to_jni(JNIEnv* env, const {{>common/InternalNamespace}}Locale& nvalue) {
+create_duration_new_object(JNIEnv* const env, std::intmax_t seconds, std::intmax_t nanos) noexcept
+{
+    const auto& java_duration_class = get_cached_duration_class();
+    const auto factory_method_id = env->GetStaticMethodID(java_duration_class.get(), "ofSeconds", "(JJ)L{{durationPackage}}/Duration;");
+    return make_local_ref(env, env->CallStaticObjectMethod(java_duration_class.get(), factory_method_id, seconds, nanos));
+}
+
+JniReference<jobject>
+convert_to_jni(JNIEnv* const env, const {{>common/InternalNamespace}}Locale& nvalue) noexcept {
     auto localeBuilderClass = find_class(env, "java/util/Locale$Builder");
     auto builder = create_object(env, localeBuilderClass);
     if (nvalue.language_tag) {
@@ -213,7 +267,7 @@ convert_to_jni(JNIEnv* env, const {{>common/InternalNamespace}}Locale& nvalue) {
 }
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* env, const std::optional<{{>common/InternalNamespace}}Locale>& nvalue) {
+convert_to_jni(JNIEnv* const env, const std::optional<{{>common/InternalNamespace}}Locale>& nvalue) noexcept {
     return nvalue ? convert_to_jni(env, *nvalue) : JniReference<jobject>{};
 }
 
