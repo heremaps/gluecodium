@@ -8,6 +8,7 @@
 #include "smoke/OverloadedLambda.h"
 #include <functional>
 #include "JniCallJavaMethod.h"
+#include "JniJavaContainers.h"
 #include "JniReference.h"
 #include "JniTypeId.h"
 #include <memory>
@@ -36,65 +37,48 @@ JNIEXPORT std::optional<std::vector<::smoke::OverloadedLambda>> com_example_smok
 
 template <typename K, typename Hash>
 JniReference<jobject>
-com_example_smoke_OverloadedLambda_convert_to_jni(JNIEnv* _env, const std::unordered_map<K, ::smoke::OverloadedLambda, Hash>& _ninput) {
-    auto javaClass = find_class(_env, "java/util/HashMap");
-    auto result = create_object(_env, javaClass);
-    jmethodID putMethodId = _env->GetMethodID(javaClass.get(), "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
+com_example_smoke_OverloadedLambda_convert_to_jni(JNIEnv* const env, const std::unordered_map<K, ::smoke::OverloadedLambda, Hash>& input)
+{
+    JavaHashMapAdder map_adder{env};
 
-    for (const auto& pair : _ninput) {
-        auto jKey = convert_to_jni(_env, pair.first);
-        auto jValue = com_example_smoke_OverloadedLambda_convert_to_jni(_env, pair.second);
-        call_java_method<jobject>(_env, result, putMethodId, jKey, jValue);
+    for (const auto& pair : input)
+    {
+        map_adder.add(convert_to_jni(env, pair.first),
+                      com_example_smoke_OverloadedLambda_convert_to_jni(env, pair.second));
     }
 
-    return result;
+    return map_adder.fetch_hash_map();
 }
 
 template <typename K, typename Hash>
 JniReference<jobject>
-com_example_smoke_OverloadedLambda_convert_to_jni(JNIEnv* _env, const std::optional<std::unordered_map<K, ::smoke::OverloadedLambda, Hash>>& _ninput) {
+com_example_smoke_OverloadedLambda_convert_to_jni(JNIEnv* _env, const std::optional<std::unordered_map<K, ::smoke::OverloadedLambda, Hash>>& _ninput)
+{
     return _ninput ? com_example_smoke_OverloadedLambda_convert_to_jni(_env, *_ninput) : JniReference<jobject>{};
 }
 
 template <typename K, typename Hash>
 std::unordered_map<K, ::smoke::OverloadedLambda, Hash>
 com_example_smoke_OverloadedLambda_convert_from_jni(
-    JNIEnv* _env, const JniReference<jobject>& _jMap, TypeId<std::unordered_map<K, ::smoke::OverloadedLambda, Hash>>
-) {
-    std::unordered_map<K, ::smoke::OverloadedLambda, Hash> _nresult{};
+    JNIEnv* const env, const JniReference<jobject>& java_map, TypeId<std::unordered_map<K, ::smoke::OverloadedLambda, Hash>>)
+{
+    std::unordered_map<K, ::smoke::OverloadedLambda, Hash> result{};
 
-    if (_env->IsSameObject(_jMap.get(), nullptr)) {
-        return _nresult;
+    if (env->IsSameObject(java_map.get(), nullptr))
+    {
+        return result;
     }
 
-    auto javaMapClass = find_class(_env, "java/util/Map");
-    auto entrySetMethodId = _env->GetMethodID(javaMapClass.get(), "entrySet", "()Ljava/util/Set;");
-    auto jEntrySet = call_java_method<jobject>(_env, _jMap, entrySetMethodId);
+    const JavaMapIterator map_iterator(env, java_map);
 
-    auto javaSetClass = find_class(_env, "java/util/Set");
-    auto iteratorMethodId = _env->GetMethodID(javaSetClass.get(), "iterator", "()Ljava/util/Iterator;");
-    auto jIterator = call_java_method<jobject>(_env, jEntrySet, iteratorMethodId);
-
-    auto javaIteratorClass = find_class(_env, "java/util/Iterator");
-    auto hasNextMethodId = _env->GetMethodID(javaIteratorClass.get(), "hasNext", "()Z");
-    auto nextMethodId = _env->GetMethodID(javaIteratorClass.get(), "next", "()Ljava/lang/Object;");
-
-    auto javaMapEntryClass = find_class(_env, "java/util/Map$Entry");
-    auto getKeyMethodId = _env->GetMethodID(javaMapEntryClass.get(), "getKey", "()Ljava/lang/Object;");
-    auto getValueMethodId = _env->GetMethodID(javaMapEntryClass.get(), "getValue", "()Ljava/lang/Object;");
-
-    while (call_java_method<jboolean>(_env, jIterator, hasNextMethodId)) {
-        auto jEntry = call_java_method<jobject>(_env, jIterator, nextMethodId);
-        auto jKey = call_java_method<jobject>(_env, jEntry, getKeyMethodId);
-        K nKey = convert_from_jni(_env, jKey, TypeId<K>{});
-
-        auto jValue = call_java_method<jobject>(_env, jEntry, getValueMethodId);
-        auto nValue = com_example_smoke_OverloadedLambda_convert_from_jni(_env, jValue, TypeId<::smoke::OverloadedLambda>{});
-
-        _nresult.emplace(std::move(nKey), std::move(nValue));
+    while(map_iterator.has_next())
+    {
+        const auto& key_value = map_iterator.next();
+        result.emplace(convert_from_jni(env, key_value.first, TypeId<K>{}),
+                       com_example_smoke_OverloadedLambda_convert_from_jni(env, key_value.second, TypeId<::smoke::OverloadedLambda>{}));
     }
 
-    return _nresult;
+    return result;
 }
 
 template<typename K, typename Hash>
