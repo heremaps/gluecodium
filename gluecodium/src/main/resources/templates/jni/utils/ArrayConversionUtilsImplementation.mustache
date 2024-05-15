@@ -81,9 +81,8 @@ JavaListIterator::JavaListIterator(JNIEnv* const env, const JniReference<jobject
     : m_env(env)
     , m_list_class(find_class(env, "java/util/List"))
     , m_get_method_id(m_env->GetMethodID(m_list_class.get(), "get", "(I)Ljava/lang/Object;"))
+    , m_length(call_java_method<jint>(m_env, m_list_class, array_list, "size", "()I"))
 {
-    const auto size_method_id = m_env->GetMethodID( m_list_class.get(), "size", "()I" );
-    m_length = call_java_method<jint>(m_env, array_list, size_method_id);
 }
 
 JniReference<jobject> JavaListIterator::get(const JniReference<jobject>& array_list, jint index) const noexcept
@@ -105,13 +104,10 @@ void JavaHashMapAdder::add(const JniReference<jobject>& key, const JniReference<
 JavaSetIterator::JavaSetIterator(JNIEnv* const env, const JniReference<jobject>& java_set) noexcept
     : m_env(env)
     , m_iterator_class(find_class(m_env, "java/util/Iterator"))
+    , m_iterator(call_java_method<jobject>(m_env, "java/util/Set", java_set, "iterator", "()Ljava/util/Iterator;"))
+    , m_has_next_method_id(m_env->GetMethodID(m_iterator_class.get(), "hasNext", "()Z"))
+    , m_next_method_id(m_env->GetMethodID(m_iterator_class.get(), "next", "()Ljava/lang/Object;"))
 {
-    const auto set_class = find_class(m_env, "java/util/Set");
-    const auto iterator_method_id = m_env->GetMethodID(set_class.get(), "iterator", "()Ljava/util/Iterator;");
-    m_iterator = call_java_method<jobject>(m_env, java_set, iterator_method_id);
-
-    m_has_next_method_id = m_env->GetMethodID(m_iterator_class.get(), "hasNext", "()Z");
-    m_next_method_id = m_env->GetMethodID(m_iterator_class.get(), "next", "()Ljava/lang/Object;");
 }
 
 bool JavaSetIterator::has_next() const noexcept
@@ -130,8 +126,7 @@ JniReference<jobject> get_entry_set(JNIEnv* const env,
                                     const JniReference<jclass>& map_class,
                                     const JniReference<jobject>& java_map) noexcept
 {
-    const auto entry_set_method_id = env->GetMethodID(map_class.get(), "entrySet", "()Ljava/util/Set;");
-    return call_java_method<jobject>(env, java_map, entry_set_method_id );
+    return call_java_method<jobject>(env, map_class, java_map, "entrySet", "()Ljava/util/Set;" );
 }
 } // namespace
 
@@ -140,9 +135,9 @@ JavaMapIterator::JavaMapIterator(JNIEnv* const env, const JniReference<jobject>&
     , m_map_class(find_class(m_env, "java/util/Map"))
     , m_map_entry_class(find_class(m_env, "java/util/Map$Entry"))
     , m_set_iterator(env, get_entry_set(m_env, m_map_class, java_map))
+    , m_get_key_method_id(m_env->GetMethodID(m_map_entry_class.get(), "getKey", "()Ljava/lang/Object;"))
+    , m_get_value_method_id(m_env->GetMethodID(m_map_entry_class.get(), "getValue", "()Ljava/lang/Object;"))
 {
-    m_get_key_method_id = m_env->GetMethodID(m_map_entry_class.get(), "getKey", "()Ljava/lang/Object;");
-    m_get_value_method_id = m_env->GetMethodID(m_map_entry_class.get(), "getValue", "()Ljava/lang/Object;");
 }
 
 std::pair<JniReference<jobject>, JniReference<jobject>> JavaMapIterator::next() const noexcept

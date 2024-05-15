@@ -11,28 +11,16 @@
 namespace
 {
 
-template<typename Result>
-Result unbox_value(JNIEnv* const env,
-                   const ::gluecodium::jni::JniReference<jobject>& jvalue,
-                   const char* const class_name,
-                   const char* const method_name,
-                   const char* const method_signature) noexcept
-{
-    const auto java_class = ::gluecodium::jni::find_class( env, class_name );
-    const auto method_id = env->GetMethodID( java_class.get(), method_name, method_signature );
-    return ::gluecodium::jni::call_java_method<Result>( env, jvalue, method_id );
-}
-
 jint
 unbox_int_value( JNIEnv* const env, const ::gluecodium::jni::JniReference<jobject>& jvalue ) noexcept
 {
-    return unbox_value<jint>(env, jvalue, "java/lang/Integer", "intValue", "()I");
+    return ::gluecodium::jni::call_java_method<jint>( env, "java/lang/Integer", jvalue, "intValue", "()I" );
 }
 
 jlong
 unbox_long_value( JNIEnv* const env, const ::gluecodium::jni::JniReference<jobject>& jvalue ) noexcept
 {
-    return unbox_value<jlong>(env, jvalue, "java/lang/Long", "longValue", "()J");
+    return ::gluecodium::jni::call_java_method<jlong>( env, "java/lang/Long", jvalue, "longValue", "()J" );
 }
 
 template<typename T>
@@ -164,31 +152,31 @@ convert_to_jni( JNIEnv* const env, const uint64_t nvalue ) noexcept
 bool
 convert_from_jni( JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<bool> ) noexcept
 {
-    return unbox_value<jboolean>(env, jvalue, "java/lang/Boolean", "booleanValue", "()Z");
+    return call_java_method<jboolean>( env, "java/lang/Boolean", jvalue, "booleanValue", "()Z" );
 }
 
 double
 convert_from_jni( JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<double> ) noexcept
 {
-    return unbox_value<jdouble>(env, jvalue, "java/lang/Double", "doubleValue", "()D");
+    return call_java_method<jdouble>( env, "java/lang/Double", jvalue, "doubleValue", "()D" );
 }
 
 float
 convert_from_jni( JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<float> ) noexcept
 {
-    return unbox_value<jfloat>(env, jvalue, "java/lang/Float", "floatValue", "()F");
+    return call_java_method<jfloat>( env, "java/lang/Float", jvalue, "floatValue", "()F" );
 }
 
 int8_t
 convert_from_jni( JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<int8_t> ) noexcept
 {
-    return unbox_value<jbyte>(env, jvalue, "java/lang/Byte", "byteValue", "()B");
+    return call_java_method<jbyte>( env, "java/lang/Byte", jvalue, "byteValue", "()B" );
 }
 
 int16_t
 convert_from_jni( JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<int16_t> ) noexcept
 {
-    return unbox_value<jshort>(env, jvalue, "java/lang/Short", "shortValue", "()S");
+    return call_java_method<jshort>( env, "java/lang/Short", jvalue, "shortValue", "()S" );
 }
 
 int32_t
@@ -206,7 +194,7 @@ convert_from_jni( JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId
 uint8_t
 convert_from_jni( JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<uint8_t> ) noexcept
 {
-    return unbox_value<jshort>(env, jvalue, "java/lang/Short", "shortValue", "()S");
+    return call_java_method<jshort>( env, "java/lang/Short", jvalue, "shortValue", "()S" );
 }
 
 uint16_t
