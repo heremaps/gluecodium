@@ -82,17 +82,16 @@ com_example_smoke_StandaloneProducer_convert_to_jni(JNIEnv* _env, const std::opt
 }
 
 JniReference<jobject>
-com_example_smoke_StandaloneProducer_convert_to_jni(JNIEnv* _env, const std::vector<::smoke::StandaloneProducer>& _ninput) {
-    auto javaClass = find_class(_env, "java/util/ArrayList");
-    auto result = create_object(_env, javaClass);
-    jmethodID addMethodId = _env->GetMethodID(javaClass.get(), "add", "(Ljava/lang/Object;)Z");
+com_example_smoke_StandaloneProducer_convert_to_jni(JNIEnv* const env, const std::vector<::smoke::StandaloneProducer>& input)
+{
+    JavaArrayListAdder list_appender{env};
 
-    for (const auto& element : _ninput) {
-        auto jElement = com_example_smoke_StandaloneProducer_convert_to_jni(_env, element);
-        call_java_method<jboolean>(_env, result, addMethodId, jElement);
+    for (const auto& element : input)
+    {
+        list_appender.add(com_example_smoke_StandaloneProducer_convert_to_jni(env, element));
     }
 
-    return result;
+    return list_appender.fetch_container();
 }
 
 JniReference<jobject>
@@ -101,24 +100,26 @@ com_example_smoke_StandaloneProducer_convert_to_jni(JNIEnv* _env, const std::opt
 }
 
 std::vector<::smoke::StandaloneProducer>
-com_example_smoke_StandaloneProducer_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, TypeId<std::vector<::smoke::StandaloneProducer>>) {
-    std::vector<::smoke::StandaloneProducer> _nresult{};
-    if (_env->IsSameObject(_arrayList.get(), nullptr)) {
-        return _nresult;
+com_example_smoke_StandaloneProducer_convert_from_jni(JNIEnv* const env, const JniReference<jobject>& array_list, TypeId<std::vector<::smoke::StandaloneProducer>>) {
+    std::vector<::smoke::StandaloneProducer> result{};
+    if (env->IsSameObject(array_list.get(), nullptr))
+    {
+        return result;
     }
 
-    auto javaArrayListClass = find_class(_env, "java/util/List");
-    auto sizeMethodId = _env->GetMethodID(javaArrayListClass.get(), "size", "()I");
-    jint length = call_java_method<jint>(_env, _arrayList, sizeMethodId);
-    _nresult.reserve(length);
+    const JavaListIterator list_iterator(env, array_list);
 
-    auto getMethodId = _env->GetMethodID(javaArrayListClass.get(), "get", "(I)Ljava/lang/Object;");
-    for (jint i = 0; i < length; i++) {
-        auto javaListItem = call_java_method<jobject>(_env, _arrayList, getMethodId, i);
-        _nresult.push_back(com_example_smoke_StandaloneProducer_convert_from_jni(_env, javaListItem, TypeId<::smoke::StandaloneProducer>{}));
+    const jint length = list_iterator.length();
+
+    result.reserve(length);
+
+    for (jint i = 0; i < length; i++)
+    {
+        result.emplace_back(com_example_smoke_StandaloneProducer_convert_from_jni(
+            env, list_iterator.get(array_list, i), TypeId<::smoke::StandaloneProducer>{}));
     }
 
-    return _nresult;
+    return result;
 }
 
 std::optional<std::vector<::smoke::StandaloneProducer>>

@@ -1,0 +1,165 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+{{>java/CopyrightHeader}}
+
+#pragma once
+
+#include "JniReference.h"
+
+#include <jni.h>
+
+#include <utility>
+
+{{#internalNamespace}}
+namespace {{.}}
+{
+{{/internalNamespace}}
+namespace jni
+{
+
+struct JavaContainer
+{
+    JavaContainer(JNIEnv* const env, const char* class_name) noexcept;
+    JavaContainer(JNIEnv* const env, JniReference<jclass> container_class, JniReference<jobject> instance) noexcept;
+
+    JNIEnv* const env;
+    const JniReference<jclass> container_class;
+    JniReference<jobject> instance;
+};
+
+class JavaContainerAdder
+{
+protected:
+    JavaContainerAdder(JNIEnv* const env,
+                       const char* class_name) noexcept;
+    JavaContainerAdder(JNIEnv* const env,
+                       JniReference<jclass> container_class,
+                       JniReference<jobject> instance) noexcept;
+
+public:
+    void add(const JniReference<jobject>& item) noexcept;
+    JniReference<jobject> fetch_container() noexcept
+    {
+        return std::move(m_java_container.instance);
+    }
+
+private:
+    JavaContainer m_java_container;
+    const jmethodID m_add_method_id;
+};
+
+class JavaArrayListAdder final : public JavaContainerAdder
+{
+public:
+    JavaArrayListAdder(JNIEnv* const env) noexcept;
+};
+
+class JavaListIterator final
+{
+public:
+    JavaListIterator(JNIEnv* const env, const JniReference<jobject>& array_list) noexcept;
+    JniReference<jobject> get(const JniReference<jobject>& array_list, jint index) const noexcept;
+    jint length() const noexcept
+    {
+        return m_length;
+    }
+
+private:
+    JNIEnv* const m_env;
+    const JniReference<jclass> m_list_class;
+    const jmethodID m_get_method_id;
+    const jint m_length;
+};
+
+class JavaHashMapAdder final
+{
+public:
+    JavaHashMapAdder(JNIEnv* const env) noexcept;
+    void add(const JniReference<jobject>& key, const JniReference<jobject>& value) noexcept;
+    JniReference<jobject> fetch_hash_map() noexcept
+    {
+        return std::move(m_java_container.instance);
+    }
+private:
+    JavaContainer m_java_container;
+    const jmethodID m_put_method_id;
+};
+
+class JavaSetIterator final
+{
+public:
+    JavaSetIterator(JNIEnv* const env, const JniReference<jobject>& java_set) noexcept;
+
+    bool has_next() const noexcept;
+
+    JniReference<jobject> next() const noexcept;
+
+private:
+    JNIEnv* const m_env;
+    const JniReference<jclass> m_iterator_class;
+
+    const JniReference<jobject> m_iterator;
+    const jmethodID m_has_next_method_id;
+    const jmethodID m_next_method_id;
+};
+
+class JavaMapIterator final
+{
+public:
+    JavaMapIterator(JNIEnv* const env, const JniReference<jobject>& java_map) noexcept;
+
+    bool has_next() const noexcept
+    {
+        return m_set_iterator.has_next();
+    }
+
+    std::pair<JniReference<jobject>, JniReference<jobject>> next() const noexcept;
+private:
+    JNIEnv* const m_env;
+    const JniReference<jclass> m_map_class;
+    const JniReference<jclass> m_map_entry_class;
+    const JavaSetIterator m_set_iterator;
+
+    const jmethodID m_get_key_method_id;
+    const jmethodID m_get_value_method_id;
+};
+
+class JavaHashSetAdder final : public JavaContainerAdder
+{
+public:
+    JavaHashSetAdder(JNIEnv* const env) noexcept;
+};
+
+class JavaEnumSetAdder final : public JavaContainerAdder
+{
+public:
+    JavaEnumSetAdder(JNIEnv* const env, const JniReference<jclass>& element_class) noexcept;
+
+private:
+    JavaEnumSetAdder(JNIEnv* const env,
+                     std::pair<JniReference<jclass>, JniReference<jobject>> class_and_object) noexcept;
+};
+
+}
+{{#internalNamespace}}
+}
+{{/internalNamespace}}
+

@@ -20,7 +20,7 @@
   !}}
 {{>java/CopyrightHeader}}
 
-#include "ArrayConversionUtils.h"
+#include "JniJavaContainers.h"
 
 #include "JniCallJavaMethod.h"
 
@@ -180,7 +180,7 @@ JavaEnumSetAdder::JavaEnumSetAdder(JNIEnv* const env,
 {
 }
 
-} // namespace jni
+}
 {{#internalNamespace}}
-} // namespace {{.}}
+}
 {{/internalNamespace}}
