@@ -1,5 +1,17 @@
 # Gluecodium project Release Notes
 
+## 13.9.1
+Release date: 2024-06-04
+### Features:
+ * Refactors generated code as described below to make compiled code smaller.
+ * Moves implementations of JniExceptionThrower, JniReference, CppProxyBase from headers to cpp files.
+ * Moves repeated functionality like throwing exception and retrieving native handle to functions.
+ * Moves caching mechanism in JNI and Dart ffi related generated code to cpp.
+ * Makes several classes `final`.
+ * Makes many generated JNI related functions `noexcept`.
+ * Avoids passing of useless parameter like `(SomeType*)nullptr` to converters. Now empty `TypeId` template is passing.
+ * Removes unused headers.
+
 ## 13.8.2
 ### Bug fixes:
  * Bridging headers from linked frameworks are used. It solves problem with some cases, for example when interface inherts (extends) another one in lime.
