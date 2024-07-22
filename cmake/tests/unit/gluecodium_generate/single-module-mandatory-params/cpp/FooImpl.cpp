@@ -20,6 +20,10 @@
 
 #include "unit/test/Foo.h"
 
+#ifdef GLUECODIUM_SYNCHRONIZE_ACCESS_CLASS_CACHE
+#error "GLUECODIUM_SYNCHRONIZE_ACCESS_CLASS_CACHE shouldn't be defined."
+#endif
+
 namespace unit::test {
 std::shared_ptr<Foo>
 Foo::make_foo()

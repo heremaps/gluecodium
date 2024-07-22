@@ -67,8 +67,10 @@ function(gluecodium_get_target_compile_definitions _target)
     endif()
 
     if("COMMON" IN_LIST _source_sets)
+      set(_sync_cache_property "$<TARGET_PROPERTY:${_target},GLUECODIUM_SYNCHRONIZE_ACCESS_CLASS_CACHE>")
       list(APPEND _public $<$<NOT:$<STREQUAL:${_common},${_main}>>:${_common}_SHARED>)
-      list(APPEND _private $<$<NOT:$<STREQUAL:${_common},${_main}>>:${_common}_INTERNAL>)
+      list(APPEND _private $<$<NOT:$<STREQUAL:${_common},${_main}>>:${_common}_INTERNAL>
+                           $<$<BOOL:${_sync_cache_property}>:GLUECODIUM_SYNCHRONIZE_ACCESS_CLASS_CACHE>)
     endif()
 
     if(_args_RESULT_PUBLIC)
