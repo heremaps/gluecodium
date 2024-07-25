@@ -18,6 +18,10 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+#ifndef GLUECODIUM_SYNCHRONIZE_ACCESS_CLASS_CACHE
+#error "GLUECODIUM_SYNCHRONIZE_ACCESS_CLASS_CACHE is not defined."
+#endif
+
 #include "unit/test/CommonMainFoo.h"
 
 namespace unit::test {

@@ -44,7 +44,7 @@ function(_gluecodium_define_target_property property_name)
 
   if (GLUECODIUM_PRINT_KNOWN_PROPERTIES)
     message("\nGluecodium property: ${property_name} - ${_args_BRIEF_DOCS}\n"
-            "${_args_FULL_DOCS}")    
+            "${_args_FULL_DOCS}")
   endif ()
 endfunction()
 
@@ -252,6 +252,15 @@ _gluecodium_define_target_property(
   FULL_DOCS
     "The list of frameworks to import all over generated code. This property might be used to construct dependencies"
     "This property is initialized by the value of the GLUECODIUM_IMPORT_FRAMEWORKS_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
+)
+
+_gluecodium_define_target_property(
+  GLUECODIUM_SYNCHRONIZE_ACCESS_CLASS_CACHE
+  BRIEF_DOCS "Option to enable synchronization for JNIClassCache hash map."
+  FULL_DOCS
+    "Generates code for synchronized access to the hash map with cached information about JNI classes if this option is set to ON."
+    "This property is initialized by the value of the GLUECODIUM_SYNCHRONIZE_ACCESS_CLASS_CACHE variable if it is set when the function gluecodium_add_generate_command is called."
+    "Such synchronisation might be necessary when Java/JNI generated code is located in several libraries and the libraries are loaded on-demand."
 )
 
 # TODO: Add read-only properties

@@ -39,6 +39,7 @@ target_sources(
   PUBLIC "${CMAKE_CURRENT_LIST_DIR}/cpp/Dummy.h")
 
 gluecodium_generate(shared.module.with.common GENERATORS ${_gluecodium_generator})
+set_target_properties(shared.module.with.common PROPERTIES GLUECODIUM_SYNCHRONIZE_ACCESS_CLASS_CACHE ON)
 gluecodium_target_lime_sources(shared.module.with.common
                                PUBLIC "${CMAKE_CURRENT_LIST_DIR}/lime/common_main_foo.lime")
 
