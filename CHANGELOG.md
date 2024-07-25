@@ -1,5 +1,11 @@
 # Gluecodium project Release Notes
 
+## 13.9.2
+Release date: 2024-07-25
+### Features:
+ * Adds possibility to synchronise access to class cache in code for JNI. It's necessary to support case when several shared
+libraries contain generated code so class cache can be concurrently modified.
+
 ## 13.9.1
 Release date: 2024-06-04
 ### Features:
