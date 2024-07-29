@@ -32,7 +32,7 @@ static JavaVM* jvm;
 
 static pthread_key_t s_thread_key;
 
-const char *get_thread_name()
+char *get_thread_name()
 {
 #ifdef __ANDROID__
     thread_local char name[17] = {0};
