@@ -32,6 +32,18 @@ static JavaVM* jvm;
 
 static pthread_key_t s_thread_key;
 
+char *get_thread_name()
+{
+#ifdef __ANDROID__
+    thread_local char name[17] = {0};
+    if (prctl(PR_GET_NAME, name) == 0)
+    {
+        return name;
+    }
+#endif
+    return nullptr;
+}
+
 JNIEnv*
 attach_current_thread( )
 {
@@ -39,10 +51,14 @@ attach_current_thread( )
     int envState = jvm->GetEnv( reinterpret_cast< void** >( &jniEnv ), JNI_VERSION_1_6 );
     if ( envState == JNI_EDETACHED )
     {
+        JavaVMAttachArgs args;
+        args.version = JNI_VERSION_1_6;
+        args.group = NULL;
+        args.name = get_thread_name();
 #ifdef __ANDROID__
-        jvm->AttachCurrentThread( &jniEnv, nullptr );
+        jvm->AttachCurrentThread( &jniEnv, &args );
 #else   // ifdef __ANDROID__
-        jvm->AttachCurrentThread( reinterpret_cast< void** >( &jniEnv ), nullptr );
+        jvm->AttachCurrentThread( reinterpret_cast< void** >( &jniEnv ), &args );
 #endif  // ifdef __ANDROID__
     }
 
