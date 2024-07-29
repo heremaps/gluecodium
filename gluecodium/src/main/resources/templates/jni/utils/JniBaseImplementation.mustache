@@ -35,7 +35,7 @@ static pthread_key_t s_thread_key;
 const char *get_thread_name()
 {
 #ifdef __ANDROID__
-    static __thread char name[17] = {0};
+    thread_local char name[17] = {0};
     if (prctl(PR_GET_NAME, name) == 0)
     {
         return name;
