@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 13.9.3
+Release date: 2024-07-31
+### Features:
+ * Preserves assigned thread name when attaching it to the JVM.
+
 ## 13.9.2
 Release date: 2024-07-25
 ### Features:
