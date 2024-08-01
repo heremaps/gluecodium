@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 13.9.4
+Release date: 2024-08-01
+### Features:
+ * Adds missing includes for Android
+
 ## 13.9.3
 Release date: 2024-07-31
 ### Features:
