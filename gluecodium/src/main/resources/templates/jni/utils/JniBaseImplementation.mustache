@@ -24,6 +24,10 @@
 #include "JniClassCache.h"
 
 #include <pthread.h>
+/* Definition of PR_* constants */
+#include <linux/prctl.h>
+/* Declaration of prctl */
+#include <sys/prctl.h>
 
 namespace
 {
