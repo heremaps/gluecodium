@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## 13.9.5
+Release date: 2024-10-22
+### Features:
+ * Stop callback queue on main isolate exit
+
 ## 13.9.4
 Release date: 2024-08-01
 ### Features:
