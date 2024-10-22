@@ -50,6 +50,8 @@ dynamic catchArgumentError(Function f) {
   }
 }
 
+T? _castOrNull<T>(dynamic x) => x is T ? x : null;
+
 final _libraryCallbacksQueueInit = catchArgumentError(() => nativeLibrary.lookupFunction<
     Int32 Function(Uint8),
     int Function(int)
@@ -74,6 +76,12 @@ class _SentryIsolateMessage {
   final String? nativeLibraryPath;
 }
 
+class _ExitListeningIsolateMessage {
+  _ExitListeningIsolateMessage(this.port, this.nativeLibraryPath);
+  final SendPort port;
+  final String? nativeLibraryPath;
+}
+
 enum IsolateOrigin {
   main,
   spawned
@@ -90,6 +98,7 @@ class LibraryContext {
 
   static int _isolateId = -1;
   static late StreamSubscription _callbackStream;
+  static late StreamSubscription _callbackExitStream;
 
   /// [nativeLibraryPath] is an optional parameter specifying a path to native shared library
   /// binary. If omitted (null) automatic library loading is attempted as a fallback. If loading
@@ -98,14 +107,30 @@ class LibraryContext {
     _loadCustomLibrary(nativeLibraryPath);
     _initializeDartDl();
     _isolateId = _libraryCallbacksQueueInit(isolateOrigin == IsolateOrigin.main ? 1 : 0);
+    /// Communication channel for scheduling callbacks on the main isolate.
+    final callbacksReceivePort = ReceivePort();
+    /// Communication channel with isolate that listens for exit event of the main isolate.
+    final exitListeningIsolatePort = ReceivePort();
 
-    final receivePort = ReceivePort();
-    Isolate.spawn(_sentryIsolate, _SentryIsolateMessage(receivePort.sendPort, isolateId, nativeLibraryPath));
-    _callbackStream = receivePort.listen((dynamic _) { _libraryExecuteCallbacks(isolateId); });
+    Isolate.spawn(_sentryIsolate, _SentryIsolateMessage(callbacksReceivePort.sendPort, isolateId, nativeLibraryPath));
+    Isolate.spawn(_exitListeningIsolate, _ExitListeningIsolateMessage(exitListeningIsolatePort.sendPort, nativeLibraryPath)); 
+    
+    _callbackStream = callbacksReceivePort.listen((dynamic message) {        
+        _libraryExecuteCallbacks(isolateId); 
+    });
+    _callbackExitStream = exitListeningIsolatePort.listen((dynamic message) {
+      /// Receive send port from exit listening isolate, and send exit message to that port.
+      SendPort? exitListenerPort = _castOrNull<SendPort>(message);
+      if (exitListenerPort != null) {
+        Isolate.current.addOnExitListener(exitListenerPort, response: _isolateId);
+      }
+    });
   }
+    
 
   static void release() {
     _callbackStream.cancel();
+    _callbackExitStream.cancel();
     _libraryCallbacksQueueRelease(isolateId);
   }
 
@@ -120,6 +145,17 @@ class LibraryContext {
       }
     } while (waitResult != WaitCallbackResult.stopped);
     message.port.send(0);
+  }
+
+  static void _exitListeningIsolate(_ExitListeningIsolateMessage message) async {
+    _loadCustomLibrary(message.nativeLibraryPath);
+    // Establish bi-directional communication with the main isolate.
+    final exitReceivePort = ReceivePort();
+    message.port.send(exitReceivePort.sendPort);
+    // Await for exit message from the main isolate.
+    int isolateId = await exitReceivePort.first;
+    // Close callbacks queue for the main isolate. 
+    _libraryCallbacksQueueRelease(isolateId);
   }
 
   static void _loadCustomLibrary(String? nativeLibraryPath) {
