@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------------------------------
-// Copyright (C) 2016-2020 HERE Europe B.V.
+// Copyright (C) 2016-2024 HERE Europe B.V.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -129,5 +129,12 @@ void main() {
     final result = Lambdas.applyNullableConfuser(lambda, null);
 
     expect(result, isNull);
+  });
+  _testSuite.test("Call Dart lambda in C++ for lambda defined in struct", () {
+    final callback = (String? arg) => arg;
+
+    final result = StructWithLambda.invokeCallback(callback);
+
+    expect(result!, "some callback argument");
   });
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2019 HERE Europe B.V.
+ * Copyright (C) 2016-2024 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -159,5 +159,13 @@ public class LambdasTest {
     String result = CallOverloadedLambda.invokeOverloadedLambda(lambda, 42);
 
     assertEquals("42", result);
+  }
+
+  @Test
+  public void callJavaLambdaFromCppForLambdaDefinedInStruct() {
+    StructWithLambda.LambdaCallback callback = (String arg) -> arg;
+    String result = StructWithLambda.invokeCallback(callback);
+
+    assertEquals("some callback argument", result);
   }
 }
