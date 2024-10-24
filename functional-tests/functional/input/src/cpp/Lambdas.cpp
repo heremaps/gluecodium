@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------------------------------
-// Copyright (C) 2016-2019 HERE Europe B.V.
+// Copyright (C) 2016-2024 HERE Europe B.V.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,10 @@
 
 #include "test/CallOverloadedLambda.h"
 #include "test/ClassWithInternalLambda.h"
+#include "test/StructWithLambda.h"
 #include "test/Lambdas.h"
+
+#include <functional>
 
 namespace test
 {
@@ -150,6 +153,15 @@ std::string
 CallOverloadedLambda::invoke_overloaded_lambda(const OverloadedLambda& lambda,
                                                const int32_t value) {
     return lambda(value);
+}
+
+std::optional<std::string>
+StructWithLambda::invoke_callback(const std::optional<LambdaCallback>& callback) {
+    if (callback) {
+        return std::invoke(*callback, "some callback argument");
+    }
+
+    return {};
 }
 
 }

@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+ * Added missing generation of conversion functions for lambdas defined in structs for Swift.
+
 ## 13.9.5
 Release date: 2024-10-22
 ### Features:
