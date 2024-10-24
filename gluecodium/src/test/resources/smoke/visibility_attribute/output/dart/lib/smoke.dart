@@ -1,8 +1,6 @@
 
 
 export 'src/smoke/internal_property_only.dart' show InternalPropertyOnly;
-export 'src/smoke/outer_class_with_internal_attribute.dart' show OuterClassWithInternalAttribute_ClassNestedInInternalClass, OuterClassWithInternalAttribute_LambdaNestedInInternalClass, OuterClassWithInternalAttribute_StructNestedInInternalClass;
-export 'src/smoke/outer_struct_with_internal_attribute.dart' show OuterStructWithInternalAttribute_ClassNestedInInternalStruct, OuterStructWithInternalAttribute_LambdaNestedInInternalStruct, OuterStructWithInternalAttribute_StructNestedInInternalStruct;
 export 'src/smoke/public_class.dart' show PublicClass, PublicClass_PublicStruct, PublicClass_PublicStructWithInternalDefaults;
 export 'src/smoke/public_interface.dart' show PublicInterface;
 export 'src/smoke/public_struct_with_non_default_internal_field.dart' show PublicStructWithNonDefaultInternalField;
