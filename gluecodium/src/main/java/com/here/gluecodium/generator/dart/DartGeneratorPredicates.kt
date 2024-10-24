@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2021 HERE Europe B.V.
+ * Copyright (C) 2016-2024 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 
 package com.here.gluecodium.generator.dart
 
+import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.common.LimeModelSkipPredicates
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.model.lime.LimeAttributeType.DART
@@ -43,6 +44,18 @@ internal class DartGeneratorPredicates(
         mapOf(
             "allFieldsCtorIsPublic" to { limeStruct: Any ->
                 limeStruct is LimeStruct && allFieldsCtorIsPublic(limeStruct)
+            },
+            "isInternal" to { element: Any ->
+                when (element) {
+                    // Dart has no type nesting, so all types are "outside" and have to check for an internal outer type.
+                    is LimeType -> {
+                        generateSequence(element) {
+                            limeReferenceMap[it.path.parent.toString()] as? LimeType
+                        }.any { CommonGeneratorPredicates.isInternal(it, DART) }
+                    }
+                    is LimeNamedElement -> CommonGeneratorPredicates.isInternal(element, DART)
+                    else -> throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
+                }
             },
             "hasAnyComment" to { CommonGeneratorPredicates.hasAnyComment(it, "Dart") },
             "hasImmutableFields" to { CommonGeneratorPredicates.hasImmutableFields(it) },

@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2019 HERE Europe B.V.
+# Copyright (C) 2016-2024 HERE Europe B.V.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -104,4 +104,32 @@ class InternalClassWithStaticProperty {
 class InternalPropertyOnly {
     @Internal
     property foo: String
+}
+
+@Internal
+struct OuterStructWithInternalAttribute {
+    struct StructNestedInInternalStruct {
+        someField: Int = 1
+    }
+
+    class ClassNestedInInternalStruct {
+
+    }
+
+    lambda LambdaNestedInInternalStruct = () -> Void
+
+    inner: StructNestedInInternalStruct = {}
+}
+
+@Internal
+class OuterClassWithInternalAttribute {
+    struct StructNestedInInternalClass {
+        someField: Int = 2
+    }
+
+    class ClassNestedInInternalClass {
+
+    }
+
+    lambda LambdaNestedInInternalClass = () -> Void
 }
