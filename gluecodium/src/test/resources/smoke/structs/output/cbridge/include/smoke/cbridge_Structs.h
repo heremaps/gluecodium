@@ -1,32 +1,50 @@
 //
+
 //
+
 #pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/Export.h"
 #include <stdbool.h>
 #include <stdint.h>
+
+
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_Point_create_handle(double x, double y);
 _GLUECODIUM_C_EXPORT void smoke_Structs_Point_release_handle(_baseRef handle);
+
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_Point_create_optional_handle(double x, double y);
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_Point_unwrap_optional_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT void smoke_Structs_Point_release_optional_handle(_baseRef handle);
+
 _GLUECODIUM_C_EXPORT double smoke_Structs_Point_x_get(_baseRef handle);
 _GLUECODIUM_C_EXPORT double smoke_Structs_Point_y_get(_baseRef handle);
+
+
+
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_Line_create_handle(_baseRef a, _baseRef b);
 _GLUECODIUM_C_EXPORT void smoke_Structs_Line_release_handle(_baseRef handle);
+
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_Line_create_optional_handle(_baseRef a, _baseRef b);
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_Line_unwrap_optional_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT void smoke_Structs_Line_release_optional_handle(_baseRef handle);
+
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_Line_a_get(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_Line_b_get(_baseRef handle);
+
+
+
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_AllTypesStruct_create_handle(int8_t int8Field, uint8_t uint8Field, int16_t int16Field, uint16_t uint16Field, int32_t int32Field, uint32_t uint32Field, int64_t int64Field, uint64_t uint64Field, float floatField, double doubleField, _baseRef stringField, bool booleanField, _baseRef bytesField, _baseRef pointField);
 _GLUECODIUM_C_EXPORT void smoke_Structs_AllTypesStruct_release_handle(_baseRef handle);
+
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_AllTypesStruct_create_optional_handle(int8_t int8Field, uint8_t uint8Field, int16_t int16Field, uint16_t uint16Field, int32_t int32Field, uint32_t uint32Field, int64_t int64Field, uint64_t uint64Field, float floatField, double doubleField, _baseRef stringField, bool booleanField, _baseRef bytesField, _baseRef pointField);
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_AllTypesStruct_unwrap_optional_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT void smoke_Structs_AllTypesStruct_release_optional_handle(_baseRef handle);
+
 _GLUECODIUM_C_EXPORT int8_t smoke_Structs_AllTypesStruct_int8Field_get(_baseRef handle);
 _GLUECODIUM_C_EXPORT uint8_t smoke_Structs_AllTypesStruct_uint8Field_get(_baseRef handle);
 _GLUECODIUM_C_EXPORT int16_t smoke_Structs_AllTypesStruct_int16Field_get(_baseRef handle);
@@ -41,45 +59,93 @@ _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_AllTypesStruct_stringField_get(_base
 _GLUECODIUM_C_EXPORT bool smoke_Structs_AllTypesStruct_booleanField_get(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_AllTypesStruct_bytesField_get(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_AllTypesStruct_pointField_get(_baseRef handle);
+
+
+
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_NestingImmutableStruct_create_handle(_baseRef structField);
 _GLUECODIUM_C_EXPORT void smoke_Structs_NestingImmutableStruct_release_handle(_baseRef handle);
+
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_NestingImmutableStruct_create_optional_handle(_baseRef structField);
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_NestingImmutableStruct_unwrap_optional_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT void smoke_Structs_NestingImmutableStruct_release_optional_handle(_baseRef handle);
+
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_NestingImmutableStruct_structField_get(_baseRef handle);
+
+
+
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_DoubleNestingImmutableStruct_create_handle(_baseRef nestingStructField);
 _GLUECODIUM_C_EXPORT void smoke_Structs_DoubleNestingImmutableStruct_release_handle(_baseRef handle);
+
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_DoubleNestingImmutableStruct_create_optional_handle(_baseRef nestingStructField);
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_DoubleNestingImmutableStruct_unwrap_optional_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT void smoke_Structs_DoubleNestingImmutableStruct_release_optional_handle(_baseRef handle);
+
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_DoubleNestingImmutableStruct_nestingStructField_get(_baseRef handle);
+
+
+
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_StructWithArrayOfImmutable_create_handle(_baseRef arrayField);
 _GLUECODIUM_C_EXPORT void smoke_Structs_StructWithArrayOfImmutable_release_handle(_baseRef handle);
+
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_StructWithArrayOfImmutable_create_optional_handle(_baseRef arrayField);
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_StructWithArrayOfImmutable_unwrap_optional_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT void smoke_Structs_StructWithArrayOfImmutable_release_optional_handle(_baseRef handle);
+
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_StructWithArrayOfImmutable_arrayField_get(_baseRef handle);
-_GLUECODIUM_C_EXPORT _baseRef smoke_Structs_ImmutableStructWithCppAccessors_create_handle(_baseRef stringField);
+
+
+
+_GLUECODIUM_C_EXPORT _baseRef smoke_Structs_ImmutableStructWithCppAccessors_create_handle(int32_t trivialIntField, double trivialDoubleField, _baseRef nontrivialStringField, _baseRef nontrivialPointField, _baseRef nontrivialOptionalPoint);
 _GLUECODIUM_C_EXPORT void smoke_Structs_ImmutableStructWithCppAccessors_release_handle(_baseRef handle);
-_GLUECODIUM_C_EXPORT _baseRef smoke_Structs_ImmutableStructWithCppAccessors_create_optional_handle(_baseRef stringField);
+
+_GLUECODIUM_C_EXPORT _baseRef smoke_Structs_ImmutableStructWithCppAccessors_create_optional_handle(int32_t trivialIntField, double trivialDoubleField, _baseRef nontrivialStringField, _baseRef nontrivialPointField, _baseRef nontrivialOptionalPoint);
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_ImmutableStructWithCppAccessors_unwrap_optional_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT void smoke_Structs_ImmutableStructWithCppAccessors_release_optional_handle(_baseRef handle);
-_GLUECODIUM_C_EXPORT _baseRef smoke_Structs_ImmutableStructWithCppAccessors_stringField_get(_baseRef handle);
-_GLUECODIUM_C_EXPORT _baseRef smoke_Structs_MutableStructWithCppAccessors_create_handle(_baseRef stringField);
+
+_GLUECODIUM_C_EXPORT int32_t smoke_Structs_ImmutableStructWithCppAccessors_trivialIntField_get(_baseRef handle);
+_GLUECODIUM_C_EXPORT double smoke_Structs_ImmutableStructWithCppAccessors_trivialDoubleField_get(_baseRef handle);
+_GLUECODIUM_C_EXPORT _baseRef smoke_Structs_ImmutableStructWithCppAccessors_nontrivialStringField_get(_baseRef handle);
+_GLUECODIUM_C_EXPORT _baseRef smoke_Structs_ImmutableStructWithCppAccessors_nontrivialPointField_get(_baseRef handle);
+_GLUECODIUM_C_EXPORT _baseRef smoke_Structs_ImmutableStructWithCppAccessors_nontrivialOptionalPoint_get(_baseRef handle);
+
+
+
+_GLUECODIUM_C_EXPORT _baseRef smoke_Structs_MutableStructWithCppAccessors_create_handle(int32_t trivialIntField, double trivialDoubleField, _baseRef nontrivialStringField, _baseRef nontrivialPointField, _baseRef nontrivialOptionalPoint);
 _GLUECODIUM_C_EXPORT void smoke_Structs_MutableStructWithCppAccessors_release_handle(_baseRef handle);
-_GLUECODIUM_C_EXPORT _baseRef smoke_Structs_MutableStructWithCppAccessors_create_optional_handle(_baseRef stringField);
+
+_GLUECODIUM_C_EXPORT _baseRef smoke_Structs_MutableStructWithCppAccessors_create_optional_handle(int32_t trivialIntField, double trivialDoubleField, _baseRef nontrivialStringField, _baseRef nontrivialPointField, _baseRef nontrivialOptionalPoint);
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_MutableStructWithCppAccessors_unwrap_optional_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT void smoke_Structs_MutableStructWithCppAccessors_release_optional_handle(_baseRef handle);
-_GLUECODIUM_C_EXPORT _baseRef smoke_Structs_MutableStructWithCppAccessors_stringField_get(_baseRef handle);
+
+_GLUECODIUM_C_EXPORT int32_t smoke_Structs_MutableStructWithCppAccessors_trivialIntField_get(_baseRef handle);
+_GLUECODIUM_C_EXPORT double smoke_Structs_MutableStructWithCppAccessors_trivialDoubleField_get(_baseRef handle);
+_GLUECODIUM_C_EXPORT _baseRef smoke_Structs_MutableStructWithCppAccessors_nontrivialStringField_get(_baseRef handle);
+_GLUECODIUM_C_EXPORT _baseRef smoke_Structs_MutableStructWithCppAccessors_nontrivialPointField_get(_baseRef handle);
+_GLUECODIUM_C_EXPORT _baseRef smoke_Structs_MutableStructWithCppAccessors_nontrivialOptionalPoint_get(_baseRef handle);
+
+
+
+
 _GLUECODIUM_C_EXPORT void smoke_Structs_release_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_copy_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT const void* smoke_Structs_get_swift_object_from_wrapper_cache(_baseRef handle);
 _GLUECODIUM_C_EXPORT void smoke_Structs_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer);
 _GLUECODIUM_C_EXPORT void smoke_Structs_remove_swift_object_from_wrapper_cache(_baseRef handle);
+
+
+
+
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_swapPointCoordinates(_baseRef input);
+
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_returnAllTypesStruct(_baseRef input);
+
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_createPoint(double x, double y);
+
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_modifyAllTypesStruct(_baseRef input);
+
+
+
+
 #ifdef __cplusplus
 }
 #endif
