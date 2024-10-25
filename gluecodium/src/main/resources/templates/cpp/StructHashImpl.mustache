@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2020 HERE Europe B.V.
+  ! Copyright (C) 2016-2024 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -23,8 +23,8 @@ hash< {{resolveName "FQN"}} >::operator( )( const {{resolveName "FQN"}}& t ) con
 {
     size_t hash_value = 43;
 {{#if attributes.cpp.accessors}}
-    {{#resolveName "FQN"}}{{#set structName=this}}{{#fields}}hash_value = (hash_value ^ {{>common/InternalNamespace}}hash< decltype({{!!
-    }}std::declval<{{structName}}>().{{resolveName this "" "getter"}}()) >()(t.{{resolveName this "" "getter"}}())) << 1;
+    {{#resolveName "FQN"}}{{#set structName=this}}{{#fields}}hash_value = (hash_value ^ {{>common/InternalNamespace}}hash< std::remove_cv_t< std::remove_reference_t< decltype({{!!
+    }}std::declval<{{structName}}>().{{resolveName this "" "getter"}}()) > > >()(t.{{resolveName this "" "getter"}}())) << 1;
     {{/fields}}{{/set}}{{/resolveName}}
 {{/if}}{{#unless attributes.cpp.accessors}}
 {{#fields}}

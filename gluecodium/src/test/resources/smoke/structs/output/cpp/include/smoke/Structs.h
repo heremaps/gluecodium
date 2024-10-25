@@ -112,11 +112,17 @@ public:
 
         double get_trivial_double_field( ) const { return trivial_double_field; }
 
-        ::std::string get_nontrivial_string_field( ) const { return nontrivial_string_field; }
+        const ::std::string& get_nontrivial_string_field( ) const & { return nontrivial_string_field; }
+        ::std::string&& get_nontrivial_string_field( ) && { return std::move(nontrivial_string_field); }
+        const ::std::string&& get_nontrivial_string_field( ) const && { return std::move(nontrivial_string_field); }
 
-        ::smoke::Structs::Point get_nontrivial_point_field( ) const { return nontrivial_point_field; }
+        const ::smoke::Structs::Point& get_nontrivial_point_field( ) const & { return nontrivial_point_field; }
+        ::smoke::Structs::Point&& get_nontrivial_point_field( ) && { return std::move(nontrivial_point_field); }
+        const ::smoke::Structs::Point&& get_nontrivial_point_field( ) const && { return std::move(nontrivial_point_field); }
 
-        std::optional< ::smoke::Structs::Point > get_nontrivial_optional_point( ) const { return nontrivial_optional_point; }
+        const std::optional< ::smoke::Structs::Point >& get_nontrivial_optional_point( ) const & { return nontrivial_optional_point; }
+        std::optional< ::smoke::Structs::Point >&& get_nontrivial_optional_point( ) && { return std::move(nontrivial_optional_point); }
+        const std::optional< ::smoke::Structs::Point >&& get_nontrivial_optional_point( ) const && { return std::move(nontrivial_optional_point); }
 
     };
 
@@ -142,17 +148,26 @@ public:
 
         void set_trivial_double_field( double value_ ) { trivial_double_field = value_; }
 
-        ::std::string get_nontrivial_string_field( ) const { return nontrivial_string_field; }
+        const ::std::string& get_nontrivial_string_field( ) const & { return nontrivial_string_field; }
+        ::std::string&& get_nontrivial_string_field( ) && { return std::move(nontrivial_string_field); }
+        const ::std::string&& get_nontrivial_string_field( ) const && { return std::move(nontrivial_string_field); }
 
-        void set_nontrivial_string_field( ::std::string value_ ) { nontrivial_string_field = value_; }
+        void set_nontrivial_string_field( const ::std::string& value_ ) { nontrivial_string_field = value_; }
+        void set_nontrivial_string_field( ::std::string&& value_ ) { nontrivial_string_field = std::move(value_); }
 
-        ::smoke::Structs::Point get_nontrivial_point_field( ) const { return nontrivial_point_field; }
+        const ::smoke::Structs::Point& get_nontrivial_point_field( ) const & { return nontrivial_point_field; }
+        ::smoke::Structs::Point&& get_nontrivial_point_field( ) && { return std::move(nontrivial_point_field); }
+        const ::smoke::Structs::Point&& get_nontrivial_point_field( ) const && { return std::move(nontrivial_point_field); }
 
-        void set_nontrivial_point_field( ::smoke::Structs::Point value_ ) { nontrivial_point_field = value_; }
+        void set_nontrivial_point_field( const ::smoke::Structs::Point& value_ ) { nontrivial_point_field = value_; }
+        void set_nontrivial_point_field( ::smoke::Structs::Point&& value_ ) { nontrivial_point_field = std::move(value_); }
 
-        std::optional< ::smoke::Structs::Point > get_nontrivial_optional_point( ) const { return nontrivial_optional_point; }
+        const std::optional< ::smoke::Structs::Point >& get_nontrivial_optional_point( ) const & { return nontrivial_optional_point; }
+        std::optional< ::smoke::Structs::Point >&& get_nontrivial_optional_point( ) && { return std::move(nontrivial_optional_point); }
+        const std::optional< ::smoke::Structs::Point >&& get_nontrivial_optional_point( ) const && { return std::move(nontrivial_optional_point); }
 
-        void set_nontrivial_optional_point( std::optional< ::smoke::Structs::Point > value_ ) { nontrivial_optional_point = value_; }
+        void set_nontrivial_optional_point( const std::optional< ::smoke::Structs::Point >& value_ ) { nontrivial_optional_point = value_; }
+        void set_nontrivial_optional_point( std::optional< ::smoke::Structs::Point >&& value_ ) { nontrivial_optional_point = std::move(value_); }
 
     };
 
