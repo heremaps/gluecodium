@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2019 HERE Europe B.V.
+ * Copyright (C) 2016-2024 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -129,6 +129,9 @@ internal class DartGenerator : Generator {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
 
+        val generatorPredicates = DartGeneratorPredicates(dartFilteredModel.referenceMap, activeTags, dartNameResolver)
+        val predicatesMap = generatorPredicates.predicates
+
         val dartResolvers =
             mapOf(
                 "" to dartNameResolver,
@@ -136,7 +139,7 @@ internal class DartGenerator : Generator {
                 "FfiSnakeCase" to ffiNameResolver,
                 "FfiApiTypes" to FfiApiTypeNameResolver(),
                 "FfiDartTypes" to FfiDartTypeNameResolver(),
-                "visibility" to DartVisibilityResolver(dartFilteredModel.referenceMap),
+                "visibility" to DartVisibilityResolver(predicatesMap["isInternal"]!!),
             )
         val ffiCppNameResolver = FfiCppNameResolver(ffiReferenceMap, cppNameRules, rootNamespace, internalNamespace)
         val ffiResolvers =
@@ -160,8 +163,6 @@ internal class DartGenerator : Generator {
         val importsCollector = DartImportsCollector(importResolver)
         val declarationImportsCollector = GenericImportsCollector(declarationImportResolver, collectOwnImports = true)
 
-        val generatorPredicates = DartGeneratorPredicates(dartFilteredModel.referenceMap, activeTags, dartNameResolver)
-        val predicatesMap = generatorPredicates.predicates
         val includeResolver = FfiCppIncludeResolver(ffiReferenceMap, cppNameRules, internalNamespace)
         val includeCollector =
             GenericIncludesCollector(
@@ -234,9 +235,11 @@ internal class DartGenerator : Generator {
         val filePath = "$packagePath/$fileName"
         val relativePath = "$SRC_DIR_SUFFIX/$filePath.dart"
 
+        val isInternal = predicates["isInternal"]!!
+
         val allTypes = LimeTypeHelper.getAllTypes(rootElement).filterNot { it is LimeTypeAlias }
         val nonExternalTypes = allTypes.filter { it.external?.dart == null }
-        val allSymbols = nonExternalTypes.filterNot { CommonGeneratorPredicates.isInternal(it, DART) }
+        val allSymbols = nonExternalTypes.filterNot { isInternal(it) }
         if (allSymbols.isNotEmpty()) {
             val allNames = allSymbols.map { dartNameResolver.resolveName(it) }
             val testNames =
