@@ -28,7 +28,7 @@ public:
      * This is some very useful enum.
      * \deprecated Unfortunately, this enum is deprecated. Use ::smoke::Comments::SomeEnum instead.
      */
-    enum class SomeEnum {
+    enum class _GLUECODIUM_CPP_EXPORT SomeEnum {
         /**
          * Not quite useful
          * \deprecated Unfortunately, this item is deprecated.

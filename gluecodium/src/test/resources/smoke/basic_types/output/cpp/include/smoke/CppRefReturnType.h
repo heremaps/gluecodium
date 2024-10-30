@@ -22,7 +22,7 @@ public:
 
 
 public:
-    enum class InternalError {
+    enum class _GLUECODIUM_CPP_EXPORT InternalError {
         FOO,
         BAR
     };

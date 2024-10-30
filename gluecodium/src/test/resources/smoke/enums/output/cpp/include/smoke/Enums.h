@@ -21,13 +21,13 @@ public:
 
 
 public:
-    enum class SimpleEnum {
+    enum class _GLUECODIUM_CPP_EXPORT SimpleEnum {
         FIRST,
         SECOND
     };
 
 
-    enum class InternalErrorCode {
+    enum class _GLUECODIUM_CPP_EXPORT InternalErrorCode {
         ERROR_NONE,
         ERROR_FATAL = 999
     };

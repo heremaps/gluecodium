@@ -35,7 +35,7 @@ public:
 
 
         public:
-            enum class LevelFourEnum {
+            enum class _GLUECODIUM_CPP_EXPORT LevelFourEnum {
                 NONE
             };
 

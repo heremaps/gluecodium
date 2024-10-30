@@ -23,7 +23,7 @@ public:
 
 
 public:
-    enum class FooBar {
+    enum class _GLUECODIUM_CPP_EXPORT FooBar {
         FOO,
         BAR
     };

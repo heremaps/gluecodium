@@ -29,7 +29,7 @@ public:
      * \private
 
      */
-    enum class SomeEnum {
+    enum class _GLUECODIUM_CPP_EXPORT SomeEnum {
         /**
          * \private
 

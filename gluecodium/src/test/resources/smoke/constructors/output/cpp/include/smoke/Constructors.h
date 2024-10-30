@@ -24,7 +24,7 @@ public:
 
 
 public:
-    enum class ErrorEnum {
+    enum class _GLUECODIUM_CPP_EXPORT ErrorEnum {
         NONE,
         CRASHED
     };

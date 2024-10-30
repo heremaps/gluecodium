@@ -35,7 +35,7 @@ struct _GLUECODIUM_CPP_EXPORT OuterStruct {
 
     };
 
-    enum class InnerEnum {
+    enum class _GLUECODIUM_CPP_EXPORT InnerEnum {
         FOO,
         BAR
     };

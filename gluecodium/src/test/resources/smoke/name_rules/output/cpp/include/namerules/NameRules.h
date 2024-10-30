@@ -23,7 +23,7 @@ public:
 
 
 public:
-    enum class ExampleErrorCode {
+    enum class _GLUECODIUM_CPP_EXPORT ExampleErrorCode {
         NONE,
         FATAL
     };

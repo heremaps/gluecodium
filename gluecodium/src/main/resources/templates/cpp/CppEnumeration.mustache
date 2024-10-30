@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2020 HERE Europe B.V.
+  ! Copyright (C) 2016-2024 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
   !}}
 {{#unless external.cpp}}
 {{>cpp/CppDocComment}}
-enum class {{>cpp/CppAttributesInline}}{{resolveName}} {
+enum class {{>cpp/CppExportMacro}}{{>cpp/CppAttributesInline}}{{resolveName}} {
 {{#enumerators}}
 {{prefixPartial "cpp/CppDocComment" "    "}}{{prefixPartial "cpp/CppAttributes" "    "}}{{!!
 }}    {{resolveName}}{{#explicitValue}} = {{resolveName}}{{/explicitValue}}{{#if iter.hasNext}},{{/if}}

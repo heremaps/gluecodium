@@ -25,7 +25,7 @@ public:
     /**
      * \deprecated Unfortunately, this enum is deprecated.
      */
-    enum class SomeEnum {
+    enum class _GLUECODIUM_CPP_EXPORT SomeEnum {
         /**
          * \deprecated Unfortunately, this item is deprecated.
          */

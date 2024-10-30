@@ -30,7 +30,7 @@ public:
      * This is some very useful enum.
 
      */
-    enum class SomeEnum {
+    enum class _GLUECODIUM_CPP_EXPORT SomeEnum {
         /**
          * Not quite useful
 

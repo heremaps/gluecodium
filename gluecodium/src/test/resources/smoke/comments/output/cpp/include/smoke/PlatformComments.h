@@ -24,7 +24,7 @@ public:
      * An error code when something goes wrong.
 
      */
-    enum class SomeEnum {
+    enum class _GLUECODIUM_CPP_EXPORT SomeEnum {
         USELESS,
         USEFUL
     };
