@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2020 HERE Europe B.V.
+  ! Copyright (C) 2016-2024 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -51,10 +51,21 @@ public:
 }}{{#if attributes.cpp.accessors}}
 {{#set structElement=this}}{{#fields}}
 {{prefixPartial "cpp/CppFieldDoc" "    "}}
-    {{resolveName typeRef}} {{resolveName this "" "getter"}}( ) const { return {{resolveName}}; }{{!!
+    {{#ifPredicate typeRef "needsRefSuffix"}}const {{resolveName typeRef}}&{{!!
+}} {{resolveName this "" "getter"}}( ) const & { return {{resolveName}}; }
+    {{resolveName typeRef}}&& {{resolveName this "" "getter"}}( ) && { return std::move({{resolveName}}); }
+    const {{resolveName typeRef}}&& {{resolveName this "" "getter"}}( ) const && { return std::move({{resolveName}}); }{{/ifPredicate}}{{!!
+}}{{#unlessPredicate typeRef "needsRefSuffix"}}{{resolveName typeRef}}{{!!
+}} {{resolveName this "" "getter"}}( ) const { return {{resolveName}}; }{{/unlessPredicate}}{{!!
 }}{{#unless structElement.attributes.immutable}}
 {{prefixPartial "cpp/CppFieldDoc" "    "}}
-    void {{resolveName this "" "setter"}}( {{resolveName typeRef}} value_ ) { {{resolveName}} = value_; }{{!!
+{{#ifPredicate typeRef "needsRefSuffix"}}{{!!
+}}    void {{resolveName this "" "setter"}}( const {{resolveName typeRef}}& value_ ) { {{resolveName}} = value_; }
+    void {{resolveName this "" "setter"}}( {{resolveName typeRef}}&& value_ ) { {{resolveName}} = std::move(value_); }{{!!
+}}{{/ifPredicate}}{{!!
+}}{{#unlessPredicate typeRef "needsRefSuffix"}}{{!!
+}}    void {{resolveName this "" "setter"}}( {{resolveName typeRef}} value_ ) { {{resolveName}} = value_; }{{!!
+}}{{/unlessPredicate}}{{!!
 }}{{/unless}}
 {{/fields}}{{/set}}
 

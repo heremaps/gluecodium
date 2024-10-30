@@ -2,6 +2,7 @@
 
 ## Unreleased
 ### Bug fixes:
+ * C++: Fixed generation of getters and setters for accessors attribute -- non-trivial types use references now.
  * Added missing generation of conversion functions for lambdas defined in structs for Swift.
  * Fixed a bug related to exporting nested types defined in a type annotated as internal.
 

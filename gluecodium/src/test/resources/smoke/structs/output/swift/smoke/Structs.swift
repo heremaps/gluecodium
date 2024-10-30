@@ -1,26 +1,40 @@
 //
+
 //
+
 import Foundation
+
 public class Structs {
+
     public typealias ArrayOfImmutable = [Structs.AllTypesStruct]
+
+
     let c_instance : _baseRef
+
     init(cStructs: _baseRef) {
         guard cStructs != 0 else {
             fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cStructs
     }
+
     deinit {
         smoke_Structs_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_Structs_release_handle(c_instance)
     }
+
     public enum FooBar : UInt32, CaseIterable, Codable {
+
         case foo
+
         case bar
     }
     public struct Point {
+
         public var x: Double
+
         public var y: Double
+
         public init(x: Double, y: Double) {
             self.x = x
             self.y = y
@@ -30,9 +44,13 @@ public class Structs {
             y = moveFromCType(smoke_Structs_Point_y_get(cHandle))
         }
     }
+
     public struct Line {
+
         public var a: Structs.Point
+
         public var b: Structs.Point
+
         public init(a: Structs.Point, b: Structs.Point) {
             self.a = a
             self.b = b
@@ -42,21 +60,37 @@ public class Structs {
             b = moveFromCType(smoke_Structs_Line_b_get(cHandle))
         }
     }
+
     public struct AllTypesStruct {
+
         public let int8Field: Int8
+
         public let uint8Field: UInt8
+
         public let int16Field: Int16
+
         public let uint16Field: UInt16
+
         public let int32Field: Int32
+
         public let uint32Field: UInt32
+
         public let int64Field: Int64
+
         public let uint64Field: UInt64
+
         public let floatField: Float
+
         public let doubleField: Double
+
         public let stringField: String
+
         public let booleanField: Bool
+
         public let bytesField: Data
+
         public let pointField: Structs.Point
+
         public init(int8Field: Int8, uint8Field: UInt8, int16Field: Int16, uint16Field: UInt16, int32Field: Int32, uint32Field: UInt32, int64Field: Int64, uint64Field: UInt64, floatField: Float, doubleField: Double, stringField: String, booleanField: Bool, bytesField: Data, pointField: Structs.Point) {
             self.int8Field = int8Field
             self.uint8Field = uint8Field
@@ -90,8 +124,11 @@ public class Structs {
             pointField = moveFromCType(smoke_Structs_AllTypesStruct_pointField_get(cHandle))
         }
     }
+
     public struct NestingImmutableStruct {
+
         public var structField: Structs.AllTypesStruct
+
         public init(structField: Structs.AllTypesStruct) {
             self.structField = structField
         }
@@ -99,8 +136,11 @@ public class Structs {
             structField = moveFromCType(smoke_Structs_NestingImmutableStruct_structField_get(cHandle))
         }
     }
+
     public struct DoubleNestingImmutableStruct {
+
         public var nestingStructField: Structs.NestingImmutableStruct
+
         public init(nestingStructField: Structs.NestingImmutableStruct) {
             self.nestingStructField = nestingStructField
         }
@@ -108,8 +148,11 @@ public class Structs {
             nestingStructField = moveFromCType(smoke_Structs_DoubleNestingImmutableStruct_nestingStructField_get(cHandle))
         }
     }
+
     public struct StructWithArrayOfImmutable {
+
         public var arrayField: Structs.ArrayOfImmutable
+
         public init(arrayField: Structs.ArrayOfImmutable) {
             self.arrayField = arrayField
         }
@@ -117,24 +160,63 @@ public class Structs {
             arrayField = foobar_moveFromCType(smoke_Structs_StructWithArrayOfImmutable_arrayField_get(cHandle))
         }
     }
+
     public struct ImmutableStructWithCppAccessors {
-        public let stringField: String
-        public init(stringField: String) {
-            self.stringField = stringField
+
+        public let trivialIntField: Int32
+
+        public let trivialDoubleField: Double
+
+        public let nontrivialStringField: String
+
+        public let nontrivialPointField: Structs.Point
+
+        public let nontrivialOptionalPoint: Structs.Point?
+
+        public init(trivialIntField: Int32, trivialDoubleField: Double, nontrivialStringField: String, nontrivialPointField: Structs.Point, nontrivialOptionalPoint: Structs.Point? = nil) {
+            self.trivialIntField = trivialIntField
+            self.trivialDoubleField = trivialDoubleField
+            self.nontrivialStringField = nontrivialStringField
+            self.nontrivialPointField = nontrivialPointField
+            self.nontrivialOptionalPoint = nontrivialOptionalPoint
         }
         internal init(cHandle: _baseRef) {
-            stringField = moveFromCType(smoke_Structs_ImmutableStructWithCppAccessors_stringField_get(cHandle))
+            trivialIntField = moveFromCType(smoke_Structs_ImmutableStructWithCppAccessors_trivialIntField_get(cHandle))
+            trivialDoubleField = moveFromCType(smoke_Structs_ImmutableStructWithCppAccessors_trivialDoubleField_get(cHandle))
+            nontrivialStringField = moveFromCType(smoke_Structs_ImmutableStructWithCppAccessors_nontrivialStringField_get(cHandle))
+            nontrivialPointField = moveFromCType(smoke_Structs_ImmutableStructWithCppAccessors_nontrivialPointField_get(cHandle))
+            nontrivialOptionalPoint = moveFromCType(smoke_Structs_ImmutableStructWithCppAccessors_nontrivialOptionalPoint_get(cHandle))
         }
     }
+
     public struct MutableStructWithCppAccessors {
-        public var stringField: String
-        public init(stringField: String) {
-            self.stringField = stringField
+
+        public var trivialIntField: Int32
+
+        public var trivialDoubleField: Double
+
+        public var nontrivialStringField: String
+
+        public var nontrivialPointField: Structs.Point
+
+        public var nontrivialOptionalPoint: Structs.Point?
+
+        public init(trivialIntField: Int32, trivialDoubleField: Double, nontrivialStringField: String, nontrivialPointField: Structs.Point, nontrivialOptionalPoint: Structs.Point? = nil) {
+            self.trivialIntField = trivialIntField
+            self.trivialDoubleField = trivialDoubleField
+            self.nontrivialStringField = nontrivialStringField
+            self.nontrivialPointField = nontrivialPointField
+            self.nontrivialOptionalPoint = nontrivialOptionalPoint
         }
         internal init(cHandle: _baseRef) {
-            stringField = moveFromCType(smoke_Structs_MutableStructWithCppAccessors_stringField_get(cHandle))
+            trivialIntField = moveFromCType(smoke_Structs_MutableStructWithCppAccessors_trivialIntField_get(cHandle))
+            trivialDoubleField = moveFromCType(smoke_Structs_MutableStructWithCppAccessors_trivialDoubleField_get(cHandle))
+            nontrivialStringField = moveFromCType(smoke_Structs_MutableStructWithCppAccessors_nontrivialStringField_get(cHandle))
+            nontrivialPointField = moveFromCType(smoke_Structs_MutableStructWithCppAccessors_nontrivialPointField_get(cHandle))
+            nontrivialOptionalPoint = moveFromCType(smoke_Structs_MutableStructWithCppAccessors_nontrivialOptionalPoint_get(cHandle))
         }
     }
+
     public static func swapPointCoordinates(input: Structs.Point) -> Structs.Point {
         let c_input = moveToCType(input)
         let c_result_handle = smoke_Structs_swapPointCoordinates(c_input.ref)
@@ -156,7 +238,11 @@ public class Structs {
         let c_result_handle = smoke_Structs_modifyAllTypesStruct(c_input.ref)
         return moveFromCType(c_result_handle)
     }
+
 }
+
+
+
 internal func getRef(_ ref: Structs?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -166,6 +252,7 @@ internal func getRef(_ ref: Structs?, owning: Bool = true) -> RefHolder {
         ? RefHolder(ref: handle_copy, release: smoke_Structs_release_handle)
         : RefHolder(handle_copy)
 }
+
 extension Structs: NativeBase {
     /// :nodoc:
     var c_handle: _baseRef { return c_instance }
@@ -175,11 +262,13 @@ extension Structs: Hashable {
     public static func == (lhs: Structs, rhs: Structs) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
+
     /// :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }
 }
+
 internal func Structs_copyFromCType(_ handle: _baseRef) -> Structs {
     if let swift_pointer = smoke_Structs_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Structs {
@@ -189,6 +278,7 @@ internal func Structs_copyFromCType(_ handle: _baseRef) -> Structs {
     smoke_Structs_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
+
 internal func Structs_moveFromCType(_ handle: _baseRef) -> Structs {
     if let swift_pointer = smoke_Structs_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? Structs {
@@ -199,6 +289,7 @@ internal func Structs_moveFromCType(_ handle: _baseRef) -> Structs {
     smoke_Structs_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
+
 internal func Structs_copyFromCType(_ handle: _baseRef) -> Structs? {
     guard handle != 0 else {
         return nil
@@ -211,18 +302,23 @@ internal func Structs_moveFromCType(_ handle: _baseRef) -> Structs? {
     }
     return Structs_moveFromCType(handle) as Structs
 }
+
 internal func copyToCType(_ swiftClass: Structs) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
+
 internal func moveToCType(_ swiftClass: Structs) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
+
 internal func copyToCType(_ swiftClass: Structs?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
+
 internal func moveToCType(_ swiftClass: Structs?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
+
 internal func copyFromCType(_ handle: _baseRef) -> Structs.Point {
     return Structs.Point(cHandle: handle)
 }
@@ -232,6 +328,7 @@ internal func moveFromCType(_ handle: _baseRef) -> Structs.Point {
     }
     return copyFromCType(handle)
 }
+
 internal func copyToCType(_ swiftType: Structs.Point) -> RefHolder {
     let c_x = moveToCType(swiftType.x)
     let c_y = moveToCType(swiftType.y)
@@ -253,6 +350,7 @@ internal func moveFromCType(_ handle: _baseRef) -> Structs.Point? {
     }
     return copyFromCType(handle)
 }
+
 internal func copyToCType(_ swiftType: Structs.Point?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
@@ -264,6 +362,7 @@ internal func copyToCType(_ swiftType: Structs.Point?) -> RefHolder {
 internal func moveToCType(_ swiftType: Structs.Point?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_Point_release_optional_handle)
 }
+
 internal func copyFromCType(_ handle: _baseRef) -> Structs.Line {
     return Structs.Line(cHandle: handle)
 }
@@ -273,6 +372,7 @@ internal func moveFromCType(_ handle: _baseRef) -> Structs.Line {
     }
     return copyFromCType(handle)
 }
+
 internal func copyToCType(_ swiftType: Structs.Line) -> RefHolder {
     let c_a = moveToCType(swiftType.a)
     let c_b = moveToCType(swiftType.b)
@@ -294,6 +394,7 @@ internal func moveFromCType(_ handle: _baseRef) -> Structs.Line? {
     }
     return copyFromCType(handle)
 }
+
 internal func copyToCType(_ swiftType: Structs.Line?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
@@ -305,6 +406,7 @@ internal func copyToCType(_ swiftType: Structs.Line?) -> RefHolder {
 internal func moveToCType(_ swiftType: Structs.Line?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_Line_release_optional_handle)
 }
+
 internal func copyFromCType(_ handle: _baseRef) -> Structs.AllTypesStruct {
     return Structs.AllTypesStruct(cHandle: handle)
 }
@@ -314,6 +416,7 @@ internal func moveFromCType(_ handle: _baseRef) -> Structs.AllTypesStruct {
     }
     return copyFromCType(handle)
 }
+
 internal func copyToCType(_ swiftType: Structs.AllTypesStruct) -> RefHolder {
     let c_int8Field = moveToCType(swiftType.int8Field)
     let c_uint8Field = moveToCType(swiftType.uint8Field)
@@ -347,6 +450,7 @@ internal func moveFromCType(_ handle: _baseRef) -> Structs.AllTypesStruct? {
     }
     return copyFromCType(handle)
 }
+
 internal func copyToCType(_ swiftType: Structs.AllTypesStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
@@ -370,6 +474,7 @@ internal func copyToCType(_ swiftType: Structs.AllTypesStruct?) -> RefHolder {
 internal func moveToCType(_ swiftType: Structs.AllTypesStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_AllTypesStruct_release_optional_handle)
 }
+
 internal func copyFromCType(_ handle: _baseRef) -> Structs.NestingImmutableStruct {
     return Structs.NestingImmutableStruct(cHandle: handle)
 }
@@ -379,6 +484,7 @@ internal func moveFromCType(_ handle: _baseRef) -> Structs.NestingImmutableStruc
     }
     return copyFromCType(handle)
 }
+
 internal func copyToCType(_ swiftType: Structs.NestingImmutableStruct) -> RefHolder {
     let c_structField = moveToCType(swiftType.structField)
     return RefHolder(smoke_Structs_NestingImmutableStruct_create_handle(c_structField.ref))
@@ -399,6 +505,7 @@ internal func moveFromCType(_ handle: _baseRef) -> Structs.NestingImmutableStruc
     }
     return copyFromCType(handle)
 }
+
 internal func copyToCType(_ swiftType: Structs.NestingImmutableStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
@@ -409,6 +516,7 @@ internal func copyToCType(_ swiftType: Structs.NestingImmutableStruct?) -> RefHo
 internal func moveToCType(_ swiftType: Structs.NestingImmutableStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_NestingImmutableStruct_release_optional_handle)
 }
+
 internal func copyFromCType(_ handle: _baseRef) -> Structs.DoubleNestingImmutableStruct {
     return Structs.DoubleNestingImmutableStruct(cHandle: handle)
 }
@@ -418,6 +526,7 @@ internal func moveFromCType(_ handle: _baseRef) -> Structs.DoubleNestingImmutabl
     }
     return copyFromCType(handle)
 }
+
 internal func copyToCType(_ swiftType: Structs.DoubleNestingImmutableStruct) -> RefHolder {
     let c_nestingStructField = moveToCType(swiftType.nestingStructField)
     return RefHolder(smoke_Structs_DoubleNestingImmutableStruct_create_handle(c_nestingStructField.ref))
@@ -438,6 +547,7 @@ internal func moveFromCType(_ handle: _baseRef) -> Structs.DoubleNestingImmutabl
     }
     return copyFromCType(handle)
 }
+
 internal func copyToCType(_ swiftType: Structs.DoubleNestingImmutableStruct?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
@@ -448,6 +558,7 @@ internal func copyToCType(_ swiftType: Structs.DoubleNestingImmutableStruct?) ->
 internal func moveToCType(_ swiftType: Structs.DoubleNestingImmutableStruct?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_DoubleNestingImmutableStruct_release_optional_handle)
 }
+
 internal func copyFromCType(_ handle: _baseRef) -> Structs.StructWithArrayOfImmutable {
     return Structs.StructWithArrayOfImmutable(cHandle: handle)
 }
@@ -457,6 +568,7 @@ internal func moveFromCType(_ handle: _baseRef) -> Structs.StructWithArrayOfImmu
     }
     return copyFromCType(handle)
 }
+
 internal func copyToCType(_ swiftType: Structs.StructWithArrayOfImmutable) -> RefHolder {
     let c_arrayField = foobar_moveToCType(swiftType.arrayField)
     return RefHolder(smoke_Structs_StructWithArrayOfImmutable_create_handle(c_arrayField.ref))
@@ -477,6 +589,7 @@ internal func moveFromCType(_ handle: _baseRef) -> Structs.StructWithArrayOfImmu
     }
     return copyFromCType(handle)
 }
+
 internal func copyToCType(_ swiftType: Structs.StructWithArrayOfImmutable?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
@@ -487,6 +600,7 @@ internal func copyToCType(_ swiftType: Structs.StructWithArrayOfImmutable?) -> R
 internal func moveToCType(_ swiftType: Structs.StructWithArrayOfImmutable?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_StructWithArrayOfImmutable_release_optional_handle)
 }
+
 internal func copyFromCType(_ handle: _baseRef) -> Structs.ImmutableStructWithCppAccessors {
     return Structs.ImmutableStructWithCppAccessors(cHandle: handle)
 }
@@ -496,9 +610,14 @@ internal func moveFromCType(_ handle: _baseRef) -> Structs.ImmutableStructWithCp
     }
     return copyFromCType(handle)
 }
+
 internal func copyToCType(_ swiftType: Structs.ImmutableStructWithCppAccessors) -> RefHolder {
-    let c_stringField = moveToCType(swiftType.stringField)
-    return RefHolder(smoke_Structs_ImmutableStructWithCppAccessors_create_handle(c_stringField.ref))
+    let c_trivialIntField = moveToCType(swiftType.trivialIntField)
+    let c_trivialDoubleField = moveToCType(swiftType.trivialDoubleField)
+    let c_nontrivialStringField = moveToCType(swiftType.nontrivialStringField)
+    let c_nontrivialPointField = moveToCType(swiftType.nontrivialPointField)
+    let c_nontrivialOptionalPoint = moveToCType(swiftType.nontrivialOptionalPoint)
+    return RefHolder(smoke_Structs_ImmutableStructWithCppAccessors_create_handle(c_trivialIntField.ref, c_trivialDoubleField.ref, c_nontrivialStringField.ref, c_nontrivialPointField.ref, c_nontrivialOptionalPoint.ref))
 }
 internal func moveToCType(_ swiftType: Structs.ImmutableStructWithCppAccessors) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_ImmutableStructWithCppAccessors_release_handle)
@@ -516,16 +635,22 @@ internal func moveFromCType(_ handle: _baseRef) -> Structs.ImmutableStructWithCp
     }
     return copyFromCType(handle)
 }
+
 internal func copyToCType(_ swiftType: Structs.ImmutableStructWithCppAccessors?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let c_stringField = moveToCType(swiftType.stringField)
-    return RefHolder(smoke_Structs_ImmutableStructWithCppAccessors_create_optional_handle(c_stringField.ref))
+    let c_trivialIntField = moveToCType(swiftType.trivialIntField)
+    let c_trivialDoubleField = moveToCType(swiftType.trivialDoubleField)
+    let c_nontrivialStringField = moveToCType(swiftType.nontrivialStringField)
+    let c_nontrivialPointField = moveToCType(swiftType.nontrivialPointField)
+    let c_nontrivialOptionalPoint = moveToCType(swiftType.nontrivialOptionalPoint)
+    return RefHolder(smoke_Structs_ImmutableStructWithCppAccessors_create_optional_handle(c_trivialIntField.ref, c_trivialDoubleField.ref, c_nontrivialStringField.ref, c_nontrivialPointField.ref, c_nontrivialOptionalPoint.ref))
 }
 internal func moveToCType(_ swiftType: Structs.ImmutableStructWithCppAccessors?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_ImmutableStructWithCppAccessors_release_optional_handle)
 }
+
 internal func copyFromCType(_ handle: _baseRef) -> Structs.MutableStructWithCppAccessors {
     return Structs.MutableStructWithCppAccessors(cHandle: handle)
 }
@@ -535,9 +660,14 @@ internal func moveFromCType(_ handle: _baseRef) -> Structs.MutableStructWithCppA
     }
     return copyFromCType(handle)
 }
+
 internal func copyToCType(_ swiftType: Structs.MutableStructWithCppAccessors) -> RefHolder {
-    let c_stringField = moveToCType(swiftType.stringField)
-    return RefHolder(smoke_Structs_MutableStructWithCppAccessors_create_handle(c_stringField.ref))
+    let c_trivialIntField = moveToCType(swiftType.trivialIntField)
+    let c_trivialDoubleField = moveToCType(swiftType.trivialDoubleField)
+    let c_nontrivialStringField = moveToCType(swiftType.nontrivialStringField)
+    let c_nontrivialPointField = moveToCType(swiftType.nontrivialPointField)
+    let c_nontrivialOptionalPoint = moveToCType(swiftType.nontrivialOptionalPoint)
+    return RefHolder(smoke_Structs_MutableStructWithCppAccessors_create_handle(c_trivialIntField.ref, c_trivialDoubleField.ref, c_nontrivialStringField.ref, c_nontrivialPointField.ref, c_nontrivialOptionalPoint.ref))
 }
 internal func moveToCType(_ swiftType: Structs.MutableStructWithCppAccessors) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_MutableStructWithCppAccessors_release_handle)
@@ -555,34 +685,43 @@ internal func moveFromCType(_ handle: _baseRef) -> Structs.MutableStructWithCppA
     }
     return copyFromCType(handle)
 }
+
 internal func copyToCType(_ swiftType: Structs.MutableStructWithCppAccessors?) -> RefHolder {
     guard let swiftType = swiftType else {
         return RefHolder(0)
     }
-    let c_stringField = moveToCType(swiftType.stringField)
-    return RefHolder(smoke_Structs_MutableStructWithCppAccessors_create_optional_handle(c_stringField.ref))
+    let c_trivialIntField = moveToCType(swiftType.trivialIntField)
+    let c_trivialDoubleField = moveToCType(swiftType.trivialDoubleField)
+    let c_nontrivialStringField = moveToCType(swiftType.nontrivialStringField)
+    let c_nontrivialPointField = moveToCType(swiftType.nontrivialPointField)
+    let c_nontrivialOptionalPoint = moveToCType(swiftType.nontrivialOptionalPoint)
+    return RefHolder(smoke_Structs_MutableStructWithCppAccessors_create_optional_handle(c_trivialIntField.ref, c_trivialDoubleField.ref, c_nontrivialStringField.ref, c_nontrivialPointField.ref, c_nontrivialOptionalPoint.ref))
 }
 internal func moveToCType(_ swiftType: Structs.MutableStructWithCppAccessors?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_Structs_MutableStructWithCppAccessors_release_optional_handle)
 }
+
 internal func copyToCType(_ swiftEnum: Structs.FooBar) -> PrimitiveHolder<UInt32> {
     return PrimitiveHolder(swiftEnum.rawValue)
 }
 internal func moveToCType(_ swiftEnum: Structs.FooBar) -> PrimitiveHolder<UInt32> {
     return copyToCType(swiftEnum)
 }
+
 internal func copyToCType(_ swiftEnum: Structs.FooBar?) -> RefHolder {
     return copyToCType(swiftEnum?.rawValue)
 }
 internal func moveToCType(_ swiftEnum: Structs.FooBar?) -> RefHolder {
     return moveToCType(swiftEnum?.rawValue)
 }
+
 internal func copyFromCType(_ cValue: UInt32) -> Structs.FooBar {
     return Structs.FooBar(rawValue: cValue)!
 }
 internal func moveFromCType(_ cValue: UInt32) -> Structs.FooBar {
     return copyFromCType(cValue)
 }
+
 internal func copyFromCType(_ handle: _baseRef) -> Structs.FooBar? {
     guard handle != 0 else {
         return nil
@@ -595,3 +734,5 @@ internal func moveFromCType(_ handle: _baseRef) -> Structs.FooBar? {
     }
     return copyFromCType(handle)
 }
+
+

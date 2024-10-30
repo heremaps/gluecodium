@@ -6,6 +6,7 @@
 package com.example.smoke;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import com.example.NativeBase;
 import java.util.List;
 
@@ -121,22 +122,50 @@ public final class Structs extends NativeBase {
     }
 
     public static final class ImmutableStructWithCppAccessors {
+        public final int trivialIntField;
+        public final double trivialDoubleField;
         @NonNull
-        public final String stringField;
+        public final String nontrivialStringField;
+        @NonNull
+        public final Structs.Point nontrivialPointField;
+        @Nullable
+        public final Structs.Point nontrivialOptionalPoint;
 
-        public ImmutableStructWithCppAccessors(@NonNull final String stringField) {
-            this.stringField = stringField;
+        public ImmutableStructWithCppAccessors(final int trivialIntField, final double trivialDoubleField, @NonNull final String nontrivialStringField, @NonNull final Structs.Point nontrivialPointField) {
+            this.trivialIntField = trivialIntField;
+            this.trivialDoubleField = trivialDoubleField;
+            this.nontrivialStringField = nontrivialStringField;
+            this.nontrivialPointField = nontrivialPointField;
+            this.nontrivialOptionalPoint = null;
+        }
+
+        public ImmutableStructWithCppAccessors(final int trivialIntField, final double trivialDoubleField, @NonNull final String nontrivialStringField, @NonNull final Structs.Point nontrivialPointField, @Nullable final Structs.Point nontrivialOptionalPoint) {
+            this.trivialIntField = trivialIntField;
+            this.trivialDoubleField = trivialDoubleField;
+            this.nontrivialStringField = nontrivialStringField;
+            this.nontrivialPointField = nontrivialPointField;
+            this.nontrivialOptionalPoint = nontrivialOptionalPoint;
         }
 
 
     }
 
     public static final class MutableStructWithCppAccessors {
+        public int trivialIntField;
+        public double trivialDoubleField;
         @NonNull
-        public String stringField;
+        public String nontrivialStringField;
+        @NonNull
+        public Structs.Point nontrivialPointField;
+        @Nullable
+        public Structs.Point nontrivialOptionalPoint;
 
-        public MutableStructWithCppAccessors(@NonNull final String stringField) {
-            this.stringField = stringField;
+        public MutableStructWithCppAccessors(final int trivialIntField, final double trivialDoubleField, @NonNull final String nontrivialStringField, @NonNull final Structs.Point nontrivialPointField) {
+            this.trivialIntField = trivialIntField;
+            this.trivialDoubleField = trivialDoubleField;
+            this.nontrivialStringField = nontrivialStringField;
+            this.nontrivialPointField = nontrivialPointField;
+            this.nontrivialOptionalPoint = null;
         }
 
 

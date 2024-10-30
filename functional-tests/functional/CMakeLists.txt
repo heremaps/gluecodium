@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2019 HERE Europe B.V.
+# Copyright (C) 2016-2024 HERE Europe B.V.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -135,6 +135,7 @@ feature(Structs cpp android swift dart SOURCES
     input/src/cpp/PlainDataStructures.cpp
 
     input/lime/Structs.lime
+    input/lime/Accessors.lime
 )
 
 feature(StructsInTypes cpp android swift dart SOURCES
