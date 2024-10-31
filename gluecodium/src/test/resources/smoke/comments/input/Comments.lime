@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2019 HERE Europe B.V.
+# Copyright (C) 2016-2024 HERE Europe B.V.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -79,9 +79,17 @@ class comments {
     fun returnCommentOnly(undocumented: String): String
 
     // Some very useful property.
+    // Note: without these comments user may not be able to use it correctly.
+    // Note: that's serious.
+    // Therefore, these lines above getter/setter need to be rendered in the output files.
     // @get Gets some very useful property.
     // @set Sets some very useful property.
     property SomeProperty: Usefulness
+
+    // OnlyGetterProperty, which does not have a setter.
+    // The generated documentation for this property should only be added to property or getter.
+    // @get Gets OnlyGetterProperty in a very specific way.
+    property OnlyGetterProperty: Int { get }
 
     // This is some very useful exception.
     exception SomethingWrong(SomeEnum)

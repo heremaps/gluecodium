@@ -281,6 +281,9 @@ public final class Comments extends NativeBase {
     /**
      * <p>Gets some very useful property.
      * @return <p>Some very useful property.
+     *     Note: without these comments user may not be able to use it correctly.
+     *     Note: that's serious.
+     *     Therefore, these lines above getter/setter need to be rendered in the output files.
      */
 
 
@@ -290,11 +293,24 @@ public final class Comments extends NativeBase {
     /**
      * <p>Sets some very useful property.
      * @param value <p>Some very useful property.
+     *     Note: without these comments user may not be able to use it correctly.
+     *     Note: that's serious.
+     *     Therefore, these lines above getter/setter need to be rendered in the output files.
      */
 
 
 
     public native void setSomeProperty(final boolean value);
+
+    /**
+     * <p>Gets OnlyGetterProperty in a very specific way.
+     * @return <p>OnlyGetterProperty, which does not have a setter.
+     *     The generated documentation for this property should only be added to property or getter.
+     */
+
+
+
+    public native int getOnlyGetterProperty();
 
 
 
