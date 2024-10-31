@@ -1,10 +1,11 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 13.9.6
+Release date: 2024-10-31
 ### Bug fixes:
  * C++: Fixed generation of getters and setters for accessors attribute -- non-trivial types use references now.
- * Added missing generation of conversion functions for lambdas defined in structs for Swift.
- * Fixed a bug related to exporting nested types defined in a type annotated as internal.
+ * Swift: Added missing generation of conversion functions for lambdas defined in structs.
+ * Dart: Fixed a bug related to exporting nested types defined in a type annotated as internal.
 
 ## 13.9.5
 Release date: 2024-10-22
