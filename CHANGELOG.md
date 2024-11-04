@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased:
+### Bug fixes:
+ * Dart: generate omitted documentation of properties.
+
 ## 13.9.6
 Release date: 2024-10-31
 ### Bug fixes:
