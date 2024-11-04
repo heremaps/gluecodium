@@ -27,6 +27,9 @@ access and cached in Java/Swift/Dart afterwards). Currently, only supported for 
 * **@Internal**\[**(**__PlatformTag__**)**\]: marks an element to have "internal" visibility. Additionally, platform
 tag(s) ("Java", "Swift", or "Dart") could be specified. This will make the internal visibility apply on the selected
 platform(s).
+> **Important:** the behavior of `@Internal` tag for Dart is different from that for Java/Swift. In Dart, the types
+> annotated as `@Internal` do have "internal" visibility. However, functions, properties, constructors and field
+> constructors are not generated. These elements are skipped like in the case of `@Skip` attribute.
 * **@Overloaded**: marks a lambda element to behave as if it were overloaded (i.e. as if there is another lambda with
 the same parameter and return types). This can be used in scenarios of multiple separate generation runs with disjoint
 LIME model trees.
