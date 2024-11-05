@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2020 HERE Europe B.V.
+ * Copyright (C) 2016-2024 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -178,7 +178,12 @@ internal object AntlrLimeConverter {
         attributes: LimeAttributes.Builder,
         valueContext: LimeParser.AnnotationValueContext,
     ) {
-        val value = convertAnnotationValue(valueContext)
+        val value =
+            when {
+                valueContext.simpleId() != null -> valueContext.simpleId().text
+                else -> convertAnnotationValue(valueContext)
+            }
+
         if (value == true) {
             attributes.addAttribute(LimeAttributeType.INTERNAL)
             return

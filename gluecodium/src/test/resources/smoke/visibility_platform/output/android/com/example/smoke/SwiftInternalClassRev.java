@@ -7,7 +7,7 @@ package com.example.smoke;
 
 import com.example.NativeBase;
 
-final class SwiftInternalClassRev extends NativeBase {
+public final class SwiftInternalClassRev extends NativeBase {
 
     /**
      * For internal use only.

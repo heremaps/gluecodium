@@ -7,7 +7,7 @@ package com.example.smoke;
 
 import com.example.NativeBase;
 
-final class DartInternalClassRev extends NativeBase {
+public final class DartInternalClassRev extends NativeBase {
 
     /**
      * For internal use only.

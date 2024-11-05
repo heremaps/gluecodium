@@ -4,7 +4,7 @@
 
 import Foundation
 
-internal class JavaInternalClassRev {
+public class JavaInternalClassRev {
 
 
     let c_instance : _baseRef

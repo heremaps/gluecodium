@@ -4,7 +4,7 @@
 
 import Foundation
 
-internal class DartInternalClassRev {
+public class DartInternalClassRev {
 
 
     let c_instance : _baseRef
