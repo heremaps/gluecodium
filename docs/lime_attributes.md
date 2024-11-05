@@ -30,6 +30,9 @@ platform(s).
 > **Important:** the behavior of `@Internal` tag for Dart is different from that for Java/Swift. In Dart, the types
 > annotated as `@Internal` do have "internal" visibility. However, functions, properties, constructors and field
 > constructors are not generated. These elements are skipped like in the case of `@Skip` attribute.
+>
+> **Note:** in order to achieve the same behavior for the mentioned elements in Dart, one could rename them via `@Dart`
+> annotation. Please refer to Dart's specific section for more information.
 * **@Overloaded**: marks a lambda element to behave as if it were overloaded (i.e. as if there is another lambda with
 the same parameter and return types). This can be used in scenarios of multiple separate generation runs with disjoint
 LIME model trees.
@@ -134,6 +137,16 @@ generated code. _Annotation_ does not need to be prepended with `@`. _Annotation
 quotes need to be backslash-escaped, as in the example.
 * **Public** or **Internal**: marks an element to have the corresponding visibility in Dart, disregarding any "global"
 visibility attributes the element might have.
+
+> **Note:** in order to ensure the consistent behavior between Java/Swift/Dart in terms of internal functions,
+> constructors and field constructors renaming of elements in Dart could be used.
+>
+> @Internal("Java", "Swift")\
+> @Dart("_withDefaults")\
+> field constructor(some_field, another_field)
+>
+> The presented syntax ensures, that the field constructor is internal in Java/Swift. It is private in Dart, because its
+> name starts with underscore.
 
 C++-specific attributes
 -----------------------
