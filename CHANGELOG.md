@@ -2,6 +2,7 @@
 
 ## Unreleased:
 ### Bug fixes:
+ * Fixed conversion of platforms for 'Internal' annotation to work correctly also when arguments are not in quotation marks.
  * Dart: generate omitted documentation of properties.
 
 ## 13.9.6
