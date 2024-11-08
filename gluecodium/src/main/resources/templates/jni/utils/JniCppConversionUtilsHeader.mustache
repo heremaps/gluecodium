@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  ! Copyright (C) 2016-2024 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -72,7 +72,7 @@ JNIEXPORT std::optional<std::shared_ptr<::std::vector<uint8_t>>> convert_from_jn
  * Converts a Java Date object to an std::chrono::time_point.
  */
 
-jlong get_time_ms_epoch(JNIEnv* const env, const JniReference<jobject>& jvalue) noexcept;
+JNIEXPORT jlong get_time_ms_epoch(JNIEnv* const env, const JniReference<jobject>& jvalue) noexcept;
 
 template<class Clock, class Duration>
 std::chrono::time_point<Clock, Duration>
@@ -106,7 +106,7 @@ convert_from_jni(
  * Converts a Java Duration object to an std::chrono::duration<>.
  */
 
-std::intmax_t get_duration_from_java_duration(JNIEnv* const env,
+JNIEXPORT std::intmax_t get_duration_from_java_duration(JNIEnv* const env,
                                               const JniReference<jobject>& jvalue,
                                               std::intmax_t dest_den,
                                               std::intmax_t dest_num);
@@ -167,7 +167,7 @@ JNIEXPORT JniReference<jbyteArray> convert_to_jni(
  * Converts an std::chrono::time_point to a Java Date object.
  */
 
-JniReference<jobject> create_date_new_object(JNIEnv* const env, const std::chrono::milliseconds& time_epoch);
+JNIEXPORT JniReference<jobject> create_date_new_object(JNIEnv* const env, const std::chrono::milliseconds& time_epoch);
 
 template<class Clock, class Duration>
 JniReference<jobject>
@@ -187,7 +187,7 @@ convert_to_jni(JNIEnv* const env, const std::optional<std::chrono::time_point<Cl
  * Converts an std::chrono::duration<> to a Java Duration object.
  */
 
-JniReference<jobject>
+JNIEXPORT JniReference<jobject>
 create_duration_new_object(JNIEnv* const env, std::intmax_t seconds, std::intmax_t nanos) noexcept;
 
 template<class Rep, class Period>

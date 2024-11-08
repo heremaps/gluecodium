@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  ! Copyright (C) 2016-2024 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@
 // JNI_OnLoad to allow for a custom implementation or similar. In that case the user
 // needs to ensure it is called manually. If it has a custom name, declare the function.
 #ifdef GLUECODIUM_JNI_ONLOAD
-jint GLUECODIUM_JNI_ONLOAD( JavaVM* vm, void* );
+JNIEXPORT jint GLUECODIUM_JNI_ONLOAD( JavaVM* vm, void* );
 #else
 # define GLUECODIUM_JNI_ONLOAD JNI_OnLoad
 #endif
