@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD 17)
 
 if(NOT APPLE OR NOT CMAKE_GENERATOR STREQUAL "Xcode")
   return()
+else()
+  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-undefined,error")
 endif()
 
 enable_language(Swift)
@@ -33,6 +35,12 @@ gluecodium_generate(ObjectWithMainAndCommon GENERATORS cpp swift)
 gluecodium_target_lime_sources(ObjectWithMainAndCommon
                                PUBLIC "${CMAKE_CURRENT_LIST_DIR}/lime/common_main_foo.lime")
 set_target_properties(ObjectWithMainAndCommon PROPERTIES GLUECODIUM_SWIFT_EXPOSE_INTERNALS ON)
+
+# Ensure, that required external symbols related to CBridge code are exposed. By default they are
+# unconditionally exported only for `SHARED` target. Please check scenario 2 in 'Generate.cmake'.
+gluecodium_get_target_compile_definitions(ObjectWithMainAndCommon
+                                          RESULT_PUBLIC _public_common RESULT_PRIVATE _private_common)
+target_compile_definitions(ObjectWithMainAndCommon PUBLIC ${_public_common} PRIVATE ${_private_common})
 
 add_library(ModuleWithMainAndCommon SHARED "${CMAKE_CURRENT_LIST_DIR}/cpp/CommonMainFooImpl.cpp")
 add_library(test::ModuleWithMainAndCommon ALIAS ModuleWithMainAndCommon)
