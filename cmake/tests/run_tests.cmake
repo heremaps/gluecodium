@@ -93,7 +93,8 @@ function (get_parameters_for_build_environment result)
             -GXcode
             -DCMAKE_OSX_ARCHITECTURES=x86_64
             -DCMAKE_OSX_SYSROOT=iphonesimulator
-            -DCMAKE_SYSTEM_NAME=iOS)
+            -DCMAKE_SYSTEM_NAME=iOS
+            -DCMAKE_SHARED_LINKER_FLAGS=-Wl,-undefined,error)
     elseif (GLUECODIUM_BUILD_ENVIRONMENT STREQUAL "android-x86_64")
         foreach(env_variable ANDROID_HOME ANDROID_NDK_HOME)
             if (NOT DEFINED ENV{${env_variable}})
@@ -106,14 +107,16 @@ function (get_parameters_for_build_environment result)
             -DANDROID_PLATFORM=android-${TEST_ANDROID_API_LEVEL_VERSION}
             -DANDROID_HOME=$ENV{ANDROID_HOME}
             -DANDROID_STL=c++_shared
-            -DCMAKE_TOOLCHAIN_FILE=$ENV{ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake)
+            -DCMAKE_TOOLCHAIN_FILE=$ENV{ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake
+            -DCMAKE_SHARED_LINKER_FLAGS=-Wl,--no-undefined)
     elseif(GLUECODIUM_BUILD_ENVIRONMENT STREQUAL "android-host")
         # Pretend as if we really going to build for Android
         list (APPEND _params
             -GNinja
             -DANDROID=ON
             -DANDROID_PLATFORM=android-${TEST_ANDROID_API_LEVEL_VERSION}
-            -DANDROID_HOME=$ENV{ANDROID_HOME})
+            -DANDROID_HOME=$ENV{ANDROID_HOME}
+            -DCMAKE_SHARED_LINKER_FLAGS=-Wl,--no-undefined)
     else ()
         message(FATAL_ERROR "Unknown build environment: ${GLUECODIUM_BUILD_ENVIRONMENT}")
     endif ()
