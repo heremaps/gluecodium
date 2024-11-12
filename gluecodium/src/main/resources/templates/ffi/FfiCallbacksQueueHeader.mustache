@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2020 HERE Europe B.V.
+  ! Copyright (C) 2016-2024 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -21,6 +21,8 @@
 {{>ffi/FfiCopyrightHeader}}
 
 #pragma once
+
+#include "Export.h"
 
 #include <chrono>
 #include <functional>
@@ -92,7 +94,7 @@ public:
 /**
  * Manages a set of CallbackQueues identified by int ids.
  */
-class CallbackQueueManager
+class _GLUECODIUM_FFI_EXPORT CallbackQueueManager
 {
 private:
     mutable std::mutex m_mutex;
@@ -127,7 +129,7 @@ public:
 /**
  * Global static instance of CallbackQueueManager.
  **/
-extern CallbackQueueManager cbqm;
+_GLUECODIUM_FFI_EXPORT extern CallbackQueueManager cbqm;
 }
 {{#internalNamespace}}
 }

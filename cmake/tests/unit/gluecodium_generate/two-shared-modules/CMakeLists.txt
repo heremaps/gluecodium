@@ -1,4 +1,4 @@
-# Copyright (C) 2020 HERE Europe B.V.
+# Copyright (C) 2020-2024 HERE Europe B.V.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,8 +21,14 @@ project(gluecodium.test)
 
 set(CMAKE_CXX_STANDARD 17)
 
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
 if(APPLE AND CMAKE_GENERATOR STREQUAL "Xcode")
   enable_language(Swift)
+  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-undefined,error")
+else()
+  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-undefined")
 endif()
 
 list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
@@ -37,6 +43,7 @@ add_library(shared.module.with.common SHARED)
 target_sources(
   shared.module.with.common PRIVATE "${CMAKE_CURRENT_LIST_DIR}/cpp/CommonMainFooImpl.cpp"
   PUBLIC "${CMAKE_CURRENT_LIST_DIR}/cpp/Dummy.h")
+target_link_libraries(shared.module.with.common PRIVATE Threads::Threads)
 
 gluecodium_generate(shared.module.with.common GENERATORS ${_gluecodium_generator})
 set_target_properties(shared.module.with.common PROPERTIES GLUECODIUM_SYNCHRONIZE_ACCESS_CLASS_CACHE ON)

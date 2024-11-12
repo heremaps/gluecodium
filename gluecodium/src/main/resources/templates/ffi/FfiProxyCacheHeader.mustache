@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2020 HERE Europe B.V.
+  ! Copyright (C) 2016-2024 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -22,6 +22,8 @@
 
 #pragma once
 
+#include "Export.h"
+
 #include <memory>
 #include <string>
 
@@ -32,9 +34,9 @@ namespace {{.}}
 namespace ffi
 {
 
-void cache_proxy_impl(uint64_t token, int32_t isolate_id, const std::string& type_key, std::shared_ptr<void> proxy);
-void remove_cached_proxy(uint64_t token, int32_t isolate_id, const std::string& type_key);
-std::shared_ptr<void> get_cached_proxy_impl(uint64_t token, int32_t isolate_id, const std::string& type_key);
+_GLUECODIUM_FFI_EXPORT void cache_proxy_impl(uint64_t token, int32_t isolate_id, const std::string& type_key, std::shared_ptr<void> proxy);
+_GLUECODIUM_FFI_EXPORT void remove_cached_proxy(uint64_t token, int32_t isolate_id, const std::string& type_key);
+_GLUECODIUM_FFI_EXPORT std::shared_ptr<void> get_cached_proxy_impl(uint64_t token, int32_t isolate_id, const std::string& type_key);
 
 template<class T>
 void
