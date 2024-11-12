@@ -21,6 +21,9 @@ project(gluecodium.test)
 
 set(CMAKE_CXX_STANDARD 17)
 
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
 if(CMAKE_GENERATOR STREQUAL "Xcode")
   enable_language(Swift)
 endif()
@@ -35,6 +38,7 @@ get_supported_gluecodium_generators(_gluecodium_generator)
 # Module 1, includes MAIN and COMMON source set
 add_library(shared.module1 SHARED)
 target_sources(shared.module1 PRIVATE "${CMAKE_CURRENT_LIST_DIR}/cpp/CommonMainFooImpl.cpp")
+target_link_libraries(shared.module1 PRIVATE Threads::Threads)
 
 gluecodium_generate(shared.module1 GENERATORS ${_gluecodium_generator})
 gluecodium_target_lime_sources(shared.module1
