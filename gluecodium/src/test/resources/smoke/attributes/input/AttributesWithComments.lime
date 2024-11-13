@@ -29,7 +29,7 @@ class AttributesWithComments {
     @Swift(Attribute = "OnFunctionInClass")
     @Dart(Attribute = "OnFunctionInClass")
     fun veryFun()
-    // Property comment
+    // @value Property comment
     // @get Getter comment
     // @set Setter comment
     @Cpp(Attribute = "OnPropertyInClass")
