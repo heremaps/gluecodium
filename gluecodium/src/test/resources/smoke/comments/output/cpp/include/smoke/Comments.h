@@ -183,24 +183,17 @@ public:
     /**
      * Gets some very useful property.
      * \return Some very useful property.
-     *     Note: without these comments user may not be able to use it correctly.
-     *     Note: that's serious.
-     *     Therefore, these lines above getter/setter need to be rendered in the output files.
      */
     virtual ::smoke::Comments::Usefulness is_some_property(  ) const = 0;
     /**
      * Sets some very useful property.
      * \param[in] value Some very useful property.
-     *     Note: without these comments user may not be able to use it correctly.
-     *     Note: that's serious.
-     *     Therefore, these lines above getter/setter need to be rendered in the output files.
      */
     virtual void set_some_property( const ::smoke::Comments::Usefulness value ) = 0;
 
     /**
      * Gets OnlyGetterProperty in a very specific way.
      * \return OnlyGetterProperty, which does not have a setter.
-     *     The generated documentation for this property should only be added to property or getter.
      */
     virtual int32_t get_only_getter_property(  ) const = 0;
 

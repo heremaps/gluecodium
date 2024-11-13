@@ -65,20 +65,13 @@ abstract class Comments {
   ///
   String returnCommentOnly(String undocumented);
   /// Some very useful property.
-  /// Note: without these comments user may not be able to use it correctly.
-  /// Note: that's serious.
-  /// Therefore, these lines above getter/setter need to be rendered in the output files.
   /// Gets some very useful property.
   bool get isSomeProperty;
   /// Some very useful property.
-  /// Note: without these comments user may not be able to use it correctly.
-  /// Note: that's serious.
-  /// Therefore, these lines above getter/setter need to be rendered in the output files.
   /// Sets some very useful property.
   set isSomeProperty(bool value);
 
   /// OnlyGetterProperty, which does not have a setter.
-  /// The generated documentation for this property should only be added to property or getter.
   /// Gets OnlyGetterProperty in a very specific way.
   int get onlyGetterProperty;
 

@@ -23,9 +23,6 @@ public class Comments {
     /// This is some very useful constant.
     public static let veryUseful: Comments.Usefulness = true
     /// Some very useful property.
-    /// Note: without these comments user may not be able to use it correctly.
-    /// Note: that's serious.
-    /// Therefore, these lines above getter/setter need to be rendered in the output files.
     public var isSomeProperty: Comments.Usefulness {
         get {
             let c_result_handle = smoke_Comments_isSomeProperty_get(self.c_instance)
@@ -37,7 +34,6 @@ public class Comments {
         }
     }
     /// OnlyGetterProperty, which does not have a setter.
-    /// The generated documentation for this property should only be added to property or getter.
     public var onlyGetterProperty: Int32 {
         get {
             let c_result_handle = smoke_Comments_onlyGetterProperty_get(self.c_instance)
