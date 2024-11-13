@@ -21,6 +21,9 @@ project(gluecodium.test)
 
 set(CMAKE_CXX_STANDARD 17)
 
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
 if(APPLE AND CMAKE_GENERATOR STREQUAL "Xcode")
   enable_language(Swift)
 endif()
@@ -53,6 +56,12 @@ add_library(intermediate.module ${INTERMEDIATE_LIBRARY_TYPE}
                                 "${CMAKE_CURRENT_LIST_DIR}/cpp/Dummy.cpp")
 target_sources(intermediate.module ${INTERMEDIATE_SOURCES_VISIBILITY}
                $<TARGET_OBJECTS:generated.module>)
+
+if(${INTERMEDIATE_LIBRARY_TYPE} STREQUAL "INTERFACE")
+  target_link_libraries(intermediate.module INTERFACE Threads::Threads)
+else()
+  target_link_libraries(intermediate.module PRIVATE Threads::Threads)
+endif()
 
 # Final target
 add_library(shared.module SHARED "${CMAKE_CURRENT_LIST_DIR}/cpp/Dummy.cpp")

@@ -21,6 +21,9 @@ project(gluecodium.test)
 
 set(CMAKE_CXX_STANDARD 17)
 
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
 list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
 
 include(gluecodium/Gluecodium)
@@ -57,6 +60,7 @@ endfunction()
 
 function(_create_and_configure_target _target _expected_dart_symbol _expected_swift_symbol)
   add_library(${_target} SHARED "${CMAKE_CURRENT_LIST_DIR}/cpp/FooImpl.cpp")
+  target_link_libraries(${_target} PRIVATE Threads::Threads)
   gluecodium_generate(${_target} GENERATORS ${_gluecodium_generators})
   gluecodium_target_lime_sources(${_target} PRIVATE "${CMAKE_CURRENT_LIST_DIR}/lime/foo.lime")
 
@@ -84,6 +88,7 @@ set_target_properties(SingleModule3 PROPERTIES GLUECODIUM_INTERNAL_PREFIX "Renam
 # as internal prefix
 add_library(SingleModule4 SHARED "${CMAKE_CURRENT_LIST_DIR}/cpp/FooImpl.cpp")
 set_target_properties(SingleModule4 PROPERTIES GLUECODIUM_INTERNAL_PREFIX "RenamedInternalPrefix")
+target_link_libraries(SingleModule4 PRIVATE Threads::Threads)
 gluecodium_generate(SingleModule4 GENERATORS ${_gluecodium_generators})
 gluecodium_target_lime_sources(SingleModule4 PRIVATE "${CMAKE_CURRENT_LIST_DIR}/lime/foo.lime")
 _setup_framework_if_swift(SingleModule4)
@@ -108,6 +113,7 @@ _create_and_configure_target(SingleModule6 "DartLibrary_SingleModule6MapOf_Strin
 # If OUTPUT_NAME is set before gluecodium_generate then it's used as internal prefix
 add_library(SingleModule7 SHARED "${CMAKE_CURRENT_LIST_DIR}/cpp/FooImpl.cpp")
 set_target_properties(SingleModule7 PROPERTIES OUTPUT_NAME "RenamedOutputName2")
+target_link_libraries(SingleModule7 PRIVATE Threads::Threads)
 gluecodium_generate(SingleModule7 GENERATORS ${_gluecodium_generators})
 gluecodium_target_lime_sources(SingleModule7 PRIVATE "${CMAKE_CURRENT_LIST_DIR}/lime/foo.lime")
 _setup_framework_if_swift(SingleModule7)
