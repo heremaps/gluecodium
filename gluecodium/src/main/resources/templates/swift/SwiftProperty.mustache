@@ -18,7 +18,9 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>swift/SwiftComment}}{{>swift/SwiftAttributes}}{{#if attributes.cached}}{{!!
+{{>swift/SwiftComment}}
+{{#resolveName additionalDescriptionComment}}{{#unless this.isEmpty}}{{prefix this "/// "}}{{/unless}}{{/resolveName}}
+{{>swift/SwiftAttributes}}{{#if attributes.cached}}{{!!
 }}{{resolveName "visibility"}} private(set) {{#if isStatic}}static {{/if}}{{#unless isStatic}}lazy {{/unless}}{{!!
 }}var {{resolveName}}: {{resolveName typeRef}} = {{#getter}}{{>swift/SwiftFunctionBody}}{{/getter}}(){{!!
 }}{{/if}}{{#unless attributes.cached}}{{!!
