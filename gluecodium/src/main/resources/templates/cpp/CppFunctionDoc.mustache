@@ -24,7 +24,10 @@
  */
 {{/ifPredicate}}{{!!
 
-}}{{+combinedComment}}{{resolveName comment}}{{#if comment.isExcluded}}
+}}{{+combinedComment}}{{resolveName comment}}{{!!
+}}{{#resolveName propertyElement.additionalDescriptionComment}}{{#unless this.isEmpty}}
+{{this}}{{/unless}}{{/resolveName}}{{!!
+}}{{#if comment.isExcluded}}
 \private{{/if}}{{!!
 }}{{#if attributes.deprecated}}
 \deprecated {{resolveName attributes.deprecated.message}}{{/if}}{{!!
