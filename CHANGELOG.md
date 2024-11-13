@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased:
+## 13.9.7
+Release date 2024-11-13
 ### Bug fixes:
  * Fixed visibilty of symbols from common code (JNI, Dart FFI) in order to resolve problems with build that uses hidden visibility preset.
  * Fixed conversion of platforms for 'Internal' annotation to work correctly also when arguments are not in quotation marks.
