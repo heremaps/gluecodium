@@ -33,6 +33,7 @@ import org.antlr.v4.runtime.tree.TerminalNode
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -129,5 +130,33 @@ class AntlrLimeModelBuilderTest {
 
         modelBuilder.enterProperty(propertyContext)
         modelBuilder.exitProperty(propertyContext)
+    }
+
+    @Test
+    fun exitPropertyStoresValueAndDescriptionWhenDefined() {
+        pushDocComment("@value Some property")
+        pushDocComment("@description Some description")
+
+        modelBuilder.enterProperty(propertyContext)
+        modelBuilder.exitProperty(propertyContext)
+
+        val result = contextStack.currentContext.currentResults.first() as LimeProperty
+        assertEquals(result.comment.toString(), "Some property")
+        assertEquals(result.valueComment.toString(), "Some property")
+        assertEquals(result.additionalDescriptionComment.toString(), "Some description")
+    }
+
+    @Test
+    fun exitPropertyUsesFirstLinesAsCommentWhenValueAnnotationIsNotDefined() {
+        pushDocComment("Some property")
+        pushDocComment("This is old way of documenting properties")
+
+        modelBuilder.enterProperty(propertyContext)
+        modelBuilder.exitProperty(propertyContext)
+
+        val result = contextStack.currentContext.currentResults.first() as LimeProperty
+        assertEquals(result.comment.toString(), "Some property\nThis is old way of documenting properties")
+        assertTrue(result.valueComment.isEmpty())
+        assertTrue(result.additionalDescriptionComment.isEmpty())
     }
 }
