@@ -23,7 +23,7 @@ interface ParentInterface {
     fun getName(): String
     // Returns the current instance that is cast to ParentInterface type.
     fun castToParent(): ParentInterface
-    // Example attribute that represents a number.
+    // @value Example attribute that represents a number.
     property luckyNumber: Int {
         // Example attribute that represents a number.
         get
