@@ -82,6 +82,28 @@ abstract class Comments {
   /// Gets OnlyGetterProperty in a very specific way.
   int get onlyGetterProperty;
 
+  /// A flag that determines if [Comments.onlyGetterProperty] is visible on the screen.
+  /// By default it is set to `false`. In this case the mentioned thing is not visible on the
+  /// screen except the case when another flag called [Comments.isSomeProperty] forces it.
+  /// When set to `true` then it is always visible.
+  ///
+  /// The additional information about usage of the visibility flag is described here. It contains a lot
+  /// of references. For instance, if [Comments.isSomeProperty] is `null`
+  /// then it is not visible even if flag is set to `true`.
+  /// Returns 'true' if [Comments.onlyGetterProperty] should be visible on the screen. Else returns false.
+  /// This getter also may have additional info that is added to its comment. It can be described here.
+  bool get isIsVisible;
+  /// A flag that determines if [Comments.onlyGetterProperty] is visible on the screen.
+  /// By default it is set to `false`. In this case the mentioned thing is not visible on the
+  /// screen except the case when another flag called [Comments.isSomeProperty] forces it.
+  /// When set to `true` then it is always visible.
+  ///
+  /// The additional information about usage of the visibility flag is described here. It contains a lot
+  /// of references. For instance, if [Comments.isSomeProperty] is `null`
+  /// then it is not visible even if flag is set to `true`.
+  /// Sets the visibility flag that controls if [Comments.onlyGetterProperty] should be visible on the screen.
+  set isIsVisible(bool value);
+
 }
 
 /// This is some very useful enum.
@@ -667,6 +689,31 @@ class Comments$Impl extends __lib.NativeBase implements Comments {
 
 
     }
+
+  }
+
+
+  @override
+  bool get isIsVisible {
+    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_Comments_isIsVisible_get'));
+    final _handle = this.handle;
+    final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
+    try {
+      return booleanFromFfi(__resultHandle);
+    } finally {
+      booleanReleaseFfiHandle(__resultHandle);
+
+    }
+
+  }
+
+  @override
+  set isIsVisible(bool value) {
+    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_Comments_isIsVisible_set__Boolean'));
+    final _valueHandle = booleanToFfi(value);
+    final _handle = this.handle;
+    _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    booleanReleaseFfiHandle(_valueHandle);
 
   }
 

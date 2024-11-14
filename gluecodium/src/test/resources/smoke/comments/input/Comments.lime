@@ -91,6 +91,23 @@ class comments {
     // @get Gets OnlyGetterProperty in a very specific way.
     property OnlyGetterProperty: Int { get }
 
+    // @value A flag that determines if [OnlyGetterProperty] is visible on the screen.
+    // @description By default it is set to `false`. In this case the mentioned thing is not visible on the
+    // screen except the case when another flag called [SomeProperty] forces it.
+    // When set to `true` then it is always visible.
+    //
+    // The additional information about usage of the visibility flag is described here. It contains a lot
+    // of references. For instance, if [SomeProperty] is {@Swift `nil`}{@Java `null`}{@Dart `null`}{@Cpp `nullptr`}
+    // then it is not visible even if flag is set to `true`.
+    //
+    // @get Returns 'true' if [OnlyGetterProperty] should be visible on the screen. Else returns false.
+    // This getter also may have additional info that is added to its comment. It can be described here.
+    // @set Sets the visibility flag that controls if [OnlyGetterProperty] should be visible on the screen.
+    property IsVisible: Boolean {
+        get
+        set
+    }
+
     // This is some very useful exception.
     exception SomethingWrong(SomeEnum)
 

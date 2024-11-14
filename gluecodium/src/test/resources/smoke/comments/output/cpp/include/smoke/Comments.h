@@ -204,6 +204,32 @@ public:
      */
     virtual int32_t get_only_getter_property(  ) const = 0;
 
+    /**
+     * Returns 'true' if ::smoke::Comments::get_only_getter_property should be visible on the screen. Else returns false.
+     * This getter also may have additional info that is added to its comment. It can be described here.
+     * By default it is set to `false`. In this case the mentioned thing is not visible on the
+     * screen except the case when another flag called ::smoke::Comments::is_some_property forces it.
+     * When set to `true` then it is always visible.
+     *
+     * The additional information about usage of the visibility flag is described here. It contains a lot
+     * of references. For instance, if ::smoke::Comments::is_some_property is `nullptr`
+     * then it is not visible even if flag is set to `true`.
+     * \return A flag that determines if ::smoke::Comments::get_only_getter_property is visible on the screen.
+     */
+    virtual bool is_is_visible(  ) const = 0;
+    /**
+     * Sets the visibility flag that controls if ::smoke::Comments::get_only_getter_property should be visible on the screen.
+     * By default it is set to `false`. In this case the mentioned thing is not visible on the
+     * screen except the case when another flag called ::smoke::Comments::is_some_property forces it.
+     * When set to `true` then it is always visible.
+     *
+     * The additional information about usage of the visibility flag is described here. It contains a lot
+     * of references. For instance, if ::smoke::Comments::is_some_property is `nullptr`
+     * then it is not visible even if flag is set to `true`.
+     * \param[in] value A flag that determines if ::smoke::Comments::get_only_getter_property is visible on the screen.
+     */
+    virtual void set_is_visible( const bool value ) = 0;
+
 };
 
 
