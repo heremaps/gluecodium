@@ -288,6 +288,17 @@ internal class AntlrLimeModelBuilder(
         val propertyComment = structuredCommentsStack.peek().description
         val valueComment = getComment("value", emptyList(), ctx).withExcluded(propertyComment.isExcluded)
         val additionalDescriptionComment = getComment("description", emptyList(), ctx).withExcluded(propertyComment.isExcluded)
+
+        if (!propertyComment.isEmpty() && !valueComment.isEmpty()) {
+            val position = ctx.getStart()
+            val linePrefix = "line ${position.line}:${position.charPositionInLine} --"
+            val docsReference = "Please see 'docs/lime_markdown.md'"
+            throw ParseCancellationException(
+                "$linePrefix property comments cannot start with lines without annotations " +
+                    "and use @value at the same time! $docsReference.",
+            )
+        }
+
         val propertyAttributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation())
 
         val accessorArgumentComment = if (!valueComment.isEmpty()) valueComment else propertyComment
