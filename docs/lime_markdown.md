@@ -63,18 +63,21 @@ fun process(mode: Mode, input: String): GenericResult throws SomethingWrongExcep
 
 ### Structured comments for properties
 
-Structured comments are supported for properties. The following syntax is used:
-- the lines prepending any annotation are used to document getter's
-return value and setter's parameter as well as the declaration of property
-- `@get` annotation can be used to describe the getter function
-- `@set` annotation can be used to describe the setter function
+Structured comments are supported for properties. The comment must start with annotation.
+At the moment the following annotations are supported:
+1. `@value` - short description of property (ideally single line); it is used to document getter's
+   return value and setter's parameter as well as the declaration of property
+2. `@description` - extended information about property that is required to use it correctly
+3. `@get` - can be used to describe the getter function
+4. `@set` - can be used to describe the setter function
 
->**Important:** return values of getters and parameters of setters must be documented. If appropriate documentation
-> comment is missing, then Gluecodium will raise warning or error depending on `werror` flag.
+>**Important:** `@value` annotation is required. Return values of getters and parameters of setters must be documented.
+> If appropriate documentation comment is missing, then Gluecodium will raise warning or error depending on `werror` flag.
 
 Example:
 ```
-// Time interval taken by the processing.
+// @value Time interval taken by the processing.
+// @description Time interval must be in range [100ms, 1s].
 // @get Gets the time interval taken by the processing.
 // @set Sets the time interval taken by the processing.
 property processingTime: ProcessorHelperTypes.Timestamp
