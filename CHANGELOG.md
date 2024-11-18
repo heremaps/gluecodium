@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased:
+### Features:
+ * Implemented validation of comments used for functions. When the description of parameters or return value is missing, then warning is generated. The user may also treat the warning as error via 'werror' flag.
+
 ## 13.9.7
 Release date 2024-11-13
 ### Bug fixes:
