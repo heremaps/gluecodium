@@ -121,6 +121,7 @@ object OptionReader {
                         GeneratorOptions.WARNING_DOC_LINKS,
                         GeneratorOptions.WARNING_DEPRECATED_ATTRIBUTES,
                         GeneratorOptions.WARNING_DART_OVERLOADS,
+                        GeneratorOptions.WARNING_LIME_FUNCTION_DOCS,
                     ).joinToString(),
             )
             addOption(

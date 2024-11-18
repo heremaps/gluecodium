@@ -20,6 +20,7 @@
 package com.here.gluecodium.validator
 
 import com.here.gluecodium.common.LimeLogger
+import com.here.gluecodium.generator.common.GeneratorOptions
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeElement
@@ -27,8 +28,14 @@ import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeType
 
-internal class LimeFunctionsValidator(private val logger: LimeLogger) {
+internal class LimeFunctionsValidator(private val logger: LimeLogger, generatorOptions: GeneratorOptions = GeneratorOptions()) {
+    private val werrorFunctionDocs = generatorOptions.werror.contains(GeneratorOptions.WARNING_LIME_FUNCTION_DOCS)
+    private val maybeError: LimeLogger.(LimeNamedElement, String) -> Unit =
+        if (werrorFunctionDocs) LimeLogger::error else LimeLogger::warning
+
     fun validate(limeModel: LimeModel): Boolean {
         val validationResults =
             limeModel.referenceMap.values
@@ -55,6 +62,45 @@ internal class LimeFunctionsValidator(private val logger: LimeLogger) {
                 logger.error(limeFunction, "function in an interface cannot be marked with @Cpp(Ref)")
                 result = false
             }
+        }
+        if (needsParametersDocumentation(limeFunction, referenceMap) && !validateParametersComments(limeFunction)) {
+            if (werrorFunctionDocs) {
+                result = false
+            }
+        }
+
+        return result
+    }
+
+    private fun needsParametersDocumentation(
+        limeFunction: LimeFunction,
+        referenceMap: Map<String, LimeElement>,
+    ): Boolean {
+        val parentType = referenceMap[limeFunction.path.parent.toString()] as LimeType
+        if (limeFunction.attributes.have(LimeAttributeType.INTERNAL) ||
+            parentType.attributes.have(LimeAttributeType.INTERNAL)
+        ) {
+            return false
+        }
+
+        return generateSequence(parentType) {
+            referenceMap[it.path.parent.toString()] as? LimeType
+        }.none { it.attributes.have(LimeAttributeType.INTERNAL) }
+    }
+
+    private fun validateParametersComments(limeFunction: LimeFunction): Boolean {
+        var result = true
+
+        for (parameter in limeFunction.parameters) {
+            if (parameter.comment.isEmpty()) {
+                logger.maybeError(limeFunction, "Parameter '${parameter.name}' must be documented")
+                result = false
+            }
+        }
+
+        if (limeFunction.returnType.comment.isEmpty()) {
+            logger.maybeError(limeFunction, "Return must be documented")
+            result = false
         }
 
         return result
