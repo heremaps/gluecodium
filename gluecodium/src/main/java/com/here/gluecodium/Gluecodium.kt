@@ -193,7 +193,7 @@ class Gluecodium(
             { LimeConstantRefsValidator(limeLogger).validate(it) },
             { LimeExternalTypesValidator(limeLogger).validate(it) },
             { LimePropertiesValidator(limeLogger).validate(it) },
-            { LimeFunctionsValidator(limeLogger).validate(it) },
+            { LimeFunctionsValidator(limeLogger, generatorOptions).validate(it) },
             { LimeSkipValidator(limeLogger).validate(it) },
             { LimeAsyncValidator(limeLogger).validate(it) },
         )
