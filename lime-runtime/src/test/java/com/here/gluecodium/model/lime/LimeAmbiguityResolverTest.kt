@@ -20,18 +20,13 @@
 package com.here.gluecodium.model.lime
 
 import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
-import org.junit.Rule
+import org.junit.Assert.assertThrows
 import org.junit.Test
-import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class LimeAmbiguityResolverTest {
-    @JvmField
-    @Rule
-    val exception: ExpectedException = ExpectedException.none()
-
     private val fooPath = LimePath(listOf("foo"), emptyList())
     private val limeElement = object : LimeNamedElement(EMPTY_PATH) {}
 
@@ -51,9 +46,9 @@ class LimeAmbiguityResolverTest {
 
     @Test
     fun resolveWithNoPaths() {
-        exception.expect(LimeModelLoaderException::class.java)
-
-        doResolve()
+        assertThrows(LimeModelLoaderException::class.java) {
+            doResolve()
+        }
     }
 
     @Test
@@ -80,49 +75,54 @@ class LimeAmbiguityResolverTest {
 
     @Test
     fun resolveWithParentPathEmptyMap() {
-        exception.expect(LimeModelLoaderException::class.java)
         referenceMap.clear()
         parentPaths += fooPath
 
-        doResolve()
+        assertThrows(LimeModelLoaderException::class.java) {
+            doResolve()
+        }
     }
 
     @Test
     fun resolveWithImportEmptyMap() {
-        exception.expect(LimeModelLoaderException::class.java)
         referenceMap.clear()
         imports += fooPath.child("Bar")
 
-        doResolve()
+        assertThrows(LimeModelLoaderException::class.java) {
+            doResolve()
+        }
     }
 
     @Test
     fun resolveWithAmbiguousImports() {
-        exception.expect(LimeModelLoaderException::class.java)
         imports += fooPath.child("Bar")
         imports += fooPath.child("Buzz").child("Bar")
         referenceMap["foo.Buzz.Bar"] = object : LimeType(EMPTY_PATH) {}
 
-        doResolve()
+        assertThrows(LimeModelLoaderException::class.java) {
+            doResolve()
+        }
     }
 
     @Test
     fun resolveWithAmbiguousLocalObjects() {
-        exception.expect(LimeModelLoaderException::class.java)
         parentPaths += fooPath
         parentPaths += fooPath.child("Buzz")
         referenceMap["foo.Buzz.Bar"] = object : LimeNamedElement(EMPTY_PATH) {}
 
-        doResolve()
+        assertThrows(LimeModelLoaderException::class.java) {
+            doResolve()
+        }
     }
 
     @Test
     fun resolveWithCombinedAmbiguity() {
-        exception.expect(LimeModelLoaderException::class.java)
         parentPaths += fooPath
         imports += fooPath.child("Buzz").child("Bar")
         referenceMap["foo.Buzz.Bar"] = object : LimeNamedElement(EMPTY_PATH) {}
 
-        doResolve()
+        assertThrows(LimeModelLoaderException::class.java) {
+            doResolve()
+        }
     }
 }
