@@ -26,19 +26,14 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.gradle.api.GradleException
+import org.junit.Assert.assertThrows
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 internal class GluecodiumRunnerTest {
-    @JvmField
-    @Rule
-    val expectedException: ExpectedException = ExpectedException.none()
-
     @MockK lateinit var gluecodium: Gluecodium
     private val defaultGluecodiumOptions = GluecodiumOptions()
     private val defaultGeneratorOptions = GeneratorOptions()
@@ -62,8 +57,9 @@ internal class GluecodiumRunnerTest {
     @Test
     fun executeReturningFalseThrows() {
         every { gluecodium.execute() } returns false
-        expectedException.expect(GradleException::class.java)
 
-        runner.run(defaultGluecodiumOptions, defaultGeneratorOptions)
+        assertThrows(GradleException::class.java) {
+            runner.run(defaultGluecodiumOptions, defaultGeneratorOptions)
+        }
     }
 }

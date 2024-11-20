@@ -25,24 +25,13 @@ import com.here.gluecodium.generator.cpp.TopologicalSortTestHelper.createTypeRef
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeAlias
-import org.junit.Before
-import org.junit.Rule
+import org.junit.Assert.assertThrows
 import org.junit.Test
-import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class TopologicalSortCycleTest {
-    @JvmField
-    @Rule
-    val expectedException: ExpectedException = ExpectedException.none()
-
-    @Before
-    fun setUp() {
-        expectedException.expect(GluecodiumExecutionException::class.java)
-    }
-
     @Test
     fun cycleWithStructs() {
         val fooField = LimeField(createPath("fooField"), typeRef = createTypeRef("foo"))
@@ -50,7 +39,9 @@ class TopologicalSortCycleTest {
         val fooStruct = LimeStruct(createPath("foo"), fields = listOf(barField))
         val barStruct = LimeStruct(createPath("bar"), fields = listOf(fooField))
 
-        TopologicalSort(listOf(fooStruct, barStruct)).sort()
+        assertThrows(GluecodiumExecutionException::class.java) {
+            TopologicalSort(listOf(fooStruct, barStruct)).sort()
+        }
     }
 
     @Test
@@ -58,7 +49,9 @@ class TopologicalSortCycleTest {
         val fooUsing = LimeTypeAlias(createPath("foo"), typeRef = createTypeRef("bar"))
         val barUsing = LimeTypeAlias(createPath("bar"), typeRef = createTypeRef("foo"))
 
-        TopologicalSort(listOf(fooUsing, barUsing)).sort()
+        assertThrows(GluecodiumExecutionException::class.java) {
+            TopologicalSort(listOf(fooUsing, barUsing)).sort()
+        }
     }
 
     @Test
@@ -67,6 +60,8 @@ class TopologicalSortCycleTest {
         val fooStruct = LimeStruct(createPath("foo"), fields = listOf(barField))
         val barUsing = LimeTypeAlias(createPath("bar"), typeRef = createTypeRef("foo"))
 
-        TopologicalSort(listOf(fooStruct, barUsing)).sort()
+        assertThrows(GluecodiumExecutionException::class.java) {
+            TopologicalSort(listOf(fooStruct, barUsing)).sort()
+        }
     }
 }

@@ -30,10 +30,9 @@ import io.mockk.unmockkAll
 import io.mockk.verify
 import junit.framework.TestCase.assertTrue
 import org.junit.After
+import org.junit.Assert.assertThrows
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import java.io.File
@@ -44,10 +43,6 @@ import java.nio.file.Paths
 
 @RunWith(JUnit4::class)
 class FileRemoveTest {
-    @JvmField
-    @Rule
-    var exception: ExpectedException = ExpectedException.none()
-
     @MockK private lateinit var rootFile: File
 
     @Before
@@ -70,10 +65,10 @@ class FileRemoveTest {
         every { rootFile.exists() } returns false
         every { rootFile.isDirectory } returns true
 
-        exception.expect(FileNotFoundException::class.java)
-
         // Act
-        FileRemove(rootFile).removeFiles(emptyList())
+        assertThrows(FileNotFoundException::class.java) {
+            FileRemove(rootFile).removeFiles(emptyList())
+        }
     }
 
     @Test
@@ -83,10 +78,10 @@ class FileRemoveTest {
         every { rootFile.exists() } returns true
         every { rootFile.isDirectory } returns false
 
-        exception.expect(FileNotFoundException::class.java)
-
         // Act
-        FileRemove(rootFile).removeFiles(emptyList())
+        assertThrows(FileNotFoundException::class.java) {
+            FileRemove(rootFile).removeFiles(emptyList())
+        }
     }
 
     @Test

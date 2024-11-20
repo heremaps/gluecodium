@@ -22,10 +22,10 @@ package com.here.gluecodium.cli
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.ExpectedException
 import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
@@ -35,10 +35,6 @@ import java.io.PrintStream
 
 @RunWith(JUnit4::class)
 class OptionReaderTest {
-    @JvmField
-    @Rule
-    val expectedException: ExpectedException = ExpectedException.none()
-
     @JvmField
     @Rule
     val temporaryFolder = TemporaryFolder()
@@ -145,8 +141,7 @@ class OptionReaderTest {
         val toRead = prepareToRead("-someUnknownOption", "")
 
         // Act, Assert
-        expectedException.expect(OptionReaderException::class.java)
-        OptionReader.read(toRead)
+        assertThrows(OptionReaderException::class.java) { OptionReader.read(toRead) }
     }
 
     @Test
