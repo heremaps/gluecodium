@@ -1,6 +1,7 @@
 
 
 import 'dart:ffi';
+import 'dart:typed_data';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
@@ -646,6 +647,214 @@ void smokeTypeswithdefaultsImmutablestructwithfieldconstructorandcollectionsRele
   _smokeTypeswithdefaultsImmutablestructwithfieldconstructorandcollectionsReleaseHandleNullable(handle);
 
 // End of TypesWithDefaults_ImmutableStructWithFieldConstructorAndCollections "private" section.
+@immutable
+class TypesWithDefaults_ImmutableStructWithBlob {
+  final Uint8List emptyBlob;
+
+  final Uint8List deadBeef;
+
+  const TypesWithDefaults_ImmutableStructWithBlob(this.emptyBlob, this.deadBeef);
+  const TypesWithDefaults_ImmutableStructWithBlob.withDefaults()
+    : emptyBlob = Uint8List.fromList([]), deadBeef = Uint8List.fromList([222, 173, 190, 239]);
+}
+
+
+// TypesWithDefaults_ImmutableStructWithBlob "private" section, not exported.
+
+final _smokeTypeswithdefaultsImmutablestructwithblobCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>, Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>, Pointer<Void>)
+  >('library_smoke_TypesWithDefaults_ImmutableStructWithBlob_create_handle'));
+final _smokeTypeswithdefaultsImmutablestructwithblobReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_smoke_TypesWithDefaults_ImmutableStructWithBlob_release_handle'));
+final _smokeTypeswithdefaultsImmutablestructwithblobGetFieldemptyBlob = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_TypesWithDefaults_ImmutableStructWithBlob_get_field_emptyBlob'));
+final _smokeTypeswithdefaultsImmutablestructwithblobGetFielddeadBeef = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_TypesWithDefaults_ImmutableStructWithBlob_get_field_deadBeef'));
+
+
+
+Pointer<Void> smokeTypeswithdefaultsImmutablestructwithblobToFfi(TypesWithDefaults_ImmutableStructWithBlob value) {
+  final _emptyBlobHandle = blobToFfi(value.emptyBlob);
+  final _deadBeefHandle = blobToFfi(value.deadBeef);
+  final _result = _smokeTypeswithdefaultsImmutablestructwithblobCreateHandle(_emptyBlobHandle, _deadBeefHandle);
+  blobReleaseFfiHandle(_emptyBlobHandle);
+  blobReleaseFfiHandle(_deadBeefHandle);
+  return _result;
+}
+
+TypesWithDefaults_ImmutableStructWithBlob smokeTypeswithdefaultsImmutablestructwithblobFromFfi(Pointer<Void> handle) {
+  final _emptyBlobHandle = _smokeTypeswithdefaultsImmutablestructwithblobGetFieldemptyBlob(handle);
+  final _deadBeefHandle = _smokeTypeswithdefaultsImmutablestructwithblobGetFielddeadBeef(handle);
+  try {
+    return TypesWithDefaults_ImmutableStructWithBlob(
+      blobFromFfi(_emptyBlobHandle), 
+      blobFromFfi(_deadBeefHandle)
+    );
+  } finally {
+    blobReleaseFfiHandle(_emptyBlobHandle);
+    blobReleaseFfiHandle(_deadBeefHandle);
+  }
+}
+
+void smokeTypeswithdefaultsImmutablestructwithblobReleaseFfiHandle(Pointer<Void> handle) => _smokeTypeswithdefaultsImmutablestructwithblobReleaseHandle(handle);
+
+// Nullable TypesWithDefaults_ImmutableStructWithBlob
+
+final _smokeTypeswithdefaultsImmutablestructwithblobCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_TypesWithDefaults_ImmutableStructWithBlob_create_handle_nullable'));
+final _smokeTypeswithdefaultsImmutablestructwithblobReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_smoke_TypesWithDefaults_ImmutableStructWithBlob_release_handle_nullable'));
+final _smokeTypeswithdefaultsImmutablestructwithblobGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_TypesWithDefaults_ImmutableStructWithBlob_get_value_nullable'));
+
+Pointer<Void> smokeTypeswithdefaultsImmutablestructwithblobToFfiNullable(TypesWithDefaults_ImmutableStructWithBlob? value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smokeTypeswithdefaultsImmutablestructwithblobToFfi(value);
+  final result = _smokeTypeswithdefaultsImmutablestructwithblobCreateHandleNullable(_handle);
+  smokeTypeswithdefaultsImmutablestructwithblobReleaseFfiHandle(_handle);
+  return result;
+}
+
+TypesWithDefaults_ImmutableStructWithBlob? smokeTypeswithdefaultsImmutablestructwithblobFromFfiNullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smokeTypeswithdefaultsImmutablestructwithblobGetValueNullable(handle);
+  final result = smokeTypeswithdefaultsImmutablestructwithblobFromFfi(_handle);
+  smokeTypeswithdefaultsImmutablestructwithblobReleaseFfiHandle(_handle);
+  return result;
+}
+
+void smokeTypeswithdefaultsImmutablestructwithblobReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeTypeswithdefaultsImmutablestructwithblobReleaseHandleNullable(handle);
+
+// End of TypesWithDefaults_ImmutableStructWithBlob "private" section.
+@immutable
+class TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob {
+  final Uint8List emptyBlob;
+
+  final Uint8List deadBeef;
+
+  final int someField;
+
+  final int anotherField;
+
+  const TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob(this.emptyBlob, this.deadBeef, this.someField, this.anotherField);
+  const TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob.withIntegers(this.someField, this.anotherField)
+      : emptyBlob = Uint8List.fromList([]), deadBeef = Uint8List.fromList([222, 173, 190, 239]);
+}
+
+
+// TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob "private" section, not exported.
+
+final _smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Int32, Int32),
+    Pointer<Void> Function(Pointer<Void>, Pointer<Void>, int, int)
+  >('library_smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob_create_handle'));
+final _smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob_release_handle'));
+final _smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobGetFieldemptyBlob = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob_get_field_emptyBlob'));
+final _smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobGetFielddeadBeef = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob_get_field_deadBeef'));
+final _smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobGetFieldsomeField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Int32 Function(Pointer<Void>),
+    int Function(Pointer<Void>)
+  >('library_smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob_get_field_someField'));
+final _smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobGetFieldanotherField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Int32 Function(Pointer<Void>),
+    int Function(Pointer<Void>)
+  >('library_smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob_get_field_anotherField'));
+
+
+
+Pointer<Void> smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobToFfi(TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob value) {
+  final _emptyBlobHandle = blobToFfi(value.emptyBlob);
+  final _deadBeefHandle = blobToFfi(value.deadBeef);
+  final _someFieldHandle = (value.someField);
+  final _anotherFieldHandle = (value.anotherField);
+  final _result = _smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobCreateHandle(_emptyBlobHandle, _deadBeefHandle, _someFieldHandle, _anotherFieldHandle);
+  blobReleaseFfiHandle(_emptyBlobHandle);
+  blobReleaseFfiHandle(_deadBeefHandle);
+  
+  
+  return _result;
+}
+
+TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobFromFfi(Pointer<Void> handle) {
+  final _emptyBlobHandle = _smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobGetFieldemptyBlob(handle);
+  final _deadBeefHandle = _smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobGetFielddeadBeef(handle);
+  final _someFieldHandle = _smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobGetFieldsomeField(handle);
+  final _anotherFieldHandle = _smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobGetFieldanotherField(handle);
+  try {
+    return TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob(
+      blobFromFfi(_emptyBlobHandle), 
+      blobFromFfi(_deadBeefHandle), 
+      (_someFieldHandle), 
+      (_anotherFieldHandle)
+    );
+  } finally {
+    blobReleaseFfiHandle(_emptyBlobHandle);
+    blobReleaseFfiHandle(_deadBeefHandle);
+    
+    
+  }
+}
+
+void smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobReleaseFfiHandle(Pointer<Void> handle) => _smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobReleaseHandle(handle);
+
+// Nullable TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob
+
+final _smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob_create_handle_nullable'));
+final _smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob_release_handle_nullable'));
+final _smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob_get_value_nullable'));
+
+Pointer<Void> smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobToFfiNullable(TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob? value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobToFfi(value);
+  final result = _smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobCreateHandleNullable(_handle);
+  smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobReleaseFfiHandle(_handle);
+  return result;
+}
+
+TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob? smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobFromFfiNullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobGetValueNullable(handle);
+  final result = smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobFromFfi(_handle);
+  smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobReleaseFfiHandle(_handle);
+  return result;
+}
+
+void smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeTypeswithdefaultsImmutablestructwithfieldconstructorandblobReleaseHandleNullable(handle);
+
+// End of TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob "private" section.
 
 // TypesWithDefaults "private" section, not exported.
 

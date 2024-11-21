@@ -184,6 +184,56 @@ public struct TypesWithDefaults {
     }
 
 
+    public struct ImmutableStructWithBlob {
+
+        public let emptyBlob: Data
+
+        public let deadBeef: Data
+
+        public init(emptyBlob: Data = Data([]), deadBeef: Data = Data([222, 173, 190, 239])) {
+            self.emptyBlob = emptyBlob
+            self.deadBeef = deadBeef
+        }
+        internal init(cHandle: _baseRef) {
+            emptyBlob = moveFromCType(smoke_TypesWithDefaults_ImmutableStructWithBlob_emptyBlob_get(cHandle))
+            deadBeef = moveFromCType(smoke_TypesWithDefaults_ImmutableStructWithBlob_deadBeef_get(cHandle))
+        }
+    }
+
+
+    public struct ImmutableStructWithFieldConstructorAndBlob {
+
+        public let emptyBlob: Data
+
+        public let deadBeef: Data
+
+        public let someField: Int32
+
+        public let anotherField: Int32
+
+
+        public init(someField: Int32, anotherField: Int32) {
+            self.someField = someField
+            self.anotherField = anotherField
+            self.emptyBlob = Data([])
+            self.deadBeef = Data([222, 173, 190, 239])
+        }
+
+        public init(emptyBlob: Data = Data([]), deadBeef: Data = Data([222, 173, 190, 239]), someField: Int32 = 5, anotherField: Int32 = 7) {
+            self.emptyBlob = emptyBlob
+            self.deadBeef = deadBeef
+            self.someField = someField
+            self.anotherField = anotherField
+        }
+        internal init(cHandle: _baseRef) {
+            emptyBlob = moveFromCType(smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob_emptyBlob_get(cHandle))
+            deadBeef = moveFromCType(smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob_deadBeef_get(cHandle))
+            someField = moveFromCType(smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob_someField_get(cHandle))
+            anotherField = moveFromCType(smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob_anotherField_get(cHandle))
+        }
+    }
+
+
 }
 
 
@@ -410,6 +460,98 @@ internal func copyToCType(_ swiftType: TypesWithDefaults.ImmutableStructWithFiel
 }
 internal func moveToCType(_ swiftType: TypesWithDefaults.ImmutableStructWithFieldConstructorAndCollections?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndCollections_release_optional_handle)
+}
+
+internal func copyFromCType(_ handle: _baseRef) -> TypesWithDefaults.ImmutableStructWithBlob {
+    return TypesWithDefaults.ImmutableStructWithBlob(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> TypesWithDefaults.ImmutableStructWithBlob {
+    defer {
+        smoke_TypesWithDefaults_ImmutableStructWithBlob_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+
+internal func copyToCType(_ swiftType: TypesWithDefaults.ImmutableStructWithBlob) -> RefHolder {
+    let c_emptyBlob = moveToCType(swiftType.emptyBlob)
+    let c_deadBeef = moveToCType(swiftType.deadBeef)
+    return RefHolder(smoke_TypesWithDefaults_ImmutableStructWithBlob_create_handle(c_emptyBlob.ref, c_deadBeef.ref))
+}
+internal func moveToCType(_ swiftType: TypesWithDefaults.ImmutableStructWithBlob) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypesWithDefaults_ImmutableStructWithBlob_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> TypesWithDefaults.ImmutableStructWithBlob? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_TypesWithDefaults_ImmutableStructWithBlob_unwrap_optional_handle(handle)
+    return TypesWithDefaults.ImmutableStructWithBlob(cHandle: unwrappedHandle) as TypesWithDefaults.ImmutableStructWithBlob
+}
+internal func moveFromCType(_ handle: _baseRef) -> TypesWithDefaults.ImmutableStructWithBlob? {
+    defer {
+        smoke_TypesWithDefaults_ImmutableStructWithBlob_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+
+internal func copyToCType(_ swiftType: TypesWithDefaults.ImmutableStructWithBlob?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    let c_emptyBlob = moveToCType(swiftType.emptyBlob)
+    let c_deadBeef = moveToCType(swiftType.deadBeef)
+    return RefHolder(smoke_TypesWithDefaults_ImmutableStructWithBlob_create_optional_handle(c_emptyBlob.ref, c_deadBeef.ref))
+}
+internal func moveToCType(_ swiftType: TypesWithDefaults.ImmutableStructWithBlob?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypesWithDefaults_ImmutableStructWithBlob_release_optional_handle)
+}
+
+internal func copyFromCType(_ handle: _baseRef) -> TypesWithDefaults.ImmutableStructWithFieldConstructorAndBlob {
+    return TypesWithDefaults.ImmutableStructWithFieldConstructorAndBlob(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> TypesWithDefaults.ImmutableStructWithFieldConstructorAndBlob {
+    defer {
+        smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+
+internal func copyToCType(_ swiftType: TypesWithDefaults.ImmutableStructWithFieldConstructorAndBlob) -> RefHolder {
+    let c_emptyBlob = moveToCType(swiftType.emptyBlob)
+    let c_deadBeef = moveToCType(swiftType.deadBeef)
+    let c_someField = moveToCType(swiftType.someField)
+    let c_anotherField = moveToCType(swiftType.anotherField)
+    return RefHolder(smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob_create_handle(c_emptyBlob.ref, c_deadBeef.ref, c_someField.ref, c_anotherField.ref))
+}
+internal func moveToCType(_ swiftType: TypesWithDefaults.ImmutableStructWithFieldConstructorAndBlob) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> TypesWithDefaults.ImmutableStructWithFieldConstructorAndBlob? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob_unwrap_optional_handle(handle)
+    return TypesWithDefaults.ImmutableStructWithFieldConstructorAndBlob(cHandle: unwrappedHandle) as TypesWithDefaults.ImmutableStructWithFieldConstructorAndBlob
+}
+internal func moveFromCType(_ handle: _baseRef) -> TypesWithDefaults.ImmutableStructWithFieldConstructorAndBlob? {
+    defer {
+        smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+
+internal func copyToCType(_ swiftType: TypesWithDefaults.ImmutableStructWithFieldConstructorAndBlob?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    let c_emptyBlob = moveToCType(swiftType.emptyBlob)
+    let c_deadBeef = moveToCType(swiftType.deadBeef)
+    let c_someField = moveToCType(swiftType.someField)
+    let c_anotherField = moveToCType(swiftType.anotherField)
+    return RefHolder(smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob_create_optional_handle(c_emptyBlob.ref, c_deadBeef.ref, c_someField.ref, c_anotherField.ref))
+}
+internal func moveToCType(_ swiftType: TypesWithDefaults.ImmutableStructWithFieldConstructorAndBlob?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob_release_optional_handle)
 }
 
 

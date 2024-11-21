@@ -169,6 +169,50 @@ public final class TypesWithDefaults {
 
     }
 
+    public static final class ImmutableStructWithBlob {
+        @NonNull
+        public final byte[] emptyBlob;
+        @NonNull
+        public final byte[] deadBeef;
+
+        public ImmutableStructWithBlob() {
+            this.emptyBlob = new byte[] {  };
+            this.deadBeef = new byte[] { (byte) 222, (byte) 173, (byte) 190, (byte) 239 };
+        }
+
+        public ImmutableStructWithBlob(@NonNull final byte[] emptyBlob, @NonNull final byte[] deadBeef) {
+            this.emptyBlob = emptyBlob;
+            this.deadBeef = deadBeef;
+        }
+
+
+    }
+
+    public static final class ImmutableStructWithFieldConstructorAndBlob {
+        @NonNull
+        public final byte[] emptyBlob;
+        @NonNull
+        public final byte[] deadBeef;
+        public final int someField;
+        public final int anotherField;
+
+        public ImmutableStructWithFieldConstructorAndBlob(@NonNull final byte[] emptyBlob, @NonNull final byte[] deadBeef, final int someField, final int anotherField) {
+            this.emptyBlob = emptyBlob;
+            this.deadBeef = deadBeef;
+            this.someField = someField;
+            this.anotherField = anotherField;
+        }
+
+        public ImmutableStructWithFieldConstructorAndBlob(final int someField, final int anotherField) {
+            this.someField = someField;
+            this.anotherField = anotherField;
+            this.emptyBlob = new byte[] {  };
+            this.deadBeef = new byte[] { (byte) 222, (byte) 173, (byte) 190, (byte) 239 };
+        }
+
+
+    }
+
 
 
 }

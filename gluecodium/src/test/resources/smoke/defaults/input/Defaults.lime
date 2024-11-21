@@ -118,6 +118,24 @@ struct TypesWithDefaults {
         @Dart("withIntegers")
         field constructor(someField, anotherField)
     }
+
+    @Immutable
+    struct ImmutableStructWithBlob {
+        emptyBlob: Blob = []
+        deadBeef: Blob = [222, 173, 190, 239]
+    }
+
+    @Immutable
+    struct ImmutableStructWithFieldConstructorAndBlob {
+        emptyBlob: Blob = []
+        deadBeef: Blob = [222, 173, 190, 239]
+
+        someField: Int = 5
+        anotherField: Int = 7
+
+        @Dart("withIntegers")
+        field constructor(someField, anotherField)
+    }
 }
 
 struct StructWithInitializerDefaults {

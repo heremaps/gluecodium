@@ -11,6 +11,7 @@
 #include "gluecodium/UnorderedSetHash.h"
 #include "gluecodium/VectorHash.h"
 #include <cstdint>
+#include <memory>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -80,6 +81,29 @@ struct _GLUECODIUM_CPP_EXPORT TypesWithDefaults {
         ImmutableStructWithFieldConstructorAndCollections( int32_t some_field, int32_t another_field );
 
         ImmutableStructWithFieldConstructorAndCollections( std::optional< ::std::vector< int32_t > > nullable_list_field, ::std::vector< int32_t > empty_list_field, ::std::vector< int32_t > values_list_field, std::optional< ::std::unordered_map< int32_t, ::std::string > > nullable_map_field, ::std::unordered_map< int32_t, ::std::string > empty_map_field, ::std::unordered_map< int32_t, ::std::string > values_map_field, std::optional< ::std::unordered_set< ::std::string > > nullable_set_field, ::std::unordered_set< ::std::string > empty_set_field, ::std::unordered_set< ::std::string > values_set_field, int32_t some_field, int32_t another_field );
+
+    };
+
+    struct _GLUECODIUM_CPP_EXPORT ImmutableStructWithBlob {
+        const ::std::shared_ptr< ::std::vector< uint8_t > > empty_blob = ::std::make_shared<::std::vector<uint8_t>>(::std::vector<uint8_t>({}));
+        const ::std::shared_ptr< ::std::vector< uint8_t > > dead_beef = ::std::make_shared<::std::vector<uint8_t>>(::std::vector<uint8_t>({222, 173, 190, 239}));
+
+        ImmutableStructWithBlob( );
+        ImmutableStructWithBlob( ::std::shared_ptr< ::std::vector< uint8_t > > empty_blob, ::std::shared_ptr< ::std::vector< uint8_t > > dead_beef );
+
+    };
+
+    struct _GLUECODIUM_CPP_EXPORT ImmutableStructWithFieldConstructorAndBlob {
+        const ::std::shared_ptr< ::std::vector< uint8_t > > empty_blob = ::std::make_shared<::std::vector<uint8_t>>(::std::vector<uint8_t>({}));
+        const ::std::shared_ptr< ::std::vector< uint8_t > > dead_beef = ::std::make_shared<::std::vector<uint8_t>>(::std::vector<uint8_t>({222, 173, 190, 239}));
+        const int32_t some_field = 5;
+        const int32_t another_field = 7;
+
+        ImmutableStructWithFieldConstructorAndBlob( );
+
+        ImmutableStructWithFieldConstructorAndBlob( int32_t some_field, int32_t another_field );
+
+        ImmutableStructWithFieldConstructorAndBlob( ::std::shared_ptr< ::std::vector< uint8_t > > empty_blob, ::std::shared_ptr< ::std::vector< uint8_t > > dead_beef, int32_t some_field, int32_t another_field );
 
     };
 
