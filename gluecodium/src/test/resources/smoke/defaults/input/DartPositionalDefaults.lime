@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2021 HERE Europe B.V.
+# Copyright (C) 2016-2024 HERE Europe B.V.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -40,6 +40,14 @@ struct StructWithCollectionDefaults {
     listField: List<String> = ["foo", "bar"]
     mapField: Map<String, String> = ["foo": "bar"]
     setField: Set<String> = ["foo", "bar"]
+}
+
+@Dart(PositionalDefaults)
+@Java(Skip) @Swift(Skip)
+struct StructWithNullableCollectionDefaults {
+    nullableListField: List<String>? = null
+    nullableMapField: Map<String, String>? = null
+    nullableSetField: Set<String>? = null
 }
 
 // Foo Bar this is a comment
