@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2019 HERE Europe B.V.
+# Copyright (C) 2016-2024 HERE Europe B.V.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -81,6 +81,42 @@ struct TypesWithDefaults {
         doubleField: Double = -1.4142
         boolField: Boolean
         stringField: String = "\\Jonny \"Magic\" Smith\n"
+    }
+
+    @Immutable
+    struct ImmutableStructWithCollections {
+        nullableListField: List<Int>? = null
+        emptyListField: List<Int> = []
+        valuesListField: List<Int> = [1, 2, 3]
+
+        nullableMapField: Map<Int, String>? = null
+        emptyMapField: Map<Int, String> = []
+        valuesMapField: Map<Int, String> = [9: "baz", 27: "bar"]
+
+        nullableSetField: Set<String>? = null
+        emptySetField: Set<String> = []
+        valuesSetField: Set<String> = ["bar", "baz"]
+    }
+
+    @Immutable
+    struct ImmutableStructWithFieldConstructorAndCollections {
+        nullableListField: List<Int>? = null
+        emptyListField: List<Int> = []
+        valuesListField: List<Int> = [1, 2, 3]
+
+        nullableMapField: Map<Int, String>? = null
+        emptyMapField: Map<Int, String> = []
+        valuesMapField: Map<Int, String> = [9: "baz", 27: "bar"]
+
+        nullableSetField: Set<String>? = null
+        emptySetField: Set<String> = []
+        valuesSetField: Set<String> = ["bar", "baz"]
+
+        someField: Int = 5
+        anotherField: Int = 7
+
+        @Dart("withIntegers")
+        field constructor(someField, anotherField)
     }
 }
 
