@@ -306,7 +306,7 @@ class TypesWithDefaults_ImmutableStructWithCollections {
 
   const TypesWithDefaults_ImmutableStructWithCollections(this.nullableListField, this.emptyListField, this.valuesListField, this.nullableMapField, this.emptyMapField, this.valuesMapField, this.nullableSetField, this.emptySetField, this.valuesSetField);
   const TypesWithDefaults_ImmutableStructWithCollections.withDefaults()
-    : nullableListField = null, emptyListField = [], valuesListField = [1, 2, 3], nullableMapField = null, emptyMapField = {}, valuesMapField = {9: "baz", 27: "bar"}, nullableSetField = null, emptySetField = {}, valuesSetField = {"bar", "baz"};
+    : nullableListField = null, emptyListField = const [], valuesListField = const [1, 2, 3], nullableMapField = null, emptyMapField = const {}, valuesMapField = const {9: "baz", 27: "bar"}, nullableSetField = null, emptySetField = const {}, valuesSetField = const {"bar", "baz"};
 }
 
 
@@ -480,7 +480,7 @@ class TypesWithDefaults_ImmutableStructWithFieldConstructorAndCollections {
 
   const TypesWithDefaults_ImmutableStructWithFieldConstructorAndCollections(this.nullableListField, this.emptyListField, this.valuesListField, this.nullableMapField, this.emptyMapField, this.valuesMapField, this.nullableSetField, this.emptySetField, this.valuesSetField, this.someField, this.anotherField);
   const TypesWithDefaults_ImmutableStructWithFieldConstructorAndCollections.withIntegers(this.someField, this.anotherField)
-      : nullableListField = null, emptyListField = [], valuesListField = [1, 2, 3], nullableMapField = null, emptyMapField = {}, valuesMapField = {9: "baz", 27: "bar"}, nullableSetField = null, emptySetField = {}, valuesSetField = {"bar", "baz"};
+      : nullableListField = null, emptyListField = const [], valuesListField = const [1, 2, 3], nullableMapField = null, emptyMapField = const {}, valuesMapField = const {9: "baz", 27: "bar"}, nullableSetField = null, emptySetField = const {}, valuesSetField = const {"bar", "baz"};
 }
 
 
