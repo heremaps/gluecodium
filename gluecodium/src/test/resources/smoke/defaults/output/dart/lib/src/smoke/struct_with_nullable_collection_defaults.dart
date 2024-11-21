@@ -12,7 +12,7 @@ class StructWithNullableCollectionDefaults {
 
   Set<String>? nullableSetField;
 
-  StructWithNullableCollectionDefaults([List<String>? nullableListField = const null, Map<String, String>? nullableMapField = const null, Set<String>? nullableSetField = const null])
+  StructWithNullableCollectionDefaults([List<String>? nullableListField = null, Map<String, String>? nullableMapField = null, Set<String>? nullableSetField = null])
     : nullableListField = nullableListField, nullableMapField = nullableMapField, nullableSetField = nullableSetField;
 }
 

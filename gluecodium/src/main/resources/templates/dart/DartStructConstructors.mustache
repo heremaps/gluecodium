@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2021 HERE Europe B.V.
+  ! Copyright (C) 2016-2024 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -79,11 +79,13 @@ Explicit `field constructor` definitions
       : {{#omittedFields}}{{resolveName "visibility"}}{{resolveName}} = {{resolveName defaultValue}}{{#if iter.hasNext}}, {{/if}}{{/omittedFields}}{{/if}};
 {{/fieldConstructors}}{{/set}}{{!!
 
-}}{{+constPrefix}}{{#set type=typeRef.type.actualType}}{{!!
+}}{{+constPrefix}}{{#notInstanceOf defaultValue "Null"}}{{!!
+}}{{#set type=typeRef.type.actualType}}{{!!
 }}{{#instanceOf type "LimeList"}}const {{/instanceOf}}{{!!
 }}{{#instanceOf type "LimeMap"}}const {{/instanceOf}}{{!!
 }}{{#instanceOf type "LimeSet"}}const {{/instanceOf}}{{!!
-}}{{/set}}{{/constPrefix}}{{!!
+}}{{/set}}{{!!
+}}{{/notInstanceOf}}{{/constPrefix}}{{!!
 
 }}{{+constructorComment}}{{#resolveName constructorComment}}{{#unless this.isEmpty}}{{!!
 }}{{prefix this "  /// "}}
