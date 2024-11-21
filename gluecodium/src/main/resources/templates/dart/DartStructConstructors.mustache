@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2021 HERE Europe B.V.
+  ! Copyright (C) 2016-2024 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -43,13 +43,14 @@ All fields constructor
 
 Initialized fields constructor
 
-}}{{#unless constructors}}{{#unless fieldConstructors}}{{#if initializedFields}}
+}}{{#unless constructors}}{{#unless fieldConstructors}}{{#if initializedFields}}{{#set struct=this}}{{#struct}}
   {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{!!
 }}{{#ifPredicate "allFieldsCtorIsPublic"}}.withDefaults{{/ifPredicate}}({{!!
 }}{{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}})
-    : {{#fields}}{{resolveName "visibility"}}{{resolveName}} = {{#if defaultValue}}{{resolveName defaultValue}}{{/if}}{{!!
+    : {{#fields}}{{resolveName "visibility"}}{{resolveName}} = {{!!
+    }}{{#if defaultValue}}{{#if struct.attributes.immutable}}{{>constPrefix}}{{/if}}{{resolveName defaultValue}}{{/if}}{{!!
     }}{{#unless defaultValue}}{{resolveName}}{{/unless}}{{#if iter.hasNext}}, {{/if}}{{/fields}};
-{{/if}}{{/unless}}{{/unless}}{{!!
+{{/struct}}{{/set}}{{/if}}{{/unless}}{{/unless}}{{!!
 
 }}{{/unless}}{{/if}}{{!!
 
@@ -76,14 +77,17 @@ Explicit `field constructor` definitions
 {{/if}}{{prefixPartial "dart/DartAttributes" "  "}}{{!!
 }}  {{#if struct.attributes.immutable}}const {{/if}}{{resolveName struct}}{{#if external.dart.converter}}Internal{{/if}}{{!!
 }}{{>dart/DartConstructorName}}({{>thisDotFields}}){{#if omittedFields}}
-      : {{#omittedFields}}{{resolveName "visibility"}}{{resolveName}} = {{resolveName defaultValue}}{{#if iter.hasNext}}, {{/if}}{{/omittedFields}}{{/if}};
+      : {{#omittedFields}}{{resolveName "visibility"}}{{resolveName}} = {{!!
+      }}{{#if struct.attributes.immutable}}{{>constPrefix}}{{/if}}{{resolveName defaultValue}}{{#if iter.hasNext}}, {{/if}}{{/omittedFields}}{{/if}};
 {{/fieldConstructors}}{{/set}}{{!!
 
-}}{{+constPrefix}}{{#set type=typeRef.type.actualType}}{{!!
+}}{{+constPrefix}}{{#notInstanceOf defaultValue "Null"}}{{!!
+}}{{#set type=typeRef.type.actualType}}{{!!
 }}{{#instanceOf type "LimeList"}}const {{/instanceOf}}{{!!
 }}{{#instanceOf type "LimeMap"}}const {{/instanceOf}}{{!!
 }}{{#instanceOf type "LimeSet"}}const {{/instanceOf}}{{!!
-}}{{/set}}{{/constPrefix}}{{!!
+}}{{/set}}{{!!
+}}{{/notInstanceOf}}{{/constPrefix}}{{!!
 
 }}{{+constructorComment}}{{#resolveName constructorComment}}{{#unless this.isEmpty}}{{!!
 }}{{prefix this "  /// "}}
