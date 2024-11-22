@@ -184,6 +184,69 @@ public struct TypesWithDefaults {
     }
 
 
+    public struct SomeImmutableStructWithDefaults {
+
+        public let intField: Int32
+
+        public init(intField: Int32 = 42) {
+            self.intField = intField
+        }
+        internal init(cHandle: _baseRef) {
+            intField = moveFromCType(smoke_TypesWithDefaults_SomeImmutableStructWithDefaults_intField_get(cHandle))
+        }
+    }
+
+
+    public struct ImmutableStructWithFieldUsingImmutableStruct {
+
+        public let someField1: TypesWithDefaults.SomeImmutableStructWithDefaults
+
+        public let someField2: TypesWithDefaults.ImmutableStructWithCollections
+
+        public init(someField1: TypesWithDefaults.SomeImmutableStructWithDefaults = TypesWithDefaults.SomeImmutableStructWithDefaults(), someField2: TypesWithDefaults.ImmutableStructWithCollections = TypesWithDefaults.ImmutableStructWithCollections()) {
+            self.someField1 = someField1
+            self.someField2 = someField2
+        }
+        internal init(cHandle: _baseRef) {
+            someField1 = moveFromCType(smoke_TypesWithDefaults_ImmutableStructWithFieldUsingImmutableStruct_someField1_get(cHandle))
+            someField2 = moveFromCType(smoke_TypesWithDefaults_ImmutableStructWithFieldUsingImmutableStruct_someField2_get(cHandle))
+        }
+    }
+
+
+    public struct ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct {
+
+        public let someField1: TypesWithDefaults.SomeImmutableStructWithDefaults
+
+        public let someField2: TypesWithDefaults.ImmutableStructWithCollections
+
+        public let someField: Int32
+
+        public let anotherField: Int32
+
+
+        public init(someField: Int32, anotherField: Int32) {
+            self.someField = someField
+            self.anotherField = anotherField
+            self.someField1 = TypesWithDefaults.SomeImmutableStructWithDefaults()
+            self.someField2 = TypesWithDefaults.ImmutableStructWithCollections()
+        }
+
+        public init(someField1: TypesWithDefaults.SomeImmutableStructWithDefaults = TypesWithDefaults.SomeImmutableStructWithDefaults(), someField2: TypesWithDefaults.ImmutableStructWithCollections = TypesWithDefaults.ImmutableStructWithCollections(), someField: Int32 = 5, anotherField: Int32 = 7) {
+            self.someField1 = someField1
+            self.someField2 = someField2
+            self.someField = someField
+            self.anotherField = anotherField
+        }
+        internal init(cHandle: _baseRef) {
+            someField1 = moveFromCType(smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct_someField1_get(cHandle))
+            someField2 = moveFromCType(smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct_someField2_get(cHandle))
+            someField = moveFromCType(smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct_someField_get(cHandle))
+            anotherField = moveFromCType(smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct_anotherField_get(cHandle))
+        }
+    }
+
+
 }
 
 
@@ -410,6 +473,140 @@ internal func copyToCType(_ swiftType: TypesWithDefaults.ImmutableStructWithFiel
 }
 internal func moveToCType(_ swiftType: TypesWithDefaults.ImmutableStructWithFieldConstructorAndCollections?) -> RefHolder {
     return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndCollections_release_optional_handle)
+}
+
+internal func copyFromCType(_ handle: _baseRef) -> TypesWithDefaults.SomeImmutableStructWithDefaults {
+    return TypesWithDefaults.SomeImmutableStructWithDefaults(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> TypesWithDefaults.SomeImmutableStructWithDefaults {
+    defer {
+        smoke_TypesWithDefaults_SomeImmutableStructWithDefaults_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+
+internal func copyToCType(_ swiftType: TypesWithDefaults.SomeImmutableStructWithDefaults) -> RefHolder {
+    let c_intField = moveToCType(swiftType.intField)
+    return RefHolder(smoke_TypesWithDefaults_SomeImmutableStructWithDefaults_create_handle(c_intField.ref))
+}
+internal func moveToCType(_ swiftType: TypesWithDefaults.SomeImmutableStructWithDefaults) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypesWithDefaults_SomeImmutableStructWithDefaults_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> TypesWithDefaults.SomeImmutableStructWithDefaults? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_TypesWithDefaults_SomeImmutableStructWithDefaults_unwrap_optional_handle(handle)
+    return TypesWithDefaults.SomeImmutableStructWithDefaults(cHandle: unwrappedHandle) as TypesWithDefaults.SomeImmutableStructWithDefaults
+}
+internal func moveFromCType(_ handle: _baseRef) -> TypesWithDefaults.SomeImmutableStructWithDefaults? {
+    defer {
+        smoke_TypesWithDefaults_SomeImmutableStructWithDefaults_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+
+internal func copyToCType(_ swiftType: TypesWithDefaults.SomeImmutableStructWithDefaults?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    let c_intField = moveToCType(swiftType.intField)
+    return RefHolder(smoke_TypesWithDefaults_SomeImmutableStructWithDefaults_create_optional_handle(c_intField.ref))
+}
+internal func moveToCType(_ swiftType: TypesWithDefaults.SomeImmutableStructWithDefaults?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypesWithDefaults_SomeImmutableStructWithDefaults_release_optional_handle)
+}
+
+internal func copyFromCType(_ handle: _baseRef) -> TypesWithDefaults.ImmutableStructWithFieldUsingImmutableStruct {
+    return TypesWithDefaults.ImmutableStructWithFieldUsingImmutableStruct(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> TypesWithDefaults.ImmutableStructWithFieldUsingImmutableStruct {
+    defer {
+        smoke_TypesWithDefaults_ImmutableStructWithFieldUsingImmutableStruct_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+
+internal func copyToCType(_ swiftType: TypesWithDefaults.ImmutableStructWithFieldUsingImmutableStruct) -> RefHolder {
+    let c_someField1 = moveToCType(swiftType.someField1)
+    let c_someField2 = moveToCType(swiftType.someField2)
+    return RefHolder(smoke_TypesWithDefaults_ImmutableStructWithFieldUsingImmutableStruct_create_handle(c_someField1.ref, c_someField2.ref))
+}
+internal func moveToCType(_ swiftType: TypesWithDefaults.ImmutableStructWithFieldUsingImmutableStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypesWithDefaults_ImmutableStructWithFieldUsingImmutableStruct_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> TypesWithDefaults.ImmutableStructWithFieldUsingImmutableStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_TypesWithDefaults_ImmutableStructWithFieldUsingImmutableStruct_unwrap_optional_handle(handle)
+    return TypesWithDefaults.ImmutableStructWithFieldUsingImmutableStruct(cHandle: unwrappedHandle) as TypesWithDefaults.ImmutableStructWithFieldUsingImmutableStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> TypesWithDefaults.ImmutableStructWithFieldUsingImmutableStruct? {
+    defer {
+        smoke_TypesWithDefaults_ImmutableStructWithFieldUsingImmutableStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+
+internal func copyToCType(_ swiftType: TypesWithDefaults.ImmutableStructWithFieldUsingImmutableStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    let c_someField1 = moveToCType(swiftType.someField1)
+    let c_someField2 = moveToCType(swiftType.someField2)
+    return RefHolder(smoke_TypesWithDefaults_ImmutableStructWithFieldUsingImmutableStruct_create_optional_handle(c_someField1.ref, c_someField2.ref))
+}
+internal func moveToCType(_ swiftType: TypesWithDefaults.ImmutableStructWithFieldUsingImmutableStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypesWithDefaults_ImmutableStructWithFieldUsingImmutableStruct_release_optional_handle)
+}
+
+internal func copyFromCType(_ handle: _baseRef) -> TypesWithDefaults.ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct {
+    return TypesWithDefaults.ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct(cHandle: handle)
+}
+internal func moveFromCType(_ handle: _baseRef) -> TypesWithDefaults.ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct {
+    defer {
+        smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+
+internal func copyToCType(_ swiftType: TypesWithDefaults.ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct) -> RefHolder {
+    let c_someField1 = moveToCType(swiftType.someField1)
+    let c_someField2 = moveToCType(swiftType.someField2)
+    let c_someField = moveToCType(swiftType.someField)
+    let c_anotherField = moveToCType(swiftType.anotherField)
+    return RefHolder(smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct_create_handle(c_someField1.ref, c_someField2.ref, c_someField.ref, c_anotherField.ref))
+}
+internal func moveToCType(_ swiftType: TypesWithDefaults.ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct_release_handle)
+}
+internal func copyFromCType(_ handle: _baseRef) -> TypesWithDefaults.ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct? {
+    guard handle != 0 else {
+        return nil
+    }
+    let unwrappedHandle = smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct_unwrap_optional_handle(handle)
+    return TypesWithDefaults.ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct(cHandle: unwrappedHandle) as TypesWithDefaults.ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct
+}
+internal func moveFromCType(_ handle: _baseRef) -> TypesWithDefaults.ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct? {
+    defer {
+        smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct_release_optional_handle(handle)
+    }
+    return copyFromCType(handle)
+}
+
+internal func copyToCType(_ swiftType: TypesWithDefaults.ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct?) -> RefHolder {
+    guard let swiftType = swiftType else {
+        return RefHolder(0)
+    }
+    let c_someField1 = moveToCType(swiftType.someField1)
+    let c_someField2 = moveToCType(swiftType.someField2)
+    let c_someField = moveToCType(swiftType.someField)
+    let c_anotherField = moveToCType(swiftType.anotherField)
+    return RefHolder(smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct_create_optional_handle(c_someField1.ref, c_someField2.ref, c_someField.ref, c_anotherField.ref))
+}
+internal func moveToCType(_ swiftType: TypesWithDefaults.ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct?) -> RefHolder {
+    return RefHolder(ref: copyToCType(swiftType).ref, release: smoke_TypesWithDefaults_ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct_release_optional_handle)
 }
 
 
