@@ -50,6 +50,18 @@ struct StructWithNullableCollectionDefaults {
     nullableSetField: Set<String>? = null
 }
 
+@Immutable
+@Java(Skip) @Swift(Skip)
+struct ImmutableStructWithDefaults {
+    intField: Int = 42
+}
+
+@Dart(PositionalDefaults)
+@Java(Skip) @Swift(Skip)
+struct PosDefaultStructWithFieldUsingImmutableStruct {
+    someField1: ImmutableStructWithDefaults = {}
+}
+
 // Foo Bar this is a comment
 // @constructor buzz fizz
 @Dart(PositionalDefaults = "Sorry, this is deprecated.")
