@@ -655,7 +655,7 @@ class TypesWithDefaults_ImmutableStructWithBlob {
 
   const TypesWithDefaults_ImmutableStructWithBlob(this.emptyBlob, this.deadBeef);
   const TypesWithDefaults_ImmutableStructWithBlob.withDefaults()
-    : emptyBlob = Uint8List.fromList([]), deadBeef = Uint8List.fromList([222, 173, 190, 239]);
+    : emptyBlob = const Uint8List.fromList([]), deadBeef = const Uint8List.fromList([222, 173, 190, 239]);
 }
 
 
@@ -752,7 +752,7 @@ class TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob {
 
   const TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob(this.emptyBlob, this.deadBeef, this.someField, this.anotherField);
   const TypesWithDefaults_ImmutableStructWithFieldConstructorAndBlob.withIntegers(this.someField, this.anotherField)
-      : emptyBlob = Uint8List.fromList([]), deadBeef = Uint8List.fromList([222, 173, 190, 239]);
+      : emptyBlob = const Uint8List.fromList([]), deadBeef = const Uint8List.fromList([222, 173, 190, 239]);
 }
 
 
