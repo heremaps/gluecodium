@@ -736,7 +736,7 @@ class TypesWithDefaults_ImmutableStructWithFieldUsingImmutableStruct {
 
   const TypesWithDefaults_ImmutableStructWithFieldUsingImmutableStruct(this.someField1, this.someField2);
   const TypesWithDefaults_ImmutableStructWithFieldUsingImmutableStruct.withDefaults()
-    : someField1 = TypesWithDefaults_SomeImmutableStructWithDefaults.withDefaults(), someField2 = TypesWithDefaults_ImmutableStructWithCollections.withDefaults();
+    : someField1 = const TypesWithDefaults_SomeImmutableStructWithDefaults.withDefaults(), someField2 = const TypesWithDefaults_ImmutableStructWithCollections.withDefaults();
 }
 
 
@@ -833,7 +833,7 @@ class TypesWithDefaults_ImmutableStructWithFieldConstructorAndFieldUsingImmutabl
 
   const TypesWithDefaults_ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct(this.someField1, this.someField2, this.someField, this.anotherField);
   const TypesWithDefaults_ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct.withIntegers(this.someField, this.anotherField)
-      : someField1 = TypesWithDefaults_SomeImmutableStructWithDefaults.withDefaults(), someField2 = TypesWithDefaults_ImmutableStructWithCollections.withDefaults();
+      : someField1 = const TypesWithDefaults_SomeImmutableStructWithDefaults.withDefaults(), someField2 = const TypesWithDefaults_ImmutableStructWithCollections.withDefaults();
 }
 
 

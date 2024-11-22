@@ -8,7 +8,7 @@ import 'package:library/src/smoke/immutable_struct_with_defaults.dart';
 class PosDefaultStructWithFieldUsingImmutableStruct {
   ImmutableStructWithDefaults someField1;
 
-  PosDefaultStructWithFieldUsingImmutableStruct([ImmutableStructWithDefaults someField1 = ImmutableStructWithDefaults.withDefaults()])
+  PosDefaultStructWithFieldUsingImmutableStruct([ImmutableStructWithDefaults someField1 = const ImmutableStructWithDefaults.withDefaults()])
     : someField1 = someField1;
 }
 
