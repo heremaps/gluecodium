@@ -110,6 +110,26 @@ class LimeFunctionsValidatorDocsTest {
     }
 
     @Test
+    fun validateMissingReturnCommentForVoidTypeWhenWerrorIsEnabled() {
+        // Given LimeFunction without documented return value for void type.
+        val limeFunction =
+            LimeFunction(
+                path = limePath,
+                comment = limeComment,
+                returnType = LimeReturnType.VOID,
+            )
+        allElements[""] = limeFunction
+        allElements["foo"] = LimeStruct(EMPTY_PATH)
+
+        // When validating it with werror flag enabled.
+        val validator = LimeFunctionsValidator(logger = mockk(relaxed = true), generatorOptions = generatorOptions)
+        val result = validator.validate(limeModel)
+
+        // Then validation passes - the function returns nothing (void).
+        assertTrue(result)
+    }
+
+    @Test
     fun validateMissingReturnCommentWhenWerrorIsDisabled() {
         // Given LimeFunction without documented return value.
         val limeFunction =
