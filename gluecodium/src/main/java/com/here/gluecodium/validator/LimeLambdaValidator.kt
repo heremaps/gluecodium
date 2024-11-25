@@ -21,12 +21,11 @@ package com.here.gluecodium.validator
 
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.common.GeneratorOptions
-import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
-import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.validator.LimeValidatorUtils.needsDocumentationComment
 
 class LimeLambdaValidator(private val logger: LimeLogger, generatorOptions: GeneratorOptions = GeneratorOptions()) {
     private val werrorLambdaDocs = generatorOptions.werror.contains(GeneratorOptions.WARNING_LIME_LAMBDA_DOCS)
@@ -71,23 +70,5 @@ class LimeLambdaValidator(private val logger: LimeLogger, generatorOptions: Gene
         }
 
         return result
-    }
-
-    private fun needsDocumentationComment(
-        limeNamedElement: LimeNamedElement,
-        referenceMap: Map<String, LimeElement>,
-    ): Boolean {
-        if (limeNamedElement.attributes.have(LimeAttributeType.INTERNAL)) {
-            return false
-        }
-
-        val parentElement = referenceMap[limeNamedElement.path.parent.toString()] as LimeNamedElement? ?: return true
-        if (parentElement.attributes.have(LimeAttributeType.INTERNAL)) {
-            return false
-        }
-
-        return generateSequence(parentElement) {
-            referenceMap[it.path.parent.toString()] as? LimeType
-        }.none { it.attributes.have(LimeAttributeType.INTERNAL) }
     }
 }
