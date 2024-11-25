@@ -2,6 +2,7 @@
 
 ## Unreleased:
 ### Features:
+ * Implemented validation of comments used for lambdas. When the description of parameters or return value is missing, then warning is generated. The user may also treat the warning as error via 'werror' flag.
  * Implemented validation of comments used for functions. When the description of parameters or return value is missing, then warning is generated. The user may also treat the warning as error via 'werror' flag.
 ### Bug fixes:
  * Dart: fixed a bug related to missing/superflous 'const' keyword usage in definition of default values in constructors that used collections when `@Immutable` or `PositionalDefaults` were specified.
