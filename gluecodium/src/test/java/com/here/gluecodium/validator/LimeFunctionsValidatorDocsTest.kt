@@ -29,7 +29,6 @@ import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimePath
-import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeStruct
 import io.mockk.mockk
@@ -43,7 +42,8 @@ import org.junit.runners.JUnit4
 class LimeFunctionsValidatorDocsTest {
     private val allElements = mutableMapOf<String, LimeElement>()
     private val limeModel = LimeModel(allElements, emptyList())
-    private val limePath = LimePath(emptyList(), listOf("foo", "bar"))
+    private val limeStructPath = LimePath(emptyList(), listOf("foo", "bar"))
+    private val limeFunctionPath = limeStructPath.child("baz")
     private val limeComment = LimeComment(comment = "This is some function")
     private val generatorOptions = GeneratorOptions(werror = setOf(GeneratorOptions.WARNING_LIME_FUNCTION_DOCS))
 
@@ -52,13 +52,13 @@ class LimeFunctionsValidatorDocsTest {
         // Given LimeFunction with parameter that isn't properly documented.
         val limeFunction =
             LimeFunction(
-                path = limePath,
+                path = limeFunctionPath,
                 comment = limeComment,
                 returnType = LimeReturnType(typeRef = LimeBasicTypeRef.INT, comment = LimeComment("Important integer")),
-                parameters = listOf(LimeParameter(path = limePath.child("param1"), typeRef = LimeBasicTypeRef.FLOAT)),
+                parameters = listOf(LimeParameter(path = limeFunctionPath.child("param1"), typeRef = LimeBasicTypeRef.FLOAT)),
             )
-        allElements[""] = limeFunction
-        allElements["foo"] = LimeStruct(EMPTY_PATH)
+        allElements[limeFunctionPath.toString()] = limeFunction
+        allElements[limeStructPath.toString()] = LimeStruct(path = limeStructPath, functions = listOf(limeFunction))
 
         // When validating it with werror flag enabled.
         val validator = LimeFunctionsValidator(logger = mockk(relaxed = true), generatorOptions = generatorOptions)
@@ -73,13 +73,13 @@ class LimeFunctionsValidatorDocsTest {
         // Given LimeFunction with parameter that isn't properly documented.
         val limeFunction =
             LimeFunction(
-                path = limePath,
+                path = limeFunctionPath,
                 comment = limeComment,
                 returnType = LimeReturnType(typeRef = LimeBasicTypeRef.INT, comment = LimeComment("Important integer")),
-                parameters = listOf(LimeParameter(path = limePath.child("param1"), typeRef = LimeBasicTypeRef.FLOAT)),
+                parameters = listOf(LimeParameter(path = limeFunctionPath.child("param1"), typeRef = LimeBasicTypeRef.FLOAT)),
             )
-        allElements[""] = limeFunction
-        allElements["foo"] = LimeStruct(EMPTY_PATH)
+        allElements[limeFunctionPath.toString()] = limeFunction
+        allElements[limeStructPath.toString()] = LimeStruct(path = limeStructPath, functions = listOf(limeFunction))
 
         // When validating it without werror flag.
         val validator = LimeFunctionsValidator(logger = mockk(relaxed = true))
@@ -94,12 +94,12 @@ class LimeFunctionsValidatorDocsTest {
         // Given LimeFunction without documented return value.
         val limeFunction =
             LimeFunction(
-                path = limePath,
+                path = limeFunctionPath,
                 comment = limeComment,
                 returnType = LimeReturnType(typeRef = LimeBasicTypeRef.INT),
             )
-        allElements[""] = limeFunction
-        allElements["foo"] = LimeStruct(EMPTY_PATH)
+        allElements[limeFunctionPath.toString()] = limeFunction
+        allElements[limeStructPath.toString()] = LimeStruct(path = limeStructPath, functions = listOf(limeFunction))
 
         // When validating it with werror flag enabled.
         val validator = LimeFunctionsValidator(logger = mockk(relaxed = true), generatorOptions = generatorOptions)
@@ -110,16 +110,36 @@ class LimeFunctionsValidatorDocsTest {
     }
 
     @Test
+    fun validateMissingReturnCommentForVoidTypeWhenWerrorIsEnabled() {
+        // Given LimeFunction without documented return value for void type.
+        val limeFunction =
+            LimeFunction(
+                path = limeFunctionPath,
+                comment = limeComment,
+                returnType = LimeReturnType.VOID,
+            )
+        allElements[limeFunctionPath.toString()] = limeFunction
+        allElements[limeStructPath.toString()] = LimeStruct(path = limeStructPath, functions = listOf(limeFunction))
+
+        // When validating it with werror flag enabled.
+        val validator = LimeFunctionsValidator(logger = mockk(relaxed = true), generatorOptions = generatorOptions)
+        val result = validator.validate(limeModel)
+
+        // Then validation passes - the function returns nothing (void).
+        assertTrue(result)
+    }
+
+    @Test
     fun validateMissingReturnCommentWhenWerrorIsDisabled() {
         // Given LimeFunction without documented return value.
         val limeFunction =
             LimeFunction(
-                path = limePath,
+                path = limeFunctionPath,
                 comment = limeComment,
                 returnType = LimeReturnType(typeRef = LimeBasicTypeRef.INT),
             )
-        allElements[""] = limeFunction
-        allElements["foo"] = LimeStruct(EMPTY_PATH)
+        allElements[limeFunctionPath.toString()] = limeFunction
+        allElements[limeStructPath.toString()] = LimeStruct(path = limeStructPath, functions = listOf(limeFunction))
 
         // When validating it without werror flag.
         val validator = LimeFunctionsValidator(logger = mockk(relaxed = true))
@@ -134,7 +154,7 @@ class LimeFunctionsValidatorDocsTest {
         // Given LimeFunction with parameters and return that are properly documented.
         val limeFunction =
             LimeFunction(
-                path = limePath,
+                path = limeFunctionPath,
                 comment = limeComment,
                 returnType =
                     LimeReturnType(
@@ -144,19 +164,19 @@ class LimeFunctionsValidatorDocsTest {
                 parameters =
                     listOf(
                         LimeParameter(
-                            path = limePath.child("param1"),
+                            path = limeFunctionPath.child("param1"),
                             typeRef = LimeBasicTypeRef.FLOAT,
                             comment = LimeComment("Some param"),
                         ),
                         LimeParameter(
-                            path = limePath.child("param2"),
+                            path = limeFunctionPath.child("param2"),
                             typeRef = LimeBasicTypeRef.FLOAT,
                             comment = LimeComment("Another param"),
                         ),
                     ),
             )
-        allElements[""] = limeFunction
-        allElements["foo"] = LimeStruct(EMPTY_PATH)
+        allElements[limeFunctionPath.toString()] = limeFunction
+        allElements[limeStructPath.toString()] = LimeStruct(path = limeStructPath, functions = listOf(limeFunction))
 
         // When validating it with werror flag enabled.
         val validator = LimeFunctionsValidator(logger = mockk(relaxed = true), generatorOptions = generatorOptions)
@@ -173,14 +193,14 @@ class LimeFunctionsValidatorDocsTest {
 
         val limeFunction =
             LimeFunction(
-                path = limePath,
+                path = limeFunctionPath,
                 comment = limeComment,
                 attributes = attributes,
                 returnType = LimeReturnType(typeRef = LimeBasicTypeRef.INT, comment = LimeComment("Important integer")),
-                parameters = listOf(LimeParameter(path = limePath.child("param1"), typeRef = LimeBasicTypeRef.FLOAT)),
+                parameters = listOf(LimeParameter(path = limeFunctionPath.child("param1"), typeRef = LimeBasicTypeRef.FLOAT)),
             )
-        allElements[""] = limeFunction
-        allElements["foo"] = LimeStruct(EMPTY_PATH)
+        allElements[limeFunctionPath.toString()] = limeFunction
+        allElements[limeStructPath.toString()] = LimeStruct(path = limeStructPath, functions = listOf(limeFunction))
 
         // When validating it with werror flag.
         val validator = LimeFunctionsValidator(logger = mockk(relaxed = true), generatorOptions = generatorOptions)
@@ -193,18 +213,19 @@ class LimeFunctionsValidatorDocsTest {
     @Test
     fun validateFunctionParamDocsFromInternalType() {
         // Given LimeFunction from internal type and parameter that isn't properly documented.
-        val attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.INTERNAL).build()
-        val internalStruct = LimeStruct(path = limePath.parent, attributes = attributes)
-
         val limeFunction =
             LimeFunction(
-                path = limePath,
+                path = limeFunctionPath,
                 comment = limeComment,
                 returnType = LimeReturnType(typeRef = LimeBasicTypeRef.INT, comment = LimeComment("Important integer")),
-                parameters = listOf(LimeParameter(path = limePath.child("param1"), typeRef = LimeBasicTypeRef.FLOAT)),
+                parameters = listOf(LimeParameter(path = limeFunctionPath.child("param1"), typeRef = LimeBasicTypeRef.FLOAT)),
             )
-        allElements[""] = limeFunction
-        allElements["foo"] = internalStruct
+
+        val attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.INTERNAL).build()
+        val internalStruct = LimeStruct(path = limeStructPath, attributes = attributes, functions = listOf(limeFunction))
+
+        allElements[limeFunctionPath.toString()] = limeFunction
+        allElements[limeStructPath.toString()] = internalStruct
 
         // When validating it with werror flag.
         val validator = LimeFunctionsValidator(logger = mockk(relaxed = true), generatorOptions = generatorOptions)
@@ -217,21 +238,22 @@ class LimeFunctionsValidatorDocsTest {
     @Test
     fun validateFunctionParamDocsFromTypeNestedInInternalOne() {
         // Given LimeFunction from type nested in internal and parameter that isn't properly documented.
-        val attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.INTERNAL).build()
-        val internalStruct = LimeStruct(path = limePath.parent, attributes = attributes)
-        val nestedStruct = LimeStruct(path = limePath)
-
-        val functionPath = limePath.child("baz")
         val limeFunction =
             LimeFunction(
-                path = functionPath,
+                path = limeFunctionPath,
                 comment = limeComment,
                 returnType = LimeReturnType(typeRef = LimeBasicTypeRef.INT, comment = LimeComment("Important integer")),
-                parameters = listOf(LimeParameter(path = functionPath.child("param1"), typeRef = LimeBasicTypeRef.FLOAT)),
+                parameters = listOf(LimeParameter(path = limeFunctionPath.child("param1"), typeRef = LimeBasicTypeRef.FLOAT)),
             )
-        allElements[""] = limeFunction
-        allElements["foo"] = internalStruct
-        allElements["foo.bar"] = nestedStruct
+
+        val nestedStruct = LimeStruct(path = limeStructPath, functions = listOf(limeFunction))
+
+        val attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.INTERNAL).build()
+        val internalStruct = LimeStruct(path = limeStructPath.parent, attributes = attributes, structs = listOf(nestedStruct))
+
+        allElements[limeFunctionPath.toString()] = limeFunction
+        allElements[limeStructPath.toString()] = nestedStruct
+        allElements[limeStructPath.parent.toString()] = internalStruct
 
         // When validating it with werror flag.
         val validator = LimeFunctionsValidator(logger = mockk(relaxed = true), generatorOptions = generatorOptions)

@@ -29,7 +29,7 @@ import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
-import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.validator.LimeValidatorUtils.needsDocumentationComment
 
 internal class LimeFunctionsValidator(private val logger: LimeLogger, generatorOptions: GeneratorOptions = GeneratorOptions()) {
     private val werrorFunctionDocs = generatorOptions.werror.contains(GeneratorOptions.WARNING_LIME_FUNCTION_DOCS)
@@ -63,29 +63,13 @@ internal class LimeFunctionsValidator(private val logger: LimeLogger, generatorO
                 result = false
             }
         }
-        if (needsParametersDocumentation(limeFunction, referenceMap) && !validateParametersComments(limeFunction)) {
+        if (needsDocumentationComment(limeFunction, referenceMap) && !validateParametersComments(limeFunction)) {
             if (werrorFunctionDocs) {
                 result = false
             }
         }
 
         return result
-    }
-
-    private fun needsParametersDocumentation(
-        limeFunction: LimeFunction,
-        referenceMap: Map<String, LimeElement>,
-    ): Boolean {
-        val parentType = referenceMap[limeFunction.path.parent.toString()] as LimeType
-        if (limeFunction.attributes.have(LimeAttributeType.INTERNAL) ||
-            parentType.attributes.have(LimeAttributeType.INTERNAL)
-        ) {
-            return false
-        }
-
-        return generateSequence(parentType) {
-            referenceMap[it.path.parent.toString()] as? LimeType
-        }.none { it.attributes.have(LimeAttributeType.INTERNAL) }
     }
 
     private fun validateParametersComments(limeFunction: LimeFunction): Boolean {
@@ -98,7 +82,7 @@ internal class LimeFunctionsValidator(private val logger: LimeLogger, generatorO
             }
         }
 
-        if (limeFunction.returnType.comment.isEmpty()) {
+        if (!limeFunction.returnType.isVoid && limeFunction.returnType.comment.isEmpty()) {
             logger.maybeError(limeFunction, "Return must be documented")
             result = false
         }
