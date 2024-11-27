@@ -83,6 +83,37 @@ struct _GLUECODIUM_CPP_EXPORT TypesWithDefaults {
 
     };
 
+    struct _GLUECODIUM_CPP_EXPORT SomeImmutableStructWithDefaults {
+        const int32_t int_field = 42;
+
+        SomeImmutableStructWithDefaults( );
+        explicit SomeImmutableStructWithDefaults( int32_t int_field );
+
+    };
+
+    struct _GLUECODIUM_CPP_EXPORT ImmutableStructWithFieldUsingImmutableStruct {
+        const ::smoke::TypesWithDefaults::SomeImmutableStructWithDefaults some_field1 = ::smoke::TypesWithDefaults::SomeImmutableStructWithDefaults{};
+        const ::smoke::TypesWithDefaults::ImmutableStructWithCollections some_field2 = ::smoke::TypesWithDefaults::ImmutableStructWithCollections{};
+
+        ImmutableStructWithFieldUsingImmutableStruct( );
+        ImmutableStructWithFieldUsingImmutableStruct( ::smoke::TypesWithDefaults::SomeImmutableStructWithDefaults some_field1, ::smoke::TypesWithDefaults::ImmutableStructWithCollections some_field2 );
+
+    };
+
+    struct _GLUECODIUM_CPP_EXPORT ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct {
+        const ::smoke::TypesWithDefaults::SomeImmutableStructWithDefaults some_field1 = ::smoke::TypesWithDefaults::SomeImmutableStructWithDefaults{};
+        const ::smoke::TypesWithDefaults::ImmutableStructWithCollections some_field2 = ::smoke::TypesWithDefaults::ImmutableStructWithCollections{};
+        const int32_t some_field = 5;
+        const int32_t another_field = 7;
+
+        ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct( );
+
+        ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct( int32_t some_field, int32_t another_field );
+
+        ImmutableStructWithFieldConstructorAndFieldUsingImmutableStruct( ::smoke::TypesWithDefaults::SomeImmutableStructWithDefaults some_field1, ::smoke::TypesWithDefaults::ImmutableStructWithCollections some_field2, int32_t some_field, int32_t another_field );
+
+    };
+
 };
 
 

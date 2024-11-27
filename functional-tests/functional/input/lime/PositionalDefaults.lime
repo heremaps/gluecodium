@@ -60,6 +60,18 @@ struct StructWithNullableCollectionDefaults {
     nullableSetField: Set<String>? = null
 }
 
+@Immutable
+@Java(Skip) @Swift(Skip)
+struct AnotherImmutableStructWithDefaults {
+    intField: Int = 42
+}
+
+@Dart(PositionalDefaults)
+@Java(Skip) @Swift(Skip)
+struct PosDefaultStructWithFieldUsingImmutableStruct {
+    someField1: AnotherImmutableStructWithDefaults = {}
+}
+
 @Dart(PositionalDefaults)
 @Java(Skip) @Swift(Skip)
 struct PosDefaultsWithDuration {
