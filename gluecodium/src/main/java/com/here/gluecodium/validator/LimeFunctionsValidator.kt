@@ -82,7 +82,7 @@ internal class LimeFunctionsValidator(private val logger: LimeLogger, generatorO
             }
         }
 
-        if (limeFunction.returnType.comment.isEmpty()) {
+        if (!limeFunction.returnType.isVoid && limeFunction.returnType.comment.isEmpty()) {
             logger.maybeError(limeFunction, "Return must be documented")
             result = false
         }
