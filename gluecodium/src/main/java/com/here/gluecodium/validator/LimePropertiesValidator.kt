@@ -30,6 +30,7 @@ import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeProperty
+import com.here.gluecodium.validator.LimeValidatorUtils.LIME_MARKDOWN_DOCS
 import com.here.gluecodium.validator.LimeValidatorUtils.needsDocumentationComment
 
 internal class LimePropertiesValidator(private val logger: LimeLogger, generatorOptions: GeneratorOptions = GeneratorOptions()) {
@@ -84,27 +85,31 @@ internal class LimePropertiesValidator(private val logger: LimeLogger, generator
     }
 
     private fun validateComments(limeProperty: LimeProperty): Boolean {
-        val propertiesDocsErrorMessage = "property must be documented; check 'docs/lime_markdown.md'"
+        val checkDocsMessage = "please check $PROPERTIES_STRUCTURED_COMMENTS"
         var result = true
 
         if (limeProperty.comment.isEmpty()) {
-            logger.maybeError(limeProperty, "main comment is empty; $propertiesDocsErrorMessage")
+            logger.maybeError(limeProperty, "property description comment is missing; $checkDocsMessage")
             result = false
         }
 
         if (limeProperty.getter.returnType.comment.isEmpty()) {
-            logger.maybeError(limeProperty, "return of getter is not documented; $propertiesDocsErrorMessage")
+            logger.maybeError(limeProperty, "return value of getter is not documented for property; $checkDocsMessage")
             result = false
         }
 
         if (limeProperty.setter != null) {
             val isSetterCommentEmpty = limeProperty.setter?.parameters?.firstOrNull()?.comment?.isEmpty()
             if (isSetterCommentEmpty == null || isSetterCommentEmpty) {
-                logger.maybeError(limeProperty, "parameter of setter is not documented; $propertiesDocsErrorMessage")
+                logger.maybeError(limeProperty, "parameter of setter is not documented for property; $checkDocsMessage")
                 result = false
             }
         }
 
         return result
+    }
+
+    companion object {
+        private const val PROPERTIES_STRUCTURED_COMMENTS = "$LIME_MARKDOWN_DOCS#structured-comments-for-properties"
     }
 }
