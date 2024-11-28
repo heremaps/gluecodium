@@ -114,6 +114,29 @@ struct _GLUECODIUM_CPP_EXPORT TypesWithDefaults {
 
     };
 
+    struct _GLUECODIUM_CPP_EXPORT ImmutableStructWithNullableFieldUsingImmutableStruct {
+        const std::optional< ::smoke::TypesWithDefaults::SomeImmutableStructWithDefaults > some_field1 = std::optional< ::smoke::TypesWithDefaults::SomeImmutableStructWithDefaults >{};
+        const std::optional< ::smoke::TypesWithDefaults::ImmutableStructWithCollections > some_field2 = std::optional< ::smoke::TypesWithDefaults::ImmutableStructWithCollections >{};
+
+        ImmutableStructWithNullableFieldUsingImmutableStruct( );
+        ImmutableStructWithNullableFieldUsingImmutableStruct( std::optional< ::smoke::TypesWithDefaults::SomeImmutableStructWithDefaults > some_field1, std::optional< ::smoke::TypesWithDefaults::ImmutableStructWithCollections > some_field2 );
+
+    };
+
+    struct _GLUECODIUM_CPP_EXPORT ImmutableStructWithFieldConstructorAndNullableFieldUsingImmutableStruct {
+        const std::optional< ::smoke::TypesWithDefaults::SomeImmutableStructWithDefaults > some_field1 = std::optional< ::smoke::TypesWithDefaults::SomeImmutableStructWithDefaults >{};
+        const std::optional< ::smoke::TypesWithDefaults::ImmutableStructWithCollections > some_field2 = std::optional< ::smoke::TypesWithDefaults::ImmutableStructWithCollections >{};
+        const int32_t some_field = 5;
+        const int32_t another_field = 7;
+
+        ImmutableStructWithFieldConstructorAndNullableFieldUsingImmutableStruct( );
+
+        ImmutableStructWithFieldConstructorAndNullableFieldUsingImmutableStruct( int32_t some_field, int32_t another_field );
+
+        ImmutableStructWithFieldConstructorAndNullableFieldUsingImmutableStruct( std::optional< ::smoke::TypesWithDefaults::SomeImmutableStructWithDefaults > some_field1, std::optional< ::smoke::TypesWithDefaults::ImmutableStructWithCollections > some_field2, int32_t some_field, int32_t another_field );
+
+    };
+
 };
 
 

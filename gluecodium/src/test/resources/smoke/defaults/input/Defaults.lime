@@ -141,6 +141,24 @@ struct TypesWithDefaults {
         @Dart("withIntegers")
         field constructor(someField, anotherField)
     }
+
+    @Immutable
+    struct ImmutableStructWithNullableFieldUsingImmutableStruct {
+        someField1: SomeImmutableStructWithDefaults? = {}
+        someField2: ImmutableStructWithCollections? = {}
+    }
+
+    @Immutable
+    struct ImmutableStructWithFieldConstructorAndNullableFieldUsingImmutableStruct {
+        someField1: SomeImmutableStructWithDefaults? = {}
+        someField2: ImmutableStructWithCollections? = {}
+
+        someField: Int = 5
+        anotherField: Int = 7
+
+        @Dart("withIntegers")
+        field constructor(someField, anotherField)
+    }
 }
 
 struct StructWithInitializerDefaults {
