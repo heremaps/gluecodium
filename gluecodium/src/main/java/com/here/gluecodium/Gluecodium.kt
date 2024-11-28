@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2019 HERE Europe B.V.
+ * Copyright (C) 2016-2024 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -193,7 +193,7 @@ class Gluecodium(
         listOf<(LimeModel) -> Boolean>(
             { LimeConstantRefsValidator(limeLogger).validate(it) },
             { LimeExternalTypesValidator(limeLogger).validate(it) },
-            { LimePropertiesValidator(limeLogger).validate(it) },
+            { LimePropertiesValidator(limeLogger, generatorOptions).validate(it) },
             { LimeSkipValidator(limeLogger).validate(it) },
             { LimeAsyncValidator(limeLogger).validate(it) },
             { LimeLambdaValidator(limeLogger, generatorOptions).validate(it) },

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2019 HERE Europe B.V.
+ * Copyright (C) 2016-2024 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -123,6 +123,7 @@ object OptionReader {
                         GeneratorOptions.WARNING_DART_OVERLOADS,
                         GeneratorOptions.WARNING_LIME_FUNCTION_DOCS,
                         GeneratorOptions.WARNING_LIME_LAMBDA_DOCS,
+                        GeneratorOptions.WARNING_LIME_PROPERTIES_DOCS,
                     ).joinToString(),
             )
             addOption(

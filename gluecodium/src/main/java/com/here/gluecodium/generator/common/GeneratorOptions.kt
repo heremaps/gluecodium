@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2021 HERE Europe B.V.
+ * Copyright (C) 2016-2024 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,6 +67,7 @@ data class GeneratorOptions(
         const val WARNING_DART_OVERLOADS = "DartOverloads"
         const val WARNING_LIME_FUNCTION_DOCS = "LimeFunctionDocs"
         const val WARNING_LIME_LAMBDA_DOCS = "LimeLambdaDocs"
+        const val WARNING_LIME_PROPERTIES_DOCS = "LimePropertiesDocs"
 
         const val DEFAULT_CPP_EXPORT_MACRO_NAME = "_GLUECODIUM_CPP"
     }

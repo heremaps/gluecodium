@@ -39,7 +39,18 @@ Documentation comments also support structured comments for some elements (i.e. 
 for child elements in the comment of the parent element). Structured comments can be specified in
 both `//` and `/*` style comments (or even in a combination of those).
 
-Structured comments are supported for functions. Example:
+### Structured comments for functions
+
+Structured comments are supported for functions. The following syntax is used:
+- the lines prepending any annotation are used as description of the function
+- `@param[<NAME>]` annotation can be used to document the parameters of the function
+- `@return` annotation can be used to document a return value of the function
+- `@throws` annotation can be used to document exceptions that are raised
+
+>**Important:** return values (except `Void`) and parameters of functions must be documented. If appropriate comment is
+> missing for any parameter or return value, then Gluecodium will raise warning or error depending on `werror` flag.
+
+Example:
 ```
 // Process the input in the given mode.
 // A lot of multi-line text can be said about it.
@@ -50,13 +61,26 @@ Structured comments are supported for functions. Example:
 fun process(mode: Mode, input: String): GenericResult throws SomethingWrongException
 ```
 
-Structured comments are supported for properties. Example:
+### Structured comments for properties
+
+Structured comments are supported for properties. The following syntax is used:
+- the lines prepending any annotation are used to document getter's
+return value and setter's parameter as well as the declaration of property
+- `@get` annotation can be used to describe the getter function
+- `@set` annotation can be used to describe the setter function
+
+>**Important:** return values of getters and parameters of setters must be documented. If appropriate documentation
+> comment is missing, then Gluecodium will raise warning or error depending on `werror` flag.
+
+Example:
 ```
 // Time interval taken by the processing.
 // @get Gets the time interval taken by the processing.
 // @set Sets the time interval taken by the processing.
 property processingTime: ProcessorHelperTypes.Timestamp
 ```
+
+### Structured comments for structs
 
 Structured comments for structs allow specifying documentation for the struct's auto-generated
 constructor. Example:
@@ -77,7 +101,15 @@ The comment after the `@constructor` tag will be used for the documentation of t
 used for the documentation of the struct itself. The parameter documentation of the constructor will use the same
 documentation as for the fields of the struct. A default value will make it possible to omit a field from a constructor.
 
-Structured comments for lambdas allow specifying comments for lambda parameters. 
+### Structured comments for lambdas
+
+Structured comments for lambdas offer the following capabilities:
+- lambda parameters can be documented via `@param[<NAME>]` annotation
+- return value of lambda can be documented via `@return` annotation
+
+>**Important:** all parameters and return value (except `Void`) of lambda must be documented. If appropriate documentation
+> comment is missing, then Gluecodium will raise warning or error depending on `werror` flag.
+
 For unnamed parameters that have only types specified, positional names can be used to document parameters: `p0`, `p1`,
 and so on. For example:
 ```
