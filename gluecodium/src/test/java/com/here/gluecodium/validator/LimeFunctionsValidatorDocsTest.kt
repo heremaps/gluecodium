@@ -130,6 +130,27 @@ class LimeFunctionsValidatorDocsTest {
     }
 
     @Test
+    fun validateMissingReturnCommentForConstructorWhenWerrorIsEnabled() {
+        // Given LimeFunction that is constructor without documented return value.
+        val limeFunction =
+            LimeFunction(
+                path = limeFunctionPath,
+                comment = limeComment,
+                isConstructor = true,
+                returnType = LimeReturnType(typeRef = LimeBasicTypeRef.INT),
+            )
+        allElements[limeFunctionPath.toString()] = limeFunction
+        allElements[limeStructPath.toString()] = LimeStruct(path = limeStructPath, functions = listOf(limeFunction))
+
+        // When validating it with werror flag enabled.
+        val validator = LimeFunctionsValidator(logger = mockk(relaxed = true), generatorOptions = generatorOptions)
+        val result = validator.validate(limeModel)
+
+        // Then validation passes - the constructor does not need to document return value.
+        assertTrue(result)
+    }
+
+    @Test
     fun validateMissingReturnCommentWhenWerrorIsDisabled() {
         // Given LimeFunction without documented return value.
         val limeFunction =
