@@ -227,6 +227,50 @@ public final class TypesWithDefaults {
 
     }
 
+    public static final class ImmutableStructWithNullableFieldUsingImmutableStruct {
+        @Nullable
+        public final TypesWithDefaults.SomeImmutableStructWithDefaults someField1;
+        @Nullable
+        public final TypesWithDefaults.ImmutableStructWithCollections someField2;
+
+        public ImmutableStructWithNullableFieldUsingImmutableStruct() {
+            this.someField1 = new TypesWithDefaults.SomeImmutableStructWithDefaults();
+            this.someField2 = new TypesWithDefaults.ImmutableStructWithCollections();
+        }
+
+        public ImmutableStructWithNullableFieldUsingImmutableStruct(@Nullable final TypesWithDefaults.SomeImmutableStructWithDefaults someField1, @Nullable final TypesWithDefaults.ImmutableStructWithCollections someField2) {
+            this.someField1 = someField1;
+            this.someField2 = someField2;
+        }
+
+
+    }
+
+    public static final class ImmutableStructWithFieldConstructorAndNullableFieldUsingImmutableStruct {
+        @Nullable
+        public final TypesWithDefaults.SomeImmutableStructWithDefaults someField1;
+        @Nullable
+        public final TypesWithDefaults.ImmutableStructWithCollections someField2;
+        public final int someField;
+        public final int anotherField;
+
+        public ImmutableStructWithFieldConstructorAndNullableFieldUsingImmutableStruct(@Nullable final TypesWithDefaults.SomeImmutableStructWithDefaults someField1, @Nullable final TypesWithDefaults.ImmutableStructWithCollections someField2, final int someField, final int anotherField) {
+            this.someField1 = someField1;
+            this.someField2 = someField2;
+            this.someField = someField;
+            this.anotherField = anotherField;
+        }
+
+        public ImmutableStructWithFieldConstructorAndNullableFieldUsingImmutableStruct(final int someField, final int anotherField) {
+            this.someField = someField;
+            this.anotherField = anotherField;
+            this.someField1 = new TypesWithDefaults.SomeImmutableStructWithDefaults();
+            this.someField2 = new TypesWithDefaults.ImmutableStructWithCollections();
+        }
+
+
+    }
+
 
 
 }

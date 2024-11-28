@@ -153,6 +153,23 @@ class DefaultsTests: XCTestCase {
       XCTAssertEqual(result.field2.intField, -2)
     }
 
+    func testDefaultsOfNullableFieldOfImmutableStruct() {
+      // Case 1: struct without explicit field constructor.
+      let first = Defaults.ImmutableStructWithNullableFieldUsingImmutableStruct()
+
+      XCTAssertNotNil(first.someField1)
+      XCTAssertEqual(42, first.someField1?.intField)
+
+      // Case 2: struct with explicit field constructor.
+      let second = Defaults.ImmutableStructWithFieldConstructorAndNullableFieldUsingImmutableStruct(
+          someField: 123,
+          anotherField: 456
+      )
+
+      XCTAssertNotNil(second.someField1)
+      XCTAssertEqual(42, second.someField1?.intField)
+    }
+
     static var allTests = [
         ("testGetDefault", testGetDefault),
         ("testWithAllButOneDefaultFields", testWithAllButOneDefaultFields),
@@ -166,6 +183,7 @@ class DefaultsTests: XCTestCase {
         ("testSwiftInitializerDefaults", testSwiftInitializerDefaults),
         ("testCppInitializerDefaults", testCppInitializerDefaults),
         ("testPositionalEnumeratorDefaults", testPositionalEnumeratorDefaults),
-        ("testConstantDefaults", testConstantDefaults)
+        ("testConstantDefaults", testConstantDefaults),
+        ("testDefaultsOfNullableFieldOfImmutableStruct", testDefaultsOfNullableFieldOfImmutableStruct)
     ]
 }
