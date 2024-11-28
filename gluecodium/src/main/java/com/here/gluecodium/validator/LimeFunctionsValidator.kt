@@ -29,6 +29,7 @@ import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.validator.LimeValidatorUtils.LIME_MARKDOWN_DOCS
 import com.here.gluecodium.validator.LimeValidatorUtils.needsDocumentationComment
 
 internal class LimeFunctionsValidator(private val logger: LimeLogger, generatorOptions: GeneratorOptions = GeneratorOptions()) {
@@ -73,20 +74,25 @@ internal class LimeFunctionsValidator(private val logger: LimeLogger, generatorO
     }
 
     private fun validateParametersComments(limeFunction: LimeFunction): Boolean {
+        val checkDocsMessage = "please check $FUNCTIONS_STRUCTURED_COMMENTS"
         var result = true
 
         for (parameter in limeFunction.parameters) {
             if (parameter.comment.isEmpty()) {
-                logger.maybeError(limeFunction, "Parameter '${parameter.name}' must be documented")
+                logger.maybeError(limeFunction, "Parameter '${parameter.name}' must be documented; $checkDocsMessage")
                 result = false
             }
         }
 
         if (!limeFunction.returnType.isVoid && limeFunction.returnType.comment.isEmpty()) {
-            logger.maybeError(limeFunction, "Return must be documented")
+            logger.maybeError(limeFunction, "Return must be documented; $checkDocsMessage")
             result = false
         }
 
         return result
+    }
+
+    companion object {
+        private const val FUNCTIONS_STRUCTURED_COMMENTS = "$LIME_MARKDOWN_DOCS#structured-comments-for-functions"
     }
 }
