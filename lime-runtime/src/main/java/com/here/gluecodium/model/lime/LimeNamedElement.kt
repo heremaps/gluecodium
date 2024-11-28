@@ -21,7 +21,7 @@ package com.here.gluecodium.model.lime
 
 abstract class LimeNamedElement protected constructor(
     val path: LimePath,
-    val comment: LimeComment = LimeComment(),
+    open val comment: LimeComment = LimeComment(),
     attributes: LimeAttributes? = null,
     val external: LimeExternalDescriptor? = null,
 ) : LimeElement(attributes) {

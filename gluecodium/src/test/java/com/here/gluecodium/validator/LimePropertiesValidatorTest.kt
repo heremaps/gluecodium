@@ -76,7 +76,7 @@ class LimePropertiesValidatorTest {
         typeRef = LimeBasicTypeRef.INT,
         getter = getter,
         setter = setter,
-        comment = valueComment,
+        valueComment = valueComment,
     )
 
     private fun getterForPath(

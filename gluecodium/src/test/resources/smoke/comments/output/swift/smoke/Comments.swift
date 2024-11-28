@@ -44,6 +44,24 @@ public class Comments {
             return moveFromCType(c_result_handle)
         }
     }
+    /// A flag that determines if `Comments.onlyGetterProperty` is visible on the screen.
+    /// By default it is set to `false`. In this case the mentioned thing is not visible on the
+    /// screen except the case when another flag called `Comments.isSomeProperty` forces it.
+    /// When set to `true` then it is always visible.
+    ///
+    /// The additional information about usage of the visibility flag is described here. It contains a lot
+    /// of references. For instance, if `Comments.isSomeProperty` is `nil`
+    /// then it is not visible even if flag is set to `true`.
+    public var isIsVisible: Bool {
+        get {
+            let c_result_handle = smoke_Comments_isIsVisible_get(self.c_instance)
+            return moveFromCType(c_result_handle)
+        }
+        set {
+            let c_value = moveToCType(newValue)
+            smoke_Comments_isIsVisible_set(self.c_instance, c_value.ref)
+        }
+    }
     let c_instance : _baseRef
 
     init(cComments: _baseRef) {

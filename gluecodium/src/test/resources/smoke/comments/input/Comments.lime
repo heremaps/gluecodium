@@ -78,18 +78,35 @@ class comments {
     // @return nicely documented
     fun returnCommentOnly(undocumented: String): String
 
-    // Some very useful property.
-    // Note: without these comments user may not be able to use it correctly.
+    // @value Some very useful property.
+    // @description Note: without these comments user may not be able to use it correctly.
     // Note: that's serious.
     // Therefore, these lines above getter/setter need to be rendered in the output files.
     // @get Gets some very useful property.
     // @set Sets some very useful property.
     property SomeProperty: Usefulness
 
-    // OnlyGetterProperty, which does not have a setter.
-    // The generated documentation for this property should only be added to property or getter.
+    // @value OnlyGetterProperty, which does not have a setter.
+    // @description The generated documentation for this property should only be added to property or getter.
     // @get Gets OnlyGetterProperty in a very specific way.
     property OnlyGetterProperty: Int { get }
+
+    // @value A flag that determines if [OnlyGetterProperty] is visible on the screen.
+    // @description By default it is set to `false`. In this case the mentioned thing is not visible on the
+    // screen except the case when another flag called [SomeProperty] forces it.
+    // When set to `true` then it is always visible.
+    //
+    // The additional information about usage of the visibility flag is described here. It contains a lot
+    // of references. For instance, if [SomeProperty] is {@Swift `nil`}{@Java `null`}{@Dart `null`}{@Cpp `nullptr`}
+    // then it is not visible even if flag is set to `true`.
+    //
+    // @get Returns 'true' if [OnlyGetterProperty] should be visible on the screen. Else returns false.
+    // This getter also may have additional info that is added to its comment. It can be described here.
+    // @set Sets the visibility flag that controls if [OnlyGetterProperty] should be visible on the screen.
+    property IsVisible: Boolean {
+        get
+        set
+    }
 
     // This is some very useful exception.
     exception SomethingWrong(SomeEnum)

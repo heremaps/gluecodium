@@ -48,7 +48,7 @@ interface DeprecationComments {
         // Very useful input parameter
         input: String
     ): /* Usefulness of the input */ Usefulness
-    // Some very useful property.
+    // @value Some very useful property.
     @Deprecated("Unfortunately, this property is deprecated.\nUse [comments.SomeProperty] instead.")
     property SomeProperty: Usefulness {
         // Gets some very useful property.
@@ -58,7 +58,7 @@ interface DeprecationComments {
         @Deprecated("Unfortunately, this property's setter is deprecated.\nUse [comments.SomeProperty.set] instead.")
         set
     }
-    // Describes the property but not accessors.
+    // @value Describes the property but not accessors.
     // @get Gets the property but not accessors.
     @Deprecated("Will be removed in v3.2.1.")
     property PropertyButNotAccessors: String

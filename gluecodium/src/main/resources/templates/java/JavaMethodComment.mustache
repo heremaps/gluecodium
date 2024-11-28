@@ -27,6 +27,8 @@
 
 {{+combinedComment}}{{!!
 }}{{resolveName comment}}{{!!
+}}{{#resolveName property.additionalDescriptionComment}}{{#unless this.isEmpty}}
+{{this}}{{/unless}}{{/resolveName}}{{!!
 }}{{#if comment.isExcluded}}
 {{!!}}@hidden{{!!
 }}{{/if}}{{!!

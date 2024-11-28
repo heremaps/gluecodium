@@ -253,6 +253,8 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
             LimeProperty(
                 path = path,
                 comment = comment,
+                valueComment = valueComment,
+                additionalDescriptionComment = additionalDescriptionComment,
                 attributes = attributes,
                 typeRef = typeRef,
                 getter = getter,

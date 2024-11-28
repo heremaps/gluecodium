@@ -280,10 +280,10 @@ public final class Comments extends NativeBase {
 
     /**
      * <p>Gets some very useful property.
+     * <p>Note: without these comments user may not be able to use it correctly.
+     * Note: that's serious.
+     * Therefore, these lines above getter/setter need to be rendered in the output files.
      * @return <p>Some very useful property.
-     *     Note: without these comments user may not be able to use it correctly.
-     *     Note: that's serious.
-     *     Therefore, these lines above getter/setter need to be rendered in the output files.
      */
 
 
@@ -292,10 +292,10 @@ public final class Comments extends NativeBase {
 
     /**
      * <p>Sets some very useful property.
+     * <p>Note: without these comments user may not be able to use it correctly.
+     * Note: that's serious.
+     * Therefore, these lines above getter/setter need to be rendered in the output files.
      * @param value <p>Some very useful property.
-     *     Note: without these comments user may not be able to use it correctly.
-     *     Note: that's serious.
-     *     Therefore, these lines above getter/setter need to be rendered in the output files.
      */
 
 
@@ -304,13 +304,44 @@ public final class Comments extends NativeBase {
 
     /**
      * <p>Gets OnlyGetterProperty in a very specific way.
+     * <p>The generated documentation for this property should only be added to property or getter.
      * @return <p>OnlyGetterProperty, which does not have a setter.
-     *     The generated documentation for this property should only be added to property or getter.
      */
 
 
 
     public native int getOnlyGetterProperty();
+
+    /**
+     * <p>Returns 'true' if {@link com.example.smoke.Comments#getOnlyGetterProperty} should be visible on the screen. Else returns false.
+     * This getter also may have additional info that is added to its comment. It can be described here.
+     * <p>By default it is set to <code>false</code>. In this case the mentioned thing is not visible on the
+     * screen except the case when another flag called {@link com.example.smoke.Comments#isSomeProperty} forces it.
+     * When set to <code>true</code> then it is always visible.
+     * <p>The additional information about usage of the visibility flag is described here. It contains a lot
+     * of references. For instance, if {@link com.example.smoke.Comments#isSomeProperty} is <code>null</code>
+     * then it is not visible even if flag is set to <code>true</code>.
+     * @return <p>A flag that determines if {@link com.example.smoke.Comments#getOnlyGetterProperty} is visible on the screen.
+     */
+
+
+
+    public native boolean isIsVisible();
+
+    /**
+     * <p>Sets the visibility flag that controls if {@link com.example.smoke.Comments#getOnlyGetterProperty} should be visible on the screen.
+     * <p>By default it is set to <code>false</code>. In this case the mentioned thing is not visible on the
+     * screen except the case when another flag called {@link com.example.smoke.Comments#isSomeProperty} forces it.
+     * When set to <code>true</code> then it is always visible.
+     * <p>The additional information about usage of the visibility flag is described here. It contains a lot
+     * of references. For instance, if {@link com.example.smoke.Comments#isSomeProperty} is <code>null</code>
+     * then it is not visible even if flag is set to <code>true</code>.
+     * @param value <p>A flag that determines if {@link com.example.smoke.Comments#getOnlyGetterProperty} is visible on the screen.
+     */
+
+
+
+    public native void setIsVisible(final boolean value);
 
 
 

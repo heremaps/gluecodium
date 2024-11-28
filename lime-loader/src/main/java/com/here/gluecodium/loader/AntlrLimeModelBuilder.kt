@@ -286,8 +286,22 @@ internal class AntlrLimeModelBuilder(
         val propertyType = typeMapper.mapTypeRef(currentPath, ctx.typeRef())
         val propertyIsStatic = ctx.Static() != null
         val propertyComment = structuredCommentsStack.peek().description
+        val valueComment = getComment("value", emptyList(), ctx).withExcluded(propertyComment.isExcluded)
+        val additionalDescriptionComment = getComment("description", emptyList(), ctx).withExcluded(propertyComment.isExcluded)
+
+        if (!propertyComment.isEmpty() && !valueComment.isEmpty()) {
+            val position = ctx.getStart()
+            val linePrefix = "line ${position.line}:${position.charPositionInLine} --"
+            val docsReference = "Please see 'docs/lime_markdown.md'"
+            throw ParseCancellationException(
+                "$linePrefix property comments cannot start with lines without annotations " +
+                    "and use @value at the same time! $docsReference.",
+            )
+        }
+
         val propertyAttributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation())
 
+        val accessorArgumentComment = if (!valueComment.isEmpty()) valueComment else propertyComment
         val getter: LimeFunction
         val setter: LimeFunction?
         val getterPath = currentPath.child("get")
@@ -298,7 +312,7 @@ internal class AntlrLimeModelBuilder(
                     path = getterPath,
                     comment = getComment("get", emptyList(), ctx).withExcluded(propertyComment.isExcluded),
                     attributes = AntlrLimeConverter.convertAnnotations(currentPath, emptyList(), propertyAttributes),
-                    returnType = LimeReturnType(propertyType, propertyComment),
+                    returnType = LimeReturnType(propertyType, accessorArgumentComment),
                     isStatic = propertyIsStatic,
                 )
             setter =
@@ -310,7 +324,7 @@ internal class AntlrLimeModelBuilder(
                         listOf(
                             LimeParameter(
                                 getterPath.child("value"),
-                                propertyComment,
+                                accessorArgumentComment,
                                 typeRef = propertyType,
                             ),
                         ),
@@ -328,7 +342,7 @@ internal class AntlrLimeModelBuilder(
                     comment = getterComment.withExcluded(propertyComment.isExcluded),
                     attributes = getterAttributes,
                     external = getterExternalDescriptor,
-                    returnType = LimeReturnType(propertyType, propertyComment),
+                    returnType = LimeReturnType(propertyType, accessorArgumentComment),
                     isStatic = propertyIsStatic,
                 )
             setter =
@@ -347,7 +361,7 @@ internal class AntlrLimeModelBuilder(
                             listOf(
                                 LimeParameter(
                                     getterPath.child("value"),
-                                    propertyComment,
+                                    accessorArgumentComment,
                                     typeRef = propertyType,
                                 ),
                             ),
@@ -360,6 +374,8 @@ internal class AntlrLimeModelBuilder(
             LimeProperty(
                 path = currentPath,
                 comment = propertyComment,
+                valueComment = valueComment,
+                additionalDescriptionComment = additionalDescriptionComment,
                 attributes = propertyAttributes,
                 typeRef = propertyType,
                 getter = getter,

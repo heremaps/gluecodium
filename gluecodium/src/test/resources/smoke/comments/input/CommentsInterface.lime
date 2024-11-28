@@ -65,7 +65,7 @@ interface CommentsInterface {
     // This is some very useful method that does nothing.
     fun someMethodWithoutReturnTypeOrInputParameters()
 
-    // Some very useful property.
+    // @value Some very useful property.
     // @get Gets some very useful property.
     // @set Sets some very useful property.
     property SomeProperty: Usefulness

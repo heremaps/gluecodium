@@ -78,14 +78,14 @@ class comments {
         // This is some very useful instance method parameter.
         input: CommentsInstantiable
     ): /* This is some very useful instance method result. */ CommentsInstantiable
-    // Some very useful attribute.
+    // @value Some very useful attribute.
     property SomeAttribute: Usefulness {
         // Some very useful attribute.
         get
         // Some very useful attribute.
         set
     }
-    // Some very useful attribute.
+    // @value Some very useful attribute.
     property instanceAttribute: CommentsInstantiable {
         // Some very useful attribute.
         get

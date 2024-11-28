@@ -56,7 +56,7 @@ class ExcludedComments {
     // @exclude
     fun someMethodWithoutReturnTypeOrInputParameters()
 
-    // Some very useful property.
+    // @value Some very useful property.
     // @get Gets some very useful property.
     // @set Sets some very useful property.
     // @exclude
