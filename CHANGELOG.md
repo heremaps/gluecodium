@@ -2,6 +2,8 @@
 
 ## Unreleased:
 ### Features:
+ * Implemented the new way of documenting properties via `@value` and `@description` annotations in structured comments.
+ * Implemented validation, which requires the users to use at least `@value` annotation when documenting a property.
  * Implemented validation of comments used for accessors of properties: parameter of setter and return value of getter. When the required description is missing, then warning is generated. The user may also treat the warning as error via 'werror' flag.
  * Implemented validation of comments used for lambdas. When the description of parameters or return value is missing, then warning is generated. The user may also treat the warning as error via 'werror' flag.
  * Implemented validation of comments used for functions. When the description of parameters or return value is missing, then warning is generated. The user may also treat the warning as error via 'werror' flag.
