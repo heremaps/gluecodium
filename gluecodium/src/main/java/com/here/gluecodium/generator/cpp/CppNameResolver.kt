@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2020 HERE Europe B.V.
+ * Copyright (C) 2016-2024 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -184,11 +184,15 @@ internal class CppNameResolver(
             }
             is LimeValue.Null -> "${resolveName(limeValue.typeRef)}()"
             is LimeValue.InitializerList -> resolveListValue(limeValue)
-            is LimeValue.StructInitializer ->
-                limeValue.values.joinToString(", ", "${resolveName(limeValue.typeRef)}{", "}") { resolveValue(it) }
+            is LimeValue.StructInitializer -> resolveStructInitializer(limeValue)
             is LimeValue.KeyValuePair -> "{${resolveValue(limeValue.key)}, ${resolveValue(limeValue.value)}}"
             is LimeValue.Duration -> resolveDurationValue(limeValue)
         }
+
+    private fun resolveStructInitializer(limeValue: LimeValue.StructInitializer): String {
+        val typeName = resolveTypeName(limeValue.typeRef.type, isFullName = true, limeValue.typeRef.attributes)
+        return limeValue.values.joinToString(", ", "$typeName{", "}") { resolveValue(it) }
+    }
 
     private fun resolveLiteralValue(limeValue: LimeValue.Literal): String {
         val valueType = limeValue.typeRef.type.actualType

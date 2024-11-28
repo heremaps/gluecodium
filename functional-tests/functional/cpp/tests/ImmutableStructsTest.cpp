@@ -18,6 +18,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+#include "test/Defaults.h"
 #include "test/PlainDataStructuresImmutable.h"
 #include <gmock/gmock.h>
 
@@ -42,6 +43,25 @@ TEST( ImmutableStructsTest, struct_with_accessors_is_copy_assignable )
 
     EXPECT_EQ(another_struct.get_string_field(), "foo");
     EXPECT_NE(&another_struct, &some_struct);
+}
+
+TEST ( ImmutableStructsTest, nullable_field_that_has_default_value_has_correct_default )
+{
+    // Case 1: struct without explicit field constructor.
+    test::Defaults::ImmutableStructWithNullableFieldUsingImmutableStruct some_struct{};
+
+    ASSERT_TRUE(some_struct.some_field1.has_value());
+    EXPECT_EQ(42, some_struct.some_field1->int_field);
+
+    // Case 2: struct with explicit field constructor.
+    int field_constructor_param1 = 123;
+    int field_constructor_param2 = 456;
+    test::Defaults::ImmutableStructWithFieldConstructorAndNullableFieldUsingImmutableStruct another_struct{
+        field_constructor_param1, field_constructor_param2
+    };
+
+    ASSERT_TRUE(another_struct.some_field1.has_value());
+    EXPECT_EQ(42, another_struct.some_field1->int_field);
 }
 
 }  // test

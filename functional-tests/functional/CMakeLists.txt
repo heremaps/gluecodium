@@ -640,5 +640,7 @@ elseif(dart IN_LIST GLUECODIUM_GENERATORS_DEFAULT)
         )
 endif()
 
+set(CPP_INPUT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/input/src/cpp")
+
 add_subdirectory(cpp)
 add_subdirectory(dart)

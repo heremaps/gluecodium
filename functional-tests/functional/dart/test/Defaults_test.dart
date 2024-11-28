@@ -117,4 +117,13 @@ void main() {
     expect(result.field1.intField, 42);
     expect(result.field2.intField, -2);
   });
+  _testSuite.test("Check defaults of nullable field of immutable struct", () {
+      // Case 1: struct without explicit field constructor.
+      final first = DefaultsImmutableStructWithNullableFieldUsingImmutableStruct.withDefaults();
+      expect(first.someField1?.intField, 42);
+
+      // Case 2: struct with explicit field constructor.
+      final second = DefaultsImmutableStructWithFieldConstructorAndNullableFieldUsingImmutableStruct.withIntegers(123, 456);
+      expect(second.someField1?.intField, 42);
+  });
 }
