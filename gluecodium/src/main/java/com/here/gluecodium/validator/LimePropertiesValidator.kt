@@ -88,8 +88,8 @@ internal class LimePropertiesValidator(private val logger: LimeLogger, generator
         val checkDocsMessage = "please check $PROPERTIES_STRUCTURED_COMMENTS"
         var result = true
 
-        if (limeProperty.comment.isEmpty()) {
-            logger.maybeError(limeProperty, "property description comment is missing; $checkDocsMessage")
+        if (limeProperty.valueComment.isEmpty()) {
+            logger.maybeError(limeProperty, "property must use @value annotation; $checkDocsMessage")
             result = false
         }
 
