@@ -19,6 +19,7 @@
 package com.here.android.test;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import android.os.Build;
@@ -246,5 +247,22 @@ public final class DefaultsTest {
 
     assertEquals(42, result.field1.intField);
     assertEquals(-1, result.field2.intField);
+  }
+
+  @Test
+  public void testDefaultsOfNullableFieldOfImmutableStruct() {
+    // Case 1: struct without explicit field constructor.
+    Defaults.ImmutableStructWithNullableFieldUsingImmutableStruct first =
+        new Defaults.ImmutableStructWithNullableFieldUsingImmutableStruct();
+
+    assertFalse(first.someField1 == null);
+    assertEquals(first.someField1.intField, 42);
+
+    // Case 2: struct with explicit field constructor.
+    Defaults.ImmutableStructWithFieldConstructorAndNullableFieldUsingImmutableStruct second =
+        new Defaults.ImmutableStructWithFieldConstructorAndNullableFieldUsingImmutableStruct(123, 456);
+
+    assertFalse(second.someField1 == null);
+    assertEquals(second.someField1.intField, 42);
   }
 }

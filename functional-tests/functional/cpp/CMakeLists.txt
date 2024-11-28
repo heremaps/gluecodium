@@ -64,6 +64,7 @@ set(SOURCES
 set(CMAKE_INSTALL_RPATH $ORIGIN/../lib)
 
 add_executable(test_cpp ${SOURCES})
+target_include_directories(test_cpp PRIVATE ${CPP_INPUT_DIR})
 target_compile_definitions(test_cpp PRIVATE -DTEST_CPP_VERSION=Cxx${TEST_CPP_VERSION})
 target_link_libraries(test_cpp PRIVATE functional gmock_main)
 
