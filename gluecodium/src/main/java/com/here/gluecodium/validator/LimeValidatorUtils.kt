@@ -25,6 +25,8 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeType
 
 internal object LimeValidatorUtils {
+    const val LIME_MARKDOWN_DOCS = "https://github.com/heremaps/gluecodium/blob/master/docs/lime_markdown.md"
+
     fun needsDocumentationComment(
         limeNamedElement: LimeNamedElement,
         referenceMap: Map<String, LimeElement>,
