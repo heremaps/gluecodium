@@ -28,6 +28,7 @@ import com.here.gluecodium.model.lime.LimeAttributeValueType.POSITIONAL_DEFAULTS
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeExternalDescriptor
+import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
@@ -44,6 +45,19 @@ internal class DartGeneratorPredicates(
         mapOf(
             "allFieldsCtorIsPublic" to { limeStruct: Any ->
                 limeStruct is LimeStruct && allFieldsCtorIsPublic(limeStruct)
+            },
+            "fieldHasConstCtor" to { limeField: Any ->
+                if (limeField is LimeField) {
+                    when {
+                        limeField.typeRef.type is LimeStruct -> limeField.typeRef.type.attributes.have(IMMUTABLE)
+                        else -> true
+                    }
+                } else {
+                    false
+                }
+            },
+            "fieldHasDefaultValue" to { limeField: Any ->
+                limeField is LimeField && limeField.defaultValue != null
             },
             "isInternal" to { element: Any ->
                 when (element) {
