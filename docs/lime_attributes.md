@@ -131,6 +131,12 @@ name was defined through command-line parameters. If the tag is not present, the
 positional parameters in Dart. Can only be applied to a struct that has at least one field with a default value. The
 positional defaults constructor will be generated with a `@Deprecated` annotation, if _DeprecationMessage_ is
 specified.
+> **Important:** if the constructor used for the default value is non-const, then the generated constructor will use
+> optional value to prevent compilation error. However, this implies certain limitation for default values of nullable
+> types, which do not provide const constructor (i.a. custom structures that are not annotated as `@Immutable`).
+>
+> If the field is nullable and its type does not provide const constructor then the only default value that is accepted
+> can be null. If any other value is used then the generator will raise validation error.
 * **Attribute** **=** **"**_Annotation_**"**: marks an element to be marked with the given annotation in Dart
 generated code. _Annotation_ does not need to be prepended with `@`. _Annotation_ can contain parameters, e.g.
 `@Dart(Attribute="Deprecated(\"It's deprecated.\")")`. If some of the parameters are string literals, their enclosing
