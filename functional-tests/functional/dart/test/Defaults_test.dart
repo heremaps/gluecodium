@@ -120,17 +120,21 @@ void main() {
       null,
       0,
       0.0,
+      null,
+      null,
       // Fields without const constructor.
       StructWithAllDefaults(21, "ABC"),
       PosDefaultStructWithFieldUsingImmutableStruct(),
       SomeMutableCustomStructWithDefaults(21, "Another string", [7, 7, 7]),
-      StructWithNullableCollectionDefaults()
+      StructWithNullableCollectionDefaults(),
+      StructWithAllDefaults(44, "DEF")
     );
 
     expect(second.nonConstCtorField0.intField, 21);
     expect(second.nonConstCtorField1.someField1.intField, 42);
     expect(second.nonConstCtorField2.stringField, "Another string");
     expect(second.nonConstCtorField3.nullableListField, null);
+    expect(second.nonConstCtorField4?.stringField, "DEF");
   });
   _testSuite.test("Check positional enumerator defaults", () {
     final result = StructWithEnums();

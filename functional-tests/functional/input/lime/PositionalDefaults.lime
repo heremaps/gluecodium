@@ -89,11 +89,14 @@ struct PosDefaultStructWithCustomStructsFields {
     constCtorField3: Map<String, String>? = null
     constCtorField4: Int = 77
     constCtorField5: Double = 77.77
+    constCtorField6: AnotherImmutableStructWithDefaults? = {}
+    constCtorField7: AnotherImmutableStructWithDefaults? = null
 
     nonConstCtorField0: StructWithAllDefaults = {}
     nonConstCtorField1: PosDefaultStructWithFieldUsingImmutableStruct = {}
     nonConstCtorField2: SomeMutableCustomStructWithDefaults = {}
     nonConstCtorField3: StructWithNullableCollectionDefaults = {}
+    nonConstCtorField4: StructWithAllDefaults? = null
 }
 
 @Dart(PositionalDefaults)
