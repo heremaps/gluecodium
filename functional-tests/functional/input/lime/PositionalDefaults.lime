@@ -72,6 +72,29 @@ struct PosDefaultStructWithFieldUsingImmutableStruct {
     someField1: AnotherImmutableStructWithDefaults = {}
 }
 
+@Java(Skip) @Swift(Skip)
+struct SomeMutableCustomStructWithDefaults {
+    intField: Int = 77
+    stringField: String = "Some string"
+    listField: List<Int> = [1, 2, 3]
+}
+
+@Dart(PositionalDefaults)
+@Java(Skip) @Swift(Skip)
+struct PosDefaultStructWithCustomStructsFields {
+    constCtorField0: AnotherImmutableStructWithDefaults = {}
+    constCtorField1: AnotherImmutableStructWithDefaults? = {}
+    constCtorField2: List<String> = ["abc", "def", "ghi"]
+    constCtorField3: Map<String, String>? = null
+    constCtorField4: Int = 77
+    constCtorField5: Double = 77.77
+
+    nonConstCtorField0: StructWithAllDefaults = {}
+    nonConstCtorField1: PosDefaultStructWithFieldUsingImmutableStruct = {}
+    nonConstCtorField2: SomeMutableCustomStructWithDefaults = {}
+    nonConstCtorField3: StructWithNullableCollectionDefaults = {}
+}
+
 @Dart(PositionalDefaults)
 @Java(Skip) @Swift(Skip)
 struct PosDefaultsWithDuration {
