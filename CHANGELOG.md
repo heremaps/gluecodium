@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased:
+## 13.10.0
+Release date 2024-11-28
 ### Features:
  * Implemented the new way of documenting properties via `@value` and `@description` annotations in structured comments.
  * Implemented validation, which requires the users to use at least `@value` annotation when documenting a property.
