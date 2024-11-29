@@ -78,11 +78,14 @@ struct PosDefaultStructWithCustomStructsFields {
     constCtorField3: Map<String, String>? = null
     constCtorField4: Int = 77
     constCtorField5: Double = 77.77
+    constCtorField6: ImmutableStructWithDefaults? = {}
+    constCtorField7: ImmutableStructWithDefaults? = null
 
     nonConstCtorField0: StructWithAllDefaults = {}
     nonConstCtorField1: PosDefaultStructWithFieldUsingImmutableStruct = {}
     nonConstCtorField2: SomeMutableCustomStructWithDefaults = {}
     nonConstCtorField3: StructWithNullableCollectionDefaults = {}
+    nonConstCtorField4: StructWithAllDefaults? = null
 }
 
 // Foo Bar this is a comment
