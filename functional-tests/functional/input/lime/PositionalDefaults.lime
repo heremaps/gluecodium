@@ -72,6 +72,7 @@ struct PosDefaultStructWithFieldUsingImmutableStruct {
     someField1: AnotherImmutableStructWithDefaults = {}
 }
 
+@Dart(PositionalDefaults)
 @Java(Skip) @Swift(Skip)
 struct SomeMutableCustomStructWithDefaults {
     intField: Int = 77
