@@ -103,6 +103,35 @@ void main() {
     expect(result.intField, 13);
     expect(result.stringField, "foobar");
   });
+  _testSuite.test("Check positional defaults for non-const constructible structs", () {
+    // Case 1: all defaults.
+    final first = PosDefaultStructWithCustomStructsFields();
+    expect(first.nonConstCtorField0.intField, 42);
+    expect(first.nonConstCtorField1.someField1.intField, 42);
+    expect(first.nonConstCtorField2.stringField, "Some string");
+    expect(first.nonConstCtorField3.nullableListField, null);
+
+    // Case 2: custom values.
+    final second = PosDefaultStructWithCustomStructsFields(
+      // Fields with const constructors.
+      AnotherImmutableStructWithDefaults.withDefaults(),
+      null,
+      [],
+      null,
+      0,
+      0.0,
+      // Fields without const constructor.
+      StructWithAllDefaults(21, "ABC"),
+      PosDefaultStructWithFieldUsingImmutableStruct(),
+      SomeMutableCustomStructWithDefaults(21, "Another string", [7, 7, 7]),
+      StructWithNullableCollectionDefaults()
+    );
+
+    expect(second.nonConstCtorField0.intField, 21);
+    expect(second.nonConstCtorField1.someField1.intField, 42);
+    expect(second.nonConstCtorField2.stringField, "Another string");
+    expect(second.nonConstCtorField3.nullableListField, null);
+  });
   _testSuite.test("Check positional enumerator defaults", () {
     final result = StructWithEnums();
 
