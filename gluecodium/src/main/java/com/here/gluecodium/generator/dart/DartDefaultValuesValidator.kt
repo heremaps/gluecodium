@@ -23,6 +23,7 @@ import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.model.lime.LimeAttributeType.DART
 import com.here.gluecodium.model.lime.LimeAttributeType.IMMUTABLE
 import com.here.gluecodium.model.lime.LimeAttributeValueType
+import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeValue
@@ -30,18 +31,19 @@ import com.here.gluecodium.model.lime.LimeValue
 class DartDefaultValuesValidator(private val logger: LimeLogger) {
     fun validate(referenceMap: Map<String, LimeElement>): Boolean {
         val allStructs = referenceMap.values.filterIsInstance<LimeStruct>()
-        return !allStructs.map { validateDefaultValues(it) }.contains(false)
+        return !allStructs.map { validatePositionalDefaults(it) }.contains(false)
     }
 
-    private fun validateDefaultValues(limeStruct: LimeStruct): Boolean {
+    private fun validatePositionalDefaults(limeStruct: LimeStruct): Boolean {
         if (!limeStruct.attributes.have(DART, LimeAttributeValueType.POSITIONAL_DEFAULTS)) {
             return true
         }
 
         var result = true
         for (field in limeStruct.initializedFields) {
-            // Types other than custom LimeStructs provide const constructors.
-            if (field.typeRef.type !is LimeStruct) {
+            // Types other than BLOB and custom LimeStructs provide const constructors.
+            val basicType = field.typeRef.type as? LimeBasicType
+            if (field.typeRef.type !is LimeStruct && (basicType?.typeId != LimeBasicType.TypeId.BLOB)) {
                 continue
             }
 
