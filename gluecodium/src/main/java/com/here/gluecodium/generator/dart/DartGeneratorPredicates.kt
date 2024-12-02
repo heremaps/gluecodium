@@ -25,6 +25,7 @@ import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.model.lime.LimeAttributeType.DART
 import com.here.gluecodium.model.lime.LimeAttributeType.IMMUTABLE
 import com.here.gluecodium.model.lime.LimeAttributeValueType.POSITIONAL_DEFAULTS
+import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeExternalDescriptor
@@ -48,8 +49,12 @@ internal class DartGeneratorPredicates(
             },
             "fieldHasConstCtor" to { limeField: Any ->
                 if (limeField is LimeField) {
-                    when {
-                        limeField.typeRef.type is LimeStruct -> limeField.typeRef.type.attributes.have(IMMUTABLE)
+                    when (limeField.typeRef.type) {
+                        is LimeBasicType -> {
+                            val basicType = limeField.typeRef.type as LimeBasicType
+                            basicType.typeId != LimeBasicType.TypeId.BLOB
+                        }
+                        is LimeStruct -> limeField.typeRef.type.attributes.have(IMMUTABLE)
                         else -> true
                     }
                 } else {
