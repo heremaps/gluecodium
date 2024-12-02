@@ -97,6 +97,9 @@ struct PosDefaultStructWithCustomStructsFields {
     nonConstCtorField2: SomeMutableCustomStructWithDefaults = {}
     nonConstCtorField3: StructWithNullableCollectionDefaults = {}
     nonConstCtorField4: StructWithAllDefaults? = null
+    nonConstCtorField5: Blob = []
+    nonConstCtorField6: Blob = [222, 173, 190, 239]
+    nonConstCtorField7: Blob? = null
 }
 
 @Dart(PositionalDefaults)
