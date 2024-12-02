@@ -133,7 +133,7 @@ positional defaults constructor will be generated with a `@Deprecated` annotatio
 specified.
 > **Important:** if the constructor used for the default value is non-const, then the generated constructor will use
 > optional value to prevent compilation error. However, this implies certain limitation for default values of nullable
-> types, which do not provide const constructor (i.a. custom structures that are not annotated as `@Immutable`).
+> types, which do not provide const constructor (i.a. Blob type or custom structures that are not annotated as `@Immutable`).
 >
 > If the field is nullable and its type does not provide const constructor then the only default value that is accepted
 > can be null. If any other value is used then the generator will raise validation error.
