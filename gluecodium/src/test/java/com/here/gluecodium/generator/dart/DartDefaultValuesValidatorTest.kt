@@ -156,4 +156,53 @@ class DartDefaultValuesValidatorTest {
         // Then validation fails.
         assertFalse(result)
     }
+
+    @Test
+    fun validatePositionalDefaultsStructThatHasMutableBlobFieldEqualsNull() {
+        // Given a structure that is annotated with 'PositionalDefaults'
+        // and has nullable BLOB field with default value equals 'null'.
+        val field =
+            LimeField(
+                path = typePath.child("someField"),
+                typeRef = LimeBasicTypeRef(LimeBasicType.TypeId.BLOB, isNullable = true),
+                defaultValue = LimeValue.Null(LimeBasicTypeRef(LimeBasicType.TypeId.BLOB, isNullable = true)),
+            )
+
+        val structWithFields = LimeStruct(path = typePath, fields = listOf(field), attributes = positionalDefaultsAttributes)
+        allElements[typePath.toString()] = structWithFields
+
+        // When validating default values.
+        val result = validator.validate(allElements)
+
+        // Then validation succeeds.
+        assertTrue(result)
+    }
+
+    @Test
+    fun validatePositionalDefaultsStructThatHasMutableBlobFieldNotEqualToNull() {
+        // Given a structure that is annotated with 'PositionalDefaults'
+        // and has nullable BLOB field with default value different from 'null'.
+        val field =
+            LimeField(
+                path = typePath.child("someField"),
+                typeRef = LimeBasicTypeRef(LimeBasicType.TypeId.BLOB, isNullable = true),
+                defaultValue =
+                    LimeValue.InitializerList(
+                        type = LimeBasicTypeRef(LimeBasicType.TypeId.BLOB, isNullable = true),
+                        listOf(
+                            LimeValue.Literal(type = LimeBasicTypeRef(LimeBasicType.TypeId.BLOB), value = "128"),
+                            LimeValue.Literal(type = LimeBasicTypeRef(LimeBasicType.TypeId.BLOB), value = "230"),
+                        ),
+                    ),
+            )
+
+        val structWithFields = LimeStruct(path = typePath, fields = listOf(field), attributes = positionalDefaultsAttributes)
+        allElements[typePath.toString()] = structWithFields
+
+        // When validating default values.
+        val result = validator.validate(allElements)
+
+        // Then validation fails.
+        assertFalse(result)
+    }
 }
