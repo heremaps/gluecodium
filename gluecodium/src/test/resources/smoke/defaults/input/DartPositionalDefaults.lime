@@ -62,6 +62,35 @@ struct PosDefaultStructWithFieldUsingImmutableStruct {
     someField1: ImmutableStructWithDefaults = {}
 }
 
+@Java(Skip) @Swift(Skip)
+struct SomeMutableCustomStructWithDefaults {
+    intField: Int = 77
+    stringField: String = "Some string"
+    listField: List<Int> = [1, 2, 3]
+}
+
+@Dart(PositionalDefaults)
+@Java(Skip) @Swift(Skip)
+struct PosDefaultStructWithCustomStructsFields {
+    constCtorField0: ImmutableStructWithDefaults = {}
+    constCtorField1: ImmutableStructWithDefaults? = {}
+    constCtorField2: List<String> = ["abc", "def", "ghi"]
+    constCtorField3: Map<String, String>? = null
+    constCtorField4: Int = 77
+    constCtorField5: Double = 77.77
+    constCtorField6: ImmutableStructWithDefaults? = {}
+    constCtorField7: ImmutableStructWithDefaults? = null
+
+    nonConstCtorField0: StructWithAllDefaults = {}
+    nonConstCtorField1: PosDefaultStructWithFieldUsingImmutableStruct = {}
+    nonConstCtorField2: SomeMutableCustomStructWithDefaults = {}
+    nonConstCtorField3: StructWithNullableCollectionDefaults = {}
+    nonConstCtorField4: StructWithAllDefaults? = null
+    nonConstCtorField5: Blob = []
+    nonConstCtorField6: Blob = [222, 173, 190, 239]
+    nonConstCtorField7: Blob? = null
+}
+
 // Foo Bar this is a comment
 // @constructor buzz fizz
 @Dart(PositionalDefaults = "Sorry, this is deprecated.")

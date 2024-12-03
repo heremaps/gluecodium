@@ -74,6 +74,36 @@ struct PosDefaultStructWithFieldUsingImmutableStruct {
 
 @Dart(PositionalDefaults)
 @Java(Skip) @Swift(Skip)
+struct SomeMutableCustomStructWithDefaults {
+    intField: Int = 77
+    stringField: String = "Some string"
+    listField: List<Int> = [1, 2, 3]
+}
+
+@Dart(PositionalDefaults)
+@Java(Skip) @Swift(Skip)
+struct PosDefaultStructWithCustomStructsFields {
+    constCtorField0: AnotherImmutableStructWithDefaults = {}
+    constCtorField1: AnotherImmutableStructWithDefaults? = {}
+    constCtorField2: List<String> = ["abc", "def", "ghi"]
+    constCtorField3: Map<String, String>? = null
+    constCtorField4: Int = 77
+    constCtorField5: Double = 77.77
+    constCtorField6: AnotherImmutableStructWithDefaults? = {}
+    constCtorField7: AnotherImmutableStructWithDefaults? = null
+
+    nonConstCtorField0: StructWithAllDefaults = {}
+    nonConstCtorField1: PosDefaultStructWithFieldUsingImmutableStruct = {}
+    nonConstCtorField2: SomeMutableCustomStructWithDefaults = {}
+    nonConstCtorField3: StructWithNullableCollectionDefaults = {}
+    nonConstCtorField4: StructWithAllDefaults? = null
+    nonConstCtorField5: Blob = []
+    nonConstCtorField6: Blob = [222, 173, 190, 239]
+    nonConstCtorField7: Blob? = null
+}
+
+@Dart(PositionalDefaults)
+@Java(Skip) @Swift(Skip)
 struct PosDefaultsWithDuration {
     durationField: Duration = 42s
     nanosField: Duration = 28567ns
