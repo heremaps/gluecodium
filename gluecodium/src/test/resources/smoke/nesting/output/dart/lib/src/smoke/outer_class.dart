@@ -88,7 +88,7 @@ void smokeOuterclassInnerclassReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeOuterclassInnerclassReleaseHandle(handle);
 
 // End of OuterClass_InnerClass "private" section.
-abstract class OuterClass_InnerInterface {
+abstract class OuterClass_InnerInterface implements Finalizable {
 
   factory OuterClass_InnerInterface(
     String Function(String) fooLambda,

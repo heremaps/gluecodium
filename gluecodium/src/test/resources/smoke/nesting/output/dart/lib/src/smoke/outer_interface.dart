@@ -7,7 +7,7 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 
-abstract class OuterInterface {
+abstract class OuterInterface implements Finalizable {
 
   factory OuterInterface(
     String Function(String) fooLambda,
@@ -96,7 +96,7 @@ void smokeOuterinterfaceInnerclassReleaseFfiHandleNullable(Pointer<Void> handle)
   _smokeOuterinterfaceInnerclassReleaseHandle(handle);
 
 // End of OuterInterface_InnerClass "private" section.
-abstract class OuterInterface_InnerInterface {
+abstract class OuterInterface_InnerInterface implements Finalizable {
 
   factory OuterInterface_InnerInterface(
     String Function(String) fooLambda,

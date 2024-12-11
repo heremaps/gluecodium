@@ -279,7 +279,7 @@ void smokeOuterstructInnerclassReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeOuterstructInnerclassReleaseHandle(handle);
 
 // End of OuterStruct_InnerClass "private" section.
-abstract class OuterStruct_InnerInterface {
+abstract class OuterStruct_InnerInterface implements Finalizable {
 
   factory OuterStruct_InnerInterface(
     Map<String, Uint8List> Function() barBazLambda,

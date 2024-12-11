@@ -89,7 +89,7 @@ void smokeOuterclasswithinheritanceInnerclassReleaseFfiHandleNullable(Pointer<Vo
   _smokeOuterclasswithinheritanceInnerclassReleaseHandle(handle);
 
 // End of OuterClassWithInheritance_InnerClass "private" section.
-abstract class OuterClassWithInheritance_InnerInterface {
+abstract class OuterClassWithInheritance_InnerInterface implements Finalizable {
 
   factory OuterClassWithInheritance_InnerInterface(
     String Function(String) bazLambda,
