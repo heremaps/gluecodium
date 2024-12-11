@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2020 HERE Europe B.V.
+  ! Copyright (C) 2016-2024 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
   !}}
 {{>dart/DartDocumentation}}{{>dart/DartAttributes}}
 abstract class {{resolveName}}{{!!
-}}{{#if this.parents}} implements {{#this.parents}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/this.parents}}{{/if}} {
+}} implements {{#if this.parents}}{{#this.parents}}{{resolveName}}, {{/this.parents}}{{/if}}Finalizable {
 {{#if inheritedFunctions functions inheritedProperties properties logic="or"}}
 {{prefixPartial "dart/DartDocumentation" "  "}}
   factory {{resolveName}}(
