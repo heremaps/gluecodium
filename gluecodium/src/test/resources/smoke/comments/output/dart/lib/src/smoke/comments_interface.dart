@@ -8,7 +8,7 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 
 /// This is some very useful interface.
-abstract class CommentsInterface {
+abstract class CommentsInterface implements Finalizable {
   /// This is some very useful interface.
 
   factory CommentsInterface(

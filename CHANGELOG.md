@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+ * Dart: fixed race condition between garbage collector (which could trigger finalizer) and native method calls in finalizable classes.
+
 ## 13.10.0
 Release date 2024-11-28
 ### Features:

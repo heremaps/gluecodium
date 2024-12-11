@@ -9,7 +9,7 @@ import 'package:library/src/builtin_types__conversion.dart';
 
 /// This is some very useful interface.
 @Deprecated("Unfortunately, this interface is deprecated. Use [Comments] instead.")
-abstract class DeprecationComments {
+abstract class DeprecationComments implements Finalizable {
   /// This is some very useful interface.
   @Deprecated("Unfortunately, this interface is deprecated. Use [Comments] instead.")
 

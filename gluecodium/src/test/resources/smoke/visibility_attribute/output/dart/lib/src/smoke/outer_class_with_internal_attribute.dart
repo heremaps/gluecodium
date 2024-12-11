@@ -6,7 +6,7 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 
 /// @nodoc
-abstract class OuterClassWithInternalAttribute {
+abstract class OuterClassWithInternalAttribute implements Finalizable {
 
 }
 
@@ -92,7 +92,7 @@ void smokeOuterclasswithinternalattributeStructnestedininternalclassReleaseFfiHa
   _smokeOuterclasswithinternalattributeStructnestedininternalclassReleaseHandleNullable(handle);
 
 // End of OuterClassWithInternalAttribute_StructNestedInInternalClass "private" section.
-abstract class OuterClassWithInternalAttribute_ClassNestedInInternalClass {
+abstract class OuterClassWithInternalAttribute_ClassNestedInInternalClass implements Finalizable {
 
 }
 
@@ -169,7 +169,7 @@ final _smokeOuterclasswithinternalattributeLambdanestedininternalclassCreateProx
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_OuterClassWithInternalAttribute_LambdaNestedInInternalClass_create_proxy'));
 
-class OuterClassWithInternalAttribute_LambdaNestedInInternalClass$Impl {
+class OuterClassWithInternalAttribute_LambdaNestedInInternalClass$Impl implements Finalizable {
   final Pointer<Void> handle;
   OuterClassWithInternalAttribute_LambdaNestedInInternalClass$Impl(this.handle);
 

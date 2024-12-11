@@ -1,3 +1,5 @@
+
+
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
@@ -6,7 +8,9 @@ import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/child_interface.dart';
 import 'package:library/src/smoke/grand_child_interface.dart';
-abstract class ParentInterface {
+
+abstract class ParentInterface implements Finalizable {
+
   factory ParentInterface(
     void Function() rootMethodLambda,
     String Function() rootPropertyGetLambda,
@@ -17,11 +21,16 @@ abstract class ParentInterface {
     rootPropertySetLambda
   );
 
+
   void rootMethod();
   String get rootProperty;
   set rootProperty(String value);
+
 }
+
+
 // ParentInterface "private" section, not exported.
+
 final _smokeParentinterfaceRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Int32, Handle),
     void Function(Pointer<Void>, int, Object)
@@ -42,10 +51,13 @@ final _smokeParentinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nati
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ParentInterface_get_type_id'));
+
+
 class ParentInterface$Lambdas implements ParentInterface {
   void Function() rootMethodLambda;
   String Function() rootPropertyGetLambda;
   void Function(String) rootPropertySetLambda;
+
   ParentInterface$Lambdas(
     this.rootMethodLambda,
     this.rootPropertyGetLambda,
@@ -60,7 +72,9 @@ class ParentInterface$Lambdas implements ParentInterface {
   @override
   set rootProperty(String value) => rootPropertySetLambda(value);
 }
+
 class ParentInterface$Impl extends __lib.NativeBase implements ParentInterface {
+
   ParentInterface$Impl(Pointer<Void> handle) : super(handle);
 
   @override
@@ -68,7 +82,9 @@ class ParentInterface$Impl extends __lib.NativeBase implements ParentInterface {
     final _rootMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentInterface_rootMethod'));
     final _handle = this.handle;
     _rootMethodFfi(_handle, __lib.LibraryContext.isolateId);
+
   }
+
   String get rootProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ParentInterface_rootProperty_get'));
     final _handle = this.handle;
@@ -77,27 +93,39 @@ class ParentInterface$Impl extends __lib.NativeBase implements ParentInterface {
       return stringFromFfi(__resultHandle);
     } finally {
       stringReleaseFfiHandle(__resultHandle);
+
     }
+
   }
+
+
   set rootProperty(String value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ParentInterface_rootProperty_set__String'));
     final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
     _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
+
   }
+
+
+
 }
+
 int _smokeParentinterfacerootMethodStatic(Object _obj) {
+
   try {
     (_obj as ParentInterface).rootMethod();
   } finally {
   }
   return 0;
 }
+
 int _smokeParentinterfacerootPropertyGetStatic(Object _obj, Pointer<Pointer<Void>> _result) {
   _result.value = stringToFfi((_obj as ParentInterface).rootProperty);
   return 0;
 }
+
 int _smokeParentinterfacerootPropertySetStatic(Object _obj, Pointer<Void> _value) {
   try {
     (_obj as ParentInterface).rootProperty =
@@ -107,12 +135,15 @@ int _smokeParentinterfacerootPropertySetStatic(Object _obj, Pointer<Void> _value
   }
   return 0;
 }
+
 Pointer<Void> smokeParentinterfaceToFfi(ParentInterface value) {
   if (value is __lib.NativeBase) return _smokeParentinterfaceCopyHandle((value as __lib.NativeBase).handle);
+
   final descendantResult = tryDescendantToFfi(value);
   if (descendantResult != null) {
     return descendantResult;
   }
+
   final result = _smokeParentinterfaceCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
@@ -121,15 +152,19 @@ Pointer<Void> smokeParentinterfaceToFfi(ParentInterface value) {
     Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeParentinterfacerootPropertyGetStatic, __lib.unknownError),
     Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeParentinterfacerootPropertySetStatic, __lib.unknownError)
   );
+
   return result;
 }
+
 ParentInterface smokeParentinterfaceFromFfi(Pointer<Void> handle) {
   if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is ParentInterface) return instance;
+
   final _typeIdHandle = _smokeParentinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
+
   final _copiedHandle = _smokeParentinterfaceCopyHandle(handle);
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
@@ -138,17 +173,25 @@ ParentInterface smokeParentinterfaceFromFfi(Pointer<Void> handle) {
   _smokeParentinterfaceRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
+
 void smokeParentinterfaceReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeParentinterfaceReleaseHandle(handle);
+
 Pointer<Void> smokeParentinterfaceToFfiNullable(ParentInterface? value) =>
   value != null ? smokeParentinterfaceToFfi(value) : Pointer<Void>.fromAddress(0);
+
 ParentInterface? smokeParentinterfaceFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeParentinterfaceFromFfi(handle) : null;
+
 void smokeParentinterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeParentinterfaceReleaseHandle(handle);
+
 Pointer<Void>? tryDescendantToFfi(ParentInterface value) {
   if (value is GrandChildInterface) return smokeGrandchildinterfaceToFfi(value);
   if (value is ChildInterface) return smokeChildinterfaceToFfi(value);
   return null;
 }
+
 // End of ParentInterface "private" section.
+
+

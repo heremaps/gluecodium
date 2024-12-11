@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2020 HERE Europe B.V.
+  ! Copyright (C) 2016-2024 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ final _{{resolveName "Ffi"}}CreateProxy = __lib.catchArgumentError(() => __lib.n
     Pointer<Void> Function(int, int, Object, Pointer)
   >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_create_proxy'));
 
-class {{resolveName}}$Impl {
+class {{resolveName}}$Impl implements Finalizable {
   final Pointer<Void> handle;
   {{resolveName}}$Impl(this.handle);
 

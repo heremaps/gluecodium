@@ -97,7 +97,7 @@ void smokeOuterstructwithinternalattributeStructnestedininternalstructReleaseFfi
   _smokeOuterstructwithinternalattributeStructnestedininternalstructReleaseHandleNullable(handle);
 
 // End of OuterStructWithInternalAttribute_StructNestedInInternalStruct "private" section.
-abstract class OuterStructWithInternalAttribute_ClassNestedInInternalStruct {
+abstract class OuterStructWithInternalAttribute_ClassNestedInInternalStruct implements Finalizable {
 
 }
 
@@ -174,7 +174,7 @@ final _smokeOuterstructwithinternalattributeLambdanestedininternalstructCreatePr
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_OuterStructWithInternalAttribute_LambdaNestedInInternalStruct_create_proxy'));
 
-class OuterStructWithInternalAttribute_LambdaNestedInInternalStruct$Impl {
+class OuterStructWithInternalAttribute_LambdaNestedInInternalStruct$Impl implements Finalizable {
   final Pointer<Void> handle;
   OuterStructWithInternalAttribute_LambdaNestedInInternalStruct$Impl(this.handle);
 

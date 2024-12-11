@@ -1,40 +1,58 @@
+
+
 import 'dart:ffi';
 import 'dart:math';
+
 class _LazyIterator<E> implements Iterator<E> {
   final List<E> list;
   final int step;
   final int length;
   int position;
+
   _LazyIterator(this.list, [int start = -1, int step = 1])
     : step = step, length = list.length, position = start;
+
   bool moveNext() {
     position += step;
     return position >= 0 && position < length;
   }
+
   E get current => list[position];
 }
+
 /// @nodoc
-class LazyList<E> extends Iterable<E> implements List<E> {
+class LazyList<E> extends Iterable<E> implements List<E>, Finalizable {
   static final _cannotModify = "Cannot modify an unmodifiable list";
+
   final Pointer<Void> handle;
   final int _length;
   final E Function(int) _elementGetter;
+
   LazyList(this.handle, int length, this._elementGetter, void registerFinalizer(Object))
     : _length = length {
     registerFinalizer(this);
   }
+
   Iterator<E> get iterator => _LazyIterator(this);
+
   int get length => _length;
+
   E operator [](int index) => _elementGetter(index);
+
   List<R> cast<R>() => List.castFrom<E, R>(this);
+
   // Methods redirected to cast<E>()
+
   List<E> operator +(List<E> other) => cast<E>() + other;
   Map<int, E> asMap() => cast<E>().asMap();
   Iterable<E> getRange(int start, int end) => cast<E>().getRange(start, end);
   List<E> sublist(int start, [int? end]) => cast<E>().sublist(start, end);
   Iterable<E> get reversed => cast<E>().reversed;
+
   // Methods relying on the iterator
+
   int indexOf(E element, [int start = 0]) => indexWhere((it) => element == it, start);
+
   int indexWhere(bool test(E element), [int start = 0]) {
     final iterator = _LazyIterator(this, start - 1, 1);
     while (iterator.moveNext()) {
@@ -42,7 +60,9 @@ class LazyList<E> extends Iterable<E> implements List<E> {
     }
     return -1;
   }
+
   int lastIndexOf(E element, [int? start]) => lastIndexWhere((it) => element == it, start);
+
   int lastIndexWhere(bool test(E element), [int? start]) {
     final iterator = _LazyIterator(this, start ?? length, -1);
     while (iterator.moveNext()) {
@@ -50,7 +70,9 @@ class LazyList<E> extends Iterable<E> implements List<E> {
     }
     return -1;
   }
+
   // Unsupported methods
+
   void operator []=(int index, E value) => throw UnsupportedError(_cannotModify);
   void add(E value) => throw UnsupportedError(_cannotModify);
   void addAll(Iterable<E> iterable) => throw UnsupportedError(_cannotModify);

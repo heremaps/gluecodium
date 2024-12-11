@@ -8,7 +8,7 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 
 /// This is some very useful interface.
-abstract class Comments {
+abstract class Comments implements Finalizable {
 
   /// This is some very useful constant.
   static final bool veryUseful = true;
@@ -341,7 +341,7 @@ final _smokeCommentsSomelambdaCreateProxy = __lib.catchArgumentError(() => __lib
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_Comments_SomeLambda_create_proxy'));
 
-class Comments_SomeLambda$Impl {
+class Comments_SomeLambda$Impl implements Finalizable {
   final Pointer<Void> handle;
   Comments_SomeLambda$Impl(this.handle);
 

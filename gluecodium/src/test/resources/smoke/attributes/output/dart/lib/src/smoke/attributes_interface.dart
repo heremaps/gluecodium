@@ -1,11 +1,15 @@
+
+
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+
 @OnInterface
-abstract class AttributesInterface {
+abstract class AttributesInterface implements Finalizable {
+
   factory AttributesInterface(
     void Function(String) veryFunLambda,
     String Function() propGetLambda,
@@ -18,14 +22,20 @@ abstract class AttributesInterface {
 
   @OnConstInInterface
   static final bool pi = false;
+
+
   @OnFunctionInInterface
   void veryFun(@OnParameterInInterface String param);
   @OnPropertyInInterface
   String get prop;
   @OnPropertyInInterface
   set prop(String value);
+
 }
+
+
 // AttributesInterface "private" section, not exported.
+
 final _smokeAttributesinterfaceRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Int32, Handle),
     void Function(Pointer<Void>, int, Object)
@@ -46,10 +56,13 @@ final _smokeAttributesinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_AttributesInterface_get_type_id'));
+
+
 class AttributesInterface$Lambdas implements AttributesInterface {
   void Function(String) veryFunLambda;
   String Function() propGetLambda;
   void Function(String) propSetLambda;
+
   AttributesInterface$Lambdas(
     this.veryFunLambda,
     this.propGetLambda,
@@ -64,7 +77,9 @@ class AttributesInterface$Lambdas implements AttributesInterface {
   @override
   set prop(String value) => propSetLambda(value);
 }
+
 class AttributesInterface$Impl extends __lib.NativeBase implements AttributesInterface {
+
   AttributesInterface$Impl(Pointer<Void> handle) : super(handle);
 
   @override
@@ -74,7 +89,9 @@ class AttributesInterface$Impl extends __lib.NativeBase implements AttributesInt
     final _handle = this.handle;
     _veryFunFfi(_handle, __lib.LibraryContext.isolateId, _paramHandle);
     stringReleaseFfiHandle(_paramHandle);
+
   }
+
   @OnPropertyInInterface
   String get prop {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_AttributesInterface_prop_get'));
@@ -84,8 +101,12 @@ class AttributesInterface$Impl extends __lib.NativeBase implements AttributesInt
       return stringFromFfi(__resultHandle);
     } finally {
       stringReleaseFfiHandle(__resultHandle);
+
     }
+
   }
+
+
   @OnPropertyInInterface
   set prop(String value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AttributesInterface_prop_set__String'));
@@ -93,9 +114,15 @@ class AttributesInterface$Impl extends __lib.NativeBase implements AttributesInt
     final _handle = this.handle;
     _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
+
   }
+
+
+
 }
+
 int _smokeAttributesinterfaceveryFunStatic(Object _obj, Pointer<Void> param) {
+
   try {
     (_obj as AttributesInterface).veryFun(stringFromFfi(param));
   } finally {
@@ -103,10 +130,12 @@ int _smokeAttributesinterfaceveryFunStatic(Object _obj, Pointer<Void> param) {
   }
   return 0;
 }
+
 int _smokeAttributesinterfacepropGetStatic(Object _obj, Pointer<Pointer<Void>> _result) {
   _result.value = stringToFfi((_obj as AttributesInterface).prop);
   return 0;
 }
+
 int _smokeAttributesinterfacepropSetStatic(Object _obj, Pointer<Void> _value) {
   try {
     (_obj as AttributesInterface).prop =
@@ -116,8 +145,10 @@ int _smokeAttributesinterfacepropSetStatic(Object _obj, Pointer<Void> _value) {
   }
   return 0;
 }
+
 Pointer<Void> smokeAttributesinterfaceToFfi(AttributesInterface value) {
   if (value is __lib.NativeBase) return _smokeAttributesinterfaceCopyHandle((value as __lib.NativeBase).handle);
+
   final result = _smokeAttributesinterfaceCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
@@ -126,15 +157,19 @@ Pointer<Void> smokeAttributesinterfaceToFfi(AttributesInterface value) {
     Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeAttributesinterfacepropGetStatic, __lib.unknownError),
     Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeAttributesinterfacepropSetStatic, __lib.unknownError)
   );
+
   return result;
 }
+
 AttributesInterface smokeAttributesinterfaceFromFfi(Pointer<Void> handle) {
   if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is AttributesInterface) return instance;
+
   final _typeIdHandle = _smokeAttributesinterfaceGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
+
   final _copiedHandle = _smokeAttributesinterfaceCopyHandle(handle);
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
@@ -143,12 +178,19 @@ AttributesInterface smokeAttributesinterfaceFromFfi(Pointer<Void> handle) {
   _smokeAttributesinterfaceRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
+
 void smokeAttributesinterfaceReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeAttributesinterfaceReleaseHandle(handle);
+
 Pointer<Void> smokeAttributesinterfaceToFfiNullable(AttributesInterface? value) =>
   value != null ? smokeAttributesinterfaceToFfi(value) : Pointer<Void>.fromAddress(0);
+
 AttributesInterface? smokeAttributesinterfaceFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeAttributesinterfaceFromFfi(handle) : null;
+
 void smokeAttributesinterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeAttributesinterfaceReleaseHandle(handle);
+
 // End of AttributesInterface "private" section.
+
+
