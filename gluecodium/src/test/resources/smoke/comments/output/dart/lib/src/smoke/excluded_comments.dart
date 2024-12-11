@@ -227,7 +227,7 @@ final _smokeExcludedcommentsSomelambdaCreateProxy = __lib.catchArgumentError(() 
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_ExcludedComments_SomeLambda_create_proxy'));
 
-class ExcludedComments_SomeLambda$Impl {
+class ExcludedComments_SomeLambda$Impl implements Finalizable {
   final Pointer<Void> handle;
   ExcludedComments_SomeLambda$Impl(this.handle);
 

@@ -211,7 +211,7 @@ final _smokeAsyncclassAsyncvoidresultlambdaCreateProxy = __lib.catchArgumentErro
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_AsyncClass_AsyncvoidResultlambda_create_proxy'));
 
-class AsyncClass_asyncVoid__resultLambda$Impl {
+class AsyncClass_asyncVoid__resultLambda$Impl implements Finalizable {
   final Pointer<Void> handle;
   AsyncClass_asyncVoid__resultLambda$Impl(this.handle);
 
@@ -260,7 +260,7 @@ final _smokeAsyncclassAsyncvoidthrowsresultlambdaCreateProxy = __lib.catchArgume
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_AsyncClass_AsyncvoidthrowsResultlambda_create_proxy'));
 
-class AsyncClass_asyncVoidThrows__resultLambda$Impl {
+class AsyncClass_asyncVoidThrows__resultLambda$Impl implements Finalizable {
   final Pointer<Void> handle;
   AsyncClass_asyncVoidThrows__resultLambda$Impl(this.handle);
 
@@ -309,7 +309,7 @@ final _smokeAsyncclassAsyncvoidthrowserrorlambdaCreateProxy = __lib.catchArgumen
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_AsyncClass_AsyncvoidthrowsErrorlambda_create_proxy'));
 
-class AsyncClass_asyncVoidThrows__errorLambda$Impl {
+class AsyncClass_asyncVoidThrows__errorLambda$Impl implements Finalizable {
   final Pointer<Void> handle;
   AsyncClass_asyncVoidThrows__errorLambda$Impl(this.handle);
 
@@ -361,7 +361,7 @@ final _smokeAsyncclassAsyncintresultlambdaCreateProxy = __lib.catchArgumentError
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_AsyncClass_AsyncintResultlambda_create_proxy'));
 
-class AsyncClass_asyncInt__resultLambda$Impl {
+class AsyncClass_asyncInt__resultLambda$Impl implements Finalizable {
   final Pointer<Void> handle;
   AsyncClass_asyncInt__resultLambda$Impl(this.handle);
 
@@ -413,7 +413,7 @@ final _smokeAsyncclassAsyncintthrowsresultlambdaCreateProxy = __lib.catchArgumen
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_AsyncClass_AsyncintthrowsResultlambda_create_proxy'));
 
-class AsyncClass_asyncIntThrows__resultLambda$Impl {
+class AsyncClass_asyncIntThrows__resultLambda$Impl implements Finalizable {
   final Pointer<Void> handle;
   AsyncClass_asyncIntThrows__resultLambda$Impl(this.handle);
 
@@ -465,7 +465,7 @@ final _smokeAsyncclassAsyncintthrowserrorlambdaCreateProxy = __lib.catchArgument
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_AsyncClass_AsyncintthrowsErrorlambda_create_proxy'));
 
-class AsyncClass_asyncIntThrows__errorLambda$Impl {
+class AsyncClass_asyncIntThrows__errorLambda$Impl implements Finalizable {
   final Pointer<Void> handle;
   AsyncClass_asyncIntThrows__errorLambda$Impl(this.handle);
 
@@ -517,7 +517,7 @@ final _smokeAsyncclassAsyncstaticresultlambdaCreateProxy = __lib.catchArgumentEr
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_AsyncClass_AsyncstaticResultlambda_create_proxy'));
 
-class AsyncClass_asyncStatic__resultLambda$Impl {
+class AsyncClass_asyncStatic__resultLambda$Impl implements Finalizable {
   final Pointer<Void> handle;
   AsyncClass_asyncStatic__resultLambda$Impl(this.handle);
 

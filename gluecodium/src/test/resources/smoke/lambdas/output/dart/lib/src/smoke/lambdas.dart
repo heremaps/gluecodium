@@ -41,7 +41,7 @@ final _smokeLambdasProducerCreateProxy = __lib.catchArgumentError(() => __lib.na
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_Lambdas_Producer_create_proxy'));
 
-class Lambdas_Producer$Impl {
+class Lambdas_Producer$Impl implements Finalizable {
   final Pointer<Void> handle;
   Lambdas_Producer$Impl(this.handle);
 
@@ -146,7 +146,7 @@ final _smokeLambdasConfuserCreateProxy = __lib.catchArgumentError(() => __lib.na
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_Lambdas_Confuser_create_proxy'));
 
-class Lambdas_Confuser$Impl {
+class Lambdas_Confuser$Impl implements Finalizable {
   final Pointer<Void> handle;
   Lambdas_Confuser$Impl(this.handle);
 
@@ -253,7 +253,7 @@ final _smokeLambdasConsumerCreateProxy = __lib.catchArgumentError(() => __lib.na
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_Lambdas_Consumer_create_proxy'));
 
-class Lambdas_Consumer$Impl {
+class Lambdas_Consumer$Impl implements Finalizable {
   final Pointer<Void> handle;
   Lambdas_Consumer$Impl(this.handle);
 
@@ -353,7 +353,7 @@ final _smokeLambdasIndexerCreateProxy = __lib.catchArgumentError(() => __lib.nat
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_Lambdas_Indexer_create_proxy'));
 
-class Lambdas_Indexer$Impl {
+class Lambdas_Indexer$Impl implements Finalizable {
   final Pointer<Void> handle;
   Lambdas_Indexer$Impl(this.handle);
 
@@ -463,7 +463,7 @@ final _smokeLambdasNullableconfuserCreateProxy = __lib.catchArgumentError(() => 
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_Lambdas_NullableConfuser_create_proxy'));
 
-class Lambdas_NullableConfuser$Impl {
+class Lambdas_NullableConfuser$Impl implements Finalizable {
   final Pointer<Void> handle;
   Lambdas_NullableConfuser$Impl(this.handle);
 

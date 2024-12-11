@@ -169,7 +169,7 @@ final _smokeOuterclasswithinternalattributeLambdanestedininternalclassCreateProx
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_OuterClassWithInternalAttribute_LambdaNestedInInternalClass_create_proxy'));
 
-class OuterClassWithInternalAttribute_LambdaNestedInInternalClass$Impl {
+class OuterClassWithInternalAttribute_LambdaNestedInInternalClass$Impl implements Finalizable {
   final Pointer<Void> handle;
   OuterClassWithInternalAttribute_LambdaNestedInInternalClass$Impl(this.handle);
 

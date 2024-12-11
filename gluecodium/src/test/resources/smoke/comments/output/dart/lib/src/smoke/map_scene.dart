@@ -36,7 +36,7 @@ final _smokeMapsceneLoadscenecallbackCreateProxy = __lib.catchArgumentError(() =
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_MapScene_LoadSceneCallback_create_proxy'));
 
-class MapScene_LoadSceneCallback$Impl {
+class MapScene_LoadSceneCallback$Impl implements Finalizable {
   final Pointer<Void> handle;
   MapScene_LoadSceneCallback$Impl(this.handle);
 

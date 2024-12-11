@@ -39,7 +39,7 @@ final _smokeClasswithinternallambdaInternalnestedlambdaCreateProxy = __lib.catch
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_ClassWithInternalLambda_InternalNestedLambda_create_proxy'));
 
-class ClassWithInternalLambda_InternalNestedLambda$Impl {
+class ClassWithInternalLambda_InternalNestedLambda$Impl implements Finalizable {
   final Pointer<Void> handle;
   ClassWithInternalLambda_InternalNestedLambda$Impl(this.handle);
 

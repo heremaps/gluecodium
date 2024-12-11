@@ -34,7 +34,7 @@ final _smokeLambdacommentsWithnonamedparametersCreateProxy = __lib.catchArgument
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_LambdaComments_WithNoNamedParameters_create_proxy'));
 
-class LambdaComments_WithNoNamedParameters$Impl {
+class LambdaComments_WithNoNamedParameters$Impl implements Finalizable {
   final Pointer<Void> handle;
   LambdaComments_WithNoNamedParameters$Impl(this.handle);
 
@@ -142,7 +142,7 @@ final _smokeLambdacommentsWithnodocsforparametersCreateProxy = __lib.catchArgume
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_LambdaComments_WithNoDocsForParameters_create_proxy'));
 
-class LambdaComments_WithNoDocsForParameters$Impl {
+class LambdaComments_WithNoDocsForParameters$Impl implements Finalizable {
   final Pointer<Void> handle;
   LambdaComments_WithNoDocsForParameters$Impl(this.handle);
 
@@ -254,7 +254,7 @@ final _smokeLambdacommentsWithnamedparametersCreateProxy = __lib.catchArgumentEr
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_LambdaComments_WithNamedParameters_create_proxy'));
 
-class LambdaComments_WithNamedParameters$Impl {
+class LambdaComments_WithNamedParameters$Impl implements Finalizable {
   final Pointer<Void> handle;
   LambdaComments_WithNamedParameters$Impl(this.handle);
 
@@ -364,7 +364,7 @@ final _smokeLambdacommentsMixeddocnameparametersCreateProxy = __lib.catchArgumen
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_LambdaComments_MixedDocNameParameters_create_proxy'));
 
-class LambdaComments_MixedDocNameParameters$Impl {
+class LambdaComments_MixedDocNameParameters$Impl implements Finalizable {
   final Pointer<Void> handle;
   LambdaComments_MixedDocNameParameters$Impl(this.handle);
 
@@ -474,7 +474,7 @@ final _smokeLambdacommentsNocommentsnonamedparamsCreateProxy = __lib.catchArgume
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_LambdaComments_NoCommentsNoNamedParams_create_proxy'));
 
-class LambdaComments_NoCommentsNoNamedParams$Impl {
+class LambdaComments_NoCommentsNoNamedParams$Impl implements Finalizable {
   final Pointer<Void> handle;
   LambdaComments_NoCommentsNoNamedParams$Impl(this.handle);
 
@@ -584,7 +584,7 @@ final _smokeLambdacommentsNocommentswithnamedparamsCreateProxy = __lib.catchArgu
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_LambdaComments_NoCommentsWithNamedParams_create_proxy'));
 
-class LambdaComments_NoCommentsWithNamedParams$Impl {
+class LambdaComments_NoCommentsWithNamedParams$Impl implements Finalizable {
   final Pointer<Void> handle;
   LambdaComments_NoCommentsWithNamedParams$Impl(this.handle);
 

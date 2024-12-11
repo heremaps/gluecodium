@@ -428,7 +428,7 @@ final _smokeOuterstructInnerlambdaCreateProxy = __lib.catchArgumentError(() => _
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_OuterStruct_InnerLambda_create_proxy'));
 
-class OuterStruct_InnerLambda$Impl {
+class OuterStruct_InnerLambda$Impl implements Finalizable {
   final Pointer<Void> handle;
   OuterStruct_InnerLambda$Impl(this.handle);
 

@@ -98,7 +98,7 @@ final _smokeAsyncrenamedDisposeresultlambdaCreateProxy = __lib.catchArgumentErro
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_AsyncRenamed_DisposeResultlambda_create_proxy'));
 
-class AsyncRenamed_dispose__resultLambda$Impl {
+class AsyncRenamed_dispose__resultLambda$Impl implements Finalizable {
   final Pointer<Void> handle;
   AsyncRenamed_dispose__resultLambda$Impl(this.handle);
 

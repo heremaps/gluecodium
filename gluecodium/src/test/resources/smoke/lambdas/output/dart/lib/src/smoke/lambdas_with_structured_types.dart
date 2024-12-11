@@ -36,7 +36,7 @@ final _smokeLambdaswithstructuredtypesClasscallbackCreateProxy = __lib.catchArgu
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_LambdasWithStructuredTypes_ClassCallback_create_proxy'));
 
-class LambdasWithStructuredTypes_ClassCallback$Impl {
+class LambdasWithStructuredTypes_ClassCallback$Impl implements Finalizable {
   final Pointer<Void> handle;
   LambdasWithStructuredTypes_ClassCallback$Impl(this.handle);
 
@@ -136,7 +136,7 @@ final _smokeLambdaswithstructuredtypesStructcallbackCreateProxy = __lib.catchArg
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_LambdasWithStructuredTypes_StructCallback_create_proxy'));
 
-class LambdasWithStructuredTypes_StructCallback$Impl {
+class LambdasWithStructuredTypes_StructCallback$Impl implements Finalizable {
   final Pointer<Void> handle;
   LambdasWithStructuredTypes_StructCallback$Impl(this.handle);
 
