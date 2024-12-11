@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2021 HERE Europe B.V.
+  ! Copyright (C) 2016-2024 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ class _LazyIterator<E> implements Iterator<E> {
 }
 
 /// @nodoc
-class LazyList<E> extends Iterable<E> implements List<E> {
+class LazyList<E> extends Iterable<E> implements List<E>, Finalizable {
   static final _cannotModify = "Cannot modify an unmodifiable list";
 
   final Pointer<Void> handle;
