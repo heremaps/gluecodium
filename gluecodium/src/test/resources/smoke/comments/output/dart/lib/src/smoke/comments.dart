@@ -8,7 +8,7 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 
 /// This is some very useful interface.
-abstract class Comments {
+abstract class Comments implements Finalizable {
 
   /// This is some very useful constant.
   static final bool veryUseful = true;

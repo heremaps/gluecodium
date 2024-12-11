@@ -1,3 +1,5 @@
+
+
 import 'dart:ffi';
 import 'package:library/src/_lazy_list.dart' as __lib;
 import 'package:library/src/_library_context.dart' as __lib;
@@ -7,15 +9,22 @@ import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/unreasonably_lazy_class.dart';
 import 'package:library/src/smoke/very_big_struct.dart';
 import 'package:meta/meta.dart';
-abstract class UseOptimizedList {
+
+abstract class UseOptimizedList implements Finalizable {
+
 
   static List<VeryBigStruct> fetchTheBigOnes() => $prototype.fetchTheBigOnes();
   static List<UnreasonablyLazyClass> get lazyOnes => $prototype.lazyOnes;
+
+
   /// @nodoc
   @visibleForTesting
   static dynamic $prototype = UseOptimizedList$Impl(Pointer<Void>.fromAddress(0));
 }
+
+
 // UseOptimizedList "private" section, not exported.
+
 final _smokeUseoptimizedlistRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Int32, Handle),
     void Function(Pointer<Void>, int, Object)
@@ -28,6 +37,7 @@ final _smokeUseoptimizedlistReleaseHandle = __lib.catchArgumentError(() => __lib
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_UseOptimizedList_release_handle'));
+
 final _smokeUseoptimizedlistsmokeUnreasonablylazyclassLazyListGetSize = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
@@ -52,9 +62,12 @@ final _smokeUseoptimizedlistsmokeVerybigstructLazyListRegisterFinalizer = __lib.
     Void Function(Pointer<Void>, Int32, Handle),
     void Function(Pointer<Void>, int, Object)
   >('library_smoke_UseOptimizedList_smoke_VeryBigStructLazyList_register_finalizer'));
+
+
 /// @nodoc
 @visibleForTesting
 class UseOptimizedList$Impl extends __lib.NativeBase implements UseOptimizedList {
+
   UseOptimizedList$Impl(Pointer<Void> handle) : super(handle);
 
   List<VeryBigStruct> fetchTheBigOnes() {
@@ -71,7 +84,9 @@ class UseOptimizedList$Impl extends __lib.NativeBase implements UseOptimizedList
         },
         (obj) => _smokeUseoptimizedlistsmokeVerybigstructLazyListRegisterFinalizer(__resultHandle, __lib.LibraryContext.isolateId, obj)
       );
+
   }
+
   List<UnreasonablyLazyClass> get lazyOnes {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_UseOptimizedList_lazyOnes_get'));
     final __resultHandle = _getFfi(__lib.LibraryContext.isolateId);
@@ -86,26 +101,40 @@ class UseOptimizedList$Impl extends __lib.NativeBase implements UseOptimizedList
         },
         (obj) => _smokeUseoptimizedlistsmokeUnreasonablylazyclassLazyListRegisterFinalizer(__resultHandle, __lib.LibraryContext.isolateId, obj)
       );
+
   }
+
+
+
 }
+
 Pointer<Void> smokeUseoptimizedlistToFfi(UseOptimizedList value) =>
   _smokeUseoptimizedlistCopyHandle((value as __lib.NativeBase).handle);
+
 UseOptimizedList smokeUseoptimizedlistFromFfi(Pointer<Void> handle) {
   if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is UseOptimizedList) return instance;
+
   final _copiedHandle = _smokeUseoptimizedlistCopyHandle(handle);
   final result = UseOptimizedList$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
   _smokeUseoptimizedlistRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
+
 void smokeUseoptimizedlistReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeUseoptimizedlistReleaseHandle(handle);
+
 Pointer<Void> smokeUseoptimizedlistToFfiNullable(UseOptimizedList? value) =>
   value != null ? smokeUseoptimizedlistToFfi(value) : Pointer<Void>.fromAddress(0);
+
 UseOptimizedList? smokeUseoptimizedlistFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeUseoptimizedlistFromFfi(handle) : null;
+
 void smokeUseoptimizedlistReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeUseoptimizedlistReleaseHandle(handle);
+
 // End of UseOptimizedList "private" section.
+
+

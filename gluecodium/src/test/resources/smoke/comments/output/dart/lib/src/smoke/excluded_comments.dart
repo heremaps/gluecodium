@@ -8,7 +8,7 @@ import 'package:library/src/builtin_types__conversion.dart';
 
 /// This is some very useful class.
 /// @nodoc
-abstract class ExcludedComments {
+abstract class ExcludedComments implements Finalizable {
 
   /// This is some very useful constant.
   /// @nodoc

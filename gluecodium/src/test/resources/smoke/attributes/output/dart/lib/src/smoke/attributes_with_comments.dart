@@ -8,7 +8,7 @@ import 'package:library/src/builtin_types__conversion.dart';
 
 /// Class comment
 @OnClass
-abstract class AttributesWithComments {
+abstract class AttributesWithComments implements Finalizable {
 
   /// Const comment
   @OnConstInClass

@@ -1,20 +1,31 @@
+
+
 import 'dart:ffi';
 import 'package:intl/locale.dart';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
-abstract class Locales {
+
+abstract class Locales implements Finalizable {
+
 
   Locale localeMethod(Locale input);
   Locale get localeProperty;
   set localeProperty(Locale value);
+
 }
+
+
 class Locales_LocaleStruct {
   Locale localeField;
+
   Locales_LocaleStruct(this.localeField);
 }
+
+
 // Locales_LocaleStruct "private" section, not exported.
+
 final _smokeLocalesLocalestructCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -27,12 +38,16 @@ final _smokeLocalesLocalestructGetFieldlocaleField = __lib.catchArgumentError(()
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Locales_LocaleStruct_get_field_localeField'));
+
+
+
 Pointer<Void> smokeLocalesLocalestructToFfi(Locales_LocaleStruct value) {
   final _localeFieldHandle = localeToFfi(value.localeField);
   final _result = _smokeLocalesLocalestructCreateHandle(_localeFieldHandle);
   localeReleaseFfiHandle(_localeFieldHandle);
   return _result;
 }
+
 Locales_LocaleStruct smokeLocalesLocalestructFromFfi(Pointer<Void> handle) {
   final _localeFieldHandle = _smokeLocalesLocalestructGetFieldlocaleField(handle);
   try {
@@ -43,8 +58,11 @@ Locales_LocaleStruct smokeLocalesLocalestructFromFfi(Pointer<Void> handle) {
     localeReleaseFfiHandle(_localeFieldHandle);
   }
 }
+
 void smokeLocalesLocalestructReleaseFfiHandle(Pointer<Void> handle) => _smokeLocalesLocalestructReleaseHandle(handle);
+
 // Nullable Locales_LocaleStruct
+
 final _smokeLocalesLocalestructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -57,6 +75,7 @@ final _smokeLocalesLocalestructGetValueNullable = __lib.catchArgumentError(() =>
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_Locales_LocaleStruct_get_value_nullable'));
+
 Pointer<Void> smokeLocalesLocalestructToFfiNullable(Locales_LocaleStruct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeLocalesLocalestructToFfi(value);
@@ -64,6 +83,7 @@ Pointer<Void> smokeLocalesLocalestructToFfiNullable(Locales_LocaleStruct? value)
   smokeLocalesLocalestructReleaseFfiHandle(_handle);
   return result;
 }
+
 Locales_LocaleStruct? smokeLocalesLocalestructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeLocalesLocalestructGetValueNullable(handle);
@@ -71,10 +91,14 @@ Locales_LocaleStruct? smokeLocalesLocalestructFromFfiNullable(Pointer<Void> hand
   smokeLocalesLocalestructReleaseFfiHandle(_handle);
   return result;
 }
+
 void smokeLocalesLocalestructReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeLocalesLocalestructReleaseHandleNullable(handle);
+
 // End of Locales_LocaleStruct "private" section.
+
 // Locales "private" section, not exported.
+
 final _smokeLocalesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Int32, Handle),
     void Function(Pointer<Void>, int, Object)
@@ -87,7 +111,11 @@ final _smokeLocalesReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLi
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Locales_release_handle'));
+
+
+
 class Locales$Impl extends __lib.NativeBase implements Locales {
+
   Locales$Impl(Pointer<Void> handle) : super(handle);
 
   @override
@@ -101,8 +129,11 @@ class Locales$Impl extends __lib.NativeBase implements Locales {
       return localeFromFfi(__resultHandle);
     } finally {
       localeReleaseFfiHandle(__resultHandle);
+
     }
+
   }
+
   @override
   Locale get localeProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Locales_localeProperty_get'));
@@ -112,8 +143,11 @@ class Locales$Impl extends __lib.NativeBase implements Locales {
       return localeFromFfi(__resultHandle);
     } finally {
       localeReleaseFfiHandle(__resultHandle);
+
     }
+
   }
+
   @override
   set localeProperty(Locale value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Locales_localeProperty_set__Locale'));
@@ -121,26 +155,40 @@ class Locales$Impl extends __lib.NativeBase implements Locales {
     final _handle = this.handle;
     _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     localeReleaseFfiHandle(_valueHandle);
+
   }
+
+
+
 }
+
 Pointer<Void> smokeLocalesToFfi(Locales value) =>
   _smokeLocalesCopyHandle((value as __lib.NativeBase).handle);
+
 Locales smokeLocalesFromFfi(Pointer<Void> handle) {
   if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is Locales) return instance;
+
   final _copiedHandle = _smokeLocalesCopyHandle(handle);
   final result = Locales$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
   _smokeLocalesRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
+
 void smokeLocalesReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeLocalesReleaseHandle(handle);
+
 Pointer<Void> smokeLocalesToFfiNullable(Locales? value) =>
   value != null ? smokeLocalesToFfi(value) : Pointer<Void>.fromAddress(0);
+
 Locales? smokeLocalesFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeLocalesFromFfi(handle) : null;
+
 void smokeLocalesReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeLocalesReleaseHandle(handle);
+
 // End of Locales "private" section.
+
+

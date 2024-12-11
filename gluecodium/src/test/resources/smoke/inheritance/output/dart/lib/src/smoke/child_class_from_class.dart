@@ -1,3 +1,5 @@
+
+
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
@@ -5,11 +7,16 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/parent_class.dart';
-abstract class ChildClassFromClass implements ParentClass {
+
+abstract class ChildClassFromClass implements ParentClass, Finalizable {
+
 
   void childClassMethod();
 }
+
+
 // ChildClassFromClass "private" section, not exported.
+
 final _smokeChildclassfromclassRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Int32, Handle),
     void Function(Pointer<Void>, int, Object)
@@ -26,7 +33,11 @@ final _smokeChildclassfromclassGetTypeId = __lib.catchArgumentError(() => __lib.
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ChildClassFromClass_get_type_id'));
+
+
+
 class ChildClassFromClass$Impl extends ParentClass$Impl implements ChildClassFromClass {
+
   ChildClassFromClass$Impl(Pointer<Void> handle) : super(handle);
 
   @override
@@ -34,17 +45,24 @@ class ChildClassFromClass$Impl extends ParentClass$Impl implements ChildClassFro
     final _childClassMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ChildClassFromClass_childClassMethod'));
     final _handle = this.handle;
     _childClassMethodFfi(_handle, __lib.LibraryContext.isolateId);
+
   }
+
+
 }
+
 Pointer<Void> smokeChildclassfromclassToFfi(ChildClassFromClass value) =>
   _smokeChildclassfromclassCopyHandle((value as __lib.NativeBase).handle);
+
 ChildClassFromClass smokeChildclassfromclassFromFfi(Pointer<Void> handle) {
   if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is ChildClassFromClass) return instance;
+
   final _typeIdHandle = _smokeChildclassfromclassGetTypeId(handle);
   final factoryConstructor = __lib.typeRepository[stringFromFfi(_typeIdHandle)];
   stringReleaseFfiHandle(_typeIdHandle);
+
   final _copiedHandle = _smokeChildclassfromclassCopyHandle(handle);
   final result = factoryConstructor != null
     ? factoryConstructor(_copiedHandle)
@@ -53,12 +71,19 @@ ChildClassFromClass smokeChildclassfromclassFromFfi(Pointer<Void> handle) {
   _smokeChildclassfromclassRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
+
 void smokeChildclassfromclassReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeChildclassfromclassReleaseHandle(handle);
+
 Pointer<Void> smokeChildclassfromclassToFfiNullable(ChildClassFromClass? value) =>
   value != null ? smokeChildclassfromclassToFfi(value) : Pointer<Void>.fromAddress(0);
+
 ChildClassFromClass? smokeChildclassfromclassFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeChildclassfromclassFromFfi(handle) : null;
+
 void smokeChildclassfromclassReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeChildclassfromclassReleaseHandle(handle);
+
 // End of ChildClassFromClass "private" section.
+
+

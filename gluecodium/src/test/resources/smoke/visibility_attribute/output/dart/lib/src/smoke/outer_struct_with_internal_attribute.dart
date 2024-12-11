@@ -97,7 +97,7 @@ void smokeOuterstructwithinternalattributeStructnestedininternalstructReleaseFfi
   _smokeOuterstructwithinternalattributeStructnestedininternalstructReleaseHandleNullable(handle);
 
 // End of OuterStructWithInternalAttribute_StructNestedInInternalStruct "private" section.
-abstract class OuterStructWithInternalAttribute_ClassNestedInInternalStruct {
+abstract class OuterStructWithInternalAttribute_ClassNestedInInternalStruct implements Finalizable {
 
 }
 
