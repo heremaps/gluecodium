@@ -117,7 +117,7 @@ popd
 # Run SwiftLint if available
 if which swiftlint; then
     pushd functional/swift > /dev/null
-    swiftlint --path . > "${BUILD_DIR}/swiftlint.xml"
+    swiftlint . > "${BUILD_DIR}/swiftlint.xml"
     popd > /dev/null
 else
     echo "SwiftLint was not found, skip linting"
