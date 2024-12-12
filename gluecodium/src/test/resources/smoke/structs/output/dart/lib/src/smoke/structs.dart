@@ -10,7 +10,7 @@ import 'package:library/src/generic_types__conversion.dart';
 import 'package:library/src/smoke/type_collection.dart';
 import 'package:meta/meta.dart';
 
-abstract class Structs {
+abstract class Structs implements Finalizable {
 
 
   static Structs_Point swapPointCoordinates(Structs_Point input) => $prototype.swapPointCoordinates(input);

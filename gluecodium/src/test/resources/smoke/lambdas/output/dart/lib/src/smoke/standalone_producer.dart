@@ -1,9 +1,14 @@
+
+
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+
 typedef StandaloneProducer = String Function();
+
 // StandaloneProducer "private" section, not exported.
+
 final _smokeStandaloneproducerRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Int32, Handle),
     void Function(Pointer<Void>, int, Object)
@@ -20,9 +25,11 @@ final _smokeStandaloneproducerCreateProxy = __lib.catchArgumentError(() => __lib
     Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_StandaloneProducer_create_proxy'));
-class StandaloneProducer$Impl {
+
+class StandaloneProducer$Impl implements Finalizable {
   final Pointer<Void> handle;
   StandaloneProducer$Impl(this.handle);
+
   String call() {
     final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_StandaloneProducer_call'));
     final _handle = this.handle;
@@ -31,9 +38,13 @@ class StandaloneProducer$Impl {
       return stringFromFfi(__resultHandle);
     } finally {
       stringReleaseFfiHandle(__resultHandle);
+
     }
+
   }
+
 }
+
 int _smokeStandaloneproducercallStatic(Object _obj, Pointer<Pointer<Void>> _result) {
   String? _resultObject;
   try {
@@ -43,6 +54,7 @@ int _smokeStandaloneproducercallStatic(Object _obj, Pointer<Pointer<Void>> _resu
   }
   return 0;
 }
+
 Pointer<Void> smokeStandaloneproducerToFfi(StandaloneProducer value) =>
   _smokeStandaloneproducerCreateProxy(
     __lib.getObjectToken(value),
@@ -50,6 +62,7 @@ Pointer<Void> smokeStandaloneproducerToFfi(StandaloneProducer value) =>
     value,
     Pointer.fromFunction<Int64 Function(Handle, Pointer<Pointer<Void>>)>(_smokeStandaloneproducercallStatic, __lib.unknownError)
   );
+
 StandaloneProducer smokeStandaloneproducerFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeStandaloneproducerCopyHandle(handle);
   final _impl = StandaloneProducer$Impl(_copiedHandle);
@@ -57,9 +70,12 @@ StandaloneProducer smokeStandaloneproducerFromFfi(Pointer<Void> handle) {
   _smokeStandaloneproducerRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
+
 void smokeStandaloneproducerReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeStandaloneproducerReleaseHandle(handle);
+
 // Nullable StandaloneProducer
+
 final _smokeStandaloneproducerCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -72,6 +88,7 @@ final _smokeStandaloneproducerGetValueNullable = __lib.catchArgumentError(() => 
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StandaloneProducer_get_value_nullable'));
+
 Pointer<Void> smokeStandaloneproducerToFfiNullable(StandaloneProducer? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeStandaloneproducerToFfi(value);
@@ -79,6 +96,7 @@ Pointer<Void> smokeStandaloneproducerToFfiNullable(StandaloneProducer? value) {
   smokeStandaloneproducerReleaseFfiHandle(_handle);
   return result;
 }
+
 StandaloneProducer? smokeStandaloneproducerFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeStandaloneproducerGetValueNullable(handle);
@@ -86,6 +104,10 @@ StandaloneProducer? smokeStandaloneproducerFromFfiNullable(Pointer<Void> handle)
   smokeStandaloneproducerReleaseFfiHandle(_handle);
   return result;
 }
+
 void smokeStandaloneproducerReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeStandaloneproducerReleaseHandleNullable(handle);
+
 // End of StandaloneProducer "private" section.
+
+

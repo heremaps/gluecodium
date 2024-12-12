@@ -1,7 +1,10 @@
+
+
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
+
 /// First line.
 ///
 /// Second line.
@@ -27,10 +30,13 @@ import 'package:library/src/_token_cache.dart' as __lib;
 /// ---
 ///
 /// [title](https://www.markdownguide.org/cheat-sheet/)
-abstract class CommentsMarkdown {
+abstract class CommentsMarkdown implements Finalizable {
 
 }
+
+
 // CommentsMarkdown "private" section, not exported.
+
 final _smokeCommentsmarkdownRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>, Int32, Handle),
     void Function(Pointer<Void>, int, Object)
@@ -43,28 +49,42 @@ final _smokeCommentsmarkdownReleaseHandle = __lib.catchArgumentError(() => __lib
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_CommentsMarkdown_release_handle'));
+
+
 class CommentsMarkdown$Impl extends __lib.NativeBase implements CommentsMarkdown {
+
   CommentsMarkdown$Impl(Pointer<Void> handle) : super(handle);
 
+
 }
+
 Pointer<Void> smokeCommentsmarkdownToFfi(CommentsMarkdown value) =>
   _smokeCommentsmarkdownCopyHandle((value as __lib.NativeBase).handle);
+
 CommentsMarkdown smokeCommentsmarkdownFromFfi(Pointer<Void> handle) {
   if (handle.address == 0) throw StateError("Expected non-null value.");
   final instance = __lib.getCachedInstance(handle);
   if (instance != null && instance is CommentsMarkdown) return instance;
+
   final _copiedHandle = _smokeCommentsmarkdownCopyHandle(handle);
   final result = CommentsMarkdown$Impl(_copiedHandle);
   __lib.cacheInstance(_copiedHandle, result);
   _smokeCommentsmarkdownRegisterFinalizer(_copiedHandle, __lib.LibraryContext.isolateId, result);
   return result;
 }
+
 void smokeCommentsmarkdownReleaseFfiHandle(Pointer<Void> handle) =>
   _smokeCommentsmarkdownReleaseHandle(handle);
+
 Pointer<Void> smokeCommentsmarkdownToFfiNullable(CommentsMarkdown? value) =>
   value != null ? smokeCommentsmarkdownToFfi(value) : Pointer<Void>.fromAddress(0);
+
 CommentsMarkdown? smokeCommentsmarkdownFromFfiNullable(Pointer<Void> handle) =>
   handle.address != 0 ? smokeCommentsmarkdownFromFfi(handle) : null;
+
 void smokeCommentsmarkdownReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeCommentsmarkdownReleaseHandle(handle);
+
 // End of CommentsMarkdown "private" section.
+
+

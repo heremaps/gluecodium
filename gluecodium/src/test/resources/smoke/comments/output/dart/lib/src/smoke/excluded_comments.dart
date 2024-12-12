@@ -8,7 +8,7 @@ import 'package:library/src/builtin_types__conversion.dart';
 
 /// This is some very useful class.
 /// @nodoc
-abstract class ExcludedComments {
+abstract class ExcludedComments implements Finalizable {
 
   /// This is some very useful constant.
   /// @nodoc
@@ -227,7 +227,7 @@ final _smokeExcludedcommentsSomelambdaCreateProxy = __lib.catchArgumentError(() 
     Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_ExcludedComments_SomeLambda_create_proxy'));
 
-class ExcludedComments_SomeLambda$Impl {
+class ExcludedComments_SomeLambda$Impl implements Finalizable {
   final Pointer<Void> handle;
   ExcludedComments_SomeLambda$Impl(this.handle);
 
