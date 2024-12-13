@@ -73,7 +73,14 @@ internal class JniTemplates(
 
     private val javaSignatureResolver = JavaSignatureResolver(limeReferenceMap, javaNameRules, activeTags)
     private val generatorPredicates =
-        JniGeneratorPredicates(limeReferenceMap, javaSignatureResolver, nameCache.nameRules, cppNameResolver, activeTags)
+        JniGeneratorPredicates(
+            limeReferenceMap = limeReferenceMap,
+            platformSignatureResolver = javaSignatureResolver,
+            platformAttribute = LimeAttributeType.JAVA,
+            cppNameRules = nameCache.nameRules,
+            cppNameResolver = cppNameResolver,
+            activeTags = activeTags,
+        )
 
     private val cppIncludeResolver = CppIncludeResolver(limeReferenceMap, cppNameRules, internalNamespace)
     private val jniIncludeResolver = JniIncludeResolver(fileNameRules, descendantInterfaces)

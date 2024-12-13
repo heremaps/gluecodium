@@ -26,7 +26,6 @@ import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.cpp.CppSignatureResolver
 import com.here.gluecodium.model.lime.LimeAttributeType
-import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId.BOOLEAN
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId.VOID
@@ -51,6 +50,7 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 internal class JniGeneratorPredicates(
     private val limeReferenceMap: Map<String, LimeElement>,
     private val platformSignatureResolver: PlatformSignatureResolver,
+    private val platformAttribute: LimeAttributeType,
     cppNameRules: CppNameRules,
     cppNameResolver: CppNameResolver,
     private val activeTags: Set<String>,
@@ -113,7 +113,7 @@ internal class JniGeneratorPredicates(
         )
 
     fun shouldRetain(limeElement: LimeNamedElement) =
-        LimeModelSkipPredicates.shouldRetainCheckParent(limeElement, activeTags, JAVA, limeReferenceMap)
+        LimeModelSkipPredicates.shouldRetainCheckParent(limeElement, activeTags, platformAttribute, limeReferenceMap)
 
     private fun collectOverloadedLambdas(): Set<String> {
         val lambdas = limeReferenceMap.values.filterIsInstance<LimeLambda>()
