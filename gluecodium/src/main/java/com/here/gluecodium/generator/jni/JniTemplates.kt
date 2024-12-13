@@ -31,6 +31,7 @@ import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.java.JavaGenerator
 import com.here.gluecodium.generator.java.JavaNameRules
+import com.here.gluecodium.generator.java.JavaSignatureResolver
 import com.here.gluecodium.generator.jni.JniGeneratorPredicates.Companion.hasThrowingFunctions
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributes
@@ -69,8 +70,10 @@ internal class JniTemplates(
             "C++" to cppNameResolver,
             "C++ FQN" to CppFullNameResolver(nameCache),
         )
+
+    private val javaSignatureResolver = JavaSignatureResolver(limeReferenceMap, javaNameRules, activeTags)
     private val generatorPredicates =
-        JniGeneratorPredicates(limeReferenceMap, javaNameRules, nameCache.nameRules, cppNameResolver, activeTags)
+        JniGeneratorPredicates(limeReferenceMap, javaSignatureResolver, nameCache.nameRules, cppNameResolver, activeTags)
 
     private val cppIncludeResolver = CppIncludeResolver(limeReferenceMap, cppNameRules, internalNamespace)
     private val jniIncludeResolver = JniIncludeResolver(fileNameRules, descendantInterfaces)
