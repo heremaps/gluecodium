@@ -97,7 +97,7 @@ internal class JniGeneratorPredicates(
 
                 fun(limeEnumeration: Any): Boolean {
                     if (limeEnumeration !is LimeEnumeration) return false
-                    val descriptor = limeEnumeration.external?.java ?: return false
+                    val descriptor = limeEnumeration.external?.getFor(platformAttribute) ?: return false
                     return !descriptor.containsKey(CONVERTER_NAME)
                 },
             "needsRefSuffix" to { limeTypeRef: Any ->
