@@ -156,6 +156,7 @@ internal class JavaGenerator : Generator {
         val jniTemplates =
             JniTemplates(
                 generatorName = GENERATOR_NAME,
+                platformAttribute = JAVA,
                 limeReferenceMap = jniFilteredModel.referenceMap,
                 javaNameRules = javaNameRules,
                 basePackages = basePackages,

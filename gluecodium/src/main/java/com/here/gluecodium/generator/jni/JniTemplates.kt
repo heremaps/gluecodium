@@ -48,6 +48,7 @@ import com.here.gluecodium.model.lime.LimeType
 
 internal class JniTemplates(
     generatorName: String,
+    private val platformAttribute: LimeAttributeType,
     private val limeReferenceMap: Map<String, LimeElement>,
     javaNameRules: JavaNameRules,
     private val basePackages: List<String>,
@@ -76,7 +77,7 @@ internal class JniTemplates(
         JniGeneratorPredicates(
             limeReferenceMap = limeReferenceMap,
             platformSignatureResolver = javaSignatureResolver,
-            platformAttribute = LimeAttributeType.JAVA,
+            platformAttribute = platformAttribute,
             cppNameRules = nameCache.nameRules,
             cppNameResolver = cppNameResolver,
             activeTags = activeTags,
@@ -244,7 +245,7 @@ internal class JniTemplates(
 
         mustacheData["includes"] = listOf(selfInclude) +
             limeStruct.fields.filter {
-                CommonGeneratorPredicates.needsImportsForSkippedField(it, LimeAttributeType.JAVA, limeReferenceMap)
+                CommonGeneratorPredicates.needsImportsForSkippedField(it, platformAttribute, limeReferenceMap)
             }.flatMap { cppIncludeResolver.resolveElementImports(it.typeRef) }
         val implFile =
             GeneratedFile(
