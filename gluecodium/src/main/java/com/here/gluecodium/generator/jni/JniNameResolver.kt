@@ -21,6 +21,7 @@ package com.here.gluecodium.generator.jni
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.NameResolver
+import com.here.gluecodium.generator.common.NameRules
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
 import com.here.gluecodium.generator.java.JavaNameRules
 import com.here.gluecodium.model.lime.LimeAttributeType.CACHED
@@ -47,7 +48,7 @@ import com.here.gluecodium.model.lime.LimeTypedElement
 internal class JniNameResolver(
     limeReferenceMap: Map<String, LimeElement>,
     private val basePackages: List<String>,
-    private val javaNameRules: JavaNameRules,
+    private val nameRules: NameRules,
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
     override fun resolveName(element: Any): String =
         when (element) {
@@ -56,7 +57,7 @@ internal class JniNameResolver(
             is LimeTypeRef -> resolveTypeRef(element)
             is LimeReturnType -> resolveTypeRef(element.typeRef)
             is LimeFunction -> resolveFunctionName(element)
-            is LimeNamedElement -> javaNameRules.getName(element)
+            is LimeNamedElement -> nameRules.getName(element)
             else ->
                 throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
         }
@@ -71,7 +72,7 @@ internal class JniNameResolver(
     override fun resolveReferenceName(element: Any) =
         when {
             element is LimeTypeRef && element.attributes.have(OPTIMIZED) ->
-                javaNameRules.getName((element.type.actualType as LimeList).elementType.type.actualType) + "LazyNativeList"
+                nameRules.getName((element.type.actualType as LimeList).elementType.type.actualType) + "LazyNativeList"
             element !is LimeType ->
                 throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
             element.external?.java?.get(CONVERTER_NAME) == null -> resolveTypeName(element)
@@ -80,10 +81,10 @@ internal class JniNameResolver(
 
     private fun resolveAccessorName(
         element: Any,
-        rule: JavaNameRules.(LimeTypedElement) -> String,
+        rule: NameRules.(LimeTypedElement) -> String,
     ): String? {
         val limeTypedElement = element as? LimeTypedElement ?: return null
-        return javaNameRules.rule(limeTypedElement) +
+        return nameRules.rule(limeTypedElement) +
             if (limeTypedElement.attributes.have(CACHED)) "_private" else ""
     }
 
@@ -122,12 +123,12 @@ internal class JniNameResolver(
     }
 
     private fun resolveFunctionName(limeFunction: LimeFunction): String {
-        val parentLambda = getParentElement(limeFunction) as? LimeLambda ?: return javaNameRules.getName(limeFunction)
+        val parentLambda = getParentElement(limeFunction) as? LimeLambda ?: return nameRules.getName(limeFunction)
         return parentLambda.attributes.get(JAVA, FUNCTION_NAME) ?: "apply"
     }
 
     private fun resolveNestedNames(limeElement: LimeNamedElement): List<String> {
-        val elementName = javaNameRules.getName(limeElement)
+        val elementName = nameRules.getName(limeElement)
         val parentElement = if (limeElement.path.hasParent) getParentElement(limeElement) else null
         return when (parentElement) {
             null -> listOf(elementName)
