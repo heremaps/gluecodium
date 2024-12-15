@@ -22,6 +22,7 @@ package com.here.gluecodium.generator.jni
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Include
+import com.here.gluecodium.generator.common.NameRules
 import com.here.gluecodium.generator.common.OptimizedListsCollector
 import com.here.gluecodium.generator.common.PlatformSignatureResolver
 import com.here.gluecodium.generator.common.templates.TemplateEngine
@@ -30,7 +31,6 @@ import com.here.gluecodium.generator.cpp.CppIncludeResolver
 import com.here.gluecodium.generator.cpp.CppNameCache
 import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
-import com.here.gluecodium.generator.java.JavaNameRules
 import com.here.gluecodium.generator.jni.JniGeneratorPredicates.Companion.hasThrowingFunctions
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributes
@@ -50,7 +50,7 @@ internal class JniTemplates(
     generatorName: String,
     private val platformAttribute: LimeAttributeType,
     private val limeReferenceMap: Map<String, LimeElement>,
-    javaNameRules: JavaNameRules,
+    nameRules: NameRules,
     signatureResolver: PlatformSignatureResolver,
     private val basePackages: List<String>,
     internalPackages: List<String>,
@@ -60,7 +60,7 @@ internal class JniTemplates(
     activeTags: Set<String>,
     private val descendantInterfaces: Map<String, List<LimeInterface>>,
 ) {
-    private val jniNameResolver = JniNameResolver(limeReferenceMap, basePackages, javaNameRules)
+    private val jniNameResolver = JniNameResolver(limeReferenceMap, basePackages, nameRules)
     private val cppNameResolver = CppNameResolver(limeReferenceMap, internalNamespace, nameCache)
     private val fileNameRules = JniFileNameRules(generatorName, jniNameResolver)
     private val fullInternalPackages = basePackages + internalPackages

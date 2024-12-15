@@ -158,7 +158,7 @@ internal class JavaGenerator : Generator {
                 generatorName = GENERATOR_NAME,
                 platformAttribute = JAVA,
                 limeReferenceMap = jniFilteredModel.referenceMap,
-                javaNameRules = javaNameRules,
+                nameRules = javaNameRules,
                 signatureResolver = signatureResolver,
                 basePackages = basePackages,
                 internalPackages = internalPackage,
