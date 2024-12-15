@@ -23,6 +23,7 @@ import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.common.OptimizedListsCollector
+import com.here.gluecodium.generator.common.PlatformSignatureResolver
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.CppFullNameResolver
 import com.here.gluecodium.generator.cpp.CppIncludeResolver
@@ -30,7 +31,6 @@ import com.here.gluecodium.generator.cpp.CppNameCache
 import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.java.JavaNameRules
-import com.here.gluecodium.generator.java.JavaSignatureResolver
 import com.here.gluecodium.generator.jni.JniGeneratorPredicates.Companion.hasThrowingFunctions
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributes
@@ -51,6 +51,7 @@ internal class JniTemplates(
     private val platformAttribute: LimeAttributeType,
     private val limeReferenceMap: Map<String, LimeElement>,
     javaNameRules: JavaNameRules,
+    signatureResolver: PlatformSignatureResolver,
     private val basePackages: List<String>,
     internalPackages: List<String>,
     private val internalNamespace: List<String>,
@@ -72,11 +73,10 @@ internal class JniTemplates(
             "C++ FQN" to CppFullNameResolver(nameCache),
         )
 
-    private val javaSignatureResolver = JavaSignatureResolver(limeReferenceMap, javaNameRules, activeTags)
     private val generatorPredicates =
         JniGeneratorPredicates(
             limeReferenceMap = limeReferenceMap,
-            platformSignatureResolver = javaSignatureResolver,
+            platformSignatureResolver = signatureResolver,
             platformAttribute = platformAttribute,
             cppNameRules = nameCache.nameRules,
             cppNameResolver = cppNameResolver,
