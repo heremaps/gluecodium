@@ -29,7 +29,6 @@ import com.here.gluecodium.generator.cpp.CppIncludeResolver
 import com.here.gluecodium.generator.cpp.CppNameCache
 import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
-import com.here.gluecodium.generator.java.JavaGenerator
 import com.here.gluecodium.generator.java.JavaNameRules
 import com.here.gluecodium.generator.java.JavaSignatureResolver
 import com.here.gluecodium.generator.jni.JniGeneratorPredicates.Companion.hasThrowingFunctions
@@ -48,6 +47,7 @@ import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 
 internal class JniTemplates(
+    generatorName: String,
     private val limeReferenceMap: Map<String, LimeElement>,
     javaNameRules: JavaNameRules,
     private val basePackages: List<String>,
@@ -60,7 +60,7 @@ internal class JniTemplates(
 ) {
     private val jniNameResolver = JniNameResolver(limeReferenceMap, basePackages, javaNameRules)
     private val cppNameResolver = CppNameResolver(limeReferenceMap, internalNamespace, nameCache)
-    private val fileNameRules = JniFileNameRules(JavaGenerator.GENERATOR_NAME, jniNameResolver)
+    private val fileNameRules = JniFileNameRules(generatorName, jniNameResolver)
     private val fullInternalPackages = basePackages + internalPackages
     private val nameResolvers =
         mapOf(
