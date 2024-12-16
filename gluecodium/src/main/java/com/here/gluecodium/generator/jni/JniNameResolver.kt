@@ -23,8 +23,8 @@ import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
+import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeType.CACHED
-import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
 import com.here.gluecodium.model.lime.LimeAttributeType.OPTIMIZED
 import com.here.gluecodium.model.lime.LimeAttributeValueType.FUNCTION_NAME
 import com.here.gluecodium.model.lime.LimeBasicType
@@ -45,6 +45,7 @@ import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeTypedElement
 
 internal class JniNameResolver(
+    private val platformAttribute: LimeAttributeType,
     limeReferenceMap: Map<String, LimeElement>,
     private val basePackages: List<String>,
     private val nameRules: NameRules,
@@ -78,7 +79,7 @@ internal class JniNameResolver(
                 nameRules.getName((element.type.actualType as LimeList).elementType.type.actualType) + "LazyNativeList"
             element !is LimeType ->
                 throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
-            element.external?.java?.get(CONVERTER_NAME) == null -> resolveTypeName(element)
+            element.external?.getFor(platformAttribute)?.get(CONVERTER_NAME) == null -> resolveTypeName(element)
             else -> createJavaTypePath(basePackages + element.path.head, resolveNestedNames(element))
         }
 
@@ -107,7 +108,7 @@ internal class JniNameResolver(
             is LimeSet -> "java/util/Set"
             is LimeMap -> "java/util/Map"
             else ->
-                limeType.external?.java?.get(LimeExternalDescriptor.NAME_NAME)?.let { createJavaTypePath(it) }
+                limeType.external?.getFor(platformAttribute)?.get(LimeExternalDescriptor.NAME_NAME)?.let { createJavaTypePath(it) }
                     ?: createJavaTypePath(basePackages + actualType.path.head, resolveNestedNames(actualType))
         }
 
@@ -124,7 +125,7 @@ internal class JniNameResolver(
 
     private fun resolveFunctionName(limeFunction: LimeFunction): String {
         val parentLambda = getParentElement(limeFunction) as? LimeLambda ?: return nameRules.getName(limeFunction)
-        return parentLambda.attributes.get(JAVA, FUNCTION_NAME) ?: "apply"
+        return parentLambda.attributes.get(platformAttribute, FUNCTION_NAME) ?: "apply"
     }
 
     private fun resolveNestedNames(limeElement: LimeNamedElement): List<String> {
