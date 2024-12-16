@@ -23,7 +23,6 @@ import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.generator.common.NameRules
 import com.here.gluecodium.generator.common.ReferenceMapBasedResolver
-import com.here.gluecodium.generator.java.JavaNameRules
 import com.here.gluecodium.model.lime.LimeAttributeType.CACHED
 import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
 import com.here.gluecodium.model.lime.LimeAttributeType.OPTIMIZED
@@ -49,7 +48,11 @@ internal class JniNameResolver(
     limeReferenceMap: Map<String, LimeElement>,
     private val basePackages: List<String>,
     private val nameRules: NameRules,
+    externalNameRules: Map<String, (String) -> List<String>>,
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
+    val getPackageFromImportString = externalNameRules["getPackageFromImportString"]!!
+    val getClassNamesFromImportString = externalNameRules["getClassNamesFromImportString"]!!
+
     override fun resolveName(element: Any): String =
         when (element) {
             is String -> createJavaTypePath(element)
@@ -109,10 +112,7 @@ internal class JniNameResolver(
         }
 
     private fun createJavaTypePath(importString: String) =
-        createJavaTypePath(
-            JavaNameRules.getPackageFromImportString(importString),
-            JavaNameRules.getClassNamesFromImportString(importString),
-        )
+        createJavaTypePath(getPackageFromImportString(importString), getClassNamesFromImportString(importString))
 
     private fun createJavaTypePath(
         packageNames: List<String>,

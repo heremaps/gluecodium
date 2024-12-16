@@ -19,7 +19,6 @@
 
 package com.here.gluecodium.generator.jni
 
-import com.here.gluecodium.generator.java.JavaNameRules
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.NAME_NAME
 import com.here.gluecodium.model.lime.LimeInterface
@@ -42,8 +41,8 @@ internal class JniFileNameRules(
         val externalName = limeElement.external?.getFor(platformAttribute)?.get(NAME_NAME)
         return when {
             externalName != null -> {
-                val packageNames = JavaNameRules.getPackageFromImportString(externalName)
-                val classNames = JavaNameRules.getClassNamesFromImportString(externalName)
+                val packageNames = nameResolver.getPackageFromImportString(externalName)
+                val classNames = nameResolver.getClassNamesFromImportString(externalName)
                 (packageNames + classNames).joinToString("_")
             }
             else -> getElementFileNamePrefix(limeElement)

@@ -51,6 +51,7 @@ internal class JniTemplates(
     private val platformAttribute: LimeAttributeType,
     private val limeReferenceMap: Map<String, LimeElement>,
     nameRules: NameRules,
+    externalNameRules: Map<String, (String) -> List<String>>,
     signatureResolver: PlatformSignatureResolver,
     private val basePackages: List<String>,
     internalPackages: List<String>,
@@ -60,7 +61,7 @@ internal class JniTemplates(
     activeTags: Set<String>,
     private val descendantInterfaces: Map<String, List<LimeInterface>>,
 ) {
-    private val jniNameResolver = JniNameResolver(limeReferenceMap, basePackages, nameRules)
+    private val jniNameResolver = JniNameResolver(limeReferenceMap, basePackages, nameRules, externalNameRules)
     private val cppNameResolver = CppNameResolver(limeReferenceMap, internalNamespace, nameCache)
     private val fileNameRules = JniFileNameRules(generatorName, platformAttribute, jniNameResolver)
     private val fullInternalPackages = basePackages + internalPackages
