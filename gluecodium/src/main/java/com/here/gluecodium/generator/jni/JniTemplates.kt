@@ -62,7 +62,7 @@ internal class JniTemplates(
 ) {
     private val jniNameResolver = JniNameResolver(limeReferenceMap, basePackages, nameRules)
     private val cppNameResolver = CppNameResolver(limeReferenceMap, internalNamespace, nameCache)
-    private val fileNameRules = JniFileNameRules(generatorName, jniNameResolver)
+    private val fileNameRules = JniFileNameRules(generatorName, platformAttribute, jniNameResolver)
     private val fullInternalPackages = basePackages + internalPackages
     private val nameResolvers =
         mapOf(
