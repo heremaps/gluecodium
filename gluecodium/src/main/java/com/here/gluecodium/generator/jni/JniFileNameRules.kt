@@ -19,14 +19,18 @@
 
 package com.here.gluecodium.generator.jni
 
-import com.here.gluecodium.generator.java.JavaNameRules
+import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.NAME_NAME
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeNamedElement
 import java.io.File
 
-internal class JniFileNameRules(generatorName: String, private val nameResolver: JniNameResolver) {
+internal class JniFileNameRules(
+    generatorName: String,
+    private val platformAttribute: LimeAttributeType,
+    private val nameResolver: JniNameResolver,
+) {
     private val jniPathPrefix = generatorName + File.separator + "jni" + File.separator
 
     fun getHeaderFilePath(fileName: String) = "$jniPathPrefix$fileName.h"
@@ -34,11 +38,11 @@ internal class JniFileNameRules(generatorName: String, private val nameResolver:
     fun getImplementationFilePath(fileName: String) = "$jniPathPrefix$fileName.cpp"
 
     fun getConversionFileName(limeElement: LimeNamedElement): String {
-        val externalName = limeElement.external?.java?.get(NAME_NAME)
+        val externalName = limeElement.external?.getFor(platformAttribute)?.get(NAME_NAME)
         return when {
             externalName != null -> {
-                val packageNames = JavaNameRules.getPackageFromImportString(externalName)
-                val classNames = JavaNameRules.getClassNamesFromImportString(externalName)
+                val packageNames = nameResolver.getPackageFromImportString(externalName)
+                val classNames = nameResolver.getClassNamesFromImportString(externalName)
                 (packageNames + classNames).joinToString("_")
             }
             else -> getElementFileNamePrefix(limeElement)

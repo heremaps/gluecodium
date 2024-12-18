@@ -33,6 +33,15 @@ class LimeExternalDescriptor private constructor(
     val dart
         get() = descriptors[DART_TAG]
 
+    fun getFor(target: LimeAttributeType) =
+        when (target) {
+            LimeAttributeType.CPP -> cpp
+            LimeAttributeType.JAVA -> java
+            LimeAttributeType.SWIFT -> swift
+            LimeAttributeType.DART -> dart
+            else -> throw IllegalArgumentException("LimeExternalDescriptor.getFor(): Unknown target language: $target")
+        }
+
     operator fun plus(other: LimeExternalDescriptor) = LimeExternalDescriptor(descriptors + other.descriptors)
 
     override fun toString() =

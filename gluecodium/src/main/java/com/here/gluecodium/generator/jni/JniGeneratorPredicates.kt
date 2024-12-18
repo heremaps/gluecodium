@@ -21,13 +21,11 @@ package com.here.gluecodium.generator.jni
 
 import com.here.gluecodium.common.LimeModelSkipPredicates
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
+import com.here.gluecodium.generator.common.PlatformSignatureResolver
 import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.cpp.CppSignatureResolver
-import com.here.gluecodium.generator.java.JavaNameRules
-import com.here.gluecodium.generator.java.JavaSignatureResolver
 import com.here.gluecodium.model.lime.LimeAttributeType
-import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId.BOOLEAN
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId.VOID
@@ -51,12 +49,12 @@ import com.here.gluecodium.model.lime.LimeTypeRef
  */
 internal class JniGeneratorPredicates(
     private val limeReferenceMap: Map<String, LimeElement>,
-    javaNameRules: JavaNameRules,
+    private val platformSignatureResolver: PlatformSignatureResolver,
+    private val platformAttribute: LimeAttributeType,
     cppNameRules: CppNameRules,
     cppNameResolver: CppNameResolver,
     private val activeTags: Set<String>,
 ) {
-    private val javaSignatureResolver = JavaSignatureResolver(limeReferenceMap, javaNameRules, activeTags)
     private val cppSignatureResolver = CppSignatureResolver(limeReferenceMap, cppNameRules)
     private val overloadedLambdas = collectOverloadedLambdas()
 
@@ -93,13 +91,13 @@ internal class JniGeneratorPredicates(
                     return typeId.isNumericType || typeId == VOID || typeId == BOOLEAN
                 },
             "isOverloaded" to { limeFunction: Any ->
-                limeFunction is LimeFunction && javaSignatureResolver.isOverloadedInBindings(limeFunction)
+                limeFunction is LimeFunction && platformSignatureResolver.isOverloadedInBindings(limeFunction)
             },
             "needsOrdinalConversion" to
 
                 fun(limeEnumeration: Any): Boolean {
                     if (limeEnumeration !is LimeEnumeration) return false
-                    val descriptor = limeEnumeration.external?.java ?: return false
+                    val descriptor = limeEnumeration.external?.getFor(platformAttribute) ?: return false
                     return !descriptor.containsKey(CONVERTER_NAME)
                 },
             "needsRefSuffix" to { limeTypeRef: Any ->
@@ -115,7 +113,7 @@ internal class JniGeneratorPredicates(
         )
 
     fun shouldRetain(limeElement: LimeNamedElement) =
-        LimeModelSkipPredicates.shouldRetainCheckParent(limeElement, activeTags, JAVA, limeReferenceMap)
+        LimeModelSkipPredicates.shouldRetainCheckParent(limeElement, activeTags, platformAttribute, limeReferenceMap)
 
     private fun collectOverloadedLambdas(): Set<String> {
         val lambdas = limeReferenceMap.values.filterIsInstance<LimeLambda>()

@@ -155,8 +155,16 @@ internal class JavaGenerator : Generator {
         val descendantInterfaces = LimeTypeHelper.collectDescendantInterfaces(jniFilteredModel.topElements)
         val jniTemplates =
             JniTemplates(
+                generatorName = GENERATOR_NAME,
+                platformAttribute = JAVA,
                 limeReferenceMap = jniFilteredModel.referenceMap,
-                javaNameRules = javaNameRules,
+                nameRules = javaNameRules,
+                externalNameRules =
+                    mapOf(
+                        "getPackageFromImportString" to JavaNameRules.Companion::getPackageFromImportString,
+                        "getClassNamesFromImportString" to JavaNameRules.Companion::getClassNamesFromImportString,
+                    ),
+                signatureResolver = signatureResolver,
                 basePackages = basePackages,
                 internalPackages = internalPackage,
                 internalNamespace = internalNamespace,
