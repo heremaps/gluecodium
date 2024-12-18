@@ -87,7 +87,7 @@ class LocalesTests: XCTestCase {
     }
 
     func testLocalesStructRoundTrip() {
-        let locale = Locale.current
+        let locale = Locale(identifier: Locale.current.identifier)
         let localesStruct = LocalesStruct(primaryLocale: locale, secondaryLocale: locale)
 
         let result = LocalesStruct.localesStructRoundTrip(input: localesStruct)
