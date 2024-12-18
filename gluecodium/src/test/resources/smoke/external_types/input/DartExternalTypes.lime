@@ -89,3 +89,9 @@ struct DartExternalCtor {
     `field`: String
     constructor make(`field`: String)
 }
+
+@Java(Skip) @Swift(Skip)
+struct ExternalDartConstants {
+    const Small: Rectangle = {0, 0, 1, 1}
+    const Big: Rectangle = {0, 0, 10, 10}
+}
