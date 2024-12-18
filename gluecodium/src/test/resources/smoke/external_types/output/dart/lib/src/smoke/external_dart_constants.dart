@@ -3,7 +3,6 @@
 import 'dart:ffi';
 import 'dart:math' as math;
 import 'package:library/src/_library_context.dart' as __lib;
-import 'package:library/src/smoke/rectangle_int_.dart';
 
 
 class ExternalDartConstants {
