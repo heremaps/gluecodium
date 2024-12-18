@@ -36,8 +36,6 @@ int smokeConstantsinterfaceStateenumToFfi(ConstantsInterface_StateEnum value) {
     return 0;
   case ConstantsInterface_StateEnum.on:
     return 1;
-  default:
-    throw StateError("Invalid enum value $value for ConstantsInterface_StateEnum enum.");
   }
 }
 

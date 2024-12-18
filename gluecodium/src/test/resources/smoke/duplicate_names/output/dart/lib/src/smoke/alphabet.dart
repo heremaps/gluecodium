@@ -1,11 +1,16 @@
+
+
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
+
 enum Alphabet {
     a,
     b,
     c
 }
+
 // Alphabet "private" section, not exported.
+
 int smokeAlphabetToFfi(Alphabet value) {
   switch (value) {
   case Alphabet.a:
@@ -14,10 +19,9 @@ int smokeAlphabetToFfi(Alphabet value) {
     return 1;
   case Alphabet.c:
     return 2;
-  default:
-    throw StateError("Invalid enum value $value for Alphabet enum.");
   }
 }
+
 Alphabet smokeAlphabetFromFfi(int handle) {
   switch (handle) {
   case 0:
@@ -30,7 +34,9 @@ Alphabet smokeAlphabetFromFfi(int handle) {
     throw StateError("Invalid numeric value $handle for Alphabet enum.");
   }
 }
+
 void smokeAlphabetReleaseFfiHandle(int handle) {}
+
 final _smokeAlphabetCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
@@ -43,6 +49,7 @@ final _smokeAlphabetGetValueNullable = __lib.catchArgumentError(() => __lib.nati
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Alphabet_get_value_nullable'));
+
 Pointer<Void> smokeAlphabetToFfiNullable(Alphabet? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeAlphabetToFfi(value);
@@ -50,6 +57,7 @@ Pointer<Void> smokeAlphabetToFfiNullable(Alphabet? value) {
   smokeAlphabetReleaseFfiHandle(_handle);
   return result;
 }
+
 Alphabet? smokeAlphabetFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeAlphabetGetValueNullable(handle);
@@ -57,6 +65,10 @@ Alphabet? smokeAlphabetFromFfiNullable(Pointer<Void> handle) {
   smokeAlphabetReleaseFfiHandle(_handle);
   return result;
 }
+
 void smokeAlphabetReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeAlphabetReleaseHandleNullable(handle);
+
 // End of Alphabet "private" section.
+
+

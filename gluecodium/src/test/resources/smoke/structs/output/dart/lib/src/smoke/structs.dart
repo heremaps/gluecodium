@@ -39,8 +39,6 @@ int smokeStructsFoobarToFfi(Structs_FooBar value) {
     return 0;
   case Structs_FooBar.bar:
     return 1;
-  default:
-    throw StateError("Invalid enum value $value for Structs_FooBar enum.");
   }
 }
 

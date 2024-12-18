@@ -42,8 +42,6 @@ int smokeGenerictypeswithcompoundtypesSomeenumToFfi(GenericTypesWithCompoundType
     return 0;
   case GenericTypesWithCompoundTypes_SomeEnum.bar:
     return 1;
-  default:
-    throw StateError("Invalid enum value $value for GenericTypesWithCompoundTypes_SomeEnum enum.");
   }
 }
 
@@ -106,8 +104,6 @@ int smokeGenerictypeswithcompoundtypesExternalenumToFfi(GenericTypesWithCompound
     return 0;
   case GenericTypesWithCompoundTypes_ExternalEnum.off:
     return 1;
-  default:
-    throw StateError("Invalid enum value $value for GenericTypesWithCompoundTypes_ExternalEnum enum.");
   }
 }
 
