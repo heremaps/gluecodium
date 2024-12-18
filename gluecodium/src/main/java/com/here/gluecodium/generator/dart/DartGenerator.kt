@@ -122,10 +122,12 @@ internal class DartGenerator : Generator {
         val dartNameResolver = DartNameResolver(ffiReferenceMap, nameRules, limeLogger, commentsProcessor)
         val ffiNameResolver = FfiNameResolver(ffiReferenceMap, nameRules, internalPrefix)
 
-        val validationResult =
+        val overloadsValidationResult =
             DartOverloadsValidator(dartNameResolver, limeLogger, overloadsWerror)
                 .validate(dartFilteredModel.referenceMap.values)
-        if (!validationResult) {
+        val defaultValuesValidationResult =
+            DartDefaultValuesValidator(limeLogger).validate(dartFilteredModel.referenceMap)
+        if (!overloadsValidationResult || !defaultValuesValidationResult) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
 

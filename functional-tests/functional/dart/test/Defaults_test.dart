@@ -18,6 +18,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+import 'dart:typed_data';
 import "package:test/test.dart";
 import "package:functional/test.dart";
 import "../test_suite.dart";
@@ -102,6 +103,48 @@ void main() {
 
     expect(result.intField, 13);
     expect(result.stringField, "foobar");
+  });
+  _testSuite.test("Check positional defaults for non-const constructible types", () {
+    // Case 1: all defaults.
+    final first = PosDefaultStructWithCustomStructsFields();
+    expect(first.nonConstCtorField0.intField, 42);
+    expect(first.nonConstCtorField1.someField1.intField, 42);
+    expect(first.nonConstCtorField2.stringField, "Some string");
+    expect(first.nonConstCtorField3.nullableListField, null);
+    expect(first.nonConstCtorField5, Uint8List.fromList([]));
+    expect(first.nonConstCtorField6, Uint8List.fromList([222, 173, 190, 239]));
+    expect(first.nonConstCtorField7, null);
+
+    // Case 2: custom values.
+    final second = PosDefaultStructWithCustomStructsFields(
+      // Fields with const constructors.
+      AnotherImmutableStructWithDefaults.withDefaults(),
+      null,
+      [],
+      null,
+      0,
+      0.0,
+      null,
+      null,
+      // Fields without const constructor.
+      StructWithAllDefaults(21, "ABC"),
+      PosDefaultStructWithFieldUsingImmutableStruct(),
+      SomeMutableCustomStructWithDefaults(21, "Another string", [7, 7, 7]),
+      StructWithNullableCollectionDefaults(),
+      StructWithAllDefaults(44, "DEF"),
+      Uint8List.fromList([1, 2, 3]),
+      Uint8List.fromList([4, 5, 6]),
+      Uint8List.fromList([7, 8, 9])
+    );
+
+    expect(second.nonConstCtorField0.intField, 21);
+    expect(second.nonConstCtorField1.someField1.intField, 42);
+    expect(second.nonConstCtorField2.stringField, "Another string");
+    expect(second.nonConstCtorField3.nullableListField, null);
+    expect(second.nonConstCtorField4?.stringField, "DEF");
+    expect(second.nonConstCtorField5, Uint8List.fromList([1, 2, 3]));
+    expect(second.nonConstCtorField6, Uint8List.fromList([4, 5, 6]));
+    expect(second.nonConstCtorField7, Uint8List.fromList([7, 8, 9]));
   });
   _testSuite.test("Check positional enumerator defaults", () {
     final result = StructWithEnums();

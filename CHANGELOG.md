@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+ * Dart: fixed a bug related to compilation error caused by usage of 'PositionalDefaults' and default value for a field that uses type, which does not provide const constructor.
+
 ## 13.10.1
 Release date 2024-12-12
 ### Bug fixes:
