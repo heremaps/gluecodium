@@ -50,7 +50,7 @@ internal class DartImportResolver(
                 resolveTypeImports(limeElement.type) + resolveConversionImports(limeElement) +
                     listOfNotNull(lazyListImport.takeIf { limeElement.attributes.have(LimeAttributeType.OPTIMIZED) })
             is LimeType -> resolveTypeImports(limeElement) + resolveConversionImports(limeElement)
-            is LimeConstant -> resolveTypeImports(limeElement.typeRef.type)
+            is LimeConstant -> resolveTypeImports(limeElement.typeRef.type, skipHelpers = true)
             is LimeValue -> resolveValueImports(limeElement)
             is LimeNamedElement -> listOf(createImport(limeElement))
             else -> emptyList()
