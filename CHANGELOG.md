@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+ * Dart: removed generation of redundant import for constants declared with external types. The redundant import caused linter warnings.
+
 ## 13.10.1
 Release date 2024-12-12
 ### Bug fixes:
