@@ -120,10 +120,14 @@ class DatesTests: XCTestCase {
     }
 
     func testDateDefaultsCet() {
+        let utcTimeZone = TimeZone(identifier: "UTC")
+        XCTAssertNotNil(utcTimeZone)
+
         let date = DateDefaults().dateTime
         let dateComponents =
-            Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+            Calendar.current.dateComponents(in: utcTimeZone!, from: date)
 
+        // Date was specified in UTC+2 as: "2022-02-04T11:15:17+02:00"
         XCTAssertEqual(2022, dateComponents.year!)
         XCTAssertEqual(2, dateComponents.month!)
         XCTAssertEqual(4, dateComponents.day!)
@@ -133,10 +137,14 @@ class DatesTests: XCTestCase {
     }
 
     func testDateDefaultsUtc() {
+        let utcTimeZone = TimeZone(identifier: "UTC")
+        XCTAssertNotNil(utcTimeZone)
+
         let date = DateDefaults().dateTimeUtc
         let dateComponents =
-            Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+            Calendar.current.dateComponents(in: utcTimeZone!, from: date)
 
+        // Date was specified in UTC as: "2022-02-04T09:15:17Z"
         XCTAssertEqual(2022, dateComponents.year!)
         XCTAssertEqual(2, dateComponents.month!)
         XCTAssertEqual(4, dateComponents.day!)
@@ -146,10 +154,14 @@ class DatesTests: XCTestCase {
     }
 
     func testDateDefaultsBeforeEpoch() {
+        let utcTimeZone = TimeZone(identifier: "UTC")
+        XCTAssertNotNil(utcTimeZone)
+
         let date = DateDefaults().beforeEpoch
         let dateComponents =
-            Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+            Calendar.current.dateComponents(in: utcTimeZone!, from: date)
 
+        // Date was specified in UTC as: "1922-02-04T09:15:17Z"
         XCTAssertEqual(1922, dateComponents.year!)
         XCTAssertEqual(2, dateComponents.month!)
         XCTAssertEqual(4, dateComponents.day!)
@@ -159,10 +171,14 @@ class DatesTests: XCTestCase {
     }
 
     func testDateDefaultsCpp() {
+        let utcTimeZone = TimeZone(identifier: "UTC")
+        XCTAssertNotNil(utcTimeZone)
+
         let date = DateDefaults.getCppDefaults().dateTimeUtc
         let dateComponents =
-            Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+            Calendar.current.dateComponents(in: utcTimeZone!, from: date)
 
+        // Date was specified in UTC as: "2022-02-04T09:15:17Z"
         XCTAssertEqual(2022, dateComponents.year!)
         XCTAssertEqual(2, dateComponents.month!)
         XCTAssertEqual(4, dateComponents.day!)
