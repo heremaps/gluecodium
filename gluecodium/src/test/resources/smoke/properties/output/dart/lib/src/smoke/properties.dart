@@ -59,8 +59,6 @@ int smokePropertiesInternalerrorcodeToFfi(Properties_InternalErrorCode value) {
     return 0;
   case Properties_InternalErrorCode.errorFatal:
     return 999;
-  default:
-    throw StateError("Invalid enum value $value for Properties_InternalErrorCode enum.");
   }
 }
 

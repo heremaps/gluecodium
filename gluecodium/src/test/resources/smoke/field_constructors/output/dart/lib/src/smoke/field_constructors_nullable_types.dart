@@ -1,5 +1,8 @@
+
+
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
+
 
 class FieldConstructorsNullableTypes {
   FieldConstructorsNullableTypes_StructWithParameters? nullableField;
@@ -22,8 +25,6 @@ int smokeFieldconstructorsnullabletypesFoodtypeToFfi(FieldConstructorsNullableTy
     return 0;
   case FieldConstructorsNullableTypes_FoodType.fruits:
     return 1;
-  default:
-    throw StateError("Invalid enum value $value for FieldConstructorsNullableTypes_FoodType enum.");
   }
 }
 
@@ -226,3 +227,5 @@ void smokeFieldconstructorsnullabletypesReleaseFfiHandleNullable(Pointer<Void> h
   _smokeFieldconstructorsnullabletypesReleaseHandleNullable(handle);
 
 // End of FieldConstructorsNullableTypes "private" section.
+
+

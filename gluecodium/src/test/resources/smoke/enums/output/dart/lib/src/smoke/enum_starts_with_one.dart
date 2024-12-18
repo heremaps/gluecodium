@@ -1,20 +1,24 @@
+
+
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
+
 enum EnumStartsWithOne {
     first,
     second
 }
+
 // EnumStartsWithOne "private" section, not exported.
+
 int smokeEnumstartswithoneToFfi(EnumStartsWithOne value) {
   switch (value) {
   case EnumStartsWithOne.first:
     return 1;
   case EnumStartsWithOne.second:
     return 2;
-  default:
-    throw StateError("Invalid enum value $value for EnumStartsWithOne enum.");
   }
 }
+
 EnumStartsWithOne smokeEnumstartswithoneFromFfi(int handle) {
   switch (handle) {
   case 1:
@@ -25,7 +29,9 @@ EnumStartsWithOne smokeEnumstartswithoneFromFfi(int handle) {
     throw StateError("Invalid numeric value $handle for EnumStartsWithOne enum.");
   }
 }
+
 void smokeEnumstartswithoneReleaseFfiHandle(int handle) {}
+
 final _smokeEnumstartswithoneCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
@@ -38,6 +44,7 @@ final _smokeEnumstartswithoneGetValueNullable = __lib.catchArgumentError(() => _
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_EnumStartsWithOne_get_value_nullable'));
+
 Pointer<Void> smokeEnumstartswithoneToFfiNullable(EnumStartsWithOne? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeEnumstartswithoneToFfi(value);
@@ -45,6 +52,7 @@ Pointer<Void> smokeEnumstartswithoneToFfiNullable(EnumStartsWithOne? value) {
   smokeEnumstartswithoneReleaseFfiHandle(_handle);
   return result;
 }
+
 EnumStartsWithOne? smokeEnumstartswithoneFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeEnumstartswithoneGetValueNullable(handle);
@@ -52,6 +60,10 @@ EnumStartsWithOne? smokeEnumstartswithoneFromFfiNullable(Pointer<Void> handle) {
   smokeEnumstartswithoneReleaseFfiHandle(_handle);
   return result;
 }
+
 void smokeEnumstartswithoneReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeEnumstartswithoneReleaseHandleNullable(handle);
+
 // End of EnumStartsWithOne "private" section.
+
+

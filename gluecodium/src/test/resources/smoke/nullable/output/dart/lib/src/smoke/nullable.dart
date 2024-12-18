@@ -75,8 +75,6 @@ int smokeNullableSomeenumToFfi(Nullable_SomeEnum value) {
     return 0;
   case Nullable_SomeEnum.off:
     return 1;
-  default:
-    throw StateError("Invalid enum value $value for Nullable_SomeEnum enum.");
   }
 }
 

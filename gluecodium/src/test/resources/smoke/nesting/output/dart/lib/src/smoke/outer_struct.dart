@@ -51,8 +51,6 @@ int smokeOuterstructInnerenumToFfi(OuterStruct_InnerEnum value) {
     return 0;
   case OuterStruct_InnerEnum.bar:
     return 1;
-  default:
-    throw StateError("Invalid enum value $value for OuterStruct_InnerEnum enum.");
   }
 }
 

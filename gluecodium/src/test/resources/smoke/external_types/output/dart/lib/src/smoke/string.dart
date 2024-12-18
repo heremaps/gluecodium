@@ -1,13 +1,18 @@
+
+
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import '../season_converter.dart';
+
 enum StringInternal {
     winter,
     spring,
     summer,
     autumn
 }
+
 // String "private" section, not exported.
+
 int smokeDartseasonToFfi(String valueExternal) {
   final value = SeasonConverter.convertToInternal(valueExternal);
   switch (value) {
@@ -19,10 +24,9 @@ int smokeDartseasonToFfi(String valueExternal) {
     return 2;
   case StringInternal.autumn:
     return 3;
-  default:
-    throw StateError("Invalid enum value $value for String enum.");
   }
 }
+
 String smokeDartseasonFromFfi(int handle) {
   switch (handle) {
   case 0:
@@ -37,7 +41,9 @@ String smokeDartseasonFromFfi(int handle) {
     throw StateError("Invalid numeric value $handle for String enum.");
   }
 }
+
 void smokeDartseasonReleaseFfiHandle(int handle) {}
+
 final _smokeDartseasonCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
@@ -50,6 +56,7 @@ final _smokeDartseasonGetValueNullable = __lib.catchArgumentError(() => __lib.na
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_DartSeason_get_value_nullable'));
+
 Pointer<Void> smokeDartseasonToFfiNullable(String? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeDartseasonToFfi(value);
@@ -57,6 +64,7 @@ Pointer<Void> smokeDartseasonToFfiNullable(String? value) {
   smokeDartseasonReleaseFfiHandle(_handle);
   return result;
 }
+
 String? smokeDartseasonFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeDartseasonGetValueNullable(handle);
@@ -64,6 +72,10 @@ String? smokeDartseasonFromFfiNullable(Pointer<Void> handle) {
   smokeDartseasonReleaseFfiHandle(_handle);
   return result;
 }
+
 void smokeDartseasonReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeDartseasonReleaseHandleNullable(handle);
+
 // End of String "private" section.
+
+

@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+ * Dart: removed generation of redundant `default` clause in exhaustive switch-cases for enumerations. The redundant `default` caused linter warnings.
+
 ## 13.10.1
 Release date 2024-12-12
 ### Bug fixes:

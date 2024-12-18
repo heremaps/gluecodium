@@ -1,20 +1,27 @@
+
+
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
+
+
 class Types {
   static final Types_Enum Const = Types_Enum.naN;
+
 }
+
 enum Types_Enum {
     naN
 }
+
 // Types_Enum "private" section, not exported.
+
 int packageTypesEnumToFfi(Types_Enum value) {
   switch (value) {
   case Types_Enum.naN:
     return 0;
-  default:
-    throw StateError("Invalid enum value $value for Types_Enum enum.");
   }
 }
+
 Types_Enum packageTypesEnumFromFfi(int handle) {
   switch (handle) {
   case 0:
@@ -23,7 +30,9 @@ Types_Enum packageTypesEnumFromFfi(int handle) {
     throw StateError("Invalid numeric value $handle for Types_Enum enum.");
   }
 }
+
 void packageTypesEnumReleaseFfiHandle(int handle) {}
+
 final _packageTypesEnumCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
@@ -36,6 +45,7 @@ final _packageTypesEnumGetValueNullable = __lib.catchArgumentError(() => __lib.n
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_package_Types_Enum_get_value_nullable'));
+
 Pointer<Void> packageTypesEnumToFfiNullable(Types_Enum? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = packageTypesEnumToFfi(value);
@@ -43,6 +53,7 @@ Pointer<Void> packageTypesEnumToFfiNullable(Types_Enum? value) {
   packageTypesEnumReleaseFfiHandle(_handle);
   return result;
 }
+
 Types_Enum? packageTypesEnumFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _packageTypesEnumGetValueNullable(handle);
@@ -50,20 +61,27 @@ Types_Enum? packageTypesEnumFromFfiNullable(Pointer<Void> handle) {
   packageTypesEnumReleaseFfiHandle(_handle);
   return result;
 }
+
 void packageTypesEnumReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _packageTypesEnumReleaseHandleNullable(handle);
+
 // End of Types_Enum "private" section.
 class Types_ExceptionException implements Exception {
   final Types_Enum error;
   Types_ExceptionException(this.error);
 }
+
 class Types_Struct {
   Types_Enum null;
+
   Types_Struct._(this.null);
   Types_Struct()
     : null = Types_Enum.naN;
 }
+
+
 // Types_Struct "private" section, not exported.
+
 final _packageTypesStructCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
@@ -76,12 +94,16 @@ final _packageTypesStructGetFieldnull = __lib.catchArgumentError(() => __lib.nat
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_package_Types_Struct_get_field_null'));
+
+
+
 Pointer<Void> packageTypesStructToFfi(Types_Struct value) {
   final _nullHandle = packageTypesEnumToFfi(value.null);
   final _result = _packageTypesStructCreateHandle(_nullHandle);
   packageTypesEnumReleaseFfiHandle(_nullHandle);
   return _result;
 }
+
 Types_Struct packageTypesStructFromFfi(Pointer<Void> handle) {
   final _nullHandle = _packageTypesStructGetFieldnull(handle);
   try {
@@ -92,8 +114,11 @@ Types_Struct packageTypesStructFromFfi(Pointer<Void> handle) {
     packageTypesEnumReleaseFfiHandle(_nullHandle);
   }
 }
+
 void packageTypesStructReleaseFfiHandle(Pointer<Void> handle) => _packageTypesStructReleaseHandle(handle);
+
 // Nullable Types_Struct
+
 final _packageTypesStructCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -106,6 +131,7 @@ final _packageTypesStructGetValueNullable = __lib.catchArgumentError(() => __lib
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_package_Types_Struct_get_value_nullable'));
+
 Pointer<Void> packageTypesStructToFfiNullable(Types_Struct? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = packageTypesStructToFfi(value);
@@ -113,6 +139,7 @@ Pointer<Void> packageTypesStructToFfiNullable(Types_Struct? value) {
   packageTypesStructReleaseFfiHandle(_handle);
   return result;
 }
+
 Types_Struct? packageTypesStructFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _packageTypesStructGetValueNullable(handle);
@@ -120,10 +147,14 @@ Types_Struct? packageTypesStructFromFfiNullable(Pointer<Void> handle) {
   packageTypesStructReleaseFfiHandle(_handle);
   return result;
 }
+
 void packageTypesStructReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _packageTypesStructReleaseHandleNullable(handle);
+
 // End of Types_Struct "private" section.
+
 // Types "private" section, not exported.
+
 final _packageTypesCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(),
     Pointer<Void> Function()
@@ -132,10 +163,14 @@ final _packageTypesReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLi
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_package_Types_release_handle'));
+
+
+
 Pointer<Void> packageTypesToFfi(Types value) {
   final _result = _packageTypesCreateHandle();
   return _result;
 }
+
 Types packageTypesFromFfi(Pointer<Void> handle) {
   try {
     return Types(
@@ -143,8 +178,11 @@ Types packageTypesFromFfi(Pointer<Void> handle) {
   } finally {
   }
 }
+
 void packageTypesReleaseFfiHandle(Pointer<Void> handle) => _packageTypesReleaseHandle(handle);
+
 // Nullable Types
+
 final _packageTypesCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -157,6 +195,7 @@ final _packageTypesGetValueNullable = __lib.catchArgumentError(() => __lib.nativ
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_package_Types_get_value_nullable'));
+
 Pointer<Void> packageTypesToFfiNullable(Types? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = packageTypesToFfi(value);
@@ -164,6 +203,7 @@ Pointer<Void> packageTypesToFfiNullable(Types? value) {
   packageTypesReleaseFfiHandle(_handle);
   return result;
 }
+
 Types? packageTypesFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _packageTypesGetValueNullable(handle);
@@ -171,6 +211,10 @@ Types? packageTypesFromFfiNullable(Pointer<Void> handle) {
   packageTypesReleaseFfiHandle(_handle);
   return result;
 }
+
 void packageTypesReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _packageTypesReleaseHandleNullable(handle);
+
 // End of Types "private" section.
+
+
