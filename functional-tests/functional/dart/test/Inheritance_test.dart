@@ -18,11 +18,23 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+import 'dart:ffi';
 import "package:test/test.dart";
 import "package:functional/test.dart";
 import "../test_suite.dart";
 
 final _testSuite = TestSuite("Inheritance");
+
+// Prototype class, which will be injected to 'DerivedClassWithStaticMethods'.
+class MockDerivedClassWithStaticMethods extends DerivedClassWithStaticMethods$Impl {
+    MockDerivedClassWithStaticMethods(Pointer<Void> handle) : super(handle);
+
+    @override
+    int getRandomInt() => 37;
+
+    @override
+    double getRandomDouble() => 33.33;
+}
 
 void main() {
   _testSuite.test("Create child class instance", () {
@@ -63,5 +75,26 @@ void main() {
     final ConcreteChild result = InheritanceTestHelper.createGrandchildClassAsChildClass();
 
     expect(result, isA<ConcreteGrandChild>());
+  });
+  _testSuite.test("Class using \$HiddenImpl properly executes function calls and allows mocking", () {
+      // Call functions.
+      final BaseClassWithStaticMethods baseObj = BaseClassWithStaticMethods();
+      expect(baseObj.nonstaticGetInt(), 14);
+      expect(BaseClassWithStaticMethods.getRandomInt(), 7);
+
+      final DerivedClassWithStaticMethods derivedObj = DerivedClassWithStaticMethods();
+      expect(derivedObj.nonstaticGetInt(), 21);
+      expect(derivedObj.nonstaticGetDouble(), closeTo(21.21, 0.000001));
+      expect(DerivedClassWithStaticMethods.getRandomDouble(), closeTo(77.77, 0.000001));
+
+      // Mock-ability of static functions from Base and Derived.
+      BaseClassWithStaticMethods.$prototype = MockDerivedClassWithStaticMethods(Pointer<Void>.fromAddress(0));
+      expect(baseObj.nonstaticGetInt(), 14);
+      expect(BaseClassWithStaticMethods.getRandomInt(), 37);
+
+      DerivedClassWithStaticMethods.$prototype = MockDerivedClassWithStaticMethods(Pointer<Void>.fromAddress(0));
+      expect(derivedObj.nonstaticGetInt(), 21);
+      expect(derivedObj.nonstaticGetDouble(), closeTo(21.21, 0.000001));
+      expect(DerivedClassWithStaticMethods.getRandomDouble(), closeTo(33.33, 0.000001));
   });
 }
