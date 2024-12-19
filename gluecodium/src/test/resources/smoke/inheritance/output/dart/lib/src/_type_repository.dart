@@ -1,3 +1,6 @@
+
+
+import 'package:library/src/smoke/base_class_with_static_methods.dart';
 import 'package:library/src/smoke/child_class_from_class.dart';
 import 'package:library/src/smoke/child_class_from_interface.dart';
 import 'package:library/src/smoke/child_class_name_clash.dart';
@@ -6,6 +9,7 @@ import 'package:library/src/smoke/child_class_with_imports.dart';
 import 'package:library/src/smoke/child_class_with_lambda.dart';
 import 'package:library/src/smoke/child_interface.dart';
 import 'package:library/src/smoke/child_with_parent_class_references.dart';
+import 'package:library/src/smoke/derived_class_with_static_methods.dart';
 import 'package:library/src/smoke/grand_child_interface.dart';
 import 'package:library/src/smoke/interface_with_lambda.dart';
 import 'package:library/src/smoke/interface_with_overloads.dart';
@@ -16,23 +20,45 @@ import 'package:library/src/smoke/parent_class_with_imports.dart';
 import 'package:library/src/smoke/parent_interface.dart';
 import 'package:library/src/smoke/parent_interface_with_bool.dart';
 import 'package:library/src/smoke/parent_with_class_references.dart';
-final Map<String, Function> typeRepository = {
+
+final Map<String, Function> typeRepository = { 
+  "smoke_BaseClassWithStaticMethods": (handle) => BaseClassWithStaticMethods$Impl(handle),
+
   "smoke_ChildClassFromClass": (handle) => ChildClassFromClass$Impl(handle),
+
   "smoke_ChildClassFromInterface": (handle) => ChildClassFromInterface$Impl(handle),
+
   "smoke_ChildClassNameClash": (handle) => ChildClassNameClash$Impl(handle),
+
   "smoke_ChildClassWithBool": (handle) => ChildClassWithBool$Impl(handle),
+
   "smoke_ChildClassWithImports": (handle) => ChildClassWithImports$Impl(handle),
+
   "smoke_ChildClassWithLambda": (handle) => ChildClassWithLambda$Impl(handle),
+
   "smoke_ChildInterface": (handle) => ChildInterface$Impl(handle),
+
   "smoke_ChildWithParentClassReferences": (handle) => ChildWithParentClassReferences$Impl(handle),
+
+  "smoke_DerivedClassWithStaticMethods": (handle) => DerivedClassWithStaticMethods$Impl(handle),
+
   "smoke_GrandChildInterface": (handle) => GrandChildInterface$Impl(handle),
+
   "smoke_InterfaceWithLambda": (handle) => InterfaceWithLambda$Impl(handle),
+
   "smoke_InterfaceWithOverloads": (handle) => InterfaceWithOverloads$Impl(handle),
+
   "smoke_InternalChild": (handle) => InternalChild$Impl(handle),
+
   "smoke_InternalParent": (handle) => InternalParent$Impl(handle),
+
   "smoke_ParentClass": (handle) => ParentClass$Impl(handle),
+
   "smoke_ParentClassWithImports": (handle) => ParentClassWithImports$Impl(handle),
+
   "smoke_ParentInterface": (handle) => ParentInterface$Impl(handle),
+
   "smoke_ParentInterfaceWithBool": (handle) => ParentInterfaceWithBool$Impl(handle),
+
   "smoke_ParentWithClassReferences": (handle) => ParentWithClassReferences$Impl(handle),
  };
