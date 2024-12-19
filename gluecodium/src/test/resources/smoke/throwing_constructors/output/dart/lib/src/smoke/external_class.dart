@@ -217,7 +217,6 @@ class ExternalClass_InternalOne$Impl extends __lib.NativeBase implements Externa
 
 
 }
-
 Pointer<Void> smokeExternalclassInternaloneToFfi(ExternalClass_InternalOne value) =>
   _smokeExternalclassInternaloneCopyHandle((value as __lib.NativeBase).handle);
 
@@ -327,7 +326,6 @@ class ExternalClass_InternalTwo$Impl extends __lib.NativeBase implements Externa
 
 
 }
-
 Pointer<Void> smokeExternalclassInternaltwoToFfi(ExternalClass_InternalTwo value) =>
   _smokeExternalclassInternaltwoCopyHandle((value as __lib.NativeBase).handle);
 
@@ -429,6 +427,12 @@ class ExternalClass$Impl extends __lib.NativeBase implements ExternalClass {
     return __resultHandle;
   }
 
+
+}
+/// @nodoc
+class ExternalClass$HiddenImpl extends ExternalClass$Impl {
+
+  ExternalClass$HiddenImpl(Pointer<Void> handle) : super(handle);
 
 }
 
