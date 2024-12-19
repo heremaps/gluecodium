@@ -272,8 +272,10 @@ feature(Defaults cpp android swift dart SOURCES
 )
 
 feature(Inheritance cpp android swift dart SOURCES
+    input/src/cpp/BaseClassWithStaticMethodsImpl.cpp
     input/src/cpp/ChildClassImpl.cpp
     input/src/cpp/ChildClassImpl.h
+    input/src/cpp/DerivedClassWithStaticMethodsImpl.cpp
     input/src/cpp/GrandchildClassImpl.cpp
     input/src/cpp/GrandchildClassImpl.h
     input/src/cpp/ListenerInheritance.cpp
@@ -281,6 +283,7 @@ feature(Inheritance cpp android swift dart SOURCES
     input/src/cpp/Inheritance.cpp
     input/src/cpp/CrossPackageInheritance.cpp
 
+    input/lime/DartVisibleForTestingInheritance.lime
     input/lime/Inheritance.lime
     input/lime/InheritanceNameClash.lime
     input/lime/ListenerInheritance.lime
