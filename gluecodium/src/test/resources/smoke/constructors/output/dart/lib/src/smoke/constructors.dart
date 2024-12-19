@@ -274,6 +274,12 @@ class Constructors$Impl extends __lib.NativeBase implements Constructors {
 
 
 }
+/// @nodoc
+class Constructors$HiddenImpl extends Constructors$Impl {
+
+  Constructors$HiddenImpl(Pointer<Void> handle) : super(handle);
+
+}
 
 Pointer<Void> smokeConstructorsToFfi(Constructors value) =>
   _smokeConstructorsCopyHandle((value as __lib.NativeBase).handle);

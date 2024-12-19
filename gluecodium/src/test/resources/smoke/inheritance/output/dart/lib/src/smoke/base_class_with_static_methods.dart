@@ -81,6 +81,12 @@ class BaseClassWithStaticMethods$Impl extends __lib.NativeBase implements BaseCl
 
 
 }
+/// @nodoc
+class BaseClassWithStaticMethods$HiddenImpl extends BaseClassWithStaticMethods$Impl {
+
+  BaseClassWithStaticMethods$HiddenImpl(Pointer<Void> handle) : super(handle);
+
+}
 
 Pointer<Void> smokeBaseclasswithstaticmethodsToFfi(BaseClassWithStaticMethods value) =>
   _smokeBaseclasswithstaticmethodsCopyHandle((value as __lib.NativeBase).handle);

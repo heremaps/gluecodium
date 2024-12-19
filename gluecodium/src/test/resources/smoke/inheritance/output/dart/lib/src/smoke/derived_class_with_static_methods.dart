@@ -48,7 +48,7 @@ final _smokeDerivedclasswithstaticmethodsGetTypeId = __lib.catchArgumentError(()
 
 /// @nodoc
 @visibleForTesting
-class DerivedClassWithStaticMethods$Impl extends BaseClassWithStaticMethods$Impl implements DerivedClassWithStaticMethods {
+class DerivedClassWithStaticMethods$Impl extends BaseClassWithStaticMethods$HiddenImpl implements DerivedClassWithStaticMethods {
 
   DerivedClassWithStaticMethods$Impl(Pointer<Void> handle) : super(handle);
 
@@ -81,6 +81,12 @@ class DerivedClassWithStaticMethods$Impl extends BaseClassWithStaticMethods$Impl
 
   }
 
+
+}
+/// @nodoc
+class DerivedClassWithStaticMethods$HiddenImpl extends DerivedClassWithStaticMethods$Impl {
+
+  DerivedClassWithStaticMethods$HiddenImpl(Pointer<Void> handle) : super(handle);
 
 }
 
