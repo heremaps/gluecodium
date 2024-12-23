@@ -97,7 +97,15 @@ final _{{resolveName "Ffi"}}GetTypeId = __lib.catchArgumentError(() => __lib.nat
 /// @nodoc
 @visibleForTesting
 {{/ifPredicate}}
-class {{resolveName}}$Impl extends {{#if this.parentClass}}{{resolveName this.parentClass}}$Impl{{/if}}{{!!
+class {{resolveName}}$Impl extends {{!!
+}}{{#if this.parentClass}}{{!!
+}}{{#unlessPredicate this.parentClass "hasStaticFunctions"}}{{!!
+}}{{resolveName this.parentClass}}$Impl{{!!
+}}{{/unless}}{{!!
+}}{{#ifPredicate this.parentClass "hasStaticFunctions"}}{{!!
+}}{{resolveName this.parentClass}}$HiddenImpl{{!!
+}}{{/ifPredicate}}{{!!
+}}{{/if}}{{!!
 }}{{#unless this.parentClass}}__lib.NativeBase{{/unless}} implements {{resolveName}} {
 
   {{resolveName}}$Impl(Pointer<Void> handle) : super(handle);
@@ -126,7 +134,18 @@ class {{resolveName}}$Impl extends {{#if this.parentClass}}{{resolveName this.pa
 {{/set}}{{/set}}
 {{#if attributes.equatable}}{{prefixPartial "dart/DartEqualityOperator" "  "}}{{/if}}{{!!
 }}{{#if attributes.pointerEquatable}}{{prefixPartial "dart/DartEqualityOperator" "  "}}{{/if}}
+}{{!!
+}}{{#if this.isOpen}}{{!!
+}}{{#ifPredicate "hasStaticFunctions"}}
+
+/// @nodoc
+class {{resolveName}}$HiddenImpl extends {{resolveName}}$Impl {
+
+  {{resolveName}}$HiddenImpl(Pointer<Void> handle) : super(handle);
+
 }
+{{/ifPredicate}}{{!!
+}}{{/if}}
 
 Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) =>
   _{{resolveName "Ffi"}}CopyHandle((value as __lib.NativeBase).handle);
