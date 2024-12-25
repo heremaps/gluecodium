@@ -29,8 +29,6 @@ int smokeEnumsExternalenumToFfi(Enums_ExternalEnum value) {
     return 0;
   case Enums_ExternalEnum.barValue:
     return 1;
-  default:
-    throw StateError("Invalid enum value $value for Enums_ExternalEnum enum.");
   }
 }
 
@@ -93,8 +91,6 @@ int smokeEnumsVeryexternalenumToFfi(Enums_VeryExternalEnum value) {
     return 0;
   case Enums_VeryExternalEnum.bar:
     return 1;
-  default:
-    throw StateError("Invalid enum value $value for Enums_VeryExternalEnum enum.");
   }
 }
 

@@ -24,8 +24,6 @@ int smokeExternalclassSomeenumToFfi(ExternalClass_SomeEnum value) {
   switch (value) {
   case ExternalClass_SomeEnum.someValue:
     return 0;
-  default:
-    throw StateError("Invalid enum value $value for ExternalClass_SomeEnum enum.");
   }
 }
 
