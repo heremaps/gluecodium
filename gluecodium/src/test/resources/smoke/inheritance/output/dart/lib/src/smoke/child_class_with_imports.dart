@@ -33,6 +33,7 @@ final _smokeChildclasswithimportsGetTypeId = __lib.catchArgumentError(() => __li
   >('library_smoke_ChildClassWithImports_get_type_id'));
 
 
+// ignore: invalid_use_of_visible_for_testing_member
 class ChildClassWithImports$Impl extends ParentClassWithImports$Impl implements ChildClassWithImports {
 
   ChildClassWithImports$Impl(Pointer<Void> handle) : super(handle);

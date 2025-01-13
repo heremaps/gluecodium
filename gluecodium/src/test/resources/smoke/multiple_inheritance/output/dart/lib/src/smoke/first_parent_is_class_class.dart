@@ -40,6 +40,7 @@ final _smokeFirstparentisclassclassGetTypeId = __lib.catchArgumentError(() => __
 
 
 
+// ignore: invalid_use_of_visible_for_testing_member
 class FirstParentIsClassClass$Impl extends ParentClass$Impl implements FirstParentIsClassClass {
 
   FirstParentIsClassClass$Impl(Pointer<Void> handle) : super(handle);

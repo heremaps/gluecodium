@@ -97,6 +97,7 @@ final _{{resolveName "Ffi"}}GetTypeId = __lib.catchArgumentError(() => __lib.nat
 /// @nodoc
 @visibleForTesting
 {{/ifPredicate}}
+{{#if this.parentClass}}// ignore: invalid_use_of_visible_for_testing_member{{/if}}
 class {{resolveName}}$Impl extends {{#if this.parentClass}}{{resolveName this.parentClass}}$Impl{{/if}}{{!!
 }}{{#unless this.parentClass}}__lib.NativeBase{{/unless}} implements {{resolveName}} {
 
