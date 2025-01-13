@@ -24,8 +24,6 @@ int smokePublicclassInternalenumToFfi(PublicClass_InternalEnum value) {
     return 0;
   case PublicClass_InternalEnum.bar:
     return 1;
-  default:
-    throw StateError("Invalid enum value $value for PublicClass_InternalEnum enum.");
   }
 }
 

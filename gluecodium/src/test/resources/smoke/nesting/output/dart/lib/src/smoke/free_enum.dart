@@ -1,20 +1,24 @@
+
+
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
+
 enum FreeEnum {
     foo,
     bar
 }
+
 // FreeEnum "private" section, not exported.
+
 int smokeFreeenumToFfi(FreeEnum value) {
   switch (value) {
   case FreeEnum.foo:
     return 0;
   case FreeEnum.bar:
     return 1;
-  default:
-    throw StateError("Invalid enum value $value for FreeEnum enum.");
   }
 }
+
 FreeEnum smokeFreeenumFromFfi(int handle) {
   switch (handle) {
   case 0:
@@ -25,7 +29,9 @@ FreeEnum smokeFreeenumFromFfi(int handle) {
     throw StateError("Invalid numeric value $handle for FreeEnum enum.");
   }
 }
+
 void smokeFreeenumReleaseFfiHandle(int handle) {}
+
 final _smokeFreeenumCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
@@ -38,6 +44,7 @@ final _smokeFreeenumGetValueNullable = __lib.catchArgumentError(() => __lib.nati
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_FreeEnum_get_value_nullable'));
+
 Pointer<Void> smokeFreeenumToFfiNullable(FreeEnum? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeFreeenumToFfi(value);
@@ -45,6 +52,7 @@ Pointer<Void> smokeFreeenumToFfiNullable(FreeEnum? value) {
   smokeFreeenumReleaseFfiHandle(_handle);
   return result;
 }
+
 FreeEnum? smokeFreeenumFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeFreeenumGetValueNullable(handle);
@@ -52,6 +60,10 @@ FreeEnum? smokeFreeenumFromFfiNullable(Pointer<Void> handle) {
   smokeFreeenumReleaseFfiHandle(_handle);
   return result;
 }
+
 void smokeFreeenumReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeFreeenumReleaseHandleNullable(handle);
+
 // End of FreeEnum "private" section.
+
+

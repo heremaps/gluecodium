@@ -37,8 +37,6 @@ int smokeExcludedcommentsonlySomeenumToFfi(ExcludedCommentsOnly_SomeEnum value) 
   switch (value) {
   case ExcludedCommentsOnly_SomeEnum.useless:
     return 0;
-  default:
-    throw StateError("Invalid enum value $value for ExcludedCommentsOnly_SomeEnum enum.");
   }
 }
 

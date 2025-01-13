@@ -1,20 +1,24 @@
+
+
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
+
 enum SkipEnumeratorAutoTag {
     one,
     three
 }
+
 // SkipEnumeratorAutoTag "private" section, not exported.
+
 int smokeSkipenumeratorautotagToFfi(SkipEnumeratorAutoTag value) {
   switch (value) {
   case SkipEnumeratorAutoTag.one:
     return 0;
   case SkipEnumeratorAutoTag.three:
     return 1;
-  default:
-    throw StateError("Invalid enum value $value for SkipEnumeratorAutoTag enum.");
   }
 }
+
 SkipEnumeratorAutoTag smokeSkipenumeratorautotagFromFfi(int handle) {
   switch (handle) {
   case 0:
@@ -25,7 +29,9 @@ SkipEnumeratorAutoTag smokeSkipenumeratorautotagFromFfi(int handle) {
     throw StateError("Invalid numeric value $handle for SkipEnumeratorAutoTag enum.");
   }
 }
+
 void smokeSkipenumeratorautotagReleaseFfiHandle(int handle) {}
+
 final _smokeSkipenumeratorautotagCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
@@ -38,6 +44,7 @@ final _smokeSkipenumeratorautotagGetValueNullable = __lib.catchArgumentError(() 
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_SkipEnumeratorAutoTag_get_value_nullable'));
+
 Pointer<Void> smokeSkipenumeratorautotagToFfiNullable(SkipEnumeratorAutoTag? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeSkipenumeratorautotagToFfi(value);
@@ -45,6 +52,7 @@ Pointer<Void> smokeSkipenumeratorautotagToFfiNullable(SkipEnumeratorAutoTag? val
   smokeSkipenumeratorautotagReleaseFfiHandle(_handle);
   return result;
 }
+
 SkipEnumeratorAutoTag? smokeSkipenumeratorautotagFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeSkipenumeratorautotagGetValueNullable(handle);
@@ -52,6 +60,10 @@ SkipEnumeratorAutoTag? smokeSkipenumeratorautotagFromFfiNullable(Pointer<Void> h
   smokeSkipenumeratorautotagReleaseFfiHandle(_handle);
   return result;
 }
+
 void smokeSkipenumeratorautotagReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeSkipenumeratorautotagReleaseHandleNullable(handle);
+
 // End of SkipEnumeratorAutoTag "private" section.
+
+

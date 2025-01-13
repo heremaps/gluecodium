@@ -33,8 +33,6 @@ int smokeLeveloneLeveltwoLevelthreeLevelfourenumToFfi(LevelOne_LevelTwo_LevelThr
   switch (value) {
   case LevelOne_LevelTwo_LevelThree_LevelFourEnum.none:
     return 0;
-  default:
-    throw StateError("Invalid enum value $value for LevelOne_LevelTwo_LevelThree_LevelFourEnum enum.");
   }
 }
 

@@ -31,8 +31,6 @@ int smokeExternalclassErrorenumToFfi(ExternalClass_ErrorEnum value) {
     return 0;
   case ExternalClass_ErrorEnum.crashed:
     return 1;
-  default:
-    throw StateError("Invalid enum value $value for ExternalClass_ErrorEnum enum.");
   }
 }
 
