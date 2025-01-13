@@ -80,8 +80,6 @@ int smokeListenerwithpropertiesResultenumToFfi(ListenerWithProperties_ResultEnum
     return 0;
   case ListenerWithProperties_ResultEnum.result:
     return 1;
-  default:
-    throw StateError("Invalid enum value $value for ListenerWithProperties_ResultEnum enum.");
   }
 }
 

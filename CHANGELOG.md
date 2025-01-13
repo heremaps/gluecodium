@@ -3,6 +3,7 @@
 ## Unreleased
 ### Bug fixes:
  * Dart: removed generation of redundant import for constants declared with external types. The redundant import caused linter warnings.
+ * Dart: removed generation of redundant `default` clause in exhaustive switch-cases for enumerations. The redundant `default` caused linter warnings.
 
 ## 13.10.1
 Release date 2024-12-12

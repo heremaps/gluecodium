@@ -42,8 +42,6 @@ int smokeConstructorsErrorenumToFfi(Constructors_ErrorEnum value) {
     return 0;
   case Constructors_ErrorEnum.crashed:
     return 1;
-  default:
-    throw StateError("Invalid enum value $value for Constructors_ErrorEnum enum.");
   }
 }
 

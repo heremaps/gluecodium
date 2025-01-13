@@ -1,7 +1,12 @@
+
+
 import 'dart:ffi';
 import 'package:foo/bar.dart' as bar;
 import 'package:library/src/_library_context.dart' as __lib;
+
+
 // HttpClientResponseCompressionState "private" section, not exported.
+
 int smokeCompressionstateToFfi(bar.HttpClientResponseCompressionState value) {
   switch (value) {
   case bar.HttpClientResponseCompressionState.compressed:
@@ -10,10 +15,9 @@ int smokeCompressionstateToFfi(bar.HttpClientResponseCompressionState value) {
     return 1;
   case bar.HttpClientResponseCompressionState.notCompressed:
     return 2;
-  default:
-    throw StateError("Invalid enum value $value for HttpClientResponseCompressionState enum.");
   }
 }
+
 bar.HttpClientResponseCompressionState smokeCompressionstateFromFfi(int handle) {
   switch (handle) {
   case 0:
@@ -26,7 +30,9 @@ bar.HttpClientResponseCompressionState smokeCompressionstateFromFfi(int handle) 
     throw StateError("Invalid numeric value $handle for HttpClientResponseCompressionState enum.");
   }
 }
+
 void smokeCompressionstateReleaseFfiHandle(int handle) {}
+
 final _smokeCompressionstateCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint32),
     Pointer<Void> Function(int)
@@ -39,6 +45,7 @@ final _smokeCompressionstateGetValueNullable = __lib.catchArgumentError(() => __
     Uint32 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_CompressionState_get_value_nullable'));
+
 Pointer<Void> smokeCompressionstateToFfiNullable(bar.HttpClientResponseCompressionState? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeCompressionstateToFfi(value);
@@ -46,6 +53,7 @@ Pointer<Void> smokeCompressionstateToFfiNullable(bar.HttpClientResponseCompressi
   smokeCompressionstateReleaseFfiHandle(_handle);
   return result;
 }
+
 bar.HttpClientResponseCompressionState? smokeCompressionstateFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeCompressionstateGetValueNullable(handle);
@@ -53,6 +61,10 @@ bar.HttpClientResponseCompressionState? smokeCompressionstateFromFfiNullable(Poi
   smokeCompressionstateReleaseFfiHandle(_handle);
   return result;
 }
+
 void smokeCompressionstateReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeCompressionstateReleaseHandleNullable(handle);
+
 // End of HttpClientResponseCompressionState "private" section.
+
+
