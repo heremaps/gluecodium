@@ -2,6 +2,7 @@
 
 ## Unreleased
 ### Bug fixes:
+ * Dart: disabled generation of `invalid_use_of_visible_for_testing_member` warning from the generated code for a hierarchy of classes.
  * Dart: removed generation of redundant import for constants declared with external types. The redundant import caused linter warnings.
  * Dart: removed generation of redundant `default` clause in exhaustive switch-cases for enumerations. The redundant `default` caused linter warnings.
 

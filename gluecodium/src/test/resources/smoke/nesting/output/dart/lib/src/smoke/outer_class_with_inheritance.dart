@@ -38,6 +38,7 @@ final _smokeOuterclasswithinheritanceInnerclassReleaseHandle = __lib.catchArgume
 
 
 
+
 class OuterClassWithInheritance_InnerClass$Impl extends __lib.NativeBase implements OuterClassWithInheritance_InnerClass {
 
   OuterClassWithInheritance_InnerClass$Impl(Pointer<Void> handle) : super(handle);
@@ -242,6 +243,7 @@ final _smokeOuterclasswithinheritanceGetTypeId = __lib.catchArgumentError(() => 
 
 
 
+// ignore: invalid_use_of_visible_for_testing_member
 class OuterClassWithInheritance$Impl extends ParentClass$Impl implements OuterClassWithInheritance {
 
   OuterClassWithInheritance$Impl(Pointer<Void> handle) : super(handle);
