@@ -49,9 +49,11 @@ int {{resolveName "Ffi"}}ToFfi({{resolveName this "" "ref"}} value{{#if external
 {{#set parent=this}}{{#uniqueEnumerators}}
   case {{resolveName parent "" "ref"}}{{#if external.dart.converter}}Internal{{/if}}.{{resolveName}}:
     return {{value}};
-{{/uniqueEnumerators}}{{/set}}
+{{/uniqueEnumerators}}{{/set}}{{!!
+}}{{#if aliasEnumerators}}
   default:
     throw StateError("Invalid enum value $value for {{resolveName}} enum.");
+{{/if}}
   }
 }
 

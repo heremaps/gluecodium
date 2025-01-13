@@ -122,8 +122,6 @@ int smokeCommentsSomeenumToFfi(Comments_SomeEnum value) {
     return 0;
   case Comments_SomeEnum.useful:
     return 1;
-  default:
-    throw StateError("Invalid enum value $value for Comments_SomeEnum enum.");
   }
 }
 

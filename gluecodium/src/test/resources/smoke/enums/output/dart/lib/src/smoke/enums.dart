@@ -36,8 +36,6 @@ int smokeEnumsSimpleenumToFfi(Enums_SimpleEnum value) {
     return 0;
   case Enums_SimpleEnum.second:
     return 1;
-  default:
-    throw StateError("Invalid enum value $value for Enums_SimpleEnum enum.");
   }
 }
 
@@ -100,8 +98,6 @@ int smokeEnumsInternalerrorcodeToFfi(Enums_InternalErrorCode value) {
     return 0;
   case Enums_InternalErrorCode.errorFatal:
     return 999;
-  default:
-    throw StateError("Invalid enum value $value for Enums_InternalErrorCode enum.");
   }
 }
 

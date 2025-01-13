@@ -73,8 +73,6 @@ int smokeDeprecationcommentsSomeenumToFfi(DeprecationComments_SomeEnum value) {
   switch (value) {
   case DeprecationComments_SomeEnum.useless:
     return 0;
-  default:
-    throw StateError("Invalid enum value $value for DeprecationComments_SomeEnum enum.");
   }
 }
 

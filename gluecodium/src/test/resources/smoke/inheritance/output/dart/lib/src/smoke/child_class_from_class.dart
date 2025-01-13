@@ -36,6 +36,7 @@ final _smokeChildclassfromclassGetTypeId = __lib.catchArgumentError(() => __lib.
 
 
 
+// ignore: invalid_use_of_visible_for_testing_member
 class ChildClassFromClass$Impl extends ParentClass$Impl implements ChildClassFromClass {
 
   ChildClassFromClass$Impl(Pointer<Void> handle) : super(handle);

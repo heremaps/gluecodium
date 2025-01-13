@@ -53,8 +53,6 @@ int smokeErrorsinterfaceInternalerrorToFfi(ErrorsInterface_InternalError value) 
     return 0;
   case ErrorsInterface_InternalError.errorFatal:
     return 1;
-  default:
-    throw StateError("Invalid enum value $value for ErrorsInterface_InternalError enum.");
   }
 }
 
@@ -120,8 +118,6 @@ int smokeErrorsinterfaceExternalerrorsToFfi(ErrorsInterface_ExternalErrors value
     return 1;
   case ErrorsInterface_ExternalErrors.bust:
     return 2;
-  default:
-    throw StateError("Invalid enum value $value for ErrorsInterface_ExternalErrors enum.");
   }
 }
 

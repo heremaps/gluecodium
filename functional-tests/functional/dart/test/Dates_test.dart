@@ -94,8 +94,9 @@ void main() {
   _testSuite.test("Date literal CET", () {
     final defaults = DateDefaults();
 
-    final result = defaults.dateTime;
+    final result = defaults.dateTime.toUtc();
 
+    // Date was specified in UTC+2 as: "2022-02-04T11:15:17+02:00"
     expect(result.year, 2022);
     expect(result.month, 2);
     expect(result.day, 4);
@@ -106,8 +107,9 @@ void main() {
   _testSuite.test("Date literal UTC", () {
     final defaults = DateDefaults();
 
-    final result = defaults.dateTimeUtc;
+    final result = defaults.dateTimeUtc.toUtc();
 
+    // Date was specified in UTC as: "2022-02-04T09:15:17Z"
     expect(result.year, 2022);
     expect(result.month, 2);
     expect(result.day, 4);
@@ -118,8 +120,9 @@ void main() {
   _testSuite.test("Date literal before epoch", () {
     final defaults = DateDefaults();
 
-    final result = defaults.beforeEpoch;
+    final result = defaults.beforeEpoch.toUtc();
 
+    // Date was specified in UTC as: "1922-02-04T09:15:17Z"
     expect(result.year, 1922);
     expect(result.month, 2);
     expect(result.day, 4);
@@ -130,8 +133,9 @@ void main() {
   _testSuite.test("Date literal from C++", () {
     final defaults = DateDefaults.getCppDefaults();
 
-    final result = defaults.dateTimeUtc;
+    final result = defaults.dateTimeUtc.toUtc();
 
+    // Date was specified in UTC as: "2022-02-04T09:15:17Z"
     expect(result.year, 2022);
     expect(result.month, 2);
     expect(result.day, 4);
