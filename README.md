@@ -1,4 +1,4 @@
-# Gluecodium [![Build Status](https://github.com/heremaps/gluecodium/workflows/CI/badge.svg)](https://github.com/heremaps/gluecodium/actions) [![Release](https://jitpack.io/v/heremaps/gluecodium.svg)](https://jitpack.io/#heremaps/gluecodium)
+# Gluecodium [![Unit tests](https://github.com/heremaps/gluecodium/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/heremaps/gluecodium/actions/workflows/unit-tests.yml)[![Functional tests](https://github.com/heremaps/gluecodium/actions/workflows/functional-tests.yml/badge.svg)](https://github.com/heremaps/gluecodium/actions/workflows/functional-tests.yml) [![Release](https://jitpack.io/v/heremaps/gluecodium.svg)](https://jitpack.io/#heremaps/gluecodium)
 
 Gluecodium **generates C++, Java**, **Swift**, and **Dart** code. The main purpose is generating C++ interfaces and
 corresponding Java/Swift/Dart bindings for **Android**/**iOS**/**Flutter** respectively, but other platforms like **macOS**
@@ -66,6 +66,6 @@ inconsistent cache).
 
 ## License
 
-Copyright (C) 2016-2020 HERE Europe B.V.
+Copyright (C) 2016-2025 HERE Europe B.V.
 
 See the [LICENSE](./LICENSE) file in the root of this project for license details.
