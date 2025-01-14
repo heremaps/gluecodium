@@ -22,15 +22,15 @@ package com.here.gluecodium.generator.jni
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Include
+import com.here.gluecodium.generator.common.NameRules
 import com.here.gluecodium.generator.common.OptimizedListsCollector
+import com.here.gluecodium.generator.common.PlatformSignatureResolver
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.CppFullNameResolver
 import com.here.gluecodium.generator.cpp.CppIncludeResolver
 import com.here.gluecodium.generator.cpp.CppNameCache
 import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
-import com.here.gluecodium.generator.java.JavaGenerator
-import com.here.gluecodium.generator.java.JavaNameRules
 import com.here.gluecodium.generator.jni.JniGeneratorPredicates.Companion.hasThrowingFunctions
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributes
@@ -47,8 +47,12 @@ import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
 
 internal class JniTemplates(
+    generatorName: String,
+    private val platformAttribute: LimeAttributeType,
     private val limeReferenceMap: Map<String, LimeElement>,
-    javaNameRules: JavaNameRules,
+    nameRules: NameRules,
+    externalNameRules: Map<String, (String) -> List<String>>,
+    signatureResolver: PlatformSignatureResolver,
     private val basePackages: List<String>,
     internalPackages: List<String>,
     private val internalNamespace: List<String>,
@@ -57,9 +61,9 @@ internal class JniTemplates(
     activeTags: Set<String>,
     private val descendantInterfaces: Map<String, List<LimeInterface>>,
 ) {
-    private val jniNameResolver = JniNameResolver(limeReferenceMap, basePackages, javaNameRules)
+    private val jniNameResolver = JniNameResolver(platformAttribute, limeReferenceMap, basePackages, nameRules, externalNameRules)
     private val cppNameResolver = CppNameResolver(limeReferenceMap, internalNamespace, nameCache)
-    private val fileNameRules = JniFileNameRules(JavaGenerator.GENERATOR_NAME, jniNameResolver)
+    private val fileNameRules = JniFileNameRules(generatorName, platformAttribute, jniNameResolver)
     private val fullInternalPackages = basePackages + internalPackages
     private val nameResolvers =
         mapOf(
@@ -69,8 +73,16 @@ internal class JniTemplates(
             "C++" to cppNameResolver,
             "C++ FQN" to CppFullNameResolver(nameCache),
         )
+
     private val generatorPredicates =
-        JniGeneratorPredicates(limeReferenceMap, javaNameRules, nameCache.nameRules, cppNameResolver, activeTags)
+        JniGeneratorPredicates(
+            limeReferenceMap = limeReferenceMap,
+            platformSignatureResolver = signatureResolver,
+            platformAttribute = platformAttribute,
+            cppNameRules = nameCache.nameRules,
+            cppNameResolver = cppNameResolver,
+            activeTags = activeTags,
+        )
 
     private val cppIncludeResolver = CppIncludeResolver(limeReferenceMap, cppNameRules, internalNamespace)
     private val jniIncludeResolver = JniIncludeResolver(fileNameRules, descendantInterfaces)
@@ -234,7 +246,7 @@ internal class JniTemplates(
 
         mustacheData["includes"] = listOf(selfInclude) +
             limeStruct.fields.filter {
-                CommonGeneratorPredicates.needsImportsForSkippedField(it, LimeAttributeType.JAVA, limeReferenceMap)
+                CommonGeneratorPredicates.needsImportsForSkippedField(it, platformAttribute, limeReferenceMap)
             }.flatMap { cppIncludeResolver.resolveElementImports(it.typeRef) }
         val implFile =
             GeneratedFile(
