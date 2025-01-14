@@ -21,11 +21,11 @@
 {{#ifPredicate "hasAnyComment"}}
 /**
 {{prefixPartial "combinedComment" " * "}}
- */
-{{#if attributes.deprecated}}@Deprecated{{/if}}
-{{/ifPredicate}}
+ */{{#if attributes.deprecated}}
+@Deprecated {{/if}}{{!!
+}}{{/ifPredicate}}{{!!
 
-{{+combinedComment}}{{!!
+}}{{+combinedComment}}{{!!
 }}{{resolveName comment}}{{!!
 }}{{#resolveName property.additionalDescriptionComment}}{{#unless this.isEmpty}}
 {{this}}{{/unless}}{{/resolveName}}{{!!
