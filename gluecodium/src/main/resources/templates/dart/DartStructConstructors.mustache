@@ -28,8 +28,27 @@
 {{/instanceOf}}{{!!
 }}  {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}({{!!
   }}{{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}, {{/uninitializedFields}}{{!!
-  }}[{{#initializedFields}}{{resolveName typeRef}} {{resolveName}} = {{>constPrefix}}{{resolveName defaultValue}}{{#if iter.hasNext}}, {{/if}}{{/initializedFields}}])
-    : {{#fields}}{{resolveName "visibility"}}{{resolveName}} = {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}};
+  }}[{{#initializedFields}}{{!!
+}}{{#ifPredicate "fieldHasConstCtor"}}{{!!
+}}{{resolveName typeRef}} {{resolveName}} = {{>constPrefix}}{{resolveName defaultValue}}{{#if iter.hasNext}}, {{/if}}{{!!
+}}{{/ifPredicate}}{{!!
+}}{{#unlessPredicate "fieldHasConstCtor"}}{{!!
+}}{{resolveName typeRef.asNullable}} {{resolveName}} = null{{#if iter.hasNext}}, {{/if}}{{!!
+}}{{/unlessPredicate}}{{!!
+}}{{/initializedFields}}])
+    : {{#fields}}{{!!
+}}{{#ifPredicate "fieldHasDefaultValue"}}{{!!
+}}{{#ifPredicate "fieldHasConstCtor"}}{{!!
+}}{{resolveName "visibility"}}{{resolveName}} = {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{!!
+}}{{/ifPredicate}}{{!!
+}}{{#unlessPredicate "fieldHasConstCtor"}}{{!!
+}}{{resolveName "visibility"}}{{resolveName}} = {{resolveName}} ?? {{resolveName defaultValue}}{{#if iter.hasNext}}, {{/if}}{{!!
+}}{{/unlessPredicate}}{{!!
+}}{{/ifPredicate}}{{!!
+}}{{#unlessPredicate "fieldHasDefaultValue"}}{{!!
+}}{{resolveName "visibility"}}{{resolveName}} = {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{!!
+}}{{/unlessPredicate}}{{!!
+}}{{/fields}};
 {{/if}}{{!!
 
 }}{{#unless attributes.dart.positionalDefaults initializedFields}}{{!!
