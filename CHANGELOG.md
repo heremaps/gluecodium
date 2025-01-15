@@ -2,6 +2,7 @@
 
 ## Unreleased
 ### Bug fixes:
+ * Dart: introduced `GLUECODIUM_DART_DISABLE_FINALIZABLE_MARKER` variable as well as `-dartdisablefinalizablemarker` CLI flag, which allows conditionally disabling the usage of `Finalizable` interface from Dart:FFI. It was needed, because the fix introduced in Gluecodium's release `13.10.1` in some rare cases could cause internal compiler issue in Dart SDK (solved in Dart SDK 3.6.0+). This flag is intended to ease the transition to Dart 3.6.0+.
  * Dart: fixed a bug related to compilation error caused by usage of `@PositionalDefaults` and default value for a field that uses type, which does not provide const constructor.
  * Dart: disabled generation of `invalid_use_of_visible_for_testing_member` warning from the generated code for a hierarchy of classes.
  * Dart: removed generation of redundant import for constants declared with external types. The redundant import caused linter warnings.
