@@ -113,6 +113,15 @@ object OptionReader {
             addOption("libraryname", true, "Name of the generated library for some generators (e.g. Dart).")
             addOption("dartlookuperrormessage", true, "Custom error message for when Dart FFI function lookup fails.")
             addOption(
+                "dartdisablefinalizablemarker",
+                false,
+                "Disables usage of Dart:FFI 'Finalizable' marker by the generated types. " +
+                    "Warning: this is discouraged as it may lead to rare race conditions between native finalizers and " +
+                    "garbage collection. It was designed to be used only during transition to newer Dart SDK (versions " +
+                    " below 3.6.0. may experience internal compiler error when compiling the generated code, which utilizes " +
+                    "'Finalizable' marker)",
+            )
+            addOption(
                 "werror",
                 "warning-as-error",
                 true,
@@ -203,6 +212,7 @@ object OptionReader {
         getStringValue("dartlookuperrormessage")?.let { generatorOptions.dartLookupErrorMessage = it }
         getStringListValue("werror")?.let { generatorOptions.werror = it.toSet() }
 
+        generatorOptions.dartDisableFinalizableMarker = getFlagValue("dartdisablefinalizablemarker")
         generatorOptions.swiftExposeInternals = getFlagValue("swiftexpose")
 
         generatorOptions.cppNameRules = readConfigFile(getStringValue("cppnamerules"), generatorOptions.cppNameRules)

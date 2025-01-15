@@ -42,7 +42,12 @@ final _{{resolveName "Ffi"}}CreateProxy = __lib.catchArgumentError(() => __lib.n
     Pointer<Void> Function(int, int, Object, Pointer)
   >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_create_proxy'));
 
-class {{resolveName}}$Impl implements Finalizable {
+{{#unless disableFinalizableMarker}}{{!!
+}}class {{resolveName}}$Impl implements Finalizable {
+{{/unless}}{{!!
+}}{{#if disableFinalizableMarker}}{{!!
+}}class {{resolveName}}$Impl {
+{{/if}}
   final Pointer<Void> handle;
   {{resolveName}}$Impl(this.handle);
 

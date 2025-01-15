@@ -41,7 +41,12 @@ class _LazyIterator<E> implements Iterator<E> {
 }
 
 /// @nodoc
-class LazyList<E> extends Iterable<E> implements List<E>, Finalizable {
+{{#unless disableFinalizableMarker}}{{!!
+}}class LazyList<E> extends Iterable<E> implements List<E>, Finalizable {
+{{/unless}}{{!!
+}}{{#if disableFinalizableMarker}}{{!!
+}}class LazyList<E> extends Iterable<E> implements List<E> {
+{{/if}}
   static final _cannotModify = "Cannot modify an unmodifiable list";
 
   final Pointer<Void> handle;
