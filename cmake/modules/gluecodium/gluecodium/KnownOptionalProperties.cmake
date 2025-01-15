@@ -205,6 +205,14 @@ _gluecodium_define_target_property(
 )
 
 _gluecodium_define_target_property(
+  GLUECODIUM_DART_DISABLE_FINALIZABLE_MARKER
+  BRIEF_DOCS "Disables usage of Dart:FFI 'Finalizable' marker by the generated types"
+  FULL_DOCS
+    "Disables usage of Dart:FFI 'Finalizable' marker by the generated types"
+    "This property is initialized by the value of the GLUECODIUM_DART_DISABLE_FINALIZABLE_MARKER_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
+)
+
+_gluecodium_define_target_property(
   GLUECODIUM_DART_NAMERULES
   BRIEF_DOCS "The path to a file with name rules for Dart"
   FULL_DOCS

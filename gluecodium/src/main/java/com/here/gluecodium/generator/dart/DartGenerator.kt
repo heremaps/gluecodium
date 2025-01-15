@@ -88,6 +88,7 @@ internal class DartGenerator : Generator {
     private lateinit var commentsProcessor: CommentsProcessor
     private lateinit var activeTags: Set<String>
     private var overloadsWerror: Boolean = false
+    private var disableFinalizableMarker: Boolean = false
 
     override val shortName = "dart"
 
@@ -101,6 +102,7 @@ internal class DartGenerator : Generator {
         internalPrefix = options.internalPrefix ?: ""
         commentsProcessor = DartCommentsProcessor(options.werror.contains(GeneratorOptions.WARNING_DOC_LINKS))
         overloadsWerror = options.werror.contains(GeneratorOptions.WARNING_DART_OVERLOADS)
+        disableFinalizableMarker = options.dartDisableFinalizableMarker
         activeTags = options.tags
     }
 
@@ -267,6 +269,7 @@ internal class DartGenerator : Generator {
                     "optimizedLists" to optimizedLists,
                     "descendantInterfaces" to descendantInterfaces,
                     "asyncHelpers" to asyncHelpers,
+                    "disableFinalizableMarker" to disableFinalizableMarker,
                 ),
                 nameResolvers,
                 predicates,
@@ -401,6 +404,7 @@ internal class DartGenerator : Generator {
                 "lookupErrorMessage" to lookupErrorMessage,
                 "builtInTypes" to TypeId.values().subtract(customNullableTypes),
                 "typeRepositories" to typeRepositories.sortedBy { it.fullName },
+                "disableFinalizableMarker" to disableFinalizableMarker,
                 "imports" to
                     typeRepositories.flatMap { importResolver.resolveElementImports(it) }.distinct().sorted(),
             )

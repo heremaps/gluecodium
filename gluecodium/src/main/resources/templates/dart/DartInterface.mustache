@@ -20,7 +20,12 @@
   !}}
 {{>dart/DartDocumentation}}{{>dart/DartAttributes}}
 abstract class {{resolveName}}{{!!
-}} implements {{#if this.parents}}{{#this.parents}}{{resolveName}}, {{/this.parents}}{{/if}}Finalizable {
+}}{{#unless disableFinalizableMarker}}{{!!
+}} implements {{#if this.parents}}{{#this.parents}}{{resolveName}}, {{/this.parents}}{{/if}}Finalizable{{!!
+}}{{/unless}}{{!!
+}}{{#if disableFinalizableMarker}}{{!!
+}}{{#if this.parents}} implements {{#this.parents}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/this.parents}}{{/if}}{{!!
+}}{{/if}} {
 {{#if inheritedFunctions functions inheritedProperties properties logic="or"}}
 {{prefixPartial "dart/DartDocumentation" "  "}}
   factory {{resolveName}}(

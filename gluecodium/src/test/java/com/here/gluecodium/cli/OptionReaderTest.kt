@@ -158,6 +158,18 @@ class OptionReaderTest {
         assertEquals("", options!!.second.copyrightHeaderContents)
     }
 
+    @Test
+    fun dartdisablefinalizablemarkerFlagIsProperlyRead() {
+        // Arrange
+        val commandLineParameters = arrayOf("-dartdisablefinalizablemarker")
+
+        // Act
+        val options = OptionReader.read(commandLineParameters)
+
+        // Assert
+        assertTrue(options!!.second.dartDisableFinalizableMarker)
+    }
+
     private fun prepareToRead(
         optionName: String,
         optionValue: String,
