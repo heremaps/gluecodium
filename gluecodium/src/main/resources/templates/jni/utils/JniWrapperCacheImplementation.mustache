@@ -73,7 +73,7 @@ JniReference<jobject> JniWrapperCache::get_cached_wrapper_impl(JNIEnv* jenv, con
         jenv->DeleteLocalRef(jobj);
 
         // Object reference has been cleared by garbage collector.
-        // There is no point in keeping it in cache.
+        // To avoid leaks we need to delete the weak ref object here.
         jenv->DeleteWeakGlobalRef(iter->second.obj);
         s_wrapper_cache.erase(iter);
 
@@ -87,6 +87,13 @@ void JniWrapperCache::remove_cached_wrapper_impl(JNIEnv* jenv, const void* obj_p
     std::lock_guard<std::mutex> lock(s_mutex);
 
     auto iter = s_wrapper_cache.find(obj_ptr);
+
+#ifdef GLUECODIUM_ENABLE_INTERNAL_DEBUG_CHECKS
+    if (iter == s_wrapper_cache.end()) {
+        throw_new_runtime_exception(jenv, "Invalid removal of cache entry");
+    }
+#endif
+
     if (iter != s_wrapper_cache.end()) {
         jenv->DeleteWeakGlobalRef(iter->second.obj);
         s_wrapper_cache.erase(iter);

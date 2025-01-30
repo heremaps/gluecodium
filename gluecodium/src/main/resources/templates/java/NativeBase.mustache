@@ -76,6 +76,8 @@ public abstract class NativeBase {
   private static final Set<Reference<?>> REFERENCES =
       Collections.newSetFromMap(new ConcurrentHashMap<Reference<?>, Boolean>());
 
+  public static boolean propagateCleanupException = false;
+
   private static final ReferenceQueue<NativeBase> REFERENCE_QUEUE = new ReferenceQueue<>();
   private final long nativeHandle;
 
@@ -126,6 +128,9 @@ public abstract class NativeBase {
         ((DisposableReference) reference).dispose();
       } catch (Throwable t) {
         LOGGER.log(Level.SEVERE, "Error cleaning up after reference.", t);
+        if (propagateCleanupException) {
+            throw t;
+        }
       }
     }
   }
