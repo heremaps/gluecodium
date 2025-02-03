@@ -21,6 +21,9 @@
 {{>java/CopyrightHeader}}
 
 #include "JniWrapperCache.h"
+#include "JniThrowNewException.h"
+
+#include <jni.h>
 
 #include <mutex>
 #include <unordered_map>
@@ -32,12 +35,26 @@ namespace {{.}}
 namespace jni
 {
 
+struct CachedObject
+{
+    jobject obj = nullptr;
+    unsigned int scheduled_removals = 0;
+};
+
 static std::mutex s_mutex;
-static std::unordered_map<const void*, jobject> s_wrapper_cache;
+static std::unordered_map<const void*, CachedObject> s_wrapper_cache;
 
 void JniWrapperCache::cache_wrapper_impl(JNIEnv* jenv, const void* obj_ptr, const JniReference<jobject>& jobj) {
     std::lock_guard<std::mutex> lock(s_mutex);
-    s_wrapper_cache[obj_ptr] = jenv->NewWeakGlobalRef(jobj.get());
+
+#ifdef GLUECODIUM_ENABLE_INTERNAL_DEBUG_CHECKS
+    auto iter = s_wrapper_cache.find(obj_ptr);
+    if (iter != s_wrapper_cache.end() && iter->second.obj != nullptr) {
+        throw_new_runtime_exception(jenv, "Weak reference leaked!");
+    }
+#endif
+
+    s_wrapper_cache[obj_ptr].obj = jenv->NewWeakGlobalRef(jobj.get());
 }
 
 JniReference<jobject> JniWrapperCache::get_cached_wrapper_impl(JNIEnv* jenv, const void* obj_ptr) {
@@ -47,7 +64,11 @@ JniReference<jobject> JniWrapperCache::get_cached_wrapper_impl(JNIEnv* jenv, con
     if (iter == s_wrapper_cache.end())
         return {};
 
-    auto jobj = jenv->NewLocalRef(iter->second);
+    if (iter->second.obj == nullptr) {
+        return {};
+    }
+
+    auto jobj = jenv->NewLocalRef(iter->second.obj);
     if (jenv->IsSameObject(jobj, NULL)) {
         jenv->DeleteLocalRef(jobj);
         return {};
@@ -61,7 +82,7 @@ void JniWrapperCache::remove_cached_wrapper_impl(JNIEnv* jenv, const void* obj_p
 
     auto iter = s_wrapper_cache.find(obj_ptr);
     if (iter != s_wrapper_cache.end()) {
-        jenv->DeleteWeakGlobalRef(iter->second);
+        jenv->DeleteWeakGlobalRef(iter->second.obj);
         s_wrapper_cache.erase(iter);
     }
 }

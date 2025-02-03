@@ -25,7 +25,8 @@ def getCMakeCommonParameters() {
     return ['-Wno-dev',
         '-DGLUECODIUM_GENERATORS_DEFAULT=android;cpp',
         "-DGLUECODIUM_BASE_OUTPUT_DIR_DEFAULT=${rootProject.generatedDir}",
-        "-DGLUECODIUM_VERSION_DEFAULT=${rootProject.useGluecodiumVersion()}"]
+        "-DGLUECODIUM_VERSION_DEFAULT=${rootProject.useGluecodiumVersion()}",
+        '-DGLUECODIUM_ENABLE_INTERNAL_DEBUG_CHECKS_DEFAULT=ON']
 }
 
 android {

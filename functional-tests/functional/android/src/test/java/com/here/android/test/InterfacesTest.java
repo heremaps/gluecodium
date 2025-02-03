@@ -28,6 +28,8 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import java.util.*;
+
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class)
 public class InterfacesTest {
@@ -35,6 +37,36 @@ public class InterfacesTest {
   private static final String INSTANCE_ONE_STRING = "simpleInterfaceOne";
   private static final String INSTANCE_TWO_STRING = "simpleInterfaceTwo";
   private static final String INSTANCE_OTHER_STRING = "simpleInstanceOther";
+
+  @Test
+  public void stressTestJniWeakReferenceCache() {
+    List<NestedInterfaceOne> nestedInterfaceOne = new ArrayList(1000);
+    for (int i = 0; i < 1000; ++i) {
+      nestedInterfaceOne.add(InterfacesFactory.createNestedInterfaceOne());
+    }
+
+    for (int i = 0; i < 1000; ++i) {
+      SimpleInterfaceOne instanceOne = InterfacesFactory.createSimpleInterfaceOne();
+      SimpleInterfaceOne instanceTwo = InterfacesFactory.createSimpleInterfaceOne();
+      instanceOne.setStringValue(INSTANCE_ONE_STRING);
+      instanceTwo.setStringValue(INSTANCE_TWO_STRING);
+
+      nestedInterfaceOne.get(i).setSameTypeInterfaces(instanceOne, instanceTwo);
+    }
+
+    System.gc();
+
+    for (int j = 0; j < 1000; ++j) {
+      for (int i = 0; i < 1000; ++i) {
+        SimpleInterfaceOne resultOne = nestedInterfaceOne.get(i).getInterfaceOne();
+        SimpleInterfaceOne resultTwo = nestedInterfaceOne.get(i).getInterfaceTwo();
+        assertEquals(INSTANCE_ONE_STRING, resultOne.getStringValue());
+        assertEquals(INSTANCE_TWO_STRING, resultTwo.getStringValue());
+      }
+
+      System.gc();
+    }
+  }
 
   @Test
   public void setSameTypeInterfaces() {
