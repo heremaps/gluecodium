@@ -75,7 +75,13 @@ JniReference<jobject> JniWrapperCache::get_cached_wrapper_impl(JNIEnv* jenv, con
         // Object reference has been cleared by garbage collector.
         // To avoid leaks we need to delete the weak ref object here.
         jenv->DeleteWeakGlobalRef(iter->second.obj);
-        s_wrapper_cache.erase(iter);
+        iter->second.obj = nullptr;
+
+        // However, because we "remove" the entry from cache here we need to ensure that
+        // the cleanup, which will be scheduled for already cleared object (which has not
+        // been performed yet) does not touch any cache entry added later (an entry for new object
+        // will be added by 'convert_to_jni()').
+        iter->second.scheduled_removals++;
 
         return {};
     } else {
@@ -95,7 +101,19 @@ void JniWrapperCache::remove_cached_wrapper_impl(JNIEnv* jenv, const void* obj_p
 #endif
 
     if (iter != s_wrapper_cache.end()) {
-        jenv->DeleteWeakGlobalRef(iter->second.obj);
+        // Firstly, verify if there were multiple cleanups scheduled for the given entry.
+        // This situation may happen if the exceptional removal of entry happened in
+        // JniWrapperCache::get_cached_wrapper_impl() when the weak reference was cleared by
+        // garbage collector. In such a case does not touch the entry - the last scheduled
+        // cleanup will remove it.
+        if (iter->second.scheduled_removals > 0) {
+            iter->second.scheduled_removals--;
+            return;
+        }
+
+        if (iter->second.obj != nullptr) {
+            jenv->DeleteWeakGlobalRef(iter->second.obj);
+        }
         s_wrapper_cache.erase(iter);
     }
 }
