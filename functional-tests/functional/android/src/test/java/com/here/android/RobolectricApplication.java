@@ -50,6 +50,7 @@ public final class RobolectricApplication extends Application {
     if (isFirstTime) {
       isFirstTime = false; // Only load libraries once
       loadNativeLibraries();
+      NativeBase.propagateCleanupException = true;
       Runtime.getRuntime()
           .addShutdownHook(
               new Thread() {

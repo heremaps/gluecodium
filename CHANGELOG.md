@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+ * JNI: removed leak of JNI weak references in JniWrapperCache.
+
 ## 13.10.2
 Release date 2025-01-22
 ### Bug fixes:

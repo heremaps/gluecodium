@@ -271,6 +271,14 @@ _gluecodium_define_target_property(
     "Such synchronisation might be necessary when Java/JNI generated code is located in several libraries and the libraries are loaded on-demand."
 )
 
+_gluecodium_define_target_property(
+  GLUECODIUM_ENABLE_INTERNAL_DEBUG_CHECKS
+  BRIEF_DOCS "Option to enable internal debug checks."
+  FULL_DOCS
+    "Enables additional debug checks in C++ code. For instance validation of JNI references handling."
+    "This property is initialized by the value of the GLUECODIUM_ENABLE_INTERNAL_DEBUG_CHECKS_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
+)
+
 # TODO: Add read-only properties
 
 function(_gluecodium_get_default_value_for_variable result _property)
