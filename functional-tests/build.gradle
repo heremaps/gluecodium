@@ -24,7 +24,19 @@ ext {
     minSdkVersion = 24
     cmakeVersion = '3.19.0+'
 
-    buildRoot = "${rootProject.projectDir}/build-android"
+    isAndroidKotlinBuild = {
+        return project.hasProperty("android-kotlin")
+    }
+
+    getAndroidBuildVariant = {
+        if (isAndroidKotlinBuild()) {
+            return "android-kotlin"
+        } else {
+            return "android"
+        }
+    }
+
+    buildRoot = "${rootProject.projectDir}/build-${getAndroidBuildVariant()}"
     buildNativeRoot = "${buildRoot}/cpp"
     generatedDir = "${buildRoot}/generated"
 
