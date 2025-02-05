@@ -27,6 +27,7 @@ enum class LimeAttributeType(
 ) {
     CPP("Cpp", LimeAttributeValueType.NAME),
     JAVA("Java", LimeAttributeValueType.NAME),
+    KOTLIN("KOTLIN", LimeAttributeValueType.NAME),
     SWIFT("Swift", LimeAttributeValueType.NAME),
     DART("Dart", LimeAttributeValueType.NAME),
     ASYNC("Async"),
