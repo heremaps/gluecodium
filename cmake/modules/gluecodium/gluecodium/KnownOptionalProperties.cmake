@@ -104,6 +104,31 @@ _gluecodium_define_target_property(
 )
 
 _gluecodium_define_target_property(
+  GLUECODIUM_KOTLIN_PACKAGE
+  BRIEF_DOCS "The base Kotlin package to use for generated Kotlin sources"
+  FULL_DOCS
+    "The base Kotlin package to use for generated Kotlin sources, for example \"com.my_company\"."
+    "This property is initialized by the value of the GLUECODIUM_KOTLIN_PACKAGE_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
+)
+
+_gluecodium_define_target_property(
+  GLUECODIUM_KOTLIN_INTERNAL_PACKAGE
+  BRIEF_DOCS "The package to use for internal Kotlin code"
+  FULL_DOCS
+    "The subpackage to use for internal Kotlin code. This value is appended with separator '.' to a value passed with GLUECODIUM_KOTLIN_PACKAGE"
+    "This property is initialized by the value of the GLUECODIUM_KOTLIN_INTERNAL_PACKAGE_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
+)
+
+_gluecodium_define_target_property(
+  GLUECODIUM_KOTLIN_NAMERULES
+  BRIEF_DOCS "The path to a file with name rules for Kotlin"
+  FULL_DOCS
+    "The path to a file with name rules for Kotlin."
+    ${_gluecodium_namerules_doc}
+    "This property is initialized by the value of the GLUECODIUM_KOTLIN_NAMERULES_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
+)
+
+_gluecodium_define_target_property(
   GLUECODIUM_COPYRIGHT_HEADER
   BRIEF_DOCS "The path to file with copyright to add in generated source files"
   FULL_DOCS

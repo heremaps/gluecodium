@@ -41,7 +41,7 @@ function(gluecodium_read_required_properties _target)
     message(FATAL_ERROR "Specified target '${_target}' doesn't exist")
   endif()
 
-  set(GLUECODIUM_SUPPORTED_GENERATORS cpp android swift dart)
+  set(GLUECODIUM_SUPPORTED_GENERATORS cpp android android-kotlin swift dart)
 
   function(_read_required_property result _target property_name)
     get_target_property(_property_value ${_target} ${property_name})
