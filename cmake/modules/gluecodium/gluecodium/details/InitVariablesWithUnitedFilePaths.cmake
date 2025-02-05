@@ -26,6 +26,8 @@ macro(gluecodium_init_variables_with_united_file_paths name_suffix)
     set(GLUECODIUM_GENERATED_cpp_${_source_group} cpp/${name_suffix}_${_source_group}_glue.cpp)
     set(GLUECODIUM_GENERATED_jni_${_source_group}
         android/${name_suffix}_${_source_group}_jniglue.cpp)
+    set(GLUECODIUM_GENERATED_jni_kotlin_${_source_group}
+        android-kotlin/${name_suffix}_${_source_group}_jniglue.cpp)
     set(GLUECODIUM_GENERATED_cbridge_${_source_group}
         cbridge/${name_suffix}_${_source_group}_cglue.cpp)
     set(GLUECODIUM_GENERATED_cbridge_header_${_source_group}

@@ -68,6 +68,13 @@ object OptionReader {
                 true,
                 "Java package name to append to 'javapackage' for internal types.",
             )
+            addOption("kotlinpackage", true, "Kotlin package name")
+            addOption(
+                "kotlinintpackage",
+                "kotlin-internal-package",
+                true,
+                "Kotlin package name to append to 'kotlinpackage' for internal types.",
+            )
             addOption("help", false, "Shows this help and exits.")
             addOption("version", false, "Prints version info and exits.")
             addOption(
@@ -147,6 +154,7 @@ object OptionReader {
             addOption("javanamerules", true, "Java name rules property file.")
             addOption("swiftnamerules", true, "Swift name rules property file.")
             addOption("dartnamerules", true, "Dart name rules property file.")
+            addOption("kotlinnamerules", true, "Kotlin name rules property file.")
         }
 
     @Throws(OptionReaderException::class)
@@ -203,6 +211,9 @@ object OptionReader {
         generatorOptions.javaNullableAnnotation = parseAnnotation(getStringValue("javanullableannotation"))
         generatorOptions.javaInternalPackages = getStringValue("intpackage")?.split(".") ?: emptyList()
 
+        generatorOptions.kotlinPackages = getStringValue("kotlinpackage")?.split(".") ?: emptyList()
+        generatorOptions.kotlinInternalPackages = getStringValue("kotlinintpackage")?.split(".") ?: emptyList()
+
         generatorOptions.cppRootNamespace = getStringValue("cppnamespace")?.split(".") ?: emptyList()
         generatorOptions.cppInternalNamespace = getStringValue("intnamespace")?.split(".") ?: emptyList()
         getStringValue("cppexport")?.let { generatorOptions.cppExport = it }
@@ -222,6 +233,8 @@ object OptionReader {
             readConfigFile(getStringValue("swiftnamerules"), generatorOptions.swiftNameRules)
         generatorOptions.dartNameRules =
             readConfigFile(getStringValue("dartnamerules"), generatorOptions.dartNameRules)
+        generatorOptions.kotlinNameRules =
+            readConfigFile(getStringValue("kotlinnamerules"), generatorOptions.kotlinNameRules)
 
         generatorOptions.copyrightHeaderContents = getStringValue("copyright")?.let { File(it).readText() }
         getStringListValue("tag")?.let { generatorOptions.tags = CaseInsensitiveSet(it) }

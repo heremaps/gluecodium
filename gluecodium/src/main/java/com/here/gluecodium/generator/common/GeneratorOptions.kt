@@ -27,6 +27,8 @@ data class GeneratorOptions(
     var werror: Set<String> = emptySet(),
     var javaPackages: List<String> = listOf(),
     var javaInternalPackages: List<String> = listOf(),
+    var kotlinPackages: List<String> = listOf(),
+    var kotlinInternalPackages: List<String> = listOf(),
     var javaNullableAnnotation: Pair<String, List<String>>? = null,
     var javaNonNullAnnotation: Pair<String, List<String>>? = null,
     var copyrightHeaderContents: String? = null,
@@ -49,6 +51,11 @@ data class GeneratorOptions(
         ConfigurationProperties.fromResource(
             Gluecodium::class.java,
             "/namerules/java.properties",
+        ),
+    var kotlinNameRules: Configuration =
+        ConfigurationProperties.fromResource(
+            Gluecodium::class.java,
+            "/namerules/kotlin.properties",
         ),
     var swiftNameRules: Configuration =
         ConfigurationProperties.fromResource(
