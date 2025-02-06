@@ -67,6 +67,14 @@ function(gluecodium_read_required_properties _target)
     endif()
   endforeach()
 
+  if((android IN_LIST _gluecodium_generators) AND (android-kotlin IN_LIST _gluecodium_generators))
+    message(
+      FATAL_ERROR
+      "Both 'android' and 'android-kotlin' specified in list of generators. This may cause symbols clash for JNI bindings!"
+      " Currently, specifying only one of them is supported."
+    )
+  endif()
+
   if(_args_SOURCE_SETS)
     set(${_args_SOURCE_SETS} ${_gluecodium_source_sets} PARENT_SCOPE)
   endif()
