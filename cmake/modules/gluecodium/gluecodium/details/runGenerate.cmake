@@ -140,6 +140,8 @@ function(_prepare_gluecodium_config_file file_path)
   _append_list_paths_option(input GLUECODIUM_LIME_SOURCES)
   _append_list_paths_option(auxinput GLUECODIUM_LIME_SOURCES_AUX)
 
+  _append_option(kotlinpackage GLUECODIUM_KOTLIN_PACKAGE)
+  _append_option(kotlinintpackage GLUECODIUM_KOTLIN_INTERNAL_PACKAGE)
   _append_option(javapackage GLUECODIUM_JAVA_PACKAGE)
   _append_option(intpackage GLUECODIUM_JAVA_INTERNAL_PACKAGE)
   _append_option(javanonnullannotation GLUECODIUM_JAVA_NONNULL_ANNOTATION)
@@ -153,6 +155,7 @@ function(_prepare_gluecodium_config_file file_path)
   _append_path_option(copyright GLUECODIUM_COPYRIGHT_HEADER)
   _append_path_option(cppnamerules GLUECODIUM_CPP_NAMERULES)
   _append_path_option(javanamerules GLUECODIUM_JAVA_NAMERULES)
+  _append_path_option(kotlinnamerules GLUECODIUM_KOTLIN_NAMERULES)
   _append_path_option(swiftnamerules GLUECODIUM_SWIFT_NAMERULES)
   _append_path_option(dartnamerules GLUECODIUM_DART_NAMERULES)
 
@@ -249,6 +252,12 @@ function(_collect_all_files_in_single_compilation_units)
     # Include all conversion headers first, so all later generic conversions relying on
     # specialization have all these defined
     _include_all(jni "android/jni/*_Conversion.h" "android/jni/*.cpp")
+  endif()
+
+  if(android-kotlin IN_LIST GLUECODIUM_GENERATORS)
+      # Include all conversion headers first, so all later generic conversions relying on
+      # specialization have all these defined
+      _include_all(jni_kotlin "android-kotlin/jni/*_Conversion.h" "android-kotlin/jni/*.cpp")
   endif()
 
   if(swift IN_LIST GLUECODIUM_GENERATORS)

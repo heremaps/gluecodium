@@ -41,7 +41,7 @@ function(gluecodium_read_required_properties _target)
     message(FATAL_ERROR "Specified target '${_target}' doesn't exist")
   endif()
 
-  set(GLUECODIUM_SUPPORTED_GENERATORS cpp android swift dart)
+  set(GLUECODIUM_SUPPORTED_GENERATORS cpp android android-kotlin swift dart)
 
   function(_read_required_property result _target property_name)
     get_target_property(_property_value ${_target} ${property_name})
@@ -66,6 +66,14 @@ function(gluecodium_read_required_properties _target)
       )
     endif()
   endforeach()
+
+  if((android IN_LIST _gluecodium_generators) AND (android-kotlin IN_LIST _gluecodium_generators))
+    message(
+      FATAL_ERROR
+      "Both 'android' and 'android-kotlin' specified in list of generators. This may cause symbols clash for JNI bindings!"
+      " Currently, specifying only one of them is supported."
+    )
+  endif()
 
   if(_args_SOURCE_SETS)
     set(${_args_SOURCE_SETS} ${_gluecodium_source_sets} PARENT_SCOPE)

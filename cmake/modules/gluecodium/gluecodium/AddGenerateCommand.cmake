@@ -34,7 +34,7 @@ The general form of the command is::
   gluecodium_add_generate_command(
     <target>                        # The target to add custom build rules for.
     [GENERATORS <generator> ...]    # The list of source code generators.
-                                    # Known value are: cpp, swift, android, dart
+                                    # Known value are: cpp, swift, android, android-kotlin, dart
                                     # Usually at least two generators needs to be defined
                                     # the one for native code and another for platform,
                                     # for example android;cpp or swift;cpp

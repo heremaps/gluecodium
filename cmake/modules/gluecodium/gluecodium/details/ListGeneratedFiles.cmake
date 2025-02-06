@@ -59,6 +59,10 @@ function(gluecodium_list_generated_files _target)
       list(APPEND _android_generated_files "${_unity_dir}/${GLUECODIUM_GENERATED_jni_${_group}}")
     endif()
 
+    if(android-kotlin IN_LIST _generators)
+      list(APPEND _android_kotlin_generated_files "${_unity_dir}/${GLUECODIUM_GENERATED_jni_kotlin_${_group}}")
+    endif()
+
     if(swift IN_LIST _generators)
       list(APPEND _cbridge_generated_files
                   "${_unity_dir}/${GLUECODIUM_GENERATED_cbridge_${_group}}")
@@ -76,11 +80,12 @@ function(gluecodium_list_generated_files _target)
     set(${_args_OUTPUT_ALL}
         ${_cpp_generated_files} ${_android_generated_files} ${_cbridge_generated_files}
         ${_cbridge_headers_generated_files} ${_swift_generated_files} ${_dart_generated_files}
+        ${_android_kotlin_generated_files}
         PARENT_SCOPE)
   endif()
 
   if(_args_OUTPUT_CPP)
-    set(${_args_OUTPUT_CPP} ${_cpp_generated_files} ${_android_generated_files}
+    set(${_args_OUTPUT_CPP} ${_cpp_generated_files} ${_android_generated_files} ${_android_kotlin_generated_files}
                             ${_cbridge_generated_files} ${_dart_generated_files} PARENT_SCOPE)
   endif()
 
