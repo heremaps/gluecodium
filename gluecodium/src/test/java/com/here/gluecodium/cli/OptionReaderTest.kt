@@ -170,6 +170,32 @@ class OptionReaderTest {
         assertTrue(options!!.second.dartDisableFinalizableMarker)
     }
 
+    @Test
+    @Throws(OptionReaderException::class)
+    fun kotlinpackageOptionIsRecognised() {
+        // Arrange
+        val toRead = prepareToRead("-kotlinpackage", TEST_KOTLIN_PACKAGE_LIST)
+
+        // Act
+        val options = OptionReader.read(toRead)
+
+        // Assert
+        assertEquals(listOf(TEST_KOTLIN_PACKAGE_LIST), options!!.second.kotlinPackages)
+    }
+
+    @Test
+    @Throws(OptionReaderException::class)
+    fun kotlinintpackageOptionIsRecognised() {
+        // Arrange
+        val toRead = prepareToRead("-kotlinintpackage", TEST_KOTLIN_PACKAGE_LIST)
+
+        // Act
+        val options = OptionReader.read(toRead)
+
+        // Assert
+        assertEquals(listOf(TEST_KOTLIN_PACKAGE_LIST), options!!.second.kotlinInternalPackages)
+    }
+
     private fun prepareToRead(
         optionName: String,
         optionValue: String,
@@ -181,5 +207,6 @@ class OptionReaderTest {
         private const val TEST_OUTPUT = "./outputFile"
         private const val TEST_GENERATORS = "java,cpp"
         private const val TEST_JAVA_PACKAGE_LIST = "some_package"
+        private const val TEST_KOTLIN_PACKAGE_LIST = "another_package"
     }
 }

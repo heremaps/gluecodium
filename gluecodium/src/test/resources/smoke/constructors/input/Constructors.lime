@@ -44,8 +44,10 @@ open class Constructors {
 
 class ChildConstructors : Constructors {
     @Java(Name = "createNoArgsChild")
+    @Kotlin(Name = "createNoArgsChild")
     constructor create()
     @Java(Name = "createCopyFromParent")
+    @Kotlin(Name = "createCopyFromParent")
     constructor create(other: Constructors)
 }
 

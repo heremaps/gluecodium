@@ -74,7 +74,7 @@ function(feature feature_name)
     set(FUNCTIONAL_LIME_SOURCES "${FUNCTIONAL_LIME_SOURCES};${lime_sources}" PARENT_SCOPE)
 endfunction()
 
-feature(Strings cpp android swift dart SOURCES
+feature(Strings cpp android android-kotlin swift dart SOURCES
     input/src/cpp/StaticStringMethods.cpp
     input/src/cpp/StringsWithCstring.cpp
     input/src/cpp/CppRefReturnType.cpp
@@ -99,7 +99,7 @@ feature(Blob cpp android swift dart SOURCES
     input/lime/StaticByteArrayMethods.lime
 )
 
-feature(BuiltinTypes cpp android swift dart SOURCES
+feature(BuiltinTypes cpp android android-kotlin swift dart SOURCES
     input/src/cpp/StaticBooleanMethods.cpp
     input/src/cpp/StaticFloatDoubleMethods.cpp
     input/src/cpp/StaticIntMethods.cpp
@@ -109,7 +109,7 @@ feature(BuiltinTypes cpp android swift dart SOURCES
     input/lime/StaticIntMethods.lime
 )
 
-feature(Classes cpp android swift dart SOURCES
+feature(Classes cpp android android-kotlin swift dart SOURCES
     input/src/cpp/Instances.h
     input/src/cpp/Instances.cpp
     input/src/cpp/InstancesFactory.cpp
@@ -117,7 +117,7 @@ feature(Classes cpp android swift dart SOURCES
     input/lime/Instances.lime
 )
 
-feature(Interfaces cpp android swift dart SOURCES
+feature(Interfaces cpp android android-kotlin swift dart SOURCES
     input/src/cpp/Interfaces.h
     input/src/cpp/Interfaces.cpp
     input/src/cpp/InterfacesFactory.cpp
@@ -165,7 +165,7 @@ feature(TypeDefs cpp android swift dart SOURCES
     input/lime/StaticTypedef.lime
 )
 
-feature(Enums cpp android swift dart SOURCES
+feature(Enums cpp android android-kotlin swift dart SOURCES
     input/src/cpp/Enums.cpp
     input/src/cpp/EnumsTypeCollection.cpp
 
@@ -175,7 +175,7 @@ feature(Enums cpp android swift dart SOURCES
     input/lime/EnumsTypeCollection.lime
 )
 
-feature(Properties cpp android swift dart SOURCES
+feature(Properties cpp android android-kotlin swift dart SOURCES
     input/src/cpp/AttributesInterfaceImpl.h
     input/src/cpp/AttributesInterfaceImpl.cpp
     input/src/cpp/AttributesInterfaceFactory.cpp
@@ -382,7 +382,7 @@ feature(Dates cpp android swift dart SOURCES
     input/lime/DateDefaults.lime
 )
 
-feature(Durations cpp android swift dart SOURCES
+feature(Durations cpp android android-kotlin swift dart SOURCES
     input/src/cpp/Durations.cpp
 
     input/lime/Durations.lime
@@ -443,7 +443,7 @@ feature(Nesting cpp android swift dart SOURCES
     input/lime/NestedInheritance.lime
 )
 
-feature(Lambdas cpp android swift dart SOURCES
+feature(Lambdas cpp android android-kotlin swift dart SOURCES
     input/lime/Lambdas.lime
 
     input/src/cpp/Lambdas.cpp
@@ -537,6 +537,8 @@ set_target_properties(functional_bindings PROPERTIES
     GLUECODIUM_JAVA_INTERNAL_PACKAGE lorem.ipsum
     GLUECODIUM_JAVA_NONNULL_ANNOTATION androidx.annotation.NonNull
     GLUECODIUM_JAVA_NULLABLE_ANNOTATION androidx.annotation.Nullable
+    GLUECODIUM_KOTLIN_PACKAGE com.here.android
+    GLUECODIUM_KOTLIN_INTERNAL_PACKAGE lorem.ipsum
     GLUECODIUM_CPP_INTERNAL_NAMESPACE "lorem_ipsum::test"
     GLUECODIUM_CBRIDGE_INTERNAL_PREFIX "libfunctional_"
     GLUECODIUM_DART_LIBRARY_NAME "functional"

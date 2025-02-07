@@ -74,6 +74,11 @@ function(gluecodium_get_target_include_directories _target)
                   "$<BUILD_INTERFACE:${_output_${_source_set_lower}_dir}/android/jni>")
     endif()
 
+    if(android-kotlin IN_LIST _generators)
+      list(APPEND _result_list_public
+                  "$<BUILD_INTERFACE:${_output_${_source_set_lower}_dir}/android-kotlin/jni>")
+    endif()
+
     if(dart IN_LIST _generators)
       list(APPEND _result_list_public
                   "$<BUILD_INTERFACE:${_output_${_source_set_lower}_dir}/dart/ffi>")
@@ -85,7 +90,7 @@ function(gluecodium_get_target_include_directories _target)
 
   endforeach()
 
-  if(android IN_LIST _generators)
+  if((android IN_LIST _generators) OR (android-kotlin IN_LIST _generators))
     # If we're not crosscompiling, we need to manually add JNI includes.
     if(NOT CMAKE_CROSSCOMPILING)
       find_package(JNI REQUIRED)
