@@ -26,6 +26,7 @@ import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.generator.cpp.CppIncludesCache
 import com.here.gluecodium.generator.cpp.CppLibraryIncludes
 import com.here.gluecodium.generator.cpp.CppNameRules
+import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeConstant
@@ -139,7 +140,7 @@ internal class FfiCppIncludeResolver(
         listOfNotNull(
             isolateContextInclude.takeIf { limeContainer.functions.isNotEmpty() || limeContainer.properties.isNotEmpty() },
             cppIncludesCache.typeRepositoryInclude.takeIf { CommonGeneratorPredicates.hasTypeRepository(limeContainer) },
-        )
+        ) + (if (limeContainer.functions.any { it.attributes.have(LimeAttributeType.ASYNC) }) proxyIncludes else emptyList())
 
     companion object {
         private val BOOL_INCLUDE = Include.createSystemInclude("stdbool.h")
