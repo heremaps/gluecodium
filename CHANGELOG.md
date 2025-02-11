@@ -2,6 +2,7 @@
 
 ## Unreleased
 ### Bug fixes:
+ * Dart: fixed problem related to missing includes for `@Async` functions.
  * JNI: removed leak of JNI weak references in JniWrapperCache.
 
 ## 13.10.2
