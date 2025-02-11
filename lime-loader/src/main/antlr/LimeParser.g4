@@ -242,15 +242,15 @@ positionalEnumeratorRef
 
 structInitializer
     : '{' NewLine* ((simpleId NewLine* '=' NewLine*)? literalConstant NewLine*
-      (',' NewLine* (simpleId NewLine* '=' NewLine*)? literalConstant NewLine*)*)? '}' NewLine*
+      (',' NewLine* (simpleId NewLine* '=' NewLine*)? literalConstant NewLine*)*)? '}' NewLine*?
     ;
 
 listInitializer
-    : '[' NewLine* (literalConstant NewLine* (',' NewLine* literalConstant NewLine*)*)? ']' NewLine*
+    : '[' NewLine* (literalConstant NewLine* (',' NewLine* literalConstant NewLine*)*)? ']' NewLine*?
     ;
 
 mapInitializer
-    : '[' NewLine* (keyValuePair NewLine* (',' NewLine* keyValuePair NewLine*)*)? ']' NewLine*
+    : '[' NewLine* (keyValuePair NewLine* (',' NewLine* keyValuePair NewLine*)*)? ']' NewLine*?
     ;
 
 keyValuePair
