@@ -18,11 +18,11 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "test/AsyncWithSkips.h"
+#include "abc/AsyncWithSkips.h"
 #include <memory>
 #include <string>
 
-namespace test
+namespace abc
 {
 
 void

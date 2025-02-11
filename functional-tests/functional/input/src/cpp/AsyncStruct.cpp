@@ -18,11 +18,11 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#include "test/AsyncStruct.h"
+#include "abc/AsyncStruct.h"
 #include <memory>
 #include <string>
 
-namespace test
+namespace abc
 {
 using namespace lorem_ipsum::test;
 

@@ -19,7 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 import "package:test/test.dart";
-import "package:functional/test.dart";
+import "package:functional/abc.dart";
 import "../test_suite.dart";
 
 final _testSuite = TestSuite("Async");
