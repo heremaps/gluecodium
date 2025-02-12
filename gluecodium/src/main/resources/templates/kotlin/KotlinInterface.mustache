@@ -39,4 +39,45 @@ interface {{resolveName}} {{!!
         set{{/setter}}
 {{/unless}}
 {{/properties}}
+
+{{#ifPredicate "needsCompanionObject"}}
+    companion object {
+{{#constants}}{{prefixPartial "kotlin/KotlinConstant" "        "}}
+{{/constants}}
+{{#ifPredicate "hasStaticFunctions"}}
+{{#set isInterface=true interface=this}}
+{{#functions}}
+{{#if isStatic}}
+{{prefixPartial "kotlin/KotlinFunction" "        "}}{{prefixPartial "redirectToImpl" "    " skipFirstLine=true}}
+{{/if}}
+{{/functions}}
+{{/set}}
+{{/ifPredicate}}
+{{#ifPredicate "hasStaticProperties"}}
+{{#set isInterface=true interface=this}}
+{{#properties}}
+{{#set property=this}}
+{{#property}}
+{{#if isStatic}}
+{{#if setter}}        @JvmStatic var{{/if}}{{!!
+}}{{#unless setter}}        @JvmStatic val{{/unless}}{{!!
+}} {{resolveName}}: {{resolveName typeRef}}
+            get() = {{resolveName interface}}Impl.{{resolveName property}}{{#setter}}
+            set(value) {
+                {{resolveName interface}}Impl.{{resolveName property}} = value
+            }{{/setter}}
+{{/if}}
+{{/property}}
+{{/set}}
+{{/properties}}
+{{/set}}
+{{/ifPredicate}}
+    }
+{{/ifPredicate}}{{!!
+
+}}{{+redirectToImpl}} {
+        {{#unless returnType.isVoid}}return {{/unless}}{{resolveName interface}}Impl.{{resolveName}}({{!!
+        }}{{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})
+    }
+{{/redirectToImpl}}
 }
