@@ -8,6 +8,7 @@ package com.example.smoke;
 import android.support.annotation.NonNull;
 
 public interface ErrorsInterface {
+    public static final String ERROR_MESSAGE = "Some error message constant";
     public enum InternalError {
         ERROR_NONE(0),
         ERROR_FATAL(1);
@@ -64,21 +65,16 @@ public interface ErrorsInterface {
         public final ErrorsInterface.ExternalErrors error;
     }
 
-
     void methodWithErrors() throws ErrorsInterface.InternalException;
 
-
     void methodWithExternalErrors() throws ErrorsInterface.ExternalException;
-
 
     @NonNull
     String methodWithErrorsAndReturnValue() throws ErrorsInterface.InternalException;
 
-
     static void methodWithPayloadError() throws WithPayloadException {
         ErrorsInterfaceImpl.methodWithPayloadError();
     }
-
 
 
     @NonNull
