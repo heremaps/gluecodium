@@ -32,30 +32,23 @@ public:
     ~AsyncClassImpl() override = default;
 public:
     void async_void(std::function<void()> result_callback, const bool input) override;
-    void async_void(const bool input) override;
     void async_void_throws(
         std::function<void()> result_callback,
         std::function<void(AsyncErrorCode)> error_callback,
         const bool should_throw
     ) override;
-    std::error_code async_void_throws(const bool input) override;
     void async_int(std::function<void(int32_t)> result_callback, const bool input) override;
-    int32_t async_int(const bool input) override;
     void async_int_throws(
         std::function<void(int32_t)> result_callback,
         std::function<void(AsyncErrorCode)> error_callback,
         const bool should_throw
     ) override;
-    Return<int32_t, std::error_code> async_int_throws(const bool input) override;
 };
 
 void
 AsyncClassImpl::async_void(std::function<void()> result_callback, const bool) {
     result_callback();
 }
-
-void
-AsyncClassImpl::async_void(const bool) {}
 
 void
 AsyncClassImpl::async_void_throws(
@@ -70,16 +63,10 @@ AsyncClassImpl::async_void_throws(
     }
 }
 
-std::error_code
-AsyncClassImpl::async_void_throws(const bool) { return {}; }
-
 void
 AsyncClassImpl::async_int(std::function<void(int32_t)> result_callback, const bool) {
     result_callback(42);
 }
-
-int32_t
-AsyncClassImpl::async_int(const bool) { return 0; }
 
 void
 AsyncClassImpl::async_int_throws(
@@ -94,9 +81,6 @@ AsyncClassImpl::async_int_throws(
     }
 }
 
-Return<int32_t, std::error_code>
-AsyncClassImpl::async_int_throws(const bool) { return Return<int32_t, std::error_code>(0); }
-
 // Static functions
 
 std::shared_ptr<AsyncClass>
@@ -106,8 +90,5 @@ void
 AsyncClass::async_static(std::function<void()> result_callback, const bool) {
     result_callback();
 }
-
-void
-AsyncClass::async_static(const bool) {}
 
 }

@@ -20,6 +20,9 @@
   !}}
 {{#functions}}{{#if attributes.async}}{{#set self=this isAsyncHelper=true}}{{#self}}
 {{prefixPartial "cpp/CppFunctionSignature" "    "}};
-{{/self}}{{/set}}{{/if}}
-{{prefixPartial "cpp/CppFunctionSignature" "    "}};
+{{/self}}{{/set}}
+{{#ifPredicate "asyncFunNeedsSynchronousVersion"}}{{!!
+}}{{prefixPartial "cpp/CppFunctionSignature" "    "}};{{!!
+}}{{/ifPredicate}}{{/if}}{{!!
+}}{{#unless attributes.async}}{{prefixPartial "cpp/CppFunctionSignature" "    "}};{{/unless}}
 {{/functions}}

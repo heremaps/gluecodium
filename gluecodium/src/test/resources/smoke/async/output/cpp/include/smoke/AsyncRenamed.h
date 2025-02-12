@@ -18,7 +18,7 @@ public:
 
 public:
     virtual void callDispose( std::function<void()> _result_callback ) = 0;
-    virtual void callDispose(  ) = 0;
+
 };
 
 
