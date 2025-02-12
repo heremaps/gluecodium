@@ -137,7 +137,6 @@ internal class CppGeneratorPredicates(private val referenceMap: Map<String, Lime
                         typesUsedInTheClass.filterKeys { it != container }.values.flatten().contains(container.fullName)
                     }
                 },
-
             "asyncFunNeedsSynchronousVersion" to { limeFunction: Any ->
                 if (limeFunction !is LimeFunction) {
                     false
@@ -148,7 +147,10 @@ internal class CppGeneratorPredicates(private val referenceMap: Map<String, Lime
             },
         )
 
-    private fun isSkippedInPlatform(limeFunction: LimeFunction, platform: LimeAttributeType) : Boolean {
+    private fun isSkippedInPlatform(
+        limeFunction: LimeFunction,
+        platform: LimeAttributeType,
+    ): Boolean {
         if (limeFunction.attributes.have(platform, LimeAttributeValueType.SKIP)) {
             return true
         }
