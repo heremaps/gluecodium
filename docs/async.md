@@ -56,6 +56,10 @@ class AsyncClass {
 }
 ```
 
+>**Note:** if the function or whole type is generated only for C++ and Dart
+> and other platforms are skipped via `@Skip(Java)` and `@Skip(Swift)` then
+> only asynchronous version of the method is generated.
+
 The first C++ overload is the same as without the `@Async` attribute. It still should be used for synchronous usages in
 Java, Swift, and C++ itself. The second overload is intended for the asynchronous use. This overload does not return any
 value. Instead:
