@@ -2,6 +2,7 @@
 
 ## Unreleased
 ### Bug fixes:
+ * C++: removed generation of redundant synchronous version of function when `@Async` is used only for C++/Dart and Java/Swift are skipped.
  * LimeParser: introduced non-greedy parsing of new lines for ceratin sub-rules of `constant` rule to prevent meaningless error messages when invalid syntax is used after declaration of a constant.
  * Dart: fixed problem related to missing includes for `@Async` functions.
  * JNI: removed leak of JNI weak references in JniWrapperCache.
