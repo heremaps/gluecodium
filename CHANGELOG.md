@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 13.10.3
+Release date 2025-02-12
 ### Bug fixes:
  * C++: removed generation of redundant synchronous version of function when `@Async` is used only for C++/Dart and Java/Swift are skipped.
  * LimeParser: introduced non-greedy parsing of new lines for ceratin sub-rules of `constant` rule to prevent meaningless error messages when invalid syntax is used after declaration of a constant.
