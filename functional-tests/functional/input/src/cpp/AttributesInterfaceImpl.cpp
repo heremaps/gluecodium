@@ -22,6 +22,16 @@
 
 namespace test
 {
+static std::string s_some_static_property = "MY STATIC PROPERTY";
+
+::std::string AttributesInterface::get_some_static_property() {
+    return s_some_static_property;
+}
+
+void AttributesInterface::set_some_static_property( const ::std::string& value ) {
+    s_some_static_property = value;
+}
+
 AttributesInterfaceImpl::~AttributesInterfaceImpl( ) = default;
 
 uint32_t

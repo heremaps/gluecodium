@@ -23,4 +23,8 @@ interface AttributesInterface {
     }
     property structAttribute: ExampleStruct { get set }
     property builtInTypeAttribute: UInt
+
+    const LABEL: String = "SOME CONSTANT LABEL"
+
+    static property someStaticProperty: String
 }

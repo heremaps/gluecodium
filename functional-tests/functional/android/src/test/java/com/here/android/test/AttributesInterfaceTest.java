@@ -56,4 +56,13 @@ public class AttributesInterfaceTest {
     assertNotNull(result);
     assertEquals(structValue.value, result.value);
   }
+
+  @Test
+  public void setGetStaticAttributes() {
+    assertEquals(AttributesInterface.LABEL, "SOME CONSTANT LABEL");
+    assertEquals(AttributesInterface.getSomeStaticProperty(), "MY STATIC PROPERTY");
+
+    AttributesInterface.setSomeStaticProperty("NEW VALUE OF PROPERTY");
+    assertEquals(AttributesInterface.getSomeStaticProperty(), "NEW VALUE OF PROPERTY");
+  }
 }
