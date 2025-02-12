@@ -32,6 +32,10 @@ void AttributesInterface::set_some_static_property( const ::std::string& value )
     s_some_static_property = value;
 }
 
+std::string AttributesInterface::static_function() {
+    return "Some magic string!";
+}
+
 AttributesInterfaceImpl::~AttributesInterfaceImpl( ) = default;
 
 uint32_t

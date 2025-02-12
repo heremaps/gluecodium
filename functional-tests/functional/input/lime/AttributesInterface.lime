@@ -27,4 +27,6 @@ interface AttributesInterface {
     const LABEL: String = "SOME CONSTANT LABEL"
 
     static property someStaticProperty: String
+
+    static fun staticFunction(): String
 }

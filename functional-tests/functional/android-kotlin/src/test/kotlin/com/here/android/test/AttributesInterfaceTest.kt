@@ -57,5 +57,7 @@ class AttributesInterfaceTest {
 
         AttributesInterface.someStaticProperty = "NEW VALUE OF PROPERTY"
         assertEquals(AttributesInterface.someStaticProperty, "NEW VALUE OF PROPERTY")
+
+        assertEquals(AttributesInterface.staticFunction(), "Some magic string!");
     }
 }
