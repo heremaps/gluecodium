@@ -21,6 +21,7 @@ package com.here.gluecodium.generator.cpp
 
 import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeElement
@@ -136,7 +137,31 @@ internal class CppGeneratorPredicates(private val referenceMap: Map<String, Lime
                         typesUsedInTheClass.filterKeys { it != container }.values.flatten().contains(container.fullName)
                     }
                 },
+
+            "asyncFunNeedsSynchronousVersion" to { limeFunction: Any ->
+                if (limeFunction !is LimeFunction) {
+                    false
+                } else {
+                    val platforms = listOf(LimeAttributeType.JAVA, LimeAttributeType.SWIFT)
+                    platforms.any { !isSkippedInPlatform(limeFunction, it) }
+                }
+            },
         )
+
+    private fun isSkippedInPlatform(limeFunction: LimeFunction, platform: LimeAttributeType) : Boolean {
+        if (limeFunction.attributes.have(platform, LimeAttributeValueType.SKIP)) {
+            return true
+        }
+
+        val parentElement = referenceMap[limeFunction.path.parent.toString()] as LimeNamedElement? ?: return false
+        if (parentElement.attributes.have(platform, LimeAttributeValueType.SKIP)) {
+            return true
+        }
+
+        return generateSequence(parentElement) {
+            referenceMap[it.path.parent.toString()] as? LimeNamedElement
+        }.any { it.attributes.have(platform, LimeAttributeValueType.SKIP) }
+    }
 
     private fun needsNotNullComment(limeTypeRef: LimeTypeRef) =
         !limeTypeRef.isNullable && limeTypeRef.type.actualType is LimeContainerWithInheritance
