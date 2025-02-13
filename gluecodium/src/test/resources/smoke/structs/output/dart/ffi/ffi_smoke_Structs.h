@@ -37,6 +37,10 @@ _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Structs_modifyAllTypesStruc
 
 
 
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_Structs_Point_fromPolar__Double_Double(int32_t _isolate_id, double phi, double r);
+
+
+
 
 
 

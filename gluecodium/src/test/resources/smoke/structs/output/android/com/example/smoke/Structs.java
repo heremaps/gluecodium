@@ -27,10 +27,14 @@ public final class Structs extends NativeBase {
         public double x;
         public double y;
 
-        public Point(final double x, final double y) {
-            this.x = x;
-            this.y = y;
+
+        public Point(final double phi, final double r) {
+            Point _other = fromPolar(phi, r);
+            this.x = _other.x;
+            this.y = _other.y;
         }
+
+        private static native Point fromPolar(final double phi, final double r);
 
 
     }
@@ -191,20 +195,16 @@ public final class Structs extends NativeBase {
 
 
 
-
     @NonNull
     public static native Structs.Point swapPointCoordinates(@NonNull final Structs.Point input);
-
 
 
     @NonNull
     public static native Structs.AllTypesStruct returnAllTypesStruct(@NonNull final Structs.AllTypesStruct input);
 
 
-
     @NonNull
     public static native TypeCollection.Point createPoint(final double x, final double y);
-
 
 
     @NonNull

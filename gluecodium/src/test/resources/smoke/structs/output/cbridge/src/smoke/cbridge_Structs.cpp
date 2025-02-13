@@ -117,6 +117,9 @@ double smoke_Structs_Point_y_get(_baseRef handle) {
 
 
 
+_baseRef smoke_Structs_Point_fromPolar(double phi, double r) {
+    return Conversion<::smoke::Structs::Point>::toBaseRef(::smoke::Structs::Point::from_polar(phi, r));
+}
 _baseRef
 smoke_Structs_Line_create_handle( _baseRef a, _baseRef b )
 {
