@@ -56,6 +56,11 @@ public abstract class NativeBase {
   private static final Set<Reference<?>> REFERENCES =
       Collections.newSetFromMap(new ConcurrentHashMap<Reference<?>, Boolean>());
 
+  /**
+   * Controls whether exceptions related to cleanup of C++ objects tied with Java objects
+   * are propagated to the user application.
+   * @hidden
+   */
   public static boolean propagateCleanupException = false;
 
   private static final ReferenceQueue<NativeBase> REFERENCE_QUEUE = new ReferenceQueue<>();

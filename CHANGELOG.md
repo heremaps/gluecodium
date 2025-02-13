@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug fixes:
+ * Java: add missing documentation comment to NativeBase class, to avoid triggering warnings.
+
 ## 13.10.3
 Release date 2025-02-12
 ### Bug fixes:
