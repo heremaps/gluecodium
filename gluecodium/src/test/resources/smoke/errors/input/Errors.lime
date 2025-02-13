@@ -68,6 +68,8 @@ interface ErrorsInterface {
     static fun methodWithPayloadError() throws WithPayload
     static fun methodWithPayloadErrorAndReturnValue(): String throws WithPayload
 
+    const ERROR_MESSAGE: String = "Some error message constant"
+
     exception Internal(InternalError)
     exception External(ExternalErrors)
 }

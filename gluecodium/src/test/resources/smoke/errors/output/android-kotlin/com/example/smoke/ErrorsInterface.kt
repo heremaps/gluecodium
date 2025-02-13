@@ -27,5 +27,17 @@ interface ErrorsInterface {
     fun methodWithExternalErrors() : Unit
     fun methodWithErrorsAndReturnValue() : String
 
+
+    companion object {
+        val ERROR_MESSAGE: String = "Some error message constant"
+        @JvmStatic fun methodWithPayloadError() : Unit {
+            ErrorsInterfaceImpl.methodWithPayloadError()
+        }
+
+        @JvmStatic fun methodWithPayloadErrorAndReturnValue() : String {
+            return ErrorsInterfaceImpl.methodWithPayloadErrorAndReturnValue()
+        }
+
+    }
 }
 

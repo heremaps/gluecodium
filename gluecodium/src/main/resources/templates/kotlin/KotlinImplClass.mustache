@@ -65,8 +65,6 @@ class {{resolveName}}Impl : NativeBase, {{resolveName}} {
 
 {{#ifPredicate "needsCompanionObject"}}
     companion object {
-{{#constants}}{{prefixPartial "kotlin/KotlinConstant" "        "}}
-{{/constants}}
 {{#ifPredicate "needsDisposer"}}
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
 {{/ifPredicate}}
@@ -76,6 +74,17 @@ class {{resolveName}}Impl : NativeBase, {{resolveName}} {
 {{prefixPartial "kotlin/KotlinFunction" "        "}}
 {{/if}}
 {{/functions}}
+{{/ifPredicate}}
+{{#ifPredicate "hasStaticProperties"}}
+{{#properties}}
+{{#if isStatic}}
+{{#if setter}}        @JvmStatic var{{/if}}{{!!
+}}{{#unless setter}}        @JvmStatic val{{/unless}}{{!!
+}} {{resolveName}}: {{resolveName typeRef}}
+            external get{{#setter}}
+            external set{{/setter}}
+{{/if}}
+{{/properties}}
 {{/ifPredicate}}
     }
 {{/ifPredicate}}

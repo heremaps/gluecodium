@@ -24,6 +24,8 @@ abstract class ErrorsInterface implements Finalizable {
 
   );
 
+  static final String errorMessage = "Some error message constant";
+
 
   void methodWithErrors();
 
