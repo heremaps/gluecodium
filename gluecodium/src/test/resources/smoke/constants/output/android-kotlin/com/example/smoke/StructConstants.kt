@@ -9,22 +9,31 @@ import com.example.NativeBase
 
 class StructConstants : NativeBase {
 
-    class SomeStruct(var stringField: String,
-        var floatField: Float) {
+    class SomeStruct {
+        var stringField: String
+        var floatField: Float
 
 
+
+        constructor(stringField: String, floatField: Float) {
+            this.stringField = stringField
+            this.floatField = floatField
+        }
 
 
     }
 
+    class NestingStruct {
+        var structField: StructConstants.SomeStruct
 
-    class NestingStruct(var structField: StructConstants.SomeStruct) {
 
 
+        constructor(structField: StructConstants.SomeStruct) {
+            this.structField = structField
+        }
 
 
     }
-
 
 
 

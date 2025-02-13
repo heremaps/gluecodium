@@ -18,14 +18,79 @@
   ! License-Filename: LICENSE
   !
   !}}
-class {{resolveName}}({{!!
-}}{{#fields}}{{!!
-}}var {{resolveName}}: {{resolveName typeRef}}{{#if defaultValue}} = {{resolveName defaultValue}}{{/if}}{{!!
-}}{{#if iter.hasNext}},
-    {{/if}}{{!!
-}}{{/fields}}) {
+class {{resolveName}} {
+{{#set isImmutable=attributes.immutable}}
+{{#fields}}{{!!
+}}{{#unless isImmutable}}    var {{/unless}}{{!!
+}}{{#if isImmutable}}    val {{/if}}{{!!
+}}{{resolveName}}: {{resolveName typeRef}}{{!!
+}}
+{{/fields}}
+{{/set}}
 
 {{>kotlin/KotlinContainerContents}}
+
+{{!!
+    1. If user explicitly specified constructors via 'constructor' keyword, then define them.
+}}
+{{#constructors}}
+    constructor({{!!
+}}{{#parameters}}{{!!
+}}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
+}}{{/parameters}}) {
+        val _other = {{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})
+{{#fields}}        this.{{resolveName}} = _other.{{resolveName}}
+{{/fields}}
+    }
+{{/constructors}}
+
+{{#if fields}}{{!!
+}}{{#unless constructors}}{{!!
+
+}}{{#unless fieldConstructors}}{{!!
+}}{{#if initializedFields}}
+{{!!
+    2. If user did not specify any constructors and field constructors and there are fields with default value,
+       then define a constructor which takes only fields, which do not have default value.
+}}
+    constructor({{!!
+}}{{#uninitializedFields}}{{!!
+}}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
+}}{{/uninitializedFields}}) {
+{{#fields}}        this.{{resolveName}} = {{#if defaultValue}}{{resolveName defaultValue}}{{/if}}{{!!
+                   }}{{#unless defaultValue}}{{resolveName}}{{/unless}}
+{{/fields}}
+    }
+{{/if}}{{!!
+}}{{/unless}}{{!!
+
+}}{{#ifPredicate "needsAllFieldsConstructor"}}{{!!
+    3. If user did not specify any constructors, field constructor and fields with default values, then
+       define a constructor, which allows setting all fields.
+}}
+    constructor({{!!
+}}{{#fields}}{{!!
+}}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
+}}{{/fields}}) {
+{{#fields}}        this.{{resolveName}} = {{resolveName}}
+{{/fields}}
+    }
+{{/ifPredicate}}{{!!
+}}{{/unless}}{{!!
+
+    4. Generate field constructors specified by the user.
+}}{{#fieldConstructors}}
+    constructor({{!!
+}}{{#fields}}{{!!
+}}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
+}}{{/fields}}) {
+{{#fields}}        this.{{resolveName}} = {{resolveName}}
+{{/fields}}
+{{#omittedFields}}        this.{{resolveName}} = {{resolveName defaultValue}}
+{{/omittedFields}}
+    }
+{{/fieldConstructors}}{{!!
+}}{{/if}}
 
 {{#functions}}
 {{#unless isStatic}}
@@ -38,14 +103,16 @@ class {{resolveName}}({{!!
 {{#constants}}{{prefixPartial "kotlin/KotlinConstant" "        "}}
 {{/constants}}
 {{#ifPredicate "hasStaticFunctions"}}
+{{#set self=this isStructure=true}}
+{{#self}}
 {{#functions}}
 {{#if isStatic}}
 {{prefixPartial "kotlin/KotlinFunction" "        "}}
 {{/if}}
 {{/functions}}
+{{/self}}
+{{/set}}
 {{/ifPredicate}}
     }
 {{/ifPredicate}}
-
 }
-

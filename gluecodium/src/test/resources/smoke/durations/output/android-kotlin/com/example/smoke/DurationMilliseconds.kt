@@ -10,13 +10,17 @@ import com.example.time.Duration
 
 class DurationMilliseconds : NativeBase {
 
-    class DurationStruct(var durationField: Duration) {
+    class DurationStruct {
+        var durationField: Duration
 
 
+
+        constructor(durationField: Duration) {
+            this.durationField = durationField
+        }
 
 
     }
-
 
 
 
