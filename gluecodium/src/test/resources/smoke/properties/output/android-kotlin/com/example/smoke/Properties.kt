@@ -13,13 +13,17 @@ class Properties : NativeBase {
         ERROR_NONE(0),
         ERROR_FATAL(999);
     }
-    class ExampleStruct(var value: Double) {
+    class ExampleStruct {
+        var value: Double
 
 
+
+        constructor(value: Double) {
+            this.value = value
+        }
 
 
     }
-
 
 
 

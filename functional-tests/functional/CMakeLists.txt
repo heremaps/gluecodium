@@ -125,13 +125,13 @@ feature(Interfaces cpp android android-kotlin swift dart SOURCES
     input/lime/Interfaces.lime
 )
 
-feature(InstanceInStruct cpp android swift dart SOURCES
+feature(InstanceInStruct cpp android android-kotlin swift dart SOURCES
     input/src/cpp/InstanceInStruct.cpp
 
     input/lime/StructWithInstance.lime
 )
 
-feature(Structs cpp android swift dart SOURCES
+feature(Structs cpp android android-kotlin swift dart SOURCES
     input/src/cpp/PlainDataStructures.cpp
 
     input/lime/Structs.lime
@@ -145,13 +145,13 @@ feature(StructsInTypes cpp android swift dart SOURCES
     input/lime/TypeCollection.lime
 )
 
-feature(StructsImmutable cpp android swift dart SOURCES
+feature(StructsImmutable cpp android android-kotlin swift dart SOURCES
     input/src/cpp/PlainDataStructuresImmutable.cpp
 
     input/lime/PlainDataStructuresImmutable.lime
 )
 
-feature(FieldConstructors cpp android swift dart SOURCES
+feature(FieldConstructors cpp android android-kotlin swift dart SOURCES
     input/src/cpp/FieldConstructors.cpp
 
     input/lime/FieldConstructors.lime

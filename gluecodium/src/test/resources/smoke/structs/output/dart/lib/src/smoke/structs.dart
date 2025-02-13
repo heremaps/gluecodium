@@ -89,12 +89,19 @@ void smokeStructsFoobarReleaseFfiHandleNullable(Pointer<Void> handle) =>
 
 // End of Structs_FooBar "private" section.
 
+
 class Structs_Point {
   double x;
 
   double y;
 
-  Structs_Point(this.x, this.y);
+  Structs_Point._(this.x, this.y);
+
+  factory Structs_Point(double phi, double r) => $prototype.fromPolar(phi, r);
+
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = Structs_Point$Impl();
 }
 
 
@@ -119,6 +126,27 @@ final _smokeStructsPointGetFieldy = __lib.catchArgumentError(() => __lib.nativeL
 
 
 
+/// @nodoc
+@visibleForTesting
+class Structs_Point$Impl {
+  Structs_Point fromPolar(double phi, double r) {
+    final _fromPolarFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Double, Double), Pointer<Void> Function(int, double, double)>('library_smoke_Structs_Point_fromPolar__Double_Double'));
+    final _phiHandle = (phi);
+    final _rHandle = (r);
+    final __resultHandle = _fromPolarFfi(__lib.LibraryContext.isolateId, _phiHandle, _rHandle);
+
+
+    try {
+      return smokeStructsPointFromFfi(__resultHandle);
+    } finally {
+      smokeStructsPointReleaseFfiHandle(__resultHandle);
+
+    }
+
+  }
+
+}
+
 Pointer<Void> smokeStructsPointToFfi(Structs_Point value) {
   final _xHandle = (value.x);
   final _yHandle = (value.y);
@@ -132,7 +160,7 @@ Structs_Point smokeStructsPointFromFfi(Pointer<Void> handle) {
   final _xHandle = _smokeStructsPointGetFieldx(handle);
   final _yHandle = _smokeStructsPointGetFieldy(handle);
   try {
-    return Structs_Point(
+    return Structs_Point._(
       (_xHandle), 
       (_yHandle)
     );
@@ -1008,6 +1036,7 @@ final _smokeStructsReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLi
 
 /// @nodoc
 @visibleForTesting
+
 class Structs$Impl extends __lib.NativeBase implements Structs {
 
   Structs$Impl(Pointer<Void> handle) : super(handle);
