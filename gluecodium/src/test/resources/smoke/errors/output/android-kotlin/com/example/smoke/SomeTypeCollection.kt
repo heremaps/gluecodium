@@ -6,7 +6,7 @@
 package com.example.smoke
 
 
-class SomeTypeCollection() {
+class SomeTypeCollection {
 
     enum class SomeTypeCollectionError(private val value: Int) {
         ERROR_A(0),

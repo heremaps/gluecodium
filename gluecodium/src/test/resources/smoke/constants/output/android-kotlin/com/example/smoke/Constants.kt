@@ -6,7 +6,7 @@
 package com.example.smoke
 
 
-class Constants() {
+class Constants {
 
     enum class StateEnum(private val value: Int) {
         OFF(0),
