@@ -36,6 +36,8 @@ public:
         Point( );
         Point( double x, double y );
 
+        static ::smoke::Structs::Point from_polar( const double phi, const double r );
+
     };
 
     struct _GLUECODIUM_CPP_EXPORT Line {

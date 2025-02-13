@@ -26,6 +26,9 @@ _GLUECODIUM_C_EXPORT double smoke_Structs_Point_y_get(_baseRef handle);
 
 
 
+
+
+_GLUECODIUM_C_EXPORT _baseRef smoke_Structs_Point_fromPolar(double phi, double r);
 _GLUECODIUM_C_EXPORT _baseRef smoke_Structs_Line_create_handle(_baseRef a, _baseRef b);
 _GLUECODIUM_C_EXPORT void smoke_Structs_Line_release_handle(_baseRef handle);
 

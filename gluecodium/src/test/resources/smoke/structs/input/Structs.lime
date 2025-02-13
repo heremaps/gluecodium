@@ -21,6 +21,8 @@ class Structs {
     struct Point {
         x: Double
         y: Double
+
+        constructor fromPolar(phi: Double, r: Double)
     }
     struct Line {
         a: Point
