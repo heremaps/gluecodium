@@ -397,7 +397,7 @@ feature(StructsWithCompanion cpp android swift dart SOURCES
     input/lime/StructsWithConstants.lime
 )
 
-feature(DeclarationOrder cpp android swift dart SOURCES
+feature(DeclarationOrder cpp android android-kotlin swift dart SOURCES
     input/src/cpp/StructsWithMethodsDeclarationOrder.cpp
 
     input/lime/OrderWithInterface.lime
