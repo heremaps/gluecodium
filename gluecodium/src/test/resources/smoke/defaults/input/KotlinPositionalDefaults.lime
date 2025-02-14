@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2022 HERE Europe B.V.
+# Copyright (C) 2016-2025 HERE Europe B.V.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,26 +15,14 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-package test
+package smoke
 
-import fire.SomeStruct
-import fire.StructConstants
-
-struct ConstantDefaults {
-    field1: SomeStruct = StructConstants.dummy
-    field2: SomeStruct = StructConstants.dummy4
-}
-
-@Skip(Java, Kotlin, Swift)
-enum AmbiguousEnum {
-    DISABLED
-}
-
-@Skip(Java, Kotlin, Swift)
-class AmbiguousConstants {}
-
-@Skip(Java, Kotlin, Swift)
-struct AmbiguousDefaults {
-    field1: fire.AmbiguousEnum = fire.AmbiguousEnum.DISABLED
-    field2: SomeStruct = fire.AmbiguousConstants.dummy
+@Kotlin(PositionalDefaults)
+@Java(Skip) @Swift(Skip) @Dart(Skip)
+struct StructWithKotlinPositionalDefaults {
+    firstInitField: Int = 42
+    firstFreeField: String
+    secondInitField: Float = 7.2
+    secondFreeField: Boolean
+    thirdInitField: String = "\\Jonny \"Magic\" Smith\n"
 }

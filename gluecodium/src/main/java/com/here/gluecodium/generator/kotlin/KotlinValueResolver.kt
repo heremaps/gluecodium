@@ -70,7 +70,7 @@ internal class KotlinValueResolver(private val nameResolver: KotlinNameResolver)
                 val elementName = nameResolver.resolveName(limeElement)
                 "$typeName.$elementName"
             }
-            else -> nameResolver.resolveName(limeValue.valueRef.element)
+            else -> nameResolver.resolveFullReferenceName(limeElement)
         }
     }
 
@@ -93,7 +93,7 @@ internal class KotlinValueResolver(private val nameResolver: KotlinNameResolver)
             }
 
             is LimeMap -> {
-                val values = limeValue.values.joinToString(".") { resolveValue(it) }
+                val values = limeValue.values.joinToString(", ") { resolveValue(it) }
                 "mapOf($values)"
             }
 

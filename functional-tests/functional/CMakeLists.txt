@@ -259,7 +259,7 @@ feature(Errors cpp android swift dart SOURCES
     input/lime/ErrorsWithNonTrivialType.lime
 )
 
-feature(Defaults cpp android swift dart SOURCES
+feature(Defaults cpp android android-kotlin swift dart SOURCES
     input/src/cpp/Defaults.cpp
 
     input/lime/Defaults.lime

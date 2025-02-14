@@ -73,6 +73,18 @@ internal class KotlinNameResolver(
             else -> null
         }
 
+    fun resolveFullReferenceName(element: LimeNamedElement): String {
+        val elementName = resolveName(element)
+        if (!element.path.hasParent) {
+            return (resolvePackageNames(element) + elementName).joinToString(".")
+        }
+
+        val parentElement = getParentElement(element)
+        val prefix = resolveFullReferenceName(parentElement)
+
+        return "$prefix.$elementName"
+    }
+
     private fun resolveComment(limeComment: LimeComment): String {
         // TODO: implement me!
         return ""

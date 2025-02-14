@@ -48,10 +48,14 @@ class {{resolveName}} {
 }}{{#unless constructors}}{{!!
 
 }}{{#unless fieldConstructors}}{{!!
-}}{{#if initializedFields}}
+}}{{#if initializedFields}}{{!!
+}}{{#unless attributes.kotlin.positionalDefaults}}
 {{!!
     2. If user did not specify any constructors and field constructors and there are fields with default value,
        then define a constructor which takes only fields, which do not have default value.
+
+       **Note**: this constructor will not be generated if PositionalDefaults is specified for a given structure,
+                 because the constructor generated for positional defaults covers this case.
 }}
     constructor({{!!
 }}{{#uninitializedFields}}{{!!
@@ -61,7 +65,8 @@ class {{resolveName}} {
                    }}{{#unless defaultValue}}{{resolveName}}{{/unless}}
 {{/fields}}
     }
-{{/if}}{{!!
+{{/unless}}{{!!
+}}{{/if}}{{!!
 }}{{/unless}}{{!!
 
 }}{{#ifPredicate "needsAllFieldsConstructor"}}{{!!
@@ -90,6 +95,21 @@ class {{resolveName}} {
 {{/omittedFields}}
     }
 {{/fieldConstructors}}{{!!
+
+    5. Generate positional defaults constructor if it is specified and there are no field constructors.
+}}{{#unless fieldConstructors}}{{!!
+}}{{#if attributes.kotlin.positionalDefaults}}
+    constructor({{!!
+}}{{#uninitializedFields}}{{!!
+}}{{resolveName}}: {{resolveName typeRef}}, {{!!
+}}{{/uninitializedFields}}{{!!
+}}{{#initializedFields}}{{resolveName}}: {{resolveName typeRef}} = {{resolveName defaultValue}}{{!!
+}}{{#if iter.hasNext}}, {{/if}}{{/initializedFields}}) {
+{{#fields}}        this.{{resolveName}} = {{resolveName}}
+{{/fields}}
+    }
+{{/if}}{{!!
+}}{{/unless}}{{!!
 }}{{/if}}
 
 {{#functions}}
