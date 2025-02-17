@@ -349,7 +349,7 @@ feature(Constants cpp android swift dart SOURCES
     input/lime/Constants.lime
 )
 
-feature(Equatable cpp android swift dart SOURCES
+feature(Equatable cpp android android-kotlin swift dart SOURCES
     input/src/cpp/EquatableImpl.cpp
     input/src/cpp/RefEquality.cpp
     input/src/cpp/SimpleEquality.cpp
