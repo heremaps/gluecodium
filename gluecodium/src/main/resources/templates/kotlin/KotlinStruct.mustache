@@ -112,6 +112,9 @@ class {{resolveName}} {
 }}{{/unless}}{{!!
 }}{{/if}}
 
+{{#if attributes.equatable}}{{prefixPartial "kotlin/KotlinEqualsAndHashCode" "    "}}
+{{/if}}
+
 {{#functions}}
 {{#unless isStatic}}
 {{prefixPartial "kotlin/KotlinFunction" "    "}}

@@ -89,8 +89,7 @@ class DefaultsTest {
         assertTrue(result.mapField.isEmpty())
         assertTrue(result.setTypeField.isEmpty())
 
-        // TODO: enable me when equatable is respected by structures
-        // assertEquals(Defaults.StructWithDefaults(), result.structField)
+        assertEquals(Defaults.StructWithDefaults(), result.structField)
     }
 
     @org.junit.Test
@@ -103,8 +102,7 @@ class DefaultsTest {
         assertTrue(result.setTypeField.isEmpty())
         assertTrue(result.setTypeField.isEmpty())
 
-        // TODO: enable me when equatable is respected by structures
-        // assertEquals(Defaults.StructWithDefaults(), result.structField)
+        assertEquals(Defaults.StructWithDefaults(), result.structField)
     }
 
     @org.junit.Test

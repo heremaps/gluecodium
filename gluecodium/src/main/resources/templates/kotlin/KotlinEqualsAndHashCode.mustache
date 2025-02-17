@@ -1,0 +1,87 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2025 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+override fun equals(obj: Any?) : Boolean {
+    if (obj === this) {
+        return true
+    }
+
+    if (obj !is {{resolveName}}) {
+        return false
+    }
+
+    val other = obj as {{resolveName}}
+    return {{joinPartial fields "fieldEq" " &&
+           " }}
+}
+
+override fun hashCode(): Int {
+    var hash: Int = 7
+{{#fields}}
+    hash = 31 * hash + {{>fieldHash}}
+{{/fields}}
+    return hash
+}{{!!
+
+}}{{+fieldEq}}{{!!
+    }}{{#set field=this type=typeRef.type.actualType}}{{#instanceOf type "LimeBasicType"}}{{!!
+    }}{{#if typeRef.isNullable}}{{>instanceEquals}}{{/if}}{{!!
+    }}{{#unless typeRef.isNullable}}{{!!
+        }}{{#switch type.typeId.toString}}{{!!
+        }}{{#case "Float"}}(this.{{resolveName field}}.compareTo(other.{{resolveName field}}) == 0){{/case}}{{!!
+        }}{{#case "Double"}}(this.{{resolveName field}}.compareTo(other.{{resolveName field}}) == 0){{/case}}{{!!
+        }}{{#case "Boolean"}}this.{{resolveName field}} == other.{{resolveName field}}{{/case}}{{!!
+        }}{{#default}}{{#if type.typeId.isNumericType}}this.{{resolveName field}} == other.{{resolveName field}}{{/if}}{{!!
+        }}{{#unless type.typeId.isNumericType}}{{>instanceEquals}}{{/unless}}{{/default}}{{!!
+        }}{{/switch}}{{!!
+    }}{{/unless}}{{/instanceOf}}{{!!
+    }}{{#notInstanceOf type "LimeBasicType"}}{{>instanceEquals}}{{/notInstanceOf}}{{/set}}{{!!
+}}{{/fieldEq}}{{!!
+
+}}{{+fieldHash}}{{!!
+    }}{{#set field=this type=typeRef.type.actualType}}{{#instanceOf type "LimeBasicType"}}{{!!
+    }}{{#if typeRef.isNullable}}{{>instanceHash}}{{/if}}{{!!
+    }}{{#unless typeRef.isNullable}}{{!!
+        }}{{#switch type.typeId.toString}}{{!!
+        }}{{#case "Boolean"}}(if(this.{{resolveName field}}) 79 else 97){{/case}}{{!!
+        }}{{#case "UInt"}}{{>longHash}}{{/case}}{{!!
+        }}{{#case "Long"}}{{>longHash}}{{/case}}{{!!
+        }}{{#case "ULong"}}{{>longHash}}{{/case}}{{!!
+        }}{{#case "Float"}}this.{{resolveName field}}.toBits(){{/case}}{{!!
+        }}{{#case "Double"}}((this.{{resolveName field}}.toBits() xor this.{{resolveName field}}.toBits()) ushr 32).toInt(){{/case}}{{!!
+        }}{{#default}}{{#if type.typeId.isNumericType}}this.{{resolveName field}}{{/if}}{{!!
+            }}{{#unless type.typeId.isNumericType}}{{!!
+            }}this.{{resolveName field}}.hashCode(){{!!
+            }}{{/unless}}{{!!
+        }}{{/default}}{{!!
+        }}{{/switch}}{{!!
+    }}{{/unless}}{{/instanceOf}}{{!!
+    }}{{#notInstanceOf type "LimeBasicType"}}{{!!
+        }}{{#unless typeRef.isNullable}}this.{{resolveName field}}.hashCode(){{/unless}}{{!!
+        }}{{#if typeRef.isNullable}}{{>instanceHash}}{{/if}}{{!!
+    }}{{/notInstanceOf}}{{!!
+    }}{{/set}}{{!!
+}}{{/fieldHash}}{{!!
+
+}}{{+instanceEquals}}java.util.Objects.equals(this.{{resolveName field}}, other.{{resolveName field}}){{/instanceEquals}}{{!!
+
+}}{{+longHash}}(this.{{resolveName field}} xor (this.{{resolveName field}} ushr 32)).toInt(){{/longHash}}{{!!
+
+}}{{+instanceHash}}(this.{{resolveName field}}?.hashCode() ?: 0){{/instanceHash}}
