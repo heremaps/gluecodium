@@ -63,6 +63,11 @@ class {{resolveName}}Impl : NativeBase, {{resolveName}} {
 {{/classElement.inheritedProperties}}
 {{/set}}{{/if}}
 
+{{#if attributes.equatable attributes.pointerEquatable logic="or"}}
+    override external fun equals(obj: Any?) : Boolean
+    override external fun hashCode(): Int
+
+{{/if}}
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
 {{#ifPredicate "hasStaticFunctions"}}
