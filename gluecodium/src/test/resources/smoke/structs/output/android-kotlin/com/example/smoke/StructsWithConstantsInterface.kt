@@ -10,15 +10,16 @@ import com.example.NativeBase
 class StructsWithConstantsInterface : NativeBase {
 
     class MultiRoute {
-        var descriptions: List<String>
+        var descriptions: MutableList<String>
         var type: RouteUtils.RouteType
 
 
 
-        constructor(descriptions: List<String>, type: RouteUtils.RouteType) {
+        constructor(descriptions: MutableList<String>, type: RouteUtils.RouteType) {
             this.descriptions = descriptions
             this.type = type
         }
+
 
 
         companion object {
@@ -28,6 +29,7 @@ class StructsWithConstantsInterface : NativeBase {
     }
 
     class StructWithConstantsOnly {
+
 
 
 
@@ -48,6 +50,7 @@ class StructsWithConstantsInterface : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
 

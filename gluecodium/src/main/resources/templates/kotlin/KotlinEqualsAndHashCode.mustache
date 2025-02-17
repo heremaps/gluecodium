@@ -65,7 +65,7 @@ override fun hashCode(): Int {
         }}{{#case "Long"}}{{>longHash}}{{/case}}{{!!
         }}{{#case "ULong"}}{{>longHash}}{{/case}}{{!!
         }}{{#case "Float"}}this.{{resolveName field}}.toBits(){{/case}}{{!!
-        }}{{#case "Double"}}((this.{{resolveName field}}.toBits() xor this.{{resolveName field}}.toBits()) ushr 32).toInt(){{/case}}{{!!
+        }}{{#case "Double"}}(this.{{resolveName field}}.toBits() xor (this.{{resolveName field}}.toBits() ushr 32)).toInt(){{/case}}{{!!
         }}{{#default}}{{#if type.typeId.isNumericType}}this.{{resolveName field}}{{/if}}{{!!
             }}{{#unless type.typeId.isNumericType}}{{!!
             }}this.{{resolveName field}}.hashCode(){{!!

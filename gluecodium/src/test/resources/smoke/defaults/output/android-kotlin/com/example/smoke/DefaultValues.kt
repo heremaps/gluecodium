@@ -29,6 +29,7 @@ class DefaultValues : NativeBase {
         }
 
 
+
     }
 
     class NullableStructWithDefaults {
@@ -47,6 +48,7 @@ class DefaultValues : NativeBase {
             this.boolField = null
             this.stringField = null
         }
+
 
 
     }
@@ -71,24 +73,26 @@ class DefaultValues : NativeBase {
         }
 
 
+
     }
 
     class StructWithEmptyDefaults {
-        var intsField: List<Int>
-        var floatsField: List<Float>
-        var mapField: Map<Long, String>
+        var intsField: MutableList<Int>
+        var floatsField: MutableList<Float>
+        var mapField: MutableMap<Long, String>
         var structField: DefaultValues.StructWithDefaults
-        var setTypeField: Set<String>
+        var setTypeField: MutableSet<String>
 
 
 
         constructor() {
-            this.intsField = listOf()
-            this.floatsField = listOf()
-            this.mapField = mapOf()
+            this.intsField = mutableListOf()
+            this.floatsField = mutableListOf()
+            this.mapField = mutableMapOf()
             this.structField = DefaultValues.StructWithDefaults()
-            this.setTypeField = setOf()
+            this.setTypeField = mutableSetOf()
         }
+
 
 
     }
@@ -107,6 +111,7 @@ class DefaultValues : NativeBase {
         }
 
 
+
     }
 
 
@@ -119,6 +124,7 @@ class DefaultValues : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
 

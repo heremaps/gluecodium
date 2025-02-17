@@ -26,6 +26,7 @@ class Structs : NativeBase {
 
 
 
+
         companion object {
             @JvmStatic external fun fromPolar(phi: Double, r: Double) : Structs.Point
         }
@@ -41,6 +42,7 @@ class Structs : NativeBase {
             this.a = a
             this.b = b
         }
+
 
 
     }
@@ -81,6 +83,7 @@ class Structs : NativeBase {
         }
 
 
+
     }
 
     class NestingImmutableStruct {
@@ -91,6 +94,7 @@ class Structs : NativeBase {
         constructor(structField: Structs.AllTypesStruct) {
             this.structField = structField
         }
+
 
 
     }
@@ -105,16 +109,18 @@ class Structs : NativeBase {
         }
 
 
+
     }
 
     class StructWithArrayOfImmutable {
-        var arrayField: List<Structs.AllTypesStruct>
+        var arrayField: MutableList<Structs.AllTypesStruct>
 
 
 
-        constructor(arrayField: List<Structs.AllTypesStruct>) {
+        constructor(arrayField: MutableList<Structs.AllTypesStruct>) {
             this.arrayField = arrayField
         }
+
 
 
     }
@@ -144,6 +150,7 @@ class Structs : NativeBase {
         }
 
 
+
     }
 
     class MutableStructWithCppAccessors {
@@ -164,6 +171,7 @@ class Structs : NativeBase {
         }
 
 
+
     }
 
 
@@ -176,6 +184,7 @@ class Structs : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
 

@@ -57,10 +57,9 @@ class LambdasTest {
 
     @org.junit.Test
     fun callConcatenateList() {
-        val strings: List<String> = mutableListOf<String>("foo", ">.<", "bar")
+        val strings: MutableList<String> = mutableListOf<String>("foo", ">.<", "bar")
         val concatenator: Lambdas.Concatenator = Lambdas.Concatenator { s1: String, s2: String -> s1 + s2 }
-        val concatenators: List<Lambdas.Concatenator> =
-            java.util.Arrays.asList<Lambdas.Concatenator>(concatenator, concatenator)
+        val concatenators = mutableListOf(concatenator, concatenator)
         val result: String = Lambdas.concatenateList(strings, concatenators)
 
         assertEquals("foo>.<bar", result)

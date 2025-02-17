@@ -21,12 +21,12 @@ class Equatable {
         var stringField: String
         var structField: Equatable.NestedEquatableStruct
         var enumField: Equatable.SomeEnum
-        var arrayField: List<String>
-        var mapField: Map<Int, String>
+        var arrayField: MutableList<String>
+        var mapField: MutableMap<Int, String>
 
 
 
-        constructor(boolField: Boolean, intField: Int, longField: Long, floatField: Float, doubleField: Double, stringField: String, structField: Equatable.NestedEquatableStruct, enumField: Equatable.SomeEnum, arrayField: List<String>, mapField: Map<Int, String>) {
+        constructor(boolField: Boolean, intField: Int, longField: Long, floatField: Float, doubleField: Double, stringField: String, structField: Equatable.NestedEquatableStruct, enumField: Equatable.SomeEnum, arrayField: MutableList<String>, mapField: MutableMap<Int, String>) {
             this.boolField = boolField
             this.intField = intField
             this.longField = longField
@@ -67,7 +67,7 @@ class Equatable {
             hash = 31 * hash + this.intField
             hash = 31 * hash + (this.longField xor (this.longField ushr 32)).toInt()
             hash = 31 * hash + this.floatField.toBits()
-            hash = 31 * hash + ((this.doubleField.toBits() xor this.doubleField.toBits()) ushr 32).toInt()
+            hash = 31 * hash + (this.doubleField.toBits() xor (this.doubleField.toBits() ushr 32)).toInt()
             hash = 31 * hash + this.stringField.hashCode()
             hash = 31 * hash + this.structField.hashCode()
             hash = 31 * hash + this.enumField.hashCode()
@@ -88,8 +88,8 @@ class Equatable {
         var stringField: String?
         var structField: Equatable.NestedEquatableStruct?
         var enumField: Equatable.SomeEnum?
-        var arrayField: List<String>?
-        var mapField: Map<Int, String>?
+        var arrayField: MutableList<String>?
+        var mapField: MutableMap<Int, String>?
 
 
 

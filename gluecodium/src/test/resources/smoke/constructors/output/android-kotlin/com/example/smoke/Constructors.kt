@@ -29,7 +29,7 @@ open class Constructors : NativeBase {
     constructor(input: String) : this(create(input), null as Any?) {
         cacheThisInstance();
     }
-    constructor(input: List<Double>) : this(create(input), null as Any?) {
+    constructor(input: MutableList<Double>) : this(create(input), null as Any?) {
         cacheThisInstance();
     }
     constructor(input: Long) : this(create(input), null as Any?) {
@@ -50,13 +50,14 @@ open class Constructors : NativeBase {
 
 
 
+
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         @JvmStatic external fun create() : Long
         @JvmStatic external fun create(other: Constructors) : Long
         @JvmStatic external fun create(foo: String, bar: Long) : Long
         @JvmStatic external fun create(input: String) : Long
-        @JvmStatic external fun create(input: List<Double>) : Long
+        @JvmStatic external fun create(input: MutableList<Double>) : Long
         @JvmStatic external fun create(input: Long) : Long
     }
 }
