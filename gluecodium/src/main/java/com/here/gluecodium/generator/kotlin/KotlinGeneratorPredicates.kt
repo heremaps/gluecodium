@@ -75,6 +75,15 @@ internal object KotlinGeneratorPredicates {
             else -> false
         }
 
+    private fun needsParcelCreator(element: Any): Boolean {
+        if (element !is LimeStruct) {
+            return false
+        }
+
+        return element.attributes.have(LimeAttributeType.SERIALIZABLE)
+    }
+
     private fun needsCompanionObject(element: Any) =
-        hasStaticFunctions(element) || hasConstants(element) || needsDisposer(element) || hasStaticProperties(element)
+        hasStaticFunctions(element) || hasConstants(element) || needsDisposer(element) ||
+            hasStaticProperties(element) || needsParcelCreator(element)
 }

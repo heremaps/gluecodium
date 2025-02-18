@@ -18,7 +18,10 @@
   ! License-Filename: LICENSE
   !
   !}}
-class {{resolveName}} {
+class {{resolveName}}{{!!
+}}{{#unless external.kotlin.name}}{{!!
+}}{{#if attributes.serializable}} : Parcelable{{/if}}{{!!
+}}{{/unless}} {
 {{#set isImmutable=attributes.immutable}}
 {{#fields}}{{!!
 }}{{#unless isImmutable}}    var {{/unless}}{{!!
@@ -115,6 +118,11 @@ class {{resolveName}} {
 {{#if attributes.equatable}}{{prefixPartial "kotlin/KotlinEqualsAndHashCode" "    "}}
 {{/if}}
 
+{{#unless external.kotlin.name}}{{!!
+}}{{#if attributes.serializable}}{{prefixPartial "kotlin/KotlinParcelableImpl" "    "}}
+
+{{/if}}{{/unless}}
+
 {{#functions}}
 {{#unless isStatic}}
 {{prefixPartial "kotlin/KotlinFunction" "    "}}
@@ -136,6 +144,9 @@ class {{resolveName}} {
 {{/self}}
 {{/set}}
 {{/ifPredicate}}
+{{#unless external.kotlin.name}}
+{{#if attributes.serializable}}{{prefixPartial "kotlin/KotlinParcelableCreator" "        "}}
+{{/if}}{{/unless}}
     }
 {{/ifPredicate}}
 }

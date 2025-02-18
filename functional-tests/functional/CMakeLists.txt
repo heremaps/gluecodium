@@ -295,7 +295,7 @@ feature(MultipleInheritance cpp android swift dart SOURCES
     input/lime/MultipleInheritance.lime
 )
 
-feature(Serialization android swift SOURCES
+feature(Serialization android android-kotlin swift SOURCES
     input/lime/Serialization.lime
 )
 

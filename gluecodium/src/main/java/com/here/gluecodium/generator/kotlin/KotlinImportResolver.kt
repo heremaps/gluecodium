@@ -20,6 +20,7 @@
 package com.here.gluecodium.generator.kotlin
 
 import com.here.gluecodium.generator.common.ImportsResolver
+import com.here.gluecodium.model.lime.LimeAttributeType.SERIALIZABLE
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeClass
@@ -79,7 +80,11 @@ internal class KotlinImportResolver(
         resolveFunctionImports(limeLambda.asFunction()) +
             listOfNotNull(nativeBaseImport.takeIf { limeLambda.path.hasParent })
 
-    private fun resolveStructImports(limeStruct: LimeStruct): List<String> = emptyList()
+    private fun resolveStructImports(limeStruct: LimeStruct): List<String> =
+        when {
+            limeStruct.attributes.have(SERIALIZABLE) -> listOf(PARCEL_IMPORT, PARCELABLE_IMPORT)
+            else -> emptyList()
+        }
 
     private fun resolveValueImports(limeValue: LimeValue?): List<String> =
         when (limeValue) {
@@ -139,5 +144,8 @@ internal class KotlinImportResolver(
 
     companion object {
         private const val JAVA_UTIL_PACKAGE = "java.util"
+        private const val ANDROID_OS_PACKAGE = "android.os"
+        private const val PARCELABLE_IMPORT = "$ANDROID_OS_PACKAGE.Parcelable"
+        private const val PARCEL_IMPORT = "$ANDROID_OS_PACKAGE.Parcel"
     }
 }
