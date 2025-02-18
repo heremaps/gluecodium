@@ -28,7 +28,7 @@ jobs:
         with:
           java-version: 17
       - name: Cache Gradle packages
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches
@@ -65,7 +65,7 @@ jobs:
         with:
           java-version: 17
       - name: Cache Gradle packages
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches
@@ -127,7 +127,7 @@ jobs:
         with:
           java-version: 17
       - name: Cache Gradle packages
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches
@@ -182,7 +182,7 @@ jobs:
         with:
           java-version: 17
       - name: Cache Gradle packages
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches
@@ -191,7 +191,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
       - name: Cache Swift SDK
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/swift-sdk
           key: ${{ runner.os }}-swift-5.4-release
@@ -252,7 +252,7 @@ jobs:
         with:
           java-version: 17
       - name: Cache Gradle packages
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches
@@ -293,7 +293,7 @@ jobs:
         with:
           java-version: 17
       - name: Cache Gradle packages
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches
@@ -332,7 +332,7 @@ jobs:
         with:
           java-version: 17
       - name: Cache Gradle packages
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches
@@ -341,7 +341,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
       - name: Cache Dart SDK
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/dart_sdk
           key: ${{ runner.os }}-dart-2.18.1-stable-full
@@ -396,7 +396,7 @@ jobs:
         with:
           java-version: 17
       - name: Cache Gradle packages
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches
