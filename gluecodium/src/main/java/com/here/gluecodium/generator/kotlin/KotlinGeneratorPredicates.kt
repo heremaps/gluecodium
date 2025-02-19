@@ -50,7 +50,6 @@ internal object KotlinGeneratorPredicates {
     private fun needsDisposer(element: Any) =
         when (element) {
             is LimeClass -> element.parentClass == null
-            is LimeInterface -> true
             is LimeLambda -> true
             else -> false
         }

@@ -63,11 +63,8 @@ class {{resolveName}}Impl : NativeBase, {{resolveName}} {
 {{/classElement.inheritedProperties}}
 {{/set}}{{/if}}
 
-{{#ifPredicate "needsCompanionObject"}}
     companion object {
-{{#ifPredicate "needsDisposer"}}
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
-{{/ifPredicate}}
 {{#ifPredicate "hasStaticFunctions"}}
 {{#functions}}
 {{#if isStatic}}
@@ -87,5 +84,4 @@ class {{resolveName}}Impl : NativeBase, {{resolveName}} {
 {{/properties}}
 {{/ifPredicate}}
     }
-{{/ifPredicate}}
 }
