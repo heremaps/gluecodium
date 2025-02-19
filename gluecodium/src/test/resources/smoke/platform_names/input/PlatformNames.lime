@@ -21,30 +21,35 @@ package smoke
 @Java("barTypes")
 @Swift("bazTypes")
 @Dart("weeTypes")
+@Kotlin("dodoTypes")
 struct PlatformNames {
 
     @Cpp("fooStruct")
     @Java("barStruct")
     @Swift("bazStruct")
     @Dart("weeStruct")
+    @Kotlin("dodoStruct")
     struct BasicStruct {
 
         @Cpp("FOO_FIELD")
         @Java("BAR_FIELD")
         @Swift("BAZ_FIELD")
         @Dart("WEE_FIELD")
+        @Kotlin("DODO_FIELD")
         stringField: String
 
         @Cpp("FooCreate")
         @Java("BarCreate")
         @Swift("BazCreate")
         @Dart("WeeCreate")
+        @Kotlin("DodoCreate")
         constructor make(
 
             @Cpp("FooParameter")
             @Java("BarParameter")
             @Swift(Name = "BazParameter", Label = "_")
             @Dart("WeeParameter")
+            @Kotlin("DodoParameter")
             basicParameter: String
         )
     }
@@ -53,17 +58,20 @@ struct PlatformNames {
     @Java("barEnum")
     @Swift("bazEnum")
     @Dart("werrEnum")
+    @Kotlin("dodoEnum")
     enum BasicEnum {
 
         @Cpp("foo_item")
         @Java("bar_item")
         @Swift("BAZ_ITEM")
         @Dart("WEE_ITEM")
+        @Kotlin("DODO_ITEM")
         BASIC_ITEM
     }
 
     @Cpp("fooTypedef")
     @Swift("bazTypedef")
+    @Kotlin("dodoTypedef")
     typealias BasicTypedef = Double
 }
 
@@ -71,18 +79,21 @@ struct PlatformNames {
 @Java("barInterface")
 @Swift("bazInterface")
 @Dart("weeInterface")
+@Kotlin("dodoInterface")
 class PlatformNamesInterface {
 
     @Cpp("FooMethod")
     @Java("BarMethod")
     @Swift("BazMethod")
     @Dart("WeeMethod")
+    @Kotlin("DodoMethod")
     fun basicMethod(
 
         @Cpp("FooParameter")
         @Java("BarParameter")
         @Swift(Name = "BazParameter", Label = "_")
         @Dart("WeeParameter")
+        @Kotlin("DodoParameter")
         basicParameter: String
     ): PlatformNames.BasicStruct
 
@@ -90,17 +101,20 @@ class PlatformNamesInterface {
     @Java("make")
     @Swift("make")
     @Dart("make")
+    @Kotlin("make")
     constructor create(
 
         @Cpp("makeParameter")
         @Java("makeParameter")
         @Swift(Name = "makeParameter", Label = "_")
         @Dart("makeParameter")
+        @Kotlin("makeParameter")
         basicParameter: String
     )
 
     @Swift("BAZ_PROPERTY")
     @Dart("WEE_PROPERTY")
+    @Kotlin("DODO_PROPERTY")
     property basicProperty: UInt {
         @Cpp("GET_FOO_PROPERTY")
         @Java("GET_BAR_PROPERTY")
@@ -115,18 +129,21 @@ class PlatformNamesInterface {
 @Java("barListener")
 @Swift("bazListener")
 @Dart("weeListener")
+@Kotlin("dodoListener")
 interface PlatformNamesListener {
 
     @Cpp("FooMethod")
     @Java("BarMethod")
     @Swift("BazMethod")
     @Dart("WeeMethod")
+    @Kotlin("DodoMethod")
     fun basicMethod(
 
         @Cpp("FooParameter")
         @Java("BarParameter")
         @Swift(Name = "BazParameter", Label = "_")
         @Dart("WeeParameter")
+        @Kotlin("DodoParameter")
         basicParameter: String
     )
 }
