@@ -28,6 +28,7 @@ struct SomeSkippedStruct {
     `field`: List<SomeSkippedEnum>
 }
 
+@Kotlin(Skip = "Pro")
 @Java(Skip = "Pro")
 @Swift(Skip = "Pro")
 class SomeSkippedClass {
@@ -38,5 +39,6 @@ class SkippedFunctionClass {
     @Java(Skip = "Lite")
     @Swift(Skip = "Lite")
     @Dart(Skip = "Lite")
+    @Kotlin(Skip = "Lite")
     fun doFoo(input: dont.smoke.DontSmokeEnum)
 }

@@ -60,6 +60,29 @@ Java_com_example_smoke_SkipProxyImpl_notInDart(JNIEnv* _jenv, jobject _jinstance
     return _result;
 }
 
+jfloat
+Java_com_example_smoke_SkipProxyImpl_notInKotlin(JNIEnv* _jenv, jobject _jinstance, jfloat jinput)
+
+{
+
+
+
+    float input = jinput;
+
+
+
+    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::SkipProxy>*> (
+
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
+
+
+
+
+    auto _result = (*pInstanceSharedPointer)->not_in_kotlin(input);
+
+    return _result;
+}
+
 
 jboolean
 Java_com_example_smoke_SkipProxyImpl_isSkippedInSwift(JNIEnv* _jenv, jobject _jinstance)
@@ -146,6 +169,51 @@ Java_com_example_smoke_SkipProxyImpl_setSkippedInDart(JNIEnv* _jenv, jobject _ji
 
 
     (*pInstanceSharedPointer)->set_skipped_in_dart(value);
+
+}
+
+
+
+jfloat
+Java_com_example_smoke_SkipProxyImpl_getSkippedInKotlin(JNIEnv* _jenv, jobject _jinstance)
+
+{
+
+
+
+    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::SkipProxy>*> (
+
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
+
+
+
+
+    auto _result = (*pInstanceSharedPointer)->get_skipped_in_kotlin();
+
+    return _result;
+}
+
+
+
+void
+Java_com_example_smoke_SkipProxyImpl_setSkippedInKotlin(JNIEnv* _jenv, jobject _jinstance, jfloat jvalue)
+
+{
+
+
+
+    float value = jvalue;
+
+
+
+    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::SkipProxy>*> (
+
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
+
+
+
+
+    (*pInstanceSharedPointer)->set_skipped_in_kotlin(value);
 
 }
 
