@@ -47,12 +47,12 @@ class {{resolveName}}Impl : NativeBase, {{resolveName}} {
 {{/properties}}
 
 {{#if this.parentInterfaces}}{{#set override=true classElement=this}}
-{{#classElement.interfaceInheritedFunctions}}
+{{#classElement.inheritedFunctions}}
 {{#unless isStatic}}
 {{prefixPartial "kotlin/KotlinFunction" "    "}}
 {{/unless}}
-{{/classElement.interfaceInheritedFunctions}}
-{{#classElement.interfaceInheritedProperties}}
+{{/classElement.inheritedFunctions}}
+{{#classElement.inheritedProperties}}
 {{#unless isStatic}}
 {{#if setter}}    override var{{/if}}{{!!
 }}{{#unless setter}}    override val{{/unless}}{{!!
@@ -60,7 +60,7 @@ class {{resolveName}}Impl : NativeBase, {{resolveName}} {
         external get{{#setter}}
         external set{{/setter}}
 {{/unless}}
-{{/classElement.interfaceInheritedProperties}}
+{{/classElement.inheritedProperties}}
 {{/set}}{{/if}}
 
 {{#ifPredicate "needsCompanionObject"}}
