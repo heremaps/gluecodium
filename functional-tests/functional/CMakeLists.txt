@@ -460,7 +460,7 @@ feature(Visibility android swift dart SOURCES
     input/src/cpp/VisibilityInternal.cpp
 )
 
-feature(SkipAttribute cpp android swift dart SOURCES
+feature(SkipAttribute cpp android android-kotlin swift dart SOURCES
     input/lime/Skip.lime
     input/lime/SkipTags.lime
     input/lime/SkipTagsInPlatform.lime
