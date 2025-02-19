@@ -17,7 +17,7 @@
 
 package smoke
 
-@Skip(Swift, Dart)
+@Skip(Swift, Dart, Kotlin)
 interface EnableTagsInJava {
     @Java(EnableIf = "Lite")
     fun enableTagged()
@@ -27,7 +27,7 @@ interface EnableTagsInJava {
     fun enableTaggedList()
 }
 
-@Skip(Java, Dart)
+@Skip(Java, Dart, Kotlin)
 interface EnableTagsInSwift {
     @Swift(EnableIf = "Lite")
     fun enableTagged()
@@ -37,13 +37,23 @@ interface EnableTagsInSwift {
     fun enableTaggedList()
 }
 
-@Skip(Java, Swift)
+@Skip(Java, Swift, Kotlin)
 interface EnableTagsInDart {
     @Dart(EnableIf = "Lite")
     fun enableTagged()
     @Dart(EnableIf = "Pro")
     fun dontEnableTagged()
     @Dart(EnableIf = ["Lite", "Pro"])
+    fun enableTaggedList()
+}
+
+@Skip(Swift, Dart, Java)
+interface EnableTagsInKotlin {
+    @Kotlin(EnableIf = "Lite")
+    fun enableTagged()
+    @Kotlin(EnableIf = "Pro")
+    fun dontEnableTagged()
+    @Kotlin(EnableIf = ["Lite", "Pro"])
     fun enableTaggedList()
 }
 
