@@ -13,17 +13,23 @@ abstract class InheritFromSkipped implements SkipProxy, Finalizable {
   factory InheritFromSkipped(
     String Function(String) notInJavaLambda,
     bool Function(bool) notInSwiftLambda,
+    double Function(double) notInKotlinLambda,
     String Function() skippedInJavaGetLambda,
     void Function(String) skippedInJavaSetLambda,
     bool Function() isSkippedInSwiftGetLambda,
-    void Function(bool) isSkippedInSwiftSetLambda
+    void Function(bool) isSkippedInSwiftSetLambda,
+    double Function() skippedInKotlinGetLambda,
+    void Function(double) skippedInKotlinSetLambda
   ) => InheritFromSkipped$Lambdas(
     notInJavaLambda,
     notInSwiftLambda,
+    notInKotlinLambda,
     skippedInJavaGetLambda,
     skippedInJavaSetLambda,
     isSkippedInSwiftGetLambda,
-    isSkippedInSwiftSetLambda
+    isSkippedInSwiftSetLambda,
+    skippedInKotlinGetLambda,
+    skippedInKotlinSetLambda
   );
 
 }
@@ -44,8 +50,8 @@ final _smokeInheritfromskippedReleaseHandle = __lib.catchArgumentError(() => __l
     void Function(Pointer<Void>)
   >('library_smoke_InheritFromSkipped_release_handle'));
 final _smokeInheritfromskippedCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
   >('library_smoke_InheritFromSkipped_create_proxy'));
 final _smokeInheritfromskippedGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -55,18 +61,24 @@ final _smokeInheritfromskippedGetTypeId = __lib.catchArgumentError(() => __lib.n
 class InheritFromSkipped$Lambdas implements InheritFromSkipped {
   String Function(String) notInJavaLambda;
   bool Function(bool) notInSwiftLambda;
+  double Function(double) notInKotlinLambda;
   String Function() skippedInJavaGetLambda;
   void Function(String) skippedInJavaSetLambda;
   bool Function() isSkippedInSwiftGetLambda;
   void Function(bool) isSkippedInSwiftSetLambda;
+  double Function() skippedInKotlinGetLambda;
+  void Function(double) skippedInKotlinSetLambda;
 
   InheritFromSkipped$Lambdas(
     this.notInJavaLambda,
     this.notInSwiftLambda,
+    this.notInKotlinLambda,
     this.skippedInJavaGetLambda,
     this.skippedInJavaSetLambda,
     this.isSkippedInSwiftGetLambda,
-    this.isSkippedInSwiftSetLambda
+    this.isSkippedInSwiftSetLambda,
+    this.skippedInKotlinGetLambda,
+    this.skippedInKotlinSetLambda
   );
 
   @override
@@ -76,6 +88,9 @@ class InheritFromSkipped$Lambdas implements InheritFromSkipped {
   bool notInSwift(bool input) =>
     notInSwiftLambda(input);
   @override
+  double notInKotlin(double input) =>
+    notInKotlinLambda(input);
+  @override
   String get skippedInJava => skippedInJavaGetLambda();
   @override
   set skippedInJava(String value) => skippedInJavaSetLambda(value);
@@ -83,6 +98,10 @@ class InheritFromSkipped$Lambdas implements InheritFromSkipped {
   bool get isSkippedInSwift => isSkippedInSwiftGetLambda();
   @override
   set isSkippedInSwift(bool value) => isSkippedInSwiftSetLambda(value);
+  @override
+  double get skippedInKotlin => skippedInKotlinGetLambda();
+  @override
+  set skippedInKotlin(double value) => skippedInKotlinSetLambda(value);
 }
 
 class InheritFromSkipped$Impl extends __lib.NativeBase implements InheritFromSkipped {
@@ -116,6 +135,22 @@ class InheritFromSkipped$Impl extends __lib.NativeBase implements InheritFromSki
       return booleanFromFfi(__resultHandle);
     } finally {
       booleanReleaseFfiHandle(__resultHandle);
+
+    }
+
+  }
+
+  @override
+  double notInKotlin(double input) {
+    final _notInKotlinFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Float Function(Pointer<Void>, Int32, Float), double Function(Pointer<Void>, int, double)>('library_smoke_SkipProxy_notInKotlin__Float'));
+    final _inputHandle = (input);
+    final _handle = this.handle;
+    final __resultHandle = _notInKotlinFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+
+    try {
+      return (__resultHandle);
+    } finally {
+
 
     }
 
@@ -169,6 +204,30 @@ class InheritFromSkipped$Impl extends __lib.NativeBase implements InheritFromSki
   }
 
 
+  double get skippedInKotlin {
+    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Float Function(Pointer<Void>, Int32), double Function(Pointer<Void>, int)>('library_smoke_SkipProxy_skippedInKotlin_get'));
+    final _handle = this.handle;
+    final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
+    try {
+      return (__resultHandle);
+    } finally {
+
+
+    }
+
+  }
+
+
+  set skippedInKotlin(double value) {
+    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Float), void Function(Pointer<Void>, int, double)>('library_smoke_SkipProxy_skippedInKotlin_set__Float'));
+    final _valueHandle = (value);
+    final _handle = this.handle;
+    _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+
+
+  }
+
+
 
 }
 
@@ -189,6 +248,16 @@ int _smokeInheritfromskippednotInSwiftStatic(Object _obj, int input, Pointer<Uin
     _result.value = booleanToFfi(_resultObject);
   } finally {
     booleanReleaseFfiHandle(input);
+  }
+  return 0;
+}
+int _smokeInheritfromskippednotInKotlinStatic(Object _obj, double input, Pointer<Float> _result) {
+  double? _resultObject;
+  try {
+    _resultObject = (_obj as InheritFromSkipped).notInKotlin((input));
+    _result.value = (_resultObject);
+  } finally {
+    
   }
   return 0;
 }
@@ -221,6 +290,20 @@ int _smokeInheritfromskippedisSkippedInSwiftSetStatic(Object _obj, int _value) {
   }
   return 0;
 }
+int _smokeInheritfromskippedskippedInKotlinGetStatic(Object _obj, Pointer<Float> _result) {
+  _result.value = ((_obj as InheritFromSkipped).skippedInKotlin);
+  return 0;
+}
+
+int _smokeInheritfromskippedskippedInKotlinSetStatic(Object _obj, double _value) {
+  try {
+    (_obj as InheritFromSkipped).skippedInKotlin =
+      (_value);
+  } finally {
+    
+  }
+  return 0;
+}
 
 Pointer<Void> smokeInheritfromskippedToFfi(InheritFromSkipped value) {
   if (value is __lib.NativeBase) return _smokeInheritfromskippedCopyHandle((value as __lib.NativeBase).handle);
@@ -231,10 +314,13 @@ Pointer<Void> smokeInheritfromskippedToFfi(InheritFromSkipped value) {
     value,
     Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>, Pointer<Pointer<Void>>)>(_smokeInheritfromskippednotInJavaStatic, __lib.unknownError),
     Pointer.fromFunction<Uint8 Function(Handle, Uint8, Pointer<Uint8>)>(_smokeInheritfromskippednotInSwiftStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Float, Pointer<Float>)>(_smokeInheritfromskippednotInKotlinStatic, __lib.unknownError),
     Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeInheritfromskippedskippedInJavaGetStatic, __lib.unknownError),
     Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeInheritfromskippedskippedInJavaSetStatic, __lib.unknownError),
     Pointer.fromFunction<Uint8 Function(Handle, Pointer<Uint8>)>(_smokeInheritfromskippedisSkippedInSwiftGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Uint8)>(_smokeInheritfromskippedisSkippedInSwiftSetStatic, __lib.unknownError)
+    Pointer.fromFunction<Uint8 Function(Handle, Uint8)>(_smokeInheritfromskippedisSkippedInSwiftSetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Float>)>(_smokeInheritfromskippedskippedInKotlinGetStatic, __lib.unknownError),
+    Pointer.fromFunction<Uint8 Function(Handle, Float)>(_smokeInheritfromskippedskippedInKotlinSetStatic, __lib.unknownError)
   );
 
   return result;

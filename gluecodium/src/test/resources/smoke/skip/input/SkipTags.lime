@@ -41,6 +41,8 @@ class SkipPlatforms {
     static fun notInSwift(input: Boolean): Boolean
     @Skip(Dart)
     static fun notInDart(input: Float): Float
+    @Skip(Kotlin)
+    static fun notInKotlin(input: Float): Float
 }
 
 class SkipMixed {
@@ -50,6 +52,8 @@ class SkipMixed {
     static fun notInSwift(input: Boolean): Boolean
     @Skip(Dart, Lite)
     static fun notInDart(input: Float): Float
+    @Skip(Kotlin, Lite)
+    static fun notInKotlin(input: Float): Float
 }
 
 struct SkipTypesTags {

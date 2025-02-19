@@ -23,6 +23,7 @@ struct SkipFieldConstructorsClash {
     @Swift(Skip)
     field constructor()
 
+    @Kotlin(Skip)
     @Swift(Skip)
     @Java(Skip)
     @Cpp(Skip)

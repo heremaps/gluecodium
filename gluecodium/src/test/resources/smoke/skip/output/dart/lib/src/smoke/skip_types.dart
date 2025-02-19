@@ -171,6 +171,86 @@ void smokeSkiptypesNotinswiftReleaseFfiHandleNullable(Pointer<Void> handle) =>
 
 // End of SkipTypes_NotInSwift "private" section.
 
+class SkipTypes_NotInKotlin {
+  String fooField;
+
+  SkipTypes_NotInKotlin(this.fooField);
+}
+
+
+// SkipTypes_NotInKotlin "private" section, not exported.
+
+final _smokeSkiptypesNotinkotlinCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_SkipTypes_NotInKotlin_create_handle'));
+final _smokeSkiptypesNotinkotlinReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_smoke_SkipTypes_NotInKotlin_release_handle'));
+final _smokeSkiptypesNotinkotlinGetFieldfooField = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_SkipTypes_NotInKotlin_get_field_fooField'));
+
+
+
+Pointer<Void> smokeSkiptypesNotinkotlinToFfi(SkipTypes_NotInKotlin value) {
+  final _fooFieldHandle = stringToFfi(value.fooField);
+  final _result = _smokeSkiptypesNotinkotlinCreateHandle(_fooFieldHandle);
+  stringReleaseFfiHandle(_fooFieldHandle);
+  return _result;
+}
+
+SkipTypes_NotInKotlin smokeSkiptypesNotinkotlinFromFfi(Pointer<Void> handle) {
+  final _fooFieldHandle = _smokeSkiptypesNotinkotlinGetFieldfooField(handle);
+  try {
+    return SkipTypes_NotInKotlin(
+      stringFromFfi(_fooFieldHandle)
+    );
+  } finally {
+    stringReleaseFfiHandle(_fooFieldHandle);
+  }
+}
+
+void smokeSkiptypesNotinkotlinReleaseFfiHandle(Pointer<Void> handle) => _smokeSkiptypesNotinkotlinReleaseHandle(handle);
+
+// Nullable SkipTypes_NotInKotlin
+
+final _smokeSkiptypesNotinkotlinCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_SkipTypes_NotInKotlin_create_handle_nullable'));
+final _smokeSkiptypesNotinkotlinReleaseHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Void Function(Pointer<Void>),
+    void Function(Pointer<Void>)
+  >('library_smoke_SkipTypes_NotInKotlin_release_handle_nullable'));
+final _smokeSkiptypesNotinkotlinGetValueNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+    Pointer<Void> Function(Pointer<Void>),
+    Pointer<Void> Function(Pointer<Void>)
+  >('library_smoke_SkipTypes_NotInKotlin_get_value_nullable'));
+
+Pointer<Void> smokeSkiptypesNotinkotlinToFfiNullable(SkipTypes_NotInKotlin? value) {
+  if (value == null) return Pointer<Void>.fromAddress(0);
+  final _handle = smokeSkiptypesNotinkotlinToFfi(value);
+  final result = _smokeSkiptypesNotinkotlinCreateHandleNullable(_handle);
+  smokeSkiptypesNotinkotlinReleaseFfiHandle(_handle);
+  return result;
+}
+
+SkipTypes_NotInKotlin? smokeSkiptypesNotinkotlinFromFfiNullable(Pointer<Void> handle) {
+  if (handle.address == 0) return null;
+  final _handle = _smokeSkiptypesNotinkotlinGetValueNullable(handle);
+  final result = smokeSkiptypesNotinkotlinFromFfi(_handle);
+  smokeSkiptypesNotinkotlinReleaseFfiHandle(_handle);
+  return result;
+}
+
+void smokeSkiptypesNotinkotlinReleaseFfiHandleNullable(Pointer<Void> handle) =>
+  _smokeSkiptypesNotinkotlinReleaseHandleNullable(handle);
+
+// End of SkipTypes_NotInKotlin "private" section.
+
 // SkipTypes "private" section, not exported.
 
 final _smokeSkiptypesRegisterFinalizer = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -185,6 +265,7 @@ final _smokeSkiptypesReleaseHandle = __lib.catchArgumentError(() => __lib.native
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_SkipTypes_release_handle'));
+
 
 
 class SkipTypes$Impl extends __lib.NativeBase implements SkipTypes {

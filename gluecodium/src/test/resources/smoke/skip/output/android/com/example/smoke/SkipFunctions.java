@@ -1,9 +1,15 @@
 /*
+
  *
  */
+
 package com.example.smoke;
+
+import android.support.annotation.NonNull;
 import com.example.NativeBase;
+
 public final class SkipFunctions extends NativeBase {
+
     /**
      * For internal use only.
      * @hidden
@@ -18,7 +24,21 @@ public final class SkipFunctions extends NativeBase {
             }
         });
     }
+
     private static native void disposeNativeHandle(long nativeHandle);
+
+
+
     public static native boolean notInSwift(final boolean input);
+
+
     public static native float notInDart(final float input);
+
+
+    @NonNull
+    public static native String notInKotlin(@NonNull final String input);
+
+
+
 }
+

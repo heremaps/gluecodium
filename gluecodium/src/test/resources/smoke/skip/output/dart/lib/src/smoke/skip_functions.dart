@@ -14,6 +14,8 @@ abstract class SkipFunctions implements Finalizable {
 
   static bool notInSwift(bool input) => $prototype.notInSwift(input);
 
+  static String notInKotlin(String input) => $prototype.notInKotlin(input);
+
   /// @nodoc
   @visibleForTesting
   static dynamic $prototype = SkipFunctions$Impl(Pointer<Void>.fromAddress(0));
@@ -38,8 +40,10 @@ final _smokeSkipfunctionsReleaseHandle = __lib.catchArgumentError(() => __lib.na
 
 
 
+
 /// @nodoc
 @visibleForTesting
+
 class SkipFunctions$Impl extends __lib.NativeBase implements SkipFunctions {
 
   SkipFunctions$Impl(Pointer<Void> handle) : super(handle);
@@ -67,6 +71,20 @@ class SkipFunctions$Impl extends __lib.NativeBase implements SkipFunctions {
       return booleanFromFfi(__resultHandle);
     } finally {
       booleanReleaseFfiHandle(__resultHandle);
+
+    }
+
+  }
+
+  String notInKotlin(String input) {
+    final _notInKotlinFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_SkipFunctions_notInKotlin__String'));
+    final _inputHandle = stringToFfi(input);
+    final __resultHandle = _notInKotlinFfi(__lib.LibraryContext.isolateId, _inputHandle);
+    stringReleaseFfiHandle(_inputHandle);
+    try {
+      return stringFromFfi(__resultHandle);
+    } finally {
+      stringReleaseFfiHandle(__resultHandle);
 
     }
 

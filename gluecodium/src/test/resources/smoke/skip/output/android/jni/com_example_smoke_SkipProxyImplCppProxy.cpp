@@ -54,6 +54,21 @@ com_example_smoke_SkipProxy_CppProxy::not_in_dart( const float ninput ) {
 
 }
 
+float
+com_example_smoke_SkipProxy_CppProxy::not_in_kotlin( const float ninput ) {
+
+    JNIEnv* jniEnv = getJniEnvironment( );
+    jfloat jinput = ninput;
+    auto _result = callJavaMethod<jfloat>( "notInKotlin", "(F)F", jniEnv , jinput);
+
+    checkExceptionAndReportIfAny(jniEnv);
+
+    return _result;
+
+
+
+}
+
 
 ::std::string
 com_example_smoke_SkipProxy_CppProxy::get_skipped_in_java(  ) const {
@@ -126,6 +141,37 @@ com_example_smoke_SkipProxy_CppProxy::set_skipped_in_dart( const float nvalue ) 
     JNIEnv* jniEnv = getJniEnvironment( );
     jfloat jvalue = nvalue;
     callJavaMethod<void>( "setSkippedInDart", "(F)V", jniEnv , jvalue);
+
+    checkExceptionAndReportIfAny(jniEnv);
+
+
+
+}
+
+
+
+float
+com_example_smoke_SkipProxy_CppProxy::get_skipped_in_kotlin(  ) const {
+
+    JNIEnv* jniEnv = getJniEnvironment( );
+    auto _result = callJavaMethod<jfloat>( "getSkippedInKotlin", "()F", jniEnv  );
+
+    checkExceptionAndReportIfAny(jniEnv);
+
+    return _result;
+
+
+
+}
+
+
+
+void
+com_example_smoke_SkipProxy_CppProxy::set_skipped_in_kotlin( const float nvalue ) {
+
+    JNIEnv* jniEnv = getJniEnvironment( );
+    jfloat jvalue = nvalue;
+    callJavaMethod<void>( "setSkippedInKotlin", "(F)V", jniEnv , jvalue);
 
     checkExceptionAndReportIfAny(jniEnv);
 
