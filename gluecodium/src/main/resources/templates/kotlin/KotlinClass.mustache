@@ -27,7 +27,7 @@
 
 {{>kotlin/KotlinContainerContents}}
 
-{{#constructors}}
+{{#set classElement=this}}{{#constructors}}
     constructor({{!!
 }}{{#parameters}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
@@ -37,7 +37,7 @@
         cacheThisInstance();
 {{/unless}}
     }
-{{/constructors}}
+{{/constructors}}{{/set}}
 
     /*
      * For internal use only.
