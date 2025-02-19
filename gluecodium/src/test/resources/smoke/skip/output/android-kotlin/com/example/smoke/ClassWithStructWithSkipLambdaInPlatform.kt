@@ -9,13 +9,19 @@ import com.example.NativeBase
 
 class ClassWithStructWithSkipLambdaInPlatform : NativeBase {
 
-    class SkipLambdaInPlatform(var intField: Int) {
+    class SkipLambdaInPlatform {
+        var intField: Int
+
+
+
+        constructor(intField: Int) {
+            this.intField = intField
+        }
 
 
 
 
     }
-
 
 
 
@@ -27,6 +33,7 @@ class ClassWithStructWithSkipLambdaInPlatform : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
 
