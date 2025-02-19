@@ -17,7 +17,7 @@
 
 package test
 
-@Skip(Swift, Dart)
+@Skip(Swift, Dart, Kotlin)
 interface SkipTagsInJava {
     @Java(Skip = "Lite")
     fun skipTagged()
@@ -27,7 +27,7 @@ interface SkipTagsInJava {
     fun skipTaggedList()
 }
 
-@Skip(Java, Dart)
+@Skip(Java, Dart, Kotlin)
 interface SkipTagsInSwift {
     @Swift(Skip = "Lite")
     fun skipTagged()
@@ -37,12 +37,22 @@ interface SkipTagsInSwift {
     fun skipTaggedList()
 }
 
-@Skip(Java, Swift)
+@Skip(Java, Swift, Kotlin)
 interface SkipTagsInDart {
     @Dart(Skip = "Lite")
     fun skipTagged()
     @Dart(Skip = "Pro")
     fun dontSkipTagged()
     @Dart(Skip = ["Lite", "Pro"])
+    fun skipTaggedList()
+}
+
+@Skip(Swift, Dart, Java)
+interface SkipTagsInKotlin {
+    @Kotlin(Skip = "Lite")
+    fun skipTagged()
+    @Kotlin(Skip = "Pro")
+    fun dontSkipTagged()
+    @Kotlin(Skip = ["Lite", "Pro"])
     fun skipTaggedList()
 }

@@ -19,7 +19,7 @@
   !
   !}}
 interface {{resolveName}} {{!!
-}}{{#if this.parents}}extends {{#parents}}{{resolveName this "" "ref"}}{{#if iter.hasNext}}, {{/if}}{{/parents}} {{/if}}{
+}}{{#if this.parents}}: {{#parents}}{{resolveName this "" "ref"}}{{#if iter.hasNext}}, {{/if}}{{/parents}} {{/if}}{
 {{>kotlin/KotlinContainerContents}}
 
 {{#set isInterface=true classElement=this}}

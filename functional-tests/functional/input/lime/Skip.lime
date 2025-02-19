@@ -24,6 +24,8 @@ class SkipFunctions {
     static fun notInSwift(input: Boolean): Boolean
     @Dart(Skip)
     static fun notInDart(input: Float): Float
+    @Kotlin(Skip)
+    static fun notInKotlin(input: Float): Float
 }
 
 class SkipTypes {
@@ -39,8 +41,12 @@ class SkipTypes {
     struct NotInDart {
         fooField: String
     }
+    @Kotlin(Skip)
+    struct NotInKotlin {
+        fooField: String
+    }
 
-    @Dart(Skip) @Java(Skip) @Swift(Skip)
+    @Dart(Skip) @Java(Skip) @Swift(Skip) @Kotlin(Skip)
     fun useListInDart(): List<NotInDart>
 }
 
@@ -51,6 +57,8 @@ interface SkipProxy {
     fun notInSwift(input: Boolean): Boolean
     @Dart(Skip)
     fun notInDart(input: Float): Float
+    @Kotlin(Skip)
+    fun notInKotlin(input: Int): Int
 
     @Java(Skip)
     property skippedInJava: String
@@ -58,21 +66,23 @@ interface SkipProxy {
     property skippedInSwift: Boolean
     @Dart(Skip)
     property skippedInDart: Float
+    @Kotlin(Skip)
+    property skippedInKotlin: Int
 
-    @Java(Skip) @Swift(Skip) @Dart(Skip)
+    @Java(Skip) @Swift(Skip) @Dart(Skip) @Kotlin(Skip)
     property skippedEverywhere: SkippedEverywhere
-    @Java(Skip) @Swift(Skip) @Dart(Skip)
+    @Java(Skip) @Swift(Skip) @Dart(Skip) @Kotlin(Skip)
     property skippedEverywhereToo: SkippedEverywhereEnum
 }
 
-@Java(Skip) @Swift(Skip) @Dart(Skip)
+@Java(Skip) @Swift(Skip) @Dart(Skip) @Kotlin(Skip)
 struct SkippedEverywhere {
     nothingToSeeHere: String
 
     fun useMapInDart(foo: Map<Int, SkipTypes.NotInDart>)
 }
 
-@Java(Skip) @Swift(Skip) @Dart(Skip)
+@Java(Skip) @Swift(Skip) @Dart(Skip) @Kotlin(Skip)
 enum SkippedEverywhereEnum {
     nothingToSeeHere
 }
@@ -81,7 +91,7 @@ interface InheritFromSkipped: SkipProxy { }
 
 struct SkipFieldInPlatform {
     intField: Int
-    @Java(Skip) @Swift(Skip) @Dart(Skip)
+    @Java(Skip) @Swift(Skip) @Dart(Skip) @Kotlin(Skip)
     stringField: String
     boolField: Boolean
 }
@@ -90,13 +100,13 @@ class ClassWithStructWithSkipLambdaInPlatform {
     struct SkipLambdaInPlatform {
         intField: Int
 
-        @Skip(Java, Dart, Swift)
+        @Skip(Java, Dart, Swift, Kotlin)
         lambda SomeLambda = () -> Int
 
-        @Skip(Java, Dart, Swift)
+        @Skip(Java, Dart, Swift, Kotlin)
         someLambda: SomeLambda
 
-        @Skip(Java, Dart, Swift)
+        @Skip(Java, Dart, Swift, Kotlin)
         fun useLambda(someLambda: SomeLambda): SomeLambda
     }
 }
@@ -104,7 +114,7 @@ class ClassWithStructWithSkipLambdaInPlatform {
 @Immutable
 struct SkipFieldInPlatformImmutable {
     intField: Int
-    @Java(Skip) @Swift(Skip) @Dart(Skip)
+    @Java(Skip) @Swift(Skip) @Dart(Skip) @Kotlin(Skip)
     stringField: DummyStruct = {}
     boolField: Boolean
 }
@@ -116,7 +126,7 @@ struct DummyStruct {
 interface SkipSetter {
     property foo: String {
         get
-        @Java(Skip) @Swift(Skip) @Dart(Skip)
+        @Java(Skip) @Swift(Skip) @Dart(Skip) @Kotlin(Skip)
         set
     }
 }

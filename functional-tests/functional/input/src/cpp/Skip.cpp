@@ -36,4 +36,9 @@ float
 SkipFunctions::not_in_dart(const float input) {
     return input;
 }
+
+float
+SkipFunctions::not_in_kotlin(const float input) {
+    return input;
+}
 }
