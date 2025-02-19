@@ -22,7 +22,6 @@ package com.here.gluecodium.generator.kotlin
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
-import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
 
 internal object KotlinGeneratorPredicates {
