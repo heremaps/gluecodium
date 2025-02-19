@@ -18,9 +18,8 @@
  */
 package com.here.android.test
 
-import org.junit.Assert.assertEquals
-
 import com.here.android.RobolectricApplication
+import org.junit.Assert.assertEquals
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
@@ -49,5 +48,16 @@ class AttributesInterfaceTest {
 
         val result = attributes.structAttribute
         assertEquals(structValue.value, result.value, delta)
+    }
+
+    @org.junit.Test
+    fun setGetStaticAttributes() {
+        assertEquals(AttributesInterface.LABEL, "SOME CONSTANT LABEL")
+        assertEquals(AttributesInterface.someStaticProperty, "MY STATIC PROPERTY")
+
+        AttributesInterface.someStaticProperty = "NEW VALUE OF PROPERTY"
+        assertEquals(AttributesInterface.someStaticProperty, "NEW VALUE OF PROPERTY")
+
+        assertEquals(AttributesInterface.staticFunction(), "Some magic string!");
     }
 }
