@@ -500,7 +500,7 @@ feature(CrossPackageNameClash cpp android swift dart SOURCES
     input/lime/CrossPackageNameClashC.lime
 )
 
-feature(NoCache android swift dart SOURCES
+feature(NoCache android android-kotlin swift dart SOURCES
     input/src/cpp/NoCache.cpp
 
     input/lime/NoCache.lime
