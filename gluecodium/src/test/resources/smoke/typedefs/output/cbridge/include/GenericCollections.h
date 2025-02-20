@@ -1,30 +1,66 @@
 //
+
 //
+
 #pragma once
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/Export.h"
+#include <stdbool.h>
 #include <stdint.h>
+
 _GLUECODIUM_C_EXPORT _baseRef foobar_ArrayOf__Double_create_handle();
 _GLUECODIUM_C_EXPORT _baseRef foobar_ArrayOf__Double_copy_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT void foobar_ArrayOf__Double_release_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT uint64_t foobar_ArrayOf__Double_count(_baseRef handle);
 _GLUECODIUM_C_EXPORT double foobar_ArrayOf__Double_get(_baseRef handle, uint64_t index);
 _GLUECODIUM_C_EXPORT void foobar_ArrayOf__Double_append(_baseRef handle, double item);
+
 _GLUECODIUM_C_EXPORT _baseRef foobar_ArrayOf__Double_create_optional_handle();
 _GLUECODIUM_C_EXPORT void foobar_ArrayOf__Double_release_optional_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef foobar_ArrayOf__Double_unwrap_optional_handle(_baseRef handle);
+
+_GLUECODIUM_C_EXPORT _baseRef foobar_ArrayOf__Float_create_handle();
+_GLUECODIUM_C_EXPORT _baseRef foobar_ArrayOf__Float_copy_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT void foobar_ArrayOf__Float_release_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT uint64_t foobar_ArrayOf__Float_count(_baseRef handle);
+_GLUECODIUM_C_EXPORT float foobar_ArrayOf__Float_get(_baseRef handle, uint64_t index);
+_GLUECODIUM_C_EXPORT void foobar_ArrayOf__Float_append(_baseRef handle, float item);
+
+_GLUECODIUM_C_EXPORT _baseRef foobar_ArrayOf__Float_create_optional_handle();
+_GLUECODIUM_C_EXPORT void foobar_ArrayOf__Float_release_optional_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT _baseRef foobar_ArrayOf__Float_unwrap_optional_handle(_baseRef handle);
+
 _GLUECODIUM_C_EXPORT _baseRef foobar_ArrayOf_smoke_TypeDefs_TestStruct_create_handle();
 _GLUECODIUM_C_EXPORT _baseRef foobar_ArrayOf_smoke_TypeDefs_TestStruct_copy_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT void foobar_ArrayOf_smoke_TypeDefs_TestStruct_release_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT uint64_t foobar_ArrayOf_smoke_TypeDefs_TestStruct_count(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef foobar_ArrayOf_smoke_TypeDefs_TestStruct_get(_baseRef handle, uint64_t index);
 _GLUECODIUM_C_EXPORT void foobar_ArrayOf_smoke_TypeDefs_TestStruct_append(_baseRef handle, _baseRef item);
+
 _GLUECODIUM_C_EXPORT _baseRef foobar_ArrayOf_smoke_TypeDefs_TestStruct_create_optional_handle();
 _GLUECODIUM_C_EXPORT void foobar_ArrayOf_smoke_TypeDefs_TestStruct_release_optional_handle(_baseRef handle);
 _GLUECODIUM_C_EXPORT _baseRef foobar_ArrayOf_smoke_TypeDefs_TestStruct_unwrap_optional_handle(_baseRef handle);
+
+_GLUECODIUM_C_EXPORT _baseRef foobar_MapOf__Int_To__String_create_handle();
+_GLUECODIUM_C_EXPORT void foobar_MapOf__Int_To__String_release_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT _baseRef foobar_MapOf__Int_To__String_iterator(_baseRef handle);
+_GLUECODIUM_C_EXPORT void foobar_MapOf__Int_To__String_iterator_release_handle(_baseRef iterator_handle);
+_GLUECODIUM_C_EXPORT void foobar_MapOf__Int_To__String_put(_baseRef handle, int32_t key, _baseRef value);
+_GLUECODIUM_C_EXPORT bool foobar_MapOf__Int_To__String_iterator_is_valid(_baseRef handle, _baseRef iterator_handle);
+_GLUECODIUM_C_EXPORT void foobar_MapOf__Int_To__String_iterator_increment(_baseRef iterator_handle);
+_GLUECODIUM_C_EXPORT int32_t foobar_MapOf__Int_To__String_iterator_key(_baseRef iterator_handle);
+_GLUECODIUM_C_EXPORT _baseRef foobar_MapOf__Int_To__String_iterator_value(_baseRef iterator_handle);
+
+_GLUECODIUM_C_EXPORT _baseRef foobar_MapOf__Int_To__String_create_optional_handle();
+_GLUECODIUM_C_EXPORT void foobar_MapOf__Int_To__String_release_optional_handle(_baseRef handle);
+_GLUECODIUM_C_EXPORT _baseRef foobar_MapOf__Int_To__String_unwrap_optional_handle(_baseRef handle);
+
+
 #ifdef __cplusplus
 }
 #endif
