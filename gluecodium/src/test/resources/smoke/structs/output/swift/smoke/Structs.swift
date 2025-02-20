@@ -35,13 +35,27 @@ public class Structs {
 
         public var y: Double
 
-        public init(x: Double, y: Double) {
-            self.x = x
-            self.y = y
-        }
         internal init(cHandle: _baseRef) {
             x = moveFromCType(smoke_Structs_Point_x_get(cHandle))
             y = moveFromCType(smoke_Structs_Point_y_get(cHandle))
+        }
+
+        public init(phi: Double, r: Double) {
+            let _result_handle = Structs.Point.fromPolar(phi: phi, r: r)
+            guard _result_handle != 0 else {
+                fatalError("Nullptr value is not supported for initializers")
+            }
+            let _result: Structs.Point = moveFromCType(_result_handle)
+            self.x = _result.x
+            self.y = _result.y
+        }
+
+
+        private static func fromPolar(phi: Double, r: Double) -> _baseRef {
+            let c_phi = moveToCType(phi)
+            let c_r = moveToCType(r)
+            let c_result_handle = smoke_Structs_Point_fromPolar(c_phi.ref, c_r.ref)
+            return moveFromCType(c_result_handle)
         }
     }
 

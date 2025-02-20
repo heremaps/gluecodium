@@ -18,21 +18,21 @@
 package test
 
 @Dart(PositionalDefaults)
-@Java(Skip) @Swift(Skip)
+@Java(Skip) @Swift(Skip) @Kotlin(Skip)
 struct StructWithSomeDefaults {
     intField: Int = 42
     stringField: String
 }
 
 @Dart(PositionalDefaults)
-@Java(Skip) @Swift(Skip)
+@Java(Skip) @Swift(Skip) @Kotlin(Skip)
 struct StructWithAllDefaults {
     intField: Int = 42
     stringField: String = "\\Jonny \"Magic\" Smith\n"
 }
 
 @Java(PositionalDefaults)
-@Swift(Skip) @Dart(Skip)
+@Swift(Skip) @Dart(Skip) @Kotlin(Skip)
 struct StructWithJavaPositionalDefaults {
     firstInitField: Int = 42
     firstFreeField: String
@@ -41,8 +41,18 @@ struct StructWithJavaPositionalDefaults {
     thirdInitField: String = "\\Jonny \"Magic\" Smith\n"
 }
 
+@Kotlin(PositionalDefaults)
+@Java(Skip) @Swift(Skip) @Dart(Skip)
+struct StructWithKotlinPositionalDefaults {
+    firstInitField: Int = 42
+    firstFreeField: String
+    secondInitField: Float = 7.2
+    secondFreeField: Boolean
+    thirdInitField: String = "\\Jonny \"Magic\" Smith\n"
+}
+
 @Dart(PositionalDefaults)
-@Java(Skip) @Swift(Skip)
+@Java(Skip) @Swift(Skip) @Kotlin(Skip)
 struct StructWithCollectionDefaults {
     emptyListField: List<String> = []
     emptyMapField: Map<String, String> = []
@@ -53,7 +63,7 @@ struct StructWithCollectionDefaults {
 }
 
 @Dart(PositionalDefaults)
-@Java(Skip) @Swift(Skip)
+@Java(Skip) @Swift(Skip) @Kotlin(Skip)
 struct StructWithNullableCollectionDefaults {
     nullableListField: List<String>? = null
     nullableMapField: Map<String, String>? = null
@@ -61,19 +71,19 @@ struct StructWithNullableCollectionDefaults {
 }
 
 @Immutable
-@Java(Skip) @Swift(Skip)
+@Java(Skip) @Swift(Skip) @Kotlin(Skip)
 struct AnotherImmutableStructWithDefaults {
     intField: Int = 42
 }
 
 @Dart(PositionalDefaults)
-@Java(Skip) @Swift(Skip)
+@Java(Skip) @Swift(Skip) @Kotlin(Skip)
 struct PosDefaultStructWithFieldUsingImmutableStruct {
     someField1: AnotherImmutableStructWithDefaults = {}
 }
 
 @Dart(PositionalDefaults)
-@Java(Skip) @Swift(Skip)
+@Java(Skip) @Swift(Skip) @Kotlin(Skip)
 struct SomeMutableCustomStructWithDefaults {
     intField: Int = 77
     stringField: String = "Some string"
@@ -81,7 +91,7 @@ struct SomeMutableCustomStructWithDefaults {
 }
 
 @Dart(PositionalDefaults)
-@Java(Skip) @Swift(Skip)
+@Java(Skip) @Swift(Skip) @Kotlin(Skip)
 struct PosDefaultStructWithCustomStructsFields {
     constCtorField0: AnotherImmutableStructWithDefaults = {}
     constCtorField1: AnotherImmutableStructWithDefaults? = {}
@@ -103,7 +113,7 @@ struct PosDefaultStructWithCustomStructsFields {
 }
 
 @Dart(PositionalDefaults)
-@Java(Skip) @Swift(Skip)
+@Java(Skip) @Swift(Skip) @Kotlin(Skip)
 struct PosDefaultsWithDuration {
     durationField: Duration = 42s
     nanosField: Duration = 28567ns

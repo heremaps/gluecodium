@@ -18,14 +18,110 @@
   ! License-Filename: LICENSE
   !
   !}}
-class {{resolveName}}({{!!
-}}{{#fields}}{{!!
-}}var {{resolveName}}: {{resolveName typeRef}}{{#if defaultValue}} = {{resolveName defaultValue}}{{/if}}{{!!
-}}{{#if iter.hasNext}},
-    {{/if}}{{!!
-}}{{/fields}}) {
+class {{resolveName}}{{!!
+}}{{#unless external.kotlin.name}}{{!!
+}}{{#if attributes.serializable}} : Parcelable{{/if}}{{!!
+}}{{/unless}} {
+{{#set isImmutable=attributes.immutable}}
+{{#fields}}{{!!
+}}{{#unless isImmutable}}    var {{/unless}}{{!!
+}}{{#if isImmutable}}    val {{/if}}{{!!
+}}{{resolveName}}: {{resolveName typeRef}}{{!!
+}}
+{{/fields}}
+{{/set}}
 
 {{>kotlin/KotlinContainerContents}}
+
+{{!!
+    1. If user explicitly specified constructors via 'constructor' keyword, then define them.
+}}
+{{#constructors}}
+    constructor({{!!
+}}{{#parameters}}{{!!
+}}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
+}}{{/parameters}}) {
+        val _other = {{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})
+{{#fields}}        this.{{resolveName}} = _other.{{resolveName}}
+{{/fields}}
+    }
+{{/constructors}}
+
+{{#if fields}}{{!!
+}}{{#unless constructors}}{{!!
+
+}}{{#unless fieldConstructors}}{{!!
+}}{{#if initializedFields}}{{!!
+}}{{#unless attributes.kotlin.positionalDefaults}}
+{{!!
+    2. If user did not specify any constructors and field constructors and there are fields with default value,
+       then define a constructor which takes only fields, which do not have default value.
+
+       **Note**: this constructor will not be generated if PositionalDefaults is specified for a given structure,
+                 because the constructor generated for positional defaults covers this case.
+}}
+    constructor({{!!
+}}{{#uninitializedFields}}{{!!
+}}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
+}}{{/uninitializedFields}}) {
+{{#fields}}        this.{{resolveName}} = {{#if defaultValue}}{{resolveName defaultValue}}{{/if}}{{!!
+                   }}{{#unless defaultValue}}{{resolveName}}{{/unless}}
+{{/fields}}
+    }
+{{/unless}}{{!!
+}}{{/if}}{{!!
+}}{{/unless}}{{!!
+
+}}{{#ifPredicate "needsAllFieldsConstructor"}}{{!!
+    3. If user did not specify any constructors, field constructor and fields with default values, then
+       define a constructor, which allows setting all fields.
+}}
+    constructor({{!!
+}}{{#fields}}{{!!
+}}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
+}}{{/fields}}) {
+{{#fields}}        this.{{resolveName}} = {{resolveName}}
+{{/fields}}
+    }
+{{/ifPredicate}}{{!!
+}}{{/unless}}{{!!
+
+    4. Generate field constructors specified by the user.
+}}{{#fieldConstructors}}
+    constructor({{!!
+}}{{#fields}}{{!!
+}}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
+}}{{/fields}}) {
+{{#fields}}        this.{{resolveName}} = {{resolveName}}
+{{/fields}}
+{{#omittedFields}}        this.{{resolveName}} = {{resolveName defaultValue}}
+{{/omittedFields}}
+    }
+{{/fieldConstructors}}{{!!
+
+    5. Generate positional defaults constructor if it is specified and there are no field constructors.
+}}{{#unless fieldConstructors}}{{!!
+}}{{#if attributes.kotlin.positionalDefaults}}
+    constructor({{!!
+}}{{#uninitializedFields}}{{!!
+}}{{resolveName}}: {{resolveName typeRef}}, {{!!
+}}{{/uninitializedFields}}{{!!
+}}{{#initializedFields}}{{resolveName}}: {{resolveName typeRef}} = {{resolveName defaultValue}}{{!!
+}}{{#if iter.hasNext}}, {{/if}}{{/initializedFields}}) {
+{{#fields}}        this.{{resolveName}} = {{resolveName}}
+{{/fields}}
+    }
+{{/if}}{{!!
+}}{{/unless}}{{!!
+}}{{/if}}
+
+{{#if attributes.equatable}}{{prefixPartial "kotlin/KotlinEqualsAndHashCode" "    "}}
+{{/if}}
+
+{{#unless external.kotlin.name}}{{!!
+}}{{#if attributes.serializable}}{{prefixPartial "kotlin/KotlinParcelableImpl" "    "}}
+
+{{/if}}{{/unless}}
 
 {{#functions}}
 {{#unless isStatic}}
@@ -38,14 +134,19 @@ class {{resolveName}}({{!!
 {{#constants}}{{prefixPartial "kotlin/KotlinConstant" "        "}}
 {{/constants}}
 {{#ifPredicate "hasStaticFunctions"}}
+{{#set self=this isStructure=true}}
+{{#self}}
 {{#functions}}
 {{#if isStatic}}
 {{prefixPartial "kotlin/KotlinFunction" "        "}}
 {{/if}}
 {{/functions}}
+{{/self}}
+{{/set}}
 {{/ifPredicate}}
+{{#unless external.kotlin.name}}
+{{#if attributes.serializable}}{{prefixPartial "kotlin/KotlinParcelableCreator" "        "}}
+{{/if}}{{/unless}}
     }
 {{/ifPredicate}}
-
 }
-

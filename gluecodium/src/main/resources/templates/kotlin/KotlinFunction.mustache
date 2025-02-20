@@ -23,5 +23,8 @@
 }}{{#parameters}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/parameters}}) : {{!!
+}}{{#if isStructure}}{{resolveName returnType}}{{/if}}{{!!
+}}{{#unless isStructure}}{{!!
 }}{{#unless this.isConstructor}}{{resolveName returnType}}{{/unless}}{{!!
-}}{{#if this.isConstructor}}Long{{/if}}
+}}{{#if this.isConstructor}}Long{{/if}}{{!!
+}}{{/unless}}

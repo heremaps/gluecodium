@@ -73,6 +73,18 @@ internal class KotlinNameResolver(
             else -> null
         }
 
+    fun resolveFullReferenceName(element: LimeNamedElement): String {
+        val elementName = resolveName(element)
+        if (!element.path.hasParent) {
+            return (resolvePackageNames(element) + elementName).joinToString(".")
+        }
+
+        val parentElement = getParentElement(element)
+        val prefix = resolveFullReferenceName(parentElement)
+
+        return "$prefix.$elementName"
+    }
+
     private fun resolveComment(limeComment: LimeComment): String {
         // TODO: implement me!
         return ""
@@ -123,9 +135,9 @@ internal class KotlinNameResolver(
 
     private fun resolveGenericTypeRef(limeType: LimeGenericType) =
         when (limeType) {
-            is LimeList -> "List<${resolveTypeRef(limeType.elementType)}>"
-            is LimeSet -> "Set<${resolveTypeRef(limeType.elementType)}>"
-            is LimeMap -> "Map<${resolveTypeRef(limeType.keyType)}, ${resolveTypeRef(limeType.valueType)}>"
+            is LimeList -> "MutableList<${resolveTypeRef(limeType.elementType)}>"
+            is LimeSet -> "MutableSet<${resolveTypeRef(limeType.elementType)}>"
+            is LimeMap -> "MutableMap<${resolveTypeRef(limeType.keyType)}, ${resolveTypeRef(limeType.valueType)}>"
             else -> throw GluecodiumExecutionException("Unsupported element type ${limeType.javaClass.name}")
         }
 

@@ -106,7 +106,7 @@ class PlainDataStructures {
     static fun checkAllFieldsAreInitialized(): Boolean
 }
 
-@Skip(Java, Dart)
+@Skip(Java, Kotlin, Dart)
 struct DeprecatedFields {
     normalField1: String
     @Deprecated

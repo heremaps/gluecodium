@@ -9,65 +9,110 @@ import com.example.NativeBase
 
 class DefaultValues : NativeBase {
 
-    class StructWithDefaults(var intField: Int = 42,
-        var uintField: Long = 4294967295L,
-        var floatField: Float = 3.14f,
-        var doubleField: Double = -1.4142,
-        var boolField: Boolean = true,
-        var stringField: String = "\\Jonny \"Magic\" Smith\n") {
+    class StructWithDefaults {
+        var intField: Int
+        var uintField: Long
+        var floatField: Float
+        var doubleField: Double
+        var boolField: Boolean
+        var stringField: String
 
 
 
-
-    }
-
-
-    class NullableStructWithDefaults(var intField: Int? = null,
-        var uintField: Long? = null,
-        var floatField: Float? = null,
-        var boolField: Boolean? = null,
-        var stringField: String? = null) {
-
-
-
-
-    }
-
-
-    class StructWithSpecialDefaults(var floatNanField: Float = Float.NaN,
-        var floatInfinityField: Float = Float.POSITIVE_INFINITY,
-        var floatNegativeInfinityField: Float = Float.NEGATIVE_INFINITY,
-        var doubleNanField: Double = Double.NaN,
-        var doubleInfinityField: Double = Double.POSITIVE_INFINITY,
-        var doubleNegativeInfinityField: Double = Double.NEGATIVE_INFINITY) {
-
+        constructor() {
+            this.intField = 42
+            this.uintField = 4294967295L
+            this.floatField = 3.14f
+            this.doubleField = -1.4142
+            this.boolField = true
+            this.stringField = "\\Jonny \"Magic\" Smith\n"
+        }
 
 
 
     }
 
+    class NullableStructWithDefaults {
+        var intField: Int?
+        var uintField: Long?
+        var floatField: Float?
+        var boolField: Boolean?
+        var stringField: String?
 
-    class StructWithEmptyDefaults(var intsField: List<Int> = listOf(),
-        var floatsField: List<Float> = listOf(),
-        var mapField: Map<Long, String> = mapOf(),
-        var structField: DefaultValues.StructWithDefaults = DefaultValues.StructWithDefaults(),
-        var setTypeField: Set<String> = setOf()) {
 
+
+        constructor() {
+            this.intField = null
+            this.uintField = null
+            this.floatField = null
+            this.boolField = null
+            this.stringField = null
+        }
 
 
 
     }
 
+    class StructWithSpecialDefaults {
+        var floatNanField: Float
+        var floatInfinityField: Float
+        var floatNegativeInfinityField: Float
+        var doubleNanField: Double
+        var doubleInfinityField: Double
+        var doubleNegativeInfinityField: Double
 
-    class StructWithTypedefDefaults(var longField: Long = 42L,
-        var boolField: Boolean = true,
-        var stringField: String = "\\Jonny \"Magic\" Smith\n") {
 
+
+        constructor() {
+            this.floatNanField = Float.NaN
+            this.floatInfinityField = Float.POSITIVE_INFINITY
+            this.floatNegativeInfinityField = Float.NEGATIVE_INFINITY
+            this.doubleNanField = Double.NaN
+            this.doubleInfinityField = Double.POSITIVE_INFINITY
+            this.doubleNegativeInfinityField = Double.NEGATIVE_INFINITY
+        }
 
 
 
     }
 
+    class StructWithEmptyDefaults {
+        var intsField: MutableList<Int>
+        var floatsField: MutableList<Float>
+        var mapField: MutableMap<Long, String>
+        var structField: DefaultValues.StructWithDefaults
+        var setTypeField: MutableSet<String>
+
+
+
+        constructor() {
+            this.intsField = mutableListOf()
+            this.floatsField = mutableListOf()
+            this.mapField = mutableMapOf()
+            this.structField = DefaultValues.StructWithDefaults()
+            this.setTypeField = mutableSetOf()
+        }
+
+
+
+    }
+
+    class StructWithTypedefDefaults {
+        var longField: Long
+        var boolField: Boolean
+        var stringField: String
+
+
+
+        constructor() {
+            this.longField = 42L
+            this.boolField = true
+            this.stringField = "\\Jonny \"Magic\" Smith\n"
+        }
+
+
+
+    }
 
 
 
@@ -79,6 +124,7 @@ class DefaultValues : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
 

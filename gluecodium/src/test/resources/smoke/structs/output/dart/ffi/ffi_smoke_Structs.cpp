@@ -82,6 +82,19 @@ library_smoke_Structs_modifyAllTypesStruct__AllTypesStruct(int32_t _isolate_id, 
 
 
 
+FfiOpaqueHandle
+library_smoke_Structs_Point_fromPolar__Double_Double(int32_t _isolate_id, double phi, double r) {
+    gluecodium::ffi::IsolateContext _isolate_context(_isolate_id);
+    return gluecodium::ffi::Conversion<smoke::Structs::Point>::toFfi(
+        smoke::Structs::Point::from_polar(
+            gluecodium::ffi::Conversion<double>::toCpp(phi),
+            gluecodium::ffi::Conversion<double>::toCpp(r)
+        )
+    );
+}
+
+
+
 
 
 

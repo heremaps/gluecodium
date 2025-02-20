@@ -125,33 +125,33 @@ feature(Interfaces cpp android android-kotlin swift dart SOURCES
     input/lime/Interfaces.lime
 )
 
-feature(InstanceInStruct cpp android swift dart SOURCES
+feature(InstanceInStruct cpp android android-kotlin swift dart SOURCES
     input/src/cpp/InstanceInStruct.cpp
 
     input/lime/StructWithInstance.lime
 )
 
-feature(Structs cpp android swift dart SOURCES
+feature(Structs cpp android android-kotlin swift dart SOURCES
     input/src/cpp/PlainDataStructures.cpp
 
     input/lime/Structs.lime
     input/lime/Accessors.lime
 )
 
-feature(StructsInTypes cpp android swift dart SOURCES
+feature(StructsInTypes cpp android android-kotlin swift dart SOURCES
     input/src/cpp/StructsFromTypeCollection.cpp
 
     input/lime/StructsFromTypeCollection.lime
     input/lime/TypeCollection.lime
 )
 
-feature(StructsImmutable cpp android swift dart SOURCES
+feature(StructsImmutable cpp android android-kotlin swift dart SOURCES
     input/src/cpp/PlainDataStructuresImmutable.cpp
 
     input/lime/PlainDataStructuresImmutable.lime
 )
 
-feature(FieldConstructors cpp android swift dart SOURCES
+feature(FieldConstructors cpp android android-kotlin swift dart SOURCES
     input/src/cpp/FieldConstructors.cpp
 
     input/lime/FieldConstructors.lime
@@ -259,7 +259,7 @@ feature(Errors cpp android swift dart SOURCES
     input/lime/ErrorsWithNonTrivialType.lime
 )
 
-feature(Defaults cpp android swift dart SOURCES
+feature(Defaults cpp android android-kotlin swift dart SOURCES
     input/src/cpp/Defaults.cpp
 
     input/lime/Defaults.lime
@@ -295,7 +295,7 @@ feature(MultipleInheritance cpp android swift dart SOURCES
     input/lime/MultipleInheritance.lime
 )
 
-feature(Serialization android swift SOURCES
+feature(Serialization android android-kotlin swift SOURCES
     input/lime/Serialization.lime
 )
 
@@ -349,7 +349,7 @@ feature(Constants cpp android swift dart SOURCES
     input/lime/Constants.lime
 )
 
-feature(Equatable cpp android swift dart SOURCES
+feature(Equatable cpp android android-kotlin swift dart SOURCES
     input/src/cpp/EquatableImpl.cpp
     input/src/cpp/RefEquality.cpp
     input/src/cpp/SimpleEquality.cpp
@@ -397,7 +397,7 @@ feature(StructsWithCompanion cpp android swift dart SOURCES
     input/lime/StructsWithConstants.lime
 )
 
-feature(DeclarationOrder cpp android swift dart SOURCES
+feature(DeclarationOrder cpp android android-kotlin swift dart SOURCES
     input/src/cpp/StructsWithMethodsDeclarationOrder.cpp
 
     input/lime/OrderWithInterface.lime

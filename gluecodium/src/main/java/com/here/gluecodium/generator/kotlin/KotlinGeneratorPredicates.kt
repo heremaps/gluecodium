@@ -19,10 +19,14 @@
 
 package com.here.gluecodium.generator.kotlin
 
+import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
+import com.here.gluecodium.model.lime.LimeExternalDescriptor
 import com.here.gluecodium.model.lime.LimeLambda
+import com.here.gluecodium.model.lime.LimeStruct
 
 internal object KotlinGeneratorPredicates {
     val predicates =
@@ -32,7 +36,19 @@ internal object KotlinGeneratorPredicates {
             "needsCompanionObject" to this::needsCompanionObject,
             "hasConstants" to this::hasConstants,
             "hasStaticProperties" to this::hasStaticProperties,
+            "needsAllFieldsConstructor" to this::needsAllFieldsConstructor,
         )
+
+    private fun needsAllFieldsConstructor(limeStruct: Any): Boolean {
+        return when {
+            limeStruct !is LimeStruct -> false
+            limeStruct.external?.kotlin?.get(LimeExternalDescriptor.CONVERTER_NAME) != null -> true
+            limeStruct.attributes.have(LimeAttributeType.KOTLIN, LimeAttributeValueType.POSITIONAL_DEFAULTS) -> false
+            limeStruct.attributes.have(LimeAttributeType.IMMUTABLE) -> limeStruct.allFieldsConstructor == null
+            limeStruct.fieldConstructors.isEmpty() -> limeStruct.initializedFields.isEmpty()
+            else -> false
+        }
+    }
 
     private fun hasStaticFunctions(element: Any) =
         when (element) {
@@ -59,6 +75,15 @@ internal object KotlinGeneratorPredicates {
             else -> false
         }
 
+    private fun needsParcelCreator(element: Any): Boolean {
+        if (element !is LimeStruct) {
+            return false
+        }
+
+        return element.attributes.have(LimeAttributeType.SERIALIZABLE)
+    }
+
     private fun needsCompanionObject(element: Any) =
-        hasStaticFunctions(element) || hasConstants(element) || needsDisposer(element) || hasStaticProperties(element)
+        hasStaticFunctions(element) || hasConstants(element) || needsDisposer(element) ||
+            hasStaticProperties(element) || needsParcelCreator(element)
 }

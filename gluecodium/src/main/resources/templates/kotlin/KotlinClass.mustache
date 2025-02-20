@@ -54,6 +54,12 @@
     private external fun cacheThisInstance()
 {{/unless}}{{/if}}
 
+{{#if attributes.equatable attributes.pointerEquatable logic="or"}}
+    override external fun equals(obj: Any?) : Boolean
+    override external fun hashCode(): Int
+
+{{/if}}
+
 {{#functions}}
 {{#unless isStatic}}
 {{prefixPartial "kotlin/KotlinFunction" "    "}}

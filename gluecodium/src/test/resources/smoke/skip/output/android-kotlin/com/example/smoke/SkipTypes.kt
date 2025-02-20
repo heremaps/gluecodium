@@ -9,29 +9,47 @@ import com.example.NativeBase
 
 class SkipTypes : NativeBase {
 
-    class NotInJava(var fooField: String) {
+    class NotInJava {
+        var fooField: String
+
+
+
+        constructor(fooField: String) {
+            this.fooField = fooField
+        }
 
 
 
 
     }
 
-
-    class NotInSwift(var fooField: String) {
-
-
+    class NotInSwift {
+        var fooField: String
 
 
-    }
 
-
-    class NotInDart(var fooField: String) {
+        constructor(fooField: String) {
+            this.fooField = fooField
+        }
 
 
 
 
     }
 
+    class NotInDart {
+        var fooField: String
+
+
+
+        constructor(fooField: String) {
+            this.fooField = fooField
+        }
+
+
+
+
+    }
 
 
 
@@ -43,6 +61,7 @@ class SkipTypes : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
 

@@ -13,13 +13,18 @@ class Properties : NativeBase {
         ERROR_NONE(0),
         ERROR_FATAL(999);
     }
-    class ExampleStruct(var value: Double) {
+    class ExampleStruct {
+        var value: Double
 
+
+
+        constructor(value: Double) {
+            this.value = value
+        }
 
 
 
     }
-
 
 
 
@@ -34,6 +39,7 @@ class Properties : NativeBase {
 
 
 
+
     var builtInTypeProperty: Long
         external get
         external set
@@ -42,7 +48,7 @@ class Properties : NativeBase {
     var structProperty: Properties.ExampleStruct
         external get
         external set
-    var arrayProperty: List<String>
+    var arrayProperty: MutableList<String>
         external get
         external set
     var complexTypeProperty: Properties.InternalErrorCode

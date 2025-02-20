@@ -6,11 +6,17 @@
 package com.example.smoke
 
 
-class SkipField(var field: String) {
+class SkipField {
+    var field: String
+
+
+
+    constructor(field: String) {
+        this.field = field
+    }
 
 
 
 
 }
-
 

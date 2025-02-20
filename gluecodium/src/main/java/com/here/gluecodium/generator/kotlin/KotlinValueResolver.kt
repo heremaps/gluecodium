@@ -70,7 +70,7 @@ internal class KotlinValueResolver(private val nameResolver: KotlinNameResolver)
                 val elementName = nameResolver.resolveName(limeElement)
                 "$typeName.$elementName"
             }
-            else -> nameResolver.resolveName(limeValue.valueRef.element)
+            else -> nameResolver.resolveFullReferenceName(limeElement)
         }
     }
 
@@ -84,17 +84,17 @@ internal class KotlinValueResolver(private val nameResolver: KotlinNameResolver)
         return when (limeType) {
             is LimeList -> {
                 val values = limeValue.values.joinToString(", ") { resolveValue(it) }
-                "listOf($values)"
+                "mutableListOf($values)"
             }
 
             is LimeSet -> {
                 val values = limeValue.values.joinToString(", ") { resolveValue(it) }
-                "setOf($values)"
+                "mutableSetOf($values)"
             }
 
             is LimeMap -> {
-                val values = limeValue.values.joinToString(".") { resolveValue(it) }
-                "mapOf($values)"
+                val values = limeValue.values.joinToString(", ") { resolveValue(it) }
+                "mutableMapOf($values)"
             }
 
             else -> throw GluecodiumExecutionException("Unsupported type ${limeType.javaClass.name} for initializer list")

@@ -44,7 +44,7 @@ struct StructsWithMethods {
         )
         @Dart("copy")
         constructor create(other: Vector) throws ValidationUtils.Validation
-        @Java(Skip) @Swift(Skip)
+        @Java(Skip) @Kotlin(Skip) @Swift(Skip)
         constructor create(input: ULong)
     }
 }
