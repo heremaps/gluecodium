@@ -26,7 +26,7 @@ class dodoTypes {
 
 
         companion object {
-            @JvmStatic external fun DodoCreate(DodoParameter: String) : dodoTypes.dodoStruct
+            @JvmStatic external fun DodoCreate(DodoParameter: String) : dodoStruct
         }
     }
 

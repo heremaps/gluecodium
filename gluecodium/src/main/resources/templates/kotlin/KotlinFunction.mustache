@@ -23,7 +23,10 @@
 }}{{#parameters}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/parameters}}) : {{!!
-}}{{#if isStructure}}{{resolveName returnType}}{{/if}}{{!!
+}}{{#if isStructure}}{{!!
+}}{{#unless this.isConstructor}}{{resolveName returnType}}{{/unless}}{{!!
+}}{{#if this.isConstructor}}{{resolveName returnType.typeRef.type}}{{/if}}{{!!
+}}{{/if}}{{!!
 }}{{#unless isStructure}}{{!!
 }}{{#unless this.isConstructor}}{{resolveName returnType}}{{/unless}}{{!!
 }}{{#if this.isConstructor}}Long{{/if}}{{!!
