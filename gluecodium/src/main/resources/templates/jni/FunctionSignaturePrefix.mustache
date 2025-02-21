@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-Java_{{#if container.external.java.converter}}{{#resolveName container "" "ref"}}{{resolveName "mangled"}}{{/resolveName}}{{/if}}{{!!
-}}{{#unless container.external.java.converter}}{{resolveName container "mangled"}}{{/unless}}{{!!
+Java_{{#ifPredicate container "hasExternalConverter"}}{{#resolveName container "" "ref"}}{{resolveName "mangled"}}{{/resolveName}}{{/ifPredicate}}{{!!
+}}{{#unlessPredicate container "hasExternalConverter"}}{{resolveName container "mangled"}}{{/unlessPredicate}}{{!!
 }}{{#instanceOf container "LimeInterface"}}Impl{{/instanceOf}}{{!!
 }}{{#instanceOf container "LimeLambda"}}Impl{{/instanceOf}}

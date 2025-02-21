@@ -110,6 +110,15 @@ internal class JniGeneratorPredicates(
             "shouldRetain" to { limeElement: Any ->
                 limeElement is LimeNamedElement && shouldRetain(limeElement)
             },
+            "hasExternalConverter" to { limeElement: Any ->
+                limeElement is LimeNamedElement && limeElement.external?.getFor(platformAttribute)?.get("converter") != null
+            },
+            "hasExternalGetterName" to { limeElement: Any ->
+                limeElement is LimeNamedElement && limeElement.external?.getFor(platformAttribute)?.get("getterName") != null
+            },
+            "hasExternalSetterName" to { limeElement: Any ->
+                limeElement is LimeNamedElement && limeElement.external?.getFor(platformAttribute)?.get("setterName") != null
+            },
         )
 
     fun shouldRetain(limeElement: LimeNamedElement) =
