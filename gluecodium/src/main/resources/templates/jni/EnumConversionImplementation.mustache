@@ -34,16 +34,16 @@ namespace {{.}}
 namespace jni
 {
 {{#enum}}
-{{#if external.java.converter}}
+{{#set ConvertedType=this}}{{#eval "external" platformName}}{{#if this.converter}}
 {{>jni/ExternalConversionClassCache}}
-{{/if}}
+{{/if}}{{/eval}}{{/set}}
 
 {{resolveName "C++ FQN"}}
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput{{#if external.java.converter}}_ext{{/if}}, TypeId<{{resolveName "C++ FQN"}}>)
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput{{#ifPredicate "hasExternalConverter"}}_ext{{/ifPredicate}}, TypeId<{{resolveName "C++ FQN"}}>)
 {
-{{#if external.java.converter}}
+{{#set ConvertedType=this}}{{#eval "external" platformName}}{{#if this.converter}}
 {{prefixPartial "jni/ExternalConversionFromJni" "    "}}
-{{/if}}
+{{/if}}{{/eval}}{{/set}}
 {{#ifPredicate "needsOrdinalConversion"}}
     auto ordinal = call_java_method<jint>(_jenv, _jinput, "ordinal", "()I");
     switch(ordinal) {
@@ -84,13 +84,14 @@ convert_to_jni(JNIEnv* _jenv, const {{resolveName "C++ FQN"}} _ninput)
 {{/unless}}{{/enumerators}}
     }
     jfieldID fieldID = _jenv->GetStaticFieldID(javaClass.get(), enumeratorName, "L{{resolveName this "" "ref"}};");
-{{#unless external.java.converter}}
+{{#unlessPredicate "hasExternalConverter"}}
     return make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
-{{/unless}}{{#if external.java.converter}}
+{{/unlessPredicate}}{{!!
+}}{{#set ConvertedType=this}}{{#eval "external" platformName}}{{#if this.converter}}
     auto _jresult = make_local_ref(_jenv, _jenv->GetStaticObjectField(javaClass.get(), fieldID));
 {{prefixPartial "jni/ExternalConversionToJni" "    "}}
     return _jresult;
-{{/if}}
+{{/if}}{{/eval}}{{/set}}
 }
 
 JniReference<jobject>

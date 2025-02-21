@@ -35,27 +35,27 @@ namespace {{.}}
 namespace jni
 {
 {{#struct}}
-{{#if external.java.converter}}
+{{#set ConvertedType=this}}{{#eval "external" platformName}}{{#if this.converter}}
 {{>jni/ExternalConversionClassCache}}
-{{/if}}
+{{/if}}{{/eval}}{{/set}}
 
 {{resolveName "C++ FQN"}}
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput{{!!
-}}{{#if external.java.converter}}_ext{{/if}}, TypeId<{{resolveName "C++ FQN"}}>)
+}}{{#ifPredicate "hasExternalConverter"}}_ext{{/ifPredicate}}, TypeId<{{resolveName "C++ FQN"}}>)
 {
-{{#if external.java.converter}}
+{{#set ConvertedType=this}}{{#eval "external" platformName}}{{#if this.converter}}
 {{prefixPartial "jni/ExternalConversionFromJni" "    "}}
-{{/if}}
+{{/if}}{{/eval}}{{/set}}
     {{#unlessPredicate "hasImmutableFields"}}{{resolveName "C++ FQN"}} _nout{};{{/unlessPredicate}}
-{{#fields}}{{#ifPredicate "shouldRetain"}}{{#if external.java.getterName}}{{#unlessPredicate typeRef "isJniPrimitive"}}
+{{#fields}}{{#ifPredicate "shouldRetain"}}{{#ifPredicate "hasExternalGetterName"}}{{#unlessPredicate typeRef "isJniPrimitive"}}
     auto j_{{resolveName "C++"}} = call_java_method<{{resolveName typeRef}}>(_jenv, _jinput, {{!!
-    }}"{{external.java.getterName}}", "(){{resolveName typeRef "signature"}}");
+    }}"{{eval "external" platformName "getterName"}}", "(){{resolveName typeRef "signature"}}");
     auto n_{{resolveName "C++"}} = {{>jni/JniConversionPrefix}}convert_from_jni(_jenv, j_{{resolveName "C++"}}, TypeId<{{resolveName typeRef "C++"}}>{});
 {{/unlessPredicate}}{{#ifPredicate typeRef "isJniPrimitive"}}
     auto n_{{resolveName "C++"}} = call_java_method<{{resolveName typeRef}}>(_jenv, _jinput, {{!!
-    }}"{{external.java.getterName}}", "(){{resolveName typeRef "signature"}}");
-{{/ifPredicate}}{{/if}}{{!!
-}}{{#unless external.java.getterName}}{{#notInstanceOf typeRef.type.actualType "LimeBasicType"}}
+    }}"{{eval "external" platformName "getterName"}}", "(){{resolveName typeRef "signature"}}");
+{{/ifPredicate}}{{/ifPredicate}}{{!!
+}}{{#unlessPredicate "hasExternalGetterName"}}{{#notInstanceOf typeRef.type.actualType "LimeBasicType"}}
 {{#if typeRef.attributes.optimized}}
     auto j_{{resolveName "C++"}} = get_object_field_value(_jenv, _jinput, "{{resolveName}}", "L{{resolveName typeRef.type.actualType}};");
     auto {{resolveName "C++"}}_handle = get_class_native_handle(_jenv, j_{{resolveName "C++"}});
@@ -73,7 +73,7 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput{{!!
         _jinput,
         "{{resolveName}}",
         TypeId<{{resolveName typeRef "C++"}}>{} );
-{{/instanceOf}}{{/unless}}
+{{/instanceOf}}{{/unlessPredicate}}
     {{#unlessPredicate struct "hasImmutableFields"}}_nout.{{!!
     }}{{#ifPredicate "hasCppSetter"}}{{resolveName this "C++" "setter"}}(n_{{resolveName this "C++"}}){{/ifPredicate}}{{!!
     }}{{#unlessPredicate "hasCppSetter"}}{{resolveName this "C++"}} = n_{{resolveName this "C++"}}{{/unlessPredicate}}{{!!
@@ -100,12 +100,12 @@ JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const {{resolveName "C++ FQN"}}& _ninput)
 {
 {{>convertToJniBody}}
-{{#if external.java.converter}}
+{{#set ConvertedType=this}}{{#eval "external" platformName}}{{#if this.converter}}
 {{prefixPartial "jni/ExternalConversionToJni" "    "}}
-{{/if}}
+{{/if}}{{/eval}}{{/set}}
     return _jresult;
 }
-{{#if external.java.converter constructors}}
+{{#if constructors}}{{#ifPredicate "hasExternalConverter"}}
 
 JniReference<jobject>
 convert_to_jni_internal(JNIEnv* _jenv, const {{resolveName "C++ FQN"}}& _ninput)
@@ -113,7 +113,7 @@ convert_to_jni_internal(JNIEnv* _jenv, const {{resolveName "C++ FQN"}}& _ninput)
 {{>convertToJniBody}}
     return _jresult;
 }
-{{/if}}
+{{/ifPredicate}}{{/if}}
 
 JniReference<jobject>
 convert_to_jni(JNIEnv* _jenv, const std::optional<{{resolveName "C++ FQN"}}> _ninput)
@@ -141,15 +141,15 @@ convert_to_jni(JNIEnv* _jenv, const std::optional<{{resolveName "C++ FQN"}}> _ni
 }}{{+convertToJniBody}}{{!!
 }}    auto& javaClass = CachedJavaClass<{{resolveName "C++ FQN"}}>::java_class;
     auto _jresult = {{>common/InternalNamespace}}jni::alloc_object(_jenv, javaClass);
-{{#set struct=this}}{{#fields}}{{#ifPredicate "shouldRetain"}}{{#if external.java.setterName}}{{#unlessPredicate typeRef "isJniPrimitive"}}
+{{#set struct=this}}{{#fields}}{{#ifPredicate "shouldRetain"}}{{#ifPredicate "hasExternalSetterName"}}{{#unlessPredicate typeRef "isJniPrimitive"}}
     auto j{{resolveName "C++"}} = {{>jni/JniConversionPrefix}}convert_to_jni(_jenv, {{>getCppFieldValue}});
-    call_java_method<void>(_jenv, _jresult, "{{external.java.setterName}}", {{!!
+    call_java_method<void>(_jenv, _jresult, "{{eval "external" platformName "setterName"}}", {{!!
     }}"({{resolveName typeRef "signature"}})V", j{{cppField.name}});
 {{/unlessPredicate}}{{#ifPredicate typeRef "isJniPrimitive"}}
-    call_java_method<void>(_jenv, _jresult, "{{external.java.setterName}}", {{!!
+    call_java_method<void>(_jenv, _jresult, "{{eval "external" platformName "setterName"}}", {{!!
     }}"({{resolveName typeRef "signature"}})V", {{>getCppFieldValue}});
-{{/ifPredicate}}{{/if}}{{!!
-}}{{#unless external.java.setterName}}{{#notInstanceOf typeRef.type.actualType "LimeBasicType"}}
+{{/ifPredicate}}{{/ifPredicate}}{{!!
+}}{{#unlessPredicate "hasExternalSetterName"}}{{#notInstanceOf typeRef.type.actualType "LimeBasicType"}}
     auto j{{resolveName "C++"}} = {{#if typeRef.attributes.optimized}}{{!!
 }}convert_to_jni_optimized(_jenv, {{>getCppFieldValue}}, "{{resolveName struct "" "ref"}}${{resolveName typeRef "" "ref"}}"){{/if}}{{!!
 }}{{#unless typeRef.attributes.optimized}}{{>jni/JniConversionPrefix}}convert_to_jni(_jenv, {{>getCppFieldValue}}){{/unless}};
@@ -157,5 +157,5 @@ convert_to_jni(JNIEnv* _jenv, const std::optional<{{resolveName "C++ FQN"}}> _ni
     }}_jenv, _jresult, "{{resolveName}}", "L{{resolveName typeRef.type.actualType}};", j{{resolveName "C++"}});
 {{/notInstanceOf}}{{#instanceOf typeRef.type.actualType "LimeBasicType"}}
     {{>common/InternalNamespace}}jni::set_field_value(_jenv, _jresult, "{{resolveName}}", {{>getCppFieldValue}});
-{{/instanceOf}}{{/unless}}{{/ifPredicate}}{{/fields}}{{/set}}{{!!
+{{/instanceOf}}{{/unlessPredicate}}{{/ifPredicate}}{{/fields}}{{/set}}{{!!
 }}{{/convertToJniBody}}
