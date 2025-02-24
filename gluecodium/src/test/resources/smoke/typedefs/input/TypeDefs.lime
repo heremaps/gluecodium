@@ -54,6 +54,9 @@ class TypeDefs {
     property primitiveTypeProperty: List<PrimitiveTypeDef>
 }
 
+typealias GlobalListTypeDef = List<Float>
+typealias GlobalMapTypeDef = Map<Int, String>
+
 struct TypeCollection {
     struct Point {
         x: Double
