@@ -61,6 +61,7 @@ internal class JniTemplates(
     activeTags: Set<String>,
     private val descendantInterfaces: Map<String, List<LimeInterface>>,
 ) {
+    private val platformName = platformAttribute.toString().lowercase()
     private val jniNameResolver = JniNameResolver(platformAttribute, limeReferenceMap, basePackages, nameRules, externalNameRules)
     private val cppNameResolver = CppNameResolver(limeReferenceMap, internalNamespace, nameCache)
     private val fileNameRules = JniFileNameRules(generatorName, platformAttribute, jniNameResolver)
@@ -107,7 +108,12 @@ internal class JniTemplates(
         limeElement: LimeNamedElement,
         optimizedLists: Map<String, List<LimeList>>,
     ): List<GeneratedFile> {
-        val containerData = mutableMapOf("container" to limeElement, "internalNamespace" to internalNamespace)
+        val containerData =
+            mutableMapOf(
+                "container" to limeElement,
+                "internalNamespace" to internalNamespace,
+                "platformName" to platformName,
+            )
 
         val fileName = fileNameRules.getElementFileName(limeElement)
         val headerFile =
@@ -138,7 +144,12 @@ internal class JniTemplates(
         if (limeElement !is LimeNamedElement || lists.isNullOrEmpty()) return emptyList()
 
         val containerFileName = fileNameRules.getElementFileName(limeElement)
-        val containerData = mutableMapOf("container" to limeElement, "internalNamespace" to internalNamespace)
+        val containerData =
+            mutableMapOf(
+                "container" to limeElement,
+                "internalNamespace" to internalNamespace,
+                "platformName" to platformName,
+            )
 
         return lists.flatMap { generateOptimizedListFile(it, containerFileName, containerData) }
     }
@@ -200,6 +211,7 @@ internal class JniTemplates(
                     "internalNamespace" to internalNamespace,
                     "internalPackages" to fullInternalPackages,
                     "durationPackage" to (fullInternalPackages + "time").joinToString("/"),
+                    "platformName" to platformName,
                 ),
             ),
             fileNameRules.getHeaderFilePath(fileName),
@@ -214,6 +226,7 @@ internal class JniTemplates(
                     "internalNamespace" to internalNamespace,
                     "internalPackages" to fullInternalPackages,
                     "durationPackage" to (fullInternalPackages + "time").joinToString("/"),
+                    "platformName" to platformName,
                 ),
             ),
             fileNameRules.getImplementationFilePath(fileName),
@@ -237,10 +250,11 @@ internal class JniTemplates(
                 "struct" to limeStruct,
                 "includes" to headerIncludes,
                 "internalNamespace" to internalNamespace,
+                "platformName" to platformName,
             )
         val headerFile =
             GeneratedFile(
-                TemplateEngine.render("jni/StructConversionHeader", mustacheData, nameResolvers),
+                TemplateEngine.render("jni/StructConversionHeader", mustacheData, nameResolvers, generatorPredicates.predicates),
                 fileNameRules.getHeaderFilePath(fileName),
             )
 
@@ -268,12 +282,13 @@ internal class JniTemplates(
                 "enum" to limeEnumeration,
                 "includes" to cppIncludeResolver.resolveElementImports(limeEnumeration).distinct().sorted(),
                 "internalNamespace" to internalNamespace,
+                "platformName" to platformName,
             )
 
         val fileName = fileNameRules.getConversionFileName(limeEnumeration)
         val headerFile =
             GeneratedFile(
-                TemplateEngine.render("jni/EnumConversionHeader", mustacheData, nameResolvers),
+                TemplateEngine.render("jni/EnumConversionHeader", mustacheData, nameResolvers, generatorPredicates.predicates),
                 fileNameRules.getHeaderFilePath(fileName),
             )
 
@@ -308,6 +323,7 @@ internal class JniTemplates(
                 "internalPackages" to fullInternalPackages,
                 "internalNamespace" to internalNamespace,
                 "descendantInterfaces" to descendantInterfaces,
+                "platformName" to platformName,
             )
         val headerFile =
             GeneratedFile(
@@ -346,6 +362,7 @@ internal class JniTemplates(
                 "container" to limeElement,
                 "includes" to cppIncludeResolver.resolveElementImports(limeElement).distinct().sorted(),
                 "internalNamespace" to internalNamespace,
+                "platformName" to platformName,
             )
 
         val fileName = fileNameRules.getElementFileName(limeElement) + "CppProxy"
