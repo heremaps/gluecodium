@@ -41,6 +41,7 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeValue
 
@@ -58,6 +59,7 @@ internal class KotlinNameResolver(
         when (element) {
             is LimeComment -> resolveComment(element)
             is LimeValue -> resolveValue(element)
+            is LimeTypeAlias -> kotlinNameRules.getName(element)
             is LimeType -> resolveTypeName(element)
             is LimeTypeRef -> resolveTypeRef(element)
             is LimeReturnType -> resolveTypeRef(element.typeRef)
