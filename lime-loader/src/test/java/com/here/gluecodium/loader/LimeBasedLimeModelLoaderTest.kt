@@ -19,6 +19,7 @@
 
 package com.here.gluecodium.loader
 
+import com.here.gluecodium.model.lime.LimeComment
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimeReferenceResolver
@@ -46,6 +47,7 @@ class LimeBasedLimeModelLoaderTest {
                 any<String>(),
                 any<LimeReferenceResolver>(),
                 any<MutableMap<String, List<LimePath>>>(),
+                any<Map<String, LimeComment>>(),
             )
         } answers {
             listOf(object : LimeNamedElement(LimePath(listOf(firstArg()), emptyList())) {})
@@ -72,6 +74,7 @@ class LimeBasedLimeModelLoaderTest {
                 match<String> { it.endsWith("bar.lime") },
                 any<LimeReferenceResolver>(),
                 any<MutableMap<String, List<LimePath>>>(),
+                any<Map<String, LimeComment>>(),
             )
         }
     }
@@ -87,6 +90,7 @@ class LimeBasedLimeModelLoaderTest {
                 match<String> { it.endsWith("bar.lime") },
                 any<LimeReferenceResolver>(),
                 any<MutableMap<String, List<LimePath>>>(),
+                any<Map<String, LimeComment>>(),
             )
         }
     }
@@ -105,6 +109,7 @@ class LimeBasedLimeModelLoaderTest {
                 match<String> { it.endsWith("bar.lime") },
                 any<LimeReferenceResolver>(),
                 any<MutableMap<String, List<LimePath>>>(),
+                any<Map<String, LimeComment>>(),
             )
         }
     }
