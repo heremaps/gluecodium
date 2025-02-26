@@ -194,6 +194,39 @@ Multiple platform tags can be combined in a single `{@ }` section, if necessary:
 // Process something{@Cpp @Java  the right way}.
 ```
 
+Placeholder comments
+--------------------------
+Certain syntax may be used very often when documenting code. Let's look at the following example:
+```
+// This is {@Java interface}{@Swift protocol}{@Dart abstract class}{@Cpp abstract class}.
+```
+
+The type used to represent an interface can have different names depending on the output language.
+To avoid repeating such complicated syntax the placeholders can be specified and used e.g.:
+```
+// This is {@Placeholder interfaceString}.
+```
+
+The syntax above instructs Gluecodium to insert the content of placeholder with name `interfaceString`
+into the selected place.
+
+The content of placeholders is specified via properties file, which is then supplied when invoking
+generator via `-docsplaceholderslist` CLI parameter or `GLUECODIUM_DOCS_PLACEHOLDERS_LIST` CMake parameter.
+
+Each placeholder needs to be defined as `<PLACEHOLDER_NAME>="<PLACEHOLDER_VALUE>"`.
+Please notice the usage of quotation - it is required. Moreover, if multiline string needs to be defined then
+appropriate line end must be defined according to '.properties' format and newline must be escaped via `\n`:
+```
+some_multiline="This \
+  is the first line!\n \
+  This is the second line."
+```
+
+In the case of `interfaceString` placeholder the file content may look like this:
+```
+interfaceString="{@Java interface}{@Swift protocol}{@Dart abstract class}{@Cpp abstract class}"
+```
+
 Character escaping in documentation comments
 --------------------------------------------
 
