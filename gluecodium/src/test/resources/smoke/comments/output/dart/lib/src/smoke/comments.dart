@@ -7,7 +7,7 @@ import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 
-/// This is some very useful interface.
+/// This is some very useful abstract class.
 abstract class Comments implements Finalizable {
 
   /// This is some very useful constant.
@@ -461,6 +461,7 @@ final _someMethodWithAllCommentssmokeCommentsSomemethodwithallcommentsStringRetu
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Comments_someMethodWithAllComments__String_return_has_error'));
+
 
 
 
