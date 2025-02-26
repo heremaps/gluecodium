@@ -158,6 +158,7 @@ function(_prepare_gluecodium_config_file file_path)
   _append_path_option(kotlinnamerules GLUECODIUM_KOTLIN_NAMERULES)
   _append_path_option(swiftnamerules GLUECODIUM_SWIFT_NAMERULES)
   _append_path_option(dartnamerules GLUECODIUM_DART_NAMERULES)
+  _append_path_option(docsplaceholderslist GLUECODIUM_DOCS_PLACEHOLDERS_LIST)
 
   _append_option(output GLUECODIUM_OUTPUT_MAIN)
   _append_option(commonoutput GLUECODIUM_OUTPUT_COMMON)

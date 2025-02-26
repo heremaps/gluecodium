@@ -87,7 +87,12 @@ class Gluecodium(
 
         val limeModel: LimeModel
         try {
-            limeModel = modelLoader.loadModel(gluecodiumOptions.idlSources, gluecodiumOptions.auxiliaryIdlSources)
+            limeModel =
+                modelLoader.loadModel(
+                    gluecodiumOptions.idlSources,
+                    gluecodiumOptions.auxiliaryIdlSources,
+                    gluecodiumOptions.docsPlaceholders,
+                )
         } catch (e: LimeModelLoaderException) {
             LOGGER.severe(e.message)
             return false

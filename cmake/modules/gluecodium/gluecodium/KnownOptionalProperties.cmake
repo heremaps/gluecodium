@@ -304,6 +304,14 @@ _gluecodium_define_target_property(
     "This property is initialized by the value of the GLUECODIUM_ENABLE_INTERNAL_DEBUG_CHECKS_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
 )
 
+_gluecodium_define_target_property(
+  GLUECODIUM_DOCS_PLACEHOLDERS_LIST
+  BRIEF_DOCS "The path to a file with placeholders list for documentation."
+  FULL_DOCS
+    "The path to a file with placeholders list for documentation."
+    "This property is initialized by the value of the GLUECODIUM_DOCS_PLACEHOLDERS_LIST_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
+)
+
 # TODO: Add read-only properties
 
 function(_gluecodium_get_default_value_for_variable result _property)

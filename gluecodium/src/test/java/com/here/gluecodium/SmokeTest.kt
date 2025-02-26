@@ -54,6 +54,7 @@ class SmokeTest(
     val errorCollector = NiceErrorCollector()
 
     private lateinit var gluecodium: Gluecodium
+    private lateinit var docsPlaceholders: Map<String, String>
 
     private val results = mutableListOf<GeneratedFile>()
 
@@ -79,6 +80,7 @@ class SmokeTest(
     @Before
     fun setUp() {
         val options = getOptions()
+        docsPlaceholders = options.first.docsPlaceholders
         gluecodium = spyk(Gluecodium(options.first, options.second))
         every { gluecodium.output(any(), any()) }.answers {
             @Suppress("UNCHECKED_CAST")
@@ -104,7 +106,8 @@ class SmokeTest(
 
         assumeFalse("No reference files were found", referenceFiles.isEmpty())
 
-        val limeModel = LOADER.loadModel(listOf(inputDirectory.toString()), listOf(auxDirectory.toString()))
+        val limeModel =
+            LOADER.loadModel(listOf(inputDirectory.toString()), listOf(auxDirectory.toString()), docsPlaceholders)
         val validationResult = gluecodium.validateModel(limeModel)
         if (validationShouldFail) {
             assertFalse(validationResult)

@@ -155,6 +155,15 @@ object OptionReader {
             addOption("swiftnamerules", true, "Swift name rules property file.")
             addOption("dartnamerules", true, "Dart name rules property file.")
             addOption("kotlinnamerules", true, "Kotlin name rules property file.")
+            addOption(
+                "docsplaceholderslist",
+                true,
+                "Placeholders file for documentation. " +
+                    "When documentation comments used in LIME files are processed and {@Placeholder <my_placeholder_name>} " +
+                    "is encountered, then it is substituted with the content of placeholder. " +
+                    "The placeholders file should follow '.properties' file format and enclose text with \"\" as follows: " +
+                    "my_placeholder_name=\"This will be injected instead of my_placeholder\"",
+            )
         }
 
     @Throws(OptionReaderException::class)
@@ -203,6 +212,7 @@ object OptionReader {
         gluecodiumOptions.isValidatingOnly = getFlagValue("validate")
         gluecodiumOptions.isEnableCaching = getFlagValue("output") && getFlagValue("cache")
         gluecodiumOptions.isStrictMode = getFlagValue("strict")
+        gluecodiumOptions.docsPlaceholders = readPlaceholdersFile(getStringValue("docsplaceholderslist"))
 
         val generatorOptions = GeneratorOptions()
 
@@ -248,14 +258,37 @@ object OptionReader {
         HelpFormatter().printHelp("generate [input]", header, options, footer, true)
     }
 
+    private fun readPlaceholdersFile(path: String?): Map<String, String> {
+        if (path == null) {
+            return emptyMap()
+        }
+
+        val placeholders = readConfigFile(path).list()
+        if (placeholders.size != 1) {
+            throw OptionReaderException("File $path is not valid placeholders file! Too many parameters' locations.")
+        }
+
+        return placeholders.first().second.map {
+            if (!it.value.startsWith("\"") || !it.value.endsWith("\"")) {
+                throw OptionReaderException(
+                    "File $path is not valid placeholders file! " +
+                        "The value of key '${it.key}' is not enclosed in quotation marks. If you use multiline strings please remember " +
+                        "to follow '.properties' format requirements and terminate lines with '\\'.",
+                )
+            }
+
+            it.key to it.value.removeSurrounding("\"", "\"")
+        }.toMap()
+    }
+
     @Throws(OptionReaderException::class)
     private fun readConfigFile(path: String): Configuration {
-        val nameRulesFile = File(path)
-        if (!nameRulesFile.exists()) {
+        val propertiesFile = File(path)
+        if (!propertiesFile.exists()) {
             val currentDir = Paths.get("").toAbsolutePath()
-            throw OptionReaderException("File $path does not exit in $currentDir")
+            throw OptionReaderException("File $path does not exist in $currentDir")
         }
-        return ConfigurationProperties.fromFile(nameRulesFile)
+        return ConfigurationProperties.fromFile(propertiesFile)
     }
 
     @Throws(OptionReaderException::class)

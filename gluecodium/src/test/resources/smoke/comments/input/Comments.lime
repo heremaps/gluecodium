@@ -17,7 +17,7 @@
 
 package smoke
 
-// This is some very useful interface.
+// This is some very useful {@Placeholder interface}.
 class comments {
     // This is some very useful struct.
     // @constructor This is how easy it is to construct.
@@ -150,6 +150,7 @@ class MultiLineComments {
 }
 
 // This is some very useful interface. There is a lot to say about this interface. at least it has a long comment.
+// {@Placeholder longMultilinePlaceholder}
 class LongComments {
     // This is very important method. It has very important parameters. It has side effects.
     // @param[input] Very useful input parameter. You must not confuse it with the second parameter. But they are similar.

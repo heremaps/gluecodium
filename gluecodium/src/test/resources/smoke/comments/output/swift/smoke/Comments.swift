@@ -4,7 +4,7 @@
 
 import Foundation
 
-/// This is some very useful interface.
+/// This is some very useful protocol.
 public class Comments {
 
     /// This is some very useful typedef.
