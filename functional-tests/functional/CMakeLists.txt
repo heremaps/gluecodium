@@ -544,6 +544,7 @@ set_target_properties(functional_bindings PROPERTIES
     GLUECODIUM_DART_LIBRARY_NAME "functional"
     GLUECODIUM_DART_NAMERULES "${CMAKE_CURRENT_SOURCE_DIR}/../config/dart.properties"
     GLUECODIUM_COPYRIGHT_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/../config/COPYRIGHT"
+    GLUECODIUM_DOCS_PLACEHOLDERS_LIST "${CMAKE_CURRENT_SOURCE_DIR}/../config/placeholders.properties"
     GLUECODIUM_TAGS "Lite,ExperimentalFoo"
     GLUECODIUM_VERBOSE ON)
 
