@@ -1,0 +1,7 @@
+-input $INPUT_FOLDER
+-docsplaceholderslist $INPUT_FOLDER/placeholders.properties
+-auxinput $AUX_FOLDER
+-intnamespace gluecodium
+-javanonnullannotation android.support.annotation.NonNull
+-javanullableannotation android.support.annotation.Nullable
+-internalprefix foobar_

@@ -16,7 +16,7 @@
 
 namespace smoke {
 /**
- * This is some very useful interface.
+ * This is some very useful abstract class.
 
  */
 class _GLUECODIUM_CPP_EXPORT Comments {
