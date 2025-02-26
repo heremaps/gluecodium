@@ -119,9 +119,10 @@ class LimeBasedLimeModelLoaderTest {
     fun loadModelWithInvalidPlaceholdersRaisesError() {
         val docsPlaceholders = mapOf("invalidPlaceholder" to "@{Parsing this will fail.}")
 
-        val exception = assertThrows( LimeLoadingException::class.java) {
-            modelLoader.loadModel(listOf("foo.lime"), emptyList(), docsPlaceholders)
-        }
+        val exception =
+            assertThrows(LimeLoadingException::class.java) {
+                modelLoader.loadModel(listOf("foo.lime"), emptyList(), docsPlaceholders)
+            }
 
         assertTrue(exception.message!!.startsWith("Could not parse placeholder:"))
     }
