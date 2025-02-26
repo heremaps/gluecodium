@@ -22,6 +22,7 @@ package com.here.gluecodium.loader
 import com.here.gluecodium.antlr.LimeLexer
 import com.here.gluecodium.antlr.LimeParser
 import com.here.gluecodium.common.LimeLogger
+import com.here.gluecodium.model.lime.LimeComment
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeModelLoader
 import com.here.gluecodium.model.lime.LimeNamedElement
@@ -41,9 +42,11 @@ class LimeBasedLimeModelLoader : LimeModelLoader {
     override fun loadModel(
         idlSources: List<String>,
         auxiliaryIdlSources: List<String>,
+        docsPlaceholders: Map<String, String>,
     ): LimeModel {
         val resolvedIdlSources = idlSources.flatMap { listFilesRecursively(it) }.toSet()
         val resolvedAuxSources = auxiliaryIdlSources.flatMap { listFilesRecursively(it) }.toSet()
+        val commentPlaceholders = parsePlaceholders(docsPlaceholders)
 
         val referenceResolver = AntlrLimeReferenceResolver()
         val elementNameToFileName = mutableMapOf<String, String>()
@@ -51,7 +54,7 @@ class LimeBasedLimeModelLoader : LimeModelLoader {
         val loadedElements =
             (resolvedIdlSources + resolvedAuxSources)
                 .map { fileName ->
-                    loadFile(fileName, referenceResolver, fileNameToImports)
+                    loadFile(fileName, referenceResolver, fileNameToImports, commentPlaceholders)
                         ?.onEach { elementNameToFileName[it.fullName] = fileName }
                 }
 
@@ -75,6 +78,16 @@ class LimeBasedLimeModelLoader : LimeModelLoader {
         return limeModel
     }
 
+    private fun parsePlaceholders(docsPlaceholders: Map<String, String>): Map<String, LimeComment> {
+        return docsPlaceholders.map {
+            try {
+                it.key to AntlrLimeConverter.parseStructuredComment(it.value).description
+            } catch (e: ParseCancellationException) {
+                throw LimeLoadingException("Could not parse placeholder: ${it.key} = '${it.value}'")
+            }
+        }.toMap()
+    }
+
     private fun validateModel(
         limeModel: LimeModel,
         fileNameToImports: Map<String, List<LimePath>>,
@@ -91,6 +104,7 @@ class LimeBasedLimeModelLoader : LimeModelLoader {
         fileName: String,
         referenceResolver: LimeReferenceResolver,
         fileNameToImports: MutableMap<String, List<LimePath>>,
+        commentPlaceholders: Map<String, LimeComment>,
     ): List<LimeNamedElement>? {
         val errorListener = ThrowingErrorListener()
 
@@ -102,7 +116,7 @@ class LimeBasedLimeModelLoader : LimeModelLoader {
         parser.removeErrorListeners()
         parser.addErrorListener(errorListener)
 
-        val modelBuilder = AntlrLimeModelBuilder(referenceResolver)
+        val modelBuilder = AntlrLimeModelBuilder(referenceResolver, commentPlaceholders)
         return try {
             ParseTreeWalker.DEFAULT.walk(modelBuilder, parser.limeFile())
             fileNameToImports[fileName] = modelBuilder.collectedImports

@@ -78,15 +78,17 @@ internal object AntlrLimeConverter {
 
     fun parseStructuredComment(
         commentString: String,
-        lineNumber: Int,
-        limePath: LimePath,
+        lineNumber: Int = 1,
+        limePath: LimePath = LimePath.EMPTY_PATH,
+        commentPlaceholders: Map<String, LimeComment> = emptyMap(),
     ): LimeStructuredComment {
         val lexer = LimedocLexer(CharStreams.fromString(commentString))
         val parser = LimedocParser(CommonTokenStream(lexer))
         parser.removeErrorListeners()
+
         parser.addErrorListener(ThrowingErrorListener(lineNumber - 1))
 
-        val builder = AntlrLimedocBuilder(limePath)
+        val builder = AntlrLimedocBuilder(limePath, commentPlaceholders)
         ParseTreeWalker.DEFAULT.walk(builder, parser.documentation())
 
         return builder.result

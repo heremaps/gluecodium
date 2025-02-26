@@ -24,7 +24,10 @@ import com.here.gluecodium.antlr.LimedocParserBaseListener
 import com.here.gluecodium.model.lime.LimeComment
 import com.here.gluecodium.model.lime.LimePath
 
-internal class AntlrLimedocBuilder(private val currentPath: LimePath) : LimedocParserBaseListener() {
+internal class AntlrLimedocBuilder(
+    private val currentPath: LimePath,
+    private val commentPlaceholders: Map<String, LimeComment>,
+) : LimedocParserBaseListener() {
     private val commentsCollector = mutableMapOf<Pair<String, String>, LimeComment>()
     private val contentCollector = mutableListOf<Pair<String, String>>()
 
@@ -32,7 +35,7 @@ internal class AntlrLimedocBuilder(private val currentPath: LimePath) : LimedocP
         get() {
             val description = commentsCollector[Pair("", "")] ?: LimeComment(currentPath)
             val isExcluded = commentsCollector.containsKey(excludeKey)
-            return LimeStructuredComment(description.withExcluded(isExcluded), commentsCollector)
+            return LimeStructuredComment(description.withExcluded(isExcluded).withPlaceholders(commentPlaceholders), commentsCollector)
         }
 
     // Overrides
