@@ -29,6 +29,7 @@ class LimeComment(
     val path: LimePath = LimePath.EMPTY_PATH,
     private val taggedSections: List<Pair<String, String>> = emptyList(),
     val isExcluded: Boolean = false,
+    val placeholders: Map<String, LimeComment> = emptyMap(),
 ) {
     constructor(comment: String, path: LimePath = LimePath.EMPTY_PATH) : this(path, listOf("" to comment))
 
@@ -36,13 +37,21 @@ class LimeComment(
 
     fun getFor(platform: String) =
         taggedSections
-            .filter { it.first == "" || it.first == platform }
-            .joinToString("") { it.second }
+            .filter { it.first == "" || it.first == platform || isPlaceholder(it.first) }
+            .joinToString("") { if (!isPlaceholder(it.first)) it.second else resolvePlaceholder(it.second, platform) }
             .trim()
 
-    fun withPath(newPath: LimePath) = LimeComment(newPath, taggedSections, isExcluded)
+    fun withPath(newPath: LimePath) = LimeComment(newPath, taggedSections, isExcluded, placeholders)
 
-    fun withExcluded(newExcluded: Boolean) = if (newExcluded != isExcluded) LimeComment(path, taggedSections, newExcluded) else this
+    fun withExcluded(newExcluded: Boolean): LimeComment {
+        return if (newExcluded != isExcluded) {
+            LimeComment(path, taggedSections, newExcluded, placeholders)
+        } else {
+            this
+        }
+    }
+
+    fun withPlaceholders(newPlaceholders: Map<String, LimeComment>) = LimeComment(path, taggedSections, isExcluded, newPlaceholders)
 
     override fun toString() =
         taggedSections.joinToString("") {
@@ -53,4 +62,16 @@ class LimeComment(
         }.trim()
 
     private fun escapeText(text: String) = text.replace("""[@{}\\]""".toRegex()) { "\\${it.value}" }
+
+    private fun isPlaceholder(label: String) = (label == "Placeholder")
+
+    private fun resolvePlaceholder(
+        name: String,
+        platform: String,
+    ): String {
+        val placeholderComment =
+            placeholders[name]
+                ?: throw IllegalArgumentException("Invalid comment placeholder requested: $name.")
+        return placeholderComment.getFor(platform)
+    }
 }
