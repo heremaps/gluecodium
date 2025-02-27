@@ -36,15 +36,15 @@ class {{resolveName}}Impl : NativeBase, {{resolveName}} {
 {{/functions}}
 {{/set}}
 
+{{#set override=true}}
 {{#properties}}
 {{#unless isStatic}}
-{{#if setter}}    override var{{/if}}{{!!
-}}{{#unless setter}}    override val{{/unless}}{{!!
-}} {{resolveName}}: {{resolveName typeRef}}
-        external get{{#setter}}
-        external set{{/setter}}
+{{#set property=this isCached=attributes.cached}}{{#property}}
+{{prefixPartial "kotlin/KotlinProperty" "    "}}
+{{/property}}{{/set}}
 {{/unless}}
 {{/properties}}
+{{/set}}
 
 {{#if this.parentInterfaces}}{{#set override=true classElement=this}}
 {{#classElement.inheritedFunctions}}
@@ -54,11 +54,9 @@ class {{resolveName}}Impl : NativeBase, {{resolveName}} {
 {{/classElement.inheritedFunctions}}
 {{#classElement.inheritedProperties}}
 {{#unless isStatic}}
-{{#if setter}}    override var{{/if}}{{!!
-}}{{#unless setter}}    override val{{/unless}}{{!!
-}} {{resolveName}}: {{resolveName typeRef}}
-        external get{{#setter}}
-        external set{{/setter}}
+{{#set property=this isCached=attributes.cached}}{{#property}}
+{{prefixPartial "kotlin/KotlinProperty" "    "}}
+{{/property}}{{/set}}
 {{/unless}}
 {{/classElement.inheritedProperties}}
 {{/set}}{{/if}}
@@ -80,11 +78,9 @@ class {{resolveName}}Impl : NativeBase, {{resolveName}} {
 {{#ifPredicate "hasStaticProperties"}}
 {{#properties}}
 {{#if isStatic}}
-{{#if setter}}        @JvmStatic var{{/if}}{{!!
-}}{{#unless setter}}        @JvmStatic val{{/unless}}{{!!
-}} {{resolveName}}: {{resolveName typeRef}}
-            external get{{#setter}}
-            external set{{/setter}}
+{{#set property=this isCached=attributes.cached}}{{#property}}
+{{prefixPartial "kotlin/KotlinProperty" "        "}}
+{{/property}}{{/set}}
 {{/if}}
 {{/properties}}
 {{/ifPredicate}}
