@@ -25,16 +25,6 @@ class SkipTagsOnly {
 }
 
 struct SkipTypesTags {
-  @Skip(Lite)
-  enum SkipMe {
-      NOPE
-  }
-
-  @Skip(Lite)
-  struct SkipMeToo {
-      `field`: SkipMe
-  }
-
   const PlaceHolder: Boolean = true
 
   @Java(Skip = "Lite")
@@ -42,6 +32,16 @@ struct SkipTypesTags {
   @Dart(Skip = "Lite")
   @Kotlin(Skip = "Lite")
   enum SkipPlatform { N0 }
+}
+
+@Skip(Lite)
+enum SkipMe {
+  NOPE
+}
+
+@Skip(Lite)
+struct SkipMeToo {
+  `field`: SkipMe
 }
 
 struct SkipField {
