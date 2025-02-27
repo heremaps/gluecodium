@@ -68,7 +68,9 @@
 
 {{#properties}}
 {{#unless isStatic}}
+{{#set property=this isCached=attributes.cached}}{{#property}}
 {{prefixPartial "kotlin/KotlinProperty" "    "}}
+{{/property}}{{/set}}
 {{/unless}}
 {{/properties}}
 
@@ -80,7 +82,9 @@
 {{/classElement.interfaceInheritedFunctions}}
 {{#classElement.interfaceInheritedProperties}}
 {{#unless isStatic}}
+{{#set property=this isCached=attributes.cached}}{{#property}}
 {{prefixPartial "kotlin/KotlinProperty" "    "}}
+{{/property}}{{/set}}
 {{/unless}}
 {{/classElement.interfaceInheritedProperties}}
 {{/set}}{{/if}}
@@ -102,7 +106,9 @@
 {{#ifPredicate "hasStaticProperties"}}
 {{#properties}}
 {{#if isStatic}}
+{{#set property=this isCached=attributes.cached}}{{#property}}
 {{prefixPartial "kotlin/KotlinProperty" "        "}}
+{{/property}}{{/set}}
 {{/if}}
 {{/properties}}
 {{/ifPredicate}}

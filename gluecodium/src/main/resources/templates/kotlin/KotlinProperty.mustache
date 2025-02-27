@@ -23,5 +23,23 @@
 }}{{#if setter}}var{{/if}}{{!!
 }}{{#unless setter}}val{{/unless}}{{!!
 }} {{resolveName}}: {{resolveName typeRef}}
+{{#unless isCached}}
     {{#unless isInterface}}external {{/unless}}get{{#setter}}
     {{#unless isInterface}}external {{/unless}}set{{/setter}}
+{{/unless}}
+{{#if isCached}}
+    get() {
+        if (!is_cached_{{resolveName}}) {
+            cache_{{resolveName}} = {{resolveName this "" "getter"}}_private()
+            is_cached_{{resolveName}} = true
+        }
+
+        return cache_{{resolveName}}{{#unless typeRef.isNullable}}!!{{/unless}}
+    }
+
+{{#if isStatic}}@JvmStatic {{/if}}private var is_cached_{{resolveName}} = false
+{{#if isStatic}}@JvmStatic {{/if}}private var cache_{{resolveName}}: {{resolveName typeRef}}{{!!
+}}{{#unless typeRef.isNullable}}?{{/unless}} = null
+{{#if isStatic}}@JvmStatic {{/if}}external private fun {{resolveName this "" "getter"}}_private() : {{resolveName typeRef}}
+
+{{/if}}

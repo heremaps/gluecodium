@@ -39,7 +39,9 @@ class {{resolveName}}Impl : NativeBase, {{resolveName}} {
 {{#set override=true}}
 {{#properties}}
 {{#unless isStatic}}
+{{#set property=this isCached=attributes.cached}}{{#property}}
 {{prefixPartial "kotlin/KotlinProperty" "    "}}
+{{/property}}{{/set}}
 {{/unless}}
 {{/properties}}
 {{/set}}
@@ -52,7 +54,9 @@ class {{resolveName}}Impl : NativeBase, {{resolveName}} {
 {{/classElement.inheritedFunctions}}
 {{#classElement.inheritedProperties}}
 {{#unless isStatic}}
+{{#set property=this isCached=attributes.cached}}{{#property}}
 {{prefixPartial "kotlin/KotlinProperty" "    "}}
+{{/property}}{{/set}}
 {{/unless}}
 {{/classElement.inheritedProperties}}
 {{/set}}{{/if}}
@@ -74,7 +78,9 @@ class {{resolveName}}Impl : NativeBase, {{resolveName}} {
 {{#ifPredicate "hasStaticProperties"}}
 {{#properties}}
 {{#if isStatic}}
+{{#set property=this isCached=attributes.cached}}{{#property}}
 {{prefixPartial "kotlin/KotlinProperty" "        "}}
+{{/property}}{{/set}}
 {{/if}}
 {{/properties}}
 {{/ifPredicate}}
