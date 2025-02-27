@@ -30,15 +30,13 @@ interface {{resolveName}} {{!!
 {{/functions}}
 {{/set}}
 
+{{#set isInterface=true}}
 {{#properties}}
 {{#unless isStatic}}
-{{#if setter}}    var{{/if}}{{!!
-}}{{#unless setter}}    val{{/unless}}{{!!
-}} {{resolveName}}: {{resolveName typeRef}}
-        get{{#setter}}
-        set{{/setter}}
+{{prefixPartial "kotlin/KotlinProperty" "    "}}
 {{/unless}}
 {{/properties}}
+{{/set}}
 
 {{#ifPredicate "needsCompanionObject"}}
     companion object {

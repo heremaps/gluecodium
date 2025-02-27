@@ -68,11 +68,7 @@
 
 {{#properties}}
 {{#unless isStatic}}
-{{#if setter}}    var{{/if}}{{!!
-}}{{#unless setter}}    val{{/unless}}{{!!
-}} {{resolveName}}: {{resolveName typeRef}}
-        external get{{#setter}}
-        external set{{/setter}}
+{{prefixPartial "kotlin/KotlinProperty" "    "}}
 {{/unless}}
 {{/properties}}
 
@@ -84,11 +80,7 @@
 {{/classElement.interfaceInheritedFunctions}}
 {{#classElement.interfaceInheritedProperties}}
 {{#unless isStatic}}
-{{#if setter}}    override var{{/if}}{{!!
-}}{{#unless setter}}    override val{{/unless}}{{!!
-}} {{resolveName}}: {{resolveName typeRef}}
-        external get{{#setter}}
-        external set{{/setter}}
+{{prefixPartial "kotlin/KotlinProperty" "    "}}
 {{/unless}}
 {{/classElement.interfaceInheritedProperties}}
 {{/set}}{{/if}}
@@ -110,11 +102,7 @@
 {{#ifPredicate "hasStaticProperties"}}
 {{#properties}}
 {{#if isStatic}}
-{{#if setter}}        @JvmStatic var{{/if}}{{!!
-}}{{#unless setter}}        @JvmStatic val{{/unless}}{{!!
-}} {{resolveName}}: {{resolveName typeRef}}
-            external get{{#setter}}
-            external set{{/setter}}
+{{prefixPartial "kotlin/KotlinProperty" "        "}}
 {{/if}}
 {{/properties}}
 {{/ifPredicate}}
