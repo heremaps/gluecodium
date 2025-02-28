@@ -5,3 +5,4 @@
 -javanullableannotation android.support.annotation.Nullable
 -cppnamespace root.space
 -intpackage foo.bar
+-kotlinintpackage foo.bar
