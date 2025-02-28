@@ -7,6 +7,7 @@ package com.example.smoke
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.util.EnumSet
 
 class Serialization {
 
@@ -76,7 +77,7 @@ class Serialization {
             this.setField = __setField.toMutableSet()
             var __enumSetField = arrayListOf<Serialization.SomeEnum>()
             parcel.readList(__enumSetField, Thread.currentThread().getContextClassLoader())
-            this.enumSetField = __enumSetField.toMutableSet()
+            this.enumSetField = EnumSet.copyOf(__enumSetField)
             this.enumField = Serialization.SomeEnum.values()[parcel.readInt()]!!
         }
 

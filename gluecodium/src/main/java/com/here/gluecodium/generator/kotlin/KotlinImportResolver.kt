@@ -28,6 +28,7 @@ import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
@@ -82,16 +83,27 @@ internal class KotlinImportResolver(
 
     private fun resolveStructImports(limeStruct: LimeStruct): List<String> =
         when {
-            limeStruct.attributes.have(SERIALIZABLE) -> listOf(PARCEL_IMPORT, PARCELABLE_IMPORT)
+            limeStruct.attributes.have(SERIALIZABLE) ->
+                listOf(PARCEL_IMPORT, PARCELABLE_IMPORT) +
+                    limeStruct.fields.mapNotNull { resolveOptionalEnumSetImport(it.typeRef.type.actualType) }
             else -> emptyList()
         }
+
+    private fun resolveOptionalEnumSetImport(limeType: LimeType): String? {
+        return if (limeType is LimeSet && limeType.elementType.type.actualType is LimeEnumeration) {
+            ENUM_SET_IMPORT
+        } else {
+            null
+        }
+    }
 
     private fun resolveValueImports(limeValue: LimeValue?): List<String> =
         when (limeValue) {
             is LimeValue.KeyValuePair ->
                 resolveValueImports(limeValue.key) + resolveValueImports(limeValue.value)
             is LimeValue.InitializerList ->
-                limeValue.values.flatMap { resolveValueImports(it) }
+                limeValue.values.flatMap { resolveValueImports(it) } +
+                    listOfNotNull(resolveOptionalEnumSetImport(limeValue.typeRef.type.actualType))
             is LimeValue.StructInitializer -> limeValue.values.flatMap { resolveValueImports(it) }
             is LimeValue.Constant -> resolveTypeRefImports(limeValue.valueRef.typeRef)
             else -> emptyList()
@@ -144,6 +156,7 @@ internal class KotlinImportResolver(
 
     companion object {
         private const val JAVA_UTIL_PACKAGE = "java.util"
+        private const val ENUM_SET_IMPORT = "$JAVA_UTIL_PACKAGE.EnumSet"
         private const val ANDROID_OS_PACKAGE = "android.os"
         private const val PARCELABLE_IMPORT = "$ANDROID_OS_PACKAGE.Parcelable"
         private const val PARCEL_IMPORT = "$ANDROID_OS_PACKAGE.Parcel"

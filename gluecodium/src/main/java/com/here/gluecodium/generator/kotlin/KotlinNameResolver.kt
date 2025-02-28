@@ -119,7 +119,7 @@ internal class KotlinNameResolver(
             TypeId.LOCALE -> "Locale"
         }
 
-    private fun resolveTypeRef(limeTypeRef: LimeTypeRef): String {
+    fun resolveTypeRef(limeTypeRef: LimeTypeRef): String {
         val limeType = limeTypeRef.type.actualType
         val externalName = limeType.external?.kotlin?.get(NAME_NAME)
 

@@ -24,6 +24,7 @@ import org.junit.Assert.assertTrue
 
 import android.os.Parcel
 import com.here.android.RobolectricApplication
+import java.util.EnumSet
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
@@ -44,7 +45,7 @@ class SerializationTest {
 
         val serializableStruct = SerializableStruct(
             true, 42.toByte(), 542.toShort(), 65542, 2147484000L, 1.0f, 2.0, "nonsense", nestedStruct,
-            byteBuffer, stringList, structList, errorMap, hashSet, mutableSetOf(FooEnum.BAR),
+            byteBuffer, stringList, structList, errorMap, hashSet, EnumSet.of(FooEnum.BAR),
             FooEnum.BAR
         )
 
@@ -91,6 +92,7 @@ class SerializationTest {
         assertTrue(resultStruct.setField.contains("bar"))
         assertEquals(serializableStruct.enumSetField.size, resultStruct.enumSetField.size)
         assertTrue(resultStruct.enumSetField.contains(FooEnum.BAR))
+        assertTrue(resultStruct.enumSetField is EnumSet<*>)
         assertEquals(serializableStruct.enumField, resultStruct.enumField)
     }
 }
