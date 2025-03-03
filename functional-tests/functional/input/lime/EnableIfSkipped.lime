@@ -24,16 +24,12 @@ class EnableIfSkipped {
     static property skipQuoted: String
 }
 
-struct EnableIfTypesSkipped {
-  @EnableIf(ExperimentalBar)
-  enum SkippedMe {
-      NOPE
-  }
+@EnableIf(ExperimentalBar)
+enum SkippedMe {
+    NOPE
+}
 
-  @EnableIf(ExperimentalBar)
-  struct SkippedMeToo {
-      `field`: SkippedMe
-  }
-
-  const PlaceHolderSkipped: Boolean = true
+@EnableIf(ExperimentalBar)
+struct SkippedMeToo {
+    `field`: SkippedMe
 }
