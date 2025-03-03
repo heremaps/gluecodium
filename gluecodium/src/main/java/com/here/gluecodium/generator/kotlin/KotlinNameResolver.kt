@@ -43,6 +43,7 @@ import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
+import com.here.gluecodium.model.lime.LimeTypedElement
 import com.here.gluecodium.model.lime.LimeValue
 
 internal class KotlinNameResolver(
@@ -87,6 +88,8 @@ internal class KotlinNameResolver(
         return "$prefix.$elementName"
     }
 
+    override fun resolveGetterName(element: Any) = (element as? LimeTypedElement)?.let { kotlinNameRules.getGetterName(it) }
+
     private fun resolveComment(limeComment: LimeComment): String {
         // TODO: implement me!
         return ""
@@ -119,7 +122,7 @@ internal class KotlinNameResolver(
             TypeId.LOCALE -> "Locale"
         }
 
-    private fun resolveTypeRef(limeTypeRef: LimeTypeRef): String {
+    fun resolveTypeRef(limeTypeRef: LimeTypeRef): String {
         val limeType = limeTypeRef.type.actualType
         val externalName = limeType.external?.kotlin?.get(NAME_NAME)
 
