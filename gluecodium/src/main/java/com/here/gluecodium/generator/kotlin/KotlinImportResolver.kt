@@ -40,6 +40,7 @@ import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeValue
 
@@ -53,6 +54,7 @@ internal class KotlinImportResolver(
 
     override fun resolveElementImports(limeElement: LimeElement): List<String> =
         when (limeElement) {
+            is LimeTypeAlias -> resolveTypeRefImports(limeElement.typeRef)
             is LimeContainerWithInheritance -> resolveClassInterfaceImports(limeElement)
             is LimeStruct -> resolveStructImports(limeElement)
             is LimeFunction -> resolveFunctionImports(limeElement)
