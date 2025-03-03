@@ -54,7 +54,8 @@ parcel.readList(this.{{resolveName field}}, Thread.currentThread().getContextCla
 parcel.readMap(this.{{resolveName field}}, Thread.currentThread().getContextClassLoader()){{/instanceOf}}{{!!
 }}{{#instanceOf type "LimeSet"}}var __{{resolveName field}} = arrayListOf<{{resolveName type.elementType}}>()
 parcel.readList(__{{resolveName field}}, Thread.currentThread().getContextClassLoader())
-this.{{resolveName field}} = __{{resolveName field}}.toMutableSet(){{/instanceOf}}{{!!
+{{#instanceOf type.elementType.type.actualType "LimeEnumeration"}}this.{{resolveName field}} = EnumSet.copyOf(__{{resolveName field}}){{/instanceOf}}{{!!
+}}{{#notInstanceOf type.elementType.type.actualType "LimeEnumeration"}}this.{{resolveName field}} = __{{resolveName field}}.toMutableSet(){{/notInstanceOf}}{{/instanceOf}}{{!!
 }}{{#instanceOf type "LimeStruct"}}this.{{resolveName field}} = parcel.readParcelable(Thread.currentThread().getContextClassLoader()){{/instanceOf}}{{!!
 }}{{#instanceOf type "LimeEnumeration"}}this.{{resolveName field}} = {{resolveName typeRef}}.values()[parcel.readInt()]{{/instanceOf}}{{!!
 }}{{#instanceOf type "LimeBasicType"}}{{#switch type.typeId.toString}}{{!!

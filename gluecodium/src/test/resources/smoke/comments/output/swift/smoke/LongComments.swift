@@ -1,19 +1,30 @@
 //
+
 //
+
 import Foundation
+
 /// This is some very useful interface. There is a lot to say about this interface. at least it has a long comment.
+/// This is a placeholder, which has multiple lines. Here we have continuation of the first line.
+/// But this should be rendered in line below.
+/// This too!
 public class LongComments {
+
+
     let c_instance : _baseRef
+
     init(cLongComments: _baseRef) {
         guard cLongComments != 0 else {
             fatalError("Nullptr value is not supported for initializers")
         }
         c_instance = cLongComments
     }
+
     deinit {
         smoke_LongComments_remove_swift_object_from_wrapper_cache(c_instance)
         smoke_LongComments_release_handle(c_instance)
     }
+
     /// This is very important method. It has very important parameters. It has side effects.
     /// - Parameters:
     ///   - input: Very useful input parameter. You must not confuse it with the second parameter. But they are similar.
@@ -25,7 +36,11 @@ public class LongComments {
         let c_result_handle = smoke_LongComments_someMethodWithLongComment(self.c_instance, c_input.ref, c_ratio.ref)
         return moveFromCType(c_result_handle)
     }
+
 }
+
+
+
 internal func getRef(_ ref: LongComments?, owning: Bool = true) -> RefHolder {
     guard let c_handle = ref?.c_instance else {
         return RefHolder(0)
@@ -35,6 +50,7 @@ internal func getRef(_ ref: LongComments?, owning: Bool = true) -> RefHolder {
         ? RefHolder(ref: handle_copy, release: smoke_LongComments_release_handle)
         : RefHolder(handle_copy)
 }
+
 extension LongComments: NativeBase {
     /// :nodoc:
     var c_handle: _baseRef { return c_instance }
@@ -44,11 +60,13 @@ extension LongComments: Hashable {
     public static func == (lhs: LongComments, rhs: LongComments) -> Bool {
         return lhs.c_handle == rhs.c_handle
     }
+
     /// :nodoc:
     public func hash(into hasher: inout Hasher) {
         hasher.combine(c_handle)
     }
 }
+
 internal func LongComments_copyFromCType(_ handle: _baseRef) -> LongComments {
     if let swift_pointer = smoke_LongComments_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LongComments {
@@ -58,6 +76,7 @@ internal func LongComments_copyFromCType(_ handle: _baseRef) -> LongComments {
     smoke_LongComments_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
+
 internal func LongComments_moveFromCType(_ handle: _baseRef) -> LongComments {
     if let swift_pointer = smoke_LongComments_get_swift_object_from_wrapper_cache(handle),
         let re_constructed = Unmanaged<AnyObject>.fromOpaque(swift_pointer).takeUnretainedValue() as? LongComments {
@@ -68,6 +87,7 @@ internal func LongComments_moveFromCType(_ handle: _baseRef) -> LongComments {
     smoke_LongComments_cache_swift_object_wrapper(handle, Unmanaged<AnyObject>.passUnretained(result).toOpaque())
     return result
 }
+
 internal func LongComments_copyFromCType(_ handle: _baseRef) -> LongComments? {
     guard handle != 0 else {
         return nil
@@ -80,15 +100,22 @@ internal func LongComments_moveFromCType(_ handle: _baseRef) -> LongComments? {
     }
     return LongComments_moveFromCType(handle) as LongComments
 }
+
 internal func copyToCType(_ swiftClass: LongComments) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
+
 internal func moveToCType(_ swiftClass: LongComments) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
+
 internal func copyToCType(_ swiftClass: LongComments?) -> RefHolder {
     return getRef(swiftClass, owning: false)
 }
+
 internal func moveToCType(_ swiftClass: LongComments?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
+
+
+

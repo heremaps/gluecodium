@@ -19,6 +19,7 @@
 
 package com.here.gluecodium.loader
 
+import com.here.gluecodium.model.lime.LimeComment
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimeReferenceResolver
@@ -27,6 +28,7 @@ import io.mockk.every
 import io.mockk.spyk
 import io.mockk.verify
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -46,6 +48,7 @@ class LimeBasedLimeModelLoaderTest {
                 any<String>(),
                 any<LimeReferenceResolver>(),
                 any<MutableMap<String, List<LimePath>>>(),
+                any<Map<String, LimeComment>>(),
             )
         } answers {
             listOf(object : LimeNamedElement(LimePath(listOf(firstArg()), emptyList())) {})
@@ -72,6 +75,7 @@ class LimeBasedLimeModelLoaderTest {
                 match<String> { it.endsWith("bar.lime") },
                 any<LimeReferenceResolver>(),
                 any<MutableMap<String, List<LimePath>>>(),
+                any<Map<String, LimeComment>>(),
             )
         }
     }
@@ -87,6 +91,7 @@ class LimeBasedLimeModelLoaderTest {
                 match<String> { it.endsWith("bar.lime") },
                 any<LimeReferenceResolver>(),
                 any<MutableMap<String, List<LimePath>>>(),
+                any<Map<String, LimeComment>>(),
             )
         }
     }
@@ -105,7 +110,29 @@ class LimeBasedLimeModelLoaderTest {
                 match<String> { it.endsWith("bar.lime") },
                 any<LimeReferenceResolver>(),
                 any<MutableMap<String, List<LimePath>>>(),
+                any<Map<String, LimeComment>>(),
             )
         }
+    }
+
+    @Test
+    fun loadModelWithInvalidPlaceholdersRaisesError() {
+        val docsPlaceholders = mapOf("invalidPlaceholder" to "@{Parsing this will fail.}")
+
+        val exception =
+            assertThrows(LimeLoadingException::class.java) {
+                modelLoader.loadModel(listOf("foo.lime"), emptyList(), docsPlaceholders)
+            }
+
+        assertTrue(exception.message!!.startsWith("Could not parse placeholder:"))
+    }
+
+    @Test
+    fun loadModelWithValidPlaceholders() {
+        val docsPlaceholders = mapOf("validPlaceholder" to "{@Java Java specific text} and other text.")
+
+        val result = modelLoader.loadModel(listOf("foo.lime"), emptyList(), docsPlaceholders)
+        assertEquals(1, result.topElements.size)
+        assertTrue(result.topElements.first().fullName.endsWith("foo.lime"))
     }
 }
