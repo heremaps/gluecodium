@@ -22,6 +22,7 @@ package com.here.gluecodium.generator.kotlin
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
+import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
@@ -89,7 +90,17 @@ internal class KotlinValueResolver(private val nameResolver: KotlinNameResolver)
 
             is LimeSet -> {
                 val values = limeValue.values.joinToString(", ") { resolveValue(it) }
-                "mutableSetOf($values)"
+                if (limeType.elementType.type.actualType is LimeEnumeration) {
+                    when {
+                        values.isEmpty() -> {
+                            val typeName = nameResolver.resolveTypeRef(limeType.elementType)
+                            "EnumSet.noneOf($typeName::class.java)"
+                        }
+                        else -> "EnumSet.of($values)"
+                    }
+                } else {
+                    "mutableSetOf($values)"
+                }
             }
 
             is LimeMap -> {

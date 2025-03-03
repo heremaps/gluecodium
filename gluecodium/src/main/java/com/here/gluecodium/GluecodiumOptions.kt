@@ -28,4 +28,5 @@ data class GluecodiumOptions(
     var isValidatingOnly: Boolean = false,
     var isEnableCaching: Boolean = false,
     var isStrictMode: Boolean = false,
+    var docsPlaceholders: Map<String, String> = emptyMap(),
 )

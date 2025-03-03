@@ -196,6 +196,19 @@ class OptionReaderTest {
         assertEquals(listOf(TEST_KOTLIN_PACKAGE_LIST), options!!.second.kotlinInternalPackages)
     }
 
+    @Test
+    fun docsplaceholderslistMissingFile() {
+        // Arrange, Act
+        val path = "someFileThatDoesNotExists.properties"
+        val exception =
+            assertThrows(OptionReaderException::class.java, {
+                OptionReader.read(arrayOf("-docsplaceholderslist", path))
+            })
+
+        // Assert
+        assertTrue(exception.message!!.startsWith("File $path does not exist"))
+    }
+
     private fun prepareToRead(
         optionName: String,
         optionValue: String,
