@@ -27,9 +27,13 @@ foreach(_required_variable ${_required_vars})
   endif()
 endforeach()
 
+if(NOT EXISTS ${CHECK_FILE_DOES_NOT_CONTAIN_FILE_PATH})
+    message_colored(RED FATAL_ERROR "${CHECK_FILE_DOES_NOT_CONTAIN_FILE_PATH} does not exist!")
+endif()
+
 file(STRINGS ${CHECK_FILE_DOES_NOT_CONTAIN_FILE_PATH} _lines)
 
-foreach(_line ${_lines})
+foreach(_line IN LISTS _lines)
     if("${_line}" MATCHES "${CHECK_FILE_DOES_NOT_CONTAIN_NEEDLE}")
         message_colored(
             RED FATAL_ERROR
