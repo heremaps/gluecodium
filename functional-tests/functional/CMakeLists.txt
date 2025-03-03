@@ -375,7 +375,7 @@ feature(CallbacksWithThreads cpp android dart SOURCES
     input/lime/ListenersThreads.lime
 )
 
-feature(Dates cpp android swift dart SOURCES
+feature(Dates cpp android android-kotlin swift dart SOURCES
     input/src/cpp/Dates.cpp
 
     input/lime/Dates.lime
