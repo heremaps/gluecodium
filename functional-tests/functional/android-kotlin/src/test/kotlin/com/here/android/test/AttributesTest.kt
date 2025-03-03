@@ -20,6 +20,7 @@ package com.here.android.test
 
 import com.here.android.RobolectricApplication
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
@@ -52,5 +53,45 @@ class AttributesTest {
         assertEquals(expectedStruct.intValue, result.intValue)
     }
 
+    @org.junit.Test
+    fun setGetStaticAttribute() {
+        Attributes.staticAttribute = "fooBar"
+        assertEquals("fooBar", Attributes.staticAttribute)
+    }
 
+    @org.junit.Test
+    fun getCachedProperty() {
+        val instance: CachedProperties = CachedProperties()
+        assertEquals(0, instance.callCount)
+
+        val result1: List<String> = instance.cachedProperty
+        val result2: List<String> = instance.cachedProperty
+
+        assertEquals(1, instance.callCount)
+
+        assertEquals(2, result1.size)
+        assertEquals("foo", result1[0])
+        assertEquals("bar", result1[1])
+
+        assertEquals(result1, result2)
+        assertTrue(result1 === result2)
+    }
+
+    @org.junit.Test
+    fun getStaticCachedProperty() {
+        assertEquals(0, CachedProperties.staticCallCount)
+
+        val result1: ByteArray = CachedProperties.staticCachedProperty
+        val result2: ByteArray = CachedProperties.staticCachedProperty
+
+        assertEquals(1, CachedProperties.staticCallCount)
+
+        assertEquals(3, result1.size)
+        assertEquals(0, result1[0].toInt())
+        assertEquals(1, result1[1].toInt())
+        assertEquals(2, result1[2].toInt())
+
+        assertEquals(result1, result2)
+        assertTrue(result1 === result2)
+    }
 }
