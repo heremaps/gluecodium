@@ -19,7 +19,7 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
 include("${CMAKE_CURRENT_LIST_DIR}/message_colored.cmake")
 
-set(_required_vars CHECK_FILE_DOES_NOT_CONTAIN_FILE_PATH CHECK_FILE_DOES_NOT_CONTAIN_NEEDLE)
+set(_required_vars CHECK_FILE_CONTAINS_FILE_PATH CHECK_FILE_CONTAINS_NEEDLE)
 
 foreach(_required_variable ${_required_vars})
   if(NOT DEFINED ${_required_variable})
@@ -27,16 +27,21 @@ foreach(_required_variable ${_required_vars})
   endif()
 endforeach()
 
-if(NOT EXISTS ${CHECK_FILE_DOES_NOT_CONTAIN_FILE_PATH})
-    message_colored(RED FATAL_ERROR "${CHECK_FILE_DOES_NOT_CONTAIN_FILE_PATH} does not exist!")
+if(NOT EXISTS ${CHECK_FILE_CONTAINS_FILE_PATH})
+    message_colored(RED FATAL_ERROR "${CHECK_FILE_CONTAINS_FILE_PATH} does not exist!")
 endif()
 
-file(STRINGS ${CHECK_FILE_DOES_NOT_CONTAIN_FILE_PATH} _lines)
+file(STRINGS ${CHECK_FILE_CONTAINS_FILE_PATH} _lines)
+
+set(FOUND_NEEDLE FALSE)
 
 foreach(_line IN LISTS _lines)
-    if("${_line}" MATCHES "${CHECK_FILE_DOES_NOT_CONTAIN_NEEDLE}")
-        message_colored(
-            RED FATAL_ERROR
-            "The file ${CHECK_FILE_DOES_NOT_CONTAIN_FILE_PATH} contains: ${CHECK_FILE_DOES_NOT_CONTAIN_NEEDLE}")
+    if("${_line}" MATCHES "${CHECK_FILE_CONTAINS_NEEDLE}")
+        set(FOUND_NEEDLE TRUE)
+        break()
     endif()
 endforeach()
+
+if(NOT ${FOUND_NEEDLE})
+    message_colored(RED FATAL_ERROR "The file ${CHECK_FILE_CONTAINS_FILE_PATH} does not contain: ${CHECK_FILE_CONTAINS_NEEDLE}")
+endif()

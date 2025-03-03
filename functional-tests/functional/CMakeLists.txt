@@ -359,7 +359,7 @@ feature(Equatable cpp android android-kotlin swift dart SOURCES
     input/lime/SimpleEquality.lime
 )
 
-feature(Nullable cpp android swift dart SOURCES
+feature(Nullable cpp android android-kotlin swift dart SOURCES
     input/src/cpp/NullableInstances.cpp
     input/src/cpp/NullableInterfaceImpl.cpp
     input/src/cpp/NullableCollections.cpp
@@ -375,7 +375,7 @@ feature(CallbacksWithThreads cpp android dart SOURCES
     input/lime/ListenersThreads.lime
 )
 
-feature(Dates cpp android swift dart SOURCES
+feature(Dates cpp android android-kotlin swift dart SOURCES
     input/src/cpp/Dates.cpp
 
     input/lime/Dates.lime
@@ -544,6 +544,7 @@ set_target_properties(functional_bindings PROPERTIES
     GLUECODIUM_DART_LIBRARY_NAME "functional"
     GLUECODIUM_DART_NAMERULES "${CMAKE_CURRENT_SOURCE_DIR}/../config/dart.properties"
     GLUECODIUM_COPYRIGHT_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/../config/COPYRIGHT"
+    GLUECODIUM_DOCS_PLACEHOLDERS_LIST "${CMAKE_CURRENT_SOURCE_DIR}/../config/placeholders.properties"
     GLUECODIUM_TAGS "Lite,ExperimentalFoo"
     GLUECODIUM_VERBOSE ON)
 

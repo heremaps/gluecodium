@@ -71,7 +71,7 @@ class AntlrLimeModelBuilderTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-        modelBuilder = AntlrLimeModelBuilder(referenceResolver, contextStack)
+        modelBuilder = AntlrLimeModelBuilder(referenceResolver, emptyMap(), contextStack)
 
         val simpleIdContext = mockk<LimeParser.SimpleIdContext>()
         every { simpleIdContext.text } returns "foo"

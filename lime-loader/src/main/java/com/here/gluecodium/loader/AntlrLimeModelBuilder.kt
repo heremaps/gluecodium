@@ -59,6 +59,7 @@ import java.util.LinkedList
 
 internal class AntlrLimeModelBuilder(
     private val referenceResolver: LimeReferenceResolver,
+    private val commentPlaceholders: Map<String, LimeComment>,
     contextStack: ModelBuilderContextStack<LimeNamedElement> = ModelBuilderContextStack(),
 ) : AntlrLimeModelBuilderBase(contextStack) {
     private val pathStack = LinkedList<LimePath>()
@@ -737,7 +738,7 @@ internal class AntlrLimeModelBuilder(
                 }
             }.trimIndent().split('\n').joinToString("\n") { line -> line.trimEnd() }
 
-        return AntlrLimeConverter.parseStructuredComment(commentString, ctx.getStart().line, currentPath)
+        return AntlrLimeConverter.parseStructuredComment(commentString, ctx.getStart().line, currentPath, commentPlaceholders)
     }
 
     private fun parseExternalDescriptor(ctx: LimeParser.ExternalDescriptorContext?): LimeExternalDescriptor? {
