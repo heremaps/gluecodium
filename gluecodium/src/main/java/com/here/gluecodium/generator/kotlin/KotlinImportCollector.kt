@@ -30,6 +30,7 @@ import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeTypeAlias
 
 internal class KotlinImportCollector(
     private val importsResolver: KotlinImportResolver,
@@ -46,6 +47,7 @@ internal class KotlinImportCollector(
                 is LimeFunction -> collectFunctionImports(limeElement)
                 is LimeLambda -> collectFunctionImports(limeElement.asFunction())
                 is LimeConstant -> importsResolver.resolveElementImports(limeElement.value)
+                is LimeTypeAlias -> importsResolver.resolveElementImports(limeElement)
                 is LimeField ->
                     limeElement.defaultValue?.let { importsResolver.resolveElementImports(it) } ?: emptyList()
                 else -> emptyList()
