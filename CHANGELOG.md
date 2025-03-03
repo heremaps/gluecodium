@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 13.11.0
+Release date 2025-03-03
 ### Features:
  * Implemented placeholders for comments. Gluecodium supports a new `-docsplaceholderslist` CLI parameter and `GLUECODIUM_DOCS_PLACEHOLDERS_LIST` CMake flag, which allow specifying the file with definition of placeholders. More information about possible usage can be found in `lime_markup.md`.
 
