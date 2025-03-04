@@ -290,7 +290,7 @@ feature(Inheritance cpp android swift dart SOURCES
     input/lime/ConstructorOverride.lime
 )
 
-feature(MultipleInheritance cpp android swift dart SOURCES
+feature(MultipleInheritance cpp android android-kotlin swift dart SOURCES
     input/src/cpp/MultipleInheritance.cpp
     input/lime/MultipleInheritance.lime
 )
@@ -487,7 +487,7 @@ feature(CppNoexcept cpp android swift dart SOURCES
     input/src/cpp/CppNoexceptMethods.cpp
 )
 
-feature(Locales cpp android swift dart SOURCES
+feature(Locales cpp android android-kotlin swift dart SOURCES
     input/src/cpp/Locales.cpp
 
     input/lime/Locales.lime
