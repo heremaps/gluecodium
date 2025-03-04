@@ -30,6 +30,7 @@ interface LimeModelLoader {
     fun loadModel(
         idlSources: List<String>,
         auxiliaryIdlSources: List<String>,
+        docsPlaceholders: Map<String, String> = emptyMap(),
     ): LimeModel
 
     companion object {
