@@ -24,6 +24,7 @@ import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeEnumerator
+import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.NAME_NAME
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeSet
@@ -118,7 +119,26 @@ internal class KotlinValueResolver(private val nameResolver: KotlinNameResolver)
             throw GluecodiumExecutionException("Unsupported type ${actualType.javaClass.name} for struct initializer")
         }
         val values = limeValue.values.joinToString(", ") { resolveValue(it) }
+
+        if (limeValue.values.size == 1) {
+            val externalName = actualType.external?.kotlin?.get(NAME_NAME) ?: ""
+            if (isFundamentalKotlinType(externalName)) {
+                return values
+            }
+        }
+
         return "${nameResolver.resolveReferenceName(actualType)}($values)"
+    }
+
+    private fun isFundamentalKotlinType(type: String): Boolean {
+        val rawType = if (type.endsWith("?")) type.dropLast(1) else type
+        val fundamentals =
+            setOf(
+                "kotlin.Boolean", "kotlin.Byte", "kotlin.Short",
+                "kotlin.Int", "kotlin.Long", "kotlin.Float",
+                "kotlin.Double", "kotlin.String", "kotlin.Char",
+            )
+        return fundamentals.contains(rawType)
     }
 
     private fun mapSpecialValue(limeValue: LimeValue.Special): String {

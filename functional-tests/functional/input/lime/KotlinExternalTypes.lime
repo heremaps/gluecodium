@@ -1,0 +1,123 @@
+# Copyright (C) 2016-2025 HERE Europe B.V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# License-Filename: LICENSE
+
+package test
+
+@Immutable
+struct Currency {
+    external {
+        kotlin name "java.util.Currency"
+    }
+
+    currencyCode: String external { kotlin getterName "getCurrencyCode" }
+    numericCode: Int external { kotlin getterName "getNumericCode" }
+}
+
+struct TimeZone {
+    external {
+        kotlin name "java.util.SimpleTimeZone"
+    }
+
+    rawOffset: Int external {
+        kotlin getterName "getRawOffset"
+        kotlin setterName "setRawOffset"
+    }
+}
+
+struct SystemColor {
+    external {
+        kotlin name "kotlin.Int?"
+        kotlin converter "com.here.android.test.ColorConverter"
+    }
+
+    red: Float
+    green: Float
+    blue: Float
+    alpha: Float
+}
+
+enum Month {
+    external {
+        kotlin name "java.time.Month"
+    }
+
+    JANUARY = 1,
+    FEBRUARY,
+    MARCH
+}
+
+enum Season {
+    external {
+        kotlin name "kotlin.String"
+        kotlin converter "com.here.android.test.SeasonConverter"
+    }
+
+    WINTER,
+    SPRING,
+    SUMMER,
+    AUTUMN
+}
+
+class UseKotlinExternalTypes {
+    static fun currencyRoundTrip(input: Currency): Currency
+    static fun timeZoneRoundTrip(input: TimeZone): TimeZone
+    static fun monthRoundTrip(input: Month): Month
+    static fun colorRoundTrip(input: SystemColor): SystemColor
+    static fun seasonRoundTrip(input: Season): Season
+
+    static fun structRoundTrip(input: KotlinExternalTypesStruct): KotlinExternalTypesStruct
+    static fun veryBooleanUnbox(input: VeryBoolean): Boolean
+}
+
+struct KotlinExternalTypesStruct {
+    currency: Currency
+    timeZone: TimeZone
+    month: Month
+    color: SystemColor
+    season: Season
+}
+
+@Serializable
+struct ExternalMarkedAsSerializable {
+    external {
+        kotlin name "com.here.android.test.AnExternalStruct"
+        kotlin converter "com.here.android.test.ExternalStructMarkedAsSerializableConverter"
+    }
+
+    `field`: Int
+}
+
+@Serializable
+struct SerializableStructWithExternalField {
+    someStruct: ExternalMarkedAsSerializable
+}
+
+struct VeryBoolean {
+    external {
+        kotlin name "kotlin.Boolean?"
+        kotlin converter "com.here.android.test.BooleanConverter"
+    }
+
+    value: Boolean
+    constructor make(value: Boolean)
+}
+
+struct UseKotlinExternalConst {
+    stringField: String
+    @Internal
+    const defaultTruth: VeryBoolean = {true}
+}

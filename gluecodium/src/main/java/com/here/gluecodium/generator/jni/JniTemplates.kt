@@ -69,7 +69,7 @@ internal class JniTemplates(
     private val nameResolvers =
         mapOf(
             "" to jniNameResolver,
-            "signature" to JniTypeSignatureNameResolver(jniNameResolver, fullInternalPackages),
+            "signature" to JniTypeSignatureNameResolver(jniNameResolver, fullInternalPackages, platformAttribute),
             "mangled" to JniMangledNameResolver(jniNameResolver),
             "C++" to cppNameResolver,
             "C++ FQN" to CppFullNameResolver(nameCache),
