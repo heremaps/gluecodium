@@ -1,0 +1,132 @@
+# Copyright (C) 2016-2025 HERE Europe B.V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# License-Filename: LICENSE
+
+package kotlin_smoke
+
+@Immutable @Java(Skip) @Dart(Skip) @Swift(Skip)
+struct Currency {
+    external {
+        kotlin name "java.util.Currency"
+    }
+
+    currencyCode: String external { kotlin getterName "getCurrencyCode" }
+    numericCode: Int external { kotlin getterName "getNumericCode" }
+}
+
+@Java(Skip) @Dart(Skip) @Swift(Skip)
+struct TimeZone {
+    external {
+        kotlin name "java.util.SimpleTimeZone"
+    }
+
+    rawOffset: Int external {
+        kotlin getterName "getRawOffset"
+        kotlin setterName "setRawOffset"
+    }
+}
+
+@Java(Skip) @Dart(Skip) @Swift(Skip)
+struct SystemColor {
+    external {
+        kotlin name "kotlin.Int?"
+        kotlin converter "com.here.android.test.ColorConverter"
+    }
+
+    red: Float
+    green: Float
+    blue: Float
+    alpha: Float
+}
+
+@Java(Skip) @Dart(Skip) @Swift(Skip)
+enum Month {
+    external {
+        kotlin name "java.time.Month"
+    }
+
+    JANUARY = 1,
+    FEBRUARY,
+    MARCH
+}
+
+@Java(Skip) @Dart(Skip) @Swift(Skip)
+enum Season {
+    external {
+        kotlin name "kotlin.String"
+        kotlin converter "com.here.android.test.SeasonConverter"
+    }
+
+    WINTER,
+    SPRING,
+    SUMMER,
+    AUTUMN
+}
+
+@Java(Skip) @Dart(Skip) @Swift(Skip)
+class UseKotlinExternalTypes {
+    static fun currencyRoundTrip(input: Currency): Currency
+    static fun timeZoneRoundTrip(input: TimeZone): TimeZone
+    static fun monthRoundTrip(input: Month): Month
+    static fun colorRoundTrip(input: SystemColor): SystemColor
+    static fun seasonRoundTrip(input: Season): Season
+
+    static fun structRoundTrip(input: KotlinExternalTypesStruct): KotlinExternalTypesStruct
+    static fun veryBooleanUnbox(input: VeryBoolean): Boolean
+}
+
+@Java(Skip) @Dart(Skip) @Swift(Skip)
+struct KotlinExternalTypesStruct {
+    currency: Currency
+    timeZone: TimeZone
+    month: Month
+    color: SystemColor
+    season: Season
+}
+
+@Serializable @Java(Skip) @Dart(Skip) @Swift(Skip)
+struct ExternalMarkedAsSerializable {
+    external {
+        kotlin name "com.here.android.test.AnExternalStruct"
+        kotlin converter "com.here.android.test.ExternalStructMarkedAsSerializableConverter"
+    }
+
+    `field`: Int
+}
+
+@Serializable @Java(Skip) @Dart(Skip) @Swift(Skip)
+struct SerializableStructWithExternalField {
+    someStruct: ExternalMarkedAsSerializable
+}
+
+@Java(Skip) @Dart(Skip) @Swift(Skip)
+struct VeryBoolean {
+    external {
+        kotlin name "kotlin.Boolean?"
+        kotlin converter "com.here.android.test.BooleanConverter"
+    }
+
+    value: Boolean
+    constructor make(value: Boolean)
+}
+
+@Java(Skip) @Dart(Skip) @Swift(Skip)
+struct UseKotlinExternalConst {
+    stringField: String
+    @Internal
+    const defaultTruth: VeryBoolean = {true}
+}
+
