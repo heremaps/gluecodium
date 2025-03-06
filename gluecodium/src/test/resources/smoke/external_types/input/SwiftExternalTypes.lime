@@ -17,7 +17,7 @@
 
 package smoke
 
-@Java(Skip) @Dart(Skip)
+@Java(Skip) @Dart(Skip) @Kotlin(Skip)
 struct DateInterval {
     external {
         swift framework "Foundation"
@@ -27,7 +27,7 @@ struct DateInterval {
     end: Date
 }
 
-@Swift("URLCredential.Persistence") @Java(Skip) @Dart(Skip)
+@Swift("URLCredential.Persistence") @Java(Skip) @Dart(Skip) @Kotlin(Skip)
 enum Persistence {
     external {
         swift framework "Foundation"
@@ -39,7 +39,7 @@ enum Persistence {
 }
 
 @Swift("UIColor")
-@Java(Skip) @Dart(Skip)
+@Java(Skip) @Dart(Skip) @Kotlin(Skip)
 @Equatable
 struct PseudoColor {
     external {
@@ -53,7 +53,7 @@ struct PseudoColor {
     alpha: Float
 }
 
-@Java(Skip) @Dart(Skip)
+@Java(Skip) @Dart(Skip) @Kotlin(Skip)
 enum SwiftSeason {
     external {
         swift framework ""
@@ -66,7 +66,7 @@ enum SwiftSeason {
     AUTUMN
 }
 
-@Java(Skip) @Dart(Skip)
+@Java(Skip) @Dart(Skip) @Kotlin(Skip)
 class UseSwiftExternalTypes {
     static fun dateIntervalRoundTrip(input: DateInterval): DateInterval
     static fun persistenceRoundTrip(input: Persistence): Persistence
@@ -74,14 +74,14 @@ class UseSwiftExternalTypes {
     static fun seasonRoundTrip(input: SwiftSeason): SwiftSeason
 }
 
-@Java(Skip) @Dart(Skip)
+@Java(Skip) @Dart(Skip) @Kotlin(Skip)
 typealias ExternalList = List<PseudoColor>
-@Java(Skip) @Dart(Skip)
+@Java(Skip) @Dart(Skip) @Kotlin(Skip)
 typealias ExternalSet = Set<PseudoColor>
-@Java(Skip) @Dart(Skip)
+@Java(Skip) @Dart(Skip) @Kotlin(Skip)
 typealias ExternalMap = Map<Persistence, PseudoColor>
 
-@Java(Skip) @Dart(Skip)
+@Java(Skip) @Dart(Skip) @Kotlin(Skip)
 struct SwiftExternalCtor {
     external {
         swift framework ""
