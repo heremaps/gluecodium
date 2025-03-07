@@ -431,7 +431,7 @@ feature(FullName dart SOURCES
     input/lime/FullName.lime
 )
 
-feature(Nesting cpp android swift dart SOURCES
+feature(Nesting cpp android android-kotlin swift dart SOURCES
     input/src/cpp/TopLevelTypes.cpp
     input/src/cpp/NestedContainers.cpp
     input/src/cpp/NestedClassWithProperty.cpp
