@@ -33,9 +33,9 @@ internal class JniFileNameRules(
 ) {
     private val jniPathPrefix = generatorName + File.separator + "jni" + File.separator
 
-    fun getHeaderFilePath(fileName: String) = "$jniPathPrefix$fileName.h"
+    fun getHeaderFilePath(fileName: String) = "$jniPathPrefix${sanitizeFilename(fileName)}.h"
 
-    fun getImplementationFilePath(fileName: String) = "$jniPathPrefix$fileName.cpp"
+    fun getImplementationFilePath(fileName: String) = "$jniPathPrefix${sanitizeFilename(fileName)}.cpp"
 
     fun getConversionFileName(limeElement: LimeNamedElement): String {
         val externalName = limeElement.external?.getFor(platformAttribute)?.get(NAME_NAME)
@@ -43,18 +43,22 @@ internal class JniFileNameRules(
             externalName != null -> {
                 val packageNames = nameResolver.getPackageFromImportString(externalName)
                 val classNames = nameResolver.getClassNamesFromImportString(externalName)
-                (packageNames + classNames).joinToString("_")
+                sanitizeFilename((packageNames + classNames).joinToString("_"))
             }
-            else -> getElementFileNamePrefix(limeElement)
+            else -> sanitizeFilename(getElementFileNamePrefix(limeElement))
         } + JNI_CONVERSION_SUFFIX
     }
 
     fun getElementFileName(limeElement: LimeNamedElement) =
-        getElementFileNamePrefix(limeElement) +
-            if (limeElement is LimeInterface || limeElement is LimeLambda) "Impl" else ""
+        sanitizeFilename(
+            getElementFileNamePrefix(limeElement) +
+                if (limeElement is LimeInterface || limeElement is LimeLambda) "Impl" else "",
+        )
 
     private fun getElementFileNamePrefix(limeElement: LimeNamedElement) =
         nameResolver.resolveName(limeElement).replace('/', '_').replace('$', '_')
+
+    private fun sanitizeFilename(name: String) = name.replace("?", "__Nullable__")
 
     companion object {
         // Conversion suffix has a double underscore "__" to avoid name collisions.
