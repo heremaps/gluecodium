@@ -31,6 +31,16 @@ class LimeComment(
     val isExcluded: Boolean = false,
     val placeholders: Map<String, LimeComment> = emptyMap(),
 ) {
+    init {
+        taggedSections.forEach {
+            if (isPlaceholder(it.first)) {
+                if (!placeholders.contains(it.second)) {
+                    throw IllegalArgumentException("Invalid comment placeholder requested: ${it.second}.")
+                }
+            }
+        }
+    }
+
     constructor(comment: String, path: LimePath = LimePath.EMPTY_PATH) : this(path, listOf("" to comment))
 
     fun isEmpty() = taggedSections.all { it.second.isEmpty() }
@@ -51,8 +61,6 @@ class LimeComment(
         }
     }
 
-    fun withPlaceholders(newPlaceholders: Map<String, LimeComment>) = LimeComment(path, taggedSections, isExcluded, newPlaceholders)
-
     override fun toString() =
         taggedSections.joinToString("") {
             when (it.first) {
@@ -68,10 +76,5 @@ class LimeComment(
     private fun resolvePlaceholder(
         name: String,
         platform: String,
-    ): String {
-        val placeholderComment =
-            placeholders[name]
-                ?: throw IllegalArgumentException("Invalid comment placeholder requested: $name.")
-        return placeholderComment.getFor(platform)
-    }
+    ): String = placeholders[name]!!.getFor(platform)
 }
