@@ -84,7 +84,7 @@ feature(Strings cpp android android-kotlin swift dart SOURCES
     input/lime/CppRefReturnType.lime
 )
 
-feature(MethodOverloading cpp android swift dart SOURCES
+feature(MethodOverloading cpp android android-kotlin swift dart SOURCES
     input/src/cpp/MethodOverloads.cpp
 
     input/lime/MethodOverloads.lime
@@ -303,7 +303,7 @@ feature(CircularDependencies cpp android swift dart SOURCES
     input/lime/Circular.lime
 )
 
-feature(ExternalTypes cpp android swift dart SOURCES
+feature(ExternalTypes cpp android android-kotlin swift dart SOURCES
     input/src/cpp/include/ExternalTypes.h
     input/src/cpp/include/MyClass.h
     input/src/cpp/src/ExternalTypes.cpp
@@ -320,6 +320,12 @@ feature(JavaExternalTypes android SOURCES
     input/src/cpp/JavaExternalTypes.cpp
 
     input/lime/JavaExternalTypes.lime
+)
+
+feature(KotlinExternalTypes android-kotlin SOURCES
+    input/src/cpp/KotlinExternalTypes.cpp
+
+    input/lime/KotlinExternalTypes.lime
 )
 
 if(NOT APPLE)
@@ -425,7 +431,7 @@ feature(FullName dart SOURCES
     input/lime/FullName.lime
 )
 
-feature(Nesting cpp android swift dart SOURCES
+feature(Nesting cpp android android-kotlin swift dart SOURCES
     input/src/cpp/TopLevelTypes.cpp
     input/src/cpp/NestedContainers.cpp
     input/src/cpp/NestedClassWithProperty.cpp
