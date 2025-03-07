@@ -17,7 +17,7 @@
 
 package smoke
 
-@Swift(Skip) @Dart(Skip)
+@Swift(Skip) @Dart(Skip) @Kotlin(Skip)
 @Immutable
 struct Currency {
     external {
@@ -28,7 +28,7 @@ struct Currency {
     numericCode: Int external { java getterName "getNumericCode" }
 }
 
-@Swift(Skip) @Dart(Skip)
+@Swift(Skip) @Dart(Skip) @Kotlin(Skip)
 struct TimeZone {
     external {
         java name "java.util.SimpleTimeZone"
@@ -40,7 +40,7 @@ struct TimeZone {
     }
 }
 
-@Swift(Skip) @Dart(Skip)
+@Swift(Skip) @Dart(Skip) @Kotlin(Skip)
 enum Month {
     external {
         java name "java.time.Month"
@@ -51,7 +51,7 @@ enum Month {
     MARCH
 }
 
-@Swift(Skip) @Dart(Skip)
+@Swift(Skip) @Dart(Skip) @Kotlin(Skip)
 @Equatable
 struct SystemColor {
     external {
@@ -65,7 +65,7 @@ struct SystemColor {
     alpha: Float
 }
 
-@Swift(Skip) @Dart(Skip)
+@Swift(Skip) @Dart(Skip) @Kotlin(Skip)
 enum Season {
     external {
         java name "java.lang.String"
@@ -78,7 +78,7 @@ enum Season {
     AUTUMN
 }
 
-@Swift(Skip) @Dart(Skip)
+@Swift(Skip) @Dart(Skip) @Kotlin(Skip)
 struct JavaExternalTypesStruct {
     currency: Currency
     timeZone: TimeZone
@@ -87,7 +87,7 @@ struct JavaExternalTypesStruct {
     season: Season
 }
 
-@Swift(Skip) @Dart(Skip)
+@Swift(Skip) @Dart(Skip) @Kotlin(Skip)
 struct JavaExternalCtor {
     external {
         java name "com.example.Foo"
@@ -97,6 +97,7 @@ struct JavaExternalCtor {
     constructor make(`field`: String)
 }
 
+@Swift(Skip) @Dart(Skip) @Kotlin(Skip)
 struct UseJavaExternalConst {
     stringField: String
     @Internal
