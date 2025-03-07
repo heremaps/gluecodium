@@ -84,7 +84,7 @@ feature(Strings cpp android android-kotlin swift dart SOURCES
     input/lime/CppRefReturnType.lime
 )
 
-feature(MethodOverloading cpp android swift dart SOURCES
+feature(MethodOverloading cpp android android-kotlin swift dart SOURCES
     input/src/cpp/MethodOverloads.cpp
 
     input/lime/MethodOverloads.lime
