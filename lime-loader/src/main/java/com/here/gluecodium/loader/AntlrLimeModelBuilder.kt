@@ -738,7 +738,14 @@ internal class AntlrLimeModelBuilder(
                 }
             }.trimIndent().split('\n').joinToString("\n") { line -> line.trimEnd() }
 
-        return AntlrLimeConverter.parseStructuredComment(commentString, ctx.getStart().line, currentPath, commentPlaceholders)
+        return try {
+            AntlrLimeConverter.parseStructuredComment(commentString, ctx.getStart().line, currentPath, commentPlaceholders)
+        } catch (e: IllegalArgumentException) {
+            val position = ctx.getStart()
+            throw ParseCancellationException(
+                "line ${position.line}:${position.charPositionInLine}, ${e.message}",
+            )
+        }
     }
 
     private fun parseExternalDescriptor(ctx: LimeParser.ExternalDescriptorContext?): LimeExternalDescriptor? {

@@ -32,7 +32,9 @@ import org.antlr.v4.runtime.misc.ParseCancellationException
 import org.antlr.v4.runtime.tree.TerminalNode
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -158,5 +160,20 @@ class AntlrLimeModelBuilderTest {
         assertEquals(result.comment.toString(), "Some property\nThis is old way of documenting properties")
         assertTrue(result.valueComment.isEmpty())
         assertTrue(result.additionalDescriptionComment.isEmpty())
+    }
+
+    @Test
+    fun exactFileLocationIsThrownWhenUnknownPlaceholderCommentIsPresent() {
+        pushDocComment("@value Some property belonging to {@Placeholder special_component}")
+        pushDocComment("@description Some description of property that says about {@Placeholder another_component}")
+
+        val exception =
+            assertThrows(ParseCancellationException::class.java) {
+                modelBuilder.enterProperty(propertyContext)
+            }
+
+        assertNotNull(exception.message)
+        assertTrue(exception.message!!.contains("Invalid comment placeholder requested"))
+        assertTrue(exception.message!!.startsWith("line "))
     }
 }

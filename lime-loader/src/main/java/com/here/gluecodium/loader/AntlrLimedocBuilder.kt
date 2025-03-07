@@ -35,13 +35,13 @@ internal class AntlrLimedocBuilder(
         get() {
             val description = commentsCollector[Pair("", "")] ?: LimeComment(currentPath)
             val isExcluded = commentsCollector.containsKey(excludeKey)
-            return LimeStructuredComment(description.withExcluded(isExcluded).withPlaceholders(commentPlaceholders), commentsCollector)
+            return LimeStructuredComment(description.withExcluded(isExcluded), commentsCollector)
         }
 
     // Overrides
 
     override fun exitDescription(ctx: LimedocParser.DescriptionContext) {
-        commentsCollector[Pair("", "")] = LimeComment(currentPath, contentCollector.toList())
+        commentsCollector[Pair("", "")] = LimeComment(currentPath, contentCollector.toList(), placeholders = commentPlaceholders)
         contentCollector.clear()
     }
 
@@ -73,7 +73,7 @@ internal class AntlrLimedocBuilder(
         val tagName = ctx.tagName().text
         val tagParameter = ctx.blockTagParameter()?.text ?: ""
         commentsCollector[Pair(tagName, tagParameter)] =
-            LimeComment(currentPath, contentCollector.toList())
+            LimeComment(currentPath, contentCollector.toList(), placeholders = commentPlaceholders)
         contentCollector.clear()
     }
 
