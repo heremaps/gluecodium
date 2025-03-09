@@ -20,7 +20,7 @@ if(DEFINED includeguard_gluecodium_TargetCompileDefinitions)
 endif()
 set(includeguard_gluecodium_TargetCompileDefinitions ON)
 
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
 include(${CMAKE_CURRENT_LIST_DIR}/details/ReadRequiredProperties.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/GetTargetCompileDefinitions.cmake)

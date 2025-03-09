@@ -26,7 +26,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/TargetCollectSwiftSources.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/TargetCopySwiftSources.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/details/SetFrameworkSwiftSources.cmake)
 
-cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
 #[===================================================================================================[.rst:
 Adds swift sources to a target.
