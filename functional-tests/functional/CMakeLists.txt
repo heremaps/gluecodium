@@ -159,7 +159,7 @@ feature(FieldConstructors cpp android android-kotlin swift dart SOURCES
     input/lime/FieldConstructorsNesting.lime
 )
 
-feature(TypeDefs cpp android swift dart SOURCES
+feature(TypeDefs cpp android android-kotlin swift dart SOURCES
     input/src/cpp/StaticTypedef.cpp
 
     input/lime/StaticTypedef.lime
