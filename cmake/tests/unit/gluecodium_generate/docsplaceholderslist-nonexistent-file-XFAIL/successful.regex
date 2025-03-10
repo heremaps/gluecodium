@@ -1,1 +1,1 @@
-Failed reading options: File .*/someNonexistentPlaceholders.properties does not exist
+(Failed reading options: File .*/someNonexistentPlaceholders.properties does not exist)|(someNonexistentPlaceholders.properties.*missing and no known rule to make it)
