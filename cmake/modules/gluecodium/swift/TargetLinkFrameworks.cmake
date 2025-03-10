@@ -61,7 +61,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/../gluecodium/details/ResolvePossibleAlias.cma
 include(${CMAKE_CURRENT_LIST_DIR}/../gluecodium/details/GeneratorExpressions.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/../gluecodium/GetLinkedTargetsWithGeneratedSources.cmake)
 
-cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
 function(gluecodium_target_link_frameworks _target)
 
