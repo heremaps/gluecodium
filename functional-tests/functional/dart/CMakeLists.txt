@@ -15,7 +15,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-cmake_minimum_required(VERSION 3.6)
+cmake_minimum_required(VERSION 3.10)
 project(test_dart)
 
 if(NOT FUNCTIONAL_BUILD_DART_TESTS)

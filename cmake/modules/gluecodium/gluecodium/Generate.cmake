@@ -20,7 +20,7 @@ if(DEFINED includeguard_gluecodium_Generate2)
 endif()
 set(includeguard_gluecodium_Generate2 ON)
 
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.10)
 
 include(${CMAKE_CURRENT_LIST_DIR}/AddGenerateCommand.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/TargetGeneratedSources.cmake)
