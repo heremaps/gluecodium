@@ -20,7 +20,7 @@ if(DEFINED includeguard_gluecodium_AddGenerateCommand)
 endif()
 set(includeguard_gluecodium_AddGenerateCommand ON)
 
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.10)
 
 #[===================================================================================================[.rst:
 
@@ -223,6 +223,9 @@ function(gluecodium_add_generate_command _target)
   )
   file(GENERATE OUTPUT "${_gluecodium_configuration_file}" CONTENT "${_configuration_content}")
   list(APPEND _command_dependencies "${_gluecodium_configuration_file}")
+
+  # Depend on a possible file with placeholders to re-generate sources on changes there 
+  list(APPEND _command_dependencies $<TARGET_PROPERTY:${_target},GLUECODIUM_DOCS_PLACEHOLDERS_LIST>)
 
   add_custom_command(
     OUTPUT ${_generated_files}

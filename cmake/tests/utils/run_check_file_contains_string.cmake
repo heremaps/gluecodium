@@ -15,7 +15,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
 include("${CMAKE_CURRENT_LIST_DIR}/message_colored.cmake")
 
