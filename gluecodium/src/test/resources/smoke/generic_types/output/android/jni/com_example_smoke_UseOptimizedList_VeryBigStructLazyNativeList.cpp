@@ -21,7 +21,7 @@ Java_com_example_smoke_UseOptimizedList_00024VeryBigStructLazyNativeList_dispose
 }
 
 JNIEXPORT jint JNICALL
-Java_com_example_smoke_UseOptimizedList_00024VeryBigStructLazyNativeList_getSize(JNIEnv* _jenv, jobject _jinstance) {
+Java_com_example_smoke_UseOptimizedList_00024VeryBigStructLazyNativeList_obtainSize(JNIEnv* _jenv, jobject _jinstance) {
     auto handle = ::gluecodium::jni::get_class_native_handle(_jenv, _jinstance);
     auto& vector = *reinterpret_cast<std::shared_ptr<::std::vector< ::std::shared_ptr< ::smoke::VeryBigStruct > >>*>(handle);
     return vector->size();

@@ -21,7 +21,7 @@ Java_com_example_smoke_UseOptimizedListStruct_00024UnreasonablyLazyClassLazyNati
 }
 
 JNIEXPORT jint JNICALL
-Java_com_example_smoke_UseOptimizedListStruct_00024UnreasonablyLazyClassLazyNativeList_getSize(JNIEnv* _jenv, jobject _jinstance) {
+Java_com_example_smoke_UseOptimizedListStruct_00024UnreasonablyLazyClassLazyNativeList_obtainSize(JNIEnv* _jenv, jobject _jinstance) {
     auto handle = ::gluecodium::jni::get_class_native_handle(_jenv, _jinstance);
     auto& vector = *reinterpret_cast<std::shared_ptr<::std::vector< ::std::shared_ptr< ::smoke::UnreasonablyLazyClass > >>*>(handle);
     return vector->size();
