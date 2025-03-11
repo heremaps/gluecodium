@@ -25,7 +25,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/details/GeneratorExpressions.cmake)
 
 include(${CMAKE_CURRENT_LIST_DIR}/../swift/TargetAddModuleModulemap.cmake)
 
-cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
 #[===================================================================================================[.rst:
 Adds generated sources to a target.
