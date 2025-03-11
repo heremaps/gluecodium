@@ -108,7 +108,7 @@ public abstract class AbstractNativeList<T> extends NativeBase implements List<T
         super(nativeHandle, disposer);
     }
 
-    protected abstract int getSize();
+    protected abstract int obtainSize();
 
     private List<Object> toArrayList() {
         List<Object> arrayList = new ArrayList<>();
@@ -118,7 +118,7 @@ public abstract class AbstractNativeList<T> extends NativeBase implements List<T
 
     @Override
     public int size() {
-        if (_size == null) _size = getSize();
+        if (_size == null) _size = obtainSize();
         return _size;
     }
 

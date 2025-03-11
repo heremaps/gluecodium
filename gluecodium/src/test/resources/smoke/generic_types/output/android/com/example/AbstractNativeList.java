@@ -16,7 +16,9 @@
  * SPDX-License-Identifier: Apache-2.0
  * License-Filename: LICENSE
  */
+
 package com.example;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -24,41 +26,52 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+
 /**
  * <p>Internal base abstract class for List implementations backed by a native object.
  *
  * @hidden
  */
 public abstract class AbstractNativeList<T> extends NativeBase implements List<T> {
+
     /**
      * @hidden
      */
     private final class NativeIterator implements ListIterator<T> {
+
         private int index = 0;
+
         @Override
         public boolean hasNext() { return index < size(); }
+
         @Override
         public T next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
+
             final T result = get(index);
             index += 1;
             return result;
         }
+
         @Override
         public boolean hasPrevious() { return index >= 0; }
+
         @Override
         public T previous() {
             if (!hasPrevious()) {
                 throw new NoSuchElementException();
             }
+
             final T result = get(index);
             index -= 1;
             return result;
         }
+
         @Override
         public int nextIndex() { return index + 1; }
+
         @Override
         public int previousIndex() { return index - 1; }
         @Override
@@ -68,37 +81,50 @@ public abstract class AbstractNativeList<T> extends NativeBase implements List<T
         @Override
         public void add(T e) { throw new UnsupportedOperationException(); }
     }
+
     private Integer _size = null;
+
     protected AbstractNativeList(final long nativeHandle, final Disposer disposer) {
         super(nativeHandle, disposer);
     }
-    protected abstract int getSize();
+
+    protected abstract int obtainSize();
+
     private List<Object> toArrayList() {
         List<Object> arrayList = new ArrayList<>();
         for (final T element: this) arrayList.add(element);
         return arrayList;
     }
+
     @Override
     public int size() {
-        if (_size == null) _size = getSize();
+        if (_size == null) _size = obtainSize();
         return _size;
     }
+
     @Override
     public boolean isEmpty() { return size() == 0; }
+
     @Override
     public boolean contains(Object o) { return toArrayList().contains(o); }
+
     @Override
     public Iterator<T> iterator() { return listIterator(0); }
+
     @Override
     public Object[] toArray() { return toArrayList().toArray(); }
+
     @Override
     public <T> T[] toArray(T[] a) { return toArrayList().toArray(a); }
+
     @Override
     public boolean add(T t) { throw new UnsupportedOperationException(); }
     @Override
     public boolean remove(Object o) { throw new UnsupportedOperationException(); }
+
     @Override
     public boolean containsAll(Collection<?> c) { return toArrayList().containsAll(c); }
+
     @Override
     public boolean addAll(Collection<? extends T> c) { throw new UnsupportedOperationException(); }
     @Override
@@ -109,6 +135,7 @@ public abstract class AbstractNativeList<T> extends NativeBase implements List<T
     public boolean retainAll(Collection<?> c) { throw new UnsupportedOperationException(); }
     @Override
     public void clear() { throw new UnsupportedOperationException(); }
+
     @Override
     public T set(int index, T element) { throw new UnsupportedOperationException(); }
     @Override
@@ -119,8 +146,10 @@ public abstract class AbstractNativeList<T> extends NativeBase implements List<T
     public int indexOf(Object o) { throw new UnsupportedOperationException(); }
     @Override
     public int lastIndexOf(Object o) { throw new UnsupportedOperationException(); }
+
     @Override
     public ListIterator<T> listIterator() { return new NativeIterator(); }
+
     @Override
     public ListIterator<T> listIterator(int index) {
         final ListIterator<T> result = listIterator();
@@ -130,6 +159,7 @@ public abstract class AbstractNativeList<T> extends NativeBase implements List<T
         }
         return result;
     }
+
     @Override
     public List<T> subList(int fromIndex, int toIndex) {
         List<T> arrayList = new ArrayList<>();
