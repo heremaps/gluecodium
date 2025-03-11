@@ -20,7 +20,7 @@ if(DEFINED includeguard_gluecodium_AddGenerateCommand)
 endif()
 set(includeguard_gluecodium_AddGenerateCommand ON)
 
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.10)
 
 #[===================================================================================================[.rst:
 

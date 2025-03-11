@@ -20,7 +20,7 @@ if(DEFINED includeguard_gluecodium_All)
 endif()
 set(includeguard_gluecodium_All ON)
 
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
 #[===========================================================================================[.rst:
 The main Gluecodium module
