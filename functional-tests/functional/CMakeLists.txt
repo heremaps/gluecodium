@@ -299,7 +299,7 @@ feature(Serialization android android-kotlin swift SOURCES
     input/lime/Serialization.lime
 )
 
-feature(CircularDependencies cpp android swift dart SOURCES
+feature(CircularDependencies cpp android android-kotlin swift dart SOURCES
     input/lime/Circular.lime
 )
 
@@ -342,7 +342,7 @@ feature(DartExternalTypes dart SOURCES
     input/lime/DartExternalTypes.lime
 )
 
-feature(UnderscorePackage cpp android swift dart SOURCES
+feature(UnderscorePackage cpp android android-kotlin swift dart SOURCES
     input/src/cpp/UseUnderscorePackage.cpp
 
     input/lime/UnderscorePackage.lime
@@ -423,7 +423,7 @@ feature(PlatformNames cpp android swift dart SOURCES
     input/lime/PlatformNames.lime
 )
 
-feature(EscapedNames cpp android swift dart SOURCES
+feature(EscapedNames cpp android android-kotlin swift dart SOURCES
     input/lime/KeywordNames.lime
 )
 

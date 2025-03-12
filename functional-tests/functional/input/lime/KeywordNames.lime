@@ -37,6 +37,7 @@ struct `types` {
 
 class `class`: `interface` {
 
+    @Kotlin("Fun")
     fun `fun`(
         `UByte`: `types`.`ULong`
     ): `types`.`struct` throws `types`.`exception`
