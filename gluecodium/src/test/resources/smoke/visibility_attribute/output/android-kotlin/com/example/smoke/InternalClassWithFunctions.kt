@@ -7,7 +7,16 @@ package com.example.smoke
 
 import com.example.NativeBase
 
-internal class InternalListenerImpl : NativeBase, InternalListener {
+internal class InternalClassWithFunctions : NativeBase {
+
+
+    constructor() : this(make(), null as Any?) {
+        cacheThisInstance();
+    }
+    constructor(foo: String) : this(make(foo), null as Any?) {
+        cacheThisInstance();
+    }
+
     /*
      * For internal use only.
      * @hidden
@@ -17,11 +26,16 @@ internal class InternalListenerImpl : NativeBase, InternalListener {
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
-    override external fun onEvent() : Unit
+    private external fun cacheThisInstance()
+
+
+    external fun fooBar() : Unit
 
 
 
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+        @JvmStatic external fun make() : Long
+        @JvmStatic external fun make(foo: String) : Long
     }
 }

@@ -24,6 +24,13 @@ class JavaPublicClass {}
 @Java(Internal)
 class JavaInternalClass {}
 
+@Kotlin(Public)
+@Internal
+class KotlinPublicClass {}
+
+@Java(Internal)
+class KotlinInternalClass {}
+
 @Swift(Public)
 @Internal
 class SwiftPublicClass {}

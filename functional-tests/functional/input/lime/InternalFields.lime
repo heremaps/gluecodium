@@ -43,6 +43,7 @@ struct PublicFieldsMixedInit {
 
 @Java(PositionalDefaults)
 @Dart(PositionalDefaults)
+@Kotlin(PositionalDefaults)
 @Swift(Skip)
 struct PublicFieldsAllInitPosDefaults {
     publicField: String = "bar"

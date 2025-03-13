@@ -24,6 +24,13 @@ class JavaPublicClass {}
 @Java(Internal)
 class JavaInternalClass {}
 
+@Kotlin(Public)
+@Internal
+class KotlinPublicClass {}
+
+@Kotlin(Internal)
+class KotlinInternalClass {}
+
 @Swift(Public)
 @Internal
 class SwiftPublicClass {}
@@ -63,4 +70,5 @@ class JavaInternalProperty {
 @Java(Internal)
 @Swift(Internal)
 @Dart(Internal)
+@Kotlin(Internal)
 interface PlatformInternalInterface {}

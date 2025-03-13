@@ -12,5 +12,7 @@ export 'src/smoke/dart_public_elements_skipped.dart' show DartPublicElementsSkip
 export 'src/smoke/java_internal_class.dart' show JavaInternalClass;
 export 'src/smoke/java_internal_class_rev.dart' show JavaInternalClassRev;
 export 'src/smoke/java_swift_internal_class.dart' show JavaSwiftInternalClass;
+export 'src/smoke/kotlin_internal_class.dart' show KotlinInternalClass;
+export 'src/smoke/kotlin_internal_class_rev.dart' show KotlinInternalClassRev;
 export 'src/smoke/swift_internal_class.dart' show SwiftInternalClass;
 export 'src/smoke/swift_internal_class_rev.dart' show SwiftInternalClassRev;

@@ -19,6 +19,7 @@
 
 package com.here.gluecodium.generator.kotlin
 
+import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeClass
@@ -35,6 +36,8 @@ internal object KotlinGeneratorPredicates {
             "needsDisposer" to this::needsDisposer,
             "needsCompanionObject" to this::needsCompanionObject,
             "hasConstants" to this::hasConstants,
+            "hasInternalAllArgsConstructor" to this::hasInternalAllArgsConstructor,
+            "hasInternalFreeArgsConstructor" to this::hasInternalFreeArgsConstructor,
             "hasStaticProperties" to this::hasStaticProperties,
             "needsAllFieldsConstructor" to this::needsAllFieldsConstructor,
         )
@@ -82,6 +85,22 @@ internal object KotlinGeneratorPredicates {
 
         return element.attributes.have(LimeAttributeType.SERIALIZABLE)
     }
+
+    private fun hasInternalAllArgsConstructor(limeStruct: Any): Boolean =
+        limeStruct is LimeStruct &&
+            limeStruct.fields.any {
+                CommonGeneratorPredicates.isInternal(
+                    it,
+                    LimeAttributeType.KOTLIN,
+                ) || CommonGeneratorPredicates.isInternal(it.typeRef.type, LimeAttributeType.KOTLIN)
+            }
+
+    private fun hasInternalFreeArgsConstructor(limeStruct: Any): Boolean =
+        limeStruct is LimeStruct &&
+            limeStruct.uninitializedFields.any {
+                CommonGeneratorPredicates.isInternal(it, LimeAttributeType.KOTLIN) ||
+                    CommonGeneratorPredicates.isInternal(it.typeRef.type, LimeAttributeType.KOTLIN)
+            }
 
     private fun needsCompanionObject(element: Any) =
         hasStaticFunctions(element) || hasConstants(element) || needsDisposer(element) ||
