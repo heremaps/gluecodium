@@ -7,7 +7,10 @@ package com.example.smoke
 
 import com.example.NativeBase
 
-internal class InternalListenerImpl : NativeBase, InternalListener {
+class InternalPropertyOnly : NativeBase {
+
+
+
     /*
      * For internal use only.
      * @hidden
@@ -17,7 +20,12 @@ internal class InternalListenerImpl : NativeBase, InternalListener {
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
-    override external fun onEvent() : Unit
+
+
+
+    internal var foo: String
+        external get
+        external set
 
 
 
