@@ -81,7 +81,7 @@ class InternalChild : InternalParent {}
 
 class InheritanceTestHelper {
     static fun callRootMethod(
-        object: RootInterface,
+        interfaceObject: RootInterface,
         data: String
     )
     static fun createRoot(): RootInterface
@@ -112,9 +112,11 @@ class InheritanceTestHelper {
 class ChildConstructorOverloads : ConstructorOverloads {
     @Dart("createNoParametersChild")
     @Java("createNoParametersChild")
+    @Kotlin("createNoParametersChild")
     constructor create()
     @Dart("createWithErrorChild")
     @Java("createWithErrorChild")
+    @Kotlin("createWithErrorChild")
     constructor create(
         input: Double
     ) throws ThrowingConstructor.Some

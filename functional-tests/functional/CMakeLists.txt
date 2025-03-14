@@ -91,7 +91,7 @@ feature(MethodOverloading cpp android android-kotlin swift dart SOURCES
     input/lime/InheritanceOverloads.lime
 )
 
-feature(Blob cpp android swift dart SOURCES
+feature(Blob cpp android android-kotlin swift dart SOURCES
     input/src/cpp/Blobs.cpp
     input/src/cpp/StaticByteArrayMethods.cpp
 
@@ -247,7 +247,7 @@ feature(GenericTypes cpp android android-kotlin swift dart SOURCES
     input/lime/OptimizedList.lime
 )
 
-feature(Errors cpp android swift dart SOURCES
+feature(Errors cpp android android-kotlin swift dart SOURCES
     input/src/cpp/Errors.cpp
     input/src/cpp/ErrorsInInterface.cpp
     input/src/cpp/ErrorsInInterface.h
@@ -271,7 +271,7 @@ feature(Defaults cpp android android-kotlin swift dart SOURCES
     input/lime/ConstantDefaults.lime
 )
 
-feature(Inheritance cpp android swift dart SOURCES
+feature(Inheritance cpp android android-kotlin swift dart SOURCES
     input/src/cpp/ChildClassImpl.cpp
     input/src/cpp/ChildClassImpl.h
     input/src/cpp/GrandchildClassImpl.cpp
