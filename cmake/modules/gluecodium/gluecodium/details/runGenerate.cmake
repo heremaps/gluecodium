@@ -24,7 +24,7 @@ include(${GLUECODIUM_CONFIGURATION_FILE})
 
 set(_required_vars
     GLUECODIUM_GENERATORS GLUECODIUM_OUTPUT_DIR GLUECODIUM_DETAILS_DIR GLUECODIUM_TARGET_SOURCE_DIR
-    GLUECODIUM_TARGET_BINARY_DIR GLUECODIUM_OPTIONS_FILE)
+    GLUECODIUM_TARGET_BINARY_DIR GLUECODIUM_OPTIONS_FILE GLUECODIUM_PLACEHOLDERS_FILE)
 
 foreach(_var ${_required_vars})
   if(NOT ${_var})
@@ -74,7 +74,33 @@ function(_get_absolute_path_to_sources result input_path)
   endif()
 endfunction()
 
-function(_prepare_gluecodium_config_file file_path)
+function(_generate_file_with_placeholders result_path)
+  unset (_new_content)
+  foreach(_file_path IN LISTS GLUECODIUM_DOCS_PLACEHOLDERS_FILES)
+    _get_absolute_path_to_sources(_absolute_file_pat "${_file_path}")
+    file(READ "${_absolute_file_pat}" _file_content)
+    string(APPEND _new_content "# Content of ${_absolute_file_pat}\n${_file_content}\n")
+  endforeach()
+
+  if (GLUECODIUM_DOCS_PLACEHOLDERS)
+    string(APPEND _new_content "# Separatelly specified placeholders\n")
+  endif ()
+
+  foreach(_placeholder IN LISTS GLUECODIUM_DOCS_PLACEHOLDERS)
+    string(APPEND _new_content "${_placeholder}\n")
+  endforeach()
+
+  if(NOT EXISTS "${result_path}")
+    file(WRITE "${result_path}" "${_new_content}\n")
+  else()
+    file(READ "${result_path}" _old_content)
+    if(NOT _old_content STREQUAL _new_content)
+      file(WRITE "${result_path}" "${_new_content}\n")
+    endif()
+  endif()
+endfunction()
+
+function(_prepare_gluecodium_config_file file_path placeholder_file)
   unset(_gluecodium_options)
 
   macro(_append_option option_name variable_name)
@@ -158,7 +184,7 @@ function(_prepare_gluecodium_config_file file_path)
   _append_path_option(kotlinnamerules GLUECODIUM_KOTLIN_NAMERULES)
   _append_path_option(swiftnamerules GLUECODIUM_SWIFT_NAMERULES)
   _append_path_option(dartnamerules GLUECODIUM_DART_NAMERULES)
-  _append_path_option(docsplaceholderslist GLUECODIUM_DOCS_PLACEHOLDERS_LIST)
+  _append_path_option(docsplaceholderslist placeholder_file)
 
   _append_option(output GLUECODIUM_OUTPUT_MAIN)
   _append_option(commonoutput GLUECODIUM_OUTPUT_COMMON)
@@ -325,8 +351,16 @@ function(_include_all generated_type)
 endfunction()
 
 function(_main)
+  unset (_placeholders_file_path)
+  if (GLUECODIUM_DOCS_PLACEHOLDERS_FILES OR GLUECODIUM_DOCS_PLACEHOLDERS)
+    _generate_file_with_placeholders("${GLUECODIUM_PLACEHOLDERS_FILE}")
+    set (_placeholders_file_path "${GLUECODIUM_PLACEHOLDERS_FILE}")
+  elseif(NOT EXISTS "${GLUECODIUM_PLACEHOLDERS_FILE}")
+    file (TOUCH "${GLUECODIUM_PLACEHOLDERS_FILE}")
+  endif()
+
   if("${GLUECODIUM_CONFIGURATION_FILE}" IS_NEWER_THAN "${GLUECODIUM_OPTIONS_FILE}")
-    _prepare_gluecodium_config_file("${GLUECODIUM_OPTIONS_FILE}")
+    _prepare_gluecodium_config_file("${GLUECODIUM_OPTIONS_FILE}" "${_placeholders_file_path}")
   endif()
 
   _generate()

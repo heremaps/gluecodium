@@ -1,0 +1,10 @@
+-DLIME_SOURCES=lime/foo.lime
+-DPLACEHOLDER_FILES=placeholders_foo.properties
+-DEXPECTED_dart_FILE_1=foo.dart
+-DEXPECTED_dart_TEXT_1="'A sentence for Dart is nice.'"
+-DEXPECTED_android_FILE_1=Foo.java
+-DEXPECTED_android_TEXT_1="'A sentence for Java is funny.'"
+-DEXPECTED_swift_FILE_1=Foo.swift
+-DEXPECTED_swift_TEXT_1="'A sentence for Swift is good.'"
+-DEXPECTED_cpp_FILE_1=Foo.h
+-DEXPECTED_cpp_TEXT_1="'A sentence for Cpp is the best.'"
