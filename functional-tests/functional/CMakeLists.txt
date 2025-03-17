@@ -189,7 +189,7 @@ feature(Properties cpp android android-kotlin swift dart SOURCES
     input/lime/AttributesInterfaceFactory.lime
 )
 
-feature(Listeners cpp android swift dart SOURCES
+feature(Listeners cpp android android-kotlin swift dart SOURCES
     input/src/cpp/StringListeners.cpp
     input/src/cpp/ListenerRoundtrip.cpp
     input/src/cpp/ListenerRoute.cpp
@@ -215,7 +215,7 @@ feature(ComplexListeners cpp android swift dart SOURCES
     input/lime/ComplexListeners.lime
 )
 
-feature(ListenersWithReturnValues cpp android swift dart SOURCES
+feature(ListenersWithReturnValues cpp android android-kotlin swift dart SOURCES
     input/src/cpp/ListenersReturnValues.cpp
     input/src/cpp/ListenersReturnValues.h
     input/src/cpp/ListenerWithAttributes.cpp
