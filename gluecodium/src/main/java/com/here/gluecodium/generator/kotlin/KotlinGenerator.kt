@@ -103,6 +103,8 @@ internal class KotlinGenerator : Generator {
                 basePackages = basePackages,
             )
 
+        val visibilityResolver = KotlinVisibilityResolver(limeModel.referenceMap)
+
         val importResolver =
             KotlinImportResolver(
                 limeReferenceMap = limeModel.referenceMap,
@@ -117,7 +119,7 @@ internal class KotlinGenerator : Generator {
 
         val resultFiles =
             kotlinFilteredModel.topElements
-                .flatMap { generateKotlinFiles(it, nameResolver, importResolver, importCollector) }
+                .flatMap { generateKotlinFiles(it, nameResolver, visibilityResolver, importResolver, importCollector) }
                 .toMutableList()
 
         val nativeBasePath = (listOf(GENERATOR_NAME) + internalPackageList).joinToString("/")
@@ -183,6 +185,7 @@ internal class KotlinGenerator : Generator {
     private fun generateKotlinFiles(
         limeElement: LimeNamedElement,
         nameResolver: KotlinNameResolver,
+        visibilityResolver: KotlinVisibilityResolver,
         importResolver: KotlinImportResolver,
         importCollector: KotlinImportCollector,
     ): List<GeneratedFile> {
@@ -206,7 +209,7 @@ internal class KotlinGenerator : Generator {
                 "optimizedLists" to optimizedLists,
             )
 
-        val nameResolvers = mapOf("" to nameResolver)
+        val nameResolvers = mapOf("" to nameResolver, "visibility" to visibilityResolver)
 
         val mainContent =
             TemplateEngine.render("kotlin/KotlinFile", templateData, nameResolvers, KotlinGeneratorPredicates.predicates)

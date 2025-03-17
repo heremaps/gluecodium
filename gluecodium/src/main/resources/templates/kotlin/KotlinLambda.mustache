@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-fun interface {{resolveName}} {
+{{resolveName "visibility"}}fun interface {{resolveName}} {
 {{#set isInterface=true noAttributes=true}}{{!!
 }}{{#asFunction}}
 {{prefixPartial "kotlin/KotlinFunction" "    "}}
