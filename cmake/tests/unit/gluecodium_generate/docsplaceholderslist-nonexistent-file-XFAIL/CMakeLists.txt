@@ -38,4 +38,4 @@ gluecodium_target_lime_sources(dummySharedLibrary
                                PRIVATE "${CMAKE_CURRENT_LIST_DIR}/lime/foo.lime")
 
 set_target_properties(dummySharedLibrary
-                      PROPERTIES GLUECODIUM_DOCS_PLACEHOLDERS_LIST "${CMAKE_CURRENT_LIST_DIR}/someNonexistentPlaceholders.properties")
+                      PROPERTIES GLUECODIUM_DOCS_PLACEHOLDERS_FILES "${CMAKE_CURRENT_LIST_DIR}/someNonexistentPlaceholders.properties")

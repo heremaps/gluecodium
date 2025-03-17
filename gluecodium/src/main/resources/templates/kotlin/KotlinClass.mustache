@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if this.isOpen}}open {{/if}}class {{resolveName}} : {{!!
+{{resolveName "visibility"}}{{#if this.isOpen}}open {{/if}}class {{resolveName}} : {{!!
 }}{{#if this.parentClass}}{{resolveName this.parentClass "" "ref"}}{{/if}}{{!!
 }}{{#unless this.parentClass}}NativeBase{{/unless}}{{!!
 }}{{#if this.parentInterfaces}}, {{#this.parentInterfaces}}{{!!
@@ -28,7 +28,7 @@
 {{>kotlin/KotlinContainerContents}}
 
 {{#set classElement=this}}{{#constructors}}
-    constructor({{!!
+    {{resolveName "visibility"}}constructor({{!!
 }}{{#parameters}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/parameters}}){{!!
@@ -88,6 +88,10 @@
 {{/unless}}
 {{/classElement.interfaceInheritedProperties}}
 {{/set}}{{/if}}
+
+{{#eval "optimizedLists" path}}{{#this}}
+{{#elementType}}{{prefixPartial "kotlin/KotlinLazyNativeList" "    "}}{{/elementType}}
+{{/this}}{{/eval}}
 
 {{#ifPredicate "needsCompanionObject"}}
     companion object {
