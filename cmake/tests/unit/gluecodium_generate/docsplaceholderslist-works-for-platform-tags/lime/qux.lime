@@ -17,7 +17,7 @@
 
 package unit.test
 
-// This special sentence: '{@Placeholder special_sentence_foo}'
-class Foo {
+// This special sentence: '{@Placeholder special_sentence_qux}'
+class Qux {
 
 }
