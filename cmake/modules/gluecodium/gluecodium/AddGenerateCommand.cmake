@@ -149,6 +149,12 @@ function(gluecodium_add_generate_command _target)
   endif()
   list(APPEND _generated_files "${_options_file}")
 
+  set (_placeholders_file "${_args_OUTPUT_DIR}/gluecodium-placeholders-${_target}.properties")
+  if(NOT IS_ABSOLUTE "${_placeholders_file}")
+    set(_placeholders_file "${CMAKE_CURRENT_BINARY_DIR}/${_placeholders_file}")
+  endif()
+  list(APPEND _generated_files "${_placeholders_file}")
+
   unset(_configuration_content)
   string(APPEND _configuration_content "set(GLUECODIUM_TARGET_NAME \"${_target}\")\n")
   string(APPEND _configuration_content "set(GLUECODIUM_GENERATORS \"${_args_GENERATORS}\")\n")
@@ -163,6 +169,7 @@ function(gluecodium_add_generate_command _target)
   string(APPEND _configuration_content
          "set(GLUECODIUM_TARGET_BINARY_DIR \"${CMAKE_CURRENT_BINARY_DIR}\")\n")
   string(APPEND _configuration_content "set(GLUECODIUM_OPTIONS_FILE \"${_options_file}\")\n")
+  string(APPEND _configuration_content "set(GLUECODIUM_PLACEHOLDERS_FILE \"${_placeholders_file}\")\n")
 
   get_property(_known_optional_properties GLOBAL PROPERTY GLUECODIUM_KNOWN_OPTIONAL_PROPERTIES)
 
@@ -224,8 +231,8 @@ function(gluecodium_add_generate_command _target)
   file(GENERATE OUTPUT "${_gluecodium_configuration_file}" CONTENT "${_configuration_content}")
   list(APPEND _command_dependencies "${_gluecodium_configuration_file}")
 
-  # Depend on a possible file with placeholders to re-generate sources on changes there 
-  list(APPEND _command_dependencies $<TARGET_PROPERTY:${_target},GLUECODIUM_DOCS_PLACEHOLDERS_LIST>)
+  # Depend on a possible file with placeholders to re-generate sources on changes there
+  list(APPEND _command_dependencies $<TARGET_PROPERTY:${_target},GLUECODIUM_DOCS_PLACEHOLDERS_FILES>)
 
   add_custom_command(
     OUTPUT ${_generated_files}
