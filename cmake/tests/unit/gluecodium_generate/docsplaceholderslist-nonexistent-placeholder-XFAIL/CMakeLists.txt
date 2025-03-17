@@ -26,16 +26,15 @@ find_package(Threads REQUIRED)
 list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
 include(gluecodium/Gluecodium)
 
+include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/assert.cmake)
+include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/check_file_contains_string_after_build.cmake)
 include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/get_supported_gluecodium_generators.cmake)
 
-add_library(dummySharedLibrary SHARED "${CMAKE_CURRENT_LIST_DIR}/cpp/FooImpl.cpp")
+add_library(dummySharedLibrary SHARED "${CMAKE_CURRENT_LIST_DIR}/cpp/dummy.cpp")
 target_link_libraries(dummySharedLibrary PRIVATE Threads::Threads)
 
-get_supported_gluecodium_generators(_gluecodium_generator)
+get_supported_gluecodium_generators(_gluecodium_generators)
+list(SORT _gluecodium_generators)
 
-gluecodium_generate(dummySharedLibrary GENERATORS ${_gluecodium_generator})
-gluecodium_target_lime_sources(dummySharedLibrary
-                               PRIVATE "${CMAKE_CURRENT_LIST_DIR}/lime/foo.lime")
-
-set_target_properties(dummySharedLibrary
-                      PROPERTIES GLUECODIUM_DOCS_PLACEHOLDERS_FILES "${CMAKE_CURRENT_LIST_DIR}/someNonexistentPlaceholders.properties")
+gluecodium_generate(dummySharedLibrary GENERATORS ${_gluecodium_generators})
+gluecodium_target_lime_sources(dummySharedLibrary PRIVATE lime/foo.lime)
