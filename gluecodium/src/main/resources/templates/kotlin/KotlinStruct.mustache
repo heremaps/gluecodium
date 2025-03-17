@@ -140,6 +140,10 @@
 {{/unless}}
 {{/functions}}
 
+{{#eval "optimizedLists" path}}{{#this}}
+{{#elementType}}{{prefixPartial "kotlin/KotlinLazyNativeList" "    "}}{{/elementType}}
+{{/this}}{{/eval}}
+
 {{#ifPredicate "needsCompanionObject"}}
     companion object {
 {{#constants}}{{prefixPartial "kotlin/KotlinConstant" "        "}}
