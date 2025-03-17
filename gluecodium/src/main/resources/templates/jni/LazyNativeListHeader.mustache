@@ -29,7 +29,7 @@ extern "C" {
 #endif
 
 JNIEXPORT void JNICALL {{>lnlSignaturePrefix}}_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef);
-JNIEXPORT jint JNICALL {{>lnlSignaturePrefix}}_getSize(JNIEnv* _jenv, jobject _jinstance);
+JNIEXPORT jint JNICALL {{>lnlSignaturePrefix}}_obtainSize(JNIEnv* _jenv, jobject _jinstance);
 JNIEXPORT jobject JNICALL {{>lnlSignaturePrefix}}_get(JNIEnv* _jenv, jobject _jinstance, jint index);
 
 #ifdef __cplusplus
