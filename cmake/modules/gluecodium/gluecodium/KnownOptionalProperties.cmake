@@ -305,11 +305,22 @@ _gluecodium_define_target_property(
 )
 
 _gluecodium_define_target_property(
-  GLUECODIUM_DOCS_PLACEHOLDERS_LIST
-  BRIEF_DOCS "The path to a file with placeholders list for documentation."
+  GLUECODIUM_DOCS_PLACEHOLDERS_FILES
+  BRIEF_DOCS "The paths to files with placeholders list for documentation."
   FULL_DOCS
-    "The path to a file with placeholders list for documentation."
-    "This property is initialized by the value of the GLUECODIUM_DOCS_PLACEHOLDERS_LIST_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
+    "The paths to files with placeholders list for documentation. Content of listed files is concatenated during the build and content of `GLUECODIUM_DOCS_PLACEHOLDERS` appended to the final file."
+    "This property is initialized by the value of the GLUECODIUM_DOCS_PLACEHOLDERS_FILES_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
+)
+
+_gluecodium_define_target_property(
+  GLUECODIUM_DOCS_PLACEHOLDERS
+  BRIEF_DOCS "The placeholders for documentation."
+  FULL_DOCS
+    "The placeholders for documentation in form `placeholder_name=\\\"Placeholder text\\\"`. "
+    "Pay attention that quotes must be escaped twice because property's value is saved in another cmake file. "
+    "Also some symbols can't be used in text, for example semicolon. "
+    "It's appended to the file with placeholders, see `GLUECODIUM_DOCS_PLACEHOLDERS_FILES`. "
+    "This property is initialized by the value of the GLUECODIUM_DOCS_PLACEHOLDERS_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
 )
 
 # TODO: Add read-only properties

@@ -1,0 +1,18 @@
+-DLIME_SOURCES=lime/baz.lime\;lime/qux.lime
+-DPLACEHOLDER_PROPERTIES=special_sentence_baz=\\\"I say {@Java Java is simple}{@Swift Swift is modern}{@Dart Dart is cool}{@Cpp Cpp is powerful}\\\"\;special_sentence_qux=\\\"Simple text for QUX\\\"
+-DEXPECTED_dart_FILE_1=baz.dart
+-DEXPECTED_dart_TEXT_1="'I say Dart is cool'"
+-DEXPECTED_android_FILE_1=Baz.java
+-DEXPECTED_android_TEXT_1="'I say Java is simple'"
+-DEXPECTED_swift_FILE_1=Baz.swift
+-DEXPECTED_swift_TEXT_1="'I say Swift is modern'"
+-DEXPECTED_cpp_FILE_1=Baz.h
+-DEXPECTED_cpp_TEXT_1="'I say Cpp is powerful'"
+-DEXPECTED_dart_FILE_2=qux.dart
+-DEXPECTED_dart_TEXT_2="'Simple text for QUX'"
+-DEXPECTED_android_FILE_2=Qux.java
+-DEXPECTED_android_TEXT_2="'Simple text for QUX'"
+-DEXPECTED_swift_FILE_2=Qux.swift
+-DEXPECTED_swift_TEXT_2="'Simple text for QUX'"
+-DEXPECTED_cpp_FILE_2=Qux.h
+-DEXPECTED_cpp_TEXT_2="'Simple text for QUX'"

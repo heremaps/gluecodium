@@ -211,7 +211,7 @@ The syntax above instructs Gluecodium to insert the content of placeholder with 
 into the selected place.
 
 The content of placeholders is specified via properties file, which is then supplied when invoking
-generator via `-docsplaceholderslist` CLI parameter or `GLUECODIUM_DOCS_PLACEHOLDERS_LIST` CMake parameter.
+generator via `-docsplaceholderslist` CLI parameter or `GLUECODIUM_DOCS_PLACEHOLDERS_FILES` and `GLUECODIUM_DOCS_PLACEHOLDERS` CMake parameters.
 
 Each placeholder needs to be defined as `<PLACEHOLDER_NAME>="<PLACEHOLDER_VALUE>"`.
 Please notice the usage of quotation - it is required. Moreover, if multiline string needs to be defined then

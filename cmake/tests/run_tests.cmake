@@ -126,7 +126,7 @@ endfunction ()
 
 # This function will be invoked when run in script mode:
 function (base_devel_run_test test_file builddir)
-    cmake_minimum_required (VERSION 3.5)
+    cmake_minimum_required (VERSION 3.10)
 
     if (NOT _TEST_DIR)
         print_output_information (FATAL_ERROR "Cannot run without a test directory!")

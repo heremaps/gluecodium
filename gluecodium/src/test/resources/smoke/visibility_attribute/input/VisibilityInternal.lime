@@ -95,6 +95,16 @@ struct PublicStructWithNonDefaultInternalField {
     publicField: Boolean
 }
 
+struct PublicStructWithInternalConstructors {
+    someVar: Int
+
+    @Internal
+    constructor make()
+
+    @Internal
+    field constructor(someVar)
+}
+
 @Internal
 class InternalClassWithStaticProperty {
     static property fooBar: String

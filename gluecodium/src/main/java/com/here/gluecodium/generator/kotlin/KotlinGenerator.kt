@@ -26,6 +26,7 @@ import com.here.gluecodium.common.LimeModelSkipPredicates
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.GeneratorOptions
+import com.here.gluecodium.generator.common.OptimizedListsCollector
 import com.here.gluecodium.generator.common.nameRuleSetFromConfig
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.generator.cpp.CppNameCache
@@ -102,6 +103,8 @@ internal class KotlinGenerator : Generator {
                 basePackages = basePackages,
             )
 
+        val visibilityResolver = KotlinVisibilityResolver(limeModel.referenceMap)
+
         val importResolver =
             KotlinImportResolver(
                 limeReferenceMap = limeModel.referenceMap,
@@ -116,7 +119,7 @@ internal class KotlinGenerator : Generator {
 
         val resultFiles =
             kotlinFilteredModel.topElements
-                .flatMap { generateKotlinFiles(it, nameResolver, importResolver, importCollector) }
+                .flatMap { generateKotlinFiles(it, nameResolver, visibilityResolver, importResolver, importCollector) }
                 .toMutableList()
 
         val nativeBasePath = (listOf(GENERATOR_NAME) + internalPackageList).joinToString("/")
@@ -126,7 +129,12 @@ internal class KotlinGenerator : Generator {
                 "$nativeBasePath/NativeBase.kt",
                 GeneratedFile.SourceSet.COMMON,
             )
-
+        resultFiles +=
+            GeneratedFile(
+                TemplateEngine.render("kotlin/KotlinAbstractNativeList", internalPackageList),
+                "$nativeBasePath/AbstractNativeList.kt",
+                GeneratedFile.SourceSet.COMMON,
+            )
         resultFiles +=
             GeneratedFile(
                 TemplateEngine.render("kotlin/KotlinDuration", internalPackageList),
@@ -177,6 +185,7 @@ internal class KotlinGenerator : Generator {
     private fun generateKotlinFiles(
         limeElement: LimeNamedElement,
         nameResolver: KotlinNameResolver,
+        visibilityResolver: KotlinVisibilityResolver,
         importResolver: KotlinImportResolver,
         importCollector: KotlinImportCollector,
     ): List<GeneratedFile> {
@@ -189,6 +198,7 @@ internal class KotlinGenerator : Generator {
         val contentTemplateName = selectTemplate(limeElement)
         val packages = (basePackages + limeElement.path.head).map { KotlinNameResolver.normalizePackageName(it) }
         val imports = importCollector.collectImports(limeElement).filterNot { KotlinNameRules.getPackageFromImportString(it) == packages }
+        val optimizedLists = OptimizedListsCollector().getAllOptimizedLists(limeElement)
 
         val templateData =
             mutableMapOf(
@@ -196,9 +206,10 @@ internal class KotlinGenerator : Generator {
                 "contentTemplate" to contentTemplateName,
                 "package" to packages,
                 "imports" to imports.distinct().sorted(),
+                "optimizedLists" to optimizedLists,
             )
 
-        val nameResolvers = mapOf("" to nameResolver)
+        val nameResolvers = mapOf("" to nameResolver, "visibility" to visibilityResolver)
 
         val mainContent =
             TemplateEngine.render("kotlin/KotlinFile", templateData, nameResolvers, KotlinGeneratorPredicates.predicates)
