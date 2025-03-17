@@ -91,7 +91,7 @@ feature(MethodOverloading cpp android android-kotlin swift dart SOURCES
     input/lime/InheritanceOverloads.lime
 )
 
-feature(Blob cpp android swift dart SOURCES
+feature(Blob cpp android android-kotlin swift dart SOURCES
     input/src/cpp/Blobs.cpp
     input/src/cpp/StaticByteArrayMethods.cpp
 
@@ -159,7 +159,7 @@ feature(FieldConstructors cpp android android-kotlin swift dart SOURCES
     input/lime/FieldConstructorsNesting.lime
 )
 
-feature(TypeDefs cpp android swift dart SOURCES
+feature(TypeDefs cpp android android-kotlin swift dart SOURCES
     input/src/cpp/StaticTypedef.cpp
 
     input/lime/StaticTypedef.lime
@@ -247,7 +247,7 @@ feature(GenericTypes cpp android android-kotlin swift dart SOURCES
     input/lime/OptimizedList.lime
 )
 
-feature(Errors cpp android swift dart SOURCES
+feature(Errors cpp android android-kotlin swift dart SOURCES
     input/src/cpp/Errors.cpp
     input/src/cpp/ErrorsInInterface.cpp
     input/src/cpp/ErrorsInInterface.h
@@ -455,7 +455,7 @@ feature(Lambdas cpp android android-kotlin swift dart SOURCES
     input/src/cpp/Lambdas.cpp
 )
 
-feature(Visibility android swift dart SOURCES
+feature(Visibility android android-kotlin swift dart SOURCES
     input/lime/VisibilityAttribute.lime
     input/lime/VisibilityInternal.lime
     input/lime/VisibilityPlatform.lime
@@ -550,7 +550,7 @@ set_target_properties(functional_bindings PROPERTIES
     GLUECODIUM_DART_LIBRARY_NAME "functional"
     GLUECODIUM_DART_NAMERULES "${CMAKE_CURRENT_SOURCE_DIR}/../config/dart.properties"
     GLUECODIUM_COPYRIGHT_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/../config/COPYRIGHT"
-    GLUECODIUM_DOCS_PLACEHOLDERS_LIST "${CMAKE_CURRENT_SOURCE_DIR}/../config/placeholders.properties"
+    GLUECODIUM_DOCS_PLACEHOLDERS_FILES "${CMAKE_CURRENT_SOURCE_DIR}/../config/placeholders.properties"
     GLUECODIUM_TAGS "Lite,ExperimentalFoo"
     GLUECODIUM_VERBOSE ON)
 

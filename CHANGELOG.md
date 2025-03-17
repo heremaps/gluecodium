@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features
+ * Several placeholder files can be specified with CMake property `GLUECODIUM_DOCS_PLACEHOLDERS_LIST` or placeholders can be directly specified in CMake property `GLUECODIUM_DOCS_PLACEHOLDERS`.
+
 ## 13.11.0
 Release date 2025-03-03
 ### Features:

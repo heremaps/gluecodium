@@ -59,4 +59,18 @@ class MethodOverloadsTest {
     fun isBooleanWithIntArray() {
         assertFalse(MethodOverloads.isBooleanIntArrayOverload(mutableListOf(42.toByte(), 255.toByte())))
     }
+
+    @org.junit.Test
+    fun constructorDoesNotThrow() {
+        val result: ThrowingConstructor = ThrowingConstructor(0.0)
+    }
+
+    @org.junit.Test
+    fun constructorThrows() {
+        val exception = assertThrows(ThrowingConstructor.SomeException::class.java) {
+            val result: ThrowingConstructor = ThrowingConstructor(1.0)
+        }
+
+        assertEquals(exception.error, ThrowingConstructor.ErrorEnum.CRASHED)
+    }
 }
