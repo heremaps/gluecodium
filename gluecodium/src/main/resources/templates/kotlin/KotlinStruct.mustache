@@ -18,14 +18,16 @@
   ! License-Filename: LICENSE
   !
   !}}
-class {{resolveName}}{{!!
+{{#unless external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
+}}class {{resolveName}}{{!!
 }}{{#unless external.kotlin.name}}{{!!
 }}{{#if attributes.serializable}} : Parcelable{{/if}}{{!!
 }}{{/unless}} {
 {{#set isImmutable=attributes.immutable}}
 {{#fields}}{{!!
-}}{{#unless isImmutable}}    var {{/unless}}{{!!
-}}{{#if isImmutable}}    val {{/if}}{{!!
+}}    {{resolveName "visibility"}}{{!!
+}}{{#unless isImmutable}}var {{/unless}}{{!!
+}}{{#if isImmutable}}val {{/if}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{!!
 }}
 {{/fields}}
@@ -36,8 +38,10 @@ class {{resolveName}}{{!!
 {{!!
     1. If user explicitly specified constructors via 'constructor' keyword, then define them.
 }}
+{{#set self=this}}
 {{#constructors}}
-    constructor({{!!
+    {{#unless self.external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
+}}constructor({{!!
 }}{{#parameters}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/parameters}}) {
@@ -46,6 +50,7 @@ class {{resolveName}}{{!!
 {{/fields}}
     }
 {{/constructors}}
+{{/set}}
 
 {{#if fields}}{{!!
 }}{{#unless constructors}}{{!!
@@ -60,7 +65,9 @@ class {{resolveName}}{{!!
        **Note**: this constructor will not be generated if PositionalDefaults is specified for a given structure,
                  because the constructor generated for positional defaults covers this case.
 }}
-    constructor({{!!
+    {{#ifPredicate "hasInternalFreeArgsConstructor"}}{{!!
+}}internal {{!!
+}}{{/ifPredicate}}constructor({{!!
 }}{{#uninitializedFields}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/uninitializedFields}}) {
@@ -76,7 +83,9 @@ class {{resolveName}}{{!!
     3. If user did not specify any constructors, field constructor and fields with default values, then
        define a constructor, which allows setting all fields.
 }}
-    constructor({{!!
+    {{#ifPredicate "hasInternalAllArgsConstructor"}}{{!!
+}}internal {{!!
+}}{{/ifPredicate}}constructor({{!!
 }}{{#fields}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/fields}}) {
@@ -87,8 +96,9 @@ class {{resolveName}}{{!!
 }}{{/unless}}{{!!
 
     4. Generate field constructors specified by the user.
-}}{{#fieldConstructors}}
-    constructor({{!!
+}}{{#set self=this}}{{#fieldConstructors}}
+    {{#unless self.external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
+}}constructor({{!!
 }}{{#fields}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/fields}}) {
@@ -97,12 +107,13 @@ class {{resolveName}}{{!!
 {{#omittedFields}}        this.{{resolveName}} = {{resolveName defaultValue}}
 {{/omittedFields}}
     }
-{{/fieldConstructors}}{{!!
+{{/fieldConstructors}}{{/set}}{{!!
 
     5. Generate positional defaults constructor if it is specified and there are no field constructors.
 }}{{#unless fieldConstructors}}{{!!
 }}{{#if attributes.kotlin.positionalDefaults}}
-    constructor({{!!
+    {{#unless external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
+}}constructor({{!!
 }}{{#uninitializedFields}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}, {{!!
 }}{{/uninitializedFields}}{{!!
@@ -128,6 +139,10 @@ class {{resolveName}}{{!!
 {{prefixPartial "kotlin/KotlinFunction" "    "}}
 {{/unless}}
 {{/functions}}
+
+{{#eval "optimizedLists" path}}{{#this}}
+{{#elementType}}{{prefixPartial "kotlin/KotlinLazyNativeList" "    "}}{{/elementType}}
+{{/this}}{{/eval}}
 
 {{#ifPredicate "needsCompanionObject"}}
     companion object {

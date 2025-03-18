@@ -39,7 +39,7 @@ JNIEXPORT void JNICALL
 }
 
 JNIEXPORT jint JNICALL
-{{>lnlSignaturePrefix}}_getSize(JNIEnv* _jenv, jobject _jinstance) {
+{{>lnlSignaturePrefix}}_obtainSize(JNIEnv* _jenv, jobject _jinstance) {
     auto handle = {{>getNativeHandle}};
     auto& vector = *reinterpret_cast<std::shared_ptr<{{resolveName listType "C++"}}>*>(handle);
     return vector->size();

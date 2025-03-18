@@ -20,6 +20,7 @@
 package com.here.gluecodium.generator.kotlin
 
 import com.here.gluecodium.generator.common.ImportsResolver
+import com.here.gluecodium.model.lime.LimeAttributeType.OPTIMIZED
 import com.here.gluecodium.model.lime.LimeAttributeType.SERIALIZABLE
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
@@ -52,6 +53,7 @@ internal class KotlinImportResolver(
 ) : ImportsResolver<String> {
     val nativeBaseImport = (internalPackage + listOf("NativeBase")).joinToString(".")
     private val durationImport = (internalPackage + listOf("time", "Duration")).joinToString(".")
+    private val abstractNativeListImport = (internalPackage + listOf("AbstractNativeList")).joinToString(".")
 
     override fun resolveElementImports(limeElement: LimeElement): List<String> =
         when (limeElement) {
@@ -117,7 +119,10 @@ internal class KotlinImportResolver(
         return when {
             limeType.external?.kotlin != null -> emptyList()
             limeType is LimeBasicType -> listOfNotNull(resolveBasicTypeImport(limeType.typeId))
-            limeType is LimeList -> resolveTypeRefImports(limeType.elementType)
+            limeType is LimeList -> (
+                resolveTypeRefImports(limeType.elementType) +
+                    (if (limeTypeRef.attributes.have(OPTIMIZED)) listOf(abstractNativeListImport) else emptyList())
+            )
             limeType is LimeSet -> resolveTypeRefImports(limeType.elementType)
             limeType is LimeMap -> resolveTypeRefImports(limeType.keyType) + resolveTypeRefImports(limeType.valueType)
             else -> listOfNotNull(createTopElementImport(limeType))
