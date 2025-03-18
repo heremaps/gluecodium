@@ -395,7 +395,7 @@ feature(Durations cpp android android-kotlin swift dart SOURCES
     input/lime/DurationDefaults.lime
 )
 
-feature(StructsWithCompanion cpp android swift dart SOURCES
+feature(StructsWithCompanion cpp android android-kotlin swift dart SOURCES
     input/src/cpp/StructsWithMethods.cpp
     input/src/cpp/StructsWithConstants.cpp
 
