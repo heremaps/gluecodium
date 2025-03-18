@@ -159,7 +159,7 @@ feature(FieldConstructors cpp android android-kotlin swift dart SOURCES
     input/lime/FieldConstructorsNesting.lime
 )
 
-feature(TypeDefs cpp android swift dart SOURCES
+feature(TypeDefs cpp android android-kotlin swift dart SOURCES
     input/src/cpp/StaticTypedef.cpp
 
     input/lime/StaticTypedef.lime
@@ -189,7 +189,7 @@ feature(Properties cpp android android-kotlin swift dart SOURCES
     input/lime/AttributesInterfaceFactory.lime
 )
 
-feature(Listeners cpp android swift dart SOURCES
+feature(Listeners cpp android android-kotlin swift dart SOURCES
     input/src/cpp/StringListeners.cpp
     input/src/cpp/ListenerRoundtrip.cpp
     input/src/cpp/ListenerRoute.cpp
@@ -215,7 +215,7 @@ feature(ComplexListeners cpp android swift dart SOURCES
     input/lime/ComplexListeners.lime
 )
 
-feature(ListenersWithReturnValues cpp android swift dart SOURCES
+feature(ListenersWithReturnValues cpp android android-kotlin swift dart SOURCES
     input/src/cpp/ListenersReturnValues.cpp
     input/src/cpp/ListenersReturnValues.h
     input/src/cpp/ListenerWithAttributes.cpp
@@ -299,7 +299,7 @@ feature(Serialization android android-kotlin swift SOURCES
     input/lime/Serialization.lime
 )
 
-feature(CircularDependencies cpp android swift dart SOURCES
+feature(CircularDependencies cpp android android-kotlin swift dart SOURCES
     input/lime/Circular.lime
 )
 
@@ -342,14 +342,14 @@ feature(DartExternalTypes dart SOURCES
     input/lime/DartExternalTypes.lime
 )
 
-feature(UnderscorePackage cpp android swift dart SOURCES
+feature(UnderscorePackage cpp android android-kotlin swift dart SOURCES
     input/src/cpp/UseUnderscorePackage.cpp
 
     input/lime/UnderscorePackage.lime
     input/lime/UseUnderscorePackage.lime
 )
 
-feature(Constants cpp android swift dart SOURCES
+feature(Constants cpp android android-kotlin swift dart SOURCES
     input/src/cpp/Constants.cpp
 
     input/lime/Constants.lime
@@ -395,7 +395,7 @@ feature(Durations cpp android android-kotlin swift dart SOURCES
     input/lime/DurationDefaults.lime
 )
 
-feature(StructsWithCompanion cpp android swift dart SOURCES
+feature(StructsWithCompanion cpp android android-kotlin swift dart SOURCES
     input/src/cpp/StructsWithMethods.cpp
     input/src/cpp/StructsWithConstants.cpp
 
@@ -423,7 +423,7 @@ feature(PlatformNames cpp android swift dart SOURCES
     input/lime/PlatformNames.lime
 )
 
-feature(EscapedNames cpp android swift dart SOURCES
+feature(EscapedNames cpp android android-kotlin swift dart SOURCES
     input/lime/KeywordNames.lime
 )
 
@@ -455,7 +455,7 @@ feature(Lambdas cpp android android-kotlin swift dart SOURCES
     input/src/cpp/Lambdas.cpp
 )
 
-feature(Visibility android swift dart SOURCES
+feature(Visibility android android-kotlin swift dart SOURCES
     input/lime/VisibilityAttribute.lime
     input/lime/VisibilityInternal.lime
     input/lime/VisibilityPlatform.lime
@@ -481,7 +481,7 @@ feature(SkipAttribute cpp android android-kotlin swift dart SOURCES
     input/src/cpp/EnableIfEnabled.cpp
 )
 
-feature(CppConst cpp android swift dart SOURCES
+feature(CppConst cpp android android-kotlin swift dart SOURCES
     input/lime/CppConstMethods.lime
 
     input/src/cpp/CppConstMethods.cpp
@@ -550,7 +550,7 @@ set_target_properties(functional_bindings PROPERTIES
     GLUECODIUM_DART_LIBRARY_NAME "functional"
     GLUECODIUM_DART_NAMERULES "${CMAKE_CURRENT_SOURCE_DIR}/../config/dart.properties"
     GLUECODIUM_COPYRIGHT_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/../config/COPYRIGHT"
-    GLUECODIUM_DOCS_PLACEHOLDERS_LIST "${CMAKE_CURRENT_SOURCE_DIR}/../config/placeholders.properties"
+    GLUECODIUM_DOCS_PLACEHOLDERS_FILES "${CMAKE_CURRENT_SOURCE_DIR}/../config/placeholders.properties"
     GLUECODIUM_TAGS "Lite,ExperimentalFoo"
     GLUECODIUM_VERBOSE ON)
 

@@ -104,7 +104,7 @@ CachedJavaClassBase::~CachedJavaClassBase() = default;
 void
 CachedJavaClassBase::do_init(JNIEnv* env)
 {
-#if defined(DEBUG) && defined(GLUECODIUM_SYNCHRONIZE_ACCESS_CLASS_CACHE)
+#if defined(GLUECODIUM_ENABLE_INTERNAL_DEBUG_CHECKS) && defined(GLUECODIUM_SYNCHRONIZE_ACCESS_CLASS_CACHE)
     std::mutex& map_mutex = get_mutex_instance_class_map();
     if (!map_mutex.try_lock())
     {

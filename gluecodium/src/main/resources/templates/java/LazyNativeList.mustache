@@ -35,7 +35,7 @@ private final static class {{resolveName}}LazyNativeList extends AbstractNativeL
     private static native void disposeNativeHandle(long nativeHandle);
 
     @Override
-    protected native int getSize();
+    protected native int obtainSize();
 
     @Override
     public native {{resolveName}} get(int index);
