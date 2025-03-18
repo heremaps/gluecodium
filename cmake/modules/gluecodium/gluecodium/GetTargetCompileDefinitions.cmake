@@ -46,6 +46,23 @@ The general form of the command is::
 
 #]===================================================================================================]
 
+# Make a generator expression which should check state of property
+# GLUECODIUM_ENABLE_INTERNAL_DEBUG_CHECKS on the given target.
+# Definition `-DGLUECODIUM_ENABLE_INTERNAL_DEBUG_CHECKS` should be added to the target in the following cases:
+# - Target property `GLUECODIUM_ENABLE_INTERNAL_DEBUG_CHECKS` is set to ON
+# - Target property `GLUECODIUM_ENABLE_INTERNAL_DEBUG_CHECKS` is not set and build is debug.
+# - Target property `GLUECODIUM_ENABLE_INTERNAL_DEBUG_CHECKS` is not set, but
+#   `GLUECODIUM_ENABLE_INTERNAL_DEBUG_CHECKS_DEFAULT` is set to ON before calling to `gluecodium_add_generate_command`.
+#
+# Note: the last condition implicitly works and doesn't require additional generator expression statements.
+function(_gluecodium_enable_internal_debug_check_genex result _target)
+  set(_read_property "$<TARGET_PROPERTY:${_target},GLUECODIUM_ENABLE_INTERNAL_DEBUG_CHECKS>")
+  set(_debug_and_property_not_exists "$<AND:$<CONFIG:Debug>,$<STREQUAL:${_read_property},>>")
+  set(_debug_and_property_not_exists_or_value "$<OR:${_debug_and_property_not_exists},$<BOOL:${_read_property}>>")
+  set(${result} ${_debug_and_property_not_exists_or_value} PARENT_SCOPE)
+endfunction()
+
+
 function(gluecodium_get_target_compile_definitions _target)
   set(_single_args RESULT_PUBLIC RESULT_PRIVATE)
   cmake_parse_arguments(_args "" "${_single_args}" "" ${ARGN})
@@ -68,11 +85,11 @@ function(gluecodium_get_target_compile_definitions _target)
 
     if("COMMON" IN_LIST _source_sets)
       set(_sync_cache_property "$<TARGET_PROPERTY:${_target},GLUECODIUM_SYNCHRONIZE_ACCESS_CLASS_CACHE>")
-      set(_enable_internal_debug_check "$<TARGET_PROPERTY:${_target},GLUECODIUM_ENABLE_INTERNAL_DEBUG_CHECKS>")
+      _gluecodium_enable_internal_debug_check_genex(_enable_internal_debug_check ${_target})
       list(APPEND _public $<$<NOT:$<STREQUAL:${_common},${_main}>>:${_common}_SHARED>)
       list(APPEND _private $<$<NOT:$<STREQUAL:${_common},${_main}>>:${_common}_INTERNAL>
                            $<$<BOOL:${_sync_cache_property}>:GLUECODIUM_SYNCHRONIZE_ACCESS_CLASS_CACHE>
-                           $<$<BOOL:${_enable_internal_debug_check}>:GLUECODIUM_ENABLE_INTERNAL_DEBUG_CHECKS>)
+                           $<${_enable_internal_debug_check}:GLUECODIUM_ENABLE_INTERNAL_DEBUG_CHECKS>)
     endif()
 
     if(_args_RESULT_PUBLIC)

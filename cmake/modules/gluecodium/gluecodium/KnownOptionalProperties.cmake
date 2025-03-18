@@ -301,6 +301,7 @@ _gluecodium_define_target_property(
   BRIEF_DOCS "Option to enable internal debug checks."
   FULL_DOCS
     "Enables additional debug checks in C++ code. For instance validation of JNI references handling."
+    "If property is not set then debug checks are enabled only in debug builds."
     "This property is initialized by the value of the GLUECODIUM_ENABLE_INTERNAL_DEBUG_CHECKS_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
 )
 
