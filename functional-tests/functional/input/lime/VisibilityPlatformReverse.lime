@@ -20,6 +20,9 @@ package test
 @Internal(Java)
 class JavaInternalClassRev {}
 
+@Internal(Kotlin)
+class KotlinInternalClassRev {}
+
 @Internal(Swift)
 class SwiftInternalClassRev {}
 
