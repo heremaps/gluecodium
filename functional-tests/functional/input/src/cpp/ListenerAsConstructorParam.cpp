@@ -28,17 +28,17 @@
 
 namespace test {
 
-class ThermometerImpl : public ::test::Thermometer, public std::enable_shared_from_this<ThermometerImpl> {
+class ThermometerImpl : public ::test::Thermometer {
 public:
     explicit ThermometerImpl(const ::std::chrono::seconds interval, const ::std::vector<::std::shared_ptr<::test::TemperatureObserver>>& observers)
         : m_interval{interval}, m_observers{observers}, m_temperatureInCelsius{0.0}
     {}
 
-    ~ThermometerImpl() override = default;
+    explicit ThermometerImpl(const ::std::vector<::std::shared_ptr<::test::TemperatureObserver>>& observers)
+            : m_interval{::std::chrono::seconds{1}}, m_observers{observers}, m_temperatureInCelsius{0.0}
+    {}
 
-    void force_update() override {
-        m_temperatureInCelsius = m_temperatureDistribution(m_mersenne_twister);
-    }
+    ~ThermometerImpl() override = default;
 
     double get_celsius() override {
         return m_temperatureInCelsius;
@@ -52,10 +52,8 @@ public:
         return (m_temperatureInCelsius * 9 / 5) + 32;
     }
 
-    void notify_observers() {
-        for (auto& observer: m_observers) {
-            observer->on_temperature_update(shared_from_this());
-        }
+    void force_update() override {
+        m_temperatureInCelsius = m_temperatureDistribution(m_mersenne_twister);
     }
 
 private:
@@ -69,15 +67,32 @@ private:
     std::uniform_real_distribution<double> m_temperatureDistribution{-15.0, 30.0};
 };
 
-::std::shared_ptr<::test::Thermometer> Thermometer::make(
+void Thermometer::notify_observers(
+    const ::std::shared_ptr< ::test::Thermometer >& self,
+    const std::vector<::std::shared_ptr<::test::TemperatureObserver>>& observers
+) {
+    for (auto& observer: observers) {
+        observer->on_temperature_update(self);
+    }
+}
+
+::std::shared_ptr<::test::Thermometer> Thermometer::make_with_duration(
     const ::std::chrono::seconds interval,
     const ::std::vector<::std::shared_ptr<::test::TemperatureObserver>>& observers
 ) {
-    auto thermometer = std::make_shared<ThermometerImpl>(interval, observers);
-    thermometer->force_update();
-    thermometer->notify_observers();
+    auto self = std::make_shared<ThermometerImpl>(interval, observers);
+    self->force_update();
 
-    return thermometer;
+    return self;
+}
+
+::std::shared_ptr<::test::Thermometer> Thermometer::make_without_duration(
+    const ::std::vector<::std::shared_ptr<::test::TemperatureObserver>>& observers
+) {
+    auto self = std::make_shared<ThermometerImpl>(observers);
+    self->force_update();
+
+    return self;
 }
 
 } // namespace test

@@ -53,7 +53,7 @@ public class ListenerAsConstructorParamTest {
   }
 
   @Test
-  public void celsiusObserverIsUpdatedFromConstructor() {
+  public void celsiusObserverIsUpdatedFromConstructorWhenAfterConstructedAttributeUsed() {
     // Given temperature observer, which receives updates about temperature.
     CelsiusObserver observer = new CelsiusObserver();
 
@@ -67,5 +67,12 @@ public class ListenerAsConstructorParamTest {
     double delta = 0.00000001;
     assertEquals(observer.getUpdatesCount(), 1);
     assertEquals(observer.getLastCelsius(), thermometer.getCelsius(), delta);
+
+    // When creating another observed subject.
+    Thermometer anotherThermometer = new Thermometer(observers);
+
+    // Then subject informed about its state during creation.
+    assertEquals(observer.getUpdatesCount(), 2);
+    assertEquals(observer.getLastCelsius(), anotherThermometer.getCelsius(), delta);
   }
 }
