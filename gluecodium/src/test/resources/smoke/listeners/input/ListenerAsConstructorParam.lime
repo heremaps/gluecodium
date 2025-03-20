@@ -20,6 +20,7 @@ package smoke
 // A class, which reads temperature and updates observers according to the given interval.
 // "Subject" in observer design pattern.
 class Thermometer {
+    @AfterConstruction("someMethod(observers, this)")
     constructor make(interval: Duration, observers: List<TemperatureObserver>)
 
     fun forceUpdate()

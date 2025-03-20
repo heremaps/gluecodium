@@ -30,6 +30,9 @@ import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeComment
+import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeLazyTypeRef
+import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimeTypeRef
 import com.here.gluecodium.model.lime.LimeValue
@@ -44,6 +47,14 @@ internal object AntlrLimeConverter {
         annotations: List<LimeParser.AnnotationContext>,
         parentAttributes: LimeAttributes? = null,
     ): LimeAttributes {
+        return convertAnnotationsToBuilder(limePath, annotations, parentAttributes).build()
+    }
+
+    private fun convertAnnotationsToBuilder(
+        limePath: LimePath,
+        annotations: List<LimeParser.AnnotationContext>,
+        parentAttributes: LimeAttributes? = null,
+    ): LimeAttributes.Builder {
         val attributes = LimeAttributes.Builder()
         annotations.forEach { convertAnnotation(it, attributes, limePath) }
 
@@ -51,7 +62,83 @@ internal object AntlrLimeConverter {
             propagateParentAttributes(parentAttributes, attributes)
         }
 
+        return attributes
+    }
+
+    fun convertAnnotationsForConstructor(
+        limePath: LimePath,
+        annotations: List<LimeParser.AnnotationContext>,
+        classTypeRef: LimeLazyTypeRef,
+        parameters: List<LimeParameter>,
+    ): LimeAttributes {
+        val attributes = convertAnnotationsToBuilder(limePath, annotations)
+        if (attributes.have(LimeAttributeType.AFTER_CONSTRUCTION)) {
+            val rawString = attributes.get(LimeAttributeType.AFTER_CONSTRUCTION, LimeAttributeValueType.FUNCTION) as String
+            val limeFunction = createAfterConstructionFunction(rawString, limePath, classTypeRef, parameters)
+            attributes.overwriteAttribute(
+                LimeAttributeType.AFTER_CONSTRUCTION,
+                LimeAttributeValueType.FUNCTION,
+                limeFunction,
+            )
+        }
+
         return attributes.build()
+    }
+
+    private fun createAfterConstructionFunction(
+        raw: String,
+        path: LimePath,
+        classTypeRef: LimeLazyTypeRef,
+        constructorParams: List<LimeParameter>,
+    ): LimeFunction {
+        val functionName = extractFunctionName(raw)
+        val afterConstructionFunPath = path.parent.child(functionName)
+        val params = extractFunctionParameters(raw, afterConstructionFunPath, classTypeRef, constructorParams)
+        return LimeFunction(
+            path = afterConstructionFunPath,
+            parameters = params,
+            isStatic = true,
+        )
+    }
+
+    private fun extractFunctionName(raw: String): String {
+        val parenId = raw.indexOf('(')
+        if (parenId == -1) {
+            throw LimeLoadingException("'@AfterConstruction()' annotation missing open bracket for function call")
+        }
+
+        return raw.substring(0, parenId)
+    }
+
+    private fun extractFunctionParameters(
+        raw: String,
+        funPath: LimePath,
+        classTypeRef: LimeLazyTypeRef,
+        constructorParams: List<LimeParameter>,
+    ): List<LimeParameter> {
+        val openParenId = raw.indexOf('(')
+        val closeParenId = raw.lastIndexOf(')')
+        if (openParenId == -1 || closeParenId == -1 || closeParenId < openParenId) {
+            throw LimeLoadingException("'@AfterConstruction()' annotation used without function call")
+        }
+
+        val paramsString = raw.substring(openParenId + 1, closeParenId)
+        val names = paramsString.split(",").map { it.trim() }
+
+        return names.mapNotNull { name ->
+            if (name.isEmpty()) {
+                null
+            } else if (name == "this") {
+                LimeParameter(path = funPath.child(name), typeRef = classTypeRef)
+            } else {
+                val parameter = constructorParams.find { it.name == name }
+                if (parameter == null) {
+                    throw LimeLoadingException("'@AfterConstruction()': param that does not belong to constructor used: $name")
+                } else {
+                    LimeParameter(path = funPath.child(name), typeRef = parameter.typeRef)
+                }
+            }
+        }
     }
 
     private fun propagateParentAttributes(
@@ -133,6 +220,12 @@ internal object AntlrLimeConverter {
                             limePath.child("@deprecated"),
                         ).description
                     }
+                    attributeType == LimeAttributeType.AFTER_CONSTRUCTION -> {
+                        val stringValue =
+                            rawValue as? String
+                                ?: throw LimeLoadingException("Unsupported attribute value: '$rawValue'")
+                        stringValue
+                    }
                     rawValue is String -> makeSafeString(rawValue)
                     else -> rawValue
                 }
@@ -200,6 +293,7 @@ internal object AntlrLimeConverter {
 
     private fun convertAnnotationType(ctx: LimeParser.AnnotationContext) =
         when (val id = ctx.simpleId().text) {
+            "AfterConstruction" -> LimeAttributeType.AFTER_CONSTRUCTION
             "Async" -> LimeAttributeType.ASYNC
             "Cached" -> LimeAttributeType.CACHED
             "Cpp" -> LimeAttributeType.CPP
