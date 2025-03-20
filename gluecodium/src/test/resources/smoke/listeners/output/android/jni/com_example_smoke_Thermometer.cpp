@@ -16,7 +16,7 @@
 extern "C" {
 
 jlong
-Java_com_example_smoke_Thermometer_make(JNIEnv* _jenv, jobject _jinstance, jobject jinterval, jobject jobservers)
+Java_com_example_smoke_Thermometer_makeWithDuration(JNIEnv* _jenv, jobject _jinstance, jobject jinterval, jobject jobservers)
 
 {
 
@@ -36,7 +36,7 @@ Java_com_example_smoke_Thermometer_make(JNIEnv* _jenv, jobject _jinstance, jobje
 
 
 
-    auto _result = ::smoke::Thermometer::make(interval,observers);
+    auto _result = ::smoke::Thermometer::make_with_duration(interval,observers);
 
     auto nSharedPtr = new (::std::nothrow) ::std::shared_ptr< ::smoke::Thermometer >(_result);
     if (nSharedPtr == nullptr)
@@ -45,6 +45,57 @@ Java_com_example_smoke_Thermometer_make(JNIEnv* _jenv, jobject _jinstance, jobje
         return 0;
     }
     return reinterpret_cast<jlong>(nSharedPtr);
+}
+
+jlong
+Java_com_example_smoke_Thermometer_makeWithoutDuration(JNIEnv* _jenv, jobject _jinstance, jobject jobservers)
+
+{
+
+
+
+    ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > > observers = ::gluecodium::jni::convert_from_jni(_jenv,
+            ::gluecodium::jni::make_non_releasing_ref(jobservers),
+            ::gluecodium::jni::TypeId<::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >>{});
+
+
+
+
+
+    auto _result = ::smoke::Thermometer::make_without_duration(observers);
+
+    auto nSharedPtr = new (::std::nothrow) ::std::shared_ptr< ::smoke::Thermometer >(_result);
+    if (nSharedPtr == nullptr)
+    {
+        ::gluecodium::jni::throw_new_out_of_memory_exception(_jenv);;
+        return 0;
+    }
+    return reinterpret_cast<jlong>(nSharedPtr);
+}
+
+void
+Java_com_example_smoke_Thermometer_notifyObservers(JNIEnv* _jenv, jobject _jinstance, jobject jself, jobject jobservers)
+
+{
+
+
+
+    ::std::shared_ptr< ::smoke::Thermometer > self = ::gluecodium::jni::convert_from_jni(_jenv,
+            ::gluecodium::jni::make_non_releasing_ref(jself),
+            ::gluecodium::jni::TypeId<::std::shared_ptr< ::smoke::Thermometer >>{});
+
+
+
+    ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > > observers = ::gluecodium::jni::convert_from_jni(_jenv,
+            ::gluecodium::jni::make_non_releasing_ref(jobservers),
+            ::gluecodium::jni::TypeId<::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >>{});
+
+
+
+
+
+    ::smoke::Thermometer::notify_observers(self,observers);
+
 }
 
 void

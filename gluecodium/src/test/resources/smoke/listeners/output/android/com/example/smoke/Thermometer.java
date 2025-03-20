@@ -18,8 +18,16 @@ public final class Thermometer extends NativeBase {
 
 
     public Thermometer(@NonNull final Duration interval, @NonNull final List<TemperatureObserver> observers) {
-        this(make(interval, observers), (Object)null);
+        this(makeWithDuration(interval, observers), (Object)null);
         cacheThisInstance();
+        notifyObservers(this, observers);
+    }
+
+
+    public Thermometer(@NonNull final List<TemperatureObserver> observers) {
+        this(makeWithoutDuration(observers), (Object)null);
+        cacheThisInstance();
+        notifyObservers(this, observers);
     }
 
     /**
@@ -41,7 +49,12 @@ public final class Thermometer extends NativeBase {
     private native void cacheThisInstance();
 
 
-    private static native long make(@NonNull final Duration interval, @NonNull final List<TemperatureObserver> observers);
+    private static native long makeWithDuration(@NonNull final Duration interval, @NonNull final List<TemperatureObserver> observers);
+
+    private static native long makeWithoutDuration(@NonNull final List<TemperatureObserver> observers);
+
+
+    static native void notifyObservers(@NonNull final Thermometer self, @NonNull final List<TemperatureObserver> observers);
 
 
     public native void forceUpdate();

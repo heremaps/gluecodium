@@ -40,7 +40,19 @@ public:
      * \param[in] observers
      * \return @NotNull
      */
-    static ::std::shared_ptr< ::smoke::Thermometer > make( const ::std::chrono::seconds interval, const ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >& observers );
+    static ::std::shared_ptr< ::smoke::Thermometer > make_with_duration( const ::std::chrono::seconds interval, const ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >& observers );
+    /**
+     *
+     * \param[in] observers
+     * \return @NotNull
+     */
+    static ::std::shared_ptr< ::smoke::Thermometer > make_without_duration( const ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >& observers );
+    /**
+     *
+     * \param[in] self @NotNull
+     * \param[in] observers
+     */
+    static void notify_observers( const ::std::shared_ptr< ::smoke::Thermometer >& self, const ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >& observers );
     virtual void force_update(  ) = 0;
     virtual double get_celsius(  ) = 0;
     virtual double get_kelvin(  ) = 0;
