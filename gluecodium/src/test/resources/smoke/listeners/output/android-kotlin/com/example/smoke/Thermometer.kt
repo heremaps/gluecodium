@@ -13,9 +13,11 @@ class Thermometer : NativeBase {
 
     constructor(interval: Duration, observers: MutableList<TemperatureObserver>) : this(makeWithDuration(interval, observers), null as Any?) {
         cacheThisInstance();
+        notifyObservers(this, observers)
     }
     constructor(observers: MutableList<TemperatureObserver>) : this(makeWithoutDuration(observers), null as Any?) {
         cacheThisInstance();
+        notifyObservers(this, observers)
     }
 
     /*

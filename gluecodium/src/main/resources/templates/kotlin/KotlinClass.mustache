@@ -36,6 +36,12 @@
 {{#unless classElement.attributes.nocache}}
         cacheThisInstance();
 {{/unless}}
+{{#this.attributes.afterconstruction}}
+        {{resolveName function}}({{!!
+}}{{#function.parameters}}{{!!
+}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{!!
+}}{{/function.parameters}})
+{{/this.attributes.afterconstruction}}
     }
 {{/constructors}}{{/set}}
 
