@@ -197,6 +197,7 @@ feature(Listeners cpp android android-kotlin swift dart SOURCES
     input/src/cpp/MultiListener.cpp
     input/src/cpp/InterfaceWithStatic.cpp
     input/src/cpp/ConvolutedRoundTrip.cpp
+    input/src/cpp/ListenerAsConstructorParam.cpp
 
     input/lime/StringListeners.lime
     input/lime/ListenerRoundtrip.lime
@@ -206,6 +207,7 @@ feature(Listeners cpp android android-kotlin swift dart SOURCES
     input/lime/MultiListener.lime
     input/lime/InterfaceWithStatic.lime
     input/lime/ConvolutedRoundTrip.lime
+    input/lime/ListenerAsConstructorParam.lime
 )
 
 feature(ComplexListeners cpp android swift dart SOURCES

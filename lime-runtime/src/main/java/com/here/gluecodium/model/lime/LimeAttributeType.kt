@@ -25,6 +25,7 @@ enum class LimeAttributeType(
     private val tag: String,
     val defaultValueType: LimeAttributeValueType? = null,
 ) {
+    AFTER_CONSTRUCTION("AfterConstruction", LimeAttributeValueType.FUNCTION),
     CPP("Cpp", LimeAttributeValueType.NAME),
     JAVA("Java", LimeAttributeValueType.NAME),
     KOTLIN("Kotlin", LimeAttributeValueType.NAME),
