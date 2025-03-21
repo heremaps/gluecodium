@@ -72,6 +72,9 @@ class Thermometer$Impl extends __lib.NativeBase implements Thermometer {
 
     __lib.cacheInstance(_result_handle, _result);
 
+
+    notifyObservers(_result, observers);
+
     _smokeThermometerRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
     return _result;
   }
@@ -82,6 +85,9 @@ class Thermometer$Impl extends __lib.NativeBase implements Thermometer {
     final _result = Thermometer$Impl(_result_handle);
 
     __lib.cacheInstance(_result_handle, _result);
+
+
+    notifyObservers(_result, observers);
 
     _smokeThermometerRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
     return _result;
