@@ -54,7 +54,7 @@ public final class Thermometer extends NativeBase {
     private static native long makeWithoutDuration(@NonNull final List<TemperatureObserver> observers);
 
 
-    static native void notifyObservers(@NonNull final Thermometer self, @NonNull final List<TemperatureObserver> observers);
+    public static native void notifyObservers(@NonNull final Thermometer self, @NonNull final List<TemperatureObserver> observers);
 
 
     public native void forceUpdate();

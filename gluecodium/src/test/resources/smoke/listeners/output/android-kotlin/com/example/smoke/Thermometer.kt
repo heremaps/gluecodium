@@ -44,6 +44,6 @@ class Thermometer : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         @JvmStatic external fun makeWithDuration(interval: Duration, observers: MutableList<TemperatureObserver>) : Long
         @JvmStatic external fun makeWithoutDuration(observers: MutableList<TemperatureObserver>) : Long
-        @JvmStatic internal external fun notifyObservers(self: Thermometer, observers: MutableList<TemperatureObserver>) : Unit
+        @JvmStatic external fun notifyObservers(self: Thermometer, observers: MutableList<TemperatureObserver>) : Unit
     }
 }
