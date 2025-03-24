@@ -183,6 +183,13 @@ void {{resolveName "Ffi"}}ReleaseFfiHandleNullable(Pointer<Void> handle) =>
 {{#unless parent.attributes.nocache}}
   __lib.cacheInstance(_result_handle, _result);
 {{/unless}}
+{{#this.attributes.afterconstruction}}
+  {{resolveName function}}({{!!
+}}{{#function.parameters}}{{!!
+}}{{#isEq this.name "this"}}_result{{/isEq}}{{!!
+}}{{#isNotEq this.name "this"}}{{resolveName}}{{/isNotEq}}{{#if iter.hasNext}}, {{/if}}{{!!
+}}{{/function.parameters}});
+{{/this.attributes.afterconstruction}}
   _{{resolveName parent "Ffi"}}RegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
   return _result;
 }

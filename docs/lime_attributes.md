@@ -55,6 +55,20 @@ only `const` and `field constructor` can be skipped in C++.
 * **@EnableIf(**\[**Tag** **=**\] **"**_CustomTag_**"**__)__ or **@EnableIf(**__CustomTag__**)**: marks an element to be
 enabled only if a custom tag with that name was defined through command-line parameters. If the tag is not present, the
 element is skipped (not generated). Custom tags are case-insensitive.
+* **@AfterConstruction(**_"someFunction(this, someConstructorArg)"_**)** - can be used only with constructors of classes.
+It specifies a function that should be called after the constructor call finishes and the object is properly created and cached.
+It is required when `this` object needs to be passed to some platform method during construction. The function call inside
+`@AfterConstructed()` annotation can use any of parameters of the constructor in any order. In order to refer to this/self
+object `this` keyword should be used in LIME file. Note: the parameter of static function in Swift needs to be named `self`
+in order to ensure that the code compiles.
+To understand the purpose of the usage let's consider the following situation:
+  * we have a constructor, which takes an interface: `constructor(someInterface: SomeInterface)`
+  * we want to call a method of the interface from the constructor with the newly created object: `someInterface.doSomething(this)`
+  * if the call is performed from C++ factory function implemented by the user of the generated code, then at the moment
+of call the platform object (Java, Swift, Dart) is not properly constructed and cached
+  * to avoid such problematic situations and breaking the cache/leaking objects `@AfterConstruction()` should be used --
+all the work related to using interfaces or derived classes that may require passing the object back to the platform code from constructor should be done inside
+the function specified via `@AfterConstruction()`
 
 Java-specific attributes
 ------------------------
