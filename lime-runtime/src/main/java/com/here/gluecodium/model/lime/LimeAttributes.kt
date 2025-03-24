@@ -142,6 +142,24 @@ class LimeAttributes private constructor(
             return this
         }
 
+        fun have(type: LimeAttributeType) = attributes[type] != null
+
+        fun get(
+            attributeType: LimeAttributeType,
+            valueType: LimeAttributeValueType,
+        ): Any? {
+            return attributes[attributeType]?.get(valueType)
+        }
+
+        fun overwriteAttribute(
+            attributeType: LimeAttributeType,
+            valueType: LimeAttributeValueType,
+            newValue: Any?,
+        ): Builder {
+            attributes.getOrPut(attributeType) { mutableMapOf() }.compute(valueType) { _, _ -> newValue }
+            return this
+        }
+
         fun addAttributeIfAbsent(
             attributeType: LimeAttributeType,
             valueType: LimeAttributeValueType,

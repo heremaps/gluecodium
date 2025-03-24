@@ -47,6 +47,13 @@
 {{#unless class.attributes.nocache}}
         {{resolveName class "CBridge"}}_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
 {{/unless}}
+{{#this.attributes.afterconstruction}}
+        {{resolveName class }}.{{resolveName function}}({{!!
+}}{{#function.parameters}}{{!!
+}}{{#isEq this.name "this"}}self: self{{/isEq}}{{!!
+}}{{#isNotEq this.name "this"}}{{resolveName}}: {{resolveName}}{{/isNotEq}}{{#if iter.hasNext}}, {{/if}}{{!!
+}}{{/function.parameters}});
+{{/this.attributes.afterconstruction}}
     }
 
 {{/constructors}}{{/set}}

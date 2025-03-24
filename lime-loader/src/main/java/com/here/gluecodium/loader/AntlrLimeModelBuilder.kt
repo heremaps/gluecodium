@@ -214,13 +214,14 @@ internal class AntlrLimeModelBuilder(
                     getComment("throws", it.docComment(), it),
                 )
             }
+        val parameters = getPreviousResults(LimeParameter::class.java)
         val limeElement =
             LimeFunction(
                 path = currentPath,
                 comment = structuredCommentsStack.peek().description,
-                attributes = AntlrLimeConverter.convertAnnotations(currentPath, ctx.annotation()),
+                attributes = AntlrLimeConverter.convertAnnotationsForConstructor(currentPath, ctx.annotation(), classTypeRef, parameters),
                 returnType = LimeReturnType(classTypeRef),
-                parameters = getPreviousResults(LimeParameter::class.java),
+                parameters = parameters,
                 thrownType = exceptionType,
                 isStatic = true,
                 isConstructor = true,

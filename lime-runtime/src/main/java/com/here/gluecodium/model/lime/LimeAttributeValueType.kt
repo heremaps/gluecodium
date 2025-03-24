@@ -28,6 +28,7 @@ enum class LimeAttributeValueType(private val tag: String) {
     ENABLE_IF("EnableIf"),
     FULL_NAME("FullName"),
     FUNCTION_NAME("FunctionName"),
+    FUNCTION("Function"),
     INTERNAL("Internal"),
     LABEL("Label"),
     MESSAGE("Message"),

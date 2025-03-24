@@ -40,6 +40,7 @@ import "test/Inheritance_test.dart" as InheritanceTests;
 import "test/Interfaces_test.dart" as InterfacesTests;
 import "test/InterfaceWithStatic_test.dart" as InterfaceWithStaticTests;
 import "test/Lambdas_test.dart" as LambdasTests;
+import "test/ListenerAsConstructorParam_test.dart" as ListenerAsConstructorParamTests;
 import "test/Lists_test.dart" as ListsTests;
 import "test/Listeners_test.dart" as ListenersTests;
 import "test/ListenerInheritance_test.dart" as ListenerInheritanceTests;
@@ -89,6 +90,7 @@ final _allTests = [
   InterfacesTests.main,
   InterfaceWithStaticTests.main,
   LambdasTests.main,
+  ListenerAsConstructorParamTests.main,
   ListsTests.main,
   ListenersTests.main,
   ListenerInheritanceTests.main,
