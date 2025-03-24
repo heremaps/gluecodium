@@ -16,6 +16,7 @@ public class Thermometer {
         }
         c_instance = _result
         smoke_Thermometer_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
+        Thermometer.notifyObservers(self: self, observers: observers);
     }
 
 
@@ -26,6 +27,7 @@ public class Thermometer {
         }
         c_instance = _result
         smoke_Thermometer_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
+        Thermometer.notifyObservers(self: self, observers: observers);
     }
 
 
