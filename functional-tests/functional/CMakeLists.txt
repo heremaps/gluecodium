@@ -273,7 +273,7 @@ feature(Defaults cpp android android-kotlin swift dart SOURCES
     input/lime/ConstantDefaults.lime
 )
 
-feature(Inheritance cpp android swift dart SOURCES
+feature(Inheritance cpp android android-kotlin swift dart SOURCES
     input/src/cpp/ChildClassImpl.cpp
     input/src/cpp/ChildClassImpl.h
     input/src/cpp/GrandchildClassImpl.cpp
