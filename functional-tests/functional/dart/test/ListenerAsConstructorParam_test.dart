@@ -55,4 +55,22 @@ void main() {
       expect(observer.updatesCount, equals(2));
       expect(observer.lastReadTemperature, equals(anotherThermometer.getCelsius()));
   });
+
+  _testSuite.test("Exception is propagated when after construction function throws", () {
+      // Given temperature observer, which receives updates about temperature.
+      var observer = CelsiusObserver();
+      var observers = [observer];
+
+      // Then throwing after-construction function raises exception.
+      expect(
+          () => Thermometer.throwingMake(77, observers),
+          throwsA(
+              isA<ThermometerNotificationException>().having(
+                  (e) => e.error,
+                  "Correct error message is thrown",
+                  "BAD THING HAPPENED!",
+              )
+          ),
+      );
+  });
 }

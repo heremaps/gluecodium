@@ -76,6 +76,18 @@ void Thermometer::notify_observers(
     }
 }
 
+::lorem_ipsum::test::Return<void, ::std::string> Thermometer::throwing_notify_observers(
+    const ::std::shared_ptr< ::test::Thermometer >& self,
+    const std::vector<::std::shared_ptr<::test::TemperatureObserver>>& observers
+) {
+    for (auto& observer: observers) {
+        observer->on_temperature_update(self);
+    }
+
+    const std::string error_message{"BAD THING HAPPENED!"};
+    return {error_message};
+}
+
 ::std::shared_ptr<::test::Thermometer> Thermometer::make_with_duration(
     const ::std::chrono::seconds interval,
     const ::std::vector<::std::shared_ptr<::test::TemperatureObserver>>& observers
@@ -93,6 +105,16 @@ void Thermometer::notify_observers(
     self->force_update();
 
     return self;
+}
+
+::lorem_ipsum::test::Return<::std::shared_ptr<::test::Thermometer>, std::string> Thermometer::throwing_make(
+    [[maybe_unused]] int id,
+    const ::std::vector<::std::shared_ptr<::test::TemperatureObserver>>& observers
+) {
+    auto self = std::make_shared<ThermometerImpl>(observers);
+    self->force_update();
+
+    return {self};
 }
 
 } // namespace test
