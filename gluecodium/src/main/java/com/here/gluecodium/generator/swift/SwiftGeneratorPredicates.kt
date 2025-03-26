@@ -50,6 +50,18 @@ internal class SwiftGeneratorPredicates(
 ) {
     val predicates =
         mapOf(
+            "afterConstructionFunctionThrows" to { limeFunction: Any ->
+                if (limeFunction is LimeFunction) {
+                    val exactFunction = limeReferenceMap[limeFunction.path.toString()] as? LimeFunction
+                    if (exactFunction == null) {
+                        false
+                    } else {
+                        exactFunction.thrownType != null
+                    }
+                } else {
+                    false
+                }
+            },
             "hasAnyComment" to { limeElement: Any ->
                 CommonGeneratorPredicates.hasAnyComment(limeElement, "Swift")
             },
