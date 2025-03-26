@@ -10,6 +10,9 @@ import com.example.time.Duration
 
 class Thermometer : NativeBase {
 
+    class NotificationException(val error: String) : Exception(error.toString())
+
+
 
     constructor(interval: Duration, observers: MutableList<TemperatureObserver>) : this(makeWithDuration(interval, observers), null as Any?) {
         cacheThisInstance();
@@ -18,6 +21,10 @@ class Thermometer : NativeBase {
     constructor(observers: MutableList<TemperatureObserver>) : this(makeWithoutDuration(observers), null as Any?) {
         cacheThisInstance();
         notifyObservers(this, observers)
+    }
+    constructor(id: Int, observers: MutableList<TemperatureObserver>) : this(throwingMake(id, observers), null as Any?) {
+        cacheThisInstance();
+        throwingNotifyObservers(this, observers)
     }
 
     /*
@@ -44,6 +51,8 @@ class Thermometer : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         @JvmStatic external fun makeWithDuration(interval: Duration, observers: MutableList<TemperatureObserver>) : Long
         @JvmStatic external fun makeWithoutDuration(observers: MutableList<TemperatureObserver>) : Long
+        @JvmStatic external fun throwingMake(id: Int, observers: MutableList<TemperatureObserver>) : Long
         @JvmStatic external fun notifyObservers(self: Thermometer, observers: MutableList<TemperatureObserver>) : Unit
+        @JvmStatic external fun throwingNotifyObservers(self: Thermometer, observers: MutableList<TemperatureObserver>) : Unit
     }
 }

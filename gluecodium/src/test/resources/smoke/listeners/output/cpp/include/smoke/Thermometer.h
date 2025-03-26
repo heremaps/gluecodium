@@ -8,9 +8,12 @@
 
 #include "gluecodium/DurationHash.h"
 #include "gluecodium/ExportGluecodiumCpp.h"
+#include "gluecodium/Return.h"
 #include "gluecodium/VectorHash.h"
 #include <chrono>
+#include <cstdint>
 #include <memory>
+#include <string>
 #include <vector>
 
 
@@ -49,10 +52,25 @@ public:
     static ::std::shared_ptr< ::smoke::Thermometer > make_without_duration( const ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >& observers );
     /**
      *
+     * \param[in] id
+     * \param[in] observers
+     * \return @NotNull
+     * \retval ::::String
+     */
+    static ::gluecodium::Return< ::std::shared_ptr< ::smoke::Thermometer >, ::std::string > throwing_make( const int32_t id, const ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >& observers );
+    /**
+     *
      * \param[in] self @NotNull
      * \param[in] observers
      */
     static void notify_observers( const ::std::shared_ptr< ::smoke::Thermometer >& self, const ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >& observers );
+    /**
+     *
+     * \param[in] self @NotNull
+     * \param[in] observers
+     * \retval ::::String
+     */
+    static ::gluecodium::Return< void, ::std::string > throwing_notify_observers( const ::std::shared_ptr< ::smoke::Thermometer >& self, const ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >& observers );
     virtual void force_update(  ) = 0;
     virtual double get_celsius(  ) = 0;
     virtual double get_kelvin(  ) = 0;

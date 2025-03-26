@@ -8,6 +8,8 @@ import Foundation
 /// "Subject" in observer design pattern.
 public class Thermometer {
 
+    public typealias NotificationError = String
+
 
     public init(interval: TimeInterval, observers: [TemperatureObserver]) {
         let _result = Thermometer.makeWithDuration(interval: interval, observers: observers)
@@ -28,6 +30,17 @@ public class Thermometer {
         c_instance = _result
         smoke_Thermometer_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
         Thermometer.notifyObservers(self: self, observers: observers);
+    }
+
+
+    public init(id: Int32, observers: [TemperatureObserver]) throws {
+        let _result = try Thermometer.throwingMake(id: id, observers: observers)
+        guard _result != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = _result
+        smoke_Thermometer_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
+        try Thermometer.throwingNotifyObservers(self: self, observers: observers);
     }
 
 
@@ -56,10 +69,28 @@ public class Thermometer {
         let c_result_handle = smoke_Thermometer_makeWithoutDuration(c_observers.ref)
         return moveFromCType(c_result_handle)
     }
+    private static func throwingMake(id: Int32, observers: [TemperatureObserver]) throws -> _baseRef {
+        let c_id = moveToCType(id)
+        let c_observers = foobar_moveToCType(observers)
+        let RESULT = smoke_Thermometer_throwingMake(c_id.ref, c_observers.ref)
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as Thermometer.NotificationError
+        }
+        let c_result_handle = RESULT.returned_value
+        return moveFromCType(c_result_handle)
+    }
     public static func notifyObservers(self: Thermometer, observers: [TemperatureObserver]) -> Void {
         let c_self = moveToCType(self)
         let c_observers = foobar_moveToCType(observers)
         smoke_Thermometer_notifyObservers(c_self.ref, c_observers.ref)
+    }
+    public static func throwingNotifyObservers(self: Thermometer, observers: [TemperatureObserver]) throws -> Void {
+        let c_self = moveToCType(self)
+        let c_observers = foobar_moveToCType(observers)
+        let RESULT = smoke_Thermometer_throwingNotifyObservers(c_self.ref, c_observers.ref)
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as Thermometer.NotificationError
+        }
     }
     public func forceUpdate() -> Void {
         smoke_Thermometer_forceUpdate(self.c_instance)
@@ -159,3 +190,5 @@ internal func moveToCType(_ swiftClass: Thermometer?) -> RefHolder {
 
 
 
+extension String : Error {
+}

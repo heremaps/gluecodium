@@ -20,13 +20,20 @@ package smoke
 // A class, which reads temperature and updates observers according to the given interval.
 // "Subject" in observer design pattern.
 class Thermometer {
+    exception Notification(String)
+
     @AfterConstruction("notifyObservers(this, observers)")
     constructor makeWithDuration(interval: Duration, observers: List<TemperatureObserver>)
 
     @AfterConstruction("notifyObservers(this, observers)")
     constructor makeWithoutDuration(observers: List<TemperatureObserver>)
 
+    @AfterConstruction("throwingNotifyObservers(this, observers)")
+    constructor throwingMake(id: Int, observers: List<TemperatureObserver>) throws Notification
+
     static fun notifyObservers(self: Thermometer, observers: List<TemperatureObserver>)
+
+    static fun throwingNotifyObservers(self: Thermometer, observers: List<TemperatureObserver>) throws Notification
 
     fun forceUpdate()
 

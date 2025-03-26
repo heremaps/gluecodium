@@ -6,6 +6,7 @@
 #include "com_example_smoke_TemperatureObserver__Conversion.h"
 #include "com_example_smoke_Thermometer.h"
 #include "com_example_smoke_Thermometer__Conversion.h"
+#include "JniExceptionThrower.h"
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
 #include "JniNativeHandle.h"
@@ -73,6 +74,52 @@ Java_com_example_smoke_Thermometer_makeWithoutDuration(JNIEnv* _jenv, jobject _j
     return reinterpret_cast<jlong>(nSharedPtr);
 }
 
+jlong
+Java_com_example_smoke_Thermometer_throwingMake(JNIEnv* _jenv, jobject _jinstance, jint jid, jobject jobservers)
+
+{
+
+    ::gluecodium::jni::JniExceptionThrower _throw_exception(_jenv);
+
+
+
+    int32_t id = jid;
+
+
+
+    ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > > observers = ::gluecodium::jni::convert_from_jni(_jenv,
+            ::gluecodium::jni::make_non_releasing_ref(jobservers),
+            ::gluecodium::jni::TypeId<::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >>{});
+
+
+
+
+
+    auto nativeCallResult = ::smoke::Thermometer::throwing_make(id,observers);
+
+
+    if (!nativeCallResult.has_value())
+    {
+        auto jErrorValue = ::gluecodium::jni::convert_to_jni(_jenv, nativeCallResult.error());
+
+        auto exceptionClass = ::gluecodium::jni::find_class(_jenv, "com/example/smoke/Thermometer$NotificationException");
+        auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Ljava/lang/String;)V");
+        auto exception = ::gluecodium::jni::new_object(_jenv, exceptionClass, theConstructor, jErrorValue);
+        _throw_exception.register_exception(std::move(exception));
+        return 0;
+    }
+    auto _result = nativeCallResult.unsafe_value();
+
+
+    auto nSharedPtr = new (::std::nothrow) ::std::shared_ptr< ::smoke::Thermometer >(_result);
+    if (nSharedPtr == nullptr)
+    {
+        ::gluecodium::jni::throw_new_out_of_memory_exception(_jenv);;
+        return 0;
+    }
+    return reinterpret_cast<jlong>(nSharedPtr);
+}
+
 void
 Java_com_example_smoke_Thermometer_notifyObservers(JNIEnv* _jenv, jobject _jinstance, jobject jself, jobject jobservers)
 
@@ -95,6 +142,45 @@ Java_com_example_smoke_Thermometer_notifyObservers(JNIEnv* _jenv, jobject _jinst
 
 
     ::smoke::Thermometer::notify_observers(self,observers);
+
+}
+
+void
+Java_com_example_smoke_Thermometer_throwingNotifyObservers(JNIEnv* _jenv, jobject _jinstance, jobject jself, jobject jobservers)
+
+{
+
+    ::gluecodium::jni::JniExceptionThrower _throw_exception(_jenv);
+
+
+
+    ::std::shared_ptr< ::smoke::Thermometer > self = ::gluecodium::jni::convert_from_jni(_jenv,
+            ::gluecodium::jni::make_non_releasing_ref(jself),
+            ::gluecodium::jni::TypeId<::std::shared_ptr< ::smoke::Thermometer >>{});
+
+
+
+    ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > > observers = ::gluecodium::jni::convert_from_jni(_jenv,
+            ::gluecodium::jni::make_non_releasing_ref(jobservers),
+            ::gluecodium::jni::TypeId<::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >>{});
+
+
+
+
+
+    auto nativeCallResult = ::smoke::Thermometer::throwing_notify_observers(self,observers);
+
+
+    if (!nativeCallResult.has_value())
+    {
+        auto jErrorValue = ::gluecodium::jni::convert_to_jni(_jenv, nativeCallResult.error());
+
+        auto exceptionClass = ::gluecodium::jni::find_class(_jenv, "com/example/smoke/Thermometer$NotificationException");
+        auto theConstructor = _jenv->GetMethodID(exceptionClass.get(), "<init>", "(Ljava/lang/String;)V");
+        auto exception = ::gluecodium::jni::new_object(_jenv, exceptionClass, theConstructor, jErrorValue);
+        _throw_exception.register_exception(std::move(exception));
+    }
+
 
 }
 

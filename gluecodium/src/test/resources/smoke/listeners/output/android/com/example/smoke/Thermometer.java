@@ -15,6 +15,21 @@ import java.util.List;
  * &quot;Subject&quot; in observer design pattern.
  */
 public final class Thermometer extends NativeBase {
+    public static final class NotificationException extends Exception {
+        /**
+         * @hidden
+         * @param error The error.
+         */
+        public NotificationException(final String error) {
+            super(error.toString());
+            this.error = error;
+        }
+
+        /**
+         * @hidden
+         */
+        public final String error;
+    }
 
 
     public Thermometer(@NonNull final Duration interval, @NonNull final List<TemperatureObserver> observers) {
@@ -28,6 +43,13 @@ public final class Thermometer extends NativeBase {
         this(makeWithoutDuration(observers), (Object)null);
         cacheThisInstance();
         notifyObservers(this, observers);
+    }
+
+
+    public Thermometer(final int id, @NonNull final List<TemperatureObserver> observers) throws Thermometer.NotificationException {
+        this(throwingMake(id, observers), (Object)null);
+        cacheThisInstance();
+        throwingNotifyObservers(this, observers);
     }
 
     /**
@@ -53,8 +75,13 @@ public final class Thermometer extends NativeBase {
 
     private static native long makeWithoutDuration(@NonNull final List<TemperatureObserver> observers);
 
+    private static native long throwingMake(final int id, @NonNull final List<TemperatureObserver> observers) throws Thermometer.NotificationException;
+
 
     public static native void notifyObservers(@NonNull final Thermometer self, @NonNull final List<TemperatureObserver> observers);
+
+
+    public static native void throwingNotifyObservers(@NonNull final Thermometer self, @NonNull final List<TemperatureObserver> observers) throws Thermometer.NotificationException;
 
 
     public native void forceUpdate();
