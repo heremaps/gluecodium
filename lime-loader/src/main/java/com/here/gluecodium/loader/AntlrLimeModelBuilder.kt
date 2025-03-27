@@ -219,7 +219,7 @@ internal class AntlrLimeModelBuilder(
             LimeFunction(
                 path = currentPath,
                 comment = structuredCommentsStack.peek().description,
-                attributes = AntlrLimeConverter.convertAnnotationsForConstructor(currentPath, ctx.annotation(), classTypeRef, parameters),
+                attributes = AntlrLimeConverter.convertAnnotationsForConstructor(currentPath, ctx.annotation(), classTypeRef, parameters,  referenceResolver.referenceMap),
                 returnType = LimeReturnType(classTypeRef),
                 parameters = parameters,
                 thrownType = exceptionType,

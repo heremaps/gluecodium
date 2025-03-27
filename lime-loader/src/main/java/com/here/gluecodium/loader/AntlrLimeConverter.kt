@@ -30,7 +30,9 @@ import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeComment
+import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeLazyFunctionCall
 import com.here.gluecodium.model.lime.LimeLazyTypeRef
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimePath
@@ -70,11 +72,12 @@ internal object AntlrLimeConverter {
         annotations: List<LimeParser.AnnotationContext>,
         classTypeRef: LimeLazyTypeRef,
         parameters: List<LimeParameter>,
+        referenceMap: Map<String, LimeElement>,
     ): LimeAttributes {
         val attributes = convertAnnotationsToBuilder(limePath, annotations)
         if (attributes.have(LimeAttributeType.AFTER_CONSTRUCTION)) {
             val rawString = attributes.get(LimeAttributeType.AFTER_CONSTRUCTION, LimeAttributeValueType.FUNCTION) as String
-            val limeFunction = createAfterConstructionFunction(rawString, limePath, classTypeRef, parameters)
+            val limeFunction = createAfterConstructionFunction(rawString, limePath, classTypeRef, parameters, referenceMap)
             attributes.overwriteAttribute(
                 LimeAttributeType.AFTER_CONSTRUCTION,
                 LimeAttributeValueType.FUNCTION,
@@ -90,14 +93,15 @@ internal object AntlrLimeConverter {
         path: LimePath,
         classTypeRef: LimeLazyTypeRef,
         constructorParams: List<LimeParameter>,
-    ): LimeFunction {
+        referenceMap: Map<String, LimeElement>,
+    ): LimeLazyFunctionCall {
         val functionName = extractFunctionName(raw)
         val afterConstructionFunPath = path.parent.child(functionName)
         val params = extractFunctionParameters(raw, afterConstructionFunPath, classTypeRef, constructorParams)
-        return LimeFunction(
-            path = afterConstructionFunPath,
+        return LimeLazyFunctionCall(
+            elementFullName = afterConstructionFunPath.toString(),
+            referenceMap = referenceMap,
             parameters = params,
-            isStatic = true,
         )
     }
 

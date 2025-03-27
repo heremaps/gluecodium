@@ -36,7 +36,7 @@
         cacheThisInstance();
 {{/unless}}
 {{#this.attributes.afterconstruction}}
-        {{resolveName function}}({{!!
+        {{resolveName function.function}}({{!!
 }}{{#function.parameters}}{{!!
 }}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/function.parameters}});
