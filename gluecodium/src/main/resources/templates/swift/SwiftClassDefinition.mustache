@@ -34,7 +34,7 @@
 {{#set class=this}}{{#constructors}}
 {{prefixPartial "swift/SwiftFunctionComment" "    "}}
     {{resolveName "visibility"}} {{#ifPredicate "isOverriding"}}override {{/ifPredicate}}{{!!
-    }}init({{>swift/SwiftFunctionParameters}}){{#if thrownType}} throws{{/if}} {
+    }}init({{>swift/SwiftFunctionParameters}}){{>swiftConstructorThrows}} {
         let _result = {{#if thrownType}}try {{/if}}{{resolveName class "" "ref"}}.{{resolveName}}({{#parameters}}{{!!
 }}{{#if attributes.swift.label}}{{#isNotEq attributes.swift.label "_"}}{{attributes.swift.label}}: {{/isNotEq}}{{/if}}{{!!
 }}{{#unless attributes.swift.label}}{{resolveName}}: {{/unless}}{{!!
@@ -66,4 +66,15 @@
 
 {{#interfaces}}
 {{>swift/SwiftInterfaceDefinition}}
-{{/interfaces}}
+{{/interfaces}}{{!!
+
+}}{{+swiftConstructorThrows}}{{!!
+}}{{#if thrownType}} throws{{/if}}{{!!
+}}{{#unless thrownType}}{{!!
+}}{{#this.attributes.afterconstruction.function}}{{!!
+}}{{#if function.thrownType}} throws{{/if}}{{!!
+}}{{/this.attributes.afterconstruction.function}}{{!!
+}}{{/unless}}{{!!
+}}{{/swiftConstructorThrows}}{{!!
+
+}}

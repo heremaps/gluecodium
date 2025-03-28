@@ -44,7 +44,7 @@ public class Thermometer {
     }
 
 
-    public init(label: String, niceObservers: [TemperatureObserver]) {
+    public init(label: String, niceObservers: [TemperatureObserver]) throws {
         let _result = Thermometer.nothrowMake(label: label, niceObservers: niceObservers)
         guard _result != 0 else {
             fatalError("Nullptr value is not supported for initializers")
