@@ -13,15 +13,42 @@ import 'package:meta/meta.dart';
 ///
 /// "Subject" in observer design pattern.
 abstract class Thermometer implements Finalizable {
-
+  /// A constructor, which makes the thermometer with readout interval.
+  ///
+  /// [interval] readout interval
+  ///
+  /// [observers] observers of temperature changes
+  ///
   factory Thermometer.makeWithDuration(Duration interval, List<TemperatureObserver> observers) => $prototype.makeWithDuration(interval, observers);
-
+  /// A constructor, which makes the thermometer with default readout interval (1 second).
+  ///
+  /// [observers] observers of temperature changes
+  ///
   factory Thermometer.makeWithoutDuration(List<TemperatureObserver> observers) => $prototype.makeWithoutDuration(observers);
-
+  /// A throwing constructor, which makes the thermometer with default readout interval (1 second).
+  ///
+  /// [id] identification of this thermometer
+  ///
+  /// [observers] observers of temperature changes
+  ///
+  /// Throws [Thermometer_NotificationException]. if identification number is invalid
+  ///
   factory Thermometer.throwingMake(int id, List<TemperatureObserver> observers) => $prototype.throwingMake(id, observers);
-
+  /// A non-throwing constructor, which makes the thermometer with default readout interval (1 second).
+  ///
+  /// [label] some identification label
+  ///
+  /// [niceObservers] observers of temperature changes
+  ///
   factory Thermometer.nothrowMake(String label, List<TemperatureObserver> niceObservers) => $prototype.nothrowMake(label, niceObservers);
-
+  /// A throwing constructor, which makes the thermometer with default readout interval (1 second).
+  ///
+  /// [dummy] some dummy boolean flag
+  ///
+  /// [observers] observers of temperature changes
+  ///
+  /// Throws [Thermometer_AnotherNotificationException]. if some problem occurs
+  ///
   factory Thermometer.anotherThrowingMake(bool dummy, List<TemperatureObserver> observers) => $prototype.anotherThrowingMake(dummy, observers);
 
 
@@ -42,6 +69,7 @@ abstract class Thermometer implements Finalizable {
   static dynamic $prototype = Thermometer$Impl(Pointer<Void>.fromAddress(0));
 }
 
+/// Some error code for thermometer.
 enum Thermometer_SomeThermometerErrorCode {
     errorNone,
     errorFatal
@@ -104,10 +132,14 @@ void smokeThermometerSomethermometererrorcodeReleaseFfiHandleNullable(Pointer<Vo
   _smokeThermometerSomethermometererrorcodeReleaseHandleNullable(handle);
 
 // End of Thermometer_SomeThermometerErrorCode "private" section.
+/// This error indicates problems with notification of observers.
+///
+/// May be thrown if observers cannot be notified.
 class Thermometer_NotificationException implements Exception {
   final String error;
   Thermometer_NotificationException(this.error);
 }
+/// This error indicates other problems with notification of observers.
 class Thermometer_AnotherNotificationException implements Exception {
   final Thermometer_SomeThermometerErrorCode error;
   Thermometer_AnotherNotificationException(this.error);

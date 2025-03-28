@@ -38,6 +38,10 @@ public:
 
 
 public:
+    /**
+     * Some error code for thermometer.
+
+     */
     enum class SomeThermometerErrorCode {
         ERROR_NONE,
         ERROR_FATAL
@@ -46,39 +50,39 @@ public:
 
 public:
     /**
-     *
-     * \param[in] interval
-     * \param[in] observers
+     * A constructor, which makes the thermometer with readout interval.
+     * \param[in] interval readout interval
+     * \param[in] observers observers of temperature changes
      * \return @NotNull
      */
     static ::std::shared_ptr< ::smoke::Thermometer > make_with_duration( const ::std::chrono::seconds interval, const ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >& observers );
     /**
-     *
-     * \param[in] observers
+     * A constructor, which makes the thermometer with default readout interval (1 second).
+     * \param[in] observers observers of temperature changes
      * \return @NotNull
      */
     static ::std::shared_ptr< ::smoke::Thermometer > make_without_duration( const ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >& observers );
     /**
-     *
-     * \param[in] id
-     * \param[in] observers
+     * A throwing constructor, which makes the thermometer with default readout interval (1 second).
+     * \param[in] id identification of this thermometer
+     * \param[in] observers observers of temperature changes
      * \return @NotNull
-     * \retval ::::String
+     * \retval ::::String if identification number is invalid
      */
     static ::gluecodium::Return< ::std::shared_ptr< ::smoke::Thermometer >, ::std::string > throwing_make( const int32_t id, const ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >& observers );
     /**
-     *
-     * \param[in] label
-     * \param[in] nice_observers
+     * A non-throwing constructor, which makes the thermometer with default readout interval (1 second).
+     * \param[in] label some identification label
+     * \param[in] nice_observers observers of temperature changes
      * \return @NotNull
      */
     static ::std::shared_ptr< ::smoke::Thermometer > nothrow_make( const ::std::string& label, const ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >& nice_observers );
     /**
-     *
-     * \param[in] dummy
-     * \param[in] observers
+     * A throwing constructor, which makes the thermometer with default readout interval (1 second).
+     * \param[in] dummy some dummy boolean flag
+     * \param[in] observers observers of temperature changes
      * \return @NotNull
-     * \retval ::smoke::Thermometer::SomeThermometerErrorCode
+     * \retval ::smoke::Thermometer::SomeThermometerErrorCode if some problem occurs
      */
     static ::gluecodium::Return< ::std::shared_ptr< ::smoke::Thermometer >, ::std::error_code > another_throwing_make( const bool dummy, const ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >& observers );
     /**

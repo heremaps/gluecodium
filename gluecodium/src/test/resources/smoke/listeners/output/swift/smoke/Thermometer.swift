@@ -8,10 +8,17 @@ import Foundation
 /// "Subject" in observer design pattern.
 public class Thermometer {
 
+    /// This error indicates problems with notification of observers.
+    /// May be thrown if observers cannot be notified.
     public typealias NotificationError = String
 
+    /// This error indicates other problems with notification of observers.
     public typealias AnotherNotificationError = Thermometer.SomeThermometerErrorCode
 
+    /// A constructor, which makes the thermometer with readout interval.
+    /// - Parameters:
+    ///   - interval: readout interval
+    ///   - observers: observers of temperature changes
 
     public init(interval: TimeInterval, observers: [TemperatureObserver]) {
         let _result = Thermometer.makeWithDuration(interval: interval, observers: observers)
@@ -23,6 +30,8 @@ public class Thermometer {
         Thermometer.notifyObservers(thermometer: self, someObservers: observers);
     }
 
+    /// A constructor, which makes the thermometer with default readout interval (1 second).
+    /// - Parameter observers: observers of temperature changes
 
     public init(observers: [TemperatureObserver]) {
         let _result = Thermometer.makeWithoutDuration(observers: observers)
@@ -34,6 +43,11 @@ public class Thermometer {
         Thermometer.notifyObservers(thermometer: self, someObservers: observers);
     }
 
+    /// A throwing constructor, which makes the thermometer with default readout interval (1 second).
+    /// - Parameters:
+    ///   - id: identification of this thermometer
+    ///   - observers: observers of temperature changes
+    /// - Throws: `Thermometer.NotificationError` if identification number is invalid
 
     public init(id: Int32, observers: [TemperatureObserver]) throws {
         let _result = try Thermometer.throwingMake(id: id, observers: observers)
@@ -45,6 +59,10 @@ public class Thermometer {
         try Thermometer.throwingNotifyObservers(thermometer: self, someObservers: observers);
     }
 
+    /// A non-throwing constructor, which makes the thermometer with default readout interval (1 second).
+    /// - Parameters:
+    ///   - label: some identification label
+    ///   - niceObservers: observers of temperature changes
 
     public init(label: String, niceObservers: [TemperatureObserver]) throws {
         let _result = Thermometer.nothrowMake(label: label, niceObservers: niceObservers)
@@ -56,6 +74,11 @@ public class Thermometer {
         try Thermometer.throwingNotifyObservers(thermometer: self, someObservers: niceObservers);
     }
 
+    /// A throwing constructor, which makes the thermometer with default readout interval (1 second).
+    /// - Parameters:
+    ///   - dummy: some dummy boolean flag
+    ///   - observers: observers of temperature changes
+    /// - Throws: `Thermometer.AnotherNotificationError` if some problem occurs
 
     public init(dummy: Bool, observers: [TemperatureObserver]) throws {
         let _result = try Thermometer.anotherThrowingMake(dummy: dummy, observers: observers)
@@ -82,6 +105,7 @@ public class Thermometer {
         smoke_Thermometer_release_handle(c_instance)
     }
 
+    /// Some error code for thermometer.
     public enum SomeThermometerErrorCode : UInt32, CaseIterable, Codable {
 
         case errorNone
