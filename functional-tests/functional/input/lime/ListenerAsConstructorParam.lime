@@ -31,6 +31,9 @@ class Thermometer {
     @AfterConstruction("throwingNotifyObservers(this, observers)")
     constructor throwingMake(id: Int, observers: List<TemperatureObserver>) throws Notification
 
+    @AfterConstruction("throwingNotifyObservers(this, niceObservers)")
+    constructor nothrowMake(label: String, niceObservers: List<TemperatureObserver>)
+
     static fun notifyObservers(thermometer: Thermometer, someObservers: List<TemperatureObserver>)
 
     static fun throwingNotifyObservers(thermometer: Thermometer, someObservers: List<TemperatureObserver>) throws Notification

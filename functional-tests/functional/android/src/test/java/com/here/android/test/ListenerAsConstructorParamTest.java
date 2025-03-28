@@ -92,4 +92,20 @@ public class ListenerAsConstructorParamTest {
 
     assertEquals("BAD THING HAPPENED!", exception.error);
   }
+
+  @Test
+  public void testThrowingAfterConstructionFunctionFromNonthrowingConstructor() {
+    // Given temperature observer, which receives updates about temperature.
+    CelsiusObserver observer = new CelsiusObserver();
+
+    ArrayList<TemperatureObserver> observers = new ArrayList();
+    observers.add(observer);
+
+    // Then throwing after-construction function raises exception.
+    Thermometer.NotificationException exception = assertThrows(Thermometer.NotificationException.class, () -> {
+      new Thermometer("SOME DUMMY LABEL", observers);
+    });
+
+    assertEquals("BAD THING HAPPENED!", exception.error);
+  }
 }

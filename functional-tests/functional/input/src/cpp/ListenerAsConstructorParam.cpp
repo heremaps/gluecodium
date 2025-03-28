@@ -117,4 +117,14 @@ void Thermometer::notify_observers(
     return {self};
 }
 
+::std::shared_ptr<::test::Thermometer> Thermometer::nothrow_make(
+    [[maybe_unused]] const std::string& label,
+    const ::std::vector<::std::shared_ptr<::test::TemperatureObserver>>& observers
+) {
+    auto self = std::make_shared<ThermometerImpl>(observers);
+    self->force_update();
+
+    return self;
+}
+
 } // namespace test

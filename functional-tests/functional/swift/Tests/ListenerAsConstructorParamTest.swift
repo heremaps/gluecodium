@@ -71,8 +71,20 @@ class ListenerAsConstructorParamTest: XCTestCase {
         }
     }
 
+    func testThrowingAfterConstructionFunctionFromNonThrowingConstructor() {
+        // Given temperature observer, which receives updates about temperature.
+        let observer = CelsiusObserver()
+        let observers = [observer]
+
+        // Then throwing after-construction function raises exception.
+        XCTAssertThrowsError(try Thermometer(label: "DUMMY", niceObservers: observers)) { (error) in
+            XCTAssertEqual(error as? Thermometer.NotificationError, "BAD THING HAPPENED!")
+        }
+    }
+
     static var allTests = [
       ("testObserverUpdateWhenAfterConstructedUsed", testObserverUpdateWhenAfterConstructedUsed),
-      ("testThrowingAfterConstructionFunction", testThrowingAfterConstructionFunction)
+      ("testThrowingAfterConstructionFunction", testThrowingAfterConstructionFunction),
+      ("testThrowingAfterConstructionFunctionFromNonThrowingConstructor", testThrowingAfterConstructionFunctionFromNonThrowingConstructor)
     ]
 }
