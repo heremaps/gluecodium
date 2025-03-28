@@ -90,4 +90,17 @@ class ListenerAsConstructorParamTest {
         }
         assertEquals("BAD THING HAPPENED!", exception.error)
     }
+
+    @org.junit.Test
+    fun testThrowingAfterConstructionFunctionFromCtorThatMayThrowTwoTypesOfExceptions() {
+        // Given temperature observer, which receives updates about temperature.
+        val observer: CelsiusObserver = CelsiusObserver()
+        val observers: MutableList<TemperatureObserver> = mutableListOf(observer)
+
+        // Then throwing after-construction function raises exception.
+        val exception = assertThrows(Thermometer.NotificationException::class.java) {
+            Thermometer(true, observers)
+        }
+        assertEquals("BAD THING HAPPENED!", exception.error)
+    }
 }

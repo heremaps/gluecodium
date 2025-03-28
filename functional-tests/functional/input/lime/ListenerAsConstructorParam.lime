@@ -20,7 +20,14 @@ package test
 // A class, which reads temperature and updates observers according to the given interval.
 // "Subject" in observer design pattern.
 class Thermometer {
+    enum SomeThermometerErrorCode {
+        ERROR_NONE,
+        ERROR_FATAL
+    }
+
     exception Notification(String)
+
+    exception AnotherNotification(SomeThermometerErrorCode)
 
     @AfterConstruction("notifyObservers(this, observers)")
     constructor makeWithDuration(interval: Duration, observers: List<TemperatureObserver>)
@@ -33,6 +40,9 @@ class Thermometer {
 
     @AfterConstruction("throwingNotifyObservers(this, niceObservers)")
     constructor nothrowMake(label: String, niceObservers: List<TemperatureObserver>)
+
+    @AfterConstruction("throwingNotifyObservers(this, observers)")
+    constructor anotherThrowingMake(dummy: Boolean, observers: List<TemperatureObserver>) throws AnotherNotification
 
     static fun notifyObservers(thermometer: Thermometer, someObservers: List<TemperatureObserver>)
 

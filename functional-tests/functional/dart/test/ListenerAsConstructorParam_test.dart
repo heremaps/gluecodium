@@ -91,4 +91,22 @@ void main() {
           ),
       );
   });
+
+  _testSuite.test("Exception is propagated when after construction function throws from ctor that can throw 2 error types", () {
+      // Given temperature observer, which receives updates about temperature.
+      var observer = CelsiusObserver();
+      var observers = [observer];
+
+      // Then throwing after-construction function raises exception.
+      expect(
+          () => Thermometer.anotherThrowingMake(true, observers),
+          throwsA(
+              isA<ThermometerNotificationException>().having(
+                  (e) => e.error,
+                  "Correct error message is thrown",
+                  "BAD THING HAPPENED!",
+              )
+          ),
+      );
+  });
 }
