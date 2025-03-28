@@ -121,32 +121,32 @@ Java_com_example_smoke_Thermometer_throwingMake(JNIEnv* _jenv, jobject _jinstanc
 }
 
 void
-Java_com_example_smoke_Thermometer_notifyObservers(JNIEnv* _jenv, jobject _jinstance, jobject jself, jobject jobservers)
+Java_com_example_smoke_Thermometer_notifyObservers(JNIEnv* _jenv, jobject _jinstance, jobject jthermometer, jobject jsomeObservers)
 
 {
 
 
 
-    ::std::shared_ptr< ::smoke::Thermometer > self = ::gluecodium::jni::convert_from_jni(_jenv,
-            ::gluecodium::jni::make_non_releasing_ref(jself),
+    ::std::shared_ptr< ::smoke::Thermometer > thermometer = ::gluecodium::jni::convert_from_jni(_jenv,
+            ::gluecodium::jni::make_non_releasing_ref(jthermometer),
             ::gluecodium::jni::TypeId<::std::shared_ptr< ::smoke::Thermometer >>{});
 
 
 
-    ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > > observers = ::gluecodium::jni::convert_from_jni(_jenv,
-            ::gluecodium::jni::make_non_releasing_ref(jobservers),
+    ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > > someObservers = ::gluecodium::jni::convert_from_jni(_jenv,
+            ::gluecodium::jni::make_non_releasing_ref(jsomeObservers),
             ::gluecodium::jni::TypeId<::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >>{});
 
 
 
 
 
-    ::smoke::Thermometer::notify_observers(self,observers);
+    ::smoke::Thermometer::notify_observers(thermometer,someObservers);
 
 }
 
 void
-Java_com_example_smoke_Thermometer_throwingNotifyObservers(JNIEnv* _jenv, jobject _jinstance, jobject jself, jobject jobservers)
+Java_com_example_smoke_Thermometer_throwingNotifyObservers(JNIEnv* _jenv, jobject _jinstance, jobject jthermometer, jobject jsomeObservers)
 
 {
 
@@ -154,21 +154,21 @@ Java_com_example_smoke_Thermometer_throwingNotifyObservers(JNIEnv* _jenv, jobjec
 
 
 
-    ::std::shared_ptr< ::smoke::Thermometer > self = ::gluecodium::jni::convert_from_jni(_jenv,
-            ::gluecodium::jni::make_non_releasing_ref(jself),
+    ::std::shared_ptr< ::smoke::Thermometer > thermometer = ::gluecodium::jni::convert_from_jni(_jenv,
+            ::gluecodium::jni::make_non_releasing_ref(jthermometer),
             ::gluecodium::jni::TypeId<::std::shared_ptr< ::smoke::Thermometer >>{});
 
 
 
-    ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > > observers = ::gluecodium::jni::convert_from_jni(_jenv,
-            ::gluecodium::jni::make_non_releasing_ref(jobservers),
+    ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > > someObservers = ::gluecodium::jni::convert_from_jni(_jenv,
+            ::gluecodium::jni::make_non_releasing_ref(jsomeObservers),
             ::gluecodium::jni::TypeId<::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >>{});
 
 
 
 
 
-    auto nativeCallResult = ::smoke::Thermometer::throwing_notify_observers(self,observers);
+    auto nativeCallResult = ::smoke::Thermometer::throwing_notify_observers(thermometer,someObservers);
 
 
     if (!nativeCallResult.has_value())

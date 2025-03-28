@@ -21,9 +21,9 @@ abstract class Thermometer implements Finalizable {
   factory Thermometer.throwingMake(int id, List<TemperatureObserver> observers) => $prototype.throwingMake(id, observers);
 
 
-  static void notifyObservers(Thermometer self, List<TemperatureObserver> observers) => $prototype.notifyObservers(self, observers);
+  static void notifyObservers(Thermometer thermometer, List<TemperatureObserver> someObservers) => $prototype.notifyObservers(thermometer, someObservers);
 
-  static void throwingNotifyObservers(Thermometer self, List<TemperatureObserver> observers) => $prototype.throwingNotifyObservers(self, observers);
+  static void throwingNotifyObservers(Thermometer thermometer, List<TemperatureObserver> someObservers) => $prototype.throwingNotifyObservers(thermometer, someObservers);
 
   void forceUpdate();
 
@@ -186,23 +186,23 @@ class Thermometer$Impl extends __lib.NativeBase implements Thermometer {
     return __resultHandle;
   }
 
-  void notifyObservers(Thermometer self, List<TemperatureObserver> observers) {
+  void notifyObservers(Thermometer thermometer, List<TemperatureObserver> someObservers) {
     final _notifyObserversFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32, Pointer<Void>, Pointer<Void>), void Function(int, Pointer<Void>, Pointer<Void>)>('library_smoke_Thermometer_notifyObservers__Thermometer_ListOf_smoke_TemperatureObserver'));
-    final _selfHandle = smokeThermometerToFfi(self);
-    final _observersHandle = foobarListofSmokeTemperatureobserverToFfi(observers);
-    _notifyObserversFfi(__lib.LibraryContext.isolateId, _selfHandle, _observersHandle);
-    smokeThermometerReleaseFfiHandle(_selfHandle);
-    foobarListofSmokeTemperatureobserverReleaseFfiHandle(_observersHandle);
+    final _thermometerHandle = smokeThermometerToFfi(thermometer);
+    final _someObserversHandle = foobarListofSmokeTemperatureobserverToFfi(someObservers);
+    _notifyObserversFfi(__lib.LibraryContext.isolateId, _thermometerHandle, _someObserversHandle);
+    smokeThermometerReleaseFfiHandle(_thermometerHandle);
+    foobarListofSmokeTemperatureobserverReleaseFfiHandle(_someObserversHandle);
 
   }
 
-  void throwingNotifyObservers(Thermometer self, List<TemperatureObserver> observers) {
+  void throwingNotifyObservers(Thermometer thermometer, List<TemperatureObserver> someObservers) {
     final _throwingNotifyObserversFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>, Pointer<Void>)>('library_smoke_Thermometer_throwingNotifyObservers__Thermometer_ListOf_smoke_TemperatureObserver'));
-    final _selfHandle = smokeThermometerToFfi(self);
-    final _observersHandle = foobarListofSmokeTemperatureobserverToFfi(observers);
-    final __callResultHandle = _throwingNotifyObserversFfi(__lib.LibraryContext.isolateId, _selfHandle, _observersHandle);
-    smokeThermometerReleaseFfiHandle(_selfHandle);
-    foobarListofSmokeTemperatureobserverReleaseFfiHandle(_observersHandle);
+    final _thermometerHandle = smokeThermometerToFfi(thermometer);
+    final _someObserversHandle = foobarListofSmokeTemperatureobserverToFfi(someObservers);
+    final __callResultHandle = _throwingNotifyObserversFfi(__lib.LibraryContext.isolateId, _thermometerHandle, _someObserversHandle);
+    smokeThermometerReleaseFfiHandle(_thermometerHandle);
+    foobarListofSmokeTemperatureobserverReleaseFfiHandle(_someObserversHandle);
     if (_throwingNotifyObserverssmokeThermometerThrowingnotifyobserversThermometerListofSmokeTemperatureobserverReturnHasError(__callResultHandle) != 0) {
         final __errorHandle = _throwingNotifyObserverssmokeThermometerThrowingnotifyobserversThermometerListofSmokeTemperatureobserverReturnGetError(__callResultHandle);
         _throwingNotifyObserverssmokeThermometerThrowingnotifyobserversThermometerListofSmokeTemperatureobserverReturnReleaseHandle(__callResultHandle);

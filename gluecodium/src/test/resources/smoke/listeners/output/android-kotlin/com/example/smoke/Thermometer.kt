@@ -52,7 +52,7 @@ class Thermometer : NativeBase {
         @JvmStatic external fun makeWithDuration(interval: Duration, observers: MutableList<TemperatureObserver>) : Long
         @JvmStatic external fun makeWithoutDuration(observers: MutableList<TemperatureObserver>) : Long
         @JvmStatic external fun throwingMake(id: Int, observers: MutableList<TemperatureObserver>) : Long
-        @JvmStatic external fun notifyObservers(self: Thermometer, observers: MutableList<TemperatureObserver>) : Unit
-        @JvmStatic external fun throwingNotifyObservers(self: Thermometer, observers: MutableList<TemperatureObserver>) : Unit
+        @JvmStatic external fun notifyObservers(thermometer: Thermometer, someObservers: MutableList<TemperatureObserver>) : Unit
+        @JvmStatic external fun throwingNotifyObservers(thermometer: Thermometer, someObservers: MutableList<TemperatureObserver>) : Unit
     }
 }

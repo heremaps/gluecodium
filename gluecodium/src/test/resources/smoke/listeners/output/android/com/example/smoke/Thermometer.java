@@ -78,10 +78,10 @@ public final class Thermometer extends NativeBase {
     private static native long throwingMake(final int id, @NonNull final List<TemperatureObserver> observers) throws Thermometer.NotificationException;
 
 
-    public static native void notifyObservers(@NonNull final Thermometer self, @NonNull final List<TemperatureObserver> observers);
+    public static native void notifyObservers(@NonNull final Thermometer thermometer, @NonNull final List<TemperatureObserver> someObservers);
 
 
-    public static native void throwingNotifyObservers(@NonNull final Thermometer self, @NonNull final List<TemperatureObserver> observers) throws Thermometer.NotificationException;
+    public static native void throwingNotifyObservers(@NonNull final Thermometer thermometer, @NonNull final List<TemperatureObserver> someObservers) throws Thermometer.NotificationException;
 
 
     public native void forceUpdate();

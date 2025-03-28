@@ -50,10 +50,12 @@
 {{#this.attributes.afterconstruction}}
         {{#function.function.thrownType}}try {{/function.function.thrownType}}{{!!
 }}{{resolveName class}}.{{resolveName function.function}}({{!!
-}}{{#function.parameters}}{{!!
-}}{{#isEq this.name "this"}}self: self{{/isEq}}{{!!
-}}{{#isNotEq this.name "this"}}{{resolveName}}: {{resolveName}}{{/isNotEq}}{{#if iter.hasNext}}, {{/if}}{{!!
-}}{{/function.parameters}});
+}}{{#set funCall=function originalFun=function.function}}{{#funCall.parameters}}{{!!
+}}{{#eval "originalFun.parameters" iter.position}}{{resolveName}}{{/eval}}{{!!
+}}{{#isEq this.name "this"}}: self{{/isEq}}{{!!
+}}{{#isNotEq this.name "this"}}: {{resolveName}}{{/isNotEq}}{{!!
+}}{{#if iter.hasNext}}, {{/if}}{{!!
+}}{{/funCall.parameters}}{{/set}});
 {{/this.attributes.afterconstruction}}
     }
 

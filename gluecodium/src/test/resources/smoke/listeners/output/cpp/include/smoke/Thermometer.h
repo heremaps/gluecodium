@@ -60,17 +60,17 @@ public:
     static ::gluecodium::Return< ::std::shared_ptr< ::smoke::Thermometer >, ::std::string > throwing_make( const int32_t id, const ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >& observers );
     /**
      *
-     * \param[in] self @NotNull
-     * \param[in] observers
+     * \param[in] thermometer @NotNull
+     * \param[in] some_observers
      */
-    static void notify_observers( const ::std::shared_ptr< ::smoke::Thermometer >& self, const ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >& observers );
+    static void notify_observers( const ::std::shared_ptr< ::smoke::Thermometer >& thermometer, const ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >& some_observers );
     /**
      *
-     * \param[in] self @NotNull
-     * \param[in] observers
+     * \param[in] thermometer @NotNull
+     * \param[in] some_observers
      * \retval ::::String
      */
-    static ::gluecodium::Return< void, ::std::string > throwing_notify_observers( const ::std::shared_ptr< ::smoke::Thermometer >& self, const ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >& observers );
+    static ::gluecodium::Return< void, ::std::string > throwing_notify_observers( const ::std::shared_ptr< ::smoke::Thermometer >& thermometer, const ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >& some_observers );
     virtual void force_update(  ) = 0;
     virtual double get_celsius(  ) = 0;
     virtual double get_kelvin(  ) = 0;
