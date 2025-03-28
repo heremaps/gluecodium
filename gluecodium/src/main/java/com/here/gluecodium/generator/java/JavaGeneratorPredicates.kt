@@ -25,6 +25,7 @@ import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeExternalDescriptor
+import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeTypeRef
@@ -56,6 +57,12 @@ internal object JavaGeneratorPredicates {
                     limeInterface !is LimeInterface -> false
                     limeInterface.functions.any { it.isStatic } -> true
                     limeInterface.properties.any { it.isStatic } -> true
+                    else -> false
+                }
+            },
+            "isExceptionSameForCtorAndHookFun" to { constructor: Any ->
+                when (constructor) {
+                    is LimeFunction -> CommonGeneratorPredicates.isExceptionSameForCtorAndHookFun(constructor)
                     else -> false
                 }
             },

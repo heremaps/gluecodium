@@ -28,6 +28,7 @@ import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFieldConstructor
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
+import com.here.gluecodium.model.lime.LimeLazyFunctionCall
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
@@ -111,6 +112,24 @@ internal object CommonGeneratorPredicates {
         limeElement.attributes.have(platformAttribute, LimeAttributeValueType.PUBLIC) -> false
         limeElement.attributes.have(platformAttribute, LimeAttributeValueType.INTERNAL) -> true
         else -> limeElement.attributes.have(LimeAttributeType.INTERNAL)
+    }
+
+    fun isExceptionSameForCtorAndHookFun(ctor: LimeFunction) : Boolean{
+        if (!ctor.isConstructor || ctor.thrownType == null || !ctor.attributes.have(LimeAttributeType.AFTER_CONSTRUCTION)) {
+            return false
+        }
+
+        val hookFun = ctor.attributes.get(
+            LimeAttributeType.AFTER_CONSTRUCTION,
+            LimeAttributeValueType.FUNCTION,
+            LimeLazyFunctionCall::class.java
+        )?.function
+
+        if (hookFun == null) {
+            return false
+        }
+
+        return hookFun.exception?.path == ctor.exception?.path
     }
 
     private fun getAllFieldTypes(limeType: LimeType) = getAllFieldTypesRec(getLeafType(limeType), mutableSetOf())

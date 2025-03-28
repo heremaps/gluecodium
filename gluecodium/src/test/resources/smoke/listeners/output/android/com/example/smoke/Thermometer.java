@@ -53,7 +53,7 @@ public final class Thermometer extends NativeBase {
     }
 
 
-    public Thermometer(@NonNull final String label, @NonNull final List<TemperatureObserver> niceObservers) {
+    public Thermometer(@NonNull final String label, @NonNull final List<TemperatureObserver> niceObservers) throws Thermometer.NotificationException {
         this(nothrowMake(label, niceObservers), (Object)null);
         cacheThisInstance();
         throwingNotifyObservers(this, niceObservers);
