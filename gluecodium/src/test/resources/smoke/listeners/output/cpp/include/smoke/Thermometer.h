@@ -14,6 +14,7 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <system_error>
 #include <vector>
 
 
@@ -34,6 +35,13 @@ class _GLUECODIUM_CPP_EXPORT Thermometer {
 public:
     Thermometer();
     virtual ~Thermometer();
+
+
+public:
+    enum class SomeThermometerErrorCode {
+        ERROR_NONE,
+        ERROR_FATAL
+    };
 
 
 public:
@@ -67,6 +75,14 @@ public:
     static ::std::shared_ptr< ::smoke::Thermometer > nothrow_make( const ::std::string& label, const ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >& nice_observers );
     /**
      *
+     * \param[in] dummy
+     * \param[in] observers
+     * \return @NotNull
+     * \retval ::smoke::Thermometer::SomeThermometerErrorCode
+     */
+    static ::gluecodium::Return< ::std::shared_ptr< ::smoke::Thermometer >, ::std::error_code > another_throwing_make( const bool dummy, const ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >& observers );
+    /**
+     *
      * \param[in] thermometer @NotNull
      * \param[in] some_observers
      */
@@ -85,4 +101,11 @@ public:
 };
 
 
+_GLUECODIUM_CPP_EXPORT ::std::error_code make_error_code( ::smoke::Thermometer::SomeThermometerErrorCode value ) noexcept;
+}
+
+namespace std
+{
+template <>
+struct is_error_code_enum< ::smoke::Thermometer::SomeThermometerErrorCode > : public std::true_type { };
 }

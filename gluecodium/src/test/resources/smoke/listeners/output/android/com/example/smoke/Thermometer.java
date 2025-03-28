@@ -15,6 +15,18 @@ import java.util.List;
  * &quot;Subject&quot; in observer design pattern.
  */
 public final class Thermometer extends NativeBase {
+    public enum SomeThermometerErrorCode {
+        ERROR_NONE(0),
+        ERROR_FATAL(1);
+        /**
+         * @hidden
+         */
+        public final int value;
+
+        SomeThermometerErrorCode(final int value) {
+            this.value = value;
+        }
+    }
     public static final class NotificationException extends Exception {
         /**
          * @hidden
@@ -29,6 +41,21 @@ public final class Thermometer extends NativeBase {
          * @hidden
          */
         public final String error;
+    }
+    public static final class AnotherNotificationException extends Exception {
+        /**
+         * @hidden
+         * @param error The error.
+         */
+        public AnotherNotificationException(final Thermometer.SomeThermometerErrorCode error) {
+            super(error.toString());
+            this.error = error;
+        }
+
+        /**
+         * @hidden
+         */
+        public final Thermometer.SomeThermometerErrorCode error;
     }
 
 
@@ -59,6 +86,13 @@ public final class Thermometer extends NativeBase {
         throwingNotifyObservers(this, niceObservers);
     }
 
+
+    public Thermometer(final boolean dummy, @NonNull final List<TemperatureObserver> observers) throws Thermometer.AnotherNotificationException, Thermometer.NotificationException {
+        this(anotherThrowingMake(dummy, observers), (Object)null);
+        cacheThisInstance();
+        throwingNotifyObservers(this, observers);
+    }
+
     /**
      * For internal use only.
      * @hidden
@@ -85,6 +119,8 @@ public final class Thermometer extends NativeBase {
     private static native long throwingMake(final int id, @NonNull final List<TemperatureObserver> observers) throws Thermometer.NotificationException;
 
     private static native long nothrowMake(@NonNull final String label, @NonNull final List<TemperatureObserver> niceObservers);
+
+    private static native long anotherThrowingMake(final boolean dummy, @NonNull final List<TemperatureObserver> observers) throws Thermometer.AnotherNotificationException;
 
 
     public static native void notifyObservers(@NonNull final Thermometer thermometer, @NonNull final List<TemperatureObserver> someObservers);
