@@ -31,7 +31,6 @@ import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeComment
 import com.here.gluecodium.model.lime.LimeElement
-import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeLazyFunctionCall
 import com.here.gluecodium.model.lime.LimeLazyTypeRef
 import com.here.gluecodium.model.lime.LimeParameter

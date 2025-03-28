@@ -114,16 +114,17 @@ internal object CommonGeneratorPredicates {
         else -> limeElement.attributes.have(LimeAttributeType.INTERNAL)
     }
 
-    fun isExceptionSameForCtorAndHookFun(ctor: LimeFunction) : Boolean{
+    fun isExceptionSameForCtorAndHookFun(ctor: LimeFunction): Boolean {
         if (!ctor.isConstructor || ctor.thrownType == null || !ctor.attributes.have(LimeAttributeType.AFTER_CONSTRUCTION)) {
             return false
         }
 
-        val hookFun = ctor.attributes.get(
-            LimeAttributeType.AFTER_CONSTRUCTION,
-            LimeAttributeValueType.FUNCTION,
-            LimeLazyFunctionCall::class.java
-        )?.function
+        val hookFun =
+            ctor.attributes.get(
+                LimeAttributeType.AFTER_CONSTRUCTION,
+                LimeAttributeValueType.FUNCTION,
+                LimeLazyFunctionCall::class.java,
+            )?.function
 
         if (hookFun == null) {
             return false

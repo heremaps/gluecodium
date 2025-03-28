@@ -19,9 +19,10 @@
 
 package com.here.gluecodium.model.lime
 
-class LimeLazyFunctionCall(private val elementFullName: String,
-                           private val referenceMap: Map<String, LimeElement>,
-                           val parameters: List<LimeParameter>,
+class LimeLazyFunctionCall(
+    private val elementFullName: String,
+    private val referenceMap: Map<String, LimeElement>,
+    val parameters: List<LimeParameter>,
 ) {
     val function by lazy {
         referenceMap[elementFullName] as? LimeFunction
