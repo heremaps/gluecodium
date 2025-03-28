@@ -20,6 +20,8 @@ abstract class Thermometer implements Finalizable {
 
   factory Thermometer.throwingMake(int id, List<TemperatureObserver> observers) => $prototype.throwingMake(id, observers);
 
+  factory Thermometer.nothrowMake(String label, List<TemperatureObserver> niceObservers) => $prototype.nothrowMake(label, niceObservers);
+
 
   static void notifyObservers(Thermometer thermometer, List<TemperatureObserver> someObservers) => $prototype.notifyObservers(thermometer, someObservers);
 
@@ -77,6 +79,7 @@ final _throwingMakesmokeThermometerThrowingmakeIntListofSmokeTemperatureobserver
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_Thermometer_throwingMake__Int_ListOf_smoke_TemperatureObserver_return_has_error'));
+
 
 
 
@@ -147,6 +150,20 @@ class Thermometer$Impl extends __lib.NativeBase implements Thermometer {
     return _result;
   }
 
+
+  Thermometer nothrowMake(String label, List<TemperatureObserver> niceObservers) {
+    final _result_handle = _nothrowMake(label, niceObservers);
+    final _result = Thermometer$Impl(_result_handle);
+
+    __lib.cacheInstance(_result_handle, _result);
+
+    _smokeThermometerRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+
+    throwingNotifyObservers(_result, niceObservers);
+
+    return _result;
+  }
+
   static Pointer<Void> _makeWithDuration(Duration interval, List<TemperatureObserver> observers) {
     final _makeWithDurationFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Uint64, Pointer<Void>), Pointer<Void> Function(int, int, Pointer<Void>)>('library_smoke_Thermometer_makeWithDuration__Duration_ListOf_smoke_TemperatureObserver'));
     final _intervalHandle = durationToFfi(interval);
@@ -183,6 +200,16 @@ class Thermometer$Impl extends __lib.NativeBase implements Thermometer {
     }
     final __resultHandle = _throwingMakesmokeThermometerThrowingmakeIntListofSmokeTemperatureobserverReturnGetResult(__callResultHandle);
     _throwingMakesmokeThermometerThrowingmakeIntListofSmokeTemperatureobserverReturnReleaseHandle(__callResultHandle);
+    return __resultHandle;
+  }
+
+  static Pointer<Void> _nothrowMake(String label, List<TemperatureObserver> niceObservers) {
+    final _nothrowMakeFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>, Pointer<Void>)>('library_smoke_Thermometer_nothrowMake__String_ListOf_smoke_TemperatureObserver'));
+    final _labelHandle = stringToFfi(label);
+    final _niceObserversHandle = foobarListofSmokeTemperatureobserverToFfi(niceObservers);
+    final __resultHandle = _nothrowMakeFfi(__lib.LibraryContext.isolateId, _labelHandle, _niceObserversHandle);
+    stringReleaseFfiHandle(_labelHandle);
+    foobarListofSmokeTemperatureobserverReleaseFfiHandle(_niceObserversHandle);
     return __resultHandle;
   }
 

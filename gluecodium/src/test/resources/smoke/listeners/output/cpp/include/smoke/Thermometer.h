@@ -60,6 +60,13 @@ public:
     static ::gluecodium::Return< ::std::shared_ptr< ::smoke::Thermometer >, ::std::string > throwing_make( const int32_t id, const ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >& observers );
     /**
      *
+     * \param[in] label
+     * \param[in] nice_observers
+     * \return @NotNull
+     */
+    static ::std::shared_ptr< ::smoke::Thermometer > nothrow_make( const ::std::string& label, const ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >& nice_observers );
+    /**
+     *
      * \param[in] thermometer @NotNull
      * \param[in] some_observers
      */

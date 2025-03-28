@@ -120,6 +120,38 @@ Java_com_example_smoke_Thermometer_throwingMake(JNIEnv* _jenv, jobject _jinstanc
     return reinterpret_cast<jlong>(nSharedPtr);
 }
 
+jlong
+Java_com_example_smoke_Thermometer_nothrowMake(JNIEnv* _jenv, jobject _jinstance, jstring jlabel, jobject jniceObservers)
+
+{
+
+
+
+    ::std::string label = ::gluecodium::jni::convert_from_jni(_jenv,
+            ::gluecodium::jni::make_non_releasing_ref(jlabel),
+            ::gluecodium::jni::TypeId<::std::string>{});
+
+
+
+    ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > > niceObservers = ::gluecodium::jni::convert_from_jni(_jenv,
+            ::gluecodium::jni::make_non_releasing_ref(jniceObservers),
+            ::gluecodium::jni::TypeId<::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >>{});
+
+
+
+
+
+    auto _result = ::smoke::Thermometer::nothrow_make(label,niceObservers);
+
+    auto nSharedPtr = new (::std::nothrow) ::std::shared_ptr< ::smoke::Thermometer >(_result);
+    if (nSharedPtr == nullptr)
+    {
+        ::gluecodium::jni::throw_new_out_of_memory_exception(_jenv);;
+        return 0;
+    }
+    return reinterpret_cast<jlong>(nSharedPtr);
+}
+
 void
 Java_com_example_smoke_Thermometer_notifyObservers(JNIEnv* _jenv, jobject _jinstance, jobject jthermometer, jobject jsomeObservers)
 

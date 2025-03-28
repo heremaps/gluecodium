@@ -17,6 +17,8 @@ JNIEXPORT jlong JNICALL
 Java_com_example_smoke_Thermometer_makeWithoutDuration(JNIEnv* _jenv, jobject _jinstance, jobject jobservers);
 JNIEXPORT jlong JNICALL
 Java_com_example_smoke_Thermometer_throwingMake(JNIEnv* _jenv, jobject _jinstance, jint jid, jobject jobservers);
+JNIEXPORT jlong JNICALL
+Java_com_example_smoke_Thermometer_nothrowMake(JNIEnv* _jenv, jobject _jinstance, jstring jlabel, jobject jniceObservers);
 JNIEXPORT void JNICALL
 Java_com_example_smoke_Thermometer_notifyObservers(JNIEnv* _jenv, jobject _jinstance, jobject jthermometer, jobject jsomeObservers);
 JNIEXPORT void JNICALL

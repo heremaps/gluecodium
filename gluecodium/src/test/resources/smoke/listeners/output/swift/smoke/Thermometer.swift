@@ -44,6 +44,17 @@ public class Thermometer {
     }
 
 
+    public init(label: String, niceObservers: [TemperatureObserver]) {
+        let _result = Thermometer.nothrowMake(label: label, niceObservers: niceObservers)
+        guard _result != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = _result
+        smoke_Thermometer_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
+        try Thermometer.throwingNotifyObservers(thermometer: self, someObservers: niceObservers);
+    }
+
+
     let c_instance : _baseRef
 
     init(cThermometer: _baseRef) {
@@ -77,6 +88,12 @@ public class Thermometer {
             throw moveFromCType(RESULT.error_value) as Thermometer.NotificationError
         }
         let c_result_handle = RESULT.returned_value
+        return moveFromCType(c_result_handle)
+    }
+    private static func nothrowMake(label: String, niceObservers: [TemperatureObserver]) -> _baseRef {
+        let c_label = moveToCType(label)
+        let c_niceObservers = foobar_moveToCType(niceObservers)
+        let c_result_handle = smoke_Thermometer_nothrowMake(c_label.ref, c_niceObservers.ref)
         return moveFromCType(c_result_handle)
     }
     public static func notifyObservers(thermometer: Thermometer, someObservers: [TemperatureObserver]) -> Void {

@@ -52,6 +52,13 @@ public final class Thermometer extends NativeBase {
         throwingNotifyObservers(this, observers);
     }
 
+
+    public Thermometer(@NonNull final String label, @NonNull final List<TemperatureObserver> niceObservers) {
+        this(nothrowMake(label, niceObservers), (Object)null);
+        cacheThisInstance();
+        throwingNotifyObservers(this, niceObservers);
+    }
+
     /**
      * For internal use only.
      * @hidden
@@ -76,6 +83,8 @@ public final class Thermometer extends NativeBase {
     private static native long makeWithoutDuration(@NonNull final List<TemperatureObserver> observers);
 
     private static native long throwingMake(final int id, @NonNull final List<TemperatureObserver> observers) throws Thermometer.NotificationException;
+
+    private static native long nothrowMake(@NonNull final String label, @NonNull final List<TemperatureObserver> niceObservers);
 
 
     public static native void notifyObservers(@NonNull final Thermometer thermometer, @NonNull final List<TemperatureObserver> someObservers);
