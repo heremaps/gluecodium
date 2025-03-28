@@ -63,6 +63,7 @@ public class Thermometer {
     /// - Parameters:
     ///   - label: some identification label
     ///   - niceObservers: observers of temperature changes
+    /// - Throws: `Thermometer.NotificationError` if notification of observers failed
 
     public init(label: String, niceObservers: [TemperatureObserver]) throws {
         let _result = Thermometer.nothrowMake(label: label, niceObservers: niceObservers)
@@ -79,6 +80,7 @@ public class Thermometer {
     ///   - dummy: some dummy boolean flag
     ///   - observers: observers of temperature changes
     /// - Throws: `Thermometer.AnotherNotificationError` if some problem occurs
+    /// - Throws: `Thermometer.NotificationError` if notification of observers failed
 
     public init(dummy: Bool, observers: [TemperatureObserver]) throws {
         let _result = try Thermometer.anotherThrowingMake(dummy: dummy, observers: observers)
@@ -154,6 +156,11 @@ public class Thermometer {
         let c_someObservers = foobar_moveToCType(someObservers)
         smoke_Thermometer_notifyObservers(c_thermometer.ref, c_someObservers.ref)
     }
+    /// Function used to notify observers.
+    /// - Parameters:
+    ///   - thermometer: subject that has changed state
+    ///   - someObservers: observers to be notified
+    /// - Throws: `Thermometer.NotificationError` if notification of observers failed
     public static func throwingNotifyObservers(thermometer: Thermometer, someObservers: [TemperatureObserver]) throws -> Void {
         let c_thermometer = moveToCType(thermometer)
         let c_someObservers = foobar_moveToCType(someObservers)

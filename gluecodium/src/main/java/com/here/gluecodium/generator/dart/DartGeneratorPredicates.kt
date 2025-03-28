@@ -30,6 +30,7 @@ import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeExternalDescriptor
 import com.here.gluecodium.model.lime.LimeField
+import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
@@ -63,6 +64,12 @@ internal class DartGeneratorPredicates(
             },
             "fieldHasDefaultValue" to { limeField: Any ->
                 limeField is LimeField && limeField.defaultValue != null
+            },
+            "isExceptionSameForCtorAndHookFun" to { constructor: Any ->
+                when (constructor) {
+                    is LimeFunction -> CommonGeneratorPredicates.isExceptionSameForCtorAndHookFun(constructor)
+                    else -> false
+                }
             },
             "isInternal" to { element: Any ->
                 when (element) {

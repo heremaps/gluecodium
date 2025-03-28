@@ -92,10 +92,10 @@ public:
      */
     static void notify_observers( const ::std::shared_ptr< ::smoke::Thermometer >& thermometer, const ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >& some_observers );
     /**
-     *
-     * \param[in] thermometer @NotNull
-     * \param[in] some_observers
-     * \retval ::::String
+     * Function used to notify observers.
+     * \param[in] thermometer @NotNull subject that has changed state
+     * \param[in] some_observers observers to be notified
+     * \retval ::::String if notification of observers failed
      */
     static ::gluecodium::Return< void, ::std::string > throwing_notify_observers( const ::std::shared_ptr< ::smoke::Thermometer >& thermometer, const ::std::vector< ::std::shared_ptr< ::smoke::TemperatureObserver > >& some_observers );
     virtual void force_update(  ) = 0;

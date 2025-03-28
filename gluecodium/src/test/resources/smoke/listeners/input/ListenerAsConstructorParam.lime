@@ -66,6 +66,10 @@ class Thermometer {
 
     static fun notifyObservers(thermometer: Thermometer, someObservers: List<TemperatureObserver>)
 
+    // Function used to notify observers.
+    // @param[thermometer] subject that has changed state
+    // @param[someObservers] observers to be notified
+    // @throws if notification of observers failed
     static fun throwingNotifyObservers(thermometer: Thermometer, someObservers: List<TemperatureObserver>) throws Notification
 
     fun forceUpdate()

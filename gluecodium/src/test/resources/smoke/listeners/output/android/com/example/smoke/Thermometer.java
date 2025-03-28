@@ -104,6 +104,7 @@ public final class Thermometer extends NativeBase {
      * <p>A non-throwing constructor, which makes the thermometer with default readout interval (1 second).
      * @param label <p>some identification label
      * @param niceObservers <p>observers of temperature changes
+     * @throws Thermometer.NotificationException <p>if notification of observers failed
      */
 
     public Thermometer(@NonNull final String label, @NonNull final List<TemperatureObserver> niceObservers) throws Thermometer.NotificationException {
@@ -116,6 +117,7 @@ public final class Thermometer extends NativeBase {
      * @param dummy <p>some dummy boolean flag
      * @param observers <p>observers of temperature changes
      * @throws Thermometer.AnotherNotificationException <p>if some problem occurs
+     * @throws Thermometer.NotificationException <p>if notification of observers failed
      */
 
     public Thermometer(final boolean dummy, @NonNull final List<TemperatureObserver> observers) throws Thermometer.AnotherNotificationException, Thermometer.NotificationException {
@@ -156,7 +158,12 @@ public final class Thermometer extends NativeBase {
 
     public static native void notifyObservers(@NonNull final Thermometer thermometer, @NonNull final List<TemperatureObserver> someObservers);
 
-
+    /**
+     * <p>Function used to notify observers.
+     * @param thermometer <p>subject that has changed state
+     * @param someObservers <p>observers to be notified
+     * @throws Thermometer.NotificationException <p>if notification of observers failed
+     */
     public static native void throwingNotifyObservers(@NonNull final Thermometer thermometer, @NonNull final List<TemperatureObserver> someObservers) throws Thermometer.NotificationException;
 
 

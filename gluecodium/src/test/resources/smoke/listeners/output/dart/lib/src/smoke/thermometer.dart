@@ -40,6 +40,8 @@ abstract class Thermometer implements Finalizable {
   ///
   /// [niceObservers] observers of temperature changes
   ///
+  /// Throws [Thermometer_NotificationException]. if notification of observers failed
+  ///
   factory Thermometer.nothrowMake(String label, List<TemperatureObserver> niceObservers) => $prototype.nothrowMake(label, niceObservers);
   /// A throwing constructor, which makes the thermometer with default readout interval (1 second).
   ///
@@ -49,11 +51,20 @@ abstract class Thermometer implements Finalizable {
   ///
   /// Throws [Thermometer_AnotherNotificationException]. if some problem occurs
   ///
+  /// Throws [Thermometer_NotificationException]. if notification of observers failed
+  ///
   factory Thermometer.anotherThrowingMake(bool dummy, List<TemperatureObserver> observers) => $prototype.anotherThrowingMake(dummy, observers);
 
 
   static void notifyObservers(Thermometer thermometer, List<TemperatureObserver> someObservers) => $prototype.notifyObservers(thermometer, someObservers);
-
+  /// Function used to notify observers.
+  ///
+  /// [thermometer] subject that has changed state
+  ///
+  /// [someObservers] observers to be notified
+  ///
+  /// Throws [Thermometer_NotificationException]. if notification of observers failed
+  ///
   static void throwingNotifyObservers(Thermometer thermometer, List<TemperatureObserver> someObservers) => $prototype.throwingNotifyObservers(thermometer, someObservers);
 
   void forceUpdate();
