@@ -19,12 +19,12 @@
 package com.here.android.test
 
 import com.here.android.RobolectricApplication
-import org.junit.runner.RunWith
+import com.here.android.lorem.ipsum.time.Duration
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
+import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-
-import com.here.android.lorem.ipsum.time.Duration
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = RobolectricApplication::class)
@@ -63,5 +63,44 @@ class ListenerAsConstructorParamTest {
         // Then subject informed about its state during creation.
         assertEquals(observer.getUpdatesCount(), 2)
         assertEquals(observer.getLastCelsiusTemperature(), anotherThermometer.getCelsius(), delta)
+    }
+
+    @org.junit.Test
+    fun testThrowingAfterConstructionFunction() {
+        // Given temperature observer, which receives updates about temperature.
+        val observer: CelsiusObserver = CelsiusObserver()
+        val observers: MutableList<TemperatureObserver> = mutableListOf(observer)
+
+        // Then throwing after-construction function raises exception.
+        val exception = assertThrows(Thermometer.NotificationException::class.java) {
+            Thermometer(77, observers)
+        }
+        assertEquals("BAD THING HAPPENED!", exception.error)
+    }
+
+    @org.junit.Test
+    fun testThrowingAfterConstructionFunctionFromNonthrowingConstructor() {
+        // Given temperature observer, which receives updates about temperature.
+        val observer: CelsiusObserver = CelsiusObserver()
+        val observers: MutableList<TemperatureObserver> = mutableListOf(observer)
+
+        // Then throwing after-construction function raises exception.
+        val exception = assertThrows(Thermometer.NotificationException::class.java) {
+            Thermometer("DUMMY LABEL", observers)
+        }
+        assertEquals("BAD THING HAPPENED!", exception.error)
+    }
+
+    @org.junit.Test
+    fun testThrowingAfterConstructionFunctionFromCtorThatMayThrowTwoTypesOfExceptions() {
+        // Given temperature observer, which receives updates about temperature.
+        val observer: CelsiusObserver = CelsiusObserver()
+        val observers: MutableList<TemperatureObserver> = mutableListOf(observer)
+
+        // Then throwing after-construction function raises exception.
+        val exception = assertThrows(Thermometer.NotificationException::class.java) {
+            Thermometer(true, observers)
+        }
+        assertEquals("BAD THING HAPPENED!", exception.error)
     }
 }

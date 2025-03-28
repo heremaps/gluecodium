@@ -29,6 +29,15 @@
 }}{{#if thrownType}}{{#resolveName thrownType.comment}}{{#unless this.isEmpty}}
 /// Throws [{{resolveName exception}}]. {{prefix this "/// " skipFirstLine=true}}
 ///{{/unless}}{{/resolveName}}{{/if}}{{!!
+}}{{#if isConstructor}}{{#unlessPredicate "isExceptionSameForCtorAndHookFun"}}{{!!
+}}{{#this.attributes.afterconstruction.function.function}}{{!!
+}}{{#if thrownType}}
+{{#resolveName thrownType.comment}}{{#unless this.isEmpty}}
+/// Throws [{{resolveName exception}}]. {{prefix this "/// " skipFirstLine=true}}
+///{{/unless}}{{/resolveName}}{{!!
+}}{{/if}}{{!!
+}}{{/this.attributes.afterconstruction.function.function}}{{!!
+}}{{/unlessPredicate}}{{/if}}{{!!
 }}{{#ifPredicate "needsNoDoc"}}
 /// @nodoc{{/ifPredicate}}{{!!
 }}{{#if attributes.deprecated}}

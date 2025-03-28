@@ -83,6 +83,12 @@ internal class SwiftGeneratorPredicates(
                     limeStruct.fields.any { CommonGeneratorPredicates.isInternal(it, SWIFT) }
             },
             "hasTypeRepository" to { CommonGeneratorPredicates.hasTypeRepository(it) },
+            "isExceptionSameForCtorAndHookFun" to { constructor: Any ->
+                when (constructor) {
+                    is LimeFunction -> CommonGeneratorPredicates.isExceptionSameForCtorAndHookFun(constructor)
+                    else -> false
+                }
+            },
             "isInternal" to { it is LimeNamedElement && CommonGeneratorPredicates.isInternal(it, SWIFT) },
             "isNestedInternal" to { limeElement: Any ->
                 limeElement is LimeNamedElement &&

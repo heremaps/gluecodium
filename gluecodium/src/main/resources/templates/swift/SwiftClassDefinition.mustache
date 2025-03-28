@@ -34,7 +34,7 @@
 {{#set class=this}}{{#constructors}}
 {{prefixPartial "swift/SwiftFunctionComment" "    "}}
     {{resolveName "visibility"}} {{#ifPredicate "isOverriding"}}override {{/ifPredicate}}{{!!
-    }}init({{>swift/SwiftFunctionParameters}}){{#if thrownType}} throws{{/if}} {
+    }}init({{>swift/SwiftFunctionParameters}}){{>swiftConstructorThrows}} {
         let _result = {{#if thrownType}}try {{/if}}{{resolveName class "" "ref"}}.{{resolveName}}({{#parameters}}{{!!
 }}{{#if attributes.swift.label}}{{#isNotEq attributes.swift.label "_"}}{{attributes.swift.label}}: {{/isNotEq}}{{/if}}{{!!
 }}{{#unless attributes.swift.label}}{{resolveName}}: {{/unless}}{{!!
@@ -48,11 +48,14 @@
         {{resolveName class "CBridge"}}_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
 {{/unless}}
 {{#this.attributes.afterconstruction}}
-        {{resolveName class }}.{{resolveName function}}({{!!
-}}{{#function.parameters}}{{!!
-}}{{#isEq this.name "this"}}self: self{{/isEq}}{{!!
-}}{{#isNotEq this.name "this"}}{{resolveName}}: {{resolveName}}{{/isNotEq}}{{#if iter.hasNext}}, {{/if}}{{!!
-}}{{/function.parameters}});
+        {{#function.function.thrownType}}try {{/function.function.thrownType}}{{!!
+}}{{resolveName class}}.{{resolveName function.function}}({{!!
+}}{{#set funCall=function originalFun=function.function}}{{#funCall.parameters}}{{!!
+}}{{#eval "originalFun.parameters" iter.position}}{{resolveName}}{{/eval}}{{!!
+}}{{#isEq this.name "this"}}: self{{/isEq}}{{!!
+}}{{#isNotEq this.name "this"}}: {{resolveName}}{{/isNotEq}}{{!!
+}}{{#if iter.hasNext}}, {{/if}}{{!!
+}}{{/funCall.parameters}}{{/set}});
 {{/this.attributes.afterconstruction}}
     }
 
@@ -63,4 +66,15 @@
 
 {{#interfaces}}
 {{>swift/SwiftInterfaceDefinition}}
-{{/interfaces}}
+{{/interfaces}}{{!!
+
+}}{{+swiftConstructorThrows}}{{!!
+}}{{#if thrownType}} throws{{/if}}{{!!
+}}{{#unless thrownType}}{{!!
+}}{{#this.attributes.afterconstruction.function}}{{!!
+}}{{#if function.thrownType}} throws{{/if}}{{!!
+}}{{/this.attributes.afterconstruction.function}}{{!!
+}}{{/unless}}{{!!
+}}{{/swiftConstructorThrows}}{{!!
+
+}}

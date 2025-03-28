@@ -20,13 +20,57 @@ package smoke
 // A class, which reads temperature and updates observers according to the given interval.
 // "Subject" in observer design pattern.
 class Thermometer {
+    // Some error code for thermometer.
+    enum SomeThermometerErrorCode {
+        ERROR_NONE,
+        ERROR_FATAL
+    }
+
+    // This error indicates problems with notification of observers.
+    // May be thrown if observers cannot be notified.
+    exception Notification(String)
+
+    // This error indicates other problems with notification of observers.
+    exception AnotherNotification(SomeThermometerErrorCode)
+
+    // A constructor, which makes the thermometer with readout interval.
+    // @param[interval] readout interval
+    // @param[observers] observers of temperature changes
     @AfterConstruction("notifyObservers(this, observers)")
     constructor makeWithDuration(interval: Duration, observers: List<TemperatureObserver>)
 
+    // A constructor, which makes the thermometer with default readout interval (1 second).
+    // @param[observers] observers of temperature changes
     @AfterConstruction("notifyObservers(this, observers)")
     constructor makeWithoutDuration(observers: List<TemperatureObserver>)
 
-    static fun notifyObservers(self: Thermometer, observers: List<TemperatureObserver>)
+    // A throwing constructor, which makes the thermometer with default readout interval (1 second).
+    // @param[id] identification of this thermometer
+    // @param[observers] observers of temperature changes
+    // @throws if identification number is invalid
+    @AfterConstruction("throwingNotifyObservers(this, observers)")
+    constructor throwingMake(id: Int, observers: List<TemperatureObserver>) throws Notification
+
+    // A non-throwing constructor, which makes the thermometer with default readout interval (1 second).
+    // @param[label] some identification label
+    // @param[niceObservers] observers of temperature changes
+    @AfterConstruction("throwingNotifyObservers(this, niceObservers)")
+    constructor nothrowMake(label: String, niceObservers: List<TemperatureObserver>)
+
+    // A throwing constructor, which makes the thermometer with default readout interval (1 second).
+    // @param[dummy] some dummy boolean flag
+    // @param[observers] observers of temperature changes
+    // @throws if some problem occurs
+    @AfterConstruction("throwingNotifyObservers(this, observers)")
+    constructor anotherThrowingMake(dummy: Boolean, observers: List<TemperatureObserver>) throws AnotherNotification
+
+    static fun notifyObservers(thermometer: Thermometer, someObservers: List<TemperatureObserver>)
+
+    // Function used to notify observers.
+    // @param[thermometer] subject that has changed state
+    // @param[someObservers] observers to be notified
+    // @throws if notification of observers failed
+    static fun throwingNotifyObservers(thermometer: Thermometer, someObservers: List<TemperatureObserver>) throws Notification
 
     fun forceUpdate()
 

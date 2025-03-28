@@ -60,7 +60,43 @@ class ListenerAsConstructorParamTest: XCTestCase {
       XCTAssertEqual(anotherThermometer.getCelsius(), observer.getLastCelsius(), accuracy: 0.000001)
     }
 
+    func testThrowingAfterConstructionFunction() {
+        // Given temperature observer, which receives updates about temperature.
+        let observer = CelsiusObserver()
+        let observers = [observer]
+
+        // Then throwing after-construction function raises exception.
+        XCTAssertThrowsError(try Thermometer(id: 77, observers: observers)) { (error) in
+            XCTAssertEqual(error as? Thermometer.NotificationError, "BAD THING HAPPENED!")
+        }
+    }
+
+    func testThrowingAfterConstructionFunctionFromNonThrowingConstructor() {
+        // Given temperature observer, which receives updates about temperature.
+        let observer = CelsiusObserver()
+        let observers = [observer]
+
+        // Then throwing after-construction function raises exception.
+        XCTAssertThrowsError(try Thermometer(label: "DUMMY", niceObservers: observers)) { (error) in
+            XCTAssertEqual(error as? Thermometer.NotificationError, "BAD THING HAPPENED!")
+        }
+    }
+
+    func testThrowingAfterConstructionFunctionFromCtorThatMayThrowTwoTypesOfExceptions() {
+        // Given temperature observer, which receives updates about temperature.
+        let observer = CelsiusObserver()
+        let observers = [observer]
+
+        // Then throwing after-construction function raises exception.
+        XCTAssertThrowsError(try Thermometer(dummy: true, observers: observers)) { (error) in
+            XCTAssertEqual(error as? Thermometer.NotificationError, "BAD THING HAPPENED!")
+        }
+    }
+
     static var allTests = [
-      ("testObserverUpdateWhenAfterConstructedUsed", testObserverUpdateWhenAfterConstructedUsed)
+      ("testObserverUpdateWhenAfterConstructedUsed", testObserverUpdateWhenAfterConstructedUsed),
+      ("testThrowingAfterConstructionFunction", testThrowingAfterConstructionFunction),
+      ("testThrowingAfterConstructionFunctionFromNonThrowingConstructor", testThrowingAfterConstructionFunctionFromNonThrowingConstructor),
+      ("testThrowingAfterConstructionFunctionFromCtorThatMayThrowTwoTypesOfExceptions", testThrowingAfterConstructionFunctionFromCtorThatMayThrowTwoTypesOfExceptions)
     ]
 }

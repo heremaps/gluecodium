@@ -19,6 +19,7 @@
 package com.here.android.test;
 
 import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
 import android.os.Build;
 import com.here.android.lorem.ipsum.time.Duration;
@@ -74,5 +75,53 @@ public class ListenerAsConstructorParamTest {
     // Then subject informed about its state during creation.
     assertEquals(observer.getUpdatesCount(), 2);
     assertEquals(observer.getLastCelsius(), anotherThermometer.getCelsius(), delta);
+  }
+
+  @Test
+  public void testThrowingAfterConstructionFunction() {
+    // Given temperature observer, which receives updates about temperature.
+    CelsiusObserver observer = new CelsiusObserver();
+
+    ArrayList<TemperatureObserver> observers = new ArrayList();
+    observers.add(observer);
+
+    // Then throwing after-construction function raises exception.
+    Thermometer.NotificationException exception = assertThrows(Thermometer.NotificationException.class, () -> {
+      new Thermometer(77, observers);
+    });
+
+    assertEquals("BAD THING HAPPENED!", exception.error);
+  }
+
+  @Test
+  public void testThrowingAfterConstructionFunctionFromNonthrowingConstructor() {
+    // Given temperature observer, which receives updates about temperature.
+    CelsiusObserver observer = new CelsiusObserver();
+
+    ArrayList<TemperatureObserver> observers = new ArrayList();
+    observers.add(observer);
+
+    // Then throwing after-construction function raises exception.
+    Thermometer.NotificationException exception = assertThrows(Thermometer.NotificationException.class, () -> {
+      new Thermometer("SOME DUMMY LABEL", observers);
+    });
+
+    assertEquals("BAD THING HAPPENED!", exception.error);
+  }
+
+  @Test
+  public void testThrowingAfterConstructionFunctionFromCtorThatMayThrowTwoTypesOfExceptions() {
+    // Given temperature observer, which receives updates about temperature.
+    CelsiusObserver observer = new CelsiusObserver();
+
+    ArrayList<TemperatureObserver> observers = new ArrayList();
+    observers.add(observer);
+
+    // Then throwing after-construction function raises exception.
+    Thermometer.NotificationException exception = assertThrows(Thermometer.NotificationException.class, () -> {
+      new Thermometer(true, observers);
+    });
+
+    assertEquals("BAD THING HAPPENED!", exception.error);
   }
 }
