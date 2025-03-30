@@ -37,4 +37,11 @@
 - Returns: {{#resolveName returnType.comment}}{{prefix this "    " skipFirstLine=true}}{{/resolveName}}{{/unless}}{{!!
 }}{{#if thrownType}}
 - Throws: `{{resolveName exception "" "ref"}}` {{#resolveName thrownType.comment}}{{prefix this "    " skipFirstLine=true}}{{/resolveName}}{{/if}}{{!!
-}}{{/combinedComment}}
+}}{{!!
+}}{{#if isConstructor}}{{#unlessPredicate "isExceptionSameForCtorAndHookFun"}}{{!!
+}}{{#this.attributes.afterconstruction.function.function}}{{!!
+}}{{#if thrownType}}
+- Throws: `{{resolveName exception "" "ref"}}` {{#resolveName thrownType.comment}}{{prefix this "    " skipFirstLine=true}}{{/resolveName}}{{!!
+}}{{/if}}{{!!
+}}{{/this.attributes.afterconstruction.function.function}}{{!!
+}}{{/unlessPredicate}}{{/if}}{{/combinedComment}}

@@ -8,6 +8,17 @@ import Foundation
 /// "Subject" in observer design pattern.
 public class Thermometer {
 
+    /// This error indicates problems with notification of observers.
+    /// May be thrown if observers cannot be notified.
+    public typealias NotificationError = String
+
+    /// This error indicates other problems with notification of observers.
+    public typealias AnotherNotificationError = Thermometer.SomeThermometerErrorCode
+
+    /// A constructor, which makes the thermometer with readout interval.
+    /// - Parameters:
+    ///   - interval: readout interval
+    ///   - observers: observers of temperature changes
 
     public init(interval: TimeInterval, observers: [TemperatureObserver]) {
         let _result = Thermometer.makeWithDuration(interval: interval, observers: observers)
@@ -16,9 +27,11 @@ public class Thermometer {
         }
         c_instance = _result
         smoke_Thermometer_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
-        Thermometer.notifyObservers(self: self, observers: observers);
+        Thermometer.notifyObservers(thermometer: self, someObservers: observers);
     }
 
+    /// A constructor, which makes the thermometer with default readout interval (1 second).
+    /// - Parameter observers: observers of temperature changes
 
     public init(observers: [TemperatureObserver]) {
         let _result = Thermometer.makeWithoutDuration(observers: observers)
@@ -27,7 +40,56 @@ public class Thermometer {
         }
         c_instance = _result
         smoke_Thermometer_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
-        Thermometer.notifyObservers(self: self, observers: observers);
+        Thermometer.notifyObservers(thermometer: self, someObservers: observers);
+    }
+
+    /// A throwing constructor, which makes the thermometer with default readout interval (1 second).
+    /// - Parameters:
+    ///   - id: identification of this thermometer
+    ///   - observers: observers of temperature changes
+    /// - Throws: `Thermometer.NotificationError` if identification number is invalid
+
+    public init(id: Int32, observers: [TemperatureObserver]) throws {
+        let _result = try Thermometer.throwingMake(id: id, observers: observers)
+        guard _result != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = _result
+        smoke_Thermometer_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
+        try Thermometer.throwingNotifyObservers(thermometer: self, someObservers: observers);
+    }
+
+    /// A non-throwing constructor, which makes the thermometer with default readout interval (1 second).
+    /// - Parameters:
+    ///   - label: some identification label
+    ///   - niceObservers: observers of temperature changes
+    /// - Throws: `Thermometer.NotificationError` if notification of observers failed
+
+    public init(label: String, niceObservers: [TemperatureObserver]) throws {
+        let _result = Thermometer.nothrowMake(label: label, niceObservers: niceObservers)
+        guard _result != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = _result
+        smoke_Thermometer_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
+        try Thermometer.throwingNotifyObservers(thermometer: self, someObservers: niceObservers);
+    }
+
+    /// A throwing constructor, which makes the thermometer with default readout interval (1 second).
+    /// - Parameters:
+    ///   - dummy: some dummy boolean flag
+    ///   - observers: observers of temperature changes
+    /// - Throws: `Thermometer.AnotherNotificationError` if some problem occurs
+    /// - Throws: `Thermometer.NotificationError` if notification of observers failed
+
+    public init(dummy: Bool, observers: [TemperatureObserver]) throws {
+        let _result = try Thermometer.anotherThrowingMake(dummy: dummy, observers: observers)
+        guard _result != 0 else {
+            fatalError("Nullptr value is not supported for initializers")
+        }
+        c_instance = _result
+        smoke_Thermometer_cache_swift_object_wrapper(c_instance, Unmanaged<AnyObject>.passUnretained(self).toOpaque())
+        try Thermometer.throwingNotifyObservers(thermometer: self, someObservers: observers);
     }
 
 
@@ -45,6 +107,13 @@ public class Thermometer {
         smoke_Thermometer_release_handle(c_instance)
     }
 
+    /// Some error code for thermometer.
+    public enum SomeThermometerErrorCode : UInt32, CaseIterable, Codable {
+
+        case errorNone
+
+        case errorFatal
+    }
     private static func makeWithDuration(interval: TimeInterval, observers: [TemperatureObserver]) -> _baseRef {
         let c_interval = moveToCType(interval)
         let c_observers = foobar_moveToCType(observers)
@@ -56,10 +125,49 @@ public class Thermometer {
         let c_result_handle = smoke_Thermometer_makeWithoutDuration(c_observers.ref)
         return moveFromCType(c_result_handle)
     }
-    public static func notifyObservers(self: Thermometer, observers: [TemperatureObserver]) -> Void {
-        let c_self = moveToCType(self)
+    private static func throwingMake(id: Int32, observers: [TemperatureObserver]) throws -> _baseRef {
+        let c_id = moveToCType(id)
         let c_observers = foobar_moveToCType(observers)
-        smoke_Thermometer_notifyObservers(c_self.ref, c_observers.ref)
+        let RESULT = smoke_Thermometer_throwingMake(c_id.ref, c_observers.ref)
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as Thermometer.NotificationError
+        }
+        let c_result_handle = RESULT.returned_value
+        return moveFromCType(c_result_handle)
+    }
+    private static func nothrowMake(label: String, niceObservers: [TemperatureObserver]) -> _baseRef {
+        let c_label = moveToCType(label)
+        let c_niceObservers = foobar_moveToCType(niceObservers)
+        let c_result_handle = smoke_Thermometer_nothrowMake(c_label.ref, c_niceObservers.ref)
+        return moveFromCType(c_result_handle)
+    }
+    private static func anotherThrowingMake(dummy: Bool, observers: [TemperatureObserver]) throws -> _baseRef {
+        let c_dummy = moveToCType(dummy)
+        let c_observers = foobar_moveToCType(observers)
+        let RESULT = smoke_Thermometer_anotherThrowingMake(c_dummy.ref, c_observers.ref)
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as Thermometer.AnotherNotificationError
+        }
+        let c_result_handle = RESULT.returned_value
+        return moveFromCType(c_result_handle)
+    }
+    public static func notifyObservers(thermometer: Thermometer, someObservers: [TemperatureObserver]) -> Void {
+        let c_thermometer = moveToCType(thermometer)
+        let c_someObservers = foobar_moveToCType(someObservers)
+        smoke_Thermometer_notifyObservers(c_thermometer.ref, c_someObservers.ref)
+    }
+    /// Function used to notify observers.
+    /// - Parameters:
+    ///   - thermometer: subject that has changed state
+    ///   - someObservers: observers to be notified
+    /// - Throws: `Thermometer.NotificationError` if notification of observers failed
+    public static func throwingNotifyObservers(thermometer: Thermometer, someObservers: [TemperatureObserver]) throws -> Void {
+        let c_thermometer = moveToCType(thermometer)
+        let c_someObservers = foobar_moveToCType(someObservers)
+        let RESULT = smoke_Thermometer_throwingNotifyObservers(c_thermometer.ref, c_someObservers.ref)
+        if (!RESULT.has_value) {
+            throw moveFromCType(RESULT.error_value) as Thermometer.NotificationError
+        }
     }
     public func forceUpdate() -> Void {
         smoke_Thermometer_forceUpdate(self.c_instance)
@@ -157,5 +265,42 @@ internal func moveToCType(_ swiftClass: Thermometer?) -> RefHolder {
     return getRef(swiftClass, owning: true)
 }
 
+internal func copyToCType(_ swiftEnum: Thermometer.SomeThermometerErrorCode) -> PrimitiveHolder<UInt32> {
+    return PrimitiveHolder(swiftEnum.rawValue)
+}
+internal func moveToCType(_ swiftEnum: Thermometer.SomeThermometerErrorCode) -> PrimitiveHolder<UInt32> {
+    return copyToCType(swiftEnum)
+}
+
+internal func copyToCType(_ swiftEnum: Thermometer.SomeThermometerErrorCode?) -> RefHolder {
+    return copyToCType(swiftEnum?.rawValue)
+}
+internal func moveToCType(_ swiftEnum: Thermometer.SomeThermometerErrorCode?) -> RefHolder {
+    return moveToCType(swiftEnum?.rawValue)
+}
+
+internal func copyFromCType(_ cValue: UInt32) -> Thermometer.SomeThermometerErrorCode {
+    return Thermometer.SomeThermometerErrorCode(rawValue: cValue)!
+}
+internal func moveFromCType(_ cValue: UInt32) -> Thermometer.SomeThermometerErrorCode {
+    return copyFromCType(cValue)
+}
+
+internal func copyFromCType(_ handle: _baseRef) -> Thermometer.SomeThermometerErrorCode? {
+    guard handle != 0 else {
+        return nil
+    }
+    return Thermometer.SomeThermometerErrorCode(rawValue: uint32_t_value_get(handle))!
+}
+internal func moveFromCType(_ handle: _baseRef) -> Thermometer.SomeThermometerErrorCode? {
+    defer {
+        uint32_t_release_handle(handle)
+    }
+    return copyFromCType(handle)
+}
 
 
+extension String : Error {
+}
+extension Thermometer.SomeThermometerErrorCode : Error {
+}
