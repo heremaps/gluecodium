@@ -30,13 +30,13 @@
 {{#set classElement=this}}{{#constructors}}
 {{prefixPartial "java/JavaMethodComment" "    "}}
     {{resolveName "visibility"}}{{resolveName classElement}}({{joinPartial parameters "java/JavaParameter" ", "}}){{!!
-    }}{{#thrownType}} throws {{resolveName typeRef}}{{/thrownType}} {
+    }}{{>javaConstructorThrows}}{{>javaConstructorExceptions}} {
         this({{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}), (Object)null);
 {{#unless classElement.attributes.nocache}}
         cacheThisInstance();
 {{/unless}}
 {{#this.attributes.afterconstruction}}
-        {{resolveName function}}({{!!
+        {{resolveName function.function}}({{!!
 }}{{#function.parameters}}{{!!
 }}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/function.parameters}});
@@ -103,3 +103,25 @@
 {{#elementType}}{{prefixPartial "java/LazyNativeList" "    "}}{{/elementType}}
 {{/this}}{{/eval}}
 }
+{{!!
+
+}}{{+javaConstructorThrows}}{{!!
+}}{{#if thrownType}} throws {{/if}}{{!!
+}}{{#unless thrownType}}{{!!
+}}{{#this.attributes.afterconstruction.function}}{{!!
+}}{{#if function.thrownType}} throws {{/if}}{{!!
+}}{{/this.attributes.afterconstruction.function}}{{!!
+}}{{/unless}}{{!!
+}}{{/javaConstructorThrows}}{{!!
+
+}}{{+javaConstructorExceptions}}{{!!
+}}{{#thrownType}}{{resolveName typeRef}}{{/thrownType}}{{!!
+}}{{#unlessPredicate "isExceptionSameForCtorAndHookFun"}}{{!!
+}}{{#if thrownType this.attributes.afterconstruction.function.function.thrownType}}, {{/if}}{{!!
+}}{{#this.attributes.afterconstruction.function}}{{!!
+}}{{#function.thrownType}}{{resolveName typeRef}}{{/function.thrownType}}{{!!
+}}{{/this.attributes.afterconstruction.function}}{{!!
+}}{{/unlessPredicate}}{{!!
+}}{{/javaConstructorExceptions}}{{!!
+
+}}

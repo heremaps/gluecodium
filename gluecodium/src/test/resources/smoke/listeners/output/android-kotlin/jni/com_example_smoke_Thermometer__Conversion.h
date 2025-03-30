@@ -7,6 +7,7 @@
 
 #include "smoke/Thermometer.h"
 #include "com_example_smoke_TemperatureObserver__Conversion.h"
+#include "com_example_smoke_Thermometer_SomeThermometerErrorCode__Conversion.h"
 #include "JniReference.h"
 #include "JniTypeId.h"
 #include <memory>
