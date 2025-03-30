@@ -245,7 +245,7 @@ class InheritanceTests: XCTestCase {
         let testData = getTestData()
         testData.forEach { (testCase: (object: RootInterface, expected: String)) in
             let (object, expected) = testCase
-            InheritanceTestHelper.callRootMethod(object: object, data: InheritanceTests.DATA)
+            InheritanceTestHelper.callRootMethod(interfaceObject: object, data: InheritanceTests.DATA)
             XCTAssertEqual(getData(object), expected)
         }
     }

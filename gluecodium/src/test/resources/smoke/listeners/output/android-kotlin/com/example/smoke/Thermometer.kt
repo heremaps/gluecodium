@@ -10,6 +10,16 @@ import com.example.time.Duration
 
 class Thermometer : NativeBase {
 
+    enum class SomeThermometerErrorCode(private val value: Int) {
+        ERROR_NONE(0),
+        ERROR_FATAL(1);
+    }
+    class NotificationException(val error: String) : Exception(error.toString())
+
+
+    class AnotherNotificationException(val error: Thermometer.SomeThermometerErrorCode) : Exception(error.toString())
+
+
 
     constructor(interval: Duration, observers: MutableList<TemperatureObserver>) : this(makeWithDuration(interval, observers), null as Any?) {
         cacheThisInstance();
@@ -18,6 +28,18 @@ class Thermometer : NativeBase {
     constructor(observers: MutableList<TemperatureObserver>) : this(makeWithoutDuration(observers), null as Any?) {
         cacheThisInstance();
         notifyObservers(this, observers)
+    }
+    constructor(id: Int, observers: MutableList<TemperatureObserver>) : this(throwingMake(id, observers), null as Any?) {
+        cacheThisInstance();
+        throwingNotifyObservers(this, observers)
+    }
+    constructor(label: String, niceObservers: MutableList<TemperatureObserver>) : this(nothrowMake(label, niceObservers), null as Any?) {
+        cacheThisInstance();
+        throwingNotifyObservers(this, niceObservers)
+    }
+    constructor(dummy: Boolean, observers: MutableList<TemperatureObserver>) : this(anotherThrowingMake(dummy, observers), null as Any?) {
+        cacheThisInstance();
+        throwingNotifyObservers(this, observers)
     }
 
     /*
@@ -44,6 +66,10 @@ class Thermometer : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         @JvmStatic external fun makeWithDuration(interval: Duration, observers: MutableList<TemperatureObserver>) : Long
         @JvmStatic external fun makeWithoutDuration(observers: MutableList<TemperatureObserver>) : Long
-        @JvmStatic external fun notifyObservers(self: Thermometer, observers: MutableList<TemperatureObserver>) : Unit
+        @JvmStatic external fun throwingMake(id: Int, observers: MutableList<TemperatureObserver>) : Long
+        @JvmStatic external fun nothrowMake(label: String, niceObservers: MutableList<TemperatureObserver>) : Long
+        @JvmStatic external fun anotherThrowingMake(dummy: Boolean, observers: MutableList<TemperatureObserver>) : Long
+        @JvmStatic external fun notifyObservers(thermometer: Thermometer, someObservers: MutableList<TemperatureObserver>) : Unit
+        @JvmStatic external fun throwingNotifyObservers(thermometer: Thermometer, someObservers: MutableList<TemperatureObserver>) : Unit
     }
 }
