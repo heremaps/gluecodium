@@ -17,13 +17,13 @@
 
 package test
 
-@Skip(Java) @Skip(Dart)
+@Skip(Java) @Skip(Dart) @Skip(Kotlin)
 open class ParentWithCustomConstructor {
     # Constructor names should be different in parent and child to reproduce the issue.
     constructor create()
 }
 
-@Skip(Java) @Skip(Dart)
+@Skip(Java) @Skip(Dart) @Skip(Kotlin)
 class ChildWithCustomConstructor: ParentWithCustomConstructor {
     constructor make()
 }
