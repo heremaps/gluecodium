@@ -59,8 +59,7 @@ element is skipped (not generated). Custom tags are case-insensitive.
 It specifies a function that should be called after the constructor call finishes and the object is properly created and cached.
 It is required when `this` object needs to be passed to some platform method during construction. The function call inside
 `@AfterConstructed()` annotation can use any of parameters of the constructor in any order. In order to refer to this/self
-object `this` keyword should be used in LIME file. Note: the parameter of static function in Swift needs to be named `self`
-in order to ensure that the code compiles.
+object `this` keyword should be used in LIME file.
 To understand the purpose of the usage let's consider the following situation:
   * we have a constructor, which takes an interface: `constructor(someInterface: SomeInterface)`
   * we want to call a method of the interface from the constructor with the newly created object: `someInterface.doSomething(this)`

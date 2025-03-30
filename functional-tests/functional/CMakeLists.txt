@@ -210,7 +210,7 @@ feature(Listeners cpp android android-kotlin swift dart SOURCES
     input/lime/ListenerAsConstructorParam.lime
 )
 
-feature(ComplexListeners cpp android swift dart SOURCES
+feature(ComplexListeners cpp android android-kotlin swift dart SOURCES
     input/src/cpp/ComplexListener.cpp
     input/src/cpp/ComplexListener.h
 
@@ -273,7 +273,7 @@ feature(Defaults cpp android android-kotlin swift dart SOURCES
     input/lime/ConstantDefaults.lime
 )
 
-feature(Inheritance cpp android swift dart SOURCES
+feature(Inheritance cpp android android-kotlin swift dart SOURCES
     input/src/cpp/ChildClassImpl.cpp
     input/src/cpp/ChildClassImpl.h
     input/src/cpp/GrandchildClassImpl.cpp
