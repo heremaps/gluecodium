@@ -45,4 +45,11 @@
 }}{{#if thrownType}}
 {{!!}}@throws {{resolveName exception "" "ref"}} {{#resolveName thrownType.comment}}{{prefix this "    " skipFirstLine=true}}{{/resolveName}}{{!!
 }}{{/if}}{{!!
+}}{{#if isConstructor}}{{#unlessPredicate "isExceptionSameForCtorAndHookFun"}}{{!!
+}}{{#this.attributes.afterconstruction.function.function}}{{!!
+}}{{#if thrownType}}
+{{!!}}@throws {{resolveName exception "" "ref"}} {{#resolveName thrownType.comment}}{{prefix this "    " skipFirstLine=true}}{{/resolveName}}{{!!
+}}{{/if}}{{!!
+}}{{/this.attributes.afterconstruction.function.function}}{{!!
+}}{{/unlessPredicate}}{{/if}}{{!!
 }}{{/combinedComment}}
