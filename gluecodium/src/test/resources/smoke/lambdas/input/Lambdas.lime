@@ -21,10 +21,11 @@ class Lambdas {
     lambda Producer = () -> String
     // Should confuse everyone thoroughly
     @Java(Name = "Confounder", FunctionName = "confuse")
+    @Kotlin(Name = "Confounder", FunctionName = "confuse")
     @Swift("Convoluter")
     lambda Confuser = (String) -> Producer
     lambda Consumer = (String) -> Void
-    lambda Indexer = (String, @Java("index") Float) -> Int
+    lambda Indexer = (String, @Kotlin("idx") @Java("index") Float) -> Int
     lambda NullableConfuser = (String?) -> Producer?
 
     fun deconfuse(value: String, confuser: Confuser): Producer
