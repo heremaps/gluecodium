@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 13.12.0
+Release date 2025-03-24
 ### Features
  * Several placeholder files can be specified with CMake property `GLUECODIUM_DOCS_PLACEHOLDERS_LIST` or placeholders can be directly specified in CMake property `GLUECODIUM_DOCS_PLACEHOLDERS`.
  * The new annotation called `@AfterConstruction()` is available and can be used to specify function called after the construction of an object finishes. It should be used for calling platform code from the constructor. More information can be found in `docs/lime_attributes.md`.
