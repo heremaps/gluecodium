@@ -13,11 +13,12 @@
 #include <string>
 #include <memory>
 #include <new>
+#include <thread>
 
 class smoke_SkipSetter_Proxy : public smoke::SkipSetter {
 public:
     smoke_SkipSetter_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle close_callbacks, FfiOpaqueHandle p0g)
-        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks), isolate_handle(Dart_CurrentIsolate_DL()), p0g(p0g) {
+        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks), isolate_handle(Dart_CurrentIsolate_DL()), isolate_thread_id(std::this_thread::get_id()), p0g(p0g) {
         library_cache_dart_handle_by_raw_pointer(this, isolate_id, dart_handle);
     }
 
@@ -64,6 +65,7 @@ private:
     const Dart_PersistentHandle dart_persistent_handle;
     const FfiOpaqueHandle f_close_callbacks;
     const Dart_Isolate isolate_handle;
+    const std::thread::id isolate_thread_id;
     const FfiOpaqueHandle p0g;
     inline void dispatch(std::function<void()>&& callback) const
     {

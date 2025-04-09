@@ -14,11 +14,12 @@
 #include <stdbool.h>
 #include <memory>
 #include <new>
+#include <thread>
 
 class smoke_AsyncClass_AsyncvoidResultlambda_Proxy {
 public:
     smoke_AsyncClass_AsyncvoidResultlambda_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle close_callbacks, FfiOpaqueHandle f0)
-        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks), isolate_handle(Dart_CurrentIsolate_DL()), f0(f0) {
+        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks), isolate_handle(Dart_CurrentIsolate_DL()), isolate_thread_id(std::this_thread::get_id()), f0(f0) {
     }
 
     ~smoke_AsyncClass_AsyncvoidResultlambda_Proxy() {
@@ -57,6 +58,7 @@ private:
     const Dart_PersistentHandle dart_persistent_handle;
     const FfiOpaqueHandle f_close_callbacks;
     const Dart_Isolate isolate_handle;
+    const std::thread::id isolate_thread_id;
     const FfiOpaqueHandle f0;
 
     inline void dispatch(std::function<void()>&& callback) const
@@ -70,7 +72,7 @@ private:
 class smoke_AsyncClass_AsyncvoidthrowsResultlambda_Proxy {
 public:
     smoke_AsyncClass_AsyncvoidthrowsResultlambda_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle close_callbacks, FfiOpaqueHandle f0)
-        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks), isolate_handle(Dart_CurrentIsolate_DL()), f0(f0) {
+        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks), isolate_handle(Dart_CurrentIsolate_DL()), isolate_thread_id(std::this_thread::get_id()), f0(f0) {
     }
 
     ~smoke_AsyncClass_AsyncvoidthrowsResultlambda_Proxy() {
@@ -109,6 +111,7 @@ private:
     const Dart_PersistentHandle dart_persistent_handle;
     const FfiOpaqueHandle f_close_callbacks;
     const Dart_Isolate isolate_handle;
+    const std::thread::id isolate_thread_id;
     const FfiOpaqueHandle f0;
 
     inline void dispatch(std::function<void()>&& callback) const
@@ -122,7 +125,7 @@ private:
 class smoke_AsyncClass_AsyncvoidthrowsErrorlambda_Proxy {
 public:
     smoke_AsyncClass_AsyncvoidthrowsErrorlambda_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle close_callbacks, FfiOpaqueHandle f0)
-        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks), isolate_handle(Dart_CurrentIsolate_DL()), f0(f0) {
+        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks), isolate_handle(Dart_CurrentIsolate_DL()), isolate_thread_id(std::this_thread::get_id()), f0(f0) {
     }
 
     ~smoke_AsyncClass_AsyncvoidthrowsErrorlambda_Proxy() {
@@ -162,6 +165,7 @@ private:
     const Dart_PersistentHandle dart_persistent_handle;
     const FfiOpaqueHandle f_close_callbacks;
     const Dart_Isolate isolate_handle;
+    const std::thread::id isolate_thread_id;
     const FfiOpaqueHandle f0;
 
     inline void dispatch(std::function<void()>&& callback) const
@@ -175,7 +179,7 @@ private:
 class smoke_AsyncClass_AsyncintResultlambda_Proxy {
 public:
     smoke_AsyncClass_AsyncintResultlambda_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle close_callbacks, FfiOpaqueHandle f0)
-        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks), isolate_handle(Dart_CurrentIsolate_DL()), f0(f0) {
+        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks), isolate_handle(Dart_CurrentIsolate_DL()), isolate_thread_id(std::this_thread::get_id()), f0(f0) {
     }
 
     ~smoke_AsyncClass_AsyncintResultlambda_Proxy() {
@@ -215,6 +219,7 @@ private:
     const Dart_PersistentHandle dart_persistent_handle;
     const FfiOpaqueHandle f_close_callbacks;
     const Dart_Isolate isolate_handle;
+    const std::thread::id isolate_thread_id;
     const FfiOpaqueHandle f0;
 
     inline void dispatch(std::function<void()>&& callback) const
@@ -228,7 +233,7 @@ private:
 class smoke_AsyncClass_AsyncintthrowsResultlambda_Proxy {
 public:
     smoke_AsyncClass_AsyncintthrowsResultlambda_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle close_callbacks, FfiOpaqueHandle f0)
-        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks), isolate_handle(Dart_CurrentIsolate_DL()), f0(f0) {
+        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks), isolate_handle(Dart_CurrentIsolate_DL()), isolate_thread_id(std::this_thread::get_id()), f0(f0) {
     }
 
     ~smoke_AsyncClass_AsyncintthrowsResultlambda_Proxy() {
@@ -268,6 +273,7 @@ private:
     const Dart_PersistentHandle dart_persistent_handle;
     const FfiOpaqueHandle f_close_callbacks;
     const Dart_Isolate isolate_handle;
+    const std::thread::id isolate_thread_id;
     const FfiOpaqueHandle f0;
 
     inline void dispatch(std::function<void()>&& callback) const
@@ -281,7 +287,7 @@ private:
 class smoke_AsyncClass_AsyncintthrowsErrorlambda_Proxy {
 public:
     smoke_AsyncClass_AsyncintthrowsErrorlambda_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle close_callbacks, FfiOpaqueHandle f0)
-        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks), isolate_handle(Dart_CurrentIsolate_DL()), f0(f0) {
+        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks), isolate_handle(Dart_CurrentIsolate_DL()), isolate_thread_id(std::this_thread::get_id()), f0(f0) {
     }
 
     ~smoke_AsyncClass_AsyncintthrowsErrorlambda_Proxy() {
@@ -321,6 +327,7 @@ private:
     const Dart_PersistentHandle dart_persistent_handle;
     const FfiOpaqueHandle f_close_callbacks;
     const Dart_Isolate isolate_handle;
+    const std::thread::id isolate_thread_id;
     const FfiOpaqueHandle f0;
 
     inline void dispatch(std::function<void()>&& callback) const
@@ -334,7 +341,7 @@ private:
 class smoke_AsyncClass_AsyncstaticResultlambda_Proxy {
 public:
     smoke_AsyncClass_AsyncstaticResultlambda_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle close_callbacks, FfiOpaqueHandle f0)
-        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks), isolate_handle(Dart_CurrentIsolate_DL()), f0(f0) {
+        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks), isolate_handle(Dart_CurrentIsolate_DL()), isolate_thread_id(std::this_thread::get_id()), f0(f0) {
     }
 
     ~smoke_AsyncClass_AsyncstaticResultlambda_Proxy() {
@@ -373,6 +380,7 @@ private:
     const Dart_PersistentHandle dart_persistent_handle;
     const FfiOpaqueHandle f_close_callbacks;
     const Dart_Isolate isolate_handle;
+    const std::thread::id isolate_thread_id;
     const FfiOpaqueHandle f0;
 
     inline void dispatch(std::function<void()>&& callback) const
