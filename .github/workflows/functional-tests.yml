@@ -312,7 +312,7 @@ jobs:
       - name: Install Dart SDK
         run: |
           DART_RELEASE_CHANNEL=stable
-          DART_VERSION=2.18.1
+          DART_VERSION=3.4.4
           wget -nv https://storage.googleapis.com/dart-archive/channels/${DART_RELEASE_CHANNEL}/release/${DART_VERSION}/linux_packages/dart_${DART_VERSION}-1_amd64.deb
           sudo apt -y install ./dart_${DART_VERSION}-1_amd64.deb
       - name: Build and run functional tests
@@ -357,7 +357,7 @@ jobs:
           export DART_ROOT=${HOME}/dart_sdk
           export DART_BIN=${DART_ROOT}/bin
           export PATH=${PATH}:${PWD}/depot_tools:${DART_BIN}
-          DART_VERSION=2.18.1
+          DART_VERSION=3.4.4
           if [ ! -d "${DART_ROOT}/bin" ]; then
             sudo apt install -y python3
             git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
@@ -428,7 +428,7 @@ jobs:
       - name: Install Dart SDK
         run: |
           DART_RELEASE_CHANNEL=stable
-          DART_VERSION=2.18.1
+          DART_VERSION=3.4.4
           wget -nv https://storage.googleapis.com/dart-archive/channels/${DART_RELEASE_CHANNEL}/release/${DART_VERSION}/linux_packages/dart_${DART_VERSION}-1_amd64.deb
           sudo apt -y install ./dart_${DART_VERSION}-1_amd64.deb
       - name: Build and run functional tests
