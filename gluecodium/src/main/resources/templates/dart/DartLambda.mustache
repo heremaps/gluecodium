@@ -77,11 +77,11 @@ void _{{resolveName lambda "Ffi"}}{{resolveName}}Static({{!!
 }
 {{/asFunction}}{{/set}}
 
-Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
+Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} __lambdaObj) {
 {{#set lambda=this}}{{#asFunction}}
   void __lambdaCaller({{#parameters}}{{resolveName typeRef "FfiDartTypes"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
 }}{{#unless returnType.isVoid}}{{#if parameters}}, {{/if}}Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}> _result{{/unless}}) { {{!!
-}}_{{resolveName lambda "Ffi"}}{{resolveName}}Static(value{{#if parameters}}, {{/if}}{{!!
+}}_{{resolveName lambda "Ffi"}}{{resolveName}}Static(__lambdaObj{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
 }}{{#unless returnType.isVoid}}, _result{{/unless}}); }
   final __lambdaCallback = NativeCallable<Void Function({{#parameters}}{{resolveName typeRef "FfiApiTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
@@ -98,9 +98,9 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   return _{{resolveName "Ffi"}}CreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );

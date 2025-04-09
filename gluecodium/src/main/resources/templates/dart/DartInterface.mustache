@@ -218,12 +218,12 @@ void _{{resolveName parent "Ffi"}}{{resolveName}}SetStatic({{resolveName parent}
 {{/if}}
 {{/unless}}{{/each}}{{/set}}
 
-Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
+Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} __interfaceObj) {
 {{#unless isNarrow}}
-  if (value is __lib.NativeBase) return _{{resolveName "Ffi"}}CopyHandle((value as __lib.NativeBase).handle);
+  if (__interfaceObj is __lib.NativeBase) return _{{resolveName "Ffi"}}CopyHandle((__interfaceObj as __lib.NativeBase).handle);
 {{#eval "descendantInterfaces" fullName}}
 
-  final descendantResult = tryDescendantToFfi(value);
+  final descendantResult = tryDescendantToFfi(__interfaceObj);
   if (descendantResult != null) {
     return descendantResult;
   }
@@ -235,7 +235,7 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
 }}{{#unless returnType.isVoid}}{{#if parameters}}, {{/if}}Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}> _result{{/unless}}{{!!
 }}{{#if thrownType}}{{#if parameters}}, {{/if}}{{!!
 }}{{#unless parameters}}{{#unless returnType.isVoid}}, {{/unless}}{{/unless}}Pointer<{{resolveName exception.errorType "FfiApiTypes"}}> _error, Pointer<Int8> _errorFlag{{/if}}) { {{!!
-}}_{{resolveName parent "Ffi"}}{{resolveName}}Static(value{{#if parameters}}, {{/if}}{{!!
+}}_{{resolveName parent "Ffi"}}{{resolveName}}Static(__interfaceObj{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
 }}{{#unless returnType.isVoid}}, _result{{/unless}}{{!!
 }}{{#if thrownType}}, _error, _errorFlag{{/if}}); }
@@ -249,14 +249,14 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
 {{#each inheritedProperties properties}}{{#unless isStatic}}{{#set property=this}}{{!!
 }}{{#getter}}
   void __{{resolveName parent "Ffi"}}{{resolveName property}}GetCaller(Pointer<{{resolveName property.typeRef "FfiApiTypes"}}> _result) { {{!!
-}}_{{resolveName parent "Ffi"}}{{resolveName property}}GetStatic(value, _result); }
+}}_{{resolveName parent "Ffi"}}{{resolveName property}}GetStatic(__interfaceObj, _result); }
   final __{{resolveName parent "Ffi"}}{{resolveName property}}GetCallback = NativeCallable<Void Function(Pointer<{{resolveName property.typeRef "FfiApiTypes"}}>)>.isolateLocal(__{{resolveName parent "Ffi"}}{{resolveName property}}GetCaller);
   __{{resolveName parent "Ffi"}}{{resolveName property}}GetCallback.keepIsolateAlive = false;
 
 {{/getter}}{{!!
 }}{{#setter}}
   void __{{resolveName parent "Ffi"}}{{resolveName property}}SetCaller({{resolveName property.typeRef "FfiDartTypes"}} _value) { {{!!
-}}_{{resolveName parent "Ffi"}}{{resolveName property}}SetStatic(value, _value); }
+}}_{{resolveName parent "Ffi"}}{{resolveName property}}SetStatic(__interfaceObj, _value); }
   final __{{resolveName parent "Ffi"}}{{resolveName property}}SetCallback = NativeCallable<Void Function({{resolveName property.typeRef "FfiApiTypes"}})>.isolateLocal(__{{resolveName parent "Ffi"}}{{resolveName property}}SetCaller);
   __{{resolveName parent "Ffi"}}{{resolveName property}}SetCallback.keepIsolateAlive = false;
 
@@ -283,9 +283,9 @@ Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _{{resolveName "Ffi"}}CreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction{{#set parent=this}}{{#each inheritedFunctions functions}}{{#unless isStatic}},
     __{{resolveName}}Callback.nativeFunction{{!!
     }}{{/unless}}{{/each}}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#set property=this}}{{#getter}},
