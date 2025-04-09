@@ -32,8 +32,8 @@ final _smokeMapsceneLoadscenecallbackReleaseHandle = __lib.catchArgumentError(()
     void Function(Pointer<Void>)
   >('library_smoke_MapScene_LoadSceneCallback_release_handle'));
 final _smokeMapsceneLoadscenecallbackCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_MapScene_LoadSceneCallback_create_proxy'));
 
 class MapScene_LoadSceneCallback$Impl implements Finalizable {
@@ -51,23 +51,36 @@ class MapScene_LoadSceneCallback$Impl implements Finalizable {
 
 }
 
-int _smokeMapsceneLoadscenecallbackcallStatic(Object _obj, Pointer<Void> p0) {
+void _smokeMapsceneLoadscenecallbackcallStatic(MapScene_LoadSceneCallback _obj, Pointer<Void> p0) {
   
   try {
-    (_obj as MapScene_LoadSceneCallback)(stringFromFfiNullable(p0));
+    _obj(stringFromFfiNullable(p0));
   } finally {
     stringReleaseFfiHandleNullable(p0);
   }
-  return 0;
 }
 
-Pointer<Void> smokeMapsceneLoadscenecallbackToFfi(MapScene_LoadSceneCallback value) =>
-  _smokeMapsceneLoadscenecallbackCreateProxy(
+Pointer<Void> smokeMapsceneLoadscenecallbackToFfi(MapScene_LoadSceneCallback value) {
+  void __lambdaCaller(Pointer<Void> p0) { _smokeMapsceneLoadscenecallbackcallStatic(value, p0); }
+  final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__lambdaCaller);
+  __lambdaCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __lambdaCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
+  return _smokeMapsceneLoadscenecallbackCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Int64 Function(Handle, Pointer<Void>)>(_smokeMapsceneLoadscenecallbackcallStatic, __lib.unknownError)
+    __closeAllCallback.nativeFunction,
+    __lambdaCallback.nativeFunction
   );
+}
 
 MapScene_LoadSceneCallback smokeMapsceneLoadscenecallbackFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeMapsceneLoadscenecallbackCopyHandle(handle);
@@ -130,6 +143,7 @@ final _smokeMapsceneReleaseHandle = __lib.catchArgumentError(() => __lib.nativeL
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_MapScene_release_handle'));
+
 
 
 

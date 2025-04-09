@@ -17,8 +17,8 @@
 
 class smoke_SkipProxy_Proxy : public smoke::SkipProxy {
 public:
-    smoke_SkipProxy_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f3, FfiOpaqueHandle p0g, FfiOpaqueHandle p0s, FfiOpaqueHandle p1g, FfiOpaqueHandle p1s, FfiOpaqueHandle p3g, FfiOpaqueHandle p3s)
-        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f0(f0), f1(f1), f3(f3), p0g(p0g), p0s(p0s), p1g(p1g), p1s(p1s), p3g(p3g), p3s(p3s) {
+    smoke_SkipProxy_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle close_callbacks, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f3, FfiOpaqueHandle p0g, FfiOpaqueHandle p0s, FfiOpaqueHandle p1g, FfiOpaqueHandle p1s, FfiOpaqueHandle p3g, FfiOpaqueHandle p3s)
+        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks), f0(f0), f1(f1), f3(f3), p0g(p0g), p0s(p0s), p1g(p1g), p1s(p1s), p3g(p3g), p3s(p3s) {
         library_cache_dart_handle_by_raw_pointer(this, isolate_id, dart_handle);
     }
 
@@ -28,9 +28,11 @@ public:
         auto raw_pointer_local = this;
         auto isolate_id_local = isolate_id;
         auto dart_persistent_handle_local = dart_persistent_handle;
-        auto deleter = [raw_pointer_local, isolate_id_local, dart_persistent_handle_local]() {
+        auto f_close_callbacks_local = f_close_callbacks;
+        auto deleter = [raw_pointer_local, isolate_id_local, dart_persistent_handle_local, f_close_callbacks_local]() {
             library_uncache_dart_handle_by_raw_pointer(raw_pointer_local, isolate_id_local);
             Dart_DeletePersistentHandle_DL(dart_persistent_handle_local);
+            (*reinterpret_cast<void (*)()>(f_close_callbacks_local))();
         };
 
         if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
@@ -47,8 +49,8 @@ public:
     not_in_java(const std::string& input) override {
         FfiOpaqueHandle _result_handle;
         
-        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, FfiOpaqueHandle, FfiOpaqueHandle*)>(f0))(Dart_HandleFromPersistent_DL(dart_persistent_handle), 
-            gluecodium::ffi::Conversion<std::string>::toFfi(input),
+        dispatch([&]() { (*reinterpret_cast<void (*)(FfiOpaqueHandle, FfiOpaqueHandle*)>(f0))(
+            gluecodium::ffi::Conversion<std::string>::toFfi(input), 
             &_result_handle
         ); });
         auto _result = gluecodium::ffi::Conversion<std::string>::toCpp(_result_handle);
@@ -60,8 +62,8 @@ public:
     not_in_swift(const bool input) override {
         bool _result_handle;
         
-        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, bool, bool*)>(f1))(Dart_HandleFromPersistent_DL(dart_persistent_handle), 
-            gluecodium::ffi::Conversion<bool>::toFfi(input),
+        dispatch([&]() { (*reinterpret_cast<void (*)(bool, bool*)>(f1))(
+            gluecodium::ffi::Conversion<bool>::toFfi(input), 
             &_result_handle
         ); });
         auto _result = gluecodium::ffi::Conversion<bool>::toCpp(_result_handle);
@@ -78,8 +80,8 @@ public:
     not_in_kotlin(const float input) override {
         float _result_handle;
         
-        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, float, float*)>(f3))(Dart_HandleFromPersistent_DL(dart_persistent_handle), 
-            gluecodium::ffi::Conversion<float>::toFfi(input),
+        dispatch([&]() { (*reinterpret_cast<void (*)(float, float*)>(f3))(
+            gluecodium::ffi::Conversion<float>::toFfi(input), 
             &_result_handle
         ); });
         auto _result = gluecodium::ffi::Conversion<float>::toCpp(_result_handle);
@@ -91,7 +93,7 @@ public:
     std::string
     get_skipped_in_java() const override {
         FfiOpaqueHandle _result_handle;
-        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, FfiOpaqueHandle*)>(p0g))(Dart_HandleFromPersistent_DL(dart_persistent_handle), &_result_handle); });
+        dispatch([&]() { (*reinterpret_cast<bool (*)(FfiOpaqueHandle*)>(p0g))(&_result_handle); });
         auto _result = gluecodium::ffi::Conversion<std::string>::toCpp(_result_handle);
         delete reinterpret_cast<std::string*>(_result_handle);
         return _result;
@@ -99,15 +101,14 @@ public:
 
     void
     set_skipped_in_java(const std::string& value) override {
-        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, FfiOpaqueHandle)>(p0s))(
-            Dart_HandleFromPersistent_DL(dart_persistent_handle),
+        dispatch([&]() { (*reinterpret_cast<bool (*)(FfiOpaqueHandle)>(p0s))(
             gluecodium::ffi::Conversion<std::string>::toFfi(value)
         ); });
     }
     bool
     is_skipped_in_swift() const override {
         bool _result_handle;
-        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, bool*)>(p1g))(Dart_HandleFromPersistent_DL(dart_persistent_handle), &_result_handle); });
+        dispatch([&]() { (*reinterpret_cast<bool (*)(bool*)>(p1g))(&_result_handle); });
         auto _result = gluecodium::ffi::Conversion<bool>::toCpp(_result_handle);
         ;
         return _result;
@@ -115,8 +116,7 @@ public:
 
     void
     set_skipped_in_swift(const bool value) override {
-        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, bool)>(p1s))(
-            Dart_HandleFromPersistent_DL(dart_persistent_handle),
+        dispatch([&]() { (*reinterpret_cast<bool (*)(bool)>(p1s))(
             gluecodium::ffi::Conversion<bool>::toFfi(value)
         ); });
     }
@@ -131,7 +131,7 @@ public:
     float
     get_skipped_in_kotlin() const override {
         float _result_handle;
-        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, float*)>(p3g))(Dart_HandleFromPersistent_DL(dart_persistent_handle), &_result_handle); });
+        dispatch([&]() { (*reinterpret_cast<bool (*)(float*)>(p3g))(&_result_handle); });
         auto _result = gluecodium::ffi::Conversion<float>::toCpp(_result_handle);
         ;
         return _result;
@@ -139,8 +139,7 @@ public:
 
     void
     set_skipped_in_kotlin(const float value) override {
-        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, float)>(p3s))(
-            Dart_HandleFromPersistent_DL(dart_persistent_handle),
+        dispatch([&]() { (*reinterpret_cast<bool (*)(float)>(p3s))(
             gluecodium::ffi::Conversion<float>::toFfi(value)
         ); });
     }
@@ -165,6 +164,7 @@ private:
     const uint64_t token;
     const int32_t isolate_id;
     const Dart_PersistentHandle dart_persistent_handle;
+    const FfiOpaqueHandle f_close_callbacks;
     const FfiOpaqueHandle f0;
     const FfiOpaqueHandle f1;
     const FfiOpaqueHandle f3;
@@ -332,14 +332,15 @@ library_smoke_SkipProxy_release_handle(FfiOpaqueHandle handle) {
 
 
 FfiOpaqueHandle
-library_smoke_SkipProxy_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f3, FfiOpaqueHandle p0g, FfiOpaqueHandle p0s, FfiOpaqueHandle p1g, FfiOpaqueHandle p1s, FfiOpaqueHandle p3g, FfiOpaqueHandle p3s) {
+library_smoke_SkipProxy_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle close_callbacks, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f3, FfiOpaqueHandle p0g, FfiOpaqueHandle p0s, FfiOpaqueHandle p1g, FfiOpaqueHandle p1s, FfiOpaqueHandle p3g, FfiOpaqueHandle p3s) {
     auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_SkipProxy_Proxy>(token, isolate_id, "smoke_SkipProxy");
     std::shared_ptr<smoke_SkipProxy_Proxy>* proxy_ptr;
     if (cached_proxy) {
         proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_SkipProxy_Proxy>(cached_proxy);
+        (*reinterpret_cast<void (*)()>(close_callbacks))();
     } else {
         proxy_ptr = new (std::nothrow) std::shared_ptr<smoke_SkipProxy_Proxy>(
-            new (std::nothrow) smoke_SkipProxy_Proxy(token, isolate_id, dart_handle, f0, f1, f3, p0g, p0s, p1g, p1s, p3g, p3s)
+            new (std::nothrow) smoke_SkipProxy_Proxy(token, isolate_id, dart_handle, close_callbacks, f0, f1, f3, p0g, p0s, p1g, p1s, p3g, p3s)
         );
         gluecodium::ffi::cache_proxy(token, isolate_id, "smoke_SkipProxy", *proxy_ptr);
     }

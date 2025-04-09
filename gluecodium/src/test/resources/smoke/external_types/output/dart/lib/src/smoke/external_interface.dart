@@ -176,8 +176,8 @@ final _smokeExternalinterfaceReleaseHandle = __lib.catchArgumentError(() => __li
     void Function(Pointer<Void>)
   >('library_smoke_ExternalInterface_release_handle'));
 final _smokeExternalinterfaceCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer)
   >('library_smoke_ExternalInterface_create_proxy'));
 final _smokeExternalinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -232,30 +232,45 @@ class ExternalInterface$Impl extends __lib.NativeBase implements ExternalInterfa
 
 }
 
-int _smokeExternalinterfacesomeMethodStatic(Object _obj, int someParameter) {
+void _smokeExternalinterfacesomeMethodStatic(ExternalInterface _obj, int someParameter) {
 
   try {
-    (_obj as ExternalInterface).someMethod((someParameter));
+    _obj.someMethod((someParameter));
   } finally {
     
   }
-  return 0;
 }
 
-int _smokeExternalinterfacesomePropertyGetStatic(Object _obj, Pointer<Pointer<Void>> _result) {
-  _result.value = stringToFfi((_obj as ExternalInterface).someProperty);
-  return 0;
+void _smokeExternalinterfacesomePropertyGetStatic(ExternalInterface _obj, Pointer<Pointer<Void>> _result) {
+  _result.value = stringToFfi(_obj.someProperty);
 }
 
 Pointer<Void> smokeExternalinterfaceToFfi(ExternalInterface value) {
   if (value is __lib.NativeBase) return _smokeExternalinterfaceCopyHandle((value as __lib.NativeBase).handle);
 
+  void __someMethodCaller(int someParameter) { _smokeExternalinterfacesomeMethodStatic(value, someParameter); }
+  final __someMethodCallback = NativeCallable<Void Function(Int8)>.isolateLocal(__someMethodCaller);
+  __someMethodCallback.keepIsolateAlive = false;
+
+  void __smokeExternalinterfacesomePropertyGetCaller(Pointer<Pointer<Void>> _result) { _smokeExternalinterfacesomePropertyGetStatic(value, _result); }
+  final __smokeExternalinterfacesomePropertyGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeExternalinterfacesomePropertyGetCaller);
+  __smokeExternalinterfacesomePropertyGetCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __someMethodCallback.close();
+    __smokeExternalinterfacesomePropertyGetCallback.close();    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
   final result = _smokeExternalinterfaceCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Uint8 Function(Handle, Int8)>(_smokeExternalinterfacesomeMethodStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeExternalinterfacesomePropertyGetStatic, __lib.unknownError)
+    __closeAllCallback.nativeFunction,
+    __someMethodCallback.nativeFunction,
+    __smokeExternalinterfacesomePropertyGetCallback.nativeFunction
   );
 
   return result;

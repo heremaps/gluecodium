@@ -120,8 +120,8 @@ final _smokeOuterclasswithinheritanceInnerinterfaceReleaseHandle = __lib.catchAr
     void Function(Pointer<Void>)
   >('library_smoke_OuterClassWithInheritance_InnerInterface_release_handle'));
 final _smokeOuterclasswithinheritanceInnerinterfaceCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_OuterClassWithInheritance_InnerInterface_create_proxy'));
 final _smokeOuterclasswithinheritanceInnerinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -165,26 +165,38 @@ class OuterClassWithInheritance_InnerInterface$Impl extends __lib.NativeBase imp
 
 }
 
-int _smokeOuterclasswithinheritanceInnerinterfacebazStatic(Object _obj, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
+void _smokeOuterclasswithinheritanceInnerinterfacebazStatic(OuterClassWithInheritance_InnerInterface _obj, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
   String? _resultObject;
   try {
-    _resultObject = (_obj as OuterClassWithInheritance_InnerInterface).baz(stringFromFfi(input));
+    _resultObject = _obj.baz(stringFromFfi(input));
     _result.value = stringToFfi(_resultObject);
   } finally {
     stringReleaseFfiHandle(input);
   }
-  return 0;
 }
 
 
 Pointer<Void> smokeOuterclasswithinheritanceInnerinterfaceToFfi(OuterClassWithInheritance_InnerInterface value) {
   if (value is __lib.NativeBase) return _smokeOuterclasswithinheritanceInnerinterfaceCopyHandle((value as __lib.NativeBase).handle);
 
+  void __bazCaller(Pointer<Void> input, Pointer<Pointer<Void>> _result) { _smokeOuterclasswithinheritanceInnerinterfacebazStatic(value, input, _result); }
+  final __bazCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Pointer<Void>>)>.isolateLocal(__bazCaller);
+  __bazCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __bazCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
   final result = _smokeOuterclasswithinheritanceInnerinterfaceCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>, Pointer<Pointer<Void>>)>(_smokeOuterclasswithinheritanceInnerinterfacebazStatic, __lib.unknownError)
+    __closeAllCallback.nativeFunction,
+    __bazCallback.nativeFunction
   );
 
   return result;

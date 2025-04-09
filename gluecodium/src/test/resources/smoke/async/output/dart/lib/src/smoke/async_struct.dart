@@ -232,8 +232,8 @@ final _smokeAsyncstructAsyncvoidresultlambdaReleaseHandle = __lib.catchArgumentE
     void Function(Pointer<Void>)
   >('library_smoke_AsyncStruct_AsyncvoidResultlambda_release_handle'));
 final _smokeAsyncstructAsyncvoidresultlambdaCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_AsyncStruct_AsyncvoidResultlambda_create_proxy'));
 
 class AsyncStruct_asyncVoid__resultLambda$Impl implements Finalizable {
@@ -249,22 +249,35 @@ class AsyncStruct_asyncVoid__resultLambda$Impl implements Finalizable {
 
 }
 
-int _smokeAsyncstructAsyncvoidresultlambdaasyncVoid__resultLambdaStatic(Object _obj) {
+void _smokeAsyncstructAsyncvoidresultlambdaasyncVoid__resultLambdaStatic(AsyncStruct_asyncVoid__resultLambda _obj) {
   
   try {
-    (_obj as AsyncStruct_asyncVoid__resultLambda)();
+    _obj();
   } finally {
   }
-  return 0;
 }
 
-Pointer<Void> smokeAsyncstructAsyncvoidresultlambdaToFfi(AsyncStruct_asyncVoid__resultLambda value) =>
-  _smokeAsyncstructAsyncvoidresultlambdaCreateProxy(
+Pointer<Void> smokeAsyncstructAsyncvoidresultlambdaToFfi(AsyncStruct_asyncVoid__resultLambda value) {
+  void __lambdaCaller() { _smokeAsyncstructAsyncvoidresultlambdaasyncVoid__resultLambdaStatic(value); }
+  final __lambdaCallback = NativeCallable<Void Function()>.isolateLocal(__lambdaCaller);
+  __lambdaCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __lambdaCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
+  return _smokeAsyncstructAsyncvoidresultlambdaCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Int64 Function(Handle)>(_smokeAsyncstructAsyncvoidresultlambdaasyncVoid__resultLambdaStatic, __lib.unknownError)
+    __closeAllCallback.nativeFunction,
+    __lambdaCallback.nativeFunction
   );
+}
 
 
 void smokeAsyncstructAsyncvoidresultlambdaReleaseFfiHandle(Pointer<Void> handle) =>
@@ -281,8 +294,8 @@ final _smokeAsyncstructAsyncvoidthrowsresultlambdaReleaseHandle = __lib.catchArg
     void Function(Pointer<Void>)
   >('library_smoke_AsyncStruct_AsyncvoidthrowsResultlambda_release_handle'));
 final _smokeAsyncstructAsyncvoidthrowsresultlambdaCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_AsyncStruct_AsyncvoidthrowsResultlambda_create_proxy'));
 
 class AsyncStruct_asyncVoidThrows__resultLambda$Impl implements Finalizable {
@@ -298,22 +311,35 @@ class AsyncStruct_asyncVoidThrows__resultLambda$Impl implements Finalizable {
 
 }
 
-int _smokeAsyncstructAsyncvoidthrowsresultlambdaasyncVoidThrows__resultLambdaStatic(Object _obj) {
+void _smokeAsyncstructAsyncvoidthrowsresultlambdaasyncVoidThrows__resultLambdaStatic(AsyncStruct_asyncVoidThrows__resultLambda _obj) {
   
   try {
-    (_obj as AsyncStruct_asyncVoidThrows__resultLambda)();
+    _obj();
   } finally {
   }
-  return 0;
 }
 
-Pointer<Void> smokeAsyncstructAsyncvoidthrowsresultlambdaToFfi(AsyncStruct_asyncVoidThrows__resultLambda value) =>
-  _smokeAsyncstructAsyncvoidthrowsresultlambdaCreateProxy(
+Pointer<Void> smokeAsyncstructAsyncvoidthrowsresultlambdaToFfi(AsyncStruct_asyncVoidThrows__resultLambda value) {
+  void __lambdaCaller() { _smokeAsyncstructAsyncvoidthrowsresultlambdaasyncVoidThrows__resultLambdaStatic(value); }
+  final __lambdaCallback = NativeCallable<Void Function()>.isolateLocal(__lambdaCaller);
+  __lambdaCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __lambdaCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
+  return _smokeAsyncstructAsyncvoidthrowsresultlambdaCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Int64 Function(Handle)>(_smokeAsyncstructAsyncvoidthrowsresultlambdaasyncVoidThrows__resultLambdaStatic, __lib.unknownError)
+    __closeAllCallback.nativeFunction,
+    __lambdaCallback.nativeFunction
   );
+}
 
 
 void smokeAsyncstructAsyncvoidthrowsresultlambdaReleaseFfiHandle(Pointer<Void> handle) =>
@@ -330,8 +356,8 @@ final _smokeAsyncstructAsyncvoidthrowserrorlambdaReleaseHandle = __lib.catchArgu
     void Function(Pointer<Void>)
   >('library_smoke_AsyncStruct_AsyncvoidthrowsErrorlambda_release_handle'));
 final _smokeAsyncstructAsyncvoidthrowserrorlambdaCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_AsyncStruct_AsyncvoidthrowsErrorlambda_create_proxy'));
 
 class AsyncStruct_asyncVoidThrows__errorLambda$Impl implements Finalizable {
@@ -349,23 +375,36 @@ class AsyncStruct_asyncVoidThrows__errorLambda$Impl implements Finalizable {
 
 }
 
-int _smokeAsyncstructAsyncvoidthrowserrorlambdaasyncVoidThrows__errorLambdaStatic(Object _obj, Pointer<Void> p0) {
+void _smokeAsyncstructAsyncvoidthrowserrorlambdaasyncVoidThrows__errorLambdaStatic(AsyncStruct_asyncVoidThrows__errorLambda _obj, Pointer<Void> p0) {
   
   try {
-    (_obj as AsyncStruct_asyncVoidThrows__errorLambda)(stringFromFfi(p0));
+    _obj(stringFromFfi(p0));
   } finally {
     stringReleaseFfiHandle(p0);
   }
-  return 0;
 }
 
-Pointer<Void> smokeAsyncstructAsyncvoidthrowserrorlambdaToFfi(AsyncStruct_asyncVoidThrows__errorLambda value) =>
-  _smokeAsyncstructAsyncvoidthrowserrorlambdaCreateProxy(
+Pointer<Void> smokeAsyncstructAsyncvoidthrowserrorlambdaToFfi(AsyncStruct_asyncVoidThrows__errorLambda value) {
+  void __lambdaCaller(Pointer<Void> p0) { _smokeAsyncstructAsyncvoidthrowserrorlambdaasyncVoidThrows__errorLambdaStatic(value, p0); }
+  final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__lambdaCaller);
+  __lambdaCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __lambdaCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
+  return _smokeAsyncstructAsyncvoidthrowserrorlambdaCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Int64 Function(Handle, Pointer<Void>)>(_smokeAsyncstructAsyncvoidthrowserrorlambdaasyncVoidThrows__errorLambdaStatic, __lib.unknownError)
+    __closeAllCallback.nativeFunction,
+    __lambdaCallback.nativeFunction
   );
+}
 
 
 void smokeAsyncstructAsyncvoidthrowserrorlambdaReleaseFfiHandle(Pointer<Void> handle) =>
@@ -382,8 +421,8 @@ final _smokeAsyncstructAsyncintresultlambdaReleaseHandle = __lib.catchArgumentEr
     void Function(Pointer<Void>)
   >('library_smoke_AsyncStruct_AsyncintResultlambda_release_handle'));
 final _smokeAsyncstructAsyncintresultlambdaCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_AsyncStruct_AsyncintResultlambda_create_proxy'));
 
 class AsyncStruct_asyncInt__resultLambda$Impl implements Finalizable {
@@ -401,23 +440,36 @@ class AsyncStruct_asyncInt__resultLambda$Impl implements Finalizable {
 
 }
 
-int _smokeAsyncstructAsyncintresultlambdaasyncInt__resultLambdaStatic(Object _obj, int p0) {
+void _smokeAsyncstructAsyncintresultlambdaasyncInt__resultLambdaStatic(AsyncStruct_asyncInt__resultLambda _obj, int p0) {
   
   try {
-    (_obj as AsyncStruct_asyncInt__resultLambda)((p0));
+    _obj((p0));
   } finally {
     
   }
-  return 0;
 }
 
-Pointer<Void> smokeAsyncstructAsyncintresultlambdaToFfi(AsyncStruct_asyncInt__resultLambda value) =>
-  _smokeAsyncstructAsyncintresultlambdaCreateProxy(
+Pointer<Void> smokeAsyncstructAsyncintresultlambdaToFfi(AsyncStruct_asyncInt__resultLambda value) {
+  void __lambdaCaller(int p0) { _smokeAsyncstructAsyncintresultlambdaasyncInt__resultLambdaStatic(value, p0); }
+  final __lambdaCallback = NativeCallable<Void Function(Int32)>.isolateLocal(__lambdaCaller);
+  __lambdaCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __lambdaCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
+  return _smokeAsyncstructAsyncintresultlambdaCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Int64 Function(Handle, Int32)>(_smokeAsyncstructAsyncintresultlambdaasyncInt__resultLambdaStatic, __lib.unknownError)
+    __closeAllCallback.nativeFunction,
+    __lambdaCallback.nativeFunction
   );
+}
 
 
 void smokeAsyncstructAsyncintresultlambdaReleaseFfiHandle(Pointer<Void> handle) =>
@@ -434,8 +486,8 @@ final _smokeAsyncstructAsyncintthrowsresultlambdaReleaseHandle = __lib.catchArgu
     void Function(Pointer<Void>)
   >('library_smoke_AsyncStruct_AsyncintthrowsResultlambda_release_handle'));
 final _smokeAsyncstructAsyncintthrowsresultlambdaCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_AsyncStruct_AsyncintthrowsResultlambda_create_proxy'));
 
 class AsyncStruct_asyncIntThrows__resultLambda$Impl implements Finalizable {
@@ -453,23 +505,36 @@ class AsyncStruct_asyncIntThrows__resultLambda$Impl implements Finalizable {
 
 }
 
-int _smokeAsyncstructAsyncintthrowsresultlambdaasyncIntThrows__resultLambdaStatic(Object _obj, int p0) {
+void _smokeAsyncstructAsyncintthrowsresultlambdaasyncIntThrows__resultLambdaStatic(AsyncStruct_asyncIntThrows__resultLambda _obj, int p0) {
   
   try {
-    (_obj as AsyncStruct_asyncIntThrows__resultLambda)((p0));
+    _obj((p0));
   } finally {
     
   }
-  return 0;
 }
 
-Pointer<Void> smokeAsyncstructAsyncintthrowsresultlambdaToFfi(AsyncStruct_asyncIntThrows__resultLambda value) =>
-  _smokeAsyncstructAsyncintthrowsresultlambdaCreateProxy(
+Pointer<Void> smokeAsyncstructAsyncintthrowsresultlambdaToFfi(AsyncStruct_asyncIntThrows__resultLambda value) {
+  void __lambdaCaller(int p0) { _smokeAsyncstructAsyncintthrowsresultlambdaasyncIntThrows__resultLambdaStatic(value, p0); }
+  final __lambdaCallback = NativeCallable<Void Function(Int32)>.isolateLocal(__lambdaCaller);
+  __lambdaCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __lambdaCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
+  return _smokeAsyncstructAsyncintthrowsresultlambdaCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Int64 Function(Handle, Int32)>(_smokeAsyncstructAsyncintthrowsresultlambdaasyncIntThrows__resultLambdaStatic, __lib.unknownError)
+    __closeAllCallback.nativeFunction,
+    __lambdaCallback.nativeFunction
   );
+}
 
 
 void smokeAsyncstructAsyncintthrowsresultlambdaReleaseFfiHandle(Pointer<Void> handle) =>
@@ -486,8 +551,8 @@ final _smokeAsyncstructAsyncintthrowserrorlambdaReleaseHandle = __lib.catchArgum
     void Function(Pointer<Void>)
   >('library_smoke_AsyncStruct_AsyncintthrowsErrorlambda_release_handle'));
 final _smokeAsyncstructAsyncintthrowserrorlambdaCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_AsyncStruct_AsyncintthrowsErrorlambda_create_proxy'));
 
 class AsyncStruct_asyncIntThrows__errorLambda$Impl implements Finalizable {
@@ -505,23 +570,36 @@ class AsyncStruct_asyncIntThrows__errorLambda$Impl implements Finalizable {
 
 }
 
-int _smokeAsyncstructAsyncintthrowserrorlambdaasyncIntThrows__errorLambdaStatic(Object _obj, Pointer<Void> p0) {
+void _smokeAsyncstructAsyncintthrowserrorlambdaasyncIntThrows__errorLambdaStatic(AsyncStruct_asyncIntThrows__errorLambda _obj, Pointer<Void> p0) {
   
   try {
-    (_obj as AsyncStruct_asyncIntThrows__errorLambda)(stringFromFfi(p0));
+    _obj(stringFromFfi(p0));
   } finally {
     stringReleaseFfiHandle(p0);
   }
-  return 0;
 }
 
-Pointer<Void> smokeAsyncstructAsyncintthrowserrorlambdaToFfi(AsyncStruct_asyncIntThrows__errorLambda value) =>
-  _smokeAsyncstructAsyncintthrowserrorlambdaCreateProxy(
+Pointer<Void> smokeAsyncstructAsyncintthrowserrorlambdaToFfi(AsyncStruct_asyncIntThrows__errorLambda value) {
+  void __lambdaCaller(Pointer<Void> p0) { _smokeAsyncstructAsyncintthrowserrorlambdaasyncIntThrows__errorLambdaStatic(value, p0); }
+  final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__lambdaCaller);
+  __lambdaCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __lambdaCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
+  return _smokeAsyncstructAsyncintthrowserrorlambdaCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Int64 Function(Handle, Pointer<Void>)>(_smokeAsyncstructAsyncintthrowserrorlambdaasyncIntThrows__errorLambdaStatic, __lib.unknownError)
+    __closeAllCallback.nativeFunction,
+    __lambdaCallback.nativeFunction
   );
+}
 
 
 void smokeAsyncstructAsyncintthrowserrorlambdaReleaseFfiHandle(Pointer<Void> handle) =>
@@ -538,8 +616,8 @@ final _smokeAsyncstructAsyncstaticresultlambdaReleaseHandle = __lib.catchArgumen
     void Function(Pointer<Void>)
   >('library_smoke_AsyncStruct_AsyncstaticResultlambda_release_handle'));
 final _smokeAsyncstructAsyncstaticresultlambdaCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_AsyncStruct_AsyncstaticResultlambda_create_proxy'));
 
 class AsyncStruct_asyncStatic__resultLambda$Impl implements Finalizable {
@@ -555,22 +633,35 @@ class AsyncStruct_asyncStatic__resultLambda$Impl implements Finalizable {
 
 }
 
-int _smokeAsyncstructAsyncstaticresultlambdaasyncStatic__resultLambdaStatic(Object _obj) {
+void _smokeAsyncstructAsyncstaticresultlambdaasyncStatic__resultLambdaStatic(AsyncStruct_asyncStatic__resultLambda _obj) {
   
   try {
-    (_obj as AsyncStruct_asyncStatic__resultLambda)();
+    _obj();
   } finally {
   }
-  return 0;
 }
 
-Pointer<Void> smokeAsyncstructAsyncstaticresultlambdaToFfi(AsyncStruct_asyncStatic__resultLambda value) =>
-  _smokeAsyncstructAsyncstaticresultlambdaCreateProxy(
+Pointer<Void> smokeAsyncstructAsyncstaticresultlambdaToFfi(AsyncStruct_asyncStatic__resultLambda value) {
+  void __lambdaCaller() { _smokeAsyncstructAsyncstaticresultlambdaasyncStatic__resultLambdaStatic(value); }
+  final __lambdaCallback = NativeCallable<Void Function()>.isolateLocal(__lambdaCaller);
+  __lambdaCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __lambdaCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
+  return _smokeAsyncstructAsyncstaticresultlambdaCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Int64 Function(Handle)>(_smokeAsyncstructAsyncstaticresultlambdaasyncStatic__resultLambdaStatic, __lib.unknownError)
+    __closeAllCallback.nativeFunction,
+    __lambdaCallback.nativeFunction
   );
+}
 
 
 void smokeAsyncstructAsyncstaticresultlambdaReleaseFfiHandle(Pointer<Void> handle) =>

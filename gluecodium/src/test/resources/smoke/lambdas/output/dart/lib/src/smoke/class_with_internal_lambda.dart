@@ -35,8 +35,8 @@ final _smokeClasswithinternallambdaInternalnestedlambdaReleaseHandle = __lib.cat
     void Function(Pointer<Void>)
   >('library_smoke_ClassWithInternalLambda_InternalNestedLambda_release_handle'));
 final _smokeClasswithinternallambdaInternalnestedlambdaCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_ClassWithInternalLambda_InternalNestedLambda_create_proxy'));
 
 class ClassWithInternalLambda_InternalNestedLambda$Impl implements Finalizable {
@@ -60,24 +60,37 @@ class ClassWithInternalLambda_InternalNestedLambda$Impl implements Finalizable {
 
 }
 
-int _smokeClasswithinternallambdaInternalnestedlambdacallStatic(Object _obj, Pointer<Void> p0, Pointer<Uint8> _result) {
+void _smokeClasswithinternallambdaInternalnestedlambdacallStatic(ClassWithInternalLambda_InternalNestedLambda _obj, Pointer<Void> p0, Pointer<Uint8> _result) {
   bool? _resultObject;
   try {
-    _resultObject = (_obj as ClassWithInternalLambda_InternalNestedLambda)(stringFromFfi(p0));
+    _resultObject = _obj(stringFromFfi(p0));
     _result.value = booleanToFfi(_resultObject);
   } finally {
     stringReleaseFfiHandle(p0);
   }
-  return 0;
 }
 
-Pointer<Void> smokeClasswithinternallambdaInternalnestedlambdaToFfi(ClassWithInternalLambda_InternalNestedLambda value) =>
-  _smokeClasswithinternallambdaInternalnestedlambdaCreateProxy(
+Pointer<Void> smokeClasswithinternallambdaInternalnestedlambdaToFfi(ClassWithInternalLambda_InternalNestedLambda value) {
+  void __lambdaCaller(Pointer<Void> p0, Pointer<Uint8> _result) { _smokeClasswithinternallambdaInternalnestedlambdacallStatic(value, p0, _result); }
+  final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Uint8>)>.isolateLocal(__lambdaCaller);
+  __lambdaCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __lambdaCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
+  return _smokeClasswithinternallambdaInternalnestedlambdaCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Int64 Function(Handle, Pointer<Void>, Pointer<Uint8>)>(_smokeClasswithinternallambdaInternalnestedlambdacallStatic, __lib.unknownError)
+    __closeAllCallback.nativeFunction,
+    __lambdaCallback.nativeFunction
   );
+}
 
 ClassWithInternalLambda_InternalNestedLambda smokeClasswithinternallambdaInternalnestedlambdaFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeClasswithinternallambdaInternalnestedlambdaCopyHandle(handle);
@@ -145,6 +158,7 @@ final _smokeClasswithinternallambdaReleaseHandle = __lib.catchArgumentError(() =
 
 /// @nodoc
 @visibleForTesting
+
 class ClassWithInternalLambda$Impl extends __lib.NativeBase implements ClassWithInternalLambda {
 
   ClassWithInternalLambda$Impl(Pointer<Void> handle) : super(handle);

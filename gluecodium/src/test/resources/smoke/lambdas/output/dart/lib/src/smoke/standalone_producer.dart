@@ -22,8 +22,8 @@ final _smokeStandaloneproducerReleaseHandle = __lib.catchArgumentError(() => __l
     void Function(Pointer<Void>)
   >('library_smoke_StandaloneProducer_release_handle'));
 final _smokeStandaloneproducerCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_StandaloneProducer_create_proxy'));
 
 class StandaloneProducer$Impl implements Finalizable {
@@ -45,23 +45,36 @@ class StandaloneProducer$Impl implements Finalizable {
 
 }
 
-int _smokeStandaloneproducercallStatic(Object _obj, Pointer<Pointer<Void>> _result) {
+void _smokeStandaloneproducercallStatic(StandaloneProducer _obj, Pointer<Pointer<Void>> _result) {
   String? _resultObject;
   try {
-    _resultObject = (_obj as StandaloneProducer)();
+    _resultObject = _obj();
     _result.value = stringToFfi(_resultObject);
   } finally {
   }
-  return 0;
 }
 
-Pointer<Void> smokeStandaloneproducerToFfi(StandaloneProducer value) =>
-  _smokeStandaloneproducerCreateProxy(
+Pointer<Void> smokeStandaloneproducerToFfi(StandaloneProducer value) {
+  void __lambdaCaller(Pointer<Pointer<Void>> _result) { _smokeStandaloneproducercallStatic(value, _result); }
+  final __lambdaCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__lambdaCaller);
+  __lambdaCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __lambdaCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
+  return _smokeStandaloneproducerCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Int64 Function(Handle, Pointer<Pointer<Void>>)>(_smokeStandaloneproducercallStatic, __lib.unknownError)
+    __closeAllCallback.nativeFunction,
+    __lambdaCallback.nativeFunction
   );
+}
 
 StandaloneProducer smokeStandaloneproducerFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeStandaloneproducerCopyHandle(handle);

@@ -139,8 +139,8 @@ final _smokeCalculatorlistenerReleaseHandle = __lib.catchArgumentError(() => __l
     void Function(Pointer<Void>)
   >('library_smoke_CalculatorListener_release_handle'));
 final _smokeCalculatorlistenerCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
   >('library_smoke_CalculatorListener_create_proxy'));
 final _smokeCalculatorlistenerGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -258,75 +258,107 @@ class CalculatorListener$Impl extends __lib.NativeBase implements CalculatorList
 
 }
 
-int _smokeCalculatorlisteneronCalculationResultStatic(Object _obj, double calculationResult) {
+void _smokeCalculatorlisteneronCalculationResultStatic(CalculatorListener _obj, double calculationResult) {
 
   try {
-    (_obj as CalculatorListener).onCalculationResult((calculationResult));
+    _obj.onCalculationResult((calculationResult));
   } finally {
     
   }
-  return 0;
 }
-int _smokeCalculatorlisteneronCalculationResultConstStatic(Object _obj, double calculationResult) {
+void _smokeCalculatorlisteneronCalculationResultConstStatic(CalculatorListener _obj, double calculationResult) {
 
   try {
-    (_obj as CalculatorListener).onCalculationResultConst((calculationResult));
+    _obj.onCalculationResultConst((calculationResult));
   } finally {
     
   }
-  return 0;
 }
-int _smokeCalculatorlisteneronCalculationResultStructStatic(Object _obj, Pointer<Void> calculationResult) {
+void _smokeCalculatorlisteneronCalculationResultStructStatic(CalculatorListener _obj, Pointer<Void> calculationResult) {
 
   try {
-    (_obj as CalculatorListener).onCalculationResultStruct(smokeCalculatorlistenerResultstructFromFfi(calculationResult));
+    _obj.onCalculationResultStruct(smokeCalculatorlistenerResultstructFromFfi(calculationResult));
   } finally {
     smokeCalculatorlistenerResultstructReleaseFfiHandle(calculationResult);
   }
-  return 0;
 }
-int _smokeCalculatorlisteneronCalculationResultArrayStatic(Object _obj, Pointer<Void> calculationResult) {
+void _smokeCalculatorlisteneronCalculationResultArrayStatic(CalculatorListener _obj, Pointer<Void> calculationResult) {
 
   try {
-    (_obj as CalculatorListener).onCalculationResultArray(foobarListofDoubleFromFfi(calculationResult));
+    _obj.onCalculationResultArray(foobarListofDoubleFromFfi(calculationResult));
   } finally {
     foobarListofDoubleReleaseFfiHandle(calculationResult);
   }
-  return 0;
 }
-int _smokeCalculatorlisteneronCalculationResultMapStatic(Object _obj, Pointer<Void> calculationResults) {
+void _smokeCalculatorlisteneronCalculationResultMapStatic(CalculatorListener _obj, Pointer<Void> calculationResults) {
 
   try {
-    (_obj as CalculatorListener).onCalculationResultMap(foobarMapofStringToDoubleFromFfi(calculationResults));
+    _obj.onCalculationResultMap(foobarMapofStringToDoubleFromFfi(calculationResults));
   } finally {
     foobarMapofStringToDoubleReleaseFfiHandle(calculationResults);
   }
-  return 0;
 }
-int _smokeCalculatorlisteneronCalculationResultInstanceStatic(Object _obj, Pointer<Void> calculationResult) {
+void _smokeCalculatorlisteneronCalculationResultInstanceStatic(CalculatorListener _obj, Pointer<Void> calculationResult) {
 
   try {
-    (_obj as CalculatorListener).onCalculationResultInstance(smokeCalculationresultFromFfi(calculationResult));
+    _obj.onCalculationResultInstance(smokeCalculationresultFromFfi(calculationResult));
   } finally {
     smokeCalculationresultReleaseFfiHandle(calculationResult);
   }
-  return 0;
 }
 
 
 Pointer<Void> smokeCalculatorlistenerToFfi(CalculatorListener value) {
   if (value is __lib.NativeBase) return _smokeCalculatorlistenerCopyHandle((value as __lib.NativeBase).handle);
 
+  void __onCalculationResultCaller(double calculationResult) { _smokeCalculatorlisteneronCalculationResultStatic(value, calculationResult); }
+  final __onCalculationResultCallback = NativeCallable<Void Function(Double)>.isolateLocal(__onCalculationResultCaller);
+  __onCalculationResultCallback.keepIsolateAlive = false;
+
+  void __onCalculationResultConstCaller(double calculationResult) { _smokeCalculatorlisteneronCalculationResultConstStatic(value, calculationResult); }
+  final __onCalculationResultConstCallback = NativeCallable<Void Function(Double)>.isolateLocal(__onCalculationResultConstCaller);
+  __onCalculationResultConstCallback.keepIsolateAlive = false;
+
+  void __onCalculationResultStructCaller(Pointer<Void> calculationResult) { _smokeCalculatorlisteneronCalculationResultStructStatic(value, calculationResult); }
+  final __onCalculationResultStructCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__onCalculationResultStructCaller);
+  __onCalculationResultStructCallback.keepIsolateAlive = false;
+
+  void __onCalculationResultArrayCaller(Pointer<Void> calculationResult) { _smokeCalculatorlisteneronCalculationResultArrayStatic(value, calculationResult); }
+  final __onCalculationResultArrayCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__onCalculationResultArrayCaller);
+  __onCalculationResultArrayCallback.keepIsolateAlive = false;
+
+  void __onCalculationResultMapCaller(Pointer<Void> calculationResults) { _smokeCalculatorlisteneronCalculationResultMapStatic(value, calculationResults); }
+  final __onCalculationResultMapCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__onCalculationResultMapCaller);
+  __onCalculationResultMapCallback.keepIsolateAlive = false;
+
+  void __onCalculationResultInstanceCaller(Pointer<Void> calculationResult) { _smokeCalculatorlisteneronCalculationResultInstanceStatic(value, calculationResult); }
+  final __onCalculationResultInstanceCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__onCalculationResultInstanceCaller);
+  __onCalculationResultInstanceCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __onCalculationResultCallback.close();
+    __onCalculationResultConstCallback.close();
+    __onCalculationResultStructCallback.close();
+    __onCalculationResultArrayCallback.close();
+    __onCalculationResultMapCallback.close();
+    __onCalculationResultInstanceCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
   final result = _smokeCalculatorlistenerCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Uint8 Function(Handle, Double)>(_smokeCalculatorlisteneronCalculationResultStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Double)>(_smokeCalculatorlisteneronCalculationResultConstStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeCalculatorlisteneronCalculationResultStructStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeCalculatorlisteneronCalculationResultArrayStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeCalculatorlisteneronCalculationResultMapStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeCalculatorlisteneronCalculationResultInstanceStatic, __lib.unknownError)
+    __closeAllCallback.nativeFunction,
+    __onCalculationResultCallback.nativeFunction,
+    __onCalculationResultConstCallback.nativeFunction,
+    __onCalculationResultStructCallback.nativeFunction,
+    __onCalculationResultArrayCallback.nativeFunction,
+    __onCalculationResultMapCallback.nativeFunction,
+    __onCalculationResultInstanceCallback.nativeFunction
   );
 
   return result;

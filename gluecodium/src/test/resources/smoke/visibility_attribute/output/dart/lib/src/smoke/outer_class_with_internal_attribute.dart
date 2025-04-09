@@ -113,6 +113,7 @@ final _smokeOuterclasswithinternalattributeClassnestedininternalclassReleaseHand
   >('library_smoke_OuterClassWithInternalAttribute_ClassNestedInInternalClass_release_handle'));
 
 
+
 class OuterClassWithInternalAttribute_ClassNestedInInternalClass$Impl extends __lib.NativeBase implements OuterClassWithInternalAttribute_ClassNestedInInternalClass {
 
   OuterClassWithInternalAttribute_ClassNestedInInternalClass$Impl(Pointer<Void> handle) : super(handle);
@@ -165,8 +166,8 @@ final _smokeOuterclasswithinternalattributeLambdanestedininternalclassReleaseHan
     void Function(Pointer<Void>)
   >('library_smoke_OuterClassWithInternalAttribute_LambdaNestedInInternalClass_release_handle'));
 final _smokeOuterclasswithinternalattributeLambdanestedininternalclassCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_OuterClassWithInternalAttribute_LambdaNestedInInternalClass_create_proxy'));
 
 class OuterClassWithInternalAttribute_LambdaNestedInInternalClass$Impl implements Finalizable {
@@ -182,22 +183,35 @@ class OuterClassWithInternalAttribute_LambdaNestedInInternalClass$Impl implement
 
 }
 
-int _smokeOuterclasswithinternalattributeLambdanestedininternalclasscallStatic(Object _obj) {
+void _smokeOuterclasswithinternalattributeLambdanestedininternalclasscallStatic(OuterClassWithInternalAttribute_LambdaNestedInInternalClass _obj) {
   
   try {
-    (_obj as OuterClassWithInternalAttribute_LambdaNestedInInternalClass)();
+    _obj();
   } finally {
   }
-  return 0;
 }
 
-Pointer<Void> smokeOuterclasswithinternalattributeLambdanestedininternalclassToFfi(OuterClassWithInternalAttribute_LambdaNestedInInternalClass value) =>
-  _smokeOuterclasswithinternalattributeLambdanestedininternalclassCreateProxy(
+Pointer<Void> smokeOuterclasswithinternalattributeLambdanestedininternalclassToFfi(OuterClassWithInternalAttribute_LambdaNestedInInternalClass value) {
+  void __lambdaCaller() { _smokeOuterclasswithinternalattributeLambdanestedininternalclasscallStatic(value); }
+  final __lambdaCallback = NativeCallable<Void Function()>.isolateLocal(__lambdaCaller);
+  __lambdaCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __lambdaCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
+  return _smokeOuterclasswithinternalattributeLambdanestedininternalclassCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Int64 Function(Handle)>(_smokeOuterclasswithinternalattributeLambdanestedininternalclasscallStatic, __lib.unknownError)
+    __closeAllCallback.nativeFunction,
+    __lambdaCallback.nativeFunction
   );
+}
 
 OuterClassWithInternalAttribute_LambdaNestedInInternalClass smokeOuterclasswithinternalattributeLambdanestedininternalclassFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeOuterclasswithinternalattributeLambdanestedininternalclassCopyHandle(handle);
@@ -260,6 +274,7 @@ final _smokeOuterclasswithinternalattributeReleaseHandle = __lib.catchArgumentEr
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_OuterClassWithInternalAttribute_release_handle'));
+
 
 
 class OuterClassWithInternalAttribute$Impl extends __lib.NativeBase implements OuterClassWithInternalAttribute {

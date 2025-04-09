@@ -37,8 +37,8 @@ final _smokeNocacheinterfaceReleaseHandle = __lib.catchArgumentError(() => __lib
     void Function(Pointer<Void>)
   >('library_smoke_NoCacheInterface_release_handle'));
 final _smokeNocacheinterfaceCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_NoCacheInterface_create_proxy'));
 final _smokeNocacheinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -74,24 +74,36 @@ class NoCacheInterface$Impl extends __lib.NativeBase implements NoCacheInterface
 
 }
 
-int _smokeNocacheinterfacefooStatic(Object _obj) {
+void _smokeNocacheinterfacefooStatic(NoCacheInterface _obj) {
 
   try {
-    (_obj as NoCacheInterface).foo();
+    _obj.foo();
   } finally {
   }
-  return 0;
 }
 
 
 Pointer<Void> smokeNocacheinterfaceToFfi(NoCacheInterface value) {
   if (value is __lib.NativeBase) return _smokeNocacheinterfaceCopyHandle((value as __lib.NativeBase).handle);
 
+  void __fooCaller() { _smokeNocacheinterfacefooStatic(value); }
+  final __fooCallback = NativeCallable<Void Function()>.isolateLocal(__fooCaller);
+  __fooCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __fooCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
   final result = _smokeNocacheinterfaceCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Uint8 Function(Handle)>(_smokeNocacheinterfacefooStatic, __lib.unknownError)
+    __closeAllCallback.nativeFunction,
+    __fooCallback.nativeFunction
   );
 
   return result;

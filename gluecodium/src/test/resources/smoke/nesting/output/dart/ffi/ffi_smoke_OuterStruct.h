@@ -1,19 +1,80 @@
+
 #pragma once
+
 #include "Export.h"
 #include "OpaqueHandle.h"
 #include "dart_api_dl.h"
 #include <stdint.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+
+
+
+
 _GLUECODIUM_FFI_EXPORT void library_smoke_OuterStruct_doNothing_return_release_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT uint32_t library_smoke_OuterStruct_doNothing_return_get_error(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT bool library_smoke_OuterStruct_doNothing_return_has_error(FfiOpaqueHandle handle);
+
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_doNothing(FfiOpaqueHandle _self, int32_t _isolate_id);
+
+
+
+
+
+
+
+
+
+
+
 _GLUECODIUM_FFI_EXPORT void library_smoke_OuterStruct_InnerStruct_doSomething(FfiOpaqueHandle _self, int32_t _isolate_id);
+
+
+
+
+
 _GLUECODIUM_FFI_EXPORT void library_smoke_OuterStruct_InnerLambda_call(FfiOpaqueHandle _self, int32_t _isolate_id);
+
+
+
+
+
+
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerClass_fooBar(FfiOpaqueHandle _self, int32_t _isolate_id);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerInterface_barBaz(FfiOpaqueHandle _self, int32_t _isolate_id);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 _GLUECODIUM_FFI_EXPORT void library_smoke_OuterStruct_InnerClass_register_finalizer(FfiOpaqueHandle ffi_handle, int32_t isolate_id, Dart_Handle dart_handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerClass_copy_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT void library_smoke_OuterStruct_InnerClass_release_handle(FfiOpaqueHandle handle);
@@ -26,8 +87,10 @@ _GLUECODIUM_FFI_EXPORT void library_smoke_OuterStruct_InnerLambda_release_handle
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerLambda_create_handle_nullable(FfiOpaqueHandle value);
 _GLUECODIUM_FFI_EXPORT void library_smoke_OuterStruct_InnerLambda_release_handle_nullable(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerLambda_get_value_nullable(FfiOpaqueHandle handle);
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerInterface_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0);
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerLambda_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0);
+
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerInterface_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle close_callbacks, FfiOpaqueHandle f0);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerLambda_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle close_callbacks, FfiOpaqueHandle f0);
+
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_create_handle(FfiOpaqueHandle field);
 _GLUECODIUM_FFI_EXPORT void library_smoke_OuterStruct_release_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_get_field_field(FfiOpaqueHandle handle);
@@ -40,10 +103,12 @@ _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerStruct_get
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerStruct_create_handle_nullable(FfiOpaqueHandle value);
 _GLUECODIUM_FFI_EXPORT void library_smoke_OuterStruct_InnerStruct_release_handle_nullable(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerStruct_get_value_nullable(FfiOpaqueHandle handle);
+
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerEnum_create_handle_nullable(uint32_t value);
 _GLUECODIUM_FFI_EXPORT void library_smoke_OuterStruct_InnerEnum_release_handle_nullable(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT uint32_t library_smoke_OuterStruct_InnerEnum_get_value_nullable(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_OuterStruct_InnerInterface_get_type_id(FfiOpaqueHandle handle);
+
 #ifdef __cplusplus
 }
 #endif

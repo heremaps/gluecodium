@@ -42,8 +42,8 @@ final _smokeParentnarrowoneReleaseHandle = __lib.catchArgumentError(() => __lib.
     void Function(Pointer<Void>)
   >('library_smoke_ParentNarrowOne_release_handle'));
 final _smokeParentnarrowoneCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer, Pointer)
   >('library_smoke_ParentNarrowOne_create_proxy'));
 final _smokeParentnarrowoneGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -110,39 +110,58 @@ class ParentNarrowOne$Impl extends __lib.NativeBase implements ParentNarrowOne {
 
 }
 
-int _smokeParentnarrowoneparentFunctionOneStatic(Object _obj) {
+void _smokeParentnarrowoneparentFunctionOneStatic(ParentNarrowOne _obj) {
 
   try {
-    (_obj as ParentNarrowOne).parentFunctionOne();
+    _obj.parentFunctionOne();
   } finally {
   }
-  return 0;
 }
 
-int _smokeParentnarrowoneparentPropertyOneGetStatic(Object _obj, Pointer<Pointer<Void>> _result) {
-  _result.value = stringToFfi((_obj as ParentNarrowOne).parentPropertyOne);
-  return 0;
+void _smokeParentnarrowoneparentPropertyOneGetStatic(ParentNarrowOne _obj, Pointer<Pointer<Void>> _result) {
+  _result.value = stringToFfi(_obj.parentPropertyOne);
 }
 
-int _smokeParentnarrowoneparentPropertyOneSetStatic(Object _obj, Pointer<Void> _value) {
+void _smokeParentnarrowoneparentPropertyOneSetStatic(ParentNarrowOne _obj, Pointer<Void> _value) {
   try {
-    (_obj as ParentNarrowOne).parentPropertyOne =
-      stringFromFfi(_value);
+    _obj.parentPropertyOne = stringFromFfi(_value);
   } finally {
     stringReleaseFfiHandle(_value);
   }
-  return 0;
 }
 
 Pointer<Void> smokeParentnarrowoneToFfi(ParentNarrowOne value) {
+
+  void __parentFunctionOneCaller() { _smokeParentnarrowoneparentFunctionOneStatic(value); }
+  final __parentFunctionOneCallback = NativeCallable<Void Function()>.isolateLocal(__parentFunctionOneCaller);
+  __parentFunctionOneCallback.keepIsolateAlive = false;
+
+  void __smokeParentnarrowoneparentPropertyOneGetCaller(Pointer<Pointer<Void>> _result) { _smokeParentnarrowoneparentPropertyOneGetStatic(value, _result); }
+  final __smokeParentnarrowoneparentPropertyOneGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeParentnarrowoneparentPropertyOneGetCaller);
+  __smokeParentnarrowoneparentPropertyOneGetCallback.keepIsolateAlive = false;
+
+  void __smokeParentnarrowoneparentPropertyOneSetCaller(Pointer<Void> _value) { _smokeParentnarrowoneparentPropertyOneSetStatic(value, _value); }
+  final __smokeParentnarrowoneparentPropertyOneSetCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__smokeParentnarrowoneparentPropertyOneSetCaller);
+  __smokeParentnarrowoneparentPropertyOneSetCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __parentFunctionOneCallback.close();
+    __smokeParentnarrowoneparentPropertyOneGetCallback.close();
+    __smokeParentnarrowoneparentPropertyOneSetCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeParentnarrowoneCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Uint8 Function(Handle)>(_smokeParentnarrowoneparentFunctionOneStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeParentnarrowoneparentPropertyOneGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeParentnarrowoneparentPropertyOneSetStatic, __lib.unknownError)
+    __closeAllCallback.nativeFunction,
+    __parentFunctionOneCallback.nativeFunction,
+    __smokeParentnarrowoneparentPropertyOneGetCallback.nativeFunction,
+    __smokeParentnarrowoneparentPropertyOneSetCallback.nativeFunction
   );
 
   return result;

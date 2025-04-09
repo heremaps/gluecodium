@@ -118,8 +118,8 @@ final _smokePropertiesinterfaceReleaseHandle = __lib.catchArgumentError(() => __
     void Function(Pointer<Void>)
   >('library_smoke_PropertiesInterface_release_handle'));
 final _smokePropertiesinterfaceCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer)
   >('library_smoke_PropertiesInterface_create_proxy'));
 final _smokePropertiesinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -173,30 +173,45 @@ class PropertiesInterface$Impl extends __lib.NativeBase implements PropertiesInt
 }
 
 
-int _smokePropertiesinterfacestructPropertyGetStatic(Object _obj, Pointer<Pointer<Void>> _result) {
-  _result.value = smokePropertiesinterfaceExamplestructToFfi((_obj as PropertiesInterface).structProperty);
-  return 0;
+void _smokePropertiesinterfacestructPropertyGetStatic(PropertiesInterface _obj, Pointer<Pointer<Void>> _result) {
+  _result.value = smokePropertiesinterfaceExamplestructToFfi(_obj.structProperty);
 }
 
-int _smokePropertiesinterfacestructPropertySetStatic(Object _obj, Pointer<Void> _value) {
+void _smokePropertiesinterfacestructPropertySetStatic(PropertiesInterface _obj, Pointer<Void> _value) {
   try {
-    (_obj as PropertiesInterface).structProperty =
-      smokePropertiesinterfaceExamplestructFromFfi(_value);
+    _obj.structProperty = smokePropertiesinterfaceExamplestructFromFfi(_value);
   } finally {
     smokePropertiesinterfaceExamplestructReleaseFfiHandle(_value);
   }
-  return 0;
 }
 
 Pointer<Void> smokePropertiesinterfaceToFfi(PropertiesInterface value) {
   if (value is __lib.NativeBase) return _smokePropertiesinterfaceCopyHandle((value as __lib.NativeBase).handle);
 
+  void __smokePropertiesinterfacestructPropertyGetCaller(Pointer<Pointer<Void>> _result) { _smokePropertiesinterfacestructPropertyGetStatic(value, _result); }
+  final __smokePropertiesinterfacestructPropertyGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokePropertiesinterfacestructPropertyGetCaller);
+  __smokePropertiesinterfacestructPropertyGetCallback.keepIsolateAlive = false;
+
+  void __smokePropertiesinterfacestructPropertySetCaller(Pointer<Void> _value) { _smokePropertiesinterfacestructPropertySetStatic(value, _value); }
+  final __smokePropertiesinterfacestructPropertySetCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__smokePropertiesinterfacestructPropertySetCaller);
+  __smokePropertiesinterfacestructPropertySetCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __smokePropertiesinterfacestructPropertyGetCallback.close();
+    __smokePropertiesinterfacestructPropertySetCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
   final result = _smokePropertiesinterfaceCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokePropertiesinterfacestructPropertyGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokePropertiesinterfacestructPropertySetStatic, __lib.unknownError)
+    __closeAllCallback.nativeFunction,
+    __smokePropertiesinterfacestructPropertyGetCallback.nativeFunction,
+    __smokePropertiesinterfacestructPropertySetCallback.nativeFunction
   );
 
   return result;

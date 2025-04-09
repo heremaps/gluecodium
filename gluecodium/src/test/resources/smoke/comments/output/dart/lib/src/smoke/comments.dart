@@ -335,8 +335,8 @@ final _smokeCommentsSomelambdaReleaseHandle = __lib.catchArgumentError(() => __l
     void Function(Pointer<Void>)
   >('library_smoke_Comments_SomeLambda_release_handle'));
 final _smokeCommentsSomelambdaCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_Comments_SomeLambda_create_proxy'));
 
 class Comments_SomeLambda$Impl implements Finalizable {
@@ -362,25 +362,38 @@ class Comments_SomeLambda$Impl implements Finalizable {
 
 }
 
-int _smokeCommentsSomelambdacallStatic(Object _obj, Pointer<Void> p0, int p1, Pointer<Double> _result) {
+void _smokeCommentsSomelambdacallStatic(Comments_SomeLambda _obj, Pointer<Void> p0, int p1, Pointer<Double> _result) {
   double? _resultObject;
   try {
-    _resultObject = (_obj as Comments_SomeLambda)(stringFromFfi(p0), (p1));
+    _resultObject = _obj(stringFromFfi(p0), (p1));
     _result.value = (_resultObject);
   } finally {
     stringReleaseFfiHandle(p0);
     
   }
-  return 0;
 }
 
-Pointer<Void> smokeCommentsSomelambdaToFfi(Comments_SomeLambda value) =>
-  _smokeCommentsSomelambdaCreateProxy(
+Pointer<Void> smokeCommentsSomelambdaToFfi(Comments_SomeLambda value) {
+  void __lambdaCaller(Pointer<Void> p0, int p1, Pointer<Double> _result) { _smokeCommentsSomelambdacallStatic(value, p0, p1, _result); }
+  final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>, Int32, Pointer<Double>)>.isolateLocal(__lambdaCaller);
+  __lambdaCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __lambdaCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
+  return _smokeCommentsSomelambdaCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Int64 Function(Handle, Pointer<Void>, Int32, Pointer<Double>)>(_smokeCommentsSomelambdacallStatic, __lib.unknownError)
+    __closeAllCallback.nativeFunction,
+    __lambdaCallback.nativeFunction
   );
+}
 
 Comments_SomeLambda smokeCommentsSomelambdaFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeCommentsSomelambdaCopyHandle(handle);

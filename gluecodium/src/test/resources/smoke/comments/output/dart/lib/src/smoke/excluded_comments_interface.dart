@@ -29,8 +29,8 @@ final _smokeExcludedcommentsinterfaceReleaseHandle = __lib.catchArgumentError(()
     void Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsInterface_release_handle'));
 final _smokeExcludedcommentsinterfaceCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle),
-    Pointer<Void> Function(int, int, Object)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_ExcludedCommentsInterface_create_proxy'));
 final _smokeExcludedcommentsinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -50,10 +50,18 @@ class ExcludedCommentsInterface$Impl extends __lib.NativeBase implements Exclude
 Pointer<Void> smokeExcludedcommentsinterfaceToFfi(ExcludedCommentsInterface value) {
   if (value is __lib.NativeBase) return _smokeExcludedcommentsinterfaceCopyHandle((value as __lib.NativeBase).handle);
 
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
   final result = _smokeExcludedcommentsinterfaceCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    value
+    value,
+    __closeAllCallback.nativeFunction
   );
 
   return result;

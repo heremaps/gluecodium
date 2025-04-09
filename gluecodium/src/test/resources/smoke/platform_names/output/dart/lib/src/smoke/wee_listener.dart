@@ -37,8 +37,8 @@ final _smokePlatformnameslistenerReleaseHandle = __lib.catchArgumentError(() => 
     void Function(Pointer<Void>)
   >('library_smoke_PlatformNamesListener_release_handle'));
 final _smokePlatformnameslistenerCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_PlatformNamesListener_create_proxy'));
 final _smokePlatformnameslistenerGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -76,25 +76,37 @@ class weeListener$Impl extends __lib.NativeBase implements weeListener {
 
 }
 
-int _smokePlatformnameslistenerWeeMethodStatic(Object _obj, Pointer<Void> WeeParameter) {
+void _smokePlatformnameslistenerWeeMethodStatic(weeListener _obj, Pointer<Void> WeeParameter) {
 
   try {
-    (_obj as weeListener).WeeMethod(stringFromFfi(WeeParameter));
+    _obj.WeeMethod(stringFromFfi(WeeParameter));
   } finally {
     stringReleaseFfiHandle(WeeParameter);
   }
-  return 0;
 }
 
 
 Pointer<Void> smokePlatformnameslistenerToFfi(weeListener value) {
   if (value is __lib.NativeBase) return _smokePlatformnameslistenerCopyHandle((value as __lib.NativeBase).handle);
 
+  void __WeeMethodCaller(Pointer<Void> WeeParameter) { _smokePlatformnameslistenerWeeMethodStatic(value, WeeParameter); }
+  final __WeeMethodCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__WeeMethodCaller);
+  __WeeMethodCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __WeeMethodCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
   final result = _smokePlatformnameslistenerCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokePlatformnameslistenerWeeMethodStatic, __lib.unknownError)
+    __closeAllCallback.nativeFunction,
+    __WeeMethodCallback.nativeFunction
   );
 
   return result;

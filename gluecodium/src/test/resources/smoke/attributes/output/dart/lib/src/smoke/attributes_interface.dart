@@ -49,8 +49,8 @@ final _smokeAttributesinterfaceReleaseHandle = __lib.catchArgumentError(() => __
     void Function(Pointer<Void>)
   >('library_smoke_AttributesInterface_release_handle'));
 final _smokeAttributesinterfaceCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer, Pointer)
   >('library_smoke_AttributesInterface_create_proxy'));
 final _smokeAttributesinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -121,41 +121,60 @@ class AttributesInterface$Impl extends __lib.NativeBase implements AttributesInt
 
 }
 
-int _smokeAttributesinterfaceveryFunStatic(Object _obj, Pointer<Void> param) {
+void _smokeAttributesinterfaceveryFunStatic(AttributesInterface _obj, Pointer<Void> param) {
 
   try {
-    (_obj as AttributesInterface).veryFun(stringFromFfi(param));
+    _obj.veryFun(stringFromFfi(param));
   } finally {
     stringReleaseFfiHandle(param);
   }
-  return 0;
 }
 
-int _smokeAttributesinterfacepropGetStatic(Object _obj, Pointer<Pointer<Void>> _result) {
-  _result.value = stringToFfi((_obj as AttributesInterface).prop);
-  return 0;
+void _smokeAttributesinterfacepropGetStatic(AttributesInterface _obj, Pointer<Pointer<Void>> _result) {
+  _result.value = stringToFfi(_obj.prop);
 }
 
-int _smokeAttributesinterfacepropSetStatic(Object _obj, Pointer<Void> _value) {
+void _smokeAttributesinterfacepropSetStatic(AttributesInterface _obj, Pointer<Void> _value) {
   try {
-    (_obj as AttributesInterface).prop =
-      stringFromFfi(_value);
+    _obj.prop = stringFromFfi(_value);
   } finally {
     stringReleaseFfiHandle(_value);
   }
-  return 0;
 }
 
 Pointer<Void> smokeAttributesinterfaceToFfi(AttributesInterface value) {
   if (value is __lib.NativeBase) return _smokeAttributesinterfaceCopyHandle((value as __lib.NativeBase).handle);
 
+  void __veryFunCaller(Pointer<Void> param) { _smokeAttributesinterfaceveryFunStatic(value, param); }
+  final __veryFunCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__veryFunCaller);
+  __veryFunCallback.keepIsolateAlive = false;
+
+  void __smokeAttributesinterfacepropGetCaller(Pointer<Pointer<Void>> _result) { _smokeAttributesinterfacepropGetStatic(value, _result); }
+  final __smokeAttributesinterfacepropGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeAttributesinterfacepropGetCaller);
+  __smokeAttributesinterfacepropGetCallback.keepIsolateAlive = false;
+
+  void __smokeAttributesinterfacepropSetCaller(Pointer<Void> _value) { _smokeAttributesinterfacepropSetStatic(value, _value); }
+  final __smokeAttributesinterfacepropSetCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__smokeAttributesinterfacepropSetCaller);
+  __smokeAttributesinterfacepropSetCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __veryFunCallback.close();
+    __smokeAttributesinterfacepropGetCallback.close();
+    __smokeAttributesinterfacepropSetCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
   final result = _smokeAttributesinterfaceCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeAttributesinterfaceveryFunStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeAttributesinterfacepropGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeAttributesinterfacepropSetStatic, __lib.unknownError)
+    __closeAllCallback.nativeFunction,
+    __veryFunCallback.nativeFunction,
+    __smokeAttributesinterfacepropGetCallback.nativeFunction,
+    __smokeAttributesinterfacepropSetCallback.nativeFunction
   );
 
   return result;

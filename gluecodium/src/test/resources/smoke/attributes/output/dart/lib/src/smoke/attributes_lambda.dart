@@ -22,8 +22,8 @@ final _smokeAttributeslambdaReleaseHandle = __lib.catchArgumentError(() => __lib
     void Function(Pointer<Void>)
   >('library_smoke_AttributesLambda_release_handle'));
 final _smokeAttributeslambdaCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_AttributesLambda_create_proxy'));
 
 class AttributesLambda$Impl implements Finalizable {
@@ -39,22 +39,35 @@ class AttributesLambda$Impl implements Finalizable {
 
 }
 
-int _smokeAttributeslambdacallStatic(Object _obj) {
+void _smokeAttributeslambdacallStatic(AttributesLambda _obj) {
   
   try {
-    (_obj as AttributesLambda)();
+    _obj();
   } finally {
   }
-  return 0;
 }
 
-Pointer<Void> smokeAttributeslambdaToFfi(AttributesLambda value) =>
-  _smokeAttributeslambdaCreateProxy(
+Pointer<Void> smokeAttributeslambdaToFfi(AttributesLambda value) {
+  void __lambdaCaller() { _smokeAttributeslambdacallStatic(value); }
+  final __lambdaCallback = NativeCallable<Void Function()>.isolateLocal(__lambdaCaller);
+  __lambdaCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __lambdaCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
+  return _smokeAttributeslambdaCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Int64 Function(Handle)>(_smokeAttributeslambdacallStatic, __lib.unknownError)
+    __closeAllCallback.nativeFunction,
+    __lambdaCallback.nativeFunction
   );
+}
 
 AttributesLambda smokeAttributeslambdaFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeAttributeslambdaCopyHandle(handle);

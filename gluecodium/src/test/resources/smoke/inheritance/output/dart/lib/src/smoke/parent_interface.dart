@@ -44,8 +44,8 @@ final _smokeParentinterfaceReleaseHandle = __lib.catchArgumentError(() => __lib.
     void Function(Pointer<Void>)
   >('library_smoke_ParentInterface_release_handle'));
 final _smokeParentinterfaceCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer, Pointer)
   >('library_smoke_ParentInterface_create_proxy'));
 final _smokeParentinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -112,28 +112,24 @@ class ParentInterface$Impl extends __lib.NativeBase implements ParentInterface {
 
 }
 
-int _smokeParentinterfacerootMethodStatic(Object _obj) {
+void _smokeParentinterfacerootMethodStatic(ParentInterface _obj) {
 
   try {
-    (_obj as ParentInterface).rootMethod();
+    _obj.rootMethod();
   } finally {
   }
-  return 0;
 }
 
-int _smokeParentinterfacerootPropertyGetStatic(Object _obj, Pointer<Pointer<Void>> _result) {
-  _result.value = stringToFfi((_obj as ParentInterface).rootProperty);
-  return 0;
+void _smokeParentinterfacerootPropertyGetStatic(ParentInterface _obj, Pointer<Pointer<Void>> _result) {
+  _result.value = stringToFfi(_obj.rootProperty);
 }
 
-int _smokeParentinterfacerootPropertySetStatic(Object _obj, Pointer<Void> _value) {
+void _smokeParentinterfacerootPropertySetStatic(ParentInterface _obj, Pointer<Void> _value) {
   try {
-    (_obj as ParentInterface).rootProperty =
-      stringFromFfi(_value);
+    _obj.rootProperty = stringFromFfi(_value);
   } finally {
     stringReleaseFfiHandle(_value);
   }
-  return 0;
 }
 
 Pointer<Void> smokeParentinterfaceToFfi(ParentInterface value) {
@@ -144,13 +140,36 @@ Pointer<Void> smokeParentinterfaceToFfi(ParentInterface value) {
     return descendantResult;
   }
 
+  void __rootMethodCaller() { _smokeParentinterfacerootMethodStatic(value); }
+  final __rootMethodCallback = NativeCallable<Void Function()>.isolateLocal(__rootMethodCaller);
+  __rootMethodCallback.keepIsolateAlive = false;
+
+  void __smokeParentinterfacerootPropertyGetCaller(Pointer<Pointer<Void>> _result) { _smokeParentinterfacerootPropertyGetStatic(value, _result); }
+  final __smokeParentinterfacerootPropertyGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeParentinterfacerootPropertyGetCaller);
+  __smokeParentinterfacerootPropertyGetCallback.keepIsolateAlive = false;
+
+  void __smokeParentinterfacerootPropertySetCaller(Pointer<Void> _value) { _smokeParentinterfacerootPropertySetStatic(value, _value); }
+  final __smokeParentinterfacerootPropertySetCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__smokeParentinterfacerootPropertySetCaller);
+  __smokeParentinterfacerootPropertySetCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __rootMethodCallback.close();
+    __smokeParentinterfacerootPropertyGetCallback.close();
+    __smokeParentinterfacerootPropertySetCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
   final result = _smokeParentinterfaceCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Uint8 Function(Handle)>(_smokeParentinterfacerootMethodStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeParentinterfacerootPropertyGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeParentinterfacerootPropertySetStatic, __lib.unknownError)
+    __closeAllCallback.nativeFunction,
+    __rootMethodCallback.nativeFunction,
+    __smokeParentinterfacerootPropertyGetCallback.nativeFunction,
+    __smokeParentinterfacerootPropertySetCallback.nativeFunction
   );
 
   return result;

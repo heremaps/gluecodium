@@ -65,8 +65,8 @@ final _smokeSkipproxyReleaseHandle = __lib.catchArgumentError(() => __lib.native
     void Function(Pointer<Void>)
   >('library_smoke_SkipProxy_release_handle'));
 final _smokeSkipproxyCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
   >('library_smoke_SkipProxy_create_proxy'));
 final _smokeSkipproxyGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -249,78 +249,66 @@ class SkipProxy$Impl extends __lib.NativeBase implements SkipProxy {
 
 }
 
-int _smokeSkipproxynotInJavaStatic(Object _obj, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
+void _smokeSkipproxynotInJavaStatic(SkipProxy _obj, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
   String? _resultObject;
   try {
-    _resultObject = (_obj as SkipProxy).notInJava(stringFromFfi(input));
+    _resultObject = _obj.notInJava(stringFromFfi(input));
     _result.value = stringToFfi(_resultObject);
   } finally {
     stringReleaseFfiHandle(input);
   }
-  return 0;
 }
-int _smokeSkipproxynotInSwiftStatic(Object _obj, int input, Pointer<Uint8> _result) {
+void _smokeSkipproxynotInSwiftStatic(SkipProxy _obj, int input, Pointer<Uint8> _result) {
   bool? _resultObject;
   try {
-    _resultObject = (_obj as SkipProxy).notInSwift(booleanFromFfi(input));
+    _resultObject = _obj.notInSwift(booleanFromFfi(input));
     _result.value = booleanToFfi(_resultObject);
   } finally {
     booleanReleaseFfiHandle(input);
   }
-  return 0;
 }
-int _smokeSkipproxynotInKotlinStatic(Object _obj, double input, Pointer<Float> _result) {
+void _smokeSkipproxynotInKotlinStatic(SkipProxy _obj, double input, Pointer<Float> _result) {
   double? _resultObject;
   try {
-    _resultObject = (_obj as SkipProxy).notInKotlin((input));
+    _resultObject = _obj.notInKotlin((input));
     _result.value = (_resultObject);
   } finally {
     
   }
-  return 0;
 }
 
-int _smokeSkipproxyskippedInJavaGetStatic(Object _obj, Pointer<Pointer<Void>> _result) {
-  _result.value = stringToFfi((_obj as SkipProxy).skippedInJava);
-  return 0;
+void _smokeSkipproxyskippedInJavaGetStatic(SkipProxy _obj, Pointer<Pointer<Void>> _result) {
+  _result.value = stringToFfi(_obj.skippedInJava);
 }
 
-int _smokeSkipproxyskippedInJavaSetStatic(Object _obj, Pointer<Void> _value) {
+void _smokeSkipproxyskippedInJavaSetStatic(SkipProxy _obj, Pointer<Void> _value) {
   try {
-    (_obj as SkipProxy).skippedInJava =
-      stringFromFfi(_value);
+    _obj.skippedInJava = stringFromFfi(_value);
   } finally {
     stringReleaseFfiHandle(_value);
   }
-  return 0;
 }
-int _smokeSkipproxyisSkippedInSwiftGetStatic(Object _obj, Pointer<Uint8> _result) {
-  _result.value = booleanToFfi((_obj as SkipProxy).isSkippedInSwift);
-  return 0;
+void _smokeSkipproxyisSkippedInSwiftGetStatic(SkipProxy _obj, Pointer<Uint8> _result) {
+  _result.value = booleanToFfi(_obj.isSkippedInSwift);
 }
 
-int _smokeSkipproxyisSkippedInSwiftSetStatic(Object _obj, int _value) {
+void _smokeSkipproxyisSkippedInSwiftSetStatic(SkipProxy _obj, int _value) {
   try {
-    (_obj as SkipProxy).isSkippedInSwift =
-      booleanFromFfi(_value);
+    _obj.isSkippedInSwift = booleanFromFfi(_value);
   } finally {
     booleanReleaseFfiHandle(_value);
   }
-  return 0;
 }
-int _smokeSkipproxyskippedInKotlinGetStatic(Object _obj, Pointer<Float> _result) {
-  _result.value = ((_obj as SkipProxy).skippedInKotlin);
-  return 0;
+void _smokeSkipproxyskippedInKotlinGetStatic(SkipProxy _obj, Pointer<Float> _result) {
+  _result.value = (_obj.skippedInKotlin);
 }
 
-int _smokeSkipproxyskippedInKotlinSetStatic(Object _obj, double _value) {
+void _smokeSkipproxyskippedInKotlinSetStatic(SkipProxy _obj, double _value) {
   try {
-    (_obj as SkipProxy).skippedInKotlin =
-      (_value);
+    _obj.skippedInKotlin = (_value);
   } finally {
     
   }
-  return 0;
 }
 
 Pointer<Void> smokeSkipproxyToFfi(SkipProxy value) {
@@ -331,19 +319,72 @@ Pointer<Void> smokeSkipproxyToFfi(SkipProxy value) {
     return descendantResult;
   }
 
+  void __notInJavaCaller(Pointer<Void> input, Pointer<Pointer<Void>> _result) { _smokeSkipproxynotInJavaStatic(value, input, _result); }
+  final __notInJavaCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Pointer<Void>>)>.isolateLocal(__notInJavaCaller);
+  __notInJavaCallback.keepIsolateAlive = false;
+
+  void __notInSwiftCaller(int input, Pointer<Uint8> _result) { _smokeSkipproxynotInSwiftStatic(value, input, _result); }
+  final __notInSwiftCallback = NativeCallable<Void Function(Uint8, Pointer<Uint8>)>.isolateLocal(__notInSwiftCaller);
+  __notInSwiftCallback.keepIsolateAlive = false;
+
+  void __notInKotlinCaller(double input, Pointer<Float> _result) { _smokeSkipproxynotInKotlinStatic(value, input, _result); }
+  final __notInKotlinCallback = NativeCallable<Void Function(Float, Pointer<Float>)>.isolateLocal(__notInKotlinCaller);
+  __notInKotlinCallback.keepIsolateAlive = false;
+
+  void __smokeSkipproxyskippedInJavaGetCaller(Pointer<Pointer<Void>> _result) { _smokeSkipproxyskippedInJavaGetStatic(value, _result); }
+  final __smokeSkipproxyskippedInJavaGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeSkipproxyskippedInJavaGetCaller);
+  __smokeSkipproxyskippedInJavaGetCallback.keepIsolateAlive = false;
+
+  void __smokeSkipproxyskippedInJavaSetCaller(Pointer<Void> _value) { _smokeSkipproxyskippedInJavaSetStatic(value, _value); }
+  final __smokeSkipproxyskippedInJavaSetCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__smokeSkipproxyskippedInJavaSetCaller);
+  __smokeSkipproxyskippedInJavaSetCallback.keepIsolateAlive = false;
+
+  void __smokeSkipproxyisSkippedInSwiftGetCaller(Pointer<Uint8> _result) { _smokeSkipproxyisSkippedInSwiftGetStatic(value, _result); }
+  final __smokeSkipproxyisSkippedInSwiftGetCallback = NativeCallable<Void Function(Pointer<Uint8>)>.isolateLocal(__smokeSkipproxyisSkippedInSwiftGetCaller);
+  __smokeSkipproxyisSkippedInSwiftGetCallback.keepIsolateAlive = false;
+
+  void __smokeSkipproxyisSkippedInSwiftSetCaller(int _value) { _smokeSkipproxyisSkippedInSwiftSetStatic(value, _value); }
+  final __smokeSkipproxyisSkippedInSwiftSetCallback = NativeCallable<Void Function(Uint8)>.isolateLocal(__smokeSkipproxyisSkippedInSwiftSetCaller);
+  __smokeSkipproxyisSkippedInSwiftSetCallback.keepIsolateAlive = false;
+
+  void __smokeSkipproxyskippedInKotlinGetCaller(Pointer<Float> _result) { _smokeSkipproxyskippedInKotlinGetStatic(value, _result); }
+  final __smokeSkipproxyskippedInKotlinGetCallback = NativeCallable<Void Function(Pointer<Float>)>.isolateLocal(__smokeSkipproxyskippedInKotlinGetCaller);
+  __smokeSkipproxyskippedInKotlinGetCallback.keepIsolateAlive = false;
+
+  void __smokeSkipproxyskippedInKotlinSetCaller(double _value) { _smokeSkipproxyskippedInKotlinSetStatic(value, _value); }
+  final __smokeSkipproxyskippedInKotlinSetCallback = NativeCallable<Void Function(Float)>.isolateLocal(__smokeSkipproxyskippedInKotlinSetCaller);
+  __smokeSkipproxyskippedInKotlinSetCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __notInJavaCallback.close();
+    __notInSwiftCallback.close();
+    __notInKotlinCallback.close();
+    __smokeSkipproxyskippedInJavaGetCallback.close();
+    __smokeSkipproxyskippedInJavaSetCallback.close();
+    __smokeSkipproxyisSkippedInSwiftGetCallback.close();
+    __smokeSkipproxyisSkippedInSwiftSetCallback.close();
+    __smokeSkipproxyskippedInKotlinGetCallback.close();
+    __smokeSkipproxyskippedInKotlinSetCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
   final result = _smokeSkipproxyCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>, Pointer<Pointer<Void>>)>(_smokeSkipproxynotInJavaStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Uint8, Pointer<Uint8>)>(_smokeSkipproxynotInSwiftStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Float, Pointer<Float>)>(_smokeSkipproxynotInKotlinStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeSkipproxyskippedInJavaGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeSkipproxyskippedInJavaSetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Uint8>)>(_smokeSkipproxyisSkippedInSwiftGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Uint8)>(_smokeSkipproxyisSkippedInSwiftSetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Float>)>(_smokeSkipproxyskippedInKotlinGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Float)>(_smokeSkipproxyskippedInKotlinSetStatic, __lib.unknownError)
+    __closeAllCallback.nativeFunction,
+    __notInJavaCallback.nativeFunction,
+    __notInSwiftCallback.nativeFunction,
+    __notInKotlinCallback.nativeFunction,
+    __smokeSkipproxyskippedInJavaGetCallback.nativeFunction,
+    __smokeSkipproxyskippedInJavaSetCallback.nativeFunction,
+    __smokeSkipproxyisSkippedInSwiftGetCallback.nativeFunction,
+    __smokeSkipproxyisSkippedInSwiftSetCallback.nativeFunction,
+    __smokeSkipproxyskippedInKotlinGetCallback.nativeFunction,
+    __smokeSkipproxyskippedInKotlinSetCallback.nativeFunction
   );
 
   return result;

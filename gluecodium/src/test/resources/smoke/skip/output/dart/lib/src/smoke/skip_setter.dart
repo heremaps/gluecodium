@@ -35,8 +35,8 @@ final _smokeSkipsetterReleaseHandle = __lib.catchArgumentError(() => __lib.nativ
     void Function(Pointer<Void>)
   >('library_smoke_SkipSetter_release_handle'));
 final _smokeSkipsetterCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_SkipSetter_create_proxy'));
 final _smokeSkipsetterGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -76,19 +76,30 @@ class SkipSetter$Impl extends __lib.NativeBase implements SkipSetter {
 }
 
 
-int _smokeSkipsetterfooGetStatic(Object _obj, Pointer<Pointer<Void>> _result) {
-  _result.value = stringToFfi((_obj as SkipSetter).foo);
-  return 0;
+void _smokeSkipsetterfooGetStatic(SkipSetter _obj, Pointer<Pointer<Void>> _result) {
+  _result.value = stringToFfi(_obj.foo);
 }
 
 Pointer<Void> smokeSkipsetterToFfi(SkipSetter value) {
   if (value is __lib.NativeBase) return _smokeSkipsetterCopyHandle((value as __lib.NativeBase).handle);
 
+  void __smokeSkipsetterfooGetCaller(Pointer<Pointer<Void>> _result) { _smokeSkipsetterfooGetStatic(value, _result); }
+  final __smokeSkipsetterfooGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeSkipsetterfooGetCaller);
+  __smokeSkipsetterfooGetCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __smokeSkipsetterfooGetCallback.close();    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
   final result = _smokeSkipsetterCreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
     value,
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeSkipsetterfooGetStatic, __lib.unknownError)
+    __closeAllCallback.nativeFunction,
+    __smokeSkipsetterfooGetCallback.nativeFunction
   );
 
   return result;
