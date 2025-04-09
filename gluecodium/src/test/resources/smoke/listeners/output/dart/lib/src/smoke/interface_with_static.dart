@@ -187,18 +187,18 @@ void _smokeInterfacewithstaticregularPropertySetStatic(InterfaceWithStatic _obj,
   }
 }
 
-Pointer<Void> smokeInterfacewithstaticToFfi(InterfaceWithStatic value) {
-  if (value is __lib.NativeBase) return _smokeInterfacewithstaticCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeInterfacewithstaticToFfi(InterfaceWithStatic __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeInterfacewithstaticCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  void __regularFunctionCaller(Pointer<Pointer<Void>> _result) { _smokeInterfacewithstaticregularFunctionStatic(value, _result); }
+  void __regularFunctionCaller(Pointer<Pointer<Void>> _result) { _smokeInterfacewithstaticregularFunctionStatic(__interfaceObj, _result); }
   final __regularFunctionCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__regularFunctionCaller);
   __regularFunctionCallback.keepIsolateAlive = false;
 
-  void __smokeInterfacewithstaticregularPropertyGetCaller(Pointer<Pointer<Void>> _result) { _smokeInterfacewithstaticregularPropertyGetStatic(value, _result); }
+  void __smokeInterfacewithstaticregularPropertyGetCaller(Pointer<Pointer<Void>> _result) { _smokeInterfacewithstaticregularPropertyGetStatic(__interfaceObj, _result); }
   final __smokeInterfacewithstaticregularPropertyGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeInterfacewithstaticregularPropertyGetCaller);
   __smokeInterfacewithstaticregularPropertyGetCallback.keepIsolateAlive = false;
 
-  void __smokeInterfacewithstaticregularPropertySetCaller(Pointer<Void> _value) { _smokeInterfacewithstaticregularPropertySetStatic(value, _value); }
+  void __smokeInterfacewithstaticregularPropertySetCaller(Pointer<Void> _value) { _smokeInterfacewithstaticregularPropertySetStatic(__interfaceObj, _value); }
   final __smokeInterfacewithstaticregularPropertySetCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__smokeInterfacewithstaticregularPropertySetCaller);
   __smokeInterfacewithstaticregularPropertySetCallback.keepIsolateAlive = false;
 
@@ -213,9 +213,9 @@ Pointer<Void> smokeInterfacewithstaticToFfi(InterfaceWithStatic value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeInterfacewithstaticCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __regularFunctionCallback.nativeFunction,
     __smokeInterfacewithstaticregularPropertyGetCallback.nativeFunction,

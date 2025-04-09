@@ -176,10 +176,10 @@ void _smokeOuterclasswithinheritanceInnerinterfacebazStatic(OuterClassWithInheri
 }
 
 
-Pointer<Void> smokeOuterclasswithinheritanceInnerinterfaceToFfi(OuterClassWithInheritance_InnerInterface value) {
-  if (value is __lib.NativeBase) return _smokeOuterclasswithinheritanceInnerinterfaceCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeOuterclasswithinheritanceInnerinterfaceToFfi(OuterClassWithInheritance_InnerInterface __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeOuterclasswithinheritanceInnerinterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  void __bazCaller(Pointer<Void> input, Pointer<Pointer<Void>> _result) { _smokeOuterclasswithinheritanceInnerinterfacebazStatic(value, input, _result); }
+  void __bazCaller(Pointer<Void> input, Pointer<Pointer<Void>> _result) { _smokeOuterclasswithinheritanceInnerinterfacebazStatic(__interfaceObj, input, _result); }
   final __bazCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Pointer<Void>>)>.isolateLocal(__bazCaller);
   __bazCallback.keepIsolateAlive = false;
 
@@ -192,9 +192,9 @@ Pointer<Void> smokeOuterclasswithinheritanceInnerinterfaceToFfi(OuterClassWithIn
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeOuterclasswithinheritanceInnerinterfaceCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __bazCallback.nativeFunction
   );

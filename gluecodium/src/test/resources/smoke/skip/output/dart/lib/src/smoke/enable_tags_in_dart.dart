@@ -108,14 +108,14 @@ void _smokeEnabletagsindartenableTaggedListStatic(EnableTagsInDart _obj) {
 }
 
 
-Pointer<Void> smokeEnabletagsindartToFfi(EnableTagsInDart value) {
-  if (value is __lib.NativeBase) return _smokeEnabletagsindartCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeEnabletagsindartToFfi(EnableTagsInDart __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeEnabletagsindartCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  void __enableTaggedCaller() { _smokeEnabletagsindartenableTaggedStatic(value); }
+  void __enableTaggedCaller() { _smokeEnabletagsindartenableTaggedStatic(__interfaceObj); }
   final __enableTaggedCallback = NativeCallable<Void Function()>.isolateLocal(__enableTaggedCaller);
   __enableTaggedCallback.keepIsolateAlive = false;
 
-  void __enableTaggedListCaller() { _smokeEnabletagsindartenableTaggedListStatic(value); }
+  void __enableTaggedListCaller() { _smokeEnabletagsindartenableTaggedListStatic(__interfaceObj); }
   final __enableTaggedListCallback = NativeCallable<Void Function()>.isolateLocal(__enableTaggedListCaller);
   __enableTaggedListCallback.keepIsolateAlive = false;
 
@@ -129,9 +129,9 @@ Pointer<Void> smokeEnabletagsindartToFfi(EnableTagsInDart value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeEnabletagsindartCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __enableTaggedCallback.nativeFunction,
     __enableTaggedListCallback.nativeFunction

@@ -47,8 +47,8 @@ void _smokeAttributeslambdacallStatic(AttributesLambda _obj) {
   }
 }
 
-Pointer<Void> smokeAttributeslambdaToFfi(AttributesLambda value) {
-  void __lambdaCaller() { _smokeAttributeslambdacallStatic(value); }
+Pointer<Void> smokeAttributeslambdaToFfi(AttributesLambda __lambdaObj) {
+  void __lambdaCaller() { _smokeAttributeslambdacallStatic(__lambdaObj); }
   final __lambdaCallback = NativeCallable<Void Function()>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -61,9 +61,9 @@ Pointer<Void> smokeAttributeslambdaToFfi(AttributesLambda value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeAttributeslambdaCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );

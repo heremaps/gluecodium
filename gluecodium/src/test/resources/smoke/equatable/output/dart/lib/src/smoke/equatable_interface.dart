@@ -54,8 +54,8 @@ class EquatableInterface$Impl extends __lib.NativeBase implements EquatableInter
 
 
 
-Pointer<Void> smokeEquatableinterfaceToFfi(EquatableInterface value) {
-  if (value is __lib.NativeBase) return _smokeEquatableinterfaceCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeEquatableinterfaceToFfi(EquatableInterface __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeEquatableinterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
   late final NativeCallable<Void Function()> __closeAllCallback;
   void __closeAll() {
@@ -65,9 +65,9 @@ Pointer<Void> smokeEquatableinterfaceToFfi(EquatableInterface value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeEquatableinterfaceCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction
   );
 

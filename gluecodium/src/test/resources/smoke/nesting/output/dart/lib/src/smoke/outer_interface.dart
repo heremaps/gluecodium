@@ -183,10 +183,10 @@ void _smokeOuterinterfaceInnerinterfacefooStatic(OuterInterface_InnerInterface _
 }
 
 
-Pointer<Void> smokeOuterinterfaceInnerinterfaceToFfi(OuterInterface_InnerInterface value) {
-  if (value is __lib.NativeBase) return _smokeOuterinterfaceInnerinterfaceCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeOuterinterfaceInnerinterfaceToFfi(OuterInterface_InnerInterface __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeOuterinterfaceInnerinterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  void __fooCaller(Pointer<Void> input, Pointer<Pointer<Void>> _result) { _smokeOuterinterfaceInnerinterfacefooStatic(value, input, _result); }
+  void __fooCaller(Pointer<Void> input, Pointer<Pointer<Void>> _result) { _smokeOuterinterfaceInnerinterfacefooStatic(__interfaceObj, input, _result); }
   final __fooCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Pointer<Void>>)>.isolateLocal(__fooCaller);
   __fooCallback.keepIsolateAlive = false;
 
@@ -199,9 +199,9 @@ Pointer<Void> smokeOuterinterfaceInnerinterfaceToFfi(OuterInterface_InnerInterfa
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeOuterinterfaceInnerinterfaceCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __fooCallback.nativeFunction
   );
@@ -312,10 +312,10 @@ void _smokeOuterinterfacefooStatic(OuterInterface _obj, Pointer<Void> input, Poi
 }
 
 
-Pointer<Void> smokeOuterinterfaceToFfi(OuterInterface value) {
-  if (value is __lib.NativeBase) return _smokeOuterinterfaceCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeOuterinterfaceToFfi(OuterInterface __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeOuterinterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  void __fooCaller(Pointer<Void> input, Pointer<Pointer<Void>> _result) { _smokeOuterinterfacefooStatic(value, input, _result); }
+  void __fooCaller(Pointer<Void> input, Pointer<Pointer<Void>> _result) { _smokeOuterinterfacefooStatic(__interfaceObj, input, _result); }
   final __fooCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Pointer<Void>>)>.isolateLocal(__fooCaller);
   __fooCallback.keepIsolateAlive = false;
 
@@ -328,9 +328,9 @@ Pointer<Void> smokeOuterinterfaceToFfi(OuterInterface value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeOuterinterfaceCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __fooCallback.nativeFunction
   );

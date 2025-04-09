@@ -185,14 +185,14 @@ void _smokePropertiesinterfacestructPropertySetStatic(PropertiesInterface _obj, 
   }
 }
 
-Pointer<Void> smokePropertiesinterfaceToFfi(PropertiesInterface value) {
-  if (value is __lib.NativeBase) return _smokePropertiesinterfaceCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokePropertiesinterfaceToFfi(PropertiesInterface __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokePropertiesinterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  void __smokePropertiesinterfacestructPropertyGetCaller(Pointer<Pointer<Void>> _result) { _smokePropertiesinterfacestructPropertyGetStatic(value, _result); }
+  void __smokePropertiesinterfacestructPropertyGetCaller(Pointer<Pointer<Void>> _result) { _smokePropertiesinterfacestructPropertyGetStatic(__interfaceObj, _result); }
   final __smokePropertiesinterfacestructPropertyGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokePropertiesinterfacestructPropertyGetCaller);
   __smokePropertiesinterfacestructPropertyGetCallback.keepIsolateAlive = false;
 
-  void __smokePropertiesinterfacestructPropertySetCaller(Pointer<Void> _value) { _smokePropertiesinterfacestructPropertySetStatic(value, _value); }
+  void __smokePropertiesinterfacestructPropertySetCaller(Pointer<Void> _value) { _smokePropertiesinterfacestructPropertySetStatic(__interfaceObj, _value); }
   final __smokePropertiesinterfacestructPropertySetCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__smokePropertiesinterfacestructPropertySetCaller);
   __smokePropertiesinterfacestructPropertySetCallback.keepIsolateAlive = false;
 
@@ -206,9 +206,9 @@ Pointer<Void> smokePropertiesinterfaceToFfi(PropertiesInterface value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokePropertiesinterfaceCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __smokePropertiesinterfacestructPropertyGetCallback.nativeFunction,
     __smokePropertiesinterfacestructPropertySetCallback.nativeFunction

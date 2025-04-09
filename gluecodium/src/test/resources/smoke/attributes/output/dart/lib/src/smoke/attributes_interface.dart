@@ -142,18 +142,18 @@ void _smokeAttributesinterfacepropSetStatic(AttributesInterface _obj, Pointer<Vo
   }
 }
 
-Pointer<Void> smokeAttributesinterfaceToFfi(AttributesInterface value) {
-  if (value is __lib.NativeBase) return _smokeAttributesinterfaceCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeAttributesinterfaceToFfi(AttributesInterface __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeAttributesinterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  void __veryFunCaller(Pointer<Void> param) { _smokeAttributesinterfaceveryFunStatic(value, param); }
+  void __veryFunCaller(Pointer<Void> param) { _smokeAttributesinterfaceveryFunStatic(__interfaceObj, param); }
   final __veryFunCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__veryFunCaller);
   __veryFunCallback.keepIsolateAlive = false;
 
-  void __smokeAttributesinterfacepropGetCaller(Pointer<Pointer<Void>> _result) { _smokeAttributesinterfacepropGetStatic(value, _result); }
+  void __smokeAttributesinterfacepropGetCaller(Pointer<Pointer<Void>> _result) { _smokeAttributesinterfacepropGetStatic(__interfaceObj, _result); }
   final __smokeAttributesinterfacepropGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeAttributesinterfacepropGetCaller);
   __smokeAttributesinterfacepropGetCallback.keepIsolateAlive = false;
 
-  void __smokeAttributesinterfacepropSetCaller(Pointer<Void> _value) { _smokeAttributesinterfacepropSetStatic(value, _value); }
+  void __smokeAttributesinterfacepropSetCaller(Pointer<Void> _value) { _smokeAttributesinterfacepropSetStatic(__interfaceObj, _value); }
   final __smokeAttributesinterfacepropSetCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__smokeAttributesinterfacepropSetCaller);
   __smokeAttributesinterfacepropSetCallback.keepIsolateAlive = false;
 
@@ -168,9 +168,9 @@ Pointer<Void> smokeAttributesinterfaceToFfi(AttributesInterface value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeAttributesinterfaceCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __veryFunCallback.nativeFunction,
     __smokeAttributesinterfacepropGetCallback.nativeFunction,

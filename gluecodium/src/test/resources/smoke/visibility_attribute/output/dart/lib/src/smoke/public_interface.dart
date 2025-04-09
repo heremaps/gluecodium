@@ -127,8 +127,8 @@ class PublicInterface$Impl extends __lib.NativeBase implements PublicInterface {
 
 
 
-Pointer<Void> smokePublicinterfaceToFfi(PublicInterface value) {
-  if (value is __lib.NativeBase) return _smokePublicinterfaceCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokePublicinterfaceToFfi(PublicInterface __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokePublicinterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
   late final NativeCallable<Void Function()> __closeAllCallback;
   void __closeAll() {
@@ -138,9 +138,9 @@ Pointer<Void> smokePublicinterfaceToFfi(PublicInterface value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokePublicinterfaceCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction
   );
 

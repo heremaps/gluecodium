@@ -83,10 +83,10 @@ void _smokeNocacheinterfacefooStatic(NoCacheInterface _obj) {
 }
 
 
-Pointer<Void> smokeNocacheinterfaceToFfi(NoCacheInterface value) {
-  if (value is __lib.NativeBase) return _smokeNocacheinterfaceCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeNocacheinterfaceToFfi(NoCacheInterface __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeNocacheinterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  void __fooCaller() { _smokeNocacheinterfacefooStatic(value); }
+  void __fooCaller() { _smokeNocacheinterfacefooStatic(__interfaceObj); }
   final __fooCallback = NativeCallable<Void Function()>.isolateLocal(__fooCaller);
   __fooCallback.keepIsolateAlive = false;
 
@@ -99,9 +99,9 @@ Pointer<Void> smokeNocacheinterfaceToFfi(NoCacheInterface value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeNocacheinterfaceCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __fooCallback.nativeFunction
   );

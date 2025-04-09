@@ -132,23 +132,23 @@ void _smokeParentinterfacerootPropertySetStatic(ParentInterface _obj, Pointer<Vo
   }
 }
 
-Pointer<Void> smokeParentinterfaceToFfi(ParentInterface value) {
-  if (value is __lib.NativeBase) return _smokeParentinterfaceCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeParentinterfaceToFfi(ParentInterface __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeParentinterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  final descendantResult = tryDescendantToFfi(value);
+  final descendantResult = tryDescendantToFfi(__interfaceObj);
   if (descendantResult != null) {
     return descendantResult;
   }
 
-  void __rootMethodCaller() { _smokeParentinterfacerootMethodStatic(value); }
+  void __rootMethodCaller() { _smokeParentinterfacerootMethodStatic(__interfaceObj); }
   final __rootMethodCallback = NativeCallable<Void Function()>.isolateLocal(__rootMethodCaller);
   __rootMethodCallback.keepIsolateAlive = false;
 
-  void __smokeParentinterfacerootPropertyGetCaller(Pointer<Pointer<Void>> _result) { _smokeParentinterfacerootPropertyGetStatic(value, _result); }
+  void __smokeParentinterfacerootPropertyGetCaller(Pointer<Pointer<Void>> _result) { _smokeParentinterfacerootPropertyGetStatic(__interfaceObj, _result); }
   final __smokeParentinterfacerootPropertyGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeParentinterfacerootPropertyGetCaller);
   __smokeParentinterfacerootPropertyGetCallback.keepIsolateAlive = false;
 
-  void __smokeParentinterfacerootPropertySetCaller(Pointer<Void> _value) { _smokeParentinterfacerootPropertySetStatic(value, _value); }
+  void __smokeParentinterfacerootPropertySetCaller(Pointer<Void> _value) { _smokeParentinterfacerootPropertySetStatic(__interfaceObj, _value); }
   final __smokeParentinterfacerootPropertySetCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__smokeParentinterfacerootPropertySetCaller);
   __smokeParentinterfacerootPropertySetCallback.keepIsolateAlive = false;
 
@@ -163,9 +163,9 @@ Pointer<Void> smokeParentinterfaceToFfi(ParentInterface value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeParentinterfaceCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __rootMethodCallback.nativeFunction,
     __smokeParentinterfacerootPropertyGetCallback.nativeFunction,

@@ -308,30 +308,30 @@ void _smokeCalculatorlisteneronCalculationResultInstanceStatic(CalculatorListene
 }
 
 
-Pointer<Void> smokeCalculatorlistenerToFfi(CalculatorListener value) {
-  if (value is __lib.NativeBase) return _smokeCalculatorlistenerCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeCalculatorlistenerToFfi(CalculatorListener __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeCalculatorlistenerCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  void __onCalculationResultCaller(double calculationResult) { _smokeCalculatorlisteneronCalculationResultStatic(value, calculationResult); }
+  void __onCalculationResultCaller(double calculationResult) { _smokeCalculatorlisteneronCalculationResultStatic(__interfaceObj, calculationResult); }
   final __onCalculationResultCallback = NativeCallable<Void Function(Double)>.isolateLocal(__onCalculationResultCaller);
   __onCalculationResultCallback.keepIsolateAlive = false;
 
-  void __onCalculationResultConstCaller(double calculationResult) { _smokeCalculatorlisteneronCalculationResultConstStatic(value, calculationResult); }
+  void __onCalculationResultConstCaller(double calculationResult) { _smokeCalculatorlisteneronCalculationResultConstStatic(__interfaceObj, calculationResult); }
   final __onCalculationResultConstCallback = NativeCallable<Void Function(Double)>.isolateLocal(__onCalculationResultConstCaller);
   __onCalculationResultConstCallback.keepIsolateAlive = false;
 
-  void __onCalculationResultStructCaller(Pointer<Void> calculationResult) { _smokeCalculatorlisteneronCalculationResultStructStatic(value, calculationResult); }
+  void __onCalculationResultStructCaller(Pointer<Void> calculationResult) { _smokeCalculatorlisteneronCalculationResultStructStatic(__interfaceObj, calculationResult); }
   final __onCalculationResultStructCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__onCalculationResultStructCaller);
   __onCalculationResultStructCallback.keepIsolateAlive = false;
 
-  void __onCalculationResultArrayCaller(Pointer<Void> calculationResult) { _smokeCalculatorlisteneronCalculationResultArrayStatic(value, calculationResult); }
+  void __onCalculationResultArrayCaller(Pointer<Void> calculationResult) { _smokeCalculatorlisteneronCalculationResultArrayStatic(__interfaceObj, calculationResult); }
   final __onCalculationResultArrayCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__onCalculationResultArrayCaller);
   __onCalculationResultArrayCallback.keepIsolateAlive = false;
 
-  void __onCalculationResultMapCaller(Pointer<Void> calculationResults) { _smokeCalculatorlisteneronCalculationResultMapStatic(value, calculationResults); }
+  void __onCalculationResultMapCaller(Pointer<Void> calculationResults) { _smokeCalculatorlisteneronCalculationResultMapStatic(__interfaceObj, calculationResults); }
   final __onCalculationResultMapCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__onCalculationResultMapCaller);
   __onCalculationResultMapCallback.keepIsolateAlive = false;
 
-  void __onCalculationResultInstanceCaller(Pointer<Void> calculationResult) { _smokeCalculatorlisteneronCalculationResultInstanceStatic(value, calculationResult); }
+  void __onCalculationResultInstanceCaller(Pointer<Void> calculationResult) { _smokeCalculatorlisteneronCalculationResultInstanceStatic(__interfaceObj, calculationResult); }
   final __onCalculationResultInstanceCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__onCalculationResultInstanceCaller);
   __onCalculationResultInstanceCallback.keepIsolateAlive = false;
 
@@ -349,9 +349,9 @@ Pointer<Void> smokeCalculatorlistenerToFfi(CalculatorListener value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeCalculatorlistenerCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __onCalculationResultCallback.nativeFunction,
     __onCalculationResultConstCallback.nativeFunction,

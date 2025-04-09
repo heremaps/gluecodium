@@ -83,10 +83,10 @@ void _smokeSkiptagsindartdontSkipTaggedStatic(SkipTagsInDart _obj) {
 }
 
 
-Pointer<Void> smokeSkiptagsindartToFfi(SkipTagsInDart value) {
-  if (value is __lib.NativeBase) return _smokeSkiptagsindartCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeSkiptagsindartToFfi(SkipTagsInDart __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeSkiptagsindartCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  void __dontSkipTaggedCaller() { _smokeSkiptagsindartdontSkipTaggedStatic(value); }
+  void __dontSkipTaggedCaller() { _smokeSkiptagsindartdontSkipTaggedStatic(__interfaceObj); }
   final __dontSkipTaggedCallback = NativeCallable<Void Function()>.isolateLocal(__dontSkipTaggedCaller);
   __dontSkipTaggedCallback.keepIsolateAlive = false;
 
@@ -99,9 +99,9 @@ Pointer<Void> smokeSkiptagsindartToFfi(SkipTagsInDart value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeSkiptagsindartCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __dontSkipTaggedCallback.nativeFunction
   );

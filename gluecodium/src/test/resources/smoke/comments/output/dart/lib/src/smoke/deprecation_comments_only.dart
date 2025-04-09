@@ -299,18 +299,18 @@ void _smokeDeprecationcommentsonlyisSomePropertySetStatic(DeprecationCommentsOnl
   }
 }
 
-Pointer<Void> smokeDeprecationcommentsonlyToFfi(DeprecationCommentsOnly value) {
-  if (value is __lib.NativeBase) return _smokeDeprecationcommentsonlyCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeDeprecationcommentsonlyToFfi(DeprecationCommentsOnly __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeDeprecationcommentsonlyCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  void __someMethodWithAllCommentsCaller(Pointer<Void> input, Pointer<Uint8> _result) { _smokeDeprecationcommentsonlysomeMethodWithAllCommentsStatic(value, input, _result); }
+  void __someMethodWithAllCommentsCaller(Pointer<Void> input, Pointer<Uint8> _result) { _smokeDeprecationcommentsonlysomeMethodWithAllCommentsStatic(__interfaceObj, input, _result); }
   final __someMethodWithAllCommentsCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Uint8>)>.isolateLocal(__someMethodWithAllCommentsCaller);
   __someMethodWithAllCommentsCallback.keepIsolateAlive = false;
 
-  void __smokeDeprecationcommentsonlyisSomePropertyGetCaller(Pointer<Uint8> _result) { _smokeDeprecationcommentsonlyisSomePropertyGetStatic(value, _result); }
+  void __smokeDeprecationcommentsonlyisSomePropertyGetCaller(Pointer<Uint8> _result) { _smokeDeprecationcommentsonlyisSomePropertyGetStatic(__interfaceObj, _result); }
   final __smokeDeprecationcommentsonlyisSomePropertyGetCallback = NativeCallable<Void Function(Pointer<Uint8>)>.isolateLocal(__smokeDeprecationcommentsonlyisSomePropertyGetCaller);
   __smokeDeprecationcommentsonlyisSomePropertyGetCallback.keepIsolateAlive = false;
 
-  void __smokeDeprecationcommentsonlyisSomePropertySetCaller(int _value) { _smokeDeprecationcommentsonlyisSomePropertySetStatic(value, _value); }
+  void __smokeDeprecationcommentsonlyisSomePropertySetCaller(int _value) { _smokeDeprecationcommentsonlyisSomePropertySetStatic(__interfaceObj, _value); }
   final __smokeDeprecationcommentsonlyisSomePropertySetCallback = NativeCallable<Void Function(Uint8)>.isolateLocal(__smokeDeprecationcommentsonlyisSomePropertySetCaller);
   __smokeDeprecationcommentsonlyisSomePropertySetCallback.keepIsolateAlive = false;
 
@@ -325,9 +325,9 @@ Pointer<Void> smokeDeprecationcommentsonlyToFfi(DeprecationCommentsOnly value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeDeprecationcommentsonlyCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __someMethodWithAllCommentsCallback.nativeFunction,
     __smokeDeprecationcommentsonlyisSomePropertyGetCallback.nativeFunction,

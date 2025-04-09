@@ -130,17 +130,17 @@ void _smokeParentnarrowoneparentPropertyOneSetStatic(ParentNarrowOne _obj, Point
   }
 }
 
-Pointer<Void> smokeParentnarrowoneToFfi(ParentNarrowOne value) {
+Pointer<Void> smokeParentnarrowoneToFfi(ParentNarrowOne __interfaceObj) {
 
-  void __parentFunctionOneCaller() { _smokeParentnarrowoneparentFunctionOneStatic(value); }
+  void __parentFunctionOneCaller() { _smokeParentnarrowoneparentFunctionOneStatic(__interfaceObj); }
   final __parentFunctionOneCallback = NativeCallable<Void Function()>.isolateLocal(__parentFunctionOneCaller);
   __parentFunctionOneCallback.keepIsolateAlive = false;
 
-  void __smokeParentnarrowoneparentPropertyOneGetCaller(Pointer<Pointer<Void>> _result) { _smokeParentnarrowoneparentPropertyOneGetStatic(value, _result); }
+  void __smokeParentnarrowoneparentPropertyOneGetCaller(Pointer<Pointer<Void>> _result) { _smokeParentnarrowoneparentPropertyOneGetStatic(__interfaceObj, _result); }
   final __smokeParentnarrowoneparentPropertyOneGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeParentnarrowoneparentPropertyOneGetCaller);
   __smokeParentnarrowoneparentPropertyOneGetCallback.keepIsolateAlive = false;
 
-  void __smokeParentnarrowoneparentPropertyOneSetCaller(Pointer<Void> _value) { _smokeParentnarrowoneparentPropertyOneSetStatic(value, _value); }
+  void __smokeParentnarrowoneparentPropertyOneSetCaller(Pointer<Void> _value) { _smokeParentnarrowoneparentPropertyOneSetStatic(__interfaceObj, _value); }
   final __smokeParentnarrowoneparentPropertyOneSetCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__smokeParentnarrowoneparentPropertyOneSetCaller);
   __smokeParentnarrowoneparentPropertyOneSetCallback.keepIsolateAlive = false;
 
@@ -155,9 +155,9 @@ Pointer<Void> smokeParentnarrowoneToFfi(ParentNarrowOne value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeParentnarrowoneCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __parentFunctionOneCallback.nativeFunction,
     __smokeParentnarrowoneparentPropertyOneGetCallback.nativeFunction,

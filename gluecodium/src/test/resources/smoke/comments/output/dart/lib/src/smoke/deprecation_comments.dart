@@ -381,26 +381,26 @@ void _smokeDeprecationcommentspropertyButNotAccessorsSetStatic(DeprecationCommen
   }
 }
 
-Pointer<Void> smokeDeprecationcommentsToFfi(DeprecationComments value) {
-  if (value is __lib.NativeBase) return _smokeDeprecationcommentsCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeDeprecationcommentsToFfi(DeprecationComments __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeDeprecationcommentsCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  void __someMethodWithAllCommentsCaller(Pointer<Void> input, Pointer<Uint8> _result) { _smokeDeprecationcommentssomeMethodWithAllCommentsStatic(value, input, _result); }
+  void __someMethodWithAllCommentsCaller(Pointer<Void> input, Pointer<Uint8> _result) { _smokeDeprecationcommentssomeMethodWithAllCommentsStatic(__interfaceObj, input, _result); }
   final __someMethodWithAllCommentsCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Uint8>)>.isolateLocal(__someMethodWithAllCommentsCaller);
   __someMethodWithAllCommentsCallback.keepIsolateAlive = false;
 
-  void __smokeDeprecationcommentsisSomePropertyGetCaller(Pointer<Uint8> _result) { _smokeDeprecationcommentsisSomePropertyGetStatic(value, _result); }
+  void __smokeDeprecationcommentsisSomePropertyGetCaller(Pointer<Uint8> _result) { _smokeDeprecationcommentsisSomePropertyGetStatic(__interfaceObj, _result); }
   final __smokeDeprecationcommentsisSomePropertyGetCallback = NativeCallable<Void Function(Pointer<Uint8>)>.isolateLocal(__smokeDeprecationcommentsisSomePropertyGetCaller);
   __smokeDeprecationcommentsisSomePropertyGetCallback.keepIsolateAlive = false;
 
-  void __smokeDeprecationcommentsisSomePropertySetCaller(int _value) { _smokeDeprecationcommentsisSomePropertySetStatic(value, _value); }
+  void __smokeDeprecationcommentsisSomePropertySetCaller(int _value) { _smokeDeprecationcommentsisSomePropertySetStatic(__interfaceObj, _value); }
   final __smokeDeprecationcommentsisSomePropertySetCallback = NativeCallable<Void Function(Uint8)>.isolateLocal(__smokeDeprecationcommentsisSomePropertySetCaller);
   __smokeDeprecationcommentsisSomePropertySetCallback.keepIsolateAlive = false;
 
-  void __smokeDeprecationcommentspropertyButNotAccessorsGetCaller(Pointer<Pointer<Void>> _result) { _smokeDeprecationcommentspropertyButNotAccessorsGetStatic(value, _result); }
+  void __smokeDeprecationcommentspropertyButNotAccessorsGetCaller(Pointer<Pointer<Void>> _result) { _smokeDeprecationcommentspropertyButNotAccessorsGetStatic(__interfaceObj, _result); }
   final __smokeDeprecationcommentspropertyButNotAccessorsGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeDeprecationcommentspropertyButNotAccessorsGetCaller);
   __smokeDeprecationcommentspropertyButNotAccessorsGetCallback.keepIsolateAlive = false;
 
-  void __smokeDeprecationcommentspropertyButNotAccessorsSetCaller(Pointer<Void> _value) { _smokeDeprecationcommentspropertyButNotAccessorsSetStatic(value, _value); }
+  void __smokeDeprecationcommentspropertyButNotAccessorsSetCaller(Pointer<Void> _value) { _smokeDeprecationcommentspropertyButNotAccessorsSetStatic(__interfaceObj, _value); }
   final __smokeDeprecationcommentspropertyButNotAccessorsSetCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__smokeDeprecationcommentspropertyButNotAccessorsSetCaller);
   __smokeDeprecationcommentspropertyButNotAccessorsSetCallback.keepIsolateAlive = false;
 
@@ -417,9 +417,9 @@ Pointer<Void> smokeDeprecationcommentsToFfi(DeprecationComments value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeDeprecationcommentsCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __someMethodWithAllCommentsCallback.nativeFunction,
     __smokeDeprecationcommentsisSomePropertyGetCallback.nativeFunction,

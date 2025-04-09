@@ -452,18 +452,18 @@ void _smokeErrorsinterfacemethodWithErrorsAndReturnValueStatic(ErrorsInterface _
 }
 
 
-Pointer<Void> smokeErrorsinterfaceToFfi(ErrorsInterface value) {
-  if (value is __lib.NativeBase) return _smokeErrorsinterfaceCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeErrorsinterfaceToFfi(ErrorsInterface __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeErrorsinterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  void __methodWithErrorsCaller(Pointer<Uint32> _error, Pointer<Int8> _errorFlag) { _smokeErrorsinterfacemethodWithErrorsStatic(value, _error, _errorFlag); }
+  void __methodWithErrorsCaller(Pointer<Uint32> _error, Pointer<Int8> _errorFlag) { _smokeErrorsinterfacemethodWithErrorsStatic(__interfaceObj, _error, _errorFlag); }
   final __methodWithErrorsCallback = NativeCallable<Void Function(Pointer<Uint32>, Pointer<Int8>)>.isolateLocal(__methodWithErrorsCaller);
   __methodWithErrorsCallback.keepIsolateAlive = false;
 
-  void __methodWithExternalErrorsCaller(Pointer<Uint32> _error, Pointer<Int8> _errorFlag) { _smokeErrorsinterfacemethodWithExternalErrorsStatic(value, _error, _errorFlag); }
+  void __methodWithExternalErrorsCaller(Pointer<Uint32> _error, Pointer<Int8> _errorFlag) { _smokeErrorsinterfacemethodWithExternalErrorsStatic(__interfaceObj, _error, _errorFlag); }
   final __methodWithExternalErrorsCallback = NativeCallable<Void Function(Pointer<Uint32>, Pointer<Int8>)>.isolateLocal(__methodWithExternalErrorsCaller);
   __methodWithExternalErrorsCallback.keepIsolateAlive = false;
 
-  void __methodWithErrorsAndReturnValueCaller(Pointer<Pointer<Void>> _result, Pointer<Uint32> _error, Pointer<Int8> _errorFlag) { _smokeErrorsinterfacemethodWithErrorsAndReturnValueStatic(value, _result, _error, _errorFlag); }
+  void __methodWithErrorsAndReturnValueCaller(Pointer<Pointer<Void>> _result, Pointer<Uint32> _error, Pointer<Int8> _errorFlag) { _smokeErrorsinterfacemethodWithErrorsAndReturnValueStatic(__interfaceObj, _result, _error, _errorFlag); }
   final __methodWithErrorsAndReturnValueCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>, Pointer<Uint32>, Pointer<Int8>)>.isolateLocal(__methodWithErrorsAndReturnValueCaller);
   __methodWithErrorsAndReturnValueCallback.keepIsolateAlive = false;
 
@@ -478,9 +478,9 @@ Pointer<Void> smokeErrorsinterfaceToFfi(ErrorsInterface value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeErrorsinterfaceCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __methodWithErrorsCallback.nativeFunction,
     __methodWithExternalErrorsCallback.nativeFunction,

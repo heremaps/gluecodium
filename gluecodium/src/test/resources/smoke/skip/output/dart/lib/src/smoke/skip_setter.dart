@@ -80,10 +80,10 @@ void _smokeSkipsetterfooGetStatic(SkipSetter _obj, Pointer<Pointer<Void>> _resul
   _result.value = stringToFfi(_obj.foo);
 }
 
-Pointer<Void> smokeSkipsetterToFfi(SkipSetter value) {
-  if (value is __lib.NativeBase) return _smokeSkipsetterCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeSkipsetterToFfi(SkipSetter __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeSkipsetterCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  void __smokeSkipsetterfooGetCaller(Pointer<Pointer<Void>> _result) { _smokeSkipsetterfooGetStatic(value, _result); }
+  void __smokeSkipsetterfooGetCaller(Pointer<Pointer<Void>> _result) { _smokeSkipsetterfooGetStatic(__interfaceObj, _result); }
   final __smokeSkipsetterfooGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeSkipsetterfooGetCaller);
   __smokeSkipsetterfooGetCallback.keepIsolateAlive = false;
 
@@ -95,9 +95,9 @@ Pointer<Void> smokeSkipsetterToFfi(SkipSetter value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeSkipsetterCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __smokeSkipsetterfooGetCallback.nativeFunction
   );

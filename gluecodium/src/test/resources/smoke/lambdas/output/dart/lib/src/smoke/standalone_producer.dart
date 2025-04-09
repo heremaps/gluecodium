@@ -54,8 +54,8 @@ void _smokeStandaloneproducercallStatic(StandaloneProducer _obj, Pointer<Pointer
   }
 }
 
-Pointer<Void> smokeStandaloneproducerToFfi(StandaloneProducer value) {
-  void __lambdaCaller(Pointer<Pointer<Void>> _result) { _smokeStandaloneproducercallStatic(value, _result); }
+Pointer<Void> smokeStandaloneproducerToFfi(StandaloneProducer __lambdaObj) {
+  void __lambdaCaller(Pointer<Pointer<Void>> _result) { _smokeStandaloneproducercallStatic(__lambdaObj, _result); }
   final __lambdaCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -68,9 +68,9 @@ Pointer<Void> smokeStandaloneproducerToFfi(StandaloneProducer value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeStandaloneproducerCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );

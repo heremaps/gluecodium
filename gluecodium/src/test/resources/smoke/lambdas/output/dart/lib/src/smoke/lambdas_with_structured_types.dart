@@ -60,8 +60,8 @@ void _smokeLambdaswithstructuredtypesClasscallbackcallStatic(LambdasWithStructur
   }
 }
 
-Pointer<Void> smokeLambdaswithstructuredtypesClasscallbackToFfi(LambdasWithStructuredTypes_ClassCallback value) {
-  void __lambdaCaller(Pointer<Void> p0) { _smokeLambdaswithstructuredtypesClasscallbackcallStatic(value, p0); }
+Pointer<Void> smokeLambdaswithstructuredtypesClasscallbackToFfi(LambdasWithStructuredTypes_ClassCallback __lambdaObj) {
+  void __lambdaCaller(Pointer<Void> p0) { _smokeLambdaswithstructuredtypesClasscallbackcallStatic(__lambdaObj, p0); }
   final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -74,9 +74,9 @@ Pointer<Void> smokeLambdaswithstructuredtypesClasscallbackToFfi(LambdasWithStruc
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeLambdaswithstructuredtypesClasscallbackCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );
@@ -173,8 +173,8 @@ void _smokeLambdaswithstructuredtypesStructcallbackcallStatic(LambdasWithStructu
   }
 }
 
-Pointer<Void> smokeLambdaswithstructuredtypesStructcallbackToFfi(LambdasWithStructuredTypes_StructCallback value) {
-  void __lambdaCaller(Pointer<Void> p0) { _smokeLambdaswithstructuredtypesStructcallbackcallStatic(value, p0); }
+Pointer<Void> smokeLambdaswithstructuredtypesStructcallbackToFfi(LambdasWithStructuredTypes_StructCallback __lambdaObj) {
+  void __lambdaCaller(Pointer<Void> p0) { _smokeLambdaswithstructuredtypesStructcallbackcallStatic(__lambdaObj, p0); }
   final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -187,9 +187,9 @@ Pointer<Void> smokeLambdaswithstructuredtypesStructcallbackToFfi(LambdasWithStru
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeLambdaswithstructuredtypesStructcallbackCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );

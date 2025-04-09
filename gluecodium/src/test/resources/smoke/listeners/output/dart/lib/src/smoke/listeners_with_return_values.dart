@@ -426,34 +426,34 @@ void _smokeListenerswithreturnvaluesfetchDataInstanceStatic(ListenersWithReturnV
 }
 
 
-Pointer<Void> smokeListenerswithreturnvaluesToFfi(ListenersWithReturnValues value) {
-  if (value is __lib.NativeBase) return _smokeListenerswithreturnvaluesCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeListenerswithreturnvaluesToFfi(ListenersWithReturnValues __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeListenerswithreturnvaluesCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  void __fetchDataDoubleCaller(Pointer<Double> _result) { _smokeListenerswithreturnvaluesfetchDataDoubleStatic(value, _result); }
+  void __fetchDataDoubleCaller(Pointer<Double> _result) { _smokeListenerswithreturnvaluesfetchDataDoubleStatic(__interfaceObj, _result); }
   final __fetchDataDoubleCallback = NativeCallable<Void Function(Pointer<Double>)>.isolateLocal(__fetchDataDoubleCaller);
   __fetchDataDoubleCallback.keepIsolateAlive = false;
 
-  void __fetchDataStringCaller(Pointer<Pointer<Void>> _result) { _smokeListenerswithreturnvaluesfetchDataStringStatic(value, _result); }
+  void __fetchDataStringCaller(Pointer<Pointer<Void>> _result) { _smokeListenerswithreturnvaluesfetchDataStringStatic(__interfaceObj, _result); }
   final __fetchDataStringCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__fetchDataStringCaller);
   __fetchDataStringCallback.keepIsolateAlive = false;
 
-  void __fetchDataStructCaller(Pointer<Pointer<Void>> _result) { _smokeListenerswithreturnvaluesfetchDataStructStatic(value, _result); }
+  void __fetchDataStructCaller(Pointer<Pointer<Void>> _result) { _smokeListenerswithreturnvaluesfetchDataStructStatic(__interfaceObj, _result); }
   final __fetchDataStructCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__fetchDataStructCaller);
   __fetchDataStructCallback.keepIsolateAlive = false;
 
-  void __fetchDataEnumCaller(Pointer<Uint32> _result) { _smokeListenerswithreturnvaluesfetchDataEnumStatic(value, _result); }
+  void __fetchDataEnumCaller(Pointer<Uint32> _result) { _smokeListenerswithreturnvaluesfetchDataEnumStatic(__interfaceObj, _result); }
   final __fetchDataEnumCallback = NativeCallable<Void Function(Pointer<Uint32>)>.isolateLocal(__fetchDataEnumCaller);
   __fetchDataEnumCallback.keepIsolateAlive = false;
 
-  void __fetchDataArrayCaller(Pointer<Pointer<Void>> _result) { _smokeListenerswithreturnvaluesfetchDataArrayStatic(value, _result); }
+  void __fetchDataArrayCaller(Pointer<Pointer<Void>> _result) { _smokeListenerswithreturnvaluesfetchDataArrayStatic(__interfaceObj, _result); }
   final __fetchDataArrayCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__fetchDataArrayCaller);
   __fetchDataArrayCallback.keepIsolateAlive = false;
 
-  void __fetchDataMapCaller(Pointer<Pointer<Void>> _result) { _smokeListenerswithreturnvaluesfetchDataMapStatic(value, _result); }
+  void __fetchDataMapCaller(Pointer<Pointer<Void>> _result) { _smokeListenerswithreturnvaluesfetchDataMapStatic(__interfaceObj, _result); }
   final __fetchDataMapCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__fetchDataMapCaller);
   __fetchDataMapCallback.keepIsolateAlive = false;
 
-  void __fetchDataInstanceCaller(Pointer<Pointer<Void>> _result) { _smokeListenerswithreturnvaluesfetchDataInstanceStatic(value, _result); }
+  void __fetchDataInstanceCaller(Pointer<Pointer<Void>> _result) { _smokeListenerswithreturnvaluesfetchDataInstanceStatic(__interfaceObj, _result); }
   final __fetchDataInstanceCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__fetchDataInstanceCaller);
   __fetchDataInstanceCallback.keepIsolateAlive = false;
 
@@ -472,9 +472,9 @@ Pointer<Void> smokeListenerswithreturnvaluesToFfi(ListenersWithReturnValues valu
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeListenerswithreturnvaluesCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __fetchDataDoubleCallback.nativeFunction,
     __fetchDataStringCallback.nativeFunction,

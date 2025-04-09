@@ -259,8 +259,8 @@ void _smokeExcludedcommentsSomelambdacallStatic(ExcludedComments_SomeLambda _obj
   }
 }
 
-Pointer<Void> smokeExcludedcommentsSomelambdaToFfi(ExcludedComments_SomeLambda value) {
-  void __lambdaCaller(Pointer<Void> p0, int p1, Pointer<Double> _result) { _smokeExcludedcommentsSomelambdacallStatic(value, p0, p1, _result); }
+Pointer<Void> smokeExcludedcommentsSomelambdaToFfi(ExcludedComments_SomeLambda __lambdaObj) {
+  void __lambdaCaller(Pointer<Void> p0, int p1, Pointer<Double> _result) { _smokeExcludedcommentsSomelambdacallStatic(__lambdaObj, p0, p1, _result); }
   final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>, Int32, Pointer<Double>)>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -273,9 +273,9 @@ Pointer<Void> smokeExcludedcommentsSomelambdaToFfi(ExcludedComments_SomeLambda v
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeExcludedcommentsSomelambdaCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );

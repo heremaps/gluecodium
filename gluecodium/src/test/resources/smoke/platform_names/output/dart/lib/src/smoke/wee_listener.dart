@@ -86,10 +86,10 @@ void _smokePlatformnameslistenerWeeMethodStatic(weeListener _obj, Pointer<Void> 
 }
 
 
-Pointer<Void> smokePlatformnameslistenerToFfi(weeListener value) {
-  if (value is __lib.NativeBase) return _smokePlatformnameslistenerCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokePlatformnameslistenerToFfi(weeListener __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokePlatformnameslistenerCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  void __WeeMethodCaller(Pointer<Void> WeeParameter) { _smokePlatformnameslistenerWeeMethodStatic(value, WeeParameter); }
+  void __WeeMethodCaller(Pointer<Void> WeeParameter) { _smokePlatformnameslistenerWeeMethodStatic(__interfaceObj, WeeParameter); }
   final __WeeMethodCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__WeeMethodCaller);
   __WeeMethodCallback.keepIsolateAlive = false;
 
@@ -102,9 +102,9 @@ Pointer<Void> smokePlatformnameslistenerToFfi(weeListener value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokePlatformnameslistenerCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __WeeMethodCallback.nativeFunction
   );

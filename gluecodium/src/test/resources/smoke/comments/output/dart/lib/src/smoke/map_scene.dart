@@ -60,8 +60,8 @@ void _smokeMapsceneLoadscenecallbackcallStatic(MapScene_LoadSceneCallback _obj, 
   }
 }
 
-Pointer<Void> smokeMapsceneLoadscenecallbackToFfi(MapScene_LoadSceneCallback value) {
-  void __lambdaCaller(Pointer<Void> p0) { _smokeMapsceneLoadscenecallbackcallStatic(value, p0); }
+Pointer<Void> smokeMapsceneLoadscenecallbackToFfi(MapScene_LoadSceneCallback __lambdaObj) {
+  void __lambdaCaller(Pointer<Void> p0) { _smokeMapsceneLoadscenecallbackcallStatic(__lambdaObj, p0); }
   final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -74,9 +74,9 @@ Pointer<Void> smokeMapsceneLoadscenecallbackToFfi(MapScene_LoadSceneCallback val
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeMapsceneLoadscenecallbackCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );

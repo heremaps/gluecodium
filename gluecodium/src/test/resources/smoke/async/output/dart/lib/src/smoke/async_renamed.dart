@@ -120,8 +120,8 @@ void _smokeAsyncrenamedDisposeresultlambdadispose__resultLambdaStatic(AsyncRenam
   }
 }
 
-Pointer<Void> smokeAsyncrenamedDisposeresultlambdaToFfi(AsyncRenamed_dispose__resultLambda value) {
-  void __lambdaCaller() { _smokeAsyncrenamedDisposeresultlambdadispose__resultLambdaStatic(value); }
+Pointer<Void> smokeAsyncrenamedDisposeresultlambdaToFfi(AsyncRenamed_dispose__resultLambda __lambdaObj) {
+  void __lambdaCaller() { _smokeAsyncrenamedDisposeresultlambdadispose__resultLambdaStatic(__lambdaObj); }
   final __lambdaCallback = NativeCallable<Void Function()>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -134,9 +134,9 @@ Pointer<Void> smokeAsyncrenamedDisposeresultlambdaToFfi(AsyncRenamed_dispose__re
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeAsyncrenamedDisposeresultlambdaCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );

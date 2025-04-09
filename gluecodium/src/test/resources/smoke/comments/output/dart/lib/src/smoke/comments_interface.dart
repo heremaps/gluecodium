@@ -596,54 +596,54 @@ void _smokeCommentsinterfaceisSomePropertySetStatic(CommentsInterface _obj, int 
   }
 }
 
-Pointer<Void> smokeCommentsinterfaceToFfi(CommentsInterface value) {
-  if (value is __lib.NativeBase) return _smokeCommentsinterfaceCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeCommentsinterfaceToFfi(CommentsInterface __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeCommentsinterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  void __someMethodWithAllCommentsCaller(Pointer<Void> input, Pointer<Uint8> _result) { _smokeCommentsinterfacesomeMethodWithAllCommentsStatic(value, input, _result); }
+  void __someMethodWithAllCommentsCaller(Pointer<Void> input, Pointer<Uint8> _result) { _smokeCommentsinterfacesomeMethodWithAllCommentsStatic(__interfaceObj, input, _result); }
   final __someMethodWithAllCommentsCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Uint8>)>.isolateLocal(__someMethodWithAllCommentsCaller);
   __someMethodWithAllCommentsCallback.keepIsolateAlive = false;
 
-  void __someMethodWithInputCommentsCaller(Pointer<Void> input, Pointer<Uint8> _result) { _smokeCommentsinterfacesomeMethodWithInputCommentsStatic(value, input, _result); }
+  void __someMethodWithInputCommentsCaller(Pointer<Void> input, Pointer<Uint8> _result) { _smokeCommentsinterfacesomeMethodWithInputCommentsStatic(__interfaceObj, input, _result); }
   final __someMethodWithInputCommentsCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Uint8>)>.isolateLocal(__someMethodWithInputCommentsCaller);
   __someMethodWithInputCommentsCallback.keepIsolateAlive = false;
 
-  void __someMethodWithOutputCommentsCaller(Pointer<Void> input, Pointer<Uint8> _result) { _smokeCommentsinterfacesomeMethodWithOutputCommentsStatic(value, input, _result); }
+  void __someMethodWithOutputCommentsCaller(Pointer<Void> input, Pointer<Uint8> _result) { _smokeCommentsinterfacesomeMethodWithOutputCommentsStatic(__interfaceObj, input, _result); }
   final __someMethodWithOutputCommentsCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Uint8>)>.isolateLocal(__someMethodWithOutputCommentsCaller);
   __someMethodWithOutputCommentsCallback.keepIsolateAlive = false;
 
-  void __someMethodWithNoCommentsCaller(Pointer<Void> input, Pointer<Uint8> _result) { _smokeCommentsinterfacesomeMethodWithNoCommentsStatic(value, input, _result); }
+  void __someMethodWithNoCommentsCaller(Pointer<Void> input, Pointer<Uint8> _result) { _smokeCommentsinterfacesomeMethodWithNoCommentsStatic(__interfaceObj, input, _result); }
   final __someMethodWithNoCommentsCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Uint8>)>.isolateLocal(__someMethodWithNoCommentsCaller);
   __someMethodWithNoCommentsCallback.keepIsolateAlive = false;
 
-  void __someMethodWithoutReturnTypeWithAllCommentsCaller(Pointer<Void> input) { _smokeCommentsinterfacesomeMethodWithoutReturnTypeWithAllCommentsStatic(value, input); }
+  void __someMethodWithoutReturnTypeWithAllCommentsCaller(Pointer<Void> input) { _smokeCommentsinterfacesomeMethodWithoutReturnTypeWithAllCommentsStatic(__interfaceObj, input); }
   final __someMethodWithoutReturnTypeWithAllCommentsCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__someMethodWithoutReturnTypeWithAllCommentsCaller);
   __someMethodWithoutReturnTypeWithAllCommentsCallback.keepIsolateAlive = false;
 
-  void __someMethodWithoutReturnTypeWithNoCommentsCaller(Pointer<Void> input) { _smokeCommentsinterfacesomeMethodWithoutReturnTypeWithNoCommentsStatic(value, input); }
+  void __someMethodWithoutReturnTypeWithNoCommentsCaller(Pointer<Void> input) { _smokeCommentsinterfacesomeMethodWithoutReturnTypeWithNoCommentsStatic(__interfaceObj, input); }
   final __someMethodWithoutReturnTypeWithNoCommentsCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__someMethodWithoutReturnTypeWithNoCommentsCaller);
   __someMethodWithoutReturnTypeWithNoCommentsCallback.keepIsolateAlive = false;
 
-  void __someMethodWithoutInputParametersWithAllCommentsCaller(Pointer<Uint8> _result) { _smokeCommentsinterfacesomeMethodWithoutInputParametersWithAllCommentsStatic(value, _result); }
+  void __someMethodWithoutInputParametersWithAllCommentsCaller(Pointer<Uint8> _result) { _smokeCommentsinterfacesomeMethodWithoutInputParametersWithAllCommentsStatic(__interfaceObj, _result); }
   final __someMethodWithoutInputParametersWithAllCommentsCallback = NativeCallable<Void Function(Pointer<Uint8>)>.isolateLocal(__someMethodWithoutInputParametersWithAllCommentsCaller);
   __someMethodWithoutInputParametersWithAllCommentsCallback.keepIsolateAlive = false;
 
-  void __someMethodWithoutInputParametersWithNoCommentsCaller(Pointer<Uint8> _result) { _smokeCommentsinterfacesomeMethodWithoutInputParametersWithNoCommentsStatic(value, _result); }
+  void __someMethodWithoutInputParametersWithNoCommentsCaller(Pointer<Uint8> _result) { _smokeCommentsinterfacesomeMethodWithoutInputParametersWithNoCommentsStatic(__interfaceObj, _result); }
   final __someMethodWithoutInputParametersWithNoCommentsCallback = NativeCallable<Void Function(Pointer<Uint8>)>.isolateLocal(__someMethodWithoutInputParametersWithNoCommentsCaller);
   __someMethodWithoutInputParametersWithNoCommentsCallback.keepIsolateAlive = false;
 
-  void __someMethodWithNothingCaller() { _smokeCommentsinterfacesomeMethodWithNothingStatic(value); }
+  void __someMethodWithNothingCaller() { _smokeCommentsinterfacesomeMethodWithNothingStatic(__interfaceObj); }
   final __someMethodWithNothingCallback = NativeCallable<Void Function()>.isolateLocal(__someMethodWithNothingCaller);
   __someMethodWithNothingCallback.keepIsolateAlive = false;
 
-  void __someMethodWithoutReturnTypeOrInputParametersCaller() { _smokeCommentsinterfacesomeMethodWithoutReturnTypeOrInputParametersStatic(value); }
+  void __someMethodWithoutReturnTypeOrInputParametersCaller() { _smokeCommentsinterfacesomeMethodWithoutReturnTypeOrInputParametersStatic(__interfaceObj); }
   final __someMethodWithoutReturnTypeOrInputParametersCallback = NativeCallable<Void Function()>.isolateLocal(__someMethodWithoutReturnTypeOrInputParametersCaller);
   __someMethodWithoutReturnTypeOrInputParametersCallback.keepIsolateAlive = false;
 
-  void __smokeCommentsinterfaceisSomePropertyGetCaller(Pointer<Uint8> _result) { _smokeCommentsinterfaceisSomePropertyGetStatic(value, _result); }
+  void __smokeCommentsinterfaceisSomePropertyGetCaller(Pointer<Uint8> _result) { _smokeCommentsinterfaceisSomePropertyGetStatic(__interfaceObj, _result); }
   final __smokeCommentsinterfaceisSomePropertyGetCallback = NativeCallable<Void Function(Pointer<Uint8>)>.isolateLocal(__smokeCommentsinterfaceisSomePropertyGetCaller);
   __smokeCommentsinterfaceisSomePropertyGetCallback.keepIsolateAlive = false;
 
-  void __smokeCommentsinterfaceisSomePropertySetCaller(int _value) { _smokeCommentsinterfaceisSomePropertySetStatic(value, _value); }
+  void __smokeCommentsinterfaceisSomePropertySetCaller(int _value) { _smokeCommentsinterfaceisSomePropertySetStatic(__interfaceObj, _value); }
   final __smokeCommentsinterfaceisSomePropertySetCallback = NativeCallable<Void Function(Uint8)>.isolateLocal(__smokeCommentsinterfaceisSomePropertySetCaller);
   __smokeCommentsinterfaceisSomePropertySetCallback.keepIsolateAlive = false;
 
@@ -667,9 +667,9 @@ Pointer<Void> smokeCommentsinterfaceToFfi(CommentsInterface value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeCommentsinterfaceCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __someMethodWithAllCommentsCallback.nativeFunction,
     __someMethodWithInputCommentsCallback.nativeFunction,

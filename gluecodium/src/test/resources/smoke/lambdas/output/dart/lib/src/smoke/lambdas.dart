@@ -69,8 +69,8 @@ void _smokeLambdasProducercallStatic(Lambdas_Producer _obj, Pointer<Pointer<Void
   }
 }
 
-Pointer<Void> smokeLambdasProducerToFfi(Lambdas_Producer value) {
-  void __lambdaCaller(Pointer<Pointer<Void>> _result) { _smokeLambdasProducercallStatic(value, _result); }
+Pointer<Void> smokeLambdasProducerToFfi(Lambdas_Producer __lambdaObj) {
+  void __lambdaCaller(Pointer<Pointer<Void>> _result) { _smokeLambdasProducercallStatic(__lambdaObj, _result); }
   final __lambdaCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -83,9 +83,9 @@ Pointer<Void> smokeLambdasProducerToFfi(Lambdas_Producer value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeLambdasProducerCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );
@@ -190,8 +190,8 @@ void _smokeLambdasConfusercallStatic(Lambdas_Confuser _obj, Pointer<Void> p0, Po
   }
 }
 
-Pointer<Void> smokeLambdasConfuserToFfi(Lambdas_Confuser value) {
-  void __lambdaCaller(Pointer<Void> p0, Pointer<Pointer<Void>> _result) { _smokeLambdasConfusercallStatic(value, p0, _result); }
+Pointer<Void> smokeLambdasConfuserToFfi(Lambdas_Confuser __lambdaObj) {
+  void __lambdaCaller(Pointer<Void> p0, Pointer<Pointer<Void>> _result) { _smokeLambdasConfusercallStatic(__lambdaObj, p0, _result); }
   final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Pointer<Void>>)>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -204,9 +204,9 @@ Pointer<Void> smokeLambdasConfuserToFfi(Lambdas_Confuser value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeLambdasConfuserCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );
@@ -303,8 +303,8 @@ void _smokeLambdasConsumercallStatic(Lambdas_Consumer _obj, Pointer<Void> p0) {
   }
 }
 
-Pointer<Void> smokeLambdasConsumerToFfi(Lambdas_Consumer value) {
-  void __lambdaCaller(Pointer<Void> p0) { _smokeLambdasConsumercallStatic(value, p0); }
+Pointer<Void> smokeLambdasConsumerToFfi(Lambdas_Consumer __lambdaObj) {
+  void __lambdaCaller(Pointer<Void> p0) { _smokeLambdasConsumercallStatic(__lambdaObj, p0); }
   final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -317,9 +317,9 @@ Pointer<Void> smokeLambdasConsumerToFfi(Lambdas_Consumer value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeLambdasConsumerCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );
@@ -426,8 +426,8 @@ void _smokeLambdasIndexercallStatic(Lambdas_Indexer _obj, Pointer<Void> p0, doub
   }
 }
 
-Pointer<Void> smokeLambdasIndexerToFfi(Lambdas_Indexer value) {
-  void __lambdaCaller(Pointer<Void> p0, double p1, Pointer<Int32> _result) { _smokeLambdasIndexercallStatic(value, p0, p1, _result); }
+Pointer<Void> smokeLambdasIndexerToFfi(Lambdas_Indexer __lambdaObj) {
+  void __lambdaCaller(Pointer<Void> p0, double p1, Pointer<Int32> _result) { _smokeLambdasIndexercallStatic(__lambdaObj, p0, p1, _result); }
   final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>, Float, Pointer<Int32>)>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -440,9 +440,9 @@ Pointer<Void> smokeLambdasIndexerToFfi(Lambdas_Indexer value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeLambdasIndexerCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );
@@ -546,8 +546,8 @@ void _smokeLambdasNullableconfusercallStatic(Lambdas_NullableConfuser _obj, Poin
   }
 }
 
-Pointer<Void> smokeLambdasNullableconfuserToFfi(Lambdas_NullableConfuser value) {
-  void __lambdaCaller(Pointer<Void> p0, Pointer<Pointer<Void>> _result) { _smokeLambdasNullableconfusercallStatic(value, p0, _result); }
+Pointer<Void> smokeLambdasNullableconfuserToFfi(Lambdas_NullableConfuser __lambdaObj) {
+  void __lambdaCaller(Pointer<Void> p0, Pointer<Pointer<Void>> _result) { _smokeLambdasNullableconfusercallStatic(__lambdaObj, p0, _result); }
   final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Pointer<Void>>)>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -560,9 +560,9 @@ Pointer<Void> smokeLambdasNullableconfuserToFfi(Lambdas_NullableConfuser value) 
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeLambdasNullableconfuserCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );

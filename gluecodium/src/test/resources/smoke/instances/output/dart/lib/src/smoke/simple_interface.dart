@@ -125,14 +125,14 @@ void _smokeSimpleinterfaceuseSimpleInterfaceStatic(SimpleInterface _obj, Pointer
 }
 
 
-Pointer<Void> smokeSimpleinterfaceToFfi(SimpleInterface value) {
-  if (value is __lib.NativeBase) return _smokeSimpleinterfaceCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeSimpleinterfaceToFfi(SimpleInterface __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeSimpleinterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  void __getStringValueCaller(Pointer<Pointer<Void>> _result) { _smokeSimpleinterfacegetStringValueStatic(value, _result); }
+  void __getStringValueCaller(Pointer<Pointer<Void>> _result) { _smokeSimpleinterfacegetStringValueStatic(__interfaceObj, _result); }
   final __getStringValueCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__getStringValueCaller);
   __getStringValueCallback.keepIsolateAlive = false;
 
-  void __useSimpleInterfaceCaller(Pointer<Void> input, Pointer<Pointer<Void>> _result) { _smokeSimpleinterfaceuseSimpleInterfaceStatic(value, input, _result); }
+  void __useSimpleInterfaceCaller(Pointer<Void> input, Pointer<Pointer<Void>> _result) { _smokeSimpleinterfaceuseSimpleInterfaceStatic(__interfaceObj, input, _result); }
   final __useSimpleInterfaceCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Pointer<Void>>)>.isolateLocal(__useSimpleInterfaceCaller);
   __useSimpleInterfaceCallback.keepIsolateAlive = false;
 
@@ -146,9 +146,9 @@ Pointer<Void> smokeSimpleinterfaceToFfi(SimpleInterface value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeSimpleinterfaceCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __getStringValueCallback.nativeFunction,
     __useSimpleInterfaceCallback.nativeFunction

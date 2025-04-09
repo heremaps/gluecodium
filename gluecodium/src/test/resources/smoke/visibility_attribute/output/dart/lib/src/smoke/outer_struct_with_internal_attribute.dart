@@ -196,8 +196,8 @@ void _smokeOuterstructwithinternalattributeLambdanestedininternalstructcallStati
   }
 }
 
-Pointer<Void> smokeOuterstructwithinternalattributeLambdanestedininternalstructToFfi(OuterStructWithInternalAttribute_LambdaNestedInInternalStruct value) {
-  void __lambdaCaller() { _smokeOuterstructwithinternalattributeLambdanestedininternalstructcallStatic(value); }
+Pointer<Void> smokeOuterstructwithinternalattributeLambdanestedininternalstructToFfi(OuterStructWithInternalAttribute_LambdaNestedInInternalStruct __lambdaObj) {
+  void __lambdaCaller() { _smokeOuterstructwithinternalattributeLambdanestedininternalstructcallStatic(__lambdaObj); }
   final __lambdaCallback = NativeCallable<Void Function()>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -210,9 +210,9 @@ Pointer<Void> smokeOuterstructwithinternalattributeLambdanestedininternalstructT
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeOuterstructwithinternalattributeLambdanestedininternalstructCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );

@@ -191,8 +191,8 @@ void _smokeOuterclasswithinternalattributeLambdanestedininternalclasscallStatic(
   }
 }
 
-Pointer<Void> smokeOuterclasswithinternalattributeLambdanestedininternalclassToFfi(OuterClassWithInternalAttribute_LambdaNestedInInternalClass value) {
-  void __lambdaCaller() { _smokeOuterclasswithinternalattributeLambdanestedininternalclasscallStatic(value); }
+Pointer<Void> smokeOuterclasswithinternalattributeLambdanestedininternalclassToFfi(OuterClassWithInternalAttribute_LambdaNestedInInternalClass __lambdaObj) {
+  void __lambdaCaller() { _smokeOuterclasswithinternalattributeLambdanestedininternalclasscallStatic(__lambdaObj); }
   final __lambdaCallback = NativeCallable<Void Function()>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -205,9 +205,9 @@ Pointer<Void> smokeOuterclasswithinternalattributeLambdanestedininternalclassToF
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeOuterclasswithinternalattributeLambdanestedininternalclassCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );

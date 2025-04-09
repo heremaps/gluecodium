@@ -151,27 +151,27 @@ void _smokeChildinterfacerootPropertySetStatic(ChildInterface _obj, Pointer<Void
   }
 }
 
-Pointer<Void> smokeChildinterfaceToFfi(ChildInterface value) {
-  if (value is __lib.NativeBase) return _smokeChildinterfaceCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeChildinterfaceToFfi(ChildInterface __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeChildinterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  final descendantResult = tryDescendantToFfi(value);
+  final descendantResult = tryDescendantToFfi(__interfaceObj);
   if (descendantResult != null) {
     return descendantResult;
   }
 
-  void __rootMethodCaller() { _smokeChildinterfacerootMethodStatic(value); }
+  void __rootMethodCaller() { _smokeChildinterfacerootMethodStatic(__interfaceObj); }
   final __rootMethodCallback = NativeCallable<Void Function()>.isolateLocal(__rootMethodCaller);
   __rootMethodCallback.keepIsolateAlive = false;
 
-  void __childMethodCaller() { _smokeChildinterfacechildMethodStatic(value); }
+  void __childMethodCaller() { _smokeChildinterfacechildMethodStatic(__interfaceObj); }
   final __childMethodCallback = NativeCallable<Void Function()>.isolateLocal(__childMethodCaller);
   __childMethodCallback.keepIsolateAlive = false;
 
-  void __smokeChildinterfacerootPropertyGetCaller(Pointer<Pointer<Void>> _result) { _smokeChildinterfacerootPropertyGetStatic(value, _result); }
+  void __smokeChildinterfacerootPropertyGetCaller(Pointer<Pointer<Void>> _result) { _smokeChildinterfacerootPropertyGetStatic(__interfaceObj, _result); }
   final __smokeChildinterfacerootPropertyGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeChildinterfacerootPropertyGetCaller);
   __smokeChildinterfacerootPropertyGetCallback.keepIsolateAlive = false;
 
-  void __smokeChildinterfacerootPropertySetCaller(Pointer<Void> _value) { _smokeChildinterfacerootPropertySetStatic(value, _value); }
+  void __smokeChildinterfacerootPropertySetCaller(Pointer<Void> _value) { _smokeChildinterfacerootPropertySetStatic(__interfaceObj, _value); }
   final __smokeChildinterfacerootPropertySetCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__smokeChildinterfacerootPropertySetCaller);
   __smokeChildinterfacerootPropertySetCallback.keepIsolateAlive = false;
 
@@ -187,9 +187,9 @@ Pointer<Void> smokeChildinterfaceToFfi(ChildInterface value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeChildinterfaceCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __rootMethodCallback.nativeFunction,
     __childMethodCallback.nativeFunction,

@@ -47,8 +47,8 @@ class ExcludedCommentsInterface$Impl extends __lib.NativeBase implements Exclude
 
 
 
-Pointer<Void> smokeExcludedcommentsinterfaceToFfi(ExcludedCommentsInterface value) {
-  if (value is __lib.NativeBase) return _smokeExcludedcommentsinterfaceCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeExcludedcommentsinterfaceToFfi(ExcludedCommentsInterface __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeExcludedcommentsinterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
   late final NativeCallable<Void Function()> __closeAllCallback;
   void __closeAll() {
@@ -58,9 +58,9 @@ Pointer<Void> smokeExcludedcommentsinterfaceToFfi(ExcludedCommentsInterface valu
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeExcludedcommentsinterfaceCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction
   );
 

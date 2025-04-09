@@ -65,8 +65,8 @@ void _smokeLambdacommentsWithnonamedparameterscallStatic(LambdaComments_WithNoNa
   }
 }
 
-Pointer<Void> smokeLambdacommentsWithnonamedparametersToFfi(LambdaComments_WithNoNamedParameters value) {
-  void __lambdaCaller(Pointer<Void> p0, Pointer<Pointer<Void>> _result) { _smokeLambdacommentsWithnonamedparameterscallStatic(value, p0, _result); }
+Pointer<Void> smokeLambdacommentsWithnonamedparametersToFfi(LambdaComments_WithNoNamedParameters __lambdaObj) {
+  void __lambdaCaller(Pointer<Void> p0, Pointer<Pointer<Void>> _result) { _smokeLambdacommentsWithnonamedparameterscallStatic(__lambdaObj, p0, _result); }
   final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Pointer<Void>>)>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -79,9 +79,9 @@ Pointer<Void> smokeLambdacommentsWithnonamedparametersToFfi(LambdaComments_WithN
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeLambdacommentsWithnonamedparametersCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );
@@ -186,8 +186,8 @@ void _smokeLambdacommentsWithnodocsforparameterscallStatic(LambdaComments_WithNo
   }
 }
 
-Pointer<Void> smokeLambdacommentsWithnodocsforparametersToFfi(LambdaComments_WithNoDocsForParameters value) {
-  void __lambdaCaller(Pointer<Void> p0, Pointer<Pointer<Void>> _result) { _smokeLambdacommentsWithnodocsforparameterscallStatic(value, p0, _result); }
+Pointer<Void> smokeLambdacommentsWithnodocsforparametersToFfi(LambdaComments_WithNoDocsForParameters __lambdaObj) {
+  void __lambdaCaller(Pointer<Void> p0, Pointer<Pointer<Void>> _result) { _smokeLambdacommentsWithnodocsforparameterscallStatic(__lambdaObj, p0, _result); }
   final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Pointer<Void>>)>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -200,9 +200,9 @@ Pointer<Void> smokeLambdacommentsWithnodocsforparametersToFfi(LambdaComments_Wit
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeLambdacommentsWithnodocsforparametersCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );
@@ -311,8 +311,8 @@ void _smokeLambdacommentsWithnamedparameterscallStatic(LambdaComments_WithNamedP
   }
 }
 
-Pointer<Void> smokeLambdacommentsWithnamedparametersToFfi(LambdaComments_WithNamedParameters value) {
-  void __lambdaCaller(Pointer<Void> inputParameter, Pointer<Pointer<Void>> _result) { _smokeLambdacommentsWithnamedparameterscallStatic(value, inputParameter, _result); }
+Pointer<Void> smokeLambdacommentsWithnamedparametersToFfi(LambdaComments_WithNamedParameters __lambdaObj) {
+  void __lambdaCaller(Pointer<Void> inputParameter, Pointer<Pointer<Void>> _result) { _smokeLambdacommentsWithnamedparameterscallStatic(__lambdaObj, inputParameter, _result); }
   final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Pointer<Void>>)>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -325,9 +325,9 @@ Pointer<Void> smokeLambdacommentsWithnamedparametersToFfi(LambdaComments_WithNam
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeLambdacommentsWithnamedparametersCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );
@@ -437,8 +437,8 @@ void _smokeLambdacommentsMixeddocnameparameterscallStatic(LambdaComments_MixedDo
   }
 }
 
-Pointer<Void> smokeLambdacommentsMixeddocnameparametersToFfi(LambdaComments_MixedDocNameParameters value) {
-  void __lambdaCaller(Pointer<Void> inputParameter, Pointer<Void> secondInputParameter, Pointer<Pointer<Void>> _result) { _smokeLambdacommentsMixeddocnameparameterscallStatic(value, inputParameter, secondInputParameter, _result); }
+Pointer<Void> smokeLambdacommentsMixeddocnameparametersToFfi(LambdaComments_MixedDocNameParameters __lambdaObj) {
+  void __lambdaCaller(Pointer<Void> inputParameter, Pointer<Void> secondInputParameter, Pointer<Pointer<Void>> _result) { _smokeLambdacommentsMixeddocnameparameterscallStatic(__lambdaObj, inputParameter, secondInputParameter, _result); }
   final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Void>, Pointer<Pointer<Void>>)>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -451,9 +451,9 @@ Pointer<Void> smokeLambdacommentsMixeddocnameparametersToFfi(LambdaComments_Mixe
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeLambdacommentsMixeddocnameparametersCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );
@@ -560,8 +560,8 @@ void _smokeLambdacommentsNocommentsnonamedparamscallStatic(LambdaComments_NoComm
   }
 }
 
-Pointer<Void> smokeLambdacommentsNocommentsnonamedparamsToFfi(LambdaComments_NoCommentsNoNamedParams value) {
-  void __lambdaCaller(Pointer<Void> p0, Pointer<Void> p1, Pointer<Pointer<Void>> _result) { _smokeLambdacommentsNocommentsnonamedparamscallStatic(value, p0, p1, _result); }
+Pointer<Void> smokeLambdacommentsNocommentsnonamedparamsToFfi(LambdaComments_NoCommentsNoNamedParams __lambdaObj) {
+  void __lambdaCaller(Pointer<Void> p0, Pointer<Void> p1, Pointer<Pointer<Void>> _result) { _smokeLambdacommentsNocommentsnonamedparamscallStatic(__lambdaObj, p0, p1, _result); }
   final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Void>, Pointer<Pointer<Void>>)>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -574,9 +574,9 @@ Pointer<Void> smokeLambdacommentsNocommentsnonamedparamsToFfi(LambdaComments_NoC
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeLambdacommentsNocommentsnonamedparamsCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );
@@ -683,8 +683,8 @@ void _smokeLambdacommentsNocommentswithnamedparamscallStatic(LambdaComments_NoCo
   }
 }
 
-Pointer<Void> smokeLambdacommentsNocommentswithnamedparamsToFfi(LambdaComments_NoCommentsWithNamedParams value) {
-  void __lambdaCaller(Pointer<Void> first, Pointer<Void> second, Pointer<Pointer<Void>> _result) { _smokeLambdacommentsNocommentswithnamedparamscallStatic(value, first, second, _result); }
+Pointer<Void> smokeLambdacommentsNocommentswithnamedparamsToFfi(LambdaComments_NoCommentsWithNamedParams __lambdaObj) {
+  void __lambdaCaller(Pointer<Void> first, Pointer<Void> second, Pointer<Pointer<Void>> _result) { _smokeLambdacommentsNocommentswithnamedparamscallStatic(__lambdaObj, first, second, _result); }
   final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Void>, Pointer<Pointer<Void>>)>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -697,9 +697,9 @@ Pointer<Void> smokeLambdacommentsNocommentswithnamedparamsToFfi(LambdaComments_N
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeLambdacommentsNocommentswithnamedparamsCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );

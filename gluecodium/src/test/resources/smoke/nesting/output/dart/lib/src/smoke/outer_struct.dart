@@ -361,10 +361,10 @@ void _smokeOuterstructInnerinterfacebarBazStatic(OuterStruct_InnerInterface _obj
 }
 
 
-Pointer<Void> smokeOuterstructInnerinterfaceToFfi(OuterStruct_InnerInterface value) {
-  if (value is __lib.NativeBase) return _smokeOuterstructInnerinterfaceCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeOuterstructInnerinterfaceToFfi(OuterStruct_InnerInterface __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeOuterstructInnerinterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  void __barBazCaller(Pointer<Pointer<Void>> _result) { _smokeOuterstructInnerinterfacebarBazStatic(value, _result); }
+  void __barBazCaller(Pointer<Pointer<Void>> _result) { _smokeOuterstructInnerinterfacebarBazStatic(__interfaceObj, _result); }
   final __barBazCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__barBazCaller);
   __barBazCallback.keepIsolateAlive = false;
 
@@ -377,9 +377,9 @@ Pointer<Void> smokeOuterstructInnerinterfaceToFfi(OuterStruct_InnerInterface val
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeOuterstructInnerinterfaceCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __barBazCallback.nativeFunction
   );
@@ -460,8 +460,8 @@ void _smokeOuterstructInnerlambdacallStatic(OuterStruct_InnerLambda _obj) {
   }
 }
 
-Pointer<Void> smokeOuterstructInnerlambdaToFfi(OuterStruct_InnerLambda value) {
-  void __lambdaCaller() { _smokeOuterstructInnerlambdacallStatic(value); }
+Pointer<Void> smokeOuterstructInnerlambdaToFfi(OuterStruct_InnerLambda __lambdaObj) {
+  void __lambdaCaller() { _smokeOuterstructInnerlambdacallStatic(__lambdaObj); }
   final __lambdaCallback = NativeCallable<Void Function()>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -474,9 +474,9 @@ Pointer<Void> smokeOuterstructInnerlambdaToFfi(OuterStruct_InnerLambda value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeOuterstructInnerlambdaCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );

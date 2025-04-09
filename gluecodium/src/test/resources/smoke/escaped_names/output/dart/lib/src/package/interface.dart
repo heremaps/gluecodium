@@ -45,8 +45,8 @@ class Interface$Impl extends __lib.NativeBase implements Interface {
 
 
 
-Pointer<Void> packageInterfaceToFfi(Interface value) {
-  if (value is __lib.NativeBase) return _packageInterfaceCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> packageInterfaceToFfi(Interface __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _packageInterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
   late final NativeCallable<Void Function()> __closeAllCallback;
   void __closeAll() {
@@ -56,9 +56,9 @@ Pointer<Void> packageInterfaceToFfi(Interface value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _packageInterfaceCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction
   );
 

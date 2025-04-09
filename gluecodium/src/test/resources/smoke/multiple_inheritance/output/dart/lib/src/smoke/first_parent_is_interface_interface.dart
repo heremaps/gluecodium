@@ -270,42 +270,42 @@ void _smokeFirstparentisinterfaceinterfacechildPropertySetStatic(FirstParentIsIn
   }
 }
 
-Pointer<Void> smokeFirstparentisinterfaceinterfaceToFfi(FirstParentIsInterfaceInterface value) {
-  if (value is __lib.NativeBase) return _smokeFirstparentisinterfaceinterfaceCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeFirstparentisinterfaceinterfaceToFfi(FirstParentIsInterfaceInterface __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeFirstparentisinterfaceinterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  void __parentFunctionCaller() { _smokeFirstparentisinterfaceinterfaceparentFunctionStatic(value); }
+  void __parentFunctionCaller() { _smokeFirstparentisinterfaceinterfaceparentFunctionStatic(__interfaceObj); }
   final __parentFunctionCallback = NativeCallable<Void Function()>.isolateLocal(__parentFunctionCaller);
   __parentFunctionCallback.keepIsolateAlive = false;
 
-  void __parentFunctionOneCaller() { _smokeFirstparentisinterfaceinterfaceparentFunctionOneStatic(value); }
+  void __parentFunctionOneCaller() { _smokeFirstparentisinterfaceinterfaceparentFunctionOneStatic(__interfaceObj); }
   final __parentFunctionOneCallback = NativeCallable<Void Function()>.isolateLocal(__parentFunctionOneCaller);
   __parentFunctionOneCallback.keepIsolateAlive = false;
 
-  void __childFunctionCaller() { _smokeFirstparentisinterfaceinterfacechildFunctionStatic(value); }
+  void __childFunctionCaller() { _smokeFirstparentisinterfaceinterfacechildFunctionStatic(__interfaceObj); }
   final __childFunctionCallback = NativeCallable<Void Function()>.isolateLocal(__childFunctionCaller);
   __childFunctionCallback.keepIsolateAlive = false;
 
-  void __smokeFirstparentisinterfaceinterfaceparentPropertyGetCaller(Pointer<Pointer<Void>> _result) { _smokeFirstparentisinterfaceinterfaceparentPropertyGetStatic(value, _result); }
+  void __smokeFirstparentisinterfaceinterfaceparentPropertyGetCaller(Pointer<Pointer<Void>> _result) { _smokeFirstparentisinterfaceinterfaceparentPropertyGetStatic(__interfaceObj, _result); }
   final __smokeFirstparentisinterfaceinterfaceparentPropertyGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeFirstparentisinterfaceinterfaceparentPropertyGetCaller);
   __smokeFirstparentisinterfaceinterfaceparentPropertyGetCallback.keepIsolateAlive = false;
 
-  void __smokeFirstparentisinterfaceinterfaceparentPropertySetCaller(Pointer<Void> _value) { _smokeFirstparentisinterfaceinterfaceparentPropertySetStatic(value, _value); }
+  void __smokeFirstparentisinterfaceinterfaceparentPropertySetCaller(Pointer<Void> _value) { _smokeFirstparentisinterfaceinterfaceparentPropertySetStatic(__interfaceObj, _value); }
   final __smokeFirstparentisinterfaceinterfaceparentPropertySetCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__smokeFirstparentisinterfaceinterfaceparentPropertySetCaller);
   __smokeFirstparentisinterfaceinterfaceparentPropertySetCallback.keepIsolateAlive = false;
 
-  void __smokeFirstparentisinterfaceinterfaceparentPropertyOneGetCaller(Pointer<Pointer<Void>> _result) { _smokeFirstparentisinterfaceinterfaceparentPropertyOneGetStatic(value, _result); }
+  void __smokeFirstparentisinterfaceinterfaceparentPropertyOneGetCaller(Pointer<Pointer<Void>> _result) { _smokeFirstparentisinterfaceinterfaceparentPropertyOneGetStatic(__interfaceObj, _result); }
   final __smokeFirstparentisinterfaceinterfaceparentPropertyOneGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeFirstparentisinterfaceinterfaceparentPropertyOneGetCaller);
   __smokeFirstparentisinterfaceinterfaceparentPropertyOneGetCallback.keepIsolateAlive = false;
 
-  void __smokeFirstparentisinterfaceinterfaceparentPropertyOneSetCaller(Pointer<Void> _value) { _smokeFirstparentisinterfaceinterfaceparentPropertyOneSetStatic(value, _value); }
+  void __smokeFirstparentisinterfaceinterfaceparentPropertyOneSetCaller(Pointer<Void> _value) { _smokeFirstparentisinterfaceinterfaceparentPropertyOneSetStatic(__interfaceObj, _value); }
   final __smokeFirstparentisinterfaceinterfaceparentPropertyOneSetCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__smokeFirstparentisinterfaceinterfaceparentPropertyOneSetCaller);
   __smokeFirstparentisinterfaceinterfaceparentPropertyOneSetCallback.keepIsolateAlive = false;
 
-  void __smokeFirstparentisinterfaceinterfacechildPropertyGetCaller(Pointer<Pointer<Void>> _result) { _smokeFirstparentisinterfaceinterfacechildPropertyGetStatic(value, _result); }
+  void __smokeFirstparentisinterfaceinterfacechildPropertyGetCaller(Pointer<Pointer<Void>> _result) { _smokeFirstparentisinterfaceinterfacechildPropertyGetStatic(__interfaceObj, _result); }
   final __smokeFirstparentisinterfaceinterfacechildPropertyGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeFirstparentisinterfaceinterfacechildPropertyGetCaller);
   __smokeFirstparentisinterfaceinterfacechildPropertyGetCallback.keepIsolateAlive = false;
 
-  void __smokeFirstparentisinterfaceinterfacechildPropertySetCaller(Pointer<Void> _value) { _smokeFirstparentisinterfaceinterfacechildPropertySetStatic(value, _value); }
+  void __smokeFirstparentisinterfaceinterfacechildPropertySetCaller(Pointer<Void> _value) { _smokeFirstparentisinterfaceinterfacechildPropertySetStatic(__interfaceObj, _value); }
   final __smokeFirstparentisinterfaceinterfacechildPropertySetCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__smokeFirstparentisinterfaceinterfacechildPropertySetCaller);
   __smokeFirstparentisinterfaceinterfacechildPropertySetCallback.keepIsolateAlive = false;
 
@@ -326,9 +326,9 @@ Pointer<Void> smokeFirstparentisinterfaceinterfaceToFfi(FirstParentIsInterfaceIn
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeFirstparentisinterfaceinterfaceCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __parentFunctionCallback.nativeFunction,
     __parentFunctionOneCallback.nativeFunction,

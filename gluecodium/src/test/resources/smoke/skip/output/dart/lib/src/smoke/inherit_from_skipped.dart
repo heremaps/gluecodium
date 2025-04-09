@@ -293,42 +293,42 @@ void _smokeInheritfromskippedskippedInKotlinSetStatic(InheritFromSkipped _obj, d
   }
 }
 
-Pointer<Void> smokeInheritfromskippedToFfi(InheritFromSkipped value) {
-  if (value is __lib.NativeBase) return _smokeInheritfromskippedCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeInheritfromskippedToFfi(InheritFromSkipped __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeInheritfromskippedCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  void __notInJavaCaller(Pointer<Void> input, Pointer<Pointer<Void>> _result) { _smokeInheritfromskippednotInJavaStatic(value, input, _result); }
+  void __notInJavaCaller(Pointer<Void> input, Pointer<Pointer<Void>> _result) { _smokeInheritfromskippednotInJavaStatic(__interfaceObj, input, _result); }
   final __notInJavaCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Pointer<Void>>)>.isolateLocal(__notInJavaCaller);
   __notInJavaCallback.keepIsolateAlive = false;
 
-  void __notInSwiftCaller(int input, Pointer<Uint8> _result) { _smokeInheritfromskippednotInSwiftStatic(value, input, _result); }
+  void __notInSwiftCaller(int input, Pointer<Uint8> _result) { _smokeInheritfromskippednotInSwiftStatic(__interfaceObj, input, _result); }
   final __notInSwiftCallback = NativeCallable<Void Function(Uint8, Pointer<Uint8>)>.isolateLocal(__notInSwiftCaller);
   __notInSwiftCallback.keepIsolateAlive = false;
 
-  void __notInKotlinCaller(double input, Pointer<Float> _result) { _smokeInheritfromskippednotInKotlinStatic(value, input, _result); }
+  void __notInKotlinCaller(double input, Pointer<Float> _result) { _smokeInheritfromskippednotInKotlinStatic(__interfaceObj, input, _result); }
   final __notInKotlinCallback = NativeCallable<Void Function(Float, Pointer<Float>)>.isolateLocal(__notInKotlinCaller);
   __notInKotlinCallback.keepIsolateAlive = false;
 
-  void __smokeInheritfromskippedskippedInJavaGetCaller(Pointer<Pointer<Void>> _result) { _smokeInheritfromskippedskippedInJavaGetStatic(value, _result); }
+  void __smokeInheritfromskippedskippedInJavaGetCaller(Pointer<Pointer<Void>> _result) { _smokeInheritfromskippedskippedInJavaGetStatic(__interfaceObj, _result); }
   final __smokeInheritfromskippedskippedInJavaGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeInheritfromskippedskippedInJavaGetCaller);
   __smokeInheritfromskippedskippedInJavaGetCallback.keepIsolateAlive = false;
 
-  void __smokeInheritfromskippedskippedInJavaSetCaller(Pointer<Void> _value) { _smokeInheritfromskippedskippedInJavaSetStatic(value, _value); }
+  void __smokeInheritfromskippedskippedInJavaSetCaller(Pointer<Void> _value) { _smokeInheritfromskippedskippedInJavaSetStatic(__interfaceObj, _value); }
   final __smokeInheritfromskippedskippedInJavaSetCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__smokeInheritfromskippedskippedInJavaSetCaller);
   __smokeInheritfromskippedskippedInJavaSetCallback.keepIsolateAlive = false;
 
-  void __smokeInheritfromskippedisSkippedInSwiftGetCaller(Pointer<Uint8> _result) { _smokeInheritfromskippedisSkippedInSwiftGetStatic(value, _result); }
+  void __smokeInheritfromskippedisSkippedInSwiftGetCaller(Pointer<Uint8> _result) { _smokeInheritfromskippedisSkippedInSwiftGetStatic(__interfaceObj, _result); }
   final __smokeInheritfromskippedisSkippedInSwiftGetCallback = NativeCallable<Void Function(Pointer<Uint8>)>.isolateLocal(__smokeInheritfromskippedisSkippedInSwiftGetCaller);
   __smokeInheritfromskippedisSkippedInSwiftGetCallback.keepIsolateAlive = false;
 
-  void __smokeInheritfromskippedisSkippedInSwiftSetCaller(int _value) { _smokeInheritfromskippedisSkippedInSwiftSetStatic(value, _value); }
+  void __smokeInheritfromskippedisSkippedInSwiftSetCaller(int _value) { _smokeInheritfromskippedisSkippedInSwiftSetStatic(__interfaceObj, _value); }
   final __smokeInheritfromskippedisSkippedInSwiftSetCallback = NativeCallable<Void Function(Uint8)>.isolateLocal(__smokeInheritfromskippedisSkippedInSwiftSetCaller);
   __smokeInheritfromskippedisSkippedInSwiftSetCallback.keepIsolateAlive = false;
 
-  void __smokeInheritfromskippedskippedInKotlinGetCaller(Pointer<Float> _result) { _smokeInheritfromskippedskippedInKotlinGetStatic(value, _result); }
+  void __smokeInheritfromskippedskippedInKotlinGetCaller(Pointer<Float> _result) { _smokeInheritfromskippedskippedInKotlinGetStatic(__interfaceObj, _result); }
   final __smokeInheritfromskippedskippedInKotlinGetCallback = NativeCallable<Void Function(Pointer<Float>)>.isolateLocal(__smokeInheritfromskippedskippedInKotlinGetCaller);
   __smokeInheritfromskippedskippedInKotlinGetCallback.keepIsolateAlive = false;
 
-  void __smokeInheritfromskippedskippedInKotlinSetCaller(double _value) { _smokeInheritfromskippedskippedInKotlinSetStatic(value, _value); }
+  void __smokeInheritfromskippedskippedInKotlinSetCaller(double _value) { _smokeInheritfromskippedskippedInKotlinSetStatic(__interfaceObj, _value); }
   final __smokeInheritfromskippedskippedInKotlinSetCallback = NativeCallable<Void Function(Float)>.isolateLocal(__smokeInheritfromskippedskippedInKotlinSetCaller);
   __smokeInheritfromskippedskippedInKotlinSetCallback.keepIsolateAlive = false;
 
@@ -349,9 +349,9 @@ Pointer<Void> smokeInheritfromskippedToFfi(InheritFromSkipped value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeInheritfromskippedCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __notInJavaCallback.nativeFunction,
     __notInSwiftCallback.nativeFunction,

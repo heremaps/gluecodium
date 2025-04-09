@@ -85,10 +85,10 @@ void _smokeInternalinterfacefooBarStatic(InternalInterface _obj) {
 }
 
 
-Pointer<Void> smokeInternalinterfaceToFfi(InternalInterface value) {
-  if (value is __lib.NativeBase) return _smokeInternalinterfaceCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeInternalinterfaceToFfi(InternalInterface __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeInternalinterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  void __fooBarCaller() { _smokeInternalinterfacefooBarStatic(value); }
+  void __fooBarCaller() { _smokeInternalinterfacefooBarStatic(__interfaceObj); }
   final __fooBarCallback = NativeCallable<Void Function()>.isolateLocal(__fooBarCaller);
   __fooBarCallback.keepIsolateAlive = false;
 
@@ -101,9 +101,9 @@ Pointer<Void> smokeInternalinterfaceToFfi(InternalInterface value) {
   __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeInternalinterfaceCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __interfaceObj,
     __closeAllCallback.nativeFunction,
     __fooBarCallback.nativeFunction
   );

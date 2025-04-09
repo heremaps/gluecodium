@@ -257,8 +257,8 @@ void _smokeAsyncstructAsyncvoidresultlambdaasyncVoid__resultLambdaStatic(AsyncSt
   }
 }
 
-Pointer<Void> smokeAsyncstructAsyncvoidresultlambdaToFfi(AsyncStruct_asyncVoid__resultLambda value) {
-  void __lambdaCaller() { _smokeAsyncstructAsyncvoidresultlambdaasyncVoid__resultLambdaStatic(value); }
+Pointer<Void> smokeAsyncstructAsyncvoidresultlambdaToFfi(AsyncStruct_asyncVoid__resultLambda __lambdaObj) {
+  void __lambdaCaller() { _smokeAsyncstructAsyncvoidresultlambdaasyncVoid__resultLambdaStatic(__lambdaObj); }
   final __lambdaCallback = NativeCallable<Void Function()>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -271,9 +271,9 @@ Pointer<Void> smokeAsyncstructAsyncvoidresultlambdaToFfi(AsyncStruct_asyncVoid__
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeAsyncstructAsyncvoidresultlambdaCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );
@@ -319,8 +319,8 @@ void _smokeAsyncstructAsyncvoidthrowsresultlambdaasyncVoidThrows__resultLambdaSt
   }
 }
 
-Pointer<Void> smokeAsyncstructAsyncvoidthrowsresultlambdaToFfi(AsyncStruct_asyncVoidThrows__resultLambda value) {
-  void __lambdaCaller() { _smokeAsyncstructAsyncvoidthrowsresultlambdaasyncVoidThrows__resultLambdaStatic(value); }
+Pointer<Void> smokeAsyncstructAsyncvoidthrowsresultlambdaToFfi(AsyncStruct_asyncVoidThrows__resultLambda __lambdaObj) {
+  void __lambdaCaller() { _smokeAsyncstructAsyncvoidthrowsresultlambdaasyncVoidThrows__resultLambdaStatic(__lambdaObj); }
   final __lambdaCallback = NativeCallable<Void Function()>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -333,9 +333,9 @@ Pointer<Void> smokeAsyncstructAsyncvoidthrowsresultlambdaToFfi(AsyncStruct_async
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeAsyncstructAsyncvoidthrowsresultlambdaCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );
@@ -384,8 +384,8 @@ void _smokeAsyncstructAsyncvoidthrowserrorlambdaasyncVoidThrows__errorLambdaStat
   }
 }
 
-Pointer<Void> smokeAsyncstructAsyncvoidthrowserrorlambdaToFfi(AsyncStruct_asyncVoidThrows__errorLambda value) {
-  void __lambdaCaller(Pointer<Void> p0) { _smokeAsyncstructAsyncvoidthrowserrorlambdaasyncVoidThrows__errorLambdaStatic(value, p0); }
+Pointer<Void> smokeAsyncstructAsyncvoidthrowserrorlambdaToFfi(AsyncStruct_asyncVoidThrows__errorLambda __lambdaObj) {
+  void __lambdaCaller(Pointer<Void> p0) { _smokeAsyncstructAsyncvoidthrowserrorlambdaasyncVoidThrows__errorLambdaStatic(__lambdaObj, p0); }
   final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -398,9 +398,9 @@ Pointer<Void> smokeAsyncstructAsyncvoidthrowserrorlambdaToFfi(AsyncStruct_asyncV
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeAsyncstructAsyncvoidthrowserrorlambdaCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );
@@ -449,8 +449,8 @@ void _smokeAsyncstructAsyncintresultlambdaasyncInt__resultLambdaStatic(AsyncStru
   }
 }
 
-Pointer<Void> smokeAsyncstructAsyncintresultlambdaToFfi(AsyncStruct_asyncInt__resultLambda value) {
-  void __lambdaCaller(int p0) { _smokeAsyncstructAsyncintresultlambdaasyncInt__resultLambdaStatic(value, p0); }
+Pointer<Void> smokeAsyncstructAsyncintresultlambdaToFfi(AsyncStruct_asyncInt__resultLambda __lambdaObj) {
+  void __lambdaCaller(int p0) { _smokeAsyncstructAsyncintresultlambdaasyncInt__resultLambdaStatic(__lambdaObj, p0); }
   final __lambdaCallback = NativeCallable<Void Function(Int32)>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -463,9 +463,9 @@ Pointer<Void> smokeAsyncstructAsyncintresultlambdaToFfi(AsyncStruct_asyncInt__re
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeAsyncstructAsyncintresultlambdaCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );
@@ -514,8 +514,8 @@ void _smokeAsyncstructAsyncintthrowsresultlambdaasyncIntThrows__resultLambdaStat
   }
 }
 
-Pointer<Void> smokeAsyncstructAsyncintthrowsresultlambdaToFfi(AsyncStruct_asyncIntThrows__resultLambda value) {
-  void __lambdaCaller(int p0) { _smokeAsyncstructAsyncintthrowsresultlambdaasyncIntThrows__resultLambdaStatic(value, p0); }
+Pointer<Void> smokeAsyncstructAsyncintthrowsresultlambdaToFfi(AsyncStruct_asyncIntThrows__resultLambda __lambdaObj) {
+  void __lambdaCaller(int p0) { _smokeAsyncstructAsyncintthrowsresultlambdaasyncIntThrows__resultLambdaStatic(__lambdaObj, p0); }
   final __lambdaCallback = NativeCallable<Void Function(Int32)>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -528,9 +528,9 @@ Pointer<Void> smokeAsyncstructAsyncintthrowsresultlambdaToFfi(AsyncStruct_asyncI
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeAsyncstructAsyncintthrowsresultlambdaCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );
@@ -579,8 +579,8 @@ void _smokeAsyncstructAsyncintthrowserrorlambdaasyncIntThrows__errorLambdaStatic
   }
 }
 
-Pointer<Void> smokeAsyncstructAsyncintthrowserrorlambdaToFfi(AsyncStruct_asyncIntThrows__errorLambda value) {
-  void __lambdaCaller(Pointer<Void> p0) { _smokeAsyncstructAsyncintthrowserrorlambdaasyncIntThrows__errorLambdaStatic(value, p0); }
+Pointer<Void> smokeAsyncstructAsyncintthrowserrorlambdaToFfi(AsyncStruct_asyncIntThrows__errorLambda __lambdaObj) {
+  void __lambdaCaller(Pointer<Void> p0) { _smokeAsyncstructAsyncintthrowserrorlambdaasyncIntThrows__errorLambdaStatic(__lambdaObj, p0); }
   final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -593,9 +593,9 @@ Pointer<Void> smokeAsyncstructAsyncintthrowserrorlambdaToFfi(AsyncStruct_asyncIn
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeAsyncstructAsyncintthrowserrorlambdaCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );
@@ -641,8 +641,8 @@ void _smokeAsyncstructAsyncstaticresultlambdaasyncStatic__resultLambdaStatic(Asy
   }
 }
 
-Pointer<Void> smokeAsyncstructAsyncstaticresultlambdaToFfi(AsyncStruct_asyncStatic__resultLambda value) {
-  void __lambdaCaller() { _smokeAsyncstructAsyncstaticresultlambdaasyncStatic__resultLambdaStatic(value); }
+Pointer<Void> smokeAsyncstructAsyncstaticresultlambdaToFfi(AsyncStruct_asyncStatic__resultLambda __lambdaObj) {
+  void __lambdaCaller() { _smokeAsyncstructAsyncstaticresultlambdaasyncStatic__resultLambdaStatic(__lambdaObj); }
   final __lambdaCallback = NativeCallable<Void Function()>.isolateLocal(__lambdaCaller);
   __lambdaCallback.keepIsolateAlive = false;
 
@@ -655,9 +655,9 @@ Pointer<Void> smokeAsyncstructAsyncstaticresultlambdaToFfi(AsyncStruct_asyncStat
   __closeAllCallback.keepIsolateAlive = false;
 
   return _smokeAsyncstructAsyncstaticresultlambdaCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
+    __lambdaObj,
     __closeAllCallback.nativeFunction,
     __lambdaCallback.nativeFunction
   );
