@@ -53,7 +53,7 @@ _GLUECODIUM_FFI_EXPORT void {{libraryName}}_{{resolveName}}_release_handle(FfiOp
 
 {{#each interfaces lambdas asyncHelpers.lambdas}}
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle {{libraryName}}_{{resolveName}}_create_proxy({{!!
-}}uint64_t token, int32_t isolate_id, Dart_Handle dart_handle{{!!
+}}uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle close_callbacks{{!!
 }}{{#each inheritedFunctions functions}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}{{!!
 }}, FfiOpaqueHandle f{{iter.position}}{{/ifPredicate}}{{/unless}}{{/each}}{{!!
 }}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}, FfiOpaqueHandle p{{iter.position}}g{{!!

@@ -38,8 +38,8 @@ final _{{resolveName "Ffi"}}ReleaseHandle = __lib.catchArgumentError(() => __lib
     void Function(Pointer<Void>)
   >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_release_handle'));
 final _{{resolveName "Ffi"}}CreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_create_proxy'));
 
 {{#unless disableFinalizableMarker}}{{!!
@@ -57,15 +57,15 @@ final _{{resolveName "Ffi"}}CreateProxy = __lib.catchArgumentError(() => __lib.n
 }
 
 {{#set lambda=this}}{{#asFunction}}
-int _{{resolveName lambda "Ffi"}}{{resolveName}}Static({{!!
-}}Object _obj{{#if parameters}}, {{/if}}{{!!
+void _{{resolveName lambda "Ffi"}}{{resolveName}}Static({{!!
+}}{{resolveName lambda}} _obj{{#if parameters}}, {{/if}}{{!!
 }}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
 }}{{#unless returnType.isVoid}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}> _result{{/unless}}) {
   {{#unless returnType.isVoid}}{{resolveName returnType.typeRef}}{{!!
   }}{{#unless returnType.typeRef.isNullable}}?{{/unless}} _resultObject;{{/unless}}
   try {
     {{#unless returnType.isVoid}}_resultObject = {{/unless}}{{!!
-  }}(_obj as {{resolveName lambda}})({{#parameters}}{{!!
+  }}_obj({{#parameters}}{{!!
   }}{{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}}){{#if iter.hasNext}}, {{/if}}{{!!
   }}{{/parameters}});{{#unless returnType.isVoid}}
     _result.value = {{#returnType}}{{#set call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}{{/returnType}}(_resultObject);{{/unless}}
@@ -74,17 +74,37 @@ int _{{resolveName lambda "Ffi"}}{{resolveName}}Static({{!!
     {{#resolveName}}{{#set varName=this}}{{>dart/DartFfiReleaseHandle}}{{/set}}{{/resolveName}}
 {{/parameters}}
   }
-  return 0;
 }
 {{/asFunction}}{{/set}}
 
-Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) =>
-  _{{resolveName "Ffi"}}CreateProxy(
+Pointer<Void> {{resolveName "Ffi"}}ToFfi({{resolveName}} value) {
+{{#set lambda=this}}{{#asFunction}}
+  void __lambdaCaller({{#parameters}}{{resolveName typeRef "FfiDartTypes"}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
+}}{{#unless returnType.isVoid}}{{#if parameters}}, {{/if}}Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}> _result{{/unless}}) { {{!!
+}}_{{resolveName lambda "Ffi"}}{{resolveName}}Static(value{{#if parameters}}, {{/if}}{{!!
+}}{{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
+}}{{#unless returnType.isVoid}}, _result{{/unless}}); }
+  final __lambdaCallback = NativeCallable<Void Function({{#parameters}}{{resolveName typeRef "FfiApiTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
+}}{{#unless returnType.isVoid}}{{#if parameters}}, {{/if}}Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}>{{/unless}})>.isolateLocal(__lambdaCaller);
+{{/asFunction}}{{/set}}
+  __lambdaCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __lambdaCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
+  return _{{resolveName "Ffi"}}CreateProxy(
     __lib.getObjectToken(value),
     __lib.LibraryContext.isolateId,
-    value,{{#set lambda=this}}{{#asFunction}}
-    Pointer.fromFunction<{{>ffiApi}}>(_{{resolveName lambda "Ffi"}}{{resolveName}}Static, __lib.unknownError){{/asFunction}}{{/set}}
+    value,
+    __closeAllCallback.nativeFunction,
+    __lambdaCallback.nativeFunction
   );
+}
 
 {{#unless isAsyncLambda}}
 {{resolveName}} {{resolveName "Ffi"}}FromFfi(Pointer<Void> handle) {
