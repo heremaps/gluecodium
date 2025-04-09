@@ -153,9 +153,15 @@ private:
 
     inline void dispatch(std::function<void()>&& callback) const
     {
-        {{>ffi/FfiInternal}}::IsolateContext::is_current(isolate_id)
-            ? callback()
-            : {{>ffi/FfiInternal}}::cbqm.enqueueCallback(isolate_id, std::move(callback)).wait();
+        if (isolate_thread_id != std::this_thread::get_id()) {
+            {{>ffi/FfiInternal}}::cbqm.enqueueCallback(isolate_id, std::move(callback)).wait();
+        } else if ({{>ffi/FfiInternal}}::IsolateContext::is_current(isolate_id)) {
+            callback();
+        } else {
+            Dart_EnterIsolate_DL(isolate_handle);
+            callback();
+            Dart_ExitIsolate_DL();
+        }
     }
 {{/if}}
 };{{!!
