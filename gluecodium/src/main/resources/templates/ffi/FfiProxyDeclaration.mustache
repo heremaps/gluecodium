@@ -26,7 +26,7 @@ public:
     }}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}, FfiOpaqueHandle p{{iter.position}}g{{!!
     }}{{#if setter}}{{#ifPredicate setter "shouldRetain"}}, FfiOpaqueHandle p{{iter.position}}s{{/ifPredicate}}{{/if}}{{!!
     }}{{/ifPredicate}}{{/unless}}{{/each}})
-        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks){{!!
+        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks), isolate_handle(Dart_CurrentIsolate_DL()){{!!
         }}{{#each inheritedFunctions functions}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}{{!!
         }}, f{{iter.position}}(f{{iter.position}}){{/ifPredicate}}{{/unless}}{{/each}}{{!!
         }}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}, p{{iter.position}}g(p{{iter.position}}g){{!!
@@ -139,6 +139,7 @@ private:
     const int32_t isolate_id;
     const Dart_PersistentHandle dart_persistent_handle;
     const FfiOpaqueHandle f_close_callbacks;
+    const Dart_Isolate isolate_handle;
 {{#each inheritedFunctions functions}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}
     const FfiOpaqueHandle f{{iter.position}};
 {{/ifPredicate}}{{/unless}}{{/each}}
