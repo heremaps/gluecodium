@@ -122,9 +122,15 @@ private:
 
     inline void dispatch(std::function<void()>&& callback) const
     {
-        gluecodium::ffi::IsolateContext::is_current(isolate_id)
-            ? callback()
-            : gluecodium::ffi::cbqm.enqueueCallback(isolate_id, std::move(callback)).wait();
+        if (isolate_thread_id != std::this_thread::get_id()) {
+            gluecodium::ffi::cbqm.enqueueCallback(isolate_id, std::move(callback)).wait();
+        } else if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
+            callback();
+        } else {
+            Dart_EnterIsolate_DL(isolate_handle);
+            callback();
+            Dart_ExitIsolate_DL();
+        }
     }
 };
 
