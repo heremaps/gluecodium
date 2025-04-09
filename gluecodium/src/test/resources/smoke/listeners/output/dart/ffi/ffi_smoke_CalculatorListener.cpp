@@ -22,7 +22,7 @@
 class smoke_CalculatorListener_Proxy : public smoke::CalculatorListener {
 public:
     smoke_CalculatorListener_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle close_callbacks, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f2, FfiOpaqueHandle f3, FfiOpaqueHandle f4, FfiOpaqueHandle f5)
-        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks), f0(f0), f1(f1), f2(f2), f3(f3), f4(f4), f5(f5) {
+        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks), isolate_handle(Dart_CurrentIsolate_DL()), f0(f0), f1(f1), f2(f2), f3(f3), f4(f4), f5(f5) {
         library_cache_dart_handle_by_raw_pointer(this, isolate_id, dart_handle);
     }
 
@@ -110,6 +110,7 @@ private:
     const int32_t isolate_id;
     const Dart_PersistentHandle dart_persistent_handle;
     const FfiOpaqueHandle f_close_callbacks;
+    const Dart_Isolate isolate_handle;
     const FfiOpaqueHandle f0;
     const FfiOpaqueHandle f1;
     const FfiOpaqueHandle f2;

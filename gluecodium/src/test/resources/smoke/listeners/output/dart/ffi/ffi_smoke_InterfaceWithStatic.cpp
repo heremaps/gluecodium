@@ -17,7 +17,7 @@
 class smoke_InterfaceWithStatic_Proxy : public smoke::InterfaceWithStatic {
 public:
     smoke_InterfaceWithStatic_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle close_callbacks, FfiOpaqueHandle f0, FfiOpaqueHandle p0g, FfiOpaqueHandle p0s)
-        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks), f0(f0), p0g(p0g), p0s(p0s) {
+        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks), isolate_handle(Dart_CurrentIsolate_DL()), f0(f0), p0g(p0g), p0s(p0s) {
         library_cache_dart_handle_by_raw_pointer(this, isolate_id, dart_handle);
     }
 
@@ -78,6 +78,7 @@ private:
     const int32_t isolate_id;
     const Dart_PersistentHandle dart_persistent_handle;
     const FfiOpaqueHandle f_close_callbacks;
+    const Dart_Isolate isolate_handle;
     const FfiOpaqueHandle f0;
     const FfiOpaqueHandle p0g;
     const FfiOpaqueHandle p0s;
