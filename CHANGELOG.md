@@ -1,6 +1,8 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+
+## 13.13.0
+Release date 2025-05-05
 ### Features
  * Dart/Flutter: the generated code is now compatible with Flutter 3.29 and above. When the user invokes the callback created for lambda/interface from the thread that is the main isolate thread, but outside of isolate context then it is correclty executed. Before this release the thread would deadlock. Now the generated code identifies such case and enters the isolate context before invoking the callback.
  * Java/Kotlin: in order to ease transition from Java to Kotlin the possibility to conditionally warn about mismatch in attributes used for Java/Kotlin is implemented. The following new CLI parameter is available `-enableandroidattributesmismatchwarning` as well as `GLUECODIUM_ENABLE_ANDROID_ATTRIBUTES_MISMATCH_WARNING` CMake parameter.
