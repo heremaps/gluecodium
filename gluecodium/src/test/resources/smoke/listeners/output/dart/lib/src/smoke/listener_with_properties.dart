@@ -225,8 +225,8 @@ final _smokeListenerwithpropertiesReleaseHandle = __lib.catchArgumentError(() =>
     void Function(Pointer<Void>)
   >('library_smoke_ListenerWithProperties_release_handle'));
 final _smokeListenerwithpropertiesCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
   >('library_smoke_ListenerWithProperties_create_proxy'));
 final _smokeListenerwithpropertiesGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -472,126 +472,183 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
 }
 
 
-int _smokeListenerwithpropertiesmessageGetStatic(Object _obj, Pointer<Pointer<Void>> _result) {
-  _result.value = stringToFfi((_obj as ListenerWithProperties).message);
-  return 0;
+void _smokeListenerwithpropertiesmessageGetStatic(ListenerWithProperties _obj, Pointer<Pointer<Void>> _result) {
+  _result.value = stringToFfi(_obj.message);
 }
 
-int _smokeListenerwithpropertiesmessageSetStatic(Object _obj, Pointer<Void> _value) {
+void _smokeListenerwithpropertiesmessageSetStatic(ListenerWithProperties _obj, Pointer<Void> _value) {
   try {
-    (_obj as ListenerWithProperties).message =
-      stringFromFfi(_value);
+    _obj.message = stringFromFfi(_value);
   } finally {
     stringReleaseFfiHandle(_value);
   }
-  return 0;
 }
-int _smokeListenerwithpropertiespackedMessageGetStatic(Object _obj, Pointer<Pointer<Void>> _result) {
-  _result.value = smokeCalculationresultToFfi((_obj as ListenerWithProperties).packedMessage);
-  return 0;
+void _smokeListenerwithpropertiespackedMessageGetStatic(ListenerWithProperties _obj, Pointer<Pointer<Void>> _result) {
+  _result.value = smokeCalculationresultToFfi(_obj.packedMessage);
 }
 
-int _smokeListenerwithpropertiespackedMessageSetStatic(Object _obj, Pointer<Void> _value) {
+void _smokeListenerwithpropertiespackedMessageSetStatic(ListenerWithProperties _obj, Pointer<Void> _value) {
   try {
-    (_obj as ListenerWithProperties).packedMessage =
-      smokeCalculationresultFromFfi(_value);
+    _obj.packedMessage = smokeCalculationresultFromFfi(_value);
   } finally {
     smokeCalculationresultReleaseFfiHandle(_value);
   }
-  return 0;
 }
-int _smokeListenerwithpropertiesstructuredMessageGetStatic(Object _obj, Pointer<Pointer<Void>> _result) {
-  _result.value = smokeListenerwithpropertiesResultstructToFfi((_obj as ListenerWithProperties).structuredMessage);
-  return 0;
+void _smokeListenerwithpropertiesstructuredMessageGetStatic(ListenerWithProperties _obj, Pointer<Pointer<Void>> _result) {
+  _result.value = smokeListenerwithpropertiesResultstructToFfi(_obj.structuredMessage);
 }
 
-int _smokeListenerwithpropertiesstructuredMessageSetStatic(Object _obj, Pointer<Void> _value) {
+void _smokeListenerwithpropertiesstructuredMessageSetStatic(ListenerWithProperties _obj, Pointer<Void> _value) {
   try {
-    (_obj as ListenerWithProperties).structuredMessage =
-      smokeListenerwithpropertiesResultstructFromFfi(_value);
+    _obj.structuredMessage = smokeListenerwithpropertiesResultstructFromFfi(_value);
   } finally {
     smokeListenerwithpropertiesResultstructReleaseFfiHandle(_value);
   }
-  return 0;
 }
-int _smokeListenerwithpropertiesenumeratedMessageGetStatic(Object _obj, Pointer<Uint32> _result) {
-  _result.value = smokeListenerwithpropertiesResultenumToFfi((_obj as ListenerWithProperties).enumeratedMessage);
-  return 0;
+void _smokeListenerwithpropertiesenumeratedMessageGetStatic(ListenerWithProperties _obj, Pointer<Uint32> _result) {
+  _result.value = smokeListenerwithpropertiesResultenumToFfi(_obj.enumeratedMessage);
 }
 
-int _smokeListenerwithpropertiesenumeratedMessageSetStatic(Object _obj, int _value) {
+void _smokeListenerwithpropertiesenumeratedMessageSetStatic(ListenerWithProperties _obj, int _value) {
   try {
-    (_obj as ListenerWithProperties).enumeratedMessage =
-      smokeListenerwithpropertiesResultenumFromFfi(_value);
+    _obj.enumeratedMessage = smokeListenerwithpropertiesResultenumFromFfi(_value);
   } finally {
     smokeListenerwithpropertiesResultenumReleaseFfiHandle(_value);
   }
-  return 0;
 }
-int _smokeListenerwithpropertiesarrayedMessageGetStatic(Object _obj, Pointer<Pointer<Void>> _result) {
-  _result.value = foobarListofStringToFfi((_obj as ListenerWithProperties).arrayedMessage);
-  return 0;
+void _smokeListenerwithpropertiesarrayedMessageGetStatic(ListenerWithProperties _obj, Pointer<Pointer<Void>> _result) {
+  _result.value = foobarListofStringToFfi(_obj.arrayedMessage);
 }
 
-int _smokeListenerwithpropertiesarrayedMessageSetStatic(Object _obj, Pointer<Void> _value) {
+void _smokeListenerwithpropertiesarrayedMessageSetStatic(ListenerWithProperties _obj, Pointer<Void> _value) {
   try {
-    (_obj as ListenerWithProperties).arrayedMessage =
-      foobarListofStringFromFfi(_value);
+    _obj.arrayedMessage = foobarListofStringFromFfi(_value);
   } finally {
     foobarListofStringReleaseFfiHandle(_value);
   }
-  return 0;
 }
-int _smokeListenerwithpropertiesmappedMessageGetStatic(Object _obj, Pointer<Pointer<Void>> _result) {
-  _result.value = foobarMapofStringToDoubleToFfi((_obj as ListenerWithProperties).mappedMessage);
-  return 0;
+void _smokeListenerwithpropertiesmappedMessageGetStatic(ListenerWithProperties _obj, Pointer<Pointer<Void>> _result) {
+  _result.value = foobarMapofStringToDoubleToFfi(_obj.mappedMessage);
 }
 
-int _smokeListenerwithpropertiesmappedMessageSetStatic(Object _obj, Pointer<Void> _value) {
+void _smokeListenerwithpropertiesmappedMessageSetStatic(ListenerWithProperties _obj, Pointer<Void> _value) {
   try {
-    (_obj as ListenerWithProperties).mappedMessage =
-      foobarMapofStringToDoubleFromFfi(_value);
+    _obj.mappedMessage = foobarMapofStringToDoubleFromFfi(_value);
   } finally {
     foobarMapofStringToDoubleReleaseFfiHandle(_value);
   }
-  return 0;
 }
-int _smokeListenerwithpropertiesbufferedMessageGetStatic(Object _obj, Pointer<Pointer<Void>> _result) {
-  _result.value = blobToFfi((_obj as ListenerWithProperties).bufferedMessage);
-  return 0;
+void _smokeListenerwithpropertiesbufferedMessageGetStatic(ListenerWithProperties _obj, Pointer<Pointer<Void>> _result) {
+  _result.value = blobToFfi(_obj.bufferedMessage);
 }
 
-int _smokeListenerwithpropertiesbufferedMessageSetStatic(Object _obj, Pointer<Void> _value) {
+void _smokeListenerwithpropertiesbufferedMessageSetStatic(ListenerWithProperties _obj, Pointer<Void> _value) {
   try {
-    (_obj as ListenerWithProperties).bufferedMessage =
-      blobFromFfi(_value);
+    _obj.bufferedMessage = blobFromFfi(_value);
   } finally {
     blobReleaseFfiHandle(_value);
   }
-  return 0;
 }
 
-Pointer<Void> smokeListenerwithpropertiesToFfi(ListenerWithProperties value) {
-  if (value is __lib.NativeBase) return _smokeListenerwithpropertiesCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeListenerwithpropertiesToFfi(ListenerWithProperties __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeListenerwithpropertiesCopyHandle((__interfaceObj as __lib.NativeBase).handle);
+
+  void __smokeListenerwithpropertiesmessageGetCaller(Pointer<Pointer<Void>> _result) { _smokeListenerwithpropertiesmessageGetStatic(__interfaceObj, _result); }
+  final __smokeListenerwithpropertiesmessageGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeListenerwithpropertiesmessageGetCaller);
+  __smokeListenerwithpropertiesmessageGetCallback.keepIsolateAlive = false;
+
+  void __smokeListenerwithpropertiesmessageSetCaller(Pointer<Void> _value) { _smokeListenerwithpropertiesmessageSetStatic(__interfaceObj, _value); }
+  final __smokeListenerwithpropertiesmessageSetCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__smokeListenerwithpropertiesmessageSetCaller);
+  __smokeListenerwithpropertiesmessageSetCallback.keepIsolateAlive = false;
+
+  void __smokeListenerwithpropertiespackedMessageGetCaller(Pointer<Pointer<Void>> _result) { _smokeListenerwithpropertiespackedMessageGetStatic(__interfaceObj, _result); }
+  final __smokeListenerwithpropertiespackedMessageGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeListenerwithpropertiespackedMessageGetCaller);
+  __smokeListenerwithpropertiespackedMessageGetCallback.keepIsolateAlive = false;
+
+  void __smokeListenerwithpropertiespackedMessageSetCaller(Pointer<Void> _value) { _smokeListenerwithpropertiespackedMessageSetStatic(__interfaceObj, _value); }
+  final __smokeListenerwithpropertiespackedMessageSetCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__smokeListenerwithpropertiespackedMessageSetCaller);
+  __smokeListenerwithpropertiespackedMessageSetCallback.keepIsolateAlive = false;
+
+  void __smokeListenerwithpropertiesstructuredMessageGetCaller(Pointer<Pointer<Void>> _result) { _smokeListenerwithpropertiesstructuredMessageGetStatic(__interfaceObj, _result); }
+  final __smokeListenerwithpropertiesstructuredMessageGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeListenerwithpropertiesstructuredMessageGetCaller);
+  __smokeListenerwithpropertiesstructuredMessageGetCallback.keepIsolateAlive = false;
+
+  void __smokeListenerwithpropertiesstructuredMessageSetCaller(Pointer<Void> _value) { _smokeListenerwithpropertiesstructuredMessageSetStatic(__interfaceObj, _value); }
+  final __smokeListenerwithpropertiesstructuredMessageSetCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__smokeListenerwithpropertiesstructuredMessageSetCaller);
+  __smokeListenerwithpropertiesstructuredMessageSetCallback.keepIsolateAlive = false;
+
+  void __smokeListenerwithpropertiesenumeratedMessageGetCaller(Pointer<Uint32> _result) { _smokeListenerwithpropertiesenumeratedMessageGetStatic(__interfaceObj, _result); }
+  final __smokeListenerwithpropertiesenumeratedMessageGetCallback = NativeCallable<Void Function(Pointer<Uint32>)>.isolateLocal(__smokeListenerwithpropertiesenumeratedMessageGetCaller);
+  __smokeListenerwithpropertiesenumeratedMessageGetCallback.keepIsolateAlive = false;
+
+  void __smokeListenerwithpropertiesenumeratedMessageSetCaller(int _value) { _smokeListenerwithpropertiesenumeratedMessageSetStatic(__interfaceObj, _value); }
+  final __smokeListenerwithpropertiesenumeratedMessageSetCallback = NativeCallable<Void Function(Uint32)>.isolateLocal(__smokeListenerwithpropertiesenumeratedMessageSetCaller);
+  __smokeListenerwithpropertiesenumeratedMessageSetCallback.keepIsolateAlive = false;
+
+  void __smokeListenerwithpropertiesarrayedMessageGetCaller(Pointer<Pointer<Void>> _result) { _smokeListenerwithpropertiesarrayedMessageGetStatic(__interfaceObj, _result); }
+  final __smokeListenerwithpropertiesarrayedMessageGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeListenerwithpropertiesarrayedMessageGetCaller);
+  __smokeListenerwithpropertiesarrayedMessageGetCallback.keepIsolateAlive = false;
+
+  void __smokeListenerwithpropertiesarrayedMessageSetCaller(Pointer<Void> _value) { _smokeListenerwithpropertiesarrayedMessageSetStatic(__interfaceObj, _value); }
+  final __smokeListenerwithpropertiesarrayedMessageSetCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__smokeListenerwithpropertiesarrayedMessageSetCaller);
+  __smokeListenerwithpropertiesarrayedMessageSetCallback.keepIsolateAlive = false;
+
+  void __smokeListenerwithpropertiesmappedMessageGetCaller(Pointer<Pointer<Void>> _result) { _smokeListenerwithpropertiesmappedMessageGetStatic(__interfaceObj, _result); }
+  final __smokeListenerwithpropertiesmappedMessageGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeListenerwithpropertiesmappedMessageGetCaller);
+  __smokeListenerwithpropertiesmappedMessageGetCallback.keepIsolateAlive = false;
+
+  void __smokeListenerwithpropertiesmappedMessageSetCaller(Pointer<Void> _value) { _smokeListenerwithpropertiesmappedMessageSetStatic(__interfaceObj, _value); }
+  final __smokeListenerwithpropertiesmappedMessageSetCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__smokeListenerwithpropertiesmappedMessageSetCaller);
+  __smokeListenerwithpropertiesmappedMessageSetCallback.keepIsolateAlive = false;
+
+  void __smokeListenerwithpropertiesbufferedMessageGetCaller(Pointer<Pointer<Void>> _result) { _smokeListenerwithpropertiesbufferedMessageGetStatic(__interfaceObj, _result); }
+  final __smokeListenerwithpropertiesbufferedMessageGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeListenerwithpropertiesbufferedMessageGetCaller);
+  __smokeListenerwithpropertiesbufferedMessageGetCallback.keepIsolateAlive = false;
+
+  void __smokeListenerwithpropertiesbufferedMessageSetCaller(Pointer<Void> _value) { _smokeListenerwithpropertiesbufferedMessageSetStatic(__interfaceObj, _value); }
+  final __smokeListenerwithpropertiesbufferedMessageSetCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__smokeListenerwithpropertiesbufferedMessageSetCaller);
+  __smokeListenerwithpropertiesbufferedMessageSetCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __smokeListenerwithpropertiesmessageGetCallback.close();
+    __smokeListenerwithpropertiesmessageSetCallback.close();
+    __smokeListenerwithpropertiespackedMessageGetCallback.close();
+    __smokeListenerwithpropertiespackedMessageSetCallback.close();
+    __smokeListenerwithpropertiesstructuredMessageGetCallback.close();
+    __smokeListenerwithpropertiesstructuredMessageSetCallback.close();
+    __smokeListenerwithpropertiesenumeratedMessageGetCallback.close();
+    __smokeListenerwithpropertiesenumeratedMessageSetCallback.close();
+    __smokeListenerwithpropertiesarrayedMessageGetCallback.close();
+    __smokeListenerwithpropertiesarrayedMessageSetCallback.close();
+    __smokeListenerwithpropertiesmappedMessageGetCallback.close();
+    __smokeListenerwithpropertiesmappedMessageSetCallback.close();
+    __smokeListenerwithpropertiesbufferedMessageGetCallback.close();
+    __smokeListenerwithpropertiesbufferedMessageSetCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeListenerwithpropertiesCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeListenerwithpropertiesmessageGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeListenerwithpropertiesmessageSetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeListenerwithpropertiespackedMessageGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeListenerwithpropertiespackedMessageSetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeListenerwithpropertiesstructuredMessageGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeListenerwithpropertiesstructuredMessageSetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Uint32>)>(_smokeListenerwithpropertiesenumeratedMessageGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Uint32)>(_smokeListenerwithpropertiesenumeratedMessageSetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeListenerwithpropertiesarrayedMessageGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeListenerwithpropertiesarrayedMessageSetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeListenerwithpropertiesmappedMessageGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeListenerwithpropertiesmappedMessageSetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeListenerwithpropertiesbufferedMessageGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeListenerwithpropertiesbufferedMessageSetStatic, __lib.unknownError)
+    __interfaceObj,
+    __closeAllCallback.nativeFunction,
+    __smokeListenerwithpropertiesmessageGetCallback.nativeFunction,
+    __smokeListenerwithpropertiesmessageSetCallback.nativeFunction,
+    __smokeListenerwithpropertiespackedMessageGetCallback.nativeFunction,
+    __smokeListenerwithpropertiespackedMessageSetCallback.nativeFunction,
+    __smokeListenerwithpropertiesstructuredMessageGetCallback.nativeFunction,
+    __smokeListenerwithpropertiesstructuredMessageSetCallback.nativeFunction,
+    __smokeListenerwithpropertiesenumeratedMessageGetCallback.nativeFunction,
+    __smokeListenerwithpropertiesenumeratedMessageSetCallback.nativeFunction,
+    __smokeListenerwithpropertiesarrayedMessageGetCallback.nativeFunction,
+    __smokeListenerwithpropertiesarrayedMessageSetCallback.nativeFunction,
+    __smokeListenerwithpropertiesmappedMessageGetCallback.nativeFunction,
+    __smokeListenerwithpropertiesmappedMessageSetCallback.nativeFunction,
+    __smokeListenerwithpropertiesbufferedMessageGetCallback.nativeFunction,
+    __smokeListenerwithpropertiesbufferedMessageSetCallback.nativeFunction
   );
 
   return result;

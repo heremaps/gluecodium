@@ -228,6 +228,7 @@ final _smokeOuterstructInnerclassReleaseHandle = __lib.catchArgumentError(() => 
 
 
 
+
 class OuterStruct_InnerClass$Impl extends __lib.NativeBase implements OuterStruct_InnerClass {
 
   OuterStruct_InnerClass$Impl(Pointer<Void> handle) : super(handle);
@@ -307,8 +308,8 @@ final _smokeOuterstructInnerinterfaceReleaseHandle = __lib.catchArgumentError(()
     void Function(Pointer<Void>)
   >('library_smoke_OuterStruct_InnerInterface_release_handle'));
 final _smokeOuterstructInnerinterfaceCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_OuterStruct_InnerInterface_create_proxy'));
 final _smokeOuterstructInnerinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -350,25 +351,37 @@ class OuterStruct_InnerInterface$Impl extends __lib.NativeBase implements OuterS
 
 }
 
-int _smokeOuterstructInnerinterfacebarBazStatic(Object _obj, Pointer<Pointer<Void>> _result) {
+void _smokeOuterstructInnerinterfacebarBazStatic(OuterStruct_InnerInterface _obj, Pointer<Pointer<Void>> _result) {
   Map<String, Uint8List>? _resultObject;
   try {
-    _resultObject = (_obj as OuterStruct_InnerInterface).barBaz();
+    _resultObject = _obj.barBaz();
     _result.value = foobarMapofStringToBlobToFfi(_resultObject);
   } finally {
   }
-  return 0;
 }
 
 
-Pointer<Void> smokeOuterstructInnerinterfaceToFfi(OuterStruct_InnerInterface value) {
-  if (value is __lib.NativeBase) return _smokeOuterstructInnerinterfaceCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeOuterstructInnerinterfaceToFfi(OuterStruct_InnerInterface __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeOuterstructInnerinterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
+
+  void __barBazCaller(Pointer<Pointer<Void>> _result) { _smokeOuterstructInnerinterfacebarBazStatic(__interfaceObj, _result); }
+  final __barBazCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__barBazCaller);
+  __barBazCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __barBazCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeOuterstructInnerinterfaceCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeOuterstructInnerinterfacebarBazStatic, __lib.unknownError)
+    __interfaceObj,
+    __closeAllCallback.nativeFunction,
+    __barBazCallback.nativeFunction
   );
 
   return result;
@@ -422,8 +435,8 @@ final _smokeOuterstructInnerlambdaReleaseHandle = __lib.catchArgumentError(() =>
     void Function(Pointer<Void>)
   >('library_smoke_OuterStruct_InnerLambda_release_handle'));
 final _smokeOuterstructInnerlambdaCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_OuterStruct_InnerLambda_create_proxy'));
 
 class OuterStruct_InnerLambda$Impl implements Finalizable {
@@ -439,22 +452,35 @@ class OuterStruct_InnerLambda$Impl implements Finalizable {
 
 }
 
-int _smokeOuterstructInnerlambdacallStatic(Object _obj) {
+void _smokeOuterstructInnerlambdacallStatic(OuterStruct_InnerLambda _obj) {
   
   try {
-    (_obj as OuterStruct_InnerLambda)();
+    _obj();
   } finally {
   }
-  return 0;
 }
 
-Pointer<Void> smokeOuterstructInnerlambdaToFfi(OuterStruct_InnerLambda value) =>
-  _smokeOuterstructInnerlambdaCreateProxy(
-    __lib.getObjectToken(value),
+Pointer<Void> smokeOuterstructInnerlambdaToFfi(OuterStruct_InnerLambda __lambdaObj) {
+  void __lambdaCaller() { _smokeOuterstructInnerlambdacallStatic(__lambdaObj); }
+  final __lambdaCallback = NativeCallable<Void Function()>.isolateLocal(__lambdaCaller);
+  __lambdaCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __lambdaCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
+  return _smokeOuterstructInnerlambdaCreateProxy(
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
-    Pointer.fromFunction<Int64 Function(Handle)>(_smokeOuterstructInnerlambdacallStatic, __lib.unknownError)
+    __lambdaObj,
+    __closeAllCallback.nativeFunction,
+    __lambdaCallback.nativeFunction
   );
+}
 
 OuterStruct_InnerLambda smokeOuterstructInnerlambdaFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeOuterstructInnerlambdaCopyHandle(handle);

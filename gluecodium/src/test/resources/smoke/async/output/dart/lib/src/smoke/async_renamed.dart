@@ -30,6 +30,7 @@ final _smokeAsyncrenamedReleaseHandle = __lib.catchArgumentError(() => __lib.nat
 
 
 
+
 class AsyncRenamed$Impl extends __lib.NativeBase implements AsyncRenamed {
 
   AsyncRenamed$Impl(Pointer<Void> handle) : super(handle);
@@ -94,8 +95,8 @@ final _smokeAsyncrenamedDisposeresultlambdaReleaseHandle = __lib.catchArgumentEr
     void Function(Pointer<Void>)
   >('library_smoke_AsyncRenamed_DisposeResultlambda_release_handle'));
 final _smokeAsyncrenamedDisposeresultlambdaCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_AsyncRenamed_DisposeResultlambda_create_proxy'));
 
 class AsyncRenamed_dispose__resultLambda$Impl implements Finalizable {
@@ -111,22 +112,35 @@ class AsyncRenamed_dispose__resultLambda$Impl implements Finalizable {
 
 }
 
-int _smokeAsyncrenamedDisposeresultlambdadispose__resultLambdaStatic(Object _obj) {
+void _smokeAsyncrenamedDisposeresultlambdadispose__resultLambdaStatic(AsyncRenamed_dispose__resultLambda _obj) {
   
   try {
-    (_obj as AsyncRenamed_dispose__resultLambda)();
+    _obj();
   } finally {
   }
-  return 0;
 }
 
-Pointer<Void> smokeAsyncrenamedDisposeresultlambdaToFfi(AsyncRenamed_dispose__resultLambda value) =>
-  _smokeAsyncrenamedDisposeresultlambdaCreateProxy(
-    __lib.getObjectToken(value),
+Pointer<Void> smokeAsyncrenamedDisposeresultlambdaToFfi(AsyncRenamed_dispose__resultLambda __lambdaObj) {
+  void __lambdaCaller() { _smokeAsyncrenamedDisposeresultlambdadispose__resultLambdaStatic(__lambdaObj); }
+  final __lambdaCallback = NativeCallable<Void Function()>.isolateLocal(__lambdaCaller);
+  __lambdaCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __lambdaCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
+  return _smokeAsyncrenamedDisposeresultlambdaCreateProxy(
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
-    Pointer.fromFunction<Int64 Function(Handle)>(_smokeAsyncrenamedDisposeresultlambdadispose__resultLambdaStatic, __lib.unknownError)
+    __lambdaObj,
+    __closeAllCallback.nativeFunction,
+    __lambdaCallback.nativeFunction
   );
+}
 
 
 void smokeAsyncrenamedDisposeresultlambdaReleaseFfiHandle(Pointer<Void> handle) =>

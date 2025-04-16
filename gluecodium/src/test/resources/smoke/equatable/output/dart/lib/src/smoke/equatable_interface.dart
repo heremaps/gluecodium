@@ -27,8 +27,8 @@ final _smokeEquatableinterfaceReleaseHandle = __lib.catchArgumentError(() => __l
     void Function(Pointer<Void>)
   >('library_smoke_EquatableInterface_release_handle'));
 final _smokeEquatableinterfaceCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle),
-    Pointer<Void> Function(int, int, Object)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer)
   >('library_smoke_EquatableInterface_create_proxy'));
 final __areEqual = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Uint8 Function(Pointer<Void>, Pointer<Void>),
@@ -54,13 +54,21 @@ class EquatableInterface$Impl extends __lib.NativeBase implements EquatableInter
 
 
 
-Pointer<Void> smokeEquatableinterfaceToFfi(EquatableInterface value) {
-  if (value is __lib.NativeBase) return _smokeEquatableinterfaceCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeEquatableinterfaceToFfi(EquatableInterface __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeEquatableinterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeEquatableinterfaceCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value
+    __interfaceObj,
+    __closeAllCallback.nativeFunction
   );
 
   return result;

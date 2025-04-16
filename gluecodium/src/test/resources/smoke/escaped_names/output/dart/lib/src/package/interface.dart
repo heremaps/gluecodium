@@ -27,8 +27,8 @@ final _packageInterfaceReleaseHandle = __lib.catchArgumentError(() => __lib.nati
     void Function(Pointer<Void>)
   >('library_package_Interface_release_handle'));
 final _packageInterfaceCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle),
-    Pointer<Void> Function(int, int, Object)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer)
   >('library_package_Interface_create_proxy'));
 final _packageInterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -45,13 +45,21 @@ class Interface$Impl extends __lib.NativeBase implements Interface {
 
 
 
-Pointer<Void> packageInterfaceToFfi(Interface value) {
-  if (value is __lib.NativeBase) return _packageInterfaceCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> packageInterfaceToFfi(Interface __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _packageInterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
 
   final result = _packageInterfaceCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value
+    __interfaceObj,
+    __closeAllCallback.nativeFunction
   );
 
   return result;

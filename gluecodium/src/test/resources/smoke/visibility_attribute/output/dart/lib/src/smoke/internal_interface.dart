@@ -39,8 +39,8 @@ final _smokeInternalinterfaceReleaseHandle = __lib.catchArgumentError(() => __li
     void Function(Pointer<Void>)
   >('library_smoke_InternalInterface_release_handle'));
 final _smokeInternalinterfaceCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_InternalInterface_create_proxy'));
 final _smokeInternalinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -76,24 +76,36 @@ class InternalInterface$Impl extends __lib.NativeBase implements InternalInterfa
 
 }
 
-int _smokeInternalinterfacefooBarStatic(Object _obj) {
+void _smokeInternalinterfacefooBarStatic(InternalInterface _obj) {
 
   try {
-    (_obj as InternalInterface).fooBar();
+    _obj.fooBar();
   } finally {
   }
-  return 0;
 }
 
 
-Pointer<Void> smokeInternalinterfaceToFfi(InternalInterface value) {
-  if (value is __lib.NativeBase) return _smokeInternalinterfaceCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeInternalinterfaceToFfi(InternalInterface __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeInternalinterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
+
+  void __fooBarCaller() { _smokeInternalinterfacefooBarStatic(__interfaceObj); }
+  final __fooBarCallback = NativeCallable<Void Function()>.isolateLocal(__fooBarCaller);
+  __fooBarCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __fooBarCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeInternalinterfaceCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
-    Pointer.fromFunction<Uint8 Function(Handle)>(_smokeInternalinterfacefooBarStatic, __lib.unknownError)
+    __interfaceObj,
+    __closeAllCallback.nativeFunction,
+    __fooBarCallback.nativeFunction
   );
 
   return result;

@@ -65,7 +65,7 @@ _GLUECODIUM_FFI_EXPORT void library_smoke_SkipProxy_register_finalizer(FfiOpaque
 _GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_SkipProxy_copy_handle(FfiOpaqueHandle handle);
 _GLUECODIUM_FFI_EXPORT void library_smoke_SkipProxy_release_handle(FfiOpaqueHandle handle);
 
-_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_SkipProxy_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f3, FfiOpaqueHandle p0g, FfiOpaqueHandle p0s, FfiOpaqueHandle p1g, FfiOpaqueHandle p1s, FfiOpaqueHandle p3g, FfiOpaqueHandle p3s);
+_GLUECODIUM_FFI_EXPORT FfiOpaqueHandle library_smoke_SkipProxy_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle close_callbacks, FfiOpaqueHandle f0, FfiOpaqueHandle f1, FfiOpaqueHandle f3, FfiOpaqueHandle p0g, FfiOpaqueHandle p0s, FfiOpaqueHandle p1g, FfiOpaqueHandle p1s, FfiOpaqueHandle p3g, FfiOpaqueHandle p3s);
 
 
 

@@ -41,8 +41,8 @@ final _smokeSimpleinterfaceReleaseHandle = __lib.catchArgumentError(() => __lib.
     void Function(Pointer<Void>)
   >('library_smoke_SimpleInterface_release_handle'));
 final _smokeSimpleinterfaceCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer)
   >('library_smoke_SimpleInterface_create_proxy'));
 final _smokeSimpleinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -106,36 +106,52 @@ class SimpleInterface$Impl extends __lib.NativeBase implements SimpleInterface {
 
 }
 
-int _smokeSimpleinterfacegetStringValueStatic(Object _obj, Pointer<Pointer<Void>> _result) {
+void _smokeSimpleinterfacegetStringValueStatic(SimpleInterface _obj, Pointer<Pointer<Void>> _result) {
   String? _resultObject;
   try {
-    _resultObject = (_obj as SimpleInterface).getStringValue();
+    _resultObject = _obj.getStringValue();
     _result.value = stringToFfi(_resultObject);
   } finally {
   }
-  return 0;
 }
-int _smokeSimpleinterfaceuseSimpleInterfaceStatic(Object _obj, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
+void _smokeSimpleinterfaceuseSimpleInterfaceStatic(SimpleInterface _obj, Pointer<Void> input, Pointer<Pointer<Void>> _result) {
   SimpleInterface? _resultObject;
   try {
-    _resultObject = (_obj as SimpleInterface).useSimpleInterface(smokeSimpleinterfaceFromFfi(input));
+    _resultObject = _obj.useSimpleInterface(smokeSimpleinterfaceFromFfi(input));
     _result.value = smokeSimpleinterfaceToFfi(_resultObject);
   } finally {
     smokeSimpleinterfaceReleaseFfiHandle(input);
   }
-  return 0;
 }
 
 
-Pointer<Void> smokeSimpleinterfaceToFfi(SimpleInterface value) {
-  if (value is __lib.NativeBase) return _smokeSimpleinterfaceCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeSimpleinterfaceToFfi(SimpleInterface __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeSimpleinterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
+
+  void __getStringValueCaller(Pointer<Pointer<Void>> _result) { _smokeSimpleinterfacegetStringValueStatic(__interfaceObj, _result); }
+  final __getStringValueCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__getStringValueCaller);
+  __getStringValueCallback.keepIsolateAlive = false;
+
+  void __useSimpleInterfaceCaller(Pointer<Void> input, Pointer<Pointer<Void>> _result) { _smokeSimpleinterfaceuseSimpleInterfaceStatic(__interfaceObj, input, _result); }
+  final __useSimpleInterfaceCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Pointer<Void>>)>.isolateLocal(__useSimpleInterfaceCaller);
+  __useSimpleInterfaceCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __getStringValueCallback.close();
+    __useSimpleInterfaceCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeSimpleinterfaceCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeSimpleinterfacegetStringValueStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>, Pointer<Pointer<Void>>)>(_smokeSimpleinterfaceuseSimpleInterfaceStatic, __lib.unknownError)
+    __interfaceObj,
+    __closeAllCallback.nativeFunction,
+    __getStringValueCallback.nativeFunction,
+    __useSimpleInterfaceCallback.nativeFunction
   );
 
   return result;

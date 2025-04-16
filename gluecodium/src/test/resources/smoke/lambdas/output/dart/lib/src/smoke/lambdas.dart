@@ -37,8 +37,8 @@ final _smokeLambdasProducerReleaseHandle = __lib.catchArgumentError(() => __lib.
     void Function(Pointer<Void>)
   >('library_smoke_Lambdas_Producer_release_handle'));
 final _smokeLambdasProducerCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_Lambdas_Producer_create_proxy'));
 
 class Lambdas_Producer$Impl implements Finalizable {
@@ -60,23 +60,36 @@ class Lambdas_Producer$Impl implements Finalizable {
 
 }
 
-int _smokeLambdasProducercallStatic(Object _obj, Pointer<Pointer<Void>> _result) {
+void _smokeLambdasProducercallStatic(Lambdas_Producer _obj, Pointer<Pointer<Void>> _result) {
   String? _resultObject;
   try {
-    _resultObject = (_obj as Lambdas_Producer)();
+    _resultObject = _obj();
     _result.value = stringToFfi(_resultObject);
   } finally {
   }
-  return 0;
 }
 
-Pointer<Void> smokeLambdasProducerToFfi(Lambdas_Producer value) =>
-  _smokeLambdasProducerCreateProxy(
-    __lib.getObjectToken(value),
+Pointer<Void> smokeLambdasProducerToFfi(Lambdas_Producer __lambdaObj) {
+  void __lambdaCaller(Pointer<Pointer<Void>> _result) { _smokeLambdasProducercallStatic(__lambdaObj, _result); }
+  final __lambdaCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__lambdaCaller);
+  __lambdaCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __lambdaCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
+  return _smokeLambdasProducerCreateProxy(
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
-    Pointer.fromFunction<Int64 Function(Handle, Pointer<Pointer<Void>>)>(_smokeLambdasProducercallStatic, __lib.unknownError)
+    __lambdaObj,
+    __closeAllCallback.nativeFunction,
+    __lambdaCallback.nativeFunction
   );
+}
 
 Lambdas_Producer smokeLambdasProducerFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeLambdasProducerCopyHandle(handle);
@@ -142,8 +155,8 @@ final _smokeLambdasConfuserReleaseHandle = __lib.catchArgumentError(() => __lib.
     void Function(Pointer<Void>)
   >('library_smoke_Lambdas_Confuser_release_handle'));
 final _smokeLambdasConfuserCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_Lambdas_Confuser_create_proxy'));
 
 class Lambdas_Confuser$Impl implements Finalizable {
@@ -167,24 +180,37 @@ class Lambdas_Confuser$Impl implements Finalizable {
 
 }
 
-int _smokeLambdasConfusercallStatic(Object _obj, Pointer<Void> p0, Pointer<Pointer<Void>> _result) {
+void _smokeLambdasConfusercallStatic(Lambdas_Confuser _obj, Pointer<Void> p0, Pointer<Pointer<Void>> _result) {
   Lambdas_Producer? _resultObject;
   try {
-    _resultObject = (_obj as Lambdas_Confuser)(stringFromFfi(p0));
+    _resultObject = _obj(stringFromFfi(p0));
     _result.value = smokeLambdasProducerToFfi(_resultObject);
   } finally {
     stringReleaseFfiHandle(p0);
   }
-  return 0;
 }
 
-Pointer<Void> smokeLambdasConfuserToFfi(Lambdas_Confuser value) =>
-  _smokeLambdasConfuserCreateProxy(
-    __lib.getObjectToken(value),
+Pointer<Void> smokeLambdasConfuserToFfi(Lambdas_Confuser __lambdaObj) {
+  void __lambdaCaller(Pointer<Void> p0, Pointer<Pointer<Void>> _result) { _smokeLambdasConfusercallStatic(__lambdaObj, p0, _result); }
+  final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Pointer<Void>>)>.isolateLocal(__lambdaCaller);
+  __lambdaCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __lambdaCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
+  return _smokeLambdasConfuserCreateProxy(
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
-    Pointer.fromFunction<Int64 Function(Handle, Pointer<Void>, Pointer<Pointer<Void>>)>(_smokeLambdasConfusercallStatic, __lib.unknownError)
+    __lambdaObj,
+    __closeAllCallback.nativeFunction,
+    __lambdaCallback.nativeFunction
   );
+}
 
 Lambdas_Confuser smokeLambdasConfuserFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeLambdasConfuserCopyHandle(handle);
@@ -249,8 +275,8 @@ final _smokeLambdasConsumerReleaseHandle = __lib.catchArgumentError(() => __lib.
     void Function(Pointer<Void>)
   >('library_smoke_Lambdas_Consumer_release_handle'));
 final _smokeLambdasConsumerCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_Lambdas_Consumer_create_proxy'));
 
 class Lambdas_Consumer$Impl implements Finalizable {
@@ -268,23 +294,36 @@ class Lambdas_Consumer$Impl implements Finalizable {
 
 }
 
-int _smokeLambdasConsumercallStatic(Object _obj, Pointer<Void> p0) {
+void _smokeLambdasConsumercallStatic(Lambdas_Consumer _obj, Pointer<Void> p0) {
   
   try {
-    (_obj as Lambdas_Consumer)(stringFromFfi(p0));
+    _obj(stringFromFfi(p0));
   } finally {
     stringReleaseFfiHandle(p0);
   }
-  return 0;
 }
 
-Pointer<Void> smokeLambdasConsumerToFfi(Lambdas_Consumer value) =>
-  _smokeLambdasConsumerCreateProxy(
-    __lib.getObjectToken(value),
+Pointer<Void> smokeLambdasConsumerToFfi(Lambdas_Consumer __lambdaObj) {
+  void __lambdaCaller(Pointer<Void> p0) { _smokeLambdasConsumercallStatic(__lambdaObj, p0); }
+  final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__lambdaCaller);
+  __lambdaCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __lambdaCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
+  return _smokeLambdasConsumerCreateProxy(
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
-    Pointer.fromFunction<Int64 Function(Handle, Pointer<Void>)>(_smokeLambdasConsumercallStatic, __lib.unknownError)
+    __lambdaObj,
+    __closeAllCallback.nativeFunction,
+    __lambdaCallback.nativeFunction
   );
+}
 
 Lambdas_Consumer smokeLambdasConsumerFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeLambdasConsumerCopyHandle(handle);
@@ -349,8 +388,8 @@ final _smokeLambdasIndexerReleaseHandle = __lib.catchArgumentError(() => __lib.n
     void Function(Pointer<Void>)
   >('library_smoke_Lambdas_Indexer_release_handle'));
 final _smokeLambdasIndexerCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_Lambdas_Indexer_create_proxy'));
 
 class Lambdas_Indexer$Impl implements Finalizable {
@@ -376,25 +415,38 @@ class Lambdas_Indexer$Impl implements Finalizable {
 
 }
 
-int _smokeLambdasIndexercallStatic(Object _obj, Pointer<Void> p0, double p1, Pointer<Int32> _result) {
+void _smokeLambdasIndexercallStatic(Lambdas_Indexer _obj, Pointer<Void> p0, double p1, Pointer<Int32> _result) {
   int? _resultObject;
   try {
-    _resultObject = (_obj as Lambdas_Indexer)(stringFromFfi(p0), (p1));
+    _resultObject = _obj(stringFromFfi(p0), (p1));
     _result.value = (_resultObject);
   } finally {
     stringReleaseFfiHandle(p0);
     
   }
-  return 0;
 }
 
-Pointer<Void> smokeLambdasIndexerToFfi(Lambdas_Indexer value) =>
-  _smokeLambdasIndexerCreateProxy(
-    __lib.getObjectToken(value),
+Pointer<Void> smokeLambdasIndexerToFfi(Lambdas_Indexer __lambdaObj) {
+  void __lambdaCaller(Pointer<Void> p0, double p1, Pointer<Int32> _result) { _smokeLambdasIndexercallStatic(__lambdaObj, p0, p1, _result); }
+  final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>, Float, Pointer<Int32>)>.isolateLocal(__lambdaCaller);
+  __lambdaCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __lambdaCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
+  return _smokeLambdasIndexerCreateProxy(
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
-    Pointer.fromFunction<Int64 Function(Handle, Pointer<Void>, Float, Pointer<Int32>)>(_smokeLambdasIndexercallStatic, __lib.unknownError)
+    __lambdaObj,
+    __closeAllCallback.nativeFunction,
+    __lambdaCallback.nativeFunction
   );
+}
 
 Lambdas_Indexer smokeLambdasIndexerFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeLambdasIndexerCopyHandle(handle);
@@ -459,8 +511,8 @@ final _smokeLambdasNullableconfuserReleaseHandle = __lib.catchArgumentError(() =
     void Function(Pointer<Void>)
   >('library_smoke_Lambdas_NullableConfuser_release_handle'));
 final _smokeLambdasNullableconfuserCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_Lambdas_NullableConfuser_create_proxy'));
 
 class Lambdas_NullableConfuser$Impl implements Finalizable {
@@ -484,24 +536,37 @@ class Lambdas_NullableConfuser$Impl implements Finalizable {
 
 }
 
-int _smokeLambdasNullableconfusercallStatic(Object _obj, Pointer<Void> p0, Pointer<Pointer<Void>> _result) {
+void _smokeLambdasNullableconfusercallStatic(Lambdas_NullableConfuser _obj, Pointer<Void> p0, Pointer<Pointer<Void>> _result) {
   Lambdas_Producer? _resultObject;
   try {
-    _resultObject = (_obj as Lambdas_NullableConfuser)(stringFromFfiNullable(p0));
+    _resultObject = _obj(stringFromFfiNullable(p0));
     _result.value = smokeLambdasProducerToFfiNullable(_resultObject);
   } finally {
     stringReleaseFfiHandleNullable(p0);
   }
-  return 0;
 }
 
-Pointer<Void> smokeLambdasNullableconfuserToFfi(Lambdas_NullableConfuser value) =>
-  _smokeLambdasNullableconfuserCreateProxy(
-    __lib.getObjectToken(value),
+Pointer<Void> smokeLambdasNullableconfuserToFfi(Lambdas_NullableConfuser __lambdaObj) {
+  void __lambdaCaller(Pointer<Void> p0, Pointer<Pointer<Void>> _result) { _smokeLambdasNullableconfusercallStatic(__lambdaObj, p0, _result); }
+  final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Pointer<Void>>)>.isolateLocal(__lambdaCaller);
+  __lambdaCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __lambdaCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
+  return _smokeLambdasNullableconfuserCreateProxy(
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
-    Pointer.fromFunction<Int64 Function(Handle, Pointer<Void>, Pointer<Pointer<Void>>)>(_smokeLambdasNullableconfusercallStatic, __lib.unknownError)
+    __lambdaObj,
+    __closeAllCallback.nativeFunction,
+    __lambdaCallback.nativeFunction
   );
+}
 
 Lambdas_NullableConfuser smokeLambdasNullableconfuserFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeLambdasNullableconfuserCopyHandle(handle);
@@ -570,6 +635,7 @@ final _smokeLambdasReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLi
 
 /// @nodoc
 @visibleForTesting
+
 class Lambdas$Impl extends __lib.NativeBase implements Lambdas {
 
   Lambdas$Impl(Pointer<Void> handle) : super(handle);

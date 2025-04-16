@@ -11,19 +11,22 @@
 #include <memory>
 #include <memory>
 #include <new>
+#include <thread>
 
 class smoke_AsyncRenamed_DisposeResultlambda_Proxy {
 public:
-    smoke_AsyncRenamed_DisposeResultlambda_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0)
-        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f0(f0) {
+    smoke_AsyncRenamed_DisposeResultlambda_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle close_callbacks, FfiOpaqueHandle f0)
+        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks), isolate_handle(Dart_CurrentIsolate_DL()), isolate_thread_id(std::this_thread::get_id()), f0(f0) {
     }
 
     ~smoke_AsyncRenamed_DisposeResultlambda_Proxy() {
         gluecodium::ffi::remove_cached_proxy(token, isolate_id, "smoke_AsyncRenamed_DisposeResultlambda");
 
         auto dart_persistent_handle_local = dart_persistent_handle;
-        auto deleter = [dart_persistent_handle_local]() {
+        auto f_close_callbacks_local = f_close_callbacks;
+        auto deleter = [dart_persistent_handle_local, f_close_callbacks_local]() {
             Dart_DeletePersistentHandle_DL(dart_persistent_handle_local);
+            (*reinterpret_cast<void (*)()>(f_close_callbacks_local))();
         };
 
         if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
@@ -40,7 +43,7 @@ public:
     operator()() {
         
         
-        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle)>(f0))(Dart_HandleFromPersistent_DL(dart_persistent_handle)
+        dispatch([&]() { (*reinterpret_cast<void (*)()>(f0))(
         ); });
     }
 
@@ -50,13 +53,22 @@ private:
     const uint64_t token;
     const int32_t isolate_id;
     const Dart_PersistentHandle dart_persistent_handle;
+    const FfiOpaqueHandle f_close_callbacks;
+    const Dart_Isolate isolate_handle;
+    const std::thread::id isolate_thread_id;
     const FfiOpaqueHandle f0;
 
     inline void dispatch(std::function<void()>&& callback) const
     {
-        gluecodium::ffi::IsolateContext::is_current(isolate_id)
-            ? callback()
-            : gluecodium::ffi::cbqm.enqueueCallback(isolate_id, std::move(callback)).wait();
+        if (isolate_thread_id != std::this_thread::get_id()) {
+            gluecodium::ffi::cbqm.enqueueCallback(isolate_id, std::move(callback)).wait();
+        } else if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
+            callback();
+        } else {
+            Dart_EnterIsolate_DL(isolate_handle);
+            callback();
+            Dart_ExitIsolate_DL();
+        }
     }
 };
 
@@ -134,12 +146,14 @@ library_smoke_AsyncRenamed_DisposeResultlambda_release_handle(FfiOpaqueHandle ha
 
 
 FfiOpaqueHandle
-library_smoke_AsyncRenamed_DisposeResultlambda_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0) {
+library_smoke_AsyncRenamed_DisposeResultlambda_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle close_callbacks, FfiOpaqueHandle f0) {
 
     auto cached_proxy = gluecodium::ffi::get_cached_proxy<smoke_AsyncRenamed_DisposeResultlambda_Proxy>(token, isolate_id, "smoke_AsyncRenamed_DisposeResultlambda");
     if (!cached_proxy) {
-        cached_proxy = std::make_shared<smoke_AsyncRenamed_DisposeResultlambda_Proxy>(token, isolate_id, dart_handle, f0);
+        cached_proxy = std::make_shared<smoke_AsyncRenamed_DisposeResultlambda_Proxy>(token, isolate_id, dart_handle, close_callbacks, f0);
         gluecodium::ffi::cache_proxy(token, isolate_id, "smoke_AsyncRenamed_DisposeResultlambda", cached_proxy);
+    } else {
+        (*reinterpret_cast<void (*)()>(close_callbacks))();
     }
 
 

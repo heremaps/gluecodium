@@ -41,8 +41,8 @@ final _smokeEnabletagsindartReleaseHandle = __lib.catchArgumentError(() => __lib
     void Function(Pointer<Void>)
   >('library_smoke_EnableTagsInDart_release_handle'));
 final _smokeEnabletagsindartCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer)
   >('library_smoke_EnableTagsInDart_create_proxy'));
 final _smokeEnabletagsindartGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -92,33 +92,49 @@ class EnableTagsInDart$Impl extends __lib.NativeBase implements EnableTagsInDart
 
 }
 
-int _smokeEnabletagsindartenableTaggedStatic(Object _obj) {
+void _smokeEnabletagsindartenableTaggedStatic(EnableTagsInDart _obj) {
 
   try {
-    (_obj as EnableTagsInDart).enableTagged();
+    _obj.enableTagged();
   } finally {
   }
-  return 0;
 }
-int _smokeEnabletagsindartenableTaggedListStatic(Object _obj) {
+void _smokeEnabletagsindartenableTaggedListStatic(EnableTagsInDart _obj) {
 
   try {
-    (_obj as EnableTagsInDart).enableTaggedList();
+    _obj.enableTaggedList();
   } finally {
   }
-  return 0;
 }
 
 
-Pointer<Void> smokeEnabletagsindartToFfi(EnableTagsInDart value) {
-  if (value is __lib.NativeBase) return _smokeEnabletagsindartCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeEnabletagsindartToFfi(EnableTagsInDart __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeEnabletagsindartCopyHandle((__interfaceObj as __lib.NativeBase).handle);
+
+  void __enableTaggedCaller() { _smokeEnabletagsindartenableTaggedStatic(__interfaceObj); }
+  final __enableTaggedCallback = NativeCallable<Void Function()>.isolateLocal(__enableTaggedCaller);
+  __enableTaggedCallback.keepIsolateAlive = false;
+
+  void __enableTaggedListCaller() { _smokeEnabletagsindartenableTaggedListStatic(__interfaceObj); }
+  final __enableTaggedListCallback = NativeCallable<Void Function()>.isolateLocal(__enableTaggedListCaller);
+  __enableTaggedListCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __enableTaggedCallback.close();
+    __enableTaggedListCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeEnabletagsindartCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
-    Pointer.fromFunction<Uint8 Function(Handle)>(_smokeEnabletagsindartenableTaggedStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle)>(_smokeEnabletagsindartenableTaggedListStatic, __lib.unknownError)
+    __interfaceObj,
+    __closeAllCallback.nativeFunction,
+    __enableTaggedCallback.nativeFunction,
+    __enableTaggedListCallback.nativeFunction
   );
 
   return result;

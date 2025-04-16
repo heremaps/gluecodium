@@ -34,6 +34,9 @@
 {{/includes}}
 #include <memory>
 #include <new>
+{{#if interfaces lambdas asyncHelpers.lambdas logic="or"}}
+#include <thread>
+{{/if}}
 
 {{#interfaces}}
 {{>ffi/FfiProxyDeclaration}}
@@ -98,7 +101,7 @@ void
 
 {{#interfaces}}
 FfiOpaqueHandle
-{{libraryName}}_{{resolveName}}_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle{{!!
+{{libraryName}}_{{resolveName}}_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle close_callbacks{{!!
 }}{{#each inheritedFunctions functions}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}{{!!
 }}, FfiOpaqueHandle f{{iter.position}}{{/ifPredicate}}{{/unless}}{{/each}}{{!!
 }}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}, FfiOpaqueHandle p{{iter.position}}g{{!!
@@ -111,10 +114,11 @@ FfiOpaqueHandle
 {{#unless this.attributes.nocache}}
     if (cached_proxy) {
         proxy_ptr = new (std::nothrow) std::shared_ptr<{{resolveName}}_Proxy>(cached_proxy);
+        (*reinterpret_cast<void (*)()>(close_callbacks))();
     } else {
 {{/unless}}
         proxy_ptr = new (std::nothrow) std::shared_ptr<{{resolveName}}_Proxy>(
-            new (std::nothrow) {{resolveName}}_Proxy(token, isolate_id, dart_handle{{!!
+            new (std::nothrow) {{resolveName}}_Proxy(token, isolate_id, dart_handle, close_callbacks{{!!
             }}{{#each inheritedFunctions functions}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}{{!!
             }}, f{{iter.position}}{{/ifPredicate}}{{/unless}}{{/each}}{{!!
             }}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}, p{{iter.position}}g{{!!
@@ -132,14 +136,16 @@ FfiOpaqueHandle
 
 {{+ffiLambdaProxy}}
 FfiOpaqueHandle
-{{libraryName}}_{{resolveName}}_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle f0) {
+{{libraryName}}_{{resolveName}}_create_proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle close_callbacks, FfiOpaqueHandle f0) {
 {{#if this.attributes.nocache}}
     auto cached_proxy = std::make_shared<{{resolveName}}_Proxy>(token, isolate_id, dart_handle, f0);
 {{/if}}{{#unless this.attributes.nocache}}
     auto cached_proxy = {{>ffi/FfiInternal}}::get_cached_proxy<{{resolveName}}_Proxy>(token, isolate_id, "{{resolveName}}");
     if (!cached_proxy) {
-        cached_proxy = std::make_shared<{{resolveName}}_Proxy>(token, isolate_id, dart_handle, f0);
+        cached_proxy = std::make_shared<{{resolveName}}_Proxy>(token, isolate_id, dart_handle, close_callbacks, f0);
         {{>ffi/FfiInternal}}::cache_proxy(token, isolate_id, "{{resolveName}}", cached_proxy);
+    } else {
+        (*reinterpret_cast<void (*)()>(close_callbacks))();
     }
 {{/unless}}
 

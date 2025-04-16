@@ -40,8 +40,8 @@ final _smokeTemperatureobserverReleaseHandle = __lib.catchArgumentError(() => __
     void Function(Pointer<Void>)
   >('library_smoke_TemperatureObserver_release_handle'));
 final _smokeTemperatureobserverCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_TemperatureObserver_create_proxy'));
 final _smokeTemperatureobserverGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -79,25 +79,37 @@ class TemperatureObserver$Impl extends __lib.NativeBase implements TemperatureOb
 
 }
 
-int _smokeTemperatureobserveronTemperatureUpdateStatic(Object _obj, Pointer<Void> thermometer) {
+void _smokeTemperatureobserveronTemperatureUpdateStatic(TemperatureObserver _obj, Pointer<Void> thermometer) {
 
   try {
-    (_obj as TemperatureObserver).onTemperatureUpdate(smokeThermometerFromFfi(thermometer));
+    _obj.onTemperatureUpdate(smokeThermometerFromFfi(thermometer));
   } finally {
     smokeThermometerReleaseFfiHandle(thermometer);
   }
-  return 0;
 }
 
 
-Pointer<Void> smokeTemperatureobserverToFfi(TemperatureObserver value) {
-  if (value is __lib.NativeBase) return _smokeTemperatureobserverCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeTemperatureobserverToFfi(TemperatureObserver __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeTemperatureobserverCopyHandle((__interfaceObj as __lib.NativeBase).handle);
+
+  void __onTemperatureUpdateCaller(Pointer<Void> thermometer) { _smokeTemperatureobserveronTemperatureUpdateStatic(__interfaceObj, thermometer); }
+  final __onTemperatureUpdateCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__onTemperatureUpdateCaller);
+  __onTemperatureUpdateCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __onTemperatureUpdateCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeTemperatureobserverCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeTemperatureobserveronTemperatureUpdateStatic, __lib.unknownError)
+    __interfaceObj,
+    __closeAllCallback.nativeFunction,
+    __onTemperatureUpdateCallback.nativeFunction
   );
 
   return result;

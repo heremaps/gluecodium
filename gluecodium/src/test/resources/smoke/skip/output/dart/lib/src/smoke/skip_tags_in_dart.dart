@@ -37,8 +37,8 @@ final _smokeSkiptagsindartReleaseHandle = __lib.catchArgumentError(() => __lib.n
     void Function(Pointer<Void>)
   >('library_smoke_SkipTagsInDart_release_handle'));
 final _smokeSkiptagsindartCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_SkipTagsInDart_create_proxy'));
 final _smokeSkiptagsindartGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -74,24 +74,36 @@ class SkipTagsInDart$Impl extends __lib.NativeBase implements SkipTagsInDart {
 
 }
 
-int _smokeSkiptagsindartdontSkipTaggedStatic(Object _obj) {
+void _smokeSkiptagsindartdontSkipTaggedStatic(SkipTagsInDart _obj) {
 
   try {
-    (_obj as SkipTagsInDart).dontSkipTagged();
+    _obj.dontSkipTagged();
   } finally {
   }
-  return 0;
 }
 
 
-Pointer<Void> smokeSkiptagsindartToFfi(SkipTagsInDart value) {
-  if (value is __lib.NativeBase) return _smokeSkiptagsindartCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeSkiptagsindartToFfi(SkipTagsInDart __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeSkiptagsindartCopyHandle((__interfaceObj as __lib.NativeBase).handle);
+
+  void __dontSkipTaggedCaller() { _smokeSkiptagsindartdontSkipTaggedStatic(__interfaceObj); }
+  final __dontSkipTaggedCallback = NativeCallable<Void Function()>.isolateLocal(__dontSkipTaggedCaller);
+  __dontSkipTaggedCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __dontSkipTaggedCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeSkiptagsindartCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
-    Pointer.fromFunction<Uint8 Function(Handle)>(_smokeSkiptagsindartdontSkipTaggedStatic, __lib.unknownError)
+    __interfaceObj,
+    __closeAllCallback.nativeFunction,
+    __dontSkipTaggedCallback.nativeFunction
   );
 
   return result;

@@ -43,8 +43,8 @@ final _smokeChildinterfaceReleaseHandle = __lib.catchArgumentError(() => __lib.n
     void Function(Pointer<Void>)
   >('library_smoke_ChildInterface_release_handle'));
 final _smokeChildinterfaceCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer, Pointer, Pointer)
   >('library_smoke_ChildInterface_create_proxy'));
 final _smokeChildinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -124,54 +124,77 @@ class ChildInterface$Impl extends __lib.NativeBase implements ChildInterface {
 
 }
 
-int _smokeChildinterfacerootMethodStatic(Object _obj) {
+void _smokeChildinterfacerootMethodStatic(ChildInterface _obj) {
 
   try {
-    (_obj as ChildInterface).rootMethod();
+    _obj.rootMethod();
   } finally {
   }
-  return 0;
 }
-int _smokeChildinterfacechildMethodStatic(Object _obj) {
+void _smokeChildinterfacechildMethodStatic(ChildInterface _obj) {
 
   try {
-    (_obj as ChildInterface).childMethod();
+    _obj.childMethod();
   } finally {
   }
-  return 0;
 }
 
-int _smokeChildinterfacerootPropertyGetStatic(Object _obj, Pointer<Pointer<Void>> _result) {
-  _result.value = stringToFfi((_obj as ChildInterface).rootProperty);
-  return 0;
+void _smokeChildinterfacerootPropertyGetStatic(ChildInterface _obj, Pointer<Pointer<Void>> _result) {
+  _result.value = stringToFfi(_obj.rootProperty);
 }
 
-int _smokeChildinterfacerootPropertySetStatic(Object _obj, Pointer<Void> _value) {
+void _smokeChildinterfacerootPropertySetStatic(ChildInterface _obj, Pointer<Void> _value) {
   try {
-    (_obj as ChildInterface).rootProperty =
-      stringFromFfi(_value);
+    _obj.rootProperty = stringFromFfi(_value);
   } finally {
     stringReleaseFfiHandle(_value);
   }
-  return 0;
 }
 
-Pointer<Void> smokeChildinterfaceToFfi(ChildInterface value) {
-  if (value is __lib.NativeBase) return _smokeChildinterfaceCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeChildinterfaceToFfi(ChildInterface __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeChildinterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
-  final descendantResult = tryDescendantToFfi(value);
+  final descendantResult = tryDescendantToFfi(__interfaceObj);
   if (descendantResult != null) {
     return descendantResult;
   }
 
+  void __rootMethodCaller() { _smokeChildinterfacerootMethodStatic(__interfaceObj); }
+  final __rootMethodCallback = NativeCallable<Void Function()>.isolateLocal(__rootMethodCaller);
+  __rootMethodCallback.keepIsolateAlive = false;
+
+  void __childMethodCaller() { _smokeChildinterfacechildMethodStatic(__interfaceObj); }
+  final __childMethodCallback = NativeCallable<Void Function()>.isolateLocal(__childMethodCaller);
+  __childMethodCallback.keepIsolateAlive = false;
+
+  void __smokeChildinterfacerootPropertyGetCaller(Pointer<Pointer<Void>> _result) { _smokeChildinterfacerootPropertyGetStatic(__interfaceObj, _result); }
+  final __smokeChildinterfacerootPropertyGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeChildinterfacerootPropertyGetCaller);
+  __smokeChildinterfacerootPropertyGetCallback.keepIsolateAlive = false;
+
+  void __smokeChildinterfacerootPropertySetCaller(Pointer<Void> _value) { _smokeChildinterfacerootPropertySetStatic(__interfaceObj, _value); }
+  final __smokeChildinterfacerootPropertySetCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__smokeChildinterfacerootPropertySetCaller);
+  __smokeChildinterfacerootPropertySetCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __rootMethodCallback.close();
+    __childMethodCallback.close();
+    __smokeChildinterfacerootPropertyGetCallback.close();
+    __smokeChildinterfacerootPropertySetCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
   final result = _smokeChildinterfaceCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
-    Pointer.fromFunction<Uint8 Function(Handle)>(_smokeChildinterfacerootMethodStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle)>(_smokeChildinterfacechildMethodStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeChildinterfacerootPropertyGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeChildinterfacerootPropertySetStatic, __lib.unknownError)
+    __interfaceObj,
+    __closeAllCallback.nativeFunction,
+    __rootMethodCallback.nativeFunction,
+    __childMethodCallback.nativeFunction,
+    __smokeChildinterfacerootPropertyGetCallback.nativeFunction,
+    __smokeChildinterfacerootPropertySetCallback.nativeFunction
   );
 
   return result;

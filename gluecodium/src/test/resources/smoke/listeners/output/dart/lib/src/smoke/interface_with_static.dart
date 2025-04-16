@@ -54,8 +54,8 @@ final _smokeInterfacewithstaticReleaseHandle = __lib.catchArgumentError(() => __
     void Function(Pointer<Void>)
   >('library_smoke_InterfaceWithStatic_release_handle'));
 final _smokeInterfacewithstaticCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer, Pointer)
   >('library_smoke_InterfaceWithStatic_create_proxy'));
 final _smokeInterfacewithstaticGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -166,41 +166,60 @@ class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWith
 
 }
 
-int _smokeInterfacewithstaticregularFunctionStatic(Object _obj, Pointer<Pointer<Void>> _result) {
+void _smokeInterfacewithstaticregularFunctionStatic(InterfaceWithStatic _obj, Pointer<Pointer<Void>> _result) {
   String? _resultObject;
   try {
-    _resultObject = (_obj as InterfaceWithStatic).regularFunction();
+    _resultObject = _obj.regularFunction();
     _result.value = stringToFfi(_resultObject);
   } finally {
   }
-  return 0;
 }
 
-int _smokeInterfacewithstaticregularPropertyGetStatic(Object _obj, Pointer<Pointer<Void>> _result) {
-  _result.value = stringToFfi((_obj as InterfaceWithStatic).regularProperty);
-  return 0;
+void _smokeInterfacewithstaticregularPropertyGetStatic(InterfaceWithStatic _obj, Pointer<Pointer<Void>> _result) {
+  _result.value = stringToFfi(_obj.regularProperty);
 }
 
-int _smokeInterfacewithstaticregularPropertySetStatic(Object _obj, Pointer<Void> _value) {
+void _smokeInterfacewithstaticregularPropertySetStatic(InterfaceWithStatic _obj, Pointer<Void> _value) {
   try {
-    (_obj as InterfaceWithStatic).regularProperty =
-      stringFromFfi(_value);
+    _obj.regularProperty = stringFromFfi(_value);
   } finally {
     stringReleaseFfiHandle(_value);
   }
-  return 0;
 }
 
-Pointer<Void> smokeInterfacewithstaticToFfi(InterfaceWithStatic value) {
-  if (value is __lib.NativeBase) return _smokeInterfacewithstaticCopyHandle((value as __lib.NativeBase).handle);
+Pointer<Void> smokeInterfacewithstaticToFfi(InterfaceWithStatic __interfaceObj) {
+  if (__interfaceObj is __lib.NativeBase) return _smokeInterfacewithstaticCopyHandle((__interfaceObj as __lib.NativeBase).handle);
+
+  void __regularFunctionCaller(Pointer<Pointer<Void>> _result) { _smokeInterfacewithstaticregularFunctionStatic(__interfaceObj, _result); }
+  final __regularFunctionCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__regularFunctionCaller);
+  __regularFunctionCallback.keepIsolateAlive = false;
+
+  void __smokeInterfacewithstaticregularPropertyGetCaller(Pointer<Pointer<Void>> _result) { _smokeInterfacewithstaticregularPropertyGetStatic(__interfaceObj, _result); }
+  final __smokeInterfacewithstaticregularPropertyGetCallback = NativeCallable<Void Function(Pointer<Pointer<Void>>)>.isolateLocal(__smokeInterfacewithstaticregularPropertyGetCaller);
+  __smokeInterfacewithstaticregularPropertyGetCallback.keepIsolateAlive = false;
+
+  void __smokeInterfacewithstaticregularPropertySetCaller(Pointer<Void> _value) { _smokeInterfacewithstaticregularPropertySetStatic(__interfaceObj, _value); }
+  final __smokeInterfacewithstaticregularPropertySetCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__smokeInterfacewithstaticregularPropertySetCaller);
+  __smokeInterfacewithstaticregularPropertySetCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __regularFunctionCallback.close();
+    __smokeInterfacewithstaticregularPropertyGetCallback.close();
+    __smokeInterfacewithstaticregularPropertySetCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
 
   final result = _smokeInterfacewithstaticCreateProxy(
-    __lib.getObjectToken(value),
+    __lib.getObjectToken(__interfaceObj),
     __lib.LibraryContext.isolateId,
-    value,
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeInterfacewithstaticregularFunctionStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Pointer<Void>>)>(_smokeInterfacewithstaticregularPropertyGetStatic, __lib.unknownError),
-    Pointer.fromFunction<Uint8 Function(Handle, Pointer<Void>)>(_smokeInterfacewithstaticregularPropertySetStatic, __lib.unknownError)
+    __interfaceObj,
+    __closeAllCallback.nativeFunction,
+    __regularFunctionCallback.nativeFunction,
+    __smokeInterfacewithstaticregularPropertyGetCallback.nativeFunction,
+    __smokeInterfacewithstaticregularPropertySetCallback.nativeFunction
   );
 
   return result;

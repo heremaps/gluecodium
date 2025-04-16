@@ -20,13 +20,13 @@
   !}}
 class {{resolveName}}_Proxy{{#unless isLambda}} : public {{resolveName "C++"}}{{/unless}} {
 public:
-    {{resolveName}}_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle{{!!
+    {{resolveName}}_Proxy(uint64_t token, int32_t isolate_id, Dart_Handle dart_handle, FfiOpaqueHandle close_callbacks{{!!
     }}{{#each inheritedFunctions functions}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}{{!!
     }}, FfiOpaqueHandle f{{iter.position}}{{/ifPredicate}}{{/unless}}{{/each}}{{!!
     }}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}, FfiOpaqueHandle p{{iter.position}}g{{!!
     }}{{#if setter}}{{#ifPredicate setter "shouldRetain"}}, FfiOpaqueHandle p{{iter.position}}s{{/ifPredicate}}{{/if}}{{!!
     }}{{/ifPredicate}}{{/unless}}{{/each}})
-        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)){{!!
+        : token(token), isolate_id(isolate_id), dart_persistent_handle(Dart_NewPersistentHandle_DL(dart_handle)), f_close_callbacks(close_callbacks), isolate_handle(Dart_CurrentIsolate_DL()), isolate_thread_id(std::this_thread::get_id()){{!!
         }}{{#each inheritedFunctions functions}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}{{!!
         }}, f{{iter.position}}(f{{iter.position}}){{/ifPredicate}}{{/unless}}{{/each}}{{!!
         }}{{#each inheritedProperties properties}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}, p{{iter.position}}g(p{{iter.position}}g){{!!
@@ -47,13 +47,15 @@ public:
         auto isolate_id_local = isolate_id;
 {{/unless}}
         auto dart_persistent_handle_local = dart_persistent_handle;
+        auto f_close_callbacks_local = f_close_callbacks;
         auto deleter = [{{!!
         }}{{#unless isLambda}}{{#unless this.attributes.nocache}}raw_pointer_local, isolate_id_local, {{/unless}}{{/unless}}{{!!
-        }}dart_persistent_handle_local]() {
+        }}dart_persistent_handle_local, f_close_callbacks_local]() {
 {{#unless isLambda}}{{#unless this.attributes.nocache}}
             {{libraryName}}_uncache_dart_handle_by_raw_pointer(raw_pointer_local, isolate_id_local);
 {{/unless}}{{/unless}}
             Dart_DeletePersistentHandle_DL(dart_persistent_handle_local);
+            (*reinterpret_cast<void (*)()>(f_close_callbacks_local))();
         };
 
         if ({{>ffi/FfiInternal}}::IsolateContext::is_current(isolate_id)) {
@@ -74,17 +76,20 @@ public:
 {{#unless returnType.isVoid}}         return {};{{/unless}}
 {{/unlessPredicate}}{{#ifPredicate "shouldRetain"}}
         {{#unless returnType.isVoid}}{{resolveName returnType.typeRef}} _result_handle;{{/unless}}
-        {{#if thrownType}}{{resolveName  exception.errorType}} _error_handle;
-        bool _error_flag;{{/if}}
-        dispatch([&]() { {{#if thrownType}}_error_flag = {{/if}}(*reinterpret_cast<bool (*)(Dart_Handle{{#if parameters}}, {{/if}}{{!!
+        {{#if thrownType}}{{resolveName  exception.errorType}} _error_handle{};
+        bool _error_flag{};{{/if}}
+        dispatch([&]() { (*reinterpret_cast<void (*)({{!!
         }}{{#parameters}}{{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
-        }}{{#unless returnType.isVoid}}, {{resolveName returnType.typeRef}}*{{/unless}}{{!!
-        }}{{#if thrownType}}, {{resolveName  exception.errorType}}*{{/if}}){{!!
-        }}>(f{{iter.position}}))(Dart_HandleFromPersistent_DL(dart_persistent_handle){{#if parameters}}, {{/if}}{{#parameters}}
+        }}{{#unless returnType.isVoid}}{{#if parameters}}, {{/if}}{{resolveName returnType.typeRef}}*{{/unless}}{{!!
+        }}{{#if thrownType}}{{#if parameters}}, {{/if}}{{!!
+        }}{{#unless parameters}}{{#unless returnType.isVoid}}, {{/unless}}{{/unless}}{{resolveName  exception.errorType}}*, bool*{{/if}}){{!!
+        }}>(f{{iter.position}}))({{#parameters}}
             {{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toFfi({{resolveName}}){{#if iter.hasNext}},
-{{/if}}{{/parameters}}{{#unless returnType.isVoid}},
-            &_result_handle{{/unless}}{{#if thrownType}},
-            &_error_handle{{/if}}
+{{/if}}{{/parameters}}{{#unless returnType.isVoid}}{{#if parameters}}, {{/if}}
+            &_result_handle{{/unless}}{{#if thrownType}}{{#if parameters}}, {{/if}}{{!!
+}}{{#unless parameters}}{{#unless returnType.isVoid}}, {{/unless}}{{/unless}}
+            &_error_handle,
+            &_error_flag{{/if}}
         ); });{{#if thrownType}}{{#if returnType.isVoid}}
 {{prefixPartial "proxyReturnError" "        "}}{{/if}}{{!!
         }}{{#unless returnType.isVoid}}
@@ -108,8 +113,8 @@ public:
         return {};
 {{/unlessPredicate}}{{#ifPredicate "shouldRetain"}}
         {{resolveName returnType.typeRef}} _result_handle;
-        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, {{resolveName returnType.typeRef}}*)>{{!!
-        }}(p{{iter.position}}g))(Dart_HandleFromPersistent_DL(dart_persistent_handle), &_result_handle); });
+        dispatch([&]() { (*reinterpret_cast<bool (*)({{resolveName returnType.typeRef}}*)>{{!!
+        }}(p{{iter.position}}g))(&_result_handle); });
         auto _result = {{>ffi/FfiInternal}}::Conversion<{{resolveName returnType.typeRef "C++"}}>::toCpp(_result_handle);
         {{#set typeRef=returnType.typeRef handle="_result_handle"}}{{>ffiReleaseHandle}}{{/set}};
         return _result;
@@ -121,8 +126,7 @@ public:
     void
     {{resolveName "C++"}}(const {{resolveName typeRef "C++ parameter"}} value){{#if hasNoexcept}} noexcept{{/if}} override {
 {{#ifPredicate "shouldRetain"}}
-        dispatch([&]() { (*reinterpret_cast<bool (*)(Dart_Handle, {{resolveName typeRef}})>(p{{iter.position}}s))(
-            Dart_HandleFromPersistent_DL(dart_persistent_handle),
+        dispatch([&]() { (*reinterpret_cast<bool (*)({{resolveName typeRef}})>(p{{iter.position}}s))(
             {{>ffi/FfiInternal}}::Conversion<{{resolveName typeRef "C++"}}>::toFfi(value)
         ); });
 {{/ifPredicate}}
@@ -134,6 +138,9 @@ private:
     const uint64_t token;
     const int32_t isolate_id;
     const Dart_PersistentHandle dart_persistent_handle;
+    const FfiOpaqueHandle f_close_callbacks;
+    const Dart_Isolate isolate_handle;
+    const std::thread::id isolate_thread_id;
 {{#each inheritedFunctions functions}}{{#unless isStatic}}{{#ifPredicate "shouldRetain"}}
     const FfiOpaqueHandle f{{iter.position}};
 {{/ifPredicate}}{{/unless}}{{/each}}
@@ -146,9 +153,15 @@ private:
 
     inline void dispatch(std::function<void()>&& callback) const
     {
-        {{>ffi/FfiInternal}}::IsolateContext::is_current(isolate_id)
-            ? callback()
-            : {{>ffi/FfiInternal}}::cbqm.enqueueCallback(isolate_id, std::move(callback)).wait();
+        if (isolate_thread_id != std::this_thread::get_id()) {
+            {{>ffi/FfiInternal}}::cbqm.enqueueCallback(isolate_id, std::move(callback)).wait();
+        } else if ({{>ffi/FfiInternal}}::IsolateContext::is_current(isolate_id)) {
+            callback();
+        } else {
+            Dart_EnterIsolate_DL(isolate_handle);
+            callback();
+            Dart_ExitIsolate_DL();
+        }
     }
 {{/if}}
 };{{!!

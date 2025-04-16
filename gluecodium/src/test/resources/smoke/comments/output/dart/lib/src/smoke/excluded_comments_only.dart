@@ -189,8 +189,8 @@ final _smokeExcludedcommentsonlySomelambdaReleaseHandle = __lib.catchArgumentErr
     void Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_SomeLambda_release_handle'));
 final _smokeExcludedcommentsonlySomelambdaCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_ExcludedCommentsOnly_SomeLambda_create_proxy'));
 
 class ExcludedCommentsOnly_SomeLambda$Impl implements Finalizable {
@@ -216,25 +216,38 @@ class ExcludedCommentsOnly_SomeLambda$Impl implements Finalizable {
 
 }
 
-int _smokeExcludedcommentsonlySomelambdacallStatic(Object _obj, Pointer<Void> p0, int p1, Pointer<Double> _result) {
+void _smokeExcludedcommentsonlySomelambdacallStatic(ExcludedCommentsOnly_SomeLambda _obj, Pointer<Void> p0, int p1, Pointer<Double> _result) {
   double? _resultObject;
   try {
-    _resultObject = (_obj as ExcludedCommentsOnly_SomeLambda)(stringFromFfi(p0), (p1));
+    _resultObject = _obj(stringFromFfi(p0), (p1));
     _result.value = (_resultObject);
   } finally {
     stringReleaseFfiHandle(p0);
     
   }
-  return 0;
 }
 
-Pointer<Void> smokeExcludedcommentsonlySomelambdaToFfi(ExcludedCommentsOnly_SomeLambda value) =>
-  _smokeExcludedcommentsonlySomelambdaCreateProxy(
-    __lib.getObjectToken(value),
+Pointer<Void> smokeExcludedcommentsonlySomelambdaToFfi(ExcludedCommentsOnly_SomeLambda __lambdaObj) {
+  void __lambdaCaller(Pointer<Void> p0, int p1, Pointer<Double> _result) { _smokeExcludedcommentsonlySomelambdacallStatic(__lambdaObj, p0, p1, _result); }
+  final __lambdaCallback = NativeCallable<Void Function(Pointer<Void>, Int32, Pointer<Double>)>.isolateLocal(__lambdaCaller);
+  __lambdaCallback.keepIsolateAlive = false;
+
+  late final NativeCallable<Void Function()> __closeAllCallback;
+  void __closeAll() {
+    __lambdaCallback.close();
+    __closeAllCallback.close();
+  }
+  __closeAllCallback = NativeCallable<Void Function()>.isolateLocal(__closeAll);
+  __closeAllCallback.keepIsolateAlive = false;
+
+  return _smokeExcludedcommentsonlySomelambdaCreateProxy(
+    __lib.getObjectToken(__lambdaObj),
     __lib.LibraryContext.isolateId,
-    value,
-    Pointer.fromFunction<Int64 Function(Handle, Pointer<Void>, Int32, Pointer<Double>)>(_smokeExcludedcommentsonlySomelambdacallStatic, __lib.unknownError)
+    __lambdaObj,
+    __closeAllCallback.nativeFunction,
+    __lambdaCallback.nativeFunction
   );
+}
 
 ExcludedCommentsOnly_SomeLambda smokeExcludedcommentsonlySomelambdaFromFfi(Pointer<Void> handle) {
   final _copiedHandle = _smokeExcludedcommentsonlySomelambdaCopyHandle(handle);
@@ -315,6 +328,7 @@ final _someMethodWithAllCommentssmokeExcludedcommentsonlySomemethodwithallcommen
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_ExcludedCommentsOnly_someMethodWithAllComments__String_return_has_error'));
+
 
 
 
