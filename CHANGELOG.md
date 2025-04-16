@@ -1,6 +1,8 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+
+## 13.13.0
+Release date 2025-04-16
 ### Features
  * Dart/Flutter: the generated code is now compatible with Flutter 3.29 and above. When the user invokes the callback created for lambda/interface from the thread that is the main isolate thread, but outside of isolate context then it is correclty executed. Before this release the thread would deadlock. Now the generated code identifies such case and enters the isolate context before invoking the callback.
 
