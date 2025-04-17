@@ -17,19 +17,14 @@
  * License-Filename: LICENSE
  */
 
-package com.here.gluecodium
+package com.here.gluecodium.validator
 
-import com.here.gluecodium.validator.LimeDocValidationRule
+import kotlinx.serialization.Serializable
 
-data class GluecodiumOptions(
-    var idlSources: List<String> = emptyList(),
-    var auxiliaryIdlSources: List<String> = emptyList(),
-    var outputDir: String = "",
-    var commonOutputDir: String = "",
-    var generators: Set<String> = setOf(),
-    var isValidatingOnly: Boolean = false,
-    var isEnableCaching: Boolean = false,
-    var isStrictMode: Boolean = false,
-    var docsPlaceholders: Map<String, String> = emptyMap(),
-    var docsValidationRules: List<LimeDocValidationRule> = emptyList(),
+@Serializable
+data class LimeDocValidationRule(
+    val name: String,
+    val limeElements: List<String>,
+    val regex: String,
+    val isWarningOnly: Boolean,
 )
