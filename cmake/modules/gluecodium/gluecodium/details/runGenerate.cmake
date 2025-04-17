@@ -186,6 +186,7 @@ function(_prepare_gluecodium_config_file file_path placeholder_file)
   _append_path_option(swiftnamerules GLUECODIUM_SWIFT_NAMERULES)
   _append_path_option(dartnamerules GLUECODIUM_DART_NAMERULES)
   _append_path_option(docsplaceholderslist placeholder_file)
+  _append_path_option(docsvalidationrules GLUECODIUM_DOCS_VALIDATION_RULES)
 
   _append_option(output GLUECODIUM_OUTPUT_MAIN)
   _append_option(commonoutput GLUECODIUM_OUTPUT_COMMON)
