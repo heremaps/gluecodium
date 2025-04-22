@@ -79,6 +79,30 @@ class LimeDocRulesValidatorTest {
     }
 
     @Test
+    fun creationFailsForRuleWithUnknownPlatform() {
+        // Given two a rule with unknown platform.
+        val docValidationRules: List<LimeDocValidationRule> =
+            listOf(
+                LimeDocValidationRule(
+                    name = "SPECIAL_RULE",
+                    limeElements = listOf("class", "struct"),
+                    regex = "It is a special type",
+                    isWarningOnly = false,
+                    platforms = listOf("Python")
+                )
+            )
+
+        // When constructing validator.
+        val exception =
+            assertThrows(OptionReaderException::class.java) {
+                LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
+            }
+
+        // Then error is raised.
+        assertTrue(exception.message!!.startsWith("Unknown platform 'Python' in docs validation rule 'SPECIAL_RULE'"))
+    }
+
+    @Test
     fun creationFailsForRuleWithRegexThatDoesNotCompile() {
         // Given a validation rule with invalid regex [missing ')']
         val docValidationRules: List<LimeDocValidationRule> =

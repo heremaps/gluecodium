@@ -41,6 +41,16 @@ class LimeDocRulesValidator(
     private val elementToRules: Map<String, List<LimeDocValidationRule>> = createElementToRulesMapping(docValidationRules)
     private val platforms: List<String> = discoverPlatforms(generators)
 
+    init {
+        for (rule in docValidationRules) {
+            for (platform in rule.platforms) {
+                if (!ACCEPTED_PLATFORMS.contains(platform)) {
+                    throw OptionReaderException("Unknown platform '$platform' in docs validation rule '${rule.name}'")
+                }
+            }
+        }
+    }
+
     fun validate(limeModel: LimeModel): Boolean {
         val allElements = limeModel.referenceMap.values
         val validationResults =
@@ -182,5 +192,7 @@ class LimeDocRulesValidator(
                 "function",
                 "property",
             )
+
+        private val ACCEPTED_PLATFORMS: Set<String> = setOf("Java", "Dart", "Kotlin", "Swift")
     }
 }
