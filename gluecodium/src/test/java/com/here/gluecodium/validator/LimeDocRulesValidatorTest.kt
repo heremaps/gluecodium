@@ -88,8 +88,8 @@ class LimeDocRulesValidatorTest {
                     limeElements = listOf("class", "struct"),
                     regex = "It is a special type",
                     isWarningOnly = false,
-                    platforms = listOf("Python")
-                )
+                    platforms = listOf("Python"),
+                ),
             )
 
         // When constructing validator.
