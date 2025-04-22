@@ -1,0 +1,7 @@
+[
+  {
+    "name" "Online/Offline availability rule",
+    "limeElements": ["class", "struct", "enum"],
+    "regex": "This class is available (offline | online | both offline and online).",
+  }
+]
