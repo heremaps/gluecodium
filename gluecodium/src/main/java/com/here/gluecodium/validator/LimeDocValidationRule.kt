@@ -27,4 +27,5 @@ data class LimeDocValidationRule(
     val limeElements: List<String>,
     val regex: String,
     val isWarningOnly: Boolean,
+    val platforms: List<String> = listOf(),
 )

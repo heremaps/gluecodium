@@ -32,9 +32,14 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
 import java.util.regex.PatternSyntaxException
 
-class LimeDocRulesValidator(private val logger: LimeLogger, docValidationRules: List<LimeDocValidationRule>) {
+class LimeDocRulesValidator(
+    private val logger: LimeLogger,
+    docValidationRules: List<LimeDocValidationRule>,
+    generators: Set<String>,
+) {
     private val ruleToRegex: Map<String, Regex> = createRuleToRegexMapping(docValidationRules)
     private val elementToRules: Map<String, List<LimeDocValidationRule>> = createElementToRulesMapping(docValidationRules)
+    private val platforms: List<String> = discoverPlatforms(generators)
 
     fun validate(limeModel: LimeModel): Boolean {
         val allElements = limeModel.referenceMap.values
@@ -74,21 +79,30 @@ class LimeDocRulesValidator(private val logger: LimeLogger, docValidationRules: 
         element: LimeNamedElement,
         rule: LimeDocValidationRule,
     ): Boolean {
+        var result = true
         val regex = ruleToRegex[rule.name]!!
-        val applyResult = regex.containsMatchIn(element.comment.toString())
 
-        if (!applyResult) {
-            logRuleApplicationFailed(rule, element)
+        for (platform in platforms) {
+            if (rule.platforms.isNotEmpty() && !rule.platforms.contains(platform)) {
+                continue
+            }
+
+            val applyResult = regex.containsMatchIn(element.comment.getFor(platform))
+            if (!applyResult) {
+                logRuleApplicationFailed(rule, element, platform)
+                result = false
+            }
         }
 
-        return rule.isWarningOnly || applyResult
+        return rule.isWarningOnly || result
     }
 
     private fun logRuleApplicationFailed(
         rule: LimeDocValidationRule,
         element: LimeNamedElement,
+        platform: String,
     ) {
-        val errorMessage = "LimeDocValidationRule '${rule.name}' failed for ${element.fullName}"
+        val errorMessage = "LimeDocValidationRule '${rule.name}' failed for ${element.fullName} for platform '$platform'"
         if (rule.isWarningOnly) {
             logger.warning(element, errorMessage)
         } else {
@@ -97,6 +111,18 @@ class LimeDocRulesValidator(private val logger: LimeLogger, docValidationRules: 
     }
 
     companion object {
+        private fun discoverPlatforms(generators: Set<String>): List<String> {
+            return generators.mapNotNull {
+                when (it) {
+                    "android" -> "Java"
+                    "android-kotlin" -> "Kotlin"
+                    "dart" -> "Dart"
+                    "swift" -> "Swift"
+                    else -> null
+                }
+            }
+        }
+
         private fun createRuleToRegexMapping(docValidationRules: List<LimeDocValidationRule>): Map<String, Regex> {
             val mapping: MutableMap<String, Regex> = mutableMapOf()
             for (rule in docValidationRules) {

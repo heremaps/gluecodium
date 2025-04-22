@@ -197,7 +197,7 @@ class Gluecodium(
             { LimeOptimizedListsValidator(limeLogger).validate(it) },
             { LimeFieldConstructorsValidator(limeLogger).validate(it) },
             { LimeValuesValidator(limeLogger).validate(it) },
-            { LimeDocRulesValidator(limeLogger, gluecodiumOptions.docsValidationRules).validate(it) },
+            { LimeDocRulesValidator(limeLogger, gluecodiumOptions.docsValidationRules, discoverGenerators()).validate(it) },
         )
 
     private fun getIndependentValidators(limeLogger: LimeLogger) =

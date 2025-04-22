@@ -47,6 +47,7 @@ class LimeDocRulesValidatorTest {
     private val limeModel = LimeModel(allElements, emptyList())
     private val outerTypePath = LimePath(emptyList(), listOf("SomeOuterType"))
     private val innerTypePath = outerTypePath.child("SomeInnerType")
+    private val allGenerators = setOf("android", "android-kotlin", "cpp", "dart", "swift")
 
     @Test
     fun creationFailsForTwoRulesWithTheSameName() {
@@ -70,7 +71,7 @@ class LimeDocRulesValidatorTest {
         // When constructing validator.
         val exception =
             assertThrows(OptionReaderException::class.java) {
-                LimeDocRulesValidator(mockk(relaxed = true), docValidationRules)
+                LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
             }
 
         // Then error is raised.
@@ -93,7 +94,7 @@ class LimeDocRulesValidatorTest {
         // When constructing validator.
         val exception =
             assertThrows(OptionReaderException::class.java) {
-                LimeDocRulesValidator(mockk(relaxed = true), docValidationRules)
+                LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
             }
 
         // Then error is raised.
@@ -116,7 +117,7 @@ class LimeDocRulesValidatorTest {
         // When constructing validator.
         val exception =
             assertThrows(OptionReaderException::class.java) {
-                LimeDocRulesValidator(mockk(relaxed = true), docValidationRules)
+                LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
             }
 
         // Then error is raised.
@@ -139,7 +140,7 @@ class LimeDocRulesValidatorTest {
         // When constructing validator.
         val exception =
             assertThrows(OptionReaderException::class.java) {
-                LimeDocRulesValidator(mockk(relaxed = true), docValidationRules)
+                LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
             }
 
         // Then error is raised.
@@ -189,7 +190,7 @@ class LimeDocRulesValidatorTest {
             )
 
         // And given correctly constructed validator.
-        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules)
+        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
 
         // When trying to verify if rules are obeyed.
         val validationResult = validator.validate(limeModel)
@@ -241,7 +242,7 @@ class LimeDocRulesValidatorTest {
             )
 
         // And given correctly constructed validator.
-        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules)
+        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
 
         // When trying to verify if rules are obeyed.
         val validationResult = validator.validate(limeModel)
@@ -293,7 +294,7 @@ class LimeDocRulesValidatorTest {
             )
 
         // And given correctly constructed validator.
-        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules)
+        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
 
         // When trying to verify if rules are obeyed.
         val validationResult = validator.validate(limeModel)
@@ -331,7 +332,7 @@ class LimeDocRulesValidatorTest {
             )
 
         // And given correctly constructed validator.
-        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules)
+        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
 
         // When trying to verify if rules are obeyed.
         val validationResult = validator.validate(limeModel)
@@ -368,7 +369,7 @@ class LimeDocRulesValidatorTest {
             )
 
         // And given correctly constructed validator.
-        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules)
+        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
 
         // When trying to verify if rules are obeyed.
         val validationResult = validator.validate(limeModel)
@@ -406,7 +407,7 @@ class LimeDocRulesValidatorTest {
             )
 
         // And given correctly constructed validator.
-        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules)
+        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
 
         // When trying to verify if rules are obeyed.
         val validationResult = validator.validate(limeModel)
@@ -443,7 +444,7 @@ class LimeDocRulesValidatorTest {
             )
 
         // And given correctly constructed validator.
-        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules)
+        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
 
         // When trying to verify if rules are obeyed.
         val validationResult = validator.validate(limeModel)
@@ -481,7 +482,7 @@ class LimeDocRulesValidatorTest {
             )
 
         // And given correctly constructed validator.
-        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules)
+        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
 
         // When trying to verify if rules are obeyed.
         val validationResult = validator.validate(limeModel)
@@ -518,7 +519,7 @@ class LimeDocRulesValidatorTest {
             )
 
         // And given correctly constructed validator.
-        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules)
+        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
 
         // When trying to verify if rules are obeyed.
         val validationResult = validator.validate(limeModel)
@@ -560,7 +561,7 @@ class LimeDocRulesValidatorTest {
             )
 
         // And given correctly constructed validator.
-        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules)
+        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
 
         // When trying to verify if rules are obeyed.
         val validationResult = validator.validate(limeModel)
@@ -598,7 +599,7 @@ class LimeDocRulesValidatorTest {
             )
 
         // And given correctly constructed validator.
-        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules)
+        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
 
         // When trying to verify if rules are obeyed.
         val validationResult = validator.validate(limeModel)
@@ -636,7 +637,7 @@ class LimeDocRulesValidatorTest {
             )
 
         // And given correctly constructed validator.
-        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules)
+        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
 
         // When trying to verify if rules are obeyed.
         val validationResult = validator.validate(limeModel)
@@ -670,7 +671,7 @@ class LimeDocRulesValidatorTest {
             )
 
         // And given correctly constructed validator.
-        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules)
+        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
 
         // When trying to verify if rules are obeyed.
         val validationResult = validator.validate(limeModel)
@@ -762,7 +763,7 @@ class LimeDocRulesValidatorTest {
             )
 
         // And given correctly constructed validator.
-        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules)
+        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
 
         // When trying to verify if rules are obeyed.
         val validationResult = validator.validate(limeModel)
@@ -796,7 +797,7 @@ class LimeDocRulesValidatorTest {
             )
 
         // And given correctly constructed validator.
-        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules)
+        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
 
         // When trying to verify if rules are obeyed.
         val validationResult = validator.validate(limeModel)
@@ -842,7 +843,7 @@ class LimeDocRulesValidatorTest {
             )
 
         // And given correctly constructed validator.
-        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules)
+        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
 
         // When trying to verify if rules are obeyed.
         val validationResult = validator.validate(limeModel)
@@ -888,7 +889,7 @@ class LimeDocRulesValidatorTest {
             )
 
         // And given correctly constructed validator.
-        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules)
+        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
 
         // When trying to verify if rules are obeyed.
         val validationResult = validator.validate(limeModel)
@@ -898,7 +899,7 @@ class LimeDocRulesValidatorTest {
     }
 
     @Test
-    fun validationOfCommentWithPlaceholders() {
+    fun validationOfCommentWithResolvedPlaceholder() {
         // Given a class in LimeModel, which obeys the rules.
         allElements[outerTypePath.toString()] =
             LimeClass(
@@ -921,18 +922,101 @@ class LimeDocRulesValidatorTest {
                 LimeDocValidationRule(
                     name = "SPECIAL_RULE",
                     limeElements = listOf("class"),
-                    regex = "\\{@Placeholder AvailableOnline\\}",
+                    regex = "This type is available only online",
                     isWarningOnly = false,
                 ),
             )
 
         // And given correctly constructed validator.
-        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules)
+        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
 
         // When trying to verify if rules are obeyed.
         val validationResult = validator.validate(limeModel)
 
         // Then validation passes.
         assertTrue(validationResult)
+    }
+
+    @Test
+    fun validationPassesForRuleForTwoPlatforms() {
+        // Given a class in LimeModel, which obeys the rules.
+        allElements[outerTypePath.toString()] =
+            LimeClass(
+                path = outerTypePath,
+                comment =
+                    LimeComment(
+                        path = outerTypePath.child("comment"),
+                        taggedSections =
+                            listOf(
+                                "" to "This is some important outer type class. ",
+                                "" to "It is a ",
+                                "Java" to "SPECIAL",
+                                "Dart" to "NORMAL",
+                                "" to " type",
+                            ),
+                    ),
+            )
+
+        // And given a correct validation rule for classes for Java and Dart.
+        val docValidationRules: List<LimeDocValidationRule> =
+            listOf(
+                LimeDocValidationRule(
+                    name = "SPECIAL_RULE",
+                    limeElements = listOf("class"),
+                    regex = "It is a (SPECIAL|NORMAL) type",
+                    isWarningOnly = false,
+                    platforms = listOf("Java", "Dart"),
+                ),
+            )
+
+        // And given correctly constructed validator.
+        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
+
+        // When trying to verify if rules are obeyed.
+        val validationResult = validator.validate(limeModel)
+
+        // Then validation passes.
+        assertTrue(validationResult)
+    }
+
+    @Test
+    fun validationFailsForRuleForOnePlatform() {
+        // Given a class in LimeModel, which obeys the rules except for Swift.
+        allElements[outerTypePath.toString()] =
+            LimeClass(
+                path = outerTypePath,
+                comment =
+                    LimeComment(
+                        path = outerTypePath.child("comment"),
+                        taggedSections =
+                            listOf(
+                                "" to "This is some important outer type class. ",
+                                "" to "It is a ",
+                                "Swift" to "SPECIAL",
+                                "" to " type",
+                            ),
+                    ),
+            )
+
+        // And given a correct validation rule for classes for Swift.
+        val docValidationRules: List<LimeDocValidationRule> =
+            listOf(
+                LimeDocValidationRule(
+                    name = "SPECIAL_RULE",
+                    limeElements = listOf("class"),
+                    regex = "It is a NORMAL type",
+                    isWarningOnly = false,
+                    platforms = listOf("Swift"),
+                ),
+            )
+
+        // And given correctly constructed validator.
+        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
+
+        // When trying to verify if rules are obeyed.
+        val validationResult = validator.validate(limeModel)
+
+        // Then validation fails.
+        assertFalse(validationResult)
     }
 }
