@@ -899,7 +899,7 @@ class LimeDocRulesValidatorTest {
     }
 
     @Test
-    fun validationOfCommentWithResolvedPlaceholder() {
+    fun validationPassesForCommentWithResolvedPlaceholder() {
         // Given a class in LimeModel, which obeys the rules.
         allElements[outerTypePath.toString()] =
             LimeClass(
@@ -916,7 +916,7 @@ class LimeDocRulesValidatorTest {
                     ),
             )
 
-        // And given a correct validation rule for classes that uses the placeholder.
+        // And given a correct validation rule for classes.
         val docValidationRules: List<LimeDocValidationRule> =
             listOf(
                 LimeDocValidationRule(
@@ -935,6 +935,82 @@ class LimeDocRulesValidatorTest {
 
         // Then validation passes.
         assertTrue(validationResult)
+    }
+
+    @Test
+    fun validationPassesForCommentWithoutResolvedPlaceholder() {
+        // Given a class in LimeModel, which obeys the rules.
+        allElements[outerTypePath.toString()] =
+            LimeClass(
+                path = outerTypePath,
+                comment =
+                    LimeComment(
+                        path = outerTypePath.child("comment"),
+                        taggedSections =
+                            listOf(
+                                "" to "This is some important outer type class. ",
+                                "Placeholder" to "AvailableOnline",
+                            ),
+                        placeholders = mapOf("AvailableOnline" to LimeComment("This type is available only online")),
+                    ),
+            )
+
+        // And given a correct validation rule for classes that uses the placeholder but does not resolve it.
+        val docValidationRules: List<LimeDocValidationRule> =
+            listOf(
+                LimeDocValidationRule(
+                    name = "SPECIAL_RULE",
+                    limeElements = listOf("class"),
+                    regex = "@Placeholder AvailableOnline",
+                    isWarningOnly = false,
+                    resolvePlaceholders = false,
+                ),
+            )
+
+        // And given correctly constructed validator.
+        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
+
+        // When trying to verify if rules are obeyed.
+        val validationResult = validator.validate(limeModel)
+
+        // Then validation passes.
+        assertTrue(validationResult)
+    }
+
+    @Test
+    fun validationFailsForCommentWithoutResolvedPlaceholder() {
+        // Given a class in LimeModel, which does not obey the rules.
+        allElements[outerTypePath.toString()] =
+            LimeClass(
+                path = outerTypePath,
+                comment =
+                    LimeComment(
+                        path = outerTypePath.child("comment"),
+                        taggedSections =
+                            listOf("" to "This is some important outer type class. "),
+                    ),
+            )
+
+        // And given a correct validation rule for classes that uses the placeholder but does not resolve it.
+        val docValidationRules: List<LimeDocValidationRule> =
+            listOf(
+                LimeDocValidationRule(
+                    name = "SPECIAL_RULE",
+                    limeElements = listOf("class"),
+                    regex = "@Placeholder AvailableOnline",
+                    isWarningOnly = false,
+                    resolvePlaceholders = false,
+                ),
+            )
+
+        // And given correctly constructed validator.
+        val validator = LimeDocRulesValidator(mockk(relaxed = true), docValidationRules, allGenerators)
+
+        // When trying to verify if rules are obeyed.
+        val validationResult = validator.validate(limeModel)
+
+        // Then validation fails.
+        assertFalse(validationResult)
     }
 
     @Test

@@ -87,7 +87,14 @@ class LimeDocRulesValidator(
                 continue
             }
 
-            val applyResult = regex.containsMatchIn(element.comment.getFor(platform))
+            val validatedComment =
+                if (rule.resolvePlaceholders) {
+                    element.comment.getFor(platform)
+                } else {
+                    element.comment.getForWithoutResolvingPlaceholder(platform)
+                }
+
+            val applyResult = regex.containsMatchIn(validatedComment)
             if (!applyResult) {
                 logRuleApplicationFailed(rule, element, platform)
                 result = false
