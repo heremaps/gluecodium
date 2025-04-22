@@ -111,7 +111,6 @@ class LimeDocRulesValidatorTest {
                     name = "MY_RULE",
                     limeElements = listOf("class", "struct"),
                     regex = "(a|b",
-                    isWarningOnly = false,
                 ),
             )
 
@@ -134,7 +133,6 @@ class LimeDocRulesValidatorTest {
                     name = "SPECIAL_RULE",
                     limeElements = emptyList(),
                     regex = "It is a special type",
-                    isWarningOnly = false,
                 ),
             )
 
@@ -157,7 +155,6 @@ class LimeDocRulesValidatorTest {
                     name = "SPECIAL_RULE",
                     limeElements = listOf("class", "mixin"),
                     regex = "It is a special type",
-                    isWarningOnly = false,
                 ),
             )
 
@@ -209,7 +206,6 @@ class LimeDocRulesValidatorTest {
                     name = "SPECIAL_RULE",
                     limeElements = listOf("class"),
                     regex = "It is a special type",
-                    isWarningOnly = false,
                 ),
             )
 
@@ -261,7 +257,6 @@ class LimeDocRulesValidatorTest {
                     name = "SPECIAL_RULE",
                     limeElements = listOf("class"),
                     regex = "It is a special type",
-                    isWarningOnly = false,
                 ),
             )
 
@@ -313,7 +308,6 @@ class LimeDocRulesValidatorTest {
                     name = "SPECIAL_RULE",
                     limeElements = listOf("class"),
                     regex = "It is a (STRONG|WEAK) type",
-                    isWarningOnly = false,
                 ),
             )
 
@@ -351,7 +345,6 @@ class LimeDocRulesValidatorTest {
                     name = "Plain old data structure",
                     limeElements = listOf("struct"),
                     regex = "@POD_STRUCT",
-                    isWarningOnly = false,
                 ),
             )
 
@@ -388,7 +381,6 @@ class LimeDocRulesValidatorTest {
                     name = "Plain old data structure",
                     limeElements = listOf("struct"),
                     regex = "@POD_STRUCT",
-                    isWarningOnly = false,
                 ),
             )
 
@@ -426,7 +418,6 @@ class LimeDocRulesValidatorTest {
                     name = "Public interface",
                     limeElements = listOf("interface"),
                     regex = "@PUBLIC_INTERFACE",
-                    isWarningOnly = false,
                 ),
             )
 
@@ -463,7 +454,6 @@ class LimeDocRulesValidatorTest {
                     name = "Public interface",
                     limeElements = listOf("interface"),
                     regex = "@PUBLIC_INTERFACE",
-                    isWarningOnly = false,
                 ),
             )
 
@@ -501,7 +491,6 @@ class LimeDocRulesValidatorTest {
                     name = "Error code",
                     limeElements = listOf("enum"),
                     regex = "@ERROR_CODE",
-                    isWarningOnly = false,
                 ),
             )
 
@@ -538,7 +527,6 @@ class LimeDocRulesValidatorTest {
                     name = "Error code",
                     limeElements = listOf("enum"),
                     regex = "@ERROR_CODE",
-                    isWarningOnly = false,
                 ),
             )
 
@@ -580,7 +568,6 @@ class LimeDocRulesValidatorTest {
                     name = "Standard calling convention",
                     limeElements = listOf("function"),
                     regex = "@CallingConvention\\('Standard'\\)",
-                    isWarningOnly = false,
                 ),
             )
 
@@ -618,7 +605,6 @@ class LimeDocRulesValidatorTest {
                     name = "Standard calling convention",
                     limeElements = listOf("function"),
                     regex = "@CallingConvention\\('Standard'\\)",
-                    isWarningOnly = false,
                 ),
             )
 
@@ -656,7 +642,6 @@ class LimeDocRulesValidatorTest {
                     name = "Available only online",
                     limeElements = listOf("lambda"),
                     regex = "Available only in online mode",
-                    isWarningOnly = false,
                 ),
             )
 
@@ -690,7 +675,6 @@ class LimeDocRulesValidatorTest {
                     name = "Available only online",
                     limeElements = listOf("lambda"),
                     regex = "Available only in online mode",
-                    isWarningOnly = false,
                 ),
             )
 
@@ -776,13 +760,11 @@ class LimeDocRulesValidatorTest {
                     name = "Available online/offline",
                     limeElements = listOf("class", "struct", "lambda"),
                     regex = "Available only in (offline|online) mode",
-                    isWarningOnly = false,
                 ),
                 LimeDocValidationRule(
                     name = "Standard calling convention",
                     limeElements = listOf("function"),
                     regex = "@CallingConvention\\('Standard'\\)",
-                    isWarningOnly = false,
                 ),
             )
 
@@ -862,7 +844,6 @@ class LimeDocRulesValidatorTest {
                     name = "PROPERTY_RULE",
                     limeElements = listOf("property"),
                     regex = "It is a (special|normal) property",
-                    isWarningOnly = false,
                 ),
             )
 
@@ -908,7 +889,6 @@ class LimeDocRulesValidatorTest {
                     name = "PROPERTY_RULE",
                     limeElements = listOf("property"),
                     regex = "It is a (special|normal) property",
-                    isWarningOnly = false,
                 ),
             )
 
@@ -947,7 +927,6 @@ class LimeDocRulesValidatorTest {
                     name = "SPECIAL_RULE",
                     limeElements = listOf("class"),
                     regex = "This type is available only online",
-                    isWarningOnly = false,
                 ),
             )
 
@@ -986,7 +965,6 @@ class LimeDocRulesValidatorTest {
                     name = "SPECIAL_RULE",
                     limeElements = listOf("class"),
                     regex = "@Placeholder AvailableOnline",
-                    isWarningOnly = false,
                     resolvePlaceholders = false,
                 ),
             )
@@ -1022,7 +1000,6 @@ class LimeDocRulesValidatorTest {
                     name = "SPECIAL_RULE",
                     limeElements = listOf("class"),
                     regex = "@Placeholder AvailableOnline",
-                    isWarningOnly = false,
                     resolvePlaceholders = false,
                 ),
             )
@@ -1064,7 +1041,6 @@ class LimeDocRulesValidatorTest {
                     name = "SPECIAL_RULE",
                     limeElements = listOf("class"),
                     regex = "It is a (SPECIAL|NORMAL) type",
-                    isWarningOnly = false,
                     platforms = listOf("Java", "Dart"),
                 ),
             )
@@ -1105,7 +1081,6 @@ class LimeDocRulesValidatorTest {
                     name = "SPECIAL_RULE",
                     limeElements = listOf("class"),
                     regex = "It is a NORMAL type",
-                    isWarningOnly = false,
                     platforms = listOf("Swift"),
                 ),
             )
