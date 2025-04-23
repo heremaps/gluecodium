@@ -38,6 +38,8 @@ class LimeAttributes private constructor(
         else -> true
     }
 
+    fun getAllAttributeValueTypes(type: LimeAttributeType) = attributes[type]?.keys ?: emptySet()
+
     fun <T> get(
         attributeType: LimeAttributeType,
         valueType: LimeAttributeValueType,

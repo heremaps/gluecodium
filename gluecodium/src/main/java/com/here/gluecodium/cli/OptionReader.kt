@@ -129,6 +129,12 @@ object OptionReader {
                     "'Finalizable' marker)",
             )
             addOption(
+                "enableandroidattributesmismatchwarning",
+                false,
+                "Enables generation of warnings when attributes for Java and Kotlin do not match. " +
+                    "Option used to ease adjustments of LIME files needed to transition from Java to Kotlin.",
+            )
+            addOption(
                 "werror",
                 "warning-as-error",
                 true,
@@ -233,6 +239,7 @@ object OptionReader {
         getStringValue("dartlookuperrormessage")?.let { generatorOptions.dartLookupErrorMessage = it }
         getStringListValue("werror")?.let { generatorOptions.werror = it.toSet() }
 
+        generatorOptions.enableAndroidAttributesMismatchWarning = getFlagValue("enableandroidattributesmismatchwarning")
         generatorOptions.dartDisableFinalizableMarker = getFlagValue("dartdisablefinalizablemarker")
         generatorOptions.swiftExposeInternals = getFlagValue("swiftexpose")
 

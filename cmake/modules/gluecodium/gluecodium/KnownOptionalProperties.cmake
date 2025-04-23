@@ -238,6 +238,15 @@ _gluecodium_define_target_property(
 )
 
 _gluecodium_define_target_property(
+  GLUECODIUM_ENABLE_ANDROID_ATTRIBUTES_MISMATCH_WARNING
+  BRIEF_DOCS "Enables generation of warnings when attributes for Java and Kotlin do not match."
+  FULL_DOCS
+    "Enables generation of warnings when attributes for Java and Kotlin do not match. "
+    "Option used to ease adjustments of LIME files needed to transition from Java to Kotlin. "
+    "This property is initialized by the value of the GLUECODIUM_ENABLE_ANDROID_ATTRIBUTES_MISMATCH_WARNING_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
+)
+
+_gluecodium_define_target_property(
   GLUECODIUM_DART_NAMERULES
   BRIEF_DOCS "The path to a file with name rules for Dart"
   FULL_DOCS
