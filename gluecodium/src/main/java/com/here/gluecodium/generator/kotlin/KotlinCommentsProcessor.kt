@@ -20,19 +20,21 @@
 package com.here.gluecodium.generator.kotlin
 
 import com.here.gluecodium.generator.common.CommentsProcessor
-import com.here.gluecodium.generator.java.JavaDocProcessor.Companion.flexmarkOptions
 import com.here.gluecodium.model.lime.LimeElement
 import com.vladsch.flexmark.ast.LinkRef
-import com.vladsch.flexmark.html.HtmlRenderer
+import com.vladsch.flexmark.formatter.Formatter
+import com.vladsch.flexmark.util.sequence.CharSubSequence
 
-internal class KotlinCommentsProcessor(private val referenceMap: Map<String, LimeElement>, private val werror: Boolean = true) :
-    CommentsProcessor(HtmlRenderer.builder(flexmarkOptions).build(), werror, flexmarkOptions) {
+internal class KotlinCommentsProcessor(private val referenceMap: Map<String, LimeElement>, werror: Boolean = true) :
+    CommentsProcessor(Formatter.builder().build(), werror) {
     override fun processLink(
         linkNode: LinkRef,
         linkReference: String,
         limeFullName: String,
     ) {
-        // TODO: implement me!
+        linkNode.reference = CharSubSequence.of(linkReference)
+        linkNode.referenceOpeningMarker = CharSubSequence.of("[")
+        linkNode.referenceClosingMarker = CharSubSequence.of("]")
         linkNode.firstChild?.unlink()
     }
 }
