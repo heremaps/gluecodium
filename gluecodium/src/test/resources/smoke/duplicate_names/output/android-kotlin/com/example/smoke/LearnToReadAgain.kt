@@ -5,18 +5,16 @@
 
 package com.example.smoke
 
-import com.example.smoke.bar.Alphabet
-import com.example.smoke.foo.Alphabet
 
 class LearnToReadAgain {
-    var fieldB: Alphabet
-    var fieldC: Alphabet
+    var fieldB: com.example.smoke.foo.Alphabet
+    var fieldC: com.example.smoke.bar.Alphabet
 
 
 
     constructor() {
-        this.fieldB = Alphabet.BETA
-        this.fieldC = Alphabet.GIMEL
+        this.fieldB = com.example.smoke.foo.Alphabet.BETA
+        this.fieldC = com.example.smoke.bar.Alphabet.GIMEL
     }
 
 
