@@ -11,18 +11,30 @@ import com.example.NativeBase
 
 class LambdaComments : NativeBase {
 
+    /**
+     * The first line of the doc.
+     */
     fun interface WithNoNamedParameters {
         fun apply(p0: String) : String
     }
 
+    /**
+     * The first line of the doc.
+     */
     fun interface WithNoDocsForParameters {
         fun apply(p0: String) : String
     }
 
+    /**
+     * The first line of the doc.
+     */
     fun interface WithNamedParameters {
         fun apply(inputParameter: String) : String
     }
 
+    /**
+     * The first line of the doc.
+     */
     fun interface MixedDocNameParameters {
         fun apply(inputParameter: String, secondInputParameter: String) : String
     }

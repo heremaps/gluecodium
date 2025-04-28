@@ -51,6 +51,9 @@ class Comments : NativeBase {
         }
     }
 
+    /**
+     * This is some very useful lambda that does it.
+     */
     fun interface SomeLambda {
         fun apply(p0: String, p1: Int) : Double
     }

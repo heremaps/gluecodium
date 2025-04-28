@@ -15,6 +15,9 @@ class Lambdas : NativeBase {
         fun apply() : String
     }
 
+    /**
+     * Should confuse everyone thoroughly
+     */
     fun interface Confounder {
         fun confuse(p0: String) : Lambdas.Producer
     }
