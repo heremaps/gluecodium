@@ -130,6 +130,8 @@ internal class KotlinImportResolver(
     }
 
     fun createTopElementImport(limeType: LimeType): String? {
+        if (nameResolver.typesWithDuplicateNames.contains(limeType.fullName)) return null
+
         val topElement =
             generateSequence(limeType) {
                 limeReferenceMap[it.path.parent.toString()] as? LimeType
