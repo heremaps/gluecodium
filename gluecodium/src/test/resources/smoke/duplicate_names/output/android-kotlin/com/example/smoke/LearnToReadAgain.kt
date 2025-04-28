@@ -7,18 +7,16 @@
 
 package com.example.smoke
 
-import com.example.smoke.bar.Alphabet
-import com.example.smoke.foo.Alphabet
 
 class LearnToReadAgain {
-    @JvmField var fieldB: Alphabet
-    @JvmField var fieldC: Alphabet
+    @JvmField var fieldB: com.example.smoke.foo.Alphabet
+    @JvmField var fieldC: com.example.smoke.bar.Alphabet
 
 
 
     constructor() {
-        this.fieldB = Alphabet.BETA
-        this.fieldC = Alphabet.GIMEL
+        this.fieldB = com.example.smoke.foo.Alphabet.BETA
+        this.fieldC = com.example.smoke.bar.Alphabet.GIMEL
     }
 
 
