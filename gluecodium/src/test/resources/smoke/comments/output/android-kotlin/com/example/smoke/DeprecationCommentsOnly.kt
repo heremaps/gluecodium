@@ -36,6 +36,7 @@ interface DeprecationCommentsOnly {
 
 
     companion object {
+        @Deprecated("Unfortunately, this constant is deprecated.")
         @JvmField final val VERY_USEFUL: Boolean = true
     }
 }

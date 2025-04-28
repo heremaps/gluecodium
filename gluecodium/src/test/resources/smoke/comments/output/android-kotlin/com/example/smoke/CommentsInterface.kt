@@ -46,6 +46,9 @@ interface CommentsInterface {
 
 
     companion object {
+        /**
+         * This is some very useful constant.
+         */
         @JvmField final val VERY_USEFUL: Boolean = true
     }
 }

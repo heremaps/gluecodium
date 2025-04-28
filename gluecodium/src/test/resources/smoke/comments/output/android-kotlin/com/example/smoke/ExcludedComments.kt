@@ -82,6 +82,10 @@ class ExcludedComments : NativeBase {
 
 
     companion object {
+        /**
+         * This is some very useful constant.
+         * @suppress
+         */
         @JvmField final val VERY_USEFUL: Boolean = true
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }

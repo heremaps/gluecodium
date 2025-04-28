@@ -113,6 +113,9 @@ class Comments : NativeBase {
 
 
     companion object {
+        /**
+         * This is some very useful constant.
+         */
         @JvmField final val VERY_USEFUL: Boolean = true
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
