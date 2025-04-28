@@ -33,6 +33,7 @@ import com.here.gluecodium.model.lime.LimeStruct
 internal object KotlinGeneratorPredicates {
     val predicates =
         mapOf(
+            "hasAnyComment" to this::hasAnyComment,
             "hasStaticFunctions" to this::hasStaticFunctions,
             "needsDisposer" to this::needsDisposer,
             "needsCompanionObject" to this::needsCompanionObject,
@@ -43,6 +44,8 @@ internal object KotlinGeneratorPredicates {
             "isExceptionSameForCtorAndHookFun" to this::isExceptionSameForCtorAndHookFun,
             "needsAllFieldsConstructor" to this::needsAllFieldsConstructor,
         )
+
+    private fun hasAnyComment(element: Any) = CommonGeneratorPredicates.hasAnyComment(element, "Kotlin")
 
     private fun needsAllFieldsConstructor(limeStruct: Any): Boolean {
         return when {
