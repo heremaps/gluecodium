@@ -58,6 +58,14 @@ internal class KotlinNameResolver(
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
     private val kotlinValueResolver = KotlinValueResolver(this)
     private val limeToKotlinNames: Map<String, String> = buildPathMap()
+    private val duplicateNames: Set<String>
+    val typesWithDuplicateNames: Set<String>
+
+    init {
+        val duplicateNamesMap = buildDuplicateNames()
+        duplicateNames = duplicateNamesMap.keys
+        typesWithDuplicateNames = duplicateNamesMap.values.flatten().map { it.fullName }.toSet()
+    }
 
     override fun resolveName(element: Any): String =
         when (element) {
@@ -139,7 +147,14 @@ internal class KotlinNameResolver(
             when {
                 externalName != null -> externalName
                 limeType is LimeGenericType -> resolveGenericTypeRef(limeType)
-                limeType !is LimeBasicType -> resolveNestedNames(limeType).joinToString(".")
+                limeType !is LimeBasicType -> {
+                    val nestedName = resolveNestedNames(limeType).joinToString(".")
+                    if (duplicateNames.contains(nestedName)) {
+                        (resolvePackageNames(limeType) + nestedName).joinToString(".")
+                    } else {
+                        nestedName
+                    }
+                }
                 else -> resolveBasicType(limeType.typeId)
             }
 
@@ -218,6 +233,14 @@ internal class KotlinNameResolver(
             if (limeElement is LimeFunction && limeElement.isConstructor) resolveName(parentElement) else elementName
         return "$prefix.$ownName"
     }
+
+    private fun buildDuplicateNames() =
+        limeReferenceMap.values
+            .filterIsInstance<LimeType>()
+            .filterNot { it is LimeTypeAlias }
+            .filter { it.external?.java == null }
+            .groupBy { resolveNestedNames(it).joinToString(".") }
+            .filterValues { it.size > 1 }
 
     fun resolvePackageNames(limeElement: LimeNamedElement) = (basePackages + limeElement.path.head).map { normalizePackageName(it) }
 
