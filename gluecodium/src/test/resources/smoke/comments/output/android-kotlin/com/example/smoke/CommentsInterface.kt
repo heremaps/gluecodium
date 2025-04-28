@@ -9,8 +9,17 @@ package com.example.smoke
 
 
 interface CommentsInterface {
+    /**
+     * This is some very useful enum.
+     */
     enum class SomeEnum(private val value: Int) {
+        /**
+         * Not quite useful
+         */
         USELESS(0),
+        /**
+         * Somewhat useful
+         */
         USEFUL(1);
     }
     class SomeStruct {

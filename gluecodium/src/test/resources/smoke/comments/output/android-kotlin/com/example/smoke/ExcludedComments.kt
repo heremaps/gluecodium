@@ -11,7 +11,15 @@ import com.example.NativeBase
 
 class ExcludedComments : NativeBase {
 
+    /**
+     * This is some very useful enum.
+     * @suppress
+     */
     enum class SomeEnum(private val value: Int) {
+        /**
+         * Not quite useful
+         * @suppress
+         */
         USELESS(0);
     }
     class SomethingWrongException(@JvmField val error: ExcludedComments.SomeEnum) : Exception(error.toString())

@@ -9,7 +9,15 @@ package com.example.smoke
 
 
 interface DeprecationComments {
+    /**
+     * This is some very useful enum.
+     */
+    @Deprecated("Unfortunately, this enum is deprecated. Use [com.example.smoke.Comments.SomeEnum] instead.")
     enum class SomeEnum(private val value: Int) {
+        /**
+         * Not quite useful
+         */
+        @Deprecated("Unfortunately, this item is deprecated.\nUse [com.example.smoke.Comments.SomeEnum.USELESS] instead.")
         USELESS(0);
     }
     class SomethingWrongException(@JvmField val error: DeprecationComments.SomeEnum) : Exception(error.toString())

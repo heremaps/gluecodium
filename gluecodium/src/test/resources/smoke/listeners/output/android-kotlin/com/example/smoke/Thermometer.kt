@@ -12,6 +12,9 @@ import com.example.time.Duration
 
 class Thermometer : NativeBase {
 
+    /**
+     * Some error code for thermometer.
+     */
     enum class SomeThermometerErrorCode(private val value: Int) {
         ERROR_NONE(0),
         ERROR_FATAL(1);
