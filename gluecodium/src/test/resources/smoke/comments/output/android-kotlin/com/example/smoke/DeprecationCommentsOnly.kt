@@ -8,6 +8,7 @@
 package com.example.smoke
 
 
+@Deprecated("Unfortunately, this interface is deprecated.")
 interface DeprecationCommentsOnly {
     @Deprecated("Unfortunately, this enum is deprecated.")
     enum class SomeEnum(private val value: Int) {

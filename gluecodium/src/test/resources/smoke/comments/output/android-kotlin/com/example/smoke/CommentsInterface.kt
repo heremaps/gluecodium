@@ -8,6 +8,9 @@
 package com.example.smoke
 
 
+/**
+ * This is some very useful interface.
+ */
 interface CommentsInterface {
     /**
      * This is some very useful enum.

@@ -8,6 +8,10 @@
 package com.example.smoke
 
 
+/**
+ * This is some very useful interface.
+ */
+@Deprecated("Unfortunately, this interface is deprecated. Use [com.example.smoke.Comments] instead.")
 interface DeprecationComments {
     /**
      * This is some very useful enum.
