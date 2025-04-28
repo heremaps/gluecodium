@@ -20,6 +20,7 @@ interface DeprecationComments {
         @Deprecated("Unfortunately, this item is deprecated.\nUse [com.example.smoke.Comments.SomeEnum.USELESS] instead.")
         USELESS(0);
     }
+    @Deprecated("Unfortunately, this exception is deprecated, please use [com.example.smoke.Comments.SomethingWrongException] instead.")
     class SomethingWrongException(@JvmField val error: DeprecationComments.SomeEnum) : Exception(error.toString())
 
 

@@ -15,6 +15,9 @@ class PlatformComments : NativeBase {
         USELESS(0),
         USEFUL(1);
     }
+    /**
+     * An  when something goes wrong.
+     */
     class SomethingWrongException(@JvmField val error: PlatformComments.SomeEnum) : Exception(error.toString())
 
 

@@ -22,6 +22,10 @@ class ExcludedComments : NativeBase {
          */
         USELESS(0);
     }
+    /**
+     * This is some very useful exception.
+     * @suppress
+     */
     class SomethingWrongException(@JvmField val error: ExcludedComments.SomeEnum) : Exception(error.toString())
 
 

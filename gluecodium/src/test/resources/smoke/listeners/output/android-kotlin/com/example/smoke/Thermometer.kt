@@ -19,11 +19,17 @@ class Thermometer : NativeBase {
         ERROR_NONE(0),
         ERROR_FATAL(1);
     }
+
+    /**
+     * This error indicates problems with notification of observers.
+     * May be thrown if observers cannot be notified.
+     */
     class NotificationException(@JvmField val error: String) : Exception(error.toString())
 
-
+    /**
+     * This error indicates other problems with notification of observers.
+     */
     class AnotherNotificationException(@JvmField val error: Thermometer.SomeThermometerErrorCode) : Exception(error.toString())
-
 
 
     constructor(interval: Duration, observers: MutableList<TemperatureObserver>) : this(makeWithDuration(interval, observers), null as Any?) {

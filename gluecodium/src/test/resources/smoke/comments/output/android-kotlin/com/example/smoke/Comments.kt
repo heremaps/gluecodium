@@ -24,6 +24,9 @@ class Comments : NativeBase {
          */
         USEFUL(1);
     }
+    /**
+     * This is some very useful exception.
+     */
     class SomethingWrongException(@JvmField val error: Comments.SomeEnum) : Exception(error.toString())
 
 
