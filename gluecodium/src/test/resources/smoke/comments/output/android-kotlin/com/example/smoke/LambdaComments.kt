@@ -47,13 +47,10 @@ class LambdaComments : NativeBase {
         fun apply(first: String, second: String) : String
     }
 
+    /**
+     * @suppress
+     */
     class WithNoNamedParametersImpl : NativeBase, WithNoNamedParameters {
-        /*
-         * For internal use only.
-         * @hidden
-         * @param nativeHandle The handle to resources on C++ side.
-         * @param tag Tag used by callers to avoid overload resolution problems.
-         */
         protected constructor(nativeHandle: Long, tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
@@ -65,13 +62,10 @@ class LambdaComments : NativeBase {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         }
     }
+    /**
+     * @suppress
+     */
     class WithNoDocsForParametersImpl : NativeBase, WithNoDocsForParameters {
-        /*
-         * For internal use only.
-         * @hidden
-         * @param nativeHandle The handle to resources on C++ side.
-         * @param tag Tag used by callers to avoid overload resolution problems.
-         */
         protected constructor(nativeHandle: Long, tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
@@ -83,13 +77,10 @@ class LambdaComments : NativeBase {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         }
     }
+    /**
+     * @suppress
+     */
     class WithNamedParametersImpl : NativeBase, WithNamedParameters {
-        /*
-         * For internal use only.
-         * @hidden
-         * @param nativeHandle The handle to resources on C++ side.
-         * @param tag Tag used by callers to avoid overload resolution problems.
-         */
         protected constructor(nativeHandle: Long, tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
@@ -101,13 +92,10 @@ class LambdaComments : NativeBase {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         }
     }
+    /**
+     * @suppress
+     */
     class MixedDocNameParametersImpl : NativeBase, MixedDocNameParameters {
-        /*
-         * For internal use only.
-         * @hidden
-         * @param nativeHandle The handle to resources on C++ side.
-         * @param tag Tag used by callers to avoid overload resolution problems.
-         */
         protected constructor(nativeHandle: Long, tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
@@ -119,13 +107,10 @@ class LambdaComments : NativeBase {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         }
     }
+    /**
+     * @suppress
+     */
     class NoCommentsNoNamedParamsImpl : NativeBase, NoCommentsNoNamedParams {
-        /*
-         * For internal use only.
-         * @hidden
-         * @param nativeHandle The handle to resources on C++ side.
-         * @param tag Tag used by callers to avoid overload resolution problems.
-         */
         protected constructor(nativeHandle: Long, tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
@@ -137,13 +122,10 @@ class LambdaComments : NativeBase {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         }
     }
+    /**
+     * @suppress
+     */
     class NoCommentsWithNamedParamsImpl : NativeBase, NoCommentsWithNamedParams {
-        /*
-         * For internal use only.
-         * @hidden
-         * @param nativeHandle The handle to resources on C++ side.
-         * @param tag Tag used by callers to avoid overload resolution problems.
-         */
         protected constructor(nativeHandle: Long, tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 

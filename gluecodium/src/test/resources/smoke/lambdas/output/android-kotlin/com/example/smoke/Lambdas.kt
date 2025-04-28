@@ -34,13 +34,10 @@ class Lambdas : NativeBase {
         fun apply(p0: String?) : Lambdas.Producer?
     }
 
+    /**
+     * @suppress
+     */
     class ProducerImpl : NativeBase, Producer {
-        /*
-         * For internal use only.
-         * @hidden
-         * @param nativeHandle The handle to resources on C++ side.
-         * @param tag Tag used by callers to avoid overload resolution problems.
-         */
         protected constructor(nativeHandle: Long, tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
@@ -52,13 +49,10 @@ class Lambdas : NativeBase {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         }
     }
+    /**
+     * @suppress
+     */
     class ConfounderImpl : NativeBase, Confounder {
-        /*
-         * For internal use only.
-         * @hidden
-         * @param nativeHandle The handle to resources on C++ side.
-         * @param tag Tag used by callers to avoid overload resolution problems.
-         */
         protected constructor(nativeHandle: Long, tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
@@ -70,13 +64,10 @@ class Lambdas : NativeBase {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         }
     }
+    /**
+     * @suppress
+     */
     class ConsumerImpl : NativeBase, Consumer {
-        /*
-         * For internal use only.
-         * @hidden
-         * @param nativeHandle The handle to resources on C++ side.
-         * @param tag Tag used by callers to avoid overload resolution problems.
-         */
         protected constructor(nativeHandle: Long, tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
@@ -88,13 +79,10 @@ class Lambdas : NativeBase {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         }
     }
+    /**
+     * @suppress
+     */
     class IndexerImpl : NativeBase, Indexer {
-        /*
-         * For internal use only.
-         * @hidden
-         * @param nativeHandle The handle to resources on C++ side.
-         * @param tag Tag used by callers to avoid overload resolution problems.
-         */
         protected constructor(nativeHandle: Long, tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
@@ -106,13 +94,10 @@ class Lambdas : NativeBase {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         }
     }
+    /**
+     * @suppress
+     */
     class NullableConfuserImpl : NativeBase, NullableConfuser {
-        /*
-         * For internal use only.
-         * @hidden
-         * @param nativeHandle The handle to resources on C++ side.
-         * @param tag Tag used by callers to avoid overload resolution problems.
-         */
         protected constructor(nativeHandle: Long, tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
