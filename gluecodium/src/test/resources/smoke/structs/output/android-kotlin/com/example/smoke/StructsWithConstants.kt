@@ -11,8 +11,8 @@ package com.example.smoke
 class StructsWithConstants {
 
     class Route {
-        var description: String
-        var type: RouteUtils.RouteType
+        @JvmField var description: String
+        @JvmField var type: RouteUtils.RouteType
 
 
 

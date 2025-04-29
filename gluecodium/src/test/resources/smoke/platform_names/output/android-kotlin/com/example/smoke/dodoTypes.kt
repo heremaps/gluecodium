@@ -15,7 +15,7 @@ class dodoTypes {
         DODO_ITEM(0);
     }
     class dodoStruct {
-        var DODO_FIELD: String
+        @JvmField var DODO_FIELD: String
 
 
 

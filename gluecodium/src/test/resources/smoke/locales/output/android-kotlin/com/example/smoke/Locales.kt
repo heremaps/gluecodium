@@ -13,7 +13,7 @@ import java.util.Locale
 class Locales : NativeBase {
 
     class LocaleStruct {
-        var localeField: Locale
+        @JvmField var localeField: Locale
 
 
 

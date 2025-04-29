@@ -19,7 +19,7 @@ class LevelOne : NativeBase {
                 NONE(0);
             }
             class LevelFour {
-                var stringField: String
+                @JvmField var stringField: String
 
 
 

@@ -12,7 +12,7 @@ import com.example.NativeBase
 class SkipTypes : NativeBase {
 
     class NotInJava {
-        var fooField: String
+        @JvmField var fooField: String
 
 
 
@@ -27,7 +27,7 @@ class SkipTypes : NativeBase {
     }
 
     class NotInSwift {
-        var fooField: String
+        @JvmField var fooField: String
 
 
 
@@ -42,7 +42,7 @@ class SkipTypes : NativeBase {
     }
 
     class NotInDart {
-        var fooField: String
+        @JvmField var fooField: String
 
 
 

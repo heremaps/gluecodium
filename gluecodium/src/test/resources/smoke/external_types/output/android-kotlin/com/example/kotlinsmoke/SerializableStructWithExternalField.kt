@@ -11,7 +11,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class SerializableStructWithExternalField : Parcelable {
-    var someStruct: com.here.android.test.AnExternalStruct
+    @JvmField var someStruct: com.here.android.test.AnExternalStruct
 
 
 

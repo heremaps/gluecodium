@@ -16,7 +16,7 @@ class PublicClass : NativeBase {
         BAR(1);
     }
     internal class InternalStruct {
-        var stringField: String
+        @JvmField var stringField: String
 
 
 
@@ -31,7 +31,7 @@ class PublicClass : NativeBase {
     }
 
     class PublicStruct {
-        internal var internalField: PublicClass.InternalStruct
+        @JvmField internal var internalField: PublicClass.InternalStruct
 
 
 
@@ -46,8 +46,8 @@ class PublicClass : NativeBase {
     }
 
     class PublicStructWithInternalDefaults {
-        internal var internalField: String
-        var publicField: Float
+        @JvmField internal var internalField: String
+        @JvmField var publicField: Float
 
 
 

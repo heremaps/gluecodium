@@ -16,8 +16,8 @@ class Structs : NativeBase {
         BAR(1);
     }
     class Point {
-        var x: Double
-        var y: Double
+        @JvmField var x: Double
+        @JvmField var y: Double
 
 
 
@@ -38,8 +38,8 @@ class Structs : NativeBase {
     }
 
     class Line {
-        var a: Structs.Point
-        var b: Structs.Point
+        @JvmField var a: Structs.Point
+        @JvmField var b: Structs.Point
 
 
 
@@ -55,20 +55,20 @@ class Structs : NativeBase {
     }
 
     class AllTypesStruct {
-        val int8Field: Byte
-        val uint8Field: Short
-        val int16Field: Short
-        val uint16Field: Int
-        val int32Field: Int
-        val uint32Field: Long
-        val int64Field: Long
-        val uint64Field: Long
-        val floatField: Float
-        val doubleField: Double
-        val stringField: String
-        val booleanField: Boolean
-        val bytesField: ByteArray
-        val pointField: Structs.Point
+        @JvmField val int8Field: Byte
+        @JvmField val uint8Field: Short
+        @JvmField val int16Field: Short
+        @JvmField val uint16Field: Int
+        @JvmField val int32Field: Int
+        @JvmField val uint32Field: Long
+        @JvmField val int64Field: Long
+        @JvmField val uint64Field: Long
+        @JvmField val floatField: Float
+        @JvmField val doubleField: Double
+        @JvmField val stringField: String
+        @JvmField val booleanField: Boolean
+        @JvmField val bytesField: ByteArray
+        @JvmField val pointField: Structs.Point
 
 
 
@@ -96,7 +96,7 @@ class Structs : NativeBase {
     }
 
     class NestingImmutableStruct {
-        var structField: Structs.AllTypesStruct
+        @JvmField var structField: Structs.AllTypesStruct
 
 
 
@@ -111,7 +111,7 @@ class Structs : NativeBase {
     }
 
     class DoubleNestingImmutableStruct {
-        var nestingStructField: Structs.NestingImmutableStruct
+        @JvmField var nestingStructField: Structs.NestingImmutableStruct
 
 
 
@@ -126,7 +126,7 @@ class Structs : NativeBase {
     }
 
     class StructWithArrayOfImmutable {
-        var arrayField: MutableList<Structs.AllTypesStruct>
+        @JvmField var arrayField: MutableList<Structs.AllTypesStruct>
 
 
 
@@ -141,11 +141,11 @@ class Structs : NativeBase {
     }
 
     class ImmutableStructWithCppAccessors {
-        val trivialIntField: Int
-        val trivialDoubleField: Double
-        val nontrivialStringField: String
-        val nontrivialPointField: Structs.Point
-        val nontrivialOptionalPoint: Structs.Point?
+        @JvmField val trivialIntField: Int
+        @JvmField val trivialDoubleField: Double
+        @JvmField val nontrivialStringField: String
+        @JvmField val nontrivialPointField: Structs.Point
+        @JvmField val nontrivialOptionalPoint: Structs.Point?
 
 
 
@@ -171,11 +171,11 @@ class Structs : NativeBase {
     }
 
     class MutableStructWithCppAccessors {
-        var trivialIntField: Int
-        var trivialDoubleField: Double
-        var nontrivialStringField: String
-        var nontrivialPointField: Structs.Point
-        var nontrivialOptionalPoint: Structs.Point?
+        @JvmField var trivialIntField: Int
+        @JvmField var trivialDoubleField: Double
+        @JvmField var nontrivialStringField: String
+        @JvmField var nontrivialPointField: Structs.Point
+        @JvmField var nontrivialOptionalPoint: Structs.Point?
 
 
 

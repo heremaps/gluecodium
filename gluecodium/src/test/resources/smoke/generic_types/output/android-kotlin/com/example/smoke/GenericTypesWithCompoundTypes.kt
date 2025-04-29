@@ -20,7 +20,7 @@ class GenericTypesWithCompoundTypes : NativeBase {
         OFF(1);
     }
     class BasicStruct {
-        var value: Double
+        @JvmField var value: Double
 
 
 
@@ -35,7 +35,7 @@ class GenericTypesWithCompoundTypes : NativeBase {
     }
 
     class ExternalStruct {
-        var string: String
+        @JvmField var string: String
 
 
 

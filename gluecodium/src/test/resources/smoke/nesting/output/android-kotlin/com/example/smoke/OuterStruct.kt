@@ -12,7 +12,7 @@ import java.util.Date
 import java.util.Locale
 
 class OuterStruct {
-    var field: String
+    @JvmField var field: String
 
     enum class InnerEnum(private val value: Int) {
         FOO(0),
@@ -22,7 +22,7 @@ class OuterStruct {
 
 
     class InnerStruct {
-        var otherField: MutableList<Date>
+        @JvmField var otherField: MutableList<Date>
 
 
 
@@ -148,6 +148,7 @@ class OuterStruct {
 
 
     @Throws (OuterStruct.InstantiationException::class) external fun doNothing() : Unit
+
 
 
 }

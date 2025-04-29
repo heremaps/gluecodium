@@ -19,8 +19,8 @@ class NAME_RULES_KT : NativeBase {
 
 
     class EXAMPLE_STRUCT_KT {
-        var value: Double
-        var int_value: MutableList<Long>
+        @JvmField var value: Double
+        @JvmField var int_value: MutableList<Long>
 
 
 

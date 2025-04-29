@@ -12,10 +12,10 @@ import com.example.NativeBase
 class EquatableClass : NativeBase {
 
     class EquatableStruct {
-        var intField: Int
-        var stringField: String
-        var nestedEquatableInstance: EquatableClass
-        var nestedPointerEquatableInstance: PointerEquatableClass
+        @JvmField var intField: Int
+        @JvmField var stringField: String
+        @JvmField var nestedEquatableInstance: EquatableClass
+        @JvmField var nestedPointerEquatableInstance: PointerEquatableClass
 
 
 

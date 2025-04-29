@@ -9,7 +9,7 @@ package com.example.kotlinsmoke
 
 
 class UseKotlinExternalConst {
-    var stringField: String
+    @JvmField var stringField: String
 
 
 

@@ -12,8 +12,8 @@ import com.example.NativeBase
 class StructConstants : NativeBase {
 
     class SomeStruct {
-        var stringField: String
-        var floatField: Float
+        @JvmField var stringField: String
+        @JvmField var floatField: Float
 
 
 
@@ -29,7 +29,7 @@ class StructConstants : NativeBase {
     }
 
     class NestingStruct {
-        var structField: StructConstants.SomeStruct
+        @JvmField var structField: StructConstants.SomeStruct
 
 
 

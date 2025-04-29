@@ -12,8 +12,8 @@ import com.example.NativeBase
 class StructsWithConstantsInterface : NativeBase {
 
     class MultiRoute {
-        var descriptions: MutableList<String>
-        var type: RouteUtils.RouteType
+        @JvmField var descriptions: MutableList<String>
+        @JvmField var type: RouteUtils.RouteType
 
 
 

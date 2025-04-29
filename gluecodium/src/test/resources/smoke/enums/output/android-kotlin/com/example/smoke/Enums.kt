@@ -20,8 +20,8 @@ class Enums : NativeBase {
         ERROR_FATAL(999);
     }
     class ErrorStruct {
-        var type: Enums.InternalErrorCode
-        var message: String
+        @JvmField var type: Enums.InternalErrorCode
+        @JvmField var message: String
 
 
 

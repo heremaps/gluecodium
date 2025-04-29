@@ -11,8 +11,8 @@ package com.example.smoke
 class TypeCollection {
 
     class Point {
-        var x: Double
-        var y: Double
+        @JvmField var x: Double
+        @JvmField var y: Double
 
 
 
@@ -28,8 +28,8 @@ class TypeCollection {
     }
 
     class Line {
-        var a: TypeCollection.Point
-        var b: TypeCollection.Point
+        @JvmField var a: TypeCollection.Point
+        @JvmField var b: TypeCollection.Point
 
 
 
@@ -45,20 +45,20 @@ class TypeCollection {
     }
 
     class AllTypesStruct {
-        var int8Field: Byte
-        var uint8Field: Short
-        var int16Field: Short
-        var uint16Field: Int
-        var int32Field: Int
-        var uint32Field: Long
-        var int64Field: Long
-        var uint64Field: Long
-        var floatField: Float
-        var doubleField: Double
-        var stringField: String
-        var booleanField: Boolean
-        var bytesField: ByteArray
-        var pointField: TypeCollection.Point
+        @JvmField var int8Field: Byte
+        @JvmField var uint8Field: Short
+        @JvmField var int16Field: Short
+        @JvmField var uint16Field: Int
+        @JvmField var int32Field: Int
+        @JvmField var uint32Field: Long
+        @JvmField var int64Field: Long
+        @JvmField var uint64Field: Long
+        @JvmField var floatField: Float
+        @JvmField var doubleField: Double
+        @JvmField var stringField: String
+        @JvmField var booleanField: Boolean
+        @JvmField var bytesField: ByteArray
+        @JvmField var pointField: TypeCollection.Point
 
 
 

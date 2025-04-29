@@ -11,8 +11,8 @@ package com.example.smoke
 class TypeCollection {
 
     class Point {
-        var x: Double
-        var y: Double
+        @JvmField var x: Double
+        @JvmField var y: Double
 
 
 
@@ -28,7 +28,7 @@ class TypeCollection {
     }
 
     class StructHavingAliasFieldDefinedBelow {
-        var field: Long
+        @JvmField var field: Long
 
 
 
