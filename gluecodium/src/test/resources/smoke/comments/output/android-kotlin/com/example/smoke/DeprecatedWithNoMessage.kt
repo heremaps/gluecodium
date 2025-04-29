@@ -8,6 +8,7 @@
 package com.example.smoke
 
 
+@Deprecated("")
 class DeprecatedWithNoMessage {
     @JvmField var field: String
 

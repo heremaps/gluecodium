@@ -1,15 +1,29 @@
+
+
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+
+
 class FieldConstructorsPartialDefaults {
   String stringField;
+
   int intField;
+
   bool boolField;
+
+  /// This is some field constructor with two parameters.
+  /// It is very important.
+  /// [intField] 
+  /// [stringField] 
   FieldConstructorsPartialDefaults.withTrue(this.intField, this.stringField)
       : boolField = true;
   FieldConstructorsPartialDefaults(this.boolField, this.intField, this.stringField);
 }
+
+
 // FieldConstructorsPartialDefaults "private" section, not exported.
+
 final _smokeFieldconstructorspartialdefaultsCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>, Int32, Uint8),
     Pointer<Void> Function(Pointer<Void>, int, int)
@@ -30,32 +44,41 @@ final _smokeFieldconstructorspartialdefaultsGetFieldboolField = __lib.catchArgum
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_FieldConstructorsPartialDefaults_get_field_boolField'));
+
+
+
 Pointer<Void> smokeFieldconstructorspartialdefaultsToFfi(FieldConstructorsPartialDefaults value) {
   final _stringFieldHandle = stringToFfi(value.stringField);
   final _intFieldHandle = (value.intField);
   final _boolFieldHandle = booleanToFfi(value.boolField);
   final _result = _smokeFieldconstructorspartialdefaultsCreateHandle(_stringFieldHandle, _intFieldHandle, _boolFieldHandle);
   stringReleaseFfiHandle(_stringFieldHandle);
+  
   booleanReleaseFfiHandle(_boolFieldHandle);
   return _result;
 }
+
 FieldConstructorsPartialDefaults smokeFieldconstructorspartialdefaultsFromFfi(Pointer<Void> handle) {
   final _stringFieldHandle = _smokeFieldconstructorspartialdefaultsGetFieldstringField(handle);
   final _intFieldHandle = _smokeFieldconstructorspartialdefaultsGetFieldintField(handle);
   final _boolFieldHandle = _smokeFieldconstructorspartialdefaultsGetFieldboolField(handle);
   try {
     return FieldConstructorsPartialDefaults(
-      booleanFromFfi(_boolFieldHandle),
-      (_intFieldHandle),
+      booleanFromFfi(_boolFieldHandle), 
+      (_intFieldHandle), 
       stringFromFfi(_stringFieldHandle)
     );
   } finally {
     stringReleaseFfiHandle(_stringFieldHandle);
+    
     booleanReleaseFfiHandle(_boolFieldHandle);
   }
 }
+
 void smokeFieldconstructorspartialdefaultsReleaseFfiHandle(Pointer<Void> handle) => _smokeFieldconstructorspartialdefaultsReleaseHandle(handle);
+
 // Nullable FieldConstructorsPartialDefaults
+
 final _smokeFieldconstructorspartialdefaultsCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -68,6 +91,7 @@ final _smokeFieldconstructorspartialdefaultsGetValueNullable = __lib.catchArgume
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_FieldConstructorsPartialDefaults_get_value_nullable'));
+
 Pointer<Void> smokeFieldconstructorspartialdefaultsToFfiNullable(FieldConstructorsPartialDefaults? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeFieldconstructorspartialdefaultsToFfi(value);
@@ -75,6 +99,7 @@ Pointer<Void> smokeFieldconstructorspartialdefaultsToFfiNullable(FieldConstructo
   smokeFieldconstructorspartialdefaultsReleaseFfiHandle(_handle);
   return result;
 }
+
 FieldConstructorsPartialDefaults? smokeFieldconstructorspartialdefaultsFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeFieldconstructorspartialdefaultsGetValueNullable(handle);
@@ -82,6 +107,10 @@ FieldConstructorsPartialDefaults? smokeFieldconstructorspartialdefaultsFromFfiNu
   smokeFieldconstructorspartialdefaultsReleaseFfiHandle(_handle);
   return result;
 }
+
 void smokeFieldconstructorspartialdefaultsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeFieldconstructorspartialdefaultsReleaseHandleNullable(handle);
+
 // End of FieldConstructorsPartialDefaults "private" section.
+
+

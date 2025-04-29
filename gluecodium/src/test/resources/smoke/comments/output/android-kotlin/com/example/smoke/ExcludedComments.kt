@@ -33,11 +33,25 @@ class ExcludedComments : NativeBase {
     class SomethingWrongException(@JvmField val error: ExcludedComments.SomeEnum) : Exception(error.toString())
 
 
+    /**
+     * This is some very useful struct.
+     * @suppress
+     */
     class SomeStruct {
+        /**
+         * How useful this struct is
+         * remains to be seen
+         * @suppress
+         */
         @JvmField var someField: Boolean
 
 
 
+        /**
+         * This is how easy it is to construct.
+         * @param someField How useful this struct is
+         * remains to be seen
+         */
         constructor(someField: Boolean) {
             this.someField = someField
         }

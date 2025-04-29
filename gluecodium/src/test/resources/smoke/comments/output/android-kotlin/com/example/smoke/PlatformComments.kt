@@ -16,11 +16,14 @@ class PlatformComments : NativeBase {
         USEFUL(1);
     }
     /**
-     * An  when something goes wrong.
+     * An exception when something goes wrong.
      */
     class SomethingWrongException(@JvmField val error: PlatformComments.SomeEnum) : Exception(error.toString())
 
 
+    /**
+     * This is a great struct.
+     */
     class Something {
         @JvmField var nothing: String
 
@@ -50,11 +53,13 @@ class PlatformComments : NativeBase {
 
 
     /**
-     * This is some very useless method that .
+     * This is some very useless method that makes some tea.
      */
 
     external fun doNothing() : Unit
-
+    /**
+     * Makes some tea.
+     */
 
     external fun doMagic() : Unit
     /**

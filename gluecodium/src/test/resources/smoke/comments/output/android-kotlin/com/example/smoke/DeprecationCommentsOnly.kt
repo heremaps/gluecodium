@@ -15,7 +15,9 @@ interface DeprecationCommentsOnly {
         @Deprecated("Unfortunately, this item is deprecated.")
         USELESS(0);
     }
+    @Deprecated("Unfortunately, this struct is deprecated.")
     class SomeStruct {
+        @Deprecated("Unfortunately, this field is deprecated.")
         @JvmField var someField: Boolean
 
 
@@ -37,6 +39,7 @@ interface DeprecationCommentsOnly {
      * @return Usefulness of the input
      */
     @Deprecated("Unfortunately, this method is deprecated.")
+
     fun someMethodWithAllComments(input: String) : Boolean
 
     @Deprecated("Unfortunately, this property is deprecated.")

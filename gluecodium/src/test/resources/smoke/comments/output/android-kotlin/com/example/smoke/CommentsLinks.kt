@@ -20,11 +20,21 @@ import com.example.NativeBase
  */
 class CommentsLinks : NativeBase {
 
+    /**
+     * Links also work in:
+     */
     class RandomStruct {
+        /**
+         * Some random field [com.example.smoke.Comments.SomeStruct]
+         */
         @JvmField var randomField: Comments.SomeStruct
 
 
 
+        /**
+         * constructor comments [com.example.smoke.Comments.SomeStruct]
+         * @param randomField Some random field [com.example.smoke.Comments.SomeStruct]
+         */
         constructor(randomField: Comments.SomeStruct) {
             this.randomField = randomField
         }

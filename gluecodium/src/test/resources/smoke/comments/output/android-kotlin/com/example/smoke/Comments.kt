@@ -33,12 +33,27 @@ class Comments : NativeBase {
     class SomethingWrongException(@JvmField val error: Comments.SomeEnum) : Exception(error.toString())
 
 
+    /**
+     * This is some very useful struct.
+     */
     class SomeStruct {
+        /**
+         * How useful this struct is
+         * remains to be seen
+         */
         @JvmField var someField: Boolean
+        /**
+         * Can be `null`
+         */
         @JvmField var nullableField: String?
 
 
 
+        /**
+         * This is how easy it is to construct.
+         * @param someField How useful this struct is
+         * remains to be seen
+         */
         constructor(someField: Boolean) {
             this.someField = someField
             this.nullableField = null

@@ -28,7 +28,15 @@ interface DeprecationComments {
     class SomethingWrongException(@JvmField val error: DeprecationComments.SomeEnum) : Exception(error.toString())
 
 
+    /**
+     * This is some very useful struct.
+     */
+    @Deprecated("Unfortunately, this struct is deprecated. Use [com.example.smoke.Comments.SomeStruct] instead.")
     class SomeStruct {
+        /**
+         * How useful this struct is.
+         */
+        @Deprecated("Unfortunately, this field is deprecated.\nUse [com.example.smoke.Comments.SomeStruct.someField] instead.")
         @JvmField var someField: Boolean
 
 
@@ -50,6 +58,7 @@ interface DeprecationComments {
      * @return Usefulness of the input
      */
     @Deprecated("Unfortunately, this method is deprecated.\nUse [com.example.smoke.Comments.someMethodWithAllComments] instead.")
+
     fun someMethodWithAllComments(input: String) : Boolean
 
     /**

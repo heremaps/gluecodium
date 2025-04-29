@@ -21,6 +21,12 @@ class Structs : NativeBase {
 
 
 
+        /**
+         * This is some constructor, which constructs Point from polar coordinates.
+         * @param phi
+         * @param r
+         */
+
         constructor(phi: Double, r: Double) {
             val _other = fromPolar(phi, r)
             this.x = _other.x
@@ -212,9 +218,13 @@ class Structs : NativeBase {
 
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
         @JvmStatic external fun swapPointCoordinates(input: Structs.Point) : Structs.Point
+
         @JvmStatic external fun returnAllTypesStruct(input: Structs.AllTypesStruct) : Structs.AllTypesStruct
+
         @JvmStatic external fun createPoint(x: Double, y: Double) : TypeCollection.Point
+
         @JvmStatic external fun modifyAllTypesStruct(input: TypeCollection.AllTypesStruct) : TypeCollection.AllTypesStruct
     }
 }

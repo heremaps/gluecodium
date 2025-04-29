@@ -16,12 +16,16 @@ class StructsWithMethods {
 
 
 
+
+
         constructor(x: Double, y: Double) {
             val _other = create(x, y)
             this.x = _other.x
             this.y = _other.y
         }
-    @Throws (ValidationUtils.ValidationException::class)
+
+
+    @Throws(ValidationUtils.ValidationException::class)
         constructor(other: StructsWithMethods.Vector) {
             val _other = create(other)
             this.x = _other.x
