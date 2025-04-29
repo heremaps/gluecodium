@@ -39,7 +39,53 @@ class CommentsLinks : NativeBase {
 
 
 
-    @Throws (Comments.SomethingWrongException::class) external fun randomMethod(inputParameter: Comments.SomeEnum) : Comments.SomeEnum
+    /**
+     * Link types:
+     * * constant: [com.example.smoke.Comments.VERY_USEFUL]
+     * * struct: [com.example.smoke.Comments.SomeStruct]
+     * * struct field: [com.example.smoke.Comments.SomeStruct.someField]
+     * * enum: [com.example.smoke.Comments.SomeEnum]
+     * * enum item: [com.example.smoke.Comments.SomeEnum.USEFUL]
+     * * property: [com.example.smoke.Comments.isSomeProperty]
+     * * property setter: [com.example.smoke.Comments.isSomeProperty]
+     * * property getter: [com.example.smoke.Comments.isSomeProperty]
+     * * method: [com.example.smoke.Comments.someMethodWithAllComments]
+     * * method with signature: [com.example.smoke.Comments.oneParameterCommentOnly]
+     * * method with signature with no spaces: [com.example.smoke.Comments.oneParameterCommentOnly]
+     * * parameter: [com.example.smoke.CommentsLinks.randomMethod.inputParameter]
+     * * top level constant: [com.example.smoke.CommentsTypeCollection.TYPE_COLLECTION_CONSTANT]
+     * * top level struct: [com.example.smoke.CommentsTypeCollection.TypeCollectionStruct]
+     * * top level struct field: [com.example.smoke.CommentsTypeCollection.TypeCollectionStruct.field]
+     * * top level enum: [com.example.smoke.CommentsTypeCollection.TypeCollectionEnum]
+     * * top level enum item: [com.example.smoke.CommentsTypeCollection.TypeCollectionEnum.ITEM]
+     * * error: [com.example.smoke.Comments.SomethingWrongException]
+     * * lambda: [com.example.smoke.Comments.SomeLambda]
+     * * type from aux sources, same package: [com.example.smoke.AuxClass]
+     * * type from aux sources, different package: [com.example.fire.AuxStruct]
+     *   * we can also have
+     *   * nested lists
+     *
+     * Not working for Java:
+     * * typedef: [com.example.smoke.Comments.Usefulness]
+     * * top level typedef: [com.example.smoke.CommentsTypeCollection.TypeCollectionTypedef]
+     *
+     * Not working for Swift:
+     * * named comment: [][com.example.smoke.Comments.VERY_USEFUL]
+     * @param inputParameter Sometimes takes [com.example.smoke.Comments.SomeEnum.USEFUL]
+     * @return Sometimes returns [com.example.smoke.Comments.SomeEnum.USEFUL]
+     * @throws Comments.SomethingWrongException May or may not throw [com.example.smoke.Comments.SomethingWrongException]
+     */
+    @Throws(Comments.SomethingWrongException::class)
+    external fun randomMethod(inputParameter: Comments.SomeEnum) : Comments.SomeEnum
+    /**
+     * Links to method overloads:
+     * * other one: [com.example.smoke.CommentsLinks.randomMethod]
+     * * this one: [com.example.smoke.CommentsLinks.randomMethod]
+     * * ambiguous one: [com.example.smoke.CommentsLinks.randomMethod]
+     * @param text
+     * @param flag
+     */
+
     external fun randomMethod(text: String, flag: Boolean) : Unit
 
 

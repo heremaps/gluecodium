@@ -28,7 +28,9 @@ class Class : NativeBase, Interface {
     private external fun cacheThisInstance()
 
 
-    @Throws (Types.ExceptionException::class) external fun Fun(double: MutableList<Types.Struct>) : Types.Struct
+
+    @Throws(Types.ExceptionException::class)
+    external fun Fun(double: MutableList<Types.Struct>) : Types.Struct
 
     var Property: Types.Enum
         external get
@@ -39,6 +41,7 @@ class Class : NativeBase, Interface {
 
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
         @JvmStatic external fun Constructor() : Long
     }
 }

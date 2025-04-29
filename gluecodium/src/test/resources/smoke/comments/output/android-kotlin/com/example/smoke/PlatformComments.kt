@@ -49,9 +49,27 @@ class PlatformComments : NativeBase {
 
 
 
+    /**
+     * This is some very useless method that .
+     */
+
     external fun doNothing() : Unit
+
+
     external fun doMagic() : Unit
-    @Throws (PlatformComments.SomethingWrongException::class) external fun someMethodWithAllComments(input: String) : Boolean
+    /**
+     * This is some very useful method that measures the usefulness of its input or \esc@pe{s}.
+     * @param input Very useful parameter that \[\esc@pe{s}\]
+     * @return of the input
+     * @throws PlatformComments.SomethingWrongException Sometimes it happens.
+     */
+    @Throws(PlatformComments.SomethingWrongException::class)
+    external fun someMethodWithAllComments(input: String) : Boolean
+    /**
+     *
+     */
+    @Deprecated("A very  method that is deprecated.")
+
     external fun someDeprecatedMethod() : Unit
 
 

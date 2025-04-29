@@ -32,6 +32,8 @@ class OuterStruct {
 
 
 
+
+
         external fun doSomething() : Unit
 
 
@@ -49,6 +51,8 @@ class OuterStruct {
          */
         protected constructor(nativeHandle: Long, tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+
 
 
 
@@ -80,7 +84,11 @@ class OuterStruct {
         private external fun cacheThisInstance()
 
 
+
+
         external fun field(value: String) : OuterStruct.Builder
+
+
         external fun build() : OuterStruct
 
 
@@ -88,10 +96,13 @@ class OuterStruct {
 
         companion object {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
             @JvmStatic external fun create() : Long
         }
     }
     interface InnerInterface {
+
+
 
         fun barBaz() : MutableMap<String, ByteArray>
 
@@ -99,6 +110,8 @@ class OuterStruct {
     }
 
     fun interface InnerLambda {
+
+
         fun apply() : Unit
     }
 
@@ -108,6 +121,8 @@ class OuterStruct {
     class InnerInterfaceImpl : NativeBase, InnerInterface {
         protected constructor(nativeHandle: Long, tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+
 
         override external fun barBaz() : MutableMap<String, ByteArray>
 
@@ -123,6 +138,8 @@ class OuterStruct {
     class InnerLambdaImpl : NativeBase, InnerLambda {
         protected constructor(nativeHandle: Long, tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+
 
         override external fun apply() : Unit
 
@@ -140,8 +157,9 @@ class OuterStruct {
 
 
 
-    @Throws (OuterStruct.InstantiationException::class) external fun doNothing() : Unit
 
+    @Throws(OuterStruct.InstantiationException::class)
+    external fun doNothing() : Unit
 
 
 }

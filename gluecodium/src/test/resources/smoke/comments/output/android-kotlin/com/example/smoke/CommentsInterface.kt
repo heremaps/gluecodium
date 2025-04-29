@@ -41,15 +41,55 @@ interface CommentsInterface {
     }
 
 
+    /**
+     * This is some very useful method that measures the usefulness of its input.
+     * @param input Very useful input parameter
+     * @return Usefulness of the input
+     */
     fun someMethodWithAllComments(input: String) : Boolean
+    /**
+     * This is some very useful method that measures the usefulness of its input.
+     * @param input Very useful input parameter
+     * @return
+     */
     fun someMethodWithInputComments(input: String) : Boolean
+    /**
+     * This is some very useful method that measures the usefulness of its input.
+     * @param input
+     * @return Usefulness of the input
+     */
     fun someMethodWithOutputComments(input: String) : Boolean
+    /**
+     * This is some very useful method that measures the usefulness of its input.
+     * @param input
+     * @return
+     */
     fun someMethodWithNoComments(input: String) : Boolean
+    /**
+     * This is some very useful method that does not measure the usefulness of its input.
+     * @param input Very useful input parameter
+     */
     fun someMethodWithoutReturnTypeWithAllComments(input: String) : Unit
+    /**
+     * This is some very useful method that does not measure the usefulness of its input.
+     * @param input
+     */
     fun someMethodWithoutReturnTypeWithNoComments(input: String) : Unit
+    /**
+     * This is some very useful method that measures the usefulness of something.
+     * @return Usefulness of the input
+     */
     fun someMethodWithoutInputParametersWithAllComments() : Boolean
+    /**
+     * This is some very useful method that measures the usefulness of something.
+     * @return
+     */
     fun someMethodWithoutInputParametersWithNoComments() : Boolean
+
     fun someMethodWithNothing() : Unit
+    /**
+     * This is some very useful method that does nothing.
+     */
     fun someMethodWithoutReturnTypeOrInputParameters() : Unit
 
     /**

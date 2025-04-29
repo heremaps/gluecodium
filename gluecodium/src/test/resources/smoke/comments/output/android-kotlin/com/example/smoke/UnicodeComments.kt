@@ -24,7 +24,14 @@ class UnicodeComments : NativeBase {
 
 
 
-    @Throws (Comments.SomethingWrongException::class) external fun someMethodWithAllComments(input: String) : Boolean
+    /**
+     * Süßölgefäß
+     * @param input שלום
+     * @return товарищ
+     * @throws Comments.SomethingWrongException ネコ
+     */
+    @Throws(Comments.SomethingWrongException::class)
+    external fun someMethodWithAllComments(input: String) : Boolean
 
 
 

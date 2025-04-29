@@ -19,17 +19,18 @@ class Thermometer : NativeBase {
         ERROR_NONE(0),
         ERROR_FATAL(1);
     }
-
     /**
      * This error indicates problems with notification of observers.
      * May be thrown if observers cannot be notified.
      */
     class NotificationException(@JvmField val error: String) : Exception(error.toString())
 
+
     /**
      * This error indicates other problems with notification of observers.
      */
     class AnotherNotificationException(@JvmField val error: Thermometer.SomeThermometerErrorCode) : Exception(error.toString())
+
 
 
     constructor(interval: Duration, observers: MutableList<TemperatureObserver>) : this(makeWithDuration(interval, observers), null as Any?) {
@@ -68,9 +69,17 @@ class Thermometer : NativeBase {
     private external fun cacheThisInstance()
 
 
+
+
     external fun forceUpdate() : Unit
+
+
     external fun getCelsius() : Double
+
+
     external fun getKelvin() : Double
+
+
     external fun getFahrenheit() : Double
 
 
@@ -78,13 +87,27 @@ class Thermometer : NativeBase {
 
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
         @JvmStatic external fun makeWithDuration(interval: Duration, observers: MutableList<TemperatureObserver>) : Long
+
         @JvmStatic external fun makeWithoutDuration(observers: MutableList<TemperatureObserver>) : Long
-        @Throws (Thermometer.NotificationException::class) @JvmStatic external fun throwingMake(id: Int, observers: MutableList<TemperatureObserver>) : Long
+        @Throws(Thermometer.NotificationException::class)
+        @JvmStatic external fun throwingMake(id: Int, observers: MutableList<TemperatureObserver>) : Long
+
         @JvmStatic external fun nothrowMake(label: String, niceObservers: MutableList<TemperatureObserver>) : Long
-        @Throws (Thermometer.AnotherNotificationException::class) @JvmStatic external fun anotherThrowingMake(dummy: Boolean, observers: MutableList<TemperatureObserver>) : Long
+        @Throws(Thermometer.AnotherNotificationException::class)
+        @JvmStatic external fun anotherThrowingMake(dummy: Boolean, observers: MutableList<TemperatureObserver>) : Long
+
+
         @JvmStatic external fun notifyObservers(thermometer: Thermometer, someObservers: MutableList<TemperatureObserver>) : Unit
-        @Throws (Thermometer.NotificationException::class) @JvmStatic external fun throwingNotifyObservers(thermometer: Thermometer, someObservers: MutableList<TemperatureObserver>) : Unit
+        /**
+         * Function used to notify observers.
+         * @param thermometer subject that has changed state
+         * @param someObservers observers to be notified
+         * @throws Thermometer.NotificationException if notification of observers failed
+         */
+        @Throws(Thermometer.NotificationException::class)
+        @JvmStatic external fun throwingNotifyObservers(thermometer: Thermometer, someObservers: MutableList<TemperatureObserver>) : Unit
     }
 }
 

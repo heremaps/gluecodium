@@ -44,6 +44,12 @@ interface DeprecationComments {
     }
 
 
+    /**
+     * This is some very useful method that measures the usefulness of its input.
+     * @param input Very useful input parameter
+     * @return Usefulness of the input
+     */
+    @Deprecated("Unfortunately, this method is deprecated.\nUse [com.example.smoke.Comments.someMethodWithAllComments] instead.")
     fun someMethodWithAllComments(input: String) : Boolean
 
     /**

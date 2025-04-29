@@ -25,7 +25,7 @@ import com.vladsch.flexmark.ast.LinkRef
 import com.vladsch.flexmark.formatter.Formatter
 import com.vladsch.flexmark.util.sequence.CharSubSequence
 
-internal class KotlinCommentsProcessor(private val referenceMap: Map<String, LimeElement>, werror: Boolean = true) :
+internal class KotlinCommentsProcessor(private val referenceMap: Map<String, LimeElement>, werror: Boolean) :
     CommentsProcessor(Formatter.builder().build(), werror) {
     override fun processLink(
         linkNode: LinkRef,

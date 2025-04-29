@@ -31,6 +31,12 @@ interface DeprecationCommentsOnly {
     }
 
 
+    /**
+     *
+     * @param input Very useful input parameter
+     * @return Usefulness of the input
+     */
+    @Deprecated("Unfortunately, this method is deprecated.")
     fun someMethodWithAllComments(input: String) : Boolean
 
     @Deprecated("Unfortunately, this property is deprecated.")

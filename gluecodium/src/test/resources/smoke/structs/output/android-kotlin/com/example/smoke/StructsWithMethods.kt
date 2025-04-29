@@ -31,14 +31,22 @@ class StructsWithMethods {
 
 
 
+
+
         external fun distanceTo(other: StructsWithMethods.Vector) : Double
+
+
         external fun add(other: StructsWithMethods.Vector) : StructsWithMethods.Vector
 
 
         companion object {
+
+
             @JvmStatic external fun validate(x: Double, y: Double) : Boolean
+
             @JvmStatic external fun create(x: Double, y: Double) : Vector
-            @Throws (ValidationUtils.ValidationException::class) @JvmStatic external fun create(other: StructsWithMethods.Vector) : Vector
+            @Throws(ValidationUtils.ValidationException::class)
+            @JvmStatic external fun create(other: StructsWithMethods.Vector) : Vector
         }
     }
 

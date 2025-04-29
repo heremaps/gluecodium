@@ -25,7 +25,9 @@ class UseFreeTypes : NativeBase {
 
 
 
-    @Throws (FreeException::class) external fun doStuff(point: FreePoint, mode: FreeEnum) : Date
+
+    @Throws(FreeException::class)
+    external fun doStuff(point: FreePoint, mode: FreeEnum) : Date
 
 
 

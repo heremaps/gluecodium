@@ -16,15 +16,25 @@ class ErrorsInterfaceImpl : NativeBase, ErrorsInterface {
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
-    @Throws (ErrorsInterface.InternalException::class) override external fun methodWithErrors() : Unit
-    @Throws (ErrorsInterface.ExternalException::class) override external fun methodWithExternalErrors() : Unit
-    @Throws (ErrorsInterface.InternalException::class) override external fun methodWithErrorsAndReturnValue() : String
+
+    @Throws(ErrorsInterface.InternalException::class)
+    override external fun methodWithErrors() : Unit
+
+    @Throws(ErrorsInterface.ExternalException::class)
+    override external fun methodWithExternalErrors() : Unit
+
+    @Throws(ErrorsInterface.InternalException::class)
+    override external fun methodWithErrorsAndReturnValue() : String
 
 
 
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
-        @Throws (WithPayloadException::class) @JvmStatic external fun methodWithPayloadError() : Unit
-        @Throws (WithPayloadException::class) @JvmStatic external fun methodWithPayloadErrorAndReturnValue() : String
+
+        @Throws(WithPayloadException::class)
+        @JvmStatic external fun methodWithPayloadError() : Unit
+
+        @Throws(WithPayloadException::class)
+        @JvmStatic external fun methodWithPayloadErrorAndReturnValue() : String
     }
 }

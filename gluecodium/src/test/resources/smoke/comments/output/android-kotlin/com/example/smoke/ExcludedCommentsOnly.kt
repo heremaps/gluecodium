@@ -33,6 +33,14 @@ class ExcludedCommentsOnly : NativeBase {
     }
 
     fun interface SomeLambda {
+        /**
+         *
+         * @suppress
+         * @param p0
+         * @param p1
+         * @return
+         */
+
         fun apply(p0: String, p1: Int) : Double
     }
 
@@ -42,6 +50,14 @@ class ExcludedCommentsOnly : NativeBase {
     class SomeLambdaImpl : NativeBase, SomeLambda {
         protected constructor(nativeHandle: Long, tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+        /**
+         *
+         * @suppress
+         * @param p0
+         * @param p1
+         * @return
+         */
 
         override external fun apply(p0: String, p1: Int) : Double
 
@@ -68,7 +84,20 @@ class ExcludedCommentsOnly : NativeBase {
 
 
 
-    @Throws (ExcludedCommentsOnly.SomethingWrongException::class) external fun someMethodWithAllComments(inputParameter: String) : Boolean
+    /**
+     *
+     * @suppress
+     * @param inputParameter
+     * @return
+     * @throws ExcludedCommentsOnly.SomethingWrongException
+     */
+    @Throws(ExcludedCommentsOnly.SomethingWrongException::class)
+    external fun someMethodWithAllComments(inputParameter: String) : Boolean
+    /**
+     *
+     * @suppress
+     */
+
     external fun someMethodWithoutReturnTypeOrInputParameters() : Unit
 
     var isSomeProperty: Boolean

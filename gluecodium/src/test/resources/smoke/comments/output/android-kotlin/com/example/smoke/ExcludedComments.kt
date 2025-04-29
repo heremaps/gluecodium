@@ -49,6 +49,14 @@ class ExcludedComments : NativeBase {
      * @suppress
      */
     fun interface SomeLambda {
+        /**
+         * This is some very useful lambda that does it.
+         * @suppress
+         * @param p0 Very useful input parameter
+         * @param p1 Slightly less useful input parameter
+         * @return Usefulness of the input
+         */
+
         fun apply(p0: String, p1: Int) : Double
     }
 
@@ -58,6 +66,14 @@ class ExcludedComments : NativeBase {
     class SomeLambdaImpl : NativeBase, SomeLambda {
         protected constructor(nativeHandle: Long, tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+        /**
+         * This is some very useful lambda that does it.
+         * @suppress
+         * @param p0 Very useful input parameter
+         * @param p1 Slightly less useful input parameter
+         * @return Usefulness of the input
+         */
 
         override external fun apply(p0: String, p1: Int) : Double
 
@@ -88,7 +104,20 @@ class ExcludedComments : NativeBase {
 
 
 
-    @Throws (ExcludedComments.SomethingWrongException::class) external fun someMethodWithAllComments(inputParameter: String) : Boolean
+    /**
+     * This is some very useful method that measures the usefulness of its input.
+     * @suppress
+     * @param inputParameter Very useful input parameter
+     * @return Usefulness of the input
+     * @throws ExcludedComments.SomethingWrongException Sometimes it happens.
+     */
+    @Throws(ExcludedComments.SomethingWrongException::class)
+    external fun someMethodWithAllComments(inputParameter: String) : Boolean
+    /**
+     * This is some very useful method that does nothing.
+     * @suppress
+     */
+
     external fun someMethodWithoutReturnTypeOrInputParameters() : Unit
 
     /**

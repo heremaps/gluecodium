@@ -35,14 +35,22 @@ class StructsWithMethodsInterface : NativeBase {
 
 
 
+
+
         external fun distanceTo(other: StructsWithMethodsInterface.Vector3) : Double
+
+
         external fun add(other: StructsWithMethodsInterface.Vector3) : StructsWithMethodsInterface.Vector3
 
 
         companion object {
+
+
             @JvmStatic external fun validate(x: Double, y: Double, z: Double) : Boolean
+
             @JvmStatic external fun create(input: String) : Vector3
-            @Throws (ValidationUtils.ValidationException::class) @JvmStatic external fun create(other: StructsWithMethodsInterface.Vector3) : Vector3
+            @Throws(ValidationUtils.ValidationException::class)
+            @JvmStatic external fun create(other: StructsWithMethodsInterface.Vector3) : Vector3
         }
     }
 
@@ -56,6 +64,8 @@ class StructsWithMethodsInterface : NativeBase {
 
 
         companion object {
+
+
             @JvmStatic external fun doStuff() : Unit
         }
     }
