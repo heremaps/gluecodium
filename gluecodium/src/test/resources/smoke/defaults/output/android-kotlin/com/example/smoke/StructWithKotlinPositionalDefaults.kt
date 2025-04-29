@@ -15,6 +15,7 @@ class StructWithKotlinPositionalDefaults {
 
 
 
+    @JvmOverloads
     constructor(firstFreeField: String, secondFreeField: Boolean, firstInitField: Int = 42, secondInitField: Float = 7.2f, thirdInitField: String = "\\Jonny \"Magic\" Smith\n") {
         this.firstInitField = firstInitField
         this.firstFreeField = firstFreeField
@@ -22,6 +23,9 @@ class StructWithKotlinPositionalDefaults {
         this.secondFreeField = secondFreeField
         this.thirdInitField = thirdInitField
     }
+
+
+
 
 
 }
