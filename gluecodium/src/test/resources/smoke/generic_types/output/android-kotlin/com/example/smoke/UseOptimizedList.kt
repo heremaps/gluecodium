@@ -28,9 +28,6 @@ class UseOptimizedList : NativeBase {
 
 
 
-    /**
-     * @hidden
-     */
     private class UnreasonablyLazyClassLazyNativeList : AbstractNativeList<UnreasonablyLazyClass> {
 
         private constructor(nativeHandle: Long, tag: Any?)
@@ -45,9 +42,6 @@ class UseOptimizedList : NativeBase {
 
     }
 
-    /**
-     * @hidden
-     */
     private class VeryBigStructLazyNativeList : AbstractNativeList<VeryBigStruct> {
 
         private constructor(nativeHandle: Long, tag: Any?)
