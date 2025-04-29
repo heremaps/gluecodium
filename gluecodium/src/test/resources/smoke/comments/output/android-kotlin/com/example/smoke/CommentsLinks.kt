@@ -9,6 +9,15 @@ package com.example.smoke
 
 import com.example.NativeBase
 
+/**
+ * The nested types like [com.example.smoke.CommentsLinks.randomMethod] don't need full name prefix, but it's
+ * possible to references other interfaces like [com.example.smoke.CommentsInterface] or other members
+ * [com.example.smoke.Comments.someMethodWithAllComments].
+ *
+ * Weblinks are not modified like this [example1], [example2](http://www.example.com/2) or <https://www.example.com/3>.
+ *
+ * [example1]: http://example.com/1
+ */
 class CommentsLinks : NativeBase {
 
     class RandomStruct {

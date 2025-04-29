@@ -9,6 +9,10 @@ package com.example.smoke
 
 import com.example.NativeBase
 
+/**
+ * This is some very useful class.
+ * @suppress
+ */
 class ExcludedComments : NativeBase {
 
     /**

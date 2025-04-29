@@ -9,6 +9,9 @@ package com.example.smoke
 
 import com.example.NativeBase
 
+/**
+ * Text
+ */
 class PlatformCommentsLineBreaks : NativeBase {
 
 

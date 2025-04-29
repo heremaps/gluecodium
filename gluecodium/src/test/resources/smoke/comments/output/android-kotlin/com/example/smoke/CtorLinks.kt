@@ -11,7 +11,11 @@ import com.example.NativeBase
 
 class CtorLinks : NativeBase {
 
+    /**
+     * This class has just one constructor [com.example.smoke.CtorLinks.SingleCtor.SingleCtor].
+     */
     class SingleCtor : NativeBase {
+
 
 
         constructor() : this(create(), null as Any?) {
@@ -39,7 +43,11 @@ class CtorLinks : NativeBase {
             @JvmStatic external fun create() : Long
         }
     }
+    /**
+     * This class has just one constructor with one argument [com.example.smoke.CtorLinks.SingleCtorWithOneArgument.SingleCtorWithOneArgument].
+     */
     class SingleCtorWithOneArgument : NativeBase {
+
 
 
         constructor(arg: Int) : this(create(arg), null as Any?) {
@@ -67,7 +75,11 @@ class CtorLinks : NativeBase {
             @JvmStatic external fun create(arg: Int) : Long
         }
     }
+    /**
+     * This class has just one constructor with two argument [com.example.smoke.CtorLinks.SingleCtorWithTwoArgument.SingleCtorWithTwoArgument].
+     */
     class SingleCtorWithTwoArgument : NativeBase {
+
 
 
         constructor(arg: Int, arg2: String) : this(create(arg, arg2), null as Any?) {
@@ -98,9 +110,16 @@ class CtorLinks : NativeBase {
     class OverloadedCtors : NativeBase {
 
 
+
         constructor(input: String) : this(create(input), null as Any?) {
             cacheThisInstance();
         }
+        /**
+         *
+         * @param input
+         * @param flag
+         */
+        @Deprecated("Use [com.example.smoke.CtorLinks.OverloadedCtors.OverloadedCtors] instead.")
         constructor(input: String, flag: Boolean) : this(create(input, flag), null as Any?) {
             cacheThisInstance();
         }

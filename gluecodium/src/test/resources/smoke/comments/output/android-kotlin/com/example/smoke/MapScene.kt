@@ -9,9 +9,13 @@ package com.example.smoke
 
 import com.example.NativeBase
 
+/**
+ * Referencing some type [com.example.smoke.MapScene.loadScene].
+ */
 class MapScene : NativeBase {
 
     fun interface LoadSceneCallback {
+
         fun apply(p0: String?) : Unit
     }
 
@@ -21,6 +25,7 @@ class MapScene : NativeBase {
     class LoadSceneCallbackImpl : NativeBase, LoadSceneCallback {
         protected constructor(nativeHandle: Long, tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
         override external fun apply(p0: String?) : Unit
 
@@ -43,7 +48,9 @@ class MapScene : NativeBase {
 
 
 
+
     external fun loadScene(mapScheme: Int, callback: MapScene.LoadSceneCallback?) : Unit
+
     external fun loadScene(configurationFile: String, callback: MapScene.LoadSceneCallback?) : Unit
 
 

@@ -18,6 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
+{{>kotlin/KotlinDocComment}}
 {{resolveName "visibility"}}{{#if this.isOpen}}open {{/if}}class {{resolveName}} : {{!!
 }}{{#if this.parentClass}}{{resolveName this.parentClass "" "ref"}}{{/if}}{{!!
 }}{{#unless this.parentClass}}NativeBase{{/unless}}{{!!
@@ -28,6 +29,7 @@
 {{>kotlin/KotlinContainerContents}}
 
 {{#set classElement=this}}{{#constructors}}
+{{prefixPartial "kotlin/KotlinMethodComment" "    "}}
     {{>kotlinConstructorThrows}}
 {{resolveName "visibility"}}constructor({{!!
 }}{{#parameters}}{{!!

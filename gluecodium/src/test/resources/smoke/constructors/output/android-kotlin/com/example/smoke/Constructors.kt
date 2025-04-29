@@ -19,22 +19,34 @@ open class Constructors : NativeBase {
 
 
 
+
+
     constructor() : this(create(), null as Any?) {
         cacheThisInstance();
     }
+
+
     constructor(other: Constructors) : this(create(other), null as Any?) {
         cacheThisInstance();
     }
+
+
     constructor(foo: String, bar: Long) : this(create(foo, bar), null as Any?) {
         cacheThisInstance();
     }
+
+
     @Throws(Constructors.ConstructorExplodedException::class)
     constructor(input: String) : this(create(input), null as Any?) {
         cacheThisInstance();
     }
+
+
     constructor(input: MutableList<Double>) : this(create(input), null as Any?) {
         cacheThisInstance();
     }
+
+
     constructor(input: Long) : this(create(input), null as Any?) {
         cacheThisInstance();
     }

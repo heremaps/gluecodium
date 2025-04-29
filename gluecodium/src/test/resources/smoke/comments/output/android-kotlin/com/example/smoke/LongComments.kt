@@ -9,6 +9,12 @@ package com.example.smoke
 
 import com.example.NativeBase
 
+/**
+ * This is some very useful interface. There is a lot to say about this interface. at least it has a long comment.
+ * This is a placeholder, which has multiple lines. Here we have continuation of the first line.
+ * But this should be rendered in line below.
+ * This too!
+ */
 class LongComments : NativeBase {
 
 

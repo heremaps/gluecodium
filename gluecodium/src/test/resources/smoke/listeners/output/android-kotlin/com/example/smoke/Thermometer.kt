@@ -10,6 +10,10 @@ package com.example.smoke
 import com.example.NativeBase
 import com.example.time.Duration
 
+/**
+ * A class, which reads temperature and updates observers according to the given interval.
+ * "Subject" in observer design pattern.
+ */
 class Thermometer : NativeBase {
 
     /**
@@ -33,24 +37,57 @@ class Thermometer : NativeBase {
 
 
 
+    /**
+     * A constructor, which makes the thermometer with readout interval.
+     * @param interval readout interval
+     * @param observers observers of temperature changes
+     */
+
     constructor(interval: Duration, observers: MutableList<TemperatureObserver>) : this(makeWithDuration(interval, observers), null as Any?) {
         cacheThisInstance();
         notifyObservers(this, observers)
     }
+    /**
+     * A constructor, which makes the thermometer with default readout interval (1 second).
+     * @param observers observers of temperature changes
+     */
+
     constructor(observers: MutableList<TemperatureObserver>) : this(makeWithoutDuration(observers), null as Any?) {
         cacheThisInstance();
         notifyObservers(this, observers)
     }
+    /**
+     * A throwing constructor, which makes the thermometer with default readout interval (1 second).
+     * @param id identification of this thermometer
+     * @param observers observers of temperature changes
+     * @throws Thermometer.NotificationException if identification number is invalid
+     */
+
     @Throws(Thermometer.NotificationException::class)
     constructor(id: Int, observers: MutableList<TemperatureObserver>) : this(throwingMake(id, observers), null as Any?) {
         cacheThisInstance();
         throwingNotifyObservers(this, observers)
     }
+    /**
+     * A non-throwing constructor, which makes the thermometer with default readout interval (1 second).
+     * @param label some identification label
+     * @param niceObservers observers of temperature changes
+     * @throws Thermometer.NotificationException if notification of observers failed
+     */
+
     @Throws(Thermometer.NotificationException::class)
     constructor(label: String, niceObservers: MutableList<TemperatureObserver>) : this(nothrowMake(label, niceObservers), null as Any?) {
         cacheThisInstance();
         throwingNotifyObservers(this, niceObservers)
     }
+    /**
+     * A throwing constructor, which makes the thermometer with default readout interval (1 second).
+     * @param dummy some dummy boolean flag
+     * @param observers observers of temperature changes
+     * @throws Thermometer.AnotherNotificationException if some problem occurs
+     * @throws Thermometer.NotificationException if notification of observers failed
+     */
+
     @Throws(Thermometer.AnotherNotificationException::class, Thermometer.NotificationException::class)
     constructor(dummy: Boolean, observers: MutableList<TemperatureObserver>) : this(anotherThrowingMake(dummy, observers), null as Any?) {
         cacheThisInstance();
