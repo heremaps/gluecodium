@@ -34,7 +34,9 @@
 {{#set isInterface=true}}
 {{#properties}}
 {{#unless isStatic}}
+{{#set property=this}}{{#property}}
 {{prefixPartial "kotlin/KotlinProperty" "    "}}
+{{/property}}{{/set}}
 {{/unless}}
 {{/properties}}
 {{/set}}

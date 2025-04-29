@@ -67,13 +67,33 @@ class Comments : NativeBase {
 
         override external fun apply(p0: String, p1: Int) : Double
 
+        /**
+         * Some very useful property.
+         * Note: without these comments user may not be able to use it correctly.
+         * Note: that's serious.
+         * Therefore, these lines above getter/setter need to be rendered in the output files.
+         */
         override var isSomeProperty: Boolean
             external get
             external set
 
+        /**
+         * OnlyGetterProperty, which does not have a setter.
+         * The generated documentation for this property should only be added to property or getter.
+         */
         override val onlyGetterProperty: Int
             external get
 
+        /**
+         * A flag that determines if [com.example.smoke.Comments.onlyGetterProperty] is visible on the screen.
+         * By default it is set to `false`. In this case the mentioned thing is not visible on the
+         * screen except the case when another flag called [com.example.smoke.Comments.isSomeProperty] forces it.
+         * When set to `true` then it is always visible.
+         *
+         * The additional information about usage of the visibility flag is described here. It contains a lot
+         * of references. For instance, if [com.example.smoke.Comments.isSomeProperty] is
+         * then it is not visible even if flag is set to `true`.
+         */
         override var isIsVisible: Boolean
             external get
             external set
@@ -110,13 +130,33 @@ class Comments : NativeBase {
     external fun oneParameterCommentOnly(undocumented: String, documented: String) : String
     external fun returnCommentOnly(undocumented: String) : String
 
+    /**
+     * Some very useful property.
+     * Note: without these comments user may not be able to use it correctly.
+     * Note: that's serious.
+     * Therefore, these lines above getter/setter need to be rendered in the output files.
+     */
     var isSomeProperty: Boolean
         external get
         external set
 
+    /**
+     * OnlyGetterProperty, which does not have a setter.
+     * The generated documentation for this property should only be added to property or getter.
+     */
     val onlyGetterProperty: Int
         external get
 
+    /**
+     * A flag that determines if [com.example.smoke.Comments.onlyGetterProperty] is visible on the screen.
+     * By default it is set to `false`. In this case the mentioned thing is not visible on the
+     * screen except the case when another flag called [com.example.smoke.Comments.isSomeProperty] forces it.
+     * When set to `true` then it is always visible.
+     *
+     * The additional information about usage of the visibility flag is described here. It contains a lot
+     * of references. For instance, if [com.example.smoke.Comments.isSomeProperty] is
+     * then it is not visible even if flag is set to `true`.
+     */
     var isIsVisible: Boolean
         external get
         external set

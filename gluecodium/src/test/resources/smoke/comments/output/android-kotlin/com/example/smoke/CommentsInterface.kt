@@ -52,6 +52,9 @@ interface CommentsInterface {
     fun someMethodWithNothing() : Unit
     fun someMethodWithoutReturnTypeOrInputParameters() : Unit
 
+    /**
+     * Some very useful property.
+     */
     var isSomeProperty: Boolean
         get
         set

@@ -22,6 +22,9 @@
 {{#resolveName comment}}{{#unless this.isEmpty}}
 /**
 {{prefix this " * "}}
+{{#property.additionalDescriptionComment}}{{#resolveName this}}{{#unless this.isEmpty}}
+{{prefix this " * "}}
+{{/unless}}{{/resolveName}}{{/property.additionalDescriptionComment}}
 {{#if comment.isExcluded}}
  * @suppress
 {{/if}}

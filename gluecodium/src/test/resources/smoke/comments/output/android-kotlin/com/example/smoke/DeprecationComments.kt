@@ -46,10 +46,18 @@ interface DeprecationComments {
 
     fun someMethodWithAllComments(input: String) : Boolean
 
+    /**
+     * Some very useful property.
+     */
+    @Deprecated("Unfortunately, this property is deprecated.\nUse [com.example.smoke.Comments.isSomeProperty] instead.")
     var isSomeProperty: Boolean
         get
         set
 
+    /**
+     * Describes the property but not accessors.
+     */
+    @Deprecated("Will be removed in v3.2.1.")
     var propertyButNotAccessors: String
         get
         set

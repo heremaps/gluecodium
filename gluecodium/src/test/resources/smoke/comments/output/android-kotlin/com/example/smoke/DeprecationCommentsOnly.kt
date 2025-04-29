@@ -33,6 +33,7 @@ interface DeprecationCommentsOnly {
 
     fun someMethodWithAllComments(input: String) : Boolean
 
+    @Deprecated("Unfortunately, this property is deprecated.")
     var isSomeProperty: Boolean
         get
         set

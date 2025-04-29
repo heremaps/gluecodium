@@ -61,6 +61,10 @@ class ExcludedComments : NativeBase {
 
         override external fun apply(p0: String, p1: Int) : Double
 
+        /**
+         * Some very useful property.
+         * @suppress
+         */
         override var isSomeProperty: Boolean
             external get
             external set
@@ -87,6 +91,10 @@ class ExcludedComments : NativeBase {
     @Throws (ExcludedComments.SomethingWrongException::class) external fun someMethodWithAllComments(inputParameter: String) : Boolean
     external fun someMethodWithoutReturnTypeOrInputParameters() : Unit
 
+    /**
+     * Some very useful property.
+     * @suppress
+     */
     var isSomeProperty: Boolean
         external get
         external set
