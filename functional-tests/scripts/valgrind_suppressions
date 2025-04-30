@@ -320,3 +320,19 @@
    fun:__swift_instantiateConcreteTypeFromMangledName
    fun:*
 }
+{
+   False positive from XCTest library on Linux (see: https://github.com/swiftlang/swift-corelibs-xctest/issues/342)
+
+   Memcheck:Leak
+   match-leak-kinds: definite
+   ...
+   fun:_ZN5swift9RefCountsINS_13RefCountBitsTILNS_19RefCountInlinednessE1EEEE17formWeakReferenceEv
+   fun:swift_weakAssign
+   fun:$s6XCTest9XCTWaiterC4wait3for7timeout12enforceOrder4file4lineAC6ResultOSayAA0A11ExpectationCG_SdSbs12StaticStringVSitF
+   fun:$s6XCTest9XCTWaiterC4wait3for7timeout12enforceOrder4file4lineAC6ResultOSayAA0A11ExpectationCG_SdSbs12StaticStringVSitFZ
+   fun:$s6XCTest21awaitUsingExpectationyyyyYaKcKF
+   fun:$s6XCTest0A4CaseC10invokeTestyyF
+   fun:$s6XCTest0A4CaseC7performyyAA0A3RunCF
+   fun:$s6XCTestAAC3runyyF
+   fun:$s6XCTest0A5SuiteC7performyyAA0A3RunCF
+}
