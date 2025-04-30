@@ -50,7 +50,7 @@ class TypeCollection {
 
 
     companion object {
-        val INVALID_STORAGE_ID: Long = 0L
+        @JvmField final val INVALID_STORAGE_ID: Long = 0L
     }
 }
 

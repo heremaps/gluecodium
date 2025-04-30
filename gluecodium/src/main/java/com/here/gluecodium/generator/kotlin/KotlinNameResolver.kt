@@ -89,6 +89,7 @@ internal class KotlinNameResolver(
     }
 
     override fun resolveGetterName(element: Any) = (element as? LimeTypedElement)?.let { kotlinNameRules.getGetterName(it) }
+
     override fun resolveSetterName(element: Any) = (element as? LimeTypedElement)?.let { kotlinNameRules.getSetterName(it) }
 
     private fun resolveComment(limeComment: LimeComment): String {

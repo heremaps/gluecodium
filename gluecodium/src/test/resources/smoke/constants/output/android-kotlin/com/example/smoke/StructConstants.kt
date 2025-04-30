@@ -61,8 +61,8 @@ class StructConstants : NativeBase {
 
 
     companion object {
-        val STRUCT_CONSTANT: StructConstants.SomeStruct = StructConstants.SomeStruct("bar Buzz", 1.41f)
-        val NESTING_STRUCT_CONSTANT: StructConstants.NestingStruct = StructConstants.NestingStruct(StructConstants.SomeStruct("nonsense", -2.82f))
+        @JvmField final val STRUCT_CONSTANT: StructConstants.SomeStruct = StructConstants.SomeStruct("bar Buzz", 1.41f)
+        @JvmField final val NESTING_STRUCT_CONSTANT: StructConstants.NestingStruct = StructConstants.NestingStruct(StructConstants.SomeStruct("nonsense", -2.82f))
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }

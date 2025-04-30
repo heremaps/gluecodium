@@ -25,7 +25,7 @@ class FreePoint {
 
 
     companion object {
-        val A_BAR: FreeEnum = FreeEnum.BAR
+        @JvmField final val A_BAR: FreeEnum = FreeEnum.BAR
     }
 }
 

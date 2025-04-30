@@ -31,7 +31,7 @@ interface ErrorsInterface {
 
 
     companion object {
-        val ERROR_MESSAGE: String = "Some error message constant"
+        @JvmField final val ERROR_MESSAGE: String = "Some error message constant"
         @Throws (WithPayloadException::class) @JvmStatic fun methodWithPayloadError() : Unit {
             ErrorsInterfaceImpl.methodWithPayloadError()
         }

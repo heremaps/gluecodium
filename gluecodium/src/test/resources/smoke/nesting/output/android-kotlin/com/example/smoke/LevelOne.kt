@@ -32,7 +32,7 @@ class LevelOne : NativeBase {
 
 
                 companion object {
-                    val FOO: Boolean = false
+                    @JvmField final val FOO: Boolean = false
                     @JvmStatic external fun fooFactory() : LevelOne.LevelTwo.LevelThree.LevelFour
                 }
             }

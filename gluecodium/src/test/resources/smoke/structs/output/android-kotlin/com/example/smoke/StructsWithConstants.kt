@@ -26,8 +26,8 @@ class StructsWithConstants {
 
 
         companion object {
-            val DEFAULT_DESCRIPTION: String = "Nonsense"
-            val DEFAULT_TYPE: RouteUtils.RouteType = RouteUtils.RouteType.EQUESTRIAN
+            @JvmField final val DEFAULT_DESCRIPTION: String = "Nonsense"
+            @JvmField final val DEFAULT_TYPE: RouteUtils.RouteType = RouteUtils.RouteType.EQUESTRIAN
         }
     }
 
