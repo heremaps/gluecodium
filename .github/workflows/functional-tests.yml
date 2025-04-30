@@ -76,7 +76,7 @@ jobs:
       - name: Install GCC
         uses: egor-tensin/setup-gcc@v1
         with:
-          version: 8
+          version: 9
       - name: Install CMake
         uses: jwlawson/actions-setup-cmake@v1.7
         with:
@@ -138,7 +138,7 @@ jobs:
       - name: Install GCC
         uses: egor-tensin/setup-gcc@v1
         with:
-          version: 8
+          version: 9
       - name: Install CMake
         uses: jwlawson/actions-setup-cmake@v1.7
         with:
