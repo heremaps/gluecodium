@@ -41,15 +41,14 @@ class InterfaceWithStaticTest {
 
     @org.junit.Test
     fun callStaticPropertyGetter() {
-        val result: String = InterfaceWithStatic.staticProperty
-        assertEquals("bar2", result)
+        assertEquals("bar2", InterfaceWithStatic.getStaticProperty())
     }
 
     @org.junit.Test
     fun callStaticPropertySetter() {
-        InterfaceWithStatic.staticProperty = "wizz1"
+        InterfaceWithStatic.setStaticProperty("wizz1")
 
-        val result: String = InterfaceWithStatic.staticProperty
+        val result: String = InterfaceWithStatic.getStaticProperty()
         UseInterfaceWithStatic.resetStaticValue()
 
         assertEquals("wizz1", result)
