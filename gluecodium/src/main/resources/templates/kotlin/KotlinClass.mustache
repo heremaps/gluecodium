@@ -28,7 +28,8 @@
 {{>kotlin/KotlinContainerContents}}
 
 {{#set classElement=this}}{{#constructors}}
-    {{resolveName "visibility"}}constructor({{!!
+{{#thrownType}}@Throws ({{resolveName typeRef}}::class){{/thrownType}}{{!!
+}}    {{resolveName "visibility"}}constructor({{!!
 }}{{#parameters}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/parameters}}){{!!
