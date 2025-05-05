@@ -333,6 +333,14 @@ _gluecodium_define_target_property(
     "This property is initialized by the value of the GLUECODIUM_DOCS_PLACEHOLDERS_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
 )
 
+_gluecodium_define_target_property(
+  GLUECODIUM_DOCS_VALIDATION_RULES
+  BRIEF_DOCS "The path to file with rules used to validate documentation comments."
+  FULL_DOCS
+    "File with rules used to validate documentation comments. Each rule contains list of elements, that need to match certain regular expression."
+    "This property is initialized by the value of the GLUECODIUM_DOCS_VALIDATION_RULES_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
+)
+
 # TODO: Add read-only properties
 
 function(_gluecodium_get_default_value_for_variable result _property)

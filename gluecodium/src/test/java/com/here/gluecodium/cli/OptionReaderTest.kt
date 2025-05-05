@@ -209,6 +209,19 @@ class OptionReaderTest {
         assertTrue(exception.message!!.startsWith("File $path does not exist"))
     }
 
+    @Test
+    fun docsValidationRulesMissingFile() {
+        // Arrange, Act
+        val path = "rulesFileThatDoesNotExist.json"
+        val exception =
+            assertThrows(OptionReaderException::class.java, {
+                OptionReader.read(arrayOf("-docsvalidationrules", path))
+            })
+
+        // Assert
+        assertTrue(exception.message!!.startsWith("Rules file $path does not exist"))
+    }
+
     private fun prepareToRead(
         optionName: String,
         optionValue: String,

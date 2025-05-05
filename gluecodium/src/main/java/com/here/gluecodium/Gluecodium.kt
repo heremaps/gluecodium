@@ -37,6 +37,7 @@ import com.here.gluecodium.model.lime.LimeModelLoaderException
 import com.here.gluecodium.validator.LimeAndroidAttributesMismatchValidator
 import com.here.gluecodium.validator.LimeAsyncValidator
 import com.here.gluecodium.validator.LimeConstantRefsValidator
+import com.here.gluecodium.validator.LimeDocRulesValidator
 import com.here.gluecodium.validator.LimeExternalTypesValidator
 import com.here.gluecodium.validator.LimeFieldConstructorsValidator
 import com.here.gluecodium.validator.LimeFunctionsValidator
@@ -196,6 +197,7 @@ class Gluecodium(
             { LimeOptimizedListsValidator(limeLogger).validate(it) },
             { LimeFieldConstructorsValidator(limeLogger).validate(it) },
             { LimeValuesValidator(limeLogger).validate(it) },
+            { LimeDocRulesValidator(limeLogger, gluecodiumOptions.docsValidationRules, discoverGenerators()).validate(it) },
         )
 
     private fun getIndependentValidators(limeLogger: LimeLogger) =
