@@ -1,0 +1,1 @@
+element unit.test.Foo: LimeDocValidationRule 'Availability rule' failed for unit.test.Foo for platform '(Dart|Java|Kotlin|Swift)'

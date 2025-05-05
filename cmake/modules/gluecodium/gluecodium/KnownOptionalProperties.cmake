@@ -238,6 +238,15 @@ _gluecodium_define_target_property(
 )
 
 _gluecodium_define_target_property(
+  GLUECODIUM_ENABLE_ANDROID_ATTRIBUTES_MISMATCH_WARNING
+  BRIEF_DOCS "Enables generation of warnings when attributes for Java and Kotlin do not match."
+  FULL_DOCS
+    "Enables generation of warnings when attributes for Java and Kotlin do not match. "
+    "Option used to ease adjustments of LIME files needed to transition from Java to Kotlin. "
+    "This property is initialized by the value of the GLUECODIUM_ENABLE_ANDROID_ATTRIBUTES_MISMATCH_WARNING_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
+)
+
+_gluecodium_define_target_property(
   GLUECODIUM_DART_NAMERULES
   BRIEF_DOCS "The path to a file with name rules for Dart"
   FULL_DOCS
@@ -322,6 +331,14 @@ _gluecodium_define_target_property(
     "Also some symbols can't be used in text, for example semicolon. "
     "It's appended to the file with placeholders, see `GLUECODIUM_DOCS_PLACEHOLDERS_FILES`. "
     "This property is initialized by the value of the GLUECODIUM_DOCS_PLACEHOLDERS_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
+)
+
+_gluecodium_define_target_property(
+  GLUECODIUM_DOCS_VALIDATION_RULES
+  BRIEF_DOCS "The path to file with rules used to validate documentation comments."
+  FULL_DOCS
+    "File with rules used to validate documentation comments. Each rule contains list of elements, that need to match certain regular expression."
+    "This property is initialized by the value of the GLUECODIUM_DOCS_VALIDATION_RULES_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
 )
 
 # TODO: Add read-only properties

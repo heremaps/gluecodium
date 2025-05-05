@@ -38,6 +38,7 @@ data class GeneratorOptions(
     var cppExportCommon: String? = null,
     var internalPrefix: String? = null,
     var libraryName: String = "library",
+    var enableAndroidAttributesMismatchWarning: Boolean = false,
     var dartDisableFinalizableMarker: Boolean = false,
     var dartLookupErrorMessage: String =
         "Failed to resolve an FFI function. Perhaps `LibraryContext.init()` was not called.",

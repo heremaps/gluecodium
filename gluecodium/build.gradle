@@ -35,6 +35,7 @@ dependencies {
     implementation libs.slf4j.api
     implementation libs.slf4j.log4j12
     implementation libs.trimou.core
+    implementation libs.kotlinx.serialization.json
 
     testImplementation files({ project(":lime-runtime").sourceSets.test.output })
     testImplementation libs.bundles.mockk

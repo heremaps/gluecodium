@@ -51,6 +51,18 @@ class LimeComment(
             .joinToString("") { if (!isPlaceholder(it.first)) it.second else resolvePlaceholder(it.second, platform) }
             .trim()
 
+    fun getForWithoutResolvingPlaceholder(platform: String) =
+        taggedSections
+            .filter { it.first == "" || it.first == platform || isPlaceholder(it.first) }
+            .joinToString("") {
+                if (!isPlaceholder(it.first)) {
+                    it.second
+                } else {
+                    "{ @Placeholder ${it.second} }"
+                }
+            }
+            .trim()
+
     fun withPath(newPath: LimePath) = LimeComment(newPath, taggedSections, isExcluded, placeholders)
 
     fun withExcluded(newExcluded: Boolean): LimeComment {

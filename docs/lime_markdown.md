@@ -239,3 +239,43 @@ Excluding an element from documentation
 Documentation comments support a special `@exclude` tag. This tag is converted into a language-appropriate "exclude from
 the documentation" tag in the generated code. When using this tag, it should be placed on a separate line of its own
 within the IDL documentation comment.
+
+Validation rules for documentation comments
+---------------------------------------
+
+Sometimes certain elements must contain given required information. For instance, about module to which given public interface belongs or
+online/offline availability. In order to add custom validation of comments, a dedicated JSON file with rules can be used. The file can be
+specified via `-docsvalidationrules` CLI option or `GLUECODIUM_DOCS_VALIDATION_RULES` CMake parameter. The JSON file must contain a list
+of rules. Each rule consists of required fields:
+- **name** - the name of the rule, which must be unique within the file
+- **limeElements** - the list of LIME elements to which the rule applies. The supported elements are: `class`, `struct`,
+`interface`, `lambda`, `enum`, `function` and `property`.
+- **regex** - the regular expression used to validate the comment.
+
+Moreover, the following optional fields may be used for a rule:
+- **isWarningOnly** - by default it is set to `false`. This field is used to control the behavior of validator that is triggered
+when the rule is not respected. When this field is set to `true` then only warning is raised instead of an error.
+- **resolvePlaceholders** - by default it is set to `true`. This field is used to ease creation of validation rules that want to
+check if placeholder is used in the body of comment. When this flag is set to `false` then validation rule may look only for
+`@Placeholder <NAME>`.
+- **platforms** - by default a rule is checked for all generated platforms. However, there may be a need to create platform-specific
+rule e.g. respected only for Java, Swift, Kotlin or Dart. In such a case `platforms` field can be used - it is a list of platforms
+specified as string. When this field is set the rule is applied only for the specified platforms.
+
+The example input JSON with rules can be found below:
+```
+[
+  {
+    "name": "Availability rule",
+    "limeElements": ["class", "interface"],
+    "regex": "@Placeholder (AvailableOnline|AvailableOffline)",
+    "resolvePlaceholders": false
+  },
+  {
+    "name": "Module belonging",
+    "limeElements": ["class", "struct", "interface", "lambda", "enum"],
+    "regex": "This type belongs to modules: .*"
+  },
+]
+```
+ 

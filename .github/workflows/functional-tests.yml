@@ -19,7 +19,7 @@ on:
 jobs:
   cpp:
     name: C++
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v2
@@ -56,7 +56,7 @@ jobs:
 
   android:
     name: Android
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v2
@@ -76,7 +76,7 @@ jobs:
       - name: Install GCC
         uses: egor-tensin/setup-gcc@v1
         with:
-          version: 8
+          version: 9
       - name: Install CMake
         uses: jwlawson/actions-setup-cmake@v1.7
         with:
@@ -118,7 +118,7 @@ jobs:
 
   android-kotlin:
     name: Android-Kotlin
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v2
@@ -138,7 +138,7 @@ jobs:
       - name: Install GCC
         uses: egor-tensin/setup-gcc@v1
         with:
-          version: 8
+          version: 9
       - name: Install CMake
         uses: jwlawson/actions-setup-cmake@v1.7
         with:
@@ -173,7 +173,7 @@ jobs:
 
   swift:
     name: Swift on Linux
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v2
@@ -210,9 +210,9 @@ jobs:
         run: sudo apt install -y libcurl4
       - name: Install Swift SDK
         run: |
-          SWIFT_BRANCH=swift-5.4.3-release
-          SWIFT_VERSION=swift-5.4.3-RELEASE
-          SWIFT_PLATFORM=ubuntu20.04
+          SWIFT_BRANCH=swift-5.7.3-release
+          SWIFT_VERSION=swift-5.7.3-RELEASE
+          SWIFT_PLATFORM=ubuntu22.04
           SWIFT_ARCHIVE_NAME=${SWIFT_VERSION}-${SWIFT_PLATFORM}.tar.gz
           if [ ! -d "${HOME}/swift-sdk" ]; then
             mkdir ~/swift-sdk
@@ -284,7 +284,7 @@ jobs:
 
   dart:
     name: Dart
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v2
@@ -323,7 +323,7 @@ jobs:
 
   dart-asan:
     name: Dart with AddressSanitizer
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v2
@@ -387,7 +387,7 @@ jobs:
 
   cmake-tests:
     name: CMake toolchain tests
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v2
