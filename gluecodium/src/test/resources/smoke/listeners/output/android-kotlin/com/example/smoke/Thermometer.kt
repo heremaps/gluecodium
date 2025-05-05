@@ -29,7 +29,7 @@ class Thermometer : NativeBase {
         cacheThisInstance();
         notifyObservers(this, observers)
     }
-    constructor(id: Int, observers: MutableList<TemperatureObserver>) : this(throwingMake(id, observers), null as Any?) {
+@Throws (Thermometer.NotificationException::class)    constructor(id: Int, observers: MutableList<TemperatureObserver>) : this(throwingMake(id, observers), null as Any?) {
         cacheThisInstance();
         throwingNotifyObservers(this, observers)
     }
@@ -37,7 +37,7 @@ class Thermometer : NativeBase {
         cacheThisInstance();
         throwingNotifyObservers(this, niceObservers)
     }
-    constructor(dummy: Boolean, observers: MutableList<TemperatureObserver>) : this(anotherThrowingMake(dummy, observers), null as Any?) {
+@Throws (Thermometer.AnotherNotificationException::class)    constructor(dummy: Boolean, observers: MutableList<TemperatureObserver>) : this(anotherThrowingMake(dummy, observers), null as Any?) {
         cacheThisInstance();
         throwingNotifyObservers(this, observers)
     }
