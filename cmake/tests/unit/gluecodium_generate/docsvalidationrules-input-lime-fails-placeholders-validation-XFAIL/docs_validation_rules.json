@@ -1,0 +1,8 @@
+[
+  {
+    "name": "Availability rule",
+    "limeElements": ["class"],
+    "regex": "@Placeholder (AvailableOnline|AvailableOffline)",
+    "resolvePlaceholders": false
+  }
+]

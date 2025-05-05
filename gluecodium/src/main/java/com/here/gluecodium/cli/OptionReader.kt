@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2024 HERE Europe B.V.
+ * Copyright (C) 2016-2025 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import com.here.gluecodium.GluecodiumOptions
 import com.here.gluecodium.common.CaseInsensitiveSet
 import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.GeneratorOptions
+import com.here.gluecodium.validator.LimeDocValidationRule
 import com.natpryce.konfig.Configuration
 import com.natpryce.konfig.ConfigurationProperties
 import com.natpryce.konfig.Key
@@ -30,6 +31,8 @@ import com.natpryce.konfig.booleanType
 import com.natpryce.konfig.listType
 import com.natpryce.konfig.overriding
 import com.natpryce.konfig.stringType
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.HelpFormatter
 import org.apache.commons.cli.Option
@@ -129,6 +132,12 @@ object OptionReader {
                     "'Finalizable' marker)",
             )
             addOption(
+                "enableandroidattributesmismatchwarning",
+                false,
+                "Enables generation of warnings when attributes for Java and Kotlin do not match. " +
+                    "Option used to ease adjustments of LIME files needed to transition from Java to Kotlin.",
+            )
+            addOption(
                 "werror",
                 "warning-as-error",
                 true,
@@ -163,6 +172,12 @@ object OptionReader {
                     "is encountered, then it is substituted with the content of placeholder. " +
                     "The placeholders file should follow '.properties' file format and enclose text with \"\" as follows: " +
                     "my_placeholder_name=\"This will be injected instead of my_placeholder\"",
+            )
+            addOption(
+                "docsvalidationrules",
+                true,
+                "File with rules used to validate documentation comments. Each rule contains list of elements, that need " +
+                    "to match certain regular expression.",
             )
         }
 
@@ -213,6 +228,7 @@ object OptionReader {
         gluecodiumOptions.isEnableCaching = getFlagValue("output") && getFlagValue("cache")
         gluecodiumOptions.isStrictMode = getFlagValue("strict")
         gluecodiumOptions.docsPlaceholders = readPlaceholdersFile(getStringValue("docsplaceholderslist"))
+        gluecodiumOptions.docsValidationRules = readDocsValidationRulesFile(getStringValue("docsvalidationrules"))
 
         val generatorOptions = GeneratorOptions()
 
@@ -233,6 +249,7 @@ object OptionReader {
         getStringValue("dartlookuperrormessage")?.let { generatorOptions.dartLookupErrorMessage = it }
         getStringListValue("werror")?.let { generatorOptions.werror = it.toSet() }
 
+        generatorOptions.enableAndroidAttributesMismatchWarning = getFlagValue("enableandroidattributesmismatchwarning")
         generatorOptions.dartDisableFinalizableMarker = getFlagValue("dartdisablefinalizablemarker")
         generatorOptions.swiftExposeInternals = getFlagValue("swiftexpose")
 
@@ -279,6 +296,26 @@ object OptionReader {
 
             it.key to it.value.removeSurrounding("\"", "\"")
         }.toMap()
+    }
+
+    private fun readDocsValidationRulesFile(path: String?): List<LimeDocValidationRule> {
+        if (path == null) {
+            return emptyList()
+        }
+
+        val rulesFile = File(path)
+        if (!rulesFile.exists()) {
+            val currentDir = Paths.get("").toAbsolutePath()
+            throw OptionReaderException("Rules file $path does not exist in $currentDir")
+        }
+
+        try {
+            return Json.decodeFromString<List<LimeDocValidationRule>>(rulesFile.readText())
+        } catch (e: Exception) {
+            throw OptionReaderException(
+                "File $path is not a valid rules file! Parsing JSON failed: ${e.message}",
+            )
+        }
     }
 
     @Throws(OptionReaderException::class)
