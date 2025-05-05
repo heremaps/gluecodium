@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2021 HERE Europe B.V.
+ * Copyright (C) 2016-2025 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@
 
 package com.here.gluecodium
 
+import com.here.gluecodium.validator.LimeDocValidationRule
+
 data class GluecodiumOptions(
     var idlSources: List<String> = emptyList(),
     var auxiliaryIdlSources: List<String> = emptyList(),
@@ -29,4 +31,5 @@ data class GluecodiumOptions(
     var isEnableCaching: Boolean = false,
     var isStrictMode: Boolean = false,
     var docsPlaceholders: Map<String, String> = emptyMap(),
+    var docsValidationRules: List<LimeDocValidationRule> = emptyList(),
 )

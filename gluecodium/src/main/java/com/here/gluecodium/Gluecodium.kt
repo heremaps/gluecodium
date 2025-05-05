@@ -34,8 +34,10 @@ import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeModelLoader
 import com.here.gluecodium.model.lime.LimeModelLoaderException
+import com.here.gluecodium.validator.LimeAndroidAttributesMismatchValidator
 import com.here.gluecodium.validator.LimeAsyncValidator
 import com.here.gluecodium.validator.LimeConstantRefsValidator
+import com.here.gluecodium.validator.LimeDocRulesValidator
 import com.here.gluecodium.validator.LimeExternalTypesValidator
 import com.here.gluecodium.validator.LimeFieldConstructorsValidator
 import com.here.gluecodium.validator.LimeFunctionsValidator
@@ -178,6 +180,9 @@ class Gluecodium(
             getIndependentValidators(limeLogger) +
                 if (typeRefsValidationResult) getTypeRefDependentValidators(limeLogger) else emptyList()
         val validationResults = validators.map { it.invoke(filteredModel) }
+        if (generatorOptions.enableAndroidAttributesMismatchWarning) {
+            LimeAndroidAttributesMismatchValidator(limeLogger).validate(filteredModel)
+        }
         return typeRefsValidationResult && !validationResults.contains(false)
     }
 
@@ -192,6 +197,7 @@ class Gluecodium(
             { LimeOptimizedListsValidator(limeLogger).validate(it) },
             { LimeFieldConstructorsValidator(limeLogger).validate(it) },
             { LimeValuesValidator(limeLogger).validate(it) },
+            { LimeDocRulesValidator(limeLogger, gluecodiumOptions.docsValidationRules, discoverGenerators()).validate(it) },
         )
 
     private fun getIndependentValidators(limeLogger: LimeLogger) =

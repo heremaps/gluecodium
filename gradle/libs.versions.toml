@@ -10,6 +10,7 @@ powermock-reflect = "2.0.9"
 robolectric = "4.11.1"
 natpryce-konfig = "1.6.10.0"
 kotlin = "1.9.22"
+kotlinx-serialization-json = "1.6.3"
 build-info-extractor-gradle = "5.1.13"
 spotless-plugin-gradle = "6.23.3"
 android-tools-build-gradle = "8.2.0"
@@ -39,6 +40,7 @@ natpryce-konfig = { module = "com.natpryce:konfig", version.ref = "natpryce-konf
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 build-info-extractor-gradle = { module = "org.jfrog.buildinfo:build-info-extractor-gradle", version.ref = "build-info-extractor-gradle" }
 spotless-plugin-gradle = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless-plugin-gradle" }
 android-tools-build-gradle = { module = "com.android.tools.build:gradle", version.ref = "android-tools-build-gradle" }
@@ -55,6 +57,7 @@ slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-log4j12 = { module = "org.slf4j:slf4j-log4j12", version.ref = "slf4j" }
 
 [plugins]
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 nebula-lint = { id = "nebula.lint", version.ref = "nebula-lint" }
 lazan-dependency-export = { id = "com.lazan.dependency-export", version.ref = "lazan-dependency-export" }
 
