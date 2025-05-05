@@ -31,6 +31,25 @@
    fun:*
 }
 {
+   getForeignTypeMetadata
+
+   Memcheck:Leak
+   match-leak-kinds: possible
+   ...
+   fun:swift_getForeignTypeMetadata
+   fun:*
+}
+{
+   pthreadCreate_allocateStack
+
+   Memcheck:Leak
+   match-leak-kinds: possible
+   ...
+   fun:allocate_stack
+   fun:pthread_create@@GLIBC_2.34
+   fun:*
+}
+{
    instantiateCPGenericMetadata
 
    Memcheck:Leak
