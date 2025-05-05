@@ -66,10 +66,10 @@ class Thermometer : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         @JvmStatic external fun makeWithDuration(interval: Duration, observers: MutableList<TemperatureObserver>) : Long
         @JvmStatic external fun makeWithoutDuration(observers: MutableList<TemperatureObserver>) : Long
-        @JvmStatic external fun throwingMake(id: Int, observers: MutableList<TemperatureObserver>) : Long
+        @Throws (Thermometer.NotificationException::class) @JvmStatic external fun throwingMake(id: Int, observers: MutableList<TemperatureObserver>) : Long
         @JvmStatic external fun nothrowMake(label: String, niceObservers: MutableList<TemperatureObserver>) : Long
-        @JvmStatic external fun anotherThrowingMake(dummy: Boolean, observers: MutableList<TemperatureObserver>) : Long
+        @Throws (Thermometer.AnotherNotificationException::class) @JvmStatic external fun anotherThrowingMake(dummy: Boolean, observers: MutableList<TemperatureObserver>) : Long
         @JvmStatic external fun notifyObservers(thermometer: Thermometer, someObservers: MutableList<TemperatureObserver>) : Unit
-        @JvmStatic external fun throwingNotifyObservers(thermometer: Thermometer, someObservers: MutableList<TemperatureObserver>) : Unit
+        @Throws (Thermometer.NotificationException::class) @JvmStatic external fun throwingNotifyObservers(thermometer: Thermometer, someObservers: MutableList<TemperatureObserver>) : Unit
     }
 }

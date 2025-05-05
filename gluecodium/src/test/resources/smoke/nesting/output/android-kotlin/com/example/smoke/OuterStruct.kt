@@ -32,6 +32,7 @@ class OuterStruct {
 
         external fun doSomething() : Unit
 
+
     }
 
     class InnerClass : NativeBase {
@@ -50,6 +51,7 @@ class OuterStruct {
 
 
         external fun fooBar() : MutableSet<Locale>
+
 
 
 
@@ -78,6 +80,7 @@ class OuterStruct {
 
         external fun field(value: String) : OuterStruct.Builder
         external fun build() : OuterStruct
+
 
 
 
@@ -141,7 +144,8 @@ class OuterStruct {
 
 
 
-    external fun doNothing() : Unit
+    @Throws (OuterStruct.InstantiationException::class) external fun doNothing() : Unit
+
 
 }
 

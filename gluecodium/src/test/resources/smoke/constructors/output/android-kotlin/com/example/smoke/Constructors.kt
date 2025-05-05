@@ -51,12 +51,13 @@ open class Constructors : NativeBase {
 
 
 
+
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         @JvmStatic external fun create() : Long
         @JvmStatic external fun create(other: Constructors) : Long
         @JvmStatic external fun create(foo: String, bar: Long) : Long
-        @JvmStatic external fun create(input: String) : Long
+        @Throws (Constructors.ConstructorExplodedException::class) @JvmStatic external fun create(input: String) : Long
         @JvmStatic external fun create(input: MutableList<Double>) : Long
         @JvmStatic external fun create(input: Long) : Long
     }
