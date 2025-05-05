@@ -151,6 +151,7 @@ function(_prepare_gluecodium_config_file file_path placeholder_file)
   _append_boolean_value(swiftexpose "${GLUECODIUM_SWIFT_EXPOSE_INTERNALS}")
   _append_boolean_value(strict "${GLUECODIUM_STRICT_VALIDATION}")
   _append_boolean_value(dartdisablefinalizablemarker "${GLUECODIUM_DART_DISABLE_FINALIZABLE_MARKER}")
+  _append_boolean_value(enableandroidattributesmismatchwarning "${GLUECODIUM_ENABLE_ANDROID_ATTRIBUTES_MISMATCH_WARNING}")
 
   _append_list_option(generators GLUECODIUM_GENERATORS)
   _append_list_option(werror GLUECODIUM_WERROR)
