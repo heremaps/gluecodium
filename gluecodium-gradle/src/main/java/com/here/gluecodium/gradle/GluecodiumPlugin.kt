@@ -53,7 +53,13 @@ class GluecodiumPlugin
 
             project.tasks.register(GLUECODIUM_TASK_NAME, GluecodiumTask::class.java) {
                 it.description = "Processes Gluecodium IDL files"
-                it.javaGenerator = javaGenerator
+
+                if (gluecodiumExtension.useAndroidKotlin.getOrElse(false)) {
+                    it.javaGenerator = "android-kotlin"
+                } else {
+                    it.javaGenerator = javaGenerator
+                }
+
                 propagateExtensionProperties(it, gluecodiumExtension)
             }
         }
@@ -112,6 +118,9 @@ class GluecodiumPlugin
             task.commonOutputDirectory.set(gluecodiumExtension.commonOutputDirectory)
             task.auxiliarySource.set(gluecodiumExtension.auxiliarySource)
             task.copyrightHeaderFile.set(gluecodiumExtension.copyrightHeaderFile)
+            task.kotlinPackage.set(gluecodiumExtension.kotlinPackage)
+            task.kotlinInternalPackage.set(gluecodiumExtension.kotlinInternalPackage)
+            task.kotlinNameRules.set(gluecodiumExtension.kotlinNameRules)
             task.javaPackage.set(gluecodiumExtension.javaPackage)
             task.javaInternalPackage.set(gluecodiumExtension.javaInternalPackage)
             task.javaNameRules.set(gluecodiumExtension.javaNameRules)
