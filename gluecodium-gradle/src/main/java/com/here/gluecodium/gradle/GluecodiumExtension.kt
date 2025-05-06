@@ -37,6 +37,11 @@ open class GluecodiumExtension(objects: ObjectFactory) {
 
     val copyrightHeaderFile: Property<File> = objects.property(File::class.java)
 
+    val useAndroidKotlin: Property<Boolean> = objects.property(Boolean::class.java)
+    val kotlinPackage: Property<String> = objects.property(String::class.java)
+    val kotlinInternalPackage: Property<String> = objects.property(String::class.java)
+    val kotlinNameRules: Property<File> = objects.property(File::class.java)
+
     val javaPackage: Property<String> = objects.property(String::class.java)
     val javaInternalPackage: Property<String> = objects.property(String::class.java)
     val javaNameRules: Property<File> = objects.property(File::class.java)
