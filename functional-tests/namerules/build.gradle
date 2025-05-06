@@ -25,7 +25,16 @@ project.buildDir = "${rootProject.buildDir}"
 
 def getCMakeCommonParameters() {
     return ['-Wno-dev',
-        "-DGLUECODIUM_GENERATED_DIR=${rootProject.generatedDir}"]
+        "-DGLUECODIUM_GENERATED_DIR=${rootProject.generatedDir}",
+        "-DUSE_ANDROID_KOTLIN=${rootProject.isAndroidKotlinBuild()}"]
+}
+
+def getJavaVersion() {
+    if (rootProject.isAndroidKotlinBuild()) {
+        return JavaVersion.VERSION_17
+    } else {
+        return JavaVersion.VERSION_1_8
+    }
 }
 
 android {
@@ -61,24 +70,27 @@ android {
     sourceSets {
         main {
             manifest.srcFile "${project.projectDir}/input/src/android/AndroidManifest.xml"
-
-            java.srcDirs += [
-                "${rootProject.generatedDir}/namerules_bindings/android-cpp/common/android",
-                "${rootProject.generatedDir}/namerules_bindings/android-cpp/main/android"]
         }
 
-        test {
-            java.srcDirs += ["${project.projectDir}/android/src/test/java"]
+        // Note: generated files are added to source sets by gluecodium-gradle plugin.
+        if (rootProject.isAndroidKotlinBuild()) {
+            test {
+                kotlin.srcDirs += ["${project.projectDir}/android-kotlin/src/test/kotlin"]
+            }
+        } else {
+            test {
+                java.srcDirs += ["${project.projectDir}/android/src/test/java"]
+            }
         }
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility getJavaVersion()
+        targetCompatibility getJavaVersion()
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = getJavaVersion().toString()
     }
 
     libraryVariants.all { variant ->
@@ -117,6 +129,10 @@ gluecodium {
     source = fileTree("${project.projectDir}/input/lime")
     outputDirectory = file(rootProject.generatedDir)
 
+    useAndroidKotlin = rootProject.isAndroidKotlinBuild()
+    kotlinPackage = "com.here.ktnamerules"
+    kotlinInternalPackage = "lorem.ipsum.dolorez"
+    kotlinNameRules = file("${project.projectDir}/input/namerules/kotlin.properties")
     javaPackage = "com.here.namerules"
     javaInternalPackage = "lorem.ipsum"
     javaNameRules = file("${project.projectDir}/input/namerules/java.properties")
