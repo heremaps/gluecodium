@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("Errors")
+
 package com.example.smoke
 
 import com.example.NativeBase

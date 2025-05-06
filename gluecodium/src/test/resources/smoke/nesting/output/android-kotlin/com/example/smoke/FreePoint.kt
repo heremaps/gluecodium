@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("FreePoint")
+
 package com.example.smoke
 
 
@@ -20,6 +22,7 @@ class FreePoint {
 
 
     external fun flip() : FreePoint
+
 
     companion object {
         val A_BAR: FreeEnum = FreeEnum.BAR

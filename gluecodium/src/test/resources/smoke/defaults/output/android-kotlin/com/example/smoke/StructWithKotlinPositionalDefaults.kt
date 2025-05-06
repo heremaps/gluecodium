@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("StructWithKotlinPositionalDefaults")
+
 package com.example.smoke
 
 

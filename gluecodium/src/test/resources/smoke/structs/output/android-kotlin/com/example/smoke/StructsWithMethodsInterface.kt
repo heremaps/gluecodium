@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("StructsWithMethodsInterface")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -13,6 +15,7 @@ class StructsWithMethodsInterface : NativeBase {
         var x: Double
         var y: Double
         var z: Double
+
 
 
         constructor(input: String) {

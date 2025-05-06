@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("PublicTypeCollection")
+
 package com.example.smoke
 
 
@@ -21,7 +23,9 @@ class PublicTypeCollection {
 
         external fun fooBar() : Unit
 
+
     }
+
 
 
 

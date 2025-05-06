@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("Enums")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -27,6 +29,7 @@ class Enums : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
 

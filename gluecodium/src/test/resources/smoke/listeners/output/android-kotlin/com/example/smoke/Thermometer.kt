@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("Thermometer")
+
 package com.example.smoke
 
 import com.example.NativeBase

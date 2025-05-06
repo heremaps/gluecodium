@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("DurationMilliseconds")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -20,6 +22,9 @@ class DurationMilliseconds : NativeBase {
         }
 
 
+
+
+
     }
 
 
@@ -34,12 +39,15 @@ class DurationMilliseconds : NativeBase {
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
+
     external fun durationFunction(input: Duration) : Duration
     external fun nullableDurationFunction(input: Duration?) : Duration?
 
     var durationProperty: Duration
         external get
         external set
+
+
 
 
     companion object {

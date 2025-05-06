@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("OuterClassWithInheritance")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -25,6 +27,7 @@ class OuterClassWithInheritance : ParentClass {
 
 
         external fun bar(input: String) : String
+
 
 
 
@@ -71,6 +74,7 @@ class OuterClassWithInheritance : ParentClass {
 
 
     external fun foo(input: String) : String
+
 
 
 

@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("StructsWithMethods")
+
 package com.example.smoke
 
 
@@ -11,6 +13,7 @@ class StructsWithMethods {
     class Vector {
         var x: Double
         var y: Double
+
 
 
         constructor(x: Double, y: Double) {

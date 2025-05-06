@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("SkipProxy")
+
 package com.example.smoke
 
 
@@ -15,11 +17,15 @@ interface SkipProxy {
     var skippedInJava: String
         get
         set
+
     var isSkippedInSwift: Boolean
         get
         set
+
     var skippedInDart: Float
         get
         set
+
+
 }
 

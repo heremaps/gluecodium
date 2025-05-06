@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("StructsWithConstants")
+
 package com.example.smoke
 
 
@@ -20,11 +22,17 @@ class StructsWithConstants {
         }
 
 
+
+
+
         companion object {
             val DEFAULT_DESCRIPTION: String = "Nonsense"
             val DEFAULT_TYPE: RouteUtils.RouteType = RouteUtils.RouteType.EQUESTRIAN
         }
     }
+
+
+
 
 
 

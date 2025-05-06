@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("KotlinExternalTypesStruct")
+
 package com.example.kotlinsmoke
 
 
@@ -22,6 +24,7 @@ class KotlinExternalTypesStruct {
         this.color = color
         this.season = season
     }
+
 
 
 

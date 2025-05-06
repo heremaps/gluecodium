@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("Constructors")
+
 package com.example.smoke
 
 import com.example.NativeBase

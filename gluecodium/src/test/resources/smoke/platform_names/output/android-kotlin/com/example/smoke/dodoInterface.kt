@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("PlatformNamesInterface")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -10,6 +12,7 @@ import com.example.smoke.dodoInterface
 import com.example.smoke.dodoTypes
 
 class dodoInterface : NativeBase {
+
 
 
     constructor(makeParameter: String) : this(make(makeParameter), null as Any?) {
@@ -27,11 +30,14 @@ class dodoInterface : NativeBase {
 
     private external fun cacheThisInstance()
 
+
     external fun DodoMethod(DodoParameter: String) : dodoTypes.dodoStruct
 
     var DODO_PROPERTY: Long
         external get
         external set
+
+
 
 
     companion object {

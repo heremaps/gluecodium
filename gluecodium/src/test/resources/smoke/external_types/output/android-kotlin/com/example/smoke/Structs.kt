@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("Structs")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -27,6 +29,7 @@ class Structs : NativeBase {
 
 
 
+
     }
 
     class AnotherExternalStruct {
@@ -37,6 +40,7 @@ class Structs : NativeBase {
         constructor(intField: Byte) {
             this.intField = intField
         }
+
 
 
 
@@ -53,6 +57,7 @@ class Structs : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
 

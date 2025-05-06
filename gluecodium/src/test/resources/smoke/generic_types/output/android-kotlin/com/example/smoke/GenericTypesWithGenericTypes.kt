@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("GenericTypesWithGenericTypes")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -29,6 +31,7 @@ class GenericTypesWithGenericTypes : NativeBase {
     external fun methodWithListAndSet(input: MutableList<MutableSet<Int>>) : MutableSet<MutableList<Int>>
     external fun methodWithMapAndSet(input: MutableMap<Int, MutableSet<Int>>) : MutableSet<MutableMap<Int, Boolean>>
     external fun methodWithMapGenericKeys(input: MutableMap<MutableSet<Int>, Boolean>) : MutableMap<MutableList<Int>, Boolean>
+
 
 
 

@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("InterfaceWithStaticImpl")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -24,11 +26,13 @@ class InterfaceWithStaticImpl : NativeBase, InterfaceWithStatic {
         external set
 
 
+
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         @JvmStatic external fun staticFunction() : String
         @JvmStatic var staticProperty: String
             external get
             external set
+
     }
 }

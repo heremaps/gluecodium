@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("PublicStructWithNonDefaultInternalField")
+
 package com.example.smoke
 
 
@@ -18,6 +20,7 @@ class PublicStructWithNonDefaultInternalField {
         this.internalField = internalField
         this.publicField = publicField
     }
+
 
 
 

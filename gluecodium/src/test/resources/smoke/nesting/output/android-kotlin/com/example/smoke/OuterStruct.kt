@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("OuterStruct")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -60,6 +62,7 @@ class OuterStruct {
         }
     }
     class Builder : NativeBase {
+
 
 
         constructor() : this(create(), null as Any?) {

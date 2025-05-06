@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("InterfaceWithStatic")
+
 package com.example.smoke
 
 
@@ -13,6 +15,7 @@ interface InterfaceWithStatic {
     var regularProperty: String
         get
         set
+
 
     companion object {
         @JvmStatic fun staticFunction() : String {

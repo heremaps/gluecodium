@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("StructConstants")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -21,6 +23,9 @@ class StructConstants : NativeBase {
         }
 
 
+
+
+
     }
 
     class NestingStruct {
@@ -31,6 +36,9 @@ class StructConstants : NativeBase {
         constructor(structField: StructConstants.SomeStruct) {
             this.structField = structField
         }
+
+
+
 
 
     }
@@ -45,6 +53,8 @@ class StructConstants : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+
 
 
 

@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("ExternalClass")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -20,6 +22,7 @@ class ExternalClass : NativeBase {
         constructor(someField: String) {
             this.someField = someField
         }
+
 
 
 
@@ -43,6 +46,7 @@ class ExternalClass : NativeBase {
 
     val someProperty: String
         external get
+
 
 
 

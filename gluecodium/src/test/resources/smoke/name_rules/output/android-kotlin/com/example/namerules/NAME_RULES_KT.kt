@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("NameRules")
+
 package com.example.namerules
 
 import com.example.NativeBase

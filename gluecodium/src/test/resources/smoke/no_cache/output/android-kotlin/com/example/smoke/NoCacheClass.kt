@@ -3,11 +3,14 @@
  *
  */
 
+@file:JvmName("NoCacheClass")
+
 package com.example.smoke
 
 import com.example.NativeBase
 
 class NoCacheClass : NativeBase {
+
 
 
     constructor() : this(make(), null as Any?) {
@@ -23,7 +26,9 @@ class NoCacheClass : NativeBase {
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
+
     external fun foo() : Unit
+
 
 
 

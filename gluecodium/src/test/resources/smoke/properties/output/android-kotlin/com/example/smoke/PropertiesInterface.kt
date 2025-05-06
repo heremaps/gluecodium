@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("PropertiesInterface")
+
 package com.example.smoke
 
 
@@ -15,6 +17,7 @@ interface PropertiesInterface {
         constructor(value: Double) {
             this.value = value
         }
+
 
 
 

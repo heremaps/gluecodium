@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("EquatableInterfaceImpl")
+
 package com.example.smoke
 
 import com.example.NativeBase
