@@ -18,6 +18,7 @@ class StructsWithMethods {
             this.x = _other.x
             this.y = _other.y
         }
+    @Throws (ValidationUtils.ValidationException::class)
         constructor(other: StructsWithMethods.Vector) {
             val _other = create(other)
             this.x = _other.x

@@ -21,6 +21,7 @@ class StructsWithMethodsInterface : NativeBase {
             this.y = _other.y
             this.z = _other.z
         }
+    @Throws (ValidationUtils.ValidationException::class)
         constructor(other: StructsWithMethodsInterface.Vector3) {
             val _other = create(other)
             this.x = _other.x
