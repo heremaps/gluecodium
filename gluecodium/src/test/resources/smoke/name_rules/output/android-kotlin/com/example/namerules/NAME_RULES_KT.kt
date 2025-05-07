@@ -15,7 +15,7 @@ class NAME_RULES_KT : NativeBase {
         NONE(0),
         FATAL(1);
     }
-    class ExampleException(val error: NAME_RULES_KT.EXAMPLE_ERROR_CODE_KT) : Exception(error.toString())
+    class ExampleException(@JvmField val error: NAME_RULES_KT.EXAMPLE_ERROR_CODE_KT) : Exception(error.toString())
 
 
     class EXAMPLE_STRUCT_KT {

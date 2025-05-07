@@ -8,6 +8,6 @@
 package com.example.smoke
 
 
-class WithPayloadException(val error: Payload) : Exception(error.toString())
+class WithPayloadException(@JvmField val error: Payload) : Exception(error.toString())
 
 

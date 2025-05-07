@@ -18,10 +18,10 @@ interface ErrorsInterface {
         BOOM(1),
         BUST(2);
     }
-    class InternalException(val error: ErrorsInterface.InternalError) : Exception(error.toString())
+    class InternalException(@JvmField val error: ErrorsInterface.InternalError) : Exception(error.toString())
 
 
-    class ExternalException(val error: ErrorsInterface.ExternalErrors) : Exception(error.toString())
+    class ExternalException(@JvmField val error: ErrorsInterface.ExternalErrors) : Exception(error.toString())
 
 
 

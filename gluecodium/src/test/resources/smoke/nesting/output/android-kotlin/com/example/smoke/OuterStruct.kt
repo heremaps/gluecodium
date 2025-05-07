@@ -18,7 +18,7 @@ class OuterStruct {
         FOO(0),
         BAR(1);
     }
-    class InstantiationException(val error: OuterStruct.InnerEnum) : Exception(error.toString())
+    class InstantiationException(@JvmField val error: OuterStruct.InnerEnum) : Exception(error.toString())
 
 
     class InnerStruct {
@@ -62,7 +62,6 @@ class OuterStruct {
         }
     }
     class Builder : NativeBase {
-
 
 
         constructor() : this(create(), null as Any?) {
@@ -148,7 +147,6 @@ class OuterStruct {
 
 
     @Throws (OuterStruct.InstantiationException::class) external fun doNothing() : Unit
-
 
 
 }
