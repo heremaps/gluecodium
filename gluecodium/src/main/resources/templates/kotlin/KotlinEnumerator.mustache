@@ -18,6 +18,6 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if isAlias}}    val {{resolveName}}{{!!
+{{#if isAlias}}    @JvmField val {{resolveName}}{{!!
 }} = {{resolveName value}}{{/if}}{{!!
 }}{{#unless isAlias}}    {{resolveName}}({{resolveName value}}){{/unless}}
