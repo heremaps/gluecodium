@@ -320,13 +320,22 @@ feature(ExternalTypes cpp android android-kotlin swift dart SOURCES
 
 feature(JavaExternalTypes android SOURCES
     input/src/cpp/JavaExternalTypes.cpp
+    input/src/cpp/VeryBooleanExternalType.cpp
 
     input/lime/JavaExternalTypes.lime
 )
 
-feature(KotlinExternalTypes android-kotlin SOURCES
+set(KOTLIN_EXTERNAL_TYPES_SOURCES
     input/src/cpp/KotlinExternalTypes.cpp
+    input/src/cpp/VeryBooleanExternalType.cpp
+)
 
+if(JAVA_TESTS_CONSUMING_KOTLIN)
+    list(APPEND KOTLIN_EXTERNAL_TYPES_SOURCES input/src/cpp/JavaExternalTypes.cpp)
+endif()
+
+feature(KotlinExternalTypes android-kotlin SOURCES
+    ${KOTLIN_EXTERNAL_TYPES_SOURCES}
     input/lime/KotlinExternalTypes.lime
 )
 
@@ -540,6 +549,12 @@ target_include_directories(functional_bindings PRIVATE "input/src/cpp/")
 
 include(gluecodium/Gluecodium)
 gluecodium_generate(functional_bindings)
+
+set(CUSTOM_GLUECODIUM_TAGS "Lite,ExperimentalFoo")
+if(JAVA_TESTS_CONSUMING_KOTLIN)
+    set(CUSTOM_GLUECODIUM_TAGS "${CUSTOM_GLUECODIUM_TAGS},JavaTestsRunWithKotlin")
+endif()
+
 set_target_properties(functional_bindings PROPERTIES
     GLUECODIUM_JAVA_PACKAGE com.here.android
     GLUECODIUM_JAVA_INTERNAL_PACKAGE lorem.ipsum
@@ -553,7 +568,7 @@ set_target_properties(functional_bindings PROPERTIES
     GLUECODIUM_DART_NAMERULES "${CMAKE_CURRENT_SOURCE_DIR}/../config/dart.properties"
     GLUECODIUM_COPYRIGHT_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/../config/COPYRIGHT"
     GLUECODIUM_DOCS_PLACEHOLDERS_FILES "${CMAKE_CURRENT_SOURCE_DIR}/../config/placeholders.properties"
-    GLUECODIUM_TAGS "Lite,ExperimentalFoo"
+    GLUECODIUM_TAGS "${CUSTOM_GLUECODIUM_TAGS}"
     GLUECODIUM_VERBOSE ON)
 
 gluecodium_get_target_compile_definitions(functional_bindings RESULT_PUBLIC _public_definitions

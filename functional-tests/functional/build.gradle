@@ -23,11 +23,17 @@ apply plugin: 'org.jetbrains.kotlin.android'
 project.buildDir = "${rootProject.buildDir}"
 
 def getCMakeCommonParameters() {
-    return ['-Wno-dev',
+    def params = ['-Wno-dev',
         "-DGLUECODIUM_GENERATORS_DEFAULT=${rootProject.getAndroidBuildVariant()};cpp",
         "-DGLUECODIUM_BASE_OUTPUT_DIR_DEFAULT=${rootProject.generatedDir}",
         "-DGLUECODIUM_VERSION_DEFAULT=${rootProject.useGluecodiumVersion()}",
         '-DGLUECODIUM_ENABLE_INTERNAL_DEBUG_CHECKS_DEFAULT=ON']
+
+    if (rootProject.forceJavaTestSources()) {
+        params.add('-DJAVA_TESTS_CONSUMING_KOTLIN=ON')
+    }
+
+    return params
 }
 
 android {
