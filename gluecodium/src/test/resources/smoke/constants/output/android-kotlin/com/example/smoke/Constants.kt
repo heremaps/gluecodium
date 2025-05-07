@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("Constants")
+
 package com.example.smoke
 
 
@@ -14,6 +16,11 @@ class Constants {
     }
 
 
+
+
+
+
+
     companion object {
         val BOOL_CONSTANT: Boolean = true
         val INT_CONSTANT: Int = -11
@@ -23,7 +30,5 @@ class Constants {
         val STRING_CONSTANT: String = "Foo bar"
         val ENUM_CONSTANT: Constants.StateEnum = Constants.StateEnum.ON
     }
-
 }
-
 

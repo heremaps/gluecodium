@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("SkipField")
+
 package com.example.smoke
 
 
@@ -14,6 +16,7 @@ class SkipField {
     constructor(field: String) {
         this.field = field
     }
+
 
 
 

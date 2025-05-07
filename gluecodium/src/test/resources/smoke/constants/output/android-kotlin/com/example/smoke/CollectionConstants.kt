@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("CollectionConstants")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -19,6 +21,7 @@ class CollectionConstants : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
 

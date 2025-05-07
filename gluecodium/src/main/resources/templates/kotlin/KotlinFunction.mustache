@@ -18,7 +18,8 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if isStatic}}@JvmStatic {{/if}}{{#if override}}override {{/if}}{{!!
+{{#thrownType}}@Throws ({{resolveName typeRef}}::class) {{/thrownType}}{{!!
+}}{{#if isStatic}}@JvmStatic {{/if}}{{#if override}}override {{/if}}{{!!
 }}{{#unless isInterface}}{{resolveName "visibility"}}external {{/unless}}fun {{resolveName}}({{!!
 }}{{#parameters}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!

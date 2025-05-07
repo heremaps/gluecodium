@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("UseFreeTypes")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -23,7 +25,8 @@ class UseFreeTypes : NativeBase {
 
 
 
-    external fun doStuff(point: FreePoint, mode: FreeEnum) : Date
+    @Throws (FreeException::class) external fun doStuff(point: FreePoint, mode: FreeEnum) : Date
+
 
 
 

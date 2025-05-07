@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("TypeCollection")
+
 package com.example.smoke
 
 
@@ -20,6 +22,9 @@ class TypeCollection {
         }
 
 
+
+
+
     }
 
     class Line {
@@ -32,6 +37,9 @@ class TypeCollection {
             this.a = a
             this.b = b
         }
+
+
+
 
 
     }
@@ -72,7 +80,13 @@ class TypeCollection {
         }
 
 
+
+
+
     }
+
+
+
 
 
 

@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("DurationDefaults")
+
 package com.example.smoke
 
 import com.example.time.Duration
@@ -27,6 +29,9 @@ class DurationDefaults {
         this.microz = Duration.ofNanos(665000L)
         this.nanoz = Duration.ofNanos(314635L)
     }
+
+
+
 
 
 }

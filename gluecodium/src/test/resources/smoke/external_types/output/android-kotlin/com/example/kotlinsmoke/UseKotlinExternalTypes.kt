@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("UseKotlinExternalTypes")
+
 package com.example.kotlinsmoke
 
 import com.example.NativeBase
@@ -19,6 +21,7 @@ class UseKotlinExternalTypes : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
 

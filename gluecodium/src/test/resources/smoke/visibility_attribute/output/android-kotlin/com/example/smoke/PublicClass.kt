@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("PublicClass")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -25,6 +27,7 @@ class PublicClass : NativeBase {
 
 
 
+
     }
 
     class PublicStruct {
@@ -35,6 +38,7 @@ class PublicClass : NativeBase {
         internal constructor(internalField: PublicClass.InternalStruct) {
             this.internalField = internalField
         }
+
 
 
 
@@ -51,6 +55,7 @@ class PublicClass : NativeBase {
             this.internalField = "foo"
             this.publicField = publicField
         }
+
 
 
 
@@ -75,6 +80,7 @@ class PublicClass : NativeBase {
     internal var internalStructProperty: PublicClass.InternalStruct
         external get
         external set
+
 
 
 

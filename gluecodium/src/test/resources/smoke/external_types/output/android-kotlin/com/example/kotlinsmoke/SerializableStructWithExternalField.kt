@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("SerializableStructWithExternalField")
+
 package com.example.kotlinsmoke
 
 import android.os.Parcel
@@ -27,6 +29,7 @@ class SerializableStructWithExternalField : Parcelable {
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeParcelable(someStruct, 0)
     }
+
 
 
 

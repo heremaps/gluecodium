@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("CalculatorListener")
+
 package com.example.smoke
 
 
@@ -15,6 +17,7 @@ interface CalculatorListener {
         constructor(result: Double) {
             this.result = result
         }
+
 
 
 

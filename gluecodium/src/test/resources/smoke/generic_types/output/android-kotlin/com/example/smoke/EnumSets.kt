@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("EnumSets")
+
 package com.example.smoke
 
 import java.util.EnumSet
@@ -15,6 +17,7 @@ class EnumSets {
     constructor() {
         this.enumSetField = EnumSet.noneOf(GenericTypesWithCompoundTypes.SomeEnum::class.java)
     }
+
 
 
 

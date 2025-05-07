@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("Free")
+
 package com.example.smoke
 
 

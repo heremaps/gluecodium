@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("ExternalInterface")
+
 package com.example.smoke
 
 
@@ -18,6 +20,7 @@ interface ExternalInterface {
         constructor(someField: String) {
             this.someField = someField
         }
+
 
 
 

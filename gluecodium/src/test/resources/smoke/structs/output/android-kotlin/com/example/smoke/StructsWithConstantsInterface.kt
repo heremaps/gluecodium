@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("StructsWithConstantsInterface")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -22,6 +24,8 @@ class StructsWithConstantsInterface : NativeBase {
 
 
 
+
+
         companion object {
             val DEFAULT_DESCRIPTION: String = "Foo"
             val DEFAULT_TYPE: RouteUtils.RouteType = RouteUtils.RouteType.NONE
@@ -29,6 +33,8 @@ class StructsWithConstantsInterface : NativeBase {
     }
 
     class StructWithConstantsOnly {
+
+
 
 
 
@@ -50,6 +56,7 @@ class StructsWithConstantsInterface : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
 

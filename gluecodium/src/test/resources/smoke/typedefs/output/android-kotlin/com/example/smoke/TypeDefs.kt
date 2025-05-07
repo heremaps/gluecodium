@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("TypeDefs")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -21,6 +23,7 @@ class TypeDefs : NativeBase {
 
 
 
+
     }
 
     class TestStruct {
@@ -31,6 +34,7 @@ class TypeDefs : NativeBase {
         constructor(something: String) {
             this.something = something
         }
+
 
 
 
@@ -54,6 +58,8 @@ class TypeDefs : NativeBase {
     var primitiveTypeProperty: MutableList<Double>
         external get
         external set
+
+
 
 
     companion object {

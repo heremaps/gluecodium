@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("PropertiesInterfaceImpl")
+
 package com.example.smoke
 
 import com.example.NativeBase

@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("ErrorsInterface")
+
 package com.example.smoke
 
 
@@ -23,18 +25,18 @@ interface ErrorsInterface {
 
 
 
-    fun methodWithErrors() : Unit
-    fun methodWithExternalErrors() : Unit
-    fun methodWithErrorsAndReturnValue() : String
+    @Throws (ErrorsInterface.InternalException::class) fun methodWithErrors() : Unit
+    @Throws (ErrorsInterface.ExternalException::class) fun methodWithExternalErrors() : Unit
+    @Throws (ErrorsInterface.InternalException::class) fun methodWithErrorsAndReturnValue() : String
 
 
     companion object {
         val ERROR_MESSAGE: String = "Some error message constant"
-        @JvmStatic fun methodWithPayloadError() : Unit {
+        @Throws (WithPayloadException::class) @JvmStatic fun methodWithPayloadError() : Unit {
             ErrorsInterfaceImpl.methodWithPayloadError()
         }
 
-        @JvmStatic fun methodWithPayloadErrorAndReturnValue() : String {
+        @Throws (WithPayloadException::class) @JvmStatic fun methodWithPayloadErrorAndReturnValue() : String {
             return ErrorsInterfaceImpl.methodWithPayloadErrorAndReturnValue()
         }
 

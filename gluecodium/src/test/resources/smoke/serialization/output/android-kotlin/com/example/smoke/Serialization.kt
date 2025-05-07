@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("Serialization")
+
 package com.example.smoke
 
 import android.os.Parcel
@@ -105,6 +107,7 @@ class Serialization {
 
 
 
+
         companion object {
             @JvmField
             val CREATOR = object : Parcelable.Creator<SerializableStruct> {
@@ -138,6 +141,7 @@ class Serialization {
 
 
 
+
         companion object {
             @JvmField
             val CREATOR = object : Parcelable.Creator<NestedSerializableStruct> {
@@ -147,6 +151,7 @@ class Serialization {
 
         }
     }
+
 
 
 
