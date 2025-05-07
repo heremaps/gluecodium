@@ -18,5 +18,5 @@
   ! License-Filename: LICENSE
   !
   !}}
-class {{resolveName}}(val error: {{resolveName errorType}}) : Exception(error.toString())
+class {{resolveName}}(@JvmField val error: {{resolveName errorType}}) : Exception(error.toString())
 
