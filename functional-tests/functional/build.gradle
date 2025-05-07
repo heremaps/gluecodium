@@ -72,8 +72,14 @@ android {
                         "${rootProject.generatedDir}/functional_bindings/android-kotlin-cpp/main/android-kotlin"]
             }
 
-            test {
-                kotlin.srcDirs += ["${project.projectDir}/android-kotlin/src/test/kotlin"]
+            if (rootProject.forceJavaTestSources()) {
+                test {
+                    java.srcDirs += ["${project.projectDir}/android/src/test/java"]
+                }
+            } else {
+                test {
+                    kotlin.srcDirs += ["${project.projectDir}/android-kotlin/src/test/kotlin"]
+                }
             }
         } else {
             main {
