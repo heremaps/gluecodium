@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("Structs")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -18,11 +20,13 @@ class Structs : NativeBase {
         var y: Double
 
 
+
         constructor(phi: Double, r: Double) {
             val _other = fromPolar(phi, r)
             this.x = _other.x
             this.y = _other.y
         }
+
 
 
 
@@ -43,6 +47,7 @@ class Structs : NativeBase {
             this.a = a
             this.b = b
         }
+
 
 
 
@@ -87,6 +92,7 @@ class Structs : NativeBase {
 
 
 
+
     }
 
     class NestingImmutableStruct {
@@ -97,6 +103,7 @@ class Structs : NativeBase {
         constructor(structField: Structs.AllTypesStruct) {
             this.structField = structField
         }
+
 
 
 
@@ -115,6 +122,7 @@ class Structs : NativeBase {
 
 
 
+
     }
 
     class StructWithArrayOfImmutable {
@@ -125,6 +133,7 @@ class Structs : NativeBase {
         constructor(arrayField: MutableList<Structs.AllTypesStruct>) {
             this.arrayField = arrayField
         }
+
 
 
 
@@ -158,6 +167,7 @@ class Structs : NativeBase {
 
 
 
+
     }
 
     class MutableStructWithCppAccessors {
@@ -180,6 +190,7 @@ class Structs : NativeBase {
 
 
 
+
     }
 
 
@@ -192,6 +203,7 @@ class Structs : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
 

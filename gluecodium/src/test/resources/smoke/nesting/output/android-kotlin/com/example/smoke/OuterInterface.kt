@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("OuterInterface")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -24,6 +26,7 @@ interface OuterInterface {
 
 
         external fun foo(input: String) : String
+
 
 
 

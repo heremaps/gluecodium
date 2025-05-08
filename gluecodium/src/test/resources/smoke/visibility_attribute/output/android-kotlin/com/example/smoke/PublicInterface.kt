@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("PublicInterface")
+
 package com.example.smoke
 
 
@@ -15,6 +17,7 @@ interface PublicInterface {
         internal constructor(fieldOfInternalType: PublicClass.InternalStruct) {
             this.fieldOfInternalType = fieldOfInternalType
         }
+
 
 
 

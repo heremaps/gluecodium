@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("EnumWithAlias")
+
 package com.example.smoke
 
 

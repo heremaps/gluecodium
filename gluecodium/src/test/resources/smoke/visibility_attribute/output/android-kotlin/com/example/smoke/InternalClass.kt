@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("InternalClass")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -23,6 +25,7 @@ internal class InternalClass : NativeBase {
 
 
     external fun fooBar() : Unit
+
 
 
 

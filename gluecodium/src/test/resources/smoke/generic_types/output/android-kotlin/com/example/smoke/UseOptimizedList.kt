@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("UseOptimizedList")
+
 package com.example.smoke
 
 import com.example.AbstractNativeList

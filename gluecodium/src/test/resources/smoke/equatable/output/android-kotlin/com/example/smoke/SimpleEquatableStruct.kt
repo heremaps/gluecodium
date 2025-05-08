@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("SimpleEquatableStruct")
+
 package com.example.smoke
 
 
@@ -45,6 +47,8 @@ class SimpleEquatableStruct {
         hash = 31 * hash + (this.nullableInterfaceField?.hashCode() ?: 0)
         return hash
     }
+
+
 
 
 

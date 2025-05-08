@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("InternalClassInherits")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -28,6 +30,7 @@ internal class InternalClassInherits : NativeBase, InternalInterfaceParent {
     override var prop: String
         external get
         external set
+
 
 
     companion object {

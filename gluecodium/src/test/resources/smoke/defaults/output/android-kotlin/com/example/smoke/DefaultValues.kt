@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("DefaultValues")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -30,6 +32,8 @@ class DefaultValues : NativeBase {
 
 
 
+
+
     }
 
     class NullableStructWithDefaults {
@@ -48,6 +52,8 @@ class DefaultValues : NativeBase {
             this.boolField = null
             this.stringField = null
         }
+
+
 
 
 
@@ -74,6 +80,8 @@ class DefaultValues : NativeBase {
 
 
 
+
+
     }
 
     class StructWithEmptyDefaults {
@@ -95,6 +103,8 @@ class DefaultValues : NativeBase {
 
 
 
+
+
     }
 
     class StructWithTypedefDefaults {
@@ -112,6 +122,8 @@ class DefaultValues : NativeBase {
 
 
 
+
+
     }
 
 
@@ -124,6 +136,7 @@ class DefaultValues : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
 

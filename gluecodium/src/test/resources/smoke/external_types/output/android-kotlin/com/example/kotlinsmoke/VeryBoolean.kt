@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("VeryBoolean")
+
 package com.example.kotlinsmoke
 
 
@@ -10,10 +12,12 @@ class VeryBoolean {
     var value: Boolean
 
 
+
     constructor(value: Boolean) {
         val _other = make(value)
         this.value = _other.value
     }
+
 
 
 

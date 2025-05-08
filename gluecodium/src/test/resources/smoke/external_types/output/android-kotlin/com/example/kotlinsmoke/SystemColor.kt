@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("SystemColor")
+
 package com.example.kotlinsmoke
 
 
@@ -20,6 +22,7 @@ class SystemColor {
         this.blue = blue
         this.alpha = alpha
     }
+
 
 
 

@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("SkipFunctions")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -19,6 +21,8 @@ class SkipFunctions : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+
 
 
 

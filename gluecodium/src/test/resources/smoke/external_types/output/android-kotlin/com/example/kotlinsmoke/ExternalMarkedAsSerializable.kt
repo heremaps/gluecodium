@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("ExternalMarkedAsSerializable")
+
 package com.example.kotlinsmoke
 
 import android.os.Parcel
@@ -16,6 +18,7 @@ class ExternalMarkedAsSerializable {
     constructor(field: Int) {
         this.field = field
     }
+
 
 
 

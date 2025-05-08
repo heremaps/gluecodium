@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("LevelOne")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -24,6 +26,7 @@ class LevelOne : NativeBase {
                 constructor(stringField: String) {
                     this.stringField = stringField
                 }
+
 
 
 
@@ -51,6 +54,7 @@ class LevelOne : NativeBase {
 
 
 
+
             companion object {
                 @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
             }
@@ -71,6 +75,7 @@ class LevelOne : NativeBase {
 
 
 
+
         companion object {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         }
@@ -85,6 +90,7 @@ class LevelOne : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
 

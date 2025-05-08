@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("FirstParentIsInterfaceInterface")
+
 package com.example.smoke
 
 
@@ -13,6 +15,7 @@ interface FirstParentIsInterfaceInterface : ParentInterface, ParentNarrowOne {
     var childProperty: String
         get
         set
+
 
 }
 

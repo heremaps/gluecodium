@@ -40,6 +40,8 @@
 }}
 {{#set self=this}}
 {{#constructors}}
+{{#thrownType}}@Throws ({{resolveName typeRef}}::class){{/thrownType}}{{!!
+}}
     {{#unless self.external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
 }}constructor({{!!
 }}{{#parameters}}{{!!
@@ -97,6 +99,8 @@
 
     4. Generate field constructors specified by the user.
 }}{{#set self=this}}{{#fieldConstructors}}
+{{#thrownType}}@Throws ({{resolveName typeRef}}::class){{/thrownType}}{{!!
+}}
     {{#unless self.external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
 }}constructor({{!!
 }}{{#fields}}{{!!
@@ -112,7 +116,9 @@
     5. Generate positional defaults constructor if it is specified and there are no field constructors.
 }}{{#unless fieldConstructors}}{{!!
 }}{{#if attributes.kotlin.positionalDefaults}}
-    {{#unless external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
+    {{#if initializedFields}}@JvmOverloads
+    {{/if}}{{!!
+    }}{{#unless external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
 }}constructor({{!!
 }}{{#uninitializedFields}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}, {{!!

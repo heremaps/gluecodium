@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("NestedPackages")
+
 package com.example.smoke.off
 
 import com.example.NativeBase
@@ -21,6 +23,7 @@ class NestedPackages : NativeBase {
 
 
 
+
     }
 
 
@@ -33,6 +36,7 @@ class NestedPackages : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
 

@@ -3,15 +3,19 @@
  *
  */
 
+@file:JvmName("ChildConstructors")
+
 package com.example.smoke
 
 
 class ChildConstructors : Constructors {
 
 
+
     constructor() : this(createNoArgsChild(), null as Any?) {
         cacheThisInstance();
     }
+
     constructor(other: Constructors) : this(createCopyFromParent(other), null as Any?) {
         cacheThisInstance();
     }
@@ -26,6 +30,8 @@ class ChildConstructors : Constructors {
         : super(nativeHandle, tag) {}
 
     private external fun cacheThisInstance()
+
+
 
 
 

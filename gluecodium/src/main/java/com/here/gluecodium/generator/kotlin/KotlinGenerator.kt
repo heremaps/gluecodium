@@ -203,6 +203,7 @@ internal class KotlinGenerator : Generator {
         val templateData =
             mutableMapOf(
                 "model" to limeElement,
+                "modelName" to limeElement.name,
                 "contentTemplate" to contentTemplateName,
                 "package" to packages,
                 "imports" to imports.distinct().sorted(),
@@ -227,6 +228,7 @@ internal class KotlinGenerator : Generator {
                 else -> imports
             } + importResolver.nativeBaseImport
         templateData["imports"] = implImports.distinct().sorted()
+        templateData["modelName"] = limeElement.name + "Impl"
         templateData["contentTemplate"] = "kotlin/KotlinImplClass"
 
         val implContent =

@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("NullableCollectionsStruct")
+
 package com.example.smoke
 
 import java.util.Date
@@ -17,6 +19,7 @@ class NullableCollectionsStruct {
         this.dates = dates
         this.structs = structs
     }
+
 
 
 

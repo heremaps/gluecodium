@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("FreeLambda")
+
 package com.example.smoke
 
 import java.util.Date
