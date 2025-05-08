@@ -23,6 +23,7 @@ import static junit.framework.Assert.assertNotNull;
 
 import android.os.Build;
 import com.here.android.RobolectricApplication;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,7 +50,7 @@ public class AttributesTest {
 
   @Test
   public void setGetStructAttribute() {
-    Attributes.ExampleStruct expectedStruct = new Attributes.ExampleStruct(2.71, null);
+    Attributes.ExampleStruct expectedStruct = new Attributes.ExampleStruct(2.71, Arrays.asList(27L));
 
     attributes.setStructAttribute(expectedStruct);
     Attributes.ExampleStruct result = attributes.getStructAttribute();

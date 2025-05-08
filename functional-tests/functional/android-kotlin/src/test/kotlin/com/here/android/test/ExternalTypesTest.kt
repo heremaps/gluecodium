@@ -156,7 +156,7 @@ class ExternalTypesTest {
 
         assertNotNull(resultStruct)
         assertTrue(Parcelable::class.java.isInstance(mainStruct))
-        assertEquals(42, resultStruct!!.someStruct.data)
+        assertEquals(42, resultStruct!!.someStruct.mData)
     }
 
     @org.junit.Test
