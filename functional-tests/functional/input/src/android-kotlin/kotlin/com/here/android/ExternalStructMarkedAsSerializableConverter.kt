@@ -23,5 +23,5 @@ object ExternalStructMarkedAsSerializableConverter {
     fun convertFromInternal(struct: ExternalMarkedAsSerializable) = AnExternalStruct(struct.field)
 
     @JvmStatic
-    fun convertToInternal(s: com.here.android.test.AnExternalStruct) = ExternalMarkedAsSerializable(s.data)
+    fun convertToInternal(s: com.here.android.test.AnExternalStruct) = ExternalMarkedAsSerializable(s.mData)
 }
