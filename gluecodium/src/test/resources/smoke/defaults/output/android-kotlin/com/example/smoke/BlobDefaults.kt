@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("BlobDefaults")
+
 package com.example.smoke
 
 
@@ -16,6 +18,9 @@ class BlobDefaults {
         this.emptyList = byteArrayOf(  )
         this.deadBeef = byteArrayOf( 222.toByte(), 173.toByte(), 190.toByte(), 239.toByte() )
     }
+
+
+
 
 
 }

@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("GlobalMapTypeDef")
+
 package com.example.smoke
 
 

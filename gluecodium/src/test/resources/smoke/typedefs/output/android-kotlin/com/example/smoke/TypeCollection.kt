@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("TypeCollection")
+
 package com.example.smoke
 
 
@@ -22,6 +24,7 @@ class TypeCollection {
 
 
 
+
     }
 
     class StructHavingAliasFieldDefinedBelow {
@@ -36,7 +39,9 @@ class TypeCollection {
 
 
 
+
     }
+
 
 
 

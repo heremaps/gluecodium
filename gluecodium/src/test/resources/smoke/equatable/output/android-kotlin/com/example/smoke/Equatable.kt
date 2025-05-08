@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("Equatable")
+
 package com.example.smoke
 
 
@@ -78,6 +80,8 @@ class Equatable {
 
 
 
+
+
     }
 
     class EquatableNullableStruct {
@@ -142,6 +146,8 @@ class Equatable {
 
 
 
+
+
     }
 
     class NestedEquatableStruct {
@@ -174,7 +180,11 @@ class Equatable {
 
 
 
+
+
     }
+
+
 
 
 

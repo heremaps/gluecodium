@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("SomeTypeCollection")
+
 package com.example.smoke
 
 
@@ -18,6 +20,9 @@ class SomeTypeCollection {
 
 
 
-}
 
+
+
+
+}
 

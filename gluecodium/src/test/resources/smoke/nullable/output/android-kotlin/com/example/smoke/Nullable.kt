@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("Nullable")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -21,6 +23,7 @@ class Nullable : NativeBase {
         constructor(stringField: String) {
             this.stringField = stringField
         }
+
 
 
 
@@ -55,6 +58,7 @@ class Nullable : NativeBase {
 
 
 
+
     }
 
     class NullableIntsStruct {
@@ -79,6 +83,7 @@ class Nullable : NativeBase {
             this.uint32Field = null
             this.uint64Field = null
         }
+
 
 
 
@@ -112,33 +117,44 @@ class Nullable : NativeBase {
     var stringProperty: String?
         external get
         external set
+
     var isBoolProperty: Boolean?
         external get
         external set
+
     var doubleProperty: Double?
         external get
         external set
+
     var intProperty: Long?
         external get
         external set
+
     var structProperty: Nullable.SomeStruct?
         external get
         external set
+
     var enumProperty: Nullable.SomeEnum?
         external get
         external set
+
     var arrayProperty: MutableList<String>?
         external get
         external set
+
     var inlineArrayProperty: MutableList<String>?
         external get
         external set
+
     var mapProperty: MutableMap<Long, String>?
         external get
         external set
+
     var instanceProperty: SomeInterface?
         external get
         external set
+
+
 
 
     companion object {

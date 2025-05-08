@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("OuterClass")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -25,6 +27,7 @@ class OuterClass : NativeBase {
 
 
         external fun foo(input: String) : String
+
 
 
 
@@ -71,6 +74,7 @@ class OuterClass : NativeBase {
 
 
     external fun foo(input: String) : String
+
 
 
 

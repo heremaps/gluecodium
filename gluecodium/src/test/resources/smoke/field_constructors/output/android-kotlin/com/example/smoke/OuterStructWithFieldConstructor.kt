@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("OuterStructWithFieldConstructor")
+
 package com.example.smoke
 
 
@@ -19,13 +21,20 @@ class OuterStructWithFieldConstructor {
         }
 
 
+
+
+
     }
+
 
 
 
     constructor(outerStructField: OuterStructWithFieldConstructor.InnerStructWithDefaults) {
         this.outerStructField = outerStructField
     }
+
+
+
 
 
 }

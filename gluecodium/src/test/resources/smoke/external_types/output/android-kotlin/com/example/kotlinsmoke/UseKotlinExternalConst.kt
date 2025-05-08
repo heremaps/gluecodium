@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("UseKotlinExternalConst")
+
 package com.example.kotlinsmoke
 
 
@@ -14,6 +16,7 @@ class UseKotlinExternalConst {
     constructor(stringField: String) {
         this.stringField = stringField
     }
+
 
 
 

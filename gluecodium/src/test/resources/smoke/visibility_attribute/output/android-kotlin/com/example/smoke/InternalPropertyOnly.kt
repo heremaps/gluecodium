@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("InternalPropertyOnly")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -26,6 +28,7 @@ class InternalPropertyOnly : NativeBase {
     internal var foo: String
         external get
         external set
+
 
 
 

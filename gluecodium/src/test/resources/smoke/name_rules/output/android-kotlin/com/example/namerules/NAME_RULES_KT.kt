@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("NameRules")
+
 package com.example.namerules
 
 import com.example.NativeBase
@@ -30,6 +32,7 @@ class NAME_RULES_KT : NativeBase {
 
 
 
+
     }
 
 
@@ -49,7 +52,7 @@ class NAME_RULES_KT : NativeBase {
     private external fun cacheThisInstance()
 
 
-    external fun some_method(someArgument: NAME_RULES_KT.EXAMPLE_STRUCT_KT) : Double
+    @Throws (NAME_RULES_KT.ExampleException::class) external fun some_method(someArgument: NAME_RULES_KT.EXAMPLE_STRUCT_KT) : Double
 
     var intProperty: Long
         external get
@@ -62,6 +65,7 @@ class NAME_RULES_KT : NativeBase {
     var structProperty: NAME_RULES_KT.EXAMPLE_STRUCT_KT
         external get
         external set
+
 
 
 

@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("SkipTypes")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -21,6 +23,7 @@ class SkipTypes : NativeBase {
 
 
 
+
     }
 
     class NotInSwift {
@@ -31,6 +34,7 @@ class SkipTypes : NativeBase {
         constructor(fooField: String) {
             this.fooField = fooField
         }
+
 
 
 
@@ -49,6 +53,7 @@ class SkipTypes : NativeBase {
 
 
 
+
     }
 
 
@@ -61,6 +66,7 @@ class SkipTypes : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
 

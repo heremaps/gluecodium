@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("InternalClassWithFunctions")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -10,9 +12,11 @@ import com.example.NativeBase
 internal class InternalClassWithFunctions : NativeBase {
 
 
+
     constructor() : this(make(), null as Any?) {
         cacheThisInstance();
     }
+
     constructor(foo: String) : this(make(foo), null as Any?) {
         cacheThisInstance();
     }
@@ -30,6 +34,7 @@ internal class InternalClassWithFunctions : NativeBase {
 
 
     external fun fooBar() : Unit
+
 
 
 

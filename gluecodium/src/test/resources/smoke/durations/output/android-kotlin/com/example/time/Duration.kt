@@ -54,6 +54,7 @@ public class Duration private constructor(private var mSeconds: Long, private va
      * @throws ArithmeticException if the resulting value cannot be represented
      *                             by {@code long} type.
      */
+    @Throws(ArithmeticException::class)
     public fun toNanos(): Long {
         return exactAdd(exactMultiply(mSeconds, NANOS_PER_SECOND), mNanos.toLong());
     }
@@ -76,6 +77,7 @@ public class Duration private constructor(private var mSeconds: Long, private va
      * @throws ArithmeticException if the resulting value cannot be represented
      *                             by {@code long} type.
      */
+    @Throws(ArithmeticException::class)
     public fun toMillis(): Long {
         return exactAdd(exactMultiply(mSeconds, MILLIS_PER_SECOND), (mNanos / NANOS_PER_MILLIS).toLong());
     }
@@ -210,7 +212,7 @@ public class Duration private constructor(private var mSeconds: Long, private va
         private val NANOS_PER_MILLIS: Int = 1000000;
         private val MILLIS_PER_SECOND: Long = 1000;
 
-        @JvmStatic
+        @JvmStatic @Throws(ArithmeticException::class)
         private fun exactAdd(v1: Long, v2: Long): Long {
             if (v2 < 0 && v1 < (Long.MIN_VALUE - v2)) {
                 throw ArithmeticException("Integer underflow");
@@ -220,7 +222,7 @@ public class Duration private constructor(private var mSeconds: Long, private va
             return v1 + v2;
         }
 
-        @JvmStatic
+        @JvmStatic @Throws(ArithmeticException::class)
         private fun exactMultiply(v1: Long, v2: Long): Long {
             if ((v2 == -1L && v1 == Long.MIN_VALUE) || (v1 == -1L && v2 == Long.MIN_VALUE)) {
                 throw ArithmeticException("Integer overflow");
@@ -267,7 +269,7 @@ public class Duration private constructor(private var mSeconds: Long, private va
          * @throws ArithmeticException if the input is outside the range possible to
          *                             represent by a Duration
          */
-        @JvmStatic
+        @JvmStatic @Throws(ArithmeticException::class)
         public fun ofDays(days: Long): Duration {
             return ofHours(exactMultiply(days, 24));
         }
@@ -281,7 +283,7 @@ public class Duration private constructor(private var mSeconds: Long, private va
          * @throws ArithmeticException if the input is outside the range possible to
          *                             represent by a Duration
          */
-        @JvmStatic
+        @JvmStatic @Throws(ArithmeticException::class)
         public fun ofHours(hours: Long): Duration {
             return ofMinutes(exactMultiply(hours, 60));
         }
@@ -295,7 +297,7 @@ public class Duration private constructor(private var mSeconds: Long, private va
          * @throws ArithmeticException if the input is outside the range possible to
          *                             represent by a Duration
          */
-        @JvmStatic
+        @JvmStatic @Throws(ArithmeticException::class)
         public fun ofMinutes(minutes: Long): Duration {
             return ofSeconds(exactMultiply(minutes, 60));
         }

@@ -22,19 +22,19 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class AnExternalStruct : Parcelable {
-    var data: Int
+    @JvmField var mData: Int
 
     private constructor(parcel: Parcel) {
-        this.data = parcel.readInt()
+        this.mData = parcel.readInt()
     }
 
     constructor(data: Int) {
-        this.data = data
+        this.mData = data
     }
 
     override fun describeContents() = 0
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(data)
+        parcel.writeInt(mData)
     }
 
     companion object CREATOR : Parcelable.Creator<AnExternalStruct> {

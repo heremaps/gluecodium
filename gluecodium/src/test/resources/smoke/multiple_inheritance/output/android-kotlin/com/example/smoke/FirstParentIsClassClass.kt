@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("FirstParentIsClassClass")
+
 package com.example.smoke
 
 
@@ -27,9 +29,12 @@ class FirstParentIsClassClass : ParentClass, ParentNarrowOne {
         external get
         external set
 
+
     override external fun parentFunctionOne() : Unit
     override var parentPropertyOne: String
         external get
         external set
+
+
 
 }

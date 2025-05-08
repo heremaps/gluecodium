@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("UnderscorePackage")
+
 package com.example.smokeoff
 
 import com.example.NativeBase
@@ -19,6 +21,7 @@ class UnderscorePackage : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
 

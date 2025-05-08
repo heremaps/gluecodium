@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("EnumsInTypeCollection")
+
 package com.example.smoke
 
 
@@ -12,6 +14,7 @@ class EnumsInTypeCollection {
         FIRST(0),
         SECOND(1);
     }
+
 
 
 
