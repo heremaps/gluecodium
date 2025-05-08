@@ -412,7 +412,7 @@ feature(DeclarationOrder cpp android android-kotlin swift dart SOURCES
     input/lime/StructsWithMethodsDeclarationOrder.lime
 )
 
-feature(Comments cpp android swift dart SOURCES
+feature(Comments cpp android android-kotlin swift dart SOURCES
     input/src/cpp/Comments.cpp
 
     input/lime/Comments.lime
@@ -489,7 +489,7 @@ feature(CppConst cpp android android-kotlin swift dart SOURCES
     input/src/cpp/CppConstMethods.cpp
 )
 
-feature(CppNoexcept cpp android swift dart SOURCES
+feature(CppNoexcept cpp android android-kotlin swift dart SOURCES
     input/lime/CppNoexceptMethods.lime
 
     input/src/cpp/CppNoexceptMethods.cpp
