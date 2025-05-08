@@ -9,7 +9,7 @@ package com.example.smoke
 
 import com.example.NativeBase
 
-internal class InternalClassWithStaticProperty : NativeBase {
+class InternalClassWithStaticProperty : NativeBase {
 
 
 

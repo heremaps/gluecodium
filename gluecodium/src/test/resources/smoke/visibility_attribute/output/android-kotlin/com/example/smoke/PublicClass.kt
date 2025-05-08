@@ -11,11 +11,11 @@ import com.example.NativeBase
 
 class PublicClass : NativeBase {
 
-    internal enum class InternalEnum(private val value: Int) {
+    enum class InternalEnum(private val value: Int) {
         FOO(0),
         BAR(1);
     }
-    internal class InternalStruct {
+    class InternalStruct {
         @JvmField var stringField: String
 
 
@@ -31,11 +31,11 @@ class PublicClass : NativeBase {
     }
 
     class PublicStruct {
-        @JvmField internal var internalField: PublicClass.InternalStruct
+        @JvmField var internalField: PublicClass.InternalStruct
 
 
 
-        internal constructor(internalField: PublicClass.InternalStruct) {
+        constructor(internalField: PublicClass.InternalStruct) {
             this.internalField = internalField
         }
 
@@ -46,7 +46,7 @@ class PublicClass : NativeBase {
     }
 
     class PublicStructWithInternalDefaults {
-        @JvmField internal var internalField: String
+        @JvmField var internalField: String
         @JvmField var publicField: Float
 
 
@@ -77,9 +77,9 @@ class PublicClass : NativeBase {
 
 
 
-    internal external fun internalMethod(input: PublicClass.InternalStruct) : PublicClass.InternalStruct
+    external fun internalMethod(input: PublicClass.InternalStruct) : PublicClass.InternalStruct
 
-    internal var internalStructProperty: PublicClass.InternalStruct
+    var internalStructProperty: PublicClass.InternalStruct
         external get
         external set
 
