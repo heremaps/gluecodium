@@ -9,7 +9,7 @@ package com.example.smoke
 
 import com.example.NativeBase
 
-internal class InternalLambdaImpl : NativeBase, InternalLambda {
+class InternalLambdaImpl : NativeBase, InternalLambda {
     /*
      * For internal use only.
      * @hidden

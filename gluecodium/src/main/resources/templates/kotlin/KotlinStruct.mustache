@@ -18,14 +18,13 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
-}}class {{resolveName}}{{!!
+class {{resolveName}}{{!!
 }}{{#unless external.kotlin.name}}{{!!
 }}{{#if attributes.serializable}} : Parcelable{{/if}}{{!!
 }}{{/unless}} {
 {{#set isImmutable=attributes.immutable}}
 {{#fields}}{{!!
-}}    @JvmField {{resolveName "visibility"}}{{!!
+}}    @JvmField {{!!
 }}{{#unless isImmutable}}var {{/unless}}{{!!
 }}{{#if isImmutable}}val {{/if}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{!!
@@ -42,8 +41,7 @@
 {{#constructors}}
 {{#thrownType}}@Throws ({{resolveName typeRef}}::class){{/thrownType}}{{!!
 }}
-    {{#unless self.external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
-}}constructor({{!!
+    constructor({{!!
 }}{{#parameters}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/parameters}}) {
@@ -67,9 +65,7 @@
        **Note**: this constructor will not be generated if PositionalDefaults is specified for a given structure,
                  because the constructor generated for positional defaults covers this case.
 }}
-    {{#ifPredicate "hasInternalFreeArgsConstructor"}}{{!!
-}}internal {{!!
-}}{{/ifPredicate}}constructor({{!!
+    constructor({{!!
 }}{{#uninitializedFields}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/uninitializedFields}}) {
@@ -85,9 +81,7 @@
     3. If user did not specify any constructors, field constructor and fields with default values, then
        define a constructor, which allows setting all fields.
 }}
-    {{#ifPredicate "hasInternalAllArgsConstructor"}}{{!!
-}}internal {{!!
-}}{{/ifPredicate}}constructor({{!!
+    constructor({{!!
 }}{{#fields}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/fields}}) {
@@ -101,8 +95,7 @@
 }}{{#set self=this}}{{#fieldConstructors}}
 {{#thrownType}}@Throws ({{resolveName typeRef}}::class){{/thrownType}}{{!!
 }}
-    {{#unless self.external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
-}}constructor({{!!
+    constructor({{!!
 }}{{#fields}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/fields}}) {
@@ -118,8 +111,7 @@
 }}{{#if attributes.kotlin.positionalDefaults}}
     {{#if initializedFields}}@JvmOverloads
     {{/if}}{{!!
-    }}{{#unless external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
-}}constructor({{!!
+    }}constructor({{!!
 }}{{#uninitializedFields}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}, {{!!
 }}{{/uninitializedFields}}{{!!

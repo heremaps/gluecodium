@@ -9,7 +9,7 @@ package com.example.smoke
 
 import com.example.NativeBase
 
-internal class InternalInterfaceImpl : NativeBase, InternalInterface {
+class InternalInterfaceImpl : NativeBase, InternalInterface {
     /*
      * For internal use only.
      * @hidden

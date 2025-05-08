@@ -9,7 +9,7 @@ package com.example.smoke
 
 import com.example.NativeBase
 
-internal class InternalListenerImpl : NativeBase, InternalListener {
+class InternalListenerImpl : NativeBase, InternalListener {
     /*
      * For internal use only.
      * @hidden
