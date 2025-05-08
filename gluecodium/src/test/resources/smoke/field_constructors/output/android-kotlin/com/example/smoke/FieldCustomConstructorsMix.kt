@@ -9,9 +9,9 @@ package com.example.smoke
 
 
 class FieldCustomConstructorsMix {
-    var stringField: String
-    var intField: Int
-    var boolField: Boolean
+    @JvmField var stringField: String
+    @JvmField var intField: Int
+    @JvmField var boolField: Boolean
 
 
 

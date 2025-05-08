@@ -20,10 +20,10 @@ class Errors : NativeBase {
         BOOM(1),
         BUST(2);
     }
-    class InternalException(val error: Errors.InternalErrorCode) : Exception(error.toString())
+    class InternalException(@JvmField val error: Errors.InternalErrorCode) : Exception(error.toString())
 
 
-    class ExternalException(val error: Errors.ExternalErrors) : Exception(error.toString())
+    class ExternalException(@JvmField val error: Errors.ExternalErrors) : Exception(error.toString())
 
 
 

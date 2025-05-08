@@ -12,9 +12,9 @@ import com.example.NativeBase
 class GenericTypesWithBasicTypes : NativeBase {
 
     class StructWithGenerics {
-        var numbersList: MutableList<Short>
-        var numbersMap: MutableMap<Short, String>
-        var numbersSet: MutableSet<Short>
+        @JvmField var numbersList: MutableList<Short>
+        @JvmField var numbersMap: MutableMap<Short, String>
+        @JvmField var numbersSet: MutableSet<Short>
 
 
 

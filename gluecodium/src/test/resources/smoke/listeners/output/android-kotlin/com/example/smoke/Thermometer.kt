@@ -16,10 +16,10 @@ class Thermometer : NativeBase {
         ERROR_NONE(0),
         ERROR_FATAL(1);
     }
-    class NotificationException(val error: String) : Exception(error.toString())
+    class NotificationException(@JvmField val error: String) : Exception(error.toString())
 
 
-    class AnotherNotificationException(val error: Thermometer.SomeThermometerErrorCode) : Exception(error.toString())
+    class AnotherNotificationException(@JvmField val error: Thermometer.SomeThermometerErrorCode) : Exception(error.toString())
 
 
 

@@ -16,7 +16,7 @@ class Properties : NativeBase {
         ERROR_FATAL(999);
     }
     class ExampleStruct {
-        var value: Double
+        @JvmField var value: Double
 
 
 

@@ -15,7 +15,7 @@ open class Constructors : NativeBase {
         NONE(0),
         CRASHED(1);
     }
-    class ConstructorExplodedException(val error: Constructors.ErrorEnum) : Exception(error.toString())
+    class ConstructorExplodedException(@JvmField val error: Constructors.ErrorEnum) : Exception(error.toString())
 
 
 

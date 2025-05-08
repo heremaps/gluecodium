@@ -11,8 +11,8 @@ package com.example.smoke
 class StructsWithConstants {
 
     class Route {
-        var description: String
-        var type: RouteUtils.RouteType
+        @JvmField var description: String
+        @JvmField var type: RouteUtils.RouteType
 
 
 
@@ -26,8 +26,8 @@ class StructsWithConstants {
 
 
         companion object {
-            val DEFAULT_DESCRIPTION: String = "Nonsense"
-            val DEFAULT_TYPE: RouteUtils.RouteType = RouteUtils.RouteType.EQUESTRIAN
+            @JvmField final val DEFAULT_DESCRIPTION: String = "Nonsense"
+            @JvmField final val DEFAULT_TYPE: RouteUtils.RouteType = RouteUtils.RouteType.EQUESTRIAN
         }
     }
 

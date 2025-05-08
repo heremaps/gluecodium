@@ -12,7 +12,7 @@ import com.example.NativeBase
 class NestedReferences : NativeBase {
 
     class NestedReferences {
-        var stringField: String
+        @JvmField var stringField: String
 
 
 

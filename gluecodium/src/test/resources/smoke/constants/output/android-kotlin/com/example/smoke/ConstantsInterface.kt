@@ -33,13 +33,13 @@ class ConstantsInterface : NativeBase {
 
 
     companion object {
-        val BOOL_CONSTANT: Boolean = true
-        val INT_CONSTANT: Int = -11
-        val UINT_CONSTANT: Long = 4294967295L
-        val FLOAT_CONSTANT: Float = 2.71f
-        val DOUBLE_CONSTANT: Double = -3.14
-        val STRING_CONSTANT: String = "Foo bar"
-        val ENUM_CONSTANT: ConstantsInterface.StateEnum = ConstantsInterface.StateEnum.ON
+        @JvmField final val BOOL_CONSTANT: Boolean = true
+        @JvmField final val INT_CONSTANT: Int = -11
+        @JvmField final val UINT_CONSTANT: Long = 4294967295L
+        @JvmField final val FLOAT_CONSTANT: Float = 2.71f
+        @JvmField final val DOUBLE_CONSTANT: Double = -3.14
+        @JvmField final val STRING_CONSTANT: String = "Foo bar"
+        @JvmField final val ENUM_CONSTANT: ConstantsInterface.StateEnum = ConstantsInterface.StateEnum.ON
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }

@@ -9,7 +9,7 @@ package com.example.kotlinsmoke
 
 
 class UseKotlinExternalConst {
-    var stringField: String
+    @JvmField var stringField: String
 
 
 
@@ -22,7 +22,7 @@ class UseKotlinExternalConst {
 
 
     companion object {
-        val DEFAULT_TRUTH: kotlin.Boolean? = true
+        @JvmField final val DEFAULT_TRUTH: kotlin.Boolean? = true
     }
 }
 

@@ -12,10 +12,10 @@ import com.example.NativeBase
 class Structs : NativeBase {
 
     class ExternalStruct {
-        var stringField: String
-        var externalStringField: String
-        var externalArrayField: MutableList<Byte>
-        var externalStructField: Structs.AnotherExternalStruct
+        @JvmField var stringField: String
+        @JvmField var externalStringField: String
+        @JvmField var externalArrayField: MutableList<Byte>
+        @JvmField var externalStructField: Structs.AnotherExternalStruct
 
 
 
@@ -33,7 +33,7 @@ class Structs : NativeBase {
     }
 
     class AnotherExternalStruct {
-        var intField: Byte
+        @JvmField var intField: Byte
 
 
 

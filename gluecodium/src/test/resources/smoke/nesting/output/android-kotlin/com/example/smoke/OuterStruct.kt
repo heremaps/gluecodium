@@ -12,17 +12,17 @@ import java.util.Date
 import java.util.Locale
 
 class OuterStruct {
-    var field: String
+    @JvmField var field: String
 
     enum class InnerEnum(private val value: Int) {
         FOO(0),
         BAR(1);
     }
-    class InstantiationException(val error: OuterStruct.InnerEnum) : Exception(error.toString())
+    class InstantiationException(@JvmField val error: OuterStruct.InnerEnum) : Exception(error.toString())
 
 
     class InnerStruct {
-        var otherField: MutableList<Date>
+        @JvmField var otherField: MutableList<Date>
 
 
 
@@ -62,7 +62,6 @@ class OuterStruct {
         }
     }
     class Builder : NativeBase {
-
 
 
         constructor() : this(create(), null as Any?) {
