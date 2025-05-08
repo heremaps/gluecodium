@@ -25,7 +25,7 @@ class InternalPropertyOnly : NativeBase {
 
 
 
-    internal var foo: String
+    var foo: String
         external get
         external set
 
