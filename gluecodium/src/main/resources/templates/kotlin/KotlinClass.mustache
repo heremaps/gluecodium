@@ -28,8 +28,8 @@
 {{>kotlin/KotlinContainerContents}}
 
 {{#set classElement=this}}{{#constructors}}
-{{>kotlinConstructorThrows}}{{!!
-}}    {{resolveName "visibility"}}constructor({{!!
+    {{>kotlinConstructorThrows}}
+{{resolveName "visibility"}}constructor({{!!
 }}{{#parameters}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/parameters}}){{!!
@@ -130,10 +130,12 @@
 
 }}{{+kotlinConstructorThrows}}{{!!
 }}{{#set thisConstructor=this}}{{!!
-}}{{#if thrownType}}@Throws ({{>kotlinConstructorExceptions}}){{/if}}{{!!
+}}{{#if thrownType}}@Throws({{>kotlinConstructorExceptions}})
+    {{/if}}{{!!
 }}{{#unless thrownType}}{{!!
 }}{{#attributes.afterconstruction.function}}{{!!
-}}{{#if function.thrownType}}@Throws ({{>kotlinConstructorExceptions}}){{/if}}{{!!
+}}{{#if function.thrownType}}@Throws({{>kotlinConstructorExceptions}})
+    {{/if}}{{!!
 }}{{/attributes.afterconstruction.function}}{{!!
 }}{{/unless}}{{!!
 }}{{/set}}{{!!
