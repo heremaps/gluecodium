@@ -17,6 +17,16 @@
  * License-Filename: LICENSE
  */
 
+import org.jetbrains.dokka.gradle.AbstractDokkaTask
+
+plugins {
+    id 'org.jetbrains.dokka' version '2.0.0' apply false
+}
+
+if (rootProject.isAndroidKotlinBuild()) {
+    apply plugin: 'org.jetbrains.dokka'
+}
+
 apply plugin: 'com.android.library'
 apply plugin: 'org.jetbrains.kotlin.android'
 
@@ -123,6 +133,33 @@ android {
         }
 
         buildConfigField "String", "NATIVE_LIB_HOST_DIR", "\"${buildNativeHostDir('functional', typeName)}/functional\""
+    }
+}
+
+if (rootProject.isAndroidKotlinBuild()) {
+    // By default Dokka engine for documentation tries to execute generator on all source sets
+    // for Kotlin. This would cause execution of both debug/release when any 'Dokka' task is run.
+    tasks.withType(AbstractDokkaTask.class).configureEach {
+        // Therefore, we firstly disable generation for all source sets.
+        dokkaSourceSets.configureEach {
+            suppress.set(true)
+        }
+
+        // And then enable only the desired one.
+        dokkaSourceSets {
+            named("release") {
+                suppress.set(false)
+
+                sourceRoots.setFrom([
+                        "${project.projectDir}/input/src/android-kotlin/kotlin",
+                        "${rootProject.generatedDir}/functional_bindings/android-kotlin-cpp/common/android-kotlin",
+                        "${rootProject.generatedDir}/functional_bindings/android-kotlin-cpp/main/android-kotlin"])
+            }
+        }
+    }
+
+    dokkaHtml {
+        outputDirectory.set(file("${buildRoot}/documentation/html"))
     }
 }
 
