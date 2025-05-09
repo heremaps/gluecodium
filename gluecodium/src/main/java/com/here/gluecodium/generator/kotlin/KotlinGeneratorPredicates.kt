@@ -26,6 +26,7 @@ import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeExternalDescriptor
+import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeStruct
 
@@ -39,6 +40,7 @@ internal object KotlinGeneratorPredicates {
             "hasInternalAllArgsConstructor" to this::hasInternalAllArgsConstructor,
             "hasInternalFreeArgsConstructor" to this::hasInternalFreeArgsConstructor,
             "hasStaticProperties" to this::hasStaticProperties,
+            "isExceptionSameForCtorAndHookFun" to this::isExceptionSameForCtorAndHookFun,
             "needsAllFieldsConstructor" to this::needsAllFieldsConstructor,
         )
 
@@ -101,6 +103,13 @@ internal object KotlinGeneratorPredicates {
                 CommonGeneratorPredicates.isInternal(it, LimeAttributeType.KOTLIN) ||
                     CommonGeneratorPredicates.isInternal(it.typeRef.type, LimeAttributeType.KOTLIN)
             }
+
+    private fun isExceptionSameForCtorAndHookFun(constructor: Any): Boolean {
+        return when (constructor) {
+            is LimeFunction -> CommonGeneratorPredicates.isExceptionSameForCtorAndHookFun(constructor)
+            else -> false
+        }
+    }
 
     private fun needsCompanionObject(element: Any) =
         hasStaticFunctions(element) || hasConstants(element) || needsDisposer(element) ||

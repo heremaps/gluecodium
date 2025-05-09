@@ -31,15 +31,18 @@ class Thermometer : NativeBase {
         cacheThisInstance();
         notifyObservers(this, observers)
     }
-@Throws (Thermometer.NotificationException::class)    constructor(id: Int, observers: MutableList<TemperatureObserver>) : this(throwingMake(id, observers), null as Any?) {
+    @Throws(Thermometer.NotificationException::class)
+    constructor(id: Int, observers: MutableList<TemperatureObserver>) : this(throwingMake(id, observers), null as Any?) {
         cacheThisInstance();
         throwingNotifyObservers(this, observers)
     }
+    @Throws(Thermometer.NotificationException::class)
     constructor(label: String, niceObservers: MutableList<TemperatureObserver>) : this(nothrowMake(label, niceObservers), null as Any?) {
         cacheThisInstance();
         throwingNotifyObservers(this, niceObservers)
     }
-@Throws (Thermometer.AnotherNotificationException::class)    constructor(dummy: Boolean, observers: MutableList<TemperatureObserver>) : this(anotherThrowingMake(dummy, observers), null as Any?) {
+    @Throws(Thermometer.AnotherNotificationException::class, Thermometer.NotificationException::class)
+    constructor(dummy: Boolean, observers: MutableList<TemperatureObserver>) : this(anotherThrowingMake(dummy, observers), null as Any?) {
         cacheThisInstance();
         throwingNotifyObservers(this, observers)
     }
@@ -75,3 +78,4 @@ class Thermometer : NativeBase {
         @Throws (Thermometer.NotificationException::class) @JvmStatic external fun throwingNotifyObservers(thermometer: Thermometer, someObservers: MutableList<TemperatureObserver>) : Unit
     }
 }
+

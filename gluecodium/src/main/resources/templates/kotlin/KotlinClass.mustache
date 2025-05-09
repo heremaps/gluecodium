@@ -28,8 +28,8 @@
 {{>kotlin/KotlinContainerContents}}
 
 {{#set classElement=this}}{{#constructors}}
-{{#thrownType}}@Throws ({{resolveName typeRef}}::class){{/thrownType}}{{!!
-}}    {{resolveName "visibility"}}constructor({{!!
+    {{>kotlinConstructorThrows}}
+{{resolveName "visibility"}}constructor({{!!
 }}{{#parameters}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/parameters}}){{!!
@@ -126,3 +126,31 @@
     }
 {{/ifPredicate}}
 }
+{{!!
+
+}}{{+kotlinConstructorThrows}}{{!!
+}}{{#set thisConstructor=this}}{{!!
+}}{{#if thrownType}}@Throws({{>kotlinConstructorExceptions}})
+    {{/if}}{{!!
+}}{{#unless thrownType}}{{!!
+}}{{#attributes.afterconstruction.function}}{{!!
+}}{{#if function.thrownType}}@Throws({{>kotlinConstructorExceptions}})
+    {{/if}}{{!!
+}}{{/attributes.afterconstruction.function}}{{!!
+}}{{/unless}}{{!!
+}}{{/set}}{{!!
+}}{{/kotlinConstructorThrows}}{{!!
+
+}}{{+kotlinConstructorExceptions}}{{!!
+}}{{#thisConstructor}}{{!!
+}}{{#thrownType}}{{resolveName typeRef}}::class{{/thrownType}}{{!!
+}}{{#unlessPredicate "isExceptionSameForCtorAndHookFun"}}{{!!
+}}{{#if thrownType this.attributes.afterconstruction.function.function.thrownType}}, {{/if}}{{!!
+}}{{#this.attributes.afterconstruction.function}}{{!!
+}}{{#function.thrownType}}{{resolveName typeRef}}::class{{/function.thrownType}}{{!!
+}}{{/this.attributes.afterconstruction.function}}{{!!
+}}{{/unlessPredicate}}{{!!
+}}{{/thisConstructor}}{{!!
+}}{{/kotlinConstructorExceptions}}{{!!
+
+}}
