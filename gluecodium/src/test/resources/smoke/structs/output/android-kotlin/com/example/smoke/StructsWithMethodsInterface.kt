@@ -18,13 +18,17 @@ class StructsWithMethodsInterface : NativeBase {
 
 
 
+
+
         constructor(input: String) {
             val _other = create(input)
             this.x = _other.x
             this.y = _other.y
             this.z = _other.z
         }
-    @Throws (ValidationUtils.ValidationException::class)
+
+
+    @Throws(ValidationUtils.ValidationException::class)
         constructor(other: StructsWithMethodsInterface.Vector3) {
             val _other = create(other)
             this.x = _other.x
@@ -35,14 +39,22 @@ class StructsWithMethodsInterface : NativeBase {
 
 
 
+
+
         external fun distanceTo(other: StructsWithMethodsInterface.Vector3) : Double
+
+
         external fun add(other: StructsWithMethodsInterface.Vector3) : StructsWithMethodsInterface.Vector3
 
 
         companion object {
+
+
             @JvmStatic external fun validate(x: Double, y: Double, z: Double) : Boolean
+
             @JvmStatic external fun create(input: String) : Vector3
-            @Throws (ValidationUtils.ValidationException::class) @JvmStatic external fun create(other: StructsWithMethodsInterface.Vector3) : Vector3
+            @Throws(ValidationUtils.ValidationException::class)
+            @JvmStatic external fun create(other: StructsWithMethodsInterface.Vector3) : Vector3
         }
     }
 
@@ -56,15 +68,17 @@ class StructsWithMethodsInterface : NativeBase {
 
 
         companion object {
+
+
             @JvmStatic external fun doStuff() : Unit
         }
     }
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */

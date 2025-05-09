@@ -36,6 +36,12 @@ public:
         Point( );
         Point( double x, double y );
 
+        /**
+         * This is some constructor, which constructs Point from polar coordinates.
+         * \param[in] phi
+         * \param[in] r
+         * \return
+         */
         static ::smoke::Structs::Point from_polar( const double phi, const double r );
 
     };

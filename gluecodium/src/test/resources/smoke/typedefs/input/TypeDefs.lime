@@ -54,7 +54,10 @@ class TypeDefs {
     property primitiveTypeProperty: List<PrimitiveTypeDef>
 }
 
+// This is some standalone list typedef.
 typealias GlobalListTypeDef = List<Float>
+
+// This is some standalone map typedef.
 typealias GlobalMapTypeDef = Map<Int, String>
 
 struct TypeCollection {

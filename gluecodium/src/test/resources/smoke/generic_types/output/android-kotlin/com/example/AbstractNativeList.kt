@@ -22,13 +22,10 @@ package com.example
 /**
  * <p>Internal base abstract class for List implementations backed by a native object.
  *
- * @hidden
+ * @suppress
  */
 abstract class AbstractNativeList<T> : NativeBase, MutableList<T> {
 
-    /**
-     * @hidden
-     */
     private inner class NativeIterator : MutableListIterator<T> {
         private var index: Int = 0
 

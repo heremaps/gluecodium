@@ -12,9 +12,9 @@ class FirstParentIsClassClass : ParentClass, ParentNarrowOne {
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
@@ -23,11 +23,15 @@ class FirstParentIsClassClass : ParentClass, ParentNarrowOne {
 
 
 
+
+
     external fun childFunction() : Unit
 
     var childProperty: String
         external get
         external set
+
+
 
 
     override external fun parentFunctionOne() : Unit

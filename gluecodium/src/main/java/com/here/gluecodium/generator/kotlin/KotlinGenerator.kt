@@ -58,6 +58,7 @@ internal class KotlinGenerator : Generator {
     private lateinit var cppNameRules: CppNameRules
     private lateinit var kotlinNameRules: KotlinNameRules
     private lateinit var activeTags: Set<String>
+    private lateinit var werror: Set<String>
 
     override val shortName = GENERATOR_NAME
 
@@ -70,6 +71,7 @@ internal class KotlinGenerator : Generator {
         cppNameRules = CppNameRules(rootNamespace, nameRuleSetFromConfig(options.cppNameRules))
         kotlinNameRules = KotlinNameRules(nameRuleSetFromConfig(options.kotlinNameRules))
         activeTags = options.tags
+        werror = options.werror
     }
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
@@ -91,7 +93,8 @@ internal class KotlinGenerator : Generator {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
 
-        val commentsProcessor = KotlinCommentsProcessor(kotlinFilteredModel.referenceMap)
+        val commentsProcessor =
+            KotlinCommentsProcessor(kotlinFilteredModel.referenceMap, werror.contains(GeneratorOptions.WARNING_DOC_LINKS))
 
         val nameResolver =
             KotlinNameResolver(

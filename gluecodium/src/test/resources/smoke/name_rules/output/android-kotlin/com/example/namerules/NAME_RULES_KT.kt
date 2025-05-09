@@ -36,13 +36,14 @@ class NAME_RULES_KT : NativeBase {
     }
 
 
+
     constructor() : this(create(), null as Any?) {
         cacheThisInstance();
     }
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
@@ -52,7 +53,9 @@ class NAME_RULES_KT : NativeBase {
     private external fun cacheThisInstance()
 
 
-    @Throws (NAME_RULES_KT.ExampleException::class) external fun some_method(someArgument: NAME_RULES_KT.EXAMPLE_STRUCT_KT) : Double
+
+    @Throws(NAME_RULES_KT.ExampleException::class)
+    external fun some_method(someArgument: NAME_RULES_KT.EXAMPLE_STRUCT_KT) : Double
 
     var intProperty: Long
         external get
@@ -71,6 +74,7 @@ class NAME_RULES_KT : NativeBase {
 
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
         @JvmStatic external fun create() : Long
     }
 }

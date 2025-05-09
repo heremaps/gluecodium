@@ -48,6 +48,9 @@ class Lambdas {
     static fun applyNullableConfuser(confuser: NullableConfuser, value: String?): StandaloneProducer?
 }
 
+// This is some lambda named StandaloneProducer.
+// It produces serious data.
+// This sentence is used while validating generated documentation.
 lambda StandaloneProducer = () -> String
 
 @Overloaded

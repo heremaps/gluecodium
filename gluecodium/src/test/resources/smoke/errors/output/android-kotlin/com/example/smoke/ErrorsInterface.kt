@@ -25,18 +25,28 @@ interface ErrorsInterface {
 
 
 
-    @Throws (ErrorsInterface.InternalException::class) fun methodWithErrors() : Unit
-    @Throws (ErrorsInterface.ExternalException::class) fun methodWithExternalErrors() : Unit
-    @Throws (ErrorsInterface.InternalException::class) fun methodWithErrorsAndReturnValue() : String
+
+    @Throws(ErrorsInterface.InternalException::class)
+    fun methodWithErrors() : Unit
+
+    @Throws(ErrorsInterface.ExternalException::class)
+    fun methodWithExternalErrors() : Unit
+
+    @Throws(ErrorsInterface.InternalException::class)
+    fun methodWithErrorsAndReturnValue() : String
 
 
     companion object {
         @JvmField final val ERROR_MESSAGE: String = "Some error message constant"
-        @Throws (WithPayloadException::class) @JvmStatic fun methodWithPayloadError() : Unit {
+
+        @Throws(WithPayloadException::class)
+        @JvmStatic fun methodWithPayloadError() : Unit {
             ErrorsInterfaceImpl.methodWithPayloadError()
         }
 
-        @Throws (WithPayloadException::class) @JvmStatic fun methodWithPayloadErrorAndReturnValue() : String {
+
+        @Throws(WithPayloadException::class)
+        @JvmStatic fun methodWithPayloadErrorAndReturnValue() : String {
             return ErrorsInterfaceImpl.methodWithPayloadErrorAndReturnValue()
         }
 

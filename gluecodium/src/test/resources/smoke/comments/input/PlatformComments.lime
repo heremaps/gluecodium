@@ -25,13 +25,13 @@ class PlatformComments {
         Useful
     }
 
-    // An {@Java @Dart exception}{@Swift error} when something goes wrong.
+    // An {@Java @Kotlin @Dart exception}{@Swift error} when something goes wrong.
     exception SomethingWrong(SomeEnum)
 
-    // This is some very useless method that {@Cpp does nothing}{@Java makes some coffee}{@Swift is very swift}{@Dart cannot have overloads}.
+    // This is some very useless method that {@Cpp does nothing}{@Kotlin makes some tea}{@Java makes some coffee}{@Swift is very swift}{@Dart cannot have overloads}.
     fun doNothing()
 
-    // {@Cpp Cooks very special C++ sauce.}{@Java Makes some coffee.}{@Swift Eats a hip bruschetta.}{@Dart Colors everything in fuchsia.}
+    // {@Cpp Cooks very special C++ sauce.}{@Java Makes some coffee.}{@Kotlin Makes some tea.}{@Swift Eats a hip bruschetta.}{@Dart Colors everything in fuchsia.}
     fun doMagic()
 
     // This is some very useful method that measures the usefulness of its input or \\esc\@pe\{s\}.
@@ -43,7 +43,7 @@ class PlatformComments {
     @Deprecated("A very {@Cpp useful}{@Java @Dart useless}{@Swift awesome} method that is deprecated.")
     fun someDeprecatedMethod()
 
-    // This is a{@Cpp @Java  very}{@Java @Swift  super}{@Swift @Cpp  useful}{@Cpp @Java @Swift  struct}.
+    // This is a{@Cpp @Java  very}{@Java @Swift  super}{@Swift @Cpp  useful}{@Kotlin  great}{@Cpp @Java @Kotlin @Swift  struct}.
     struct something {
         nothing: String
     }

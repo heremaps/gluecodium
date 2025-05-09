@@ -31,9 +31,9 @@ class Dates : NativeBase {
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
@@ -42,7 +42,11 @@ class Dates : NativeBase {
 
 
 
+
+
     external fun dateMethod(input: Date) : Date
+
+
     external fun nullableDateMethod(input: Date?) : Date?
 
     var dateProperty: Date

@@ -26,7 +26,11 @@ public final class Structs extends NativeBase {
     public static final class Point {
         public double x;
         public double y;
-
+        /**
+         * <p>This is some constructor, which constructs Point from polar coordinates.
+         * @param phi
+         * @param r
+         */
 
         public Point(final double phi, final double r) {
             Point _other = fromPolar(phi, r);

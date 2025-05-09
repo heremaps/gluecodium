@@ -11,6 +11,10 @@
 #include <vector>
 
 namespace smoke {
+/**
+ * This is some standalone list typedef.
+
+ */
 using GlobalListTypeDef = ::std::vector< float >;
 
 
