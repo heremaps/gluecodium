@@ -160,12 +160,22 @@ jobs:
           yes | sdkmanager --licenses
           yes | sdkmanager "platforms;${ANDROID_API_LEVEL}" > /dev/null
           yes | sdkmanager "build-tools;${ANDROID_BUILD_TOOLS_VERSION}" > /dev/null
-      - name: Build and run functional tests
+      - name: Build and run functional tests written in Kotlin for Kotlin generated code
         run: |
           export ANDROID_HOME=${HOME}/android-sdk-linux
           export ANDROID_SDK_ROOT=${ANDROID_HOME}
           export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
           ./scripts/build-android-kotlin-functional --publish --hostOnly
+        working-directory: functional-tests
+      - name: Clean build dir
+        run: ./scripts/clean
+        working-directory: functional-tests
+      - name: Build and run functional tests written in Java for Kotlin generated code
+        run: |
+          export ANDROID_HOME=${HOME}/android-sdk-linux
+          export ANDROID_SDK_ROOT=${ANDROID_HOME}
+          export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
+          ./scripts/build-android-kotlin-functional --publish --hostOnly --forceJavaTestSources
         working-directory: functional-tests
       - name: Clean build dir
         run: ./scripts/clean
