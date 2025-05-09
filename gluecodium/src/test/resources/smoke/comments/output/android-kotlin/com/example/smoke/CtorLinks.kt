@@ -22,9 +22,9 @@ class CtorLinks : NativeBase {
             cacheThisInstance();
         }
 
-        /*
+        /**
          * For internal use only.
-         * @hidden
+         * @suppress
          * @param nativeHandle The handle to resources on C++ side.
          * @param tag Tag used by callers to avoid overload resolution problems.
          */
@@ -40,6 +40,7 @@ class CtorLinks : NativeBase {
 
         companion object {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
             @JvmStatic external fun create() : Long
         }
     }
@@ -54,9 +55,9 @@ class CtorLinks : NativeBase {
             cacheThisInstance();
         }
 
-        /*
+        /**
          * For internal use only.
-         * @hidden
+         * @suppress
          * @param nativeHandle The handle to resources on C++ side.
          * @param tag Tag used by callers to avoid overload resolution problems.
          */
@@ -72,6 +73,7 @@ class CtorLinks : NativeBase {
 
         companion object {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
             @JvmStatic external fun create(arg: Int) : Long
         }
     }
@@ -86,9 +88,9 @@ class CtorLinks : NativeBase {
             cacheThisInstance();
         }
 
-        /*
+        /**
          * For internal use only.
-         * @hidden
+         * @suppress
          * @param nativeHandle The handle to resources on C++ side.
          * @param tag Tag used by callers to avoid overload resolution problems.
          */
@@ -104,6 +106,7 @@ class CtorLinks : NativeBase {
 
         companion object {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
             @JvmStatic external fun create(arg: Int, arg2: String) : Long
         }
     }
@@ -124,9 +127,9 @@ class CtorLinks : NativeBase {
             cacheThisInstance();
         }
 
-        /*
+        /**
          * For internal use only.
-         * @hidden
+         * @suppress
          * @param nativeHandle The handle to resources on C++ side.
          * @param tag Tag used by callers to avoid overload resolution problems.
          */
@@ -142,15 +145,17 @@ class CtorLinks : NativeBase {
 
         companion object {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
             @JvmStatic external fun create(input: String) : Long
+
             @JvmStatic external fun create(input: String, flag: Boolean) : Long
         }
     }
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */

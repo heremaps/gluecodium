@@ -19,9 +19,9 @@ class LongComments : NativeBase {
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
@@ -36,6 +36,7 @@ class LongComments : NativeBase {
      * @param ratio Not as useful as the first parameter. But still useful. use a positive value for more happiness.
      * @return If you provide a useful input and a useful ratio you can expect a useful output. Just kidding do not expect anything from a method until you see its body.
      */
+
     external fun someMethodWithLongComment(input: String, ratio: Double) : Float
 
 

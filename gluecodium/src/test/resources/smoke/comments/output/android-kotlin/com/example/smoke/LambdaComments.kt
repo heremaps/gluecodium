@@ -20,6 +20,7 @@ class LambdaComments : NativeBase {
          * @param p0 The first input parameter
          * @return
          */
+
         fun apply(p0: String) : String
     }
 
@@ -32,6 +33,7 @@ class LambdaComments : NativeBase {
          * @param p0
          * @return
          */
+
         fun apply(p0: String) : String
     }
 
@@ -44,6 +46,7 @@ class LambdaComments : NativeBase {
          * @param inputParameter The first input parameter. The second sentence of the first input parameter.
          * @return The string.
          */
+
         fun apply(inputParameter: String) : String
     }
 
@@ -57,15 +60,18 @@ class LambdaComments : NativeBase {
          * @param secondInputParameter
          * @return The string.
          */
+
         fun apply(inputParameter: String, secondInputParameter: String) : String
     }
 
     fun interface NoCommentsNoNamedParams {
 
+
         fun apply(p0: String, p1: String) : String
     }
 
     fun interface NoCommentsWithNamedParams {
+
 
         fun apply(first: String, second: String) : String
     }
@@ -82,6 +88,7 @@ class LambdaComments : NativeBase {
          * @param p0 The first input parameter
          * @return
          */
+
         override external fun apply(p0: String) : String
 
 
@@ -102,6 +109,7 @@ class LambdaComments : NativeBase {
          * @param p0
          * @return
          */
+
         override external fun apply(p0: String) : String
 
 
@@ -122,6 +130,7 @@ class LambdaComments : NativeBase {
          * @param inputParameter The first input parameter. The second sentence of the first input parameter.
          * @return The string.
          */
+
         override external fun apply(inputParameter: String) : String
 
 
@@ -143,6 +152,7 @@ class LambdaComments : NativeBase {
          * @param secondInputParameter
          * @return The string.
          */
+
         override external fun apply(inputParameter: String, secondInputParameter: String) : String
 
 
@@ -157,6 +167,7 @@ class LambdaComments : NativeBase {
     class NoCommentsNoNamedParamsImpl : NativeBase, NoCommentsNoNamedParams {
         protected constructor(nativeHandle: Long, tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
         override external fun apply(p0: String, p1: String) : String
@@ -175,6 +186,7 @@ class LambdaComments : NativeBase {
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
+
         override external fun apply(first: String, second: String) : String
 
 
@@ -185,9 +197,9 @@ class LambdaComments : NativeBase {
     }
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */

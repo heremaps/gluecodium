@@ -16,6 +16,7 @@ class MapScene : NativeBase {
 
     fun interface LoadSceneCallback {
 
+
         fun apply(p0: String?) : Unit
     }
 
@@ -25,6 +26,7 @@ class MapScene : NativeBase {
     class LoadSceneCallbackImpl : NativeBase, LoadSceneCallback {
         protected constructor(nativeHandle: Long, tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
         override external fun apply(p0: String?) : Unit
@@ -37,9 +39,9 @@ class MapScene : NativeBase {
     }
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
@@ -49,7 +51,9 @@ class MapScene : NativeBase {
 
 
 
+
     external fun loadScene(mapScheme: Int, callback: MapScene.LoadSceneCallback?) : Unit
+
 
     external fun loadScene(configurationFile: String, callback: MapScene.LoadSceneCallback?) : Unit
 

@@ -12,13 +12,14 @@ import com.example.NativeBase
 class Class : NativeBase, Interface {
 
 
+
     constructor() : this(Constructor(), null as Any?) {
         cacheThisInstance();
     }
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */

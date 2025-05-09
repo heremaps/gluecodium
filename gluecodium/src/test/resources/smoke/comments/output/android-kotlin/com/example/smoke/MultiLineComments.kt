@@ -28,9 +28,9 @@ class MultiLineComments : NativeBase {
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
@@ -54,6 +54,7 @@ class MultiLineComments : NativeBase {
      *     Just kidding do not expect anything from a method until
      *     you see its body.
      */
+
     external fun someMethodWithLongComment(input: String, ratio: Double) : Float
 
 

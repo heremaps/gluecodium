@@ -73,9 +73,9 @@ class ExcludedCommentsOnly : NativeBase {
     }
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
