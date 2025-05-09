@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("SomeSkippedClass")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -22,7 +24,9 @@ class SomeSkippedClass : NativeBase {
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
+
     external fun doFoo() : DontSmokeEnum
+
 
 
 

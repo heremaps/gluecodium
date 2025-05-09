@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("ExternalInterface")
+
 package com.example.smoke
 
 
@@ -11,13 +13,14 @@ interface ExternalInterface {
         SOME_VALUE(0);
     }
     class SomeStruct {
-        var someField: String
+        @JvmField var someField: String
 
 
 
         constructor(someField: String) {
             this.someField = someField
         }
+
 
 
 

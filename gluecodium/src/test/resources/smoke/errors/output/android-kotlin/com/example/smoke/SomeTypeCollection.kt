@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("SomeTypeCollection")
+
 package com.example.smoke
 
 
@@ -12,12 +14,15 @@ class SomeTypeCollection {
         ERROR_A(0),
         ERROR_B(1);
     }
-    class SomeException(val error: SomeTypeCollection.SomeTypeCollectionError) : Exception(error.toString())
+    class SomeException(@JvmField val error: SomeTypeCollection.SomeTypeCollectionError) : Exception(error.toString())
+
+
+
+
 
 
 
 
 
 }
-
 

@@ -3,12 +3,14 @@
  *
  */
 
+@file:JvmName("BlobDefaults")
+
 package com.example.smoke
 
 
 class BlobDefaults {
-    var emptyList: ByteArray
-    var deadBeef: ByteArray
+    @JvmField var emptyList: ByteArray
+    @JvmField var deadBeef: ByteArray
 
 
 
@@ -16,6 +18,9 @@ class BlobDefaults {
         this.emptyList = byteArrayOf(  )
         this.deadBeef = byteArrayOf( 222.toByte(), 173.toByte(), 190.toByte(), 239.toByte() )
     }
+
+
+
 
 
 }

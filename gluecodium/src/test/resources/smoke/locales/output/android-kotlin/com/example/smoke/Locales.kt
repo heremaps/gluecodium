@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("Locales")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -11,13 +13,14 @@ import java.util.Locale
 class Locales : NativeBase {
 
     class LocaleStruct {
-        var localeField: Locale
+        @JvmField var localeField: Locale
 
 
 
         constructor(localeField: Locale) {
             this.localeField = localeField
         }
+
 
 
 
@@ -42,6 +45,7 @@ class Locales : NativeBase {
     var localeProperty: Locale
         external get
         external set
+
 
 
 

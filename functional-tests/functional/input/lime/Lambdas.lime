@@ -21,6 +21,7 @@ class Lambdas {
     lambda Concatenator = (@Java("first") String, @Java("second") String) -> String
     lambda Tricatenator = (String, String, String) -> String
     @Java(Name = "NullableConfounder", FunctionName = "confuse")
+    @Kotlin(Name = "NullableConfounder", FunctionName = "confuse")
     @Swift("NullableConvoluter")
     lambda NullableConfuser = (String?) -> StandaloneProducer?
 

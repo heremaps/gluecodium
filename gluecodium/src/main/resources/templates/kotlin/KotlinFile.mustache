@@ -23,6 +23,8 @@
  *
  */
 
+{{#modelName}}@file:JvmName("{{modelName}}"){{/modelName}}
+
 package {{#package}}{{this}}{{#if iter.hasNext}}.{{/if}}{{/package}}
 
 {{#imports}}

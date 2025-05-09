@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("Properties")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -14,13 +16,15 @@ class Properties : NativeBase {
         ERROR_FATAL(999);
     }
     class ExampleStruct {
-        var value: Double
+        @JvmField var value: Double
 
 
 
         constructor(value: Double) {
             this.value = value
         }
+
+
 
 
 
@@ -43,26 +47,35 @@ class Properties : NativeBase {
     var builtInTypeProperty: Long
         external get
         external set
+
     val readonlyProperty: Float
         external get
+
     var structProperty: Properties.ExampleStruct
         external get
         external set
+
     var arrayProperty: MutableList<String>
         external get
         external set
+
     var complexTypeProperty: Properties.InternalErrorCode
         external get
         external set
+
     var byteBufferProperty: ByteArray
         external get
         external set
+
     var instanceProperty: PropertiesInterface
         external get
         external set
+
     var isBooleanProperty: Boolean
         external get
         external set
+
+
 
 
     companion object {
@@ -70,7 +83,9 @@ class Properties : NativeBase {
         @JvmStatic var staticProperty: String
             external get
             external set
+
         @JvmStatic val staticReadonlyProperty: Properties.ExampleStruct
             external get
+
     }
 }

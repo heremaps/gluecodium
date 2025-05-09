@@ -3,14 +3,16 @@
  *
  */
 
+@file:JvmName("OuterStructWithFieldConstructor")
+
 package com.example.smoke
 
 
 class OuterStructWithFieldConstructor {
-    var outerStructField: OuterStructWithFieldConstructor.InnerStructWithDefaults
+    @JvmField var outerStructField: OuterStructWithFieldConstructor.InnerStructWithDefaults
 
     class InnerStructWithDefaults {
-        var innerStructField: Double
+        @JvmField var innerStructField: Double
 
 
 
@@ -19,13 +21,20 @@ class OuterStructWithFieldConstructor {
         }
 
 
+
+
+
     }
+
 
 
 
     constructor(outerStructField: OuterStructWithFieldConstructor.InnerStructWithDefaults) {
         this.outerStructField = outerStructField
     }
+
+
+
 
 
 }

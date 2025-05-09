@@ -3,14 +3,16 @@
  *
  */
 
+@file:JvmName("TypeCollection")
+
 package com.example.smoke
 
 
 class TypeCollection {
 
     class Point {
-        var x: Double
-        var y: Double
+        @JvmField var x: Double
+        @JvmField var y: Double
 
 
 
@@ -22,10 +24,11 @@ class TypeCollection {
 
 
 
+
     }
 
     class StructHavingAliasFieldDefinedBelow {
-        var field: Long
+        @JvmField var field: Long
 
 
 
@@ -36,6 +39,7 @@ class TypeCollection {
 
 
 
+
     }
 
 
@@ -44,8 +48,9 @@ class TypeCollection {
 
 
 
+
     companion object {
-        val INVALID_STORAGE_ID: Long = 0L
+        @JvmField final val INVALID_STORAGE_ID: Long = 0L
     }
 }
 

@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("ClassWithStructWithSkipLambdaInPlatform")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -10,13 +12,14 @@ import com.example.NativeBase
 class ClassWithStructWithSkipLambdaInPlatform : NativeBase {
 
     class SkipLambdaInPlatform {
-        var intField: Int
+        @JvmField var intField: Int
 
 
 
         constructor(intField: Int) {
             this.intField = intField
         }
+
 
 
 
@@ -33,6 +36,7 @@ class ClassWithStructWithSkipLambdaInPlatform : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
 

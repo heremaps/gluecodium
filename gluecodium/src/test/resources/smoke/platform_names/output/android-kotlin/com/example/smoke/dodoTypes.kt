@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("PlatformNames")
+
 package com.example.smoke
 
 import com.example.smoke.dodoTypes
@@ -13,7 +15,8 @@ class dodoTypes {
         DODO_ITEM(0);
     }
     class dodoStruct {
-        var DODO_FIELD: String
+        @JvmField var DODO_FIELD: String
+
 
 
         constructor(DodoParameter: String) {
@@ -25,10 +28,12 @@ class dodoTypes {
 
 
 
+
         companion object {
             @JvmStatic external fun DodoCreate(DodoParameter: String) : dodoStruct
         }
     }
+
 
 
 

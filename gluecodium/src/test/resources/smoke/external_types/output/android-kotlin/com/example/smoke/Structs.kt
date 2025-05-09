@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("Structs")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -10,10 +12,10 @@ import com.example.NativeBase
 class Structs : NativeBase {
 
     class ExternalStruct {
-        var stringField: String
-        var externalStringField: String
-        var externalArrayField: MutableList<Byte>
-        var externalStructField: Structs.AnotherExternalStruct
+        @JvmField var stringField: String
+        @JvmField var externalStringField: String
+        @JvmField var externalArrayField: MutableList<Byte>
+        @JvmField var externalStructField: Structs.AnotherExternalStruct
 
 
 
@@ -27,16 +29,18 @@ class Structs : NativeBase {
 
 
 
+
     }
 
     class AnotherExternalStruct {
-        var intField: Byte
+        @JvmField var intField: Byte
 
 
 
         constructor(intField: Byte) {
             this.intField = intField
         }
+
 
 
 
@@ -53,6 +57,7 @@ class Structs : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
 

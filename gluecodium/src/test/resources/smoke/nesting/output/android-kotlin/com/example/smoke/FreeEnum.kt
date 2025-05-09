@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("FreeEnum")
+
 package com.example.smoke
 
 

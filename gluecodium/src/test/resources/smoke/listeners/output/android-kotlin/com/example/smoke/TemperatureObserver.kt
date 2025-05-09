@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("TemperatureObserver")
+
 package com.example.smoke
 
 

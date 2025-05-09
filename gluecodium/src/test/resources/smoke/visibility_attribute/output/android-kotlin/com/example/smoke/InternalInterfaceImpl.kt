@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("InternalInterfaceImpl")
+
 package com.example.smoke
 
 import com.example.NativeBase

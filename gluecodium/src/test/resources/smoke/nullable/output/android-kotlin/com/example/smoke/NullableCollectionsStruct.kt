@@ -3,13 +3,15 @@
  *
  */
 
+@file:JvmName("NullableCollectionsStruct")
+
 package com.example.smoke
 
 import java.util.Date
 
 class NullableCollectionsStruct {
-    var dates: MutableList<Date?>
-    var structs: MutableMap<Int, Nullable.SomeStruct?>
+    @JvmField var dates: MutableList<Date?>
+    @JvmField var structs: MutableMap<Int, Nullable.SomeStruct?>
 
 
 
@@ -17,6 +19,7 @@ class NullableCollectionsStruct {
         this.dates = dates
         this.structs = structs
     }
+
 
 
 

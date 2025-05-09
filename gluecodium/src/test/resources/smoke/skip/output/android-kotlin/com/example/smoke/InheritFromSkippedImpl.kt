@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("InheritFromSkippedImpl")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -25,12 +27,15 @@ class InheritFromSkippedImpl : NativeBase, InheritFromSkipped {
     override var skippedInJava: String
         external get
         external set
+
     override var isSkippedInSwift: Boolean
         external get
         external set
+
     override var skippedInDart: Float
         external get
         external set
+
 
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)

@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("GenericTypesWithCompoundTypes")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -18,7 +20,7 @@ class GenericTypesWithCompoundTypes : NativeBase {
         OFF(1);
     }
     class BasicStruct {
-        var value: Double
+        @JvmField var value: Double
 
 
 
@@ -29,16 +31,18 @@ class GenericTypesWithCompoundTypes : NativeBase {
 
 
 
+
     }
 
     class ExternalStruct {
-        var string: String
+        @JvmField var string: String
 
 
 
         constructor(string: String) {
             this.string = string
         }
+
 
 
 
@@ -66,6 +70,7 @@ class GenericTypesWithCompoundTypes : NativeBase {
     external fun methodWithEnumSet(input: MutableSet<GenericTypesWithCompoundTypes.SomeEnum>) : MutableSet<GenericTypesWithCompoundTypes.ExternalEnum>
     external fun methodWithInstancesList(input: MutableList<DummyClass>) : MutableList<DummyInterface>
     external fun methodWithInstancesMap(input: MutableMap<Int, DummyClass>) : MutableMap<Int, DummyInterface>
+
 
 
 

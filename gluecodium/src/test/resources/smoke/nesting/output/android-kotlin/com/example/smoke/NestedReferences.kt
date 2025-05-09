@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("NestedReferences")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -10,13 +12,14 @@ import com.example.NativeBase
 class NestedReferences : NativeBase {
 
     class NestedReferences {
-        var stringField: String
+        @JvmField var stringField: String
 
 
 
         constructor(stringField: String) {
             this.stringField = stringField
         }
+
 
 
 
@@ -37,6 +40,7 @@ class NestedReferences : NativeBase {
 
 
     external fun insideOut(struct1: NestedReferences.NestedReferences, struct2: NestedReferences.NestedReferences) : NestedReferences
+
 
 
 

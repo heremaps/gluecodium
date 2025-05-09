@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("NameRules")
+
 package com.example.namerules
 
 import com.example.NativeBase
@@ -13,12 +15,12 @@ class NAME_RULES_KT : NativeBase {
         NONE(0),
         FATAL(1);
     }
-    class ExampleException(val error: NAME_RULES_KT.EXAMPLE_ERROR_CODE_KT) : Exception(error.toString())
+    class ExampleException(@JvmField val error: NAME_RULES_KT.EXAMPLE_ERROR_CODE_KT) : Exception(error.toString())
 
 
     class EXAMPLE_STRUCT_KT {
-        var value: Double
-        var int_value: MutableList<Long>
+        @JvmField var value: Double
+        @JvmField var int_value: MutableList<Long>
 
 
 
@@ -26,6 +28,7 @@ class NAME_RULES_KT : NativeBase {
             this.value = value
             this.int_value = int_value
         }
+
 
 
 
@@ -49,7 +52,7 @@ class NAME_RULES_KT : NativeBase {
     private external fun cacheThisInstance()
 
 
-    external fun some_method(someArgument: NAME_RULES_KT.EXAMPLE_STRUCT_KT) : Double
+    @Throws (NAME_RULES_KT.ExampleException::class) external fun some_method(someArgument: NAME_RULES_KT.EXAMPLE_STRUCT_KT) : Double
 
     var intProperty: Long
         external get
@@ -62,6 +65,7 @@ class NAME_RULES_KT : NativeBase {
     var structProperty: NAME_RULES_KT.EXAMPLE_STRUCT_KT
         external get
         external set
+
 
 
 

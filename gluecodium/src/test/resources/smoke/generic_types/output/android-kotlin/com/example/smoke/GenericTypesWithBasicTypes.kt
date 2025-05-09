@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("GenericTypesWithBasicTypes")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -10,9 +12,9 @@ import com.example.NativeBase
 class GenericTypesWithBasicTypes : NativeBase {
 
     class StructWithGenerics {
-        var numbersList: MutableList<Short>
-        var numbersMap: MutableMap<Short, String>
-        var numbersSet: MutableSet<Short>
+        @JvmField var numbersList: MutableList<Short>
+        @JvmField var numbersMap: MutableMap<Short, String>
+        @JvmField var numbersSet: MutableSet<Short>
 
 
 
@@ -21,6 +23,7 @@ class GenericTypesWithBasicTypes : NativeBase {
             this.numbersMap = numbersMap
             this.numbersSet = numbersSet
         }
+
 
 
 
@@ -50,12 +53,16 @@ class GenericTypesWithBasicTypes : NativeBase {
     var listProperty: MutableList<Float>
         external get
         external set
+
     var mapProperty: MutableMap<Float, Double>
         external get
         external set
+
     var setProperty: MutableSet<Float>
         external get
         external set
+
+
 
 
     companion object {

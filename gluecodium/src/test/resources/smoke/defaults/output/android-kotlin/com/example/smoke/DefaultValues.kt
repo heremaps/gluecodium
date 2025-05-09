@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("DefaultValues")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -10,12 +12,12 @@ import com.example.NativeBase
 class DefaultValues : NativeBase {
 
     class StructWithDefaults {
-        var intField: Int
-        var uintField: Long
-        var floatField: Float
-        var doubleField: Double
-        var boolField: Boolean
-        var stringField: String
+        @JvmField var intField: Int
+        @JvmField var uintField: Long
+        @JvmField var floatField: Float
+        @JvmField var doubleField: Double
+        @JvmField var boolField: Boolean
+        @JvmField var stringField: String
 
 
 
@@ -30,14 +32,16 @@ class DefaultValues : NativeBase {
 
 
 
+
+
     }
 
     class NullableStructWithDefaults {
-        var intField: Int?
-        var uintField: Long?
-        var floatField: Float?
-        var boolField: Boolean?
-        var stringField: String?
+        @JvmField var intField: Int?
+        @JvmField var uintField: Long?
+        @JvmField var floatField: Float?
+        @JvmField var boolField: Boolean?
+        @JvmField var stringField: String?
 
 
 
@@ -51,15 +55,17 @@ class DefaultValues : NativeBase {
 
 
 
+
+
     }
 
     class StructWithSpecialDefaults {
-        var floatNanField: Float
-        var floatInfinityField: Float
-        var floatNegativeInfinityField: Float
-        var doubleNanField: Double
-        var doubleInfinityField: Double
-        var doubleNegativeInfinityField: Double
+        @JvmField var floatNanField: Float
+        @JvmField var floatInfinityField: Float
+        @JvmField var floatNegativeInfinityField: Float
+        @JvmField var doubleNanField: Double
+        @JvmField var doubleInfinityField: Double
+        @JvmField var doubleNegativeInfinityField: Double
 
 
 
@@ -74,14 +80,16 @@ class DefaultValues : NativeBase {
 
 
 
+
+
     }
 
     class StructWithEmptyDefaults {
-        var intsField: MutableList<Int>
-        var floatsField: MutableList<Float>
-        var mapField: MutableMap<Long, String>
-        var structField: DefaultValues.StructWithDefaults
-        var setTypeField: MutableSet<String>
+        @JvmField var intsField: MutableList<Int>
+        @JvmField var floatsField: MutableList<Float>
+        @JvmField var mapField: MutableMap<Long, String>
+        @JvmField var structField: DefaultValues.StructWithDefaults
+        @JvmField var setTypeField: MutableSet<String>
 
 
 
@@ -95,12 +103,14 @@ class DefaultValues : NativeBase {
 
 
 
+
+
     }
 
     class StructWithTypedefDefaults {
-        var longField: Long
-        var boolField: Boolean
-        var stringField: String
+        @JvmField var longField: Long
+        @JvmField var boolField: Boolean
+        @JvmField var stringField: String
 
 
 
@@ -109,6 +119,8 @@ class DefaultValues : NativeBase {
             this.boolField = true
             this.stringField = "\\Jonny \"Magic\" Smith\n"
         }
+
+
 
 
 
@@ -124,6 +136,7 @@ class DefaultValues : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
 

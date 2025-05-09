@@ -3,13 +3,16 @@
  *
  */
 
+@file:JvmName("FieldCustomConstructorsMix")
+
 package com.example.smoke
 
 
 class FieldCustomConstructorsMix {
-    var stringField: String
-    var intField: Int
-    var boolField: Boolean
+    @JvmField var stringField: String
+    @JvmField var intField: Int
+    @JvmField var boolField: Boolean
+
 
 
     constructor(intValue: Int, dummy: Double) {
@@ -19,11 +22,15 @@ class FieldCustomConstructorsMix {
         this.boolField = _other.boolField
     }
 
+
     constructor(intField: Int) {
         this.intField = intField
         this.stringField = "nonsense"
         this.boolField = true
     }
+
+
+
 
 
     companion object {

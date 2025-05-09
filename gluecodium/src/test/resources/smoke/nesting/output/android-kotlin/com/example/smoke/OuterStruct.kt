@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("OuterStruct")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -10,17 +12,17 @@ import java.util.Date
 import java.util.Locale
 
 class OuterStruct {
-    var field: String
+    @JvmField var field: String
 
     enum class InnerEnum(private val value: Int) {
         FOO(0),
         BAR(1);
     }
-    class InstantiationException(val error: OuterStruct.InnerEnum) : Exception(error.toString())
+    class InstantiationException(@JvmField val error: OuterStruct.InnerEnum) : Exception(error.toString())
 
 
     class InnerStruct {
-        var otherField: MutableList<Date>
+        @JvmField var otherField: MutableList<Date>
 
 
 
@@ -31,6 +33,7 @@ class OuterStruct {
 
 
         external fun doSomething() : Unit
+
 
     }
 
@@ -50,6 +53,7 @@ class OuterStruct {
 
 
         external fun fooBar() : MutableSet<Locale>
+
 
 
 
@@ -78,6 +82,7 @@ class OuterStruct {
 
         external fun field(value: String) : OuterStruct.Builder
         external fun build() : OuterStruct
+
 
 
 
@@ -141,7 +146,8 @@ class OuterStruct {
 
 
 
-    external fun doNothing() : Unit
+    @Throws (OuterStruct.InstantiationException::class) external fun doNothing() : Unit
+
 
 }
 

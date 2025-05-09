@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("Season")
+
 package com.example.kotlinsmoke
 
 

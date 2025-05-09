@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("Serialization")
+
 package com.example.smoke
 
 import android.os.Parcel
@@ -16,22 +18,22 @@ class Serialization {
         BAR(7);
     }
     class SerializableStruct : Parcelable {
-        var boolField: Boolean
-        var byteField: Byte
-        var shortField: Short
-        var intField: Int
-        var longField: Long
-        var floatField: Float
-        var doubleField: Double
-        var stringField: String
-        var structField: Serialization.NestedSerializableStruct
-        var byteBufferField: ByteArray
-        var arrayField: MutableList<String>
-        var structArrayField: MutableList<Serialization.NestedSerializableStruct>
-        var mapField: MutableMap<Int, String>
-        var setField: MutableSet<String>
-        var enumSetField: MutableSet<Serialization.SomeEnum>
-        var enumField: Serialization.SomeEnum
+        @JvmField var boolField: Boolean
+        @JvmField var byteField: Byte
+        @JvmField var shortField: Short
+        @JvmField var intField: Int
+        @JvmField var longField: Long
+        @JvmField var floatField: Float
+        @JvmField var doubleField: Double
+        @JvmField var stringField: String
+        @JvmField var structField: Serialization.NestedSerializableStruct
+        @JvmField var byteBufferField: ByteArray
+        @JvmField var arrayField: MutableList<String>
+        @JvmField var structArrayField: MutableList<Serialization.NestedSerializableStruct>
+        @JvmField var mapField: MutableMap<Int, String>
+        @JvmField var setField: MutableSet<String>
+        @JvmField var enumSetField: MutableSet<Serialization.SomeEnum>
+        @JvmField var enumField: Serialization.SomeEnum
 
 
 
@@ -105,6 +107,7 @@ class Serialization {
 
 
 
+
         companion object {
             @JvmField
             val CREATOR = object : Parcelable.Creator<SerializableStruct> {
@@ -116,7 +119,7 @@ class Serialization {
     }
 
     class NestedSerializableStruct : Parcelable {
-        var someField: String
+        @JvmField var someField: String
 
 
 
@@ -138,6 +141,7 @@ class Serialization {
 
 
 
+
         companion object {
             @JvmField
             val CREATOR = object : Parcelable.Creator<NestedSerializableStruct> {
@@ -147,6 +151,7 @@ class Serialization {
 
         }
     }
+
 
 
 

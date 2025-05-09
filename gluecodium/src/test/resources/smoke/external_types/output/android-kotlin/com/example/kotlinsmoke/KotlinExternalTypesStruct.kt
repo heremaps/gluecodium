@@ -3,15 +3,17 @@
  *
  */
 
+@file:JvmName("KotlinExternalTypesStruct")
+
 package com.example.kotlinsmoke
 
 
 class KotlinExternalTypesStruct {
-    var currency: java.util.Currency
-    var timeZone: java.util.SimpleTimeZone
-    var month: java.time.Month
-    var color: kotlin.Int?
-    var season: kotlin.String
+    @JvmField var currency: java.util.Currency
+    @JvmField var timeZone: java.util.SimpleTimeZone
+    @JvmField var month: java.time.Month
+    @JvmField var color: kotlin.Int?
+    @JvmField var season: kotlin.String
 
 
 
@@ -22,6 +24,7 @@ class KotlinExternalTypesStruct {
         this.color = color
         this.season = season
     }
+
 
 
 

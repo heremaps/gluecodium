@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("Enums")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -18,8 +20,8 @@ class Enums : NativeBase {
         ERROR_FATAL(999);
     }
     class ErrorStruct {
-        var type: Enums.InternalErrorCode
-        var message: String
+        @JvmField var type: Enums.InternalErrorCode
+        @JvmField var message: String
 
 
 
@@ -27,6 +29,7 @@ class Enums : NativeBase {
             this.type = type
             this.message = message
         }
+
 
 
 
@@ -43,6 +46,7 @@ class Enums : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
 

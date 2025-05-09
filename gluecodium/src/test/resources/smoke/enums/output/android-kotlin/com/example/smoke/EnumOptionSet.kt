@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("EnumOptionSet")
+
 package com.example.smoke
 
 

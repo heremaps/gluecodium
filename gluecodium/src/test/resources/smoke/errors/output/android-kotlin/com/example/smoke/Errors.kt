@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("Errors")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -18,10 +20,10 @@ class Errors : NativeBase {
         BOOM(1),
         BUST(2);
     }
-    class InternalException(val error: Errors.InternalErrorCode) : Exception(error.toString())
+    class InternalException(@JvmField val error: Errors.InternalErrorCode) : Exception(error.toString())
 
 
-    class ExternalException(val error: Errors.ExternalErrors) : Exception(error.toString())
+    class ExternalException(@JvmField val error: Errors.ExternalErrors) : Exception(error.toString())
 
 
 
@@ -39,12 +41,14 @@ class Errors : NativeBase {
 
 
 
+
+
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
-        @JvmStatic external fun methodWithErrors() : Unit
-        @JvmStatic external fun methodWithExternalErrors() : Unit
-        @JvmStatic external fun methodWithErrorsAndReturnValue() : String
-        @JvmStatic external fun methodWithPayloadError() : Unit
-        @JvmStatic external fun methodWithPayloadErrorAndReturnValue() : String
+        @Throws (Errors.InternalException::class) @JvmStatic external fun methodWithErrors() : Unit
+        @Throws (Errors.ExternalException::class) @JvmStatic external fun methodWithExternalErrors() : Unit
+        @Throws (Errors.InternalException::class) @JvmStatic external fun methodWithErrorsAndReturnValue() : String
+        @Throws (WithPayloadException::class) @JvmStatic external fun methodWithPayloadError() : Unit
+        @Throws (WithPayloadException::class) @JvmStatic external fun methodWithPayloadErrorAndReturnValue() : String
     }
 }

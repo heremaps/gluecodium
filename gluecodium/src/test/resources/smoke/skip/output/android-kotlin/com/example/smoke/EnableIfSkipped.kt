@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("EnableIfSkipped")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -19,6 +21,8 @@ class EnableIfSkipped : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+
 
 
 

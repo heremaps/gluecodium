@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("KotlinPublicClass")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -19,6 +21,7 @@ class KotlinPublicClass : NativeBase {
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
 
