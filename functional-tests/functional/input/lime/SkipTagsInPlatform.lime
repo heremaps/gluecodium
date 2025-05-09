@@ -17,13 +17,13 @@
 
 package test
 
-@Skip(Swift, Dart, Kotlin)
+@Skip(Swift, Dart) @Kotlin(EnableIf="JavaTestsRunWithKotlin")
 interface SkipTagsInJava {
-    @Java(Skip = "Lite")
+    @Java(Skip = "Lite") @Kotlin(Skip = "Lite")
     fun skipTagged()
-    @Java(Skip = "Pro")
+    @Java(Skip = "Pro") @Kotlin(Skip = "Pro")
     fun dontSkipTagged()
-    @Java(Skip = ["Lite", "Pro"])
+    @Java(Skip = ["Lite", "Pro"]) @Kotlin(Skip = ["Lite", "Pro"])
     fun skipTaggedList()
 }
 

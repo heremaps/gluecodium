@@ -72,6 +72,18 @@ enum Season {
     AUTUMN
 }
 
+@Kotlin(EnableIf="JavaTestsRunWithKotlin")
+class UseJavaExternalTypes {
+    static fun currencyRoundTrip(input: Currency): Currency
+    static fun timeZoneRoundTrip(input: TimeZone): TimeZone
+    static fun monthRoundTrip(input: Month): Month
+    static fun colorRoundTrip(input: SystemColor): SystemColor
+    static fun seasonRoundTrip(input: Season): Season
+
+    static fun structRoundTrip(input: JavaExternalTypesStruct): JavaExternalTypesStruct
+    static fun veryBooleanUnbox(input: VeryBoolean): Boolean
+}
+
 class UseKotlinExternalTypes {
     static fun currencyRoundTrip(input: Currency): Currency
     static fun timeZoneRoundTrip(input: TimeZone): TimeZone
@@ -81,6 +93,15 @@ class UseKotlinExternalTypes {
 
     static fun structRoundTrip(input: KotlinExternalTypesStruct): KotlinExternalTypesStruct
     static fun veryBooleanUnbox(input: VeryBoolean): Boolean
+}
+
+@Kotlin(EnableIf="JavaTestsRunWithKotlin")
+struct JavaExternalTypesStruct {
+    currency: Currency
+    timeZone: TimeZone
+    month: Month
+    color: SystemColor
+    season: Season
 }
 
 struct KotlinExternalTypesStruct {
@@ -114,6 +135,13 @@ struct VeryBoolean {
 
     value: Boolean
     constructor make(value: Boolean)
+}
+
+@Kotlin(EnableIf="JavaTestsRunWithKotlin")
+struct UseJavaExternalConst {
+    stringField: String
+    @Internal
+    const defaultTruth: VeryBoolean = {true}
 }
 
 struct UseKotlinExternalConst {
