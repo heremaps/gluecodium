@@ -32,7 +32,7 @@ class EnumDefaultsExternal {
     }
     struct NullableEnum {
         enumField1: ExternalEnum2? = null
-        enumField1: ExternalEnum2? = ExternalEnum2.DISABLED
+        enumField2: ExternalEnum2? = ExternalEnum2.DISABLED
     }
     typealias EnumAlias = ExternalEnum3
     struct AliasEnum {

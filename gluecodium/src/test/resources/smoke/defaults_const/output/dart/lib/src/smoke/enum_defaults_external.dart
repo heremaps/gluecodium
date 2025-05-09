@@ -103,11 +103,11 @@ void smokeEnumdefaultsexternalSimpleenumReleaseFfiHandleNullable(Pointer<Void> h
 class EnumDefaultsExternal_NullableEnum {
   alien_enum2.ExternalEnum2? enumField1;
 
-  alien_enum2.ExternalEnum2? enumField1;
+  alien_enum2.ExternalEnum2? enumField2;
 
-  EnumDefaultsExternal_NullableEnum._(this.enumField1, this.enumField1);
+  EnumDefaultsExternal_NullableEnum._(this.enumField1, this.enumField2);
   EnumDefaultsExternal_NullableEnum()
-    : enumField1 = null, enumField1 = alien_enum2.ExternalEnum2.disabled;
+    : enumField1 = null, enumField2 = alien_enum2.ExternalEnum2.disabled;
 }
 
 
@@ -125,33 +125,33 @@ final _smokeEnumdefaultsexternalNullableenumGetFieldenumField1 = __lib.catchArgu
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_EnumDefaultsExternal_NullableEnum_get_field_enumField1'));
-final _smokeEnumdefaultsexternalNullableenumGetFieldenumField1 = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
+final _smokeEnumdefaultsexternalNullableenumGetFieldenumField2 = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
-  >('library_smoke_EnumDefaultsExternal_NullableEnum_get_field_enumField1'));
+  >('library_smoke_EnumDefaultsExternal_NullableEnum_get_field_enumField2'));
 
 
 
 Pointer<Void> smokeEnumdefaultsexternalNullableenumToFfi(EnumDefaultsExternal_NullableEnum value) {
   final _enumField1Handle = fireExternalenum2ToFfiNullable(value.enumField1);
-  final _enumField1Handle = fireExternalenum2ToFfiNullable(value.enumField1);
-  final _result = _smokeEnumdefaultsexternalNullableenumCreateHandle(_enumField1Handle, _enumField1Handle);
+  final _enumField2Handle = fireExternalenum2ToFfiNullable(value.enumField2);
+  final _result = _smokeEnumdefaultsexternalNullableenumCreateHandle(_enumField1Handle, _enumField2Handle);
   fireExternalenum2ReleaseFfiHandleNullable(_enumField1Handle);
-  fireExternalenum2ReleaseFfiHandleNullable(_enumField1Handle);
+  fireExternalenum2ReleaseFfiHandleNullable(_enumField2Handle);
   return _result;
 }
 
 EnumDefaultsExternal_NullableEnum smokeEnumdefaultsexternalNullableenumFromFfi(Pointer<Void> handle) {
   final _enumField1Handle = _smokeEnumdefaultsexternalNullableenumGetFieldenumField1(handle);
-  final _enumField1Handle = _smokeEnumdefaultsexternalNullableenumGetFieldenumField1(handle);
+  final _enumField2Handle = _smokeEnumdefaultsexternalNullableenumGetFieldenumField2(handle);
   try {
     return EnumDefaultsExternal_NullableEnum._(
       fireExternalenum2FromFfiNullable(_enumField1Handle), 
-      fireExternalenum2FromFfiNullable(_enumField1Handle)
+      fireExternalenum2FromFfiNullable(_enumField2Handle)
     );
   } finally {
     fireExternalenum2ReleaseFfiHandleNullable(_enumField1Handle);
-    fireExternalenum2ReleaseFfiHandleNullable(_enumField1Handle);
+    fireExternalenum2ReleaseFfiHandleNullable(_enumField2Handle);
   }
 }
 
@@ -371,6 +371,7 @@ final _smokeEnumdefaultsexternalReleaseHandle = __lib.catchArgumentError(() => _
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_EnumDefaultsExternal_release_handle'));
+
 
 
 class EnumDefaultsExternal$Impl extends __lib.NativeBase implements EnumDefaultsExternal {

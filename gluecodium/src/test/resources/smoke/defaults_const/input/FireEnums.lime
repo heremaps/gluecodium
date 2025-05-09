@@ -42,6 +42,7 @@ enum ExternalEnum1 {
         cpp include "foo/AlienEnum1.h"
         cpp name "foo::AlienEnum1"
         java name "foo.AlienEnum1"
+        kotlin name "foo.AlienEnum1"
         swift framework "FooKit1"
         dart importPath "package:foo/alien_enum1.dart"
     }
@@ -55,6 +56,7 @@ enum ExternalEnum2 {
         cpp include "foo/AlienEnum2.h"
         cpp name "foo::AlienEnum2"
         java name "foo.AlienEnum2"
+        kotlin name "foo.AlienEnum2"
         swift framework "FooKit2"
         dart importPath "package:foo/alien_enum2.dart"
     }
@@ -68,6 +70,7 @@ enum ExternalEnum3 {
         cpp include "foo/AlienEnum3.h"
         cpp name "foo::AlienEnum3"
         java name "foo.AlienEnum3"
+        kotlin name "foo.AlienEnum3"
         swift framework "FooKit3"
         dart importPath "package:foo/alien_enum3.dart"
     }
@@ -81,6 +84,7 @@ enum ExternalEnum4 {
         cpp include "foo/AlienEnum4.h"
         cpp name "foo::AlienEnum4"
         java name "foo.AlienEnum4"
+        kotlin name "foo.AlienEnum4"
         swift framework "FooKit4"
         dart importPath "package:foo/alien_enum4.dart"
     }
@@ -89,7 +93,7 @@ enum ExternalEnum4 {
     DISABLED
 }
 
-@Skip(Java, Swift)
+@Skip(Java, Kotlin, Swift)
 enum AmbiguousEnum {
     DISABLED
 }
