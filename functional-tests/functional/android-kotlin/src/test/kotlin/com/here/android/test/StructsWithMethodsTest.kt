@@ -83,12 +83,15 @@ class StructsWithMethodsTest {
     fun vectorCopyConstructorDoesNotThrow() {
         val vector: Vector = Vector(1.0, 2.0)
         val copy = Vector(vector)
+
+        assertEquals(vector, copy)
     }
 
     @org.junit.Test
     fun vectorCopyConstructorThrows() {
         val vector: Vector = Vector(1.0, Double.NaN)
         assertThrows(ValidationUtils.ValidationException::class.java) {
+            @Suppress("UNUSED_VARIABLE")
             val copy = Vector(vector)
         }
     }
@@ -143,12 +146,15 @@ class StructsWithMethodsTest {
     fun vector3CopyConstructorDoesNotThrow() {
         val vector = StructsWithMethodsInterface.Vector3(1.0, 2.0, 3.0)
         val copy = StructsWithMethodsInterface.Vector3(vector)
+
+        assertEquals(vector, copy)
     }
 
     @org.junit.Test
     fun vector3CopyConstructorThrows() {
         val vector = StructsWithMethodsInterface.Vector3(1.0, Double.NaN, 3.0)
         assertThrows(ValidationUtils.ValidationException::class.java) {
+            @Suppress("UNUSED_VARIABLE")
             val copy = StructsWithMethodsInterface.Vector3(vector)
         }
     }

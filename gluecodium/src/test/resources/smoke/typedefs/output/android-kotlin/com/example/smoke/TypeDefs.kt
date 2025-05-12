@@ -12,7 +12,7 @@ import com.example.NativeBase
 class TypeDefs : NativeBase {
 
     class StructHavingAliasFieldDefinedBelow {
-        var field: Double
+        @JvmField var field: Double
 
 
 
@@ -27,7 +27,7 @@ class TypeDefs : NativeBase {
     }
 
     class TestStruct {
-        var something: String
+        @JvmField var something: String
 
 
 

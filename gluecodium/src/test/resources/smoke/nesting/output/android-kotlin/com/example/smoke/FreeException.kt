@@ -8,6 +8,6 @@
 package com.example.smoke
 
 
-class FreeException(val error: FreeEnum) : Exception(error.toString())
+class FreeException(@JvmField val error: FreeEnum) : Exception(error.toString())
 
 

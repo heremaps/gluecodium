@@ -12,7 +12,7 @@ import com.example.NativeBase
 class ClassWithStructWithSkipLambdaInPlatform : NativeBase {
 
     class SkipLambdaInPlatform {
-        var intField: Int
+        @JvmField var intField: Int
 
 
 

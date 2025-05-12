@@ -15,16 +15,16 @@ class Equatable {
         BAR(1);
     }
     class EquatableStruct {
-        var boolField: Boolean
-        var intField: Int
-        var longField: Long
-        var floatField: Float
-        var doubleField: Double
-        var stringField: String
-        var structField: Equatable.NestedEquatableStruct
-        var enumField: Equatable.SomeEnum
-        var arrayField: MutableList<String>
-        var mapField: MutableMap<Int, String>
+        @JvmField var boolField: Boolean
+        @JvmField var intField: Int
+        @JvmField var longField: Long
+        @JvmField var floatField: Float
+        @JvmField var doubleField: Double
+        @JvmField var stringField: String
+        @JvmField var structField: Equatable.NestedEquatableStruct
+        @JvmField var enumField: Equatable.SomeEnum
+        @JvmField var arrayField: MutableList<String>
+        @JvmField var mapField: MutableMap<Int, String>
 
 
 
@@ -85,15 +85,15 @@ class Equatable {
     }
 
     class EquatableNullableStruct {
-        var boolField: Boolean?
-        var intField: Int?
-        var uintField: Int?
-        var floatField: Float?
-        var stringField: String?
-        var structField: Equatable.NestedEquatableStruct?
-        var enumField: Equatable.SomeEnum?
-        var arrayField: MutableList<String>?
-        var mapField: MutableMap<Int, String>?
+        @JvmField var boolField: Boolean?
+        @JvmField var intField: Int?
+        @JvmField var uintField: Int?
+        @JvmField var floatField: Float?
+        @JvmField var stringField: String?
+        @JvmField var structField: Equatable.NestedEquatableStruct?
+        @JvmField var enumField: Equatable.SomeEnum?
+        @JvmField var arrayField: MutableList<String>?
+        @JvmField var mapField: MutableMap<Int, String>?
 
 
 
@@ -151,7 +151,7 @@ class Equatable {
     }
 
     class NestedEquatableStruct {
-        var fooField: String
+        @JvmField var fooField: String
 
 
 

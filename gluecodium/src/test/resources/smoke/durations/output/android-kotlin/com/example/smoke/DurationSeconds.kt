@@ -13,7 +13,7 @@ import com.example.time.Duration
 class DurationSeconds : NativeBase {
 
     class DurationStruct {
-        var durationField: Duration
+        @JvmField var durationField: Duration
 
 
 

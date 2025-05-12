@@ -14,8 +14,8 @@ enum class EnumWithAlias(private val value: Int) {
     THREE(4);
 
     companion object {
-        val FIRST = EnumWithAlias.ONE
-        val THE_BEST = EnumWithAlias.FIRST
+        @JvmField val FIRST = EnumWithAlias.ONE
+        @JvmField val THE_BEST = EnumWithAlias.FIRST
     }
 
 }

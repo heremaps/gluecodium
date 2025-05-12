@@ -12,9 +12,9 @@ import com.example.NativeBase
 class StructsWithMethodsInterface : NativeBase {
 
     class Vector3 {
-        var x: Double
-        var y: Double
-        var z: Double
+        @JvmField var x: Double
+        @JvmField var y: Double
+        @JvmField var z: Double
 
 
 

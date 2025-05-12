@@ -13,7 +13,7 @@ interface ExternalInterface {
         SOME_VALUE(0);
     }
     class SomeStruct {
-        var someField: String
+        @JvmField var someField: String
 
 
 

@@ -24,6 +24,7 @@ import static junit.framework.Assert.assertTrue;
 
 import android.os.Build;
 import com.here.android.RobolectricApplication;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -410,7 +411,7 @@ public class ArraysTest {
         new Arrays.FancyStruct(
             java.util.Arrays.asList("struct", "3"),
             java.util.Arrays.asList(SHORT_ITEM_4, SHORT_ITEM_4),
-            null);
+            new ArrayList<SimpleInstantiableOne>());
     List<Arrays.FancyStruct> fancyStructList1 = java.util.Arrays.asList(struct1, struct2);
     List<Arrays.FancyStruct> fancyStructList2 = Collections.singletonList(struct3);
 

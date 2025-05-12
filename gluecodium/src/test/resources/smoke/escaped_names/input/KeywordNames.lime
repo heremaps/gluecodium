@@ -20,6 +20,7 @@ package `package`
 struct `types` {
 
     struct `struct` {
+        @Kotlin("Null")
         `null`: `enum` = `enum`.`NaN`
     }
 
@@ -37,12 +38,15 @@ struct `types` {
 
 class `class`: `interface` {
 
+    @Kotlin("Constructor")
     constructor `constructor`()
 
+    @Kotlin("Fun")
     fun `fun`(
         `Double`: `types`.`ULong`
     ): `types`.`struct` throws `types`.`exception`
 
+    @Kotlin("Property")
     property `property`: `types`.`enum`
 }
 

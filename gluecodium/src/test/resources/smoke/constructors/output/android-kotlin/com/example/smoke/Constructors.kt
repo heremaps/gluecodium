@@ -15,7 +15,7 @@ open class Constructors : NativeBase {
         NONE(0),
         CRASHED(1);
     }
-    class ConstructorExplodedException(val error: Constructors.ErrorEnum) : Exception(error.toString())
+    class ConstructorExplodedException(@JvmField val error: Constructors.ErrorEnum) : Exception(error.toString())
 
 
 
@@ -28,7 +28,8 @@ open class Constructors : NativeBase {
     constructor(foo: String, bar: Long) : this(create(foo, bar), null as Any?) {
         cacheThisInstance();
     }
-@Throws (Constructors.ConstructorExplodedException::class)    constructor(input: String) : this(create(input), null as Any?) {
+    @Throws(Constructors.ConstructorExplodedException::class)
+    constructor(input: String) : this(create(input), null as Any?) {
         cacheThisInstance();
     }
     constructor(input: MutableList<Double>) : this(create(input), null as Any?) {
@@ -64,3 +65,4 @@ open class Constructors : NativeBase {
         @JvmStatic external fun create(input: Long) : Long
     }
 }
+

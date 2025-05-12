@@ -34,13 +34,13 @@ class MultipleInheritanceTest {
 
         override var childProperty: String
             get() = ""
-            set(value) {}
+            set(_) {}
 
         override fun parentFunction() {}
 
         override var parentProperty: String
             get() = ""
-            set(value) {}
+            set(_) {}
 
         override fun parentFunctionLight(): String {
             return "kotlin face faces"
@@ -48,12 +48,12 @@ class MultipleInheritanceTest {
 
         override var parentPropertyLight: String
             get() = ""
-            set(value) {}
+            set(_) {}
     }
 
     @org.junit.Test
     fun fromCppSendUpcastSucceeds() {
-        val instance: MultiClass = MultipleInheritanceFactory.getMultiClass()
+        val instance: MultiClass? = MultipleInheritanceFactory.getMultiClass()
         assertTrue(instance is NarrowInterface)
     }
 
@@ -119,7 +119,7 @@ class MultipleInheritanceTest {
     }
 
     @org.junit.Test
-    fun fromJavaRoundTripWithUpcastNotEquals() {
+    fun fromKotlinRoundTripWithUpcastNotEquals() {
         val instance: MultiInterface = MultiInterfaceImpl()
 
         assertFalse(instance === MultipleInheritanceFactory.upcastMultiInterfaceToNarrow(instance))

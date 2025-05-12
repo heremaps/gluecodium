@@ -12,7 +12,7 @@ import com.example.NativeBase
 class NestedPackages : NativeBase {
 
     class SomeStruct {
-        var someField: String
+        @JvmField var someField: String
 
 
 
