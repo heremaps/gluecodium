@@ -58,7 +58,11 @@ class RobolectricApplication : Application() {
         Log.d(TAG, "loadNativeLibraries: Using app library path: " + appLibraryPath)
 
         val files = appLibraryPath.listFiles {
-            dir, name -> name.contains(".so") || name.endsWith(".dylib")
+            _, name -> name.contains(".so") || name.endsWith(".dylib")
+        }
+
+        if (files == null) {
+            throw NullPointerException("loadNativeLibraries: files array is null")
         }
 
         for (sharedObject in files)  {
