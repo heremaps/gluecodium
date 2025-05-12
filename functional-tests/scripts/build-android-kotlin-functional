@@ -28,6 +28,7 @@ $0 [options]
     --gluecodiumPath [PATH]   Implies --buildGluecodium, path to local gluecodium (default: ${GLUECODIUM_PATH})
     --debug                   Build with debug symbols
     --docs                    Generate docs of tests
+    --forceJavaTestSources    Run Java tests with Kotlin generated code
     --hostOnly                Only build host architecture
     --help                    Print this message
 EOF
@@ -36,6 +37,7 @@ EOF
 CMAKE_BUILD_TYPE=
 BUILD_LOCAL_GLUECODIUM=false
 GENERATE_DOCS=false
+FORCE_JAVA_TEST_SOURCES=
 HOST_ONLY=false
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -58,6 +60,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --docs)
             GENERATE_DOCS=true
+            shift
+            ;;
+        --forceJavaTestSources)
+            FORCE_JAVA_TEST_SOURCES="-Pforce-java-test-sources"
             shift
             ;;
         --hostOnly)
@@ -87,9 +93,9 @@ INSTALL_AAR_DIR="${ANDROID_DIR}/app/libs/"
 TMP_DIR=$(mktemp -d)
 
 if $HOST_ONLY; then
-    ./gradlew functional:testRelease -Pandroid-kotlin -PhostOnly -PgluecodiumVersion=${GLUECODIUM_VERSION}
+    ./gradlew functional:testRelease -Pandroid-kotlin $FORCE_JAVA_TEST_SOURCES -PhostOnly -PgluecodiumVersion=${GLUECODIUM_VERSION}
 else
-    ./gradlew functional:testRelease -Pandroid-kotlin -PgluecodiumVersion=${GLUECODIUM_VERSION}
+    ./gradlew functional:testRelease -Pandroid-kotlin $FORCE_JAVA_TEST_SOURCES -PgluecodiumVersion=${GLUECODIUM_VERSION}
 fi
 
 if [ "$GENERATE_DOCS" = true ]; then

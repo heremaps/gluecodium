@@ -31,8 +31,8 @@ struct StructWithAllDefaults {
     stringField: String = "\\Jonny \"Magic\" Smith\n"
 }
 
-@Java(PositionalDefaults)
-@Swift(Skip) @Dart(Skip) @Kotlin(Skip)
+@Java(PositionalDefaults) @Kotlin(EnableIf="JavaTestsRunWithKotlin", PositionalDefaults)
+@Swift(Skip) @Dart(Skip)
 struct StructWithJavaPositionalDefaults {
     firstInitField: Int = 42
     firstFreeField: String
