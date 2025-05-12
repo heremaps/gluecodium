@@ -9,10 +9,10 @@ package com.example.kotlinsmoke
 
 
 class SystemColor {
-    var red: Float
-    var green: Float
-    var blue: Float
-    var alpha: Float
+    @JvmField var red: Float
+    @JvmField var green: Float
+    @JvmField var blue: Float
+    @JvmField var alpha: Float
 
 
 

@@ -9,11 +9,11 @@ package com.example.smoke
 
 
 class StructWithKotlinPositionalDefaults {
-    var firstInitField: Int
-    var firstFreeField: String
-    var secondInitField: Float
-    var secondFreeField: Boolean
-    var thirdInitField: String
+    @JvmField var firstInitField: Int
+    @JvmField var firstFreeField: String
+    @JvmField var secondInitField: Float
+    @JvmField var secondFreeField: Boolean
+    @JvmField var thirdInitField: String
 
 
 

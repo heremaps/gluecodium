@@ -12,8 +12,8 @@ import com.example.NativeBase
 class StructConstants : NativeBase {
 
     class SomeStruct {
-        var stringField: String
-        var floatField: Float
+        @JvmField var stringField: String
+        @JvmField var floatField: Float
 
 
 
@@ -29,7 +29,7 @@ class StructConstants : NativeBase {
     }
 
     class NestingStruct {
-        var structField: StructConstants.SomeStruct
+        @JvmField var structField: StructConstants.SomeStruct
 
 
 
@@ -61,8 +61,8 @@ class StructConstants : NativeBase {
 
 
     companion object {
-        val STRUCT_CONSTANT: StructConstants.SomeStruct = StructConstants.SomeStruct("bar Buzz", 1.41f)
-        val NESTING_STRUCT_CONSTANT: StructConstants.NestingStruct = StructConstants.NestingStruct(StructConstants.SomeStruct("nonsense", -2.82f))
+        @JvmField final val STRUCT_CONSTANT: StructConstants.SomeStruct = StructConstants.SomeStruct("bar Buzz", 1.41f)
+        @JvmField final val NESTING_STRUCT_CONSTANT: StructConstants.NestingStruct = StructConstants.NestingStruct(StructConstants.SomeStruct("nonsense", -2.82f))
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }

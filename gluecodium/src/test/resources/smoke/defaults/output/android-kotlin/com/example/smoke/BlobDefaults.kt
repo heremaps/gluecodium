@@ -9,8 +9,8 @@ package com.example.smoke
 
 
 class BlobDefaults {
-    var emptyList: ByteArray
-    var deadBeef: ByteArray
+    @JvmField var emptyList: ByteArray
+    @JvmField var deadBeef: ByteArray
 
 
 

@@ -73,6 +73,7 @@ public abstract class NativeBase {
     }
 
     companion object {
+        @JvmField public var propagateCleanupException: Boolean = false
         private val LOGGER = Logger.getLogger(NativeBase::class.java.name);
 
         // The set is to keep DisposableReference itself from being garbage-collected.
@@ -93,6 +94,10 @@ public abstract class NativeBase {
                     (reference as DisposableReference).dispose()
                 } catch (t: Throwable) {
                     LOGGER.log(Level.SEVERE, "Error cleaning up after reference.", t);
+
+                    if (propagateCleanupException) {
+                        throw t
+                    }
                 }
 
                 reference = REFERENCE_QUEUE.poll()

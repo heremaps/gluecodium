@@ -9,7 +9,7 @@ package com.example.smoke
 
 
 class PublicStructWithInternalConstructors {
-    var someVar: Int
+    @JvmField var someVar: Int
 
 
 

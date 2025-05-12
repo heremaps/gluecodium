@@ -12,8 +12,8 @@ import com.example.NativeBase
 class StructsWithConstantsInterface : NativeBase {
 
     class MultiRoute {
-        var descriptions: MutableList<String>
-        var type: RouteUtils.RouteType
+        @JvmField var descriptions: MutableList<String>
+        @JvmField var type: RouteUtils.RouteType
 
 
 
@@ -27,8 +27,8 @@ class StructsWithConstantsInterface : NativeBase {
 
 
         companion object {
-            val DEFAULT_DESCRIPTION: String = "Foo"
-            val DEFAULT_TYPE: RouteUtils.RouteType = RouteUtils.RouteType.NONE
+            @JvmField final val DEFAULT_DESCRIPTION: String = "Foo"
+            @JvmField final val DEFAULT_TYPE: RouteUtils.RouteType = RouteUtils.RouteType.NONE
         }
     }
 
@@ -42,7 +42,7 @@ class StructsWithConstantsInterface : NativeBase {
 
 
         companion object {
-            val DEFAULT_DESCRIPTION: String = "Foo"
+            @JvmField final val DEFAULT_DESCRIPTION: String = "Foo"
         }
     }
 

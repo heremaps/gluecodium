@@ -14,7 +14,7 @@ interface ListenersWithReturnValues {
         RESULT(1);
     }
     class ResultStruct {
-        var result: Double
+        @JvmField var result: Double
 
 
 

@@ -10,7 +10,7 @@ package com.example.smoke
 
 interface CalculatorListener {
     class ResultStruct {
-        var result: Double
+        @JvmField var result: Double
 
 
 

@@ -57,13 +57,13 @@
 {{#set property=this}}
 {{#property}}
 {{#if isStatic}}
-{{#if setter}}        @JvmStatic var{{/if}}{{!!
-}}{{#unless setter}}        @JvmStatic val{{/unless}}{{!!
-}} {{resolveName}}: {{resolveName typeRef}}
-            get() = {{resolveName interface}}Impl.{{resolveName property}}{{#setter}}
-            set(value) {
-                {{resolveName interface}}Impl.{{resolveName property}} = value
-            }{{/setter}}
+        @JvmStatic fun {{resolveName property "" "getter"}}(): {{resolveName typeRef}} {
+            return {{resolveName interface}}Impl.{{resolveName property}}
+        }
+
+        @JvmStatic fun {{resolveName property "" "setter"}}(value: {{resolveName typeRef}}) {
+            {{resolveName interface}}Impl.{{resolveName property}} = value
+        }
 {{/if}}
 {{/property}}
 {{/set}}

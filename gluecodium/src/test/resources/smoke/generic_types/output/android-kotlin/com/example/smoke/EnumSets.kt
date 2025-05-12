@@ -10,7 +10,7 @@ package com.example.smoke
 import java.util.EnumSet
 
 class EnumSets {
-    var enumSetField: MutableSet<GenericTypesWithCompoundTypes.SomeEnum>
+    @JvmField var enumSetField: MutableSet<GenericTypesWithCompoundTypes.SomeEnum>
 
 
 
@@ -23,7 +23,7 @@ class EnumSets {
 
 
     companion object {
-        val ENUM_SET_CONST: MutableSet<GenericTypesWithCompoundTypes.SomeEnum> = EnumSet.of(GenericTypesWithCompoundTypes.SomeEnum.FOO, GenericTypesWithCompoundTypes.SomeEnum.BAR)
+        @JvmField final val ENUM_SET_CONST: MutableSet<GenericTypesWithCompoundTypes.SomeEnum> = EnumSet.of(GenericTypesWithCompoundTypes.SomeEnum.FOO, GenericTypesWithCompoundTypes.SomeEnum.BAR)
     }
 }
 

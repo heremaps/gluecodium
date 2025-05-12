@@ -9,9 +9,9 @@ package com.example.smoke
 
 
 class ImmutableStructNoClash {
-    val stringField: String
-    val intField: Int
-    val boolField: Boolean
+    @JvmField val stringField: String
+    @JvmField val intField: Int
+    @JvmField val boolField: Boolean
 
 
 

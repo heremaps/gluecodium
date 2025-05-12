@@ -10,7 +10,7 @@ package com.example.smoke
 
 interface PropertiesInterface {
     class ExampleStruct {
-        var value: Double
+        @JvmField var value: Double
 
 
 

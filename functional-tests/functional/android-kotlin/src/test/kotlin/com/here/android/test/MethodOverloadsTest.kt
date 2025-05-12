@@ -62,12 +62,14 @@ class MethodOverloadsTest {
 
     @org.junit.Test
     fun constructorDoesNotThrow() {
+        @Suppress("UNUSED_VARIABLE")
         val result: ThrowingConstructor = ThrowingConstructor(0.0)
     }
 
     @org.junit.Test
     fun constructorThrows() {
         val exception = assertThrows(ThrowingConstructor.SomeException::class.java) {
+            @Suppress("UNUSED_VARIABLE")
             val result: ThrowingConstructor = ThrowingConstructor(1.0)
         }
 

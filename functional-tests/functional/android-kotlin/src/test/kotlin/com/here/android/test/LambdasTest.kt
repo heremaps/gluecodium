@@ -122,21 +122,21 @@ class LambdasTest {
 
     @org.junit.Test
     fun callCppNullableLambdaInJavaWithValue() {
-        val result: StandaloneProducer? = Lambdas.getNullableConfuser().apply("foo")
+        val result: StandaloneProducer? = Lambdas.getNullableConfuser().confuse("foo")
 
         assertEquals("foo", result?.apply())
     }
 
     @org.junit.Test
     fun callCppNullableLambdaInJavaWithNull() {
-        val result: StandaloneProducer? = Lambdas.getNullableConfuser().apply(null)
+        val result: StandaloneProducer? = Lambdas.getNullableConfuser().confuse(null)
 
         assertNull(result)
     }
 
     @org.junit.Test
     fun callJavaNullableLambdaInCppWithValue() {
-        val confuser: Lambdas.NullableConfuser = Lambdas.NullableConfuser { s1: String? ->
+        val confuser: Lambdas.NullableConfounder = Lambdas.NullableConfounder { s1: String? ->
             if (s1 != null) {
                 StandaloneProducer { s1 }
             } else null
@@ -148,7 +148,7 @@ class LambdasTest {
 
     @org.junit.Test
     fun callJavaNullableLambdaInCppWithNull() {
-        val confuser: Lambdas.NullableConfuser = Lambdas.NullableConfuser { s1: String? ->
+        val confuser: Lambdas.NullableConfounder = Lambdas.NullableConfounder { s1: String? ->
             if (s1 != null) {
                 StandaloneProducer { s1 }
             } else null
