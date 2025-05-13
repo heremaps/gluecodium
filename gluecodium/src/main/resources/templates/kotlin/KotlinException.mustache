@@ -18,5 +18,6 @@
   ! License-Filename: LICENSE
   !
   !}}
-class {{resolveName}}(val error: {{resolveName errorType}}) : Exception(error.toString())
+{{>kotlin/KotlinDocComment}}
+class {{resolveName}}(@JvmField val error: {{resolveName errorType}}) : Exception(error.toString())
 

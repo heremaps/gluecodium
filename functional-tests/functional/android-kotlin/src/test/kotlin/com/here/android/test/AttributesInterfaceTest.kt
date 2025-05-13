@@ -53,10 +53,10 @@ class AttributesInterfaceTest {
     @org.junit.Test
     fun setGetStaticAttributes() {
         assertEquals(AttributesInterface.LABEL, "SOME CONSTANT LABEL")
-        assertEquals(AttributesInterface.someStaticProperty, "MY STATIC PROPERTY")
+        assertEquals(AttributesInterface.getSomeStaticProperty(), "MY STATIC PROPERTY")
 
-        AttributesInterface.someStaticProperty = "NEW VALUE OF PROPERTY"
-        assertEquals(AttributesInterface.someStaticProperty, "NEW VALUE OF PROPERTY")
+        AttributesInterface.setSomeStaticProperty("NEW VALUE OF PROPERTY")
+        assertEquals(AttributesInterface.getSomeStaticProperty(), "NEW VALUE OF PROPERTY")
 
         assertEquals(AttributesInterface.staticFunction(), "Some magic string!");
     }

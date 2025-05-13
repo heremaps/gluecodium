@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("OuterStruct")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -10,17 +12,17 @@ import java.util.Date
 import java.util.Locale
 
 class OuterStruct {
-    var field: String
+    @JvmField var field: String
 
     enum class InnerEnum(private val value: Int) {
         FOO(0),
         BAR(1);
     }
-    class InstantiationException(val error: OuterStruct.InnerEnum) : Exception(error.toString())
+    class InstantiationException(@JvmField val error: OuterStruct.InnerEnum) : Exception(error.toString())
 
 
     class InnerStruct {
-        var otherField: MutableList<Date>
+        @JvmField var otherField: MutableList<Date>
 
 
 
@@ -30,7 +32,10 @@ class OuterStruct {
 
 
 
+
+
         external fun doSomething() : Unit
+
 
     }
 
@@ -38,9 +43,9 @@ class OuterStruct {
 
 
 
-        /*
+        /**
          * For internal use only.
-         * @hidden
+         * @suppress
          * @param nativeHandle The handle to resources on C++ side.
          * @param tag Tag used by callers to avoid overload resolution problems.
          */
@@ -49,7 +54,10 @@ class OuterStruct {
 
 
 
+
+
         external fun fooBar() : MutableSet<Locale>
+
 
 
 
@@ -60,13 +68,14 @@ class OuterStruct {
     class Builder : NativeBase {
 
 
+
         constructor() : this(create(), null as Any?) {
             cacheThisInstance();
         }
 
-        /*
+        /**
          * For internal use only.
-         * @hidden
+         * @suppress
          * @param nativeHandle The handle to resources on C++ side.
          * @param tag Tag used by callers to avoid overload resolution problems.
          */
@@ -76,17 +85,25 @@ class OuterStruct {
         private external fun cacheThisInstance()
 
 
+
+
         external fun field(value: String) : OuterStruct.Builder
+
+
         external fun build() : OuterStruct
+
 
 
 
         companion object {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
             @JvmStatic external fun create() : Long
         }
     }
     interface InnerInterface {
+
+
 
         fun barBaz() : MutableMap<String, ByteArray>
 
@@ -94,18 +111,19 @@ class OuterStruct {
     }
 
     fun interface InnerLambda {
+
+
         fun apply() : Unit
     }
 
+    /**
+     * @suppress
+     */
     class InnerInterfaceImpl : NativeBase, InnerInterface {
-        /*
-         * For internal use only.
-         * @hidden
-         * @param nativeHandle The handle to resources on C++ side.
-         * @param tag Tag used by callers to avoid overload resolution problems.
-         */
         protected constructor(nativeHandle: Long, tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+
 
         override external fun barBaz() : MutableMap<String, ByteArray>
 
@@ -115,15 +133,14 @@ class OuterStruct {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         }
     }
+    /**
+     * @suppress
+     */
     class InnerLambdaImpl : NativeBase, InnerLambda {
-        /*
-         * For internal use only.
-         * @hidden
-         * @param nativeHandle The handle to resources on C++ side.
-         * @param tag Tag used by callers to avoid overload resolution problems.
-         */
         protected constructor(nativeHandle: Long, tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+
 
         override external fun apply() : Unit
 
@@ -141,7 +158,10 @@ class OuterStruct {
 
 
 
+
+    @Throws(OuterStruct.InstantiationException::class)
     external fun doNothing() : Unit
+
 
 }
 

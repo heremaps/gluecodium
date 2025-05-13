@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("InternalClassInherits")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -11,9 +13,9 @@ internal class InternalClassInherits : NativeBase, InternalInterfaceParent {
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
@@ -24,10 +26,13 @@ internal class InternalClassInherits : NativeBase, InternalInterfaceParent {
 
 
 
+
+
     override external fun fooBar() : Unit
     override var prop: String
         external get
         external set
+
 
 
     companion object {

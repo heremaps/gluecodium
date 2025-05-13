@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("NameRules")
+
 package com.example.namerules
 
 import com.example.NativeBase
@@ -13,12 +15,12 @@ class NAME_RULES_KT : NativeBase {
         NONE(0),
         FATAL(1);
     }
-    class ExampleException(val error: NAME_RULES_KT.EXAMPLE_ERROR_CODE_KT) : Exception(error.toString())
+    class ExampleException(@JvmField val error: NAME_RULES_KT.EXAMPLE_ERROR_CODE_KT) : Exception(error.toString())
 
 
     class EXAMPLE_STRUCT_KT {
-        var value: Double
-        var int_value: MutableList<Long>
+        @JvmField var value: Double
+        @JvmField var int_value: MutableList<Long>
 
 
 
@@ -30,16 +32,18 @@ class NAME_RULES_KT : NativeBase {
 
 
 
+
     }
+
 
 
     constructor() : this(create(), null as Any?) {
         cacheThisInstance();
     }
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
@@ -49,6 +53,8 @@ class NAME_RULES_KT : NativeBase {
     private external fun cacheThisInstance()
 
 
+
+    @Throws(NAME_RULES_KT.ExampleException::class)
     external fun some_method(someArgument: NAME_RULES_KT.EXAMPLE_STRUCT_KT) : Double
 
     var intProperty: Long
@@ -65,8 +71,10 @@ class NAME_RULES_KT : NativeBase {
 
 
 
+
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
         @JvmStatic external fun create() : Long
     }
 }

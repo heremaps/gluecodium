@@ -3,13 +3,15 @@
  *
  */
 
+@file:JvmName("SerializableStructWithExternalField")
+
 package com.example.kotlinsmoke
 
 import android.os.Parcel
 import android.os.Parcelable
 
 class SerializableStructWithExternalField : Parcelable {
-    var someStruct: com.here.android.test.AnExternalStruct
+    @JvmField var someStruct: com.here.android.test.AnExternalStruct
 
 
 
@@ -27,6 +29,7 @@ class SerializableStructWithExternalField : Parcelable {
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeParcelable(someStruct, 0)
     }
+
 
 
 

@@ -3,11 +3,14 @@
  *
  */
 
+@file:JvmName("PublicStructWithInternalConstructors")
+
 package com.example.smoke
 
 
 class PublicStructWithInternalConstructors {
-    var someVar: Int
+    @JvmField var someVar: Int
+
 
 
     internal constructor() {
@@ -15,9 +18,11 @@ class PublicStructWithInternalConstructors {
         this.someVar = _other.someVar
     }
 
+
     internal constructor(someVar: Int) {
         this.someVar = someVar
     }
+
 
 
 

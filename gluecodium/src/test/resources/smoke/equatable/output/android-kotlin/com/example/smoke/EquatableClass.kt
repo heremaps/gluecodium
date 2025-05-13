@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("EquatableClass")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -10,10 +12,10 @@ import com.example.NativeBase
 class EquatableClass : NativeBase {
 
     class EquatableStruct {
-        var intField: Int
-        var stringField: String
-        var nestedEquatableInstance: EquatableClass
-        var nestedPointerEquatableInstance: PointerEquatableClass
+        @JvmField var intField: Int
+        @JvmField var stringField: String
+        @JvmField var nestedEquatableInstance: EquatableClass
+        @JvmField var nestedPointerEquatableInstance: PointerEquatableClass
 
 
 
@@ -51,13 +53,15 @@ class EquatableClass : NativeBase {
 
 
 
+
+
     }
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
@@ -67,6 +71,7 @@ class EquatableClass : NativeBase {
 
     override external fun equals(obj: Any?) : Boolean
     override external fun hashCode(): Int
+
 
 
 

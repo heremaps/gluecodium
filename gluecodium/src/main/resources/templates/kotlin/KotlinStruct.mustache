@@ -18,14 +18,16 @@
   ! License-Filename: LICENSE
   !
   !}}
+{{>kotlin/KotlinDocComment}}
 {{#unless external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
 }}class {{resolveName}}{{!!
 }}{{#unless external.kotlin.name}}{{!!
 }}{{#if attributes.serializable}} : Parcelable{{/if}}{{!!
 }}{{/unless}} {
 {{#set isImmutable=attributes.immutable}}
-{{#fields}}{{!!
-}}    {{resolveName "visibility"}}{{!!
+{{#fields}}
+{{prefixPartial "kotlin/KotlinDocComment" "    "}}{{!!
+}}    @JvmField {{resolveName "visibility"}}{{!!
 }}{{#unless isImmutable}}var {{/unless}}{{!!
 }}{{#if isImmutable}}val {{/if}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{!!
@@ -40,6 +42,9 @@
 }}
 {{#set self=this}}
 {{#constructors}}
+{{prefixPartial "kotlin/KotlinMethodComment" "    "}}
+{{#thrownType}}@Throws({{resolveName typeRef}}::class){{/thrownType}}{{!!
+}}
     {{#unless self.external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
 }}constructor({{!!
 }}{{#parameters}}{{!!
@@ -65,6 +70,14 @@
        **Note**: this constructor will not be generated if PositionalDefaults is specified for a given structure,
                  because the constructor generated for positional defaults covers this case.
 }}
+{{#unless constructorComment.isEmpty}}
+    /**
+{{#resolveName constructorComment}}{{prefix this "     * "}}{{/resolveName}}{{!!
+}}{{#uninitializedFields}}
+     * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
+{{/uninitializedFields}}
+     */
+{{/unless}}
     {{#ifPredicate "hasInternalFreeArgsConstructor"}}{{!!
 }}internal {{!!
 }}{{/ifPredicate}}constructor({{!!
@@ -83,6 +96,14 @@
     3. If user did not specify any constructors, field constructor and fields with default values, then
        define a constructor, which allows setting all fields.
 }}
+{{#unless constructorComment.isEmpty}}
+    /**
+{{#resolveName constructorComment}}{{prefix this "     * "}}{{/resolveName}}
+{{#fields}}
+     * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
+{{/fields}}
+     */
+{{/unless}}
     {{#ifPredicate "hasInternalAllArgsConstructor"}}{{!!
 }}internal {{!!
 }}{{/ifPredicate}}constructor({{!!
@@ -97,6 +118,23 @@
 
     4. Generate field constructors specified by the user.
 }}{{#set self=this}}{{#fieldConstructors}}
+{{#ifPredicate "hasAnyComment"}}
+    /**
+{{#unless comment.isEmpty}}{{#resolveName comment}}{{prefix this "     * "}}
+{{/resolveName}}{{/unless}}{{!!
+}}{{#if comment.isEmpty}}{{#resolveName constructorComment}}{{#unless this.isEmpty}}{{prefix this "     * "}}
+{{/unless}}{{/resolveName}}{{/if}}{{!!
+}}{{#if comment.isExcluded}}
+     * @suppress
+{{/if}}{{!!
+}}{{#fields}}
+     * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
+{{/fields}}
+     */{{#if attributes.deprecated}}
+    @Deprecated("{{#resolveName attributes.deprecated.message}}{{escape this}}{{/resolveName}}")
+{{/if}}{{/ifPredicate}}
+{{#thrownType}}@Throws ({{resolveName typeRef}}::class){{/thrownType}}{{!!
+}}
     {{#unless self.external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
 }}constructor({{!!
 }}{{#fields}}{{!!
@@ -112,7 +150,22 @@
     5. Generate positional defaults constructor if it is specified and there are no field constructors.
 }}{{#unless fieldConstructors}}{{!!
 }}{{#if attributes.kotlin.positionalDefaults}}
-    {{#unless external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
+{{#unless constructorComment.isEmpty}}
+    /**
+{{#resolveName constructorComment}}{{prefix this "     * "}}{{/resolveName}}
+{{#uninitializedFields}}
+     * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
+{{/uninitializedFields}}
+{{#initializedFields}}
+     * @param {{resolveName}} {{#resolveName comment}}{{prefix this "     * " skipFirstLine=true}}{{/resolveName}}
+{{/initializedFields}}
+     */
+{{/unless}}{{#instanceOf attributes.kotlin.positionalDefaults "String"}}
+    @Deprecated("{{attributes.kotlin.positionalDefaults}}")
+{{/instanceOf}}
+    {{#if initializedFields}}@JvmOverloads
+    {{/if}}{{!!
+    }}{{#unless external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
 }}constructor({{!!
 }}{{#uninitializedFields}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}, {{!!

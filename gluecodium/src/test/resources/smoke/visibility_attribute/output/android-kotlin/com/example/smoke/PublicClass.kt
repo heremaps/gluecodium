@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("PublicClass")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -14,7 +16,7 @@ class PublicClass : NativeBase {
         BAR(1);
     }
     internal class InternalStruct {
-        var stringField: String
+        @JvmField var stringField: String
 
 
 
@@ -25,10 +27,11 @@ class PublicClass : NativeBase {
 
 
 
+
     }
 
     class PublicStruct {
-        internal var internalField: PublicClass.InternalStruct
+        @JvmField internal var internalField: PublicClass.InternalStruct
 
 
 
@@ -39,11 +42,12 @@ class PublicClass : NativeBase {
 
 
 
+
     }
 
     class PublicStructWithInternalDefaults {
-        internal var internalField: String
-        var publicField: Float
+        @JvmField internal var internalField: String
+        @JvmField var publicField: Float
 
 
 
@@ -55,13 +59,14 @@ class PublicClass : NativeBase {
 
 
 
+
     }
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
@@ -70,11 +75,14 @@ class PublicClass : NativeBase {
 
 
 
+
+
     internal external fun internalMethod(input: PublicClass.InternalStruct) : PublicClass.InternalStruct
 
     internal var internalStructProperty: PublicClass.InternalStruct
         external get
         external set
+
 
 
 

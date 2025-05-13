@@ -38,6 +38,8 @@ import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeList
 import com.here.gluecodium.model.lime.LimeMap
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeParameter
+import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeSet
 import com.here.gluecodium.model.lime.LimeType
@@ -55,6 +57,7 @@ internal class KotlinNameResolver(
     private val basePackages: List<String>,
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
     private val kotlinValueResolver = KotlinValueResolver(this)
+    private val limeToKotlinNames: Map<String, String> = buildPathMap()
 
     override fun resolveName(element: Any): String =
         when (element) {
@@ -90,9 +93,15 @@ internal class KotlinNameResolver(
 
     override fun resolveGetterName(element: Any) = (element as? LimeTypedElement)?.let { kotlinNameRules.getGetterName(it) }
 
+    override fun resolveSetterName(element: Any) = (element as? LimeTypedElement)?.let { kotlinNameRules.getSetterName(it) }
+
     private fun resolveComment(limeComment: LimeComment): String {
-        // TODO: implement me!
-        return ""
+        val commentText = limeComment.getFor("Kotlin")
+        if (commentText.isBlank()) return ""
+
+        val exactElement = limeReferenceMap[limeComment.path.toString()] as? LimeNamedElement
+        val commentedElement = exactElement ?: getParentElement(limeComment.path, withSuffix = true)
+        return commentsProcessor.process(commentedElement.fullName, commentText, limeToKotlinNames, limeLogger)
     }
 
     private fun resolveValue(limeValue: LimeValue): String {
@@ -160,6 +169,54 @@ internal class KotlinNameResolver(
             is LimeLambda -> parentElement.attributes.get(LimeAttributeType.KOTLIN, FUNCTION_NAME) ?: "apply"
             else -> kotlinNameRules.getName(limeFunction)
         }
+    }
+
+    private fun buildPathMap(): Map<String, String> {
+        val result =
+            limeReferenceMap.values
+                .filterIsInstance<LimeNamedElement>()
+                .filterNot { it is LimeFunction || it is LimeParameter }
+                .associateBy({ it.path.toAmbiguousString() }, { resolveFullName(it) })
+                .toMutableMap()
+
+        result +=
+            limeReferenceMap.values.filterIsInstance<LimeParameter>()
+                .associateBy({ it.fullName }, { resolveFullName(it) })
+
+        limeReferenceMap.values.filterIsInstance<LimeFunction>().forEach { function ->
+            val ambiguousKey = function.path.toAmbiguousString()
+            val unambiguousKey =
+                ambiguousKey +
+                    function.parameters.joinToString(prefix = "(", postfix = ")", separator = ",") { it.typeRef.toString() }
+            val fullName = resolveFullName(function)
+
+            result[function.fullName] = fullName
+            result[ambiguousKey] = fullName
+            result[unambiguousKey] = fullName
+        }
+
+        val properties = limeReferenceMap.values.filterIsInstance<LimeProperty>()
+        result += properties.associateBy({ it.path.toAmbiguousString() + ".get" }, { resolveFullName(it) })
+        result +=
+            properties.filter { it.setter != null }
+                .associateBy({ it.path.toAmbiguousString() + ".set" }, { resolveFullName(it) })
+
+        return result
+    }
+
+    private fun resolveFullName(limeElement: LimeNamedElement): String {
+        val elementName = resolveName(limeElement)
+
+        if (!limeElement.path.hasParent) {
+            return (resolvePackageNames(limeElement) + elementName).joinToString(".")
+        }
+
+        val parentElement = getParentElement(limeElement)
+        val prefix = resolveFullName(parentElement)
+
+        val ownName =
+            if (limeElement is LimeFunction && limeElement.isConstructor) resolveName(parentElement) else elementName
+        return "$prefix.$ownName"
     }
 
     fun resolvePackageNames(limeElement: LimeNamedElement) = (basePackages + limeElement.path.head).map { normalizePackageName(it) }

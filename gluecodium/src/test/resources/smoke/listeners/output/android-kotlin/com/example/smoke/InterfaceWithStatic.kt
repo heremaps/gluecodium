@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("InterfaceWithStatic")
+
 package com.example.smoke
 
 
@@ -14,16 +16,19 @@ interface InterfaceWithStatic {
         get
         set
 
+
     companion object {
         @JvmStatic fun staticFunction() : String {
             return InterfaceWithStaticImpl.staticFunction()
         }
 
-        @JvmStatic var staticProperty: String
-            get() = InterfaceWithStaticImpl.staticProperty
-            set(value) {
-                InterfaceWithStaticImpl.staticProperty = value
-            }
+        @JvmStatic fun getStaticProperty(): String {
+            return InterfaceWithStaticImpl.staticProperty
+        }
+
+        @JvmStatic fun setStaticProperty(value: String) {
+            InterfaceWithStaticImpl.staticProperty = value
+        }
     }
 }
 

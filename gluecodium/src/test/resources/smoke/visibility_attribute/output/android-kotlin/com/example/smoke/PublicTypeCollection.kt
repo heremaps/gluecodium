@@ -3,13 +3,15 @@
  *
  */
 
+@file:JvmName("PublicTypeCollection")
+
 package com.example.smoke
 
 
 class PublicTypeCollection {
 
     internal class InternalStruct {
-        internal var stringField: String
+        @JvmField internal var stringField: String
 
 
 
@@ -21,7 +23,9 @@ class PublicTypeCollection {
 
         external fun fooBar() : Unit
 
+
     }
+
 
 
 

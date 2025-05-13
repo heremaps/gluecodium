@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("ListenerWithProperties")
+
 package com.example.smoke
 
 
@@ -12,13 +14,14 @@ interface ListenerWithProperties {
         RESULT(1);
     }
     class ResultStruct {
-        var result: Double
+        @JvmField var result: Double
 
 
 
         constructor(result: Double) {
             this.result = result
         }
+
 
 
 

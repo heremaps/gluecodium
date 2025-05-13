@@ -29,6 +29,8 @@ class RouteImpl : Route {}
 
 class RouteProviderImpl : RouteProvider {
     override fun setRoute(route: Route) {
+        // Compile time test. Annotation is used to suppress runtime warning.
+        @Suppress("UNUSED_VARIABLE")
         val impl: RouteImpl = route as RouteImpl
     }
 }

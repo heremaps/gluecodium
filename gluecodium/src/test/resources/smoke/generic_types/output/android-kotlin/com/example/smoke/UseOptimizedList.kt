@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("UseOptimizedList")
+
 package com.example.smoke
 
 import com.example.AbstractNativeList
@@ -12,9 +14,9 @@ class UseOptimizedList : NativeBase {
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
@@ -26,9 +28,6 @@ class UseOptimizedList : NativeBase {
 
 
 
-    /**
-     * @hidden
-     */
     private class UnreasonablyLazyClassLazyNativeList : AbstractNativeList<UnreasonablyLazyClass> {
 
         private constructor(nativeHandle: Long, tag: Any?)
@@ -43,9 +42,6 @@ class UseOptimizedList : NativeBase {
 
     }
 
-    /**
-     * @hidden
-     */
     private class VeryBigStructLazyNativeList : AbstractNativeList<VeryBigStruct> {
 
         private constructor(nativeHandle: Long, tag: Any?)
@@ -63,6 +59,8 @@ class UseOptimizedList : NativeBase {
 
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
+
         @JvmStatic external fun fetchTheBigOnes() : MutableList<VeryBigStruct>
         @JvmStatic val lazyOnes: MutableList<UnreasonablyLazyClass>
             external get

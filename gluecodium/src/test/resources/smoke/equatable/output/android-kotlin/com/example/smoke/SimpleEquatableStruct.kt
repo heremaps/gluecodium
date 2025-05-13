@@ -3,14 +3,16 @@
  *
  */
 
+@file:JvmName("SimpleEquatableStruct")
+
 package com.example.smoke
 
 
 class SimpleEquatableStruct {
-    var classField: NonEquatableClass
-    var interfaceField: NonEquatableInterface
-    var nullableClassField: NonEquatableClass?
-    var nullableInterfaceField: NonEquatableInterface?
+    @JvmField var classField: NonEquatableClass
+    @JvmField var interfaceField: NonEquatableInterface
+    @JvmField var nullableClassField: NonEquatableClass?
+    @JvmField var nullableInterfaceField: NonEquatableInterface?
 
 
 
@@ -45,6 +47,8 @@ class SimpleEquatableStruct {
         hash = 31 * hash + (this.nullableInterfaceField?.hashCode() ?: 0)
         return hash
     }
+
+
 
 
 

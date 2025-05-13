@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("Locales")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -11,7 +13,7 @@ import java.util.Locale
 class Locales : NativeBase {
 
     class LocaleStruct {
-        var localeField: Locale
+        @JvmField var localeField: Locale
 
 
 
@@ -22,13 +24,14 @@ class Locales : NativeBase {
 
 
 
+
     }
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
@@ -37,11 +40,14 @@ class Locales : NativeBase {
 
 
 
+
+
     external fun localeMethod(input: Locale) : Locale
 
     var localeProperty: Locale
         external get
         external set
+
 
 
 

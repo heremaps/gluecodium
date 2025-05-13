@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("InternalLambda")
+
 package com.example.smoke
 
 

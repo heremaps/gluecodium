@@ -3,18 +3,20 @@
  *
  */
 
+@file:JvmName("DurationDefaults")
+
 package com.example.smoke
 
 import com.example.time.Duration
 
 class DurationDefaults {
-    var dayz: Duration
-    var hourz: Duration
-    var minutez: Duration
-    var secondz: Duration
-    var milliz: Duration
-    var microz: Duration
-    var nanoz: Duration
+    @JvmField var dayz: Duration
+    @JvmField var hourz: Duration
+    @JvmField var minutez: Duration
+    @JvmField var secondz: Duration
+    @JvmField var milliz: Duration
+    @JvmField var microz: Duration
+    @JvmField var nanoz: Duration
 
 
 
@@ -27,6 +29,9 @@ class DurationDefaults {
         this.microz = Duration.ofNanos(665000L)
         this.nanoz = Duration.ofNanos(314635L)
     }
+
+
+
 
 
 }

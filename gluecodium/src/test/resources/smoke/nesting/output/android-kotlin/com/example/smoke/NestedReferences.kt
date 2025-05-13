@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("NestedReferences")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -10,7 +12,7 @@ import com.example.NativeBase
 class NestedReferences : NativeBase {
 
     class NestedReferences {
-        var stringField: String
+        @JvmField var stringField: String
 
 
 
@@ -21,13 +23,14 @@ class NestedReferences : NativeBase {
 
 
 
+
     }
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
@@ -36,7 +39,10 @@ class NestedReferences : NativeBase {
 
 
 
+
+
     external fun insideOut(struct1: NestedReferences.NestedReferences, struct2: NestedReferences.NestedReferences) : NestedReferences
+
 
 
 

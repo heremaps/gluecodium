@@ -3,13 +3,15 @@
  *
  */
 
+@file:JvmName("UseOptimizedListStruct")
+
 package com.example.smoke
 
 import com.example.AbstractNativeList
 
 class UseOptimizedListStruct {
-    val structs: MutableList<VeryBigStruct>
-    val classes: MutableList<UnreasonablyLazyClass>
+    @JvmField val structs: MutableList<VeryBigStruct>
+    @JvmField val classes: MutableList<UnreasonablyLazyClass>
 
 
 
@@ -21,9 +23,6 @@ class UseOptimizedListStruct {
 
 
 
-    /**
-     * @hidden
-     */
     private class VeryBigStructLazyNativeList : AbstractNativeList<VeryBigStruct> {
 
         private constructor(nativeHandle: Long, tag: Any?)
@@ -38,9 +37,6 @@ class UseOptimizedListStruct {
 
     }
 
-    /**
-     * @hidden
-     */
     private class UnreasonablyLazyClassLazyNativeList : AbstractNativeList<UnreasonablyLazyClass> {
 
         private constructor(nativeHandle: Long, tag: Any?)

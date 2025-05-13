@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("Enums")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -18,8 +20,8 @@ class Enums : NativeBase {
         ERROR_FATAL(999);
     }
     class ErrorStruct {
-        var type: Enums.InternalErrorCode
-        var message: String
+        @JvmField var type: Enums.InternalErrorCode
+        @JvmField var message: String
 
 
 
@@ -31,13 +33,14 @@ class Enums : NativeBase {
 
 
 
+
     }
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
@@ -49,11 +52,20 @@ class Enums : NativeBase {
 
 
 
+
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
+
         @JvmStatic external fun methodWithEnumeration(input: Enums.SimpleEnum) : Enums.SimpleEnum
+
+
         @JvmStatic external fun flipEnumValue(input: Enums.InternalErrorCode) : Enums.InternalErrorCode
+
+
         @JvmStatic external fun extractEnumFromStruct(input: Enums.ErrorStruct) : Enums.InternalErrorCode
+
+
         @JvmStatic external fun createStructWithEnumInside(type: Enums.InternalErrorCode, message: String) : Enums.ErrorStruct
     }
 }

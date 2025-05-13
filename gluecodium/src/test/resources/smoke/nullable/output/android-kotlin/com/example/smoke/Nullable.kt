@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("Nullable")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -14,7 +16,7 @@ class Nullable : NativeBase {
         OFF(1);
     }
     class SomeStruct {
-        var stringField: String
+        @JvmField var stringField: String
 
 
 
@@ -25,18 +27,19 @@ class Nullable : NativeBase {
 
 
 
+
     }
 
     class NullableStruct {
-        var stringField: String?
-        var boolField: Boolean?
-        var doubleField: Double?
-        var structField: Nullable.SomeStruct?
-        var enumField: Nullable.SomeEnum?
-        var arrayField: MutableList<String>?
-        var inlineArrayField: MutableList<String>?
-        var mapField: MutableMap<Long, String>?
-        var instanceField: SomeInterface?
+        @JvmField var stringField: String?
+        @JvmField var boolField: Boolean?
+        @JvmField var doubleField: Double?
+        @JvmField var structField: Nullable.SomeStruct?
+        @JvmField var enumField: Nullable.SomeEnum?
+        @JvmField var arrayField: MutableList<String>?
+        @JvmField var inlineArrayField: MutableList<String>?
+        @JvmField var mapField: MutableMap<Long, String>?
+        @JvmField var instanceField: SomeInterface?
 
 
 
@@ -55,17 +58,18 @@ class Nullable : NativeBase {
 
 
 
+
     }
 
     class NullableIntsStruct {
-        var int8Field: Byte?
-        var int16Field: Short?
-        var int32Field: Int?
-        var int64Field: Long?
-        var uint8Field: Short?
-        var uint16Field: Int?
-        var uint32Field: Long?
-        var uint64Field: Long?
+        @JvmField var int8Field: Byte?
+        @JvmField var int16Field: Short?
+        @JvmField var int32Field: Int?
+        @JvmField var int64Field: Long?
+        @JvmField var uint8Field: Short?
+        @JvmField var uint16Field: Int?
+        @JvmField var uint32Field: Long?
+        @JvmField var uint64Field: Long?
 
 
 
@@ -83,13 +87,14 @@ class Nullable : NativeBase {
 
 
 
+
     }
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
@@ -98,47 +103,78 @@ class Nullable : NativeBase {
 
 
 
+
+
     external fun methodWithString(input: String?) : String?
+
+
     external fun methodWithBoolean(input: Boolean?) : Boolean?
+
+
     external fun methodWithDouble(input: Double?) : Double?
+
+
     external fun methodWithInt(input: Long?) : Long?
+
+
     external fun methodWithSomeStruct(input: Nullable.SomeStruct?) : Nullable.SomeStruct?
+
+
     external fun methodWithSomeEnum(input: Nullable.SomeEnum?) : Nullable.SomeEnum?
+
+
     external fun methodWithSomeArray(input: MutableList<String>?) : MutableList<String>?
+
+
     external fun methodWithInlineArray(input: MutableList<String>?) : MutableList<String>?
+
+
     external fun methodWithSomeMap(input: MutableMap<Long, String>?) : MutableMap<Long, String>?
+
+
     external fun methodWithInstance(input: SomeInterface?) : SomeInterface?
 
     var stringProperty: String?
         external get
         external set
+
     var isBoolProperty: Boolean?
         external get
         external set
+
     var doubleProperty: Double?
         external get
         external set
+
     var intProperty: Long?
         external get
         external set
+
     var structProperty: Nullable.SomeStruct?
         external get
         external set
+
     var enumProperty: Nullable.SomeEnum?
         external get
         external set
+
     var arrayProperty: MutableList<String>?
         external get
         external set
+
     var inlineArrayProperty: MutableList<String>?
         external get
         external set
+
     var mapProperty: MutableMap<Long, String>?
         external get
         external set
+
     var instanceProperty: SomeInterface?
         external get
         external set
+
+
 
 
     companion object {

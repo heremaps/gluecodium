@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("UnderscorePackage")
+
 package com.example.smokeoff
 
 import com.example.NativeBase
@@ -11,9 +13,9 @@ class UnderscorePackage : NativeBase {
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
@@ -25,8 +27,11 @@ class UnderscorePackage : NativeBase {
 
 
 
+
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
+
         @JvmStatic external fun basicMethod(inputString: String) : String
     }
 }

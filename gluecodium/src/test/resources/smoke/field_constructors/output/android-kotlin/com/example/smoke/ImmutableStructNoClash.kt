@@ -3,13 +3,15 @@
  *
  */
 
+@file:JvmName("ImmutableStructNoClash")
+
 package com.example.smoke
 
 
 class ImmutableStructNoClash {
-    val stringField: String
-    val intField: Int
-    val boolField: Boolean
+    @JvmField val stringField: String
+    @JvmField val intField: Int
+    @JvmField val boolField: Boolean
 
 
 
@@ -18,11 +20,15 @@ class ImmutableStructNoClash {
         this.intField = intField
         this.boolField = boolField
     }
+
     constructor() {
         this.stringField = "nonsense"
         this.intField = 42
         this.boolField = true
     }
+
+
+
 
 
 }

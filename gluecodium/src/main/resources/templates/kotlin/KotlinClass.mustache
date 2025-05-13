@@ -18,6 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
+{{>kotlin/KotlinDocComment}}
 {{resolveName "visibility"}}{{#if this.isOpen}}open {{/if}}class {{resolveName}} : {{!!
 }}{{#if this.parentClass}}{{resolveName this.parentClass "" "ref"}}{{/if}}{{!!
 }}{{#unless this.parentClass}}NativeBase{{/unless}}{{!!
@@ -28,7 +29,9 @@
 {{>kotlin/KotlinContainerContents}}
 
 {{#set classElement=this}}{{#constructors}}
-    {{resolveName "visibility"}}constructor({{!!
+{{prefixPartial "kotlin/KotlinMethodComment" "    "}}
+    {{>kotlinConstructorThrows}}
+{{resolveName "visibility"}}constructor({{!!
 }}{{#parameters}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/parameters}}){{!!
@@ -45,9 +48,9 @@
     }
 {{/constructors}}{{/set}}
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
@@ -125,3 +128,31 @@
     }
 {{/ifPredicate}}
 }
+{{!!
+
+}}{{+kotlinConstructorThrows}}{{!!
+}}{{#set thisConstructor=this}}{{!!
+}}{{#if thrownType}}@Throws({{>kotlinConstructorExceptions}})
+    {{/if}}{{!!
+}}{{#unless thrownType}}{{!!
+}}{{#attributes.afterconstruction.function}}{{!!
+}}{{#if function.thrownType}}@Throws({{>kotlinConstructorExceptions}})
+    {{/if}}{{!!
+}}{{/attributes.afterconstruction.function}}{{!!
+}}{{/unless}}{{!!
+}}{{/set}}{{!!
+}}{{/kotlinConstructorThrows}}{{!!
+
+}}{{+kotlinConstructorExceptions}}{{!!
+}}{{#thisConstructor}}{{!!
+}}{{#thrownType}}{{resolveName typeRef}}::class{{/thrownType}}{{!!
+}}{{#unlessPredicate "isExceptionSameForCtorAndHookFun"}}{{!!
+}}{{#if thrownType this.attributes.afterconstruction.function.function.thrownType}}, {{/if}}{{!!
+}}{{#this.attributes.afterconstruction.function}}{{!!
+}}{{#function.thrownType}}{{resolveName typeRef}}::class{{/function.thrownType}}{{!!
+}}{{/this.attributes.afterconstruction.function}}{{!!
+}}{{/unlessPredicate}}{{!!
+}}{{/thisConstructor}}{{!!
+}}{{/kotlinConstructorExceptions}}{{!!
+
+}}

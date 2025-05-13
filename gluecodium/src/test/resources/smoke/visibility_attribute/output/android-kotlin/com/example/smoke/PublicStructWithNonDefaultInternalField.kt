@@ -3,13 +3,15 @@
  *
  */
 
+@file:JvmName("PublicStructWithNonDefaultInternalField")
+
 package com.example.smoke
 
 
 class PublicStructWithNonDefaultInternalField {
-    var defaultedField: Int
-    internal var internalField: String
-    var publicField: Boolean
+    @JvmField var defaultedField: Int
+    @JvmField internal var internalField: String
+    @JvmField var publicField: Boolean
 
 
 
@@ -18,6 +20,7 @@ class PublicStructWithNonDefaultInternalField {
         this.internalField = internalField
         this.publicField = publicField
     }
+
 
 
 

@@ -3,18 +3,21 @@
  *
  */
 
+@file:JvmName("PropertiesInterface")
+
 package com.example.smoke
 
 
 interface PropertiesInterface {
     class ExampleStruct {
-        var value: Double
+        @JvmField var value: Double
 
 
 
         constructor(value: Double) {
             this.value = value
         }
+
 
 
 

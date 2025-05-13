@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("CachedProperties")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -11,9 +13,9 @@ class CachedProperties : NativeBase {
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
@@ -36,6 +38,7 @@ class CachedProperties : NativeBase {
     private var is_cached_cachedProperty = false
     private var cache_cachedProperty: MutableList<String>? = null
     external private fun getCachedProperty_private() : MutableList<String>
+
 
 
 

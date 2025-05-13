@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("NestedPackages")
+
 package com.example.smoke.off
 
 import com.example.NativeBase
@@ -10,7 +12,7 @@ import com.example.NativeBase
 class NestedPackages : NativeBase {
 
     class SomeStruct {
-        var someField: String
+        @JvmField var someField: String
 
 
 
@@ -21,13 +23,14 @@ class NestedPackages : NativeBase {
 
 
 
+
     }
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
@@ -39,8 +42,11 @@ class NestedPackages : NativeBase {
 
 
 
+
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
+
         @JvmStatic external fun basicMethod(input: NestedPackages.SomeStruct) : NestedPackages.SomeStruct
     }
 }

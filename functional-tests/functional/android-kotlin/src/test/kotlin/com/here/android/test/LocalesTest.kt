@@ -73,6 +73,7 @@ class LocalesTest {
     @org.junit.Test
     fun localeWithMalformedLanguage() {
         assertThrows(IllformedLocaleException::class.java) {
+            @Suppress("UNUSED_VARIABLE")
             val locale = Locales.localeWithMalformedLanguage
         }
     }
@@ -80,6 +81,7 @@ class LocalesTest {
     @org.junit.Test
     fun localeWithMalformedCountry() {
         assertThrows(IllformedLocaleException::class.java) {
+            @Suppress("UNUSED_VARIABLE")
             val locale = Locales.localeWithMalformedCountry
         }
     }
@@ -87,6 +89,7 @@ class LocalesTest {
     @org.junit.Test
     fun localeWithMalformedScript() {
         assertThrows(IllformedLocaleException::class.java) {
+            @Suppress("UNUSED_VARIABLE")
             val locale = Locales.localeWithMalformedScript
         }
     }

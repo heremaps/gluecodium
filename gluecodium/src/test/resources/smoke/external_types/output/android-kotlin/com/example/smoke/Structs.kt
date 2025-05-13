@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("Structs")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -10,10 +12,10 @@ import com.example.NativeBase
 class Structs : NativeBase {
 
     class ExternalStruct {
-        var stringField: String
-        var externalStringField: String
-        var externalArrayField: MutableList<Byte>
-        var externalStructField: Structs.AnotherExternalStruct
+        @JvmField var stringField: String
+        @JvmField var externalStringField: String
+        @JvmField var externalArrayField: MutableList<Byte>
+        @JvmField var externalStructField: Structs.AnotherExternalStruct
 
 
 
@@ -27,10 +29,11 @@ class Structs : NativeBase {
 
 
 
+
     }
 
     class AnotherExternalStruct {
-        var intField: Byte
+        @JvmField var intField: Byte
 
 
 
@@ -41,13 +44,14 @@ class Structs : NativeBase {
 
 
 
+
     }
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
@@ -59,9 +63,14 @@ class Structs : NativeBase {
 
 
 
+
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
+
         @JvmStatic external fun getExternalStruct() : Structs.ExternalStruct
+
+
         @JvmStatic external fun getAnotherExternalStruct() : Structs.AnotherExternalStruct
     }
 }

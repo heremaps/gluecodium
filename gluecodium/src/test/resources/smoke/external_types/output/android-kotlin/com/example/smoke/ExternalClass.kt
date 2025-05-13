@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("ExternalClass")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -13,7 +15,7 @@ class ExternalClass : NativeBase {
         SOME_VALUE(0);
     }
     class SomeStruct {
-        var someField: String
+        @JvmField var someField: String
 
 
 
@@ -24,13 +26,14 @@ class ExternalClass : NativeBase {
 
 
 
+
     }
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
@@ -39,10 +42,13 @@ class ExternalClass : NativeBase {
 
 
 
+
+
     external fun someMethod(someParameter: Byte) : Unit
 
     val someProperty: String
         external get
+
 
 
 

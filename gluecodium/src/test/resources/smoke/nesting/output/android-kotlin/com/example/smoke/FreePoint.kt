@@ -3,12 +3,14 @@
  *
  */
 
+@file:JvmName("FreePoint")
+
 package com.example.smoke
 
 
 class FreePoint {
-    var x: Double
-    var y: Double
+    @JvmField var x: Double
+    @JvmField var y: Double
 
 
 
@@ -21,8 +23,9 @@ class FreePoint {
 
     external fun flip() : FreePoint
 
+
     companion object {
-        val A_BAR: FreeEnum = FreeEnum.BAR
+        @JvmField final val A_BAR: FreeEnum = FreeEnum.BAR
     }
 }
 

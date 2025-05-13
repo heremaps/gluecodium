@@ -3,17 +3,19 @@
  *
  */
 
+@file:JvmName("LocaleDefaults")
+
 package com.example.smoke
 
 import java.util.Locale
 
 class LocaleDefaults {
-    var english: Locale
-    var latAmSpanish: Locale
-    var romanshSursilvan: Locale
-    var serbianCyrillic: Locale
-    var traditionalChineseTaiwan: Locale
-    var zuerichGerman: Locale
+    @JvmField var english: Locale
+    @JvmField var latAmSpanish: Locale
+    @JvmField var romanshSursilvan: Locale
+    @JvmField var serbianCyrillic: Locale
+    @JvmField var traditionalChineseTaiwan: Locale
+    @JvmField var zuerichGerman: Locale
 
 
 
@@ -25,6 +27,7 @@ class LocaleDefaults {
         this.traditionalChineseTaiwan = Locale.forLanguageTag("nan-Hant-TW")
         this.zuerichGerman = Locale.forLanguageTag("gsw-u-sd-chzh")
     }
+
 
 
 

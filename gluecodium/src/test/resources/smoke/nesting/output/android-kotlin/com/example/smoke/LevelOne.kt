@@ -3,6 +3,8 @@
  *
  */
 
+@file:JvmName("LevelOne")
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -17,7 +19,7 @@ class LevelOne : NativeBase {
                 NONE(0);
             }
             class LevelFour {
-                var stringField: String
+                @JvmField var stringField: String
 
 
 
@@ -28,17 +30,20 @@ class LevelOne : NativeBase {
 
 
 
+
                 companion object {
-                    val FOO: Boolean = false
+                    @JvmField final val FOO: Boolean = false
+
+
                     @JvmStatic external fun fooFactory() : LevelOne.LevelTwo.LevelThree.LevelFour
                 }
             }
 
 
 
-            /*
+            /**
              * For internal use only.
-             * @hidden
+             * @suppress
              * @param nativeHandle The handle to resources on C++ side.
              * @param tag Tag used by callers to avoid overload resolution problems.
              */
@@ -47,7 +52,10 @@ class LevelOne : NativeBase {
 
 
 
+
+
             external fun foo(input: OuterClass.InnerInterface) : OuterInterface.InnerClass
+
 
 
 
@@ -57,14 +65,15 @@ class LevelOne : NativeBase {
         }
 
 
-        /*
+        /**
          * For internal use only.
-         * @hidden
+         * @suppress
          * @param nativeHandle The handle to resources on C++ side.
          * @param tag Tag used by callers to avoid overload resolution problems.
          */
         protected constructor(nativeHandle: Long, tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
 
@@ -77,14 +86,15 @@ class LevelOne : NativeBase {
     }
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
     protected constructor(nativeHandle: Long, tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
 
 
 
