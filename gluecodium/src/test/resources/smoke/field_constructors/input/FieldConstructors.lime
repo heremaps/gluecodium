@@ -21,6 +21,8 @@ struct FieldConstructorsPartialDefaults {
     stringField: String
     intField: Int
     boolField: Boolean = true
+    // This is some field constructor with two parameters.
+    // It is very important.
     @Dart("withTrue")
     field constructor(intField, stringField)
     @Dart(Default)

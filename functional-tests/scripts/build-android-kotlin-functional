@@ -99,5 +99,5 @@ else
 fi
 
 if [ "$GENERATE_DOCS" = true ]; then
-    ./gradlew generateJavadoc
+    ./gradlew dokkaHtml -Pandroid-kotlin -PhostOnly -PgluecodiumVersion=${GLUECODIUM_VERSION}
 fi
