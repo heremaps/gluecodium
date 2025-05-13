@@ -38,13 +38,13 @@ class Enums : NativeBase {
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
-    protected constructor(nativeHandle: Long, tag: Any?)
+    protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
@@ -55,9 +55,18 @@ class Enums : NativeBase {
 
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
+
         @JvmStatic external fun methodWithEnumeration(input: Enums.SimpleEnum) : Enums.SimpleEnum
+
+
         @JvmStatic external fun flipEnumValue(input: Enums.InternalErrorCode) : Enums.InternalErrorCode
+
+
         @JvmStatic external fun extractEnumFromStruct(input: Enums.ErrorStruct) : Enums.InternalErrorCode
+
+
         @JvmStatic external fun createStructWithEnumInside(type: Enums.InternalErrorCode, message: String) : Enums.ErrorStruct
     }
 }
+

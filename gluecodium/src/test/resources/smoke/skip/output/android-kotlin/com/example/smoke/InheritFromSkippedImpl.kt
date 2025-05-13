@@ -9,20 +9,23 @@ package com.example.smoke
 
 import com.example.NativeBase
 
+/**
+ * @suppress
+ */
 class InheritFromSkippedImpl : NativeBase, InheritFromSkipped {
-    /*
-     * For internal use only.
-     * @hidden
-     * @param nativeHandle The handle to resources on C++ side.
-     * @param tag Tag used by callers to avoid overload resolution problems.
-     */
-    protected constructor(nativeHandle: Long, tag: Any?)
+    protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
 
+
+
     override external fun notInJava(input: String) : String
+
+
     override external fun notInSwift(input: Boolean) : Boolean
+
+
     override external fun notInDart(input: Float) : Float
     override var skippedInJava: String
         external get

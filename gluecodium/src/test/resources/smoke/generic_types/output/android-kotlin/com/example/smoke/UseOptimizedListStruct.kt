@@ -23,12 +23,9 @@ class UseOptimizedListStruct {
 
 
 
-    /**
-     * @hidden
-     */
     private class VeryBigStructLazyNativeList : AbstractNativeList<VeryBigStruct> {
 
-        private constructor(nativeHandle: Long, tag: Any?)
+        private constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
         override protected external fun obtainSize(): Int
@@ -40,12 +37,9 @@ class UseOptimizedListStruct {
 
     }
 
-    /**
-     * @hidden
-     */
     private class UnreasonablyLazyClassLazyNativeList : AbstractNativeList<UnreasonablyLazyClass> {
 
-        private constructor(nativeHandle: Long, tag: Any?)
+        private constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
         override protected external fun obtainSize(): Int

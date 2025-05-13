@@ -43,13 +43,13 @@ class TypeDefs : NativeBase {
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
-    protected constructor(nativeHandle: Long, tag: Any?)
+    protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
@@ -64,11 +64,24 @@ class TypeDefs : NativeBase {
 
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
+
         @JvmStatic external fun methodWithPrimitiveTypeDef(input: Double) : Double
+
+
         @JvmStatic external fun methodWithComplexTypeDef(input: MutableList<TypeDefs.TestStruct>) : MutableList<TypeDefs.TestStruct>
+
+
         @JvmStatic external fun returnNestedIntTypeDef(input: Double) : Double
+
+
         @JvmStatic external fun returnTestStructTypeDef(input: TypeDefs.TestStruct) : TypeDefs.TestStruct
+
+
         @JvmStatic external fun returnNestedStructTypeDef(input: TypeDefs.TestStruct) : TypeDefs.TestStruct
+
+
         @JvmStatic external fun returnTypeDefPointFromTypeCollection(input: TypeCollection.Point) : TypeCollection.Point
     }
 }
+

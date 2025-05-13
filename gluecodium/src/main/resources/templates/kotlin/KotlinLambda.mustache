@@ -18,7 +18,8 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{resolveName "visibility"}}fun interface {{resolveName}} {
+{{>kotlin/KotlinDocComment}}
+fun interface {{resolveName}} {
 {{#set isInterface=true noAttributes=true}}{{!!
 }}{{#asFunction}}
 {{prefixPartial "kotlin/KotlinFunction" "    "}}

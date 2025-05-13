@@ -14,13 +14,13 @@ class UseOptimizedList : NativeBase {
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
-    protected constructor(nativeHandle: Long, tag: Any?)
+    protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
@@ -28,12 +28,9 @@ class UseOptimizedList : NativeBase {
 
 
 
-    /**
-     * @hidden
-     */
     private class UnreasonablyLazyClassLazyNativeList : AbstractNativeList<UnreasonablyLazyClass> {
 
-        private constructor(nativeHandle: Long, tag: Any?)
+        private constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
         override protected external fun obtainSize(): Int
@@ -45,12 +42,9 @@ class UseOptimizedList : NativeBase {
 
     }
 
-    /**
-     * @hidden
-     */
     private class VeryBigStructLazyNativeList : AbstractNativeList<VeryBigStruct> {
 
-        private constructor(nativeHandle: Long, tag: Any?)
+        private constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
         override protected external fun obtainSize(): Int
@@ -65,9 +59,12 @@ class UseOptimizedList : NativeBase {
 
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
+
         @JvmStatic external fun fetchTheBigOnes() : MutableList<VeryBigStruct>
         @JvmStatic val lazyOnes: MutableList<UnreasonablyLazyClass>
             external get
 
     }
 }
+

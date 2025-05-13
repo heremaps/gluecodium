@@ -32,22 +32,34 @@ class GenericTypesWithBasicTypes : NativeBase {
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
-    protected constructor(nativeHandle: Long, tag: Any?)
+    protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
 
+
+
     external fun methodWithList(input: MutableList<Int>) : MutableList<Int>
+
+
     external fun methodWithMap(input: MutableMap<Int, Boolean>) : MutableMap<Int, Boolean>
+
+
     external fun methodWithSet(input: MutableSet<Int>) : MutableSet<Int>
+
+
     external fun methodWithListTypeAlias(input: MutableList<String>) : MutableList<String>
+
+
     external fun methodWithMapTypeAlias(input: MutableMap<String, String>) : MutableMap<String, String>
+
+
     external fun methodWithSetTypeAlias(input: MutableSet<String>) : MutableSet<String>
 
     var listProperty: MutableList<Float>
@@ -69,3 +81,4 @@ class GenericTypesWithBasicTypes : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
+

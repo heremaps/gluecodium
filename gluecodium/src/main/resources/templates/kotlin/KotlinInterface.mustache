@@ -18,7 +18,8 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{resolveName "visibility"}}interface {{resolveName}} {{!!
+{{>kotlin/KotlinDocComment}}
+interface {{resolveName}} {{!!
 }}{{#if this.parents}}: {{#parents}}{{resolveName this "" "ref"}}{{#if iter.hasNext}}, {{/if}}{{/parents}} {{/if}}{
 {{>kotlin/KotlinContainerContents}}
 
@@ -33,7 +34,9 @@
 {{#set isInterface=true}}
 {{#properties}}
 {{#unless isStatic}}
+{{#set property=this}}{{#property}}
 {{prefixPartial "kotlin/KotlinProperty" "    "}}
+{{/property}}{{/set}}
 {{/unless}}
 {{/properties}}
 {{/set}}

@@ -14,14 +14,16 @@ interface OuterInterface {
 
 
 
-        /*
+        /**
          * For internal use only.
-         * @hidden
+         * @suppress
          * @param nativeHandle The handle to resources on C++ side.
          * @param tag Tag used by callers to avoid overload resolution problems.
          */
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+
 
 
 
@@ -34,22 +36,24 @@ interface OuterInterface {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         }
     }
+
     interface InnerInterface {
+
+
 
         fun foo(input: String) : String
 
 
     }
 
+    /**
+     * @suppress
+     */
     class InnerInterfaceImpl : NativeBase, InnerInterface {
-        /*
-         * For internal use only.
-         * @hidden
-         * @param nativeHandle The handle to resources on C++ side.
-         * @param tag Tag used by callers to avoid overload resolution problems.
-         */
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+
 
         override external fun foo(input: String) : String
 
@@ -59,6 +63,8 @@ interface OuterInterface {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         }
     }
+
+
 
     fun foo(input: String) : String
 

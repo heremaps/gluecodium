@@ -18,7 +18,8 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{resolveName "visibility"}}enum class {{resolveName}}(private val value: Int) {
+{{>kotlin/KotlinDocComment}}
+enum class {{resolveName}}(private val value: Int) {
 {{joinPartial uniqueEnumerators "kotlin/KotlinEnumerator" ",
 "}}{{#if uniqueEnumerators}};{{/if}}{{#if aliasEnumerators}}
 

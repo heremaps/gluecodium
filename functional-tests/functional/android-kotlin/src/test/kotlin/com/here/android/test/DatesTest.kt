@@ -44,9 +44,9 @@ class DatesTest {
 
     @org.junit.Test
     fun dateMethodRoundTrip() {
-        val date = Date(1, 3, 5, 7, 9, 11)
         val dateCalendar: Calendar = GregorianCalendar()
-        dateCalendar.setTime(date)
+        dateCalendar.set(1900, 1, 3, 5, 7, 9)
+        val date = dateCalendar.getTime()
 
         val result = Dates.increaseDate(date)
         val resultCalendar = GregorianCalendar()
@@ -68,9 +68,9 @@ class DatesTest {
 
     @org.junit.Test
     fun dateMethodNullableRoundTrip() {
-        val date = Date(1, 3, 5, 7, 9, 11)
         val dateCalendar: Calendar = GregorianCalendar()
-        dateCalendar.setTime(date)
+        dateCalendar.set(1900, 1, 3, 5, 7, 9)
+        val date = dateCalendar.getTime()
 
         val result: Date? = Dates.increaseDateMaybe(date)
         assertNotNull(result)
@@ -88,9 +88,9 @@ class DatesTest {
 
     @org.junit.Test
     fun steadyDateMethodRoundTrip() {
-        val date: Date = Date(1, 3, 5, 7, 9, 11)
         val dateCalendar: Calendar = GregorianCalendar()
-        dateCalendar.setTime(date)
+        dateCalendar.set(1900, 1, 3, 5, 7, 9)
+        val date = dateCalendar.getTime()
 
         val result: Date = DatesSteady.increaseDate(date)
         val resultCalendar: Calendar = GregorianCalendar()
@@ -112,9 +112,9 @@ class DatesTest {
 
     @org.junit.Test
     fun steadyDateMethodNullableRoundTrip() {
-        val date: Date = Date(1, 3, 5, 7, 9, 11)
         val dateCalendar: Calendar = GregorianCalendar()
-        dateCalendar.setTime(date)
+        dateCalendar.set(1900, 1, 3, 5, 7, 9)
+        val date = dateCalendar.getTime()
 
         val result: Date? = DatesSteady.increaseDateMaybe(date)
         assertNotNull(result)

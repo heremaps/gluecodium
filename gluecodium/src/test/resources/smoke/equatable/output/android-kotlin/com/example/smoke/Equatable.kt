@@ -41,16 +41,15 @@ class Equatable {
             this.mapField = mapField
         }
 
-        override fun equals(obj: Any?) : Boolean {
-            if (obj === this) {
+        override fun equals(other: Any?) : Boolean {
+            if (other === this) {
                 return true
             }
 
-            if (obj !is EquatableStruct) {
+            if (other !is EquatableStruct) {
                 return false
             }
 
-            val other = obj as EquatableStruct
             return this.boolField == other.boolField &&
                    this.intField == other.intField &&
                    this.longField == other.longField &&
@@ -109,16 +108,15 @@ class Equatable {
             this.mapField = null
         }
 
-        override fun equals(obj: Any?) : Boolean {
-            if (obj === this) {
+        override fun equals(other: Any?) : Boolean {
+            if (other === this) {
                 return true
             }
 
-            if (obj !is EquatableNullableStruct) {
+            if (other !is EquatableNullableStruct) {
                 return false
             }
 
-            val other = obj as EquatableNullableStruct
             return java.util.Objects.equals(this.boolField, other.boolField) &&
                    java.util.Objects.equals(this.intField, other.intField) &&
                    java.util.Objects.equals(this.uintField, other.uintField) &&
@@ -159,16 +157,15 @@ class Equatable {
             this.fooField = fooField
         }
 
-        override fun equals(obj: Any?) : Boolean {
-            if (obj === this) {
+        override fun equals(other: Any?) : Boolean {
+            if (other === this) {
                 return true
             }
 
-            if (obj !is NestedEquatableStruct) {
+            if (other !is NestedEquatableStruct) {
                 return false
             }
 
-            val other = obj as NestedEquatableStruct
             return java.util.Objects.equals(this.fooField, other.fooField)
         }
 

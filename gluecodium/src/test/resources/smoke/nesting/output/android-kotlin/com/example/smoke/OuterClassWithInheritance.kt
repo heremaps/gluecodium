@@ -15,14 +15,16 @@ class OuterClassWithInheritance : ParentClass {
 
 
 
-        /*
+        /**
          * For internal use only.
-         * @hidden
+         * @suppress
          * @param nativeHandle The handle to resources on C++ side.
          * @param tag Tag used by callers to avoid overload resolution problems.
          */
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+
 
 
 
@@ -35,22 +37,24 @@ class OuterClassWithInheritance : ParentClass {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         }
     }
+
     interface InnerInterface {
+
+
 
         fun baz(input: String) : String
 
 
     }
 
+    /**
+     * @suppress
+     */
     class InnerInterfaceImpl : NativeBase, InnerInterface {
-        /*
-         * For internal use only.
-         * @hidden
-         * @param nativeHandle The handle to resources on C++ side.
-         * @param tag Tag used by callers to avoid overload resolution problems.
-         */
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+
 
         override external fun baz(input: String) : String
 
@@ -62,14 +66,16 @@ class OuterClassWithInheritance : ParentClass {
     }
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
-    protected constructor(nativeHandle: Long, tag: Any?)
+    protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : super(nativeHandle, tag) {}
+
+
 
 
 
@@ -79,3 +85,4 @@ class OuterClassWithInheritance : ParentClass {
 
 
 }
+

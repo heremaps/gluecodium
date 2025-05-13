@@ -23,16 +23,15 @@ class SimpleEquatableStruct {
         this.nullableInterfaceField = null
     }
 
-    override fun equals(obj: Any?) : Boolean {
-        if (obj === this) {
+    override fun equals(other: Any?) : Boolean {
+        if (other === this) {
             return true
         }
 
-        if (obj !is SimpleEquatableStruct) {
+        if (other !is SimpleEquatableStruct) {
             return false
         }
 
-        val other = obj as SimpleEquatableStruct
         return java.util.Objects.equals(this.classField, other.classField) &&
                java.util.Objects.equals(this.interfaceField, other.interfaceField) &&
                java.util.Objects.equals(this.nullableClassField, other.nullableClassField) &&

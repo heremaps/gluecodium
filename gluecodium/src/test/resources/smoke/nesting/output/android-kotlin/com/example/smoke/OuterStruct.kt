@@ -32,6 +32,8 @@ class OuterStruct {
 
 
 
+
+
         external fun doSomething() : Unit
 
 
@@ -41,14 +43,16 @@ class OuterStruct {
 
 
 
-        /*
+        /**
          * For internal use only.
-         * @hidden
+         * @suppress
          * @param nativeHandle The handle to resources on C++ side.
          * @param tag Tag used by callers to avoid overload resolution problems.
          */
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+
 
 
 
@@ -61,26 +65,33 @@ class OuterStruct {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         }
     }
+
     class Builder : NativeBase {
+
+
 
 
         constructor() : this(create(), null as Any?) {
             cacheThisInstance();
         }
 
-        /*
+        /**
          * For internal use only.
-         * @hidden
+         * @suppress
          * @param nativeHandle The handle to resources on C++ side.
          * @param tag Tag used by callers to avoid overload resolution problems.
          */
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
         private external fun cacheThisInstance()
 
 
+
+
         external fun field(value: String) : OuterStruct.Builder
+
+
         external fun build() : OuterStruct
 
 
@@ -88,10 +99,14 @@ class OuterStruct {
 
         companion object {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
             @JvmStatic external fun create() : Long
         }
     }
+
     interface InnerInterface {
+
+
 
         fun barBaz() : MutableMap<String, ByteArray>
 
@@ -99,18 +114,19 @@ class OuterStruct {
     }
 
     fun interface InnerLambda {
+
+
         fun apply() : Unit
     }
 
+    /**
+     * @suppress
+     */
     class InnerInterfaceImpl : NativeBase, InnerInterface {
-        /*
-         * For internal use only.
-         * @hidden
-         * @param nativeHandle The handle to resources on C++ side.
-         * @param tag Tag used by callers to avoid overload resolution problems.
-         */
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+
 
         override external fun barBaz() : MutableMap<String, ByteArray>
 
@@ -120,15 +136,14 @@ class OuterStruct {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         }
     }
+    /**
+     * @suppress
+     */
     class InnerLambdaImpl : NativeBase, InnerLambda {
-        /*
-         * For internal use only.
-         * @hidden
-         * @param nativeHandle The handle to resources on C++ side.
-         * @param tag Tag used by callers to avoid overload resolution problems.
-         */
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+
 
         override external fun apply() : Unit
 
@@ -146,7 +161,9 @@ class OuterStruct {
 
 
 
-    @Throws (OuterStruct.InstantiationException::class) external fun doNothing() : Unit
+
+    @Throws(OuterStruct.InstantiationException::class)
+    external fun doNothing() : Unit
 
 
 }

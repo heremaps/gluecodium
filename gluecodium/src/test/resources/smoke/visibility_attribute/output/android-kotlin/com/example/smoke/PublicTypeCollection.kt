@@ -10,12 +10,12 @@ package com.example.smoke
 
 class PublicTypeCollection {
 
-    internal class InternalStruct {
-        @JvmField internal var stringField: String
+    class InternalStruct {
+        @JvmField var stringField: String
 
 
 
-        internal constructor(stringField: String) {
+        constructor(stringField: String) {
             this.stringField = stringField
         }
 

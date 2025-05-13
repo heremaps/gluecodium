@@ -18,7 +18,8 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{resolveName "visibility"}}{{#if this.isOpen}}open {{/if}}class {{resolveName}} : {{!!
+{{>kotlin/KotlinDocComment}}
+{{#if this.isOpen}}open {{/if}}class {{resolveName}} : {{!!
 }}{{#if this.parentClass}}{{resolveName this.parentClass "" "ref"}}{{/if}}{{!!
 }}{{#unless this.parentClass}}NativeBase{{/unless}}{{!!
 }}{{#if this.parentInterfaces}}, {{#this.parentInterfaces}}{{!!
@@ -28,8 +29,9 @@
 {{>kotlin/KotlinContainerContents}}
 
 {{#set classElement=this}}{{#constructors}}
+{{prefixPartial "kotlin/KotlinMethodComment" "    "}}
     {{>kotlinConstructorThrows}}
-{{resolveName "visibility"}}constructor({{!!
+constructor({{!!
 }}{{#parameters}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/parameters}}){{!!
@@ -46,13 +48,13 @@
     }
 {{/constructors}}{{/set}}
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
-    protected constructor(nativeHandle: Long, tag: Any?)
+    protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : {{!!
 }}{{#unlessPredicate "needsDisposer"}}super(nativeHandle, tag){{/unlessPredicate}}{{!!
 }}{{#ifPredicate "needsDisposer"}}super(nativeHandle, { disposeNativeHandle(it) }){{/ifPredicate}} {}
@@ -62,7 +64,7 @@
 {{/unless}}{{/if}}
 
 {{#if attributes.equatable attributes.pointerEquatable logic="or"}}
-    override external fun equals(obj: Any?) : Boolean
+    override external fun equals(other: Any?) : Boolean
     override external fun hashCode(): Int
 
 {{/if}}

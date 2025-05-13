@@ -92,26 +92,46 @@ class Nullable : NativeBase {
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
-    protected constructor(nativeHandle: Long, tag: Any?)
+    protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
 
+
+
     external fun methodWithString(input: String?) : String?
+
+
     external fun methodWithBoolean(input: Boolean?) : Boolean?
+
+
     external fun methodWithDouble(input: Double?) : Double?
+
+
     external fun methodWithInt(input: Long?) : Long?
+
+
     external fun methodWithSomeStruct(input: Nullable.SomeStruct?) : Nullable.SomeStruct?
+
+
     external fun methodWithSomeEnum(input: Nullable.SomeEnum?) : Nullable.SomeEnum?
+
+
     external fun methodWithSomeArray(input: MutableList<String>?) : MutableList<String>?
+
+
     external fun methodWithInlineArray(input: MutableList<String>?) : MutableList<String>?
+
+
     external fun methodWithSomeMap(input: MutableMap<Long, String>?) : MutableMap<Long, String>?
+
+
     external fun methodWithInstance(input: SomeInterface?) : SomeInterface?
 
     var stringProperty: String?
@@ -161,3 +181,4 @@ class Nullable : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
+

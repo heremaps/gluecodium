@@ -26,16 +26,15 @@ class EquatableClass : NativeBase {
             this.nestedPointerEquatableInstance = nestedPointerEquatableInstance
         }
 
-        override fun equals(obj: Any?) : Boolean {
-            if (obj === this) {
+        override fun equals(other: Any?) : Boolean {
+            if (other === this) {
                 return true
             }
 
-            if (obj !is EquatableStruct) {
+            if (other !is EquatableStruct) {
                 return false
             }
 
-            val other = obj as EquatableStruct
             return this.intField == other.intField &&
                    java.util.Objects.equals(this.stringField, other.stringField) &&
                    java.util.Objects.equals(this.nestedEquatableInstance, other.nestedEquatableInstance) &&
@@ -59,17 +58,17 @@ class EquatableClass : NativeBase {
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
-    protected constructor(nativeHandle: Long, tag: Any?)
+    protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
-    override external fun equals(obj: Any?) : Boolean
+    override external fun equals(other: Any?) : Boolean
     override external fun hashCode(): Int
 
 
@@ -81,3 +80,4 @@ class EquatableClass : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
+
