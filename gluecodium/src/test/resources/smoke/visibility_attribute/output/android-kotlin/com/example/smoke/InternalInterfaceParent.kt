@@ -8,7 +8,7 @@
 package com.example.smoke
 
 
-internal interface InternalInterfaceParent {
+interface InternalInterfaceParent {
 
     fun fooBar() : Unit
 

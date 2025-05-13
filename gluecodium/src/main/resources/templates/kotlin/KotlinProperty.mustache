@@ -21,7 +21,6 @@
 {{>kotlin/KotlinDocComment}}
 {{#if isStatic}}@JvmStatic {{/if}}{{!!
 }}{{#if override}}override {{/if}}{{!!
-}}{{#unless isInterface}}{{resolveName "visibility"}}{{/unless}}{{!!
 }}{{#if setter}}var{{/if}}{{!!
 }}{{#unless setter}}val{{/unless}}{{!!
 }} {{resolveName}}: {{resolveName typeRef}}
