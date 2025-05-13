@@ -19,7 +19,7 @@ class EquatableInterfaceImpl : NativeBase, EquatableInterface {
 
 
 
-    override external fun equals(obj: Any?) : Boolean
+    override external fun equals(other: Any?) : Boolean
     override external fun hashCode(): Int
 
     companion object {

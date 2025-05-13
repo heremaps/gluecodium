@@ -193,33 +193,33 @@ public class Duration private constructor(private var mSeconds: Long, private va
         return toDays();
     }
 
-    public override fun compareTo(duration: Duration): Int {
+    public override fun compareTo(other: Duration): Int {
         var result: Int = 0;
-        if (mSeconds < duration.mSeconds) {
+        if (mSeconds < other.mSeconds) {
             result = -1;
-        } else if (mSeconds > duration.mSeconds) {
+        } else if (mSeconds > other.mSeconds) {
             result = 1;
         }
         if (result == 0) {
-            if (mNanos < duration.mNanos) {
+            if (mNanos < other.mNanos) {
                 result = -1;
-            } else if (mNanos > duration.mNanos) {
+            } else if (mNanos > other.mNanos) {
                 result = 1;
             }
         }
         return result;
     }
 
-    public override fun equals(o: Any?): Boolean {
-        if (this === o) {
-            return true;
+    public override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
         }
 
-        if (o === null || (this::class != o::class)) {
-            return false;
+        if (other === null || (this::class != other::class)) {
+            return false
         }
 
-        var duration: Duration = o as Duration
+        var duration: Duration = other as Duration
         return mSeconds == duration.mSeconds && mNanos == duration.mNanos;
     }
 
