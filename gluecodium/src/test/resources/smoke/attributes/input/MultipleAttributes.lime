@@ -17,7 +17,7 @@
 
 package smoke
 
-@Java(Skip) @Swift(Skip) @Dart(Skip)
+@Java(Skip) @Kotlin(Skip) @Swift(Skip) @Dart(Skip)
 class MultipleAttributesCpp {
     @Cpp(Attribute = "Foo")
     @Cpp(Attribute = "Bar")
@@ -37,7 +37,7 @@ class MultipleAttributesCpp {
     fun twoLists()
 }
 
-@Swift(Skip) @Dart(Skip)
+@Swift(Skip) @Kotlin(Skip) @Dart(Skip)
 class MultipleAttributesJava {
     @Java(Attribute = "Foo")
     @Java(Attribute = "Bar")
@@ -57,7 +57,27 @@ class MultipleAttributesJava {
     fun twoLists()
 }
 
-@Java(Skip) @Dart(Skip)
+@Java(Skip) @Swift(Skip) @Dart(Skip)
+class MultipleAttributesKotlin {
+    @Kotlin(Attribute = "Foo")
+    @Kotlin(Attribute = "Bar")
+    fun noLists2()
+    @Kotlin(Attribute = "Foo")
+    @Kotlin(Attribute = "Bar")
+    @Kotlin(Attribute = "Baz")
+    fun noLists3()
+    @Kotlin(Attribute = ["Foo", "Bar"])
+    @Kotlin(Attribute = "Baz")
+    fun listFirst()
+    @Kotlin(Attribute = "Foo")
+    @Kotlin(Attribute = ["Bar", "Baz"])
+    fun listSecond()
+    @Kotlin(Attribute = ["Foo", "Bar"])
+    @Kotlin(Attribute = ["Baz", "Fizz"])
+    fun twoLists()
+}
+
+@Java(Skip) @Kotlin(Skip) @Dart(Skip)
 class MultipleAttributesSwift {
     @Swift(Attribute = "Foo")
     @Swift(Attribute = "Bar")
@@ -77,7 +97,7 @@ class MultipleAttributesSwift {
     fun twoLists()
 }
 
-@Java(Skip) @Swift(Skip)
+@Java(Skip) @Kotlin(Skip) @Swift(Skip)
 class MultipleAttributesDart {
     @Dart(Attribute = "Foo")
     @Dart(Attribute = "Bar")
