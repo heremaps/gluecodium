@@ -17,6 +17,9 @@
 
 package smoke
 
+// This is an important struct that uses positional default annotation.
+// @constructor This is a comment that should be rendered for all struct constructors
+// including positional default one.
 @Kotlin(PositionalDefaults)
 @Java(Skip) @Swift(Skip) @Dart(Skip)
 struct StructWithKotlinPositionalDefaults {

@@ -23,9 +23,6 @@ class UseOptimizedListStruct {
 
 
 
-    /**
-     * @hidden
-     */
     private class VeryBigStructLazyNativeList : AbstractNativeList<VeryBigStruct> {
 
         private constructor(nativeHandle: Long, tag: Any?)
@@ -40,9 +37,6 @@ class UseOptimizedListStruct {
 
     }
 
-    /**
-     * @hidden
-     */
     private class UnreasonablyLazyClassLazyNativeList : AbstractNativeList<UnreasonablyLazyClass> {
 
         private constructor(nativeHandle: Long, tag: Any?)

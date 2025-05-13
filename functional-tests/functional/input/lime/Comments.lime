@@ -86,6 +86,7 @@ class comments {
         set
     }
     // @value Some very useful attribute.
+    // @description Some additional description of the property.
     property instanceAttribute: CommentsInstantiable {
         // Some very useful attribute.
         get

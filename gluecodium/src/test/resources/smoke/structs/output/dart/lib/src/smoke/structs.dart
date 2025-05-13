@@ -96,7 +96,8 @@ class Structs_Point {
   double y;
 
   Structs_Point._(this.x, this.y);
-
+  /// This is some constructor, which constructs Point from polar coordinates.
+  ///
   factory Structs_Point(double phi, double r) => $prototype.fromPolar(phi, r);
 
   /// @nodoc

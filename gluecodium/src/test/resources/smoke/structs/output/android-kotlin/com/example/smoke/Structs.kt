@@ -20,6 +20,12 @@ class Structs : NativeBase {
         @JvmField var y: Double
 
 
+        /**
+         * This is some constructor, which constructs Point from polar coordinates.
+         * @param phi
+         * @param r
+         */
+
 
         constructor(phi: Double, r: Double) {
             val _other = fromPolar(phi, r)
@@ -33,6 +39,7 @@ class Structs : NativeBase {
 
 
         companion object {
+
             @JvmStatic external fun fromPolar(phi: Double, r: Double) : Point
         }
     }
@@ -195,9 +202,9 @@ class Structs : NativeBase {
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
@@ -212,9 +219,17 @@ class Structs : NativeBase {
 
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
+
         @JvmStatic external fun swapPointCoordinates(input: Structs.Point) : Structs.Point
+
+
         @JvmStatic external fun returnAllTypesStruct(input: Structs.AllTypesStruct) : Structs.AllTypesStruct
+
+
         @JvmStatic external fun createPoint(x: Double, y: Double) : TypeCollection.Point
+
+
         @JvmStatic external fun modifyAllTypesStruct(input: TypeCollection.AllTypesStruct) : TypeCollection.AllTypesStruct
     }
 }
