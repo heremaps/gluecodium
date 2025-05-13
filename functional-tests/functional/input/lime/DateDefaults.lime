@@ -28,6 +28,7 @@ struct DateDefaults {
     static fun getCppDefaults(): DateDefaults
 }
 
+// This is some typealias that references Date type and is used to verify generated documentation.
 typealias DateAlias = Date
 
 struct DateDefaultsAliased {

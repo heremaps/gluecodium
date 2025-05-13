@@ -36,6 +36,11 @@ ext {
         }
     }
 
+    // Used to run Java tests with the generated Kotlin code.
+    forceJavaTestSources = {
+        return project.hasProperty("force-java-test-sources")
+    }
+
     buildRoot = "${rootProject.projectDir}/build-${getAndroidBuildVariant()}"
     buildNativeRoot = "${buildRoot}/cpp"
     generatedDir = "${buildRoot}/generated"

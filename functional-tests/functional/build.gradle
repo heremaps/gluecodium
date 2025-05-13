@@ -33,11 +33,17 @@ apply plugin: 'org.jetbrains.kotlin.android'
 project.buildDir = "${rootProject.buildDir}"
 
 def getCMakeCommonParameters() {
-    return ['-Wno-dev',
+    def params = ['-Wno-dev',
         "-DGLUECODIUM_GENERATORS_DEFAULT=${rootProject.getAndroidBuildVariant()};cpp",
         "-DGLUECODIUM_BASE_OUTPUT_DIR_DEFAULT=${rootProject.generatedDir}",
         "-DGLUECODIUM_VERSION_DEFAULT=${rootProject.useGluecodiumVersion()}",
         '-DGLUECODIUM_ENABLE_INTERNAL_DEBUG_CHECKS_DEFAULT=ON']
+
+    if (rootProject.forceJavaTestSources()) {
+        params.add('-DJAVA_TESTS_CONSUMING_KOTLIN=ON')
+    }
+
+    return params
 }
 
 android {
@@ -82,8 +88,14 @@ android {
                         "${rootProject.generatedDir}/functional_bindings/android-kotlin-cpp/main/android-kotlin"]
             }
 
-            test {
-                kotlin.srcDirs += ["${project.projectDir}/android-kotlin/src/test/kotlin"]
+            if (rootProject.forceJavaTestSources()) {
+                test {
+                    java.srcDirs += ["${project.projectDir}/android/src/test/java"]
+                }
+            } else {
+                test {
+                    kotlin.srcDirs += ["${project.projectDir}/android-kotlin/src/test/kotlin"]
+                }
             }
         } else {
             main {
