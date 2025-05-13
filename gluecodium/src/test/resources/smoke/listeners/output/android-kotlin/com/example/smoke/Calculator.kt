@@ -13,9 +13,9 @@ class Calculator : NativeBase {
 
 
 
-    /*
+    /**
      * For internal use only.
-     * @hidden
+     * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
@@ -30,7 +30,11 @@ class Calculator : NativeBase {
 
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
+
         @JvmStatic external fun registerListener(listener: CalculatorListener) : Unit
+
+
         @JvmStatic external fun unregisterListener(listener: CalculatorListener) : Unit
     }
 }
