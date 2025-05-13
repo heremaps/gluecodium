@@ -32,12 +32,13 @@ object ColorConverter {
     }
 
     @JvmStatic
-    fun convertToInternal(systemColor: Int?): SystemColor {
+    fun convertToInternal(color: Int?): SystemColor {
+        val systemColor: Int = color!!
         return SystemColor(
-            android.graphics.Color.red(systemColor!!) / 255.0f,
-            android.graphics.Color.green(systemColor!!) / 255.0f,
-            android.graphics.Color.blue(systemColor!!) / 255.0f,
-            android.graphics.Color.alpha(systemColor!!) / 255.0f
+            android.graphics.Color.red(systemColor) / 255.0f,
+            android.graphics.Color.green(systemColor) / 255.0f,
+            android.graphics.Color.blue(systemColor) / 255.0f,
+            android.graphics.Color.alpha(systemColor) / 255.0f
         )
     }
 }

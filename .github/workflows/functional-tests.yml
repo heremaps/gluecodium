@@ -180,6 +180,13 @@ jobs:
       - name: Clean build dir
         run: ./scripts/clean
         working-directory: functional-tests
+      - name: Build and run namerules tests
+        run: |
+          export ANDROID_HOME=${HOME}/android-sdk-linux
+          export ANDROID_SDK_ROOT=${ANDROID_HOME}
+          export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
+          ./scripts/build-android-kotlin-namerules --publish
+        working-directory: functional-tests
 
   swift:
     name: Swift on Linux

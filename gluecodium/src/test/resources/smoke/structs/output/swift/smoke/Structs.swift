@@ -39,6 +39,10 @@ public class Structs {
             x = moveFromCType(smoke_Structs_Point_x_get(cHandle))
             y = moveFromCType(smoke_Structs_Point_y_get(cHandle))
         }
+        /// This is some constructor, which constructs Point from polar coordinates.
+        /// - Parameters:
+        ///   - phi:
+        ///   - r:
 
         public init(phi: Double, r: Double) {
             let _result_handle = Structs.Point.fromPolar(phi: phi, r: r)
