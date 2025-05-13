@@ -86,6 +86,19 @@ open class GluecodiumTask : SourceTask() {
 
     @Optional
     @Input
+    val kotlinPackage: Property<String> = project.objects.property(String::class.java)
+
+    @Optional
+    @Input
+    val kotlinInternalPackage: Property<String> = project.objects.property(String::class.java)
+
+    @Optional
+    @InputFile
+    @PathSensitive(PathSensitivity.ABSOLUTE)
+    val kotlinNameRules: Property<File> = project.objects.property(File::class.java)
+
+    @Optional
+    @Input
     val cppNamespace: Property<String> = project.objects.property(String::class.java)
 
     @Optional
@@ -129,6 +142,12 @@ open class GluecodiumTask : SourceTask() {
         val options = GeneratorOptions()
 
         copyrightHeaderFile.orNull?.let { options.copyrightHeaderContents = it.readText() }
+
+        kotlinPackage.orNull?.let { options.kotlinPackages = it.split(".") }
+        kotlinInternalPackage.orNull?.let { options.kotlinInternalPackages = it.split(".") }
+        options.kotlinNameRules =
+            OptionReader.readConfigFile(kotlinNameRules.orNull?.absolutePath, options.kotlinNameRules)
+
         javaPackage.orNull?.let { options.javaPackages = it.split(".") }
         javaInternalPackage.orNull?.let { options.javaInternalPackages = it.split(".") }
         options.javaNameRules =
@@ -150,6 +169,9 @@ open class GluecodiumTask : SourceTask() {
         logProperty("outputDirectory", outputDirectory)
 
         logProperty("copyrightHeaderFile", copyrightHeaderFile)
+        logProperty("kotlinPackage", kotlinPackage)
+        logProperty("kotlinInternalPackage", kotlinInternalPackage)
+        logProperty("kotlinNameRules", kotlinNameRules)
         logProperty("javaPackage", javaPackage)
         logProperty("javaInternalPackage", javaInternalPackage)
         logProperty("javaNameRules", javaNameRules, DEFAULT_VALUE_STRING)
