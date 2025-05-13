@@ -13,8 +13,10 @@ import com.example.NativeBase
  * @suppress
  */
 class InterfaceWithStaticImpl : NativeBase, InterfaceWithStatic {
-    protected constructor(nativeHandle: Long, tag: Any?)
+    protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+
 
     override external fun regularFunction() : String
 
@@ -26,6 +28,8 @@ class InterfaceWithStaticImpl : NativeBase, InterfaceWithStatic {
 
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
+
         @JvmStatic external fun staticFunction() : String
         @JvmStatic var staticProperty: String
             external get

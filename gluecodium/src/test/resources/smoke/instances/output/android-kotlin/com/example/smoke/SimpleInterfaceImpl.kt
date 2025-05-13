@@ -13,10 +13,14 @@ import com.example.NativeBase
  * @suppress
  */
 class SimpleInterfaceImpl : NativeBase, SimpleInterface {
-    protected constructor(nativeHandle: Long, tag: Any?)
+    protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
+
+
     override external fun getStringValue() : String
+
+
     override external fun useSimpleInterface(input: SimpleInterface) : SimpleInterface
 
 

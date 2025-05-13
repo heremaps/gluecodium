@@ -49,7 +49,7 @@ class OuterStruct {
          * @param nativeHandle The handle to resources on C++ side.
          * @param tag Tag used by callers to avoid overload resolution problems.
          */
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
@@ -65,7 +65,9 @@ class OuterStruct {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         }
     }
+
     class Builder : NativeBase {
+
 
 
 
@@ -79,7 +81,7 @@ class OuterStruct {
          * @param nativeHandle The handle to resources on C++ side.
          * @param tag Tag used by callers to avoid overload resolution problems.
          */
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
         private external fun cacheThisInstance()
@@ -101,6 +103,7 @@ class OuterStruct {
             @JvmStatic external fun create() : Long
         }
     }
+
     interface InnerInterface {
 
 
@@ -120,7 +123,7 @@ class OuterStruct {
      * @suppress
      */
     class InnerInterfaceImpl : NativeBase, InnerInterface {
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
@@ -137,7 +140,7 @@ class OuterStruct {
      * @suppress
      */
     class InnerLambdaImpl : NativeBase, InnerLambda {
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 

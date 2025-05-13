@@ -13,8 +13,10 @@ import com.example.NativeBase
  * @suppress
  */
 class StandaloneProducerImpl : NativeBase, StandaloneProducer {
-    protected constructor(nativeHandle: Long, tag: Any?)
+    protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+
 
     override external fun apply() : String
 

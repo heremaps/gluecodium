@@ -80,7 +80,7 @@ class LambdaComments : NativeBase {
      * @suppress
      */
     class WithNoNamedParametersImpl : NativeBase, WithNoNamedParameters {
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
         /**
@@ -101,7 +101,7 @@ class LambdaComments : NativeBase {
      * @suppress
      */
     class WithNoDocsForParametersImpl : NativeBase, WithNoDocsForParameters {
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
         /**
@@ -122,7 +122,7 @@ class LambdaComments : NativeBase {
      * @suppress
      */
     class WithNamedParametersImpl : NativeBase, WithNamedParameters {
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
         /**
@@ -143,7 +143,7 @@ class LambdaComments : NativeBase {
      * @suppress
      */
     class MixedDocNameParametersImpl : NativeBase, MixedDocNameParameters {
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
         /**
@@ -165,7 +165,7 @@ class LambdaComments : NativeBase {
      * @suppress
      */
     class NoCommentsNoNamedParamsImpl : NativeBase, NoCommentsNoNamedParams {
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
@@ -182,7 +182,7 @@ class LambdaComments : NativeBase {
      * @suppress
      */
     class NoCommentsWithNamedParamsImpl : NativeBase, NoCommentsWithNamedParams {
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
@@ -203,7 +203,7 @@ class LambdaComments : NativeBase {
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
-    protected constructor(nativeHandle: Long, tag: Any?)
+    protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
@@ -216,3 +216,4 @@ class LambdaComments : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
+

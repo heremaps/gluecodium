@@ -13,7 +13,7 @@ import com.example.NativeBase
  * @suppress
  */
 class EquatableInterfaceImpl : NativeBase, EquatableInterface {
-    protected constructor(nativeHandle: Long, tag: Any?)
+    protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
