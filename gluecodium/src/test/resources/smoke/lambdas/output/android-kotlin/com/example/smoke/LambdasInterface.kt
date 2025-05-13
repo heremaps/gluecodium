@@ -11,6 +11,8 @@ import com.example.NativeBase
 
 interface LambdasInterface {
     fun interface TakeScreenshotCallback {
+
+
         fun apply(p0: ByteArray?) : Unit
     }
 
@@ -18,8 +20,10 @@ interface LambdasInterface {
      * @suppress
      */
     class TakeScreenshotCallbackImpl : NativeBase, TakeScreenshotCallback {
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+
 
         override external fun apply(p0: ByteArray?) : Unit
 
@@ -29,6 +33,8 @@ interface LambdasInterface {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         }
     }
+
+
 
     fun takeScreenshot(callback: LambdasInterface.TakeScreenshotCallback) : Unit
 

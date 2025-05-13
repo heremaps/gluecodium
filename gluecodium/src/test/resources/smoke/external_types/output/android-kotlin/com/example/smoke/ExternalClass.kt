@@ -37,7 +37,7 @@ class ExternalClass : NativeBase {
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
-    protected constructor(nativeHandle: Long, tag: Any?)
+    protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
@@ -56,3 +56,4 @@ class ExternalClass : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
+

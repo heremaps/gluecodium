@@ -52,7 +52,7 @@ class Lambdas : NativeBase {
      * @suppress
      */
     class ProducerImpl : NativeBase, Producer {
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
@@ -69,7 +69,7 @@ class Lambdas : NativeBase {
      * @suppress
      */
     class ConfounderImpl : NativeBase, Confounder {
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
         /**
@@ -90,7 +90,7 @@ class Lambdas : NativeBase {
      * @suppress
      */
     class ConsumerImpl : NativeBase, Consumer {
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
@@ -107,7 +107,7 @@ class Lambdas : NativeBase {
      * @suppress
      */
     class IndexerImpl : NativeBase, Indexer {
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
@@ -124,7 +124,7 @@ class Lambdas : NativeBase {
      * @suppress
      */
     class NullableConfuserImpl : NativeBase, NullableConfuser {
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
@@ -145,7 +145,7 @@ class Lambdas : NativeBase {
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
-    protected constructor(nativeHandle: Long, tag: Any?)
+    protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
@@ -164,3 +164,4 @@ class Lambdas : NativeBase {
         @JvmStatic external fun fuse(items: MutableList<String>, callback: Lambdas.Indexer) : MutableMap<Int, String>
     }
 }
+

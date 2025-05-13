@@ -11,11 +11,9 @@ package com.example.smoke
 class ChildConstructors : Constructors {
 
 
-
     constructor() : this(createNoArgsChild(), null as Any?) {
         cacheThisInstance();
     }
-
     constructor(other: Constructors) : this(createCopyFromParent(other), null as Any?) {
         cacheThisInstance();
     }
@@ -26,7 +24,7 @@ class ChildConstructors : Constructors {
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
-    protected constructor(nativeHandle: Long, tag: Any?)
+    protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : super(nativeHandle, tag) {}
 
     private external fun cacheThisInstance()
@@ -43,3 +41,4 @@ class ChildConstructors : Constructors {
         @JvmStatic external fun createCopyFromParent(other: Constructors) : Long
     }
 }
+

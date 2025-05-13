@@ -13,8 +13,10 @@ import com.example.NativeBase
  * @suppress
  */
 internal class InternalInterfaceImpl : NativeBase, InternalInterface {
-    protected constructor(nativeHandle: Long, tag: Any?)
+    protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+
 
     override external fun fooBar() : Unit
 

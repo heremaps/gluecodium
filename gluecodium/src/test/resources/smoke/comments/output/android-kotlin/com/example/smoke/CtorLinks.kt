@@ -18,6 +18,7 @@ class CtorLinks : NativeBase {
 
 
 
+
         constructor() : this(create(), null as Any?) {
             cacheThisInstance();
         }
@@ -28,7 +29,7 @@ class CtorLinks : NativeBase {
          * @param nativeHandle The handle to resources on C++ side.
          * @param tag Tag used by callers to avoid overload resolution problems.
          */
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
         private external fun cacheThisInstance()
@@ -44,10 +45,12 @@ class CtorLinks : NativeBase {
             @JvmStatic external fun create() : Long
         }
     }
+
     /**
      * This class has just one constructor with one argument [com.example.smoke.CtorLinks.SingleCtorWithOneArgument.SingleCtorWithOneArgument].
      */
     class SingleCtorWithOneArgument : NativeBase {
+
 
 
 
@@ -61,7 +64,7 @@ class CtorLinks : NativeBase {
          * @param nativeHandle The handle to resources on C++ side.
          * @param tag Tag used by callers to avoid overload resolution problems.
          */
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
         private external fun cacheThisInstance()
@@ -77,10 +80,12 @@ class CtorLinks : NativeBase {
             @JvmStatic external fun create(arg: Int) : Long
         }
     }
+
     /**
      * This class has just one constructor with two argument [com.example.smoke.CtorLinks.SingleCtorWithTwoArgument.SingleCtorWithTwoArgument].
      */
     class SingleCtorWithTwoArgument : NativeBase {
+
 
 
 
@@ -94,7 +99,7 @@ class CtorLinks : NativeBase {
          * @param nativeHandle The handle to resources on C++ side.
          * @param tag Tag used by callers to avoid overload resolution problems.
          */
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
         private external fun cacheThisInstance()
@@ -110,7 +115,9 @@ class CtorLinks : NativeBase {
             @JvmStatic external fun create(arg: Int, arg2: String) : Long
         }
     }
+
     class OverloadedCtors : NativeBase {
+
 
 
 
@@ -123,6 +130,7 @@ class CtorLinks : NativeBase {
          * @param flag
          */
         @Deprecated("Use [com.example.smoke.CtorLinks.OverloadedCtors.OverloadedCtors] instead.")
+
         constructor(input: String, flag: Boolean) : this(create(input, flag), null as Any?) {
             cacheThisInstance();
         }
@@ -133,7 +141,7 @@ class CtorLinks : NativeBase {
          * @param nativeHandle The handle to resources on C++ side.
          * @param tag Tag used by callers to avoid overload resolution problems.
          */
-        protected constructor(nativeHandle: Long, tag: Any?)
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
         private external fun cacheThisInstance()
@@ -153,13 +161,14 @@ class CtorLinks : NativeBase {
     }
 
 
+
     /**
      * For internal use only.
      * @suppress
      * @param nativeHandle The handle to resources on C++ side.
      * @param tag Tag used by callers to avoid overload resolution problems.
      */
-    protected constructor(nativeHandle: Long, tag: Any?)
+    protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
@@ -172,3 +181,4 @@ class CtorLinks : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
+
