@@ -26,16 +26,15 @@ class EquatableClass : NativeBase {
             this.nestedPointerEquatableInstance = nestedPointerEquatableInstance
         }
 
-        override fun equals(obj: Any?) : Boolean {
-            if (obj === this) {
+        override fun equals(other: Any?) : Boolean {
+            if (other === this) {
                 return true
             }
 
-            if (obj !is EquatableStruct) {
+            if (other !is EquatableStruct) {
                 return false
             }
 
-            val other = obj as EquatableStruct
             return this.intField == other.intField &&
                    java.util.Objects.equals(this.stringField, other.stringField) &&
                    java.util.Objects.equals(this.nestedEquatableInstance, other.nestedEquatableInstance) &&
@@ -69,7 +68,7 @@ class EquatableClass : NativeBase {
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
 
-    override external fun equals(obj: Any?) : Boolean
+    override external fun equals(other: Any?) : Boolean
     override external fun hashCode(): Int
 
 
@@ -81,3 +80,4 @@ class EquatableClass : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
+
