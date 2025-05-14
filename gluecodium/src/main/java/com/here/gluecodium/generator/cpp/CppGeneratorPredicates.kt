@@ -141,7 +141,7 @@ internal class CppGeneratorPredicates(private val referenceMap: Map<String, Lime
                 if (limeFunction !is LimeFunction) {
                     false
                 } else {
-                    val platforms = listOf(LimeAttributeType.JAVA, LimeAttributeType.SWIFT)
+                    val platforms = listOf(LimeAttributeType.JAVA, LimeAttributeType.KOTLIN, LimeAttributeType.SWIFT)
                     platforms.any { !isSkippedInPlatform(limeFunction, it) }
                 }
             },
