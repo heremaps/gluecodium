@@ -34,10 +34,10 @@ public:
 
     struct _GLUECODIUM_CPP_EXPORT NullableEnum {
         std::optional< foo::AlienEnum2 > enum_field1 = std::optional< foo::AlienEnum2 >();
-        std::optional< foo::AlienEnum2 > enum_field1 = foo::AlienEnum2::DISABLED;
+        std::optional< foo::AlienEnum2 > enum_field2 = foo::AlienEnum2::DISABLED;
 
         NullableEnum( );
-        NullableEnum( std::optional< foo::AlienEnum2 > enum_field1, std::optional< foo::AlienEnum2 > enum_field1 );
+        NullableEnum( std::optional< foo::AlienEnum2 > enum_field1, std::optional< foo::AlienEnum2 > enum_field2 );
 
     };
 

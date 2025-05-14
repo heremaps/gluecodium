@@ -28,11 +28,11 @@ class StructConstants {
 
     @Skip(Swift, Dart)
     const dummy4: SomeStruct = {-1}
-    @Skip(Cpp, Java)
+    @Skip(Cpp, Java, Kotlin)
     const dummy4: SomeStruct = {-2}
 }
 
-@Skip(Java, Swift)
+@Skip(Java, Kotlin, Swift)
 class AmbiguousConstants {
     const dummy: SomeStruct = {42}
 }
