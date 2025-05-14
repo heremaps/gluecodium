@@ -10,6 +10,7 @@ package com.example.smoke
 import com.example.NativeBase
 
 @Deprecated("")
+@OnClass
 class AttributesWithDeprecated : NativeBase {
 
     class SomeStruct {

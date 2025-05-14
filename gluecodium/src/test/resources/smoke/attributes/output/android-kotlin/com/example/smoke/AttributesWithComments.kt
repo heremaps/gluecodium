@@ -12,6 +12,7 @@ import com.example.NativeBase
 /**
  * Class comment
  */
+@OnClass
 class AttributesWithComments : NativeBase {
 
     class SomeStruct {
