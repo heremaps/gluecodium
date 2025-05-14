@@ -175,7 +175,7 @@ Platform-specific comments
 
 Parts of documentation comments can be varied per platform (i.e. per output language). Example:
 ```
-// Process something{@Java  the Java way}. Returns a{@Cpp generic } result
+// Process something{@Java  the Java way}{@Kotlin for Kotlin}. Returns a{@Cpp generic } result
 // and throws if something goes wrong{@Swift  but not on iOS}.
 fun process(): GenericResult throws SomethingWrongException
 ```
@@ -183,11 +183,12 @@ fun process(): GenericResult throws SomethingWrongException
 The resulting documentation will look like this, per language:
 * *C++*: `Process something. Returns a generic result and throws if something goes wrong.`
 * *Java*: `Process something the Java way. Returns a result and throws if something goes wrong.`
+* *Kotlin*: `Process something for Kotlin. Returns a result and throws if something goes wrong.`
 * *Swift*: `Process something. Returns a result and throws if something goes wrong but not on iOS.`
 Note that one space after the `@Platform` is treated as separator, everything after that, including
 spaces is considered to be part of the comment.
 
-Supported platform tags are `@Cpp`, `@Java`, `@Swift`, and `@Dart`.
+Supported platform tags are `@Cpp`, `@Java`, `@Kotlin`, `@Swift`, and `@Dart`.
 
 Multiple platform tags can be combined in a single `{@ }` section, if necessary:
 ```
@@ -198,7 +199,7 @@ Placeholder comments
 --------------------------
 Certain syntax may be used very often when documenting code. Let's look at the following example:
 ```
-// This is {@Java interface}{@Swift protocol}{@Dart abstract class}{@Cpp abstract class}.
+// This is {@Java interface}{@Kotlin interface}{@Swift protocol}{@Dart abstract class}{@Cpp abstract class}.
 ```
 
 The type used to represent an interface can have different names depending on the output language.
@@ -224,7 +225,7 @@ some_multiline="This \
 
 In the case of `interfaceString` placeholder the file content may look like this:
 ```
-interfaceString="{@Java interface}{@Swift protocol}{@Dart abstract class}{@Cpp abstract class}"
+interfaceString="{@Java interface}{@Kotlin interface}{@Swift protocol}{@Dart abstract class}{@Cpp abstract class}"
 ```
 
 Character escaping in documentation comments
