@@ -8,6 +8,7 @@
 package com.example.smoke
 
 
+@OnInterface
 interface AttributesInterface {
 
 
