@@ -8,7 +8,7 @@ Limitations
 
 * This feature is currently *experimental*. There might be bugs and/or breaking changes later.
 * Currently, only works for Dart (with an additional support function generated in C++). `@Async` attribute has no
-effect on Java or Swift.
+effect on Java, Kotlin or Swift.
 * Can be used with instance functions and non-constructor static functions. Cannot be used with constructors,
 properties, or lambdas.
 * Can be used inside classes or structs. Cannot be used in interfaces.
@@ -57,8 +57,8 @@ class AsyncClass {
 ```
 
 >**Note:** if the function or whole type is generated only for C++ and Dart
-> and other platforms are skipped via `@Skip(Java)` and `@Skip(Swift)` then
-> only asynchronous version of the method is generated.
+> and other platforms are skipped via `@Skip(Java)`, `@Skip(Kotlin)` and `@Skip(Swift)`
+> then only asynchronous version of the method is generated.
 
 The first C++ overload is the same as without the `@Async` attribute. It still should be used for synchronous usages in
 Java, Swift, and C++ itself. The second overload is intended for the asynchronous use. This overload does not return any
