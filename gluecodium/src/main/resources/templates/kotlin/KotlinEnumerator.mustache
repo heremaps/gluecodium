@@ -20,6 +20,7 @@
   !}}
 {{#if comment}}
 {{prefixPartial "kotlin/KotlinDocComment" "    "}}{{/if}}{{!!
+}}{{prefixPartial "kotlin/KotlinAttributes" "    "}}{{!!
 }}{{#if isAlias}}    @JvmField val {{resolveName}}{{!!
 }} = {{resolveName value}}{{/if}}{{!!
 }}{{#unless isAlias}}    {{resolveName}}({{resolveName value}}){{/unless}}
