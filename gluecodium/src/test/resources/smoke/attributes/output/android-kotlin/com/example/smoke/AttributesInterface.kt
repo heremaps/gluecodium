@@ -12,6 +12,7 @@ package com.example.smoke
 interface AttributesInterface {
 
 
+    @OnFunctionInInterface
 
     fun veryFun(param: String) : Unit
 

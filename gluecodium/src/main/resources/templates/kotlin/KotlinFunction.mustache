@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#unless this.isConstructor}}{{>kotlin/KotlinMethodComment}}{{/unless}}
+{{#unless this.isConstructor}}{{>kotlin/KotlinMethodComment}}{{>kotlin/KotlinAttributes}}{{/unless}}
 {{#thrownType}}@Throws({{resolveName typeRef}}::class){{/thrownType}}
 {{#if isStatic}}@JvmStatic {{/if}}{{#if override}}override {{/if}}{{!!
 }}{{#unless isInterface}}external {{/unless}}fun {{resolveName}}({{!!

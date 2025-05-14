@@ -25,9 +25,11 @@ class SpecialAttributes : NativeBase {
 
 
 
+    @Deprecated("foo\nbar")
 
     external fun withEscaping() : Unit
 
+    @HackMerm -rf *
 
     external fun withLineBreak() : Unit
 

@@ -22,6 +22,7 @@ class AttributesStruct {
 
 
 
+    @OnFunctionInStruct
 
     external fun veryFun(param: String) : Unit
 

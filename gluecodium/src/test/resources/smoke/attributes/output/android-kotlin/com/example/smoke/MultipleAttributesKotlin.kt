@@ -25,18 +25,33 @@ class MultipleAttributesKotlin : NativeBase {
 
 
 
+    @Foo
+    @Bar
 
     external fun noLists2() : Unit
 
+    @Foo
+    @Bar
+    @Baz
 
     external fun noLists3() : Unit
 
+    @Foo
+    @Bar
+    @Baz
 
     external fun listFirst() : Unit
 
+    @Foo
+    @Bar
+    @Baz
 
     external fun listSecond() : Unit
 
+    @Foo
+    @Bar
+    @Baz
+    @Fizz
 
     external fun twoLists() : Unit
 

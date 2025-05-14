@@ -50,6 +50,7 @@ class AttributesWithComments : NativeBase {
     /**
      * Function comment
      */
+    @OnFunctionInClass
 
     external fun veryFun() : Unit
 

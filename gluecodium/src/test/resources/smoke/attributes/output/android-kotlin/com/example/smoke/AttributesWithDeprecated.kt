@@ -47,6 +47,7 @@ class AttributesWithDeprecated : NativeBase {
      *
      */
     @Deprecated("")
+    @OnFunctionInClass
 
     external fun veryFun() : Unit
 
