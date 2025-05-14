@@ -8,7 +8,9 @@
 package com.example.smoke
 
 
+@OnStruct
 class AttributesStruct {
+    @OnField
     @JvmField var field: String
 
 

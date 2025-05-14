@@ -19,6 +19,7 @@ class AttributesWithComments : NativeBase {
         /**
          * Field comment
          */
+        @OnField
         @JvmField var field: String
 
 

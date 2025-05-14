@@ -15,6 +15,7 @@ class AttributesWithDeprecated : NativeBase {
 
     class SomeStruct {
         @Deprecated("")
+        @OnField
         @JvmField var field: String
 
 
