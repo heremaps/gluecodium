@@ -18,9 +18,4 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{#if comment}}
-{{prefixPartial "kotlin/KotlinDocComment" "    "}}{{/if}}{{!!
-}}{{prefixPartial "kotlin/KotlinAttributes" "    "}}{{!!
-}}{{#if isAlias}}    @JvmField val {{resolveName}}{{!!
-}} = {{resolveName value}}{{/if}}{{!!
-}}{{#unless isAlias}}    {{resolveName}}({{resolveName value}}){{/unless}}
+{{#if attributes.kotlin.attribute}}{{#attributes.kotlin.attribute}}@{{this}} {{/attributes.kotlin.attribute}}{{/if}}

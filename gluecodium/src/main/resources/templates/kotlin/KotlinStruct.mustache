@@ -18,14 +18,14 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>kotlin/KotlinDocComment}}
+{{>kotlin/KotlinDocComment}}{{>kotlin/KotlinAttributes}}
 class {{resolveName}}{{!!
 }}{{#unless external.kotlin.name}}{{!!
 }}{{#if attributes.serializable}} : Parcelable{{/if}}{{!!
 }}{{/unless}} {
 {{#set isImmutable=attributes.immutable}}
 {{#fields}}
-{{prefixPartial "kotlin/KotlinDocComment" "    "}}{{!!
+{{prefixPartial "kotlin/KotlinDocComment" "    "}}{{prefixPartial "kotlin/KotlinAttributes" "    "}}{{!!
 }}    @JvmField {{!!
 }}{{#unless isImmutable}}var {{/unless}}{{!!
 }}{{#if isImmutable}}val {{/if}}{{!!
@@ -127,6 +127,7 @@ class {{resolveName}}{{!!
      */{{#if attributes.deprecated}}
     @Deprecated("{{#resolveName attributes.deprecated.message}}{{escape this}}{{/resolveName}}")
 {{/if}}{{/ifPredicate}}
+{{prefixPartial "kotlin/KotlinAttributes" "    "}}
 {{#thrownType}}@Throws ({{resolveName typeRef}}::class){{/thrownType}}{{!!
 }}
     constructor({{!!

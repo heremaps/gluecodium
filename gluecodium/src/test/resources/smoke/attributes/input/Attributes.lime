@@ -19,27 +19,32 @@ package smoke
 
 @Cpp(Attribute = "OnClass")
 @Java(Attribute = "OnClass")
+@Kotlin(Attribute = "OnClass")
 @Swift(Attribute = "OnClass")
 @Dart(Attribute = "OnClass")
 class AttributesClass {
     @Cpp(Attribute = "OnFunctionInClass")
     @Java(Attribute = "OnFunctionInClass")
+    @Kotlin(Attribute = "OnFunctionInClass")
     @Swift(Attribute = "OnFunctionInClass")
     @Dart(Attribute = "OnFunctionInClass")
     fun veryFun(
         @Cpp(Attribute = "OnParameterInClass")
         @Java(Attribute = "OnParameterInClass")
+        @Kotlin(Attribute = "OnParameterInClass")
         @Swift(Attribute = "OnParameterInClass")
         @Dart(Attribute = "OnParameterInClass")
         param: String
     )
     @Cpp(Attribute = "OnPropertyInClass")
     @Java(Attribute = "OnPropertyInClass")
+    @Kotlin(Attribute = "OnPropertyInClass")
     @Swift(Attribute = "OnPropertyInClass")
     @Dart(Attribute = "OnPropertyInClass")
     property prop: String
     @Cpp(Attribute = "OnConstInClass")
     @Java(Attribute = "OnConstInClass")
+    @Kotlin(Attribute = "OnConstInClass")
     @Swift(Attribute = "OnConstInClass")
     @Dart(Attribute = "OnConstInClass")
     const pi: Boolean = false
@@ -47,27 +52,32 @@ class AttributesClass {
 
 @Cpp(Attribute = "OnInterface")
 @Java(Attribute = "OnInterface")
+@Kotlin(Attribute = "OnInterface")
 @Swift(Attribute = "OnInterface")
 @Dart(Attribute = "OnInterface")
 interface AttributesInterface {
     @Cpp(Attribute = "OnFunctionInInterface")
     @Java(Attribute = "OnFunctionInInterface")
+    @Kotlin(Attribute = "OnFunctionInInterface")
     @Swift(Attribute = "OnFunctionInInterface")
     @Dart(Attribute = "OnFunctionInInterface")
     fun veryFun(
         @Cpp(Attribute = "OnParameterInInterface")
         @Java(Attribute = "OnParameterInInterface")
+        @Kotlin(Attribute = "OnParameterInInterface")
         @Swift(Attribute = "OnParameterInInterface")
         @Dart(Attribute = "OnParameterInInterface")
         param: String
     )
     @Cpp(Attribute = "OnPropertyInInterface")
     @Java(Attribute = "OnPropertyInInterface")
+    @Kotlin(Attribute = "OnPropertyInInterface")
     @Swift(Attribute = "OnPropertyInInterface")
     @Dart(Attribute = "OnPropertyInInterface")
     property prop: String
     @Cpp(Attribute = "OnConstInInterface")
     @Java(Attribute = "OnConstInInterface")
+    @Kotlin(Attribute = "OnConstInInterface")
     @Swift(Attribute = "OnConstInInterface")
     @Dart(Attribute = "OnConstInInterface")
     const pi: Boolean = false
@@ -75,27 +85,32 @@ interface AttributesInterface {
 
 @Cpp(Attribute = "OnStruct")
 @Java(Attribute = "OnStruct")
+@Kotlin(Attribute = "OnStruct")
 @Swift(Attribute = "OnStruct")
 @Dart(Attribute = "OnStruct")
 struct AttributesStruct {
     @Cpp(Attribute = "OnField")
     @Java(Attribute = "OnField")
+    @Kotlin(Attribute = "OnField")
     @Swift(Attribute = "OnField")
     @Dart(Attribute = "OnField")
     `field`: String
     @Cpp(Attribute = "OnFunctionInStruct")
     @Java(Attribute = "OnFunctionInStruct")
+    @Kotlin(Attribute = "OnFunctionInStruct")
     @Swift(Attribute = "OnFunctionInStruct")
     @Dart(Attribute = "OnFunctionInStruct")
     fun veryFun(
         @Cpp(Attribute = "OnParameterInStruct")
         @Java(Attribute = "OnParameterInStruct")
+        @Kotlin(Attribute = "OnParameterInStruct")
         @Swift(Attribute = "OnParameterInStruct")
         @Dart(Attribute = "OnParameterInStruct")
         param: String
     )
     @Cpp(Attribute = "OnConstInStruct")
     @Java(Attribute = "OnConstInStruct")
+    @Kotlin(Attribute = "OnConstInStruct")
     @Swift(Attribute = "OnConstInStruct")
     @Dart(Attribute = "OnConstInStruct")
     const pi: Boolean = false
@@ -103,11 +118,13 @@ struct AttributesStruct {
 
 @Cpp(Attribute = "OnEnumeration")
 @Java(Attribute = "OnEnumeration")
+@Kotlin(Attribute = "OnEnumeration")
 @Swift(Attribute = "OnEnumeration")
 @Dart(Attribute = "OnEnumeration")
 enum AttributesEnum {
     @Cpp(Attribute = "OnEnumerator")
     @Java(Attribute = "OnEnumerator")
+    @Kotlin(Attribute = "OnEnumerator")
     @Swift(Attribute = "OnEnumerator")
     @Dart(Attribute = "OnEnumerator")
     NOPE
@@ -115,16 +132,19 @@ enum AttributesEnum {
 
 @Cpp(Attribute = "OnLambda")
 @Java(Attribute = "OnLambda")
+@Kotlin(Attribute = "OnLambda")
 @Swift(Attribute = "OnLambda")
 @Dart(Attribute = "OnLambda")
 lambda AttributesLambda = () -> Void
 
 @Cpp(Attribute = "OnException")
 @Java(Attribute = "OnException")
+@Kotlin(Attribute = "OnException")
 @Swift(Attribute = "OnException")
 @Dart(Attribute = "OnException")
 exception AttributesCrash(String)
 
 @Cpp(Attribute = "OnTypeAlias")
 @Swift(Attribute = "OnTypeAlias")
+@Kotlin(Attribute = "OnTypeAlias")
 typealias AttributesAlias = String
