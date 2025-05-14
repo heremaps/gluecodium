@@ -57,6 +57,7 @@ class AttributesWithComments : NativeBase {
     /**
      * Property comment
      */
+    @OnPropertyInClass
     var prop: String
         external get
         external set

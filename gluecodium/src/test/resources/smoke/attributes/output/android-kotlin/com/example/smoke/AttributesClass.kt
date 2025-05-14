@@ -30,6 +30,7 @@ class AttributesClass : NativeBase {
 
     external fun veryFun(@OnParameterInClass param: String) : Unit
 
+    @OnPropertyInClass
     var prop: String
         external get
         external set

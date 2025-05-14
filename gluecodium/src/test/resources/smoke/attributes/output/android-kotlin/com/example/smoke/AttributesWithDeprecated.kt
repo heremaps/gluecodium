@@ -52,6 +52,7 @@ class AttributesWithDeprecated : NativeBase {
     external fun veryFun() : Unit
 
     @Deprecated("")
+    @OnPropertyInClass
     var prop: String
         external get
         external set
