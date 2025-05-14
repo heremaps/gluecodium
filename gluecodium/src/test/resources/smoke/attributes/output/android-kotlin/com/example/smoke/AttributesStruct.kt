@@ -24,7 +24,7 @@ class AttributesStruct {
 
     @OnFunctionInStruct
 
-    external fun veryFun(param: String) : Unit
+    external fun veryFun(@OnParameterInStruct param: String) : Unit
 
 
     companion object {

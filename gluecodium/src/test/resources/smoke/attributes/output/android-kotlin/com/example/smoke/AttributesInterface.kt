@@ -14,7 +14,7 @@ interface AttributesInterface {
 
     @OnFunctionInInterface
 
-    fun veryFun(param: String) : Unit
+    fun veryFun(@OnParameterInInterface param: String) : Unit
 
     var prop: String
         get

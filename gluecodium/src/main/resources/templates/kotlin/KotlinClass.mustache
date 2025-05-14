@@ -33,7 +33,7 @@
     {{>kotlinConstructorThrows}}
 constructor({{!!
 }}{{#parameters}}{{!!
-}}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
+}}{{>kotlin/KotlinAttributesInline}}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/parameters}}){{!!
 }} : this({{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}), null as Any?) {
 {{#unless classElement.attributes.nocache}}

@@ -28,7 +28,7 @@ class AttributesClass : NativeBase {
 
     @OnFunctionInClass
 
-    external fun veryFun(param: String) : Unit
+    external fun veryFun(@OnParameterInClass param: String) : Unit
 
     var prop: String
         external get

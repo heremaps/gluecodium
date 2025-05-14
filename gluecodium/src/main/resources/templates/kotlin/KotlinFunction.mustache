@@ -23,7 +23,7 @@
 {{#if isStatic}}@JvmStatic {{/if}}{{#if override}}override {{/if}}{{!!
 }}{{#unless isInterface}}external {{/unless}}fun {{resolveName}}({{!!
 }}{{#parameters}}{{!!
-}}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
+}}{{>kotlin/KotlinAttributesInline}}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/parameters}}) : {{!!
 }}{{#if isStructure}}{{!!
 }}{{#unless this.isConstructor}}{{resolveName returnType}}{{/unless}}{{!!
