@@ -57,6 +57,7 @@ minimal implementation files are generated too, where required for initializatio
 designed to be manually implemented by concrete classes, providing the business logic.
 * [Android](generators/java.md): Java files with some elements from Android APIs, plus JNI C/C++ files as Java-to-C++
 bindings. Not compilable for non-Android Java environment.
+* Android-Kotlin: Kotlin files plus JNI C/C++ files as Kotlin-to-C++ bindings.
 * [Swift](generators/swift.md): Swift files, plus Objective-C-compatible C/C++ bindings (nicknamed "CBridge"
 internally). Compilable both for iOS and as cross-platform Swift executable.
 * [Dart](generators/dart.md): Dart files, plus Dart FFI C/C++ bindings. Compilable both for Flutter framework and as
