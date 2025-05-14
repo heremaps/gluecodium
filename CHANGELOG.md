@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 13.14.0
+Release date 2025-05-14
 ### Features
  * The new version of Gluecodium brings `android-kotlin` generator, which allows rendering Kotlin+JNI files that can be used for Android. The initial release covers generation of all available LIME element types. The supported attributes are the same as for Java. The generated documentation comments follow KDoc: Dokka engine can be used to process them and produce documentation in HTML format. Kotlin generator is exposed via CLI, CMake and gluecodium-gradle plugin.
 
