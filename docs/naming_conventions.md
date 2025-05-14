@@ -20,9 +20,9 @@ To get around this limitation, the identifier can be put in \`backticks\` (e.g. 
 Custom name rules
 -----------------
 
-The default name rules for C++, Java, Swift, and Dart can be customized by providing the path to a name rules
-properties file. These can be passed via `-cppnamerules`, `-javanamerules`, `-swiftnamerules`, or `-dartnamerules`
-command line parameters.
+The default name rules for C++, Java, Kotlin, Swift, and Dart can be customized by providing the path to a name rules
+properties file. These can be passed via `-cppnamerules`, `-javanamerules`, `-kotlinnamerules`, `-swiftnamerules`, or
+`-dartnamerules` command line parameters.
 
 Example custom `cpp.properties`:
 
@@ -53,7 +53,7 @@ These are all supported name types in the name config file are:
 | `property`    | Property name (only Swift)
 | `setter`      | Setter name for an property (only Java, C++)
 | `getter`      | Getter name for an property (only Java, C++)
-| `error`       | Exception/Error name (only Java, Swift)
+| `error`       | Exception/Error name (only Java, Kotlin, Swift)
 | `join`        | Joining of compound names (only Dart, only `join.infix`)
 
 If one of the properties is not set in the custom rules, the default is applied.
@@ -123,6 +123,46 @@ type=UpperCamelCase
 error=UpperCamelCase
 error.suffix=Exception
 
+```
+
+Default Kotlin names
+------------------
+
+### General naming conventions
+* Type names are in UpperCamelCase.
+* Method and variable names are in lowerCamelCase.
+* Constant and enumerator names are in UPPER_SNAKE_CASE.
+
+### Property names
+Properties are generated as properties in Kotlin (except static properties in interfaces):
+* Property names have no prefix, unless it's a Boolean property.
+* Boolean property names are prefixed with `is`.
+
+### Method overloads ambiguity resolution
+Lists, Maps, and Sets defined in LimeIDL are generated as `List<>`, `Map<>`, and `Set<>` generics in Kotlin
+respectively. Since Kotlin language applies type erasure to its generics, declaring two method
+overloads that differ only in the parameters of the generic (e.g. element type of the array) leads
+to a compile-time error. This can be resolved manually at LimeIDL level by specifying alternative
+names for these conflicting methods through marking them with `@Kotlin("<method-name>")` attribute in
+the IDL definition.
+
+### Default namerules/kotlin.properties
+```
+field=lowerCamelCase
+parameter=lowerCamelCase
+constant=UPPER_SNAKE_CASE
+enumerator=UPPER_SNAKE_CASE
+method=lowerCamelCase
+setter=lowerCamelCase
+setter.prefix=set
+getter=lowerCamelCase
+getter.prefix=get
+getter.prefix.boolean=is
+property.prefix.boolean=is
+property=lowerCamelCase
+type=UpperCamelCase
+error=UpperCamelCase
+error.suffix=Exception
 ```
 
 Default Swift names
