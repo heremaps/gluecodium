@@ -37,6 +37,7 @@ class AttributesClass : NativeBase {
 
 
     companion object {
+        @OnConstInClass
         @JvmField final val PI: Boolean = false
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }

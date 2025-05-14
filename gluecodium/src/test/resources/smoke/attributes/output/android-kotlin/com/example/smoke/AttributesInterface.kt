@@ -20,6 +20,7 @@ interface AttributesInterface {
 
 
     companion object {
+        @OnConstInInterface
         @JvmField final val PI: Boolean = false
     }
 }

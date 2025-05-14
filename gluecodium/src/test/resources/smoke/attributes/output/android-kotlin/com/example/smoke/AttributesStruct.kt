@@ -25,6 +25,7 @@ class AttributesStruct {
 
 
     companion object {
+        @OnConstInStruct
         @JvmField final val PI: Boolean = false
     }
 }

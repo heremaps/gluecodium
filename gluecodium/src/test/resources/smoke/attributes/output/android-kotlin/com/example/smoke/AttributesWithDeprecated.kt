@@ -59,6 +59,7 @@ class AttributesWithDeprecated : NativeBase {
 
     companion object {
         @Deprecated("")
+        @OnConstInClass
         @JvmField final val PI: Boolean = false
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }

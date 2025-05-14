@@ -66,6 +66,7 @@ class AttributesWithComments : NativeBase {
         /**
          * Const comment
          */
+        @OnConstInClass
         @JvmField final val PI: Boolean = false
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
