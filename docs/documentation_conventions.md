@@ -48,6 +48,27 @@ Method comment is collated from, in that order:
 * Deprecation message is added with `@deprecated` JavaDoc tag.
 * `@Deprecated` annotation is also added to the elements with a deprecation message.
 
+Kotlin documentation comments
+---------------------------
+
+### General conventions
+* KDoc (markdown) is added to the generated documentation comments.
+* Each documentation comment is enclosed in `/**` and `*/` "brackets".
+* Each line of a multi-line comment is prefixed with `*`.
+* The text for the documentation comment is taken verbatim from its IDL definition, with some
+  exceptions outlined below.
+
+### Method comment
+Method comment is collated from, in that order:
+* Documentation comment for the method itself, taken verbatim.
+* Documentation comments for all method arguments (if present), each prefixed with `@param` and the
+  name of the argument.
+* Documentation comment for the method return value (if present), prefixed with `@return`.
+* Name of the exception type (if present), prefixed with `@throws` tag.
+
+### Deprecation message
+* `@Deprecated` annotation is added to the elements with a deprecation message.
+
 Swift documentation comments
 ----------------------------
 

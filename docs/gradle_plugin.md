@@ -1,7 +1,7 @@
 Gluecodium Gradle plugin
 ====================
 
-Gluecodium Gradle plugin can be used to invoke Gluecodium code generation for Java from a Gradle build
+Gluecodium Gradle plugin can be used to invoke Gluecodium code generation for Java or Kotlin from a Gradle build
 script.
 
 Integration
@@ -48,5 +48,13 @@ gluecodium {
 }
 ```
 
-All of these properties come with valid defaults, so you don't have specify the values explicitly if
+All of these properties come with valid defaults, so you don't have to specify the values explicitly if
 the defaults work for your build.
+
+In order to run Kotlin generator instead of Java generator the following new parameters can be used:
+```
+useAndroidKotlin = true
+kotlinPackage = 'com.example.sample'
+kotlinInternalPackage = 'com.example.sample.internal'
+kotlinNameRules =  file("${rootDir}/sample/gluecodium/namerules/kotlin.properties")
+```

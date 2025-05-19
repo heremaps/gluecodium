@@ -23,10 +23,10 @@ General attributes
 deprecated, takes a string literal value as a deprecation message. Platform-specific inline tags are supported for
 deprecation messages (see `Platform-specific comments` below for syntax).
 * **@Cached**: marks a property to be cached on platform side (i.e. read from C++ only once on first
-access and cached in Java/Swift/Dart afterwards). Currently, only supported for read-only properties.
+access and cached in Java/Kotlin/Swift/Dart afterwards). Currently, only supported for read-only properties.
 * **@Internal**\[**(**__PlatformTag__**)**\]: marks an element to have "internal" visibility. Additionally, platform
-tag(s) ("Java", "Swift", or "Dart") could be specified. This will make the internal visibility apply on the selected
-platform(s).
+tag(s) ("Java", "Kotlin", "Swift", or "Dart") could be specified. This will make the internal visibility apply on the selected
+platform(s). This attribute does not have any effect in Kotlin.
 > **Important:** the behavior of `@Internal` tag for Dart is different from that for Java/Swift. In Dart, the types
 > annotated as `@Internal` do have "internal" visibility. However, functions, properties, constructors and field
 > constructors are not generated. These elements are skipped like in the case of `@Skip` attribute.
@@ -49,7 +49,7 @@ This breaks the referential equality invariant (see `Referential equality` below
 when a lot of small instances are sent over the language boundary repeatedly.
 * **@Skip(**\[**Tag** **=**\] **"**_CustomTag_**"**__)__ or **@Skip(**__CustomTag__**)**: marks an element to be skipped
 (not generated) if a custom tag with that name was defined through command-line parameters. Custom tags are
-case-insensitive. There are three predefined tags that do not need to be specified explicitly: "Java", "Swift", "Dart",
+case-insensitive. There are three predefined tags that do not need to be specified explicitly: "Java", "Kotlin", "Swift", "Dart",
 and "Cpp". They mark the element to be skipped in the generated code for the corresponding language. Please note that
 only `const` and `field constructor` can be skipped in C++.
 * **@EnableIf(**\[**Tag** **=**\] **"**_CustomTag_**"**__)__ or **@EnableIf(**__CustomTag__**)**: marks an element to be
@@ -64,7 +64,7 @@ To understand the purpose of the usage let's consider the following situation:
   * we have a constructor, which takes an interface: `constructor(someInterface: SomeInterface)`
   * we want to call a method of the interface from the constructor with the newly created object: `someInterface.doSomething(this)`
   * if the call is performed from C++ factory function implemented by the user of the generated code, then at the moment
-of call the platform object (Java, Swift, Dart) is not properly constructed and cached
+of call the platform object (Java, Kotlin, Swift, Dart) is not properly constructed and cached
   * to avoid such problematic situations and breaking the cache/leaking objects `@AfterConstruction()` should be used --
 all the work related to using interfaces or derived classes that may require passing the object back to the platform code from constructor should be done inside
 the function specified via `@AfterConstruction()`
@@ -93,6 +93,31 @@ default value. Please note that combining this attribute with `@Internal` fields
 defaults constructors will be generated with a `@Deprecated` annotation, if _DeprecationMessage_ is specified.
 * **Public** or **Internal**: marks an element to have the corresponding visibility in Java, disregarding any "global"
 visibility attributes the element might have.
+
+Kotlin-specific attributes
+------------------------
+
+**@Kotlin**: marks an element with Kotlin-specific behaviors:
+
+* \[**Name** **=**\] **"**_ElementName_**"**: marks an element to have a distinct name in Kotlin.
+  This is the default specification for this attribute.
+* **FunctionName** **=** **"**_FunctionName_**"**: marks a lambda type to have a specific function
+  name in the generated functional interface in Kotlin (instead of a default name).
+* **Skip** \[**=** **"**_CustomTag_**"** \]: marks an element to be skipped (not generated) in Kotlin. Can be applied to
+  any element except for enumerators. Optionally, if custom tag is specified, the element is only skipped if that tag
+  was defined (see `@Skip` above).
+* **EnableIf** **=** **"**_CustomTag_**"**: marks an element to be enabled in Kotlin only if a custom tag with that
+  name was defined through command-line parameters. If the tag is not present, the element is skipped (not generated).
+* **Attribute** **=** **"**_Annotation_**"**: marks an element to be marked with the given annotation in Kotlin
+  generated code. _Annotation_ does not need to be prepended with `@`. _Annotation_ can contain parameters, e.g.
+  `@Kotlin(Attribute="Deprecated(\"It's deprecated.\")")`. If some of the parameters are string literals, their enclosing
+  quotes need to be backslash-escaped, as in the example.
+* **PositionalDefaults** \[**=** **"**_DeprecationMessage_**"** \]: marks a struct to have additional constructors
+  simulating optional positional parameters in Kotlin. Can only be applied to a struct that has at least one field with a
+  default value. Please note that combining this attribute with `@Internal` fields is not supported. The positional
+  defaults constructors will be generated with a `@Deprecated` annotation, if _DeprecationMessage_ is specified.
+* **Public** or **Internal**: marks an element to have the corresponding visibility in Kotlin, disregarding any "global"
+  visibility attributes the element might have.
 
 Swift-specific attributes
 -------------------------

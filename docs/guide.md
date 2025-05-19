@@ -8,19 +8,19 @@ description of LimeIDL please refer to the [LimeIDL description](lime_idl.md).
 Overview
 --------
 
-Gluecodium generates a C++ API with language bindings for Java, Swift, or Dart. For C++ it will
+Gluecodium generates a C++ API with language bindings for Java, Kotlin, Swift, or Dart. For C++ it will
 generate declarations only. These need to be implemented manually to provide application logic.
-Java, Swift, and Dart bindings are completely generated and forward all calls to C++.
+Java, Kotlin, Swift, and Dart bindings are completely generated and forward all calls to C++.
 
 Crossing the language boundary
 ------------------------------
 
-When building a mobile app, the entry point for the program will be in Java/Swift/Dart (referred
+When building a mobile app, the entry point for the program will be in Java/Kotlin/Swift/Dart (referred
 further as "platform code"). Calls then can be made from platform code into C++ code. Platform code
 can call static or non-static member functions. Calling into platform code from C++ is only possible
 on objects passed from platform code to C++ first.
 
-**Note:** Both in Java and in Dart the native library needs to be loaded manually before any call to C++ is possible.
+**Note:** In Java, Kotlin and in Dart the native library needs to be loaded manually before any call to C++ is possible.
 
 Classes
 -------
@@ -39,17 +39,17 @@ Mostly similar to a `class`, with three key differences:
 * type inheritance is not supported for structs (a technical limitation imposed by Swift language).
 * in additional to any capabilities a `class` has, a `struct` can have data fields.
 
-A `struct` is generated as `struct` in Swift and C++ and as `class` in Java and Dart. Structs have by default
+A `struct` is generated as `struct` in Swift and C++ and as `class` in Java, Kotlin and Dart. Structs have by default
 constructors generated in all languages.
 
-**Note:** Although in Java and Dart everything is a reference type, a struct is still a copy, so any modifications on a
+**Note:** Although in Java, Kotlin and Dart everything is a reference type, a struct is still a copy, so any modifications on a
 struct are not propagated to the "original", unless passed across the language boundary explicitly as a parameter or
 similar. If change-propagating behavior is desired, a class with properties can be used instead.
 
 Interfaces
 ----------
 
-An interface is generated as interface/protocol/abstract-class in Java/Swift/Dart. For C++ the same abstract
+An interface is generated as interface/protocol/abstract-class in Java and Kotlin/Swift/Dart. For C++ the same abstract
 class and bindings is generated as it would be for classes. Unlike classes, interfaces can also be
 implemented in platform code allowing to use platform logic.
 
@@ -76,15 +76,15 @@ provide native feel.
 **Note:** Having custom constructors on structs disables generation of the default ones in platform code.
 
 **Note:** Method overloading generally works for constructors. One notable exception is that a pair
-of constructors overloaded on an collection type parameter (i.e. having signatures that differ only in
-collection element types) will generate uncompilable code in Java (other languages will still compile).
+of constructors overloaded on a collection type parameter (i.e. having signatures that differ only in
+collection element types) will generate uncompilable code in Java/Kotlin (other languages will still compile).
 
 Nullable type references
 ------------------------
 
 You can append a `?` to a type reference, i.e. the usage of a type, to mark it as nullable. In
-generated Swift and Dart code this property controls whether the type is "optional"/"nullable" or not, therefore
-enforcing nullability at compile time. For Java generated code the nullability is expressed through
+generated Swift, Kotlin and Dart code this property controls whether the type is "optional"/"nullable"
+or not, therefore, enforcing nullability at compile time. For Java generated code the nullability is expressed through
 a `@Nullable` annotation, enabling compile time enforcing when used with Kotlin language. For C++
 generated code for classes and interfaces the nullability is expressed as a documentation comment.
 
@@ -107,7 +107,7 @@ getters and setters.
 Annotations
 -----------
 
-### Language annotations: @Cpp, @Swift, @Java, @Dart
+### Language annotations: @Cpp, @Swift, @Java, @Kotlin, @Dart
 
 Language annotations allow setting attributes specific to a generated language. All of them support
 setting a custom name for the annotated element which will be used for generation.
@@ -137,11 +137,11 @@ reasons):
 * conversion functions are generated to support implicit conversion from the enum type to `std::error_code`.
 * if return type is `void`, `Return<Value, Error>` is replaced by just `std::error_code`.
 
-### Java, Dart
+### Java, Kotlin, Dart
 
-LimeIDL exception types are represented as platform exceptions in Java/Dart generated code. The generated
+LimeIDL exception types are represented as platform exceptions in Java/Kotlin/Dart generated code. The generated
 exception class has a field `error` that carries the value of the error type. There are no
-additional conventions, the generated exceptions behave like regular Java/Dart exceptions.
+additional conventions, the generated exceptions behave like regular Java/Kotlin/Dart exceptions.
 
 ### Swift
 

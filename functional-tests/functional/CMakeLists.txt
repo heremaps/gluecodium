@@ -428,7 +428,7 @@ feature(Comments cpp android android-kotlin swift dart SOURCES
     input/lime/CommentsInterface.lime
 )
 
-feature(PlatformNames cpp android swift dart SOURCES
+feature(PlatformNames cpp android android-kotlin swift dart SOURCES
     input/src/cpp/PlatformNames.cpp
 
     input/lime/PlatformNames.lime

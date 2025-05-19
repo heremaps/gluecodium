@@ -1,17 +1,17 @@
 Pointer equality for classes and interfaces
 ===========================================
 
-### Pointer comparison in Java/Swift
-When a C++ object is passed from Java/Swift and later retrieved (setter/getter) the Java/Swift
-object representing it will have a different memory address, e.g. == in Java or === in Swift
-respectively will fail. This happens because the bridging code will create a new Java/Swift wrapper
+### Pointer comparison in Java/Kotlin/Swift
+When a C++ object is passed from Java/Kotlin/Swift and later retrieved (setter/getter) the Java/Kotlin/Swift
+object representing it will have a different memory address, e.g. == in Java or === in Kotlin/Swift
+respectively will fail. This happens because the bridging code will create a new Java/Kotlin/Swift wrapper
 object on return. The object passed via the setter could be cached by the bridging code but since
 generated C++ classes are agnostic to their platform bindings, there is no possibility to retain
-the Java/Swift wrapper for the lifetime of the C++ object and hence at some point memory address
+the Java/Kotlin/Swift wrapper for the lifetime of the C++ object and hence at some point memory address
 comparison would fail again.
 
 ### Pointer comparison in C++
-A C++ object wrapped in Java/Swift will never be copied by bridging code, hence the pointer value
+A C++ object wrapped in Java/Kotlin/Swift will never be copied by bridging code, hence the pointer value
 stays the same.
 
 When an `interface` implementation is passed from the Platform side to C++, a C++ wrapper needs to be instantiated. It

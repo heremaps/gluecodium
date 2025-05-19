@@ -17,18 +17,18 @@
 
 package smoke
 
-@Skip(Java, Swift)
+@Skip(Java, Kotlin, Swift)
 enum AsyncErrorCode {
     VALUE1 = 1
 }
 
-@Skip(Java, Swift)
+@Skip(Java, Kotlin, Swift)
 exception Async(AsyncErrorCode)
 
-@Skip(Java, Swift)
+@Skip(Java, Kotlin, Swift)
 exception ThrowMe(String)
 
-@Skip(Java, Swift)
+@Skip(Java, Kotlin, Swift)
 class AsyncClass {
     @Async
     fun asyncVoid(input: Boolean)
@@ -42,7 +42,7 @@ class AsyncClass {
     static fun asyncStatic(input: Boolean)
 }
 
-@Skip(Java, Swift)
+@Skip(Java, Kotlin, Swift)
 struct AsyncStruct {
     stringField: String
 
@@ -58,7 +58,7 @@ struct AsyncStruct {
     static fun asyncStatic(input: Boolean)
 }
 
-@Skip(Java, Swift)
+@Skip(Java, Kotlin, Swift)
 class AsyncRenamed {
     @Async
     @Cpp("callDispose")
@@ -69,6 +69,6 @@ class AsyncWithSkips {
     @Skip(Swift) @Skip(Dart)
     static fun make_shared_instance(androidContext: String)
 
-    @Skip(Java) @Async
+    @Skip(Java, Kotlin) @Async
     static fun make_shared_instance()
 }

@@ -87,6 +87,47 @@ struct Currency {
 }
 ```
 
+### Kotlin
+
+Platform tag **kotlin** describes "external" behavior for Kotlin generated code. It supports the following value names:
+* **name**: *mandatory value*. Specifies a full Kotlin name for the pre-existing type (i.e. including package names and
+  names of outer classes, as it would appear in an `import` statement).
+* **getterName**, **setterName**: marks a field in a struct type that is already marked as external to be accessed
+  through given getter/setter functions instead of directly in Kotlin.
+* **converter**: specifies a pre-existing converter class (by its full Kotlin name). A converter class should have two
+  functions defined in companion object and annotated as `@JvmStatic` named `convertToInternal` and `convertFromInternal`,
+  providing conversion between the "external" type and the generated "internal" helper type. See also `Converters` below.
+  >**Imporant note:** fundamental numeric types of Kotlin must be used with '?' suffix when defining the external types,
+  because currently JNI templates assume that the used type is an object. For fundamental types this assumption is true
+  only if the nullable version is used: for instance `Kotlin.Int` is mapped to trivial `int` whether `Kotlin.Int?` is
+  mapped to `java.lang.Integer`.
+
+Example:
+```
+struct TimeZone {
+    external {
+        kotlin name "java.util.SimpleTimeZone"
+    }
+
+    rawOffset: Int external {
+        kotlin getterName "getRawOffset"
+        kotlin setterName "setRawOffset"
+    }
+}
+
+struct SystemColor {
+    external {
+        kotlin name "kotlin.Int?"
+        kotlin converter "com.here.android.test.ColorConverter"
+    }
+
+    red: Float
+    green: Float
+    blue: Float
+    alpha: Float
+}
+```
+
 ### Swift
 
 Platform tag **swift** describes "external" behavior for Swift generated code. It supports the following value names:

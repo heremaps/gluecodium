@@ -18,7 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
-{{>kotlin/KotlinDocComment}}
+{{>kotlin/KotlinDocComment}}{{>kotlin/KotlinAttributes}}
 {{#if this.isOpen}}open {{/if}}class {{resolveName}} : {{!!
 }}{{#if this.parentClass}}{{resolveName this.parentClass "" "ref"}}{{/if}}{{!!
 }}{{#unless this.parentClass}}NativeBase{{/unless}}{{!!
@@ -33,7 +33,7 @@
     {{>kotlinConstructorThrows}}
 constructor({{!!
 }}{{#parameters}}{{!!
-}}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
+}}{{>kotlin/KotlinAttributesInline}}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/parameters}}){{!!
 }} : this({{resolveName}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}), null as Any?) {
 {{#unless classElement.attributes.nocache}}
