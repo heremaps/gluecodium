@@ -1,0 +1,1 @@
+'android' generator not enabled even though its JNI sources are enforced via 'GLUECODIUM_FORCE_USAGE_OF_JNI_FROM_JAVA_GENERATOR'
