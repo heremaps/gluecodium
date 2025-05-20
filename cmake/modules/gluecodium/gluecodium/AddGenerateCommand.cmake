@@ -178,6 +178,17 @@ function(gluecodium_add_generate_command _target)
     _gluecodium_append_target_property_eval(_configuration_content ${_target} ${_known_property})
   endforeach()
 
+  get_property(_force_jni_from_java_generator TARGET ${_target} PROPERTY GLUECODIUM_FORCE_USAGE_OF_JNI_FROM_JAVA_GENERATOR)
+  if(NOT _force_jni_from_java_generator)
+    if((android IN_LIST _args_GENERATORS) AND (android-kotlin IN_LIST _args_GENERATORS))
+      message(
+        FATAL_ERROR
+        "Both 'android' and 'android-kotlin' specified in list of generators. This may cause symbols clash for JNI bindings!"
+        " In order to fix the problem please check 'GLUECODIUM_FORCE_USAGE_OF_JNI_FROM_JAVA_GENERATOR' flag and its usage for more information."
+      )
+    endif()
+  endif()
+
   _gluecodium_set_internal_prefix(${_target})
 
   # SOURCES property contains also public sources from dependencies.

@@ -281,9 +281,14 @@ function(_collect_all_files_in_single_compilation_units)
     # Include all conversion headers first, so all later generic conversions relying on
     # specialization have all these defined
     _include_all(jni "android/jni/*_Conversion.h" "android/jni/*.cpp")
+  elseif(GLUECODIUM_FORCE_USAGE_OF_JNI_FROM_JAVA_GENERATOR)
+    message(
+      FATAL_ERROR
+      "'android' generator not enabled even though its JNI sources are enforced via 'GLUECODIUM_FORCE_USAGE_OF_JNI_FROM_JAVA_GENERATOR'"
+      )
   endif()
 
-  if(android-kotlin IN_LIST GLUECODIUM_GENERATORS)
+  if(NOT GLUECODIUM_FORCE_USAGE_OF_JNI_FROM_JAVA_GENERATOR AND (android-kotlin IN_LIST GLUECODIUM_GENERATORS))
       # Include all conversion headers first, so all later generic conversions relying on
       # specialization have all these defined
       _include_all(jni_kotlin "android-kotlin/jni/*_Conversion.h" "android-kotlin/jni/*.cpp")
