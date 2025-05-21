@@ -17,7 +17,7 @@
 
 package test
 
-@Skip(Swift, Dart, Kotlin)
+@Skip(Swift, Dart)
 interface EnableTagsInJava {
     @Java(EnableIf = "Lite")
     fun enableTagged()

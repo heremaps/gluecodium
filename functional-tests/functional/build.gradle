@@ -38,10 +38,6 @@ def getCMakeCommonParameters() {
         "-DGLUECODIUM_VERSION_DEFAULT=${rootProject.useGluecodiumVersion()}",
         '-DGLUECODIUM_ENABLE_INTERNAL_DEBUG_CHECKS_DEFAULT=ON']
 
-    if (rootProject.forceJavaTestSources()) {
-        params.add('-DJAVA_TESTS_CONSUMING_KOTLIN=ON')
-    }
-
     if (rootProject.isAndroidKotlinBuild() && rootProject.forceJavaGeneratedJniForKotlin()) {
         params.add("-DGLUECODIUM_GENERATORS_DEFAULT=android;android-kotlin;cpp")
         params.add('-DGLUECODIUM_FORCE_USAGE_OF_JNI_FROM_JAVA_GENERATOR_DEFAULT=ON')

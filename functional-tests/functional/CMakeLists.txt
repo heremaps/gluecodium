@@ -535,8 +535,8 @@ include(gluecodium/Gluecodium)
 gluecodium_generate(functional_bindings)
 
 set(CUSTOM_GLUECODIUM_TAGS "Lite,ExperimentalFoo")
-if(JAVA_TESTS_CONSUMING_KOTLIN)
-    set(CUSTOM_GLUECODIUM_TAGS "${CUSTOM_GLUECODIUM_TAGS},JavaTestsRunWithKotlin")
+if(GLUECODIUM_FORCE_USAGE_OF_JNI_FROM_JAVA_GENERATOR_DEFAULT)
+    set(CUSTOM_GLUECODIUM_TAGS "${CUSTOM_GLUECODIUM_TAGS},KotlinTestsRunWithJavaJni")
 endif()
 
 set_target_properties(functional_bindings PROPERTIES
