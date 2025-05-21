@@ -17,7 +17,7 @@
 
 package test
 
-@Skip(Swift, Dart) @Kotlin(EnableIf="JavaTestsRunWithKotlin")
+@Skip(Swift, Dart)
 interface SkipTagsInJava {
     @Java(Skip = "Lite") @Kotlin(Skip = "Lite")
     fun skipTagged()

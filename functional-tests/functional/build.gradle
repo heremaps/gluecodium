@@ -34,16 +34,26 @@ project.buildDir = "${rootProject.buildDir}"
 
 def getCMakeCommonParameters() {
     def params = ['-Wno-dev',
-        "-DGLUECODIUM_GENERATORS_DEFAULT=${rootProject.getAndroidBuildVariant()};cpp",
         "-DGLUECODIUM_BASE_OUTPUT_DIR_DEFAULT=${rootProject.generatedDir}",
         "-DGLUECODIUM_VERSION_DEFAULT=${rootProject.useGluecodiumVersion()}",
         '-DGLUECODIUM_ENABLE_INTERNAL_DEBUG_CHECKS_DEFAULT=ON']
 
-    if (rootProject.forceJavaTestSources()) {
-        params.add('-DJAVA_TESTS_CONSUMING_KOTLIN=ON')
+    if (rootProject.isAndroidKotlinBuild() && rootProject.forceJavaGeneratedJniForKotlin()) {
+        params.add("-DGLUECODIUM_GENERATORS_DEFAULT=android;android-kotlin;cpp")
+        params.add('-DGLUECODIUM_FORCE_USAGE_OF_JNI_FROM_JAVA_GENERATOR_DEFAULT=ON')
+    } else {
+        params.add("-DGLUECODIUM_GENERATORS_DEFAULT=${rootProject.getAndroidBuildVariant()};cpp")
     }
 
     return params
+}
+
+def getAndroidKotlinGeneratedFilesDirectory() {
+    if (rootProject.forceJavaGeneratedJniForKotlin()) {
+        return "android-android-kotlin-cpp"
+    } else {
+        return "android-kotlin-cpp"
+    }
 }
 
 android {
@@ -84,8 +94,8 @@ android {
 
                 kotlin.srcDirs += [
                         "${project.projectDir}/input/src/android-kotlin/kotlin",
-                        "${rootProject.generatedDir}/functional_bindings/android-kotlin-cpp/common/android-kotlin",
-                        "${rootProject.generatedDir}/functional_bindings/android-kotlin-cpp/main/android-kotlin"]
+                        "${rootProject.generatedDir}/functional_bindings/${getAndroidKotlinGeneratedFilesDirectory()}/common/android-kotlin",
+                        "${rootProject.generatedDir}/functional_bindings/${getAndroidKotlinGeneratedFilesDirectory()}/main/android-kotlin"]
             }
 
             if (rootProject.forceJavaTestSources()) {

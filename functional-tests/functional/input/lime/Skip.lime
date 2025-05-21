@@ -41,7 +41,7 @@ class SkipTypes {
     struct NotInDart {
         fooField: String
     }
-    @Kotlin(Skip)
+    @Kotlin(EnableIf="KotlinTestsRunWithJavaJni")
     struct NotInKotlin {
         fooField: String
     }
