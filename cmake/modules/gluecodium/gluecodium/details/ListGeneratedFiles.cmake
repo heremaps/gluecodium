@@ -59,7 +59,8 @@ function(gluecodium_list_generated_files _target)
       list(APPEND _android_generated_files "${_unity_dir}/${GLUECODIUM_GENERATED_jni_${_group}}")
     endif()
 
-    if(android-kotlin IN_LIST _generators)
+    get_property(_force_jni_from_java_generator TARGET ${_target} PROPERTY GLUECODIUM_FORCE_USAGE_OF_JNI_FROM_JAVA_GENERATOR)
+    if(NOT _force_jni_from_java_generator AND (android-kotlin IN_LIST _generators))
       list(APPEND _android_kotlin_generated_files "${_unity_dir}/${GLUECODIUM_GENERATED_jni_kotlin_${_group}}")
     endif()
 

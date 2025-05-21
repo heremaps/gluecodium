@@ -17,13 +17,3 @@
 // License-Filename: LICENSE
 //
 // -------------------------------------------------------------------------------------------------
-
-#include "test/VeryBoolean.h"
-
-namespace test
-{
-
-VeryBoolean
-VeryBoolean::make(const bool value) { return VeryBoolean{value}; }
-
-} // namespace test

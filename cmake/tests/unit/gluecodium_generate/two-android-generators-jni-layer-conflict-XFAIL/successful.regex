@@ -1,0 +1,1 @@
+Both 'android' and 'android-kotlin' specified in list of generators. This may cause symbols clash for JNI bindings

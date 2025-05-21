@@ -74,7 +74,8 @@ function(gluecodium_get_target_include_directories _target)
                   "$<BUILD_INTERFACE:${_output_${_source_set_lower}_dir}/android/jni>")
     endif()
 
-    if(android-kotlin IN_LIST _generators)
+    get_property(_force_jni_from_java_generator TARGET ${_target} PROPERTY GLUECODIUM_FORCE_USAGE_OF_JNI_FROM_JAVA_GENERATOR)
+    if(NOT _force_jni_from_java_generator AND (android-kotlin IN_LIST _generators))
       list(APPEND _result_list_public
                   "$<BUILD_INTERFACE:${_output_${_source_set_lower}_dir}/android-kotlin/jni>")
     endif()

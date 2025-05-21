@@ -20,21 +20,31 @@ package test
 @Immutable
 struct Currency {
     external {
+        java name "java.util.Currency"
         kotlin name "java.util.Currency"
     }
 
-    currencyCode: String external { kotlin getterName "getCurrencyCode" }
-    numericCode: Int external { kotlin getterName "getNumericCode" }
+    currencyCode: String external {
+        kotlin getterName "getCurrencyCode"
+        java getterName "getCurrencyCode"
+    }
+    numericCode: Int external {
+        kotlin getterName "getNumericCode"
+        java getterName "getNumericCode"
+    }
 }
 
 struct TimeZone {
     external {
         kotlin name "java.util.SimpleTimeZone"
+        java name "java.util.SimpleTimeZone"
     }
 
     rawOffset: Int external {
         kotlin getterName "getRawOffset"
         kotlin setterName "setRawOffset"
+        java getterName "getRawOffset"
+        java setterName "setRawOffset"
     }
 }
 
@@ -42,6 +52,8 @@ struct SystemColor {
     external {
         kotlin name "kotlin.Int?"
         kotlin converter "com.here.android.test.ColorConverter"
+        java name "java.lang.Integer"
+        java converter "com.here.android.test.ColorConverter"
     }
 
     red: Float
@@ -53,6 +65,7 @@ struct SystemColor {
 enum Month {
     external {
         kotlin name "java.time.Month"
+        java name "java.time.Month"
     }
 
     JANUARY = 1,
@@ -64,6 +77,8 @@ enum Season {
     external {
         kotlin name "kotlin.String"
         kotlin converter "com.here.android.test.SeasonConverter"
+        java name "java.lang.String"
+        java converter "com.here.android.test.SeasonConverter"
     }
 
     WINTER,
@@ -72,7 +87,7 @@ enum Season {
     AUTUMN
 }
 
-@Kotlin(EnableIf="JavaTestsRunWithKotlin")
+
 class UseJavaExternalTypes {
     static fun currencyRoundTrip(input: Currency): Currency
     static fun timeZoneRoundTrip(input: TimeZone): TimeZone
@@ -95,7 +110,7 @@ class UseKotlinExternalTypes {
     static fun veryBooleanUnbox(input: VeryBoolean): Boolean
 }
 
-@Kotlin(EnableIf="JavaTestsRunWithKotlin")
+
 struct JavaExternalTypesStruct {
     currency: Currency
     timeZone: TimeZone
@@ -117,6 +132,8 @@ struct ExternalMarkedAsSerializable {
     external {
         kotlin name "com.here.android.test.AnExternalStruct"
         kotlin converter "com.here.android.test.ExternalStructMarkedAsSerializableConverter"
+        java name "com.here.android.test.AnExternalStruct"
+        java converter "com.here.android.test.ExternalStructMarkedAsSerializableConverter"
     }
 
     `field`: Int
@@ -131,13 +148,15 @@ struct VeryBoolean {
     external {
         kotlin name "kotlin.Boolean?"
         kotlin converter "com.here.android.test.BooleanConverter"
+        java name "java.lang.Boolean"
+        java converter "com.here.android.test.BooleanConverter"
     }
 
     value: Boolean
     constructor make(value: Boolean)
 }
 
-@Kotlin(EnableIf="JavaTestsRunWithKotlin")
+
 struct UseJavaExternalConst {
     stringField: String
     @Internal
