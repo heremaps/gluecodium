@@ -18,12 +18,50 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+#include "test/JavaExternalTypesStruct.h"
 #include "test/KotlinExternalTypesStruct.h"
+#include "test/UseJavaExternalTypes.h"
 #include "test/UseKotlinExternalTypes.h"
 #include "test/VeryBoolean.h"
 
 namespace test
 {
+Currency
+UseJavaExternalTypes::currency_round_trip(const Currency& input) {
+    return input;
+}
+
+TimeZone
+UseJavaExternalTypes::time_zone_round_trip(const TimeZone& input) {
+    return input;
+}
+
+Month
+UseJavaExternalTypes::month_round_trip(const Month input) {
+    return input;
+}
+
+SystemColor
+UseJavaExternalTypes::color_round_trip(const SystemColor& input) {
+    return input;
+}
+
+Season
+UseJavaExternalTypes::season_round_trip(const Season input) {
+    return input;
+}
+
+JavaExternalTypesStruct
+UseJavaExternalTypes::struct_round_trip(const JavaExternalTypesStruct& input) {
+    return input;
+}
+
+bool
+UseJavaExternalTypes::very_boolean_unbox(const VeryBoolean& input) { return input.value; }
+
+VeryBoolean
+VeryBoolean::make(const bool value) { return VeryBoolean{value}; }
+
 Currency
 UseKotlinExternalTypes::currency_round_trip(const Currency& input) {
     return input;

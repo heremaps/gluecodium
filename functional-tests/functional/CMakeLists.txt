@@ -318,25 +318,9 @@ feature(ExternalTypes cpp android android-kotlin swift dart SOURCES
     input/lime/UseExternalTypes.lime
 )
 
-feature(JavaExternalTypes android SOURCES
-    input/src/cpp/JavaExternalTypes.cpp
-    input/src/cpp/VeryBooleanExternalType.cpp
-
-    input/lime/JavaExternalTypes.lime
-)
-
-set(KOTLIN_EXTERNAL_TYPES_SOURCES
-    input/src/cpp/KotlinExternalTypes.cpp
-    input/src/cpp/VeryBooleanExternalType.cpp
-)
-
-if(JAVA_TESTS_CONSUMING_KOTLIN)
-    list(APPEND KOTLIN_EXTERNAL_TYPES_SOURCES input/src/cpp/JavaExternalTypes.cpp)
-endif()
-
-feature(KotlinExternalTypes android-kotlin SOURCES
-    ${KOTLIN_EXTERNAL_TYPES_SOURCES}
-    input/lime/KotlinExternalTypes.lime
+feature(JavaKotlinExternalTypes android android-kotlin SOURCES
+    input/src/cpp/JavaKotlinExternalTypes.cpp
+    input/lime/JavaKotlinExternalTypes.lime
 )
 
 if(NOT APPLE)
