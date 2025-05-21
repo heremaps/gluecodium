@@ -41,6 +41,11 @@ ext {
         return project.hasProperty("force-java-test-sources")
     }
 
+    // Use to check usage of both 'android' and 'android-kotlin' generators.
+    forceJavaGeneratedJniForKotlin = {
+        return project.hasProperty("force-java-generated-jni")
+    }
+
     buildRoot = "${rootProject.projectDir}/build-${getAndroidBuildVariant()}"
     buildNativeRoot = "${buildRoot}/cpp"
     generatedDir = "${buildRoot}/generated"
