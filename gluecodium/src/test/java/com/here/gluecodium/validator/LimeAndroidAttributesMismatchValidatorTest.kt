@@ -20,6 +20,7 @@
 package com.here.gluecodium.validator
 
 import com.here.gluecodium.common.LimeLogger
+import com.here.gluecodium.generator.common.GeneratorOptions
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributes
@@ -30,6 +31,8 @@ import com.here.gluecodium.model.lime.LimeStruct
 import io.mockk.justRun
 import io.mockk.mockk
 import io.mockk.verify
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class LimeAndroidAttributesMismatchValidatorTest {
@@ -44,9 +47,10 @@ class LimeAndroidAttributesMismatchValidatorTest {
 
         val logger: LimeLogger = mockk()
         val validator = LimeAndroidAttributesMismatchValidator(logger)
-        validator.validate(limeModel)
+        val result = validator.validate(limeModel)
 
         verify(exactly = 0) { logger.warning(limeStruct, any()) }
+        assertTrue(result)
     }
 
     @Test
@@ -62,13 +66,14 @@ class LimeAndroidAttributesMismatchValidatorTest {
 
         val logger: LimeLogger = mockk()
         val validator = LimeAndroidAttributesMismatchValidator(logger)
-        validator.validate(limeModel)
+        val result = validator.validate(limeModel)
 
         verify(exactly = 0) { logger.warning(limeStruct, any()) }
+        assertTrue(result)
     }
 
     @Test
-    fun elementWithAttributeOnlyForJavaGeneratesWarning() {
+    fun elementWithAttributeOnlyForJavaGeneratesWarningWhenWerrorNotSet() {
         val attributes =
             LimeAttributes.Builder()
                 .addAttribute(LimeAttributeType.JAVA, LimeAttributeValueType.SKIP)
@@ -81,13 +86,35 @@ class LimeAndroidAttributesMismatchValidatorTest {
         justRun { logger.warning(limeStruct, any()) }
 
         val validator = LimeAndroidAttributesMismatchValidator(logger)
-        validator.validate(limeModel)
+        val result = validator.validate(limeModel)
 
         verify(exactly = 1) { logger.warning(limeStruct, "Attributes missing in Kotlin, but present in Java: [Skip]") }
+        assertTrue(result)
     }
 
     @Test
-    fun elementWithAttributesOnlyForKotlinGeneratesWarning() {
+    fun elementWithAttributeOnlyForJavaGeneratesErrorWhenWerrorSet() {
+        val attributes =
+            LimeAttributes.Builder()
+                .addAttribute(LimeAttributeType.JAVA, LimeAttributeValueType.SKIP)
+                .build()
+
+        val limeStruct = LimeStruct(path = somePath, attributes = attributes)
+        allElements[somePath.toString()] = limeStruct
+
+        val logger: LimeLogger = mockk()
+        justRun { logger.error(limeStruct, any()) }
+
+        val generatorOptions = GeneratorOptions(werror = setOf(GeneratorOptions.WARNING_ANDROID_ATTRIBUTES_MISMATCH))
+        val validator = LimeAndroidAttributesMismatchValidator(logger, generatorOptions)
+        val result = validator.validate(limeModel)
+
+        verify(exactly = 1) { logger.error(limeStruct, "Attributes missing in Kotlin, but present in Java: [Skip]") }
+        assertFalse(result)
+    }
+
+    @Test
+    fun elementWithAttributesOnlyForKotlinGeneratesWarningWhenWerrorNotSet() {
         val attributes =
             LimeAttributes.Builder()
                 .addAttribute(LimeAttributeType.KOTLIN, LimeAttributeValueType.SKIP)
@@ -100,13 +127,14 @@ class LimeAndroidAttributesMismatchValidatorTest {
         justRun { logger.warning(limeStruct, any()) }
 
         val validator = LimeAndroidAttributesMismatchValidator(logger)
-        validator.validate(limeModel)
+        val result = validator.validate(limeModel)
 
         verify(exactly = 1) { logger.warning(limeStruct, "Attributes missing in Java, but present in Kotlin: [Skip]") }
+        assertTrue(result)
     }
 
     @Test
-    fun mismatchForTwoPlatformsGeneratesTwoWarnings() {
+    fun mismatchForTwoPlatformsGeneratesTwoWarningsWhenWerrorNotSet() {
         val attributes =
             LimeAttributes.Builder()
                 .addAttribute(LimeAttributeType.JAVA, LimeAttributeValueType.SKIP)
@@ -120,9 +148,10 @@ class LimeAndroidAttributesMismatchValidatorTest {
         justRun { logger.warning(limeStruct, any()) }
 
         val validator = LimeAndroidAttributesMismatchValidator(logger)
-        validator.validate(limeModel)
+        val result = validator.validate(limeModel)
 
         verify(exactly = 1) { logger.warning(limeStruct, "Attributes missing in Kotlin, but present in Java: [Skip]") }
         verify(exactly = 1) { logger.warning(limeStruct, "Attributes missing in Java, but present in Kotlin: [Internal]") }
+        assertTrue(result)
     }
 }

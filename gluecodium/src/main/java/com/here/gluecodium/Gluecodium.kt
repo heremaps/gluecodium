@@ -178,16 +178,16 @@ class Gluecodium(
         val typeRefsValidationResult = LimeTypeRefsValidator(limeLogger).validate(filteredModel)
         val validators =
             getIndependentValidators(limeLogger) +
-                if (typeRefsValidationResult) getTypeRefDependentValidators(limeLogger) else emptyList()
+                if (typeRefsValidationResult) getTypeRefDependentValidators(limeLogger, generatorOptions) else emptyList()
         val validationResults = validators.map { it.invoke(filteredModel) }
-        if (generatorOptions.enableAndroidAttributesMismatchWarning) {
-            LimeAndroidAttributesMismatchValidator(limeLogger).validate(filteredModel)
-        }
         return typeRefsValidationResult && !validationResults.contains(false)
     }
 
-    private fun getTypeRefDependentValidators(limeLogger: LimeLogger) =
-        listOf<(LimeModel) -> Boolean>(
+    private fun getTypeRefDependentValidators(
+        limeLogger: LimeLogger,
+        generatorOptions: GeneratorOptions,
+    ): List<(LimeModel) -> Boolean> {
+        return listOf<(LimeModel) -> Boolean>(
             { LimeTypeRefTargetValidator(limeLogger).validate(it) },
             { LimeGenericTypesValidator(limeLogger).validate(it) },
             { LimeStructsValidator(limeLogger, gluecodiumOptions.isStrictMode).validate(it) },
@@ -198,7 +198,13 @@ class Gluecodium(
             { LimeFieldConstructorsValidator(limeLogger).validate(it) },
             { LimeValuesValidator(limeLogger).validate(it) },
             { LimeDocRulesValidator(limeLogger, gluecodiumOptions.docsValidationRules, discoverGenerators()).validate(it) },
-        )
+        ) +
+            if (generatorOptions.enableAndroidAttributesMismatchWarning) {
+                listOf { LimeAndroidAttributesMismatchValidator(limeLogger, generatorOptions).validate(it) }
+            } else {
+                emptyList()
+            }
+    }
 
     private fun getIndependentValidators(limeLogger: LimeLogger) =
         listOf<(LimeModel) -> Boolean>(

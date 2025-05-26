@@ -77,6 +77,7 @@ data class GeneratorOptions(
         const val WARNING_LIME_FUNCTION_DOCS = "LimeFunctionDocs"
         const val WARNING_LIME_LAMBDA_DOCS = "LimeLambdaDocs"
         const val WARNING_LIME_PROPERTIES_DOCS = "LimePropertiesDocs"
+        const val WARNING_ANDROID_ATTRIBUTES_MISMATCH = "AndroidAttributesMismatch"
 
         const val DEFAULT_CPP_EXPORT_MACRO_NAME = "_GLUECODIUM_CPP"
     }

@@ -149,6 +149,7 @@ object OptionReader {
                         GeneratorOptions.WARNING_LIME_FUNCTION_DOCS,
                         GeneratorOptions.WARNING_LIME_LAMBDA_DOCS,
                         GeneratorOptions.WARNING_LIME_PROPERTIES_DOCS,
+                        GeneratorOptions.WARNING_ANDROID_ATTRIBUTES_MISMATCH,
                     ).joinToString(),
             )
             addOption(
