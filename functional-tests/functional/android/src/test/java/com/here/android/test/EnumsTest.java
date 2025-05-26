@@ -117,4 +117,12 @@ public class EnumsTest {
 
     assertTrue(result);
   }
+
+  @Test
+  public void useValueField() {
+    // Note: this test case is used to verify that 'value' field can be accessed
+    // by Java code when running with Kotlin generated code.
+    EnumWithAlias someEnumLabel = EnumWithAlias.FIRST;
+    assertEquals(someEnumLabel.value, EnumWithAlias.ONE.value);
+  }
 }
