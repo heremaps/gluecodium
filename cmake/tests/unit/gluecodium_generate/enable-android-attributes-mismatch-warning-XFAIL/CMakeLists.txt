@@ -38,4 +38,5 @@ gluecodium_target_lime_sources(dummySharedLibrary
                                PRIVATE "${CMAKE_CURRENT_LIST_DIR}/lime/foo.lime")
 
 set_target_properties(dummySharedLibrary
-                      PROPERTIES GLUECODIUM_ENABLE_ANDROID_ATTRIBUTES_MISMATCH_WARNING "ON")
+                      PROPERTIES GLUECODIUM_ENABLE_ANDROID_ATTRIBUTES_MISMATCH_WARNING "ON"
+                      GLUECODIUM_WERROR "AndroidAttributesMismatch")

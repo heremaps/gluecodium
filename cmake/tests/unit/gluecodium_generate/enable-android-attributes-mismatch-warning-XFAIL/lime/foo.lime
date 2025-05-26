@@ -17,10 +17,7 @@
 
 package unit.test
 
-# This class uses function with type that does not exist.
-# It is done this way to force CMake to print Gluecodium logs
-# to the output to be able to match it.
 @Java(Skip)
 class Foo {
-    fun foo(): SomeTypeThatDoesNotExits
+    fun foo(): Int
 }

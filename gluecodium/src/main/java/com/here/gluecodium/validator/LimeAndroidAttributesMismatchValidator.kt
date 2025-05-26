@@ -20,39 +20,58 @@
 package com.here.gluecodium.validator
 
 import com.here.gluecodium.common.LimeLogger
+import com.here.gluecodium.generator.common.GeneratorOptions
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
 
-class LimeAndroidAttributesMismatchValidator(private val limeLogger: LimeLogger) {
-    fun validate(limeModel: LimeModel) {
+class LimeAndroidAttributesMismatchValidator(private val limeLogger: LimeLogger, generatorOptions: GeneratorOptions = GeneratorOptions()) {
+    private val werror = generatorOptions.werror.contains(GeneratorOptions.WARNING_ANDROID_ATTRIBUTES_MISMATCH)
+    private val maybeError: LimeLogger.(LimeNamedElement, String) -> Unit =
+        if (werror) LimeLogger::error else LimeLogger::warning
+
+    fun validate(limeModel: LimeModel): Boolean {
         val allElements = limeModel.referenceMap.values
-        allElements.filterIsInstance<LimeNamedElement>().forEach { element ->
-            val javaAttributes = element.attributes.getAllAttributeValueTypes(LimeAttributeType.JAVA)
-            val kotlinAttributes = element.attributes.getAllAttributeValueTypes(LimeAttributeType.KOTLIN)
-            val commonAttributes = kotlinAttributes intersect javaAttributes
+        val validationResults =
+            allElements.filterIsInstance<LimeNamedElement>().map { element ->
+                val javaAttributes = element.attributes.getAllAttributeValueTypes(LimeAttributeType.JAVA)
+                val kotlinAttributes = element.attributes.getAllAttributeValueTypes(LimeAttributeType.KOTLIN)
+                val commonAttributes = kotlinAttributes intersect javaAttributes
 
-            val attributesMissingInJava = kotlinAttributes subtract commonAttributes
-            if (attributesMissingInJava.isNotEmpty()) {
-                logAttributesMismatch(
-                    element = element,
-                    attributes = attributesMissingInJava,
-                    present = "Kotlin",
-                    missing = "Java",
-                )
+                var result = true
+                val attributesMissingInJava = kotlinAttributes subtract commonAttributes
+                if (attributesMissingInJava.isNotEmpty()) {
+                    logAttributesMismatch(
+                        element = element,
+                        attributes = attributesMissingInJava,
+                        present = "Kotlin",
+                        missing = "Java",
+                    )
+
+                    if (werror) {
+                        result = false
+                    }
+                }
+
+                val attributesMissingInKotlin = javaAttributes subtract commonAttributes
+                if (attributesMissingInKotlin.isNotEmpty()) {
+                    logAttributesMismatch(
+                        element = element,
+                        attributes = attributesMissingInKotlin,
+                        present = "Java",
+                        missing = "Kotlin",
+                    )
+
+                    if (werror) {
+                        result = false
+                    }
+                }
+
+                result
             }
 
-            val attributesMissingInKotlin = javaAttributes subtract commonAttributes
-            if (attributesMissingInKotlin.isNotEmpty()) {
-                logAttributesMismatch(
-                    element = element,
-                    attributes = attributesMissingInKotlin,
-                    present = "Java",
-                    missing = "Kotlin",
-                )
-            }
-        }
+        return !validationResults.contains(false)
     }
 
     private fun logAttributesMismatch(
@@ -61,7 +80,7 @@ class LimeAndroidAttributesMismatchValidator(private val limeLogger: LimeLogger)
         present: String,
         missing: String,
     ) {
-        val warningMessage = "Attributes missing in $missing, but present in $present: $attributes"
-        limeLogger.warning(element, warningMessage)
+        val message = "Attributes missing in $missing, but present in $present: $attributes"
+        limeLogger.maybeError(element, message)
     }
 }
