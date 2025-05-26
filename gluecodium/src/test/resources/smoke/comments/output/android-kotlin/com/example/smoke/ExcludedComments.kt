@@ -19,7 +19,7 @@ class ExcludedComments : NativeBase {
      * This is some very useful enum.
      * @suppress
      */
-    enum class SomeEnum(private val value: Int) {
+    enum class SomeEnum(@JvmField val value: Int) {
         /**
          * Not quite useful
          * @suppress

@@ -11,7 +11,7 @@ import com.example.NativeBase
 
 class PublicClass : NativeBase {
 
-    enum class InternalEnum(private val value: Int) {
+    enum class InternalEnum(@JvmField val value: Int) {
         FOO(0),
         BAR(1);
     }

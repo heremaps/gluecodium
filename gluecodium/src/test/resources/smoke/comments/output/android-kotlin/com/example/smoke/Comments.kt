@@ -17,7 +17,7 @@ class Comments : NativeBase {
     /**
      * This is some very useful enum.
      */
-    enum class SomeEnum(private val value: Int) {
+    enum class SomeEnum(@JvmField val value: Int) {
         /**
          * Not quite useful
          */

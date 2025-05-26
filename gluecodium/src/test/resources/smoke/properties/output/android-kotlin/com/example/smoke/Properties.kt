@@ -11,7 +11,7 @@ import com.example.NativeBase
 
 class Properties : NativeBase {
 
-    enum class InternalErrorCode(private val value: Int) {
+    enum class InternalErrorCode(@JvmField val value: Int) {
         ERROR_NONE(0),
         ERROR_FATAL(999);
     }

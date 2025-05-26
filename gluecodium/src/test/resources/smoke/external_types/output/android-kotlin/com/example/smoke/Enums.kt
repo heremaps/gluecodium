@@ -11,11 +11,11 @@ import com.example.NativeBase
 
 class Enums : NativeBase {
 
-    enum class ExternalEnum(private val value: Int) {
+    enum class ExternalEnum(@JvmField val value: Int) {
         FOO_VALUE(0),
         BAR_VALUE(1);
     }
-    enum class VeryExternalEnum(private val value: Int) {
+    enum class VeryExternalEnum(@JvmField val value: Int) {
         FOO(0),
         BAR(1);
     }

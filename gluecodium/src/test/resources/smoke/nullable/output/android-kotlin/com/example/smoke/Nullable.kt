@@ -11,7 +11,7 @@ import com.example.NativeBase
 
 class Nullable : NativeBase {
 
-    enum class SomeEnum(private val value: Int) {
+    enum class SomeEnum(@JvmField val value: Int) {
         ON(0),
         OFF(1);
     }

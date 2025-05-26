@@ -11,11 +11,11 @@ import com.example.NativeBase
 
 class Enums : NativeBase {
 
-    enum class SimpleEnum(private val value: Int) {
+    enum class SimpleEnum(@JvmField val value: Int) {
         FIRST(0),
         SECOND(1);
     }
-    enum class InternalErrorCode(private val value: Int) {
+    enum class InternalErrorCode(@JvmField val value: Int) {
         ERROR_NONE(0),
         ERROR_FATAL(999);
     }

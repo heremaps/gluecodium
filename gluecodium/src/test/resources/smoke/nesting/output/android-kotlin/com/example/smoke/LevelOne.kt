@@ -15,7 +15,7 @@ class LevelOne : NativeBase {
 
         class LevelThree : NativeBase {
 
-            enum class LevelFourEnum(private val value: Int) {
+            enum class LevelFourEnum(@JvmField val value: Int) {
                 NONE(0);
             }
             class LevelFour {

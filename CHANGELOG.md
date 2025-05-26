@@ -8,6 +8,8 @@
 ### Bug fixes:
  * **Kotlin**: fixed bug related to redundant generation of properties in `Impl` class for nested lambda.
    Prior to this fix the properties were duplicated and caused compilation problems.
+ * **Kotlin**: added `@JvmField` annotation to `value` field of generated enumerations. Without that annotation
+   the field had to be accessed via getter when Kotlin code was consumed by Java.
 
 ## 13.14.0
 Release date 2025-05-14

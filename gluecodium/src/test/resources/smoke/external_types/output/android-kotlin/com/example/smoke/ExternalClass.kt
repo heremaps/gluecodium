@@ -11,7 +11,7 @@ import com.example.NativeBase
 
 class ExternalClass : NativeBase {
 
-    enum class SomeEnum(private val value: Int) {
+    enum class SomeEnum(@JvmField val value: Int) {
         SOME_VALUE(0);
     }
     class SomeStruct {

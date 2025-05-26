@@ -19,7 +19,7 @@
   !
   !}}
 {{>kotlin/KotlinDocComment}}{{>kotlin/KotlinAttributes}}
-enum class {{resolveName}}(private val value: Int) {
+enum class {{resolveName}}(@JvmField val value: Int) {
 {{joinPartial uniqueEnumerators "kotlin/KotlinEnumerator" ",
 "}}{{#if uniqueEnumerators}};{{/if}}{{#if aliasEnumerators}}
 

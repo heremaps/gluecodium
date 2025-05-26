@@ -11,7 +11,7 @@ import com.example.NativeBase
 
 class NAME_RULES_KT : NativeBase {
 
-    enum class EXAMPLE_ERROR_CODE_KT(private val value: Int) {
+    enum class EXAMPLE_ERROR_CODE_KT(@JvmField val value: Int) {
         NONE(0),
         FATAL(1);
     }
@@ -34,6 +34,7 @@ class NAME_RULES_KT : NativeBase {
 
 
     }
+
 
 
 

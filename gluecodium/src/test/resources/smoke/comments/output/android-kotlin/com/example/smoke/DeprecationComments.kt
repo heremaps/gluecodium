@@ -17,7 +17,7 @@ interface DeprecationComments {
      * This is some very useful enum.
      */
     @Deprecated("Unfortunately, this enum is deprecated. Use [com.example.smoke.Comments.SomeEnum] instead.")
-    enum class SomeEnum(private val value: Int) {
+    enum class SomeEnum(@JvmField val value: Int) {
         /**
          * Not quite useful
          */

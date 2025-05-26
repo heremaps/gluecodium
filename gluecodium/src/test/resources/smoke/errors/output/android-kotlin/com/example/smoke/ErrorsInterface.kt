@@ -9,11 +9,11 @@ package com.example.smoke
 
 
 interface ErrorsInterface {
-    enum class InternalError(private val value: Int) {
+    enum class InternalError(@JvmField val value: Int) {
         ERROR_NONE(0),
         ERROR_FATAL(1);
     }
-    enum class ExternalErrors(private val value: Int) {
+    enum class ExternalErrors(@JvmField val value: Int) {
         NONE(0),
         BOOM(1),
         BUST(2);

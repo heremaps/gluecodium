@@ -11,7 +11,7 @@ import com.example.NativeBase
 
 class Structs : NativeBase {
 
-    enum class FooBar(private val value: Int) {
+    enum class FooBar(@JvmField val value: Int) {
         FOO(0),
         BAR(1);
     }
