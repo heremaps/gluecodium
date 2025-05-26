@@ -33,14 +33,14 @@ class {{resolveName}}Impl : NativeBase, {{resolveName}} {
 {{/functions}}
 {{/set}}
 
-{{#set override=true}}
-{{#properties}}
+{{#set override=true classElement=this}}
+{{#classElement.properties}}
 {{#unless isStatic}}
 {{#set property=this isCached=attributes.cached}}{{#property}}
 {{prefixPartial "kotlin/KotlinProperty" "    "}}
 {{/property}}{{/set}}
 {{/unless}}
-{{/properties}}
+{{/classElement.properties}}
 {{/set}}
 
 {{#if this.parentInterfaces}}{{#set override=true classElement=this}}

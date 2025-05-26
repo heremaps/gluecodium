@@ -65,3 +65,10 @@ class ClassWithInternalLambda {
     lambda InternalNestedLambda = (String) -> Boolean
     static fun invokeInternalLambda(`lambda`: InternalNestedLambda, value: String): Boolean
 }
+
+class OuterClassWithLambdaAndProperty {
+    lambda SomeInternalLambda = (Int) -> Int
+
+    property someInteger: Int
+    static property anotherInteger: Int
+}
