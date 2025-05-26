@@ -11,7 +11,7 @@ import com.example.NativeBase
 
 class ConstantsInterface : NativeBase {
 
-    enum class StateEnum(private val value: Int) {
+    enum class StateEnum(@JvmField val value: Int) {
         OFF(0),
         ON(1);
     }

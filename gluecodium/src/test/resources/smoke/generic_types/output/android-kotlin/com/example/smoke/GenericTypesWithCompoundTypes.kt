@@ -11,11 +11,11 @@ import com.example.NativeBase
 
 class GenericTypesWithCompoundTypes : NativeBase {
 
-    enum class SomeEnum(private val value: Int) {
+    enum class SomeEnum(@JvmField val value: Int) {
         FOO(0),
         BAR(1);
     }
-    enum class ExternalEnum(private val value: Int) {
+    enum class ExternalEnum(@JvmField val value: Int) {
         ON(0),
         OFF(1);
     }

@@ -9,7 +9,7 @@ package com.example.smoke
 
 
 interface ListenerWithProperties {
-    enum class ResultEnum(private val value: Int) {
+    enum class ResultEnum(@JvmField val value: Int) {
         NONE(0),
         RESULT(1);
     }

@@ -11,11 +11,13 @@ import com.example.smoke.dodoTypes
 
 class dodoTypes {
 
-    enum class dodoEnum(private val value: Int) {
+    enum class dodoEnum(@JvmField val value: Int) {
         DODO_ITEM(0);
     }
     class dodoStruct {
         @JvmField var DODO_FIELD: String
+
+
 
 
 
@@ -30,6 +32,7 @@ class dodoTypes {
 
 
         companion object {
+
             @JvmStatic external fun DodoCreate(DodoParameter: String) : dodoStruct
         }
     }

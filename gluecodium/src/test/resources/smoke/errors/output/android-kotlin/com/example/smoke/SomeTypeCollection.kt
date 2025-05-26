@@ -10,7 +10,7 @@ package com.example.smoke
 
 class SomeTypeCollection {
 
-    enum class SomeTypeCollectionError(private val value: Int) {
+    enum class SomeTypeCollectionError(@JvmField val value: Int) {
         ERROR_A(0),
         ERROR_B(1);
     }

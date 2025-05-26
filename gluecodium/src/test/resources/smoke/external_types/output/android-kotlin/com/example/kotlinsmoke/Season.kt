@@ -8,7 +8,7 @@
 package com.example.kotlinsmoke
 
 
-enum class Season(private val value: Int) {
+enum class Season(@JvmField val value: Int) {
     WINTER(0),
     SPRING(1),
     SUMMER(2),

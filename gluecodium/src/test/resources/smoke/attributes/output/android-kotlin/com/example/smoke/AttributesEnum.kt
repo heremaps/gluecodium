@@ -9,7 +9,7 @@ package com.example.smoke
 
 
 @OnEnumeration
-enum class AttributesEnum(private val value: Int) {
+enum class AttributesEnum(@JvmField val value: Int) {
     @OnEnumerator
     NOPE(0);
 }

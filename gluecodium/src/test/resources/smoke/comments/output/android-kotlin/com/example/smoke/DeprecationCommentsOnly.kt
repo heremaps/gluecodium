@@ -11,7 +11,7 @@ package com.example.smoke
 @Deprecated("Unfortunately, this interface is deprecated.")
 interface DeprecationCommentsOnly {
     @Deprecated("Unfortunately, this enum is deprecated.")
-    enum class SomeEnum(private val value: Int) {
+    enum class SomeEnum(@JvmField val value: Int) {
         @Deprecated("Unfortunately, this item is deprecated.")
         USELESS(0);
     }

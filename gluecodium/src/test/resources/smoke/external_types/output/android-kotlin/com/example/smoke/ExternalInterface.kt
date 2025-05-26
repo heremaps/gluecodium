@@ -9,7 +9,7 @@ package com.example.smoke
 
 
 interface ExternalInterface {
-    enum class SomeEnum(private val value: Int) {
+    enum class SomeEnum(@JvmField val value: Int) {
         SOME_VALUE(0);
     }
     class SomeStruct {
@@ -26,6 +26,8 @@ interface ExternalInterface {
 
 
     }
+
+
 
 
     fun someMethod(someParameter: Byte) : Unit

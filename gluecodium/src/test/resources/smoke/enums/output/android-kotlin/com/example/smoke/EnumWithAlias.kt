@@ -8,7 +8,7 @@
 package com.example.smoke
 
 
-enum class EnumWithAlias(private val value: Int) {
+enum class EnumWithAlias(@JvmField val value: Int) {
     ONE(2),
     TWO(3),
     THREE(4);

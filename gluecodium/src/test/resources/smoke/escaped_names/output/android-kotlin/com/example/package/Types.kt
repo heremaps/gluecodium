@@ -10,7 +10,7 @@ package com.example.package
 
 class Types {
 
-    enum class Enum(private val value: Int) {
+    enum class Enum(@JvmField val value: Int) {
         NA_N(0);
     }
     class ExceptionException(@JvmField val error: Types.Enum) : Exception(error.toString())

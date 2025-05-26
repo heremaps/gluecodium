@@ -14,7 +14,7 @@ import java.util.Locale
 class OuterStruct {
     @JvmField var field: String
 
-    enum class InnerEnum(private val value: Int) {
+    enum class InnerEnum(@JvmField val value: Int) {
         FOO(0),
         BAR(1);
     }

@@ -11,7 +11,7 @@ import com.example.NativeBase
 
 class PlatformComments : NativeBase {
 
-    enum class SomeEnum(private val value: Int) {
+    enum class SomeEnum(@JvmField val value: Int) {
         USELESS(0),
         USEFUL(1);
     }

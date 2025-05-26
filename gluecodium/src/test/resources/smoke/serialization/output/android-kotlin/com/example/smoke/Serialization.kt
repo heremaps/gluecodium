@@ -13,7 +13,7 @@ import java.util.EnumSet
 
 class Serialization {
 
-    enum class SomeEnum(private val value: Int) {
+    enum class SomeEnum(@JvmField val value: Int) {
         FOO(0),
         BAR(7);
     }

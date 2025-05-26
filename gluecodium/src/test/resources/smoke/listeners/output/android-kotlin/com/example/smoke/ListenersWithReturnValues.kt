@@ -9,7 +9,7 @@ package com.example.smoke
 
 
 interface ListenersWithReturnValues {
-    enum class ResultEnum(private val value: Int) {
+    enum class ResultEnum(@JvmField val value: Int) {
         NONE(0),
         RESULT(1);
     }
@@ -29,12 +29,26 @@ interface ListenersWithReturnValues {
     }
 
 
+
+
     fun fetchDataDouble() : Double
+
+
     fun fetchDataString() : String
+
+
     fun fetchDataStruct() : ListenersWithReturnValues.ResultStruct
+
+
     fun fetchDataEnum() : ListenersWithReturnValues.ResultEnum
+
+
     fun fetchDataArray() : MutableList<Double>
+
+
     fun fetchDataMap() : MutableMap<String, Double>
+
+
     fun fetchDataInstance() : CalculationResult
 
 

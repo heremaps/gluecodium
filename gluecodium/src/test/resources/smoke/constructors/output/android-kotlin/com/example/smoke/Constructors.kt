@@ -11,7 +11,7 @@ import com.example.NativeBase
 
 open class Constructors : NativeBase {
 
-    enum class ErrorEnum(private val value: Int) {
+    enum class ErrorEnum(@JvmField val value: Int) {
         NONE(0),
         CRASHED(1);
     }
