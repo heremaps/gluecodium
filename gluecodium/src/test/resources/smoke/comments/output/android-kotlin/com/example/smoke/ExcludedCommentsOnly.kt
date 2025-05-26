@@ -61,10 +61,6 @@ class ExcludedCommentsOnly : NativeBase {
 
         override external fun apply(p0: String, p1: Int) : Double
 
-        override var isSomeProperty: Boolean
-            external get
-            external set
-
 
 
         companion object {

@@ -28,10 +28,6 @@ class OuterClassWithLambdaAndProperty : NativeBase {
 
         override external fun apply(p0: Int) : Int
 
-        override var someInteger: Int
-            external get
-            external set
-
 
 
         companion object {
