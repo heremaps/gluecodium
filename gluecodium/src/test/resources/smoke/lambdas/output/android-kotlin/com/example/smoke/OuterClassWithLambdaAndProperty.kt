@@ -57,6 +57,10 @@ class OuterClassWithLambdaAndProperty : NativeBase {
 
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+        @JvmStatic var anotherInteger: Int
+            external get
+            external set
+
     }
 }
 

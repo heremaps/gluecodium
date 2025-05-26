@@ -70,4 +70,5 @@ class OuterClassWithLambdaAndProperty {
     lambda SomeInternalLambda = (Int) -> Int
 
     property someInteger: Int
+    static property anotherInteger: Int
 }
