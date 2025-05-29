@@ -102,6 +102,7 @@ class PlatformNamesInterface {
     )
     @Swift("BAZ_ATTRIBUTE")
     @Dart("WEE_ATTRIBUTE")
+    @Kotlin("BAR_ATTRIBUTE")
     property basicAttribute: UInt {
         @Cpp("GET_FOO_ATTRIBUTE")
         @Java("GET_BAR_ATTRIBUTE")
