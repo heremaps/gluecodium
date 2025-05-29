@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug-fixes:
+ * **Kotlin**: fixed warnings from the generated `NativeBase.kt` file related to redundant imports. Fixed warnings related to usage of `!!` operator on non-nullable type in the generated code related to serialization.
+
 ## 13.15.0
 Release date 2025-05-26
 ### Features

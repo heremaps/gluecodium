@@ -80,7 +80,7 @@ class Serialization {
             var __enumSetField = arrayListOf<Serialization.SomeEnum>()
             parcel.readList(__enumSetField, Thread.currentThread().getContextClassLoader())
             this.enumSetField = EnumSet.copyOf(__enumSetField)
-            this.enumField = Serialization.SomeEnum.values()[parcel.readInt()]!!
+            this.enumField = Serialization.SomeEnum.values()[parcel.readInt()]
         }
 
         override fun describeContents() = 0
