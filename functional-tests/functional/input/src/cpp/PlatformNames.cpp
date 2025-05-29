@@ -23,6 +23,23 @@
 
 namespace test
 {
+
+class SomeFooInterfaceImpl : public fooInterface {
+public:
+    SomeFooInterfaceImpl() = default;
+    ~SomeFooInterfaceImpl() override = default;
+
+    uint32_t GET_FOO_ATTRIBUTE(  ) const override {
+        return m_foo_attribute;
+    }
+
+    void SET_FOO_ATTRIBUTE( const uint32_t value ) override {
+        m_foo_attribute = value;
+    }
+private:
+    uint32_t m_foo_attribute{};
+};
+
 fooTypes::fooStruct
 fooInterface::FooMethod( const std::string& FooParameter )
 {
@@ -32,7 +49,7 @@ fooInterface::FooMethod( const std::string& FooParameter )
 std::shared_ptr< fooInterface >
 fooInterface::make( const std::string& makeParameter )
 {
-    return {};
+    return std::make_shared<SomeFooInterfaceImpl>();
 }
 
 fooTypes::fooStruct
