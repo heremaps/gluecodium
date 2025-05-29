@@ -14,6 +14,8 @@ import com.example.smoke.dodoTypes
 class dodoInterface : NativeBase {
 
 
+
+
     constructor(makeParameter: String) : this(make(makeParameter), null as Any?) {
         cacheThisInstance();
     }
@@ -35,8 +37,8 @@ class dodoInterface : NativeBase {
     external fun DodoMethod(DodoParameter: String) : dodoTypes.dodoStruct
 
     var DODO_PROPERTY: Long
-        external get
-        external set
+        @JvmName("GET_DODO_PROPERTY") external get
+        @JvmName("SET_DODO_PROPERTY") external set
 
 
 

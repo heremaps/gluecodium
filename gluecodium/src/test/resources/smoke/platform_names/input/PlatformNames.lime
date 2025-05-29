@@ -118,9 +118,11 @@ class PlatformNamesInterface {
     property basicProperty: UInt {
         @Cpp("GET_FOO_PROPERTY")
         @Java("GET_BAR_PROPERTY")
+        @Kotlin("GET_DODO_PROPERTY")
         get
         @Cpp("SET_FOO_PROPERTY")
         @Java("SET_BAR_PROPERTY")
+        @Kotlin("SET_DODO_PROPERTY")
         set
     }
 }
