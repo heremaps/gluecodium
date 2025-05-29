@@ -126,7 +126,7 @@ class SwiftMethodOverloads {
     fun two(input: List<String>)
 }
 
-@Swift(Skip) @Dart(Skip) @Kotlin(Skip)
+@Swift(Skip) @Dart(Skip) @Kotlin(EnableIf="KotlinTestsRunWithJavaJni")
 class JavaMethodOverloads {
     @Java("three")
     fun one(input: String)
