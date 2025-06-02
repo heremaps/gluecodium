@@ -52,6 +52,9 @@ class SomeClassWithInternalMembers {
     @Internal
     fun someInternalFunction(): Int
 
+    @Internal
+    static fun someStaticInternalFunction(): Int
+
     static fun create(): SomeClassWithInternalMembers
 }
 

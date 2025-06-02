@@ -39,6 +39,10 @@ std::shared_ptr<SomeClassWithInternalMembers> SomeClassWithInternalMembers::crea
     return std::make_shared<SomeClassWithInternalMembersImpl>();
 }
 
+int SomeClassWithInternalMembers::some_static_internal_function() {
+    return 123;
+}
+
 std::shared_ptr<InternalAttributeClassWithFunctions>
 InternalAttributeClassWithFunctions::make() {
     return {};

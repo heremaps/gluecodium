@@ -39,4 +39,10 @@ public class VisibilityAttributeTest {
     assertEquals(567, someObject.someInternalFunction());
   }
 
+
+  @Test
+  public void staticInternalFunctionCanBeCalled() {
+    assertEquals(123, SomeClassWithInternalMembers.someStaticInternalFunction());
+  }
+
 }
