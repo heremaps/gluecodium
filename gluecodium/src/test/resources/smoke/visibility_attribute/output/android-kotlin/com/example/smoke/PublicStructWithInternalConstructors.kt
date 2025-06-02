@@ -13,10 +13,13 @@ class PublicStructWithInternalConstructors {
 
 
 
+
+
     constructor() {
         val _other = make()
         this.someVar = _other.someVar
     }
+
 
 
     constructor(someVar: Int) {
@@ -28,7 +31,8 @@ class PublicStructWithInternalConstructors {
 
 
     companion object {
-        @JvmStatic external fun make() : PublicStructWithInternalConstructors
+
+        @JvmStatic @JvmName("make") internal external fun make() : PublicStructWithInternalConstructors
     }
 }
 
