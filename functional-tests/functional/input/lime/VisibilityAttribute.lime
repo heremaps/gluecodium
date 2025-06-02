@@ -48,6 +48,13 @@ interface InternalAttributeInterfaceParent {
     property prop: String
 }
 
+class SomeClassWithInternalMembers {
+    @Internal
+    fun someInternalFunction(): Int
+
+    static fun create(): SomeClassWithInternalMembers
+}
+
 @Internal
 class InternalAttributeClassInherits: InternalAttributeInterfaceParent {
 }
