@@ -30,9 +30,16 @@ import java.util.EnumSet
 @RunWith(RobolectricTestRunner::class)
 @Config(application = RobolectricApplication::class)
 class VisibilityAttributeTest {
+
     @org.junit.Test
     fun internalFunctionCanBeCalled() {
         val someObject = SomeClassWithInternalMembers.create()
         assertEquals(567, someObject.someInternalFunction())
     }
+
+    @org.junit.Test
+    fun staticInternalFunctionCanBeCalled() {
+        assertEquals(123, SomeClassWithInternalMembers.someStaticInternalFunction())
+    }
+
 }
