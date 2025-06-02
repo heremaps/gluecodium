@@ -20,9 +20,25 @@
 
 #include "test/InternalAttributeClassWithFunctions.h"
 #include "test/InternalAttributeClassWithStaticProperty.h"
+#include "test/SomeClassWithInternalMembers.h"
 
 namespace test
 {
+
+class SomeClassWithInternalMembersImpl : public SomeClassWithInternalMembers {
+public:
+    SomeClassWithInternalMembersImpl() = default;
+    ~SomeClassWithInternalMembersImpl() override = default;
+
+    int some_internal_function() override {
+        return 567;
+    }
+};
+
+std::shared_ptr<SomeClassWithInternalMembers> SomeClassWithInternalMembers::create() {
+    return std::make_shared<SomeClassWithInternalMembersImpl>();
+}
+
 std::shared_ptr<InternalAttributeClassWithFunctions>
 InternalAttributeClassWithFunctions::make() {
     return {};
