@@ -42,9 +42,11 @@ class MethodOverloads {
     ): Boolean
     @Dart("isBooleanStringArray")
     @Java(Name = "isBooleanStringArrayOverload")
+    @Kotlin(Name = "isBooleanStringArrayOverload")
     fun isBoolean(input: StringArray): Boolean
     @Dart("isBooleanIntArray")
     @Java(Name = "isBooleanIntArrayOverload")
+    @Kotlin(Name = "isBooleanIntArrayOverload")
     fun isBoolean(input: IntArray): Boolean
     @Dart("isBooleanConst")
     @Cpp(Const)
@@ -64,7 +66,7 @@ class SpecialNames {
     constructor make(result: String)
 }
 
-@Java(Skip) @Dart(Skip)
+@Java(Skip) @Dart(Skip) @Kotlin(Skip)
 class SwiftMethodOverloads {
     @Swift("three")
     fun one(input: String)
@@ -72,7 +74,7 @@ class SwiftMethodOverloads {
     fun two(input: List<String>)
 }
 
-@Swift(Skip) @Dart(Skip)
+@Swift(Skip) @Dart(Skip) @Kotlin(Skip)
 class JavaMethodOverloads {
     @Java("three")
     fun one(input: String)
@@ -80,7 +82,15 @@ class JavaMethodOverloads {
     fun two(input: List<String>)
 }
 
-@Java(Skip) @Swift(Skip)
+@Swift(Skip) @Dart(Skip) @Java(Skip)
+class KotlinMethodOverloads {
+    @Kotlin("three")
+    fun one(input: String)
+    @Kotlin("three")
+    fun two(input: List<String>)
+}
+
+@Java(Skip) @Swift(Skip) @Kotlin(Skip)
 interface SpecialNamesInterface {
     lambda Callback = () -> Void
     @Cpp(Const)
@@ -93,16 +103,17 @@ class SkippedOverloads {
 
     @Swift(Skip)
     @Java(Skip)
+    @Kotlin(Skip)
     constructor make_for_dart(input: String)
 }
 
-@Java(Skip)
+@Java(Skip) @Kotlin(Skip)
 class NullableOverloads {
     fun foo(input: String)
     fun foo(input: String?)
 }
 
-@Java(Skip) @Dart(Skip)
+@Java(Skip) @Dart(Skip) @Kotlin(Skip)
 class SwiftConstructorOverloads {
     constructor make(input: String)
     constructor make_do(throughput: String)

@@ -3,20 +3,18 @@
  *
  */
 
-@file:JvmName("PlatformNamesInterface")
+@file:JvmName("SpecialNames")
 
 package com.example.smoke
 
 import com.example.NativeBase
-import com.example.smoke.dodoInterface
-import com.example.smoke.dodoTypes
 
-class dodoInterface : NativeBase {
+class SpecialNames : NativeBase {
 
 
 
 
-    constructor(makeParameter: String) : this(make(makeParameter), null as Any?) {
+    constructor(result: String) : this(make(result), null as Any?) {
         cacheThisInstance();
     }
 
@@ -34,11 +32,16 @@ class dodoInterface : NativeBase {
 
 
 
-    external fun DodoMethod(DodoParameter: String) : dodoTypes.dodoStruct
+    external fun create() : Unit
 
-    var DODO_PROPERTY: Long
-        @JvmName("GET_DODO_PROPERTY") external get
-        @JvmName("SET_DODO_PROPERTY") external set
+
+    external fun release() : Unit
+
+
+    external fun createProxy() : Unit
+
+
+    external fun Uppercase() : Unit
 
 
 
@@ -46,7 +49,7 @@ class dodoInterface : NativeBase {
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
 
-        @JvmStatic external fun make(makeParameter: String) : Long
+        @JvmStatic external fun make(result: String) : Long
     }
 }
 

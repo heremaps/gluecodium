@@ -17,29 +17,27 @@
  * License-Filename: LICENSE
  */
 
-package com.example;
+package com.example
 
-import java.lang.ref.PhantomReference;
-import java.lang.ref.Reference;
-import java.lang.ref.ReferenceQueue;
-import java.util.Collections;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.lang.ref.PhantomReference
+import java.lang.ref.Reference
+import java.lang.ref.ReferenceQueue
+import java.util.Collections
+import java.util.concurrent.ConcurrentHashMap
+import java.util.logging.Level
+import java.util.logging.Logger
 
 /*
- * <p>Internal base class for public non-POD objects to manage the lifecycle of underlying C++ objects.
- * While the class is public for technical reasons, but should be considered <b>internal</b> and not
+ * Internal base class for public non-POD objects to manage the lifecycle of underlying C++ objects.
+ * While the class is public for technical reasons, but should be considered **internal** and not
  * part of the public API and thus not used directly.
  *
- * <p>Kotlin classes which wrap C++ objects inherit from NativeBase to
- * <ol>
- * <li>reference the C++ object</li>
- * <li>manage the lifecycle of C++ object</li>
- * </ol>
+ * Kotlin classes which wrap C++ objects inherit from NativeBase to
+ * - reference the C++ object
+ * - manage the lifecycle of C++ object
  *
- * <p>Cleanup of C++ objects is done automatically as long as there are new subclasses of NativeBase
+ *
+ * Cleanup of C++ objects is done automatically as long as there are new subclasses of NativeBase
  * created. Currently there is no explicit way to destroy the underlying C++ object of a Kotlin
  * wrapper. This is intentional because normally no manual cleanup is necessary. Additionally the
  * client of the Kotlin wrapper would need additional knowledge of the underlying implementation to
@@ -52,7 +50,7 @@ public abstract class NativeBase {
 
     constructor(nativeHandle: Long, disposer: (Long) -> Unit) {
         this.nativeHandle = nativeHandle
-        REFERENCES.add(DisposableReference(this, nativeHandle, disposer));
+        REFERENCES.add(DisposableReference(this, nativeHandle, disposer))
     }
 
     private class DisposableReference: PhantomReference<NativeBase> {
@@ -63,25 +61,25 @@ public abstract class NativeBase {
             this.nativePointer = nativePointer
             this.disposer = disposer
 
-            cleanUpQueue();
+            cleanUpQueue()
         }
 
         fun dispose() {
-            REFERENCES.remove(this);
-            disposer(nativePointer);
+            REFERENCES.remove(this)
+            disposer(nativePointer)
         }
     }
 
     companion object {
         @JvmField public var propagateCleanupException: Boolean = false
-        private val LOGGER = Logger.getLogger(NativeBase::class.java.name);
+        private val LOGGER = Logger.getLogger(NativeBase::class.java.name)
 
         // The set is to keep DisposableReference itself from being garbage-collected.
         // The set is backed by ConcurrentHashMap to make it thread-safe.
         private val REFERENCES: MutableSet<Reference<*>> =
-            Collections.newSetFromMap(ConcurrentHashMap<Reference<*>, Boolean>());
+            Collections.newSetFromMap(ConcurrentHashMap<Reference<*>, Boolean>())
 
-        private val REFERENCE_QUEUE = ReferenceQueue<NativeBase>();
+        private val REFERENCE_QUEUE = ReferenceQueue<NativeBase>()
 
         @JvmStatic
         private fun cleanUpQueue() {
@@ -93,7 +91,7 @@ public abstract class NativeBase {
                 try {
                     (reference as DisposableReference).dispose()
                 } catch (t: Throwable) {
-                    LOGGER.log(Level.SEVERE, "Error cleaning up after reference.", t);
+                    LOGGER.log(Level.SEVERE, "Error cleaning up after reference.", t)
 
                     if (propagateCleanupException) {
                         throw t

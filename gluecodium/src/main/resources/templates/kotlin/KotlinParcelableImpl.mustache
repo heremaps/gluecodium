@@ -36,7 +36,6 @@ override fun writeToParcel(parcel: Parcel, flags: Int) {
 }}{{+parcelReadNonNullable}}{{!!
 }}{{#unless typeRef.isNullable}}{{!!
 }}{{#instanceOf type "LimeStruct"}}!!{{/instanceOf}}{{!!
-}}{{#instanceOf type "LimeEnumeration"}}!!{{/instanceOf}}{{!!
 }}{{#instanceOf type "LimeBasicType"}}{{!!
 }}{{#switch type.typeId.toString}}{{!!
 }}{{#case "String"}}!!{{/case}}{{!!
