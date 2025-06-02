@@ -118,7 +118,7 @@ struct StructConstructorOverloads {
     constructor create(input1: String, input2: String)
 }
 
-@Java(Skip) @Dart(Skip)
+@Java(Skip) @Dart(Skip) @Kotlin(Skip)
 class SwiftMethodOverloads {
     @Swift("three")
     fun one(input: String)
@@ -126,7 +126,7 @@ class SwiftMethodOverloads {
     fun two(input: List<String>)
 }
 
-@Swift(Skip) @Dart(Skip)
+@Swift(Skip) @Dart(Skip) @Kotlin(EnableIf="KotlinTestsRunWithJavaJni")
 class JavaMethodOverloads {
     @Java("three")
     fun one(input: String)
@@ -134,7 +134,15 @@ class JavaMethodOverloads {
     fun two(input: List<String>)
 }
 
-@Java(Skip) @Swift(Skip)
+@Swift(Skip) @Dart(Skip) @Java(Skip)
+class KotlinMethodOverloads {
+    @Kotlin("three")
+    fun one(input: String)
+    @Kotlin("three")
+    fun two(input: List<String>)
+}
+
+@Java(Skip) @Swift(Skip) @Kotlin(Skip)
 interface SpecialNamesInterface {
     lambda Callback = () -> Void
     @Cpp(Const)
