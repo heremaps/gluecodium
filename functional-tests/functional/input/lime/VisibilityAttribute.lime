@@ -48,6 +48,14 @@ interface InternalAttributeInterfaceParent {
     property prop: String
 }
 
+@Internal
+class SomeInternalClassWithMembers {
+    fun someFunction(): Int
+    static fun someStaticFunction(): Int
+
+    static fun create(): SomeInternalClassWithMembers
+}
+
 class SomeClassWithInternalMembers {
     @Internal
     fun someInternalFunction(): Int
