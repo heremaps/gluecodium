@@ -34,44 +34,46 @@ class LimeAndroidAttributesMismatchValidator(private val limeLogger: LimeLogger,
     fun validate(limeModel: LimeModel): Boolean {
         val allElements = limeModel.referenceMap.values
         val validationResults =
-            allElements.filterIsInstance<LimeNamedElement>().map { element ->
-                val javaAttributes = element.attributes.getAllAttributeValueTypes(LimeAttributeType.JAVA)
-                val kotlinAttributes = element.attributes.getAllAttributeValueTypes(LimeAttributeType.KOTLIN)
-                val commonAttributes = kotlinAttributes intersect javaAttributes
-
-                var result = true
-                val attributesMissingInJava = kotlinAttributes subtract commonAttributes
-                if (attributesMissingInJava.isNotEmpty()) {
-                    logAttributesMismatch(
-                        element = element,
-                        attributes = attributesMissingInJava,
-                        present = "Kotlin",
-                        missing = "Java",
-                    )
-
-                    if (werror) {
-                        result = false
-                    }
-                }
-
-                val attributesMissingInKotlin = javaAttributes subtract commonAttributes
-                if (attributesMissingInKotlin.isNotEmpty()) {
-                    logAttributesMismatch(
-                        element = element,
-                        attributes = attributesMissingInKotlin,
-                        present = "Java",
-                        missing = "Kotlin",
-                    )
-
-                    if (werror) {
-                        result = false
-                    }
-                }
-
-                result
-            }
+            allElements.filterIsInstance<LimeNamedElement>().map { validateLimeNamedElement(it) }
 
         return !validationResults.contains(false)
+    }
+
+    private fun validateLimeNamedElement(element: LimeNamedElement): Boolean {
+        val javaAttributes = element.attributes.getAllAttributeValueTypes(LimeAttributeType.JAVA)
+        val kotlinAttributes = element.attributes.getAllAttributeValueTypes(LimeAttributeType.KOTLIN)
+        val commonAttributes = kotlinAttributes intersect javaAttributes
+
+        var result = true
+        val attributesMissingInJava = kotlinAttributes subtract commonAttributes
+        if (attributesMissingInJava.isNotEmpty()) {
+            logAttributesMismatch(
+                element = element,
+                attributes = attributesMissingInJava,
+                present = "Kotlin",
+                missing = "Java",
+            )
+
+            if (werror) {
+                result = false
+            }
+        }
+
+        val attributesMissingInKotlin = javaAttributes subtract commonAttributes
+        if (attributesMissingInKotlin.isNotEmpty()) {
+            logAttributesMismatch(
+                element = element,
+                attributes = attributesMissingInKotlin,
+                present = "Java",
+                missing = "Kotlin",
+            )
+
+            if (werror) {
+                result = false
+            }
+        }
+
+        return result
     }
 
     private fun logAttributesMismatch(
