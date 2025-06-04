@@ -183,6 +183,28 @@ class LimeAndroidAttributesMismatchValidatorTest {
     }
 
     @Test
+    fun propertyWithGetterThatHasAttributeOnlyForJavaGeneratesOnlyWarningWhenNoWerror() {
+        val attributes =
+            LimeAttributes.Builder()
+                .addAttribute(LimeAttributeType.JAVA, LimeAttributeValueType.NAME, "someSpecialGetterName")
+                .build()
+
+        val getter = LimeFunction(path = somePath.child("get"), returnType = LimeReturnType(LimeBasicTypeRef.INT), attributes = attributes)
+        val limeProperty = LimeProperty(path = somePath, typeRef = LimeBasicTypeRef.INT, getter = getter)
+        allElements[somePath.toString()] = limeProperty
+
+        val logger: LimeLogger = mockk()
+        justRun { logger.warning(limeProperty.getter, any()) }
+
+        val generatorOptions = GeneratorOptions()
+        val validator = LimeAndroidAttributesMismatchValidator(logger, generatorOptions)
+        val result = validator.validate(limeModel)
+
+        verify(exactly = 1) { logger.warning(limeProperty.getter, "Attributes missing in Kotlin, but present in Java: [Name]") }
+        assertTrue(result)
+    }
+
+    @Test
     fun propertyWithSetterThatHasAttributeOnlyForKotlinGeneratesErrorWhenWerrorSet() {
         val attributes =
             LimeAttributes.Builder()
@@ -238,5 +260,34 @@ class LimeAndroidAttributesMismatchValidatorTest {
 
         verify(exactly = 1) { logger.error(limeFunction.parameters[0], "Attributes missing in Java, but present in Kotlin: [Name]") }
         assertFalse(result)
+    }
+
+    @Test
+    fun functionParameterThatHasAttributeOnlyForKotlinGeneratesOnlyWarningWhenWerrorIsNotSet() {
+        val attributes =
+            LimeAttributes.Builder()
+                .addAttribute(LimeAttributeType.KOTLIN, LimeAttributeValueType.NAME, "someSpecialParam")
+                .build()
+
+        val functionPath = somePath.child("someFunction")
+        val limeFunction =
+            LimeFunction(
+                path = functionPath,
+                parameters =
+                listOf(
+                    LimeParameter(path = functionPath.child("param"), typeRef = LimeBasicTypeRef.INT, attributes = attributes),
+                ),
+            )
+        allElements[somePath.toString()] = limeFunction
+
+        val logger: LimeLogger = mockk()
+        justRun { logger.warning(limeFunction.parameters[0], any()) }
+
+        val generatorOptions = GeneratorOptions()
+        val validator = LimeAndroidAttributesMismatchValidator(logger, generatorOptions)
+        val result = validator.validate(limeModel)
+
+        verify(exactly = 1) { logger.warning(limeFunction.parameters[0], "Attributes missing in Java, but present in Kotlin: [Name]") }
+        assertTrue(result)
     }
 }
