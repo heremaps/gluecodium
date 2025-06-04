@@ -23,8 +23,10 @@ import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.common.GeneratorOptions
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
+import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeProperty
 
 class LimeAndroidAttributesMismatchValidator(private val limeLogger: LimeLogger, generatorOptions: GeneratorOptions = GeneratorOptions()) {
     private val werror = generatorOptions.werror.contains(GeneratorOptions.WARNING_ANDROID_ATTRIBUTES_MISMATCH)
@@ -34,43 +36,64 @@ class LimeAndroidAttributesMismatchValidator(private val limeLogger: LimeLogger,
     fun validate(limeModel: LimeModel): Boolean {
         val allElements = limeModel.referenceMap.values
         val validationResults =
-            allElements.filterIsInstance<LimeNamedElement>().map { element ->
-                val javaAttributes = element.attributes.getAllAttributeValueTypes(LimeAttributeType.JAVA)
-                val kotlinAttributes = element.attributes.getAllAttributeValueTypes(LimeAttributeType.KOTLIN)
-                val commonAttributes = kotlinAttributes intersect javaAttributes
+            allElements.filterIsInstance<LimeNamedElement>().map { validateLimeNamedElement(it) }
 
-                var result = true
-                val attributesMissingInJava = kotlinAttributes subtract commonAttributes
-                if (attributesMissingInJava.isNotEmpty()) {
-                    logAttributesMismatch(
-                        element = element,
-                        attributes = attributesMissingInJava,
-                        present = "Kotlin",
-                        missing = "Java",
-                    )
+        return !validationResults.contains(false)
+    }
 
-                    if (werror) {
-                        result = false
-                    }
-                }
+    private fun validateLimeNamedElement(element: LimeNamedElement): Boolean {
+        val javaAttributes = element.attributes.getAllAttributeValueTypes(LimeAttributeType.JAVA)
+        val kotlinAttributes = element.attributes.getAllAttributeValueTypes(LimeAttributeType.KOTLIN)
+        val commonAttributes = kotlinAttributes intersect javaAttributes
 
-                val attributesMissingInKotlin = javaAttributes subtract commonAttributes
-                if (attributesMissingInKotlin.isNotEmpty()) {
-                    logAttributesMismatch(
-                        element = element,
-                        attributes = attributesMissingInKotlin,
-                        present = "Java",
-                        missing = "Kotlin",
-                    )
+        var result = true
+        val attributesMissingInJava = kotlinAttributes subtract commonAttributes
+        if (attributesMissingInJava.isNotEmpty()) {
+            logAttributesMismatch(
+                element = element,
+                attributes = attributesMissingInJava,
+                present = "Kotlin",
+                missing = "Java",
+            )
 
-                    if (werror) {
-                        result = false
-                    }
-                }
-
-                result
+            if (werror) {
+                result = false
             }
+        }
 
+        val attributesMissingInKotlin = javaAttributes subtract commonAttributes
+        if (attributesMissingInKotlin.isNotEmpty()) {
+            logAttributesMismatch(
+                element = element,
+                attributes = attributesMissingInKotlin,
+                present = "Java",
+                missing = "Kotlin",
+            )
+
+            if (werror) {
+                result = false
+            }
+        }
+
+        if (element is LimeProperty && !validatePropertyAccessors(element)) {
+            result = false
+        } else if (element is LimeFunction && !validateParameterNames(element)) {
+            result = false
+        }
+
+        return result
+    }
+
+    private fun validatePropertyAccessors(limeProperty: LimeProperty): Boolean {
+        // Getter is always validated. Setter is validated only when present. If not present then pass validation.
+        val setterValidationResult = limeProperty.setter?.let { validateLimeNamedElement(it) } ?: true
+        val getterValidationResult = validateLimeNamedElement(limeProperty.getter)
+
+        return getterValidationResult && setterValidationResult
+    }
+
+    private fun validateParameterNames(limeFunction: LimeFunction): Boolean {
+        val validationResults = limeFunction.parameters.map { validateLimeNamedElement(it) }
         return !validationResults.contains(false)
     }
 
