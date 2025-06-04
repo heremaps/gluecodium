@@ -24,9 +24,14 @@ import com.here.gluecodium.generator.common.GeneratorOptions
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributes
+import com.here.gluecodium.model.lime.LimeBasicTypeRef
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimePath
+import com.here.gluecodium.model.lime.LimeProperty
+import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeStruct
 import io.mockk.justRun
 import io.mockk.mockk
@@ -153,5 +158,56 @@ class LimeAndroidAttributesMismatchValidatorTest {
         verify(exactly = 1) { logger.warning(limeStruct, "Attributes missing in Kotlin, but present in Java: [Skip]") }
         verify(exactly = 1) { logger.warning(limeStruct, "Attributes missing in Java, but present in Kotlin: [Internal]") }
         assertTrue(result)
+    }
+
+    @Test
+    fun propertyWithGetterThatHasAttributeOnlyForJavaGeneratesErrorWhenWerrorSet() {
+        val attributes =
+            LimeAttributes.Builder()
+                .addAttribute(LimeAttributeType.JAVA, LimeAttributeValueType.NAME, "someSpecialGetterName")
+                .build()
+
+        val getter = LimeFunction(path = somePath.child("get"), returnType = LimeReturnType(LimeBasicTypeRef.INT), attributes = attributes)
+        val limeProperty = LimeProperty(path = somePath, typeRef = LimeBasicTypeRef.INT, getter = getter)
+        allElements[somePath.toString()] = limeProperty
+
+        val logger: LimeLogger = mockk()
+        justRun { logger.error(limeProperty.getter, any()) }
+
+        val generatorOptions = GeneratorOptions(werror = setOf(GeneratorOptions.WARNING_ANDROID_ATTRIBUTES_MISMATCH))
+        val validator = LimeAndroidAttributesMismatchValidator(logger, generatorOptions)
+        val result = validator.validate(limeModel)
+
+        verify(exactly = 1) { logger.error(limeProperty.getter, "Attributes missing in Kotlin, but present in Java: [Name]") }
+        assertFalse(result)
+    }
+
+    @Test
+    fun propertyWithSetterThatHasAttributeOnlyForKotlinGeneratesErrorWhenWerrorSet() {
+        val attributes =
+            LimeAttributes.Builder()
+                .addAttribute(LimeAttributeType.KOTLIN, LimeAttributeValueType.NAME, "setSomeProperty")
+                .build()
+
+        val setterPath = somePath.child("set")
+        val setter =
+            LimeFunction(
+                path = setterPath,
+                parameters = listOf(LimeParameter(path = setterPath.child("param"), typeRef = LimeBasicTypeRef.INT)),
+                attributes = attributes,
+            )
+        val getter = LimeFunction(path = somePath.child("get"), returnType = LimeReturnType(LimeBasicTypeRef.INT))
+        val limeProperty = LimeProperty(path = somePath, typeRef = LimeBasicTypeRef.INT, getter = getter, setter = setter)
+        allElements[somePath.toString()] = limeProperty
+
+        val logger: LimeLogger = mockk()
+        justRun { logger.error(setter, any()) }
+
+        val generatorOptions = GeneratorOptions(werror = setOf(GeneratorOptions.WARNING_ANDROID_ATTRIBUTES_MISMATCH))
+        val validator = LimeAndroidAttributesMismatchValidator(logger, generatorOptions)
+        val result = validator.validate(limeModel)
+
+        verify(exactly = 1) { logger.error(setter, "Attributes missing in Java, but present in Kotlin: [Name]") }
+        assertFalse(result)
     }
 }

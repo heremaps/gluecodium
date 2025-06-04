@@ -25,6 +25,7 @@ import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeProperty
 
 class LimeAndroidAttributesMismatchValidator(private val limeLogger: LimeLogger, generatorOptions: GeneratorOptions = GeneratorOptions()) {
     private val werror = generatorOptions.werror.contains(GeneratorOptions.WARNING_ANDROID_ATTRIBUTES_MISMATCH)
@@ -73,7 +74,19 @@ class LimeAndroidAttributesMismatchValidator(private val limeLogger: LimeLogger,
             }
         }
 
+        if (element is LimeProperty && !validatePropertyAccessors(element)) {
+            result = false
+        }
+
         return result
+    }
+
+    private fun validatePropertyAccessors(limeProperty: LimeProperty): Boolean {
+        // Getter is always validated. Setter is validated only when present. If not present then pass validation.
+        val setterValidationResult = limeProperty.setter?.let { validateLimeNamedElement(it) } ?: true
+        val getterValidationResult = validateLimeNamedElement(limeProperty.getter)
+
+        return getterValidationResult && setterValidationResult
     }
 
     private fun logAttributesMismatch(
