@@ -210,4 +210,33 @@ class LimeAndroidAttributesMismatchValidatorTest {
         verify(exactly = 1) { logger.error(setter, "Attributes missing in Java, but present in Kotlin: [Name]") }
         assertFalse(result)
     }
+
+    @Test
+    fun functionParameterThatHasAttributeOnlyForKotlinGeneratesErrorWhenWerrorSet() {
+        val attributes =
+            LimeAttributes.Builder()
+                .addAttribute(LimeAttributeType.KOTLIN, LimeAttributeValueType.NAME, "someSpecialParam")
+                .build()
+
+        val functionPath = somePath.child("someFunction")
+        val limeFunction =
+            LimeFunction(
+                path = functionPath,
+                parameters =
+                    listOf(
+                        LimeParameter(path = functionPath.child("param"), typeRef = LimeBasicTypeRef.INT, attributes = attributes),
+                    ),
+            )
+        allElements[somePath.toString()] = limeFunction
+
+        val logger: LimeLogger = mockk()
+        justRun { logger.error(limeFunction.parameters[0], any()) }
+
+        val generatorOptions = GeneratorOptions(werror = setOf(GeneratorOptions.WARNING_ANDROID_ATTRIBUTES_MISMATCH))
+        val validator = LimeAndroidAttributesMismatchValidator(logger, generatorOptions)
+        val result = validator.validate(limeModel)
+
+        verify(exactly = 1) { logger.error(limeFunction.parameters[0], "Attributes missing in Java, but present in Kotlin: [Name]") }
+        assertFalse(result)
+    }
 }

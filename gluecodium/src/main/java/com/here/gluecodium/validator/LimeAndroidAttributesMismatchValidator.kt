@@ -23,6 +23,7 @@ import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.common.GeneratorOptions
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
+import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeProperty
@@ -76,6 +77,8 @@ class LimeAndroidAttributesMismatchValidator(private val limeLogger: LimeLogger,
 
         if (element is LimeProperty && !validatePropertyAccessors(element)) {
             result = false
+        } else if (element is LimeFunction && !validateParameterNames(element)) {
+            result = false
         }
 
         return result
@@ -87,6 +90,11 @@ class LimeAndroidAttributesMismatchValidator(private val limeLogger: LimeLogger,
         val getterValidationResult = validateLimeNamedElement(limeProperty.getter)
 
         return getterValidationResult && setterValidationResult
+    }
+
+    private fun validateParameterNames(limeFunction: LimeFunction): Boolean {
+        val validationResults = limeFunction.parameters.map { validateLimeNamedElement(it) }
+        return !validationResults.contains(false)
     }
 
     private fun logAttributesMismatch(
