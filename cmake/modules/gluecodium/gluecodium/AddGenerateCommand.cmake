@@ -141,6 +141,14 @@ function(gluecodium_add_generate_command _target)
     ${_target} PROPERTIES GLUECODIUM_OUTPUT_DIR "${_args_OUTPUT_DIR}" GLUECODIUM_SOURCE_SETS
                                                                       "${_source_sets}")
 
+  unset(_configuration_content)
+  get_property(_known_optional_properties GLOBAL PROPERTY GLUECODIUM_KNOWN_OPTIONAL_PROPERTIES)
+
+  foreach(_known_property ${_known_optional_properties})
+    _gluecodium_set_property_if_globally_initialised(${_target} ${_known_property})
+    _gluecodium_append_target_property_eval(_configuration_content ${_target} ${_known_property})
+  endforeach()
+
   gluecodium_list_generated_files(${_target} OUTPUT_ALL _generated_files)
 
   set(_options_file "${_args_OUTPUT_DIR}/gluecodium-generate-options-${_target}.txt")
@@ -155,7 +163,6 @@ function(gluecodium_add_generate_command _target)
   endif()
   list(APPEND _generated_files "${_placeholders_file}")
 
-  unset(_configuration_content)
   string(APPEND _configuration_content "set(GLUECODIUM_TARGET_NAME \"${_target}\")\n")
   string(APPEND _configuration_content "set(GLUECODIUM_GENERATORS \"${_args_GENERATORS}\")\n")
   string(APPEND _configuration_content "set(GLUECODIUM_SOURCE_SETS \"${_source_sets}\")\n")
@@ -170,13 +177,6 @@ function(gluecodium_add_generate_command _target)
          "set(GLUECODIUM_TARGET_BINARY_DIR \"${CMAKE_CURRENT_BINARY_DIR}\")\n")
   string(APPEND _configuration_content "set(GLUECODIUM_OPTIONS_FILE \"${_options_file}\")\n")
   string(APPEND _configuration_content "set(GLUECODIUM_PLACEHOLDERS_FILE \"${_placeholders_file}\")\n")
-
-  get_property(_known_optional_properties GLOBAL PROPERTY GLUECODIUM_KNOWN_OPTIONAL_PROPERTIES)
-
-  foreach(_known_property ${_known_optional_properties})
-    _gluecodium_set_property_if_globally_initialised(${_target} ${_known_property})
-    _gluecodium_append_target_property_eval(_configuration_content ${_target} ${_known_property})
-  endforeach()
 
   get_property(_force_jni_from_java_generator TARGET ${_target} PROPERTY GLUECODIUM_FORCE_USAGE_OF_JNI_FROM_JAVA_GENERATOR)
   if(NOT _force_jni_from_java_generator)
