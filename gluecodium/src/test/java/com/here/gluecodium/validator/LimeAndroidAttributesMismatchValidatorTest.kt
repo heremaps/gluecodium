@@ -274,9 +274,9 @@ class LimeAndroidAttributesMismatchValidatorTest {
             LimeFunction(
                 path = functionPath,
                 parameters =
-                listOf(
-                    LimeParameter(path = functionPath.child("param"), typeRef = LimeBasicTypeRef.INT, attributes = attributes),
-                ),
+                    listOf(
+                        LimeParameter(path = functionPath.child("param"), typeRef = LimeBasicTypeRef.INT, attributes = attributes),
+                    ),
             )
         allElements[somePath.toString()] = limeFunction
 
