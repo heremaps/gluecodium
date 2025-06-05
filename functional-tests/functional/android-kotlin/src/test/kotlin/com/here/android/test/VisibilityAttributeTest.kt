@@ -38,6 +38,12 @@ class VisibilityAttributeTest {
     }
 
     @org.junit.Test
+    fun internalConstructorOfClassCanBeCalled() {
+        val someObject = SomeClassWithInternalMembers()
+        assertEquals(567, someObject.someInternalFunction())
+    }
+
+    @org.junit.Test
     fun staticInternalFunctionCanBeCalled() {
         assertEquals(123, SomeClassWithInternalMembers.someStaticInternalFunction())
     }

@@ -40,6 +40,10 @@ std::shared_ptr<SomeClassWithInternalMembers> SomeClassWithInternalMembers::crea
     return std::make_shared<SomeClassWithInternalMembersImpl>();
 }
 
+std::shared_ptr<SomeClassWithInternalMembers> SomeClassWithInternalMembers::some_internal_ctor() {
+    return SomeClassWithInternalMembers::create();
+}
+
 int SomeClassWithInternalMembers::some_static_internal_function() {
     return 123;
 }

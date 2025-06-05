@@ -58,6 +58,9 @@ class SomeInternalClassWithMembers {
 
 class SomeClassWithInternalMembers {
     @Internal
+    constructor someInternalCtor()
+
+    @Internal
     fun someInternalFunction(): Int
 
     @Internal
