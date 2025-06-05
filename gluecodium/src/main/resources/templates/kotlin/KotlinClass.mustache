@@ -31,7 +31,7 @@
 {{#set classElement=this}}{{#constructors}}
 {{prefixPartial "kotlin/KotlinMethodComment" "    "}}
     {{>kotlinConstructorThrows}}
-constructor({{!!
+{{resolveName "visibility"}}constructor({{!!
 }}{{#parameters}}{{!!
 }}{{>kotlin/KotlinAttributesInline}}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/parameters}}){{!!
