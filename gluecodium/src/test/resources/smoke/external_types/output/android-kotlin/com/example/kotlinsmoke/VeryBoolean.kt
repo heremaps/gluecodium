@@ -13,7 +13,9 @@ class VeryBoolean {
 
 
 
-    constructor(value: Boolean) {
+
+
+   constructor(value: Boolean) {
         val _other = make(value)
         this.value = _other.value
     }
@@ -24,6 +26,7 @@ class VeryBoolean {
 
 
     companion object {
+
         @JvmStatic external fun make(value: Boolean) : VeryBoolean
     }
 }

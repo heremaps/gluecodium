@@ -15,12 +15,15 @@ class FieldCustomConstructorsMix {
 
 
 
-    constructor(intValue: Int, dummy: Double) {
+
+
+   constructor(intValue: Int, dummy: Double) {
         val _other = createMe(intValue, dummy)
         this.stringField = _other.stringField
         this.intField = _other.intField
         this.boolField = _other.boolField
     }
+
 
 
     constructor(intField: Int) {
@@ -34,6 +37,7 @@ class FieldCustomConstructorsMix {
 
 
     companion object {
+
         @JvmStatic external fun createMe(intValue: Int, dummy: Double) : FieldCustomConstructorsMix
     }
 }

@@ -18,7 +18,7 @@ class StructsWithMethods {
 
 
 
-        constructor(x: Double, y: Double) {
+       constructor(x: Double, y: Double) {
             val _other = create(x, y)
             this.x = _other.x
             this.y = _other.y
@@ -26,7 +26,7 @@ class StructsWithMethods {
 
 
     @Throws(ValidationUtils.ValidationException::class)
-        constructor(other: StructsWithMethods.Vector) {
+       constructor(other: StructsWithMethods.Vector) {
             val _other = create(other)
             this.x = _other.x
             this.y = _other.y

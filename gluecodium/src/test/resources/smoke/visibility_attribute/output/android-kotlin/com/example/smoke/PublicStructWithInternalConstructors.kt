@@ -15,14 +15,14 @@ class PublicStructWithInternalConstructors {
 
 
 
-    constructor() {
+   internal constructor() {
         val _other = make()
         this.someVar = _other.someVar
     }
 
 
 
-    constructor(someVar: Int) {
+    internal constructor(someVar: Int) {
         this.someVar = someVar
     }
 
