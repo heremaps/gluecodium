@@ -21,7 +21,7 @@ class dodoTypes {
 
 
 
-        constructor(DodoParameter: String) {
+       constructor(DodoParameter: String) {
             val _other = DodoCreate(DodoParameter)
             this.DODO_FIELD = _other.DODO_FIELD
         }

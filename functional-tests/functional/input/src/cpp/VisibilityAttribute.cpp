@@ -20,9 +20,74 @@
 
 #include "test/InternalAttributeClassWithFunctions.h"
 #include "test/InternalAttributeClassWithStaticProperty.h"
+#include "test/SomeClassWithInternalMembers.h"
+#include "test/SomeInternalClassWithMembers.h"
+#include "test/SomeInternalStructWithMembers.h"
+#include "test/SomeStructWithInternalMembers.h"
 
 namespace test
 {
+
+class SomeClassWithInternalMembersImpl : public SomeClassWithInternalMembers {
+public:
+    SomeClassWithInternalMembersImpl() = default;
+    ~SomeClassWithInternalMembersImpl() override = default;
+
+    int some_internal_function() override {
+        return 567;
+    }
+};
+
+std::shared_ptr<SomeClassWithInternalMembers> SomeClassWithInternalMembers::create() {
+    return std::make_shared<SomeClassWithInternalMembersImpl>();
+}
+
+std::shared_ptr<SomeClassWithInternalMembers> SomeClassWithInternalMembers::some_internal_ctor() {
+    return SomeClassWithInternalMembers::create();
+}
+
+int SomeClassWithInternalMembers::some_static_internal_function() {
+    return 123;
+}
+
+class SomeInternalClassWithMembersImpl : public SomeInternalClassWithMembers {
+public:
+    SomeInternalClassWithMembersImpl() = default;
+    ~SomeInternalClassWithMembersImpl() override = default;
+
+    int some_function() override {
+        return 987;
+    }
+};
+
+std::shared_ptr<SomeInternalClassWithMembers> SomeInternalClassWithMembers::create() {
+    return std::make_shared<SomeInternalClassWithMembersImpl>();
+}
+
+int SomeInternalClassWithMembers::some_static_function() {
+    return 765;
+}
+
+int32_t SomeInternalStructWithMembers::some_function() const {
+    return 32;
+}
+
+::test::SomeInternalStructWithMembers SomeInternalStructWithMembers::create() {
+    return SomeInternalStructWithMembers{123, 456};
+}
+
+int32_t SomeStructWithInternalMembers::some_internal_function() const {
+    return 888;
+}
+
+int32_t SomeStructWithInternalMembers::some_static_internal_function() {
+    return 777;
+}
+
+::test::SomeStructWithInternalMembers SomeStructWithInternalMembers::some_internal_ctor(const int32_t x) {
+    return SomeStructWithInternalMembers{x, 444, "ABCDEF"};
+}
+
 std::shared_ptr<InternalAttributeClassWithFunctions>
 InternalAttributeClassWithFunctions::make() {
     return {};

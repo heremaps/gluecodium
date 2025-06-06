@@ -20,8 +20,9 @@
   !}}
 {{#unless this.isConstructor}}{{>kotlin/KotlinMethodComment}}{{>kotlin/KotlinAttributes}}{{/unless}}
 {{#thrownType}}@Throws({{resolveName typeRef}}::class){{/thrownType}}
-{{#if isStatic}}@JvmStatic {{/if}}{{#if override}}override {{/if}}{{!!
-}}{{#unless isInterface}}external {{/unless}}fun {{resolveName}}({{!!
+{{#if isStatic}}@JvmStatic {{/if}}{{#unless override}}{{#unless isInterface}}{{#if this.attributes.internal}}@JvmName("{{resolveName}}") {{/if}}{{/unless}}{{/unless}}{{!!
+}}{{#if override}}override {{/if}}{{!!
+}}{{#unless isInterface}}{{resolveName "visibility"}}external {{/unless}}fun {{resolveName}}({{!!
 }}{{#parameters}}{{!!
 }}{{>kotlin/KotlinAttributesInline}}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/parameters}}) : {{!!
