@@ -59,4 +59,30 @@ class VisibilityAttributeTest {
         assertEquals(765, SomeInternalClassWithMembers.someStaticFunction())
     }
 
+    @org.junit.Test
+    fun functionOfInternalStructCanBeCalled() {
+        val someObject = SomeInternalStructWithMembers.create()
+        assertEquals(32, someObject.someFunction())
+    }
+
+    @org.junit.Test
+    fun fieldsOfInternalStructCanBeAccessed() {
+        val someObject = SomeInternalStructWithMembers.create()
+        assertEquals(123, someObject.someInteger)
+        assertEquals(456, someObject.someLong)
+    }
+
+    @org.junit.Test
+    fun internalFieldOfStructCanBeAccessed() {
+        val someObject = SomeStructWithInternalMembers(21)
+        assertEquals(21, someObject.someInteger)
+        assertEquals(444, someObject.someLong)
+        assertEquals("ABCDEF", someObject.someInternalString)
+    }
+
+    @org.junit.Test
+    fun internaFunctionOfStructCanBeCalled() {
+        val someObject = SomeStructWithInternalMembers(21)
+        assertEquals(888, someObject.someInternalFunction())
+    }
 }

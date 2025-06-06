@@ -61,4 +61,31 @@ public class VisibilityAttributeTest {
     assertEquals(765, SomeInternalClassWithMembers.someStaticFunction());
   }
 
+  @Test
+  public void fieldOfInternalStructCanBeAccessed() {
+    SomeInternalStructWithMembers someObject = SomeInternalStructWithMembers.create();
+    assertEquals(123, someObject.someInteger);
+    assertEquals(456, someObject.someLong);
+  }
+
+  @Test
+  public void functionOfInternalStructCanBeCalled() {
+    SomeInternalStructWithMembers someObject = SomeInternalStructWithMembers.create();
+    assertEquals(32, someObject.someFunction());
+  }
+
+  @Test
+  public void internalFieldOfStructCanBeAccessed() {
+    SomeStructWithInternalMembers someObject = new SomeStructWithInternalMembers(21);
+    assertEquals(21, someObject.someInteger);
+    assertEquals(444, someObject.someLong);
+    assertEquals("ABCDEF", someObject.someInternalString);
+  }
+
+  @Test
+  public void internaFunctionOfStructCanBeCalled() {
+    SomeStructWithInternalMembers someObject = new SomeStructWithInternalMembers(21);
+    assertEquals(888, someObject.someInternalFunction());
+  }
+
 }

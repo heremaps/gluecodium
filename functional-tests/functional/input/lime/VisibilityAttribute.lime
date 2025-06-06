@@ -49,6 +49,33 @@ interface InternalAttributeInterfaceParent {
 }
 
 @Internal
+struct SomeInternalStructWithMembers {
+    someInteger: Int
+    someLong: Long
+
+    fun someFunction(): Int
+
+    static fun create(): SomeInternalStructWithMembers
+}
+
+struct SomeStructWithInternalMembers {
+    someInteger: Int
+    someLong: Long
+
+    @Internal
+    someInternalString: String
+
+    @Internal
+    constructor someInternalCtor(x: Int)
+
+    @Internal
+    fun someInternalFunction(): Int
+
+    @Internal
+    static fun someStaticInternalFunction(): Int
+}
+
+@Internal
 class SomeInternalClassWithMembers {
     fun someFunction(): Int
     static fun someStaticFunction(): Int
