@@ -12,7 +12,7 @@ import com.example.NativeBase
 /**
  * @suppress
  */
-class InternalListenerImpl : NativeBase, InternalListener {
+internal class InternalListenerImpl : NativeBase, InternalListener {
     protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
