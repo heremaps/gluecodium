@@ -22,6 +22,7 @@
 #include "test/InternalAttributeClassWithStaticProperty.h"
 #include "test/SomeClassWithInternalMembers.h"
 #include "test/SomeInternalClassWithMembers.h"
+#include "test/SomeInternalInterface.h"
 #include "test/SomeInternalStructWithMembers.h"
 #include "test/SomeStructWithInternalMembers.h"
 
@@ -90,6 +91,10 @@ int32_t SomeStructWithInternalMembers::some_static_internal_function() {
 
 int32_t SomeStructWithInternalMembers::call_some_lambda(const ::test::SomeInternalLambda& some_lambda) const {
     return some_lambda();
+}
+
+int32_t SomeStructWithInternalMembers::call_method_of_some_interface( const ::std::shared_ptr< ::test::SomeInternalInterface >& some_interface ) const {
+    return some_interface->foo();
 }
 
 std::shared_ptr<InternalAttributeClassWithFunctions>

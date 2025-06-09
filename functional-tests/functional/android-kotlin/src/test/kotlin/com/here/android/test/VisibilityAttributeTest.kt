@@ -27,6 +27,11 @@ import org.robolectric.annotation.Config
 import java.util.Collections
 import java.util.EnumSet
 
+class ImplementationOfSomeInternalInterface: SomeInternalInterface {
+    override fun foo(): Int = 709
+    override fun bar(): Long = 121
+}
+
 @RunWith(RobolectricTestRunner::class)
 @Config(application = RobolectricApplication::class)
 class VisibilityAttributeTest {
@@ -126,5 +131,13 @@ class VisibilityAttributeTest {
         val someObject = SomeStructWithInternalMembers(21)
         val result = someObject.callSomeLambda { 555 }
         assertEquals(555, result)
+    }
+
+    @org.junit.Test
+    fun internaInterfaceCanBeUsed() {
+        val someInterfaceImpl = ImplementationOfSomeInternalInterface()
+        val someObject = SomeStructWithInternalMembers(21)
+        val result = someObject.callMethodOfSomeInterface(someInterfaceImpl)
+        assertEquals(709, result)
     }
 }
