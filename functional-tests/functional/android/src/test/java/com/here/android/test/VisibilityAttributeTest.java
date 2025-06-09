@@ -29,6 +29,18 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+class ImplementationOfSomeInternalInterface implements SomeInternalInterface {
+  @Override
+  public int foo() {
+    return 709;
+  }
+
+  @Override
+  public long bar() {
+    return 121;
+  }
+}
+
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class)
 public class VisibilityAttributeTest {
@@ -128,6 +140,14 @@ public class VisibilityAttributeTest {
     SomeStructWithInternalMembers someObject = new SomeStructWithInternalMembers(21);
     int result = someObject.callSomeLambda( () -> { return 555; } );
     assertEquals(555, result);
+  }
+
+  @Test
+  public void internaInterfaceCanBeUsed() {
+    ImplementationOfSomeInternalInterface someInterfaceImpl = new ImplementationOfSomeInternalInterface();
+    SomeStructWithInternalMembers someObject = new SomeStructWithInternalMembers(21);
+    int result = someObject.callMethodOfSomeInterface(someInterfaceImpl);
+    assertEquals(709, result);
   }
 
 }
