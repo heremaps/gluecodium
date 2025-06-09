@@ -88,6 +88,10 @@ int32_t SomeStructWithInternalMembers::some_static_internal_function() {
     return SomeStructWithInternalMembers{x, 444, "ABCDEF"};
 }
 
+int32_t SomeStructWithInternalMembers::call_some_lambda(const ::test::SomeInternalLambda& some_lambda) const {
+    return some_lambda();
+}
+
 std::shared_ptr<InternalAttributeClassWithFunctions>
 InternalAttributeClassWithFunctions::make() {
     return {};
