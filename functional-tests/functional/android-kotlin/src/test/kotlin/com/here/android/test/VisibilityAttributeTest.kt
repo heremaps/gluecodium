@@ -85,4 +85,25 @@ class VisibilityAttributeTest {
         val someObject = SomeStructWithInternalMembers(21)
         assertEquals(888, someObject.someInternalFunction())
     }
+
+    @org.junit.Test
+    fun internalFreeArgsCtorCanBeCalled() {
+        val someObject = SomeStructWithInternalFreeArgsCtor(33)
+        assertEquals(33, someObject.someInt)
+        assertEquals("Special string", someObject.someString)
+    }
+
+    @org.junit.Test
+    fun internalAllArgsCtorCanBeCalled() {
+        val someObject = SomeStructWithInternalAllArgsCtor(11, "QWERTY")
+        assertEquals(11, someObject.someInt)
+        assertEquals("QWERTY", someObject.someString)
+    }
+
+    @org.junit.Test
+    fun internalFieldCtorCanBeCalled() {
+        val someObject = SomeStructWithInternalFieldConstructor(77)
+        assertEquals(77, someObject.someInt)
+        assertEquals("QAZWSX", someObject.someString)
+    }
 }

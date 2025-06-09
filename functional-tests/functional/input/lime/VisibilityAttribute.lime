@@ -75,6 +75,31 @@ struct SomeStructWithInternalMembers {
     static fun someStaticInternalFunction(): Int
 }
 
+struct SomeStructWithInternalFreeArgsCtor {
+    @Internal
+    someInt: Int
+
+    someString: String = "Special string"
+}
+
+struct SomeStructWithInternalAllArgsCtor {
+    @Internal
+    someInt: Int
+
+    @Internal
+    someString: String
+}
+
+struct SomeStructWithInternalFieldConstructor {
+    @Internal
+    someInt: Int
+
+    someString: String = "QAZWSX"
+
+    @Internal
+    field constructor(someInt)
+}
+
 @Internal
 class SomeInternalClassWithMembers {
     fun someFunction(): Int
