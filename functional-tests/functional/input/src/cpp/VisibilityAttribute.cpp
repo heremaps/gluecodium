@@ -37,6 +37,17 @@ public:
     int some_internal_function() override {
         return 567;
     }
+
+    ::std::string get_some_internal_property() const override {
+      return m_internalProperty;
+    }
+
+    void set_some_internal_property(const ::std::string& value) override {
+      m_internalProperty = value;
+    }
+
+private:
+    std::string m_internalProperty{"DEFAULT"};
 };
 
 std::shared_ptr<SomeClassWithInternalMembers> SomeClassWithInternalMembers::create() {
