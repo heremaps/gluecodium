@@ -122,5 +122,15 @@ class SomeClassWithInternalMembers {
 }
 
 @Internal
+enum SomeInternalEnum {
+    ONE = 1,
+    TWO = 2,
+    THREE = 3,
+
+    @Internal
+    SINGLE = ONE
+}
+
+@Internal
 class InternalAttributeClassInherits: InternalAttributeInterfaceParent {
 }

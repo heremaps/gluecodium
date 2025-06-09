@@ -106,4 +106,18 @@ class VisibilityAttributeTest {
         assertEquals(77, someObject.someInt)
         assertEquals("QAZWSX", someObject.someString)
     }
+
+    @org.junit.Test
+    fun valueOfInternalEnumCanBeAccessed() {
+        val someObject = SomeInternalEnum.TWO
+        assertEquals(2, someObject.value)
+        assertEquals(SomeInternalEnum.TWO, someObject)
+    }
+
+    @org.junit.Test
+    fun internalAliasOfEnumCanBeAccessed() {
+        val someObject = SomeInternalEnum.SINGLE
+        assertEquals(1, someObject.value)
+        assertEquals(SomeInternalEnum.ONE, someObject)
+    }
 }
