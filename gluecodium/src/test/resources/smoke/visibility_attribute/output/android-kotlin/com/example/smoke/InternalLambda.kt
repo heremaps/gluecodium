@@ -8,7 +8,9 @@
 package com.example.smoke
 
 
-fun interface InternalLambda {
+internal fun interface InternalLambda {
+
+
     fun apply() : Unit
 }
 
