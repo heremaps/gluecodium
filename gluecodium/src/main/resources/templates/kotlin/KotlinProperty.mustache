@@ -24,12 +24,14 @@
 }}{{#if setter}}var{{/if}}{{!!
 }}{{#unless setter}}val{{/unless}}{{!!
 }} {{resolveName}}: {{resolveName typeRef}}
-{{#unless isCached}}
-    {{#unless isInterface}}{{#getter.attributes.kotlin.name}}@JvmName("{{this}}") {{/getter.attributes.kotlin.name}}{{!!
+{{#unless isCached}}{{#set thisProperty=this}}{{#thisProperty}}
+    {{#unless isInterface}}{{!!
+}}{{#unless override}}{{#ifPredicate thisProperty "propertyGetterRequiresJvmName"}}@JvmName("{{resolveName thisProperty "" "getter"}}") {{/ifPredicate}}{{/unless}}{{!!
 }}external {{/unless}}get{{#setter}}
-    {{#unless isInterface}}{{#this.attributes.kotlin.name}}@JvmName("{{this}}") {{/this.attributes.kotlin.name}}{{!!
+    {{#unless isInterface}}{{!!
+}}{{#unless override}}{{#ifPredicate thisProperty "propertySetterRequiresJvmName"}}@JvmName("{{resolveName thisProperty "" "setter"}}") {{/ifPredicate}}{{/unless}}{{!!
 }}external {{/unless}}set{{/setter}}
-{{/unless}}
+{{/thisProperty}}{{/set}}{{/unless}}
 {{#if isCached}}
     get() {
         if (!is_cached_{{resolveName}}) {
