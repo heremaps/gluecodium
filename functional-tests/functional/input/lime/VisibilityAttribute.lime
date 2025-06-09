@@ -133,6 +133,9 @@ class SomeClassWithInternalMembers {
     @Internal
     static fun someStaticInternalFunction(): Int
 
+    @Internal
+    property someInternalProperty: String
+
     static fun create(): SomeClassWithInternalMembers
 }
 

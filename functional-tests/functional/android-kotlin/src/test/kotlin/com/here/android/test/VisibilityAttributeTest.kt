@@ -54,6 +54,15 @@ class VisibilityAttributeTest {
     }
 
     @org.junit.Test
+    fun internalPropertyCanBeAccessed() {
+        val someObject = SomeClassWithInternalMembers.create()
+        assertEquals("DEFAULT", someObject.someInternalProperty)
+
+        someObject.someInternalProperty = "CUSTOM"
+        assertEquals("CUSTOM", someObject.someInternalProperty)
+    }
+
+    @org.junit.Test
     fun functionOfInternalClassCanBeCalled() {
         val someObject = SomeInternalClassWithMembers.create()
         assertEquals(987, someObject.someFunction())
