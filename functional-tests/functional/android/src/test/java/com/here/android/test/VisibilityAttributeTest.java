@@ -123,4 +123,11 @@ public class VisibilityAttributeTest {
     assertEquals(SomeInternalEnum.ONE, someObject);
   }
 
+  @Test
+  public void internaLambdaCanBeCalled() {
+    SomeStructWithInternalMembers someObject = new SomeStructWithInternalMembers(21);
+    int result = someObject.callSomeLambda( () -> { return 555; } );
+    assertEquals(555, result);
+  }
+
 }

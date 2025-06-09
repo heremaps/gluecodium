@@ -120,4 +120,11 @@ class VisibilityAttributeTest {
         assertEquals(1, someObject.value)
         assertEquals(SomeInternalEnum.ONE, someObject)
     }
+
+    @org.junit.Test
+    fun internaLambdaCanBeCalled() {
+        val someObject = SomeStructWithInternalMembers(21)
+        val result = someObject.callSomeLambda { 555 }
+        assertEquals(555, result)
+    }
 }

@@ -49,6 +49,9 @@ interface InternalAttributeInterfaceParent {
 }
 
 @Internal
+lambda SomeInternalLambda = () -> Int
+
+@Internal
 struct SomeInternalStructWithMembers {
     someInteger: Int
     someLong: Long
@@ -61,6 +64,9 @@ struct SomeInternalStructWithMembers {
 struct SomeStructWithInternalMembers {
     someInteger: Int
     someLong: Long
+
+    @Internal
+    fun callSomeLambda(someLambda: SomeInternalLambda): Int
 
     @Internal
     someInternalString: String
