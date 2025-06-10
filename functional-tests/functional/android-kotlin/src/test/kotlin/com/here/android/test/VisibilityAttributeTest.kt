@@ -136,10 +136,17 @@ class VisibilityAttributeTest {
     }
 
     @org.junit.Test
-    fun internaLambdaCanBeCalled() {
+    fun internaLambdaFromKotlinCanBeCalled() {
         val someObject = SomeStructWithInternalMembers(21)
         val result = someObject.callSomeLambda { 555 }
         assertEquals(555, result)
+    }
+
+    @org.junit.Test
+    fun internaLambdaFromCppCanBeCalled() {
+        val someObject = SomeStructWithInternalMembers(21)
+        val cppLambda = someObject.getSomeCppLambda()
+        assertEquals(909, cppLambda.apply())
     }
 
     @org.junit.Test
