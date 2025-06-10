@@ -163,4 +163,13 @@ class VisibilityAttributeTest {
         val cppInterfaceImpl = someObject.getSomeCppImplOfInternalInterface()
         assertEquals(777, cppInterfaceImpl.bar())
     }
+
+    @org.junit.Test
+    fun callInternalMethodsOfDerivedInternalClass() {
+        val someObject = SomeDerivedInternalClass.create()
+        assertEquals(111, someObject.someFunctionFromDerivedClass())
+        assertEquals(222, someObject.foo())
+        assertEquals(333, someObject.bar())
+        assertEquals(444, someObject.someInternalFunction())
+    }
 }
