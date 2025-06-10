@@ -172,4 +172,11 @@ class VisibilityAttributeTest {
         assertEquals(333, someObject.bar())
         assertEquals(444, someObject.someInternalFunction())
     }
+
+    @org.junit.Test
+    fun callFunctionsOfNestedInternalClass() {
+        val someObject = SomeInternalClassWithMembers.SomeNestedInternalClass.create()
+        assertEquals(1, someObject.doSomething())
+        assertEquals(2, someObject.doSomethingElse())
+    }
 }

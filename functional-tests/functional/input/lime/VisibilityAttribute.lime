@@ -127,6 +127,16 @@ class SomeInternalClassWithMembers {
     static fun someStaticFunction(): Int
 
     static fun create(): SomeInternalClassWithMembers
+
+    @Internal
+    class SomeNestedInternalClass {
+        fun doSomething(): Int
+
+        @Internal
+        fun doSomethingElse(): Int
+
+        static fun create(): SomeNestedInternalClass
+    }
 }
 
 @Internal

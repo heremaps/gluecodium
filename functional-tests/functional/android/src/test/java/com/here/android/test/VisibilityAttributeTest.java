@@ -181,4 +181,11 @@ public class VisibilityAttributeTest {
     assertEquals(333, someObject.bar());
     assertEquals(444, someObject.someInternalFunction());
   }
+
+  @Test
+  public void callFunctionsOfNestedInternalClass() {
+    SomeInternalClassWithMembers.SomeNestedInternalClass someObject = SomeInternalClassWithMembers.SomeNestedInternalClass.create();
+    assertEquals(1, someObject.doSomething());
+    assertEquals(2, someObject.doSomethingElse());
+  }
 }
