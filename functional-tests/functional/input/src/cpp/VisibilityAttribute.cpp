@@ -126,6 +126,10 @@ int32_t SomeStructWithInternalMembers::call_method_of_some_interface( const ::st
     return std::make_shared<CppInternalInterfaceImpl>();
 }
 
+::test::SomeInternalLambda SomeStructWithInternalMembers::get_some_cpp_lambda() const {
+    return [] { return 909; };
+}
+
 std::shared_ptr<InternalAttributeClassWithFunctions>
 InternalAttributeClassWithFunctions::make() {
     return {};
