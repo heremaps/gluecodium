@@ -52,7 +52,7 @@ interface InternalAttributeInterfaceParent {
 lambda SomeInternalLambda = () -> Int
 
 @Internal
-interface SomeInternalInterface {
+narrow interface SomeInternalInterface {
     fun foo(): Int
     fun bar(): Long
 }
@@ -127,6 +127,21 @@ class SomeInternalClassWithMembers {
     static fun someStaticFunction(): Int
 
     static fun create(): SomeInternalClassWithMembers
+}
+
+@Internal
+open class SomeOpenInternalClass {
+    @Internal
+    fun someInternalFunction(): Int
+}
+
+@Internal
+class SomeDerivedInternalClass : SomeOpenInternalClass, SomeInternalInterface {
+    @Internal
+    fun someFunctionFromDerivedClass(): Int
+
+    @Internal
+    static fun create(): SomeDerivedInternalClass
 }
 
 class SomeClassWithInternalMembers {

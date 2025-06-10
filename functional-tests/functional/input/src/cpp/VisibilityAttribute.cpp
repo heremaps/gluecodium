@@ -21,6 +21,7 @@
 #include "test/InternalAttributeClassWithFunctions.h"
 #include "test/InternalAttributeClassWithStaticProperty.h"
 #include "test/SomeClassWithInternalMembers.h"
+#include "test/SomeDerivedInternalClass.h"
 #include "test/SomeInternalClassWithMembers.h"
 #include "test/SomeInternalInterface.h"
 #include "test/SomeInternalStructWithMembers.h"
@@ -128,6 +129,32 @@ int32_t SomeStructWithInternalMembers::call_method_of_some_interface( const ::st
 
 ::test::SomeInternalLambda SomeStructWithInternalMembers::get_some_cpp_lambda() const {
     return [] { return 909; };
+}
+
+class SomeImplOfDerivedInternalClass : public SomeDerivedInternalClass {
+public:
+    SomeImplOfDerivedInternalClass() = default;
+    ~SomeImplOfDerivedInternalClass() override = default;
+
+    int32_t some_function_from_derived_class() override {
+        return 111;
+    }
+
+    int32_t foo() override {
+        return 222;
+    }
+
+    int64_t bar() override {
+        return 333;
+    }
+
+    int32_t some_internal_function() override {
+        return 444;
+    }
+};
+
+std::shared_ptr<SomeDerivedInternalClass> SomeDerivedInternalClass::create() {
+    return std::make_shared<SomeImplOfDerivedInternalClass>();
 }
 
 std::shared_ptr<InternalAttributeClassWithFunctions>
