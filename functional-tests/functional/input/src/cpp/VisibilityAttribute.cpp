@@ -95,6 +95,24 @@ int SomeInternalClassWithMembers::some_static_function() {
     return 765;
 }
 
+class SomeNestedInternalClassImpl : public ::test::SomeInternalClassWithMembers::SomeNestedInternalClass {
+public:
+    SomeNestedInternalClassImpl() = default;
+    ~SomeNestedInternalClassImpl() override = default;
+
+    int32_t do_something() override {
+        return 1;
+    }
+
+    int32_t do_something_else() override {
+        return 2;
+    }
+};
+
+::std::shared_ptr< ::test::SomeInternalClassWithMembers::SomeNestedInternalClass > SomeInternalClassWithMembers::SomeNestedInternalClass::create() {
+    return std::make_shared<SomeNestedInternalClassImpl>();
+}
+
 int32_t SomeInternalStructWithMembers::some_function() const {
     return 32;
 }
