@@ -62,6 +62,20 @@ int SomeClassWithInternalMembers::some_static_internal_function() {
     return 123;
 }
 
+class CppInternalInterfaceImpl : public SomeInternalInterface {
+public:
+    CppInternalInterfaceImpl() = default;
+    ~CppInternalInterfaceImpl() override = default;
+
+    int32_t foo() override {
+        return 333;
+    }
+
+    int64_t bar() override {
+        return 777;
+    }
+};
+
 class SomeInternalClassWithMembersImpl : public SomeInternalClassWithMembers {
 public:
     SomeInternalClassWithMembersImpl() = default;
@@ -106,6 +120,10 @@ int32_t SomeStructWithInternalMembers::call_some_lambda(const ::test::SomeIntern
 
 int32_t SomeStructWithInternalMembers::call_method_of_some_interface( const ::std::shared_ptr< ::test::SomeInternalInterface >& some_interface ) const {
     return some_interface->foo();
+}
+
+::std::shared_ptr<::test::SomeInternalInterface> SomeStructWithInternalMembers::get_some_cpp_impl_of_internal_interface() const {
+    return std::make_shared<CppInternalInterfaceImpl>();
 }
 
 std::shared_ptr<InternalAttributeClassWithFunctions>

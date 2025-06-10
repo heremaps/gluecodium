@@ -72,6 +72,9 @@ struct SomeStructWithInternalMembers {
     someLong: Long
 
     @Internal
+    fun getSomeCppImplOfInternalInterface(): SomeInternalInterface
+
+    @Internal
     fun callSomeLambda(someLambda: SomeInternalLambda): Int
 
     @Internal
