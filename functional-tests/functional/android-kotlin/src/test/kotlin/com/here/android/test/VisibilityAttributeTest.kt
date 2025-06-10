@@ -143,10 +143,17 @@ class VisibilityAttributeTest {
     }
 
     @org.junit.Test
-    fun internaInterfaceCanBeUsed() {
+    fun internaInterfaceFromKotlinCanBeUsed() {
         val someInterfaceImpl = ImplementationOfSomeInternalInterface()
         val someObject = SomeStructWithInternalMembers(21)
         val result = someObject.callMethodOfSomeInterface(someInterfaceImpl)
         assertEquals(709, result)
+    }
+
+    @org.junit.Test
+    fun internaInterfaceFromCppCanBeUsed() {
+        val someObject = SomeStructWithInternalMembers(21)
+        val cppInterfaceImpl = someObject.getSomeCppImplOfInternalInterface()
+        assertEquals(777, cppInterfaceImpl.bar())
     }
 }
