@@ -63,6 +63,15 @@ public class VisibilityAttributeTest {
   }
 
   @Test
+  public void internalPropertyCanBeAccessed() {
+    SomeClassWithInternalMembers someObject = SomeClassWithInternalMembers.create();
+    assertEquals("DEFAULT", someObject.getSomeInternalProperty());
+
+    someObject.setSomeInternalProperty("CUSTOM");
+    assertEquals("CUSTOM", someObject.getSomeInternalProperty());
+  }
+
+  @Test
   public void functionOfInternalClassCanBeCalled() {
     SomeInternalClassWithMembers someObject = SomeInternalClassWithMembers.create();
     assertEquals(987, someObject.someFunction());
@@ -136,18 +145,40 @@ public class VisibilityAttributeTest {
   }
 
   @Test
-  public void internaLambdaCanBeCalled() {
+  public void internaLambdaFromJavaCanBeCalled() {
     SomeStructWithInternalMembers someObject = new SomeStructWithInternalMembers(21);
     int result = someObject.callSomeLambda( () -> { return 555; } );
     assertEquals(555, result);
   }
 
+  @org.junit.Test
+  public void internaLambdaFromCppCanBeCalled() {
+    SomeStructWithInternalMembers someObject = new SomeStructWithInternalMembers(21);
+    SomeInternalLambda cppLambda = someObject.getSomeCppLambda();
+    assertEquals(909, cppLambda.apply());
+  }
+
   @Test
-  public void internaInterfaceCanBeUsed() {
+  public void internaInterfaceFromJavaCanBeUsed() {
     ImplementationOfSomeInternalInterface someInterfaceImpl = new ImplementationOfSomeInternalInterface();
     SomeStructWithInternalMembers someObject = new SomeStructWithInternalMembers(21);
     int result = someObject.callMethodOfSomeInterface(someInterfaceImpl);
     assertEquals(709, result);
   }
 
+  @Test
+  public void internaInterfaceFromCppCanBeUsed() {
+    SomeStructWithInternalMembers someObject = new SomeStructWithInternalMembers(21);
+    SomeInternalInterface cppInterfaceImpl = someObject.getSomeCppImplOfInternalInterface();
+    assertEquals(777, cppInterfaceImpl.bar());
+  }
+
+  @Test
+  public void callInternalMethodsOfDerivedInternalClass() {
+    SomeDerivedInternalClass someObject = SomeDerivedInternalClass.create();
+    assertEquals(111, someObject.someFunctionFromDerivedClass());
+    assertEquals(222, someObject.foo());
+    assertEquals(333, someObject.bar());
+    assertEquals(444, someObject.someInternalFunction());
+  }
 }
