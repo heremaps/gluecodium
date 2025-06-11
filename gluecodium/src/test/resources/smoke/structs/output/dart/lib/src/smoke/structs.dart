@@ -26,6 +26,7 @@ abstract class Structs implements Finalizable {
   static dynamic $prototype = Structs$Impl(Pointer<Void>.fromAddress(0));
 }
 
+typedef Structs_ArrayOfImmutable = List<Structs_AllTypesStruct>;
 enum Structs_FooBar {
     foo,
     bar
@@ -684,7 +685,7 @@ void smokeStructsDoublenestingimmutablestructReleaseFfiHandleNullable(Pointer<Vo
 // End of Structs_DoubleNestingImmutableStruct "private" section.
 
 class Structs_StructWithArrayOfImmutable {
-  List<Structs_AllTypesStruct> arrayField;
+  Structs_ArrayOfImmutable arrayField;
 
   Structs_StructWithArrayOfImmutable(this.arrayField);
 }

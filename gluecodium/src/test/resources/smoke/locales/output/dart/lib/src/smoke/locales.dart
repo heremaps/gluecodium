@@ -6,6 +6,7 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:library/src/generic_types__conversion.dart';
 
 abstract class Locales implements Finalizable {
 
@@ -16,6 +17,11 @@ abstract class Locales implements Finalizable {
 
 }
 
+typedef Locales_LocaleTypeDef = Locale;
+typedef Locales_LocaleArray = List<Locale>;
+typedef Locales_LocaleMap = Map<String, Locale>;
+typedef Locales_LocaleSet = Set<Locale>;
+typedef Locales_LocaleKeyMap = Map<Locale, String>;
 
 class Locales_LocaleStruct {
   Locale localeField;
@@ -111,6 +117,7 @@ final _smokeLocalesReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLi
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Locales_release_handle'));
+
 
 
 

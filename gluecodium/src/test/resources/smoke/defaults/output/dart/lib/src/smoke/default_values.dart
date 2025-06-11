@@ -18,6 +18,12 @@ abstract class DefaultValues implements Finalizable {
   static dynamic $prototype = DefaultValues$Impl(Pointer<Void>.fromAddress(0));
 }
 
+typedef DefaultValues_LongTypedef = int;
+typedef DefaultValues_BooleanTypedef = bool;
+typedef DefaultValues_StringTypedef = String;
+typedef DefaultValues_FloatArray = List<double>;
+typedef DefaultValues_IdToStringMap = Map<int, String>;
+typedef DefaultValues_StringSet = Set<String>;
 
 class DefaultValues_StructWithDefaults {
   int intField;
@@ -422,13 +428,13 @@ void smokeDefaultvaluesStructwithspecialdefaultsReleaseFfiHandleNullable(Pointer
 class DefaultValues_StructWithEmptyDefaults {
   List<int> intsField;
 
-  List<double> floatsField;
+  DefaultValues_FloatArray floatsField;
 
-  Map<int, String> mapField;
+  DefaultValues_IdToStringMap mapField;
 
   DefaultValues_StructWithDefaults structField;
 
-  Set<String> setTypeField;
+  DefaultValues_StringSet setTypeField;
 
   DefaultValues_StructWithEmptyDefaults._(this.intsField, this.floatsField, this.mapField, this.structField, this.setTypeField);
   DefaultValues_StructWithEmptyDefaults()
@@ -546,11 +552,11 @@ void smokeDefaultvaluesStructwithemptydefaultsReleaseFfiHandleNullable(Pointer<V
 // End of DefaultValues_StructWithEmptyDefaults "private" section.
 
 class DefaultValues_StructWithTypedefDefaults {
-  int longField;
+  DefaultValues_LongTypedef longField;
 
-  bool boolField;
+  DefaultValues_BooleanTypedef boolField;
 
-  String stringField;
+  DefaultValues_StringTypedef stringField;
 
   DefaultValues_StructWithTypedefDefaults._(this.longField, this.boolField, this.stringField);
   DefaultValues_StructWithTypedefDefaults()
@@ -668,6 +674,7 @@ final _smokeDefaultvaluesReleaseHandle = __lib.catchArgumentError(() => __lib.na
 
 /// @nodoc
 @visibleForTesting
+
 class DefaultValues$Impl extends __lib.NativeBase implements DefaultValues {
 
   DefaultValues$Impl(Pointer<Void> handle) : super(handle);

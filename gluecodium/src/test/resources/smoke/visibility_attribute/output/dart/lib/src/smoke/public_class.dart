@@ -5,11 +5,18 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:library/src/generic_types__conversion.dart';
 
 abstract class PublicClass implements Finalizable {
 
 }
 
+/// @nodoc
+typedef _PublicClass_InternalArray = List<PublicClass_InternalStruct>;
+/// @nodoc
+typedef _PublicClass_InternalStructTypeDef = PublicClass_InternalStruct;
+/// @nodoc
+typedef _PublicClass_StringToInternalStructMap = Map<String, PublicClass_InternalStruct>;
 /// @nodoc
 enum PublicClass_InternalEnum {
     foo,
@@ -344,6 +351,7 @@ final _smokePublicclassReleaseHandle = __lib.catchArgumentError(() => __lib.nati
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_PublicClass_release_handle'));
+
 
 
 class PublicClass$Impl extends __lib.NativeBase implements PublicClass {

@@ -1,16 +1,28 @@
+
+
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/generic_types__conversion.dart';
+import 'package:library/src/smoke/default_values.dart';
+
+
 class StructWithInitializerDefaults {
   List<int> intsField;
-  List<double> floatsField;
-  Set<String> setTypeField;
-  Map<int, String> mapField;
+
+  DefaultValues_FloatArray floatsField;
+
+  DefaultValues_StringSet setTypeField;
+
+  DefaultValues_IdToStringMap mapField;
+
   StructWithInitializerDefaults._(this.intsField, this.floatsField, this.setTypeField, this.mapField);
   StructWithInitializerDefaults()
     : intsField = [4, -2, 42], floatsField = [3.14, double.negativeInfinity], setTypeField = {"foo", "bar"}, mapField = {1: "foo", 42: "bar"};
 }
+
+
 // StructWithInitializerDefaults "private" section, not exported.
+
 final _smokeStructwithinitializerdefaultsCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>, Pointer<Void>, Pointer<Void>, Pointer<Void>)
@@ -35,6 +47,9 @@ final _smokeStructwithinitializerdefaultsGetFieldmapField = __lib.catchArgumentE
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithInitializerDefaults_get_field_mapField'));
+
+
+
 Pointer<Void> smokeStructwithinitializerdefaultsToFfi(StructWithInitializerDefaults value) {
   final _intsFieldHandle = foobarListofIntToFfi(value.intsField);
   final _floatsFieldHandle = foobarListofFloatToFfi(value.floatsField);
@@ -47,6 +62,7 @@ Pointer<Void> smokeStructwithinitializerdefaultsToFfi(StructWithInitializerDefau
   foobarMapofUintToStringReleaseFfiHandle(_mapFieldHandle);
   return _result;
 }
+
 StructWithInitializerDefaults smokeStructwithinitializerdefaultsFromFfi(Pointer<Void> handle) {
   final _intsFieldHandle = _smokeStructwithinitializerdefaultsGetFieldintsField(handle);
   final _floatsFieldHandle = _smokeStructwithinitializerdefaultsGetFieldfloatsField(handle);
@@ -54,9 +70,9 @@ StructWithInitializerDefaults smokeStructwithinitializerdefaultsFromFfi(Pointer<
   final _mapFieldHandle = _smokeStructwithinitializerdefaultsGetFieldmapField(handle);
   try {
     return StructWithInitializerDefaults._(
-      foobarListofIntFromFfi(_intsFieldHandle),
-      foobarListofFloatFromFfi(_floatsFieldHandle),
-      foobarSetofStringFromFfi(_setTypeFieldHandle),
+      foobarListofIntFromFfi(_intsFieldHandle), 
+      foobarListofFloatFromFfi(_floatsFieldHandle), 
+      foobarSetofStringFromFfi(_setTypeFieldHandle), 
       foobarMapofUintToStringFromFfi(_mapFieldHandle)
     );
   } finally {
@@ -66,8 +82,11 @@ StructWithInitializerDefaults smokeStructwithinitializerdefaultsFromFfi(Pointer<
     foobarMapofUintToStringReleaseFfiHandle(_mapFieldHandle);
   }
 }
+
 void smokeStructwithinitializerdefaultsReleaseFfiHandle(Pointer<Void> handle) => _smokeStructwithinitializerdefaultsReleaseHandle(handle);
+
 // Nullable StructWithInitializerDefaults
+
 final _smokeStructwithinitializerdefaultsCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -80,6 +99,7 @@ final _smokeStructwithinitializerdefaultsGetValueNullable = __lib.catchArgumentE
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_StructWithInitializerDefaults_get_value_nullable'));
+
 Pointer<Void> smokeStructwithinitializerdefaultsToFfiNullable(StructWithInitializerDefaults? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeStructwithinitializerdefaultsToFfi(value);
@@ -87,6 +107,7 @@ Pointer<Void> smokeStructwithinitializerdefaultsToFfiNullable(StructWithInitiali
   smokeStructwithinitializerdefaultsReleaseFfiHandle(_handle);
   return result;
 }
+
 StructWithInitializerDefaults? smokeStructwithinitializerdefaultsFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeStructwithinitializerdefaultsGetValueNullable(handle);
@@ -94,6 +115,10 @@ StructWithInitializerDefaults? smokeStructwithinitializerdefaultsFromFfiNullable
   smokeStructwithinitializerdefaultsReleaseFfiHandle(_handle);
   return result;
 }
+
 void smokeStructwithinitializerdefaultsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeStructwithinitializerdefaultsReleaseHandleNullable(handle);
+
 // End of StructWithInitializerDefaults "private" section.
+
+

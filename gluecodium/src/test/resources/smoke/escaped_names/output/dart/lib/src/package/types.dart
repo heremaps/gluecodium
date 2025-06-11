@@ -2,6 +2,7 @@
 
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
+import 'package:library/src/generic_types__conversion.dart';
 
 
 class Types {
@@ -9,6 +10,7 @@ class Types {
 
 }
 
+typedef Types_ULong = List<Types_Struct>;
 enum Types_Enum {
     naN
 }

@@ -14,9 +14,9 @@ abstract class DeprecationComments implements Finalizable {
   @Deprecated("Unfortunately, this interface is deprecated. Use [Comments] instead.")
 
   factory DeprecationComments(
-    bool Function(String) someMethodWithAllCommentsLambda,
-    bool Function() isSomePropertyGetLambda,
-    void Function(bool) isSomePropertySetLambda,
+    DeprecationComments_Usefulness Function(String) someMethodWithAllCommentsLambda,
+    DeprecationComments_Usefulness Function() isSomePropertyGetLambda,
+    void Function(DeprecationComments_Usefulness) isSomePropertySetLambda,
     String Function() propertyButNotAccessorsGetLambda,
     void Function(String) propertyButNotAccessorsSetLambda
   ) => DeprecationComments$Lambdas(
@@ -29,25 +29,25 @@ abstract class DeprecationComments implements Finalizable {
 
   /// This is some very useful constant.
   @Deprecated("Unfortunately, this constant is deprecated. Use [Comments.veryUseful] instead.")
-  static final bool veryUseful = true;
+  static final DeprecationComments_Usefulness veryUseful = true;
 
   /// This is some very useful method that measures the usefulness of its input.
   ///
   /// [input] Very useful input parameter
   ///
-  /// Returns [bool]. Usefulness of the input
+  /// Returns [DeprecationComments_Usefulness]. Usefulness of the input
   ///
   @Deprecated("Unfortunately, this method is deprecated.\nUse [Comments.someMethodWithAllComments] instead.")
 
-  bool someMethodWithAllComments(String input);
+  DeprecationComments_Usefulness someMethodWithAllComments(String input);
   /// Some very useful property.
   /// Gets some very useful property.
   @Deprecated("Unfortunately, this property's getter is deprecated.\nUse [Comments.isSomeProperty] instead.")
-  bool get isSomeProperty;
+  DeprecationComments_Usefulness get isSomeProperty;
   /// Some very useful property.
   /// Sets some very useful property.
   @Deprecated("Unfortunately, this property's setter is deprecated.\nUse [Comments.isSomeProperty] instead.")
-  set isSomeProperty(bool value);
+  set isSomeProperty(DeprecationComments_Usefulness value);
 
   /// Describes the property but not accessors.
   /// Gets the property but not accessors.
@@ -59,6 +59,9 @@ abstract class DeprecationComments implements Finalizable {
 
 }
 
+/// This is some very useful typedef.
+@Deprecated("Unfortunately, this typedef is deprecated. Use [Comments_Usefulness] instead.")
+typedef DeprecationComments_Usefulness = bool;
 /// This is some very useful enum.
 @Deprecated("Unfortunately, this enum is deprecated. Use [Comments_SomeEnum] instead.")
 enum DeprecationComments_SomeEnum {
@@ -131,7 +134,7 @@ class DeprecationComments_SomethingWrongException implements Exception {
 class DeprecationComments_SomeStruct {
   /// How useful this struct is.
   @Deprecated("Unfortunately, this field is deprecated.\nUse [Comments_SomeStruct.someField] instead.")
-  bool someField;
+  DeprecationComments_Usefulness someField;
 
   DeprecationComments_SomeStruct._(this.someField);
   DeprecationComments_SomeStruct()
@@ -237,9 +240,9 @@ final _smokeDeprecationcommentsGetTypeId = __lib.catchArgumentError(() => __lib.
 
 
 class DeprecationComments$Lambdas implements DeprecationComments {
-  bool Function(String) someMethodWithAllCommentsLambda;
-  bool Function() isSomePropertyGetLambda;
-  void Function(bool) isSomePropertySetLambda;
+  DeprecationComments_Usefulness Function(String) someMethodWithAllCommentsLambda;
+  DeprecationComments_Usefulness Function() isSomePropertyGetLambda;
+  void Function(DeprecationComments_Usefulness) isSomePropertySetLambda;
   String Function() propertyButNotAccessorsGetLambda;
   void Function(String) propertyButNotAccessorsSetLambda;
 
@@ -252,12 +255,12 @@ class DeprecationComments$Lambdas implements DeprecationComments {
   );
 
   @override
-  bool someMethodWithAllComments(String input) =>
+  DeprecationComments_Usefulness someMethodWithAllComments(String input) =>
     someMethodWithAllCommentsLambda(input);
   @override
-  bool get isSomeProperty => isSomePropertyGetLambda();
+  DeprecationComments_Usefulness get isSomeProperty => isSomePropertyGetLambda();
   @override
-  set isSomeProperty(bool value) => isSomePropertySetLambda(value);
+  set isSomeProperty(DeprecationComments_Usefulness value) => isSomePropertySetLambda(value);
   @override
   String get propertyButNotAccessors => propertyButNotAccessorsGetLambda();
   @override
@@ -269,7 +272,7 @@ class DeprecationComments$Impl extends __lib.NativeBase implements DeprecationCo
   DeprecationComments$Impl(Pointer<Void> handle) : super(handle);
 
   @override
-  bool someMethodWithAllComments(String input) {
+  DeprecationComments_Usefulness someMethodWithAllComments(String input) {
     final _someMethodWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DeprecationComments_someMethodWithAllComments__String'));
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
@@ -286,7 +289,7 @@ class DeprecationComments$Impl extends __lib.NativeBase implements DeprecationCo
 
   /// Gets some very useful property.
   @Deprecated("Unfortunately, this property's getter is deprecated.\nUse [Comments.isSomeProperty] instead.")
-  bool get isSomeProperty {
+  DeprecationComments_Usefulness get isSomeProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_DeprecationComments_isSomeProperty_get'));
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
@@ -305,7 +308,7 @@ class DeprecationComments$Impl extends __lib.NativeBase implements DeprecationCo
   ///
   @Deprecated("Unfortunately, this property's setter is deprecated.\nUse [Comments.isSomeProperty] instead.")
 
-  set isSomeProperty(bool value) {
+  set isSomeProperty(DeprecationComments_Usefulness value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_DeprecationComments_isSomeProperty_set__Boolean'));
     final _valueHandle = booleanToFfi(value);
     final _handle = this.handle;
@@ -349,7 +352,7 @@ class DeprecationComments$Impl extends __lib.NativeBase implements DeprecationCo
 }
 
 void _smokeDeprecationcommentssomeMethodWithAllCommentsStatic(DeprecationComments _obj, Pointer<Void> input, Pointer<Uint8> _result) {
-  bool? _resultObject;
+  DeprecationComments_Usefulness? _resultObject;
   try {
     _resultObject = _obj.someMethodWithAllComments(stringFromFfi(input));
     _result.value = booleanToFfi(_resultObject);
