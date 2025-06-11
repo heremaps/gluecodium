@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Bug-fixes:
+  * Kotlin: reintroduced handling of `@Internal` annotation, which results in usage of `internal` keyword.
+
 ## 13.15.1
 Release date 2025-06-05
 ### Bug-fixes:

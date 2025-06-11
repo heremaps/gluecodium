@@ -11,8 +11,8 @@ package com.example.smoke
 class InternalEnumDefaults {
     @JvmField var publicField: FooBarEnum
     @JvmField var publicListField: MutableList<FooBarEnum>
-    @JvmField var internalField: FooBarEnum
-    @JvmField var internalListField: MutableList<FooBarEnum>
+    @JvmField internal var internalField: FooBarEnum
+    @JvmField internal var internalListField: MutableList<FooBarEnum>
 
 
 

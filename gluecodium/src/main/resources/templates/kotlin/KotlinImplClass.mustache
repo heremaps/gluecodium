@@ -21,7 +21,7 @@
 /**
  * @suppress
  */
-class {{resolveName}}Impl : NativeBase, {{resolveName}} {
+{{resolveName "visibility"}}class {{resolveName}}Impl : NativeBase, {{resolveName}} {
     protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 

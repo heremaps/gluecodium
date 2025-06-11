@@ -9,7 +9,7 @@ package com.example.smoke
 
 import com.example.NativeBase
 
-class InternalClassInherits : NativeBase, InternalInterfaceParent {
+internal class InternalClassInherits : NativeBase, InternalInterfaceParent {
 
 
 
