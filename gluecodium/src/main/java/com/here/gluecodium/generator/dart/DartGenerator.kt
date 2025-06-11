@@ -195,7 +195,7 @@ internal class DartGenerator : Generator {
 
         val generatedFiles =
             dartFilteredModel.topElements.flatMap {
-                listOfNotNull(
+                listOf(
                     generateDart(
                         it, dartResolvers, dartNameResolver, listOf(importsCollector, declarationImportsCollector),
                         exportsCollector, typeRepositoriesCollector, predicatesMap, descendantInterfaces,
@@ -231,8 +231,8 @@ internal class DartGenerator : Generator {
         predicates: Map<String, (Any) -> Boolean>,
         descendantInterfaces: Map<String, List<LimeInterface>>,
         asyncHelpers: DartAsyncHelpers.AsyncHelpersGroup?,
-    ): GeneratedFile? {
-        val contentTemplateName = selectTemplate(rootElement) ?: return null
+    ): GeneratedFile {
+        val contentTemplateName = selectTemplate(rootElement)
 
         val packagePath = rootElement.path.head.joinToString(separator = "/")
         val fileName = dartNameResolver.resolveFileName(rootElement)
@@ -241,7 +241,7 @@ internal class DartGenerator : Generator {
 
         val isInternal = predicates["isInternal"]!!
 
-        val allTypes = LimeTypeHelper.getAllTypes(rootElement).filterNot { it is LimeTypeAlias }
+        val allTypes = LimeTypeHelper.getAllTypes(rootElement)
         val nonExternalTypes = allTypes.filter { it.external?.dart == null }
         val allSymbols = nonExternalTypes.filterNot { isInternal(it) }
         if (allSymbols.isNotEmpty()) {
@@ -563,7 +563,7 @@ internal class DartGenerator : Generator {
             is LimeEnumeration -> "dart/DartEnumeration"
             is LimeException -> "dart/DartException"
             is LimeLambda -> "dart/DartLambda"
-            is LimeTypeAlias -> null
+            is LimeTypeAlias -> "dart/DartTypeAlias"
             else -> throw GluecodiumExecutionException(
                 "Unsupported top-level element: " +
                     limeElement::class.java.name,
