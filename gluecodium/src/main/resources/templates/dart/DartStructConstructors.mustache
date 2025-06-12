@@ -78,15 +78,15 @@ Explicit `field constructor` definitions
 }}{{#set struct=this container=this}}{{#fieldConstructors}}
 {{#unless comment.isEmpty}}{{#resolveName comment}}{{#unless this.isEmpty}}{{!!
 }}{{prefix this "  /// "}}
-{{#fields}}
-  /// [{{resolveName}}] {{#resolveName comment}}{{#unless this.isEmpty}}{{!!
-  }}{{prefix this "  /// " skipFirstLine=true}}{{/unless}}{{/resolveName}}
+{{#fields}}{{!!
+}}  /// - [{{resolveName}}] {{#resolveName comment}}{{#unless this.isEmpty}}{{!!
+}}{{prefix this "  /// " skipFirstLine=true}}{{/unless}}{{/resolveName}}
 {{/fields}}{{/unless}}{{/resolveName}}{{/unless}}{{!!
 }}{{#if comment.isEmpty}}{{#resolveName constructorComment}}{{#unless this.isEmpty}}{{!!
 }}{{prefix this "  /// "}}
-{{#fields}}
-  /// [{{resolveName}}] {{#resolveName comment}}{{#unless this.isEmpty}}{{!!
-  }}{{prefix this "  /// " skipFirstLine=true}}{{/unless}}{{/resolveName}}
+{{#fields}}{{!!
+}}  /// - [{{resolveName}}] {{#resolveName comment}}{{#unless this.isEmpty}}{{!!
+}}{{prefix this "  /// " skipFirstLine=true}}{{/unless}}{{/resolveName}}
 {{/fields}}{{/unless}}{{/resolveName}}{{/if}}{{!!
 }}{{#if this.comment.isExcluded}}
   /// @nodoc
