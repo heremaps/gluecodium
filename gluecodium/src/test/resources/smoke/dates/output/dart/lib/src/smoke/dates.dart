@@ -21,6 +21,9 @@ abstract class Dates implements Finalizable {
 
 }
 
+typedef Dates_DateTypeDef = DateTime;
+typedef Dates_DateArray = List<DateTime>;
+typedef Dates_DateMap = Map<String, DateTime>;
 
 class Dates_DateStruct {
   DateTime dateField;
@@ -129,6 +132,7 @@ final _smokeDatesReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibr
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_Dates_release_handle'));
+
 
 
 

@@ -12,18 +12,18 @@ abstract class CommentsInterface implements Finalizable {
   /// This is some very useful interface.
 
   factory CommentsInterface(
-    bool Function(String) someMethodWithAllCommentsLambda,
-    bool Function(String) someMethodWithInputCommentsLambda,
-    bool Function(String) someMethodWithOutputCommentsLambda,
-    bool Function(String) someMethodWithNoCommentsLambda,
+    CommentsInterface_Usefulness Function(String) someMethodWithAllCommentsLambda,
+    CommentsInterface_Usefulness Function(String) someMethodWithInputCommentsLambda,
+    CommentsInterface_Usefulness Function(String) someMethodWithOutputCommentsLambda,
+    CommentsInterface_Usefulness Function(String) someMethodWithNoCommentsLambda,
     void Function(String) someMethodWithoutReturnTypeWithAllCommentsLambda,
     void Function(String) someMethodWithoutReturnTypeWithNoCommentsLambda,
-    bool Function() someMethodWithoutInputParametersWithAllCommentsLambda,
-    bool Function() someMethodWithoutInputParametersWithNoCommentsLambda,
+    CommentsInterface_Usefulness Function() someMethodWithoutInputParametersWithAllCommentsLambda,
+    CommentsInterface_Usefulness Function() someMethodWithoutInputParametersWithNoCommentsLambda,
     void Function() someMethodWithNothingLambda,
     void Function() someMethodWithoutReturnTypeOrInputParametersLambda,
-    bool Function() isSomePropertyGetLambda,
-    void Function(bool) isSomePropertySetLambda
+    CommentsInterface_Usefulness Function() isSomePropertyGetLambda,
+    void Function(CommentsInterface_Usefulness) isSomePropertySetLambda
   ) => CommentsInterface$Lambdas(
     someMethodWithAllCommentsLambda,
     someMethodWithInputCommentsLambda,
@@ -40,28 +40,28 @@ abstract class CommentsInterface implements Finalizable {
   );
 
   /// This is some very useful constant.
-  static final bool veryUseful = true;
+  static final CommentsInterface_Usefulness veryUseful = true;
 
   /// This is some very useful method that measures the usefulness of its input.
   ///
   /// [input] Very useful input parameter
   ///
-  /// Returns [bool]. Usefulness of the input
+  /// Returns [CommentsInterface_Usefulness]. Usefulness of the input
   ///
-  bool someMethodWithAllComments(String input);
+  CommentsInterface_Usefulness someMethodWithAllComments(String input);
   /// This is some very useful method that measures the usefulness of its input.
   ///
   /// [input] Very useful input parameter
   ///
-  bool someMethodWithInputComments(String input);
+  CommentsInterface_Usefulness someMethodWithInputComments(String input);
   /// This is some very useful method that measures the usefulness of its input.
   ///
-  /// Returns [bool]. Usefulness of the input
+  /// Returns [CommentsInterface_Usefulness]. Usefulness of the input
   ///
-  bool someMethodWithOutputComments(String input);
+  CommentsInterface_Usefulness someMethodWithOutputComments(String input);
   /// This is some very useful method that measures the usefulness of its input.
   ///
-  bool someMethodWithNoComments(String input);
+  CommentsInterface_Usefulness someMethodWithNoComments(String input);
   /// This is some very useful method that does not measure the usefulness of its input.
   ///
   /// [input] Very useful input parameter
@@ -72,12 +72,12 @@ abstract class CommentsInterface implements Finalizable {
   void someMethodWithoutReturnTypeWithNoComments(String input);
   /// This is some very useful method that measures the usefulness of something.
   ///
-  /// Returns [bool]. Usefulness of the input
+  /// Returns [CommentsInterface_Usefulness]. Usefulness of the input
   ///
-  bool someMethodWithoutInputParametersWithAllComments();
+  CommentsInterface_Usefulness someMethodWithoutInputParametersWithAllComments();
   /// This is some very useful method that measures the usefulness of something.
   ///
-  bool someMethodWithoutInputParametersWithNoComments();
+  CommentsInterface_Usefulness someMethodWithoutInputParametersWithNoComments();
 
   void someMethodWithNothing();
   /// This is some very useful method that does nothing.
@@ -85,13 +85,15 @@ abstract class CommentsInterface implements Finalizable {
   void someMethodWithoutReturnTypeOrInputParameters();
   /// Some very useful property.
   /// Gets some very useful property.
-  bool get isSomeProperty;
+  CommentsInterface_Usefulness get isSomeProperty;
   /// Some very useful property.
   /// Sets some very useful property.
-  set isSomeProperty(bool value);
+  set isSomeProperty(CommentsInterface_Usefulness value);
 
 }
 
+/// This is some very useful typedef.
+typedef CommentsInterface_Usefulness = bool;
 /// This is some very useful enum.
 enum CommentsInterface_SomeEnum {
     /// Not quite useful
@@ -161,7 +163,7 @@ void smokeCommentsinterfaceSomeenumReleaseFfiHandleNullable(Pointer<Void> handle
 
 class CommentsInterface_SomeStruct {
   /// How useful this struct is
-  bool someField;
+  CommentsInterface_Usefulness someField;
 
   CommentsInterface_SomeStruct(this.someField);
 }
@@ -274,18 +276,18 @@ final _smokeCommentsinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.na
 
 
 class CommentsInterface$Lambdas implements CommentsInterface {
-  bool Function(String) someMethodWithAllCommentsLambda;
-  bool Function(String) someMethodWithInputCommentsLambda;
-  bool Function(String) someMethodWithOutputCommentsLambda;
-  bool Function(String) someMethodWithNoCommentsLambda;
+  CommentsInterface_Usefulness Function(String) someMethodWithAllCommentsLambda;
+  CommentsInterface_Usefulness Function(String) someMethodWithInputCommentsLambda;
+  CommentsInterface_Usefulness Function(String) someMethodWithOutputCommentsLambda;
+  CommentsInterface_Usefulness Function(String) someMethodWithNoCommentsLambda;
   void Function(String) someMethodWithoutReturnTypeWithAllCommentsLambda;
   void Function(String) someMethodWithoutReturnTypeWithNoCommentsLambda;
-  bool Function() someMethodWithoutInputParametersWithAllCommentsLambda;
-  bool Function() someMethodWithoutInputParametersWithNoCommentsLambda;
+  CommentsInterface_Usefulness Function() someMethodWithoutInputParametersWithAllCommentsLambda;
+  CommentsInterface_Usefulness Function() someMethodWithoutInputParametersWithNoCommentsLambda;
   void Function() someMethodWithNothingLambda;
   void Function() someMethodWithoutReturnTypeOrInputParametersLambda;
-  bool Function() isSomePropertyGetLambda;
-  void Function(bool) isSomePropertySetLambda;
+  CommentsInterface_Usefulness Function() isSomePropertyGetLambda;
+  void Function(CommentsInterface_Usefulness) isSomePropertySetLambda;
 
   CommentsInterface$Lambdas(
     this.someMethodWithAllCommentsLambda,
@@ -303,16 +305,16 @@ class CommentsInterface$Lambdas implements CommentsInterface {
   );
 
   @override
-  bool someMethodWithAllComments(String input) =>
+  CommentsInterface_Usefulness someMethodWithAllComments(String input) =>
     someMethodWithAllCommentsLambda(input);
   @override
-  bool someMethodWithInputComments(String input) =>
+  CommentsInterface_Usefulness someMethodWithInputComments(String input) =>
     someMethodWithInputCommentsLambda(input);
   @override
-  bool someMethodWithOutputComments(String input) =>
+  CommentsInterface_Usefulness someMethodWithOutputComments(String input) =>
     someMethodWithOutputCommentsLambda(input);
   @override
-  bool someMethodWithNoComments(String input) =>
+  CommentsInterface_Usefulness someMethodWithNoComments(String input) =>
     someMethodWithNoCommentsLambda(input);
   @override
   void someMethodWithoutReturnTypeWithAllComments(String input) =>
@@ -321,10 +323,10 @@ class CommentsInterface$Lambdas implements CommentsInterface {
   void someMethodWithoutReturnTypeWithNoComments(String input) =>
     someMethodWithoutReturnTypeWithNoCommentsLambda(input);
   @override
-  bool someMethodWithoutInputParametersWithAllComments() =>
+  CommentsInterface_Usefulness someMethodWithoutInputParametersWithAllComments() =>
     someMethodWithoutInputParametersWithAllCommentsLambda();
   @override
-  bool someMethodWithoutInputParametersWithNoComments() =>
+  CommentsInterface_Usefulness someMethodWithoutInputParametersWithNoComments() =>
     someMethodWithoutInputParametersWithNoCommentsLambda();
   @override
   void someMethodWithNothing() =>
@@ -333,9 +335,9 @@ class CommentsInterface$Lambdas implements CommentsInterface {
   void someMethodWithoutReturnTypeOrInputParameters() =>
     someMethodWithoutReturnTypeOrInputParametersLambda();
   @override
-  bool get isSomeProperty => isSomePropertyGetLambda();
+  CommentsInterface_Usefulness get isSomeProperty => isSomePropertyGetLambda();
   @override
-  set isSomeProperty(bool value) => isSomePropertySetLambda(value);
+  set isSomeProperty(CommentsInterface_Usefulness value) => isSomePropertySetLambda(value);
 }
 
 class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterface {
@@ -343,7 +345,7 @@ class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterfa
   CommentsInterface$Impl(Pointer<Void> handle) : super(handle);
 
   @override
-  bool someMethodWithAllComments(String input) {
+  CommentsInterface_Usefulness someMethodWithAllComments(String input) {
     final _someMethodWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CommentsInterface_someMethodWithAllComments__String'));
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
@@ -359,7 +361,7 @@ class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterfa
   }
 
   @override
-  bool someMethodWithInputComments(String input) {
+  CommentsInterface_Usefulness someMethodWithInputComments(String input) {
     final _someMethodWithInputCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CommentsInterface_someMethodWithInputComments__String'));
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
@@ -375,7 +377,7 @@ class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterfa
   }
 
   @override
-  bool someMethodWithOutputComments(String input) {
+  CommentsInterface_Usefulness someMethodWithOutputComments(String input) {
     final _someMethodWithOutputCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CommentsInterface_someMethodWithOutputComments__String'));
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
@@ -391,7 +393,7 @@ class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterfa
   }
 
   @override
-  bool someMethodWithNoComments(String input) {
+  CommentsInterface_Usefulness someMethodWithNoComments(String input) {
     final _someMethodWithNoCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CommentsInterface_someMethodWithNoComments__String'));
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
@@ -427,7 +429,7 @@ class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterfa
   }
 
   @override
-  bool someMethodWithoutInputParametersWithAllComments() {
+  CommentsInterface_Usefulness someMethodWithoutInputParametersWithAllComments() {
     final _someMethodWithoutInputParametersWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_CommentsInterface_someMethodWithoutInputParametersWithAllComments'));
     final _handle = this.handle;
     final __resultHandle = _someMethodWithoutInputParametersWithAllCommentsFfi(_handle, __lib.LibraryContext.isolateId);
@@ -441,7 +443,7 @@ class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterfa
   }
 
   @override
-  bool someMethodWithoutInputParametersWithNoComments() {
+  CommentsInterface_Usefulness someMethodWithoutInputParametersWithNoComments() {
     final _someMethodWithoutInputParametersWithNoCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_CommentsInterface_someMethodWithoutInputParametersWithNoComments'));
     final _handle = this.handle;
     final __resultHandle = _someMethodWithoutInputParametersWithNoCommentsFfi(_handle, __lib.LibraryContext.isolateId);
@@ -471,7 +473,7 @@ class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterfa
   }
 
   /// Gets some very useful property.
-  bool get isSomeProperty {
+  CommentsInterface_Usefulness get isSomeProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_CommentsInterface_isSomeProperty_get'));
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
@@ -488,7 +490,7 @@ class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterfa
   ///
   /// [value] Some very useful property.
   ///
-  set isSomeProperty(bool value) {
+  set isSomeProperty(CommentsInterface_Usefulness value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_CommentsInterface_isSomeProperty_set__Boolean'));
     final _valueHandle = booleanToFfi(value);
     final _handle = this.handle;
@@ -502,7 +504,7 @@ class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterfa
 }
 
 void _smokeCommentsinterfacesomeMethodWithAllCommentsStatic(CommentsInterface _obj, Pointer<Void> input, Pointer<Uint8> _result) {
-  bool? _resultObject;
+  CommentsInterface_Usefulness? _resultObject;
   try {
     _resultObject = _obj.someMethodWithAllComments(stringFromFfi(input));
     _result.value = booleanToFfi(_resultObject);
@@ -511,7 +513,7 @@ void _smokeCommentsinterfacesomeMethodWithAllCommentsStatic(CommentsInterface _o
   }
 }
 void _smokeCommentsinterfacesomeMethodWithInputCommentsStatic(CommentsInterface _obj, Pointer<Void> input, Pointer<Uint8> _result) {
-  bool? _resultObject;
+  CommentsInterface_Usefulness? _resultObject;
   try {
     _resultObject = _obj.someMethodWithInputComments(stringFromFfi(input));
     _result.value = booleanToFfi(_resultObject);
@@ -520,7 +522,7 @@ void _smokeCommentsinterfacesomeMethodWithInputCommentsStatic(CommentsInterface 
   }
 }
 void _smokeCommentsinterfacesomeMethodWithOutputCommentsStatic(CommentsInterface _obj, Pointer<Void> input, Pointer<Uint8> _result) {
-  bool? _resultObject;
+  CommentsInterface_Usefulness? _resultObject;
   try {
     _resultObject = _obj.someMethodWithOutputComments(stringFromFfi(input));
     _result.value = booleanToFfi(_resultObject);
@@ -529,7 +531,7 @@ void _smokeCommentsinterfacesomeMethodWithOutputCommentsStatic(CommentsInterface
   }
 }
 void _smokeCommentsinterfacesomeMethodWithNoCommentsStatic(CommentsInterface _obj, Pointer<Void> input, Pointer<Uint8> _result) {
-  bool? _resultObject;
+  CommentsInterface_Usefulness? _resultObject;
   try {
     _resultObject = _obj.someMethodWithNoComments(stringFromFfi(input));
     _result.value = booleanToFfi(_resultObject);
@@ -554,7 +556,7 @@ void _smokeCommentsinterfacesomeMethodWithoutReturnTypeWithNoCommentsStatic(Comm
   }
 }
 void _smokeCommentsinterfacesomeMethodWithoutInputParametersWithAllCommentsStatic(CommentsInterface _obj, Pointer<Uint8> _result) {
-  bool? _resultObject;
+  CommentsInterface_Usefulness? _resultObject;
   try {
     _resultObject = _obj.someMethodWithoutInputParametersWithAllComments();
     _result.value = booleanToFfi(_resultObject);
@@ -562,7 +564,7 @@ void _smokeCommentsinterfacesomeMethodWithoutInputParametersWithAllCommentsStati
   }
 }
 void _smokeCommentsinterfacesomeMethodWithoutInputParametersWithNoCommentsStatic(CommentsInterface _obj, Pointer<Uint8> _result) {
-  bool? _resultObject;
+  CommentsInterface_Usefulness? _resultObject;
   try {
     _resultObject = _obj.someMethodWithoutInputParametersWithNoComments();
     _result.value = booleanToFfi(_resultObject);

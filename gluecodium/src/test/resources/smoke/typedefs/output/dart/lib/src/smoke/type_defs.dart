@@ -12,19 +12,19 @@ import 'package:meta/meta.dart';
 abstract class TypeDefs implements Finalizable {
 
 
-  static double methodWithPrimitiveTypeDef(double input) => $prototype.methodWithPrimitiveTypeDef(input);
+  static TypeDefs_PrimitiveTypeDef methodWithPrimitiveTypeDef(TypeDefs_PrimitiveTypeDef input) => $prototype.methodWithPrimitiveTypeDef(input);
 
-  static List<TypeDefs_TestStruct> methodWithComplexTypeDef(List<TypeDefs_TestStruct> input) => $prototype.methodWithComplexTypeDef(input);
+  static TypeDefs_ComplexTypeDef methodWithComplexTypeDef(TypeDefs_ComplexTypeDef input) => $prototype.methodWithComplexTypeDef(input);
 
-  static double returnNestedIntTypeDef(double input) => $prototype.returnNestedIntTypeDef(input);
+  static TypeDefs_NestedIntTypeDef returnNestedIntTypeDef(TypeDefs_NestedIntTypeDef input) => $prototype.returnNestedIntTypeDef(input);
 
-  static TypeDefs_TestStruct returnTestStructTypeDef(TypeDefs_TestStruct input) => $prototype.returnTestStructTypeDef(input);
+  static TypeDefs_TestStructTypeDef returnTestStructTypeDef(TypeDefs_TestStructTypeDef input) => $prototype.returnTestStructTypeDef(input);
 
-  static TypeDefs_TestStruct returnNestedStructTypeDef(TypeDefs_TestStruct input) => $prototype.returnNestedStructTypeDef(input);
+  static TypeDefs_NestedStructTypeDef returnNestedStructTypeDef(TypeDefs_NestedStructTypeDef input) => $prototype.returnNestedStructTypeDef(input);
 
-  static TypeCollection_Point returnTypeDefPointFromTypeCollection(TypeCollection_Point input) => $prototype.returnTypeDefPointFromTypeCollection(input);
-  List<double> get primitiveTypeProperty;
-  set primitiveTypeProperty(List<double> value);
+  static TypeCollection_PointTypeDef returnTypeDefPointFromTypeCollection(TypeCollection_PointTypeDef input) => $prototype.returnTypeDefPointFromTypeCollection(input);
+  List<TypeDefs_PrimitiveTypeDef> get primitiveTypeProperty;
+  set primitiveTypeProperty(List<TypeDefs_PrimitiveTypeDef> value);
 
 
   /// @nodoc
@@ -32,9 +32,15 @@ abstract class TypeDefs implements Finalizable {
   static dynamic $prototype = TypeDefs$Impl(Pointer<Void>.fromAddress(0));
 }
 
+typedef TypeDefs_NestedIntTypeDef = TypeDefs_PrimitiveTypeDef;
+typedef TypeDefs_PrimitiveTypeDef = double;
+typedef TypeDefs_StructArray = List<TypeDefs_TestStruct>;
+typedef TypeDefs_ComplexTypeDef = TypeDefs_StructArray;
+typedef TypeDefs_TestStructTypeDef = TypeDefs_TestStruct;
+typedef TypeDefs_NestedStructTypeDef = TypeDefs_TestStructTypeDef;
 
 class TypeDefs_StructHavingAliasFieldDefinedBelow {
-  double field;
+  TypeDefs_PrimitiveTypeDef field;
 
   TypeDefs_StructHavingAliasFieldDefinedBelow(this.field);
 }
@@ -217,11 +223,12 @@ final _smokeTypedefsReleaseHandle = __lib.catchArgumentError(() => __lib.nativeL
 
 /// @nodoc
 @visibleForTesting
+
 class TypeDefs$Impl extends __lib.NativeBase implements TypeDefs {
 
   TypeDefs$Impl(Pointer<Void> handle) : super(handle);
 
-  double methodWithPrimitiveTypeDef(double input) {
+  TypeDefs_PrimitiveTypeDef methodWithPrimitiveTypeDef(TypeDefs_PrimitiveTypeDef input) {
     final _methodWithPrimitiveTypeDefFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Double Function(Int32, Double), double Function(int, double)>('library_smoke_TypeDefs_methodWithPrimitiveTypeDef__Double'));
     final _inputHandle = (input);
     final __resultHandle = _methodWithPrimitiveTypeDefFfi(__lib.LibraryContext.isolateId, _inputHandle);
@@ -235,7 +242,7 @@ class TypeDefs$Impl extends __lib.NativeBase implements TypeDefs {
 
   }
 
-  List<TypeDefs_TestStruct> methodWithComplexTypeDef(List<TypeDefs_TestStruct> input) {
+  TypeDefs_ComplexTypeDef methodWithComplexTypeDef(TypeDefs_ComplexTypeDef input) {
     final _methodWithComplexTypeDefFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_TypeDefs_methodWithComplexTypeDef__ListOf_smoke_TypeDefs_TestStruct'));
     final _inputHandle = foobarListofSmokeTypedefsTeststructToFfi(input);
     final __resultHandle = _methodWithComplexTypeDefFfi(__lib.LibraryContext.isolateId, _inputHandle);
@@ -249,7 +256,7 @@ class TypeDefs$Impl extends __lib.NativeBase implements TypeDefs {
 
   }
 
-  double returnNestedIntTypeDef(double input) {
+  TypeDefs_NestedIntTypeDef returnNestedIntTypeDef(TypeDefs_NestedIntTypeDef input) {
     final _returnNestedIntTypeDefFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Double Function(Int32, Double), double Function(int, double)>('library_smoke_TypeDefs_returnNestedIntTypeDef__Double'));
     final _inputHandle = (input);
     final __resultHandle = _returnNestedIntTypeDefFfi(__lib.LibraryContext.isolateId, _inputHandle);
@@ -263,7 +270,7 @@ class TypeDefs$Impl extends __lib.NativeBase implements TypeDefs {
 
   }
 
-  TypeDefs_TestStruct returnTestStructTypeDef(TypeDefs_TestStruct input) {
+  TypeDefs_TestStructTypeDef returnTestStructTypeDef(TypeDefs_TestStructTypeDef input) {
     final _returnTestStructTypeDefFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_TypeDefs_returnTestStructTypeDef__TestStruct'));
     final _inputHandle = smokeTypedefsTeststructToFfi(input);
     final __resultHandle = _returnTestStructTypeDefFfi(__lib.LibraryContext.isolateId, _inputHandle);
@@ -277,7 +284,7 @@ class TypeDefs$Impl extends __lib.NativeBase implements TypeDefs {
 
   }
 
-  TypeDefs_TestStruct returnNestedStructTypeDef(TypeDefs_TestStruct input) {
+  TypeDefs_NestedStructTypeDef returnNestedStructTypeDef(TypeDefs_NestedStructTypeDef input) {
     final _returnNestedStructTypeDefFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_TypeDefs_returnNestedStructTypeDef__TestStruct'));
     final _inputHandle = smokeTypedefsTeststructToFfi(input);
     final __resultHandle = _returnNestedStructTypeDefFfi(__lib.LibraryContext.isolateId, _inputHandle);
@@ -291,7 +298,7 @@ class TypeDefs$Impl extends __lib.NativeBase implements TypeDefs {
 
   }
 
-  TypeCollection_Point returnTypeDefPointFromTypeCollection(TypeCollection_Point input) {
+  TypeCollection_PointTypeDef returnTypeDefPointFromTypeCollection(TypeCollection_PointTypeDef input) {
     final _returnTypeDefPointFromTypeCollectionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_TypeDefs_returnTypeDefPointFromTypeCollection__Point'));
     final _inputHandle = smokeTypecollectionPointToFfi(input);
     final __resultHandle = _returnTypeDefPointFromTypeCollectionFfi(__lib.LibraryContext.isolateId, _inputHandle);
@@ -306,7 +313,7 @@ class TypeDefs$Impl extends __lib.NativeBase implements TypeDefs {
   }
 
   @override
-  List<double> get primitiveTypeProperty {
+  List<TypeDefs_PrimitiveTypeDef> get primitiveTypeProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_TypeDefs_primitiveTypeProperty_get'));
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
@@ -320,7 +327,7 @@ class TypeDefs$Impl extends __lib.NativeBase implements TypeDefs {
   }
 
   @override
-  set primitiveTypeProperty(List<double> value) {
+  set primitiveTypeProperty(List<TypeDefs_PrimitiveTypeDef> value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_TypeDefs_primitiveTypeProperty_set__ListOf_Double'));
     final _valueHandle = foobarListofDoubleToFfi(value);
     final _handle = this.handle;

@@ -17,6 +17,7 @@ abstract class EnumDefaultsExternal implements Finalizable {
 
 }
 
+typedef EnumDefaultsExternal_EnumAlias = alien_enum3.ExternalEnum3;
 
 class EnumDefaultsExternal_SimpleEnum {
   alien_enum1.ExternalEnum1 enumField;
@@ -194,7 +195,7 @@ void smokeEnumdefaultsexternalNullableenumReleaseFfiHandleNullable(Pointer<Void>
 // End of EnumDefaultsExternal_NullableEnum "private" section.
 
 class EnumDefaultsExternal_AliasEnum {
-  alien_enum3.alien_enum3.ExternalEnum3 enumField;
+  EnumDefaultsExternal_EnumAlias enumField;
 
   EnumDefaultsExternal_AliasEnum._(this.enumField);
   EnumDefaultsExternal_AliasEnum()

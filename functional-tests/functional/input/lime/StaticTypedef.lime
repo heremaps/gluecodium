@@ -23,6 +23,10 @@ class StaticTypedef {
     // Example struct
     struct ExampleStruct {
         exampleString: String = ""
+
+        @Skip(Dart)
+        field constructor()
+        field constructor(exampleString)
     }
     typealias IntTypedef = Int
     typealias NestedIntTypedef = IntTypedef

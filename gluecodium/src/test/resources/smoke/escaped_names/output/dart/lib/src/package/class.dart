@@ -16,7 +16,7 @@ abstract class Class implements Interface, Finalizable {
   factory Class() => $prototype.constructor();
 
 
-  Types_Struct fun(List<Types_Struct> double);
+  Types_Struct fun(Types_ULong double);
   Types_Enum get property;
   set property(Types_Enum value);
 
@@ -68,6 +68,7 @@ final _funpackageClassFunListofPackageTypesStructReturnHasError = __lib.catchArg
 
 /// @nodoc
 @visibleForTesting
+
 class Class$Impl extends __lib.NativeBase implements Class {
 
   Class$Impl(Pointer<Void> handle) : super(handle);
@@ -80,6 +81,7 @@ class Class$Impl extends __lib.NativeBase implements Class {
     __lib.cacheInstance(_result_handle, _result);
 
     _packageClassRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+
     return _result;
   }
 
@@ -90,7 +92,7 @@ class Class$Impl extends __lib.NativeBase implements Class {
   }
 
   @override
-  Types_Struct fun(List<Types_Struct> double) {
+  Types_Struct fun(Types_ULong double) {
     final _funFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_package_Class_fun__ListOf_package_Types_Struct'));
     final _doubleHandle = foobarListofPackageTypesStructToFfi(double);
     final _handle = this.handle;

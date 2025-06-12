@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  ! Copyright (C) 2016-2021 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -18,10 +18,5 @@
   ! License-Filename: LICENSE
   !
   !}}
-name: {{libraryName}}
-environment:
-  sdk: '>=3.4.4 <4.0.0'
-dependencies:
-  ffi:
-  intl:
-  meta:
+{{>dart/DartDocumentation}}{{>dart/DartAttributes}}
+typedef {{resolveName}} = {{resolveName typeRef}};

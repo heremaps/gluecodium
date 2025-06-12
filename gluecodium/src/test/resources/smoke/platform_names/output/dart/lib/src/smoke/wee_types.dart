@@ -9,6 +9,7 @@ import 'package:meta/meta.dart';
 class weeTypes {
 }
 
+typedef weeTypes_BasicTypedef = double;
 enum weeTypes_werrEnum {
     WEE_ITEM
 }

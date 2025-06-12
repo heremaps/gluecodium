@@ -1,16 +1,28 @@
+
+
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:library/src/smoke/date_alias.dart';
+
+
 class DateDefaultsAliased {
-  DateTime dateTime;
-  DateTime dateTimeUtc;
-  DateTime beforeEpoch;
-  DateTime exactlyEpoch;
+  DateAlias dateTime;
+
+  DateAlias dateTimeUtc;
+
+  DateAlias beforeEpoch;
+
+  DateAlias exactlyEpoch;
+
   DateDefaultsAliased._(this.dateTime, this.dateTimeUtc, this.beforeEpoch, this.exactlyEpoch);
   DateDefaultsAliased()
     : dateTime = DateTime.fromMillisecondsSinceEpoch(1643966117000), dateTimeUtc = DateTime.fromMillisecondsSinceEpoch(1643966117000), beforeEpoch = DateTime.fromMillisecondsSinceEpoch(-1511793883000), exactlyEpoch = DateTime.fromMillisecondsSinceEpoch(0);
 }
+
+
 // DateDefaultsAliased "private" section, not exported.
+
 final _smokeDatedefaultsaliasedCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Uint64, Uint64, Uint64, Uint64),
     Pointer<Void> Function(int, int, int, int)
@@ -35,6 +47,9 @@ final _smokeDatedefaultsaliasedGetFieldexactlyEpoch = __lib.catchArgumentError((
     Uint64 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_DateDefaultsAliased_get_field_exactlyEpoch'));
+
+
+
 Pointer<Void> smokeDatedefaultsaliasedToFfi(DateDefaultsAliased value) {
   final _dateTimeHandle = dateToFfi(value.dateTime);
   final _dateTimeUtcHandle = dateToFfi(value.dateTimeUtc);
@@ -47,6 +62,7 @@ Pointer<Void> smokeDatedefaultsaliasedToFfi(DateDefaultsAliased value) {
   dateReleaseFfiHandle(_exactlyEpochHandle);
   return _result;
 }
+
 DateDefaultsAliased smokeDatedefaultsaliasedFromFfi(Pointer<Void> handle) {
   final _dateTimeHandle = _smokeDatedefaultsaliasedGetFielddateTime(handle);
   final _dateTimeUtcHandle = _smokeDatedefaultsaliasedGetFielddateTimeUtc(handle);
@@ -54,9 +70,9 @@ DateDefaultsAliased smokeDatedefaultsaliasedFromFfi(Pointer<Void> handle) {
   final _exactlyEpochHandle = _smokeDatedefaultsaliasedGetFieldexactlyEpoch(handle);
   try {
     return DateDefaultsAliased._(
-      dateFromFfi(_dateTimeHandle),
-      dateFromFfi(_dateTimeUtcHandle),
-      dateFromFfi(_beforeEpochHandle),
+      dateFromFfi(_dateTimeHandle), 
+      dateFromFfi(_dateTimeUtcHandle), 
+      dateFromFfi(_beforeEpochHandle), 
       dateFromFfi(_exactlyEpochHandle)
     );
   } finally {
@@ -66,8 +82,11 @@ DateDefaultsAliased smokeDatedefaultsaliasedFromFfi(Pointer<Void> handle) {
     dateReleaseFfiHandle(_exactlyEpochHandle);
   }
 }
+
 void smokeDatedefaultsaliasedReleaseFfiHandle(Pointer<Void> handle) => _smokeDatedefaultsaliasedReleaseHandle(handle);
+
 // Nullable DateDefaultsAliased
+
 final _smokeDatedefaultsaliasedCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -80,6 +99,7 @@ final _smokeDatedefaultsaliasedGetValueNullable = __lib.catchArgumentError(() =>
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_DateDefaultsAliased_get_value_nullable'));
+
 Pointer<Void> smokeDatedefaultsaliasedToFfiNullable(DateDefaultsAliased? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeDatedefaultsaliasedToFfi(value);
@@ -87,6 +107,7 @@ Pointer<Void> smokeDatedefaultsaliasedToFfiNullable(DateDefaultsAliased? value) 
   smokeDatedefaultsaliasedReleaseFfiHandle(_handle);
   return result;
 }
+
 DateDefaultsAliased? smokeDatedefaultsaliasedFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeDatedefaultsaliasedGetValueNullable(handle);
@@ -94,6 +115,10 @@ DateDefaultsAliased? smokeDatedefaultsaliasedFromFfiNullable(Pointer<Void> handl
   smokeDatedefaultsaliasedReleaseFfiHandle(_handle);
   return result;
 }
+
 void smokeDatedefaultsaliasedReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeDatedefaultsaliasedReleaseHandleNullable(handle);
+
 // End of DateDefaultsAliased "private" section.
+
+

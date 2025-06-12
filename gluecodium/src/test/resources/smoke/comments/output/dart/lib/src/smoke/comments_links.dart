@@ -42,8 +42,8 @@ abstract class CommentsLinks implements Finalizable {
   ///   * nested lists
   ///
   /// Not working for Java:
-  /// * typedef: [bool]
-  /// * top level typedef: [bool]
+  /// * typedef: [Comments_Usefulness]
+  /// * top level typedef: [CommentsTypeCollection_TypeCollectionTypedef]
   ///
   /// Not working for Swift:
   /// * named comment: [][Comments.veryUseful]
@@ -182,6 +182,7 @@ final _randomMethodsmokeCommentslinksRandommethodSomeenumReturnHasError = __lib.
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_CommentsLinks_randomMethod__SomeEnum_return_has_error'));
+
 
 
 

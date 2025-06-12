@@ -5,6 +5,7 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:library/src/generic_types__conversion.dart';
 
 abstract class DurationSeconds implements Finalizable {
 
@@ -17,6 +18,11 @@ abstract class DurationSeconds implements Finalizable {
 
 }
 
+typedef DurationSeconds_DurationTypeAlias = Duration;
+typedef DurationSeconds_DurationList = List<Duration>;
+typedef DurationSeconds_DurationSet = Set<Duration>;
+typedef DurationSeconds_DurationMap = Map<String, Duration>;
+typedef DurationSeconds_DurationKeyMap = Map<Duration, String>;
 
 class DurationSeconds_DurationStruct {
   Duration durationField;
@@ -112,6 +118,7 @@ final _smokeDurationsecondsReleaseHandle = __lib.catchArgumentError(() => __lib.
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_DurationSeconds_release_handle'));
+
 
 
 

@@ -38,6 +38,7 @@ class OuterStruct {
   static dynamic $prototype = OuterStruct$Impl();
 }
 
+typedef OuterStruct_TypeAlias = OuterStruct_InnerEnum;
 enum OuterStruct_InnerEnum {
     foo,
     bar
@@ -101,7 +102,7 @@ void smokeOuterstructInnerenumReleaseFfiHandleNullable(Pointer<Void> handle) =>
 
 // End of OuterStruct_InnerEnum "private" section.
 class OuterStruct_InstantiationException implements Exception {
-  final OuterStruct_InnerEnum error;
+  final OuterStruct_TypeAlias error;
   OuterStruct_InstantiationException(this.error);
 }
 

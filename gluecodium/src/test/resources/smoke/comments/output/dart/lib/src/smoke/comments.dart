@@ -11,30 +11,30 @@ import 'package:meta/meta.dart';
 abstract class Comments implements Finalizable {
 
   /// This is some very useful constant.
-  static final bool veryUseful = true;
+  static final Comments_Usefulness veryUseful = true;
 
   /// This is some very useful method that measures the usefulness of its input.
   ///
   /// [inputParameter] Very useful input parameter
   ///
-  /// Returns [bool]. Usefulness of the input
+  /// Returns [Comments_Usefulness]. Usefulness of the input
   ///
   /// Throws [Comments_SomethingWrongException]. Sometimes it happens.
   ///
-  bool someMethodWithAllComments(String inputParameter);
+  Comments_Usefulness someMethodWithAllComments(String inputParameter);
   /// This is some very useful method that measures the usefulness of its input.
   ///
   /// [input] Very useful input parameter
   ///
-  bool someMethodWithInputComments(String input);
+  Comments_Usefulness someMethodWithInputComments(String input);
   /// This is some very useful method that measures the usefulness of its input.
   ///
-  /// Returns [bool]. Usefulness of the input
+  /// Returns [Comments_Usefulness]. Usefulness of the input
   ///
-  bool someMethodWithOutputComments(String input);
+  Comments_Usefulness someMethodWithOutputComments(String input);
   /// This is some very useful method that measures the usefulness of its input.
   ///
-  bool someMethodWithNoComments(String input);
+  Comments_Usefulness someMethodWithNoComments(String input);
   /// This is some very useful method that does not measure the usefulness of its input.
   ///
   /// [input] Very useful input parameter
@@ -45,12 +45,12 @@ abstract class Comments implements Finalizable {
   void someMethodWithoutReturnTypeWithNoComments(String input);
   /// This is some very useful method that measures the usefulness of something.
   ///
-  /// Returns [bool]. Usefulness of the input
+  /// Returns [Comments_Usefulness]. Usefulness of the input
   ///
-  bool someMethodWithoutInputParametersWithAllComments();
+  Comments_Usefulness someMethodWithoutInputParametersWithAllComments();
   /// This is some very useful method that measures the usefulness of something.
   ///
-  bool someMethodWithoutInputParametersWithNoComments();
+  Comments_Usefulness someMethodWithoutInputParametersWithNoComments();
 
   void someMethodWithNothing();
   /// This is some very useful method that does nothing.
@@ -69,13 +69,13 @@ abstract class Comments implements Finalizable {
   /// Note: that's serious.
   /// Therefore, these lines above getter/setter need to be rendered in the output files.
   /// Gets some very useful property.
-  bool get isSomeProperty;
+  Comments_Usefulness get isSomeProperty;
   /// Some very useful property.
   /// Note: without these comments user may not be able to use it correctly.
   /// Note: that's serious.
   /// Therefore, these lines above getter/setter need to be rendered in the output files.
   /// Sets some very useful property.
-  set isSomeProperty(bool value);
+  set isSomeProperty(Comments_Usefulness value);
 
   /// OnlyGetterProperty, which does not have a setter.
   /// The generated documentation for this property should only be added to property or getter.
@@ -106,6 +106,8 @@ abstract class Comments implements Finalizable {
 
 }
 
+/// This is some very useful typedef.
+typedef Comments_Usefulness = bool;
 /// This is some very useful enum.
 enum Comments_SomeEnum {
     /// Not quite useful
@@ -183,7 +185,7 @@ class Comments_SomethingWrongException implements Exception {
 class Comments_SomeStruct {
   /// How useful this struct is
   /// remains to be seen
-  bool someField;
+  Comments_Usefulness someField;
 
   /// Can be `null`
   String? nullableField;
@@ -196,7 +198,7 @@ class Comments_SomeStruct {
   /// [nullableField] Can be `null`
 
   Comments_SomeStruct._(this.someField, this.nullableField);
-  Comments_SomeStruct(bool someField)
+  Comments_SomeStruct(Comments_Usefulness someField)
     : someField = someField, nullableField = null;
   /// This is some struct method that does nothing.
   ///
@@ -493,7 +495,7 @@ class Comments$Impl extends __lib.NativeBase implements Comments {
   Comments$Impl(Pointer<Void> handle) : super(handle);
 
   @override
-  bool someMethodWithAllComments(String inputParameter) {
+  Comments_Usefulness someMethodWithAllComments(String inputParameter) {
     final _someMethodWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Comments_someMethodWithAllComments__String'));
     final _inputParameterHandle = stringToFfi(inputParameter);
     final _handle = this.handle;
@@ -520,7 +522,7 @@ class Comments$Impl extends __lib.NativeBase implements Comments {
   }
 
   @override
-  bool someMethodWithInputComments(String input) {
+  Comments_Usefulness someMethodWithInputComments(String input) {
     final _someMethodWithInputCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Comments_someMethodWithInputComments__String'));
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
@@ -536,7 +538,7 @@ class Comments$Impl extends __lib.NativeBase implements Comments {
   }
 
   @override
-  bool someMethodWithOutputComments(String input) {
+  Comments_Usefulness someMethodWithOutputComments(String input) {
     final _someMethodWithOutputCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Comments_someMethodWithOutputComments__String'));
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
@@ -552,7 +554,7 @@ class Comments$Impl extends __lib.NativeBase implements Comments {
   }
 
   @override
-  bool someMethodWithNoComments(String input) {
+  Comments_Usefulness someMethodWithNoComments(String input) {
     final _someMethodWithNoCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Comments_someMethodWithNoComments__String'));
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
@@ -588,7 +590,7 @@ class Comments$Impl extends __lib.NativeBase implements Comments {
   }
 
   @override
-  bool someMethodWithoutInputParametersWithAllComments() {
+  Comments_Usefulness someMethodWithoutInputParametersWithAllComments() {
     final _someMethodWithoutInputParametersWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_Comments_someMethodWithoutInputParametersWithAllComments'));
     final _handle = this.handle;
     final __resultHandle = _someMethodWithoutInputParametersWithAllCommentsFfi(_handle, __lib.LibraryContext.isolateId);
@@ -602,7 +604,7 @@ class Comments$Impl extends __lib.NativeBase implements Comments {
   }
 
   @override
-  bool someMethodWithoutInputParametersWithNoComments() {
+  Comments_Usefulness someMethodWithoutInputParametersWithNoComments() {
     final _someMethodWithoutInputParametersWithNoCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_Comments_someMethodWithoutInputParametersWithNoComments'));
     final _handle = this.handle;
     final __resultHandle = _someMethodWithoutInputParametersWithNoCommentsFfi(_handle, __lib.LibraryContext.isolateId);
@@ -666,7 +668,7 @@ class Comments$Impl extends __lib.NativeBase implements Comments {
   }
 
   @override
-  bool get isSomeProperty {
+  Comments_Usefulness get isSomeProperty {
     final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_Comments_isSomeProperty_get'));
     final _handle = this.handle;
     final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
@@ -680,7 +682,7 @@ class Comments$Impl extends __lib.NativeBase implements Comments {
   }
 
   @override
-  set isSomeProperty(bool value) {
+  set isSomeProperty(Comments_Usefulness value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_Comments_isSomeProperty_set__Boolean'));
     final _valueHandle = booleanToFfi(value);
     final _handle = this.handle;

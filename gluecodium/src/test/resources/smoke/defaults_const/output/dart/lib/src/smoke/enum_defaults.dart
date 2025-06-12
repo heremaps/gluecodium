@@ -14,6 +14,7 @@ abstract class EnumDefaults implements Finalizable {
 
 }
 
+typedef EnumDefaults_EnumAlias = Enum3;
 
 class EnumDefaults_SimpleEnum {
   Enum1 enumField;
@@ -191,7 +192,7 @@ void smokeEnumdefaultsNullableenumReleaseFfiHandleNullable(Pointer<Void> handle)
 // End of EnumDefaults_NullableEnum "private" section.
 
 class EnumDefaults_AliasEnum {
-  Enum3 enumField;
+  EnumDefaults_EnumAlias enumField;
 
   EnumDefaults_AliasEnum._(this.enumField);
   EnumDefaults_AliasEnum()
@@ -368,6 +369,7 @@ final _smokeEnumdefaultsReleaseHandle = __lib.catchArgumentError(() => __lib.nat
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_EnumDefaults_release_handle'));
+
 
 
 class EnumDefaults$Impl extends __lib.NativeBase implements EnumDefaults {

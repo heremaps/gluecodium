@@ -30,6 +30,7 @@ internal class DartImportsCollector(importsResolver: ImportsResolver<DartImport>
         collectTypeRefImports = true,
         collectValueImports = true,
         parentTypeFilter = { true },
+        collectTypeAliasImports = true,
     ) {
     override fun collectParentTypeRefs(limeContainer: LimeContainerWithInheritance) =
         when (limeContainer) {
