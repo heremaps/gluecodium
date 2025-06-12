@@ -119,10 +119,8 @@ class ExcludedComments_SomeStruct {
   ExcludedComments_Usefulness someField;
 
   /// This is how easy it is to construct.
-
   /// [someField] How useful this struct is
   /// remains to be seen
-
   ExcludedComments_SomeStruct(this.someField);
 }
 

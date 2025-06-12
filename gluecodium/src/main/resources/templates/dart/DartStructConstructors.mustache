@@ -111,10 +111,10 @@ Explicit `field constructor` definitions
 
 }}{{+constructorComment}}{{#resolveName constructorComment}}{{#unless this.isEmpty}}{{!!
 }}{{prefix this "  /// "}}
-{{#fields}}
-  /// [{{resolveName}}] {{#resolveName comment}}{{#unless this.isEmpty}}{{!!
-  }}{{prefix this "  /// " skipFirstLine=true}}{{/unless}}{{/resolveName}}
-{{/fields}}
-{{/unless}}{{/resolveName}}{{/constructorComment}}{{!!
+{{#fields}}{{!!
+}}  /// [{{resolveName}}] {{#resolveName comment}}{{#unless this.isEmpty}}{{!!
+}}{{prefix this "  /// " skipFirstLine=true}}{{/unless}}{{/resolveName}}
+{{/fields}}{{!!
+}}{{/unless}}{{/resolveName}}{{/constructorComment}}{{!!
 
 }}{{+thisDotFields}}{{#fields}}this.{{resolveName "visibility"}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}}{{/thisDotFields}}
