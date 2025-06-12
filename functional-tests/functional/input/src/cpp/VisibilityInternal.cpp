@@ -18,6 +18,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+#include "test/DartInternalClassWithInternalTypedef.h"
 #include "test/DartInternalElements.h"
 #include "test/DartInternalElementsRev.h"
 #include "test/DartPublicElements.h"
@@ -26,6 +27,34 @@
 
 namespace test
 {
+
+class SomeImplOfDartInternalClassWithInternalTypedef : public DartInternalClassWithInternalTypedef {
+public:
+    SomeImplOfDartInternalClassWithInternalTypedef() = default;
+    ~SomeImplOfDartInternalClassWithInternalTypedef() override = default;
+
+public:
+    ::test::DartInternalClassWithInternalTypedef::SomeStringToIntMap get_numbers() const override {
+        return m_numbers;
+    }
+
+    void set_numbers(const ::test::DartInternalClassWithInternalTypedef::SomeStringToIntMap& value) override {
+        m_numbers = value;
+    }
+
+    ::test::DartInternalClassWithInternalTypedef::SomeStringArray get_labels() const override {
+        return m_labels;
+    }
+
+    void set_labels(const ::test::DartInternalClassWithInternalTypedef::SomeStringArray& value) override {
+        m_labels = value;
+    }
+
+private:
+    ::test::DartInternalClassWithInternalTypedef::SomeStringToIntMap m_numbers{};
+    ::test::DartInternalClassWithInternalTypedef::SomeStringArray m_labels{};
+};
+
 std::shared_ptr<InternalClassWithFunctions>
 InternalClassWithFunctions::make() {
     return {};

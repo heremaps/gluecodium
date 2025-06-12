@@ -74,3 +74,28 @@ struct TypeCollection {
 
     const INVALID_STORAGE_ID: StorageId = 0
 }
+
+@Skip(Java, Kotlin, Swift)
+@Internal
+class DartInternalClassWithInternalTypedef {
+    @Internal
+    typealias SomeStringToIntMap = Map<String, Int>
+
+    @Internal
+    typealias SomeStringArray = List<String>
+
+    property numbers: SomeStringToIntMap
+    property labels: SomeStringArray
+}
+
+@Skip(Java, Kotlin, Swift)
+class SomeDartClassThatUsesInternal {
+    @Internal
+    typealias ListOfInternals = List<DartInternalClassWithInternalTypedef>
+
+    @Internal
+    fun add_entity(
+        // The entity to add.
+        entity: DartInternalClassWithInternalTypedef
+    )
+}
