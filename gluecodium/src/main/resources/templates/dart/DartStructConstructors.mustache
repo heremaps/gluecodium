@@ -112,7 +112,7 @@ Explicit `field constructor` definitions
 }}{{+constructorComment}}{{#resolveName constructorComment}}{{#unless this.isEmpty}}{{!!
 }}{{prefix this "  /// "}}
 {{#fields}}{{!!
-}}  /// [{{resolveName}}] {{#resolveName comment}}{{#unless this.isEmpty}}{{!!
+}}  /// - [{{resolveName}}] {{#resolveName comment}}{{#unless this.isEmpty}}{{!!
 }}{{prefix this "  /// " skipFirstLine=true}}{{/unless}}{{/resolveName}}
 {{/fields}}{{!!
 }}{{/unless}}{{/resolveName}}{{/constructorComment}}{{!!

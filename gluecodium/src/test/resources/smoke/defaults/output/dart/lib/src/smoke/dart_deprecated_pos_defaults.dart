@@ -12,8 +12,8 @@ class DartDeprecatedPosDefaults {
   String stringField;
 
   /// buzz fizz
-  /// [intField] 
-  /// [stringField] 
+  /// - [intField] 
+  /// - [stringField] 
   @Deprecated("Sorry, this is deprecated.")
   DartDeprecatedPosDefaults(String stringField, [int intField = 42])
     : intField = intField, stringField = stringField;

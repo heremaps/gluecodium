@@ -191,9 +191,9 @@ class Comments_SomeStruct {
   String? nullableField;
 
   /// This is how easy it is to construct.
-  /// [someField] How useful this struct is
+  /// - [someField] How useful this struct is
   /// remains to be seen
-  /// [nullableField] Can be `null`
+  /// - [nullableField] Can be `null`
   Comments_SomeStruct._(this.someField, this.nullableField);
   Comments_SomeStruct(Comments_Usefulness someField)
     : someField = someField, nullableField = null;

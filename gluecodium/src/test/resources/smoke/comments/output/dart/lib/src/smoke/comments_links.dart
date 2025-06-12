@@ -70,7 +70,7 @@ class CommentsLinks_RandomStruct {
   Comments_SomeStruct randomField;
 
   /// constructor comments [Comments_SomeStruct]
-  /// [randomField] Some random field [Comments_SomeStruct]
+  /// - [randomField] Some random field [Comments_SomeStruct]
   CommentsLinks_RandomStruct(this.randomField);
 }
 
