@@ -16,7 +16,7 @@ abstract class ExcludedComments implements Finalizable {
 
   /// This is some very useful method that measures the usefulness of its input.
   ///
-  /// [inputParameter] Very useful input parameter
+  /// - [inputParameter] Very useful input parameter
   ///
   /// Returns [ExcludedComments_Usefulness]. Usefulness of the input
   ///

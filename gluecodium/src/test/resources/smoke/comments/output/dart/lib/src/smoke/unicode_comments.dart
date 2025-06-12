@@ -11,7 +11,7 @@ abstract class UnicodeComments implements Finalizable {
 
   /// Süßölgefäß
   ///
-  /// [input] שלום
+  /// - [input] שלום
   ///
   /// Returns [Comments_Usefulness]. товарищ
   ///

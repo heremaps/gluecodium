@@ -27,11 +27,11 @@ abstract class MultiLineComments implements Finalizable {
   /// It has very important parameters.
   /// It has side effects.
   ///
-  /// [input] Very useful input parameter.
+  /// - [input] Very useful input parameter.
   /// You must not confuse it with the second parameter.
   /// But they are similar.
   ///
-  /// [ratio] Not as useful as the first parameter.
+  /// - [ratio] Not as useful as the first parameter.
   /// But still useful.
   /// use a positive value for more happiness.
   ///
@@ -58,6 +58,7 @@ final _smokeMultilinecommentsReleaseHandle = __lib.catchArgumentError(() => __li
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_MultiLineComments_release_handle'));
+
 
 
 

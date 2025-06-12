@@ -15,7 +15,7 @@ abstract class Comments implements Finalizable {
 
   /// This is some very useful method that measures the usefulness of its input.
   ///
-  /// [inputParameter] Very useful input parameter
+  /// - [inputParameter] Very useful input parameter
   ///
   /// Returns [Comments_Usefulness]. Usefulness of the input
   ///
@@ -24,7 +24,7 @@ abstract class Comments implements Finalizable {
   Comments_Usefulness someMethodWithAllComments(String inputParameter);
   /// This is some very useful method that measures the usefulness of its input.
   ///
-  /// [input] Very useful input parameter
+  /// - [input] Very useful input parameter
   ///
   Comments_Usefulness someMethodWithInputComments(String input);
   /// This is some very useful method that measures the usefulness of its input.
@@ -37,7 +37,7 @@ abstract class Comments implements Finalizable {
   Comments_Usefulness someMethodWithNoComments(String input);
   /// This is some very useful method that does not measure the usefulness of its input.
   ///
-  /// [input] Very useful input parameter
+  /// - [input] Very useful input parameter
   ///
   void someMethodWithoutReturnTypeWithAllComments(String input);
   /// This is some very useful method that does not measure the usefulness of its input.
@@ -57,7 +57,7 @@ abstract class Comments implements Finalizable {
   ///
   void someMethodWithoutReturnTypeOrInputParameters();
 
-  /// [documented] nicely documented
+  /// - [documented] nicely documented
   ///
   String oneParameterCommentOnly(String undocumented, String documented);
 

@@ -15,39 +15,39 @@ import 'package:meta/meta.dart';
 abstract class Thermometer implements Finalizable {
   /// A constructor, which makes the thermometer with readout interval.
   ///
-  /// [interval] readout interval
+  /// - [interval] readout interval
   ///
-  /// [observers] observers of temperature changes
+  /// - [observers] observers of temperature changes
   ///
   factory Thermometer.makeWithDuration(Duration interval, List<TemperatureObserver> observers) => $prototype.makeWithDuration(interval, observers);
   /// A constructor, which makes the thermometer with default readout interval (1 second).
   ///
-  /// [observers] observers of temperature changes
+  /// - [observers] observers of temperature changes
   ///
   factory Thermometer.makeWithoutDuration(List<TemperatureObserver> observers) => $prototype.makeWithoutDuration(observers);
   /// A throwing constructor, which makes the thermometer with default readout interval (1 second).
   ///
-  /// [id] identification of this thermometer
+  /// - [id] identification of this thermometer
   ///
-  /// [observers] observers of temperature changes
+  /// - [observers] observers of temperature changes
   ///
   /// Throws [Thermometer_NotificationException]. if identification number is invalid
   ///
   factory Thermometer.throwingMake(int id, List<TemperatureObserver> observers) => $prototype.throwingMake(id, observers);
   /// A non-throwing constructor, which makes the thermometer with default readout interval (1 second).
   ///
-  /// [label] some identification label
+  /// - [label] some identification label
   ///
-  /// [niceObservers] observers of temperature changes
+  /// - [niceObservers] observers of temperature changes
   ///
   /// Throws [Thermometer_NotificationException]. if notification of observers failed
   ///
   factory Thermometer.nothrowMake(String label, List<TemperatureObserver> niceObservers) => $prototype.nothrowMake(label, niceObservers);
   /// A throwing constructor, which makes the thermometer with default readout interval (1 second).
   ///
-  /// [dummy] some dummy boolean flag
+  /// - [dummy] some dummy boolean flag
   ///
-  /// [observers] observers of temperature changes
+  /// - [observers] observers of temperature changes
   ///
   /// Throws [Thermometer_AnotherNotificationException]. if some problem occurs
   ///
@@ -59,9 +59,9 @@ abstract class Thermometer implements Finalizable {
   static void notifyObservers(Thermometer thermometer, List<TemperatureObserver> someObservers) => $prototype.notifyObservers(thermometer, someObservers);
   /// Function used to notify observers.
   ///
-  /// [thermometer] subject that has changed state
+  /// - [thermometer] subject that has changed state
   ///
-  /// [someObservers] observers to be notified
+  /// - [someObservers] observers to be notified
   ///
   /// Throws [Thermometer_NotificationException]. if notification of observers failed
   ///

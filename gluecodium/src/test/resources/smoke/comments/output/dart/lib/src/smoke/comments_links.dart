@@ -48,7 +48,7 @@ abstract class CommentsLinks implements Finalizable {
   /// Not working for Swift:
   /// * named comment: [][Comments.veryUseful]
   ///
-  /// [inputParameter] Sometimes takes [Comments_SomeEnum.useful]
+  /// - [inputParameter] Sometimes takes [Comments_SomeEnum.useful]
   ///
   /// Returns [Comments_SomeEnum]. Sometimes returns [Comments_SomeEnum.useful]
   ///
