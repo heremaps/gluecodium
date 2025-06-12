@@ -99,3 +99,8 @@ class SomeDartClassThatUsesInternal {
         entity: DartInternalClassWithInternalTypedef
     )
 }
+
+@Skip(Java, Kotlin, Swift)
+struct SomeDartStructWithTypedefField {
+    someField: GlobalListTypeDef
+}
