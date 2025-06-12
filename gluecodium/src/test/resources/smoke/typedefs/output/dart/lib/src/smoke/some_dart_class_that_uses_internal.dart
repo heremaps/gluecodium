@@ -12,7 +12,7 @@ abstract class SomeDartClassThatUsesInternal implements Finalizable {
 }
 
 /// @nodoc
-typedef _SomeDartClassThatUsesInternal_ListOfInternals = List<DartInternalClassWithInternalTypedef>;
+typedef SomeDartClassThatUsesInternal_ListOfInternals = List<DartInternalClassWithInternalTypedef>;
 
 // SomeDartClassThatUsesInternal "private" section, not exported.
 

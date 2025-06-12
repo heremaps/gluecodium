@@ -12,11 +12,11 @@ abstract class PublicClass implements Finalizable {
 }
 
 /// @nodoc
-typedef _PublicClass_InternalArray = List<PublicClass_InternalStruct>;
+typedef PublicClass_InternalArray = List<PublicClass_InternalStruct>;
 /// @nodoc
-typedef _PublicClass_InternalStructTypeDef = PublicClass_InternalStruct;
+typedef PublicClass_InternalStructTypeDef = PublicClass_InternalStruct;
 /// @nodoc
-typedef _PublicClass_StringToInternalStructMap = Map<String, PublicClass_InternalStruct>;
+typedef PublicClass_StringToInternalStructMap = Map<String, PublicClass_InternalStruct>;
 /// @nodoc
 enum PublicClass_InternalEnum {
     foo,

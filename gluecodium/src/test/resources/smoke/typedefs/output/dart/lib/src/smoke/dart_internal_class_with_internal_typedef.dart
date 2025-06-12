@@ -18,9 +18,9 @@ abstract class DartInternalClassWithInternalTypedef implements Finalizable {
 }
 
 /// @nodoc
-typedef _DartInternalClassWithInternalTypedef_SomeStringToIntMap = Map<String, int>;
+typedef DartInternalClassWithInternalTypedef_SomeStringToIntMap = Map<String, int>;
 /// @nodoc
-typedef _DartInternalClassWithInternalTypedef_SomeStringArray = List<String>;
+typedef DartInternalClassWithInternalTypedef_SomeStringArray = List<String>;
 
 // DartInternalClassWithInternalTypedef "private" section, not exported.
 
