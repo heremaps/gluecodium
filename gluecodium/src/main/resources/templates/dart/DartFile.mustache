@@ -20,9 +20,16 @@
   !}}
 {{#if copyrightHeader}}{{prefix copyrightHeader "// "}}{{/if}}
 
+{{#instanceOf model "LimeTypeAlias"}}
+{{#nonConversionImports}}
+{{>dart/DartImport}}
+{{/nonConversionImports}}
+{{/instanceOf}}
+{{#notInstanceOf model "LimeTypeAlias"}}
 {{#imports}}
 {{>dart/DartImport}}
 {{/imports}}
+{{/notInstanceOf}}
 
 {{#model}}
 {{include contentTemplate}}

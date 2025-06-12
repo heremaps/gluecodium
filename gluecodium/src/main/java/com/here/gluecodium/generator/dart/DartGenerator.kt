@@ -258,11 +258,13 @@ internal class DartGenerator : Generator {
         val optimizedLists = OptimizedListsCollector().getAllOptimizedLists(rootElement)
 
         val imports = importCollectors.flatMap { it.collectImports(rootElement) }
+        val nonConversionImports = imports.filterNot { it.filePath.endsWith("__conversion") }
         val content =
             TemplateEngine.render(
                 "dart/DartFile",
                 mapOf(
                     "imports" to imports.distinct().sorted().filterNot { it.filePath.endsWith(filePath) },
+                    "nonConversionImports" to nonConversionImports.distinct().sorted().filterNot { it.filePath.endsWith(filePath) },
                     "model" to rootElement,
                     "contentTemplate" to contentTemplateName,
                     "libraryName" to libraryName,
