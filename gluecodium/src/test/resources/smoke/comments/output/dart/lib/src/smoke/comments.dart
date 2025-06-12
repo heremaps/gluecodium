@@ -312,9 +312,9 @@ void smokeCommentsSomestructReleaseFfiHandleNullable(Pointer<Void> handle) =>
 // End of Comments_SomeStruct "private" section.
 /// This is some very useful lambda that does it.
 ///
-/// [p0] Very useful input parameter
+/// - [p0] Very useful input parameter
 ///
-/// [p1] Slightly less useful input parameter
+/// - [p1] Slightly less useful input parameter
 ///
 /// Returns Usefulness of the input
 typedef Comments_SomeLambda = double Function(String, int);

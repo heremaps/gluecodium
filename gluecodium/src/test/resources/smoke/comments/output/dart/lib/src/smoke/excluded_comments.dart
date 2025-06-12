@@ -200,9 +200,9 @@ void smokeExcludedcommentsSomestructReleaseFfiHandleNullable(Pointer<Void> handl
 /// This is some very useful lambda that does it.
 /// @nodoc
 ///
-/// [p0] Very useful input parameter
+/// - [p0] Very useful input parameter
 ///
-/// [p1] Slightly less useful input parameter
+/// - [p1] Slightly less useful input parameter
 ///
 /// Returns Usefulness of the input
 typedef ExcludedComments_SomeLambda = double Function(String, int);

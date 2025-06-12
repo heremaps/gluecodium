@@ -12,7 +12,7 @@ abstract class LambdaComments implements Finalizable {
 
 /// The first line of the doc.
 ///
-/// [p0] The first input parameter
+/// - [p0] The first input parameter
 typedef LambdaComments_WithNoNamedParameters = String Function(String);
 
 // LambdaComments_WithNoNamedParameters "private" section, not exported.
@@ -256,7 +256,7 @@ void smokeLambdacommentsWithnodocsforparametersReleaseFfiHandleNullable(Pointer<
 // End of LambdaComments_WithNoDocsForParameters "private" section.
 /// The first line of the doc.
 ///
-/// [inputParameter] The first input parameter. The second sentence of the first input parameter.
+/// - [inputParameter] The first input parameter. The second sentence of the first input parameter.
 ///
 /// Returns The string.
 typedef LambdaComments_WithNamedParameters = String Function(String inputParameter);
