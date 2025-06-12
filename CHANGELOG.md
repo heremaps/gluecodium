@@ -2,7 +2,9 @@
 
 ## Unreleased
 ### Features:
-  * Dart: added support for type aliases (typedefs).
+ * Dart: added support for type aliases (typedefs).
+### Bug-fixes:
+ * Dart: removed redundant white-spaces from rendered comments for constructors of structures. Adjusted the rendered comments to list parameters using bullet points to improve readability.
 
 ## 13.15.1
 Release date 2025-06-05
