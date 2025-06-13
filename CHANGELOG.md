@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 13.16.0
+Release date 2025-06-13
 ### Features:
  * Dart: added support for type aliases (typedefs).
 ### Bug-fixes:
