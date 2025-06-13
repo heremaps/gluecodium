@@ -14,8 +14,8 @@ class FieldConstructorsPartialDefaults {
 
   /// This is some field constructor with two parameters.
   /// It is very important.
-  /// [intField] 
-  /// [stringField] 
+  /// - [intField] 
+  /// - [stringField] 
   FieldConstructorsPartialDefaults.withTrue(this.intField, this.stringField)
       : boolField = true;
   FieldConstructorsPartialDefaults(this.boolField, this.intField, this.stringField);

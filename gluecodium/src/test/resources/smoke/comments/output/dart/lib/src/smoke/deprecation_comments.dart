@@ -33,7 +33,7 @@ abstract class DeprecationComments implements Finalizable {
 
   /// This is some very useful method that measures the usefulness of its input.
   ///
-  /// [input] Very useful input parameter
+  /// - [input] Very useful input parameter
   ///
   /// Returns [DeprecationComments_Usefulness]. Usefulness of the input
   ///
@@ -304,7 +304,7 @@ class DeprecationComments$Impl extends __lib.NativeBase implements DeprecationCo
 
   /// Sets some very useful property.
   ///
-  /// [value] Some very useful property.
+  /// - [value] Some very useful property.
   ///
   @Deprecated("Unfortunately, this property's setter is deprecated.\nUse [Comments.isSomeProperty] instead.")
 
@@ -334,7 +334,7 @@ class DeprecationComments$Impl extends __lib.NativeBase implements DeprecationCo
   }
 
 
-  /// [value] Describes the property but not accessors.
+  /// - [value] Describes the property but not accessors.
   ///
   @Deprecated("Will be removed in v3.2.1.")
 

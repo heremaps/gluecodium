@@ -44,14 +44,14 @@ abstract class CommentsInterface implements Finalizable {
 
   /// This is some very useful method that measures the usefulness of its input.
   ///
-  /// [input] Very useful input parameter
+  /// - [input] Very useful input parameter
   ///
   /// Returns [CommentsInterface_Usefulness]. Usefulness of the input
   ///
   CommentsInterface_Usefulness someMethodWithAllComments(String input);
   /// This is some very useful method that measures the usefulness of its input.
   ///
-  /// [input] Very useful input parameter
+  /// - [input] Very useful input parameter
   ///
   CommentsInterface_Usefulness someMethodWithInputComments(String input);
   /// This is some very useful method that measures the usefulness of its input.
@@ -64,7 +64,7 @@ abstract class CommentsInterface implements Finalizable {
   CommentsInterface_Usefulness someMethodWithNoComments(String input);
   /// This is some very useful method that does not measure the usefulness of its input.
   ///
-  /// [input] Very useful input parameter
+  /// - [input] Very useful input parameter
   ///
   void someMethodWithoutReturnTypeWithAllComments(String input);
   /// This is some very useful method that does not measure the usefulness of its input.
@@ -488,7 +488,7 @@ class CommentsInterface$Impl extends __lib.NativeBase implements CommentsInterfa
 
   /// Sets some very useful property.
   ///
-  /// [value] Some very useful property.
+  /// - [value] Some very useful property.
   ///
   set isSomeProperty(CommentsInterface_Usefulness value) {
     final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_CommentsInterface_isSomeProperty_set__Boolean'));

@@ -16,7 +16,7 @@ abstract class ExcludedComments implements Finalizable {
 
   /// This is some very useful method that measures the usefulness of its input.
   ///
-  /// [inputParameter] Very useful input parameter
+  /// - [inputParameter] Very useful input parameter
   ///
   /// Returns [ExcludedComments_Usefulness]. Usefulness of the input
   ///
@@ -119,10 +119,8 @@ class ExcludedComments_SomeStruct {
   ExcludedComments_Usefulness someField;
 
   /// This is how easy it is to construct.
-
-  /// [someField] How useful this struct is
+  /// - [someField] How useful this struct is
   /// remains to be seen
-
   ExcludedComments_SomeStruct(this.someField);
 }
 
@@ -202,9 +200,9 @@ void smokeExcludedcommentsSomestructReleaseFfiHandleNullable(Pointer<Void> handl
 /// This is some very useful lambda that does it.
 /// @nodoc
 ///
-/// [p0] Very useful input parameter
+/// - [p0] Very useful input parameter
 ///
-/// [p1] Slightly less useful input parameter
+/// - [p1] Slightly less useful input parameter
 ///
 /// Returns Usefulness of the input
 typedef ExcludedComments_SomeLambda = double Function(String, int);

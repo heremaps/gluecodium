@@ -16,7 +16,7 @@ abstract class PlatformComments implements Finalizable {
   void doMagic();
   /// This is some very useful method that measures the usefulness of its input or \esc@pe{s}.
   ///
-  /// [input] Very useful parameter that \[\esc@pe{s}\]
+  /// - [input] Very useful parameter that \[\esc@pe{s}\]
   ///
   /// Returns [bool]. Uselessness [PlatformComments_SomeEnum] of the input
   ///
@@ -212,6 +212,7 @@ final _someMethodWithAllCommentssmokePlatformcommentsSomemethodwithallcommentsSt
     Uint8 Function(Pointer<Void>),
     int Function(Pointer<Void>)
   >('library_smoke_PlatformComments_someMethodWithAllComments__String_return_has_error'));
+
 
 
 

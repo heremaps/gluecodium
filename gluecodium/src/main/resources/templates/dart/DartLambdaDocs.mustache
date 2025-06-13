@@ -25,7 +25,7 @@
 {{/ifPredicate}}{{!!
 }}{{#parameters}}{{#set self=this}}{{#resolveName comment}}{{#unless this.isEmpty}}
 ///
-/// [{{self.parameterName}}] {{prefix this "/// " skipFirstLine=true}}
+/// - [{{self.parameterName}}] {{prefix this "/// " skipFirstLine=true}}
 {{/unless}}{{/resolveName}}{{/set}}{{/parameters}}
 {{#if attributes.deprecated}}
 @Deprecated("{{#resolveName attributes.deprecated.message}}{{escape this}}{{/resolveName}}")

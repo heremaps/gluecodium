@@ -48,7 +48,7 @@ abstract class CommentsLinks implements Finalizable {
   /// Not working for Swift:
   /// * named comment: [][Comments.veryUseful]
   ///
-  /// [inputParameter] Sometimes takes [Comments_SomeEnum.useful]
+  /// - [inputParameter] Sometimes takes [Comments_SomeEnum.useful]
   ///
   /// Returns [Comments_SomeEnum]. Sometimes returns [Comments_SomeEnum.useful]
   ///
@@ -70,9 +70,7 @@ class CommentsLinks_RandomStruct {
   Comments_SomeStruct randomField;
 
   /// constructor comments [Comments_SomeStruct]
-
-  /// [randomField] Some random field [Comments_SomeStruct]
-
+  /// - [randomField] Some random field [Comments_SomeStruct]
   CommentsLinks_RandomStruct(this.randomField);
 }
 

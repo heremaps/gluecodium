@@ -1,23 +1,35 @@
+
+
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
+
+
 /// Foo Bar this is a comment
+
 class DartDeprecatedPosDefaultsCustom {
   int intField;
+
   String stringField;
+
   /// buzz fizz
-  /// [intField]
-  /// [stringField]
+  /// - [intField] 
+  /// - [stringField] 
   @Deprecated("Sorry, this is deprecated.")
   DartDeprecatedPosDefaultsCustom(String stringField, [int intField = 42])
     : intField = intField, stringField = stringField;
+
   factory DartDeprecatedPosDefaultsCustom() => $prototype.custom();
+
   /// @nodoc
   @visibleForTesting
   static dynamic $prototype = DartDeprecatedPosDefaultsCustom$Impl();
 }
+
+
 // DartDeprecatedPosDefaultsCustom "private" section, not exported.
+
 final _smokeDartdeprecatedposdefaultscustomCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Int32, Pointer<Void>),
     Pointer<Void> Function(int, Pointer<Void>)
@@ -34,6 +46,9 @@ final _smokeDartdeprecatedposdefaultscustomGetFieldstringField = __lib.catchArgu
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_DartDeprecatedPosDefaultsCustom_get_field_stringField'));
+
+
+
 /// @nodoc
 @visibleForTesting
 class DartDeprecatedPosDefaultsCustom$Impl {
@@ -44,30 +59,40 @@ class DartDeprecatedPosDefaultsCustom$Impl {
       return smokeDartdeprecatedposdefaultscustomFromFfi(__resultHandle);
     } finally {
       smokeDartdeprecatedposdefaultscustomReleaseFfiHandle(__resultHandle);
+
     }
+
   }
+
 }
+
 Pointer<Void> smokeDartdeprecatedposdefaultscustomToFfi(DartDeprecatedPosDefaultsCustom value) {
   final _intFieldHandle = (value.intField);
   final _stringFieldHandle = stringToFfi(value.stringField);
   final _result = _smokeDartdeprecatedposdefaultscustomCreateHandle(_intFieldHandle, _stringFieldHandle);
+  
   stringReleaseFfiHandle(_stringFieldHandle);
   return _result;
 }
+
 DartDeprecatedPosDefaultsCustom smokeDartdeprecatedposdefaultscustomFromFfi(Pointer<Void> handle) {
   final _intFieldHandle = _smokeDartdeprecatedposdefaultscustomGetFieldintField(handle);
   final _stringFieldHandle = _smokeDartdeprecatedposdefaultscustomGetFieldstringField(handle);
   try {
     return DartDeprecatedPosDefaultsCustom(
-      stringFromFfi(_stringFieldHandle),
+      stringFromFfi(_stringFieldHandle), 
       (_intFieldHandle)
     );
   } finally {
+    
     stringReleaseFfiHandle(_stringFieldHandle);
   }
 }
+
 void smokeDartdeprecatedposdefaultscustomReleaseFfiHandle(Pointer<Void> handle) => _smokeDartdeprecatedposdefaultscustomReleaseHandle(handle);
+
 // Nullable DartDeprecatedPosDefaultsCustom
+
 final _smokeDartdeprecatedposdefaultscustomCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -80,6 +105,7 @@ final _smokeDartdeprecatedposdefaultscustomGetValueNullable = __lib.catchArgumen
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_DartDeprecatedPosDefaultsCustom_get_value_nullable'));
+
 Pointer<Void> smokeDartdeprecatedposdefaultscustomToFfiNullable(DartDeprecatedPosDefaultsCustom? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeDartdeprecatedposdefaultscustomToFfi(value);
@@ -87,6 +113,7 @@ Pointer<Void> smokeDartdeprecatedposdefaultscustomToFfiNullable(DartDeprecatedPo
   smokeDartdeprecatedposdefaultscustomReleaseFfiHandle(_handle);
   return result;
 }
+
 DartDeprecatedPosDefaultsCustom? smokeDartdeprecatedposdefaultscustomFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeDartdeprecatedposdefaultscustomGetValueNullable(handle);
@@ -94,6 +121,10 @@ DartDeprecatedPosDefaultsCustom? smokeDartdeprecatedposdefaultscustomFromFfiNull
   smokeDartdeprecatedposdefaultscustomReleaseFfiHandle(_handle);
   return result;
 }
+
 void smokeDartdeprecatedposdefaultscustomReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeDartdeprecatedposdefaultscustomReleaseHandleNullable(handle);
+
 // End of DartDeprecatedPosDefaultsCustom "private" section.
+
+

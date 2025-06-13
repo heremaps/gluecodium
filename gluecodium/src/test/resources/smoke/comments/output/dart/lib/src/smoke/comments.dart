@@ -15,7 +15,7 @@ abstract class Comments implements Finalizable {
 
   /// This is some very useful method that measures the usefulness of its input.
   ///
-  /// [inputParameter] Very useful input parameter
+  /// - [inputParameter] Very useful input parameter
   ///
   /// Returns [Comments_Usefulness]. Usefulness of the input
   ///
@@ -24,7 +24,7 @@ abstract class Comments implements Finalizable {
   Comments_Usefulness someMethodWithAllComments(String inputParameter);
   /// This is some very useful method that measures the usefulness of its input.
   ///
-  /// [input] Very useful input parameter
+  /// - [input] Very useful input parameter
   ///
   Comments_Usefulness someMethodWithInputComments(String input);
   /// This is some very useful method that measures the usefulness of its input.
@@ -37,7 +37,7 @@ abstract class Comments implements Finalizable {
   Comments_Usefulness someMethodWithNoComments(String input);
   /// This is some very useful method that does not measure the usefulness of its input.
   ///
-  /// [input] Very useful input parameter
+  /// - [input] Very useful input parameter
   ///
   void someMethodWithoutReturnTypeWithAllComments(String input);
   /// This is some very useful method that does not measure the usefulness of its input.
@@ -57,7 +57,7 @@ abstract class Comments implements Finalizable {
   ///
   void someMethodWithoutReturnTypeOrInputParameters();
 
-  /// [documented] nicely documented
+  /// - [documented] nicely documented
   ///
   String oneParameterCommentOnly(String undocumented, String documented);
 
@@ -191,12 +191,9 @@ class Comments_SomeStruct {
   String? nullableField;
 
   /// This is how easy it is to construct.
-
-  /// [someField] How useful this struct is
+  /// - [someField] How useful this struct is
   /// remains to be seen
-
-  /// [nullableField] Can be `null`
-
+  /// - [nullableField] Can be `null`
   Comments_SomeStruct._(this.someField, this.nullableField);
   Comments_SomeStruct(Comments_Usefulness someField)
     : someField = someField, nullableField = null;
@@ -315,9 +312,9 @@ void smokeCommentsSomestructReleaseFfiHandleNullable(Pointer<Void> handle) =>
 // End of Comments_SomeStruct "private" section.
 /// This is some very useful lambda that does it.
 ///
-/// [p0] Very useful input parameter
+/// - [p0] Very useful input parameter
 ///
-/// [p1] Slightly less useful input parameter
+/// - [p1] Slightly less useful input parameter
 ///
 /// Returns Usefulness of the input
 typedef Comments_SomeLambda = double Function(String, int);

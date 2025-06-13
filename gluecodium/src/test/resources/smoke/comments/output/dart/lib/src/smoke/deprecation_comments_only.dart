@@ -25,7 +25,7 @@ abstract class DeprecationCommentsOnly implements Finalizable {
   static final DeprecationCommentsOnly_Usefulness veryUseful = true;
 
 
-  /// [input] Very useful input parameter
+  /// - [input] Very useful input parameter
   ///
   /// Returns [DeprecationCommentsOnly_Usefulness]. Usefulness of the input
   ///
