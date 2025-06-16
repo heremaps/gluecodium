@@ -10,11 +10,11 @@ package com.example.smoke
 
 interface PublicInterface {
     class InternalStruct {
-        @JvmField var fieldOfInternalType: PublicClass.InternalStruct
+        @JvmField internal var fieldOfInternalType: PublicClass.InternalStruct
 
 
 
-        constructor(fieldOfInternalType: PublicClass.InternalStruct) {
+        internal constructor(fieldOfInternalType: PublicClass.InternalStruct) {
             this.fieldOfInternalType = fieldOfInternalType
         }
 

@@ -12,7 +12,7 @@ import com.example.NativeBase
 /**
  * @suppress
  */
-class InternalLambdaImpl : NativeBase, InternalLambda {
+internal class InternalLambdaImpl : NativeBase, InternalLambda {
     protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
