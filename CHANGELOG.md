@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+ * Validation: `LimeLambdaValidator` class is extended with new functionality to raise warning/error when parameters with default names are explicitly documented.
+
 ## 13.16.0
 Release date 2025-06-13
 ### Features:

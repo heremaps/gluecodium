@@ -57,18 +57,26 @@ class LimeLambdaValidator(private val logger: LimeLogger, generatorOptions: Gene
     }
 
     private fun validateLambdaDocs(limeLambda: LimeLambda): Boolean {
-        val checkDocsMessage = "please check $LAMBDAS_STRUCTURED_COMMENTS"
+        val checkCommentsDocsMessage = "please check $LAMBDAS_STRUCTURED_COMMENTS"
+        val checkNamedParamsSyntax = "please check $LAMBDAS_NAMED_PARAMS_SYNTAX"
         var result = true
 
         for (parameter in limeLambda.parameters) {
             if (parameter.comment.isEmpty()) {
-                logger.maybeError(limeLambda, "Parameter '${parameter.name}' must be documented; $checkDocsMessage")
+                logger.maybeError(limeLambda, "Parameter '${parameter.name}' must be documented; $checkCommentsDocsMessage")
+                result = false
+            } else if (!parameter.isNamedParameter) {
+                logger.maybeError(
+                    limeLambda,
+                    "Default parameter name '${parameter.name}' is documented. Please set an explicit name for documented parameters; " +
+                        checkNamedParamsSyntax,
+                )
                 result = false
             }
         }
 
         if (!limeLambda.returnType.isVoid && limeLambda.returnType.comment.isEmpty()) {
-            logger.maybeError(limeLambda, "Return must be documented; $checkDocsMessage")
+            logger.maybeError(limeLambda, "Return must be documented; $checkCommentsDocsMessage")
             result = false
         }
 
@@ -77,5 +85,6 @@ class LimeLambdaValidator(private val logger: LimeLogger, generatorOptions: Gene
 
     companion object {
         private const val LAMBDAS_STRUCTURED_COMMENTS = "$LIME_MARKDOWN_DOCS#structured-comments-for-lambdas"
+        private const val LAMBDAS_NAMED_PARAMS_SYNTAX = "https://github.com/heremaps/gluecodium/blob/master/docs/lime_idl.md#lambda"
     }
 }
