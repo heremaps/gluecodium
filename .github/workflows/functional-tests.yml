@@ -482,6 +482,7 @@ jobs:
           version: 1.11.0
       - name: Build and run functional tests
         run: |
+          export CTEST_PARALLEL_LEVEL=6
           ./gradlew publishToMavenLocal
           cd cmake
           GLUECODIUM_BUILD_ENVIRONMENT=ios-x86_64 cmake -P run-cmake-unit-test.cmake
