@@ -402,8 +402,8 @@ jobs:
           cd functional-tests
           ./scripts/build-dart-functional --buildGluecodium --asan
 
-  cmake-tests:
-    name: CMake toolchain tests
+  cmake-tests-android:
+    name: CMake toolchain tests for Android
     runs-on: ubuntu-22.04
 
     steps:

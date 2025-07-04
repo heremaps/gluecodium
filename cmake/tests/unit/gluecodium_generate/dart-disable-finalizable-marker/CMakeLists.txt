@@ -24,6 +24,13 @@ list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
 include(gluecodium/Gluecodium)
 
 include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/check_file_does_not_contain_string_after_build.cmake)
+include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/get_supported_gluecodium_generators.cmake)
+
+get_supported_gluecodium_generators(_gluecodium_generators)
+
+if(NOT dart IN_LIST _gluecodium_generators)
+  return()
+endif()
 
 add_library(dummySharedLibrary SHARED "${CMAKE_CURRENT_LIST_DIR}/cpp/FooImpl.cpp")
 

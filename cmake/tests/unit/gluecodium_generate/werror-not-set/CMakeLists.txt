@@ -26,6 +26,14 @@ list(APPEND CMAKE_MODULE_PATH "${GLUECODIUM_CMAKE_DIR}/modules")
 include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/assert.cmake)
 include(gluecodium/Gluecodium)
 
+include(${GLUECODIUM_CMAKE_TESTS_DIR}/utils/get_supported_gluecodium_generators.cmake)
+
+get_supported_gluecodium_generators(_gluecodium_generators)
+
+if(NOT dart IN_LIST _gluecodium_generators)
+  return()
+endif()
+
 # Default namespace
 add_library(target.with.warnings SHARED "${CMAKE_CURRENT_LIST_DIR}/cpp/FooImpl.cpp")
 
