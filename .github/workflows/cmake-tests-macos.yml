@@ -3,10 +3,10 @@ name: CMake tests on MacOS
 on:
   push:
     paths:
-      - 'gluecodium/**'
+      - 'cmake/**'
   pull_request:
     paths:
-      - 'gluecodium/**'
+      - 'cmake/**'
   workflow_dispatch:
 
 jobs:
