@@ -31,17 +31,26 @@ internal object LimeValidatorUtils {
         limeNamedElement: LimeNamedElement,
         referenceMap: Map<String, LimeElement>,
     ): Boolean {
-        if (limeNamedElement.attributes.have(LimeAttributeType.INTERNAL)) {
+        if (isElementInternalAccordingToAttributes(limeNamedElement)) {
             return false
         }
 
         val parentElement = referenceMap[limeNamedElement.path.parent.toString()] as LimeNamedElement? ?: return true
-        if (parentElement.attributes.have(LimeAttributeType.INTERNAL)) {
+        if (isElementInternalAccordingToAttributes(parentElement)) {
             return false
         }
 
         return generateSequence(parentElement) {
             referenceMap[it.path.parent.toString()] as? LimeType
-        }.none { it.attributes.have(LimeAttributeType.INTERNAL) }
+        }.none { isElementInternalAccordingToAttributes(it) }
+    }
+
+    private fun isElementInternalAccordingToAttributes(element: LimeNamedElement): Boolean {
+        // 1. Trivial case: the element uses 'global internal' attribute.
+        if (element.attributes.have(LimeAttributeType.INTERNAL)) {
+            return true
+        }
+
+        return false
     }
 }
