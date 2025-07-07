@@ -34,7 +34,8 @@ internal object LimeValidatorUtils {
 
     // Documentation comments are required for the given element when one of the following occurs:
     // 1. The element is not internal and all of its parents are not internal.
-    // 2. The element is not internal for all platforms (JAVA, SWIFT, DART, KOTLIN) and its parents too.
+    // 2. The element is not internal for all non-skipped platforms (JAVA, SWIFT, DART, KOTLIN) and its parents too.
+    // 3. The element is not skipped for all platforms and its parents too.
     fun needsDocumentationComment(
         limeNamedElement: LimeNamedElement,
         referenceMap: Map<String, LimeElement>,
@@ -59,9 +60,9 @@ internal object LimeValidatorUtils {
             return true
         }
 
-        // Non-trivial case: all platforms are internal.
+        // Non-trivial case: all platforms are internal or skipped.
         return listOf(JAVA, SWIFT, DART, KOTLIN).all {
-            element.attributes.have(it, LimeAttributeValueType.INTERNAL)
+            element.attributes.have(it, LimeAttributeValueType.INTERNAL) || element.attributes.have(it, LimeAttributeValueType.SKIP)
         }
     }
 }

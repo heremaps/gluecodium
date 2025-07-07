@@ -348,4 +348,97 @@ class LimeFunctionsValidatorDocsTest {
         // Then docs validation passes (for functions from internal types it is skipped).
         assertTrue(result)
     }
+
+    @Test
+    fun validationShouldPassWhenAllPlatformsAreSkipped() {
+        // Given LimeFunction with skipped annotation for all platforms and parameter that isn't properly documented.
+        val builder = LimeAttributes.Builder()
+        listOf(JAVA, SWIFT, DART, KOTLIN).forEach {
+            builder.addAttribute(it, LimeAttributeValueType.SKIP)
+        }
+        val attributes = builder.build()
+
+        val limeFunction =
+            LimeFunction(
+                path = limeFunctionPath,
+                comment = limeComment,
+                attributes = attributes,
+                returnType = LimeReturnType(typeRef = LimeBasicTypeRef.INT, comment = LimeComment("Important integer")),
+                parameters = listOf(LimeParameter(path = limeFunctionPath.child("param1"), typeRef = LimeBasicTypeRef.FLOAT)),
+            )
+        allElements[limeFunctionPath.toString()] = limeFunction
+        allElements[limeStructPath.toString()] = LimeStruct(path = limeStructPath, functions = listOf(limeFunction))
+
+        // When validating it with werror flag.
+        val validator = LimeFunctionsValidator(logger = mockk(relaxed = true), generatorOptions = generatorOptions)
+        val result = validator.validate(limeModel)
+
+        // Then docs validation passes (all platforms are skipped -- we should not raise warning).
+        assertTrue(result)
+    }
+
+    @Test
+    fun validationShouldPassWhenAllPlatformsAreSkippedInParentElement() {
+        // Given LimeFunction from type nested in type skipped for all platforms and parameter that isn't properly documented.
+        val limeFunction =
+            LimeFunction(
+                path = limeFunctionPath,
+                comment = limeComment,
+                returnType = LimeReturnType(typeRef = LimeBasicTypeRef.INT, comment = LimeComment("Important integer")),
+                parameters = listOf(LimeParameter(path = limeFunctionPath.child("param1"), typeRef = LimeBasicTypeRef.FLOAT)),
+            )
+
+        val nestedStruct = LimeStruct(path = limeStructPath, functions = listOf(limeFunction))
+
+        val builder = LimeAttributes.Builder()
+        listOf(JAVA, SWIFT, DART, KOTLIN).forEach {
+            builder.addAttribute(it, LimeAttributeValueType.SKIP)
+        }
+        val attributes = builder.build()
+        val internalStruct = LimeStruct(path = limeStructPath.parent, attributes = attributes, structs = listOf(nestedStruct))
+
+        allElements[limeFunctionPath.toString()] = limeFunction
+        allElements[limeStructPath.toString()] = nestedStruct
+        allElements[limeStructPath.parent.toString()] = internalStruct
+
+        // When validating it with werror flag.
+        val validator = LimeFunctionsValidator(logger = mockk(relaxed = true), generatorOptions = generatorOptions)
+        val result = validator.validate(limeModel)
+
+        // Then docs validation passes (for functions from internal types it is skipped).
+        assertTrue(result)
+    }
+
+    @Test
+    fun validationShouldPassWhenAllNonSkippedPlatformsAreInternal() {
+        // Given LimeFunction with internal annotation for all platforms that are not skipped and parameter that isn't properly documented.
+        val builder = LimeAttributes.Builder()
+
+        // Skip all platforms except SWIFT.
+        listOf(JAVA, DART, KOTLIN).forEach {
+            builder.addAttribute(it, LimeAttributeValueType.SKIP)
+        }
+
+        // Remaining SWIFT platform is internal.
+        builder.addAttribute(SWIFT, LimeAttributeValueType.INTERNAL)
+        val attributes = builder.build()
+
+        val limeFunction =
+            LimeFunction(
+                path = limeFunctionPath,
+                comment = limeComment,
+                attributes = attributes,
+                returnType = LimeReturnType(typeRef = LimeBasicTypeRef.INT, comment = LimeComment("Important integer")),
+                parameters = listOf(LimeParameter(path = limeFunctionPath.child("param1"), typeRef = LimeBasicTypeRef.FLOAT)),
+            )
+        allElements[limeFunctionPath.toString()] = limeFunction
+        allElements[limeStructPath.toString()] = LimeStruct(path = limeStructPath, functions = listOf(limeFunction))
+
+        // When validating it with werror flag.
+        val validator = LimeFunctionsValidator(logger = mockk(relaxed = true), generatorOptions = generatorOptions)
+        val result = validator.validate(limeModel)
+
+        // Then docs validation passes (all platforms are skipped -- we should not raise warning).
+        assertTrue(result)
+    }
 }
