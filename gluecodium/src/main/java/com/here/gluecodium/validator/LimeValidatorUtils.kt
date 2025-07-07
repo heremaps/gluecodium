@@ -32,25 +32,28 @@ import com.here.gluecodium.model.lime.LimeType
 internal object LimeValidatorUtils {
     const val LIME_MARKDOWN_DOCS = "https://github.com/heremaps/gluecodium/blob/master/docs/lime_markdown.md"
 
+    // Documentation comments are required for the given element when one of the following occurs:
+    // 1. The element is not internal and all of its parents are not internal.
+    // 2. The element is not internal for all platforms (JAVA, SWIFT, DART, KOTLIN) and its parents too.
     fun needsDocumentationComment(
         limeNamedElement: LimeNamedElement,
         referenceMap: Map<String, LimeElement>,
     ): Boolean {
-        if (isElementInternalAccordingToAttributes(limeNamedElement)) {
+        if (canSkipDocumentation(limeNamedElement)) {
             return false
         }
 
         val parentElement = referenceMap[limeNamedElement.path.parent.toString()] as LimeNamedElement? ?: return true
-        if (isElementInternalAccordingToAttributes(parentElement)) {
+        if (canSkipDocumentation(parentElement)) {
             return false
         }
 
         return generateSequence(parentElement) {
             referenceMap[it.path.parent.toString()] as? LimeType
-        }.none { isElementInternalAccordingToAttributes(it) }
+        }.none { canSkipDocumentation(it) }
     }
 
-    private fun isElementInternalAccordingToAttributes(element: LimeNamedElement): Boolean {
+    private fun canSkipDocumentation(element: LimeNamedElement): Boolean {
         // Trivial case: the element uses 'global internal' attribute.
         if (element.attributes.have(LimeAttributeType.INTERNAL)) {
             return true
