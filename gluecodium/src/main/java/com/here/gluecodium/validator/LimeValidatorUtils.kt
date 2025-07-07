@@ -20,6 +20,11 @@
 package com.here.gluecodium.validator
 
 import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeType.DART
+import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
+import com.here.gluecodium.model.lime.LimeAttributeType.KOTLIN
+import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
+import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeType
@@ -46,11 +51,14 @@ internal object LimeValidatorUtils {
     }
 
     private fun isElementInternalAccordingToAttributes(element: LimeNamedElement): Boolean {
-        // 1. Trivial case: the element uses 'global internal' attribute.
+        // Trivial case: the element uses 'global internal' attribute.
         if (element.attributes.have(LimeAttributeType.INTERNAL)) {
             return true
         }
 
-        return false
+        // Non-trivial case: all platforms are internal.
+        return listOf(JAVA, SWIFT, DART, KOTLIN).all {
+            element.attributes.have(it, LimeAttributeValueType.INTERNAL)
+        }
     }
 }
