@@ -3,6 +3,8 @@
 ## Unreleased
 ### Features:
  * Validation: `LimeLambdaValidator` class is extended with new functionality to raise warning/error when parameters with default names are explicitly documented.
+### Bug-fixes:
+ * Validation: `LimeValidatorUtils.needsDocumentationComment()` function is extended to avoid raising warnings/errors when a given LimeElement is annotated as internal/skipped for each platform (Java, Kotlin, Swift, Dart).
 
 ## 13.16.0
 Release date 2025-06-13
