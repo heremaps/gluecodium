@@ -85,3 +85,16 @@ struct SomeTypeCollection {
 class UseTcException {
     fun doNothing() throws SomeTypeCollection.Some
 }
+
+@Internal
+enum SomeInternalEnum {
+    ONE = 1,
+    TWO = 2,
+    THREE = 3,
+
+    @Internal
+    SINGLE = ONE
+}
+
+@Internal
+exception SomethingBadHappened(SomeInternalEnum)

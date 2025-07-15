@@ -181,5 +181,8 @@ enum SomeInternalEnum {
 }
 
 @Internal
+exception SomethingBadHappened(SomeInternalEnum)
+
+@Internal
 class InternalAttributeClassInherits: InternalAttributeInterfaceParent {
 }
