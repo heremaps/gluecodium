@@ -79,7 +79,7 @@ class PublicClass : NativeBase {
 
     @JvmName("internalMethod") internal external fun internalMethod(input: PublicClass.InternalStruct) : PublicClass.InternalStruct
 
-    var internalStructProperty: PublicClass.InternalStruct
+    internal var internalStructProperty: PublicClass.InternalStruct
         @JvmName("getInternalStructProperty") external get
         @JvmName("setInternalStructProperty") external set
 
