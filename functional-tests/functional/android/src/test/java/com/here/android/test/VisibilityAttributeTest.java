@@ -107,6 +107,7 @@ public class VisibilityAttributeTest {
   public void internaFunctionOfStructCanBeCalled() {
     SomeStructWithInternalMembers someObject = new SomeStructWithInternalMembers(21);
     assertEquals(888, someObject.someInternalFunction());
+    assertEquals(999, someObject.someInternalFunctionButOnlyForAndroid());
   }
 
   @Test

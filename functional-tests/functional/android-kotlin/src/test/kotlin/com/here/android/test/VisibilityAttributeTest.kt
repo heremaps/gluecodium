@@ -98,6 +98,7 @@ class VisibilityAttributeTest {
     fun internaFunctionOfStructCanBeCalled() {
         val someObject = SomeStructWithInternalMembers(21)
         assertEquals(888, someObject.someInternalFunction())
+        assertEquals(999, someObject.someInternalFunctionButOnlyForAndroid())
     }
 
     @org.junit.Test

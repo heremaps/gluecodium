@@ -92,6 +92,9 @@ struct SomeStructWithInternalMembers {
     @Internal
     fun someInternalFunction(): Int
 
+    @Skip(Swift, Dart) @Internal(Java, Kotlin)
+    fun someInternalFunctionButOnlyForAndroid(): Int
+
     @Internal
     static fun someStaticInternalFunction(): Int
 }

@@ -125,6 +125,10 @@ int32_t SomeStructWithInternalMembers::some_internal_function() const {
     return 888;
 }
 
+int32_t SomeStructWithInternalMembers::some_internal_function_but_only_for_android() const {
+    return 999;
+}
+
 int32_t SomeStructWithInternalMembers::some_static_internal_function() {
     return 777;
 }
