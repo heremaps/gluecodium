@@ -23,6 +23,7 @@
 #include "test/SomeClassWithInternalMembers.h"
 #include "test/SomeDerivedInternalClass.h"
 #include "test/SomeInternalClassWithMembers.h"
+#include "test/SomeInternalEnum.h"
 #include "test/SomeInternalInterface.h"
 #include "test/SomeInternalStructWithMembers.h"
 #include "test/SomeStructWithInternalMembers.h"
@@ -61,6 +62,14 @@ std::shared_ptr<SomeClassWithInternalMembers> SomeClassWithInternalMembers::some
 
 int SomeClassWithInternalMembers::some_static_internal_function() {
     return 123;
+}
+
+::std::error_code SomeClassWithInternalMembers::some_static_internal_function_that_may_throw(const bool should_throw) {
+    if (should_throw) {
+        return SomeInternalEnum::ONE;
+    } else {
+        return {};
+    }
 }
 
 class CppInternalInterfaceImpl : public SomeInternalInterface {

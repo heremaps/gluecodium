@@ -168,6 +168,9 @@ class SomeClassWithInternalMembers {
     static fun someStaticInternalFunction(): Int
 
     @Internal
+    static fun someStaticInternalFunctionThatMayThrow(shouldThrow: Boolean) throws SomethingBadHappened
+
+    @Internal
     property someInternalProperty: String
 
     static fun create(): SomeClassWithInternalMembers

@@ -20,6 +20,7 @@ package com.here.android.test
 
 import com.here.android.RobolectricApplication
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
@@ -179,5 +180,13 @@ class VisibilityAttributeTest {
         val someObject = SomeInternalClassWithMembers.SomeNestedInternalClass.create()
         assertEquals(1, someObject.doSomething())
         assertEquals(2, someObject.doSomethingElse())
+    }
+
+    @org.junit.Test
+    fun internalExceptionCanBeThrown() {
+        val exception = assertThrows(SomethingBadHappenedException::class.java) {
+            SomeClassWithInternalMembers.someStaticInternalFunctionThatMayThrow(shouldThrow = true)
+        }
+        assertEquals(exception.error, SomeInternalEnum.ONE)
     }
 }

@@ -20,6 +20,7 @@
 package com.here.android.test;
 
 import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
 import android.os.Build;
 import com.here.android.RobolectricApplication;
@@ -188,5 +189,14 @@ public class VisibilityAttributeTest {
     SomeInternalClassWithMembers.SomeNestedInternalClass someObject = SomeInternalClassWithMembers.SomeNestedInternalClass.create();
     assertEquals(1, someObject.doSomething());
     assertEquals(2, someObject.doSomethingElse());
+  }
+
+  @Test
+  public void internalExceptionCanBeThrown() {
+    SomethingBadHappenedException exception = assertThrows(SomethingBadHappenedException.class, () -> {
+      SomeClassWithInternalMembers.someStaticInternalFunctionThatMayThrow(true);
+    });
+
+    assertEquals(exception.error, SomeInternalEnum.ONE);
   }
 }
