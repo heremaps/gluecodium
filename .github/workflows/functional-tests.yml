@@ -402,8 +402,8 @@ jobs:
           cd functional-tests
           ./scripts/build-dart-functional --buildGluecodium --asan
 
-  cmake-tests:
-    name: CMake toolchain tests
+  cmake-tests-android:
+    name: CMake toolchain tests for Android
     runs-on: ubuntu-22.04
 
     steps:
@@ -450,6 +450,7 @@ jobs:
           sudo apt -y install ./dart_${DART_VERSION}-1_amd64.deb
       - name: Build and run functional tests
         run: |
+          export CTEST_PARALLEL_LEVEL=3
           export ANDROID_HOME=${HOME}/android-sdk-linux
           export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:/usr/lib/dart/bin
           ./gradlew publishToMavenLocal

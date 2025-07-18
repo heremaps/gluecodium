@@ -19,8 +19,14 @@
 
 package com.here.gluecodium.validator
 
+import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.common.GeneratorOptions
 import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeType.DART
+import com.here.gluecodium.model.lime.LimeAttributeType.JAVA
+import com.here.gluecodium.model.lime.LimeAttributeType.KOTLIN
+import com.here.gluecodium.model.lime.LimeAttributeType.SWIFT
+import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeBasicTypeRef
 import com.here.gluecodium.model.lime.LimeComment
@@ -31,7 +37,9 @@ import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimePath
 import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeStruct
+import io.mockk.justRun
 import io.mockk.mockk
+import io.mockk.verify
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -46,6 +54,85 @@ class LimeLambdaValidatorDocsTest {
     private val generatorOptions = GeneratorOptions(werror = setOf(GeneratorOptions.WARNING_LIME_LAMBDA_DOCS))
 
     @Test
+    fun validationShouldPassWhenAllNonSkippedPlatformsAreInternalWerrorIsEnabledGlobalLambda() {
+        // Given LimeLambda with parameter that isn't properly documented.
+        val builder = LimeAttributes.Builder()
+
+        // All platforms are internal except DART.
+        listOf(JAVA, SWIFT, KOTLIN).forEach {
+            builder.addAttribute(it, LimeAttributeValueType.INTERNAL)
+        }
+
+        // Remaining DART platform is skipped.
+        builder.addAttribute(DART, LimeAttributeValueType.SKIP)
+        val attributes = builder.build()
+
+        val lambdaPath = LimePath(listOf(), listOf("SomeLambda"))
+        val limeLambda =
+            LimeLambda(
+                path = lambdaPath,
+                attributes = attributes,
+                comment = limeComment,
+                returnType = LimeReturnType(typeRef = LimeBasicTypeRef.INT, comment = LimeComment("Important integer")),
+                parameters =
+                    listOf(
+                        LimeLambdaParameter(
+                            path = lambdaPath.child("param1"),
+                            isNamedParameter = true,
+                            typeRef = LimeBasicTypeRef.FLOAT,
+                        ),
+                    ),
+            )
+        allElements[lambdaPath.toString()] = limeLambda
+
+        // When validating it with werror flag enabled.
+        val validator = LimeLambdaValidator(logger = mockk(relaxed = true), generatorOptions = generatorOptions)
+        val result = validator.validate(limeModel)
+
+        // Then validation succeeds.
+        assertTrue(result)
+    }
+
+    @Test
+    fun validationShouldFailWhenPublicNonSkippedPlatformExistsWerrorIsEnabledGlobalLambda() {
+        // Given LimeLambda with parameter that isn't properly documented.
+        val builder = LimeAttributes.Builder()
+
+        // All platforms are internal except DART.
+        listOf(JAVA, SWIFT, KOTLIN).forEach {
+            builder.addAttribute(it, LimeAttributeValueType.INTERNAL)
+        }
+
+        // DART is public and non-skipped.
+        val attributes = builder.build()
+
+        val lambdaPath = LimePath(listOf(), listOf("SomeLambda"))
+        val limeLambda =
+            LimeLambda(
+                path = lambdaPath,
+                attributes = attributes,
+                comment = limeComment,
+                returnType = LimeReturnType(typeRef = LimeBasicTypeRef.INT, comment = LimeComment("Important integer")),
+                parameters =
+                    listOf(
+                        LimeLambdaParameter(
+                            path = lambdaPath.child("param1"),
+                            isNamedParameter = true,
+                            typeRef = LimeBasicTypeRef.FLOAT,
+                        ),
+                    ),
+            )
+        allElements[lambdaPath.toString()] = limeLambda
+
+        // When validating it with werror flag enabled.
+        val validator = LimeLambdaValidator(logger = mockk(relaxed = true), generatorOptions = generatorOptions)
+        val result = validator.validate(limeModel)
+
+        // Then validation succeeds.
+        assertFalse(result)
+    }
+
+    @Test
     fun validateMissingParamsCommentsWhenWerrorIsEnabledGlobalLambda() {
         // Given LimeLambda with parameter that isn't properly documented.
         val lambdaPath = LimePath(listOf(), listOf("SomeLambda"))
@@ -54,7 +141,14 @@ class LimeLambdaValidatorDocsTest {
                 path = lambdaPath,
                 comment = limeComment,
                 returnType = LimeReturnType(typeRef = LimeBasicTypeRef.INT, comment = LimeComment("Important integer")),
-                parameters = listOf(LimeLambdaParameter(path = lambdaPath.child("param1"), typeRef = LimeBasicTypeRef.FLOAT)),
+                parameters =
+                    listOf(
+                        LimeLambdaParameter(
+                            path = lambdaPath.child("param1"),
+                            isNamedParameter = true,
+                            typeRef = LimeBasicTypeRef.FLOAT,
+                        ),
+                    ),
             )
         allElements[lambdaPath.toString()] = limeLambda
 
@@ -75,7 +169,14 @@ class LimeLambdaValidatorDocsTest {
                 path = lambdaPath,
                 comment = limeComment,
                 returnType = LimeReturnType(typeRef = LimeBasicTypeRef.INT, comment = LimeComment("Important integer")),
-                parameters = listOf(LimeLambdaParameter(path = lambdaPath.child("param1"), typeRef = LimeBasicTypeRef.FLOAT)),
+                parameters =
+                    listOf(
+                        LimeLambdaParameter(
+                            path = lambdaPath.child("param1"),
+                            isNamedParameter = true,
+                            typeRef = LimeBasicTypeRef.FLOAT,
+                        ),
+                    ),
             )
         allElements[lambdaPath.toString()] = limeLambda
 
@@ -164,11 +265,13 @@ class LimeLambdaValidatorDocsTest {
                     listOf(
                         LimeLambdaParameter(
                             path = lambdaPath.child("param1"),
+                            isNamedParameter = true,
                             typeRef = LimeBasicTypeRef.FLOAT,
                             comment = LimeComment("Some param"),
                         ),
                         LimeLambdaParameter(
                             path = lambdaPath.child("param2"),
+                            isNamedParameter = true,
                             typeRef = LimeBasicTypeRef.FLOAT,
                             comment = LimeComment("Another param"),
                         ),
@@ -196,7 +299,14 @@ class LimeLambdaValidatorDocsTest {
                 comment = limeComment,
                 attributes = attributes,
                 returnType = LimeReturnType(typeRef = LimeBasicTypeRef.INT, comment = LimeComment("Important integer")),
-                parameters = listOf(LimeLambdaParameter(path = lambdaPath.child("param1"), typeRef = LimeBasicTypeRef.FLOAT)),
+                parameters =
+                    listOf(
+                        LimeLambdaParameter(
+                            path = lambdaPath.child("param1"),
+                            isNamedParameter = true,
+                            typeRef = LimeBasicTypeRef.FLOAT,
+                        ),
+                    ),
             )
         allElements[lambdaPath.toString()] = limeLambda
 
@@ -219,7 +329,14 @@ class LimeLambdaValidatorDocsTest {
                 path = lambdaPath,
                 comment = limeComment,
                 returnType = LimeReturnType(typeRef = LimeBasicTypeRef.INT, comment = LimeComment("Important integer")),
-                parameters = listOf(LimeLambdaParameter(path = lambdaPath.child("param1"), typeRef = LimeBasicTypeRef.FLOAT)),
+                parameters =
+                    listOf(
+                        LimeLambdaParameter(
+                            path = lambdaPath.child("param1"),
+                            isNamedParameter = true,
+                            typeRef = LimeBasicTypeRef.FLOAT,
+                        ),
+                    ),
             )
 
         val attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.INTERNAL).build()
@@ -248,7 +365,14 @@ class LimeLambdaValidatorDocsTest {
                 path = lambdaPath,
                 comment = limeComment,
                 returnType = LimeReturnType(typeRef = LimeBasicTypeRef.INT, comment = LimeComment("Important integer")),
-                parameters = listOf(LimeLambdaParameter(path = lambdaPath.child("param1"), typeRef = LimeBasicTypeRef.FLOAT)),
+                parameters =
+                    listOf(
+                        LimeLambdaParameter(
+                            path = lambdaPath.child("param1"),
+                            isNamedParameter = true,
+                            typeRef = LimeBasicTypeRef.FLOAT,
+                        ),
+                    ),
             )
 
         val nestedStruct = LimeStruct(path = nestedStructPath, lambdas = listOf(limeLambda))
@@ -265,6 +389,90 @@ class LimeLambdaValidatorDocsTest {
         val result = validator.validate(limeModel)
 
         // Then docs validation passes (for lambdas from types nested in internal ones it is skipped).
+        assertTrue(result)
+    }
+
+    @Test
+    fun validateDocumentationCommentForUnnamedParameterWhenWerrorIsEnabled() {
+        // Given LimeLambda with parameter with default name that is documented.
+        val lambdaPath = LimePath(listOf(), listOf("SomeLambda"))
+        val parameter =
+            LimeLambdaParameter(
+                path = lambdaPath.child("p0"),
+                comment = LimeComment("Some unnamed param"),
+                isNamedParameter = false,
+                typeRef = LimeBasicTypeRef.FLOAT,
+            )
+
+        val limeLambda =
+            LimeLambda(
+                path = lambdaPath,
+                comment = limeComment,
+                returnType = LimeReturnType(typeRef = LimeBasicTypeRef.INT, comment = LimeComment("Important integer")),
+                parameters = listOf(parameter),
+            )
+        allElements[lambdaPath.toString()] = limeLambda
+
+        // When validating it with werror flag enabled.
+        val logger: LimeLogger = mockk()
+        justRun { logger.error(limeLambda, any()) }
+
+        val validator = LimeLambdaValidator(logger = logger, generatorOptions = generatorOptions)
+        val result = validator.validate(limeModel)
+
+        // Then validation fails.
+        verify(exactly = 1) {
+            logger.error(
+                limeLambda,
+                match {
+                    it.startsWith(
+                        "Default parameter name '${parameter.name}' is documented. Please set an explicit name for documented parameters;",
+                    )
+                },
+            )
+        }
+        assertFalse(result)
+    }
+
+    @Test
+    fun validateDocumentationCommentForUnnamedParameterWhenWerrorIsDisabled() {
+        // Given LimeLambda with parameter with default name that is documented.
+        val lambdaPath = LimePath(listOf(), listOf("SomeLambda"))
+        val parameter =
+            LimeLambdaParameter(
+                path = lambdaPath.child("p0"),
+                comment = LimeComment("Some unnamed param"),
+                isNamedParameter = false,
+                typeRef = LimeBasicTypeRef.FLOAT,
+            )
+
+        val limeLambda =
+            LimeLambda(
+                path = lambdaPath,
+                comment = limeComment,
+                returnType = LimeReturnType(typeRef = LimeBasicTypeRef.INT, comment = LimeComment("Important integer")),
+                parameters = listOf(parameter),
+            )
+        allElements[lambdaPath.toString()] = limeLambda
+
+        // When validating it with werror flag disabled.
+        val logger: LimeLogger = mockk()
+        justRun { logger.warning(limeLambda, any()) }
+
+        val validator = LimeLambdaValidator(logger = logger)
+        val result = validator.validate(limeModel)
+
+        // Then validation succeeds with warning.
+        verify(exactly = 1) {
+            logger.warning(
+                limeLambda,
+                match {
+                    it.startsWith(
+                        "Default parameter name '${parameter.name}' is documented. Please set an explicit name for documented parameters;",
+                    )
+                },
+            )
+        }
         assertTrue(result)
     }
 }
