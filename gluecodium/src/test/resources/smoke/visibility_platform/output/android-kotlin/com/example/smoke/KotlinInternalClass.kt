@@ -9,7 +9,7 @@ package com.example.smoke
 
 import com.example.NativeBase
 
-class KotlinInternalClass : NativeBase {
+internal class KotlinInternalClass : NativeBase {
 
 
 

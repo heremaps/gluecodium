@@ -26,7 +26,7 @@ deprecation messages (see `Platform-specific comments` below for syntax).
 access and cached in Java/Kotlin/Swift/Dart afterwards). Currently, only supported for read-only properties.
 * **@Internal**\[**(**__PlatformTag__**)**\]: marks an element to have "internal" visibility. Additionally, platform
 tag(s) ("Java", "Kotlin", "Swift", or "Dart") could be specified. This will make the internal visibility apply on the selected
-platform(s). This attribute does not have any effect in Kotlin.
+platform(s).
 > **Important:** the behavior of `@Internal` tag for Dart is different from that for Java/Swift. In Dart, the types
 > annotated as `@Internal` do have "internal" visibility. However, functions, properties, constructors and field
 > constructors are not generated. These elements are skipped like in the case of `@Skip` attribute.

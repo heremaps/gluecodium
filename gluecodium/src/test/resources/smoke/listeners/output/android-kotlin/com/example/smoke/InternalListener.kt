@@ -8,7 +8,9 @@
 package com.example.smoke
 
 
-interface InternalListener {
+internal interface InternalListener {
+
+
 
     fun onEvent() : Unit
 
