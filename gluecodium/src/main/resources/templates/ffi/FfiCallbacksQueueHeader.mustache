@@ -24,6 +24,8 @@
 
 #include "Export.h"
 
+#include "dart_api_dl.h"
+
 #include <chrono>
 #include <functional>
 #include <future>
@@ -124,6 +126,11 @@ public:
      * Ignores the callback if the queue not exist or was already closed.
      **/
     std::future<bool> enqueueCallback(int id, std::function<void()>&& func);
+
+    /**
+     * If the isolate has not finished yet enter its context and execute callback.
+     **/
+     void executeCallbackInIsolateScope(int id, Dart_Isolate isolate, std::function<void()>&& func);
 };
 
 /**
