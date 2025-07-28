@@ -4,6 +4,7 @@
 ### Features:
  * Validation: `LimeLambdaValidator` class is extended with new functionality to raise warning/error when parameters with default names are explicitly documented.
 ### Bug-fixes:
+ * Dart/FFI: the bug related to entering isolate context after the given isolate is closed is solved for execution of Dart callbacks from C++. Since this release the callbacks queue manager received a new function, which checks if callbacks queue for given isolate is open and only in such case enters isolate context before executing a callback.
  * Validation: `LimeValidatorUtils.needsDocumentationComment()` function is extended to avoid raising warnings/errors when a given LimeElement is annotated as internal/skipped for each platform (Java, Kotlin, Swift, Dart).
 
 ## 13.16.0
