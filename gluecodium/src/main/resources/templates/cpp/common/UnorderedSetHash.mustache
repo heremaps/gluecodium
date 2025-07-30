@@ -46,11 +46,11 @@
 namespace {{.}} {
 {{/internalNamespace}}
 
-template<class T>
-struct hash< std::unordered_set< T > >
+template<class T, class H>
+struct hash< std::unordered_set< T, H > >
 {
     size_t
-    operator( )( const std::unordered_set< T >& set ) const
+    operator( )( const std::unordered_set< T, H >& set ) const
     {
         size_t hash_value = 67;
         for (const auto& value: set)
