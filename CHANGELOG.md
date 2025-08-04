@@ -4,6 +4,7 @@
 ### Features:
  * Validation: `LimeLambdaValidator` class is extended with new functionality to raise warning/error when parameters with default names are explicitly documented.
 ### Bug-fixes:
+ * C++: the compilation error in generated C++ code for equatable structure with set of enumerations is fixed by adjusting the template specialization in `UnorderedSetHash.h`.
  * Validation: `LimeValidatorUtils.needsDocumentationComment()` function is extended to avoid raising warnings/errors when a given LimeElement is annotated as internal/skipped for each platform (Java, Kotlin, Swift, Dart).
 
 ## 13.16.0
