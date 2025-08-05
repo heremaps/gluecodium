@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+ * Dart/FFI: a new public function called `*_library_execute_callbacks_for_isolate_of_current_thread()` is available to execute enqueued callbacks for the current thread. This can be used to implement platform event handlers, which need to wait until certain actions complete. If such handlers block the thread, then no callbacks can be executed -- this may lead to dead locks. The new function can be used together with polling to execute some Dart callbacks while the thread is waiting.
+
 ## 13.17.0
 Release date 2025-08-04
 ### Features:
