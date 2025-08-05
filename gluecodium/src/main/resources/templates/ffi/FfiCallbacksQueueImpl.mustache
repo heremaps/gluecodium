@@ -108,6 +108,12 @@ CallbackQueue::close()
     }
 }
 
+Dart_Isolate
+CallbackQueue::getIsolateHandle() const
+{
+    return m_isolate_handle;
+}
+
 int32_t
 CallbackQueueManager::createQueue()
 {
