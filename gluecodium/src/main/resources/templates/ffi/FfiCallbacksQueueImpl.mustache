@@ -170,6 +170,19 @@ CallbackQueueManager::getQueue(int id) const
     return it == m_queues.end() ? std::shared_ptr<CallbackQueue>() : it->second;
 }
 
+std::shared_ptr<CallbackQueue>
+CallbackQueueManager::getQueue(std::thread::id tid) const {
+    std::unique_lock<std::mutex> lock(m_mutex);
+
+    auto numeric_id_it = m_isolate_thread_to_queue_id.find(tid);
+    if (numeric_id_it == m_isolate_thread_to_queue_id.end()) {
+        return std::shared_ptr<CallbackQueue>();
+    }
+
+    auto it = m_queues.find(numeric_id_it->second);
+    return it == m_queues.end() ? std::shared_ptr<CallbackQueue>() : it->second;
+}
+
 std::future<bool>
 CallbackQueueManager::enqueueCallback(int id, std::function<void()>&& func)
 {

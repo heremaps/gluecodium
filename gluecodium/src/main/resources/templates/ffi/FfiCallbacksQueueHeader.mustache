@@ -117,7 +117,15 @@ private:
     std::unordered_map<std::thread::id, int> m_isolate_thread_to_queue_id;
 
 public:
+    /*
+     * Returns the callback queue associated with given numeric ID or null if no such queue exists.
+     */
     std::shared_ptr<CallbackQueue> getQueue(int id) const;
+
+    /*
+     * Returns the callback queue associated with given thread ID or null if no such queue exists.
+     */
+    std::shared_ptr<CallbackQueue> getQueue(std::thread::id tid) const;
 
     /**
      * Create CallbackQeue with given id.
