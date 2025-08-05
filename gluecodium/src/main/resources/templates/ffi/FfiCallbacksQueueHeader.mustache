@@ -32,6 +32,7 @@
 #include <memory>
 #include <mutex>
 #include <queue>
+#include <thread>
 #include <unordered_map>
 
 {{#internalNamespace}}
@@ -113,6 +114,7 @@ private:
     mutable std::mutex m_mutex;
     int32_t m_next_id = 0;
     std::unordered_map<int, std::shared_ptr<CallbackQueue>> m_queues;
+    std::unordered_map<std::thread::id, int> m_isolate_thread_to_queue_id;
 
 public:
     std::shared_ptr<CallbackQueue> getQueue(int id) const;
