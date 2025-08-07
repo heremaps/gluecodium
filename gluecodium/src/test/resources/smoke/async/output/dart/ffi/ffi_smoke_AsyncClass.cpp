@@ -68,9 +68,7 @@ private:
         } else if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
             callback();
         } else {
-            Dart_EnterIsolate_DL(isolate_handle);
-            callback();
-            Dart_ExitIsolate_DL();
+            gluecodium::ffi::cbqm.executeCallbackInIsolateScope(isolate_id, isolate_handle, std::move(callback));
         }
     }
 };
@@ -127,9 +125,7 @@ private:
         } else if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
             callback();
         } else {
-            Dart_EnterIsolate_DL(isolate_handle);
-            callback();
-            Dart_ExitIsolate_DL();
+            gluecodium::ffi::cbqm.executeCallbackInIsolateScope(isolate_id, isolate_handle, std::move(callback));
         }
     }
 };
@@ -187,9 +183,7 @@ private:
         } else if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
             callback();
         } else {
-            Dart_EnterIsolate_DL(isolate_handle);
-            callback();
-            Dart_ExitIsolate_DL();
+            gluecodium::ffi::cbqm.executeCallbackInIsolateScope(isolate_id, isolate_handle, std::move(callback));
         }
     }
 };
@@ -247,9 +241,7 @@ private:
         } else if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
             callback();
         } else {
-            Dart_EnterIsolate_DL(isolate_handle);
-            callback();
-            Dart_ExitIsolate_DL();
+            gluecodium::ffi::cbqm.executeCallbackInIsolateScope(isolate_id, isolate_handle, std::move(callback));
         }
     }
 };
@@ -307,9 +299,7 @@ private:
         } else if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
             callback();
         } else {
-            Dart_EnterIsolate_DL(isolate_handle);
-            callback();
-            Dart_ExitIsolate_DL();
+            gluecodium::ffi::cbqm.executeCallbackInIsolateScope(isolate_id, isolate_handle, std::move(callback));
         }
     }
 };
@@ -367,9 +357,7 @@ private:
         } else if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
             callback();
         } else {
-            Dart_EnterIsolate_DL(isolate_handle);
-            callback();
-            Dart_ExitIsolate_DL();
+            gluecodium::ffi::cbqm.executeCallbackInIsolateScope(isolate_id, isolate_handle, std::move(callback));
         }
     }
 };
@@ -426,9 +414,7 @@ private:
         } else if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
             callback();
         } else {
-            Dart_EnterIsolate_DL(isolate_handle);
-            callback();
-            Dart_ExitIsolate_DL();
+            gluecodium::ffi::cbqm.executeCallbackInIsolateScope(isolate_id, isolate_handle, std::move(callback));
         }
     }
 };

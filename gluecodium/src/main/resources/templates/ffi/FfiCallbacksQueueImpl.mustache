@@ -195,6 +195,17 @@ CallbackQueueManager::enqueueCallback(int id, std::function<void()>&& func)
 
     return queue->enqueueIncoming(std::move(func));
 }
+
+void
+CallbackQueueManager::executeCallbackInIsolateScope(int id, Dart_Isolate isolate, std::function<void()>&& func) {
+    auto queue = getQueue(id);
+    if (queue) {
+        Dart_EnterIsolate_DL(isolate);
+        func();
+        Dart_ExitIsolate_DL();
+    }
+}
+
 }
 {{#internalNamespace}}
 }
