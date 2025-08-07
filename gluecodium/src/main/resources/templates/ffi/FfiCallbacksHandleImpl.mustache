@@ -24,6 +24,8 @@
 
 #include "CallbacksQueue.h"
 
+#include <thread>
+
 namespace {
 // Due to the bug in Flutter (https://github.com/flutter/flutter/issues/58987)
 // hot restart may hangs if isolate is waiting for event in C++.
@@ -62,6 +64,26 @@ void
 {{libraryName}}_library_execute_callbacks(int32_t isolate_id) {
     auto queue = {{>ffi/FfiInternal}}::cbqm.getQueue(isolate_id);
     if (queue) {
+        queue->executeScheduled();
+    }
+}
+
+void
+{{libraryName}}_library_execute_callbacks_for_isolate_of_current_thread() {
+    auto queue = {{>ffi/FfiInternal}}::cbqm.getQueue(std::this_thread::get_id());
+    if (queue == nullptr) {
+        return;
+    }
+
+    // If the function is executed from custom task in a thread it means, that it was scheduled via
+    // some platform specific API or we are called from platform event handler. In such case we are
+    // not in Dart isolate context and we need to enter it.
+    const bool is_invoked_from_custom_task = (Dart_CurrentIsolate_DL() == nullptr);
+    if (is_invoked_from_custom_task) {
+        Dart_EnterIsolate_DL(queue->getIsolateHandle());
+        queue->executeScheduled();
+        Dart_ExitIsolate_DL();
+    } else {
         queue->executeScheduled();
     }
 }

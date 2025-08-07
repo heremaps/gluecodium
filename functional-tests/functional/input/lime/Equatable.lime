@@ -191,3 +191,14 @@ interface EquatableInterface {
 class EquatableInterfaceFactory {
     static fun createEquatableInterface(name: String): EquatableInterface
 }
+
+@Cpp(ToString)
+enum SomeFancyEnumerationType {
+  FANCY_LABEL = 0,
+  ANOTHER_FANCY_LABEL = 1
+}
+
+@Equatable
+struct StructureWithSetOfEnums {
+  labels: Set<SomeFancyEnumerationType>
+}

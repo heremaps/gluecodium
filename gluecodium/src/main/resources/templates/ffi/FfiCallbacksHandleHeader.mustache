@@ -33,6 +33,7 @@ _GLUECODIUM_FFI_EXPORT int32_t {{libraryName}}_library_callbacks_queue_init(bool
 _GLUECODIUM_FFI_EXPORT void {{libraryName}}_library_callbacks_queue_release(int32_t isolate_id);
 _GLUECODIUM_FFI_EXPORT uint8_t {{libraryName}}_library_wait_for_callbacks(int32_t isolate_id);
 _GLUECODIUM_FFI_EXPORT void {{libraryName}}_library_execute_callbacks(int32_t isolate_id);
+_GLUECODIUM_FFI_EXPORT void {{libraryName}}_library_execute_callbacks_for_isolate_of_current_thread();
 
 #ifdef __cplusplus
 }
