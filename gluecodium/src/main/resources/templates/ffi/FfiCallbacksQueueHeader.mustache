@@ -24,12 +24,15 @@
 
 #include "Export.h"
 
+#include "dart_api_dl.h"
+
 #include <chrono>
 #include <functional>
 #include <future>
 #include <memory>
 #include <mutex>
 #include <queue>
+#include <thread>
 #include <unordered_map>
 
 {{#internalNamespace}}
@@ -58,12 +61,18 @@ private:
 
     std::condition_variable m_notified;
 
+    Dart_Isolate m_isolate_handle;
+
 public:
     enum class WaitResult {
         Stopped,      // Queue is stopped
         HasIncoming,  // Queue has incomming messages
         TimedOut      // Wait operation is timed out
     };
+
+    CallbackQueue()
+        : m_isolate_handle(Dart_CurrentIsolate_DL())
+    {}
 
     /**
      * Block until there is a callback in incoming or the queue is closed
@@ -89,6 +98,11 @@ public:
      * Close the queue.
      */
     void close();
+
+    /**
+     * Returns the isolate handle associated with the current queue.
+     */
+    Dart_Isolate getIsolateHandle() const;
 };
 
 /**
@@ -100,9 +114,18 @@ private:
     mutable std::mutex m_mutex;
     int32_t m_next_id = 0;
     std::unordered_map<int, std::shared_ptr<CallbackQueue>> m_queues;
+    std::unordered_map<std::thread::id, int> m_isolate_thread_to_queue_id;
 
 public:
+    /*
+     * Returns the callback queue associated with given numeric ID or null if no such queue exists.
+     */
     std::shared_ptr<CallbackQueue> getQueue(int id) const;
+
+    /*
+     * Returns the callback queue associated with given thread ID or null if no such queue exists.
+     */
+    std::shared_ptr<CallbackQueue> getQueue(std::thread::id tid) const;
 
     /**
      * Create CallbackQeue with given id.
@@ -124,6 +147,11 @@ public:
      * Ignores the callback if the queue not exist or was already closed.
      **/
     std::future<bool> enqueueCallback(int id, std::function<void()>&& func);
+
+    /**
+     * If the isolate has not finished yet enter its context and execute callback.
+     **/
+     void executeCallbackInIsolateScope(int id, Dart_Isolate isolate, std::function<void()>&& func);
 };
 
 /**
