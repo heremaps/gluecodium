@@ -3,13 +3,16 @@
  *
  */
 
-@file:JvmName("InternalClassWithStaticProperty")
+@file:JvmName("InternalClassWithComments")
 
 package com.example.smoke
 
 import com.example.NativeBase
 
-internal class InternalClassWithStaticProperty : NativeBase {
+/**
+ * This looks internal
+ */
+internal class InternalClassWithComments : NativeBase {
 
 
 
@@ -24,16 +27,17 @@ internal class InternalClassWithStaticProperty : NativeBase {
 
 
 
+    /**
+     * This is definitely internal
+     */
+
+    external fun doNothing() : Unit
 
 
 
 
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
-        @JvmStatic var fooBar: String
-            external get
-            external set
-
     }
 }
 

@@ -28,6 +28,8 @@ import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeExternalDescriptor
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeLambda
+import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeStruct
 
 internal object KotlinGeneratorPredicates {
@@ -42,6 +44,9 @@ internal object KotlinGeneratorPredicates {
             "hasInternalFreeArgsConstructor" to this::hasInternalFreeArgsConstructor,
             "hasStaticProperties" to this::hasStaticProperties,
             "isExceptionSameForCtorAndHookFun" to this::isExceptionSameForCtorAndHookFun,
+            "isInternal" to this::isInternal,
+            "propertyGetterRequiresJvmName" to this::propertyGetterRequiresJvmName,
+            "propertySetterRequiresJvmName" to this::propertySetterRequiresJvmName,
             "needsAllFieldsConstructor" to this::needsAllFieldsConstructor,
         )
 
@@ -117,4 +122,19 @@ internal object KotlinGeneratorPredicates {
     private fun needsCompanionObject(element: Any) =
         hasStaticFunctions(element) || hasConstants(element) || needsDisposer(element) ||
             hasStaticProperties(element) || needsParcelCreator(element)
+
+    private fun propertyGetterRequiresJvmName(property: Any) =
+        property is LimeProperty && (
+            CommonGeneratorPredicates.isInternal(property, LimeAttributeType.KOTLIN) ||
+                property.getter.attributes.have(LimeAttributeType.KOTLIN, LimeAttributeValueType.NAME)
+        )
+
+    private fun propertySetterRequiresJvmName(property: Any) =
+        property is LimeProperty && (
+            CommonGeneratorPredicates.isInternal(property, LimeAttributeType.KOTLIN) ||
+                (property.setter?.attributes?.have(LimeAttributeType.KOTLIN, LimeAttributeValueType.NAME)) ?: false
+        )
+
+    private fun isInternal(element: Any) =
+        element is LimeNamedElement && CommonGeneratorPredicates.isInternal(element, LimeAttributeType.KOTLIN)
 }

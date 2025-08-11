@@ -49,5 +49,146 @@ interface InternalAttributeInterfaceParent {
 }
 
 @Internal
+lambda SomeInternalLambda = () -> Int
+
+@Internal
+narrow interface SomeInternalInterface {
+    fun foo(): Int
+    fun bar(): Long
+}
+
+@Internal
+struct SomeInternalStructWithMembers {
+    someInteger: Int
+    someLong: Long
+
+    fun someFunction(): Int
+
+    static fun create(): SomeInternalStructWithMembers
+}
+
+struct SomeStructWithInternalMembers {
+    someInteger: Int
+    someLong: Long
+
+    @Internal
+    fun getSomeCppLambda(): SomeInternalLambda
+
+    @Internal
+    fun getSomeCppImplOfInternalInterface(): SomeInternalInterface
+
+    @Internal
+    fun callSomeLambda(someLambda: SomeInternalLambda): Int
+
+    @Internal
+    fun callMethodOfSomeInterface(someInterface: SomeInternalInterface): Int
+
+    @Internal
+    someInternalString: String
+
+    @Internal
+    constructor someInternalCtor(x: Int)
+
+    @Internal
+    fun someInternalFunction(): Int
+
+    @Skip(Swift, Dart) @Internal(Java, Kotlin)
+    fun someInternalFunctionButOnlyForAndroid(): Int
+
+    @Internal
+    static fun someStaticInternalFunction(): Int
+}
+
+struct SomeStructWithInternalFreeArgsCtor {
+    @Internal
+    someInt: Int
+
+    someString: String = "Special string"
+}
+
+struct SomeStructWithInternalAllArgsCtor {
+    @Internal
+    someInt: Int
+
+    @Internal
+    someString: String
+}
+
+struct SomeStructWithInternalFieldConstructor {
+    @Internal
+    someInt: Int
+
+    someString: String = "QAZWSX"
+
+    @Internal
+    field constructor(someInt)
+}
+
+@Internal
+class SomeInternalClassWithMembers {
+    fun someFunction(): Int
+    static fun someStaticFunction(): Int
+
+    static fun create(): SomeInternalClassWithMembers
+
+    @Internal
+    class SomeNestedInternalClass {
+        fun doSomething(): Int
+
+        @Internal
+        fun doSomethingElse(): Int
+
+        static fun create(): SomeNestedInternalClass
+    }
+}
+
+@Internal
+open class SomeOpenInternalClass {
+    @Internal
+    fun someInternalFunction(): Int
+}
+
+@Internal
+class SomeDerivedInternalClass : SomeOpenInternalClass, SomeInternalInterface {
+    @Internal
+    fun someFunctionFromDerivedClass(): Int
+
+    @Internal
+    static fun create(): SomeDerivedInternalClass
+}
+
+class SomeClassWithInternalMembers {
+    @Internal
+    constructor someInternalCtor()
+
+    @Internal
+    fun someInternalFunction(): Int
+
+    @Internal
+    static fun someStaticInternalFunction(): Int
+
+    @Internal
+    static fun someStaticInternalFunctionThatMayThrow(shouldThrow: Boolean) throws SomethingBadHappened
+
+    @Internal
+    property someInternalProperty: String
+
+    static fun create(): SomeClassWithInternalMembers
+}
+
+@Internal
+enum SomeInternalEnum {
+    ONE = 1,
+    TWO = 2,
+    THREE = 3,
+
+    @Internal
+    SINGLE = ONE
+}
+
+@Internal
+exception SomethingBadHappened(SomeInternalEnum)
+
+@Internal
 class InternalAttributeClassInherits: InternalAttributeInterfaceParent {
 }

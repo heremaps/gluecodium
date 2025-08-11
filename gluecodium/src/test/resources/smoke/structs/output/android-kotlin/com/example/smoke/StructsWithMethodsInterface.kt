@@ -20,7 +20,7 @@ class StructsWithMethodsInterface : NativeBase {
 
 
 
-        constructor(input: String) {
+       constructor(input: String) {
             val _other = create(input)
             this.x = _other.x
             this.y = _other.y
@@ -29,7 +29,7 @@ class StructsWithMethodsInterface : NativeBase {
 
 
     @Throws(ValidationUtils.ValidationException::class)
-        constructor(other: StructsWithMethodsInterface.Vector3) {
+       constructor(other: StructsWithMethodsInterface.Vector3) {
             val _other = create(other)
             this.x = _other.x
             this.y = _other.y

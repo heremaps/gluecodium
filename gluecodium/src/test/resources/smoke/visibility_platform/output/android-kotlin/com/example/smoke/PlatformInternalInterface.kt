@@ -8,7 +8,7 @@
 package com.example.smoke
 
 
-interface PlatformInternalInterface {
+internal interface PlatformInternalInterface {
 
 
 

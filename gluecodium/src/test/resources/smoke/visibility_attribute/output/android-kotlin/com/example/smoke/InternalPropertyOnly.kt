@@ -25,9 +25,9 @@ class InternalPropertyOnly : NativeBase {
 
 
 
-    var foo: String
-        external get
-        external set
+    internal var foo: String
+        @JvmName("getFoo") external get
+        @JvmName("setFoo") external set
 
 
 

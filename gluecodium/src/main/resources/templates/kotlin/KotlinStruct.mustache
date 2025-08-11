@@ -19,14 +19,15 @@
   !
   !}}
 {{>kotlin/KotlinDocComment}}{{>kotlin/KotlinAttributes}}
-class {{resolveName}}{{!!
+{{#unless external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
+}}class {{resolveName}}{{!!
 }}{{#unless external.kotlin.name}}{{!!
 }}{{#if attributes.serializable}} : Parcelable{{/if}}{{!!
 }}{{/unless}} {
 {{#set isImmutable=attributes.immutable}}
 {{#fields}}
 {{prefixPartial "kotlin/KotlinDocComment" "    "}}{{prefixPartial "kotlin/KotlinAttributes" "    "}}{{!!
-}}    @JvmField {{!!
+}}    @JvmField {{resolveName "visibility"}}{{!!
 }}{{#unless isImmutable}}var {{/unless}}{{!!
 }}{{#if isImmutable}}val {{/if}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{!!
@@ -44,7 +45,8 @@ class {{resolveName}}{{!!
 {{prefixPartial "kotlin/KotlinMethodComment" "    "}}
 {{#thrownType}}@Throws({{resolveName typeRef}}::class){{/thrownType}}{{!!
 }}
-    constructor({{!!
+   {{#unless self.external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
+}}constructor({{!!
 }}{{#parameters}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/parameters}}) {
@@ -76,7 +78,9 @@ class {{resolveName}}{{!!
 {{/uninitializedFields}}
      */
 {{/unless}}
-    constructor({{!!
+    {{#ifPredicate "hasInternalFreeArgsConstructor"}}{{!!
+}}internal {{!!
+}}{{/ifPredicate}}constructor({{!!
 }}{{#uninitializedFields}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/uninitializedFields}}) {
@@ -100,7 +104,9 @@ class {{resolveName}}{{!!
 {{/fields}}
      */
 {{/unless}}
-    constructor({{!!
+    {{#ifPredicate "hasInternalAllArgsConstructor"}}{{!!
+}}internal {{!!
+}}{{/ifPredicate}}constructor({{!!
 }}{{#fields}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/fields}}) {
@@ -130,7 +136,8 @@ class {{resolveName}}{{!!
 {{prefixPartial "kotlin/KotlinAttributes" "    "}}
 {{#thrownType}}@Throws ({{resolveName typeRef}}::class){{/thrownType}}{{!!
 }}
-    constructor({{!!
+    {{#unless self.external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
+}}constructor({{!!
 }}{{#fields}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/fields}}) {
@@ -159,7 +166,8 @@ class {{resolveName}}{{!!
 {{/instanceOf}}
     {{#if initializedFields}}@JvmOverloads
     {{/if}}{{!!
-    }}constructor({{!!
+    }}{{#unless external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
+}}constructor({{!!
 }}{{#uninitializedFields}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}, {{!!
 }}{{/uninitializedFields}}{{!!
