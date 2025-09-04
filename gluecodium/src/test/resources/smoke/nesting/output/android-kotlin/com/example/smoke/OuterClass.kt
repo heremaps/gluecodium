@@ -38,7 +38,7 @@ class OuterClass : NativeBase {
         }
     }
 
-    interface InnerInterface {
+    fun interface InnerInterface {
 
 
 

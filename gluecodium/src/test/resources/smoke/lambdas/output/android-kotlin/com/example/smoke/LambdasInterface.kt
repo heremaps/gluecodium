@@ -9,7 +9,7 @@ package com.example.smoke
 
 import com.example.NativeBase
 
-interface LambdasInterface {
+fun interface LambdasInterface {
     fun interface TakeScreenshotCallback {
 
 

@@ -104,7 +104,7 @@ class OuterStruct {
         }
     }
 
-    interface InnerInterface {
+    fun interface InnerInterface {
 
 
 

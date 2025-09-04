@@ -9,7 +9,7 @@ package com.example.smoke
 
 import com.example.NativeBase
 
-interface OuterInterface {
+fun interface OuterInterface {
     class InnerClass : NativeBase {
 
 
@@ -37,7 +37,7 @@ interface OuterInterface {
         }
     }
 
-    interface InnerInterface {
+    fun interface InnerInterface {
 
 
 
