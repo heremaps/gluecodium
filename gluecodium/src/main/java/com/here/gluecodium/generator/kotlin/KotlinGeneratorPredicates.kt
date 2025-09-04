@@ -27,6 +27,7 @@ import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeExternalDescriptor
 import com.here.gluecodium.model.lime.LimeFunction
+import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeProperty
@@ -44,6 +45,7 @@ internal object KotlinGeneratorPredicates {
             "hasInternalFreeArgsConstructor" to this::hasInternalFreeArgsConstructor,
             "hasStaticProperties" to this::hasStaticProperties,
             "isExceptionSameForCtorAndHookFun" to this::isExceptionSameForCtorAndHookFun,
+            "isFunctionalInterface" to this::isFunctionalInterface,
             "isInternal" to this::isInternal,
             "propertyGetterRequiresJvmName" to this::propertyGetterRequiresJvmName,
             "propertySetterRequiresJvmName" to this::propertySetterRequiresJvmName,
@@ -117,6 +119,26 @@ internal object KotlinGeneratorPredicates {
             is LimeFunction -> CommonGeneratorPredicates.isExceptionSameForCtorAndHookFun(constructor)
             else -> false
         }
+    }
+
+    private fun isFunctionalInterface(limeInterface: Any): Boolean {
+        if (limeInterface !is LimeInterface) {
+            return false
+        }
+
+        val nonStaticFunctionsCount =
+            limeInterface.functions.filter { !it.isStatic }.size +
+                limeInterface.inheritedFunctions.filter { !it.isStatic }.size
+
+        val nonStaticPropertiesCount =
+            limeInterface.properties.filter { !it.isStatic }.size +
+                limeInterface.inheritedProperties.filter { !it.isStatic }.size
+
+        // In Kotlin, a functional interface:
+        // - can have only one non-static function
+        // - cannot have non-static properties
+        // - can have multiple static functions/properties
+        return nonStaticFunctionsCount == 1 && nonStaticPropertiesCount == 0
     }
 
     private fun needsCompanionObject(element: Any) =

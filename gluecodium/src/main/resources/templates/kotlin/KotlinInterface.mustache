@@ -19,7 +19,8 @@
   !
   !}}
 {{>kotlin/KotlinDocComment}}{{>kotlin/KotlinAttributes}}
-{{resolveName "visibility"}}interface {{resolveName}} {{!!
+{{resolveName "visibility"}}{{!!
+}}{{#ifPredicate "isFunctionalInterface"}}fun {{/ifPredicate}}interface {{resolveName}} {{!!
 }}{{#if this.parents}}: {{#parents}}{{resolveName this "" "ref"}}{{#if iter.hasNext}}, {{/if}}{{/parents}} {{/if}}{
 {{>kotlin/KotlinContainerContents}}
 
