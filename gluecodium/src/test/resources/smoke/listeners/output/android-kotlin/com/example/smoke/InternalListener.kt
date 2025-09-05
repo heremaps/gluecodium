@@ -8,7 +8,7 @@
 package com.example.smoke
 
 
-internal interface InternalListener {
+internal fun interface InternalListener {
 
 
 

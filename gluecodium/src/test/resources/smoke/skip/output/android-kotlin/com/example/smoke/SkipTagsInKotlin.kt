@@ -8,7 +8,9 @@
 package com.example.smoke
 
 
-interface SkipTagsInKotlin {
+fun interface SkipTagsInKotlin {
+
+
 
     fun dontSkipTagged() : Unit
 

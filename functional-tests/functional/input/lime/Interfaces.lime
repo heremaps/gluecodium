@@ -65,3 +65,8 @@ class InterfacesFactory {
 interface InterfaceWithProperty {
     property stringProperty: String
 }
+
+@Skip(Dart, Java, Swift)
+interface SingleMethodInterfaceThatShouldBeFunctional {
+    fun someFunction(someParam: Int): Int
+}

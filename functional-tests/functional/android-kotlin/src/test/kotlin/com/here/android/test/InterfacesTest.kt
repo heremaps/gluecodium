@@ -81,6 +81,15 @@ class InterfacesTest {
         assertEquals(INSTANCE_OTHER_STRING, nestedInterface.getInterfaceTwo().getStringValue())
     }
 
+    @org.junit.Test
+    fun functionalInterface() {
+        // If the interface is not functional then compilation fails.
+        val square: SingleMethodInterfaceThatShouldBeFunctional =
+            SingleMethodInterfaceThatShouldBeFunctional { someParam -> someParam*someParam }
+
+        assertEquals(9, square.someFunction(3))
+    }
+
     companion object {
         private val INSTANCE_ONE_STRING: String = "simpleInterfaceOne"
         private val INSTANCE_TWO_STRING: String = "simpleInterfaceTwo"

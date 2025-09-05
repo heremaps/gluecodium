@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Features:
+ * Kotlin: interfaces are now generated as functional interfaces whenever it is possible.
+
 ## 13.19.0
 Release date 2025-08-11
 ### Features:

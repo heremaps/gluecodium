@@ -38,7 +38,7 @@ class OuterClassWithInheritance : ParentClass {
         }
     }
 
-    interface InnerInterface {
+    fun interface InnerInterface {
 
 
 
