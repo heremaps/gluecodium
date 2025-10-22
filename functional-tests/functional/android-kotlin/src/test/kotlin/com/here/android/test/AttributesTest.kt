@@ -60,6 +60,12 @@ class AttributesTest {
     }
 
     @org.junit.Test
+    fun setGetStaticAttributeViaExplicitFunction() {
+        Attributes.setStaticAttribute("fooBar")
+        assertEquals("fooBar", Attributes.getStaticAttribute())
+    }
+
+    @org.junit.Test
     fun getCachedProperty() {
         val instance: CachedProperties = CachedProperties()
         assertEquals(0, instance.callCount)
@@ -83,6 +89,7 @@ class AttributesTest {
 
         val result1: ByteArray = CachedProperties.staticCachedProperty
         val result2: ByteArray = CachedProperties.staticCachedProperty
+        val result3: ByteArray = CachedProperties.getStaticCachedProperty()
 
         assertEquals(1, CachedProperties.staticCallCount)
 
@@ -93,5 +100,8 @@ class AttributesTest {
 
         assertEquals(result1, result2)
         assertTrue(result1 === result2)
+
+        assertEquals(result1, result3)
+        assertTrue(result1 === result3)
     }
 }
