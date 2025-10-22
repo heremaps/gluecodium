@@ -37,3 +37,11 @@ internal class InternalClassWithStaticProperty : NativeBase {
     }
 }
 
+@JvmSynthetic
+fun InternalClassWithStaticProperty.Companion.getFooBar(): String = InternalClassWithStaticProperty.fooBar
+
+@JvmSynthetic
+fun InternalClassWithStaticProperty.Companion.setFooBar(value: String) {
+    InternalClassWithStaticProperty.fooBar = value
+}
+

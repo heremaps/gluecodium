@@ -63,3 +63,5 @@ class CachedProperties : NativeBase {
     }
 }
 
+@JvmSynthetic
+fun CachedProperties.Companion.getStaticCachedProperty(): ByteArray = CachedProperties.staticCachedProperty

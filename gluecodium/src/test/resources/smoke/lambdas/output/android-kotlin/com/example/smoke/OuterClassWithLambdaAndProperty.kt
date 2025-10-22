@@ -64,3 +64,11 @@ class OuterClassWithLambdaAndProperty : NativeBase {
     }
 }
 
+@JvmSynthetic
+fun OuterClassWithLambdaAndProperty.Companion.getAnotherInteger(): Int = OuterClassWithLambdaAndProperty.anotherInteger
+
+@JvmSynthetic
+fun OuterClassWithLambdaAndProperty.Companion.setAnotherInteger(value: Int) {
+    OuterClassWithLambdaAndProperty.anotherInteger = value
+}
+

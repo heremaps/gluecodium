@@ -90,3 +90,12 @@ class Properties : NativeBase {
     }
 }
 
+@JvmSynthetic
+fun Properties.Companion.getStaticProperty(): String = Properties.staticProperty
+
+@JvmSynthetic
+fun Properties.Companion.setStaticProperty(value: String) {
+    Properties.staticProperty = value
+}
+@JvmSynthetic
+fun Properties.Companion.getStaticReadonlyProperty(): Properties.ExampleStruct = Properties.staticReadonlyProperty

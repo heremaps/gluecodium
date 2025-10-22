@@ -68,3 +68,5 @@ class UseOptimizedList : NativeBase {
     }
 }
 
+@JvmSynthetic
+fun UseOptimizedList.Companion.getLazyOnes(): MutableList<UnreasonablyLazyClass> = UseOptimizedList.lazyOnes
