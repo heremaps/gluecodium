@@ -28,6 +28,8 @@ import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeNamedElement
+import com.here.gluecodium.model.lime.LimeProperty
+import com.here.gluecodium.model.lime.LimeType
 
 internal class KotlinVisibilityResolver(private val referenceMap: Map<String, LimeElement>) : NameResolver {
     override fun resolveName(element: Any): String {
@@ -59,5 +61,34 @@ internal class KotlinVisibilityResolver(private val referenceMap: Map<String, Li
     private fun isDirectKotlinInterfaceChild(element: LimeNamedElement): Boolean {
         val parent: LimeElement? = referenceMap[element.path.parent.toString()]
         return parent != null && (parent is LimeInterface || parent is LimeLambda)
+    }
+
+    override fun resolveGetterName(element: Any) = resolveVisibilityForPropertyExtension(element)
+
+    override fun resolveSetterName(element: Any) = resolveVisibilityForPropertyExtension(element)
+
+    // Extension method for static properties require explicit 'internal' keyword even when property is nested
+    // inside hierarchy of internal nested types. Therefore, we need to iterate over parent types and check if
+    // any of them is internal.
+    private fun resolveVisibilityForPropertyExtension(property: Any): String {
+        if (property !is LimeProperty) {
+            return ""
+        }
+
+        if (isInternal(property)) {
+            return "internal "
+        }
+
+        val parentElement = referenceMap[property.path.parent.toString()] as LimeNamedElement? ?: return ""
+        if (isInternal(parentElement)) {
+            return "internal "
+        }
+
+        val isEachParentPublic =
+            generateSequence(parentElement) {
+                referenceMap[it.path.parent.toString()] as? LimeType
+            }.none { isInternal(it) }
+
+        return if (isEachParentPublic) "" else "internal "
     }
 }
