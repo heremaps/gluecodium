@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("KotlinMethodOverloads")
+@file:JvmName("KotlinMethodOverloadsExtensions")
 
 package com.example.smoke
 

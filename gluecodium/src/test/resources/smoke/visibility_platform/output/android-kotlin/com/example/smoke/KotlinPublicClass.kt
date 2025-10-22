@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("KotlinPublicClass")
+@file:JvmName("KotlinPublicClassExtensions")
 
 package com.example.smoke
 

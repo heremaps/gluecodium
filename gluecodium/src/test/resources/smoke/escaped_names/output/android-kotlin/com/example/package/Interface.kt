@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("interface")
+@file:JvmName("interfaceExtensions")
 
 package com.example.package
 

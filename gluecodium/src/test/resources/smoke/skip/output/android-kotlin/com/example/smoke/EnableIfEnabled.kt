@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("EnableIfEnabled")
+@file:JvmName("EnableIfEnabledExtensions")
 
 package com.example.smoke
 

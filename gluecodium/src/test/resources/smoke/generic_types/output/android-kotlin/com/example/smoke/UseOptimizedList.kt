@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("UseOptimizedList")
+@file:JvmName("UseOptimizedListExtensions")
 
 package com.example.smoke
 

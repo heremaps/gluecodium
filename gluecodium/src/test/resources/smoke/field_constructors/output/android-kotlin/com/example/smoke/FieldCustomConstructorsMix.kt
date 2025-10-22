@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("FieldCustomConstructorsMix")
+@file:JvmName("FieldCustomConstructorsMixExtensions")
 
 package com.example.smoke
 

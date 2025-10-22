@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("PublicStructWithNonDefaultInternalField")
+@file:JvmName("PublicStructWithNonDefaultInternalFieldExtensions")
 
 package com.example.smoke
 

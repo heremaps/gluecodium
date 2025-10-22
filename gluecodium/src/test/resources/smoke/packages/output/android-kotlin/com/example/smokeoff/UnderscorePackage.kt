@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("UnderscorePackage")
+@file:JvmName("UnderscorePackageExtensions")
 
 package com.example.smokeoff
 

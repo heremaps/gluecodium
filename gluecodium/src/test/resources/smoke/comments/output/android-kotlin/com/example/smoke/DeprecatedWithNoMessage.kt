@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("DeprecatedWithNoMessage")
+@file:JvmName("DeprecatedWithNoMessageExtensions")
 
 package com.example.smoke
 

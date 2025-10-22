@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("InternalPropertyOnly")
+@file:JvmName("InternalPropertyOnlyExtensions")
 
 package com.example.smoke
 

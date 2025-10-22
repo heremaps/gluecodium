@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("MultiLineComments")
+@file:JvmName("MultiLineCommentsExtensions")
 
 package com.example.smoke
 

@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("MultipleAttributesKotlin")
+@file:JvmName("MultipleAttributesKotlinExtensions")
 
 package com.example.smoke
 

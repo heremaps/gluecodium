@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("OuterClassWithLambdaAndProperty")
+@file:JvmName("OuterClassWithLambdaAndPropertyExtensions")
 
 package com.example.smoke
 

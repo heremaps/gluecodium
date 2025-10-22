@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("AttributesLambda")
+@file:JvmName("AttributesLambdaExtensions")
 
 package com.example.smoke
 

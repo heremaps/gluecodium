@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("OuterStructWithFieldConstructor")
+@file:JvmName("OuterStructWithFieldConstructorExtensions")
 
 package com.example.smoke
 
@@ -25,6 +25,7 @@ class OuterStructWithFieldConstructor {
 
 
     }
+
 
 
 

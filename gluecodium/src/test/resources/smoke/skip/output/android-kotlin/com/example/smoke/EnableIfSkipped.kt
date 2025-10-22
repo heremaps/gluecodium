@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("EnableIfSkipped")
+@file:JvmName("EnableIfSkippedExtensions")
 
 package com.example.smoke
 

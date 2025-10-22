@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("FieldConstructorsAllDefaults")
+@file:JvmName("FieldConstructorsAllDefaultsExtensions")
 
 package com.example.smoke
 
@@ -16,11 +16,13 @@ class FieldConstructorsAllDefaults {
 
 
 
+
     constructor() {
         this.stringField = "nonsense"
         this.intField = 42
         this.boolField = true
     }
+
 
     constructor(intField: Int) {
         this.intField = intField
@@ -28,11 +30,13 @@ class FieldConstructorsAllDefaults {
         this.boolField = true
     }
 
+
     constructor(intField: Int, stringField: String) {
         this.intField = intField
         this.stringField = stringField
         this.boolField = true
     }
+
 
     constructor(boolField: Boolean, intField: Int, stringField: String) {
         this.boolField = boolField

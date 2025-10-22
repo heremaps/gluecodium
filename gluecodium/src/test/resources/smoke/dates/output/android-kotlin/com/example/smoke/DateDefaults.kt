@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("DateDefaults")
+@file:JvmName("DateDefaultsExtensions")
 
 package com.example.smoke
 

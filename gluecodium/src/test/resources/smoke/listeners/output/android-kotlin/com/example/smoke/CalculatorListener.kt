@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("CalculatorListener")
+@file:JvmName("CalculatorListenerExtensions")
 
 package com.example.smoke
 
@@ -25,11 +25,23 @@ interface CalculatorListener {
     }
 
 
+
+
     fun onCalculationResult(calculationResult: Double) : Unit
+
+
     fun onCalculationResultConst(calculationResult: Double) : Unit
+
+
     fun onCalculationResultStruct(calculationResult: CalculatorListener.ResultStruct) : Unit
+
+
     fun onCalculationResultArray(calculationResult: MutableList<Double>) : Unit
+
+
     fun onCalculationResultMap(calculationResults: MutableMap<String, Double>) : Unit
+
+
     fun onCalculationResultInstance(calculationResult: CalculationResult) : Unit
 
 

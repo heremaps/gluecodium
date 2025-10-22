@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("VeryBoolean")
+@file:JvmName("VeryBooleanExtensions")
 
 package com.example.kotlinsmoke
 

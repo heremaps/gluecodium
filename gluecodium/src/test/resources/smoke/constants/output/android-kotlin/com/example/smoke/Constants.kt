@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("Constants")
+@file:JvmName("ConstantsExtensions")
 
 package com.example.smoke
 

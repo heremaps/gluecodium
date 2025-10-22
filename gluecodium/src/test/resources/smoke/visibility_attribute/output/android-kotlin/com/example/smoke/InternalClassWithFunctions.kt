@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("InternalClassWithFunctions")
+@file:JvmName("InternalClassWithFunctionsExtensions")
 
 package com.example.smoke
 

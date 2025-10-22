@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("MethodOverloads")
+@file:JvmName("MethodOverloadsExtensions")
 
 package com.example.smoke
 

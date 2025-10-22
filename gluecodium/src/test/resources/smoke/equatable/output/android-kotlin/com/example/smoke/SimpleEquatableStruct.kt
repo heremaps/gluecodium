@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("SimpleEquatableStruct")
+@file:JvmName("SimpleEquatableStructExtensions")
 
 package com.example.smoke
 

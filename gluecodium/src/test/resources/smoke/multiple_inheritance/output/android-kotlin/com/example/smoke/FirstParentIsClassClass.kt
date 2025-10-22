@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("FirstParentIsClassClass")
+@file:JvmName("FirstParentIsClassClassExtensions")
 
 package com.example.smoke
 

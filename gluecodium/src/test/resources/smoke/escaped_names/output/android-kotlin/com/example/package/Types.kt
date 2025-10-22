@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("types")
+@file:JvmName("typesExtensions")
 
 package com.example.package
 

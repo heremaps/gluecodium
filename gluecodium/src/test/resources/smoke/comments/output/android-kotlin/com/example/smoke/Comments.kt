@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("comments")
+@file:JvmName("commentsExtensions")
 
 package com.example.smoke
 

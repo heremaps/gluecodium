@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("Nullable")
+@file:JvmName("NullableExtensions")
 
 package com.example.smoke
 

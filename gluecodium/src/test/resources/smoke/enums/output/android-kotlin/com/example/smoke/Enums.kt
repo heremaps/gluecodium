@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("Enums")
+@file:JvmName("EnumsExtensions")
 
 package com.example.smoke
 

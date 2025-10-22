@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("InterfaceWithStaticImpl")
+@file:JvmName("InterfaceWithStaticImplExtensions")
 
 package com.example.smoke
 

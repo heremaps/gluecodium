@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("EquatableStructWithInternalFields")
+@file:JvmName("EquatableStructWithInternalFieldsExtensions")
 
 package com.example.smoke
 

@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("NameRules")
+@file:JvmName("NameRulesExtensions")
 
 package com.example.namerules
 

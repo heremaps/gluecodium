@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("ChildConstructors")
+@file:JvmName("ChildConstructorsExtensions")
 
 package com.example.smoke
 
@@ -11,9 +11,13 @@ package com.example.smoke
 class ChildConstructors : Constructors {
 
 
+
+
     constructor() : this(createNoArgsChild(), null as Any?) {
         cacheThisInstance();
     }
+
+
     constructor(other: Constructors) : this(createCopyFromParent(other), null as Any?) {
         cacheThisInstance();
     }

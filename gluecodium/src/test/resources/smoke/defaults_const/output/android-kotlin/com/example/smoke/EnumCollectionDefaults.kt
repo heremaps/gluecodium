@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("EnumCollectionDefaults")
+@file:JvmName("EnumCollectionDefaultsExtensions")
 
 package com.example.smoke
 

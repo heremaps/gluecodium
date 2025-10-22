@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("CachedProperties")
+@file:JvmName("CachedPropertiesExtensions")
 
 package com.example.smoke
 

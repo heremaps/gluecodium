@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("StructWithKotlinPositionalDefaults")
+@file:JvmName("StructWithKotlinPositionalDefaultsExtensions")
 
 package com.example.smoke
 
@@ -17,6 +17,7 @@ class StructWithKotlinPositionalDefaults {
     @JvmField var secondInitField: Float
     @JvmField var secondFreeField: Boolean
     @JvmField var thirdInitField: String
+
 
 
     /**

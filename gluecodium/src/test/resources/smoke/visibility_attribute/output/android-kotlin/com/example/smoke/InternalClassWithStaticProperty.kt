@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("InternalClassWithStaticProperty")
+@file:JvmName("InternalClassWithStaticPropertyExtensions")
 
 package com.example.smoke
 
