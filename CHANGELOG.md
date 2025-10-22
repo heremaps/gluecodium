@@ -3,6 +3,7 @@
 ## Unreleased
 ### Features:
  * Kotlin: interfaces are now generated as functional interfaces whenever it is possible.
+ * Kotlin: static properties of classes can be now accessed also via static getter and setter generated as extension function.
 
 ## 13.19.0
 Release date 2025-08-11
