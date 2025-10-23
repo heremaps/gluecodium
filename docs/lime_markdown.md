@@ -49,6 +49,9 @@ Structured comments are supported for functions. The following syntax is used:
 
 >**Important:** return values (except `Void`) and parameters of functions must be documented. If appropriate comment is
 > missing for any parameter or return value, then Gluecodium will raise warning or error depending on `werror` flag.
+>
+> In order to enable warning-as-error flag to prevent introduction of new comments for functions, which do not meet the
+> requirements please use `LimeFunctionDocs` value for `werror` flag.
 
 Example:
 ```
@@ -73,6 +76,9 @@ At the moment the following annotations are supported:
 
 >**Important:** `@value` annotation is required. Return values of getters and parameters of setters must be documented.
 > If appropriate documentation comment is missing, then Gluecodium will raise warning or error depending on `werror` flag.
+>
+> In order to enable warning-as-error flag to prevent introduction of new comments for properties, which do not meet the
+> requirements please use `LimePropertiesDocs` value for `werror` flag.
 
 Example:
 ```
@@ -112,16 +118,13 @@ Structured comments for lambdas offer the following capabilities:
 
 >**Important:** all parameters and return value (except `Void`) of lambda must be documented. If appropriate documentation
 > comment is missing, then Gluecodium will raise warning or error depending on `werror` flag.
+>
+> In order to enable warning-as-error flag to prevent introduction of new comments for lambdas, which do not meet the
+> requirements please use `LimeLambdaDocs` value for `werror` flag.
 
-For unnamed parameters that have only types specified, positional names can be used to document parameters: `p0`, `p1`,
-and so on. For example:
-```
-// Communicate the date and the message.
-// @param[p0] the current date.
-// @param[p1] the new message.
-// @return whether the operation succeeded.
-lambda TimestampCallback = (Date, String) -> Boolean
-```
+All documented parameters must be named. If an unnamed parameter is explicitly documented then warning or error is raised
+(depending on the flag above).
+
 For named parameters use the same syntax as for functions. For example:
 ```
 // Communicate the date and the message.
