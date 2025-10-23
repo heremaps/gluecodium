@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("TemperatureObserver")
+@file:JvmName("TemperatureObserverExtensions")
 
 package com.example.smoke
 

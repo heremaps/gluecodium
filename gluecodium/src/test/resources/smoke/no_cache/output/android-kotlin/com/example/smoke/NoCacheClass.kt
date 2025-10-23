@@ -3,13 +3,15 @@
  *
  */
 
-@file:JvmName("NoCacheClass")
+@file:JvmName("NoCacheClassExtensions")
 
 package com.example.smoke
 
 import com.example.NativeBase
 
 class NoCacheClass : NativeBase {
+
+
 
 
     constructor() : this(make(), null as Any?) {

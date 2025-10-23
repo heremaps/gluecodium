@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("EnumsInTypeCollectionInterface")
+@file:JvmName("EnumsInTypeCollectionInterfaceExtensions")
 
 package com.example.smoke
 

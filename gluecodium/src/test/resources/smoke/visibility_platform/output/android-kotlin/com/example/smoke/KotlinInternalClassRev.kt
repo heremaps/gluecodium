@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("KotlinInternalClassRev")
+@file:JvmName("KotlinInternalClassRevExtensions")
 
 package com.example.smoke
 

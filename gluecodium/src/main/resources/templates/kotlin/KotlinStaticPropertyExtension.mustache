@@ -18,19 +18,15 @@
   ! License-Filename: LICENSE
   !
   !}}
-/*
-{{#if copyrightHeader}}{{prefix copyrightHeader " * "}}{{/if}}
- *
- */
+{{>kotlin/KotlinDocComment}}{{>kotlin/KotlinAttributes}}
+@JvmSynthetic
+{{resolveName this "visibility" "getter"}}fun {{resolveName classElement}}.Companion.{{resolveName this "" "getter"}}(): {{resolveName typeRef}} = {{resolveName classElement}}.{{resolveName this}}{{!!
+}}{{#if setter}}
 
-{{#modelName}}@file:JvmName("{{modelName}}Extensions"){{/modelName}}
+{{>kotlin/KotlinDocComment}}{{>kotlin/KotlinAttributes}}
+@JvmSynthetic
+{{resolveName this "visibility" "setter"}}fun {{resolveName classElement}}.Companion.{{resolveName this "" "setter"}}(value: {{resolveName typeRef}}) {
+    {{resolveName classElement}}.{{resolveName this}} = value
+}
 
-package {{#package}}{{this}}{{#if iter.hasNext}}.{{/if}}{{/package}}
-
-{{#imports}}
-import {{this}}
-{{/imports}}
-
-{{#model}}
-{{include contentTemplate}}
-{{/model}}
+{{/if}}

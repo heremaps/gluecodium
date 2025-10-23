@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("SkipField")
+@file:JvmName("SkipFieldExtensions")
 
 package com.example.smoke
 

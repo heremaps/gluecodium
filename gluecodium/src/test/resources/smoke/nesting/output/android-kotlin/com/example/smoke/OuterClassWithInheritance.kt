@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("OuterClassWithInheritance")
+@file:JvmName("OuterClassWithInheritanceExtensions")
 
 package com.example.smoke
 

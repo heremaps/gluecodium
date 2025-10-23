@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("ListenerWithProperties")
+@file:JvmName("ListenerWithPropertiesExtensions")
 
 package com.example.smoke
 

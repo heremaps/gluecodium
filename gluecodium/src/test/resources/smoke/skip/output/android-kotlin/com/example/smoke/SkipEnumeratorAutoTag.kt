@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("SkipEnumeratorAutoTag")
+@file:JvmName("SkipEnumeratorAutoTagExtensions")
 
 package com.example.smoke
 

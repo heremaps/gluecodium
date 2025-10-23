@@ -3,13 +3,14 @@
  *
  */
 
-@file:JvmName("class")
+@file:JvmName("classExtensions")
 
 package com.example.package
 
 import com.example.NativeBase
 
 class Class : NativeBase, Interface {
+
 
 
 

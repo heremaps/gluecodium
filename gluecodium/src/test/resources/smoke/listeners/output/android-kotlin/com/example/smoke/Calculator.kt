@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("Calculator")
+@file:JvmName("CalculatorExtensions")
 
 package com.example.smoke
 

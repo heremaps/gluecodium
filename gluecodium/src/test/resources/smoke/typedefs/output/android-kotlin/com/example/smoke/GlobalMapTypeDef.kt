@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("GlobalMapTypeDef")
+@file:JvmName("GlobalMapTypeDefExtensions")
 
 package com.example.smoke
 

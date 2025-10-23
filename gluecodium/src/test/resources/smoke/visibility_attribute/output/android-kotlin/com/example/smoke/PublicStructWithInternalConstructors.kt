@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("PublicStructWithInternalConstructors")
+@file:JvmName("PublicStructWithInternalConstructorsExtensions")
 
 package com.example.smoke
 

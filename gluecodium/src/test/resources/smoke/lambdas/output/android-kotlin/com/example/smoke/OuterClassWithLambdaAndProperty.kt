@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("OuterClassWithLambdaAndProperty")
+@file:JvmName("OuterClassWithLambdaAndPropertyExtensions")
 
 package com.example.smoke
 
@@ -62,5 +62,13 @@ class OuterClassWithLambdaAndProperty : NativeBase {
             external set
 
     }
+}
+
+@JvmSynthetic
+fun OuterClassWithLambdaAndProperty.Companion.getAnotherInteger(): Int = OuterClassWithLambdaAndProperty.anotherInteger
+
+@JvmSynthetic
+fun OuterClassWithLambdaAndProperty.Companion.setAnotherInteger(value: Int) {
+    OuterClassWithLambdaAndProperty.anotherInteger = value
 }
 

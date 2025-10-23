@@ -3,14 +3,18 @@
  *
  */
 
-@file:JvmName("EnableTagsInKotlin")
+@file:JvmName("EnableTagsInKotlinExtensions")
 
 package com.example.smoke
 
 
 interface EnableTagsInKotlin {
 
+
+
     fun enableTagged() : Unit
+
+
     fun enableTaggedList() : Unit
 
 

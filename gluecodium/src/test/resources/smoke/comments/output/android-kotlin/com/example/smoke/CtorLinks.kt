@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("CtorLinks")
+@file:JvmName("CtorLinksExtensions")
 
 package com.example.smoke
 

@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("DeprecationCommentsOnly")
+@file:JvmName("DeprecationCommentsOnlyExtensions")
 
 package com.example.smoke
 

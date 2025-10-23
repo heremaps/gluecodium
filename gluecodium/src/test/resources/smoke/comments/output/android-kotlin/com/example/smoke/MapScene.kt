@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("MapScene")
+@file:JvmName("MapSceneExtensions")
 
 package com.example.smoke
 

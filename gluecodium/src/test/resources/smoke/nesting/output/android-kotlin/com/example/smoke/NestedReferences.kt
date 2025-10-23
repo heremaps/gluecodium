@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("NestedReferences")
+@file:JvmName("NestedReferencesExtensions")
 
 package com.example.smoke
 

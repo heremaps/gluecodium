@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("EquatableClass")
+@file:JvmName("EquatableClassExtensions")
 
 package com.example.smoke
 

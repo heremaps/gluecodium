@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("TypeDefs")
+@file:JvmName("TypeDefsExtensions")
 
 package com.example.smoke
 

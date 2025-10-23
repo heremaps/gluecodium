@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("GlobalListTypeDef")
+@file:JvmName("GlobalListTypeDefExtensions")
 
 package com.example.smoke
 

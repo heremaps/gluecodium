@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("SystemColor")
+@file:JvmName("SystemColorExtensions")
 
 package com.example.kotlinsmoke
 

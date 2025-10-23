@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("InternalLambdaImpl")
+@file:JvmName("InternalLambdaImplExtensions")
 
 package com.example.smoke
 

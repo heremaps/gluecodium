@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("PlatformComments")
+@file:JvmName("PlatformCommentsExtensions")
 
 package com.example.smoke
 

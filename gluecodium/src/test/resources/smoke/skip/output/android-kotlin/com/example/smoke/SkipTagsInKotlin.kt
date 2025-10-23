@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("SkipTagsInKotlin")
+@file:JvmName("SkipTagsInKotlinExtensions")
 
 package com.example.smoke
 

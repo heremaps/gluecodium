@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("AttributesClass")
+@file:JvmName("AttributesClassExtensions")
 
 package com.example.smoke
 

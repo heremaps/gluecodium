@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("FreePoint")
+@file:JvmName("FreePointExtensions")
 
 package com.example.smoke
 
@@ -18,6 +18,8 @@ class FreePoint {
         this.x = x
         this.y = y
     }
+
+
 
 
 

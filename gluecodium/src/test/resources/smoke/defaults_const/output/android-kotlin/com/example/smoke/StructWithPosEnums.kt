@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("StructWithPosEnums")
+@file:JvmName("StructWithPosEnumsExtensions")
 
 package com.example.smoke
 

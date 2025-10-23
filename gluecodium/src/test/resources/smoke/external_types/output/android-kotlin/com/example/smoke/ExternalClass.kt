@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("ExternalClass")
+@file:JvmName("ExternalClassExtensions")
 
 package com.example.smoke
 

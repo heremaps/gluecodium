@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("AttributesWithDeprecated")
+@file:JvmName("AttributesWithDeprecatedExtensions")
 
 package com.example.smoke
 

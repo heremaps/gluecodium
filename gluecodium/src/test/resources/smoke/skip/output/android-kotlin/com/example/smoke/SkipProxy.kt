@@ -3,15 +3,21 @@
  *
  */
 
-@file:JvmName("SkipProxy")
+@file:JvmName("SkipProxyExtensions")
 
 package com.example.smoke
 
 
 interface SkipProxy {
 
+
+
     fun notInJava(input: String) : String
+
+
     fun notInSwift(input: Boolean) : Boolean
+
+
     fun notInDart(input: Float) : Float
 
     var skippedInJava: String

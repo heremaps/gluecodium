@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("LongComments")
+@file:JvmName("LongCommentsExtensions")
 
 package com.example.smoke
 

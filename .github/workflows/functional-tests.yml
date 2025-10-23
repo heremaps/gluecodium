@@ -283,6 +283,8 @@ jobs:
           version: 1.11.0
       - name: Build and run functional tests
         run: |
+          export MACOSX_DEPLOYMENT_TARGET=$(sw_vers -productVersion)
+          export SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
           ./scripts/build-swift-functional --buildGluecodium
         working-directory: functional-tests
       - name: Removing build folder
@@ -291,6 +293,8 @@ jobs:
         working-directory: functional-tests
       - name: Build and run namerules tests
         run: |
+          export MACOSX_DEPLOYMENT_TARGET=$(sw_vers -productVersion)
+          export SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
           ./scripts/build-swift-namerules --publish
         working-directory: functional-tests
       - name: Build examples

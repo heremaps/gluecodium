@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("DurationSeconds")
+@file:JvmName("DurationSecondsExtensions")
 
 package com.example.smoke
 

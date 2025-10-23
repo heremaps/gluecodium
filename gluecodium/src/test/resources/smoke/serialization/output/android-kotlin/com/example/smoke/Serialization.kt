@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("Serialization")
+@file:JvmName("SerializationExtensions")
 
 package com.example.smoke
 

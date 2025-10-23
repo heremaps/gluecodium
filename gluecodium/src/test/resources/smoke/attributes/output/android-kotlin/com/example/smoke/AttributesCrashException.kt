@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("AttributesCrash")
+@file:JvmName("AttributesCrashExtensions")
 
 package com.example.smoke
 

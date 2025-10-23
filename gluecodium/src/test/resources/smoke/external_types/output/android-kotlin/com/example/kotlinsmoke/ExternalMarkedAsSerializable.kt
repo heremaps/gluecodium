@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("ExternalMarkedAsSerializable")
+@file:JvmName("ExternalMarkedAsSerializableExtensions")
 
 package com.example.kotlinsmoke
 

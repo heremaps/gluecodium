@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("OverloadsWithComments")
+@file:JvmName("OverloadsWithCommentsExtensions")
 
 package com.example.smoke
 

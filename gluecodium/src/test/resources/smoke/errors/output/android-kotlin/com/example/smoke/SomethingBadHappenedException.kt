@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("SomethingBadHappened")
+@file:JvmName("SomethingBadHappenedExtensions")
 
 package com.example.smoke
 

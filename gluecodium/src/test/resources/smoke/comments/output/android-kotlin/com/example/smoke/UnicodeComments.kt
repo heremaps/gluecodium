@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("UnicodeComments")
+@file:JvmName("UnicodeCommentsExtensions")
 
 package com.example.smoke
 

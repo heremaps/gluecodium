@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("InheritFromSkippedImpl")
+@file:JvmName("InheritFromSkippedImplExtensions")
 
 package com.example.smoke
 

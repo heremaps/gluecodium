@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("ExcludedCommentsInterface")
+@file:JvmName("ExcludedCommentsInterfaceExtensions")
 
 package com.example.smoke
 

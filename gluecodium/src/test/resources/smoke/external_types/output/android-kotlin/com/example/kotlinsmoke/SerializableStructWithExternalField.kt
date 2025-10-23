@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("SerializableStructWithExternalField")
+@file:JvmName("SerializableStructWithExternalFieldExtensions")
 
 package com.example.kotlinsmoke
 

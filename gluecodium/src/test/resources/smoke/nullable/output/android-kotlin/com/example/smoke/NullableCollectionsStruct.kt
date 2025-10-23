@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("NullableCollectionsStruct")
+@file:JvmName("NullableCollectionsStructExtensions")
 
 package com.example.smoke
 
