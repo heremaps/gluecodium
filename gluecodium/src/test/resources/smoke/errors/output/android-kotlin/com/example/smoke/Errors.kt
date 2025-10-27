@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("Errors")
+@file:JvmName("ErrorsExtensions")
 
 package com.example.smoke
 

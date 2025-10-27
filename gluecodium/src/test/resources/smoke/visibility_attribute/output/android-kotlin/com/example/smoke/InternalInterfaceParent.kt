@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("InternalInterfaceParent")
+@file:JvmName("InternalInterfaceParentExtensions")
 
 package com.example.smoke
 

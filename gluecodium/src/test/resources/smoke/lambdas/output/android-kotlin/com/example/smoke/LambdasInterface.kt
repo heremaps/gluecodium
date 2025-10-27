@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("LambdasInterface")
+@file:JvmName("LambdasInterfaceExtensions")
 
 package com.example.smoke
 

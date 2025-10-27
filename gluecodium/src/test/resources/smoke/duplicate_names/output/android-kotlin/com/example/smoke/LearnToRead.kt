@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("LearnToRead")
+@file:JvmName("LearnToReadExtensions")
 
 package com.example.smoke
 

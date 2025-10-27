@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("DefaultValues")
+@file:JvmName("DefaultValuesExtensions")
 
 package com.example.smoke
 

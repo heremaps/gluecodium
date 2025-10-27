@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("AttributesWithComments")
+@file:JvmName("AttributesWithCommentsExtensions")
 
 package com.example.smoke
 

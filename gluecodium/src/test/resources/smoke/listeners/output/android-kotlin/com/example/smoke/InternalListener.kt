@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("InternalListener")
+@file:JvmName("InternalListenerExtensions")
 
 package com.example.smoke
 

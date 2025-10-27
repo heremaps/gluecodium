@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("UseFreeTypes")
+@file:JvmName("UseFreeTypesExtensions")
 
 package com.example.smoke
 

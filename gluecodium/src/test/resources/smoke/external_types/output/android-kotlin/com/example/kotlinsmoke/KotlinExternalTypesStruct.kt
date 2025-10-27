@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("KotlinExternalTypesStruct")
+@file:JvmName("KotlinExternalTypesStructExtensions")
 
 package com.example.kotlinsmoke
 

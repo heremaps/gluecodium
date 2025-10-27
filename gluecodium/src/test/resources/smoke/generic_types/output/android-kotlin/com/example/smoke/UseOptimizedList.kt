@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("UseOptimizedList")
+@file:JvmName("UseOptimizedListExtensions")
 
 package com.example.smoke
 
@@ -68,3 +68,5 @@ class UseOptimizedList : NativeBase {
     }
 }
 
+@JvmSynthetic
+fun UseOptimizedList.Companion.getLazyOnes(): MutableList<UnreasonablyLazyClass> = UseOptimizedList.lazyOnes

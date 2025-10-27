@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("Thermometer")
+@file:JvmName("ThermometerExtensions")
 
 package com.example.smoke
 

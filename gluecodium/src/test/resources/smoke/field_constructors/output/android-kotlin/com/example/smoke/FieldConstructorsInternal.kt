@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("FieldConstructorsInternal")
+@file:JvmName("FieldConstructorsInternalExtensions")
 
 package com.example.smoke
 

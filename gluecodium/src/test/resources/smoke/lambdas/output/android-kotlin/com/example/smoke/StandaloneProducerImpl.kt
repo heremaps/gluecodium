@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("StandaloneProducerImpl")
+@file:JvmName("StandaloneProducerImplExtensions")
 
 package com.example.smoke
 

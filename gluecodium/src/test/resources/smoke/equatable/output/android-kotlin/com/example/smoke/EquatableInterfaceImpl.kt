@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("EquatableInterfaceImpl")
+@file:JvmName("EquatableInterfaceImplExtensions")
 
 package com.example.smoke
 

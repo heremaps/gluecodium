@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("Season")
+@file:JvmName("SeasonExtensions")
 
 package com.example.kotlinsmoke
 

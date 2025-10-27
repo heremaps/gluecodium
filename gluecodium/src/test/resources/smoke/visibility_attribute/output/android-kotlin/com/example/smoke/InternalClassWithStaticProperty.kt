@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("InternalClassWithStaticProperty")
+@file:JvmName("InternalClassWithStaticPropertyExtensions")
 
 package com.example.smoke
 
@@ -36,4 +36,13 @@ internal class InternalClassWithStaticProperty : NativeBase {
 
     }
 }
+
+@JvmSynthetic
+internal fun InternalClassWithStaticProperty.Companion.getFooBar(): String = InternalClassWithStaticProperty.fooBar
+
+@JvmSynthetic
+internal fun InternalClassWithStaticProperty.Companion.setFooBar(value: String) {
+    InternalClassWithStaticProperty.fooBar = value
+}
+
 

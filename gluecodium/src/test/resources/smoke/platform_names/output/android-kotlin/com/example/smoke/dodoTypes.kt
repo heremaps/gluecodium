@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("PlatformNames")
+@file:JvmName("PlatformNamesExtensions")
 
 package com.example.smoke
 

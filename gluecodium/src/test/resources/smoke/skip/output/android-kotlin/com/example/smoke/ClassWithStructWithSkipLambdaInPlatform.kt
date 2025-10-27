@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("ClassWithStructWithSkipLambdaInPlatform")
+@file:JvmName("ClassWithStructWithSkipLambdaInPlatformExtensions")
 
 package com.example.smoke
 

@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("SkipSetter")
+@file:JvmName("SkipSetterExtensions")
 
 package com.example.smoke
 

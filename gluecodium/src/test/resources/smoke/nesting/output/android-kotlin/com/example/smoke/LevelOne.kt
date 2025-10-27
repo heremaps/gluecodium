@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("LevelOne")
+@file:JvmName("LevelOneExtensions")
 
 package com.example.smoke
 

@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("LambdaComments")
+@file:JvmName("LambdaCommentsExtensions")
 
 package com.example.smoke
 

@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("SkipFunctions")
+@file:JvmName("SkipFunctionsExtensions")
 
 package com.example.smoke
 

@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("GenericTypesWithCompoundTypes")
+@file:JvmName("GenericTypesWithCompoundTypesExtensions")
 
 package com.example.smoke
 

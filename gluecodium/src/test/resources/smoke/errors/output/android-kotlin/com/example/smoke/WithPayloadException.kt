@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("WithPayload")
+@file:JvmName("WithPayloadExtensions")
 
 package com.example.smoke
 

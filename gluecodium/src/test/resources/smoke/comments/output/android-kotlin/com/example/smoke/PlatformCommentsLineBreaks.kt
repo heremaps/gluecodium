@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("PlatformCommentsLineBreaks")
+@file:JvmName("PlatformCommentsLineBreaksExtensions")
 
 package com.example.smoke
 

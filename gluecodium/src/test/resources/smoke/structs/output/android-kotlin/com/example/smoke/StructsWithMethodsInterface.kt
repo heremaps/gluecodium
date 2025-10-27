@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("StructsWithMethodsInterface")
+@file:JvmName("StructsWithMethodsInterfaceExtensions")
 
 package com.example.smoke
 

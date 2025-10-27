@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("BlobDefaults")
+@file:JvmName("BlobDefaultsExtensions")
 
 package com.example.smoke
 

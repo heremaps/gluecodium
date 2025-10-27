@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("PublicFieldsNoInit")
+@file:JvmName("PublicFieldsNoInitExtensions")
 
 package com.example.smoke
 

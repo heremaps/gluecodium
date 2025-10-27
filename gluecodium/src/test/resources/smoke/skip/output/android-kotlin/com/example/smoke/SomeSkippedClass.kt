@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("SomeSkippedClass")
+@file:JvmName("SomeSkippedClassExtensions")
 
 package com.example.smoke
 

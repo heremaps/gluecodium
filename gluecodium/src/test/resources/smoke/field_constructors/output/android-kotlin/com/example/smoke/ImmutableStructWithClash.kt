@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("ImmutableStructWithClash")
+@file:JvmName("ImmutableStructWithClashExtensions")
 
 package com.example.smoke
 
@@ -16,11 +16,13 @@ class ImmutableStructWithClash {
 
 
 
+
     constructor() {
         this.stringField = "nonsense"
         this.intField = 42
         this.boolField = true
     }
+
 
     constructor(boolField: Boolean, intField: Int, stringField: String) {
         this.boolField = boolField

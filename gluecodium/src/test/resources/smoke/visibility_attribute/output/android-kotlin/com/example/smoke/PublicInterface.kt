@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("PublicInterface")
+@file:JvmName("PublicInterfaceExtensions")
 
 package com.example.smoke
 

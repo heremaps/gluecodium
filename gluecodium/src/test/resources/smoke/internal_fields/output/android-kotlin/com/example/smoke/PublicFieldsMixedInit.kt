@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("PublicFieldsMixedInit")
+@file:JvmName("PublicFieldsMixedInitExtensions")
 
 package com.example.smoke
 

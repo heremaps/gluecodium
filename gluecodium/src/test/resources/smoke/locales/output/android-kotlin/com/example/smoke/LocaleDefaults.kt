@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("LocaleDefaults")
+@file:JvmName("LocaleDefaultsExtensions")
 
 package com.example.smoke
 

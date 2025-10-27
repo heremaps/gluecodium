@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("Structs")
+@file:JvmName("StructsExtensions")
 
 package com.example.smoke
 

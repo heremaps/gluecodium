@@ -3,12 +3,14 @@
  *
  */
 
-@file:JvmName("InterfaceWithStatic")
+@file:JvmName("InterfaceWithStaticExtensions")
 
 package com.example.smoke
 
 
 interface InterfaceWithStatic {
+
+
 
     fun regularFunction() : String
 
@@ -18,6 +20,8 @@ interface InterfaceWithStatic {
 
 
     companion object {
+
+
         @JvmStatic fun staticFunction() : String {
             return InterfaceWithStaticImpl.staticFunction()
         }

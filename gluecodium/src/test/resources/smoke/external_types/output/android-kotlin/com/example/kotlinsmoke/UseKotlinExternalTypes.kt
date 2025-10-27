@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("UseKotlinExternalTypes")
+@file:JvmName("UseKotlinExternalTypesExtensions")
 
 package com.example.kotlinsmoke
 

@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("SkipTagsOnly")
+@file:JvmName("SkipTagsOnlyExtensions")
 
 package com.example.smoke
 

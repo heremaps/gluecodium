@@ -3,7 +3,7 @@
  *
  */
 
-@file:JvmName("SomeTypeCollection")
+@file:JvmName("SomeTypeCollectionExtensions")
 
 package com.example.smoke
 
