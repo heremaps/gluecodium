@@ -25,7 +25,7 @@ class CachedProperties : NativeBase {
 
 
 
-    val cachedProperty: MutableList<String>
+    val cachedProperty: List<String>
         get() {
             if (!is_cached_cachedProperty) {
                 cache_cachedProperty = getCachedProperty_private()
@@ -36,8 +36,8 @@ class CachedProperties : NativeBase {
         }
 
     private var is_cached_cachedProperty = false
-    private var cache_cachedProperty: MutableList<String>? = null
-    external private fun getCachedProperty_private() : MutableList<String>
+    private var cache_cachedProperty: List<String>? = null
+    external private fun getCachedProperty_private() : List<String>
 
 
 

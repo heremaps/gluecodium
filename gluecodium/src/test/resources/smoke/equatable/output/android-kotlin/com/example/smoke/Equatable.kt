@@ -23,12 +23,12 @@ class Equatable {
         @JvmField var stringField: String
         @JvmField var structField: Equatable.NestedEquatableStruct
         @JvmField var enumField: Equatable.SomeEnum
-        @JvmField var arrayField: MutableList<String>
-        @JvmField var mapField: MutableMap<Int, String>
+        @JvmField var arrayField: List<String>
+        @JvmField var mapField: Map<Int, String>
 
 
 
-        constructor(boolField: Boolean, intField: Int, longField: Long, floatField: Float, doubleField: Double, stringField: String, structField: Equatable.NestedEquatableStruct, enumField: Equatable.SomeEnum, arrayField: MutableList<String>, mapField: MutableMap<Int, String>) {
+        constructor(boolField: Boolean, intField: Int, longField: Long, floatField: Float, doubleField: Double, stringField: String, structField: Equatable.NestedEquatableStruct, enumField: Equatable.SomeEnum, arrayField: List<String>, mapField: Map<Int, String>) {
             this.boolField = boolField
             this.intField = intField
             this.longField = longField
@@ -91,8 +91,8 @@ class Equatable {
         @JvmField var stringField: String?
         @JvmField var structField: Equatable.NestedEquatableStruct?
         @JvmField var enumField: Equatable.SomeEnum?
-        @JvmField var arrayField: MutableList<String>?
-        @JvmField var mapField: MutableMap<Int, String>?
+        @JvmField var arrayField: List<String>?
+        @JvmField var mapField: Map<Int, String>?
 
 
 

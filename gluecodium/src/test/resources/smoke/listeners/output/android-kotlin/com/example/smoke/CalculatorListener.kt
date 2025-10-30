@@ -36,10 +36,10 @@ interface CalculatorListener {
     fun onCalculationResultStruct(calculationResult: CalculatorListener.ResultStruct) : Unit
 
 
-    fun onCalculationResultArray(calculationResult: MutableList<Double>) : Unit
+    fun onCalculationResultArray(calculationResult: List<Double>) : Unit
 
 
-    fun onCalculationResultMap(calculationResults: MutableMap<String, Double>) : Unit
+    fun onCalculationResultMap(calculationResults: Map<String, Double>) : Unit
 
 
     fun onCalculationResultInstance(calculationResult: CalculationResult) : Unit

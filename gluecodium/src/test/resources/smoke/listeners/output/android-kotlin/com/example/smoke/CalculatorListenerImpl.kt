@@ -27,10 +27,10 @@ class CalculatorListenerImpl : NativeBase, CalculatorListener {
     override external fun onCalculationResultStruct(calculationResult: CalculatorListener.ResultStruct) : Unit
 
 
-    override external fun onCalculationResultArray(calculationResult: MutableList<Double>) : Unit
+    override external fun onCalculationResultArray(calculationResult: List<Double>) : Unit
 
 
-    override external fun onCalculationResultMap(calculationResults: MutableMap<String, Double>) : Unit
+    override external fun onCalculationResultMap(calculationResults: Map<String, Double>) : Unit
 
 
     override external fun onCalculationResultInstance(calculationResult: CalculationResult) : Unit

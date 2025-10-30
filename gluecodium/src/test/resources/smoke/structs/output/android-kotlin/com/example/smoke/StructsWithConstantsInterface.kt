@@ -12,12 +12,12 @@ import com.example.NativeBase
 class StructsWithConstantsInterface : NativeBase {
 
     class MultiRoute {
-        @JvmField var descriptions: MutableList<String>
+        @JvmField var descriptions: List<String>
         @JvmField var type: RouteUtils.RouteType
 
 
 
-        constructor(descriptions: MutableList<String>, type: RouteUtils.RouteType) {
+        constructor(descriptions: List<String>, type: RouteUtils.RouteType) {
             this.descriptions = descriptions
             this.type = type
         }
@@ -67,4 +67,5 @@ class StructsWithConstantsInterface : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
+
 

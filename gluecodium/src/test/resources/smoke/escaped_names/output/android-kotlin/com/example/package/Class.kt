@@ -32,7 +32,7 @@ class Class : NativeBase, Interface {
 
 
     @Throws(Types.ExceptionException::class)
-    external fun Fun(double: MutableList<Types.Struct>) : Types.Struct
+    external fun Fun(double: List<Types.Struct>) : Types.Struct
 
     var Property: Types.Enum
         external get
@@ -47,4 +47,5 @@ class Class : NativeBase, Interface {
         @JvmStatic external fun Constructor() : Long
     }
 }
+
 

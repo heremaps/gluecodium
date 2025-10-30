@@ -64,28 +64,28 @@ class GenericTypesWithCompoundTypes : NativeBase {
 
 
 
-    external fun methodWithStructList(input: MutableList<GenericTypesWithCompoundTypes.BasicStruct>) : MutableList<GenericTypesWithCompoundTypes.ExternalStruct>
+    external fun methodWithStructList(input: List<GenericTypesWithCompoundTypes.BasicStruct>) : List<GenericTypesWithCompoundTypes.ExternalStruct>
 
 
-    external fun methodWithStructMap(input: MutableMap<String, GenericTypesWithCompoundTypes.BasicStruct>) : MutableMap<String, GenericTypesWithCompoundTypes.ExternalStruct>
+    external fun methodWithStructMap(input: Map<String, GenericTypesWithCompoundTypes.BasicStruct>) : Map<String, GenericTypesWithCompoundTypes.ExternalStruct>
 
 
-    external fun methodWithEnumList(input: MutableList<GenericTypesWithCompoundTypes.SomeEnum>) : MutableList<GenericTypesWithCompoundTypes.ExternalEnum>
+    external fun methodWithEnumList(input: List<GenericTypesWithCompoundTypes.SomeEnum>) : List<GenericTypesWithCompoundTypes.ExternalEnum>
 
 
-    external fun methodWithEnumMapKey(input: MutableMap<GenericTypesWithCompoundTypes.SomeEnum, Boolean>) : MutableMap<GenericTypesWithCompoundTypes.ExternalEnum, Boolean>
+    external fun methodWithEnumMapKey(input: Map<GenericTypesWithCompoundTypes.SomeEnum, Boolean>) : Map<GenericTypesWithCompoundTypes.ExternalEnum, Boolean>
 
 
-    external fun methodWithEnumMapValue(input: MutableMap<Int, GenericTypesWithCompoundTypes.SomeEnum>) : MutableMap<Int, GenericTypesWithCompoundTypes.ExternalEnum>
+    external fun methodWithEnumMapValue(input: Map<Int, GenericTypesWithCompoundTypes.SomeEnum>) : Map<Int, GenericTypesWithCompoundTypes.ExternalEnum>
 
 
-    external fun methodWithEnumSet(input: MutableSet<GenericTypesWithCompoundTypes.SomeEnum>) : MutableSet<GenericTypesWithCompoundTypes.ExternalEnum>
+    external fun methodWithEnumSet(input: Set<GenericTypesWithCompoundTypes.SomeEnum>) : Set<GenericTypesWithCompoundTypes.ExternalEnum>
 
 
-    external fun methodWithInstancesList(input: MutableList<DummyClass>) : MutableList<DummyInterface>
+    external fun methodWithInstancesList(input: List<DummyClass>) : List<DummyInterface>
 
 
-    external fun methodWithInstancesMap(input: MutableMap<Int, DummyClass>) : MutableMap<Int, DummyInterface>
+    external fun methodWithInstancesMap(input: Map<Int, DummyClass>) : Map<Int, DummyInterface>
 
 
 
@@ -94,4 +94,5 @@ class GenericTypesWithCompoundTypes : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
+
 

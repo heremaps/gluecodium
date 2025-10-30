@@ -46,11 +46,11 @@ interface ListenerWithProperties {
         get
         set
 
-    var arrayedMessage: MutableList<String>
+    var arrayedMessage: List<String>
         get
         set
 
-    var mappedMessage: MutableMap<String, Double>
+    var mappedMessage: Map<String, Double>
         get
         set
 

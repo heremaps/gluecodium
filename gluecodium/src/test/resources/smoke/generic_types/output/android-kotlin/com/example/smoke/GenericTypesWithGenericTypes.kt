@@ -26,25 +26,25 @@ class GenericTypesWithGenericTypes : NativeBase {
 
 
 
-    external fun methodWithListOfLists(input: MutableList<MutableList<Int>>) : MutableList<MutableList<Int>>
+    external fun methodWithListOfLists(input: List<List<Int>>) : List<List<Int>>
 
 
-    external fun methodWithMapOfMaps(input: MutableMap<Int, MutableMap<Int, Boolean>>) : MutableMap<MutableMap<Int, Boolean>, Boolean>
+    external fun methodWithMapOfMaps(input: Map<Int, Map<Int, Boolean>>) : Map<Map<Int, Boolean>, Boolean>
 
 
-    external fun methodWithSetOfSets(input: MutableSet<MutableSet<Int>>) : MutableSet<MutableSet<Int>>
+    external fun methodWithSetOfSets(input: Set<Set<Int>>) : Set<Set<Int>>
 
 
-    external fun methodWithListAndMap(input: MutableList<MutableMap<Int, Boolean>>) : MutableMap<Int, MutableList<Int>>
+    external fun methodWithListAndMap(input: List<Map<Int, Boolean>>) : Map<Int, List<Int>>
 
 
-    external fun methodWithListAndSet(input: MutableList<MutableSet<Int>>) : MutableSet<MutableList<Int>>
+    external fun methodWithListAndSet(input: List<Set<Int>>) : Set<List<Int>>
 
 
-    external fun methodWithMapAndSet(input: MutableMap<Int, MutableSet<Int>>) : MutableSet<MutableMap<Int, Boolean>>
+    external fun methodWithMapAndSet(input: Map<Int, Set<Int>>) : Set<Map<Int, Boolean>>
 
 
-    external fun methodWithMapGenericKeys(input: MutableMap<MutableSet<Int>, Boolean>) : MutableMap<MutableList<Int>, Boolean>
+    external fun methodWithMapGenericKeys(input: Map<Set<Int>, Boolean>) : Map<List<Int>, Boolean>
 
 
 
@@ -53,4 +53,5 @@ class GenericTypesWithGenericTypes : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
+
 

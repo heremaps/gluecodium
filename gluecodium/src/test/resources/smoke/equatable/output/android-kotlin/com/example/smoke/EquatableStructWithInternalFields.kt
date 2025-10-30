@@ -11,13 +11,13 @@ package com.example.smoke
 class EquatableStructWithInternalFields {
     @JvmField var publicField: String
     @JvmField internal var internalField: String
-    @JvmField internal var internalListField: MutableList<String>
-    @JvmField internal var internalMapField: MutableMap<String, String>
-    @JvmField internal var internalSetField: MutableSet<String>
+    @JvmField internal var internalListField: List<String>
+    @JvmField internal var internalMapField: Map<String, String>
+    @JvmField internal var internalSetField: Set<String>
 
 
 
-    internal constructor(publicField: String, internalField: String, internalListField: MutableList<String>, internalMapField: MutableMap<String, String>, internalSetField: MutableSet<String>) {
+    internal constructor(publicField: String, internalField: String, internalListField: List<String>, internalMapField: Map<String, String>, internalSetField: Set<String>) {
         this.publicField = publicField
         this.internalField = internalField
         this.internalListField = internalListField

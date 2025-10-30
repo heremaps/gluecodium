@@ -53,7 +53,7 @@ class Dates : NativeBase {
         external get
         external set
 
-    var dateSet: MutableSet<Date>
+    var dateSet: Set<Date>
         external get
         external set
 
@@ -64,4 +64,5 @@ class Dates : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
+
 

@@ -33,11 +33,11 @@ class ListenerWithPropertiesImpl : NativeBase, ListenerWithProperties {
         external get
         external set
 
-    override var arrayedMessage: MutableList<String>
+    override var arrayedMessage: List<String>
         external get
         external set
 
-    override var mappedMessage: MutableMap<String, Double>
+    override var mappedMessage: Map<String, Double>
         external get
         external set
 

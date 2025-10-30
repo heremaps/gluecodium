@@ -43,10 +43,10 @@ interface ListenersWithReturnValues {
     fun fetchDataEnum() : ListenersWithReturnValues.ResultEnum
 
 
-    fun fetchDataArray() : MutableList<Double>
+    fun fetchDataArray() : List<Double>
 
 
-    fun fetchDataMap() : MutableMap<String, Double>
+    fun fetchDataMap() : Map<String, Double>
 
 
     fun fetchDataInstance() : CalculationResult

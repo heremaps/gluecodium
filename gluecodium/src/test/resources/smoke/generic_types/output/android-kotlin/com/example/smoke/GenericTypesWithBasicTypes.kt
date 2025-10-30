@@ -12,13 +12,13 @@ import com.example.NativeBase
 class GenericTypesWithBasicTypes : NativeBase {
 
     class StructWithGenerics {
-        @JvmField var numbersList: MutableList<Short>
-        @JvmField var numbersMap: MutableMap<Short, String>
-        @JvmField var numbersSet: MutableSet<Short>
+        @JvmField var numbersList: List<Short>
+        @JvmField var numbersMap: Map<Short, String>
+        @JvmField var numbersSet: Set<Short>
 
 
 
-        constructor(numbersList: MutableList<Short>, numbersMap: MutableMap<Short, String>, numbersSet: MutableSet<Short>) {
+        constructor(numbersList: List<Short>, numbersMap: Map<Short, String>, numbersSet: Set<Short>) {
             this.numbersList = numbersList
             this.numbersMap = numbersMap
             this.numbersSet = numbersSet
@@ -45,32 +45,32 @@ class GenericTypesWithBasicTypes : NativeBase {
 
 
 
-    external fun methodWithList(input: MutableList<Int>) : MutableList<Int>
+    external fun methodWithList(input: List<Int>) : List<Int>
 
 
-    external fun methodWithMap(input: MutableMap<Int, Boolean>) : MutableMap<Int, Boolean>
+    external fun methodWithMap(input: Map<Int, Boolean>) : Map<Int, Boolean>
 
 
-    external fun methodWithSet(input: MutableSet<Int>) : MutableSet<Int>
+    external fun methodWithSet(input: Set<Int>) : Set<Int>
 
 
-    external fun methodWithListTypeAlias(input: MutableList<String>) : MutableList<String>
+    external fun methodWithListTypeAlias(input: List<String>) : List<String>
 
 
-    external fun methodWithMapTypeAlias(input: MutableMap<String, String>) : MutableMap<String, String>
+    external fun methodWithMapTypeAlias(input: Map<String, String>) : Map<String, String>
 
 
-    external fun methodWithSetTypeAlias(input: MutableSet<String>) : MutableSet<String>
+    external fun methodWithSetTypeAlias(input: Set<String>) : Set<String>
 
-    var listProperty: MutableList<Float>
+    var listProperty: List<Float>
         external get
         external set
 
-    var mapProperty: MutableMap<Float, Double>
+    var mapProperty: Map<Float, Double>
         external get
         external set
 
-    var setProperty: MutableSet<Float>
+    var setProperty: Set<Float>
         external get
         external set
 
@@ -81,4 +81,5 @@ class GenericTypesWithBasicTypes : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
+
 

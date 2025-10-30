@@ -85,20 +85,20 @@ class DefaultValues : NativeBase {
     }
 
     class StructWithEmptyDefaults {
-        @JvmField var intsField: MutableList<Int>
-        @JvmField var floatsField: MutableList<Float>
-        @JvmField var mapField: MutableMap<Long, String>
+        @JvmField var intsField: List<Int>
+        @JvmField var floatsField: List<Float>
+        @JvmField var mapField: Map<Long, String>
         @JvmField var structField: DefaultValues.StructWithDefaults
-        @JvmField var setTypeField: MutableSet<String>
+        @JvmField var setTypeField: Set<String>
 
 
 
         constructor() {
-            this.intsField = mutableListOf()
-            this.floatsField = mutableListOf()
-            this.mapField = mutableMapOf()
+            this.intsField = listOf()
+            this.floatsField = listOf()
+            this.mapField = mapOf()
             this.structField = DefaultValues.StructWithDefaults()
-            this.setTypeField = mutableSetOf()
+            this.setTypeField = setOf()
         }
 
 
@@ -150,4 +150,5 @@ class DefaultValues : NativeBase {
         @JvmStatic external fun processStructWithDefaults(input: DefaultValues.StructWithDefaults) : DefaultValues.StructWithDefaults
     }
 }
+
 

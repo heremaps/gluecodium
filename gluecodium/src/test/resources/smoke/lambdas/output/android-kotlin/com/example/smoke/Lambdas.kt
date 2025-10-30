@@ -161,7 +161,8 @@ class Lambdas : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
 
 
-        @JvmStatic external fun fuse(items: MutableList<String>, callback: Lambdas.Indexer) : MutableMap<Int, String>
+        @JvmStatic external fun fuse(items: List<String>, callback: Lambdas.Indexer) : Map<Int, String>
     }
 }
+
 

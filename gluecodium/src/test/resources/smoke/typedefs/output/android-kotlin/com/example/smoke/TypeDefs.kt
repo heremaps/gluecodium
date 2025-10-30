@@ -55,7 +55,7 @@ class TypeDefs : NativeBase {
 
 
 
-    var primitiveTypeProperty: MutableList<Double>
+    var primitiveTypeProperty: List<Double>
         external get
         external set
 
@@ -69,7 +69,7 @@ class TypeDefs : NativeBase {
         @JvmStatic external fun methodWithPrimitiveTypeDef(input: Double) : Double
 
 
-        @JvmStatic external fun methodWithComplexTypeDef(input: MutableList<TypeDefs.TestStruct>) : MutableList<TypeDefs.TestStruct>
+        @JvmStatic external fun methodWithComplexTypeDef(input: List<TypeDefs.TestStruct>) : List<TypeDefs.TestStruct>
 
 
         @JvmStatic external fun returnNestedIntTypeDef(input: Double) : Double
@@ -84,4 +84,5 @@ class TypeDefs : NativeBase {
         @JvmStatic external fun returnTypeDefPointFromTypeCollection(input: TypeCollection.Point) : TypeCollection.Point
     }
 }
+
 

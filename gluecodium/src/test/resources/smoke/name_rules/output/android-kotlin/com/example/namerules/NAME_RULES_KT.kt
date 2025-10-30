@@ -20,11 +20,11 @@ class NAME_RULES_KT : NativeBase {
 
     class EXAMPLE_STRUCT_KT {
         @JvmField var value: Double
-        @JvmField var int_value: MutableList<Long>
+        @JvmField var int_value: List<Long>
 
 
 
-        constructor(value: Double, int_value: MutableList<Long>) {
+        constructor(value: Double, int_value: List<Long>) {
             this.value = value
             this.int_value = int_value
         }
@@ -79,4 +79,5 @@ class NAME_RULES_KT : NativeBase {
         @JvmStatic external fun create() : Long
     }
 }
+
 
