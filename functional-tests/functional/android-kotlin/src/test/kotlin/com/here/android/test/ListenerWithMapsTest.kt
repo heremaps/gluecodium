@@ -27,8 +27,8 @@ import org.robolectric.annotation.Config
 internal class TestForecastListener : ForecastListener {
     var forecast: String = ""
 
-    override fun onForecastDataProvided(data: MutableMap<String, ForecastData>) {
-        val cities: MutableList<String> = mutableListOf<String>("Berlin", "Madrid", "Marrakesh")
+    override fun onForecastDataProvided(data: Map<String, ForecastData>) {
+        val cities: List<String> = listOf<String>("Berlin", "Madrid", "Marrakesh")
         forecast = cities.map {
             if (data.containsKey(it)) {
                 val f: ForecastData = data[it]!!

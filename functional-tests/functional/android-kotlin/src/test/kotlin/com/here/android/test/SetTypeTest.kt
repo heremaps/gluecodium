@@ -34,7 +34,7 @@ import java.util.EnumSet
 class SetTypeTest {
     @org.junit.Test
     fun emptyStringSetRoundTrip() {
-        val stringSet = mutableSetOf<String>()
+        val stringSet = setOf<String>()
         val result = SetType.stringSetRoundTrip(stringSet)
 
         assertTrue(result.isEmpty())
@@ -50,7 +50,7 @@ class SetTypeTest {
 
     @org.junit.Test
     fun emptyEnumSetRoundTrip() {
-        val enumSet = mutableSetOf<SetType.SomeEnum>()
+        val enumSet = setOf<SetType.SomeEnum>()
         val result = SetType.enumSetRoundTrip(enumSet)
 
         assertTrue(result.isEmpty())
@@ -73,7 +73,7 @@ class SetTypeTest {
 
     @org.junit.Test
     fun emptyNullableSetRoundTrip() {
-        val intSet = mutableSetOf<Int>()
+        val intSet = setOf<Int>()
         val result = SetType.nullableIntSetRoundTrip(intSet)
 
         assertTrue(result!!.isEmpty())

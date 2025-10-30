@@ -57,7 +57,7 @@ class MethodOverloadsTest {
 
     @org.junit.Test
     fun isBooleanWithIntArray() {
-        assertFalse(MethodOverloads.isBooleanIntArrayOverload(mutableListOf(42.toByte(), 255.toByte())))
+        assertFalse(MethodOverloads.isBooleanIntArrayOverload(listOf(42.toByte(), 255.toByte())))
     }
 
     @org.junit.Test

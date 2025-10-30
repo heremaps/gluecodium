@@ -30,7 +30,7 @@ import org.robolectric.annotation.Config
 class MapsTest {
     @org.junit.Test
     fun methodWithMaps_emptyMap() {
-        val intStringMap= mutableMapOf<Int, String>()
+        val intStringMap= mapOf<Int, String>()
         val resultsMap = Maps.methodWithMap(intStringMap)
 
         assertEquals(0, resultsMap.size)
@@ -38,7 +38,7 @@ class MapsTest {
 
     @org.junit.Test
     fun methodWithMaps_multipleItems() {
-        val intStringMap = mutableMapOf(11 to "abc", 22 to "def", 33 to "ghi")
+        val intStringMap = mapOf(11 to "abc", 22 to "def", 33 to "ghi")
         val resultsMap = Maps.methodWithMap(intStringMap)
 
         assertEquals(3, resultsMap.size)
@@ -51,7 +51,7 @@ class MapsTest {
 
     @org.junit.Test
     fun methodWithMapToArray_emptyMap() {
-        val arrayMap = mutableMapOf<Short, MutableList<String>>()
+        val arrayMap = mapOf<Short, List<String>>()
         val resultsMap = Maps.methodWithMapOfArrays(arrayMap)
 
         assertEquals(0, resultsMap.size)
@@ -59,24 +59,24 @@ class MapsTest {
 
     @org.junit.Test
     fun methodWithMapToArray_multipleItems() {
-        val arrayMap = mutableMapOf(
-            11.toShort() to mutableListOf("abc"),
-            22.toShort() to mutableListOf("def", "ghi"),
-            33.toShort() to mutableListOf(),
+        val arrayMap = mapOf(
+            11.toShort() to listOf("abc"),
+            22.toShort() to listOf("def", "ghi"),
+            33.toShort() to listOf(),
         )
 
         val resultsMap = Maps.methodWithMapOfArrays(arrayMap)
         assertEquals(3, resultsMap.size)
 
         // The method returns string values in uppercase
-        assertEquals(mutableListOf("ABC"), resultsMap[11.toShort()])
-        assertEquals(mutableListOf("DEF", "GHI"), resultsMap[22.toShort()])
+        assertEquals(listOf("ABC"), resultsMap[11.toShort()])
+        assertEquals(listOf("DEF", "GHI"), resultsMap[22.toShort()])
         assertEquals(emptyList<String>(), resultsMap[33.toShort()])
     }
 
     @org.junit.Test
     fun methodWithMapToStruct_emptyMap() {
-        val byteStructMap = mutableMapOf<Short, Maps.SomeStruct>()
+        val byteStructMap = mapOf<Short, Maps.SomeStruct>()
         val resultsMap = Maps.methodWithMapToStruct(byteStructMap)
 
         assertEquals(0, resultsMap.size)
@@ -84,7 +84,7 @@ class MapsTest {
 
     @org.junit.Test
     fun methodWithMapToStruct_multipleItems() {
-        val byteStructMap = mutableMapOf(
+        val byteStructMap = mapOf(
             11.toShort() to Maps.SomeStruct("abc"),
             22.toShort() to Maps.SomeStruct("def"),
             33.toShort() to Maps.SomeStruct("ghi"),
@@ -101,7 +101,7 @@ class MapsTest {
 
     @org.junit.Test
     fun methodWithNestedMap_emptyMap() {
-        val byteMapMap = mutableMapOf<Short, MutableMap<Short, Maps.SomeStruct>>()
+        val byteMapMap = mapOf<Short, Map<Short, Maps.SomeStruct>>()
         val resultsMap = Maps.methodWithNestedMap(byteMapMap)
 
         assertEquals(0, resultsMap.size)
@@ -109,13 +109,13 @@ class MapsTest {
 
     @org.junit.Test
     fun methodWithNestedMap_multipleItems() {
-        val inputMap = mutableMapOf(
-            55.toShort() to mutableMapOf(
+        val inputMap = mapOf(
+            55.toShort() to mapOf(
                 11.toShort() to Maps.SomeStruct("abc"),
                 22.toShort() to Maps.SomeStruct("def"),
                 33.toShort() to Maps.SomeStruct("ghi"),
             ),
-            77.toShort() to mutableMapOf<Short, Maps.SomeStruct>()
+            77.toShort() to mapOf<Short, Maps.SomeStruct>()
         )
 
         val resultsMap = Maps.methodWithNestedMap(inputMap)
@@ -136,7 +136,7 @@ class MapsTest {
 
     @org.junit.Test
     fun methodWithStructWithMap_emptyMap() {
-        val structWithMap = Maps.StructWithMap(mutableMapOf())
+        val structWithMap = Maps.StructWithMap(mapOf())
         val result = Maps.methodWithStructWithMap(structWithMap)
 
         assertEquals(0, result.errorMapping.size)
@@ -144,7 +144,7 @@ class MapsTest {
 
     @org.junit.Test
     fun methodWithStructWithMap_multipleItems() {
-        val structWithMap = Maps.StructWithMap(mutableMapOf(11 to "abc", 22 to "def", 33 to "ghi"))
+        val structWithMap = Maps.StructWithMap(mapOf(11 to "abc", 22 to "def", 33 to "ghi"))
 
         val result = Maps.methodWithStructWithMap(structWithMap)
         assertEquals(3, result.errorMapping.size)
@@ -157,7 +157,7 @@ class MapsTest {
 
     @org.junit.Test
     fun methodWithEnumToStringMap_emptyMap() {
-        val enumStringMap = mutableMapOf<Maps.SomeEnum, String>()
+        val enumStringMap = mapOf<Maps.SomeEnum, String>()
         val resultsMap = Maps.methodWithEnumToStringMap(enumStringMap)
 
         assertEquals(0, resultsMap.size)
@@ -165,7 +165,7 @@ class MapsTest {
 
     @org.junit.Test
     fun methodWithEnumToStringMap_multipleItems() {
-        val enumStringMap = mutableMapOf<Maps.SomeEnum, String>(
+        val enumStringMap = mapOf<Maps.SomeEnum, String>(
             Maps.SomeEnum.FOO_VALUE to "this is foo",
             Maps.SomeEnum.BAR_VALUE to "this is bar",
         )
@@ -186,7 +186,7 @@ class MapsTest {
         val second = InterfacesFactory.createSimpleInterfaceOne()
         second.setStringValue("second =")
 
-        val inputMap = mutableMapOf("primo" to first, "secundo" to second)
+        val inputMap = mapOf("primo" to first, "secundo" to second)
         val resultsMap = Maps.methodWithMapOfInstances(inputMap)
         assertEquals(2, resultsMap.size)
 
@@ -199,7 +199,7 @@ class MapsTest {
 
     @org.junit.Test
     fun structToStringMapRoundTrip() {
-        val input = mutableMapOf(
+        val input = mapOf(
             Maps.EquatableStruct("foo") to "foo",
             Maps.EquatableStruct("bar") to "bar",
         )
@@ -210,7 +210,7 @@ class MapsTest {
 
     @org.junit.Test
     fun classToStringMapRoundTrip() {
-        val input = mutableMapOf(
+        val input = mapOf(
             SomeEquatableClass("foo") to "foo",
             SomeEquatableClass("bar") to "bar",
         )
@@ -221,7 +221,7 @@ class MapsTest {
 
     @org.junit.Test
     fun SomePointerEquatableClassToStringMapRoundTrip() {
-        val input = mutableMapOf(
+        val input = mapOf(
             SomePointerEquatableClass("foo") to "foo",
             SomePointerEquatableClass("bar") to "bar",
         )

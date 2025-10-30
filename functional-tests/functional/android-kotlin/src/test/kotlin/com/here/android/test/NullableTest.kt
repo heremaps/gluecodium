@@ -32,7 +32,7 @@ class NullableTest {
     val doubleDelta = 0.0000000000001
 
     class NullableListenerImpl : NullableListener {
-        override var arrayAttribute: MutableList<String>? = null
+        override var arrayAttribute: List<String>? = null
 
         override fun methodWithDouble(input: Double?): Double? {
             return input
@@ -78,9 +78,9 @@ class NullableTest {
         struct.doubleField = 0.0
         struct.structField = NullableInterface.SomeStruct()
         struct.enumField = NullableInterface.SomeEnum.OFF
-        struct.arrayField = mutableListOf()
-        struct.inlineArrayField = mutableListOf()
-        struct.mapField = mutableMapOf()
+        struct.arrayField = listOf()
+        struct.inlineArrayField = listOf()
+        struct.mapField = mapOf()
         struct.blobField = byteArrayOf()
 
         val result = nullableInterface.methodWithNullableStruct(struct)
@@ -104,9 +104,9 @@ class NullableTest {
         struct.doubleField = 3.14
         struct.structField = NullableInterface.SomeStruct("Woo")
         struct.enumField = NullableInterface.SomeEnum.ON
-        struct.arrayField = mutableListOf("Bar")
-        struct.inlineArrayField = mutableListOf<String>("Baz")
-        struct.mapField = mutableMapOf(7L to "Wee")
+        struct.arrayField = listOf("Bar")
+        struct.inlineArrayField = listOf<String>("Baz")
+        struct.mapField = mapOf(7L to "Wee")
         struct.blobField = byteArrayOf(42.toByte())
 
         val result = nullableInterface.methodWithNullableStruct(struct)
@@ -322,48 +322,48 @@ class NullableTest {
 
     @org.junit.Test
     fun nullableArrayMethodWithNull() {
-        val value: MutableList<String>? = null
-        val result: MutableList<String>? = nullableInterface.methodWithSomeArray(value)
+        val value: List<String>? = null
+        val result: List<String>? = nullableInterface.methodWithSomeArray(value)
 
         assertEquals(result, value)
     }
 
     @org.junit.Test
     fun nullableArrayMethodWithNonNull() {
-        val value: MutableList<String>? = mutableListOf()
-        val result: MutableList<String>? = nullableInterface.methodWithSomeArray(value)
+        val value: List<String>? = listOf()
+        val result: List<String>? = nullableInterface.methodWithSomeArray(value)
 
         assertEquals(result, value)
     }
 
     @org.junit.Test
     fun nullableInlineArrayMethodWithNull() {
-        val value: MutableList<String>? = null
-        val result: MutableList<String>? = nullableInterface.methodWithInlineArray(value)
+        val value: List<String>? = null
+        val result: List<String>? = nullableInterface.methodWithInlineArray(value)
 
         assertEquals(result, value)
     }
 
     @org.junit.Test
     fun nullableInlineArrayMethodWithNonNull() {
-        val value: MutableList<String>? = mutableListOf()
-        val result: MutableList<String>? = nullableInterface.methodWithInlineArray(value)
+        val value: List<String>? = listOf()
+        val result: List<String>? = nullableInterface.methodWithInlineArray(value)
 
         assertEquals(result, value)
     }
 
     @org.junit.Test
     fun nullableMapMethodWithNull() {
-        val value: MutableMap<Long, String>? = null
-        val result: MutableMap<Long, String>? = nullableInterface.methodWithSomeMap(value)
+        val value: Map<Long, String>? = null
+        val result: Map<Long, String>? = nullableInterface.methodWithSomeMap(value)
 
         assertEquals(result, value)
     }
 
     @org.junit.Test
     fun nullableMapMethodWithNonNull() {
-        val value: MutableMap<Long, String>? = mutableMapOf()
-        val result: MutableMap<Long, String>? = nullableInterface.methodWithSomeMap(value)
+        val value: Map<Long, String>? = mapOf()
+        val result: Map<Long, String>? = nullableInterface.methodWithSomeMap(value)
 
         assertEquals(result, value)
     }
@@ -460,7 +460,7 @@ class NullableTest {
 
     @org.junit.Test
     fun nullableArrayAttributeWithNonNull() {
-        val value: MutableList<String> = mutableListOf("abc", "def")
+        val value: List<String> = listOf("abc", "def")
         nullableInterface.arrayAttribute = value
 
         assertEquals(nullableInterface.arrayAttribute, value)
@@ -474,7 +474,7 @@ class NullableTest {
 
     @org.junit.Test
     fun nullableInlineArrayAttributeWithNonNull() {
-        val value: MutableList<String> = mutableListOf("qwe", "rty")
+        val value: List<String> = listOf("qwe", "rty")
         nullableInterface.inlineArrayAttribute = value
 
         assertEquals(nullableInterface.inlineArrayAttribute, value)
@@ -488,7 +488,7 @@ class NullableTest {
 
     @org.junit.Test
     fun nullableMapAttributeWithNonNull() {
-        val value = mutableMapOf(1L to "123", 2L to "456")
+        val value = mapOf(1L to "123", 2L to "456")
         nullableInterface.mapAttribute = value
 
         assertEquals(nullableInterface.mapAttribute, value)
@@ -514,7 +514,7 @@ class NullableTest {
     @org.junit.Test
     fun nullableAttributeListenerRoundtripWithNull() {
         val listener: NullableListener = NullableListenerImpl()
-        val result: MutableList<String>? = NullableInterface.nullableListenerAttributeRoundTrip(listener, null)
+        val result: List<String>? = NullableInterface.nullableListenerAttributeRoundTrip(listener, null)
 
         assertNull(result)
     }
@@ -522,9 +522,9 @@ class NullableTest {
     @org.junit.Test
     fun nullableAttributeListenerRoundtripWithNonNull() {
         val listener: NullableListener = NullableListenerImpl()
-        val value: MutableList<String> = mutableListOf("some", "non", "null", "list")
+        val value: List<String> = listOf("some", "non", "null", "list")
 
-        val result: MutableList<String>? = NullableInterface.nullableListenerAttributeRoundTrip(listener, value)
+        val result: List<String>? = NullableInterface.nullableListenerAttributeRoundTrip(listener, value)
         assertEquals(result, value)
     }
 }

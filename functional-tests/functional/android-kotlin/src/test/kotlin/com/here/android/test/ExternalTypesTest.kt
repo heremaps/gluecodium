@@ -45,7 +45,7 @@ class ExternalTypesTest {
 
     @org.junit.Test
     fun useExternalTypes() {
-        val externalStruct = ExternalStruct("foo", "bar", mutableListOf(7, 11), AnotherExternalStruct(42))
+        val externalStruct = ExternalStruct("foo", "bar", listOf(7, 11), AnotherExternalStruct(42))
         val inputStruct = UseExternalTypes.StructWithExternalTypes(externalStruct, ExternalEnum.BAR)
         val resultStruct = UseExternalTypes.extractExternalStruct(inputStruct)
 
@@ -59,7 +59,7 @@ class ExternalTypesTest {
 
     @org.junit.Test
     fun useExternalTypesExternalEnum() {
-        val externalStruct = ExternalStruct("foo", "bar", mutableListOf(7, 11), AnotherExternalStruct(42))
+        val externalStruct = ExternalStruct("foo", "bar", listOf(7, 11), AnotherExternalStruct(42))
         val inputStruct = UseExternalTypes.StructWithExternalTypes(externalStruct, ExternalEnum.BAR)
         val resultEnum = UseExternalTypes.extractExternalEnum(inputStruct)
 
