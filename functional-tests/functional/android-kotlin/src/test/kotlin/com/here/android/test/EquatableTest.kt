@@ -115,7 +115,7 @@ class EquatableTest {
     @org.junit.Test
     fun equatableStructNotEqualsMapField() {
         val otherStruct: Equatable.EquatableStruct = createEquatableStruct()
-        otherStruct.mapField.put(2, "foo")
+        otherStruct.mapField = otherStruct.mapField + mapOf(2 to "foo")
 
         assertNotEquals(mainStruct, otherStruct)
         assertNotEquals(mainStruct.hashCode(), otherStruct.hashCode())
@@ -124,7 +124,7 @@ class EquatableTest {
     @org.junit.Test
     fun equatableStructNotEqualsArrayField() {
         val otherStruct: Equatable.EquatableStruct = createEquatableStruct()
-        otherStruct.arrayField.add("foo")
+        otherStruct.arrayField = otherStruct.arrayField + listOf("foo")
 
         assertNotEquals(mainStruct, otherStruct)
         assertNotEquals(mainStruct.hashCode(), otherStruct.hashCode())
@@ -163,7 +163,7 @@ class EquatableTest {
     @org.junit.Test
     fun equatableStructNotEqualsCpp() {
         val otherStruct: Equatable.EquatableStruct = createEquatableStruct()
-        otherStruct.arrayField.add("foo")
+        otherStruct.arrayField = otherStruct.arrayField + listOf("foo")
 
         assertFalse(EquatableClass.areEqual(mainStruct, otherStruct))
     }
@@ -387,7 +387,7 @@ class EquatableTest {
     private fun createEquatableStruct(): Equatable.EquatableStruct {
         return Equatable.EquatableStruct(
             true, 65542, 2147484000L, 1.0f, 2.0, "nonsense", Equatable.NestedEquatableStruct("foo"),
-            Equatable.SomeSomeEnum.BAR, mutableMapOf(0 to "one", 1 to "two"), mutableListOf("one", "two")
+            Equatable.SomeSomeEnum.BAR, mapOf(0 to "one", 1 to "two"), listOf("one", "two")
         )
     }
 }
