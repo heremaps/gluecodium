@@ -135,7 +135,7 @@ class ConstantsTest {
 
     @org.junit.Test
     fun checkMixedConstant() {
-        val result: MutableMap<MutableList<String>, MutableSet<String>> = CollectionConstants.MIXED_CONSTANT
+        val result: Map<List<String>, Set<String>> = CollectionConstants.MIXED_CONSTANT
         assertEquals(mapOf(listOf("foo") to setOf("bar")), result)
     }
 }

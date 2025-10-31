@@ -33,7 +33,7 @@ class OptimizedListTest {
 
     @org.junit.Test
     fun optimizedListFromMethod() {
-        val result: MutableList<VeryBigStruct> = UseOptimizedList.fetchTheBigOnes()
+        val result: List<VeryBigStruct> = UseOptimizedList.fetchTheBigOnes()
 
         assertEquals(2, result.size)
         assertEquals("foo", result[0].field)
@@ -55,7 +55,7 @@ class OptimizedListTest {
 
     @org.junit.Test
     fun optimizedListFromProperty() {
-        val result: MutableList<UnreasonablyLazyClass> = UseOptimizedList.lazyOnes
+        val result: List<UnreasonablyLazyClass> = UseOptimizedList.lazyOnes
 
         assertEquals(2, result.size)
         assertNotNull(result[0])

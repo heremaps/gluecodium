@@ -38,10 +38,10 @@ class SerializationTest {
     fun serializableStructParcelRoundTrip() {
         val nestedStruct = NestedSerializableStruct("foo")
         val byteBuffer = byteArrayOf(1, 7)
-        val stringList = mutableListOf("bar", "baz")
-        val structList = mutableListOf(NestedSerializableStruct("crazy"), NestedSerializableStruct("stuff"))
-        val errorMap = mutableMapOf(0 to "one", 1 to "two")
-        val hashSet = mutableSetOf("foo", "bar")
+        val stringList = listOf("bar", "baz")
+        val structList = listOf(NestedSerializableStruct("crazy"), NestedSerializableStruct("stuff"))
+        val errorMap = mapOf(0 to "one", 1 to "two")
+        val hashSet = setOf("foo", "bar")
 
         val serializableStruct = SerializableStruct(
             true, 42.toByte(), 542.toShort(), 65542, 2147484000L, 1.0f, 2.0, "nonsense", nestedStruct,

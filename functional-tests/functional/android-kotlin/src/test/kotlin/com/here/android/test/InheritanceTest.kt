@@ -89,7 +89,7 @@ class InheritanceTest {
         val childListener: TestChildListener = TestChildListener()
         val grandChildListener: TestGrandChildListener = TestGrandChildListener()
 
-        val parentListeners = mutableListOf(parentListener, childListener, grandChildListener)
+        val parentListeners = listOf(parentListener, childListener, grandChildListener)
 
         Teacher.talkToParents(parentListeners)
 

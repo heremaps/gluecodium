@@ -10,9 +10,9 @@ package com.example.smoke
 import java.util.EnumSet
 
 class EnumCollectionDefaultsExternal {
-    @JvmField var listField: MutableList<foo.AlienEnum1>
-    @JvmField var setField: MutableSet<foo.AlienEnum2>
-    @JvmField var mapField: MutableMap<foo.AlienEnum3, foo.AlienEnum4>
+    @JvmField var listField: List<@JvmSuppressWildcards foo.AlienEnum1>
+    @JvmField var setField: Set<@JvmSuppressWildcards foo.AlienEnum2>
+    @JvmField var mapField: Map<@JvmSuppressWildcards foo.AlienEnum3, @JvmSuppressWildcards foo.AlienEnum4>
 
 
 

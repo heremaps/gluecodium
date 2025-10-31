@@ -40,7 +40,7 @@ class CppProxyWithComplexListenersTest {
         val kotlinComplexListener: ComplexListener = object: ComplexListener {
             override fun onTrajectoryCompleted(
                 distanceMetric: DistanceMetric,
-                trajectory: MutableList<NamedPoint3D>,
+                trajectory: List<NamedPoint3D>,
                 quality: TrajectoryQuality,
                 image: ByteArray,
             ) {
@@ -55,7 +55,7 @@ class CppProxyWithComplexListenersTest {
             }
         }
 
-        val trajectory: MutableList<NamedPoint3D> = mutableListOf(ptOne, ptTwo, ptThree)
+        val trajectory: List<NamedPoint3D> = listOf(ptOne, ptTwo, ptThree)
         val trajectoryQuality: TrajectoryQuality = TrajectoryQuality.TRAJECTORY_AVERAGE
 
         val complexNotifier: ComplexNotifier = ComplexListenerFactory.createComplexNotifier()

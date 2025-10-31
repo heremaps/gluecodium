@@ -10,12 +10,12 @@ package com.example.smoke
 import java.util.Date
 
 class NullableCollectionsStruct {
-    @JvmField var dates: MutableList<Date?>
-    @JvmField var structs: MutableMap<Int, Nullable.SomeStruct?>
+    @JvmField var dates: List<@JvmSuppressWildcards Date?>
+    @JvmField var structs: Map<@JvmSuppressWildcards Int, @JvmSuppressWildcards Nullable.SomeStruct?>
 
 
 
-    constructor(dates: MutableList<Date?>, structs: MutableMap<Int, Nullable.SomeStruct?>) {
+    constructor(dates: List<@JvmSuppressWildcards Date?>, structs: Map<@JvmSuppressWildcards Int, @JvmSuppressWildcards Nullable.SomeStruct?>) {
         this.dates = dates
         this.structs = structs
     }

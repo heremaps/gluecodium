@@ -79,7 +79,7 @@ class RefEqualityTest {
 
     @org.junit.Test
     fun refEqualityPreservedForClassInList() {
-        val list = mutableListOf(DummyClass())
+        val list = listOf(DummyClass())
         val result = DummyClass.dummyClassListRoundTrip(list)
 
         assertTrue(list[0] === result[0])

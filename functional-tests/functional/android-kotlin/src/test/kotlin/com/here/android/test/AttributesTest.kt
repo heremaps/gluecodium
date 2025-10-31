@@ -45,7 +45,7 @@ class AttributesTest {
 
     @org.junit.Test
     fun setGetStructAttribute() {
-        val expectedStruct = Attributes.ExampleStruct(2.71, mutableListOf())
+        val expectedStruct = Attributes.ExampleStruct(2.71, listOf())
         attributes.structAttribute = expectedStruct
 
         val result = attributes.structAttribute

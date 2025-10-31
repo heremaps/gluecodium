@@ -47,17 +47,17 @@ class TestListenerWithAttributes : ListenerWithAttributes {
             data = value
         }
 
-    override var arrayedMessage: MutableList<String>
+    override var arrayedMessage: List<String>
         get() {
-            return mutableListOf(data)
+            return listOf(data)
         }
         set(value) {
             data = value.get(0)
         }
 
-    override var mappedMessage: MutableMap<Byte, String>
+    override var mappedMessage: Map<Byte, String>
         get() {
-            return mutableMapOf(0.toByte() to data)
+            return mapOf(0.toByte() to data)
         }
         set(value) {
             data = value[0.toByte()]!!

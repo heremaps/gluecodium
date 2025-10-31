@@ -10,12 +10,12 @@ package com.example.smoke
 import com.example.AbstractNativeList
 
 class UseOptimizedListStruct {
-    @JvmField val structs: MutableList<VeryBigStruct>
-    @JvmField val classes: MutableList<UnreasonablyLazyClass>
+    @JvmField val structs: List<@JvmSuppressWildcards VeryBigStruct>
+    @JvmField val classes: List<@JvmSuppressWildcards UnreasonablyLazyClass>
 
 
 
-    constructor(structs: MutableList<VeryBigStruct>, classes: MutableList<UnreasonablyLazyClass>) {
+    constructor(structs: List<@JvmSuppressWildcards VeryBigStruct>, classes: List<@JvmSuppressWildcards UnreasonablyLazyClass>) {
         this.structs = structs
         this.classes = classes
     }

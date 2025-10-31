@@ -113,3 +113,14 @@ struct DeprecatedFields {
     deprecatedField: String = ""
     normalField2: String
 }
+
+open class SomeOpenNumberWrapperClass {
+    property number: Int
+    constructor make(n: Int)
+}
+
+struct SomeStructWithCollection {
+    emptyNumbers: List<Int> = []
+    numbers: List<Int> = [1, 2, 3]
+    openClassList: List<SomeOpenNumberWrapperClass> = []
+}

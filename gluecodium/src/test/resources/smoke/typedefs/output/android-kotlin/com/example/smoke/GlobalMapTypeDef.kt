@@ -11,4 +11,4 @@ package com.example.smoke
 /**
  * This is some standalone map typedef.
  */
-typealias GlobalMapTypeDef = MutableMap<Int, String>
+typealias GlobalMapTypeDef = Map<@JvmSuppressWildcards Int, @JvmSuppressWildcards String>

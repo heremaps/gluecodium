@@ -29,7 +29,7 @@ class KotlinMethodOverloads : NativeBase {
     external fun three(input: String) : Unit
 
 
-    external fun three(input: MutableList<String>) : Unit
+    external fun three(input: List<@JvmSuppressWildcards String>) : Unit
 
 
 
@@ -38,4 +38,5 @@ class KotlinMethodOverloads : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
+
 

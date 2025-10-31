@@ -47,35 +47,35 @@ class BlobsTest {
 
     @org.junit.Test
     fun methodWithImplicitArray_emptyArray() {
-        val uintList: MutableList<Short> = mutableListOf<Short>()
-        val resultList: MutableList<Short>  = ArraysByteBuffer.methodWithImplicitArray(uintList)
+        val uintList: List<Short> = listOf<Short>()
+        val resultList: List<Short>  = ArraysByteBuffer.methodWithImplicitArray(uintList)
 
         assertEquals(0, resultList.size)
     }
 
     @org.junit.Test
     fun methodWithImplicitArray_reversesArray() {
-        val uintList: MutableList<Short> = mutableListOf(1.toShort(), 2.toShort(), 3.toShort())
-        val resultList: MutableList<Short> = ArraysByteBuffer.methodWithImplicitArray(uintList)
+        val uintList: List<Short> = listOf(1.toShort(), 2.toShort(), 3.toShort())
+        val resultList: List<Short> = ArraysByteBuffer.methodWithImplicitArray(uintList)
 
-        val expectedResult: MutableList<Short> = mutableListOf(3.toShort(), 2.toShort(), 1.toShort())
+        val expectedResult: List<Short> = listOf(3.toShort(), 2.toShort(), 1.toShort())
         assertEquals(expectedResult, resultList)
     }
 
     @org.junit.Test
     fun methodWithExplicitArray_emptyArray() {
-        val uintList: MutableList<Short> = mutableListOf<Short>()
-        val resultList: MutableList<Short> = ArraysByteBuffer.methodWithExplicitArray(uintList)
+        val uintList: List<Short> = listOf<Short>()
+        val resultList: List<Short> = ArraysByteBuffer.methodWithExplicitArray(uintList)
 
         assertEquals(0, resultList.size)
     }
 
     @org.junit.Test
     fun methodWithExplicitArray_reversesArray() {
-        val uintList: MutableList<Short> = mutableListOf<Short>(1.toShort(), 2.toShort(), 3.toShort())
-        val resultList: MutableList<Short> = ArraysByteBuffer.methodWithExplicitArray(uintList)
+        val uintList: List<Short> = listOf<Short>(1.toShort(), 2.toShort(), 3.toShort())
+        val resultList: List<Short> = ArraysByteBuffer.methodWithExplicitArray(uintList)
 
-        assertEquals(mutableListOf<Short>(3.toShort(), 2.toShort(), 1.toShort()), resultList)
+        assertEquals(listOf<Short>(3.toShort(), 2.toShort(), 1.toShort()), resultList)
     }
 
     @org.junit.Test
@@ -96,7 +96,7 @@ class BlobsTest {
 
     @org.junit.Test
     fun methodWithImplicitArrayInStruct_emptyArray() {
-        val struct = ArraysByteBuffer.StructWithImplicitArray(mutableListOf<Short>())
+        val struct = ArraysByteBuffer.StructWithImplicitArray(listOf<Short>())
         val resultStruct = ArraysByteBuffer.methodWithImplicitArrayInStruct(struct)
 
         assertEquals(0, resultStruct.image.size)
@@ -104,15 +104,15 @@ class BlobsTest {
 
     @org.junit.Test
     fun methodWithImplicitArrayInStruct_reversesArray() {
-        val struct = ArraysByteBuffer.StructWithImplicitArray(mutableListOf(1.toShort(), 2.toShort(), 3.toShort()))
+        val struct = ArraysByteBuffer.StructWithImplicitArray(listOf(1.toShort(), 2.toShort(), 3.toShort()))
         val resultStruct = ArraysByteBuffer.methodWithImplicitArrayInStruct(struct)
 
-        assertEquals(mutableListOf(3.toShort(), 2.toShort(), 1.toShort()), resultStruct.image)
+        assertEquals(listOf(3.toShort(), 2.toShort(), 1.toShort()), resultStruct.image)
     }
 
     @org.junit.Test
     fun methodWithExplicitArrayInStruct_emptyArray() {
-        val struct = ArraysByteBuffer.StructWithExplicitArray(mutableListOf<Short>())
+        val struct = ArraysByteBuffer.StructWithExplicitArray(listOf<Short>())
         val resultStruct = ArraysByteBuffer.methodWithExplicitArrayInStruct(struct)
 
         assertEquals(0, resultStruct.image.size)
@@ -120,10 +120,10 @@ class BlobsTest {
 
     @org.junit.Test
     fun methodWithExplicitArrayInStruct_reversesArray() {
-        val struct = ArraysByteBuffer.StructWithExplicitArray(mutableListOf(1.toShort(), 2.toShort(), 3.toShort()))
+        val struct = ArraysByteBuffer.StructWithExplicitArray(listOf(1.toShort(), 2.toShort(), 3.toShort()))
         val resultStruct = ArraysByteBuffer.methodWithExplicitArrayInStruct(struct)
 
-        assertEquals(mutableListOf(3.toShort(), 2.toShort(), 1.toShort()), resultStruct.image)
+        assertEquals(listOf(3.toShort(), 2.toShort(), 1.toShort()), resultStruct.image)
     }
 
     @org.junit.Test

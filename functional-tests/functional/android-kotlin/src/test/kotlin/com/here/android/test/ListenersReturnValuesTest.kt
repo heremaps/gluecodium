@@ -34,8 +34,8 @@ class TestListener : ListenerWithReturn {
     override fun getBoxedMessage(): MessageBox = MessageBox()
     override fun getStructuredMessage(): ListenerWithReturn.MessageStruct = ListenerWithReturn.MessageStruct("Works")
     override fun getEnumeratedMessage(): ListenerWithReturn.MessageEnum = ListenerWithReturn.MessageEnum.YES
-    override fun getArrayedMessage(): MutableList<String> = mutableListOf("Works")
-    override fun getMappedMessage(): MutableMap<Byte, String> = mutableMapOf(0.toByte() to "Works")
+    override fun getArrayedMessage(): List<String> = listOf("Works")
+    override fun getMappedMessage(): Map<Byte, String> = mapOf(0.toByte() to "Works")
     override fun getBufferedMessage(): ByteArray = "Works".toByteArray()
 }
 

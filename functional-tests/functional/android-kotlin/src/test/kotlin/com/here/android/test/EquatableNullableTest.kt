@@ -106,7 +106,7 @@ class EquatableNullableTest {
     @org.junit.Test
     fun equatableNullableStructNotEqualsMapField() {
         val otherStruct: Equatable.EquatableNullableStruct = createEquatableNullableStruct()
-        otherStruct.mapField!!.put(2, "foo")
+        otherStruct.mapField = otherStruct.mapField!! + mapOf(2 to "foo")
 
         assertNotEquals(mainStruct, otherStruct)
         assertNotEquals(mainStruct.hashCode(), otherStruct.hashCode())
@@ -115,7 +115,7 @@ class EquatableNullableTest {
     @org.junit.Test
     fun equatableNullableStructNotEqualsArrayField() {
         val otherStruct: Equatable.EquatableNullableStruct = createEquatableNullableStruct()
-        otherStruct.arrayField!!.add("foo")
+        otherStruct.arrayField = otherStruct.arrayField!! + listOf("foo")
 
         assertNotEquals(mainStruct, otherStruct)
         assertNotEquals(mainStruct.hashCode(), otherStruct.hashCode())
@@ -135,7 +135,7 @@ class EquatableNullableTest {
     @org.junit.Test
     fun equatableNullableStructNotEqualsCpp() {
         val otherStruct: Equatable.EquatableNullableStruct = createEquatableNullableStruct()
-        otherStruct.arrayField!!.add("foo")
+        otherStruct.arrayField = otherStruct.arrayField!! + listOf("foo")
 
         assertFalse(EquatableClass.areEqual(mainStruct, otherStruct))
     }
@@ -143,7 +143,7 @@ class EquatableNullableTest {
     private fun createEquatableNullableStruct(): Equatable.EquatableNullableStruct {
         return Equatable.EquatableNullableStruct(
             true, -42, 6542, 3.14f, "nonsense", Equatable.NestedEquatableStruct("foo"),
-            Equatable.SomeSomeEnum.BAR, mutableMapOf(0 to "one", 1 to "two"), mutableListOf("one", "two")
+            Equatable.SomeSomeEnum.BAR, mapOf(0 to "one", 1 to "two"), listOf("one", "two")
         )
     }
 }
