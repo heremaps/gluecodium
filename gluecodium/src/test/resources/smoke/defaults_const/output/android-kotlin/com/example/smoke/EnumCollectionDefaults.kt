@@ -21,9 +21,9 @@ class EnumCollectionDefaults {
 
 
     constructor() {
-        this.listField = listOf(Enum1.DISABLED)
+        this.listField = mutableListOf(Enum1.DISABLED)
         this.setField = EnumSet.of(Enum2.DISABLED)
-        this.mapField = mapOf(Enum3.DISABLED to Enum4.DISABLED)
+        this.mapField = mutableMapOf(Enum3.DISABLED to Enum4.DISABLED)
     }
 
 

@@ -18,9 +18,9 @@ class InternalEnumDefaults {
 
     constructor() {
         this.publicField = FooBarEnum.FOO
-        this.publicListField = listOf(FooBarEnum.FOO, FooBarEnum.BAR, FooBarEnum.BAZ)
+        this.publicListField = mutableListOf(FooBarEnum.FOO, FooBarEnum.BAR, FooBarEnum.BAZ)
         this.internalField = FooBarEnum.BAR
-        this.internalListField = listOf(FooBarEnum.FOO, FooBarEnum.BAR, FooBarEnum.BAZ)
+        this.internalListField = mutableListOf(FooBarEnum.FOO, FooBarEnum.BAR, FooBarEnum.BAZ)
     }
 
 

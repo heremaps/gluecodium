@@ -29,10 +29,10 @@ class CollectionConstants : NativeBase {
 
 
     companion object {
-        @JvmField final val LIST_CONSTANT: List<@JvmSuppressWildcards String> = listOf("foo", "bar")
-        @JvmField final val SET_CONSTANT: Set<@JvmSuppressWildcards String> = setOf("foo", "bar")
-        @JvmField final val MAP_CONSTANT: Map<@JvmSuppressWildcards String, @JvmSuppressWildcards String> = mapOf("foo" to "bar")
-        @JvmField final val MIXED_CONSTANT: Map<@JvmSuppressWildcards List<@JvmSuppressWildcards String>, @JvmSuppressWildcards Set<@JvmSuppressWildcards String>> = mapOf(listOf("foo") to setOf("bar"))
+        @JvmField final val LIST_CONSTANT: List<@JvmSuppressWildcards String> = mutableListOf("foo", "bar")
+        @JvmField final val SET_CONSTANT: Set<@JvmSuppressWildcards String> = mutableSetOf("foo", "bar")
+        @JvmField final val MAP_CONSTANT: Map<@JvmSuppressWildcards String, @JvmSuppressWildcards String> = mutableMapOf("foo" to "bar")
+        @JvmField final val MIXED_CONSTANT: Map<@JvmSuppressWildcards List<@JvmSuppressWildcards String>, @JvmSuppressWildcards Set<@JvmSuppressWildcards String>> = mutableMapOf(mutableListOf("foo") to mutableSetOf("bar"))
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }

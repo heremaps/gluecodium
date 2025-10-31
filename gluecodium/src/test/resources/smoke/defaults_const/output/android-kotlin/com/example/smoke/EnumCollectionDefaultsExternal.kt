@@ -17,9 +17,9 @@ class EnumCollectionDefaultsExternal {
 
 
     constructor() {
-        this.listField = listOf(foo.AlienEnum1.DISABLED)
+        this.listField = mutableListOf(foo.AlienEnum1.DISABLED)
         this.setField = EnumSet.of(foo.AlienEnum2.DISABLED)
-        this.mapField = mapOf(foo.AlienEnum3.DISABLED to foo.AlienEnum4.DISABLED)
+        this.mapField = mutableMapOf(foo.AlienEnum3.DISABLED to foo.AlienEnum4.DISABLED)
     }
 
 

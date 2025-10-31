@@ -94,11 +94,11 @@ class DefaultValues : NativeBase {
 
 
         constructor() {
-            this.intsField = listOf()
-            this.floatsField = listOf()
-            this.mapField = mapOf()
+            this.intsField = mutableListOf()
+            this.floatsField = mutableListOf()
+            this.mapField = mutableMapOf()
             this.structField = DefaultValues.StructWithDefaults()
-            this.setTypeField = setOf()
+            this.setTypeField = mutableSetOf()
         }
 
 
