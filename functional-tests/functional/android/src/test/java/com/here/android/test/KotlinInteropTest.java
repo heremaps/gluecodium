@@ -41,4 +41,12 @@ public class KotlinInteropTest {
     SomeStructWithCollection someStruct = new SomeStructWithCollection();
     assertEquals(0, someJavaFunctionThatTakesList(someStruct.openClassList));
   }
+
+  @Test
+  public void whenJavaAccessesStructFieldOfListTypeThenElementsCanBeAdded() {
+    SomeStructWithCollection someStruct = new SomeStructWithCollection();
+    someStruct.openClassList.add(new SomeOpenNumberWrapperClass(777));
+
+    assertEquals(1, someJavaFunctionThatTakesList(someStruct.openClassList));
+  }
 }
