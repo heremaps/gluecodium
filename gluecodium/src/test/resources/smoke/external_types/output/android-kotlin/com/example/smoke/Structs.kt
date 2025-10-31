@@ -14,12 +14,12 @@ class Structs : NativeBase {
     class ExternalStruct {
         @JvmField var stringField: String
         @JvmField var externalStringField: String
-        @JvmField var externalArrayField: List<Byte>
+        @JvmField var externalArrayField: List<@JvmSuppressWildcards Byte>
         @JvmField var externalStructField: Structs.AnotherExternalStruct
 
 
 
-        constructor(stringField: String, externalStringField: String, externalArrayField: List<Byte>, externalStructField: Structs.AnotherExternalStruct) {
+        constructor(stringField: String, externalStringField: String, externalArrayField: List<@JvmSuppressWildcards Byte>, externalStructField: Structs.AnotherExternalStruct) {
             this.stringField = stringField
             this.externalStringField = externalStringField
             this.externalArrayField = externalArrayField

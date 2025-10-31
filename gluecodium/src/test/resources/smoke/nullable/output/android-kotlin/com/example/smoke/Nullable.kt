@@ -36,9 +36,9 @@ class Nullable : NativeBase {
         @JvmField var doubleField: Double?
         @JvmField var structField: Nullable.SomeStruct?
         @JvmField var enumField: Nullable.SomeEnum?
-        @JvmField var arrayField: List<String>?
-        @JvmField var inlineArrayField: List<String>?
-        @JvmField var mapField: Map<Long, String>?
+        @JvmField var arrayField: List<@JvmSuppressWildcards String>?
+        @JvmField var inlineArrayField: List<@JvmSuppressWildcards String>?
+        @JvmField var mapField: Map<@JvmSuppressWildcards Long, @JvmSuppressWildcards String>?
         @JvmField var instanceField: SomeInterface?
 
 
@@ -123,13 +123,13 @@ class Nullable : NativeBase {
     external fun methodWithSomeEnum(input: Nullable.SomeEnum?) : Nullable.SomeEnum?
 
 
-    external fun methodWithSomeArray(input: List<String>?) : List<String>?
+    external fun methodWithSomeArray(input: List<@JvmSuppressWildcards String>?) : List<@JvmSuppressWildcards String>?
 
 
-    external fun methodWithInlineArray(input: List<String>?) : List<String>?
+    external fun methodWithInlineArray(input: List<@JvmSuppressWildcards String>?) : List<@JvmSuppressWildcards String>?
 
 
-    external fun methodWithSomeMap(input: Map<Long, String>?) : Map<Long, String>?
+    external fun methodWithSomeMap(input: Map<@JvmSuppressWildcards Long, @JvmSuppressWildcards String>?) : Map<@JvmSuppressWildcards Long, @JvmSuppressWildcards String>?
 
 
     external fun methodWithInstance(input: SomeInterface?) : SomeInterface?
@@ -158,15 +158,15 @@ class Nullable : NativeBase {
         external get
         external set
 
-    var arrayProperty: List<String>?
+    var arrayProperty: List<@JvmSuppressWildcards String>?
         external get
         external set
 
-    var inlineArrayProperty: List<String>?
+    var inlineArrayProperty: List<@JvmSuppressWildcards String>?
         external get
         external set
 
-    var mapProperty: Map<Long, String>?
+    var mapProperty: Map<@JvmSuppressWildcards Long, @JvmSuppressWildcards String>?
         external get
         external set
 

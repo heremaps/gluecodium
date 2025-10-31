@@ -25,7 +25,7 @@ class CachedProperties : NativeBase {
 
 
 
-    val cachedProperty: List<String>
+    val cachedProperty: List<@JvmSuppressWildcards String>
         get() {
             if (!is_cached_cachedProperty) {
                 cache_cachedProperty = getCachedProperty_private()
@@ -36,8 +36,8 @@ class CachedProperties : NativeBase {
         }
 
     private var is_cached_cachedProperty = false
-    private var cache_cachedProperty: List<String>? = null
-    external private fun getCachedProperty_private() : List<String>
+    private var cache_cachedProperty: List<@JvmSuppressWildcards String>? = null
+    external private fun getCachedProperty_private() : List<@JvmSuppressWildcards String>
 
 
 

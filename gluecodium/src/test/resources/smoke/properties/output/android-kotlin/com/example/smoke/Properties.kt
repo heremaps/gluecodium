@@ -55,7 +55,7 @@ class Properties : NativeBase {
         external get
         external set
 
-    var arrayProperty: List<String>
+    var arrayProperty: List<@JvmSuppressWildcards String>
         external get
         external set
 

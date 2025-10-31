@@ -43,7 +43,7 @@ class Thermometer : NativeBase {
      * @param observers observers of temperature changes
      */
 
-    constructor(interval: Duration, observers: List<TemperatureObserver>) : this(makeWithDuration(interval, observers), null as Any?) {
+    constructor(interval: Duration, observers: List<@JvmSuppressWildcards TemperatureObserver>) : this(makeWithDuration(interval, observers), null as Any?) {
         cacheThisInstance();
         notifyObservers(this, observers)
     }
@@ -52,7 +52,7 @@ class Thermometer : NativeBase {
      * @param observers observers of temperature changes
      */
 
-    constructor(observers: List<TemperatureObserver>) : this(makeWithoutDuration(observers), null as Any?) {
+    constructor(observers: List<@JvmSuppressWildcards TemperatureObserver>) : this(makeWithoutDuration(observers), null as Any?) {
         cacheThisInstance();
         notifyObservers(this, observers)
     }
@@ -64,7 +64,7 @@ class Thermometer : NativeBase {
      */
 
     @Throws(Thermometer.NotificationException::class)
-    constructor(id: Int, observers: List<TemperatureObserver>) : this(throwingMake(id, observers), null as Any?) {
+    constructor(id: Int, observers: List<@JvmSuppressWildcards TemperatureObserver>) : this(throwingMake(id, observers), null as Any?) {
         cacheThisInstance();
         throwingNotifyObservers(this, observers)
     }
@@ -76,7 +76,7 @@ class Thermometer : NativeBase {
      */
 
     @Throws(Thermometer.NotificationException::class)
-    constructor(label: String, niceObservers: List<TemperatureObserver>) : this(nothrowMake(label, niceObservers), null as Any?) {
+    constructor(label: String, niceObservers: List<@JvmSuppressWildcards TemperatureObserver>) : this(nothrowMake(label, niceObservers), null as Any?) {
         cacheThisInstance();
         throwingNotifyObservers(this, niceObservers)
     }
@@ -89,7 +89,7 @@ class Thermometer : NativeBase {
      */
 
     @Throws(Thermometer.AnotherNotificationException::class, Thermometer.NotificationException::class)
-    constructor(dummy: Boolean, observers: List<TemperatureObserver>) : this(anotherThrowingMake(dummy, observers), null as Any?) {
+    constructor(dummy: Boolean, observers: List<@JvmSuppressWildcards TemperatureObserver>) : this(anotherThrowingMake(dummy, observers), null as Any?) {
         cacheThisInstance();
         throwingNotifyObservers(this, observers)
     }
@@ -125,18 +125,18 @@ class Thermometer : NativeBase {
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
 
-        @JvmStatic external fun makeWithDuration(interval: Duration, observers: List<TemperatureObserver>) : Long
+        @JvmStatic external fun makeWithDuration(interval: Duration, observers: List<@JvmSuppressWildcards TemperatureObserver>) : Long
 
-        @JvmStatic external fun makeWithoutDuration(observers: List<TemperatureObserver>) : Long
+        @JvmStatic external fun makeWithoutDuration(observers: List<@JvmSuppressWildcards TemperatureObserver>) : Long
         @Throws(Thermometer.NotificationException::class)
-        @JvmStatic external fun throwingMake(id: Int, observers: List<TemperatureObserver>) : Long
+        @JvmStatic external fun throwingMake(id: Int, observers: List<@JvmSuppressWildcards TemperatureObserver>) : Long
 
-        @JvmStatic external fun nothrowMake(label: String, niceObservers: List<TemperatureObserver>) : Long
+        @JvmStatic external fun nothrowMake(label: String, niceObservers: List<@JvmSuppressWildcards TemperatureObserver>) : Long
         @Throws(Thermometer.AnotherNotificationException::class)
-        @JvmStatic external fun anotherThrowingMake(dummy: Boolean, observers: List<TemperatureObserver>) : Long
+        @JvmStatic external fun anotherThrowingMake(dummy: Boolean, observers: List<@JvmSuppressWildcards TemperatureObserver>) : Long
 
 
-        @JvmStatic external fun notifyObservers(thermometer: Thermometer, someObservers: List<TemperatureObserver>) : Unit
+        @JvmStatic external fun notifyObservers(thermometer: Thermometer, someObservers: List<@JvmSuppressWildcards TemperatureObserver>) : Unit
         /**
          * Function used to notify observers.
          * @param thermometer subject that has changed state
@@ -144,7 +144,7 @@ class Thermometer : NativeBase {
          * @throws Thermometer.NotificationException if notification of observers failed
          */
         @Throws(Thermometer.NotificationException::class)
-        @JvmStatic external fun throwingNotifyObservers(thermometer: Thermometer, someObservers: List<TemperatureObserver>) : Unit
+        @JvmStatic external fun throwingNotifyObservers(thermometer: Thermometer, someObservers: List<@JvmSuppressWildcards TemperatureObserver>) : Unit
     }
 }
 

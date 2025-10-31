@@ -32,7 +32,7 @@ class Class : NativeBase, Interface {
 
 
     @Throws(Types.ExceptionException::class)
-    external fun Fun(double: List<Types.Struct>) : Types.Struct
+    external fun Fun(double: List<@JvmSuppressWildcards Types.Struct>) : Types.Struct
 
     var Property: Types.Enum
         external get

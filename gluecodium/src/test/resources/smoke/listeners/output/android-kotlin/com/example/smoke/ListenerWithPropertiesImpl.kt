@@ -33,11 +33,11 @@ class ListenerWithPropertiesImpl : NativeBase, ListenerWithProperties {
         external get
         external set
 
-    override var arrayedMessage: List<String>
+    override var arrayedMessage: List<@JvmSuppressWildcards String>
         external get
         external set
 
-    override var mappedMessage: Map<String, Double>
+    override var mappedMessage: Map<@JvmSuppressWildcards String, @JvmSuppressWildcards Double>
         external get
         external set
 

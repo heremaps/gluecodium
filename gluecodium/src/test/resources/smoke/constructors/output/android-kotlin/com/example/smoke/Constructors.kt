@@ -42,7 +42,7 @@ open class Constructors : NativeBase {
     }
 
 
-    constructor(input: List<Double>) : this(create(input), null as Any?) {
+    constructor(input: List<@JvmSuppressWildcards Double>) : this(create(input), null as Any?) {
         cacheThisInstance();
     }
 
@@ -78,7 +78,7 @@ open class Constructors : NativeBase {
         @Throws(Constructors.ConstructorExplodedException::class)
         @JvmStatic external fun create(input: String) : Long
 
-        @JvmStatic external fun create(input: List<Double>) : Long
+        @JvmStatic external fun create(input: List<@JvmSuppressWildcards Double>) : Long
 
         @JvmStatic external fun create(input: Long) : Long
     }

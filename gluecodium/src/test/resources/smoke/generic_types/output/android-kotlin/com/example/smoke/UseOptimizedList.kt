@@ -61,12 +61,12 @@ class UseOptimizedList : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
 
 
-        @JvmStatic external fun fetchTheBigOnes() : List<VeryBigStruct>
-        @JvmStatic val lazyOnes: List<UnreasonablyLazyClass>
+        @JvmStatic external fun fetchTheBigOnes() : List<@JvmSuppressWildcards VeryBigStruct>
+        @JvmStatic val lazyOnes: List<@JvmSuppressWildcards UnreasonablyLazyClass>
             external get
 
     }
 }
 
 @JvmSynthetic
-fun UseOptimizedList.Companion.getLazyOnes(): List<UnreasonablyLazyClass> = UseOptimizedList.lazyOnes
+fun UseOptimizedList.Companion.getLazyOnes(): List<@JvmSuppressWildcards UnreasonablyLazyClass> = UseOptimizedList.lazyOnes

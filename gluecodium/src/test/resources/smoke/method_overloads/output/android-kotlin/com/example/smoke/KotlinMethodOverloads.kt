@@ -29,7 +29,7 @@ class KotlinMethodOverloads : NativeBase {
     external fun three(input: String) : Unit
 
 
-    external fun three(input: List<String>) : Unit
+    external fun three(input: List<@JvmSuppressWildcards String>) : Unit
 
 
 

@@ -53,7 +53,7 @@ class Dates : NativeBase {
         external get
         external set
 
-    var dateSet: Set<Date>
+    var dateSet: Set<@JvmSuppressWildcards Date>
         external get
         external set
 

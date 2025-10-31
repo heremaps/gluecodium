@@ -46,11 +46,11 @@ interface ListenerWithProperties {
         get
         set
 
-    var arrayedMessage: List<String>
+    var arrayedMessage: List<@JvmSuppressWildcards String>
         get
         set
 
-    var mappedMessage: Map<String, Double>
+    var mappedMessage: Map<@JvmSuppressWildcards String, @JvmSuppressWildcards Double>
         get
         set
 

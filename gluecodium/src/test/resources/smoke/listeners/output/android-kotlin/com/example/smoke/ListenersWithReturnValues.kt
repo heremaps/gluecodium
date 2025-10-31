@@ -43,10 +43,10 @@ interface ListenersWithReturnValues {
     fun fetchDataEnum() : ListenersWithReturnValues.ResultEnum
 
 
-    fun fetchDataArray() : List<Double>
+    fun fetchDataArray() : List<@JvmSuppressWildcards Double>
 
 
-    fun fetchDataMap() : Map<String, Double>
+    fun fetchDataMap() : Map<@JvmSuppressWildcards String, @JvmSuppressWildcards Double>
 
 
     fun fetchDataInstance() : CalculationResult

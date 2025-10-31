@@ -133,11 +133,11 @@ class Structs : NativeBase {
     }
 
     class StructWithArrayOfImmutable {
-        @JvmField var arrayField: List<Structs.AllTypesStruct>
+        @JvmField var arrayField: List<@JvmSuppressWildcards Structs.AllTypesStruct>
 
 
 
-        constructor(arrayField: List<Structs.AllTypesStruct>) {
+        constructor(arrayField: List<@JvmSuppressWildcards Structs.AllTypesStruct>) {
             this.arrayField = arrayField
         }
 

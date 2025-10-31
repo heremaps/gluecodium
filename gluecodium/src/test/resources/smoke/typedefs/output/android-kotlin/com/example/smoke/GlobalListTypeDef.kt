@@ -11,4 +11,4 @@ package com.example.smoke
 /**
  * This is some standalone list typedef.
  */
-typealias GlobalListTypeDef = List<Float>
+typealias GlobalListTypeDef = List<@JvmSuppressWildcards Float>

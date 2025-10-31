@@ -55,7 +55,7 @@ class TypeDefs : NativeBase {
 
 
 
-    var primitiveTypeProperty: List<Double>
+    var primitiveTypeProperty: List<@JvmSuppressWildcards Double>
         external get
         external set
 
@@ -69,7 +69,7 @@ class TypeDefs : NativeBase {
         @JvmStatic external fun methodWithPrimitiveTypeDef(input: Double) : Double
 
 
-        @JvmStatic external fun methodWithComplexTypeDef(input: List<TypeDefs.TestStruct>) : List<TypeDefs.TestStruct>
+        @JvmStatic external fun methodWithComplexTypeDef(input: List<@JvmSuppressWildcards TypeDefs.TestStruct>) : List<@JvmSuppressWildcards TypeDefs.TestStruct>
 
 
         @JvmStatic external fun returnNestedIntTypeDef(input: Double) : Double
