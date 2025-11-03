@@ -22,11 +22,11 @@ class OuterStruct {
 
 
     class InnerStruct {
-        @JvmField var otherField: MutableList<Date>
+        @JvmField var otherField: List<@JvmSuppressWildcards Date>
 
 
 
-        constructor(otherField: MutableList<Date>) {
+        constructor(otherField: List<@JvmSuppressWildcards Date>) {
             this.otherField = otherField
         }
 
@@ -56,7 +56,7 @@ class OuterStruct {
 
 
 
-        external fun fooBar() : MutableSet<Locale>
+        external fun fooBar() : Set<@JvmSuppressWildcards Locale>
 
 
 
@@ -65,6 +65,7 @@ class OuterStruct {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         }
     }
+
 
     class Builder : NativeBase {
 
@@ -104,11 +105,12 @@ class OuterStruct {
         }
     }
 
+
     fun interface InnerInterface {
 
 
 
-        fun barBaz() : MutableMap<String, ByteArray>
+        fun barBaz() : Map<@JvmSuppressWildcards String, @JvmSuppressWildcards ByteArray>
 
 
     }
@@ -128,7 +130,7 @@ class OuterStruct {
 
 
 
-        override external fun barBaz() : MutableMap<String, ByteArray>
+        override external fun barBaz() : Map<@JvmSuppressWildcards String, @JvmSuppressWildcards ByteArray>
 
 
 

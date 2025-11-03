@@ -29,11 +29,12 @@ class CollectionConstants : NativeBase {
 
 
     companion object {
-        @JvmField final val LIST_CONSTANT: MutableList<String> = mutableListOf("foo", "bar")
-        @JvmField final val SET_CONSTANT: MutableSet<String> = mutableSetOf("foo", "bar")
-        @JvmField final val MAP_CONSTANT: MutableMap<String, String> = mutableMapOf("foo" to "bar")
-        @JvmField final val MIXED_CONSTANT: MutableMap<MutableList<String>, MutableSet<String>> = mutableMapOf(mutableListOf("foo") to mutableSetOf("bar"))
+        @JvmField final val LIST_CONSTANT: List<@JvmSuppressWildcards String> = mutableListOf("foo", "bar")
+        @JvmField final val SET_CONSTANT: Set<@JvmSuppressWildcards String> = mutableSetOf("foo", "bar")
+        @JvmField final val MAP_CONSTANT: Map<@JvmSuppressWildcards String, @JvmSuppressWildcards String> = mutableMapOf("foo" to "bar")
+        @JvmField final val MIXED_CONSTANT: Map<@JvmSuppressWildcards List<@JvmSuppressWildcards String>, @JvmSuppressWildcards Set<@JvmSuppressWildcards String>> = mutableMapOf(mutableListOf("foo") to mutableSetOf("bar"))
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
+
 

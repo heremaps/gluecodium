@@ -28,16 +28,16 @@ class Serialization {
         @JvmField var stringField: String
         @JvmField var structField: Serialization.NestedSerializableStruct
         @JvmField var byteBufferField: ByteArray
-        @JvmField var arrayField: MutableList<String>
-        @JvmField var structArrayField: MutableList<Serialization.NestedSerializableStruct>
-        @JvmField var mapField: MutableMap<Int, String>
-        @JvmField var setField: MutableSet<String>
-        @JvmField var enumSetField: MutableSet<Serialization.SomeEnum>
+        @JvmField var arrayField: List<@JvmSuppressWildcards String>
+        @JvmField var structArrayField: List<@JvmSuppressWildcards Serialization.NestedSerializableStruct>
+        @JvmField var mapField: Map<@JvmSuppressWildcards Int, @JvmSuppressWildcards String>
+        @JvmField var setField: Set<@JvmSuppressWildcards String>
+        @JvmField var enumSetField: Set<@JvmSuppressWildcards Serialization.SomeEnum>
         @JvmField var enumField: Serialization.SomeEnum
 
 
 
-        constructor(boolField: Boolean, byteField: Byte, shortField: Short, intField: Int, longField: Long, floatField: Float, doubleField: Double, stringField: String, structField: Serialization.NestedSerializableStruct, byteBufferField: ByteArray, arrayField: MutableList<String>, structArrayField: MutableList<Serialization.NestedSerializableStruct>, mapField: MutableMap<Int, String>, setField: MutableSet<String>, enumSetField: MutableSet<Serialization.SomeEnum>, enumField: Serialization.SomeEnum) {
+        constructor(boolField: Boolean, byteField: Byte, shortField: Short, intField: Int, longField: Long, floatField: Float, doubleField: Double, stringField: String, structField: Serialization.NestedSerializableStruct, byteBufferField: ByteArray, arrayField: List<@JvmSuppressWildcards String>, structArrayField: List<@JvmSuppressWildcards Serialization.NestedSerializableStruct>, mapField: Map<@JvmSuppressWildcards Int, @JvmSuppressWildcards String>, setField: Set<@JvmSuppressWildcards String>, enumSetField: Set<@JvmSuppressWildcards Serialization.SomeEnum>, enumField: Serialization.SomeEnum) {
             this.boolField = boolField
             this.byteField = byteField
             this.shortField = shortField

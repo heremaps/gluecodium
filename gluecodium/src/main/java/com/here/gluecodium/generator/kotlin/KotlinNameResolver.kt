@@ -164,9 +164,11 @@ internal class KotlinNameResolver(
 
     private fun resolveGenericTypeRef(limeType: LimeGenericType) =
         when (limeType) {
-            is LimeList -> "MutableList<${resolveTypeRef(limeType.elementType)}>"
-            is LimeSet -> "MutableSet<${resolveTypeRef(limeType.elementType)}>"
-            is LimeMap -> "MutableMap<${resolveTypeRef(limeType.keyType)}, ${resolveTypeRef(limeType.valueType)}>"
+            is LimeList -> "List<@JvmSuppressWildcards ${resolveTypeRef(limeType.elementType)}>"
+            is LimeSet -> "Set<@JvmSuppressWildcards ${resolveTypeRef(limeType.elementType)}>"
+            is LimeMap -> "Map<@JvmSuppressWildcards ${resolveTypeRef(
+                limeType.keyType,
+            )}, @JvmSuppressWildcards ${resolveTypeRef(limeType.valueType)}>"
             else -> throw GluecodiumExecutionException("Unsupported element type ${limeType.javaClass.name}")
         }
 

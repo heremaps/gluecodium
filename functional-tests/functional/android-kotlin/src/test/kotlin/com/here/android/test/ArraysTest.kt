@@ -37,7 +37,7 @@ class ArraysTest {
         val first = "abc"
         val second = "def"
 
-        val stringList = mutableListOf(first, second)
+        val stringList = listOf(first, second)
         val resultsList = Arrays.reverseStringArray(stringList)
 
         assertEquals(2, resultsList.size)
@@ -50,7 +50,7 @@ class ArraysTest {
         val first: Short = 77
         val second: Short = 21
 
-        val shortList = mutableListOf(first, second)
+        val shortList = listOf(first, second)
         val resultsList = Arrays.reverseArrayInline(shortList)
 
         assertEquals(2, resultsList.size)
@@ -63,7 +63,7 @@ class ArraysTest {
         val first: Byte = 55
         val second: Byte = 33
 
-        val byteList = mutableListOf(first, second)
+        val byteList = listOf(first, second)
         val resultsList = Arrays.reverseInt8Array(byteList)
 
         assertEquals(2, resultsList.size)
@@ -76,7 +76,7 @@ class ArraysTest {
         val first: Short = 77
         val second: Short = 21
 
-        val shortList = mutableListOf(first, second)
+        val shortList = listOf(first, second)
         val resultsList = Arrays.reverseInt16Array(shortList)
 
         assertEquals(2, resultsList.size)
@@ -89,7 +89,7 @@ class ArraysTest {
         val first: Int = 57
         val second: Int = 23
 
-        val intList = mutableListOf(first, second)
+        val intList = listOf(first, second)
         val resultsList = Arrays.reverseInt32Array(intList)
 
         assertEquals(2, resultsList.size)
@@ -102,7 +102,7 @@ class ArraysTest {
         val first: Long = 17L
         val second: Long = 23L
 
-        val longList = mutableListOf(first, second)
+        val longList = listOf(first, second)
         val resultsList = Arrays.reverseInt64Array(longList)
 
         assertEquals(2, resultsList.size)
@@ -115,7 +115,7 @@ class ArraysTest {
         val first: Short = 77
         val second: Short = 21
 
-        val shortList = mutableListOf(first, second)
+        val shortList = listOf(first, second)
         val resultsList = Arrays.reverseUint8Array(shortList)
 
         assertEquals(2, resultsList.size)
@@ -128,7 +128,7 @@ class ArraysTest {
         val first: Int = 57
         val second: Int = 23
 
-        val intList = mutableListOf(first, second)
+        val intList = listOf(first, second)
         val resultsList = Arrays.reverseUint16Array(intList)
 
         assertEquals(2, resultsList.size)
@@ -141,7 +141,7 @@ class ArraysTest {
         val first: Long = 17L
         val second: Long = 23L
 
-        val longList = mutableListOf(first, second)
+        val longList = listOf(first, second)
         val resultsList = Arrays.reverseUint32Array(longList)
 
         assertEquals(2, resultsList.size)
@@ -154,7 +154,7 @@ class ArraysTest {
         val first: Long = 17L
         val second: Long = 23L
 
-        val longList = mutableListOf(first, second)
+        val longList = listOf(first, second)
         val resultsList = Arrays.reverseUint64Array(longList)
 
         assertEquals(2, resultsList.size)
@@ -167,7 +167,7 @@ class ArraysTest {
         val first: Float = 77.77f
         val second: Float = 23.23f
 
-        val floatList = mutableListOf(first, second)
+        val floatList = listOf(first, second)
         val resultsList = Arrays.reverseFloatArray(floatList)
 
         assertEquals(2, resultsList.size)
@@ -180,7 +180,7 @@ class ArraysTest {
         val first: Double = 22.22
         val second: Double = 66.66
 
-        val doubleList = mutableListOf(first, second)
+        val doubleList = listOf(first, second)
         val resultsList = Arrays.reverseDoubleArray(doubleList)
 
         assertEquals(2, resultsList.size)
@@ -190,7 +190,7 @@ class ArraysTest {
 
     @org.junit.Test
     fun methodWithBooleanArray() {
-        val booleanList = mutableListOf<Boolean>(true, true, false)
+        val booleanList = listOf<Boolean>(true, true, false)
         val resultsList = Arrays.reverseBoolArray(booleanList)
 
         assertEquals(3, resultsList.size)
@@ -204,7 +204,7 @@ class ArraysTest {
         val first = Arrays.BasicStruct(22.22)
         val second = Arrays.BasicStruct(33.33)
 
-        val structList = mutableListOf(first, second)
+        val structList = listOf(first, second)
         val resultsList = Arrays.reverseStructArray(structList)
 
         assertEquals(2, resultsList.size)
@@ -214,10 +214,10 @@ class ArraysTest {
 
     @org.junit.Test
     fun reverseMapsArray() {
-        val first = mutableMapOf(32.toShort() to "abc")
-        val second = mutableMapOf<Short, String>()
+        val first = mapOf(32.toShort() to "abc")
+        val second = mapOf<Short, String>()
 
-        val input = mutableListOf(first, second)
+        val input = listOf(first, second)
         val result = Arrays.reverseMapsArray(input)
 
         assertEquals(2, result.size)
@@ -227,10 +227,10 @@ class ArraysTest {
 
     @org.junit.Test
     fun reverseArrayMapsArray() {
-        val first = mutableMapOf(42.toShort() to mutableListOf("john", "doe"))
-        val second = mutableMapOf(44.toShort() to mutableListOf("example", "dot", "com"))
+        val first = mapOf(42.toShort() to listOf("john", "doe"))
+        val second = mapOf(44.toShort() to listOf("example", "dot", "com"))
 
-        val input = mutableListOf(first, second)
+        val input = listOf(first, second)
         val result = Arrays.reverseArrayMapsArray(input)
 
         assertEquals(2, result.size)
@@ -246,7 +246,7 @@ class ArraysTest {
         val second = InstancesFactory.createSimpleInstantiableOne()
         second.setStringValue("SECOND STRING")
 
-        val instancesArray = mutableListOf(first, second)
+        val instancesArray = listOf(first, second)
         val resultsList = Arrays.reverseExplicitInstancesArray(instancesArray)
 
         assertEquals(2, resultsList.size)
@@ -262,7 +262,7 @@ class ArraysTest {
         val second = InstancesFactory.createSimpleInstantiableOne()
         second.setStringValue("SECOND STRING")
 
-        val instancesArray = mutableListOf(first, second)
+        val instancesArray = listOf(first, second)
         val resultsList: List<SimpleInstantiableOne> = Arrays.reverseImplicitInstancesArray(instancesArray)
 
         assertEquals(2, resultsList.size)
@@ -272,7 +272,7 @@ class ArraysTest {
 
     @org.junit.Test
     fun reverseNestedPrimitiveArray() {
-        val nestedDoubleList = mutableListOf(mutableListOf(11.11, 22.22), mutableListOf(33.33, 44.44))
+        val nestedDoubleList = listOf(listOf(11.11, 22.22), listOf(33.33, 44.44))
         val resultsList = Arrays.reverseNestedPrimitiveArray(nestedDoubleList)
 
         assertEquals(2, resultsList.size)
@@ -290,9 +290,9 @@ class ArraysTest {
 
     @org.junit.Test
     fun reverseNestedStructArray() {
-        val nestedStructList = mutableListOf(
-            mutableListOf(Arrays.BasicStruct(11.11), Arrays.BasicStruct(22.22)),
-            mutableListOf(Arrays.BasicStruct(33.33), Arrays.BasicStruct(44.44))
+        val nestedStructList = listOf(
+            listOf(Arrays.BasicStruct(11.11), Arrays.BasicStruct(22.22)),
+            listOf(Arrays.BasicStruct(33.33), Arrays.BasicStruct(44.44))
         )
 
         val resultsList = Arrays.reverseNestedStructArray(nestedStructList)
@@ -310,7 +310,7 @@ class ArraysTest {
 
     @org.junit.Test
     fun reverseNestedArraysInline() {
-        val nestedLongList = mutableListOf(mutableListOf(21L, 31L), mutableListOf(45L, 75L))
+        val nestedLongList = listOf(listOf(21L, 31L), listOf(45L, 75L))
         val resultsList = Arrays.reverseNestedArraysInline(nestedLongList)
 
         assertEquals(2, resultsList.size)
@@ -337,30 +337,30 @@ class ArraysTest {
         val instance3 = InstancesFactory.createSimpleInstantiableOne()
         instance3.setStringValue("Instance 3: STRING")
 
-        val instancesArray1 = mutableListOf(instance1, instance2)
-        val instancesArray2 = mutableListOf(instance3)
-        val instancesArray3 = mutableListOf<SimpleInstantiableOne>()
+        val instancesArray1 = listOf(instance1, instance2)
+        val instancesArray2 = listOf(instance3)
+        val instancesArray3 = listOf<SimpleInstantiableOne>()
 
         val struct1 = Arrays.FancyStruct(
-            mutableListOf("struct", "1"),
-            mutableListOf(1.toShort(), 2.toShort()),
+            listOf("struct", "1"),
+            listOf(1.toShort(), 2.toShort()),
             instancesArray1
         )
 
         val struct2 = Arrays.FancyStruct(
-            mutableListOf("struct", "2"),
-            mutableListOf(3.toShort(), 4.toShort()),
+            listOf("struct", "2"),
+            listOf(3.toShort(), 4.toShort()),
             instancesArray2
         )
 
         val struct3 =  Arrays.FancyStruct(
-            mutableListOf("struct", "3"),
-            mutableListOf(5.toShort(), 6.toShort()),
+            listOf("struct", "3"),
+            listOf(5.toShort(), 6.toShort()),
             instancesArray3
         )
 
-        val fancyStructList1 = mutableListOf(struct1, struct2)
-        val fancyStructList2 = mutableListOf(struct3)
+        val fancyStructList1 = listOf(struct1, struct2)
+        val fancyStructList2 = listOf(struct3)
         val resultsList = Arrays.mergeArraysOfStructsWithArrays(fancyStructList1, fancyStructList2)
 
         assertEquals(3, resultsList.size)
@@ -381,7 +381,7 @@ class ArraysTest {
 
     @org.junit.Test
     fun reverseArrayOfAliases_emptyList() {
-        val stringList = mutableListOf<String>()
+        val stringList = listOf<String>()
         val resultsList = Arrays.reverseArrayOfAliases(stringList)
 
         assertEquals(0, resultsList.size)
@@ -389,7 +389,7 @@ class ArraysTest {
 
     @org.junit.Test
     fun reverseArrayOfAliases_reversesArray() {
-        val stringList = mutableListOf("abc", "def")
+        val stringList = listOf("abc", "def")
         val resultsList = Arrays.reverseArrayOfAliases(stringList)
 
         assertEquals(2, resultsList.size)

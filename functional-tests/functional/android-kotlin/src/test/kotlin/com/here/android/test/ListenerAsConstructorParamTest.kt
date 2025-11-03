@@ -47,7 +47,7 @@ class ListenerAsConstructorParamTest {
     fun celsiusObserverIsUpdatedFromConstructorWhenAfterConstructedAttributeUsed() {
         // Given temperature observer, which receives updates about temperature.
         val observer: CelsiusObserver = CelsiusObserver()
-        val observers: MutableList<TemperatureObserver> = mutableListOf(observer)
+        val observers: List<TemperatureObserver> = listOf(observer)
 
         // When creating observed subject.
         val thermometer: Thermometer = Thermometer(Duration.ofSeconds(1), observers)
@@ -69,7 +69,7 @@ class ListenerAsConstructorParamTest {
     fun testThrowingAfterConstructionFunction() {
         // Given temperature observer, which receives updates about temperature.
         val observer: CelsiusObserver = CelsiusObserver()
-        val observers: MutableList<TemperatureObserver> = mutableListOf(observer)
+        val observers: List<TemperatureObserver> = listOf(observer)
 
         // Then throwing after-construction function raises exception.
         val exception = assertThrows(Thermometer.NotificationException::class.java) {
@@ -82,7 +82,7 @@ class ListenerAsConstructorParamTest {
     fun testThrowingAfterConstructionFunctionFromNonthrowingConstructor() {
         // Given temperature observer, which receives updates about temperature.
         val observer: CelsiusObserver = CelsiusObserver()
-        val observers: MutableList<TemperatureObserver> = mutableListOf(observer)
+        val observers: List<TemperatureObserver> = listOf(observer)
 
         // Then throwing after-construction function raises exception.
         val exception = assertThrows(Thermometer.NotificationException::class.java) {
@@ -95,7 +95,7 @@ class ListenerAsConstructorParamTest {
     fun testThrowingAfterConstructionFunctionFromCtorThatMayThrowTwoTypesOfExceptions() {
         // Given temperature observer, which receives updates about temperature.
         val observer: CelsiusObserver = CelsiusObserver()
-        val observers: MutableList<TemperatureObserver> = mutableListOf(observer)
+        val observers: List<TemperatureObserver> = listOf(observer)
 
         // Then throwing after-construction function raises exception.
         val exception = assertThrows(Thermometer.NotificationException::class.java) {

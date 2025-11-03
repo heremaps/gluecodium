@@ -36,9 +36,9 @@ class Nullable : NativeBase {
         @JvmField var doubleField: Double?
         @JvmField var structField: Nullable.SomeStruct?
         @JvmField var enumField: Nullable.SomeEnum?
-        @JvmField var arrayField: MutableList<String>?
-        @JvmField var inlineArrayField: MutableList<String>?
-        @JvmField var mapField: MutableMap<Long, String>?
+        @JvmField var arrayField: List<@JvmSuppressWildcards String>?
+        @JvmField var inlineArrayField: List<@JvmSuppressWildcards String>?
+        @JvmField var mapField: Map<@JvmSuppressWildcards Long, @JvmSuppressWildcards String>?
         @JvmField var instanceField: SomeInterface?
 
 
@@ -123,13 +123,13 @@ class Nullable : NativeBase {
     external fun methodWithSomeEnum(input: Nullable.SomeEnum?) : Nullable.SomeEnum?
 
 
-    external fun methodWithSomeArray(input: MutableList<String>?) : MutableList<String>?
+    external fun methodWithSomeArray(input: List<@JvmSuppressWildcards String>?) : List<@JvmSuppressWildcards String>?
 
 
-    external fun methodWithInlineArray(input: MutableList<String>?) : MutableList<String>?
+    external fun methodWithInlineArray(input: List<@JvmSuppressWildcards String>?) : List<@JvmSuppressWildcards String>?
 
 
-    external fun methodWithSomeMap(input: MutableMap<Long, String>?) : MutableMap<Long, String>?
+    external fun methodWithSomeMap(input: Map<@JvmSuppressWildcards Long, @JvmSuppressWildcards String>?) : Map<@JvmSuppressWildcards Long, @JvmSuppressWildcards String>?
 
 
     external fun methodWithInstance(input: SomeInterface?) : SomeInterface?
@@ -158,15 +158,15 @@ class Nullable : NativeBase {
         external get
         external set
 
-    var arrayProperty: MutableList<String>?
+    var arrayProperty: List<@JvmSuppressWildcards String>?
         external get
         external set
 
-    var inlineArrayProperty: MutableList<String>?
+    var inlineArrayProperty: List<@JvmSuppressWildcards String>?
         external get
         external set
 
-    var mapProperty: MutableMap<Long, String>?
+    var mapProperty: Map<@JvmSuppressWildcards Long, @JvmSuppressWildcards String>?
         external get
         external set
 
@@ -181,4 +181,5 @@ class Nullable : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
+
 

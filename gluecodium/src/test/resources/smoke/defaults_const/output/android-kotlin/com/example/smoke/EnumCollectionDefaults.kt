@@ -14,9 +14,9 @@ import com.example.fire.Enum4
 import java.util.EnumSet
 
 class EnumCollectionDefaults {
-    @JvmField var listField: MutableList<Enum1>
-    @JvmField var setField: MutableSet<Enum2>
-    @JvmField var mapField: MutableMap<Enum3, Enum4>
+    @JvmField var listField: List<@JvmSuppressWildcards Enum1>
+    @JvmField var setField: Set<@JvmSuppressWildcards Enum2>
+    @JvmField var mapField: Map<@JvmSuppressWildcards Enum3, @JvmSuppressWildcards Enum4>
 
 
 

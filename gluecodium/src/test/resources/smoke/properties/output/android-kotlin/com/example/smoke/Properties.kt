@@ -55,7 +55,7 @@ class Properties : NativeBase {
         external get
         external set
 
-    var arrayProperty: MutableList<String>
+    var arrayProperty: List<@JvmSuppressWildcards String>
         external get
         external set
 
@@ -97,5 +97,6 @@ fun Properties.Companion.getStaticProperty(): String = Properties.staticProperty
 fun Properties.Companion.setStaticProperty(value: String) {
     Properties.staticProperty = value
 }
+
 @JvmSynthetic
 fun Properties.Companion.getStaticReadonlyProperty(): Properties.ExampleStruct = Properties.staticReadonlyProperty

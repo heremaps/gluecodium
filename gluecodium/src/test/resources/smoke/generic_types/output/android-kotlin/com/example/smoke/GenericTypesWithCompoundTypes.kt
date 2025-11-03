@@ -64,28 +64,28 @@ class GenericTypesWithCompoundTypes : NativeBase {
 
 
 
-    external fun methodWithStructList(input: MutableList<GenericTypesWithCompoundTypes.BasicStruct>) : MutableList<GenericTypesWithCompoundTypes.ExternalStruct>
+    external fun methodWithStructList(input: List<@JvmSuppressWildcards GenericTypesWithCompoundTypes.BasicStruct>) : List<@JvmSuppressWildcards GenericTypesWithCompoundTypes.ExternalStruct>
 
 
-    external fun methodWithStructMap(input: MutableMap<String, GenericTypesWithCompoundTypes.BasicStruct>) : MutableMap<String, GenericTypesWithCompoundTypes.ExternalStruct>
+    external fun methodWithStructMap(input: Map<@JvmSuppressWildcards String, @JvmSuppressWildcards GenericTypesWithCompoundTypes.BasicStruct>) : Map<@JvmSuppressWildcards String, @JvmSuppressWildcards GenericTypesWithCompoundTypes.ExternalStruct>
 
 
-    external fun methodWithEnumList(input: MutableList<GenericTypesWithCompoundTypes.SomeEnum>) : MutableList<GenericTypesWithCompoundTypes.ExternalEnum>
+    external fun methodWithEnumList(input: List<@JvmSuppressWildcards GenericTypesWithCompoundTypes.SomeEnum>) : List<@JvmSuppressWildcards GenericTypesWithCompoundTypes.ExternalEnum>
 
 
-    external fun methodWithEnumMapKey(input: MutableMap<GenericTypesWithCompoundTypes.SomeEnum, Boolean>) : MutableMap<GenericTypesWithCompoundTypes.ExternalEnum, Boolean>
+    external fun methodWithEnumMapKey(input: Map<@JvmSuppressWildcards GenericTypesWithCompoundTypes.SomeEnum, @JvmSuppressWildcards Boolean>) : Map<@JvmSuppressWildcards GenericTypesWithCompoundTypes.ExternalEnum, @JvmSuppressWildcards Boolean>
 
 
-    external fun methodWithEnumMapValue(input: MutableMap<Int, GenericTypesWithCompoundTypes.SomeEnum>) : MutableMap<Int, GenericTypesWithCompoundTypes.ExternalEnum>
+    external fun methodWithEnumMapValue(input: Map<@JvmSuppressWildcards Int, @JvmSuppressWildcards GenericTypesWithCompoundTypes.SomeEnum>) : Map<@JvmSuppressWildcards Int, @JvmSuppressWildcards GenericTypesWithCompoundTypes.ExternalEnum>
 
 
-    external fun methodWithEnumSet(input: MutableSet<GenericTypesWithCompoundTypes.SomeEnum>) : MutableSet<GenericTypesWithCompoundTypes.ExternalEnum>
+    external fun methodWithEnumSet(input: Set<@JvmSuppressWildcards GenericTypesWithCompoundTypes.SomeEnum>) : Set<@JvmSuppressWildcards GenericTypesWithCompoundTypes.ExternalEnum>
 
 
-    external fun methodWithInstancesList(input: MutableList<DummyClass>) : MutableList<DummyInterface>
+    external fun methodWithInstancesList(input: List<@JvmSuppressWildcards DummyClass>) : List<@JvmSuppressWildcards DummyInterface>
 
 
-    external fun methodWithInstancesMap(input: MutableMap<Int, DummyClass>) : MutableMap<Int, DummyInterface>
+    external fun methodWithInstancesMap(input: Map<@JvmSuppressWildcards Int, @JvmSuppressWildcards DummyClass>) : Map<@JvmSuppressWildcards Int, @JvmSuppressWildcards DummyInterface>
 
 
 
@@ -94,4 +94,5 @@ class GenericTypesWithCompoundTypes : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
+
 
