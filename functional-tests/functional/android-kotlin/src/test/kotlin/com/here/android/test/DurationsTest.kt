@@ -37,8 +37,8 @@ class DurationsTest {
         val duration: Duration = Duration.ofSeconds(42)
         val result: Duration = DurationSeconds.increaseDuration(duration)
 
-        assertEquals(43, result.getSeconds())
-        assertEquals(0, result.getNano())
+        assertEquals(43, result.seconds)
+        assertEquals(0, result.nano)
     }
 
     @org.junit.Test
@@ -47,8 +47,8 @@ class DurationsTest {
 
         val result: Duration = DurationSeconds.increaseDuration(duration)
 
-        assertEquals(43, result.getSeconds())
-        assertEquals(0, result.getNano())
+        assertEquals(43, result.seconds)
+        assertEquals(0, result.nano)
     }
 
     @org.junit.Test
@@ -57,8 +57,8 @@ class DurationsTest {
 
         val result: Duration = DurationSeconds.increaseDuration(duration)
 
-        assertEquals(44, result.getSeconds())
-        assertEquals(0, result.getNano())
+        assertEquals(44, result.seconds)
+        assertEquals(0, result.nano)
     }
 
     @org.junit.Test
@@ -67,8 +67,8 @@ class DurationsTest {
 
         val result: Duration? = DurationSeconds.increaseDurationMaybe(duration)
 
-        assertEquals(43L, result?.getSeconds())
-        assertEquals(0, result?.getNano())
+        assertEquals(43L, result?.seconds)
+        assertEquals(0, result?.nano)
     }
 
     @org.junit.Test
@@ -85,8 +85,8 @@ class DurationsTest {
 
         val result: DurationSeconds.DurationStruct = DurationSeconds.durationStructRoundTrip(struct)
 
-        assertEquals(42, result.durationField.getSeconds())
-        assertEquals(0, result.durationField.getNano())
+        assertEquals(42, result.durationField.seconds)
+        assertEquals(0, result.durationField.nano)
     }
 
     @org.junit.Test
@@ -95,8 +95,8 @@ class DurationsTest {
 
         val result: Duration = DurationMilliseconds.increaseDuration(duration)
 
-        assertEquals(43, result.getSeconds())
-        assertEquals(42000000, result.getNano())
+        assertEquals(43, result.seconds)
+        assertEquals(42000000, result.nano)
     }
 
     @org.junit.Test
@@ -105,8 +105,8 @@ class DurationsTest {
 
         val result: Duration = DurationMilliseconds.increaseDuration(duration)
 
-        assertEquals(43, result.getSeconds())
-        assertEquals(42000000, result.getNano())
+        assertEquals(43, result.seconds)
+        assertEquals(42000000, result.nano)
     }
 
     @org.junit.Test
@@ -115,8 +115,8 @@ class DurationsTest {
 
         val result: Duration = DurationMilliseconds.increaseDuration(duration)
 
-        assertEquals(43, result.getSeconds())
-        assertEquals(43000000, result.getNano())
+        assertEquals(43, result.seconds)
+        assertEquals(43000000, result.nano)
     }
 
     @org.junit.Test
@@ -125,8 +125,8 @@ class DurationsTest {
 
         val result: Duration? = DurationMilliseconds.increaseDurationMaybe(duration)
 
-        assertEquals(43L, result?.getSeconds())
-        assertEquals(42000000, result?.getNano())
+        assertEquals(43L, result?.seconds)
+        assertEquals(42000000, result?.nano)
     }
 
     @org.junit.Test
@@ -144,8 +144,8 @@ class DurationsTest {
         val result: DurationMilliseconds.DurationStruct =
             DurationMilliseconds.durationStructRoundTrip(struct)
 
-        assertEquals(42, result.durationField.getSeconds())
-        assertEquals(42000000, result.durationField.getNano())
+        assertEquals(42, result.durationField.seconds)
+        assertEquals(42000000, result.durationField.nano)
     }
 
     @org.junit.Test
