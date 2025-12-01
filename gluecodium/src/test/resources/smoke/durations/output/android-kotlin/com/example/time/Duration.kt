@@ -22,8 +22,8 @@ package com.example.time
 /**
  * Represents duration in time (both positive and negative).
  *
- * The duration is represented as number of seconds (see [Duration.getSeconds])
- * and number of nanoseconds in a second (see [Duration.getNano]).
+ * The duration is represented as number of seconds (see [Duration.seconds])
+ * and number of nanoseconds in a second (see [Duration.nano]).
  *
  * Duration can be created from various units of time by calling on of
  * `of*` methods. The `to*` family of methods convert duration
@@ -35,17 +35,15 @@ public class Duration private constructor(private var mSeconds: Long, private va
      *
      * @return The nanoseconds component of this duration.
      */
-    public fun getNano(): Int {
-        return mNanos;
-    }
+    val nano: Int
+         get() = mNanos
 
     /**
      *
      * @return The seconds component of this duration.
      */
-    public fun getSeconds(): Long {
-        return mSeconds;
-    }
+    val seconds: Long
+        get() = mSeconds
 
     /**
      * Converts this duration to nanoseconds.
@@ -60,7 +58,7 @@ public class Duration private constructor(private var mSeconds: Long, private va
     }
 
     /**
-     * Gets the nanoseconds part of this duration. Equals to [Duration.getNano].
+     * Gets the nanoseconds part of this duration. Equals to [Duration.nano].
      *
      * @return The nanoseconds part of this duration, value from 0 to 999999999.
      */
