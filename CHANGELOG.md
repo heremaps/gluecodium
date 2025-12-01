@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 14.0.0
+Release date 2025-12-01
  * Kotlin: Warning -- breaking change! The getters of seconds and nanoseconds in Duration class are replaced with read-only properties.
 
 ## 13.20.0
