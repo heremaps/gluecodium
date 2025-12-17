@@ -26,8 +26,8 @@ class InternalPropertyOnly : NativeBase {
 
 
     internal var foo: String
-        @JvmName("getFoo") external get
-        @JvmName("setFoo") external set
+        @JvmSynthetic @JvmName("getFoo") external get
+        @JvmSynthetic @JvmName("setFoo") external set
 
 
 
@@ -36,4 +36,5 @@ class InternalPropertyOnly : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
+
 
