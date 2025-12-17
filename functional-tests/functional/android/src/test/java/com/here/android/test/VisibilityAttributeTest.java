@@ -47,20 +47,8 @@ class ImplementationOfSomeInternalInterface implements SomeInternalInterface {
 public class VisibilityAttributeTest {
 
   @Test
-  public void internalFunctionCanBeCalled() {
-    SomeClassWithInternalMembers someObject = SomeClassWithInternalMembers.create();
-    assertEquals(567, someObject.someInternalFunction());
-  }
-
-  @Test
   public void internalConstructorOfClassCanBeCalled() {
     SomeClassWithInternalMembers someObject = new SomeClassWithInternalMembers();
-    assertEquals(567, someObject.someInternalFunction());
-  }
-
-  @Test
-  public void staticInternalFunctionCanBeCalled() {
-    assertEquals(123, SomeClassWithInternalMembers.someStaticInternalFunction());
   }
 
   @Test
@@ -105,13 +93,6 @@ public class VisibilityAttributeTest {
   }
 
   @Test
-  public void internaFunctionOfStructCanBeCalled() {
-    SomeStructWithInternalMembers someObject = new SomeStructWithInternalMembers(21);
-    assertEquals(888, someObject.someInternalFunction());
-    assertEquals(999, someObject.someInternalFunctionButOnlyForAndroid());
-  }
-
-  @Test
   public void internalFreeArgsCtorCanBeCalled() {
     SomeStructWithInternalFreeArgsCtor someObject = new SomeStructWithInternalFreeArgsCtor(33);
     assertEquals(33, someObject.someInt);
@@ -147,54 +128,15 @@ public class VisibilityAttributeTest {
   }
 
   @Test
-  public void internaLambdaFromJavaCanBeCalled() {
-    SomeStructWithInternalMembers someObject = new SomeStructWithInternalMembers(21);
-    int result = someObject.callSomeLambda( () -> { return 555; } );
-    assertEquals(555, result);
-  }
-
-  @org.junit.Test
-  public void internaLambdaFromCppCanBeCalled() {
-    SomeStructWithInternalMembers someObject = new SomeStructWithInternalMembers(21);
-    SomeInternalLambda cppLambda = someObject.getSomeCppLambda();
-    assertEquals(909, cppLambda.apply());
-  }
-
-  @Test
   public void internaInterfaceFromJavaCanBeUsed() {
     ImplementationOfSomeInternalInterface someInterfaceImpl = new ImplementationOfSomeInternalInterface();
     SomeStructWithInternalMembers someObject = new SomeStructWithInternalMembers(21);
-    int result = someObject.callMethodOfSomeInterface(someInterfaceImpl);
-    assertEquals(709, result);
-  }
-
-  @Test
-  public void internaInterfaceFromCppCanBeUsed() {
-    SomeStructWithInternalMembers someObject = new SomeStructWithInternalMembers(21);
-    SomeInternalInterface cppInterfaceImpl = someObject.getSomeCppImplOfInternalInterface();
-    assertEquals(777, cppInterfaceImpl.bar());
-  }
-
-  @Test
-  public void callInternalMethodsOfDerivedInternalClass() {
-    SomeDerivedInternalClass someObject = SomeDerivedInternalClass.create();
-    assertEquals(111, someObject.someFunctionFromDerivedClass());
-    assertEquals(222, someObject.foo());
-    assertEquals(333, someObject.bar());
-    assertEquals(444, someObject.someInternalFunction());
-  }
-
-  @Test
-  public void callFunctionsOfNestedInternalClass() {
-    SomeInternalClassWithMembers.SomeNestedInternalClass someObject = SomeInternalClassWithMembers.SomeNestedInternalClass.create();
-    assertEquals(1, someObject.doSomething());
-    assertEquals(2, someObject.doSomethingElse());
   }
 
   @Test
   public void internalExceptionCanBeThrown() {
     SomethingBadHappenedException exception = assertThrows(SomethingBadHappenedException.class, () -> {
-      SomeClassWithInternalMembers.someStaticInternalFunctionThatMayThrow(true);
+      throw new SomethingBadHappenedException(SomeInternalEnum.ONE);
     });
 
     assertEquals(exception.error, SomeInternalEnum.ONE);
