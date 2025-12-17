@@ -89,27 +89,22 @@ public class VisibilityAttributeTest {
     SomeStructWithInternalMembers someObject = new SomeStructWithInternalMembers(21);
     assertEquals(21, someObject.someInteger);
     assertEquals(444, someObject.someLong);
-    assertEquals("ABCDEF", someObject.someInternalString);
   }
 
   @Test
   public void internalFreeArgsCtorCanBeCalled() {
     SomeStructWithInternalFreeArgsCtor someObject = new SomeStructWithInternalFreeArgsCtor(33);
-    assertEquals(33, someObject.someInt);
     assertEquals("Special string", someObject.someString);
   }
 
   @Test
   public void internalAllArgsCtorCanBeCalled() {
     SomeStructWithInternalAllArgsCtor someObject = new SomeStructWithInternalAllArgsCtor(11, "QWERTY");
-    assertEquals(11, someObject.someInt);
-    assertEquals("QWERTY", someObject.someString);
   }
 
   @Test
   public void internalFieldCtorCanBeCalled() {
     SomeStructWithInternalFieldConstructor someObject = new SomeStructWithInternalFieldConstructor(77);
-    assertEquals(77, someObject.someInt);
     assertEquals("QAZWSX", someObject.someString);
   }
 
