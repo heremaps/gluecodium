@@ -10,7 +10,7 @@ package com.example.smoke
 
 class PublicStructWithNonDefaultInternalField {
     @JvmField var defaultedField: Int
-    @JvmField internal var internalField: String
+    @JvmField @JvmSynthetic internal var internalField: String
     @JvmField var publicField: Boolean
 
 

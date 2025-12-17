@@ -10,7 +10,7 @@ package com.example.smoke
 
 interface PublicInterface {
     class InternalStruct {
-        @JvmField internal var fieldOfInternalType: PublicClass.InternalStruct
+        @JvmField @JvmSynthetic internal var fieldOfInternalType: PublicClass.InternalStruct
 
 
 

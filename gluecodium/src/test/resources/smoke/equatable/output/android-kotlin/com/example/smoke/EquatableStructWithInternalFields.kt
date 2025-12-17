@@ -10,10 +10,10 @@ package com.example.smoke
 
 class EquatableStructWithInternalFields {
     @JvmField var publicField: String
-    @JvmField internal var internalField: String
-    @JvmField internal var internalListField: List<@JvmSuppressWildcards String>
-    @JvmField internal var internalMapField: Map<@JvmSuppressWildcards String, @JvmSuppressWildcards String>
-    @JvmField internal var internalSetField: Set<@JvmSuppressWildcards String>
+    @JvmField @JvmSynthetic internal var internalField: String
+    @JvmField @JvmSynthetic internal var internalListField: List<@JvmSuppressWildcards String>
+    @JvmField @JvmSynthetic internal var internalMapField: Map<@JvmSuppressWildcards String, @JvmSuppressWildcards String>
+    @JvmField @JvmSynthetic internal var internalSetField: Set<@JvmSuppressWildcards String>
 
 
 

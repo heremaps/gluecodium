@@ -11,7 +11,7 @@ package com.example.smoke
 class PublicTypeCollection {
 
     internal class InternalStruct {
-        @JvmField internal var stringField: String
+        @JvmField @JvmSynthetic internal var stringField: String
 
 
 

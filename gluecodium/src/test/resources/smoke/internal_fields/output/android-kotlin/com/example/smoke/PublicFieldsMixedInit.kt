@@ -11,7 +11,7 @@ package com.example.smoke
 class PublicFieldsMixedInit {
     @JvmField var publicField1: String
     @JvmField var publicField2: String
-    @JvmField internal var internalField: String
+    @JvmField @JvmSynthetic internal var internalField: String
 
 
 
