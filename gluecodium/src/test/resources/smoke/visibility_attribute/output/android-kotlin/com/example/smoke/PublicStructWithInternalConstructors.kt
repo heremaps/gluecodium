@@ -32,7 +32,7 @@ class PublicStructWithInternalConstructors {
 
     companion object {
 
-        @JvmStatic @JvmName("make") internal external fun make() : PublicStructWithInternalConstructors
+        @JvmStatic @JvmSynthetic @JvmName("make") internal external fun make() : PublicStructWithInternalConstructors
     }
 }
 

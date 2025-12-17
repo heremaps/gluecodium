@@ -77,7 +77,7 @@ class PublicClass : NativeBase {
 
 
 
-    @JvmName("internalMethod") internal external fun internalMethod(input: PublicClass.InternalStruct) : PublicClass.InternalStruct
+    @JvmSynthetic @JvmName("internalMethod") internal external fun internalMethod(input: PublicClass.InternalStruct) : PublicClass.InternalStruct
 
     internal var internalStructProperty: PublicClass.InternalStruct
         @JvmName("getInternalStructProperty") external get
@@ -90,4 +90,5 @@ class PublicClass : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
+
 
