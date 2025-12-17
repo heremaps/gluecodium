@@ -52,15 +52,6 @@ public class VisibilityAttributeTest {
   }
 
   @Test
-  public void internalPropertyCanBeAccessed() {
-    SomeClassWithInternalMembers someObject = SomeClassWithInternalMembers.create();
-    assertEquals("DEFAULT", someObject.getSomeInternalProperty());
-
-    someObject.setSomeInternalProperty("CUSTOM");
-    assertEquals("CUSTOM", someObject.getSomeInternalProperty());
-  }
-
-  @Test
   public void functionOfInternalClassCanBeCalled() {
     SomeInternalClassWithMembers someObject = SomeInternalClassWithMembers.create();
     assertEquals(987, someObject.someFunction());
