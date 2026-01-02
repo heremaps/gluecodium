@@ -260,7 +260,7 @@ jobs:
 
   swift-mac:
     name: Swift on MacOS
-    runs-on: macos-13
+    runs-on: macos-14
 
     steps:
       - uses: actions/checkout@v2
