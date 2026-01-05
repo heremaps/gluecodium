@@ -12,7 +12,7 @@ on:
 jobs:
   cmake-tests-ios:
     name: CMake toolchain tests for iOS
-    runs-on: macos-13
+    runs-on: macos-14
 
     steps:
       - uses: actions/checkout@v2
