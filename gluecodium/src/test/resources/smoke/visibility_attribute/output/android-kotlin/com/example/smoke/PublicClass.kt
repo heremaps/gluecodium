@@ -31,7 +31,7 @@ class PublicClass : NativeBase {
     }
 
     class PublicStruct {
-        @JvmField internal var internalField: PublicClass.InternalStruct
+        @JvmField @JvmSynthetic internal var internalField: PublicClass.InternalStruct
 
 
 
@@ -46,7 +46,7 @@ class PublicClass : NativeBase {
     }
 
     class PublicStructWithInternalDefaults {
-        @JvmField internal var internalField: String
+        @JvmField @JvmSynthetic internal var internalField: String
         @JvmField var publicField: Float
 
 
@@ -77,11 +77,11 @@ class PublicClass : NativeBase {
 
 
 
-    @JvmName("internalMethod") internal external fun internalMethod(input: PublicClass.InternalStruct) : PublicClass.InternalStruct
+    @JvmSynthetic @JvmName("internalMethod") internal external fun internalMethod(input: PublicClass.InternalStruct) : PublicClass.InternalStruct
 
     internal var internalStructProperty: PublicClass.InternalStruct
-        @JvmName("getInternalStructProperty") external get
-        @JvmName("setInternalStructProperty") external set
+        @JvmSynthetic @JvmName("getInternalStructProperty") external get
+        @JvmSynthetic @JvmName("setInternalStructProperty") external set
 
 
 
@@ -90,4 +90,5 @@ class PublicClass : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
+
 

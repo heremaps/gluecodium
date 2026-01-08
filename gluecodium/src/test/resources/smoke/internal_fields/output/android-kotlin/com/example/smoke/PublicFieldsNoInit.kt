@@ -10,7 +10,7 @@ package com.example.smoke
 
 class PublicFieldsNoInit {
     @JvmField var publicField: String
-    @JvmField internal var internalField: String
+    @JvmField @JvmSynthetic internal var internalField: String
 
 
 

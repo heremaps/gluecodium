@@ -27,10 +27,14 @@
 }} {{resolveName}}: {{resolveName typeRef}}
 {{#unless isCached}}{{#set thisProperty=this}}{{#thisProperty}}
     {{#unless isInterface}}{{!!
-}}{{#unless override}}{{#ifPredicate thisProperty "propertyGetterRequiresJvmName"}}@JvmName("{{resolveName thisProperty "" "getter"}}") {{/ifPredicate}}{{/unless}}{{!!
+}}{{#unless override}}{{!!
+}}{{#resolveName thisProperty "visibility" ""}}{{#unless this.isEmpty}}@JvmSynthetic {{/unless}}{{/resolveName}}{{!!
+}}{{#ifPredicate thisProperty "propertyGetterRequiresJvmName"}}@JvmName("{{resolveName thisProperty "" "getter"}}") {{/ifPredicate}}{{/unless}}{{!!
 }}external {{/unless}}get{{#setter}}
     {{#unless isInterface}}{{!!
-}}{{#unless override}}{{#ifPredicate thisProperty "propertySetterRequiresJvmName"}}@JvmName("{{resolveName thisProperty "" "setter"}}") {{/ifPredicate}}{{/unless}}{{!!
+}}{{#unless override}}{{!!
+}}{{#resolveName thisProperty "visibility" ""}}{{#unless this.isEmpty}}@JvmSynthetic {{/unless}}{{/resolveName}}{{!!
+}}{{#ifPredicate thisProperty "propertySetterRequiresJvmName"}}@JvmName("{{resolveName thisProperty "" "setter"}}") {{/ifPredicate}}{{/unless}}{{!!
 }}external {{/unless}}set{{/setter}}
 {{/thisProperty}}{{/set}}{{/unless}}
 {{#if isCached}}

@@ -11,7 +11,7 @@ package com.example.smoke
 class FieldConstructorsInternalFields {
     @JvmField var stringField: String
     @JvmField var intField: Int
-    @JvmField internal var boolField: Boolean
+    @JvmField @JvmSynthetic internal var boolField: Boolean
 
 
 
