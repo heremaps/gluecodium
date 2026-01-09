@@ -1,5 +1,8 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+ * Kotlin: use `@JvmSynthetic` annotation for Kotlin internal elements whenever possible to hide them from Java code.
+
 ## 14.0.0
 Release date 2025-12-01
  * Kotlin: Warning -- breaking change! The getters of seconds and nanoseconds in Duration class are replaced with read-only properties.
