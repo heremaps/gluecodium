@@ -25,9 +25,6 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
-import java.util.Collections
-import java.util.EnumSet
-
 class ImplementationOfSomeInternalInterface: SomeInternalInterface {
     override fun foo(): Int = 709
     override fun bar(): Long = 121
@@ -188,5 +185,10 @@ class VisibilityAttributeTest {
             SomeClassWithInternalMembers.someStaticInternalFunctionThatMayThrow(shouldThrow = true)
         }
         assertEquals(exception.error, SomeInternalEnum.ONE)
+    }
+
+    @org.junit.Test
+    fun checkInternalConst() {
+        assertEquals(11, SomeClassWithInternalMembers.INTERNAL_CONSTANT)
     }
 }
