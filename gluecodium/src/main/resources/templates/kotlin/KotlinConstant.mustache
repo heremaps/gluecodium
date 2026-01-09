@@ -19,4 +19,5 @@
   !
   !}}
 {{>kotlin/KotlinDocComment}}{{>kotlin/KotlinAttributes}}
-@JvmField final val {{resolveName}}: {{resolveName typeRef}} = {{resolveName value}}
+{{#resolveName "visibility"}}{{#unless this.isEmpty}}@JvmSynthetic {{this}}{{/unless}}{{/resolveName}}{{!!
+}}@JvmField final val {{resolveName}}: {{resolveName typeRef}} = {{resolveName value}}
