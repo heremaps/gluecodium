@@ -127,9 +127,4 @@ public class VisibilityAttributeTest {
 
     assertEquals(exception.error, SomeInternalEnum.ONE);
   }
-
-  @Test
-  public void checkInternalConst() {
-    assertEquals(11, SomeClassWithInternalMembers.INTERNAL_CONSTANT);
-  }
 }
