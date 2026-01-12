@@ -1,3 +1,5 @@
 -input $INPUT_FOLDER
 -javanonnullannotation my.custom.annotations.NeverBeNull
 -javanullableannotation my.other.annotations.Optional
+-androidrequiresoptinannotation androidx.annotation.RequiresOptIn
+-androidinternalapiannotationname MySmokeTestsInternalApi
