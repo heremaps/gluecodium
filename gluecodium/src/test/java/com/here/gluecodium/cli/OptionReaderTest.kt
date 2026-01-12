@@ -197,6 +197,30 @@ class OptionReaderTest {
     }
 
     @Test
+    fun androidrequiresoptinannotationOptionIsRecognised() {
+        // Arrange
+        val toRead = prepareToRead("-androidrequiresoptinannotation", TEST_ANDROID_REQUIRES_OPT_IN_ANNOTATION)
+
+        // Act
+        val options = OptionReader.read(toRead)
+
+        // Assert
+        assertEquals(listOf("androidx", "annotation", "RequiresOptIn"), options!!.second.androidRequiresOptInAnnotation)
+    }
+
+    @Test
+    fun androidinternalapiannotationnameOptionIsRecognised() {
+        // Arrange
+        val toRead = prepareToRead("-androidinternalapiannotationname", TEST_ANDROID_INTERNAL_API_ANNOTATION)
+
+        // Act
+        val options = OptionReader.read(toRead)
+
+        // Assert
+        assertEquals(TEST_ANDROID_INTERNAL_API_ANNOTATION, options!!.second.androidInternalApiAnnotationName)
+    }
+
+    @Test
     fun docsplaceholderslistMissingFile() {
         // Arrange, Act
         val path = "someFileThatDoesNotExists.properties"
@@ -234,5 +258,7 @@ class OptionReaderTest {
         private const val TEST_GENERATORS = "java,cpp"
         private const val TEST_JAVA_PACKAGE_LIST = "some_package"
         private const val TEST_KOTLIN_PACKAGE_LIST = "another_package"
+        private const val TEST_ANDROID_REQUIRES_OPT_IN_ANNOTATION = "androidx.annotation.RequiresOptIn"
+        private const val TEST_ANDROID_INTERNAL_API_ANNOTATION = "MyLibraryInternalApi"
     }
 }
