@@ -17,6 +17,14 @@
 
 package smoke
 
+@Internal
 class Annotations {
     fun testOptional(self: Annotations): Boolean?
+}
+
+class OuterPublicClazz {
+    @Internal
+    class InnerInternalClazz {
+        fun someFunction(): Boolean
+    }
 }
