@@ -19,7 +19,14 @@
   !
   !}}
 {{>kotlin/KotlinDocComment}}{{>kotlin/KotlinAttributes}}
-{{resolveName "visibility"}}{{#if this.isOpen}}open {{/if}}class {{resolveName}} : {{!!
+{{#resolveName "visibility"}}{{!!
+}}{{#unless this.isEmpty}}{{!!
+}}{{#internalApiAnnotation}}{{#unless this.isEmpty}}@{{this}}
+{{/unless}}{{/internalApiAnnotation}}{{!!
+}}{{this}}{{!!
+}}{{/unless}}{{!!
+}}{{/resolveName}}{{!!
+}}{{#if this.isOpen}}open {{/if}}class {{resolveName}} : {{!!
 }}{{#if this.parentClass}}{{resolveName this.parentClass "" "ref"}}{{/if}}{{!!
 }}{{#unless this.parentClass}}NativeBase{{/unless}}{{!!
 }}{{#if this.parentInterfaces}}, {{#this.parentInterfaces}}{{!!
