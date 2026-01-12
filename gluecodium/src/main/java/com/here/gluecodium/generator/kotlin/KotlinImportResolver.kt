@@ -19,7 +19,9 @@
 
 package com.here.gluecodium.generator.kotlin
 
+import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.ImportsResolver
+import com.here.gluecodium.model.lime.LimeAttributeType.KOTLIN
 import com.here.gluecodium.model.lime.LimeAttributeType.OPTIMIZED
 import com.here.gluecodium.model.lime.LimeAttributeType.SERIALIZABLE
 import com.here.gluecodium.model.lime.LimeBasicType
@@ -50,10 +52,12 @@ internal class KotlinImportResolver(
     private val limeReferenceMap: Map<String, LimeElement>,
     private val nameResolver: KotlinNameResolver,
     internalPackage: List<String>,
+    private val internalApiAnnotation: String?,
 ) : ImportsResolver<String> {
     val nativeBaseImport = (internalPackage + listOf("NativeBase")).joinToString(".")
     private val durationImport = (internalPackage + listOf("time", "Duration")).joinToString(".")
     private val abstractNativeListImport = (internalPackage + listOf("AbstractNativeList")).joinToString(".")
+    private val internalApiAnnotationImport = (internalPackage + listOf(internalApiAnnotation)).joinToString(".")
 
     override fun resolveElementImports(limeElement: LimeElement): List<String> =
         when (limeElement) {
@@ -78,6 +82,11 @@ internal class KotlinImportResolver(
         ) {
             parentImports.add(nativeBaseImport)
         }
+
+        if (internalApiAnnotation != null && CommonGeneratorPredicates.isInternal(limeContainer, KOTLIN)) {
+            parentImports.add(internalApiAnnotationImport)
+        }
+
         return parentImports
     }
 
