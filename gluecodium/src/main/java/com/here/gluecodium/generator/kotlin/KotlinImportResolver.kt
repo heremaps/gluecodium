@@ -72,6 +72,7 @@ internal class KotlinImportResolver(
             is LimeProperty -> resolveTypeRefImports(limeElement.typeRef)
             is LimeException -> resolveTypeRefImports(limeElement.errorType)
             is LimeValue -> resolveValueImports(limeElement)
+            is LimeEnumeration -> resolveInternalTypeImport(limeElement)
             else -> emptyList()
         }
 
@@ -83,11 +84,14 @@ internal class KotlinImportResolver(
             parentImports.add(nativeBaseImport)
         }
 
-        if (internalApiAnnotation != null && CommonGeneratorPredicates.isInternal(limeContainer, KOTLIN)) {
-            parentImports.add(internalApiAnnotationImport)
-        }
+        return parentImports + resolveInternalTypeImport(limeContainer)
+    }
 
-        return parentImports
+    private fun resolveInternalTypeImport(limeType: LimeType): List<String> {
+        return when {
+            internalApiAnnotation != null && CommonGeneratorPredicates.isInternal(limeType, KOTLIN) -> listOf(internalApiAnnotationImport)
+            else -> emptyList()
+        }
     }
 
     private fun resolveLambdaImports(limeLambda: LimeLambda): List<String> =
