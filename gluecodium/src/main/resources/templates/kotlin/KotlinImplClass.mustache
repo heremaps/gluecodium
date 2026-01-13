@@ -21,13 +21,7 @@
 /**
  * @suppress
  */
-{{#resolveName "visibility"}}{{!!
-}}{{#unless this.isEmpty}}{{!!
-}}{{#internalApiAnnotation}}{{#unless this.isEmpty}}@{{this}}
-{{/unless}}{{/internalApiAnnotation}}{{!!
-}}{{this}}{{!!
-}}{{/unless}}{{!!
-}}{{/resolveName}}{{!!
+{{>kotlin/KotlinTypeVisibility}}{{!!
 }}class {{resolveName}}Impl : NativeBase, {{resolveName}} {
     protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
