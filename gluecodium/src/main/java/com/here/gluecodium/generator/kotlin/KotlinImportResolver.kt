@@ -70,7 +70,7 @@ internal class KotlinImportResolver(
             is LimeField -> resolveTypeRefImports(limeElement.typeRef)
             is LimeParameter -> resolveTypeRefImports(limeElement.typeRef)
             is LimeProperty -> resolveTypeRefImports(limeElement.typeRef)
-            is LimeException -> resolveTypeRefImports(limeElement.errorType)
+            is LimeException -> resolveTypeRefImports(limeElement.errorType) + resolveInternalTypeImport(limeElement)
             is LimeValue -> resolveValueImports(limeElement)
             is LimeEnumeration -> resolveInternalTypeImport(limeElement)
             else -> emptyList()
