@@ -19,13 +19,7 @@
   !
   !}}
 {{>kotlin/KotlinDocComment}}{{>kotlin/KotlinAttributes}}
-{{#resolveName "visibility"}}{{!!
-}}{{#unless this.isEmpty}}{{!!
-}}{{#internalApiAnnotation}}{{#unless this.isEmpty}}@{{this}}
-{{/unless}}{{/internalApiAnnotation}}{{!!
-}}{{this}}{{!!
-}}{{/unless}}{{!!
-}}{{/resolveName}}{{!!
+{{>kotlin/KotlinTypeVisibility}}{{!!
 }}fun interface {{resolveName}} {
 {{#set isInterface=true noAttributes=true}}{{!!
 }}{{#asFunction}}
