@@ -19,7 +19,15 @@
   !
   !}}
 {{>kotlin/KotlinDocComment}}{{>kotlin/KotlinAttributes}}
-{{#unless external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
+{{#unless external.kotlin.converter}}{{!!
+}}{{#resolveName "visibility"}}{{!!
+}}{{#unless this.isEmpty}}{{!!
+}}{{#internalApiAnnotation}}{{#unless this.isEmpty}}@{{this}}
+{{/unless}}{{/internalApiAnnotation}}{{!!
+}}{{this}}{{!!
+}}{{/unless}}{{!!
+}}{{/resolveName}}{{!!
+}}{{/unless}}{{!!
 }}class {{resolveName}}{{!!
 }}{{#unless external.kotlin.name}}{{!!
 }}{{#if attributes.serializable}} : Parcelable{{/if}}{{!!
