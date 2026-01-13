@@ -33,3 +33,9 @@ class OuterPublicClazz {
 interface OuterInternalInterface {
     fun someFunction(): Int
 }
+
+@Internal
+enum OuterInternalEnum {
+   FIRST = 1,
+   SECOND = 2
+}
