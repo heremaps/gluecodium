@@ -65,7 +65,7 @@ internal class KotlinImportResolver(
             is LimeContainerWithInheritance -> resolveClassInterfaceImports(limeElement)
             is LimeStruct -> resolveStructImports(limeElement)
             is LimeFunction -> resolveFunctionImports(limeElement)
-            is LimeLambda -> resolveLambdaImports(limeElement)
+            is LimeLambda -> resolveLambdaImports(limeElement) + resolveInternalTypeImport(limeElement)
             is LimeConstant -> resolveTypeRefImports(limeElement.typeRef)
             is LimeField -> resolveTypeRefImports(limeElement.typeRef)
             is LimeParameter -> resolveTypeRefImports(limeElement.typeRef)
