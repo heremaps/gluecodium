@@ -39,3 +39,6 @@ enum OuterInternalEnum {
    FIRST = 1,
    SECOND = 2
 }
+
+@Internal
+exception OuterInternal(OuterInternalEnum)
