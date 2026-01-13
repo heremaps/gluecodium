@@ -42,3 +42,6 @@ enum OuterInternalEnum {
 
 @Internal
 exception OuterInternal(OuterInternalEnum)
+
+@Internal
+lambda OuterInternalLambda = (String) -> Int
