@@ -45,3 +45,8 @@ exception OuterInternal(OuterInternalEnum)
 
 @Internal
 lambda OuterInternalLambda = (String) -> Int
+
+@Internal
+struct OuterInternalStruct {
+    someField: Int
+}
