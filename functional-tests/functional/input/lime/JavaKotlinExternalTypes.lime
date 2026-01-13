@@ -159,12 +159,10 @@ struct VeryBoolean {
 
 struct UseJavaExternalConst {
     stringField: String
-    @Internal
     const defaultTruth: VeryBoolean = {true}
 }
 
 struct UseKotlinExternalConst {
     stringField: String
-    @Internal
     const defaultTruth: VeryBoolean = {true}
 }

@@ -22,7 +22,7 @@ class UseKotlinExternalConst {
 
 
     companion object {
-        @JvmField final val DEFAULT_TRUTH: kotlin.Boolean? = true
+        @JvmSynthetic internal @JvmField final val DEFAULT_TRUTH: kotlin.Boolean? = true
     }
 }
 
