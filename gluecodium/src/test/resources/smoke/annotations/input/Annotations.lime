@@ -28,3 +28,8 @@ class OuterPublicClazz {
         fun someFunction(): Boolean
     }
 }
+
+@Internal
+interface OuterInternalInterface {
+    fun someFunction(): Int
+}
