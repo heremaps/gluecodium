@@ -209,6 +209,18 @@ class OptionReaderTest {
     }
 
     @Test
+    fun androidoptinannotationOptionIsRecognised() {
+        // Arrange
+        val toRead = prepareToRead("-androidoptinannotation", TEST_ANDROID_OPT_IN_ANNOTATION)
+
+        // Act
+        val options = OptionReader.read(toRead)
+
+        // Assert
+        assertEquals(listOf("androidx", "annotation", "OptIn"), options!!.second.androidOptInAnnotation)
+    }
+
+    @Test
     fun androidinternalapiannotationnameOptionIsRecognised() {
         // Arrange
         val toRead = prepareToRead("-androidinternalapiannotationname", TEST_ANDROID_INTERNAL_API_ANNOTATION)
@@ -258,6 +270,7 @@ class OptionReaderTest {
         private const val TEST_GENERATORS = "java,cpp"
         private const val TEST_JAVA_PACKAGE_LIST = "some_package"
         private const val TEST_KOTLIN_PACKAGE_LIST = "another_package"
+        private const val TEST_ANDROID_OPT_IN_ANNOTATION = "androidx.annotation.OptIn"
         private const val TEST_ANDROID_REQUIRES_OPT_IN_ANNOTATION = "androidx.annotation.RequiresOptIn"
         private const val TEST_ANDROID_INTERNAL_API_ANNOTATION = "MyLibraryInternalApi"
     }

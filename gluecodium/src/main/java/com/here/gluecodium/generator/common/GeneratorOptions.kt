@@ -31,6 +31,7 @@ data class GeneratorOptions(
     var kotlinInternalPackages: List<String> = listOf(),
     var javaNullableAnnotation: Pair<String, List<String>>? = null,
     var javaNonNullAnnotation: Pair<String, List<String>>? = null,
+    var androidOptInAnnotation: List<String>? = null,
     var androidRequiresOptInAnnotation: List<String>? = null,
     var androidInternalApiAnnotationName: String? = null,
     var copyrightHeaderContents: String? = null,

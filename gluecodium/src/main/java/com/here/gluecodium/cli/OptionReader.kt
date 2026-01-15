@@ -66,6 +66,11 @@ object OptionReader {
                 "Java @Nullable annotation full name including package",
             )
             addOption(
+                "androidoptinannotation",
+                true,
+                "Android (Kotlin) @OptIn annotation full name including package",
+            )
+            addOption(
                 "androidrequiresoptinannotation",
                 true,
                 "Android (Kotlin) @RequiresOptIn annotation full name including package",
@@ -250,6 +255,7 @@ object OptionReader {
 
         generatorOptions.kotlinPackages = getStringValue("kotlinpackage")?.split(".") ?: emptyList()
         generatorOptions.kotlinInternalPackages = getStringValue("kotlinintpackage")?.split(".") ?: emptyList()
+        generatorOptions.androidOptInAnnotation = getStringValue("androidoptinannotation")?.split(".")
         generatorOptions.androidRequiresOptInAnnotation = getStringValue("androidrequiresoptinannotation")?.split(".")
         generatorOptions.androidInternalApiAnnotationName = getStringValue("androidinternalapiannotationname") ?: "GluecodiumInternalApi"
 
