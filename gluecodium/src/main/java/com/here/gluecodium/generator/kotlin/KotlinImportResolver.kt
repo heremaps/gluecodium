@@ -19,7 +19,9 @@
 
 package com.here.gluecodium.generator.kotlin
 
+import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.ImportsResolver
+import com.here.gluecodium.model.lime.LimeAttributeType.KOTLIN
 import com.here.gluecodium.model.lime.LimeAttributeType.OPTIMIZED
 import com.here.gluecodium.model.lime.LimeAttributeType.SERIALIZABLE
 import com.here.gluecodium.model.lime.LimeBasicType
@@ -50,24 +52,27 @@ internal class KotlinImportResolver(
     private val limeReferenceMap: Map<String, LimeElement>,
     private val nameResolver: KotlinNameResolver,
     internalPackage: List<String>,
+    private val internalApiAnnotation: String?,
 ) : ImportsResolver<String> {
     val nativeBaseImport = (internalPackage + listOf("NativeBase")).joinToString(".")
     private val durationImport = (internalPackage + listOf("time", "Duration")).joinToString(".")
     private val abstractNativeListImport = (internalPackage + listOf("AbstractNativeList")).joinToString(".")
+    private val internalApiAnnotationImport = (internalPackage + listOf(internalApiAnnotation)).joinToString(".")
 
     override fun resolveElementImports(limeElement: LimeElement): List<String> =
         when (limeElement) {
             is LimeTypeAlias -> resolveTypeRefImports(limeElement.typeRef)
             is LimeContainerWithInheritance -> resolveClassInterfaceImports(limeElement)
-            is LimeStruct -> resolveStructImports(limeElement)
+            is LimeStruct -> resolveStructImports(limeElement) + resolveInternalTypeImport(limeElement)
             is LimeFunction -> resolveFunctionImports(limeElement)
-            is LimeLambda -> resolveLambdaImports(limeElement)
+            is LimeLambda -> resolveLambdaImports(limeElement) + resolveInternalTypeImport(limeElement)
             is LimeConstant -> resolveTypeRefImports(limeElement.typeRef)
             is LimeField -> resolveTypeRefImports(limeElement.typeRef)
             is LimeParameter -> resolveTypeRefImports(limeElement.typeRef)
             is LimeProperty -> resolveTypeRefImports(limeElement.typeRef)
-            is LimeException -> resolveTypeRefImports(limeElement.errorType)
+            is LimeException -> resolveTypeRefImports(limeElement.errorType) + resolveInternalTypeImport(limeElement)
             is LimeValue -> resolveValueImports(limeElement)
+            is LimeEnumeration -> resolveInternalTypeImport(limeElement)
             else -> emptyList()
         }
 
@@ -78,7 +83,15 @@ internal class KotlinImportResolver(
         ) {
             parentImports.add(nativeBaseImport)
         }
-        return parentImports
+
+        return parentImports + resolveInternalTypeImport(limeContainer)
+    }
+
+    private fun resolveInternalTypeImport(limeType: LimeType): List<String> {
+        return when {
+            internalApiAnnotation != null && CommonGeneratorPredicates.isInternal(limeType, KOTLIN) -> listOf(internalApiAnnotationImport)
+            else -> emptyList()
+        }
     }
 
     private fun resolveLambdaImports(limeLambda: LimeLambda): List<String> =

@@ -59,6 +59,8 @@ internal class KotlinGenerator : Generator {
     private lateinit var kotlinNameRules: KotlinNameRules
     private lateinit var activeTags: Set<String>
     private lateinit var werror: Set<String>
+    private var internalApiAnnotationName: String? = null
+    private var requireOptInAnnotation: List<String>? = null
 
     override val shortName = GENERATOR_NAME
 
@@ -72,6 +74,8 @@ internal class KotlinGenerator : Generator {
         kotlinNameRules = KotlinNameRules(nameRuleSetFromConfig(options.kotlinNameRules))
         activeTags = options.tags
         werror = options.werror
+        requireOptInAnnotation = options.androidRequiresOptInAnnotation
+        internalApiAnnotationName = options.androidInternalApiAnnotationName
     }
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
@@ -108,11 +112,13 @@ internal class KotlinGenerator : Generator {
 
         val visibilityResolver = KotlinVisibilityResolver(limeModel.referenceMap)
 
+        val internalApiAnnotation = if (requireOptInAnnotation != null) internalApiAnnotationName!! else null
         val importResolver =
             KotlinImportResolver(
                 limeReferenceMap = limeModel.referenceMap,
                 nameResolver = nameResolver,
                 internalPackage = internalPackageList,
+                internalApiAnnotation = internalApiAnnotation,
             )
 
         val importCollector =
@@ -122,7 +128,16 @@ internal class KotlinGenerator : Generator {
 
         val resultFiles =
             kotlinFilteredModel.topElements
-                .flatMap { generateKotlinFiles(it, nameResolver, visibilityResolver, importResolver, importCollector) }
+                .flatMap {
+                    generateKotlinFiles(
+                        it,
+                        nameResolver,
+                        visibilityResolver,
+                        importResolver,
+                        importCollector,
+                        internalApiAnnotation,
+                    )
+                }
                 .toMutableList()
 
         val nativeBasePath = (listOf(GENERATOR_NAME) + internalPackageList).joinToString("/")
@@ -144,6 +159,22 @@ internal class KotlinGenerator : Generator {
                 "$nativeBasePath/time/Duration.kt",
                 GeneratedFile.SourceSet.COMMON,
             )
+
+        if (requireOptInAnnotation != null) {
+            val modelData =
+                mapOf(
+                    "internalPackageList" to internalPackageList,
+                    "basePackages" to basePackages,
+                    "requireOptInAnnotation" to requireOptInAnnotation,
+                    "internalApiAnnotationName" to internalApiAnnotationName,
+                )
+            resultFiles +=
+                GeneratedFile(
+                    TemplateEngine.render("kotlin/KotlinInternalApiAnnotation", modelData),
+                    "$nativeBasePath/${internalApiAnnotationName!!}.kt",
+                    GeneratedFile.SourceSet.COMMON,
+                )
+        }
 
         val descendantInterfaces = LimeTypeHelper.collectDescendantInterfaces(jniFilteredModel.topElements)
         val jniTemplates =
@@ -191,6 +222,7 @@ internal class KotlinGenerator : Generator {
         visibilityResolver: KotlinVisibilityResolver,
         importResolver: KotlinImportResolver,
         importCollector: KotlinImportCollector,
+        internalApiAnnotation: String?,
     ): List<GeneratedFile> {
         if (limeElement.external?.kotlin?.get(NAME_NAME) != null &&
             limeElement.external?.kotlin?.get(CONVERTER_NAME) == null
@@ -211,6 +243,7 @@ internal class KotlinGenerator : Generator {
                 "package" to packages,
                 "imports" to imports.distinct().sorted(),
                 "optimizedLists" to optimizedLists,
+                "internalApiAnnotation" to internalApiAnnotation,
             )
 
         val nameResolvers = mapOf("" to nameResolver, "visibility" to visibilityResolver)

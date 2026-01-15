@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2019 HERE Europe B.V.
+# Copyright (C) 2016-2026 HERE Europe B.V.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,38 +15,9 @@
 # SPDX-License-Identifier: Apache-2.0
 # License-Filename: LICENSE
 
-package smoke
+package unit.test
 
 @Internal
-class Annotations {
-    fun testOptional(self: Annotations): Boolean?
-}
-
-class OuterPublicClazz {
-    @Internal
-    class InnerInternalClazz {
-        fun someFunction(): Boolean
-    }
-}
-
-@Internal
-interface OuterInternalInterface {
-    fun someFunction(): Int
-}
-
-@Internal
-enum OuterInternalEnum {
-   FIRST = 1,
-   SECOND = 2
-}
-
-@Internal
-exception OuterInternal(OuterInternalEnum)
-
-@Internal
-lambda OuterInternalLambda = (String) -> Int
-
-@Internal
-struct OuterInternalStruct {
-    someField: Int
+class Foo {
+    fun foo(): Int
 }
