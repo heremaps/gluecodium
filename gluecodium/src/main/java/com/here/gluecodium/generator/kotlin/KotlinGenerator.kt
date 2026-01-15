@@ -61,6 +61,7 @@ internal class KotlinGenerator : Generator {
     private lateinit var werror: Set<String>
     private var internalApiAnnotationName: String? = null
     private var requireOptInAnnotation: List<String>? = null
+    private var optInAnnotation: List<String>? = null
 
     override val shortName = GENERATOR_NAME
 
@@ -76,6 +77,20 @@ internal class KotlinGenerator : Generator {
         werror = options.werror
         requireOptInAnnotation = options.androidRequiresOptInAnnotation
         internalApiAnnotationName = options.androidInternalApiAnnotationName
+        optInAnnotation = options.androidOptInAnnotation
+
+        if (!preservesOptInAnnotationConsistency()) {
+            throw GluecodiumExecutionException(
+                "Kotlin generator requires either both annotations specified ('RequiresOptIn' and 'OptIn') or none of them!",
+            )
+        }
+    }
+
+    private fun preservesOptInAnnotationConsistency(): Boolean {
+        val bothSpecified = requireOptInAnnotation != null && optInAnnotation != null
+        val noneSpecified = requireOptInAnnotation == null && optInAnnotation == null
+
+        return bothSpecified || noneSpecified
     }
 
     override fun generate(limeModel: LimeModel): List<GeneratedFile> {
