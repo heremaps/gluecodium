@@ -129,6 +129,22 @@ _gluecodium_define_target_property(
 )
 
 _gluecodium_define_target_property(
+  GLUECODIUM_ANDROID_REQUIRES_OPT_IN_ANNOTATION
+  BRIEF_DOCS "The full path to use 'RequiresOptInAnnotation' for Android (Kotlin)"
+  FULL_DOCS
+    "The full path to use for @RequiresOptIn annotation in Android (Kotlin). For example \"androidx.annotation.RequiresOptIn\""
+    "This property is initialized by the value of the GLUECODIUM_ANDROID_REQUIRES_OPT_IN_ANNOTATION_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
+)
+
+_gluecodium_define_target_property(
+  GLUECODIUM_ANDROID_INTERNAL_ANNOTATION_NAME
+  BRIEF_DOCS "The name for Android (Kotlin) internal API annotation"
+  FULL_DOCS
+    "The name for Android (Kotlin) internal API annotation. The value is used to generate annotation. Usually something like: 'MyLibraryInternalAPI'."
+    "This property is initialized by the value of the GLUECODIUM_ANDROID_INTERNAL_ANNOTATION_NAME_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
+)
+
+_gluecodium_define_target_property(
   GLUECODIUM_COPYRIGHT_HEADER
   BRIEF_DOCS "The path to file with copyright to add in generated source files"
   FULL_DOCS
