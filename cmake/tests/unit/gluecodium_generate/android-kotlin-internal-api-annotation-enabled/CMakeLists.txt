@@ -37,6 +37,7 @@ gluecodium_target_lime_sources(dummySharedLibrary
                                PRIVATE "${CMAKE_CURRENT_LIST_DIR}/lime/foo.lime")
 
 set_target_properties(dummySharedLibrary PROPERTIES
+    GLUECODIUM_ANDROID_OPT_IN_ANNOTATION "OptIn"
     GLUECODIUM_ANDROID_REQUIRES_OPT_IN_ANNOTATION "RequiresOptIn"
     GLUECODIUM_ANDROID_INTERNAL_ANNOTATION_NAME "FancyLibraryInternalAPI")
 
@@ -69,3 +70,8 @@ check_file_contains_string_after_build(dummySharedLibrary
 check_file_contains_string_after_build(dummySharedLibrary
     "${SOME_INTERNAL_CLASS_FILE_PATH}"
     "@FancyLibraryInternalAPI")
+
+# 6. Check if file uses 'OptIn'.
+check_file_contains_string_after_build(dummySharedLibrary
+    "${SOME_INTERNAL_CLASS_FILE_PATH}"
+    "@file:OptIn")
