@@ -4,6 +4,7 @@
  */
 
 @file:JvmName("OuterInternalStructExtensions")
+@file:androidx.annotation.OptIn(com.example.MySmokeTestsInternalApi::class)
 
 package com.example.smoke
 
