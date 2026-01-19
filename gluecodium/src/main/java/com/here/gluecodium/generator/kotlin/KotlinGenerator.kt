@@ -248,6 +248,9 @@ internal class KotlinGenerator : Generator {
         val packages = (basePackages + limeElement.path.head).map { KotlinNameResolver.normalizePackageName(it) }
         val imports = importCollector.collectImports(limeElement).filterNot { KotlinNameRules.getPackageFromImportString(it) == packages }
         val optimizedLists = OptimizedListsCollector().getAllOptimizedLists(limeElement)
+        val optInAnnotationString = optInAnnotation?.joinToString(".")
+        val internalApiAnnotationClassPath =
+            if (optInAnnotationString != null) internalPackageList.joinToString(".") + "." + internalApiAnnotation else null
 
         val templateData =
             mutableMapOf(
@@ -257,7 +260,9 @@ internal class KotlinGenerator : Generator {
                 "package" to packages,
                 "imports" to imports.distinct().sorted(),
                 "optimizedLists" to optimizedLists,
+                "optInAnnotationString" to optInAnnotationString,
                 "internalApiAnnotation" to internalApiAnnotation,
+                "internalApiAnnotationClassPath" to internalApiAnnotationClassPath,
             )
 
         val nameResolvers = mapOf("" to nameResolver, "visibility" to visibilityResolver)

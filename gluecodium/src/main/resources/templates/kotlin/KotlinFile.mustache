@@ -24,6 +24,7 @@
  */
 
 {{#modelName}}@file:JvmName("{{modelName}}Extensions"){{/modelName}}
+{{#optInAnnotationString}}@file:{{this}}({{internalApiAnnotationClassPath}}::class){{/optInAnnotationString}}
 
 package {{#package}}{{this}}{{#if iter.hasNext}}.{{/if}}{{/package}}
 
