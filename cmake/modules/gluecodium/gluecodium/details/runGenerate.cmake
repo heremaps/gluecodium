@@ -170,6 +170,7 @@ function(_prepare_gluecodium_config_file file_path placeholder_file)
   _append_option(kotlinpackage GLUECODIUM_KOTLIN_PACKAGE)
   _append_option(kotlinintpackage GLUECODIUM_KOTLIN_INTERNAL_PACKAGE)
   _append_option(androidrequiresoptinannotation GLUECODIUM_ANDROID_REQUIRES_OPT_IN_ANNOTATION)
+  _append_option(androidoptinannotation GLUECODIUM_ANDROID_OPT_IN_ANNOTATION)
   _append_option(androidinternalapiannotationname GLUECODIUM_ANDROID_INTERNAL_ANNOTATION_NAME)
 
   _append_option(javapackage GLUECODIUM_JAVA_PACKAGE)

@@ -129,6 +129,14 @@ _gluecodium_define_target_property(
 )
 
 _gluecodium_define_target_property(
+  GLUECODIUM_ANDROID_OPT_IN_ANNOTATION
+  BRIEF_DOCS "The full path to use 'OptInAnnotation' for Android (Kotlin)"
+  FULL_DOCS
+    "The full path to use for @OptIn annotation in Android (Kotlin). For example \"androidx.annotation.OptIn\""
+    "This property is initialized by the value of the GLUECODIUM_ANDROID_OPT_IN_ANNOTATION_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
+)
+
+_gluecodium_define_target_property(
   GLUECODIUM_ANDROID_REQUIRES_OPT_IN_ANNOTATION
   BRIEF_DOCS "The full path to use 'RequiresOptInAnnotation' for Android (Kotlin)"
   FULL_DOCS
