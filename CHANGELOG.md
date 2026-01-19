@@ -2,6 +2,7 @@
 
 ## Unreleased
  * Kotlin: use `@JvmSynthetic` annotation for Kotlin internal elements whenever possible to hide them from Java code.
+ * Kotlin: allow the usage of 'RequiresOptIn' and 'OptIn' annotations for internal API via CLI parameters. This way error is generated when the code, which is not intended to access the internal API uses it. Three new CLI parameters are available: 'androidrequiresoptinannotation', 'androidoptinannotation' and 'androidinternalapiannotationname'.
 
 ## 14.0.0
 Release date 2025-12-01

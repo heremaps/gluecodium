@@ -19,7 +19,8 @@
   !
   !}}
 {{>kotlin/KotlinDocComment}}{{>kotlin/KotlinAttributes}}
-{{resolveName "visibility"}}{{#if this.isOpen}}open {{/if}}class {{resolveName}} : {{!!
+{{>kotlin/KotlinTypeVisibility}}{{!!
+}}{{#if this.isOpen}}open {{/if}}class {{resolveName}} : {{!!
 }}{{#if this.parentClass}}{{resolveName this.parentClass "" "ref"}}{{/if}}{{!!
 }}{{#unless this.parentClass}}NativeBase{{/unless}}{{!!
 }}{{#if this.parentInterfaces}}, {{#this.parentInterfaces}}{{!!

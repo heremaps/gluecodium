@@ -16,6 +16,8 @@
  * SPDX-License-Identifier: Apache-2.0
  * License-Filename: LICENSE
  */
+@file:OptIn(com.here.android.lorem.ipsum.FunctionalTestsInternalAPI::class)
+
 package com.here.android.test
 
 import com.here.android.RobolectricApplication

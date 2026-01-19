@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2025 HERE Europe B.V.
+  ! Copyright (C) 2016-2026 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -18,20 +18,10 @@
   ! License-Filename: LICENSE
   !
   !}}
-/*
-{{#if copyrightHeader}}{{prefix copyrightHeader " * "}}{{/if}}
- *
- */
-
-{{#modelName}}@file:JvmName("{{modelName}}Extensions"){{/modelName}}
-{{#optInAnnotationString}}@file:{{this}}({{internalApiAnnotationClassPath}}::class){{/optInAnnotationString}}
-
-package {{#package}}{{this}}{{#if iter.hasNext}}.{{/if}}{{/package}}
-
-{{#imports}}
-import {{this}}
-{{/imports}}
-
-{{#model}}
-{{include contentTemplate}}
-{{/model}}
+{{#resolveName "visibility"}}{{!!
+}}{{#unless this.isEmpty}}{{!!
+}}{{#internalApiAnnotation}}{{#unless this.isEmpty}}@{{this}}
+{{/unless}}{{/internalApiAnnotation}}{{!!
+}}{{this}}{{!!
+}}{{/unless}}{{!!
+}}{{/resolveName}}

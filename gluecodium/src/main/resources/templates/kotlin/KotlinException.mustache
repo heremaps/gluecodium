@@ -19,5 +19,6 @@
   !
   !}}
 {{>kotlin/KotlinDocComment}}{{>kotlin/KotlinAttributes}}
-{{resolveName "visibility"}}class {{resolveName}}(@JvmField val error: {{resolveName errorType}}) : Exception(error.toString())
+{{>kotlin/KotlinTypeVisibility}}{{!!
+}}class {{resolveName}}(@JvmField val error: {{resolveName errorType}}) : Exception(error.toString())
 
