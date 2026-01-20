@@ -47,7 +47,7 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.logging.Level
 import java.util.logging.Logger
 
-/*
+/**
  * Internal base class for public non-POD objects to manage the lifecycle of underlying C++ objects.
  * While the class is public for technical reasons, but should be considered **internal** and not
  * part of the public API and thus not used directly.
@@ -68,7 +68,12 @@ import java.util.logging.Logger
 public abstract class NativeBase {
     private val nativeHandle: Long
 
-    constructor(nativeHandle: Long, disposer: (Long) -> Unit) {
+    /**
+      * @suppress
+      * @param nativeHandle The native handle
+      * @param disposer The disposer
+      */
+    protected constructor(nativeHandle: Long, disposer: (Long) -> Unit) {
         this.nativeHandle = nativeHandle
         REFERENCES.add(DisposableReference(this, nativeHandle, disposer))
     }
@@ -91,7 +96,13 @@ public abstract class NativeBase {
     }
 
     companion object {
+        /**
+          * Controls whether exceptions related to cleanup of C++ objects tied with Kotlin objects
+          * are propagated to the user application.
+          * @suppress
+          */
         @JvmField public var propagateCleanupException: Boolean = false
+
         private val LOGGER = Logger.getLogger(NativeBase::class.java.name)
 
         // The set is to keep DisposableReference itself from being garbage-collected.
