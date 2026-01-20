@@ -5,6 +5,7 @@
 
 @file:JvmName("FieldCustomConstructorsMixExtensions")
 
+
 package com.example.smoke
 
 
@@ -38,7 +39,7 @@ class FieldCustomConstructorsMix {
 
     companion object {
 
-        @JvmStatic external fun createMe(intValue: Int, dummy: Double) : FieldCustomConstructorsMix
+        @JvmStatic private external fun createMe(intValue: Int, dummy: Double) : FieldCustomConstructorsMix
     }
 }
 

@@ -5,6 +5,7 @@
 
 @file:JvmName("ThermometerExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -125,15 +126,15 @@ class Thermometer : NativeBase {
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
 
-        @JvmStatic external fun makeWithDuration(interval: Duration, observers: List<@JvmSuppressWildcards TemperatureObserver>) : Long
+        @JvmStatic private external fun makeWithDuration(interval: Duration, observers: List<@JvmSuppressWildcards TemperatureObserver>) : Long
 
-        @JvmStatic external fun makeWithoutDuration(observers: List<@JvmSuppressWildcards TemperatureObserver>) : Long
+        @JvmStatic private external fun makeWithoutDuration(observers: List<@JvmSuppressWildcards TemperatureObserver>) : Long
         @Throws(Thermometer.NotificationException::class)
-        @JvmStatic external fun throwingMake(id: Int, observers: List<@JvmSuppressWildcards TemperatureObserver>) : Long
+        @JvmStatic private external fun throwingMake(id: Int, observers: List<@JvmSuppressWildcards TemperatureObserver>) : Long
 
-        @JvmStatic external fun nothrowMake(label: String, niceObservers: List<@JvmSuppressWildcards TemperatureObserver>) : Long
+        @JvmStatic private external fun nothrowMake(label: String, niceObservers: List<@JvmSuppressWildcards TemperatureObserver>) : Long
         @Throws(Thermometer.AnotherNotificationException::class)
-        @JvmStatic external fun anotherThrowingMake(dummy: Boolean, observers: List<@JvmSuppressWildcards TemperatureObserver>) : Long
+        @JvmStatic private external fun anotherThrowingMake(dummy: Boolean, observers: List<@JvmSuppressWildcards TemperatureObserver>) : Long
 
 
         @JvmStatic external fun notifyObservers(thermometer: Thermometer, someObservers: List<@JvmSuppressWildcards TemperatureObserver>) : Unit

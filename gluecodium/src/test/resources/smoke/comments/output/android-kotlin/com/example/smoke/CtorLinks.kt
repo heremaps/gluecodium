@@ -5,6 +5,7 @@
 
 @file:JvmName("CtorLinksExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -42,9 +43,10 @@ class CtorLinks : NativeBase {
         companion object {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
 
-            @JvmStatic external fun create() : Long
+            @JvmStatic private external fun create() : Long
         }
     }
+
 
     /**
      * This class has just one constructor with one argument [com.example.smoke.CtorLinks.SingleCtorWithOneArgument.SingleCtorWithOneArgument].
@@ -77,9 +79,10 @@ class CtorLinks : NativeBase {
         companion object {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
 
-            @JvmStatic external fun create(arg: Int) : Long
+            @JvmStatic private external fun create(arg: Int) : Long
         }
     }
+
 
     /**
      * This class has just one constructor with two argument [com.example.smoke.CtorLinks.SingleCtorWithTwoArgument.SingleCtorWithTwoArgument].
@@ -112,9 +115,10 @@ class CtorLinks : NativeBase {
         companion object {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
 
-            @JvmStatic external fun create(arg: Int, arg2: String) : Long
+            @JvmStatic private external fun create(arg: Int, arg2: String) : Long
         }
     }
+
 
     class OverloadedCtors : NativeBase {
 
@@ -154,11 +158,12 @@ class CtorLinks : NativeBase {
         companion object {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
 
-            @JvmStatic external fun create(input: String) : Long
+            @JvmStatic private external fun create(input: String) : Long
 
-            @JvmStatic external fun create(input: String, flag: Boolean) : Long
+            @JvmStatic private external fun create(input: String, flag: Boolean) : Long
         }
     }
+
 
 
 
@@ -181,4 +186,5 @@ class CtorLinks : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
+
 

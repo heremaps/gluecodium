@@ -5,6 +5,7 @@
 
 @file:JvmName("VeryBooleanExtensions")
 
+
 package com.example.kotlinsmoke
 
 
@@ -27,7 +28,7 @@ class VeryBoolean {
 
     companion object {
 
-        @JvmStatic external fun make(value: Boolean) : VeryBoolean
+        @JvmStatic private external fun make(value: Boolean) : VeryBoolean
     }
 }
 

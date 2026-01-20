@@ -5,6 +5,7 @@
 
 @file:JvmName("StructsWithMethodsExtensions")
 
+
 package com.example.smoke
 
 
@@ -48,9 +49,9 @@ class StructsWithMethods {
 
             @JvmStatic external fun validate(x: Double, y: Double) : Boolean
 
-            @JvmStatic external fun create(x: Double, y: Double) : Vector
+            @JvmStatic private external fun create(x: Double, y: Double) : Vector
             @Throws(ValidationUtils.ValidationException::class)
-            @JvmStatic external fun create(other: StructsWithMethods.Vector) : Vector
+            @JvmStatic private external fun create(other: StructsWithMethods.Vector) : Vector
         }
     }
 

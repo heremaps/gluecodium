@@ -5,6 +5,7 @@
 
 @file:JvmName("InternalClassWithFunctionsExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -45,9 +46,10 @@ internal class InternalClassWithFunctions : NativeBase {
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
 
-        @JvmStatic external fun make() : Long
+        @JvmStatic private external fun make() : Long
 
-        @JvmStatic external fun make(foo: String) : Long
+        @JvmStatic private external fun make(foo: String) : Long
     }
 }
+
 

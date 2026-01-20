@@ -5,6 +5,7 @@
 
 @file:JvmName("NoCacheClassExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -38,7 +39,8 @@ class NoCacheClass : NativeBase {
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
 
-        @JvmStatic external fun make() : Long
+        @JvmStatic private external fun make() : Long
     }
 }
+
 

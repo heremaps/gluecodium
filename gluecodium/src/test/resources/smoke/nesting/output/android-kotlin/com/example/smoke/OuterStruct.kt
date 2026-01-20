@@ -5,6 +5,7 @@
 
 @file:JvmName("OuterStructExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -101,7 +102,7 @@ class OuterStruct {
         companion object {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
 
-            @JvmStatic external fun create() : Long
+            @JvmStatic private external fun create() : Long
         }
     }
 

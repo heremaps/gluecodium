@@ -5,6 +5,7 @@
 
 @file:JvmName("classExtensions")
 
+
 package com.example.package
 
 import com.example.NativeBase
@@ -44,7 +45,7 @@ class Class : NativeBase, Interface {
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
 
-        @JvmStatic external fun Constructor() : Long
+        @JvmStatic private external fun Constructor() : Long
     }
 }
 

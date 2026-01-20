@@ -5,6 +5,7 @@
 
 @file:JvmName("NameRulesExtensions")
 
+
 package com.example.namerules
 
 import com.example.NativeBase
@@ -76,7 +77,7 @@ class NAME_RULES_KT : NativeBase {
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
 
-        @JvmStatic external fun create() : Long
+        @JvmStatic private external fun create() : Long
     }
 }
 
