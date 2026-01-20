@@ -9,7 +9,7 @@
 package com.example.kotlinsmoke
 
 
-class VeryBoolean {
+internal class VeryBoolean {
     @JvmField var value: Boolean
 
 

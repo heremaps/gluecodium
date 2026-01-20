@@ -5,10 +5,11 @@
 
 @file:JvmName("SystemColorExtensions")
 
+
 package com.example.kotlinsmoke
 
 
-class SystemColor {
+internal class SystemColor {
     @JvmField var red: Float
     @JvmField var green: Float
     @JvmField var blue: Float
