@@ -18,10 +18,13 @@
  */
 package com.here.android.test
 
-object ExternalStructMarkedAsSerializableConverter {
-    @JvmStatic
-    fun convertFromInternal(struct: ExternalMarkedAsSerializable) = AnExternalStruct(struct.field)
+import com.here.android.lorem.ipsum.FunctionalTestsInternalAPI
 
-    @JvmStatic
-    fun convertToInternal(s: com.here.android.test.AnExternalStruct) = ExternalMarkedAsSerializable(s.mData)
+@FunctionalTestsInternalAPI
+internal object ExternalStructMarkedAsSerializableConverter {
+    @JvmStatic @JvmSynthetic @JvmName("convertFromInternal")
+    internal fun convertFromInternal(struct: ExternalMarkedAsSerializable) = AnExternalStruct(struct.field)
+
+    @JvmStatic @JvmSynthetic @JvmName("convertToInternal")
+    internal fun convertToInternal(s: com.here.android.test.AnExternalStruct) = ExternalMarkedAsSerializable(s.mData)
 }

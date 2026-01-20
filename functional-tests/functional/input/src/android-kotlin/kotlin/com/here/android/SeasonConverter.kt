@@ -18,10 +18,13 @@
  */
 package com.here.android.test
 
-object SeasonConverter {
-    @JvmStatic
-    fun convertFromInternal(season: Season) = season.name
+import com.here.android.lorem.ipsum.FunctionalTestsInternalAPI
 
-    @JvmStatic
-    fun convertToInternal(seasonString: String) = Season.valueOf(seasonString)
+@FunctionalTestsInternalAPI
+object SeasonConverter {
+    @JvmStatic @JvmSynthetic @JvmName("convertFromInternal")
+    internal fun convertFromInternal(season: Season) = season.name
+
+    @JvmStatic @JvmSynthetic @JvmName("convertToInternal")
+    internal fun convertToInternal(seasonString: String) = Season.valueOf(seasonString)
 }
