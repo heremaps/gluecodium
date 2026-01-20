@@ -19,7 +19,11 @@
   !
   !}}
 {{>kotlin/KotlinDocComment}}{{>kotlin/KotlinAttributes}}
-{{#unless external.kotlin.converter}}{{>kotlin/KotlinTypeVisibility}}{{/unless}}{{!!
+{{#if external.kotlin.converter}}{{!!
+}}{{#internalApiAnnotation}}{{#unless this.isEmpty}}@{{this}}
+{{/unless}}{{/internalApiAnnotation}}internal {{!!
+}}{{/if}}{{!!
+}}{{#unless external.kotlin.converter}}{{>kotlin/KotlinTypeVisibility}}{{/unless}}{{!!
 }}class {{resolveName}}{{!!
 }}{{#unless external.kotlin.name}}{{!!
 }}{{#if attributes.serializable}} : Parcelable{{/if}}{{!!

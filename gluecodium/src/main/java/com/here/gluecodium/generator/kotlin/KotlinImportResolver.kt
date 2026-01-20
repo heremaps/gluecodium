@@ -89,7 +89,7 @@ internal class KotlinImportResolver(
 
     private fun resolveInternalTypeImport(limeType: LimeType): List<String> {
         return when {
-            internalApiAnnotation != null && CommonGeneratorPredicates.isInternal(limeType, KOTLIN) -> listOf(internalApiAnnotationImport)
+            internalApiAnnotation != null && (CommonGeneratorPredicates.isInternal(limeType, KOTLIN) || limeType.external?.kotlin != null) -> listOf(internalApiAnnotationImport)
             else -> emptyList()
         }
     }
