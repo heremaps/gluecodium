@@ -29,6 +29,7 @@ import com.here.gluecodium.model.lime.LimeAttributeValueType.FUNCTION_NAME
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeComment
+import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.NAME_NAME
@@ -164,12 +165,26 @@ internal class KotlinNameResolver(
 
     private fun resolveGenericTypeRef(limeType: LimeGenericType) =
         when (limeType) {
-            is LimeList -> "List<@JvmSuppressWildcards ${resolveTypeRef(limeType.elementType)}>"
-            is LimeSet -> "Set<@JvmSuppressWildcards ${resolveTypeRef(limeType.elementType)}>"
-            is LimeMap -> "Map<@JvmSuppressWildcards ${resolveTypeRef(
-                limeType.keyType,
-            )}, @JvmSuppressWildcards ${resolveTypeRef(limeType.valueType)}>"
+            is LimeList -> "List<${resolveContainerParamType(limeType.elementType)}>"
+            is LimeSet -> "Set<${resolveContainerParamType(limeType.elementType)}>"
+            is LimeMap -> "Map<${resolveContainerParamType(limeType.keyType)}, ${resolveContainerParamType(limeType.valueType)}>"
             else -> throw GluecodiumExecutionException("Unsupported element type ${limeType.javaClass.name}")
+        }
+
+    private fun resolveContainerParamType(typeRef: LimeTypeRef) =
+        if (needsToSuppressWildcards(typeRef.type)) {
+            "@JvmSuppressWildcards ${resolveTypeRef(typeRef)}"
+        } else {
+            resolveTypeRef(typeRef)
+        }
+
+    // The parameters of generic types (List, Set, Map) must use '@JvmSuppressWildcards'
+    // for 'open' types to avoid compilation problems when accessed from Java code.
+    private fun needsToSuppressWildcards(type: LimeType) =
+        when (type) {
+            is LimeContainerWithInheritance -> type.isOpen
+            is LimeLambda -> true
+            else -> false
         }
 
     private fun resolveNestedNames(limeElement: LimeNamedElement): List<String> {
