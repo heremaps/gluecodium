@@ -32,14 +32,44 @@ import java.util.List;
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class)
 public class KotlinInteropTest {
-  private int someJavaFunctionThatTakesList(List<SomeOpenNumberWrapperClass> someList) {
+  private int someJavaFunctionThatTakesListOfOpenClasses(List<SomeOpenNumberWrapperClass> someList) {
+    return someList.size();
+  }
+
+  private int someJavaFunctionThatTakesListOfInterfaces(List<SomeDummyInterface> someList) {
+    return someList.size();
+  }
+
+  private int someJavaFunctionThatTakesListOfStructs(List<SomeDummyStruct> someList) {
+    return someList.size();
+  }
+
+  private int someJavaFunctionThatTakesListOfFinalClass(List<PlainDataStructures> someList) {
     return someList.size();
   }
 
   @Test
   public void javaFunctionWithCollectionParamsCanBeCalledWithOpenClassFields() {
     SomeStructWithCollection someStruct = new SomeStructWithCollection();
-    assertEquals(0, someJavaFunctionThatTakesList(someStruct.openClassList));
+    assertEquals(0, someJavaFunctionThatTakesListOfOpenClasses(someStruct.openClassList));
+  }
+
+  @Test
+  public void javaFunctionWithCollectionParamsCanBeCalledWithInterfaceFields() {
+    SomeStructWithCollection someStruct = new SomeStructWithCollection();
+    assertEquals(0, someJavaFunctionThatTakesListOfInterfaces(someStruct.interfacesList));
+  }
+
+  @Test
+  public void javaFunctionWithCollectionParamsCanBeCalledWithStructFields() {
+    SomeStructWithCollection someStruct = new SomeStructWithCollection();
+    assertEquals(0, someJavaFunctionThatTakesListOfStructs(someStruct.structsList));
+  }
+
+  @Test
+  public void javaFunctionWithCollectionParamsCanBeCalledWithFinalClassFields() {
+    SomeStructWithCollection someStruct = new SomeStructWithCollection();
+    assertEquals(0, someJavaFunctionThatTakesListOfFinalClass(someStruct.finalClassList));
   }
 
   @Test
@@ -47,6 +77,6 @@ public class KotlinInteropTest {
     SomeStructWithCollection someStruct = new SomeStructWithCollection();
     someStruct.openClassList.add(new SomeOpenNumberWrapperClass(777));
 
-    assertEquals(1, someJavaFunctionThatTakesList(someStruct.openClassList));
+    assertEquals(1, someJavaFunctionThatTakesListOfOpenClasses(someStruct.openClassList));
   }
 }
