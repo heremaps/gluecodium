@@ -48,6 +48,10 @@ public class KotlinInteropTest {
     return someList.size();
   }
 
+  private int someJavaFunctionThatTakesListOfEnums(List<SomeDummyEnum> someList) {
+    return someList.size();
+  }
+
   @Test
   public void javaFunctionWithCollectionParamsCanBeCalledWithOpenClassFields() {
     SomeStructWithCollection someStruct = new SomeStructWithCollection();
@@ -70,6 +74,12 @@ public class KotlinInteropTest {
   public void javaFunctionWithCollectionParamsCanBeCalledWithFinalClassFields() {
     SomeStructWithCollection someStruct = new SomeStructWithCollection();
     assertEquals(0, someJavaFunctionThatTakesListOfFinalClass(someStruct.finalClassList));
+  }
+
+  @Test
+  public void javaFunctionWithCollectionParamsCanBeCalledWithEnumFields() {
+    SomeStructWithCollection someStruct = new SomeStructWithCollection();
+    assertEquals(0, someJavaFunctionThatTakesListOfEnums(someStruct.enumList));
   }
 
   @Test
